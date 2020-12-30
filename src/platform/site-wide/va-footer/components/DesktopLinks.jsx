@@ -25,7 +25,7 @@ export default function DesktopLinks({ links, visible }) {
       </div>
       <div className="va-footer-linkgroup" id="veteran-crisis">
         <h4 className="va-footer-linkgroup-title">
-          In crisis? Talk to someone now.
+          In crisis? Talk to someone now
         </h4>
         <ul className="va-footer-links">
           <li>
@@ -38,7 +38,7 @@ export default function DesktopLinks({ links, visible }) {
             </button>
           </li>
         </ul>
-        <h4 className="va-footer-linkgroup-title">Get answers.</h4>
+        <h4 className="va-footer-linkgroup-title">Get answers</h4>
         {links[FOOTER_COLUMNS.CONTACT]}
       </div>
     </div>

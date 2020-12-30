@@ -209,7 +209,7 @@
   },
   {
     "column": 4,
-    "label": "Call us.",
+    "label": "Call us",
     "href": "tel:18006982411",
     "order": 3,
     "target": null,
@@ -223,7 +223,7 @@
   },
   {
     "column": 4,
-    "label": "Visit a medical center or benefit office.",
+    "label": "Visit a medical center or regional office",
     "href": "https://va.gov/find-locations/",
     "order": 5,
     "target": null,
