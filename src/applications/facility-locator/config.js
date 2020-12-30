@@ -126,6 +126,7 @@ export const healthServices = {
   MentalHealthCare: 'Mental health care',
   DentalServices: 'Dental services',
   UrgentCare: 'Urgent care',
+  Covid19Vaccine: 'COVID-19 vaccines',
   EmergencyCare: 'Emergency care',
   Audiology: 'Audiology',
   Cardiology: 'Cardiology',
