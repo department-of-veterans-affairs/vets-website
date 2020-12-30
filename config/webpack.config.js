@@ -185,7 +185,11 @@ module.exports = env => {
         {
           test: /\.svg/,
           use: {
-            loader: 'svg-url-loader?limit=1024',
+            loader: 'svg-url-loader',
+            options: {
+              limit: 1024,
+              publicPath: './',
+            },
           },
         },
         {
@@ -220,6 +224,9 @@ module.exports = env => {
     },
     resolve: {
       extensions: ['.js', '.jsx'],
+      fallback: {
+        path: require.resolve('path-browserify'),
+      },
     },
     optimization: {
       minimizer: [
