@@ -4,6 +4,7 @@ import { getBookingNoteFromAppointment } from '../../utils';
 
 const ReasonForVisitField = ({ appointment, onChange }) => {
   const bookingNote = getBookingNoteFromAppointment(appointment);
+
   useEffect(
     () => {
       if (bookingNote?.reasonForVisit) {
