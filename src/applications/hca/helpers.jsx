@@ -71,11 +71,12 @@ export function prefillTransformer(pages, formData, metadata, state) {
     newData = { ...newData, 'view:isUserInMvi': true };
   }
 
-  if (residentialAddress || mailingAddress) {
-    // spread in permanentAddress from profile always
+  if (residentialAddress) {
+    // spread in permanentAddress (residentialAddress) from profile always
     newData = { ...newData, veteranAddress: cleanedResidentialAddress };
 
     // auto-fill doesPermanentAddressMatchMailing yes/no field
+
     newData = {
       ...newData,
       'view:doesPermanentAddressMatchMailing': doesAddressMatch,
@@ -123,7 +124,6 @@ export function transform(formConfig, form) {
     form,
   );
   let withoutViewFields = filterViewFields(withoutInactivePages);
-  const areAddressesTheSame = form.data['view:hasMultipleAddress'];
   const hasMultipleAddress = form.data['view:hasMultipleAddress'];
 
   // add back dependents here, because it could have been removed in filterViewFields
@@ -137,11 +137,11 @@ export function transform(formConfig, form) {
   }
 
   // duplicate address before submit if they are the same
-  if (hasMultipleAddress && areAddressesTheSame) {
+  if (hasMultipleAddress) {
     withoutViewFields.veteranMailingAddress = withoutViewFields.veteranAddress;
   }
 
-  // if feature flip is off remove second address
+  // if feature flip is off remove second address and yes/no question
   if (!hasMultipleAddress) {
     delete withoutViewFields.veteranMailingAddress;
   }
