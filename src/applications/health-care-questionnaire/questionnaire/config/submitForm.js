@@ -1,7 +1,7 @@
 // import { submitToUrl } from 'platform/forms-system/src/js/actions';
 
 const submit = (form, formConfig) => {
-  const body = JSON.stringify(formConfig.transformForSubmit(formConfig, form));
+  const body = formConfig.transformForSubmit(formConfig, form);
 
   const eventData = {};
   // console.log('submitting', { body, url: formConfig.submitUrl });
@@ -17,7 +17,7 @@ const submit = (form, formConfig) => {
     resolve(body);
   });
   // return submitToUrl(
-  //   body,
+  //   JSON.stringify(body),
   //   formConfig.submitUrl,
   //   formConfig.trackingPrefix,
   //   eventData,
@@ -25,6 +25,8 @@ const submit = (form, formConfig) => {
 };
 
 const createAnAnswer = valueString => ({ valueString });
+
+const createAnswerArray = value => (value ? [createAnAnswer(value)] : []);
 
 const transformForSubmit = (_formConfig, form) => {
   // console.log({ formConfig, form });
@@ -43,19 +45,19 @@ const transformForSubmit = (_formConfig, form) => {
       {
         linkId: '01',
         text: 'What is the reason for this appointment?',
-        answer: [createAnAnswer(reasonForVisit)],
+        answer: createAnswerArray(reasonForVisit),
       },
       {
         linkId: '02',
         text:
           "Are there any additional details you'd like to share with your provider about this appointment?",
-        answer: [createAnAnswer(reasonForVisitDescription)],
+        answer: createAnswerArray(reasonForVisitDescription),
       },
       {
         linkId: '03',
         text:
           'Are there any life events that are positively or negatively affecting your health (e.g. marriage, divorce, new job, retirement, parenthood, or finances)?',
-        answer: [createAnAnswer(lifeEvents)],
+        answer: createAnswerArray(lifeEvents),
       },
       {
         linkId: '04',
@@ -71,4 +73,4 @@ const transformForSubmit = (_formConfig, form) => {
   };
 };
 
-export { submit, transformForSubmit };
+export { submit, transformForSubmit, createAnswerArray, createAnAnswer };
