@@ -4,7 +4,6 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import isVATeamSiteSubdomain from '../../../utilities/environment/va-subdomain';
 import { hasSession } from 'platform/user/profile/utilities';
-import HelpMenu from './HelpMenu';
 import SearchMenu from './SearchMenu';
 import SignInProfileMenu from './SignInProfileMenu';
 
@@ -22,7 +21,6 @@ class SearchHelpSignIn extends React.Component {
   };
 
   handleSearchMenuClick = this.handleMenuClick('search');
-  handleHelpMenuClick = this.handleMenuClick('help');
   handleAccountMenuClick = this.handleMenuClick('account');
 
   renderSignInContent = () => {
@@ -73,10 +71,13 @@ class SearchHelpSignIn extends React.Component {
           isOpen={this.props.isMenuOpen.search}
           clickHandler={this.handleSearchMenuClick}
         />
-        <HelpMenu
-          isOpen={this.props.isMenuOpen.help}
-          clickHandler={this.handleHelpMenuClick}
-        />
+        <a
+          className="vads-u-color--white vads-u-text-decoration--none vads-u-padding-top--0p5 vads-u-padding-x--1"
+          href="tel:+18006982411"
+          style={{ fontWeight: '600' }}
+        >
+          Contact us
+        </a>
         <div className="sign-in-nav">{this.renderSignInContent()}</div>
       </div>
     );

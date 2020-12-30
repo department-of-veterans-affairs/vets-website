@@ -23,7 +23,7 @@ export default function MobileLinks({ links, visible }) {
             id="veteran-contact"
             aria-hidden="true"
           >
-            <span className="va-footer-link-label">Get answers</span>
+            <h4 className="va-footer-link-label">Get answers</h4>
             {links[FOOTER_COLUMNS.CONTACT]}
           </div>
         </li>
