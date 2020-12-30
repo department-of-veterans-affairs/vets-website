@@ -1,3 +1,5 @@
+import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
+
 import { PROFILE_PATHS } from '../../constants';
 
 import { mockUser } from '../fixtures/users/user-vap-error.js';
@@ -7,10 +9,7 @@ import mockFullName from '../fixtures/full-name-success.json';
 import mockPaymentInfoNotEligible from '../fixtures/payment-information/direct-deposit-is-not-eligible.json';
 
 const setup = () => {
-  window.localStorage.setItem(
-    'DISMISSED_ANNOUNCEMENTS',
-    JSON.stringify(['single-sign-on-intro']),
-  );
+  disableFTUXModals();
 
   cy.login(mockUser);
   cy.route('GET', 'v0/profile/personal_information', mockPersonalInformation);

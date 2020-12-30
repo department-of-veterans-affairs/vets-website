@@ -17,7 +17,7 @@ const transform = entity => {
     fieldButtons: entity.fieldButtons,
     fieldButtonsRepeat: getDrupalValue(entity.fieldButtonsRepeat),
     fieldContactInformation: entity.fieldContactInformation[0] || null,
-    fieldContentBlock: entity.fieldContentBlock,
+    fieldContentBlock: entity.fieldContentBlock[0],
     fieldIntroTextLimitedHtml: entity.fieldIntroTextLimitedHtml[0],
     fieldOtherCategories: entity.fieldOtherCategories,
     fieldPrimaryCategory: entity.fieldPrimaryCategory[0] || null,
@@ -27,7 +27,6 @@ const transform = entity => {
       },
     ),
     fieldRelatedInformation: entity.fieldRelatedInformation,
-    fieldTableOfContentsBoolean: entity.fieldTableOfContentsBoolean,
     fieldTags: entity.fieldTags[0],
     title: getDrupalValue(entity.title),
   };

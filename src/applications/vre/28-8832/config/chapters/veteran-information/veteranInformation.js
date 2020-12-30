@@ -12,23 +12,31 @@ export const uiSchema = {
   veteranInformation: {
     fullName: {
       first: {
-        'ui:title': 'First Name',
+        'ui:title': 'Your sponsor’s first name',
         'ui:required': () => true,
       },
       middle: {
-        'ui:title': 'Middle Name',
+        'ui:title': 'Your sponsor’s middle name',
+        'ui:options': {
+          hideEmptyValueInReview: true,
+        },
       },
       last: {
-        'ui:title': 'Last Name',
+        'ui:title': 'Your sponsor’s last name',
         'ui:required': () => true,
       },
       suffix: {
         'ui:title': 'Suffix',
         'ui:options': {
           widgetClassNames: 'usa-input-medium',
+          hideEmptyValueInReview: true,
         },
       },
     },
-    ssn: { ...ssnUI, 'ui:required': () => true },
+    ssn: {
+      ...ssnUI,
+      'ui:required': () => true,
+      'ui:title': 'Your sponsor’s Social Security Number',
+    },
   },
 };

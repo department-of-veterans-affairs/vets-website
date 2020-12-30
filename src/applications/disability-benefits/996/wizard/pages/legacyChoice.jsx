@@ -32,6 +32,7 @@ const name = 'higher-level-review-legacy';
 const LegacyChoice = ({ setPageState, state = {} }) => {
   return (
     <ErrorableRadioButtons
+      name={name}
       id={name}
       label={label}
       options={options}

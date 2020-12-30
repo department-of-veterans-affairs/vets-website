@@ -75,7 +75,7 @@ export const cnpDirectDepositBankInfo = apiData => {
 };
 
 export const eduDirectDepositAccountNumber = apiData => {
-  return apiData.accountNumber;
+  return apiData?.accountNumber;
 };
 
 const cnpDirectDepositAddressInfo = apiData => {

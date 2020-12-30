@@ -1,3 +1,4 @@
+import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import mockUser from '../fixtures/test-user.json';
 import mockPayments from '../fixtures/test-payments-response.json';
 import mockEmptyPayments from '../fixtures/test-empty-payments-response.json';
@@ -99,12 +100,9 @@ const testApiError = (errCode = '500') => {
 };
 
 // Disabling until view-payments is ready for production
-describe.skip('View payment history', () => {
+describe('View payment history', () => {
   beforeEach(() => {
-    window.localStorage.setItem(
-      'DISMISSED_ANNOUNCEMENTS',
-      JSON.stringify(['single-sign-on-intro']),
-    );
+    disableFTUXModals();
     cy.login(mockUser);
   });
   it('should pass an aXe scan and paginate through payment data', () => {

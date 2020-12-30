@@ -45,13 +45,18 @@ const CalculatorResultRow = ({
   bold,
   visible,
   screenReaderSpan,
+  eybH4,
 }) =>
   visible ? (
     <li
       id={`calculator-result-row-${createId(id == null ? label : id)}`}
-      className={classNames('row', 'calculator-result', {
-        'vads-u-font-weight--bold': bold,
-      })}
+      className={
+        eybH4
+          ? 'vads-u-margin-bottom--neg0p5 eyb-h4 row calculator-result'
+          : classNames('row', 'calculator-result', {
+              'vads-u-font-weight--bold': bold,
+            })
+      }
     >
       {header ? (
         <h4 className="small-6 columns">{label}:</h4>
@@ -178,21 +183,21 @@ export const EstimatedBenefits = ({ profile, outputs, calculator }) => (
           value={outputs.housingAllowance.value}
           visible={outputs.housingAllowance.visible}
           screenReaderSpan={month}
-          header
+          eybH4
         />
         <CalculatorResultRow
           label="Book stipend"
           value={outputs.bookStipend.value}
           visible={outputs.bookStipend.visible}
           screenReaderSpan={profile.attributes.type === 'ojt' ? month : year}
-          header
+          eybH4
         />
         <CalculatorResultRow
           label="Total paid to you"
           value={outputs.totalPaidToYou.value}
           bold
           visible={outputs.totalPaidToYou.visible}
-          header
+          eybH4
         />
       </ul>
     </div>
