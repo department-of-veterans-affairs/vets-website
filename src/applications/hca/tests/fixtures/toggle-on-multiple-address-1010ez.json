@@ -4,10 +4,6 @@
     "features": [{
       "name": "multiple_address_10_10ez",
       "value": true
-    }, 
-    {
-      "name": "multipleAddress1010ez",
-      "value": true
     }]
   }
 }
