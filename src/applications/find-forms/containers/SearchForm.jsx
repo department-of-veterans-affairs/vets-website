@@ -34,22 +34,25 @@ export class SearchForm extends Component {
   componentDidMount() {
     // Fetch the forms with their query if it's on the URL.
     if (this.state.query) {
-      this.props.fetchFormsThunk(this.state.query).then(forms => {
-        // Derive the total number of pages.
-        const totalPages = Math.ceil(forms.length / MAX_PAGE_LIST_LENGTH);
-        recordEvent({
-          event: 'view_search_results',
-          'search-page-path': '/find-forms',
-          'search-query': this.state.query,
-          'search-results-total-count': forms.length,
-          'search-results-total-pages': totalPages,
-          'search-selection': 'Find forms',
-          'search-typeahead-enabled': false,
-          'type-ahead-option-keyword-selected': undefined,
-          'type-ahead-option-position': undefined,
-          'type-ahead-options-list': undefined,
+      this.props
+        .fetchFormsThunk(this.state.query)
+        .catch(() => {})
+        .then(forms => {
+          // Derive the total number of pages.
+          const totalPages = Math.ceil(forms.length / MAX_PAGE_LIST_LENGTH);
+          return recordEvent({
+            event: 'view_search_results',
+            'search-page-path': '/find-forms',
+            'search-query': this.state.query,
+            'search-results-total-count': forms.length,
+            'search-results-total-pages': totalPages,
+            'search-selection': 'Find forms',
+            'search-typeahead-enabled': false,
+            'type-ahead-option-keyword-selected': undefined,
+            'type-ahead-option-position': undefined,
+            'type-ahead-options-list': undefined,
+          });
         });
-      });
     }
   }
 
@@ -63,23 +66,26 @@ export class SearchForm extends Component {
 
   onSubmitHandler = event => {
     event.preventDefault();
-    this.props.fetchFormsThunk(this.state.query).then(forms => {
-      // Derive the total number of pages.
-      const totalPages = Math.ceil(forms.length / MAX_PAGE_LIST_LENGTH);
+    this.props
+      .fetchFormsThunk(this.state.query)
+      .catch(() => {})
+      .then(forms => {
+        // Derive the total number of pages.
+        const totalPages = Math.ceil(forms.length / MAX_PAGE_LIST_LENGTH);
 
-      recordEvent({
-        event: 'view_search_results', // remains consistent, push this event with each search
-        'search-page-path': '/find-forms', // populate with '/find-forms', remains consistent for all searches from find-forms page
-        'search-query': this.state.query, // populate with full query user used to execute search
-        'search-results-total-count': forms.length, // populate with total number of search results returned
-        'search-results-total-pages': totalPages, // populate with total number of search result pages returned
-        'search-selection': 'Find forms', // populate with 'Find forms' for all searches from /find-forms page
-        'search-typeahead-enabled': false, // populate with boolean false, remains consistent since type ahead won't feature here
-        'type-ahead-option-keyword-selected': undefined, // populate with undefined since type ahead won't feature here
-        'type-ahead-option-position': undefined, // populate with undefined since type ahead won't feature here
-        'type-ahead-options-list': undefined, // populate with undefined since type ahead won't feature here
+        return recordEvent({
+          event: 'view_search_results', // remains consistent, push this event with each search
+          'search-page-path': '/find-forms', // populate with '/find-forms', remains consistent for all searches from find-forms page
+          'search-query': this.state.query, // populate with full query user used to execute search
+          'search-results-total-count': forms.length, // populate with total number of search results returned
+          'search-results-total-pages': totalPages, // populate with total number of search result pages returned
+          'search-selection': 'Find forms', // populate with 'Find forms' for all searches from /find-forms page
+          'search-typeahead-enabled': false, // populate with boolean false, remains consistent since type ahead won't feature here
+          'type-ahead-option-keyword-selected': undefined, // populate with undefined since type ahead won't feature here
+          'type-ahead-option-position': undefined, // populate with undefined since type ahead won't feature here
+          'type-ahead-options-list': undefined, // populate with undefined since type ahead won't feature here
+        });
       });
-    });
   };
 
   render() {

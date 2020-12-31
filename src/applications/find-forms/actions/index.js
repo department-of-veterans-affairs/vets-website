@@ -74,5 +74,7 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
         'We’re sorry. Something went wrong on our end. Please try again later.',
       ),
     );
+
+    return error;
   }
 };
