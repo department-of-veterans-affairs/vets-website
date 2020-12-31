@@ -6,10 +6,13 @@ Cypress.Commands.add('checkSearch', () => {
   cy.axeCheck();
 
   // Search
+  cy.get('#street-city-state-zip', { timeout: 10000 })
+    .should('exist')
+    .clear();
   [...city].forEach(char => {
     cy.get('#street-city-state-zip')
       .should('not.be.disabled')
-      .type(char);
+      .type(char, { waitForAnimations: true, force: true });
   });
   cy.get('#facility-type-dropdown').select('VA health');
   cy.get('#facility-search').click();
@@ -49,26 +52,28 @@ describe('Mobile', () => {
     });
   });
 
-  it('should render in mobile layouts and tabs actions work', () => {
-    cy.visit('/find-locations');
-    cy.injectAxe();
+  for(let i = 0; i < 30; i++) {
+    it('should render in mobile layouts and tabs actions work', () => {
+      cy.visit('/find-locations');
+      cy.injectAxe();
 
-    // iPhone X
-    cy.viewport(400, 812);
-    cy.checkSearch();
+      // iPhone X
+      cy.viewport(400, 812);
+      cy.checkSearch();
 
-    // iPhone 6/7/8 plus
-    cy.viewport(414, 736);
-    cy.checkSearch();
+      // iPhone 6/7/8 plus
+      cy.viewport(414, 736);
+      cy.checkSearch();
 
-    // Pixel 2
-    cy.viewport(411, 731);
-    cy.checkSearch();
+      // Pixel 2
+      cy.viewport(411, 731);
+      cy.checkSearch();
 
-    // Galaxy S5/Moto
-    cy.viewport(360, 640);
-    cy.checkSearch();
-  });
+      // Galaxy S5/Moto
+      cy.viewport(360, 640);
+      cy.checkSearch();
+    });
+  }
 
   it('should render the appropriate elements at each breakpoint', () => {
     cy.visit('/find-locations');
