@@ -66,6 +66,7 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
 
     // If we are here, the API request succeeded.
     dispatch(fetchFormsSuccess(results));
+    return results;
   } catch (error) {
     // If we are here, the API request failed.
     dispatch(
