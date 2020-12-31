@@ -57,7 +57,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const {
     residentialAddress,
     mailingAddress,
-  } = state?.user?.profile?.vapContactInfo;
+  } = state.user.profile?.vapContactInfo;
 
   const cleanedResidentialAddress = cleanAddressObject(residentialAddress);
   const cleanedMailingAddress = cleanAddressObject(mailingAddress);
