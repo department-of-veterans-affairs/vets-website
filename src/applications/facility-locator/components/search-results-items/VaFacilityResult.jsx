@@ -5,13 +5,18 @@ import LocationDirectionsLink from './common/LocationDirectionsLink';
 import { isVADomain } from '../../utils/helpers';
 import { recordResultClickEvents } from '../../utils/analytics';
 import { Link } from 'react-router';
-import { OperatingStatus } from '../../constants';
+import { LocationType, OperatingStatus } from '../../constants';
 import LocationAddress from './common/LocationAddress';
 import LocationOperationStatus from './common/LocationOperationStatus';
 import LocationDistance from './common/LocationDistance';
+import Covid19Alert from './common/Covid19Alert';
+import { healthServices } from '../../config';
 
 const VaFacilityResult = ({ location, query, index }) => {
   const { name, website, operatingStatus } = location.attributes;
+  const isCovid19Search =
+    query.facilityType === LocationType.HEALTH &&
+    query.serviceType === Object.keys(healthServices)[5];
   return (
     <div className="facility-result" id={location.id} key={location.id}>
       <>
@@ -36,6 +41,7 @@ const VaFacilityResult = ({ location, query, index }) => {
         </span>
         <LocationAddress location={location} />
         <LocationDirectionsLink location={location} from={'SearchResult'} />
+        {isCovid19Search && <Covid19Alert />}
         <LocationPhoneLink
           location={location}
           from={'SearchResult'}
