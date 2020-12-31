@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -15,8 +15,7 @@ const HealthCareEntry = ({
   setFormData,
   formData,
 }) => {
-  // add feature flip data to formData to use in hideIf() formBuilder callback
-  useEffect(
+  const getFlipperData = useCallback(
     () => {
       if (hasMultipleAddress !== undefined) {
         setFormData({
@@ -25,9 +24,15 @@ const HealthCareEntry = ({
         });
       }
     },
-    // only want this function to be hit if hasMultipleAddress changes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [hasMultipleAddress],
+  );
+
+  useEffect(
+    () => {
+      getFlipperData();
+    },
+
+    [getFlipperData],
   );
 
   return (
