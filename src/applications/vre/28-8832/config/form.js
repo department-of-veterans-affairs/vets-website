@@ -17,10 +17,8 @@ import {
   staticClaimantInformation,
 } from './chapters/claimant-information';
 import { isDependent, transform } from './helpers';
-
+import { LOA_LEVEL_REQUIRED } from '../constants';
 import manifest from '../manifest.json';
-
-const LOA_LEVEL_REQUIRED = 3;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,

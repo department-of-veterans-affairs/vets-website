@@ -74,7 +74,7 @@ const IntroductionPage = props => {
               <li>Social Security number</li>
               <li>Date of birth</li>
               <li>
-                If you're a dependent, you'll need the name and Social Security
+                If you’re a dependent, you’ll need the name and Social Security
                 number of the Veteran or service member who sponsors you.
               </li>
             </ul>
@@ -91,7 +91,7 @@ const IntroductionPage = props => {
             <h5>Apply</h5>
             <p>Complete this career planning and guidance form.</p>
             <p>
-              After submitting your application, you'll get a confirmation
+              After submitting your application, you’ll get a confirmation
               message. It will include details about your next steps. You can
               print this for your records.
             </p>
@@ -113,7 +113,7 @@ const IntroductionPage = props => {
           </li>
         </ol>
         <p>
-          If you're not sure this is the right form, you can{' '}
+          If you’re not sure this is the right form, you can{' '}
           <a
             href={`${PCPG_ROOT_URL}/introduction`}
             onClick={() => {

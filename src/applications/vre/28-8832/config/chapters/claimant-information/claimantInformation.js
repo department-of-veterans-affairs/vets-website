@@ -4,6 +4,7 @@ import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { hasSession } from 'platform/user/profile/utilities';
 import { claimantInformation } from '../../utilities';
+import { LOA_LEVEL_REQUIRED } from '../../../constants';
 
 export const schema = claimantInformation;
 
@@ -11,7 +12,8 @@ export const uiSchema = {
   fullName: {
     first: {
       'ui:title': 'First name',
-      'ui:required': formData => !hasSession() || formData.loa !== 3,
+      'ui:required': formData =>
+        !hasSession() || formData.loa !== LOA_LEVEL_REQUIRED,
     },
     middle: {
       'ui:title': 'Middle name',
@@ -21,7 +23,8 @@ export const uiSchema = {
     },
     last: {
       'ui:title': 'Last name',
-      'ui:required': formData => !hasSession() || formData.loa !== 3,
+      'ui:required': formData =>
+        !hasSession() || formData.loa !== LOA_LEVEL_REQUIRED,
     },
     suffix: {
       'ui:title': 'Suffix',
@@ -33,7 +36,8 @@ export const uiSchema = {
   },
   ssn: {
     ...ssnUI,
-    'ui:required': formData => !hasSession() || formData.loa !== 3,
+    'ui:required': formData =>
+      !hasSession() || formData.loa !== LOA_LEVEL_REQUIRED,
   },
   VAFileNumber: {
     'ui:title': (
@@ -51,6 +55,7 @@ export const uiSchema = {
     },
   },
   dateOfBirth: merge(currentOrPastDateUI('Date of birth'), {
-    'ui:required': formData => !hasSession() || formData.loa !== 3,
+    'ui:required': formData =>
+      !hasSession() || formData.loa !== LOA_LEVEL_REQUIRED,
   }),
 };
