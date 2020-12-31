@@ -64,7 +64,7 @@ export class ConfirmationPage extends React.Component {
             Print this page
           </button>
         </div>
-        <h2>What happens after I apply?</h2>
+        <h2 className="vads-u-font-size--h3">What happens after I apply?</h2>
         <p>
           If you're eligible for career planning and guidance benefits, we'll
           invite you to an orientation session at your nearest VA regional
@@ -76,7 +76,9 @@ export class ConfirmationPage extends React.Component {
           toll-free hotline at <Telephone contact={CONTACTS.VA_BENEFITS} />.
           We’re here Monday through Friday, 8:00 am to 8:00 pm ET.
         </p>
-        <h2>How can I check the status of my application?</h2>
+        <h2 className="vads-u-font-size--h3">
+          How can I check the status of my application?
+        </h2>
         <div className="process schemaform-process vads-u-padding-bottom--0">
           <ol>
             <li className="process-step list-one vads-u-padding-bottom--1p5">
