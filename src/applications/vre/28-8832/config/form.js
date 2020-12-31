@@ -2,7 +2,6 @@ import fullSchema from 'vets-json-schema/dist/28-8832-schema.json';
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
-import { hasSession } from 'platform/user/profile/utilities';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -20,6 +19,8 @@ import {
 import { isDependent, transform } from './helpers';
 
 import manifest from '../manifest.json';
+
+const LOA_LEVEL_REQUIRED = 3;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -60,14 +61,18 @@ const formConfig = {
       reviewDescription: ReadOnlyUserDescription,
       pages: {
         claimantInformation: {
-          depends: () => !hasSession(),
+          depends: formData => {
+            return formData.loa !== LOA_LEVEL_REQUIRED;
+          },
           path: 'basic-information',
           title: 'Applicant Information',
           uiSchema: claimantInformation.uiSchema,
           schema: claimantInformation.schema,
         },
         claimantStaticInformation: {
-          depends: () => hasSession(),
+          depends: formData => {
+            return formData.loa === LOA_LEVEL_REQUIRED;
+          },
           path: 'claimant-information',
           title: 'Applicant Information',
           uiSchema: staticClaimantInformation.uiSchema,

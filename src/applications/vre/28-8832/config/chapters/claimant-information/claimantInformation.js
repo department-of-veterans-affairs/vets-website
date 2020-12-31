@@ -11,14 +11,14 @@ export const uiSchema = {
   fullName: {
     first: {
       'ui:title': 'First name',
-      'ui:required': () => !hasSession(),
+      'ui:required': formData => !hasSession() || formData.loa !== 3,
     },
     middle: {
       'ui:title': 'Middle name',
     },
     last: {
       'ui:title': 'Last name',
-      'ui:required': () => !hasSession(),
+      'ui:required': formData => !hasSession() || formData.loa !== 3,
     },
     suffix: {
       'ui:title': 'Suffix',
@@ -29,7 +29,7 @@ export const uiSchema = {
   },
   ssn: {
     ...ssnUI,
-    'ui:required': () => !hasSession(),
+    'ui:required': formData => !hasSession() || formData.loa !== 3,
   },
   VAFileNumber: {
     'ui:title': (
@@ -46,6 +46,6 @@ export const uiSchema = {
     },
   },
   dateOfBirth: merge(currentOrPastDateUI('Date of birth'), {
-    'ui:required': () => !hasSession(),
+    'ui:required': formData => !hasSession() || formData.loa !== 3,
   }),
 };

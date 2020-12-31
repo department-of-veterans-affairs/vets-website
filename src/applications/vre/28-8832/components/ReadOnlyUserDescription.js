@@ -22,7 +22,7 @@ const ReadOnlyUserDescription = props => {
 
   return (
     <>
-      {!isLoggedIn ? null : (
+      {!isLoggedIn || props.profile.loa.current !== 3 ? null : (
         <>
           <div className="form-review-panel-page-header-row">
             <h3 className="vads-u-font-size--h5 vads-u-margin--0">
