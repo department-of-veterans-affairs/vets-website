@@ -226,7 +226,7 @@ export class SearchMenu extends React.Component {
             <button
               type="submit"
               id="sitewide-search-submit-button"
-              disabled={!isUserInputValid}
+              disabled={!isUserInputValid()}
               className="vads-u-margin-left--0p25 vads-u-margin-right--0p5 "
             >
               <IconSearch color="#fff" />
@@ -277,7 +277,7 @@ export class SearchMenu extends React.Component {
               />
               <button
                 type="submit"
-                disabled={!isUserInputValid}
+                disabled={!isUserInputValid()}
                 id="sitewide-search-submit-button"
                 className="vads-u-margin-left--0p5 vads-u-margin-y--1 vads-u-margin-right--1 vads-u-flex--1"
                 onClick={() => handleSearchEvent()}
