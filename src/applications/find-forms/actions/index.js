@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 // Dependencies.
 import URLSearchParams from 'url-search-params';
 // Relative imports.
@@ -74,5 +75,7 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
         'We’re sorry. Something went wrong on our end. Please try again later.',
       ),
     );
+    // eslint-disable-next-line no-useless-return
+    return;
   }
 };
