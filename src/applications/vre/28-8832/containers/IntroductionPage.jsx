@@ -20,7 +20,7 @@ const IntroductionPage = props => {
   // focus on element
   const [pageList, setPageList] = useState(props.route.pageList);
   useEffect(() => {
-    focusElement('.va-nav-breadcrumbs-list');
+    focusElement('h1');
   }, []);
 
   // build pagelist
