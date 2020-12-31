@@ -79,14 +79,16 @@ describe('Site-wide Search general functionality', () => {
     cy.visit('/');
     cy.get('button.sitewide-search-drop-down-panel-button').click();
     cy.get('#query').click();
-    cy.get('#sitewide-search-submit-button').should('be.disabled');
+    cy.get('[data-e2e-id="sitewide-search-submit-button"]').should(
+      'be.disabled',
+    );
   });
 });
 
 describe('Site-wide Search functionality with typeahead disabled', () => {
   it('Clicking search button initiates search for input - typeahead disabled', () => {
     prepareSearch('benefits');
-    cy.get('#sitewide-search-submit-button').click();
+    cy.get('[data-e2e-id="sitewide-search-submit-button"]').click();
     cy.url().should('contain', '/search/?query=benefits');
   });
 
@@ -117,7 +119,7 @@ describe('Site-wide Search functionality with typeahead enabled', () => {
     cy.get('#suggestions-list')
       .children()
       .should('have.length', 5);
-    cy.get('#sitewide-search-submit-button').focus();
+    cy.get('[data-e2e-id="sitewide-search-submit-button"]').focus();
     cy.get('#suggestions-list').should('not.be.visible');
   });
 
@@ -129,7 +131,7 @@ describe('Site-wide Search functionality with typeahead enabled', () => {
     cy.get('#suggestions-list')
       .children()
       .should('have.length', 5);
-    cy.get('#sitewide-search-submit-button').focus();
+    cy.get('[data-e2e-id="sitewide-search-submit-button"]').focus();
     cy.get('#suggestions-list').should('not.be.visible');
     cy.get('#query').focus();
     cy.get('#suggestions-list').should('be.visible');
@@ -142,7 +144,7 @@ describe('Site-wide Search functionality with typeahead enabled', () => {
     mockFeatureToggles();
     mockFetchSuggestions();
     prepareSearch('health');
-    cy.get('#sitewide-search-submit-button').click();
+    cy.get('[data-e2e-id="sitewide-search-submit-button"]').click();
     cy.url().should('contain', '/search/?query=health');
   });
 

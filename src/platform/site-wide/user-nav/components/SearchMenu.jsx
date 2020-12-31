@@ -149,7 +149,7 @@ export class SearchMenu extends React.Component {
     const { isUserInputValid } = this;
 
     // if the user tries to search with an empty input, escape early
-    if (!isUserInputValid) {
+    if (!isUserInputValid()) {
       return;
     }
 
@@ -225,7 +225,7 @@ export class SearchMenu extends React.Component {
             />
             <button
               type="submit"
-              id="sitewide-search-submit-button"
+              data-e2e-id="sitewide-search-submit-button"
               disabled={!isUserInputValid()}
               className="vads-u-margin-left--0p25 vads-u-margin-right--0p5 "
             >
@@ -278,7 +278,7 @@ export class SearchMenu extends React.Component {
               <button
                 type="submit"
                 disabled={!isUserInputValid()}
-                id="sitewide-search-submit-button"
+                data-e2e-id="sitewide-search-submit-button"
                 className="vads-u-margin-left--0p5 vads-u-margin-y--1 vads-u-margin-right--1 vads-u-flex--1"
                 onClick={() => handleSearchEvent()}
                 onFocus={() => this.setState({ suggestions: [] })}
