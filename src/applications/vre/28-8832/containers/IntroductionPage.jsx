@@ -32,6 +32,7 @@ const IntroductionPage = props => {
         ...form.data,
         loa,
       };
+      // Wait for action to finish then continue
       const awaitedUpdate = async () => {
         return props.setData(authCheckedFormData);
       };
@@ -43,8 +44,6 @@ const IntroductionPage = props => {
         );
         setPageList(filteredPageList.pages);
       });
-      // props.setData(authCheckedFormData);
-      // console.log('new formData', form.data);
     },
     [loa],
   );

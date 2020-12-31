@@ -98,7 +98,7 @@ const formConfig = {
         veteranInformation: {
           depends: formData => isDependent(formData),
           path: 'veteran-information',
-          title: 'Your sponsoring Veteran or service member',
+          title: 'Your sponsor’s information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },

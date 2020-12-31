@@ -15,6 +15,9 @@ export const uiSchema = {
     },
     middle: {
       'ui:title': 'Middle name',
+      'ui:options': {
+        hideEmptyValueInReview: true,
+      },
     },
     last: {
       'ui:title': 'Last name',
@@ -24,6 +27,7 @@ export const uiSchema = {
       'ui:title': 'Suffix',
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
+        hideEmptyValueInReview: true,
       },
     },
   },
@@ -40,6 +44,7 @@ export const uiSchema = {
     ),
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
+      hideEmptyValueInReview: true,
     },
     'ui:errorMessages': {
       pattern: 'Please enter a valid VA file number',
