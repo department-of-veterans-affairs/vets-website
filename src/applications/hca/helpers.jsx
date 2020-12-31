@@ -72,20 +72,20 @@ export function prefillTransformer(pages, formData, metadata, state) {
   }
 
   if (residentialAddress) {
-    // spread in permanentAddress (residentialAddress) from profile always
+    // spread in permanentAddress (residentialAddress) from profile if it exist
     newData = { ...newData, veteranAddress: cleanedResidentialAddress };
+  }
 
-    // auto-fill doesPermanentAddressMatchMailing yes/no field
+  /* auto-fill doesPermanentAddressMatchMailing yes/no field
+   does not get sent to api due to being a view do not need to guard */
+  newData = {
+    ...newData,
+    'view:doesPermanentAddressMatchMailing': doesAddressMatch,
+  };
 
-    newData = {
-      ...newData,
-      'view:doesPermanentAddressMatchMailing': doesAddressMatch,
-    };
-
-    // if addresses are not the same auto fill mailing address
-    if (!doesAddressMatch) {
-      newData = { ...newData, veteranMailingAddress: cleanedMailingAddress };
-    }
+  // if hasMailingAddress && addresses are not the same auto fill mailing address
+  if (mailingAddress && !doesAddressMatch) {
+    newData = { ...newData, veteranMailingAddress: cleanedMailingAddress };
   }
 
   return {
