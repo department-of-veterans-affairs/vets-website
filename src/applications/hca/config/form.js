@@ -455,7 +455,7 @@ const formConfig = {
             !formData['view:doesPermanentAddressMatchMailing'],
           uiSchema: {
             'ui:description': PrefillMessage,
-            veteranMailingAddress: _.merge(addressUI('Ma address', true), {
+            veteranMailingAddress: _.merge(addressUI('Mailing address', true), {
               street: {
                 'ui:errorMessages': {
                   pattern:
