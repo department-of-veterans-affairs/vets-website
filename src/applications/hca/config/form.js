@@ -392,7 +392,27 @@ const formConfig = {
           initialData: {},
           uiSchema: {
             'ui:description': PrefillMessage,
-            veteranAddress: _.merge(addressUI('Home address', true), {
+            veteranPermanentAddress: _.merge(addressUI('Permanent', true), {
+              'ui:options': {
+                hideIf: formData => formData['view:hasMultipleAddress'],
+              },
+              street: {
+                'ui:errorMessages': {
+                  pattern:
+                    'Please provide a valid street. Must be at least 1 character.',
+                },
+              },
+              city: {
+                'ui:errorMessages': {
+                  pattern:
+                    'Please provide a valid city. Must be at least 1 character.',
+                },
+              },
+            }),
+            veteranHomeAddress: _.merge(addressUI('Home address', true), {
+              'ui:options': {
+                hideIf: formData => !formData['view:hasMultipleAddress'],
+              },
               street: {
                 'ui:errorMessages': {
                   pattern:
