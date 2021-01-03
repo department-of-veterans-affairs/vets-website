@@ -388,11 +388,11 @@ const formConfig = {
         },
         veteranAddress: {
           path: 'veteran-information/veteran-address',
-          title: 'Permanent address',
+          title: 'Home address',
           initialData: {},
           uiSchema: {
             'ui:description': PrefillMessage,
-            veteranAddress: _.merge(addressUI('Permanent address', true), {
+            veteranAddress: _.merge(addressUI('Home address', true), {
               street: {
                 'ui:errorMessages': {
                   pattern:
@@ -455,23 +455,20 @@ const formConfig = {
             !formData['view:doesPermanentAddressMatchMailing'],
           uiSchema: {
             'ui:description': PrefillMessage,
-            veteranMailingAddress: _.merge(
-              addressUI('Permanent address', true),
-              {
-                street: {
-                  'ui:errorMessages': {
-                    pattern:
-                      'Please provide a valid street. Must be at least 1 character.',
-                  },
-                },
-                city: {
-                  'ui:errorMessages': {
-                    pattern:
-                      'Please provide a valid city. Must be at least 1 character.',
-                  },
+            veteranMailingAddress: _.merge(addressUI('Ma address', true), {
+              street: {
+                'ui:errorMessages': {
+                  pattern:
+                    'Please provide a valid street. Must be at least 1 character.',
                 },
               },
-            ),
+              city: {
+                'ui:errorMessages': {
+                  pattern:
+                    'Please provide a valid city. Must be at least 1 character.',
+                },
+              },
+            }),
           },
           schema: {
             type: 'object',
