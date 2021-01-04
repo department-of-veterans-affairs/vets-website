@@ -30,7 +30,7 @@ const createAnswerArray = value => (value ? [createAnAnswer(value)] : []);
 
 const transformForSubmit = (_formConfig, form) => {
   // console.log({ formConfig, form });
-  const { questionnaireId, appointmentId } = form.data['hidden:fields'];
+  const { questionnaireId, appointmentId } = form.data['hidden:fields'] || {};
   const {
     reasonForVisit,
     reasonForVisitDescription,

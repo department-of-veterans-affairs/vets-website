@@ -12,5 +12,6 @@ describe('health care questionnaire -- utils -- create an answer array', () => {
     const answer = createAnswerArray('my answer');
     expect(answer).to.be.an('array');
     expect(answer.length).to.equal(1);
+    expect(answer[0]).to.have.property('valueString');
   });
 });
