@@ -57,28 +57,26 @@ describe('Mobile', () => {
     });
   });
 
-  for(let i = 0; i < 50; i++) {
-    it('should render in mobile layouts and tabs actions work', () => {
-      cy.visit('/find-locations');
-      cy.injectAxe();
+  it('should render in mobile layouts and tabs actions work', () => {
+    cy.visit('/find-locations');
+    cy.injectAxe();
 
-      // iPhone X
-      cy.viewport(400, 812);
-      cy.checkSearch();
+    // iPhone X
+    cy.viewport(400, 812);
+    cy.checkSearch();
 
-      // iPhone 6/7/8 plus
-      cy.viewport(414, 736);
-      cy.checkSearch();
+    // iPhone 6/7/8 plus
+    cy.viewport(414, 736);
+    cy.checkSearch();
 
-      // Pixel 2
-      cy.viewport(411, 731);
-      cy.checkSearch();
+    // Pixel 2
+    cy.viewport(411, 731);
+    cy.checkSearch();
 
-      // Galaxy S5/Moto
-      cy.viewport(360, 640);
-      cy.checkSearch();
-    });
-  }
+    // Galaxy S5/Moto
+    cy.viewport(360, 640);
+    cy.checkSearch();
+  });
 
   it('should render the appropriate elements at each breakpoint', () => {
     cy.visit('/find-locations');
