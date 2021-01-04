@@ -86,8 +86,14 @@ function processEntryNames(buildOptions) {
         // Derive the hashed entry name.
         const hashedEntryName = entryNamesDictionary.get(entryName) || [];
 
+        // Assemble the filename so we can match it in the generated files array.
+        const fileSearch = `generated/${
+          hashedEntryName.split('/generated/')[1]
+        }`;
+
         // Ensure we have valid options and that the entry exists.
-        const entryExists = files[hashedEntryName.slice(1)];
+        const entryExists = files[fileSearch];
+
         if (
           buildOptions.buildtype !== environments.LOCALHOST &&
           !buildOptions.isPreviewServer &&

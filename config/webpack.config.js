@@ -116,7 +116,10 @@ module.exports = env => {
     !!buildOptions.entry;
 
   const outputPath = `${buildOptions.destination}/generated`;
-  const publicAssetPath = '/generated/';
+  const publicAssetPath =
+    buildOptions.buildtype === 'localhost'
+      ? '/generated/'
+      : `${BUCKETS[buildOptions.buildtype]}/generated/`;
 
   const baseConfig = {
     mode: 'development',

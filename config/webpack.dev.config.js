@@ -1,6 +1,6 @@
 const setupLocalProxyRewrite = require('../src/applications/proxy-rewrite/local-proxy-rewrite');
 const manifestHelpers = require('./manifest-helpers');
-// const BUCKETS = require('../src/site/constants/buckets');
+const BUCKETS = require('../src/site/constants/buckets');
 
 function generateWebpackDevConfig(buildOptions) {
   const routes = manifestHelpers.getAppRoutes();
@@ -10,7 +10,12 @@ function generateWebpackDevConfig(buildOptions) {
       to: `${url}/`,
     }))
     .sort((a, b) => b.from.length - a.from.length);
-  const publicAssetPath = '/generated/';
+
+  // This buildType likely always be 'localhost', but adding in to match patterns elsewhere and just incase we ever need it
+  const publicAssetPath =
+    buildOptions.buildtype === 'localhost'
+      ? '/generated/'
+      : `${BUCKETS[buildOptions.buildtype]}/generated/`;
 
   // If in watch mode, assume hot reloading for JS and use webpack devserver.
   return {
