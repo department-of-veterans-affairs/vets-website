@@ -73,10 +73,9 @@ class SearchHelpSignIn extends Component {
           isOpen={this.props.isMenuOpen.search}
         />
         <a
-          className="vads-u-color--white vads-u-text-decoration--none vads-u-padding-top--0p5 vads-u-padding-x--1"
+          className="vads-u-color--white vads-u-text-decoration--none vads-u-padding-top--0p5 vads-u-padding-x--1 vads-u-font-weight--bold"
           href="/contact-us/"
           onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
-          style={{ fontWeight: '600' }}
         >
           Contact us
         </a>
