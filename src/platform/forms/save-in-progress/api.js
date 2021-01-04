@@ -66,7 +66,6 @@ export function saveFormApi(
   if (VA_FORM_IDS_SKIP_INFLECTION.includes(formId)) {
     delete saveFormApiHeaders['X-Key-Inflection'];
   }
-  debugger
 
   return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
     method: 'PUT',
