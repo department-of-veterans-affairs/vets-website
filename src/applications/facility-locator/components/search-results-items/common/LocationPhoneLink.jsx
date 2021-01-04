@@ -45,6 +45,7 @@ const renderPhoneNumber = (title, subTitle = null, phone, from) => {
 const LocationPhoneLink = ({ location, from, query }) => {
   const isProvider = location.type === LocationType.CC_PROVIDER;
   const isCovid19Search =
+    query &&
     query.facilityType === LocationType.HEALTH &&
     query.serviceType === Object.keys(healthServices)[5];
   const isCCProvider =
