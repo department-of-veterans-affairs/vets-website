@@ -1,4 +1,5 @@
 import React from 'react';
+import recordEvent from 'platform/monitoring/record-event';
 
 const Covid19Alert = () => {
   return (
@@ -11,7 +12,18 @@ const Covid19Alert = () => {
         className={`fa fa-exclamation-circle vads-u-margin-top--1 icon-base`}
       />
       <span className="sr-only">Alert: </span>
-      <div className="usa-alert-body">COVID-19 vaccines at VA</div>
+      <div className="usa-alert-body">
+        <a
+          href={'https://www.va.gov/health-care/covid-19-vaccine'}
+          target={'_/blank'}
+          onClick={() => {
+            // Record event
+            recordEvent({ event: 'cta-primary-button-click' });
+          }}
+        >
+          COVID-19 vaccines at VA{' '}
+        </a>
+      </div>
     </div>
   );
 };
