@@ -340,9 +340,13 @@ describe('profile selectors', () => {
   });
 
   describe('eduDirectDepositLoadError', () => {
-    it('returns the error if it exists', () => {
+    it('returns any non-403 errors that exist', () => {
       const error = {
-        code: '123',
+        errors: [
+          {
+            code: '401',
+          },
+        ],
       };
       const state = {
         vaProfile: {
@@ -353,6 +357,49 @@ describe('profile selectors', () => {
       };
 
       expect(selectors.eduDirectDepositLoadError(state)).to.deep.equal(error);
+
+      state.vaProfile.eduPaymentInformation.error.errors.push({
+        code: '403',
+      });
+
+      expect(selectors.eduDirectDepositLoadError(state)).to.deep.equal(error);
+    });
+    it('returns the error if it is not an object with an errors array', () => {
+      const error = {
+        code: '500',
+      };
+      const state = {
+        vaProfile: {
+          eduPaymentInformation: {
+            error,
+          },
+        },
+      };
+      expect(selectors.eduDirectDepositLoadError(state)).to.deep.equal(error);
+    });
+    it('returns undefined if the error data only contains 403 errors', () => {
+      const error = {
+        errors: [
+          {
+            code: '403',
+          },
+        ],
+      };
+      const state = {
+        vaProfile: {
+          eduPaymentInformation: {
+            error,
+          },
+        },
+      };
+
+      expect(selectors.eduDirectDepositLoadError(state)).to.be.undefined;
+
+      state.vaProfile.eduPaymentInformation.error.errors.push({
+        code: '403',
+      });
+
+      expect(selectors.eduDirectDepositLoadError(state)).to.be.undefined;
     });
 
     it('returns `undefined` when there is no error', () => {

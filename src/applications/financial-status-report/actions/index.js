@@ -7,8 +7,6 @@ import {
   FSR_API_ERROR,
   FSR_RESET_ERRORS,
   FSR_API_CALL_INITIATED,
-  FSR_ADDITIONAL_INCOME,
-  FSR_EMPLOYMENT_HISTORY,
 } from '../constants/actionTypes';
 import { isVAProfileServiceConfigured } from '@@vap-svc/util/local-vapsvc';
 import moment from 'moment';
@@ -100,13 +98,3 @@ export const fetchDebts = () => async (dispatch, getState) => {
     return null;
   }
 };
-
-export const setAdditionalIncomeData = additionalIncome => ({
-  type: FSR_ADDITIONAL_INCOME,
-  additionalIncome,
-});
-
-export const setEmploymentHistoryData = employmentHistory => ({
-  type: FSR_EMPLOYMENT_HISTORY,
-  employmentHistory,
-});

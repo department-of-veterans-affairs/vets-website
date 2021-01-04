@@ -7,7 +7,7 @@ const DischargeNotification = () => {
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_INELIGIBLE);
     recordEvent({
       event: `howToWizard-alert-displayed`,
-      'reason-for-notice':
+      'reason-for-alert':
         'ineligibility - outside time period from active duty discharge',
     });
   });

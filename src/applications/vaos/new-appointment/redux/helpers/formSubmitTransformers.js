@@ -11,6 +11,10 @@ import {
   LANGUAGES,
 } from '../../../utils/constants';
 import {
+  selectUseFlatFacilityPage,
+  selectUseProviderSelection,
+} from '../../../redux/selectors';
+import {
   getTypeOfCare,
   getFormData,
   getChosenClinicInfo,
@@ -18,9 +22,7 @@ import {
   getSiteIdForChosenFacility,
   getChosenCCSystemId,
   getChosenSlot,
-  selectUseFlatFacilityPage,
-  selectUseProviderSelection,
-} from '../../../utils/selectors';
+} from '../selectors';
 import {
   findCharacteristic,
   getClinicId,

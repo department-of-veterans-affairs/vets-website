@@ -77,7 +77,7 @@ import {
   PODIATRY_ID,
 } from '../../utils/constants';
 
-import { getTypeOfCare } from '../../utils/selectors';
+import { getTypeOfCare } from './selectors';
 import { distanceBetween } from '../../utils/address';
 import { getSiteIdFromFakeFHIRId } from '../../services/location';
 import { getClinicId } from '../../services/healthcare-service/transformers';
@@ -201,6 +201,15 @@ export default function formReducer(state = initialState, action) {
       ) {
         newPages = unset('vaFacility', newPages);
         actionData = unset('vaFacility', actionData);
+      }
+
+      // reset community care provider if type of care changes
+      if (
+        getTypeOfCare(actionData)?.id !== getTypeOfCare(state.data)?.id &&
+        (state.pages.ccPreferences || !!state.data.communityCareProvider?.id)
+      ) {
+        newPages = unset('ccPreferences', newPages);
+        actionData = set('communityCareProvider', {}, actionData);
       }
 
       const { data, schema } = updateSchemaAndData(
@@ -373,8 +382,8 @@ export default function formReducer(state = initialState, action) {
 
       const typeOfCareFacilities = facilities.filter(
         facility =>
-          facility.legacyVAR.directSchedulingSupported ||
-          facility.legacyVAR.requestSupported,
+          facility.legacyVAR.directSchedulingSupported[typeOfCareId] ||
+          facility.legacyVAR.requestSupported[typeOfCareId],
       );
 
       if (typeOfCareFacilities.length === 1) {
@@ -493,8 +502,8 @@ export default function formReducer(state = initialState, action) {
 
       const typeOfCareFacilities = facilities.filter(
         facility =>
-          facility.legacyVAR.directSupported ||
-          facility.legacyVAR.requestSupported,
+          facility.legacyVAR.directSchedulingSupported[typeOfCareId] ||
+          facility.legacyVAR.requestSupported[typeOfCareId],
       );
       newSchema = set(
         'properties.vaFacility',
@@ -1075,7 +1084,7 @@ export default function formReducer(state = initialState, action) {
           system =>
             `${system.address?.[0]?.city}, ${system.address?.[0]?.state}`,
         );
-        initialSchema.required.push('communityCareSystemId');
+        initialSchema.required = ['communityCareSystemId'];
       }
       const { data, schema } = setupFormData(
         formData,

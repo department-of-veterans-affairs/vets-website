@@ -8,7 +8,10 @@ import {
   EXPRESS_CARE,
 } from '../../utils/constants';
 import { recordItemsRetrieved, resetDataLayer } from '../../utils/events';
-import { selectSystemIds, vaosExpressCare } from '../../utils/selectors';
+import {
+  selectSystemIds,
+  selectFeatureExpressCare,
+} from '../../redux/selectors';
 
 import {
   getCancelReasons,
@@ -36,7 +39,10 @@ import {
 } from '../../services/appointment';
 
 import { captureError, has400LevelError } from '../../utils/error';
-import { STARTED_NEW_APPOINTMENT_FLOW } from '../../redux/sitewide';
+import {
+  STARTED_NEW_APPOINTMENT_FLOW,
+  STARTED_NEW_EXPRESS_CARE_FLOW,
+} from '../../redux/sitewide';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
 export const FETCH_PENDING_APPOINTMENTS_FAILED =
@@ -181,7 +187,7 @@ export function fetchFutureAppointments() {
               event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
             });
 
-            if (vaosExpressCare(getState())) {
+            if (selectFeatureExpressCare(getState())) {
               recordItemsRetrieved(
                 'express_care',
                 requests.filter(appt => appt.vaos.isExpressCare).length,
@@ -450,6 +456,12 @@ export function closeCancelAppointment() {
 export function startNewAppointmentFlow() {
   return {
     type: STARTED_NEW_APPOINTMENT_FLOW,
+  };
+}
+
+export function startNewExpressCareFlow() {
+  return {
+    type: STARTED_NEW_EXPRESS_CARE_FLOW,
   };
 }
 

@@ -3,11 +3,14 @@
 const { getDrupalValue } = require('./helpers');
 
 const transform = entity => ({
-  entityType: 'paragraph',
-  entityBundle: 'rich_text_char_limit_1000',
+  entity: {
+    entityType: 'paragraph',
+    entityBundle: 'rich_text_char_limit_1000',
+    fieldWysiwyg: entity.fieldWysiwyg[0],
+  },
 });
 
 module.exports = {
-  filter: [''],
+  filter: ['field_wysiwyg'],
   transform,
 };

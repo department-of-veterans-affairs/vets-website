@@ -10,7 +10,6 @@ Cypress.config('waitForAnimations', true);
 
 const testConfig = createTestConfig(
   {
-    skip: ['dependent-workflow-test'], // Will remove when back end is set up
     dataPrefix: 'data',
     dataSets: ['dependent-workflow-test'],
     fixtures: { data: path.join(__dirname, 'formDataSets') },
@@ -27,9 +26,39 @@ const testConfig = createTestConfig(
         cy.injectAxe();
 
         afterHook(() => {
-          cy.get('.schemaform-start-button').click();
+          cy.get('.schemaform-start-button')
+            .first()
+            .click();
         });
       },
+      'claimant-address': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('#root_claimantAddress_state').select('Alabama');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+    },
+    setupPerTest: () => {
+      window.sessionStorage.removeItem('wizardStatus');
+      cy.route('GET', '/v0/feature_toggles*', {
+        data: {
+          type: 'feature_toggles',
+          features: [
+            {
+              name: 'show_chapter_36',
+              value: true,
+            },
+          ],
+        },
+      });
+      cy.route('POST', '/v0/education_career_counseling_claims', {
+        formSubmissionId: '123fake-submission-id-567',
+        timestamp: '2020-11-12',
+        attributes: {
+          guid: '123fake-submission-id-567',
+        },
+      }).as('submitApplication');
     },
   },
   manifest,

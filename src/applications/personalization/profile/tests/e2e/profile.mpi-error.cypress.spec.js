@@ -1,3 +1,4 @@
+import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS } from '../../constants';
 
 import mockMPIErrorUser from '../fixtures/users/user-mpi-error.json';
@@ -77,10 +78,7 @@ function test(mobile = false) {
 
 describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI', () => {
   beforeEach(() => {
-    window.localStorage.setItem(
-      'DISMISSED_ANNOUNCEMENTS',
-      JSON.stringify(['single-sign-on-intro']),
-    );
+    disableFTUXModals();
     cy.login(mockMPIErrorUser);
     // login() calls cy.server() so we can now mock routes
   });

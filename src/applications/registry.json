@@ -769,7 +769,7 @@
     "entryName": "your-debt",
     "rootUrl": "/manage-va-debt/your-debt",
     "template": {
-      "vagovprod": false,
+      "vagovprod": true,
       "title": "Your VA Debt",
       "layout": "page-react.html"
     }
@@ -804,7 +804,7 @@
     "rootUrl": "/careers-employment/education-and-career-counseling/apply-career-guidance-form-28-8832/",
     "template": {
       "title": "Personalized Career Planning and Guidance Chapter 36 Form 28-8832",
-      "vagovprod": false,
+      "vagovprod": true,
       "layout": "page-react.html",
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
@@ -829,7 +829,7 @@
     "rootUrl": "/va-payment-history/payments",
     "template": {
       "includeBreadcrumbs": true,
-      "vagovprod": false,
+      "vagovprod": true,
       "layout": "page-react.html",
       "title": "View Payments",
       "breadcrumbs_override": [
@@ -908,7 +908,6 @@
       "title:": "Search results",
       "layout": "page-react.html",
       "includeBreadcrumbs": true,
-      "private": true,
       "breadcrumbs_override": [
         {
           "path": "resources/",

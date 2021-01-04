@@ -121,12 +121,10 @@
             <ul class="usa-unstyled-list">
             {% for vaForm in fieldVaFormRelatedForms %}
               <li>
-                <hgroup>
                   <h3>VA Form {{ vaForm.entity.fieldVaFormNumber }}</h3>
-                  <h4 class="vads-u-margin-top--0">
-                    Form name: {{ vaForm.entity.fieldVaFormName }}
-                  </h4>
-                </hgroup>
+                  <p class="vads-u-margin-top--0 vads-u-font-size--h4 vads-u-font-weight--bold">
+                    <dfn class="vads-u-visibility--screen-reader">Form name:</dfn> {{ vaForm.entity.fieldVaFormName }}
+                  </p>
 
                 {{ vaForm.entity.fieldVaFormUsage.processed }}
 
