@@ -110,6 +110,7 @@ class SearchControls extends Component {
   };
 
   renderServiceTypeDropdown = () => {
+    const { searchCovid19Vaccine } = this.props;
     const { facilityType, serviceType } = this.props.currentQuery;
     const disabled = ![
       LocationType.HEALTH,
@@ -117,6 +118,10 @@ class SearchControls extends Component {
       LocationType.BENEFITS,
       LocationType.CC_PROVIDER,
     ].includes(facilityType);
+
+    if (!searchCovid19Vaccine) {
+      delete healthServices.Covid19Vaccine;
+    }
 
     let services;
     // Determine what service types to display for the location type (if any).

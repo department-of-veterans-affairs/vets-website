@@ -351,6 +351,7 @@ const FacilitiesMap = props => {
           onSubmit={handleSearch}
           suppressCCP={props.suppressCCP}
           suppressPharmacies={props.suppressPharmacies}
+          searchCovid19Vaccine={props.searchCovid19Vaccine}
         />
         <div id="search-results-title" ref={searchResultTitleRef}>
           <SearchResultsHeader
@@ -438,6 +439,7 @@ const FacilitiesMap = props => {
           onSubmit={handleSearch}
           suppressCCP={props.suppressCCP}
           suppressPharmacies={props.suppressPharmacies}
+          searchCovid19Vaccine={props.searchCovid19Vaccine}
         />
         <div id="search-results-title" ref={searchResultTitleRef}>
           <SearchResultsHeader
