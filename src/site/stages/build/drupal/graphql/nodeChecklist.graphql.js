@@ -55,9 +55,9 @@ fragment nodeChecklist on NodeChecklist {
         fieldChecklistSections {
           entity {
             ... on ParagraphChecklistItem {
-              fieldSectionIntro
-              fieldSectionHeader
               fieldChecklistItems
+              fieldSectionHeader
+              fieldSectionIntro
             }
           }
         }
