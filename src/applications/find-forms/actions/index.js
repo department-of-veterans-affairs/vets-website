@@ -23,8 +23,9 @@ export const fetchFormsFailure = error => ({
   type: FETCH_FORMS_FAILURE,
 });
 
-export const fetchFormsSuccess = results => ({
+export const fetchFormsSuccess = (results, hasOnlyRetiredForms) => ({
   results,
+  hasOnlyRetiredForms,
   type: FETCH_FORMS_SUCCESS,
 });
 
@@ -63,10 +64,15 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
 
   try {
     // Attempt to make the API request to retreive forms.
-    const results = await fetchFormsApi(query, { mockRequest });
+    const resultsDetails = await fetchFormsApi(query, { mockRequest });
 
     // If we are here, the API request succeeded.
-    dispatch(fetchFormsSuccess(results));
+    dispatch(
+      fetchFormsSuccess(
+        resultsDetails.results,
+        resultsDetails.hasOnlyRetiredForms,
+      ),
+    );
     return results;
   } catch (error) {
     // If we are here, the API request failed.
