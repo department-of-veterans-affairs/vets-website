@@ -16,11 +16,7 @@ describe('<ContactInformationEditView/>', () => {
     properties: {
       emailAddress: {
         type: 'string',
-        // This regex was taken from the HCA but modified to allow leading and
-        // trailing whitespace to reduce false errors. The `convertDataToPayload`
-        // method will clean up the whitespace before submission
-        pattern:
-          '^(\\s)*(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))(\\s)*$',
+        pattern: '^.*\\S.*',
       },
     },
     required: ['emailAddress'],
@@ -43,7 +39,7 @@ describe('<ContactInformationEditView/>', () => {
       clearErrors() {},
       getInitialFormValues() {},
       field: {
-        value: { value: 'value' },
+        value: {},
         validations: {},
         formSchema,
         uiSchema,
