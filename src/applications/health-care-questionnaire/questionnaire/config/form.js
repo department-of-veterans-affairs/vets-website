@@ -15,7 +15,7 @@ import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import manifest from '../manifest.json';
-import { submit, transformForSubmit } from './submitForm';
+import { submit, transformForSubmit } from '../api';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
