@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { getCurrentAppointmentId } from '../../utils';
-
 import delay from 'lodash/delay';
 
 const HiddenFields = props => {
   const { onChange, context } = props;
   const [questionnaireId] = useState(context.questionnaire?.id);
-  const [appointmentId] = useState(getCurrentAppointmentId(window));
+  const [appointmentId] = useState(context.appointment?.id);
 
   useEffect(
     () => {
