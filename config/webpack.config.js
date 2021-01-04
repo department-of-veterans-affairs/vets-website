@@ -116,14 +116,17 @@ module.exports = env => {
     !!buildOptions.entry;
 
   const outputPath = `${buildOptions.destination}/generated`;
-  const publicPathMark = `${BUCKETS[buildOptions.buildtype]}/generated/`;
+  const publicAssetPath =
+    buildOptions.buildtype === 'localhost'
+      ? '/generated/'
+      : `${BUCKETS[buildOptions.buildtype]}/generated/`;
 
   const baseConfig = {
     mode: 'development',
     entry: entryFiles,
     output: {
       path: outputPath,
-      publicPath: publicPathMark,
+      publicPath: publicAssetPath,
       filename: !useHashFilenames
         ? '[name].entry.js'
         : `[name].entry.[chunkhash]-${timestamp}.js`,
