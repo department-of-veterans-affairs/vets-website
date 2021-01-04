@@ -41,13 +41,13 @@ node('vetsgov-general-purpose') {
           }
         },
 
-        // unit: {
-        //   dockerContainer.inside(commonStages.DOCKER_ARGS) {
-        //     sh "/cc-test-reporter before-build"
-        //     sh "cd /application && npm --no-color run test:unit -- --coverage"
-        //     sh "cd /application && /cc-test-reporter after-build -r fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24"
-        //   }
-        // }
+        unit: {
+          dockerContainer.inside(commonStages.DOCKER_ARGS) {
+            sh "/cc-test-reporter before-build"
+            sh "cd /application && npm --no-color run test:unit -- --coverage"
+            sh "cd /application && /cc-test-reporter after-build -r fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24"
+          }
+        }
       )
     } catch (error) {
       commonStages.slackNotify()
@@ -63,34 +63,34 @@ node('vetsgov-general-purpose') {
   envsUsingDrupalCache = commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
 
   // Run E2E and accessibility tests
-  // stage('Integration') {
-  //   if (commonStages.shouldBail() || !commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) { return }
-  //   dir("vets-website") {
-  //     try {
-  //       parallel (
-  //         'nightwatch-e2e': {
-  //           sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p nightwatch up -d && docker-compose -p nightwatch run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
-  //         },
+  stage('Integration') {
+    if (commonStages.shouldBail() || !commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) { return }
+    dir("vets-website") {
+      try {
+        parallel (
+          'nightwatch-e2e': {
+            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p nightwatch up -d && docker-compose -p nightwatch run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
+          },
 
-  //         'nightwatch-accessibility': {
-  //           sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
-  //         },
+          'nightwatch-accessibility': {
+            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
+          },
 
-  //         cypress: {
-  //           sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress up -d && docker-compose -p cypress run --rm --entrypoint=npm -e CI=true vets-website --no-color run cy:test:docker"
-  //         }
-  //       )
-  //     } catch (error) {
-  //       commonStages.slackNotify()
-  //       throw error
-  //     } finally {
-  //       sh "docker-compose -p nightwatch down --remove-orphans"
-  //       sh "docker-compose -p accessibility down --remove-orphans"
-  //       sh "docker-compose -p cypress down --remove-orphans"
-  //       step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
-  //     }
-  //   }
-  // }
+          cypress: {
+            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress up -d && docker-compose -p cypress run --rm --entrypoint=npm -e CI=true vets-website --no-color run cy:test:docker"
+          }
+        )
+      } catch (error) {
+        commonStages.slackNotify()
+        throw error
+      } finally {
+        sh "docker-compose -p nightwatch down --remove-orphans"
+        sh "docker-compose -p accessibility down --remove-orphans"
+        sh "docker-compose -p cypress down --remove-orphans"
+        step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
+      }
+    }
+  }
 
   commonStages.prearchiveAll(dockerContainer)
 
