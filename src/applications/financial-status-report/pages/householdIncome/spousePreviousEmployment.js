@@ -3,39 +3,47 @@ import CardDetailsView from '../../components/CardDetailsView';
 
 export const uiSchema = {
   'ui:title': 'Your spouse information',
-  employmentHistory: {
-    previousEmployment: {
+  employment: {
+    spousePreviousEmployment: {
       'ui:title': 'Has your spouse had additional jobs in the past two years?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
     },
-    previousEmploymentRecords: {
+    spousePreviousEmploymentRecords: {
       'ui:field': ItemLoop,
       'ui:description':
         'Please provide your spouse’s employment history for the past two years.',
       'ui:options': {
-        expandUnder: 'previousEmployment',
+        expandUnder: 'spousePreviousEmployment',
         viewField: CardDetailsView,
         doNotScroll: true,
         showSave: true,
         itemName: 'Add a job',
       },
       items: {
-        employmentType: {
+        spouseEmploymentType: {
           'ui:title': 'Type of employment',
+          'ui:options': {
+            widgetClassNames: 'input-size-3',
+          },
         },
-        employmentStart: {
+        spouseEmploymentStart: {
           'ui:title': 'Employment start date',
           'ui:widget': 'date',
-          'ui:required': () => true,
+          'ui:required': formData =>
+            formData.employment.spousePreviousEmployment,
         },
-        employmentEnd: {
+        spouseEmploymentEnd: {
           'ui:title': 'Employment end date',
           'ui:widget': 'date',
-          'ui:required': () => true,
+          'ui:required': formData =>
+            formData.employment.spousePreviousEmployment,
         },
-        employerName: {
+        spouseEmployerName: {
           'ui:title': 'Employer name',
+          'ui:options': {
+            widgetClassNames: 'input-size-6',
+          },
         },
       },
     },
@@ -45,27 +53,29 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    employmentHistory: {
+    employment: {
       type: 'object',
       properties: {
-        previousEmployment: {
+        spousePreviousEmployment: {
           type: 'boolean',
         },
-        previousEmploymentRecords: {
+        spousePreviousEmploymentRecords: {
           type: 'array',
           items: {
             type: 'object',
+            required: ['spouseEmploymentStart', 'spouseEmploymentEnd'],
             properties: {
-              employmentType: {
+              spouseEmploymentType: {
+                type: 'string',
+                enum: ['Full time', 'Part time', 'Seasonal', 'Temporary'],
+              },
+              spouseEmploymentStart: {
                 type: 'string',
               },
-              employmentStart: {
+              spouseEmploymentEnd: {
                 type: 'string',
               },
-              employmentEnd: {
-                type: 'string',
-              },
-              employerName: {
+              spouseEmployerName: {
                 type: 'string',
               },
             },

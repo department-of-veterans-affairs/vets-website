@@ -4,15 +4,20 @@ import PropTypes from 'prop-types';
 // Relative imports.
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
+import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 
-export const AuthContent = ({ cernerFacilities, otherFacilities }) => (
+export const AuthContent = ({
+  authenticatedWithSSOe,
+  cernerFacilities,
+  otherFacilities,
+}) => (
   <>
     <h2 id="send-or-receive-secure-mess">Send or receive a secure message</h2>
     <CernerCallToAction
       cernerFacilities={cernerFacilities}
       otherFacilities={otherFacilities}
       linksHeaderText="Send a secure message to a provider at:"
-      myHealtheVetLink="https://sqa.eauth.va.gov/mhv-portal-web/eauth?deeplinking=secure_messaging"
+      myHealtheVetLink={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
       myVAHealthLink={getCernerURL('/pages/messaging/inbox')}
     />
     <div>
@@ -327,6 +332,7 @@ export const AuthContent = ({ cernerFacilities, otherFacilities }) => (
 );
 
 AuthContent.propTypes = {
+  authenticatedWithSSOe: PropTypes.bool.isRequired,
   cernerfacilities: PropTypes.arrayOf(
     PropTypes.shape({
       facilityId: PropTypes.string.isRequired,

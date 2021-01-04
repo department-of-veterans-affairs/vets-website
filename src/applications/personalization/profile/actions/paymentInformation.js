@@ -252,10 +252,10 @@ export function saveEDUPaymentInformation(
       });
       dispatch({
         type: EDU_PAYMENT_INFORMATION_SAVE_SUCCEEDED,
-        response,
+        response: {
+          paymentAccount: response,
+        },
       });
-      // TODO: we might need to immediately fetch the updated bank info here
-      // since that is not part of the response after a successful save
     }
   };
 }

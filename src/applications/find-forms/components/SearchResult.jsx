@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 // Relative imports.
 import * as customPropTypes from '../prop-types';
-
+import { FORM_MOMENT_DATE_FORMAT } from '../constants';
 import FormTitle from './FormTitle';
 
 // Helper to derive the download link props.
@@ -27,6 +27,16 @@ const deriveLinkPropsFromFormURL = url => {
   return linkProps;
 };
 
+export const deriveLatestIssue = (d1, d2) => {
+  if (!d1 && !d2) return 'N/A';
+  if (!d1) return moment(d2).format(FORM_MOMENT_DATE_FORMAT); // null scenarios
+  if (!d2) return moment(d1).format(FORM_MOMENT_DATE_FORMAT);
+
+  if (moment(d1).isAfter(d2)) return moment(d1).format(FORM_MOMENT_DATE_FORMAT);
+
+  return moment(d2).format(FORM_MOMENT_DATE_FORMAT);
+};
+
 const SearchResult = ({ form, showFindFormsResultsLinkToFormDetailPages }) => {
   // Escape early if we don't have the necessary form attributes.
   if (!form?.attributes) {
@@ -35,6 +45,7 @@ const SearchResult = ({ form, showFindFormsResultsLinkToFormDetailPages }) => {
 
   const {
     attributes: {
+      firstIssuedOn,
       formToolUrl,
       formDetailsUrl,
       lastRevisionOn,
@@ -50,9 +61,7 @@ const SearchResult = ({ form, showFindFormsResultsLinkToFormDetailPages }) => {
 
   // Derive labels.
   const pdfLabel = url.toLowerCase().includes('.pdf') ? '(PDF)' : '';
-  const lastRevision = lastRevisionOn
-    ? moment(lastRevisionOn).format('MM-DD-YYYY')
-    : 'N/A';
+  const lastRevision = deriveLatestIssue(firstIssuedOn, lastRevisionOn);
 
   return (
     <>

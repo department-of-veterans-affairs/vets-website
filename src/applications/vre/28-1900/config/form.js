@@ -18,7 +18,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/veteran_readiness_employment_claims`,
-  trackingPrefix: '28-1900-chapter-31-',
+  trackingPrefix: 'careers-employment-28-1900--',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: PreSubmitInfo,

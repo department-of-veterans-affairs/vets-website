@@ -47,6 +47,7 @@ export default Object.freeze({
   showEduBenefits5490Wizard: 'show_edu_benefits_5490_wizard',
   showEduBenefits1990EWizard: 'show_edu_benefits_1990e_wizard',
   showEduBenefits1990Wizard: 'show_edu_benefits_1990_wizard',
+  stemAutomatedDecision: 'stem_automated_decision',
   stemSCOEmail: 'stem_sco_email',
   showHealthcareExperienceQuestionnaire:
     'showHealthcareExperienceQuestionnaire',
@@ -70,4 +71,5 @@ export default Object.freeze({
   covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
   covidVaccineUpdatesForm: 'covid_vaccine_registration_frontend',
   showFindFormsResultsLinkToFormDetailPages: 'find_forms_mvp_enhancement',
+  multipleAddress1010ez: 'multiple_address_10_10ez',
 });
