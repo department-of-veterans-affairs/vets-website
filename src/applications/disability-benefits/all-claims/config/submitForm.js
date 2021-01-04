@@ -45,7 +45,7 @@ const submitFormFor = eventName =>
           } else {
             error = new Error(`vets_server_error: ${req.statusText}`);
           }
-          error.statusText = req.statusText;
+          error.statusText = req.details;
           clearTimeout(timer);
           reject(error);
         }
