@@ -1,10 +1,16 @@
 import path from 'path';
 
+const city = 'Austin, TX';
+
 Cypress.Commands.add('checkSearch', () => {
   cy.axeCheck();
 
   // Search
-  cy.get('#street-city-state-zip').type('Austin, TX');
+  [...city].forEach(char => {
+    cy.get('#street-city-state-zip')
+      .should('not.be.disabled')
+      .type(char);
+  });
   cy.get('#facility-type-dropdown').select('VA health');
   cy.get('#facility-search').click();
 
@@ -19,7 +25,9 @@ Cypress.Commands.add('checkSearch', () => {
   cy.get('.facility-result').should('exist');
 
   // Switch tab map
-  cy.get('#react-tabs-2').click();
+  cy.get('#react-tabs-2')
+    .should('not.be.disabled')
+    .click({ waitForAnimations: true, force: true });
 
   // Ensure map is visible
   cy.get('#mapbox-gl-container').should('be.visible');
@@ -34,14 +42,14 @@ Cypress.Commands.add('checkSearch', () => {
   cy.get('#street-city-state-zip').clear();
 });
 
-describe('Mobile', () => {
+describe.skip('Mobile', () => {
   before(() => {
     cy.syncFixtures({
       constants: path.join(__dirname, '..', '..', 'constants'),
     });
   });
 
-  it.skip('should render in mobile layouts and tabs actions work', () => {
+  it('should render in mobile layouts and tabs actions work', () => {
     cy.visit('/find-locations');
     cy.injectAxe();
 

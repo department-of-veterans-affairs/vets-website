@@ -220,9 +220,17 @@ async function loadDrupal(buildOptions) {
     log(`Drupal content cache found: ${drupalCache}`);
   }
 
+  const contentTimer = `Total time to load content from ${
+    USE_CMS_EXPORT_BUILD_ARG ? 'CMS export' : 'GraphQL'
+  }`;
+
+  console.time(contentTimer);
+
   const drupalPages = buildOptions[USE_CMS_EXPORT_BUILD_ARG]
     ? await getContentFromExport(buildOptions)
     : await getContentViaGraphQL(buildOptions);
+
+  console.timeEnd(contentTimer);
 
   // Dynamic GraphQL from CMS build
   fs.outputJsonSync(CMS_EXPORT_CACHE_FILENAME, drupalPages);

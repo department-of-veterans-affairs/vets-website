@@ -7,12 +7,27 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
-[type="checkbox"]:checked + label::before {
-  background-color: $color-white;
-  color: $color-primary;
-  content: "\f00c";
-  font-family: "Font Awesome 5 Free";
-  padding-right: 2px;
+.fsr-introduction {
+  .schemaform-title {
+    margin-bottom: 10px;
+  }
+  .subtitle {
+    margin: 0 0 40px;
+    font-size: 20px;
+  }
+  .usa-button-primary {
+    margin: 25px 0 0;
+  }
+}
+
+.debt-card {
+  [type="checkbox"]:checked + label::before {
+    background-color: $color-white;
+    color: $color-primary;
+    content: "\f00c";
+    font-family: "Font Awesome 5 Free";
+    padding-right: 2px;
+  }
 }
 
 .schemaform-subtitle {
@@ -73,6 +88,13 @@
     .card-title {
       margin: 15px 0;
     }
+  }
+}
+
+.contact-info {
+  .review-card--body {
+    border: 3px solid #0071bb;
+    padding: 25px;
   }
 }
 

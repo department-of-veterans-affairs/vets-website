@@ -24,7 +24,7 @@ import * as otherExpenses from './householdExpenses/otherExpenses';
 import * as resolutionOptions from './resolutionOptions/resolutionOptions';
 import * as resolutionComments from './resolutionOptions/resolutionComments';
 import * as bankruptcyHistory from './bankruptcyAttestation/bankruptcyHistory';
-import * as contactInfo from './veteranInformation/contactInfo';
+import * as contactInfo from './veteranInformation/contactInformation';
 
 export {
   availableDebts,
