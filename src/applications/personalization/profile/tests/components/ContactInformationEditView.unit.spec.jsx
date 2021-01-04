@@ -11,12 +11,43 @@ describe('<ContactInformationEditView/>', () => {
   let props = null;
   let component = null;
 
+  const formSchema = {
+    type: 'object',
+    properties: {
+      emailAddress: {
+        type: 'string',
+        // This regex was taken from the HCA but modified to allow leading and
+        // trailing whitespace to reduce false errors. The `convertDataToPayload`
+        // method will clean up the whitespace before submission
+        pattern:
+          '^(\\s)*(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))(\\s)*$',
+      },
+    },
+    required: ['emailAddress'],
+  };
+
+  const uiSchema = {
+    emailAddress: {
+      'ui:title': 'Email Address',
+      'ui:errorMessages': {
+        required: 'Please enter your email address, using this format: X@X.com',
+        pattern:
+          'Please enter your email address again, using this format: X@X.com',
+      },
+    },
+  };
+
   beforeEach(() => {
     props = {
       analyticsSectionName: 'some-field',
       clearErrors() {},
       getInitialFormValues() {},
-      field: { value: {}, validations: {} },
+      field: {
+        value: { value: 'value' },
+        validations: {},
+        formSchema,
+        uiSchema,
+      },
       isEmpty() {},
       onBlur() {},
       onCancel() {},
@@ -26,6 +57,8 @@ describe('<ContactInformationEditView/>', () => {
       title: 'Edit Some Field',
       transaction: null,
       transactionRequest: null,
+      uiSchema: {},
+      formSchema: {},
     };
   });
 
@@ -93,22 +126,21 @@ describe('<ContactInformationEditView/>', () => {
     it('sets the LoadingButton to isLoading if the transaction is pending', () => {});
   });
 
-  // TURN THESE BACK ON
-  // describe('the cancel button', () => {
-  //   it('is hidden when the transactionRequest is pending', () => {
-  //     props.transactionRequest = { isPending: true };
-  //     component = enzyme.mount(<ContactInformationEditView {...props} />);
-  //     expect(component.text()).to.not.include('Cancel');
-  //     component.unmount();
-  //   });
+  describe('the cancel button', () => {
+    it('is hidden when the transactionRequest is pending', () => {
+      props.transactionRequest = { isPending: true };
+      component = enzyme.mount(<ContactInformationEditView {...props} />);
+      expect(component.text()).to.not.include('Cancel');
+      component.unmount();
+    });
 
-  //   it('is visible when the transactionRequest is not pending', () => {
-  //     props.transactionRequest = { isPending: false };
-  //     component = enzyme.mount(<ContactInformationEditView {...props} />);
-  //     expect(component.text()).to.include('Cancel');
-  //     component.unmount();
-  //   });
-  // });
+    it('is visible when the transactionRequest is not pending', () => {
+      props.transactionRequest = { isPending: false };
+      component = enzyme.mount(<ContactInformationEditView {...props} />);
+      expect(component.text()).to.include('Cancel');
+      component.unmount();
+    });
+  });
 
   describe('VAPServiceEditModalErrorMessage', () => {
     it("is not shown if there isn't an error", () => {
