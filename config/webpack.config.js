@@ -116,6 +116,8 @@ module.exports = env => {
     !!buildOptions.entry;
 
   const outputPath = `${buildOptions.destination}/generated`;
+
+  // Set the pubilcPath conditional so we can get dynamic modules loading from S3
   const publicAssetPath =
     buildOptions.buildtype === 'localhost'
       ? '/generated/'
