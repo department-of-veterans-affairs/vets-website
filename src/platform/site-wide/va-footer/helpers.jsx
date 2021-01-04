@@ -25,9 +25,9 @@ export const FOOTER_EVENTS = {
 const renderInnerTag = (link, captureEvent) => (
   <>
     {link.label ? (
-      <h4 className="va-footer-linkgroup-title vads-u-margin-top--2 vads-u-padding-bottom--1">
+      <h2 className="va-footer-linkgroup-title vads-u-margin-top--2 vads-u-padding-bottom--1">
         {link.label}
-      </h4>
+      </h2>
     ) : null}
     {link.href ? (
       <a
