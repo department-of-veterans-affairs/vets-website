@@ -1,5 +1,7 @@
 const setupLocalProxyRewrite = require('../src/applications/proxy-rewrite/local-proxy-rewrite');
 const manifestHelpers = require('./manifest-helpers');
+// const BUCKETS = require('../src/site/constants/buckets');
+// const ENVIRONMENTS = require('../src/site/constants/environments');
 
 function generateWebpackDevConfig(buildOptions) {
   const routes = manifestHelpers.getAppRoutes();
