@@ -1,7 +1,6 @@
 import _ from 'lodash/fp';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { validateMatch } from 'platform/forms-system/src/js/validation';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
@@ -407,6 +406,15 @@ const formConfig = {
                 },
               },
             }),
+            'view:doesPermanentAddressMatchMailing': {
+              'ui:title':
+                'Is your home address the same as your mailing address?',
+              'ui:widget': 'yesNo',
+              'ui:required': formData => formData['view:hasMultipleAddress'],
+              'ui:options': {
+                hideIf: formData => !formData['view:hasMultipleAddress'],
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -432,6 +440,66 @@ const formConfig = {
                   },
                 },
               }),
+              'view:doesPermanentAddressMatchMailing': {
+                type: 'boolean',
+              },
+            },
+          },
+        },
+        mailingAddress: {
+          path: 'veteran-information/mailing-address',
+          title: 'Mailing address',
+          initialData: {},
+          depends: formData =>
+            formData['view:hasMultipleAddress'] &&
+            !formData['view:doesPermanentAddressMatchMailing'],
+          uiSchema: {
+            'ui:description': PrefillMessage,
+            veteranMailingAddress: _.merge(
+              addressUI('Permanent address', true),
+              {
+                street: {
+                  'ui:errorMessages': {
+                    pattern:
+                      'Please provide a valid street. Must be at least 1 character.',
+                  },
+                },
+                city: {
+                  'ui:errorMessages': {
+                    pattern:
+                      'Please provide a valid city. Must be at least 1 character.',
+                  },
+                },
+              },
+            ),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              veteranMailingAddress: _.merge(
+                addressSchema(fullSchemaHca, true),
+                {
+                  properties: {
+                    street: {
+                      minLength: 1,
+                      maxLength: 30,
+                    },
+                    street2: {
+                      minLength: 1,
+                      maxLength: 30,
+                    },
+                    street3: {
+                      type: 'string',
+                      minLength: 1,
+                      maxLength: 30,
+                    },
+                    city: {
+                      minLength: 1,
+                      maxLength: 30,
+                    },
+                  },
+                },
+              ),
             },
           },
         },
