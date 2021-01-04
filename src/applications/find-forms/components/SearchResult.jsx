@@ -134,7 +134,7 @@ const SearchResult = ({
         </a>
       </dd>
 
-      {formToolUrl ? (
+      {showFindFormsResultsLinkToFormDetailPages && formToolUrl ? (
         <dd>
           <a
             className="usa-button usa-button-secondary vads-u-margin-bottom--3"
@@ -156,7 +156,8 @@ const SearchResult = ({
 
 SearchResult.propTypes = {
   form: customPropTypes.Form.isRequired,
-  showFindFormsResultsLinkToFormDetailPages: PropTypes.bool.isRequired,
+  formMetaInfo: customPropTypes.FormMetaInfo,
+  showFindFormsResultsLinkToFormDetailPages: PropTypes.bool,
 };
 
 export default SearchResult;

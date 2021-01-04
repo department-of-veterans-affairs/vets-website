@@ -47,8 +47,9 @@ const FormTitle = ({
 FormTitle.propTypes = {
   id: PropTypes.string.isRequired,
   formUrl: PropTypes.string,
+  recordGAEvent: PropTypes.func,
+  showFindFormsResultsLinkToFormDetailPages: PropTypes.bool,
   title: PropTypes.string.isRequired,
-  showFindFormsResultsLinkToFormDetailPages: PropTypes.bool.isRequired,
 };
 
 export default FormTitle;

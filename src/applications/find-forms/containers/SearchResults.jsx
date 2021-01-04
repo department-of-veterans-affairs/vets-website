@@ -25,7 +25,7 @@ export class SearchResults extends Component {
     query: PropTypes.string.isRequired,
     results: PropTypes.arrayOf(customPropTypes.Form.isRequired),
     startIndex: PropTypes.number.isRequired,
-    showFindFormsResultsLinkToFormDetailPages: PropTypes.bool.isRequired,
+    showFindFormsResultsLinkToFormDetailPages: PropTypes.bool,
     // From mapDispatchToProps.
     updatePagination: PropTypes.func.isRequired,
   };
