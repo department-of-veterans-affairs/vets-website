@@ -7,12 +7,14 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
-[type="checkbox"]:checked + label::before {
-  background-color: $color-white;
-  color: $color-primary;
-  content: "\f00c";
-  font-family: "Font Awesome 5 Free";
-  padding-right: 2px;
+.debt-card {
+  [type="checkbox"]:checked + label::before {
+    background-color: $color-white;
+    color: $color-primary;
+    content: "\f00c";
+    font-family: "Font Awesome 5 Free";
+    padding-right: 2px;
+  }
 }
 
 .schemaform-subtitle {
@@ -30,8 +32,7 @@
     margin-top: 30px;
   }
   .item-loop {
-    margin-bottom: 20px;
-    padding: 0 25px 15px 25px;
+    padding: 5px 20px 20px;
     background-color: #f1f1f1;
     .schemaform-field-container {
       display: flex;
@@ -40,18 +41,10 @@
         width: 100%;
       }
       fieldset.schemaform-field-template {
-        margin-top: 0;
+        margin-top: 5px;
       }
-      .schemaform-field-template {
-        margin: 0 20px 10px 0;
-        padding-right: 20px;
-        width: 100%;
-        label {
-          margin-top: 0;
-        }
-        legend {
-          padding-bottom: 10px;
-        }
+      .schemaform-label {
+        margin-top: 0;
       }
     }
     .usa-button-secondary {
@@ -85,15 +78,23 @@
   }
 }
 
+.contact-info {
+  .review-card--body {
+    border: 3px solid #0071bb;
+    padding: 25px;
+  }
+}
+
 // date-widget
 .usa-date-of-birth {
-  padding-top: 15px;
+  padding: 10px 0;
 }
 
 .input-size-1 {
   @include media($medium-screen) {
     width: 152px;
     max-width: 152px;
+    margin: 5px 10px 20px 0;
   }
 }
 
@@ -101,6 +102,7 @@
   @include media($medium-screen) {
     width: 173px;
     max-width: 173px;
+    margin: 5px 10px 20px 0;
   }
 }
 
@@ -108,6 +110,7 @@
   @include media($medium-screen) {
     width: 192px;
     max-width: 192px;
+    margin: 5px 10px 20px 0;
   }
 }
 
@@ -115,6 +118,7 @@
   @include media($medium-screen) {
     width: 215px;
     max-width: 215px;
+    margin: 5px 10px 20px 0;
   }
 }
 
@@ -122,6 +126,7 @@
   @include media($medium-screen) {
     width: 262px;
     max-width: 262px;
+    margin: 5px 10px 20px 0;
   }
 }
 
@@ -129,6 +134,7 @@
   @include media($medium-screen) {
     width: 283px;
     max-width: 283px;
+    margin: 5px 10px 20px 0;
   }
 }
 
@@ -136,5 +142,6 @@
   @include media($medium-screen) {
     width: 332px;
     max-width: 332px;
+    margin: 5px 10px 20px 0;
   }
 }

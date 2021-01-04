@@ -11,6 +11,7 @@ import {
   GEOCODE_STARTED,
   GEOCODE_FAILED,
   GEOCODE_COMPLETE,
+  MAP_MOVED,
 } from '../utils/actionTypes';
 
 const INITIAL_STATE = {
@@ -30,9 +31,13 @@ const INITIAL_STATE = {
   fetchSvcsInProgress: false,
   geocodeInProgress: false,
   geocodeResults: [],
+  mapMoved: false,
 };
 
 export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
+  let newState = {};
+  let needServiceType = false;
+
   switch (action.type) {
     case SEARCH_STARTED:
       return {
@@ -40,6 +45,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         ...action.payload,
         error: false,
         inProgress: true,
+        mapMoved: false,
       };
     case FETCH_LOCATIONS:
       return {
@@ -47,6 +53,12 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         error: false,
         inProgress: false,
         searchBoundsInProgress: false,
+        mapMoved: false,
+      };
+    case MAP_MOVED:
+      return {
+        ...state,
+        mapMoved: true,
       };
     case FETCH_LOCATION_DETAIL:
     case SEARCH_COMPLETE:
@@ -54,6 +66,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         ...state,
         error: false,
         inProgress: false,
+        mapMoved: false,
       };
     case FETCH_SPECIALTIES:
       return {
@@ -87,11 +100,20 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         searchBoundsInProgress: false,
       };
     case SEARCH_QUERY_UPDATED:
-      return {
+      newState = {
         ...state,
         ...action.payload,
         error: false,
       };
+
+      needServiceType = newState.facilityType === 'provider';
+
+      newState.isValid =
+        newState.searchString?.length > 0 &&
+        newState.facilityType?.length > 0 &&
+        (needServiceType ? newState.serviceType?.length > 0 : true);
+
+      return newState;
     case GEOCODE_STARTED:
       return {
         ...state,
