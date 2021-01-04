@@ -1,22 +1,9 @@
-import { ADDRESS_POU, USA } from '@@vap-svc/constants';
-import ADDRESS_DATA from '~/platform/forms/address/data';
 import pickBy from 'lodash/pickBy';
+import { ADDRESS_POU, ADDRESS_TYPES, USA } from '@@vap-svc/constants';
 
-/**
- * Returns a copy of the input object with an added `view:livesOnMilitaryBase`
- * value if the address is a overseas military mailing address
- *
- */
-const livesOnMilitaryBase = data => {
-  if (
-    data?.addressPou === ADDRESS_POU.CORRESPONDENCE &&
-    ADDRESS_DATA.militaryStates.includes(data?.stateCode) &&
-    ADDRESS_DATA.militaryCities.includes(data?.city)
-  ) {
-    return true;
-  }
-  return false;
-};
+const isOverseasMilitaryMailingAddress = data =>
+  data?.addressPou === ADDRESS_POU.CORRESPONDENCE &&
+  data?.addressType === ADDRESS_TYPES.OVERSEAS_MILITARY;
 
 /**
  * Helper function that calls other helpers to:
@@ -34,7 +21,7 @@ export const transformInitialFormValues = initialFormValues => {
   // totally removes data fields with falsey values from initialFormValues
   // to prevent form validation errors.
   const transformedData = pickBy(initialFormValues);
-  if (livesOnMilitaryBase(transformedData)) {
+  if (isOverseasMilitaryMailingAddress(transformedData)) {
     transformedData['view:livesOnMilitaryBase'] = true;
   }
   return transformedData;

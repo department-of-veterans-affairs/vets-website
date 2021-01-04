@@ -2,7 +2,6 @@ import React, { Component, memo } from 'react';
 import PropTypes from 'prop-types';
 
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
-import { focusElement } from '~/platform/utilities/ui';
 
 import {
   isFailedTransaction,
@@ -80,11 +79,6 @@ class ContactInformationEditView extends Component {
     // for the next time the modal is opened by removing any existing transaction request from the store.
     if (this.props.transactionRequest?.error) {
       this.props.clearErrors();
-    }
-
-    // AS DONE IN ADDRESSEDITVIEW, CHECK FOR CORRECTNESS
-    if (this.props.fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS) {
-      focusElement(`#${this.props.fieldName}-edit-link`);
     }
   }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatAddress } from 'platform/forms/address/helpers';
+import { formatAddress } from '~/platform/forms/address/helpers';
 import ReceiveTextMessages from 'platform/user/profile/vap-svc/containers/ReceiveTextMessages';
 import { FIELD_NAMES } from '@@vap-svc/constants';
 import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
@@ -11,15 +11,15 @@ const ContactInformationView = props => {
   }
 
   if (type === 'email') {
-    return <span>{data?.emailAddress}</span>;
+    return <span>{data.emailAddress}</span>;
   }
 
   if (type === 'phone') {
     return (
       <div>
         <Telephone
-          contact={`${data?.areaCode}${data?.phoneNumber}`}
-          extension={data?.extension}
+          contact={`${data.areaCode}${data.phoneNumber}`}
+          extension={data.extension}
           notClickable
         />
 

@@ -5,7 +5,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import { API_ROUTES, FIELD_NAMES, PHONE_TYPE, USA } from '@@vap-svc/constants';
 
-import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
+import PhoneNumberWidget from '~/platform/forms-system/src/js/widgets/PhoneNumberWidget';
 
 import ContactInformationField from '../ContactInformationField';
 
