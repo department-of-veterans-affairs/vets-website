@@ -134,30 +134,40 @@ const formConfig = {
         spouseEmployment: {
           path: 'spouse-employment',
           title: 'Spouse employment',
+          depends: formData =>
+            formData.spouseInformation.maritalStatus === 'Married',
           uiSchema: spouseEmployment.uiSchema,
           schema: spouseEmployment.schema,
         },
         spousePreviousEmployment: {
           path: 'spouse-previous-employment',
           title: 'Spouse previous employment',
+          depends: formData =>
+            formData.spouseInformation.maritalStatus === 'Married',
           uiSchema: spousePreviousEmployment.uiSchema,
           schema: spousePreviousEmployment.schema,
         },
         spouseBenefits: {
           path: 'spouse-benefits',
           title: 'Spouse benefits',
+          depends: formData =>
+            formData.spouseInformation.maritalStatus === 'Married',
           uiSchema: spouseBenefits.uiSchema,
           schema: spouseBenefits.schema,
         },
         spouseSocialSecurity: {
           path: 'spouse-social-security',
           title: 'Spouse social security',
+          depends: formData =>
+            formData.spouseInformation.maritalStatus === 'Married',
           uiSchema: spouseSocialSecurity.uiSchema,
           schema: spouseSocialSecurity.schema,
         },
         spouseAdditionalIncome: {
           path: 'spouse-additional-income',
           title: 'Spouse additional income',
+          depends: formData =>
+            formData.spouseInformation.maritalStatus === 'Married',
           uiSchema: spouseAdditionalIncome.uiSchema,
           schema: spouseAdditionalIncome.schema,
         },
