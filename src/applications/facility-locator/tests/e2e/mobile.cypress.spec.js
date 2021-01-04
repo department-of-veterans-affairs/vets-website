@@ -8,11 +8,16 @@ Cypress.Commands.add('checkSearch', () => {
   // Search
   cy.get('#street-city-state-zip', { timeout: 10000 })
     .should('exist')
-    .clear();
+    .should('not.be.disabled')
+    .clear({ waitForAnimations: true, force: true });
+
+  // This forEach loop is a workaround to a typing bug in Cypress.
+  // Upgrading to Cypress 6.1 should fix this bug and allow us
+  // to remove the loop.
   [...city].forEach(char => {
     cy.get('#street-city-state-zip')
       .should('not.be.disabled')
-      .type(char, { waitForAnimations: true, force: true });
+      .type(char, { waitForAnimations: true });
   });
   cy.get('#facility-type-dropdown').select('VA health');
   cy.get('#facility-search').click();
@@ -30,7 +35,7 @@ Cypress.Commands.add('checkSearch', () => {
   // Switch tab map
   cy.get('#react-tabs-2')
     .should('not.be.disabled')
-    .click({ waitForAnimations: true, force: true });
+    .click({ waitForAnimations: true });
 
   // Ensure map is visible
   cy.get('#mapbox-gl-container').should('be.visible');
@@ -52,26 +57,28 @@ describe('Mobile', () => {
     });
   });
 
-  it('should render in mobile layouts and tabs actions work', () => {
-    cy.visit('/find-locations');
-    cy.injectAxe();
+  for(let i = 0; i < 50; i++) {
+    it('should render in mobile layouts and tabs actions work', () => {
+      cy.visit('/find-locations');
+      cy.injectAxe();
 
-    // iPhone X
-    cy.viewport(400, 812);
-    cy.checkSearch();
+      // iPhone X
+      cy.viewport(400, 812);
+      cy.checkSearch();
 
-    // iPhone 6/7/8 plus
-    cy.viewport(414, 736);
-    cy.checkSearch();
+      // iPhone 6/7/8 plus
+      cy.viewport(414, 736);
+      cy.checkSearch();
 
-    // Pixel 2
-    cy.viewport(411, 731);
-    cy.checkSearch();
+      // Pixel 2
+      cy.viewport(411, 731);
+      cy.checkSearch();
 
-    // Galaxy S5/Moto
-    cy.viewport(360, 640);
-    cy.checkSearch();
-  });
+      // Galaxy S5/Moto
+      cy.viewport(360, 640);
+      cy.checkSearch();
+    });
+  }
 
   it('should render the appropriate elements at each breakpoint', () => {
     cy.visit('/find-locations');
