@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
+import { focusElement } from 'platform/utilities/ui';
 import Wizard from 'applications/static-pages/wizard';
 import {
   WIZARD_STATUS,
@@ -9,6 +10,10 @@ import {
 import pages from '../wizard/pages';
 
 const WizardContainer = () => {
+  useEffect(() => {
+    focusElement('.va-nav-breadcrumbs-list');
+  }, []);
+
   const handleClick = () => {
     recordEvent({
       event: `howToWizard-skip`,

@@ -7,6 +7,19 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
+.fsr-introduction {
+  .schemaform-title {
+    margin-bottom: 10px;
+  }
+  .subtitle {
+    margin: 0 0 40px;
+    font-size: 20px;
+  }
+  .usa-button-primary {
+    margin: 25px 0 0;
+  }
+}
+
 .debt-card {
   [type="checkbox"]:checked + label::before {
     background-color: $color-white;
