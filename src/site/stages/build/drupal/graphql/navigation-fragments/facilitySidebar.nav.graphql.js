@@ -24,6 +24,8 @@ const FACILITY_MENU_NAMES = [
   'va-western-colorado-health-care',
   'va-wilkes-barre-health-care',
   'va-wilmington-health-care',
+  'va-altoona-health-care',
+  'va-fayetteville-coastal-health-care',
 ];
 
 const FACILITY_SIDEBAR_QUERY = `
