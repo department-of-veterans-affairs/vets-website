@@ -35,8 +35,7 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import WarningNotification from '../../../components/WarningNotification';
-import { NewBooking } from '../../../project-cheetah';
-import ScheduleNewProjectCheetah from '../../../project-cheetah/components/ScheduleNewProjectCheetah';
+import ScheduleNewProjectCheetah from './ScheduleNewProjectCheetah';
 
 const pageTitle = 'VA appointments';
 
@@ -106,7 +105,6 @@ function AppointmentsPage({
     <Switch>
       <Route component={PastAppointmentsList} path="/past" />
       <Route component={ExpressCareList} path="/express-care" />
-      <Route component={NewBooking} path="/new-project-cheetah-booking" />
       <Route path="/" component={FutureAppointmentsList} />
     </Switch>
   );
