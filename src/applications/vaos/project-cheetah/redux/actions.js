@@ -23,6 +23,8 @@ export const FORM_PAGE_CHANGE_STARTED =
   'projectCheetah/FORM_PAGE_CHANGE_STARTED';
 export const FORM_PAGE_CHANGE_COMPLETED =
   'projectCheetah/FORM_PAGE_CHANGE_COMPLETED';
+export const FORM_CALENDAR_DATA_CHANGED =
+  'projectCheetah/FORM_CALENDAR_DATA_CHANGED';
 export const FORM_RESET = 'projectCheetah/FORM_RESET';
 export const FORM_SUBMIT = 'projectCheetah/FORM_SUBMIT';
 export const FORM_PAGE_FACILITY_OPEN = 'projectCheetah/FORM_PAGE_FACILITY_OPEN';
@@ -263,6 +265,16 @@ export function routeToPageInFlow(flow, history, current, action) {
     } else {
       throw new Error('Tried to route to page that does not exist');
     }
+  };
+}
+
+export function onCalendarChange({ currentlySelectedDate, selectedDates }) {
+  return {
+    type: FORM_CALENDAR_DATA_CHANGED,
+    calendarData: {
+      currentlySelectedDate,
+      selectedDates,
+    },
   };
 }
 

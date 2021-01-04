@@ -24,6 +24,7 @@ import {
   FORM_REQUEST_CURRENT_LOCATION_FAILED,
   FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
   FORM_REQUEST_CURRENT_LOCATION,
+  FORM_CALENDAR_DATA_CHANGED,
 } from './actions';
 
 import { FACILITY_SORT_METHODS, FETCH_STATUS } from '../../utils/constants';
@@ -429,6 +430,15 @@ export default function projectCheetahReducer(state = initialState, action) {
         submitStatus: FETCH_STATUS.failed,
         submitErrorReason: action.errorReason,
       };
+    case FORM_CALENDAR_DATA_CHANGED: {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          calendarData: action.calendarData,
+        },
+      };
+    }
     default:
       return state;
   }

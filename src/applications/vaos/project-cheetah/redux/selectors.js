@@ -26,6 +26,14 @@ export function getProjectCheetahFormPageInfo(state, pageKey) {
   };
 }
 
+export function getChosenSlot(state) {
+  const availableSlots = selectProjectCheetah(state).availableSlots;
+  const selectedTime = selectProjectCheetahFormData(state).calendarData
+    ?.selectedDates?.[0].datetime;
+
+  return availableSlots?.find(slot => slot.start === selectedTime);
+}
+
 export function selectAllowProjectCheetahBookings(state) {
   return moment().diff(moment(selectProfile(state).dob), 'years') >= 15;
 }
