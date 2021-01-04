@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import { getCurrentAppointmentId } from '../../utils';
 
+import delay from 'lodash/delay';
+
 const HiddenFields = props => {
   const { onChange, context } = props;
   const [questionnaireId] = useState(context.questionnaire?.id);
@@ -10,18 +12,11 @@ const HiddenFields = props => {
 
   useEffect(
     () => {
-      let timeout;
       if (questionnaireId || appointmentId) {
-        timeout = setTimeout(
-          () => onChange({ questionnaireId, appointmentId }),
-          0,
-        );
+        delay(() => {
+          onChange({ questionnaireId, appointmentId });
+        }, 0);
       }
-      return () => {
-        if (timeout) {
-          clearTimeout(timeout);
-        }
-      };
     },
     [appointmentId, questionnaireId, onChange],
   );
