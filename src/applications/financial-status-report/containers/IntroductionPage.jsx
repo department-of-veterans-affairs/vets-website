@@ -6,6 +6,7 @@ import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import formConfig from '../config/form';
+import UnverifiedPrefillAlert from '../components/UnverifiedPrefillAlert';
 import Telephone, {
   CONTACTS,
   PATTERNS,
@@ -25,15 +26,17 @@ const IntroductionPage = props => {
       <SaveInProgressIntro
         startText={'Start Text'}
         unauthStartText="Sign in or create an account"
-        prefillEnabled={props.route.formConfig.prefillEnabled}
         messages={props.route.formConfig.savedFormMessages}
         pageList={props.route.pageList}
         formConfig={formConfig}
         formId={props.formId}
         retentionPeriod="60 days"
         downtime={props.route.formConfig.downtime}
+        prefillEnabled={props.route.formConfig.prefillEnabled}
+        verifyRequiredPrefill={props.route.formConfig.verifyRequiredPrefill}
+        unverifiedPrefillAlert={<UnverifiedPrefillAlert />}
       />
-      <h2 className="vads-u-font-size--h4">
+      <h2 className="vads-u-font-size--h3">
         Follow the steps below to request a waiver, compromise, or extended
         monthly payments for a VA debt.
       </h2>
@@ -46,10 +49,10 @@ const IntroductionPage = props => {
               you and your spouse, if applicable.
             </div>
             <ul>
+              <li>Employment history for the past two years</li>
               <li>
-                Employment history for the past two years ▪ Average monthly
-                income, including gross salary, payroll deductions, and other
-                income
+                Average monthly income, including gross salary, payroll
+                deductions, and other income
               </li>
               <li>
                 Average monthly household expenses, including rent, utilities,
@@ -71,7 +74,7 @@ const IntroductionPage = props => {
             <p>
               If you need help requesting help for your VA debt, you can contact
               your local Veterans Service Organization (VSO).{' '}
-              <a href="#">Learn about VSOs near you.</a>
+              <a href="https://www.va.gov/vso/">Learn about VSOs near you.</a>
             </p>
           </li>
           <li className="process-step list-two">
@@ -80,6 +83,7 @@ const IntroductionPage = props => {
               These are the steps you can expect when submitting a request:
             </div>
             <ul>
+              <li>Confirm your personal information</li>
               <li>
                 Confirm or edit your mailing address, phone number, and email
                 address
