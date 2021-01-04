@@ -53,21 +53,21 @@ const submitFormFor = eventName =>
 
       req.addEventListener('error', () => {
         const error = new Error('client_error: Network request failed');
-        error.statusText = req.statusText;
+        error.statusText = req.details;
         clearTimeout(timer);
         reject(error);
       });
 
       req.addEventListener('abort', () => {
         const error = new Error('client_error: Request aborted');
-        error.statusText = req.statusText;
+        error.statusText = req.details;
         clearTimeout(timer);
         reject(error);
       });
 
       req.addEventListener('timeout', () => {
         const error = new Error('client_error: Request timed out');
-        error.statusText = req.statusText;
+        error.statusText = req.details;
         clearTimeout(timer);
         reject(error);
       });
