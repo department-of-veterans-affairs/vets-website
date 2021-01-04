@@ -1,7 +1,6 @@
 const setupLocalProxyRewrite = require('../src/applications/proxy-rewrite/local-proxy-rewrite');
 const manifestHelpers = require('./manifest-helpers');
-// const BUCKETS = require('../src/site/constants/buckets');
-// const ENVIRONMENTS = require('../src/site/constants/environments');
+const BUCKETS = require('../src/site/constants/buckets');
 
 function generateWebpackDevConfig(buildOptions) {
   const routes = manifestHelpers.getAppRoutes();
@@ -11,6 +10,10 @@ function generateWebpackDevConfig(buildOptions) {
       to: `${url}/`,
     }))
     .sort((a, b) => b.from.length - a.from.length);
+  const publicAssetPath =
+    buildOptions.buildtype === 'localhost'
+      ? '/generated/'
+      : `${BUCKETS[buildOptions.buildtype]}/generated/`;
 
   // If in watch mode, assume hot reloading for JS and use webpack devserver.
   return {
@@ -32,7 +35,7 @@ function generateWebpackDevConfig(buildOptions) {
       poll: 1000,
     },
     port: buildOptions.port,
-    publicPath: '/generated/',
+    publicPath: publicAssetPath,
     host: buildOptions.host,
     public: buildOptions.public || undefined,
     stats: {
