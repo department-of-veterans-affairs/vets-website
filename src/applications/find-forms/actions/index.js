@@ -22,9 +22,9 @@ export const fetchFormsFailure = error => ({
   type: FETCH_FORMS_FAILURE,
 });
 
-export const fetchFormsSuccess = (results, allFormsTombstone) => ({
+export const fetchFormsSuccess = (results, hasOnlyRetiredForms) => ({
   results,
-  allFormsTombstone,
+  hasOnlyRetiredForms,
   type: FETCH_FORMS_SUCCESS,
 });
 
@@ -69,7 +69,7 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
     dispatch(
       fetchFormsSuccess(
         resultsDetails.results,
-        resultsDetails.allFormsTombstone,
+        resultsDetails.hasOnlyRetiredForms,
       ),
     );
   } catch (error) {

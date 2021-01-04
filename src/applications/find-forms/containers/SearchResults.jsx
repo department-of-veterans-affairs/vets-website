@@ -24,7 +24,7 @@ export class SearchResults extends Component {
     page: PropTypes.number.isRequired,
     query: PropTypes.string.isRequired,
     results: PropTypes.arrayOf(customPropTypes.Form.isRequired),
-    allFormsTombstone: PropTypes.bool.isRequired,
+    hasOnlyRetiredForms: PropTypes.bool.isRequired,
     startIndex: PropTypes.number.isRequired,
     showFindFormsResultsLinkToFormDetailPages: PropTypes.bool.isRequired,
     // From mapDispatchToProps.
@@ -64,7 +64,7 @@ export class SearchResults extends Component {
       page,
       query,
       results,
-      allFormsTombstone,
+      hasOnlyRetiredForms,
       showFindFormsResultsLinkToFormDetailPages,
       startIndex,
     } = this.props;
@@ -91,7 +91,7 @@ export class SearchResults extends Component {
     }
 
     // Show UX friendly message if all forms are tombstone/ deleted in the results returned.
-    if (allFormsTombstone)
+    if (hasOnlyRetiredForms)
       return (
         <h2
           className="vads-u-font-size--base vads-u-line-height--3 vads-u-font-family--sans
@@ -184,7 +184,7 @@ const mapStateToProps = state => ({
   page: getFindFormsAppState(state).page,
   query: getFindFormsAppState(state).query,
   results: getFindFormsAppState(state).results,
-  allFormsTombstone: getFindFormsAppState(state).allFormsTombstone,
+  hasOnlyRetiredForms: getFindFormsAppState(state).hasOnlyRetiredForms,
   startIndex: getFindFormsAppState(state).startIndex,
   showFindFormsResultsLinkToFormDetailPages: mvpEnhancements(state),
 });

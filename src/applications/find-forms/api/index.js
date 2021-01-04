@@ -28,11 +28,13 @@ export const fetchFormsApi = async (query, options = {}) => {
   const onlyValidForms = forms?.filter(
     form =>
       (form.attributes?.validPDF || form.attributes?.validPdf) &&
-      form.attributes?.deletedAt === null,
+      (form.attributes?.deletedAt === null ||
+        form.attributes?.deletedAt === undefined ||
+        form.attributes?.deletedAt.length === 0),
   );
 
   // checks to see if all the forms in the results have been tombstone/ deleted.
-  const allFormsTombstone = forms?.length > 0 && onlyValidForms?.length === 0;
+  const hasOnlyRetiredForms = forms?.length > 0 && onlyValidForms?.length === 0;
 
   const potentialServerIssue =
     (query === '' || query === '10-10ez') && onlyValidForms?.length === 0;
@@ -50,7 +52,7 @@ export const fetchFormsApi = async (query, options = {}) => {
   }
 
   return {
-    allFormsTombstone,
+    hasOnlyRetiredForms,
     results: sortBy(onlyValidForms, 'id'),
   };
 };

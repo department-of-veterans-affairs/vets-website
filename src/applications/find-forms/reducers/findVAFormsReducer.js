@@ -12,7 +12,7 @@ const initialState = {
   page: 1,
   query: '',
   results: null,
-  allFormsTombstone: false,
+  hasOnlyRetiredForms: false,
   startIndex: 0,
 };
 
@@ -28,7 +28,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         fetching: false,
-        allFormsTombstone: action.allFormsTombstone,
+        hasOnlyRetiredForms: action.hasOnlyRetiredForms,
         results: action.results,
       };
     }

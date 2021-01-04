@@ -43,11 +43,11 @@ describe('Find VA Forms actions', () => {
   describe('fetchFormsSuccess', () => {
     it('should return an action in the shape we expect', () => {
       const results = [];
-      const allFormsTombstone = false;
-      const action = fetchFormsSuccess(results, allFormsTombstone);
+      const hasOnlyRetiredForms = false;
+      const action = fetchFormsSuccess(results, hasOnlyRetiredForms);
 
       expect(action).to.be.deep.equal({
-        allFormsTombstone,
+        hasOnlyRetiredForms,
         results,
         type: FETCH_FORMS_SUCCESS,
       });
