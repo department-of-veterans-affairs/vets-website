@@ -74,7 +74,7 @@ class SearchHelpSignIn extends Component {
         />
         <a
           className="vads-u-color--white vads-u-text-decoration--none vads-u-padding-top--0p5 vads-u-padding-x--1"
-          href="/contact-us"
+          href="/contact-us/"
           onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
           style={{ fontWeight: '600' }}
         >
