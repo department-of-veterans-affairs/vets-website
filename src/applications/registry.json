@@ -665,7 +665,7 @@
     "template": {
       "title": "Apply for education benefits",
       "layout": "page-react.html",
-      "description": "Vet Tec.",
+      "description": "VET TEC",
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
         {
