@@ -1,27 +1,24 @@
-// import { submitToUrl } from 'platform/forms-system/src/js/actions';
+import { submitToUrl } from 'platform/forms-system/src/js/actions';
 
 const submit = (form, formConfig) => {
-  const body = formConfig.transformForSubmit(formConfig, form);
+  const body = {
+    questionnaireResponse: formConfig.transformForSubmit(formConfig, form),
+  };
 
   const eventData = {};
-  // console.log('submitting', { body, url: formConfig.submitUrl });
-  // just for MVP until we have an API set up
-  // eslint-disable-next-line no-console
-  console.log('calling to api', {
-    body,
-    url: formConfig.submitUrl,
-    trackingPrefix: formConfig.trackingPrefix,
-    eventData,
-  });
-  return new Promise((resolve, _reject) => {
-    resolve(body);
-  });
-  // return submitToUrl(
-  //   JSON.stringify(body),
-  //   formConfig.submitUrl,
-  //   formConfig.trackingPrefix,
+  // console.log('calling to api', {
+  //   body,
+  //   url: formConfig.submitUrl,
+  //   trackingPrefix: formConfig.trackingPrefix,
   //   eventData,
-  // );
+  // });
+
+  return submitToUrl(
+    JSON.stringify(body),
+    formConfig.submitUrl,
+    formConfig.trackingPrefix,
+    eventData,
+  );
 };
 
 const createAnAnswer = valueString => ({ valueString });
