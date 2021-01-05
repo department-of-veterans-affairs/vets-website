@@ -173,37 +173,17 @@ article[data-contact-choice="me"] .contact-choice.selected-me {
   display: inline-block;
 }
 
-article[data-location="request-informal-conference"] {
-  .schemaform-block-header {
-    margin-bottom: 1.5em;
+article[data-location="informal-conference/representative-information"] {
+  .schemaform-field-container {
+    margin-top: 0;
+  }
+}
+
+article[data-location="informal-conference/availability"] {
+  #root_informalConferenceTimes_time2-label {
+    margin-top: 2rem;
   }
 
-  .form-expanding-group-open {
-    .schemaform-field-template,
-    .schemaform-field-container {
-      margin-top: 1em;
-    }
-  }
-
-  /* Remove extra spacing between form elements */
-  .form-expanding-group {
-    .schemaform-first-field,
-    .usa-input-error {
-      margin-top: 0;
-    }
-
-    .schemaform-block-header {
-      margin-bottom: 0;
-    }
-  }
-
-  .schemaform-label.usa-input-error-label {
-    font-weight: bold;
-  }
-
-  .form-checkbox label {
-    margin-top: 1em;
-  }
 }
 
 /* Step 4 Review Application */
