@@ -5,9 +5,9 @@ import {
   LocationType,
   CLINIC_URGENTCARE_SERVICE,
   PHARMACY_RETAIL_SERVICE,
+  Covid19Vaccine,
 } from '../../../constants';
 import { parsePhoneNumber } from '../../../utils/phoneNumbers';
-import { healthServices } from '../../../config';
 
 const renderPhoneNumber = (title, subTitle = null, phone, from) => {
   if (!phone) {
@@ -47,7 +47,7 @@ const LocationPhoneLink = ({ location, from, query }) => {
   const isCovid19Search =
     query &&
     query.facilityType === LocationType.HEALTH &&
-    query.serviceType === Object.keys(healthServices)[5];
+    query.serviceType === Covid19Vaccine;
   const isCCProvider =
     query &&
     query.facilityType === LocationType.CC_PROVIDER &&
