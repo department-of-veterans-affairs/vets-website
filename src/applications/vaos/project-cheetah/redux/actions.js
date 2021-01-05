@@ -47,6 +47,8 @@ export const FORM_PAGE_FACILITY_SORT_METHOD_UPDATED =
   'projectCheetah/FORM_PAGE_FACILITY_SORT_METHOD_UPDATED';
 export const FORM_SUBMIT_SUCCEEDED = 'projectCheetah/FORM_SUBMIT_SUCCEEDED';
 export const FORM_SUBMIT_FAILED = 'projectCheetah/FORM_SUBMIT_FAILED';
+export const FORM_CLINIC_PAGE_OPENED_SUCCEEDED =
+  'projectCheetah/FORM_CLINIC_PAGE_OPENED_SUCCEEDED';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -210,6 +212,15 @@ export function showEligibilityModal() {
 export function hideEligibilityModal() {
   return {
     type: FORM_HIDE_ELIGIBILITY_MODAL,
+  };
+}
+
+export function openClinicPage(page, uiSchema, schema) {
+  return {
+    type: FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
+    page,
+    uiSchema,
+    schema,
   };
 }
 
