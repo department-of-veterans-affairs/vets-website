@@ -48,7 +48,7 @@ const ReviewDescription = ({ profile }) => {
           href={PROFILE_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="edit-btn primary-outline usa-button"
+          className="vads-u-margin-right--1"
         >
           Edit on Profile
         </a>

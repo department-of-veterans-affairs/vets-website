@@ -12,6 +12,7 @@ const initialState = {
   page: 1,
   query: '',
   results: null,
+  hasOnlyRetiredForms: false,
   startIndex: 0,
 };
 
@@ -24,7 +25,12 @@ export default (state = initialState, action) => {
       return { ...state, error: action.error, fetching: false };
     }
     case FETCH_FORMS_SUCCESS: {
-      return { ...state, fetching: false, results: action.results };
+      return {
+        ...state,
+        fetching: false,
+        hasOnlyRetiredForms: action.hasOnlyRetiredForms,
+        results: action.results,
+      };
     }
     case UPDATE_PAGINATION: {
       return { ...state, page: action.page, startIndex: action.startIndex };
