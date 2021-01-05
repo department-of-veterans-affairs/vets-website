@@ -12,5 +12,7 @@ export const facilityLocatorPredictiveLocationSearch = state =>
     FEATURE_FLAG_NAMES.facilityLocatorPredictiveLocationSearch
   ];
 
-export const facilityLighthouseCovidVaccineQuery = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.facilityLighthouseCovidVaccineQuery];
+export const facilityLocatorLighthouseCovidVaccineQuery = state =>
+  toggleValues(state)[
+    FEATURE_FLAG_NAMES.facilityLocatorLighthouseCovidVaccineQuery
+  ];

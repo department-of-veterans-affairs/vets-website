@@ -7,7 +7,8 @@ export default Object.freeze({
   facilitiesPpmsSuppressCommunityCare: 'facilitiesPpmsSuppressCommunityCare',
   facilityLocatorPredictiveLocationSearch:
     'facilityLocatorPredictiveLocationSearch',
-  facilityLighthouseCovidVaccineQuery: 'facilityLighthouseCovidVaccineQuery',
+  facilityLocatorLighthouseCovidVaccineQuery:
+    'facilityLocatorLighthouseCovidVaccineQuery',
   vaOnlineScheduling: 'vaOnlineScheduling',
   vaOnlineSchedulingCancel: 'vaOnlineSchedulingCancel',
   vaOnlineSchedulingRequests: 'vaOnlineSchedulingRequests',
