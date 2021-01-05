@@ -181,7 +181,7 @@ const ProfileMobileSubNav = ({ isLOA3, isInMVI, routes }) => {
     <div className="mobile-nav">
       <div className={menuClasses}>
         <div className="menu-background" />
-        <div className="menu-wrapper" ref={theMenu}>
+        <nav aria-label="secondary" className="menu-wrapper" ref={theMenu}>
           {!isMenuOpen && (
             <button
               ref={openMenuButton}
@@ -228,7 +228,7 @@ const ProfileMobileSubNav = ({ isLOA3, isInMVI, routes }) => {
               />
             </>
           )}
-        </div>
+        </nav>
       </div>
       {/*
       This invisible placeholder fills the vertical space that would normally be taken up by the `div.the-menu` or its child `div.menu-wrapper` above. The fact that the `div.menu-wrapper` is positioned absolutely means that it does not take up any space in the normal document flow so we need to use this placeholder instead.
