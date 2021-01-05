@@ -2,23 +2,31 @@ import React, { Component, memo } from 'react';
 import PropTypes from 'prop-types';
 
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+
 import {
   isFailedTransaction,
   isPendingTransaction,
 } from '@@vap-svc/util/transactions';
 import VAPServiceEditModalErrorMessage from '@@vap-svc/components/base/VAPServiceEditModalErrorMessage';
 import ContactInformationActionButtons from './ContactInformationActionButtons';
+import CopyMailingAddress from '@@vap-svc/containers/CopyMailingAddress';
+import ContactInfoForm from '@@vap-svc/components/ContactInfoForm';
+
+import { transformInitialFormValues } from '@@profile/util/contact-information';
+
+import { FIELD_NAMES, USA } from '@@vap-svc/constants';
 
 class ContactInformationEditView extends Component {
   static propTypes = {
     analyticsSectionName: PropTypes.string.isRequired,
     clearErrors: PropTypes.func.isRequired,
     deleteDisabled: PropTypes.bool,
-    getInitialFormValues: PropTypes.func.isRequired,
     field: PropTypes.shape({
       value: PropTypes.object,
       validations: PropTypes.object,
     }),
+    uiSchema: PropTypes.object,
+    formSchema: PropTypes.object,
     hasValidationError: PropTypes.func,
     isEmpty: PropTypes.bool.isRequired,
     onCancel: PropTypes.func.isRequired,
@@ -26,11 +34,10 @@ class ContactInformationEditView extends Component {
     onDelete: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     refreshTransaction: PropTypes.func,
-    render: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
     transaction: PropTypes.object,
     transactionRequest: PropTypes.object,
-    uiSchema: PropTypes.object,
     useSchemaForm: PropTypes.bool,
   };
 
@@ -79,6 +86,25 @@ class ContactInformationEditView extends Component {
     this.props.onSubmit(this.props.field.value);
   };
 
+  onInput = (value, schema, uiSchema) => {
+    const newFieldValue = {
+      ...value,
+    };
+    if (newFieldValue['view:livesOnMilitaryBase']) {
+      newFieldValue.countryCodeIso3 = USA.COUNTRY_ISO3_CODE;
+    }
+    this.props.onChangeFormDataAndSchemas(newFieldValue, schema, uiSchema);
+  };
+
+  copyMailingAddress = mailingAddress => {
+    const newAddressValue = { ...this.props.field.value, ...mailingAddress };
+    this.props.onChangeFormDataAndSchemas(
+      transformInitialFormValues(newAddressValue),
+      this.props.field.formSchema,
+      this.props.field.uiSchema,
+    );
+  };
+
   render() {
     const {
       onSubmit,
@@ -91,7 +117,7 @@ class ContactInformationEditView extends Component {
         isEmpty,
         onCancel,
         onDelete,
-        render,
+        type,
         title,
         transaction,
         transactionRequest,
@@ -151,7 +177,29 @@ class ContactInformationEditView extends Component {
             />
           </div>
         )}
-        {!!field && render(actionButtons, onSubmit)}
+
+        {!!field && (
+          <div>
+            {this.props.fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS && (
+              <CopyMailingAddress
+                copyMailingAddress={this.copyMailingAddress}
+              />
+            )}
+            <ContactInfoForm
+              formData={field.value}
+              formSchema={field.formSchema}
+              uiSchema={field.uiSchema}
+              onUpdateFormData={
+                type === 'address'
+                  ? this.onInput
+                  : this.props.onChangeFormDataAndSchemas
+              }
+              onSubmit={onSubmit}
+            >
+              {actionButtons}
+            </ContactInfoForm>
+          </div>
+        )}
       </>
     );
   }
