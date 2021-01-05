@@ -24,8 +24,8 @@ import {
   closeModal,
   resetAddressValidation as resetAddressValidationAction,
 } from '../actions';
-import { getValidationMessageKey } from '../../utilities';
-import { ADDRESS_VALIDATION_MESSAGES } from '../../constants/addressValidationMessages';
+import { getValidationMessageKey } from '../util';
+import { ADDRESS_VALIDATION_MESSAGES } from '../constants/addressValidationMessages';
 
 class AddressValidationView extends React.Component {
   componentDidUpdate(prevProps) {
