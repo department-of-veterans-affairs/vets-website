@@ -108,11 +108,6 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   statusPage.regionOrOffice = page.title;
   statusPage.entityUrl = generateBreadCrumbs(statusPath);
 
-  files[`${drupalPagePath}/status/index.html`] = createFileObj(
-    statusPage,
-    'health_care_facility_status.drupal.liquid',
-  );
-
   // Create the top-level locations page for Health Care Regions
   const locEntityUrl = createEntityUrlObj(drupalPagePath);
   const locObj = {
