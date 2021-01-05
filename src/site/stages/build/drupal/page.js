@@ -253,9 +253,7 @@ function mergeTaxonomiesIntoResourcesAndSupportHomepage(
   allTaxonomies,
 ) {
   const audienceTags = allTaxonomies.entities
-    .filter(taxonomy => {
-      return taxonomy.entityBundle === 'audience_beneficiaries';
-    })
+    .filter(taxonomy => taxonomy.entityBundle === 'audience_beneficiaries')
     .filter(audienceTag => audienceTag.fieldAudienceRsHomepage);
 
   return {
