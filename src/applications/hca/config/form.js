@@ -151,6 +151,14 @@ const {
 
 const stateLabels = createUSAStateLabels(states);
 
+const flipMailingAddress = formData => {
+  const flipperValue = formData['view:hasMultipleAddress'];
+  return flipperValue
+    ? formData['view:hasMultipleAddress'] &&
+        !formData['view:doesPermanentAddressMatchMailing']
+    : !formData['view:hasMultipleAddress'];
+};
+
 const attachmentsSchema = {
   type: 'array',
   minItems: 1,
@@ -390,6 +398,7 @@ const formConfig = {
           path: 'veteran-information/veteran-address',
           title: 'Mailing address',
           initialData: {},
+          depends: formData => formData['view:hasMultipleAddress'],
           uiSchema: {
             'ui:description': PrefillMessage,
             veteranMailingAddress: _.merge(addressUI('Mailing address', true), {
@@ -457,9 +466,7 @@ const formConfig = {
           path: 'veteran-information/home-address',
           title: 'Home address',
           initialData: {},
-          depends: formData =>
-            formData['view:hasMultipleAddress'] &&
-            !formData['view:doesPermanentAddressMatchMailing'],
+          depends: formData => flipMailingAddress(formData),
           uiSchema: {
             'ui:description': PrefillMessage,
             veteranAddress: _.merge(addressUI('Home address', true), {
