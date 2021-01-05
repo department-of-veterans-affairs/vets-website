@@ -238,9 +238,15 @@ export const getValidationMessageKey = (
 
 // Determines if we need to prompt the user to pick from a list of suggested
 // addresses and/or edit the address that they had entered. The only time the
-// address validation modal will _not_ be shown to the user is if the validation
-// API came back with one valid address suggestion that it is very confident is
-// the address the user entered.
+// address validation modal will _not_ be shown to the user is if:
+// - the validation API came back with a single address suggestion
+// - AND that single suggestion is either CONFIRMED or an international address
+// - AND that one suggestion has a confidence score > 90
+// - AND the state of the entered address matches the state of the suggestion
+//
+// FWIW: This sounds like a high bar to pass, but in fact most of the time this
+// function will return `false` unless the user made an error entering their
+// address or their address is not know to the validation API
 export const showAddressValidationModal = (
   suggestedAddresses,
   userInputAddress,
