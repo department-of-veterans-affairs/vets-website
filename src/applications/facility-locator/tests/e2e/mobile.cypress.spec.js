@@ -6,10 +6,19 @@ Cypress.Commands.add('checkSearch', () => {
   cy.axeCheck();
 
   // Search
+  cy.get('#street-city-state-zip', { timeout: 10000 })
+    .should('exist')
+    .should('not.be.disabled')
+    .clear({ force: true });
+
+  // This forEach loop is a workaround to a typing bug in Cypress:
+  // https://github.com/cypress-io/cypress/issues/5480
+  // Upgrading to Cypress 6.1 should fix this bug and allow us
+  // to remove the loop.
   [...city].forEach(char => {
     cy.get('#street-city-state-zip')
       .should('not.be.disabled')
-      .type(char);
+      .type(char, { force: true });
   });
   cy.get('#facility-type-dropdown').select('VA health');
   cy.get('#facility-search').click();
@@ -27,7 +36,7 @@ Cypress.Commands.add('checkSearch', () => {
   // Switch tab map
   cy.get('#react-tabs-2')
     .should('not.be.disabled')
-    .click({ waitForAnimations: true, force: true });
+    .click({ waitForAnimations: true });
 
   // Ensure map is visible
   cy.get('#mapbox-gl-container').should('be.visible');
@@ -42,7 +51,7 @@ Cypress.Commands.add('checkSearch', () => {
   cy.get('#street-city-state-zip').clear();
 });
 
-describe.skip('Mobile', () => {
+describe('Mobile', () => {
   before(() => {
     cy.syncFixtures({
       constants: path.join(__dirname, '..', '..', 'constants'),
