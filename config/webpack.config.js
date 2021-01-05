@@ -30,7 +30,7 @@ const generateWebpackDevConfig = require('./webpack.dev.config.js');
 const getAbsolutePath = relativePath =>
   path.join(__dirname, '../', relativePath);
 
-const timestamp = new Date().getTime();
+// const timestamp = new Date().getTime();
 
 const sharedModules = [
   getAbsolutePath('src/platform/polyfills'),
@@ -104,10 +104,10 @@ module.exports = env => {
     ENVIRONMENTS.VAGOVPROD,
   ].includes(buildOptions.buildtype);
 
-  const useHashFilenames = [
-    ENVIRONMENTS.VAGOVSTAGING,
-    ENVIRONMENTS.VAGOVPROD,
-  ].includes(buildOptions.buildtype);
+  // const useHashFilenames = [
+  //   ENVIRONMENTS.VAGOVSTAGING,
+  //   ENVIRONMENTS.VAGOVPROD,
+  // ].includes(buildOptions.buildtype);
 
   // enable css sourcemaps for all non-localhost builds
   // or if build options include local-css-sourcemaps or entry
@@ -120,7 +120,7 @@ module.exports = env => {
 
   // Set the pubilcPath conditional so we can get dynamic modules loading from S3
   const publicAssetPath =
-    buildOptions.buildtype === 'vagovstaging' && buildOptions.setPublicPath // just for staging so we can test it
+    buildOptions.buildtype !== 'localhost'
       ? `${BUCKETS[buildOptions.buildtype]}/generated/`
       : '/generated/';
 
@@ -130,12 +130,8 @@ module.exports = env => {
     output: {
       path: outputPath,
       publicPath: publicAssetPath,
-      filename: !useHashFilenames
-        ? '[name].entry.js'
-        : `[name].entry.[chunkhash]-${timestamp}.js`,
-      chunkFilename: !useHashFilenames
-        ? '[name].entry.js'
-        : `[name].entry.[chunkhash]-${timestamp}.js`,
+      filename: '[name].entry.js',
+      chunkFilename: '[name].entry.js',
     },
     module: {
       rules: [
@@ -271,9 +267,7 @@ module.exports = env => {
 
           if (isMedalliaStyleFile && isStaging) return `[name].css`;
 
-          return useHashFilenames
-            ? `[name].[contenthash]-${timestamp}.css`
-            : `[name].css`;
+          return `[name].css`;
         },
       }),
 
