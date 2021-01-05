@@ -12,12 +12,12 @@ import {
 import { $$ } from '../../helpers';
 
 import formConfig from '../../config/form';
-import informalConference from '../../pages/informalConference';
+import informalConferenceTimes from '../../pages/informalConferenceTimes';
 
-const { schema, uiSchema } = informalConference;
+const { schema, uiSchema } = informalConferenceTimes;
 
-describe('Higher-Level Review 0996 informal conference', () => {
-  it('should render informal conference form', () => {
+describe('Higher-Level Review 0996 informal conference times', () => {
+  it('should render informal conference times form', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -29,18 +29,46 @@ describe('Higher-Level Review 0996 informal conference', () => {
     );
 
     const formDOM = getFormDOM(form);
-    expect($$('input[type="radio"]', formDOM).length).to.equal(3);
+    expect($$('select', formDOM).length).to.equal(2);
   });
 
-  /* Successful submits */
-  it('successfully submits when no informal conference is selected', () => {
+  /* Successful submit */
+  it('successfully submits when one time is selected', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         schema={schema}
-        data={{ informalConference: 'no' }}
+        data={{
+          informalConferenceTimes: {
+            time1: 'time1000to1230',
+          },
+        }}
+        formData={{}}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    const formDOM = getFormDOM(form);
+    submitForm(form);
+    expect($$('.usa-input-error', formDOM).length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+  });
+
+  it('successfully submits when two times are selected', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        schema={schema}
+        data={{
+          informalConferenceTimes: {
+            time1: 'time1000to1230',
+            time2: 'time1230to1400',
+          },
+        }}
         formData={{}}
         uiSchema={uiSchema}
       />,
@@ -53,7 +81,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
   });
 
   /* Unsuccessful submits */
-  it('prevents submit when informal conference is not selected', () => {
+  it('prevents submit when no time is selected', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
