@@ -72,9 +72,10 @@ const LocationPhoneLink = ({ location, from, query }) => {
     attributes: { phone },
   } = location;
   return (
-    <div className="facility-phone-group">
+    <div className="facility-phone-group vads-u-margin-top--2">
       {renderPhoneNumber('Main number', null, phone.main, from)}
-      {phone.mentalHealthClinic && <div style={{ minHeight: '20px' }} />}
+      {!isCovid19Search &&
+        phone.mentalHealthClinic && <div style={{ minHeight: '20px' }} />}
       {!isCovid19Search &&
         renderPhoneNumber(
           'Mental health',

@@ -4,7 +4,7 @@ import recordEvent from 'platform/monitoring/record-event';
 const Covid19Alert = () => {
   return (
     <div
-      className={`usa-alert usa-alert-info background-color-only  vads-u-padding--1  vads-u-font-weight--bold`}
+      className={`usa-alert usa-alert-info background-color-only  vads-u-padding--1 vads-u-margin-top--2  vads-u-font-weight--bold`}
     >
       <i
         aria-hidden="true"
