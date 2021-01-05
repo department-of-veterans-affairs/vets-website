@@ -248,6 +248,22 @@ function getFacilitySidebar(page, contentData) {
   return { links: [] };
 }
 
+function mergeTaxonomiesIntoResourcesAndSupportHomepage(
+  resourcesAndSupportHomepage,
+  allTaxonomies,
+) {
+  const audienceTags = allTaxonomies.entities
+    .filter(taxonomy => {
+      return taxonomy.entityBundle === 'audience_beneficiaries';
+    })
+    .filter(audienceTag => audienceTag.fieldAudienceRsHomepage);
+
+  return {
+    ...resourcesAndSupportHomepage,
+    audienceTags,
+  };
+}
+
 function compilePage(page, contentData) {
   const {
     data: {
@@ -265,6 +281,7 @@ function compilePage(page, contentData) {
       alerts: alertsItem = {},
       bannerAlerts: bannerAlertsItem = {},
       outreachSidebarQuery: outreachSidebarNav = {},
+      allTaxonomies = [],
     },
   } = contentData;
 
@@ -386,6 +403,13 @@ function compilePage(page, contentData) {
         pageId,
       );
       break;
+  }
+
+  if (entityUrl.path === '/resources') {
+    pageCompiled = mergeTaxonomiesIntoResourcesAndSupportHomepage(
+      pageCompiled,
+      allTaxonomies,
+    );
   }
 
   return pageCompiled;
