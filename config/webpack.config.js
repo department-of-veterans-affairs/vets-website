@@ -105,7 +105,7 @@ module.exports = env => {
   ].includes(buildOptions.buildtype);
 
   const useHashFilenames = [
-    // ENVIRONMENTS.VAGOVSTAGING,
+    // ENVIRONMENTS.VAGOVSTAGING, // also removing file hashes for staging
     ENVIRONMENTS.VAGOVPROD,
   ].includes(buildOptions.buildtype);
 
@@ -120,7 +120,7 @@ module.exports = env => {
 
   // Set the pubilcPath conditional so we can get dynamic modules loading from S3
   const publicAssetPath =
-    buildOptions.buildtype === 'vagovstaging' // just for staging so we can test it
+    buildOptions.buildtype !== 'localhost' // just for staging so we can test it
       ? `${BUCKETS[buildOptions.buildtype]}/generated/`
       : '/generated/';
 
