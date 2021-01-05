@@ -13,9 +13,9 @@ function generateWebpackDevConfig(buildOptions) {
 
   // This buildType likely always be 'localhost', but adding in to match patterns elsewhere and just incase we ever need it
   const publicAssetPath =
-    buildOptions.buildtype === 'localhost'
-      ? '/generated/'
-      : `${BUCKETS[buildOptions.buildtype]}/generated/`;
+    buildOptions.buildtype === 'vagovstaging' // just for staging so we can test it
+      ? `${BUCKETS[buildOptions.buildtype]}/generated/`
+      : '/generated/';
 
   // If in watch mode, assume hot reloading for JS and use webpack devserver.
   return {

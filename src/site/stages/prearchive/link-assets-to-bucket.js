@@ -92,11 +92,6 @@ function linkAssetsToBucket(options, fileNames) {
   const proxyRewriteFileName = fileNames.find(file =>
     file.endsWith('proxy-rewrite.entry.js'),
   );
-
-  if (!proxyRewriteFileName) {
-    return;
-  }
-
   const proxyRewriteContents = fs.readFileSync(proxyRewriteFileName);
   const newProxyRewriteContents = proxyRewriteContents
     .toString()
