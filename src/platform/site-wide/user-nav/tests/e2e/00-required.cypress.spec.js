@@ -55,132 +55,136 @@ const mockFetchSuggestions = () => {
   });
 };
 
-describe('Site-wide Search general functionality', () => {
-  // default cases
-  it('appears when the dropdown is clicked', () => {
-    cy.visit('/');
-    cy.get('button.sitewide-search-drop-down-panel-button').click();
+for (let i = 0; i < 50; i += 1) {
+  describe('Site-wide Search general functionality', () => {
+    // default cases
+    it('appears when the dropdown is clicked', () => {
+      cy.visit('/');
+      cy.get('button.sitewide-search-drop-down-panel-button', {
+        timeout: 10000,
+      }).click();
+    });
+
+    it('should pass Axe requirements', () => {
+      mockFeatureToggles();
+      mockFetchSuggestions();
+      prepareSearch('health');
+      cy.get('#suggestions-list').should('be.visible');
+      cy.get('#suggestions-list')
+        .children()
+        .should('have.length', 5);
+      axeTestPage();
+    });
+
+    it('should have the search button disabled if no input is present', () => {
+      mockFeatureToggles();
+      mockFetchSuggestions();
+      cy.visit('/');
+      cy.get('button.sitewide-search-drop-down-panel-button').click();
+      cy.get('#query').click();
+      cy.get('[data-e2e-id="sitewide-search-submit-button"]').should(
+        'be.disabled',
+      );
+    });
   });
 
-  it('should pass Axe requirements', () => {
-    mockFeatureToggles();
-    mockFetchSuggestions();
-    prepareSearch('health');
-    cy.get('#suggestions-list').should('be.visible');
-    cy.get('#suggestions-list')
-      .children()
-      .should('have.length', 5);
-    axeTestPage();
+  describe('Site-wide Search functionality with typeahead disabled', () => {
+    it('Clicking search button initiates search for input - typeahead disabled', () => {
+      prepareSearch('benefits');
+      cy.get('[data-e2e-id="sitewide-search-submit-button"]').click();
+      cy.url().should('contain', '/search/?query=benefits');
+    });
+
+    it('Pressing enter initiates search for input - typeahead disabled', () => {
+      mockFetchSuggestions();
+      prepareSearch('benefits');
+      cy.get('#query').type('{enter}');
+      cy.url().should('contain', '/search/?query=benefits');
+    });
   });
 
-  it('should have the search button disabled if no input is present', () => {
-    mockFeatureToggles();
-    mockFetchSuggestions();
-    cy.visit('/');
-    cy.get('button.sitewide-search-drop-down-panel-button').click();
-    cy.get('#query').click();
-    cy.get('[data-e2e-id="sitewide-search-submit-button"]').should(
-      'be.disabled',
-    );
-  });
-});
+  describe('Site-wide Search functionality with typeahead enabled', () => {
+    it('shows suggestions when user input is present and typeahead is enabled', () => {
+      mockFeatureToggles();
+      mockFetchSuggestions();
+      prepareSearch('benefits');
+      cy.get('#suggestions-list').should('be.visible');
+      cy.get('#suggestions-list')
+        .children()
+        .should('have.length', 5);
+    });
 
-describe('Site-wide Search functionality with typeahead disabled', () => {
-  it('Clicking search button initiates search for input - typeahead disabled', () => {
-    prepareSearch('benefits');
-    cy.get('[data-e2e-id="sitewide-search-submit-button"]').click();
-    cy.url().should('contain', '/search/?query=benefits');
-  });
+    it('Focusing the search button hides user input', () => {
+      mockFeatureToggles();
+      mockFetchSuggestions();
+      prepareSearch('benefits');
+      cy.get('#suggestions-list').should('be.visible');
+      cy.get('#suggestions-list')
+        .children()
+        .should('have.length', 5);
+      cy.get('[data-e2e-id="sitewide-search-submit-button"]').focus();
+      cy.get('#suggestions-list').should('not.be.visible');
+    });
 
-  it('Pressing enter initiates search for input - typeahead disabled', () => {
-    mockFetchSuggestions();
-    prepareSearch('benefits');
-    cy.get('#query').type('{enter}');
-    cy.url().should('contain', '/search/?query=benefits');
-  });
-});
+    it('Focusing the input field repopulates suggestions', () => {
+      mockFeatureToggles();
+      mockFetchSuggestions();
+      prepareSearch('health');
+      cy.get('#suggestions-list').should('be.visible');
+      cy.get('#suggestions-list')
+        .children()
+        .should('have.length', 5);
+      cy.get('[data-e2e-id="sitewide-search-submit-button"]').focus();
+      cy.get('#suggestions-list').should('not.be.visible');
+      cy.get('#query').focus();
+      cy.get('#suggestions-list').should('be.visible');
+      cy.get('#suggestions-list')
+        .children()
+        .should('have.length', 5);
+    });
 
-describe('Site-wide Search functionality with typeahead enabled', () => {
-  it('shows suggestions when user input is present and typeahead is enabled', () => {
-    mockFeatureToggles();
-    mockFetchSuggestions();
-    prepareSearch('benefits');
-    cy.get('#suggestions-list').should('be.visible');
-    cy.get('#suggestions-list')
-      .children()
-      .should('have.length', 5);
-  });
+    it('Clicking search button initiates search for input - typeahead enabled', () => {
+      mockFeatureToggles();
+      mockFetchSuggestions();
+      prepareSearch('health');
+      cy.get('[data-e2e-id="sitewide-search-submit-button"]').click();
+      cy.url().should('contain', '/search/?query=health');
+    });
 
-  it('Focusing the search button hides user input', () => {
-    mockFeatureToggles();
-    mockFetchSuggestions();
-    prepareSearch('benefits');
-    cy.get('#suggestions-list').should('be.visible');
-    cy.get('#suggestions-list')
-      .children()
-      .should('have.length', 5);
-    cy.get('[data-e2e-id="sitewide-search-submit-button"]').focus();
-    cy.get('#suggestions-list').should('not.be.visible');
-  });
+    it('Pressing enter (focus on input field) initiates search for input - typeahead enabled', () => {
+      mockFeatureToggles();
+      mockFetchSuggestions();
+      prepareSearch('health');
+      cy.get('#query').type('{enter}');
+      cy.url().should('contain', '/search/?query=health');
+    });
 
-  it('Focusing the input field repopulates suggestions', () => {
-    mockFeatureToggles();
-    mockFetchSuggestions();
-    prepareSearch('health');
-    cy.get('#suggestions-list').should('be.visible');
-    cy.get('#suggestions-list')
-      .children()
-      .should('have.length', 5);
-    cy.get('[data-e2e-id="sitewide-search-submit-button"]').focus();
-    cy.get('#suggestions-list').should('not.be.visible');
-    cy.get('#query').focus();
-    cy.get('#suggestions-list').should('be.visible');
-    cy.get('#suggestions-list')
-      .children()
-      .should('have.length', 5);
-  });
+    it('Clicking a dropdown option initiates a search using the suggestion', () => {
+      mockFeatureToggles();
+      mockFetchSuggestions();
+      prepareSearch('health');
+      cy.get('#suggestions-list').should('be.visible');
+      cy.get('#suggestions-list')
+        .children()
+        .should('have.length', 5);
+      cy.get('[data-e2e-id="typeahead-option-3"]').click();
+      cy.url().should('contain', '/search/?query=health%20response%203');
+    });
 
-  it('Clicking search button initiates search for input - typeahead enabled', () => {
-    mockFeatureToggles();
-    mockFetchSuggestions();
-    prepareSearch('health');
-    cy.get('[data-e2e-id="sitewide-search-submit-button"]').click();
-    cy.url().should('contain', '/search/?query=health');
+    it('Can use the arrow keys to navigate suggestions, and press enter to search using them', () => {
+      mockFeatureToggles();
+      mockFetchSuggestions();
+      prepareSearch('benefits');
+      cy.get('#suggestions-list').should('be.visible');
+      cy.get('#suggestions-list')
+        .children()
+        .should('have.length', 5);
+      cy.get('#query')
+        .type('{downarrow}')
+        .type('{downarrow}')
+        .type('{downarrow}')
+        .type('{enter}');
+      cy.url().should('contain', '/search/?query=benefits%20response%203');
+    });
   });
-
-  it('Pressing enter (focus on input field) initiates search for input - typeahead enabled', () => {
-    mockFeatureToggles();
-    mockFetchSuggestions();
-    prepareSearch('health');
-    cy.get('#query').type('{enter}');
-    cy.url().should('contain', '/search/?query=health');
-  });
-
-  it('Clicking a dropdown option initiates a search using the suggestion', () => {
-    mockFeatureToggles();
-    mockFetchSuggestions();
-    prepareSearch('health');
-    cy.get('#suggestions-list').should('be.visible');
-    cy.get('#suggestions-list')
-      .children()
-      .should('have.length', 5);
-    cy.get('[data-e2e-id="typeahead-option-3"]').click();
-    cy.url().should('contain', '/search/?query=health%20response%203');
-  });
-
-  it('Can use the arrow keys to navigate suggestions, and press enter to search using them', () => {
-    mockFeatureToggles();
-    mockFetchSuggestions();
-    prepareSearch('benefits');
-    cy.get('#suggestions-list').should('be.visible');
-    cy.get('#suggestions-list')
-      .children()
-      .should('have.length', 5);
-    cy.get('#query')
-      .type('{downarrow}')
-      .type('{downarrow}')
-      .type('{downarrow}')
-      .type('{enter}');
-    cy.url().should('contain', '/search/?query=benefits%20response%203');
-  });
-});
+}
