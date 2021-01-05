@@ -247,8 +247,9 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       },
     );
 
-    // Choose Provider
+    // Choose Provider that is buried 2 clicks deep
     userEvent.click(await screen.findByText(/Choose a provider/i));
+    userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/AJADI, ADEDIWURA/i));
     userEvent.click(
