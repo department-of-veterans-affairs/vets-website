@@ -95,6 +95,7 @@ const SearchResult = ({
   const lastRevision = deriveLatestIssue(firstIssuedOn, lastRevisionOn);
 
   const recordGAEvent = (eventTitle, eventUrl, eventType) =>
+    showFindFormsResultsLinkToFormDetailPages &&
     recordGAEventHelper({ ...formMetaInfo, eventTitle, eventUrl, eventType });
 
   return (
