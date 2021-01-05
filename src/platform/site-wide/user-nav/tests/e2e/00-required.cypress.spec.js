@@ -22,8 +22,11 @@ const mockFeatureToggles = () => {
 };
 
 const prepareSearch = term => {
+  cy.server();
   cy.visit('/');
-  cy.get('button.sitewide-search-drop-down-panel-button').click();
+  cy.get('button.sitewide-search-drop-down-panel-button', {
+    timeout: 10000,
+  }).click();
   cy.get('#query').click();
   cy.get('#query').type(term);
 };
@@ -59,6 +62,7 @@ for (let i = 0; i < 50; i += 1) {
   describe('Site-wide Search general functionality', () => {
     // default cases
     it('appears when the dropdown is clicked', () => {
+      cy.server();
       cy.visit('/');
       cy.get('button.sitewide-search-drop-down-panel-button', {
         timeout: 10000,
