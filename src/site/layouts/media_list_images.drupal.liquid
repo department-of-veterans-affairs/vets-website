@@ -52,7 +52,7 @@
                         {% endif %}
                         <!-- Images List -->
                         <dl class="usa-unstyled-list">
-                            {% include "src/site/includes/images_list_with_additional_info_component.drupal.liquid" 
+                            {% include "src/site/includes/images_list_with_additional_info_component.drupal.liquid"
                             with images = fieldMediaListImages.entity.fieldImages %}
                         </dl>
                         <!-- Repeated buttons -->
@@ -89,6 +89,7 @@
             </div>
         </div>
     </main>
+    {% include "src/site/components/up_to_top_button.html" %}
 </div>
 
 {% include "src/site/includes/footer.html" %}

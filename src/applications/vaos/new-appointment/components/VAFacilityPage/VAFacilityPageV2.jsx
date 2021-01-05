@@ -65,6 +65,7 @@ function VAFacilityPageV2({
   singleValidVALocation,
   sortMethod,
   typeOfCare,
+  typeOfCareId,
   updateFacilitySortMethod,
   updateFormData,
 }) {
@@ -278,7 +279,7 @@ function VAFacilityPageV2({
             <FacilitiesNotShown
               facilities={facilities}
               sortMethod={sortMethod}
-              typeOfCareId={typeOfCare.id}
+              typeOfCareId={typeOfCareId}
             />
             <FormButtons
               continueLabel=""

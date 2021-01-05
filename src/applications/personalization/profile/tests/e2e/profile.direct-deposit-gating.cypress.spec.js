@@ -28,7 +28,7 @@ describe('Direct Deposit', () => {
     cy.findByRole('navigation', { name: /secondary/i }).within(() => {
       // Just a test to make sure we can access items in the sub nav to ensure
       // the following test isn't a false negative
-      cy.findByText(/personal.*info/i).should('exist');
+      cy.findByRole('link', { name: /personal.*info/i }).should('exist');
       cy.findByRole('link', { name: /direct deposit/i }).should('not.exist');
     });
 

@@ -9,9 +9,11 @@ const loadQuestionnaires = async () => {
   if (USE_MOCK_DATA) {
     promise = new Promise(resolve => {
       setTimeout(() => {
-        import('./my-questionnaires.sample.json').then(module => {
-          resolve(module.default);
-        });
+        import(/* webpackChunkName: "my-questionnaires-sample-json" */ './my-questionnaires.sample.json').then(
+          module => {
+            resolve(module.default);
+          },
+        );
       }, 1000);
     });
   } else {
