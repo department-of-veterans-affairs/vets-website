@@ -3,17 +3,31 @@ import {
   updateSchemaAndData,
   updateItemsSchema,
 } from 'platform/forms-system/src/js/state/helpers';
+import set from 'platform/utilities/data/set';
 
 import {
   FORM_DATA_UPDATED,
   FORM_PAGE_CHANGE_COMPLETED,
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_OPENED,
+  FORM_PAGE_FACILITY_OPEN,
+  FORM_PAGE_FACILITY_OPEN_FAILED,
+  FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+  FORM_FETCH_CLINICS,
+  FORM_FETCH_CLINICS_FAILED,
+  FORM_FETCH_CLINICS_SUCCEEDED,
+  FORM_HIDE_ELIGIBILITY_MODAL,
+  FORM_SHOW_ELIGIBILITY_MODAL,
   FORM_SUBMIT_FAILED,
   FORM_SUBMIT,
+  FORM_REQUEST_CURRENT_LOCATION_FAILED,
+  FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
+  FORM_REQUEST_CURRENT_LOCATION,
 } from './actions';
 
-import { FETCH_STATUS } from '../../utils/constants';
+import { FACILITY_SORT_METHODS, FETCH_STATUS } from '../../utils/constants';
+import { distanceBetween } from '../../utils/address';
+import { TYPE_OF_CARE_ID } from '../utils';
 
 const initialState = {
   newBooking: {
@@ -21,10 +35,10 @@ const initialState = {
     pages: {},
     pageChangeInProgress: false,
     previousPages: {},
-    facilityId: null,
-    siteId: null,
-    isUnderRequestLimit: null,
-    fetchRequestLimitsStatus: FETCH_STATUS.notStarted,
+    facilities: null,
+    facilitiesStatus: FETCH_STATUS.notStarted,
+    clinics: {},
+    clinicsStatus: FETCH_STATUS.notStarted,
   },
   submitStatus: FETCH_STATUS.notStarted,
   submitErrorReason: null,
@@ -123,6 +137,242 @@ export default function projectCheetahReducer(state = initialState, action) {
           pageChangeInProgress: false,
           previousPages: updatedPreviousPages,
         },
+      };
+    }
+    case FORM_PAGE_FACILITY_OPEN: {
+      return {
+        ...state,
+        newBooking: {
+          ...state.newBooking,
+          facilitiesStatus: FETCH_STATUS.loading,
+        },
+      };
+    }
+    case FORM_PAGE_FACILITY_OPEN_SUCCEEDED: {
+      let newSchema = action.schema;
+      let newData = state.newBooking.data;
+      let facilities = action.facilities;
+      const address = action.address;
+      const hasResidentialCoordinates =
+        !!action.address?.latitude && !!action.address?.longitude;
+      const sortMethod = hasResidentialCoordinates
+        ? FACILITY_SORT_METHODS.distanceFromResidential
+        : FACILITY_SORT_METHODS.alphabetical;
+
+      if (hasResidentialCoordinates && facilities.length) {
+        facilities = facilities
+          .map(facility => {
+            const distanceFromResidentialAddress = distanceBetween(
+              address.latitude,
+              address.longitude,
+              facility.position.latitude,
+              facility.position.longitude,
+            );
+
+            return {
+              ...facility,
+              legacyVAR: {
+                ...facility.legacyVAR,
+                distanceFromResidentialAddress,
+              },
+            };
+          })
+          .sort((a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod]);
+      }
+
+      const typeOfCareFacilities = facilities.filter(
+        facility =>
+          facility.legacyVAR.directSchedulingSupported[TYPE_OF_CARE_ID],
+      );
+
+      if (typeOfCareFacilities.length === 1) {
+        newData = {
+          ...newData,
+          vaFacility: typeOfCareFacilities[0]?.id,
+        };
+      }
+
+      newSchema = set(
+        'properties.vaFacility',
+        {
+          type: 'string',
+          enum: typeOfCareFacilities.map(facility => facility.id),
+          enumNames: typeOfCareFacilities,
+        },
+        newSchema,
+      );
+
+      const { data, schema } = setupFormData(
+        newData,
+        newSchema,
+        action.uiSchema,
+      );
+
+      return {
+        ...state,
+        newBooking: {
+          ...state.newBooking,
+          data,
+          pages: {
+            ...state.newBooking.pages,
+            vaFacility: schema,
+          },
+          facilities,
+          facilitiesStatus: FETCH_STATUS.succeeded,
+          facilityPageSortMethod: sortMethod,
+          showEligibilityModal: false,
+        },
+      };
+    }
+    case FORM_PAGE_FACILITY_OPEN_FAILED: {
+      return {
+        ...state,
+        newBooking: {
+          ...state.newBooking,
+          facilitiesStatus: FETCH_STATUS.failed,
+        },
+      };
+    }
+    case FORM_FETCH_CLINICS: {
+      return {
+        ...state,
+        newBooking: {
+          ...state.newBooking,
+          clinicsStatus: FETCH_STATUS.loading,
+        },
+      };
+    }
+    case FORM_FETCH_CLINICS_SUCCEEDED: {
+      return {
+        ...state,
+        newBooking: {
+          ...state.newBooking,
+          clinics: {
+            ...state.newBooking.clinics,
+            showEligibilityModal: action.showModal,
+            [action.facilityId]: action.clinics,
+          },
+          clinicsStatus: FETCH_STATUS.succeeded,
+        },
+      };
+    }
+    case FORM_FETCH_CLINICS_FAILED: {
+      return {
+        ...state,
+        newBooking: {
+          ...state.newBooking,
+          clinicsStatus: FETCH_STATUS.failed,
+        },
+      };
+    }
+    case FORM_SHOW_ELIGIBILITY_MODAL: {
+      return {
+        ...state,
+        newBooking: {
+          ...state.newBooking,
+          showEligibilityModal: true,
+        },
+      };
+    }
+    case FORM_HIDE_ELIGIBILITY_MODAL: {
+      return {
+        ...state,
+        newBooking: {
+          ...state.newBooking,
+          showEligibilityModal: false,
+        },
+      };
+    }
+    case FORM_REQUEST_CURRENT_LOCATION: {
+      return {
+        ...state,
+        newBooking: {
+          ...state.newBooking,
+          requestLocationStatus: FETCH_STATUS.loading,
+        },
+      };
+    }
+    case FORM_PAGE_FACILITY_SORT_METHOD_UPDATED: {
+      const formData = state.data;
+      const sortMethod = action.sortMethod;
+      const location = action.location;
+      let facilities = state.newBooking.facilities;
+      let newSchema = state.newBooking.pages.vaFacility;
+      let requestLocationStatus = state.newBooking.requestLocationStatus;
+
+      if (location && facilities?.length) {
+        const { coords } = location;
+        const { latitude, longitude } = coords;
+
+        if (latitude && longitude) {
+          facilities = facilities.map(facility => {
+            const distanceFromCurrentLocation = distanceBetween(
+              latitude,
+              longitude,
+              facility.position.latitude,
+              facility.position.longitude,
+            );
+
+            return {
+              ...facility,
+              legacyVAR: {
+                ...facility.legacyVAR,
+                distanceFromCurrentLocation,
+              },
+            };
+          });
+        }
+
+        requestLocationStatus = FETCH_STATUS.succeeded;
+      }
+
+      if (sortMethod === FACILITY_SORT_METHODS.alphabetical) {
+        facilities = facilities.sort((a, b) => a.name - b.name);
+      } else {
+        facilities = facilities.sort(
+          (a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod],
+        );
+      }
+
+      const typeOfCareFacilities = facilities.filter(
+        facility =>
+          facility.legacyVAR.directSchedulingSupported[TYPE_OF_CARE_ID],
+      );
+      newSchema = set(
+        'properties.vaFacility',
+        {
+          type: 'string',
+          enum: typeOfCareFacilities.map(facility => facility.id),
+          enumNames: typeOfCareFacilities,
+        },
+        newSchema,
+      );
+
+      const { schema } = updateSchemaAndData(
+        newSchema,
+        action.uiSchema,
+        formData,
+      );
+
+      return {
+        ...state,
+        newBooking: {
+          ...state.newBooking,
+          pages: {
+            ...state.pages,
+            vaFacility: schema,
+          },
+          facilities,
+          facilitiesStatus: FETCH_STATUS.succeeded,
+          facilityPageSortMethod: sortMethod,
+          requestLocationStatus,
+        },
+      };
+    }
+    case FORM_REQUEST_CURRENT_LOCATION_FAILED: {
+      return {
+        ...state,
+        requestLocationStatus: FETCH_STATUS.failed,
       };
     }
     case FORM_SUBMIT:
