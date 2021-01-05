@@ -386,96 +386,10 @@ const formConfig = {
             },
           },
         },
-        veteranAddress: {
+        veteranMailingAddress: {
           path: 'veteran-information/veteran-address',
-          title: 'Home address',
-          initialData: {},
-          uiSchema: {
-            'ui:description': PrefillMessage,
-            veteranPermanentAddress: _.merge(
-              addressUI('Permanent address', true),
-              {
-                'ui:options': {
-                  hideIf: formData => formData['view:hasMultipleAddress'],
-                },
-                street: {
-                  'ui:errorMessages': {
-                    pattern:
-                      'Please provide a valid street. Must be at least 1 character.',
-                  },
-                },
-                city: {
-                  'ui:errorMessages': {
-                    pattern:
-                      'Please provide a valid city. Must be at least 1 character.',
-                  },
-                },
-              },
-            ),
-            veteranHomeAddress: _.merge(addressUI('Home address', true), {
-              'ui:options': {
-                hideIf: formData => !formData['view:hasMultipleAddress'],
-              },
-              street: {
-                'ui:errorMessages': {
-                  pattern:
-                    'Please provide a valid street. Must be at least 1 character.',
-                },
-              },
-              city: {
-                'ui:errorMessages': {
-                  pattern:
-                    'Please provide a valid city. Must be at least 1 character.',
-                },
-              },
-            }),
-            'view:doesPermanentAddressMatchMailing': {
-              'ui:title':
-                'Is your home address the same as your mailing address?',
-              'ui:widget': 'yesNo',
-              'ui:required': formData => formData['view:hasMultipleAddress'],
-              'ui:options': {
-                hideIf: formData => !formData['view:hasMultipleAddress'],
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              veteranAddress: _.merge(addressSchema(fullSchemaHca, true), {
-                properties: {
-                  street: {
-                    minLength: 1,
-                    maxLength: 30,
-                  },
-                  street2: {
-                    minLength: 1,
-                    maxLength: 30,
-                  },
-                  street3: {
-                    type: 'string',
-                    minLength: 1,
-                    maxLength: 30,
-                  },
-                  city: {
-                    minLength: 1,
-                    maxLength: 30,
-                  },
-                },
-              }),
-              'view:doesPermanentAddressMatchMailing': {
-                type: 'boolean',
-              },
-            },
-          },
-        },
-        mailingAddress: {
-          path: 'veteran-information/mailing-address',
           title: 'Mailing address',
           initialData: {},
-          depends: formData =>
-            formData['view:hasMultipleAddress'] &&
-            !formData['view:doesPermanentAddressMatchMailing'],
           uiSchema: {
             'ui:description': PrefillMessage,
             veteranMailingAddress: _.merge(addressUI('Mailing address', true), {
@@ -491,7 +405,20 @@ const formConfig = {
                     'Please provide a valid city. Must be at least 1 character.',
                 },
               },
+              'ui:options': {
+                'ui:title': 'Street',
+                hideIf: formData => !formData['view:hasMultipleAddress'],
+              },
             }),
+            'view:doesPermanentAddressMatchMailing': {
+              'ui:title':
+                'Is your home address the same as your mailing address?',
+              'ui:widget': 'yesNo',
+              'ui:required': formData => formData['view:hasMultipleAddress'],
+              'ui:options': {
+                hideIf: formData => !formData['view:hasMultipleAddress'],
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -520,6 +447,60 @@ const formConfig = {
                   },
                 },
               ),
+              'view:doesPermanentAddressMatchMailing': {
+                type: 'boolean',
+              },
+            },
+          },
+        },
+        veteranAddress: {
+          path: 'veteran-information/home-address',
+          title: 'Home address',
+          initialData: {},
+          depends: formData =>
+            formData['view:hasMultipleAddress'] &&
+            !formData['view:doesPermanentAddressMatchMailing'],
+          uiSchema: {
+            'ui:description': PrefillMessage,
+            veteranAddress: _.merge(addressUI('Home address', true), {
+              street: {
+                'ui:errorMessages': {
+                  pattern:
+                    'Please provide a valid street. Must be at least 1 character.',
+                },
+              },
+              city: {
+                'ui:errorMessages': {
+                  pattern:
+                    'Please provide a valid city. Must be at least 1 character.',
+                },
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              veteranAddress: _.merge(addressSchema(fullSchemaHca, true), {
+                properties: {
+                  street: {
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                  street2: {
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                  street3: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                  city: {
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                },
+              }),
             },
           },
         },
