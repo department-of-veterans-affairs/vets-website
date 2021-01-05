@@ -31,7 +31,41 @@ describe('health care questionnaire - reason for visit - visit page -', () => {
     expect(onChangeArgs.questionnaireId).to.equal('questionnaire-123');
     wrapper.unmount();
   });
-  it('questionnaire id is missing', () => {});
-  it('appointment id is missing', () => {});
-  it('both ids are missing', () => {});
+  it('questionnaire id is missing', () => {
+    const onChange = sinon.spy();
+    const delay = sinon.spy();
+    const fakeStore = createFakeHiddenFieldStore({
+      appointmentId: 'appointment-123',
+    });
+    const wrapper = mount(
+      <HiddenFields store={fakeStore} onChange={onChange} delay={delay} />,
+    );
+    expect(delay.called).to.be.false;
+    wrapper.unmount();
+  });
+  it('appointment id is missing', () => {
+    const onChange = sinon.spy();
+    const delay = sinon.spy();
+    const fakeStore = createFakeHiddenFieldStore({
+      questionnaireId: 'questionnaire-123',
+    });
+    const wrapper = mount(
+      <HiddenFields store={fakeStore} onChange={onChange} delay={delay} />,
+    );
+    expect(delay.called).to.be.false;
+    wrapper.unmount();
+  });
+  it('both ids are missing', () => {
+    const onChange = sinon.spy();
+    const delay = sinon.spy();
+    const fakeStore = createFakeHiddenFieldStore({
+      appointmentId: undefined,
+      questionnaireId: undefined,
+    });
+    const wrapper = mount(
+      <HiddenFields store={fakeStore} onChange={onChange} delay={delay} />,
+    );
+    expect(delay.called).to.be.false;
+    wrapper.unmount();
+  });
 });
