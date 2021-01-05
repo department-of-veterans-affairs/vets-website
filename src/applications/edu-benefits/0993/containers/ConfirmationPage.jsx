@@ -27,9 +27,17 @@ export class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <h2 className="confirmation-page-title schemaform-confirmation-section-header">
-          Your opt-out form has been submitted
-        </h2>
+        <div className="print-only">
+          <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300" />
+          <h1 className="vads-u-font-size--h3 vads-u-margin-top--3">
+            Opt out of sharing education benefits information
+          </h1>
+          <span>Form 22-0993</span>
+        </div>
+        <h3 className="confirmation-page-title screen-only">
+          Your opt-out form has been submitted.
+        </h3>
+        <h4 className="print-only">Your opt-out form has been submitted.</h4>
         <p>
           We may contact you if we have questions or need more information. You
           can print this page for your records.

@@ -45,8 +45,7 @@ def isReviewable() {
 def isDeployable() {
   return (IS_DEV_BRANCH ||
           IS_STAGING_BRANCH) &&
-    !env.CHANGE_TARGET &&
-    !currentBuild.nextBuild // if there's a later build on this job (branch), don't deploy
+    !env.CHANGE_TARGET
 }
 
 def shouldBail() {

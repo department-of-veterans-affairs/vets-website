@@ -241,15 +241,23 @@ export const getValidationMessageKey = (
 // address validation modal will _not_ be shown to the user is if the validation
 // API came back with one valid address suggestion that it is very confident is
 // the address the user entered.
-export const showAddressValidationModal = suggestedAddresses => {
-  // pull the addressMetaData prop off the first suggestedAddresses element
-  const [{ addressMetaData } = {}] = suggestedAddresses;
+export const showAddressValidationModal = (
+  suggestedAddresses,
+  userInputAddress,
+) => {
+  // pull the first address off of the suggestedAddresses array
+  const [firstSuggestedAddress] = suggestedAddresses;
+  const {
+    addressMetaData: firstSuggestedAddressMetadata,
+  } = firstSuggestedAddress;
 
   if (
     suggestedAddresses.length === 1 &&
-    addressMetaData.confidenceScore > 90 &&
-    (addressMetaData.deliveryPointValidation === CONFIRMED ||
-      addressMetaData.addressType?.toLowerCase() === 'international')
+    firstSuggestedAddress.stateCode === userInputAddress.stateCode &&
+    firstSuggestedAddressMetadata.confidenceScore > 90 &&
+    (firstSuggestedAddressMetadata.deliveryPointValidation === CONFIRMED ||
+      firstSuggestedAddressMetadata.addressType?.toLowerCase() ===
+        'international')
   ) {
     return false;
   }

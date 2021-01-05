@@ -32,6 +32,7 @@ export default function SearchBar({
         'type-ahead-option-position': undefined,
         'type-ahead-options-list': undefined,
       });
+      return;
     }
 
     // Escape early if we are not on the search page to let the form submit manually.
@@ -84,7 +85,7 @@ export default function SearchBar({
             ? `${searchSettings.rootUrl}/`
             : `${resourcesSettings.rootUrl}/`
         }
-        onSubmit={isGlobalSearch ? null : onSubmit}
+        onSubmit={onSubmit}
       >
         <fieldset className="fieldset-input vads-u-margin--0">
           <legend className="vads-u-font-size--md vads-u-font-family--serif">

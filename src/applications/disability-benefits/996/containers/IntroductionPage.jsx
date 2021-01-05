@@ -24,6 +24,7 @@ import {
 } from '../actions';
 import { higherLevelReviewFeature, scrollToTop } from '../helpers';
 import {
+  BASE_URL,
   SAVED_CLAIM_TYPE,
   SUPPLEMENTAL_CLAIM_URL,
   FACILITY_LOCATOR_URL,
@@ -153,7 +154,7 @@ export class IntroductionPage extends React.Component {
       );
     }
 
-    // check is user has address
+    // check if user has address
     if (user?.login?.currentlyLoggedIn && hasEmptyAddress) {
       return (
         <article className="schemaform-intro">
@@ -192,8 +193,8 @@ export class IntroductionPage extends React.Component {
             </h2>
             <p>
               The senior reviewer will only review the evidence you already
-              provided. If you have new and relevant evidence, you can file{' '}
-              <a href={SUPPLEMENTAL_CLAIM_URL}>a Supplemental Claim</a>.
+              provided. If you have new and relevant evidence, you can{' '}
+              <a href={SUPPLEMENTAL_CLAIM_URL}>file a Supplemental Claim</a>.
             </p>
             <div className="process schemaform-process">
               <h2 className="vads-u-font-size--h3">
@@ -201,16 +202,19 @@ export class IntroductionPage extends React.Component {
               </h2>
               <p className="vads-u-margin-top--2">
                 if you don’t think this is the right form for you,{' '}
-                <button
+                <a
+                  href={BASE_URL}
                   className="va-button-link"
-                  onClick={() => {
+                  onClick={event => {
+                    // prevent reload, but allow opening a new tab
+                    event.preventDefault();
                     this.setWizardStatus(WIZARD_STATUS_NOT_STARTED);
                     this.setPageFocus();
                     recordEvent({ event: 'howToWizard-start-over' });
                   }}
                 >
                   go back and answer questions again
-                </button>
+                </a>
                 .
               </p>
               <ol>

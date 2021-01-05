@@ -1,10 +1,13 @@
 // Node modules.
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
 // Relative imports.
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import recordEvent from 'platform/monitoring/record-event';
-import { ENTITY_BUNDLES } from 'site/constants/content-modeling';
 import { Article } from '../prop-types';
+import { ENTITY_BUNDLES } from 'site/constants/content-modeling';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 const articleTypes = {
   [ENTITY_BUNDLES.Q_A]: 'Question and answer',
@@ -16,22 +19,29 @@ const articleTypes = {
   [ENTITY_BUNDLES.STEP_BY_STEP]: 'Step-by-step',
 };
 
-export default function SearchResult({
+export const SearchResult = ({
   article,
+  page,
   position,
   query,
+  searchTypeaheadEnabled,
   totalResults,
-}) {
+}) => {
   const onSearchResultClick = () => {
     // Track search result click.
     recordEvent({
       event: 'onsite-search-results-click',
       'search-page-path': document.location.pathname,
       'search-query': query,
+      'search-result-chosen-page-url': article.entityUrl.path,
+      'search-result-chosen-title': article.title,
+      'search-results-pagination-current-page': page,
       'search-results-position': position,
+      'search-results-top-recommendation': undefined,
       'search-results-total-count': totalResults,
       'search-results-total-pages': Math.ceil(totalResults / 10),
       'search-selection': 'Resources and support',
+      'search-typeahead-enabled': searchTypeaheadEnabled,
     });
   };
 
@@ -54,11 +64,23 @@ export default function SearchResult({
       />
     </div>
   );
-}
+};
 
 SearchResult.propTypes = {
   article: Article,
+  page: PropTypes.number,
   position: PropTypes.number.isRequired,
   query: PropTypes.string,
   totalResults: PropTypes.number,
 };
+
+const mapStateToProps = store => ({
+  searchTypeaheadEnabled: toggleValues(store)[
+    FEATURE_FLAG_NAMES.searchTypeaheadEnabled
+  ],
+});
+
+export default connect(
+  mapStateToProps,
+  null,
+)(SearchResult);

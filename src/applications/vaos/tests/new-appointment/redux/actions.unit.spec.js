@@ -461,7 +461,10 @@ describe('VAOS newAppointment actions', () => {
                     value: '983GC',
                   },
                 ],
-                legacyVAR: {},
+                legacyVAR: {
+                  directSchedulingSupported: { 323: true },
+                  requestSupported: { 323: true },
+                },
               },
             ],
           },

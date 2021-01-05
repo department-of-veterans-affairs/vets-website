@@ -121,6 +121,9 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
   return {
     isMilitary: {
       'ui:title': checkBoxTitle,
+      'ui:options': {
+        hideEmptyValueInReview: true,
+      },
     },
     'view:militaryBaseDescription': {
       'ui:description': MilitaryBaseInfo,
@@ -168,9 +171,15 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
     },
     street2: {
       'ui:title': 'Line 2',
+      'ui:options': {
+        hideEmptyValueInReview: true,
+      },
     },
     street3: {
       'ui:title': 'Line 3',
+      'ui:options': {
+        hideEmptyValueInReview: true,
+      },
     },
     city: {
       'ui:required': uiRequiredCallback,
@@ -256,7 +265,7 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
     },
     postalCode: {
       'ui:required': uiRequiredCallback,
-      'ui:title': 'Postal Code',
+      'ui:title': 'Postal code',
       'ui:errorMessages': {
         required: 'Postal code is required',
         pattern: 'Please enter a valid US zip code',

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 // Relative imports.
+import { getFindFormsAppState } from '../helpers/selectors';
 import { fetchFormsThunk } from '../actions';
 
 export class SearchForm extends Component {
@@ -29,10 +30,9 @@ export class SearchForm extends Component {
   }
 
   componentDidMount() {
+    const { query } = this.state;
     // Fetch the forms with their query if it's on the URL.
-    if (this.state.query) {
-      this.props.fetchFormsThunk(this.state.query);
-    }
+    if (query) this.props.fetchFormsThunk(query);
   }
 
   onQueryChange = event => {
@@ -89,7 +89,7 @@ export class SearchForm extends Component {
 }
 
 const mapStateToProps = state => ({
-  fetching: state.findVAFormsReducer.fetching,
+  fetching: getFindFormsAppState(state).fetching,
 });
 
 const mapDispatchToProps = {

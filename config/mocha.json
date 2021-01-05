@@ -1,7 +1,8 @@
 {
   "require": [
     "@babel/register",
-    "@babel/polyfill",
+    "core-js/stable",
+    "regenerator-runtime/runtime",
     "blob-polyfill",
     "choma",
     "isomorphic-fetch",

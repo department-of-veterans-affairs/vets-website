@@ -33,13 +33,13 @@ export class ConfirmationPage extends React.Component {
         <p>
           Equal to VA Form 28-8832 (Education/Vocational Counseling Application)
         </p>
+        <h2 className="vads-u-font-size--h3 vads-u-margin-top--1">
+          Thank you for submitting your application
+        </h2>
         <div className="inset">
-          <h2 className="vads-u-font-size--h3 vads-u-margin-top--1">
-            Thank you for submitting your application
-          </h2>
-          <h3 className="vads-u-font-size--h4">
-            Education/Vocational Counseling Application{' '}
-            <span className="additional">(Form 28-8832)</span>
+          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
+            Personalized Career Planning and Guidance application{' '}
+            <span className="additional">(VA Form 28-8832)</span>
           </h3>
           {name.first &&
             name.last && (
@@ -66,13 +66,9 @@ export class ConfirmationPage extends React.Component {
         </div>
         <h3>What happens after I apply?</h3>
         <p>
-          If you're eligible for career counseling benefits, we'll invite you to
-          an orientation session at your nearest VA regional office.
-        </p>
-        <h3>How long will it take VA to process my application?</h3>
-        <p>
-          We usually decide on applications within 1 week. If we need you to
-          provide more information or documents, we’ll contact you by mail.
+          If you're eligible for career planning and guidance benefits, we'll
+          invite you to an orientation session at your nearest VA regional
+          office.
         </p>
         <p>
           If we haven’t contacted you within a week after you submitted your
@@ -120,13 +116,20 @@ export class ConfirmationPage extends React.Component {
             </li>
           </ol>
         </div>
+        <a
+          href="https://va.gov"
+          target="_self"
+          className="usa-button-primary"
+          role="button"
+        >
+          Go back to VA.gov
+        </a>
         <h3 className="vads-u-margin-top--1p5">
           What if I have more questions?
         </h3>
         <p>
-          Please call our toll-free hotline at{' '}
-          <Telephone contact={CONTACTS.VA_BENEFITS} />. We’re here Monday
-          through Friday, 8:00 am to 8:00 pm ET.
+          Please call us at <Telephone contact={CONTACTS.VA_BENEFITS} />. We’re
+          here Monday through Friday, 8:00 am to 8:00 p.m. ET.
         </p>
       </div>
     );

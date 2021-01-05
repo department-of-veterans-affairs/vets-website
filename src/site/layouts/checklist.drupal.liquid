@@ -5,7 +5,7 @@
 
 {% assign listchecklistItemIndex = 0 %}
 
-<div id="content" class="interior">
+<div id="content" class="interior" data-template="node-checklist">
   <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
       <div class="usa-width-three-fourths">
@@ -38,19 +38,23 @@
 
             <!-- Buttons -->
             <div class="vads-u-margin-y--3">
-            {% for fieldButton in fieldButtons %}
-              {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
-            {% endfor %}
-          </div>
+              {% for fieldButton in fieldButtons %}
+                {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
+              {% endfor %}
+            </div>
 
             <!-- Checklist sections -->
-            <h2>Checklist</h2>
             {% assign checklistSectionIndex = 0 %}
             {% for checklistSection in fieldChecklist.entity.fieldChecklistSections %}
 
               <!-- Checklist section header -->
               {% if checklistSection.entity.fieldSectionHeader %}
-                <h3>{{ checklistSection.entity.fieldSectionHeader }}</h3>
+                <h2 class="vads-u-font-size--h3">{{ checklistSection.entity.fieldSectionHeader }}</h2>
+              {% endif %}
+
+              <!-- Checklist section intro -->
+              {% if checklistSection.entity.fieldSectionIntro %}
+                <p>{{ checklistSection.entity.fieldSectionIntro }}</p>
               {% endif %}
 
               <!-- Checklist items -->
@@ -86,9 +90,6 @@
             {% endif %}
           </article>
 
-          <!-- Line break -->
-          <hr class="vads-u-margin-top--0" />
-
           <!-- Tags -->
           {% include "src/site/includes/tags.drupal.liquid" with fieldTags = fieldTags %}
 
@@ -113,6 +114,7 @@
       </div>
     </div>
   </main>
+  {% include "src/site/components/up_to_top_button.html" %}
 </div>
 
 {% include "src/site/includes/footer.html" %}

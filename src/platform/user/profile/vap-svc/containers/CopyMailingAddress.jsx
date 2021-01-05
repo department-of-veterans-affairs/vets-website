@@ -7,7 +7,7 @@ import pickBy from 'lodash/pickBy';
 import mapValues from 'lodash/mapValues';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
 
-import { FIELD_NAMES } from '../constants';
+import { FIELD_NAMES, USA } from '@@vap-svc/constants';
 
 import { selectVAPContactInfoField, selectEditedFormField } from '../selectors';
 
@@ -46,11 +46,20 @@ class CopyMailingAddress extends React.Component {
   };
 
   onChange = () => {
-    const { copyMailingAddress, mailingAddress } = this.props;
+    const {
+      copyMailingAddress,
+      mailingAddress,
+      residentialAddress,
+    } = this.props;
 
     // If mailing + home addresses are the same, clear the home address
     if (this.areHomeMailingAddressesEqual()) {
       const clearedHomeAddress = mapValues(mailingAddress, () => null);
+
+      // We need the id to remain the same to prevent POST calls
+      clearedHomeAddress.id = residentialAddress?.id || null;
+      clearedHomeAddress.countryCodeIso3 = USA.COUNTRY_ISO3_CODE;
+
       copyMailingAddress(clearedHomeAddress);
       return;
     }

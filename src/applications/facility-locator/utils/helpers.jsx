@@ -19,7 +19,9 @@ export const clearLocationMarkers = () => {
   const locationMarkers = window.document.getElementsByClassName(
     'mapboxgl-marker',
   );
-  Array.from(locationMarkers).forEach(marker => marker.remove());
+  Array.from(locationMarkers).forEach(marker =>
+    marker.parentNode.removeChild(marker),
+  );
 };
 
 export const buildMarker = (type, values) => {
@@ -78,7 +80,8 @@ export const setSearchAreaPosition = () => {
     .appendChild(searchAreaContainer);
   document
     .querySelectorAll('.mapboxgl-ctrl-top-right')
-    .forEach(el => el.remove());
+    // IE 11 doesn't support ChildNode.remove() and core-js doesn't polyfill DOM methods.
+    .forEach(el => el.parentNode.removeChild(el));
 };
 
 /**

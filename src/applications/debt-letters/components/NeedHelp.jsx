@@ -34,12 +34,12 @@ const NeedHelp = () => (
     <a href="https://www.va.gov/debtman/Financial_Status_Report.asp">
       Find information about submitting a financial status report
     </a>
-    <h3
+    <h2
       id="howDoIDispute"
-      className="vads-u-margin-top--4 vads-u-margin-bottom--0 vads-u-font-size--h2"
+      className="vads-u-margin-top--4 vads-u-margin-bottom--0"
     >
       How do I dispute a debt?
-    </h3>
+    </h2>
     <p className="vads-u-margin-top--2">
       If you think a debt was created in error, you can dispute it. Get
       information about disputing a debt by calling the DMC at{' '}
