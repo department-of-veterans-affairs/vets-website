@@ -59,7 +59,7 @@
                     <!-- Step wysiyg -->
                     {{ fieldStep.entity.fieldWysiwyg.processed }}
                     <!-- mobile template, hide ghost alerts -->
-                    {% if fieldStep.entity.fieldMedia.entity.thumbnail != empty or fieldStep.entity.fieldAlert.entity.fieldAlertBlockReference != empty   
+                    {% if fieldStep.entity.fieldMedia.entity.thumbnail != empty or fieldStep.entity.fieldAlert.entity.fieldAlertBlockReference != empty
                     %}
                       <div class="form-expanding-group additional-info-container medium-screen:vads-u-display--none">
                         <span class="additional-info-title">Show details</span>
@@ -76,7 +76,7 @@
                     {% endif %}
                     <!-- desktop -->
                     <span class="vads-u-display--none medium-screen:vads-u-display--block">
-                      {% if fieldStep.entity.fieldAlert.entity.fieldAlertBlockReference != empty   
+                      {% if fieldStep.entity.fieldAlert.entity.fieldAlertBlockReference != empty
                       %}
                         <div class="vads-u-margin--1p5">
                           {% include "src/site/paragraphs/alert_single.drupal.liquid" with entity = fieldStep.entity.fieldAlert.entity %}
@@ -129,6 +129,7 @@
       </div>
     </div>
   </main>
+  {% include "src/site/components/up_to_top_button.html" %}
 </div>
 
 {% include "src/site/includes/footer.html" %}

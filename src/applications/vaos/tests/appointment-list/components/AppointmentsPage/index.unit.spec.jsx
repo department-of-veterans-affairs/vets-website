@@ -63,6 +63,11 @@ describe('VAOS integration: appointment list', () => {
     appointment.attributes = {
       ...appointment.attributes,
       startDate: secondDate.format(),
+      vdsAppointments: [
+        {
+          bookingNote: 'My reason isn’t listed: Looking for a reason',
+        },
+      ],
     };
     const videoAppointment = getVideoAppointmentMock();
     videoAppointment.attributes = {
@@ -87,7 +92,7 @@ describe('VAOS integration: appointment list', () => {
       requests: [request],
     });
 
-    const { baseElement, findAllByRole } = renderWithStoreAndRouter(
+    const { baseElement, findAllByRole, getByText } = renderWithStoreAndRouter(
       <FutureAppointmentsList />,
       {
         initialState,
@@ -108,6 +113,7 @@ describe('VAOS integration: appointment list', () => {
       'Primary care appointment',
     ]);
     expect(baseElement.querySelector('h4')).to.be.ok;
+    expect(getByText(/My reason isn’t listed/i)).to.be.ok;
   });
 
   it('should sort requests by type of care', async () => {
