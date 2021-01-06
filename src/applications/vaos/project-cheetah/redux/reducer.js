@@ -25,6 +25,10 @@ import {
   FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
   FORM_REQUEST_CURRENT_LOCATION,
   FORM_CALENDAR_DATA_CHANGED,
+  FORM_CALENDAR_2_DATA_CHANGED,
+  FORM_CALENDAR_FETCH_SLOTS,
+  FORM_CALENDAR_FETCH_SLOTS_FAILED,
+  FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
 } from './actions';
 
 import { FACILITY_SORT_METHODS, FETCH_STATUS } from '../../utils/constants';
@@ -437,12 +441,56 @@ export default function projectCheetahReducer(state = initialState, action) {
         submitStatus: FETCH_STATUS.failed,
         submitErrorReason: action.errorReason,
       };
+    case FORM_CALENDAR_FETCH_SLOTS: {
+      return {
+        ...state, // TODO newBooking
+        newBooking: {
+          ...state.newBooking,
+          appointmentSlotsStatus: FETCH_STATUS.loading,
+        },
+      };
+    }
+    case FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED: {
+      return {
+        ...state, // TODO newBooking
+        newBooking: {
+          ...state.newBooking,
+          appointmentSlotsStatus: FETCH_STATUS.succeeded,
+          availableSlots: action.availableSlots,
+          fetchedAppointmentSlotMonths: action.fetchedAppointmentSlotMonths,
+        },
+      };
+    }
+    case FORM_CALENDAR_FETCH_SLOTS_FAILED: {
+      return {
+        ...state, // TODO newBooking
+        newBooking: {
+          ...state.newBooking,
+          appointmentSlotsStatus: FETCH_STATUS.failed,
+        },
+      };
+    }
     case FORM_CALENDAR_DATA_CHANGED: {
       return {
         ...state,
-        data: {
-          ...state.data,
-          calendarData: action.calendarData,
+        newBooking: {
+          ...state.newBooking,
+          data: {
+            ...state.newBooking.data,
+            calendarData: action.calendarData,
+          },
+        },
+      };
+    }
+    case FORM_CALENDAR_2_DATA_CHANGED: {
+      return {
+        ...state,
+        newBooking: {
+          ...state.newBooking,
+          data: {
+            ...state.newBooking.data,
+            calendar2Data: action.calendar2Data,
+          },
         },
       };
     }

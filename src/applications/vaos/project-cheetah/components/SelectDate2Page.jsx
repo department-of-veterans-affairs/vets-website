@@ -5,54 +5,86 @@ import * as actions from '../redux/actions';
 import FormButtons from '../../components/FormButtons';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import CalendarWidget from '../../components/calendar/CalendarWidget';
-import { onCalendarChange } from '../redux/actions';
 import moment from 'moment';
-import { CALENDAR_INDICATOR_TYPES } from '../../utils/constants';
-import { getProjectCheetahFormPageInfo } from '../redux/selectors';
+import { FETCH_STATUS } from '../../utils/constants';
+import { getDateTimeSelect } from '../redux/selectors';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import { getRealFacilityId } from '../../utils/appointment';
 
 const pageKey = 'selectDate2';
-const pageTitle = 'Select Second Date';
-
-const maxSelections = 1;
+const pageTitle = 'Select First Date';
 
 const missingDateError =
-  'Please select one preferred date for your appointment. You can select only one date.';
-const maxSelectionsError = 'You can only choose one date for your appointment.';
+  'Please choose your preferred date and time for your appointment.';
 
-export function getOptionsByDate() {
-  return [
-    {
-      value: 'AM',
-      label: 'AM',
-      secondaryLabel: 'Before noon',
-    },
-    {
-      value: 'PM',
-      label: 'PM',
-      secondaryLabel: 'Noon or later',
-    },
-  ];
+export function getOptionsByDate(
+  selectedDate,
+  timezoneDescription,
+  availableSlots = [],
+) {
+  return availableSlots.reduce((acc, slot) => {
+    if (slot.start.split('T')[0] === selectedDate) {
+      let time = moment(slot.start);
+      if (slot.start.endsWith('Z')) {
+        time = time.tz(timezoneDescription);
+      }
+      const meridiem = time.format('A');
+      const screenReaderMeridiem = meridiem.replace(/\./g, '').toUpperCase();
+      acc.push({
+        value: slot.start,
+        label: (
+          <>
+            {time.format('h:mm')} <span aria-hidden="true">{meridiem}</span>{' '}
+            <span className="sr-only">{screenReaderMeridiem}</span>
+          </>
+        ),
+      });
+    }
+    return acc;
+  }, []);
 }
 
-function isMaxSelectionsError(validationError) {
-  return validationError === maxSelectionsError;
+function ErrorMessage({ facilityId, requestAppointmentDateChoice }) {
+  return (
+    <div aria-atomic="true" aria-live="assertive">
+      <AlertBox
+        status="error"
+        headline="We’ve run into a problem when trying to find available appointment times"
+      >
+        To schedule this appointment, you can{' '}
+        <button
+          onClick={() => requestAppointmentDateChoice(history)}
+          className="va-button-link"
+        >
+          submit a request for a VA appointment
+        </button>{' '}
+        or{' '}
+        <a
+          href={`/find-locations/facility/vha_${getRealFacilityId(facilityId)}`}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          call your local VA medical center
+        </a>
+        .
+      </AlertBox>
+    </div>
+  );
 }
 
 function userSelectedSlot(calendarData) {
   return calendarData?.selectedDates?.length > 0;
 }
 
-function exceededMaxSelections(calendarData) {
-  return calendarData?.selectedDates?.length > maxSelections;
+function goBack({ routeToPreviousAppointmentPage, history }) {
+  return routeToPreviousAppointmentPage(history, pageKey);
 }
 
-function validate({ data, setValidationError }) {
-  if (exceededMaxSelections(data)) {
-    setValidationError(maxSelectionsError);
-  } else if (!userSelectedSlot(data)) {
-    setValidationError(missingDateError);
-  } else {
+function validate({ calendarData, setValidationError }) {
+  if (userSelectedSlot(calendarData)) {
     setValidationError(null);
+  } else {
+    setValidationError(missingDateError);
   }
 }
 
@@ -65,8 +97,8 @@ function goForward({
   setValidationError,
 }) {
   const { calendarData } = data || {};
-  validate({ data: calendarData, setValidationError });
-  if (userSelectedSlot(calendarData) && !exceededMaxSelections(calendarData)) {
+  validate({ calendarData, setValidationError });
+  if (userSelectedSlot(calendarData)) {
     routeToNextAppointmentPage(history, pageKey);
   } else if (submitted) {
     scrollAndFocus('.usa-input-error-message');
@@ -75,79 +107,102 @@ function goForward({
   }
 }
 
-function SelectDate2Page({
+export function SelectDate2Page({
+  appointmentSlotsStatus,
+  availableDates,
+  availableSlots,
   data,
+  facilityId,
+  getAppointmentSlots,
   pageChangeInProgress,
-  routeToNextAppointmentPage,
+  preferredDate,
+  onCalendar2Change,
   routeToPreviousAppointmentPage,
+  requestAppointmentDateChoice,
+  routeToNextAppointmentPage,
+  timezone,
+  timezoneDescription,
 }) {
   const history = useHistory();
   const [submitted, setSubmitted] = useState(false);
   const [validationError, setValidationError] = useState(null);
+
   useEffect(() => {
+    getAppointmentSlots(
+      moment(preferredDate)
+        .startOf('month')
+        .format('YYYY-MM-DD'),
+      moment(preferredDate)
+        .add(1, 'months')
+        .endOf('month')
+        .format('YYYY-MM-DD'),
+      true,
+    );
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
   }, []);
 
   useEffect(
     () => {
-      if (
-        validationError &&
-        (isMaxSelectionsError(validationError) || submitted)
-      ) {
+      if (validationError && submitted) {
         scrollAndFocus('.usa-input-error-message');
       }
     },
     [validationError, submitted],
   );
 
-  const calendarData = data?.calendarData || {};
-  const { currentlySelectedDate, selectedDates } = calendarData;
-
-  const additionalOptions = {
-    fieldName: 'optionTime',
-    required: true,
-    maxSelections: 1,
-    validationMessage:
-      'Please select a preferred time or unselect this date to continue',
-    getOptionsByDate,
-  };
+  const calendar2Data = data?.calendar2Data || {};
+  const { currentlySelectedDate, selectedDates } = calendar2Data;
+  const startMonth = preferredDate
+    ? moment(preferredDate).format('YYYY-MM')
+    : null;
 
   return (
     <div>
-      <h1>{pageTitle}</h1>
-      <p>
-        You can choose a date. A scheduling coordinator will call you to
-        schedule the best time for your appointment.
-      </p>
+      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+      {appointmentSlotsStatus !== FETCH_STATUS.failed && (
+        <p>
+          Please select a desired date and time for your appointment.
+          {timezone &&
+            ` Appointment times are displayed in ${timezoneDescription}.`}
+        </p>
+      )}
       <CalendarWidget
-        maxSelections={maxSelections}
-        onChange={newData => {
-          validate({ data: newData, setValidationError });
-          onCalendarChange(newData);
-        }}
-        minDate={moment()
-          .add(5, 'days')
-          .format('YYYY-MM-DD')}
-        maxDate={moment()
-          .add(21, 'days')
-          .format('YYYY-MM-DD')}
+        maxSelections={1}
+        availableDates={availableDates}
         currentlySelectedDate={currentlySelectedDate}
         selectedDates={selectedDates}
-        selectedIndicatorType={CALENDAR_INDICATOR_TYPES.CHECK}
-        additionalOptions={additionalOptions}
-        validationError={
-          submitted || isMaxSelectionsError(validationError)
-            ? validationError
-            : null
+        additionalOptions={{
+          fieldName: 'datetime',
+          required: true,
+          maxSelections: 1,
+          getOptionsByDate: selectedDate =>
+            getOptionsByDate(selectedDate, timezone, availableSlots),
+        }}
+        loadingStatus={appointmentSlotsStatus}
+        loadingErrorMessage={
+          <ErrorMessage
+            facilityId={facilityId}
+            requestAppointmentDateChoice={requestAppointmentDateChoice}
+          />
         }
+        onChange={newData => {
+          validate({ calendar2Data: newData, setValidationError });
+          onCalendar2Change(newData);
+        }}
+        onClickNext={getAppointmentSlots}
+        onClickPrev={getAppointmentSlots}
+        minDate={moment()
+          .add(1, 'days')
+          .format('YYYY-MM-DD')}
+        maxDate={moment()
+          .add(395, 'days')
+          .format('YYYY-MM-DD')}
+        startMonth={startMonth}
+        validationError={submitted ? validationError : null}
       />
       <FormButtons
-        pageChangeInProgress={pageChangeInProgress}
-        loadingText="Page change in progress"
-        onBack={() => {
-          routeToPreviousAppointmentPage(history, pageKey);
-        }}
+        onBack={() => goBack({ routeToPreviousAppointmentPage, history })}
         onSubmit={() =>
           goForward({
             data,
@@ -158,19 +213,25 @@ function SelectDate2Page({
             setValidationError,
           })
         }
+        disabled={appointmentSlotsStatus === FETCH_STATUS.failed}
+        pageChangeInProgress={pageChangeInProgress}
+        loadingText="Page change in progress"
       />
     </div>
   );
 }
 
 function mapStateToProps(state) {
-  return getProjectCheetahFormPageInfo(state, pageKey);
+  return getDateTimeSelect(state, pageKey);
 }
 
 const mapDispatchToProps = {
-  onCalendarChange: actions.onCalendarChange,
+  getAppointmentSlots: actions.getAppointmentSlots,
+  onCalendar2Change: actions.onCalendar2Change,
   routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
   routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
+  startRequestAppointmentFlow: actions.startAppointmentFlow,
+  requestAppointmentDateChoice: actions.projectCheetahAppointmentDateChoice,
 };
 
 export default connect(

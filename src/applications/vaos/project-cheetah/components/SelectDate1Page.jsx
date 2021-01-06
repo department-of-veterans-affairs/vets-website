@@ -7,7 +7,7 @@ import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import CalendarWidget from '../../components/calendar/CalendarWidget';
 import moment from 'moment';
 import { FETCH_STATUS } from '../../utils/constants';
-import { getProjectCheetahFormPageInfo } from '../redux/selectors';
+import { getDateTimeSelect } from '../redux/selectors';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { getRealFacilityId } from '../../utils/appointment';
 
@@ -107,7 +107,7 @@ function goForward({
   }
 }
 
-function SelectDate1Page({
+export function SelectDate1Page({
   appointmentSlotsStatus,
   availableDates,
   availableSlots,
@@ -222,7 +222,7 @@ function SelectDate1Page({
 }
 
 function mapStateToProps(state) {
-  return getProjectCheetahFormPageInfo(state, pageKey);
+  return getDateTimeSelect(state, pageKey);
 }
 
 const mapDispatchToProps = {

@@ -4,6 +4,11 @@ import {
   selectVAPResidentialAddress,
 } from 'platform/user/selectors';
 import { FETCH_STATUS } from '../../utils/constants';
+import {
+  getTimezoneBySystemId,
+  getTimezoneDescBySystemId,
+} from '../../utils/timezone';
+import { getSiteIdFromFakeFHIRId } from '../../services/location';
 
 export function selectProjectCheetah(state) {
   return state.projectCheetah;
@@ -26,12 +31,55 @@ export function getProjectCheetahFormPageInfo(state, pageKey) {
   };
 }
 
+export function getSiteIdForChosenFacility(state) {
+  return getSiteIdFromFakeFHIRId(
+    selectProjectCheetahFormData(state).vaFacility,
+  );
+}
+
 export function getChosenSlot(state) {
   const availableSlots = selectProjectCheetah(state).availableSlots;
   const selectedTime = selectProjectCheetahFormData(state).calendarData
     ?.selectedDates?.[0].datetime;
 
   return availableSlots?.find(slot => slot.start === selectedTime);
+}
+
+export function getChosenSlot2(state) {
+  const availableSlots = selectProjectCheetah(state).availableSlots;
+  const selectedTime = selectProjectCheetahFormData(state).calendarData
+    ?.selectedDates?.[1].datetime;
+
+  return availableSlots?.find(slot => slot.start === selectedTime);
+}
+
+export function getDateTimeSelect(state, pageKey) {
+  const newBooking = selectProjectCheetahNewBooking(state);
+  const appointmentSlotsStatus = newBooking.appointmentSlotsStatus;
+  const data = selectProjectCheetahFormData(state);
+  const formInfo = getProjectCheetahFormPageInfo(state, pageKey);
+  const availableSlots = newBooking.availableSlots;
+  const systemId = getSiteIdForChosenFacility(state);
+
+  const availableDates = Array.from(
+    new Set(availableSlots?.map(slot => slot.start.split('T')[0])),
+  );
+
+  const timezoneDescription = systemId
+    ? getTimezoneDescBySystemId(systemId)
+    : null;
+  const { timezone = null } = systemId ? getTimezoneBySystemId(systemId) : {};
+
+  return {
+    ...formInfo,
+    availableDates,
+    availableSlots,
+    facilityId: data.vaFacility,
+    appointmentSlotsStatus,
+    preferredDate: data.preferredDate,
+    timezone,
+    timezoneDescription,
+  };
 }
 
 export function selectAllowProjectCheetahBookings(state) {
@@ -50,7 +98,7 @@ export function getChosenFacilityInfo(state) {
 export function getFacilityPageInfo(state) {
   const formInfo = getProjectCheetahFormPageInfo(state, 'vaFacility');
   const data = selectProjectCheetahFormData(state);
-  const newAppointment = selectProjectCheetahNewBooking(state);
+  const newBooking = selectProjectCheetahNewBooking(state);
 
   const {
     facilitiesStatus,
@@ -59,7 +107,7 @@ export function getFacilityPageInfo(state) {
     showEligibilityModal,
     clinics,
     clinicsStatus,
-  } = newAppointment;
+  } = newBooking;
 
   const validFacilities = formInfo.schema?.properties.vaFacility.enum;
 
