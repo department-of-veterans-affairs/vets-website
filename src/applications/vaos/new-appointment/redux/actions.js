@@ -1170,18 +1170,44 @@ export function submitAppointmentOrRequest(history) {
 export function requestProvidersList(address) {
   return async (dispatch, getState) => {
     try {
-      const typeOfCare = getTypeOfCare(getState().newAppointment.data);
+      const newAppointment = getState().newAppointment;
+      const communityCareProviders = newAppointment.communityCareProviders;
+      const sortMethod = newAppointment.ccProviderPageSortMethod;
+      const typeOfCare = getTypeOfCare(newAppointment.data);
+      let location;
+
+      if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
+        location = 'residential';
+      } else {
+        const stringifyCoordinate = coord =>
+          coord
+            .toString()
+            .replace('-', '')
+            .replace('.', '');
+
+        location = `${stringifyCoordinate(
+          address.latitude,
+        )}_${stringifyCoordinate(address.longitude)}`;
+      }
+
+      const key = `${location}_${typeOfCare.id}`;
+      let typeOfCareProviders = communityCareProviders[key];
+
       dispatch({
         type: FORM_REQUESTED_PROVIDERS,
       });
 
-      const communityCareProviderList = await getCommunityProvidersByTypeOfCare(
-        { address, typeOfCare },
-      );
+      if (!typeOfCareProviders) {
+        typeOfCareProviders = await getCommunityProvidersByTypeOfCare({
+          address,
+          typeOfCare,
+        });
+      }
 
       dispatch({
         type: FORM_REQUESTED_PROVIDERS_SUCCEEDED,
-        communityCareProviderList,
+        typeOfCareProviders,
+        key,
         address,
       });
     } catch (e) {

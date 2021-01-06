@@ -117,6 +117,7 @@ const initialState = {
   isCCEligible: false,
   hideUpdateAddressAlert: false,
   requestLocationStatus: FETCH_STATUS.notStarted,
+  communityCareProviders: {},
   communityCareProviderList: [],
   requestStatus: FETCH_STATUS.notStarted,
   currentLocation: {},
@@ -1131,30 +1132,36 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_REQUESTED_PROVIDERS_SUCCEEDED: {
-      let communityCareProviderList = action.communityCareProviderList;
-      const address = action.address;
+      const { address, typeOfCareProviders, key } = action;
 
       const sortMethod = state.ccProviderPageSortMethod
         ? state.ccProviderPageSortMethod
         : FACILITY_SORT_METHODS.distanceFromResidential;
-      communityCareProviderList = communityCareProviderList
-        .map(facility => {
-          const distance = distanceBetween(
-            address.latitude,
-            address.longitude,
-            facility.position.latitude,
-            facility.position.longitude,
-          );
-          return {
-            ...facility,
-            [sortMethod]: distance,
-          };
-        })
-        .sort((a, b) => a[sortMethod] - b[sortMethod]);
+
+      const communityCareProviderList =
+        state.communityCareProviders[key] ||
+        typeOfCareProviders
+          .map(facility => {
+            const distance = distanceBetween(
+              address.latitude,
+              address.longitude,
+              facility.position.latitude,
+              facility.position.longitude,
+            );
+            return {
+              ...facility,
+              [sortMethod]: distance,
+            };
+          })
+          .sort((a, b) => a[sortMethod] - b[sortMethod]);
 
       return {
         ...state,
         requestStatus: FETCH_STATUS.succeeded,
+        communityCareProviders: {
+          ...state.communityCareProviders,
+          [key]: communityCareProviderList,
+        },
         communityCareProviderList,
       };
     }
