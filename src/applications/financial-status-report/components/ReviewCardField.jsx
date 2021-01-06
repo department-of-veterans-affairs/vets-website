@@ -24,6 +24,23 @@ const ReviewCardField = ({
   const [canCancel, setCanCancel] = useState(!editing);
   const [oldData, setOldData] = useState(formData);
 
+  const invalidInitialData = !errorSchemaIsValid(errorSchema);
+  const startInEditConfigOption = get(
+    'ui:options.startInEdit',
+    uiSchema,
+    false,
+  );
+
+  useEffect(() => {
+    let shouldStartInEdit = startInEditConfigOption;
+
+    if (typeof startInEditConfigOption === 'function') {
+      shouldStartInEdit = startInEditConfigOption(formData);
+    }
+
+    setEditing(invalidInitialData || shouldStartInEdit);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   useEffect(() => {
     // Throw an error if there’s no viewComponent (should be React component)
     if (typeof get('ui:options.viewComponent', uiSchema) !== 'function') {
@@ -42,20 +59,7 @@ const ReviewCardField = ({
         )}], but got ${schema.type}.`,
       );
     }
-
-    const invalidInitialData = !errorSchemaIsValid(errorSchema);
-    const startInEditConfigOption = get(
-      'ui:options.startInEdit',
-      uiSchema,
-      false,
-    );
-
-    let shouldStartInEdit = startInEditConfigOption;
-    if (typeof startInEditConfigOption === 'function') {
-      shouldStartInEdit = startInEditConfigOption(formData);
-    }
-    setEditing(invalidInitialData || shouldStartInEdit);
-  }, []);
+  });
 
   const resetFormData = () => {
     const newData = getDefaultFormState(

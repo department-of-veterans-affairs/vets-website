@@ -51,11 +51,13 @@ export const uiSchema = {
     'ui:options': {
       editTitle: 'Edit mailing address',
       viewComponent: ContactInfoCard,
-      startInEdit: false,
     },
     livesOutsideUS: {
       'ui:title':
-        'I live on a United States military base outside of the United States',
+        'I live on a United States military base outside of the United States.',
+      'ui:options': {
+        widgetClassNames: 'checkbox-group',
+      },
     },
     livesOnMilitaryBaseInfo: {
       'ui:description': () => (
