@@ -7,11 +7,7 @@ const set = require('lodash/fp/set');
 function createFileObj(page, layout) {
   // Exclude some types from sitemap.
   // @todo remove basic_landing_page when /resources/ is ready to be indexed
-  const privateTypes = [
-    'outreach_asset',
-    'support_service',
-    'basic_landing_page',
-  ];
+  const privateTypes = ['outreach_asset', 'support_service'];
   let privStatus = false;
   if (privateTypes.indexOf(page.entityBundle) > -1) {
     privStatus = true;

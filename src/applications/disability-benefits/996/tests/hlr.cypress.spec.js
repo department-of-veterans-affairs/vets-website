@@ -7,6 +7,7 @@ import { WIZARD_STATUS } from 'applications/static-pages/wizard';
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 import { mockContestableIssues } from './hlr.cypress.helpers';
+import mockUser from './fixtures/mocks/user.json';
 import { CONTESTABLE_ISSUES_API } from '../constants';
 
 const testConfig = createTestConfig(
@@ -38,7 +39,7 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       window.sessionStorage.removeItem(WIZARD_STATUS);
 
-      cy.login();
+      cy.login(mockUser);
 
       cy.route('GET', '/v0/feature_toggles*', 'fx:mocks/feature-toggles');
 
@@ -60,9 +61,6 @@ const testConfig = createTestConfig(
         cy.route('GET', '/v0/in_progress_forms/20-0996', testData);
       });
     },
-
-    // disable all tests until HLR is in production
-    skip: true,
   },
   manifest,
   formConfig,

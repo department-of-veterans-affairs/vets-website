@@ -1,5 +1,8 @@
+// Node modules.
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { shallow } from 'enzyme';
+import { expect } from 'chai';
+// Relative imports.
 import SearchResultList from '../../components/SearchResultList';
 
 const results = [
@@ -60,7 +63,16 @@ const results = [
 
 describe('SearchResultList', () => {
   it('renders without crashing', () => {
-    const div = document.createElement('div');
-    ReactDOM.render(<SearchResultList results={results} />, div);
+    const wrapper = shallow(
+      <SearchResultList
+        page={1}
+        query="term"
+        results={results}
+        totalResults={results.length}
+      />,
+    );
+
+    expect(wrapper).to.exist;
+    wrapper.unmount();
   });
 });

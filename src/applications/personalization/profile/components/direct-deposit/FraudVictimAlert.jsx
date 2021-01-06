@@ -1,14 +1,17 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox, {
+  ALERT_TYPE,
+} from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Telephone, {
   CONTACTS,
   PATTERNS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
-const FraudVictimAlert = () => (
+const FraudVictimAlert = ({ status = ALERT_TYPE.CONTINUE }) => (
   <AlertBox
     className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
     backgroundOnly
+    status={status}
   >
     <strong>Note:</strong> If you think you’ve been the victim of bank fraud,
     please call us at{' '}

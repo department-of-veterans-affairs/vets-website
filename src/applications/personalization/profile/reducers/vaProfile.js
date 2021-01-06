@@ -97,13 +97,11 @@ function vaProfile(state = initialState, action) {
       );
     }
 
+    case EDU_PAYMENT_INFORMATION_SAVE_SUCCEEDED:
     case EDU_PAYMENT_INFORMATION_FETCH_SUCCEEDED: {
-      const newState = set('eduPaymentInformation', action.response, state);
-      return set('eduPaymentInformationUiState.isEditing', false, newState);
-    }
-
-    case EDU_PAYMENT_INFORMATION_SAVE_SUCCEEDED: {
-      return set('eduPaymentInformationUiState.isSaving', false, state);
+      let newState = set('eduPaymentInformation', action.response, state);
+      newState = set('eduPaymentInformationUiState.isEditing', false, newState);
+      return set('eduPaymentInformationUiState.isSaving', false, newState);
     }
 
     case EDU_PAYMENT_INFORMATION_EDIT_TOGGLED: {

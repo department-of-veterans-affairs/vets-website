@@ -6,7 +6,6 @@ module.exports = {
     changed: { type: 'number' },
     entityBundle: { type: 'string', enum: ['basic_landing_page'] },
     entityMetatags: { $ref: 'MetaTags' },
-    entityPublished: { type: 'boolean' },
     entityType: { type: 'string', enum: ['node'] },
     fieldContentBlock: {
       oneOf: [
@@ -25,7 +24,7 @@ module.exports = {
       ],
     },
     fieldDescription: {
-      type: 'string',
+      type: ['string', 'null'],
     },
     fieldIntroTextLimitedHtml: {
       type: ['object', 'null'],
@@ -41,15 +40,11 @@ module.exports = {
     fieldTableOfContentsBoolean: {
       type: 'boolean',
     },
-    // Needed for filtering reverse fields in other transformers
-    status: { $ref: 'GenericNestedBoolean' },
-    title: { type: 'string' },
   },
   required: [
     'changed',
     'entityBundle',
     'entityMetatags',
-    'entityPublished',
     'entityType',
     'fieldContentBlock',
     'fieldDescription',
@@ -57,7 +52,5 @@ module.exports = {
     'fieldMetaTitle',
     'fieldProduct',
     'fieldTableOfContentsBoolean',
-    'status',
-    'title',
   ],
 };

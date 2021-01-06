@@ -16,10 +16,6 @@ module.exports = {
       items: { $ref: 'EntityReference' },
     },
     field_intro_text_limited_html: { $ref: 'GenericNestedString' },
-    field_media_list_videos: {
-      type: 'array',
-      items: { $ref: 'EntityReference' },
-    },
     field_other_categories: {
       type: 'array',
       items: { $ref: 'EntityReference' },
@@ -51,7 +47,6 @@ module.exports = {
     'field_buttons_repeat',
     'field_contact_information',
     'field_intro_text_limited_html',
-    'field_media_list_videos',
     'field_other_categories',
     'field_primary_category',
     'field_related_benefit_hubs',

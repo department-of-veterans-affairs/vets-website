@@ -11,7 +11,7 @@ import UpdateAddressAlert from './UpdateAddressAlert';
 import TypeOfCareAlert from './TypeOfCareAlert';
 import * as actions from '../../redux/actions';
 import {
-  vaosDirectScheduling,
+  selectFeatureDirectScheduling,
   selectIsCernerOnlyPatient,
 } from '../../../redux/selectors';
 import { getFormPageInfo, getNewAppointment } from '../../redux/selectors';
@@ -134,7 +134,7 @@ function mapStateToProps(state) {
     showPodiatryApptUnavailableModal:
       newAppointment.showPodiatryAppointmentUnavailableModal,
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
-    showDirectScheduling: vaosDirectScheduling(state),
+    showDirectScheduling: selectFeatureDirectScheduling(state),
     hideUpdateAddressAlert: newAppointment.hideUpdateAddressAlert,
   };
 }
