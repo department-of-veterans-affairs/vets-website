@@ -6,6 +6,9 @@ import { focusElement } from 'platform/utilities/ui';
 const ESCAPE_KEY = 27;
 const TAB_KEY = 9;
 
+const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+const isFirefox = typeof InstallTrigger !== 'undefined';
+
 class Modal extends React.Component {
   constructor(props) {
     super(props);
@@ -13,7 +16,9 @@ class Modal extends React.Component {
   }
 
   componentDidMount() {
-    document.addEventListener('click', this.handeFocusOnSafari, true);
+    if (isSafari || isFirefox) {
+      document.addEventListener('click', this.handeFocusOnSafariFirefox, true);
+    }
     if (this.props.visible) {
       this.setupModal();
     }
@@ -23,7 +28,13 @@ class Modal extends React.Component {
     if (!prevProps.visible && this.props.visible) {
       this.setupModal();
     } else if (prevProps.visible && !this.props.visible) {
-      document.removeEventListener('click', this.handeFocusOnSafari, true);
+      if (isSafari || isFirefox) {
+        document.removeEventListener(
+          'click',
+          this.handeFocusOnSafariFirefox,
+          true,
+        );
+      }
       this.teardownModal();
     }
   }
@@ -73,7 +84,7 @@ class Modal extends React.Component {
       }
     }
   };
-  handeFocusOnSafari = event => {
+  handeFocusOnSafariFirefox = event => {
     if (event.target.matches('button')) {
       event.target.focus();
     }
