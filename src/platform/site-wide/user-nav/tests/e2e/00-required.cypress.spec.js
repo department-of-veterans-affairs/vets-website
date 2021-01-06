@@ -24,6 +24,7 @@ const mockFeatureToggles = () => {
 const prepareSearch = term => {
   cy.server();
   cy.visit('/');
+  cy.reload();
   cy.get('button.sitewide-search-drop-down-panel-button', {
     timeout: 10000,
   }).click();
@@ -64,6 +65,7 @@ for (let i = 0; i < 50; i += 1) {
     it('appears when the dropdown is clicked', () => {
       cy.server();
       cy.visit('/');
+      cy.reload();
       cy.get('button.sitewide-search-drop-down-panel-button', {
         timeout: 10000,
       }).click();
