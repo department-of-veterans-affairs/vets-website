@@ -105,7 +105,7 @@ module.exports = env => {
   ].includes(buildOptions.buildtype);
 
   const useHashFilenames = [
-    // ENVIRONMENTS.VAGOVSTAGING, // also removing file hashes for staging
+    ENVIRONMENTS.VAGOVSTAGING, // also removing file hashes for staging
     ENVIRONMENTS.VAGOVPROD,
   ].includes(buildOptions.buildtype);
 
@@ -120,7 +120,8 @@ module.exports = env => {
 
   // Set the pubilcPath conditional so we can get dynamic modules loading from S3
   const publicAssetPath =
-    buildOptions.buildtype !== 'localhost' // just for staging so we can test it
+    buildOptions.buildtype === 'vagovstaging' ||
+    buildOptions.buildtype === 'vagovdev' // just for staging and dev  so we can test it
       ? `${BUCKETS[buildOptions.buildtype]}/generated/`
       : '/generated/';
 
@@ -130,9 +131,12 @@ module.exports = env => {
     output: {
       path: outputPath,
       publicPath: publicAssetPath,
-      filename: !useHashFilenames
-        ? '[name].entry.js'
-        : `[name].entry.[chunkhash]-${timestamp}.js`,
+      filename: pathData => {
+        return pathData.chunk.name === !useHashFilenames ||
+          pathData.chunk.name === 'proxy-rewrite' // Don't hash the proxy-rewrite file because it is referenced in the prearchive process (link-assets-to-bucket.js).
+          ? '[name].entry.js'
+          : `[name].entry.[chunkhash]-${timestamp}.js`;
+      },
       chunkFilename: !useHashFilenames
         ? '[name].entry.js'
         : `[name].entry.[chunkhash]-${timestamp}.js`,

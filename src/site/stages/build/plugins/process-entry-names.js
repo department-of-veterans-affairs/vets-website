@@ -103,8 +103,8 @@ function processEntryNames(buildOptions) {
           throw new Error(`Entry Name "${entryName}" was not found.`);
         }
 
-        // Link the element to the hashed entry name.
-        $el.attr(attribute, hashedEntryName);
+        // Link the element to the hashed entry name w/o the S3 bucket
+        $el.attr(attribute, `/${fileSearch}`);
         file.modified = true;
       });
     }
