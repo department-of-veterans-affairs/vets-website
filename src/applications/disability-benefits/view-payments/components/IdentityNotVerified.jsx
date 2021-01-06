@@ -34,6 +34,8 @@ const IdentityNotVerified = () => {
       headline="Verify your identity to view your VA payments"
       content={content}
       status={ALERT_TYPE.WARNING}
+      className="vads-u-fontsize--h3"
+      level="2"
     />
   );
 };
