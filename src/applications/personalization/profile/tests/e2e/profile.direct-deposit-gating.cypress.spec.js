@@ -4,10 +4,23 @@ import { PROFILE_PATHS } from '../../constants';
 import mockUserNotInEVSS from '../fixtures/users/user-non-vet.json';
 import mockUserInEVSS from '../fixtures/users/user-36.json';
 
-import mockPaymentInfoNotEligible from '../fixtures/payment-information/direct-deposit-is-not-eligible.json';
-import mockPaymentInfoIncompetent from '../fixtures/payment-information/direct-deposit-incompetent.json';
-import mockPaymentInfoDeceased from '../fixtures/payment-information/direct-deposit-deceased.json';
-import mockPaymentInfoFiduciary from '../fixtures/payment-information/direct-deposit-fiduciary.json';
+import mockDD4CNPNotEligible from '../fixtures/dd4cnp/dd4cnp-is-not-eligible.json';
+import mockDD4CNPIncompetent from '../fixtures/dd4cnp/dd4cnp-incompetent.json';
+import mockDD4CNPDeceased from '../fixtures/dd4cnp/dd4cnp-deceased.json';
+import mockDD4CNPFiduciary from '../fixtures/dd4cnp/dd4cnp-fiduciary.json';
+
+// TODO: remove this when we are no longer gating DD4EDU with a feature flag
+const dd4eduEnabled = {
+  data: {
+    type: 'feature_toggles',
+    features: [
+      {
+        name: 'ch33_dd_profile',
+        value: true,
+      },
+    ],
+  },
+};
 
 describe('Direct Deposit', () => {
   function confirmDDBlockedAlertIsNotShown() {
@@ -43,8 +56,9 @@ describe('Direct Deposit', () => {
   beforeEach(() => {
     disableFTUXModals();
     cy.login();
+    cy.route('GET', '/v0/feature_toggles*', dd4eduEnabled);
   });
-  it('should be blocked if the user is not in EVSS', () => {
+  it('should be blocked if the user is not in EVSS and they are not signed up for DD4EDU', () => {
     cy.route('GET', 'v0/user', mockUserNotInEVSS);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
@@ -58,39 +72,39 @@ describe('Direct Deposit', () => {
     confirmDirectDepositIsBlocked();
     confirmDDBlockedAlertIsNotShown();
   });
-  it('should be blocked if the user is not enrolled in Direct Deposit and is not eligible to set up Direct Deposit', () => {
+  it('should be blocked if the user is not enrolled in or eligible for DD4CNP and not signed up for DD4EDU', () => {
     cy.route('GET', 'v0/user', mockUserInEVSS);
-    cy.route('GET', 'v0/ppiu/payment_information', mockPaymentInfoNotEligible);
+    cy.route('GET', 'v0/ppiu/payment_information', mockDD4CNPNotEligible);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     confirmDirectDepositIsBlocked();
     confirmDDBlockedAlertIsNotShown();
   });
-  it('should be blocked and show an alert if the user is enrolled but flagged as incompetent', () => {
+  it('should be blocked and show an alert if the user is enrolled in DD4CNP but flagged as incompetent', () => {
     cy.route('GET', 'v0/user', mockUserInEVSS);
-    cy.route('GET', 'v0/ppiu/payment_information', mockPaymentInfoIncompetent);
+    cy.route('GET', 'v0/ppiu/payment_information', mockDD4CNPIncompetent);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     confirmDirectDepositIsBlocked();
     confirmDDBlockedAlertIsShown();
   });
-  it('should be blocked and show an alert if the user is enrolled but flagged as being deceased', () => {
+  it('should be blocked and show an alert if the user is enrolled in DD4CNP but flagged as being deceased', () => {
     cy.route('GET', 'v0/user', mockUserInEVSS);
-    cy.route('GET', 'v0/ppiu/payment_information', mockPaymentInfoDeceased);
+    cy.route('GET', 'v0/ppiu/payment_information', mockDD4CNPDeceased);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     confirmDirectDepositIsBlocked();
     confirmDDBlockedAlertIsShown();
   });
-  it('should be blocked and show an alert if the user is enrolled but flagged as having a fiduciary', () => {
+  it('should be blocked and show an alert if the user is enrolled in DD4CNP but flagged as having a fiduciary', () => {
     cy.route('GET', 'v0/user', mockUserInEVSS);
-    cy.route('GET', 'v0/ppiu/payment_information', mockPaymentInfoFiduciary);
+    cy.route('GET', 'v0/ppiu/payment_information', mockDD4CNPFiduciary);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     confirmDirectDepositIsBlocked();
     confirmDDBlockedAlertIsShown();
   });
-  it('should be blocked if the `GET payment_information` endpoint fails', () => {
+  it('should be blocked if the `GET payment_information` and `GET ch33_bank_accounts` endpoints fail', () => {
     cy.route('GET', 'v0/user', mockUserInEVSS);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
