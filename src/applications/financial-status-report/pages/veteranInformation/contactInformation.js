@@ -1,5 +1,5 @@
 import React from 'react';
-import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
+import ReviewCardField from '../../components/ReviewCardField';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import ContactInfoCard from '../../components/ContactInfoCard';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
@@ -47,15 +47,12 @@ export const uiSchema = {
         </p>
       </>
     ),
-
-    // TODO: startInEdit
     'ui:field': ReviewCardField,
     'ui:options': {
+      editTitle: 'Edit mailing address',
       viewComponent: ContactInfoCard,
       startInEdit: false,
-      editTitle: 'Edit mailing address',
     },
-
     livesOutsideUS: {
       'ui:title':
         'I live on a United States military base outside of the United States',
@@ -164,7 +161,7 @@ export const uiSchema = {
           };
         },
       },
-      'ui:required': formData => !formData.mailingAddress.livesOutsideUS,
+      // 'ui:required': formData => !formData.mailingAddress.livesOutsideUS,
       'ui:validations': [
         {
           options: { addressPath: 'mailingAddress' },
@@ -179,7 +176,7 @@ export const uiSchema = {
     zipCode: {
       'ui:title': 'Postal code',
       'ui:validations': [validateZIP],
-      'ui:required': formData => !formData.mailingAddress.livesOutsideUS,
+      // 'ui:required': formData => !formData.mailingAddress.livesOutsideUS,
       'ui:errorMessages': {
         required: 'Please enter a postal code',
         pattern:
@@ -231,7 +228,7 @@ export const schema = {
   properties: {
     mailingAddress: {
       type: 'object',
-      required: ['country', 'city', 'addressLine1'],
+      // required: ['country', 'city', 'addressLine1'],
       properties: {
         livesOutsideUS: {
           type: 'boolean',
