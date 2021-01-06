@@ -52,6 +52,7 @@ import {
   medicarePartADescription,
   prefillTransformer,
   transform,
+  flipMailingAddress,
 } from '../helpers';
 
 import migrations from './migrations';
@@ -150,14 +151,6 @@ const {
 } = fullSchemaHca.definitions;
 
 const stateLabels = createUSAStateLabels(states);
-
-const flipMailingAddress = formData => {
-  const flipperValue = formData['view:hasMultipleAddress'];
-  return flipperValue
-    ? formData['view:hasMultipleAddress'] &&
-        !formData['view:doesPermanentAddressMatchMailing']
-    : !formData['view:hasMultipleAddress'];
-};
 
 const attachmentsSchema = {
   type: 'array',
