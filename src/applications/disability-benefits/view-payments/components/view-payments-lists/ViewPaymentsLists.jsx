@@ -111,14 +111,13 @@ class ViewPaymentsLists extends Component {
     let paymentsReturnedTable = '';
     let content;
     // If the app is loading, show a loading LoadingIndicator
-    // if there is an error show an AlertBox
-    // If the app is NOT loading
     if (this.props.isLoading) {
       content = <LoadingIndicator message="Loading payment information..." />;
     } else if (!this.props.isIdentityVerified) {
       // if user is not LOA3, render an AlertBox that asks them to verify their identity
       return <IdentityNotVerified />;
     } else if (this.props.error) {
+      // if there was an error, show an AlertBox
       const status = isClientError(this.props.error.code) ? 'info' : 'error';
       const alertContent = isClientError(this.props.error.code)
         ? ClientErrorAlertContent
