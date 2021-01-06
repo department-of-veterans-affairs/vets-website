@@ -15,7 +15,7 @@ const IdentityNotVerified = () => {
         and identity theft.
       </p>
       <p>
-        <strong>This one-time process takes about 5-10 minutes.</strong>
+        <strong>This one-time process takes about 5 to 10 minutes.</strong>
       </p>
 
       <a
@@ -23,7 +23,7 @@ const IdentityNotVerified = () => {
         href="/verify"
         onClick={() => recordEvent({ event: 'verify-link-clicked' })}
       >
-        <img alt="ID.me" src="/img/signin/idme-icon-white.svg" />
+        <img alt="ID.me logo" src="/img/signin/idme-icon-white.svg" />
         <strong>Verify my identity</strong>
       </a>
     </>
