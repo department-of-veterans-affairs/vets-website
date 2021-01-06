@@ -60,7 +60,8 @@ class ViewPaymentsLists extends Component {
           headline="We don’t have a record of returned payments"
           status="info"
           backgroundOnly="true"
-          className="vads-u-background-color--gray-lightest"
+          className="vads-u-background-color--gray-lightest vads-u-fontsize--h3"
+          level="2"
         />
       );
     }
@@ -96,7 +97,8 @@ class ViewPaymentsLists extends Component {
           headline="We don’t have a record of VA payments made to you"
           status="info"
           backgroundOnly="true"
-          className="vads-u-background-color--gray-lightest"
+          className="vads-u-background-color--gray-lightest vads-u-fontsize--h3"
+          level="2"
         />
       );
     }
