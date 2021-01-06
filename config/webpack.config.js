@@ -133,7 +133,8 @@ module.exports = env => {
       publicPath: publicAssetPath,
       filename: pathData => {
         return pathData.chunk.name === !useHashFilenames ||
-          pathData.chunk.name === 'proxy-rewrite' // Don't hash the proxy-rewrite file because it is referenced in the prearchive process (link-assets-to-bucket.js).
+          pathData.chunk.name === 'proxy-rewrite' ||
+          pathData.chunk.name === 'polyfills' // Don't hash the or polyfills proxy-rewrite file because it is referenced in the prearchive process (link-assets-to-bucket.js).
           ? '[name].entry.js'
           : `[name].entry.[chunkhash]-${timestamp}.js`;
       },
