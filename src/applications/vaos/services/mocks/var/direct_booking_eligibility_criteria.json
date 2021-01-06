@@ -1156,6 +1156,22 @@
             "canCancel": true,
             "submittedRequestLimit": 2,
             "enterpriseSubmittedRequestLimit": 2
+          },
+          {
+            "id": "301",
+            "typeOfCare": "Vaccines",
+            "patientHistoryRequired": "No",
+            "stopCodes": [
+              {
+                "primary": "301"
+              },
+              {
+                "secondary": "715"
+              }
+            ],
+            "canCancel": true,
+            "submittedRequestLimit": 0,
+            "enterpriseSubmittedRequestLimit": 2
           }
         ],
         "objectType": null,
@@ -1379,6 +1395,22 @@
             ],
             "canCancel": true,
             "submittedRequestLimit": 2,
+            "enterpriseSubmittedRequestLimit": 2
+          },
+          {
+            "id": "301",
+            "typeOfCare": "Vaccines",
+            "patientHistoryRequired": "No",
+            "stopCodes": [
+              {
+                "primary": "301"
+              },
+              {
+                "secondary": "715"
+              }
+            ],
+            "canCancel": true,
+            "submittedRequestLimit": 0,
             "enterpriseSubmittedRequestLimit": 2
           }
         ],
