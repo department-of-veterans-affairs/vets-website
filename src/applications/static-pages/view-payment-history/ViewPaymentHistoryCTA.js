@@ -13,9 +13,11 @@ const ViewPaymentHistoryCTA = props => {
   let alertType;
   let headline;
   let alertContent;
-  if (props.includedInFlipper === undefined) {
+  let content;
+  const { includedInFlipper, isLoggedIn, isProfileLoading } = props;
+  if (includedInFlipper === undefined || isProfileLoading) {
     return <LoadingIndicator message="Loading..." />;
-  } else if (props.includedInFlipper === false) {
+  } else if (includedInFlipper === false && isLoggedIn === false) {
     alertContent = (
       <>
         <p>
@@ -37,7 +39,15 @@ const ViewPaymentHistoryCTA = props => {
       "You'll need to sign in to eBenefits to view your payment history.";
 
     alertType = ALERT_TYPE.INFO;
-  } else {
+    content = (
+      <AlertBox
+        headline={headline}
+        content={alertContent}
+        status={alertType}
+        isVisible
+      />
+    );
+  } else if (includedInFlipper === true && isLoggedIn === false) {
     alertContent = (
       <>
         <p>
@@ -57,21 +67,32 @@ const ViewPaymentHistoryCTA = props => {
     headline = 'Please sign in to view your VA payment history';
 
     alertType = ALERT_TYPE.CONTINUE;
-  }
-  return (
-    <div>
+    content = (
       <AlertBox
         headline={headline}
         content={alertContent}
         status={alertType}
         isVisible
       />
-    </div>
-  );
+    );
+  } else {
+    content = (
+      <a
+        href="/va-payment-history/payments/"
+        type="button"
+        className="usa-button-primary va-button-primary"
+      >
+        View your VA payment history
+      </a>
+    );
+  }
+  return <div>{content}</div>;
 };
 
 const mapStateToProps = store => ({
   includedInFlipper: toggleValues(store)[FEATURE_FLAG_NAMES.viewPaymentHistory],
+  isLoggedIn: store?.user?.login?.currentlyLoggedIn,
+  isProfileLoading: store?.user?.profile?.loading,
 });
 
 export default connect(mapStateToProps)(ViewPaymentHistoryCTA);

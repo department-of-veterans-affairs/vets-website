@@ -53,7 +53,8 @@ export async function apiRequestWithMocks(url, options, ...rest) {
   /* istanbul ignore if  */
   if (USE_MOCK_DATA) {
     // This needs to be lazy loaded to keep it out of the main bundle
-    const handlers = (await import('./mocks')).default;
+    const handlers = (await import(/* webpackChunkName: "mocks" */ './mocks'))
+      .default;
 
     // find a matching handler by method and path checks
     const match = handlers.find(handler => {

@@ -30,10 +30,9 @@ export class SearchForm extends Component {
   }
 
   componentDidMount() {
+    const { query } = this.state;
     // Fetch the forms with their query if it's on the URL.
-    if (this.state.query) {
-      this.props.fetchFormsThunk(this.state.query);
-    }
+    if (query) this.props.fetchFormsThunk(query);
   }
 
   onQueryChange = event => {
