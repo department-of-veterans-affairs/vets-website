@@ -16,7 +16,6 @@ export default {
     informalConferenceTimes: {
       'ui:title': ' ',
       'ui:options': {
-        showFieldLabel: true,
         forceDivWrapper: true,
         updateSchema: formData => {
           const time1Setting = formData?.informalConferenceTimes?.time1 || '';
