@@ -1,6 +1,8 @@
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
-import recordEvent from 'platform/monitoring/record-event';
-import { selectSystemIds } from '../../redux/selectors';
+import {
+  selectFeatureVSPAppointmentNew,
+  selectSystemIds,
+} from '../../redux/selectors';
 import { getAvailableHealthcareServices } from '../../services/healthcare-service';
 import {
   getLocationsByTypeOfCareAndSiteIds,
@@ -15,14 +17,27 @@ import {
 } from '../../utils/events';
 import newBookingFlow from '../flow';
 import { TYPE_OF_CARE_ID } from '../utils';
-import { selectProjectCheetahNewBooking } from './selectors';
+import {
+  selectProjectCheetahNewBooking,
+  selectProjectCheetahFormData,
+} from './selectors';
+import moment from 'moment';
+import { getSlots } from '../../services/slot';
+import recordEvent from 'platform/monitoring/record-event';
 
 export const FORM_PAGE_OPENED = 'projectCheetah/FORM_PAGE_OPENED';
 export const FORM_DATA_UPDATED = 'projectCheetah/FORM_DATA_UPDATED';
 export const FORM_PAGE_CHANGE_STARTED =
   'projectCheetah/FORM_PAGE_CHANGE_STARTED';
+export const START_APPOINTMENT_FLOW = 'projectCheetah/START_APPOINTMENT_FLOW';
 export const FORM_PAGE_CHANGE_COMPLETED =
   'projectCheetah/FORM_PAGE_CHANGE_COMPLETED';
+export const FORM_CALENDAR_FETCH_SLOTS =
+  'projectCheetah/FORM_CALENDAR_FETCH_SLOTS';
+export const FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED =
+  'projectCheetah/FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED';
+export const FORM_CALENDAR_FETCH_SLOTS_FAILED =
+  'projectCheetah/FORM_CALENDAR_FETCH_SLOTS_FAILED';
 export const FORM_CALENDAR_DATA_CHANGED =
   'projectCheetah/FORM_CALENDAR_DATA_CHANGED';
 export const FORM_RESET = 'projectCheetah/FORM_RESET';
@@ -205,6 +220,96 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
   };
 }
 
+export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const useVSP = selectFeatureVSPAppointmentNew(state);
+    const siteId = getSiteIdFromFakeFHIRId(
+      selectProjectCheetahFormData(state).vaFacility,
+    );
+    const newBooking = selectProjectCheetahNewBooking(state);
+    const { data } = newBooking;
+
+    data.typeOfCareId = '301';
+    data.clinicId = '455';
+
+    const startDateMonth = moment(startDate).format('YYYY-MM');
+    const endDateMonth = moment(endDate).format('YYYY-MM');
+
+    let fetchedAppointmentSlotMonths = [];
+    let fetchedStartMonth = false;
+    let fetchedEndMonth = false;
+    let availableSlots = [];
+
+    if (!forceFetch) {
+      fetchedAppointmentSlotMonths = [
+        ...newBooking.fetchedAppointmentSlotMonths,
+      ];
+
+      fetchedStartMonth = fetchedAppointmentSlotMonths.includes(startDateMonth);
+      fetchedEndMonth = fetchedAppointmentSlotMonths.includes(endDateMonth);
+      availableSlots = newBooking.availableSlots || [];
+    }
+
+    if (!fetchedStartMonth || !fetchedEndMonth) {
+      let mappedSlots = [];
+      dispatch({ type: FORM_CALENDAR_FETCH_SLOTS });
+
+      try {
+        const startDateString = !fetchedStartMonth
+          ? startDate
+          : moment(endDate)
+              .startOf('month')
+              .format('YYYY-MM-DD');
+        const endDateString = !fetchedEndMonth
+          ? endDate
+          : moment(startDate)
+              .endOf('month')
+              .format('YYYY-MM-DD');
+
+        const fetchedSlots = await getSlots({
+          siteId,
+          typeOfCareId: data.typeOfCareId,
+          clinicId: data.clinicId,
+          startDate: startDateString,
+          endDate: endDateString,
+          useVSP,
+        });
+        const now = moment();
+
+        mappedSlots = fetchedSlots.filter(slot =>
+          moment(slot.start).isAfter(now),
+        );
+
+        // Keep track of which months we've fetched already so we don't
+        // make duplicate calls
+        if (!fetchedStartMonth) {
+          fetchedAppointmentSlotMonths.push(startDateMonth);
+        }
+
+        if (!fetchedEndMonth) {
+          fetchedAppointmentSlotMonths.push(endDateMonth);
+        }
+
+        const sortedSlots = [...availableSlots, ...mappedSlots].sort((a, b) =>
+          a.start.localeCompare(b.start),
+        );
+
+        dispatch({
+          type: FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
+          availableSlots: sortedSlots,
+          fetchedAppointmentSlotMonths: fetchedAppointmentSlotMonths.sort(),
+        });
+      } catch (e) {
+        captureError(e);
+        dispatch({
+          type: FORM_CALENDAR_FETCH_SLOTS_FAILED,
+        });
+      }
+    }
+  };
+}
+
 export function showEligibilityModal() {
   return {
     type: FORM_SHOW_ELIGIBILITY_MODAL,
@@ -223,6 +328,25 @@ export function openClinicPage(page, uiSchema, schema) {
     page,
     uiSchema,
     schema,
+  };
+}
+
+export function startAppointmentFlow(isCommunityCare) {
+  recordEvent({
+    event: `vaos-${
+      isCommunityCare ? 'community-care' : 'projectCheetah'
+    }-path-started`,
+  });
+
+  return {
+    type: START_APPOINTMENT_FLOW,
+  };
+}
+
+export function projectCheetahAppointmentDateChoice(history) {
+  return dispatch => {
+    dispatch(startAppointmentFlow());
+    history.replace('/new-project-cheetah-booking');
   };
 }
 
