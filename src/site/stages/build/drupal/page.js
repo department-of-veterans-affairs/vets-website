@@ -252,9 +252,16 @@ function mergeTaxonomiesIntoResourcesAndSupportHomepage(
   resourcesAndSupportHomepage,
   allTaxonomies,
 ) {
-  const audienceTags = allTaxonomies.entities
-    .filter(taxonomy => taxonomy.entityBundle === 'audience_beneficiaries')
+  const audienceBundles = new Set([
+    'audience_beneficiaries',
+    'audience_non_beneficiaries',
+  ]);
+
+  const audienceTagsUnsorted = allTaxonomies.entities
+    .filter(taxonomy => audienceBundles.has(taxonomy.entityBundle))
     .filter(audienceTag => audienceTag.fieldAudienceRsHomepage);
+
+  const audienceTags = _.sortBy(audienceTagsUnsorted, 'name');
 
   return {
     ...resourcesAndSupportHomepage,
