@@ -73,7 +73,7 @@ class Modal extends React.Component {
       }
     }
   };
-  handeFocusOnMac = event => {
+  handeFocusOnSafari = event => {
     if (event.target.matches('button')) {
       event.target.focus();
     }
