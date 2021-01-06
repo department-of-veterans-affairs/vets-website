@@ -60,13 +60,15 @@ function ProviderSelectionField({
 
   useEffect(
     () => {
-      if (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation) {
-        requestProvidersList(currentLocation);
-      } else {
-        requestProvidersList(address);
+      if (showProvidersList) {
+        requestProvidersList(
+          sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation
+            ? currentLocation
+            : address,
+        );
       }
     },
-    [sortMethod],
+    [sortMethod, showProvidersList],
   );
 
   useEffect(

@@ -1179,15 +1179,15 @@ export function requestProvidersList(address) {
       if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
         location = 'residential';
       } else {
-        const stringifyCoordinate = coord =>
+        const stringifyCoord = coord =>
           coord
             .toString()
             .replace('-', '')
             .replace('.', '');
 
-        location = `${stringifyCoordinate(
-          address.latitude,
-        )}_${stringifyCoordinate(address.longitude)}`;
+        location = `${stringifyCoord(address.latitude)}_${stringifyCoord(
+          address.longitude,
+        )}`;
       }
 
       const key = `${location}_${typeOfCare.id}`;
