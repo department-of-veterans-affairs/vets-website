@@ -286,7 +286,9 @@ function compilePage(page, contentData) {
       alerts: alertsItem = {},
       bannerAlerts: bannerAlertsItem = {},
       outreachSidebarQuery: outreachSidebarNav = {},
-      allTaxonomies = [],
+      allTaxonomies = {
+        entities: [],
+      },
     },
   } = contentData;
 

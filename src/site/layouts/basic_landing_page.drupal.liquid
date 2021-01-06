@@ -50,6 +50,20 @@
             {% include "src/site/includes/support_resources_search_bar.drupal.liquid" %}
           </div>
 
+          {% if audienceTags != empty %}
+            <h2>Browse by audience</h2>
+            <ul class="usa-unstyled-list">
+              {% for audienceTag in audienceTags %}
+                <li class="vads-u-margin-y--2">
+                  <a class="vads-u-font-weight--bold vads-u-text-decoration--none" href="{{ audienceTag.path.alias }}/">
+                    {{ audienceTag.name }}
+                    <i role="presentation" aria-hidden="true" class="fa fa-chevron-right vads-u-margin-left--1"> </i>
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+
           <!-- Content blocks -->
           {% for block in fieldContentBlock %}
             {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
