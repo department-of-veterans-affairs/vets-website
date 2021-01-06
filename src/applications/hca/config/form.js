@@ -395,7 +395,7 @@ const formConfig = {
           },
         },
         veteranMailingAddress: {
-          path: 'veteran-information/veteran-address',
+          path: 'veteran-information/veteran-mailing-address',
           title: 'Mailing address',
           initialData: {},
           depends: formData => formData['view:hasMultipleAddress'],
@@ -463,7 +463,7 @@ const formConfig = {
           },
         },
         veteranAddress: {
-          path: 'veteran-information/home-address',
+          path: 'veteran-information/veteran-address',
           title: 'Home address',
           initialData: {},
           depends: formData => flipMailingAddress(formData),
