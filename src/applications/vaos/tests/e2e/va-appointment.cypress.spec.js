@@ -8,7 +8,7 @@ import * as newApptTests from './vaos-cypress-schedule-appointment-helpers';
 describe('VAOS direct schedule flow', () => {
   beforeEach(() => {});
 
-  it.skip('should submit form', () => {
+  it('should submit form', () => {
     initAppointmentListMock();
     initVAAppointmentMock();
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
@@ -59,6 +59,8 @@ describe('VAOS direct schedule flow', () => {
       expect(request).to.have.property(
         'desiredDate',
         `${moment()
+          .add(1, 'month')
+          .startOf('month')
           .add(4, 'days')
           .startOf('day')
           .format('YYYY-MM-DD')}T00:00:00+00:00`,
@@ -79,7 +81,7 @@ describe('VAOS direct schedule flow', () => {
     newApptTests.confirmationPageTest(additionalInfo);
   });
 
-  it.skip('should submit form with an eye care type of care', () => {
+  it('should submit form with an eye care type of care', () => {
     initAppointmentListMock();
     initVAAppointmentMock();
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
@@ -130,6 +132,8 @@ describe('VAOS direct schedule flow', () => {
       expect(request).to.have.property(
         'desiredDate',
         `${moment()
+          .add(1, 'month')
+          .startOf('month')
           .add(4, 'days')
           .startOf('day')
           .format('YYYY-MM-DD')}T00:00:00+00:00`,
@@ -146,7 +150,7 @@ describe('VAOS direct schedule flow', () => {
     newApptTests.confirmationPageTest(additionalInfo);
   });
 
-  it.skip('should submit form with a sleep care type of care', () => {
+  it('should submit form with a sleep care type of care', () => {
     initAppointmentListMock();
     initVAAppointmentMock();
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
@@ -197,6 +201,8 @@ describe('VAOS direct schedule flow', () => {
       expect(request).to.have.property(
         'desiredDate',
         `${moment()
+          .add(1, 'month')
+          .startOf('month')
           .add(4, 'days')
           .startOf('day')
           .format('YYYY-MM-DD')}T00:00:00+00:00`,

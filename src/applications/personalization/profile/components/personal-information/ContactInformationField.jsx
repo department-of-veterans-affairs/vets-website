@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-
 import { focusElement } from '~/platform/utilities/ui';
 import recordEvent from '~/platform/monitoring/record-event';
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
@@ -30,9 +29,19 @@ import {
   selectEditedFormField,
   selectVAPContactInfoField,
   selectVAPServiceTransaction,
+  selectEditViewData,
 } from '@@vap-svc/selectors';
 
+import { isVAPatient } from '~/platform/user/selectors';
+
+import { FIELD_NAMES } from '@@vap-svc/constants';
 import VAPServiceTransaction from '@@vap-svc/components/base/VAPServiceTransaction';
+import AddressValidationView from '@@vap-svc/containers/AddressValidationView';
+
+import ContactInformationEditView from '@@profile/components/personal-information/ContactInformationEditView';
+import ContactInformationView from '@@profile/components/personal-information/ContactInformationView';
+
+import { getInitialFormValues } from '@@profile/util/contact-information';
 import ContactInformationEditButton from './ContactInformationEditButton';
 
 const wrapperClasses = prefixUtilityClasses([
@@ -63,13 +72,13 @@ const classes = {
 
 class ContactInformationField extends React.Component {
   static propTypes = {
-    ContentView: PropTypes.func.isRequired,
     data: PropTypes.object,
-    EditView: PropTypes.func.isRequired,
     field: PropTypes.object,
     fieldName: PropTypes.string.isRequired,
-    showEditView: PropTypes.bool.isRequired,
     isEmpty: PropTypes.bool.isRequired,
+    editViewData: PropTypes.object,
+    showEditView: PropTypes.bool.isRequired,
+    showSMSCheckBox: PropTypes.bool,
     title: PropTypes.string.isRequired,
     transaction: PropTypes.object,
     transactionRequest: PropTypes.object,
@@ -252,8 +261,6 @@ class ContactInformationField extends React.Component {
   render() {
     const {
       activeEditView,
-      ContentView,
-      EditView,
       fieldName,
       isEmpty,
       showEditView,
@@ -261,7 +268,8 @@ class ContactInformationField extends React.Component {
       title,
       transaction,
       transactionRequest,
-      ValidationView,
+      type,
+      data,
     } = this.props;
 
     const activeSection = VAP_SERVICE.FIELD_TITLES[
@@ -286,7 +294,8 @@ class ContactInformationField extends React.Component {
     // default the content to the read-view
     let content = wrapInTransaction(
       <div className={classes.wrapper}>
-        <ContentView data={this.props.data} />
+        <ContactInformationView data={data} type={type} fieldName={fieldName} />
+
         {this.isEditLinkVisible() && (
           <ContactInformationEditButton
             onEditClick={this.onEdit}
@@ -304,7 +313,7 @@ class ContactInformationField extends React.Component {
           type="button"
           onClick={this.onAdd}
           className="va-button-link va-profile-btn"
-          id={`${this.props.fieldName}-edit-link`}
+          id={`${fieldName}-edit-link`}
         >
           Please add your {title.toLowerCase()}
         </button>,
@@ -313,42 +322,41 @@ class ContactInformationField extends React.Component {
 
     if (showEditView) {
       content = (
-        <EditView
-          refreshTransaction={this.refreshTransaction}
+        <ContactInformationEditView
           analyticsSectionName={this.props.analyticsSectionName}
-          apiRoute={this.props.apiRoute}
-          blockEditMode={this.props.blockEditMode}
           clearErrors={this.clearErrors}
-          clearTransactionRequest={this.props.clearTransactionRequest}
-          convertCleanDataToPayLoad={this.props.convertCleanDataToPayLoad}
-          createTransaction={this.props.createTransaction}
           deleteDisabled={this.props.deleteDisabled}
-          data={this.props.data}
           field={this.props.field}
           fieldName={this.props.fieldName}
           formSchema={this.props.formSchema}
+          getInitialFormValues={() =>
+            getInitialFormValues({
+              type: this.props.type,
+              data: this.props.data,
+              showSMSCheckbox: this.props.showSMSCheckbox,
+              editViewData: this.props.editViewData,
+            })
+          }
           hasUnsavedEdits={this.props.hasUnsavedEdits}
+          hasValidationError={this.props.hasValidationError}
           isEmpty={this.props.isEmpty}
           onCancel={this.onCancel}
           onChangeFormDataAndSchemas={this.onChangeFormDataAndSchemas}
           onDelete={this.onDelete}
-          title={this.props.title}
-          onEdit={this.onEdit}
           onSubmit={this.onSubmit}
-          showEditView={this.props.showEditView}
+          refreshTransaction={this.refreshTransaction}
+          title={this.props.title}
           transaction={this.props.transaction}
           transactionRequest={this.props.transactionRequest}
           uiSchema={this.props.uiSchema}
-          validateAddress={this.props.validateAddress}
-          EditView={this.props.EditView}
-          ContentView={this.props.ContentView}
+          type={this.props.type}
         />
       );
     }
 
     if (showValidationView) {
       content = (
-        <ValidationView
+        <AddressValidationView
           refreshTransaction={this.refreshTransaction}
           transaction={transaction}
           transactionRequest={transactionRequest}
@@ -432,11 +440,12 @@ export const mapStateToProps = (state, ownProps) => {
   const addressValidationType = selectAddressValidationType(state);
   const activeEditView = selectCurrentlyOpenEditModal(state);
   const showValidationView =
-    ownProps.ValidationView &&
     addressValidationType === fieldName &&
     // TODO: use a constant for 'addressValidation'
     activeEditView === 'addressValidation';
-
+  const isEnrolledInVAHealthCare = isVAPatient(state);
+  const showSMSCheckbox =
+    ownProps.fieldName === FIELD_NAMES.MOBILE_PHONE && isEnrolledInVAHealthCare;
   return {
     hasUnsavedEdits: state.vapService.hasUnsavedEdits,
     analyticsSectionName: VAP_SERVICE.ANALYTICS_FIELD_MAP[fieldName],
@@ -460,6 +469,8 @@ export const mapStateToProps = (state, ownProps) => {
     isEmpty,
     transaction,
     transactionRequest,
+    editViewData: selectEditViewData(state),
+    showSMSCheckbox,
   };
 };
 
@@ -475,9 +486,6 @@ const mapDispatchToProps = {
 /**
  * Container used to easily create components for VA Profile-backed contact information.
  * @property {string} fieldName The name of the property as it appears in the user.profile.vapContactInfo object.
- * @property {func} ContentView The component used to render the read-display of the field.
- * @property {func} EditView The component used to render the edit mode of the field.
- * @property {func} ValidationView The component used to render validation mode the field.
  * @property {string} title The field name converted to a visible display, such as for labels, modal titles, etc. Example: "mailingAddress" passes "Mailing address" as the title.
  * @property {string} apiRoute The API route used to create/update/delete the VA Profile contact info field.
  * @property {func} [convertCleanDataToPayload] An optional function used to convert the clean edited data to a payload for sending to the API. Used to remove any values (especially falsy) that may cause errors in the VA Profile service.
@@ -489,9 +497,6 @@ const ContactInformationFieldContainer = connect(
 
 ContactInformationFieldContainer.propTypes = {
   fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
-  ContentView: PropTypes.func.isRequired,
-  EditView: PropTypes.func.isRequired,
-  ValidationView: PropTypes.func,
   title: PropTypes.string.isRequired,
   apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
   convertCleanDataToPayload: PropTypes.func,
