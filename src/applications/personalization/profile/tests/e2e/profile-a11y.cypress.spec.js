@@ -2,7 +2,7 @@ import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS } from '../../constants';
 
 import mockUser from '../fixtures/users/user-36.json';
-import mockPaymentInfo from '../fixtures/payment-information/direct-deposit-is-set-up.json';
+import mockPaymentInfo from '../fixtures/dd4cnp/dd4cnp-is-set-up.json';
 
 function clickSubNavButton(buttonLabel, mobile) {
   if (mobile) {
