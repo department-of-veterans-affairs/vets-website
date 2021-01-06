@@ -1,5 +1,6 @@
 import pickBy from 'lodash/pickBy';
-import { ADDRESS_DATA, ADDRESS_POU, USA } from '@@vap-svc/constants';
+import { ADDRESS_POU, USA } from '@@vap-svc/constants';
+import ADDRESS_DATA from '~/platform/forms/address/data';
 
 const isOverseasMilitaryMailingAddress = data => {
   if (
