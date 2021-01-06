@@ -1,4 +1,29 @@
+/* eslint-disable camelcase */
 const { getDrupalValue, getWysiwygString } = require('./helpers');
+
+const getFieldFacilityLocationObject = ({
+  title,
+  entityUrl,
+  fieldNicknameForThisFacility,
+  field_nickname_for_this_facility,
+}) =>
+  typeof title === 'object'
+    ? {
+        entity: {
+          title: getDrupalValue(title),
+          entityUrl,
+          fieldNicknameForThisFacility: getDrupalValue(
+            field_nickname_for_this_facility,
+          ),
+        },
+      }
+    : {
+        entity: {
+          title,
+          entityUrl,
+          fieldNicknameForThisFacility,
+        },
+      };
 
 const transform = entity => ({
   entity: {
@@ -9,7 +34,12 @@ const transform = entity => ({
       processed: getWysiwygString(getDrupalValue(entity.fieldBody)),
     },
     fieldRegionalHealthService: {
-      entity: entity.fieldRegionalHealthService[0],
+      entity: {
+        entityUrl: entity.fieldRegionalHealthService[0].entityUrl,
+        fieldBody: entity.fieldRegionalHealthService[0].fieldBody,
+        fieldServiceNameAndDescripti:
+          entity.fieldRegionalHealthService[0].fieldServiceNameAndDescripti,
+      },
     },
     fieldServiceLocation: entity.fieldServiceLocation.map(locationData => ({
       entity: locationData,
@@ -29,11 +59,15 @@ const transform = entity => ({
         },
       }),
     ),
+    fieldFacilityLocation: entity.fieldFacilityLocation[0]
+      ? getFieldFacilityLocationObject(entity.fieldFacilityLocation[0])
+      : null,
   },
 });
 module.exports = {
   filter: [
     'title',
+    'field_facility_location',
     'field_body',
     'field_regional_health_service',
     'field_service_location',

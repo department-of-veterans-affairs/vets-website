@@ -1,6 +1,7 @@
 import ItemLoop from '../../components/ItemLoop';
 import CardDetailsView from '../../components/CardDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your trailers, campers, and boats',
@@ -23,9 +24,17 @@ export const uiSchema = {
     items: {
       recreationalVehicleType: {
         'ui:title': 'Type of vehicle',
+        'ui:options': {
+          widgetClassNames: 'input-size-6',
+        },
         'ui:required': () => true,
       },
-      recreationalVehicleAmount: currencyUI('Estimated value'),
+      recreationalVehicleAmount: _.merge(currencyUI('Estimated value'), {
+        'ui:options': {
+          widgetClassNames: 'input-size-4',
+        },
+        'ui:required': () => true,
+      }),
     },
   },
 };
@@ -40,6 +49,7 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
+        required: ['recreationalVehicleType', 'recreationalVehicleAmount'],
         properties: {
           recreationalVehicleType: {
             type: 'string',

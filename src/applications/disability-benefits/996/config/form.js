@@ -20,6 +20,8 @@ import veteranInformation from '../pages/veteranInformation';
 import contactInfo from '../pages/contactInformation';
 import contestedIssuesPage from '../pages/contestedIssues';
 import informalConference from '../pages/informalConference';
+import informalConferenceRep from '../pages/informalConferenceRep';
+import informalConferenceTimes from '../pages/informalConferenceTimes';
 
 import { errorMessages } from '../constants';
 // import initialData from '../tests/schema/initialData';
@@ -111,10 +113,24 @@ const formConfig = {
       title: 'Request an informal conference',
       pages: {
         requestConference: {
-          path: 'request-informal-conference',
+          path: 'informal-conference',
           title: 'Request an informal conference',
           uiSchema: informalConference.uiSchema,
           schema: informalConference.schema,
+        },
+        representativeInfo: {
+          path: 'informal-conference/representative-information',
+          title: 'Representative’s information',
+          depends: formData => formData?.informalConference === 'rep',
+          uiSchema: informalConferenceRep.uiSchema,
+          schema: informalConferenceRep.schema,
+        },
+        availability: {
+          path: 'informal-conference/availability',
+          title: 'Scheduling availability',
+          depends: formData => formData?.informalConference !== 'no',
+          uiSchema: informalConferenceTimes.uiSchema,
+          schema: informalConferenceTimes.schema,
         },
       },
     },
