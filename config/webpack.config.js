@@ -89,7 +89,6 @@ module.exports = env => {
     port: 3001,
     scaffold: false,
     watch: false,
-    setPublicPath: false,
     ...env,
     // Using a getter so we can reference the buildtype
     get destination() {
@@ -120,6 +119,7 @@ module.exports = env => {
 
   // Set the pubilcPath conditional so we can get dynamic modules loading from S3
   const publicAssetPath =
+    buildOptions.buildtype === 'vagovdev' ||
     buildOptions.buildtype === 'vagovstaging' // just for staging and dev  so we can test it
       ? `${BUCKETS[buildOptions.buildtype]}/generated/`
       : '/generated/';
@@ -130,12 +130,9 @@ module.exports = env => {
     output: {
       path: outputPath,
       publicPath: publicAssetPath,
-      filename: pathData => {
-        return pathData.chunk.name === !useHashFilenames ||
-          pathData.chunk.name === 'proxy-rewrite' // Don't hash the or polyfills proxy-rewrite file because it is referenced in the prearchive process (link-assets-to-bucket.js).
-          ? '[name].entry.js'
-          : `[name].entry.[chunkhash]-${timestamp}.js`;
-      },
+      filename: !useHashFilenames
+        ? '[name].entry.js'
+        : `[name].entry.[chunkhash]-${timestamp}.js`,
       chunkFilename: !useHashFilenames
         ? '[name].entry.js'
         : `[name].entry.[chunkhash]-${timestamp}.js`,
