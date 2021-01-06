@@ -146,7 +146,6 @@ export const uiSchema = {
       'ui:title': 'State',
       'ui:options': {
         classNames: 'input-size-7',
-        hideIf: formData => formData.mailingAddress.livesOutsideUS,
         updateSchema: formData => {
           if (
             formData.mailingAddress.livesOutsideUS ||
@@ -185,7 +184,6 @@ export const uiSchema = {
           'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
       },
       'ui:options': {
-        hideIf: formData => formData.mailingAddress.livesOutsideUS,
         classNames: 'input-size-2',
       },
     },
