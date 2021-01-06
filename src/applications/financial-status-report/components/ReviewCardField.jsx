@@ -6,104 +6,110 @@ import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
-const ReviewCardField = props => {
+const ReviewCardField = ({
+  uiSchema,
+  schema,
+  errorSchema,
+  idSchema,
+  registry,
+  formData,
+  onBlur,
+  formContext,
+  onChange,
+  required,
+  disabled,
+  readonly,
+}) => {
   const [editing, setEditing] = useState(false);
   const [canCancel, setCanCancel] = useState(!editing);
-  const [oldData, setOldData] = useState(props.formData);
+  const [oldData, setOldData] = useState(formData);
 
   useEffect(() => {
     // Throw an error if there’s no viewComponent (should be React component)
-    if (typeof get('ui:options.viewComponent', props.uiSchema) !== 'function') {
+    if (typeof get('ui:options.viewComponent', uiSchema) !== 'function') {
       throw new Error(
         `No viewComponent found in uiSchema for ReviewCardField ${
-          props.idSchema.$id
+          idSchema.$id
         }.`,
       );
     }
 
     const acceptedTypes = ['object', 'array'];
-    if (!acceptedTypes.includes(props.schema.type)) {
+    if (!acceptedTypes.includes(schema.type)) {
       throw new Error(
         `Unknown schema type in ReviewCardField. Expected one of [${acceptedTypes.join(
           ', ',
-        )}], but got ${props.schema.type}.`,
+        )}], but got ${schema.type}.`,
       );
     }
 
-    const invalidInitialData = !errorSchemaIsValid(props.errorSchema);
+    const invalidInitialData = !errorSchemaIsValid(errorSchema);
     const startInEditConfigOption = get(
       'ui:options.startInEdit',
-      props.uiSchema,
+      uiSchema,
       false,
     );
 
     let shouldStartInEdit = startInEditConfigOption;
     if (typeof startInEditConfigOption === 'function') {
-      shouldStartInEdit = startInEditConfigOption(props.formData);
+      shouldStartInEdit = startInEditConfigOption(formData);
     }
     setEditing(invalidInitialData || shouldStartInEdit);
   }, []);
 
   const resetFormData = () => {
-    const formData = getDefaultFormState(
-      props.schema,
+    const newData = getDefaultFormState(
+      schema,
       undefined,
-      props.registry.definitions,
+      registry.definitions,
     );
-    props.onChange(formData);
+    onChange(newData);
   };
 
   const startEditing = () => {
     // If the data is volatile, cache the original data before
     // clearing it out so we have the option to cancel later
-    if (props.uiSchema['ui:options']?.volatileData) {
-      setOldData(props.formData);
+    if (uiSchema['ui:options']?.volatileData) {
+      setOldData(formData);
       resetFormData();
     }
     setEditing(true);
   };
 
   const update = () => {
-    if (!errorSchemaIsValid(props.errorSchema)) {
+    if (!errorSchemaIsValid(errorSchema)) {
       // Show validation errors
-      props.formContext.onError();
+      formContext.onError();
     } else {
       setEditing(false);
       setCanCancel(true);
-      setOldData(props.formData);
-      if (props.uiSchema.saveClickTrackEvent) {
-        recordEvent(props.uiSchema.saveClickTrackEvent);
+      setOldData(formData);
+      if (uiSchema.saveClickTrackEvent) {
+        recordEvent(uiSchema.saveClickTrackEvent);
       }
     }
   };
 
   const cancelUpdate = () => {
-    props.onChange(oldData);
+    onChange(oldData);
     setEditing(false);
   };
 
   const getTitle = () => {
-    const { uiSchema, formData } = props;
     return typeof uiSchema['ui:title'] === 'function'
       ? uiSchema['ui:title'](formData)
       : uiSchema['ui:title'];
   };
 
   const getSubtitle = () => {
-    const { uiSchema, formData } = props;
     return typeof uiSchema['ui:subtitle'] === 'function'
       ? uiSchema['ui:subtitle'](formData)
       : uiSchema['ui:subtitle'];
   };
 
   const getDescription = () => {
-    const {
-      uiSchema: { 'ui:description': description },
-      formData,
-    } = props;
-    if (!description) {
-      return null;
-    }
+    const description = uiSchema['ui:description'];
+    if (!description) return null;
 
     return typeof description === 'function' ? (
       description(formData)
@@ -113,27 +119,13 @@ const ReviewCardField = props => {
   };
 
   const getEditView = () => {
-    const {
-      disabled,
-      errorSchema,
-      formData,
-      idSchema,
-      onBlur,
-      onChange,
-      readonly,
-      registry,
-      required,
-      schema,
-      formContext,
-    } = props;
-
     const { SchemaField } = registry.fields;
-    const uiSchema = omit(
+    const newUISchema = omit(
       ['ui:field', 'ui:title', 'ui:description'],
-      props.uiSchema,
+      uiSchema,
     );
 
-    const { volatileData, editTitle } = props.uiSchema['ui:options'];
+    const { volatileData, editTitle } = newUISchema['ui:options'];
     const title = editTitle || getTitle();
     const subtitle = getSubtitle();
     const titleClasses = [
@@ -162,7 +154,7 @@ const ReviewCardField = props => {
         name={idSchema.$id}
         required={required}
         schema={schema}
-        uiSchema={uiSchema}
+        uiSchema={newUISchema}
         errorSchema={errorSchema}
         idSchema={idSchema}
         formData={formData}
@@ -179,7 +171,7 @@ const ReviewCardField = props => {
       formContext.onReviewPage &&
       formContext.reviewMode &&
       // volatileData is for arrays, which displays separate blocks
-      uiSchema['ui:options']?.volatileData;
+      newUISchema['ui:options']?.volatileData;
 
     return (
       <div className="review-card">
@@ -210,8 +202,8 @@ const ReviewCardField = props => {
   };
 
   const getReviewView = () => {
-    const { viewComponent: ViewComponent } = props.uiSchema['ui:options'];
-    return <ViewComponent formData={props.formData} edit={startEditing} />;
+    const { viewComponent: ViewComponent } = uiSchema['ui:options'];
+    return <ViewComponent formData={formData} edit={startEditing} />;
   };
 
   const description = getDescription();
