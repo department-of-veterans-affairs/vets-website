@@ -75,15 +75,15 @@ function ErrorMessage({ facilityId, requestAppointmentDateChoice }) {
 }
 
 function userSelectedSlot(calendarData) {
-  return calendarData?.selectedDates?.length > 0;
+  return !!calendarData?.selectedDates;
 }
 
 function goBack({ routeToPreviousAppointmentPage, history }) {
   return routeToPreviousAppointmentPage(history, pageKey);
 }
 
-function validate({ calendarData, setValidationError }) {
-  if (userSelectedSlot(calendarData)) {
+function validate({ date, setValidationError }) {
+  if (date) {
     setValidationError(null);
   } else {
     setValidationError(missingDateError);
@@ -99,7 +99,7 @@ function goForward({
   setValidationError,
 }) {
   const { calendarData } = data || {};
-  validate({ calendarData, setValidationError });
+  validate({ date: calendarData.selectedDates, setValidationError });
   if (userSelectedSlot(calendarData)) {
     routeToNextAppointmentPage(history, pageKey);
   } else if (submitted) {
@@ -157,7 +157,7 @@ export function DateTimeSelectPage({
   );
 
   const calendarData = data?.calendarData || {};
-  const { currentlySelectedDate, selectedDates } = calendarData;
+  const { selectedDates } = calendarData;
   const startMonth = preferredDate
     ? moment(preferredDate).format('YYYY-MM')
     : null;
@@ -186,12 +186,10 @@ export function DateTimeSelectPage({
       <CalendarWidget
         maxSelections={1}
         availableDates={availableDates}
-        currentlySelectedDate={currentlySelectedDate}
-        selectedDates={selectedDates}
+        value={selectedDates}
         additionalOptions={{
           fieldName: 'datetime',
           required: true,
-          maxSelections: 1,
           getOptionsByDate: selectedDate =>
             getOptionsByDate(selectedDate, timezone, availableSlots),
         }}
@@ -202,9 +200,9 @@ export function DateTimeSelectPage({
             requestAppointmentDateChoice={requestAppointmentDateChoice}
           />
         }
-        onChange={newData => {
-          validate({ calendarData: newData, setValidationError });
-          onCalendarChange(newData);
+        onChange={date => {
+          validate({ date, setValidationError });
+          onCalendarChange({ selectedDates: date });
         }}
         onClickNext={getAppointmentSlots}
         onClickPrev={getAppointmentSlots}
