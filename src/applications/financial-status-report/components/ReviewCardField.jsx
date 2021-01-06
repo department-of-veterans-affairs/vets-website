@@ -181,12 +181,10 @@ const ReviewCardField = props => {
       // volatileData is for arrays, which displays separate blocks
       uiSchema['ui:options']?.volatileData;
 
-    const Tag = formContext.onReviewPage ? 'h4' : 'h3';
-
     return (
       <div className="review-card">
         <div className="review-card--body input-section va-growable-background">
-          <Tag className={titleClasses}>{title}</Tag>
+          <h4 className={titleClasses}>{title}</h4>
           {subtitle && <div className="review-card--subtitle">{subtitle}</div>}
           {needsDlWrapper ? <dl className="review">{Field}</dl> : Field}
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--2p5">
@@ -212,88 +210,8 @@ const ReviewCardField = props => {
   };
 
   const getReviewView = () => {
-    if (props.formContext.onReviewPage) {
-      // Check the data type and use the appropriate review field
-      const dataType = props.schema.type;
-      if (dataType === 'object') {
-        const { ObjectField } = props.registry.fields;
-        return <ObjectField {...props} />;
-      } else if (dataType === 'array') {
-        const { ArrayField } = props.registry.fields;
-        return <ArrayField {...props} />;
-      }
-    }
-
-    const {
-      viewComponent: ViewComponent,
-      volatileData,
-      reviewTitle,
-      itemName,
-      itemNameAction,
-    } = props.uiSchema['ui:options'];
-    const title = reviewTitle || getTitle();
-
-    const headerClasses = [
-      'review-card--header',
-      'vads-u-background-color--gray-lightest',
-      'vads-u-padding-y--0',
-      'vads-u-padding-x--2',
-      'vads-u-display--flex',
-      'vads-u-justify-content--space-between',
-      'vads-u-align-items--center',
-    ].join(' ');
-    const titleClasses = [
-      'review-card--title',
-      'vads-u-display--inline',
-      'vads-u-margin--0',
-      'vads-u-font-size--h4',
-    ].join(' ');
-    const bodyClasses = [
-      'review-card--body',
-      'vads-u-border-color--gray-lightest',
-      'vads-u-border--2px',
-      'vads-u-border-top--0',
-      'vads-u-padding--1p5',
-      'vads-u-margin-bottom--1',
-    ].join(' ');
-    const editButton = [
-      'edit-button',
-      'vads-u-margin-top--1',
-      'vads-u-width--auto',
-    ].join(' ');
-
-    const Tag = props.formContext.onReviewPage ? 'h4' : 'h3';
-
-    return (
-      <div className="review-card">
-        <div className={headerClasses} style={{ minHeight: '5rem' }}>
-          <Tag className={titleClasses}>{title}</Tag>
-          {!volatileData && (
-            <button
-              className={`usa-button-secondary ${editButton}`}
-              style={{ minWidth: '8rem' }}
-              onClick={startEditing}
-              aria-label={`Edit ${title}`}
-            >
-              Edit
-            </button>
-          )}
-        </div>
-        <div className={bodyClasses}>
-          <ViewComponent formData={props.formData} />
-        </div>
-        {volatileData && (
-          <button
-            className={`usa-button-primary ${editButton}`}
-            style={{ minWidth: '8rem' }}
-            onClick={startEditing}
-            aria-label={`${itemNameAction || 'New'} ${itemName || title}`}
-          >
-            {itemNameAction || 'New'} {itemName || title}
-          </button>
-        )}
-      </div>
-    );
+    const { viewComponent: ViewComponent } = props.uiSchema['ui:options'];
+    return <ViewComponent formData={props.formData} edit={startEditing} />;
   };
 
   const description = getDescription();
