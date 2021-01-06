@@ -147,15 +147,13 @@ export default function CalendarWidget({
   onChange,
   onClickNext,
   onClickPrev,
-  value,
+  value = [],
   selectedIndicatorType,
   startMonth,
   validationError,
 }) {
   const [currentlySelectedDate, setCurrentlySelectedDate] = useState(() => {
-    if (maxSelections === 1 && value) {
-      return value.split('T')[0];
-    } else if (value?.length > 0) {
+    if (value.length > 0) {
       return value[0].split('T')[0];
     }
 
@@ -239,7 +237,7 @@ export default function CalendarWidget({
                             maxSelections === 1 &&
                             date === currentlySelectedDate
                           ) {
-                            onChange();
+                            onChange([]);
                           }
 
                           setCurrentlySelectedDate(
@@ -248,18 +246,17 @@ export default function CalendarWidget({
                         }}
                         handleSelectOption={date => {
                           if (maxSelections > 1) {
-                            const selectedDates = value || [];
-                            if (selectedDates.includes(date)) {
+                            if (value.includes(date)) {
                               onChange(
-                                selectedDates.filter(
+                                value.filter(
                                   selectedDate => selectedDate !== date,
                                 ),
                               );
                             } else {
-                              onChange(selectedDates.concat(date));
+                              onChange(value.concat(date));
                             }
                           } else {
-                            onChange(date);
+                            onChange([date]);
                           }
                         }}
                         hasError={validationError?.length > 0}
@@ -268,7 +265,7 @@ export default function CalendarWidget({
                         maxSelections={maxSelections}
                         minDate={minDate}
                         rowNumber={weekIndex}
-                        selectedDates={value || []}
+                        selectedDates={value}
                         selectedIndicatorType={selectedIndicatorType}
                       />
                     ))}

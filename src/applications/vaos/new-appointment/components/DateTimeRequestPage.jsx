@@ -65,9 +65,11 @@ function goForward({
   setSubmitted,
   setValidationError,
 }) {
-  const { calendarData } = data || {};
-  validate({ data: calendarData, setValidationError });
-  if (userSelectedSlot(calendarData) && !exceededMaxSelections(calendarData)) {
+  validate({ dates: data.selectedDates, setValidationError });
+  if (
+    userSelectedSlot(data.selectedDates) &&
+    !exceededMaxSelections(data.selectedDates)
+  ) {
     routeToNextAppointmentPage(history, pageKey);
   } else if (submitted) {
     scrollAndFocus('.usa-input-error-message');
@@ -104,11 +106,9 @@ export function DateTimeRequestPage({
     [validationError, submitted],
   );
 
-  const calendarData = data?.calendarData || {};
-  const { selectedDates } = calendarData;
+  const selectedDates = data.selectedDates;
 
   const additionalOptions = {
-    fieldName: 'optionTime',
     required: true,
     maxSelections: 2,
     validationMessage:
@@ -128,7 +128,7 @@ export function DateTimeRequestPage({
         maxSelections={maxSelections}
         onChange={dates => {
           validate({ dates, setValidationError });
-          onCalendarChange({ selectedDates: dates });
+          onCalendarChange(dates);
         }}
         minDate={moment()
           .add(5, 'days')

@@ -944,24 +944,15 @@ describe('VAOS reducer: newAppointment', () => {
     });
 
     it('should update calendar data on change', () => {
-      const calendarData = {
-        currentlySelectedDate: '2020-03-11',
-        selectedDates: [
-          {
-            date: '2020-03-11',
-            datetime: '2020-03-11T09:40:00',
-          },
-        ],
-        error: null,
-      };
+      const selectedDates = ['2020-03-11T09:40:00'];
 
       const action = {
         type: FORM_CALENDAR_DATA_CHANGED,
-        calendarData,
+        selectedDates,
       };
 
       const newState = newAppointmentReducer(defaultState, action);
-      expect(newState.data.calendarData).to.deep.equal(calendarData);
+      expect(newState.data.selectedDates).to.deep.equal(selectedDates);
     });
   });
 

@@ -40,6 +40,7 @@ export default function CalendarSelectedIndicator({
 }
 
 CalendarSelectedIndicator.propTypes = {
+  selectedDates: PropTypes.array.isRequired,
   date: PropTypes.string.isRequired,
   selectedIndicatorType: PropTypes.string,
 };

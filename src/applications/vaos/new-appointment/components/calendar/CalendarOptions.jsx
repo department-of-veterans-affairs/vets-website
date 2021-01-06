@@ -147,11 +147,11 @@ export default function CalendarOptions({
           </legend>
           <div className={cssClasses}>
             {selectedDateOptions.map((o, index) => {
-              if (useCheckboxes) {
-                const checked = selectedDates.some(
-                  selectedDate => selectedDate === o.value,
-                );
+              const checked = selectedDates.some(
+                selectedDate => selectedDate === o.value,
+              );
 
+              if (useCheckboxes) {
                 return (
                   <div
                     key={`option-${index}`}
@@ -186,7 +186,7 @@ export default function CalendarOptions({
                     id={`${currentlySelectedDate}_${index}`}
                     fieldName={fieldName}
                     value={o.value}
-                    checked={selectedDates === o.value}
+                    checked={checked}
                     onChange={() => handleSelectOption(o.value)}
                     label={o.label}
                   />

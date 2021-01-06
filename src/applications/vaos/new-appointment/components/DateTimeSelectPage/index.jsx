@@ -74,16 +74,12 @@ function ErrorMessage({ facilityId, requestAppointmentDateChoice }) {
   );
 }
 
-function userSelectedSlot(calendarData) {
-  return !!calendarData?.selectedDates;
-}
-
 function goBack({ routeToPreviousAppointmentPage, history }) {
   return routeToPreviousAppointmentPage(history, pageKey);
 }
 
-function validate({ date, setValidationError }) {
-  if (date) {
+function validate({ dates, setValidationError }) {
+  if (dates?.length) {
     setValidationError(null);
   } else {
     setValidationError(missingDateError);
@@ -98,9 +94,8 @@ function goForward({
   setSubmitted,
   setValidationError,
 }) {
-  const { calendarData } = data || {};
-  validate({ date: calendarData.selectedDates, setValidationError });
-  if (userSelectedSlot(calendarData)) {
+  validate({ date: data.selectedDates, setValidationError });
+  if (data.selectedDates?.length) {
     routeToNextAppointmentPage(history, pageKey);
   } else if (submitted) {
     scrollAndFocus('.usa-input-error-message');
@@ -156,8 +151,7 @@ export function DateTimeSelectPage({
     [validationError, submitted],
   );
 
-  const calendarData = data?.calendarData || {};
-  const { selectedDates } = calendarData;
+  const selectedDates = data.selectedDates;
   const startMonth = preferredDate
     ? moment(preferredDate).format('YYYY-MM')
     : null;
@@ -188,7 +182,6 @@ export function DateTimeSelectPage({
         availableDates={availableDates}
         value={selectedDates}
         additionalOptions={{
-          fieldName: 'datetime',
           required: true,
           getOptionsByDate: selectedDate =>
             getOptionsByDate(selectedDate, timezone, availableSlots),
@@ -200,9 +193,9 @@ export function DateTimeSelectPage({
             requestAppointmentDateChoice={requestAppointmentDateChoice}
           />
         }
-        onChange={date => {
-          validate({ date, setValidationError });
-          onCalendarChange({ selectedDates: date });
+        onChange={dates => {
+          validate({ dates, setValidationError });
+          onCalendarChange(dates);
         }}
         onClickNext={getAppointmentSlots}
         onClickPrev={getAppointmentSlots}

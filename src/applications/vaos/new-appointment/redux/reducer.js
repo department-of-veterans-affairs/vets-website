@@ -794,7 +794,7 @@ export default function formReducer(state = initialState, action) {
         ...state,
         data: {
           ...state.data,
-          calendarData: {},
+          selectedDates: [],
         },
         flowType: FLOW_TYPES.DIRECT,
       };
@@ -803,7 +803,7 @@ export default function formReducer(state = initialState, action) {
         ...state,
         data: {
           ...state.data,
-          calendarData: {},
+          selectedDates: [],
         },
         flowType: FLOW_TYPES.REQUEST,
       };
@@ -846,7 +846,7 @@ export default function formReducer(state = initialState, action) {
         ...state,
         data: {
           ...state.data,
-          calendarData: action.calendarData,
+          selectedDates: action.selectedDates,
         },
       };
     }
@@ -1001,7 +1001,7 @@ export default function formReducer(state = initialState, action) {
         ...state,
         data: {
           ...data,
-          calendarData: {},
+          selectedDates: [],
         },
         pages: {
           ...state.pages,
