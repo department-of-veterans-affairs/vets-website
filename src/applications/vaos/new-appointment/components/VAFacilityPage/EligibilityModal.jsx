@@ -42,33 +42,25 @@ export default function EligibilityModal({
       </>
     );
   } else if (!eligibility.requestLimit) {
-    title =
-      'You’ve reached the limit for appointment requests at this location';
+    title = 'You’ve reached the limit for appointment requests';
     content = (
       <>
         <p>
           Our records show that you have an open appointment request at this
-          location. We can’t schedule any more appointments at this facility
-          until your open requests are scheduled or canceled. To schedule or
-          cancel your open appointments:
+          location. You can’t request another appointment until you schedule or
+          cancel your open requests.
         </p>
-        <ul>
-          <li>
-            Go to <Link to="/">your appointment list</Link> and cancel open
-            requests, or
-          </li>
-          {facilityDetails && (
-            <li>
-              Call your medical facility:
-              <br />
-              <FacilityAddress
-                name={facilityDetails.name}
-                facility={facilityDetails}
-              />
-            </li>
-          )}
-          {!facilityDetails && <li>Call your medical facility</li>}
-        </ul>
+        <p>
+          Call this facility to schedule or cancel an open appointment request.
+          You can also cancel a request from{' '}
+          <Link to="/">your appointment list</Link>.
+        </p>
+        {facilityDetails && (
+          <FacilityAddress
+            name={facilityDetails.name}
+            facility={facilityDetails}
+          />
+        )}
       </>
     );
   }
