@@ -22,8 +22,10 @@
     overflow: hidden;
 
     img {
-      max-width: 70px;
+      height: 70px;
+      width: 70px;
       min-height: 70px;
+      min-width: 70px;
       object-fit: cover;
     }
 
