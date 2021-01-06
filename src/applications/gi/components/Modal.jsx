@@ -13,13 +13,17 @@ class Modal extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.visible) this.setupModal();
+    document.addEventListener('click', this.handeFocusOnSafari, true);
+    if (this.props.visible) {
+      this.setupModal();
+    }
   }
 
   componentDidUpdate(prevProps) {
     if (!prevProps.visible && this.props.visible) {
       this.setupModal();
     } else if (prevProps.visible && !this.props.visible) {
+      document.removeEventListener('click', this.handeFocusOnSafari, true);
       this.teardownModal();
     }
   }
@@ -69,7 +73,11 @@ class Modal extends React.Component {
       }
     }
   };
-
+  handeFocusOnMac = event => {
+    if (event.target.matches('button')) {
+      event.target.focus();
+    }
+  };
   handleClose = e => {
     e.preventDefault();
     this.props.onClose();
