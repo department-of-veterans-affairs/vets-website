@@ -1,42 +1,32 @@
 import {
-  OfficeForReviewTitle,
-  OfficeForReviewDescription,
-  OfficeForReviewAlert,
+  OfficeForReviewContent,
+  OfficeForReviewLabel,
 } from '../content/OfficeForReview';
-
-import SameOfficeReviewField from '../content/SameOfficeReviewField';
 
 const sameOfficePage = {
   uiSchema: {
-    sameOffice: {
-      'ui:title': OfficeForReviewTitle,
-      'ui:description': OfficeForReviewDescription,
-      // including a description here would add it _above_ the checkbox
-      'ui:widget': 'checkbox',
-      'ui:reviewField': SameOfficeReviewField,
-      'ui:options': {
-        hideLabelText: true,
-      },
-    },
-    sameOfficeAlert: {
-      'ui:title': '', // prevent alert from being added to a legend
-      'ui:description': OfficeForReviewAlert,
+    'view:sameOfficeInfo': {
+      'ui:title': ' ',
+      'ui:description': OfficeForReviewContent,
       'ui:options': {
         forceDivWrapper: true,
-        hideIf: formData => formData?.sameOffice !== true,
       },
+    },
+    sameOffice: {
+      'ui:title': OfficeForReviewLabel,
+      'ui:widget': 'yesNo',
     },
   },
 
   schema: {
     type: 'object',
     properties: {
-      sameOffice: {
-        type: 'boolean',
-      },
-      sameOfficeAlert: {
+      'view:sameOfficeInfo': {
         type: 'object',
         properties: {},
+      },
+      sameOffice: {
+        type: 'boolean',
       },
     },
   },

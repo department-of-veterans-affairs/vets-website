@@ -118,6 +118,9 @@ const formConfig = {
           path: 'office-of-review',
           uiSchema: sameOffice.uiSchema,
           schema: sameOffice.schema,
+          initialData: {
+            sameOffice: false,
+          },
         },
       },
     },
