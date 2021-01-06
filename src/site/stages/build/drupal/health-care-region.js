@@ -89,25 +89,6 @@ function createPastEventListPages(page, drupalPagePath, files) {
 function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const sidebar = page.facilitySidebar;
 
-  // Create the top-level facilities status page for Health Care Regions
-  const statusEntityUrl = createEntityUrlObj(drupalPagePath);
-  const statusObj = {
-    mainFacilities: page.reverseFieldRegionPageNode,
-    facilitySidebar: sidebar,
-    entityUrl: statusEntityUrl,
-    alert: page.alert,
-    title: page.title,
-  };
-
-  const statusPage = updateEntityUrlObj(
-    statusObj,
-    drupalPagePath,
-    'Operating status',
-  );
-  const statusPath = statusPage.entityUrl.path;
-  statusPage.regionOrOffice = page.title;
-  statusPage.entityUrl = generateBreadCrumbs(statusPath);
-
   // Create the top-level locations page for Health Care Regions
   const locEntityUrl = createEntityUrlObj(drupalPagePath);
   const locObj = {
