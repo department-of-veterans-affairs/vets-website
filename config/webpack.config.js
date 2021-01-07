@@ -130,9 +130,11 @@ module.exports = env => {
     output: {
       path: outputPath,
       publicPath: publicAssetPath,
-      filename: !useHashFilenames
-        ? '[name].entry.js'
-        : `[name].entry.[chunkhash]-${timestamp}.js`,
+      filename: pathData => {
+        return !useHashFilenames || pathData.chunk.name === 'proxy-rewrite'
+          ? '[name].entry.js'
+          : `[name].entry.[chunkhash]-${timestamp}.js`;
+      },
       chunkFilename: !useHashFilenames
         ? '[name].entry.js'
         : `[name].entry.[chunkhash]-${timestamp}.js`,
