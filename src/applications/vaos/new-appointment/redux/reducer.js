@@ -118,7 +118,6 @@ const initialState = {
   hideUpdateAddressAlert: false,
   requestLocationStatus: FETCH_STATUS.notStarted,
   communityCareProviders: {},
-  communityCareProviderList: [],
   requestStatus: FETCH_STATUS.notStarted,
   currentLocation: {},
   ccProviderPageSortMethod: FACILITY_SORT_METHODS.distanceFromResidential,
@@ -1136,7 +1135,7 @@ export default function formReducer(state = initialState, action) {
       const { ccProviderPageSortMethod: sortMethod, data } = state;
       const cacheKey = `${sortMethod}_${getTypeOfCare(data)?.ccId}`;
 
-      const communityCareProviderList =
+      const providers =
         state.communityCareProviders[cacheKey] ||
         typeOfCareProviders
           .map(facility => {
@@ -1158,9 +1157,8 @@ export default function formReducer(state = initialState, action) {
         requestStatus: FETCH_STATUS.succeeded,
         communityCareProviders: {
           ...state.communityCareProviders,
-          [cacheKey]: communityCareProviderList,
+          [cacheKey]: providers,
         },
-        communityCareProviderList,
       };
     }
     case FORM_REQUESTED_PROVIDERS_FAILED: {
