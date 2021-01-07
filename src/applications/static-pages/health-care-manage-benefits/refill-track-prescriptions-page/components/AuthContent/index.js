@@ -9,20 +9,13 @@ import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 
-export const AuthContent = ({
-  authenticatedWithSSOe,
-  cernerFacilities,
-  otherFacilities,
-}) => (
+export const AuthContent = ({ cernerFacilities, otherFacilities }) => (
   <>
     <CernerCallToAction
       cernerFacilities={cernerFacilities}
       otherFacilities={otherFacilities}
       linksHeaderText="Refill prescriptions from:"
-      myHealtheVetLink={mhvUrl(
-        authenticatedWithSSOe,
-        'web/myhealthevet/refill-prescriptions',
-      )}
+      myHealtheVetLink={mhvUrl('web/myhealthevet/refill-prescriptions')}
       myVAHealthLink={getCernerURL('/pages/medications/current')}
     />
     <div>
@@ -413,7 +406,6 @@ export const AuthContent = ({
 );
 
 AuthContent.propTypes = {
-  authenticatedWithSSOe: PropTypes.bool.isRequired,
   cernerfacilities: PropTypes.arrayOf(
     PropTypes.shape({
       facilityId: PropTypes.string.isRequired,
