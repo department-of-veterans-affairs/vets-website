@@ -1174,23 +1174,7 @@ export function requestProvidersList(address) {
       const communityCareProviders = newAppointment.communityCareProviders;
       const sortMethod = newAppointment.ccProviderPageSortMethod;
       const typeOfCare = getTypeOfCare(newAppointment.data);
-      let location;
-
-      if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
-        location = 'residential';
-      } else {
-        const stringifyCoord = coord =>
-          coord
-            .toString()
-            .replace('-', '')
-            .replace('.', '');
-
-        location = `${stringifyCoord(address.latitude)}_${stringifyCoord(
-          address.longitude,
-        )}`;
-      }
-
-      const key = `${location}_${typeOfCare.id}`;
+      const key = `${sortMethod.replace('distanceFrom', '')}_${typeOfCare.id}`;
       let typeOfCareProviders = communityCareProviders[key];
 
       dispatch({
