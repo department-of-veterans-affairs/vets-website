@@ -23,7 +23,7 @@ Follow these steps to get started in your own application:
 This should hopefully be all you need to know to work with VA Profile Service, but there's more information below in case you would like to become familiar with how the components work.
 
 ## VA Profile Service Reducer (vapService)
-The VA Profile Service reducer is necessary in order to manage transactions (more on that below), as well as certain interactions with the UI (opening an edit-modal after a user clicks "edit", for example.) It contains the following fields-
+The VA Profile Service reducer is necessary in order to manage transactions (more on that below), as well as certain interactions with the UI (opening an edit-modal after a user clicks "edit", for example.) It contains the following properties-
 
 1. `modal`
     - A string value indicating which field's edit-modal should be visible.
@@ -40,6 +40,14 @@ The VA Profile Service reducer is necessary in order to manage transactions (mor
     - An array of transaction IDs, each one corresponding to a request at `/v0/profile/person/status/{transaction_id}`. This is effectively used to prevent the API from being hit quicker than it can respond while we are polling for transaction updates.
 5. `metadata`
     - Anything else about the transactions data. Currently, it contains only a `mostRecentErroredTransactionId` property, which is used to render error messaging for the most recent rejected transaction. It is necessary because transactions aren't timestamped.
+6. `hasUnsavedEdits`
+    - A boolean used to indicate whether the user has any form field updates that have not yet been successfully saved.
+7. `initialFormFields`
+    - The value of initialFormFields is set to an empty object if the user has not yet filled out any contact information and otherwise includes any already saved contact information. The value is set when `UPDATE_PROFILE_FORM_FIELD` is triggered upon initial opening of the edit modal / rendering of the edit view.
+8. `addressValidation`
+    - Is an object set to `initialAddressValidationState` upon initialization and when the address validation modal is opened, and updated based on whether the address validation went through successfully (`ADDRESS_VALIDATION_CONFIRM`) or with an error (`ADDRESS_VALIDATION_ERROR`).
+9. `transactionStatus`
+    - A string that is either `RECEIVED`, `COMPLETED_SUCCESS` or `COMPLETED_FAILURE`.
 
 ## Transactions
 When a request to update a field is sent to VA Profile Service (via `PUT`, or `POST` if the field is empty), VA Profile Service does not respond with the updated record from a database as you would expect from a typical API. Instead, it responds with data on how to look up the progress of the update, information referred to as a "transaction." For example, a request to update an email would return a transaction that looks like:
@@ -56,7 +64,7 @@ When a request to update a field is sent to VA Profile Service (via `PUT`, or `P
 }
 ```
 
-The `transaction_status` property set to `RECEIVED` indicates that VA Profile Service has enqueued the update, but it has not finished processing. The `transaction_id` can then be used to look up that update at a later time via `/v0/profile/person/status/{transaction_id}`. At some point, the `transaction_status` will indicate whether the update was successful or rejected. If it is rejected, there will be a `metadata` property containing a list of errors. The Swagger docs contain [more info](https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/profile/postVapsvcEmailAddress) on this.
+The `transaction_status` property set to `RECEIVED` indicates that VA Profile Service has enqueued the update, but it has not finished processing. The `transaction_id` can then be used to look up that update at a later time via `/v0/profile/person/status/{transaction_id}`. At some point, the `transaction_status` will indicate whether the update was successful or rejected. If it is rejected, there will be a `metadata` property containing a list of errors. The Swagger docs contain [more info](https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/profile/postVet360EmailAddress) on this.
 
 A note here about the `type` property - that field indicates whether the transaction pertains to an email, address, or telephone number. In the case of an address, you are not provided with an identifier to determine whether the transaction is for a residential or mailing address. This information must be managed by the Front-End in memory.
 
