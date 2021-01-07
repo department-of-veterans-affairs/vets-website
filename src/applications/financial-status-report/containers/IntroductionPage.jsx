@@ -24,7 +24,7 @@ const IntroductionPage = props => {
         Equal to VA Form 5655 (Financial Status Report)
       </p>
       <SaveInProgressIntro
-        startText={'Start Text'}
+        startText="Submit a report to request help"
         unauthStartText="Sign in or create an account"
         messages={props.route.formConfig.savedFormMessages}
         pageList={props.route.pageList}
@@ -133,6 +133,16 @@ const IntroductionPage = props => {
             </p>
           </li>
         </ol>
+        <SaveInProgressIntro
+          buttonOnly
+          startText="Submit a report to request help"
+          unauthStartText="Sign in or create an account"
+          pageList={props.route.pageList}
+          messages={props.route.formConfig.savedFormMessages}
+          formConfig={formConfig}
+          formId={props.formId}
+          prefillEnabled={props.route.formConfig.prefillEnabled}
+        />
       </div>
       <div className="omb-info--container">
         <OMBInfo resBurden={60} ombNumber="2900-0862" expDate="02/28/2022" />

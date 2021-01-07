@@ -24,7 +24,7 @@ const UnverifiedPrefillAlert = props => (
           </li>
         </ul>
         <button
-          className="usa-button-primary"
+          className="usa-button-primary alert-button"
           type="button"
           onClick={() => props.toggleLoginModal(true, 'cta-form')}
         >

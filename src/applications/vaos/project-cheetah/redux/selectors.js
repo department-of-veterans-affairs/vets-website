@@ -1,5 +1,9 @@
 import moment from 'moment';
-import { selectProfile } from 'platform/user/selectors';
+import {
+  selectProfile,
+  selectVAPResidentialAddress,
+} from 'platform/user/selectors';
+import { FETCH_STATUS } from '../../utils/constants';
 
 export function selectProjectCheetah(state) {
   return state.projectCheetah;
@@ -23,5 +27,62 @@ export function getProjectCheetahFormPageInfo(state, pageKey) {
 }
 
 export function selectAllowProjectCheetahBookings(state) {
-  return moment().diff(moment(selectProfile(state).dob), 'years') >= 65;
+  return moment().diff(moment(selectProfile(state).dob), 'years') >= 15;
+}
+
+export function getChosenFacilityInfo(state) {
+  return (
+    selectProjectCheetahNewBooking(state).facilities?.find(
+      facility =>
+        facility.id === selectProjectCheetahFormData(state).vaFacility,
+    ) || null
+  );
+}
+
+export function getFacilityPageInfo(state) {
+  const formInfo = getProjectCheetahFormPageInfo(state, 'vaFacility');
+  const data = selectProjectCheetahFormData(state);
+  const newAppointment = selectProjectCheetahNewBooking(state);
+
+  const {
+    facilitiesStatus,
+    facilityPageSortMethod,
+    requestLocationStatus,
+    showEligibilityModal,
+    clinics,
+    clinicsStatus,
+  } = newAppointment;
+
+  const validFacilities = formInfo.schema?.properties.vaFacility.enum;
+
+  return {
+    ...formInfo,
+    address: selectVAPResidentialAddress(state),
+    canScheduleAtChosenFacility: !!clinics[data.vaFacility]?.length,
+    facilitiesStatus,
+    clinicsStatus,
+    hasDataFetchingError:
+      facilitiesStatus === FETCH_STATUS.failed ||
+      clinicsStatus === FETCH_STATUS.failed,
+    noValidVAFacilities:
+      facilitiesStatus === FETCH_STATUS.succeeded && !validFacilities?.length,
+    requestLocationStatus,
+    selectedFacility: getChosenFacilityInfo(state),
+    singleValidVALocation: validFacilities?.length === 1 && !!data.vaFacility,
+    showEligibilityModal,
+    sortMethod: facilityPageSortMethod,
+  };
+}
+
+export function getClinicPageInfo(state, pageKey) {
+  const formPageInfo = getProjectCheetahFormPageInfo(state, pageKey);
+  const newBooking = selectProjectCheetahNewBooking(state);
+  const facilities = newBooking.facilities;
+
+  return {
+    ...formPageInfo,
+    facilityDetails: facilities.find(
+      facility => facility.id === formPageInfo.data.vaFacility,
+    ),
+  };
 }

@@ -279,6 +279,13 @@ yarn test:unit --help
 - E2E or browser tests primarily run in Cypress.
 - Some older, existing tests run in Nightwatch, but those are deprecated.
 
+**Before running Cypress tests**, first make sure that:
+
+1. `vets-website` is served locally on port 3001
+   - You can do this with `yarn watch`
+1. `vets-api` is **NOT** running
+   - Any required APIs will be mocked by the Cypress test that needs them.
+
 To **open the Cypress test runner UI and run any tests within it**:
 
 ```sh

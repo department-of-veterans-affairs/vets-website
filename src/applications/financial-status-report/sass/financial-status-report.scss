@@ -15,7 +15,7 @@
     margin: 0 0 40px;
     font-size: 20px;
   }
-  .usa-button-primary {
+  .alert-button {
     margin: 25px 0 0;
   }
 }
@@ -92,6 +92,11 @@
 }
 
 .contact-info {
+  .checkbox-group {
+    label {
+      margin-top: 0;
+    }
+  }
   .review-card--body {
     border: 3px solid #0071bb;
     padding: 25px;

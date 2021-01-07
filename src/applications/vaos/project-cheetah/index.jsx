@@ -11,6 +11,8 @@ import { selectAllowProjectCheetahBookings } from './redux/selectors';
 import projectCheetahReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
 import InfoPage from './components/InfoPage';
+import VAFacilityPage from './components/VAFacilityPage';
+import ClinicChoicePage from './components/ClinicChoicePage';
 import SelectDate1Page from './components/SelectDate1Page';
 import SelectDate2Page from './components/SelectDate2Page';
 import ReviewPage from './components/ReviewPage';
@@ -57,6 +59,8 @@ export function NewBookingSection({ allowBookings, featureProjectCheetah }) {
     <FormLayout>
       {allowBookings && (
         <Switch>
+          <Route path={`${match.url}/facility`} component={VAFacilityPage} />
+          <Route path={`${match.url}/clinic`} component={ClinicChoicePage} />
           <Route
             path={`${match.url}/select-date-1`}
             component={SelectDate1Page}
