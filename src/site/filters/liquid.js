@@ -53,7 +53,7 @@ module.exports = function registerFilters() {
     );
 
     const otherSections = _.filter(
-      [...vaParagraphs, ...vaParagraphs, ...vaParagraphs, ...vaParagraphs],
+      vaParagraphs,
       vaParagraph =>
         vaParagraph.entity.fieldSectionHeader !== FIRST_SECTION_HEADER &&
         vaParagraph.entity.fieldSectionHeader !== LAST_SECTION_HEADER,
