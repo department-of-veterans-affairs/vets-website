@@ -387,14 +387,14 @@ const formConfig = {
             },
           },
         },
-        veteranHomeAddress: {
-          path: 'veteran-information/veteran-home-address',
-          title: 'Home address',
+        veteranAddress: {
+          path: 'veteran-information/veteran-address',
+          title: 'Mailing address',
           initialData: {},
           depends: formData => formData['view:hasMultipleAddress'],
           uiSchema: {
             'ui:description': PrefillMessage,
-            veteranHomeAddress: _.merge(addressUI('Home address', true), {
+            veteranAddress: _.merge(addressUI('Mailing address', true), {
               street: {
                 'ui:errorMessages': {
                   pattern:
@@ -406,10 +406,6 @@ const formConfig = {
                   pattern:
                     'Please provide a valid city. Must be at least 1 character.',
                 },
-              },
-              'ui:options': {
-                'ui:title': 'Street',
-                hideIf: formData => !formData['view:hasMultipleAddress'],
               },
             }),
             'view:doesPermanentAddressMatchMailing': {
@@ -425,7 +421,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              veteranHomeAddress: _.merge(addressSchema(fullSchemaHca, true), {
+              veteranAddress: _.merge(addressSchema(fullSchemaHca, true), {
                 properties: {
                   street: {
                     minLength: 1,
@@ -452,14 +448,14 @@ const formConfig = {
             },
           },
         },
-        veteranAddress: {
-          path: 'veteran-information/veteran-address',
-          title: 'Mailing address',
+        veteranHomeAddress: {
+          path: 'veteran-information/veteran-home-address',
+          title: 'Home address',
           initialData: {},
           depends: formData => flipMailingAddress(formData),
           uiSchema: {
             'ui:description': PrefillMessage,
-            veteranAddress: _.merge(addressUI('Mailing address', true), {
+            veteranHomeAddress: _.merge(addressUI('Home address', true), {
               street: {
                 'ui:errorMessages': {
                   pattern:
@@ -472,12 +468,16 @@ const formConfig = {
                     'Please provide a valid city. Must be at least 1 character.',
                 },
               },
+              'ui:options': {
+                'ui:title': 'Street',
+                hideIf: formData => !formData['view:hasMultipleAddress'],
+              },
             }),
           },
           schema: {
             type: 'object',
             properties: {
-              veteranAddress: _.merge(addressSchema(fullSchemaHca, true), {
+              veteranHomeAddress: _.merge(addressSchema(fullSchemaHca, true), {
                 properties: {
                   street: {
                     minLength: 1,
