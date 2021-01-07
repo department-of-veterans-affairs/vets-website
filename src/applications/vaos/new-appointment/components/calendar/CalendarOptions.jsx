@@ -2,22 +2,6 @@ import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import CalendarOptionsSlots from './CalendarOptionsSlots';
 
-// /*
-//  * Simiarly to above, but for checkboxes, which we know we only ever have two of
-//  * So calculations are against either the first or the second one
-//  */
-// function getCheckboxOptionClasses(index) {
-//   return classNames('vaos-calendar__option-cell', {
-//     'vaos-u-border-radius--top-left': index === 0,
-//     'vaos-u-border-radius--top-right': index === 1,
-//     'vaos-u-border-radius--bottom-left': index === 0,
-//     'vaos-u-border-radius--bottom-right': index === 1,
-//     'vads-u-padding-left--2': index === 0,
-//     'vads-u-padding-top--2': true,
-//     'vads-u-padding-right--2': index === 1,
-//   });
-// }
-
 const smallMediaQuery = '(min-width: 481px)';
 const smallDesktopMediaQuery = '(min-width: 1008px)';
 

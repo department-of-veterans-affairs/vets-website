@@ -109,7 +109,7 @@ const CalendarCell = ({
         {inSelectedArray && (
           <CalendarSelectedIndicator
             date={date}
-            fieldName={additionalOptions?.fieldName}
+            fieldName={id}
             selectedDates={selectedDates}
             selectedIndicatorType={selectedIndicatorType}
           />

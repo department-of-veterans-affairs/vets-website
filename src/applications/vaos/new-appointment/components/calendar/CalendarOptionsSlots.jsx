@@ -1,7 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
-import CalendarRadioOption from './CalendarRadioOption';
 
 /* 
  * Because we want to create a background for a jagged grid of cells,
@@ -105,14 +104,25 @@ export default function CalendarOptionsSlots({
             className={getOptionClasses(index, currentSlots.length, rowSize)}
             key={`option-${index}`}
           >
-            <CalendarRadioOption
-              id={`${currentlySelectedDate}_${index}`}
-              fieldName={id}
-              value={slot.start}
-              checked={checked}
-              onChange={onChange}
-              label={label}
-            />
+            <div className="vaos-calendar__option vaos-calendar__option--radio">
+              <input
+                id={`${id}-${slot.start}`}
+                type="radio"
+                name={id}
+                value={slot.start}
+                checked={checked}
+                onChange={() => onChange(slot.start)}
+              />
+              <label
+                className="vads-u-margin--0 vads-u-font-weight--bold vads-u-color--primary"
+                htmlFor={`${id}-${slot.start}`}
+              >
+                <span aria-hidden="true">{label}</span>
+                <span className="vads-u-visibility--screen-reader">
+                  {label} option selected
+                </span>
+              </label>
+            </div>
           </div>
         );
       })}

@@ -9,6 +9,7 @@ import FormButtons from '../../components/FormButtons';
 import CalendarWidget from './calendar/CalendarWidget';
 import { getFormPageInfo } from '../redux/selectors';
 import { CALENDAR_INDICATOR_TYPES } from '../../utils/constants';
+import DateTimeRequestOptions from './DateTimeRequestOptions';
 
 const pageKey = 'requestDateTime';
 const pageTitle = 'Choose a day and time for your appointment';
@@ -139,6 +140,8 @@ export function DateTimeRequestPage({
         value={selectedDates}
         selectedIndicatorType={CALENDAR_INDICATOR_TYPES.BUBBLES}
         additionalOptions={additionalOptions}
+        id="optionTime"
+        renderOptions={props => <DateTimeRequestOptions {...props} />}
         validationError={
           submitted || isMaxSelectionsError(validationError)
             ? validationError
