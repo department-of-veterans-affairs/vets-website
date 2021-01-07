@@ -22,12 +22,12 @@ import {
 } from '@@profile/selectors';
 
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
+import SetUp2FAAlert from '../alerts/SetUp2FAAlert';
 
 import FraudVictimAlert from './FraudVictimAlert';
 import PaymentHistory from './PaymentHistory';
 import BankInfoCNPv2 from './BankInfoCNPv2';
 import BankInfoEDU from './BankInfoEDU';
-import SetUp2FAAlert from './SetUp2FAAlert';
 
 const DirectDeposit = ({
   cnpUiState,

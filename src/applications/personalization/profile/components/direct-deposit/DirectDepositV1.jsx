@@ -13,11 +13,11 @@ import { isAuthenticatedWithSSOe as isAuthenticatedWithSSOeSelector } from '~/pl
 import { focusElement } from '~/platform/utilities/ui';
 
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
+import SetUp2FAAlert from '../alerts/SetUp2FAAlert';
 
 import FraudVictimAlert from './FraudVictimAlert';
 import BankInfoCNP from './BankInfoCNP';
 import DirectDepositEDU from './DirectDepositEDUEbenefits';
-import SetUp2FAAlert from './SetUp2FAAlert';
 
 const DirectDeposit = ({ is2faEnabled, isAuthenticatedWithSSOe, isLOA3 }) => {
   const showSetUp2FactorAuthentication = isLOA3 && !is2faEnabled;
