@@ -60,6 +60,7 @@ const InputSection = ({
   disabled,
   readonly,
   idSchema,
+  editing,
   handleChange,
   handleUpdate,
   handleRemove,
@@ -95,7 +96,7 @@ const InputSection = ({
   // When editing an entry, there should be a ‘save’ button, a ‘cancel’ link directly to its right, and a right-aligned ‘remove’ button
 
   const showCancel = items.length > 1;
-  const showRemove = items.length > 1;
+  const showRemove = editing[index] !== 'add';
 
   return (
     notLastOrMultipleRows && (
@@ -235,7 +236,7 @@ const ItemLoop = ({
     () => {
       const isEditing = formData
         ? formData.map((item, index) => !errorSchemaIsValid(errorSchema[index]))
-        : [true];
+        : ['add'];
       if (formData?.length !== editing.length) {
         setEditing(isEditing);
       }
@@ -317,7 +318,7 @@ const ItemLoop = ({
       const editData = editing.map(() => false);
 
       setShowTable(true);
-      setEditing([...editData, true]);
+      setEditing([...editData, 'add']);
 
       const newFormData = formData.concat(
         getDefaultFormState(
@@ -416,6 +417,7 @@ const ItemLoop = ({
                         disabled={disabled}
                         readonly={readonly}
                         errorSchema={errorSchema}
+                        editing={editing}
                         handleChange={handleChange}
                         handleUpdate={handleUpdate}
                         handleRemove={handleRemove}
