@@ -2,6 +2,7 @@ import { rest } from 'msw';
 import environment from 'platform/utilities/environment';
 
 import mockDD4CNPSuccess from './tests/fixtures/dd4cnp/dd4cnp-is-set-up.json';
+import mockDD4EDUSuccess from './tests/fixtures/dd4edu/dd4edu-enrolled.json';
 
 import mockMHVHasAccepted from './tests/fixtures/mhv-has-accepted.json';
 
@@ -1711,6 +1712,9 @@ export const allProfileEndpointsLoaded = [
   rest.get(`${prefix}/v0/ppiu/payment_information`, (req, res, ctx) => {
     return res(ctx.json(mockDD4CNPSuccess));
   }),
+  rest.get(`${prefix}/v0/profile/ch33_bank_accounts`, (req, res, ctx) => {
+    return res(ctx.json(mockDD4EDUSuccess));
+  }),
 ];
 
 export const getFullNameFailure = [
@@ -1739,6 +1743,12 @@ export const getServiceHistory401 = [
 
 export const getDD4CNPFailure = [
   rest.get(`${prefix}/v0/ppiu/payment_information`, (req, res, ctx) => {
+    return res(ctx.status(401), ctx.json(mock401));
+  }),
+];
+
+export const getDD4EDUFailure = [
+  rest.get(`${prefix}/v0/profile/ch33_bank_accounts`, (req, res, ctx) => {
     return res(ctx.status(401), ctx.json(mock401));
   }),
 ];
