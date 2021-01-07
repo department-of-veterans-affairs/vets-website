@@ -6,7 +6,7 @@ import { mockUser } from '../fixtures/users/user-vap-error.js';
 import mockPersonalInformation from '../fixtures/personal-information-success.json';
 import mockServiceHistory from '../fixtures/service-history-success.json';
 import mockFullName from '../fixtures/full-name-success.json';
-import mockPaymentInfoNotEligible from '../fixtures/payment-information/direct-deposit-is-not-eligible.json';
+import mockPaymentInfoNotEligible from '../fixtures/dd4cnp/dd4cnp-is-not-eligible.json';
 
 const setup = () => {
   disableFTUXModals();
