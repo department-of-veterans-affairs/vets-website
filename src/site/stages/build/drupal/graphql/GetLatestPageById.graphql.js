@@ -24,7 +24,6 @@ const nodeStepByStep = require('./nodeStepByStep.graphql');
 const nodeSupportResourcesDetailPage = require('./nodeSupportResourcesDetailPage.graphql');
 const pressReleasePage = require('./pressReleasePage.graphql');
 const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
-const taxonomiesQuery = require('./taxonomy-fragments/GetTaxonomies.graphql');
 const vaFormPage = require('./vaFormPage.graphql');
 const vamcOperatingStatusAndAlerts = require('./vamcOperatingStatusAndAlerts.graphql');
 
@@ -103,7 +102,6 @@ module.exports = `
         : ''
     }
     ${menuLinksQuery}
-    ${taxonomiesQuery}
   }
 `;
 
