@@ -6,7 +6,7 @@
     "apps": "./script/app-list.sh",
     "analyze": "webpack-bundle-analyzer build/vagovprod/generated/stats.json",
     "build": "./script/build.sh",
-    "build-analyze": "NODE_ENV=production npm run build -- --buildtype vagovprod --analyzer; npm run analyze",
+    "build-analyze": "NODE_ENV=production npm run build -- --buildtype=vagovprod --analyzer; npm run analyze",
     "build:compare": "node script/content-build-compare.js && diff --color websiteContentBuildHash.txt standaloneContentBuildHash.txt",
     "build:content": "node --max-old-space-size=8192 script/build-content.js",
     "build:content:test": "node script/test-cms-export.js",
@@ -358,6 +358,7 @@
     "cypress": "^4.8.0",
     "tar-fs/tar-stream/bl": "^4.0.3",
     "nightwatch/**/lodash.defaultsdeep": "^4.6.1",
+    "//": "Newer punycode versions use ES6 which breaks IE 11",
     "punycode": "1.4.1"
   }
 }
