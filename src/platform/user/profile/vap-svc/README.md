@@ -1,6 +1,6 @@
-This directory contains the React components and state management for interfacing with Vet360, a VA service that processes updates by updating the field in multiple data sources. The work here has been extracted from the Profile application to be easily imported into other applications, and is warranted because the Vet360 data flow operates via "transactions", which is more complex than the more common model of an API responding directly to a request with the updated record or errors.
+This directory contains the React components and state management for interfacing with VA Profile Service (AKA vap-svc, vapService, VAPService in the application), a VA service that processes updates by updating the field in multiple data sources. The work here has been extracted from the Profile application to be easily imported into other applications, and is warranted because the VA Profile Service data flow operates via "transactions", which is more complex than the more common model of an API responding directly to a request with the updated record or errors.
 
-Currently, Vet360's scope is limited to veteran contact information, which consists of the following fields:
+Currently, VA Profile Service's scope is limited to veteran contact information, which consists of the following fields:
 
 - Email
 - Home Phone
@@ -11,19 +11,19 @@ Currently, Vet360's scope is limited to veteran contact information, which consi
 - Residential Address
 
 ## Getting started
-The [Profile](https://github.com/department-of-veterans-affairs/vets-website/tree/master/src/applications/personalization/profile360) application serves as an example for how to use this work.
+The [Profile](https://github.com/department-of-veterans-affairs/vets-website/tree/master/src/applications/personalization/profile) application serves as an example for how to use this work.
 
 Follow these steps to get started in your own application:
 
-1. Import and initialize the Vet360 reducer into the Redux store as `vet360`.
-    - In the Profile, this looks like - `export default { vaProfile, vet360 };`
+1. Import and initialize the VA Profile Service reducer into the Redux store as `vapService`.
+    - In the Profile, this looks like - `export default { vaProfile, vapService };`
 2. Import and render the components or containers useful for your application.
-    - The `vet360/components` directory contains components that internally wrap containers so that they can be freely rendered standalone without any props or setup involved.
+    - The `vap-svc/components` directory contains components that internally wrap containers so that they can be freely rendered standalone without any props or setup involved.
 
-This should hopefully be all you need to know to work with Vet360, but there's more information below in case you would like to become familiar with how the components work.
+This should hopefully be all you need to know to work with VA Profile Service, but there's more information below in case you would like to become familiar with how the components work.
 
-## Vet360 Reducer
-The Vet360 reducer is necessary in order to manage transactions (more on that below), as well as certain interactions with the UI (opening an edit-modal after a user clicks "edit", for example.) It contains the following fields-
+## VA Profile Service Reducer (vapService)
+The VA Profile Service reducer is necessary in order to manage transactions (more on that below), as well as certain interactions with the UI (opening an edit-modal after a user clicks "edit", for example.) It contains the following fields-
 
 1. `modal`
     - A string value indicating which field's edit-modal should be visible.
@@ -42,7 +42,7 @@ The Vet360 reducer is necessary in order to manage transactions (more on that be
     - Anything else about the transactions data. Currently, it contains only a `mostRecentErroredTransactionId` property, which is used to render error messaging for the most recent rejected transaction. It is necessary because transactions aren't timestamped.
 
 ## Transactions
-When a request to update a field is sent to Vet360 (via `PUT`, or `POST` if the field is empty), Vet360 does not respond with the updated record from a database as you would expect from a typical API. Instead, it responds with data on how to look up the progress of the update, information referred to as a "transaction." For example, a request to update an email would return a transaction that looks like:
+When a request to update a field is sent to VA Profile Service (via `PUT`, or `POST` if the field is empty), VA Profile Service does not respond with the updated record from a database as you would expect from a typical API. Instead, it responds with data on how to look up the progress of the update, information referred to as a "transaction." For example, a request to update an email would return a transaction that looks like:
 
 ```json
 {
@@ -50,18 +50,18 @@ When a request to update a field is sent to Vet360 (via `PUT`, or `POST` if the 
     "attributes": {
       "transaction_status": "RECEIVED",
       "transaction_id": "786efe0e-fd20-4da2-9019-0c00540dba4d",
-      "type": "AsyncTransaction::Vet360::EmailTransaction"
+      "type": "AsyncTransaction::vet360::EmailTransaction"
     }
   }
 }
 ```
 
-The `transaction_status` property set to `RECEIVED` indicates that Vet360 has enqueued the update, but it has not finished processing. The `transaction_id` can then be used to look up that update at a later time via `/v0/profile/person/status/{transaction_id}`. At some point, the `transaction_status` will indicate whether the update was successful or rejected. If it is rejected, there will be a `metadata` property containing a list of errors. The Swagger docs contain [more info](https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/profile/postVet360EmailAddress) on this.
+The `transaction_status` property set to `RECEIVED` indicates that VA Profile Service has enqueued the update, but it has not finished processing. The `transaction_id` can then be used to look up that update at a later time via `/v0/profile/person/status/{transaction_id}`. At some point, the `transaction_status` will indicate whether the update was successful or rejected. If it is rejected, there will be a `metadata` property containing a list of errors. The Swagger docs contain [more info](https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/profile/postVapsvcEmailAddress) on this.
 
 A note here about the `type` property - that field indicates whether the transaction pertains to an email, address, or telephone number. In the case of an address, you are not provided with an identifier to determine whether the transaction is for a residential or mailing address. This information must be managed by the Front-End in memory.
 
 ### Errors
-Most errors are returned by Vet360 during a transaction lookup along with a `transaction_status` indicating that the update was rejected. However, some errors are returned directly, similar to a traditional API response. These errors are -
+Most errors are returned by VA Profile Service during a transaction lookup along with a `transaction_status` indicating that the update was rejected. However, some errors are returned directly, similar to a traditional API response. These errors are -
 
 1. An address was said to be invalid
 2. The veteran is deceased
