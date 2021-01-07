@@ -93,7 +93,11 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
         <p>
           <strong>Note:</strong> Any changes you make to your information here
           won’t change your information in your VA.gov profile or any other
-          accounts.
+          accounts. Please visit{' '}
+          <a href="/profile" target="_blank">
+            your VA Profile
+          </a>{' '}
+          if the below information is not correct.
         </p>
       ) : null}
       {formState ? (
