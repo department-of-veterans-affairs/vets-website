@@ -287,7 +287,12 @@ export default function CalendarWidget({
 
 CalendarWidget.propTypes = {
   additionalOptions: PropTypes.object,
-  availableSlots: PropTypes.array,
+  availableSlots: PropTypes.arrayOf(
+    PropTypes.shape({
+      start: PropTypes.string.isRequired,
+      end: PropTypes.string,
+    }),
+  ),
   loadingStatus: PropTypes.string,
   minDate: PropTypes.string, // YYYY-MM-DD
   maxDate: PropTypes.string, // YYYY-MM-DD
@@ -299,5 +304,5 @@ CalendarWidget.propTypes = {
   validationError: PropTypes.string,
   renderOptions: PropTypes.func,
   id: PropTypes.string.isRequired,
-  timezone: PropTypes.string,
+  timezone: PropTypes.string, // America/Denver
 };
