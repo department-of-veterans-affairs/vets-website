@@ -104,7 +104,7 @@ module.exports = env => {
   ].includes(buildOptions.buildtype);
 
   const useHashFilenames = [
-    ENVIRONMENTS.VAGOVSTAGING, // also removing file hashes for staging
+    ENVIRONMENTS.VAGOVSTAGING,
     ENVIRONMENTS.VAGOVPROD,
   ].includes(buildOptions.buildtype);
 
