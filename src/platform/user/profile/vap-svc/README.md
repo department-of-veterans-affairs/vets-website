@@ -47,8 +47,9 @@ The VA Profile Service reducer is necessary in order to manage transactions (mor
 9. `hasUnsavedEdits`
     - A boolean used to indicate whether the user has any form field updates that have not yet been successfully saved.
 10. `addressValidation`
-    - Is an object set to `initialAddressValidationState` when the address validation modal is opened, and updated based on whether the address validation went through successfully (`ADDRESS_VALIDATION_CONFIRM`) or with an error (`ADDRESS_VALIDATION_ERROR`).
+    - When the `validateAddress` thunk is triggered, it will set `addressValidation` equal to `initialAddressValidationState`.
     - The logic whether to show the address validation modal can be found in `src/platform/user/profile/vap-svc/util/index.js`.
+    - When the address validation modal is opened, the values on `addressValidation` are set to their respective values based on whether we get confirmed suggested addresses back or whether there was an error.
 
 ## Transactions
 When a request to update a field is sent to VA Profile Service (via `PUT`, or `POST` if the field is empty), VA Profile Service does not respond with the updated record from a database as you would expect from a typical API. Instead, it responds with data on how to look up the progress of the update, information referred to as a "transaction." For example, a request to update an email would return a transaction that looks like:
