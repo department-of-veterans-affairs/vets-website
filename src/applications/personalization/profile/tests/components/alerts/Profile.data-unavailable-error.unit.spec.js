@@ -177,7 +177,7 @@ describe('Profile "Not all data available" error', () => {
   });
 
   it('should be shown on all pages if there is an error with the `GET payment_information` endpoint`', async () => {
-    server.use(...mocks.getPaymentInformationFailure);
+    server.use(...mocks.getDD4CNPFailure);
 
     // don't check for the error on the direct deposit page since that page is unavailable when the `GET payment_information` endpoint fails
     await errorAppearsOnAllPages([

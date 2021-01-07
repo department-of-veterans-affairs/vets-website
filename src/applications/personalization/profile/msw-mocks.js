@@ -1,7 +1,7 @@
 import { rest } from 'msw';
 import environment from 'platform/utilities/environment';
 
-import mockPaymentInfoSuccess from './tests/fixtures/payment-information/direct-deposit-is-set-up.json';
+import mockDD4CNPSuccess from './tests/fixtures/dd4cnp/dd4cnp-is-set-up.json';
 
 import mockMHVHasAccepted from './tests/fixtures/mhv-has-accepted.json';
 
@@ -28,7 +28,7 @@ export const newPaymentAccount = {
 
 const prefix = environment.API_URL;
 
-export const updateDirectDepositSuccess = [
+export const updateDD4CNPSuccess = [
   rest.put(
     // I'd prefer to just set the route as `ppiu/payment_information` or at least `v0/ppiu/payment_information`
     `${prefix}/v0/ppiu/payment_information`,
@@ -50,7 +50,7 @@ export const updateDirectDepositSuccess = [
   ),
 ];
 
-export const updateDirectDepositFailure = [
+export const updateDD4CNPFailure = [
   rest.put(`${prefix}/v0/ppiu/payment_information`, (req, res, ctx) => {
     return res(
       ctx.status(422),
@@ -1709,7 +1709,7 @@ export const allProfileEndpointsLoaded = [
     return res(ctx.json(mockServiceHistorySuccess));
   }),
   rest.get(`${prefix}/v0/ppiu/payment_information`, (req, res, ctx) => {
-    return res(ctx.json(mockPaymentInfoSuccess));
+    return res(ctx.json(mockDD4CNPSuccess));
   }),
 ];
 
@@ -1737,7 +1737,7 @@ export const getServiceHistory401 = [
   }),
 ];
 
-export const getPaymentInformationFailure = [
+export const getDD4CNPFailure = [
   rest.get(`${prefix}/v0/ppiu/payment_information`, (req, res, ctx) => {
     return res(ctx.status(401), ctx.json(mock401));
   }),

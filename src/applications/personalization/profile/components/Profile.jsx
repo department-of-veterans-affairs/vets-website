@@ -294,6 +294,17 @@ const mapStateToProps = state => {
   const showLoader =
     !hasLoadedAllData || (!isLOA3 && !isLOA1 && currentlyLoggedIn);
 
+  const shouldShowDirectDeposit = () => {
+    // if they are explicitly blocked from DD4CNP, do not show it
+    if (isCNPDirectDepositBlocked) return false;
+    return (
+      (isLOA3 && !is2faEnabled) || // we _want_ to show the DD section to non-2FA users
+      isCNPDirectDepositSetUp ||
+      isEligibleToSetUpCNP ||
+      isEDUDirectDepositSetUp
+    );
+  };
+
   return {
     user: state.user,
     showLoader,
@@ -301,13 +312,7 @@ const mapStateToProps = state => {
     isLOA3,
     shouldFetchCNPDirectDepositInformation,
     shouldFetchEDUDirectDepositInformation,
-
-    shouldShowDirectDeposit:
-      (isLOA3 && !is2faEnabled) || // we _want_ to show the DD section to non-2FA users
-      (shouldFetchCNPDirectDepositInformation &&
-        !isCNPDirectDepositBlocked &&
-        (isCNPDirectDepositSetUp || isEligibleToSetUpCNP)) ||
-      (shouldFetchEDUDirectDepositInformation && isEDUDirectDepositSetUp),
+    shouldShowDirectDeposit: shouldShowDirectDeposit(),
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',
     ),

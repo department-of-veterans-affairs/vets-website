@@ -88,7 +88,7 @@ describe('DirectDepositCNP', () => {
     // before we can use msw, we need to make sure that global.fetch has been
     // restored and is not longer a sinon stub.
     resetFetch();
-    server = setupServer(...mocks.updateDirectDepositSuccess);
+    server = setupServer(...mocks.updateDD4CNPSuccess);
     server.listen();
   });
   afterEach(() => {
@@ -240,7 +240,7 @@ describe('DirectDepositCNP', () => {
       ).to.exist;
     });
     it('should handle a failed attempt to update bank info', async () => {
-      server.use(...mocks.updateDirectDepositFailure);
+      server.use(...mocks.updateDD4CNPFailure);
       userEvent.click(findEditBankInfoButton(view));
 
       // fill out form info
