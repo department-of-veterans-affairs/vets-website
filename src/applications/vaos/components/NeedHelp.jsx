@@ -31,7 +31,7 @@ export default function NeedHelp() {
         For questions about joining a VA Video Connect appointment, please call{' '}
         <Telephone contact="8666513180" /> (TTY:{' '}
         <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
-        ). We’re here Monday through Saturday, 7:00 a.m. to 11:00 p.m. ET.
+        ). We’re here 24/7.
       </p>
       <p className="vads-u-margin-top--0">
         <a

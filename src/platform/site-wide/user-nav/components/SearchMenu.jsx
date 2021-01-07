@@ -149,7 +149,7 @@ export class SearchMenu extends React.Component {
     const { isUserInputValid } = this;
 
     // if the user tries to search with an empty input, escape early
-    if (!isUserInputValid) {
+    if (!isUserInputValid()) {
       return;
     }
 
@@ -225,7 +225,8 @@ export class SearchMenu extends React.Component {
             />
             <button
               type="submit"
-              disabled={!isUserInputValid}
+              data-e2e-id="sitewide-search-submit-button"
+              disabled={!isUserInputValid()}
               className="vads-u-margin-left--0p25 vads-u-margin-right--0p5 "
             >
               <IconSearch color="#fff" />
@@ -276,7 +277,8 @@ export class SearchMenu extends React.Component {
               />
               <button
                 type="submit"
-                disabled={!isUserInputValid}
+                disabled={!isUserInputValid()}
+                data-e2e-id="sitewide-search-submit-button"
                 className="vads-u-margin-left--0p5 vads-u-margin-y--1 vads-u-margin-right--1 vads-u-flex--1"
                 onClick={() => handleSearchEvent()}
                 onFocus={() => this.setState({ suggestions: [] })}
@@ -304,6 +306,7 @@ export class SearchMenu extends React.Component {
                       aria-selected={JSON.stringify(
                         selectedItem === suggestion,
                       )}
+                      data-e2e-id={`typeahead-option-${index + 1}`}
                       className={
                         highlightedIndex === index
                           ? highlightedSuggestion
@@ -333,6 +336,7 @@ export class SearchMenu extends React.Component {
     const { cssClass, clickHandler, isOpen } = this.props;
 
     const buttonClasses = classNames(
+      'sitewide-search-drop-down-panel-button',
       cssClass,
       'va-btn-withicon',
       'va-dropdown-trigger',

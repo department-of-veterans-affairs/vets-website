@@ -5,9 +5,6 @@ import { API_ROUTES, FIELD_NAMES } from '@@vap-svc/constants';
 
 import ContactInformationField from '../ContactInformationField';
 
-import EmailEditView from './EmailEditView';
-import EmailView from '@@vap-svc/components/EmailField/EmailView';
-
 const formSchema = {
   type: 'object',
   properties: {
@@ -50,10 +47,9 @@ export default class EmailField extends React.Component {
         fieldName={this.props.fieldName}
         apiRoute={API_ROUTES.EMAILS}
         convertCleanDataToPayload={this.convertDataToPayload}
-        ContentView={EmailView}
-        EditView={EmailEditView}
         formSchema={formSchema}
         uiSchema={uiSchema}
+        type="email"
       />
     );
   }

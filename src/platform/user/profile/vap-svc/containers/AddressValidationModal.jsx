@@ -15,8 +15,8 @@ import {
   resetAddressValidation as resetAddressValidationAction,
 } from '../actions';
 import { focusElement } from '~/platform/utilities/ui';
-import { getValidationMessageKey } from '../../utilities';
-import { ADDRESS_VALIDATION_MESSAGES } from '../../constants/addressValidationMessages';
+import { getValidationMessageKey } from '../util';
+import { ADDRESS_VALIDATION_MESSAGES } from '../constants/addressValidationMessages';
 import recordEvent from '~/platform/monitoring/record-event';
 
 import * as VAP_SERVICE from '../constants';

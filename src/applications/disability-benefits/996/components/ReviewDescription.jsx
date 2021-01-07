@@ -48,7 +48,8 @@ const ReviewDescription = ({ profile }) => {
           href={PROFILE_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="edit-btn primary-outline usa-button"
+          className="vads-u-margin-right--1"
+          aria-label="Edit contact information on profile"
         >
           Edit on Profile
         </a>

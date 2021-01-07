@@ -313,6 +313,7 @@ export function getFacilityPageV2Info(state) {
     showEligibilityModal,
     sortMethod: facilityPageSortMethod,
     typeOfCare: typeOfCare?.name,
+    typeOfCareId: typeOfCare?.id,
   };
 }
 
