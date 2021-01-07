@@ -387,14 +387,14 @@ const formConfig = {
             },
           },
         },
-        veteranMailingAddress: {
-          path: 'veteran-information/veteran-mailing-address',
-          title: 'Mailing address',
+        veteranHomeAddress: {
+          path: 'veteran-information/veteran-home-address',
+          title: 'Home address',
           initialData: {},
           depends: formData => formData['view:hasMultipleAddress'],
           uiSchema: {
             'ui:description': PrefillMessage,
-            veteranMailingAddress: _.merge(addressUI('Mailing address', true), {
+            veteranHomeAddress: _.merge(addressUI('Home address', true), {
               street: {
                 'ui:errorMessages': {
                   pattern:
@@ -425,30 +425,27 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              veteranMailingAddress: _.merge(
-                addressSchema(fullSchemaHca, true),
-                {
-                  properties: {
-                    street: {
-                      minLength: 1,
-                      maxLength: 30,
-                    },
-                    street2: {
-                      minLength: 1,
-                      maxLength: 30,
-                    },
-                    street3: {
-                      type: 'string',
-                      minLength: 1,
-                      maxLength: 30,
-                    },
-                    city: {
-                      minLength: 1,
-                      maxLength: 30,
-                    },
+              veteranHomeAddress: _.merge(addressSchema(fullSchemaHca, true), {
+                properties: {
+                  street: {
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                  street2: {
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                  street3: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                  city: {
+                    minLength: 1,
+                    maxLength: 30,
                   },
                 },
-              ),
+              }),
               'view:doesPermanentAddressMatchMailing': {
                 type: 'boolean',
               },
@@ -457,12 +454,12 @@ const formConfig = {
         },
         veteranAddress: {
           path: 'veteran-information/veteran-address',
-          title: 'Home address',
+          title: 'Mailing address',
           initialData: {},
           depends: formData => flipMailingAddress(formData),
           uiSchema: {
             'ui:description': PrefillMessage,
-            veteranAddress: _.merge(addressUI('Home address', true), {
+            veteranAddress: _.merge(addressUI('Mailing address', true), {
               street: {
                 'ui:errorMessages': {
                   pattern:
