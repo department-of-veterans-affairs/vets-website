@@ -38,7 +38,7 @@ const CalendarCheckboxOption = ({
         name={fieldName}
         value={value}
         checked={checked}
-        onChange={onChange}
+        onChange={() => onChange(value)}
       />
       <label className={labelClasses} htmlFor={`checkbox-${id}`}>
         <span aria-hidden="true">{label}</span>

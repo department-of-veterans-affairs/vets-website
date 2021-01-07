@@ -15,7 +15,7 @@ const CalendarRadioOption = ({
       name={fieldName}
       value={value}
       checked={checked}
-      onChange={onChange}
+      onChange={() => onChange(value)}
     />
     <label
       className="vads-u-margin--0 vads-u-font-weight--bold vads-u-color--primary"

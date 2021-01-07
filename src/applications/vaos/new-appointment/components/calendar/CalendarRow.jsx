@@ -3,13 +3,14 @@ import React from 'react';
 import moment from 'moment';
 import CalendarCell from './CalendarCell';
 
-function isCellDisabled({ date, availableDates, minDate, maxDate }) {
+function isCellDisabled({ date, availableSlots, minDate, maxDate }) {
   let disabled = false;
 
   // If user provides an array of availableDates, disable dates that are not
   // in the array.
   if (
-    (Array.isArray(availableDates) && !availableDates.includes(date)) ||
+    (Array.isArray(availableSlots) &&
+      !availableSlots.some(slot => slot.start.startsWith(date))) ||
     moment(date).isBefore(moment().format('YYYY-MM-DD'))
   ) {
     disabled = true;
@@ -38,7 +39,7 @@ function isCellDisabled({ date, availableDates, minDate, maxDate }) {
 
 export default function CalendarRow({
   additionalOptions,
-  availableDates,
+  availableSlots,
   cells,
   currentlySelectedDate,
   handleSelectDate,
@@ -47,9 +48,12 @@ export default function CalendarRow({
   maxDate,
   maxSelections,
   minDate,
+  renderOptions,
   rowNumber,
   selectedDates,
   selectedIndicatorType,
+  id,
+  timezone,
 }) {
   return (
     <div>
@@ -60,11 +64,12 @@ export default function CalendarRow({
         {cells.map((date, index) => (
           <CalendarCell
             additionalOptions={additionalOptions}
+            availableSlots={availableSlots}
             currentlySelectedDate={currentlySelectedDate}
             date={date}
             disabled={isCellDisabled({
               date,
-              availableDates,
+              availableSlots,
               minDate,
               maxDate,
             })}
@@ -76,6 +81,9 @@ export default function CalendarRow({
             onClick={() => handleSelectDate(date, rowNumber)}
             selectedDates={selectedDates}
             selectedIndicatorType={selectedIndicatorType}
+            renderOptions={renderOptions}
+            id={id}
+            timezone={timezone}
           />
         ))}
       </div>
