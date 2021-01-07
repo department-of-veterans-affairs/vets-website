@@ -73,3 +73,16 @@ export function getFacilityPageInfo(state) {
     sortMethod: facilityPageSortMethod,
   };
 }
+
+export function getClinicPageInfo(state, pageKey) {
+  const formPageInfo = getProjectCheetahFormPageInfo(state, pageKey);
+  const newBooking = selectProjectCheetahNewBooking(state);
+  const facilities = newBooking.facilities;
+
+  return {
+    ...formPageInfo,
+    facilityDetails: facilities.find(
+      facility => facility.id === formPageInfo.data.vaFacility,
+    ),
+  };
+}

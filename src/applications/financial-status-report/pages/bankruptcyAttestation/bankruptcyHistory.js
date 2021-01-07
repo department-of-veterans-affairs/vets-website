@@ -21,7 +21,7 @@ export const uiSchema = {
     hasBeenAdjudicated: {
       'ui:options': {
         expandUnder: 'adjudicated',
-        expandUnderCondition: 'Yes, I have been adjudicated as bankrupt.',
+        expandUnderCondition: adjudicationOptions[0],
       },
       bankruptcyDischargeDate: {
         'ui:title': 'Date discharged from bankruptcy',
@@ -29,19 +29,26 @@ export const uiSchema = {
       },
       courtLocation: {
         'ui:title': 'Location of court',
+        'ui:options': {
+          widgetClassNames: 'input-size-6',
+        },
       },
       docketNumber: {
         'ui:title': 'Docket number',
+        'ui:options': {
+          widgetClassNames: 'input-size-6',
+        },
       },
       mortgageCompany: {
         'ui:title': 'Was VA or a mortgage company involved in this bankruptcy?',
         'ui:widget': 'radio',
+        'ui:required': formData =>
+          formData.bankruptcyHistory.adjudicated === adjudicationOptions[0],
       },
       vaInvolved: {
         'ui:options': {
           expandUnder: 'mortgageCompany',
-          expandUnderCondition:
-            'Yes, VA or a mortgage company was involved in this bankruptcy.',
+          expandUnderCondition: mortgageOptions[0],
         },
         uploadFiles: {
           'ui:field': FileUploader,
