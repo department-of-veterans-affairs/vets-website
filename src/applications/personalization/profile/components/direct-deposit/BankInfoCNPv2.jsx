@@ -5,15 +5,12 @@ import { connect } from 'react-redux';
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import recordEvent from '~/platform/monitoring/record-event';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
-import { mfa } from '~/platform/user/authentication/utilities';
-
 import {
   isLOA3 as isLOA3Selector,
   isMultifactorEnabled,
@@ -32,6 +29,7 @@ import {
 } from '@@profile/selectors';
 
 import BankInfoForm from './BankInfoForm';
+import SetUp2FAAlert from './SetUp2FAAlert';
 
 import PaymentInformationEditError from './PaymentInformationEditError';
 import ProfileInfoTable from '../ProfileInfoTable';
@@ -269,11 +267,6 @@ export const BankInfoCNP = ({
     },
   ];
 
-  const mfaHandler = isAuthenticatedWithSSO => {
-    recordEvent({ event: 'multifactor-link-clicked' });
-    mfa(isAuthenticatedWithSSO ? 'v1' : 'v0');
-  };
-
   // Render nothing if the user is not LOA3.
   // This entire component should never be rendered in that case; this just
   // serves as another layer of protection.
@@ -282,36 +275,7 @@ export const BankInfoCNP = ({
   }
 
   if (showSetup2FactorAuthentication) {
-    return (
-      <AlertBox
-        className="vads-u-margin-bottom--2"
-        headline="You’ll need to set up 2-factor authentication before you can edit your direct deposit information."
-        content={
-          <>
-            <p>
-              We require this to help protect your bank account information and
-              prevent fraud.
-            </p>
-            <p>
-              Authentication gives you an extra layer of security by letting you
-              into your account only after you've signed in with a password and
-              a 6-digit code sent directly to your mobile or home phone. This
-              helps to make sure that no one but you can access your account -
-              even if they get your password.
-            </p>
-            <button
-              type="button"
-              className="usa-button-primary va-button-primary"
-              onClick={() => mfaHandler(isAuthenticatedWithSSOe)}
-            >
-              Set up 2-factor authentication
-            </button>
-          </>
-        }
-        status="continue"
-        isVisible
-      />
-    );
+    return <SetUp2FAAlert isAuthenticatedWithSSOe={isAuthenticatedWithSSOe} />;
   } else {
     return (
       <>
