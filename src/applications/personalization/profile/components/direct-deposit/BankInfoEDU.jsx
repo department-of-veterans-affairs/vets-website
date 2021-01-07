@@ -10,12 +10,8 @@ import Telephone, {
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import recordEvent from '~/platform/monitoring/record-event';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
-import {
-  isLOA3 as isLOA3Selector,
-  isMultifactorEnabled,
-} from '~/platform/user/selectors';
+import { isLOA3 as isLOA3Selector } from '~/platform/user/selectors';
 import { usePrevious } from '~/platform/utilities/react-hooks';
 import {
   editEDUPaymentInformationToggled,
@@ -29,7 +25,6 @@ import {
 } from '@@profile/selectors';
 
 import BankInfoForm from './BankInfoForm';
-import SetUp2FAAlert from './SetUp2FAAlert';
 
 import PaymentInformationEditError from './PaymentInformationEditError';
 import ProfileInfoTable from '../ProfileInfoTable';
@@ -39,7 +34,6 @@ import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 export const DirectDepositEDU = ({
   isLOA3,
   isDirectDepositSetUp,
-  is2faEnabled,
   directDepositAccountInfo,
   directDepositUiState,
   saveBankInformation,
@@ -55,8 +49,6 @@ export const DirectDepositEDU = ({
 
   const { accountNumber, accountType, routingNumber } = formData;
   const isEmptyForm = !accountNumber && !accountType && !routingNumber;
-
-  const showSetup2FactorAuthentication = isLOA3 && !is2faEnabled;
 
   // when we enter and exit edit mode...
   useEffect(
@@ -241,57 +233,52 @@ export const DirectDepositEDU = ({
     return null;
   }
 
-  if (showSetup2FactorAuthentication) {
-    return <SetUp2FAAlert isAuthenticatedWithSSOe={isAuthenticatedWithSSOe} />;
-  } else {
-    return (
-      <>
-        <Modal
-          title={'Are you sure?'}
-          status="warning"
-          visible={showConfirmCancelModal}
-          onClose={() => {
+  return (
+    <>
+      <Modal
+        title={'Are you sure?'}
+        status="warning"
+        visible={showConfirmCancelModal}
+        onClose={() => {
+          setShowConfirmCancelModal(false);
+        }}
+      >
+        <p>
+          {' '}
+          {`You haven’t finished editing your direct deposit information. If you cancel, your in-progress work won’t be saved.`}
+        </p>
+        <button
+          className="usa-button-secondary"
+          onClick={() => {
             setShowConfirmCancelModal(false);
           }}
         >
-          <p>
-            {' '}
-            {`You haven’t finished editing your direct deposit information. If you cancel, your in-progress work won’t be saved.`}
-          </p>
-          <button
-            className="usa-button-secondary"
-            onClick={() => {
-              setShowConfirmCancelModal(false);
-            }}
-          >
-            Continue Editing
-          </button>
-          <button
-            onClick={() => {
-              setShowConfirmCancelModal(false);
-              toggleEditState();
-            }}
-          >
-            Cancel
-          </button>
-        </Modal>
-        <Prompt
-          message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
-          when={!isEmptyForm}
-        />
-        <ProfileInfoTable
-          className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
-          title="Education benefits"
-          data={directDepositData}
-        />
-      </>
-    );
-  }
+          Continue Editing
+        </button>
+        <button
+          onClick={() => {
+            setShowConfirmCancelModal(false);
+            toggleEditState();
+          }}
+        >
+          Cancel
+        </button>
+      </Modal>
+      <Prompt
+        message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
+        when={!isEmptyForm}
+      />
+      <ProfileInfoTable
+        className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
+        title="Education benefits"
+        data={directDepositData}
+      />
+    </>
+  );
 };
 
 DirectDepositEDU.propTypes = {
   isLOA3: PropTypes.bool.isRequired,
-  is2faEnabled: PropTypes.bool.isRequired,
   directDepositAccountInfo: PropTypes.shape({
     accountNumber: PropTypes.string.isRequired,
     accountType: PropTypes.string.isRequired,
@@ -314,8 +301,6 @@ export const mapStateToProps = state => ({
   directDepositInfo: eduDirectDepositInformation(state),
   isDirectDepositSetUp: eduDirectDepositIsSetUp(state),
   directDepositUiState: directDepositUiStateSelector(state),
-  is2faEnabled: isMultifactorEnabled(state),
-  isAuthenticatedWithSSOe: isAuthenticatedWithSSOe(state),
 });
 
 const mapDispatchToProps = {

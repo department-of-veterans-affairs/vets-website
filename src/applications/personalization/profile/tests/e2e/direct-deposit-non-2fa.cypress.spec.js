@@ -10,7 +10,7 @@ const dd4eduEnabled = {
     features: [
       {
         name: 'ch33_dd_profile',
-        value: false,
+        value: true,
       },
     ],
   },
