@@ -62,7 +62,11 @@ function groupByTags(allArticles) {
   for (const article of allTaggedArticles) {
     const {
       fieldTags: {
-        entity: { fieldTopics, fieldAudienceBeneficiares },
+        entity: {
+          fieldTopics,
+          fieldAudienceBeneficiares,
+          fieldNonBeneficiares,
+        },
       },
     } = article;
 
@@ -70,6 +74,10 @@ function groupByTags(allArticles) {
 
     if (fieldAudienceBeneficiares) {
       terms.push(fieldAudienceBeneficiares);
+    }
+
+    if (fieldNonBeneficiares) {
+      terms.push(fieldNonBeneficiares);
     }
 
     terms.map(fieldTopic => fieldTopic.entity).forEach(fieldTopic => {
