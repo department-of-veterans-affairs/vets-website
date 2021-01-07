@@ -39,8 +39,6 @@ import { ACTIVE_EDIT_VIEWS, FIELD_NAMES, USA } from '@@vap-svc/constants';
 import { transformInitialFormValues } from '@@profile/util/contact-information/formValues';
 
 import ContactInformationActionButtons from './ContactInformationActionButtons';
-import CopyMailingAddress from '@@vap-svc/containers/CopyMailingAddress';
-import ContactInfoForm from '@@vap-svc/components/ContactInfoForm';
 
 export class ContactInformationEditView extends Component {
   static propTypes = {
