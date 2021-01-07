@@ -284,7 +284,7 @@ describe('HCA helpers', () => {
       // should have autofill residential address length
       expect(Object.keys(prefillData.veteranAddress).length).to.equal(7);
       // should have autofill mailing if exist address length
-      expect(Object.keys(prefillData.veteranMailingAddress).length).to.equal(7);
+      expect(Object.keys(prefillData.veteranHomeAddress).length).to.equal(7);
       // if addresses match check whether they do or not
       expect(prefillData['view:doesPermanentAddressMatchMailing']).to.equal(
         false,
