@@ -22,7 +22,6 @@ const mockFeatureToggles = () => {
 };
 
 const prepareSearch = term => {
-  cy.server();
   cy.visit('/');
   cy.get('button.sitewide-search-drop-down-panel-button').click();
   cy.get('#query').click();
@@ -64,6 +63,7 @@ describe('Site-wide Search general functionality', () => {
     if (Cypress.env('CIRCLECI')) this.skip();
   });
 
+  // default cases
   it('appears when the dropdown is clicked', () => {
     cy.visit('/');
     cy.get('button.sitewide-search-drop-down-panel-button').click();
@@ -93,6 +93,10 @@ describe('Site-wide Search general functionality', () => {
 });
 
 describe('Site-wide Search functionality with typeahead disabled', () => {
+  before(function() {
+    if (Cypress.env('CIRCLECI')) this.skip();
+  });
+
   it('Clicking search button initiates search for input - typeahead disabled', () => {
     prepareSearch('benefits');
     cy.get('[data-e2e-id="sitewide-search-submit-button"]').click();
@@ -108,6 +112,10 @@ describe('Site-wide Search functionality with typeahead disabled', () => {
 });
 
 describe('Site-wide Search functionality with typeahead enabled', () => {
+  before(function() {
+    if (Cypress.env('CIRCLECI')) this.skip();
+  });
+
   it('shows suggestions when user input is present and typeahead is enabled', () => {
     mockFeatureToggles();
     mockFetchSuggestions();
