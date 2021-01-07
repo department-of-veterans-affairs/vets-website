@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { FIELD_NAMES, FIELD_TITLES } from '@@vap-svc/constants';
+import { FIELD_NAMES } from '@@vap-svc/constants';
+import ContactInformationField from '~/applications/personalization/profile/components/personal-information/ContactInformationField';
 import { signInServiceName as signInServiceNameSelector } from 'platform/user/authentication/selectors';
 
 import ProfileInfoTable from '../../ProfileInfoTable';
-import EmailField from './EmailField';
 
 const EmailInformationSection = ({ className, signInServiceName }) => {
   let link;
@@ -53,12 +53,7 @@ const EmailInformationSection = ({ className, signInServiceName }) => {
           },
           {
             title: 'Contact email address',
-            value: (
-              <EmailField
-                title={FIELD_TITLES[FIELD_NAMES.EMAIL]}
-                fieldName={FIELD_NAMES.EMAIL}
-              />
-            ),
+            value: <ContactInformationField fieldName={FIELD_NAMES.EMAIL} />,
           },
         ]}
         list
