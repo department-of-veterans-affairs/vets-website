@@ -91,12 +91,14 @@ const InputSection = ({
       uiSchema['ui:options'].viewType === 'table' && items?.length > 1,
   });
 
-  // For the first entry, there should be a ‘save’ button
-  // For subsequent additions, there should be a ‘save’ button and a ‘cancel’ link directly to its right
-  // When editing an entry, there should be a ‘save’ button, a ‘cancel’ link directly to its right, and a right-aligned ‘remove’ button
+  // [x] For the first entry, there should be a ‘save’ button
+  // [x] For subsequent additions, there should be a ‘save’ button and a ‘cancel’ link directly to its right
+  // [x] When editing an entry, there should be a ‘save’ button, a ‘cancel’ link directly to its right, and a right-aligned ‘remove’ button
+  // [x] disable save if no data
+  // [ ] adding integers to type field causes error
 
   const showCancel = items.length > 1;
-  const showRemove = editing[index] !== 'add';
+  const showRemove = items.length > 1 && editing && editing[index] !== 'add';
 
   return (
     notLastOrMultipleRows && (
@@ -211,6 +213,7 @@ const ItemLoop = ({
 
   const [editing, setEditing] = useState([true]);
   const [showTable, setShowTable] = useState(false);
+  const [oldData, setOldData] = useState(formData);
 
   useEffect(() => {
     // Throw an error if there’s no viewField (should be React component)
@@ -292,20 +295,25 @@ const ItemLoop = ({
       }
       return false;
     });
+    setOldData(formData);
     setEditing(editData);
     scrollToRow(`${idSchema.$id}_${index}`);
   };
 
-  const handleUpdate = (e, index) => {
+  const handleUpdate = (e, i) => {
     e.preventDefault();
+
+    const isValid = formData && Object.values(formData[i]).includes(undefined);
+    if (!formData || isValid) return;
+
     setShowTable(true);
-    if (errorSchemaIsValid(errorSchema[index])) {
+    if (errorSchemaIsValid(errorSchema[i])) {
       const editData = editing.map(() => false);
       setEditing(editData);
-      scrollToRow(`${idSchema.$id}_${index}`);
+      scrollToRow(`${idSchema.$id}_${i}`);
     } else {
       // Set all the fields for this item as touched, so we show errors
-      const touched = setArrayRecordTouched(idSchema.$id, index);
+      const touched = setArrayRecordTouched(idSchema.$id, i);
       formContext.setTouched(touched, () => {
         scrollToFirstError();
       });
@@ -317,6 +325,7 @@ const ItemLoop = ({
     if (errorSchemaIsValid(errorSchema[lastIndex])) {
       const editData = editing.map(() => false);
 
+      setOldData(formData);
       setShowTable(true);
       setEditing([...editData, 'add']);
 
@@ -339,7 +348,8 @@ const ItemLoop = ({
 
   const handleCancel = () => {
     const editData = editing.map(() => false);
-    setEditing([...editData, true]);
+    setEditing([...editData]);
+    onChange(oldData);
   };
 
   const handleRemove = index => {
