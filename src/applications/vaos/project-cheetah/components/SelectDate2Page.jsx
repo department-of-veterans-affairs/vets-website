@@ -115,7 +115,6 @@ export function SelectDate2Page({
   facilityId,
   getAppointmentSlots,
   pageChangeInProgress,
-  preferredDate,
   onCalendar2Change,
   routeToPreviousAppointmentPage,
   requestAppointmentDateChoice,
@@ -129,10 +128,10 @@ export function SelectDate2Page({
 
   useEffect(() => {
     getAppointmentSlots(
-      moment(preferredDate)
+      moment()
         .startOf('month')
         .format('YYYY-MM-DD'),
-      moment(preferredDate)
+      moment()
         .add(1, 'months')
         .endOf('month')
         .format('YYYY-MM-DD'),
@@ -151,11 +150,11 @@ export function SelectDate2Page({
     [validationError, submitted],
   );
 
-  const calendar2Data = data?.calendar2Data || {};
-  const { currentlySelectedDate, selectedDates } = calendar2Data;
-  const startMonth = preferredDate
-    ? moment(preferredDate).format('YYYY-MM')
-    : null;
+  const previousDateCalendarData = data?.calendarData || {};
+  const previousDateCurrentlySelectedDate =
+    previousDateCalendarData.currentlySelectedDate;
+  const calendarData = data?.calendar2Data || {};
+  const { currentlySelectedDate, selectedDates } = calendarData;
 
   return (
     <div>
@@ -187,18 +186,17 @@ export function SelectDate2Page({
           />
         }
         onChange={newData => {
-          validate({ calendar2Data: newData, setValidationError });
+          validate({ calendarData: newData, setValidationError });
           onCalendar2Change(newData);
         }}
         onClickNext={getAppointmentSlots}
         onClickPrev={getAppointmentSlots}
-        minDate={moment()
-          .add(1, 'days')
+        minDate={moment(previousDateCurrentlySelectedDate)
+          .add(21, 'days')
           .format('YYYY-MM-DD')}
-        maxDate={moment()
-          .add(395, 'days')
+        maxDate={moment(previousDateCurrentlySelectedDate)
+          .add(28, 'days')
           .format('YYYY-MM-DD')}
-        startMonth={startMonth}
         validationError={submitted ? validationError : null}
       />
       <FormButtons

@@ -115,7 +115,6 @@ export function SelectDate1Page({
   facilityId,
   getAppointmentSlots,
   pageChangeInProgress,
-  preferredDate,
   onCalendarChange,
   routeToPreviousAppointmentPage,
   requestAppointmentDateChoice,
@@ -126,13 +125,15 @@ export function SelectDate1Page({
   const history = useHistory();
   const [submitted, setSubmitted] = useState(false);
   const [validationError, setValidationError] = useState(null);
+  const calendarData = data?.calendarData || {};
+  const { currentlySelectedDate, selectedDates } = calendarData;
 
   useEffect(() => {
     getAppointmentSlots(
-      moment(preferredDate)
+      moment()
         .startOf('month')
         .format('YYYY-MM-DD'),
-      moment(preferredDate)
+      moment()
         .add(1, 'months')
         .endOf('month')
         .format('YYYY-MM-DD'),
@@ -150,12 +151,6 @@ export function SelectDate1Page({
     },
     [validationError, submitted],
   );
-
-  const calendarData = data?.calendarData || {};
-  const { currentlySelectedDate, selectedDates } = calendarData;
-  const startMonth = preferredDate
-    ? moment(preferredDate).format('YYYY-MM')
-    : null;
 
   return (
     <div>
@@ -198,7 +193,6 @@ export function SelectDate1Page({
         maxDate={moment()
           .add(395, 'days')
           .format('YYYY-MM-DD')}
-        startMonth={startMonth}
         validationError={submitted ? validationError : null}
       />
       <FormButtons
