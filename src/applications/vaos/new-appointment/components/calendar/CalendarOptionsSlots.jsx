@@ -106,7 +106,7 @@ export default function CalendarOptionsSlots({
           >
             <div className="vaos-calendar__option vaos-calendar__option--radio">
               <input
-                id={`${id}-${slot.start}`}
+                id={`${id}_${currentlySelectedDate}_${index}`}
                 type="radio"
                 name={id}
                 value={slot.start}
@@ -115,7 +115,7 @@ export default function CalendarOptionsSlots({
               />
               <label
                 className="vads-u-margin--0 vads-u-font-weight--bold vads-u-color--primary"
-                htmlFor={`${id}-${slot.start}`}
+                htmlFor={`${id}_${currentlySelectedDate}_${index}`}
               >
                 <span aria-hidden="true">{label}</span>
                 <span className="vads-u-visibility--screen-reader">

@@ -93,14 +93,17 @@ export default function DateTimeRequestOptions({
           <div key={o.value} className={getCheckboxOptionClasses(index)}>
             <div className={divClasses}>
               <input
-                id={`${id}-${o.value}`}
+                id={`${id}_${currentlySelectedDate}_${index}`}
                 type="checkbox"
                 name={id}
                 value={o.value}
                 checked={checked}
                 onChange={() => onChange(o.value)}
               />
-              <label className={labelClasses} htmlFor={`${id}-${o.value}`}>
+              <label
+                className={labelClasses}
+                htmlFor={`${id}_${currentlySelectedDate}_${index}`}
+              >
                 <span aria-hidden="true">{o.label}</span>
                 <span className="vads-u-visibility--screen-reader">
                   {o.label} appointment
