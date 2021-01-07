@@ -23,12 +23,15 @@ const mockFeatureToggles = () => {
 
 const prepareSearch = term => {
   cy.server();
-  cy.visit(`${Cypress.config().baseUrl}`);
+  cy.visit(`${Cypress.config().baseUrl}`, { retryOnStatusCodeFailure: true });
   cy.get('button.sitewide-search-drop-down-panel-button', {
     timeout: 10000,
   }).click();
   cy.get('#query').click();
-  cy.get('#query').type(term);
+  cy.get('#query')
+    .should('exist')
+    .should('not.be.disabled')
+    .type(term, { force: true });
 };
 
 const mockFetchSuggestions = () => {
@@ -63,7 +66,9 @@ for (let i = 0; i < 50; i += 1) {
     // default cases
     it('appears when the dropdown is clicked', () => {
       cy.server();
-      cy.visit(`${Cypress.config().baseUrl}`);
+      cy.visit(`${Cypress.config().baseUrl}`, {
+        retryOnStatusCodeFailure: true,
+      });
       cy.get('button.sitewide-search-drop-down-panel-button', {
         timeout: 10000,
       }).click();
