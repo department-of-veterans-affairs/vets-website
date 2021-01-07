@@ -54,15 +54,16 @@ const InputSection = ({
   uiSchema,
   index,
   errorSchema,
-  handleChange,
   item,
   onBlur,
   registry,
   disabled,
   readonly,
+  idSchema,
+  handleChange,
   handleUpdate,
   handleRemove,
-  idSchema,
+  handleCancel,
 }) => {
   const showSave = uiSchema['ui:options'].showSave;
   const updateText = showSave ? 'Save' : 'Update';
@@ -89,6 +90,13 @@ const InputSection = ({
       uiSchema['ui:options'].viewType === 'table' && items?.length > 1,
   });
 
+  // For the first entry, there should be a ‘save’ button
+  // For subsequent additions, there should be a ‘save’ button and a ‘cancel’ link directly to its right
+  // When editing an entry, there should be a ‘save’ button, a ‘cancel’ link directly to its right, and a right-aligned ‘remove’ button
+
+  const showCancel = items.length > 1;
+  const showRemove = items.length > 1;
+
   return (
     notLastOrMultipleRows && (
       <div className={containerClassNames}>
@@ -114,9 +122,10 @@ const InputSection = ({
               onChange={value => handleChange(index, value)}
               required={false}
             />
+
             {notLastOrMultipleRows && (
               <div className="row small-collapse">
-                <div className="small-6 left columns">
+                <div className="small-4 left columns button-group">
                   {showSave && (
                     <button
                       className="float-left"
@@ -126,9 +135,11 @@ const InputSection = ({
                       {updateText}
                     </button>
                   )}
+
+                  {showCancel && <a onClick={handleCancel}>Cancel</a>}
                 </div>
-                <div className="small-6 right columns">
-                  {index !== 0 && (
+                <div className="small-8 right columns">
+                  {showRemove && (
                     <button
                       className="usa-button-secondary float-right"
                       type="button"
@@ -325,6 +336,11 @@ const ItemLoop = ({
     }
   };
 
+  const handleCancel = () => {
+    const editData = editing.map(() => false);
+    setEditing([...editData, true]);
+  };
+
   const handleRemove = index => {
     const newItems = formData.filter((item, i) => index !== i);
     const filtered = editing.filter((item, i) => index !== i);
@@ -403,6 +419,7 @@ const ItemLoop = ({
                         handleChange={handleChange}
                         handleUpdate={handleUpdate}
                         handleRemove={handleRemove}
+                        handleCancel={handleCancel}
                       />
                     </td>
                   </tr>

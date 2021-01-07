@@ -63,6 +63,11 @@
     .usa-button-secondary {
       background: #fff;
     }
+    .button-group {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
   }
   .edit-item-container {
     margin: 5px 0;
