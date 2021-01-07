@@ -8,7 +8,6 @@ import {
 } from 'platform/monitoring/DowntimeNotification';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
 import backendServices from 'platform/user/profile/constants/backendServices';
-import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import {
   isVAPatient as isVAPatientSelector,
   selectCernerAppointmentsFacilities,
@@ -60,7 +59,6 @@ const ManageYourVAHealthCare = ({
   appointmentFacilityNames,
   messagingFacilityNames,
   prescriptionFacilityNames,
-  authenticatedWithSSOe,
   enrollmentDate,
   isInESR,
   preferredFacility,
@@ -120,10 +118,7 @@ const ManageYourVAHealthCare = ({
       </DowntimeNotification>
     )}
     {showCernerMessagingWidget && (
-      <CernerSecureMessagingWidget
-        facilityNames={messagingFacilityNames}
-        authenticatedWithSSOe={authenticatedWithSSOe}
-      />
+      <CernerSecureMessagingWidget facilityNames={messagingFacilityNames} />
     )}
 
     {!showCernerPrescriptionWidget && (
@@ -139,10 +134,7 @@ const ManageYourVAHealthCare = ({
       </DowntimeNotification>
     )}
     {showCernerPrescriptionWidget && (
-      <CernerPrescriptionsWidget
-        facilityNames={prescriptionFacilityNames}
-        authenticatedWithSSOe={authenticatedWithSSOe}
-      />
+      <CernerPrescriptionsWidget facilityNames={prescriptionFacilityNames} />
     )}
 
     {showNonCernerAppointmentWidget && <ScheduleAnAppointmentWidget />}
@@ -207,7 +199,6 @@ const mapStateToProps = state => {
     appointmentFacilityNames,
     messagingFacilityNames,
     prescriptionFacilityNames,
-    authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
   };
 };
 
