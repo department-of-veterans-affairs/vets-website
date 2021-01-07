@@ -33,7 +33,6 @@ const qaPage = require('./nodeQa.graphql');
 const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
 const stepByStepPage = require('./nodeStepByStep.graphql');
 const storyListingPage = require('./storyListingPage.graphql');
-const taxonomiesQuery = require('./taxonomy-fragments/GetTaxonomies.graphql');
 const supportResourcesDetailPage = require('./nodeSupportResourcesDetailPage.graphql');
 const vaFormPage = require('./vaFormPage.graphql');
 const vamcOperatingStatusAndAlerts = require('./vamcOperatingStatusAndAlerts.graphql');
@@ -155,7 +154,6 @@ const buildQuery = ({ useTomeSync }) => {
         : ''
     }
     ${menuLinksQuery}
-    ${taxonomiesQuery}
   }
 `;
 
