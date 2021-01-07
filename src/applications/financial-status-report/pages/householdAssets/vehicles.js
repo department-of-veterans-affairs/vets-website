@@ -24,26 +24,26 @@ export const uiSchema = {
       vehicleType: {
         'ui:title': 'Type of vehicle',
         'ui:options': {
-          widgetClassNames: 'input-size-5',
+          widgetClassNames: 'input-size-7',
         },
         'ui:required': () => true,
       },
       vehicleMake: {
         'ui:title': 'Vehicle make',
         'ui:options': {
-          widgetClassNames: 'input-size-5',
+          widgetClassNames: 'input-size-7',
         },
       },
       vehicleModel: {
         'ui:title': 'Vehicle model',
         'ui:options': {
-          widgetClassNames: 'input-size-5',
+          widgetClassNames: 'input-size-7',
         },
       },
       vehicleYear: {
         'ui:title': 'Vehicle year',
         'ui:options': {
-          widgetClassNames: 'input-size-5',
+          widgetClassNames: 'input-size-3',
         },
       },
       vehicleAmount: _.merge(currencyUI('Estimated value'), {

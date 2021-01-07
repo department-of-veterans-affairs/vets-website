@@ -26,20 +26,17 @@ export const uiSchema = {
           'ui:options': {
             widgetClassNames: 'input-size-3',
           },
-          'ui:required': formData =>
-            formData.employment.hasPreviousEmployment === true,
+          'ui:required': formData => formData.employment.hasPreviousEmployment,
         },
         previousEmploymentStart: {
           'ui:title': 'Employment start date',
           'ui:widget': 'date',
-          'ui:required': formData =>
-            formData.employment.hasPreviousEmployment === true,
+          'ui:required': formData => formData.employment.hasPreviousEmployment,
         },
         previousEmploymentEnd: {
           'ui:title': 'Employment end date',
           'ui:widget': 'date',
-          'ui:required': formData =>
-            formData.employment.hasPreviousEmployment === true,
+          'ui:required': formData => formData.employment.hasPreviousEmployment,
         },
         previousEmployerName: {
           'ui:title': 'Employer name',
