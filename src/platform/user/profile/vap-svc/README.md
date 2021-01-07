@@ -60,7 +60,7 @@ When a request to update a field is sent to VA Profile Service (via `PUT`, or `P
     "attributes": {
       "transaction_status": "RECEIVED",
       "transaction_id": "786efe0e-fd20-4da2-9019-0c00540dba4d",
-      "type": "AsyncTransaction::vet360::EmailTransaction"
+      "type": "AsyncTransaction::Vet360::EmailTransaction"
     }
   }
 }
@@ -69,6 +69,8 @@ When a request to update a field is sent to VA Profile Service (via `PUT`, or `P
 The `transaction_status` property set to `RECEIVED` indicates that VA Profile Service has enqueued the update, but it has not finished processing. The `transaction_id` can then be used to look up that update at a later time via `/v0/profile/person/status/{transaction_id}`. At some point, the `transaction_status` will indicate whether the update was successful or rejected. If it is rejected, there will be a `metadata` property containing a list of errors. The Swagger docs contain [more info](https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/profile/postVet360EmailAddress) on this.
 
 A note here about the `type` property - that field indicates whether the transaction pertains to an email, address, or telephone number. In the case of an address, you are not provided with an identifier to determine whether the transaction is for a residential or mailing address. This information must be managed by the Front-End in memory.
+
+Note that we're still getting vet360 data back from the API, as it has not yet been renamed to reference VA Profile Service.
 
 ### Errors
 Most errors are returned by VA Profile Service during a transaction lookup along with a `transaction_status` indicating that the update was rejected. However, some errors are returned directly, similar to a traditional API response. These errors are -
