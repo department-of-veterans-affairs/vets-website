@@ -85,7 +85,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
 
   // if hasMailingAddress && addresses are not the same auto fill mailing address
   if (mailingAddress && !doesAddressMatch) {
-    newData = { ...newData, veteranMailingAddress: cleanedMailingAddress };
+    newData = { ...newData, veteranHomeAddress: cleanedMailingAddress };
   }
 
   return {
@@ -139,12 +139,12 @@ export function transform(formConfig, form) {
 
   // duplicate address before submit if they are the same
   if (hasMultipleAddress && addressesMatch) {
-    withoutViewFields.veteranMailingAddress = withoutViewFields.veteranAddress;
+    withoutViewFields.veteranHomeAddress = withoutViewFields.veteranAddress;
   }
 
   // if feature flip is off remove second address and yes/no question
   if (!hasMultipleAddress) {
-    delete withoutViewFields.veteranMailingAddress;
+    delete withoutViewFields.veteranHomeAddress;
   }
 
   const formData =
