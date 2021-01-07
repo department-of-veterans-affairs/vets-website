@@ -1174,8 +1174,8 @@ export function requestProvidersList(address) {
       const communityCareProviders = newAppointment.communityCareProviders;
       const sortMethod = newAppointment.ccProviderPageSortMethod;
       const typeOfCare = getTypeOfCare(newAppointment.data);
-      const key = `${sortMethod.replace('distanceFrom', '')}_${typeOfCare.id}`;
-      let typeOfCareProviders = communityCareProviders[key];
+      let typeOfCareProviders =
+        communityCareProviders[`${sortMethod}_${typeOfCare.ccId}`];
 
       dispatch({
         type: FORM_REQUESTED_PROVIDERS,
@@ -1191,7 +1191,6 @@ export function requestProvidersList(address) {
       dispatch({
         type: FORM_REQUESTED_PROVIDERS_SUCCEEDED,
         typeOfCareProviders,
-        key,
         address,
       });
     } catch (e) {

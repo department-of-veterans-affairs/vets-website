@@ -1132,14 +1132,12 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_REQUESTED_PROVIDERS_SUCCEEDED: {
-      const { address, typeOfCareProviders, key } = action;
-
-      const sortMethod = state.ccProviderPageSortMethod
-        ? state.ccProviderPageSortMethod
-        : FACILITY_SORT_METHODS.distanceFromResidential;
+      const { address, typeOfCareProviders } = action;
+      const { ccProviderPageSortMethod: sortMethod, data } = state;
+      const cacheKey = `${sortMethod}_${getTypeOfCare(data)?.ccId}`;
 
       const communityCareProviderList =
-        state.communityCareProviders[key] ||
+        state.communityCareProviders[cacheKey] ||
         typeOfCareProviders
           .map(facility => {
             const distance = distanceBetween(
@@ -1160,7 +1158,7 @@ export default function formReducer(state = initialState, action) {
         requestStatus: FETCH_STATUS.succeeded,
         communityCareProviders: {
           ...state.communityCareProviders,
-          [key]: communityCareProviderList,
+          [cacheKey]: communityCareProviderList,
         },
         communityCareProviderList,
       };
