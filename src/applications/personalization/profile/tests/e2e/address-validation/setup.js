@@ -3,9 +3,9 @@ import { PROFILE_PATHS } from '@@profile/constants';
 import { createUserResponse } from './user';
 import { createAddressValidationResponse } from './addressValidation';
 
-import mockUser from '~/applications/personalization/profile/tests/fixtures/users/user-36.json';
-import receivedTransaction from '~/applications/personalization/profile/tests/fixtures/transactions/received-transaction.json';
-import finishedTransaction from '~/applications/personalization/profile/tests/fixtures/transactions/finished-transaction.json';
+import mockUser from '@@profile/tests/fixtures/users/user-36.json';
+import receivedTransaction from '@@profile/tests/fixtures/transactions/received-transaction.json';
+import finishedTransaction from '@@profile/tests/fixtures/transactions/finished-transaction.json';
 
 export const setUp = type => {
   disableFTUXModals();

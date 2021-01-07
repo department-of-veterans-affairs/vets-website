@@ -6,6 +6,7 @@ import {
 import set from 'platform/utilities/data/set';
 
 import {
+  FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
   FORM_DATA_UPDATED,
   FORM_PAGE_CHANGE_COMPLETED,
   FORM_PAGE_CHANGE_STARTED,
@@ -247,6 +248,10 @@ export default function projectCheetahReducer(state = initialState, action) {
         ...state,
         newBooking: {
           ...state.newBooking,
+          data: {
+            ...state.newBooking.data,
+            clinicId: action.clinics.length === 1 ? action.clinics[0].id : null,
+          },
           clinics: {
             ...state.newBooking.clinics,
             showEligibilityModal: action.showModal,
@@ -373,6 +378,44 @@ export default function projectCheetahReducer(state = initialState, action) {
       return {
         ...state,
         requestLocationStatus: FETCH_STATUS.failed,
+      };
+    }
+    case FORM_CLINIC_PAGE_OPENED_SUCCEEDED: {
+      let newSchema = action.schema;
+      const clinics =
+        state.newBooking.clinics[state.newBooking.data.vaFacility];
+
+      newSchema = {
+        ...newSchema,
+        properties: {
+          clinicId: {
+            type: 'string',
+            title: 'Choose a clinic',
+            enum: clinics.map(clinic => clinic.id),
+            enumNames: clinics.map(clinic => clinic.serviceName),
+          },
+        },
+      };
+
+      const { data, schema } = setupFormData(
+        state.newBooking.data,
+        newSchema,
+        action.uiSchema,
+      );
+
+      return {
+        ...state,
+        newBooking: {
+          ...state.newBooking,
+          data: {
+            ...data,
+            calendarData: {},
+          },
+          pages: {
+            ...state.newBooking.pages,
+            [action.page]: schema,
+          },
+        },
       };
     }
     case FORM_SUBMIT:
