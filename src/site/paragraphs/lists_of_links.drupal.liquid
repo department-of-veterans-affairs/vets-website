@@ -2,9 +2,21 @@
 <h2 data-template="paragraphs/lists_of_links">{{ entity.fieldSectionHeader }}</h2>
 
 <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row medium-screen:vads-u-flex-wrap--wrap" data-template="paragraphs/lists_of_links">
-  {% for vaParagraph in entity.fieldVaParagraphs %}
-    {% assign hasEvenIndex = forloop.index | modulo: 2 %}
-    <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-l-col--3{% if hasEvenIndex %} medium-screen:vads-u-margin-right--8{% endif %}">
+  {% assign formattedVaParagraphs = entity.fieldVaParagraphs | formatVaParagraphs %}
+  {% for vaParagraph in formattedVaParagraphs %}
+    <div
+      class="
+        {% if forloop.index > 6 %}
+          vads-u-display--none
+        {% else %}
+          vads-u-display--flex
+        {% endif %}
+        vads-u-flex-direction--column medium-screen:vads-l-col--3 medium-screen:vads-u-margin-right--8
+      "
+      {% if forloop.index > 6 %}
+        data-hidden-lists_of_links-entity-id="{{ entity.entityId }}"
+      {% endif %}
+    >
       <!-- Section header -->
       <h3>{{ vaParagraph.entity.fieldSectionHeader }}</h3>
 
@@ -30,3 +42,36 @@
     </div>
   {% endfor %}
 </div>
+
+{% if formattedVaParagraphs.length > 6 %}
+  <script>
+    function onShowAllTopics() {
+      const vaParagraphElements = document.querySelectorAll('[data-hidden-lists_of_links-entity-id="{{ entity.entityId }}"]');
+
+      // Escape early if we are unable to find the hidden categories.
+      if (!vaParagraphElements) {
+        console.warn('Unable to find hidden lists of links DOM nodes.');
+        return;
+      }
+
+      // Show the remaining categories.
+      vaParagraphElements.forEach(function(element) {
+        element.classList.remove('vads-u-display--none');
+      });
+
+      // Derive the show all topics button element.
+      const showAllTopicsElement = document.querySelector('[data-show-all-topics-button-lists_of_links-entity-id="{{ entity.entityId }}"]');
+      if (!showAllTopicsElement) {
+        console.warn('Unable to find "Show all topics" button, so we could not hide it.');
+        return;
+      }
+
+      // We don't need the Show all topics button anymore, so hide it.
+      showAllTopicsElement.classList.replace('vads-u-display--flex', 'vads-u-display--none');
+    }
+  </script>
+
+  <div class="vads-u-display--flex vads-u-justify-content--center vads-u-margin-top--3" data-show-all-topics-button-lists_of_links-entity-id="{{ entity.entityId }}">
+    <button class="usa-button" onclick="onShowAllTopics()" type="button">Show all topics</button>
+  </div>
+{% endif %}
