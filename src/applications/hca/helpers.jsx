@@ -668,11 +668,3 @@ export function didEnrollmentStatusChange(prevProps, props) {
     propName => prevProps[propName] !== props[propName],
   );
 }
-
-export const flipMailingAddress = formData => {
-  const flipperValue = formData['view:hasMultipleAddress'];
-  return flipperValue
-    ? formData['view:hasMultipleAddress'] &&
-        !formData['view:doesPermanentAddressMatchMailing']
-    : !formData['view:hasMultipleAddress'];
-};

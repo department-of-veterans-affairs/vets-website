@@ -52,7 +52,6 @@ import {
   medicarePartADescription,
   prefillTransformer,
   transform,
-  flipMailingAddress,
 } from '../helpers';
 
 import migrations from './migrations';
@@ -391,7 +390,6 @@ const formConfig = {
           path: 'veteran-information/veteran-address',
           title: 'Mailing address',
           initialData: {},
-          depends: formData => formData['view:hasMultipleAddress'],
           uiSchema: {
             'ui:description': PrefillMessage,
             veteranAddress: _.merge(addressUI('Mailing address', true), {
@@ -452,7 +450,7 @@ const formConfig = {
           path: 'veteran-information/veteran-home-address',
           title: 'Home address',
           initialData: {},
-          depends: formData => flipMailingAddress(formData),
+          depends: formData => formData['view:hasMultipleAddress'],
           uiSchema: {
             'ui:description': PrefillMessage,
             veteranHomeAddress: _.merge(addressUI('Home address', true), {

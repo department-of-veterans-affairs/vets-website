@@ -106,7 +106,7 @@
       "postalCode": "01070"
     },
     "view:doesPermanentAddressMatchMailing": false,
-    "veteranMailingAddress": {
+    "veteranHomeAddress": {
       "street": "456 coral st",
       "street2": "Apt 1",
       "street3": "Room 2",
