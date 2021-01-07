@@ -29,13 +29,22 @@ export const uiSchema = {
       },
       courtLocation: {
         'ui:title': 'Location of court',
+        'ui:options': {
+          widgetClassNames: 'input-size-6',
+        },
       },
       docketNumber: {
         'ui:title': 'Docket number',
+        'ui:options': {
+          widgetClassNames: 'input-size-6',
+        },
       },
       mortgageCompany: {
         'ui:title': 'Was VA or a mortgage company involved in this bankruptcy?',
         'ui:widget': 'radio',
+        'ui:required': formData =>
+          formData.bankruptcyHistory.adjudicated ===
+          'Yes, I have been adjudicated as bankrupt.',
       },
       vaInvolved: {
         'ui:options': {
