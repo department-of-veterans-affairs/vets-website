@@ -7,12 +7,12 @@ import { inferAddressType } from '~/applications/letters/utils/helpers';
 
 import { ADDRESS_POU, FIELD_NAMES } from '@@vap-svc/constants';
 
-import { showAddressValidationModal } from '../../utilities';
+import { showAddressValidationModal } from '@@vap-svc/util';
 
 import localVAProfileService, {
   isVAProfileServiceConfigured,
 } from '../util/local-vapsvc';
-import { CONFIRMED } from '../../constants/addressValidationMessages';
+import { CONFIRMED } from '../constants/addressValidationMessages';
 import {
   isSuccessfulTransaction,
   isFailedTransaction,

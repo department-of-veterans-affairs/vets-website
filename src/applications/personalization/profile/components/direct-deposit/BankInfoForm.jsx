@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 import { ACCOUNT_TYPES_OPTIONS } from '../../constants';
