@@ -68,17 +68,6 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
   if (submitStatus === requestStates.pending) {
     return <LoadingIndicator message="Submitting your form..." />;
   }
-
-  const launchProfile = e => {
-    recordEvent({
-      event: 'covid-vaccination--launchVAProfile',
-    });
-    e.preventDefault();
-    const a = document.createElement('a');
-    a.href = '/profile';
-    a.setAttribute('target', '_blank');
-    a.click();
-  };
   return (
     <>
       <h1 id="covid-vaccination-heading-form" className="no-outline">
@@ -103,12 +92,9 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
         <p>
           <strong>Note:</strong> The information below is from your VA.gov
           profile. If you need to make a change,{' '}
-          <a href="#" onClick={launchProfile}>
+          <a href="/profile" target="_blank">
             go to your profile now.
           </a>{' '}
-          {/* We can probably track this from analytics existing on VA Profile by looking at the previous page path. 
-          Waiting for confirmation from analytics team */}
-          {/* <a href="/profile" target="_blank"> */}
         </p>
       ) : null}
       {formState ? (
