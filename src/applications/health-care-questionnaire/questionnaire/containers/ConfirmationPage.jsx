@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 
 import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 
+import { clearCurrentSession } from '../utils';
+
 const ConfirmationPage = props => {
   const { appointment, form } = props;
   const { submission } = form || undefined;
@@ -13,7 +15,7 @@ const ConfirmationPage = props => {
     ? appointment.attributes.vdsAppointments[0]?.clinic.facility
     : null;
   useEffect(() => {
-    window.sessionStorage.removeItem('currentHealthQuestionnaire');
+    clearCurrentSession(window);
   }, []);
 
   return (
