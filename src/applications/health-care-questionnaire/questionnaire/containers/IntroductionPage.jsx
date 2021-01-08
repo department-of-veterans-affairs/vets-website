@@ -19,6 +19,9 @@ const IntroductionPage = props => {
   }, []);
 
   const { appointment } = props?.questionnaire?.context;
+  if (!appointment?.attributes) {
+    return <></>;
+  }
   const appointmentData = appointment?.attributes?.vdsAppointments
     ? appointment?.attributes?.vdsAppointments[0]
     : {};
