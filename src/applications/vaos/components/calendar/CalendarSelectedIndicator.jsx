@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CALENDAR_INDICATOR_TYPES } from '../../../utils/constants';
+import { CALENDAR_INDICATOR_TYPES } from '../../utils/constants';
 
 export default function CalendarSelectedIndicator({
   date,
