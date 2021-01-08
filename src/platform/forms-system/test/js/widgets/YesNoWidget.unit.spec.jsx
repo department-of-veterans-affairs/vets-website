@@ -79,4 +79,27 @@ describe('Schemaform <YesNoWidget>', () => {
     expect(tree.everySubTree('input')[0].props.checked).to.be.false;
     expect(tree.everySubTree('input')[1].props.checked).to.be.true;
   });
+  it('should add custom props', () => {
+    const onChange = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <YesNoWidget
+        value
+        options={{
+          yesNoReverse: true,
+          widgetProps: {
+            Y: { 'data-test': 'yes-input' },
+            N: { 'data-test': 'no-input' },
+          },
+        }}
+        onChange={onChange}
+      />,
+    );
+
+    expect(tree.everySubTree('input')[0].props['data-test']).to.equal(
+      'yes-input',
+    );
+    expect(tree.everySubTree('input')[1].props['data-test']).to.equal(
+      'no-input',
+    );
+  });
 });
