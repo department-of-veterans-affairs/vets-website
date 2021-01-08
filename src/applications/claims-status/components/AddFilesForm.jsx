@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 
-import ErrorableFileInput from '@department-of-veterans-affairs/formation-react/ErrorableFileInput';
-import ErrorableSelect from '@department-of-veterans-affairs/formation-react/ErrorableSelect';
-import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
-import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
+import FileInput from '@department-of-veterans-affairs/formation-react/FileInput';
+import Select from '@department-of-veterans-affairs/formation-react/Select';
+import Checkbox from '@department-of-veterans-affairs/formation-react/Checkbox';
+import TextInput from '@department-of-veterans-affairs/formation-react/TextInput';
 
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
@@ -161,7 +161,7 @@ class AddFilesForm extends React.Component {
         </div>
         <Element name="filesList" />
         <div>
-          <ErrorableFileInput
+          <FileInput
             errorMessage={this.getErrorMessage()}
             label={
               <span className="claims-upload-input-title">
@@ -209,7 +209,7 @@ class AddFilesForm extends React.Component {
                       able to view the document, we will need the password to
                       decrypt it.
                     </p>
-                    <ErrorableTextInput
+                    <TextInput
                       required
                       errorMessage={
                         validateIfDirty(password, isNotBlank)
@@ -229,7 +229,7 @@ class AddFilesForm extends React.Component {
                   </>
                 )}
                 <div className="clearfix" />
-                <ErrorableSelect
+                <Select
                   required
                   errorMessage={
                     validateIfDirty(docType, isNotBlank)
@@ -249,7 +249,7 @@ class AddFilesForm extends React.Component {
             </div>
           ),
         )}
-        <ErrorableCheckbox
+        <Checkbox
           onValueChange={checked => {
             this.setState({ checked });
           }}

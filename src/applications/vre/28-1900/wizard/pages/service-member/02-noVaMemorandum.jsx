@@ -1,5 +1,5 @@
 import React from 'react';
-import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
+import RadioButtons from '@department-of-veterans-affairs/formation-react/RadioButtons';
 import { serviceMemberPathPageNames } from '../pageList';
 import { handleChangeAndPageSet } from '../helpers';
 
@@ -9,7 +9,7 @@ const options = [
 ];
 
 const noVaMemorandum = ({ setPageState, state = {} }) => (
-  <ErrorableRadioButtons
+  <RadioButtons
     name={`${serviceMemberPathPageNames.noVaMemorandum}-option`}
     label={
       <p>
