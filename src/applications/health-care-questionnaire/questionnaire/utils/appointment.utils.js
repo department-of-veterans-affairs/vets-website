@@ -87,5 +87,20 @@ const getAppointTypeFromAppointment = data => {
       return null;
   }
 };
+const getAppointmentTimeFromAppointment = data => {
+  const appointment = data?.attributes;
+  if (!appointment) {
+    return null;
+  }
+  if (!appointment.vdsAppointments?.length) {
+    return null;
+  }
+  const { appointmentTime } = appointment.vdsAppointments[0];
+  return appointmentTime;
+};
 
-export { getBookingNoteFromAppointment, getAppointTypeFromAppointment };
+export {
+  getBookingNoteFromAppointment,
+  getAppointTypeFromAppointment,
+  getAppointmentTimeFromAppointment,
+};

@@ -35,7 +35,7 @@ export const uiSchema = {
         },
         incomeAmount: _.merge(currencyUI('Monthly income amount'), {
           'ui:options': {
-            widgetClassNames: 'input-size-1',
+            widgetClassNames: 'input-size-2',
           },
           'ui:required': formData => formData.spouseAdditionalIncome,
         }),
