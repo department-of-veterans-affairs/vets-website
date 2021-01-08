@@ -11,7 +11,7 @@ import {
   isDateInSelectedArray,
   isDateOptionPairInSelectedArray,
 } from './dateHelpers';
-import { FETCH_STATUS } from '../../../utils/constants';
+import { FETCH_STATUS } from '../../utils/constants';
 
 const DEFAULT_MAX_DAYS_AHEAD = 90;
 

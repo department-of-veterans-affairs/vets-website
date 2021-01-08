@@ -8,7 +8,7 @@ import * as actions from '../../redux/actions';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import FormButtons from '../../../components/FormButtons';
 import { getDateTimeSelect } from '../../redux/selectors';
-import CalendarWidget from '../calendar/CalendarWidget';
+import CalendarWidget from '../../../components/calendar/CalendarWidget';
 import WaitTimeAlert from './WaitTimeAlert';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { getRealFacilityId } from '../../../utils/appointment';
