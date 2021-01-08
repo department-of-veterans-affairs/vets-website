@@ -66,6 +66,8 @@ const InputSection = ({
   handleRemove,
   handleCancel,
 }) => {
+  const showCancel = items.length > 1;
+  const showRemove = items.length > 1 && editing && editing[index] !== 'add';
   const showSave = uiSchema['ui:options'].showSave;
   const updateText = showSave ? 'Save' : 'Update';
   const notLastOrMultipleRows = showSave || items.length > 1;
@@ -90,15 +92,6 @@ const InputSection = ({
     'vads-u-border-bottom--1px':
       uiSchema['ui:options'].viewType === 'table' && items?.length > 1,
   });
-
-  // [x] For the first entry, there should be a ‘save’ button
-  // [x] For subsequent additions, there should be a ‘save’ button and a ‘cancel’ link directly to its right
-  // [x] When editing an entry, there should be a ‘save’ button, a ‘cancel’ link directly to its right, and a right-aligned ‘remove’ button
-  // [x] disable save if no data
-  // [ ] adding integers to type field causes error
-
-  const showCancel = items.length > 1;
-  const showRemove = items.length > 1 && editing && editing[index] !== 'add';
 
   return (
     notLastOrMultipleRows && (
