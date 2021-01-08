@@ -61,10 +61,6 @@ export function getDateTimeSelect(state, pageKey) {
   const availableSlots = newBooking.availableSlots;
   const systemId = getSiteIdForChosenFacility(state);
 
-  const availableDates = Array.from(
-    new Set(availableSlots?.map(slot => slot.start.split('T')[0])),
-  );
-
   const timezoneDescription = systemId
     ? getTimezoneDescBySystemId(systemId)
     : null;
@@ -72,7 +68,6 @@ export function getDateTimeSelect(state, pageKey) {
 
   return {
     ...formInfo,
-    availableDates,
     availableSlots,
     facilityId: data.vaFacility,
     appointmentSlotsStatus,
