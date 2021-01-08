@@ -117,15 +117,23 @@ module.exports = env => {
 
   const outputPath = `${buildOptions.destination}/generated`;
 
+  // Set the pubilcPath conditional so we can get dynamic modules loading from S3
+  const publicAssetPath =
+    buildOptions.buildtype === 'vagovdev' // just for dev  so we can test it, will add staging in the next merge after testing
+      ? `${BUCKETS[buildOptions.buildtype]}/generated/`
+      : '/generated/';
+
   const baseConfig = {
     mode: 'development',
     entry: entryFiles,
     output: {
       path: outputPath,
-      publicPath: '/generated/',
-      filename: !useHashFilenames
-        ? '[name].entry.js'
-        : `[name].entry.[chunkhash]-${timestamp}.js`,
+      publicPath: publicAssetPath,
+      filename: pathData => {
+        return !useHashFilenames || pathData.chunk.name === 'proxy-rewrite' // the unhashed proxy-rewrite file is directly accessed in the prearchive job (src/site/stages/prearchive/link-assets-to-bucket.js#93)
+          ? '[name].entry.js'
+          : `[name].entry.[chunkhash]-${timestamp}.js`;
+      },
       chunkFilename: !useHashFilenames
         ? '[name].entry.js'
         : `[name].entry.[chunkhash]-${timestamp}.js`,

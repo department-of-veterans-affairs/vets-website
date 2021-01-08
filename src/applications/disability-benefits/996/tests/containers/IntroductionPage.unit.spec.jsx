@@ -52,10 +52,13 @@ const globalWin = {
 
 describe('IntroductionPage', () => {
   let oldWindow;
+  let gaData;
   beforeEach(() => {
     oldWindow = global.window;
     global.window = Object.create(global.window);
     Object.assign(global.window, globalWin);
+    global.window.dataLayer = [];
+    gaData = global.window.dataLayer;
   });
   afterEach(() => {
     global.window = oldWindow;
@@ -106,40 +109,48 @@ describe('IntroductionPage', () => {
 
   it('should render alert showing a server error', () => {
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    const errorMessage = 'We can’t load your issues';
     const props = {
       ...defaultProps,
       contestableIssues: {
         issues: [],
         status: '',
         error: {
-          errors: [{ title: 'We can’t load your issues' }],
+          errors: [{ title: errorMessage }],
         },
       },
+      delay: 0,
     };
 
     const tree = shallow(<IntroductionPage {...props} />);
 
     const AlertBox = tree.find('AlertBox').first();
-    expect(AlertBox.render().text()).to.include('can’t load your issues');
+    expect(AlertBox.render().text()).to.include(errorMessage);
+    const recordedEvent = gaData[gaData.length - 1];
+    expect(recordedEvent.event).to.equal('visible-alert-box');
+    expect(recordedEvent['alert-box-heading']).to.include(errorMessage);
     tree.unmount();
   });
   it('should render alert showing no contestable issues', () => {
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    const errorMessage = 'don’t have any issues on file for you';
     const props = {
       ...defaultProps,
       contestableIssues: {
         issues: [],
-        status: '',
+        status: 'done',
         error: '',
       },
+      delay: 0,
     };
 
     const tree = shallow(<IntroductionPage {...props} />);
 
     const AlertBox = tree.find('AlertBox').first();
-    expect(AlertBox.render().text()).to.include(
-      'don’t have any issues on file for you',
-    );
+    expect(AlertBox.render().text()).to.include(errorMessage);
+    const recordedEvent = gaData[gaData.length - 1];
+    expect(recordedEvent.event).to.equal('visible-alert-box');
+    expect(recordedEvent['alert-box-heading']).to.include(errorMessage);
     tree.unmount();
   });
   it('should render start button', () => {
@@ -148,7 +159,7 @@ describe('IntroductionPage', () => {
       ...defaultProps,
       contestableIssues: {
         issues: [{}],
-        status: '',
+        status: 'done',
         error: '',
       },
     };
@@ -167,7 +178,7 @@ describe('IntroductionPage', () => {
       ...defaultProps,
       contestableIssues: {
         issues: [{}],
-        status: '',
+        status: 'done',
         error: '',
       },
     };
@@ -208,7 +219,7 @@ describe('IntroductionPage', () => {
       ...defaultProps,
       contestableIssues: {
         issues: [{}],
-        status: '',
+        status: 'done',
         error: '',
       },
     };

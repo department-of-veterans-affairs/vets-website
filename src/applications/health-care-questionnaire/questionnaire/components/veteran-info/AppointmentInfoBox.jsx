@@ -17,11 +17,9 @@ const AppointmentInfoBox = props => {
     addresses,
     phoneNumbers,
     appointment,
-    setFormData,
-    saveForm,
     form,
+    onChange,
   } = props;
-
   const fullName = useMemo(
     () => {
       return [userFullName.first, userFullName.middle, userFullName.last]
@@ -33,7 +31,7 @@ const AppointmentInfoBox = props => {
     [userFullName.first, userFullName.middle, userFullName.last],
   );
 
-  const { formId, version, data } = form;
+  const { data } = form;
   const veteranInfo = {
     gender,
     dateOfBirth,
@@ -51,10 +49,7 @@ const AppointmentInfoBox = props => {
       <VeteranInformationDisplay
         veteranInfo={veteranInfo}
         data={data}
-        formId={formId}
-        version={version}
-        setFormData={setFormData}
-        saveForm={saveForm}
+        setFormData={onChange}
       />
       <p>
         Note: If you need to update your personal information, please call
