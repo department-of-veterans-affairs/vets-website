@@ -29,6 +29,16 @@ function InvalidFormDownload({ downloadUrl }) {
   );
 }
 
+// HOF for reusable situations in Component.
+function sentryLogger(form, formNumber, downloadUrl, message) {
+  return Sentry.withScope(scope => {
+    scope.setExtra('form API response', form);
+    scope.setExtra('form number', formNumber);
+    scope.setExtra('download link (invalid)', downloadUrl);
+    Sentry.captureMessage(message);
+  });
+}
+
 export async function onDownloadLinkClick(event) {
   event.preventDefault();
 
@@ -39,26 +49,41 @@ export async function onDownloadLinkClick(event) {
   // Default to true in case we encounter an error
   // determining validity through the API.
   let formPdfIsValid = true;
+  let formPdfUrlIsValid = true;
   let form = null;
 
   try {
     const forms = await fetchFormsApi(formNumber);
     form = forms.results.find(f => f.id === formNumber);
     formPdfIsValid = form?.attributes.validPdf;
+    if (formPdfIsValid) {
+      // URLS can be entered invalid, 400 is returned, this checks to make sure href is valid
+      const response = await fetch(downloadUrl);
+      if (!response.ok) formPdfUrlIsValid = false;
+    }
   } catch (err) {
-    // Todo
+    sentryLogger(
+      form,
+      formNumber,
+      downloadUrl,
+      'Find Forms - Form Detail - onDownloadLinkClick function error',
+    );
   }
 
-  if (formPdfIsValid) {
+  if (formPdfIsValid && formPdfUrlIsValid) {
     link.removeEventListener('click', onDownloadLinkClick);
     link.click();
   } else {
-    Sentry.withScope(scope => {
-      scope.setExtra('form API response', form);
-      scope.setExtra('form number', formNumber);
-      scope.setExtra('download link (invalid)', downloadUrl);
-      Sentry.captureMessage('Find Forms - Form Detail - invalid PDF accessed');
-    });
+    let errorMessage = 'Find Forms - Form Detail - invalid PDF accessed';
+
+    if (!formPdfIsValid && !formPdfUrlIsValid)
+      errorMessage =
+        'Find Forms - Form Detail - invalid PDF accessed & invalid PDF link';
+
+    if (formPdfIsValid && !formPdfUrlIsValid)
+      errorMessage = 'Find Forms - Form Detail - invalid PDF link';
+
+    sentryLogger(form, formNumber, downloadUrl, errorMessage);
 
     const div = document.createElement('div');
     const alertBox = <InvalidFormDownload downloadUrl={downloadUrl} />;
