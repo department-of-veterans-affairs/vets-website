@@ -24,7 +24,7 @@ export const getContestableIssues = props => {
     if (!foundBenefitType || !foundBenefitType?.isSupported) {
       return Promise.reject({
         error: 'invalidBenefitType',
-        type: foundBenefitType?.label || 'Unknown',
+        type: foundBenefitType?.label || benefitType || 'Unknown',
       }).catch(errors =>
         dispatch({
           type: FETCH_CONTESTABLE_ISSUES_FAILED,

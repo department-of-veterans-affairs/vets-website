@@ -442,7 +442,6 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/more providers$/i));
-    userEvent.click(await screen.findByText(/more providers$/i));
 
     const miles = screen.queryAllByText(/miles$/);
 

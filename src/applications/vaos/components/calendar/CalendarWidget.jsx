@@ -7,7 +7,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import CalendarRow from './CalendarRow';
 import CalendarNavigation from './CalendarNavigation';
 import CalendarWeekdayHeader from './CalendarWeekdayHeader';
-import { FETCH_STATUS } from '../../../utils/constants';
+import { FETCH_STATUS } from '../../utils/constants';
 
 const DEFAULT_MAX_DAYS_AHEAD = 90;
 

@@ -10,7 +10,7 @@ const getAppointmentIdFromUrl = (window, key = 'id') => {
 const addAppointmentIdToFormId = (appointmentId, formId) => {
   if (!formId) return null;
   if (!appointmentId) return formId;
-  return formId.includes(appointmentId) ? formId : `${formId}-${appointmentId}`;
+  return formId.includes(appointmentId) ? formId : `${formId}_${appointmentId}`;
 };
 
 const onFormEnter = id => {

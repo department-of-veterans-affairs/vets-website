@@ -8,7 +8,7 @@ import AddressView from './AddressView';
 import PhoneNumberView from './PhoneNumberView';
 
 const VeteranInformationDisplay = props => {
-  const { veteranInfo, data, setFormData, saveForm, formId, version } = props;
+  const { veteranInfo, data, setFormData } = props;
   const {
     fullName,
     dateOfBirth,
@@ -20,15 +20,12 @@ const VeteranInformationDisplay = props => {
 
   useEffect(
     () => {
-      // only updates teh SIP data if there is no vet information.
+      // only updates teh SIP data if there is no existing vet information.
       if (Object.keys(data.veteranInfo || {}).length === 0) {
-        // console.log( setFormData );
-        setFormData({ veteranInfo });
-        const returnUrl = '/demographics';
-        saveForm(formId, { ...data, veteranInfo }, version, returnUrl);
+        setFormData(veteranInfo);
       }
     },
-    [setFormData, saveForm, veteranInfo, formId, version, data],
+    [setFormData, veteranInfo, data],
   );
 
   return (
