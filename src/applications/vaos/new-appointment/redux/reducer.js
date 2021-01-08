@@ -117,7 +117,7 @@ const initialState = {
   isCCEligible: false,
   hideUpdateAddressAlert: false,
   requestLocationStatus: FETCH_STATUS.notStarted,
-  communityCareProviderList: [],
+  communityCareProviders: {},
   requestStatus: FETCH_STATUS.notStarted,
   currentLocation: {},
   ccProviderPageSortMethod: FACILITY_SORT_METHODS.distanceFromResidential,
@@ -1131,31 +1131,34 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_REQUESTED_PROVIDERS_SUCCEEDED: {
-      let communityCareProviderList = action.communityCareProviderList;
-      const address = action.address;
+      const { address, typeOfCareProviders } = action;
+      const { ccProviderPageSortMethod: sortMethod, data } = state;
+      const cacheKey = `${sortMethod}_${getTypeOfCare(data)?.ccId}`;
 
-      const sortMethod = state.ccProviderPageSortMethod
-        ? state.ccProviderPageSortMethod
-        : FACILITY_SORT_METHODS.distanceFromResidential;
-      communityCareProviderList = communityCareProviderList
-        .map(facility => {
-          const distance = distanceBetween(
-            address.latitude,
-            address.longitude,
-            facility.position.latitude,
-            facility.position.longitude,
-          );
-          return {
-            ...facility,
-            [sortMethod]: distance,
-          };
-        })
-        .sort((a, b) => a[sortMethod] - b[sortMethod]);
+      const providers =
+        state.communityCareProviders[cacheKey] ||
+        typeOfCareProviders
+          .map(facility => {
+            const distance = distanceBetween(
+              address.latitude,
+              address.longitude,
+              facility.position.latitude,
+              facility.position.longitude,
+            );
+            return {
+              ...facility,
+              [sortMethod]: distance,
+            };
+          })
+          .sort((a, b) => a[sortMethod] - b[sortMethod]);
 
       return {
         ...state,
         requestStatus: FETCH_STATUS.succeeded,
-        communityCareProviderList,
+        communityCareProviders: {
+          ...state.communityCareProviders,
+          [cacheKey]: providers,
+        },
       };
     }
     case FORM_REQUESTED_PROVIDERS_FAILED: {
