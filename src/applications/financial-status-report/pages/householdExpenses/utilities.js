@@ -28,7 +28,7 @@ export const uiSchema = {
         viewField: TableDetailsView,
         doNotScroll: true,
         showSave: true,
-        itemName: 'Add a utility',
+        itemName: 'utility',
       },
       items: {
         utilityType: {
