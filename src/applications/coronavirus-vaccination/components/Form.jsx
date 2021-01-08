@@ -70,8 +70,14 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
   }
 
   const launchProfile = e => {
+    recordEvent({
+      event: 'covid-vaccination--launchVAProfile',
+    });
     e.preventDefault();
-    return window.location.replace('/profile');
+    const a = document.createElement('a');
+    a.href = '/profile';
+    a.setAttribute('target', '_blank');
+    a.click();
   };
   return (
     <>
@@ -95,13 +101,14 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
 
       {isLoggedIn ? (
         <p>
-          <strong>Note:</strong> Any changes you make to your information here
-          won’t change your information in your VA.gov profile or any other
-          accounts. Please visit {/* <a href="/profile" target="_blank"> */}
+          <strong>Note:</strong> The information below is from your VA.gov
+          profile. If you need to make a change,{' '}
           <a href="#" onClick={launchProfile}>
-            your VA Profile
+            go to your profile now.
           </a>{' '}
-          if the below information is not correct.
+          {/* We can probably track this from analytics existing on VA Profile by looking at the previous page path. 
+          Waiting for confirmation from analytics team */}
+          {/* <a href="/profile" target="_blank"> */}
         </p>
       ) : null}
       {formState ? (
