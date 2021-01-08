@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
@@ -12,6 +12,9 @@ const ConfirmationPage = props => {
   const facility = appointment?.attributes?.vdsAppointments
     ? appointment.attributes.vdsAppointments[0]?.clinic.facility
     : null;
+  useEffect(() => {
+    window.sessionStorage.removeItem('currentHealthQuestionnaire');
+  }, []);
 
   return (
     <div className="healthcare-questionnaire-confirm">
