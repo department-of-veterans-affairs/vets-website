@@ -1170,18 +1170,27 @@ export function submitAppointmentOrRequest(history) {
 export function requestProvidersList(address) {
   return async (dispatch, getState) => {
     try {
-      const typeOfCare = getTypeOfCare(getState().newAppointment.data);
+      const newAppointment = getState().newAppointment;
+      const communityCareProviders = newAppointment.communityCareProviders;
+      const sortMethod = newAppointment.ccProviderPageSortMethod;
+      const typeOfCare = getTypeOfCare(newAppointment.data);
+      let typeOfCareProviders =
+        communityCareProviders[`${sortMethod}_${typeOfCare.ccId}`];
+
       dispatch({
         type: FORM_REQUESTED_PROVIDERS,
       });
 
-      const communityCareProviderList = await getCommunityProvidersByTypeOfCare(
-        { address, typeOfCare },
-      );
+      if (!typeOfCareProviders) {
+        typeOfCareProviders = await getCommunityProvidersByTypeOfCare({
+          address,
+          typeOfCare,
+        });
+      }
 
       dispatch({
         type: FORM_REQUESTED_PROVIDERS_SUCCEEDED,
-        communityCareProviderList,
+        typeOfCareProviders,
         address,
       });
     } catch (e) {

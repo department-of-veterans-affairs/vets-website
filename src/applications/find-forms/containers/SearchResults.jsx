@@ -26,7 +26,7 @@ export class SearchResults extends Component {
     results: PropTypes.arrayOf(customPropTypes.Form.isRequired),
     hasOnlyRetiredForms: PropTypes.bool.isRequired,
     startIndex: PropTypes.number.isRequired,
-    showFindFormsResultsLinkToFormDetailPages: PropTypes.bool.isRequired,
+    showFindFormsResultsLinkToFormDetailPages: PropTypes.bool,
     // From mapDispatchToProps.
     updatePagination: PropTypes.func.isRequired,
   };
@@ -137,12 +137,20 @@ export class SearchResults extends Component {
     // Derive the total number of pages.
     const totalPages = Math.ceil(results.length / MAX_PAGE_LIST_LENGTH);
 
+    const formMetaInfo = {
+      query,
+      currentPage: page,
+      totalResultsCount: results.length,
+      totalResultsPages: totalPages,
+    };
+
     const searchResults = results
       .slice(startIndex, lastIndex)
-      .map(form => (
+      .map((form, index) => (
         <SearchResult
           key={form.id}
           form={form}
+          formMetaInfo={{ ...formMetaInfo, currentPositionOnPage: index + 1 }}
           showFindFormsResultsLinkToFormDetailPages={
             showFindFormsResultsLinkToFormDetailPages
           }

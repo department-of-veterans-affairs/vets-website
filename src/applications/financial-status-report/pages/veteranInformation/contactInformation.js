@@ -1,5 +1,5 @@
 import React from 'react';
-import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
+import ReviewCardField from '../../components/ReviewCardField';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import ContactInfoCard from '../../components/ContactInfoCard';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
@@ -47,18 +47,17 @@ export const uiSchema = {
         </p>
       </>
     ),
-
-    // TODO: startInEdit
     'ui:field': ReviewCardField,
     'ui:options': {
-      viewComponent: ContactInfoCard,
-      startInEdit: false,
       editTitle: 'Edit mailing address',
+      viewComponent: ContactInfoCard,
     },
-
     livesOutsideUS: {
       'ui:title':
-        'I live on a United States military base outside of the United States',
+        'I live on a United States military base outside of the United States.',
+      'ui:options': {
+        widgetClassNames: 'checkbox-group',
+      },
     },
     livesOnMilitaryBaseInfo: {
       'ui:description': () => (
@@ -147,7 +146,6 @@ export const uiSchema = {
       'ui:title': 'State',
       'ui:options': {
         classNames: 'input-size-7',
-        hideIf: formData => formData.mailingAddress.livesOutsideUS,
         updateSchema: formData => {
           if (
             formData.mailingAddress.livesOutsideUS ||
@@ -164,7 +162,7 @@ export const uiSchema = {
           };
         },
       },
-      'ui:required': formData => !formData.mailingAddress.livesOutsideUS,
+      // 'ui:required': formData => !formData.mailingAddress.livesOutsideUS,
       'ui:validations': [
         {
           options: { addressPath: 'mailingAddress' },
@@ -179,14 +177,13 @@ export const uiSchema = {
     zipCode: {
       'ui:title': 'Postal code',
       'ui:validations': [validateZIP],
-      'ui:required': formData => !formData.mailingAddress.livesOutsideUS,
+      // 'ui:required': formData => !formData.mailingAddress.livesOutsideUS,
       'ui:errorMessages': {
         required: 'Please enter a postal code',
         pattern:
           'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
       },
       'ui:options': {
-        hideIf: formData => formData.mailingAddress.livesOutsideUS,
         classNames: 'input-size-2',
       },
     },
@@ -231,7 +228,7 @@ export const schema = {
   properties: {
     mailingAddress: {
       type: 'object',
-      required: ['country', 'city', 'addressLine1'],
+      // required: ['country', 'city', 'addressLine1'],
       properties: {
         livesOutsideUS: {
           type: 'boolean',

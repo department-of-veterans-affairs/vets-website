@@ -22,8 +22,6 @@ export const api = {
   },
 };
 
-export const FILTERABLE_LOCATIONS = ['health', 'benefits', 'provider'];
-
 /**
  * Build parameters and URL for facilities API calls
  *
@@ -37,6 +35,7 @@ export const resolveParamsWithUrl = (
   center,
   radius,
 ) => {
+  const filterableLocations = ['health', 'benefits', 'provider'];
   let facility;
   let service;
   let url = api.url;
@@ -90,7 +89,7 @@ export const resolveParamsWithUrl = (
       address ? `address=${address}` : null,
       ...bounds.map(c => `bbox[]=${c}`),
       facility ? `type=${facility}` : null,
-      FILTERABLE_LOCATIONS.includes(facility) && service
+      filterableLocations.includes(facility) && service
         ? `${url === api.ccUrl ? 'specialties' : 'services'}[]=${service}`
         : null,
       `page=${page}`,
@@ -125,6 +124,7 @@ export const healthServices = {
   All: 'All VA health services',
   PrimaryCare: 'Primary care',
   MentalHealthCare: 'Mental health care',
+  Covid19Vaccine: 'COVID-19 vaccines',
   DentalServices: 'Dental services',
   UrgentCare: 'Urgent care',
   EmergencyCare: 'Emergency care',
