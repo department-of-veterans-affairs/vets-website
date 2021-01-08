@@ -12,6 +12,8 @@ import {
 } from '../actions';
 import { loadAppointment } from '../api';
 
+import { getAppointTypeFromAppointment } from '../utils';
+
 const App = props => {
   const { location, children } = props;
   const {
@@ -30,10 +32,11 @@ const App = props => {
           const { data } = response;
           setLoadedAppointment(data);
           setIsLoading(false);
+          const apptType = getAppointTypeFromAppointment(data);
           setForm(f => {
             return {
               ...f,
-              title: 'Answer primary care questionnaire',
+              title: `Answer ${apptType} questionnaire`,
               subTitle:
                 data?.attributes?.vdsAppointments[0]?.clinic?.facility
                   ?.displayName,

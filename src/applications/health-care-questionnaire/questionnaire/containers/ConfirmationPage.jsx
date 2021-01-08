@@ -3,6 +3,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 
 import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import { getAppointTypeFromAppointment } from '../utils';
 
 const ConfirmationPage = props => {
   const { appointment, form } = props;
@@ -12,6 +13,10 @@ const ConfirmationPage = props => {
   const facility = appointment?.attributes?.vdsAppointments
     ? appointment.attributes.vdsAppointments[0]?.clinic.facility
     : null;
+
+  const appointmentType = getAppointTypeFromAppointment(appointment);
+  const title =
+    appointmentType.charAt(0).toUpperCase() + appointmentType.slice(1);
 
   return (
     <div className="healthcare-questionnaire-confirm">
@@ -31,7 +36,7 @@ const ConfirmationPage = props => {
       </div>
 
       <div className="inset">
-        <h2>Primary care questionnaire</h2>
+        <h2>{title} questionnaire</h2>
         {response?.veteranInfo?.fullName && (
           <p>
             For{' '}
