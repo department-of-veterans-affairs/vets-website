@@ -4,7 +4,7 @@
       "id": "20abc6741c00ac67b6cbf6b972d084c1",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2020-09-19T16:00:00Z",
+        "startDate": "2021-09-19T16:00:00Z",
         "clinicId": "308",
         "clinicFriendlyName": "Neighborhood Clinic",
         "facilityId": "983",
@@ -14,7 +14,7 @@
           {
             "bookingNote": "CC vista appt",
             "appointmentLength": "60",
-            "appointmentTime": "2020-09-19T16:00:00Z",
+            "appointmentTime": "2021-09-19T16:00:00Z",
             "clinic": {
               "name": "CHY OPT VAR1",
               "askForCheckIn": false,
@@ -256,7 +256,7 @@
       "id": "21cdc6741c00ac67b6cbf6b972d084c1",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2025-06-19T16:00:00Z",
+        "startDate": "2021-06-19T16:00:00Z",
         "clinicId": "308",
         "clinicFriendlyName": "Jennie's Lab",
         "facilityId": "983",
@@ -264,9 +264,9 @@
         "communityCare": false,
         "vdsAppointments": [
           {
-            "bookingNote": "RP test",
+            "bookingNote": "New issue: ASAP",
             "appointmentLength": "60",
-            "appointmentTime": "2020-12-07T16:00:00Z",
+            "appointmentTime": "2021-12-07T16:00:00Z",
             "clinic": {
               "name": "CHY OPT VAR1",
               "askForCheckIn": false,
@@ -283,17 +283,18 @@
       "id": "22cdc6741c00ac67b6cbf6b972d084c0",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2020-02-07T16:00:00Z",
+        "startDate": "2021-06-20T16:00:00Z",
         "clinicId": "308",
         "clinicFriendlyName": null,
         "facilityId": "983",
         "sta6aid": "983",
         "communityCare": false,
+        "phoneOnly": true,
         "vdsAppointments": [
           {
-            "bookingNote": "RP test",
+            "bookingNote": "Medication concern: test",
             "appointmentLength": "60",
-            "appointmentTime": "2020-12-07T16:00:00Z",
+            "appointmentTime": "2021-06-20T16:00:00Z",
             "clinic": {
               "name": "CHY OPT VAR1",
               "askForCheckIn": false,

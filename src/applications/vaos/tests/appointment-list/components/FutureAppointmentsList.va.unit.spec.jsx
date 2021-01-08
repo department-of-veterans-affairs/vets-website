@@ -64,6 +64,25 @@ describe('VAOS integration: upcoming VA appointments', () => {
     expect(getByText(/cancel appointment/i)).to.have.tagName('button');
   });
 
+  it('should show header for phone appointments', async () => {
+    const appointment = getVAAppointmentMock();
+    appointment.attributes.phoneOnly = true;
+    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+    mockAppointmentInfo({ va: [appointment] });
+
+    const { findByText, baseElement } = renderWithStoreAndRouter(
+      <FutureAppointmentsList />,
+      {
+        initialState,
+        reducers,
+      },
+    );
+
+    await findByText(new RegExp(moment().format('dddd, MMMM D, YYYY'), 'i'));
+
+    expect(baseElement).to.contain.text('VA Appointment over the phone');
+  });
+
   it('should show information with facility details', async () => {
     const appointment = getVAAppointmentMock();
     appointment.attributes = {

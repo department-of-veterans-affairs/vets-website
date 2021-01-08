@@ -60,6 +60,7 @@ export default function ConfirmedAppointmentListItem({
   const isInPersonVAAppointment = !isVideo && !isCommunityCare;
   const isAtlas = isAtlasLocation(appointment);
   const videoKind = getVideoKind(appointment);
+  const isPhoneAppointment = appointment.legacyVAR.apiData.phoneOnly;
 
   const showInstructions =
     isCommunityCare ||
@@ -97,6 +98,7 @@ export default function ConfirmedAppointmentListItem({
   let header;
   let location;
   let vvcHeader = '';
+  let phoneApptHeader = '';
 
   if (isAtlas) {
     header = 'VA Video Connect';
@@ -132,6 +134,9 @@ export default function ConfirmedAppointmentListItem({
   } else {
     header = 'VA Appointment';
     location = facility ? formatFacilityAddress(facility) : null;
+    if (isPhoneAppointment) {
+      phoneApptHeader = ' over the phone';
+    }
   }
 
   return (
@@ -146,7 +151,10 @@ export default function ConfirmedAppointmentListItem({
         className="vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans"
       >
         <span className="vaos-form__title">{header}</span>
-        <span>{vvcHeader}</span>
+        <span>
+          {vvcHeader}
+          {phoneApptHeader}
+        </span>
       </div>
       <h3 className="vaos-appts__date-time vads-u-font-size--h3 vads-u-margin-x--0">
         <AppointmentDateTime
