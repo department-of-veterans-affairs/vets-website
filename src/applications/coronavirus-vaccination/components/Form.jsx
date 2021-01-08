@@ -69,6 +69,10 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
     return <LoadingIndicator message="Submitting your form..." />;
   }
 
+  const launchProfile = e => {
+    e.preventDefault();
+    return window.location.replace('/profile');
+  };
   return (
     <>
       <h1 id="covid-vaccination-heading-form" className="no-outline">
@@ -93,8 +97,8 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
         <p>
           <strong>Note:</strong> Any changes you make to your information here
           won’t change your information in your VA.gov profile or any other
-          accounts. Please visit{' '}
-          <a href="/profile" target="_blank">
+          accounts. Please visit {/* <a href="/profile" target="_blank"> */}
+          <a href="#" onClick={launchProfile}>
             your VA Profile
           </a>{' '}
           if the below information is not correct.
