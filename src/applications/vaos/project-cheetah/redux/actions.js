@@ -232,8 +232,6 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
     const newBooking = selectProjectCheetahNewBooking(state);
     const { data } = newBooking;
 
-    data.typeOfCareId = '301';
-
     const startDateMonth = moment(startDate).format('YYYY-MM');
     const endDateMonth = moment(endDate).format('YYYY-MM');
 
