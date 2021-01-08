@@ -13,7 +13,7 @@ function generateWebpackDevConfig(buildOptions) {
 
   // This buildType likely always be 'localhost', but adding in to match patterns elsewhere and just incase we ever need it
   const publicAssetPath =
-    buildOptions.buildtype === 'vagovdev' // just for dev  so we can test it, will add staging in the next merge after testing
+    buildOptions.buildtype !== 'localhost' // activate this for staging, dev, and prod
       ? `${BUCKETS[buildOptions.buildtype]}/generated/`
       : '/generated/';
 
