@@ -6,7 +6,7 @@ import moment from 'moment';
 import * as actions from '../redux/actions';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import FormButtons from '../../components/FormButtons';
-import CalendarWidget from './calendar/CalendarWidget';
+import CalendarWidget from '../../components/calendar/CalendarWidget';
 import { getFormPageInfo } from '../redux/selectors';
 import { CALENDAR_INDICATOR_TYPES } from '../../utils/constants';
 
