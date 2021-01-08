@@ -154,7 +154,7 @@ export const BankInfoCNP = ({
           recordEvent({
             event: 'profile-navigation',
             'profile-action': 'edit-link',
-            'profile-section': 'direct-deposit-information',
+            'profile-section': 'cnp-direct-deposit-information',
           });
           toggleEditState();
         }}
@@ -173,7 +173,7 @@ export const BankInfoCNP = ({
         recordEvent({
           event: 'profile-navigation',
           'profile-action': 'add-link',
-          'profile-section': 'direct-deposit-information',
+          'profile-section': 'cnp-direct-deposit-information',
         });
         toggleEditState();
       }}

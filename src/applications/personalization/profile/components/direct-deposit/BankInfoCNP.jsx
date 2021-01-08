@@ -18,7 +18,9 @@ import {
   isLOA3 as isLOA3Selector,
   isMultifactorEnabled,
 } from '~/platform/user/selectors';
+import environment from 'platform/utilities/environment';
 import { usePrevious } from '~/platform/utilities/react-hooks';
+
 import {
   editCNPPaymentInformationToggled,
   saveCNPPaymentInformation as savePaymentInformationAction,
@@ -147,6 +149,8 @@ export const BankInfoCNP = ({
     toggleEditState();
   };
 
+  const isProd = () => (!environment.isProduction() ? 'cnp-' : '');
+
   // When direct deposit is already set up we will show the current bank info
   const bankInfoContent = (
     <div className={classes.bankInfo}>
@@ -168,7 +172,7 @@ export const BankInfoCNP = ({
           recordEvent({
             event: 'profile-navigation',
             'profile-action': 'edit-link',
-            'profile-section': 'direct-deposit-information',
+            'profile-section': `${isProd}direct-deposit-information`,
           });
           toggleEditState();
         }}
@@ -187,7 +191,7 @@ export const BankInfoCNP = ({
         recordEvent({
           event: 'profile-navigation',
           'profile-action': 'add-link',
-          'profile-section': 'direct-deposit-information',
+          'profile-section': `${isProd}direct-deposit-information`,
         });
         toggleEditState();
       }}
