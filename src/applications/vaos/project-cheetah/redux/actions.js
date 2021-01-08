@@ -233,7 +233,6 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
     const { data } = newBooking;
 
     data.typeOfCareId = '301';
-    data.clinicId = 'var983_455';
 
     const startDateMonth = moment(startDate).format('YYYY-MM');
     const endDateMonth = moment(endDate).format('YYYY-MM');
@@ -271,7 +270,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
 
         const fetchedSlots = await getSlots({
           siteId,
-          typeOfCareId: data.typeOfCareId,
+          typeOfCareId: TYPE_OF_CARE_ID,
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
@@ -333,11 +332,9 @@ export function openClinicPage(page, uiSchema, schema) {
   };
 }
 
-export function startAppointmentFlow(isCommunityCare) {
+export function startAppointmentFlow() {
   recordEvent({
-    event: `vaos-${
-      isCommunityCare ? 'community-care' : 'projectCheetah'
-    }-path-started`,
+    event: `vaos-'projectCheetah-path-started`,
   });
 
   return {

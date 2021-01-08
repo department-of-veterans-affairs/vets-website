@@ -44,7 +44,7 @@ export function getOptionsByDate(
   }, []);
 }
 
-function ErrorMessage({ facilityId, requestAppointmentDateChoice }) {
+function ErrorMessage({ facilityId }) {
   return (
     <div aria-atomic="true" aria-live="assertive">
       <AlertBox
@@ -52,13 +52,6 @@ function ErrorMessage({ facilityId, requestAppointmentDateChoice }) {
         headline="We’ve run into a problem when trying to find available appointment times"
       >
         To schedule this appointment, you can{' '}
-        <button
-          onClick={() => requestAppointmentDateChoice(history)}
-          className="va-button-link"
-        >
-          submit a request for a VA appointment
-        </button>{' '}
-        or{' '}
         <a
           href={`/find-locations/facility/vha_${getRealFacilityId(facilityId)}`}
           rel="noopener noreferrer"
@@ -117,7 +110,6 @@ export function SelectDate2Page({
   pageChangeInProgress,
   onCalendar2Change,
   routeToPreviousAppointmentPage,
-  requestAppointmentDateChoice,
   routeToNextAppointmentPage,
   timezone,
   timezoneDescription,
@@ -125,13 +117,18 @@ export function SelectDate2Page({
   const history = useHistory();
   const [submitted, setSubmitted] = useState(false);
   const [validationError, setValidationError] = useState(null);
+  const previousDateCalendarData = data?.calendarData || {};
+  const previousDateCurrentlySelectedDate =
+    previousDateCalendarData.currentlySelectedDate;
+  const calendarData = data?.calendar2Data || {};
+  const { currentlySelectedDate, selectedDates } = calendarData;
 
   useEffect(() => {
     getAppointmentSlots(
-      moment()
+      moment(previousDateCurrentlySelectedDate)
         .startOf('month')
         .format('YYYY-MM-DD'),
-      moment()
+      moment(previousDateCurrentlySelectedDate)
         .add(1, 'months')
         .endOf('month')
         .format('YYYY-MM-DD'),
@@ -149,12 +146,6 @@ export function SelectDate2Page({
     },
     [validationError, submitted],
   );
-
-  const previousDateCalendarData = data?.calendarData || {};
-  const previousDateCurrentlySelectedDate =
-    previousDateCalendarData.currentlySelectedDate;
-  const calendarData = data?.calendar2Data || {};
-  const { currentlySelectedDate, selectedDates } = calendarData;
 
   return (
     <div>
@@ -179,12 +170,7 @@ export function SelectDate2Page({
             getOptionsByDate(selectedDate, timezone, availableSlots),
         }}
         loadingStatus={appointmentSlotsStatus}
-        loadingErrorMessage={
-          <ErrorMessage
-            facilityId={facilityId}
-            requestAppointmentDateChoice={requestAppointmentDateChoice}
-          />
-        }
+        loadingErrorMessage={<ErrorMessage facilityId={facilityId} />}
         onChange={newData => {
           validate({ calendarData: newData, setValidationError });
           onCalendar2Change(newData);
@@ -229,7 +215,6 @@ const mapDispatchToProps = {
   routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
   routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
   startRequestAppointmentFlow: actions.startAppointmentFlow,
-  requestAppointmentDateChoice: actions.projectCheetahAppointmentDateChoice,
 };
 
 export default connect(
