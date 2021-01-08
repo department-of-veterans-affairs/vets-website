@@ -8,9 +8,9 @@ import { unsubscribe } from '../api';
 
 import { focusElement } from 'platform/utilities/ui';
 
-// Assumes URL is like /unsubscribe/{sid}
-function Unsubscribe({ params }) {
-  const sid = { sid: params.sid };
+// Assumes URL is like /unsubscribe?sid={sid}
+function Unsubscribe({ router }) {
+  const sid = { sid: router.location.query.sid };
 
   const [unsubscribeStatus, setUnsubscribeStatus] = useState(
     requestStates.notCalled,

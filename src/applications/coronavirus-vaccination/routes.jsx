@@ -17,11 +17,7 @@ const routes = (
         key="/confirmation"
         path="/confirmation"
       />
-      <Route
-        component={Unsubscribe}
-        key="/unsubscribe/:sid"
-        path="/unsubscribe/:sid"
-      />
+      <Route component={Unsubscribe} path="/unsubscribe" />
     </Route>
   </Route>
 );

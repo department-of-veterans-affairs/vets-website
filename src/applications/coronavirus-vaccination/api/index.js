@@ -18,7 +18,7 @@ export const saveForm = formData => {
 
 export const unsubscribe = sid => {
   return apiRequest(unsubscribeUrl, {
-    method: 'POST',
+    method: 'PUT',
     body: JSON.stringify(sid),
     headers: {
       'Content-Type': 'application/json',
