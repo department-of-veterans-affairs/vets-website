@@ -14,9 +14,9 @@ const ConfirmationPage = props => {
     ? appointment.attributes.vdsAppointments[0]?.clinic.facility
     : null;
 
-  const appointmentType = getAppointTypeFromAppointment(appointment);
-  const title =
-    appointmentType.charAt(0).toUpperCase() + appointmentType.slice(1);
+  const appointmentType = getAppointTypeFromAppointment(appointment, {
+    titleCase: true,
+  });
 
   return (
     <div className="healthcare-questionnaire-confirm">
@@ -36,7 +36,7 @@ const ConfirmationPage = props => {
       </div>
 
       <div className="inset">
-        <h2>{title} questionnaire</h2>
+        <h2>{appointmentType} questionnaire</h2>
         {response?.veteranInfo?.fullName && (
           <p>
             For{' '}

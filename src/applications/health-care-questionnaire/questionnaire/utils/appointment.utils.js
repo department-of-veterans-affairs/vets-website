@@ -60,7 +60,31 @@ const getBookingNoteFromAppointment = data => {
   return display;
 };
 
-const getAppointTypeFromAppointment = data => {
+const getAppointmentTypeFromClinic = (clinic, options = {}) => {
+  const { titleCase } = options;
+  const { stopCode } = clinic;
+  if (!stopCode) {
+    return null;
+  }
+  // Waiting till we expand our MVP to add more stop codes here
+  let appointmentType = null;
+  switch (stopCode.toString()) {
+    case '323':
+      appointmentType = 'primary care BAAAAAH';
+      break;
+    case '502':
+      appointmentType = 'mental health';
+      break;
+    default:
+      return appointmentType;
+  }
+
+  return titleCase
+    ? appointmentType.charAt(0).toUpperCase() + appointmentType.slice(1)
+    : appointmentType;
+};
+
+const getAppointTypeFromAppointment = (data, options = {}) => {
   const appointment = data?.attributes;
   if (!appointment) {
     return null;
@@ -73,20 +97,10 @@ const getAppointTypeFromAppointment = data => {
   if (!clinic) {
     return null;
   }
-  const { stopCode } = clinic;
-  if (!stopCode) {
-    return null;
-  }
-  // Waiting till we expand our MVP to add more stop codes here
-  switch (clinic.stopCode.toString()) {
-    case '323':
-      return 'primary care BAAAAAH';
-    case '502':
-      return 'mental health';
-    default:
-      return null;
-  }
+
+  return getAppointmentTypeFromClinic(clinic, options);
 };
+
 const getAppointmentTimeFromAppointment = data => {
   const appointment = data?.attributes;
   if (!appointment) {
@@ -103,4 +117,5 @@ export {
   getBookingNoteFromAppointment,
   getAppointTypeFromAppointment,
   getAppointmentTimeFromAppointment,
+  getAppointmentTypeFromClinic,
 };
