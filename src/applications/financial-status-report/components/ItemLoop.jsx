@@ -295,6 +295,10 @@ const ItemLoop = ({
       }
       return false;
     });
+
+    if (editing.length === 1) {
+      setShowTable(false);
+    }
     setOldData(formData);
     setEditing(editData);
     scrollToRow(`${idSchema.$id}_${index}`);
