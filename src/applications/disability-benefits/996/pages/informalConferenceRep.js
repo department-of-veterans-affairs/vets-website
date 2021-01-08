@@ -5,7 +5,6 @@ import { errorMessages } from '../constants';
 
 import {
   ContactRepresentativeTitle,
-  ContactRepresentativeDescription,
   RepresentativeNameTitle,
   RepresentativePhoneTitle,
 } from '../content/InformalConference';
@@ -18,7 +17,6 @@ export default {
     },
     informalConferenceRep: {
       'ui:title': ContactRepresentativeTitle,
-      'ui:description': ContactRepresentativeDescription,
       name: {
         'ui:title': RepresentativeNameTitle,
         'ui:required': formData => formData?.informalConference === 'rep',
