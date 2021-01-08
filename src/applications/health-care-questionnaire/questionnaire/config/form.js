@@ -1,6 +1,7 @@
-// import fullSchema from 'vets-json-schema/dist/HC-QSTNR-schema.json';
-
 import React from 'react';
+
+import environment from 'platform/utilities/environment';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -10,8 +11,7 @@ import ReasonForVisitDescription from '../components/reason-for-visit-descriptio
 import GetHelp from '../components/get-help';
 import ExpiresAt from '../components/expires-at';
 
-import environment from 'platform/utilities/environment';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+import { TITLES, createPathFromTitle } from './utils';
 
 import manifest from '../manifest.json';
 
@@ -66,9 +66,9 @@ const formConfig = {
       reviewDescription: VeteranInfoPage.review,
       pages: {
         demographicsPage: {
-          path: 'demographics',
+          path: createPathFromTitle(TITLES.demographics),
           hideHeaderRow: true,
-          title: 'Veteran Information',
+          title: TITLES.demographics,
           uiSchema: {
             veteranInfo: {
               'ui:field': VeteranInfoPage.field,
@@ -103,8 +103,8 @@ const formConfig = {
       title: 'Prepare for Your Appointment',
       pages: {
         reasonForVisit: {
-          path: 'reason-for-visit',
-          title: 'Prepare for Your Appointment',
+          path: createPathFromTitle(TITLES.reasonForVisit),
+          title: TITLES.reasonForVisit,
           uiSchema: {
             reasonForVisit: {
               'ui:field': ReasonForVisit.field,
