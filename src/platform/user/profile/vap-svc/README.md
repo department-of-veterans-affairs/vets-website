@@ -1,4 +1,4 @@
-This directory contains the React components and state management for interfacing with VA Profile Service (AKA vap-svc, vapService, VAPService in the application), a VA service that processes updates by updating the field in multiple data sources. The work here has been extracted from the Profile application to be easily imported into other applications, and is warranted because the VA Profile Service data flow operates via "transactions", which is more complex than the more common model of an API responding directly to a request with the updated record or errors.
+This directory contains the React components and state management for interfacing with VA Profile Service (AKA vap, vap-svc, vapService, VAPService in the application), a VA service that processes updates by updating the field in multiple data sources. The work here has been extracted from the Profile application to be easily imported into other applications, and is warranted because the VA Profile Service data flow operates via "transactions", which is more complex than the more common model of an API responding directly to a request with the updated record or errors.
 
 Currently, VA Profile Service's scope is limited to veteran contact information, which consists of the following fields:
 
@@ -22,11 +22,13 @@ Follow these steps to get started in your own application:
 
 This should hopefully be all you need to know to work with VA Profile Service, but there's more information below in case you would like to become familiar with how the components work.
 
+At the moment of writing, `letters` is the only application that is already using vap-svc components. An example can be found here, were we use `MailingAddress`: `src/applications/letters/containers/AddressSection.jsx`.
+
 ## VA Profile Service Reducer (vapService)
-The VA Profile Service reducer is necessary in order to manage transactions (more on that below), as well as certain interactions with the UI (opening an edit-modal after a user clicks "edit", for example.) It contains the following properties-
+The VA Profile Service reducer is necessary in order to manage transactions (more on that below), as well as certain interactions with the UI (opening an edit-modal or edit view after a user clicks "edit", for example.) It contains the following properties-
 
 1. `modal`
-    - A string value indicating which field's edit-modal should be visible.
+    - A string value indicating which field is being edited.
 2. `initialFormFields`
     - The value of initialFormFields is set to an empty object if the user has not yet filled out any contact information and otherwise includes any already saved contact information. The value is set when `UPDATE_PROFILE_FORM_FIELD` is triggered upon initial opening of the edit modal / rendering of the edit view.
 3. `formFields`
@@ -41,7 +43,7 @@ The VA Profile Service reducer is necessary in order to manage transactions (mor
     - A transaction may exist in the `transactions` array but without a field-mapping in the `fieldTransactionMap` if transactions are found via the `fetchTransactions` action.
     - If there is no active transaction for a field or the specific field can't be determined because of the reason described above, then the value for a field will be `undefined`.
 7. `transactionsAwaitingUpdate`
-    - An array of transaction IDs, each one corresponding to a request at `/v0/profile/person/status/{transaction_id}`. This is effectively used to prevent the API from being hit quicker than it can respond while we are polling for transaction updates.
+    - An array of transaction IDs, each one corresponding to a request at `/v0/profile/status/{transaction_id}`. This is effectively used to prevent the API from being hit quicker than it can respond while we are polling for transaction updates.
 8. `metadata`
     - Anything else about the transactions data. Currently, it contains only a `mostRecentErroredTransactionId` property, which is used to render error messaging for the most recent rejected transaction. It is necessary because transactions aren't timestamped.
 9. `hasUnsavedEdits`
