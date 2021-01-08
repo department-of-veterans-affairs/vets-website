@@ -3,8 +3,8 @@ import sinon from 'sinon';
 
 import { clearCurrentSession } from '../../../utils';
 
-describe('health care questionnaire -- utils -- set current id in session storage', () => {
-  it('window is undefined', () => {
+describe('health care questionnaire -- utils -- clear current id in session storage', () => {
+  it('should called removeItem', () => {
     const removeItem = sinon.spy();
     const window = {
       sessionStorage: {
