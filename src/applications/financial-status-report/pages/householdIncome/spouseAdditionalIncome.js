@@ -23,7 +23,7 @@ export const uiSchema = {
         viewField: TableDetailsView,
         doNotScroll: true,
         showSave: true,
-        itemName: 'Add income',
+        itemName: 'income',
       },
       items: {
         incomeType: {

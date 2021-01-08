@@ -88,6 +88,7 @@ const InputSection = ({
     registry.definitions,
   );
 
+  const titlePrefix = editing[index] === 'add' ? 'Add' : 'Edit';
   const containerClassNames = classNames('item-loop', {
     'vads-u-border-bottom--1px':
       uiSchema['ui:options'].viewType === 'table' && items?.length > 1,
@@ -102,7 +103,7 @@ const InputSection = ({
             {items?.length &&
               uiSchema['ui:options'].itemName && (
                 <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--2">
-                  {uiSchema['ui:options'].itemName}
+                  {titlePrefix} {uiSchema['ui:options'].itemName}
                 </h3>
               )}
             <SchemaField
@@ -169,7 +170,7 @@ const AddAnotherButton = ({
           disabled={!formData || addAnotherDisabled}
           onClick={() => handleAdd()}
         >
-          {uiOptions.itemName ? uiOptions.itemName : 'Add another'}
+          {uiOptions.itemName ? `Add ${uiOptions.itemName}` : 'Add another'}
         </a>
       </div>
     </div>
@@ -336,6 +337,7 @@ const ItemLoop = ({
   };
 
   const handleAdd = () => {
+    if (!formData) return;
     const lastIndex = formData.length - 1;
     if (errorSchemaIsValid(errorSchema[lastIndex])) {
       const editData = editing.map(() => false);
