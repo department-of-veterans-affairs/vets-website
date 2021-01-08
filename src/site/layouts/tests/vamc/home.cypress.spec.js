@@ -20,18 +20,13 @@ Cypress.Commands.add('checkElements', page => {
   cy.get('#stories').contains('Stories');
 
   // If there are any upcoming events, there should be an Events section header
-  cy.visit('/pittsburgh-health-care/events/');
-  cy.get('[data-template="teasers/event"]').then(eventElements => {
-    cy.task('log', `eventElements: ${eventElements}`);
-    cy.visit(page);
-    if (eventElements.length > 0) {
+  cy.window().then(win => {
+    if (win.contentData.allEventTeasers.entities.length > 0) {
       cy.get('#events')
         .contains('Events')
         .should('exist');
     } else {
-      cy.get('#events')
-        .contains('Events')
-        .should('not.exist');
+      cy.get('#events').should('not.exist');
     }
   });
 });
