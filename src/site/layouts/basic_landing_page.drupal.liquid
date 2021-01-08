@@ -63,43 +63,50 @@
             </div>
           </div>
 
-          {% if audienceTags != empty %}
-            <h2>Browse by audience</h2>
-            <ul class="usa-unstyled-list">
+          {% comment %}
+            On hold until we have a large set of audience-types
+          {% endcomment %}
+          {% if buildtype != 'vagovprod' %}
 
-              {% assign pageSize = 5 %}
+            {% if audienceTags != empty %}
+              <h2>Browse by audience</h2>
+              <ul class="usa-unstyled-list">
 
-              {% for audienceTag in audienceTags %}
-                {% if forloop.index <= pageSize %}
-                  <li class="vads-u-margin-y--2">
-                    <a class="vads-u-font-weight--bold vads-u-text-decoration--none" href="{{ audienceTag.path.alias }}/">
-                      {{ audienceTag.name }}
-                      <i role="presentation" aria-hidden="true" class="fa fa-chevron-right vads-u-margin-left--1"> </i>
-                    </a>
-                  </li>
-                {% endif %}
-              {% endfor %}
+                {% assign pageSize = 5 %}
 
-              {% if audienceTags.length > pageSize %}
-                <div class="form-expanding-group additional-info-container vads-u-margin-y--2p5">
-                  <div class="additional-info-title">Show more</div>
-                  {% assign remainingAudienceTags = audienceTags | sliceArrayFromStart: pageSize %}
-                  <span>
-                      <div class="additional-info-content">
-                        <ul class="usa-unstyled-list">
-                          {% for audienceTag in remainingAudienceTags %}
-                            <li class="vads-u-margin-y--2">
-                              <a class="vads-u-font-weight--bold vads-u-text-decoration--none" href="{{ audienceTag.path.alias }}/">
-                                {{ audienceTag.name }}
-                                <i role="presentation" aria-hidden="true" class="fa fa-chevron-right vads-u-margin-left--1"> </i>
-                              </a>
-                            </li>
-                          {% endfor %}
-                        </ul>
-                      </div>
-                  </span>
-              </div>
+                {% for audienceTag in audienceTags %}
+                  {% if forloop.index <= pageSize %}
+                    <li class="vads-u-margin-y--2">
+                      <a class="vads-u-font-weight--bold vads-u-text-decoration--none" href="{{ audienceTag.path.alias }}/">
+                        {{ audienceTag.name }}
+                        <i role="presentation" aria-hidden="true" class="fa fa-chevron-right vads-u-margin-left--1"> </i>
+                      </a>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+
+                {% if audienceTags.length > pageSize %}
+                  <div class="form-expanding-group additional-info-container vads-u-margin-y--2p5">
+                    <div class="additional-info-title">Show more</div>
+                    {% assign remainingAudienceTags = audienceTags | sliceArrayFromStart: pageSize %}
+                    <span>
+                        <div class="additional-info-content">
+                          <ul class="usa-unstyled-list">
+                            {% for audienceTag in remainingAudienceTags %}
+                              <li class="vads-u-margin-y--2">
+                                <a class="vads-u-font-weight--bold vads-u-text-decoration--none" href="{{ audienceTag.path.alias }}/">
+                                  {{ audienceTag.name }}
+                                  <i role="presentation" aria-hidden="true" class="fa fa-chevron-right vads-u-margin-left--1"> </i>
+                                </a>
+                              </li>
+                            {% endfor %}
+                          </ul>
+                        </div>
+                    </span>
+                </div>
+              {% endif %}
             {% endif %}
+
           {% endif %}
 
           <!-- Content blocks -->
