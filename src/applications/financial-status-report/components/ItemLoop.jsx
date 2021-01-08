@@ -29,7 +29,7 @@ const Header = ({
     typeof description === 'function' ? uiSchema['ui:description'] : null;
 
   return (
-    <div className="schemaform-block-header">
+    <div className="schemaform-block-header item-loop-header">
       {title &&
         !hideTitle && (
           <TitleField
@@ -288,9 +288,7 @@ const ItemLoop = ({
     e.preventDefault();
     setShowTable(true);
     if (errorSchemaIsValid(errorSchema[index])) {
-      const editData = editing.map(() => {
-        return false;
-      });
+      const editData = editing.map(() => false);
       setEditing(editData);
       scrollToRow(`${idSchema.$id}_${index}`);
     } else {
@@ -305,9 +303,7 @@ const ItemLoop = ({
   const handleAdd = () => {
     const lastIndex = formData.length - 1;
     if (errorSchemaIsValid(errorSchema[lastIndex])) {
-      const editData = editing.map(() => {
-        return false;
-      });
+      const editData = editing.map(() => false);
 
       setShowTable(true);
       setEditing([...editData, true]);
@@ -344,7 +340,7 @@ const ItemLoop = ({
       : [getDefaultFormState(schema, undefined, registry.definitions)];
 
   const containerClassNames = classNames({
-    'schemaform-field-container': true,
+    'item-loop-container': true,
     'schemaform-block': hasTitleOrDescription,
   });
 
@@ -371,13 +367,11 @@ const ItemLoop = ({
             {showTable && (
               <thead className="vads-u-border-bottom--1px">
                 <tr>
-                  {tableHeaders.map((item, i) => {
-                    return (
-                      <th key={i} className="vads-u-border--0">
-                        {item}
-                      </th>
-                    );
-                  })}
+                  {tableHeaders.map((item, i) => (
+                    <th key={i} className="vads-u-border--0">
+                      {item}
+                    </th>
+                  ))}
                   <th className="vads-u-border--0" />
                 </tr>
               </thead>

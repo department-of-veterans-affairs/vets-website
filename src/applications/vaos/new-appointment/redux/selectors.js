@@ -251,19 +251,24 @@ export function selectCernerOrgIds(state) {
 
 export function selectProviderSelectionInfo(state) {
   const {
-    communityCareProviderList,
+    communityCareProviders,
+    data,
     requestStatus,
     requestLocationStatus,
     currentLocation,
-    ccProviderPageSortMethod,
+    ccProviderPageSortMethod: sortMethod,
   } = getNewAppointment(state);
+
+  const typeOfCareId = getTypeOfCare(data).ccId;
+
   return {
     address: selectVAPResidentialAddress(state),
-    communityCareProviderList,
+    communityCareProviderList:
+      communityCareProviders[`${sortMethod}_${typeOfCareId}`] || [],
     requestStatus,
     requestLocationStatus,
     currentLocation,
-    sortMethod: ccProviderPageSortMethod,
+    sortMethod,
   };
 }
 
@@ -313,6 +318,7 @@ export function getFacilityPageV2Info(state) {
     showEligibilityModal,
     sortMethod: facilityPageSortMethod,
     typeOfCare: typeOfCare?.name,
+    typeOfCareId: typeOfCare?.id,
   };
 }
 

@@ -11,10 +11,10 @@ import {
 } from 'platform/user/selectors';
 import newAppointmentFlow from '../newAppointmentFlow';
 import {
-  vaosDirectScheduling,
-  vaosCommunityCare,
+  selectFeatureDirectScheduling,
+  selectFeatureCommunityCare,
   selectSystemIds,
-  vaosVSPAppointmentNew,
+  selectFeatureVSPAppointmentNew,
   selectIsCernerOnlyPatient,
   selectUseFlatFacilityPage,
 } from '../../redux/selectors';
@@ -266,7 +266,7 @@ export function openTypeOfCarePage(page, uiSchema, schema) {
     const email = selectVAPEmailAddress(state);
     const homePhone = selectVAPHomePhoneString(state);
     const mobilePhone = selectVAPMobilePhoneString(state);
-    const showCommunityCare = vaosCommunityCare(state);
+    const showCommunityCare = selectFeatureCommunityCare(state);
 
     const phoneNumber = mobilePhone || homePhone;
     dispatch({
@@ -307,8 +307,8 @@ export function fetchFacilityDetails(facilityId) {
 export function checkEligibility({ location, siteId, showModal }) {
   return async (dispatch, getState) => {
     const state = getState();
-    const useVSP = vaosVSPAppointmentNew(state);
-    const directSchedulingEnabled = vaosDirectScheduling(state);
+    const useVSP = selectFeatureVSPAppointmentNew(state);
+    const directSchedulingEnabled = selectFeatureDirectScheduling(state);
     const typeOfCareId = getTypeOfCare(getState().newAppointment.data)?.id;
 
     dispatch({
@@ -370,12 +370,14 @@ export function openFacilityPageV2(page, uiSchema, schema) {
     try {
       const initialState = getState();
       const newAppointment = initialState.newAppointment;
-      const directSchedulingEnabled = vaosDirectScheduling(initialState);
+      const directSchedulingEnabled = selectFeatureDirectScheduling(
+        initialState,
+      );
       const typeOfCare = getTypeOfCare(newAppointment.data);
       const typeOfCareId = typeOfCare?.id;
       if (typeOfCareId) {
         const siteIds = selectSystemIds(initialState);
-        const useVSP = vaosVSPAppointmentNew(initialState);
+        const useVSP = selectFeatureVSPAppointmentNew(initialState);
         let typeOfCareFacilities = getTypeOfCareFacilities(initialState);
         let siteId = null;
         let facilityId = newAppointment.data.vaFacility;
@@ -397,7 +399,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         // Fetch facilities that support this type of care
         if (!typeOfCareFacilities) {
           typeOfCareFacilities = await getLocationsByTypeOfCareAndSiteIds({
-            typeOfCareId,
             siteIds,
             directSchedulingEnabled,
           });
@@ -422,8 +423,8 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         // fetch eligbility data immediately
         const supportedFacilities = typeOfCareFacilities?.filter(
           facility =>
-            facility.legacyVAR.directSchedulingSupported ||
-            facility.legacyVAR.requestSupported,
+            facility.legacyVAR.directSchedulingSupported[typeOfCareId] ||
+            facility.legacyVAR.requestSupported[typeOfCareId],
         );
         const eligibilityDataNeeded =
           !!facilityId || supportedFacilities?.length === 1;
@@ -575,12 +576,12 @@ export function hideEligibilityModal() {
 export function openFacilityPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     const initialState = getState();
-    const directSchedulingEnabled = vaosDirectScheduling(initialState);
+    const directSchedulingEnabled = selectFeatureDirectScheduling(initialState);
     const newAppointment = initialState.newAppointment;
     const typeOfCare = getTypeOfCare(newAppointment.data)?.name;
     const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
     const userSiteIds = selectSystemIds(initialState);
-    const useVSP = vaosVSPAppointmentNew(initialState);
+    const useVSP = selectFeatureVSPAppointmentNew(initialState);
     const isCernerOnly = selectIsCernerOnlyPatient(initialState);
     let parentFacilities = newAppointment.parentFacilities;
     let locations = null;
@@ -686,8 +687,8 @@ export function openFacilityPage(page, uiSchema, schema) {
 export function updateFacilityPageData(page, uiSchema, data) {
   return async (dispatch, getState) => {
     const state = getState();
-    const useVSP = vaosVSPAppointmentNew(state);
-    const directSchedulingEnabled = vaosDirectScheduling(state);
+    const useVSP = selectFeatureVSPAppointmentNew(state);
+    const directSchedulingEnabled = selectFeatureDirectScheduling(state);
     const previousNewAppointmentState = state.newAppointment;
     const typeOfCare = getTypeOfCare(data)?.name;
     const typeOfCareId = getTypeOfCare(data)?.id;
@@ -835,7 +836,7 @@ export function openClinicPage(page, uiSchema, schema) {
 export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
   return async (dispatch, getState) => {
     const state = getState();
-    const useVSP = vaosVSPAppointmentNew(state);
+    const useVSP = selectFeatureVSPAppointmentNew(state);
     const siteId = getSiteIdFromFakeFHIRId(getFormData(state).vaFacility);
     const newAppointment = getNewAppointment(state);
     const { data } = newAppointment;
@@ -948,8 +949,8 @@ export function openCommunityCareProviderSelectionPage(page, uiSchema, schema) {
 export function checkCommunityCareEligibility() {
   return async (dispatch, getState) => {
     const state = getState();
-    const communityCareEnabled = vaosCommunityCare(state);
-    const useVSP = vaosVSPAppointmentNew(state);
+    const communityCareEnabled = selectFeatureCommunityCare(state);
+    const useVSP = selectFeatureVSPAppointmentNew(state);
 
     if (!communityCareEnabled) {
       return false;
@@ -1169,18 +1170,27 @@ export function submitAppointmentOrRequest(history) {
 export function requestProvidersList(address) {
   return async (dispatch, getState) => {
     try {
-      const typeOfCare = getTypeOfCare(getState().newAppointment.data);
+      const newAppointment = getState().newAppointment;
+      const communityCareProviders = newAppointment.communityCareProviders;
+      const sortMethod = newAppointment.ccProviderPageSortMethod;
+      const typeOfCare = getTypeOfCare(newAppointment.data);
+      let typeOfCareProviders =
+        communityCareProviders[`${sortMethod}_${typeOfCare.ccId}`];
+
       dispatch({
         type: FORM_REQUESTED_PROVIDERS,
       });
 
-      const communityCareProviderList = await getCommunityProvidersByTypeOfCare(
-        { address, typeOfCare },
-      );
+      if (!typeOfCareProviders) {
+        typeOfCareProviders = await getCommunityProvidersByTypeOfCare({
+          address,
+          typeOfCare,
+        });
+      }
 
       dispatch({
         type: FORM_REQUESTED_PROVIDERS_SUCCEEDED,
-        communityCareProviderList,
+        typeOfCareProviders,
         address,
       });
     } catch (e) {

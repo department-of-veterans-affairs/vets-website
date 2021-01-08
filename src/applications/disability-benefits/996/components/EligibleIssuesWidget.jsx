@@ -21,23 +21,21 @@ import { ContestedIssuesAlert } from '../content/contestedIssues';
  *  the review & submit page
  * @return {React Component}
  */
-const DisabilityTitle = ({ attributes, checkboxVisible }) => {
+const DisabilityTitle = ({ attributes }) => {
   const { ratingIssueSubjectText } = attributes;
+  const title =
+    typeof ratingIssueSubjectText === 'string'
+      ? ratingIssueSubjectText
+      : NULL_CONDITION_STRING;
+
   const className = [
-    'vads-u-margin-y--0',
-    'vads-u-font-size--h4',
-    checkboxVisible
-      ? 'vads-u-display--inline vads-u-margin-left--1'
-      : 'vads-u-margin-left--2',
+    'widget-title',
+    'vads-u-font-size--md',
+    'vads-u-font-weight--bold',
+    'vads-u-line-height--1',
   ].join(' ');
 
-  return (
-    <h3 className={className}>
-      {typeof ratingIssueSubjectText === 'string'
-        ? ratingIssueSubjectText
-        : NULL_CONDITION_STRING}
-    </h3>
-  );
+  return <div className={className}>{title}</div>;
 };
 
 /**
@@ -59,7 +57,7 @@ const DisabilityCard = ({ attributes }) => {
   const showPercentNumber = (ratingIssuePercentNumber || '') !== '';
 
   return (
-    <div className="vads-u-padding-x--2">
+    <>
       {description && (
         <p className="vads-u-margin-bottom--0">{description || ''}</p>
       )}
@@ -74,7 +72,7 @@ const DisabilityCard = ({ attributes }) => {
           <strong>{moment(approxDecisionDate).format('MMM D, YYYY')}</strong>
         </p>
       )}
-    </div>
+    </>
   );
 };
 
@@ -102,9 +100,6 @@ const EligibleIssuesWidget = props => {
 
   const content = (
     <>
-      {showError && (
-        <ContestedIssuesAlert className={showError ? 'usa-input-error' : ''} />
-      )}
       {itemsLength && (!inReviewMode || (inReviewMode && hasSelections)) ? (
         items.map((item, index) => {
           const itemIsSelected = !!get(SELECTED, item);
@@ -129,14 +124,10 @@ const EligibleIssuesWidget = props => {
             'review-row',
             'widget-wrapper',
             'vads-u-border--0',
-            'vads-u-padding-top--1',
+            checkboxVisible ? '' : 'checkbox-hidden',
+            `vads-u-padding-top--${checkboxVisible ? 1 : 0}`,
             'vads-u-padding-right--3',
             index < itemsLength - 1 ? 'vads-u-margin-bottom--3' : '',
-          ].join(' ');
-
-          const checkboxWrap = [
-            'widget-checkbox',
-            checkboxVisible ? '' : 'checkbox-hidden',
           ].join(' ');
 
           const outlineClass = [
@@ -148,13 +139,11 @@ const EligibleIssuesWidget = props => {
           const widgetContent = [
             'widget-content',
             'vads-u-font-weight--normal',
-            'vads-u-padding-left--1',
-            `vads-u-margin-top--${checkboxVisible ? '3' : '2'}`,
           ].join(' ');
 
           return (
             <div className={wrapperClass} key={index}>
-              <dt className={checkboxWrap}>
+              <dt className="widget-checkbox-wrap">
                 {checkboxVisible ? (
                   <>
                     <input
@@ -173,10 +162,7 @@ const EligibleIssuesWidget = props => {
                       className={`schemaform-label ${outlineClass}`}
                       htmlFor={elementId}
                     >
-                      <DisabilityTitle
-                        {...item}
-                        checkboxVisible={checkboxVisible}
-                      />
+                      <DisabilityTitle {...item} />
                     </label>
                   </>
                 ) : (
@@ -210,7 +196,17 @@ const EligibleIssuesWidget = props => {
       )}
     </>
   );
-  return inReviewMode ? content : <dl className={outerWrapClass}>{content}</dl>;
+  return inReviewMode ? (
+    <>
+      {showError && <ContestedIssuesAlert />}
+      {content}
+    </>
+  ) : (
+    <div className={showError ? 'usa-input-error vads-u-margin-top--0' : ''}>
+      {showError && <ContestedIssuesAlert />}
+      <dl className={outerWrapClass}>{content}</dl>
+    </div>
+  );
 };
 
 export default EligibleIssuesWidget;

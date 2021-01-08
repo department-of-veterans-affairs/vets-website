@@ -791,7 +791,7 @@ export class Modals extends React.Component {
   renderProfileCalculatorModals = () => {
     const whenUsedGiBill = (
       <div>
-        <h3 className="vads-u-padding-top--4">
+        <h3 className="align-left">
           What is Section 501 (Monthly Housing Allowance Rate)?
         </h3>
         <p>

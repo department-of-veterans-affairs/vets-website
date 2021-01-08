@@ -257,23 +257,39 @@ export function transformATLASLocation(tasInfo) {
  * @export
  * @param {Object} params Parameters needed for fetching locations
  * @param {Object} params.location A location resource
- * @param {Array} params.requestFacilityIds An array of location ids that support requests for a particular type of care
- * @param {Array} params.directFacilityIds An array of location ids that support direct scheduling for a particular type of care
+ * @param {Array} params.requestSupportedFacilities An array of location ids that support requests for a particular type of care
+ * @param {Array} params.directSupportedFacilities An array of location ids that support direct scheduling for a particular type of care
  * @returns {Array} A location resource
  */
 export function setSupportedSchedulingMethods({
   location,
-  requestSupportedFacilityIds,
-  directSupportedFacilityIds,
+  requestFacilities,
+  directFacilities,
 } = {}) {
   const id = location.id;
+  const requestSupported = {};
+  const directSchedulingSupported = {};
 
-  const requestSupported = requestSupportedFacilityIds.some(
-    facilityId => `var${facilityId}` === id,
-  );
-  const directSchedulingSupported = directSupportedFacilityIds.some(
-    facilityId => `var${facilityId}` === id,
-  );
+  const facilityRequestSettings = requestFacilities.find(
+    facility => `var${facility.id}` === id,
+  )?.requestSettings;
+  const facilityCoreSettings = directFacilities.find(
+    facility => `var${facility.id}` === id,
+  )?.coreSettings;
+
+  if (facilityRequestSettings) {
+    facilityRequestSettings.forEach(typeOfCare => {
+      requestSupported[typeOfCare.id] = !!typeOfCare.patientHistoryRequired;
+    });
+  }
+
+  if (facilityCoreSettings) {
+    facilityCoreSettings.forEach(typeOfCare => {
+      directSchedulingSupported[
+        typeOfCare.id
+      ] = !!typeOfCare.patientHistoryRequired;
+    });
+  }
 
   const identifier = location.identifier;
   const vhaIdentifier = location.identifier.find(i => i.system === VHA_FHIR_ID);
@@ -325,8 +341,8 @@ export function transformCommunityProviders(providers) {
       },
       name: provider.name,
       position: {
-        longitude: provider.lat,
-        latitude: provider.long,
+        longitude: provider.long,
+        latitude: provider.lat,
       },
       telecom: [
         {

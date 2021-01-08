@@ -2,6 +2,7 @@ import React from 'react';
 import FinancialOverview from '../../components/FinancialOverview';
 import DebtRepayment from '../../components/DebtRepayment';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import _ from 'lodash/fp';
 
 const resolutionOptions = [
   {
@@ -92,19 +93,35 @@ export const uiSchema = {
     affordToPay: {
       'ui:options': {
         expandUnder: 'resolutionType',
-        expandUnderCondition: 'Extended monthly payments',
+        expandUnderCondition: resolutionOptions[1].type,
       },
-      canAffordToPay: currencyUI(
-        'How much can you afford to pay monthly on this debt?',
+      canAffordToPay: _.merge(
+        currencyUI('How much can you afford to pay monthly on this debt?'),
+        {
+          'ui:options': {
+            widgetClassNames: 'input-size-3',
+          },
+          'ui:required': formData =>
+            formData.resolution.resolutionType === resolutionOptions[1].type,
+        },
       ),
     },
     offerToPay: {
       'ui:options': {
         expandUnder: 'resolutionType',
-        expandUnderCondition: 'Compromise',
+        expandUnderCondition: resolutionOptions[2].type,
       },
-      canOfferToPay: currencyUI(
-        'How much do you offer to pay for this debt with a single payment?',
+      canOfferToPay: _.merge(
+        currencyUI(
+          'How much do you offer to pay for this debt with a single payment?',
+        ),
+        {
+          'ui:options': {
+            widgetClassNames: 'input-size-3',
+          },
+          'ui:required': formData =>
+            formData.resolution.resolutionType === resolutionOptions[2].type,
+        },
       ),
     },
   },

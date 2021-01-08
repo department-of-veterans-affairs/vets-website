@@ -124,6 +124,7 @@ export const healthServices = {
   All: 'All VA health services',
   PrimaryCare: 'Primary care',
   MentalHealthCare: 'Mental health care',
+  Covid19Vaccine: 'COVID-19 vaccines',
   DentalServices: 'Dental services',
   UrgentCare: 'Urgent care',
   EmergencyCare: 'Emergency care',

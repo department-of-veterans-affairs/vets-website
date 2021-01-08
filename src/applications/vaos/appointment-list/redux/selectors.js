@@ -13,7 +13,10 @@ import {
   sortUpcoming,
   getVARFacilityId,
 } from '../../services/appointment';
-import { vaosExpressCare, vaosExpressCareNew } from '../../redux/selectors';
+import {
+  selectFeatureExpressCare,
+  selectFeatureExpressCareNewRequest,
+} from '../../redux/selectors';
 import {
   getTimezoneAbbrBySystemId,
   getTimezoneBySystemId,
@@ -96,7 +99,7 @@ export function selectFutureStatus(state) {
 }
 
 export const selectFutureAppointments = createSelector(
-  vaosExpressCare,
+  selectFeatureExpressCare,
   state => state.appointments.pending,
   state => state.appointments.confirmed,
   (showExpressCare, pending, confirmed) => {
@@ -287,11 +290,11 @@ export function selectExpressCareAvailability(state) {
       moment(),
     ),
     allowRequests: !!activeWindows?.length,
-    enabled: vaosExpressCare(state),
-    useNewFlow: vaosExpressCareNew(state),
+    enabled: selectFeatureExpressCare(state),
+    useNewFlow: selectFeatureExpressCareNewRequest(state),
     hasWindow: !!selectExpressCareFacilities(state)?.length,
     hasRequests:
-      vaosExpressCare(state) &&
+      selectFeatureExpressCare(state) &&
       state.appointments.pending?.some(appt => appt.vaos.isExpressCare),
     windowsStatus: state.appointments.expressCareWindowsStatus,
   };

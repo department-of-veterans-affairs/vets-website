@@ -148,7 +148,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       ),
     );
     expect(await screen.baseElement).to.contain.text(
-      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-24009342.6 miles',
+      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400397.3 miles',
     );
 
     userEvent.click(screen.getByText(/Continue/i));
@@ -188,37 +188,40 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     expect(await screen.findByText(/displaying 1 to 10 of 16 providers/i)).to
       .exist;
     expect((await screen.findAllByRole('radio')).length).to.equal(12);
+    expect(document.activeElement.id).to.equal('root_communityCareProvider_6');
 
     userEvent.click(await screen.findByText(/\+ 5 more providers/i));
     expect(await screen.findByText(/displaying 1 to 15 of 16 providers/i)).to
       .exist;
     expect((await screen.findAllByRole('radio')).length).to.equal(17);
+    expect(document.activeElement.id).to.equal('root_communityCareProvider_11');
 
     userEvent.click(await screen.findByText(/\+ 1 more providers/i));
     expect(await screen.findByText(/displaying 1 to 16 of 16 providers/i)).to
       .exist;
     expect((await screen.findAllByRole('radio')).length).to.equal(18);
-
+    expect(document.activeElement.id).to.equal('root_communityCareProvider_16');
     // Choose Provider
     userEvent.click(await screen.findByText(/AJADI, ADEDIWURA/i));
     userEvent.click(
       await screen.getByRole('button', { name: /choose provider/i }),
     );
     expect(screen.baseElement).to.contain.text(
-      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-65999349.3 miles',
+      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-6599',
     );
+    expect(screen.baseElement).to.contain.text('408.5 miles');
 
     // Change Provider
     userEvent.click(
       await screen.findByRole('button', { name: /change provider/i }),
     );
-    userEvent.click(await screen.findByText(/LYONS, KRISTYN/i));
+    userEvent.click(await screen.findByText(/OH, JANICE/i));
     userEvent.click(
       await screen.findByRole('button', { name: /choose provider/i }),
     );
 
     expect(screen.baseElement).to.contain.text(
-      'LYONS, KRISTYN1785 S HAYES STARLINGTON, VA 22202-27149347.1 miles',
+      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400397.3 miles',
     );
 
     // Cancel Selection (not clearing of a selected provider)
@@ -229,7 +232,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       .exist;
     userEvent.click(await screen.findByRole('button', { name: /cancel/i }));
     expect(screen.baseElement).to.contain.text(
-      'LYONS, KRISTYN1785 S HAYES STARLINGTON, VA 22202-27149347.1 miles',
+      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400397.3 miles',
     );
   });
 
@@ -244,16 +247,18 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       },
     );
 
-    // Choose Provider
+    // Choose Provider that is buried 2 clicks deep
     userEvent.click(await screen.findByText(/Choose a provider/i));
+    userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/AJADI, ADEDIWURA/i));
     userEvent.click(
       await screen.getByRole('button', { name: /choose provider/i }),
     );
     expect(screen.baseElement).to.contain.text(
-      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-65999349.3 miles',
+      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-6599',
     );
+    expect(screen.baseElement).to.contain.text('408.5 miles');
 
     // Remove Provider Cancel
     userEvent.click(await screen.findByRole('button', { name: /remove/i }));
@@ -264,8 +269,9 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     );
     userEvent.click(await screen.findByRole('button', { name: /Cancel/i }));
     expect(screen.baseElement).to.contain.text(
-      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-65999349.3 miles',
+      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-6599',
     );
+    expect(screen.baseElement).to.contain.text('408.5 miles');
 
     // Remove Provider
     userEvent.click(await screen.findByRole('button', { name: /remove/i }));
@@ -277,7 +283,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     userEvent.click(
       await screen.findByRole('button', { name: /Yes, remove provider/i }),
     );
-    expect(await screen.getByRole('button', { name: /Choose a provider/i }));
+    expect(await screen.findByRole('button', { name: /Choose a provider/i }));
   });
 
   it('should display an error when choose a provider clicked and provider fetch error', async () => {
@@ -433,7 +439,6 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     // Choose Provider based on current location
     userEvent.click(await screen.findByText(/use your current location$/i));
-    userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/more providers$/i));
