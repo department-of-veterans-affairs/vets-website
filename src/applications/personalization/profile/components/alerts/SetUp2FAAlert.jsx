@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
@@ -42,6 +42,10 @@ const SetUp2FAAlert = ({ isAuthenticatedWithSSOe }) => {
       isVisible
     />
   );
+};
+
+SetUp2FAAlert.propTypes = {
+  isAuthenticatedWithSSOe: PropTypes.bool.isRequired,
 };
 
 export default SetUp2FAAlert;
