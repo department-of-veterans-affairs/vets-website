@@ -1,4 +1,5 @@
-Cypress.Commands.add('checkElements', () => {
+Cypress.Commands.add('checkElements', page => {
+  cy.visit(page);
   cy.get('#modal-announcement-title').should('exist');
   cy.get('button')
     .contains('Continue to the website')
@@ -18,9 +19,21 @@ Cypress.Commands.add('checkElements', () => {
   cy.get('#in-the-spotlight-at-va-pittsbu').should('exist');
   cy.get('#stories').contains('Stories');
 
-  // TODO: find a way to determine whether there are any upcoming
-  // events, e.g. scrape https://www.va.gov/pittsburgh-health-care/events/
-  // cy.get('#events').contains('Events');
+  // If there are any upcoming events, there should be an Events section header
+  cy.visit('/pittsburgh-health-care/events/');
+  cy.get('[data-template="teasers/event"]').then(eventElements => {
+    cy.task('log', `eventElements: ${eventElements}`);
+    cy.visit(page);
+    if (eventElements.length > 0) {
+      cy.get('#events')
+        .contains('Events')
+        .should('exist');
+    } else {
+      cy.get('#events')
+        .contains('Events')
+        .should('not.exist');
+    }
+  });
 });
 
 describe('VAMC home page', () => {
@@ -29,13 +42,11 @@ describe('VAMC home page', () => {
   });
 
   it('has expected elements on desktop', () => {
-    cy.visit('/pittsburgh-health-care/');
-    cy.checkElements();
+    cy.checkElements('/pittsburgh-health-care');
   });
 
   it('has expected elements on mobile', () => {
-    cy.visit('/pittsburgh-health-care/');
     cy.viewport(481, 1000);
-    cy.checkElements();
+    cy.checkElements('/pittsburgh-health-care');
   });
 });
