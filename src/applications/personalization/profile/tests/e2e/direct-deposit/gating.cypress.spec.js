@@ -1,18 +1,18 @@
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
-import { PROFILE_PATHS } from '../../constants';
+import { PROFILE_PATHS } from '@@profile/constants';
 
-import mockUserNotInEVSS from '../fixtures/users/user-non-vet.json';
-import mockUserInEVSS from '../fixtures/users/user-36.json';
+import mockUserNotInEVSS from '@@profile/tests/fixtures/users/user-non-vet.json';
+import mockUserInEVSS from '@@profile/tests/fixtures/users/user-36.json';
 
-import mockDD4CNPNotEligible from '../fixtures/dd4cnp/dd4cnp-is-not-eligible.json';
-import mockDD4CNPNotEnrolled from '../fixtures/dd4cnp/dd4cnp-is-not-set-up.json';
-import mockDD4CNPEnrolled from '../fixtures/dd4cnp/dd4cnp-is-set-up.json';
-import mockDD4CNPIncompetent from '../fixtures/dd4cnp/dd4cnp-incompetent.json';
-import mockDD4CNPDeceased from '../fixtures/dd4cnp/dd4cnp-deceased.json';
-import mockDD4CNPFiduciary from '../fixtures/dd4cnp/dd4cnp-fiduciary.json';
+import mockDD4CNPNotEligible from '@@profile/tests/fixtures/dd4cnp/dd4cnp-is-not-eligible.json';
+import mockDD4CNPNotEnrolled from '@@profile/tests/fixtures/dd4cnp/dd4cnp-is-not-set-up.json';
+import mockDD4CNPEnrolled from '@@profile/tests/fixtures/dd4cnp/dd4cnp-is-set-up.json';
+import mockDD4CNPIncompetent from '@@profile/tests/fixtures/dd4cnp/dd4cnp-incompetent.json';
+import mockDD4CNPDeceased from '@@profile/tests/fixtures/dd4cnp/dd4cnp-deceased.json';
+import mockDD4CNPFiduciary from '@@profile/tests/fixtures/dd4cnp/dd4cnp-fiduciary.json';
 
-import mockDD4EDUEnrolled from '../fixtures/dd4edu/dd4edu-enrolled.json';
-import mockDD4EDUNotEnrolled from '../fixtures/dd4edu/dd4edu-not-enrolled.json';
+import mockDD4EDUEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-enrolled.json';
+import mockDD4EDUNotEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-not-enrolled.json';
 
 // TODO: remove this when we are no longer gating DD4EDU with a feature flag
 const dd4eduEnabled = {

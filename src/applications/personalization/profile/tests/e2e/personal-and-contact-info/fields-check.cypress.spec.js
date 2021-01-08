@@ -1,10 +1,10 @@
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
-import { PROFILE_PATHS } from '../../constants';
+import { PROFILE_PATHS } from '@@profile/constants';
 
-import { mockUser } from '../fixtures/users/user.js';
-import mockPersonalInformation from '../fixtures/personal-information-success.json';
-import mockServiceHistory from '../fixtures/service-history-success.json';
-import mockFullName from '../fixtures/full-name-success.json';
+import { mockUser } from '@@profile/tests/fixtures/users/user.js';
+import mockPersonalInformation from '@@profile/tests/fixtures/personal-information-success.json';
+import mockServiceHistory from '@@profile/tests/fixtures/service-history-success.json';
+import mockFullName from '@@profile/tests/fixtures/full-name-success.json';
 
 const setup = () => {
   disableFTUXModals();
