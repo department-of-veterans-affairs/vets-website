@@ -70,7 +70,7 @@ const getAppointmentTypeFromClinic = (clinic, options = {}) => {
   let appointmentType = null;
   switch (stopCode.toString()) {
     case '323':
-      appointmentType = 'primary care BAAAAAH';
+      appointmentType = 'primary care';
       break;
     case '502':
       appointmentType = 'mental health';
