@@ -10,6 +10,7 @@ describe('health care questionnaire list - display a questionnaire item', () => 
     const data = {
       appointment: {
         facilityName: name,
+        clinic: {},
         appointmentTime: '2021-02-23T15:00:00Z',
       },
     };
@@ -30,6 +31,7 @@ describe('health care questionnaire list - display a questionnaire item', () => 
     const data = {
       appointment: {
         facilityName: name,
+        clinic: {},
         appointmentTime: '2021-02-23T15:00:00Z',
       },
     };
@@ -47,6 +49,7 @@ describe('health care questionnaire list - display a questionnaire item', () => 
     const data = {
       appointment: {
         facilityName: name,
+        clinic: {},
         appointmentTime: '2021-02-23T15:00:00Z',
       },
     };
