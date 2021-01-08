@@ -36,7 +36,6 @@ export default {
       if (clinics.length === 1) {
         return 'selectDate1';
       }
-
       return 'clinicChoice';
     },
   },

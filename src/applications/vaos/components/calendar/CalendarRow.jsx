@@ -2,7 +2,6 @@ import React from 'react';
 
 import moment from 'moment';
 import CalendarCell from './CalendarCell';
-import { isDateInSelectedArray } from './dateHelpers';
 
 function isCellDisabled({ date, availableDates, minDate, maxDate }) {
   let disabled = false;
@@ -72,7 +71,6 @@ export default function CalendarRow({
             handleSelectOption={handleSelectOption}
             hasError={hasError}
             index={index}
-            inSelectedArray={isDateInSelectedArray(date, selectedDates)}
             key={`row-${rowNumber}-cell-${index}`}
             maxSelections={maxSelections}
             onClick={() => handleSelectDate(date, rowNumber)}

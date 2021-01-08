@@ -187,8 +187,7 @@ export function getPreferredDate(state, pageKey) {
 
 export function getChosenSlot(state) {
   const availableSlots = getNewAppointment(state).availableSlots;
-  const selectedTime = getFormData(state).calendarData?.selectedDates?.[0]
-    .datetime;
+  const selectedTime = getFormData(state).selectedDates?.[0];
 
   return availableSlots?.find(slot => slot.start === selectedTime);
 }
