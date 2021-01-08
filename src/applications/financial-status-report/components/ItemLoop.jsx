@@ -399,7 +399,7 @@ const ItemLoop = ({
                       {item}
                     </th>
                   ))}
-                  <th className="vads-u-border--0" />
+                  <th className="vads-u-border--0" width="50" />
                 </tr>
               </thead>
             )}
