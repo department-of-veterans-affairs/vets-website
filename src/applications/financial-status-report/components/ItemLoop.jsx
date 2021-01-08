@@ -293,7 +293,10 @@ const ItemLoop = ({
       if (i === index) {
         return true;
       }
-      return false;
+      if (item !== 'add') {
+        return false;
+      }
+      return item;
     });
 
     if (editing.length === 1) {
@@ -304,6 +307,20 @@ const ItemLoop = ({
     scrollToRow(`${idSchema.$id}_${index}`);
   };
 
+  const formatEditData = editArr => {
+    // if adding and editing set all editing vals to false except for the add row
+    const conditions = [true, 'add'];
+    const isEditAndAdd = conditions.every(item => editArr.includes(item));
+    let editData = null;
+
+    if (isEditAndAdd) {
+      editData = editArr.map(item => (item === 'add' ? item : false));
+    } else {
+      editData = editArr.map(() => false);
+    }
+    return editData;
+  };
+
   const handleUpdate = (e, i) => {
     e.preventDefault();
 
@@ -312,7 +329,8 @@ const ItemLoop = ({
 
     setShowTable(true);
     if (errorSchemaIsValid(errorSchema[i])) {
-      const editData = editing.map(() => false);
+      const editData = formatEditData(editing);
+
       setEditing(editData);
       scrollToRow(`${idSchema.$id}_${i}`);
     } else {
@@ -351,8 +369,8 @@ const ItemLoop = ({
   };
 
   const handleCancel = () => {
-    const editData = editing.map(() => false);
-    setEditing([...editData]);
+    const editData = formatEditData(editing);
+    setEditing(editData);
     onChange(oldData);
   };
 
