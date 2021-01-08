@@ -1,11 +1,12 @@
-import { submitToUrl } from 'platform/forms-system/src/js/actions';
+// import { submitToUrl } from 'platform/forms-system/src/js/actions';
 
 const submit = (form, formConfig) => {
   const body = {
     questionnaireResponse: formConfig.transformForSubmit(formConfig, form),
   };
 
-  const eventData = {};
+  // Commented out till API is working.
+  // const eventData = {};
   // console.log('calling to api', {
   //   body,
   //   url: formConfig.submitUrl,
@@ -13,12 +14,15 @@ const submit = (form, formConfig) => {
   //   eventData,
   // });
 
-  return submitToUrl(
-    JSON.stringify(body),
-    formConfig.submitUrl,
-    formConfig.trackingPrefix,
-    eventData,
-  );
+  // return submitToUrl(
+  //   JSON.stringify(body),
+  //   formConfig.submitUrl,
+  //   formConfig.trackingPrefix,
+  //   eventData,
+  // );
+  return new Promise((resolve, _reject) => {
+    resolve(body);
+  });
 };
 
 const createAnAnswer = valueString => ({ valueString });
