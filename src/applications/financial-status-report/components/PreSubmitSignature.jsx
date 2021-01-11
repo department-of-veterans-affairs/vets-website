@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 
 const PreSubmitSignature = ({ formData }) => {
+  const fullName = Object.values(formData?.personalData?.fullName)
+    .filter(value => Boolean(value))
+    .join(' ');
   const [isChecked, setIsChecked] = useState(false);
-  const [veteranName, setVeteranName] = useState(
-    formData?.veteranInfo?.fullName,
-  );
+  const [veteranName, setVeteranName] = useState(fullName);
 
   return (
     <article className="vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--3 vads-u-padding-top--1px vads-u-margin-bottom--7">
