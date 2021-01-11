@@ -53,21 +53,23 @@
         primary care provider first.
     </p>
 
-    <div class="phone-numbers" data-template="paragraphs/service_location">
-        <h5>Phone</h5>
-        {% if locationEntity.fieldPhoneNumbersParagraph %}
-            {% for number in locationEntity.fieldPhoneNumbersParagraph %}
-            <a class="vads-u-margin-bottom--1" aria-label="{{ number.entity.fieldPhoneNumber | accessibleNumber }}"
-               href="tel:{{ number.entity.fieldPhoneNumber }}{% if number.entity.fieldPhoneExtension %}p{{ number.entity.fieldPhoneExtension }}{% endif %}">
-                {{ number.entity.fieldPhoneNumber }}
-                {% if number.entity.fieldPhoneExtension %}
-                    x {{ number.entity.fieldPhoneExtension }}
-                {% endif %}
+    {% if locationEntity.fieldPhoneNumbersParagraph != empty %}
+        <div class="phone-numbers" data-template="paragraphs/service_location">
+            <h5>Phone</h5>
+            {% if locationEntity.fieldPhoneNumbersParagraph %}
+                {% for number in locationEntity.fieldPhoneNumbersParagraph %}
+                <a class="vads-u-margin-bottom--1" aria-label="{{ number.entity.fieldPhoneNumber | accessibleNumber }}"
+                   href="tel:{{ number.entity.fieldPhoneNumber }}{% if number.entity.fieldPhoneExtension %}p{{ number.entity.fieldPhoneExtension }}{% endif %}">
+                    {{ number.entity.fieldPhoneNumber }}
+                    {% if number.entity.fieldPhoneExtension %}
+                        x {{ number.entity.fieldPhoneExtension }}
+                    {% endif %}
 
-                {% endfor %}
-            {% endif %}
-        </a>
-    </div>
+                    {% endfor %}
+                {% endif %}
+            </a>
+        </div>
+    {% endif %}
 
     {% if locationEntity.fieldReferralRequired %}
         <p class="vads-u-margin-bottom--0" data-template="paragraphs/service_location">
