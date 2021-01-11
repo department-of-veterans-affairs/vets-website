@@ -10,46 +10,49 @@ import { focusElement } from 'platform/utilities/ui';
 
 // Assumes URL is like /unsubscribe?sid={sid}
 function Unsubscribe({ router }) {
-  const sid = { sid: router.location.query.sid };
+  const subscriberId = router.location.query.sid;
 
   const [unsubscribeStatus, setUnsubscribeStatus] = useState(
     requestStates.notCalled,
   );
 
-  useEffect(() => {
-    focusElement('#covid-vaccination-heading-unsubscribe');
-    async function unsubscribeBySid() {
-      try {
-        await unsubscribe(sid);
-        setUnsubscribeStatus(requestStates.succeeded);
-      } catch (error) {
-        setUnsubscribeStatus(requestStates.failed);
+  useEffect(
+    () => {
+      focusElement('#covid-vaccination-heading-unsubscribe');
+      async function unsubscribeBySid() {
+        try {
+          await unsubscribe(subscriberId);
+          setUnsubscribeStatus(requestStates.succeeded);
+        } catch (error) {
+          setUnsubscribeStatus(requestStates.failed);
+        }
       }
-    }
-    unsubscribeBySid();
-  }, []);
+      if (subscriberId !== undefined) unsubscribeBySid();
+      else setUnsubscribeStatus(requestStates.failed);
+    },
+    [subscriberId],
+  );
 
-  if (
-    unsubscribeStatus === requestStates.pending ||
-    unsubscribeStatus === requestStates.notCalled
-  ) {
-    return <LoadingIndicator message="Unsubscribing..." />;
+  let content = <LoadingIndicator message="Unsubscribing..." />;
+
+  if (unsubscribeStatus === requestStates.failed) {
+    content = (
+      <div className="va-introtext">
+        <p>Sorry, we were not able to unsubscribe you at this time.</p>
+      </div>
+    );
+  } else if (unsubscribeStatus === requestStates.succeeded) {
+    content = (
+      <div className="va-introtext">
+        <p>You have been unsubscribed from updates.</p>
+      </div>
+    );
   }
+
   return (
     <>
-      <h1 className="no-outline" id="covid-vaccination-heading-unsubscribe">
-        Unsubscribe
-      </h1>
-      {unsubscribeStatus === requestStates.failed ? (
-        <div className="va-introtext">
-          <p>Sorry, we were not able to unsubscribe you at this time.</p>
-        </div>
-      ) : null}
-      {unsubscribeStatus === requestStates.succeeded ? (
-        <div className="va-introtext">
-          <p>You have been unsubscribed from updates.</p>
-        </div>
-      ) : null}
+      <h1> Unsubscribe </h1>
+      {content}
     </>
   );
 }
@@ -68,5 +71,3 @@ export default withRouter(
     mapDispatchToProps,
   )(Unsubscribe),
 );
-
-export { Unsubscribe };
