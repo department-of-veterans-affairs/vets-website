@@ -9,17 +9,13 @@ import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 
-export const AuthContent = ({
-  authenticatedWithSSOe,
-  cernerFacilities,
-  otherFacilities,
-}) => (
+export const AuthContent = ({ cernerFacilities, otherFacilities }) => (
   <>
     <CernerCallToAction
       cernerFacilities={cernerFacilities}
       otherFacilities={otherFacilities}
       linksHeaderText="View lab and test results from:"
-      myHealtheVetLink={mhvUrl(authenticatedWithSSOe, 'labs-tests')}
+      myHealtheVetLink={mhvUrl('labs-tests')}
       myVAHealthLink={getCernerURL('/pages/health_record/results/labs')}
     />
     <div>
@@ -328,7 +324,6 @@ export const AuthContent = ({
 );
 
 AuthContent.propTypes = {
-  authenticatedWithSSOe: PropTypes.bool.isRequired,
   cernerfacilities: PropTypes.arrayOf(
     PropTypes.shape({
       facilityId: PropTypes.string.isRequired,
