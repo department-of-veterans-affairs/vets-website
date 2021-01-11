@@ -12,7 +12,10 @@ import {
 } from '../actions';
 import { loadAppointment } from '../api';
 
-import { getAppointTypeFromAppointment } from '../utils';
+import {
+  getAppointTypeFromAppointment,
+  getCurrentAppointmentId,
+} from '../utils';
 
 const App = props => {
   const { location, children } = props;
@@ -28,7 +31,8 @@ const App = props => {
     () => {
       if (isLoggedIn) {
         setLoading();
-        loadAppointment().then(response => {
+        const id = getCurrentAppointmentId(window);
+        loadAppointment(id).then(response => {
           const { data } = response;
           setLoadedAppointment(data);
           setIsLoading(false);
