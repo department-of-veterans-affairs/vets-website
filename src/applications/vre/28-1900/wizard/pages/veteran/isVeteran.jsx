@@ -20,7 +20,12 @@ const isVeteran = ({ setPageState, state = {} }) => (
     id={`${veteranPathPageNames.isVeteran}-option`}
     options={options}
     onValueChange={({ value }) =>
-      handleChangeAndPageSet(setPageState, value, options)
+      handleChangeAndPageSet(
+        setPageState,
+        value,
+        options,
+        'Did you receive a discharge status other than  dishonorable?',
+      )
     }
     value={{ value: state.selected }}
     additionalFieldsetClass="vads-u-margin-top--0"
