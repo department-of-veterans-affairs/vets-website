@@ -42,12 +42,17 @@ const contacts = (
 
 export const InformalConferenceTimesTitle = (
   <>
-    <h3 className="vads-u-font-size--h5 vads-u-margin-top--0">
-      <span className="contact-choice selected-rep">
-        Your representative’s availability
-      </span>
-      <span className="contact-choice selected-me">Your availability</span>
-    </h3>
+    <span className="contact-choice selected-rep vads-u-font-size--sm">
+      Please indicate your representative’s availability
+    </span>
+    <span className="contact-choice selected-me vads-u-font-size--sm">
+      Please indicate your availability
+    </span>
+  </>
+);
+
+export const InformalConferenceTimesDescription = (
+  <>
     <p>
       First we’ll call {contacts} to schedule the informal conference. Please
       indicate <span className="contact-choice selected-me">your</span>
