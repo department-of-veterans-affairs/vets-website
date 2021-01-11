@@ -43,7 +43,6 @@ module.exports = {
       const tableOfContents = dom('#table-of-contents ul');
 
       if (!tableOfContents) {
-        // eslint-disable-next-line no-continue
         return;
       }
 
@@ -60,7 +59,6 @@ module.exports = {
       if (entityBundlesForResourcesAndSupport.has(file.entityBundle)) {
         nodes = dom('article h2');
         if (nodes.length < 2) {
-          // eslint-disable-next-line no-continue
           return;
         }
       } else {
