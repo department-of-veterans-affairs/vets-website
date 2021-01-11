@@ -32,7 +32,7 @@ const createResourcesAndSupportWebsiteSection = require('./plugins/create-resour
 const createSitemaps = require('./plugins/create-sitemaps');
 const downloadDrupalAssets = require('./plugins/download-drupal-assets');
 const leftRailNavResetLevels = require('./plugins/left-rail-nav-reset-levels');
-const parseHtml = require('./plugins/modify-dom/parse-html');
+const modifyDom = require('./plugins/modify-dom');
 const rewriteDrupalPages = require('./plugins/rewrite-drupal-pages');
 const rewriteVaDomains = require('./plugins/rewrite-va-domains');
 const updateRobots = require('./plugins/update-robots');
@@ -242,15 +242,7 @@ function build(BUILD_OPTIONS) {
   smith.use(createSitemaps(BUILD_OPTIONS), 'Create sitemap');
   smith.use(updateRobots(BUILD_OPTIONS), 'Update robots.txt');
   smith.use(checkForCMSUrls(BUILD_OPTIONS), 'Check for CMS URLs');
-
-  /**
-   * Parse the HTML into a JS data structure for use in later plugins.
-   * Important: Only plugins that use the parsedContent to modify the
-   * content can go between the parseHtml and outputHtml plugins. If
-   * the content is modified directly between those two plugins, any
-   * changes will be overwritten during the outputHtml step.
-   */
-  smith.use(parseHtml(BUILD_OPTIONS), 'Parse HTML files');
+  smith.use(modifyDom(BUILD_OPTIONS), 'Parse HTML files');
 
   /* eslint-disable no-console */
   smith.build(err => {

@@ -13,7 +13,7 @@ const createEnvironmentFilter = require('../build/plugins/create-environment-fil
 const leftRailNavResetLevels = require('../build/plugins/left-rail-nav-reset-levels');
 const rewriteVaDomains = require('../build/plugins/rewrite-va-domains');
 const rewriteAWSUrls = require('../build/plugins/rewrite-cms-aws-urls');
-const parseHtml = require('../build/plugins/modify-dom/parse-html');
+const modifyDom = require('../build/plugins/modify-dom');
 
 async function createPipeline(options) {
   const BUILD_OPTIONS = await getOptions(options);
@@ -110,15 +110,7 @@ async function createPipeline(options) {
    */
   smith.use(rewriteVaDomains(BUILD_OPTIONS));
   smith.use(rewriteAWSUrls(BUILD_OPTIONS));
-
-  /**
-   * Parse the HTML into a JS data structure for use in later plugins.
-   * Important: Only plugins that use the parsedContent to modify the
-   * content can go between the parseHtml and outputHtml plugins. If
-   * the content is modified directly between those two plugins, any
-   * changes will be overwritten during the outputHtml step.
-   */
-  smith.use(parseHtml(BUILD_OPTIONS));
+  smith.use(modifyDom(BUILD_OPTIONS));
 
   return smith;
 }
