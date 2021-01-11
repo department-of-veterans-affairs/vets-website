@@ -30,19 +30,25 @@ Cypress.Commands.add('checkElements', page => {
     cy.wrap($listing)
       .find('.mental-health-clinic-phone > a')
       .contains(phoneRegex);
+    cy.wrap($listing)
+      .get('a > img.region-img')
+      .should('exist');
   });
-
+  cy.get('a').contains('See all locations');
   cy.get('h3').contains('Manage your health online');
   cy.get('#in-the-spotlight-at-va-pittsbu').should('exist');
-  cy.get('#stories').contains('Stories');
 
-  // If there are any upcoming events, there should be an Events section header
   cy.window().then(win => {
     if (win.contentData) {
+      if (win.contentData.newsStoryTeasersFeatured.entities.length > 0) {
+        cy.get('#stories').contains('Stories');
+        cy.get('a').contains('See all stories');
+      } else {
+        cy.get('#events').should('not.exist');
+      }
+
       if (win.contentData.allEventTeasers.entities.length > 0) {
-        cy.get('#events')
-          .contains('Events')
-          .should('exist');
+        cy.get('#events').contains('Events');
       } else {
         cy.get('#events').should('not.exist');
       }
@@ -52,6 +58,8 @@ Cypress.Commands.add('checkElements', page => {
       cy.task('log', 'window.contentData not found.');
     }
   });
+
+  cy.get('h3').contains('Get updates');
 });
 
 describe('VAMC home page', () => {
