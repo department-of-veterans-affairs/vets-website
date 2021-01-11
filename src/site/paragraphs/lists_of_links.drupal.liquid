@@ -70,27 +70,18 @@
 {% if formattedVaParagraphs.length > 6 %}
   <script>
     function onShowAllTopics() {
+      // Derive the extra paragraphs element.
       var extraParagraphsElement = document.querySelector('[data-hidden-lists_of_links-entity-id="{{ entity.entityId }}"]');
 
-      // Escape early if we are unable to find the hidden categories.
-      if (!extraParagraphsElement) {
-        console.warn('Unable to find hidden lists of links DOM nodes.');
-        return;
-      }
-
       // Show the remaining categories.
-      extraParagraphsElement.ariaHidden = "false";
+      extraParagraphsElement.setAttribute('aria-hidden', 'false');
       extraParagraphsElement.className = extraParagraphsElement.className.replace(/vads-u-display--none/, 'vads-u-display--flex');
 
       // Derive the show all topics button element.
       var showAllTopicsElement = document.querySelector('[data-show-all-topics-button-lists_of_links-entity-id="{{ entity.entityId }}"]');
-      if (!showAllTopicsElement) {
-        console.warn('Unable to find "Show all topics" button, so we could not hide it.');
-        return;
-      }
 
       // We don't need the Show all topics button anymore, so hide it.
-      showAllTopicsElement.ariaHidden = "true";
+      showAllTopicsElement.setAttribute('aria-hidden', 'true');
       showAllTopicsElement.className = showAllTopicsElement.className.replace('vads-u-display--flex', 'vads-u-display--none');
     }
   </script>
