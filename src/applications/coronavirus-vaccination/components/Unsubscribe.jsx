@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { requestStates } from 'platform/utilities/constants';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
@@ -51,23 +50,12 @@ function Unsubscribe({ router }) {
 
   return (
     <>
-      <h1> Unsubscribe </h1>
+      <h1 className="no-outline" id="covid-vaccination-heading-unsubscribe">
+        Unsubscribe
+      </h1>{' '}
       {content}
     </>
   );
 }
 
-const mapStateToProps = state => {
-  return {
-    formData: state.coronavirusVaccinationApp.formState?.formData,
-  };
-};
-
-const mapDispatchToProps = {};
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(Unsubscribe),
-);
+export default withRouter(Unsubscribe);
