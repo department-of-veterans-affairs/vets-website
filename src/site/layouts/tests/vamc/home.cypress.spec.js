@@ -1,3 +1,5 @@
+const phoneRegex = /\d{3}-\d{3}-\d{4}/;
+
 Cypress.Commands.add('checkElements', page => {
   cy.visit(page);
   cy.get('#modal-announcement-title').should('exist');
@@ -15,18 +17,39 @@ Cypress.Commands.add('checkElements', page => {
   cy.get('#sidenav-menu').should('exist');
   cy.get('h1').contains('VA Pittsburgh health care');
   cy.get('h2').contains('Locations');
+  cy.get('[data-template="includes/facilityListing"]').each($listing => {
+    cy.wrap($listing)
+      .find('address')
+      .should('exist');
+    cy.wrap($listing)
+      .contains('a', 'Directions')
+      .should('exist');
+    cy.wrap($listing)
+      .find('.main-phone > a')
+      .contains(phoneRegex);
+    cy.wrap($listing)
+      .find('.mental-health-clinic-phone > a')
+      .contains(phoneRegex);
+  });
+
   cy.get('h3').contains('Manage your health online');
   cy.get('#in-the-spotlight-at-va-pittsbu').should('exist');
   cy.get('#stories').contains('Stories');
 
   // If there are any upcoming events, there should be an Events section header
   cy.window().then(win => {
-    if (win.contentData.allEventTeasers.entities.length > 0) {
-      cy.get('#events')
-        .contains('Events')
-        .should('exist');
+    if (win.contentData) {
+      if (win.contentData.allEventTeasers.entities.length > 0) {
+        cy.get('#events')
+          .contains('Events')
+          .should('exist');
+      } else {
+        cy.get('#events').should('not.exist');
+      }
     } else {
-      cy.get('#events').should('not.exist');
+      // window.contentData will be undefined in production
+      // See src/site/includes/debug.drupal.liquid
+      cy.task('log', 'window.contentData not found.');
     }
   });
 });
