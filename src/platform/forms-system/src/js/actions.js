@@ -210,7 +210,29 @@ export function uploadFile(
   // This item should have been set in any previous API calls
   const csrfTokenStored = localStorage.getItem('csrfToken');
   return (dispatch, getState) => {
-    if (file.size > uiOptions.maxSize) {
+    // we limit file types, but it’s not respected on mobile and desktop
+    // users can bypass it without much effort
+    if (
+      !uiOptions.fileTypes.some(fileType =>
+        file.name.toLowerCase().endsWith(fileType.toLowerCase()),
+      )
+    ) {
+      onChange({
+        name: file.name,
+        errorMessage: 'File is not one of the allowed types',
+      });
+
+      onError();
+      return null;
+    }
+
+    // PDFs may have a different max size based on where it is being uploaded
+    // (form 526 & claim status)
+    const maxSize =
+      (file.name.toLowerCase().endsWith('pdf') && uiOptions.maxPdfSize) ||
+      uiOptions.maxSize;
+
+    if (file.size > maxSize) {
       onChange({
         name: file.name,
         errorMessage: 'File is too large to be uploaded',
@@ -230,21 +252,6 @@ export function uploadFile(
       return null;
     }
 
-    // we limit file types, but it’s not respected on mobile and desktop
-    // users can bypass it without much effort
-    if (
-      !uiOptions.fileTypes.some(fileType =>
-        file.name.toLowerCase().endsWith(fileType.toLowerCase()),
-      )
-    ) {
-      onChange({
-        name: file.name,
-        errorMessage: 'File is not one of the allowed types',
-      });
-
-      onError();
-      return null;
-    }
     if (password) {
       onChange({ name: file.name, uploading: true, password });
     } else {
