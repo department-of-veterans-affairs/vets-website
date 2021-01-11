@@ -572,6 +572,7 @@ export function transformConfirmedAppointments(appointments) {
         appointmentType: getAppointmentType(appt),
         isCommunityCare: isCC,
         timeZone: isCC ? appt.timeZone : null,
+        isPhoneAppointment: appt.phoneOnly,
       },
     };
   });
