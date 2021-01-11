@@ -21,7 +21,7 @@ export const uiSchema = {
         doNotScroll: true,
         showSave: true,
         expandUnder: 'hasAdditionalIncome',
-        itemName: 'Add income',
+        itemName: 'income',
       },
       items: {
         incomeType: {
