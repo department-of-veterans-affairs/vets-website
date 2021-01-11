@@ -59,3 +59,5 @@ function Unsubscribe({ router }) {
 }
 
 export default withRouter(Unsubscribe);
+
+export { Unsubscribe };

@@ -6,6 +6,9 @@ import { Unsubscribe } from '../../components/Unsubscribe';
 describe('<Unsubscribe/>', () => {
   it('renders without crashing', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<Unsubscribe params={{ sid: '123456789' }} />, div);
+    ReactDOM.render(
+      <Unsubscribe router={{ location: { query: { sid: '12345' } } }} />,
+      div,
+    );
   });
 });
