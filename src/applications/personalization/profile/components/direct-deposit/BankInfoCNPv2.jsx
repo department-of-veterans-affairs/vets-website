@@ -176,7 +176,7 @@ export const BankInfoCNP = ({
   const notEligibleContent = (
     <>
       <p className="vads-u-margin-top--0">
-        Our records show that you‘re not receiving disability compensation or
+        Our records show that you’re not receiving disability compensation or
         pension payments. If you think this is an error, please call us at{' '}
         <Telephone contact={CONTACTS.VA_BENEFITS} />.
       </p>
@@ -186,7 +186,7 @@ export const BankInfoCNP = ({
           rel="noopener noreferrer"
           href="https://www.va.gov/disability/eligibility/"
         >
-          Find out if you‘re eligible for VA disability benefits
+          Find out if you’re eligible for VA disability benefits
         </a>
       </p>
       <p className="vads-u-margin-bottom--0">
@@ -195,7 +195,7 @@ export const BankInfoCNP = ({
           rel="noopener noreferrer"
           href="https://www.va.gov/pension/eligibility/"
         >
-          Find out if you‘re eligible for VA pension benefits
+          Find out if you’re eligible for VA pension benefits
         </a>
       </p>
     </>
@@ -250,14 +250,17 @@ export const BankInfoCNP = ({
     return notEligibleContent;
   };
 
-  const directDepositData = [
-    // the table can show multiple states so we set its value with the
-    // getBankInfo() helper
-    {
-      title: 'Account',
+  const directDepositData = () => {
+    const data = {
+      // the table can show multiple states so we set its value with the
+      // getBankInfo() helper
       value: getBankInfo(),
-    },
-  ];
+    };
+    if (isEligibleToSetUpDirectDeposit || isDirectDepositSetUp) {
+      data.title = 'Account';
+    }
+    return [data];
+  };
 
   // Render nothing if the user is not LOA3.
   // This entire component should never be rendered in that case; this just
@@ -304,7 +307,7 @@ export const BankInfoCNP = ({
       <ProfileInfoTable
         className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
         title="Disability compensation and pension benefits"
-        data={directDepositData}
+        data={directDepositData()}
       />
     </>
   );
