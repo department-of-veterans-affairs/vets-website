@@ -56,9 +56,15 @@ export async function onDownloadLinkClick(event) {
     const forms = await fetchFormsApi(formNumber);
     form = forms.results.find(f => f.id === formNumber);
     formPdfIsValid = form?.attributes.validPdf;
-    if (formPdfIsValid) {
+
+    const isSameOrigin = event?.target.href.startsWith(window.location.origin);
+
+    if (formPdfIsValid && isSameOrigin) {
       // URLS can be entered invalid, 400 is returned, this checks to make sure href is valid
-      const response = await fetch(downloadUrl);
+      // NOTE: There are Forms URLS under the https://www.vba.va.gov/ domain, we don't have a way currently to check if URL is valid on FE because of CORS
+      const response = await fetch(downloadUrl, {
+        method: 'HEAD', // HEAD METHOD SHOULD NOT RETURN BODY, WE ONLY CARE IF REQ WAS SUCCESSFUL
+      });
       if (!response.ok) formPdfUrlIsValid = false;
     }
   } catch (err) {
