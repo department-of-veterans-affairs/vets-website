@@ -1,7 +1,7 @@
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
-import { PROFILE_PATHS } from '../../constants';
+import { PROFILE_PATHS } from '@@profile/constants';
 
-import mockUser from '../fixtures/users/user-non-2fa.json';
+import mockUser from '@@profile/tests/fixtures/users/user-non-2fa.json';
 
 // TODO: remove this when we are no longer gating DD4EDU with a feature flag
 const dd4eduEnabled = {
