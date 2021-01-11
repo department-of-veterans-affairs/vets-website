@@ -20,7 +20,12 @@ const noVaMemorandum = ({ setPageState, state = {} }) => (
     id={`${serviceMemberPathPageNames.noVaMemorandum}-option`}
     options={options}
     onValueChange={({ value }) =>
-      handleChangeAndPageSet(setPageState, value, options)
+      handleChangeAndPageSet(
+        setPageState,
+        value,
+        options,
+        'Are you in the Integrated Disability Evaluation System (IDES)or going through Physical Evaluation Board process?',
+      )
     }
     value={{ value: state.selected }}
     additionalFieldsetClass="vads-u-margin-top--0"
