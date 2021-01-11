@@ -1,7 +1,7 @@
 /* eslint-disable no-continue, no-param-reassign */
 
 const path = require('path');
-const environments = require('../../../constants/environments');
+const environments = require('../../../../constants/environments');
 
 const FILE_MANIFEST_FILENAME = 'generated/file-manifest.json';
 
@@ -67,15 +67,18 @@ function getEntryNamesDictionary(buildOptions, files) {
   return new Map(Object.entries(JSON.parse(fileManifest.contents)));
 }
 
-function processEntryNames(buildOptions) {
-  return (files, metalsmith, done) => {
-    const entryNamesDictionary = getEntryNamesDictionary(buildOptions, files);
+module.exports = {
+  initialize(buildOptions, files) {
+    this.entryNamesDictionary = getEntryNamesDictionary(buildOptions, files);
 
-    for (const fileName of Object.keys(files)) {
-      const file = files[fileName];
+    if (!buildOptions.isPreviewServer) {
+      copyAssetsToTeamSitePaths(buildOptions, files, this.entryNamesDictionary);
+    }
+  },
 
+  modifyFile(fileName, file, files, buildOptions) {
       const { dom } = file;
-      if (!dom) continue;
+      if (!dom) return;
 
       dom('script[data-entry-name],link[data-entry-name]').each((index, el) => {
         // Derive the element properties.
@@ -84,7 +87,7 @@ function processEntryNames(buildOptions) {
         const attribute = $el.is('script') ? 'src' : 'href';
 
         // Derive the hashed entry name.
-        const hashedEntryName = entryNamesDictionary.get(entryName) || [];
+        const hashedEntryName = this.entryNamesDictionary.get(entryName) || [];
 
         // Assemble the filename so we can match it in the generated files array.
         const fileSearch = `generated/${
@@ -107,14 +110,5 @@ function processEntryNames(buildOptions) {
         $el.attr(attribute, `/${fileSearch}`);
         file.modified = true;
       });
-    }
-
-    if (!buildOptions.isPreviewServer) {
-      copyAssetsToTeamSitePaths(buildOptions, files, entryNamesDictionary);
-    }
-
-    done();
-  };
+  }
 }
-
-module.exports = processEntryNames;

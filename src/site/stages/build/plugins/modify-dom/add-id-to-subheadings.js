@@ -1,7 +1,7 @@
 /*
  * Add unique ID to H2s and H3s that aren't in WYSIWYG or accordion buttons
  */
-const { ENTITY_BUNDLES } = require('../../../constants/content-modeling');
+const { ENTITY_BUNDLES } = require('../../../../constants/content-modeling');
 
 const entityBundlesForResourcesAndSupport = new Set([
   ENTITY_BUNDLES.STEP_BY_STEP,
@@ -32,11 +32,9 @@ function createUniqueId(headingEl, headingOptions) {
   return anchor;
 }
 
-function generateHeadingIds() {
-  return (files, metalsmith, done) => {
-    for (const fileName of Object.keys(files)) {
-      const file = files[fileName];
-      let idAdded = false;
+module.exports = {
+  modifyFile(fileName, file) {
+    let idAdded = false;
 
       if (fileName.endsWith('html')) {
         const { dom } = file;
@@ -44,7 +42,7 @@ function generateHeadingIds() {
 
         if (!tableOfContents) {
           // eslint-disable-next-line no-continue
-          continue;
+          return;
         }
 
         const headingOptions = {
@@ -61,7 +59,7 @@ function generateHeadingIds() {
           nodes = dom('article h2');
           if (nodes.length < 2) {
             // eslint-disable-next-line no-continue
-            continue;
+            return;
           }
         } else {
           nodes = dom('h2, h3');
@@ -104,10 +102,5 @@ function generateHeadingIds() {
           file.modified = true;
         }
       }
-    }
-
-    done();
-  };
+  }
 }
-
-module.exports = generateHeadingIds;

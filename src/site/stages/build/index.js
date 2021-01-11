@@ -19,14 +19,10 @@ const assetSources = require('../../constants/assetSources');
 const registerLiquidFilters = require('../../filters/liquid');
 const { getDrupalContent } = require('./drupal/metalsmith-drupal');
 const addDrupalPrefix = require('./plugins/add-drupal-prefix');
-const addNonceToScripts = require('./plugins/add-nonce-to-scripts');
-const addSubheadingsIds = require('./plugins/add-id-to-subheadings');
-const checkBrokenLinks = require('./plugins/check-broken-links');
 const checkCollections = require('./plugins/check-collections');
 const checkForCMSUrls = require('./plugins/check-cms-urls');
 const downloadAssets = require('./plugins/download-assets');
 const readAssetsFromDisk = require('./plugins/read-assets-from-disk');
-const processEntryNames = require('./plugins/process-entry-names');
 const createDrupalDebugPage = require('./plugins/create-drupal-debug');
 const createEnvironmentFilter = require('./plugins/create-environment-filter');
 const createHeaderFooter = require('./plugins/create-header-footer');
@@ -36,12 +32,9 @@ const createResourcesAndSupportWebsiteSection = require('./plugins/create-resour
 const createSitemaps = require('./plugins/create-sitemaps');
 const downloadDrupalAssets = require('./plugins/download-drupal-assets');
 const leftRailNavResetLevels = require('./plugins/left-rail-nav-reset-levels');
-const parseHtml = require('./plugins/parse-html');
-const replaceContentsWithDom = require('./plugins/replace-contents-with-dom');
-const injectAxeCore = require('./plugins/inject-axe-core');
+const parseHtml = require('./plugins/modify-dom/parse-html');
 const rewriteDrupalPages = require('./plugins/rewrite-drupal-pages');
 const rewriteVaDomains = require('./plugins/rewrite-va-domains');
-const updateExternalLinks = require('./plugins/update-external-links');
 const updateRobots = require('./plugins/update-robots');
 
 /**
@@ -257,22 +250,7 @@ function build(BUILD_OPTIONS) {
    * the content is modified directly between those two plugins, any
    * changes will be overwritten during the outputHtml step.
    */
-  smith.use(parseHtml, 'Parse HTML files');
-
-  /**
-   * Add nonce attribute with substitution string to all inline script tags
-   * Convert onclick event handles into nonced script tags
-   */
-  smith.use(addNonceToScripts, 'Add nonce to script tags');
-  smith.use(
-    processEntryNames(BUILD_OPTIONS),
-    'Process [data-entry-name] attributes into Webpack asset paths',
-  );
-  smith.use(updateExternalLinks(BUILD_OPTIONS), 'Update external links');
-  smith.use(addSubheadingsIds(BUILD_OPTIONS), 'Add IDs to subheadings');
-  smith.use(checkBrokenLinks(BUILD_OPTIONS), 'Check for broken links');
-  smith.use(injectAxeCore(BUILD_OPTIONS), 'Inject axe-core for accessibility');
-  smith.use(replaceContentsWithDom, 'Save the changes from the modified DOM');
+  smith.use(parseHtml(BUILD_OPTIONS), 'Parse HTML files');
 
   /* eslint-disable no-console */
   smith.build(err => {

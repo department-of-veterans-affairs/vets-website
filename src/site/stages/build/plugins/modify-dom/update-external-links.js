@@ -19,10 +19,8 @@ function isNonVADomainThatOpensInSameTab(href) {
   return href.toLowerCase().includes('veteranscrisisline.net');
 }
 
-function updateExternalLinks() {
-  return (files, metalsmith, done) => {
-    for (const fileName of Object.keys(files)) {
-      const file = files[fileName];
+module.exports = {
+  modifyFile(fileName, file) {
       let linkUpdated = false;
 
       if (fileName.endsWith('html')) {
@@ -68,10 +66,5 @@ function updateExternalLinks() {
           file.modified = true;
         }
       }
-    }
-
-    done();
-  };
+  }
 }
-
-module.exports = updateExternalLinks;
