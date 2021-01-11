@@ -121,7 +121,7 @@ module.exports = env => {
   const publicAssetPath =
     buildOptions.buildtype === 'vagovdev' ||
     buildOptions.buildtype === 'vagovstaging' ||
-    buildOptions.buildtype === 'vagovprd'
+    buildOptions.buildtype === 'vagovprod'
       ? `${BUCKETS[buildOptions.buildtype]}/generated/`
       : '/generated/';
 
