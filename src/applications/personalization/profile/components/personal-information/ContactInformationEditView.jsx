@@ -175,6 +175,15 @@ export class ContactInformationEditView extends Component {
   };
 
   onInput = (value, schema, uiSchema) => {
+    const addressFieldNames = [
+      FIELD_NAMES.MAILING_ADDRESS,
+      FIELD_NAMES.RESIDENTIAL_ADDRESS,
+    ];
+
+    if (!addressFieldNames.includes(this.props.fieldName)) {
+      this.onChangeFormDataAndSchemas(value, schema, uiSchema);
+    }
+
     const newFieldValue = {
       ...value,
     };
@@ -241,11 +250,6 @@ export class ContactInformationEditView extends Component {
       transactionRequest?.error ||
       (isFailedTransaction(transaction) ? {} : null);
 
-    const addressFieldNames = [
-      FIELD_NAMES.MAILING_ADDRESS,
-      FIELD_NAMES.RESIDENTIAL_ADDRESS,
-    ];
-
     return (
       <>
         {error && (
@@ -278,18 +282,9 @@ export class ContactInformationEditView extends Component {
               schema={field.formSchema}
               data={field.value}
               uiSchema={field.uiSchema}
-              onChange={event => {
-                if (addressFieldNames.includes(fieldName)) {
-                  this.onInput(event, field.formSchema, field.uiSchema);
-                  return;
-                }
-
-                this.onChangeFormDataAndSchemas(
-                  event,
-                  field.formSchema,
-                  field.uiSchema,
-                );
-              }}
+              onChange={event =>
+                this.onInput(event, field.formSchema, field.uiSchema)
+              }
               onSubmit={onSubmit}
             >
               <ContactInformationActionButtons
