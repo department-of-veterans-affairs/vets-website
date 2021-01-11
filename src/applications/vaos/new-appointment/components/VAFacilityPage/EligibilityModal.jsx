@@ -16,28 +16,29 @@ export default function EligibilityModal({
     title = 'We’re sorry. We’ve run into a problem';
     content = 'Something went wrong on our end. Please try again later.';
   } else if (!eligibility.requestSupported) {
-    title =
-      'This facility does not allow online requests for this type of care';
+    title = 'This facility doesn’t accept online scheduling for this care';
     content = (
       <div aria-atomic="true" aria-live="assertive">
-        This facility does not allow scheduling requests for this type of care
-        to be made online. Not all facilities support online scheduling for all
-        types of care.
+        You’ll need to call your VA health facility to schedule this
+        appointment. Not all VA facilities offer online scheduling for all types
+        of care
       </div>
     );
   } else if (!eligibility.requestPastVisit) {
-    title = 'We couldn’t find a recent appointment at this location';
+    title = 'We can’t find a recent appointment for you';
     content = (
       <>
         <p>
-          You need to have visited this facility within the past{' '}
+          You need to have had an appointment at this facility within the last{' '}
           {eligibility.requestPastVisitValue} months to request an appointment
-          online for the type of care you selected.
+          online for this care.
         </p>
         <p>
-          If you haven’t visited this location within the past{' '}
-          {eligibility.requestPastVisitValue} months, please call this facility
-          to schedule your appointment or search for another facility.
+          You’ll need to call the facility to schedule this appointment. Or{' '}
+          <a href="/find-locations" target="_blank" rel="noopener noreferrer">
+            search for another VA facility
+          </a>
+          .
         </p>
       </>
     );

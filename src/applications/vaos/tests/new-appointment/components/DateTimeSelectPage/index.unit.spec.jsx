@@ -162,15 +162,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     expect(
       screen.getByRole('heading', {
         level: 3,
-        name:
-          'We’ve run into a problem when trying to find available appointment times',
-      }),
-    ).to.be.ok;
-
-    // it should display link to find the nearest VA medical center
-    expect(
-      screen.getByRole('link', {
-        name: 'Find your nearest VA medical center',
+        name: 'We’ve run into a problem trying to find an appointment time',
       }),
     ).to.be.ok;
 
@@ -291,7 +283,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
       await waitForElementToBeRemoved(overlay);
     }
 
-    expect(screen.getByText('Your earliest appointment time')).to.be.ok;
+    expect(screen.getByText('Your appointment time')).to.be.ok;
 
     // 2. Simulate user selecting a date
     let button = screen.queryByLabelText(
@@ -424,7 +416,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
       await waitForElementToBeRemoved(overlay);
     }
 
-    expect(screen.findByText('Your earliest appointment time')).to.be.ok;
+    expect(screen.findByText('Your appointment time')).to.be.ok;
 
     // 2. Simulate user selecting a date
     let button = screen.queryByLabelText(
@@ -625,7 +617,9 @@ describe('VAOS <DateTimeSelectPage>', () => {
     );
 
     expect(
-      await screen.findByText(/If you have an urgent medical need, please/i),
+      await screen.findByText(
+        /If you have an urgent medical need or need care right away/i,
+      ),
     ).to.exist;
   });
 
@@ -834,7 +828,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
       await waitForElementToBeRemoved(overlay);
     }
 
-    expect(screen.getByText('Your earliest appointment time')).to.be.ok;
+    expect(screen.getByText('Your appointment time')).to.be.ok;
 
     expect(
       screen.getByRole('heading', {

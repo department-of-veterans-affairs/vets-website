@@ -451,7 +451,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
 
     expect(
       await screen.findByText(
-        /We can’t find a VA facility where you receive care that accepts online appointments for primary care/i,
+        /Your registered facilities don’t accept online scheduling for this care right now/i,
       ),
     ).to.exist;
   });
@@ -484,7 +484,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
     fireEvent.click(screen.getByText(/Continue/));
     await screen.findByText(
-      /This facility does not allow scheduling requests/i,
+      /This facility doesn’t accept online scheduling for this care/i,
     );
     const loadingEvent = global.window.dataLayer.find(
       ev => ev.event === 'loading-indicator-displayed',
@@ -523,16 +523,16 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
     fireEvent.click(screen.getByText(/Continue/));
     await screen.findByText(
-      /This facility does not allow scheduling requests/i,
+      /This facility doesn’t accept online scheduling for this care/i,
     );
     const closeButton = screen.container.querySelector('.va-modal-close');
     fireEvent.click(closeButton);
     expect(screen.baseElement).not.to.contain.text(
-      /This facility does not allow scheduling requests/,
+      /This facility doesn’t accept online scheduling for this care/,
     );
     fireEvent.click(screen.getByText(/Continue/));
     await screen.findByText(
-      /This facility does not allow scheduling requests/i,
+      /This facility doesn’t accept online scheduling for this care/i,
     );
   });
 
@@ -587,7 +587,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
     fireEvent.click(screen.getByText(/Continue/));
     await screen.findByText(
-      /You’ve reached the limit for appointment requests at this location/i,
+      /You’ve reached the limit for appointment requests/i,
     );
   });
 
@@ -641,9 +641,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
 
     fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
     fireEvent.click(screen.getByText(/Continue/));
-    await screen.findByText(
-      /We couldn’t find a recent appointment at this location/i,
-    );
+    await screen.findByText(/We can’t find a recent appointment for you/i);
     expect(screen.getByRole('alertdialog')).to.be.ok;
   });
 

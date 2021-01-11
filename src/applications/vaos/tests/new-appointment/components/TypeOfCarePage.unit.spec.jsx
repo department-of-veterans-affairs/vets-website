@@ -286,13 +286,19 @@ describe('VAOS <TypeOfCarePage>', () => {
       { store },
     );
 
-    expect(await screen.findByText(/You need to have a home address/i)).to
-      .exist;
+    expect(
+      await screen.findByText(
+        /To use some of the tool’s features, you need a home address on file/i,
+      ),
+    ).to.exist;
     fireEvent.click(screen.getByText('Update your address'));
     await waitFor(
       () =>
-        expect(screen.queryByText(/You need to have a home address/i)).to.not
-          .exist,
+        expect(
+          screen.queryByText(
+            /To use some of the tool’s features, you need a home address on files/i,
+          ),
+        ).to.not.exist,
     );
     await cleanup();
 
