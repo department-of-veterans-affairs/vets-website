@@ -24,7 +24,7 @@ const parseHtml = BUILD_OPTIONS => files => {
     }
   }
 
-  for (const  [fileName, file] of Object.entries(files)) {
+  for (const [fileName, file] of Object.entries(files)) {
     if (path.extname(fileName) === '.html') {
       file.dom = cheerio.load(file.contents);
       for (const modifier of domModifiers) {
@@ -35,7 +35,6 @@ const parseHtml = BUILD_OPTIONS => files => {
       }
       delete file.dom;
     }
-
   }
 
   for (const modifier of domModifiers) {

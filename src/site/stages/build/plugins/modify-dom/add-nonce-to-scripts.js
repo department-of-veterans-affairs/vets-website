@@ -61,5 +61,5 @@ module.exports = {
 
     dom('body').append(newScript);
     file.modified = true;
-  }
-}
+  },
+};

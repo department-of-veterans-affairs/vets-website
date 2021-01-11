@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+
 /*
  * Add unique ID to H2s and H3s that aren't in WYSIWYG or accordion buttons
  */
@@ -36,71 +38,71 @@ module.exports = {
   modifyFile(fileName, file) {
     let idAdded = false;
 
-      if (fileName.endsWith('html')) {
-        const { dom } = file;
-        const tableOfContents = dom('#table-of-contents ul');
+    if (fileName.endsWith('html')) {
+      const { dom } = file;
+      const tableOfContents = dom('#table-of-contents ul');
 
-        if (!tableOfContents) {
+      if (!tableOfContents) {
+        // eslint-disable-next-line no-continue
+        return;
+      }
+
+      const headingOptions = {
+        previousHeadings: [],
+        previousId: 0,
+        getHeadingId() {
+          return ++this.previousId;
+        },
+      };
+
+      let nodes = null;
+
+      if (entityBundlesForResourcesAndSupport.has(file.entityBundle)) {
+        nodes = dom('article h2');
+        if (nodes.length < 2) {
           // eslint-disable-next-line no-continue
           return;
         }
+      } else {
+        nodes = dom('h2, h3');
+      }
 
-        const headingOptions = {
-          previousHeadings: [],
-          previousId: 0,
-          getHeadingId() {
-            return ++this.previousId;
-          },
-        };
+      nodes.each((index, el) => {
+        const heading = dom(el);
+        const parent = heading.parents();
+        const isInAccordionButton = parent.hasClass('usa-accordion-button');
+        const isInAccordion = parent.hasClass('usa-accordion-content');
 
-        let nodes = null;
-
-        if (entityBundlesForResourcesAndSupport.has(file.entityBundle)) {
-          nodes = dom('article h2');
-          if (nodes.length < 2) {
-            // eslint-disable-next-line no-continue
-            return;
-          }
-        } else {
-          nodes = dom('h2, h3');
+        // skip heading if it already has an id and skip heading if it's in an accordion button
+        if (!heading.attr('id') && !isInAccordionButton) {
+          const headingID = createUniqueId(heading, headingOptions);
+          heading.attr('id', headingID);
+          idAdded = true;
         }
 
-        nodes.each((index, el) => {
-          const heading = dom(el);
-          const parent = heading.parents();
-          const isInAccordionButton = parent.hasClass('usa-accordion-button');
-          const isInAccordion = parent.hasClass('usa-accordion-content');
-
-          // skip heading if it already has an id and skip heading if it's in an accordion button
-          if (!heading.attr('id') && !isInAccordionButton) {
-            const headingID = createUniqueId(heading, headingOptions);
-            heading.attr('id', headingID);
-            idAdded = true;
-          }
-
-          // if it is an h2, add the h2 to the table of contents
-          if (
-            el.tagName.toLowerCase() === 'h2' &&
-            tableOfContents &&
-            heading.text().toLowerCase() !== 'on this page' &&
-            !isInAccordionButton &&
-            !isInAccordion
-          ) {
-            tableOfContents.append(
-              `<li class="vads-u-margin-bottom--2"><a href="#${heading.attr(
-                'id',
-              )}" onClick="recordEvent({ event: 'nav-jumplink-click' });"
+        // if it is an h2, add the h2 to the table of contents
+        if (
+          el.tagName.toLowerCase() === 'h2' &&
+          tableOfContents &&
+          heading.text().toLowerCase() !== 'on this page' &&
+          !isInAccordionButton &&
+          !isInAccordion
+        ) {
+          tableOfContents.append(
+            `<li class="vads-u-margin-bottom--2"><a href="#${heading.attr(
+              'id',
+            )}" onClick="recordEvent({ event: 'nav-jumplink-click' });"
               class="vads-u-display--flex vads-u-text-decoration--none">
               <i class="fas fa-arrow-down va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1">
               </i>${heading.text()}</a></li>`,
-            );
-            idAdded = true;
-          }
-        });
-
-        if (idAdded) {
-          file.modified = true;
+          );
+          idAdded = true;
         }
+      });
+
+      if (idAdded) {
+        file.modified = true;
       }
-  }
-}
+    }
+  },
+};

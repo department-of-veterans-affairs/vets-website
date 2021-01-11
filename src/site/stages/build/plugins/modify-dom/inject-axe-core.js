@@ -29,19 +29,19 @@ module.exports = {
 
     if (path.extname(fileName) !== '.html') return;
 
-      const { dom } = file;
+    const { dom } = file;
 
-      const axeCoreScript = dom(
-        `<script nonce="**CSP_NONCE**" type="text/javascript" src="/${axeCoreFileName}"></script>`,
-      );
+    const axeCoreScript = dom(
+      `<script nonce="**CSP_NONCE**" type="text/javascript" src="/${axeCoreFileName}"></script>`,
+    );
 
-      const executeAxeCheckScript = dom(
-        `<script nonce="**CSP_NONCE**" type="text/javascript" src="/js/execute-axe-check.js"></script>`,
-      );
+    const executeAxeCheckScript = dom(
+      `<script nonce="**CSP_NONCE**" type="text/javascript" src="/js/execute-axe-check.js"></script>`,
+    );
 
-      dom('body').append(axeCoreScript);
-      dom('body').append(executeAxeCheckScript);
+    dom('body').append(axeCoreScript);
+    dom('body').append(executeAxeCheckScript);
 
-      file.modified = true;
-  }
-}
+    file.modified = true;
+  },
+};

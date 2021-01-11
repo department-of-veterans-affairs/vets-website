@@ -77,38 +77,36 @@ module.exports = {
   },
 
   modifyFile(fileName, file, files, buildOptions) {
-      const { dom } = file;
-      if (!dom) return;
+    const { dom } = file;
+    if (!dom) return;
 
-      dom('script[data-entry-name],link[data-entry-name]').each((index, el) => {
-        // Derive the element properties.
-        const $el = dom(el);
-        const entryName = $el.data('entryName');
-        const attribute = $el.is('script') ? 'src' : 'href';
+    dom('script[data-entry-name],link[data-entry-name]').each((index, el) => {
+      // Derive the element properties.
+      const $el = dom(el);
+      const entryName = $el.data('entryName');
+      const attribute = $el.is('script') ? 'src' : 'href';
 
-        // Derive the hashed entry name.
-        const hashedEntryName = this.entryNamesDictionary.get(entryName) || [];
+      // Derive the hashed entry name.
+      const hashedEntryName = this.entryNamesDictionary.get(entryName) || [];
 
-        // Assemble the filename so we can match it in the generated files array.
-        const fileSearch = `generated/${
-          hashedEntryName.split('/generated/')[1]
-        }`;
+      // Assemble the filename so we can match it in the generated files array.
+      const fileSearch = `generated/${hashedEntryName.split('/generated/')[1]}`;
 
-        // Ensure we have valid options and that the entry exists.
-        const entryExists = files[fileSearch];
+      // Ensure we have valid options and that the entry exists.
+      const entryExists = files[fileSearch];
 
-        if (
-          buildOptions.buildtype !== environments.LOCALHOST &&
-          !buildOptions.isPreviewServer &&
-          !buildOptions.entry &&
-          !entryExists
-        ) {
-          throw new Error(`Entry Name "${entryName}" was not found.`);
-        }
+      if (
+        buildOptions.buildtype !== environments.LOCALHOST &&
+        !buildOptions.isPreviewServer &&
+        !buildOptions.entry &&
+        !entryExists
+      ) {
+        throw new Error(`Entry Name "${entryName}" was not found.`);
+      }
 
-        // Link the element to the hashed entry name w/o the S3 bucket
-        $el.attr(attribute, `/${fileSearch}`);
-        file.modified = true;
-      });
-  }
-}
+      // Link the element to the hashed entry name w/o the S3 bucket
+      $el.attr(attribute, `/${fileSearch}`);
+      file.modified = true;
+    });
+  },
+};

@@ -18,22 +18,21 @@ module.exports = {
   },
 
   modifyFile(fileName, file, files, buildOptions) {
-
     if (buildOptions.watch) {
       return;
     }
 
     const isHtml = path.extname(fileName) === '.html';
-      if (!isHtml) return;
+    if (!isHtml) return;
 
-      const linkErrors = getBrokenLinks(file, this.allPaths);
+    const linkErrors = getBrokenLinks(file, this.allPaths);
 
-      if (linkErrors.length > 0) {
-        this.brokenPages.push({
-          path: file.path,
-          linkErrors,
-        });
-      }
+    if (linkErrors.length > 0) {
+      this.brokenPages.push({
+        path: file.path,
+        linkErrors,
+      });
+    }
   },
 
   conclude(buildOptions, files) {
@@ -48,5 +47,5 @@ module.exports = {
 
       console.log(errorOutput);
     }
-  }
-}
+  },
+};
