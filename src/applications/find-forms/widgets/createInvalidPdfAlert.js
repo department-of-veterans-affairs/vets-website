@@ -95,8 +95,9 @@ export async function onDownloadLinkClick(event) {
     const alertBox = <InvalidFormDownload downloadUrl={downloadUrl} />;
 
     ReactDOM.render(alertBox, div);
-    link.parentNode.insertBefore(div, link);
-    link.remove();
+    const parentEl = link.parentNode;
+    parentEl.insertBefore(div, link);
+    parentEl.removeChild(link);
   }
 }
 
