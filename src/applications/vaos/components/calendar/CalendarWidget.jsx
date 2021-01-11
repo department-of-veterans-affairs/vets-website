@@ -7,10 +7,6 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import CalendarRow from './CalendarRow';
 import CalendarNavigation from './CalendarNavigation';
 import CalendarWeekdayHeader from './CalendarWeekdayHeader';
-import {
-  isDateInSelectedArray,
-  isDateOptionPairInSelectedArray,
-} from './dateHelpers';
 import { FETCH_STATUS } from '../../utils/constants';
 
 const DEFAULT_MAX_DAYS_AHEAD = 90;
@@ -112,18 +108,6 @@ export function getCalendarWeeks(momentDate) {
   return weeks;
 }
 
-export function removeDateOptionPairFromSelectedArray(
-  dateObj,
-  selectedArray,
-  fieldName,
-) {
-  return selectedArray.filter(
-    d =>
-      d.date !== dateObj.date ||
-      (d.date === dateObj.date && d[fieldName] !== dateObj[fieldName]),
-  );
-}
-
 function handlePrev(onClickPrev, months, setMonths) {
   const updatedMonths = months.map(m => m.subtract(1, 'months'));
 
@@ -152,102 +136,9 @@ function handleNext(onClickNext, months, setMonths) {
   setMonths(updatedMonths);
 }
 
-function handleMultiSelect({
-  date,
-  onChange,
-  selectedDates,
-  additionalOptions,
-  currentlySelectedDate,
-}) {
-  const updatedSelectedDates = selectedDates ? [...selectedDates] : [];
-
-  const isInSelectedArray = isDateInSelectedArray(date, updatedSelectedDates);
-  // If an option selection is required, don't add this date to selectedDates
-  // array until an option is selected as well
-  if (!isInSelectedArray && !additionalOptions?.required) {
-    updatedSelectedDates.push({ date });
-  }
-  // selectedDates: updatedSelectedDates, it's to be expliciit
-  onChange({
-    currentlySelectedDate: currentlySelectedDate === date ? null : date,
-    selectedDates: updatedSelectedDates,
-  });
-}
-
-function handleSelectDate({
-  date,
-  selectedDates,
-  currentlySelectedDate,
-  maxSelections,
-  additionalOptions,
-  onChange,
-}) {
-  let updatedSelectedDates = selectedDates ? [...selectedDates] : [];
-  let updatedCurrentlySelectedDate = currentlySelectedDate;
-
-  if (maxSelections > 1) {
-    handleMultiSelect({
-      date,
-      onChange,
-      selectedDates,
-      additionalOptions,
-      currentlySelectedDate,
-    });
-  } else {
-    if (date !== updatedCurrentlySelectedDate) {
-      if (!additionalOptions?.required) {
-        updatedSelectedDates = [{ date }];
-      }
-      updatedCurrentlySelectedDate = date;
-    } else {
-      updatedSelectedDates = selectedDates.filter(d => d.date !== date);
-      updatedCurrentlySelectedDate = null;
-    }
-    onChange({
-      currentlySelectedDate: updatedCurrentlySelectedDate,
-      selectedDates: updatedSelectedDates,
-    });
-  }
-}
-function handleSelectOption({
-  dateObj,
-  selectedDates = [],
-  additionalOptions,
-  onChange,
-  currentlySelectedDate,
-}) {
-  let updatedSelectedDates = [...selectedDates];
-
-  const maxOptionSelections = additionalOptions.maxSelections;
-  const fieldName = additionalOptions.fieldName;
-  const alreadySelected = isDateOptionPairInSelectedArray(
-    dateObj,
-    selectedDates,
-    fieldName,
-  );
-  if (maxOptionSelections > 1) {
-    if (alreadySelected) {
-      updatedSelectedDates = removeDateOptionPairFromSelectedArray(
-        dateObj,
-        selectedDates,
-        fieldName,
-      );
-    } else {
-      updatedSelectedDates.push(dateObj);
-    }
-  } else {
-    updatedSelectedDates = [dateObj];
-  }
-  onChange({
-    currentlySelectedDate,
-    selectedDates: updatedSelectedDates,
-  });
-}
-
 export default function CalendarWidget({
   additionalOptions,
   availableDates,
-  currentlySelectedDate,
   loadingErrorMessage,
   loadingStatus,
   maxDate,
@@ -256,11 +147,18 @@ export default function CalendarWidget({
   onChange,
   onClickNext,
   onClickPrev,
-  selectedDates,
+  value = [],
   selectedIndicatorType,
   startMonth,
   validationError,
 }) {
+  const [currentlySelectedDate, setCurrentlySelectedDate] = useState(() => {
+    if (value.length > 0) {
+      return value[0].split('T')[0];
+    }
+
+    return null;
+  });
   const currentDate = moment();
   const maxMonth = getMaxMonth(maxDate, startMonth);
   const [months, setMonths] = useState([moment(startMonth || minDate)]);
@@ -334,33 +232,40 @@ export default function CalendarWidget({
                         availableDates={availableDates}
                         cells={week}
                         currentlySelectedDate={currentlySelectedDate}
-                        handleSelectDate={date =>
-                          handleSelectDate({
-                            additionalOptions,
-                            currentlySelectedDate,
-                            date,
-                            maxSelections,
-                            onChange,
-                            selectedDates,
-                          })
-                        }
-                        // replace the handleSectionOption function here
-                        handleSelectOption={dateObj =>
-                          handleSelectOption({
-                            dateObj,
-                            selectedDates,
-                            additionalOptions,
-                            onChange,
-                            currentlySelectedDate,
-                          })
-                        }
+                        handleSelectDate={date => {
+                          if (
+                            maxSelections === 1 &&
+                            date === currentlySelectedDate
+                          ) {
+                            onChange([]);
+                          }
+
+                          setCurrentlySelectedDate(
+                            date === currentlySelectedDate ? null : date,
+                          );
+                        }}
+                        handleSelectOption={date => {
+                          if (maxSelections > 1) {
+                            if (value.includes(date)) {
+                              onChange(
+                                value.filter(
+                                  selectedDate => selectedDate !== date,
+                                ),
+                              );
+                            } else {
+                              onChange(value.concat(date));
+                            }
+                          } else {
+                            onChange([date]);
+                          }
+                        }}
                         hasError={validationError?.length > 0}
                         key={`row-${weekIndex}`}
                         maxDate={maxDate}
                         maxSelections={maxSelections}
                         minDate={minDate}
                         rowNumber={weekIndex}
-                        selectedDates={selectedDates || []}
+                        selectedDates={value}
                         selectedIndicatorType={selectedIndicatorType}
                       />
                     ))}
