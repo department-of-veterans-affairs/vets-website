@@ -104,7 +104,7 @@ function processEntryNames(buildOptions) {
         }
 
         // Link the element to the hashed entry name w/o the S3 bucket
-        $el.attr(attribute, hashedEntryName);
+        $el.attr(attribute, `/${fileSearch}`);
         file.modified = true;
       });
     }
