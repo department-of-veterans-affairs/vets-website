@@ -13,7 +13,6 @@ const CalendarCell = ({
   handleSelectOption,
   hasError,
   index,
-  inSelectedArray,
   maxSelections,
   onClick,
   selectedDates,
@@ -22,6 +21,9 @@ const CalendarCell = ({
   const [optionsHeight, setOptionsHeight] = useState(0);
   const buttonRef = useRef(null);
   const optionsHeightRef = useRef(null);
+  const inSelectedArray = selectedDates?.some(selectedDate =>
+    selectedDate.startsWith(date),
+  );
 
   useEffect(
     () => {
