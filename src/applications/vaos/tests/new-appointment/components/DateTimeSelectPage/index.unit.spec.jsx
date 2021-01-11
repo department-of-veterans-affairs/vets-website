@@ -45,10 +45,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
         data: {
           vaFacility: '983GB',
           clinicId: '308',
-          calendarData: {
-            currentlySelectedDate: null,
-            selectedDates: [],
-          },
+          selectedDates: [],
         },
         pages: [],
         eligibility: [],
@@ -85,7 +82,6 @@ describe('VAOS <DateTimeSelectPage>', () => {
         data: {
           vaFacility: '983GB',
           clinicId: '308',
-          calendarData: {},
         },
         pages: [],
         eligibility: [],

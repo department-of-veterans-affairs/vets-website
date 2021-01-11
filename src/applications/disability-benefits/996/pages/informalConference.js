@@ -27,6 +27,10 @@ const informalConference = {
           }
           return schema;
         },
+        widgetProps: {
+          me: { 'aria-describedby': 'choose-conference-notice' },
+          rep: { 'aria-describedby': 'choose-conference-notice' },
+        },
       },
       'ui:errorMessages': {
         required: errorMessages.informalConferenceContactChoice,
