@@ -8,7 +8,7 @@ import * as actions from '../../redux/actions';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import FormButtons from '../../../components/FormButtons';
 import { getDateTimeSelect } from '../../redux/selectors';
-import CalendarWidget from '../calendar/CalendarWidget';
+import CalendarWidget from '../../../components/calendar/CalendarWidget';
 import WaitTimeAlert from './WaitTimeAlert';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { getRealFacilityId } from '../../../utils/appointment';
@@ -74,16 +74,12 @@ function ErrorMessage({ facilityId, requestAppointmentDateChoice }) {
   );
 }
 
-function userSelectedSlot(calendarData) {
-  return calendarData?.selectedDates?.length > 0;
-}
-
 function goBack({ routeToPreviousAppointmentPage, history }) {
   return routeToPreviousAppointmentPage(history, pageKey);
 }
 
-function validate({ calendarData, setValidationError }) {
-  if (userSelectedSlot(calendarData)) {
+function validate({ dates, setValidationError }) {
+  if (dates?.length) {
     setValidationError(null);
   } else {
     setValidationError(missingDateError);
@@ -98,9 +94,8 @@ function goForward({
   setSubmitted,
   setValidationError,
 }) {
-  const { calendarData } = data || {};
-  validate({ calendarData, setValidationError });
-  if (userSelectedSlot(calendarData)) {
+  validate({ date: data.selectedDates, setValidationError });
+  if (data.selectedDates?.length) {
     routeToNextAppointmentPage(history, pageKey);
   } else if (submitted) {
     scrollAndFocus('.usa-input-error-message');
@@ -156,8 +151,7 @@ export function DateTimeSelectPage({
     [validationError, submitted],
   );
 
-  const calendarData = data?.calendarData || {};
-  const { currentlySelectedDate, selectedDates } = calendarData;
+  const selectedDates = data.selectedDates;
   const startMonth = preferredDate
     ? moment(preferredDate).format('YYYY-MM')
     : null;
@@ -186,12 +180,9 @@ export function DateTimeSelectPage({
       <CalendarWidget
         maxSelections={1}
         availableDates={availableDates}
-        currentlySelectedDate={currentlySelectedDate}
-        selectedDates={selectedDates}
+        value={selectedDates}
         additionalOptions={{
-          fieldName: 'datetime',
           required: true,
-          maxSelections: 1,
           getOptionsByDate: selectedDate =>
             getOptionsByDate(selectedDate, timezone, availableSlots),
         }}
@@ -202,9 +193,9 @@ export function DateTimeSelectPage({
             requestAppointmentDateChoice={requestAppointmentDateChoice}
           />
         }
-        onChange={newData => {
-          validate({ calendarData: newData, setValidationError });
-          onCalendarChange(newData);
+        onChange={dates => {
+          validate({ dates, setValidationError });
+          onCalendarChange(dates);
         }}
         onClickNext={getAppointmentSlots}
         onClickPrev={getAppointmentSlots}

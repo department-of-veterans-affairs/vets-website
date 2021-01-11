@@ -6,6 +6,7 @@ import {
 import set from 'platform/utilities/data/set';
 
 import {
+  FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
   FORM_DATA_UPDATED,
   FORM_PAGE_CHANGE_COMPLETED,
   FORM_PAGE_CHANGE_STARTED,
@@ -23,6 +24,11 @@ import {
   FORM_REQUEST_CURRENT_LOCATION_FAILED,
   FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
   FORM_REQUEST_CURRENT_LOCATION,
+  FORM_CALENDAR_DATA_CHANGED,
+  FORM_CALENDAR_2_DATA_CHANGED,
+  FORM_CALENDAR_FETCH_SLOTS,
+  FORM_CALENDAR_FETCH_SLOTS_FAILED,
+  FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
 } from './actions';
 
 import { FACILITY_SORT_METHODS, FETCH_STATUS } from '../../utils/constants';
@@ -39,6 +45,9 @@ const initialState = {
     facilitiesStatus: FETCH_STATUS.notStarted,
     clinics: {},
     clinicsStatus: FETCH_STATUS.notStarted,
+    appointmentSlotsStatus: FETCH_STATUS.notStarted,
+    availableSlots: null,
+    fetchedAppointmentSlotMonths: [],
   },
   submitStatus: FETCH_STATUS.notStarted,
   submitErrorReason: null,
@@ -247,6 +256,10 @@ export default function projectCheetahReducer(state = initialState, action) {
         ...state,
         newBooking: {
           ...state.newBooking,
+          data: {
+            ...state.newBooking.data,
+            clinicId: action.clinics.length === 1 ? action.clinics[0].id : null,
+          },
           clinics: {
             ...state.newBooking.clinics,
             showEligibilityModal: action.showModal,
@@ -375,6 +388,44 @@ export default function projectCheetahReducer(state = initialState, action) {
         requestLocationStatus: FETCH_STATUS.failed,
       };
     }
+    case FORM_CLINIC_PAGE_OPENED_SUCCEEDED: {
+      let newSchema = action.schema;
+      const clinics =
+        state.newBooking.clinics[state.newBooking.data.vaFacility];
+
+      newSchema = {
+        ...newSchema,
+        properties: {
+          clinicId: {
+            type: 'string',
+            title: 'Choose a clinic',
+            enum: clinics.map(clinic => clinic.id),
+            enumNames: clinics.map(clinic => clinic.serviceName),
+          },
+        },
+      };
+
+      const { data, schema } = setupFormData(
+        state.newBooking.data,
+        newSchema,
+        action.uiSchema,
+      );
+
+      return {
+        ...state,
+        newBooking: {
+          ...state.newBooking,
+          data: {
+            ...data,
+            selectedDates: [],
+          },
+          pages: {
+            ...state.newBooking.pages,
+            [action.page]: schema,
+          },
+        },
+      };
+    }
     case FORM_SUBMIT:
       return {
         ...state,
@@ -386,6 +437,59 @@ export default function projectCheetahReducer(state = initialState, action) {
         submitStatus: FETCH_STATUS.failed,
         submitErrorReason: action.errorReason,
       };
+    case FORM_CALENDAR_FETCH_SLOTS: {
+      return {
+        ...state, // TODO newBooking
+        newBooking: {
+          ...state.newBooking,
+          appointmentSlotsStatus: FETCH_STATUS.loading,
+        },
+      };
+    }
+    case FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED: {
+      return {
+        ...state, // TODO newBooking
+        newBooking: {
+          ...state.newBooking,
+          appointmentSlotsStatus: FETCH_STATUS.succeeded,
+          availableSlots: action.availableSlots,
+          fetchedAppointmentSlotMonths: action.fetchedAppointmentSlotMonths,
+        },
+      };
+    }
+    case FORM_CALENDAR_FETCH_SLOTS_FAILED: {
+      return {
+        ...state, // TODO newBooking
+        newBooking: {
+          ...state.newBooking,
+          appointmentSlotsStatus: FETCH_STATUS.failed,
+        },
+      };
+    }
+    case FORM_CALENDAR_DATA_CHANGED: {
+      return {
+        ...state,
+        newBooking: {
+          ...state.newBooking,
+          data: {
+            ...state.newBooking.data,
+            selectedDates: action.selectedDates,
+          },
+        },
+      };
+    }
+    case FORM_CALENDAR_2_DATA_CHANGED: {
+      return {
+        ...state,
+        newBooking: {
+          ...state.newBooking,
+          data: {
+            ...state.newBooking.data,
+            selectedDates2: action.selectedDates2,
+          },
+        },
+      };
+    }
     default:
       return state;
   }

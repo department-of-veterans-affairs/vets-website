@@ -166,16 +166,14 @@ export default function ConfirmationRequestInfo({
             <h3 className="vaos-appts__block-label">Preferred date and time</h3>
             <div>
               <ul className="usa-unstyled-list">
-                {data.calendarData?.selectedDates.map(
-                  ({ date, optionTime }) => (
-                    <li key={`${date}-${optionTime}`}>
-                      {moment(date).format('MMMM D, YYYY')}{' '}
-                      {optionTime === 'AM'
-                        ? 'in the morning'
-                        : 'in the afternoon'}
-                    </li>
-                  ),
-                )}
+                {data.selectedDates?.map(date => (
+                  <li key={date}>
+                    {moment(date).format('MMMM D, YYYY')}{' '}
+                    {moment(date).hour() < 12
+                      ? 'in the morning'
+                      : 'in the afternoon'}
+                  </li>
+                ))}
               </ul>
             </div>
           </div>

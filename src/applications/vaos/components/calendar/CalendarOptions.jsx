@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import CalendarRadioOption from './CalendarRadioOption';
 import CalendarCheckboxOption from './CalendarCheckboxOption';
-import { isDateOptionPairInSelectedArray } from './dateHelpers';
 
 /* 
  * Because we want to create a background for a jagged grid of cells,
@@ -148,14 +147,8 @@ export default function CalendarOptions({
           </legend>
           <div className={cssClasses}>
             {selectedDateOptions.map((o, index) => {
-              const dateObj = {
-                date: currentlySelectedDate,
-                [fieldName]: o.value,
-              };
-              const checked = isDateOptionPairInSelectedArray(
-                dateObj,
-                selectedDates,
-                fieldName,
+              const checked = selectedDates.some(
+                selectedDate => selectedDate === o.value,
               );
 
               if (useCheckboxes) {
@@ -169,7 +162,7 @@ export default function CalendarOptions({
                       fieldName={fieldName}
                       value={o.value}
                       checked={checked}
-                      onChange={() => handleSelectOption(dateObj)}
+                      onChange={() => handleSelectOption(o.value)}
                       label={o.label}
                       secondaryLabel={o.secondaryLabel}
                       disabled={
@@ -194,7 +187,7 @@ export default function CalendarOptions({
                     fieldName={fieldName}
                     value={o.value}
                     checked={checked}
-                    onChange={() => handleSelectOption(dateObj)}
+                    onChange={() => handleSelectOption(o.value)}
                     label={o.label}
                   />
                 </div>

@@ -265,6 +265,9 @@ describe('mapStateToProps', () => {
       it('should be `false`', () => {
         const state = makeDefaultState();
         state.user.profile.services = [];
+        // since EVSS is not in `services`, the `cnpPaymentInformation` will not
+        // be populated since we'll never make the call to get that data
+        state.vaProfile.cnpPaymentInformation = null;
         const props = mapStateToProps(state);
         expect(props.shouldShowDirectDeposit).to.be.false;
       });

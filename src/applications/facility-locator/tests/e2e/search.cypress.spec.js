@@ -28,7 +28,7 @@ Cypress.Commands.add('verifyOptions', () => {
   cy.get('#service-type-dropdown').should('not.have', 'disabled');
 });
 
-describe('Facility search', () => {
+describe.skip('Facility search', () => {
   before(() => {
     cy.syncFixtures({
       constants: path.join(__dirname, '..', '..', 'constants'),
