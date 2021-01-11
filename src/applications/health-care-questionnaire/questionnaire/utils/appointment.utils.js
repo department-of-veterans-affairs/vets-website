@@ -61,6 +61,9 @@ const getBookingNoteFromAppointment = data => {
 };
 
 const getAppointmentTypeFromClinic = (clinic, options = {}) => {
+  if (!clinic) {
+    return null;
+  }
   const { titleCase } = options;
   const { stopCode } = clinic;
   if (!stopCode) {
@@ -80,7 +83,8 @@ const getAppointmentTypeFromClinic = (clinic, options = {}) => {
   }
 
   return titleCase
-    ? appointmentType.charAt(0).toUpperCase() + appointmentType.slice(1)
+    ? appointmentType.charAt(0).toUpperCase() +
+        appointmentType.slice(1).toLowerCase()
     : appointmentType;
 };
 
