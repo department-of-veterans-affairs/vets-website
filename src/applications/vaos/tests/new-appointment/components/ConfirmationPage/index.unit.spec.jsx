@@ -100,8 +100,7 @@ describe('VAOS <ConfirmationPage>', () => {
       store,
     });
 
-    expect(await screen.findByText(/Your appointment has been scheduled./i)).to
-      .be.ok;
+    expect(await screen.findByText(/Your appointment is confirmed/i)).to.be.ok;
     expect(
       screen.getByText(
         new RegExp(start.format('MMMM D, YYYY [at] h:mm a'), 'i'),
@@ -156,8 +155,7 @@ describe('VAOS <ConfirmationPage>', () => {
       },
     );
 
-    expect(screen.getByText(/Your appointment request has been submitted./i)).to
-      .be.ok;
+    expect(screen.getByText(/We’re reviewing your request/i)).to.be.ok;
     expect(screen.getByText(/VA appointment/i)).to.be.ok;
     expect(screen.getByText(/Primary care appointment/i)).to.be.ok;
     expect(screen.getByText(/Pending/i)).to.be.ok;
@@ -216,8 +214,7 @@ describe('VAOS <ConfirmationPage>', () => {
       },
     );
 
-    expect(screen.getByText(/Your appointment request has been submitted./i)).to
-      .be.ok;
+    expect(screen.getByText(/We’re reviewing your request/i)).to.be.ok;
     expect(screen.getByText(/Community Care/i)).to.be.ok;
     expect(screen.getByText(/Primary care appointment/i)).to.be.ok;
     expect(screen.getByText(/Pending/i)).to.be.ok;
@@ -267,8 +264,7 @@ describe('VAOS <ConfirmationPage>', () => {
       },
     );
 
-    expect(screen.getByText(/Your appointment request has been submitted./i)).to
-      .be.ok;
+    expect(screen.getByText(/We’re reviewing your request/i)).to.be.ok;
     expect(screen.getByText(/Community Care/i)).to.be.ok;
     expect(screen.getByText(/Primary care appointment/i)).to.be.ok;
     expect(screen.getByText(/Pending/i)).to.be.ok;

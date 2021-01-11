@@ -73,7 +73,11 @@ describe('VAOS <TypeOfCarePage>', () => {
       event: 'nav-alert-box-link-click',
     });
 
-    expect(screen.queryByText(/You need to have a home address/i)).to.not.exist;
+    expect(
+      screen.queryByText(
+        /To use some of the tool’s features, you need a home address on file/i,
+      ),
+    ).to.not.exist;
 
     fireEvent.click(screen.getByText(/Continue/));
 
@@ -236,22 +240,28 @@ describe('VAOS <TypeOfCarePage>', () => {
       { store },
     );
 
-    expect(await screen.findByText(/You need to have a home address/i)).to
-      .exist;
+    expect(
+      await screen.findByText(
+        /To use some of the tool’s features, you need a home address on file/i,
+      ),
+    ).to.exist;
     expect(global.window.dataLayer[0].event).to.equal(
       'vaos-update-address-alert-displayed',
     );
     fireEvent.click(screen.getByText('Update your address'));
     await waitFor(
       () =>
-        expect(screen.queryByText(/You need to have a home address/i)).to.not
-          .exist,
+        expect(
+          screen.queryByText(
+            /To use some of the tool’s features, you need a home address on file/i,
+          ),
+        ).to.not.exist,
     );
     expect(global.window.dataLayer[1].event).to.equal(
       'nav-warning-alert-box-content-link-click',
     );
     expect(global.window.dataLayer[1].alertBoxHeading).to.equal(
-      "You need to have a home address on file to use some of the tool's features",
+      'To use some of the tool’s features, you need a home address on file',
     );
     expect(global.window.dataLayer[2].alertBoxHeading).to.equal(undefined);
   });
@@ -270,8 +280,11 @@ describe('VAOS <TypeOfCarePage>', () => {
       { store },
     );
 
-    expect(await screen.findByText(/You need to have a home address/i)).to
-      .exist;
+    expect(
+      await screen.findByText(
+        /To use some of the tool’s features, you need a home address on file/i,
+      ),
+    ).to.exist;
   });
 
   it('should save adress modal dismissal after page change', async () => {
@@ -307,7 +320,11 @@ describe('VAOS <TypeOfCarePage>', () => {
     });
 
     await screen.findAllByRole('radio');
-    expect(screen.queryByText(/You need to have a home address/i)).to.not.exist;
+    expect(
+      screen.queryByText(
+        /To use some of the tool’s features, you need a home address on file/i,
+      ),
+    ).to.not.exist;
   });
 
   it('should render warning message', async () => {
