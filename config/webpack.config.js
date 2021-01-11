@@ -134,7 +134,7 @@ module.exports = env => {
       filename: pathData => {
         return !useHashFilenames || pathData.chunk.name === 'proxy-rewrite' // the unhashed proxy-rewrite file is directly accessed in the prearchive job (src/site/stages/prearchive/link-assets-to-bucket.js#93)
           ? '[name].entry.js'
-          : `[name].entry.[chunkhash]-${timestamp}.js`;
+          : `[name].entry.js`;
       },
       chunkFilename: !useHashFilenames
         ? '[name].entry.js'
@@ -274,9 +274,7 @@ module.exports = env => {
 
           if (isMedalliaStyleFile && isStaging) return `[name].css`;
 
-          return useHashFilenames
-            ? `[name].[contenthash]-${timestamp}.css`
-            : `[name].css`;
+          return `[name].css`;
         },
       }),
 
