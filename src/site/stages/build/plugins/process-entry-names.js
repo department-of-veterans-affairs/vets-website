@@ -103,19 +103,8 @@ function processEntryNames(buildOptions) {
           throw new Error(`Entry Name "${entryName}" was not found.`);
         }
 
-        /* eslint-disable no-console */
-        console.log('--------------------');
-        console.log('--------------------');
-        console.log('--------------------');
-        console.log(entryName);
-        console.log(fileSearch);
-        console.log('--------------------');
-        console.log('--------------------');
-        console.log('--------------------');
-        /* eslint-enable no-console */
-
         // Link the element to the hashed entry name w/o the S3 bucket
-        $el.attr(attribute, `/${fileSearch}`);
+        $el.attr(attribute, hashedEntryName);
         file.modified = true;
       });
     }
