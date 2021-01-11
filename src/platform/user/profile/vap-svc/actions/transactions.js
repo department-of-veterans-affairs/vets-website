@@ -176,12 +176,14 @@ export function createTransaction(
         method,
       });
 
+      // If the request does not hit the server, apiRequest which is using fetch - will throw an error
+      // it will not return back a transaction with errors on it
       const transaction = isVAProfileServiceConfigured()
         ? await apiRequest(route, options)
         : await localVAProfileService.createTransaction();
 
       if (transaction?.errors) {
-        const error = new Error();
+        const error = new Error('There was a transaction error');
         error.errors = transaction?.errors;
         throw error;
       }
@@ -322,15 +324,9 @@ export const validateAddress = (
       ),
     );
   } catch (error) {
-    const errorCode = error.errors?.[0]?.code;
-    const errorStatus = error.errors?.[0]?.status;
-    if (!errorCode || !errorStatus) {
-      if (error instanceof Error) {
-        Sentry.captureException(error);
-      } else {
-        Sentry.captureException(new Error('Unknown address validation error'));
-      }
-    }
+    const errorCode = error?.errors?.[0]?.code || 'apiRequest-error';
+    const errorStatus = error?.errors?.[0]?.status || 'unknown';
+
     recordEvent({
       event: 'profile-edit-failure',
       'profile-action': 'address-suggestion-failure',
