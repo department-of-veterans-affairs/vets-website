@@ -36,7 +36,9 @@ const ConfirmationPage = props => {
       </div>
 
       <div className="inset">
-        <h2>{appointmentType} questionnaire</h2>
+        <h2 data-testid="appointment-type-header">
+          {appointmentType} questionnaire
+        </h2>
         {response?.veteranInfo?.fullName && (
           <p>
             For{' '}

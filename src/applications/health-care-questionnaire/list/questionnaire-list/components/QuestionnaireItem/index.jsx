@@ -12,7 +12,9 @@ const index = props => {
   });
   return (
     <li data-request-id={appointment.id} className="card">
-      <header>{appointmentType} questionnaire</header>
+      <header data-testid="appointment-type-header">
+        {appointmentType} questionnaire
+      </header>
       <section className="due-details">{DueDate && <DueDate />}</section>
       <section className="details">
         <p>Appointment details:</p>
