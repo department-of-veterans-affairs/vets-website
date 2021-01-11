@@ -64,7 +64,7 @@ describe('VAOS integration: upcoming VA appointments', () => {
     expect(getByText(/cancel appointment/i)).to.have.tagName('button');
   });
 
-  it('should show header for phone appointments', async () => {
+  it('should show subheader for phone appointments', async () => {
     const appointment = getVAAppointmentMock();
     appointment.attributes.phoneOnly = true;
     appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
