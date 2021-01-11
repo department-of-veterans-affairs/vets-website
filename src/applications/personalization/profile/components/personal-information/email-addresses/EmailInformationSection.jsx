@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { FIELD_NAMES } from '@@vap-svc/constants';
-import ContactInformationField from '~/applications/personalization/profile/components/personal-information/ContactInformationField';
 import { signInServiceName as signInServiceNameSelector } from 'platform/user/authentication/selectors';
 
+import ContactInformationField from '../ContactInformationField';
 import ProfileInfoTable from '../../ProfileInfoTable';
 
 const EmailInformationSection = ({ className, signInServiceName }) => {

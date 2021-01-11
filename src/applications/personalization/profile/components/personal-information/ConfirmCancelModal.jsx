@@ -3,19 +3,14 @@ import PropTypes from 'prop-types';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
 const ConfirmCancelModal = props => {
-  const {
-    activeSection,
-    closeModal,
-    hideConfirmCancelModal,
-    showConfirmCancelModal,
-  } = props;
+  const { activeSection, closeModal, onHide, isVisible } = props;
 
   return (
     <Modal
       title="Are you sure?"
       status="warning"
-      visible={showConfirmCancelModal}
-      onClose={hideConfirmCancelModal}
+      visible={isVisible}
+      onClose={onHide}
     >
       <p>
         {`You haven’t finished editing your ${activeSection}. If you cancel, your in-progress work won’t be saved.`}
@@ -23,14 +18,14 @@ const ConfirmCancelModal = props => {
       <button
         className="usa-button-secondary"
         onClick={() => {
-          hideConfirmCancelModal();
+          onHide();
         }}
       >
         Continue Editing
       </button>
       <button
         onClick={() => {
-          hideConfirmCancelModal();
+          onHide();
           closeModal();
         }}
       >
@@ -43,8 +38,8 @@ const ConfirmCancelModal = props => {
 ConfirmCancelModal.propTypes = {
   activeSection: PropTypes.string,
   closeModal: PropTypes.func.isRequired,
-  showConfirmCancelModal: PropTypes.bool.isRequired,
-  hideConfirmCancelModal: PropTypes.func.isRequired,
+  isVisible: PropTypes.bool.isRequired,
+  onHide: PropTypes.func.isRequired,
 };
 
 export default ConfirmCancelModal;

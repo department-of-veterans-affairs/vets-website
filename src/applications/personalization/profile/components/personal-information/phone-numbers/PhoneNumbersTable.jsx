@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 
 import { FIELD_NAMES } from '@@vap-svc/constants';
 
+import ContactInformationField from '../ContactInformationField';
 import ProfileInfoTable from '../../ProfileInfoTable';
-
-import ContactInformationField from '~/applications/personalization/profile/components/personal-information/ContactInformationField';
 
 const PhoneNumbersTable = ({ className }) => (
   <ProfileInfoTable

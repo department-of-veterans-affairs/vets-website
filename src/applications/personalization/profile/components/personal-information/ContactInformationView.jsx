@@ -18,15 +18,15 @@ const ContactInformationView = props => {
   }
 
   if (fieldName === FIELD_NAMES.EMAIL) {
-    return <span>{data?.emailAddress}</span>;
+    return <span>{data.emailAddress}</span>;
   }
 
   if (phoneNumbers.includes(fieldName)) {
     return (
       <div>
         <Telephone
-          contact={`${data?.areaCode}${data?.phoneNumber}`}
-          extension={data?.extension}
+          contact={`${data.areaCode}${data.phoneNumber}`}
+          extension={data.extension}
           notClickable
         />
 

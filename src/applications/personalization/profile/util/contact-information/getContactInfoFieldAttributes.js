@@ -4,13 +4,13 @@ import {
   emailConvertCleanDataToPayload,
   emailUiSchema,
   emailFormSchema,
-} from '~/applications/personalization/profile/util/contact-information/emailUtils';
+} from './emailUtils';
 import {
   phoneConvertCleanDataToPayload,
   phoneUiSchema,
   phoneFormSchema,
-} from '~/applications/personalization/profile/util/contact-information/phoneUtils';
-import { addressConvertCleanDataToPayload } from 'applications/personalization/profile/util/contact-information/addressUtils';
+} from './phoneUtils';
+import { addressConvertCleanDataToPayload } from './addressUtils';
 
 import {
   getFormSchema as addressFormSchema,

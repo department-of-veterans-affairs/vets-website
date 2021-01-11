@@ -290,7 +290,7 @@ export class ContactInformationEditView extends Component {
                   field.uiSchema,
                 );
               }}
-              onSubmit={e => onSubmit(e)}
+              onSubmit={onSubmit}
             >
               <ContactInformationActionButtons
                 onCancel={onCancel}
@@ -302,7 +302,7 @@ export class ContactInformationEditView extends Component {
                   data && fieldName !== FIELD_NAMES.MAILING_ADDRESS
                 }
               >
-                <div>
+                <>
                   <LoadingButton
                     data-action="save-edit"
                     data-testid="save-edit-button"
@@ -322,7 +322,7 @@ export class ContactInformationEditView extends Component {
                       Cancel
                     </button>
                   )}
-                </div>
+                </>
               </ContactInformationActionButtons>
             </SchemaForm>
           </div>

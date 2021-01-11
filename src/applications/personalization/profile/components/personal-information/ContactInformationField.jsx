@@ -316,18 +316,14 @@ class ContactInformationField extends React.Component {
         <ConfirmCancelModal
           activeSection={activeSection}
           closeModal={this.closeModal}
-          hideConfirmCancelModal={() =>
-            this.setState({ showConfirmCancelModal: false })
-          }
-          showConfirmCancelModal={this.state.showConfirmCancelModal}
+          onHide={() => this.setState({ showConfirmCancelModal: false })}
+          isVisible={this.state.showConfirmCancelModal}
         />
 
         <CannotEditModal
           activeSection={activeSection}
-          hideCannotEditModal={() =>
-            this.setState({ showCannotEditModal: false })
-          }
-          showCannotEditModal={this.state.showCannotEditModal}
+          onHide={() => this.setState({ showCannotEditModal: false })}
+          isVisible={this.state.showCannotEditModal}
         />
 
         {content}
