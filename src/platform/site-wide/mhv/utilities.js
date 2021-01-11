@@ -14,10 +14,7 @@ const mhvToEauthRoutes = {
   'labs-tests': 'eauth',
 };
 
-// An MHV URL is a function of the following parameters:
-// 1. Whether this is a production or staging environment
-// 2. Whether the current user is authenticated with SSOe
-// 3. The specific MHV path being accessed
+// An MHV URL is a function that accepts an MHV URL path as a parameter.
 function mhvUrl(path) {
   const normPath = path.startsWith('/') ? path.substring(1) : path;
   const eauthDeepLink = mhvToEauthRoutes[normPath];
