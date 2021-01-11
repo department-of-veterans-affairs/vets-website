@@ -107,15 +107,7 @@ describe('VAOS <ReviewPage> VA request', () => {
     });
     store.dispatch(startRequestAppointmentFlow());
     store.dispatch(
-      onCalendarChange({
-        currentlySelectedDate: start.format('YYYY-MM-DD'),
-        selectedDates: [
-          {
-            date: start.format('YYYY-MM-DD'),
-            optionTime: 'AM',
-          },
-        ],
-      }),
+      onCalendarChange([start.format('YYYY-MM-DD[T00:00:00.000]')]),
     );
   });
   afterEach(() => resetFetch());

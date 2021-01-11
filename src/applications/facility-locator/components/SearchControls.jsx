@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ServiceTypeAhead from './ServiceTypeAhead';
 import recordEvent from 'platform/monitoring/record-event';
+import omit from 'platform/utilities/data/omit';
 import { LocationType } from '../constants';
 import {
   healthServices,
@@ -110,6 +111,7 @@ class SearchControls extends Component {
   };
 
   renderServiceTypeDropdown = () => {
+    const { searchCovid19Vaccine } = this.props;
     const { facilityType, serviceType } = this.props.currentQuery;
     const disabled = ![
       LocationType.HEALTH,
@@ -118,11 +120,17 @@ class SearchControls extends Component {
       LocationType.CC_PROVIDER,
     ].includes(facilityType);
 
+    let filteredHealthServices = healthServices;
+
+    if (!searchCovid19Vaccine) {
+      filteredHealthServices = omit(['Covid19Vaccine'], healthServices);
+    }
+
     let services;
     // Determine what service types to display for the location type (if any).
     switch (facilityType) {
       case LocationType.HEALTH:
-        services = healthServices;
+        services = filteredHealthServices;
         break;
       case LocationType.URGENT_CARE:
         services = urgentCareServices;

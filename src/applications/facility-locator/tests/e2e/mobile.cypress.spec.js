@@ -1,12 +1,25 @@
 import path from 'path';
 
+const city = 'Austin, TX';
+
 Cypress.Commands.add('checkSearch', () => {
   cy.axeCheck();
 
   // Search
   cy.get('#street-city-state-zip', { timeout: 10000 })
+    .should('exist')
     .should('not.be.disabled')
-    .type('Austin, TX', { force: true });
+    .clear({ force: true });
+
+  // This forEach loop is a workaround to a typing bug in Cypress:
+  // https://github.com/cypress-io/cypress/issues/5480
+  // Upgrading to Cypress 6.1 should fix this bug and allow us
+  // to remove the loop.
+  [...city].forEach(char => {
+    cy.get('#street-city-state-zip')
+      .should('not.be.disabled')
+      .type(char, { force: true });
+  });
   cy.get('#facility-type-dropdown').select('VA health');
   cy.get('#facility-search').click();
 
@@ -21,7 +34,9 @@ Cypress.Commands.add('checkSearch', () => {
   cy.get('.facility-result').should('exist');
 
   // Switch tab map
-  cy.get('#react-tabs-2').click();
+  cy.get('#react-tabs-2')
+    .should('not.be.disabled')
+    .click({ waitForAnimations: true });
 
   // Ensure map is visible
   cy.get('#mapbox-gl-container').should('be.visible');
@@ -41,16 +56,6 @@ describe('Mobile', () => {
     cy.syncFixtures({
       constants: path.join(__dirname, '..', '..', 'constants'),
     });
-  });
-
-  beforeEach(() => {
-    cy.route('GET', '/v0/maintenance_windows', []);
-    cy.route(
-      'GET',
-      '/v1/facilities/va?*',
-      'fx:constants/mock-facility-data-v1',
-    ).as('searchFacilities');
-    cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data');
   });
 
   it('should render in mobile layouts and tabs actions work', () => {

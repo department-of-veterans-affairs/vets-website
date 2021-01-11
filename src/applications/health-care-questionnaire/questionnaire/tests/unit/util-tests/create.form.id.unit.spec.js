@@ -18,13 +18,13 @@ describe('health care questionnaire -- utils -- create form id from appointment 
     const formId = 'my-cool-form';
     const appointmentId = '123';
     const id = addAppointmentIdToFormId(appointmentId, formId);
-    expect(id).to.equal('my-cool-form-123');
+    expect(id).to.equal('my-cool-form_123');
   });
 
   it('no duplication of appointment id', () => {
-    const formId = 'my-cool-form-123';
+    const formId = 'my-cool-form_123';
     const appointmentId = '123';
     const id = addAppointmentIdToFormId(appointmentId, formId);
-    expect(id).to.equal('my-cool-form-123');
+    expect(id).to.equal('my-cool-form_123');
   });
 });

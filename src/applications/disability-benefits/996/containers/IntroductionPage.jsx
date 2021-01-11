@@ -24,6 +24,7 @@ import {
 } from '../actions';
 import { higherLevelReviewFeature, scrollToTop } from '../helpers';
 import {
+  BASE_URL,
   SAVED_CLAIM_TYPE,
   SUPPLEMENTAL_CLAIM_URL,
   FACILITY_LOCATOR_URL,
@@ -98,12 +99,16 @@ export class IntroductionPage extends React.Component {
   };
 
   getCallToActionContent = () => {
-    const { route, contestableIssues } = this.props;
+    const { route, contestableIssues, delay = 250 } = this.props;
 
     if (contestableIssues?.error) {
-      return showContestableIssueError(contestableIssues.error);
+      return showContestableIssueError(contestableIssues, delay);
     }
-    if (contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_INIT) {
+
+    if (
+      (contestableIssues?.status || '') === '' ||
+      contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_INIT
+    ) {
       return (
         <LoadingIndicator
           setFocus
@@ -111,19 +116,33 @@ export class IntroductionPage extends React.Component {
         />
       );
     }
+
     const { formId, prefillEnabled, savedFormMessages } = route.formConfig;
-    return contestableIssues?.issues?.length > 0 ? (
-      <SaveInProgressIntro
-        formId={formId}
-        prefillEnabled={prefillEnabled}
-        messages={savedFormMessages}
-        pageList={route.pageList}
-        startText="Start the Request for a Higher-Level Review"
-        gaStartEventName="decision-reviews-va20-0996-start-form"
-      />
-    ) : (
-      noContestableIssuesFound
-    );
+
+    if (contestableIssues?.issues?.length > 0) {
+      return (
+        <SaveInProgressIntro
+          formId={formId}
+          prefillEnabled={prefillEnabled}
+          messages={savedFormMessages}
+          pageList={route.pageList}
+          startText="Start the Request for a Higher-Level Review"
+          gaStartEventName="decision-reviews-va20-0996-start-form"
+        />
+      );
+    }
+
+    recordEvent({
+      event: 'visible-alert-box',
+      'alert-box-type': 'warning',
+      'alert-box-heading':
+        'We don’t have any issues on file for you that are eligible for a Higher-Level Review',
+      'error-key': contestableIssues?.status || '',
+      'alert-box-full-width': false,
+      'alert-box-background-only': false,
+      'alert-box-closeable': false,
+    });
+    return noContestableIssuesFound;
   };
 
   setWizardStatus = value => {
@@ -201,16 +220,19 @@ export class IntroductionPage extends React.Component {
               </h2>
               <p className="vads-u-margin-top--2">
                 if you don’t think this is the right form for you,{' '}
-                <button
+                <a
+                  href={BASE_URL}
                   className="va-button-link"
-                  onClick={() => {
+                  onClick={event => {
+                    // prevent reload, but allow opening a new tab
+                    event.preventDefault();
                     this.setWizardStatus(WIZARD_STATUS_NOT_STARTED);
                     this.setPageFocus();
                     recordEvent({ event: 'howToWizard-start-over' });
                   }}
                 >
                   go back and answer questions again
-                </button>
+                </a>
                 .
               </p>
               <ol>

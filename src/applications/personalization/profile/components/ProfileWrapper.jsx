@@ -10,6 +10,7 @@ import { selectProfile } from '~/platform/user/selectors';
 
 import {
   cnpDirectDepositLoadError,
+  eduDirectDepositLoadError,
   fullNameLoadError,
   militaryInformationLoadError,
   personalInformationLoadError,
@@ -118,6 +119,7 @@ const mapStateToProps = state => {
     hero: state.vaProfile?.hero,
     showNotAllDataAvailableError:
       !!cnpDirectDepositLoadError(state) ||
+      !!eduDirectDepositLoadError(state) ||
       !!fullNameLoadError(state) ||
       !!personalInformationLoadError(state) ||
       (!!militaryInformationLoadError(state) && !invalidVeteranStatus),

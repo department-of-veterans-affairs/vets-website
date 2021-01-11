@@ -187,6 +187,24 @@ const createFakeReasonForVisitDescriptionStore = reason => {
   };
 };
 
+const createFakeExpiresAtStore = (appointmentTime = 'no a real date') => {
+  return {
+    getState: () => ({
+      questionnaireData: {
+        context: {
+          appointment: {
+            attributes: {
+              vdsAppointments: [{ appointmentTime }],
+            },
+          },
+        },
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  };
+};
+
 const createFakeReasonForVisitStore = ({ reason = '' }) => {
   return {
     getState: () => ({
@@ -294,4 +312,5 @@ export {
   createFakeConfirmationStore,
   createFakeIntroductionPageStore,
   createFakeStopCodeStore,
+  createFakeExpiresAtStore,
 };

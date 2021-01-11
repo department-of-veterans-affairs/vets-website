@@ -129,10 +129,10 @@ describe('actions/paymentInformation', () => {
 
         it('reports the correct data to Google Analytics', () => {
           expect(recordEventSpy.firstCall.args[0].event).to.equal(
-            'profile-get-direct-deposit-started',
+            'profile-get-cnp-direct-deposit-started',
           );
           expect(recordEventSpy.secondCall.args[0].event).to.equal(
-            'profile-get-direct-deposit-retrieved',
+            'profile-get-cnp-direct-deposit-retrieved',
           );
           expect(
             recordEventSpy.secondCall.args[0]['direct-deposit-setup-eligible'],
@@ -201,10 +201,10 @@ describe('actions/paymentInformation', () => {
 
         it('reports the correct data to Google Analytics', () => {
           expect(recordEventSpy.firstCall.args[0].event).to.equal(
-            'profile-get-direct-deposit-started',
+            'profile-get-cnp-direct-deposit-started',
           );
           expect(recordEventSpy.secondCall.args[0].event).to.equal(
-            'profile-get-direct-deposit-retrieved',
+            'profile-get-cnp-direct-deposit-retrieved',
           );
           expect(
             recordEventSpy.secondCall.args[0]['direct-deposit-setup-eligible'],
@@ -273,10 +273,10 @@ describe('actions/paymentInformation', () => {
 
         it('reports the correct data to Google Analytics', () => {
           expect(recordEventSpy.firstCall.args[0].event).to.equal(
-            'profile-get-direct-deposit-started',
+            'profile-get-cnp-direct-deposit-started',
           );
           expect(recordEventSpy.secondCall.args[0].event).to.equal(
-            'profile-get-direct-deposit-retrieved',
+            'profile-get-cnp-direct-deposit-retrieved',
           );
           expect(
             recordEventSpy.secondCall.args[0]['direct-deposit-setup-eligible'],
@@ -350,7 +350,7 @@ describe('actions/paymentInformation', () => {
             'profile-transaction',
           );
           expect(recordEventSpy.firstCall.args[0]['profile-section']).to.equal(
-            'direct-deposit-information',
+            'cnp-direct-deposit-information',
           );
         });
       });
@@ -390,7 +390,7 @@ describe('actions/paymentInformation', () => {
           expect(recordEventSpy.firstCall.args[0]).to.deep.equal({
             event: 'profile-edit-failure',
             'profile-action': 'save-failure',
-            'profile-section': 'direct-deposit-information',
+            'profile-section': 'cnp-direct-deposit-information',
             'error-key': 'routing-number-flagged-for-fraud-error-update',
           });
         });
