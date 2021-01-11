@@ -1,13 +1,12 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 const PreSubmitInfo = () => {
-  onChange = value => {
+  const onChange = value => {
     return null;
   };
   return (
     <article className="vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--3 vads-u-padding-top--1px vads-u-margin-bottom--7">
-      <header>Veteran's statement of truth</header>
+      <h3>Veteran's statement of truth</h3>
       <p>
         I certify that the income, assets, and expenses I provided on this form
         are correct to the best of my knowledge.
@@ -17,15 +16,15 @@ const PreSubmitInfo = () => {
         represented.
       </p>
       <ErrorableCheckbox
-        onValueChange={value => setIsChecked(value)}
+        onValueChange={value => onChange(value)}
         label="I certify the information above is correct and true to the best of my knowledge and belief."
-        errorMessage={hasError && 'Must certify by checking box'}
+        errorMessage={'Must certify by checking box'}
         required={true}
       />
     </article>
   );
 };
-export default connect(
-  null,
-  null,
-)(PreSubmitInfo);
+export default {
+  required: true,
+  CustomComponent: PreSubmitInfo,
+};
