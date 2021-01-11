@@ -5,6 +5,7 @@ import {
   LocationType,
   CLINIC_URGENTCARE_SERVICE,
   PHARMACY_RETAIL_SERVICE,
+  Covid19Vaccine,
 } from '../../../constants';
 import { parsePhoneNumber } from '../../../utils/phoneNumbers';
 
@@ -43,6 +44,10 @@ const renderPhoneNumber = (title, subTitle = null, phone, from) => {
 
 const LocationPhoneLink = ({ location, from, query }) => {
   const isProvider = location.type === LocationType.CC_PROVIDER;
+  const isCovid19Search =
+    query &&
+    query.facilityType === LocationType.HEALTH &&
+    query.serviceType === Covid19Vaccine;
   const isCCProvider =
     query &&
     query.facilityType === LocationType.CC_PROVIDER &&
@@ -67,10 +72,17 @@ const LocationPhoneLink = ({ location, from, query }) => {
     attributes: { phone },
   } = location;
   return (
-    <div className="facility-phone-group">
+    <div className="facility-phone-group vads-u-margin-top--2">
       {renderPhoneNumber('Main number', null, phone.main, from)}
-      {phone.mentalHealthClinic && <div style={{ minHeight: '20px' }} />}
-      {renderPhoneNumber('Mental health', null, phone.mentalHealthClinic, from)}
+      {!isCovid19Search &&
+        phone.mentalHealthClinic && <div style={{ minHeight: '20px' }} />}
+      {!isCovid19Search &&
+        renderPhoneNumber(
+          'Mental health',
+          null,
+          phone.mentalHealthClinic,
+          from,
+        )}
     </div>
   );
 };
@@ -78,6 +90,7 @@ const LocationPhoneLink = ({ location, from, query }) => {
 LocationPhoneLink.propTypes = {
   location: PropTypes.object,
   from: PropTypes.string,
+  query: PropTypes.object,
 };
 
 export default LocationPhoneLink;

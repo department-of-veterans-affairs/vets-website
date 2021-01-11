@@ -13,20 +13,17 @@ const institutionAttributes = institutionProfile.data.attributes;
 describe('Institution', () => {
   beforeEach(() => {
     initApplicationMock();
-    cy.visit('/gi-bill-comparison-tool').injectAxe();
-    cy.axeCheck();
+    cy.visit('/gi-bill-comparison-tool');
+    cy.injectAxeThenAxeCheck();
   });
 
   it('Default institution profile flow with giBillChapter chapter 33', () => {
     // Landing Page
-
-    cy.axeCheck();
-
     cy.get('.keyword-search input[type="text"]').type(
       institutionAttributes.name,
     );
     cy.get('#search-button').click();
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
 
     // Search Page
     verifySearchResults(searchResults);
@@ -45,6 +42,7 @@ describe('Institution', () => {
 
     // Profile page
     cy.wait(`@profile${facilityCode}`);
+    cy.injectAxeThenAxeCheck();
     cy.url().should('include', `/profile/${facilityCode}`);
     cy.get('.profile-page').should('be.visible');
 

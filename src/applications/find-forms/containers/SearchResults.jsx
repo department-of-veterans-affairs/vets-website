@@ -24,8 +24,9 @@ export class SearchResults extends Component {
     page: PropTypes.number.isRequired,
     query: PropTypes.string.isRequired,
     results: PropTypes.arrayOf(customPropTypes.Form.isRequired),
+    hasOnlyRetiredForms: PropTypes.bool.isRequired,
     startIndex: PropTypes.number.isRequired,
-    showFindFormsResultsLinkToFormDetailPages: PropTypes.bool.isRequired,
+    showFindFormsResultsLinkToFormDetailPages: PropTypes.bool,
     // From mapDispatchToProps.
     updatePagination: PropTypes.func.isRequired,
   };
@@ -63,6 +64,7 @@ export class SearchResults extends Component {
       page,
       query,
       results,
+      hasOnlyRetiredForms,
       showFindFormsResultsLinkToFormDetailPages,
       startIndex,
     } = this.props;
@@ -87,6 +89,19 @@ export class SearchResults extends Component {
     if (!results) {
       return null;
     }
+
+    // Show UX friendly message if all forms are tombstone/ deleted in the results returned.
+    if (hasOnlyRetiredForms)
+      return (
+        <h2
+          className="vads-u-font-size--base vads-u-line-height--3 vads-u-font-family--sans
+    vads-u-margin-top--1p5 vads-u-font-weight--normal"
+          data-forms-focus
+        >
+          The form you're looking for has been retired or is no longer valid,
+          and has been removed from the VA forms database.
+        </h2>
+      );
 
     // Show no results found message.
     if (!results.length) {
@@ -122,12 +137,20 @@ export class SearchResults extends Component {
     // Derive the total number of pages.
     const totalPages = Math.ceil(results.length / MAX_PAGE_LIST_LENGTH);
 
+    const formMetaInfo = {
+      query,
+      currentPage: page,
+      totalResultsCount: results.length,
+      totalResultsPages: totalPages,
+    };
+
     const searchResults = results
       .slice(startIndex, lastIndex)
-      .map(form => (
+      .map((form, index) => (
         <SearchResult
           key={form.id}
           form={form}
+          formMetaInfo={{ ...formMetaInfo, currentPositionOnPage: index + 1 }}
           showFindFormsResultsLinkToFormDetailPages={
             showFindFormsResultsLinkToFormDetailPages
           }
@@ -169,6 +192,7 @@ const mapStateToProps = state => ({
   page: getFindFormsAppState(state).page,
   query: getFindFormsAppState(state).query,
   results: getFindFormsAppState(state).results,
+  hasOnlyRetiredForms: getFindFormsAppState(state).hasOnlyRetiredForms,
   startIndex: getFindFormsAppState(state).startIndex,
   showFindFormsResultsLinkToFormDetailPages: mvpEnhancements(state),
 });

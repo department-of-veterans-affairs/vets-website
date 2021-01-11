@@ -96,36 +96,27 @@ export const CernerScheduleAnAppointmentWidget = ({ facilityNames }) => (
   </div>
 );
 
-export const CernerSecureMessagingWidget = ({
-  facilityNames,
-  authenticatedWithSSOe,
-}) => (
+export const CernerSecureMessagingWidget = ({ facilityNames }) => (
   <div data-testid="cerner-messaging-widget">
     <h3>Send or receive a secure message</h3>
     <CernerAlertBox
       primaryCtaButtonUrl={getCernerURL('/pages/messaging/inbox')}
       primaryCtaText="Send a secure message to a provider at:"
       secondaryCtaButtonText="Go to My HealtheVet"
-      secondaryCtaButtonUrl={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
+      secondaryCtaButtonUrl={mhvUrl('secure-messaging')}
       facilityNames={facilityNames}
     />
   </div>
 );
 
-export const CernerPrescriptionsWidget = ({
-  facilityNames,
-  authenticatedWithSSOe,
-}) => (
+export const CernerPrescriptionsWidget = ({ facilityNames }) => (
   <div data-testid="cerner-prescription-widget">
     <h3>Refill and track prescriptions</h3>
     <CernerAlertBox
       primaryCtaButtonUrl={getCernerURL('/pages/medications/current')}
       primaryCtaText="Refill prescriptions from:"
       secondaryCtaButtonText="Go to My HealtheVet"
-      secondaryCtaButtonUrl={mhvUrl(
-        authenticatedWithSSOe,
-        'web/myhealthevet/refill-prescriptions',
-      )}
+      secondaryCtaButtonUrl={mhvUrl('web/myhealthevet/refill-prescriptions')}
       facilityNames={facilityNames}
     />
   </div>

@@ -15,6 +15,7 @@ describe('Find VA Forms reducer: findVAFormsReducer', () => {
       page: 1,
       query: '',
       results: null,
+      hasOnlyRetiredForms: false,
       startIndex: 0,
     });
   });
@@ -29,6 +30,7 @@ describe('Find VA Forms reducer: findVAFormsReducer', () => {
       page: 1,
       query: 'testing',
       results: null,
+      hasOnlyRetiredForms: false,
       startIndex: 0,
     });
   });
@@ -38,7 +40,11 @@ describe('Find VA Forms reducer: findVAFormsReducer', () => {
       fetching: true,
       results: null,
     };
-    const action = { type: FETCH_FORMS_SUCCESS, results: [] };
+    const action = {
+      type: FETCH_FORMS_SUCCESS,
+      results: [],
+      hasOnlyRetiredForms: false,
+    };
     const state = findVAFormsReducer(initialState, action);
 
     expect(state.fetching).to.be.false;

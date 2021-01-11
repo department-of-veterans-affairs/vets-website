@@ -11,22 +11,50 @@ describe('<ContactInformationEditView/>', () => {
   let props = null;
   let component = null;
 
+  const formSchema = {
+    type: 'object',
+    properties: {
+      emailAddress: {
+        type: 'string',
+        pattern: '^.*\\S.*',
+      },
+    },
+    required: ['emailAddress'],
+  };
+
+  const uiSchema = {
+    emailAddress: {
+      'ui:title': 'Email Address',
+      'ui:errorMessages': {
+        required: 'Please enter your email address, using this format: X@X.com',
+        pattern:
+          'Please enter your email address again, using this format: X@X.com',
+      },
+    },
+  };
+
   beforeEach(() => {
     props = {
       analyticsSectionName: 'some-field',
       clearErrors() {},
       getInitialFormValues() {},
-      field: { value: {}, validations: {} },
+      field: {
+        value: {},
+        validations: {},
+        formSchema,
+        uiSchema,
+      },
       isEmpty() {},
       onBlur() {},
       onCancel() {},
       onChangeFormDataAndSchemas() {},
       onDelete() {},
       onSubmit() {},
-      render() {},
       title: 'Edit Some Field',
       transaction: null,
       transactionRequest: null,
+      uiSchema: {},
+      formSchema: {},
     };
   });
 
@@ -36,31 +64,20 @@ describe('<ContactInformationEditView/>', () => {
     sinon.stub(props, 'getInitialFormValues').returns(initialFormValues);
     sinon.stub(props, 'onChangeFormDataAndSchemas');
 
-    props.render = () => <div>Rendered output</div>;
-
     component = enzyme.shallow(<ContactInformationEditView {...props} />);
 
     expect(
       props.onChangeFormDataAndSchemas.calledWith(initialFormValues),
       'onChange was called to initialize the modal with the result of getInitialFormValues',
     ).to.be.true;
-    expect(
-      component.html(),
-      'The render prop was called and rendered into the component',
-    ).to.contain('Rendered output');
 
     component.setProps({ field: null });
-    expect(
-      component.html(),
-      'The render prop is not called when the field prop is falsey',
-    ).to.not.contain('Rendered output');
     component.unmount();
   });
 
   describe('the `LoadingButton.isLoading`', () => {
     it('is `true` if the transactionRequest is pending', () => {
       props.transactionRequest = { isPending: true };
-      props.render = actionButtons => actionButtons;
       component = enzyme.shallow(<ContactInformationEditView {...props} />);
 
       const loadingButton = component.find(LoadingButton);
@@ -77,7 +94,6 @@ describe('<ContactInformationEditView/>', () => {
           },
         },
       };
-      props.render = actionButtons => actionButtons;
       component = enzyme.shallow(<ContactInformationEditView {...props} />);
 
       const loadingButton = component.find(LoadingButton);
@@ -95,7 +111,6 @@ describe('<ContactInformationEditView/>', () => {
           },
         },
       };
-      props.render = actionButtons => actionButtons;
       component = enzyme.shallow(<ContactInformationEditView {...props} />);
 
       const loadingButton = component.find(LoadingButton);
@@ -110,7 +125,6 @@ describe('<ContactInformationEditView/>', () => {
   describe('the cancel button', () => {
     it('is hidden when the transactionRequest is pending', () => {
       props.transactionRequest = { isPending: true };
-      props.render = actionButtons => actionButtons;
       component = enzyme.mount(<ContactInformationEditView {...props} />);
       expect(component.text()).to.not.include('Cancel');
       component.unmount();
@@ -118,7 +132,6 @@ describe('<ContactInformationEditView/>', () => {
 
     it('is visible when the transactionRequest is not pending', () => {
       props.transactionRequest = { isPending: false };
-      props.render = actionButtons => actionButtons;
       component = enzyme.mount(<ContactInformationEditView {...props} />);
       expect(component.text()).to.include('Cancel');
       component.unmount();

@@ -38,13 +38,7 @@ describe('VAOS <ConfirmationPage>', () => {
           vaParent: 'var983',
           vaFacility: 'var983',
           clinicId: '455',
-          calendarData: {
-            selectedDates: [
-              {
-                datetime: start.format(),
-              },
-            ],
-          },
+          selectedDates: [start.format()],
         },
         availableSlots: [
           {
@@ -129,9 +123,7 @@ describe('VAOS <ConfirmationPage>', () => {
         morning: true,
         afternoon: true,
       },
-      calendarData: {
-        selectedDates: [{ date: '2019-12-20', optionTime: 'AM' }],
-      },
+      selectedDates: ['2019-12-20T00:00:00.000'],
       vaFacility: '983',
     };
     const facilityDetails = {
@@ -190,9 +182,7 @@ describe('VAOS <ConfirmationPage>', () => {
           postalCode: '01060',
         },
       },
-      calendarData: {
-        selectedDates: [{ date: '2019-12-20', optionTime: 'AM' }],
-      },
+      selectedDates: ['2019-12-20T00:00:00.000'],
     };
     const facilityDetails = {
       name: 'CHYSHR-Sidney VA Clinic',
@@ -241,9 +231,7 @@ describe('VAOS <ConfirmationPage>', () => {
         afternoon: true,
       },
       hasCommunityCareProvider: false,
-      calendarData: {
-        selectedDates: [{ date: '2019-12-20', optionTime: 'AM' }],
-      },
+      selectedDates: ['2019-12-20T00:00:00.000'],
     };
     const facilityDetails = {
       name: 'CHYSHR-Sidney VA Clinic',

@@ -21,7 +21,7 @@ export const uiSchema = {
         doNotScroll: true,
         showSave: true,
         expandUnder: 'hasAdditionalIncome',
-        itemName: 'Add income',
+        itemName: 'income',
       },
       items: {
         incomeType: {
@@ -34,7 +34,7 @@ export const uiSchema = {
         },
         monthlyAmount: _.merge(currencyUI('Monthly income amount'), {
           'ui:options': {
-            widgetClassNames: 'input-size-1',
+            widgetClassNames: 'input-size-2',
           },
           'ui:required': formData =>
             formData.additionalIncome.hasAdditionalIncome,

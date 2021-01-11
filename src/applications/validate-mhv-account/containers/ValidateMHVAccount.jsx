@@ -76,7 +76,7 @@ class ValidateMHVAccount extends React.Component {
       router.replace(`error/needs-va-patient`);
       return;
     }
-    window.location = mhvUrl(true, 'home');
+    window.location = mhvUrl('home');
   };
 
   redirect = () => {
@@ -147,7 +147,7 @@ class ValidateMHVAccount extends React.Component {
       accountLevel === MHV_ACCOUNT_LEVELS.PREMIUM ||
       accountLevel === MHV_ACCOUNT_LEVELS.ADVANCED
     ) {
-      window.location = mhvUrl(false, 'home');
+      window.location = mhvUrl('home');
     } else if (accountLevel === MHV_ACCOUNT_LEVELS.BASIC) {
       router.replace('upgrade-account');
     } else {

@@ -7,6 +7,8 @@ import sinon from 'sinon';
 // Relative imports.
 import { SearchForm } from '../../containers/SearchForm';
 
+import stub from '../../constants/stub.json';
+
 describe('Find VA Forms <SearchForm>', () => {
   it('should render', () => {
     const tree = shallow(<SearchForm />);
@@ -21,16 +23,16 @@ describe('Find VA Forms <SearchForm>', () => {
 
     global.window = {
       location: {
-        search: '?q=testing',
+        search: '?q=health',
       },
     };
 
-    const fetchFormsThunk = sinon.stub();
+    const fetchFormsThunk = sinon.stub().resolves(stub);
     const tree = shallow(<SearchForm fetchFormsThunk={fetchFormsThunk} />);
 
     expect(fetchFormsThunk.calledOnce).to.be.true;
-    expect(fetchFormsThunk.calledWith('testing')).to.be.true;
-    expect(tree.state().query).to.be.equal('testing');
+    expect(fetchFormsThunk.calledWith('health')).to.be.true;
+    expect(tree.state().query).to.be.equal('health');
 
     tree.unmount();
 
@@ -49,10 +51,10 @@ describe('Find VA Forms <SearchForm>', () => {
   });
 
   it('fetches data on submit', () => {
-    const fetchFormsThunk = sinon.stub();
+    const fetchFormsThunk = sinon.stub().resolves(stub);
     const tree = shallow(<SearchForm fetchFormsThunk={fetchFormsThunk} />);
 
-    tree.setState({ query: 'testing' });
+    tree.setState({ query: 'health' });
 
     const form = tree.find('form');
     const preventDefault = sinon.stub();
