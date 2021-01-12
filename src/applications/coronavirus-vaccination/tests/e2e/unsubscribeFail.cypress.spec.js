@@ -3,7 +3,9 @@ import featureTogglesEnabled from './fixtures/toggle-covid-feature.json';
 describe('COVID-19 Vaccination Preparation Form', () => {
   it('should fail to unsubscribe the user', () => {
     cy.server();
-    cy.route('PUT', '**/covid_vaccine/v0/registration/opt_out**', {
+    cy.route({
+      method: 'PUT',
+      url: '**/covid_vaccine/v0/registration/opt_out',
       status: 404,
     });
     cy.route('GET', '/v0/feature_toggles*', featureTogglesEnabled).as(
