@@ -247,7 +247,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 
 def prearchive(dockerContainer, envName) {
   dockerContainer.inside(DOCKER_ARGS) {
-    sh "cd /application && "
+    sh "cd /application"
     sh "npm run build --setPublicPath --buildtype=${envName}"
     sh "node --max-old-space-size=8192 script/prearchive.js --buildtype=${envName}"
   }
