@@ -251,7 +251,6 @@ export function uploadFile(
       onError();
       return null;
     }
-
     if (password) {
       onChange({ name: file.name, uploading: true, password });
     } else {
