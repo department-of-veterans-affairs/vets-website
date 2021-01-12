@@ -68,12 +68,12 @@ node('vetsgov-general-purpose') {
     dir("vets-website") {
       try {
         parallel (
-          'nightwatch-e2e': {
-            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG}"
-            sh "docker-compose -p nightwatch up -d"
-            // sh "docker-compose -p nightwatch run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run build -- --unsetPublicPath"
-            sh "docker-compose -p nightwatch run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
-          }
+          // 'nightwatch-e2e': {
+          //   sh "export IMAGE_TAG=${commonStages.IMAGE_TAG}"
+          //   sh "docker-compose -p nightwatch up -d"
+          //   // sh "docker-compose -p nightwatch run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run build -- --unsetPublicPath"
+          //   sh "docker-compose -p nightwatch run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
+          // }
 
           // 'nightwatch-accessibility': {
           //   sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
