@@ -249,7 +249,9 @@ def prearchive(dockerContainer, envName, Boolean contentOnlyBuild) {
   def assetSource = contentOnlyBuild ? ref : 'local'
 
   dockerContainer.inside(DOCKER_ARGS) {
-    sh "cd /application && NODE_ENV=production yarn build:webpack --env.buildtype ${envName} --env.setPublicPath"
+    if (envName == 'vagovdev') {
+      sh "cd /application && NODE_ENV=production yarn build:webpack --env.buildtype ${envName} --env.setPublicPath"
+    }
     sh "cd /application && node --max-old-space-size=8192 script/prearchive.js --buildtype=${envName}"
   }
 }
