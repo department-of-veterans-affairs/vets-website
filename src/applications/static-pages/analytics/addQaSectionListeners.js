@@ -3,15 +3,16 @@ import { isAnchor } from './utilities';
 
 const selectors = {
   template: '[data-template="paragraphs/q_a_section"]',
-  faq: '[data-template="paragraphs/q_a"]',
+  qa: '[data-template="paragraphs/q_a"]',
+  qaCollapsiblePanel: '[data-template="paragraphs/q_a.collapsible_panel__qa"]',
 };
 
-function attachDataToAnchorTags() {
-  const faqs = document.querySelectorAll(selectors.faq);
+function attachDataToAnchorTags(qaSelector) {
+  const questionAndAnswerBlocks = document.querySelectorAll(qaSelector);
 
   // Cycle through each FAQ, binding the FAQ data to each anchor
   // tag generated from the WYSIWYG content.
-  [...faqs].forEach(faq => {
+  [...questionAndAnswerBlocks].forEach(faq => {
     const anchors = faq.querySelectorAll('a');
 
     [...anchors].forEach(anchor => {
@@ -31,7 +32,8 @@ export default function addQaSectionListeners() {
   // attach the listener to the wrapper of the "selectors.faq" elements
   // and access the <a>'s dataset to get the context.
 
-  attachDataToAnchorTags();
+  attachDataToAnchorTags(selectors.qa);
+  attachDataToAnchorTags(selectors.qaCollapsiblePanel);
 
   const containers = document.querySelectorAll(selectors.template);
 
