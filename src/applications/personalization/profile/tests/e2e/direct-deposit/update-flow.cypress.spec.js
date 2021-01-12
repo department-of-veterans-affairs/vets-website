@@ -64,7 +64,11 @@ describe('Direct Deposit', () => {
   });
   describe('for CNP', () => {
     it('should allow bank info updates, show WIP warning modals, show "update successful" banners, etc.', () => {
-      cy.findByRole('button', { name: /add.*bank info/i }).click();
+      cy.findByRole('button', { name: /add.*bank info/i }).click({
+        // using force: true since there are times when the click does not
+        // register and the bank info form does not open
+        force: true,
+      });
       fillInBankInfoForm();
       exitBankInfoForm();
       dismissUnsavedChangesModal();
@@ -85,7 +89,11 @@ describe('Direct Deposit', () => {
     it('should allow bank info updates, show WIP warning modals, show "update successful" banners, etc.', () => {
       cy.findByRole('button', {
         name: /edit.*education.*bank info/i,
-      }).click();
+      }).click({
+        // using force: true since there are times when the click does not
+        // register and the bank info form does not open
+        force: true,
+      });
       fillInBankInfoForm();
       exitBankInfoForm();
       dismissUnsavedChangesModal();
