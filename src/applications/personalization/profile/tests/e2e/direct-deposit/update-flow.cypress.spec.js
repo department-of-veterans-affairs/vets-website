@@ -69,6 +69,7 @@ describe('Direct Deposit', () => {
       exitBankInfoForm();
       dismissUnsavedChangesModal();
       saveNewBankInfo();
+      // the save will fail since we didn't mock the update endpoint yet
       saveErrorExists();
       cy.route('PUT', 'v0/ppiu/payment_information', mockDD4CNPEnrolled);
       saveNewBankInfo();
@@ -89,6 +90,7 @@ describe('Direct Deposit', () => {
       exitBankInfoForm();
       dismissUnsavedChangesModal();
       saveNewBankInfo();
+      // the save will fail since we didn't mock the update endpoint yet
       saveErrorExists();
       cy.route('PUT', 'v0/profile/ch33_bank_accounts', mockDD4EDUEnrolled);
       saveNewBankInfo();
