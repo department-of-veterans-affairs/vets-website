@@ -11,6 +11,7 @@ import {
   selectFeatureRequests,
   selectFeaturePastAppointments,
   selectIsCernerOnlyPatient,
+  selectFeatureHomepageRefresh,
 } from '../../redux/selectors';
 import {
   selectFutureAppointments,
@@ -24,23 +25,98 @@ import {
 } from '../../utils/constants';
 import { getVAAppointmentLocationId } from '../../services/appointment';
 import ConfirmedAppointmentListItem from './cards/confirmed/ConfirmedAppointmentListItem';
+import ConfirmedAppointmentListItemV2 from './cards/confirmed/ConfirmedAppointmentListItemV2';
 import AppointmentRequestListItem from './cards/pending/AppointmentRequestListItem';
+import AppointmentRequestListItemV2 from './cards/pending/AppointmentRequestListItemV2';
 import NoAppointments from './NoAppointments';
+
+function ListItem({
+  appt,
+  index,
+  facilityData,
+  fetchRequestMessages,
+  requestMessages,
+  showCancelButton,
+  cancelAppointment,
+  showHomePageRefresh,
+}) {
+  if (!appt) return null;
+
+  const facilityId = getVAAppointmentLocationId(appt);
+
+  switch (appt.vaos?.appointmentType) {
+    case APPOINTMENT_TYPES.vaAppointment:
+    case APPOINTMENT_TYPES.ccAppointment: {
+      if (showHomePageRefresh) {
+        return (
+          <ConfirmedAppointmentListItemV2
+            key={index}
+            index={index}
+            appointment={appt}
+            facility={facilityData[facilityId]}
+            showCancelButton={showCancelButton}
+            cancelAppointment={cancelAppointment}
+          />
+        );
+      }
+      return (
+        <ConfirmedAppointmentListItem
+          key={index}
+          index={index}
+          appointment={appt}
+          facility={facilityData[facilityId]}
+          showCancelButton={showCancelButton}
+          cancelAppointment={cancelAppointment}
+        />
+      );
+    }
+    case APPOINTMENT_TYPES.request:
+    case APPOINTMENT_TYPES.ccRequest: {
+      if (showHomePageRefresh) {
+        return (
+          <AppointmentRequestListItemV2
+            key={index}
+            index={index}
+            appointment={appt}
+            facility={facilityData[facilityId]}
+            facilityId={facilityId}
+            showCancelButton={showCancelButton}
+            cancelAppointment={cancelAppointment}
+            fetchMessages={fetchRequestMessages}
+            messages={requestMessages}
+          />
+        );
+      }
+      return (
+        <AppointmentRequestListItem
+          key={index}
+          index={index}
+          appointment={appt}
+          facility={facilityData[facilityId]}
+          facilityId={facilityId}
+          showCancelButton={showCancelButton}
+          cancelAppointment={cancelAppointment}
+          fetchMessages={fetchRequestMessages}
+          messages={requestMessages}
+        />
+      );
+    }
+    default:
+      return null;
+  }
+  // });
+}
 
 function FutureAppointmentsList({
   showPastAppointments,
-  showCancelButton,
   showScheduleButton,
   isCernerOnlyPatient,
   future,
   futureStatus,
-  facilityData,
-  requestMessages,
   expressCare,
-  cancelAppointment,
-  fetchRequestMessages,
   fetchFutureAppointments,
   startNewAppointmentFlow,
+  showHomePageRefresh,
 }) {
   useEffect(
     () => {
@@ -59,7 +135,7 @@ function FutureAppointmentsList({
         <LoadingIndicator message="Loading your upcoming appointments..." />
       </div>
     );
-  } else if (futureStatus === FETCH_STATUS.succeeded && future?.length > 0) {
+  } else if (futureStatus === FETCH_STATUS.succeeded && future) {
     content = (
       <>
         {!showPastAppointments && (
@@ -84,44 +160,47 @@ function FutureAppointmentsList({
             </p>
           </>
         )}
-        <ul className="usa-unstyled-list" id="appointments-list">
-          {future.map((appt, index) => {
-            const facilityId = getVAAppointmentLocationId(appt);
-
-            switch (appt.vaos?.appointmentType) {
-              case APPOINTMENT_TYPES.vaAppointment:
-              case APPOINTMENT_TYPES.ccAppointment:
-                return (
-                  <ConfirmedAppointmentListItem
-                    key={index}
-                    index={index}
-                    appointment={appt}
-                    facility={facilityData[facilityId]}
-                    showCancelButton={showCancelButton}
-                    cancelAppointment={cancelAppointment}
-                  />
-                );
-              case APPOINTMENT_TYPES.request:
-              case APPOINTMENT_TYPES.ccRequest: {
-                return (
-                  <AppointmentRequestListItem
-                    key={index}
-                    index={index}
-                    appointment={appt}
-                    facility={facilityData[facilityId]}
-                    facilityId={facilityId}
-                    showCancelButton={showCancelButton}
-                    cancelAppointment={cancelAppointment}
-                    fetchMessages={fetchRequestMessages}
-                    messages={requestMessages}
-                  />
-                );
-              }
-              default:
-                return null;
-            }
-          })}
-        </ul>
+        <>
+          {showHomePageRefresh &&
+            Object.entries(future).map((groupBy, index) => {
+              return (
+                <div key={index}>
+                  <h3>{groupBy[0]}</h3>
+                  <ul className="usa-unstyled-list" id="appointments-list">
+                    {groupBy[1].map((appt, indx) => (
+                      <ListItem
+                        key={indx}
+                        index={indx}
+                        appt={appt}
+                        facilityData
+                        fetchRequestMessages
+                        requestMessages
+                        showCancelButton
+                        cancelAppointment
+                        showHomePageRefresh
+                      />
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
+          {!showHomePageRefresh && (
+            <ul className="usa-unstyled-list" id="appointments-list">
+              {future.map((appt, index) => (
+                <ListItem
+                  key={index}
+                  index={index}
+                  appt={appt}
+                  facilityData
+                  fetchRequestMessages
+                  requestMessages
+                  showCancelButton
+                  cancelAppointment
+                />
+              ))}
+            </ul>
+          )}
+        </>
       </>
     );
   } else if (futureStatus === FETCH_STATUS.failed) {
@@ -194,6 +273,8 @@ function mapStateToProps(state) {
     showPastAppointments: selectFeaturePastAppointments(state),
     showScheduleButton: selectFeatureRequests(state),
     expressCare: selectExpressCareAvailability(state),
+    showHomePageRefresh: selectFeatureHomepageRefresh(state),
+    appointmentListFilter: state.appointments.appointmentListFilter,
   };
 }
 

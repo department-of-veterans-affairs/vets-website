@@ -25,6 +25,7 @@ export default function AppointmentDateTime({
   timezone,
   facilityId,
   twoLineFormat,
+  selectFeatureHomepageRefresh,
 }) {
   if (!appointmentDate.isValid()) {
     return null;
@@ -32,15 +33,18 @@ export default function AppointmentDateTime({
 
   return (
     <>
-      {!twoLineFormat && (
-        <>{appointmentDate.format('dddd, MMMM D, YYYY [at] h:mm a')} </>
-      )}
-      {twoLineFormat && (
-        <>
-          {appointmentDate.format('dddd, MMMM D, YYYY')} <br />
-          {appointmentDate.format('h:mm a')}{' '}
-        </>
-      )}
+      {selectFeatureHomepageRefresh && <>{appointmentDate.format('h:mm a')} </>}
+      {!selectFeatureHomepageRefresh &&
+        !twoLineFormat && (
+          <>{appointmentDate.format('dddd, MMMM D, YYYY [at] h:mm a')} </>
+        )}
+      {!selectFeatureHomepageRefresh &&
+        twoLineFormat && (
+          <>
+            {appointmentDate.format('dddd, MMMM D, YYYY')} <br />
+            {appointmentDate.format('h:mm a')}{' '}
+          </>
+        )}
       <span aria-hidden="true">
         {getAppointmentTimezoneAbbreviation(timezone, facilityId)}
       </span>

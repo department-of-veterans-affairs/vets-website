@@ -81,6 +81,8 @@ export const FETCH_EXPRESS_CARE_WINDOWS_FAILED =
   'vaos/FETCH_EXPRESS_CARE_WINDOWS_FAILED';
 export const FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED =
   'vaos/FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED';
+export const UPDATE_APPOINTMENT_LIST_FILTER =
+  'vaos/UPDATE_APPOINTMENT_LIST_FILTER';
 
 export function fetchRequestMessages(requestId) {
   return async dispatch => {
@@ -149,10 +151,20 @@ async function getAdditionalFacilityInfo(futureAppointments) {
   return facilityData;
 }
 
-export function fetchFutureAppointments() {
+export function updateAppointmentListFilter(filter) {
+  return async (dispatch, _getState) => {
+    dispatch({
+      type: UPDATE_APPOINTMENT_LIST_FILTER,
+      filter,
+    });
+  };
+}
+
+export function fetchFutureAppointments(appointmentListFilter = 'upcoming') {
   return async (dispatch, getState) => {
     dispatch({
       type: FETCH_FUTURE_APPOINTMENTS,
+      appointmentListFilter,
     });
 
     recordEvent({

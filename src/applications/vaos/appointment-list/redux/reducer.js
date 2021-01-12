@@ -20,6 +20,7 @@ import {
   CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
   CANCEL_APPOINTMENT_CLOSED,
   FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+  UPDATE_APPOINTMENT_LIST_FILTER,
 } from './actions';
 
 import {
@@ -62,6 +63,7 @@ const initialState = {
   systemClinicToFacilityMap: {},
   expressCareWindowsStatus: FETCH_STATUS.notStarted,
   expressCareFacilities: null,
+  appointmentListFilter: 'upcoming',
 };
 
 export default function appointmentsReducer(state = initialState, action) {
@@ -71,12 +73,19 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         pendingStatus: FETCH_STATUS.loading,
         confirmedStatus: FETCH_STATUS.loading,
+        appointmentListFilter: action.appointmentListFilter,
       };
     case FETCH_FUTURE_APPOINTMENTS_SUCCEEDED: {
       return {
         ...state,
         confirmed: action.data,
         confirmedStatus: FETCH_STATUS.succeeded,
+      };
+    }
+    case UPDATE_APPOINTMENT_LIST_FILTER: {
+      return {
+        ...state,
+        appointmentListFilter: action.filter,
       };
     }
     case FETCH_FUTURE_APPOINTMENTS_FAILED:

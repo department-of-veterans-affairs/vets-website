@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { createSelector } from 'reselect';
+import _ from 'lodash';
 import { selectCernerAppointmentsFacilities } from 'platform/user/selectors';
 import { titleCase } from '../../utils/formatters';
 import { FETCH_STATUS, APPOINTMENT_STATUS } from '../../utils/constants';
@@ -16,6 +17,7 @@ import {
 import {
   selectFeatureExpressCare,
   selectFeatureExpressCareNewRequest,
+  selectFeatureHomepageRefresh,
 } from '../../redux/selectors';
 import {
   getTimezoneAbbrBySystemId,
@@ -100,11 +102,48 @@ export function selectFutureStatus(state) {
 
 export const selectFutureAppointments = createSelector(
   selectFeatureExpressCare,
+  selectFeatureHomepageRefresh,
+  state => state.appointments.appointmentListFilter,
   state => state.appointments.pending,
   state => state.appointments.confirmed,
-  (showExpressCare, pending, confirmed) => {
+  state => state.appointments.past,
+  (
+    showExpressCare,
+    isSelectFeatureHomepageRefresh,
+    appointmentListFilter,
+    pending,
+    confirmed,
+    past,
+  ) => {
     if (!confirmed || !pending) {
       return null;
+    }
+
+    let appointments;
+    if (isSelectFeatureHomepageRefresh) {
+      if (appointmentListFilter === 'upcoming') {
+        appointments = confirmed
+          .filter(isUpcomingAppointmentOrRequest)
+          .sort(sortUpcoming);
+      } else if (appointmentListFilter === 'requested') {
+        appointments = pending
+          .filter(isUpcomingAppointmentOrRequest)
+          .sort(sortUpcoming);
+      } else if (appointmentListFilter === 'past') {
+        if (!past) return null;
+
+        appointments = past?.sort(sortUpcoming);
+      } else if (appointmentListFilter === 'cancelled') {
+        appointments = confirmed
+          .concat(...pending)
+          .filter(appt => appt.status === APPOINTMENT_STATUS.cancelled)
+          .sort(sortUpcoming);
+      }
+
+      // Group appointments by month and year
+      return _.groupBy(appointments, appointment =>
+        moment(appointment.start).format('MMMM YYYY'),
+      );
     }
 
     return confirmed
