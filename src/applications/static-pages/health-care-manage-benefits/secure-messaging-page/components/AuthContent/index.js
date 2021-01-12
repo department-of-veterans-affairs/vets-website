@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 // Relative imports.
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
+import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 
 export const AuthContent = ({ cernerFacilities, otherFacilities }) => (
   <>
@@ -12,7 +13,7 @@ export const AuthContent = ({ cernerFacilities, otherFacilities }) => (
       cernerFacilities={cernerFacilities}
       otherFacilities={otherFacilities}
       linksHeaderText="Send a secure message to a provider at:"
-      myHealtheVetLink="https://sqa.eauth.va.gov/mhv-portal-web/eauth?deeplinking=secure_messaging"
+      myHealtheVetLink={mhvUrl('secure-messaging')}
       myVAHealthLink={getCernerURL('/pages/messaging/inbox')}
     />
     <div>

@@ -40,7 +40,7 @@ export class ConfirmationPage extends React.Component {
           </h2>
           <h3 className="vads-u-font-size--h4">
             Veteran Readiness and Employment Application{' '}
-            <span className="additional">(Form 28-8832)</span>
+            <span className="additional">(VA Form 28-1900)</span>
           </h3>
           <span>
             FOR: {name.first} {name?.middle} {name.last} {name?.suffix}

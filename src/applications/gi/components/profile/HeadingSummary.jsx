@@ -14,6 +14,7 @@ import CautionFlagHeading from './CautionFlagHeading';
 import SchoolClosingHeading from './SchoolClosingHeading';
 import ScorecardTags from '../ScorecardTags';
 import { renderStars } from '../../utils/render';
+import recordEvent from 'platform/monitoring/record-event';
 
 const IconWithInfo = ({ icon, children, present }) => {
   if (!present) return null;
@@ -88,7 +89,10 @@ class HeadingSummary extends React.Component {
                 {stars.display} of 5
               </span>{' '}
               (
-              <a href="#profile-school-ratings">
+              <a
+                href="#profile-school-ratings"
+                onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
+              >
                 See {it.ratingCount} ratings by Veterans
               </a>
               )

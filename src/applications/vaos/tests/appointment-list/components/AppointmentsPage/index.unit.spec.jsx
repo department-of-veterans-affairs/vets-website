@@ -63,6 +63,11 @@ describe('VAOS integration: appointment list', () => {
     appointment.attributes = {
       ...appointment.attributes,
       startDate: secondDate.format(),
+      vdsAppointments: [
+        {
+          bookingNote: 'My reason isn’t listed: Looking for a reason',
+        },
+      ],
     };
     const videoAppointment = getVideoAppointmentMock();
     videoAppointment.attributes = {
@@ -87,7 +92,7 @@ describe('VAOS integration: appointment list', () => {
       requests: [request],
     });
 
-    const { baseElement, findAllByRole } = renderWithStoreAndRouter(
+    const { baseElement, findAllByRole, getByText } = renderWithStoreAndRouter(
       <FutureAppointmentsList />,
       {
         initialState,
@@ -108,6 +113,7 @@ describe('VAOS integration: appointment list', () => {
       'Primary care appointment',
     ]);
     expect(baseElement.querySelector('h4')).to.be.ok;
+    expect(getByText(/My reason isn’t listed/i)).to.be.ok;
   });
 
   it('should sort requests by type of care', async () => {
@@ -862,5 +868,117 @@ describe('VAOS integration: appointment list', () => {
         name: /You may have trouble using the VA appointments tool right now/,
       }),
     ).to.exist;
+  });
+
+  it('should render schedule button with direct schedule text', async () => {
+    const defaultState = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingDirect: true,
+        vaOnlineSchedulingCommunityCare: false,
+      },
+      user: userState,
+    };
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState: defaultState,
+      reducers,
+    });
+
+    expect(
+      await screen.findByRole('heading', {
+        level: 2,
+        name: /Create a new appointment/,
+      }),
+    );
+    expect(
+      screen.getByText(
+        /Schedule an appointment at a VA medical center or clinic./,
+      ),
+    ).to.be.ok;
+    expect(screen.getByRole('link', { name: 'Schedule an appointment' }));
+  });
+
+  it('should render schedule button with direct schedule text for community care', async () => {
+    const defaultState = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingDirect: true,
+        vaOnlineSchedulingCommunityCare: true,
+      },
+      user: userState,
+    };
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState: defaultState,
+      reducers,
+    });
+
+    expect(
+      await screen.findByRole('heading', {
+        level: 2,
+        name: /Create a new appointment/,
+      }),
+    );
+    expect(
+      screen.getByText(
+        /Schedule an appointment at a VA medical center, clinic, or community care facility./,
+      ),
+    ).to.be.ok;
+    expect(screen.getByRole('link', { name: 'Schedule an appointment' }));
+  });
+
+  it('should render schedule button with request appointment text', async () => {
+    const defaultState = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingDirect: false,
+        vaOnlineSchedulingCommunityCare: false,
+      },
+      user: userState,
+    };
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState: defaultState,
+      reducers,
+    });
+
+    expect(
+      await screen.findByRole('heading', {
+        level: 2,
+        name: /Request an appointment/,
+      }),
+    );
+    expect(
+      screen.getByText(
+        /You can submit a request for an appointment at a VA medical center or clinic./,
+      ),
+    ).to.be.ok;
+    expect(screen.getByRole('link', { name: 'Request an appointment' }));
+  });
+
+  it('should render schedule button with request appointment text for communty care', async () => {
+    const defaultState = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingDirect: false,
+        vaOnlineSchedulingCommunityCare: true,
+      },
+      user: userState,
+    };
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState: defaultState,
+      reducers,
+    });
+
+    expect(
+      await screen.findByRole('heading', {
+        level: 2,
+        name: /Request an appointment/,
+      }),
+    );
+    expect(
+      screen.getByText(
+        /You can submit a request for an appointment at a VA medical center, clinic, or approved Community Care facility./,
+      ),
+    ).to.be.ok;
+    expect(screen.getByRole('link', { name: 'Request an appointment' }));
   });
 });

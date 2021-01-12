@@ -1,4 +1,7 @@
-import { selectUseFlatFacilityPage } from '../redux/selectors';
+import {
+  selectUseFlatFacilityPage,
+  selectUseProviderSelection,
+} from '../redux/selectors';
 import {
   getChosenFacilityInfo,
   getEligibilityStatus,
@@ -183,6 +186,16 @@ export default {
   },
   ccPreferences: {
     url: '/new-appointment/community-care-preferences',
+    next(state) {
+      if (selectUseProviderSelection(state)) {
+        return 'ccLanguage';
+      }
+
+      return 'reasonForAppointment';
+    },
+  },
+  ccLanguage: {
+    url: '/new-appointment/community-care-language',
     next: 'reasonForAppointment',
   },
   vaFacility: {

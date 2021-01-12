@@ -7,6 +7,7 @@ import Telephone, {
 // Relative imports.
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
+import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 
 export const AuthContent = ({ cernerFacilities, otherFacilities }) => (
   <>
@@ -14,7 +15,7 @@ export const AuthContent = ({ cernerFacilities, otherFacilities }) => (
       cernerFacilities={cernerFacilities}
       otherFacilities={otherFacilities}
       linksHeaderText="Refill prescriptions from:"
-      myHealtheVetLink="https://sqa.eauth.va.gov/mhv-portal-web/eauth?deeplinking=prescription_refill"
+      myHealtheVetLink={mhvUrl('web/myhealthevet/refill-prescriptions')}
       myVAHealthLink={getCernerURL('/pages/medications/current')}
     />
     <div>

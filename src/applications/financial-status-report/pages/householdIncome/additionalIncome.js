@@ -1,6 +1,7 @@
 import ItemLoop from '../../components/ItemLoop';
 import TableDetailsView from '../../components/TableDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your other income',
@@ -20,13 +21,24 @@ export const uiSchema = {
         doNotScroll: true,
         showSave: true,
         expandUnder: 'hasAdditionalIncome',
-        itemName: 'Add income',
+        itemName: 'income',
       },
       items: {
         incomeType: {
           'ui:title': 'Type of income',
+          'ui:options': {
+            widgetClassNames: 'input-size-3',
+          },
+          'ui:required': formData =>
+            formData.additionalIncome.hasAdditionalIncome,
         },
-        monthlyAmount: currencyUI('Monthly income amount'),
+        monthlyAmount: _.merge(currencyUI('Monthly income amount'), {
+          'ui:options': {
+            widgetClassNames: 'input-size-2',
+          },
+          'ui:required': formData =>
+            formData.additionalIncome.hasAdditionalIncome,
+        }),
       },
     },
   },
@@ -44,6 +56,7 @@ export const schema = {
           type: 'array',
           items: {
             type: 'object',
+            required: ['incomeType', 'monthlyAmount'],
             properties: {
               incomeType: {
                 type: 'string',

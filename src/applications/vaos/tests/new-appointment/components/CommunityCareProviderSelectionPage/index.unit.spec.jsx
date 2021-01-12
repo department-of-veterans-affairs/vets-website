@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
+import { waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
@@ -90,7 +91,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     });
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
-      ['208D00000X', '207R00000X', '261QP2300X'],
+      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
       calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
@@ -122,24 +123,19 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     // Continue without filling in required fields
     userEvent.click(screen.getByText(/Continue/i));
 
-    expect((await screen.findAllByRole('alert')).length).to.equal(2);
+    expect((await screen.findAllByRole('alert')).length).to.equal(1);
     expect(screen.history.push.called).to.be.false;
 
     // Continue with filling in required fields without provider
     userEvent.click(await screen.getByRole('radio', { name: /Bozeman, MT/i }));
-    const languageSelect = screen.getByLabelText(
-      /do you prefer that your community care provider speak a certain language?/i,
-    );
-
-    userEvent.selectOptions(languageSelect, ['english']);
     userEvent.click(screen.getByText(/Continue/i));
     expect(
       global.window.dataLayer.some(
         e => e === `${GA_PREFIX}-continue-without-provider`,
       ),
     );
-    expect(screen.history.push.called).to.be.true;
 
+    await waitFor(() => expect(screen.history.push.called).to.be.true);
     // Continue with filling in required fields with provider
     userEvent.click(await screen.findByText(/Choose a provider/i));
     userEvent.click(await screen.findByText(/OH, JANICE/i));
@@ -152,7 +148,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       ),
     );
     expect(await screen.baseElement).to.contain.text(
-      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-24009342.6 miles',
+      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400397.3 miles',
     );
 
     userEvent.click(screen.getByText(/Continue/i));
@@ -161,7 +157,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
         e => e === `${GA_PREFIX}-continue-with-provider`,
       ),
     );
-    expect(screen.history.push.called).to.be.true;
+    await waitFor(() => expect(screen.history.push.called).to.be.true);
   });
 
   it('should display list of providers when choose a provider clicked', async () => {
@@ -192,37 +188,40 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     expect(await screen.findByText(/displaying 1 to 10 of 16 providers/i)).to
       .exist;
     expect((await screen.findAllByRole('radio')).length).to.equal(12);
+    expect(document.activeElement.id).to.equal('root_communityCareProvider_6');
 
     userEvent.click(await screen.findByText(/\+ 5 more providers/i));
     expect(await screen.findByText(/displaying 1 to 15 of 16 providers/i)).to
       .exist;
     expect((await screen.findAllByRole('radio')).length).to.equal(17);
+    expect(document.activeElement.id).to.equal('root_communityCareProvider_11');
 
     userEvent.click(await screen.findByText(/\+ 1 more providers/i));
     expect(await screen.findByText(/displaying 1 to 16 of 16 providers/i)).to
       .exist;
     expect((await screen.findAllByRole('radio')).length).to.equal(18);
-
+    expect(document.activeElement.id).to.equal('root_communityCareProvider_16');
     // Choose Provider
     userEvent.click(await screen.findByText(/AJADI, ADEDIWURA/i));
     userEvent.click(
       await screen.getByRole('button', { name: /choose provider/i }),
     );
     expect(screen.baseElement).to.contain.text(
-      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-65999349.3 miles',
+      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-6599',
     );
+    expect(screen.baseElement).to.contain.text('408.5 miles');
 
     // Change Provider
     userEvent.click(
       await screen.findByRole('button', { name: /change provider/i }),
     );
-    userEvent.click(await screen.findByText(/LYONS, KRISTYN/i));
+    userEvent.click(await screen.findByText(/OH, JANICE/i));
     userEvent.click(
       await screen.findByRole('button', { name: /choose provider/i }),
     );
 
     expect(screen.baseElement).to.contain.text(
-      'LYONS, KRISTYN1785 S HAYES STARLINGTON, VA 22202-27149347.1 miles',
+      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400397.3 miles',
     );
 
     // Cancel Selection (not clearing of a selected provider)
@@ -233,7 +232,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       .exist;
     userEvent.click(await screen.findByRole('button', { name: /cancel/i }));
     expect(screen.baseElement).to.contain.text(
-      'LYONS, KRISTYN1785 S HAYES STARLINGTON, VA 22202-27149347.1 miles',
+      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400397.3 miles',
     );
   });
 
@@ -248,16 +247,18 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       },
     );
 
-    // Choose Provider
+    // Choose Provider that is buried 2 clicks deep
     userEvent.click(await screen.findByText(/Choose a provider/i));
+    userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/AJADI, ADEDIWURA/i));
     userEvent.click(
       await screen.getByRole('button', { name: /choose provider/i }),
     );
     expect(screen.baseElement).to.contain.text(
-      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-65999349.3 miles',
+      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-6599',
     );
+    expect(screen.baseElement).to.contain.text('408.5 miles');
 
     // Remove Provider Cancel
     userEvent.click(await screen.findByRole('button', { name: /remove/i }));
@@ -268,8 +269,9 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     );
     userEvent.click(await screen.findByRole('button', { name: /Cancel/i }));
     expect(screen.baseElement).to.contain.text(
-      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-65999349.3 miles',
+      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-6599',
     );
+    expect(screen.baseElement).to.contain.text('408.5 miles');
 
     // Remove Provider
     userEvent.click(await screen.findByRole('button', { name: /remove/i }));
@@ -281,7 +283,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     userEvent.click(
       await screen.findByRole('button', { name: /Yes, remove provider/i }),
     );
-    expect(await screen.getByRole('button', { name: /Choose a provider/i }));
+    expect(await screen.findByRole('button', { name: /Choose a provider/i }));
   });
 
   it('should display an error when choose a provider clicked and provider fetch error', async () => {
@@ -290,7 +292,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     await setTypeOfFacility(store, /Community Care/i);
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
-      ['208D00000X', '207R00000X', '261QP2300X'],
+      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
       calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
@@ -327,7 +329,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
-      ['208D00000X', '207R00000X', '261QP2300X'],
+      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
       calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
@@ -362,7 +364,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
-      ['208D00000X', '207R00000X', '261QP2300X'],
+      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
       calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
@@ -398,7 +400,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
         )
           throw new Error();
       }
-    }).to.not.throw;
+    }).to.not.throw();
   });
 
   it('should sort provider addresses by distance from current location in ascending order', async () => {
@@ -413,7 +415,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     mockCCProviderFetch(
       currentPosition,
-      ['208D00000X', '207R00000X', '261QP2300X'],
+      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
       calculateBoundingBox(
         currentPosition.latitude,
         currentPosition.longitude,
@@ -440,7 +442,6 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/more providers$/i));
-    userEvent.click(await screen.findByText(/more providers$/i));
 
     const miles = screen.queryAllByText(/miles$/);
 
@@ -453,7 +454,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
         )
           throw new Error();
       }
-    }).to.not.throw;
+    }).to.not.throw();
   });
 
   it('should reset provider selected when type of care changes', async () => {
@@ -461,7 +462,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
-      ['208D00000X', '207R00000X', '261QP2300X'],
+      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
       calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,

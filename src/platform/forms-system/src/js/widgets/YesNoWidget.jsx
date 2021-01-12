@@ -7,7 +7,7 @@ export default function YesNoWidget({
   onChange,
   options = {},
 }) {
-  const { yesNoReverse = false, labels = {} } = options;
+  const { yesNoReverse = false, labels = {}, widgetProps = {} } = options;
   const yesValue = !yesNoReverse;
   const noValue = !yesValue;
   return (
@@ -20,6 +20,7 @@ export default function YesNoWidget({
         value="Y"
         disabled={disabled}
         onChange={_ => onChange(yesValue)}
+        {...widgetProps.Y || {}}
       />
       <label htmlFor={`${id}Yes`}>{labels.Y || 'Yes'}</label>
       <input
@@ -30,6 +31,7 @@ export default function YesNoWidget({
         value="N"
         disabled={disabled}
         onChange={_ => onChange(noValue)}
+        {...widgetProps.N || {}}
       />
       <label htmlFor={`${id}No`}>{labels.N || 'No'}</label>
     </div>

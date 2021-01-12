@@ -7,6 +7,7 @@ import Telephone, {
 // Relative imports.
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
+import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 
 export const AuthContent = ({ cernerFacilities, otherFacilities }) => (
   <>
@@ -14,7 +15,7 @@ export const AuthContent = ({ cernerFacilities, otherFacilities }) => (
       cernerFacilities={cernerFacilities}
       otherFacilities={otherFacilities}
       linksHeaderText="View lab and test results from:"
-      myHealtheVetLink="https://sqa.eauth.va.gov/mhv-portal-web/eauth"
+      myHealtheVetLink={mhvUrl('labs-tests')}
       myVAHealthLink={getCernerURL('/pages/health_record/results/labs')}
     />
     <div>

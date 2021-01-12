@@ -7,7 +7,7 @@ import {
 } from '../../utilities';
 
 const checkboxTitle =
-  'I live on a United States military base outside of the U.S.';
+  'I live on a United States military base outside of the country.';
 
 export const schema = {
   type: 'object',
@@ -29,9 +29,11 @@ export const uiSchema = {
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
     },
+    'ui:required': () => true,
     'ui:title': 'Phone number',
     'ui:errorMessages': {
       pattern: 'Please enter only numbers, no dashes or parentheses',
+      required: 'Please enter your phone number',
     },
   },
   claimantEmailAddress: {

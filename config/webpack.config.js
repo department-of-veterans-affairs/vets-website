@@ -1,4 +1,5 @@
-require('@babel/polyfill');
+require('core-js/stable');
+require('regenerator-runtime/runtime');
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
@@ -28,6 +29,8 @@ const generateWebpackDevConfig = require('./webpack.dev.config.js');
 
 const getAbsolutePath = relativePath =>
   path.join(__dirname, '../', relativePath);
+
+const timestamp = new Date().getTime();
 
 const sharedModules = [
   getAbsolutePath('src/platform/polyfills'),
@@ -100,6 +103,11 @@ module.exports = env => {
     ENVIRONMENTS.VAGOVPROD,
   ].includes(buildOptions.buildtype);
 
+  const useHashFilenames = [
+    ENVIRONMENTS.VAGOVSTAGING,
+    ENVIRONMENTS.VAGOVPROD,
+  ].includes(buildOptions.buildtype);
+
   // enable css sourcemaps for all non-localhost builds
   // or if build options include local-css-sourcemaps or entry
   const enableCSSSourcemaps =
@@ -109,14 +117,27 @@ module.exports = env => {
 
   const outputPath = `${buildOptions.destination}/generated`;
 
+  // Set the pubilcPath conditional so we can get dynamic modules loading from S3
+  const publicAssetPath =
+    buildOptions.buildtype === 'vagovdev' ||
+    buildOptions.buildtype === 'vagovstaging' // just for dev and staging so we can test it, will add prod in the next merge after testing
+      ? `${BUCKETS[buildOptions.buildtype]}/generated/`
+      : '/generated/';
+
   const baseConfig = {
     mode: 'development',
     entry: entryFiles,
     output: {
       path: outputPath,
-      publicPath: '/generated/',
-      filename: '[name].entry.js',
-      chunkFilename: '[name].entry.js',
+      publicPath: publicAssetPath,
+      filename: pathData => {
+        return !useHashFilenames || pathData.chunk.name === 'proxy-rewrite' // the unhashed proxy-rewrite file is directly accessed in the prearchive job (src/site/stages/prearchive/link-assets-to-bucket.js#93)
+          ? '[name].entry.js'
+          : `[name].entry.[chunkhash]-${timestamp}.js`;
+      },
+      chunkFilename: !useHashFilenames
+        ? '[name].entry.js'
+        : `[name].entry.[chunkhash]-${timestamp}.js`,
     },
     module: {
       rules: [
@@ -252,7 +273,9 @@ module.exports = env => {
 
           if (isMedalliaStyleFile && isStaging) return `[name].css`;
 
-          return `[name].css`;
+          return useHashFilenames
+            ? `[name].[contenthash]-${timestamp}.css`
+            : `[name].css`;
         },
       }),
 

@@ -73,7 +73,6 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
   if (submitStatus === requestStates.pending) {
     return <LoadingIndicator message="Submitting your form..." />;
   }
-
   return (
     <>
       <DowntimeNotification
@@ -102,9 +101,11 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
 
         {isLoggedIn ? (
           <p>
-            <strong>Note:</strong> Any changes you make to your information here
-            won’t change your information in your VA.gov profile or any other
-            accounts.
+            <strong>Note:</strong> The information below is from your VA.gov
+            profile. If you need to make a change,{' '}
+            <a href="/profile" target="_blank">
+              go to your profile now.
+            </a>{' '}
           </p>
         ) : null}
         {formState ? (

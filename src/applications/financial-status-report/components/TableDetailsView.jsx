@@ -4,10 +4,17 @@ const TableDetailsView = ({ formData, onEdit, index }) => {
   const values = Object.values(formData);
   const keys = Object.keys(formData);
 
+  const formatter = value => {
+    if (typeof value === 'string') {
+      return value;
+    }
+    return `$${value?.toFixed(2)}`;
+  };
+
   const renderDetails = data => {
     return data.map((key, i) => (
       <td key={`${key}-${i}`} className="vads-u-border--0">
-        {values[i]}
+        {formatter(values[i])}
       </td>
     ));
   };
