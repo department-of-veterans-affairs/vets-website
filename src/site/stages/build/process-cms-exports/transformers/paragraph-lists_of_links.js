@@ -5,7 +5,7 @@ const { getDrupalValue } = require('./helpers');
 const transform = entity => ({
   entityType: 'paragraph',
   entityBundle: 'lists_of_links',
-  fieldSectionHeader: entity.fieldSectionHeader,
+  fieldSectionHeader: getDrupalValue(entity.fieldSectionHeader),
   fieldVaParagraphs: entity.fieldVaParagraphs,
 });
 
