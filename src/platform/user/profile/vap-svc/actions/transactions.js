@@ -1,5 +1,3 @@
-import * as Sentry from '@sentry/browser';
-
 import { apiRequest } from '~/platform/utilities/api';
 import { refreshProfile } from '~/platform/user/profile/actions';
 import recordEvent from '~/platform/monitoring/record-event';
