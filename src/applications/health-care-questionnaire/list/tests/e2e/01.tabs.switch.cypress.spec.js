@@ -36,6 +36,7 @@ describe('health care questionnaire list -- tabs ', () => {
       cy.get('#tab_toDo').click();
       cy.get('#tabpanel_toDo').then(el => {
         expect(el).to.exist;
+        cy.url().should('match', /to-do/);
       });
     });
   });

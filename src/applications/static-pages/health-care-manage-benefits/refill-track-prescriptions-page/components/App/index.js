@@ -9,13 +9,8 @@ import LegacyContent from '../LegacyContent';
 import UnauthContent from '../UnauthContent';
 import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 import { selectPatientFacilities } from 'platform/user/selectors';
-import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 
-export const App = ({
-  facilities,
-  showNewRefillTrackPrescriptionsPage,
-  authenticatedWithSSOe,
-}) => {
+export const App = ({ facilities, showNewRefillTrackPrescriptionsPage }) => {
   if (!showNewRefillTrackPrescriptionsPage) {
     return <LegacyContent />;
   }
@@ -27,7 +22,6 @@ export const App = ({
       <AuthContent
         cernerFacilities={cernerFacilities}
         otherFacilities={otherFacilities}
-        authenticatedWithSSOe={authenticatedWithSSOe}
       />
     );
   }
@@ -37,7 +31,6 @@ export const App = ({
 
 App.propTypes = {
   // From mapStateToProps.
-  authenticatedWithSSOe: PropTypes.bool,
   facilities: PropTypes.arrayOf(
     PropTypes.shape({
       facilityId: PropTypes.string.isRequired,
@@ -54,7 +47,6 @@ App.propTypes = {
 
 const mapStateToProps = state => ({
   facilities: selectPatientFacilities(state),
-  authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
   showNewRefillTrackPrescriptionsPage:
     state?.featureToggles?.[
       featureFlagNames.showNewRefillTrackPrescriptionsPage

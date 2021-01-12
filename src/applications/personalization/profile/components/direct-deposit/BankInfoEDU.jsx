@@ -217,14 +217,17 @@ export const DirectDepositEDU = ({
     return notEligibleContent;
   };
 
-  const directDepositData = [
-    // the table can show multiple states so we set its value with the
-    // getBankInfo() helper
-    {
-      title: 'Account',
+  const directDepositData = () => {
+    const data = {
+      // the table can show multiple states so we set its value with the
+      // getBankInfo() helper
       value: getBankInfo(),
-    },
-  ];
+    };
+    if (isDirectDepositSetUp) {
+      data.title = 'Account';
+    }
+    return [data];
+  };
 
   // Render nothing if the user is not LOA3.
   // This entire component should never be rendered in that case; this just
@@ -271,7 +274,7 @@ export const DirectDepositEDU = ({
       <ProfileInfoTable
         className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
         title="Education benefits"
-        data={directDepositData}
+        data={directDepositData()}
       />
     </>
   );
