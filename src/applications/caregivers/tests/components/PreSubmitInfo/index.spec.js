@@ -1,14 +1,10 @@
-import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+
 import {
   veteranSignatureContent,
   primaryCaregiverContent,
   secondaryCaregiverContent,
 } from 'applications/caregivers/definitions/content.js';
-
-import SignatureBoxes from '../../../components/PreSubmitInfo/index';
-import maximalFormData from '../../e2e/fixtures/data/twoSecondaryCaregivers.json';
 
 describe('SignatureBox content', () => {
   it('veteranSignatureContent has not changed', () => {
