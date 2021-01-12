@@ -73,18 +73,18 @@ node('vetsgov-general-purpose') {
             sh "docker-compose -p nightwatch up -d"
             // sh "docker-compose -p nightwatch run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run build -- --unsetPublicPath"
             sh "docker-compose -p nightwatch run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
-          },
+          }
 
           // 'nightwatch-accessibility': {
           //   sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
           // },
 
-          cypress: {
-            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG}"
-            sh "docker-compose -p cypress up -d"
-            // sh "docker-compose -p cypress run --rm --entrypoint=npm -e CI=true vets-website --no-color run build -- --unsetPublicPath"
-            sh "docker-compose -p cypress run --rm --entrypoint=npm -e CI=true vets-website --no-color run cy:test:docker"
-          }
+          // cypress: {
+          //   sh "export IMAGE_TAG=${commonStages.IMAGE_TAG}"
+          //   sh "docker-compose -p cypress up -d"
+          //   // sh "docker-compose -p cypress run --rm --entrypoint=npm -e CI=true vets-website --no-color run build -- --unsetPublicPath"
+          //   sh "docker-compose -p cypress run --rm --entrypoint=npm -e CI=true vets-website --no-color run cy:test:docker"
+          // }
         )
       } catch (error) {
         commonStages.slackNotify()
@@ -98,9 +98,9 @@ node('vetsgov-general-purpose') {
     }
   }
 
-  commonStages.prearchiveAll(dockerContainer)
+  commonStages.prearchiveAll(dockerContainer, params.cmsEnvBuildOverride != 'none')
 
-  commonStages.archiveAll(dockerContainer, ref);
+  commonStages.archiveAll(dockerContainer, ref, );
   commonStages.cacheDrupalContent(dockerContainer, envsUsingDrupalCache);
 
   stage('Review') {
