@@ -247,8 +247,6 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 
 def prearchive(dockerContainer, envName, Boolean contentOnlyBuild) {
   def assetSource = contentOnlyBuild ? ref : 'local'
-  
-   build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild, setPublicPath)
 
   dockerContainer.inside(DOCKER_ARGS) {
     sh "cd /application"
