@@ -70,10 +70,6 @@ function getEntryNamesDictionary(buildOptions, files) {
 module.exports = {
   initialize(buildOptions, files) {
     this.entryNamesDictionary = getEntryNamesDictionary(buildOptions, files);
-
-    if (!buildOptions.isPreviewServer) {
-      copyAssetsToTeamSitePaths(buildOptions, files, this.entryNamesDictionary);
-    }
   },
 
   modifyFile(fileName, file, files, buildOptions) {
@@ -108,5 +104,11 @@ module.exports = {
       $el.attr(attribute, `/${fileSearch}`);
       file.modified = true;
     });
+  },
+
+  conclude(buildOptions, files) {
+    if (!buildOptions.isPreviewServer) {
+      copyAssetsToTeamSitePaths(buildOptions, files, this.entryNamesDictionary);
+    }
   },
 };
