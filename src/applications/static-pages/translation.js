@@ -1,28 +1,16 @@
 import i18Content from './i18Content.json';
-// we are only doing faq page for V1
-// const convertChildLinksToTargetLang = targetLang => {
-//   const linkSelectors = ['[title="Volunteer for coronavirus research at VA"]'];
-//   linkSelectors.forEach(selector => {
-//     const element = document.querySelector(selector);
-//     if (!element) return;
-//     if (!element.href.includes('-esp') && targetLang === 'es') {
-//       const espUrl = element.href.concat('-esp');
-//       element.href = espUrl;
-//     }
-//     if (targetLang === 'en' && element.href.includes('-esp')) {
-//       const englishUrl = element.href.replace('-esp', '');
-//       element.href = englishUrl;
-//     }
-//   });
-// };
+import recordEvent from 'platform/monitoring/record-event';
 
 const setLang = (e, currentLang, targetLang) => {
-  // accessibility
   const contentDiv = document.getElementById('content');
   contentDiv.lang = currentLang;
-  (e.target || e).dataset.lang = currentLang;
-  (e.target || e).innerText = i18Content[targetLang].linkTitle;
-  (e.target || e).href = i18Content[targetLang].langToggleLink;
+  e.dataset.lang = currentLang;
+  e.innerText = i18Content[targetLang].linkTitle;
+  e.href = i18Content[targetLang].langToggleLink;
+  e.onclick = recordEvent({
+    event: 'faq-lang-toggle',
+    targetLang,
+  });
   // convertChildLinksToTargetLang(targetLang);
 };
 
@@ -32,10 +20,10 @@ const setLanguageAndParseChildLinks = () => {
   const isSpanish = window.location.href.includes('-esp');
   const translatableLinks = [
     // remove the preview nodes from this array when ready to merge
-    'nodeId=3014',
-    'nodeId=6785',
+    // 'nodeId=3014',
+    // 'nodeId=6785',
     'coronavirus-veteran-frequently-asked-questions',
-    'covid-19-vaccine',
+    // 'covid-19-vaccine',
     // 'coronavirus-research',
   ];
 
