@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import { FETCH_STATUS } from '../../../utils/constants';
 import FacilityAddress from '../../../components/FacilityAddress';
+import { aOrAn, lowerCase } from '../../../utils/formatters';
 
 export default function EligibilityModal({
   onClose,
   eligibility,
   facilityDetails,
+  typeOfCare,
 }) {
   let title;
   let content;
@@ -29,7 +31,8 @@ export default function EligibilityModal({
     content = (
       <>
         <p>
-          You need to have had an appointment at this facility within the last{' '}
+          You need to have had {aOrAn(typeOfCare)} {lowerCase(typeOfCare)}{' '}
+          appointment at this facility within the last{' '}
           {eligibility.requestPastVisitValue} months to request an appointment
           online for this care.
         </p>

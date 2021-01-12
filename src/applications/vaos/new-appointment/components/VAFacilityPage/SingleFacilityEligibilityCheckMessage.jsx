@@ -2,10 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import ErrorMessage from '../../../components/ErrorMessage';
+import { aOrAn, lowerCase } from '../../../utils/formatters';
 
 export default function SingleFacilityEligibilityCheckMessage({
   facility,
   eligibility,
+  typeOfCare,
 }) {
   let title =
     'We found one facility that accepts online scheduling for this care';
@@ -20,8 +22,8 @@ export default function SingleFacilityEligibilityCheckMessage({
       <>
         <p>
           To request an appointment online at this location, you need to have
-          visited this facility within the last{' '}
-          {eligibility.requestPastVisitValue} months.
+          had {aOrAn(typeOfCare)} {lowerCase(typeOfCare)} appointment at this
+          facility within the last {eligibility.requestPastVisitValue} months.
         </p>
         <p>
           You’ll need to call the facility to schedule this appointment. Or{' '}
