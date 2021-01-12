@@ -16,7 +16,7 @@ const FormTitle = ({
       <a
         href={formUrl}
         className="vads-u-text-decoration--none"
-        onClick={() => recordGAEvent(title, formUrl, 'cta')}
+        onClick={() => recordGAEvent(title, formUrl, 'title')}
       >
         <dfn>
           <span className="vads-u-visibility--screen-reader">

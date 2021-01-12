@@ -8,6 +8,11 @@ import AlertBox, {
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
+import {
+  isLOA3 as isLOA3Selector,
+  isMultifactorEnabled,
+} from '~/platform/user/selectors';
+import { isAuthenticatedWithSSOe as isAuthenticatedWithSSOeSelector } from '~/platform/user/authentication/selectors';
 import { focusElement } from '~/platform/utilities/ui';
 import { usePrevious } from '~/platform/utilities/react-hooks';
 
@@ -17,13 +22,20 @@ import {
 } from '@@profile/selectors';
 
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
+import SetUp2FAAlert from '../alerts/SetUp2FAAlert';
 
 import FraudVictimAlert from './FraudVictimAlert';
 import PaymentHistory from './PaymentHistory';
 import BankInfoCNPv2 from './BankInfoCNPv2';
 import BankInfoEDU from './BankInfoEDU';
 
-const DirectDeposit = ({ cnpUiState, eduUiState }) => {
+const DirectDeposit = ({
+  cnpUiState,
+  eduUiState,
+  is2faEnabled,
+  isAuthenticatedWithSSOe,
+  isLOA3,
+}) => {
   const [recentlySavedBankInfo, setRecentlySavedBankInfo] = React.useState('');
 
   const isSavingCNPBankInfo = cnpUiState.isSaving;
@@ -32,6 +44,7 @@ const DirectDeposit = ({ cnpUiState, eduUiState }) => {
   const isSavingEDUBankInfo = eduUiState.isSaving;
   const wasSavingEDUBankInfo = usePrevious(eduUiState.isSaving);
   const eduSaveError = eduUiState.responseError;
+  const showSetUp2FactorAuthentication = isLOA3 && !is2faEnabled;
 
   const removeBankInfoUpdatedAlert = () => {
     setTimeout(() => {
@@ -98,24 +111,36 @@ const DirectDeposit = ({ cnpUiState, eduUiState }) => {
         </ReactCSSTransitionGroup>
       </div>
 
-      <DowntimeNotification
-        appTitle="direct deposit"
-        render={handleDowntimeForSection(
-          'direct deposit for compensation and pension',
-        )}
-        dependencies={[externalServices.evss]}
-      >
-        <BankInfoCNPv2 />
-      </DowntimeNotification>
+      {showSetUp2FactorAuthentication && (
+        <SetUp2FAAlert isAuthenticatedWithSSOe={isAuthenticatedWithSSOe} />
+      )}
+      {!showSetUp2FactorAuthentication && (
+        <DowntimeNotification
+          appTitle="direct deposit"
+          render={handleDowntimeForSection(
+            'direct deposit for compensation and pension',
+          )}
+          dependencies={[externalServices.evss]}
+        >
+          <BankInfoCNPv2 />
+        </DowntimeNotification>
+      )}
       <FraudVictimAlert status={ALERT_TYPE.INFO} />
-      <BankInfoEDU />
-      <PaymentHistory />
+      {!showSetUp2FactorAuthentication && (
+        <>
+          <BankInfoEDU />
+          <PaymentHistory />
+        </>
+      )}
     </>
   );
 };
 
 const mapStateToProps = state => {
   return {
+    is2faEnabled: isMultifactorEnabled(state),
+    isAuthenticatedWithSSOe: isAuthenticatedWithSSOeSelector(state),
+    isLOA3: isLOA3Selector(state),
     cnpUiState: cnpDirectDepositUiState(state),
     eduUiState: eduDirectDepositUiState(state),
   };

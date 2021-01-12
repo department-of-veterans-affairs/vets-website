@@ -9,7 +9,6 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import { recordDashboardClick } from '../helpers';
 import PrescriptionCard from '../components/PrescriptionCard';
 import CallVBACenter from 'platform/static-data/CallVBACenter';
-import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 
 class PrescriptionsWidget extends React.Component {
@@ -23,7 +22,7 @@ class PrescriptionsWidget extends React.Component {
   }
 
   render() {
-    const { canAccessRx, authenticatedWithSSOe } = this.props;
+    const { canAccessRx } = this.props;
     if (!canAccessRx) {
       return null;
     }
@@ -67,10 +66,7 @@ class PrescriptionsWidget extends React.Component {
         <div>{content}</div>
         <p>
           <a
-            href={mhvUrl(
-              authenticatedWithSSOe,
-              'web/myhealthevet/refill-prescriptions',
-            )}
+            href={mhvUrl('web/myhealthevet/refill-prescriptions')}
             onClick={recordDashboardClick('view-all-prescriptions')}
             rel="noopener noreferrer"
             target="_blank"
@@ -111,7 +107,6 @@ const mapStateToProps = state => {
     ...rxState.prescriptions.active,
     prescriptions,
     canAccessRx,
-    authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
   };
 };
 

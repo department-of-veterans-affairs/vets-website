@@ -3,20 +3,18 @@ import { errorMessages } from '../constants';
 
 import {
   InformalConferenceTimesTitle,
+  InformalConferenceTimesDescription,
   informalConferenceTimeSelectTitles,
   informalConferenceTimeAllLabels,
 } from '../content/InformalConference';
 
 export default {
   uiSchema: {
-    'ui:description': InformalConferenceTimesTitle,
-    'ui:options': {
-      forceDivWrapper: true,
-    },
+    'ui:title': InformalConferenceTimesTitle,
+    'ui:description': InformalConferenceTimesDescription,
     informalConferenceTimes: {
       'ui:title': ' ',
       'ui:options': {
-        showFieldLabel: true,
         forceDivWrapper: true,
         updateSchema: formData => {
           const time1Setting = formData?.informalConferenceTimes?.time1 || '';

@@ -17,7 +17,7 @@ const ViewPaymentHistoryCTA = props => {
   const { includedInFlipper, isLoggedIn, isProfileLoading } = props;
   if (includedInFlipper === undefined || isProfileLoading) {
     return <LoadingIndicator message="Loading..." />;
-  } else if (includedInFlipper === false && isLoggedIn === false) {
+  } else if (includedInFlipper === false) {
     alertContent = (
       <>
         <p>

@@ -22,6 +22,7 @@ import contestedIssuesPage from '../pages/contestedIssues';
 import informalConference from '../pages/informalConference';
 import informalConferenceRep from '../pages/informalConferenceRep';
 import informalConferenceTimes from '../pages/informalConferenceTimes';
+import sameOffice from '../pages/sameOffice';
 
 import { errorMessages } from '../constants';
 // import initialData from '../tests/schema/initialData';
@@ -106,6 +107,17 @@ const formConfig = {
           uiSchema: contestedIssuesPage.uiSchema,
           schema: contestedIssuesPage.schema,
           // initialData,
+        },
+      },
+    },
+    sameOffice: {
+      title: 'Office of review',
+      pages: {
+        sameOffice: {
+          title: ' ',
+          path: 'office-of-review',
+          uiSchema: sameOffice.uiSchema,
+          schema: sameOffice.schema,
         },
       },
     },

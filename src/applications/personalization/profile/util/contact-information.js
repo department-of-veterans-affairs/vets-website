@@ -1,9 +1,10 @@
 import pickBy from 'lodash/pickBy';
-import { ADDRESS_POU, ADDRESS_TYPES, USA } from '@@vap-svc/constants';
+import { USA } from '@@vap-svc/constants';
+import ADDRESS_DATA from '~/platform/forms/address/data';
 
 const isOverseasMilitaryMailingAddress = data =>
-  data?.addressPou === ADDRESS_POU.CORRESPONDENCE &&
-  data?.addressType === ADDRESS_TYPES.OVERSEAS_MILITARY;
+  ADDRESS_DATA.militaryStates.includes(data?.stateCode) &&
+  ADDRESS_DATA.militaryCities.includes(data?.city);
 
 /**
  * Helper function that calls other helpers to:

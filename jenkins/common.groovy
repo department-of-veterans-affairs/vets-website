@@ -45,7 +45,8 @@ def isReviewable() {
 def isDeployable() {
   return (IS_DEV_BRANCH ||
           IS_STAGING_BRANCH) &&
-    !env.CHANGE_TARGET
+    !env.CHANGE_TARGET &&
+    !currentBuild.nextBuild // if there's a later build on this job (branch), don't deploy
 }
 
 def shouldBail() {
@@ -246,7 +247,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 
 def prearchive(dockerContainer, envName) {
   dockerContainer.inside(DOCKER_ARGS) {
-    sh "cd /application && node --max-old-space-size=8192 script/prearchive.js --buildtype=${envName}"
+    sh "cd /application && node --max-old-space-size=10240 script/prearchive.js --buildtype=${envName}"
   }
 }
 

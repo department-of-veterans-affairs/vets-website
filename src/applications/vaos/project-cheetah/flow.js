@@ -10,7 +10,7 @@ export default {
   },
   info: {
     url: '/new-project-cheetah-booking',
-    next: 'facility',
+    next: 'vaFacility',
   },
   vaFacility: {
     url: '/new-project-cheetah-booking/facility',
@@ -33,8 +33,15 @@ export default {
         return 'vaFacility';
       }
 
-      return 'selectDate1';
+      if (clinics.length === 1) {
+        return 'selectDate1';
+      }
+      return 'clinicChoice';
     },
+  },
+  clinicChoice: {
+    url: '/new-project-cheetah-booking/clinic',
+    next: 'selectDate1',
   },
   selectDate1: {
     url: '/new-project-cheetah-booking/select-date-1',
