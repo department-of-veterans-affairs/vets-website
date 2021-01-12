@@ -3,13 +3,9 @@ import environment from 'platform/utilities/environment';
 
 import mockDD4CNPSuccess from './tests/fixtures/dd4cnp/dd4cnp-is-set-up.json';
 import mockDD4EDUSuccess from './tests/fixtures/dd4edu/dd4edu-enrolled.json';
-
 import mockMHVHasAccepted from './tests/fixtures/mhv-has-accepted.json';
-
 import mockFullNameSuccess from './tests/fixtures/full-name-success.json';
-
 import mockPersonalInfoSuccess from './tests/fixtures/personal-information-success.json';
-
 import mockServiceHistorySuccess from './tests/fixtures/service-history-success.json';
 
 import mock401 from './tests/fixtures/401.json';
@@ -376,14 +372,6 @@ export const deleteEmailAddressSuccess = [
             },
             vaProfile: {
               status: 'OK',
-              birthDate: '19860506',
-              familyName: 'Ford',
-              gender: 'M',
-              givenNames: ['Wesley', 'Watson'],
-              isCernerPatient: false,
-              facilities: [{ facilityId: '983', isCerner: false }],
-              vaPatient: true,
-              mhvAccountState: 'NONE',
             },
             veteranStatus: {
               status: 'OK',
@@ -493,14 +481,6 @@ export const editPhoneNumberSuccess = () => {
               },
               vaProfile: {
                 status: 'OK',
-                birthDate: '19860506',
-                familyName: 'Ford',
-                gender: 'M',
-                givenNames: ['Wesley', 'Watson'],
-                isCernerPatient: false,
-                facilities: [{ facilityId: '983', isCerner: false }],
-                vaPatient: true,
-                mhvAccountState: 'NONE',
               },
               veteranStatus: {
                 status: 'OK',
@@ -679,14 +659,6 @@ export const deletePhoneNumberSuccess = () => {
               },
               vaProfile: {
                 status: 'OK',
-                birthDate: '19860506',
-                familyName: 'Ford',
-                gender: 'M',
-                givenNames: ['Wesley', 'Watson'],
-                isCernerPatient: false,
-                facilities: [{ facilityId: '983', isCerner: false }],
-                vaPatient: true,
-                mhvAccountState: 'NONE',
               },
               veteranStatus: {
                 status: 'OK',
@@ -792,14 +764,6 @@ export const editAddressSuccess = [
             },
             vaProfile: {
               status: 'OK',
-              birthDate: '19860506',
-              familyName: 'Ford',
-              gender: 'M',
-              givenNames: ['Wesley', 'Watson'],
-              isCernerPatient: false,
-              facilities: [{ facilityId: '983', isCerner: false }],
-              vaPatient: true,
-              mhvAccountState: 'NONE',
             },
             veteranStatus: {
               status: 'OK',
@@ -919,14 +883,6 @@ export const deleteResidentialAddressSuccess = [
             },
             vaProfile: {
               status: 'OK',
-              birthDate: '19860506',
-              familyName: 'Ford',
-              gender: 'M',
-              givenNames: ['Wesley', 'Watson'],
-              isCernerPatient: false,
-              facilities: [{ facilityId: '983', isCerner: false }],
-              vaPatient: true,
-              mhvAccountState: 'NONE',
             },
             veteranStatus: {
               status: 'OK',
