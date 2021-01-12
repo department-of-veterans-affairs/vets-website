@@ -46,11 +46,19 @@ const DirectDeposit = ({
   const eduSaveError = eduUiState.responseError;
   const showSetUp2FactorAuthentication = isLOA3 && !is2faEnabled;
 
-  const removeBankInfoUpdatedAlert = () => {
-    setTimeout(() => {
-      setRecentlySavedBankInfo('');
-    }, 6000);
+  const bankInfoUpdatedAlertSettings = {
+    FADE_SPEED: window.Cypress ? 1 : 500,
+    TIMEOUT: window.Cypress ? 500 : 6000,
   };
+
+  const removeBankInfoUpdatedAlert = React.useCallback(
+    () => {
+      setTimeout(() => {
+        setRecentlySavedBankInfo('');
+      }, bankInfoUpdatedAlertSettings.TIMEOUT);
+    },
+    [bankInfoUpdatedAlertSettings],
+  );
 
   React.useEffect(() => {
     focusElement('[data-focus-target]');
@@ -65,7 +73,12 @@ const DirectDeposit = ({
         removeBankInfoUpdatedAlert();
       }
     },
-    [wasSavingCNPBankInfo, isSavingCNPBankInfo, cnpSaveError],
+    [
+      wasSavingCNPBankInfo,
+      isSavingCNPBankInfo,
+      cnpSaveError,
+      removeBankInfoUpdatedAlert,
+    ],
   );
 
   // show the user a success alert after their EDU bank info has saved
@@ -76,7 +89,12 @@ const DirectDeposit = ({
         removeBankInfoUpdatedAlert();
       }
     },
-    [wasSavingEDUBankInfo, isSavingEDUBankInfo, eduSaveError],
+    [
+      wasSavingEDUBankInfo,
+      isSavingEDUBankInfo,
+      eduSaveError,
+      removeBankInfoUpdatedAlert,
+    ],
   );
 
   return (
@@ -92,21 +110,23 @@ const DirectDeposit = ({
         <ReactCSSTransitionGroup
           transitionName="form-expanding-group-inner"
           transitionAppear
-          transitionAppearTimeout={500}
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={500}
+          transitionAppearTimeout={bankInfoUpdatedAlertSettings.FADE_SPEED}
+          transitionEnterTimeout={bankInfoUpdatedAlertSettings.FADE_SPEED}
+          transitionLeaveTimeout={bankInfoUpdatedAlertSettings.FADE_SPEED}
         >
           {!!recentlySavedBankInfo && (
-            <AlertBox
-              status={ALERT_TYPE.SUCCESS}
-              backgroundOnly
-              className="vads-u-margin-top--0 vads-u-margin-bottom--2"
-              scrollOnShow
-            >
-              We’ve updated your bank account information for your{' '}
-              <strong>{recentlySavedBankInfo}</strong> and your next payment
-              will go to your new account.
-            </AlertBox>
+            <div data-testid="bankInfoUpdateSuccessAlert">
+              <AlertBox
+                status={ALERT_TYPE.SUCCESS}
+                backgroundOnly
+                className="vads-u-margin-top--0 vads-u-margin-bottom--2"
+                scrollOnShow
+              >
+                We’ve updated your bank account information for your{' '}
+                <strong>{recentlySavedBankInfo}</strong> and your next payment
+                will go to your new account.
+              </AlertBox>
+            </div>
           )}
         </ReactCSSTransitionGroup>
       </div>

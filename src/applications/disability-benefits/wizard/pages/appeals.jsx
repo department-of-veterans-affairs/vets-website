@@ -1,5 +1,5 @@
 import React from 'react';
-import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
+import RadioButtons from '@department-of-veterans-affairs/formation-react/RadioButtons';
 import { pageNames } from './pageList';
 
 const options = [
@@ -15,7 +15,7 @@ const options = [
 ];
 
 const AppealsPage = ({ setPageState, state = {} }) => (
-  <ErrorableRadioButtons
+  <RadioButtons
     name={`${pageNames.appeals}-option`}
     label="Are you filing a new claim or are you disagreeing with a VA decision on an earlier claim?"
     id={`${pageNames.appeals}-option`}

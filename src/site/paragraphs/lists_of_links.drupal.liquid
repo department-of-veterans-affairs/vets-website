@@ -2,31 +2,91 @@
 <h2 data-template="paragraphs/lists_of_links">{{ entity.fieldSectionHeader }}</h2>
 
 <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row medium-screen:vads-u-flex-wrap--wrap" data-template="paragraphs/lists_of_links">
-  {% for vaParagraph in entity.fieldVaParagraphs %}
-    {% assign hasEvenIndex = forloop.index | modulo: 2 %}
-    <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-l-col--5{% if hasEvenIndex %} medium-screen:vads-u-margin-right--8{% endif %}">
-      <!-- Section header -->
-      <h3>{{ vaParagraph.entity.fieldSectionHeader }}</h3>
+  {% assign formattedVaParagraphs = entity.fieldVaParagraphs | formatVaParagraphs %}
 
-      <ul class="usa-unstyled-list">
-        <!-- Links -->
-        {% for fieldLink in vaParagraph.entity.fieldLinks %}
-          <li class="vads-u-padding-y--1">
-            <a href="{{ fieldLink.url.path }}" rel="noreferrer noopener">
-              {{ fieldLink.title }}
-            </a>
-          </li>
-        {% endfor %}
+  <!-- Categories -->
+  {% for vaParagraph in formattedVaParagraphs %}
+    {% if forloop.index <= 6 %}
+      <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-l-col--3 medium-screen:vads-u-margin-right--8">
+        <!-- Section header -->
+        <h3>{{ vaParagraph.entity.fieldSectionHeader }}</h3>
 
-        <!-- See more articles link -->
-        {% if vaParagraph.entity.fieldLink.url.path %}
-          <li class="vads-u-padding-y--1">
-            <a class="vads-u-text-decoration--none" href="{{ vaParagraph.entity.fieldLink.url.path }}" rel="noreferrer noopener">
-              {{ vaParagraph.entity.fieldLink.title }} <i class="fa fa-chevron-right vads-u-padding-left--0p5 vads-u-font-size--sm" aria-hidden="true" role="presentation"></i>
-            </a>
-          </li>
-        {% endif %}
-      </ul>
-    </div>
+        <ul class="usa-unstyled-list">
+          <!-- Links -->
+          {% for fieldLink in vaParagraph.entity.fieldLinks %}
+            <li class="vads-u-padding-y--1">
+              <a href="{{ fieldLink.url.path }}" rel="noreferrer noopener">
+                {{ fieldLink.title }}
+              </a>
+            </li>
+          {% endfor %}
+
+          <!-- See more articles link -->
+          {% if vaParagraph.entity.fieldLink.url.path %}
+            <li class="vads-u-padding-y--1">
+              <a class="vads-u-text-decoration--none" href="{{ vaParagraph.entity.fieldLink.url.path }}" rel="noreferrer noopener">
+                {{ vaParagraph.entity.fieldLink.title }} <i class="fa fa-chevron-right vads-u-padding-left--0p5 vads-u-font-size--sm" aria-hidden="true" role="presentation"></i>
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    {% endif %}
   {% endfor %}
+
+  <!-- Extra Categories -->
+  <div aria-hidden="true" class="vads-u-display--none vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row medium-screen:vads-u-flex-wrap--wrap" data-hidden-lists_of_links-entity-id="{{ entity.entityId }}">
+    {% for vaParagraph in formattedVaParagraphs %}
+      {% if forloop.index > 6 %}
+        <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-l-col--3 medium-screen:vads-u-margin-right--8">
+          <!-- Section header -->
+          <h3>{{ vaParagraph.entity.fieldSectionHeader }}</h3>
+
+          <ul class="usa-unstyled-list">
+            <!-- Links -->
+            {% for fieldLink in vaParagraph.entity.fieldLinks %}
+              <li class="vads-u-padding-y--1">
+                <a href="{{ fieldLink.url.path }}" rel="noreferrer noopener">
+                  {{ fieldLink.title }}
+                </a>
+              </li>
+            {% endfor %}
+
+            <!-- See more articles link -->
+            {% if vaParagraph.entity.fieldLink.url.path %}
+              <li class="vads-u-padding-y--1">
+                <a class="vads-u-text-decoration--none" href="{{ vaParagraph.entity.fieldLink.url.path }}" rel="noreferrer noopener">
+                  {{ vaParagraph.entity.fieldLink.title }} <i class="fa fa-chevron-right vads-u-padding-left--0p5 vads-u-font-size--sm" aria-hidden="true" role="presentation"></i>
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
 </div>
+
+{% if formattedVaParagraphs.length > 6 %}
+  <script>
+    function onShowAllTopics() {
+      // Derive the extra paragraphs element.
+      var extraParagraphsElement = document.querySelector('[data-hidden-lists_of_links-entity-id="{{ entity.entityId }}"]');
+
+      // Show the remaining categories.
+      extraParagraphsElement.setAttribute('aria-hidden', 'false');
+      extraParagraphsElement.className = extraParagraphsElement.className.replace(/vads-u-display--none/, 'vads-u-display--flex');
+
+      // Derive the show all topics button element.
+      var showAllTopicsElement = document.querySelector('[data-show-all-topics-button-lists_of_links-entity-id="{{ entity.entityId }}"]');
+
+      // We don't need the Show all topics button anymore, so hide it.
+      showAllTopicsElement.setAttribute('aria-hidden', 'true');
+      showAllTopicsElement.className = showAllTopicsElement.className.replace('vads-u-display--flex', 'vads-u-display--none');
+    }
+  </script>
+
+  <div aria-hidden="false" class="vads-u-display--flex vads-u-justify-content--center vads-u-margin-top--3" data-show-all-topics-button-lists_of_links-entity-id="{{ entity.entityId }}">
+    <button class="usa-button" onclick="onShowAllTopics()" type="button">Show all topics</button>
+  </div>
+{% endif %}

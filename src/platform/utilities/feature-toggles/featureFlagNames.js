@@ -74,4 +74,5 @@ export default Object.freeze({
   covidVaccineUpdatesForm: 'covid_vaccine_registration_frontend',
   showFindFormsResultsLinkToFormDetailPages: 'find_forms_mvp_enhancement',
   multipleAddress1010ez: 'multiple_address_10_10ez',
+  evssUploadLimit150Mb: 'evss_upload_limit_150mb',
 });
