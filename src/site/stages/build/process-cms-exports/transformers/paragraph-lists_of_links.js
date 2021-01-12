@@ -12,6 +12,6 @@ const transform = entity => ({
 });
 
 module.exports = {
-  filter: [],
+  filter: ['field_section_header', 'field_va_paragraphs'],
   transform,
 };
