@@ -2,7 +2,7 @@ import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 export default function NoProvidersAlert({ currentLocation, typeOfCareName }) {
-  const headline = `We can't find any ${typeOfCareName} providers close to you`;
+  const headline = `We can’t find any ${typeOfCareName} providers close to you`;
   return (
     <AlertBox
       status="info"
@@ -23,12 +23,12 @@ export default function NoProvidersAlert({ currentLocation, typeOfCareName }) {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Find your health facility's phone number
+                Find your health facility’s phone number
               </a>
               , <strong>or</strong>
             </li>
             <li>
-              Continue your request without choosing a provider. We'll contact
+              Continue your request without choosing a provider. We’ll contact
               you about about a provider.
             </li>
           </ul>

@@ -43,7 +43,7 @@ function ProviderSelectionField({
     0,
     providersListLength,
   );
-  const providersListEmpty = currentlyShownProvidersList.length === 0;
+  const providersListEmpty = currentlyShownProvidersList?.length === 0;
   const loadingProviders =
     requestStatus === FETCH_STATUS.loading ||
     requestStatus === FETCH_STATUS.notStarted;
@@ -358,19 +358,17 @@ function ProviderSelectionField({
                 </button>
               </>
             )}
-            {!providersListEmpty && (
-              <button
-                type="button"
-                className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
-                onClick={() => {
-                  setProvidersListLength(INITIAL_PROVIDER_DISPLAY_COUNT);
-                  setShowProvidersList(false);
-                }}
-                aria-label="Cancel choosing a provider"
-              >
-                Cancel
-              </button>
-            )}
+            <button
+              type="button"
+              className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
+              onClick={() => {
+                setProvidersListLength(INITIAL_PROVIDER_DISPLAY_COUNT);
+                setShowProvidersList(false);
+              }}
+              aria-label="Cancel choosing a provider"
+            >
+              Cancel
+            </button>
           </div>
         )}
       {showRemoveProviderModal && (

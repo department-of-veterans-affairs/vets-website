@@ -322,7 +322,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     );
   });
 
-  it("should display an alert when no provider's are available", async () => {
+  it('should display an alert when no providers are available', async () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, /Community Care/i);
