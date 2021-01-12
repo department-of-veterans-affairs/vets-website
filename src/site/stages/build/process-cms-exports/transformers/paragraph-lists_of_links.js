@@ -5,11 +5,13 @@ const { getDrupalValue } = require('./helpers');
 const transform = entity => ({
   entityType: 'paragraph',
   entityBundle: 'lists_of_links',
-  fieldSectionHeader: getDrupalValue(entity.fieldSectionHeader),
-  fieldVaParagraphs: entity.fieldVaParagraphs,
+  entity: {
+    fieldSectionHeader: getDrupalValue(entity.fieldSectionHeader),
+    fieldVaParagraphs: entity.fieldVaParagraphs,
+  },
 });
 
 module.exports = {
-  filter: ['fieldSectionHeader', 'fieldVaParagraphs'],
+  filter: [],
   transform,
 };
