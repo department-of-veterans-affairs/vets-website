@@ -51,7 +51,7 @@ function ErrorMessage({ facilityId, requestAppointmentDateChoice }) {
     <div aria-atomic="true" aria-live="assertive">
       <AlertBox
         status="error"
-        headline="We’ve run into a problem when trying to find available appointment times"
+        headline="We’ve run into a problem trying to find an appointment time"
       >
         To schedule this appointment, you can{' '}
         <button

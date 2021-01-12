@@ -3,7 +3,8 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 export default function UpdateAddressAlert({ onClickUpdateAddress }) {
   const headline =
-    "You need to have a home address on file to use some of the tool's features";
+    'To use some of the tool’s features, you need a home address on file';
+
   return (
     <AlertBox
       status="warning"
@@ -11,8 +12,8 @@ export default function UpdateAddressAlert({ onClickUpdateAddress }) {
       className="vads-u-margin-y--3"
       content={
         <p>
-          You can update your address in your VA profile. Please allow some time
-          for your address update to process through our system. <br />
+          To update your address, go to your VA.gov profile. Please allow some
+          time for your address update to process through our system. <br />
           <a
             className="usa-button usa-button-primary vads-u-margin-top--4"
             target="_blank"
