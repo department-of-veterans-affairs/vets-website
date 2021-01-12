@@ -11,7 +11,6 @@ const setLang = (e, currentLang, targetLang) => {
     event: 'faq-lang-toggle',
     targetLang,
   });
-  // convertChildLinksToTargetLang(targetLang);
 };
 
 const setLanguageAndParseChildLinks = () => {
