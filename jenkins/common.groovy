@@ -17,8 +17,8 @@ DRUPAL_CREDENTIALS = [
 ]
 
 ALL_VAGOV_BUILDTYPES = [
-  'vagovdev',
-  'vagovstaging',
+  //'vagovdev',
+  //'vagovstaging',
   'vagovprod'
 ]
 
@@ -247,7 +247,9 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 
 def prearchive(dockerContainer, envName) {
   dockerContainer.inside(DOCKER_ARGS) {
-    sh "cd /application && node --max-old-space-size=8192 script/prearchive.js --buildtype=${envName}"
+    sh "cd /application && "
+    sh "npm run build --setPublicPath --buildtype=${envName}"
+    sh "node --max-old-space-size=8192 script/prearchive.js --buildtype=${envName}"
   }
 }
 

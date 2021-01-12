@@ -89,7 +89,7 @@ module.exports = env => {
     port: 3001,
     scaffold: false,
     watch: false,
-    unsetPublicPath: false,
+    setPublicPath: false,
     ...env,
     // Using a getter so we can reference the buildtype
     get destination() {
@@ -120,7 +120,7 @@ module.exports = env => {
 
   // Set the pubilcPath conditional so we can get dynamic modules loading from S3
   const publicAssetPath =
-    !buildOptions.unsetPublicPath && buildOptions.buildtype !== 'localhost'
+    buildOptions.setPublicPath && buildOptions.buildtype !== 'localhost'
       ? `${BUCKETS[buildOptions.buildtype]}/generated/`
       : '/generated/';
 

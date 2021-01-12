@@ -21,43 +21,43 @@ node('vetsgov-general-purpose') {
   // setupStage
   dockerContainer = commonStages.setup()
 
-  stage('Lint|Security|Unit') {
-    if (params.cmsEnvBuildOverride != 'none') { return }
+  // stage('Lint|Security|Unit') {
+  //   if (params.cmsEnvBuildOverride != 'none') { return }
 
-    try {
-      parallel (
-        lint: {
-          dockerContainer.inside(commonStages.DOCKER_ARGS) {
-            sh "cd /application && npm --no-color run lint"
-          }
-        },
+  //   try {
+  //     parallel (
+  //       lint: {
+  //         dockerContainer.inside(commonStages.DOCKER_ARGS) {
+  //           sh "cd /application && npm --no-color run lint"
+  //         }
+  //       },
 
-        // Check package.json for known vulnerabilities
-        security: {
-          retry(3) {
-            dockerContainer.inside(commonStages.DOCKER_ARGS) {
-              sh "cd /application && npm run security-check"
-            }
-          }
-        },
+  //       // Check package.json for known vulnerabilities
+  //       security: {
+  //         retry(3) {
+  //           dockerContainer.inside(commonStages.DOCKER_ARGS) {
+  //             sh "cd /application && npm run security-check"
+  //           }
+  //         }
+  //       },
 
-        unit: {
-          dockerContainer.inside(commonStages.DOCKER_ARGS) {
-            sh "/cc-test-reporter before-build"
-            sh "cd /application && npm --no-color run test:unit -- --coverage"
-            sh "cd /application && /cc-test-reporter after-build -r fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24"
-          }
-        }
-      )
-    } catch (error) {
-      commonStages.slackNotify()
-      throw error
-    } finally {
-      dir("vets-website") {
-        step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
-      }
-    }
-  }
+  //       unit: {
+  //         dockerContainer.inside(commonStages.DOCKER_ARGS) {
+  //           sh "/cc-test-reporter before-build"
+  //           sh "cd /application && npm --no-color run test:unit -- --coverage"
+  //           sh "cd /application && /cc-test-reporter after-build -r fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24"
+  //         }
+  //       }
+  //     )
+  //   } catch (error) {
+  //     commonStages.slackNotify()
+  //     throw error
+  //   } finally {
+  //     dir("vets-website") {
+  //       step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
+  //     }
+  //   }
+  // }
 
   // Perform a build for each build type
   envsUsingDrupalCache = commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
@@ -71,7 +71,7 @@ node('vetsgov-general-purpose') {
           'nightwatch-e2e': {
             sh "export IMAGE_TAG=${commonStages.IMAGE_TAG}"
             sh "docker-compose -p nightwatch up -d"
-            sh "docker-compose -p nightwatch run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run build -- --unsetPublicPath"
+            // sh "docker-compose -p nightwatch run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run build -- --unsetPublicPath"
             sh "docker-compose -p nightwatch run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
           },
 
@@ -82,7 +82,7 @@ node('vetsgov-general-purpose') {
           cypress: {
             sh "export IMAGE_TAG=${commonStages.IMAGE_TAG}"
             sh "docker-compose -p cypress up -d"
-            sh "docker-compose -p cypress run --rm --entrypoint=npm -e CI=true vets-website --no-color run build -- --unsetPublicPath"
+            // sh "docker-compose -p cypress run --rm --entrypoint=npm -e CI=true vets-website --no-color run build -- --unsetPublicPath"
             sh "docker-compose -p cypress run --rm --entrypoint=npm -e CI=true vets-website --no-color run cy:test:docker"
           }
         )
