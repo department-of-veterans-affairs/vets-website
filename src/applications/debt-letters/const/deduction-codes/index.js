@@ -160,7 +160,7 @@ export const renderWhyMightIHaveThisDebt = deductionCode => {
               status.
             </li>
             <li>
-              You‘ve received two payments for the same compensation and pension
+              You’ve received two payments for the same compensation and pension
               benefits.
             </li>
             <li>You didn’t let us know of additional income you might have.</li>

@@ -1,8 +1,7 @@
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
+import { PROFILE_PATHS } from '@@profile/constants';
 
-import { PROFILE_PATHS } from '../../constants';
-
-import { mockUser } from '../fixtures/users/user.js';
+import { mockUser } from '@@profile/tests/fixtures/users/user.js';
 
 const setup = (mobile = false) => {
   disableFTUXModals();

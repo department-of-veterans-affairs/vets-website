@@ -84,39 +84,36 @@ export const mhvToolName = appId => {
   return null;
 };
 
-export const toolUrl = (appId, authenticatedWithSSOe = false) => {
+export const toolUrl = appId => {
   switch (appId) {
     case widgetTypes.HEALTH_RECORDS:
       return {
-        url: mhvUrl(authenticatedWithSSOe, 'download-my-data'),
+        url: mhvUrl('download-my-data'),
         redirect: false,
       };
 
     case widgetTypes.RX:
       return {
-        url: mhvUrl(
-          authenticatedWithSSOe,
-          'web/myhealthevet/refill-prescriptions',
-        ),
+        url: mhvUrl('web/myhealthevet/refill-prescriptions'),
         redirect: false,
       };
 
     case widgetTypes.MESSAGING:
       return {
-        url: mhvUrl(authenticatedWithSSOe, 'secure-messaging'),
+        url: mhvUrl('secure-messaging'),
         redirect: false,
       };
 
     case widgetTypes.VIEW_APPOINTMENTS:
     case widgetTypes.SCHEDULE_APPOINTMENTS:
       return {
-        url: mhvUrl(authenticatedWithSSOe, 'appointments'),
+        url: mhvUrl('appointments'),
         redirect: false,
       };
 
     case widgetTypes.LAB_AND_TEST_RESULTS:
       return {
-        url: mhvUrl(authenticatedWithSSOe, 'labs-tests'),
+        url: mhvUrl('labs-tests'),
         redirect: false,
       };
 

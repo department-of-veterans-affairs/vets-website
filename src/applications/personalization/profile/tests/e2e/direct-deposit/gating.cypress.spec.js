@@ -1,18 +1,20 @@
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
-import { PROFILE_PATHS } from '../../constants';
+import { PROFILE_PATHS } from '@@profile/constants';
 
-import mockUserNotInEVSS from '../fixtures/users/user-non-vet.json';
-import mockUserInEVSS from '../fixtures/users/user-36.json';
+import mockUserNotInEVSS from '@@profile/tests/fixtures/users/user-non-vet.json';
+import mockUserInEVSS from '@@profile/tests/fixtures/users/user-36.json';
 
-import mockDD4CNPNotEligible from '../fixtures/dd4cnp/dd4cnp-is-not-eligible.json';
-import mockDD4CNPNotEnrolled from '../fixtures/dd4cnp/dd4cnp-is-not-set-up.json';
-import mockDD4CNPEnrolled from '../fixtures/dd4cnp/dd4cnp-is-set-up.json';
-import mockDD4CNPIncompetent from '../fixtures/dd4cnp/dd4cnp-incompetent.json';
-import mockDD4CNPDeceased from '../fixtures/dd4cnp/dd4cnp-deceased.json';
-import mockDD4CNPFiduciary from '../fixtures/dd4cnp/dd4cnp-fiduciary.json';
+import mockDD4CNPNotEligible from '@@profile/tests/fixtures/dd4cnp/dd4cnp-is-not-eligible.json';
+import mockDD4CNPNotEnrolled from '@@profile/tests/fixtures/dd4cnp/dd4cnp-is-not-set-up.json';
+import mockDD4CNPEnrolled from '@@profile/tests/fixtures/dd4cnp/dd4cnp-is-set-up.json';
+import mockDD4CNPIncompetent from '@@profile/tests/fixtures/dd4cnp/dd4cnp-incompetent.json';
+import mockDD4CNPDeceased from '@@profile/tests/fixtures/dd4cnp/dd4cnp-deceased.json';
+import mockDD4CNPFiduciary from '@@profile/tests/fixtures/dd4cnp/dd4cnp-fiduciary.json';
 
-import mockDD4EDUEnrolled from '../fixtures/dd4edu/dd4edu-enrolled.json';
-import mockDD4EDUNotEnrolled from '../fixtures/dd4edu/dd4edu-not-enrolled.json';
+import mockDD4EDUEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-enrolled.json';
+import mockDD4EDUNotEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-not-enrolled.json';
+
+import error500 from '@@profile/tests/fixtures/500.json';
 
 // TODO: remove this when we are no longer gating DD4EDU with a feature flag
 const dd4eduEnabled = {
@@ -109,6 +111,8 @@ describe('Direct Deposit', () => {
     confirmDirectDepositIsBlocked();
     confirmDDBlockedAlertIsNotShown();
   });
+  // https://github.com/department-of-veterans-affairs/va.gov-team/issues/18321 explains that we _do_ want to block users
+  // from the Direct Deposit section in this case, even though they have DD4EDU set up
   it('should be blocked and show an alert if the user is enrolled in DD4EDU but flagged as incompetent by DD4CNP', () => {
     cy.route('GET', 'v0/user', mockUserInEVSS);
     cy.route('GET', 'v0/ppiu/payment_information', mockDD4CNPIncompetent);
@@ -143,6 +147,36 @@ describe('Direct Deposit', () => {
 
     cy.findByTestId('not-all-data-available-error').should('exist');
     cy.findByText(/something went wrong/i).should('exist');
+  });
+  it('should not be blocked if `GET payment_information` fails but they have DD4EDU set up', () => {
+    cy.route('GET', 'v0/user', mockUserInEVSS);
+    cy.route('GET', 'v0/ppiu/payment_information', error500);
+    cy.route('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUEnrolled);
+    cy.visit(PROFILE_PATHS.PROFILE_ROOT);
+
+    confirmDirectDepositIsAvailable();
+    confirmDDBlockedAlertIsNotShown();
+
+    cy.findByTestId('not-all-data-available-error').should('exist');
+    cy.findByText(/something went wrong/i).should('exist');
+
+    // TODO: add check to make sure we show in error alert in place of the CNP bank info
+    // content TBD: https://github.com/department-of-veterans-affairs/va.gov-team/issues/18338
+  });
+  it('should not be blocked if `GET ch33_bank_accounts` fails but they have DD4CNP set up', () => {
+    cy.route('GET', 'v0/user', mockUserInEVSS);
+    cy.route('GET', 'v0/ppiu/payment_information', mockDD4CNPEnrolled);
+    cy.route('GET', 'v0/profile/ch33_bank_accounts', error500);
+    cy.visit(PROFILE_PATHS.PROFILE_ROOT);
+
+    confirmDirectDepositIsAvailable();
+    confirmDDBlockedAlertIsNotShown();
+
+    cy.findByTestId('not-all-data-available-error').should('exist');
+    cy.findByText(/something went wrong/i).should('exist');
+
+    // TODO: add check to make sure we show in error alert in place of the EDU bank info
+    // content TBD: https://github.com/department-of-veterans-affairs/va.gov-team/issues/18338
   });
   it('should not be blocked if the user is eligible for DD4CNP', () => {
     cy.route('GET', 'v0/user', mockUserInEVSS);

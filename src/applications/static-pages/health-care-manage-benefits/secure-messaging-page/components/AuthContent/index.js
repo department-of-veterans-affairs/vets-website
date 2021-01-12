@@ -6,18 +6,14 @@ import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 
-export const AuthContent = ({
-  authenticatedWithSSOe,
-  cernerFacilities,
-  otherFacilities,
-}) => (
+export const AuthContent = ({ cernerFacilities, otherFacilities }) => (
   <>
     <h2 id="send-or-receive-secure-mess">Send or receive a secure message</h2>
     <CernerCallToAction
       cernerFacilities={cernerFacilities}
       otherFacilities={otherFacilities}
       linksHeaderText="Send a secure message to a provider at:"
-      myHealtheVetLink={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
+      myHealtheVetLink={mhvUrl('secure-messaging')}
       myVAHealthLink={getCernerURL('/pages/messaging/inbox')}
     />
     <div>
@@ -332,7 +328,6 @@ export const AuthContent = ({
 );
 
 AuthContent.propTypes = {
-  authenticatedWithSSOe: PropTypes.bool.isRequired,
   cernerfacilities: PropTypes.arrayOf(
     PropTypes.shape({
       facilityId: PropTypes.string.isRequired,

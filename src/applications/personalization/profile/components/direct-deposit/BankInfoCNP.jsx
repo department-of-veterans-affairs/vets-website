@@ -14,6 +14,7 @@ import EbenefitsLink from '~/platform/site-wide/ebenefits/containers/EbenefitsLi
 
 import { isLOA3 as isLOA3Selector } from '~/platform/user/selectors';
 import { usePrevious } from '~/platform/utilities/react-hooks';
+
 import {
   editCNPPaymentInformationToggled,
   saveCNPPaymentInformation as savePaymentInformationAction,
@@ -24,6 +25,8 @@ import {
   cnpDirectDepositIsSetUp,
   cnpDirectDepositUiState as directDepositUiStateSelector,
 } from '@@profile/selectors';
+
+import { cnpPrefix } from '@@profile/util';
 
 import BankInfoForm from './BankInfoForm';
 
@@ -160,7 +163,7 @@ export const BankInfoCNP = ({
           recordEvent({
             event: 'profile-navigation',
             'profile-action': 'edit-link',
-            'profile-section': 'direct-deposit-information',
+            'profile-section': `${cnpPrefix}direct-deposit-information`,
           });
           toggleEditState();
         }}
@@ -179,7 +182,7 @@ export const BankInfoCNP = ({
         recordEvent({
           event: 'profile-navigation',
           'profile-action': 'add-link',
-          'profile-section': 'direct-deposit-information',
+          'profile-section': `${cnpPrefix}direct-deposit-information`,
         });
         toggleEditState();
       }}
