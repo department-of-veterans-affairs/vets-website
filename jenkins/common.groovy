@@ -176,7 +176,7 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
   }
 }
 
-def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache, Boolean contentOnlyBuild, Boolean setPublicPath) {
+def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache, Boolean contentOnlyBuild) {
   def long buildtime = System.currentTimeMillis() / 1000L;
   def buildDetails = buildDetails(envName, ref, buildtime)
   // Use Drupal prod for all environments
@@ -188,7 +188,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLogPath = "/application/${envName}-build.log"
 
-      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --setPublicPath ${setPublicPath} --verbose"
+      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose"
 
       if (envName == 'vagovprod') {
 	checkForBrokenLinks(buildLogPath, envName, contentOnlyBuild)
@@ -212,7 +212,6 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
       def builds = [:]
       def envUsedCache = [:]
       def assetSource = contentOnlyBuild ? ref : 'local'
-      def setPublicPath = false;
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
@@ -227,10 +226,10 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
               dockerContainer.inside(DOCKER_ARGS) {
                 sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
               }
-              build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild, setPublicPath)
+              build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
               envUsedCache[envName] = true
             } else {
-              build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild, setPublicPath)
+              build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
               envUsedCache[envName] = false
             }
           }
@@ -248,17 +247,14 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 
 def prearchive(dockerContainer, envName, Boolean contentOnlyBuild) {
   def assetSource = contentOnlyBuild ? ref : 'local'
-
-  // Update public path in webpack to use s3 buckets before archiving for release
-  def setPublicPath = true;
   
    build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild, setPublicPath)
 
   dockerContainer.inside(DOCKER_ARGS) {
-    // sh "cd /application"
-    // sh "pwd"
-    // sh "ls"
-    // sh "npm run build:webpack --setPublicPath --buildtype=${envName}"
+    sh "cd /application"
+    sh "pwd"
+    sh "ls"
+    sh "NODE_ENV=production yarn build:webpack --env.buildtype ${envName} --env.setPublicPath"
     sh "node --max-old-space-size=8192 script/prearchive.js --buildtype=${envName}"
   }
 }
