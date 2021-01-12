@@ -413,7 +413,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       await screen.findByText(/Bozeman VA medical center/i);
 
       expect(screen.baseElement).to.contain.text(
-        'you need to have visited this facility within the last 12 months',
+        'you need to have had a mental health appointment at this facility within the last 12 months',
       );
 
       expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');

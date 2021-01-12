@@ -231,7 +231,7 @@ describe('VAOS integration: VA flat facility page - single facility', () => {
     await screen.findByText(/San Diego VA Medical Center/i);
     fireEvent.click(screen.getByText(/Continue/));
     await screen.findByText(
-      /you need to have visited this facility within the last 12 months/,
+      /you need to have had a mental health appointment at this facility within the last 12 months/,
     );
   });
 
