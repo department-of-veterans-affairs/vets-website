@@ -1,12 +1,37 @@
 import ItemLoop from '../../components/ItemLoop';
 import TableDetailsView from '../../components/TableDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import AutosuggestField from '../../components/AutosuggestField';
 import _ from 'lodash/fp';
 
 const utilityOptions = [
   'Yes, I pay utility bills.',
   "No, I don't pay utility bills.",
 ];
+
+const typeaheadOptions = [
+  'Electricity',
+  'Gas',
+  'Water',
+  'Sewer',
+  'Internet',
+  'Cell phone',
+  'Telephone',
+  'Cable',
+  'Heating fuel',
+  'Kerosene',
+  'Wood pellets',
+  'Corn',
+  'Coal',
+  'Propane',
+  'Trash',
+];
+
+const getOptions = async () => {
+  return typeaheadOptions.map(item => ({
+    label: item,
+  }));
+};
 
 export const uiSchema = {
   'ui:title': 'Your monthly utility bills',
@@ -33,8 +58,11 @@ export const uiSchema = {
       items: {
         utilityType: {
           'ui:title': 'Type of utility',
+          'ui:field': AutosuggestField,
           'ui:options': {
-            widgetClassNames: 'input-size-3',
+            classNames: 'input-size-3',
+            freeInput: true,
+            getOptions,
           },
           'ui:required': formData => formData.utilities.hasUtilities,
         },
@@ -57,6 +85,7 @@ export const schema = {
         hasUtilities: {
           type: 'string',
           enum: utilityOptions,
+          default: 'Yes, I pay utility bills.',
         },
         utilityRecords: {
           type: 'array',
