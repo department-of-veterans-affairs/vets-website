@@ -20,8 +20,8 @@ const setLanguageAndParseChildLinks = () => {
   const isSpanish = window.location.href.includes('-esp');
   const translatableLinks = [
     // remove the preview nodes from this array when ready to merge
-    // 'nodeId=3014',
-    // 'nodeId=6785',
+    'nodeId=3014',
+    'nodeId=6785',
     'coronavirus-veteran-frequently-asked-questions',
     // 'covid-19-vaccine',
     // 'coronavirus-research',
