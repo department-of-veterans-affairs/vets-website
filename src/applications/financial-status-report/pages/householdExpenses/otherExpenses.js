@@ -21,7 +21,7 @@ export const uiSchema = {
         viewField: TableDetailsView,
         doNotScroll: true,
         showSave: true,
-        itemName: 'Add an expense',
+        itemName: 'expense',
       },
       items: {
         expenseType: {

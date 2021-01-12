@@ -8,7 +8,7 @@ export const InformalConferenceDescription = (
       and the reviewer to discuss why you think the decision should be changed
       and identify factual errors.
     </p>
-    <p className="vads-u-margin-bottom--3">
+    <p id="choose-conference-notice" className="vads-u-margin-bottom--3">
       If you request an informal conference, the reviewer will call you or your
       representative. You can request only one informal conference for each
       Higher-Level Review request.
@@ -25,14 +25,8 @@ export const informalConferenceLabels = {
   rep: 'Yes, call my representative',
 };
 
-export const ContactRepresentativeTitle = 'Representative’s information';
-
-// direct <p> will have all margins removed, so it's nested here:
-export const ContactRepresentativeDescription = (
-  <div className="vads-u-margin-bottom--4">
-    <p>Please provide your representative’s contact information.</p>
-  </div>
-);
+export const ContactRepresentativeTitle =
+  'Provide your representative’s contact information.';
 
 export const RepresentativeNameTitle = 'Representative’s name';
 
@@ -48,12 +42,17 @@ const contacts = (
 
 export const InformalConferenceTimesTitle = (
   <>
-    <h3 className="vads-u-font-size--h5 vads-u-margin-top--0">
-      <span className="contact-choice selected-rep">
-        Your representative’s availability
-      </span>
-      <span className="contact-choice selected-me">Your availability</span>
-    </h3>
+    <span className="contact-choice selected-rep vads-u-font-size--sm">
+      Please indicate your representative’s availability
+    </span>
+    <span className="contact-choice selected-me vads-u-font-size--sm">
+      Please indicate your availability
+    </span>
+  </>
+);
+
+export const InformalConferenceTimesDescription = (
+  <>
     <p>
       First we’ll call {contacts} to schedule the informal conference. Please
       indicate <span className="contact-choice selected-me">your</span>

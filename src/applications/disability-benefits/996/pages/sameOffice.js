@@ -5,6 +5,9 @@ import {
 
 const sameOfficePage = {
   uiSchema: {
+    'ui:options': {
+      ariaLabelForEditButtonOnReview: 'Edit office of review',
+    },
     'view:sameOfficeInfo': {
       'ui:title': ' ',
       'ui:description': OfficeForReviewContent,
@@ -15,6 +18,14 @@ const sameOfficePage = {
     sameOffice: {
       'ui:title': OfficeForReviewLabel,
       'ui:widget': 'yesNo',
+      'ui:required': () => true,
+      'ui:options': {
+        widgetProps: {
+          Y: {
+            'aria-describedby': 'same-office-notice',
+          },
+        },
+      },
     },
   },
 

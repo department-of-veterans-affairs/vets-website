@@ -67,7 +67,7 @@ export const uiSchema = {
             viewField: TableDetailsView,
             doNotScroll: true,
             showSave: true,
-            itemName: 'Add a payroll deduction',
+            itemName: 'payroll deduction',
           },
           items: {
             spouseDeductionType: {
