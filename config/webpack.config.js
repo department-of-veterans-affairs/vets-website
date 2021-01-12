@@ -89,6 +89,7 @@ module.exports = env => {
     port: 3001,
     scaffold: false,
     watch: false,
+    unsetPublicPath: false,
     ...env,
     // Using a getter so we can reference the buildtype
     get destination() {
