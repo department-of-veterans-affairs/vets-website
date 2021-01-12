@@ -71,7 +71,7 @@ node('vetsgov-general-purpose') {
           'nightwatch-e2e': {
             sh "export IMAGE_TAG=${commonStages.IMAGE_TAG}"
             sh "docker-compose -p nightwatch up -d"
-            sh "docker-compose -p nightwatch run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run build --unsetPublicPath"
+            sh "docker-compose -p nightwatch run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run build -- --unsetPublicPath"
             sh "docker-compose -p nightwatch run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
           },
 
