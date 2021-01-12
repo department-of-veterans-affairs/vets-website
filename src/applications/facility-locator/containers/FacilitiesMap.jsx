@@ -17,6 +17,7 @@ import {
   facilitiesPpmsSuppressCommunityCare,
   facilitiesPpmsSuppressPharmacies,
   facilityLocatorPredictiveLocationSearch,
+  facilityLocatorLighthouseCovidVaccineQuery,
 } from '../utils/selectors';
 import ResultsList from '../components/ResultsList';
 import PaginationWrapper from '../components/PaginationWrapper';
@@ -350,6 +351,7 @@ const FacilitiesMap = props => {
           onSubmit={handleSearch}
           suppressCCP={props.suppressCCP}
           suppressPharmacies={props.suppressPharmacies}
+          searchCovid19Vaccine={props.searchCovid19Vaccine}
         />
         <div id="search-results-title" ref={searchResultTitleRef}>
           <SearchResultsHeader
@@ -437,6 +439,7 @@ const FacilitiesMap = props => {
           onSubmit={handleSearch}
           suppressCCP={props.suppressCCP}
           suppressPharmacies={props.suppressPharmacies}
+          searchCovid19Vaccine={props.searchCovid19Vaccine}
         />
         <div id="search-results-title" ref={searchResultTitleRef}>
           <SearchResultsHeader
@@ -663,6 +666,7 @@ const mapStateToProps = state => ({
   suppressPharmacies: facilitiesPpmsSuppressPharmacies(state),
   suppressCCP: facilitiesPpmsSuppressCommunityCare(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
+  searchCovid19Vaccine: facilityLocatorLighthouseCovidVaccineQuery(state),
   results: state.searchResult.results,
   pagination: state.searchResult.pagination,
   selectedResult: state.searchResult.selectedResult,

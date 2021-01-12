@@ -11,14 +11,10 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import recordEvent from '~/platform/monitoring/record-event';
 import EbenefitsLink from '~/platform/site-wide/ebenefits/containers/EbenefitsLink';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
-import { mfa } from '~/platform/user/authentication/utilities';
 
-import {
-  isLOA3 as isLOA3Selector,
-  isMultifactorEnabled,
-} from '~/platform/user/selectors';
+import { isLOA3 as isLOA3Selector } from '~/platform/user/selectors';
 import { usePrevious } from '~/platform/utilities/react-hooks';
+
 import {
   editCNPPaymentInformationToggled,
   saveCNPPaymentInformation as savePaymentInformationAction,
@@ -30,6 +26,8 @@ import {
   cnpDirectDepositUiState as directDepositUiStateSelector,
 } from '@@profile/selectors';
 
+import { cnpPrefix } from '@@profile/util';
+
 import BankInfoForm from './BankInfoForm';
 
 import PaymentInformationEditError from './PaymentInformationEditError';
@@ -40,7 +38,6 @@ import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 export const BankInfoCNP = ({
   isLOA3,
   isDirectDepositSetUp,
-  is2faEnabled,
   directDepositAccountInfo,
   directDepositUiState,
   saveBankInformation,
@@ -59,8 +56,6 @@ export const BankInfoCNP = ({
 
   const { accountNumber, accountType, routingNumber } = formData;
   const isEmptyForm = !accountNumber && !accountType && !routingNumber;
-
-  const showSetup2FactorAuthentication = isLOA3 && !is2faEnabled;
 
   // when we enter and exit edit mode...
   useEffect(
@@ -168,7 +163,7 @@ export const BankInfoCNP = ({
           recordEvent({
             event: 'profile-navigation',
             'profile-action': 'edit-link',
-            'profile-section': 'direct-deposit-information',
+            'profile-section': `${cnpPrefix}direct-deposit-information`,
           });
           toggleEditState();
         }}
@@ -187,7 +182,7 @@ export const BankInfoCNP = ({
         recordEvent({
           event: 'profile-navigation',
           'profile-action': 'add-link',
-          'profile-section': 'direct-deposit-information',
+          'profile-section': `${cnpPrefix}direct-deposit-information`,
         });
         toggleEditState();
       }}
@@ -264,11 +259,6 @@ export const BankInfoCNP = ({
     return data;
   };
 
-  const mfaHandler = isAuthenticatedWithSSO => {
-    recordEvent({ event: 'multifactor-link-clicked' });
-    mfa(isAuthenticatedWithSSO ? 'v1' : 'v0');
-  };
-
   // Render nothing if the user is not LOA3.
   // This entire component should never be rendered in that case; this just
   // serves as another layer of protection.
@@ -276,107 +266,73 @@ export const BankInfoCNP = ({
     return null;
   }
 
-  if (showSetup2FactorAuthentication) {
-    return (
-      <AlertBox
-        className="vads-u-margin-bottom--2"
-        headline="You’ll need to set up 2-factor authentication before you can edit your direct deposit information."
-        content={
-          <>
-            <p>
-              We require this to help protect your bank account information and
-              prevent fraud.
-            </p>
-            <p>
-              Authentication gives you an extra layer of security by letting you
-              into your account only after you've signed in with a password and
-              a 6-digit code sent directly to your mobile or home phone. This
-              helps to make sure that no one but you can access your account -
-              even if they get your password.
-            </p>
-            <button
-              type="button"
-              className="usa-button-primary va-button-primary"
-              onClick={() => mfaHandler(isAuthenticatedWithSSOe)}
-            >
-              Set up 2-factor authentication
-            </button>
-          </>
-        }
-        status="continue"
-        isVisible
-      />
-    );
-  } else {
-    return (
-      <>
-        <Modal
-          title={'Are you sure?'}
-          status="warning"
-          visible={showConfirmCancelModal}
-          onClose={() => {
+  return (
+    <>
+      <Modal
+        title={'Are you sure?'}
+        status="warning"
+        visible={showConfirmCancelModal}
+        onClose={() => {
+          setShowConfirmCancelModal(false);
+        }}
+      >
+        <p>
+          {' '}
+          {`You haven’t finished editing your direct deposit information. If you cancel, your in-progress work won’t be saved.`}
+        </p>
+        <button
+          className="usa-button-secondary"
+          onClick={() => {
             setShowConfirmCancelModal(false);
           }}
         >
-          <p>
-            {' '}
-            {`You haven’t finished editing your direct deposit information. If you cancel, your in-progress work won’t be saved.`}
-          </p>
-          <button
-            className="usa-button-secondary"
-            onClick={() => {
-              setShowConfirmCancelModal(false);
-            }}
-          >
-            Continue Editing
-          </button>
-          <button
-            onClick={() => {
-              setShowConfirmCancelModal(false);
-              toggleEditState();
-            }}
-          >
-            Cancel
-          </button>
-        </Modal>
-        <Prompt
-          message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
-          when={!isEmptyForm}
-        />
-        <div id="success" role="alert" aria-atomic="true">
-          <ReactCSSTransitionGroup
-            transitionName="form-expanding-group-inner"
-            transitionAppear
-            transitionAppearTimeout={500}
-            transitionEnterTimeout={500}
-            transitionLeaveTimeout={500}
-          >
-            {showSaveSucceededAlert && (
-              <AlertBox
-                status="success"
-                backgroundOnly
-                className="vads-u-margin-top--0 vads-u-margin-bottom--2"
-                scrollOnShow
-              >
-                We’ve updated your bank account information for your{' '}
-                <strong>compensation and pension benefits</strong>
-              </AlertBox>
-            )}
-          </ReactCSSTransitionGroup>
-        </div>
-        <ProfileInfoTable
-          className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
-          title="Disability compensation and pension benefits"
-          data={directDepositData()}
-        />
-      </>
-    );
-  }
+          Continue Editing
+        </button>
+        <button
+          onClick={() => {
+            setShowConfirmCancelModal(false);
+            toggleEditState();
+          }}
+        >
+          Cancel
+        </button>
+      </Modal>
+      <Prompt
+        message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
+        when={!isEmptyForm}
+      />
+      <div id="success" role="alert" aria-atomic="true">
+        <ReactCSSTransitionGroup
+          transitionName="form-expanding-group-inner"
+          transitionAppear
+          transitionAppearTimeout={500}
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={500}
+        >
+          {showSaveSucceededAlert && (
+            <AlertBox
+              status="success"
+              backgroundOnly
+              className="vads-u-margin-top--0 vads-u-margin-bottom--2"
+              scrollOnShow
+            >
+              We’ve updated your bank account information for your{' '}
+              <strong>compensation and pension benefits</strong>
+            </AlertBox>
+          )}
+        </ReactCSSTransitionGroup>
+      </div>
+      <ProfileInfoTable
+        className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
+        title="Disability compensation and pension benefits"
+        data={directDepositData()}
+      />
+    </>
+  );
 };
 
 BankInfoCNP.propTypes = {
   isLOA3: PropTypes.bool.isRequired,
-  is2faEnabled: PropTypes.bool.isRequired,
   directDepositAccountInfo: PropTypes.shape({
     accountNumber: PropTypes.string.isRequired,
     accountType: PropTypes.string.isRequired,
@@ -399,8 +355,6 @@ export const mapStateToProps = state => ({
   directDepositInfo: cnpDirectDepositInformation(state),
   isDirectDepositSetUp: cnpDirectDepositIsSetUp(state),
   directDepositUiState: directDepositUiStateSelector(state),
-  is2faEnabled: isMultifactorEnabled(state),
-  isAuthenticatedWithSSOe: isAuthenticatedWithSSOe(state),
 });
 
 const mapDispatchToProps = {

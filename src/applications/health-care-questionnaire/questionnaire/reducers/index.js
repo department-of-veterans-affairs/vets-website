@@ -8,6 +8,7 @@ import {
 
 const initialState = {
   context: {
+    questionnaire: {},
     status: {},
     appointment: {},
   },
@@ -23,7 +24,9 @@ const questionnaireReducer = (state = initialState, action) => {
     case QUESTIONNAIRE_APPOINTMENT_LOADED:
       context.status = { ...context.status, isLoading: false };
       context.appointment = { ...action.appointment };
+      context.questionnaire = { id: 'testing-id-123' };
       return { ...state, context };
+
     default:
       return state;
   }

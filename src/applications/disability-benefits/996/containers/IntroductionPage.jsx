@@ -99,12 +99,16 @@ export class IntroductionPage extends React.Component {
   };
 
   getCallToActionContent = () => {
-    const { route, contestableIssues } = this.props;
+    const { route, contestableIssues, delay = 250 } = this.props;
 
     if (contestableIssues?.error) {
-      return showContestableIssueError(contestableIssues.error);
+      return showContestableIssueError(contestableIssues, delay);
     }
-    if (contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_INIT) {
+
+    if (
+      (contestableIssues?.status || '') === '' ||
+      contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_INIT
+    ) {
       return (
         <LoadingIndicator
           setFocus
@@ -112,19 +116,33 @@ export class IntroductionPage extends React.Component {
         />
       );
     }
+
     const { formId, prefillEnabled, savedFormMessages } = route.formConfig;
-    return contestableIssues?.issues?.length > 0 ? (
-      <SaveInProgressIntro
-        formId={formId}
-        prefillEnabled={prefillEnabled}
-        messages={savedFormMessages}
-        pageList={route.pageList}
-        startText="Start the Request for a Higher-Level Review"
-        gaStartEventName="decision-reviews-va20-0996-start-form"
-      />
-    ) : (
-      noContestableIssuesFound
-    );
+
+    if (contestableIssues?.issues?.length > 0) {
+      return (
+        <SaveInProgressIntro
+          formId={formId}
+          prefillEnabled={prefillEnabled}
+          messages={savedFormMessages}
+          pageList={route.pageList}
+          startText="Start the Request for a Higher-Level Review"
+          gaStartEventName="decision-reviews-va20-0996-start-form"
+        />
+      );
+    }
+
+    recordEvent({
+      event: 'visible-alert-box',
+      'alert-box-type': 'warning',
+      'alert-box-heading':
+        'We don’t have any issues on file for you that are eligible for a Higher-Level Review',
+      'error-key': contestableIssues?.status || '',
+      'alert-box-full-width': false,
+      'alert-box-background-only': false,
+      'alert-box-closeable': false,
+    });
+    return noContestableIssuesFound;
   };
 
   setWizardStatus = value => {
@@ -265,7 +283,7 @@ export class IntroductionPage extends React.Component {
                   <p>
                     Our goal for completing a Higher-Level Review is 125 days. A
                     review might take longer if we need to get records or
-                    schedule a new exam to correct the error.
+                    schedule a new exam to correct an error.
                   </p>
                 </li>
                 <li className="process-step list-four">

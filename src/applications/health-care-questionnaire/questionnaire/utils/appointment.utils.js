@@ -60,7 +60,35 @@ const getBookingNoteFromAppointment = data => {
   return display;
 };
 
-const getAppointTypeFromAppointment = data => {
+const getAppointmentTypeFromClinic = (clinic, options = {}) => {
+  if (!clinic) {
+    return null;
+  }
+  const { titleCase } = options;
+  const { stopCode } = clinic;
+  if (!stopCode) {
+    return null;
+  }
+  // Waiting till we expand our MVP to add more stop codes here
+  let appointmentType = null;
+  switch (stopCode.toString()) {
+    case '323':
+      appointmentType = 'primary care';
+      break;
+    case '502':
+      appointmentType = 'mental health';
+      break;
+    default:
+      return appointmentType;
+  }
+
+  return titleCase
+    ? appointmentType.charAt(0).toUpperCase() +
+        appointmentType.slice(1).toLowerCase()
+    : appointmentType;
+};
+
+const getAppointTypeFromAppointment = (data, options = {}) => {
   const appointment = data?.attributes;
   if (!appointment) {
     return null;
@@ -73,19 +101,25 @@ const getAppointTypeFromAppointment = data => {
   if (!clinic) {
     return null;
   }
-  const { stopCode } = clinic;
-  if (!stopCode) {
-    return null;
-  }
-  // Waiting till we expand our MVP to add more stop codes here
-  switch (clinic.stopCode.toString()) {
-    case '323':
-      return 'primary care';
-    case '502':
-      return 'mental health';
-    default:
-      return null;
-  }
+
+  return getAppointmentTypeFromClinic(clinic, options);
 };
 
-export { getBookingNoteFromAppointment, getAppointTypeFromAppointment };
+const getAppointmentTimeFromAppointment = data => {
+  const appointment = data?.attributes;
+  if (!appointment) {
+    return null;
+  }
+  if (!appointment.vdsAppointments?.length) {
+    return null;
+  }
+  const { appointmentTime } = appointment.vdsAppointments[0];
+  return appointmentTime;
+};
+
+export {
+  getBookingNoteFromAppointment,
+  getAppointTypeFromAppointment,
+  getAppointmentTimeFromAppointment,
+  getAppointmentTypeFromClinic,
+};

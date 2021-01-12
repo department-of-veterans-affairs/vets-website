@@ -41,7 +41,9 @@ const reformatData = form => {
     },
     claimantAddress,
     veteranFullName: veteranName,
-    veteranSocialSecurityNumber: veteranInformation.ssn,
+    veteranSocialSecurityNumber: isVeteran(form.data)
+      ? ssn
+      : veteranInformation.ssn,
     status,
   };
 };

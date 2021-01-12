@@ -1,6 +1,11 @@
 import { expect } from 'chai';
 
-import { titleCase, sentenceCase, lowerCase } from '../../utils/formatters';
+import {
+  titleCase,
+  sentenceCase,
+  lowerCase,
+  aOrAn,
+} from '../../utils/formatters';
 
 describe('VAOS formatters', () => {
   describe('titleCase', () => {
@@ -33,6 +38,20 @@ describe('VAOS formatters', () => {
       expect(lowerCase('The COW jumpeD Over tHe moon')).to.equal(
         'the COW jumped over the moon',
       );
+    });
+  });
+
+  describe('aOrAn', () => {
+    it('should return an if noun starts with a vowel', () => {
+      expect(aOrAn('Audiology')).to.equal('an');
+      expect(aOrAn('Eye care')).to.equal('an');
+      expect(aOrAn('injury')).to.equal('an');
+      expect(aOrAn('Opthalmology')).to.equal('an');
+      expect(aOrAn('ulna')).to.equal('an');
+    });
+
+    it('should return an if noun starts with a consonant', () => {
+      expect(aOrAn('Primary care')).to.equal('a');
     });
   });
 });

@@ -187,8 +187,7 @@ export function getPreferredDate(state, pageKey) {
 
 export function getChosenSlot(state) {
   const availableSlots = getNewAppointment(state).availableSlots;
-  const selectedTime = getFormData(state).calendarData?.selectedDates?.[0]
-    .datetime;
+  const selectedTime = getFormData(state).selectedDates?.[0];
 
   return availableSlots?.find(slot => slot.start === selectedTime);
 }
@@ -202,10 +201,6 @@ export function getDateTimeSelect(state, pageKey) {
   const eligibilityStatus = getEligibilityStatus(state);
   const systemId = getSiteIdForChosenFacility(state);
 
-  const availableDates = Array.from(
-    new Set(availableSlots?.map(slot => slot.start.split('T')[0])),
-  );
-
   const timezoneDescription = systemId
     ? getTimezoneDescBySystemId(systemId)
     : null;
@@ -214,7 +209,6 @@ export function getDateTimeSelect(state, pageKey) {
 
   return {
     ...formInfo,
-    availableDates,
     availableSlots,
     eligibleForRequests: eligibilityStatus.request,
     facilityId: data.vaFacility,
@@ -251,19 +245,24 @@ export function selectCernerOrgIds(state) {
 
 export function selectProviderSelectionInfo(state) {
   const {
-    communityCareProviderList,
+    communityCareProviders,
+    data,
     requestStatus,
     requestLocationStatus,
     currentLocation,
-    ccProviderPageSortMethod,
+    ccProviderPageSortMethod: sortMethod,
   } = getNewAppointment(state);
+
+  const typeOfCareId = getTypeOfCare(data).ccId;
+
   return {
     address: selectVAPResidentialAddress(state),
-    communityCareProviderList,
+    communityCareProviderList:
+      communityCareProviders[`${sortMethod}_${typeOfCareId}`] || [],
     requestStatus,
     requestLocationStatus,
     currentLocation,
-    sortMethod: ccProviderPageSortMethod,
+    sortMethod,
   };
 }
 

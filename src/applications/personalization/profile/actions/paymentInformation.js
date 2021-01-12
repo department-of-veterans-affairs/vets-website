@@ -4,6 +4,7 @@ import {
   isEligibleForCNPDirectDeposit,
   isSignedUpForCNPDirectDeposit,
   isSignedUpForEDUDirectDeposit,
+  cnpPrefix,
 } from '../util';
 import recordAnalyticsEvent from 'platform/monitoring/record-event';
 
@@ -45,7 +46,7 @@ export function fetchCNPPaymentInformation(recordEvent = recordAnalyticsEvent) {
   return async dispatch => {
     dispatch({ type: CNP_PAYMENT_INFORMATION_FETCH_STARTED });
 
-    recordEvent({ event: 'profile-get-direct-deposit-started' });
+    recordEvent({ event: `profile-get-${cnpPrefix}direct-deposit-started` });
     const response = await getData('/ppiu/payment_information');
 
     // sample error when getting payment information
@@ -62,14 +63,14 @@ export function fetchCNPPaymentInformation(recordEvent = recordAnalyticsEvent) {
     // };
 
     if (response.error) {
-      recordEvent({ event: 'profile-get-direct-deposit-failed' });
+      recordEvent({ event: `profile-get-${cnpPrefix}direct-deposit-failed` });
       dispatch({
         type: CNP_PAYMENT_INFORMATION_FETCH_FAILED,
         response,
       });
     } else {
       recordEvent({
-        event: 'profile-get-direct-deposit-retrieved',
+        event: `profile-get-${cnpPrefix}direct-deposit-retrieved`,
         // The API might report an empty payment address for some folks who are
         // already enrolled in direct deposit. But we want to make sure we
         // always treat those who are signed up as being eligible. Therefore
@@ -159,7 +160,7 @@ export function saveCNPPaymentInformation(
     } else {
       recordEvent({
         event: 'profile-transaction',
-        'profile-section': 'direct-deposit-information',
+        'profile-section': `${cnpPrefix}direct-deposit-information`,
       });
       dispatch({
         type: CNP_PAYMENT_INFORMATION_SAVE_SUCCEEDED,

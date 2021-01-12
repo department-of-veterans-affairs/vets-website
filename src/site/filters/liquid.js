@@ -36,6 +36,37 @@ module.exports = function registerFilters() {
     return dt;
   };
 
+  liquid.filters.formatVaParagraphs = vaParagraphs => {
+    const FIRST_SECTION_HEADER = 'VA account and profile';
+    const LAST_SECTION_HEADER = 'Other topics and questions';
+
+    // Derive the first and last sections.
+    const firstSection = _.find(
+      vaParagraphs,
+      vaParagraph =>
+        vaParagraph.entity.fieldSectionHeader === FIRST_SECTION_HEADER,
+    );
+    const lastSection = _.find(
+      vaParagraphs,
+      vaParagraph =>
+        vaParagraph.entity.fieldSectionHeader === LAST_SECTION_HEADER,
+    );
+
+    const otherSections = _.filter(
+      vaParagraphs,
+      vaParagraph =>
+        vaParagraph.entity.fieldSectionHeader !== FIRST_SECTION_HEADER &&
+        vaParagraph.entity.fieldSectionHeader !== LAST_SECTION_HEADER,
+    );
+
+    return [
+      firstSection,
+      // Other sections is sorted alphabetically by `fieldSectionHeader`.
+      ..._.orderBy(otherSections, 'entity.fieldSectionHeader', 'asc'),
+      lastSection,
+    ];
+  };
+
   // Convert a timezone string (e.g. 'America/Los_Angeles') to an abbreviation
   // e.g. "PST"
   liquid.filters.timezoneAbbrev = (timezone, timestamp) => {

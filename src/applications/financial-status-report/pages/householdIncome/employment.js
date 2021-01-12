@@ -18,7 +18,7 @@ export const uiSchema = {
       currentlyEmployed: {
         'ui:title': 'Are you currently employed?',
         'ui:widget': 'yesNo',
-        'ui:required': formData => formData.employment.hasBeenEmployed === true,
+        'ui:required': formData => formData.employment.hasBeenEmployed,
       },
       isCurrentlyEmployed: {
         'ui:description':
@@ -32,7 +32,7 @@ export const uiSchema = {
             widgetClassNames: 'input-size-3',
           },
           'ui:required': formData =>
-            formData.employment?.isEmployed?.currentlyEmployed === true,
+            formData.employment?.isEmployed?.currentlyEmployed,
         },
         employmentStart: {
           'ui:title': 'Employment start date',
@@ -41,7 +41,7 @@ export const uiSchema = {
             widgetClassNames: 'employment-start-date',
           },
           'ui:required': formData =>
-            formData.employment?.isEmployed?.currentlyEmployed === true,
+            formData.employment?.isEmployed?.currentlyEmployed,
         },
         employerName: {
           'ui:title': 'Employer name',
@@ -49,14 +49,13 @@ export const uiSchema = {
             widgetClassNames: 'input-size-6',
           },
         },
-        grossMonthlyIncome: {
-          ...currencyUI('Gross monthly income'),
+        grossMonthlyIncome: _.merge(currencyUI('Gross monthly income'), {
           'ui:options': {
-            classNames: 'input-size-5',
+            widgetClassNames: 'input-size-1',
           },
           'ui:required': formData =>
-            formData.employment?.isEmployed?.currentlyEmployed === true,
-        },
+            formData.employment?.isEmployed?.currentlyEmployed,
+        }),
         payrollDeductions: {
           'ui:field': ItemLoop,
           'ui:title': 'Payroll deductions',
@@ -67,7 +66,7 @@ export const uiSchema = {
             viewField: TableDetailsView,
             doNotScroll: true,
             showSave: true,
-            itemName: 'Add a payroll deduction',
+            itemName: 'payroll deduction',
           },
           items: {
             deductionType: {

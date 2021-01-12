@@ -2,6 +2,7 @@ const administration = require('./taxonomy-fragments/administration.taxonomy.gra
 const alertParagraph = require('./paragraph-fragments/alert.paragraph.graphql');
 const alertParagraphSingle = require('./paragraph-fragments/alertSingle.paragraph.graphql');
 const audienceBeneficiaries = require('./taxonomy-fragments/audienceBeneficiaries.taxonomy.graphql');
+const audienceNonBeneficiaries = require('./taxonomy-fragments/audienceNonBeneficiaries.taxonomy.graphql');
 const audienceTopics = require('./paragraph-fragments/audienceTopics.paragraph.graphql');
 const button = require('./paragraph-fragments/button.paragraph.graphql');
 const collapsiblePanel = require('./paragraph-fragments/collapsiblePanel.paragraph.graphql');
@@ -37,6 +38,7 @@ module.exports = `
   ${alertParagraph}
   ${alert}
   ${audienceBeneficiaries}
+  ${audienceNonBeneficiaries}
   ${audienceTopics}
   ${button}
   ${collapsiblePanel}
