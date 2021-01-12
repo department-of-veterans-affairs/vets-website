@@ -268,8 +268,7 @@ export const editEmailAddressSuccess = () => {
                 isVeteran: true,
                 servedInMilitary: true,
               },
-              inProgressForms: [],
-              prefillsAvailable: [],
+
               vet360ContactInformation: {
                 email: {
                   createdAt: '2020-07-28T14:57:54.000Z',
@@ -356,8 +355,6 @@ export const deleteEmailAddressSuccess = [
               isVeteran: true,
               servedInMilitary: true,
             },
-            inProgressForms: [],
-            prefillsAvailable: [],
             vet360ContactInformation: {
               email: null,
               mailingAddress: {
@@ -457,8 +454,7 @@ export const editPhoneNumberSuccess = () => {
                 isVeteran: true,
                 servedInMilitary: true,
               },
-              inProgressForms: [],
-              prefillsAvailable: [],
+
               vet360ContactInformation: {
                 residentialAddress: {},
                 mailingAddress: {
@@ -627,8 +623,7 @@ export const deletePhoneNumberSuccess = () => {
                 isVeteran: true,
                 servedInMilitary: true,
               },
-              inProgressForms: [],
-              prefillsAvailable: [],
+
               vet360ContactInformation: {
                 mobilePhone: null,
                 homePhone: null,
@@ -718,8 +713,6 @@ export const editAddressSuccess = [
               isVeteran: true,
               servedInMilitary: true,
             },
-            inProgressForms: [],
-            prefillsAvailable: [],
             vet360ContactInformation: {
               email: null,
               residentialAddress: {
@@ -823,8 +816,6 @@ export const deleteResidentialAddressSuccess = [
               isVeteran: true,
               servedInMilitary: true,
             },
-            inProgressForms: [],
-            prefillsAvailable: [],
             vet360ContactInformation: {
               email: null,
               residentialAddress: null,
@@ -905,8 +896,7 @@ export const toggleSMSNotificationsSuccess = (enrolled = true) => {
                 status: 'OK',
                 vaPatient: true,
               },
-              inProgressForms: [],
-              prefillsAvailable: [],
+
               vet360ContactInformation: {
                 email: null,
                 residentialAddress: null,
