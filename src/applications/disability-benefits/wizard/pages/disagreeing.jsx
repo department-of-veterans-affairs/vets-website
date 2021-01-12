@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import ErrorableDate from '@department-of-veterans-affairs/formation-react/ErrorableDate';
+import Date from '@department-of-veterans-affairs/formation-react/Date';
 import { pageNames } from './pageList';
 
 // Figure out which page to go to based on the date entered
@@ -47,7 +47,7 @@ const DisagreeingPage = ({ setPageState, state = defaultState }) => {
       isDateComplete(pageState) ? findNextPage(pageState) : undefined,
     );
   return (
-    <ErrorableDate
+    <Date
       label="What’s the date of VA’s decision?"
       onValueChange={onChange}
       name="decision-date"
