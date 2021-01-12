@@ -242,7 +242,10 @@ function build(BUILD_OPTIONS) {
   smith.use(createSitemaps(BUILD_OPTIONS), 'Create sitemap');
   smith.use(updateRobots(BUILD_OPTIONS), 'Update robots.txt');
   smith.use(checkForCMSUrls(BUILD_OPTIONS), 'Check for CMS URLs');
-  smith.use(modifyDom(BUILD_OPTIONS), 'Parse HTML files');
+  smith.use(
+    modifyDom(BUILD_OPTIONS),
+    'Parse a virtual DOM from every .html file and perform a variety of DOM sub-operations on each file',
+  );
 
   /* eslint-disable no-console */
   smith.build(err => {

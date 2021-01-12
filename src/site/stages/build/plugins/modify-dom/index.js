@@ -17,13 +17,16 @@ const domModifiers = [
   injectAxeCore,
 ];
 
-const parseHtml = BUILD_OPTIONS => files => {
+const modifyDom = BUILD_OPTIONS => files => {
   for (const modifier of domModifiers) {
     if (modifier.initialize) {
       modifier.initialize(BUILD_OPTIONS, files);
     }
   }
 
+  // Store only one `file.dom` in memory at a time
+  // because storing the virtual DOM of every .html file in memory
+  // at once would cause a massive amount of memory to be consumed.
   for (const [fileName, file] of Object.entries(files)) {
     if (path.extname(fileName) === '.html') {
       file.dom = cheerio.load(file.contents);
@@ -44,4 +47,4 @@ const parseHtml = BUILD_OPTIONS => files => {
   }
 };
 
-module.exports = parseHtml;
+module.exports = modifyDom;
