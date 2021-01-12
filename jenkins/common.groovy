@@ -252,12 +252,13 @@ def prearchive(dockerContainer, envName, Boolean contentOnlyBuild) {
   // Update public path in webpack to use s3 buckets before archiving for release
   def setPublicPath = true;
   
+   build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild, setPublicPath)
+
   dockerContainer.inside(DOCKER_ARGS) {
     // sh "cd /application"
     // sh "pwd"
     // sh "ls"
     // sh "npm run build:webpack --setPublicPath --buildtype=${envName}"
-    build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild, setPublicPath)
     sh "node --max-old-space-size=8192 script/prearchive.js --buildtype=${envName}"
   }
 }
