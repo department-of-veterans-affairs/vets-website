@@ -348,12 +348,12 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     expect(await screen.findByText(/your address on file:/i)).to.exist;
     expect(
       await screen.findByRole('heading', {
-        name: /We can't find any Primary care providers close to you/i,
+        name: /We can’t find any Primary care providers close to you/i,
       }),
     );
     expect(
       await screen.findByRole('link', {
-        name: /find your health facility's phone number/i,
+        name: /Find your health facility’s phone number/i,
       }),
     );
   });
