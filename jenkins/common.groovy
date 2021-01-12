@@ -249,7 +249,7 @@ def prearchive(dockerContainer, envName, Boolean contentOnlyBuild) {
   def assetSource = contentOnlyBuild ? ref : 'local'
 
   dockerContainer.inside(DOCKER_ARGS) {
-    sh "cd /application"
+    sh "cd /application/vets-website"
     sh "pwd"
     sh "ls"
     sh "NODE_ENV=production yarn build:webpack --env.buildtype ${envName} --env.setPublicPath"
