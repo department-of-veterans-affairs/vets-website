@@ -23,7 +23,7 @@ import {
   APPOINTMENT_TYPES,
 } from '../../utils/constants';
 import { getVAAppointmentLocationId } from '../../services/appointment';
-import ConfirmedAppointmentListItem from './cards/confirmed/ConfirmedAppointmentListItem';
+import AppointmentListItem from './AppointmentListItem';
 import AppointmentRequestListItem from './cards/pending/AppointmentRequestListItem';
 import NoAppointments from './NoAppointments';
 
@@ -92,7 +92,7 @@ function FutureAppointmentsList({
               case APPOINTMENT_TYPES.vaAppointment:
               case APPOINTMENT_TYPES.ccAppointment:
                 return (
-                  <ConfirmedAppointmentListItem
+                  <AppointmentListItem
                     key={index}
                     index={index}
                     appointment={appt}

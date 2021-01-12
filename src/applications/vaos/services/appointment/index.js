@@ -448,6 +448,6 @@ export function hasPractitioner(appointment) {
  * @return {Object} Returns the appointment practitioner object.
  */
 export function getPractitionerDisplay(participants) {
-  return participants.find(p => p.actor.reference.includes('Practitioner'))
+  return participants?.find(p => p.actor.reference.includes('Practitioner'))
     .actor.display;
 }
