@@ -1,3 +1,4 @@
+import React from 'react';
 import _ from 'lodash/fp';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
@@ -62,6 +63,7 @@ import ErrorMessage from '../components/ErrorMessage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
 import DependentView from '../components/DependentView';
 import DemographicField from '../components/DemographicField';
+import { AddressDescription } from '../components/ContentComponents';
 
 import {
   createDependentSchema,
@@ -393,6 +395,7 @@ const formConfig = {
           uiSchema: {
             'ui:description': PrefillMessage,
             veteranAddress: _.merge(addressUI('Mailing address', true), {
+              'ui:description': <AddressDescription addressType="mailing" />,
               street: {
                 'ui:errorMessages': {
                   pattern:
@@ -456,6 +459,7 @@ const formConfig = {
           uiSchema: {
             'ui:description': PrefillMessage,
             veteranHomeAddress: _.merge(addressUI('Home address', true), {
+              'ui:description': <AddressDescription addressType="home" />,
               street: {
                 'ui:errorMessages': {
                   pattern:
