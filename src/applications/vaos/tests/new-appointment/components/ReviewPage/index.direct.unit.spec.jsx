@@ -130,16 +130,7 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
       },
     });
     store.dispatch(startDirectScheduleFlow());
-    store.dispatch(
-      onCalendarChange({
-        currentlySelectedDate: start.format(),
-        selectedDates: [
-          {
-            datetime: start.format(),
-          },
-        ],
-      }),
-    );
+    store.dispatch(onCalendarChange([start.format()]));
   });
   afterEach(() => resetFetch());
 

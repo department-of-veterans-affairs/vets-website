@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import staticClaimantInformation from '../../../config/chapters/claimant-information/staticClaimantComponent.jsx';
 
-describe('Chapter 36 Static Claimant Information', () => {
+describe.skip('Chapter 36 Static Claimant Information', () => {
   const mockUser = {
     gender: 'M',
     dob: '12-12-20',

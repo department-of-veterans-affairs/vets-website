@@ -94,7 +94,7 @@ const buildQuery = ({ useTomeSync }) => {
   const nodeQuery = useTomeSync
     ? ''
     : `
-    nodeQuery(limit: 2000, filter: {
+    nodeQuery(limit: 5000, filter: {
       conditions: [
         { field: "status", value: ["1"], enabled: $onlyPublishedContent }
       ]

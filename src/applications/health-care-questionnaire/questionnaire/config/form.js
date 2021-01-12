@@ -1,6 +1,7 @@
-// import fullSchema from 'vets-json-schema/dist/HC-QSTNR-schema.json';
-
 import React from 'react';
+
+import environment from 'platform/utilities/environment';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -8,11 +9,13 @@ import VeteranInfoPage from '../components/veteran-info';
 import ReasonForVisit from '../components/reason-for-visit';
 import ReasonForVisitDescription from '../components/reason-for-visit-description';
 import GetHelp from '../components/get-help';
+import ExpiresAt from '../components/expires-at';
+import HiddenFields from '../components/hidden-fields';
 
-import environment from 'platform/utilities/environment';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+import { TITLES, createPathFromTitle } from './utils';
 
 import manifest from '../manifest.json';
+import { submit, transformForSubmit } from '../api';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -21,12 +24,8 @@ const formConfig = {
   trackingPrefix: 'health-care-questionnaire',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  submit: form => {
-    // just for MVP until we have an API set up
-    return new Promise((resolve, _reject) => {
-      resolve(form.data);
-    });
-  },
+  submit,
+  transformForSubmit,
   formId: VA_FORM_IDS.FORM_HC_QSTNR,
   saveInProgress: {
     resumeOnly: true,
@@ -65,12 +64,22 @@ const formConfig = {
       reviewDescription: VeteranInfoPage.review,
       pages: {
         demographicsPage: {
-          path: 'demographics',
+          path: createPathFromTitle(TITLES.demographics),
           hideHeaderRow: true,
-          title: 'Veteran Information',
+          title: TITLES.demographics,
           uiSchema: {
             veteranInfo: {
-              'ui:description': VeteranInfoPage.field,
+              'ui:field': VeteranInfoPage.field,
+              'ui:options': {
+                hideLabelText: true,
+              },
+            },
+            daysTillExpires: {
+              'ui:field': ExpiresAt.field,
+              'ui:options': {
+                hideLabelText: true,
+                hideOnReview: true,
+              },
             },
           },
           schema: {
@@ -79,6 +88,9 @@ const formConfig = {
               veteranInfo: {
                 type: 'object',
                 properties: {},
+              },
+              daysTillExpires: {
+                type: 'number',
               },
             },
           },
@@ -89,9 +101,16 @@ const formConfig = {
       title: 'Prepare for Your Appointment',
       pages: {
         reasonForVisit: {
-          path: 'reason-for-visit',
-          title: 'Prepare for Your Appointment',
+          path: createPathFromTitle(TITLES.reasonForVisit),
+          title: TITLES.reasonForVisit,
           uiSchema: {
+            'hidden:fields': {
+              'ui:field': HiddenFields.fields,
+              'ui:options': {
+                hideLabelText: true,
+                hideOnReview: true,
+              },
+            },
             reasonForVisit: {
               'ui:field': ReasonForVisit.field,
               'ui:title': ' ',
@@ -139,6 +158,14 @@ const formConfig = {
             type: 'object',
             required: ['reasonForVisitDescription'],
             properties: {
+              'hidden:fields': {
+                type: 'object',
+                properties: {
+                  appointmentId: { type: 'string' },
+                  questionnaireId: { type: 'string' },
+                },
+              },
+
               reasonForVisit: {
                 type: 'string',
               },

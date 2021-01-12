@@ -8,16 +8,13 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { statusSelection } from './chapters/status-selection';
 import { veteranInformation } from './chapters/veteran-information';
 import GetFormHelp from '../components/GetFormHelp';
-import ReadOnlyUserDescription from '../components/ReadOnlyUserDescription';
 import PreSubmitInfo from '../components/PreSubmitInfo';
 
 import {
   claimantInformation,
   claimantAddress,
-  staticClaimantInformation,
 } from './chapters/claimant-information';
 import { isDependent, transform } from './helpers';
-import { LOA_LEVEL_REQUIRED } from '../constants';
 import manifest from '../manifest.json';
 
 const formConfig = {
@@ -56,26 +53,25 @@ const formConfig = {
   chapters: {
     claimantInformation: {
       title: 'Applicant Information',
-      reviewDescription: ReadOnlyUserDescription,
+      // TODO: possibly re-added some time down later
+      // reviewDescription: ReadOnlyUserDescription,
       pages: {
         claimantInformation: {
-          depends: formData => {
-            return formData.loa !== LOA_LEVEL_REQUIRED;
-          },
-          path: 'basic-information',
+          path: 'claimant-information',
           title: 'Applicant Information',
           uiSchema: claimantInformation.uiSchema,
           schema: claimantInformation.schema,
         },
-        claimantStaticInformation: {
-          depends: formData => {
-            return formData.loa === LOA_LEVEL_REQUIRED;
-          },
-          path: 'claimant-information',
-          title: 'Applicant Information',
-          uiSchema: staticClaimantInformation.uiSchema,
-          schema: staticClaimantInformation.schema,
-        },
+        // TODO: possibly re-added some time later
+        // claimantStaticInformation: {
+        //   depends: formData => {
+        //     return formData.loa === LOA_LEVEL_REQUIRED;
+        //   },
+        //   path: 'claimant-information',
+        //   title: 'Applicant Information',
+        //   uiSchema: staticClaimantInformation.uiSchema,
+        //   schema: staticClaimantInformation.schema,
+        // },
         claimantAddress: {
           path: 'claimant-address',
           title: 'Applicant Address',
