@@ -80,7 +80,10 @@ node('vetsgov-general-purpose') {
           },
 
           cypress: {
-            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress up -d && docker-compose -p cypress run --rm --entrypoint=npm -e CI=true vets-website --no-color run cy:test:docker"
+            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG}"
+            sh "docker-compose -p cypress up -d"
+            sh "docker-compose -p cypress run --rm --entrypoint=npm -e CI=true vets-website --no-color run build -- --unsetPublicPath"
+            sh "docker-compose -p cypress run --rm --entrypoint=npm -e CI=true vets-website --no-color run cy:test:docker"
           }
         )
       } catch (error) {
