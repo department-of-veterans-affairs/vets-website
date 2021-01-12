@@ -7,7 +7,6 @@ import { formattedDate } from '../utils/helpers';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { fetchFolder, fetchRecipients } from '../actions/messaging';
 import { recordDashboardClick } from '../helpers';
-import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 
 class MessagingWidget extends React.Component {
@@ -19,11 +18,7 @@ class MessagingWidget extends React.Component {
   }
 
   render() {
-    const {
-      canAccessMessaging,
-      recipients,
-      authenticatedWithSSOe,
-    } = this.props;
+    const { canAccessMessaging, recipients } = this.props;
 
     if (!canAccessMessaging || (recipients && recipients.length === 0)) {
       // do not show widget if user is not a VA patient
@@ -77,7 +72,7 @@ class MessagingWidget extends React.Component {
         {content}
         <p>
           <a
-            href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
+            href={mhvUrl('secure-messaging')}
             onClick={recordDashboardClick('view-all-messages')}
             rel="noopener noreferrer"
             target="_blank"
@@ -107,7 +102,6 @@ const mapStateToProps = state => {
     recipients: msgState.recipients.data,
     pagination,
     canAccessMessaging,
-    authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
   };
 };
 

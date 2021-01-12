@@ -4,10 +4,10 @@
   {% include "src/site/components/service_address.drupal.liquid" %}
 
   {% comment %}
-    single.fieldHours values:
-    - 0 = Use facility hours
-    - 1 = Do not specify hours
-    - 2 = Display specific hours
+      single.fieldHours values:
+      - 0 = Use facility hours
+      - 1 = Do not specify hours
+      - 2 = Display specific hours
   {% endcomment %}
 
   {% if single.fieldHours != "1" %}
@@ -48,27 +48,25 @@
 
 {% if locationEntity.fieldReferralRequired or locationEntity.fieldWalkInsAccepted or locationEntity.fieldOnlineSchedulingAvailabl %}
   <h4 data-template="paragraphs/service_location">Appointments</h4>
-  <p class="vads-u-margin--0" data-template="paragraphs/service_location">Contact us to schedule, reschedule, or cancel your appointment. If a referral is required, you’ll need to contact your
-     primary care provider first.
+  <p class="vads-u-margin--0" data-template="paragraphs/service_location">Contact us to schedule, reschedule, or
+    cancel your appointment. If a referral is required, you’ll need to contact your
+    primary care provider first.
   </p>
 
-  {% comment %}
-    TODO - Add support for multiple phone numbers and add label. Use phone-number template.
-  {% endcomment %}
-
-  {% assign appointmentPhoneNumber = locationEntity.fieldPhoneNumbersParagraph.0.entity.fieldPhoneNumber %}
-  {% assign appointmentPhoneExtension = locationEntity.fieldPhoneNumbersParagraph.0.entity.fieldPhoneExtension %}
-
-  {% if appointmentPhoneNumber %}
+  {% if locationEntity.fieldPhoneNumbersParagraph != empty %}
     <div class="phone-numbers" data-template="paragraphs/service_location">
       <h5>Phone</h5>
-      <a class="vads-u-margin-bottom--1" aria-label="{{ appointmentPhoneNumber | accessibleNumber }}"
-         href="tel:{{ appointmentPhoneNumber }}{% if appointmentPhoneExtension %}p{{ appointmentPhoneExtension }}{% endif %}">
-        {{ appointmentPhoneNumber }}
-        {% if appointmentPhoneExtension %}
-          x {{ appointmentPhoneExtension }}
-        {% endif %}
-      </a>
+      {% if locationEntity.fieldPhoneNumbersParagraph %}
+        {% for number in locationEntity.fieldPhoneNumbersParagraph %}
+          <a class="vads-u-margin-bottom--1" aria-label="{{ number.entity.fieldPhoneNumber | accessibleNumber }}"
+             href="tel:{{ number.entity.fieldPhoneNumber }}{% if number.entity.fieldPhoneExtension %}p{{ number.entity.fieldPhoneExtension }}{% endif %}">
+            {{ number.entity.fieldPhoneNumber }}
+            {% if number.entity.fieldPhoneExtension %}
+              x {{ number.entity.fieldPhoneExtension }}
+            {% endif %}
+          </a>
+        {% endfor %}
+      {% endif %}
     </div>
   {% endif %}
 

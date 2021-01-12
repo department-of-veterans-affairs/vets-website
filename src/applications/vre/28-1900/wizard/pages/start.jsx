@@ -24,7 +24,12 @@ const StartPage = ({ setPageState, state = {} }) => (
     id={`${startingPageName.start}-option`}
     options={options}
     onValueChange={({ value }) =>
-      handleChangeAndPageSet(setPageState, value, options)
+      handleChangeAndPageSet(
+        setPageState,
+        value,
+        options,
+        'Which of these describes you?',
+      )
     }
     value={{ value: state.selected }}
     additionalFieldsetClass="vads-u-margin-top--0"
