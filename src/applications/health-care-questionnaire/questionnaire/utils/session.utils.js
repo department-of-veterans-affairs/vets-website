@@ -38,4 +38,15 @@ const setCurrentAppointmentId = (window, id) => {
   sessionStorage.setItem(CURRENT_HEALTH_QUESTIONNAIRE, JSON.stringify(data));
 };
 
-export { getCurrentAppointmentId, setCurrentAppointmentId };
+const clearCurrentSession = window => {
+  const { sessionStorage } = window;
+  const { CURRENT_HEALTH_QUESTIONNAIRE } = SESSION_STORAGE_KEYS;
+
+  sessionStorage.removeItem(CURRENT_HEALTH_QUESTIONNAIRE);
+};
+
+export {
+  getCurrentAppointmentId,
+  setCurrentAppointmentId,
+  clearCurrentSession,
+};

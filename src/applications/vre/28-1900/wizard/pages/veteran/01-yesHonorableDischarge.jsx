@@ -20,7 +20,12 @@ const yesHonorableDischarge = ({ setPageState, state = {} }) => (
     id={`${veteranPathPageNames.yesHonorableDischarge}-option`}
     options={options}
     onValueChange={({ value }) =>
-      handleChangeAndPageSet(setPageState, value, options)
+      handleChangeAndPageSet(
+        setPageState,
+        value,
+        options,
+        'Do you have a service-connected disability rating of 10% or higher',
+      )
     }
     value={{ value: state.selected }}
     additionalFieldsetClass="vads-u-margin-top--0"

@@ -65,16 +65,12 @@ function ErrorMessage({ facilityId }) {
   );
 }
 
-function userSelectedSlot(calendarData) {
-  return calendarData?.selectedDates?.length > 0;
-}
-
 function goBack({ routeToPreviousAppointmentPage, history }) {
   return routeToPreviousAppointmentPage(history, pageKey);
 }
 
-function validate({ calendarData, setValidationError }) {
-  if (userSelectedSlot(calendarData)) {
+function validate({ dates, setValidationError }) {
+  if (dates?.length) {
     setValidationError(null);
   } else {
     setValidationError(missingDateError);
@@ -89,9 +85,8 @@ function goForward({
   setSubmitted,
   setValidationError,
 }) {
-  const { calendarData } = data || {};
-  validate({ calendarData, setValidationError });
-  if (userSelectedSlot(calendarData)) {
+  validate({ date: data.selectedDates2, setValidationError });
+  if (data.selectedDates2?.length) {
     routeToNextAppointmentPage(history, pageKey);
   } else if (submitted) {
     scrollAndFocus('.usa-input-error-message');
@@ -117,18 +112,17 @@ export function SelectDate2Page({
   const history = useHistory();
   const [submitted, setSubmitted] = useState(false);
   const [validationError, setValidationError] = useState(null);
-  const previousDateCalendarData = data?.calendarData || {};
-  const previousDateCurrentlySelectedDate =
-    previousDateCalendarData.currentlySelectedDate;
-  const calendarData = data?.calendar2Data || {};
-  const { currentlySelectedDate, selectedDates } = calendarData;
+  const firstAppoinmentSlot = data.selectedDates[0];
+  const selectedDates2 = data.selectedDates2;
 
   useEffect(() => {
     getAppointmentSlots(
-      moment(previousDateCurrentlySelectedDate)
+      moment(firstAppoinmentSlot)
+        .startOf('day')
         .startOf('month')
         .format('YYYY-MM-DD'),
-      moment(previousDateCurrentlySelectedDate)
+      moment(firstAppoinmentSlot)
+        .startOf('day')
         .add(1, 'months')
         .endOf('month')
         .format('YYYY-MM-DD'),
@@ -160,8 +154,7 @@ export function SelectDate2Page({
       <CalendarWidget
         maxSelections={1}
         availableDates={availableDates}
-        currentlySelectedDate={currentlySelectedDate}
-        selectedDates={selectedDates}
+        value={selectedDates2}
         additionalOptions={{
           fieldName: 'datetime',
           required: true,
@@ -171,16 +164,16 @@ export function SelectDate2Page({
         }}
         loadingStatus={appointmentSlotsStatus}
         loadingErrorMessage={<ErrorMessage facilityId={facilityId} />}
-        onChange={newData => {
-          validate({ calendarData: newData, setValidationError });
-          onCalendar2Change(newData);
+        onChange={dates => {
+          validate({ dates, setValidationError });
+          onCalendar2Change(dates);
         }}
         onClickNext={getAppointmentSlots}
         onClickPrev={getAppointmentSlots}
-        minDate={moment(previousDateCurrentlySelectedDate)
+        minDate={moment(firstAppoinmentSlot)
           .add(21, 'days')
           .format('YYYY-MM-DD')}
-        maxDate={moment(previousDateCurrentlySelectedDate)
+        maxDate={moment(firstAppoinmentSlot)
           .add(28, 'days')
           .format('YYYY-MM-DD')}
         validationError={submitted ? validationError : null}

@@ -1,18 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { CALENDAR_INDICATOR_TYPES } from '../../utils/constants';
 
 export default function CalendarSelectedIndicator({
   date,
   selectedDates,
-  fieldName,
   selectedIndicatorType,
 }) {
-  if (fieldName && selectedIndicatorType === CALENDAR_INDICATOR_TYPES.BUBBLES) {
+  if (selectedIndicatorType === CALENDAR_INDICATOR_TYPES.BUBBLES) {
     const bubbles = selectedDates
       .reduce((selectedFieldValues, currentDate) => {
-        if (currentDate.date === date) {
-          selectedFieldValues.push(currentDate[fieldName]);
+        if (currentDate.startsWith(date)) {
+          selectedFieldValues.push(
+            moment(currentDate).hour() >= 12 ? 'PM' : 'AM',
+          );
         }
         return selectedFieldValues;
       }, [])
@@ -20,9 +22,9 @@ export default function CalendarSelectedIndicator({
 
     return (
       <div className="vaos-calendar__indicator-bubbles-container">
-        {bubbles.map((label, index) => (
+        {bubbles.map(label => (
           <div
-            key={`${fieldName}-bubble-${index}`}
+            key={`bubble-${label}`}
             className="vaos-calendar__indicator-bubble vads-u-border--2px vads-u-border-color--white vads-u-background-color--base"
           >
             {label}
@@ -39,4 +41,6 @@ export default function CalendarSelectedIndicator({
 
 CalendarSelectedIndicator.propTypes = {
   selectedDates: PropTypes.array.isRequired,
+  date: PropTypes.string.isRequired,
+  selectedIndicatorType: PropTypes.string,
 };

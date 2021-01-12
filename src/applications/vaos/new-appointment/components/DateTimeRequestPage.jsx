@@ -20,15 +20,15 @@ const missingDateError =
 const maxSelectionsError =
   'You can only choose up to 3 dates for your appointment.';
 
-export function getOptionsByDate() {
+export function getOptionsByDate(selectedDate) {
   return [
     {
-      value: 'AM',
+      value: `${selectedDate}T00:00:00.000`,
       label: 'AM',
       secondaryLabel: 'Before noon',
     },
     {
-      value: 'PM',
+      value: `${selectedDate}T12:00:00.000`,
       label: 'PM',
       secondaryLabel: 'Noon or later',
     },
@@ -39,18 +39,18 @@ function isMaxSelectionsError(validationError) {
   return validationError === maxSelectionsError;
 }
 
-function userSelectedSlot(calendarData) {
-  return calendarData?.selectedDates?.length > 0;
+function userSelectedSlot(dates) {
+  return dates?.length > 0;
 }
 
-function exceededMaxSelections(calendarData) {
-  return calendarData?.selectedDates?.length > maxSelections;
+function exceededMaxSelections(dates) {
+  return dates?.length > maxSelections;
 }
 
-function validate({ data, setValidationError }) {
-  if (exceededMaxSelections(data)) {
+function validate({ dates, setValidationError }) {
+  if (exceededMaxSelections(dates)) {
     setValidationError(maxSelectionsError);
-  } else if (!userSelectedSlot(data)) {
+  } else if (!userSelectedSlot(dates)) {
     setValidationError(missingDateError);
   } else {
     setValidationError(null);
@@ -65,9 +65,11 @@ function goForward({
   setSubmitted,
   setValidationError,
 }) {
-  const { calendarData } = data || {};
-  validate({ data: calendarData, setValidationError });
-  if (userSelectedSlot(calendarData) && !exceededMaxSelections(calendarData)) {
+  validate({ dates: data.selectedDates, setValidationError });
+  if (
+    userSelectedSlot(data.selectedDates) &&
+    !exceededMaxSelections(data.selectedDates)
+  ) {
     routeToNextAppointmentPage(history, pageKey);
   } else if (submitted) {
     scrollAndFocus('.usa-input-error-message');
@@ -104,11 +106,9 @@ export function DateTimeRequestPage({
     [validationError, submitted],
   );
 
-  const calendarData = data?.calendarData || {};
-  const { currentlySelectedDate, selectedDates } = calendarData;
+  const selectedDates = data.selectedDates;
 
   const additionalOptions = {
-    fieldName: 'optionTime',
     required: true,
     maxSelections: 2,
     validationMessage:
@@ -126,9 +126,9 @@ export function DateTimeRequestPage({
       <CalendarWidget
         multiSelect
         maxSelections={maxSelections}
-        onChange={newData => {
-          validate({ data: newData, setValidationError });
-          onCalendarChange(newData);
+        onChange={dates => {
+          validate({ dates, setValidationError });
+          onCalendarChange(dates);
         }}
         minDate={moment()
           .add(5, 'days')
@@ -136,8 +136,7 @@ export function DateTimeRequestPage({
         maxDate={moment()
           .add(120, 'days')
           .format('YYYY-MM-DD')}
-        currentlySelectedDate={currentlySelectedDate}
-        selectedDates={selectedDates}
+        value={selectedDates}
         selectedIndicatorType={CALENDAR_INDICATOR_TYPES.BUBBLES}
         additionalOptions={additionalOptions}
         validationError={

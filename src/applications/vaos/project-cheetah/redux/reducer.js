@@ -417,7 +417,7 @@ export default function projectCheetahReducer(state = initialState, action) {
           ...state.newBooking,
           data: {
             ...data,
-            calendarData: {},
+            selectedDates: [],
           },
           pages: {
             ...state.newBooking.pages,
@@ -473,7 +473,7 @@ export default function projectCheetahReducer(state = initialState, action) {
           ...state.newBooking,
           data: {
             ...state.newBooking.data,
-            calendarData: action.calendarData,
+            selectedDates: action.selectedDates,
           },
         },
       };
@@ -485,7 +485,7 @@ export default function projectCheetahReducer(state = initialState, action) {
           ...state.newBooking,
           data: {
             ...state.newBooking.data,
-            calendar2Data: action.calendar2Data,
+            selectedDates2: action.selectedDates2,
           },
         },
       };

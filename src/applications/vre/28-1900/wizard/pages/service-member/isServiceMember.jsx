@@ -15,7 +15,12 @@ const isServiceMember = ({ setPageState, state = {} }) => (
     id={`${serviceMemberPathPageNames.isServiceMember}-option`}
     options={options}
     onValueChange={({ value }) =>
-      handleChangeAndPageSet(setPageState, value, options)
+      handleChangeAndPageSet(
+        setPageState,
+        value,
+        options,
+        'Do you expect to receive an honorable discharge?',
+      )
     }
     value={{ value: state.selected }}
     additionalFieldsetClass="vads-u-margin-top--0"
