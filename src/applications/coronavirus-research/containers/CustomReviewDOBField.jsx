@@ -3,9 +3,9 @@ import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 
 export default function CustomReviewDOBField({ children, uiSchema }) {
   return (
-    <div className="review-row">
+    <dl className="review-row">
       <dt>{uiSchema['ui:title']}</dt>
       <dd>{formatReviewDate(children?.props.formData)}</dd>
-    </div>
+    </dl>
   );
 }
