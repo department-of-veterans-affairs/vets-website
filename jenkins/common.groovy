@@ -249,6 +249,8 @@ def prearchive(dockerContainer, envName, Boolean contentOnlyBuild) {
   def assetSource = contentOnlyBuild ? ref : 'local'
 
   dockerContainer.inside(DOCKER_ARGS) {
+    sh "pwd"
+    sh "ls"
     sh "cd /application"
     sh "pwd"
     sh "ls"
