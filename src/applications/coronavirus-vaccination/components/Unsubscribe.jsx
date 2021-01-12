@@ -37,13 +37,19 @@ function Unsubscribe({ router }) {
   if (unsubscribeStatus === requestStates.failed) {
     content = (
       <div className="va-introtext">
-        <p>Sorry, we were not able to unsubscribe you at this time.</p>
+        <p>
+          We're sorry. We couldn't unsubscribe you from COVID-19 vaccine updates
+          at this time. Please try again later.
+        </p>
       </div>
     );
   } else if (unsubscribeStatus === requestStates.succeeded) {
     content = (
       <div className="va-introtext">
-        <p>You have been unsubscribed from updates.</p>
+        <p>
+          You've unsubscribed from COVID-19 vaccine updates. We won't send you
+          any more emails.
+        </p>
       </div>
     );
   }

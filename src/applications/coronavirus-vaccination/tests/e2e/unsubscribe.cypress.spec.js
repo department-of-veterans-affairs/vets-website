@@ -16,7 +16,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
 
     cy.get('#covid-vaccination-heading-unsubscribe').contains('Unsubscribe');
     cy.get('.va-introtext').contains(
-      'You have been unsubscribed from updates.',
+      "You've unsubscribed from COVID-19 vaccine updates. We won't send you any more emails.",
     );
     cy.server({ enable: false });
   });

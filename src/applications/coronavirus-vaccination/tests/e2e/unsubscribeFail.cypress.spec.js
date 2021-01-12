@@ -16,7 +16,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
 
     cy.get('#covid-vaccination-heading-unsubscribe').contains('Unsubscribe');
     cy.get('.va-introtext').contains(
-      'Sorry, we were not able to unsubscribe you at this time.',
+      "We're sorry. We couldn't unsubscribe you from COVID-19 vaccine updates at this time. Please try again later.",
     );
     cy.server({ enable: false });
   });
