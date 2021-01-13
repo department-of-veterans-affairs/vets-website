@@ -20,7 +20,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
   const hasSecondaryTwo = formData['view:hasSecondaryCaregiverTwo'];
   // we are separating the first paragraph due to each paragraph having unique styling
   const veteranFirstParagraph = veteranSignatureContent[0];
-  const veteranWithoutFirstParagraph = primaryCaregiverContent.slice(1);
+  const veteranWithoutFirstParagraph = veteranSignatureContent.slice(1);
   const primaryFirstParagraph = primaryCaregiverContent[0];
   const primaryWithoutFirstParagraph = primaryCaregiverContent.slice(1);
 
