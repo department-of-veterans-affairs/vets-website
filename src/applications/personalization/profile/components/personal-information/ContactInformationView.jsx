@@ -2,7 +2,7 @@ import React from 'react';
 import { formatAddress } from '~/platform/forms/address/helpers';
 import ReceiveTextMessages from 'platform/user/profile/vap-svc/containers/ReceiveTextMessages';
 import { FIELD_NAMES } from '@@vap-svc/constants';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 const ContactInformationView = props => {
   const { data, type, fieldName } = props;

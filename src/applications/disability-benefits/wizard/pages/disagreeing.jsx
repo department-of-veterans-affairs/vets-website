@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import Date from '@department-of-veterans-affairs/formation-react/Date';
+import Date from '@department-of-veterans-affairs/component-library/Date';
 import { pageNames } from './pageList';
 
 // Figure out which page to go to based on the date entered

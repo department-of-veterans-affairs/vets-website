@@ -1,7 +1,7 @@
 import React from 'react';
 import AlertBox, {
   ALERT_TYPE,
-} from '@department-of-veterans-affairs/formation-react/AlertBox';
+} from '@department-of-veterans-affairs/component-library/AlertBox';
 import facilityLocator from '~/applications/facility-locator/manifest.json';
 
 import {

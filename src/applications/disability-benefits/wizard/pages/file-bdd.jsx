@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { pageNames } from './pageList';
 import {
   BDD_INFO_URL,

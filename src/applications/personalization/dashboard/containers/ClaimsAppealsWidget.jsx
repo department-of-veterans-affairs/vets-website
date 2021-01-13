@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import moment from 'moment';
 import React from 'react';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import {
   APPEAL_TYPES,
@@ -24,7 +24,7 @@ import ClaimsAppealsUnavailable from 'applications/claims-status/components/Clai
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import { recordDashboardClick } from '../helpers';
 import ClaimsListItem from '../components/ClaimsListItem';

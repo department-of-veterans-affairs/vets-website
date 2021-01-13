@@ -1,5 +1,5 @@
 import React from 'react';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const deductionCodes = Object.freeze({
   '30': 'Compensation & pension debt',

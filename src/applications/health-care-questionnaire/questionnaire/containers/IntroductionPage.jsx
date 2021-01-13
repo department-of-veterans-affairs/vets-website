@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';

@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from '../../../lib/moment-tz.js';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import FacilityAddress from '../../../components/FacilityAddress';
 import AddToCalendar from '../../../components/AddToCalendar';
 import { formatFacilityAddress } from '../../../services/location';
