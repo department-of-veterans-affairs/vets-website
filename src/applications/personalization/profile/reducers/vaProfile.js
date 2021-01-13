@@ -73,8 +73,14 @@ function vaProfile(state = initialState, action) {
       return set('cnpPaymentInformationUiState.responseError', null, newState);
     }
 
-    case CNP_PAYMENT_INFORMATION_SAVE_STARTED:
-      return set('cnpPaymentInformationUiState.isSaving', true, state);
+    case CNP_PAYMENT_INFORMATION_SAVE_STARTED: {
+      const cnpPaymentInformationUiState = {
+        ...state.cnpPaymentInformationUiState,
+        responseError: null,
+        isSaving: true,
+      };
+      return { ...state, cnpPaymentInformationUiState };
+    }
 
     case CNP_PAYMENT_INFORMATION_FETCH_FAILED: {
       return set(
@@ -114,8 +120,14 @@ function vaProfile(state = initialState, action) {
       return set('eduPaymentInformationUiState.responseError', null, newState);
     }
 
-    case EDU_PAYMENT_INFORMATION_SAVE_STARTED:
-      return set('eduPaymentInformationUiState.isSaving', true, state);
+    case EDU_PAYMENT_INFORMATION_SAVE_STARTED: {
+      const eduPaymentInformationUiState = {
+        ...state.eduPaymentInformationUiState,
+        responseError: null,
+        isSaving: true,
+      };
+      return { ...state, eduPaymentInformationUiState };
+    }
 
     case EDU_PAYMENT_INFORMATION_FETCH_FAILED: {
       return set(

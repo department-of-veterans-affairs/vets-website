@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import ErrorableDate from '@department-of-veterans-affairs/formation-react/ErrorableDate';
+import Date from '@department-of-veterans-affairs/formation-react/Date';
 import { pageNames } from './pageList';
 
 import unableToFileBDDProduction from './unable-to-file-bdd-production';
@@ -85,7 +85,7 @@ const BDDPage = ({ setPageState, state = defaultState, allowBDD }) => {
   };
 
   return (
-    <ErrorableDate
+    <Date
       label="Date or anticipated date of release from active duty"
       onValueChange={onChange}
       name="discharge-date"

@@ -3,6 +3,7 @@
  */
 module.exports = `
   fragment listsOfLinks on ParagraphListsOfLinks {
+    entityId
     fieldSectionHeader
     fieldVaParagraphs {
       entity {

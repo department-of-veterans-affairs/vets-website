@@ -28,7 +28,7 @@ describe('<AddFilesForm>', () => {
         onDirtyFields={onDirtyFields}
       />,
     );
-    expect(tree.everySubTree('ErrorableFileInput')).not.to.be.empty;
+    expect(tree.everySubTree('FileInput')).not.to.be.empty;
     expect(tree.everySubTree('Modal')[0].props.visible).to.be.undefined;
     expect(tree.everySubTree('Modal')[1].props.visible).to.be.undefined;
   });
@@ -348,6 +348,6 @@ describe('<AddFilesForm>', () => {
       />,
     );
     expect(tree.getMountedInstance().state.errorMessage).to.be.null;
-    expect(tree.subTree('ErrorableTextInput')).to.exist;
+    expect(tree.subTree('TextInput')).to.exist;
   });
 });

@@ -93,8 +93,8 @@ const disabilitiesList = (
         fill out VA Form 20-0996 and submit it by mail or in person.
       </li>
       <li>
-        The issue or decision isn’t our system yet. You’ll need to fill VA Form
-        20-0996 and submit it by mail or in person.
+        The issue or decision isn’t our system yet. You’ll need to fill out VA
+        Form 20-0996 and submit it by mail or in person.
       </li>
       <li>
         You and another surviving dependent of the Veteran are applying for the

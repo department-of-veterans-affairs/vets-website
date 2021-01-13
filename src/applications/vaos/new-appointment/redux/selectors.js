@@ -201,10 +201,6 @@ export function getDateTimeSelect(state, pageKey) {
   const eligibilityStatus = getEligibilityStatus(state);
   const systemId = getSiteIdForChosenFacility(state);
 
-  const availableDates = Array.from(
-    new Set(availableSlots?.map(slot => slot.start.split('T')[0])),
-  );
-
   const timezoneDescription = systemId
     ? getTimezoneDescBySystemId(systemId)
     : null;
@@ -213,7 +209,6 @@ export function getDateTimeSelect(state, pageKey) {
 
   return {
     ...formInfo,
-    availableDates,
     availableSlots,
     eligibleForRequests: eligibilityStatus.request,
     facilityId: data.vaFacility,
@@ -258,12 +253,13 @@ export function selectProviderSelectionInfo(state) {
     ccProviderPageSortMethod: sortMethod,
   } = getNewAppointment(state);
 
-  const typeOfCareId = getTypeOfCare(data).ccId;
+  const typeOfCare = getTypeOfCare(data);
 
   return {
     address: selectVAPResidentialAddress(state),
+    typeOfCareName: typeOfCare.name,
     communityCareProviderList:
-      communityCareProviders[`${sortMethod}_${typeOfCareId}`] || [],
+      communityCareProviders[`${sortMethod}_${typeOfCare.ccId}`] || [],
     requestStatus,
     requestLocationStatus,
     currentLocation,

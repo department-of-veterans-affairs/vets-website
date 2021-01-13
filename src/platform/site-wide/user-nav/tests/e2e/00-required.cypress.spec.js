@@ -135,7 +135,7 @@ describe('Site-wide Search functionality with typeahead enabled', () => {
       .children()
       .should('have.length', 5);
     cy.get('[data-e2e-id="sitewide-search-submit-button"]').focus();
-    cy.get('#suggestions-list').should('not.be.visible');
+    cy.get('#suggestions-list').should('not.exist');
   });
 
   it('Focusing the input field repopulates suggestions', () => {
@@ -147,7 +147,7 @@ describe('Site-wide Search functionality with typeahead enabled', () => {
       .children()
       .should('have.length', 5);
     cy.get('[data-e2e-id="sitewide-search-submit-button"]').focus();
-    cy.get('#suggestions-list').should('not.be.visible');
+    cy.get('#suggestions-list').should('not.exist');
     cy.get('#query').focus();
     cy.get('#suggestions-list').should('be.visible');
     cy.get('#suggestions-list')

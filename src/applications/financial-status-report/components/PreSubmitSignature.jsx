@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
+import Checkbox from '@department-of-veterans-affairs/formation-react/Checkbox';
 
 const PreSubmitSignature = ({ formData }) => {
   const fullName = Object.values(formData?.personalData?.fullName)
@@ -26,7 +26,7 @@ const PreSubmitSignature = ({ formData }) => {
         value={veteranName}
         onChange={event => setVeteranName(event.target.value)}
       />
-      <ErrorableCheckbox
+      <Checkbox
         onValueChange={value => setIsChecked(value)}
         label="I certify the information above is correct and true to the best of my knowledge and belief."
         errorMessage={'Must certify by checking box'}
