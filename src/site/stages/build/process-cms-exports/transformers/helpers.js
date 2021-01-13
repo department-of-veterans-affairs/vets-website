@@ -112,7 +112,7 @@ function getImageCrop(obj, imageStyle = null) {
     // 'https://{buildtype}.cms.va.gov/sites/default/files/', so add that here.
     // It doesn't matter what the build type is since it gets stripped out in convertDrupalFilesToLocal
     // so just use prod here
-    imageObj.image.derivative.url = `https://prod.cms.va.gov/sites/default/files/${url.replace(
+    imageObj.image.derivative.url = `https://internal-dsva-vagov-prod-cms-2000800896.us-gov-west-1.elb.amazonaws.com/sites/default/files/${url.replace(
       '/img/',
       '',
     )}`;
