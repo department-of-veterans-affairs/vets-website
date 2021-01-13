@@ -325,7 +325,7 @@ describe('New disabilities follow up info', () => {
     fillData(
       form,
       'select[name="root_view:secondaryFollowUp_causedByDisability"]',
-      'Old Condition',
+      'Old condition',
     );
     fillData(
       form,
