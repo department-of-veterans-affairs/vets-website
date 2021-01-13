@@ -1,0 +1,17 @@
+export const utilities = [
+  'Electricity',
+  'Gas',
+  'Water',
+  'Sewer',
+  'Internet',
+  'Cell phone',
+  'Telephone',
+  'Cable',
+  'Heating fuel',
+  'Kerosene',
+  'Wood pellets',
+  'Corn',
+  'Coal',
+  'Propane',
+  'Trash',
+];

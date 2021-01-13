@@ -2,6 +2,7 @@ import ItemLoop from '../../components/ItemLoop';
 import TableDetailsView from '../../components/TableDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import AutosuggestField from '../../components/AutosuggestField';
+import { utilities } from '../../constants/typeaheadOptions';
 import _ from 'lodash/fp';
 
 const utilityOptions = [
@@ -9,26 +10,8 @@ const utilityOptions = [
   "No, I don't pay utility bills.",
 ];
 
-const typeaheadOptions = [
-  'Electricity',
-  'Gas',
-  'Water',
-  'Sewer',
-  'Internet',
-  'Cell phone',
-  'Telephone',
-  'Cable',
-  'Heating fuel',
-  'Kerosene',
-  'Wood pellets',
-  'Corn',
-  'Coal',
-  'Propane',
-  'Trash',
-];
-
 const getOptions = async () => {
-  return typeaheadOptions.map(item => ({
+  return utilities.map(item => ({
     label: item,
   }));
 };
