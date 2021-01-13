@@ -255,7 +255,7 @@ function ProviderSelectionField({
                 )}
                 {providersListEmpty && (
                   <NoProvidersAlert
-                    currentLocation={currentLocation}
+                    sortMethod={sortMethod}
                     typeOfCareName={typeOfCareName}
                   />
                 )}
