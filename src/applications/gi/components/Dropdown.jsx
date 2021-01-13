@@ -53,9 +53,11 @@ class Dropdown extends React.Component {
                 <option
                   key={value}
                   value={value}
-                  style={{
-                    fontWeight: value === this.props.value ? 'bold' : 'normal',
-                  }}
+                  className={
+                    value === this.props.value
+                      ? 'vads-u-font-weight--bold'
+                      : 'vads-u-font-weight--normal'
+                  }
                 >
                   {label}
                 </option>
