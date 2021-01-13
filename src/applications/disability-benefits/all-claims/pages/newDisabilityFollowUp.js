@@ -35,7 +35,7 @@ const getDisabilitiesList = createSelector(
       .map(
         item =>
           typeof item.condition === 'string'
-            ? capitalizeEachWord(item.condition)
+            ? item.condition
             : NULL_CONDITION_STRING,
       );
 
@@ -43,7 +43,7 @@ const getDisabilitiesList = createSelector(
       .map(
         disability =>
           typeof disability.name === 'string'
-            ? capitalizeEachWord(disability.name)
+            ? disability.name
             : NULL_CONDITION_STRING,
       )
       .concat(newDisabilitiesWithoutCurrent);
@@ -116,6 +116,9 @@ export const uiSchema = {
               }
               return {
                 enum: disabilitiesList,
+                enumNames: disabilitiesList.map(disabilityName =>
+                  capitalizeEachWord(disabilityName),
+                ),
               };
             },
           },
