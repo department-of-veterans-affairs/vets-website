@@ -12,11 +12,8 @@ function generateWebpackDevConfig(buildOptions) {
     .sort((a, b) => b.from.length - a.from.length);
 
   // This buildType likely always be 'localhost', but adding in to match patterns elsewhere and just incase we ever need it
-  // Set the pubilcPath conditional so we can get dynamic modules loading from S3
   const publicAssetPath =
-    buildOptions.buildtype === 'vagovdev' ||
-    buildOptions.buildtype === 'vagovstaging' ||
-    buildOptions.buildtype === 'vagovprod'
+    buildOptions.setPublicPath && buildOptions.buildtype !== 'localhost'
       ? `${BUCKETS[buildOptions.buildtype]}/generated/`
       : '/generated/';
 

@@ -245,7 +245,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
   }
 }
 
-def prearchive(dockerContainer, envName, Boolean contentOnlyBuild) {
+def prearchive(dockerContainer, envName) {
   dockerContainer.inside(DOCKER_ARGS) {
     if (envName == 'vagovdev') {
       sh "cd /application && NODE_ENV=production yarn build:webpack --env.buildtype ${envName} --env.setPublicPath"
@@ -254,7 +254,7 @@ def prearchive(dockerContainer, envName, Boolean contentOnlyBuild) {
   }
 }
 
-def prearchiveAll(dockerContainer, Boolean contentOnlyBuild) {
+def prearchiveAll(dockerContainer) {
   stage("Prearchive Optimizations") {
     if (shouldBail()) { return }
 
@@ -265,7 +265,7 @@ def prearchiveAll(dockerContainer, Boolean contentOnlyBuild) {
         def envName = VAGOV_BUILDTYPES.get(i)
 
         builds[envName] = {
-          prearchive(dockerContainer, envName, contentOnlyBuild)
+          prearchive(dockerContainer, envName)
         }
       }
 
