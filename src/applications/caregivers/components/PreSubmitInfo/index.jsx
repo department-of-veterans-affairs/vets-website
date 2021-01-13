@@ -85,7 +85,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
   );
 
   const SecondaryCaregiverCopy = ({ label }) => {
-    const header = title => `${title} Statement of Truth`;
+    const header = title => `${title} statement of truth`;
     const firstParagraph = secondaryCaregiverContent[0];
     const contentWithoutFirstParagraph = secondaryCaregiverContent.slice(1);
 
