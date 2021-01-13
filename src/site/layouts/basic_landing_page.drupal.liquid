@@ -66,7 +66,7 @@
             {% for audienceTag in audienceTags %}
               {% if forloop.index <= pageSize %}
                 <li class="vads-u-margin-y--2">
-                  <a class="vads-u-font-weight--bold vads-u-text-decoration--none" href="{{ audienceTag.path.alias }}/">
+                  <a class="vads-u-font-weight--bold vads-u-text-decoration--none" href="{{ audienceTag.entityUrl.path }}/">
                     {{ audienceTag.name }} <i role="presentation" aria-hidden="true" class="fa fa-chevron-right vads-u-margin-left--1"></i>
                   </a>
                 </li>
