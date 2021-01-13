@@ -338,12 +338,49 @@ export function isUpcomingAppointmentOrRequest(appt) {
 }
 
 /**
+ * Returns true if the given Appointment is a confirmed appointment
+ * or an Express Care request
+ *
+ * @export
+ * @param {Object} appt The FHIR Appointment to check
+ * @returns {Boolean} Whether or not the appointment is a valid upcoming
+ *  appointment or Express Care request
+ */
+export function isUpcomingAppointmentOrExpressCare(appt) {
+  if (CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType)) {
+    const apptDateTime = moment(appt.start);
+
+    return (
+      !appt.vaos.isPastAppointment &&
+      !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
+      apptDateTime.isValid() &&
+      apptDateTime.isBefore(moment().add(13, 'months'))
+    );
+  }
+
+  return (
+    appt.vaos.isExpressCare &&
+    appt.status !== APPOINTMENT_STATUS.fulfilled &&
+    moment(appt.start).isAfter(moment().startOf('day'))
+  );
+}
+
+/**
  * Sort method for past appointments
  * @param {Object} a A FHIR appointment resource
  * @param {Object} b A FHIR appointment resource
  */
 export function sortByDateDescending(a, b) {
   return moment(a.start).isAfter(moment(b.start)) ? -1 : 1;
+}
+
+/**
+ * Sort method for upcoming appointments
+ * @param {Object} a A FHIR appointment resource
+ * @param {Object} b A FHIR appointment resource
+ */
+export function sortByDateAscending(a, b) {
+  return moment(a.start).isBefore(moment(b.start)) ? -1 : 1;
 }
 
 /**
@@ -450,4 +487,35 @@ export function hasPractitioner(appointment) {
 export function getPractitionerDisplay(participants) {
   return participants?.find(p => p.actor.reference.includes('Practitioner'))
     .actor.display;
+}
+
+/**
+ * Groups appointments into an array of arrays by month
+ * Assumes appointments are already sorted
+ *
+ * @export
+ * @param {Array} appointments List of FHIR appointments
+ * @returns {Array} An array of arrays by month
+ */
+export function groupAppointmentsByMonth(appointments) {
+  if (appointments.length === 0) {
+    return [];
+  }
+
+  const appointmentsByMonth = [[]];
+  let currentIndex = 0;
+  appointments.forEach(appt => {
+    if (
+      !appointmentsByMonth[currentIndex].length ||
+      moment(appt.start).format('YYYY-MM') ===
+        moment(appointmentsByMonth[currentIndex][0].start).format('YYYY-MM')
+    ) {
+      appointmentsByMonth[currentIndex].push(appt);
+    } else {
+      appointmentsByMonth.push([appt]);
+      currentIndex++;
+    }
+  });
+
+  return appointmentsByMonth;
 }

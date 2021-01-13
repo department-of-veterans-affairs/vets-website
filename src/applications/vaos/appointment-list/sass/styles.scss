@@ -56,6 +56,11 @@
   margin: 0 0 16px;
 }
 
+.vaos__card {
+  position: relative;
+  border-radius: 10px;
+}
+
 .vaos__card-link::after {
   content: "";
   position: absolute;
@@ -63,4 +68,8 @@
   top: 0;
   right: 0;
   bottom: 0;
+
+  @include media($medium-screen) {
+    position: static;
+  }
 }
