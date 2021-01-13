@@ -1,7 +1,7 @@
 import ItemLoop from '../../components/ItemLoop';
 import TableDetailsView from '../../components/TableDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import AutosuggestField from '../../components/AutosuggestField';
+import Typeahead from '../../components/Typeahead';
 import { utilities } from '../../constants/typeaheadOptions';
 import _ from 'lodash/fp';
 
@@ -41,10 +41,9 @@ export const uiSchema = {
       items: {
         utilityType: {
           'ui:title': 'Type of utility',
-          'ui:field': AutosuggestField,
+          'ui:field': Typeahead,
           'ui:options': {
             classNames: 'input-size-3',
-            freeInput: true,
             getOptions,
           },
           'ui:required': formData => formData.utilities.hasUtilities,
