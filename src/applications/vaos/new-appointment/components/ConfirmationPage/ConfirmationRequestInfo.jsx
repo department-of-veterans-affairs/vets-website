@@ -46,10 +46,9 @@ export default function ConfirmationRequestInfo({
     <div>
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
       <AlertBox status="success">
-        <strong>Your appointment request has been submitted.</strong>
-        <br />
-        We’re reviewing your request. You don’t have anything to do right now. A
-        scheduler will contact you to schedule the first available appointment.
+        <strong>We’re reviewing your request</strong>
+        <br />A scheduler will contact you to schedule the first available
+        appointment. You don’t have to do anything right now.
       </AlertBox>
       <div className="vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-y--3 vads-u-border-top--4px vads-u-border-color--warning-message">
         <div className="vaos-form__title vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">

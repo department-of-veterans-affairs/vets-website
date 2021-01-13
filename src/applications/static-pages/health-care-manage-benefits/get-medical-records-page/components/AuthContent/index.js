@@ -9,7 +9,11 @@ import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 
-const AuthContent = ({ cernerFacilities, otherFacilities }) => (
+const AuthContent = ({
+  authenticatedWithSSOe,
+  cernerFacilities,
+  otherFacilities,
+}) => (
   <>
     <h2 className="vads-u-margin-bottom--2 vads-u-font-size--lg">
       On this page:
@@ -29,7 +33,7 @@ const AuthContent = ({ cernerFacilities, otherFacilities }) => (
       cernerFacilities={cernerFacilities}
       otherFacilities={otherFacilities}
       linksHeaderText="Get your medical records from:"
-      myHealtheVetLink={mhvUrl('download-my-data')}
+      myHealtheVetLink={mhvUrl(authenticatedWithSSOe, 'download-my-data')}
       myVAHealthLink={getCernerURL(
         '/pages/health_record/clinical_documents/sharing',
       )}
@@ -321,6 +325,7 @@ const AuthContent = ({ cernerFacilities, otherFacilities }) => (
 );
 
 AuthContent.propTypes = {
+  authenticatedWithSSOe: PropTypes.bool.isRequired,
   cernerfacilities: PropTypes.arrayOf(
     PropTypes.shape({
       facilityId: PropTypes.string.isRequired,

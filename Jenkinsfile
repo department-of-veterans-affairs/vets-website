@@ -69,9 +69,7 @@ node('vetsgov-general-purpose') {
       try {
         parallel (
           'nightwatch-e2e': {
-            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG}"
-            sh "docker-compose -p nightwatch up -d"
-            sh "docker-compose -p nightwatch run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
+            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p nightwatch up -d && docker-compose -p nightwatch run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
           },
 
           'nightwatch-accessibility': {

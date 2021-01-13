@@ -280,7 +280,9 @@ module.exports = env => {
 
           if (isMedalliaStyleFile && isStaging) return `[name].css`;
 
-          return `[name].css`;
+          return useHashFilenames
+            ? `[name].[contenthash]-${timestamp}.css`
+            : `[name].css`;
         },
       }),
 

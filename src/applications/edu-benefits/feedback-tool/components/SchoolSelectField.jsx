@@ -4,7 +4,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
+import Checkbox from '@department-of-veterans-affairs/formation-react/Checkbox';
 import Scroll from 'react-scroll';
 import { connect } from 'react-redux';
 import {
@@ -310,7 +310,7 @@ export class SchoolSelectField extends React.Component {
               </div>
             </div>
           </div>
-          <ErrorableCheckbox
+          <Checkbox
             checked={manualSchoolEntryChecked}
             onValueChange={() =>
               this.handleManualSchoolEntryToggled(manualSchoolEntryChecked)
