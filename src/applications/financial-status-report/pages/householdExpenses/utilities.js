@@ -10,7 +10,7 @@ const utilityOptions = [
   "No, I don't pay utility bills.",
 ];
 
-const getOptions = async () => {
+const getOptions = () => {
   return utilities.map(item => ({
     label: item,
   }));

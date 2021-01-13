@@ -1,67 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 import classNames from 'classnames';
 import sortListByFuzzyMatch from 'platform/forms-system/src/js/utilities/fuzzy-matching';
 
-const getInput = (input, uiSchema) => {
-  if (input && input.widget === 'autosuggest') {
-    return input.label;
-  }
+const Typeahead = props => {
+  const [input, setInput] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
 
-  if (typeof input !== 'object' && input) {
-    const uiOptions = uiSchema['ui:options'];
+  const { idSchema } = props;
+  const id = idSchema.$id;
 
-    if (!uiOptions.labels) {
-      return input;
+  const getInput = (inputData, uiSchema) => {
+    if (inputData && inputData.widget === 'autosuggest') {
+      return inputData.label;
     }
 
-    if (uiOptions.labels[input]) {
-      return uiOptions.labels[input];
+    if (typeof inputData !== 'object' && inputData) {
+      const uiOptions = uiSchema['ui:options'];
+
+      if (!uiOptions.labels) {
+        return inputData;
+      }
+
+      if (uiOptions.labels[inputData]) {
+        return uiOptions.labels[inputData];
+      }
     }
-  }
-  return '';
-};
-
-class Typeahead extends React.Component {
-  constructor(props) {
-    super(props);
-    const { uiSchema, formData } = props;
-
-    const input = getInput(formData, uiSchema);
-
-    this.state = {
-      suggestions: [],
-      input,
-    };
-  }
-
-  componentDidMount() {
-    const getOptions = this.props.uiSchema['ui:options'].getOptions;
-    getOptions().then(this.setOptionsArr);
-  }
-
-  setOptionsArr = options => {
-    const suggestions = this.getSuggestions(options, this.state.input);
-
-    this.setState({
-      suggestions,
-    });
-
-    if (this.state.input && this.state.input.length > 3) {
-      const item = this.getItemFromInput(
-        this.state.input,
-        suggestions,
-        this.props.uiSchema['ui:options'],
-      );
-
-      this.props.onChange(item);
-    }
+    return '';
   };
 
-  getSuggestions = (options, value) => {
+  const getSuggestions = (options, value) => {
     if (value) {
-      const uiOptions = this.props.uiSchema['ui:options'];
+      const uiOptions = props.uiSchema['ui:options'];
       return sortListByFuzzyMatch(value, options).slice(
         0,
         uiOptions.maxOptions,
@@ -70,7 +41,7 @@ class Typeahead extends React.Component {
     return options;
   };
 
-  getItemFromInput = (inputValue, uiOptions) => {
+  const getItemFromInput = (inputValue, uiOptions) => {
     const { inputTransformers } = uiOptions;
 
     return inputTransformers &&
@@ -83,95 +54,92 @@ class Typeahead extends React.Component {
       : inputValue;
   };
 
-  handleInputValueChange = inputValue => {
-    if (inputValue !== this.state.input) {
-      const uiOptions = this.props.uiSchema['ui:options'];
-      const item = this.getItemFromInput(
-        inputValue,
-        this.state.suggestions,
-        uiOptions,
-      );
-      this.props.onChange(item);
-      this.setState({
-        input: inputValue,
-        suggestions: this.getSuggestions(this.state.suggestions, inputValue),
-      });
+  const handleInputValueChange = inputValue => {
+    if (inputValue !== input) {
+      const item = getItemFromInput(inputValue, props.uiSchema['ui:options']);
+      props.onChange(item);
+      setInput(inputValue);
+      setSuggestions(getSuggestions(suggestions, inputValue));
     } else if (inputValue === '') {
-      this.props.onChange();
-      this.setState({
-        input: inputValue,
-        suggestions: this.getSuggestions(this.state.suggestions, inputValue),
-      });
+      props.onChange();
+      setInput(inputValue);
+      setSuggestions(getSuggestions(suggestions, inputValue));
     }
   };
 
-  handleKeyDown = event => {
+  const handleKeyDown = event => {
     const escapeKey = 27;
     if (event.keyCode === escapeKey) {
-      this.setState({ input: '' });
+      setInput('');
     }
   };
 
-  handleBlur = () => {
-    this.props.onBlur(this.props.idSchema.$id);
+  const handleBlur = () => {
+    props.onBlur(props.idSchema.$id);
   };
 
-  render() {
-    const { idSchema } = this.props;
-    const id = idSchema.$id;
+  useEffect(() => {
+    const fetchInputData = getInput(props.formData, props.uiSchema);
+    setInput(fetchInputData);
 
-    return (
-      <Downshift
-        onInputValueChange={this.handleInputValueChange}
-        inputValue={this.state.input}
-        selectedItem={this.state.input}
-        onOuterClick={this.handleBlur}
-        itemToString={item => (typeof item === 'string' ? item : item.label)}
-        render={({
-          getInputProps,
-          getItemProps,
-          isOpen,
-          selectedItem,
-          highlightedIndex,
-        }) => (
-          <div className="autosuggest-container">
-            <input
-              {...getInputProps({
-                autoComplete: 'off',
-                id,
-                name: id,
-                className: 'autosuggest-input',
-                onBlur: isOpen ? undefined : this.handleBlur,
-                onKeyDown: this.handleKeyDown,
-              })}
-            />
-            {isOpen && (
-              <div className="autosuggest-list" role="listbox">
-                {this.state.suggestions.map((item, index) => (
-                  <div
-                    {...getItemProps({ item })}
-                    role="option"
-                    aria-selected={
-                      selectedItem === item.label ? 'true' : 'false'
-                    }
-                    className={classNames('autosuggest-item', {
-                      'autosuggest-item-highlighted':
-                        highlightedIndex === index,
-                      'autosuggest-item-selected': selectedItem === item.label,
-                    })}
-                    key={index}
-                  >
-                    {item.label}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-      />
-    );
-  }
-}
+    const options = props.uiSchema['ui:options'].getOptions;
+    const fetchedsuggestions = getSuggestions(options, input);
+    setSuggestions(fetchedsuggestions);
+
+    if (input && input.length > 3) {
+      const item = getItemFromInput(input, props.uiSchema['ui:options']);
+      props.onChange(item);
+    }
+  }, []);
+
+  return (
+    <Downshift
+      onInputValueChange={handleInputValueChange}
+      inputValue={input}
+      selectedItem={input}
+      onOuterClick={handleBlur}
+      itemToString={item => (typeof item === 'string' ? item : item.label)}
+      render={({
+        getInputProps,
+        getItemProps,
+        isOpen,
+        selectedItem,
+        highlightedIndex,
+      }) => (
+        <div className="autosuggest-container">
+          <input
+            {...getInputProps({
+              autoComplete: 'off',
+              id,
+              name: id,
+              className: 'autosuggest-input',
+              onBlur: isOpen ? undefined : handleBlur,
+              onKeyDown: handleKeyDown,
+            })}
+          />
+          {isOpen && (
+            <div className="autosuggest-list" role="listbox">
+              {suggestions.map((item, index) => (
+                <div
+                  {...getItemProps({ item })}
+                  role="option"
+                  aria-selected={selectedItem === item.label ? 'true' : 'false'}
+                  className={classNames('autosuggest-item', {
+                    'autosuggest-item-highlighted': highlightedIndex === index,
+                    'autosuggest-item-selected': selectedItem === item.label,
+                  })}
+                  key={index}
+                >
+                  {item.label}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    />
+  );
+};
 
 Typeahead.propTypes = {
   uiSchema: PropTypes.shape({
