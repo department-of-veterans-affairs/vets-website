@@ -47,7 +47,7 @@ describe('Facility search', () => {
     cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data');
   });
 
-  for(let i = 0; i < 60; i += 1) {
+  for (let i = 0; i < 60; i += 1) {
     it('does a simple search and finds a result on the list', () => {
       cy.visit('/find-locations');
 
@@ -207,7 +207,10 @@ describe('Facility search', () => {
       cy.injectAxe();
 
       // Invalid location search
-      cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-failed-location').as(
+      cy.route(
+        'GET',
+        '/geocoding/**/*',
+        'fx:constants/mock-failed-location',
         'failedLocation',
       );
 
@@ -252,7 +255,9 @@ describe('Facility search', () => {
 
       cy.axeCheck();
 
-      cy.get('.facility-result a').contains('Los Angeles Ambulatory Care Center');
+      cy.get('.facility-result a').contains(
+        'Los Angeles Ambulatory Care Center',
+      );
       cy.findByText(/Los Angeles Ambulatory Care Center/i, { selector: 'a' })
         .first()
         .click();
