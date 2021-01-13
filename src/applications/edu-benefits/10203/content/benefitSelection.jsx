@@ -2,7 +2,7 @@ import React from 'react';
 
 export const benefitsLabels = {
   chapter33: (
-    <p aria-label="Post-9/11 GI Bill (Chapter 33)">
+    <span aria-label="Post-9/11 GI Bill (Chapter 33)">
       Post-9/11 GI Bill (Chapter 33)
       <br />
       <a
@@ -12,11 +12,11 @@ export const benefitsLabels = {
       >
         Learn more
       </a>
-    </p>
+    </span>
   ),
   // 1995-STEM related
   fryScholarship: (
-    <p aria-label="Fry Scholarship (Chapter 33)">
+    <span aria-label="Fry Scholarship (Chapter 33)">
       Fry Scholarship (Chapter 33)
       <br />
       <a
@@ -26,10 +26,10 @@ export const benefitsLabels = {
       >
         Learn more
       </a>
-    </p>
+    </span>
   ),
   chapter30: (
-    <p aria-label="Montgomery GI Bill (MGIB-AD, Chapter 30)">
+    <span aria-label="Montgomery GI Bill (MGIB-AD, Chapter 30)">
       Montgomery GI Bill (MGIB-AD, Chapter 30)
       <br />
       <a
@@ -39,10 +39,10 @@ export const benefitsLabels = {
       >
         Learn more
       </a>
-    </p>
+    </span>
   ),
   chapter1606: (
-    <p aria-label="Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)">
+    <span aria-label="Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)">
       Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)
       <br />
       <a
@@ -52,10 +52,10 @@ export const benefitsLabels = {
       >
         Learn more
       </a>
-    </p>
+    </span>
   ),
   transferOfEntitlement: (
-    <p aria-label="Transfer of Entitlement Program (TOE)">
+    <span aria-label="Transfer of Entitlement Program (TOE)">
       Transfer of Entitlement Program (TOE)
       <br />
       <a
@@ -65,10 +65,10 @@ export const benefitsLabels = {
       >
         Learn more
       </a>
-    </p>
+    </span>
   ),
   chapter32: (
-    <p aria-label="Post-Vietnam Era Veterans’ Educational Assistance Program">
+    <span aria-label="Post-Vietnam Era Veterans’ Educational Assistance Program">
       Post-Vietnam Era Veterans’ Educational Assistance Program
       <br />
       (VEAP, Chapter 32)
@@ -80,6 +80,6 @@ export const benefitsLabels = {
       >
         Learn more
       </a>
-    </p>
+    </span>
   ),
 };
