@@ -88,7 +88,7 @@ const InputSection = ({
     registry.definitions,
   );
 
-  const titlePrefix = editing[index] === 'add' ? 'Add' : 'Edit';
+  const titlePrefix = editing && editing[index] === true ? 'Edit' : 'Add';
   const containerClassNames = classNames('item-loop', {
     'vads-u-border-bottom--1px':
       uiSchema['ui:options'].viewType === 'table' && items?.length > 1,
@@ -205,7 +205,7 @@ const ItemLoop = ({
     .filter(item => item['ui:title'] !== undefined)
     .map(item => item['ui:title']);
 
-  const [editing, setEditing] = useState([true]);
+  const [editing, setEditing] = useState(['add']);
   const [showTable, setShowTable] = useState(false);
   const [oldData, setOldData] = useState(formData);
 

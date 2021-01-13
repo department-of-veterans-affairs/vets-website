@@ -18,7 +18,7 @@ export const uiSchema = {
       expandUnder: 'hasVehicle',
       doNotScroll: true,
       showSave: true,
-      itemName: 'Add a vehicle',
+      itemName: 'a vehicle',
     },
     items: {
       vehicleType: {
