@@ -305,26 +305,24 @@ const ItemLoop = ({
     // if adding and editing set all editing vals to false except for the add row
     const conditions = [true, 'add'];
     const isEditAndAdd = conditions.every(item => editArr.includes(item));
-    let editData = null;
 
     if (isEditAndAdd) {
-      editData = editArr.map(item => (item === 'add' ? item : false));
-    } else {
-      editData = editArr.map(() => false);
+      return editArr.map(item => (item === 'add' ? item : false));
     }
-    return editData;
+    return editArr.map(() => false);
   };
 
   const handleUpdate = (e, i) => {
     e.preventDefault();
+    if (!formData) return;
 
-    const isValid = formData && Object.values(formData[i]).includes(undefined);
-    if (!formData || isValid) return;
+    const { viewType } = uiOptions;
+    if (viewType === 'table') {
+      setShowTable(true);
+    }
 
-    setShowTable(true);
     if (errorSchemaIsValid(errorSchema[i])) {
       const editData = formatEditData(editing);
-
       setEditing(editData);
       scrollToRow(`${idSchema.$id}_${i}`);
     } else {
@@ -378,17 +376,16 @@ const ItemLoop = ({
   };
 
   // use form data otherwise use an array with a single default object
-  const items =
-    formData && formData.length
-      ? formData
-      : [getDefaultFormState(schema, undefined, registry.definitions)];
+  const items = formData?.length
+    ? formData
+    : [getDefaultFormState(schema, undefined, registry.definitions)];
+
+  const addAnotherDisabled = items.length >= (schema.maxItems || Infinity);
 
   const containerClassNames = classNames({
     'item-loop-container': true,
     'schemaform-block': hasTitleOrDescription,
   });
-
-  const addAnotherDisabled = items.length >= (schema.maxItems || Infinity);
 
   return (
     <div className={containerClassNames}>
