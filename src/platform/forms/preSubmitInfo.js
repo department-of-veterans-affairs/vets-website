@@ -12,7 +12,7 @@ export default {
   ),
   field: 'privacyAgreementAccepted',
   label: (
-    <span aria-label="I have read and accept the privacy policy">
+    <span>
       I have read and accept the{' '}
       <a
         aria-label="Privacy policy, will open in new tab"
