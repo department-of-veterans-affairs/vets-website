@@ -1,37 +1,44 @@
 // Dependencies.
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 
-// Relative Imports
-
-const SelectWidget = ({ initialState, options, whatIsCurrentState }) => {
+const SelectWidget = ({ initialState, options, grabCurrentState }) => {
   const initialSortingState = initialState || (options ? options[0] : '');
 
   const [selectVal, setSelectValue] = useState(initialSortingState);
 
   function updateSelectState(e) {
-    const val = e?.target.value || options[0];
+    const val = e?.target.value;
     setSelectValue(val);
   }
 
   useEffect(
     () => {
-      if (whatIsCurrentState) whatIsCurrentState(selectVal);
+      if (grabCurrentState) grabCurrentState(selectVal);
     },
-    [whatIsCurrentState, selectVal],
+    [grabCurrentState, selectVal],
   );
 
+  if (!options || options.length === 0) return null;
+
   return (
-    <form>
+    <form className="vas-select-widget">
       <select value={selectVal} onChange={updateSelectState}>
         {options &&
           options.map((text, i) => (
-            <option key={i} value={text}>
+            <option key={i} value={text} name={text}>
               {text}
             </option>
           ))}
       </select>
     </form>
   );
+};
+
+SelectWidget.propTypes = {
+  initialState: PropTypes.string,
+  options: PropTypes.array,
+  grabCurrentState: PropTypes.func,
 };
 
 export default SelectWidget;

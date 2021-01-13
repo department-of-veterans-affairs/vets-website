@@ -113,7 +113,7 @@ const SearchResult = ({
         }
       />
 
-      <dd className="vads-u-margin-y--1 vads-u-margin-y--1">
+      <dd className="vads-u-margin-y--1 vads-u-margin-y--1 vsa-from-last-updated">
         <dfn className="vads-u-font-weight--bold">Form last updated:</dfn>{' '}
         {lastRevision}
       </dd>

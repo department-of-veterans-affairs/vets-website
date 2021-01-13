@@ -5,7 +5,6 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import { connect } from 'react-redux';
-// import moment from 'moment';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { focusElement } from 'platform/utilities/ui';
@@ -13,7 +12,6 @@ import { focusElement } from 'platform/utilities/ui';
 // Relative imports.
 import * as customPropTypes from '../prop-types';
 import { updatePaginationAction } from '../actions';
-// import { FORM_MOMENT_DATE_FORMAT } from '../constants';
 import { getFindFormsAppState, mvpEnhancements } from '../helpers/selectors';
 import SearchResult, { deriveLatestIssue } from '../components/SearchResult';
 import SelectWidget from '../widgets/SelectWidget';
@@ -42,14 +40,19 @@ export class SearchResults extends Component {
     this.sortOptions = ['Last Updated (Newest)', 'Last Updated (Oldest)'];
   }
 
+  componentDidMount() {
+    const { props, updateSortedResultsState } = this;
+    if (props.results && props.results.length > 0) updateSortedResultsState();
+  }
+
   componentDidUpdate(previousProps, previousState) {
-    const { props, state, updateState } = this;
+    const { props, state, updateSortedResultsState } = this;
     const { howToSort } = state;
     const justRefreshed = previousProps.fetching && !props.fetching;
 
     if (justRefreshed || howToSort !== previousState.howToSort) {
       focusElement('[data-forms-focus]');
-      updateState();
+      updateSortedResultsState();
     }
   }
 
@@ -70,54 +73,50 @@ export class SearchResults extends Component {
     focusElement('[data-forms-focus]');
   };
 
-  updateState = () => {
+  updateSortedResultsState = () => {
     const { props, sortTheResults } = this;
-    const clonedResults = cloneDeep(
-      (props.results && props.results.length > 0 && props.results) || [],
-    );
+    const clonedResults = cloneDeep(props.results || []);
 
-    if (clonedResults.length > 0) {
-      const sortedResults = clonedResults.sort((a, b) => sortTheResults(a, b));
-      this.setState({ sortedResults });
-    }
+    const sortedResults = clonedResults.sort((a, b) => sortTheResults(a, b));
+    this.setState({ sortedResults });
   };
 
   grabCurrentSortState = state => state && this.setState({ howToSort: state });
 
-  sortTheResults = (indexOne, indexTwo) => {
+  sortTheResults = (indexA, indexB) => {
     const [
       LAST_UPDATED_NEWEST_OPTION,
       LAST_UPDATED_OLDEST_OPTION,
     ] = this.sortOptions;
 
-    const latestTimeStampIndexOne = deriveLatestIssue(
-      indexOne.attributes.firstIssuedOn,
-      indexOne.attributes.lastRevisionOn,
+    const latestTimeStampIndexA = deriveLatestIssue(
+      indexA.attributes.firstIssuedOn,
+      indexA.attributes.lastRevisionOn,
     );
 
-    const latestTimeStampIndexTwo = deriveLatestIssue(
-      indexTwo.attributes.firstIssuedOn,
-      indexTwo.attributes.lastRevisionOn,
+    const latestTimeStampIndexB = deriveLatestIssue(
+      indexB.attributes.firstIssuedOn,
+      indexB.attributes.lastRevisionOn,
     );
 
     const newestDate = deriveLatestIssue(
-      latestTimeStampIndexOne,
-      latestTimeStampIndexTwo,
+      latestTimeStampIndexA,
+      latestTimeStampIndexB,
     );
 
     const oldestDate =
-      latestTimeStampIndexOne === newestDate
-        ? latestTimeStampIndexTwo
-        : latestTimeStampIndexOne;
+      latestTimeStampIndexA === newestDate
+        ? latestTimeStampIndexB
+        : latestTimeStampIndexA;
 
     if (this.state.howToSort === LAST_UPDATED_NEWEST_OPTION) {
-      if (newestDate === latestTimeStampIndexOne) return -1;
-      else if (newestDate === latestTimeStampIndexTwo) return 1;
+      if (newestDate === latestTimeStampIndexA) return -1;
+      else if (newestDate === latestTimeStampIndexB) return 1;
     }
 
     if (this.state.howToSort === LAST_UPDATED_OLDEST_OPTION) {
-      if (oldestDate === latestTimeStampIndexOne) return -1;
-      else if (oldestDate === latestTimeStampIndexTwo) return 1;
+      if (oldestDate === latestTimeStampIndexA) return -1;
+      else if (oldestDate === latestTimeStampIndexB) return 1;
     }
 
     return 0;
@@ -131,6 +130,7 @@ export class SearchResults extends Component {
       fetching,
       page,
       query,
+      results,
       hasOnlyRetiredForms,
       showFindFormsResultsLinkToFormDetailPages,
       startIndex,
@@ -153,7 +153,7 @@ export class SearchResults extends Component {
     }
 
     // Do not render if we have not fetched, yet.
-    if (!sortedResults) {
+    if (!results) {
       return null;
     }
 
@@ -240,7 +240,7 @@ export class SearchResults extends Component {
           <SelectWidget
             options={sortOptions}
             initialState={'Last Updated (Newest)'}
-            whatIsCurrentState={grabCurrentSortState}
+            grabCurrentState={grabCurrentSortState}
           />
         </div>
 
