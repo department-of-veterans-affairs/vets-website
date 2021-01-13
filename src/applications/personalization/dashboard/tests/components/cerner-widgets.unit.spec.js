@@ -43,7 +43,7 @@ describe('Prescriptions Widget', () => {
       name: /Go to My HealtheVet/i,
     });
     expect(ctaButton.href).to.contain(
-      'https://int.eauth.va.gov/mhv-portal-web/eauth?deeplinking=prescription_refill',
+      'https://mhv-syst.myhealth.va.gov/mhv-portal-web/web/myhealthevet/refill-prescription',
     );
   });
 });
@@ -128,7 +128,7 @@ describe('Secure Messaging Widget', () => {
       name: /Go to My HealtheVet/i,
     });
     expect(ctaButton.href).to.contain(
-      'https://int.eauth.va.gov/mhv-portal-web/eauth?deeplinking=secure_messaging',
+      'https://mhv-syst.myhealth.va.gov/mhv-portal-web/secure-messaging',
     );
   });
 });

@@ -158,6 +158,7 @@ function VAFacilityPageV2({
         <SingleFacilityEligibilityCheckMessage
           eligibility={eligibility}
           facility={selectedFacility}
+          typeOfCare={typeOfCare}
         />
         <div className="vads-u-margin-top--2">
           <FormButtons
@@ -308,6 +309,7 @@ function VAFacilityPageV2({
           onClose={hideEligibilityModal}
           eligibility={eligibility}
           facilityDetails={selectedFacility}
+          typeOfCare={typeOfCare}
         />
       )}
     </div>
