@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
@@ -6,13 +6,10 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
 import * as actions from '../redux/actions';
 import {
-  selectFeatureCancel,
   selectFeatureRequests,
-  selectFeaturePastAppointments,
   selectIsCernerOnlyPatient,
 } from '../../redux/selectors';
 import {
-  selectExpressCareAvailability,
   selectFutureStatus,
   selectUpcomingAppointments,
 } from '../redux/selectors';
@@ -32,17 +29,17 @@ function UpcomingAppointmentsList({
   appointmentsByMonth,
   futureStatus,
   facilityData,
-  // fetchFutureAppointments,
+  fetchFutureAppointments,
   startNewAppointmentFlow,
 }) {
-  // useEffect(
-  //   () => {
-  //     if (!expressCare.enabled && futureStatus === FETCH_STATUS.notStarted) {
-  //       fetchFutureAppointments();
-  //     }
-  //   },
-  //   [expressCare.enabled, fetchFutureAppointments, futureStatus],
-  // );
+  useEffect(
+    () => {
+      if (futureStatus === FETCH_STATUS.notStarted) {
+        fetchFutureAppointments();
+      }
+    },
+    [fetchFutureAppointments, futureStatus],
+  );
 
   if (futureStatus === FETCH_STATUS.loading) {
     return (
@@ -119,22 +116,16 @@ UpcomingAppointmentsList.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    requestMessages: state.appointments.requestMessages,
     facilityData: state.appointments.facilityData,
     futureStatus: selectFutureStatus(state),
     appointmentsByMonth: selectUpcomingAppointments(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
-    showCancelButton: selectFeatureCancel(state),
-    showPastAppointments: selectFeaturePastAppointments(state),
     showScheduleButton: selectFeatureRequests(state),
-    expressCare: selectExpressCareAvailability(state),
   };
 }
 
 const mapDispatchToProps = {
-  cancelAppointment: actions.cancelAppointment,
   fetchFutureAppointments: actions.fetchFutureAppointments,
-  fetchRequestMessages: actions.fetchRequestMessages,
   startNewAppointmentFlow: actions.startNewAppointmentFlow,
 };
 
