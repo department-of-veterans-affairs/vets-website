@@ -33,9 +33,12 @@ export const deriveLatestIssue = (d1, d2) => {
   if (!d1) return moment(d2).format(FORM_MOMENT_DATE_FORMAT); // null scenarios
   if (!d2) return moment(d1).format(FORM_MOMENT_DATE_FORMAT);
 
-  if (moment(d1).isAfter(d2)) return moment(d1).format(FORM_MOMENT_DATE_FORMAT);
+  const date1Formatted = moment(d1).format(FORM_MOMENT_DATE_FORMAT);
+  const date2Formatted = moment(d2).format(FORM_MOMENT_DATE_FORMAT);
 
-  return moment(d2).format(FORM_MOMENT_DATE_FORMAT);
+  if (moment(date1Formatted).isAfter(date2Formatted)) return date1Formatted;
+
+  return date2Formatted;
 };
 
 const recordGAEventHelper = ({

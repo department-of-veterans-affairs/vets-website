@@ -5,14 +5,18 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import { connect } from 'react-redux';
+// import moment from 'moment';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { focusElement } from 'platform/utilities/ui';
 
 // Relative imports.
 import * as customPropTypes from '../prop-types';
 import { updatePaginationAction } from '../actions';
+// import { FORM_MOMENT_DATE_FORMAT } from '../constants';
 import { getFindFormsAppState, mvpEnhancements } from '../helpers/selectors';
-import SearchResult from '../components/SearchResult';
+import SearchResult, { deriveLatestIssue } from '../components/SearchResult';
+import SelectWidget from '../widgets/SelectWidget';
 
 export const MAX_PAGE_LIST_LENGTH = 10;
 
@@ -31,11 +35,21 @@ export class SearchResults extends Component {
     updatePagination: PropTypes.func.isRequired,
   };
 
-  componentDidUpdate(previousProps) {
-    const justRefreshed = previousProps.fetching && !this.props.fetching;
+  constructor(props) {
+    super(props);
 
-    if (justRefreshed) {
+    this.state = { howToSort: '', sortedResults: [] };
+    this.sortOptions = ['Last Updated (Newest)', 'Last Updated (Oldest)'];
+  }
+
+  componentDidUpdate(previousProps, previousState) {
+    const { props, state, updateState } = this;
+    const { howToSort } = state;
+    const justRefreshed = previousProps.fetching && !props.fetching;
+
+    if (justRefreshed || howToSort !== previousState.howToSort) {
       focusElement('[data-forms-focus]');
+      updateState();
     }
   }
 
@@ -56,14 +70,67 @@ export class SearchResults extends Component {
     focusElement('[data-forms-focus]');
   };
 
+  updateState = () => {
+    const { props, sortTheResults } = this;
+    const clonedResults = cloneDeep(
+      (props.results && props.results.length > 0 && props.results) || [],
+    );
+
+    if (clonedResults.length > 0) {
+      const sortedResults = clonedResults.sort((a, b) => sortTheResults(a, b));
+      this.setState({ sortedResults });
+    }
+  };
+
+  grabCurrentSortState = state => state && this.setState({ howToSort: state });
+
+  sortTheResults = (indexOne, indexTwo) => {
+    const [
+      LAST_UPDATED_NEWEST_OPTION,
+      LAST_UPDATED_OLDEST_OPTION,
+    ] = this.sortOptions;
+
+    const latestTimeStampIndexOne = deriveLatestIssue(
+      indexOne.attributes.firstIssuedOn,
+      indexOne.attributes.lastRevisionOn,
+    );
+
+    const latestTimeStampIndexTwo = deriveLatestIssue(
+      indexTwo.attributes.firstIssuedOn,
+      indexTwo.attributes.lastRevisionOn,
+    );
+
+    const newestDate = deriveLatestIssue(
+      latestTimeStampIndexOne,
+      latestTimeStampIndexTwo,
+    );
+
+    const oldestDate =
+      latestTimeStampIndexOne === newestDate
+        ? latestTimeStampIndexTwo
+        : latestTimeStampIndexOne;
+
+    if (this.state.howToSort === LAST_UPDATED_NEWEST_OPTION) {
+      if (newestDate === latestTimeStampIndexOne) return -1;
+      else if (newestDate === latestTimeStampIndexTwo) return 1;
+    }
+
+    if (this.state.howToSort === LAST_UPDATED_OLDEST_OPTION) {
+      if (oldestDate === latestTimeStampIndexOne) return -1;
+      else if (oldestDate === latestTimeStampIndexTwo) return 1;
+    }
+
+    return 0;
+  };
+
   render() {
-    const { onPageSelect } = this;
+    const { onPageSelect, grabCurrentSortState, sortOptions, state } = this;
+    const { sortedResults } = state;
     const {
       error,
       fetching,
       page,
       query,
-      results,
       hasOnlyRetiredForms,
       showFindFormsResultsLinkToFormDetailPages,
       startIndex,
@@ -86,7 +153,7 @@ export class SearchResults extends Component {
     }
 
     // Do not render if we have not fetched, yet.
-    if (!results) {
+    if (!sortedResults) {
       return null;
     }
 
@@ -104,7 +171,7 @@ export class SearchResults extends Component {
       );
 
     // Show no results found message.
-    if (!results.length) {
+    if (!sortedResults.length) {
       return (
         <h2
           className="vads-u-font-size--base vads-u-line-height--3 vads-u-font-family--sans
@@ -132,19 +199,19 @@ export class SearchResults extends Component {
     // Derive the display labels.
     const startLabel = startIndex + 1;
     const lastLabel =
-      lastIndex + 1 > results.length ? results.length : lastIndex;
+      lastIndex + 1 > sortedResults.length ? sortedResults.length : lastIndex;
 
     // Derive the total number of pages.
-    const totalPages = Math.ceil(results.length / MAX_PAGE_LIST_LENGTH);
+    const totalPages = Math.ceil(sortedResults.length / MAX_PAGE_LIST_LENGTH);
 
     const formMetaInfo = {
       query,
       currentPage: page,
-      totalResultsCount: results.length,
+      totalResultsCount: sortedResults.length,
       totalResultsPages: totalPages,
     };
 
-    const searchResults = results
+    const searchResults = sortedResults
       .slice(startIndex, lastIndex)
       .map((form, index) => (
         <SearchResult
@@ -159,19 +226,28 @@ export class SearchResults extends Component {
 
     return (
       <>
-        <h2
-          className="vads-u-font-size--base vads-u-line-height--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--1p5"
-          data-forms-focus
-        >
-          Showing <strong>{startLabel}</strong> &ndash;{' '}
-          <strong>{lastLabel}</strong> of <strong>{results.length}</strong>{' '}
-          results for "<strong>{query}</strong>"
-        </h2>
+        <div className="vads-u-display--flex vads-u-justify-content--space-between">
+          <h2
+            className="vads-u-font-size--base vads-u-line-height--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--1p5"
+            data-forms-focus
+          >
+            Showing <strong>{startLabel}</strong> &ndash;{' '}
+            <strong>{lastLabel}</strong> of{' '}
+            <strong>{sortedResults.length}</strong> results for "
+            <strong>{query}</strong>"
+          </h2>
+
+          <SelectWidget
+            options={sortOptions}
+            initialState={'Last Updated (Newest)'}
+            whatIsCurrentState={grabCurrentSortState}
+          />
+        </div>
 
         <dl className="vads-l-grid-container--full">{searchResults}</dl>
 
         {/* Pagination Row */}
-        {results.length > MAX_PAGE_LIST_LENGTH && (
+        {sortedResults.length > MAX_PAGE_LIST_LENGTH && (
           <Pagination
             className="find-va-froms-pagination-override"
             maxPageListLength={MAX_PAGE_LIST_LENGTH}
