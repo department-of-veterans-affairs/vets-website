@@ -124,13 +124,6 @@ module.exports = env => {
       ? `${BUCKETS[buildOptions.buildtype]}/generated/`
       : '/generated/';
 
-  /* eslint-disable no-console */
-  console.log('-------------------------');
-  console.log('publicAssetPath');
-  console.log(publicAssetPath);
-  console.log('-------------------------');
-  /* eslint-enable no-console */
-
   const baseConfig = {
     mode: 'development',
     entry: entryFiles,
