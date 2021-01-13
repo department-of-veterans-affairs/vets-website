@@ -47,11 +47,20 @@ class Dropdown extends React.Component {
           disabled={this.props.disabled}
           onFocus={this.props.onFocus.bind(this, this.dropdownId)}
         >
-          {this.props.options.map(({ value, label }) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
+          {this.props.options.map(
+            ({ value, label }) =>
+              label && (
+                <option
+                  key={value}
+                  value={value}
+                  style={{
+                    fontWeight: value === this.props.value ? 'bold' : 'normal',
+                  }}
+                >
+                  {label}
+                </option>
+              ),
+          )}
         </select>
       </div>
     );
