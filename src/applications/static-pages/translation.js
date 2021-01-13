@@ -1,7 +1,7 @@
 import i18Content from './i18Content.json';
 import recordEvent from 'platform/monitoring/record-event';
 
-const setLang = (e, currentLang, targetLang) => {
+const configureTranslationLink = (e, currentLang, targetLang) => {
   const contentDiv = document.getElementById('content');
   contentDiv.lang = currentLang;
   e.dataset.lang = currentLang;
@@ -13,7 +13,7 @@ const setLang = (e, currentLang, targetLang) => {
   });
 };
 
-const setLanguageAndParseChildLinks = () => {
+const displayTranslationLink = () => {
   const i18LinkWrapper = document.getElementById('i18-link-wrapper');
   if (!i18LinkWrapper) return;
   const isSpanish = window.location.href.includes('-esp');
@@ -35,12 +35,12 @@ const setLanguageAndParseChildLinks = () => {
   const i18link = document.querySelector('a.i18-toggle');
 
   if (!isSpanish) {
-    setLang(i18link, 'en', 'es');
+    configureTranslationLink(i18link, 'en', 'es');
   } else {
-    setLang(i18link, 'es', 'en');
+    configureTranslationLink(i18link, 'es', 'en');
   }
 };
 
-window.addEventListener('popstate', setLanguageAndParseChildLinks);
+window.addEventListener('popstate', displayTranslationLink);
 export default () =>
-  document.addEventListener('DOMContentLoaded', setLanguageAndParseChildLinks);
+  document.addEventListener('DOMContentLoaded', displayTranslationLink);
