@@ -56,6 +56,7 @@ export const bankInfoHelpText = (
         <li>
           Apply at{' '}
           <a
+            aria-label="www.usdirectexpress.com, opening in new tab"
             href="https://www.usdirectexpress.com/"
             target="_blank"
             rel="noopener noreferrer"

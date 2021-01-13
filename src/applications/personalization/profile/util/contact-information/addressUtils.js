@@ -1,22 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import pickBy from 'lodash/pickBy';
-
 import {
-  API_ROUTES,
   FIELD_NAMES,
+  USA,
   ADDRESS_FORM_VALUES,
   ADDRESS_TYPES,
   ADDRESS_POU,
-  USA,
 } from '@@vap-svc/constants';
-
-import ContactInformationField from '../ContactInformationField';
-
-import {
-  getFormSchema,
-  getUiSchema,
-} from '@@vap-svc/components/AddressField/address-schemas';
+import pickBy from 'lodash/pickBy';
 
 const inferAddressType = (countryCodeIso3, stateCode) => {
   let addressType = ADDRESS_TYPES.DOMESTIC;
@@ -29,7 +18,7 @@ const inferAddressType = (countryCodeIso3, stateCode) => {
   return addressType;
 };
 
-const convertNextValueToCleanData = value => {
+const addressConvertNextValueToCleanData = value => {
   const {
     id,
     addressLine1,
@@ -69,8 +58,8 @@ const convertNextValueToCleanData = value => {
   };
 };
 
-export const convertCleanDataToPayload = (data, fieldName) => {
-  const cleanData = convertNextValueToCleanData(data);
+export const addressConvertCleanDataToPayload = (data, fieldName) => {
+  const cleanData = addressConvertNextValueToCleanData(data);
   return pickBy(
     {
       id: cleanData.id,
@@ -92,29 +81,3 @@ export const convertCleanDataToPayload = (data, fieldName) => {
     e => !!e,
   );
 };
-
-function AddressField({ title, fieldName, deleteDisabled }) {
-  return (
-    <ContactInformationField
-      title={title}
-      fieldName={fieldName}
-      apiRoute={API_ROUTES.ADDRESSES}
-      convertCleanDataToPayload={convertCleanDataToPayload}
-      deleteDisabled={deleteDisabled}
-      formSchema={getFormSchema()}
-      uiSchema={getUiSchema()}
-      type="address"
-    />
-  );
-}
-
-AddressField.propTypes = {
-  title: PropTypes.string.isRequired,
-  deleteDisabled: PropTypes.bool,
-  fieldName: PropTypes.oneOf([
-    FIELD_NAMES.MAILING_ADDRESS,
-    FIELD_NAMES.RESIDENTIAL_ADDRESS,
-  ]).isRequired,
-};
-
-export default AddressField;

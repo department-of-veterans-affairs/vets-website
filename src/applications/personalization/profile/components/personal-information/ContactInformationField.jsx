@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { focusElement } from '~/platform/utilities/ui';
 import recordEvent from '~/platform/monitoring/record-event';
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
@@ -34,15 +33,19 @@ import {
 
 import { isVAPatient } from '~/platform/user/selectors';
 
-import { FIELD_NAMES } from '@@vap-svc/constants';
+import { ACTIVE_EDIT_VIEWS, FIELD_NAMES } from '@@vap-svc/constants';
 import VAPServiceTransaction from '@@vap-svc/components/base/VAPServiceTransaction';
 import AddressValidationView from '@@vap-svc/containers/AddressValidationView';
 
 import ContactInformationEditView from '@@profile/components/personal-information/ContactInformationEditView';
 import ContactInformationView from '@@profile/components/personal-information/ContactInformationView';
 
-import { getInitialFormValues } from '@@profile/util/contact-information';
-import ContactInformationEditButton from './ContactInformationEditButton';
+import { getInitialFormValues } from '@@profile/util/contact-information/formValues';
+
+import getContactInfoFieldAttributes from '~/applications/personalization/profile/util/contact-information/getContactInfoFieldAttributes';
+
+import CannotEditModal from './CannotEditModal';
+import ConfirmCancelModal from './ConfirmCancelModal';
 
 const wrapperClasses = prefixUtilityClasses([
   'display--flex',
@@ -72,16 +75,30 @@ const classes = {
 
 class ContactInformationField extends React.Component {
   static propTypes = {
+    activeEditView: PropTypes.string,
+    analyticsSectionName: PropTypes.oneOf(
+      Object.values(VAP_SERVICE.ANALYTICS_FIELD_MAP),
+    ).isRequired,
+    blockEditMode: PropTypes.bool.isRequired,
+    clearTransactionRequest: PropTypes.func.isRequired,
+    createTransaction: PropTypes.func.isRequired,
     data: PropTypes.object,
-    field: PropTypes.object,
-    fieldName: PropTypes.string.isRequired,
-    isEmpty: PropTypes.bool.isRequired,
     editViewData: PropTypes.object,
+    field: PropTypes.object,
+    fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES))
+      .isRequired,
+    hasUnsavedEdits: PropTypes.bool.isRequired,
+    isEmpty: PropTypes.bool.isRequired,
+    openModal: PropTypes.func.isRequired,
+    refreshTransaction: PropTypes.func.isRequired,
     showEditView: PropTypes.bool.isRequired,
     showSMSCheckBox: PropTypes.bool,
-    title: PropTypes.string.isRequired,
+    showValidationView: PropTypes.bool.isRequired,
+    title: PropTypes.string,
     transaction: PropTypes.object,
     transactionRequest: PropTypes.object,
+    updateFormFieldWithSchema: PropTypes.func.isRequired,
+    validateAddress: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -127,11 +144,6 @@ class ContactInformationField extends React.Component {
     }
   }
 
-  onAdd = () => {
-    this.captureEvent('add-link');
-    this.openEditModal();
-  };
-
   onCancel = () => {
     this.captureEvent('cancel-button');
 
@@ -143,70 +155,13 @@ class ContactInformationField extends React.Component {
     this.setState({ showConfirmCancelModal: true });
   };
 
-  onChangeFormDataAndSchemas = (value, schema, uiSchema) => {
-    this.props.updateFormFieldWithSchema(
-      this.props.fieldName,
-      value,
-      schema,
-      uiSchema,
-    );
-  };
-
-  onDelete = () => {
-    let payload = this.props.data;
-    if (this.props.convertCleanDataToPayload) {
-      payload = this.props.convertCleanDataToPayload(
-        payload,
-        this.props.fieldName,
-      );
-    }
-    this.props.createTransaction(
-      this.props.apiRoute,
-      'DELETE',
-      this.props.fieldName,
-      payload,
-      this.props.analyticsSectionName,
-    );
+  clearErrors = () => {
+    this.props.clearTransactionRequest(this.props.fieldName);
   };
 
   onEdit = () => {
     this.captureEvent('edit-link');
     this.openEditModal();
-  };
-
-  onSubmit = () => {
-    if (!this.props.fieldName.toLowerCase().includes('address')) {
-      this.captureEvent('update-button');
-    }
-
-    let payload = this.props.field.value;
-    if (this.props.convertCleanDataToPayload) {
-      payload = this.props.convertCleanDataToPayload(
-        payload,
-        this.props.fieldName,
-      );
-    }
-
-    const method = payload.id ? 'PUT' : 'POST';
-
-    if (this.props.fieldName.toLowerCase().includes('address')) {
-      this.props.validateAddress(
-        this.props.apiRoute,
-        method,
-        this.props.fieldName,
-        payload,
-        this.props.analyticsSectionName,
-      );
-      return;
-    }
-
-    this.props.createTransaction(
-      this.props.apiRoute,
-      method,
-      this.props.fieldName,
-      payload,
-      this.props.analyticsSectionName,
-    );
   };
 
   justClosedModal(prevProps, props) {
@@ -225,10 +180,6 @@ class ContactInformationField extends React.Component {
     );
   }
 
-  clearErrors = () => {
-    this.props.clearTransactionRequest(this.props.fieldName);
-  };
-
   closeModal = () => {
     this.props.openModal(null);
   };
@@ -241,7 +192,7 @@ class ContactInformationField extends React.Component {
     }
   };
 
-  refreshTransaction = () => {
+  refreshTransactionNotProps = () => {
     this.props.refreshTransaction(
       this.props.transaction,
       this.props.analyticsSectionName,
@@ -268,7 +219,6 @@ class ContactInformationField extends React.Component {
       title,
       transaction,
       transactionRequest,
-      type,
       data,
     } = this.props;
 
@@ -284,7 +234,7 @@ class ContactInformationField extends React.Component {
           title={title}
           transaction={transaction}
           transactionRequest={transactionRequest}
-          refreshTransaction={this.refreshTransaction}
+          refreshTransaction={this.refreshTransactionNotProps}
         >
           {children}
         </VAPServiceTransaction>
@@ -294,15 +244,19 @@ class ContactInformationField extends React.Component {
     // default the content to the read-view
     let content = wrapInTransaction(
       <div className={classes.wrapper}>
-        <ContactInformationView data={data} type={type} fieldName={fieldName} />
+        <ContactInformationView data={data} fieldName={fieldName} />
 
         {this.isEditLinkVisible() && (
-          <ContactInformationEditButton
-            onEditClick={this.onEdit}
-            fieldName={fieldName}
-            title={title}
+          <button
+            aria-label={`Edit ${title}`}
+            type="button"
+            data-action="edit"
+            onClick={this.onEdit}
+            id={`${fieldName}-edit-link`}
             className={classes.editButton}
-          />
+          >
+            Edit
+          </button>
         )}
       </div>,
     );
@@ -311,7 +265,10 @@ class ContactInformationField extends React.Component {
       content = wrapInTransaction(
         <button
           type="button"
-          onClick={this.onAdd}
+          onClick={() => {
+            this.captureEvent('add-link');
+            this.openEditModal();
+          }}
           className="va-button-link va-profile-btn"
           id={`${fieldName}-edit-link`}
         >
@@ -323,33 +280,17 @@ class ContactInformationField extends React.Component {
     if (showEditView) {
       content = (
         <ContactInformationEditView
-          analyticsSectionName={this.props.analyticsSectionName}
-          clearErrors={this.clearErrors}
-          deleteDisabled={this.props.deleteDisabled}
-          field={this.props.field}
-          fieldName={this.props.fieldName}
-          formSchema={this.props.formSchema}
           getInitialFormValues={() =>
             getInitialFormValues({
-              type: this.props.type,
+              fieldName,
               data: this.props.data,
               showSMSCheckbox: this.props.showSMSCheckbox,
               editViewData: this.props.editViewData,
             })
           }
-          hasUnsavedEdits={this.props.hasUnsavedEdits}
           hasValidationError={this.props.hasValidationError}
-          isEmpty={this.props.isEmpty}
           onCancel={this.onCancel}
-          onChangeFormDataAndSchemas={this.onChangeFormDataAndSchemas}
-          onDelete={this.onDelete}
-          onSubmit={this.onSubmit}
-          refreshTransaction={this.refreshTransaction}
-          title={this.props.title}
-          transaction={this.props.transaction}
-          transactionRequest={this.props.transactionRequest}
-          uiSchema={this.props.uiSchema}
-          type={this.props.type}
+          fieldName={this.props.fieldName}
         />
       );
     }
@@ -357,7 +298,7 @@ class ContactInformationField extends React.Component {
     if (showValidationView) {
       content = (
         <AddressValidationView
-          refreshTransaction={this.refreshTransaction}
+          refreshTransaction={this.refreshTransactionNotProps}
           transaction={transaction}
           transactionRequest={transactionRequest}
           title={title}
@@ -372,56 +313,18 @@ class ContactInformationField extends React.Component {
         data-field-name={fieldName}
         data-testid={fieldName}
       >
-        <Modal
-          title={'Are you sure?'}
-          status="warning"
-          visible={this.state.showConfirmCancelModal}
-          onClose={() => {
-            this.setState({ showConfirmCancelModal: false });
-          }}
-        >
-          <p>
-            {`You haven’t finished editing your ${activeSection}. If you cancel, your in-progress work won’t be saved.`}
-          </p>
-          <button
-            className="usa-button-secondary"
-            onClick={() => {
-              this.setState({ showConfirmCancelModal: false });
-            }}
-          >
-            Continue Editing
-          </button>
-          <button
-            onClick={() => {
-              this.setState({ showConfirmCancelModal: false });
-              this.closeModal();
-            }}
-          >
-            Cancel
-          </button>
-        </Modal>
+        <ConfirmCancelModal
+          activeSection={activeSection}
+          closeModal={this.closeModal}
+          onHide={() => this.setState({ showConfirmCancelModal: false })}
+          isVisible={this.state.showConfirmCancelModal}
+        />
 
-        <Modal
-          title={`You’re currently editing your ${activeSection}`}
-          status="warning"
-          visible={this.state.showCannotEditModal}
-          onClose={() => {
-            this.setState({ showCannotEditModal: false });
-          }}
-        >
-          <p>
-            Please go back and save or cancel your work before editing a new
-            section of your profile. If you cancel, your in-progress work won’t
-            be saved.
-          </p>
-          <button
-            onClick={() => {
-              this.setState({ showCannotEditModal: false });
-            }}
-          >
-            OK
-          </button>
-        </Modal>
+        <CannotEditModal
+          activeSection={activeSection}
+          onHide={() => this.setState({ showCannotEditModal: false })}
+          isVisible={this.state.showCannotEditModal}
+        />
 
         {content}
       </div>
@@ -441,11 +344,12 @@ export const mapStateToProps = (state, ownProps) => {
   const activeEditView = selectCurrentlyOpenEditModal(state);
   const showValidationView =
     addressValidationType === fieldName &&
-    // TODO: use a constant for 'addressValidation'
-    activeEditView === 'addressValidation';
+    activeEditView === ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION;
   const isEnrolledInVAHealthCare = isVAPatient(state);
   const showSMSCheckbox =
     ownProps.fieldName === FIELD_NAMES.MOBILE_PHONE && isEnrolledInVAHealthCare;
+
+  const { title } = getContactInfoFieldAttributes(fieldName);
   return {
     hasUnsavedEdits: state.vapService.hasUnsavedEdits,
     analyticsSectionName: VAP_SERVICE.ANALYTICS_FIELD_MAP[fieldName],
@@ -458,7 +362,7 @@ export const mapStateToProps = (state, ownProps) => {
     validation view or not.
     */
     activeEditView:
-      activeEditView === 'addressValidation'
+      activeEditView === ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION
         ? addressValidationType
         : activeEditView,
     data,
@@ -471,6 +375,7 @@ export const mapStateToProps = (state, ownProps) => {
     transactionRequest,
     editViewData: selectEditViewData(state),
     showSMSCheckbox,
+    title,
   };
 };
 
@@ -483,25 +388,10 @@ const mapDispatchToProps = {
   validateAddress,
 };
 
-/**
- * Container used to easily create components for VA Profile-backed contact information.
- * @property {string} fieldName The name of the property as it appears in the user.profile.vapContactInfo object.
- * @property {string} title The field name converted to a visible display, such as for labels, modal titles, etc. Example: "mailingAddress" passes "Mailing address" as the title.
- * @property {string} apiRoute The API route used to create/update/delete the VA Profile contact info field.
- * @property {func} [convertCleanDataToPayload] An optional function used to convert the clean edited data to a payload for sending to the API. Used to remove any values (especially falsy) that may cause errors in the VA Profile service.
- */
 const ContactInformationFieldContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ContactInformationField);
-
-ContactInformationFieldContainer.propTypes = {
-  fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
-  title: PropTypes.string.isRequired,
-  apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
-  convertCleanDataToPayload: PropTypes.func,
-  hasUnsavedEdits: PropTypes.bool,
-};
 
 export default ContactInformationFieldContainer;
 export { ContactInformationField };
