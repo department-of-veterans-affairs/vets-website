@@ -49,88 +49,80 @@
           <div class="medium-screen:vads-u-border-bottom--2px vads-u-border-color--gray-light medium-screen:vads-u-margin-bottom--3">
             {% include "src/site/includes/support_resources_search_bar.drupal.liquid" %}
           </div>
-
-          <div class="usa-alert usa-alert-info" role="alert">
-            <div class="usa-alert-body">
-                <h3 class="usa-alert-heading">
-                    We're currently in beta testing
-                </h3>
-                <div class="processed-content">
-                  <div itemprop="text">
-                    <p>Welcome to resources and support, a new part of <a href="/">VA.gov</a>. We'll be adding more articles and topics in the weeks and months ahead, so please check back often.</p>
-                  </div>
-                </div>
-            </div>
-          </div>
-
-          {% comment %}
-            On hold until we have a large set of audience-types
-          {% endcomment %}
-          {% if buildtype != 'vagovprod' %}
-
-            {% if audienceTags.length > 0 %}
-              <h2>Browse by audience</h2>
-              <ul class="usa-unstyled-list">
-
-                {% assign pageSize = 5 %}
-
-                {% for audienceTag in audienceTags %}
-                  {% if forloop.index <= pageSize %}
-                    <li class="vads-u-margin-y--2">
-                      <a class="vads-u-font-weight--bold vads-u-text-decoration--none" href="{{ audienceTag.path.alias }}/">
-                        {{ audienceTag.name }}
-                        <i role="presentation" aria-hidden="true" class="fa fa-chevron-right vads-u-margin-left--1"> </i>
-                      </a>
-                    </li>
-                  {% endif %}
-                {% endfor %}
-
-                {% if audienceTags.length > pageSize %}
-                  <div class="form-expanding-group additional-info-container vads-u-margin-y--2p5">
-                    <div class="additional-info-title">Show more</div>
-                    {% assign remainingAudienceTags = audienceTags | sliceArrayFromStart: pageSize %}
-                    <span>
-                        <div class="additional-info-content">
-                          <ul class="usa-unstyled-list">
-                            {% for audienceTag in remainingAudienceTags %}
-                              <li class="vads-u-margin-y--2">
-                                <a class="vads-u-font-weight--bold vads-u-text-decoration--none" href="{{ audienceTag.path.alias }}/">
-                                  {{ audienceTag.name }}
-                                  <i role="presentation" aria-hidden="true" class="fa fa-chevron-right vads-u-margin-left--1"> </i>
-                                </a>
-                              </li>
-                            {% endfor %}
-                          </ul>
-                        </div>
-                    </span>
-                </div>
-              {% endif %}
-            {% endif %}
-
-          {% endif %}
-
-          <!-- Content blocks -->
-          {% for block in fieldContentBlock %}
-            {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
-            {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
-            {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
-          {% endfor %}
-
-          <!-- Repeated buttons -->
-          {% if fieldButtonsRepeat %}
-            <div class="vads-u-margin-top--3">
-              {% for fieldButton in fieldButtons %}
-                {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
-              {% endfor %}
-            </div>
-          {% endif %}
         </article>
+      </div>
 
-        <!-- Last Updated -->
-        <div class="last-updated usa-content">
-          Last updated: <time
-            datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
-        </div>
+      {% comment %}
+        On hold until we have a large set of audience-types
+      {% endcomment %}
+      {% if buildtype != 'vagovprod' %}
+
+        {% if audienceTags.length > 0 %}
+          <h2>Browse by audience</h2>
+          <ul class="usa-unstyled-list">
+
+            {% assign pageSize = 5 %}
+
+            {% for audienceTag in audienceTags %}
+              {% if forloop.index <= pageSize %}
+                <li class="vads-u-margin-y--2">
+                  <a class="vads-u-font-weight--bold vads-u-text-decoration--none" href="{{ audienceTag.path.alias }}/">
+                    {{ audienceTag.name }} <i role="presentation" aria-hidden="true" class="fa fa-chevron-right vads-u-margin-left--1"></i>
+                  </a>
+                </li>
+              {% endif %}
+            {% endfor %}
+
+            {% if audienceTags.length > pageSize %}
+              <div class="form-expanding-group additional-info-container vads-u-margin-y--2p5">
+                <div class="additional-info-title">Show more</div>
+
+                {% assign remainingAudienceTags = audienceTags | sliceArrayFromStart: pageSize %}
+
+                <span>
+                  <div class="additional-info-content">
+                    <ul class="usa-unstyled-list">
+                      {% for audienceTag in remainingAudienceTags %}
+                        <li class="vads-u-margin-y--2">
+                          <a class="vads-u-font-weight--bold vads-u-text-decoration--none" href="{{ audienceTag.path.alias }}/">
+                            {{ audienceTag.name }}
+                            <i role="presentation" aria-hidden="true" class="fa fa-chevron-right vads-u-margin-left--1"> </i>
+                          </a>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </span>
+              </div>
+            {% endif %}
+          </ul>
+        {% endif %}
+      {% endif %}
+
+      <!-- Content blocks -->
+      <article class="vads-u-padding-bottom--4">
+        {% for block in fieldContentBlock %}
+          {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
+          {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
+          {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
+        {% endfor %}
+      </article>
+
+      <div class="usa-width-three-fourths">
+        <!-- Repeated buttons -->
+        {% if fieldButtonsRepeat %}
+          <div class="vads-u-margin-top--3">
+            {% for fieldButton in fieldButtons %}
+              {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Last Updated -->
+      <div class="last-updated usa-content">
+        Last updated: <time
+          datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
       </div>
     </div>
   </main>

@@ -17,33 +17,6 @@ const pageTitle = 'Select First Date';
 const missingDateError =
   'Please choose your preferred date and time for your appointment.';
 
-export function getOptionsByDate(
-  selectedDate,
-  timezoneDescription,
-  availableSlots = [],
-) {
-  return availableSlots.reduce((acc, slot) => {
-    if (slot.start.split('T')[0] === selectedDate) {
-      let time = moment(slot.start);
-      if (slot.start.endsWith('Z')) {
-        time = time.tz(timezoneDescription);
-      }
-      const meridiem = time.format('A');
-      const screenReaderMeridiem = meridiem.replace(/\./g, '').toUpperCase();
-      acc.push({
-        value: slot.start,
-        label: (
-          <>
-            {time.format('h:mm')} <span aria-hidden="true">{meridiem}</span>{' '}
-            <span className="sr-only">{screenReaderMeridiem}</span>
-          </>
-        ),
-      });
-    }
-    return acc;
-  }, []);
-}
-
 function ErrorMessage({ facilityId }) {
   return (
     <div aria-atomic="true" aria-live="assertive">
@@ -97,7 +70,6 @@ function goForward({
 
 export function SelectDate2Page({
   appointmentSlotsStatus,
-  availableDates,
   availableSlots,
   data,
   facilityId,
@@ -153,15 +125,14 @@ export function SelectDate2Page({
       )}
       <CalendarWidget
         maxSelections={1}
-        availableDates={availableDates}
+        availableSlots={availableSlots}
         value={selectedDates2}
         additionalOptions={{
           fieldName: 'datetime',
           required: true,
-          maxSelections: 1,
-          getOptionsByDate: selectedDate =>
-            getOptionsByDate(selectedDate, timezone, availableSlots),
         }}
+        id="dateTime"
+        timezone={timezoneDescription}
         loadingStatus={appointmentSlotsStatus}
         loadingErrorMessage={<ErrorMessage facilityId={facilityId} />}
         onChange={dates => {

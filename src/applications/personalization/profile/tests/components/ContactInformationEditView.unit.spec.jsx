@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
-import ContactInformationEditView from '@@profile/components/personal-information/ContactInformationEditView';
+import { ContactInformationEditView } from '@@profile/components/personal-information/ContactInformationEditView';
 
 describe('<ContactInformationEditView/>', () => {
   let props = null;
@@ -35,8 +35,15 @@ describe('<ContactInformationEditView/>', () => {
 
   beforeEach(() => {
     props = {
+      activeEditView: 'email',
       analyticsSectionName: 'some-field',
+      apiRoute: 'string',
       clearErrors() {},
+      convertCleanDataToPayload() {},
+      data: null,
+      editViewData: null,
+      fieldName: 'email',
+      formSchema: {},
       getInitialFormValues() {},
       field: {
         value: {},
@@ -44,17 +51,21 @@ describe('<ContactInformationEditView/>', () => {
         formSchema,
         uiSchema,
       },
+      hasUnsavedEdits: true,
       isEmpty() {},
       onBlur() {},
-      onCancel() {},
       onChangeFormDataAndSchemas() {},
-      onDelete() {},
-      onSubmit() {},
       title: 'Edit Some Field',
       transaction: null,
       transactionRequest: null,
       uiSchema: {},
-      formSchema: {},
+
+      // from mapDispatchToProps
+      clearTransactionRequest() {},
+      createTransaction() {},
+      updateFormFieldWithSchema() {},
+      validateAddress() {},
+      refreshTransaction() {},
     };
   });
 
@@ -62,14 +73,8 @@ describe('<ContactInformationEditView/>', () => {
     const initialFormValues = { someField: 'someFieldValue' };
 
     sinon.stub(props, 'getInitialFormValues').returns(initialFormValues);
-    sinon.stub(props, 'onChangeFormDataAndSchemas');
 
     component = enzyme.shallow(<ContactInformationEditView {...props} />);
-
-    expect(
-      props.onChangeFormDataAndSchemas.calledWith(initialFormValues),
-      'onChange was called to initialize the modal with the result of getInitialFormValues',
-    ).to.be.true;
 
     component.setProps({ field: null });
     component.unmount();
