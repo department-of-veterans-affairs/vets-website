@@ -10,7 +10,6 @@ import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import recordEvent from '~/platform/monitoring/record-event';
-import EbenefitsLink from '~/platform/site-wide/ebenefits/containers/EbenefitsLink';
 
 import { isLOA3 as isLOA3Selector } from '~/platform/user/selectors';
 import { usePrevious } from '~/platform/utilities/react-hooks';
@@ -250,9 +249,9 @@ export const BankInfoCNP = ({
       data.push({
         title: 'Payment history',
         value: (
-          <EbenefitsLink path="ebenefits/about/feature?feature=payment-history">
+          <a href="/va-payment-history/payments/" target="_blank">
             View your payment history
-          </EbenefitsLink>
+          </a>
         ),
       });
     }
