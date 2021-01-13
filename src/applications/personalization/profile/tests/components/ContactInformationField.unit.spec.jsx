@@ -59,17 +59,17 @@ describe('<ContactInformationField/>', () => {
     component.unmount();
   });
 
-  // it('renders the ContactInformationEditView', () => {
-  //   props.showEditView = true;
-  //   component = enzyme.shallow(<ContactInformationField {...props} />);
+  it('renders the ContactInformationEditView', () => {
+    props.showEditView = true;
+    component = enzyme.shallow(<ContactInformationField {...props} />);
 
-  //   expect(
-  //     component.find('ContactInformationEditView'),
-  //     'the ContactInformationEditView was rendered',
-  //   ).to.have.lengthOf(1);
+    expect(
+      component.find('Connect(ContactInformationEditView)'),
+      'the ContactInformationEditView was rendered',
+    ).to.have.lengthOf(1);
 
-  //   component.unmount();
-  // });
+    component.unmount();
+  });
 
   it('renders the ContactInformationView', () => {
     component = enzyme.shallow(<ContactInformationField {...props} />);
@@ -85,9 +85,9 @@ describe('<ContactInformationField/>', () => {
   it('renders the edit link', () => {
     component = enzyme.shallow(<ContactInformationField {...props} />);
 
-    let editButton = component.find('ContactInformationEditButton');
+    let editButton = component.find('[id="homePhone-edit-link"]');
 
-    const onEditClick = editButton.props().onEditClick;
+    const onEditClick = editButton.props().onClick;
     onEditClick();
     props.openModal();
     expect(props.openModal.callCount, 'onEdit').to.be.equal(2);
