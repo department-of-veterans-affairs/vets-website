@@ -249,9 +249,7 @@ export const BankInfoCNP = ({
       data.push({
         title: 'Payment history',
         value: (
-          <a href="/va-payment-history/payments/" target="_blank">
-            View your payment history
-          </a>
+          <a href="/va-payment-history/payments/">View your payment history</a>
         ),
       });
     }

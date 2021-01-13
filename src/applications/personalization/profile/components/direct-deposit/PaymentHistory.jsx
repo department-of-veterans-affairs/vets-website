@@ -10,9 +10,7 @@ function PaymentHistory() {
             Check your payment history for your VA disability compensation,
             pension, and education benefits
           </p>
-          <a href="/va-payment-history/payments/" target="_blank">
-            View your payment history
-          </a>
+          <a href="/va-payment-history/payments/">View your payment history</a>
         </>
       ),
     },
