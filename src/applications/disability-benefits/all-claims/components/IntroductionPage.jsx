@@ -12,10 +12,13 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import { selectAvailableServices } from 'platform/user/selectors';
 
 import { itfNotice } from '../content/introductionPage';
-import { originalClaimsFeature } from '../config/selectors';
+import {
+  originalClaimsFeature,
+  uploadPdfLimitFeature,
+} from '../config/selectors';
 import fileOriginalClaimPage from '../../wizard/pages/file-original-claim';
 import { isBDD, getPageTitle, getStartText } from '../utils';
-import { BDD_INFO_URL } from '../constants';
+import { BDD_INFO_URL, PDF_SIZE_FEATURE } from '../constants';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -30,6 +33,10 @@ class IntroductionPage extends React.Component {
       ? allowOriginalClaim // original claim feature flag
       : true; // services.includes('form526'); // <- "form526" service should
     // be required to proceed; not changing this now in case it breaks something
+
+    // No easy method to pass feature flag setting to a uiSchema, so we'll use
+    // sessionStorage for now.
+    sessionStorage.setItem(PDF_SIZE_FEATURE, this.props.pdfLimit);
 
     const isBDDForm = this.props.isBDDForm;
     const pageTitle = getPageTitle(isBDDForm);
@@ -247,6 +254,7 @@ const mapStateToProps = state => ({
   user: state.user,
   allowOriginalClaim: originalClaimsFeature(state),
   isBDDForm: isBDD(state?.form?.data),
+  pdfLimit: uploadPdfLimitFeature(state),
 });
 
 IntroductionPage.propTypes = {
@@ -260,6 +268,7 @@ IntroductionPage.propTypes = {
   user: PropTypes.shape({}),
   allowOriginalClaim: PropTypes.bool,
   isBDDForm: PropTypes.bool,
+  pdfLimit: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(IntroductionPage);

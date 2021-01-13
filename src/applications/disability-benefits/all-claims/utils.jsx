@@ -35,6 +35,7 @@ import {
   STATE_LABELS,
   STATE_VALUES,
   MAX_FILE_SIZE_BYTES,
+  MAX_PDF_FILE_SIZE_BYTES,
   USA,
   TYPO_THRESHOLD,
   itfStatuses,
@@ -44,6 +45,7 @@ import {
   PAGE_TITLES,
   START_TEXT,
   FORM_STATUS_BDD,
+  PDF_SIZE_FEATURE,
 } from './constants';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
@@ -642,14 +644,18 @@ export const ancillaryFormUploadUi = (
     isDisabled = false,
     addAnotherLabel = 'Add Another',
   } = {},
-) =>
-  fileUploadUI(label, {
+) => {
+  const pdfSizeFeature = sessionStorage.getItem(PDF_SIZE_FEATURE) === 'true';
+  return fileUploadUI(label, {
     itemDescription,
     hideLabelText: !label,
     fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
     addAnotherLabel,
     fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'txt'],
+    // not sure what to do here... we need to differentiate pdf vs everything
+    // else; the check is in the actions.js > uploadFile function
     maxSize: MAX_FILE_SIZE_BYTES,
+    maxPdfSize: pdfSizeFeature ? MAX_PDF_FILE_SIZE_BYTES : MAX_FILE_SIZE_BYTES,
     minSize: 1,
     createPayload: (file, _formId, password) => {
       const payload = new FormData();
@@ -672,6 +678,7 @@ export const ancillaryFormUploadUi = (
     classNames: customClasses,
     attachmentName: false,
   });
+};
 
 export const isUploadingSupporting8940Documents = formData =>
   needsToAnswerUnemployability(formData) &&
