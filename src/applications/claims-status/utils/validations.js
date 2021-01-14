@@ -1,6 +1,8 @@
-export const MAX_FILE_SIZE_MB = 150;
+export const MAX_FILE_SIZE_MB = 50;
+export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
 
-const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024; // binary
+export const MAX_PDF_SIZE_MB = 150;
+export const MAX_PDF_SIZE_BYTES = MAX_PDF_SIZE_MB * 1024 ** 2; // binary based
 
 export const FILE_TYPES = ['pdf', 'gif', 'jpeg', 'jpg', 'bmp', 'txt'];
 
@@ -16,8 +18,12 @@ export function validateIfDirty(field, validator) {
   return true;
 }
 
-export function isValidFileSize(file) {
-  return file.size < MAX_FILE_SIZE_BYTES;
+export const isPdf = file => file.name?.toLowerCase().endsWith('pdf') || false;
+
+export function isValidFileSize(file, pdfSizeFeature) {
+  const maxSize =
+    isPdf(file) && pdfSizeFeature ? MAX_PDF_SIZE_BYTES : MAX_FILE_SIZE_BYTES;
+  return file.size < maxSize;
 }
 
 export function isEmptyFileSize(file) {
@@ -28,10 +34,10 @@ export function isValidFileType(file) {
   return FILE_TYPES.some(type => file.name.toLowerCase().endsWith(type));
 }
 
-export function isValidFile(file) {
+export function isValidFile(file, pdfSizeFeature) {
   return (
     !!file &&
-    isValidFileSize(file) &&
+    isValidFileSize(file, pdfSizeFeature) &&
     !isEmptyFileSize(file) &&
     isValidFileType(file)
   );
