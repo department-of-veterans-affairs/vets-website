@@ -1,6 +1,6 @@
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-const fragment = `
+module.exports = `
   fragment nodeCampaignLandingPage on NodeCampaignLandingPage {
     ${entityElementsFromPages}
     changed
