@@ -17,9 +17,11 @@ const configureTranslationLink = (e, currentLang, targetLang) => {
 const displayTranslationLink = () => {
   const i18LinkWrapper = document.getElementById('i18-link-wrapper');
   if (!i18LinkWrapper) return;
-  const isSpanish = window.location.href.includes('-esp');
+  const isSpanish =
+    window.location.href.includes('-esp') ||
+    window.location.href.includes('nodeId=14580');
   const translatableLinks = [
-    // uncomment the below line once we get through staging review
+    // uncomment the below line once we get through staging review and remove references to preview node
     // 'coronavirus-veteran-frequently-asked-questions',
     'coronavirus-veteran-frequently-asked-questions-esp',
     'nodeId=14580',
