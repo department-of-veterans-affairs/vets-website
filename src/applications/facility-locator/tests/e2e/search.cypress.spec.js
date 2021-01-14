@@ -167,13 +167,11 @@ describe('Facility search', () => {
       cy.get('#facility-type-dropdown').select(
         'Community providers (in VA’s network)',
       );
-      cy.get('#service-type-ahead-input').type('Clinic/Center - Urgent Care', {
-        delay: 200,
-      });
+      cy.get('#service-type-ahead-input').type('Clinic/Center - Urgent Care');
       cy.get('#downshift-1-item-0').click();
 
       cy.get('#facility-search').click();
-      cy.get('.current-pos-pin', { waitForAnimations: true }).should('exist');
+      cy.get('.current-pos-pin').click({ waitForAnimations: true });
       cy.get('#search-results-subheader').contains(
         'Results for "Community providers (in VA’s network)", "Clinic/Center - Urgent Care" near "Austin, Texas"',
       );
@@ -194,9 +192,7 @@ describe('Facility search', () => {
         'Community urgent care providers (in VA’s network)',
       );
       cy.get('#facility-search').click();
-      cy.get('#mapbox-gl-container', { waitForAnimations: true }).should(
-        'exist',
-      );
+      cy.get('.current-pos-pin').click({ waitForAnimations: true });
       cy.get('#search-results-subheader').contains(
         'Results for "Urgent care", "Community urgent care providers (in VA’s network)" near "Austin, Texas"',
       );
