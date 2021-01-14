@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 function Select({ onChange, ariaLabelledBy, options }) {
   return (
@@ -31,14 +30,4 @@ Select.propTypes = {
   showPastAppointments: PropTypes.bool,
 };
 
-function mapStateToProps() {
-  return {};
-}
-function mapDispatchToProps() {
-  return {};
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Select);
+export default Select;
