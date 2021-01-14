@@ -484,4 +484,30 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
 
     expect(screen.baseElement).to.contain.text('Community care');
   });
+
+  it('should show phone call appointment text', async () => {
+    const startDate = moment.utc();
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      startDate: startDate.format(),
+      facilityId: '983',
+      sta6aid: '983GC',
+      phoneOnly: true,
+    };
+    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+
+    mockAppointmentInfo({ va: [appointment] });
+    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
+      initialState,
+      reducers,
+    });
+
+    await screen.findByText(
+      new RegExp(startDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
+    );
+
+    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+    expect(screen.baseElement).to.contain.text('Phone call');
+  });
 });

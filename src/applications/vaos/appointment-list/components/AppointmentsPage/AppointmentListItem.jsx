@@ -75,7 +75,8 @@ export default function AppointmentListItem({ appointment, facility }) {
   const facilityId = getVARFacilityId(appointment);
   const isCommunityCare = appointment.vaos.isCommunityCare;
   const isVideo = isVideoAppointment(appointment);
-  const isInPersonVAAppointment = !isVideo && !isCommunityCare;
+  const isInPersonVAAppointment =
+    !isVideo && !isCommunityCare && !appointment.vaos.isPhoneAppointment;
 
   return (
     <li
@@ -83,7 +84,7 @@ export default function AppointmentListItem({ appointment, facility }) {
       className="vaos__card vads-u-padding--2 vads-u-background-color--gray-lightest vads-u-display--flex vads-u-margin-bottom--2 vads-u-align-items--center"
     >
       <div className="vads-u-flex--1">
-        <h4 className="vads-u-font-size--h4 vads-u-margin-x--0 vads-u-margin-y--0">
+        <h4 className="vads-u-font-size--h4 vads-u-margin-x--0 vads-u-margin-top--0 vads-u-margin-bottom--0p25">
           {appointmentDate.format('dddd, MMMM D')}
         </h4>
         {appointmentDate.format('h:mm a')}{' '}
@@ -104,6 +105,12 @@ export default function AppointmentListItem({ appointment, facility }) {
         {isVideo && <VideoAppointmentDescription appointment={appointment} />}
         {isCommunityCare && <CommunityCareProvider appointment={appointment} />}
         {isInPersonVAAppointment && <VAFacilityName facility={facility} />}
+        {appointment.vaos.isPhoneAppointment && (
+          <>
+            <i className="fas fa-phone vads-u-margin-right--1" />
+            Phone call
+          </>
+        )}
       </div>
       <div>
         <Link

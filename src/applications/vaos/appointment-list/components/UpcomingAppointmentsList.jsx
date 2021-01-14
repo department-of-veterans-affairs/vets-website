@@ -53,33 +53,44 @@ function UpcomingAppointmentsList({
   ) {
     return (
       <>
-        {appointmentsByMonth.map((monthBucket, monthIndex) => (
-          <React.Fragment key={monthIndex}>
-            <h3>{moment(monthBucket[0].start).format('MMMM YYYY')}</h3>
-            <ul className="usa-unstyled-list">
-              {monthBucket.map((appt, index) => {
-                const facilityId = getVAAppointmentLocationId(appt);
+        {appointmentsByMonth.map((monthBucket, monthIndex) => {
+          const monthDate = moment(monthBucket[0].start);
+          return (
+            <React.Fragment key={monthIndex}>
+              <h3 id={`appointment_list_${monthDate.format('YYYY-MM')}`}>
+                <span className="sr-only">Appointments in </span>
+                {monthDate.format('MMMM YYYY')}
+              </h3>
+              <ul
+                aria-labelledby={`appointment_list_${monthDate.format(
+                  'YYYY-MM',
+                )}`}
+                className="usa-unstyled-list"
+              >
+                {monthBucket.map((appt, index) => {
+                  const facilityId = getVAAppointmentLocationId(appt);
 
-                switch (appt.vaos?.appointmentType) {
-                  case APPOINTMENT_TYPES.vaAppointment:
-                  case APPOINTMENT_TYPES.ccAppointment:
-                    return (
-                      <AppointmentListItem
-                        key={index}
-                        appointment={appt}
-                        facility={facilityData[facilityId]}
-                      />
-                    );
-                  case APPOINTMENT_TYPES.request: {
-                    return <div key={index}>Express care request card</div>;
+                  switch (appt.vaos?.appointmentType) {
+                    case APPOINTMENT_TYPES.vaAppointment:
+                    case APPOINTMENT_TYPES.ccAppointment:
+                      return (
+                        <AppointmentListItem
+                          key={index}
+                          appointment={appt}
+                          facility={facilityData[facilityId]}
+                        />
+                      );
+                    case APPOINTMENT_TYPES.request: {
+                      return <div key={index}>Express care request card</div>;
+                    }
+                    default:
+                      return null;
                   }
-                  default:
-                    return null;
-                }
-              })}
-            </ul>
-          </React.Fragment>
-        ))}
+                })}
+              </ul>
+            </React.Fragment>
+          );
+        })}
       </>
     );
   } else if (futureStatus === FETCH_STATUS.failed) {

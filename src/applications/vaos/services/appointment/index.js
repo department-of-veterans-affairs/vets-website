@@ -361,7 +361,12 @@ export function isUpcomingAppointmentOrExpressCare(appt) {
   return (
     appt.vaos.isExpressCare &&
     appt.status !== APPOINTMENT_STATUS.fulfilled &&
-    moment(appt.start).isAfter(moment().startOf('day'))
+    moment(appt.start).isAfter(
+      // going one day back to account for late in the day EC requests
+      moment()
+        .startOf('day')
+        .add(-1, 'day'),
+    )
   );
 }
 
