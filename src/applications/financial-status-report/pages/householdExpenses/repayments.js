@@ -18,7 +18,7 @@ export const uiSchema = {
         viewField: CardDetailsView,
         doNotScroll: true,
         showSave: true,
-        itemName: 'Add installment or other debt',
+        itemName: 'installment or other debt',
         expandUnder: 'hasRepayments',
         expandUnderCondition:
           'Yes, I have installment contracts or other debts.',
