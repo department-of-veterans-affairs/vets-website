@@ -62,7 +62,11 @@ function groupByTags(allArticles) {
   for (const article of allTaggedArticles) {
     const {
       fieldTags: {
-        entity: { fieldTopics, fieldAudienceBeneficiares },
+        entity: {
+          fieldTopics,
+          fieldAudienceBeneficiares,
+          fieldNonBeneficiares,
+        },
       },
     } = article;
 
@@ -70,6 +74,10 @@ function groupByTags(allArticles) {
 
     if (fieldAudienceBeneficiares) {
       terms.push(fieldAudienceBeneficiares);
+    }
+
+    if (fieldNonBeneficiares) {
+      terms.push(fieldNonBeneficiares);
     }
 
     terms.map(fieldTopic => fieldTopic.entity).forEach(fieldTopic => {
@@ -197,7 +205,6 @@ function createPaginatedArticleListings({
           });
 
           const page = {
-            private: true, // @todo remove this to enable indexing
             articleTypesByEntityBundle,
             contents: Buffer.from(''),
             path: pageOfArticles.uri,
@@ -326,21 +333,11 @@ function createSearchResults(files) {
   };
 }
 
-// @todo remove this to enable indexing
-function excludeFromSiteMap(files) {
-  const allArticles = getArticlesBelongingToResourcesAndSupportSection(files);
-
-  allArticles.forEach(article => {
-    article.private = true;
-  });
-}
-
 function createResourcesAndSupportWebsiteSection() {
   return files => {
     excludeQaNodesThatAreNotStandalonePages(files);
     createArticleListingsPages(files);
     createSearchResults(files);
-    excludeFromSiteMap(files);
   };
 }
 

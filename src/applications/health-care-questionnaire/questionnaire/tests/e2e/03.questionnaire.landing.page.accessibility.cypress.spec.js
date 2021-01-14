@@ -10,7 +10,7 @@ describe('health care questionnaire -- landing page --', () => {
       cy.login(basicUser);
       disableFTUXModals();
       cy.visit(
-        '/health-care/health-questionnaires/questionnaires/answer-questions/introduction?skip',
+        '/health-care/health-questionnaires/questionnaires/answer-questions/introduction?id=12345&skip',
       );
     });
   });

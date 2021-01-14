@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
 import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import { getAppointTypeFromAppointment, clearCurrentSession } from '../utils';
 
 const ConfirmationPage = props => {
   const { appointment, form } = props;
@@ -12,6 +13,13 @@ const ConfirmationPage = props => {
   const facility = appointment?.attributes?.vdsAppointments
     ? appointment.attributes.vdsAppointments[0]?.clinic.facility
     : null;
+  useEffect(() => {
+    clearCurrentSession(window);
+  }, []);
+
+  const appointmentType = getAppointTypeFromAppointment(appointment, {
+    titleCase: true,
+  });
 
   return (
     <div className="healthcare-questionnaire-confirm">
@@ -31,7 +39,9 @@ const ConfirmationPage = props => {
       </div>
 
       <div className="inset">
-        <h2>Primary care questionnaire</h2>
+        <h2 data-testid="appointment-type-header">
+          {appointmentType} questionnaire
+        </h2>
         {response?.veteranInfo?.fullName && (
           <p>
             For{' '}

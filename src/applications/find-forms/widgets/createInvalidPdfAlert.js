@@ -43,7 +43,7 @@ export async function onDownloadLinkClick(event) {
 
   try {
     const forms = await fetchFormsApi(formNumber);
-    form = forms.find(f => f.id === formNumber);
+    form = forms.results.find(f => f.id === formNumber);
     formPdfIsValid = form?.attributes.validPdf;
   } catch (err) {
     // Todo

@@ -65,6 +65,7 @@ function VAFacilityPageV2({
   singleValidVALocation,
   sortMethod,
   typeOfCare,
+  typeOfCareId,
   updateFacilitySortMethod,
   updateFormData,
 }) {
@@ -157,6 +158,7 @@ function VAFacilityPageV2({
         <SingleFacilityEligibilityCheckMessage
           eligibility={eligibility}
           facility={selectedFacility}
+          typeOfCare={typeOfCare}
         />
         <div className="vads-u-margin-top--2">
           <FormButtons
@@ -278,6 +280,7 @@ function VAFacilityPageV2({
             <FacilitiesNotShown
               facilities={facilities}
               sortMethod={sortMethod}
+              typeOfCareId={typeOfCareId}
             />
             <FormButtons
               continueLabel=""
@@ -306,6 +309,7 @@ function VAFacilityPageV2({
           onClose={hideEligibilityModal}
           eligibility={eligibility}
           facilityDetails={selectedFacility}
+          typeOfCare={typeOfCare}
         />
       )}
     </div>

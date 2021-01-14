@@ -7,7 +7,11 @@ import { GA_PREFIX } from '../../../utils/constants';
 
 const UNSUPPORTED_FACILITY_RANGE = 100;
 
-export default function FacilitiesNotShown({ facilities, sortMethod }) {
+export default function FacilitiesNotShown({
+  facilities,
+  sortMethod,
+  typeOfCareId,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   useEffect(
     () => {
@@ -28,8 +32,8 @@ export default function FacilitiesNotShown({ facilities, sortMethod }) {
 
   const nearbyUnsupportedFacilities = facilities?.filter(
     facility =>
-      !facility.legacyVAR.directSchedulingSupported &&
-      !facility.legacyVAR.requestSupported &&
+      !facility.legacyVAR.directSchedulingSupported[typeOfCareId] &&
+      !facility.legacyVAR.requestSupported[typeOfCareId] &&
       facility.legacyVAR[sortMethod] < UNSUPPORTED_FACILITY_RANGE,
   );
 
@@ -73,8 +77,7 @@ export default function FacilitiesNotShown({ facilities, sortMethod }) {
         {trigger}
         <div className="additional-info-content">
           <p id="vaos-unsupported-label">
-            Some facilities don’t offer online scheduling. You can call them
-            directly to schedule your appointment.
+            The facilities below don’t offer online scheduling for this care.
           </p>
           <ul
             className="usa-unstyled-list"
@@ -101,7 +104,12 @@ export default function FacilitiesNotShown({ facilities, sortMethod }) {
               </li>
             ))}
           </ul>
-          <p className="vads-u-margin-top--4">
+          <h3 className="vads-u-font-size--h4 vads-u-margin-top--2 vads-u-margin-bottom--1">
+            What you can do
+          </h3>
+          <p className="vads-u-margin-top--0">
+            Call the facility directly to schedule your appointment,{' '}
+            <strong>or </strong>
             <a
               href="/find-locations"
               target="_blank"
@@ -112,8 +120,9 @@ export default function FacilitiesNotShown({ facilities, sortMethod }) {
                 })
               }
             >
-              Or, find a different VA location
+              search for a different VA location
             </a>
+            .
           </p>
         </div>
       </ExpandingGroup>

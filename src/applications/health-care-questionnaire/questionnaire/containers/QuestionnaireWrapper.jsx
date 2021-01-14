@@ -9,6 +9,7 @@ import {
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import App from './App';
 import BreadCrumbs from '../components/bread-crumbs/BreadCrumbs';
+import { getCurrentAppointmentId, setCurrentAppointmentId } from '../utils';
 
 const QuestionnaireWrapper = ({
   location,
@@ -16,6 +17,18 @@ const QuestionnaireWrapper = ({
   isQuestionnaireEnabled,
   isLoadingFeatureFlags,
 }) => {
+  const appointmentId = getCurrentAppointmentId(window);
+
+  if (!appointmentId) {
+    // if no url and no session, trigger redirect.
+    window.location.replace(
+      '/health-care/health-questionnaires/questionnaires',
+    );
+    return <></>;
+  } else {
+    setCurrentAppointmentId(window, appointmentId);
+  }
+
   if (isLoadingFeatureFlags) {
     return (
       <>
@@ -34,11 +47,11 @@ const QuestionnaireWrapper = ({
     );
   }
 };
-
 const mapStateToProps = state => ({
   isQuestionnaireEnabled: selectShowQuestionnaire(state),
   isLoadingFeatureFlags: selectLoadingFeatureFlags(state),
 });
+
 const mapDispatchToProps = _dispatch => ({});
 
 export default connect(

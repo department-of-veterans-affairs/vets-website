@@ -7,12 +7,27 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
-[type="checkbox"]:checked + label::before {
-  background-color: $color-white;
-  color: $color-primary;
-  content: "\f00c";
-  font-family: "Font Awesome 5 Free";
-  padding-right: 2px;
+.fsr-introduction {
+  .schemaform-title {
+    margin-bottom: 10px;
+  }
+  .subtitle {
+    margin: 0 0 40px;
+    font-size: 20px;
+  }
+  .alert-button {
+    margin: 25px 0 0;
+  }
+}
+
+.debt-card {
+  [type="checkbox"]:checked + label::before {
+    background-color: $color-white;
+    color: $color-primary;
+    content: "\f00c";
+    font-family: "Font Awesome 5 Free";
+    padding-right: 2px;
+  }
 }
 
 .schemaform-subtitle {
@@ -30,7 +45,7 @@
     margin-top: 30px;
   }
   .item-loop {
-    padding: 0 25px 15px 25px;
+    padding: 5px 15px 20px;
     background-color: #f1f1f1;
     .schemaform-field-container {
       display: flex;
@@ -39,16 +54,23 @@
         width: 100%;
       }
       fieldset.schemaform-field-template {
+        margin-top: 5px;
+      }
+      .schemaform-label {
         margin-top: 0;
       }
-      .schemaform-field-template {
-        padding: 0 20px 10px 0;
-        width: 100%;
-        label {
-          margin-top: 0;
-        }
-      }
     }
+    .usa-button-secondary {
+      background: #fff;
+    }
+    .button-group {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+  .edit-item-container {
+    margin: 5px 0;
     .usa-button-secondary {
       background: #fff;
     }
@@ -66,17 +88,36 @@
       }
     }
   }
+  .card-details-view {
+    padding: 10px 30px;
+    .card-title {
+      margin: 15px 0;
+    }
+  }
+}
+
+.contact-info {
+  .checkbox-group {
+    label {
+      margin-top: 0;
+    }
+  }
+  .review-card--body {
+    border: 3px solid #0071bb;
+    padding: 25px;
+  }
 }
 
 // date-widget
 .usa-date-of-birth {
-  padding-top: 15px;
+  padding: 10px 0;
 }
 
 .input-size-1 {
   @include media($medium-screen) {
     width: 152px;
     max-width: 152px;
+    margin: 5px 10px 20px 0;
   }
 }
 
@@ -84,6 +125,7 @@
   @include media($medium-screen) {
     width: 173px;
     max-width: 173px;
+    margin: 5px 10px 20px 0;
   }
 }
 
@@ -91,6 +133,7 @@
   @include media($medium-screen) {
     width: 192px;
     max-width: 192px;
+    margin: 5px 10px 20px 0;
   }
 }
 
@@ -98,6 +141,7 @@
   @include media($medium-screen) {
     width: 215px;
     max-width: 215px;
+    margin: 5px 10px 20px 0;
   }
 }
 
@@ -105,6 +149,7 @@
   @include media($medium-screen) {
     width: 262px;
     max-width: 262px;
+    margin: 5px 10px 20px 0;
   }
 }
 
@@ -112,6 +157,7 @@
   @include media($medium-screen) {
     width: 283px;
     max-width: 283px;
+    margin: 5px 10px 20px 0;
   }
 }
 
@@ -119,5 +165,6 @@
   @include media($medium-screen) {
     width: 332px;
     max-width: 332px;
+    margin: 5px 10px 20px 0;
   }
 }

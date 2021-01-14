@@ -27,7 +27,7 @@ const LocationOperationStatus = ({ operatingStatus }) => {
 
   return (
     <div
-      className={`usa-alert ${classNameAlert} background-color-only  vads-u-padding--1  vads-u-font-weight--bold`}
+      className={`usa-alert ${classNameAlert} background-color-only  vads-u-padding--1 vads-u-margin-top--2 vads-u-font-weight--bold`}
     >
       <i
         aria-hidden="true"

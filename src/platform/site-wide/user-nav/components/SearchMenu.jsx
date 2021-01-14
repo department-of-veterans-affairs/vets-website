@@ -103,6 +103,15 @@ export class SearchMenu extends React.Component {
 
   // function to control state changes within the downshift component
   handelDownshiftStateChange = (changes, state) => {
+    // this logic here prevents the enter key from triggering too many search events
+    if (
+      changes.type !== Downshift.stateChangeTypes.keyDownEnter &&
+      changes.selectedItem
+    ) {
+      this.handleSearchEvent(changes.selectedItem);
+      return;
+    }
+
     // when a user presses the escape key, clear suggestions and close the dropdown
     if (changes.type === Downshift.stateChangeTypes.keyDownEscape) {
       this.setState({
@@ -140,7 +149,7 @@ export class SearchMenu extends React.Component {
     const { isUserInputValid } = this;
 
     // if the user tries to search with an empty input, escape early
-    if (!isUserInputValid) {
+    if (!isUserInputValid()) {
       return;
     }
 
@@ -216,7 +225,8 @@ export class SearchMenu extends React.Component {
             />
             <button
               type="submit"
-              disabled={!isUserInputValid}
+              data-e2e-id="sitewide-search-submit-button"
+              disabled={!isUserInputValid()}
               className="vads-u-margin-left--0p25 vads-u-margin-right--0p5 "
             >
               <IconSearch color="#fff" />
@@ -234,7 +244,6 @@ export class SearchMenu extends React.Component {
         isOpen={suggestions.length > 0}
         itemToString={item => item}
         onStateChange={handelDownshiftStateChange}
-        onSelect={suggestion => handleSearchEvent(suggestion)}
       >
         {({
           getInputProps,
@@ -268,7 +277,8 @@ export class SearchMenu extends React.Component {
               />
               <button
                 type="submit"
-                disabled={!isUserInputValid}
+                disabled={!isUserInputValid()}
+                data-e2e-id="sitewide-search-submit-button"
                 className="vads-u-margin-left--0p5 vads-u-margin-y--1 vads-u-margin-right--1 vads-u-flex--1"
                 onClick={() => handleSearchEvent()}
                 onFocus={() => this.setState({ suggestions: [] })}
@@ -296,12 +306,15 @@ export class SearchMenu extends React.Component {
                       aria-selected={JSON.stringify(
                         selectedItem === suggestion,
                       )}
+                      data-e2e-id={`typeahead-option-${index + 1}`}
                       className={
                         highlightedIndex === index
                           ? highlightedSuggestion
                           : regularSuggestion
                       }
-                      {...getItemProps({ item: suggestion })}
+                      {...getItemProps({
+                        item: suggestion,
+                      })}
                       // this line is used to show the suggestion with the user's input in BOLD
                       // eslint-disable-next-line react/no-danger
                       dangerouslySetInnerHTML={{
@@ -323,6 +336,7 @@ export class SearchMenu extends React.Component {
     const { cssClass, clickHandler, isOpen } = this.props;
 
     const buttonClasses = classNames(
+      'sitewide-search-drop-down-panel-button',
       cssClass,
       'va-btn-withicon',
       'va-dropdown-trigger',

@@ -6,9 +6,13 @@ export const HLR_INFO_URL = '/decision-reviews/higher-level-review/';
 export const BASE_URL = `${HLR_INFO_URL}request-higher-level-review-form-20-0996`;
 
 export const FORM_URL = 'https://www.vba.va.gov/pubs/forms/VBA-20-0996-ARE.pdf';
+
+export const BOARD_APPEALS_URL = '/decision-reviews/board-appeal/';
+export const DECISION_REVIEWS_URL = '/decision-reviews/';
+export const CLAIM_STATUS_TOOL_URL = '/claim-or-appeal-status/';
+export const SUPPLEMENTAL_CLAIM_URL = '/decision-reviews/supplemental-claim/';
 export const COVID_FAQ_URL =
   'https://www.va.gov/coronavirus-veteran-frequently-asked-questions/#more-benefit-and-claim-questio';
-export const SUPPLEMENTAL_CLAIM_URL = '/decision-reviews/supplemental-claim/';
 export const FACILITY_LOCATOR_URL = '/find-locations';
 export const GET_HELP_REVIEW_REQUEST_URL =
   '/decision-reviews/get-help-with-review-request';
@@ -16,7 +20,7 @@ export const PROFILE_URL = '/profile';
 
 // 8622 is the ID of the <li> wrapping the "Find addresses for other benefit
 // types" accordion
-export const BENEFIT_OFFICES_URL = `${HLR_INFO_URL}/#8622`;
+export const BENEFIT_OFFICES_URL = `${HLR_INFO_URL}#8622`;
 
 export const CONTESTABLE_ISSUES_API =
   '/higher_level_reviews/contestable_issues/';

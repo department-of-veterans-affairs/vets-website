@@ -22,5 +22,6 @@ describe('VAOS <NeedHelp>', () => {
       'href',
       'https://veteran.apps.va.gov/feedback-web/v1/?appId=85870ADC-CC55-405E-9AC3-976A92BBBBEE',
     );
+    expect(screen.getByText(/We’re here 24\/7/i)).to.exist;
   });
 });

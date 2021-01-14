@@ -1,3 +1,6 @@
+const { partialSchema } = require('../../transformers/helpers');
+const healthCareLocalFacilitySchema = require('./node-health_care_local_facility');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -29,6 +32,16 @@ module.exports = {
         fieldReferralRequired: { type: ['string', 'null'] },
         fieldWalkInsAccepted: { type: ['string', 'null'] },
         fieldPhoneNumbersParagraph: { type: 'array' },
+        fieldFacilityLocation: {
+          type: 'object',
+          items: {
+            entity: partialSchema(healthCareLocalFacilitySchema, [
+              'entityUrl',
+              'fieldNicknameForThisFacility',
+              'title',
+            ]),
+          },
+        },
       },
       required: [
         'title',
@@ -39,6 +52,7 @@ module.exports = {
         'fieldReferralRequired',
         'fieldWalkInsAccepted',
         'fieldPhoneNumbersParagraph',
+        'fieldFacilityLocation',
       ],
     },
   },

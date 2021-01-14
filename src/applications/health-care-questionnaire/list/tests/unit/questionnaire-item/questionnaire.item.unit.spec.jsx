@@ -10,6 +10,7 @@ describe('health care questionnaire list - display a questionnaire item', () => 
     const data = {
       appointment: {
         facilityName: name,
+        clinic: {},
         appointmentTime: '2021-02-23T15:00:00Z',
       },
     };
@@ -30,6 +31,7 @@ describe('health care questionnaire list - display a questionnaire item', () => 
     const data = {
       appointment: {
         facilityName: name,
+        clinic: {},
         appointmentTime: '2021-02-23T15:00:00Z',
       },
     };
@@ -47,6 +49,7 @@ describe('health care questionnaire list - display a questionnaire item', () => 
     const data = {
       appointment: {
         facilityName: name,
+        clinic: {},
         appointmentTime: '2021-02-23T15:00:00Z',
       },
     };
@@ -57,6 +60,31 @@ describe('health care questionnaire list - display a questionnaire item', () => 
       <QuestionnaireItem data={data} Actions={Actions} />,
     );
     expect(component.find('[data-testid="Actions"]').exists()).to.be.true;
+
+    component.unmount();
+  });
+  it('Appointment Type is shown based on clinic', () => {
+    const name = 'Magic Kingdom';
+    const data = {
+      appointment: {
+        facilityName: name,
+        clinic: {
+          stopCode: '502', // mental health
+        },
+        appointmentTime: '2021-02-23T15:00:00Z',
+      },
+    };
+
+    const Actions = () => <p data-testid="Actions">some data</p>;
+
+    const component = mount(
+      <QuestionnaireItem data={data} Actions={Actions} />,
+    );
+    expect(component.find('[data-testid="appointment-type-header"]').exists())
+      .to.be.true;
+    expect(
+      component.find('[data-testid="appointment-type-header"]').text(),
+    ).to.equal('Mental health questionnaire');
 
     component.unmount();
   });

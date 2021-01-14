@@ -101,6 +101,88 @@ describe('search query reducer', () => {
 
     expect(state.error).to.eql(false);
     expect(state.attribute).to.eql(true);
+    expect(state.isValid).to.eql(false);
+  });
+
+  describe('isValid', () => {
+    it('should be true with searchString and facilityType', () => {
+      const state = SearchQueryReducer(
+        {
+          error: false,
+        },
+        {
+          type: SEARCH_QUERY_UPDATED,
+          payload: {
+            searchString: 'test',
+            facilityType: 'test',
+          },
+        },
+      );
+      expect(state.isValid).to.eql(true);
+    });
+
+    it('should be false with only searchString', () => {
+      const state = SearchQueryReducer(
+        {
+          error: false,
+        },
+        {
+          type: SEARCH_QUERY_UPDATED,
+          payload: {
+            searchString: 'test',
+          },
+        },
+      );
+      expect(state.isValid).to.eql(false);
+    });
+
+    it('should be false with only facilityType', () => {
+      const state = SearchQueryReducer(
+        {
+          error: false,
+        },
+        {
+          type: SEARCH_QUERY_UPDATED,
+          payload: {
+            facilityType: 'test',
+          },
+        },
+      );
+      expect(state.isValid).to.eql(false);
+    });
+
+    it('should be false when facilityType is provider and no serviceType', () => {
+      const state = SearchQueryReducer(
+        {
+          error: false,
+        },
+        {
+          type: SEARCH_QUERY_UPDATED,
+          payload: {
+            searchString: 'test',
+            facilityType: 'provider',
+          },
+        },
+      );
+      expect(state.isValid).to.eql(false);
+    });
+
+    it('should be true with searchString, facilityType and serviceType', () => {
+      const state = SearchQueryReducer(
+        {
+          error: false,
+        },
+        {
+          type: SEARCH_QUERY_UPDATED,
+          payload: {
+            searchString: 'test',
+            facilityType: 'provider',
+            serviceType: 'test',
+          },
+        },
+      );
+      expect(state.isValid).to.eql(true);
+    });
   });
 
   it('should handle fetching services', () => {

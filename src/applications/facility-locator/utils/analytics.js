@@ -156,6 +156,7 @@ export const recordPanEvent = (mapCenter, currentQuery) => {
           'fl-map-miles-moved': distanceMoved,
         }),
         recordEvent({
+          // Sending an undefined event to clear the dataLayer
           'fl-map-miles-moved': undefined,
         }),
       );

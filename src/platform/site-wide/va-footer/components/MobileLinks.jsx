@@ -23,6 +23,9 @@ export default function MobileLinks({ links, visible }) {
             id="veteran-contact"
             aria-hidden="true"
           >
+            <h2 className="va-footer-linkgroup-title vads-u-padding-bottom--1">
+              Get answers
+            </h2>
             {links[FOOTER_COLUMNS.CONTACT]}
           </div>
         </li>

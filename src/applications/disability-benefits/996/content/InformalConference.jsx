@@ -1,5 +1,4 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 export const InformalConferenceDescription = (
   <>
@@ -9,7 +8,7 @@ export const InformalConferenceDescription = (
       and the reviewer to discuss why you think the decision should be changed
       and identify factual errors.
     </p>
-    <p className="vads-u-margin-bottom--3">
+    <p id="choose-conference-notice" className="vads-u-margin-bottom--3">
       If you request an informal conference, the reviewer will call you or your
       representative. You can request only one informal conference for each
       Higher-Level Review request.
@@ -26,9 +25,8 @@ export const informalConferenceLabels = {
   rep: 'Yes, call my representative',
 };
 
-export const ContactRepresentativeDescription = (
-  <p>Please provide your representative’s contact information.</p>
-);
+export const ContactRepresentativeTitle =
+  'Provide your representative’s contact information.';
 
 export const RepresentativeNameTitle = 'Representative’s name';
 
@@ -41,14 +39,36 @@ const contacts = (
     <span className="contact-choice selected-me">you</span>
   </>
 );
-export const InformalConferenceTimes = (
+
+export const InformalConferenceTimesTitle = (
   <>
-    <strong>We’ll call {contacts} to schedule an informal conference.</strong>
-    <p>Please provide 1 or 2 preferred times for a call.</p>
+    <span className="contact-choice selected-rep vads-u-font-size--sm">
+      Please indicate your representative’s availability
+    </span>
+    <span className="contact-choice selected-me vads-u-font-size--sm">
+      Please indicate your availability
+    </span>
   </>
 );
 
-export const informalConferenceTimeTitles = {
+export const InformalConferenceTimesDescription = (
+  <>
+    <p>
+      First we’ll call {contacts} to schedule the informal conference. Please
+      indicate <span className="contact-choice selected-me">your</span>
+      <span className="contact-choice selected-rep">their</span> availability by
+      providing 1 or 2 preferred times for a call.
+    </p>
+    <p>
+      <strong>We’ll make two attempts to call {contacts}.</strong> If no one
+      answers, we’ll leave a voice mail and a number for {contacts} to return
+      the call. If we aren’t able to get in touch with {contacts} after 2
+      attempts, we’ll proceed with the Higher-Level Review.
+    </p>
+  </>
+);
+
+export const informalConferenceTimeSelectTitles = {
   first: <>Choose the best time for us to call {contacts}</>,
   second: 'Choose another time for us to call',
 };
@@ -58,26 +78,4 @@ export const informalConferenceTimeAllLabels = {
   time1000to1230: '10:00 a.m. to 12:30 p.m. ET',
   time1230to1400: '12:30 p.m. to 2:00 p.m. ET',
   time1400to1630: '2:00 p.m. to 4:30 p.m. ET',
-};
-
-export const InformalConferenceAvailability = contact => (
-  <span className="time-contact">
-    {contact === 'me' ? 'My' : 'Representative’s'} availability for scheduling
-  </span>
-);
-
-export const AttemptsInfoAlert = ({ isRep }) => {
-  const contact = isRep ? 'them' : 'you';
-  return (
-    <AlertBox
-      status="info"
-      headline={`We’ll make two attempts to call ${
-        isRep ? 'your representative' : 'you'
-      }`}
-      content={`If no one answers, we’ll leave a voice mail and a number for
-       ${contact} to return the call. If we aren’t able to leave a voice mail or
-       get in touch with ${contact} after two attempts, we’ll proceed with the
-       Higher-Level Review.`}
-    />
-  );
 };
