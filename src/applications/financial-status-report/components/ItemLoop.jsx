@@ -229,51 +229,34 @@ const ItemLoop = ({
     }
   });
 
-  useEffect(
-    () => {
-      const isEditing = formData
-        ? formData.map((item, index) => !errorSchemaIsValid(errorSchema[index]))
-        : ['add'];
-      if (formData?.length !== editing.length) {
-        setEditing(isEditing);
-      }
-      if (formData?.length > 1) {
-        setShowTable(true);
-      }
-    },
-    [errorSchema, formData, editing.length],
-  );
-
   const scrollToTop = () => {
-    if (!uiSchema['ui:options'].doNotScroll) {
-      setTimeout(() => {
-        scroller.scrollTo(
-          `topOfTable_${idSchema.$id}`,
-          window.Forms?.scroll || {
-            duration: 500,
-            delay: 0,
-            smooth: true,
-            offset: -60,
-          },
-        );
-      }, 100);
-    }
+    if (uiSchema['ui:options'].doNotScroll) return;
+    setTimeout(() => {
+      scroller.scrollTo(
+        `topOfTable_${idSchema.$id}`,
+        window.Forms?.scroll || {
+          duration: 500,
+          delay: 0,
+          smooth: true,
+          offset: -60,
+        },
+      );
+    }, 100);
   };
 
   const scrollToRow = id => {
-    if (!uiSchema['ui:options'].doNotScroll) {
-      setTimeout(() => {
-        scroller.scrollTo(
-          `table_${id}`,
-          window.Forms?.scroll || {
-            duration: 500,
-            delay: 0,
-            smooth: true,
-            offset: 0,
-          },
-        );
-      }, 100);
-    }
+    if (uiSchema['ui:options'].doNotScroll) return;
+    setTimeout(() => {
+      scroller.scrollTo(
+        `table_${id}`,
+        window.Forms?.scroll || {
+          duration: 500,
+          delay: 0,
+          smooth: true,
+          offset: 0,
+        },
+      );
+    }, 100);
   };
 
   const handleChange = (index, value) => {
@@ -336,6 +319,7 @@ const ItemLoop = ({
 
   const handleAdd = () => {
     if (!formData) return;
+
     const lastIndex = formData.length - 1;
     if (errorSchemaIsValid(errorSchema[lastIndex])) {
       const editData = editing.map(() => false);
