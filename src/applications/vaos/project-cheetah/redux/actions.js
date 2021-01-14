@@ -389,17 +389,11 @@ export function routeToPageInFlow(flow, history, current, action) {
   };
 }
 
-export function onCalendarChange(selectedDates) {
+export function onCalendarChange(selectedDates, pageKey) {
   return {
     type: FORM_CALENDAR_DATA_CHANGED,
     selectedDates,
-  };
-}
-
-export function onCalendar2Change(selectedDates2) {
-  return {
-    type: FORM_CALENDAR_2_DATA_CHANGED,
-    selectedDates2,
+    pageKey,
   };
 }
 

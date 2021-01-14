@@ -25,7 +25,6 @@ import {
   FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
   FORM_REQUEST_CURRENT_LOCATION,
   FORM_CALENDAR_DATA_CHANGED,
-  FORM_CALENDAR_2_DATA_CHANGED,
   FORM_CALENDAR_FETCH_SLOTS,
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
@@ -473,19 +472,9 @@ export default function projectCheetahReducer(state = initialState, action) {
           ...state.newBooking,
           data: {
             ...state.newBooking.data,
-            selectedDates: action.selectedDates,
-          },
-        },
-      };
-    }
-    case FORM_CALENDAR_2_DATA_CHANGED: {
-      return {
-        ...state,
-        newBooking: {
-          ...state.newBooking,
-          data: {
-            ...state.newBooking.data,
-            selectedDates2: action.selectedDates2,
+            [action.pageKey.includes('2')
+              ? 'date2'
+              : 'date1']: action.selectedDates,
           },
         },
       };
