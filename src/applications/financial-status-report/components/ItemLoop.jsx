@@ -229,31 +229,16 @@ const ItemLoop = ({
     }
   });
 
-  const scrollToTop = () => {
+  const handleScroll = (id, offset) => {
     if (uiSchema['ui:options'].doNotScroll) return;
     setTimeout(() => {
       scroller.scrollTo(
-        `topOfTable_${idSchema.$id}`,
+        id,
         window.Forms?.scroll || {
           duration: 500,
           delay: 0,
           smooth: true,
-          offset: -60,
-        },
-      );
-    }, 100);
-  };
-
-  const scrollToRow = id => {
-    if (uiSchema['ui:options'].doNotScroll) return;
-    setTimeout(() => {
-      scroller.scrollTo(
-        `table_${id}`,
-        window.Forms?.scroll || {
-          duration: 500,
-          delay: 0,
-          smooth: true,
-          offset: 0,
+          offset,
         },
       );
     }, 100);
@@ -266,6 +251,11 @@ const ItemLoop = ({
 
   const handleEdit = (e, index) => {
     e.preventDefault();
+
+    if (editing.length === 1) {
+      setShowTable(false);
+    }
+
     const editData = editing.map((item, i) => {
       if (i === index) {
         return true;
@@ -276,12 +266,9 @@ const ItemLoop = ({
       return item;
     });
 
-    if (editing.length === 1) {
-      setShowTable(false);
-    }
     setOldData(formData);
     setEditing(editData);
-    scrollToRow(`${idSchema.$id}_${index}`);
+    handleScroll(`table_${idSchema.$id}_${index}`, 0);
   };
 
   const formatEditData = editArr => {
@@ -307,7 +294,7 @@ const ItemLoop = ({
     if (errorSchemaIsValid(errorSchema[i])) {
       const editData = formatEditData(editing);
       setEditing(editData);
-      scrollToRow(`${idSchema.$id}_${i}`);
+      handleScroll(`table_${idSchema.$id}_${i}`, 0);
     } else {
       // Set all the fields for this item as touched, so we show errors
       const touched = setArrayRecordTouched(idSchema.$id, i);
@@ -318,25 +305,21 @@ const ItemLoop = ({
   };
 
   const handleAdd = () => {
-    if (!formData) return;
-
     const lastIndex = formData.length - 1;
     if (errorSchemaIsValid(errorSchema[lastIndex])) {
       const editData = editing.map(() => false);
+      const defaultData = getDefaultFormState(
+        schema.additionalItems,
+        undefined,
+        registry.definitions,
+      );
+      const newFormData = [...formData, defaultData];
 
+      onChange(newFormData);
       setOldData(formData);
       setShowTable(true);
       setEditing([...editData, 'add']);
-
-      const newFormData = formData.concat(
-        getDefaultFormState(
-          schema.additionalItems,
-          undefined,
-          registry.definitions,
-        ),
-      );
-      onChange(newFormData);
-      scrollToRow(`${idSchema.$id}_${lastIndex + 1}`);
+      handleScroll(`table_${idSchema.$id}_${lastIndex + 1}`, 0);
     } else {
       const touched = setArrayRecordTouched(idSchema.$id, lastIndex);
       formContext.setTouched(touched, () => {
@@ -356,7 +339,7 @@ const ItemLoop = ({
     const filtered = editing.filter((item, i) => index !== i);
     setEditing(filtered);
     onChange(newItems);
-    scrollToTop();
+    handleScroll(`topOfTable_${idSchema.$id}`, -60);
   };
 
   // use form data otherwise use an array with a single default object
