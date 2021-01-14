@@ -39,9 +39,11 @@ const displayTranslationLink = () => {
   const isTranslatable = translatableLinks.some(url =>
     window.location.href.includes(url),
   );
-
-  if (isTranslatable) {
-    i18LinkWrapper.style.display = 'block';
+  if (
+    isTranslatable &&
+    i18LinkWrapper.classList.contains('vads-u-display--none')
+  ) {
+    i18LinkWrapper.classList.remove('vads-u-display--none');
   }
   const i18link = document.querySelector('a.i18-toggle');
 
