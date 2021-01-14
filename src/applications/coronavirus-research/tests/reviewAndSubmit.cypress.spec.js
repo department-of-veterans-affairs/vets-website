@@ -53,9 +53,7 @@ describe('COVID-19 Research Form', () => {
       cy.get('h1').contains(
         'Sign up for our coronavirus research volunteer list',
       );
-
-      // This Axr Check fails due to nested DLs
-      // cy.axeCheck();
+      cy.axeCheck();
 
       // Confirm review fields are as expected based on test data
       cy.fixture(
