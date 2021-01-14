@@ -58,6 +58,20 @@
       {% if buildtype != 'vagovprod' %}
 
         {% if audienceTags.length > 0 %}
+
+          <div class="usa-alert usa-alert-info" role="alert">
+            <div class="usa-alert-body">
+                <h3 class="usa-alert-heading">
+                    We're currently in beta testing
+                </h3>
+                <div class="processed-content">
+                  <div itemprop="text">
+                    <p>Welcome to resources and support, a new part of <a href="/">VA.gov</a>. We'll be adding more articles and topics in the weeks and months ahead, so please check back often.</p>
+                  </div>
+                </div>
+            </div>
+          </div>
+
           <h2>Browse by audience</h2>
           <ul class="usa-unstyled-list">
 
@@ -66,7 +80,7 @@
             {% for audienceTag in audienceTags %}
               {% if forloop.index <= pageSize %}
                 <li class="vads-u-margin-y--2">
-                  <a class="vads-u-font-weight--bold vads-u-text-decoration--none" href="{{ audienceTag.path.alias }}/">
+                  <a class="vads-u-font-weight--bold vads-u-text-decoration--none" href="{{ audienceTag.entityUrl.path }}/">
                     {{ audienceTag.name }} <i role="presentation" aria-hidden="true" class="fa fa-chevron-right vads-u-margin-left--1"></i>
                   </a>
                 </li>
