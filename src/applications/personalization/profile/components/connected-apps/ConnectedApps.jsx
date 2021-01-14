@@ -9,6 +9,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import {
   deleteConnectedApp,
   dismissDeletedAppAlert,
+  getPrivacyPolicy,
   loadConnectedApps,
 } from '@@profile/components/connected-apps/actions';
 import recordEvent from 'platform/monitoring/record-event';
@@ -29,7 +30,8 @@ export class ConnectedApps extends Component {
     }
   }
 
-  confirmDelete = appId => {
+  confirmDelete = (appId, appTitle) => {
+    this.props.getPrivacyPolicy(appTitle);
     this.props.deleteConnectedApp(appId);
   };
 
@@ -38,7 +40,7 @@ export class ConnectedApps extends Component {
   };
 
   render() {
-    const { apps, loading, errors } = this.props;
+    const { apps, loading, errors, privacyPolicies } = this.props;
     const deletedApps = apps ? apps.filter(app => app.deleted) : [];
     const activeApps = apps ? apps.filter(app => !app.deleted) : [];
 
@@ -109,6 +111,7 @@ export class ConnectedApps extends Component {
             title={app?.attributes?.title}
             key={app.id}
             dismissAlert={this.dismissAlert}
+            privacyPolicies={privacyPolicies}
           />
         ))}
 
@@ -209,6 +212,7 @@ const mapDispatchToProps = {
   loadConnectedApps,
   deleteConnectedApp,
   dismissDeletedAppAlert,
+  getPrivacyPolicy,
 };
 
 ConnectedApps.propTypes = {

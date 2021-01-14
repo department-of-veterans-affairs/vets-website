@@ -16,8 +16,13 @@ export const FINISHED_DELETING_CONNECTED_APP =
   'connected-apps/FINISHED_DELETING_CONNECTED_APP';
 export const DELETED_APP_ALERT_DISMISSED =
   'connected-apps/DELETED_APP_ALERT_DISMISSED';
+export const FINISHED_FETCHING_PRIVACY_POLICY =
+  'connected-apps/FINISHED_FETCHING_PRIVACY_POLICY';
+export const ERROR_FETCHING_PRIVACY_POLICY =
+  'connected-apps/ERROR_FETCHING_PRIVACY_POLICY';
 
 const grantsUrl = '/profile/connected_applications';
+const appsUrl = '/apps/v0/directory';
 
 export function loadConnectedApps() {
   return async dispatch => {
@@ -92,4 +97,16 @@ export function deleteConnectedApp(appId) {
 export function dismissDeletedAppAlert(appId) {
   return async dispatch =>
     dispatch({ type: DELETED_APP_ALERT_DISMISSED, appId });
+}
+
+export function getPrivacyPolicy(appTitle) {
+  return async dispatch => {
+    await apiRequest(`${appsUrl}/${appTitle}`, { apiVersion: 'services' })
+      .then(({ data }) => {
+        dispatch({ type: FINISHED_FETCHING_PRIVACY_POLICY, appTitle, data });
+      })
+      .catch(({ errors }) => {
+        dispatch({ type: ERROR_FETCHING_PRIVACY_POLICY, appTitle, errors });
+      });
+  };
 }

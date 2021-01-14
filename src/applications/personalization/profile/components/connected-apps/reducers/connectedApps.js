@@ -6,11 +6,14 @@ import {
   ERROR_DELETING_CONNECTED_APP,
   FINISHED_DELETING_CONNECTED_APP,
   DELETED_APP_ALERT_DISMISSED,
+  FINISHED_FETCHING_PRIVACY_POLICY,
+  ERROR_FETCHING_PRIVACY_POLICY,
 } from '../actions';
 
 const initialState = {
   apps: [],
   errors: [],
+  privacyPolicies: {},
   loading: false,
 };
 
@@ -58,6 +61,18 @@ export default (state = initialState, action) => {
     case DELETED_APP_ALERT_DISMISSED: {
       const apps = state.apps.filter(app => app.id !== action.appId);
       return { ...state, apps };
+    }
+
+    case FINISHED_FETCHING_PRIVACY_POLICY: {
+      const privacyPolicies = {
+        ...state.privacyPolicies,
+        [action.appTitle]: action.data.privacyUrl,
+      };
+      return { ...state, privacyPolicies, errors: [] };
+    }
+
+    case ERROR_FETCHING_PRIVACY_POLICY: {
+      return { ...state, errors: action.errors };
     }
 
     default:

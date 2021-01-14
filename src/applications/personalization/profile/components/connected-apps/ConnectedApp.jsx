@@ -19,7 +19,7 @@ export class ConnectedApp extends Component {
   };
 
   confirmDelete = () => {
-    this.props.confirmDelete(this.props.id);
+    this.props.confirmDelete(this.props.id, this.props.attributes?.title);
   };
 
   render() {
