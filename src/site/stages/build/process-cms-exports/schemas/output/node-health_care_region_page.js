@@ -95,6 +95,7 @@ module.exports = {
     entityBundle: { enum: ['health_care_region_page'] },
     title: { type: 'string' },
     entityUrl: { $ref: 'EntityUrl' },
+    fieldIntroText: { type: ['string', 'null'] },
     fieldGovdeliveryIdEmerg: { type: 'string' },
     fieldGovdeliveryIdNews: { type: 'string' },
     fieldOperatingStatus: socialMediaSchema,
@@ -158,6 +159,7 @@ module.exports = {
   },
   required: [
     'title',
+    'fieldIntroText',
     'fieldGovdeliveryIdEmerg',
     'fieldGovdeliveryIdNews',
     'fieldOperatingStatus',
