@@ -18,7 +18,7 @@ export const uiSchema = {
         doNotScroll: true,
         showSave: true,
         expandUnder: 'hasPreviousEmployment',
-        itemName: 'Add a job',
+        itemName: 'a job',
       },
       items: {
         previousEmploymentType: {

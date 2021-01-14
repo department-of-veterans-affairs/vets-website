@@ -18,7 +18,7 @@ export const uiSchema = {
       expandUnder: 'hasVehicle',
       doNotScroll: true,
       showSave: true,
-      itemName: 'Add a vehicle',
+      itemName: 'a vehicle',
     },
     items: {
       vehicleType: {
@@ -43,7 +43,7 @@ export const uiSchema = {
       vehicleYear: {
         'ui:title': 'Vehicle year',
         'ui:options': {
-          widgetClassNames: 'input-size-3',
+          widgetClassNames: 'input-size-4',
         },
       },
       vehicleAmount: _.merge(currencyUI('Estimated value'), {
@@ -78,7 +78,7 @@ export const schema = {
             type: 'string',
           },
           vehicleYear: {
-            type: 'number',
+            type: 'string',
           },
           vehicleAmount: {
             type: 'number',

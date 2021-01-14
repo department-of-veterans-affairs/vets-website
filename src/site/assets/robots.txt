@@ -97,5 +97,8 @@ Disallow: /drupal
 Disallow: /performance-dashboard
 Disallow: /covid19screen
 
+# disallow WIP VAMCs
+Disallow: /erie-health-care
+
 # sitemap index
 Sitemap: https://www.va.gov/sitemap.xml
