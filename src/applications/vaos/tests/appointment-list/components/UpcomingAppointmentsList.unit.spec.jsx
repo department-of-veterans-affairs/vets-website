@@ -593,7 +593,6 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       },
     };
     mockFacilitiesFetch('vha_442GC', [facility]);
-
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState,
       reducers,
@@ -609,5 +608,31 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       'A VA health care provider will follow up with you today.',
     );
     expect(await screen.baseElement).to.contain.text('Express Care request');
+  });
+
+  it('should show phone call appointment text', async () => {
+    const startDate = moment.utc();
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      startDate: startDate.format(),
+      facilityId: '983',
+      sta6aid: '983GC',
+      phoneOnly: true,
+    };
+    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+
+    mockAppointmentInfo({ va: [appointment] });
+    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
+      initialState,
+      reducers,
+    });
+
+    await screen.findByText(
+      new RegExp(startDate.tz('America/New_York').format('dddd, MMMM D'), 'i'),
+    );
+
+    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+    expect(screen.baseElement).to.contain.text('Phone call');
   });
 });
