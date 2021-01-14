@@ -13,7 +13,7 @@ import { distanceBetween } from '../../../utils/address';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RemoveProviderModal from './RemoveProviderModal';
 import recordEvent from 'platform/monitoring/record-event';
-import NoProvidersAlert from './NoProvidersAlert';
+import ProviderErrorAlert from './ProviderErrorAlert';
 import LoadProvidersAlert from './LoadProvidersAlert';
 
 const INITIAL_PROVIDER_DISPLAY_COUNT = 5;
@@ -254,7 +254,7 @@ function ProviderSelectionField({
                   </p>
                 )}
                 {providersListEmpty && (
-                  <NoProvidersAlert
+                  <ProviderErrorAlert
                     sortMethod={sortMethod}
                     typeOfCareName={typeOfCareName}
                   />

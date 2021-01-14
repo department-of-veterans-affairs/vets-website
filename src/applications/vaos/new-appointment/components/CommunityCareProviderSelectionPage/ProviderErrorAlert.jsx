@@ -1,7 +1,7 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-export default function NoProvidersAlert({ sortMethod, typeOfCareName }) {
+export default function ProviderErrorAlert({ sortMethod, typeOfCareName }) {
   const headline = `We can’t find any ${typeOfCareName} providers close to you`;
   return (
     <AlertBox
