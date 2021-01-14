@@ -20,6 +20,7 @@ import {
 } from '../../utils/constants';
 import { getVAAppointmentLocationId } from '../../services/appointment';
 import AppointmentListItem from './AppointmentsPage/AppointmentListItem';
+import ExpressCareListItem from './AppointmentsPage/ExpressCareListItem';
 import NoAppointments from './NoAppointments';
 import moment from 'moment';
 
@@ -40,6 +41,9 @@ function UpcomingAppointmentsList({
     },
     [fetchFutureAppointments, futureStatus],
   );
+
+  // eslint-disable-next-line no-console
+  console.log({ appointmentsByMonth });
 
   if (futureStatus === FETCH_STATUS.loading) {
     return (
@@ -71,7 +75,13 @@ function UpcomingAppointmentsList({
                       />
                     );
                   case APPOINTMENT_TYPES.request: {
-                    return <div key={index}>Express care request card</div>;
+                    return (
+                      <ExpressCareListItem
+                        key={index}
+                        appointment={appt}
+                        facility={facilityData[facilityId]}
+                      />
+                    );
                   }
                   default:
                     return null;
