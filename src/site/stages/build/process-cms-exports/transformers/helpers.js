@@ -236,12 +236,18 @@ module.exports = {
       createMetaTag('MetaValue', 'keywords', metaTags.keywords),
       createMetaTag('MetaProperty', 'og:description', metaTags.og_description),
       createMetaTag('MetaValue', 'twitter:image', metaTags.twitter_cards_image),
+      createMetaTag(
+        'MetaValue',
+        'twitter:image:alt',
+        metaTags.twitter_cards_image_alt,
+      ),
       createMetaTag('MetaProperty', 'og:image', metaTags.og_image_0),
       createMetaTag(
         'MetaProperty',
         'og:image:height',
         metaTags.og_image_height,
       ),
+      createMetaTag('MetaProperty', 'og:image:alt', metaTags.og_image_alt),
     ].filter(t => t.value);
   },
 
