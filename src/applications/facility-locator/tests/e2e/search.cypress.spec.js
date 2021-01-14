@@ -48,7 +48,7 @@ describe('Facility search', () => {
   });
 
   for (let i = 0; i < 60; i += 1) {
-    it('does a simple search and finds a result on the list', () => {
+    it.skip('does a simple search and finds a result on the list', () => {
       cy.visit('/find-locations');
 
       cy.injectAxe();
@@ -127,15 +127,16 @@ describe('Facility search', () => {
         });
     });
 
-    it('does not show search result header if no results are found', () => {
+    it.skip('does not show search result header if no results are found', () => {
       cy.visit('/find-locations?fail=true');
 
       cy.get('#search-results-subheader').should('not.exist');
       cy.get('#other-tools').should('not.exist');
     });
 
-    it('finds community dentists', () => {
+    it.skip('finds community dentists', () => {
       cy.visit('/find-locations');
+      cy.injectAxe();
 
       cy.get('#street-city-state-zip').type('Austin, TX', { delay: 200 });
       cy.get('#facility-type-dropdown').select(
@@ -145,12 +146,11 @@ describe('Facility search', () => {
       cy.get('#downshift-1-item-0').click();
 
       cy.get('#facility-search').click();
-      cy.get('#search-results-subheader').contains(
+      cy.get('#search-results-subheader', { waitForAnimations: true }).contains(
         'Results for "Community providers (in VA’s network)", "Dentist - Orofacial Pain " near "Austin, Texas"',
       );
       cy.get('#other-tools').should('exist');
 
-      cy.injectAxe();
       cy.axeCheck();
 
       cy.get('.facility-result h3').contains('BADEA, LUANA');
@@ -160,23 +160,24 @@ describe('Facility search', () => {
 
     it('finds community urgent care', () => {
       cy.visit('/find-locations');
+      cy.injectAxe();
 
       cy.get('#street-city-state-zip').type('Austin, TX', { delay: 200 });
       cy.get('#facility-type-dropdown').select(
         'Community providers (in VA’s network)',
       );
-      cy.get('#service-type-ahead-input').type('Clinic/Center - Urgent care', {
+      cy.get('#service-type-ahead-input').type('Clinic/Center - Urgent Care', {
         delay: 200,
       });
       cy.get('#downshift-1-item-0').click();
 
       cy.get('#facility-search').click();
-      cy.get('#search-results-subheader').contains(
+      cy.get('#mapbox-gl-container', { waitForAnimations: true });
+      cy.get('#search-results-subheader', { waitForAnimations: true }).contains(
         'Results for "Community providers (in VA’s network)", "Clinic/Center - Urgent Care" near "Austin, Texas"',
       );
       cy.get('#other-tools').should('exist');
 
-      cy.injectAxe();
       cy.axeCheck();
 
       cy.get('.facility-result h3').contains('Concentra Urgent Care');
@@ -192,7 +193,8 @@ describe('Facility search', () => {
         'Community urgent care providers (in VA’s network)',
       );
       cy.get('#facility-search').click();
-      cy.get('#search-results-subheader').contains(
+      cy.get('#mapbox-gl-container', { waitForAnimations: true });
+      cy.get('#search-results-subheader', { waitForAnimations: true }).contains(
         'Results for "Urgent care", "Community urgent care providers (in VA’s network)" near "Austin, Texas"',
       );
       cy.get('#other-tools').should('exist');
@@ -204,7 +206,7 @@ describe('Facility search', () => {
       cy.get('.va-pagination').should('not.exist');
     });
 
-    it('should recover search from an error response state - invalid input location', () => {
+    it.skip('should recover search from an error response state - invalid input location', () => {
       cy.visit('/find-locations');
       cy.injectAxe();
 
@@ -241,7 +243,7 @@ describe('Facility search', () => {
       cy.axeCheck();
     });
 
-    it('finds va benefits facility in Los Angeles and views its page', () => {
+    it.skip('finds va benefits facility in Los Angeles and views its page', () => {
       cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-la-location').as(
         'caLocation',
       );
@@ -278,7 +280,7 @@ describe('Facility search', () => {
       cy.axeCheck();
     });
 
-    it('renders static map images on detail page', () => {
+    it.skip('renders static map images on detail page', () => {
       // from https://stackoverflow.com/questions/51246606/test-loading-of-image-in-cypress
       cy.visit('/find-locations/facility/vha_688GA');
       cy.get('[alt="Static map"]')
