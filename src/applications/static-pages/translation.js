@@ -1,13 +1,23 @@
 /* eslint-disable no-console */
-import i18Content from './i18Content.json';
 import recordEvent from 'platform/monitoring/record-event';
+
+const faqI18Content = {
+  en: {
+    linkTitle: 'Read this page in English',
+    langToggleLink: 'coronavirus-veteran-frequently-asked-questions',
+  },
+  es: {
+    linkTitle: 'Leer esta página en Español',
+    langToggleLink: 'coronavirus-veteran-frequently-asked-questions-esp',
+  },
+};
 
 const configureTranslationLink = (e, currentLang, targetLang) => {
   const contentDiv = document.getElementById('content');
   contentDiv.lang = currentLang;
   e.dataset.lang = currentLang;
-  e.innerText = i18Content[targetLang].linkTitle;
-  e.href = i18Content[targetLang].langToggleLink;
+  e.innerText = faqI18Content[targetLang].linkTitle;
+  e.href = faqI18Content[targetLang].langToggleLink;
   e.onclick = recordEvent({
     event: 'faq-lang-toggle',
     targetLang,
@@ -30,8 +40,8 @@ const displayTranslationLink = () => {
     window.location.href.includes(url),
   );
 
-  if (!isTranslatable) {
-    i18LinkWrapper.style.display = 'none';
+  if (isTranslatable) {
+    i18LinkWrapper.style.display = 'block';
   }
   const i18link = document.querySelector('a.i18-toggle');
 
