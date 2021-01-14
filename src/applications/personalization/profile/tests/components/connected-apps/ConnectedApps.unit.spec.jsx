@@ -25,6 +25,7 @@ describe('<ConnectedApps>', () => {
       loadConnectedApps: () => {},
       deleteConnectedApp: () => {},
       dismissDeletedAppAlert: () => {},
+      getPrivacyPolicy: () => {},
     };
 
     const wrapper = shallow(<ConnectedApps {...defaultProps} />);
@@ -47,9 +48,11 @@ describe('<ConnectedApps>', () => {
     const defaultProps = {
       apps: [{ deleted: true }, { deleted: true }],
       loading: false,
+      privacyPolicies: {},
       loadConnectedApps: () => {},
       deleteConnectedApp: () => {},
       dismissDeletedAppAlert: () => {},
+      getPrivacyPolicy: () => {},
     };
 
     const wrapper = mount(<ConnectedApps {...defaultProps} />);
@@ -86,6 +89,7 @@ describe('<ConnectedApps>', () => {
       loadConnectedApps: () => {},
       deleteConnectedApp: () => {},
       dismissDeletedAppAlert: () => {},
+      getPrivacyPolicy: () => {},
     };
 
     const wrapper = mount(<ConnectedApps {...defaultProps} />);
@@ -107,9 +111,11 @@ describe('<ConnectedApps>', () => {
     const defaultProps = {
       apps: [{ deleted: true }, { deleted: true }],
       loading: true,
+      privacyPolicies: {},
       loadConnectedApps: () => {},
       deleteConnectedApp: () => {},
       dismissDeletedAppAlert: () => {},
+      getPrivacyPolicy: () => {},
     };
 
     const wrapper = mount(<ConnectedApps {...defaultProps} />);

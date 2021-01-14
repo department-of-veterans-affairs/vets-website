@@ -6,6 +6,8 @@ import {
   DELETING_CONNECTED_APP,
   ERROR_LOADING_CONNECTED_APPS,
   ERROR_DELETING_CONNECTED_APP,
+  ERROR_FETCHING_PRIVACY_POLICY,
+  FINISHED_FETCHING_PRIVACY_POLICY,
   FINISHED_LOADING_CONNECTED_APPS,
   FINISHED_DELETING_CONNECTED_APP,
   LOADING_CONNECTED_APPS,
@@ -19,6 +21,7 @@ describe('Connected Apps reducer', () => {
       apps: [],
       errors: [],
       loading: false,
+      privacyPolicies: {},
     });
   });
 
@@ -29,6 +32,7 @@ describe('Connected Apps reducer', () => {
       apps: [],
       errors: [],
       loading: true,
+      privacyPolicies: {},
     });
   });
 
@@ -39,6 +43,7 @@ describe('Connected Apps reducer', () => {
       apps: ['hello'],
       errors: [],
       loading: false,
+      privacyPolicies: {},
     });
   });
 
@@ -49,6 +54,7 @@ describe('Connected Apps reducer', () => {
       apps: [],
       errors: ['hello'],
       loading: false,
+      privacyPolicies: {},
     });
   });
 
@@ -59,6 +65,7 @@ describe('Connected Apps reducer', () => {
       deleting: false,
       errors: [],
       loading: false,
+      privacyPolicies: {},
     };
     const state = reducer(prevState, action);
     expect(state).to.be.deep.equal({
@@ -66,6 +73,7 @@ describe('Connected Apps reducer', () => {
       deleting: false,
       errors: [],
       loading: false,
+      privacyPolicies: {},
     });
   });
 
@@ -82,6 +90,7 @@ describe('Connected Apps reducer', () => {
       ],
       errors: [],
       loading: false,
+      privacyPolicies: {},
     };
     const state = reducer(prevState, action);
     expect(state).to.be.deep.equal({
@@ -91,6 +100,7 @@ describe('Connected Apps reducer', () => {
       ],
       errors: [],
       loading: false,
+      privacyPolicies: {},
     });
   });
 
@@ -103,6 +113,7 @@ describe('Connected Apps reducer', () => {
       ],
       errors: [],
       loading: false,
+      privacyPolicies: {},
     };
     const state = reducer(prevState, action);
     expect(state).to.be.deep.equal({
@@ -112,6 +123,7 @@ describe('Connected Apps reducer', () => {
       ],
       errors: [],
       loading: false,
+      privacyPolicies: {},
     });
   });
 
@@ -121,12 +133,48 @@ describe('Connected Apps reducer', () => {
       apps: [{ id: '1' }, { id: '2' }],
       errors: [],
       loading: false,
+      privacyPolicies: {},
     };
     const state = reducer(prevState, action);
     expect(state).to.be.deep.equal({
       apps: [{ id: '2' }],
       errors: [],
       loading: false,
+      privacyPolicies: {},
+    });
+  });
+
+  it('handles the action type FINISHED_FETCHING_PRIVACY_POLICY', () => {
+    const action = {
+      appTitle: 'Apple Health',
+      data: { privacyUrl: 'https://www.apple.com/legal/privacy/' },
+      type: FINISHED_FETCHING_PRIVACY_POLICY,
+    };
+    const prevState = {
+      apps: [],
+      errors: [],
+      loading: false,
+      privacyPolicies: {},
+    };
+    const state = reducer(prevState, action);
+    expect(state).to.be.deep.equal({
+      apps: [],
+      errors: [],
+      loading: false,
+      privacyPolicies: {
+        'Apple Health': 'https://www.apple.com/legal/privacy/',
+      },
+    });
+  });
+
+  it('handles the action type ERROR_FETCHING_PRIVACY_POLICY', () => {
+    const action = { errors: ['hello'], type: ERROR_FETCHING_PRIVACY_POLICY };
+    const state = reducer(undefined, action);
+    expect(state).to.be.deep.equal({
+      apps: [],
+      errors: ['hello'],
+      loading: false,
+      privacyPolicies: {},
     });
   });
 });

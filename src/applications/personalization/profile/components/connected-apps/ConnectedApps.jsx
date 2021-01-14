@@ -238,8 +238,10 @@ ConnectedApps.propTypes = {
   loadConnectedApps: PropTypes.func.isRequired,
   deleteConnectedApp: PropTypes.func.isRequired,
   dismissDeletedAppAlert: PropTypes.func.isRequired,
+  getPrivacyPolicy: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   errors: PropTypes.array,
+  privacyPolicies: PropTypes.object,
 };
 
 export default connect(
