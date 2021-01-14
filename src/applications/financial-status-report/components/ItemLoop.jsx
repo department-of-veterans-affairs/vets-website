@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
-import _ from 'lodash/fp';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
 import { scrollToFirstError } from 'platform/forms-system/src/js/utilities/ui';
@@ -133,7 +132,9 @@ const InputSection = ({
                     </button>
                   )}
 
-                  {showCancel && <a onClick={handleCancel}>Cancel</a>}
+                  {showCancel && (
+                    <a onClick={() => handleCancel(index)}>Cancel</a>
+                  )}
                 </div>
                 <div className="small-8 right columns">
                   {showRemove && (
@@ -168,7 +169,7 @@ const AddAnotherButton = ({
         <a
           className="add-item-link"
           disabled={!formData || addAnotherDisabled}
-          onClick={() => handleAdd()}
+          onClick={handleAdd}
         >
           {uiOptions.itemName ? `Add ${uiOptions.itemName}` : 'Add another'}
         </a>
@@ -245,41 +246,22 @@ const ItemLoop = ({
   };
 
   const handleChange = (index, value) => {
-    const newItems = _.set(index, value, formData || []);
-    onChange(newItems);
+    const data = formData?.length ? formData : [value];
+    const newData = data.map((item, i) => (index === i ? value : item));
+    onChange(newData);
   };
 
   const handleEdit = (e, index) => {
     e.preventDefault();
+    const editData = editing.map((item, i) => (i === index ? true : item));
 
     if (editing.length === 1) {
       setShowTable(false);
     }
 
-    const editData = editing.map((item, i) => {
-      if (i === index) {
-        return true;
-      }
-      if (item !== 'add') {
-        return false;
-      }
-      return item;
-    });
-
     setOldData(formData);
     setEditing(editData);
     handleScroll(`table_${idSchema.$id}_${index}`, 0);
-  };
-
-  const formatEditData = editArr => {
-    // if adding and editing set all editing vals to false except for the add row
-    const conditions = [true, 'add'];
-    const isEditAndAdd = conditions.every(item => editArr.includes(item));
-
-    if (isEditAndAdd) {
-      return editArr.map(item => (item === 'add' ? item : false));
-    }
-    return editArr.map(() => false);
   };
 
   const handleUpdate = (e, i) => {
@@ -292,7 +274,10 @@ const ItemLoop = ({
     }
 
     if (errorSchemaIsValid(errorSchema[i])) {
-      const editData = formatEditData(editing);
+      const editData = editing.map(
+        (item, index) => (i === index ? false : item),
+      );
+
       setEditing(editData);
       handleScroll(`table_${idSchema.$id}_${i}`, 0);
     } else {
@@ -307,18 +292,16 @@ const ItemLoop = ({
   const handleAdd = () => {
     const lastIndex = formData.length - 1;
     if (errorSchemaIsValid(errorSchema[lastIndex])) {
-      const editData = editing.map(() => false);
       const defaultData = getDefaultFormState(
         schema.additionalItems,
         undefined,
         registry.definitions,
       );
       const newFormData = [...formData, defaultData];
-
       onChange(newFormData);
       setOldData(formData);
+      setEditing([...editing, 'add']);
       setShowTable(true);
-      setEditing([...editData, 'add']);
       handleScroll(`table_${idSchema.$id}_${lastIndex + 1}`, 0);
     } else {
       const touched = setArrayRecordTouched(idSchema.$id, lastIndex);
@@ -328,8 +311,18 @@ const ItemLoop = ({
     }
   };
 
-  const handleCancel = () => {
-    const editData = formatEditData(editing);
+  const handleCancel = index => {
+    const lastIndex = formData.length - 1;
+    let editData = editing;
+
+    if (editing.includes('add') && index === lastIndex) {
+      editData = editing.filter(item => item !== 'add');
+    } else {
+      editData = editing.map((item, i) => {
+        return index === i ? false : item;
+      });
+    }
+
     setEditing(editData);
     onChange(oldData);
   };
