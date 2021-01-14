@@ -56,7 +56,7 @@ describe('Facility search', () => {
 
       cy.verifyOptions();
 
-      cy.get('#street-city-state-zip').type('Austin, TX');
+      cy.get('#street-city-state-zip').type('Austin, TX', { delay: 200 });
       cy.get('#facility-type-dropdown').select('VA health');
       cy.get('#service-type-dropdown').select('Primary care');
       cy.get('#facility-search').click();
@@ -76,7 +76,7 @@ describe('Facility search', () => {
     it.skip('should render breadcrumbs ', () => {
       cy.visit('/find-locations');
 
-      cy.get('#street-city-state-zip').type('Austin, TX');
+      cy.get('#street-city-state-zip').type('Austin, TX', { delay: 200 });
       cy.get('#facility-type-dropdown').select('VA health');
       cy.get('#facility-search')
         .click()
@@ -137,11 +137,11 @@ describe('Facility search', () => {
     it('finds community dentists', () => {
       cy.visit('/find-locations');
 
-      cy.get('#street-city-state-zip').type('Austin, TX');
+      cy.get('#street-city-state-zip').type('Austin, TX', { delay: 200 });
       cy.get('#facility-type-dropdown').select(
         'Community providers (in VA’s network)',
       );
-      cy.get('#service-type-ahead-input').type('Dentist');
+      cy.get('#service-type-ahead-input').type('Dentist', { delay: 200 });
       cy.get('#downshift-1-item-0').click();
 
       cy.get('#facility-search').click();
@@ -161,11 +161,13 @@ describe('Facility search', () => {
     it('finds community urgent care', () => {
       cy.visit('/find-locations');
 
-      cy.get('#street-city-state-zip').type('Austin, TX');
+      cy.get('#street-city-state-zip').type('Austin, TX', { delay: 200 });
       cy.get('#facility-type-dropdown').select(
         'Community providers (in VA’s network)',
       );
-      cy.get('#service-type-ahead-input').type('Clinic/Center - Urgent care');
+      cy.get('#service-type-ahead-input').type('Clinic/Center - Urgent care', {
+        delay: 200,
+      });
       cy.get('#downshift-1-item-0').click();
 
       cy.get('#facility-search').click();
@@ -184,7 +186,7 @@ describe('Facility search', () => {
     it('finds community urgent care', () => {
       cy.visit('/find-locations');
 
-      cy.get('#street-city-state-zip').type('Austin, TX');
+      cy.get('#street-city-state-zip').type('Austin, TX', { delay: 200 });
       cy.get('#facility-type-dropdown').select('Urgent care');
       cy.get('#service-type-dropdown').select(
         'Community urgent care providers (in VA’s network)',
@@ -214,7 +216,9 @@ describe('Facility search', () => {
         'failedLocation',
       );
 
-      cy.get('#street-city-state-zip').type('31234asd0o203o213');
+      cy.get('#street-city-state-zip').type('31234asd0o203o213', {
+        delay: 200,
+      });
       cy.get('#facility-type-dropdown').select('VA health');
       cy.get('#facility-search').click();
       cy.get('.facility-search-results').contains(
@@ -226,7 +230,7 @@ describe('Facility search', () => {
       cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data').as(
         'validLocationSearch',
       );
-      cy.get('#street-city-state-zip').type('Austin, TX');
+      cy.get('#street-city-state-zip').type('Austin, TX', { delay: 200 });
       cy.get('#facility-type-dropdown').select('VA health');
       cy.get('#service-type-dropdown').select('Primary care');
       cy.get('#facility-search').click();
@@ -245,7 +249,7 @@ describe('Facility search', () => {
       cy.visit('/find-locations');
       cy.injectAxe();
 
-      cy.get('#street-city-state-zip').type('Los Angeles');
+      cy.get('#street-city-state-zip').type('Los Angeles', { delay: 200 });
       cy.get('#facility-type-dropdown').select('VA benefits');
       cy.get('#facility-search').click();
       cy.get('#search-results-subheader').contains(
