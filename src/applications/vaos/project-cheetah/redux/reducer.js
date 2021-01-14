@@ -438,7 +438,7 @@ export default function projectCheetahReducer(state = initialState, action) {
       };
     case FORM_CALENDAR_FETCH_SLOTS: {
       return {
-        ...state, // TODO newBooking
+        ...state,
         newBooking: {
           ...state.newBooking,
           appointmentSlotsStatus: FETCH_STATUS.loading,
@@ -447,7 +447,7 @@ export default function projectCheetahReducer(state = initialState, action) {
     }
     case FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED: {
       return {
-        ...state, // TODO newBooking
+        ...state,
         newBooking: {
           ...state.newBooking,
           appointmentSlotsStatus: FETCH_STATUS.succeeded,
@@ -458,7 +458,7 @@ export default function projectCheetahReducer(state = initialState, action) {
     }
     case FORM_CALENDAR_FETCH_SLOTS_FAILED: {
       return {
-        ...state, // TODO newBooking
+        ...state,
         newBooking: {
           ...state.newBooking,
           appointmentSlotsStatus: FETCH_STATUS.failed,
@@ -472,9 +472,9 @@ export default function projectCheetahReducer(state = initialState, action) {
           ...state.newBooking,
           data: {
             ...state.newBooking.data,
-            [action.pageKey.includes('2')
-              ? 'date2'
-              : 'date1']: action.selectedDates,
+            [action.pageKey.includes('1')
+              ? 'date1'
+              : 'date2']: action.selectedDates,
           },
         },
       };
