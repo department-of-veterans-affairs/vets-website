@@ -8,7 +8,7 @@ const bannerAlertsQuery = require('./bannerAlerts.graphql');
 const basicLandingPage = require('./nodeBasicLandingPage.graphql');
 const benefitListingPage = require('./benefitListingPage.graphql');
 const bioPage = require('./bioPage.graphql');
-const campaignLandingPage = require('./nodeCampaignLandingPage.graphql');
+const nodeCampaignLandingPage = require('./nodeCampaignLandingPage.graphql');
 const checklistPage = require('./nodeChecklist.graphql');
 const eventListingPage = require('./eventListingPage.graphql');
 const eventPage = require('./eventPage.graphql');
@@ -89,7 +89,7 @@ const buildQuery = ({ useTomeSync }) => {
   ${mediaListVideos}
   ${supportResourcesDetailPage}
   ${basicLandingPage}
-  ${campaignLandingPage}
+  ${nodeCampaignLandingPage}
 `;
 
   const todayQueryVar = useTomeSync ? '' : '$today: String!,';

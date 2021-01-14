@@ -17,7 +17,6 @@ const fragment = `
           fieldLink {
             uri
             title
-            options
           }
           fieldMetatags
           fieldSocialMediaLinks {
@@ -45,7 +44,6 @@ const fragment = `
                 fieldLink {
                   uri
                   title
-                  options
                 }
                 fieldMetatags
                 fieldSocialMediaLinks {
@@ -84,7 +82,6 @@ const fragment = `
           fieldLink {
             uri
             title
-            options
           }
           fieldMetatags
           fieldSocialMediaLinks {
@@ -134,7 +131,6 @@ const fragment = `
                 fieldLink {
                   uri
                   title
-                  options
                 }
                 fieldMetatags
                 fieldSocialMediaLinks {
@@ -181,7 +177,6 @@ const fragment = `
           fieldLink {
             uri
             title
-            options
           }
           fieldListing {
             entity {
@@ -200,7 +195,6 @@ const fragment = `
                       fieldLink {
                         uri
                         title
-                        options
                       }
                       fieldMetatags
                       fieldSocialMediaLinks {
@@ -234,7 +228,6 @@ const fragment = `
                             fieldLink {
                               uri
                               title
-                              options
                             }
                             fieldMetatags
                             fieldSocialMediaLinks {
@@ -283,7 +276,6 @@ const fragment = `
           fieldUrlOfAnOnlineEvent {
             uri
             title
-            options
           }
         }
       }
@@ -298,7 +290,6 @@ const fragment = `
           fieldButtonLink {
             uri
             title
-            options
           }
         }
       }
@@ -338,7 +329,6 @@ const fragment = `
           fieldMediaExternalFile {
             uri
             title
-            options
           }
           fieldMediaInLibrary
           fieldMimeType
@@ -356,7 +346,6 @@ const fragment = `
                 fieldLink {
                   uri
                   title
-                  options
                 }
                 fieldSocialMediaLinks {
                   platform
@@ -379,7 +368,6 @@ const fragment = `
           fieldButtonLink {
             uri
             title
-            options
           }
         }
       }
@@ -397,7 +385,6 @@ const fragment = `
           fieldButtonLink {
             uri
             title
-            options
           }
         }
       }
@@ -413,7 +400,6 @@ const fragment = `
           fieldLink {
             uri
             title
-            options
           }
           fieldLinkSummary
         }
@@ -423,7 +409,6 @@ const fragment = `
     fieldClpStoriesCta {
       uri
       title
-      options
     }
     fieldClpStoriesHeader
     fieldClpStoriesIntro
@@ -440,7 +425,6 @@ const fragment = `
                 fieldLink {
                   uri
                   title
-                  options
                 }
                 fieldLinkSummary
               }
@@ -476,7 +460,6 @@ const fragment = `
           fieldButtonLink {
             uri
             title
-            options
           }
         }
       }
@@ -516,7 +499,6 @@ const fragment = `
                 fieldLink {
                   uri
                   title
-                  options
                 }
                 fieldSocialMediaLinks {
                   platform
@@ -535,7 +517,6 @@ const fragment = `
                 fieldLink {
                   uri
                   title
-                  options
                 }
                 fieldLinkSummary
               }
@@ -591,7 +572,6 @@ const fragment = `
           fieldButtonLink {
             uri
             title
-            options
           }
         }
       }
@@ -606,7 +586,6 @@ const fragment = `
           fieldButtonLink {
             uri
             title
-            options
           }
         }
       }
