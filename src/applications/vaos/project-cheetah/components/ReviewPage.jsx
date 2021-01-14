@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import * as actions from '../redux/actions';
+// import * as actions from '../redux/actions';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { FETCH_STATUS } from '../../utils/constants';
@@ -129,7 +129,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  submitAppointmentOrRequest: actions.submitAppointmentOrRequest,
+  // submitAppointmentOrRequest: actions.submitAppointmentOrRequest,
 };
 
 export default connect(
