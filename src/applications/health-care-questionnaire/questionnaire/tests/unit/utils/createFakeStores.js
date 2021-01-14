@@ -262,7 +262,10 @@ const createFakeConfirmationStore = ({ hasData }) => {
                   attributes: {
                     vdsAppointments: [
                       {
-                        clinic: { facility: { displayName: 'Magic Kingdom' } },
+                        clinic: {
+                          stopCode: '323',
+                          facility: { displayName: 'Magic Kingdom' },
+                        },
                       },
                     ],
                   },
