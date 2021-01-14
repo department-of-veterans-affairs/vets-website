@@ -5,8 +5,6 @@ const moment = require('moment-timezone');
 const { readEntity } = require('../helpers');
 const buckets = require('../../../../constants/buckets');
 
-const ProdBucket = buckets.vagovprod;
-
 const mediaImageStyles = [
   {
     style: '_1_1_SQUARE_MEDIUM_THUMBNAIL',
@@ -115,7 +113,7 @@ function getImageCrop(obj, imageStyle = null) {
     // 'https://{buildtype}.cms.va.gov/sites/default/files/', so add that here.
     // It doesn't matter what the build type is since it gets stripped out in convertDrupalFilesToLocal
     // so just use prod here
-    imageObj.image.derivative.url = `${ProdBucket}${url}`;
+    imageObj.image.derivative.url = `${buckets.vagovprod}${url}`;
     imageObj.image.derivative.width = image.width;
     imageObj.image.derivative.height = image.height;
     return imageObj;
