@@ -12,7 +12,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { getRealFacilityId } from '../../utils/appointment';
 
 const pageKey = 'selectDate2';
-const pageTitle = 'Select First Date';
+const pageTitle = 'Select second date';
 
 const missingDateError =
   'Please choose your preferred date and time for your appointment.';
@@ -58,8 +58,8 @@ function goForward({
   setSubmitted,
   setValidationError,
 }) {
-  validate({ date: data.selectedDates2, setValidationError });
-  if (data.selectedDates2?.length) {
+  validate({ date: data.date2, setValidationError });
+  if (data.date2?.length) {
     routeToNextAppointmentPage(history, pageKey);
   } else if (submitted) {
     scrollAndFocus('.usa-input-error-message');
@@ -75,7 +75,7 @@ export function SelectDate2Page({
   facilityId,
   getAppointmentSlots,
   pageChangeInProgress,
-  onCalendar2Change,
+  onCalendarChange,
   routeToPreviousAppointmentPage,
   routeToNextAppointmentPage,
   timezone,
@@ -85,7 +85,7 @@ export function SelectDate2Page({
   const [submitted, setSubmitted] = useState(false);
   const [validationError, setValidationError] = useState(null);
   const firstAppoinmentSlot = data.selectedDates[0];
-  const selectedDates2 = data.selectedDates2;
+  const date2 = data.date2;
 
   useEffect(() => {
     getAppointmentSlots(
@@ -126,7 +126,7 @@ export function SelectDate2Page({
       <CalendarWidget
         maxSelections={1}
         availableSlots={availableSlots}
-        value={selectedDates2}
+        value={date2}
         additionalOptions={{
           fieldName: 'datetime',
           required: true,
@@ -137,7 +137,7 @@ export function SelectDate2Page({
         loadingErrorMessage={<ErrorMessage facilityId={facilityId} />}
         onChange={dates => {
           validate({ dates, setValidationError });
-          onCalendar2Change(dates);
+          onCalendarChange(dates, pageKey);
         }}
         onClickNext={getAppointmentSlots}
         onClickPrev={getAppointmentSlots}
@@ -175,7 +175,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   getAppointmentSlots: actions.getAppointmentSlots,
-  onCalendar2Change: actions.onCalendar2Change,
+  onCalendarChange: actions.onCalendarChange,
   routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
   routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
   startRequestAppointmentFlow: actions.startAppointmentFlow,
