@@ -634,6 +634,9 @@ export const hasHospitalCare = formData =>
   needsToAnswerUnemployability(formData) &&
   _.get('unemployability.hospitalized', formData, false);
 
+export const getPdfSizeFeature = () =>
+  sessionStorage.getItem(PDF_SIZE_FEATURE) === 'true';
+
 export const ancillaryFormUploadUi = (
   label,
   itemDescription,
@@ -645,7 +648,7 @@ export const ancillaryFormUploadUi = (
     addAnotherLabel = 'Add Another',
   } = {},
 ) => {
-  const pdfSizeFeature = sessionStorage.getItem(PDF_SIZE_FEATURE) === 'true';
+  const pdfSizeFeature = getPdfSizeFeature();
   return fileUploadUI(label, {
     itemDescription,
     hideLabelText: !label,

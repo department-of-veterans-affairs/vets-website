@@ -1,12 +1,7 @@
 import React from 'react';
 
-import {
-  MAX_FILE_SIZE_MB,
-  MAX_PDF_FILE_SIZE_MB,
-  PDF_SIZE_FEATURE,
-} from '../constants';
-
-const pdfSizeFeature = sessionStorage.getItem(PDF_SIZE_FEATURE) === 'true';
+import { MAX_FILE_SIZE_MB, MAX_PDF_FILE_SIZE_MB } from '../constants';
+import { getPdfSizeFeature } from '../utils';
 
 /**
  * Generic description added to file upload pages
@@ -14,7 +9,10 @@ const pdfSizeFeature = sessionStorage.getItem(PDF_SIZE_FEATURE) === 'true';
  * @param {Boolean} uploadPdfLimit - state of the evss_upload_limit_150mb
  *   feature flag
  */
-export const UploadDescription = ({ uploadTitle }) => (
+export const UploadDescription = ({
+  uploadTitle,
+  showPdfSize = getPdfSizeFeature(),
+}) => (
   <div>
     {uploadTitle && <h3 className="vads-u-font-size--h5">{uploadTitle}</h3>}
     <p>
@@ -31,10 +29,10 @@ export const UploadDescription = ({ uploadTitle }) => (
       </li>
       <li>
         {`Maximum ${
-          pdfSizeFeature ? 'non-PDF ' : ''
+          showPdfSize ? 'non-PDF ' : ''
         }file size: ${MAX_FILE_SIZE_MB}MB`}
       </li>
-      {pdfSizeFeature && (
+      {showPdfSize && (
         <li>{`Maximum PDF file size: ${MAX_PDF_FILE_SIZE_MB}MB`}</li>
       )}
     </ul>
