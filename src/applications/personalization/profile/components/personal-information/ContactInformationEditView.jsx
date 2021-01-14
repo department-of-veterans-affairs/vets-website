@@ -254,11 +254,7 @@ export class ContactInformationEditView extends Component {
       <>
         {error && (
           <div
-            // Using negative top margin rather than removing the margin in the
-            // VAPServiceEditModalErrorMessage component itself because that
-            // component is used elsewhere and might need the margin in other
-            // situations
-            className="vads-u-margin-bottom--2 vads-u-margin-top--neg3"
+            className="vads-u-margin-bottom--2"
             data-testid="edit-error-alert"
           >
             <VAPServiceEditModalErrorMessage
