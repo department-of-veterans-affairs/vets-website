@@ -21,7 +21,7 @@ module.exports = {
           },
         },
         fieldServiceLocation: {
-          type: 'array',
+          type: ['array', 'null'],
           items: {
             entity: {
               type: { $ref: 'output/paragraph-service_location' },
@@ -33,7 +33,7 @@ module.exports = {
         fieldWalkInsAccepted: { type: ['string', 'null'] },
         fieldPhoneNumbersParagraph: { type: 'array' },
         fieldFacilityLocation: {
-          type: 'object',
+          type: ['object', 'null'],
           items: {
             entity: partialSchema(healthCareLocalFacilitySchema, [
               'entityUrl',
