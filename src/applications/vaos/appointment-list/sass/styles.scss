@@ -56,12 +56,20 @@
   margin: 0 0 16px;
 }
 
-.vaos__card {
+.vaos-appts__card {
   position: relative;
   border-radius: 10px;
+  background-color: $color-gray-lightest;
+  padding: 16px;
+  margin-bottom: 16px;
+
+  @include media($medium-screen) {
+    padding: 24px;
+    margin-bottom: 24px;
+  }
 }
 
-.vaos__card-link::after {
+.vaos-appts__card-link::after {
   content: "";
   position: absolute;
   left: 0;

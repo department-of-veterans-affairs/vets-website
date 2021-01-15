@@ -12,7 +12,7 @@ export default function ExpressCareListItem({ appointment, cancelled }) {
   return (
     <li
       data-request-id={appointment.id}
-      className="vaos__card vads-u-padding--2 vads-u-background-color--gray-lightest vads-u-display--flex vads-u-margin-bottom--2 vads-u-align-items--center"
+      className="vaos-appts__card vads-u-display--flex vads-u-align-items--center"
     >
       <div className="vads-u-flex--1">
         {cancelled && (
@@ -45,7 +45,7 @@ export default function ExpressCareListItem({ appointment, cancelled }) {
         <Link
           aria-hidden="true"
           to={`va/${appointment.id}`}
-          className="vaos__card-link"
+          className="vaos-appts__card-link"
         >
           <i className="fas fa-chevron-right vads-u-margin-left--1" />
         </Link>

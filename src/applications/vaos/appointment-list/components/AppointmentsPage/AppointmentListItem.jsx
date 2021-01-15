@@ -81,7 +81,7 @@ export default function AppointmentListItem({ appointment, facility }) {
   return (
     <li
       data-request-id={appointment.id}
-      className="vaos__card vads-u-padding--2 vads-u-background-color--gray-lightest vads-u-display--flex vads-u-margin-bottom--2 vads-u-align-items--center"
+      className="vaos-appts__card vads-u-display--flex vads-u-align-items--center"
     >
       <div className="vads-u-flex--1">
         <h4 className="vads-u-font-size--h4 vads-u-margin-x--0 vads-u-margin-top--0 vads-u-margin-bottom--0p25">
@@ -125,7 +125,7 @@ export default function AppointmentListItem({ appointment, facility }) {
         <Link
           aria-hidden="true"
           to={`va/${appointment.id}`}
-          className="vaos__card-link"
+          className="vaos-appts__card-link"
         >
           <i className="fas fa-chevron-right vads-u-margin-left--1" />
         </Link>

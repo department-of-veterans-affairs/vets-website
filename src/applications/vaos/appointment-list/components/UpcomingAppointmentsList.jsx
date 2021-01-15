@@ -66,7 +66,7 @@ function UpcomingAppointmentsList({
                 aria-labelledby={`appointment_list_${monthDate.format(
                   'YYYY-MM',
                 )}`}
-                className="usa-unstyled-list"
+                className="vads-u-padding-left--0"
               >
                 {monthBucket.map((appt, index) => {
                   const facilityId = getVAAppointmentLocationId(appt);
