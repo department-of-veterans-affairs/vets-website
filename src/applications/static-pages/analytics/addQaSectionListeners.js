@@ -24,7 +24,9 @@ function attachDataToAnchorTags(qaSelector) {
 
     [...anchors].forEach(anchor => {
       const { dataset: anchorData } = anchor;
-      anchorData.faqSection = faq.dataset.analyticsFaqSection;
+      if (faq.dataset.analyticsFaqSection) {
+        anchorData.faqSection = faq.dataset.analyticsFaqSection;
+      }
       anchorData.faqText = faq.dataset.analyticsFaqText;
     });
   });
