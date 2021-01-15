@@ -12,9 +12,13 @@ function AppointmentListSection({ featureHomepageRefresh }) {
       <Switch>
         <Route
           path="/"
-          component={
-            featureHomepageRefresh ? AppointmentsPageV2 : AppointmentsPage
-          }
+          render={() => {
+            if (featureHomepageRefresh) {
+              return <AppointmentsPageV2 />;
+            }
+
+            return <AppointmentsPage />;
+          }}
         />
       </Switch>
     </PageLayout>
