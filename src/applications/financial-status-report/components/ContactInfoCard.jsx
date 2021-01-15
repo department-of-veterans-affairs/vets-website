@@ -49,12 +49,12 @@ ContactInfoCard.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  addressLine1: state.user.profile.vapContactInfo.mailingAddress?.addressLine1,
-  addressLine2: state.user.profile.vapContactInfo.mailingAddress?.addressLine2,
-  city: state.user.profile.vapContactInfo.mailingAddress?.city,
-  stateCode: state.user.profile.vapContactInfo.mailingAddress?.stateCode,
-  zipCode: state.user.profile.vapContactInfo.mailingAddress?.zipCode,
-  countryName: state.user.profile.vapContactInfo.mailingAddress?.countryName,
+  addressLine1: state.form.data.mailingAddress?.addressLine1,
+  addressLine2: state.form.data.mailingAddress?.addressLine2,
+  city: state.form.data.mailingAddress?.city,
+  stateCode: state.form.data.mailingAddress?.stateCode,
+  zipCode: state.form.data.mailingAddress?.zipCode,
+  countryName: state.form.data.mailingAddress?.countryName,
 });
 
 export default connect(
