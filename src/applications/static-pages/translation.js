@@ -4,11 +4,11 @@ import recordEvent from 'platform/monitoring/record-event';
 const faqI18Content = {
   en: {
     linkTitle: 'Read this page in English',
-    langToggleLink: 'coronavirus-veteran-frequently-asked-questions',
+    langToggleLink: '/coronavirus-veteran-frequently-asked-questions',
   },
   es: {
     linkTitle: 'Leer esta página en Español',
-    langToggleLink: 'coronavirus-veteran-frequently-asked-questions-esp',
+    langToggleLink: '/coronavirus-veteran-frequently-asked-questions-esp',
   },
 };
 
@@ -18,10 +18,11 @@ const configureTranslationLink = (e, currentLang, targetLang) => {
   e.dataset.lang = currentLang;
   e.innerText = faqI18Content[targetLang].linkTitle;
   e.href = faqI18Content[targetLang].langToggleLink;
-  e.onclick = () => recordEvent({
-    event: 'faq-lang-toggle',
-    targetLang,
-  });
+  e.onclick = () =>
+    recordEvent({
+      event: 'faq-lang-toggle',
+      targetLang,
+    });
 };
 
 const displayTranslationLink = () => {
