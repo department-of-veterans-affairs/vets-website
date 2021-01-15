@@ -16,6 +16,10 @@ describe('health care questionnaire - confirmation page  -', () => {
     expect(wrapper.find('[data-testid="facility-name"]').text()).to.equal(
       'Magic Kingdom',
     );
+    expect(
+      wrapper.find('[data-testid="appointment-type-header"]').text(),
+    ).to.equal('Primary care questionnaire');
+
     wrapper.unmount();
   });
   it('displays information -- no data', () => {

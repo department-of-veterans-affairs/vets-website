@@ -15,13 +15,14 @@ describe('OJT institution', () => {
     initApplicationMock(ojtProfile, ojtSearchResults);
 
     // Landing page
-    cy.visit('/gi-bill-comparison-tool').injectAxe();
-    cy.axeCheck();
+    cy.visit('/gi-bill-comparison-tool');
+    cy.injectAxeThenAxeCheck();
     cy.get('input[name*="category"][value="employer"]').check();
     cy.get('.keyword-search input[type="text"]').type(searchTerm);
     cy.get('#search-button').click();
 
     // Search page
+    cy.injectAxeThenAxeCheck();
     cy.url().should(
       'include',
       `/search?category=employer&name=${encodeURIComponent(searchTerm).replace(
@@ -34,9 +35,10 @@ describe('OJT institution', () => {
     // Click first result
     cy.get(`#search-result-${facilityCode} a`)
       .first()
-      .click();
+      .click({ waitForAnimations: true });
 
     // Profile page
+    cy.injectAxeThenAxeCheck();
     const eybSections = {
       yourMilitaryDetails: 'Your military details',
       learningFormat: 'Learning format and schedule',

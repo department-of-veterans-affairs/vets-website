@@ -918,13 +918,10 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
   };
 }
 
-export function onCalendarChange({ currentlySelectedDate, selectedDates }) {
+export function onCalendarChange(selectedDates) {
   return {
     type: FORM_CALENDAR_DATA_CHANGED,
-    calendarData: {
-      currentlySelectedDate,
-      selectedDates,
-    },
+    selectedDates,
   };
 }
 

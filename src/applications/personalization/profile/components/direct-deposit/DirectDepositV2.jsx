@@ -29,6 +29,40 @@ import PaymentHistory from './PaymentHistory';
 import BankInfoCNPv2 from './BankInfoCNPv2';
 import BankInfoEDU from './BankInfoEDU';
 
+const benefitTypes = {
+  CNP: 'compensation and pension benefits',
+  EDU: 'education benefits',
+};
+
+const SuccessMessage = ({ benefit }) => {
+  let content = null;
+  switch (benefit) {
+    case benefitTypes.CNP:
+      content = (
+        <>
+          We’ve updated your bank account information for your{' '}
+          <strong>compensation and pension benefits</strong>. This change should
+          take place immediately.
+        </>
+      );
+      break;
+    case benefitTypes.EDU:
+      content = (
+        <>
+          We’ve updated your bank account information for your{' '}
+          <strong>education benefits</strong>. Your next payment will be
+          deposited into your new account.
+        </>
+      );
+      break;
+
+    default:
+      break;
+  }
+
+  return content;
+};
+
 const DirectDeposit = ({
   cnpUiState,
   eduUiState,
@@ -36,7 +70,10 @@ const DirectDeposit = ({
   isAuthenticatedWithSSOe,
   isLOA3,
 }) => {
-  const [recentlySavedBankInfo, setRecentlySavedBankInfo] = React.useState('');
+  const [
+    recentlySavedBankInfo,
+    setRecentlySavedBankInfoForBenefit,
+  ] = React.useState('');
 
   const isSavingCNPBankInfo = cnpUiState.isSaving;
   const wasSavingCNPBankInfo = usePrevious(cnpUiState.isSaving);
@@ -46,11 +83,19 @@ const DirectDeposit = ({
   const eduSaveError = eduUiState.responseError;
   const showSetUp2FactorAuthentication = isLOA3 && !is2faEnabled;
 
-  const removeBankInfoUpdatedAlert = () => {
-    setTimeout(() => {
-      setRecentlySavedBankInfo('');
-    }, 6000);
+  const bankInfoUpdatedAlertSettings = {
+    FADE_SPEED: window.Cypress ? 1 : 500,
+    TIMEOUT: window.Cypress ? 500 : 6000,
   };
+
+  const removeBankInfoUpdatedAlert = React.useCallback(
+    () => {
+      setTimeout(() => {
+        setRecentlySavedBankInfoForBenefit('');
+      }, bankInfoUpdatedAlertSettings.TIMEOUT);
+    },
+    [bankInfoUpdatedAlertSettings],
+  );
 
   React.useEffect(() => {
     focusElement('[data-focus-target]');
@@ -61,22 +106,32 @@ const DirectDeposit = ({
   React.useEffect(
     () => {
       if (wasSavingCNPBankInfo && !isSavingCNPBankInfo && !cnpSaveError) {
-        setRecentlySavedBankInfo('compensation and pension benefits');
+        setRecentlySavedBankInfoForBenefit(benefitTypes.CNP);
         removeBankInfoUpdatedAlert();
       }
     },
-    [wasSavingCNPBankInfo, isSavingCNPBankInfo, cnpSaveError],
+    [
+      wasSavingCNPBankInfo,
+      isSavingCNPBankInfo,
+      cnpSaveError,
+      removeBankInfoUpdatedAlert,
+    ],
   );
 
   // show the user a success alert after their EDU bank info has saved
   React.useEffect(
     () => {
       if (wasSavingEDUBankInfo && !isSavingEDUBankInfo && !eduSaveError) {
-        setRecentlySavedBankInfo('education benefits');
+        setRecentlySavedBankInfoForBenefit(benefitTypes.EDU);
         removeBankInfoUpdatedAlert();
       }
     },
-    [wasSavingEDUBankInfo, isSavingEDUBankInfo, eduSaveError],
+    [
+      wasSavingEDUBankInfo,
+      isSavingEDUBankInfo,
+      eduSaveError,
+      removeBankInfoUpdatedAlert,
+    ],
   );
 
   return (
@@ -92,21 +147,21 @@ const DirectDeposit = ({
         <ReactCSSTransitionGroup
           transitionName="form-expanding-group-inner"
           transitionAppear
-          transitionAppearTimeout={500}
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={500}
+          transitionAppearTimeout={bankInfoUpdatedAlertSettings.FADE_SPEED}
+          transitionEnterTimeout={bankInfoUpdatedAlertSettings.FADE_SPEED}
+          transitionLeaveTimeout={bankInfoUpdatedAlertSettings.FADE_SPEED}
         >
           {!!recentlySavedBankInfo && (
-            <AlertBox
-              status={ALERT_TYPE.SUCCESS}
-              backgroundOnly
-              className="vads-u-margin-top--0 vads-u-margin-bottom--2"
-              scrollOnShow
-            >
-              We’ve updated your bank account information for your{' '}
-              <strong>{recentlySavedBankInfo}</strong> and your next payment
-              will go to your new account.
-            </AlertBox>
+            <div data-testid="bankInfoUpdateSuccessAlert">
+              <AlertBox
+                status={ALERT_TYPE.SUCCESS}
+                backgroundOnly
+                className="vads-u-margin-top--0 vads-u-margin-bottom--2"
+                scrollOnShow
+              >
+                <SuccessMessage benefit={recentlySavedBankInfo} />
+              </AlertBox>
+            </div>
           )}
         </ReactCSSTransitionGroup>
       </div>

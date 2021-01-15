@@ -19,39 +19,12 @@ const pageTitle = 'Tell us the date and time you’d like your appointment';
 const missingDateError =
   'Please choose your preferred date and time for your appointment.';
 
-export function getOptionsByDate(
-  selectedDate,
-  timezoneDescription,
-  availableSlots = [],
-) {
-  return availableSlots.reduce((acc, slot) => {
-    if (slot.start.split('T')[0] === selectedDate) {
-      let time = moment(slot.start);
-      if (slot.start.endsWith('Z')) {
-        time = time.tz(timezoneDescription);
-      }
-      const meridiem = time.format('A');
-      const screenReaderMeridiem = meridiem.replace(/\./g, '').toUpperCase();
-      acc.push({
-        value: slot.start,
-        label: (
-          <>
-            {time.format('h:mm')} <span aria-hidden="true">{meridiem}</span>{' '}
-            <span className="sr-only">{screenReaderMeridiem}</span>
-          </>
-        ),
-      });
-    }
-    return acc;
-  }, []);
-}
-
 function ErrorMessage({ facilityId, requestAppointmentDateChoice }) {
   return (
     <div aria-atomic="true" aria-live="assertive">
       <AlertBox
         status="error"
-        headline="We’ve run into a problem when trying to find available appointment times"
+        headline="We’ve run into a problem trying to find an appointment time"
       >
         To schedule this appointment, you can{' '}
         <button
@@ -74,16 +47,12 @@ function ErrorMessage({ facilityId, requestAppointmentDateChoice }) {
   );
 }
 
-function userSelectedSlot(calendarData) {
-  return calendarData?.selectedDates?.length > 0;
-}
-
 function goBack({ routeToPreviousAppointmentPage, history }) {
   return routeToPreviousAppointmentPage(history, pageKey);
 }
 
-function validate({ calendarData, setValidationError }) {
-  if (userSelectedSlot(calendarData)) {
+function validate({ dates, setValidationError }) {
+  if (dates?.length) {
     setValidationError(null);
   } else {
     setValidationError(missingDateError);
@@ -98,9 +67,8 @@ function goForward({
   setSubmitted,
   setValidationError,
 }) {
-  const { calendarData } = data || {};
-  validate({ calendarData, setValidationError });
-  if (userSelectedSlot(calendarData)) {
+  validate({ date: data.selectedDates, setValidationError });
+  if (data.selectedDates?.length) {
     routeToNextAppointmentPage(history, pageKey);
   } else if (submitted) {
     scrollAndFocus('.usa-input-error-message');
@@ -111,7 +79,6 @@ function goForward({
 
 export function DateTimeSelectPage({
   appointmentSlotsStatus,
-  availableDates,
   availableSlots,
   data,
   eligibleForRequests,
@@ -156,8 +123,7 @@ export function DateTimeSelectPage({
     [validationError, submitted],
   );
 
-  const calendarData = data?.calendarData || {};
-  const { currentlySelectedDate, selectedDates } = calendarData;
+  const selectedDates = data.selectedDates;
   const startMonth = preferredDate
     ? moment(preferredDate).format('YYYY-MM')
     : null;
@@ -185,15 +151,12 @@ export function DateTimeSelectPage({
       )}
       <CalendarWidget
         maxSelections={1}
-        availableDates={availableDates}
-        currentlySelectedDate={currentlySelectedDate}
-        selectedDates={selectedDates}
+        availableSlots={availableSlots}
+        value={selectedDates}
+        id="dateTime"
+        timezone={timezoneDescription}
         additionalOptions={{
-          fieldName: 'datetime',
           required: true,
-          maxSelections: 1,
-          getOptionsByDate: selectedDate =>
-            getOptionsByDate(selectedDate, timezone, availableSlots),
         }}
         loadingStatus={appointmentSlotsStatus}
         loadingErrorMessage={
@@ -202,9 +165,9 @@ export function DateTimeSelectPage({
             requestAppointmentDateChoice={requestAppointmentDateChoice}
           />
         }
-        onChange={newData => {
-          validate({ calendarData: newData, setValidationError });
-          onCalendarChange(newData);
+        onChange={dates => {
+          validate({ dates, setValidationError });
+          onCalendarChange(dates);
         }}
         onClickNext={getAppointmentSlots}
         onClickPrev={getAppointmentSlots}

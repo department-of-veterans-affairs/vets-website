@@ -12,39 +12,12 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { getRealFacilityId } from '../../utils/appointment';
 
 const pageKey = 'selectDate1';
-const pageTitle = 'Select First Date';
+const pageTitle = 'Select first date';
 
 const missingDateError =
   'Please choose your preferred date and time for your appointment.';
 
-export function getOptionsByDate(
-  selectedDate,
-  timezoneDescription,
-  availableSlots = [],
-) {
-  return availableSlots.reduce((acc, slot) => {
-    if (slot.start.split('T')[0] === selectedDate) {
-      let time = moment(slot.start);
-      if (slot.start.endsWith('Z')) {
-        time = time.tz(timezoneDescription);
-      }
-      const meridiem = time.format('A');
-      const screenReaderMeridiem = meridiem.replace(/\./g, '').toUpperCase();
-      acc.push({
-        value: slot.start,
-        label: (
-          <>
-            {time.format('h:mm')} <span aria-hidden="true">{meridiem}</span>{' '}
-            <span className="sr-only">{screenReaderMeridiem}</span>
-          </>
-        ),
-      });
-    }
-    return acc;
-  }, []);
-}
-
-function ErrorMessage({ facilityId, requestAppointmentDateChoice }) {
+function ErrorMessage({ facilityId }) {
   return (
     <div aria-atomic="true" aria-live="assertive">
       <AlertBox
@@ -52,13 +25,6 @@ function ErrorMessage({ facilityId, requestAppointmentDateChoice }) {
         headline="We’ve run into a problem when trying to find available appointment times"
       >
         To schedule this appointment, you can{' '}
-        <button
-          onClick={() => requestAppointmentDateChoice(history)}
-          className="va-button-link"
-        >
-          submit a request for a VA appointment
-        </button>{' '}
-        or{' '}
         <a
           href={`/find-locations/facility/vha_${getRealFacilityId(facilityId)}`}
           rel="noopener noreferrer"
@@ -72,16 +38,12 @@ function ErrorMessage({ facilityId, requestAppointmentDateChoice }) {
   );
 }
 
-function userSelectedSlot(calendarData) {
-  return calendarData?.selectedDates?.length > 0;
-}
-
 function goBack({ routeToPreviousAppointmentPage, history }) {
   return routeToPreviousAppointmentPage(history, pageKey);
 }
 
-function validate({ calendarData, setValidationError }) {
-  if (userSelectedSlot(calendarData)) {
+function validate({ dates, setValidationError }) {
+  if (dates?.length) {
     setValidationError(null);
   } else {
     setValidationError(missingDateError);
@@ -96,9 +58,8 @@ function goForward({
   setSubmitted,
   setValidationError,
 }) {
-  const { calendarData } = data || {};
-  validate({ calendarData, setValidationError });
-  if (userSelectedSlot(calendarData)) {
+  validate({ date: data.date1, setValidationError });
+  if (data.date1?.length) {
     routeToNextAppointmentPage(history, pageKey);
   } else if (submitted) {
     scrollAndFocus('.usa-input-error-message');
@@ -109,7 +70,6 @@ function goForward({
 
 export function SelectDate1Page({
   appointmentSlotsStatus,
-  availableDates,
   availableSlots,
   data,
   facilityId,
@@ -125,8 +85,7 @@ export function SelectDate1Page({
   const history = useHistory();
   const [submitted, setSubmitted] = useState(false);
   const [validationError, setValidationError] = useState(null);
-  const calendarData = data?.calendarData || {};
-  const { currentlySelectedDate, selectedDates } = calendarData;
+  const selectedDates = data.date1;
 
   useEffect(() => {
     getAppointmentSlots(
@@ -164,16 +123,14 @@ export function SelectDate1Page({
       )}
       <CalendarWidget
         maxSelections={1}
-        availableDates={availableDates}
-        currentlySelectedDate={currentlySelectedDate}
-        selectedDates={selectedDates}
+        availableSlots={availableSlots}
+        value={selectedDates}
         additionalOptions={{
           fieldName: 'datetime',
           required: true,
-          maxSelections: 1,
-          getOptionsByDate: selectedDate =>
-            getOptionsByDate(selectedDate, timezone, availableSlots),
         }}
+        id="dateTime"
+        timezone={timezoneDescription}
         loadingStatus={appointmentSlotsStatus}
         loadingErrorMessage={
           <ErrorMessage
@@ -181,9 +138,9 @@ export function SelectDate1Page({
             requestAppointmentDateChoice={requestAppointmentDateChoice}
           />
         }
-        onChange={newData => {
-          validate({ calendarData: newData, setValidationError });
-          onCalendarChange(newData);
+        onChange={dates => {
+          validate({ dates, setValidationError });
+          onCalendarChange(dates, pageKey);
         }}
         onClickNext={getAppointmentSlots}
         onClickPrev={getAppointmentSlots}
@@ -225,7 +182,6 @@ const mapDispatchToProps = {
   routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
   routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
   startRequestAppointmentFlow: actions.startAppointmentFlow,
-  requestAppointmentDateChoice: actions.projectCheetahAppointmentDateChoice,
 };
 
 export default connect(

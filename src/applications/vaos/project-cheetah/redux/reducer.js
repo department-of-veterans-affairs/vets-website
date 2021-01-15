@@ -25,7 +25,6 @@ import {
   FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
   FORM_REQUEST_CURRENT_LOCATION,
   FORM_CALENDAR_DATA_CHANGED,
-  FORM_CALENDAR_2_DATA_CHANGED,
   FORM_CALENDAR_FETCH_SLOTS,
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
@@ -417,7 +416,7 @@ export default function projectCheetahReducer(state = initialState, action) {
           ...state.newBooking,
           data: {
             ...data,
-            calendarData: {},
+            selectedDates: [],
           },
           pages: {
             ...state.newBooking.pages,
@@ -439,7 +438,7 @@ export default function projectCheetahReducer(state = initialState, action) {
       };
     case FORM_CALENDAR_FETCH_SLOTS: {
       return {
-        ...state, // TODO newBooking
+        ...state,
         newBooking: {
           ...state.newBooking,
           appointmentSlotsStatus: FETCH_STATUS.loading,
@@ -448,7 +447,7 @@ export default function projectCheetahReducer(state = initialState, action) {
     }
     case FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED: {
       return {
-        ...state, // TODO newBooking
+        ...state,
         newBooking: {
           ...state.newBooking,
           appointmentSlotsStatus: FETCH_STATUS.succeeded,
@@ -459,7 +458,7 @@ export default function projectCheetahReducer(state = initialState, action) {
     }
     case FORM_CALENDAR_FETCH_SLOTS_FAILED: {
       return {
-        ...state, // TODO newBooking
+        ...state,
         newBooking: {
           ...state.newBooking,
           appointmentSlotsStatus: FETCH_STATUS.failed,
@@ -473,19 +472,9 @@ export default function projectCheetahReducer(state = initialState, action) {
           ...state.newBooking,
           data: {
             ...state.newBooking.data,
-            calendarData: action.calendarData,
-          },
-        },
-      };
-    }
-    case FORM_CALENDAR_2_DATA_CHANGED: {
-      return {
-        ...state,
-        newBooking: {
-          ...state.newBooking,
-          data: {
-            ...state.newBooking.data,
-            calendar2Data: action.calendar2Data,
+            [action.pageKey.includes('1')
+              ? 'date1'
+              : 'date2']: action.selectedDates,
           },
         },
       };

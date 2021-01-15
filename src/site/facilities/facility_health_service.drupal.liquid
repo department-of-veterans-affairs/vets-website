@@ -28,7 +28,7 @@
           the buildtype != 'vagovprod' check.
         {% endcomment %}
         {% if locations.0.entity and buildtype != 'vagovprod' %}
-          {% include "src/site/paragraphs/service_location.drupal.liquid" %}
+          {% include "src/site/facilities/service_location.drupal.liquid" %}
         {% else %}
           <div>{{ localServiceDescription }}</div>
         {% endif %}

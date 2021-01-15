@@ -19,10 +19,7 @@ export default function ReviewDirectScheduleInfo({
       <Description data={data} flowType={FLOW_TYPES.DIRECT} />
       <TypeOfAppointmentSection data={data} />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
-      <AppointmentDate
-        dates={data.calendarData.selectedDates}
-        systemId={systemId}
-      />
+      <AppointmentDate dates={data.selectedDates} systemId={systemId} />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <h3 className="vaos-appts__block-label">{clinic.serviceName}</h3>
       {facility.name}

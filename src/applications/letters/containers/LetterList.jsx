@@ -89,15 +89,22 @@ export class LetterList extends React.Component {
           download the letter.
         </p>
         <p>
-          To download a letter, you’ll need the latest version of Adobe Reader.
-          It’s free to download.{' '}
+          To download a letter, you’ll need to have Adobe Acrobat Reader
+          installed on your computer. You can then download or save the letter
+          to your device. Open Acrobat Reader, and from the File menu, choose
+          Open. Select the PDF.
+        </p>
+        <p>
+          If you’re still having trouble opening the letter, you may have an
+          older version of Adobe Acrobat Reader. You’ll need to{' '}
           <a
             href="https://get.adobe.com/reader/otherversions/"
             rel="noopener noreferrer"
             target="_blank"
           >
-            Get Adobe Reader
+            download the latest version
           </a>
+          . It’s free.
         </p>
         <p>
           <Link to="confirm-address">Go back to edit address</Link>

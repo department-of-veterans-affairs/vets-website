@@ -35,7 +35,7 @@ const WizardContainer = ({ setWizardStatus }) => (
         />
         <h2>Already know this is the right form?</h2>
         <p>
-          If you know VA Form 21-526EZ is correct, or if you were directd to
+          If you know VA Form 21-526EZ is correct, or if you were directed to
           complete this application, you can go straight to the application
           without answering the questions above.
         </p>

@@ -40,8 +40,6 @@ export const FORM_CALENDAR_FETCH_SLOTS_FAILED =
   'projectCheetah/FORM_CALENDAR_FETCH_SLOTS_FAILED';
 export const FORM_CALENDAR_DATA_CHANGED =
   'projectCheetah/FORM_CALENDAR_DATA_CHANGED';
-export const FORM_CALENDAR_2_DATA_CHANGED =
-  'projectCheetah/FORM_CALENDAR_2_DATA_CHANGED';
 export const FORM_RESET = 'projectCheetah/FORM_RESET';
 export const FORM_SUBMIT = 'projectCheetah/FORM_SUBMIT';
 export const FORM_PAGE_FACILITY_OPEN = 'projectCheetah/FORM_PAGE_FACILITY_OPEN';
@@ -389,23 +387,11 @@ export function routeToPageInFlow(flow, history, current, action) {
   };
 }
 
-export function onCalendarChange({ currentlySelectedDate, selectedDates }) {
+export function onCalendarChange(selectedDates, pageKey) {
   return {
     type: FORM_CALENDAR_DATA_CHANGED,
-    calendarData: {
-      currentlySelectedDate,
-      selectedDates,
-    },
-  };
-}
-
-export function onCalendar2Change({ currentlySelectedDate, selectedDates }) {
-  return {
-    type: FORM_CALENDAR_2_DATA_CHANGED,
-    calendar2Data: {
-      currentlySelectedDate,
-      selectedDates,
-    },
+    selectedDates,
+    pageKey,
   };
 }
 

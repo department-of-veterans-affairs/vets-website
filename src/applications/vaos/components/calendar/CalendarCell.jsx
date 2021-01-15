@@ -7,21 +7,27 @@ import CalendarSelectedIndicator from './CalendarSelectedIndicator';
 
 const CalendarCell = ({
   additionalOptions,
+  availableSlots,
   currentlySelectedDate,
   date,
   disabled,
   handleSelectOption,
   hasError,
   index,
-  inSelectedArray,
   maxSelections,
   onClick,
+  renderOptions,
   selectedDates,
   selectedIndicatorType,
+  id,
+  timezone,
 }) => {
   const [optionsHeight, setOptionsHeight] = useState(0);
   const buttonRef = useRef(null);
   const optionsHeightRef = useRef(null);
+  const inSelectedArray = selectedDates?.some(selectedDate =>
+    selectedDate.startsWith(date),
+  );
 
   useEffect(
     () => {
@@ -103,7 +109,7 @@ const CalendarCell = ({
         {inSelectedArray && (
           <CalendarSelectedIndicator
             date={date}
-            fieldName={additionalOptions?.fieldName}
+            fieldName={id}
             selectedDates={selectedDates}
             selectedIndicatorType={selectedIndicatorType}
           />
@@ -116,6 +122,7 @@ const CalendarCell = ({
       {isCurrentlySelected && (
         <CalendarOptions
           additionalOptions={additionalOptions}
+          availableSlots={availableSlots}
           currentlySelectedDate={date}
           handleSelectOption={handleSelectOption}
           hasError={hasError}
@@ -123,6 +130,9 @@ const CalendarCell = ({
           optionsHeightRef={optionsHeightRef}
           selectedCellIndex={index}
           selectedDates={selectedDates}
+          renderOptions={renderOptions}
+          id={id}
+          timezone={timezone}
         />
       )}
     </div>

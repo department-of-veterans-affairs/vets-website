@@ -19,6 +19,7 @@ module.exports = {
     status: { $ref: 'GenericNestedBoolean' },
     path: { $ref: 'RawPath' },
     metatag: { $ref: 'RawMetaTags' },
+    field_intro_text: { $ref: 'GenericNestedString' },
     field_nickname_for_this_facility: { $ref: 'GenericNestedString' },
     field_link_facility_emerg_list: {
       type: 'array',
@@ -49,6 +50,7 @@ module.exports = {
     'status',
     'path',
     'metatag',
+    'field_intro_text',
     // Turns out this sometimes just isn't there
     // 'field_link_facility_emerg_list',
     'field_nickname_for_this_facility',

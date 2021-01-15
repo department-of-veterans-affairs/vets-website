@@ -221,6 +221,28 @@ const createFakeReasonForVisitStore = ({ reason = '' }) => {
   };
 };
 
+const createFakeHiddenFieldStore = ({
+  appointmentId = '',
+  questionnaireId = '',
+}) => {
+  return {
+    getState: () => ({
+      questionnaireData: {
+        context: {
+          questionnaire: {
+            id: questionnaireId,
+          },
+          appointment: {
+            id: appointmentId,
+          },
+        },
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  };
+};
+
 const createFakeConfirmationStore = ({ hasData }) => {
   return {
     getState: () => {
@@ -240,7 +262,10 @@ const createFakeConfirmationStore = ({ hasData }) => {
                   attributes: {
                     vdsAppointments: [
                       {
-                        clinic: { facility: { displayName: 'Magic Kingdom' } },
+                        clinic: {
+                          stopCode: '323',
+                          facility: { displayName: 'Magic Kingdom' },
+                        },
                       },
                     ],
                   },
@@ -313,4 +338,5 @@ export {
   createFakeIntroductionPageStore,
   createFakeStopCodeStore,
   createFakeExpiresAtStore,
+  createFakeHiddenFieldStore,
 };
