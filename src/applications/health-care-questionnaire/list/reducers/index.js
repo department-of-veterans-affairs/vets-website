@@ -1,6 +1,7 @@
 import {
   QUESTIONNAIRE_LIST_LOADED,
   QUESTIONNAIRE_LIST_LOADING,
+  QUESTIONNAIRE_LIST_LOADED_WITH_ERROR,
 } from '../actions';
 
 const initialState = {
@@ -19,6 +20,9 @@ const questionnaireListReducer = (state = initialState, action) => {
     case QUESTIONNAIRE_LIST_LOADED:
       list.status = { ...list.status, isLoading: false };
       list.questionnaires = { ...action.data };
+      return { ...state, list };
+    case QUESTIONNAIRE_LIST_LOADED_WITH_ERROR:
+      list.status = { ...list.status, isLoading: false };
       return { ...state, list };
     default:
       return state;
