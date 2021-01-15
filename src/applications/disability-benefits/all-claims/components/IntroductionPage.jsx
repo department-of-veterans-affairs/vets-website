@@ -98,7 +98,7 @@ class IntroductionPage extends React.Component {
             if you don’t think this is the right form for you,{' '}
             <a
               href={
-                this.props.show526Wizard
+                this.props.showWizard
                   ? DISABILITY_526_V2_ROOT_URL
                   : '/disability/how-to-file-claim/'
               }
@@ -285,6 +285,7 @@ IntroductionPage.propTypes = {
   }).isRequired,
   user: PropTypes.shape({}),
   allowOriginalClaim: PropTypes.bool,
+  showWizard: PropTypes.bool,
   isBDDForm: PropTypes.bool,
 };
 
