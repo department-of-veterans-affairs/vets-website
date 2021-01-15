@@ -73,7 +73,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
 
   if (residentialAddress) {
     // spread in permanentAddress (residentialAddress) from profile if it exist
-    newData = { ...newData, veteranAddress: cleanedResidentialAddress };
+    newData = { ...newData, veteranAddress: cleanedMailingAddress };
   }
 
   /* auto-fill doesPermanentAddressMatchMailing yes/no field
@@ -85,7 +85,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
 
   // if hasMailingAddress && addresses are not the same auto fill mailing address
   if (mailingAddress && !doesAddressMatch) {
-    newData = { ...newData, veteranHomeAddress: cleanedMailingAddress };
+    newData = { ...newData, veteranHomeAddress: cleanedResidentialAddress };
   }
 
   return {
