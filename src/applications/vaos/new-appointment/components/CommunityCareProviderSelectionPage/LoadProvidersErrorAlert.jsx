@@ -1,7 +1,7 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-export default function LoadProvidersAlert() {
+export default function LoadProvidersErrorAlert() {
   const headline = `We can’t load provider information`;
   return (
     <AlertBox

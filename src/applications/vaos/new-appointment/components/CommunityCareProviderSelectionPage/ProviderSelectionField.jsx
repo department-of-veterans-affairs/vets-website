@@ -13,8 +13,8 @@ import { distanceBetween } from '../../../utils/address';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RemoveProviderModal from './RemoveProviderModal';
 import recordEvent from 'platform/monitoring/record-event';
-import ProviderErrorAlert from './ProviderErrorAlert';
-import LoadProvidersAlert from './LoadProvidersAlert';
+import NoProvidersAlert from './NoProvidersAlert';
+import LoadProvidersErrorAlert from './LoadProvidersErrorAlert';
 
 const INITIAL_PROVIDER_DISPLAY_COUNT = 5;
 
@@ -220,7 +220,7 @@ function ProviderSelectionField({
           )}
           {requestStatus === FETCH_STATUS.failed && (
             <div className="vads-u-padding-bottom--2">
-              <LoadProvidersAlert />
+              <LoadProvidersErrorAlert />
             </div>
           )}
           {!loadingLocations &&
@@ -254,7 +254,7 @@ function ProviderSelectionField({
                   </p>
                 )}
                 {providersListEmpty && (
-                  <ProviderErrorAlert
+                  <NoProvidersAlert
                     sortMethod={sortMethod}
                     typeOfCareName={typeOfCareName}
                   />
