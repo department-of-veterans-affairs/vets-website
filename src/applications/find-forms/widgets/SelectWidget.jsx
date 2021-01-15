@@ -22,13 +22,14 @@ const SelectWidget = ({ initialState, options, grabCurrentState }) => {
   if (!options || options.length === 0) return null;
 
   return (
-    <form className="vas-select-widget">
+    <form className="vas-select-widget vads-u-display--flex vads-u-align-items--center">
       <label
+        className="vads-u-margin--0"
         htmlFor="searchWidget"
-        className="vads-u-visibility--screen-reader"
+        style={{ width: '75px' }}
       >
-        Select one of the follow options:{' '}
-      </label>
+        Sort By
+      </label>{' '}
       <select
         name="searchWidget"
         id="searchWidget"

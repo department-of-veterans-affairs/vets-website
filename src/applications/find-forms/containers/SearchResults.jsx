@@ -78,7 +78,7 @@ export class SearchResults extends Component {
     const clonedResults = cloneDeep(props.results || []);
 
     const sortedResults = clonedResults.sort((a, b) => sortTheResults(a, b));
-    this.setState({ sortedResults });
+    return this.setState({ sortedResults });
   };
 
   grabCurrentSortState = state => state && this.setState({ howToSort: state });
@@ -226,7 +226,7 @@ export class SearchResults extends Component {
 
     return (
       <>
-        <div className="vads-u-display--flex vads-u-justify-content--space-between">
+        <div className="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row medium-screen:vads-u-justify-content--space-between">
           <h2
             className="vads-u-font-size--base vads-u-line-height--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--1p5"
             data-forms-focus
@@ -237,11 +237,13 @@ export class SearchResults extends Component {
             <strong>{query}</strong>"
           </h2>
 
-          <SelectWidget
-            options={sortOptions}
-            initialState={'Last Updated (Newest)'}
-            grabCurrentState={grabCurrentSortState}
-          />
+          {showFindFormsResultsLinkToFormDetailPages && (
+            <SelectWidget
+              options={sortOptions}
+              initialState={'Last Updated (Newest)'}
+              grabCurrentState={grabCurrentSortState}
+            />
+          )}
         </div>
 
         <dl className="vads-l-grid-container--full">{searchResults}</dl>

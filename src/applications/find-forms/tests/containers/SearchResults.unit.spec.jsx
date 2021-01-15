@@ -55,7 +55,13 @@ describe('Find VA Forms <SearchResults>', () => {
       },
     }));
 
-    const tree = shallow(<SearchResults startIndex={0} results={results} />);
+    const tree = shallow(
+      <SearchResults
+        startIndex={0}
+        results={results}
+        showFindFormsResultsLinkToFormDetailPages
+      />,
+    );
 
     expect(tree.find('SearchResult')).to.have.lengthOf(MAX_PAGE_LIST_LENGTH);
     expect(tree.find('Pagination')).to.have.lengthOf(1);
@@ -121,7 +127,13 @@ describe('Find VA Forms <SearchResults>', () => {
       'Form last updated: 12-22-2021',
     ];
 
-    const tree = mount(<SearchResults startIndex={0} results={results} />);
+    const tree = mount(
+      <SearchResults
+        startIndex={0}
+        results={results}
+        showFindFormsResultsLinkToFormDetailPages
+      />,
+    );
 
     expect(tree.find('SearchResult')).to.have.lengthOf(4);
     expect(tree.find('.vsa-from-last-updated')).to.have.lengthOf(4);
