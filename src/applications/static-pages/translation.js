@@ -18,7 +18,7 @@ const configureTranslationLink = (e, currentLang, targetLang) => {
   e.dataset.lang = currentLang;
   e.innerText = faqI18Content[targetLang].linkTitle;
   e.href = faqI18Content[targetLang].langToggleLink;
-  e.onclick = recordEvent({
+  e.onclick = () => recordEvent({
     event: 'faq-lang-toggle',
     targetLang,
   });
