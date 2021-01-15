@@ -50,6 +50,7 @@ export async function onDownloadLinkClick(event) {
   // determining validity through the API.
   let formPdfIsValid = true;
   let formPdfUrlIsValid = true;
+  let netWorkRequestError = false;
   let form = null;
 
   try {
@@ -57,8 +58,7 @@ export async function onDownloadLinkClick(event) {
     form = forms.results.find(f => f.id === formNumber);
     formPdfIsValid = form?.attributes.validPdf;
 
-    const isSameOrigin = event?.target.href.startsWith(window.location.origin);
-
+    const isSameOrigin = downloadUrl?.startsWith(window.location.origin);
     if (formPdfIsValid && isSameOrigin) {
       // URLS can be entered invalid, 400 is returned, this checks to make sure href is valid
       // NOTE: There are Forms URLS under the https://www.vba.va.gov/ domain, we don't have a way currently to check if URL is valid on FE because of CORS
@@ -68,6 +68,8 @@ export async function onDownloadLinkClick(event) {
       if (!response.ok) formPdfUrlIsValid = false;
     }
   } catch (err) {
+    if (err) netWorkRequestError = true;
+
     sentryLogger(
       form,
       formNumber,
@@ -76,11 +78,15 @@ export async function onDownloadLinkClick(event) {
     );
   }
 
-  if (formPdfIsValid && formPdfUrlIsValid) {
+  if (formPdfIsValid && formPdfUrlIsValid && !netWorkRequestError) {
     link.removeEventListener('click', onDownloadLinkClick);
     link.click();
   } else {
     let errorMessage = 'Find Forms - Form Detail - invalid PDF accessed';
+
+    if (netWorkRequestError)
+      errorMessage =
+        'Find Forms - Form Detail - onDownloadLinkClick function error';
 
     if (!formPdfIsValid && !formPdfUrlIsValid)
       errorMessage =
