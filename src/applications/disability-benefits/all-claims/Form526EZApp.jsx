@@ -17,8 +17,9 @@ import { MissingServices, MissingId } from './containers/MissingServices';
 
 import { MVI_ADD_SUCCEEDED } from './actions';
 import WizardContainer from './containers/WizardContainer';
-import { WIZARD_STATUS } from './constants';
+import { WIZARD_STATUS, PDF_SIZE_FEATURE } from './constants';
 import { show526Wizard, isBDD, getPageTitle } from './utils';
+import { uploadPdfLimitFeature } from './config/selectors';
 
 const wrapInBreadcrumb = (title, component) => (
   <>
@@ -61,6 +62,7 @@ export const Form526Entry = ({
   mvi,
   showWizard,
   isBDDForm,
+  pdfLimit,
 }) => {
   const defaultWizardState = getWizardStatus();
   const [wizardState, setWizardState] = useState(defaultWizardState);
@@ -119,6 +121,11 @@ export const Form526Entry = ({
     }
   }
 
+  // No easy method to pass a feature flag setting to a uiSchema, so we'll use
+  // sessionStorage for now. Done here because continuing an application may
+  // bypass the intro page.
+  sessionStorage.setItem(PDF_SIZE_FEATURE, pdfLimit);
+
   return wrapInBreadcrumb(
     title,
     <article id="form-526" data-location={`${location?.pathname?.slice(1)}`}>
@@ -136,6 +143,7 @@ const mapStateToProps = state => ({
   mvi: state.mvi,
   showWizard: show526Wizard(state),
   isBDDForm: isBDD(state?.form?.data),
+  pdfLimit: uploadPdfLimitFeature(state),
 });
 
 export default connect(mapStateToProps)(Form526Entry);
