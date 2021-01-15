@@ -48,6 +48,10 @@ const transform = entity => ({
     fieldServiceLocation: entity.fieldServiceLocation.map(locationData => ({
       entity: locationData,
     })),
+    fieldHserviceApptLeadin: getDrupalValue(entity.fieldHserviceApptLeadin),
+    fieldHserviceApptIntroSelect: getDrupalValue(
+      entity.fieldHserviceApptIntroSelect,
+    ),
     fieldOnlineSchedulingAvailabl: getDrupalValue(
       entity.fieldOnlineSchedulingAvailabl,
     ),
