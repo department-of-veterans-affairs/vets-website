@@ -409,7 +409,7 @@ const formConfig = {
                 },
               },
             }),
-            'view:doesPermanentAddressMatchMailing': {
+            'view:doesMailingMatchHomeAddress': {
               'ui:title':
                 'Is your home address the same as your mailing address?',
               'ui:widget': 'yesNo',
@@ -443,7 +443,7 @@ const formConfig = {
                   },
                 },
               }),
-              'view:doesPermanentAddressMatchMailing': {
+              'view:doesMailingMatchHomeAddress': {
                 type: 'boolean',
               },
             },
@@ -455,7 +455,7 @@ const formConfig = {
           initialData: {},
           depends: formData =>
             formData['view:hasMultipleAddress'] &&
-            !formData['view:doesPermanentAddressMatchMailing'],
+            !formData['view:doesMailingMatchHomeAddress'],
           uiSchema: {
             'ui:description': PrefillMessage,
             veteranHomeAddress: _.merge(addressUI('Home address', true), {

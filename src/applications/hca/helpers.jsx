@@ -78,7 +78,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
    does not get sent to api due to being a view do not need to guard */
   newData = {
     ...newData,
-    'view:doesPermanentAddressMatchMailing': doesAddressMatch,
+    'view:doesMailingMatchHomeAddress': doesAddressMatch,
   };
 
   // if residentialAddress && addresses are not the same auto fill mailing address
@@ -123,7 +123,7 @@ export function transform(formConfig, form) {
   );
   let withoutViewFields = filterViewFields(withoutInactivePages);
   const hasMultipleAddress = form.data['view:hasMultipleAddress'];
-  const addressesMatch = form.data['view:doesPermanentAddressMatchMailing'];
+  const addressesMatch = form.data['view:doesMailingMatchHomeAddress'];
 
   // add back dependents here, because it could have been removed in filterViewFields
   if (!withoutViewFields.dependents) {
