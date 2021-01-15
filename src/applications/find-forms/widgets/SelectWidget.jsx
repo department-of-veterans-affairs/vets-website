@@ -23,7 +23,18 @@ const SelectWidget = ({ initialState, options, grabCurrentState }) => {
 
   return (
     <form className="vas-select-widget">
-      <select value={selectVal} onChange={updateSelectState}>
+      <label
+        htmlFor="searchWidget"
+        className="vads-u-visibility--screen-reader"
+      >
+        Select one of the follow options:{' '}
+      </label>
+      <select
+        name="searchWidget"
+        id="searchWidget"
+        value={selectVal}
+        onChange={updateSelectState}
+      >
         {options &&
           options.map((text, i) => (
             <option key={i} value={text} name={text}>
