@@ -25,9 +25,7 @@ export {
   medicalCenterLabels,
 } from 'platform/utilities/medical-centers/medical-centers';
 
-/*  clean address so we only get address related properties 
-    then return the object as JSON so we can match them
-*/
+// clean address so we only get address related properties then return the object
 const cleanAddressObject = address => {
   // take the address data we want from profile
   const {
@@ -72,7 +70,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
   }
 
   if (mailingAddress) {
-    // spread in permanentAddress (residentialAddress) from profile if it exist
+    // spread in permanentAddress (mailingAddress) from profile if it exist
     newData = { ...newData, veteranAddress: cleanedMailingAddress };
   }
 
@@ -83,7 +81,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
     'view:doesPermanentAddressMatchMailing': doesAddressMatch,
   };
 
-  // if hasMailingAddress && addresses are not the same auto fill mailing address
+  // if residentialAddress && addresses are not the same auto fill mailing address
   if (residentialAddress && !doesAddressMatch) {
     newData = { ...newData, veteranHomeAddress: cleanedResidentialAddress };
   }
