@@ -71,7 +71,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
     newData = { ...newData, 'view:isUserInMvi': true };
   }
 
-  if (residentialAddress) {
+  if (mailingAddress) {
     // spread in permanentAddress (residentialAddress) from profile if it exist
     newData = { ...newData, veteranAddress: cleanedMailingAddress };
   }
@@ -84,7 +84,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
   };
 
   // if hasMailingAddress && addresses are not the same auto fill mailing address
-  if (mailingAddress && !doesAddressMatch) {
+  if (residentialAddress && !doesAddressMatch) {
     newData = { ...newData, veteranHomeAddress: cleanedResidentialAddress };
   }
 
