@@ -206,9 +206,9 @@ const ItemLoop = ({
     .filter(item => item['ui:title'] !== undefined)
     .map(item => item['ui:title']);
 
+  const [cache, setCache] = useState(formData);
   const [editing, setEditing] = useState(['add']);
   const [showTable, setShowTable] = useState(false);
-  const [oldData, setOldData] = useState(formData);
 
   useEffect(() => {
     // Throw an error if there’s no viewField (should be React component)
@@ -259,7 +259,11 @@ const ItemLoop = ({
       setShowTable(false);
     }
 
-    setOldData(formData);
+    const filtered = formData.filter(item => {
+      return Object.values(item).includes(undefined) ? null : item;
+    });
+
+    setCache(filtered);
     setEditing(editData);
     handleScroll(`table_${idSchema.$id}_${index}`, 0);
   };
@@ -299,7 +303,7 @@ const ItemLoop = ({
       );
       const newFormData = [...formData, defaultData];
       onChange(newFormData);
-      setOldData(formData);
+      setCache(formData);
       setEditing([...editing, 'add']);
       setShowTable(true);
       handleScroll(`table_${idSchema.$id}_${lastIndex + 1}`, 0);
@@ -314,17 +318,16 @@ const ItemLoop = ({
   const handleCancel = index => {
     const lastIndex = formData.length - 1;
     let editData = editing;
+    const isAdding = editing.includes('add');
 
-    if (editing.includes('add') && index === lastIndex) {
+    if (isAdding && lastIndex === index) {
       editData = editing.filter(item => item !== 'add');
     } else {
-      editData = editing.map((item, i) => {
-        return index === i ? false : item;
-      });
+      editData = editing.map((item, i) => (index === i ? false : item));
     }
 
     setEditing(editData);
-    onChange(oldData);
+    onChange(cache);
   };
 
   const handleRemove = index => {
