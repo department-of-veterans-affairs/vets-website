@@ -255,7 +255,7 @@ describe('Facility search', () => {
       cy.get('#facility-type-dropdown').select('VA health');
       cy.get('#service-type-dropdown').select('Primary care');
       cy.get('#facility-search').click();
-      cy.get('.current-pos-pin')
+      cy.get('.i-pin-card-map')
         .last()
         .click({
           waitForAnimations: true,
