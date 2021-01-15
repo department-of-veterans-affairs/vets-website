@@ -119,7 +119,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     expect(screen.baseElement).not.to.contain.text('VA appointment');
   });
 
-  it.skip('should have correct status when previously cancelled', async () => {
+  it('should have correct status when previously cancelled', async () => {
     const appointment = getVAAppointmentMock();
     appointment.attributes = {
       ...appointment.attributes,
@@ -155,7 +155,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
         ),
       ),
     ).to.exist;
-    expect(screen.baseElement).to.contain.text('Canceled');
+    expect(screen.baseElement).to.contain.text('Cancelled');
   });
 
   it('should not display when they have hidden statuses', () => {
@@ -603,7 +603,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(screen.baseElement).to.contain.text('CANCELLED');
+    expect(screen.baseElement).to.contain.text('Cancelled');
     expect(screen.baseElement).to.contain.text(
       'A VA health care provider will follow up with you today.',
     );
