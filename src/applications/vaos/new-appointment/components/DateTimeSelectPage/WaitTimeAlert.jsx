@@ -42,7 +42,7 @@ export const WaitTimeAlert = ({
     if (showUrgentCareMessage || notMeetingStandardOfCare) {
       return (
         <AlertBox
-          headline="Your earliest appointment time"
+          headline="Your appointment time"
           status={showUrgentCareMessage ? 'warning' : 'info'}
           content={
             <>
@@ -51,7 +51,7 @@ export const WaitTimeAlert = ({
                 {momentNextAvailableDate.format('MMMM D, YYYY')} at{' '}
                 {momentNextAvailableDate.format('h:mm a')} {timezone}.
               </p>
-              <p>If this date doesn't work, you can:</p>
+              <p>If this date doesn’t work, you can:</p>
               <ul>
                 {eligibleForRequests && (
                   <li>
@@ -67,18 +67,21 @@ export const WaitTimeAlert = ({
               </ul>
               {showUrgentCareMessage && (
                 <>
-                  <p>If you have an urgent medical need, please:</p>
+                  <p className="vads-u-font-weight--bold">
+                    If you have an urgent medical need or need care right away:
+                  </p>
                   <ul>
                     <li>
-                      Call the Veterans Crisis hotline at{' '}
-                      <Telephone contact={CONTACTS.CRISIS_LINE} /> and press 1,{' '}
+                      Call <Telephone contact="911" />,{' '}
                       <span className="vads-u-font-weight--bold">or</span>
                     </li>
                     <li>
-                      Go to your nearest emergency room or VA medical center.{' '}
-                      <a href="/find-locations/">
-                        Find your nearest VA medical center
-                      </a>
+                      Call the Veterans Crisis hotline at{' '}
+                      <Telephone contact={CONTACTS.CRISIS_LINE} /> and select 1,{' '}
+                      <span className="vads-u-font-weight--bold">or</span>
+                    </li>
+                    <li>
+                      Go to your nearest emergency room or VA medical center
                     </li>
                   </ul>
                 </>

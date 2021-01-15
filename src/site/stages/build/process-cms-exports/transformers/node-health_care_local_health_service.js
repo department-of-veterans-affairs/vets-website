@@ -33,14 +33,18 @@ const transform = entity => ({
     fieldBody: {
       processed: getWysiwygString(getDrupalValue(entity.fieldBody)),
     },
-    fieldRegionalHealthService: {
-      entity: {
-        entityUrl: entity.fieldRegionalHealthService[0].entityUrl,
-        fieldBody: entity.fieldRegionalHealthService[0].fieldBody,
-        fieldServiceNameAndDescripti:
-          entity.fieldRegionalHealthService[0].fieldServiceNameAndDescripti,
-      },
-    },
+    fieldRegionalHealthService:
+      entity.fieldRegionalHealthService.length > 0
+        ? {
+            entity: {
+              entityUrl: entity.fieldRegionalHealthService[0].entityUrl,
+              fieldBody: entity.fieldRegionalHealthService[0].fieldBody,
+              fieldServiceNameAndDescripti:
+                entity.fieldRegionalHealthService[0]
+                  .fieldServiceNameAndDescripti,
+            },
+          }
+        : {},
     fieldServiceLocation: entity.fieldServiceLocation.map(locationData => ({
       entity: locationData,
     })),

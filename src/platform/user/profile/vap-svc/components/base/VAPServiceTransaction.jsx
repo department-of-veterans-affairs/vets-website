@@ -70,7 +70,8 @@ function VAPServiceTransaction(props) {
 VAPServiceTransaction.propTypes = {
   children: PropTypes.node.isRequired,
   refreshTransaction: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
+  // title is undefined upon first render
+  title: PropTypes.string,
   transaction: PropTypes.object,
 };
 

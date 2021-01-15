@@ -20,6 +20,7 @@ const transform = ({
   title,
   status,
   metatag: { value: metaTags },
+  fieldIntroText,
   fieldGovdeliveryIdEmerg,
   fieldGovdeliveryIdNews,
   fieldOperatingStatus,
@@ -36,6 +37,7 @@ const transform = ({
   entityPublished: isPublished(getDrupalValue(status)),
   entityLabel: getDrupalValue(title),
   title: getDrupalValue(title),
+  fieldIntroText: getDrupalValue(fieldIntroText),
   fieldGovdeliveryIdEmerg: getDrupalValue(fieldGovdeliveryIdEmerg),
   fieldGovdeliveryIdNews: getDrupalValue(fieldGovdeliveryIdNews),
   fieldOperatingStatus: fieldOperatingStatus[0]
@@ -330,6 +332,7 @@ module.exports = {
     'title',
     'status',
     'path',
+    'field_intro_text',
     'field_govdelivery_id_emerg',
     'field_govdelivery_id_news',
     'field_link_facility_emerg_list',

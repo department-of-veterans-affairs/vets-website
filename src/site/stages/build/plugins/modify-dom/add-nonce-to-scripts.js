@@ -22,11 +22,11 @@ function idGeneratorFactory(fileName) {
   };
 }
 
-module.exports = (files, metalsmith, done) => {
-  Object.keys(files).forEach(fileName => {
+module.exports = {
+  modifyFile(fileName, file) {
     if (path.extname(fileName) !== '.html') return;
 
-    const { dom } = files[fileName];
+    const { dom } = file;
     dom('script').each((index, scriptEl) => {
       const s = dom(scriptEl);
       // Only add nonce to inline scripts
@@ -60,7 +60,6 @@ module.exports = (files, metalsmith, done) => {
     newScript.attr('nonce', CSP_NONCE);
 
     dom('body').append(newScript);
-    files[fileName].modified = true;
-  });
-  done();
+    file.modified = true;
+  },
 };

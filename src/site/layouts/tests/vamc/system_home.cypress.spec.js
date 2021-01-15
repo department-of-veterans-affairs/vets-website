@@ -1,6 +1,6 @@
 const phoneRegex = /\d{3}-\d{3}-\d{4}/;
 
-Cypress.Commands.add('checkElements', page => {
+Cypress.Commands.add('checkElements', (page, isMobile) => {
   cy.visit(page);
   cy.get('#modal-announcement-title').should('exist');
   cy.get('button')
@@ -14,7 +14,11 @@ Cypress.Commands.add('checkElements', page => {
   cy.get('a.usa-button').contains('View all health services');
   cy.get('a.usa-button').contains('Register for care');
   cy.get('#sidebar-nav-trigger').should('not.exist');
-  cy.get('#sidenav-menu').should('exist');
+  if (isMobile) {
+    cy.get('#sidenav-menu').should('be.visible');
+  } else {
+    cy.get('#sidenav-menu').should('not.be.visible');
+  }
   cy.get('h1').contains('VA Pittsburgh health care');
   cy.get('h2').contains('Locations');
   cy.get('[data-template="includes/facilityListing"]').each($listing => {
@@ -36,7 +40,7 @@ Cypress.Commands.add('checkElements', page => {
   });
   cy.get('a').contains('See all locations');
   cy.get('h3').contains('Manage your health online');
-  cy.get('#in-the-spotlight-at-va-pittsbu').should('exist');
+  cy.get('h3').contains('In the spotlight at VA Pittsburgh health care');
 
   cy.window().then(win => {
     if (win.contentData) {
@@ -62,17 +66,17 @@ Cypress.Commands.add('checkElements', page => {
   cy.get('h3').contains('Get updates');
 });
 
-describe('VAMC home page', () => {
+describe('VAMC system home page', () => {
   before(function() {
     if (Cypress.env('CIRCLECI')) this.skip();
   });
 
   it('has expected elements on desktop', () => {
-    cy.checkElements('/pittsburgh-health-care');
+    cy.checkElements('/pittsburgh-health-care', false);
   });
 
   it('has expected elements on mobile', () => {
     cy.viewport(481, 1000);
-    cy.checkElements('/pittsburgh-health-care');
+    cy.checkElements('/pittsburgh-health-care', true);
   });
 });
