@@ -1,5 +1,5 @@
 import React from 'react';
-import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
+import RadioButtons from '@department-of-veterans-affairs/formation-react/RadioButtons';
 import { pageNames } from './pageList';
 import { formIdSuffixes } from 'applications/static-pages/wizard/';
 
@@ -14,7 +14,7 @@ const SponsorDeceased = ({
   state = {},
   setReferredBenefit,
 }) => (
-  <ErrorableRadioButtons
+  <RadioButtons
     name={`${pageNames.sponsorDeceased}`}
     label="Is your sponsor deceased, 100% permanently disabled, MIA, or a POW?"
     id={`${pageNames.sponsorDeceased}`}

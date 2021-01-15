@@ -322,6 +322,42 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     );
   });
 
+  it('should display an alert when no providers are available', async () => {
+    const store = createTestStore(initialState);
+    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfFacility(store, /Community Care/i);
+    mockCCProviderFetch(
+      initialState.user.profile.vapContactInfo.residentialAddress,
+      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
+      calculateBoundingBox(
+        initialState.user.profile.vapContactInfo.residentialAddress.latitude,
+        initialState.user.profile.vapContactInfo.residentialAddress.longitude,
+        60,
+      ),
+      [],
+    );
+    const screen = renderWithStoreAndRouter(
+      <CommunityCareProviderSelectionPage />,
+      {
+        store,
+      },
+    );
+
+    // Trigger provider list loading
+    userEvent.click(await screen.findByText(/Choose a provider/i));
+    expect(await screen.findByText(/your address on file:/i)).to.exist;
+    expect(
+      await screen.findByRole('heading', {
+        name: /We can’t find any Primary care providers close to you/i,
+      }),
+    );
+    expect(
+      await screen.findByRole('link', {
+        name: /Find your health facility’s phone number/i,
+      }),
+    );
+  });
+
   it('should notify user that the browser is blocked from using current location information', async () => {
     const store = createTestStore(initialState);
 

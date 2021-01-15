@@ -149,6 +149,7 @@ export class VAFacilityPage extends React.Component {
           <SingleFacilityEligibilityCheckMessage
             eligibility={eligibility}
             facility={facility}
+            typeOfCare={typeOfCare}
           />
           <div className="vads-u-margin-top--2">
             <FormButtons

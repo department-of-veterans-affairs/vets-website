@@ -2,6 +2,7 @@ import {
   getBookingNoteFromAppointment,
   getAppointTypeFromAppointment,
   getAppointmentTimeFromAppointment,
+  getAppointmentTypeFromClinic,
 } from './appointment.utils';
 
 import {
@@ -24,6 +25,7 @@ export {
   getAppointmentIdFromUrl,
   getBookingNoteFromAppointment,
   getCurrentAppointmentId,
+  getAppointmentTypeFromClinic,
   onFormEnter,
   setCurrentAppointmentId,
 };

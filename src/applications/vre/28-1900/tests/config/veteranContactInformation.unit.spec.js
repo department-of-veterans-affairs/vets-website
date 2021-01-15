@@ -27,7 +27,7 @@ describe('Chapter 31 veteran contact information', () => {
     expect(form.find('input').length).to.equal(11);
     form.unmount();
   });
-  it('should require address and email', () => {
+  it('should require address, email, and main phone', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -38,7 +38,7 @@ describe('Chapter 31 veteran contact information', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(6);
+    expect(form.find('.usa-input-error').length).to.equal(7);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -57,6 +57,7 @@ describe('Chapter 31 veteran contact information', () => {
     fillData(form, 'input#root_veteranAddress_city', 'Some city');
     changeDropdown(form, 'select#root_veteranAddress_state', 'DC');
     fillData(form, 'input#root_veteranAddress_postalCode', '12345');
+    fillData(form, 'input#root_mainPhone', '1233214567');
     fillData(form, 'input#root_email', 'me2@home.com');
     form.find('input[name="root_view:confirmEmail"]').simulate('change', {
       target: {
@@ -83,6 +84,7 @@ describe('Chapter 31 veteran contact information', () => {
     fillData(form, 'input#root_veteranAddress_city', 'Some city');
     changeDropdown(form, 'select#root_veteranAddress_state', 'DC');
     fillData(form, 'input#root_veteranAddress_postalCode', '12345');
+    fillData(form, 'input#root_mainPhone', '1233214567');
     fillData(form, 'input#root_email', 'test@test.com');
     form.find('input[name="root_view:confirmEmail"]').simulate('change', {
       target: {
