@@ -21,7 +21,7 @@ export default function ExpressCareListItem({ appointment, cancelled }) {
         </h4>{' '}
         <span>A VA health care provider will follow up with you today.</span>
         <br />
-        <i className="fas fa-phone vads-u-margin-right--1" />
+        <i aria-hidden="true" className="fas fa-phone vads-u-margin-right--1" />
         Express Care request
       </div>
       <div>
