@@ -18,11 +18,10 @@ const configureTranslationLink = (e, currentLang, targetLang) => {
   e.innerText = faqI18Content[targetLang].linkTitle;
   e.href = faqI18Content[targetLang].langToggleLink;
   e.onclick = recordEvent({
-      event: 'faq-lang-toggle',
-      targetLang,
+    event: 'faq-lang-toggle',
+    targetLang,
   });
-
-
+};
 const displayTranslationLink = () => {
   const i18LinkWrapper = document.getElementById('i18-link-wrapper');
   if (!i18LinkWrapper) return;
