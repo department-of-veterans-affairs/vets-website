@@ -132,7 +132,7 @@ describe('Facility search', () => {
         });
     });
 
-    it('does not show search result header if no results are found', () => {
+    it.skip('does not show search result header if no results are found', () => {
       cy.visit('/find-locations?fail=true');
 
       cy.get('#search-results-subheader').should('not.exist');
@@ -312,7 +312,7 @@ describe('Facility search', () => {
       cy.axeCheck();
     });
 
-    it.skip('renders static map images on detail page', () => {
+    it('renders static map images on detail page', () => {
       // from https://stackoverflow.com/questions/51246606/test-loading-of-image-in-cypress
       cy.visit('/find-locations/facility/vha_688GA');
       cy.get('[alt="Static map"]')
