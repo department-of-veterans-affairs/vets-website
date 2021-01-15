@@ -238,7 +238,7 @@ describe('Facility search', () => {
       );
 
       cy.get('#street-city-state-zip').type('31234asd0o203o213', {
-        delay: 200,
+        delay: 150,
       });
       cy.get('#facility-type-dropdown').select('VA health');
       cy.get('#facility-search').click();
@@ -251,6 +251,7 @@ describe('Facility search', () => {
       cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data').as(
         'validLocationSearch',
       );
+      cy.get('#street-city-state-zip').clear();
       cy.get('#street-city-state-zip').type('Austin, TX', { delay: 200 });
       cy.get('#facility-type-dropdown').select('VA health');
       cy.get('#service-type-dropdown').select('Primary care');
@@ -279,7 +280,7 @@ describe('Facility search', () => {
       cy.get('#street-city-state-zip').type('Los Angeles', { delay: 200 });
       cy.get('#facility-type-dropdown').select('VA benefits');
       cy.get('#facility-search').click();
-      cy.get('.current-pos-pin')
+      cy.get('.i-pin-card-map')
         .last()
         .click({
           waitForAnimations: true,
