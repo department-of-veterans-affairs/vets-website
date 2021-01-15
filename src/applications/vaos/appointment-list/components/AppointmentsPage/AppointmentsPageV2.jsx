@@ -47,7 +47,6 @@ function AppointmentsPageV2({
   showScheduleButton,
   startNewAppointmentFlow,
   startNewExpressCareFlow,
-  showHomePageRefresh,
 }) {
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -107,7 +106,6 @@ function AppointmentsPageV2({
           isCernerOnlyPatient={isCernerOnlyPatient}
           showCommunityCare={showCommunityCare}
           showDirectScheduling={showDirectScheduling}
-          showHomePageRefresh={showHomePageRefresh}
           startNewAppointmentFlow={() => {
             recordEvent({
               event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
@@ -120,7 +118,6 @@ function AppointmentsPageV2({
         !isCernerOnlyPatient && (
           <RequestExpressCare
             {...expressCare}
-            showHomePageRefresh={showHomePageRefresh}
             startNewExpressCareFlow={() => {
               recordEvent({
                 event: `${GA_PREFIX}-express-care-request-button-clicked`,
