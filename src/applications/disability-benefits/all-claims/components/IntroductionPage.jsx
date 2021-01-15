@@ -7,19 +7,26 @@ import Telephone, {
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import { focusElement } from 'platform/utilities/ui';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { selectAvailableServices } from 'platform/user/selectors';
+import recordEvent from 'platform/monitoring/record-event';
 
 import { itfNotice } from '../content/introductionPage';
 import { originalClaimsFeature } from '../config/selectors';
 import fileOriginalClaimPage from '../../wizard/pages/file-original-claim';
 import { isBDD, getPageTitle, getStartText } from '../utils';
-import { BDD_INFO_URL } from '../constants';
+import {
+  BDD_INFO_URL,
+  DISABILITY_526_V2_ROOT_URL,
+  WIZARD_STATUS,
+} from '../constants';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('h1');
+    scrollToTop();
   }
 
   render() {
@@ -87,6 +94,20 @@ class IntroductionPage extends React.Component {
         {itfNotice}
         <h2 className="vads-u-font-size--h4">{subwayTitle}</h2>
         <div className="process schemaform-process">
+          <p className="vads-u-margin-top--0">
+            if you don’t think this is the right form for you,{' '}
+            <a
+              href={DISABILITY_526_V2_ROOT_URL}
+              className="va-button-link"
+              onClick={() => {
+                sessionStorage.removeItem(WIZARD_STATUS);
+                recordEvent({ event: 'howToWizard-start-over' });
+              }}
+            >
+              go back and answer questions again
+            </a>
+            .
+          </p>
           <ol>
             <li className="process-step list-one">
               <h3 className="vads-u-font-size--h4">Prepare</h3>
