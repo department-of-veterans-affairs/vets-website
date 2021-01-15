@@ -27,16 +27,14 @@ import { GA_PREFIX, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import TabNav from './TabNav';
 import RequestExpressCare from './RequestExpressCare';
-// import FutureAppointmentsList from '../FutureAppointmentsList';
+import FutureAppointmentsList from '../FutureAppointmentsList';
 import PastAppointmentsList from '../PastAppointmentsList';
 import ExpressCareList from '../ExpressCareList';
-import PageLayout from './PageLayout';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import WarningNotification from '../../../components/WarningNotification';
 import ScheduleNewProjectCheetah from './ScheduleNewProjectCheetah';
-import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
 
 const pageTitle = 'VA appointments';
 
@@ -106,12 +104,12 @@ function AppointmentsPage({
     <Switch>
       <Route component={PastAppointmentsList} path="/past" />
       <Route component={ExpressCareList} path="/express-care" />
-      <Route path="/" component={UpcomingAppointmentsList} />
+      <Route path="/" component={FutureAppointmentsList} />
     </Switch>
   );
 
   return (
-    <PageLayout>
+    <>
       <h1 className="vads-u-flex--1">{pageTitle}</h1>
       <DowntimeNotification
         appTitle="VA online scheduling tool"
@@ -187,7 +185,7 @@ function AppointmentsPage({
         onConfirm={confirmCancelAppointment}
         onClose={closeCancelAppointment}
       />
-    </PageLayout>
+    </>
   );
 }
 
