@@ -1,8 +1,9 @@
 import React from 'react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
+import { APPOINTMENT_STATUS } from '../../../utils/constants';
 
-export default function ExpressCareListItem({ appointment, cancelled }) {
+export default function ExpressCareListItem({ appointment }) {
   const appointmentDate = moment.parseZone(appointment.start);
 
   return (
@@ -11,9 +12,9 @@ export default function ExpressCareListItem({ appointment, cancelled }) {
       className="vaos-appts__card vads-u-display--flex vads-u-align-items--center"
     >
       <div className="vads-u-flex--1">
-        {cancelled && (
-          <span className="vads-u-font-size--base vads-u-font-weight--bold vads-u-color--secondary-dark vads-u-margin-x--0 vads-u-margin-y--0">
-            CANCELLED
+        {appointment.status === APPOINTMENT_STATUS.cancelled && (
+          <span className="vaos-u-text-transform--uppercase vads-u-font-size--base vads-u-font-weight--bold vads-u-color--secondary-dark vads-u-margin-x--0 vads-u-margin-y--0">
+            Cancelled
           </span>
         )}
         <h4 className="vads-u-font-size--h4 vads-u-margin-x--0 vads-u-margin-y--0">

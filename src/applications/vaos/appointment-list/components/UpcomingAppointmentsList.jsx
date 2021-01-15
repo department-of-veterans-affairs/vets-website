@@ -70,7 +70,6 @@ function UpcomingAppointmentsList({
               >
                 {monthBucket.map((appt, index) => {
                   const facilityId = getVAAppointmentLocationId(appt);
-                  const isCancelled = appt.status === 'cancelled';
 
                   if (
                     appt.vaos.appointmentType ===
@@ -87,12 +86,7 @@ function UpcomingAppointmentsList({
                     );
                   } else if (appt.vaos.isExpressCare) {
                     return (
-                      <ExpressCareListItem
-                        key={index}
-                        appointment={appt}
-                        facility={facilityData[facilityId]}
-                        cancelled={isCancelled}
-                      />
+                      <ExpressCareListItem key={index} appointment={appt} />
                     );
                   }
                   return null;
