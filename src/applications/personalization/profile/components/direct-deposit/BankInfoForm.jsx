@@ -30,8 +30,8 @@ export const uiSchema = {
     'ui:title':
       'Routing number (Your bank’s name will appear after you add the 9-digit routing number)',
     'ui:errorMessages': {
-      pattern: 'Please enter the bank’s 9-digit routing number',
-      required: 'Please enter the bank’s 9-digit routing number',
+      pattern: 'Please enter your bank’s 9-digit routing number',
+      required: 'Please enter your bank’s 9-digit routing number',
     },
   },
   accountNumber: {
@@ -44,7 +44,7 @@ export const uiSchema = {
   accountType: {
     'ui:title': 'Account type',
     'ui:errorMessages': {
-      required: 'Please select the type that best describes the account',
+      required: 'Please select the type that best describes your account',
     },
   },
 };
