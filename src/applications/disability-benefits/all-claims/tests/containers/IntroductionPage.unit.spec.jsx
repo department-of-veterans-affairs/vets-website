@@ -9,6 +9,7 @@ import {
   PAGE_TITLES,
   START_TEXT,
   SAVED_SEPARATION_DATE,
+  DISABILITY_526_V2_ROOT_URL,
 } from '../../constants';
 
 describe('<IntroductionPage/>', () => {
@@ -110,6 +111,20 @@ describe('<IntroductionPage/>', () => {
     ).to.equal(0);
     expect(wrapper.find('FormTitle').length).to.equal(1);
     expect(wrapper.find('FileOriginalClaimPage').length).to.equal(1);
+    wrapper.unmount();
+  });
+  it('should render reset wizard link to info page', () => {
+    const wrapper = shallow(<IntroductionPage {...defaultProps} />);
+    expect(wrapper.find('.va-button-link').props().href).to.contain(
+      'how-to-file-claim',
+    );
+    wrapper.unmount();
+  });
+  it('should render reset wizard link to intro page', () => {
+    const wrapper = shallow(<IntroductionPage {...defaultProps} showWizard />);
+    expect(wrapper.find('.va-button-link').props().href).to.equal(
+      DISABILITY_526_V2_ROOT_URL,
+    );
     wrapper.unmount();
   });
 });
