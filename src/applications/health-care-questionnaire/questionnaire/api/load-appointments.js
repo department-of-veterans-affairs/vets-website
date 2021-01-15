@@ -1,7 +1,8 @@
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
-const USE_MOCK_DATA = window.Cypress || environment.isLocalhost();
+const USE_MOCK_DATA =
+  window.Cypress || environment.isLocalhost() || environment.isStaging();
 
 const loadAppointment = async id => {
   let promise;
