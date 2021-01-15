@@ -7,6 +7,7 @@ module.exports = `
           path
         }
         name
+        fieldAudienceRsHomepage
       }
 
       ... on TaxonomyTermAudienceNonBeneficiaries {
@@ -14,6 +15,7 @@ module.exports = `
           path
         }
         name
+        fieldAudienceRsHomepage
       }
 
       ... on TaxonomyTermLcCategories {

@@ -137,3 +137,25 @@ export function getClinicPageInfo(state, pageKey) {
     ),
   };
 }
+
+export function getChosenClinicInfo(state) {
+  const data = selectProjectCheetahFormData(state);
+  const clinics = selectProjectCheetahNewBooking(state).clinics;
+
+  return (
+    clinics[data.vaFacility]?.find(clinic => clinic.id === data.clinicId) ||
+    null
+  );
+}
+
+export function getReviewPage(state) {
+  return {
+    data: selectProjectCheetahFormData(state),
+    facility: getChosenFacilityInfo(state),
+    facilityDetails: getChosenFacilityInfo(state),
+    clinic: getChosenClinicInfo(state),
+    submitStatus: selectProjectCheetah(state).submitStatus,
+    submitStatusVaos400: selectProjectCheetah(state).submitStatusVaos400,
+    systemId: getSiteIdForChosenFacility(state),
+  };
+}

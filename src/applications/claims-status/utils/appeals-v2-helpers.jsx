@@ -2173,3 +2173,6 @@ export function getVisibleRows(list, currentPage) {
   }
   return list.slice(currentIndex, currentIndex + ROWS_PER_PAGE);
 }
+
+export const uploadPdfLimitFeature = state =>
+  state.featureToggles?.['evss_upload_limit_150mb'];
