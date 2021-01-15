@@ -6,9 +6,6 @@ export default function ExpressCareListItem({ appointment, cancelled }) {
   const appointmentDate = moment.parseZone(appointment.start);
   const isExpressCare = appointment.vaos.isExpressCare;
 
-  // eslint-disable-next-line no-console
-  console.log({ appointment });
-
   return (
     <li
       data-request-id={appointment.id}
