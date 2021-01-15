@@ -43,7 +43,7 @@ function VideoAppointmentDescription({ appointment }) {
   }
   return (
     <>
-      <i className="fas fa-video vads-u-margin-right--1" />
+      <i aria-hidden="true" className="fas fa-video vads-u-margin-right--1" />
       VA Video Connect {desc}
     </>
   );
@@ -107,27 +107,33 @@ export default function AppointmentListItem({ appointment, facility }) {
         {isInPersonVAAppointment && <VAFacilityName facility={facility} />}
         {appointment.vaos.isPhoneAppointment && (
           <>
-            <i className="fas fa-phone vads-u-margin-right--1" />
+            <i
+              aria-hidden="true"
+              className="fas fa-phone vads-u-margin-right--1"
+            />
             Phone call
           </>
         )}
       </div>
       <div>
         <Link
+          aria-hidden="true"
           to={`va/${appointment.id}`}
           className="vads-u-display--none medium-screen:vads-u-display--inline"
-          aria-label={`Details for appointment on ${appointmentDate.format(
-            'dddd, MMMM D h:mm a',
-          )}`}
         >
           Details
         </Link>
         <Link
-          aria-hidden="true"
           to={`va/${appointment.id}`}
           className="vaos-appts__card-link"
+          aria-label={`Details for appointment on ${appointmentDate.format(
+            'dddd, MMMM D h:mm a',
+          )}`}
         >
-          <i className="fas fa-chevron-right vads-u-margin-left--1" />
+          <i
+            aria-hidden="true"
+            className="fas fa-chevron-right vads-u-margin-left--1"
+          />
         </Link>
       </div>
     </li>
