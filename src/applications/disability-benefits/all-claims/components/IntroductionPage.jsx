@@ -16,7 +16,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { itfNotice } from '../content/introductionPage';
 import { originalClaimsFeature } from '../config/selectors';
 import fileOriginalClaimPage from '../../wizard/pages/file-original-claim';
-import { isBDD, getPageTitle, getStartText } from '../utils';
+import { show526Wizard, isBDD, getPageTitle, getStartText } from '../utils';
 import {
   BDD_INFO_URL,
   DISABILITY_526_V2_ROOT_URL,
@@ -97,7 +97,11 @@ class IntroductionPage extends React.Component {
           <p className="vads-u-margin-top--0">
             if you don’t think this is the right form for you,{' '}
             <a
-              href={DISABILITY_526_V2_ROOT_URL}
+              href={
+                this.props.show526Wizard
+                  ? DISABILITY_526_V2_ROOT_URL
+                  : '/disability/how-to-file-claim/'
+              }
               className="va-button-link"
               onClick={() => {
                 sessionStorage.removeItem(WIZARD_STATUS);
@@ -267,6 +271,7 @@ const mapStateToProps = state => ({
   formId: state.form.formId,
   user: state.user,
   allowOriginalClaim: originalClaimsFeature(state),
+  showWizard: show526Wizard(state),
   isBDDForm: isBDD(state?.form?.data),
 });
 
