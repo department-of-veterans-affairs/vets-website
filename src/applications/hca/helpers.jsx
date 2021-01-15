@@ -57,6 +57,8 @@ export function prefillTransformer(pages, formData, metadata, state) {
     mailingAddress,
   } = state.user.profile?.vapContactInfo;
 
+  /* mailingAddress === veteranAddress 
+     residentialAddress === veteranHomeAddress */
   const cleanedResidentialAddress = cleanAddressObject(residentialAddress);
   const cleanedMailingAddress = cleanAddressObject(mailingAddress);
   const doesAddressMatch =

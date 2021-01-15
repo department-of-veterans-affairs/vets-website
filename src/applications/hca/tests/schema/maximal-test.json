@@ -105,7 +105,7 @@
       "state": "MA",
       "postalCode": "01070"
     },
-    "view:doesPermanentAddressMatchMailing": false,
+    "view:doesMailingMatchHomeAddress": false,
     "veteranHomeAddress": {
       "street": "456 coral st",
       "street2": "Apt 1",
