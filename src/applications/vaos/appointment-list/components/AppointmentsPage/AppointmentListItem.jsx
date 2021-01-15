@@ -12,7 +12,7 @@ import {
   getTimezoneDescFromAbbr,
   stripDST,
 } from '../../../utils/timezone';
-import { VIDEO_TYPES } from '../../../utils/constants';
+import { APPOINTMENT_STATUS, VIDEO_TYPES } from '../../../utils/constants';
 import { Link } from 'react-router-dom';
 
 function getAppointmentTimezoneAbbreviation(timezone, facilityId) {
@@ -84,6 +84,11 @@ export default function AppointmentListItem({ appointment, facility }) {
       className="vaos-appts__card vads-u-display--flex vads-u-align-items--center"
     >
       <div className="vads-u-flex--1">
+        {appointment.status === APPOINTMENT_STATUS.cancelled && (
+          <span className="vaos-u-text-transform--uppercase vads-u-font-size--base vads-u-font-weight--bold vads-u-color--secondary-dark vads-u-margin-x--0 vads-u-margin-y--0">
+            Cancelled
+          </span>
+        )}
         <h4 className="vads-u-font-size--h4 vads-u-margin-x--0 vads-u-margin-top--0 vads-u-margin-bottom--0p25">
           {appointmentDate.format('dddd, MMMM D')}
         </h4>
