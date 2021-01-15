@@ -12,37 +12,10 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { getRealFacilityId } from '../../utils/appointment';
 
 const pageKey = 'selectDate2';
-const pageTitle = 'Select First Date';
+const pageTitle = 'Select second date';
 
 const missingDateError =
   'Please choose your preferred date and time for your appointment.';
-
-export function getOptionsByDate(
-  selectedDate,
-  timezoneDescription,
-  availableSlots = [],
-) {
-  return availableSlots.reduce((acc, slot) => {
-    if (slot.start.split('T')[0] === selectedDate) {
-      let time = moment(slot.start);
-      if (slot.start.endsWith('Z')) {
-        time = time.tz(timezoneDescription);
-      }
-      const meridiem = time.format('A');
-      const screenReaderMeridiem = meridiem.replace(/\./g, '').toUpperCase();
-      acc.push({
-        value: slot.start,
-        label: (
-          <>
-            {time.format('h:mm')} <span aria-hidden="true">{meridiem}</span>{' '}
-            <span className="sr-only">{screenReaderMeridiem}</span>
-          </>
-        ),
-      });
-    }
-    return acc;
-  }, []);
-}
 
 function ErrorMessage({ facilityId }) {
   return (
@@ -85,8 +58,8 @@ function goForward({
   setSubmitted,
   setValidationError,
 }) {
-  validate({ date: data.selectedDates2, setValidationError });
-  if (data.selectedDates2?.length) {
+  validate({ date: data.date2, setValidationError });
+  if (data.date2?.length) {
     routeToNextAppointmentPage(history, pageKey);
   } else if (submitted) {
     scrollAndFocus('.usa-input-error-message');
@@ -97,13 +70,12 @@ function goForward({
 
 export function SelectDate2Page({
   appointmentSlotsStatus,
-  availableDates,
   availableSlots,
   data,
   facilityId,
   getAppointmentSlots,
   pageChangeInProgress,
-  onCalendar2Change,
+  onCalendarChange,
   routeToPreviousAppointmentPage,
   routeToNextAppointmentPage,
   timezone,
@@ -113,7 +85,7 @@ export function SelectDate2Page({
   const [submitted, setSubmitted] = useState(false);
   const [validationError, setValidationError] = useState(null);
   const firstAppoinmentSlot = data.selectedDates[0];
-  const selectedDates2 = data.selectedDates2;
+  const date2 = data.date2;
 
   useEffect(() => {
     getAppointmentSlots(
@@ -153,20 +125,19 @@ export function SelectDate2Page({
       )}
       <CalendarWidget
         maxSelections={1}
-        availableDates={availableDates}
-        value={selectedDates2}
+        availableSlots={availableSlots}
+        value={date2}
         additionalOptions={{
           fieldName: 'datetime',
           required: true,
-          maxSelections: 1,
-          getOptionsByDate: selectedDate =>
-            getOptionsByDate(selectedDate, timezone, availableSlots),
         }}
+        id="dateTime"
+        timezone={timezoneDescription}
         loadingStatus={appointmentSlotsStatus}
         loadingErrorMessage={<ErrorMessage facilityId={facilityId} />}
         onChange={dates => {
           validate({ dates, setValidationError });
-          onCalendar2Change(dates);
+          onCalendarChange(dates, pageKey);
         }}
         onClickNext={getAppointmentSlots}
         onClickPrev={getAppointmentSlots}
@@ -204,7 +175,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   getAppointmentSlots: actions.getAppointmentSlots,
-  onCalendar2Change: actions.onCalendar2Change,
+  onCalendarChange: actions.onCalendarChange,
   routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
   routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
   startRequestAppointmentFlow: actions.startAppointmentFlow,

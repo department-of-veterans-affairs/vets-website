@@ -9,17 +9,11 @@ const permalinks = require('metalsmith-permalinks');
 const registerLiquidFilters = require('../../filters/liquid');
 
 const getOptions = require('../build/options');
-const updateExternalLinks = require('../build/plugins/update-external-links');
 const createEnvironmentFilter = require('../build/plugins/create-environment-filter');
-const addNonceToScripts = require('../build/plugins/add-nonce-to-scripts');
 const leftRailNavResetLevels = require('../build/plugins/left-rail-nav-reset-levels');
 const rewriteVaDomains = require('../build/plugins/rewrite-va-domains');
 const rewriteAWSUrls = require('../build/plugins/rewrite-cms-aws-urls');
-const processEntryNames = require('../build/plugins/process-entry-names');
-const addSubheadingsIds = require('../build/plugins/add-id-to-subheadings');
-const parseHtml = require('../build/plugins/parse-html');
-const replaceContentsWithDom = require('../build/plugins/replace-contents-with-dom');
-const injectAxeCore = require('../build/plugins/inject-axe-core');
+const modifyDom = require('../build/plugins/modify-dom');
 
 async function createPipeline(options) {
   const BUILD_OPTIONS = await getOptions(options);
@@ -116,25 +110,7 @@ async function createPipeline(options) {
    */
   smith.use(rewriteVaDomains(BUILD_OPTIONS));
   smith.use(rewriteAWSUrls(BUILD_OPTIONS));
-
-  /**
-   * Parse the HTML into a JS data structure for use in later plugins.
-   * Important: Only plugins that use the parsedContent to modify the
-   * content can go between the parseHtml and outputHtml plugins. If
-   * the content is modified directly between those two plugins, any
-   * changes will be overwritten during the outputHtml step.
-   */
-  smith.use(parseHtml);
-  /*
-  Add nonce attribute with substition string to all inline script tags
-  Convert onclick event handles into nonced script tags
-  */
-  smith.use(addNonceToScripts);
-  smith.use(processEntryNames(BUILD_OPTIONS));
-  smith.use(updateExternalLinks(BUILD_OPTIONS));
-  smith.use(addSubheadingsIds(BUILD_OPTIONS));
-  smith.use(injectAxeCore(BUILD_OPTIONS));
-  smith.use(replaceContentsWithDom);
+  smith.use(modifyDom(BUILD_OPTIONS));
 
   return smith;
 }

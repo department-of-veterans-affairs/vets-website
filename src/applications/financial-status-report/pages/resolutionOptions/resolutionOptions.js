@@ -11,8 +11,8 @@ const resolutionOptions = [
       <>
         <div>
           If any monthly payment will create financial hardship for you or your
-          family, you can request that your debt be waived.This will reduce your
-          remaining education benefits entitlement.
+          family, you can request that your debt be waived. This will reduce
+          your remaining education benefits entitlement.
         </div>
         <p>
           If your request for waiver is granted, some or all of your debt will

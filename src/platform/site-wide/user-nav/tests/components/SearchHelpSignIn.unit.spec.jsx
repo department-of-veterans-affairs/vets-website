@@ -89,7 +89,7 @@ describe('<SearchHelpSignIn>', () => {
       .find('a')
       .at(0)
       .props();
-    expect(linkProps.href).to.equal('/contact-us/');
+    expect(linkProps.href).to.equal('https://www.va.gov/contact-us/');
     expect(linkProps.children).to.equal('Contact us');
     wrapper.unmount();
   });
