@@ -2,10 +2,9 @@ import React from 'react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 
-export default function ExpressCareListItem({ appointment }) {
+export default function ExpressCareListItem({ appointment, cancelled }) {
   const appointmentDate = moment.parseZone(appointment.start);
   const isExpressCare = appointment.vaos.isExpressCare;
-  const isCancelled = appointment.status === 'cancelled';
 
   // eslint-disable-next-line no-console
   console.log({ appointment });
@@ -16,7 +15,7 @@ export default function ExpressCareListItem({ appointment }) {
       className="vaos__card vads-u-padding--2 vads-u-background-color--gray-lightest vads-u-display--flex vads-u-margin-bottom--2 vads-u-align-items--center"
     >
       <div className="vads-u-flex--1">
-        {isCancelled && (
+        {cancelled && (
           <span className="vads-u-font-size--base vads-u-font-weight--bold vads-u-color--secondary-dark vads-u-margin-x--0 vads-u-margin-y--0">
             CANCELLED
           </span>

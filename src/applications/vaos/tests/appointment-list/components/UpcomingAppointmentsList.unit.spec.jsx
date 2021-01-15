@@ -542,10 +542,10 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(await screen.baseElement).to.contain.text(
+    expect(screen.baseElement).to.contain.text(
       'A VA health care provider will follow up with you today.',
     );
-    expect(await screen.baseElement).to.contain.text('Express Care request');
+    expect(screen.baseElement).to.contain.text('Express Care request');
   });
 
   it('should show cancelled express care appointment text', async () => {
@@ -603,11 +603,11 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(await screen.baseElement).to.contain.text('CANCELLED');
-    expect(await screen.baseElement).to.contain.text(
+    expect(screen.baseElement).to.contain.text('CANCELLED');
+    expect(screen.baseElement).to.contain.text(
       'A VA health care provider will follow up with you today.',
     );
-    expect(await screen.baseElement).to.contain.text('Express Care request');
+    expect(screen.baseElement).to.contain.text('Express Care request');
   });
 
   it('should show phone call appointment text', async () => {

@@ -70,6 +70,7 @@ function UpcomingAppointmentsList({
               >
                 {monthBucket.map((appt, index) => {
                   const facilityId = getVAAppointmentLocationId(appt);
+                  const isCancelled = appt.status === 'cancelled';
 
                   switch (appt.vaos?.appointmentType) {
                     case APPOINTMENT_TYPES.vaAppointment:
@@ -87,6 +88,7 @@ function UpcomingAppointmentsList({
                           key={index}
                           appointment={appt}
                           facility={facilityData[facilityId]}
+                          cancelled={isCancelled}
                         />
                       );
                     default:
