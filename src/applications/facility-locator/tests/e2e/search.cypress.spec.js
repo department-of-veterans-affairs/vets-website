@@ -132,14 +132,14 @@ describe('Facility search', () => {
         });
     });
 
-    it.skip('does not show search result header if no results are found', () => {
+    it('does not show search result header if no results are found', () => {
       cy.visit('/find-locations?fail=true');
 
       cy.get('#search-results-subheader').should('not.exist');
       cy.get('#other-tools').should('not.exist');
     });
 
-    it.skip('finds community dentists', () => {
+    it('finds community dentists', () => {
       cy.visit('/find-locations');
       cy.injectAxe();
 
@@ -151,10 +151,12 @@ describe('Facility search', () => {
       cy.get('#downshift-1-item-0').click();
 
       cy.get('#facility-search').click();
-      cy.get('.current-pos-pin').click({
-        waitForAnimations: true,
-        timeout: 10000,
-      });
+      cy.get('.i-pin-card-map')
+        .last()
+        .click({
+          waitForAnimations: true,
+          timeout: 10000,
+        });
       cy.get('#search-results-subheader').contains(
         'Results for "Community providers (in VA’s network)", "Dentist - Orofacial Pain " near "Austin, Texas"',
       );
@@ -167,7 +169,7 @@ describe('Facility search', () => {
       cy.get('.va-pagination').should('not.exist');
     });
 
-    it.skip('finds community urgent care', () => {
+    it('finds community urgent care', () => {
       cy.visit('/find-locations');
       cy.injectAxe();
 
@@ -179,10 +181,12 @@ describe('Facility search', () => {
       cy.get('#downshift-1-item-0').click();
 
       cy.get('#facility-search').click();
-      cy.get('.current-pos-pin').click({
-        waitForAnimations: true,
-        timeout: 10000,
-      });
+      cy.get('.i-pin-card-map')
+        .last()
+        .click({
+          waitForAnimations: true,
+          timeout: 10000,
+        });
       cy.get('#search-results-subheader').contains(
         'Results for "Community providers (in VA’s network)", "Clinic/Center - Urgent Care" near "Austin, Texas"',
       );
@@ -194,7 +198,7 @@ describe('Facility search', () => {
       cy.get('.va-pagination').should('not.exist');
     });
 
-    it.skip('finds community urgent care', () => {
+    it('finds community urgent care', () => {
       cy.visit('/find-locations');
 
       cy.get('#street-city-state-zip').type('Austin, TX', { delay: 200 });
@@ -203,10 +207,12 @@ describe('Facility search', () => {
         'Community urgent care providers (in VA’s network)',
       );
       cy.get('#facility-search').click();
-      cy.get('.current-pos-pin').click({
-        waitForAnimations: true,
-        timeout: 10000,
-      });
+      cy.get('.i-pin-card-map')
+        .last()
+        .click({
+          waitForAnimations: true,
+          timeout: 10000,
+        });
       cy.get('#search-results-subheader').contains(
         'Results for "Urgent care", "Community urgent care providers (in VA’s network)" near "Austin, Texas"',
       );
@@ -219,7 +225,7 @@ describe('Facility search', () => {
       cy.get('.va-pagination').should('not.exist');
     });
 
-    it.skip('should recover search from an error response state - invalid input location', () => {
+    it('should recover search from an error response state - invalid input location', () => {
       cy.visit('/find-locations');
       cy.injectAxe();
 
@@ -249,10 +255,12 @@ describe('Facility search', () => {
       cy.get('#facility-type-dropdown').select('VA health');
       cy.get('#service-type-dropdown').select('Primary care');
       cy.get('#facility-search').click();
-      cy.get('.current-pos-pin').click({
-        waitForAnimations: true,
-        timeout: 10000,
-      });
+      cy.get('.current-pos-pin')
+        .last()
+        .click({
+          waitForAnimations: true,
+          timeout: 10000,
+        });
       cy.get('#search-results-subheader').contains(
         'Results for "VA health", "Primary care" near "Austin, Texas"',
       );
@@ -260,7 +268,7 @@ describe('Facility search', () => {
       cy.axeCheck();
     });
 
-    it.skip('finds va benefits facility in Los Angeles and views its page', () => {
+    it('finds va benefits facility in Los Angeles and views its page', () => {
       cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-la-location').as(
         'caLocation',
       );
@@ -271,10 +279,12 @@ describe('Facility search', () => {
       cy.get('#street-city-state-zip').type('Los Angeles', { delay: 200 });
       cy.get('#facility-type-dropdown').select('VA benefits');
       cy.get('#facility-search').click();
-      cy.get('.current-pos-pin').click({
-        waitForAnimations: true,
-        timeout: 10000,
-      });
+      cy.get('.current-pos-pin')
+        .last()
+        .click({
+          waitForAnimations: true,
+          timeout: 10000,
+        });
       cy.get('#search-results-subheader').contains(
         'Results for "VA benefits", "All VA benefit services" near "Los Angeles, California"',
       );
