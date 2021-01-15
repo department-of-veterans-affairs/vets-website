@@ -79,6 +79,8 @@ module.exports = {
     'field_body',
     'field_regional_health_service',
     'field_service_location',
+    'field_hservice_appt_leadin',
+    'field_hservice_appt_intro_select',
     'field_online_scheduling_availabl',
     'field_referral_required',
     'field_walk_ins_accepted',
