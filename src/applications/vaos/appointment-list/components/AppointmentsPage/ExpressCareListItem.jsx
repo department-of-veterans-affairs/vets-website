@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 export default function ExpressCareListItem({ appointment, cancelled }) {
   const appointmentDate = moment.parseZone(appointment.start);
-  const isExpressCare = appointment.vaos.isExpressCare;
 
   return (
     <li
@@ -22,12 +21,8 @@ export default function ExpressCareListItem({ appointment, cancelled }) {
         </h4>{' '}
         <span>A VA health care provider will follow up with you today.</span>
         <br />
-        {isExpressCare && (
-          <>
-            <i className="fas fa-phone vads-u-margin-right--1" />
-            Express Care request
-          </>
-        )}
+        <i className="fas fa-phone vads-u-margin-right--1" />
+        Express Care request
       </div>
       <div>
         <Link

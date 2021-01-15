@@ -72,28 +72,30 @@ function UpcomingAppointmentsList({
                   const facilityId = getVAAppointmentLocationId(appt);
                   const isCancelled = appt.status === 'cancelled';
 
-                  switch (appt.vaos?.appointmentType) {
-                    case APPOINTMENT_TYPES.vaAppointment:
-                    case APPOINTMENT_TYPES.ccAppointment:
-                      return (
-                        <AppointmentListItem
-                          key={index}
-                          appointment={appt}
-                          facility={facilityData[facilityId]}
-                        />
-                      );
-                    case APPOINTMENT_TYPES.request:
-                      return (
-                        <ExpressCareListItem
-                          key={index}
-                          appointment={appt}
-                          facility={facilityData[facilityId]}
-                          cancelled={isCancelled}
-                        />
-                      );
-                    default:
-                      return null;
+                  if (
+                    appt.vaos.appointmentType ===
+                      APPOINTMENT_TYPES.vaAppointment ||
+                    appt.vaos.appointmentType ===
+                      APPOINTMENT_TYPES.ccAppointment
+                  ) {
+                    return (
+                      <AppointmentListItem
+                        key={index}
+                        appointment={appt}
+                        facility={facilityData[facilityId]}
+                      />
+                    );
+                  } else if (appt.vaos.isExpressCare) {
+                    return (
+                      <ExpressCareListItem
+                        key={index}
+                        appointment={appt}
+                        facility={facilityData[facilityId]}
+                        cancelled={isCancelled}
+                      />
+                    );
                   }
+                  return null;
                 })}
               </ul>
             </React.Fragment>
