@@ -24,6 +24,7 @@ export const schema = {
 export const uiSchema = {
   veteranAddress: addressUiSchema('veteranAddress', checkboxTitle, () => true),
   mainPhone: {
+    'ui:required': () => true,
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
     },
@@ -35,6 +36,7 @@ export const uiSchema = {
   cellPhone: {
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
+      hideEmptyValueInReview: true,
     },
     'ui:title': 'Cell phone number',
     'ui:errorMessages': {
