@@ -15,6 +15,12 @@ export const ViewRepresentativeDetails = props => (
         <strong>Phone: </strong>
         {props.telephone}
       </p>
+      {props?.searchRepresentative && (
+        // add valid href when search rep url has been determined
+        <a role="button" target="_self" className="usa-button" href="#">
+          Find a new representative
+        </a>
+      )}
     </div>
     <h3>What can a representative do?</h3>
     <p>
