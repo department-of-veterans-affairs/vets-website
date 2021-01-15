@@ -61,7 +61,7 @@ const InputSection = ({
   idSchema,
   editing,
   handleChange,
-  handleUpdate,
+  handleSave,
   handleRemove,
   handleCancel,
 }) => {
@@ -125,7 +125,7 @@ const InputSection = ({
                   {showSave && (
                     <button
                       className="float-left"
-                      onClick={e => handleUpdate(e, index)}
+                      onClick={e => handleSave(e, index)}
                       aria-label={`${updateText} ${title}`}
                     >
                       {updateText}
@@ -157,7 +157,7 @@ const InputSection = ({
 };
 
 const AddAnotherButton = ({
-  formData,
+  items,
   addAnotherDisabled,
   uiOptions,
   handleAdd,
@@ -168,7 +168,7 @@ const AddAnotherButton = ({
         <i className="fas fa-plus plus-icon" />
         <a
           className="add-item-link"
-          disabled={!formData || addAnotherDisabled}
+          disabled={!items || addAnotherDisabled}
           onClick={handleAdd}
         >
           {uiOptions.itemName ? `Add ${uiOptions.itemName}` : 'Add another'}
@@ -230,6 +230,12 @@ const ItemLoop = ({
     }
   });
 
+  // use formData otherwise use an array with a single default object
+  const items = formData?.length
+    ? formData
+    : [getDefaultFormState(schema, undefined, registry.definitions)];
+  const addAnotherDisabled = items.length >= (schema.maxItems || Infinity);
+
   const handleScroll = (id, offset) => {
     if (uiSchema['ui:options'].doNotScroll) return;
     setTimeout(() => {
@@ -245,48 +251,43 @@ const ItemLoop = ({
     }, 100);
   };
 
+  const formatEditData = (index, edit) => {
+    return editing.map((item, i) => (index === i ? edit : item));
+  };
+
   const handleChange = (index, value) => {
-    const data = formData?.length ? formData : [value];
-    const newData = data.map((item, i) => (index === i ? value : item));
+    const newData = items.map((item, i) => (index === i ? value : item));
     onChange(newData);
   };
 
   const handleEdit = (e, index) => {
     e.preventDefault();
-    const editData = editing.map((item, i) => (i === index ? true : item));
+    const editData = formatEditData(index, true);
 
     if (editing.length === 1) {
       setShowTable(false);
     }
 
-    const filtered = formData.filter(item => {
-      return Object.values(item).includes(undefined) ? null : item;
-    });
-
-    setCache(filtered);
+    setCache(items);
     setEditing(editData);
     handleScroll(`table_${idSchema.$id}_${index}`, 0);
   };
 
-  const handleUpdate = (e, i) => {
+  const handleSave = (e, index) => {
     e.preventDefault();
-    if (!formData) return;
 
     const { viewType } = uiOptions;
     if (viewType === 'table') {
       setShowTable(true);
     }
 
-    if (errorSchemaIsValid(errorSchema[i])) {
-      const editData = editing.map(
-        (item, index) => (i === index ? false : item),
-      );
-
+    if (errorSchemaIsValid(errorSchema[index])) {
+      const editData = formatEditData(index, false);
       setEditing(editData);
-      handleScroll(`table_${idSchema.$id}_${i}`, 0);
+      handleScroll(`table_${idSchema.$id}_${index}`, 0);
     } else {
       // Set all the fields for this item as touched, so we show errors
-      const touched = setArrayRecordTouched(idSchema.$id, i);
+      const touched = setArrayRecordTouched(idSchema.$id, index);
       formContext.setTouched(touched, () => {
         scrollToFirstError();
       });
@@ -294,18 +295,17 @@ const ItemLoop = ({
   };
 
   const handleAdd = () => {
-    const lastIndex = formData.length - 1;
+    const lastIndex = items?.length - 1;
     if (errorSchemaIsValid(errorSchema[lastIndex])) {
       const defaultData = getDefaultFormState(
         schema.additionalItems,
         undefined,
         registry.definitions,
       );
-      const newFormData = [...formData, defaultData];
-      onChange(newFormData);
-      setCache(formData);
+      const newFormData = [...items, defaultData];
+      setCache(items);
       setEditing([...editing, 'add']);
-      setShowTable(true);
+      onChange(newFormData);
       handleScroll(`table_${idSchema.$id}_${lastIndex + 1}`, 0);
     } else {
       const touched = setArrayRecordTouched(idSchema.$id, lastIndex);
@@ -316,34 +316,30 @@ const ItemLoop = ({
   };
 
   const handleCancel = index => {
-    const lastIndex = formData.length - 1;
-    let editData = editing;
+    const lastIndex = items.length - 1;
     const isAdding = editing.includes('add');
 
     if (isAdding && lastIndex === index) {
-      editData = editing.filter(item => item !== 'add');
+      const editData = editing.filter(item => item !== 'add');
+      const filtered = items.filter(item => {
+        return Object.values(item).includes(undefined) ? null : item;
+      });
+      setEditing(editData);
+      onChange(filtered);
     } else {
-      editData = editing.map((item, i) => (index === i ? false : item));
+      const editData = formatEditData(index, false);
+      setEditing(editData);
+      onChange(cache);
     }
-
-    setEditing(editData);
-    onChange(cache);
   };
 
   const handleRemove = index => {
-    const newItems = formData.filter((item, i) => index !== i);
+    const newItems = items.filter((item, i) => index !== i);
     const filtered = editing.filter((item, i) => index !== i);
     setEditing(filtered);
     onChange(newItems);
     handleScroll(`topOfTable_${idSchema.$id}`, -60);
   };
-
-  // use form data otherwise use an array with a single default object
-  const items = formData?.length
-    ? formData
-    : [getDefaultFormState(schema, undefined, registry.definitions)];
-
-  const addAnotherDisabled = items.length >= (schema.maxItems || Infinity);
 
   const containerClassNames = classNames({
     'item-loop-container': true,
@@ -406,7 +402,7 @@ const ItemLoop = ({
                         errorSchema={errorSchema}
                         editing={editing}
                         handleChange={handleChange}
-                        handleUpdate={handleUpdate}
+                        handleSave={handleSave}
                         handleRemove={handleRemove}
                         handleCancel={handleCancel}
                       />
@@ -444,7 +440,7 @@ const ItemLoop = ({
                 readonly={readonly}
                 errorSchema={errorSchema}
                 handleChange={handleChange}
-                handleUpdate={handleUpdate}
+                handleSave={handleSave}
                 handleRemove={handleRemove}
               />
             ) : (
@@ -460,7 +456,7 @@ const ItemLoop = ({
         )}
 
         <AddAnotherButton
-          formData={formData}
+          items={items}
           addAnotherDisabled={addAnotherDisabled}
           uiOptions={uiOptions}
           handleAdd={handleAdd}
