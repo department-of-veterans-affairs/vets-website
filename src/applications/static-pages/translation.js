@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import recordEvent from 'platform/monitoring/record-event';
 
 const faqI18Content = {
@@ -18,12 +17,11 @@ const configureTranslationLink = (e, currentLang, targetLang) => {
   e.dataset.lang = currentLang;
   e.innerText = faqI18Content[targetLang].linkTitle;
   e.href = faqI18Content[targetLang].langToggleLink;
-  e.onclick = () =>
-    recordEvent({
+  e.onclick = recordEvent({
       event: 'faq-lang-toggle',
       targetLang,
-    });
-};
+  });
+
 
 const displayTranslationLink = () => {
   const i18LinkWrapper = document.getElementById('i18-link-wrapper');
