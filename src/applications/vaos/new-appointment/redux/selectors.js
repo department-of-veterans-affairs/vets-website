@@ -253,12 +253,13 @@ export function selectProviderSelectionInfo(state) {
     ccProviderPageSortMethod: sortMethod,
   } = getNewAppointment(state);
 
-  const typeOfCareId = getTypeOfCare(data).ccId;
+  const typeOfCare = getTypeOfCare(data);
 
   return {
     address: selectVAPResidentialAddress(state),
+    typeOfCareName: typeOfCare.name,
     communityCareProviderList:
-      communityCareProviders[`${sortMethod}_${typeOfCareId}`] || [],
+      communityCareProviders[`${sortMethod}_${typeOfCare.ccId}`] || [],
     requestStatus,
     requestLocationStatus,
     currentLocation,

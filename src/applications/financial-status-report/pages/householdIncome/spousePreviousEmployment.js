@@ -18,7 +18,7 @@ export const uiSchema = {
         viewField: CardDetailsView,
         doNotScroll: true,
         showSave: true,
-        itemName: 'Add a job',
+        itemName: 'a job',
       },
       items: {
         spouseEmploymentType: {
