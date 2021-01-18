@@ -30,6 +30,7 @@ export default Object.freeze({
   vaOnlineSchedulingProviderSelection: 'vaOnlineSchedulingProviderSelection',
   vaOnlineSchedulingCheetah: 'vaOnlineSchedulingCheetah',
   vaGlobalDowntimeNotification: 'vaGlobalDowntimeNotification',
+  vaOnlineSchedulingHomepageRefresh: 'vaOnlineSchedulingHomepageRefresh',
   ssoe: 'ssoe',
   ssoeInbound: 'ssoeInbound',
   ssoeEbenefitsLinks: 'ssoeEbenefitsLinks',

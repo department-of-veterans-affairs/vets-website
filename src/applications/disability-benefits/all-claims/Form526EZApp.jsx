@@ -17,8 +17,12 @@ import { MissingServices, MissingId } from './containers/MissingServices';
 
 import { MVI_ADD_SUCCEEDED } from './actions';
 import WizardContainer from './containers/WizardContainer';
-import { WIZARD_STATUS } from './constants';
+import { WIZARD_STATUS, PDF_SIZE_FEATURE } from './constants';
 import { show526Wizard, isBDD, getPageTitle } from './utils';
+import { uploadPdfLimitFeature } from './config/selectors';
+
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { focusElement } from 'platform/utilities/ui';
 
 const wrapInBreadcrumb = (title, component) => (
   <>
@@ -61,6 +65,7 @@ export const Form526Entry = ({
   mvi,
   showWizard,
   isBDDForm,
+  pdfLimit,
 }) => {
   const defaultWizardState = getWizardStatus();
   const [wizardState, setWizardState] = useState(defaultWizardState);
@@ -69,13 +74,22 @@ export const Form526Entry = ({
   document.title = title;
 
   const setWizardStatus = value => {
-    window.sessionStorage.setItem(WIZARD_STATUS, value);
+    sessionStorage.setItem(WIZARD_STATUS, value);
     setWizardState(value);
+  };
+
+  // start focus on breadcrumb nav when wizard is visible
+  const setPageFocus = focusTarget => {
+    focusElement(focusTarget);
+    scrollToTop();
   };
 
   useEffect(() => {
     if (defaultWizardState === WIZARD_STATUS_COMPLETE) {
+      setPageFocus('h1');
       setWizardStatus(WIZARD_STATUS_COMPLETE);
+    } else if (defaultWizardState === WIZARD_STATUS_NOT_STARTED) {
+      setPageFocus('.va-nav-breadcrumbs-list');
     }
   });
   if (showWizard && wizardState !== WIZARD_STATUS_COMPLETE) {
@@ -119,6 +133,11 @@ export const Form526Entry = ({
     }
   }
 
+  // No easy method to pass a feature flag setting to a uiSchema, so we'll use
+  // sessionStorage for now. Done here because continuing an application may
+  // bypass the intro page.
+  sessionStorage.setItem(PDF_SIZE_FEATURE, pdfLimit);
+
   return wrapInBreadcrumb(
     title,
     <article id="form-526" data-location={`${location?.pathname?.slice(1)}`}>
@@ -136,6 +155,7 @@ const mapStateToProps = state => ({
   mvi: state.mvi,
   showWizard: show526Wizard(state),
   isBDDForm: isBDD(state?.form?.data),
+  pdfLimit: uploadPdfLimitFeature(state),
 });
 
 export default connect(mapStateToProps)(Form526Entry);

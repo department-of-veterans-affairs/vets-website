@@ -48,10 +48,26 @@
 
 {% if locationEntity.fieldReferralRequired or locationEntity.fieldWalkInsAccepted or locationEntity.fieldOnlineSchedulingAvailabl %}
   <h4 data-template="paragraphs/service_location">Appointments</h4>
-  <p class="vads-u-margin--0" data-template="paragraphs/service_location">Contact us to schedule, reschedule, or
-    cancel your appointment. If a referral is required, you’ll need to contact your
-    primary care provider first.
-  </p>
+
+  {% assign introText = 'Contact us to schedule, reschedule, or
+            cancel your appointment. If a referral is required, you’ll need to contact your
+            primary care provider first.'
+  %}
+
+  {% case locationEntity.fieldHserviceApptIntroSelect %}
+    {% when 'custom_intro_text' %}
+      {% if locationEntity.fieldHserviceApptLeadin != empty %}
+        {% assign introText = locationEntity.fieldHserviceApptLeadin %}
+      {% endif %}
+    {% when 'no_intro_text' %}
+      {% assign introText = '' %}
+  {% endcase %}
+
+  {% if introText != empty %}
+    <p class="vads-u-margin--0" data-template="paragraphs/service_location">
+      {{  introText }}
+    </p>
+  {% endif %}
 
   {% if locationEntity.fieldPhoneNumbersParagraph != empty %}
     <div class="phone-numbers" data-template="paragraphs/service_location">
