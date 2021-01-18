@@ -221,7 +221,7 @@ async function loadDrupal(buildOptions) {
   }
 
   const contentTimer = `Total time to load content from ${
-    USE_CMS_EXPORT_BUILD_ARG ? 'CMS export' : 'GraphQL'
+    buildOptions[USE_CMS_EXPORT_BUILD_ARG] ? 'CMS export' : 'GraphQL'
   }`;
 
   console.time(contentTimer);
