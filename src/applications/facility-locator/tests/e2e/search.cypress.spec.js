@@ -1,3 +1,4 @@
+/* eslint-disable cypress/no-unnecessary-waiting */
 import path from 'path';
 
 Cypress.Commands.add('verifyOptions', () => {
@@ -56,17 +57,11 @@ describe('Facility search', () => {
 
       cy.verifyOptions();
 
-      cy.get('#street-city-state-zip').type('Austin, TX', { delay: 200 });
+      cy.get('#street-city-state-zip').type('Austin, TX');
       cy.get('#facility-type-dropdown').select('VA health');
       cy.get('#service-type-dropdown').select('Primary care');
       cy.get('#facility-search').click();
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(3000);
-      // cy.get('.current-pos-pin').click({
-      //   waitForAnimations: true,
-      //   timeout: 10000,
-      //   force: true,
-      // });
+      cy.wait(2000);
       cy.get('#search-results-subheader').contains(
         'Results for "VA health", "Primary care" near "Austin, Texas"',
       );
@@ -145,22 +140,15 @@ describe('Facility search', () => {
       cy.visit('/find-locations');
       cy.injectAxe();
 
-      cy.get('#street-city-state-zip').type('Austin, TX', { delay: 200 });
+      cy.get('#street-city-state-zip').type('Austin, TX', { delay: 100 });
       cy.get('#facility-type-dropdown').select(
         'Community providers (in VA’s network)',
       );
-      cy.get('#service-type-ahead-input').type('Dentist', { delay: 200 });
+      cy.get('#service-type-ahead-input').type('Dentist');
       cy.get('#downshift-1-item-0').click();
 
       cy.get('#facility-search').click();
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(3000);
-      // cy.get('.i-pin-card-map')
-      //   .last()
-      //   .click({
-      //     waitForAnimations: true,
-      //     timeout: 10000,
-      //   });
+      cy.wait(3500);
       cy.get('#search-results-subheader').contains(
         'Results for "Community providers (in VA’s network)", "Dentist - Orofacial Pain " near "Austin, Texas"',
       );
@@ -177,7 +165,7 @@ describe('Facility search', () => {
       cy.visit('/find-locations');
       cy.injectAxe();
 
-      cy.get('#street-city-state-zip').type('Austin, TX', { delay: 200 });
+      cy.get('#street-city-state-zip').type('Austin, TX');
       cy.get('#facility-type-dropdown').select(
         'Community providers (in VA’s network)',
       );
@@ -185,14 +173,7 @@ describe('Facility search', () => {
       cy.get('#downshift-1-item-0').click();
 
       cy.get('#facility-search').click();
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(3000);
-      // cy.get('.i-pin-card-map')
-      //   .last()
-      //   .click({
-      //     waitForAnimations: true,
-      //     timeout: 10000,
-      //   });
+      cy.wait(3500);
       cy.get('#search-results-subheader').contains(
         'Results for "Community providers (in VA’s network)", "Clinic/Center - Urgent Care" near "Austin, Texas"',
       );
@@ -207,20 +188,13 @@ describe('Facility search', () => {
     it('finds community urgent care', () => {
       cy.visit('/find-locations');
 
-      cy.get('#street-city-state-zip').type('Austin, TX', { delay: 200 });
+      cy.get('#street-city-state-zip').type('Austin, TX');
       cy.get('#facility-type-dropdown').select('Urgent care');
       cy.get('#service-type-dropdown').select(
         'Community urgent care providers (in VA’s network)',
       );
       cy.get('#facility-search').click();
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(3000);
-      // cy.get('.i-pin-card-map')
-      //   .last()
-      //   .click({
-      //     waitForAnimations: true,
-      //     timeout: 10000,
-      //   });
+      cy.wait(3500);
       cy.get('#search-results-subheader').contains(
         'Results for "Urgent care", "Community urgent care providers (in VA’s network)" near "Austin, Texas"',
       );
@@ -245,13 +219,9 @@ describe('Facility search', () => {
         'failedLocation',
       );
 
-      cy.get('#street-city-state-zip').type('31234asd0o203o213', {
-        delay: 150,
-      });
+      cy.get('#street-city-state-zip').type('31234asd0o203o213');
       cy.get('#facility-type-dropdown').select('VA health');
       cy.get('#facility-search').click();
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(3000);
       cy.get('.facility-search-results').contains(
         /Something’s not quite right. Please enter a valid or different location and try your search again./gi,
       );
@@ -262,18 +232,11 @@ describe('Facility search', () => {
         'validLocationSearch',
       );
       cy.get('#street-city-state-zip').clear();
-      cy.get('#street-city-state-zip').type('Austin, TX', { delay: 200 });
+      cy.get('#street-city-state-zip').type('Austin, TX');
       cy.get('#facility-type-dropdown').select('VA health');
       cy.get('#service-type-dropdown').select('Primary care');
       cy.get('#facility-search').click();
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(3000);
-      // cy.get('.i-pin-card-map')
-      //   .last()
-      //   .click({
-      //     waitForAnimations: true,
-      //     timeout: 10000,
-      //   });
+      cy.wait(2000);
       cy.get('#search-results-subheader').contains(
         'Results for "VA health", "Primary care" near "Austin, Texas"',
       );
@@ -289,17 +252,10 @@ describe('Facility search', () => {
       cy.visit('/find-locations');
       cy.injectAxe();
 
-      cy.get('#street-city-state-zip').type('Los Angeles', { delay: 200 });
+      cy.get('#street-city-state-zip').type('Los Angeles', { delay: 100 });
       cy.get('#facility-type-dropdown').select('VA benefits');
       cy.get('#facility-search').click();
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(3000);
-      // cy.get('.i-pin-card-map')
-      //   .last()
-      //   .click({
-      //     waitForAnimations: true,
-      //     timeout: 10000,
-      //   });
+      cy.wait(2000);
       cy.get('#search-results-subheader').contains(
         'Results for "VA benefits", "All VA benefit services" near "Los Angeles, California"',
       );
@@ -338,3 +294,4 @@ describe('Facility search', () => {
     });
   }
 });
+/* eslint-enable cypress/no-unnecessary-waiting */
