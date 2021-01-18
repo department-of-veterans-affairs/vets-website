@@ -247,8 +247,8 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 
 def prearchive(dockerContainer, envName) {
   dockerContainer.inside(DOCKER_ARGS) {
-    if (envName == 'vagovdev') {
-      sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath"
+    if (envName == 'vagovdev' || envName == 'vagovstaging') {
+      sh "cd /application && NODE_ENV=production yarn build:webpack --env.buildtype ${envName} --env.setPublicPath"
     }
     sh "cd /application && node --max-old-space-size=10240 script/prearchive.js --buildtype=${envName}"
   }
