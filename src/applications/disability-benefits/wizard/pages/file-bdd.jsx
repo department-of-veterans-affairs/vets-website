@@ -26,7 +26,7 @@ const FileBDDClaim = ({ getPageStateFromPageName, setWizardStatus }) => {
   const isLastDayToFileBDD = daysRemainingToFileBDD === 0;
   const dateOfLastBDDEligibility = moment()
     .add(daysRemainingToFileBDD, 'days')
-    .format('MMM D, YYYY');
+    .format('MMMM D, YYYY');
 
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-padding--2">
