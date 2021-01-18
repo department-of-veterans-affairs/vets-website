@@ -62,11 +62,11 @@ describe('Facility search', () => {
       cy.get('#facility-search').click();
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(3000);
-      cy.get('.current-pos-pin').click({
-        waitForAnimations: true,
-        timeout: 10000,
-        force: true,
-      });
+      // cy.get('.current-pos-pin').click({
+      //   waitForAnimations: true,
+      //   timeout: 10000,
+      //   force: true,
+      // });
       cy.get('#search-results-subheader').contains(
         'Results for "VA health", "Primary care" near "Austin, Texas"',
       );
@@ -155,12 +155,12 @@ describe('Facility search', () => {
       cy.get('#facility-search').click();
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(3000);
-      cy.get('.i-pin-card-map')
-        .last()
-        .click({
-          waitForAnimations: true,
-          timeout: 10000,
-        });
+      // cy.get('.i-pin-card-map')
+      //   .last()
+      //   .click({
+      //     waitForAnimations: true,
+      //     timeout: 10000,
+      //   });
       cy.get('#search-results-subheader').contains(
         'Results for "Community providers (in VA’s network)", "Dentist - Orofacial Pain " near "Austin, Texas"',
       );
@@ -187,12 +187,12 @@ describe('Facility search', () => {
       cy.get('#facility-search').click();
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(3000);
-      cy.get('.i-pin-card-map')
-        .last()
-        .click({
-          waitForAnimations: true,
-          timeout: 10000,
-        });
+      // cy.get('.i-pin-card-map')
+      //   .last()
+      //   .click({
+      //     waitForAnimations: true,
+      //     timeout: 10000,
+      //   });
       cy.get('#search-results-subheader').contains(
         'Results for "Community providers (in VA’s network)", "Clinic/Center - Urgent Care" near "Austin, Texas"',
       );
@@ -215,12 +215,12 @@ describe('Facility search', () => {
       cy.get('#facility-search').click();
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(3000);
-      cy.get('.i-pin-card-map')
-        .last()
-        .click({
-          waitForAnimations: true,
-          timeout: 10000,
-        });
+      // cy.get('.i-pin-card-map')
+      //   .last()
+      //   .click({
+      //     waitForAnimations: true,
+      //     timeout: 10000,
+      //   });
       cy.get('#search-results-subheader').contains(
         'Results for "Urgent care", "Community urgent care providers (in VA’s network)" near "Austin, Texas"',
       );
@@ -268,12 +268,12 @@ describe('Facility search', () => {
       cy.get('#facility-search').click();
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(3000);
-      cy.get('.i-pin-card-map')
-        .last()
-        .click({
-          waitForAnimations: true,
-          timeout: 10000,
-        });
+      // cy.get('.i-pin-card-map')
+      //   .last()
+      //   .click({
+      //     waitForAnimations: true,
+      //     timeout: 10000,
+      //   });
       cy.get('#search-results-subheader').contains(
         'Results for "VA health", "Primary care" near "Austin, Texas"',
       );
@@ -294,12 +294,12 @@ describe('Facility search', () => {
       cy.get('#facility-search').click();
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(3000);
-      cy.get('.i-pin-card-map')
-        .last()
-        .click({
-          waitForAnimations: true,
-          timeout: 10000,
-        });
+      // cy.get('.i-pin-card-map')
+      //   .last()
+      //   .click({
+      //     waitForAnimations: true,
+      //     timeout: 10000,
+      //   });
       cy.get('#search-results-subheader').contains(
         'Results for "VA benefits", "All VA benefit services" near "Los Angeles, California"',
       );
