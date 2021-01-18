@@ -22,7 +22,7 @@ const UnableToFileBDDPage = ({ getPageStateFromPageName }) => {
     .format('MMMM D, YYYY');
 
   return (
-    <div className="vads-u-background-color--gray-lightest vads-u-padding--2">
+    <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
       <p className="vads-u-margin-top--0">
         Based on your separation date, you’re not eligible to file for
         disability benefits right now.

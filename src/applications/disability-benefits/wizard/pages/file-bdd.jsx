@@ -29,7 +29,7 @@ const FileBDDClaim = ({ getPageStateFromPageName, setWizardStatus }) => {
     .format('MMMM D, YYYY');
 
   return (
-    <div className="vads-u-background-color--gray-lightest vads-u-padding--2">
+    <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
       <p className="vads-u-margin-top--0">
         Based on your separation date, you can file a disability claim under the
         Benefits Delivery at Discharge (BDD) program.

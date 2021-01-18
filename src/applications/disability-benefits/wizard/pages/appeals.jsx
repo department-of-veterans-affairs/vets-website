@@ -12,7 +12,7 @@ const options = [
       'I’m filing a claim for a new condition or for a condition that’s gotten worse.',
   },
   {
-    value: pageNames.disagreeing,
+    value: pageNames.disagreeFileClaim,
     label: 'I’m disagreeing with a VA decision on my claim.',
   },
 ];
