@@ -412,12 +412,10 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       reducers,
     });
 
-    await screen.findByText(
-      new RegExp(startDate.tz('America/New_York').format('dddd, MMMM D'), 'i'),
-    );
+    await screen.findByText(new RegExp(startDate.format('dddd, MMMM D'), 'i'));
 
     const timeHeader = screen.getByText(
-      new RegExp(startDate.tz('America/New_York').format('h:mm'), 'i'),
+      new RegExp(startDate.format('h:mm'), 'i'),
     );
     expect(timeHeader).to.contain.text('ET');
     expect(timeHeader).to.contain.text('Eastern time');

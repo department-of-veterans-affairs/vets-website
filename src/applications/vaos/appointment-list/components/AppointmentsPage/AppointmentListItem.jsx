@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment';
+import moment from '../../../lib/moment-tz';
 import {
   getPractitionerDisplay,
   getVARFacilityId,
