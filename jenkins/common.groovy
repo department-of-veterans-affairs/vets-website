@@ -177,8 +177,6 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
 }
 
 def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache, Boolean contentOnlyBuild) {
-  def long buildtime = System.currentTimeMillis() / 1000L;
-  def buildDetails = buildDetails(envName, ref, buildtime)
   // Use Drupal prod for all environments
   def drupalAddress = DRUPAL_ADDRESSES.get('vagovprod')
   def drupalCred = DRUPAL_CREDENTIALS.get('vagovprod')
@@ -191,15 +189,13 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
       sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose"
 
       if (envName == 'vagovprod') {
-	checkForBrokenLinks(buildLogPath, envName, contentOnlyBuild)
+        checkForBrokenLinks(buildLogPath, envName, contentOnlyBuild)
       }
 
       // Find any missing query flags in the log
       if (envName == 'vagovprod') {
         findMissingQueryFlags(buildLogPath, envName)
       }
-
-      sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
     }
   }
 }
@@ -278,9 +274,13 @@ def prearchiveAll(dockerContainer) {
 }
 
 def archive(dockerContainer, String ref, String envName) {
+  def long buildtime = System.currentTimeMillis() / 1000L;
+  def buildDetails = buildDetails(envName, ref, buildtime)
+
   dockerContainer.inside(DOCKER_ARGS) {
     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
                      usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
+      sh "echo \"${buildDetails}\" > /application/build/${envName}/BUILD.txt"
       sh "tar -C /application/build/${envName} -cf /application/build/${envName}.tar.bz2 ."
       sh "aws s3 cp /application/build/${envName}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${ref}/${envName}.tar.bz2 --acl public-read --region us-gov-west-1 --quiet"
     }
