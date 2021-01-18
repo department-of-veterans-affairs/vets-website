@@ -60,6 +60,8 @@ describe('Facility search', () => {
       cy.get('#facility-type-dropdown').select('VA health');
       cy.get('#service-type-dropdown').select('Primary care');
       cy.get('#facility-search').click();
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(3000);
       cy.get('.current-pos-pin').click({
         waitForAnimations: true,
         timeout: 10000,
@@ -151,6 +153,8 @@ describe('Facility search', () => {
       cy.get('#downshift-1-item-0').click();
 
       cy.get('#facility-search').click();
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(3000);
       cy.get('.i-pin-card-map')
         .last()
         .click({
@@ -181,6 +185,8 @@ describe('Facility search', () => {
       cy.get('#downshift-1-item-0').click();
 
       cy.get('#facility-search').click();
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(3000);
       cy.get('.i-pin-card-map')
         .last()
         .click({
@@ -207,6 +213,8 @@ describe('Facility search', () => {
         'Community urgent care providers (in VA’s network)',
       );
       cy.get('#facility-search').click();
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(3000);
       cy.get('.i-pin-card-map')
         .last()
         .click({
@@ -242,6 +250,8 @@ describe('Facility search', () => {
       });
       cy.get('#facility-type-dropdown').select('VA health');
       cy.get('#facility-search').click();
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(3000);
       cy.get('.facility-search-results').contains(
         /Something’s not quite right. Please enter a valid or different location and try your search again./gi,
       );
@@ -256,6 +266,8 @@ describe('Facility search', () => {
       cy.get('#facility-type-dropdown').select('VA health');
       cy.get('#service-type-dropdown').select('Primary care');
       cy.get('#facility-search').click();
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(3000);
       cy.get('.i-pin-card-map')
         .last()
         .click({
@@ -280,6 +292,8 @@ describe('Facility search', () => {
       cy.get('#street-city-state-zip').type('Los Angeles', { delay: 200 });
       cy.get('#facility-type-dropdown').select('VA benefits');
       cy.get('#facility-search').click();
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(3000);
       cy.get('.i-pin-card-map')
         .last()
         .click({
