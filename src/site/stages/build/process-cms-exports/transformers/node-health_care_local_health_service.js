@@ -33,17 +33,25 @@ const transform = entity => ({
     fieldBody: {
       processed: getWysiwygString(getDrupalValue(entity.fieldBody)),
     },
-    fieldRegionalHealthService: {
-      entity: {
-        entityUrl: entity.fieldRegionalHealthService[0].entityUrl,
-        fieldBody: entity.fieldRegionalHealthService[0].fieldBody,
-        fieldServiceNameAndDescripti:
-          entity.fieldRegionalHealthService[0].fieldServiceNameAndDescripti,
-      },
-    },
+    fieldRegionalHealthService:
+      entity.fieldRegionalHealthService.length > 0
+        ? {
+            entity: {
+              entityUrl: entity.fieldRegionalHealthService[0].entityUrl,
+              fieldBody: entity.fieldRegionalHealthService[0].fieldBody,
+              fieldServiceNameAndDescripti:
+                entity.fieldRegionalHealthService[0]
+                  .fieldServiceNameAndDescripti,
+            },
+          }
+        : {},
     fieldServiceLocation: entity.fieldServiceLocation.map(locationData => ({
       entity: locationData,
     })),
+    fieldHserviceApptLeadin: getDrupalValue(entity.fieldHserviceApptLeadin),
+    fieldHserviceApptIntroSelect: getDrupalValue(
+      entity.fieldHserviceApptIntroSelect,
+    ),
     fieldOnlineSchedulingAvailabl: getDrupalValue(
       entity.fieldOnlineSchedulingAvailabl,
     ),
@@ -71,6 +79,8 @@ module.exports = {
     'field_body',
     'field_regional_health_service',
     'field_service_location',
+    'field_hservice_appt_leadin',
+    'field_hservice_appt_intro_select',
     'field_online_scheduling_availabl',
     'field_referral_required',
     'field_walk_ins_accepted',

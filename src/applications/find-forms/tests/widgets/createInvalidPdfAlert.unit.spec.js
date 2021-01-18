@@ -45,8 +45,8 @@ describe('createInvalidPdfAlert', () => {
       dataset: {
         formNumber: 'VA0927b',
       },
-      remove: sinon.stub(),
       parentNode: {
+        removeChild: sinon.stub(),
         insertBefore: sinon.stub(),
       },
     };
@@ -65,7 +65,7 @@ describe('createInvalidPdfAlert', () => {
 
     expect(alertBox).to.be.instanceOf(HTMLDivElement);
     expect(alertBox.innerHTML).to.include('We’re sorry');
-    expect(link.remove.called).to.be.true;
+    expect(link.parentNode.removeChild.called).to.be.true;
   });
 
   it('does not show an alert banner for valid forms', async () => {
@@ -76,7 +76,9 @@ describe('createInvalidPdfAlert', () => {
       dataset: {
         formNumber: '10-10EZ',
       },
-      remove: sinon.stub(),
+      parentNode: {
+        removeChild: sinon.stub(),
+      },
     };
 
     const event = {
@@ -86,7 +88,7 @@ describe('createInvalidPdfAlert', () => {
 
     await onDownloadLinkClick(event);
 
-    expect(link.remove.called).to.be.false;
+    expect(link.parentNode.removeChild.called).to.be.false;
     expect(link.removeEventListener.called).to.be.true;
     expect(link.click.called).to.be.true;
   });
