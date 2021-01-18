@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { DISABILITY_526_V2_ROOT_URL } from 'applications/disability-benefits/all-claims/constants';
-
 import { pageNames } from './pageList';
 import { formStartButton } from '../wizard-utils';
 
@@ -18,7 +16,6 @@ const FileClaimPage = ({ setWizardStatus }) => {
       {formStartButton({
         setWizardStatus,
         label,
-        linkUrl: `${DISABILITY_526_V2_ROOT_URL}/introduction`,
         ariaId: 'other_ways_to_file_526',
       })}
       <p id="other_ways_to_file_526" className="vads-u-margin-bottom--0">
