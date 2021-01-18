@@ -19,15 +19,22 @@ const WizardContainer = ({ setWizardStatus }) => (
         Related Compensation Benefits).
       </p>
       <div className="wizard-container">
-        <h2>Find out if this is the right form</h2>
+        <h2>Is this the form I need?</h2>
         <p>
-          This application is for veterans and service members to seek
-          disability compensation for an illness or injury that was caused
-          by&mdash;or got worse because of&mdash;your active military service.
-          Compensation may include financial support and other benefits like
-          health care. To see if this is the right form for you, please answer a
-          few questions.
+          Use this form to file for disability benefits for an illness or injury
+          that was caused by&mdash;or got worse because of&mdash;your active
+          military service. If you’re still on active duty, you can file for
+          disability benefits under the Benefits Delivery at Discharge program.
+          This program allows you to file for benefits 180 to 90 days before you
+          leave the military.
         </p>
+        <p>
+          Not sure you’re eligible for VA disability benefits?{' '}
+          <a href="/disability/eligibility/">
+            Find out if you’re eligible for disability compensation
+          </a>
+        </p>
+        <p>Answer a few questions to get started.</p>
         <Wizard
           pages={pages}
           expander={false}
