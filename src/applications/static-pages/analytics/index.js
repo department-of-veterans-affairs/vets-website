@@ -3,7 +3,6 @@ import * as Sentry from '@sentry/browser';
 import addJumplinkListeners from './addJumpLinkListeners';
 import addQaSectionListeners from './addQaSectionListeners';
 import addTeaserListeners from './addTeaserListeners';
-import addButtonLinkListeners from './addButtonLinkListeners';
 
 /**
  * Use pageListenersMap.set(<page path>, <array of functions>) to register
@@ -34,7 +33,6 @@ function attachAnalytics() {
 
     // Global listeners
     addTeaserListeners();
-    addButtonLinkListeners();
   } catch (error) {
     Sentry.withScope(scope => {
       scope.setExtra('error', error);
