@@ -1,30 +1,32 @@
 import React from 'react';
-import { DISABILITY_526_V2_ROOT_URL } from 'applications/disability-benefits/all-claims/constants';
-import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
-import { pageNames } from './pageList';
 
-const FileClaimPage = ({ setWizardStatus }) => (
-  <div>
-    <p>
-      {/* Remove link to introduction page once show526Wizard flipper is at 100% */}
-      {window.location.pathname.includes(DISABILITY_526_V2_ROOT_URL) ? (
-        <button
-          onClick={() => setWizardStatus(WIZARD_STATUS_COMPLETE)}
-          className="usa-button-primary va-button-primary"
-        >
-          File a disability compensation claim
-        </button>
-      ) : (
-        <a
-          href={`${DISABILITY_526_V2_ROOT_URL}/introduction`}
-          className="usa-button-primary va-button-primary"
-        >
-          File a disability compensation claim
-        </a>
-      )}
-    </p>
-  </div>
-);
+import { DISABILITY_526_V2_ROOT_URL } from 'applications/disability-benefits/all-claims/constants';
+
+import { pageNames } from './pageList';
+import { formStartButton } from '../wizard-utils';
+
+const FileClaimPage = ({ setWizardStatus }) => {
+  const label = 'File a disability claim online';
+  const linkText = 'Learn about other ways you can file a disability claim';
+
+  return (
+    <div className="vads-u-background-color--gray-lightest vads-u-padding--2">
+      <p className="vads-u-margin-top--0">
+        Based on your separation date, you’ll file for disability benefits using{' '}
+        <strong>VA Form 21-526EZ</strong>.
+      </p>
+      {formStartButton({
+        setWizardStatus,
+        label,
+        linkUrl: `${DISABILITY_526_V2_ROOT_URL}/introduction`,
+        ariaId: 'other_ways_to_file_526',
+      })}
+      <p id="other_ways_to_file_526" className="vads-u-margin-bottom--0">
+        <a href="/disability/how-to-file-claim/">{linkText}</a>
+      </p>
+    </div>
+  );
+};
 
 export default {
   name: pageNames.fileClaimEarly,
