@@ -87,16 +87,18 @@ const BDDPage = ({ setPageState, state = defaultState, allowBDD }) => {
   };
 
   return (
-    <Date
-      label={label}
-      onValueChange={onChange}
-      name="discharge-date"
-      date={state}
-      validation={{
-        valid: isDateInFuture(state),
-        message: 'Your separation date must be in the future',
-      }}
-    />
+    <div className="clearfix">
+      <Date
+        label={label}
+        onValueChange={onChange}
+        name="discharge-date"
+        date={state}
+        validation={{
+          valid: isDateInFuture(state),
+          message: 'Your separation date must be in the future',
+        }}
+      />
+    </div>
   );
 };
 
