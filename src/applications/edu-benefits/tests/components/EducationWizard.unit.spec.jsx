@@ -24,7 +24,7 @@ describe('<EducationWizard>', () => {
     const tree = mount(<EducationWizard />);
     tree.setState({ open: true });
     expect(tree.find('button').length).to.eq(1);
-    expect(tree.find('ErrorableRadioButtons').length).to.eq(1);
+    expect(tree.find('RadioButtons').length).to.eq(1);
     tree.unmount();
   });
   it('should show own service question for new benefit', () => {

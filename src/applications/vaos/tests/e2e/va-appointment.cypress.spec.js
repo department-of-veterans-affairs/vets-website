@@ -59,6 +59,8 @@ describe('VAOS direct schedule flow', () => {
       expect(request).to.have.property(
         'desiredDate',
         `${moment()
+          .add(1, 'month')
+          .startOf('month')
           .add(4, 'days')
           .startOf('day')
           .format('YYYY-MM-DD')}T00:00:00+00:00`,
@@ -130,6 +132,8 @@ describe('VAOS direct schedule flow', () => {
       expect(request).to.have.property(
         'desiredDate',
         `${moment()
+          .add(1, 'month')
+          .startOf('month')
           .add(4, 'days')
           .startOf('day')
           .format('YYYY-MM-DD')}T00:00:00+00:00`,
@@ -197,6 +201,8 @@ describe('VAOS direct schedule flow', () => {
       expect(request).to.have.property(
         'desiredDate',
         `${moment()
+          .add(1, 'month')
+          .startOf('month')
           .add(4, 'days')
           .startOf('day')
           .format('YYYY-MM-DD')}T00:00:00+00:00`,

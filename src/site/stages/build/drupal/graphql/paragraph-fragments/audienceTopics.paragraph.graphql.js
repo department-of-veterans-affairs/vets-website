@@ -5,6 +5,11 @@ fragment audienceTopics on ParagraphAudienceTopics {
       ... taxonomyTermAudienceBeneficiaries
     }
   }
+  fieldNonBeneficiares {
+    entity {
+      ... taxonomyTermAudienceNonBeneficiaries
+    }
+  }
   fieldTopics {
     entity {
       ... taxonomyTermTopics

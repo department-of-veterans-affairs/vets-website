@@ -18,7 +18,7 @@ import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 } from '../../redux/actions';
-import { getFacilityPageInfo } from '../../../utils/selectors';
+import { getFacilityPageInfo } from '../../redux/selectors';
 
 import NoVASystems from './NoVASystems';
 import NoValidVAFacilities from './NoValidVAFacilities';
@@ -149,6 +149,7 @@ export class VAFacilityPage extends React.Component {
           <SingleFacilityEligibilityCheckMessage
             eligibility={eligibility}
             facility={facility}
+            typeOfCare={typeOfCare}
           />
           <div className="vads-u-margin-top--2">
             <FormButtons

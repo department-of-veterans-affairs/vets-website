@@ -6,7 +6,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 
 import * as actions from '../../redux/actions';
-import { getFacilityPageV2Info } from '../../../utils/selectors';
+import { getFacilityPageV2Info } from '../../redux/selectors';
 import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
 import EligibilityModal from './EligibilityModal';
 import ErrorMessage from '../../../components/ErrorMessage';
@@ -65,6 +65,7 @@ function VAFacilityPageV2({
   singleValidVALocation,
   sortMethod,
   typeOfCare,
+  typeOfCareId,
   updateFacilitySortMethod,
   updateFormData,
 }) {
@@ -157,6 +158,7 @@ function VAFacilityPageV2({
         <SingleFacilityEligibilityCheckMessage
           eligibility={eligibility}
           facility={selectedFacility}
+          typeOfCare={typeOfCare}
         />
         <div className="vads-u-margin-top--2">
           <FormButtons
@@ -278,6 +280,7 @@ function VAFacilityPageV2({
             <FacilitiesNotShown
               facilities={facilities}
               sortMethod={sortMethod}
+              typeOfCareId={typeOfCareId}
             />
             <FormButtons
               continueLabel=""
@@ -306,6 +309,7 @@ function VAFacilityPageV2({
           onClose={hideEligibilityModal}
           eligibility={eligibility}
           facilityDetails={selectedFacility}
+          typeOfCare={typeOfCare}
         />
       )}
     </div>

@@ -1,0 +1,9 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [{
+      "name": "multiple_address_10_10ez",
+      "value": true
+    }]
+  }
+}

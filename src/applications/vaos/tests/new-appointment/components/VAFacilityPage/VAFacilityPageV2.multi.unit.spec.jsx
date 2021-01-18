@@ -16,6 +16,7 @@ import {
   createTestStore,
   setTypeOfCare,
   renderWithStoreAndRouter,
+  setTypeOfEyeCare,
 } from '../../../mocks/setup';
 import {
   mockEligibilityFetches,
@@ -117,8 +118,8 @@ const facilities = vhaIds.map((id, index) => ({
     ...getVAFacilityMock().attributes,
     uniqueId: id.replace('vha_', ''),
     name: `Fake facility name ${index + 1}`,
-    lat: 40.8596747, // Clifton, NJ
-    long: -74.1927881,
+    lat: Math.random() * 90,
+    long: Math.random() * 180,
     address: {
       physical: {
         ...getVAFacilityMock().attributes.address.physical,
@@ -192,6 +193,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
 
     // Should show 6th facility
     expect(screen.baseElement).to.contain.text('Fake facility name 6');
+    expect(document.activeElement.id).to.equal('var984_6');
 
     // Should validation message if no facility selected
     fireEvent.click(screen.getByText(/Continue/));
@@ -257,6 +259,20 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     // It should sort by distance, making Closest facility the first facility
     const firstRadio = screen.container.querySelector('.form-radio-buttons');
     expect(firstRadio).to.contain.text('Closest facility');
+
+    // Providers should be sorted.
+    const miles = screen.queryAllByText(/miles$/);
+
+    expect(miles.length).to.equal(5);
+    expect(() => {
+      for (let i = 0; i < miles.length - 1; i++) {
+        if (
+          Number.parseFloat(miles[i].textContent) >
+          Number.parseFloat(miles[i + 1].textContent)
+        )
+          throw new Error();
+      }
+    }).to.not.throw();
   });
 
   it('should sort by distance from current location if user clicks "use current location"', async () => {
@@ -302,6 +318,21 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       'Facilities based on your location',
     );
     expect(screen.baseElement).not.to.contain.text('use your current location');
+
+    // Providers should be sorted.
+    const miles = screen.queryAllByText(/miles$/);
+
+    expect(miles.length).to.equal(5);
+
+    expect(() => {
+      for (let i = 0; i < miles.length - 1; i++) {
+        if (
+          Number.parseFloat(miles[i].textContent) >
+          Number.parseFloat(miles[i + 1].textContent)
+        )
+          throw new Error();
+      }
+    }).to.not.throw();
 
     // Clicking use home address should revert sort back to distance from hoem address
     fireEvent.click(screen.getByText('use your home address on file'));
@@ -449,7 +480,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
 
     expect(
       await screen.findByText(
-        /We can’t find a VA facility where you receive care that accepts online appointments for primary care/i,
+        /Your registered facilities don’t accept online scheduling for this care right now/i,
       ),
     ).to.exist;
   });
@@ -482,7 +513,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
     fireEvent.click(screen.getByText(/Continue/));
     await screen.findByText(
-      /This facility does not allow scheduling requests/i,
+      /This facility doesn’t accept online scheduling for this care/i,
     );
     const loadingEvent = global.window.dataLayer.find(
       ev => ev.event === 'loading-indicator-displayed',
@@ -521,16 +552,16 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
     fireEvent.click(screen.getByText(/Continue/));
     await screen.findByText(
-      /This facility does not allow scheduling requests/i,
+      /This facility doesn’t accept online scheduling for this care/i,
     );
     const closeButton = screen.container.querySelector('.va-modal-close');
     fireEvent.click(closeButton);
     expect(screen.baseElement).not.to.contain.text(
-      /This facility does not allow scheduling requests/,
+      /This facility doesn’t accept online scheduling for this care/,
     );
     fireEvent.click(screen.getByText(/Continue/));
     await screen.findByText(
-      /This facility does not allow scheduling requests/i,
+      /This facility doesn’t accept online scheduling for this care/i,
     );
   });
 
@@ -585,7 +616,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
     fireEvent.click(screen.getByText(/Continue/));
     await screen.findByText(
-      /You’ve reached the limit for appointment requests at this location/i,
+      /You’ve reached the limit for appointment requests/i,
     );
   });
 
@@ -639,9 +670,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
 
     fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
     fireEvent.click(screen.getByText(/Continue/));
-    await screen.findByText(
-      /We couldn’t find a recent appointment at this location/i,
-    );
+    await screen.findByText(/We can’t find a recent appointment for you/i);
     expect(screen.getByRole('alertdialog')).to.be.ok;
   });
 
@@ -894,5 +923,85 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     expect(screen.queryByText(/Disabled facility near residential address/i))
       .not.to.be.ok;
   });
-  // TODO: should use correct eligibility info after a split type of care is changed
+
+  it('should display correct facilities after changing type of care', async () => {
+    const facilityIdsForTwoTypesOfCare = ['983', '983GC', '983QA', '984'];
+    mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
+    mockDirectBookingEligibilityCriteria(
+      parentSiteIds,
+      facilityIdsForTwoTypesOfCare.map(id => {
+        return {
+          id,
+          attributes: {
+            ...directFacilityAttributes,
+            id,
+            coreSettings: [
+              {
+                ...directFacilityAttributes.coreSettings[0],
+                id: '323',
+              },
+            ],
+          },
+        };
+      }),
+    );
+    mockRequestEligibilityCriteria(
+      parentSiteIds,
+      facilityIdsForTwoTypesOfCare.map(id => {
+        const requestSettings = [
+          {
+            ...requestFacilityAttributes.requestSettings[0],
+            id: '323',
+          },
+        ];
+
+        // turn on optometry for a couple facilities
+        if (['984', '983QA'].includes(id)) {
+          requestSettings.push({
+            ...requestFacilityAttributes.requestSettings[0],
+            id: '408',
+          });
+        }
+
+        return {
+          id,
+          attributes: {
+            ...requestFacilityAttributes,
+            id,
+            requestSettings,
+          },
+        };
+      }),
+    );
+    const vhaIdentifiers = facilityIdsForTwoTypesOfCare.map(
+      id => `vha_${id.replace('983', '442').replace('984', '552')}`,
+    );
+    mockFacilitiesFetch(
+      vhaIdentifiers.join(','),
+      facilities.filter(facility => vhaIdentifiers.includes(facility.id)),
+    );
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '323',
+    });
+    const store = createTestStore(initialState);
+    await setTypeOfCare(store, /primary care/i);
+
+    let screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+    expect(await screen.findAllByRole('radio')).to.have.length(4);
+
+    await cleanup();
+
+    await setTypeOfCare(store, /eye care/i);
+    await setTypeOfEyeCare(store, /optometry/i);
+
+    screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+
+    expect(await screen.findAllByRole('radio')).to.have.length(2);
+  });
 });

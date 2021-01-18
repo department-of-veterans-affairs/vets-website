@@ -1,4 +1,5 @@
 import { apiRequest } from 'platform/utilities/api';
+import environment from 'platform/utilities/environment';
 
 // possible values for the `key` property on error messages we get from the server
 const ACCOUNT_FLAGGED_FOR_FRAUD_KEY = 'cnp.payment.flashes.on.record.message';
@@ -21,6 +22,8 @@ const GA_ERROR_KEY_INVALID_ROUTING_NUMBER = 'invalid-routing-number-error';
 const GA_ERROR_KEY_PAYMENT_RESTRICTIONS =
   'payment-restriction-indicators-error';
 const GA_ERROR_KEY_DEFAULT = 'other-error';
+
+export const cnpPrefix = !environment.isProduction() ? 'cnp-' : '';
 
 export async function getData(apiRoute, options) {
   try {
@@ -75,7 +78,7 @@ export const cnpDirectDepositBankInfo = apiData => {
 };
 
 export const eduDirectDepositAccountNumber = apiData => {
-  return apiData.accountNumber;
+  return apiData?.accountNumber;
 };
 
 const cnpDirectDepositAddressInfo = apiData => {
@@ -127,7 +130,7 @@ export const createCNPDirectDepositAnalyticsDataObject = (
   return {
     event: 'profile-edit-failure',
     'profile-action': 'save-failure',
-    'profile-section': 'direct-deposit-information',
+    'profile-section': `${cnpPrefix}direct-deposit-information`,
     [key]: errorCode,
   };
 };

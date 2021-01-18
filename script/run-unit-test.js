@@ -7,7 +7,7 @@ const { runCommand } = require('./utils');
 const defaultPath = './src/**/*.unit.spec.js?(x)';
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
-  { name: 'log-level', type: String, defaultValue: 'log' },
+  { name: 'log-level', type: String, defaultValue: 'debug' },
   { name: 'app-folder', type: String, defaultValue: null },
   { name: 'coverage', type: Boolean, defaultValue: false },
   { name: 'reporter', type: String, defaultValue: null },
@@ -44,7 +44,7 @@ if (options.help) {
 }
 
 const mochaPath = `BABEL_ENV=test mocha ${reporterOption}`;
-const coveragePath = `NODE_ENV=test nyc --all ${coverageInclude} --reporter=lcov --reporter=text --reporter=json-summary mocha --reporter mocha-junit-reporter --no-color --retries 3`;
+const coveragePath = `NODE_ENV=test nyc --all ${coverageInclude} --reporter=lcov --reporter=text --reporter=json-summary mocha --reporter mocha-junit-reporter --no-color --retries 5`;
 const testRunner = options.coverage ? coveragePath : mochaPath;
 const configFile = 'config/mocha.json';
 

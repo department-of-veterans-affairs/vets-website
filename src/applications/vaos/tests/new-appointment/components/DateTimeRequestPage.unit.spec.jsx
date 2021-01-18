@@ -13,9 +13,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
   it('should allow user to request date and time for a community care appointment', async () => {
     const store = createTestStore({
       newAppointment: {
-        data: {
-          calendarData: {},
-        },
+        data: {},
         pages: [],
         eligibility: [],
         appointmentSlotsStatus: FETCH_STATUS.succeeded,
@@ -110,9 +108,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
   it('should allow the user to view different calendar months', async () => {
     const store = createTestStore({
       newAppointment: {
-        data: {
-          calendarData: {},
-        },
+        data: {},
         pages: [],
         eligibility: [],
         appointmentSlotsStatus: FETCH_STATUS.succeeded,
@@ -158,9 +154,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
   it('should display an alert when user selects more than 3 dates', async () => {
     const store = createTestStore({
       newAppointment: {
-        data: {
-          calendarData: {},
-        },
+        data: {},
         pages: [],
         eligibility: [],
         appointmentSlotsStatus: FETCH_STATUS.succeeded,
@@ -242,9 +236,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
   it('should display an alert when user selects 2 dates and multiple times', async () => {
     const store = createTestStore({
       newAppointment: {
-        data: {
-          calendarData: {},
-        },
+        data: {},
         pages: [],
         eligibility: [],
         appointmentSlotsStatus: FETCH_STATUS.succeeded,
@@ -325,9 +317,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
   it('should display an alert when user submits the form with no dates selected', async () => {
     const store = createTestStore({
       newAppointment: {
-        data: {
-          calendarData: {},
-        },
+        data: {},
         pages: [],
         eligibility: [],
         appointmentSlotsStatus: FETCH_STATUS.succeeded,
@@ -365,9 +355,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
   it('should not allow selections after max date', async () => {
     const store = createTestStore({
       newAppointment: {
-        data: {
-          calendarData: {},
-        },
+        data: {},
         pages: [],
         eligibility: [],
         appointmentSlotsStatus: FETCH_STATUS.succeeded,

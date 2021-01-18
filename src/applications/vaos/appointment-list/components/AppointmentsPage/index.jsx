@@ -7,20 +7,22 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import ScheduleNewAppointment from './ScheduleNewAppointment';
 import * as actions from '../../redux/actions';
-import * as expressCareActions from '../../../express-care/redux/actions';
 import CancelAppointmentModal from '../cancel/CancelAppointmentModal';
 import {
   getCancelInfo,
-  vaosRequests,
-  vaosPastAppts,
-  vaosDirectScheduling,
-  vaosCommunityCare,
-  vaosExpressCare,
-  selectIsWelcomeModalDismissed,
-  selectExpressCare,
   selectFutureStatus,
+  selectExpressCareAvailability,
+} from '../../redux/selectors';
+import {
+  selectFeatureRequests,
+  selectFeaturePastAppointments,
+  selectFeatureDirectScheduling,
+  selectFeatureCommunityCare,
+  selectFeatureExpressCare,
+  selectIsWelcomeModalDismissed,
   selectIsCernerOnlyPatient,
-} from '../../../utils/selectors';
+  selectFeatureProjectCheetah,
+} from '../../../redux/selectors';
 import { GA_PREFIX, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import TabNav from './TabNav';
@@ -33,6 +35,7 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import WarningNotification from '../../../components/WarningNotification';
+import ScheduleNewProjectCheetah from './ScheduleNewProjectCheetah';
 
 const pageTitle = 'VA appointments';
 
@@ -52,6 +55,7 @@ function AppointmentsPage({
   showExpressCare,
   showPastAppointments,
   showScheduleButton,
+  showCheetahScheduleButton,
   startNewAppointmentFlow,
   startNewExpressCareFlow,
 }) {
@@ -130,6 +134,18 @@ function AppointmentsPage({
           }}
         />
       )}
+
+      {showCheetahScheduleButton && (
+        <ScheduleNewProjectCheetah
+          startNewAppointmentFlow={() => {
+            recordEvent({
+              event: `${GA_PREFIX}-schedule-project-cheetah-button-clicked`,
+            });
+            startNewAppointmentFlow();
+          }}
+        />
+      )}
+
       {!expressCare.enabled && (
         <>
           {showPastAppointments && <TabNav />}
@@ -191,14 +207,15 @@ function mapStateToProps(state) {
     pendingStatus: state.appointments.pendingStatus,
     futureStatus: selectFutureStatus(state),
     cancelInfo: getCancelInfo(state),
-    showPastAppointments: vaosPastAppts(state),
-    showScheduleButton: vaosRequests(state),
-    showCommunityCare: vaosCommunityCare(state),
-    showDirectScheduling: vaosDirectScheduling(state),
-    showExpressCare: vaosExpressCare(state),
+    showPastAppointments: selectFeaturePastAppointments(state),
+    showScheduleButton: selectFeatureRequests(state),
+    showCommunityCare: selectFeatureCommunityCare(state),
+    showDirectScheduling: selectFeatureDirectScheduling(state),
+    showExpressCare: selectFeatureExpressCare(state),
+    showCheetahScheduleButton: selectFeatureProjectCheetah(state),
     isWelcomeModalDismissed: selectIsWelcomeModalDismissed(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
-    expressCare: selectExpressCare(state),
+    expressCare: selectExpressCareAvailability(state),
   };
 }
 
@@ -207,7 +224,7 @@ const mapDispatchToProps = {
   closeCancelAppointment: actions.closeCancelAppointment,
   confirmCancelAppointment: actions.confirmCancelAppointment,
   startNewAppointmentFlow: actions.startNewAppointmentFlow,
-  startNewExpressCareFlow: expressCareActions.startNewExpressCareFlow,
+  startNewExpressCareFlow: actions.startNewExpressCareFlow,
   fetchFutureAppointments: actions.fetchFutureAppointments,
 };
 

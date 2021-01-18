@@ -10,21 +10,23 @@ export default function DesktopLinks({ links, visible }) {
       className="usa-grid-full flex-container usa-grid-flex-mobile va-footer-content"
     >
       <div className="va-footer-linkgroup">
-        <h4 className="va-footer-linkgroup-title">
+        <h2 className="va-footer-linkgroup-title">
           Veteran programs and services
-        </h4>
+        </h2>
         {links[FOOTER_COLUMNS.PROGRAMS]}
       </div>
       <div className="va-footer-linkgroup" id="footer-services">
-        <h4 className="va-footer-linkgroup-title">More VA resources</h4>
+        <h2 className="va-footer-linkgroup-title">More VA resources</h2>
         {links[FOOTER_COLUMNS.RESOURCES]}
       </div>
       <div className="va-footer-linkgroup" id="footer-popular">
-        <h4 className="va-footer-linkgroup-title">Get VA updates</h4>
+        <h2 className="va-footer-linkgroup-title">Get VA updates</h2>
         {links[FOOTER_COLUMNS.CONNECT]}
       </div>
       <div className="va-footer-linkgroup" id="veteran-crisis">
-        <h4 className="va-footer-linkgroup-title">In crisis? Get help now</h4>
+        <h2 className="va-footer-linkgroup-title">
+          In crisis? Talk to someone now
+        </h2>
         <ul className="va-footer-links">
           <li>
             <button
@@ -36,7 +38,7 @@ export default function DesktopLinks({ links, visible }) {
             </button>
           </li>
         </ul>
-        <h4 className="va-footer-linkgroup-title">Contact us</h4>
+        <h2 className="va-footer-linkgroup-title">Get answers</h2>
         {links[FOOTER_COLUMNS.CONTACT]}
       </div>
     </div>

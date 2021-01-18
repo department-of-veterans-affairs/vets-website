@@ -233,8 +233,6 @@ describe('VAOS community care flow', () => {
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/confirmation',
     );
     cy.axeCheck();
-    cy.get('.usa-alert').contains(
-      'Your appointment request has been submitted.',
-    );
+    cy.get('.usa-alert').contains('We’re reviewing your request');
   });
 });

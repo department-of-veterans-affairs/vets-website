@@ -6,7 +6,7 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import FormButtons from '../../components/FormButtons';
 import { LANGUAGES, GA_PREFIX } from '../../utils/constants';
 import * as actions from '../redux/actions';
-import { getFormPageInfo } from '../../utils/selectors';
+import { getFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { addressSchema, getAddressUISchema } from '../fields/addressFields';
 import { useHistory } from 'react-router-dom';
@@ -135,11 +135,10 @@ const uiSchema = {
       'ui:description': (
         <AlertBox
           status="info"
-          headline="We’ll try to schedule your appointment with your preferred community provider"
+          headline="We’ll try to schedule your appointment with your preferred provider"
         >
-          If we aren’t able to schedule this appointment with your preferred
-          provider, we’ll make every effort to schedule your appointment with
-          another community provider closest to your home.
+          If we can’t schedule this appointment with them, we’ll schedule it
+          with another provider close to your home.
         </AlertBox>
       ),
     },

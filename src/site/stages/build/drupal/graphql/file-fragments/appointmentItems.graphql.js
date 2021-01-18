@@ -4,6 +4,8 @@
 *
  */
 module.exports = `
+  fieldHserviceApptLeadin
+  fieldHserviceApptIntroSelect
   fieldOnlineSchedulingAvailabl
   fieldReferralRequired
   fieldWalkInsAccepted

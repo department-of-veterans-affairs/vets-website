@@ -98,7 +98,7 @@ const ResourcesAndSupportSearchApp = () => {
 
   return (
     <div className="usa-grid usa-grid-full">
-      <div className="usa-content vads-u-margin-bottom--3">
+      <div className="usa-content vads-u-margin-bottom--0 medium-screen:vads-u-margin-bottom--3">
         {errorMessage && (
           <AlertBox
             headline="Something went wrong"
@@ -122,6 +122,7 @@ const ResourcesAndSupportSearchApp = () => {
               query={query}
               results={currentPageOfResults}
               totalResults={results.length}
+              page={page}
             />
             <Pagination
               maxPageListLength={RESULTS_PER_PAGE}
