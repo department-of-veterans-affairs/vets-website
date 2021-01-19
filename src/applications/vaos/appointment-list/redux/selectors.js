@@ -135,6 +135,11 @@ export const selectUpcomingAppointments = createSelector(
   },
 );
 
+export const selectPendingAppointments = createSelector(
+  state => state.appointments.pending,
+  pending => pending?.sort(sortByDateDescending) || null,
+);
+
 export const selectPastAppointments = createSelector(
   state => state.appointments.past,
   past => {

@@ -11,6 +11,7 @@ import { recordItemsRetrieved, resetDataLayer } from '../../utils/events';
 import {
   selectSystemIds,
   selectFeatureExpressCare,
+  selectFeatureHomepageRefresh,
 } from '../../redux/selectors';
 
 import {
@@ -151,6 +152,8 @@ async function getAdditionalFacilityInfo(futureAppointments) {
 
 export function fetchFutureAppointments() {
   return async (dispatch, getState) => {
+    const featureHomepageRefresh = selectFeatureHomepageRefresh(getState());
+
     dispatch({
       type: FETCH_FUTURE_APPOINTMENTS,
     });
@@ -173,7 +176,7 @@ export function fetchFutureAppointments() {
         }),
         getAppointmentRequests({
           startDate: moment()
-            .subtract(30, 'days')
+            .subtract(featureHomepageRefresh ? 120 : 30, 'days')
             .format('YYYY-MM-DD'),
           endDate: moment().format('YYYY-MM-DD'),
         })

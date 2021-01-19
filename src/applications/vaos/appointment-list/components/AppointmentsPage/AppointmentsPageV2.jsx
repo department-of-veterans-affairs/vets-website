@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Switch, Route, useHistory } from 'react-router-dom';
+import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 
 import ScheduleNewAppointment from './ScheduleNewAppointment';
@@ -20,6 +20,7 @@ import {
 import { GA_PREFIX, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RequestExpressCare from './RequestExpressCare';
+import RequestedAppointmentsList from '../RequestedAppointmentsList';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
 import PastAppointmentsList from '../PastAppointmentsList';
 import DowntimeNotification, {
@@ -30,12 +31,31 @@ import Select from './Select';
 
 const pageTitle = 'VA appointments';
 
+const DROPDOWN_VALUES = {
+  upcoming: 'upcoming',
+  requested: 'requested',
+  past: 'past',
+  canceled: 'canceled',
+};
+
 const options = [
-  { label: 'Upcoming', value: 'upcoming' },
-  { label: 'Requested', value: 'requested' },
-  { label: 'Past', value: 'past' },
-  { label: 'Cancelled', value: 'cancelled' },
+  { label: 'Upcoming', value: DROPDOWN_VALUES.upcoming },
+  { label: 'Requested', value: DROPDOWN_VALUES.requested },
+  { label: 'Past', value: DROPDOWN_VALUES.past },
+  { label: 'Canceled', value: DROPDOWN_VALUES.canceled },
 ];
+
+function getDropdownValueFromLocation(pathname) {
+  if (pathname.endsWith(DROPDOWN_VALUES.requested)) {
+    return DROPDOWN_VALUES.requested;
+  } else if (pathname.endsWith(DROPDOWN_VALUES.past)) {
+    return DROPDOWN_VALUES.past;
+  } else if (pathname.endsWith(DROPDOWN_VALUES.canceled)) {
+    return DROPDOWN_VALUES.canceled;
+  } else {
+    return DROPDOWN_VALUES.upcoming;
+  }
+}
 
 function AppointmentsPageV2({
   expressCare,
@@ -49,6 +69,11 @@ function AppointmentsPageV2({
   startNewExpressCareFlow,
   showHomePageRefresh,
 }) {
+  const location = useLocation();
+  const [dropdownValue, setDropdownValue] = useState(
+    getDropdownValueFromLocation(location.pathname),
+  );
+
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
 
@@ -73,21 +98,24 @@ function AppointmentsPageV2({
   const routes = (
     <Switch>
       <Route exact path="/" component={UpcomingAppointmentsList} />
-      <Route path="/requested" component={UpcomingAppointmentsList} />
+      <Route path="/requested" component={RequestedAppointmentsList} />
       <Route path="/past" component={PastAppointmentsList} />
-      <Route path="/cancelled" component={UpcomingAppointmentsList} />
+      <Route path="/canceled" component={UpcomingAppointmentsList} />
     </Switch>
   );
 
-  function onChange(e) {
-    if (e.currentTarget.value === 'upcoming') {
+  function onDropdownChange(e) {
+    const value = e.target.value;
+    setDropdownValue(value);
+
+    if (value === DROPDOWN_VALUES.upcoming) {
       history.push('/');
-    } else if (e.currentTarget.value === 'requested') {
+    } else if (value === DROPDOWN_VALUES.requested) {
       history.push('/requested');
-    } else if (e.currentTarget.value === 'past') {
+    } else if (value === DROPDOWN_VALUES.past) {
       history.push('/past');
-    } else if (e.currentTarget.value === 'cancelled') {
-      history.push('/cancelled');
+    } else if (value === DROPDOWN_VALUES.canceled) {
+      history.push('/canceled');
     }
   }
 
@@ -136,7 +164,12 @@ function AppointmentsPageV2({
       >
         Show by type
       </label>
-      <Select options={options} onChange={onChange} id="type-dropdown" />
+      <Select
+        options={options}
+        onChange={onDropdownChange}
+        id="vaos-appts__dropdown"
+        value={dropdownValue}
+      />
       {routes}
     </>
   );
