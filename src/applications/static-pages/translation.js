@@ -12,8 +12,8 @@ const faqI18Content = {
 };
 
 const configureTranslationLink = (e, currentLang, targetLang) => {
-  const contentDiv = document.getElementById('content');
-  contentDiv.lang = currentLang;
+  const htmlElement = document.querySelector('html');
+  htmlElement.lang = currentLang;
   e.dataset.lang = currentLang;
   e.innerText = faqI18Content[targetLang].linkTitle;
   e.href = faqI18Content[targetLang].langToggleLink;
