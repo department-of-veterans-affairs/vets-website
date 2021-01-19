@@ -107,6 +107,7 @@ export class ConnectedApps extends Component {
           <AppDeletedAlert
             id={app.id}
             title={app?.attributes?.title}
+            privacyUrl={app?.attributes?.privacyUrl}
             key={app.id}
             dismissAlert={this.dismissAlert}
           />
