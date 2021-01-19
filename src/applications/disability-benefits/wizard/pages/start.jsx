@@ -1,5 +1,5 @@
 import React from 'react';
-import RadioButtons from '@department-of-veterans-affairs/formation-react/RadioButtons';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import { pageNames } from './pageList';
 
 const label = 'Are you on active duty right now?';

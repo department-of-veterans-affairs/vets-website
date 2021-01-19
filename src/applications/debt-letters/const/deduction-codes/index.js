@@ -2,7 +2,7 @@ import React from 'react';
 import Telephone, {
   CONTACTS,
   PATTERNS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const deductionCodes = Object.freeze({
   '30': 'Compensation & pension debt',

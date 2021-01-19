@@ -1,11 +1,11 @@
 import React from 'react';
 import AlertBox, {
   ALERT_TYPE,
-} from '@department-of-veterans-affairs/formation-react/AlertBox';
+} from '@department-of-veterans-affairs/component-library/AlertBox';
 import Telephone, {
   CONTACTS,
   PATTERNS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 const FraudVictimAlert = ({ status = ALERT_TYPE.CONTINUE }) => (
   <AlertBox

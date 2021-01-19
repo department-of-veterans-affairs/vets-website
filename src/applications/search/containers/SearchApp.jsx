@@ -15,10 +15,10 @@ import { focusElement } from 'platform/utilities/ui';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import IconSearch from '@department-of-veterans-affairs/formation-react/IconSearch';
-import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
+import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import SearchBreadcrumbs from '../components/SearchBreadcrumbs';
 

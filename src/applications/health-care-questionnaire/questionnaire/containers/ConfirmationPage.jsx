@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import { getAppointTypeFromAppointment, clearCurrentSession } from '../utils';
 
 const ConfirmationPage = props => {

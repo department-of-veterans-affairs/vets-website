@@ -8,7 +8,7 @@ import {
   FACILITY_SORT_METHODS,
   GA_PREFIX,
 } from '../../../utils/constants';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { distanceBetween } from '../../../utils/address';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import ErrorMessage from '../../../components/ErrorMessage';

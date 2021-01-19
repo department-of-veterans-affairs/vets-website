@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash/fp';
 import moment from 'moment';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import vaMedicalFacilities from 'vets-json-schema/dist/vaMedicalFacilities.json';
 
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';

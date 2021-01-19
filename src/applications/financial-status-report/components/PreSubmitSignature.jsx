@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Checkbox from '@department-of-veterans-affairs/formation-react/Checkbox';
+import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 const PreSubmitSignature = ({ formData }) => {
   const fullName = Object.values(formData?.personalData?.fullName)

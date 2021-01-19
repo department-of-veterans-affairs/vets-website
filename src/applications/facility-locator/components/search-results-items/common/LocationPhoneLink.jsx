@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import {
   LocationType,
   CLINIC_URGENTCARE_SERVICE,
