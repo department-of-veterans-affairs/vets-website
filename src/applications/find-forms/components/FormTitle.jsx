@@ -1,18 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const FormTitle = ({
-  id,
-  formUrl,
-  showFindFormsResultsLinkToFormDetailPages,
-  title,
-  recordGAEvent,
-}) => (
+const FormTitle = ({ id, formUrl, title, recordGAEvent }) => (
   <dt
     className="vads-u-padding-top--3 vads-u-margin--0 vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-font-weight--bold"
     data-e2e-id="result-title"
   >
-    {formUrl && showFindFormsResultsLinkToFormDetailPages ? (
+    {formUrl ? (
       <a
         href={formUrl}
         className="vads-u-text-decoration--none"
@@ -48,7 +42,6 @@ FormTitle.propTypes = {
   id: PropTypes.string.isRequired,
   formUrl: PropTypes.string,
   recordGAEvent: PropTypes.func,
-  showFindFormsResultsLinkToFormDetailPages: PropTypes.bool,
   title: PropTypes.string.isRequired,
 };
 
