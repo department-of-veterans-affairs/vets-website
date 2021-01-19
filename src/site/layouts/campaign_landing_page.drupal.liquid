@@ -5,28 +5,78 @@
 
 <div id="content" class="interior" data-template="node-campaign_landing_page">
   <main class="va-l-detail-page">
-    <div class="usa-grid usa-grid-full">
-      <div class="usa-width-three-fourths">
-        <!-- Draft status -->
-        {% if !entityPublished %}
-          <div class="usa-alert usa-alert-info">
-            <div class="usa-alert-body">
-              <p class="usa-alert-text">You are viewing a draft.</p>
-            </div>
-          </div>
-        {% endif %}
-
-        <article class="usa-content">
-          <!-- Title -->
-          <h1>{{ title }}</h1>
-        </article>
-
-        <!-- Last Updated -->
-        <div class="last-updated usa-content">
-          Last updated: <time
-            datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+    <!-- Draft status -->
+    {% if !entityPublished %}
+      <div class="usa-alert usa-alert-info">
+        <div class="usa-alert-body">
+          <p class="usa-alert-text">You are viewing a draft.</p>
         </div>
       </div>
+    {% endif %}
+
+    <div class="campaign-landing-page">
+      <div class="hero" style="background-image: url('{{ fieldHeroImage.entity.image.url }}">
+        <!-- Hero Content -->
+        <div class="hero-content">
+          <h1>{{ title }}</h1>
+          <hr />
+          <p>{{ fieldHeroBlurb }}</p>
+          <a class="usa-butto-secondary" href="{{ fieldPrimaryCallToAction.entity.fieldButtonLink.uri }}" rel="noreferrer noopener">
+            {{ fieldPrimaryCallToAction.entity.fieldButtonLabel }}
+          </a>
+        </div>
+      </div>
+
+      <!-- Why This Matters -->
+      <div class="why-this-matters">
+        <!-- Content -->
+        <div class="why-this-matters-content">
+          <h2>Why this matters to you</h2>
+          <p>{{ fieldClpWhyThisMatters }}</p>
+          <a class="usa-button-secondary" href="{{ fieldSecondaryCallToAction.entity.fieldButtonLink.uri }}">
+            {{ fieldSecondaryCallToAction.entity.fieldButtonLabel }}
+          </a>
+        </div>
+
+        <!-- White box w/ social media links -->
+        <div class="why-this-matters-links">
+          {% if fieldClpAudience != empty %}
+            <div class="white-box">
+              <p>THIS PAGE IS FOR</p>
+              <hr />
+              <ul>
+                {% for clpAudience in fieldClpAudience %}
+                  <li>
+                    <a href="{{ clpAudience.entity.fieldLink.uri }}" rel="noreferrer noopener">
+                      {{ clpAudience.entity.fieldLink.label }}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+
+          <!-- Links to social media -->
+          <a class="va-js-share-link" href="https://www.facebook.com/sharer/sharer.php?href={{ hostUrl }}{{ entityUrl.path }}" rel="noreferrer noopener" target="_blank">
+            <i class="va-c-social-icon fab fa-facebook vads-u-margin-right--0p5"></i>Share on Facebook
+          </a>
+          <a class="va-js-share-link" href="https://twitter.com/intent/tweet?text={{ title }}&url={{ hostUrl }}{{ entityUrl.path }}" rel="noreferrer noopener" target="_blank">
+            <i class="va-c-social-icon fab fa-twitter vads-u-margin-right--0p5"></i>Share on Twitter
+          </a>
+        </div>
+      </div>
+
+      <!-- What You Can Do -->
+      <div class="what-you-can-do">
+        <h2>WHAT YOU CAN DO</h2>
+        <h3></h3>
+      </div>
+    </div>
+
+    <!-- Last Updated -->
+    <div class="last-updated usa-content">
+      Last updated: <time
+        datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
     </div>
   </main>
 </div>
