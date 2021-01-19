@@ -22,9 +22,9 @@
             "askForCheckIn": false,
             "facilityCode": "983",
             "facility": {
-              "displayName": "VDS Facility Primary Care Display Name"
+              "displayName": "Awesome Facility"
             },
-            "stopCode": "323"
+            "stopCode": "502"
           },
           "type": "REGULAR",
           "currentStatus": "FUTURE"
@@ -157,7 +157,8 @@
         "id":"questionnnaire-ABC-123",
         "questionnaireResponse":{
           "id":"response-123", 
-          "status":"completed"
+          "status":"completed",
+          "submittedOn":"2021-01-18T15:00:00Z"
         } 
       }
     ]
@@ -199,7 +200,8 @@
         "id":"questionnnaire-ABC-123",
         "questionnaireResponse":{
           "id":"response-123", 
-          "status":"completed"
+          "status":"completed",
+          "submittedOn":"2021-01-15T15:00:00Z"
         } 
       }
     ]

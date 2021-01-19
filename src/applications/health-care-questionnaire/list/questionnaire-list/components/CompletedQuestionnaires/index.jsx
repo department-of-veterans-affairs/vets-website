@@ -8,7 +8,6 @@ import ServiceDown from '../Messages/ServiceDown';
 
 const index = props => {
   const { questionnaires } = props;
-
   return (
     <div id="tabpanel_completed">
       <h2 className="questionnaire-list-header">Completed questionnaires</h2>
@@ -21,12 +20,12 @@ const index = props => {
               data-testid="questionnaire-list"
               className="questionnaire-list completed"
             >
-              {questionnaires.map(questionnaire => {
-                const { questionnaireResponse } = questionnaire;
+              {questionnaires.map(data => {
+                const { questionnaire, appointment } = data;
                 return (
                   <QuestionnaireItem
-                    key={questionnaire.appointment.id}
-                    data={questionnaire}
+                    key={appointment.id}
+                    data={data}
                     Actions={() => (
                       <button className="va-button">
                         View and print questions
@@ -35,9 +34,9 @@ const index = props => {
                     DueDate={() => (
                       <p className="completed-date">
                         Submitted on{' '}
-                        {moment(questionnaireResponse.submittedOn).format(
-                          'MMMM D, YYYY',
-                        )}
+                        {moment(
+                          questionnaire[0].questionnaireResponse.submittedOn,
+                        ).format('MMMM D, YYYY')}
                       </p>
                     )}
                   />

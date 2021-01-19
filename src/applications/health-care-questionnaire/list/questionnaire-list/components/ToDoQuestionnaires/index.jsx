@@ -33,10 +33,12 @@ const index = props => {
                           appointment.id
                         }`}
                         aria-label={`Fill out your pre-appointment questionnaire for your primary care visit at ${
-                          appointment.facilityName
-                        } on ${moment(appointment.appointmentTime).format(
-                          'MMMM, D, YYYY',
-                        )}`}
+                          appointment.attributes.vdsAppointments[0].clinic
+                            .facility.displayName
+                        } on ${moment(
+                          appointment.attributes.vdsAppointments[0]
+                            .appointmentTime,
+                        ).format('MMMM, D, YYYY')}`}
                       >
                         <span>Answer questions</span>
                         <i className={`fa fa-chevron-right`} />
@@ -44,7 +46,8 @@ const index = props => {
                     )}
                     DueDate={() => {
                       const dueDate = moment(
-                        appointment.appointmentTime,
+                        appointment.attributes.vdsAppointments[0]
+                          .appointmentTime,
                       ).subtract(1, 'day');
                       const meridiem = dueDate.hours() > 12 ? 'p.m.' : 'a.m.';
                       return (

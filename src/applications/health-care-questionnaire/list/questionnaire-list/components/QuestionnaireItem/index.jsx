@@ -9,6 +9,10 @@ const index = props => {
   const appointmentType = getAppointTypeFromAppointment(appointment, {
     titleCase: true,
   });
+  const facilityName =
+    appointment.attributes.vdsAppointments[0].clinic.facility.displayName;
+  const appointmentTime =
+    appointment.attributes.vdsAppointments[0].appointmentTime;
   return (
     <li data-request-id={appointment.id} className="card">
       <header data-testid="appointment-type-header">
@@ -17,12 +21,9 @@ const index = props => {
       <section className="due-details">{DueDate && <DueDate />}</section>
       <section className="details">
         <p>Appointment details:</p>
-        <p data-testid="facility-name">{appointment.facilityName}</p>
-        <time
-          data-testid="appointment-time"
-          dateTime={appointment.appointmentTime}
-        >
-          {moment(appointment.appointmentTime).format('MMMM D, YYYY')}
+        <p data-testid="facility-name">{facilityName}</p>
+        <time data-testid="appointment-time" dateTime={appointmentTime}>
+          {moment(appointmentTime).format('MMMM D, YYYY')}
         </time>
       </section>
       {Actions && <Actions />}
