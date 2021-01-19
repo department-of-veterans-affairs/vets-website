@@ -14,6 +14,7 @@ const initialState = {
     vaOnlineSchedulingCancel: true,
     vaExpressCare: true,
     vaExpressCareNew: true,
+    vaOnlineSchedulingHomepageRefresh: true,
   },
 };
 
@@ -41,7 +42,7 @@ describe('VAOS <RequestedAppointmentsList>', () => {
       },
     };
     appointment.id = '1234';
-    mockAppointmentInfo({ requests: [appointment] });
+    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
 
     const facility = {
       id: 'vha_442GC',
@@ -96,7 +97,7 @@ describe('VAOS <RequestedAppointmentsList>', () => {
       },
     };
     appointment.id = '1234';
-    mockAppointmentInfo({ requests: [appointment] });
+    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
 
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
       initialState,
@@ -143,7 +144,7 @@ describe('VAOS <RequestedAppointmentsList>', () => {
       },
     };
     appointment.id = '1234';
-    mockAppointmentInfo({ requests: [appointment] });
+    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
 
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
       initialState,
@@ -179,7 +180,7 @@ describe('VAOS <RequestedAppointmentsList>', () => {
       },
     };
     appointment.id = '1234';
-    mockAppointmentInfo({ requests: [appointment] });
+    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
 
     const facility = {
       id: 'vha_442GC',
