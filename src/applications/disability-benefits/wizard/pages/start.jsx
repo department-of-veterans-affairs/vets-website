@@ -2,6 +2,8 @@ import React from 'react';
 import RadioButtons from '@department-of-veterans-affairs/formation-react/RadioButtons';
 import { pageNames } from './pageList';
 
+const label = 'Are you on active duty right now?';
+
 const options = [
   { value: pageNames.bdd, label: 'Yes' },
   { value: pageNames.appeals, label: 'No' },
@@ -10,7 +12,7 @@ const options = [
 const StartPage = ({ setPageState, state = {} }) => (
   <RadioButtons
     name={`${pageNames.start}-option`}
-    label="Are you currently on active duty?"
+    label={label}
     id={`${pageNames.start}-option`}
     options={options}
     onValueChange={({ value }) => setPageState({ selected: value }, value)}

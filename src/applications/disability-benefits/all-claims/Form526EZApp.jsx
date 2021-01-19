@@ -21,6 +21,9 @@ import { WIZARD_STATUS, PDF_SIZE_FEATURE } from './constants';
 import { show526Wizard, isBDD, getPageTitle } from './utils';
 import { uploadPdfLimitFeature } from './config/selectors';
 
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { focusElement } from 'platform/utilities/ui';
+
 const wrapInBreadcrumb = (title, component) => (
   <>
     <Breadcrumbs>
@@ -71,13 +74,22 @@ export const Form526Entry = ({
   document.title = title;
 
   const setWizardStatus = value => {
-    window.sessionStorage.setItem(WIZARD_STATUS, value);
+    sessionStorage.setItem(WIZARD_STATUS, value);
     setWizardState(value);
+  };
+
+  // start focus on breadcrumb nav when wizard is visible
+  const setPageFocus = focusTarget => {
+    focusElement(focusTarget);
+    scrollToTop();
   };
 
   useEffect(() => {
     if (defaultWizardState === WIZARD_STATUS_COMPLETE) {
+      setPageFocus('h1');
       setWizardStatus(WIZARD_STATUS_COMPLETE);
+    } else if (defaultWizardState === WIZARD_STATUS_NOT_STARTED) {
+      setPageFocus('.va-nav-breadcrumbs-list');
     }
   });
   if (showWizard && wizardState !== WIZARD_STATUS_COMPLETE) {
