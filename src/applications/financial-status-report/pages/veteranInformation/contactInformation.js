@@ -51,6 +51,7 @@ export const uiSchema = {
     'ui:options': {
       editTitle: 'Edit mailing address',
       viewComponent: ContactInfoCard,
+      startInEdit: false,
     },
     livesOutsideUS: {
       'ui:title':

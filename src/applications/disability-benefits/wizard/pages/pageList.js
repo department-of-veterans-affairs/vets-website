@@ -7,7 +7,5 @@ export const pageNames = {
   unableToFileBDDProduction: 'unable-to-file-bdd-production',
   fileClaim: 'file-claim',
   fileClaimEarly: 'file-claim-early',
-  disagreeing: 'disagreeing',
-  decisionReview: 'decision-review',
   disagreeFileClaim: 'disagree-file-claim',
 };

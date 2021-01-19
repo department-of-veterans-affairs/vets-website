@@ -59,7 +59,7 @@ class IntroductionPage extends React.Component {
 
     return (
       <div className="schemaform-intro">
-        <FormTitle title={pageTitle} />
+        <FormTitle title={`${pageTitle} with VA Form 21-526EZ`} />
         {isBDDForm ? (
           <>
             <h2 className="vads-u-font-size--h4">
