@@ -494,12 +494,9 @@ $medium-phone-screen: 375px;
   }
 }
 
-// There are styles in our sidebar styles that set a small
-// amount of padding on the grid for detail pages, which we
-// are overriding for WBC with no padding
 .va-l-detail-page > .usa-grid-full {
-  padding-right: inherit;
-  padding-left: inherit;
+  padding-right: 0.5em;
+  padding-left: 0.5em;
 }
 
 .flex-container {
