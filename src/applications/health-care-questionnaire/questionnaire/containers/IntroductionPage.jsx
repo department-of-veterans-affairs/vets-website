@@ -11,12 +11,17 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import IntroductionPageHelpers from '../components/introduction-page';
 
+import { getAppointTypeFromAppointment } from '../utils';
+
 const IntroductionPage = props => {
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
 
   const { appointment } = props?.questionnaire?.context;
+  if (!appointment?.attributes) {
+    return <></>;
+  }
   const appointmentData = appointment?.attributes?.vdsAppointments
     ? appointment?.attributes?.vdsAppointments[0]
     : {};
@@ -65,7 +70,9 @@ const IntroductionPage = props => {
     }
   };
 
-  const title = 'Answer primary care questionnaire';
+  const title = `Answer ${getAppointTypeFromAppointment(
+    appointment,
+  )} questionnaire`;
   const subTitle = facilityName;
   return (
     <div className="schemaform-intro healthcare-experience">

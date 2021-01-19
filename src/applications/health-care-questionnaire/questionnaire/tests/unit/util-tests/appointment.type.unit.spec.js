@@ -57,4 +57,15 @@ describe('health care questionnaire -- utils -- appointment parser -- getAppoint
     });
     expect(result).to.equal('mental health');
   });
+  it('stop exists, to title case  ', () => {
+    const result = getAppointTypeFromAppointment(
+      {
+        attributes: {
+          vdsAppointments: [{ clinic: { stopCode: '502' } }],
+        },
+      },
+      { titleCase: true },
+    );
+    expect(result).to.equal('Mental health');
+  });
 });
