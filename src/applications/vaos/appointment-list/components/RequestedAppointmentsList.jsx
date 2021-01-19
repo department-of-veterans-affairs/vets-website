@@ -9,10 +9,7 @@ import {
   selectFeatureRequests,
   selectIsCernerOnlyPatient,
 } from '../../redux/selectors';
-import {
-  selectFutureStatus,
-  selectPendingAppointments,
-} from '../redux/selectors';
+import { selectPendingAppointments } from '../redux/selectors';
 import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
 import { getVAAppointmentLocationId } from '../../services/appointment';
 import RequestListItem from './AppointmentsPage/RequestListItem';
@@ -22,28 +19,28 @@ function RequestedAppointmentsList({
   showScheduleButton,
   isCernerOnlyPatient,
   pendingAppointments,
-  futureStatus,
+  pendingStatus,
   facilityData,
   fetchFutureAppointments,
   startNewAppointmentFlow,
 }) {
   useEffect(
     () => {
-      if (futureStatus === FETCH_STATUS.notStarted) {
+      if (pendingStatus === FETCH_STATUS.notStarted) {
         fetchFutureAppointments();
       }
     },
-    [fetchFutureAppointments, futureStatus],
+    [fetchFutureAppointments, pendingStatus],
   );
 
-  if (futureStatus === FETCH_STATUS.loading) {
+  if (pendingStatus === FETCH_STATUS.loading) {
     return (
       <div className="vads-u-margin-y--8">
         <LoadingIndicator message="Loading your appointment requests..." />
       </div>
     );
   } else if (
-    futureStatus === FETCH_STATUS.succeeded &&
+    pendingStatus === FETCH_STATUS.succeeded &&
     pendingAppointments?.length > 0
   ) {
     return (
@@ -57,7 +54,7 @@ function RequestedAppointmentsList({
         ))}
       </ul>
     );
-  } else if (futureStatus === FETCH_STATUS.failed) {
+  } else if (pendingStatus === FETCH_STATUS.failed) {
     return (
       <AlertBox status="error" headline="We’re sorry. We’ve run into a problem">
         We’re having trouble getting your appointment requests. Please try again
@@ -92,7 +89,7 @@ RequestedAppointmentsList.propTypes = {
 function mapStateToProps(state) {
   return {
     facilityData: state.appointments.facilityData,
-    futureStatus: selectFutureStatus(state),
+    pendingStatus: state.appointments.pendingStatus,
     pendingAppointments: selectPendingAppointments(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showScheduleButton: selectFeatureRequests(state),
