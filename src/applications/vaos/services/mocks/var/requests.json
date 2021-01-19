@@ -996,7 +996,7 @@
         "typeOfCareId": "CR1",
         "friendlyLocationName": "CHYSHR-Sidney VA Clinic TEST ",
         "ccAppointmentRequest": null,
-        "date": "2020-07-14T15:27:42.000+0000",
+        "date": "2021-01-14T15:27:42.000+0000",
         "assigningAuthority": "ICN",
         "additionalInformation": "Some additional comments about my condition"
       }
@@ -1232,7 +1232,7 @@
         "typeOfCareId": "CR1",
         "friendlyLocationName": "CHYSHR-Sidney VA Clinic TEST ",
         "ccAppointmentRequest": null,
-        "date": "2020-04-08T18:19:11.000+0000",
+        "date": "2021-02-08T18:19:11.000+0000",
         "assigningAuthority": "ICN"
       }
     }

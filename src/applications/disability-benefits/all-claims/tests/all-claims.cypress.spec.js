@@ -7,7 +7,11 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 import { mockItf } from './all-claims.cypress.helpers';
-import { WIZARD_STATUS, SAVED_SEPARATION_DATE } from '../constants';
+import {
+  WIZARD_STATUS,
+  FORM_STATUS_BDD,
+  SAVED_SEPARATION_DATE,
+} from '../constants';
 
 const todayPlus120 = moment()
   .add(120, 'days')
@@ -163,6 +167,7 @@ const testConfig = createTestConfig(
       // but without view:selected, since that's not pre-filled
       cy.get('@testData').then(data => {
         window.sessionStorage.removeItem(WIZARD_STATUS);
+        window.sessionStorage.removeItem(FORM_STATUS_BDD);
         const sanitizedRatedDisabilities = (data.ratedDisabilities || []).map(
           ({ 'view:selected': _, ...obj }) => obj,
         );
