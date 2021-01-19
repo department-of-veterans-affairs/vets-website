@@ -886,10 +886,8 @@ export const isBDD = formData => {
     isActiveDuty &&
     mostRecentDate.isAfter(moment().add(89, 'days')) &&
     !mostRecentDate.isAfter(moment().add(180, 'days'));
-  if (result) {
-    // this flag helps maintain the correct form title within a session
-    window.sessionStorage.setItem(FORM_STATUS_BDD, 'true');
-  }
+  // this flag helps maintain the correct form title within a session
+  window.sessionStorage.setItem(FORM_STATUS_BDD, result ? 'true' : 'false');
   return Boolean(result);
 };
 
