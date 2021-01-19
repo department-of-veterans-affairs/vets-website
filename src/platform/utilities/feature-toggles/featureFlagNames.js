@@ -77,4 +77,5 @@ export default Object.freeze({
   multipleAddress1010ez: 'multiple_address_10_10ez',
   evssUploadLimit150Mb: 'evss_upload_limit_150mb',
   gibctStateSearch: 'gibct_state_search',
+  eduFormOmbAndExpiration: 'edu_form_omb_and_expiration',
 });

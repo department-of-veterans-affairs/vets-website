@@ -10,8 +10,11 @@ import {
   isUpcomingAppointmentOrRequest,
   isValidPastAppointment,
   sortByDateDescending,
+  sortByDateAscending,
   sortUpcoming,
   getVARFacilityId,
+  groupAppointmentsByMonth,
+  isUpcomingAppointmentOrExpressCare,
 } from '../../services/appointment';
 import {
   selectFeatureExpressCare,
@@ -112,6 +115,24 @@ export const selectFutureAppointments = createSelector(
       .filter(appt => !showExpressCare || !appt.vaos.isExpressCare)
       .filter(isUpcomingAppointmentOrRequest)
       .sort(sortUpcoming);
+  },
+);
+
+export const selectUpcomingAppointments = createSelector(
+  // Selecting pending here to pull in EC requests
+  state => state.appointments.pending,
+  state => state.appointments.confirmed,
+  (pending, confirmed) => {
+    if (!confirmed || !pending) {
+      return null;
+    }
+
+    const sortedAppointments = confirmed
+      .concat(pending)
+      .filter(isUpcomingAppointmentOrExpressCare)
+      .sort(sortByDateAscending);
+
+    return groupAppointmentsByMonth(sortedAppointments);
   },
 );
 
