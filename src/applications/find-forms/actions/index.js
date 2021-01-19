@@ -1,15 +1,19 @@
 // Dependencies.
 import URLSearchParams from 'url-search-params';
+import cloneDeep from 'lodash/cloneDeep';
 // Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
 import { MAX_PAGE_LIST_LENGTH } from '../containers/SearchResults';
-import { mvpEnhancements } from '../helpers/selectors';
+import { getFindFormsAppState, mvpEnhancements } from '../helpers/selectors';
+import { sortTheResults } from '../helpers';
 import { fetchFormsApi } from '../api';
 import {
   FETCH_FORMS,
   FETCH_FORMS_FAILURE,
   FETCH_FORMS_SUCCESS,
+  UPDATE_HOW_TO_SORT,
   UPDATE_PAGINATION,
+  UPDATE_RESULTS,
 } from '../constants';
 
 // ============
@@ -30,6 +34,36 @@ export const fetchFormsSuccess = (results, hasOnlyRetiredForms) => ({
   hasOnlyRetiredForms,
   type: FETCH_FORMS_SUCCESS,
 });
+
+// =============
+// Update Results after forms is sorted
+// =============
+export const updateResults = results => ({
+  results,
+  type: UPDATE_RESULTS,
+});
+
+// =============
+// Update How To Sort
+// =============
+export const updateHowToSort = howToSort => ({
+  howToSort,
+  type: UPDATE_HOW_TO_SORT,
+});
+
+export const updateHowToSortThunk = howToSort => (dispatch, getState) => {
+  dispatch(updateHowToSort(howToSort));
+
+  const clonedResults = cloneDeep(
+    getFindFormsAppState(getState()).results || [],
+  );
+
+  const sortedResults = clonedResults.sort((a, b) =>
+    sortTheResults(getFindFormsAppState(getState()).howToSort, a, b),
+  );
+
+  dispatch(updateResults(sortedResults));
+};
 
 // ============
 // Pagination Actions
@@ -70,13 +104,12 @@ export const fetchFormsThunk = (query, options = {}) => async (
   try {
     // Attempt to make the API request to retreive forms.
     const resultsDetails = await fetchFormsApi(query, { mockRequest });
-
+    const resultsSorted = resultsDetails.results?.sort((a, b) =>
+      sortTheResults(getState().howToSort, a, b),
+    );
     // If we are here, the API request succeeded.
     dispatch(
-      fetchFormsSuccess(
-        resultsDetails.results,
-        resultsDetails.hasOnlyRetiredForms,
-      ),
+      fetchFormsSuccess(resultsSorted, resultsDetails.hasOnlyRetiredForms),
     );
 
     // Derive the total number of pages.

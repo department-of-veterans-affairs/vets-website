@@ -1,5 +1,5 @@
 import { deriveLatestIssue } from '../components/SearchResult';
-import { SORT_OPTIONS } from '../containers/SearchResults';
+import { SORT_OPTIONS } from '../constants';
 
 /**
  * This function sorts the results of Find Forms search.

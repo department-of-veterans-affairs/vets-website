@@ -1,5 +1,6 @@
 // Dependencies.
 import React from 'react';
+import sinon from 'sinon';
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
 import times from 'lodash/times';
@@ -59,6 +60,7 @@ describe('Find VA Forms <SearchResults>', () => {
       <SearchResults
         startIndex={0}
         results={results}
+        updateHowToSort={sinon.stub()}
         showFindFormsResultsLinkToFormDetailPages
       />,
     );
@@ -131,6 +133,7 @@ describe('Find VA Forms <SearchResults>', () => {
       <SearchResults
         startIndex={0}
         results={results}
+        updateHowToSort={sinon.stub()}
         showFindFormsResultsLinkToFormDetailPages
       />,
     );

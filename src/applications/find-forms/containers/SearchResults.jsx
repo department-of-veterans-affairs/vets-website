@@ -5,22 +5,18 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import { connect } from 'react-redux';
-import cloneDeep from 'lodash/cloneDeep';
 
 import { focusElement } from 'platform/utilities/ui';
 
 // Relative imports.
 import * as customPropTypes from '../prop-types';
-import { updatePaginationAction } from '../actions';
+import { updateHowToSortThunk, updatePaginationAction } from '../actions';
 import { getFindFormsAppState, mvpEnhancements } from '../helpers/selectors';
-import { sortTheResults } from '../helpers';
+import { SORT_OPTIONS } from '../constants';
 import SearchResult from '../components/SearchResult';
 import SelectWidget from '../widgets/SelectWidget';
 
 export const MAX_PAGE_LIST_LENGTH = 10;
-export const SORT_OPTIONS = ['Last Updated (Newest)', 'Last Updated (Oldest)'];
-export const INITIAL_SORT_STATE = 'Last Updated (Newest)';
-
 export class SearchResults extends Component {
   static propTypes = {
     // From mapStateToProps.
@@ -30,30 +26,20 @@ export class SearchResults extends Component {
     query: PropTypes.string.isRequired,
     results: PropTypes.arrayOf(customPropTypes.Form.isRequired),
     hasOnlyRetiredForms: PropTypes.bool.isRequired,
+    howToSort: PropTypes.string,
     startIndex: PropTypes.number.isRequired,
     showFindFormsResultsLinkToFormDetailPages: PropTypes.bool,
     // From mapDispatchToProps.
+    updateHowToSort: PropTypes.func,
     updatePagination: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = { howToSort: '', sortedResults: [] };
-  }
-
-  componentDidMount() {
-    const { props, updateSortedResultsState } = this;
-    if (props.results && props.results.length > 0) updateSortedResultsState();
-  }
-
-  componentDidUpdate(previousProps, previousState) {
-    const { props, state, updateSortedResultsState } = this;
-    const { howToSort } = state;
+  componentDidUpdate(previousProps) {
+    const { props } = this;
     const justRefreshed = previousProps.fetching && !props.fetching;
 
-    if (justRefreshed || howToSort !== previousState.howToSort) {
+    if (justRefreshed) {
       focusElement('[data-forms-focus]');
-      updateSortedResultsState();
     }
   }
 
@@ -74,27 +60,22 @@ export class SearchResults extends Component {
     focusElement('[data-forms-focus]');
   };
 
-  updateSortedResultsState = () => {
-    const { props, state } = this;
-    const clonedResults = cloneDeep(props.results || []);
-
-    const sortedResults = clonedResults.sort((a, b) =>
-      sortTheResults(state.howToSort, a, b),
-    );
-    return this.setState({ sortedResults });
+  getCurrentHowToSortState = state => {
+    if (state) {
+      // console.log('AA: ', this.props);
+      this.props.updateHowToSort(state);
+    }
   };
 
-  getCurrentSortState = state => state && this.setState({ howToSort: state });
-
   render() {
-    const { onPageSelect, getCurrentSortState, state } = this;
-    const { sortedResults } = state;
+    const { onPageSelect, getCurrentHowToSortState } = this;
     const {
       error,
       fetching,
       page,
       query,
       results,
+      howToSort,
       hasOnlyRetiredForms,
       showFindFormsResultsLinkToFormDetailPages,
       startIndex,
@@ -135,7 +116,7 @@ export class SearchResults extends Component {
       );
 
     // Show no results found message.
-    if (!sortedResults.length) {
+    if (!results.length) {
       return (
         <h2
           className="vads-u-font-size--base vads-u-line-height--3 vads-u-font-family--sans
@@ -163,19 +144,19 @@ export class SearchResults extends Component {
     // Derive the display labels.
     const startLabel = startIndex + 1;
     const lastLabel =
-      lastIndex + 1 > sortedResults.length ? sortedResults.length : lastIndex;
+      lastIndex + 1 > results.length ? results.length : lastIndex;
 
     // Derive the total number of pages.
-    const totalPages = Math.ceil(sortedResults.length / MAX_PAGE_LIST_LENGTH);
+    const totalPages = Math.ceil(results.length / MAX_PAGE_LIST_LENGTH);
 
     const formMetaInfo = {
       query,
       currentPage: page,
-      totalResultsCount: sortedResults.length,
+      totalResultsCount: results.length,
       totalResultsPages: totalPages,
     };
 
-    const searchResults = sortedResults
+    const searchResults = results
       .slice(startIndex, lastIndex)
       .map((form, index) => (
         <SearchResult
@@ -196,16 +177,15 @@ export class SearchResults extends Component {
             data-forms-focus
           >
             Showing <strong>{startLabel}</strong> &ndash;{' '}
-            <strong>{lastLabel}</strong> of{' '}
-            <strong>{sortedResults.length}</strong> results for "
-            <strong>{query}</strong>"
+            <strong>{lastLabel}</strong> of <strong>{results.length}</strong>{' '}
+            results for "<strong>{query}</strong>"
           </h2>
 
           {showFindFormsResultsLinkToFormDetailPages && (
             <SelectWidget
               options={SORT_OPTIONS}
-              initialState={INITIAL_SORT_STATE}
-              getCurrentState={getCurrentSortState}
+              initialState={howToSort}
+              getCurrentState={getCurrentHowToSortState}
             />
           )}
         </div>
@@ -213,7 +193,7 @@ export class SearchResults extends Component {
         <dl className="vads-l-grid-container--full">{searchResults}</dl>
 
         {/* Pagination Row */}
-        {sortedResults.length > MAX_PAGE_LIST_LENGTH && (
+        {results.length > MAX_PAGE_LIST_LENGTH && (
           <Pagination
             className="find-va-froms-pagination-override"
             maxPageListLength={MAX_PAGE_LIST_LENGTH}
@@ -231,15 +211,17 @@ export class SearchResults extends Component {
 const mapStateToProps = state => ({
   error: getFindFormsAppState(state).error,
   fetching: getFindFormsAppState(state).fetching,
+  hasOnlyRetiredForms: getFindFormsAppState(state).hasOnlyRetiredForms,
+  howToSort: getFindFormsAppState(state).howToSort,
   page: getFindFormsAppState(state).page,
   query: getFindFormsAppState(state).query,
   results: getFindFormsAppState(state).results,
-  hasOnlyRetiredForms: getFindFormsAppState(state).hasOnlyRetiredForms,
-  startIndex: getFindFormsAppState(state).startIndex,
   showFindFormsResultsLinkToFormDetailPages: mvpEnhancements(state),
+  startIndex: getFindFormsAppState(state).startIndex,
 });
 
 const mapDispatchToProps = dispatch => ({
+  updateHowToSort: howToSort => dispatch(updateHowToSortThunk(howToSort)),
   updatePagination: (page, startIndex) =>
     dispatch(updatePaginationAction(page, startIndex)),
 });

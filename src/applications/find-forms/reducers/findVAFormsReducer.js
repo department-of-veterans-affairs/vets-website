@@ -3,7 +3,10 @@ import {
   FETCH_FORMS,
   FETCH_FORMS_FAILURE,
   FETCH_FORMS_SUCCESS,
+  INITIAL_SORT_STATE,
+  UPDATE_HOW_TO_SORT,
   UPDATE_PAGINATION,
+  UPDATE_RESULTS,
 } from '../constants';
 
 const initialState = {
@@ -11,6 +14,7 @@ const initialState = {
   fetching: false,
   page: 1,
   query: '',
+  howToSort: INITIAL_SORT_STATE,
   results: null,
   hasOnlyRetiredForms: false,
   startIndex: 0,
@@ -31,6 +35,12 @@ export default (state = initialState, action) => {
         hasOnlyRetiredForms: action.hasOnlyRetiredForms,
         results: action.results,
       };
+    }
+    case UPDATE_HOW_TO_SORT: {
+      return { ...state, howToSort: action.howToSort };
+    }
+    case UPDATE_RESULTS: {
+      return { ...state, results: action.results };
     }
     case UPDATE_PAGINATION: {
       return { ...state, page: action.page, startIndex: action.startIndex };
