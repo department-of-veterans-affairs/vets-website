@@ -1,8 +1,10 @@
 import React from 'react';
 import moment from 'moment';
 import Date from '@department-of-veterans-affairs/component-library/Date';
-import { pageNames } from './pageList';
 
+import recordEvent from 'platform/monitoring/record-event';
+
+import { pageNames } from './pageList';
 import unableToFileBDDProduction from './unable-to-file-bdd-production';
 import {
   FORM_STATUS_BDD,
@@ -74,6 +76,8 @@ const isDateInFuture = date =>
 
 const BDDPage = ({ setPageState, state = defaultState, allowBDD }) => {
   if (!allowBDD) {
+    // BDD at 100%, this will need to be removed along with the
+    // form526_benefits_delivery_at_discharge feature flag
     return <unableToFileBDDProduction.component />;
   }
 
@@ -83,6 +87,16 @@ const BDDPage = ({ setPageState, state = defaultState, allowBDD }) => {
       isDateComplete(pageState) && isDateInFuture(pageState)
         ? findNextPage(pageState)
         : null;
+
+    if (value) {
+      recordEvent({
+        event: 'howToWizard-formChange',
+        // Date component wrapper class name
+        'form-field-type': 'usa-date-of-birth',
+        'form-field-label': label,
+        'form-field-value': value,
+      });
+    }
     setPageState(pageState, value);
   };
 
