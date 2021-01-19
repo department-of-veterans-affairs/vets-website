@@ -167,7 +167,7 @@ function AppointmentsPageV2({
       <Select
         options={options}
         onChange={onDropdownChange}
-        id="vaos-appts__dropdown"
+        id="type-dropdown"
         value={dropdownValue}
       />
       {routes}
