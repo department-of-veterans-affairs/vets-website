@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 export const VAMC_PATHS = {
   PITTSBURGH: /^\/pittsburgh-health-care\/(.)*$/,

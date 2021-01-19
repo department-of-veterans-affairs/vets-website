@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import * as actions from '../../redux/actions';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -18,33 +18,6 @@ const pageTitle = 'Tell us the date and time you’d like your appointment';
 
 const missingDateError =
   'Please choose your preferred date and time for your appointment.';
-
-export function getOptionsByDate(
-  selectedDate,
-  timezoneDescription,
-  availableSlots = [],
-) {
-  return availableSlots.reduce((acc, slot) => {
-    if (slot.start.split('T')[0] === selectedDate) {
-      let time = moment(slot.start);
-      if (slot.start.endsWith('Z')) {
-        time = time.tz(timezoneDescription);
-      }
-      const meridiem = time.format('A');
-      const screenReaderMeridiem = meridiem.replace(/\./g, '').toUpperCase();
-      acc.push({
-        value: slot.start,
-        label: (
-          <>
-            {time.format('h:mm')} <span aria-hidden="true">{meridiem}</span>{' '}
-            <span className="sr-only">{screenReaderMeridiem}</span>
-          </>
-        ),
-      });
-    }
-    return acc;
-  }, []);
-}
 
 function ErrorMessage({ facilityId, requestAppointmentDateChoice }) {
   return (
@@ -106,7 +79,6 @@ function goForward({
 
 export function DateTimeSelectPage({
   appointmentSlotsStatus,
-  availableDates,
   availableSlots,
   data,
   eligibleForRequests,
@@ -179,12 +151,12 @@ export function DateTimeSelectPage({
       )}
       <CalendarWidget
         maxSelections={1}
-        availableDates={availableDates}
+        availableSlots={availableSlots}
         value={selectedDates}
+        id="dateTime"
+        timezone={timezoneDescription}
         additionalOptions={{
           required: true,
-          getOptionsByDate: selectedDate =>
-            getOptionsByDate(selectedDate, timezone, availableSlots),
         }}
         loadingStatus={appointmentSlotsStatus}
         loadingErrorMessage={

@@ -5,7 +5,7 @@ import Scroll from 'react-scroll';
 import appendQuery from 'append-query';
 
 import { focusElement } from 'platform/utilities/ui';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import { ConfirmationPageContent } from '../../components/ConfirmationPageContent';
 

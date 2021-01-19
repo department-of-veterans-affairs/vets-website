@@ -176,12 +176,14 @@ export function createTransaction(
         method,
       });
 
+      // If the request does not hit the server, apiRequest which is using fetch - will throw an error
+      // it will not return back a transaction with errors on it
       const transaction = isVAProfileServiceConfigured()
         ? await apiRequest(route, options)
         : await localVAProfileService.createTransaction();
 
       if (transaction?.errors) {
-        const error = new Error();
+        const error = new Error('There was a transaction error');
         error.errors = transaction?.errors;
         throw error;
       }
@@ -229,9 +231,10 @@ export const validateAddress = (
       'Content-Type': 'application/json',
     },
   };
+  let response;
 
   try {
-    const response = isVAProfileServiceConfigured()
+    response = isVAProfileServiceConfigured()
       ? await apiRequest('/profile/address_validation', options)
       : await localVAProfileService.addressValidationSuccess();
     const { addresses, validationKey } = response;
@@ -322,15 +325,18 @@ export const validateAddress = (
       ),
     );
   } catch (error) {
-    const errorCode = error.errors?.[0]?.code;
-    const errorStatus = error.errors?.[0]?.status;
-    if (!errorCode || !errorStatus) {
-      if (error instanceof Error) {
-        Sentry.captureException(error);
-      } else {
-        Sentry.captureException(new Error('Unknown address validation error'));
+    if (error instanceof Error) {
+      // Just in case the addresses is an array with suggested addresses in it,
+      // scrape it from the data we send to Sentry.
+      if (response?.addresses?.length) {
+        response.addresses = '[SUGGESTED_ADDRESSES_SCRAPED]';
       }
+      Sentry.setContext('error parsing address validation response', response);
+      Sentry.captureMessage('error parsing address validation response');
     }
+    const errorCode = error?.errors?.[0]?.code || 'apiRequest-error';
+    const errorStatus = error?.errors?.[0]?.status || 'unknown';
+
     recordEvent({
       event: 'profile-edit-failure',
       'profile-action': 'address-suggestion-failure',

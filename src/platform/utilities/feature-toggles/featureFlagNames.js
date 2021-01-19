@@ -30,6 +30,7 @@ export default Object.freeze({
   vaOnlineSchedulingProviderSelection: 'vaOnlineSchedulingProviderSelection',
   vaOnlineSchedulingCheetah: 'vaOnlineSchedulingCheetah',
   vaGlobalDowntimeNotification: 'vaGlobalDowntimeNotification',
+  vaOnlineSchedulingHomepageRefresh: 'vaOnlineSchedulingHomepageRefresh',
   ssoe: 'ssoe',
   ssoeInbound: 'ssoeInbound',
   ssoeEbenefitsLinks: 'ssoeEbenefitsLinks',
@@ -75,4 +76,5 @@ export default Object.freeze({
   showFindFormsResultsLinkToFormDetailPages: 'find_forms_mvp_enhancement',
   multipleAddress1010ez: 'multiple_address_10_10ez',
   evssUploadLimit150Mb: 'evss_upload_limit_150mb',
+  eduFormOmbAndExpiration: 'edu_form_omb_and_expiration',
 });

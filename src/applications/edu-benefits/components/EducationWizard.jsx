@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
-import RadioButtons from '@department-of-veterans-affairs/formation-react/RadioButtons';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_COMPLETE,

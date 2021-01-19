@@ -4,7 +4,7 @@ import moment from 'moment';
 import recordEvent from 'platform/monitoring/record-event';
 import localStorage from 'platform/utilities/storage/localStorage';
 
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import CarefulConsiderationStatement from '../components/CarefulConsiderationStatement';
 import { branchOfService, board, formData, venueAddress } from '../utils';
 import { venueWarning, upgradeVenueWarning } from '../config';

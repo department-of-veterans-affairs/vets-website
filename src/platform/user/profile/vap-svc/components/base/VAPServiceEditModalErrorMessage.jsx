@@ -1,7 +1,7 @@
 import React from 'react';
 import AlertBox, {
   ALERT_TYPE,
-} from '@department-of-veterans-affairs/formation-react/AlertBox';
+} from '@department-of-veterans-affairs/component-library/AlertBox';
 import facilityLocator from '~/applications/facility-locator/manifest.json';
 
 import {
@@ -66,6 +66,7 @@ export default function VAPServiceEditModalErrorMessage({
 
   return (
     <AlertBox
+      className="vads-u-margin-top--0"
       content={<div className="columns">{content}</div>}
       isVisible
       onCloseAlert={clearErrors}

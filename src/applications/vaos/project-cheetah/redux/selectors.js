@@ -61,10 +61,6 @@ export function getDateTimeSelect(state, pageKey) {
   const availableSlots = newBooking.availableSlots;
   const systemId = getSiteIdForChosenFacility(state);
 
-  const availableDates = Array.from(
-    new Set(availableSlots?.map(slot => slot.start.split('T')[0])),
-  );
-
   const timezoneDescription = systemId
     ? getTimezoneDescBySystemId(systemId)
     : null;
@@ -72,7 +68,6 @@ export function getDateTimeSelect(state, pageKey) {
 
   return {
     ...formInfo,
-    availableDates,
     availableSlots,
     facilityId: data.vaFacility,
     appointmentSlotsStatus,
@@ -140,5 +135,27 @@ export function getClinicPageInfo(state, pageKey) {
     facilityDetails: facilities.find(
       facility => facility.id === formPageInfo.data.vaFacility,
     ),
+  };
+}
+
+export function getChosenClinicInfo(state) {
+  const data = selectProjectCheetahFormData(state);
+  const clinics = selectProjectCheetahNewBooking(state).clinics;
+
+  return (
+    clinics[data.vaFacility]?.find(clinic => clinic.id === data.clinicId) ||
+    null
+  );
+}
+
+export function getReviewPage(state) {
+  return {
+    data: selectProjectCheetahFormData(state),
+    facility: getChosenFacilityInfo(state),
+    facilityDetails: getChosenFacilityInfo(state),
+    clinic: getChosenClinicInfo(state),
+    submitStatus: selectProjectCheetah(state).submitStatus,
+    submitStatusVaos400: selectProjectCheetah(state).submitStatusVaos400,
+    systemId: getSiteIdForChosenFacility(state),
   };
 }
