@@ -71,6 +71,7 @@ import createCovidVaccineUpdatesWidget from './covid-vaccine-updates-cta/createC
 import createThirdPartyApps, {
   thirdPartyAppsReducer,
 } from '../third-party-app-directory/createThirdPartyApps';
+import initTranslation from './translation';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -198,6 +199,9 @@ if (location.pathname === '/') {
 
 // Up to top button for Article Pages
 initScrollToTopButton();
+
+// translation link
+initTranslation();
 
 /* eslint-disable no-unused-vars,camelcase */
 const lazyLoad = new LazyLoad({
