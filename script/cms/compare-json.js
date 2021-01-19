@@ -6,6 +6,7 @@ const assert = require('assert');
 const deepDiff = require('deep-diff');
 const { map } = require('lodash');
 const commandLineArgs = require('command-line-args');
+const commandLineUsage = require('command-line-usage');
 const assembleEntityTreeFactory = require('../../src/site/stages/build/process-cms-exports');
 const {
   readEntity,
@@ -31,11 +32,39 @@ const commandLineDefs = [
     alias: 'e',
     type: String,
     multiple: true,
-    description: 'Specify specific nodes) to compare.',
+    description: 'Specify the specific node entity to compare.',
+  },
+  {
+    name: 'bundle',
+    type: String,
+    description:
+      'Compare all entities of the bundle type specified. (Only node entities are supported) i.e. node-q_a, node-health_care_local_facility, etc',
+    multiple: true,
+  },
+  {
+    name: 'help',
+    type: Boolean,
+    description: 'Show this help.',
   },
 ];
 
-const { entity: entityNames } = commandLineArgs(commandLineDefs);
+const { entity: entityNames, bundle, help } = commandLineArgs(commandLineDefs);
+
+if (help) {
+  console.log(
+    commandLineUsage([
+      {
+        header: 'JSON Comparison',
+        content: 'Compare the output of the GraphQL and CMS export data',
+      },
+      {
+        header: 'Options',
+        optionList: commandLineDefs,
+      },
+    ]),
+  );
+  process.exit(0);
+}
 
 /**
  * Converts deep-diff's 'kind' property
@@ -170,13 +199,17 @@ const runComparison = () => {
       .filter(fn => fn !== 'meta')
       .map(name => name.split('.').slice(0, 2));
 
-    // if (!bundle) {
     fileNames = fileNames.filter(([baseType]) => baseType === 'node');
-    // }
 
-    const rawEntities = map(fileNames, entityDetails =>
+    let rawEntities = map(fileNames, entityDetails =>
       readEntity(exportDir, ...entityDetails),
     );
+
+    if (bundle) {
+      rawEntities = rawEntities.filter(e =>
+        bundle.includes(e.contentModelType),
+      );
+    }
 
     // Get only published nodes
     const transformedEntities = map(rawEntities, entity =>
@@ -221,7 +254,7 @@ const runComparison = () => {
     });
     console.log(
       diffNum === 0
-        ? `No differences found!`
+        ? `No differences found in ${totalObjectsCompared} nodes!`
         : `${diffNum}/${totalObjectsCompared} nodes with differences: './content-object-diffs'`,
     );
   }
