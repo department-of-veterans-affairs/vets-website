@@ -15,9 +15,6 @@ import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import recordEvent from 'platform/monitoring/record-event';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import environment from 'platform/utilities/environment';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import { setData } from 'platform/forms-system/src/js/actions';
 
 import HCAEnrollmentStatus from './HCAEnrollmentStatus';
 import HCASubwayMap from '../components/HCASubwayMap';
@@ -143,13 +140,6 @@ const LoggedOutContent = connect(
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
-    if (this.props.hasMultipleAddress !== undefined) {
-      this.props.setFormData({
-        ...this.props.formData,
-        'view:hasMultipleAddress': this.props.hasMultipleAddress,
-      });
-    }
-
     focusElement('.va-nav-breadcrumbs-list');
   }
 
@@ -183,19 +173,8 @@ const mapStateToProps = state => ({
   showLoggedOutContent: shouldShowLoggedOutContent(state),
   showLoginAlert: isLoggedOut(state),
   showVerificationRequiredAlert: isUserLOA1(state),
-  formData: state.form.data,
-  hasMultipleAddress: toggleValues(state)[
-    FEATURE_FLAG_NAMES.multipleAddress1010ez
-  ],
 });
 
-const mapDispatchToProps = {
-  setFormData: setData,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IntroductionPage);
+export default connect(mapStateToProps)(IntroductionPage);
 
 export { IntroductionPage };
