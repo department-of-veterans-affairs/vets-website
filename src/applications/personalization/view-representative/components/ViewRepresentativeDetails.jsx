@@ -1,5 +1,9 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import Telephone, {
+  CONTACTS,
+  PATTERNS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 export const ViewRepresentativeDetails = props => (
   <>
@@ -7,19 +11,28 @@ export const ViewRepresentativeDetails = props => (
     <ul className="usa-unstyled-list vads-u-margin-top--2">
       <li>
         <a href="#selectedRepresentative">
-          <i className="fas fa-arrow-down va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1" />
+          <i
+            aria-hidden="true"
+            className="fas fa-arrow-down va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1"
+          />
           Your selected representative for claims
         </a>
       </li>
       <li className="vads-u-margin-top--3">
         <a href="#whatCanRepresentativeDo">
-          <i className="fas fa-arrow-down va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1" />
+          <i
+            aria-hidden="true"
+            className="fas fa-arrow-down va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1"
+          />
           What can a representative do?
         </a>
       </li>
       <li className="vads-u-margin-top--3">
         <a href="#whatDoesItCost">
-          <i className="fas fa-arrow-down va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1" />
+          <i
+            aria-hidden="true"
+            className="fas fa-arrow-down va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1"
+          />
           What does it cost to use a recognized representative or a VSO?
         </a>
       </li>
@@ -29,10 +42,11 @@ export const ViewRepresentativeDetails = props => (
           Need help?
         </a>
       </li>
-      <h2 id="selectedRepresentative" className="vads-u-margin-top--5">
-        Your selected representative for VA claims
-      </h2>
     </ul>
+    <h2 id="selectedRepresentative" className="vads-u-margin-top--5">
+      Your selected representative for VA claims
+    </h2>
+
     <div className="vads-u-background-color--gray-lightest vads-u-margin-top--4 vads-u-margin-bottom--2 vads-u-padding-top--1 vads-u-padding-bottom--2 vads-u-padding-x--2 vads-u-font-size--md vads-u-font-family--sans">
       <h3 className="vads-u-margin-top--1p5">{props.name}</h3>
       <p className="vads-u-margin-y--0p5">{props.address.street}</p>
@@ -86,7 +100,7 @@ export const ViewRepresentativeDetails = props => (
       benefits, but they may charge you for unusual expenses. Representatives
       may charge for their services only after we've made a decision about your
       original claim. Ask up front what fees you'll be charged. If you believe a
-      claims agent or attourney charged a fee that is too hugh, you can
+      claims agent or attourney charged a fee that is too high, you can
       challenge it.
     </p>
     <div className="help-footer-box">
@@ -99,15 +113,10 @@ export const ViewRepresentativeDetails = props => (
 
       <p className="help-talk">
         Need help filling out the form or have questions about eligibility?
-        Please call VA Benefits and Services at
-        <a className="nowrap" href="tel:1-800-827-1000">
-          800-827-1000
-        </a>
-        . If you have hearing loss, call TTY:
-        <a className="no-wrap " href="tel:+1711" aria-label="TTY: 7 1 1.">
-          711
-        </a>
-        .
+        Please call VA Benefits and Services at{' '}
+        <Telephone contact={CONTACTS.VA_BENEFITS} />. If you have hearing loss,
+        call TTY:
+        <Telephone contact={CONTACTS['711']} pattern={PATTERNS['3_DIGIT']} />.
       </p>
     </div>
   </>
