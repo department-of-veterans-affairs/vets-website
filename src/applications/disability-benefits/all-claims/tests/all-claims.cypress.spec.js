@@ -24,7 +24,7 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
 
     dataSets: [
-      'full-781-781a-8940-test.json',
+      // 'full-781-781a-8940-test.json',
       'maximal-test',
       'maximal-bdd-test',
       'minimal-test',
