@@ -1,13 +1,12 @@
 import React from 'react';
 import moment from 'moment';
 
-import { getAppointmentTypeFromClinic } from '../../../../questionnaire/utils';
+import { getAppointTypeFromAppointment } from '../../../../questionnaire/utils';
 
 const index = props => {
   const { data, DueDate, Actions } = props;
   const { appointment } = data;
-  const { clinic } = appointment;
-  const appointmentType = getAppointmentTypeFromClinic(clinic, {
+  const appointmentType = getAppointTypeFromAppointment(appointment, {
     titleCase: true,
   });
   return (

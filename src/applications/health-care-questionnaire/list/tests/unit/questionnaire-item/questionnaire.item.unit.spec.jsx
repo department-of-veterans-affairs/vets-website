@@ -64,15 +64,20 @@ describe('health care questionnaire list - display a questionnaire item', () => 
     component.unmount();
   });
   it('Appointment Type is shown based on clinic', () => {
-    const name = 'Magic Kingdom';
     const data = {
       appointment: {
-        facilityName: name,
-        clinic: {
-          stopCode: '502', // mental health
+        attributes: {
+          vdsAppointments: [
+            {
+              clinic: {
+                stopCode: '502',
+              },
+            },
+          ],
+          vvsAppointments: [],
         },
-        appointmentTime: '2021-02-23T15:00:00Z',
       },
+      questionnaire: [],
     };
 
     const Actions = () => <p data-testid="Actions">some data</p>;
