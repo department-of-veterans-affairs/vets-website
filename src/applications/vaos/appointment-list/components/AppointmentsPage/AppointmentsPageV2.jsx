@@ -35,14 +35,14 @@ const DROPDOWN_VALUES = {
   upcoming: 'upcoming',
   requested: 'requested',
   past: 'past',
-  canceled: 'canceled',
+  cancelled: 'cancelled',
 };
 
 const options = [
   { label: 'Upcoming', value: DROPDOWN_VALUES.upcoming },
   { label: 'Requested', value: DROPDOWN_VALUES.requested },
   { label: 'Past', value: DROPDOWN_VALUES.past },
-  { label: 'Canceled', value: DROPDOWN_VALUES.canceled },
+  { label: 'Cancelled', value: DROPDOWN_VALUES.cancelled },
 ];
 
 function getDropdownValueFromLocation(pathname) {
@@ -50,8 +50,8 @@ function getDropdownValueFromLocation(pathname) {
     return DROPDOWN_VALUES.requested;
   } else if (pathname.endsWith(DROPDOWN_VALUES.past)) {
     return DROPDOWN_VALUES.past;
-  } else if (pathname.endsWith(DROPDOWN_VALUES.canceled)) {
-    return DROPDOWN_VALUES.canceled;
+  } else if (pathname.endsWith(DROPDOWN_VALUES.cancelled)) {
+    return DROPDOWN_VALUES.cancelled;
   } else {
     return DROPDOWN_VALUES.upcoming;
   }
@@ -100,7 +100,7 @@ function AppointmentsPageV2({
       <Route exact path="/" component={UpcomingAppointmentsList} />
       <Route path="/requested" component={RequestedAppointmentsList} />
       <Route path="/past" component={PastAppointmentsList} />
-      <Route path="/canceled" component={UpcomingAppointmentsList} />
+      <Route path="/cancelled" component={UpcomingAppointmentsList} />
     </Switch>
   );
 
@@ -114,8 +114,8 @@ function AppointmentsPageV2({
       history.push('/requested');
     } else if (value === DROPDOWN_VALUES.past) {
       history.push('/past');
-    } else if (value === DROPDOWN_VALUES.canceled) {
-      history.push('/canceled');
+    } else if (value === DROPDOWN_VALUES.cancelled) {
+      history.push('/cancelled');
     }
   }
 
