@@ -16,6 +16,7 @@ const todayPlus120 = moment()
 
 const testConfig = createTestConfig(
   {
+    skip: true,
     _13647Exception: true,
     dataPrefix: 'data',
 
