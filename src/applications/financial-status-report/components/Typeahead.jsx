@@ -4,27 +4,60 @@ import Downshift from 'downshift';
 import classNames from 'classnames';
 import sortListByFuzzyMatch from 'platform/forms-system/src/js/utilities/fuzzy-matching';
 
-const Typeahead = props => {
+const Typeahead = ({ uiSchema, formData, onChange, onBlur, idSchema }) => {
   const [input, setInput] = useState('');
   const [suggestions, setSuggestions] = useState([]);
 
-  const { idSchema } = props;
-  const id = idSchema.$id;
+  // const getInput = useCallback(
+  //   () => {
+  //     if (formData && formData.widget === 'autosuggest') {
+  //       return formData.label;
+  //     }
 
-  const getInput = (inputData, uiSchema) => {
-    if (inputData && inputData.widget === 'autosuggest') {
-      return inputData.label;
+  //     if (typeof formData !== 'object' && formData) {
+  //       const uiOptions = uiSchema['ui:options'];
+
+  //       if (!uiOptions.labels) {
+  //         return formData;
+  //       }
+
+  //       if (uiOptions.labels[formData]) {
+  //         return uiOptions.labels[formData];
+  //       }
+  //     }
+  //     return '';
+  //   },
+  //   [formData, uiSchema],
+  // );
+
+  // const getSuggestions = useCallback(
+  //   (options, value) => {
+  //     if (value) {
+  //       const uiOptions = uiSchema['ui:options'];
+  //       return sortListByFuzzyMatch(value, options).slice(
+  //         0,
+  //         uiOptions.maxOptions,
+  //       );
+  //     }
+  //     return options;
+  //   },
+  //   [uiSchema],
+  // );
+
+  const getInput = () => {
+    if (formData && formData.widget === 'autosuggest') {
+      return formData.label;
     }
 
-    if (typeof inputData !== 'object' && inputData) {
+    if (typeof formData !== 'object' && formData) {
       const uiOptions = uiSchema['ui:options'];
 
       if (!uiOptions.labels) {
-        return inputData;
+        return formData;
       }
 
-      if (uiOptions.labels[inputData]) {
-        return uiOptions.labels[inputData];
+      if (uiOptions.labels[formData]) {
+        return uiOptions.labels[formData];
       }
     }
     return '';
@@ -32,7 +65,7 @@ const Typeahead = props => {
 
   const getSuggestions = (options, value) => {
     if (value) {
-      const uiOptions = props.uiSchema['ui:options'];
+      const uiOptions = uiSchema['ui:options'];
       return sortListByFuzzyMatch(value, options).slice(
         0,
         uiOptions.maxOptions,
@@ -56,12 +89,12 @@ const Typeahead = props => {
 
   const handleInputValueChange = inputValue => {
     if (inputValue !== input) {
-      const item = getItemFromInput(inputValue, props.uiSchema['ui:options']);
-      props.onChange(item);
+      const item = getItemFromInput(inputValue, uiSchema['ui:options']);
+      onChange(item);
       setInput(inputValue);
       setSuggestions(getSuggestions(suggestions, inputValue));
     } else if (inputValue === '') {
-      props.onChange();
+      onChange();
       setInput(inputValue);
       setSuggestions(getSuggestions(suggestions, inputValue));
     }
@@ -75,20 +108,22 @@ const Typeahead = props => {
   };
 
   const handleBlur = () => {
-    props.onBlur(props.idSchema.$id);
+    onBlur(idSchema.$id);
   };
 
   useEffect(() => {
-    const fetchInputData = getInput(props.formData, props.uiSchema);
+    const fetchInputData = getInput();
     setInput(fetchInputData);
 
-    const options = props.uiSchema['ui:options'].getOptions;
+    const { getOptions } = uiSchema['ui:options'];
+    const options = getOptions();
+
     const fetchedsuggestions = getSuggestions(options, input);
     setSuggestions(fetchedsuggestions);
 
     if (input && input.length > 3) {
-      const item = getItemFromInput(input, props.uiSchema['ui:options']);
-      props.onChange(item);
+      const item = getItemFromInput(input, uiSchema['ui:options']);
+      onChange(item);
     }
   }, []);
 
@@ -110,8 +145,8 @@ const Typeahead = props => {
           <input
             {...getInputProps({
               autoComplete: 'off',
-              id,
-              name: id,
+              id: idSchema.$id,
+              name: idSchema.$id,
               className: 'autosuggest-input',
               onBlur: isOpen ? undefined : handleBlur,
               onKeyDown: handleKeyDown,
@@ -152,7 +187,6 @@ Typeahead.propTypes = {
     'ui:title': PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   }),
   formData: PropTypes.string,
-  schema: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
   idSchema: PropTypes.shape({
