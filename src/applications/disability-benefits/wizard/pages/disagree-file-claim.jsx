@@ -1,27 +1,15 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+
 import { pageNames } from './pageList';
 
-const alertContent = (
-  <>
-    <p>
-      If you disagree with a VA decision on your claim, you can file a
-      Supplemental Claim. Because more than a year has passed since the date on
-      your decision letter, you can no longer request a Higher-Level Review or
-      Board Appeal.
-    </p>
-    <a href="/decision-reviews/supplemental-claim/">
-      Find out how to file a Supplemental Claim
-    </a>
-  </>
-);
-
 const DisagreeFileClaimPage = () => (
-  <AlertBox
-    status="warning"
-    headline="You’ll need to file a Supplemental Claim"
-    content={alertContent}
-  />
+  <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
+    <p className="vads-u-margin-top--0">
+      If you disagree with a VA decision on your claim, you’ll need to request a
+      decision review.
+    </p>
+    <a href="/decision-reviews/">Learn about the decision review process</a>
+  </div>
 );
 
 export default {
