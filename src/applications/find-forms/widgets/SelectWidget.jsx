@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-const SelectWidget = ({ initialState, options, grabCurrentState }) => {
+const SelectWidget = ({ initialState, options, getCurrentState }) => {
   const initialSortingState = initialState || (options ? options[0] : '');
 
   const [selectVal, setSelectValue] = useState(initialSortingState);
@@ -14,9 +14,9 @@ const SelectWidget = ({ initialState, options, grabCurrentState }) => {
 
   useEffect(
     () => {
-      if (grabCurrentState) grabCurrentState(selectVal);
+      if (getCurrentState) getCurrentState(selectVal);
     },
-    [grabCurrentState, selectVal],
+    [getCurrentState, selectVal],
   );
 
   if (!options || options.length === 0) return null;
@@ -50,7 +50,7 @@ const SelectWidget = ({ initialState, options, grabCurrentState }) => {
 SelectWidget.propTypes = {
   initialState: PropTypes.string,
   options: PropTypes.array,
-  grabCurrentState: PropTypes.func,
+  getCurrentState: PropTypes.func,
 };
 
 export default SelectWidget;

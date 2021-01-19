@@ -13,10 +13,13 @@ import { focusElement } from 'platform/utilities/ui';
 import * as customPropTypes from '../prop-types';
 import { updatePaginationAction } from '../actions';
 import { getFindFormsAppState, mvpEnhancements } from '../helpers/selectors';
-import SearchResult, { deriveLatestIssue } from '../components/SearchResult';
+import { sortTheResults } from '../helpers';
+import SearchResult from '../components/SearchResult';
 import SelectWidget from '../widgets/SelectWidget';
 
 export const MAX_PAGE_LIST_LENGTH = 10;
+export const SORT_OPTIONS = ['Last Updated (Newest)', 'Last Updated (Oldest)'];
+export const INITIAL_SORT_STATE = 'Last Updated (Newest)';
 
 export class SearchResults extends Component {
   static propTypes = {
@@ -35,9 +38,7 @@ export class SearchResults extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = { howToSort: '', sortedResults: [] };
-    this.sortOptions = ['Last Updated (Newest)', 'Last Updated (Oldest)'];
   }
 
   componentDidMount() {
@@ -74,56 +75,19 @@ export class SearchResults extends Component {
   };
 
   updateSortedResultsState = () => {
-    const { props, sortTheResults } = this;
+    const { props, state } = this;
     const clonedResults = cloneDeep(props.results || []);
 
-    const sortedResults = clonedResults.sort((a, b) => sortTheResults(a, b));
+    const sortedResults = clonedResults.sort((a, b) =>
+      sortTheResults(state.howToSort, a, b),
+    );
     return this.setState({ sortedResults });
   };
 
-  grabCurrentSortState = state => state && this.setState({ howToSort: state });
-
-  sortTheResults = (indexA, indexB) => {
-    const [
-      LAST_UPDATED_NEWEST_OPTION,
-      LAST_UPDATED_OLDEST_OPTION,
-    ] = this.sortOptions;
-
-    const latestTimeStampIndexA = deriveLatestIssue(
-      indexA.attributes.firstIssuedOn,
-      indexA.attributes.lastRevisionOn,
-    );
-
-    const latestTimeStampIndexB = deriveLatestIssue(
-      indexB.attributes.firstIssuedOn,
-      indexB.attributes.lastRevisionOn,
-    );
-
-    const newestDate = deriveLatestIssue(
-      latestTimeStampIndexA,
-      latestTimeStampIndexB,
-    );
-
-    const oldestDate =
-      latestTimeStampIndexA === newestDate
-        ? latestTimeStampIndexB
-        : latestTimeStampIndexA;
-
-    if (this.state.howToSort === LAST_UPDATED_NEWEST_OPTION) {
-      if (newestDate === latestTimeStampIndexA) return -1;
-      else if (newestDate === latestTimeStampIndexB) return 1;
-    }
-
-    if (this.state.howToSort === LAST_UPDATED_OLDEST_OPTION) {
-      if (oldestDate === latestTimeStampIndexA) return -1;
-      else if (oldestDate === latestTimeStampIndexB) return 1;
-    }
-
-    return 0;
-  };
+  getCurrentSortState = state => state && this.setState({ howToSort: state });
 
   render() {
-    const { onPageSelect, grabCurrentSortState, sortOptions, state } = this;
+    const { onPageSelect, getCurrentSortState, state } = this;
     const { sortedResults } = state;
     const {
       error,
@@ -239,9 +203,9 @@ export class SearchResults extends Component {
 
           {showFindFormsResultsLinkToFormDetailPages && (
             <SelectWidget
-              options={sortOptions}
-              initialState={'Last Updated (Newest)'}
-              grabCurrentState={grabCurrentSortState}
+              options={SORT_OPTIONS}
+              initialState={INITIAL_SORT_STATE}
+              getCurrentState={getCurrentSortState}
             />
           )}
         </div>

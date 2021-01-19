@@ -2,7 +2,11 @@
 import chunk from 'lodash/chunk';
 
 // Relative Imports
-import { deriveLatestIssue } from '../../components/SearchResult';
+import {
+  INITIAL_SORT_STATE,
+  SORT_OPTIONS,
+} from '../../containers/SearchResults';
+import { sortTheResults } from '../../helpers';
 
 const stub = require('../../constants/stub.json');
 
@@ -17,43 +21,6 @@ function axeTestPage() {
   cy.injectAxe();
   cy.axeCheck();
 }
-
-const sortTheResults = (indexA, indexB) => {
-  const sortOptions = ['Last Updated (Newest)', 'Last Updated (Oldest)'];
-  const [LAST_UPDATED_NEWEST_OPTION, LAST_UPDATED_OLDEST_OPTION] = sortOptions;
-  const howToSort = sortOptions[0];
-  const latestTimeStampIndexA = deriveLatestIssue(
-    indexA.attributes.firstIssuedOn,
-    indexA.attributes.lastRevisionOn,
-  );
-
-  const latestTimeStampIndexB = deriveLatestIssue(
-    indexB.attributes.firstIssuedOn,
-    indexB.attributes.lastRevisionOn,
-  );
-
-  const newestDate = deriveLatestIssue(
-    latestTimeStampIndexA,
-    latestTimeStampIndexB,
-  );
-
-  const oldestDate =
-    latestTimeStampIndexA === newestDate
-      ? latestTimeStampIndexB
-      : latestTimeStampIndexA;
-
-  if (howToSort === LAST_UPDATED_NEWEST_OPTION) {
-    if (newestDate === latestTimeStampIndexA) return -1;
-    else if (newestDate === latestTimeStampIndexB) return 1;
-  }
-
-  if (howToSort === LAST_UPDATED_OLDEST_OPTION) {
-    if (oldestDate === latestTimeStampIndexA) return -1;
-    else if (oldestDate === latestTimeStampIndexB) return 1;
-  }
-
-  return 0;
-};
 
 describe('functionality of Find Forms', () => {
   before(function() {
@@ -88,7 +55,7 @@ describe('functionality of Find Forms', () => {
     // iterate through all pages and ensure each form download link is present on each form result.
     const validForms = stub.data
       .filter(form => form.attributes.validPdf)
-      .sort((a, b) => sortTheResults(a, b));
+      .sort((a, b) => sortTheResults(SORT_OPTIONS[INITIAL_SORT_STATE], a, b));
     const pageLength = 10;
     const pages = chunk(validForms, pageLength);
 

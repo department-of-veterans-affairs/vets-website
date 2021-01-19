@@ -14,13 +14,13 @@ describe('Find VA Forms <SearchWidget>', () => {
       <SelectWidget
         options={sortOptions}
         initialState={'Last Updated (Newest)'}
-        grabCurrentState={() => {}}
+        getCurrentState={() => {}}
       />,
     );
 
     expect(tree.props().options).to.eql(sortOptions);
     expect(tree.props().initialState).to.equal('Last Updated (Newest)');
-    expect(typeof tree.props().grabCurrentState).to.equal('function');
+    expect(typeof tree.props().getCurrentState).to.equal('function');
 
     tree.unmount();
   });
@@ -30,7 +30,7 @@ describe('Find VA Forms <SearchWidget>', () => {
       <SelectWidget
         options={sortOptions}
         initialState={'Last Updated (Newest)'}
-        grabCurrentState={() => {}}
+        getCurrentState={() => {}}
       />,
     );
 
@@ -48,7 +48,7 @@ describe('Find VA Forms <SearchWidget>', () => {
       <SelectWidget
         options={sortOptions}
         initialState={'Last Updated (Newest)'}
-        grabCurrentState={() => {}}
+        getCurrentState={() => {}}
       />,
     );
 
