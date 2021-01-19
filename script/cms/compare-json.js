@@ -76,7 +76,7 @@ const getDiffItem = item => {
 };
 
 /**
- * Compares two content JSON objects and stores the differences in a file
+ * Compares two entity JSON objects
  * https://www.npmjs.com/package/deep-diff#differences
  * @param {object} baseGraphQlObject
  * @param {object} baseCmsExportObject
@@ -94,7 +94,9 @@ const compareJson = (baseGraphQlObject, baseCmsExportObject) => {
       cmsExportObject[key] = baseCmsExportObject[key];
       graphQlObject[key] = baseGraphQlObject[key];
     } else if (key !== 'entityMetatags') {
-      console.log(`Field missing: ${key}`);
+      if (entityNames) console.log(`Field missing: ${key}`);
+    } else {
+      // Do nothing because key is 'entityMetatags'
     }
   });
 
@@ -110,7 +112,7 @@ const compareJson = (baseGraphQlObject, baseCmsExportObject) => {
 
   // Get array of differences. Exclude new properties because transformed
   // CMS objects may have additional properties
-  const diffs = deepDiff(graphQlObject, cmsExportObject)
+  return deepDiff(graphQlObject, cmsExportObject)
     ?.filter(d => d.kind !== 'N')
     .map(diff => {
       return {
@@ -123,14 +125,6 @@ const compareJson = (baseGraphQlObject, baseCmsExportObject) => {
         ...(diff.rhs && { cmsExport: diff.rhs }),
       };
     });
-
-  if (diffs) {
-    fs.writeFileSync(
-      path.join(__dirname, `../../export-comparison.json`),
-      JSON.stringify(diffs),
-    );
-    console.log(`${diffs.length} differences: ./export-comparison.json`);
-  }
 };
 
 const runComparison = () => {
@@ -157,7 +151,16 @@ const runComparison = () => {
     )[0];
 
     if (baseObject) {
-      compareJson(baseObject, transformedEntities[0]);
+      const diff = compareJson(baseObject, transformedEntities[0]);
+      if (diff) {
+        fs.writeFileSync(
+          path.join(__dirname, `../../content-object-diff.json`),
+          JSON.stringify(diff),
+        );
+        console.log(`${diff.length} differences: './content-object-diff.json'`);
+      } else {
+        console.log(`No differences found!`);
+      }
     } else {
       console.log('Node not present in .cache/localhost/drupal/pages.json');
     }
@@ -175,6 +178,7 @@ const runComparison = () => {
       readEntity(exportDir, ...entityDetails),
     );
 
+    // Get only published nodes
     const transformedEntities = map(rawEntities, entity =>
       assembleEntityTree(entity, false),
     ).filter(e => e);
@@ -182,15 +186,44 @@ const runComparison = () => {
     // console.log(rawEntities.length);
     // console.log(transformedEntities.length);
 
+    fs.rmdirSync('content-object-diffs', { recursive: true });
+    fs.mkdirSync('content-object-diffs');
+
+    // Keep track of number or diffs
+    let diffNum = 0;
+    let totalObjectsCompared = 0;
+
     // Compare JSON objects for each node entity
-    rawEntities.forEach((entity, index) => {
+    transformedEntities.forEach(entity => {
       const baseObject = graphQL.data.nodeQuery.entities.filter(
         e =>
           e.entityBundle === entity.entityBundle &&
-          parseInt(e.entityId, 10) === entity.nid[0].value,
+          parseInt(e.entityId, 10) === parseInt(entity.entityId, 10),
       )[0];
-      compareJson(baseObject, transformedEntities[index]);
+      if (baseObject) {
+        const diff = compareJson(baseObject, entity);
+        if (diff) {
+          fs.writeFileSync(
+            path.join(
+              __dirname,
+              `../../content-object-diffs/${entity.entityBundle}-${
+                entity.entityId
+              }.json`,
+            ),
+            JSON.stringify(diff),
+          );
+          ++diffNum;
+        }
+        ++totalObjectsCompared;
+      } else {
+        // console.log('Node not present in .cache/localhost/drupal/pages.json');
+      }
     });
+    console.log(
+      diffNum === 0
+        ? `No differences found!`
+        : `${diffNum}/${totalObjectsCompared} nodes with differences: './content-object-diffs'`,
+    );
   }
 };
 
