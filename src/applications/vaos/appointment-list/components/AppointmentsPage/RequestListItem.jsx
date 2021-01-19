@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { sentenceCase } from '../../../utils/formatters';
+import { getPractitionerLocationDisplay } from '../../../services/appointment';
 
 export default function RequestListItem({ appointment, facility }) {
   const isCC = appointment.vaos.isCommunityCare;
   const typeOfCareText = sentenceCase(appointment.type?.coding?.[0]?.display);
+  const ccFacilityName = getPractitionerLocationDisplay(appointment);
 
   return (
     <li
@@ -15,8 +17,9 @@ export default function RequestListItem({ appointment, facility }) {
         <h4 className="vads-u-font-size--h4 vads-u-margin-x--0 vads-u-margin-y--0">
           {sentenceCase(typeOfCareText)}
         </h4>
-        {!!facility && facility.name}
-        {!facility && isCC && 'Community care'}
+        {!!facility && !isCC && facility.name}
+        {isCC && !!ccFacilityName && ccFacilityName}
+        {isCC && !ccFacilityName && 'Community care'}
       </div>
       <div>
         <Link

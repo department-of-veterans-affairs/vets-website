@@ -377,7 +377,7 @@ describe('VAOS integration: express care requests', () => {
           `${
             environment.API_URL
           }/vaos/v0/appointment_requests?start_date=${moment()
-            .add(-30, 'days')
+            .add(-120, 'days')
             .format('YYYY-MM-DD')}&end_date=${moment().format('YYYY-MM-DD')}`,
         ),
         { errors: [] },
