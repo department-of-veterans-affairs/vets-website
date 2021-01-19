@@ -1,78 +1,50 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 import classNames from 'classnames';
 import sortListByFuzzyMatch from 'platform/forms-system/src/js/utilities/fuzzy-matching';
 
-const Typeahead = ({ uiSchema, formData, onChange, onBlur, idSchema }) => {
+const Typeahead = ({ uiSchema, idSchema, formData, onChange, onBlur }) => {
   const [input, setInput] = useState('');
   const [suggestions, setSuggestions] = useState([]);
 
-  // const getInput = useCallback(
-  //   () => {
-  //     if (formData && formData.widget === 'autosuggest') {
-  //       return formData.label;
-  //     }
-
-  //     if (typeof formData !== 'object' && formData) {
-  //       const uiOptions = uiSchema['ui:options'];
-
-  //       if (!uiOptions.labels) {
-  //         return formData;
-  //       }
-
-  //       if (uiOptions.labels[formData]) {
-  //         return uiOptions.labels[formData];
-  //       }
-  //     }
-  //     return '';
-  //   },
-  //   [formData, uiSchema],
-  // );
-
-  // const getSuggestions = useCallback(
-  //   (options, value) => {
-  //     if (value) {
-  //       const uiOptions = uiSchema['ui:options'];
-  //       return sortListByFuzzyMatch(value, options).slice(
-  //         0,
-  //         uiOptions.maxOptions,
-  //       );
-  //     }
-  //     return options;
-  //   },
-  //   [uiSchema],
-  // );
-
-  const getInput = () => {
-    if (formData && formData.widget === 'autosuggest') {
-      return formData.label;
-    }
-
-    if (typeof formData !== 'object' && formData) {
-      const uiOptions = uiSchema['ui:options'];
-
-      if (!uiOptions.labels) {
-        return formData;
+  const getInput = useCallback(
+    () => {
+      if (formData && formData.widget === 'autosuggest') {
+        return formData.label;
       }
 
-      if (uiOptions.labels[formData]) {
-        return uiOptions.labels[formData];
-      }
-    }
-    return '';
-  };
+      if (typeof formData !== 'object' && formData) {
+        const uiOptions = uiSchema['ui:options'];
 
-  const getSuggestions = (options, value) => {
-    if (value) {
-      const uiOptions = uiSchema['ui:options'];
-      return sortListByFuzzyMatch(value, options).slice(
-        0,
-        uiOptions.maxOptions,
-      );
-    }
-    return options;
-  };
+        if (!uiOptions.labels) {
+          return formData;
+        }
+
+        if (uiOptions.labels[formData]) {
+          return uiOptions.labels[formData];
+        }
+      }
+      return '';
+    },
+    [formData, uiSchema],
+  );
+
+  const getSuggestions = useCallback(
+    value => {
+      const { getOptions, uiOptions } = uiSchema['ui:options'];
+      const options = getOptions();
+
+      if (options?.length && value) {
+        return sortListByFuzzyMatch(value, options).slice(
+          0,
+          uiOptions?.maxOptions,
+        );
+      }
+      return options;
+    },
+    [uiSchema],
+  );
 
   const getItemFromInput = (inputValue, uiOptions) => {
     const { inputTransformers } = uiOptions;
@@ -92,11 +64,9 @@ const Typeahead = ({ uiSchema, formData, onChange, onBlur, idSchema }) => {
       const item = getItemFromInput(inputValue, uiSchema['ui:options']);
       onChange(item);
       setInput(inputValue);
-      setSuggestions(getSuggestions(suggestions, inputValue));
     } else if (inputValue === '') {
       onChange();
       setInput(inputValue);
-      setSuggestions(getSuggestions(suggestions, inputValue));
     }
   };
 
@@ -111,21 +81,16 @@ const Typeahead = ({ uiSchema, formData, onChange, onBlur, idSchema }) => {
     onBlur(idSchema.$id);
   };
 
-  useEffect(() => {
-    const fetchInputData = getInput();
-    setInput(fetchInputData);
+  useEffect(
+    () => {
+      const fetchInputData = getInput();
+      setInput(fetchInputData);
 
-    const { getOptions } = uiSchema['ui:options'];
-    const options = getOptions();
-
-    const fetchedsuggestions = getSuggestions(options, input);
-    setSuggestions(fetchedsuggestions);
-
-    if (input && input.length > 3) {
-      const item = getItemFromInput(input, uiSchema['ui:options']);
-      onChange(item);
-    }
-  }, []);
+      const fetchedsuggestions = getSuggestions(input);
+      setSuggestions(fetchedsuggestions);
+    },
+    [input, getInput, getSuggestions],
+  );
 
   return (
     <Downshift
@@ -154,7 +119,7 @@ const Typeahead = ({ uiSchema, formData, onChange, onBlur, idSchema }) => {
           />
           {isOpen && (
             <div className="autosuggest-list" role="listbox">
-              {suggestions.map((item, index) => (
+              {suggestions?.map((item, index) => (
                 <div
                   {...getItemProps({ item })}
                   role="option"
@@ -178,13 +143,13 @@ const Typeahead = ({ uiSchema, formData, onChange, onBlur, idSchema }) => {
 
 Typeahead.propTypes = {
   uiSchema: PropTypes.shape({
+    'ui:title': PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     'ui:options': PropTypes.shape({
       labels: PropTypes.object,
       getOptions: PropTypes.func.isRequired,
       maxOptions: PropTypes.number,
       inputTransformers: PropTypes.arrayOf(PropTypes.func),
     }),
-    'ui:title': PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   }),
   formData: PropTypes.string,
   onChange: PropTypes.func.isRequired,
