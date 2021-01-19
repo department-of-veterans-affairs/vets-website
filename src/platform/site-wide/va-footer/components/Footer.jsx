@@ -5,7 +5,6 @@ import DesktopLinks from './DesktopLinks';
 import MobileLinks from './MobileLinks';
 import { createLinkGroups } from '../helpers';
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
-import './../../../monitoring/analytics';
 
 export default class Footer extends React.Component {
   constructor(props) {
