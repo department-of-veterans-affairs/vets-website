@@ -103,12 +103,12 @@ export const reformatReturnPaymentDates = payments => {
   return payments.map(payment => {
     return {
       ...payment,
-      returnedCheckCancelDt: payment.returnedCheckCancelDt
+      returnedCheckCancelDt: moment(payment.returnedCheckCancelDt).isValid()
         ? moment(payment.returnedCheckCancelDt).format('MMM D, YYYY')
-        : null,
-      returnedCheckIssueDt: payment.returnedCheckIssueDt
+        : '---',
+      returnedCheckIssueDt: moment(payment.returnedCheckIssueDt).isValid()
         ? moment(payment.returnedCheckIssueDt).format('MMM D, YYYY')
-        : null,
+        : '---',
     };
   });
 };
@@ -117,7 +117,9 @@ export const reformatPaymentDates = payments => {
   return payments.map(payment => {
     return {
       ...payment,
-      payCheckDt: moment(payment.payCheckDt).format('MMM D, YYYY'),
+      payCheckDt: moment(payment.payCheckDt).isValid()
+        ? moment(payment.payCheckDt).format('MMM D, YYYY')
+        : '---',
     };
   });
 };
