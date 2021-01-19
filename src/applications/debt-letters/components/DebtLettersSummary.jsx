@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import HowDoIPay from './HowDoIPay';
@@ -10,7 +10,7 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import Telephone, {
   CONTACTS,
   PATTERNS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 class DebtLettersSummary extends Component {
   componentDidMount() {

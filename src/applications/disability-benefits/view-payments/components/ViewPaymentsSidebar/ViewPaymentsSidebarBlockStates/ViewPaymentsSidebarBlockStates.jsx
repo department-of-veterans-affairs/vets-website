@@ -1,7 +1,7 @@
 import React from 'react';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const firstSidebarBlock = {
   heading: 'What if I need to change my direct deposit or contact information?',

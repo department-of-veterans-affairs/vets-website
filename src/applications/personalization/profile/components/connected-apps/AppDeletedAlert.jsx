@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
 
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 export const AppDeletedAlert = props => {
   useEffect(() => {

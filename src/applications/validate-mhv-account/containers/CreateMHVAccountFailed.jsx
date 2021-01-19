@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import CollapsiblePanel from '@department-of-veterans-affairs/formation-react/CollapsiblePanel';
+import CollapsiblePanel from '@department-of-veterans-affairs/component-library/CollapsiblePanel';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 import MessageTemplate from '../components/MessageTemplate';
 import { createAndUpgradeMHVAccount } from 'platform/user/profile/actions';

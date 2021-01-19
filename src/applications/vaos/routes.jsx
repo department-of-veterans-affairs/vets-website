@@ -1,15 +1,13 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import asyncLoader from 'platform/utilities/ui/asyncLoader';
-import AppointmentsPage from './appointment-list/components/AppointmentsPage';
-import AppointmentsPageV2 from './appointment-list/components/AppointmentsPage/AppointmentsPageV2';
 import VAOSApp from './components/VAOSApp';
 import ErrorBoundary from './components/ErrorBoundary';
 import { captureError } from './utils/error';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import ErrorMessage from './components/ErrorMessage';
 import FullWidthLayout from './components/FullWidthLayout';
-import { selectFeatureHomepageRefresh } from './redux/selectors';
+import { AppointmentList } from './appointment-list';
 
 // Handles errors loading components by doing one page reload and showing
 // an error message otherwise
@@ -65,19 +63,7 @@ export default function createRoutesWithStore(store) {
                 .catch(handleLoadError),
             )}
           />
-          <Route
-            path="/"
-            render={() => {
-              const showHomePageRefresh = selectFeatureHomepageRefresh(
-                store.getState(),
-              );
-              if (showHomePageRefresh) {
-                return <AppointmentsPageV2 />;
-              }
-
-              return <AppointmentsPage />;
-            }}
-          />
+          <Route path="/" component={AppointmentList} />
         </Switch>
       </VAOSApp>
     </ErrorBoundary>

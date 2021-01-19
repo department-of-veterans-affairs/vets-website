@@ -274,8 +274,8 @@
   },
   "private": true,
   "dependencies": {
+    "@department-of-veterans-affairs/component-library": "1.0.0",
     "@department-of-veterans-affairs/formation": "6.10.3",
-    "@department-of-veterans-affairs/formation-react": "7.0.0",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.6.3",
     "@mapbox/mapbox-sdk": "^0.10.0",
@@ -325,6 +325,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-dropzone": "^4.2.5",
+    "react-focus-lock": "^2.5.0",
     "react-leaflet": "^2.7.0",
     "react-meta-tags": "^0.7.4",
     "react-redux": "5.1.1",
