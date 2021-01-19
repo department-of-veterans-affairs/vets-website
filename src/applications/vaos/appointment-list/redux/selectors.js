@@ -119,6 +119,7 @@ export const selectFutureAppointments = createSelector(
 );
 
 export const selectUpcomingAppointments = createSelector(
+  // Selecting pending here to pull in EC requests
   state => state.appointments.pending,
   state => state.appointments.confirmed,
   (pending, confirmed) => {
