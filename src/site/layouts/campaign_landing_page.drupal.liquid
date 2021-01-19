@@ -21,7 +21,7 @@
           <h1>{{ title }}</h1>
           <hr />
           <p>{{ fieldHeroBlurb }}</p>
-          <a class="usa-butto-secondary" href="{{ fieldPrimaryCallToAction.entity.fieldButtonLink.uri }}" rel="noreferrer noopener">
+          <a class="usa-butto-secondary" href="{{ fieldPrimaryCallToAction.entity.fieldButtonLink.url.path }}" rel="noreferrer noopener">
             {{ fieldPrimaryCallToAction.entity.fieldButtonLabel }}
           </a>
         </div>
@@ -33,7 +33,7 @@
         <div class="why-this-matters-content">
           <h2>Why this matters to you</h2>
           <p>{{ fieldClpWhyThisMatters }}</p>
-          <a class="usa-button-secondary" href="{{ fieldSecondaryCallToAction.entity.fieldButtonLink.uri }}">
+          <a class="usa-button-secondary" href="{{ fieldSecondaryCallToAction.entity.fieldButtonLink.url.path }}">
             {{ fieldSecondaryCallToAction.entity.fieldButtonLabel }}
           </a>
         </div>
@@ -46,30 +46,54 @@
               <hr />
               <ul>
                 {% for clpAudience in fieldClpAudience %}
-                  <li>
-                    <a href="{{ clpAudience.entity.fieldLink.uri }}" rel="noreferrer noopener">
-                      {{ clpAudience.entity.fieldLink.label }}
-                    </a>
-                  </li>
+                  <li>{{ clpAudience.entity.name }}</li>
                 {% endfor %}
               </ul>
             </div>
           {% endif %}
 
           <!-- Links to social media -->
-          <a class="va-js-share-link" href="https://www.facebook.com/sharer/sharer.php?href={{ hostUrl }}{{ entityUrl.path }}" rel="noreferrer noopener" target="_blank">
-            <i class="va-c-social-icon fab fa-facebook vads-u-margin-right--0p5"></i>Share on Facebook
-          </a>
-          <a class="va-js-share-link" href="https://twitter.com/intent/tweet?text={{ title }}&url={{ hostUrl }}{{ entityUrl.path }}" rel="noreferrer noopener" target="_blank">
-            <i class="va-c-social-icon fab fa-twitter vads-u-margin-right--0p5"></i>Share on Twitter
-          </a>
+          {% include "src/site/includes/social-share.drupal.liquid" %}
         </div>
       </div>
 
       <!-- What You Can Do -->
       <div class="what-you-can-do">
         <h2>WHAT YOU CAN DO</h2>
-        <h3></h3>
+        <h3>{{ fieldClpWhatYouCanDoHeader }}</h3>
+        <p>{{ fieldClpWhatYouCanDoIntro }}</p>
+
+        {% if fieldClpWhatYouCanDoPromos != empty %}
+          <ul class="promos">
+            {% for promo in fieldClpWhatYouCanDoPromos %}
+              <li class="promo">
+                <img alt="{{ promo.entity.fieldImage.entity.thumbnail.alt }}" src="{{ promo.entity.fieldImage.entity.thumbnail.url }}" />
+                <a href="{{ promo.entity.fieldPromoLink.entity.fieldLink.uri }}" rel="noreferrer noopener" target="_blank">
+                  {{ promo.entity.fieldPromoLink.entity.fieldLink.title }}
+                </a>
+                <p>{{ promo.entity.fieldPromoLink.entity.fieldLinkSummary }}</p>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      <!-- Video -->
+      <div class="what-you-can-do">
+        <h2>VIDEO</h2>
+        <h3>{{ fieldClpVideoPanelHeader }}</h3>
+
+        <iframe
+          allowFullScreen
+          frameBorder="0"
+          src="{{ fieldMedia.entity.fieldMediaVideoEmbedField }}"
+          title="{{ fieldMedia.entity.name }}"
+          width="100%"
+        ></iframe>
+
+        <a class="usa-button-secondary" href="{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLink.uri }}" rel="noreferrer noopener" target="_blank">
+          {{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel }}
+        </a>
       </div>
     </div>
 

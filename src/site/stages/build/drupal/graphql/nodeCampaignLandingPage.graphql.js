@@ -550,6 +550,7 @@ module.exports = `
         entityBundle
         entityId
         ... on MediaVideo {
+          fieldMediaVideoEmbedField
           name
           thumbnail {
             height
@@ -567,13 +568,7 @@ module.exports = `
         entityType
         entityBundle
         entityId
-        ... on ParagraphButton {
-          fieldButtonLabel
-          fieldButtonLink {
-            uri
-            title
-          }
-        }
+        ... button
       }
     }
     fieldSecondaryCallToAction {
@@ -581,13 +576,7 @@ module.exports = `
         entityType
         entityBundle
         entityId
-        ... on ParagraphButton {
-          fieldButtonLabel
-          fieldButtonLink {
-            uri
-            title
-          }
-        }
+        ... button
       }
     }
   }
