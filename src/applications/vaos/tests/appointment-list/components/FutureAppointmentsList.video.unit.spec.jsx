@@ -662,7 +662,7 @@ describe('VAOS integration: upcoming ATLAS video appointments', () => {
 
     // Should display appointment location address
     expect(screen.getByText(/114 Dewey Ave/i)).to.be.ok;
-    expect(screen.getByText(/Eureka, MT 59917/i)).to.be.ok;
+    expect(screen.baseElement).to.contain.text('Eureka, MT 59917');
 
     // Should display directions to location
     expect(

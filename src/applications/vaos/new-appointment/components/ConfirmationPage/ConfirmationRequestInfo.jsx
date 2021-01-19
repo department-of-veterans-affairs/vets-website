@@ -5,6 +5,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 import { getTypeOfCare } from '../../redux/selectors';
 import { FACILITY_TYPES, PURPOSE_TEXT } from '../../../utils/constants';
 import FacilityAddress from '../../../components/FacilityAddress';
+import State from '../../../components/State';
 
 function formatBestTime(bestTime) {
   const times = [];
@@ -119,7 +120,9 @@ export default function ConfirmationRequestInfo({
                         )}
                         <br />
                         {data.communityCareProvider.address.city},{' '}
-                        {data.communityCareProvider.address.state}{' '}
+                        <State
+                          state={data.communityCareProvider.address.state}
+                        />{' '}
                         {data.communityCareProvider.address.postalCode}
                         <br />
                       </p>
@@ -143,7 +146,7 @@ export default function ConfirmationRequestInfo({
                         </>
                       ))}
                       {data.communityCareProvider.address.city},{' '}
-                      {data.communityCareProvider.address.state}{' '}
+                      <State state={data.communityCareProvider.address.state} />{' '}
                       {data.communityCareProvider.address.postalCode}
                       <br />
                     </div>
