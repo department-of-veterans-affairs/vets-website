@@ -504,7 +504,7 @@ export function getPractitionerDisplay(participants) {
 }
 
 /**
- * Method to parse out the appointment practitioner of participants array
+ * Method to parse out the appointment practitioner location display in contained array
  * @param {Array} participants An array of appointment participants
  * @return {Object} Returns the appointment practitioner object.
  */
