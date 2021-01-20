@@ -281,7 +281,9 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 aria-controls={`collapsible-${this.id}`}
                 onClick={this.props.toggleButtonClicked}
               >
-                {chapterTitle || ''}
+                {chapterTitle && (
+                  <h3 className="vads-u-font-size--h4">{chapterTitle}</h3>
+                )}
               </button>
               {showUnviewedPageWarning && (
                 <span className="schemaform-review-chapter-warning-icon" />
