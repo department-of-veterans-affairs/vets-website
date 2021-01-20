@@ -7,7 +7,7 @@ import {
   useHistory,
   useLocation,
 } from 'react-router-dom';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import * as actions from '../appointment-list/redux/actions';
 import expressCareReducer from './redux/reducer';
 import { FETCH_STATUS } from '../utils/constants';

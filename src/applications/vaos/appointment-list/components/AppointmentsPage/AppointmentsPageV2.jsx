@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Switch, Route, useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 
-import ScheduleNewAppointment from './ScheduleNewAppointment';
+import ScheduleNewAppointment from './ScheduleNewAppointmentV2';
 import * as actions from '../../redux/actions';
 import { selectExpressCareAvailability } from '../../redux/selectors';
 import {
@@ -19,7 +19,7 @@ import {
 } from '../../../redux/selectors';
 import { GA_PREFIX, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import RequestExpressCare from './RequestExpressCare';
+import RequestExpressCare from './RequestExpressCareV2';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
 import PastAppointmentsList from '../PastAppointmentsList';
 import DowntimeNotification, {
@@ -47,7 +47,6 @@ function AppointmentsPageV2({
   showScheduleButton,
   startNewAppointmentFlow,
   startNewExpressCareFlow,
-  showHomePageRefresh,
 }) {
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -107,7 +106,6 @@ function AppointmentsPageV2({
           isCernerOnlyPatient={isCernerOnlyPatient}
           showCommunityCare={showCommunityCare}
           showDirectScheduling={showDirectScheduling}
-          showHomePageRefresh={showHomePageRefresh}
           startNewAppointmentFlow={() => {
             recordEvent({
               event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
@@ -120,7 +118,6 @@ function AppointmentsPageV2({
         !isCernerOnlyPatient && (
           <RequestExpressCare
             {...expressCare}
-            showHomePageRefresh={showHomePageRefresh}
             startNewExpressCareFlow={() => {
               recordEvent({
                 event: `${GA_PREFIX}-express-care-request-button-clicked`,

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // formation
-import Checkbox from '@department-of-veterans-affairs/formation-react/Checkbox';
+import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 // platform - forms - selectors
 import { preSubmitSelector } from 'platform/forms/selectors/review';
