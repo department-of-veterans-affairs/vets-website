@@ -8,12 +8,18 @@ import {
   fetchFormsSuccess,
   fetchFormsThunk,
   updatePaginationAction,
+  updateResults,
+  updateHowToSort,
+  updateHowToSortThunk,
 } from '../../actions';
 import {
   FETCH_FORMS,
   FETCH_FORMS_FAILURE,
   FETCH_FORMS_SUCCESS,
+  INITIAL_SORT_STATE,
+  UPDATE_HOW_TO_SORT,
   UPDATE_PAGINATION,
+  UPDATE_RESULTS,
 } from '../../constants';
 
 // TODO NEED UPDATE FF ACTIONS ADDED WITH NEW SORTING WORK
@@ -67,6 +73,57 @@ describe('Find VA Forms actions', () => {
     });
   });
 
+  describe('updateResults', () => {
+    it('should return an action in the shape we expect', () => {
+      const results = ['test'];
+      const action = updateResults(results);
+
+      expect(action).to.be.deep.equal({
+        results,
+        type: UPDATE_RESULTS,
+      });
+    });
+  });
+
+  describe('updateHowToSort', () => {
+    it('should return an action in the shape we expect', () => {
+      const howToSort = INITIAL_SORT_STATE;
+      const action = updateHowToSort(howToSort);
+
+      expect(action).to.be.deep.equal({
+        howToSort,
+        type: UPDATE_HOW_TO_SORT,
+      });
+    });
+  });
+
+  describe('updateHowToSortThunk', () => {
+    it('should return an action in the shape we expect', () => {
+      const dispatch = sinon.stub();
+      const howToSort = INITIAL_SORT_STATE;
+      const results = ['test'];
+      const getState = () => {
+        return { findVAFormsReducer: { howToSort, results } };
+      };
+      const thunk = updateHowToSortThunk(howToSort);
+      thunk(dispatch, getState);
+
+      expect(
+        dispatch.firstCall.calledWith({
+          howToSort,
+          type: UPDATE_HOW_TO_SORT,
+        }),
+      ).to.be.true;
+
+      expect(
+        dispatch.secondCall.calledWith({
+          results,
+          type: UPDATE_RESULTS,
+        }),
+      ).to.be.true;
+    });
+  });
+
   describe('fetchFormsThunk', () => {
     let mockedLocation;
     let mockedHistory;
@@ -83,7 +140,11 @@ describe('Find VA Forms actions', () => {
     });
 
     it('updates search params', async () => {
-      const dispatch = () => {};
+      const dispatch = sinon.stub();
+      const getState = () => {
+        const howToSort = INITIAL_SORT_STATE;
+        return { howToSort };
+      };
       const query = 'health';
       const thunk = fetchFormsThunk(query, {
         location: mockedLocation,
@@ -91,7 +152,7 @@ describe('Find VA Forms actions', () => {
         mockRequest: true,
       });
 
-      await thunk(dispatch);
+      await thunk(dispatch, getState);
 
       const replaceStateStub = mockedHistory.replaceState;
 
@@ -101,6 +162,10 @@ describe('Find VA Forms actions', () => {
 
     it('calls dispatch', async () => {
       const dispatch = sinon.stub();
+      const getState = () => {
+        const howToSort = INITIAL_SORT_STATE;
+        return { howToSort };
+      };
       const query = 'health';
       const thunk = fetchFormsThunk(query, {
         location: mockedLocation,
@@ -108,7 +173,7 @@ describe('Find VA Forms actions', () => {
         mockRequest: true,
       });
 
-      await thunk(dispatch);
+      await thunk(dispatch, getState);
 
       expect(
         dispatch.firstCall.calledWith({
