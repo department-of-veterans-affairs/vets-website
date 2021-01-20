@@ -10,16 +10,7 @@ const faqI18Content = {
     langToggleLink: '/coronavirus-veteran-frequently-asked-questions-esp',
   },
 };
-const configureBreadCrumbLinks = currentLang => {
-  const breadCrumbLinks = document.getElementsByClassName('breadcrumb-link');
-  if (!breadCrumbLinks) {
-    return;
-  }
-  for (const link of breadCrumbLinks) {
-    link.lang = currentLang;
-  }
-};
-const configureTranslationLink = (e, currentLang, targetLang) => {
+const configureTranslationLink = (e, targetLang) => {
   e.dataset.lang = targetLang;
   e.lang = targetLang;
   e.innerText = faqI18Content[targetLang].linkTitle;
@@ -32,7 +23,6 @@ const configureTranslationLink = (e, currentLang, targetLang) => {
       targetLang,
     });
   };
-  configureBreadCrumbLinks(currentLang);
 };
 const displayTranslationLink = () => {
   const i18LinkWrapper = document.getElementById('i18-link-wrapper');
@@ -56,9 +46,9 @@ const displayTranslationLink = () => {
   }
   const i18link = document.querySelector('a.i18-toggle');
   if (!isSpanish) {
-    configureTranslationLink(i18link, 'en', 'es');
+    configureTranslationLink(i18link, 'es');
   } else {
-    configureTranslationLink(i18link, 'es', 'en');
+    configureTranslationLink(i18link, 'en');
   }
 };
 
