@@ -7,7 +7,7 @@ import {
   fetchRepresentative,
 } from '../../actions';
 
-import { representative } from '../helpers';
+import { currentRepresentative } from '../helpers';
 
 let fetchMock;
 let oldFetch;
@@ -29,7 +29,7 @@ describe('View Representative', () => {
     fetchMock.returns({
       catch: () => ({
         then: fn =>
-          fn({ ok: true, json: () => Promise.resolve(representative) }),
+          fn({ ok: true, json: () => Promise.resolve(currentRepresentative) }),
       }),
     });
     const thunk = fetchRepresentative();
