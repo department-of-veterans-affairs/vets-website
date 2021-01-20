@@ -199,9 +199,6 @@ if (location.pathname === '/') {
 // translation link
 initTranslation();
 
-// translation link
-initTranslation();
-
 /* eslint-disable no-unused-vars,camelcase */
 const lazyLoad = new LazyLoad({
   elements_selector: '.lazy',
