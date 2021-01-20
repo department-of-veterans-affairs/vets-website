@@ -196,7 +196,7 @@ describe('526 helpers', () => {
   });
 
   describe('makeSchemaForNewDisabilities', () => {
-    it('should return schema with downcased keynames', () => {
+    it('should return schema with originally cased keynames', () => {
       const formData = {
         newDisabilities: [
           {
@@ -206,7 +206,7 @@ describe('526 helpers', () => {
       };
       expect(makeSchemaForNewDisabilities(formData)).to.eql({
         properties: {
-          'ptsd personal trauma': {
+          'Ptsd personal trauma': {
             title: 'Ptsd Personal Trauma',
             type: 'boolean',
           },
@@ -224,7 +224,7 @@ describe('526 helpers', () => {
       };
       expect(makeSchemaForNewDisabilities(formData)).to.eql({
         properties: {
-          'period. period.': {
+          'period. Period.': {
             title: 'Period. Period.',
             type: 'boolean',
           },
@@ -249,7 +249,7 @@ describe('526 helpers', () => {
       };
       expect(makeSchemaForRatedDisabilities(formData)).to.eql({
         properties: {
-          'diabetes mellitus': {
+          'Diabetes mellitus': {
             title: 'Diabetes Mellitus',
             type: 'boolean',
           },
@@ -279,11 +279,11 @@ describe('526 helpers', () => {
       };
       expect(makeSchemaForAllDisabilities(formData)).to.eql({
         properties: {
-          'diabetes mellitus': {
+          'Diabetes mellitus': {
             title: 'Diabetes Mellitus',
             type: 'boolean',
           },
-          'a new condition.': {
+          'A new Condition.': {
             title: 'A New Condition.',
             type: 'boolean',
           },
