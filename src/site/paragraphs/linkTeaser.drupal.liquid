@@ -36,8 +36,10 @@
     {% if link.title != empty %}
       <{{ header }} class="{{ headerClass }}">
         <a href="{{link.url.path}}" class="vads-u-text-decoration--underline"
-            {% if linkTeaser.options["target"] %}target="{{ linkTeaser.options["target"] }}"{% endif %}
-            >
+          {% if linkTeaser.options["target"] %}
+            target="{{ linkTeaser.options["target"] }}"
+          {% endif %}
+        >
           {{ link.title }}
         </a>
       </{{ header }}>
