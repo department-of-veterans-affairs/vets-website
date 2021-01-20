@@ -6,34 +6,42 @@
     {% assign address = fieldAddress %}
     {% assign useParent = true %}
   {% endif %}
+
   {% if single.fieldServiceLocationAddress.entity.fieldClinicName %}
     <h4>
       {{ single.fieldServiceLocationAddress.entity.fieldClinicName }}
     </h4>
   {% endif %}
 
-  {% if address.fieldAddress.addressLine1 and useParent == false %}<p
-      class="vads-u-margin-bottom--0">
-    {{ address.fieldAddress.addressLine1 }}</p>
+  {% if address.fieldAddress.addressLine1 and useParent == false %}
+    <span class="vads-u-margin-bottom--0">
+      {{ address.fieldAddress.addressLine1 }}
+    </span>
   {% else %}
     <span class="vads-u-margin-bottom--0">
-      {{ fieldAddress.addressLine1 }}</span>
+      {{ fieldAddress.addressLine1 }}
+    </span>
   {% endif %}
 
-  {% if address.fieldAddress.addressLine2 and useParent == false %}<p
-      class="vads-u-margin-bottom--0">
-    {{ address.fieldAddress.addressLine2 }}</p>
+  {% if address.fieldAddress.addressLine2 and useParent == false %}
+    <span class="vads-u-margin-bottom--0">
+      {{ address.fieldAddress.addressLine2 }}
+    </span>
   {% else %}
     <span class="vads-u-margin-bottom--0">
-      {{ fieldAddress.addressLine2 }}</span>
+      {{ fieldAddress.addressLine2 }}
+    </span>
   {% endif %}
 
-  {% if address.fieldAddress.organization and useParent == false %}<p
-      class="vads-u-margin-bottom--0">
-    {{ address.fieldAddress.organization }}</p>
+  {% if address.fieldAddress.organization and useParent == false %}
+    <span class="vads-u-margin-bottom--0">
+      {{ address.fieldAddress.organization }}
+    </span>
   {% else %}
     <span class="vads-u-margin-bottom--0">
-      {{ fieldAddress.organization }}</span>{% endif %}
+      {{ fieldAddress.organization }}
+    </span>
+  {% endif %}
 
   {% if single.fieldServiceLocationAddress.entity.fieldBuildingNameNumber %}
     <span class="vads-u-margin-bottom--0">
