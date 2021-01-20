@@ -11,10 +11,14 @@ const loadAppointment = async id => {
       setTimeout(() => {
         import(/* webpackChunkName: "appointment-data" */ './data.json').then(
           module => {
-            const appt = module.default.data.filter(
+            const questionnaire = module.default.data.filter(
               f => f.appointment.id === id,
             )[0];
-            resolve(appt.appointment || module.default.data[0].appointment);
+            if (questionnaire) {
+              resolve(questionnaire.appointment);
+            } else {
+              resolve(module.default.data[0].appointment);
+            }
           },
         );
       }, 0);
