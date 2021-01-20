@@ -12,17 +12,18 @@
 
     {% for crumb in crumbs %}
       {% if forloop.last == true %}
-        <li><a onclick="recordEvent({ 'event': 'nav-breadcrumb', 'breadcrumb-click-label': '{{ crumb.text }}', 'breadcrumb-click-level': '{{ forloop.index }}', 'breadcrumb-total-levels': '{{ crumbs.length }}' });" aria-current="page" href="/{{ path }}">{{ crumb.text }}</a></li>
+        <li><a class="breadcrumb-link" onclick="recordEvent({ 'event': 'nav-breadcrumb', 'breadcrumb-click-label': '{{ crumb.text }}', 'breadcrumb-click-level': '{{ forloop.index }}', 'breadcrumb-total-levels': '{{ crumbs.length }}' });" aria-current="page" href="/{{ path }}">{{ crumb.text }}</a></li>
       {% elsif crumb.url.path %}
         {% if crumb.url.path == '/' %}
           {% if hideHomeBreadcrumb != true %}
             <li>
-              <a href="{{ crumb.url.path }}"
+              <a class="breadcrumb-link"  href="{{ crumb.url.path }}"
                 onclick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });">{{ crumb.text }}</a>
             </li>
           {% endif %}
         {% else %}
           <li><a
+            class="breadcrumb-link" 
             onclick="recordEvent({ 'event': 'nav-breadcrumb', 'breadcrumb-click-label': '{{ crumb.text }}', 'breadcrumb-click-level': '{{ forloop.index }}', 'breadcrumb-total-levels': '{{ crumbs.length }}' });"
             href="{{ crumb.url.path }}">{{ crumb.text }}</a></li>
         {% endif %}
