@@ -63,7 +63,7 @@ describe('VAOS vaccine flow <ConfirmationPage>', () => {
 
     expect(screen.getByText(/Cheyenne VA Medical Center/i)).to.be.ok;
     expect(screen.getByText(/2360 East Pershing Boulevard/i)).to.be.ok;
-    expect(screen.getByText(/Cheyenne, WY 82001-5356/i)).to.be.ok;
+    expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
 
     userEvent.click(screen.getByText(/View your appointments/i));
     expect(screen.history.push.called).to.be.true;
