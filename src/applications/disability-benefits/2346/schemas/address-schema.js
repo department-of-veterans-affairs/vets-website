@@ -19,7 +19,7 @@
  * 1. State/Province/Region - shows up if the country is NOT the US, but NOT required.
  */
 
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import { countries } from 'platform/forms/address';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
