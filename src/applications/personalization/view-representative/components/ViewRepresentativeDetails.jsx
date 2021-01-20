@@ -1,9 +1,9 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import Telephone, {
   CONTACTS,
   PATTERNS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const ViewRepresentativeDetails = props => (
   <>
@@ -110,8 +110,8 @@ export const ViewRepresentativeDetails = props => (
       benefits, but they may charge you for unusual expenses. Representatives
       may charge for their services only after we've made a decision about your
       original claim. Ask up front what fees you'll be charged. If you believe a
-      claims agent or attourney charged a fee that is too high, you can
-      challenge it.
+      claims agent or attorney charged a fee that is too high, you can challenge
+      it.
     </p>
     <div className="help-footer-box">
       <h2
@@ -122,10 +122,10 @@ export const ViewRepresentativeDetails = props => (
       </h2>
 
       <p className="help-talk">
-        Need help filling out the form or have questions about eligibility?
-        Please call VA Benefits and Services at{' '}
-        <Telephone contact={CONTACTS.VA_BENEFITS} />. If you have hearing loss,
-        call TTY:
+        If you have questions about your selected representative, please call
+        our MYVA411 main information line at
+        <Telephone contact={CONTACTS.VA_BENEFITS} /> and select 0. We're here
+        24/7. If you have hearing loss, call TTY:
         <Telephone contact={CONTACTS['711']} pattern={PATTERNS['3_DIGIT']} />.
       </p>
     </div>
