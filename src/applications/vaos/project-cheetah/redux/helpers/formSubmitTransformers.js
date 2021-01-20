@@ -4,6 +4,7 @@ import {
   getChosenClinicInfo,
   getSiteIdForChosenFacility,
   getChosenSlot,
+  selectProjectCheetahFormData,
 } from '../selectors';
 import {
   findCharacteristic,
@@ -14,6 +15,7 @@ import {
 export function transformFormToAppointment(state) {
   const clinic = getChosenClinicInfo(state);
   const siteId = getSiteIdForChosenFacility(state);
+  const data = selectProjectCheetahFormData(state);
   const { timezone = null } = siteId ? getTimezoneBySystemId(siteId) : {};
 
   const slot = getChosenSlot(state);
@@ -38,7 +40,7 @@ export function transformFormToAppointment(state) {
     dateTime: `${slot.start}+00:00`,
     duration: appointmentLength,
     bookingNotes: '',
-    // preferredEmail: data.email,
+    preferredEmail: data.email,
     timeZone: timezone,
     // defaulted values
     apptType: 'P',

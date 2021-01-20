@@ -25,7 +25,7 @@ function ReviewPage({
   systemId,
 }) {
   const history = useHistory();
-  const { date1, date2, vaFacility } = data;
+  const { date1, vaFacility } = data;
 
   useEffect(() => {
     if (history && !vaFacility) {
@@ -48,11 +48,6 @@ function ReviewPage({
       <ul className="usa-unstyled-list">
         <li>
           {moment(date1, 'YYYY-MM-DDTHH:mm:ssZ').format(
-            'dddd, MMMM DD, YYYY [at] h:mm a ',
-          ) + getTimezoneAbbrBySystemId(systemId)}
-        </li>
-        <li>
-          {moment(date2, 'YYYY-MM-DDTHH:mm:ssZ').format(
             'dddd, MMMM DD, YYYY [at] h:mm a ',
           ) + getTimezoneAbbrBySystemId(systemId)}
         </li>
