@@ -21,7 +21,6 @@ import {
   newAndIncrease,
   hasClaimedConditions,
   claimingNew,
-  sippableId,
 } from '../utils';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
@@ -160,10 +159,7 @@ const removeDisability = (deletedElement, formData) => {
       facilities.map(f =>
         set(
           'treatedDisabilityNames',
-          omit(
-            [sippableId(disability.condition)],
-            get('treatedDisabilityNames', f),
-          ),
+          omit([disability.condition], get('treatedDisabilityNames', f)),
           f,
         ),
       ),
@@ -176,11 +172,7 @@ const removeDisability = (deletedElement, formData) => {
     const powDisabilities = get(path, data);
     if (!powDisabilities) return data;
 
-    return set(
-      path,
-      omit([sippableId(disability.condition)], powDisabilities),
-      data,
-    );
+    return set(path, omit([disability.condition], powDisabilities), data);
   };
 
   return removeFromPow(
@@ -191,8 +183,8 @@ const removeDisability = (deletedElement, formData) => {
 
 // Find the old name -> change to new name
 const changeDisabilityName = (oldData, newData, changedIndex) => {
-  const oldId = sippableId(oldData.newDisabilities[changedIndex]?.condition);
-  const newId = sippableId(newData.newDisabilities[changedIndex]?.condition);
+  const oldId = oldData.newDisabilities[changedIndex]?.condition;
+  const newId = newData.newDisabilities[changedIndex]?.condition;
 
   let result = removeDisability(oldData.newDisabilities[changedIndex], newData);
 
