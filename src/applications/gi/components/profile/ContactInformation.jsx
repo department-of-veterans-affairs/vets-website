@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import { ScoContact } from './ScoContact';
 import { phoneInfo } from '../../utils/helpers';
+import environment from 'platform/utilities/environment';
 
 export const ContactInformation = ({ institution }) => {
   const firstProgram = _.get(institution, 'programs[0]', {});
@@ -175,8 +176,10 @@ export const ContactInformation = ({ institution }) => {
       <div>
         {renderSCOHeader()}
         {renderPrimarySCOs()}
-        {primarySCOs.length > 0 && secondarySCOs.length > 0 && <hr />}
-        {renderSecondarySCOs()}
+        {environment.isProduction() &&
+          primarySCOs.length > 0 &&
+          secondarySCOs.length > 0 && <hr />}
+        {environment.isProduction() && renderSecondarySCOs()}
       </div>
     );
 

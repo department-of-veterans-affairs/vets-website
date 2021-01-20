@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash/fp';
 import moment from 'moment';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import vaMedicalFacilities from 'vets-json-schema/dist/vaMedicalFacilities.json';
 
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
@@ -25,9 +25,7 @@ export {
   medicalCenterLabels,
 } from 'platform/utilities/medical-centers/medical-centers';
 
-/*  clean address so we only get address related properties 
-    then return the object as JSON so we can match them
-*/
+// clean address so we only get address related properties then return the object
 const cleanAddressObject = address => {
   // take the address data we want from profile
   const {
@@ -59,6 +57,8 @@ export function prefillTransformer(pages, formData, metadata, state) {
     mailingAddress,
   } = state.user.profile?.vapContactInfo;
 
+  /* mailingAddress === veteranAddress 
+     residentialAddress === veteranHomeAddress */
   const cleanedResidentialAddress = cleanAddressObject(residentialAddress);
   const cleanedMailingAddress = cleanAddressObject(mailingAddress);
   const doesAddressMatch =
@@ -71,21 +71,21 @@ export function prefillTransformer(pages, formData, metadata, state) {
     newData = { ...newData, 'view:isUserInMvi': true };
   }
 
-  if (residentialAddress) {
-    // spread in permanentAddress (residentialAddress) from profile if it exist
-    newData = { ...newData, veteranAddress: cleanedResidentialAddress };
+  if (mailingAddress) {
+    // spread in permanentAddress (mailingAddress) from profile if it exist
+    newData = { ...newData, veteranAddress: cleanedMailingAddress };
   }
 
   /* auto-fill doesPermanentAddressMatchMailing yes/no field
    does not get sent to api due to being a view do not need to guard */
   newData = {
     ...newData,
-    'view:doesPermanentAddressMatchMailing': doesAddressMatch,
+    'view:doesMailingMatchHomeAddress': doesAddressMatch,
   };
 
-  // if hasMailingAddress && addresses are not the same auto fill mailing address
-  if (mailingAddress && !doesAddressMatch) {
-    newData = { ...newData, veteranMailingAddress: cleanedMailingAddress };
+  // if residentialAddress && addresses are not the same auto fill mailing address
+  if (residentialAddress && !doesAddressMatch) {
+    newData = { ...newData, veteranHomeAddress: cleanedResidentialAddress };
   }
 
   return {
@@ -125,7 +125,7 @@ export function transform(formConfig, form) {
   );
   let withoutViewFields = filterViewFields(withoutInactivePages);
   const hasMultipleAddress = form.data['view:hasMultipleAddress'];
-  const addressesMatch = form.data['view:doesPermanentAddressMatchMailing'];
+  const addressesMatch = form.data['view:doesMailingMatchHomeAddress'];
 
   // add back dependents here, because it could have been removed in filterViewFields
   if (!withoutViewFields.dependents) {
@@ -139,12 +139,12 @@ export function transform(formConfig, form) {
 
   // duplicate address before submit if they are the same
   if (hasMultipleAddress && addressesMatch) {
-    withoutViewFields.veteranMailingAddress = withoutViewFields.veteranAddress;
+    withoutViewFields.veteranHomeAddress = withoutViewFields.veteranAddress;
   }
 
   // if feature flip is off remove second address and yes/no question
   if (!hasMultipleAddress) {
-    delete withoutViewFields.veteranMailingAddress;
+    delete withoutViewFields.veteranHomeAddress;
   }
 
   const formData =

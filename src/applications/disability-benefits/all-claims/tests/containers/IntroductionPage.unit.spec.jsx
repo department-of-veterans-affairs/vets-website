@@ -51,7 +51,9 @@ describe('<IntroductionPage/>', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
     const title = wrapper.find('FormTitle');
     expect(title.length).to.equal(1);
-    expect(title.props().title).to.equal(PAGE_TITLES.ALL);
+    expect(title.props().title).to.equal(
+      `${PAGE_TITLES.ALL} with VA Form 21-526EZ`,
+    );
     wrapper.unmount();
   });
 
@@ -65,7 +67,9 @@ describe('<IntroductionPage/>', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
     const title = wrapper.find('FormTitle');
     expect(title.length).to.equal(1);
-    expect(title.props().title).to.equal(PAGE_TITLES.BDD);
+    expect(title.props().title).to.equal(
+      `${PAGE_TITLES.BDD} with VA Form 21-526EZ`,
+    );
     wrapper.unmount();
   });
 

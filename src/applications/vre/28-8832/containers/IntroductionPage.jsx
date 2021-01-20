@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import AlertBox, {
   ALERT_TYPE,
-} from '@department-of-veterans-affairs/formation-react/AlertBox';
-import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+} from '@department-of-veterans-affairs/component-library/AlertBox';
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';

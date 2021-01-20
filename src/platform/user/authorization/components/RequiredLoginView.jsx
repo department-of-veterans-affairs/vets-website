@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intersection } from 'lodash';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import SystemDownView from '@department-of-veterans-affairs/formation-react/SystemDownView';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import SystemDownView from '@department-of-veterans-affairs/component-library/SystemDownView';
 import SubmitSignInForm from '../../../static-data/SubmitSignInForm';
 
 import backendServices from '../../profile/constants/backendServices';
