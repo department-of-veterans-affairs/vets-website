@@ -1,9 +1,9 @@
 // Dependencies.
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import { connect } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';

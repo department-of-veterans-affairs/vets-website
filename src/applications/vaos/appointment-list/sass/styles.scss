@@ -55,3 +55,29 @@
 .vaos-appts__date-time {
   margin: 0 0 16px;
 }
+
+.vaos-appts__card {
+  position: relative;
+  border-radius: 10px;
+  background-color: $color-gray-lightest;
+  padding: 16px;
+  margin-bottom: 16px;
+
+  @include media($medium-screen) {
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+}
+
+.vaos-appts__card-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  @include media($medium-screen) {
+    position: static;
+  }
+}

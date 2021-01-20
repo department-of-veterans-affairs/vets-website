@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import { maskBankInformation, hasNewBankInformation } from '../utils';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 export const accountTitleLabels = {
   CHECKING: 'Checking Account',

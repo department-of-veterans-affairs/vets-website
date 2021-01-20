@@ -1,12 +1,12 @@
 import React from 'react';
 import AlertBox, {
   ALERT_TYPE,
-} from '@department-of-veterans-affairs/formation-react/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+} from '@department-of-veterans-affairs/component-library/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Telephone, {
   CONTACTS,
   PATTERNS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 import { ViewRepresentativeDetails } from './ViewRepresentativeDetails';
 
 const ViewRepresentativeBody = props => {

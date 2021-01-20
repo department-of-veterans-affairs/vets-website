@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import { getCernerURL } from 'platform/utilities/cerner';
