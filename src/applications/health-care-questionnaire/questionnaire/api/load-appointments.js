@@ -11,8 +11,10 @@ const loadAppointment = async id => {
       setTimeout(() => {
         import(/* webpackChunkName: "appointment-data" */ './data.json').then(
           module => {
-            const appt = module.default.data.filter(f => f.data.id === id)[0];
-            resolve(appt || module.default.data[0]);
+            const appt = module.default.data.filter(
+              f => f.appointment.id === id,
+            )[0];
+            resolve(appt.appointment || module.default.data[0].appointment);
           },
         );
       }, 0);
