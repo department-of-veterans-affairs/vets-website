@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import appendQuery from 'append-query';
 
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { hasSession } from 'platform/user/profile/utilities';

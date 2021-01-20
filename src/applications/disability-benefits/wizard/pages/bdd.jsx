@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import Date from '@department-of-veterans-affairs/formation-react/Date';
+import Date from '@department-of-veterans-affairs/component-library/Date';
 import { pageNames } from './pageList';
 
 import unableToFileBDDProduction from './unable-to-file-bdd-production';
@@ -9,12 +9,12 @@ import {
   SAVED_SEPARATION_DATE,
 } from '../../all-claims/constants';
 
-const saveDischargeDate = date => {
+const saveDischargeDate = (date, isBDD) => {
   if (date) {
     const formattedDate = moment(date).format('YYYY-MM-DD');
     window.sessionStorage.setItem(SAVED_SEPARATION_DATE, formattedDate);
     // this flag helps maintain the correct form title within a session
-    window.sessionStorage.setItem(FORM_STATUS_BDD, 'true');
+    window.sessionStorage.setItem(FORM_STATUS_BDD, isBDD ? 'true' : 'false');
   } else {
     window.sessionStorage.removeItem(SAVED_SEPARATION_DATE);
     window.sessionStorage.removeItem(FORM_STATUS_BDD);
@@ -34,10 +34,10 @@ const findNextPage = state => {
     dateDischarge.diff(dateToday, 'days') + 1;
 
   if (differenceBetweenDatesInDays < 90) {
-    saveDischargeDate(dateDischarge);
+    saveDischargeDate(dateDischarge, false);
     return pageNames.fileClaimEarly;
   } else if (differenceBetweenDatesInDays <= 180) {
-    saveDischargeDate(dateDischarge);
+    saveDischargeDate(dateDischarge, true);
     return pageNames.fileBDD;
   }
   saveDischargeDate();
@@ -59,6 +59,9 @@ const defaultState = {
   },
 };
 
+const label =
+  'What’s the date or anticipated date of your release from active duty?';
+
 const isDateComplete = date =>
   date.day.value && date.month.value && date.year.value.length === 4;
 
@@ -76,25 +79,26 @@ const BDDPage = ({ setPageState, state = defaultState, allowBDD }) => {
 
   const onChange = pageState => {
     saveDischargeDate();
-    setPageState(
-      pageState,
+    const value =
       isDateComplete(pageState) && isDateInFuture(pageState)
         ? findNextPage(pageState)
-        : undefined,
-    );
+        : null;
+    setPageState(pageState, value);
   };
 
   return (
-    <Date
-      label="Date or anticipated date of release from active duty"
-      onValueChange={onChange}
-      name="discharge-date"
-      date={state}
-      validation={{
-        valid: isDateInFuture(state),
-        message: 'Your separation date must be in the future',
-      }}
-    />
+    <div className="clearfix">
+      <Date
+        label={label}
+        onValueChange={onChange}
+        name="discharge-date"
+        date={state}
+        validation={{
+          valid: isDateInFuture(state),
+          message: 'Your separation date must be in the future',
+        }}
+      />
+    </div>
   );
 };
 

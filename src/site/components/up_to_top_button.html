@@ -8,20 +8,20 @@ Used as quick navigate back to top for long article pages.
 
 1. To import button, use {% include "src/site/components/up_to_top_button.html" %}.
 2. It needs to be imported as the last component within the div with the "usa-content" class.
-3. JS is located in src/applications/static-pages/scroll-top-button.js
 
 {% endcomment %}
 
-<div class="vsa-top-button-container" data-template="components/up_to_top_button" id="top-button-container">
-    <div class="usa-grid usa-grid-full">
-        <div class="usa-width-three-fourths" id="usa-width-container">
-            <div class="usa-content">
-                <button class="usa-button vads-u-background-color--gray-dark vsa-top-button vads-u-display--flex vads-u-align-items--center">
-                    <i aria-hidden="true" class="fas fa-arrow-up vads-u-margin-right--0 medium-screen:vads-u-margin-right--1p5 medium-screen:vads-u-font-size--sm" role="img"></i>
-                    <p class="vads-u-display--none vads-u-color--white vads-u-margin--0 medium-screen:vads-u-display--block">
-                        Back to top</p>
-                </button>
-            </div>
-        </div>
+<div id="back-to-top-container">
+  <div class="usa-grid usa-grid-full">
+    <div class="usa-width-three-fourths">
+      <div class="usa-content">
+        <button type="button" className="usa-button">
+          <span>
+            <i aria-hidden="true" class="fas fa-arrow-up" role="img"></i>
+          </span>
+          <span>Back to top</span>
+        </button>
+      </div>
     </div>
+  </div>
 </div>

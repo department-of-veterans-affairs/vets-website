@@ -2,7 +2,7 @@ import React from 'react';
 import Telephone, {
   CONTACTS,
   PATTERNS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 const SERVER_ERROR_REGEX = /^5\d{2}$/;
 const CLIENT_ERROR_REGEX = /^4\d{2}$/;

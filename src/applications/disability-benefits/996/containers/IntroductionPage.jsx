@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 import recordEvent from 'platform/monitoring/record-event';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';

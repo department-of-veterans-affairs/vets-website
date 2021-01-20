@@ -1,5 +1,5 @@
 import React from 'react';
-import SegmentedProgressBar from '@department-of-veterans-affairs/formation-react/SegmentedProgressBar';
+import SegmentedProgressBar from '@department-of-veterans-affairs/component-library/SegmentedProgressBar';
 import { orientationSteps } from './utils';
 
 const StepComponent = props => {
