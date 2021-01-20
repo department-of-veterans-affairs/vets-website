@@ -67,12 +67,14 @@ const label =
 const isDateComplete = date =>
   date.day.value && date.month.value && date.year.value.length === 4;
 
-const isDateInFuture = date =>
+const getDate = date =>
   moment({
     day: date.day.value,
     month: parseInt(date.month.value, 10) - 1,
     year: date.year.value,
-  }).diff(moment()) > 0;
+  });
+
+const isDateInFuture = date => date && date.diff(moment()) > 0;
 
 const BDDPage = ({ setPageState, state = defaultState, allowBDD }) => {
   if (!allowBDD) {
@@ -83,10 +85,8 @@ const BDDPage = ({ setPageState, state = defaultState, allowBDD }) => {
 
   const onChange = pageState => {
     saveDischargeDate();
-    const value =
-      isDateComplete(pageState) && isDateInFuture(pageState)
-        ? findNextPage(pageState)
-        : null;
+    const date = isDateComplete(pageState) ? getDate(pageState) : null;
+    const value = isDateInFuture(date) ? findNextPage(pageState) : null;
 
     if (value) {
       recordEvent({
@@ -94,7 +94,7 @@ const BDDPage = ({ setPageState, state = defaultState, allowBDD }) => {
         // Date component wrapper class name
         'form-field-type': 'usa-date-of-birth',
         'form-field-label': label,
-        'form-field-value': value,
+        'form-field-value': date.format('YYYY-MM-DD'),
       });
     }
     setPageState(pageState, value);
@@ -108,7 +108,7 @@ const BDDPage = ({ setPageState, state = defaultState, allowBDD }) => {
         name="discharge-date"
         date={state}
         validation={{
-          valid: isDateInFuture(state),
+          valid: isDateInFuture(getDate(state)),
           message: 'Your separation date must be in the future',
         }}
       />
