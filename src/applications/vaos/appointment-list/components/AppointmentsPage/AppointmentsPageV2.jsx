@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
@@ -69,9 +69,6 @@ function AppointmentsPageV2({
   startNewExpressCareFlow,
 }) {
   const location = useLocation();
-  const [dropdownValue, setDropdownValue] = useState(
-    getDropdownValueFromLocation(location.pathname),
-  );
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -105,8 +102,6 @@ function AppointmentsPageV2({
 
   function onDropdownChange(e) {
     const value = e.target.value;
-    setDropdownValue(value);
-
     if (value === DROPDOWN_VALUES.upcoming) {
       history.push('/');
     } else if (value === DROPDOWN_VALUES.requested) {
@@ -165,7 +160,7 @@ function AppointmentsPageV2({
         options={options}
         onChange={onDropdownChange}
         id="type-dropdown"
-        value={dropdownValue}
+        value={getDropdownValueFromLocation(location.pathname)}
       />
       {routes}
     </>
