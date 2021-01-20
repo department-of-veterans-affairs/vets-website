@@ -5,7 +5,6 @@ import {
 } from '../../redux/selectors';
 import { getAvailableHealthcareServices } from '../../services/healthcare-service';
 import {
-  getLocation,
   getLocationsByTypeOfCareAndSiteIds,
   getSiteIdFromFakeFHIRId,
 } from '../../services/location';
@@ -69,10 +68,6 @@ export const FORM_SUBMIT_SUCCEEDED = 'projectCheetah/FORM_SUBMIT_SUCCEEDED';
 export const FORM_SUBMIT_FAILED = 'projectCheetah/FORM_SUBMIT_FAILED';
 export const FORM_CLINIC_PAGE_OPENED_SUCCEEDED =
   'projectCheetah/FORM_CLINIC_PAGE_OPENED_SUCCEEDED';
-export const FORM_FETCH_FACILITY_DETAILS =
-  'projectCheetah/FORM_FETCH_FACILITY_DETAILS';
-export const FORM_FETCH_FACILITY_DETAILS_SUCCEEDED =
-  'projectCheetah/FORM_FETCH_FACILITY_DETAILS_SUCCEEDED';
 
 export const GA_FLOWS = {
   DIRECT: 'direct',
@@ -356,33 +351,8 @@ export function projectCheetahAppointmentDateChoice(history) {
   };
 }
 
-export function fetchFacilityDetails(facilityId) {
-  let facilityDetails;
-
-  return async dispatch => {
-    dispatch({
-      type: FORM_FETCH_FACILITY_DETAILS,
-    });
-
-    try {
-      facilityDetails = await getLocation({ facilityId });
-    } catch (error) {
-      facilityDetails = null;
-      captureError(error);
-    }
-
-    dispatch({
-      type: FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
-      facilityDetails,
-      facilityId,
-    });
-  };
-}
 export function submitAppointment(history) {
   return async (dispatch, getState) => {
-    const state = getState();
-    const newAppointment = selectProjectCheetahNewBooking(state);
-
     dispatch({
       type: FORM_SUBMIT,
     });
@@ -418,9 +388,6 @@ export function submitAppointment(history) {
         type: FORM_SUBMIT_FAILED,
         isVaos400Error: has400LevelError(error),
       });
-
-      // Remove parse function when converting this call to FHIR service
-      dispatch(fetchFacilityDetails(newAppointment.data.vaFacility));
 
       recordEvent({
         event: `${GA_PREFIX}-direct-submission-failed`,
