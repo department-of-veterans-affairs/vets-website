@@ -11,7 +11,9 @@ export default function AnswerQuestions(props) {
         appointmentTime,
       ).format('MMMM, D, YYYY')}`}
     >
-      <span>{status ? 'Continue questions' : 'Answer questions'}</span>
+      <span data-testid="button-text">
+        {status ? 'Continue questions' : 'Answer questions'}
+      </span>
       <i className={`fa fa-chevron-right`} />
     </a>
   );
