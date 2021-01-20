@@ -8,7 +8,7 @@ import {
   secondSidebarBlock,
   thirdSidebarBlock,
 } from '../components/ViewDependentsSidebar/ViewDependentsSidebarBlockStates/ViewDependentSidebarBlockStates';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { isServerError, isClientError } from '../util';
 import { errorFragment, infoFragment } from './helpers';
 

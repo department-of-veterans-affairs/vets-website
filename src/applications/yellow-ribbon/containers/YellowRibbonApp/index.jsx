@@ -1,6 +1,6 @@
 // Node modules.
 import React from 'react';
-import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.

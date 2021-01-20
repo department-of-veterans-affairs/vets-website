@@ -2,7 +2,6 @@ import React from 'react';
 import environment from 'platform/utilities/environment';
 import { Link } from 'react-router-dom';
 import { FETCH_STATUS } from '../../../utils/constants';
-import classnames from 'classnames';
 
 export default function RequestExpressCare({
   windowsStatus,
@@ -13,7 +12,6 @@ export default function RequestExpressCare({
   localNextAvailableString,
   useNewFlow,
   startNewExpressCareFlow,
-  showHomePageRefresh,
 }) {
   const legacyLink = `https://veteran.apps${
     environment.isProduction() ? '' : '-staging'
@@ -21,26 +19,13 @@ export default function RequestExpressCare({
 
   const buttonText = 'Request Express Care';
 
-  const classNames = classnames({
-    'vads-u-margin-bottom--1p5': showHomePageRefresh,
-    'vads-u-padding--2p5': showHomePageRefresh,
-    'vads-u-background-color--gray-lightest': showHomePageRefresh,
-    'vads-u-padding-y--3': !showHomePageRefresh,
-    'vads-u-border-top--1px': !showHomePageRefresh,
-    'vads-u-border-bottom--1px': !showHomePageRefresh,
-    'vads-u-border-color--gray-lighter': !showHomePageRefresh,
-  });
-
   if (!enabled || windowsStatus !== FETCH_STATUS.succeeded || !hasWindow) {
     return null;
   }
 
   if (allowRequests) {
     return (
-      <div
-        className={classNames}
-        style={showHomePageRefresh ? { borderRadius: '15px' } : {}}
-      >
+      <div className="vads-u-padding-y--3 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
         <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
           Request a new Express Care appointment
         </h2>
@@ -72,10 +57,7 @@ export default function RequestExpressCare({
   }
 
   return (
-    <div
-      className={classNames}
-      style={showHomePageRefresh ? { borderRadius: '15px' } : {}}
-    >
+    <div className="vads-u-padding-y--3 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
       <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
         Express Care isn’t available right now
       </h2>

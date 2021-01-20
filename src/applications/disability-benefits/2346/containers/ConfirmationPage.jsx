@@ -1,4 +1,4 @@
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';

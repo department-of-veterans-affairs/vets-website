@@ -1,6 +1,6 @@
 import React from 'react';
 import ReviewCardField from '../../components/ReviewCardField';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import ContactInfoCard from '../../components/ContactInfoCard';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';

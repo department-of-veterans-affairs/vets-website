@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import TextInput from '@department-of-veterans-affairs/formation-react/TextInput';
+import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 
 const ShowPdfPassword = ({ file, index, onSubmitPassword }) => {
   const [fieldObj, setFieldObj] = useState({
