@@ -12,6 +12,7 @@ import { getTimezoneAbbrBySystemId } from '../../utils/timezone';
 import { getRealFacilityId } from '../../utils/appointment';
 import { getReviewPage } from '../redux/selectors';
 import flow from '../flow';
+import State from '../../components/State';
 
 const pageTitle = 'Review your appointment details';
 
@@ -68,7 +69,7 @@ function ReviewPage({
             <h3 className="vaos-appts__block-label">{clinic.serviceName}</h3>
             {facility.name}
             <br />
-            {facility.address?.city}, {facility.address?.state}
+            {facility.address?.city}, <State state={facility.address?.state} />
           </div>
           <div>
             <Link to={flow.vaFacility.url} aria-label="Edit facility">

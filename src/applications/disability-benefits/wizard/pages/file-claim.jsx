@@ -1,5 +1,7 @@
 import React from 'react';
 
+import recordEvent from 'platform/monitoring/record-event';
+
 import { pageNames } from './pageList';
 import { formStartButton } from '../wizard-utils';
 
@@ -17,9 +19,21 @@ const FileClaimPage = ({ setWizardStatus }) => {
         setWizardStatus,
         label,
         ariaId: 'other_ways_to_file_526',
+        eventReason:
+          'wizard completed, starting 526 disability compensation flow',
       })}
       <p id="other_ways_to_file_526" className="vads-u-margin-bottom--0">
-        <a href="/disability/how-to-file-claim/">{linkText}</a>
+        <a
+          href="/disability/how-to-file-claim/"
+          onClick={() => {
+            recordEvent({
+              event: 'howToWizard-alert-link-click',
+              'howToWizard-alert-link-click-label': linkText,
+            });
+          }}
+        >
+          {linkText}
+        </a>
       </p>
     </div>
   );
