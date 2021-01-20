@@ -754,11 +754,32 @@ const formConfig = {
             'ui:title': 'Spouse’s information',
             'ui:description':
               'Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.',
-            spouseFullName: fullNameUI,
-            spouseSocialSecurityNumber: _.merge(ssnUI, {
+            spouseFullName: {
+              ...fullNameUI,
+              first: {
+                'ui:title': 'Spouse’s first name',
+                'ui:errorMessages': {
+                  required: 'Please enter a first name',
+                },
+              },
+              last: {
+                'ui:title': 'Spouse’s last name',
+                'ui:errorMessages': {
+                  required: 'Please enter a last name',
+                },
+              },
+              middle: {
+                'ui:title': 'Spouse’s middle name',
+              },
+              suffix: {
+                'ui:title': 'Spouse’s suffix',
+              },
+            },
+            spouseSocialSecurityNumber: {
+              ...ssnUI,
               'ui:title': 'Spouse’s Social Security number',
-            }),
-            spouseDateOfBirth: currentOrPastDateUI('Date of birth'),
+            },
+            spouseDateOfBirth: currentOrPastDateUI('Spouse’s date of birth'),
             dateOfMarriage: _.assign(currentOrPastDateUI('Date of marriage'), {
               'ui:validations': [validateMarriageDate],
             }),
