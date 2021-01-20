@@ -29,6 +29,7 @@ yalc.lock
 package-lock.json
 src/applications/proxy-rewrite/tests/__image_snapshots__/__diff_output__/
 temp
+dump.rdb
 
 # Ignore user's editor/IDE prefs
 .vscode/
@@ -48,5 +49,7 @@ all-links.csv
 standaloneContentBuildHash.txt
 websiteContentBuildHash.txt
 
+cms.diff
+graphql-data.json
 
 

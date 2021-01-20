@@ -5,7 +5,7 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import FormButtons from '../../components/FormButtons';
 
-import { getFormPageInfo } from '../../utils/selectors';
+import { getFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { useHistory } from 'react-router-dom';
 import * as actions from '../redux/actions';
@@ -112,22 +112,23 @@ export function ContactInfoPage({
   return (
     <div>
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-
-      <SchemaForm
-        name="Contact info"
-        title="Contact info"
-        schema={schema || initialSchema}
-        uiSchema={uiSchema}
-        onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
-        onChange={newData => updateFormData(pageKey, uiSchema, newData)}
-        data={data}
-      >
-        <FormButtons
-          onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
-          pageChangeInProgress={pageChangeInProgress}
-          loadingText="Page change in progress"
-        />
-      </SchemaForm>
+      {!!schema && (
+        <SchemaForm
+          name="Contact info"
+          title="Contact info"
+          schema={schema}
+          uiSchema={uiSchema}
+          onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
+          onChange={newData => updateFormData(pageKey, uiSchema, newData)}
+          data={data}
+        >
+          <FormButtons
+            onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+            pageChangeInProgress={pageChangeInProgress}
+            loadingText="Page change in progress"
+          />
+        </SchemaForm>
+      )}
     </div>
   );
 }

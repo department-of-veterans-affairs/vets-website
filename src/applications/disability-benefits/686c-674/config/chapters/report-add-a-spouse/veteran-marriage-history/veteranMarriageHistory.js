@@ -11,6 +11,9 @@ export const uiSchema = {
     'ui:title': youMarriedBeforeTitle,
     'ui:widget': 'yesNo',
     'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
+    'ui:options': {
+      useDlWrap: true,
+    },
   },
   veteranMarriageHistory: {
     'ui:title': (
@@ -24,6 +27,7 @@ export const uiSchema = {
       expandUnderCondition: true,
       keepInPageOnReview: true,
       itemName: 'former spouse',
+      customTitle: ' ',
       updateSchema: () => ({
         minItems: 1,
       }),
@@ -31,22 +35,37 @@ export const uiSchema = {
     items: {
       fullName: {
         'ui:validations': [validateName],
+        'ui:options': {
+          useDlWrap: true,
+        },
         first: {
           'ui:title': 'Former spouse’s first name',
           'ui:errorMessages': { required: 'Please enter a first name' },
           'ui:required': formData => formData.veteranWasMarriedBefore,
+          'ui:options': {
+            useDlWrap: true,
+          },
         },
         middle: {
           'ui:title': 'Former spouse’s middle name',
+          'ui:options': {
+            useDlWrap: true,
+          },
         },
         last: {
           'ui:title': 'Former spouse’s last name',
           'ui:errorMessages': { required: 'Please enter a last name' },
           'ui:required': formData => formData.veteranWasMarriedBefore,
+          'ui:options': {
+            useDlWrap: true,
+          },
         },
         suffix: {
           'ui:title': 'Former spouse’s suffix',
-          'ui:options': { widgetClassNames: 'form-select-medium' },
+          'ui:options': {
+            widgetClassNames: 'form-select-medium',
+            useDlWrap: true,
+          },
         },
       },
     },

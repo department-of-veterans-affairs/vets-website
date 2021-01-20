@@ -16,10 +16,9 @@ import {
   showModal,
 } from '../actions';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
-import environment from 'platform/utilities/environment';
 import VetTecProgramSearchResult from '../components/vet-tec/VetTecProgramSearchResult';
 import VetTecSearchForm from '../components/vet-tec/VetTecSearchForm';
 import ServiceError from '../components/ServiceError';
@@ -146,21 +145,17 @@ function VetTecSearchPage({
   const queryFilterFields = getQueryFilterFields();
   useEffect(
     () => {
-      if (
-        !search.inProgress &&
-        !_.isEqual(search.query, queryFilterFields.query)
-      ) {
+      if (!search.inProgress) {
         dispatchInstitutionFilterChange(queryFilterFields.institutionFilter);
         dispatchFetchProgramSearchResults(queryFilterFields.query);
       }
     },
-    [location.search, queryFilterFields.query],
+    [!_.isEqual(search.query, queryFilterFields.query)],
   );
 
   useEffect(
     () => {
-      // prod flag for bah-8821
-      if (environment.isProduction() || !isMobileView()) {
+      if (!isMobileView()) {
         scroller.scrollTo('searchPage', getScrollOptions());
       }
     },

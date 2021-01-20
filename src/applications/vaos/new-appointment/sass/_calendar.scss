@@ -101,9 +101,13 @@
   margin-bottom: 11px;
 }
 
+.vaos-calendar__nav h2 {
+  white-space: nowrap;
+}
+
 .vaos-calendar__nav-links-button {
-  margin-top: -30px;
   background: none;
+  align-items: center;
 
   &:disabled {
     color: $color-gray-light !important;
@@ -115,25 +119,37 @@
   }
 }
 
+.vaos-calendar__nav-links-button i {
+  font-size: 22px;
+  padding-top: 2px;
+}
+
 .vaos-calendar__options-container {
   position: absolute;
   width: 100%;
   left: 0;
-  margin-top: 8px;
+  margin-top: 15px;
 }
 
 .vaos-calendar__options {
   display: flex;
   flex-wrap: wrap;
-  margin: 0;
+  margin: 0 4px;
+
+  @include media($small-screen) {
+    margin: 0 8px;
+  }
 }
 
 .vaos-calendar__option-cell {
-  padding: 8px;
+  padding: 0 8px 16px 8px;
   width: 50%;
+  min-width: 120px;
+  background-color: $color-primary;
+  position: relative;
 
   @include media($small-screen) {
-    width: 33%;
+    width: 33.3%;
   }
 
   @include media($small-desktop-screen) {
@@ -141,17 +157,26 @@
   }
 
   @include media($large-screen) {
-    width: 20%;
+    width: 25%;
   }
+}
+
+.vaos-calendar__option-cell--last:after {
+  content: "";
+  background-color: $color-primary;
+  width: 8px;
+  height: 100%;
+  border-bottom-right-radius: 5px;
+  position: absolute;
+  top: 0;
+  right: -8px;
 }
 
 .vaos-calendar__option {
   display: flex;
-  justify-content: center;
-  align-items: center;
   border: 1px solid $color-primary;
   border-radius: 5px;
-  padding: 8px 4px;
+  justify-content: center;
 
   input[type="radio"],
   input[type="checkbox"] {
@@ -181,4 +206,33 @@
       cursor: not-allowed;
     }
   }
+}
+
+.vaos-calendar__option--checkbox {
+  flex: 1;
+  flex-direction: column;
+  padding: 7px 10px;
+  min-width: 105px;
+}
+
+.vaos-calendar__option--radio {
+  display: block;
+  padding: 8px;
+  background-color: $color-white;
+}
+
+.vaos-u-border-radius--top-left {
+  border-top-left-radius: 5px;
+}
+
+.vaos-u-border-radius--top-right {
+  border-top-right-radius: 5px;
+}
+
+.vaos-u-border-radius--bottom-right {
+  border-bottom-right-radius: 5px;
+}
+
+.vaos-u-border-radius--bottom-left {
+  border-bottom-left-radius: 5px;
 }

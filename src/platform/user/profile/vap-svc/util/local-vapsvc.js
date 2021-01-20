@@ -6,6 +6,7 @@ export function isVAProfileServiceConfigured() {
     // using the existence of VetsGov.pollTimeout as an indicator that we are
     // running unit tests and therefore _do_ want the FE to make real API calls
     window.VetsGov.pollTimeout ||
+    window.Cypress ||
     [
       'dev.va.gov',
       'preview.va.gov',
@@ -135,6 +136,14 @@ function asyncReturn(returnValue, delay = 300) {
   });
 }
 
+function asyncReject(returnValue, delay = 300) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject(returnValue);
+    }, delay);
+  });
+}
+
 export default {
   getUserTransactions() {
     const data = [
@@ -166,7 +175,7 @@ export default {
     });
   },
   createTransactionFailure() {
-    return asyncReturn(
+    return asyncReject(
       {
         errors: [
           {
@@ -500,7 +509,7 @@ export default {
     );
   },
   addressValidationError() {
-    return asyncReturn(
+    return asyncReject(
       {
         errors: [
           {
@@ -523,6 +532,7 @@ export default {
       1000,
     );
   },
+
   addressValidationSuccess() {
     return asyncReturn(
       {

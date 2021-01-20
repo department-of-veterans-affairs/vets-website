@@ -2,7 +2,6 @@ import React from 'react';
 import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
 import {
   AppointmentPreferencesInformation,
-  TeleCounselingInformation,
   VreCommunicationInformation,
   validateAtLeastOneSelected,
 } from './helpers';
@@ -24,10 +23,6 @@ export const schema = {
       properties: {},
     },
     useEva,
-    'view:TeleCounselingInformation': {
-      type: 'object',
-      properties: {},
-    },
     useTelecounseling,
     'view:AppointmentPreferencesInformation': {
       type: 'object',
@@ -49,30 +44,15 @@ export const uiSchema = {
         Are you interested in using <strong>e-VA?</strong>
       </p>
     ),
-    'ui:options': {
-      labels: {
-        Y: 'Yes',
-        N: 'No, not right now',
-      },
-    },
-  },
-  'view:TeleCounselingInformation': {
-    'ui:options': { showFieldLabel: false },
-    'ui:description': TeleCounselingInformation,
   },
   useTelecounseling: {
     'ui:widget': 'yesNo',
     'ui:options': {
       classNames: 'vads-u-margin-top--1',
-      labels: {
-        Y: 'Yes',
-        N: 'No, not right now',
-      },
     },
     'ui:title': (
       <p className={titleClasses}>
-        Are you interested in using <strong>Tele-counseling</strong> to meet
-        with your VR&E counselor?
+        Are you interested in using <strong>Tele-counseling?</strong>
       </p>
     ),
   },
@@ -83,9 +63,9 @@ export const uiSchema = {
   appointmentTimePreferences: {
     'ui:title': (
       <p className="vads-u-margin--0 vads-u-margin-top--3 vads-u-display--inline-block vads-u-font-weight--normal vads-u-color--base vads-u-font-family--sans vads-u-font-size--base">
-        When are the best times to meet with your VR&E counselor?{' '}
+        When are the best times to meet with your counselor?{' '}
         <span className="schemaform-required-span vads-u-display--block">
-          (*At lease one required)
+          (*Choose at least 1)
         </span>
       </p>
     ),
@@ -94,18 +74,25 @@ export const uiSchema = {
       // this needed because ObjectField adds the schemaform-block class to this, which creates a huge top margin.
       classNames: 'vads-u-margin-top--neg2',
       showFieldLabel: true,
+      forceDivWrapper: true,
     },
     morning: {
       'ui:title': 'Mornings 6:00 to 10:00 a.m.',
+      'ui:options': {
+        hideEmptyValueInReview: true,
+      },
     },
     midDay: {
       'ui:title': 'Midday 10:00 a.m. to 2:00 p.m.',
+      'ui:options': {
+        hideEmptyValueInReview: true,
+      },
     },
     afternoon: {
       'ui:title': 'Afternoons 2:00 to 6:00 p.m.',
-    },
-    other: {
-      'ui:title': 'Other times',
+      'ui:options': {
+        hideEmptyValueInReview: true,
+      },
     },
   },
 };

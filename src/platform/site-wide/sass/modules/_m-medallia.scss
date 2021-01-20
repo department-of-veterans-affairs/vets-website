@@ -1,3 +1,5 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
 /* Fonts */
 #liveForm .ng-binding,
 #liveForm div > span,
@@ -11,7 +13,7 @@
 
 /* Radio buttons background color */
 .neb-content md-radio-group div.radio md-radio-button ._md-on {
-  background-color: #0071bc !important;
+  background-color: $color-blue !important;
 }
 
 /* Update rating button shape */

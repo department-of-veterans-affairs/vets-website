@@ -5,7 +5,6 @@
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 const healthCareLocalFacilities = require('./facilities-fragments/healthCareLocalFacility.node.graphql');
 const healthCareRegionHealthServices = require('./facilities-fragments/healthCareRegionHealthServices.node.graphql');
-const healthCareRegionFeaturedHealthServices = require('./facilities-fragments/healthCareRegionFeaturedHealthServces.node.graphql');
 const healthCareRegionNewsStories = require('./facilities-fragments/healthCareRegionNewsStories.node.graphql');
 const healthCareRegionEvents = require('./facilities-fragments/healthCareRegionEvents.node.graphql');
 
@@ -74,11 +73,7 @@ module.exports = `
     }
     ${healthCareLocalFacilities}
     fieldOtherVaLocations
-    ${healthCareRegionFeaturedHealthServices}
     ${healthCareRegionHealthServices}
-    fieldPressReleaseBlurb {
-      processed
-    }
     eventTeasersAll: reverseFieldOfficeNode(limit: 1000, filter: {conditions: [{field: "type", value: "event_listing"}]}) {
       entities {
         ... on NodeEventListing {

@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import sinon from 'sinon';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 

@@ -255,11 +255,22 @@ export function getClaimDetail(id, router, poll = pollRequest) {
     });
     poll({
       onError: response => {
+        /* Claim status development
+           comment out the next block of code to access the claim status, file &
+           details tabs for development
+        /* * /
+        return dispatch({
+          type: SET_CLAIM_DETAIL,
+          claim: response.data,
+          meta: response.meta,
+        });
+        /* */
         if (response.status !== 404 || !router) {
           dispatch({ type: SET_CLAIMS_UNAVAILABLE });
         } else {
           router.replace('your-claims');
         }
+        /* */
       },
       onSuccess: response =>
         dispatch({
@@ -307,10 +318,11 @@ export function resetUploads() {
   };
 }
 
-export function addFile(files) {
+export function addFile(files, { isEncrypted = false } = {}) {
   return {
     type: ADD_FILE,
     files,
+    isEncrypted,
   };
 }
 
@@ -424,8 +436,9 @@ export function submitFiles(claimId, trackedItem, files) {
                 });
                 dispatch(
                   setAdditionalEvidenceNotification({
-                    title: 'Error uploading files',
+                    title: `Error uploading ${hasError?.fileName || 'files'}`,
                     body:
+                      hasError?.errors?.[0]?.title ||
                       'There was an error uploading your files. Please try again',
                     type: 'error',
                   }),
@@ -456,16 +469,15 @@ export function submitFiles(claimId, trackedItem, files) {
                 ),
               });
             },
-            onError: (id, name, reason) => {
-              const errorCode = reason.substr(-3);
-              // this is a little hackish, but uploader expects a json response
-              if (!errorCode.startsWith('2')) {
-                hasError = true;
-              }
-              if (errorCode === '401') {
+            onError: (_id, fileName, _reason, { response, status }) => {
+              if (status === 401) {
                 dispatch({
                   type: SET_UNAUTHORIZED,
                 });
+              }
+              if (status < 200 || status > 299) {
+                hasError = JSON.parse(response || '{}');
+                hasError.fileName = fileName;
               }
             },
           },
@@ -480,10 +492,11 @@ export function submitFiles(claimId, trackedItem, files) {
         });
 
         /* eslint-disable camelcase */
-        files.forEach(({ file, docType }) => {
+        files.forEach(({ file, docType, password }) => {
           uploader.addFiles(file, {
             tracked_item_id: trackedItemId,
             document_type: docType.value,
+            password: password.value,
           });
         });
         /* eslint-enable camelcase */

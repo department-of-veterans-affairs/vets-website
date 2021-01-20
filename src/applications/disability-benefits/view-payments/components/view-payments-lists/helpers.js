@@ -9,6 +9,7 @@ export const paymentsReceivedFields = [
   {
     label: 'Amount',
     value: 'payCheckAmount',
+    alignRight: true,
   },
   {
     label: 'Type',
@@ -25,25 +26,28 @@ export const paymentsReceivedFields = [
   {
     label: 'Account',
     value: 'accountNumber',
+    alignRight: true,
   },
 ];
 
 export const paymentsReturnedFields = [
   {
-    label: 'Issue Date',
+    label: 'Issue date',
     value: 'returnedCheckIssueDt',
   },
   {
-    label: 'Cancel Date',
+    label: 'Cancel date',
     value: 'returnedCheckCancelDt',
   },
   {
     label: 'Amount',
     value: 'returnedCheckAmount',
+    alignRight: true,
   },
   {
     label: 'Check #',
     value: 'returnedCheckNumber',
+    alignRight: true,
   },
   {
     label: 'Type',
@@ -64,13 +68,11 @@ export const clientServerErrorContent = receivedOrReturned => (
 
 export const paymentsReceivedContent = (
   <>
-    <h3 id="paymentsRecievedHeader" className="vads-u-font-size--xl">
-      Payments you received
-    </h3>
+    <h2 id="paymentsRecievedHeader">Payments you received</h2>
     <p id="paymentsRecievedContent">
       We pay benefits on the first day of the month for the previous month. If
       the first day of the month is a weekend or holiday, we pay benefits on the
-      last business day before the 1st. For example, if May 1 is a Saturday,
+      last business day before the first. For example, if May 1 is a Saturday,
       we’d pay benefits on Friday, April 30.
     </p>
   </>
@@ -78,12 +80,10 @@ export const paymentsReceivedContent = (
 
 export const paymentsReturnedContent = (
   <>
-    <h3 id="paymentsReturnedHeader" className="vads-u-font-size--xl">
-      Payments returned
-    </h3>
+    <h2 id="paymentsReturnedHeader">Payments returned</h2>
     <p id="paymentsReturnedContent">
-      Returned payment information is available for 6 years from the date the
-      payment was issued.
+      Returned payment information is available for 6 years from the date we
+      issued the payment.
     </p>
   </>
 );

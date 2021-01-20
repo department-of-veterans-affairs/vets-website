@@ -47,6 +47,7 @@ describe('eligibility reducer', () => {
       },
     );
 
+    delete state.timestamp;
     expect(state).to.eql({ ...initialState, giBillChapter: '30' });
   });
 

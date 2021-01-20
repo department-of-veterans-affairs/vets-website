@@ -10,7 +10,8 @@ import {
 import {
   selectUseFlatFacilityPage,
   selectIsCernerOnlyPatient,
-} from '../utils/selectors';
+  selectUseProviderSelection,
+} from '../redux/selectors';
 import newAppointmentReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
 import TypeOfCarePage from './components/TypeOfCarePage';
@@ -25,6 +26,8 @@ import DateTimeSelectPage from './components/DateTimeSelectPage';
 import VAFacilityPage from './components/VAFacilityPage';
 import VAFacilityPageV2 from './components/VAFacilityPage/VAFacilityPageV2';
 import CommunityCarePreferencesPage from './components/CommunityCarePreferencesPage';
+import CommunityCareLanguagePage from './components/CommunityCareLanguagePage';
+import CommunityCareProviderSelectionPage from './components/CommunityCareProviderSelectionPage';
 import ClinicChoicePage from './components/ClinicChoicePage';
 import ReasonForAppointmentPage from './components/ReasonForAppointmentPage';
 import ReviewPage from './components/ReviewPage';
@@ -47,6 +50,7 @@ function onBeforeUnload(e) {
 function NewAppointmentSection({
   flatFacilityPageEnabled,
   isCernerOnlyPatient,
+  providerSelectionEnabled,
 }) {
   const match = useRouteMatch();
   const history = useHistory();
@@ -140,10 +144,24 @@ function NewAppointmentSection({
             component={VAFacilityPageV2}
           />
         )}
-        <Route
-          path={`${match.url}/community-care-preferences`}
-          component={CommunityCarePreferencesPage}
-        />
+        {!providerSelectionEnabled && (
+          <Route
+            path={`${match.url}/community-care-preferences`}
+            component={CommunityCarePreferencesPage}
+          />
+        )}
+        {providerSelectionEnabled && (
+          <Route
+            path={`${match.url}/community-care-preferences`}
+            component={CommunityCareProviderSelectionPage}
+          />
+        )}
+        {providerSelectionEnabled && (
+          <Route
+            path={`${match.url}/community-care-language`}
+            component={CommunityCareLanguagePage}
+          />
+        )}
         <Route path={`${match.url}/clinics`} component={ClinicChoicePage} />
         <Route
           path={`${match.url}/reason-appointment`}
@@ -164,6 +182,7 @@ function mapStateToProps(state) {
   return {
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     flatFacilityPageEnabled: selectUseFlatFacilityPage(state),
+    providerSelectionEnabled: selectUseProviderSelection(state),
   };
 }
 

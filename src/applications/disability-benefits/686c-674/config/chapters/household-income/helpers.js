@@ -1,5 +1,6 @@
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import React from 'react';
+import { NETWORTH_VALUE } from '../../constants';
 
 export const netWorthCalculation = (
   <>
@@ -20,6 +21,7 @@ export const netWorthCalculation = (
 
 export const netWorthTitle = (
   <p>
-    Is your <strong>net worth</strong> less than $129,094?
+    Did the household have a <strong>net worth</strong> greater than $
+    {NETWORTH_VALUE} in the last tax year?
   </p>
 );

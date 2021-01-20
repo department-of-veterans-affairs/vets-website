@@ -6,7 +6,6 @@ import Downshift from 'downshift';
 import classNames from 'classnames';
 import { WAIT_INTERVAL, KEY_CODES } from '../../constants';
 import { handleScrollOnInputFocus } from '../../utils/helpers';
-import environment from 'platform/utilities/environment';
 
 export class KeywordSearch extends React.Component {
   constructor(props) {
@@ -62,10 +61,7 @@ export class KeywordSearch extends React.Component {
   };
 
   handleFocus = () => {
-    // prod flag for bah-8821
-    if (!environment.isProduction()) {
-      handleScrollOnInputFocus('keyword-search');
-    }
+    handleScrollOnInputFocus('keyword-search');
   };
 
   render() {

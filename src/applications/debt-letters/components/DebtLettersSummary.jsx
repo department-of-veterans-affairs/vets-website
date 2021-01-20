@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
 import { OnThisPageLinks } from './OnThisPageLinks';
 import DebtCardsList from './DebtCardsList';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import Telephone, {
+  CONTACTS,
+  PATTERNS,
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 class DebtLettersSummary extends Component {
   componentDidMount() {
@@ -44,9 +46,9 @@ class DebtLettersSummary extends Component {
 
     const renderEmptyAlert = () => (
       <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3">
-        <h4 className="vads-u-font-family--serif vads-u-margin-top--0">
+        <h2 className="vads-u-font-family--serif vads-u-margin-top--0 vads-u-font-size--h4">
           Our records show that you don't have any current debts
-        </h4>
+        </h2>
         <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
           If you believe that you have a debt with the VA, call the Debt
           Management Center at <Telephone contact="8008270648" />
@@ -60,24 +62,6 @@ class DebtLettersSummary extends Component {
       </div>
     );
 
-    const bannerContent = (
-      <>
-        <p>
-          We’ve taken action to stop collection on newly established Veteran
-          debt and make it easier for Veterans to request extended repayment
-          plans and address other financial needs during this time.
-        </p>
-        <p>
-          You won’t receive any debt collection letters in the mail until after
-          December 31, 2020. For the latest information about managing VA debt,
-          visit our{' '}
-          <a href="http://va.gov/coronavirus-veteran-frequently-asked-questions/">
-            coronavirus FAQs
-          </a>
-          .
-        </p>
-      </>
-    );
     const { isError, isVBMSError, debts, debtLinks } = this.props;
     const allDebtsFetchFailure = isVBMSError && isError;
     const allDebtsEmpty =
@@ -105,13 +89,40 @@ class DebtLettersSummary extends Component {
               {allDebtsEmpty && renderEmptyAlert()}
               {!allDebtsFetchFailure && (
                 <>
-                  <AlertBox
-                    className="vads-u-margin-bottom--2"
-                    headline="VA debt collection is on hold due to the coronavirus"
-                    content={bannerContent}
-                    status="info"
-                    isVisible
-                  />
+                  <div className="usa-alert usa-alert-info  vads-u-padding--3 vads-u-margin-top--3">
+                    <div className="usa-alert-body ">
+                      <h2 className="usa-alert-heading vads-u-font-size--h3">
+                        We’re collecting again on VA debt
+                      </h2>
+                      <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
+                        On April 3, 2020, we paused collections on new VA debt.
+                        On <strong>January 1, 2021</strong>, we started to send
+                        out debt collection letters again. If we granted you an
+                        extension due to COVID-19, we’ll start collection again
+                        on <strong>February 1, 2021</strong>.
+                      </p>
+                      <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
+                        If you can’t make your payments, we can help. To avoid
+                        late charges, interest, or other collection actions,
+                        make a payment or request help now. Call us at{' '}
+                        {<Telephone contact={CONTACTS.DMC || '800-827-0648'} />}{' '}
+                        (or{' '}
+                        {
+                          <Telephone
+                            contact={CONTACTS.DMC_OVERSEAS || '1-612-713-6415'}
+                            pattern={PATTERNS.OUTSIDE_US}
+                          />
+                        }{' '}
+                        from overseas) We’re here Monday through Friday, 7:30
+                        a.m. to 7:00 p.m. ET. Or send us a question through our{' '}
+                        <a href="https://iris.custhelp.va.gov/app/ask">
+                          {' '}
+                          online question form (called IRIS)
+                        </a>
+                      </p>
+                    </div>
+                  </div>
+
                   <OnThisPageLinks />
                   <DebtCardsList />
                 </>

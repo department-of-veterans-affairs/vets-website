@@ -17,7 +17,6 @@ import {
   updateFacilityPageData,
   updateReasonForAppointmentData,
   openTypeOfCarePage,
-  openClinicPage,
   openCommunityCarePreferencesPage,
   getAppointmentSlots,
   onCalendarChange,
@@ -41,8 +40,6 @@ import {
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   FORM_ELIGIBILITY_CHECKS_FAILED,
-  FORM_CLINIC_PAGE_OPENED,
-  FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
@@ -464,7 +461,10 @@ describe('VAOS newAppointment actions', () => {
                     value: '983GC',
                   },
                 ],
-                legacyVAR: {},
+                legacyVAR: {
+                  directSchedulingSupported: { 323: true },
+                  requestSupported: { 323: true },
+                },
               },
             ],
           },
@@ -798,36 +798,6 @@ describe('VAOS newAppointment actions', () => {
     });
   });
 
-  describe('openClinicPage', () => {
-    it('should fetch facility info', async () => {
-      const dispatch = sinon.spy();
-      const previousState = {
-        newAppointment: {
-          data: {
-            typeOfCareId: '323',
-            vaParent: 'var983',
-            vaFacility: 'var983',
-          },
-          pages: {},
-          parentFacilitiesStatus: FETCH_STATUS.notStarted,
-          parentFacilities: null,
-          facilities: {},
-          eligibility: {},
-        },
-      };
-
-      const getState = () => previousState;
-
-      const thunk = openClinicPage('clinicChoice');
-      await thunk(dispatch, getState);
-
-      expect(dispatch.firstCall.args[0].type).to.equal(FORM_CLINIC_PAGE_OPENED);
-      expect(dispatch.thirdCall.args[0].type).to.equal(
-        FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
-      );
-    });
-  });
-
   describe('updateReasonForAppointmentData', () => {
     const reasonForAppointment = 'new-issue';
     const reasonAdditionalInfo = 'test';
@@ -1025,12 +995,7 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should dispatch onChange action', () => {
-      expect(
-        onCalendarChange({
-          currentlySelectedDate: '2020-12-11',
-          selectedDates: [{}, {}],
-        }).type,
-      ).to.equal(FORM_CALENDAR_DATA_CHANGED);
+      expect(onCalendarChange([]).type).to.equal(FORM_CALENDAR_DATA_CHANGED);
     });
   });
 

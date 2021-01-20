@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
+import PropTypes from 'prop-types';
+import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 
-const SignatureInput = ({ fullName, required, label, setIsSigned }) => {
+const SignatureInput = ({
+  fullName,
+  required,
+  label,
+  setIsSigned,
+  showError,
+  hasSubmit,
+}) => {
   const [hasError, setError] = useState(false);
   const firstName = fullName.first?.toLowerCase() || '';
   const lastName = fullName.last?.toLowerCase() || '';
@@ -43,7 +51,9 @@ const SignatureInput = ({ fullName, required, label, setIsSigned }) => {
     () => {
       const isDirty = signature.dirty;
 
-      if (isDirty && !signatureMatches) {
+      // show error if user has touched input and signature does not match
+      // show error if there is a form error and has not been submitted
+      if ((isDirty && !signatureMatches) || (showError && !hasSubmit)) {
         setIsSigned(false);
         setError(true);
       }
@@ -53,11 +63,11 @@ const SignatureInput = ({ fullName, required, label, setIsSigned }) => {
         setError(false);
       }
     },
-    [setIsSigned, signature.dirty, signatureMatches],
+    [setIsSigned, signature.dirty, signatureMatches, showError, hasSubmit],
   );
 
   return (
-    <ErrorableTextInput
+    <TextInput
       additionalClass="signature-input"
       label={label}
       required={required}
@@ -69,6 +79,15 @@ const SignatureInput = ({ fullName, required, label, setIsSigned }) => {
       }
     />
   );
+};
+
+SignatureInput.propTypes = {
+  fullName: PropTypes.object.isRequired,
+  label: PropTypes.string.isRequired,
+  setIsSigned: PropTypes.func.isRequired,
+  showError: PropTypes.bool.isRequired,
+  hasSubmit: PropTypes.bool.isRequired,
+  required: PropTypes.bool,
 };
 
 export default SignatureInput;

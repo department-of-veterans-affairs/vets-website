@@ -8,12 +8,14 @@ export default function App({ params }) {
   let selectedLanguage = 'en';
   let alternateLangauge = 'es';
   let alternateRefBase = '/covid19screen/';
+
   // Control for facility ids that have letters in them e.g. 459GE.
-  let customId = params.id?.slice(0, 3);
+  const customId = params.id;
+  let customIdBase = params.id?.slice(0, 3);
 
   // If the first value is not a number, then there is no custom site id.
-  if (isNaN(customId)) {
-    customId = undefined;
+  if (isNaN(customIdBase)) {
+    customIdBase = undefined;
   } else {
     // If the first three chars of the first value is a number,
     // then there is a custom site id.

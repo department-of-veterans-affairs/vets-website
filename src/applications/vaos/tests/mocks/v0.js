@@ -7,13 +7,14 @@
 export function getVAAppointmentMock() {
   return {
     id: '21cdc6741c00ac67b6cbf6b972d084c1',
-    type: 'va_appointments',
+    type: 'appointment',
     attributes: {
       clinicFriendlyName: 'Fake',
       clinicId: 'fake',
       facilityId: 'fake',
       sta6aid: 'fake',
       communityCare: false,
+      phoneOnly: false,
       vdsAppointments: [
         {
           bookingNote: null,
@@ -217,17 +218,21 @@ export function getParentSiteMock() {
   };
 }
 
-export function getRequestEligibilityCriteriaMock() {
+export function getRequestEligibilityCriteriaMock({
+  id = 'fake',
+  typeOfCareId = 'fake',
+  patientHistoryRequired = 'No',
+} = {}) {
   return {
-    id: 'fake',
+    id,
     type: 'request_eligibility_criteria',
     attributes: {
-      id: 'fake',
+      id,
       requestSettings: [
         {
-          id: 'fake',
+          id: typeOfCareId,
           typeOfCare: 'fake',
-          patientHistoryRequired: 'No',
+          patientHistoryRequired,
           patientHistoryDuration: 0,
           submittedRequestLimit: 1,
           enterpriseSubmittedRequestLimit: 1,
@@ -237,17 +242,21 @@ export function getRequestEligibilityCriteriaMock() {
   };
 }
 
-export function getDirectBookingEligibilityCriteriaMock() {
+export function getDirectBookingEligibilityCriteriaMock({
+  id = 'fake',
+  typeOfCareId = 'fake',
+  patientHistoryRequired = 'No',
+} = {}) {
   return {
-    id: 'fake',
+    id,
     type: 'request_eligibility_criteria',
     attributes: {
-      id: 'fake',
+      id,
       coreSettings: [
         {
-          id: 'fake',
+          id: typeOfCareId,
           typeOfCare: 'fake',
-          patientHistoryRequired: 'No',
+          patientHistoryRequired,
           patientHistoryDuration: 0,
           submittedRequestLimit: 1,
           enterpriseSubmittedRequestLimit: 1,

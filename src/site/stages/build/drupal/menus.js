@@ -1,3 +1,4 @@
+const sortBy = require('lodash/sortBy');
 /* eslint-disable no-param-reassign */
 
 /**
@@ -264,14 +265,19 @@ function makeSection(hostUrl, hub, arrayDepth, promo, pages) {
  * @return {Array} headerData - Menu information formatted for the megaMenu React widget.
  */
 function formatHeaderData(buildOptions, contentData) {
+  if (!contentData?.data) {
+    // eslint-disable-next-line no-console
+    console.warn('formatHeaderData has no data');
+    return null;
+  }
+
   let menuLinks = contentData.data.menuLinkContentQuery.entities;
   const pages = contentData.data.nodeQuery.entities;
   const headerData = [];
   const { hostUrl } = buildOptions;
 
   // Sort by menu weight so we don't have do any sorting later.
-  menuLinks.sort((a, b) => a.weight - b.weight);
-
+  menuLinks = sortBy(menuLinks, 'weight');
   // To create the desired json schema, we'll need a hierarchical
   // list of menu links, rather than the flat list that Drupal/GraphQL
   // provide.

@@ -1,4 +1,5 @@
 import { apiRequest } from 'platform/utilities/api';
+import environment from 'platform/utilities/environment';
 
 // possible values for the `key` property on error messages we get from the server
 const ACCOUNT_FLAGGED_FOR_FRAUD_KEY = 'cnp.payment.flashes.on.record.message';
@@ -21,6 +22,8 @@ const GA_ERROR_KEY_INVALID_ROUTING_NUMBER = 'invalid-routing-number-error';
 const GA_ERROR_KEY_PAYMENT_RESTRICTIONS =
   'payment-restriction-indicators-error';
 const GA_ERROR_KEY_DEFAULT = 'other-error';
+
+export const cnpPrefix = !environment.isProduction() ? 'cnp-' : '';
 
 export async function getData(apiRoute, options) {
   try {
@@ -70,11 +73,38 @@ export const hasInvalidWorkPhoneNumberError = errors =>
 export const hasPaymentRestrictionIndicatorsError = errors =>
   hasErrorMessage(errors, PAYMENT_RESTRICTIONS_PRESENT_KEY);
 
+export const cnpDirectDepositBankInfo = apiData => {
+  return apiData?.responses?.[0]?.paymentAccount;
+};
+
+export const eduDirectDepositAccountNumber = apiData => {
+  return apiData?.accountNumber;
+};
+
+const cnpDirectDepositAddressInfo = apiData => {
+  return apiData?.responses?.[0]?.paymentAddress;
+};
+
+export const isEligibleForCNPDirectDeposit = apiData => {
+  const addressData = cnpDirectDepositAddressInfo(apiData) ?? {};
+  return !!(
+    addressData.addressOne &&
+    addressData.city &&
+    addressData.stateCode
+  );
+};
+
+export const isSignedUpForCNPDirectDeposit = apiData =>
+  !!cnpDirectDepositBankInfo(apiData)?.accountNumber;
+
+export const isSignedUpForEDUDirectDeposit = apiData =>
+  !!eduDirectDepositAccountNumber(apiData);
+
 // Helper that creates and returns an object to pass to the recordEvent()
 // function when an error occurs while trying to save/update a user's direct
-// deposit payment information. The value of the `error-key` prop will change
-// depending on the content of the `errors` array.
-export const createDirectDepositAnalyticsDataObject = (
+// deposit for compensation and pension payment information. The value of the
+// `error-key` prop will change depending on the content of the `errors` array.
+export const createCNPDirectDepositAnalyticsDataObject = (
   errors = [],
   isEnrolling = false,
 ) => {
@@ -100,7 +130,7 @@ export const createDirectDepositAnalyticsDataObject = (
   return {
     event: 'profile-edit-failure',
     'profile-action': 'save-failure',
-    'profile-section': 'direct-deposit-information',
+    'profile-section': `${cnpPrefix}direct-deposit-information`,
     [key]: errorCode,
   };
 };

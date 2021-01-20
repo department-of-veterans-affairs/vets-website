@@ -8,13 +8,13 @@ import { getLongTermAppointmentHistory } from '../../../services/var';
 import FormButtons from '../../../components/FormButtons';
 import PodiatryAppointmentUnavailableModal from './PodiatryAppointmentUnavailableModal';
 import UpdateAddressAlert from './UpdateAddressAlert';
+import TypeOfCareAlert from './TypeOfCareAlert';
 import * as actions from '../../redux/actions';
 import {
-  getFormPageInfo,
-  getNewAppointment,
-  vaosDirectScheduling,
+  selectFeatureDirectScheduling,
   selectIsCernerOnlyPatient,
-} from '../../../utils/selectors';
+} from '../../../redux/selectors';
+import { getFormPageInfo, getNewAppointment } from '../../redux/selectors';
 import { resetDataLayer } from '../../../utils/events';
 
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
@@ -109,6 +109,7 @@ function TypeOfCarePage({
         }}
         data={data}
       >
+        <TypeOfCareAlert />
         <FormButtons
           onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
           pageChangeInProgress={pageChangeInProgress}
@@ -133,7 +134,7 @@ function mapStateToProps(state) {
     showPodiatryApptUnavailableModal:
       newAppointment.showPodiatryAppointmentUnavailableModal,
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
-    showDirectScheduling: vaosDirectScheduling(state),
+    showDirectScheduling: selectFeatureDirectScheduling(state),
     hideUpdateAddressAlert: newAppointment.hideUpdateAddressAlert,
   };
 }

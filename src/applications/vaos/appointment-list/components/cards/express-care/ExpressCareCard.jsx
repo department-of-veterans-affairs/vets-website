@@ -5,7 +5,7 @@ import { sentenceCase, lowerCase } from '../../../../utils/formatters';
 import { getPatientTelecom } from '../../../../services/appointment';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import ExpressCareStatus from './ExpressCareStatus';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 export default function ExpressCareCard({
   appointment,
@@ -28,6 +28,9 @@ export default function ExpressCareCard({
     },
   );
   const Heading = `h${headingLevel}`;
+
+  // Calculate next heading level
+  const Title = `h${parseInt(headingLevel, 10) + 1}`;
   return (
     <div
       data-request-id={appointment.id}
@@ -43,25 +46,21 @@ export default function ExpressCareCard({
       <ExpressCareStatus appointment={appointment} />
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
         <div className="vads-u-flex--1 vads-u-margin-right--1 vaos-u-word-break--break-word">
-          <dl className="vads-u-margin--0">
-            <dt className="vads-u-font-weight--bold vads-u-display--block">
-              Your contact details
-            </dt>
-            <dd>
-              <Telephone contact={getPatientTelecom(appointment, 'phone')} />
-              <br />
-              {getPatientTelecom(appointment, 'email')}
-            </dd>
-          </dl>
+          <Title className="vaos-appts__block-label">
+            Your contact details
+          </Title>
+          <div>
+            <Telephone contact={getPatientTelecom(appointment, 'phone')} />
+            <br />
+            {getPatientTelecom(appointment, 'email')}
+          </div>
         </div>
         {!!appointment.comment && (
           <div className="vads-u-flex--1 vaos-u-word-break--break-word vads-u-margin-top--2 small-screen:vads-u-margin-top--0">
-            <dl className="vads-u-margin--0">
-              <dt className="vads-u-font-weight--bold">
-                You shared these details about your concern
-              </dt>
-              <dd>{appointment.comment}</dd>
-            </dl>
+            <Title className="vaos-appts__block-label">
+              You shared these details about your concern
+            </Title>
+            <div>{appointment.comment}</div>
           </div>
         )}
       </div>

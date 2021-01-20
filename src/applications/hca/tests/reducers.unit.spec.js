@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import * as actions from '../actions';
-import { hcaEnrollmentStatus as reducer } from '../reducer';
+import reducer from '../reducers/hca-enrollment-status-reducer';
 
 describe('HCA Enrollment Status Reducer', () => {
   let state;

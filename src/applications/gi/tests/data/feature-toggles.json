@@ -3,10 +3,6 @@
     "type": "feature_toggles",
     "features": [
       {
-        "name": "dashboardShowCovid19Alert",
-        "value": true
-      },
-      {
         "name": "facilityLocatorShowCommunityCares",
         "value": true
       },

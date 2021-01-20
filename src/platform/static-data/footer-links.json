@@ -48,7 +48,7 @@
     "href": "https://www.va.gov/outreach-and-events/events/",
     "order": 7,
     "target": null,
-    "title": "VA Outreach Events"
+    "title": "VA outreach events"
   },
   {
     "column": 1,
@@ -63,72 +63,72 @@
     "href": "https://www.va.gov/find-forms/",
     "order": 1,
     "target": null,
-    "title": "Find a VA form"
-  },
-  {
-    "column": 2,
-    "href": "https://www.mobile.va.gov/appstore/",
-    "order": 2,
-    "target": "_blank",
-    "title": "Get VA mobile apps",
-    "rel": "noopener noreferrer"
-  },
-  {
-    "column": 2,
-    "href": "https://www.va.gov/jobs/",
-    "order": 3,
-    "target": null,
-    "title": "Careers at VA"
-  },
-  {
-    "column": 2,
-    "href": "https://www.va.gov/landing2_business.htm",
-    "order": 4,
-    "target": null,
-    "title": "Doing business with VA"
-  },
-  {
-    "column": 2,
-    "href": "https://www.va.gov/ogc/accreditation.asp",
-    "order": 5,
-    "target": null,
-    "title": "VA claims accreditation"
+    "title": "VA forms"
   },
   {
     "column": 2,
     "href": "https://www.accesstocare.va.gov/ourproviders/",
-    "order": 6,
+    "order": 2,
     "target": "_blank",
-    "title": "Find a VA health care provider",
+    "title": "VA health care providers",
+    "rel": "noopener noreferrer"
+  },
+  {
+    "column": 2,
+    "href": "https://www.va.gov/ogc/accreditation.asp",
+    "order": 3,
+    "target": null,
+    "title": "Accredited claims representatives"
+  },
+  {
+    "column": 2,
+    "href": "https://www.mobile.va.gov/appstore/",
+    "order": 4,
+    "target": "_blank",
+    "title": "VA mobile apps",
     "rel": "noopener noreferrer"
   },
   {
     "column": 2,
     "href": "https://www.va.gov/vso/",
-    "order": 7,
+    "order": 5,
     "target": null,
     "title": "Veterans Service Organizations (VSOs)"
   },
   {
     "column": 2,
     "href": "https://www.va.gov/statedva.htm",
-    "order": 8,
+    "order": 6,
     "target": null,
     "title": "State Veterans Affairs offices"
+  },
+  {
+    "column": 2,
+    "href": "https://www.va.gov/landing2_business.htm",
+    "order": 7,
+    "target": null,
+    "title": "Doing business with VA"
+  },
+  {
+    "column": 2,
+    "href": "https://www.va.gov/jobs/",
+    "order": 8,
+    "target": null,
+    "title": "Careers at VA"
   },
   {
     "column": 2,
     "href": "https://www.va.gov/outreach-and-events/outreach-materials/",
     "order": 9,
     "target": null,
-    "title": "VA Outreach Materials"
+    "title": "VA outreach materials"
   },
   {
     "column": 2,
     "href": "https://www.va.gov/welcome-kit/",
     "order": 10,
     "target": null,
-    "title": "Print your VA welcome kit"
+    "title": "Your VA welcome kit"
   },
   {
     "column": 3,
@@ -195,31 +195,41 @@
   },
   {
     "column": 4,
-    "href": "https://www.va.gov/find-locations/",
+    "href": "https://www.va.gov/resources/",
     "order": 1,
     "target": null,
-    "title": "Find a VA location"
+    "title": "Resources and support"
   },
   {
     "column": 4,
-    "href": "https://iris.custhelp.va.gov/app/ask",
+    "href": "https://www.va.gov/contact-us/",
     "order": 2,
     "target": null,
-    "title": "Ask a question",
-    "rel": "noopener noreferrer"
+    "title": "Contact us"
   },
   {
     "column": 4,
-    "label": "Call us:",
+    "label": "Call us",
     "href": "tel:18006982411",
     "order": 3,
     "target": null,
     "title": "800-698-2411"
   },
   {
+    "ariaLabel": "TTY: 7 1 1.",
     "column": 4,
+    "href": "tel:+1711",
     "order": 4,
+    "target": null,
     "title": "TTY: 711"
+  },
+  {
+    "column": 4,
+    "label": "Visit a medical center or regional office",
+    "href": "https://www.va.gov/find-locations/",
+    "order": 5,
+    "target": null,
+    "title": "Find a VA location"
   },
   {
     "column": "bottom_rail",
@@ -231,7 +241,7 @@
   },
   {
     "column": "bottom_rail",
-    "href": "https://www.va.gov/orm/NOFEAR_Select.asp",
+    "href": "https://www.va.gov/ormdi/NOFEAR_Select.asp",
     "order": 2,
     "target": null,
     "title": "No FEAR Act Data"

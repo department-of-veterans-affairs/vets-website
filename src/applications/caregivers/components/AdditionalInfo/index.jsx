@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import AlertBox, {
+  ALERT_TYPE,
+} from '@department-of-veterans-affairs/component-library/AlertBox';
+
 import { links } from 'applications/caregivers/definitions/content';
 
 export const VeteranSSNInfo = () => (
@@ -29,13 +34,19 @@ VetInfo.propTypes = {
   pageTitle: PropTypes.string,
 };
 
-export const PrimaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
+export const PrimaryCaregiverInfo = ({
+  additionalInfo,
+  pageTitle,
+  headerInfo,
+}) => (
   <>
     {pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}
-    <p className="vads-u-margin-top--2">
-      Please complete the following information about the Primary Family
-      Caregiver.
-    </p>
+    {headerInfo && (
+      <p className="vads-u-margin-top--2">
+        Please complete the following information about the Primary Family
+        Caregiver.
+      </p>
+    )}
 
     {additionalInfo && (
       <section className="vads-u-margin-y--2p5">
@@ -70,10 +81,12 @@ export const PrimaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
 PrimaryCaregiverInfo.propTypes = {
   additionalInfo: PropTypes.bool,
   pageTitle: PropTypes.string,
+  headerInfo: PropTypes.bool,
 };
 
 PrimaryCaregiverInfo.defaultProps = {
   additionalInfo: false,
+  headerInfo: true,
 };
 
 export const SecondaryCaregiverLegal = () => (
@@ -184,3 +197,14 @@ export const AdditionalCaregiverInfo = () => (
     <p>Would you like to add another Secondary Family Caregiver?</p>
   </>
 );
+
+export const SecondaryRequiredAlert = () => {
+  return (
+    <AlertBox
+      headline="We need you to add a Family Caregiver"
+      content="We can’t process your application unless you add a Family Caregiver. Please go back and add either a Primary or Secondary Family Caregiver to your application."
+      status={ALERT_TYPE.ERROR}
+      isVisible
+    />
+  );
+};

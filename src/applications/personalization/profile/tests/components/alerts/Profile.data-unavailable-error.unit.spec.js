@@ -18,6 +18,10 @@ const ALERT_ID = 'not-all-data-available-error';
 // Returns the Redux state needed by the Profile and its child components
 function createBasicInitialState() {
   return {
+    // TODO: delete the `featureToggles` when DD4EDU is no longer behind a
+    // feature flag
+    // eslint-disable-next-line camelcase
+    featureToggles: { ch33_dd_profile: true },
     scheduledDowntime: {
       globalDowntime: null,
       isReady: true,
@@ -76,9 +80,11 @@ async function errorAppearsOnAllPages(
 
   let alert = await view.findByTestId(ALERT_ID);
   expect(alert).to.exist;
-  expect(alert).to.contain.html('We can’t load all of your information');
   expect(alert).to.contain.html(
-    'We’re sorry. Something went wrong on our end. We can’t display all the information on this page. Please refresh the page or try again later.',
+    'We can’t load all the information in your profile',
+  );
+  expect(alert).to.contain.html(
+    'We’re sorry. Something went wrong on our end. We can’t display all the information in your profile. Please refresh the page or try again later.',
   );
 
   pageNames.forEach(pageName => {
@@ -88,7 +94,7 @@ async function errorAppearsOnAllPages(
   });
 }
 
-async function hideErrorNonVet(
+async function errorIsNotShownOnAnyPage(
   pageNames = [
     PROFILE_PATH_NAMES.MILITARY_INFORMATION,
     PROFILE_PATH_NAMES.DIRECT_DEPOSIT,
@@ -141,13 +147,13 @@ describe('Profile "Not all data available" error', () => {
   it('should not be shown if there is a 500 error with the `GET service_history` endpoint and the user is not a vet', async () => {
     server.use(...mocks.getServiceHistory500);
 
-    await hideErrorNonVet();
+    await errorIsNotShownOnAnyPage();
   });
 
   it('should not be shown if there is a 401 error with the `GET service_history` endpoint and the user is not a vet', async () => {
     server.use(...mocks.getServiceHistory401);
 
-    await hideErrorNonVet();
+    await errorIsNotShownOnAnyPage();
   });
 
   it('should be shown on all pages if there is an error with the `GET full_name` endpoint', async () => {
@@ -174,8 +180,19 @@ describe('Profile "Not all data available" error', () => {
     await errorAppearsOnAllPages();
   });
 
-  it('should be shown on all pages if there is an error with the `GET payment_information` endpoint`', async () => {
-    server.use(...mocks.getPaymentInformationFailure);
+  it('should be shown on all pages if there is an error with the DD4CNP `GET payment_information` endpoint`', async () => {
+    server.use(...mocks.getDD4CNPFailure);
+
+    // don't check for the error on the direct deposit page since that page is unavailable when the `GET payment_information` endpoint fails
+    await errorAppearsOnAllPages([
+      PROFILE_PATH_NAMES.MILITARY_INFORMATION,
+      PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
+      PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS,
+    ]);
+  });
+
+  it('should be shown on all pages if there is an error with the DD4EDU `GET ch33_bank_accounts` endpoint`', async () => {
+    server.use(...mocks.getDD4EDUFailure);
 
     // don't check for the error on the direct deposit page since that page is unavailable when the `GET payment_information` endpoint fails
     await errorAppearsOnAllPages([

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { CoronaVirusAlert } from '../const/deduction-codes';
 import { DebtLettersTable } from './DebtLettersTable';
 import { connect } from 'react-redux';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 const DebtLettersList = ({ debtLinks, isVBMSError }) => {
   const renderAlert = () => (

@@ -23,19 +23,18 @@ export const schema = {
 };
 
 export const uiSchema = {
-  'ui:description': (
-    <p>
-      <strong>Giving this information is optional.</strong> If you skip this
-      page, and we don't have this information in your record, we may ask you
-      for this again when we process your application.
-    </p>
-  ),
   'ui:title': 'Additional Information',
   yearsOfEducation: {
     'ui:title': 'How many years of education do you have?',
+    'ui:description': (
+      <p className="vads-u-margin--0">
+        (include K-12 and each year of college)
+      </p>
+    ),
     'ui:errorMessages': {
       pattern: 'Please enter a number',
     },
+    'ui:required': () => true,
   },
   isMoving: {
     'ui:widget': 'yesNo',
@@ -44,6 +43,7 @@ export const uiSchema = {
         Are you moving in the <strong>next 30 days?</strong>
       </p>
     ),
+    'ui:required': () => true,
   },
   newAddress: {
     'ui:title': (

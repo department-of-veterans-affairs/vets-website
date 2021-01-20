@@ -16,23 +16,23 @@ describe('Profile', () => {
   let fetchFullNameSpy;
   let fetchMilitaryInfoSpy;
   let fetchMHVAccountSpy;
-  let fetchPaymentInfoSpy;
+  let fetchCNPPaymentInfoSpy;
   let fetchPersonalInfoSpy;
 
   beforeEach(() => {
     fetchFullNameSpy = sinon.spy();
     fetchMilitaryInfoSpy = sinon.spy();
     fetchMHVAccountSpy = sinon.spy();
-    fetchPaymentInfoSpy = sinon.spy();
+    fetchCNPPaymentInfoSpy = sinon.spy();
     fetchPersonalInfoSpy = sinon.spy();
 
     defaultProps = {
       fetchFullName: fetchFullNameSpy,
       fetchMHVAccount: fetchMHVAccountSpy,
       fetchMilitaryInformation: fetchMilitaryInfoSpy,
-      fetchPaymentInformation: fetchPaymentInfoSpy,
+      fetchCNPPaymentInformation: fetchCNPPaymentInfoSpy,
       fetchPersonalInformation: fetchPersonalInfoSpy,
-      shouldFetchDirectDepositInformation: true,
+      shouldFetchCNPDirectDepositInformation: true,
       showLoader: false,
       user: {},
       location: {
@@ -84,32 +84,32 @@ describe('Profile', () => {
       wrapper.unmount();
     });
 
-    describe('when `shouldFetchDirectDepositInformation` is `true`', () => {
+    describe('when `shouldFetchCNPDirectDepositInformation` is `true`', () => {
       it('should fetch the payment information data', () => {
         const wrapper = shallow(<Profile {...defaultProps} />);
-        expect(fetchPaymentInfoSpy.called).to.be.true;
+        expect(fetchCNPPaymentInfoSpy.called).to.be.true;
         wrapper.unmount();
       });
     });
 
-    describe('when `shouldFetchDirectDepositInformation` is `false`', () => {
+    describe('when `shouldFetchCNPDirectDepositInformation` is `false`', () => {
       it('should not fetch the payment information data', () => {
-        defaultProps.shouldFetchDirectDepositInformation = false;
+        defaultProps.shouldFetchCNPDirectDepositInformation = false;
         const wrapper = shallow(<Profile {...defaultProps} />);
-        expect(fetchPaymentInfoSpy.called).to.be.false;
+        expect(fetchCNPPaymentInfoSpy.called).to.be.false;
         wrapper.unmount();
       });
     });
   });
 
   describe('when the component updates', () => {
-    describe('when `shouldFetchDirectDepositInformation` goes from `false` to `true', () => {
+    describe('when `shouldFetchCNPDirectDepositInformation` goes from `false` to `true', () => {
       it('should fetch the payment information data', () => {
-        defaultProps.shouldFetchDirectDepositInformation = false;
+        defaultProps.shouldFetchCNPDirectDepositInformation = false;
         const wrapper = shallow(<Profile {...defaultProps} />);
-        expect(fetchPaymentInfoSpy.called).to.be.false;
-        wrapper.setProps({ shouldFetchDirectDepositInformation: true });
-        expect(fetchPaymentInfoSpy.called).to.be.true;
+        expect(fetchCNPPaymentInfoSpy.called).to.be.false;
+        wrapper.setProps({ shouldFetchCNPDirectDepositInformation: true });
+        expect(fetchCNPPaymentInfoSpy.called).to.be.true;
         wrapper.unmount();
       });
     });
@@ -157,7 +157,7 @@ describe('mapStateToProps', () => {
         ],
       },
     },
-    paymentInformation: {
+    cnpPaymentInformation: {
       responses: [
         {
           controlInformation: {
@@ -214,7 +214,8 @@ describe('mapStateToProps', () => {
       'showLoader',
       'isInMVI',
       'isLOA3',
-      'shouldFetchDirectDepositInformation',
+      'shouldFetchCNPDirectDepositInformation',
+      'shouldFetchEDUDirectDepositInformation',
       'shouldShowDirectDeposit',
       'isDowntimeWarningDismissed',
     ];
@@ -229,25 +230,25 @@ describe('mapStateToProps', () => {
     });
   });
 
-  describe('#shouldFetchDirectDepositInformation', () => {
+  describe('#shouldFetchCNPDirectDepositInformation', () => {
     it('is `true` when user has 2FA set and has access to EVSS', () => {
       const state = makeDefaultState();
       const props = mapStateToProps(state);
-      expect(props.shouldFetchDirectDepositInformation).to.be.true;
+      expect(props.shouldFetchCNPDirectDepositInformation).to.be.true;
     });
 
     it('is `false` when user has 2FA set but does not have access to EVSS', () => {
       const state = makeDefaultState();
       state.user.profile.services = [];
       const props = mapStateToProps(state);
-      expect(props.shouldFetchDirectDepositInformation).to.be.false;
+      expect(props.shouldFetchCNPDirectDepositInformation).to.be.false;
     });
 
     it('is `false` when the user has access to EVSS but does not have 2FA set', () => {
       const state = makeDefaultState();
       state.user.profile.multifactor = false;
       const props = mapStateToProps(state);
-      expect(props.shouldFetchDirectDepositInformation).to.be.false;
+      expect(props.shouldFetchCNPDirectDepositInformation).to.be.false;
     });
 
     it('is `false` when the user does not have 2FA set and does not have access to EVSS', () => {
@@ -255,7 +256,7 @@ describe('mapStateToProps', () => {
       state.user.profile.multifactor = false;
       state.user.profile.services = [];
       const props = mapStateToProps(state);
-      expect(props.shouldFetchDirectDepositInformation).to.be.false;
+      expect(props.shouldFetchCNPDirectDepositInformation).to.be.false;
     });
   });
 
@@ -264,22 +265,26 @@ describe('mapStateToProps', () => {
       it('should be `false`', () => {
         const state = makeDefaultState();
         state.user.profile.services = [];
+        // since EVSS is not in `services`, the `cnpPaymentInformation` will not
+        // be populated since we'll never make the call to get that data
+        state.vaProfile.cnpPaymentInformation = null;
         const props = mapStateToProps(state);
         expect(props.shouldShowDirectDeposit).to.be.false;
       });
     });
     describe('when direct deposit info should not be fetched because user has not set up 2FA', () => {
-      it('should be `false`', () => {
+      it('should be `true`', () => {
         const state = makeDefaultState();
         state.user.profile.multifactor = false;
         const props = mapStateToProps(state);
-        expect(props.shouldShowDirectDeposit).to.be.false;
+        expect(props.shouldShowDirectDeposit).to.be.true;
       });
     });
+
     describe('when user is flagged as incompetent', () => {
       it('should be `false`', () => {
         const state = makeDefaultState();
-        state.vaProfile.paymentInformation.responses[0].controlInformation.isCompetentIndicator = false;
+        state.vaProfile.cnpPaymentInformation.responses[0].controlInformation.isCompetentIndicator = false;
         const props = mapStateToProps(state);
         expect(props.shouldShowDirectDeposit).to.be.false;
       });
@@ -287,7 +292,7 @@ describe('mapStateToProps', () => {
     describe('when user has a fiduciary assigned', () => {
       it('should be `false`', () => {
         const state = makeDefaultState();
-        state.vaProfile.paymentInformation.responses[0].controlInformation.noFiduciaryAssignedIndicator = false;
+        state.vaProfile.cnpPaymentInformation.responses[0].controlInformation.noFiduciaryAssignedIndicator = false;
         const props = mapStateToProps(state);
         expect(props.shouldShowDirectDeposit).to.be.false;
       });
@@ -295,7 +300,7 @@ describe('mapStateToProps', () => {
     describe('when user is deceased', () => {
       it('should be `false`', () => {
         const state = makeDefaultState();
-        state.vaProfile.paymentInformation.responses[0].controlInformation.notDeceasedIndicator = false;
+        state.vaProfile.cnpPaymentInformation.responses[0].controlInformation.notDeceasedIndicator = false;
         const props = mapStateToProps(state);
         expect(props.shouldShowDirectDeposit).to.be.false;
       });
@@ -303,8 +308,8 @@ describe('mapStateToProps', () => {
     describe('when direct deposit is not already set up and they are not eligible to sign up', () => {
       it('should be `false`', () => {
         const state = makeDefaultState();
-        state.vaProfile.paymentInformation.responses[0].paymentAccount = {};
-        state.vaProfile.paymentInformation.responses[0].paymentAddress = {};
+        state.vaProfile.cnpPaymentInformation.responses[0].paymentAccount = {};
+        state.vaProfile.cnpPaymentInformation.responses[0].paymentAddress = {};
         const props = mapStateToProps(state);
         expect(props.shouldShowDirectDeposit).to.be.false;
       });
@@ -319,7 +324,7 @@ describe('mapStateToProps', () => {
     describe('when user has EVSS available, has set up 2FA, is not blocked, does not have direct deposit set up but does have a payment address on file', () => {
       it('should be `true`', () => {
         const state = makeDefaultState();
-        state.vaProfile.paymentInformation.responses[0].paymentAccount = {};
+        state.vaProfile.cnpPaymentInformation.responses[0].paymentAccount = {};
         const props = mapStateToProps(state);
         expect(props.shouldShowDirectDeposit).to.be.true;
       });
@@ -336,7 +341,7 @@ describe('mapStateToProps', () => {
 
       it('is `false` when all required data calls have errored', () => {
         const state = makeDefaultState();
-        state.vaProfile.paymentInformation = { error: {} };
+        state.vaProfile.cnpPaymentInformation = { error: {} };
         state.vaProfile.userFullName = { error: {} };
         state.vaProfile.personalInformation = { error: {} };
         state.vaProfile.militaryInformation = { error: {} };
@@ -347,7 +352,7 @@ describe('mapStateToProps', () => {
 
       it('is `true` when the call to fetch payment info has not resolved but all others have', () => {
         const state = makeDefaultState();
-        delete state.vaProfile.paymentInformation;
+        delete state.vaProfile.cnpPaymentInformation;
         const props = mapStateToProps(state);
         expect(props.showLoader).to.be.true;
       });
@@ -390,7 +395,7 @@ describe('mapStateToProps', () => {
       beforeEach(() => {
         state = makeDefaultState();
         state.user.profile.multifactor = false;
-        delete state.vaProfile.paymentInformation;
+        delete state.vaProfile.cnpPaymentInformation;
       });
 
       it('is `false` when all required data calls have resolved successfully', () => {

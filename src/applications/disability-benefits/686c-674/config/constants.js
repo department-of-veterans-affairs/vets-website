@@ -17,3 +17,5 @@ export const MARRIAGE_TYPES = {
   proxy: 'PROXY',
   other: 'OTHER',
 };
+
+export const NETWORTH_VALUE = '130,773';

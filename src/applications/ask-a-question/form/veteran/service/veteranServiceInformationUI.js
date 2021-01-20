@@ -3,18 +3,18 @@ import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 
 import {
-  claimNumberTitle,
-  claimNumberPatternErrorMessage,
-  serviceNumberTitle,
-  serviceNumberPatternErrorMessage,
-  socialSecurityNumberTitle,
-  dateOfBirthTitle,
-  serviceStartDateTitle,
-  serviceEndDateTitle,
-  serviceDateRangeErrorMessage,
+  branchOfServiceError,
   branchOfServiceTitle,
+  claimNumberPatternErrorMessage,
+  claimNumberTitle,
+  dateOfBirthTitle,
+  serviceDateRangeErrorMessage,
+  serviceEndDateTitle,
+  serviceNumberPatternErrorMessage,
+  serviceNumberTitle,
+  serviceStartDateTitle,
+  socialSecurityNumberTitle,
 } from '../../../constants/labels';
-import SectionHeader from '../../../components/SectionHeader';
 import { requireServiceInfo } from '../../inquiry/status/veteranStatusUI';
 
 const formFields = {
@@ -27,13 +27,12 @@ const formFields = {
 };
 
 export const veteranServiceInformationUI = {
-  'ui:description': SectionHeader('Veteran service information'),
   'ui:order': [
     'socialSecurityNumber',
+    'dateOfBirth',
     'serviceNumber',
     'claimNumber',
     'branchOfService',
-    'dateOfBirth',
     'serviceDateRange',
   ],
   [formFields.socialSecurityNumber]: {
@@ -56,6 +55,9 @@ export const veteranServiceInformationUI = {
     'ui:title': branchOfServiceTitle,
     'ui:required': formData =>
       requireServiceInfo(formData.veteranStatus.veteranStatus),
+    'ui:errorMessages': {
+      required: branchOfServiceError,
+    },
   },
   [formFields.dateOfBirth]: {
     ...currentOrPastDateUI(dateOfBirthTitle),

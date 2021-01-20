@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import { selectUseProviderSelection } from '../../../redux/selectors';
 import {
   getFormData,
   getFlowType,
@@ -10,7 +11,7 @@ import {
   getChosenVACityState,
   getChosenFacilityDetails,
   getSiteIdForChosenFacility,
-} from '../../../utils/selectors';
+} from '../../redux/selectors';
 import { FLOW_TYPES, FETCH_STATUS } from '../../../utils/constants';
 import { getRealFacilityId } from '../../../utils/appointment';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -34,6 +35,7 @@ export function ReviewPage({
   submitStatusVaos400,
   systemId,
   submitAppointmentOrRequest,
+  useProviderSelection,
 }) {
   useEffect(() => {
     if (history && !data?.typeOfCareId) {
@@ -62,6 +64,7 @@ export function ReviewPage({
           facility={facility}
           vaCityState={vaCityState}
           pageTitle={pageTitle}
+          useProviderSelection={useProviderSelection}
         />
       )}
       <div className="vads-u-margin-y--2">
@@ -147,6 +150,7 @@ function mapStateToProps(state) {
     submitStatus: state.newAppointment.submitStatus,
     submitStatusVaos400: state.newAppointment.submitStatusVaos400,
     systemId: getSiteIdForChosenFacility(state),
+    useProviderSelection: selectUseProviderSelection(state),
   };
 }
 

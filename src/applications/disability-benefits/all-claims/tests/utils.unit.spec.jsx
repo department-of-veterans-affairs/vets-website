@@ -40,6 +40,7 @@ import {
   show526Wizard,
   isUndefined,
   isDisabilityPtsd,
+  confirmationEmailFeature,
 } from '../utils.jsx';
 
 describe('526 helpers', () => {
@@ -1080,6 +1081,41 @@ describe('526 v2 depends functions', () => {
     it('should return false for disabilities unrealted to PTSD', () => {
       expect(isDisabilityPtsd('uncontrollable transforming into the Hulk')).to
         .be.false;
+    });
+  });
+
+  describe('confirmationEmailFeature', () => {
+    it('should return true when form526 confirmation feature flags values of true', () => {
+      expect(
+        confirmationEmailFeature({
+          featureToggles: {
+            /* eslint-disable camelcase */
+            form526_confirmation_email: true,
+            form526_confirmation_email_show_copy: true,
+          },
+        }),
+      ).to.be.true;
+    });
+    it('should return false when either form526 confirmation feature flags values of false', () => {
+      expect(
+        confirmationEmailFeature({
+          featureToggles: {
+            /* eslint-disable camelcase */
+            form526_confirmation_email: true,
+            form526_confirmation_email_show_copy: false,
+          },
+        }),
+      ).to.be.false;
+    });
+    it('should return false when form526 confirmation copy feature flag is undefined', () => {
+      expect(
+        confirmationEmailFeature({
+          featureToggles: {
+            /* eslint-disable camelcase */
+            form526_confirmation_email: true,
+          },
+        }),
+      ).to.be.false;
     });
   });
 });

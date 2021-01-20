@@ -40,10 +40,11 @@ function filterStackTrace(trace) {
     .filter(line => !line.includes('node_modules'))
     .join(os.EOL);
 }
+
 /**
  * Sets up JSDom in the testing environment. Allows testing of DOM functions without a browser.
  */
-export default function setupJSDom() {
+function setupJSDom() {
   // if (global.document || global.window) {
   //   throw new Error('Refusing to override existing document and window.');
   // }
@@ -91,7 +92,11 @@ export default function setupJSDom() {
 
   global.Blob = window.Blob;
   window.dataLayer = [];
-  window.matchMedia = () => ({ matches: false });
+  window.matchMedia = () => ({
+    matches: false,
+    addListener: f => f,
+    removeListener: f => f,
+  });
   window.scrollTo = () => {};
 
   window.VetsGov = {
@@ -147,3 +152,9 @@ export default function setupJSDom() {
 }
 
 setupJSDom();
+
+export const mochaHooks = {
+  beforeEach() {
+    setupJSDom();
+  },
+};

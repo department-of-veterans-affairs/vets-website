@@ -12,7 +12,7 @@ import mockUser from './fixtures/mocks/mockUser.json';
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['prefill-test'],
+    dataSets: ['prefill'],
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
       mocks: path.join(__dirname, 'fixtures', 'mocks'),
@@ -65,7 +65,7 @@ const testConfig = createTestConfig(
 
       cy.route({
         method: 'POST',
-        url: '/v0/ask/asks',
+        url: '/v0/contact-us/inquiries',
         status: 200,
         response: {
           confirmationNumber: '000123456000A',

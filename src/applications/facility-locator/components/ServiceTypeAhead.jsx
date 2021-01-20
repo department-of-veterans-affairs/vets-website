@@ -96,7 +96,7 @@ class ServiceTypeAhead extends Component {
             <span id="service-typeahead">
               <input
                 {...getInputProps({
-                  placeholder: 'Like primary care, cardiology',
+                  placeholder: 'like Chiropractor or Optometrist',
                 })}
                 id="service-type-ahead-input"
                 required

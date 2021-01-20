@@ -115,9 +115,6 @@ describe('<DashboardApp>', () => {
 
 describe('mapStateToProps', () => {
   const defaultState = () => ({
-    featureToggles: {
-      dashboardShowCovid19Alert: true,
-    },
     hcaEnrollmentStatus: {},
     user: {
       profile: {

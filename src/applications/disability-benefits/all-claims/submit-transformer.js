@@ -241,6 +241,27 @@ export function filterServicePeriods(formData) {
   return clonedData;
 }
 
+// Transform the related disabilities lists into an array of strings
+export const stringifyRelatedDisabilities = formData => {
+  if (!formData.vaTreatmentFacilities) {
+    return formData;
+  }
+  const clonedData = _.cloneDeep(formData);
+  const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility =>
+    // Transform the related disabilities lists into an array of strings
+    _.set(
+      'treatedDisabilityNames',
+      transformRelatedDisabilities(
+        facility.treatedDisabilityNames,
+        getClaimedConditionNames(formData, false),
+      ),
+      facility,
+    ),
+  );
+  clonedData.vaTreatmentFacilities = newVAFacilities;
+  return clonedData;
+};
+
 export function transform(formConfig, form) {
   // Grab isBDD before things are changed/deleted
   const isBDDForm = isBDD(form.data);
@@ -462,27 +483,6 @@ export function transform(formConfig, form) {
     ).concat(transformedSecondaries);
 
     delete clonedData.newSecondaryDisabilities;
-    return clonedData;
-  };
-
-  // Transform the related disabilities lists into an array of strings
-  const stringifyRelatedDisabilities = formData => {
-    if (!formData.vaTreatmentFacilities) {
-      return formData;
-    }
-    const clonedData = _.cloneDeep(formData);
-    const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility =>
-      // Transform the related disabilities lists into an array of strings
-      _.set(
-        'treatedDisabilityNames',
-        transformRelatedDisabilities(
-          facility.treatedDisabilityNames,
-          getClaimedConditionNames(formData, false),
-        ),
-        facility,
-      ),
-    );
-    clonedData.vaTreatmentFacilities = newVAFacilities;
     return clonedData;
   };
 

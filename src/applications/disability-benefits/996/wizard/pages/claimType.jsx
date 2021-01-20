@@ -1,5 +1,7 @@
 import React from 'react';
-import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+import recordEvent from 'platform/monitoring/record-event';
+
 import { SAVED_CLAIM_TYPE } from '../../constants';
 import pageNames from './pageNames';
 
@@ -21,6 +23,14 @@ const name = 'higher-level-review-option';
 
 const ClaimType = ({ setPageState, state = {} }) => {
   const setState = ({ value }) => {
+    recordEvent({
+      event: 'howToWizard-formChange',
+      'form-field-type': 'form-radio-buttons',
+      'form-field-label':
+        'For what type of claim are you requesting a Higher-Level Review?',
+      'form-field-value': value,
+    });
+
     // Show 'other' or 'legacyChoice' page
     const page =
       pageNames[value !== pageNames.other ? 'legacyChoice' : 'other'];
@@ -35,7 +45,7 @@ const ClaimType = ({ setPageState, state = {} }) => {
   };
 
   return (
-    <ErrorableRadioButtons
+    <RadioButtons
       name={name}
       label={label}
       id={name}

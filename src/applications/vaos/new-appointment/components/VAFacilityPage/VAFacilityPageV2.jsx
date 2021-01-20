@@ -2,13 +2,12 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 
 import * as actions from '../../redux/actions';
-import { getFacilityPageV2Info } from '../../../utils/selectors';
+import { getFacilityPageV2Info } from '../../redux/selectors';
 import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
-import { getParentOfLocation } from '../../../services/location';
 import EligibilityModal from './EligibilityModal';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FacilitiesRadioWidget from './FacilitiesRadioWidget';
@@ -19,6 +18,7 @@ import SingleFacilityEligibilityCheckMessage from './SingleFacilityEligibilityCh
 import VAFacilityInfoMessage from './VAFacilityInfoMessage';
 import ResidentialAddress from './ResidentialAddress';
 import LoadingOverlay from '../../../components/LoadingOverlay';
+import FacilitiesNotShown from './FacilitiesNotShown';
 
 const initialSchema = {
   type: 'object',
@@ -55,7 +55,6 @@ function VAFacilityPageV2({
   noValidVAFacilities,
   openFacilityPageV2,
   pageChangeInProgress,
-  parentFacilities,
   parentFacilitiesStatus,
   requestLocationStatus,
   routeToPreviousAppointmentPage,
@@ -66,6 +65,7 @@ function VAFacilityPageV2({
   singleValidVALocation,
   sortMethod,
   typeOfCare,
+  typeOfCareId,
   updateFacilitySortMethod,
   updateFormData,
 }) {
@@ -88,16 +88,6 @@ function VAFacilityPageV2({
   const goBack = () => routeToPreviousAppointmentPage(history, pageKey);
 
   const goForward = () => routeToNextAppointmentPage(history, pageKey);
-
-  const onFacilityChange = newData => {
-    const facility = facilities.find(f => f.id === newData.vaFacility);
-    const vaParent = getParentOfLocation(parentFacilities, facility)?.id;
-
-    updateFormData(pageKey, uiSchema, {
-      ...newData,
-      vaParent,
-    });
-  };
 
   const title = (
     <h1 className="vads-u-font-size--h2">
@@ -168,6 +158,7 @@ function VAFacilityPageV2({
         <SingleFacilityEligibilityCheckMessage
           eligibility={eligibility}
           facility={selectedFacility}
+          typeOfCare={typeOfCare}
         />
         <div className="vads-u-margin-top--2">
           <FormButtons
@@ -281,11 +272,16 @@ function VAFacilityPageV2({
             title="VA Facility"
             schema={schema}
             uiSchema={uiSchema}
-            onChange={onFacilityChange}
+            onChange={newData => updateFormData(pageKey, uiSchema, newData)}
             onSubmit={goForward}
             formContext={{ loadingEligibility, sortMethod }}
             data={data}
           >
+            <FacilitiesNotShown
+              facilities={facilities}
+              sortMethod={sortMethod}
+              typeOfCareId={typeOfCareId}
+            />
             <FormButtons
               continueLabel=""
               pageChangeInProgress={pageChangeInProgress}
@@ -294,7 +290,8 @@ function VAFacilityPageV2({
                 loadingParents ||
                 loadingFacilities ||
                 loadingEligibility ||
-                (facilities?.length === 1 && !canScheduleAtChosenFacility)
+                (schema.properties.vaFacility.enum?.length === 1 &&
+                  !canScheduleAtChosenFacility)
               }
             />
           </SchemaForm>
@@ -312,6 +309,7 @@ function VAFacilityPageV2({
           onClose={hideEligibilityModal}
           eligibility={eligibility}
           facilityDetails={selectedFacility}
+          typeOfCare={typeOfCare}
         />
       )}
     </div>

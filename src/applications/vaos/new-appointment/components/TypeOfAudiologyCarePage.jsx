@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../components/FormButtons';
 import * as actions from '../redux/actions';
-import { getFormPageInfo } from '../../utils/selectors';
+import { getFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 
 const initialSchema = {
@@ -78,21 +78,23 @@ function TypeOfAudiologyCarePage({
       <h1 className="vads-u-font-size--h2">
         Choose the type of audiology care you need
       </h1>
-      <SchemaForm
-        name="Type of appointment"
-        title="Type of appointment"
-        schema={schema || initialSchema}
-        uiSchema={uiSchema}
-        onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
-        onChange={newData => updateFormData(pageKey, uiSchema, newData)}
-        data={data}
-      >
-        <FormButtons
-          onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
-          pageChangeInProgress={pageChangeInProgress}
-          loadingText="Page change in progress"
-        />
-      </SchemaForm>
+      {!!schema && (
+        <SchemaForm
+          name="Type of appointment"
+          title="Type of appointment"
+          schema={schema}
+          uiSchema={uiSchema}
+          onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
+          onChange={newData => updateFormData(pageKey, uiSchema, newData)}
+          data={data}
+        >
+          <FormButtons
+            onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+            pageChangeInProgress={pageChangeInProgress}
+            loadingText="Page change in progress"
+          />
+        </SchemaForm>
+      )}
     </div>
   );
 }

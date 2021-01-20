@@ -4,7 +4,7 @@
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" with constructLcBreadcrumbs = true titleInclude = true %}
 
-<div id="content" class="interior">
+<div id="content" class="interior" data-template="node-step_by_step">
   <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
       <div class="usa-width-three-fourths">
@@ -19,7 +19,7 @@
           {% endif %}
 
           <!-- Search bar -->
-          <div class="vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-margin-bottom--3">
+          <div class="medium-screen:vads-u-border-bottom--2px vads-u-border-color--gray-light medium-screen:vads-u-margin-bottom--3">
             {% include "src/site/includes/support_resources_search_bar.drupal.liquid" %}
           </div>
 
@@ -36,7 +36,7 @@
             {% endif %}
 
             <!-- Buttons -->
-            <div class="vads-u-margin-top--3">
+            <div class="vads-u-margin-top--3 vads-u-display--flex vads-u-justify-content--center medium-screen:vads-u-display--block">
               {% for fieldButton in fieldButtons  %}
                 {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
               {% endfor %}
@@ -58,17 +58,37 @@
                   <li class="process-step list-{{ stepNumber | numToWord }}">
                     <!-- Step wysiyg -->
                     {{ fieldStep.entity.fieldWysiwyg.processed }}
-                    <br />
-
-                    {% include "src/site/paragraphs/alert_single.drupal.liquid" with alert = fieldStep.entity.fieldAlert.entity %}
-
+                    <!-- mobile template, hide ghost alerts -->
+                    {% if fieldStep.entity.fieldMedia.entity.thumbnail != empty or fieldStep.entity.fieldAlert.entity.fieldAlertBlockReference != empty
+                    %}
+                      <div class="form-expanding-group additional-info-container medium-screen:vads-u-display--none">
+                        <span class="additional-info-title">Show details</span>
+                          <span>
+                            <div class="additional-info-content">
+                                <div class="vads-u-margin--1p5">
+                                {% include "src/site/paragraphs/alert_single.drupal.liquid" with entity = fieldStep.entity.fieldAlert.entity %}
+                                </div>
+                                <img alt="{{ fieldStep.entity.fieldMedia.entity.thumbnail.alt }}"
+                                src="{{ fieldStep.entity.fieldMedia.entity.thumbnail.url }}" />
+                            </div>
+                          </span>
+                      </div>
+                    {% endif %}
+                    <!-- desktop -->
+                    <span class="vads-u-display--none medium-screen:vads-u-display--block">
+                      {% if fieldStep.entity.fieldAlert.entity.fieldAlertBlockReference != empty
+                      %}
+                        <div class="vads-u-margin--1p5">
+                          {% include "src/site/paragraphs/alert_single.drupal.liquid" with entity = fieldStep.entity.fieldAlert.entity %}
+                        </div>
+                      {% endif %}
                     <!-- Step image -->
                     {% if fieldStep.entity.fieldMedia.entity != empty %}
                       <img alt="{{ fieldStep.entity.fieldMedia.entity.thumbnail.alt }}"
                         src="{{ fieldStep.entity.fieldMedia.entity.thumbnail.url }}" />
                     {% endif %}
+                  </span>
                   </li>
-
                   <!-- Increment step number -->
                   {% assign stepNumber = stepNumber | plus: 1 %}
                 {% endfor %}
@@ -77,7 +97,7 @@
 
             <!-- Repeated buttons -->
             {% if fieldButtonsRepeat %}
-              <div class="vads-u-margin-top--3">
+              <div class="vads-u-margin-top--3 vads-u-display--flex vads-u-justify-content--center medium-screen:vads-u-display--block">
                 {% for fieldButton in fieldButtons  %}
                   {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
                 {% endfor %}
@@ -109,6 +129,7 @@
       </div>
     </div>
   </main>
+  {% include "src/site/components/up_to_top_button.html" %}
 </div>
 
 {% include "src/site/includes/footer.html" %}

@@ -1,6 +1,6 @@
 # based on https://github.com/nodejs/docker-node/blob/master/4.7/slim/Dockerfile
 
-FROM node:10
+FROM node:14.15.0
 
 # default case is Jenkins, but we want to be able to overwrite this
 ARG userid=504
@@ -19,16 +19,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends gconf-service l
                                                 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates \
                                                 fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils \
                                                 x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable \
-                                                xfonts-cyrillic x11-apps xvfb xauth wget netcat dumb-init \
-  && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-  && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
-  && apt-get update \
-  && apt-get install -y google-chrome-unstable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst ttf-freefont \
-    --no-install-recommends \
-  && npm install -g s3-cli
+                                                xfonts-cyrillic x11-apps xvfb xauth netcat dumb-init
 
 RUN curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /cc-test-reporter
 RUN chmod +x /cc-test-reporter
+
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+RUN unzip awscliv2.zip
+RUN ./aws/install
+RUN aws --version # Verify AWS CLI installation.
+
+# Explicitly set CA cert to resolve SSL issues with AWS.
+ENV AWS_CA_BUNDLE /aws/dist/botocore/cacert.pem
 
 RUN mkdir -p /application
 

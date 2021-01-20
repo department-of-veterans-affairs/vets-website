@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
-
+} from '@department-of-veterans-affairs/component-library/Telephone';
+import { isLOA3 as isLOA3Selector } from 'platform/user/selectors';
 import Payments from './payments/Payments.jsx';
 import ViewPaymentsHeader from '../../components/view-payments-header/ViewPaymentsHeader.jsx';
+import IdentityNotVerified from '../IdentityNotVerified';
 import {
   paymentsReturnedFields,
   paymentsReceivedFields,
@@ -60,7 +61,8 @@ class ViewPaymentsLists extends Component {
           headline="We don’t have a record of returned payments"
           status="info"
           backgroundOnly="true"
-          className="vads-u-background-color--gray-lightest"
+          className="vads-u-background-color--gray-lightest vads-u-fontsize--h3"
+          level="2"
         />
       );
     }
@@ -96,7 +98,8 @@ class ViewPaymentsLists extends Component {
           headline="We don’t have a record of VA payments made to you"
           status="info"
           backgroundOnly="true"
-          className="vads-u-background-color--gray-lightest"
+          className="vads-u-background-color--gray-lightest vads-u-fontsize--h3"
+          level="2"
         />
       );
     }
@@ -108,21 +111,19 @@ class ViewPaymentsLists extends Component {
     let paymentsReturnedTable = '';
     let content;
     // If the app is loading, show a loading LoadingIndicator
-    // if there is an error show an AlertBox
-    // If the app is NOT loading
     if (this.props.isLoading) {
       content = <LoadingIndicator message="Loading payment information..." />;
-    }
-
-    if (this.props.error) {
+    } else if (!this.props.isIdentityVerified) {
+      // if user is not LOA3, render an AlertBox that asks them to verify their identity
+      return <IdentityNotVerified />;
+    } else if (this.props.error) {
+      // if there was an error, show an AlertBox
       const status = isClientError(this.props.error.code) ? 'info' : 'error';
       const alertContent = isClientError(this.props.error.code)
         ? ClientErrorAlertContent
         : ServerErrorAlertContent;
       content = <AlertBox content={alertContent} status={status} isVisible />;
-    }
-
-    if (!this.props.isLoading && this.props.payments) {
+    } else {
       // Deconstruct payments props object
       // If there are no payments AND no payments returned, render an Alertbox
       // If there are either payments OR payments returned, run payment list builders
@@ -149,22 +150,25 @@ class ViewPaymentsLists extends Component {
           <>
             <ViewPaymentsHeader />
             {paymentsReceivedTable}
-            <strong>Note:</strong> Some payment details might not be available
-            online. For example, direct-deposit payments less than $1 or check
-            payments less than $5, won’t show in your online payment history.
-            Gross (before deductions) payments and changes will show only for
-            recurring and irregular compensation payments. If you have questions
-            about payments made by VA, please call the VA Help Desk at{' '}
-            <Telephone contact={CONTACTS.VA_BENEFITS} />
+            <p>
+              <strong>Note:</strong> Some payment details might not be available
+              online. For example, direct-deposit payments less than $1 or check
+              payments less than $5, won’t show in your online payment history.
+              Gross (before deductions) payments and changes will show only for
+              recurring and irregular compensation payments.
+            </p>
+            <p>
+              If you have questions about payments made by VA, please call the
+              VA Help Desk at <Telephone contact={CONTACTS.VA_BENEFITS} />
+            </p>
             {paymentsReturnedTable}
             <h3>What if I find a check that I reported missing?</h3>
-            <p>
-              If you reported a check missing and found it later, you must
-              return the original check to the U.S. Department of the Treasury
-              and wait to receive your replacement check. If you endorse both
-              the original and replacement check, you'll get a double payment.
-              If this happens, VA Debt Management Center will contact you about
-              collection.
+            <p className="vads-u-margin-bottom--3">
+              If you find a missing check, you must return it to the U.S.
+              Department of the Treasury and wait to receive your replacement
+              check. If you endorse both the original and replacement check,
+              you'll get a double payment. If this happens, VA Debt Management
+              Center will contact you about collection.
             </p>
           </>
         );
@@ -176,7 +180,9 @@ class ViewPaymentsLists extends Component {
 }
 
 function mapStateToProps(state) {
+  const isIdentityVerified = isLOA3Selector(state);
   return {
+    isIdentityVerified,
     isLoading: state.allPayments.isLoading,
     payments: state.allPayments.payments,
     error: state.allPayments.error,

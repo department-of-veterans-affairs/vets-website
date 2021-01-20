@@ -3,6 +3,7 @@ const assert = require('assert');
 const { sortBy, unescape, pick, omit } = require('lodash');
 const moment = require('moment-timezone');
 const { readEntity } = require('../helpers');
+const buckets = require('../../../../constants/buckets');
 
 const mediaImageStyles = [
   {
@@ -70,6 +71,7 @@ function unescapeUnicode(string) {
  */
 function getDrupalValue(arr) {
   if (!arr || arr.length === 0) return null;
+  if (arr.length === 1 && arr[0].processed === '') return null;
   if (arr.length === 1)
     if (arr[0].processed)
       return typeof arr[0].processed === 'string'
@@ -103,11 +105,15 @@ function getImageCrop(obj, imageStyle = null) {
           .join(', ')}.`,
       );
     }
-    const url = `/img/styles/${image.machine}/${
-      imageObj.image.derivative.url
-    }`.replace('public:/', 'public');
+    const url = `/img/styles/${
+      image.machine
+    }/public${imageObj.image.derivative.url.replace('/img', '')}`;
     imageObj.image.url = url;
-    imageObj.image.derivative.url = url;
+    // Derivative urls have a full path starting with
+    // 'https://{buildtype}.cms.va.gov/sites/default/files/', so add that here.
+    // It doesn't matter what the build type is since it gets stripped out in convertDrupalFilesToLocal
+    // so just use prod here
+    imageObj.image.derivative.url = `${buckets.vagovprod}${url}`;
     imageObj.image.derivative.width = image.width;
     imageObj.image.derivative.height = image.height;
     return imageObj;
@@ -227,13 +233,19 @@ module.exports = {
       createMetaTag('MetaProperty', 'og:title', metaTags.og_title),
       createMetaTag('MetaValue', 'keywords', metaTags.keywords),
       createMetaTag('MetaProperty', 'og:description', metaTags.og_description),
+      createMetaTag('MetaValue', 'twitter:image', metaTags.twitter_cards_image),
+      createMetaTag(
+        'MetaValue',
+        'twitter:image:alt',
+        metaTags.twitter_cards_image_alt,
+      ),
+      createMetaTag('MetaProperty', 'og:image', metaTags.og_image_0),
       createMetaTag(
         'MetaProperty',
         'og:image:height',
         metaTags.og_image_height,
       ),
-      createMetaTag('MetaValue', 'twitter:image', metaTags.twitter_cards_image),
-      createMetaTag('MetaProperty', 'og:image', metaTags.og_image_0),
+      createMetaTag('MetaProperty', 'og:image:alt', metaTags.og_image_alt),
     ].filter(t => t.value);
   },
 
@@ -374,5 +386,20 @@ module.exports = {
         .filter(filter || (() => true))
         .map(entity => assembleEntityTree(entity))
     );
+  },
+
+  /**
+   * Returns an object with a single key "entity" and value entity[key][0].
+   * This is a very common pattern.
+   * @param entity
+   * @param key
+   * @returns {{entity: *}}
+   */
+  entityObjectForKey(entity, key) {
+    return entity && entity[key]
+      ? {
+          entity: entity[key][0],
+        }
+      : null;
   },
 };

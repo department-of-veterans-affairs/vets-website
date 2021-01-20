@@ -153,7 +153,6 @@ export default class ReviewCardField extends React.Component {
       'vads-u-margin-top--1',
       'vads-u-margin-bottom--2p5',
       'vads-u-margin-x--0',
-      'vads-u-font-size--h4',
     ].join(' ');
 
     const updateButtonClasses = [
@@ -264,7 +263,7 @@ export default class ReviewCardField extends React.Component {
       'review-card--header',
       'vads-u-background-color--gray-lightest',
       'vads-u-padding-y--0',
-      'vads-u-padding-x--1',
+      'vads-u-padding-x--2',
       'vads-u-display--flex',
       'vads-u-justify-content--space-between',
       'vads-u-align-items--center',
@@ -461,7 +460,11 @@ ReviewCardField.propTypes = {
        */
       itemNameAction: PropTypes.string,
     }).isRequired,
-    'ui:description': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+    'ui:description': PropTypes.oneOfType([
+      PropTypes.element,
+      PropTypes.func,
+      PropTypes.string,
+    ]),
     'ui:title': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     'ui:subtitle': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     saveClickTrackEvent: PropTypes.object,

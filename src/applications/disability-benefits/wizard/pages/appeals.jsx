@@ -1,23 +1,26 @@
 import React from 'react';
-import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import { pageNames } from './pageList';
+
+const label =
+  'Are you filing a new claim or are you disagreeing with a VA decision on an earlier claim?';
 
 const options = [
   {
     value: pageNames.fileClaim,
     label:
-      'I’m filing a claim for a new condition or for a condition that has gotten worse.',
+      'I’m filing a claim for a new condition or for a condition that’s gotten worse.',
   },
   {
-    value: pageNames.disagreeing,
+    value: pageNames.disagreeFileClaim,
     label: 'I’m disagreeing with a VA decision on my claim.',
   },
 ];
 
 const AppealsPage = ({ setPageState, state = {} }) => (
-  <ErrorableRadioButtons
+  <RadioButtons
     name={`${pageNames.appeals}-option`}
-    label="Are you filing a new claim or are you disagreeing with a VA decision on an earlier claim?"
+    label={label}
     id={`${pageNames.appeals}-option`}
     options={options}
     onValueChange={({ value }) => setPageState({ selected: value }, value)}

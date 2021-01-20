@@ -696,3 +696,17 @@ textarea.resize-y {
 textarea.resize-x {
   resize: horizontal;
 }
+
+
+.blue-bar-block {
+  border-left: 7px solid $color-primary;
+  padding-left: 1em;
+
+  p {
+    margin: 0.5em 0;
+  }
+}
+
+select:disabled {
+  background-color: $color-gray-lighter;
+}

@@ -1,4 +1,5 @@
-require('@babel/polyfill');
+require('core-js/stable');
+require('regenerator-runtime/runtime');
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
@@ -26,10 +27,10 @@ const vaMedalliaStylesFilename = 'va-medallia-styles';
 
 const generateWebpackDevConfig = require('./webpack.dev.config.js');
 
-const timestamp = new Date().getTime();
-
 const getAbsolutePath = relativePath =>
   path.join(__dirname, '../', relativePath);
+
+const timestamp = new Date().getTime();
 
 const sharedModules = [
   getAbsolutePath('src/platform/polyfills'),
@@ -55,6 +56,18 @@ const globalEntryFiles = {
   'shared-modules': sharedModules,
 };
 
+function getEntryManifests(entry) {
+  const allManifests = getAppManifests();
+  let entryManifests = allManifests;
+  if (entry) {
+    const entryNames = entry.split(',').map(name => name.trim());
+    entryManifests = allManifests.filter(manifest =>
+      entryNames.includes(manifest.entryName),
+    );
+  }
+  return entryManifests;
+}
+
 /**
  * Get a list of all the entry points.
  *
@@ -63,14 +76,7 @@ const globalEntryFiles = {
  * @return {Object} - The entry file paths mapped to the entry names
  */
 function getEntryPoints(entry) {
-  const manifests = getAppManifests();
-  let manifestsToBuild = manifests;
-  if (entry) {
-    const entryNames = entry.split(',').map(name => name.trim());
-    manifestsToBuild = manifests.filter(manifest =>
-      entryNames.includes(manifest.entryName),
-    );
-  }
+  const manifestsToBuild = getEntryManifests(entry);
 
   return getWebpackEntryPoints(manifestsToBuild);
 }
@@ -83,6 +89,7 @@ module.exports = env => {
     port: 3001,
     scaffold: false,
     watch: false,
+    setPublicPath: false,
     ...env,
     // Using a getter so we can reference the buildtype
     get destination() {
@@ -97,6 +104,11 @@ module.exports = env => {
     ENVIRONMENTS.VAGOVPROD,
   ].includes(buildOptions.buildtype);
 
+  const useHashFilenames = [
+    ENVIRONMENTS.VAGOVSTAGING,
+    ENVIRONMENTS.VAGOVPROD,
+  ].includes(buildOptions.buildtype);
+
   // enable css sourcemaps for all non-localhost builds
   // or if build options include local-css-sourcemaps or entry
   const enableCSSSourcemaps =
@@ -106,16 +118,24 @@ module.exports = env => {
 
   const outputPath = `${buildOptions.destination}/generated`;
 
+  // Set the pubilcPath conditional so we can get dynamic modules loading from S3
+  const publicAssetPath =
+    buildOptions.setPublicPath && buildOptions.buildtype !== 'localhost'
+      ? `${BUCKETS[buildOptions.buildtype]}/generated/`
+      : '/generated/';
+
   const baseConfig = {
     mode: 'development',
     entry: entryFiles,
     output: {
       path: outputPath,
-      publicPath: '/generated/',
-      filename: !isOptimizedBuild
-        ? '[name].entry.js'
-        : `[name].entry.[chunkhash]-${timestamp}.js`,
-      chunkFilename: !isOptimizedBuild
+      publicPath: publicAssetPath,
+      filename: pathData => {
+        return !useHashFilenames || pathData.chunk.name === 'proxy-rewrite' // the unhashed proxy-rewrite file is directly accessed in the prearchive job (src/site/stages/prearchive/link-assets-to-bucket.js#93)
+          ? '[name].entry.js'
+          : `[name].entry.[chunkhash]-${timestamp}.js`;
+      },
+      chunkFilename: !useHashFilenames
         ? '[name].entry.js'
         : `[name].entry.[chunkhash]-${timestamp}.js`,
     },
@@ -253,7 +273,7 @@ module.exports = env => {
 
           if (isMedalliaStyleFile && isStaging) return `[name].css`;
 
-          return isOptimizedBuild
+          return useHashFilenames
             ? `[name].[contenthash]-${timestamp}.css`
             : `[name].css`;
         },
@@ -388,6 +408,15 @@ module.exports = env => {
         ],
       }),
     );
+
+    // Open the browser to either --env.openTo or one of the root URLs of the
+    // apps we're scaffolding
+    baseConfig.devServer.open = true;
+    baseConfig.devServer.openPage =
+      buildOptions.openTo || buildOptions.entry
+        ? // Assumes the first in the list has a rootUrl
+          getEntryManifests(buildOptions.entry)[0].rootUrl
+        : '';
   }
 
   if (isOptimizedBuild) {

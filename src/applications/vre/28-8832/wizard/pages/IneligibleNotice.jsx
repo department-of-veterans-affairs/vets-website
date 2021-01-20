@@ -11,17 +11,24 @@ const IneligibleNotice = () => {
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_INELIGIBLE);
     recordEvent({
       event: `howToWizard-notice-displayed`,
-      'reason-for-notice': 'ineligibility - not a service member or veteran',
+      'reason-for-alert': 'ineligibility - not a service member or veteran',
     });
   });
+  const handleClick = () => {
+    recordEvent({
+      event: `howToWizard-alert-link-click`,
+      'howToWizard-alert-link-click-label':
+        'Learn more about VA career planning and guidance',
+    });
+  };
   return (
-    <div className="vads-u-margin-top--2 vads-u-padding--3 vads-u-background-color--primary-alt-lightest">
+    <div className="vads-u-margin-top--2 vads-u-padding--3 vads-u-background-color--gray-lightest">
       <p className="vads-u-margin-top--0 vadsu-margin-bottom--1">
         To be eligible for Chapter 36 career planning and guidance, you must be
         a Veteran or service member, or a dependent of one.
       </p>
-      <a href={CAREERS_EMPLOYMENT_ROOT_URL}>
-        Find out more about VA educational and career counseling
+      <a onClick={handleClick} href={CAREERS_EMPLOYMENT_ROOT_URL}>
+        Learn more about VA career planning and guidance
       </a>
     </div>
   );

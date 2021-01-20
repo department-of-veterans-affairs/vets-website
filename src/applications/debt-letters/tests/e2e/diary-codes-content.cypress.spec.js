@@ -10,7 +10,7 @@ describe('Diary Codes', () => {
     cy.axeCheck();
   });
 
-  it('renders expected content for diary code: 080', () => {
+  it.skip('renders expected content for diary code: 080', () => {
     cy.get('[data-testid="diary-codes-status"]').contains(
       'Status: Referred to the Department of the Treasury',
     );
@@ -20,7 +20,7 @@ describe('Diary Codes', () => {
     );
   });
 
-  it('renders expected content for diary code: 100', () => {
+  it.skip('renders expected content for diary code: 100', () => {
     cy.get('[data-testid="diary-codes-status"]').contains(
       'Status: Pending payment',
     );
@@ -30,7 +30,7 @@ describe('Diary Codes', () => {
     );
   });
 
-  it('renders expected content for diary code: 101, 450, 610, 617', () => {
+  it.skip('renders expected content for diary code: 101, 450, 610, 617', () => {
     cy.get('[data-testid="diary-codes-status"]').contains(
       'Status: Pending automatic benefit offset',
     );
@@ -40,7 +40,7 @@ describe('Diary Codes', () => {
     );
   });
 
-  it('renders expected content for diary code: 117', () => {
+  it.skip('renders expected content for diary code: 117', () => {
     cy.get('[data-testid="diary-codes-status"]').contains(
       'Status: Pending payment',
     );
@@ -50,7 +50,7 @@ describe('Diary Codes', () => {
     );
   });
 
-  it('renders expected content for diary code: 123', () => {
+  it.skip('renders expected content for diary code: 123', () => {
     cy.get('[data-testid="diary-codes-status"]').contains(
       'Status: Pending payment',
     );
@@ -60,7 +60,7 @@ describe('Diary Codes', () => {
     );
   });
 
-  it('renders expected content for diary code: 500', () => {
+  it.skip('renders expected content for diary code: 500', () => {
     cy.get('[data-testid="diary-codes-status"]').contains(
       'Status: Debt is pending referral to the Department of the Treasury',
     );
@@ -70,7 +70,7 @@ describe('Diary Codes', () => {
     );
   });
 
-  it('renders expected content for diary code: 600, 601', () => {
+  it.skip('renders expected content for diary code: 600, 601', () => {
     cy.get('[data-testid="diary-codes-status"]').contains(
       'Status: Pending payment',
     );

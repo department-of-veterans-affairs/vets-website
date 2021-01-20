@@ -16,6 +16,7 @@ const icsFileQuery = require('./file-fragments/ics.file.graphql');
 const menuLinksQuery = require('./navigation-fragments/menuLinks.nav.graphql');
 const newsStoryPage = require('./newStoryPage.graphql');
 const nodeBasicLandingPage = require('./nodeBasicLandingPage.graphql');
+const nodeCampaignLandingPage = require('./nodeCampaignLandingPage.graphql');
 const nodeChecklist = require('./nodeChecklist.graphql');
 const nodeMediaListImages = require('./nodeMediaListImages.graphql');
 const nodeMediaListVideos = require('./nodeMediaListVideos.graphql');
@@ -24,6 +25,7 @@ const nodeStepByStep = require('./nodeStepByStep.graphql');
 const nodeSupportResourcesDetailPage = require('./nodeSupportResourcesDetailPage.graphql');
 const pressReleasePage = require('./pressReleasePage.graphql');
 const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
+const taxonomiesQuery = require('./taxonomy-fragments/GetTaxonomies.graphql');
 const vaFormPage = require('./vaFormPage.graphql');
 const vamcOperatingStatusAndAlerts = require('./vamcOperatingStatusAndAlerts.graphql');
 
@@ -40,9 +42,8 @@ const {
  * Queries for a page by the node id, getting the latest revision
  * To execute, run this query at http://staging.va.agile6.com/graphql/explorer.
  */
-const buildQuery = async () => {
-  const sideNavQuery = await facilitySidebarQuery.compiledQuery();
-  return `
+module.exports = `
+
   ${fragments}
   ${landingPage}
   ${page}
@@ -63,6 +64,7 @@ const buildQuery = async () => {
   ${nodeMediaListVideos}
   ${nodeSupportResourcesDetailPage}
   ${nodeBasicLandingPage}
+  ${nodeCampaignLandingPage}
 
   query GetLatestPageById($id: String!, $today: String!, $onlyPublishedContent: Boolean!) {
     nodes: nodeQuery(revisions: LATEST, filter: {
@@ -90,11 +92,12 @@ const buildQuery = async () => {
         ... nodeMediaListVideos
         ... nodeSupportResourcesDetailPage
         ... nodeBasicLandingPage
+        ... nodeCampaignLandingPage
       }
     }
     ${icsFileQuery}
     ${sidebarQuery}
-    ${sideNavQuery}
+    ${facilitySidebarQuery}
     ${alertsQuery}
     ${bannerAlertsQuery}
     ${
@@ -103,11 +106,11 @@ const buildQuery = async () => {
         : ''
     }
     ${menuLinksQuery}
+    ${taxonomiesQuery}
   }
 `;
-};
 
-const query = buildQuery();
+const query = module.exports;
 
 let regString = '';
 queryParamToBeChanged.forEach(param => {
@@ -115,4 +118,4 @@ queryParamToBeChanged.forEach(param => {
 });
 
 const regex = new RegExp(`${regString}`, 'g');
-module.exports = query.then(q => q.replace(regex, updateQueryString));
+module.exports = query.replace(regex, updateQueryString);

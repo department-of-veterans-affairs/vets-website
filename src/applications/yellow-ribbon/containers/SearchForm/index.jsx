@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import map from 'lodash/map';
 import { connect } from 'react-redux';
 // Relative imports.
-import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
+import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import { states as STATES } from 'vets-json-schema/dist/constants.json';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { fetchResultsThunk } from '../../actions';
@@ -195,7 +195,7 @@ export class SearchForm extends Component {
 
         <div>
           {/* Unlimited Contribution Amount */}
-          <ErrorableCheckbox
+          <Checkbox
             checked={contributionAmount === 'unlimited'}
             label="Only show schools that provide maximum funding (tuition that's left after your Post-9/11 GI Bill)"
             onValueChange={onCheckboxChange('contributionAmount')}
@@ -203,7 +203,7 @@ export class SearchForm extends Component {
           />
 
           {/* Unlimited Number of Students */}
-          <ErrorableCheckbox
+          <Checkbox
             checked={numberOfStudents === 'unlimited'}
             label="Only show schools that provide funding to all eligible students"
             onValueChange={onCheckboxChange('numberOfStudents')}

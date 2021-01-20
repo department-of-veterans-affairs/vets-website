@@ -12,9 +12,8 @@ describe('reducer', () => {
     expect(result).to.be.deep.equal({
       error: '',
       fetching: false,
-      page: 1,
-      perPage: 10,
       results: undefined,
+      scopes: {},
       totalResults: undefined,
     });
   });
@@ -33,9 +32,8 @@ describe('reducer', () => {
     expect(state).to.be.deep.equal({
       error: '',
       fetching: false,
-      page: 1,
-      perPage: 10,
       results: undefined,
+      scopes: {},
       totalResults: undefined,
     });
   });
@@ -49,6 +47,6 @@ describe('reducer', () => {
     const state = thirdPartyAppsReducer(initialState, action);
 
     expect(state.fetching).to.be.false;
-    expect(state.results).to.be.instanceOf(Array);
+    expect(state.results).to.be.instanceOf(Object);
   });
 });

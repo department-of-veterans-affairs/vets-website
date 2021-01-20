@@ -17,8 +17,6 @@ const {
 } = require('../process-cms-exports/helpers');
 const entityTreeFactory = require('../process-cms-exports');
 
-/* eslint-disable no-console */
-
 function encodeCredentials({ user, password }) {
   const credentials = `${user}:${password}`;
   return Buffer.from(credentials).toString('base64');
@@ -95,6 +93,7 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
           try {
             return JSON.parse(data);
           } catch (error) {
+            /* eslint-disable no-console */
             console.error(
               chalk.red(
                 "There was an error parsing the response body, it isn't valid JSON. Here is the error:",
@@ -168,11 +167,9 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
       }
     },
 
-    async getAllPages(onlyPublishedContent = true) {
-      const allPagesQuery = await getQuery(queries.GET_ALL_PAGES);
-      // console.log("allPagesQuery:", allPagesQuery);
+    getAllPages(onlyPublishedContent = true) {
       return this.query({
-        query: allPagesQuery,
+        query: getQuery(queries.GET_ALL_PAGES),
         variables: {
           today: moment().format('YYYY-MM-DD'),
           onlyPublishedContent,
@@ -180,14 +177,10 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
       });
     },
 
-    async getNonNodeContent(onlyPublishedContent = true) {
-      const nonNodeQuery = await getQuery(queries.GET_ALL_PAGES, {
-        useTomeSync: true,
-      });
-      // console.log("nonNodeQuery:", nonNodeQuery);
+    getNonNodeContent(onlyPublishedContent = true) {
       say('Querying for non-node content');
       return this.query({
-        query: nonNodeQuery,
+        query: getQuery(queries.GET_ALL_PAGES, { useTomeSync: true }),
         variables: {
           onlyPublishedContent,
         },
@@ -226,22 +219,12 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
       return transformedEntities;
     },
 
-    async getLatestPageById(nodeId) {
+    getLatestPageById(nodeId) {
       return this.query({
-        query: await getQuery(queries.GET_LATEST_PAGE_BY_ID),
+        query: getQuery(queries.GET_LATEST_PAGE_BY_ID),
         variables: {
           id: nodeId,
           today: moment().format('YYYY-MM-DD'),
-          onlyPublishedContent: false,
-        },
-      });
-    },
-
-    // Sets up the CMS SideNav Menus list.
-    async getSideNavigations() {
-      return this.query({
-        query: await getQuery(queries.GET_HEALTH_SYSTEM_NAVS),
-        variables: {
           onlyPublishedContent: false,
         },
       });

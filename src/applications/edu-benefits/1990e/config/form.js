@@ -89,14 +89,14 @@ const formConfig = {
   errorText: ErrorText,
   chapters: {
     applicantInformation: {
-      title: 'Applicant Information',
+      title: 'Applicant information',
       pages: {
         applicantInformation: applicantInformation(fullSchema1990e),
         additionalBenefits: additionalBenefits(fullSchema1990e),
       },
     },
     benefitEligibility: {
-      title: 'Benefits Eligibility',
+      title: 'Benefits eligibility',
       pages: {
         benefitEligibility: {
           path: 'benefits/eligibility',
@@ -122,7 +122,7 @@ const formConfig = {
       },
     },
     sponsorVeteran: {
-      title: 'Sponsor Information',
+      title: 'Sponsor information',
       pages: {
         sponsorVeteran: {
           title: 'Sponsor information',
@@ -130,32 +130,32 @@ const formConfig = {
           uiSchema: {
             veteranFullName: _.merge(fullNameUISchema, {
               first: {
-                'ui:title': 'Sponsor first name',
+                'ui:title': "Sponsor's first name",
               },
               last: {
-                'ui:title': 'Sponsor last name',
+                'ui:title': "Sponsor's last name",
               },
               middle: {
-                'ui:title': 'Sponsor middle name',
+                'ui:title': "Sponsor's middle name",
               },
               suffix: {
-                'ui:title': 'Sponsor suffix',
+                'ui:title': "Sponsor's suffix",
               },
             }),
             'view:veteranId': _.merge(personId.uiSchema(), {
               veteranSocialSecurityNumber: {
-                'ui:title': 'Sponsor Social Security number',
+                'ui:title': "Sponsor's Social Security number",
               },
               'view:noSSN': {
                 'ui:title': 'I don’t know my sponsor’s Social Security number',
               },
               vaFileNumber: {
-                'ui:title': 'Sponsor file number',
+                'ui:title': "Sponsor's VA file number",
               },
             }),
-            veteranAddress: address.uiSchema('Sponsor address'),
+            veteranAddress: address.uiSchema("Sponsor's address"),
             serviceBranch: {
-              'ui:title': 'Sponsor Branch of Service',
+              'ui:title': "Sponsor's branch of service",
             },
           },
           schema: {
@@ -172,7 +172,7 @@ const formConfig = {
       },
     },
     educationHistory: {
-      title: 'Education History',
+      title: 'Education history',
       pages: {
         educationHistory: {
           path: 'education/history',
@@ -201,13 +201,13 @@ const formConfig = {
       },
     },
     employmentHistory: {
-      title: 'Employment History',
+      title: 'Employment history',
       pages: {
         employmentHistory: employmentHistoryPage(fullSchema1990e, false),
       },
     },
     schoolSelection: {
-      title: 'School Selection',
+      title: 'School selection',
       pages: {
         schoolSelection: createSchoolSelectionPage(
           fullSchema1990e,
@@ -216,7 +216,7 @@ const formConfig = {
       },
     },
     personalInformation: {
-      title: 'Personal Information',
+      title: 'Personal information',
       pages: {
         contactInformation: createContactInformationPage(
           fullSchema1990e,

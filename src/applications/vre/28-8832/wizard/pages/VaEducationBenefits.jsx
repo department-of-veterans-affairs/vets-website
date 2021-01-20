@@ -1,6 +1,6 @@
 import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import { pageNames } from './pageList';
 
 const options = [
@@ -26,7 +26,7 @@ const EducationBenefits = ({ setPageState, state = {} }) => {
     setPageState({ selected: value }, value);
   };
   return (
-    <ErrorableRadioButtons
+    <RadioButtons
       name="education-benefits"
       label="Are you using VA education benefits to go to school?"
       options={options}

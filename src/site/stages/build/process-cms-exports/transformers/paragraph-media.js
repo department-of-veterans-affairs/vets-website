@@ -1,4 +1,4 @@
-const { getDrupalValue, getImageCrop } = require('./helpers');
+const { getDrupalValue } = require('./helpers');
 
 const transform = entity => ({
   entity: {
@@ -9,7 +9,7 @@ const transform = entity => ({
       getDrupalValue(entity.fieldAllowClicksOnThisImage) || false,
     fieldMedia:
       entity.fieldMedia && entity.fieldMedia.length
-        ? { entity: getImageCrop(entity.fieldMedia[0], '_21MEDIUMTHUMBNAIL') }
+        ? { entity: entity.fieldMedia[0] }
         : null,
   },
 });

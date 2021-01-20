@@ -50,9 +50,6 @@ const formConfigKeys = [
   'formSavedPage',
   'additionalRoutes',
   'submitErrorText',
-  'authorize',
-  'getAuthorizationState',
-  'authorizationMessage',
   'customText',
   'submissionError',
   'saveInProgress',
@@ -233,15 +230,6 @@ const validAdditionalRoutes = ({ additionalRoutes }) => {
   }
 };
 
-const validAuthorization = formConfig => {
-  validFunctionProperty(formConfig, 'authorize', false);
-  const { authorize } = formConfig;
-  if (authorize) {
-    validFunctionProperty(formConfig, 'authorizationMessage');
-    validFunctionProperty(formConfig, 'getAuthorizationState');
-  }
-};
-
 const validCustomText = ({ customText }) => {
   validObjectProperty({ customText }, 'customText', false);
   if (customText) {
@@ -303,7 +291,6 @@ describe('form:', () => {
           validFunctionProperty(formConfig, 'onFormLoaded', false);
           validFunctionProperty(formConfig, 'formSavedPage', false);
           validAdditionalRoutes(formConfig);
-          validAuthorization(formConfig);
           validCustomText(formConfig);
           validFunctionProperty(formConfig, 'submissionError', false);
           validSaveInProgressConfig(formConfig);

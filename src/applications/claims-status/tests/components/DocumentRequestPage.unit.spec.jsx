@@ -3,7 +3,9 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
+import { Provider } from 'react-redux';
 
+import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import { DocumentRequestPage } from '../../containers/DocumentRequestPage';
 
 const params = { id: 1 };
@@ -150,7 +152,7 @@ describe('<DocumentRequestPage>', () => {
         submitFiles={onSubmit}
       />,
     );
-    tree.subTree('AddFilesForm').props.onSubmit();
+    tree.subTree('Connect(AddFilesForm)').props.onSubmit();
     expect(onSubmit.called).to.be.true;
   });
   it('should reset uploads and set title on mount', () => {
@@ -167,14 +169,16 @@ describe('<DocumentRequestPage>', () => {
     mainDiv.classList.add('va-nav-breadcrumbs');
     document.body.appendChild(mainDiv);
     ReactTestUtils.renderIntoDocument(
-      <DocumentRequestPage
-        params={params}
-        claim={claim}
-        files={[]}
-        uploadField={{ value: null, dirty: false }}
-        trackedItem={trackedItem}
-        resetUploads={resetUploads}
-      />,
+      <Provider store={uploadStore}>
+        <DocumentRequestPage
+          params={params}
+          claim={claim}
+          files={[]}
+          uploadField={{ value: null, dirty: false }}
+          trackedItem={trackedItem}
+          resetUploads={resetUploads}
+        />
+      </Provider>,
     );
 
     expect(document.title).to.equal('Request for Testing');

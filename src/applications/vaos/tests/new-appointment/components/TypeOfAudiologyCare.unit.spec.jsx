@@ -1,7 +1,8 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { expect } from 'chai';
-import { fireEvent, waitFor } from '@testing-library/dom';
+import { waitFor } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
 import { cleanup } from '@testing-library/react';
 
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
@@ -39,14 +40,14 @@ describe('VAOS <TypeOfAudiologyCarePage>', () => {
       },
     );
 
-    expect(screen.getAllByRole('radio').length).to.equal(2);
-    fireEvent.click(screen.getByText(/Continue/));
+    expect((await screen.findAllByRole('radio')).length).to.equal(2);
+    userEvent.click(screen.getByText(/Continue/));
 
     expect(await screen.findByText('Please provide a response')).to.exist;
     expect(screen.history.push.called).to.not.be.true;
 
-    fireEvent.click(await screen.findByLabelText(/hearing aid/i));
-    fireEvent.click(screen.getByText(/Continue/));
+    userEvent.click(await screen.findByLabelText(/hearing aid/i));
+    userEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
         '/new-appointment/request-date',
@@ -61,7 +62,10 @@ describe('VAOS <TypeOfAudiologyCarePage>', () => {
       { store },
     );
 
-    fireEvent.click(await screen.findByLabelText(/routine hearing/i));
+    userEvent.click(await screen.findByLabelText(/routine hearing/i));
+    await waitFor(() => {
+      expect(screen.getByLabelText(/routine hearing/i).checked).to.be.true;
+    });
     await cleanup();
 
     screen = renderWithStoreAndRouter(

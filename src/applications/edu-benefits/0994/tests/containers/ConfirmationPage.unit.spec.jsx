@@ -2,7 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import { ConfirmationPage } from '../../../0994/containers/ConfirmationPage';
+import { ConfirmationPage } from '../../containers/ConfirmationPage';
+import { ConfirmationPageContent } from '../../../components/ConfirmationPageContent';
 
 const form = {
   submission: {
@@ -15,44 +16,20 @@ const form = {
       first: 'Jane',
       last: 'Doe',
     },
+    appliedForVaEducationBenefits: false,
   },
 };
 
 describe('Edu 0994 <ConfirmationPage>', () => {
   it('should render', () => {
     const tree = shallow(<ConfirmationPage form={form} />);
+    expect(tree.find(ConfirmationPageContent)).to.not.be.undefined;
+    tree.unmount();
+  });
 
-    expect(tree.find('.confirmation-page-title').text()).to.equal(
-      'Your claim has been received',
-    );
-
-    const name = tree.find('span').at(1);
-    expect(name.text()).contains(form.data.applicantFullName.first);
-    expect(name.text()).contains(form.data.applicantFullName.last);
-
-    expect(
-      tree
-        .find('p')
-        .at(0)
-        .text(),
-    ).to.contain('We usually process claims within 30 days.');
-
-    expect(
-      tree
-        .find('p')
-        .at(1)
-        .text(),
-    ).to.contain(
-      'We may contact you for more information or documents.Please print this page for your records',
-    );
-
-    expect(
-      tree
-        .find('.confirmation-guidance-message')
-        .at(0)
-        .text(),
-    ).to.equal('Find out what happens after you apply');
-
+  it('should render 1990 warning when appliedForVaEducationBenefits is false', () => {
+    const tree = shallow(<ConfirmationPage form={form} />);
+    expect(tree.find('.apply-for-1990')).to.not.be.undefined;
     tree.unmount();
   });
 });

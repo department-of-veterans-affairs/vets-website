@@ -1,34 +1,10 @@
-import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
-import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
-import ScheduleTimesReviewField from '../containers/ScheduleTimesReviewField';
-
-import { checkConferenceTimes } from '../validations';
-import { errorMessages, patternMessages } from '../constants';
+import { errorMessages } from '../constants';
 
 import {
   InformalConferenceDescription,
   InformalConferenceTitle,
   informalConferenceLabels,
-  ContactRepresentativeDescription,
-  RepresentativeNameTitle,
-  RepresentativePhoneTitle,
-  InformalConferenceTimes,
-  informalConferenceTimeAllLabels,
-  InformalConferenceTimeLabels,
-  AttemptsInfoAlert,
 } from '../content/InformalConference';
-
-const scheduleTimeUiSchema = key => ({
-  'ui:title': InformalConferenceTimeLabels(key),
-  'ui:options': {
-    hideLabelText: true,
-    // custom entry updated by updateSchema (I know it's bad)
-    informalConference: 'me',
-  },
-  'ui:field': 'StringField',
-  'ui:widget': 'checkbox',
-  'ui:reviewField': ScheduleTimesReviewField,
-});
 
 const informalConference = {
   uiSchema: {
@@ -39,103 +15,25 @@ const informalConference = {
       'ui:widget': 'radio',
       'ui:options': {
         labels: informalConferenceLabels,
+        updateSchema: (formData, schema) => {
+          const choice = formData?.informalConference;
+          const article = document.querySelector('article');
+          // informalConferenceTimes title needs to know this setting, so we'll
+          // use CSS to control the view instead of doing some complicated form
+          // data manipulation
+          if (choice && article) {
+            // no article available in unit tests
+            article.dataset.contactChoice = choice;
+          }
+          return schema;
+        },
+        widgetProps: {
+          me: { 'aria-describedby': 'choose-conference-notice' },
+          rep: { 'aria-describedby': 'choose-conference-notice' },
+        },
       },
       'ui:errorMessages': {
         required: errorMessages.informalConferenceContactChoice,
-      },
-    },
-    informalConferenceRep: {
-      'ui:title': '',
-      'ui:options': {
-        hideIf: formData => formData?.informalConference !== 'rep',
-        expandUnder: 'informalConference',
-      },
-      'view:ContactRepresentativeInfo': {
-        'ui:title': '',
-        'ui:description': ContactRepresentativeDescription,
-      },
-      name: {
-        'ui:title': RepresentativeNameTitle,
-        'ui:required': formData => formData?.informalConference === 'rep',
-        'ui:errorMessages': {
-          required: errorMessages.informalConferenceContactName,
-        },
-      },
-      phone: {
-        'ui:title': RepresentativePhoneTitle,
-        'ui:widget': PhoneNumberWidget,
-        'ui:reviewWidget': PhoneNumberReviewWidget,
-        'ui:required': formData => formData?.informalConference === 'rep',
-        'ui:errorMessages': {
-          pattern: patternMessages.representativePhone,
-          required: errorMessages.informalConferenceContactPhone,
-        },
-      },
-      'view:TimesForRep': {
-        'ui:description': () => InformalConferenceTimes({ isRep: true }),
-      },
-    },
-    // 'view:ContactYouInfo': {
-    //   'ui:title': '',
-    //   'ui:description': ContactYouDescription,
-    //   'ui:options': {
-    //     hideIf: formData => formData?.informalConference !== 'me',
-    //     expandUnder: 'informalConference',
-    //   },
-    // },
-    // Time selection message you vs rep
-    'view:TimesForYou': {
-      'ui:title': InformalConferenceTimes,
-      'ui:options': {
-        hideIf: formData => formData?.informalConference !== 'me',
-        expandUnder: 'informalConference',
-      },
-    },
-    informalConferenceTimes: {
-      'ui:title': ' ',
-      'ui:required': formData => formData?.informalConference !== 'no',
-      'ui:errorMessages': {
-        required: errorMessages.informalConferenceTimesMin,
-      },
-      'ui:validations': [checkConferenceTimes],
-      time0800to1000: scheduleTimeUiSchema('time0800to1000'),
-      time1000to1230: scheduleTimeUiSchema('time1000to1230'),
-      time1230to1400: scheduleTimeUiSchema('time1230to1400'),
-      time1400to1630: scheduleTimeUiSchema('time1400to1630'),
-      'ui:options': {
-        showFieldLabel: true,
-        hideIf: formData => formData?.informalConference === 'no',
-        expandUnder: 'informalConference',
-        updateSchema: (formData, schema, uiSchema) => {
-          Object.keys(informalConferenceTimeAllLabels).forEach(time => {
-            const options = uiSchema[time]['ui:options'] || {};
-            // pass informalConference to children
-            options.informalConference = formData?.informalConference;
-          });
-          return schema;
-        },
-      },
-    },
-    'view:alert': {
-      'ui:title': ' ',
-      'view:contactYou': {
-        'ui:title': ' ',
-        'ui:description': AttemptsInfoAlert,
-        'ui:options': {
-          hideIf: formData => formData?.informalConference !== 'me',
-        },
-      },
-      'view:contactRepresentative': {
-        'ui:title': '',
-        'ui:description': () => AttemptsInfoAlert({ isRep: true }),
-        'ui:options': {
-          hideIf: formData => formData?.informalConference !== 'rep',
-        },
-      },
-      'ui:options': {
-        hideIf: formData =>
-          !checkConferenceTimes(null, formData?.informalConferenceTimes),
-        expandUnder: 'informalConference',
       },
     },
   },
@@ -146,63 +44,6 @@ const informalConference = {
       informalConference: {
         type: 'string',
         enum: ['no', 'me', 'rep'],
-      },
-      'view:ContactYouInfo': {
-        type: 'object',
-        properties: {},
-      },
-      informalConferenceRep: {
-        type: 'object',
-        properties: {
-          'view:ContactRepresentativeInfo': {
-            type: 'object',
-            properties: {},
-          },
-          name: {
-            type: 'string',
-          },
-          phone: {
-            type: 'string',
-          },
-          'view:TimesForRep': {
-            type: 'object',
-            properties: {},
-          },
-        },
-      },
-      'view:TimesForYou': {
-        type: 'object',
-        properties: {},
-      },
-      informalConferenceTimes: {
-        type: 'object',
-        properties: {
-          time0800to1000: {
-            type: 'boolean',
-          },
-          time1000to1230: {
-            type: 'boolean',
-          },
-          time1230to1400: {
-            type: 'boolean',
-          },
-          time1400to1630: {
-            type: 'boolean',
-          },
-        },
-      },
-      'view:alert': {
-        type: 'object',
-        properties: {
-          'view:contactYou': {
-            type: 'object',
-            properties: {},
-          },
-          'view:contactRepresentative': {
-            type: 'object',
-            properties: {},
-          },
-        },
       },
     },
   },

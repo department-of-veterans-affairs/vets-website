@@ -30,9 +30,8 @@ export const secondSidebarBlock = {
         a claim for you.
       </p>
       <a
-        href="#"
+        href="/disability/get-help-filing-claim/"
         aria-label="Get help filing a claim"
-        title="Get help filiing a claim"
       >
         Get help filing a claim
       </a>

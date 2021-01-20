@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import { withRouter } from 'react-router';
 
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
 import {
@@ -20,11 +20,7 @@ import { getEnrollmentStatus as getEnrollmentStatusAction } from 'applications/h
 import { hasServerError as hasESRServerError } from 'applications/hca/selectors';
 
 import { recordDashboardClick } from '../helpers';
-import {
-  COVID19Alert,
-  eligibleHealthSystems,
-  showCOVID19AlertSelector,
-} from '../covid-19';
+import { COVID19Alert, eligibleHealthSystems } from '../covid-19';
 
 import YourApplications from './YourApplications';
 import ManageYourVAHealthCare from '../components/ManageYourVAHealthCare';
@@ -217,7 +213,7 @@ class DashboardApp extends React.Component {
             </a>
             <p>
               <a
-                href="/sign-in-faq#verifying-your-identity"
+                href="/resources/verifying-your-identity-on-vagov/"
                 onClick={recordDashboardClick('learn-more-identity')}
               >
                 Learn about how to verify your identity
@@ -368,8 +364,7 @@ export const mapStateToProps = state => {
     ? eligibleFacilities[0].facilityId
     : null;
 
-  const showCOVID19Alert =
-    !!showCOVID19AlertSelector(state) && !!vaHealthChatEligibleSystemId;
+  const showCOVID19Alert = !!vaHealthChatEligibleSystemId;
 
   return {
     canAccessRx,

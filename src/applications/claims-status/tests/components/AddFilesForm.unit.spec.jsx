@@ -3,7 +3,13 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import AddFilesForm from '../../components/AddFilesForm';
+import { AddFilesForm } from '../../components/AddFilesForm';
+import {
+  MAX_FILE_SIZE_BYTES,
+  MAX_FILE_SIZE_MB,
+  MAX_PDF_SIZE_BYTES,
+  MAX_PDF_SIZE_MB,
+} from '../../utils/validations';
 
 describe('<AddFilesForm>', () => {
   it('should render component', () => {
@@ -28,7 +34,7 @@ describe('<AddFilesForm>', () => {
         onDirtyFields={onDirtyFields}
       />,
     );
-    expect(tree.everySubTree('ErrorableFileInput')).not.to.be.empty;
+    expect(tree.everySubTree('FileInput')).not.to.be.empty;
     expect(tree.everySubTree('Modal')[0].props.visible).to.be.undefined;
     expect(tree.everySubTree('Modal')[1].props.visible).to.be.undefined;
   });
@@ -243,7 +249,42 @@ describe('<AddFilesForm>', () => {
     ]);
     expect(onAddFile.called).to.be.false;
     expect(tree.getMountedInstance().state.errorMessage).to.contain(
-      'maximum file size',
+      `${MAX_FILE_SIZE_MB}MB maximum file size`,
+    );
+  });
+
+  it('should not add an invalid PDF file size', () => {
+    const files = [];
+    const field = { value: '', dirty: false };
+    const onSubmit = sinon.spy();
+    const onAddFile = sinon.spy();
+    const onRemoveFile = sinon.spy();
+    const onFieldChange = sinon.spy();
+    const onCancel = sinon.spy();
+    const onDirtyFields = sinon.spy();
+
+    const tree = SkinDeep.shallowRender(
+      <AddFilesForm
+        files={files}
+        field={field}
+        onSubmit={onSubmit}
+        onAddFile={onAddFile}
+        onRemoveFile={onRemoveFile}
+        onFieldChange={onFieldChange}
+        onCancel={onCancel}
+        onDirtyFields={onDirtyFields}
+        pdfSizeFeature
+      />,
+    );
+    tree.getMountedInstance().add([
+      {
+        name: 'something.pdf',
+        size: MAX_PDF_SIZE_BYTES + 100,
+      },
+    ]);
+    expect(onAddFile.called).to.be.false;
+    expect(tree.getMountedInstance().state.errorMessage).to.contain(
+      `${MAX_PDF_SIZE_MB}MB maximum file size`,
     );
   });
 
@@ -279,6 +320,43 @@ describe('<AddFilesForm>', () => {
     expect(tree.getMountedInstance().state.errorMessage).to.be.null;
   });
 
+  it('should add a large PDF file', () => {
+    const files = [];
+    const field = { value: '', dirty: false };
+    const onSubmit = sinon.spy();
+    const onAddFile = sinon.spy();
+    const onRemoveFile = sinon.spy();
+    const onFieldChange = sinon.spy();
+    const onCancel = sinon.spy();
+    const onDirtyFields = sinon.spy();
+
+    // valid size larger than max non-PDF size, but smaller than max PDF size
+    const validPdfFileSize =
+      MAX_FILE_SIZE_BYTES + (MAX_PDF_SIZE_BYTES - MAX_FILE_SIZE_BYTES) / 2;
+
+    const tree = SkinDeep.shallowRender(
+      <AddFilesForm
+        files={files}
+        field={field}
+        onSubmit={onSubmit}
+        onAddFile={onAddFile}
+        onRemoveFile={onRemoveFile}
+        onFieldChange={onFieldChange}
+        onCancel={onCancel}
+        onDirtyFields={onDirtyFields}
+        pdfSizeFeature
+      />,
+    );
+    tree.getMountedInstance().add([
+      {
+        name: 'something.pdf',
+        size: validPdfFileSize,
+      },
+    ]);
+    expect(onAddFile.called).to.be.true;
+    expect(tree.getMountedInstance().state.errorMessage).to.be.null;
+  });
+
   it('should return an error message when no files present and field is dirty', () => {
     const files = [];
     const field = { value: '', dirty: true };
@@ -306,5 +384,48 @@ describe('<AddFilesForm>', () => {
     tree.getMountedInstance().state.errorMessage = 'message';
     message = tree.getMountedInstance().getErrorMessage();
     expect(message).to.equal('message');
+  });
+
+  it('should show password input', () => {
+    const files = [
+      {
+        file: {
+          size: 20,
+          name: 'something.pdf',
+        },
+        docType: {
+          value: 'L501',
+          dirty: false,
+        },
+        password: {
+          value: 'password123',
+          dirty: false,
+        },
+        isEncrypted: true,
+      },
+    ];
+    const field = { value: '', dirty: false };
+    const onSubmit = sinon.spy();
+    const onAddFile = sinon.spy();
+    const onRemoveFile = sinon.spy();
+    const onFieldChange = sinon.spy();
+    const onCancel = sinon.spy();
+    const onDirtyFields = sinon.spy();
+
+    const tree = SkinDeep.shallowRender(
+      <AddFilesForm
+        files={files}
+        field={field}
+        onSubmit={onSubmit}
+        onAddFile={onAddFile}
+        onRemoveFile={onRemoveFile}
+        onFieldChange={onFieldChange}
+        onCancel={onCancel}
+        onDirtyFields={onDirtyFields}
+        requestLockedPdfPassword
+      />,
+    );
+    expect(tree.getMountedInstance().state.errorMessage).to.be.null;
+    expect(tree.subTree('TextInput')).to.exist;
   });
 });

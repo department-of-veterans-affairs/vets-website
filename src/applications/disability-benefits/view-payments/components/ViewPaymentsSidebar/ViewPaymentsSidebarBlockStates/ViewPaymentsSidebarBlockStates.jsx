@@ -1,7 +1,7 @@
 import React from 'react';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const firstSidebarBlock = {
   heading: 'What if I need to change my direct deposit or contact information?',
@@ -13,7 +13,7 @@ export const firstSidebarBlock = {
         your disability compensation, pension, claims and appeal, VR&E, and VA
         health care benefits.
       </p>
-      <a href="/profile">Link to profile page</a>
+      <a href="/profile">Go to your profile</a>
     </>
   ),
 };

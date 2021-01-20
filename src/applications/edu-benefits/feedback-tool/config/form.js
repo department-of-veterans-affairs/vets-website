@@ -61,7 +61,6 @@ const {
   serviceAffiliation,
   serviceBranch,
   serviceDateRange,
-  socialSecurityNumberLastFour,
 } = fullSchema.properties;
 
 const { school, programs, assistance } = educationDetails.properties;
@@ -265,17 +264,6 @@ const formConfig = {
               },
               'ui:order': ['prefix', 'first', 'middle', 'last', 'suffix'],
             }),
-            socialSecurityNumberLastFour: {
-              'ui:title':
-                'Please provide the last 4 digits of your Social Security number',
-              'ui:required': isNotAnonymous,
-              'ui:options': {
-                widgetClassNames: 'usa-input-medium',
-              },
-              'ui:errorMessages': {
-                pattern: 'Please enter a valid last 4 digits',
-              },
-            },
             serviceAffiliation: {
               'ui:title': 'Service affiliation',
               'ui:required': isMyself,
@@ -288,7 +276,6 @@ const formConfig = {
             type: 'object',
             properties: {
               fullName: set('required', ['first', 'last'], fullName),
-              socialSecurityNumberLastFour,
               serviceAffiliation,
             },
           },

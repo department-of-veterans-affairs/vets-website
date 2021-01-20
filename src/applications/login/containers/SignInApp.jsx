@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import 'url-search-params-polyfill';
 
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
@@ -130,9 +130,18 @@ class SignInPage extends React.Component {
                 Having trouble signing in?
               </h2>
               <p>
-                <a href="/sign-in-faq/" target="_blank">
-                  Get answers to Frequently Asked Questions
+                Get answers to common questions about{' '}
+                <a href="/resources/signing-in-to-vagov/" target="_blank">
+                  signing in
+                </a>{' '}
+                and{' '}
+                <a
+                  href="/resources/verifying-your-identity-on-vagov/"
+                  target="_blank"
+                >
+                  verifying your identity
                 </a>
+                .
               </p>
               <p>
                 <SubmitSignInForm startSentence />

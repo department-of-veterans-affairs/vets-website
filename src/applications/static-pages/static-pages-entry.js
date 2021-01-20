@@ -57,6 +57,7 @@ import createOtherFacilityListWidget from './facilities/otherFacilityList';
 import createChapter36CTA from './vre-chapter36/createChapter36CTA';
 import createChapter31CTA from './vre-chapter31/createChapter31CTA';
 import createViewDependentsCTA from './view-modify-dependents/view-dependents-cta/createViewDependentsCTA';
+import createViewPaymentHistoryCTA from './view-payment-history/createViewPaymentHistoryCTA';
 
 // School resources widgets
 import {
@@ -64,10 +65,12 @@ import {
   createScoAnnouncementsWidget,
 } from './school-resources/SchoolResources';
 import createCoronavirusChatbot from '../coronavirus-chatbot/createCoronavirusChatbot';
+import createCovidVaccineUpdatesWidget from './covid-vaccine-updates-cta/createCovidVaccineUpdatesWidget';
 
 import createThirdPartyApps, {
   thirdPartyAppsReducer,
 } from '../third-party-app-directory/createThirdPartyApps';
+import initTranslation from './translation';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -161,6 +164,7 @@ createPost911GiBillStatusWidget(
 );
 
 createCoronavirusChatbot(store, widgetTypes.CORONAVIRUS_CHATBOT);
+createCovidVaccineUpdatesWidget(store, widgetTypes.COVID_VACCINE_UPDATES_CTA);
 
 createViewDependentsCTA(store, widgetTypes.VIEW_DEPENDENTS_CTA);
 form686CTA(store, widgetTypes.FORM_686_CTA);
@@ -185,11 +189,15 @@ createViewTestAndLabResultsPage(
 
 createChapter36CTA(store, widgetTypes.CHAPTER_36_CTA);
 createChapter31CTA(store, widgetTypes.CHAPTER_31_CTA);
+createViewPaymentHistoryCTA(store, widgetTypes.VIEW_PAYMENT_HISTORY);
 
 // homepage widgets
 if (location.pathname === '/') {
   createMyVALoginWidget(store);
 }
+
+// translation link
+initTranslation();
 
 /* eslint-disable no-unused-vars,camelcase */
 const lazyLoad = new LazyLoad({

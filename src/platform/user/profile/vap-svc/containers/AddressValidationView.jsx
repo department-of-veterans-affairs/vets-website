@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { formatAddress } from '~/platform/forms/address/helpers';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -24,8 +24,8 @@ import {
   closeModal,
   resetAddressValidation as resetAddressValidationAction,
 } from '../actions';
-import { getValidationMessageKey } from '../../utilities';
-import { ADDRESS_VALIDATION_MESSAGES } from '../../constants/addressValidationMessages';
+import { getValidationMessageKey } from '../util';
+import { ADDRESS_VALIDATION_MESSAGES } from '../constants/addressValidationMessages';
 
 class AddressValidationView extends React.Component {
   componentDidUpdate(prevProps) {
@@ -39,6 +39,13 @@ class AddressValidationView extends React.Component {
         this.props.refreshTransaction,
         window.VetsGov.pollTimeout || 1000,
       );
+    }
+    // if the transaction is no longer pending, stop refreshing it
+    if (
+      isPendingTransaction(prevProps.transaction) &&
+      !isPendingTransaction(this.props.transaction)
+    ) {
+      window.clearInterval(this.interval);
     }
   }
 
@@ -141,7 +148,11 @@ class AddressValidationView extends React.Component {
     }
 
     return (
-      <LoadingButton isLoading={isLoading} className="usa-button-primary">
+      <LoadingButton
+        isLoading={isLoading}
+        className="usa-button-primary"
+        data-testid="confirm-address-button"
+      >
         {buttonText}
       </LoadingButton>
     );

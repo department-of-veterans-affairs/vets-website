@@ -177,10 +177,9 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
 }
 
 def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache, Boolean contentOnlyBuild) {
-  def long buildtime = System.currentTimeMillis() / 1000L;
-  def buildDetails = buildDetails(envName, ref, buildtime)
-  def drupalAddress = DRUPAL_ADDRESSES.get(envName)
-  def drupalCred = DRUPAL_CREDENTIALS.get(envName)
+  // Use Drupal prod for all environments
+  def drupalAddress = DRUPAL_ADDRESSES.get('vagovprod')
+  def drupalCred = DRUPAL_CREDENTIALS.get('vagovprod')
   def drupalMode = useCache ? '' : '--pull-drupal'
 
   withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
@@ -190,15 +189,13 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
       sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose"
 
       if (envName == 'vagovprod') {
-	checkForBrokenLinks(buildLogPath, envName, contentOnlyBuild)
+        checkForBrokenLinks(buildLogPath, envName, contentOnlyBuild)
       }
 
       // Find any missing query flags in the log
       if (envName == 'vagovprod') {
         findMissingQueryFlags(buildLogPath, envName)
       }
-
-      sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
     }
   }
 }
@@ -246,7 +243,8 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 
 def prearchive(dockerContainer, envName) {
   dockerContainer.inside(DOCKER_ARGS) {
-    sh "cd /application && node --max-old-space-size=8192 script/prearchive.js --buildtype=${envName}"
+    sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath"
+    sh "cd /application && node --max-old-space-size=10240 script/prearchive.js --buildtype=${envName}"
   }
 }
 
@@ -274,11 +272,15 @@ def prearchiveAll(dockerContainer) {
 }
 
 def archive(dockerContainer, String ref, String envName) {
+  def long buildtime = System.currentTimeMillis() / 1000L;
+  def buildDetails = buildDetails(envName, ref, buildtime)
+
   dockerContainer.inside(DOCKER_ARGS) {
     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
                      usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
+      sh "echo \"${buildDetails}\" > /application/build/${envName}/BUILD.txt"
       sh "tar -C /application/build/${envName} -cf /application/build/${envName}.tar.bz2 ."
-      sh "s3-cli put --acl-public --region us-gov-west-1 /application/build/${envName}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${ref}/${envName}.tar.bz2"
+      sh "aws s3 cp /application/build/${envName}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${ref}/${envName}.tar.bz2 --acl public-read --region us-gov-west-1 --quiet"
     }
   }
 }
@@ -330,7 +332,7 @@ def cacheDrupalContent(dockerContainer, envUsedCache) {
       dockerContainer.inside(DOCKER_ARGS) {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
                          usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
-          sh "s3-cli sync --acl-public --region us-gov-west-1 /application/.cache/content s3://vetsgov-website-builds-s3-upload/content/"
+          sh "aws s3 sync /application/.cache/content s3://vetsgov-website-builds-s3-upload/content/ --acl public-read --region us-gov-west-1 --quiet"
         }
       }
     } catch (error) {

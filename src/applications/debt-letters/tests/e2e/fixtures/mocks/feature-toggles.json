@@ -3,7 +3,6 @@
     "type": "feature_toggles",
     "features": [
       { "name": "preEntryCovid19Screener", "value": true },
-      { "name": "dashboardShowCovid19Alert", "value": true },
       { "name": "facilityLocatorShowCommunityCares", "value": true },
       { "name": "facilitiesPpmsSuppressPharmacies", "value": false },
       { "name": "facilitiesPpmsSuppressCommunityCare", "value": true },

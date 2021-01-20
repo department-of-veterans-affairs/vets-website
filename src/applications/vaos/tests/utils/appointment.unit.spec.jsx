@@ -2,8 +2,6 @@ import { expect } from 'chai';
 import { getRealFacilityId } from '../../utils/appointment';
 
 describe('VAOS appointment helpers', () => {
-  xdescribe('sortMessages', () => {});
-
   describe('getRealFacilityId', () => {
     it('should return the real facility id for not production environemnts', () => {
       expect(getRealFacilityId('983')).to.equal('442');

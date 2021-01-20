@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
+import { connect } from 'react-redux';
+import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 import SignatureInput from './SignatureInput';
 
@@ -11,11 +12,13 @@ const SignatureCheckbox = ({
   label,
   setSignature,
   showError,
+  globalFormState,
 }) => {
+  const [hasError, setError] = useState(null);
   const [isSigned, setIsSigned] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  const [hasError, setError] = useState(null);
   const isSignatureComplete = isSigned && isChecked;
+  const hasSubmit = !!globalFormState.submission.status;
   const createInputContent = inputLabel => `Enter ${inputLabel} full name`;
 
   useEffect(
@@ -32,9 +35,9 @@ const SignatureCheckbox = ({
     () => {
       setError(showError);
 
-      if (isChecked === true) setError(false);
+      if (isChecked === true || hasSubmit) setError(false);
     },
-    [showError, setIsChecked, isChecked],
+    [showError, setIsChecked, isChecked, hasSubmit],
   );
 
   return (
@@ -50,9 +53,10 @@ const SignatureCheckbox = ({
         fullName={fullName}
         required={isRequired}
         showError={showError}
+        hasSubmit={hasSubmit}
       />
 
-      <ErrorableCheckbox
+      <Checkbox
         onValueChange={value => setIsChecked(value)}
         label="I certify the information above is correct and true to the best of my knowledge and belief."
         errorMessage={hasError && 'Must certify by checking box'}
@@ -70,6 +74,16 @@ SignatureCheckbox.propTypes = {
   setSignature: PropTypes.func.isRequired,
   showError: PropTypes.bool.isRequired,
   signatures: PropTypes.object.isRequired,
+  globalFormState: PropTypes.object.isRequired,
 };
 
-export default SignatureCheckbox;
+const mapStateToProps = state => {
+  return {
+    globalFormState: state.form,
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  null,
+)(SignatureCheckbox);

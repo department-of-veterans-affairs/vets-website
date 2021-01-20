@@ -140,52 +140,6 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
  * @param {Object} buildOptions
  * @return {Object} - The result of the GraphQL query
  */
-async function getSideNavsViaGraphQL(buildOptions = global.buildOptions) {
-  // When this function is called in the preview server,
-  // buildOptions will be null, so we need to get them.
-
-  if (!buildOptions) {
-    const getOptions = require('../options');
-    buildOptions = await getOptions();
-  }
-
-  global.buildtype = buildOptions.buildtype;
-  let sideNavs;
-
-  const sideNavFile = path.join(
-    buildOptions.cacheDirectory,
-    'drupal',
-    'side-nav-menus.json',
-  );
-
-  if (shouldPullDrupal(buildOptions) || !fs.existsSync(sideNavFile)) {
-    const contentApi = getApiClient(buildOptions);
-    log('Pulling side nav menus from Drupal...');
-    const response = await contentApi.getSideNavigations();
-    sideNavs = response.data.sideNavMenus;
-    // Write them to .cache/{buildtype}/drupal/side-nav-menus.json
-    fs.ensureDirSync(buildOptions.cacheDirectory);
-    fs.emptyDirSync(path.dirname(sideNavFile));
-    fs.writeJsonSync(sideNavFile, sideNavs, { spaces: 2 });
-  } else {
-    log(`Using cached side navs in ${sideNavFile}`);
-    sideNavs = fs.existsSync(sideNavFile) ? fs.readJsonSync(sideNavFile) : {};
-  }
-
-  if (global.verbose) {
-    log(`Drupal side navs:\n${JSON.stringify(sideNavs, null, 2)}`);
-  }
-
-  return sideNavs || [];
-}
-
-/**
- * Uses Drupal content via a new GraphQL query or the cached result of a
- * previous query. This is where the cache is saved.
- *
- * @param {Object} buildOptions
- * @return {Object} - The result of the GraphQL query
- */
 async function getContentViaGraphQL(buildOptions) {
   const contentApi = getApiClient(buildOptions);
   const drupalCache = getDrupalCachePath(buildOptions);
@@ -250,12 +204,6 @@ async function getContentFromExport(buildOptions) {
   }
 
   const drupalPages = await contentApi.getNonNodeContent();
-
-  if (drupalPages.errors && drupalPages.errors.length) {
-    log(JSON.stringify(drupalPages.errors, null, 2));
-    throw new Error('Drupal query returned with errors');
-  }
-
   drupalPages.data.nodeQuery = {
     entities: contentApi.getExportedPages(),
   };
@@ -272,9 +220,17 @@ async function loadDrupal(buildOptions) {
     log(`Drupal content cache found: ${drupalCache}`);
   }
 
+  const contentTimer = `Total time to load content from ${
+    buildOptions[USE_CMS_EXPORT_BUILD_ARG] ? 'CMS export' : 'GraphQL'
+  }`;
+
+  console.time(contentTimer);
+
   const drupalPages = buildOptions[USE_CMS_EXPORT_BUILD_ARG]
     ? await getContentFromExport(buildOptions)
     : await getContentViaGraphQL(buildOptions);
+
+  console.timeEnd(contentTimer);
 
   // Dynamic GraphQL from CMS build
   fs.outputJsonSync(CMS_EXPORT_CACHE_FILENAME, drupalPages);
@@ -344,4 +300,4 @@ function getDrupalContent(buildOptions) {
   };
 }
 
-module.exports = { getSideNavsViaGraphQL, getDrupalContent, shouldPullDrupal };
+module.exports = { getDrupalContent, shouldPullDrupal };

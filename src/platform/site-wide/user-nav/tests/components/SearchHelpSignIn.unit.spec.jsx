@@ -78,15 +78,19 @@ describe('<SearchHelpSignIn>', () => {
 
   it('should open the search bar when the search dropdown is clicked', () => {
     const wrapper = shallow(<SearchHelpSignIn {...defaultProps} />);
-    wrapper.find('SearchMenu').prop('clickHandler')();
+    wrapper.find('Connect(SearchMenu)').prop('clickHandler')();
     expect(defaultProps.toggleMenu.calledWith('search', true)).to.be.true;
     wrapper.unmount();
   });
 
-  it('should open the help menu when the help dropdown is clicked', () => {
+  it('should have a link to Contact us', () => {
     const wrapper = shallow(<SearchHelpSignIn {...defaultProps} />);
-    wrapper.find('HelpMenu').prop('clickHandler')();
-    expect(defaultProps.toggleMenu.calledWith('help', true)).to.be.true;
+    const linkProps = wrapper
+      .find('a')
+      .at(0)
+      .props();
+    expect(linkProps.href).to.equal('https://www.va.gov/contact-us/');
+    expect(linkProps.children).to.equal('Contact us');
     wrapper.unmount();
   });
 

@@ -1,14 +1,15 @@
+/* eslint-disable camelcase */
+
 import PropTypes from 'prop-types';
 
 export const SearchResultPropTypes = PropTypes.shape({
-  appURL: PropTypes.string.isRequired,
-  categories: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  app_url: PropTypes.string.isRequired,
+  service_categories: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   description: PropTypes.string.isRequired,
-  iconURL: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
+  logo_url: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  permissions: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   platforms: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  privacyPolicyURL: PropTypes.string.isRequired,
-  termsOfServiceURL: PropTypes.string.isRequired,
+  privacy_url: PropTypes.string.isRequired,
+  tos_url: PropTypes.string.isRequired,
 }).isRequired;

@@ -3,17 +3,20 @@ import {
   validateCity,
   validateStreet,
 } from 'platform/forms/definitions/address';
-import SectionHeader from '../../components/SectionHeader';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import _ from 'lodash';
 import {
   daytimePhoneAreaCodeTitle,
-  emailTitle,
+  veteranEmail,
   streetAddress,
-  veteranInformationHeader,
+  veteranCountryError,
+  veteranEmailError,
+  veteranFirstNameError,
+  veteranLastNameError,
   veteransFirstName,
   veteransLastName,
+  zipCodeTitle,
 } from '../../constants/labels';
 
 const formFields = {
@@ -36,14 +39,19 @@ const veteranIsAlive = formData => {
 };
 
 export const veteranInformationUI = requireIfDisplayed => ({
-  'ui:description': SectionHeader(veteranInformationHeader),
   [formFields.first]: {
     'ui:title': veteransFirstName,
     'ui:required': requireIfDisplayed,
+    'ui:errorMessages': {
+      required: veteranFirstNameError,
+    },
   },
   [formFields.last]: {
     'ui:title': veteransLastName,
     'ui:required': requireIfDisplayed,
+    'ui:errorMessages': {
+      required: veteranLastNameError,
+    },
   },
   [formFields.address]: _.merge(uiSchema('', false, null, true), {
     'ui:order': ['country', 'street', 'street2', 'city', 'state', 'postalCode'],
@@ -57,11 +65,17 @@ export const veteranInformationUI = requireIfDisplayed => ({
     country: {
       'ui:required': formData =>
         requireIfDisplayed(formData) && veteranIsAlive(formData),
+      'ui:errorMessages': {
+        required: veteranCountryError,
+      },
     },
     street2: {
       'ui:options': {
         hideIf: () => true,
       },
+    },
+    postalCode: {
+      'ui:title': zipCodeTitle,
     },
   }),
   [formFields.phone]: _.merge(phoneUI(daytimePhoneAreaCodeTitle), {
@@ -69,11 +83,14 @@ export const veteranInformationUI = requireIfDisplayed => ({
       hideIf: formData => veteranIsDeceased(formData),
     },
   }),
-  [formFields.email]: _.merge(emailUI(emailTitle), {
+  [formFields.email]: _.merge(emailUI(veteranEmail), {
     'ui:required': formData =>
       requireIfDisplayed(formData) && veteranIsAlive(formData),
     'ui:options': {
       hideIf: formData => veteranIsDeceased(formData),
+    },
+    'ui:errorMessages': {
+      required: veteranEmailError,
     },
   }),
 });

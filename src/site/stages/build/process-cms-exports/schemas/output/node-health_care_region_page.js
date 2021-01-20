@@ -56,7 +56,7 @@ const eventTeasersSchema = max => ({
       items: {
         entity: partialSchema(eventSchema, [
           'title',
-          'fieldDate',
+          'fieldDatetimeRangeTimezone',
           'fieldDescription',
           'fieldLocationHumanreadable',
           'fieldFacilityLocation',
@@ -95,9 +95,11 @@ module.exports = {
     entityBundle: { enum: ['health_care_region_page'] },
     title: { type: 'string' },
     entityUrl: { $ref: 'EntityUrl' },
+    fieldIntroText: { type: ['string', 'null'] },
     fieldGovdeliveryIdEmerg: { type: 'string' },
     fieldGovdeliveryIdNews: { type: 'string' },
     fieldOperatingStatus: socialMediaSchema,
+    fieldOtherVaLocations: { type: 'array' },
     fieldNicknameForThisFacility: { type: ['string', 'null'] },
     fieldLinkFacilityEmergList: {
       type: ['object', 'null'],
@@ -114,7 +116,7 @@ module.exports = {
     fieldRelatedLinks: {
       $ref: 'output/paragraph-list_of_link_teasers',
     },
-    fieldPressReleaseBlurb: { $ref: 'ProcessedString' },
+    fieldMedia: { $ref: 'Media' },
     reverseFieldRegionPageNode: {
       type: 'object',
       properties: {
@@ -157,12 +159,13 @@ module.exports = {
   },
   required: [
     'title',
+    'fieldIntroText',
     'fieldGovdeliveryIdEmerg',
     'fieldGovdeliveryIdNews',
     'fieldOperatingStatus',
+    'fieldOtherVaLocations',
     'fieldNicknameForThisFacility',
     'fieldLinkFacilityEmergList',
-    'fieldPressReleaseBlurb',
     'reverseFieldRegionPageNode',
     'newsStoryTeasers',
     'allNewsStoryTeasers',

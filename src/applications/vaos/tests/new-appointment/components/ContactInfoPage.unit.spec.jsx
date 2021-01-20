@@ -1,106 +1,90 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
 import { expect } from 'chai';
-import sinon from 'sinon';
-import { mount } from 'enzyme';
+import userEvent from '@testing-library/user-event';
 
-import { fillData } from 'platform/testing/unit/schemaform-utils.jsx';
-import { ContactInfoPage } from '../../../new-appointment/components/ContactInfoPage';
+import ContactInfoPage from '../../../new-appointment/components/ContactInfoPage';
+import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
+import { FETCH_STATUS } from '../../../utils/constants';
+import { cleanup } from 'axe-core';
 
 describe('VAOS <ContactInfoPage>', () => {
-  it('should render', () => {
-    const openFormPage = sinon.spy();
-    const updateFormData = sinon.spy();
+  it('should submit with valid data', async () => {
+    const store = createTestStore({
+      newAppointment: {
+        pages: [],
+        previousPages: [],
+      },
+    });
 
-    const form = mount(
-      <ContactInfoPage
-        openFormPage={openFormPage}
-        updateFormData={updateFormData}
-        data={{}}
-      />,
+    let screen = renderWithStoreAndRouter(
+      <Route component={ContactInfoPage} />,
+      {
+        store,
+      },
     );
 
-    expect(form.find('input').length).to.equal(5);
-    form.unmount();
+    let input = await screen.findByLabelText(/^Your phone number/);
+    userEvent.type(input, '5555555555');
+
+    let checkbox = screen.getByLabelText(/^Morning \(8 a.m. – noon\)/);
+    userEvent.click(checkbox);
+
+    input = screen.getByLabelText(/^Your email address/);
+    userEvent.type(input, 'joe.blow@gmail.com');
+
+    // it should display page heading
+    expect(screen.getByText('Your contact information')).to.be.ok;
+    const button = await screen.findByText(/^Continue/);
+
+    userEvent.click(button);
+    expect(screen.history.push.called).to.be.true;
+
+    // Expect the previously entered form data is still there if you unmount and remount the page with the same store,
+    await cleanup();
+    screen = renderWithStoreAndRouter(<Route component={ContactInfoPage} />, {
+      store,
+    });
+
+    input = await screen.findByLabelText(/^Your phone number/);
+    expect(input.value).to.equal('5555555555');
+
+    checkbox = screen.getByLabelText(/^Morning \(8 a.m. – noon\)/);
+    expect(checkbox.checked).to.be.true;
+
+    input = screen.getByLabelText(/^Your email address/);
+    expect(input.value).to.equal('joe.blow@gmail.com');
   });
 
-  it('should not submit empty form', () => {
-    const openFormPage = sinon.spy();
-    const history = {
-      push: sinon.spy(),
-    };
+  it('should not submit empty form', async () => {
+    const store = createTestStore({
+      newAppointment: {
+        data: {},
+        eligibility: [],
+        pages: [],
+        previousPages: [],
+        appointmentSlotsStatus: FETCH_STATUS.succeeded,
+      },
+    });
 
-    const form = mount(
-      <ContactInfoPage
-        openFormPage={openFormPage}
-        history={history}
-        data={{}}
-      />,
+    const screen = renderWithStoreAndRouter(
+      <Route component={ContactInfoPage} />,
+      {
+        store,
+      },
     );
 
-    form.find('form').simulate('submit');
+    const button = await screen.findByText(/^Continue/);
+    userEvent.click(button);
 
-    expect(form.find('.usa-input-error').length).to.equal(3);
-    expect(history.push.called).to.be.false;
-    form.unmount();
-  });
+    // it should display page heading
+    expect(screen.getByText('Your contact information')).to.be.ok;
 
-  it('should call updateFormData after change', () => {
-    const openFormPage = sinon.spy();
-    const updateFormData = sinon.spy();
-    const history = {
-      push: sinon.spy(),
-    };
+    expect(await screen.findByText(/^Please enter a phone number/)).to.be.ok;
+    expect(screen.getByText(/^Please choose at least one option/)).to.be.ok;
+    expect(screen.getByText(/^Please provide a response/)).to.be.ok;
 
-    const form = mount(
-      <ContactInfoPage
-        openFormPage={openFormPage}
-        updateFormData={updateFormData}
-        history={history}
-        data={{}}
-      />,
-    );
-
-    fillData(form, 'input#root_phoneNumber', '5555555555');
-
-    expect(updateFormData.firstCall.args[2].phoneNumber).to.equal('5555555555');
-    form.unmount();
-  });
-
-  it('should submit with valid data', () => {
-    const openFormPage = sinon.spy();
-    const routeToNextAppointmentPage = sinon.spy();
-
-    const form = mount(
-      <ContactInfoPage
-        openFormPage={openFormPage}
-        routeToNextAppointmentPage={routeToNextAppointmentPage}
-        data={{
-          phoneNumber: '5555555555',
-          email: 'fake@va.gov',
-          bestTimeToCall: {
-            morning: true,
-          },
-        }}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(routeToNextAppointmentPage.called).to.be.true;
-    form.unmount();
-  });
-
-  it('document title should match h1 text', () => {
-    const openFormPage = sinon.spy();
-    const pageTitle = 'Your contact information';
-
-    const form = mount(
-      <ContactInfoPage openFormPage={openFormPage} data={{}} />,
-    );
-
-    expect(form.find('h1').text()).to.equal(pageTitle);
-    expect(document.title).contain(pageTitle);
-    form.unmount();
+    userEvent.click(button);
+    expect(screen.history.push.called).to.be.false;
   });
 });

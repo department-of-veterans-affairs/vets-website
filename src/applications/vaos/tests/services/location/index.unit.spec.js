@@ -6,6 +6,7 @@ import {
 } from 'platform/testing/unit/helpers';
 
 import {
+  getCommunityProvidersByTypeOfCare,
   getFacilityIdFromLocation,
   getLocation,
   getLocations,
@@ -17,6 +18,7 @@ import facilities983 from '../../../services/mocks/var/facilities_983.json';
 import facilityDetails from '../../../services/mocks/var/facility_data.json';
 import requestEligbilityCriteria from '../../../services/mocks/var/request_eligibility_criteria.json';
 import directBookingEligbilityCriteria from '../../../services/mocks/var/direct_booking_eligibility_criteria.json';
+import ccProviders from '../../../services/mocks/var/cc_providers.json';
 import { VHA_FHIR_ID } from '../../../utils/constants';
 
 describe('VAOS Location service', () => {
@@ -178,7 +180,7 @@ describe('VAOS Location service', () => {
         '/direct_booking_eligibility_criteria?parent_sites[]=983&parent_sites[]=984',
       );
       expect(global.fetch.thirdCall.args[0]).to.contain(
-        '/v1/facilities/va?ids=vha_442GD,vha_442GC,vha_442HK,vha_442,vha_442GB,vha_552,vha_552GA,vha_552GB',
+        '/v1/facilities/va?ids=vha_442GD,vha_442GC,vha_442GB,vha_442HK,vha_442,vha_442QA,vha_552GD,vha_552GB,vha_552,vha_552GC,vha_552GA,vha_442QE,vha_552GF',
       );
       expect(data[0].resourceType).to.equal('Location');
       expect(data[0].name).to.equal('Cheyenne VA Medical Center');
@@ -266,6 +268,42 @@ describe('VAOS Location service', () => {
       };
       const id = getFacilityIdFromLocation(location);
       expect(id).to.equal('983');
+    });
+  });
+  describe('getCommunityProvidersByTypeOfCare', () => {
+    it('should make request to facilities api using correct bounding box', async () => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, ccProviders);
+
+      const data = await getCommunityProvidersByTypeOfCare({
+        address: {
+          addressLine1: '123 big sky st',
+          city: 'Bozeman',
+          stateCode: 'MT',
+          zipCode: '59715',
+          country: 'United States',
+          latitude: -72.73,
+          longitude: 42.12,
+        },
+        typeOfCare: {
+          specialties: ['133N00000X'],
+        },
+      });
+
+      expect(global.fetch.firstCall.args[0]).to.contain(
+        '/v1/facilities/ccp?latitude=-72.73&longitude=42.12&radius=60&per_page=15&page=1&bbox[]=-73.598&bbox[]=39.194&bbox[]=-71.862&bbox[]=45.046&specialties[]=133N00000X&type=provider&trim=true',
+      );
+      expect(data.length).to.equal(ccProviders.data.length);
+      const firstProvider = ccProviders.data[0];
+      const firstLocation = data[0];
+      expect(firstLocation.name).to.equal(firstProvider.attributes.name);
+      expect(firstLocation.id).to.equal(firstProvider.attributes.uniqueId);
+      expect(firstLocation.telecom[0].value).to.equal(
+        firstProvider.attributes.caresitePhone,
+      );
+      expect(firstLocation.address.line[0]).to.equal(
+        firstProvider.attributes.address.street,
+      );
     });
   });
 });

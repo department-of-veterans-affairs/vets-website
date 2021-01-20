@@ -1,13 +1,7 @@
 import { netWorthCalculation, netWorthTitle } from './helpers';
+import { householdIncome } from '../../utilities';
 
-export const schema = {
-  type: 'object',
-  properties: {
-    householdIncome: {
-      type: 'boolean',
-    },
-  },
-};
+export const schema = householdIncome;
 
 export const uiSchema = {
   householdIncome: {

@@ -93,7 +93,9 @@ function fillOutForm(facilitySelection) {
   // Confirmation page
   cy.findByText('Your appointment request has been submitted');
   cy.findByText('VA appointment');
-  cy.findByText('Show more').click();
+  cy.get('.additional-info-button')
+    .focus()
+    .click();
   cy.findByText('Follow-up/Routine');
   cy.findByText('cough');
 }

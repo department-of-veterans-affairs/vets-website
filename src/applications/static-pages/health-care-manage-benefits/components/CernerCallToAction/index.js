@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { isEmpty, map, replace } from 'lodash';
 import * as Sentry from '@sentry/browser';
 // Relative imports.
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { appointmentsToolLink } from 'platform/utilities/cerner';
@@ -123,6 +123,12 @@ export class CernerCallToAction extends Component {
       );
     }
 
+    // Derive MyHealtheVet link text.
+    const myHealtheVetLinkText =
+      myHealtheVetLink === appointmentsToolLink
+        ? 'Go to the VA appointments tool'
+        : 'Go to My HealtheVet';
+
     return (
       <div
         className="usa-alert usa-alert-warning"
@@ -176,6 +182,11 @@ export class CernerCallToAction extends Component {
               cernerFacility => cernerFacility?.facilityId === strippedID,
             );
 
+            // Derive the link text/label.
+            const linkText = isCerner
+              ? 'Go to My VA Health'
+              : myHealtheVetLinkText;
+
             return (
               <div key={`${id}-cta-link`}>
                 <p className="vads-u-margin-bottom--1">
@@ -187,11 +198,12 @@ export class CernerCallToAction extends Component {
                   rel="noreferrer noopener"
                   target="_blank"
                 >
-                  {isCerner ? 'Go to My VA Health' : 'Go to My HealtheVet'}
+                  {linkText}
                 </a>
               </div>
             );
           })}
+
           <div>
             <p className="vads-u-margin-bottom--1">
               <strong>Another VA health facility</strong>
@@ -202,9 +214,7 @@ export class CernerCallToAction extends Component {
               rel="noreferrer noopener"
               target="_blank"
             >
-              {myHealtheVetLink === appointmentsToolLink
-                ? 'Go to the VA appointments tool'
-                : 'Go to My HealtheVet'}
+              {myHealtheVetLinkText}
             </a>
           </div>
         </div>

@@ -3,8 +3,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-const VeteranInfoBox = props => {
-  const { first, middle, last, dateOfBirth, ssnLastFour, vaFileNumber } = props;
+const VeteranInfoBox = ({
+  first,
+  middle,
+  last,
+  dateOfBirth,
+  ssnLastFour,
+  vaFileNumber,
+}) => {
   const fullName = [first, middle, last]
     .filter(name => !!name)
     .join(' ')
@@ -15,13 +21,15 @@ const VeteranInfoBox = props => {
       <p>This is the personal information we have on file for you.</p>
       <div className="vads-u-border-left--7px vads-u-border-color--primary">
         <div className="vads-u-padding-left--1">
-          <p className="vads-u-margin--1px">Name: {fullName}</p>
+          <p className="vads-u-margin--1px">
+            <strong>{fullName}</strong>
+          </p>
           <p className="vads-u-margin--1px">
             Last 4 of Social Security number: {ssnLastFour}
           </p>
-          <p className="vads-u-margin--1px">File number: {vaFileNumber}</p>
+          <p className="vads-u-margin--1px">VA File number: {vaFileNumber}</p>
           <p className="vads-u-margin--1px">
-            Date of birth: {moment(dateOfBirth).format('MMMM DD, YYYY')}
+            Date of birth: {moment(dateOfBirth).format('DD/MM/YYYY')}
           </p>
         </div>
       </div>
@@ -45,12 +53,13 @@ VeteranInfoBox.propTypes = {
 };
 
 VeteranInfoBox.defaultProps = {
-  first: '',
-  last: '',
-  middle: '',
-  dateOfBirth: '',
-  ssnLastFour: '',
-  vaFileNumber: '',
+  // set these back to empty strings after UAT
+  first: 'Hector',
+  last: 'Smith',
+  middle: 'R',
+  dateOfBirth: '01/01/1970',
+  ssnLastFour: '1234',
+  vaFileNumber: '5678',
 };
 
 const mapStateToProps = state => ({
@@ -58,8 +67,8 @@ const mapStateToProps = state => ({
   middle: state.form?.data?.personalData?.fullName?.middle,
   last: state.form?.data?.personalData?.fullName?.last,
   dateOfBirth: state.form?.data?.personalData?.dateOfBirth,
-  ssnLastFour: '0000',
-  vaFileNumber: '0123456789',
+  ssnLastFour: state.form?.data?.personalIdentification?.sSn,
+  vaFileNumber: state.form?.data?.personalIdentification?.vaFileNumber,
 });
 
 export default connect(

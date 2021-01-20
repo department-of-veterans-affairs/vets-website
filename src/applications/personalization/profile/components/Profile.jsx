@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { LastLocationProvider } from 'react-router-last-location';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import DowntimeNotification, {
   externalServices,
@@ -33,11 +33,18 @@ import {
   fetchPersonalInformation as fetchPersonalInformationAction,
 } from '@@profile/actions';
 import {
-  directDepositAddressIsSetUp,
-  directDepositIsBlocked,
-  directDepositIsSetUp,
+  cnpDirectDepositAddressIsSetUp,
+  cnpDirectDepositInformation,
+  cnpDirectDepositIsBlocked,
+  cnpDirectDepositIsSetUp,
+  eduDirectDepositInformation,
+  eduDirectDepositIsSetUp,
+  showDirectDepositV2,
 } from '@@profile/selectors';
-import { fetchPaymentInformation as fetchPaymentInformationAction } from '@@profile/actions/paymentInformation';
+import {
+  fetchCNPPaymentInformation as fetchCNPPaymentInformationAction,
+  fetchEDUPaymentInformation as fetchEDUPaymentInformationAction,
+} from '@@profile/actions/paymentInformation';
 import getRoutes from '../routes';
 import { PROFILE_PATHS } from '../constants';
 
@@ -50,24 +57,35 @@ class Profile extends Component {
       fetchMHVAccount,
       fetchMilitaryInformation,
       fetchPersonalInformation,
-      fetchPaymentInformation,
-      shouldFetchDirectDepositInformation,
+      fetchCNPPaymentInformation,
+      fetchEDUPaymentInformation,
+      shouldFetchCNPDirectDepositInformation,
+      shouldFetchEDUDirectDepositInformation,
     } = this.props;
     fetchMHVAccount();
     fetchFullName();
     fetchPersonalInformation();
     fetchMilitaryInformation();
-    if (shouldFetchDirectDepositInformation) {
-      fetchPaymentInformation();
+    if (shouldFetchCNPDirectDepositInformation) {
+      fetchCNPPaymentInformation();
+    }
+    if (shouldFetchEDUDirectDepositInformation) {
+      fetchEDUPaymentInformation();
     }
   }
 
   componentDidUpdate(prevProps) {
     if (
-      this.props.shouldFetchDirectDepositInformation &&
-      !prevProps.shouldFetchDirectDepositInformation
+      this.props.shouldFetchCNPDirectDepositInformation &&
+      !prevProps.shouldFetchCNPDirectDepositInformation
     ) {
-      this.props.fetchPaymentInformation();
+      this.props.fetchCNPPaymentInformation();
+    }
+    if (
+      this.props.shouldFetchEDUDirectDepositInformation &&
+      !prevProps.shouldFetchEDUDirectDepositInformation
+    ) {
+      this.props.fetchEDUPaymentInformation();
     }
   }
 
@@ -209,13 +227,14 @@ Profile.propTypes = {
   showLoader: PropTypes.bool.isRequired,
   isInMVI: PropTypes.bool.isRequired,
   isLOA3: PropTypes.bool.isRequired,
-  shouldFetchDirectDepositInformation: PropTypes.bool.isRequired,
+  shouldFetchCNPDirectDepositInformation: PropTypes.bool.isRequired,
   shouldShowDirectDeposit: PropTypes.bool.isRequired,
   fetchFullName: PropTypes.func.isRequired,
   fetchMHVAccount: PropTypes.func.isRequired,
   fetchMilitaryInformation: PropTypes.func.isRequired,
   fetchPersonalInformation: PropTypes.func.isRequired,
-  fetchPaymentInformation: PropTypes.func.isRequired,
+  fetchCNPPaymentInformation: PropTypes.func.isRequired,
+  fetchEDUPaymentInformation: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {
@@ -223,11 +242,15 @@ const mapStateToProps = state => {
     backendServices.EVSS_CLAIMS,
   );
   const isEvssAvailable = isEvssAvailableSelector(state);
-  const isDirectDepositSetUp = directDepositIsSetUp(state);
-  const isDirectDepositBlocked = directDepositIsBlocked(state);
-  const isEligibleToSignUp = directDepositAddressIsSetUp(state);
+  const isCNPDirectDepositSetUp = cnpDirectDepositIsSetUp(state);
+  const isEDUDirectDepositSetUp = eduDirectDepositIsSetUp(state);
+  const isCNPDirectDepositBlocked = cnpDirectDepositIsBlocked(state);
+  const isEligibleToSetUpCNP = cnpDirectDepositAddressIsSetUp(state);
   const is2faEnabled = isMultifactorEnabled(state);
-  const shouldFetchDirectDepositInformation = isEvssAvailable && is2faEnabled;
+  const shouldFetchCNPDirectDepositInformation =
+    isEvssAvailable && is2faEnabled;
+  const shouldFetchEDUDirectDepositInformation =
+    !!showDirectDepositV2(state) && is2faEnabled;
   const currentlyLoggedIn = isLoggedIn(state);
   const isLOA1 = isLOA1Selector(state);
   const isLOA3 = isLOA3Selector(state);
@@ -252,28 +275,44 @@ const mapStateToProps = state => {
 
   // this piece of state will be set if the call to load name info succeeds or
   // fails:
-  const hasLoadedPaymentInformation = state.vaProfile?.paymentInformation;
+  const hasLoadedCNPPaymentInformation = cnpDirectDepositInformation(state);
+
+  const hasLoadedEDUPaymentInformation = eduDirectDepositInformation(state);
 
   const hasLoadedAllData =
     hasLoadedFullName &&
     hasLoadedMHVInformation &&
     hasLoadedPersonalInformation &&
     hasLoadedMilitaryInformation &&
-    (shouldFetchDirectDepositInformation ? hasLoadedPaymentInformation : true);
+    (shouldFetchCNPDirectDepositInformation
+      ? hasLoadedCNPPaymentInformation
+      : true) &&
+    (shouldFetchEDUDirectDepositInformation
+      ? hasLoadedEDUPaymentInformation
+      : true);
 
   const showLoader =
     !hasLoadedAllData || (!isLOA3 && !isLOA1 && currentlyLoggedIn);
+
+  const shouldShowDirectDeposit = () => {
+    // if they are explicitly blocked from DD4CNP, do not show it
+    if (isCNPDirectDepositBlocked) return false;
+    return (
+      (isLOA3 && !is2faEnabled) || // we _want_ to show the DD section to non-2FA users
+      isCNPDirectDepositSetUp ||
+      isEligibleToSetUpCNP ||
+      isEDUDirectDepositSetUp
+    );
+  };
 
   return {
     user: state.user,
     showLoader,
     isInMVI: isInMVISelector(state),
     isLOA3,
-    shouldFetchDirectDepositInformation,
-    shouldShowDirectDeposit:
-      shouldFetchDirectDepositInformation &&
-      !isDirectDepositBlocked &&
-      (isDirectDepositSetUp || isEligibleToSignUp),
+    shouldFetchCNPDirectDepositInformation,
+    shouldFetchEDUDirectDepositInformation,
+    shouldShowDirectDeposit: shouldShowDirectDeposit(),
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',
     ),
@@ -285,7 +324,8 @@ const mapDispatchToProps = {
   fetchMHVAccount: fetchMHVAccountAction,
   fetchMilitaryInformation: fetchMilitaryInformationAction,
   fetchPersonalInformation: fetchPersonalInformationAction,
-  fetchPaymentInformation: fetchPaymentInformationAction,
+  fetchCNPPaymentInformation: fetchCNPPaymentInformationAction,
+  fetchEDUPaymentInformation: fetchEDUPaymentInformationAction,
   initializeDowntimeWarnings,
   dismissDowntimeWarning,
 };

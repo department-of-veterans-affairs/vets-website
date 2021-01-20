@@ -39,7 +39,7 @@ export function RatedSearchResult({
 }) {
   const queryParams = useQueryParams();
   const estimate = ({ ratedQualifier, value }) => {
-    const formattedValue = ratedQualifier.includes('%')
+    const formattedValue = ratedQualifier?.includes('%')
       ? value
       : formatCurrency(value);
     return (

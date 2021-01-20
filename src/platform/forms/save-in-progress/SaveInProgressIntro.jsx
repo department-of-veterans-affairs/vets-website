@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import {
   expiredMessage,
@@ -244,7 +244,6 @@ class SaveInProgressIntro extends React.Component {
   };
 
   renderDowntime = (downtime, children) => {
-    // duplicate logic in AuthorizationComponent should be updated with any changes to this section
     if (downtime.status === externalServiceStatus.down) {
       const Message = this.props.downtime.message || DowntimeMessage;
 

@@ -9,10 +9,10 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 import {
-  contactInfoDescription,
+  contactInfo,
   contactInfoUpdateHelp,
   // forwardingAddressDescription,
   // ForwardingAddressViewField,
@@ -68,7 +68,7 @@ const citySchema = fullSchema.definitions.address.properties.city;
 
 export const uiSchema = {
   'ui:title': 'Contact information',
-  'ui:description': contactInfoDescription,
+  'ui:description': contactInfo,
   phoneAndEmail: {
     'ui:title': 'Phone & email',
     'ui:field': ReviewCardField,

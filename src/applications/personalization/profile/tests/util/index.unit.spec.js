@@ -1,18 +1,18 @@
 import { expect } from 'chai';
 
 import {
-  createDirectDepositAnalyticsDataObject,
+  createCNPDirectDepositAnalyticsDataObject,
   hasAccountFlaggedError,
   hasRoutingNumberFlaggedError,
   hasInvalidHomePhoneNumberError,
 } from '../../util';
 
 describe('profile utils', () => {
-  describe('createEventDataObjectWithErrors', () => {
+  describe('createCNPDirectDepositAnalyticsDataObject', () => {
     const createEventDataObjectWithError = error => ({
       event: 'profile-edit-failure',
       'profile-action': 'save-failure',
-      'profile-section': 'direct-deposit-information',
+      'profile-section': 'cnp-direct-deposit-information',
       'error-key': error,
     });
     const defaultDataObject = createEventDataObjectWithError(
@@ -40,11 +40,11 @@ describe('profile utils', () => {
       'payment-restriction-indicators-error-update',
     );
     it('returns the correct data when passed nothing', () => {
-      const eventDataObject = createDirectDepositAnalyticsDataObject();
+      const eventDataObject = createCNPDirectDepositAnalyticsDataObject();
       expect(eventDataObject).to.deep.equal(defaultDataObject);
     });
     it('returns the correct data when passed an empty array', () => {
-      const eventDataObject = createDirectDepositAnalyticsDataObject([]);
+      const eventDataObject = createCNPDirectDepositAnalyticsDataObject([]);
       expect(eventDataObject).to.deep.equal(defaultDataObject);
     });
     // Wednesday, April 22, 2020 We saw errors in Sentry due to unsafe prop
@@ -52,9 +52,9 @@ describe('profile utils', () => {
     // the error.
     // http://sentry.vfs.va.gov/vets-gov/website-production/issues/115880/
     it('returns the correct data when passed an error object that is missing a messages array', () => {
-      let eventDataObject = createDirectDepositAnalyticsDataObject([{}]);
+      let eventDataObject = createCNPDirectDepositAnalyticsDataObject([{}]);
       expect(eventDataObject).to.deep.equal(defaultDataObject);
-      eventDataObject = createDirectDepositAnalyticsDataObject([
+      eventDataObject = createCNPDirectDepositAnalyticsDataObject([
         {
           meta: {},
         },
@@ -62,7 +62,7 @@ describe('profile utils', () => {
       expect(eventDataObject).to.deep.equal(defaultDataObject);
     });
     it('returns the correct data when a bad address error is passed', () => {
-      const eventDataObject = createDirectDepositAnalyticsDataObject([
+      const eventDataObject = createCNPDirectDepositAnalyticsDataObject([
         {
           title: 'Unprocessable Entity',
           detail: 'One or more unprocessable user payment properties',
@@ -84,7 +84,7 @@ describe('profile utils', () => {
       expect(eventDataObject).to.deep.equal(badAddressDataObject);
     });
     it('returns the correct data when a work phone number error is passed', () => {
-      const eventDataObject = createDirectDepositAnalyticsDataObject([
+      const eventDataObject = createCNPDirectDepositAnalyticsDataObject([
         {
           title: 'Unprocessable Entity',
           detail: 'One or more unprocessable user payment properties',
@@ -106,7 +106,7 @@ describe('profile utils', () => {
       expect(eventDataObject).to.deep.equal(badWorkPhoneDataObject);
     });
     it('returns the correct data when a day phone number error is passed', () => {
-      const eventDataObject = createDirectDepositAnalyticsDataObject([
+      const eventDataObject = createCNPDirectDepositAnalyticsDataObject([
         {
           title: 'Unprocessable Entity',
           detail: 'One or more unprocessable user payment properties',
@@ -128,7 +128,7 @@ describe('profile utils', () => {
       expect(eventDataObject).to.deep.equal(badHomePhoneDataObject);
     });
     it('returns the correct data when a routing number flagged for fraud error is passed', () => {
-      const eventDataObject = createDirectDepositAnalyticsDataObject([
+      const eventDataObject = createCNPDirectDepositAnalyticsDataObject([
         {
           code: '135',
           detail: 'Routing number related to potential fraud',
@@ -151,7 +151,7 @@ describe('profile utils', () => {
       );
     });
     it('returns the correct data when an account flagged for fraud error is passed', () => {
-      const eventDataObject = createDirectDepositAnalyticsDataObject([
+      const eventDataObject = createCNPDirectDepositAnalyticsDataObject([
         {
           code: '136',
           detail: 'The account has been flagged',
@@ -172,7 +172,7 @@ describe('profile utils', () => {
       expect(eventDataObject).to.deep.equal(accountFlaggedForFraudDataObject);
     });
     it('returns the correct data when an invalid routing number error is passed', () => {
-      const eventDataObject = createDirectDepositAnalyticsDataObject([
+      const eventDataObject = createCNPDirectDepositAnalyticsDataObject([
         {
           title: 'Unprocessable Entity',
           detail: 'One or more unprocessable user payment properties',
@@ -193,7 +193,7 @@ describe('profile utils', () => {
       expect(eventDataObject).to.deep.equal(invalidRoutingNumberDataObject);
     });
     it('returns the correct data when an invalid routing number error is passed', () => {
-      const eventDataObject = createDirectDepositAnalyticsDataObject([
+      const eventDataObject = createCNPDirectDepositAnalyticsDataObject([
         {
           title: 'Unprocessable Entity',
           detail: 'One or more unprocessable user payment properties',
@@ -214,7 +214,7 @@ describe('profile utils', () => {
       expect(eventDataObject).to.deep.equal(invalidRoutingNumberDataObject);
     });
     it('returns the correct data when a payment restriction indicators error is passed', () => {
-      const eventDataObject = createDirectDepositAnalyticsDataObject([
+      const eventDataObject = createCNPDirectDepositAnalyticsDataObject([
         {
           title: 'Unprocessable Entity',
           detail: 'One or more unprocessable user payment properties',

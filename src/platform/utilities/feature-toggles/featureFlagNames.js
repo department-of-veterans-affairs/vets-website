@@ -1,12 +1,14 @@
 export default Object.freeze({
   preEntryCovid19Screener: 'preEntryCovid19Screener',
-  dashboardShowCovid19Alert: 'dashboardShowCovid19Alert',
   dashboardShowDashboard2: 'dashboard_show_dashboard_2',
+  directDepositEducation: 'ch33_dd_profile',
   facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares', // Facilities team has deprecated this flag for the frontEnd logic, there is still backend support though.
   facilitiesPpmsSuppressPharmacies: 'facilitiesPpmsSuppressPharmacies',
   facilitiesPpmsSuppressCommunityCare: 'facilitiesPpmsSuppressCommunityCare',
   facilityLocatorPredictiveLocationSearch:
     'facilityLocatorPredictiveLocationSearch',
+  facilityLocatorLighthouseCovidVaccineQuery:
+    'facilityLocatorLighthouseCovidVaccineQuery',
   vaOnlineScheduling: 'vaOnlineScheduling',
   vaOnlineSchedulingCancel: 'vaOnlineSchedulingCancel',
   vaOnlineSchedulingRequests: 'vaOnlineSchedulingRequests',
@@ -23,7 +25,12 @@ export default Object.freeze({
   vaOnlineSchedulingExpressCare: 'vaOnlineSchedulingExpressCare',
   vaOnlineSchedulingExpressCareNew: 'vaOnlineSchedulingExpressCareNew',
   vaOnlineSchedulingFlatFacilityPage: 'vaOnlineSchedulingFlatFacilityPage',
+  vaOnlineSchedulingFlatFacilityPageSacramento:
+    'vaOnlineSchedulingFlatFacilityPageSacramento',
+  vaOnlineSchedulingProviderSelection: 'vaOnlineSchedulingProviderSelection',
+  vaOnlineSchedulingCheetah: 'vaOnlineSchedulingCheetah',
   vaGlobalDowntimeNotification: 'vaGlobalDowntimeNotification',
+  vaOnlineSchedulingHomepageRefresh: 'vaOnlineSchedulingHomepageRefresh',
   ssoe: 'ssoe',
   ssoeInbound: 'ssoeInbound',
   ssoeEbenefitsLinks: 'ssoeEbenefitsLinks',
@@ -43,8 +50,8 @@ export default Object.freeze({
   showEduBenefits5490Wizard: 'show_edu_benefits_5490_wizard',
   showEduBenefits1990EWizard: 'show_edu_benefits_1990e_wizard',
   showEduBenefits1990Wizard: 'show_edu_benefits_1990_wizard',
+  stemAutomatedDecision: 'stem_automated_decision',
   stemSCOEmail: 'stem_sco_email',
-  stemTextMessageQuestion: 'stem_text_message_question',
   showHealthcareExperienceQuestionnaire:
     'showHealthcareExperienceQuestionnaire',
   showNewGetMedicalRecordsPage: 'show_new_get_medical_records_page',
@@ -59,6 +66,16 @@ export default Object.freeze({
   show526Wizard: 'show526Wizard',
   showChapter36: 'show_chapter_36',
   showChapter31: 'show_chapter_31',
-  form1995EduUpdates: 'form_1995_edu_updates',
+  viewPaymentHistory: 'view_payment_history',
   requestLockedPdfPassword: 'request_locked_pdf_password',
+  form526ConfirmationEmail: 'form526_confirmation_email',
+  form526ConfirmationEmailShowCopy: 'form526_confirmation_email_show_copy',
+  searchTypeaheadEnabled: 'search_typeahead_enabled',
+  covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
+  covidVaccineUpdatesForm: 'covid_vaccine_registration_frontend',
+  showFindFormsResultsLinkToFormDetailPages: 'find_forms_mvp_enhancement',
+  multipleAddress1010ez: 'multiple_address_10_10ez',
+  evssUploadLimit150Mb: 'evss_upload_limit_150mb',
+  gibctStateSearch: 'gibct_state_search',
+  eduFormOmbAndExpiration: 'edu_form_omb_and_expiration',
 });

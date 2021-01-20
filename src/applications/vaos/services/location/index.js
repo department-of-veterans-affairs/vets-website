@@ -11,6 +11,7 @@ import {
   getFacilitiesInfo,
   getDirectBookingEligibilityCriteria,
   getRequestEligibilityCriteria,
+  getCommunityCareFacilities,
 } from '../var';
 import { mapToFHIRErrors } from '../utils';
 import {
@@ -18,8 +19,10 @@ import {
   transformFacilities,
   transformFacility,
   setSupportedSchedulingMethods,
+  transformCommunityProviders,
 } from './transformers';
 import { VHA_FHIR_ID } from '../../utils/constants';
+import { calculateBoundingBox } from '../../utils/address';
 
 /*
  * This is used to parse the fake FHIR ids we create for organizations
@@ -110,7 +113,6 @@ export async function getLocation({ facilityId }) {
 }
 
 export async function getLocationsByTypeOfCareAndSiteIds({
-  typeOfCareId,
   siteIds,
   directSchedulingEnabled,
 }) {
@@ -129,29 +131,9 @@ export async function getLocationsByTypeOfCareAndSiteIds({
     // disabled for that type of care.  If "No", it is enabled, but doesn't require
     // a previous appointment.  If "Yes", it is enabled and requires a previous appt
 
-    // Fetch facilities that support requests and filter
-    // only those that support the selected type of care
-    const requestFacilityIds =
-      criteria[0]
-        ?.filter(facility =>
-          facility?.requestSettings?.some(
-            setting =>
-              setting.id === typeOfCareId && !!setting.patientHistoryRequired,
-          ),
-        )
-        ?.map(facility => facility.id) || [];
-
-    // Fetch facilities that support direct scheduling and filter
-    // only those that support the selected type of care
+    const requestFacilityIds = criteria[0]?.map(facility => facility.id) || [];
     const directFacilityIds = directSchedulingEnabled
-      ? criteria[1]
-          ?.filter(facility =>
-            facility?.coreSettings?.some(
-              setting =>
-                setting.id === typeOfCareId && !!setting.patientHistoryRequired,
-            ),
-          )
-          ?.map(facility => facility.id) || []
+      ? criteria[1]?.map(facility => facility.id) || []
       : [];
 
     const uniqueIds = Array.from(
@@ -166,13 +148,11 @@ export async function getLocationsByTypeOfCareAndSiteIds({
         facilityIds: uniqueIds,
       });
 
-      // Update the retrieved locations with requestSupported and
-      // directSchedulingSupported, as well as replace IDs for dev/staging
       locations = locations?.map(location =>
         setSupportedSchedulingMethods({
           location,
-          requestFacilityIds,
-          directFacilityIds,
+          requestFacilities: criteria[0] || [],
+          directFacilities: directSchedulingEnabled ? criteria[1] || [] : [],
         }),
       );
     }
@@ -217,7 +197,7 @@ export function getFacilityIdFromLocation(location) {
  * @param {String} id A location's fake FHIR id
  */
 export function getSiteIdFromFakeFHIRId(id) {
-  return parseId(id).substr(0, 3);
+  return id ? parseId(id).substr(0, 3) : null;
 }
 
 /**
@@ -245,4 +225,42 @@ export function formatFacilityAddress(facility) {
   return `${facility.address?.line.join(', ')}, ${facility.address?.city}, ${
     facility.address?.state
   } ${facility.address?.postalCode}`;
+}
+
+/**
+ * Fetch community care providers by location and type of care
+ *
+ * @export
+ * @param {Object} locationsParams Parameters needed for fetching providers
+ * @param {Object} locationParams.address The address in VA Profile format to search nearby
+ * @param {Object} locationParams.typeOfCare Type of care data to use when searching for providers
+ * @param {Number} locationParams.radius The radius to search for providers within, defaulted to 60
+ * @param {Number} locationParams.maxResults The max number of results to return from the search
+ * @returns {Array} A FHIR searchset of Location resources
+ */
+export async function getCommunityProvidersByTypeOfCare({
+  address,
+  typeOfCare,
+  radius = 60,
+  maxResults = 15,
+}) {
+  try {
+    const communityCareProviders = await getCommunityCareFacilities({
+      bbox: calculateBoundingBox(address.latitude, address.longitude, radius),
+      latitude: address.latitude,
+      longitude: address.longitude,
+      radius,
+      specialties: typeOfCare.specialties,
+      page: 1,
+      perPage: maxResults,
+    });
+
+    return transformCommunityProviders(communityCareProviders);
+  } catch (e) {
+    if (e.errors) {
+      throw mapToFHIRErrors(e.errors);
+    }
+
+    throw e;
+  }
 }

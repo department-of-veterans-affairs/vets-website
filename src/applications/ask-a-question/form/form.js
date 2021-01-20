@@ -29,6 +29,8 @@ import {
 
 import manifest from '../manifest.json';
 import CallMyVA311 from './review/error/CallMyVA311';
+import FormFooter from 'platform/forms/components/FormFooter';
+import NeedHelpFooter from '../components/NeedHelpFooter';
 
 const {
   fullName,
@@ -64,8 +66,10 @@ const submitTransform = (formConfig, form) => {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/ask/asks`,
+  submitUrl: `${environment.API_URL}/v0/contact_us/inquiries`,
   transformForSubmit: submitTransform,
+  footerContent: FormFooter,
+  getHelp: NeedHelpFooter,
   trackingPrefix: 'complex-form-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

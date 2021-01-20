@@ -1,5 +1,5 @@
 {% if entity.fieldAdditionalContact != empty or entity.fieldBenefitHubContacts != empty or entity.fieldContactDefault != empty %}
-  <section class="vads-u-display--flex vads-u-flex-direction--column vads-u-background-color--gray-light-alt vads-u-padding--2">
+  <section class="vads-u-display--flex vads-u-flex-direction--column vads-u-background-color--gray-light-alt vads-u-padding--2" data-template="paragraphs/contact_information">
     <h2 class="vads-u-font-size--h3 vads-u-border-bottom--4px vads-u-border-color--primary vads-u-margin--0 vads-u-margin-y--1 vads-u-padding-bottom--1">Need more help?</h2>
 
     <ul class="usa-unstyled-list vads-u-display--flex vads-u-flex-direction--column">
@@ -8,7 +8,9 @@
         <li class="vads-u-margin-top--1">
           <strong>{{ entity.fieldContactDefault.entity.title }} </strong>
           {% if entity.fieldContactDefault.entity.fieldLink %}
-            <a href="{{ entity.fieldContactDefault.entity.fieldLink.url.path }}" rel="noreferrer noopener">
+            <a onclick="recordEvent({ 'event': 'nav-linkslist', 'links-list-header': '{{ entity.fieldContactDefault.entity.fieldPhoneNumber }}', 'links-list-section-header': 'Need more help?' })"
+                href="{{ entity.fieldContactDefault.entity.fieldLink.url.path }}"
+                rel="noreferrer noopener">
               {{ entity.fieldContactDefault.entity.fieldPhoneNumber }}
             </a>
           {% endif %}
@@ -22,7 +24,9 @@
           {% if entity.fieldAdditionalContact.entity.fieldEmailLabel and entity.fieldAdditionalContact.entity.fieldEmailAddress %}
             <strong>{{ entity.fieldAdditionalContact.entity.fieldEmailLabel }}: </strong>
             {% if entity.fieldAdditionalContact.entity.fieldEmailAddress %}
-              <a href="mailto:{{ entity.fieldAdditionalContact.entity.fieldEmailAddress }}" rel="noreferrer noopener">
+              <a onclick="recordEvent({ 'event': 'nav-linkslist', 'links-list-header': '{{ entity.fieldAdditionalContact.entity.fieldEmailAddress | escape }}', 'links-list-section-header': 'Need more help?' })"
+                  href="mailto:{{ entity.fieldAdditionalContact.entity.fieldEmailAddress }}"
+                  rel="noreferrer noopener">
                 {{ entity.fieldAdditionalContact.entity.fieldEmailAddress }}
               </a>
             {% endif %}
@@ -32,7 +36,9 @@
           {% if entity.fieldAdditionalContact.entity.fieldPhoneLabel and entity.fieldAdditionalContact.entity.fieldPhoneNumber %}
             <strong>{{ entity.fieldAdditionalContact.entity.fieldPhoneLabel }}: </strong>
             {% if entity.fieldAdditionalContact.entity.fieldPhoneNumber %}
-              <a href="tel:{{ entity.fieldAdditionalContact.entity.fieldPhoneNumber }}{% if fieldPhoneExtension %}p{{ fieldPhoneExtension }}{% endif %}" rel="noreferrer noopener">
+              <a onclick="recordEvent({ 'event': 'nav-linkslist', 'links-list-header': '{{ entity.fieldAdditionalContact.entity.fieldPhoneNumber | escape }}{% if fieldPhoneExtension %}p{{ fieldPhoneExtension }}{% endif %}', 'links-list-section-header': 'Need more help?' })"
+                  href="tel:{{ entity.fieldAdditionalContact.entity.fieldPhoneNumber }}{% if fieldPhoneExtension %}p{{ fieldPhoneExtension }}{% endif %}"
+                  rel="noreferrer noopener">
                 {{ entity.fieldAdditionalContact.entity.fieldPhoneNumber }}{% if fieldPhoneExtension %}p{{ fieldPhoneExtension }}{% endif %}
               </a>
             {% endif %}
@@ -46,7 +52,9 @@
           <li class="vads-u-margin-top--1">
             <strong>{{ supportService.entity.title }} </strong>
             {% if supportService.entity.fieldLink %}
-              <a href="{{ supportService.entity.fieldLink.url.path }}" rel="noreferrer noopener">
+              <a onclick="recordEvent({ 'event': 'nav-linkslist', 'links-list-header': '{{ supportService.entity.fieldPhoneNumber | escape }}', 'links-list-section-header': 'Need more help?' })"
+                  href="{{ supportService.entity.fieldLink.url.path }}"
+                  rel="noreferrer noopener">
                 {{ supportService.entity.fieldPhoneNumber }}
               </a>
             {% endif %}

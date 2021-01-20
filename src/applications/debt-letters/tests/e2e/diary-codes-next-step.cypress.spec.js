@@ -10,7 +10,7 @@ describe('Diary Codes - Next Steps', () => {
     cy.axeCheck();
   });
 
-  it('renders a debt card with next step', () => {
+  it.skip('renders a debt card with next step', () => {
     cy.findByText(/Current debts/i, { selector: 'a' }).click();
     cy.get('[data-testid="diary-codes-next-step"]')
       .first()
@@ -18,7 +18,7 @@ describe('Diary Codes - Next Steps', () => {
       .should('exist');
   });
 
-  it('renders a debt card without next step', () => {
+  it.skip('renders a debt card without next step', () => {
     cy.findByText(/Current debts/i, { selector: 'a' }).click();
     cy.get('[data-testid="diary-codes-next-step"]')
       .last()
@@ -26,7 +26,7 @@ describe('Diary Codes - Next Steps', () => {
       .should('not.exist');
   });
 
-  it('renders debt details with next step', () => {
+  it.skip('renders debt details with next step', () => {
     cy.findByText(/Current debts/i, { selector: 'a' }).click();
     cy.get('.usa-button')
       .first()
@@ -34,7 +34,7 @@ describe('Diary Codes - Next Steps', () => {
     cy.get('.debt-details-nextstep').contains('Next step');
   });
 
-  it('renders debt details with information alert when there is no next step', () => {
+  it.skip('renders debt details with information alert when there is no next step', () => {
     cy.findByText(/Current debts/i, { selector: 'a' }).click();
     cy.get('.usa-button')
       .last()

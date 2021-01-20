@@ -7,10 +7,6 @@
         "value": false
       },
       {
-        "name": "dashboardShowCovid19Alert",
-        "value": false
-      },
-      {
         "name": "facilityLocatorShowCommunityCares",
         "value": false
       },

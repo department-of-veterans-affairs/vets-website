@@ -4,109 +4,92 @@
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" with constructLcBreadcrumbs = true titleInclude = true %}
 
-<div id="content" class="interior">
-  <main class="va-l-detail-page">
-    <div class="usa-grid usa-grid-full">
-      <div class="usa-width-three-fourths">
-        <div class="usa-content">
-          <!-- Draft status -->
-          {% if !entityPublished %}
-            <div class="usa-alert usa-alert-info">
-              <div class="usa-alert-body">
-                <p class="usa-alert-text">You are viewing a draft.</p>
-              </div>
-            </div>
-          {% endif %}
+<div class="interior" id="content" data-template="node-media_list_images">
+    <main class="va-l-detail-page">
+        <div class="usa-grid usa-grid-full">
+            <div class="usa-width-three-fourths">
+                <div class="usa-content">
+                    <!-- Draft status -->
+                    {% if !entityPublished %}
+                        <div class="usa-alert usa-alert-info">
+                            <div class="usa-alert-body">
+                                <p class="usa-alert-text">You are viewing a draft.</p>
+                            </div>
+                        </div>
+                    {% endif %}
 
-          <!-- Search bar -->
-          <div class="vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-margin-bottom--3">
-            {% include "src/site/includes/support_resources_search_bar.drupal.liquid" %}
-          </div>
-
-          <article>
-            <!-- Title -->
-            <h1>{{ title }}</h1>
-
-            <!-- Intro -->
-            <div class="va-introtext">{{ fieldIntroTextLimitedHtml.processed }}</div>
-
-            <!-- Alert -->
-            {% if fieldAlertSingle %}
-              {% include "src/site/paragraphs/alert_single.drupal.liquid" with entity = fieldAlertSingle.entity %}
-            {% endif %}
-
-            <!-- Buttons -->
-            <div class="vads-u-margin-y--3">
-              {% for fieldButton in fieldButtons %}
-                {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
-              {% endfor %}
-            </div>
-
-            <!-- Images List -->
-            <ul class="usa-unstyled-list">
-              {% for mediaImage in fieldMediaListImages.entity.fieldImages %}
-                <li className="vads-u-display--flex vads-u-margin-bottom--2">
-
-                  {% assign alt = mediaImage.entity.image.alt %}
-                  {% if alt == mediaImage.entity.entityLabel %}
-                    {% assign alt = '' %}
-                    {{ testing }}
-                  {% endif %}
-
-                  <div class="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-y--2">
-                    <div class="vads-l-row">
-                      <div class="vads-l-col--2">
-                        <img class="vads-u-border--1px vads-u-border-color--gray-light" alt="{{ alt }}"
-                          height="{{ mediaImage.entity.image.height }}" width="{{ mediaImage.entity.image.width }}"
-                          src="{{ mediaImage.entity.image.url }}" />
-                      </div>
-                      <div class="vads-l-col--10 vads-u-padding-left--2">
-                        <h2 class="vads-u-font-size--h3">{{ mediaImage.entity.entityLabel }}</h2>
-                        {% if mediaImage.entity.fieldDescription %}
-                          <p>{{ mediaImage.entity.fieldDescription }}</p>
-                        {% endif %}
-                      </div>
+                    <!-- Search bar -->
+                    <div class="medium-screen:vads-u-border-bottom--2px vads-u-border-color--gray-light medium-screen:vads-u-margin-bottom--3">
+                        {% include "src/site/includes/support_resources_search_bar.drupal.liquid" %}
                     </div>
-                  </div>
-                </li>
-              {% endfor %}
-            </ul>
 
+                    <article>
+                        <!-- Title -->
+                        <h1>{{ title }}</h1>
 
-            <!-- Repeated buttons -->
-            {% if fieldButtonsRepeat %}
-              <div class="vads-u-margin-top--3">
-                {% for fieldButton in fieldButtons %}
-                  {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
-                {% endfor %}
-              </div>
-            {% endif %}
-          </article>
+                        <!-- Intro -->
+                        <div class="va-introtext">{{ fieldIntroTextLimitedHtml.processed }}</div>
 
-          <!-- Tags -->
-          {% include "src/site/includes/tags.drupal.liquid" with fieldTags = fieldTags %}
+                        <!-- Alert -->
+                        {% if fieldAlertSingle %}
+                            {% include "src/site/paragraphs/alert_single.drupal.liquid" with entity = fieldAlertSingle.entity %}
+                        {% endif %}
 
-          <!-- How do you rate -->
-          {% include "src/site/includes/how-do-you-rate.drupal.liquid" %}
+                        <!-- Buttons -->
+                        <div class="vads-u-margin-y--3">
+                            {% for fieldButton in fieldButtons %}
+                                {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
+                            {% endfor %}
+                        </div>
+                        <!-- Section Header -->
+                        {% if fieldMediaListImages.entity.fieldSectionHeader %}
+                            {% assign image_title_tag = "h3" %}
+                            {% assign image_title_classes = "vads-u-margin-y--0 medium-screen:vads-u-margin-y--1p5" %}
+                            <h2 class="vads-u-margin-bottom--2">{{fieldMediaListImages.entity.fieldSectionHeader }}</h2>
+                        {% else %}
+                            {% assign image_title_tag = "h2" %}
+                            {% assign image_title_classes = "vads-u-font-size--h3" %}
+                        {% endif %}
+                        <!-- Images List -->
+                        <dl class="usa-unstyled-list">
+                            {% include "src/site/includes/images_list_with_additional_info_component.drupal.liquid"
+                            with images = fieldMediaListImages.entity.fieldImages %}
+                        </dl>
+                        <!-- Repeated buttons -->
+                        {% if fieldButtonsRepeat %}
+                            <div class="vads-u-margin-top--3">
+                                {% for fieldButton in fieldButtons %}
+                                    {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </article>
 
-          <!-- Related information -->
-          {% include "src/site/includes/related-information.drupal.liquid" with fieldRelatedInformation = fieldRelatedInformation %}
+                    <!-- Tags -->
+                    {% include "src/site/includes/tags.drupal.liquid" with fieldTags = fieldTags %}
 
-          <!-- VA benefits -->
-          {% include "src/site/includes/benefit-hubs-links.drupal.liquid" with fieldRelatedBenefitHubs = fieldRelatedBenefitHubs %}
+                    <!-- How do you rate -->
+                    {% include "src/site/includes/how-do-you-rate.drupal.liquid" %}
 
-          <!-- Need more help -->
-          {% include "src/site/paragraphs/contact_information.drupal.liquid" with entity = fieldContactInformation.entity %}
+                    <!-- Related information -->
+                    {% include "src/site/includes/related-information.drupal.liquid" with fieldRelatedInformation = fieldRelatedInformation %}
 
-          <!-- Last updated -->
-          <div class="last-updated usa-content">
-            Last updated: <time
-              datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
-          </div>
+                    <!-- VA benefits -->
+                    {% include "src/site/includes/benefit-hubs-links.drupal.liquid" with fieldRelatedBenefitHubs = fieldRelatedBenefitHubs %}
+
+                    <!-- Need more help -->
+                    {% include "src/site/paragraphs/contact_information.drupal.liquid" with entity = fieldContactInformation.entity %}
+
+                    <!-- Last updated -->
+                    <div class="last-updated usa-content">
+                        Last updated:
+                        <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </main>
+    </main>
+    {% include "src/site/components/up_to_top_button.html" %}
 </div>
 
 {% include "src/site/includes/footer.html" %}

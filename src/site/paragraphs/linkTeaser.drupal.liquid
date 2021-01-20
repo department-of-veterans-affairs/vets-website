@@ -20,8 +20,8 @@
         {% assign header = "b" %}
         {% assign headerClass = "" %}
     {% else %}
-        {% assign header = "h4" %}
-        {% assign headerClass = "va-nav-linkslist-title" %}
+        {% assign header = "h3" %}
+        {% assign headerClass = "va-nav-linkslist-title vads-u-font-size--h4" %}
     {% endif %}
 {% endif %}
 
@@ -42,9 +42,8 @@
                 <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow">
             {% endif %}
         {% endif %}
-
-        {% if linkTeaser.fieldLinkSummary != empty %}
-            <p class="va-nav-linkslist-description">{{ linkTeaser.fieldLinkSummary }}</p>
-        {% endif %}
     </a>
+    {% if linkTeaser.fieldLinkSummary != empty %}
+        <p class="va-nav-linkslist-description">{{ linkTeaser.fieldLinkSummary }}</p>
+    {% endif %}
 </li>

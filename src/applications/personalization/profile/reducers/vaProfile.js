@@ -10,20 +10,32 @@ import {
 } from '../actions';
 
 import {
-  PAYMENT_INFORMATION_FETCH_SUCCEEDED,
-  PAYMENT_INFORMATION_FETCH_FAILED,
-  PAYMENT_INFORMATION_SAVE_STARTED,
-  PAYMENT_INFORMATION_SAVE_SUCCEEDED,
-  PAYMENT_INFORMATION_SAVE_FAILED,
-  PAYMENT_INFORMATION_EDIT_MODAL_TOGGLED,
+  CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
+  CNP_PAYMENT_INFORMATION_FETCH_FAILED,
+  CNP_PAYMENT_INFORMATION_SAVE_STARTED,
+  CNP_PAYMENT_INFORMATION_SAVE_SUCCEEDED,
+  CNP_PAYMENT_INFORMATION_SAVE_FAILED,
+  CNP_PAYMENT_INFORMATION_EDIT_TOGGLED,
+  EDU_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
+  EDU_PAYMENT_INFORMATION_FETCH_FAILED,
+  EDU_PAYMENT_INFORMATION_SAVE_STARTED,
+  EDU_PAYMENT_INFORMATION_SAVE_SUCCEEDED,
+  EDU_PAYMENT_INFORMATION_SAVE_FAILED,
+  EDU_PAYMENT_INFORMATION_EDIT_TOGGLED,
 } from '../actions/paymentInformation';
 
 const initialState = {
   hero: null,
   personalInformation: null,
   militaryInformation: null,
-  paymentInformation: null,
-  paymentInformationUiState: {
+  cnpPaymentInformation: null,
+  eduPaymentInformation: null,
+  cnpPaymentInformationUiState: {
+    isEditing: false,
+    isSaving: false,
+    responseError: null,
+  },
+  eduPaymentInformationUiState: {
     isEditing: false,
     isSaving: false,
     responseError: null,
@@ -44,38 +56,95 @@ function vaProfile(state = initialState, action) {
     case FETCH_MILITARY_INFORMATION_FAILED:
       return set('militaryInformation', action.militaryInformation, state);
 
-    case PAYMENT_INFORMATION_FETCH_SUCCEEDED:
-    case PAYMENT_INFORMATION_SAVE_SUCCEEDED: {
-      let newState = set('paymentInformation', action.response, state);
-      newState = set('paymentInformationUiState.isEditing', false, newState);
-      return set('paymentInformationUiState.isSaving', false, newState);
+    case CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED:
+    case CNP_PAYMENT_INFORMATION_SAVE_SUCCEEDED: {
+      let newState = set('cnpPaymentInformation', action.response, state);
+      newState = set('cnpPaymentInformationUiState.isEditing', false, newState);
+      return set('cnpPaymentInformationUiState.isSaving', false, newState);
     }
 
-    case PAYMENT_INFORMATION_EDIT_MODAL_TOGGLED: {
+    case CNP_PAYMENT_INFORMATION_EDIT_TOGGLED: {
       const newState = set(
-        'paymentInformationUiState.isEditing',
-        !state.paymentInformationUiState.isEditing,
+        'cnpPaymentInformationUiState.isEditing',
+        !state.cnpPaymentInformationUiState.isEditing,
         state,
       );
 
-      return set('paymentInformationUiState.responseError', null, newState);
+      return set('cnpPaymentInformationUiState.responseError', null, newState);
     }
 
-    case PAYMENT_INFORMATION_SAVE_STARTED:
-      return set('paymentInformationUiState.isSaving', true, state);
+    case CNP_PAYMENT_INFORMATION_SAVE_STARTED: {
+      const cnpPaymentInformationUiState = {
+        ...state.cnpPaymentInformationUiState,
+        responseError: null,
+        isSaving: true,
+      };
+      return { ...state, cnpPaymentInformationUiState };
+    }
 
-    case PAYMENT_INFORMATION_FETCH_FAILED: {
+    case CNP_PAYMENT_INFORMATION_FETCH_FAILED: {
       return set(
-        'paymentInformation',
+        'cnpPaymentInformation',
         { error: action.response.error || true },
         state,
       );
     }
 
-    case PAYMENT_INFORMATION_SAVE_FAILED: {
-      const newState = set('paymentInformationUiState.isSaving', false, state);
+    case CNP_PAYMENT_INFORMATION_SAVE_FAILED: {
+      const newState = set(
+        'cnpPaymentInformationUiState.isSaving',
+        false,
+        state,
+      );
       return set(
-        'paymentInformationUiState.responseError',
+        'cnpPaymentInformationUiState.responseError',
+        action.response,
+        newState,
+      );
+    }
+
+    case EDU_PAYMENT_INFORMATION_SAVE_SUCCEEDED:
+    case EDU_PAYMENT_INFORMATION_FETCH_SUCCEEDED: {
+      let newState = set('eduPaymentInformation', action.response, state);
+      newState = set('eduPaymentInformationUiState.isEditing', false, newState);
+      return set('eduPaymentInformationUiState.isSaving', false, newState);
+    }
+
+    case EDU_PAYMENT_INFORMATION_EDIT_TOGGLED: {
+      const newState = set(
+        'eduPaymentInformationUiState.isEditing',
+        !state.eduPaymentInformationUiState.isEditing,
+        state,
+      );
+
+      return set('eduPaymentInformationUiState.responseError', null, newState);
+    }
+
+    case EDU_PAYMENT_INFORMATION_SAVE_STARTED: {
+      const eduPaymentInformationUiState = {
+        ...state.eduPaymentInformationUiState,
+        responseError: null,
+        isSaving: true,
+      };
+      return { ...state, eduPaymentInformationUiState };
+    }
+
+    case EDU_PAYMENT_INFORMATION_FETCH_FAILED: {
+      return set(
+        'eduPaymentInformation',
+        { error: action.response.error || true },
+        state,
+      );
+    }
+
+    case EDU_PAYMENT_INFORMATION_SAVE_FAILED: {
+      const newState = set(
+        'eduPaymentInformationUiState.isSaving',
+        false,
+        state,
+      );
+      return set(
+        'eduPaymentInformationUiState.responseError',
         action.response,
         newState,
       );
