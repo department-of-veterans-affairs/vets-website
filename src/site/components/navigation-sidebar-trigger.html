@@ -21,12 +21,16 @@ used in a template with navigation-sidebar.html
 <div class="trigger-placeholder"></div>
 
 <script nonce="**CSP_NONCE**" type="text/javascript">
-  var mobileMediaQuery = window.matchMedia('(max-width: 767px)');
-  var navTrigger = document.getElementsByClassName("va-btn-sidebarnav-trigger")[0];
-  var buttonWrapper = document.querySelector(".va-btn-sidebarnav-trigger .button-wrapper");
-  var buttonBackground = document.querySelector(".va-btn-sidebarnav-trigger .button-background")
-  var navTriggerPlaceholder = document.querySelector(".trigger-placeholder");
-  var navTriggerOffset;
+  var mobileMediaQuery = window.matchMedia('(max-width: 767px)')
+  var navTrigger = document.getElementsByClassName('va-btn-sidebarnav-trigger')[0]
+  var buttonWrapper = document.querySelector(
+    '.va-btn-sidebarnav-trigger .button-wrapper',
+  )
+  var buttonBackground = document.querySelector(
+    '.va-btn-sidebarnav-trigger .button-background',
+  )
+  var navTriggerPlaceholder = document.querySelector('.trigger-placeholder')
+  var navTriggerPosition
 
   // Helper to get the height of the nav button, with or without the bottom
   // padding. This is used to set the height of the button's placeholder and the
@@ -34,7 +38,7 @@ used in a template with navigation-sidebar.html
   function getButtonHeight(withBottomPadding) {
     // If the mobile nav button is hidden, just return 0
     if (!mobileMediaQuery.matches) {
-      return 0;
+      return 0
     }
 
     const style = window.getComputedStyle(buttonWrapper)
@@ -42,30 +46,66 @@ used in a template with navigation-sidebar.html
 
     if (withBottomPadding) {
       return parseFloat(height)
-    };
-
-    return parseFloat(height) - parseFloat(paddingBottom);
-  }
-
-  function setHeightsAndOffsets() {
-    if (document.readyState === 'complete') {
-      navTriggerPlaceholder.style.height = `${getButtonHeight(true)}px`;
-      buttonBackground.style.height = `${getButtonHeight(false)}px`;
-      navTriggerOffset = navTriggerPlaceholder.offsetTop;
     }
+
+    return parseFloat(height) - parseFloat(paddingBottom)
   }
 
-  document.onreadystatechange = setHeightsAndOffsets;
+  function setElementHeights() {
+    navTriggerPlaceholder.style.height = `${getButtonHeight(true)}px`
+    buttonBackground.style.height = `${getButtonHeight(false)}px`
+  }
 
-  window.addEventListener("resize", setHeightsAndOffsets, false);
+  function setMenuTriggerPosition() {
+    navTriggerPosition = navTriggerPlaceholder.offsetTop
+  }
 
-  window.addEventListener("scroll", function () {
+  function pinTrigger() {
     if (mobileMediaQuery.matches) {
-      if (navTriggerOffset < window.pageYOffset) {
-        navTrigger.classList.add("fixed-trigger");
+      if (navTriggerPosition < window.pageYOffset) {
+        navTrigger.classList.add('fixed-trigger')
       } else {
-        navTrigger.classList.remove("fixed-trigger");
+        navTrigger.classList.remove('fixed-trigger')
       }
     }
-  }, false);
+  }
+
+  // As the document loads, make sure the height and trigger positions are
+  // updated
+  document.onreadystatechange = () => {
+    setElementHeights()
+    setMenuTriggerPosition()
+  }
+
+  window.addEventListener(
+    'resize',
+    () => {
+      // The height of the trigger can change at extreme browser widths
+      setElementHeights()
+      // The trigger can be pushed up/down as elements above it change height as
+      // the browser width changes
+      setMenuTriggerPosition()
+      // We might need to pin/unpin the trigger if we transitions from/to mobile
+      // browser widths
+      pinTrigger()
+    },
+    false,
+  )
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      // We are resetting the trigger button's position on scroll just in case any
+      // elements have been removed from above the menu trigger, such as a
+      // dismissible alert.
+      setMenuTriggerPosition()
+      // Primarily scrolling will pin/unpin the trigger from the top of the
+      // viewport
+      pinTrigger()
+    },
+    false,
+  )
+
+  const observer = new MutationObserver(() => {})
+  observer.observe(document.querySelector('body'), {})
 </script>
