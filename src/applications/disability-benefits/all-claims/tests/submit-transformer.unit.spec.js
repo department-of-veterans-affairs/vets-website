@@ -82,8 +82,8 @@ describe('transformRelatedDisabilities', () => {
   it('should return an array of strings', () => {
     const claimedConditions = ['Some Condition Name', 'Another Condition Name'];
     const treatedDisabilityNames = {
-      'some condition name': true,
-      'another condition name': true,
+      'Some Condition Name': true,
+      'Another Condition Name': true,
       'this condition is falsey!': false,
     };
     expect(
@@ -93,8 +93,8 @@ describe('transformRelatedDisabilities', () => {
   it('should not add conditions if they are not claimed', () => {
     const claimedConditions = ['Some Condition Name'];
     const treatedDisabilityNames = {
-      'some condition name': true,
-      'another condition name': true,
+      'Some Condition Name': true,
+      'Another Condition Name': true,
       'this condition is falsey!': false,
     };
     expect(

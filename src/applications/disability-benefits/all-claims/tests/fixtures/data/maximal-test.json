@@ -95,9 +95,9 @@
           "state": "AK"
         },
         "treatedDisabilityNames": {
-          "diabetes mellitus0": true,
-          "diabetes mellitus1": true,
-          "myocardial infarction (mi)": true
+          "Diabetes mellitus0": true,
+          "Diabetes mellitus1": true,
+          "myocardial infarction (MI)": true
         }
       },
       {
@@ -147,7 +147,7 @@
       ],
       "powDisabilities": {
         "knee replacement": true,
-        "myocardial infarction (mi)": true
+        "myocardial infarction (MI)": true
       }
     },
     "newDisabilities": [
@@ -160,7 +160,7 @@
       {
         "cause": "SECONDARY",
         "view:secondaryFollowUp": {
-          "causedByDisability": "Diabetes Mellitus0",
+          "causedByDisability": "Diabetes mellitus0",
           "causedByDisabilityDescription": "Again, this doesn't really make sense."
         },
         "condition": "phlebitis",
