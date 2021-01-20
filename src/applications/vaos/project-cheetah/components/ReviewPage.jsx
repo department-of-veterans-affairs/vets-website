@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import * as actions from '../redux/actions';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
@@ -11,6 +11,7 @@ import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { getTimezoneAbbrBySystemId } from '../../utils/timezone';
 import { getRealFacilityId } from '../../utils/appointment';
 import { getReviewPage } from '../redux/selectors';
+import flow from '../flow';
 
 const pageTitle = 'Review your appointment details';
 
@@ -19,7 +20,7 @@ function ReviewPage({
   facility,
   facilityDetails,
   clinic,
-  submitAppointment,
+  confirmAppointment,
   submitStatus,
   submitStatusVaos400,
   systemId,
@@ -38,25 +39,44 @@ function ReviewPage({
   return (
     <div>
       <h1>{pageTitle}</h1>
-      <h2 className="vads-u-margin-bottom--0 vads-u-margin-top--3 vads-u-font-size--h3">
-        You’re scheduling Project Cheetah appointments
-      </h2>
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--4">
         Please review the information before confirming your appointments.
       </p>
+      <h2 className="vads-u-margin-bottom--0 vads-u-margin-top--3 vads-u-font-size--h3">
+        COVID-19 vaccination
+      </h2>
+      First dose
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
-      <ul className="usa-unstyled-list">
-        <li>
-          {moment(date1, 'YYYY-MM-DDTHH:mm:ssZ').format(
-            'dddd, MMMM DD, YYYY [at] h:mm a ',
-          ) + getTimezoneAbbrBySystemId(systemId)}
-        </li>
-      </ul>
+      <div className="vads-l-grid-container vads-u-padding--0">
+        <div className="vads-l-row vads-u-justify-content--space-between">
+          <div className="vads-u-flex--1 vads-u-padding-right--1">
+            {moment(date1, 'YYYY-MM-DDTHH:mm:ssZ').format(
+              'dddd, MMMM DD, YYYY [at] h:mm a ',
+            ) + getTimezoneAbbrBySystemId(systemId)}
+          </div>
+          <div>
+            <Link to={flow.selectDate1.url} aria-label="Edit appointment time">
+              Edit
+            </Link>
+          </div>
+        </div>
+      </div>
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
-      <h3 className="vaos-appts__block-label">{clinic.serviceName}</h3>
-      {facility.name}
-      <br />
-      {facility.address?.city}, {facility.address?.state}
+      <div className="vads-l-grid-container vads-u-padding--0">
+        <div className="vads-l-row vads-u-justify-content--space-between">
+          <div className="vads-u-flex--1 vads-u-padding-right--1">
+            <h3 className="vaos-appts__block-label">{clinic.serviceName}</h3>
+            {facility.name}
+            <br />
+            {facility.address?.city}, {facility.address?.state}
+          </div>
+          <div>
+            <Link to={flow.vaFacility.url} aria-label="Edit facility">
+              Edit
+            </Link>
+          </div>
+        </div>
+      </div>
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <div className="vads-u-margin-y--2">
         <LoadingButton
@@ -67,7 +87,7 @@ function ReviewPage({
           isLoading={submitStatus === FETCH_STATUS.loading}
           loadingText="Submission in progress"
           className="usa-button usa-button-primary"
-          onClick={() => submitAppointment(history)}
+          onClick={() => confirmAppointment(history)}
         >
           Confirm appointment
         </LoadingButton>
@@ -127,7 +147,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  submitAppointment: actions.submitAppointment,
+  confirmAppointment: actions.confirmAppointment,
 };
 
 export default connect(

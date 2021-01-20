@@ -26,6 +26,7 @@ import moment from 'moment';
 import { getSlots } from '../../services/slot';
 import recordEvent from 'platform/monitoring/record-event';
 import { transformFormToAppointment } from './helpers/formSubmitTransformers';
+import { submitAppointment } from '../../services/var';
 
 export const FORM_PAGE_OPENED = 'projectCheetah/FORM_PAGE_OPENED';
 export const FORM_DATA_UPDATED = 'projectCheetah/FORM_DATA_UPDATED';
@@ -351,7 +352,7 @@ export function projectCheetahAppointmentDateChoice(history) {
   };
 }
 
-export function submitAppointment(history) {
+export function confirmAppointment(history) {
   return async (dispatch, getState) => {
     dispatch({
       type: FORM_SUBMIT,
