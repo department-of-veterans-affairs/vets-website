@@ -5,6 +5,7 @@ import {
   FETCH_FUTURE_APPOINTMENTS,
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
   FETCH_FUTURE_APPOINTMENTS_FAILED,
+  FETCH_PENDING_APPOINTMENTS,
   FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
   FETCH_PENDING_APPOINTMENTS_FAILED,
   FETCH_PAST_APPOINTMENTS,
@@ -80,6 +81,16 @@ describe('VAOS reducer: appointments', () => {
     const newState = appointmentsReducer(initialState, action);
 
     expect(newState.confirmedStatus).to.equal(FETCH_STATUS.failed);
+  });
+
+  it('should update pending and status to be loading when calling FETCH_PENDING_APPOINTMENTS', () => {
+    const action = {
+      type: FETCH_PENDING_APPOINTMENTS,
+    };
+
+    const newState = appointmentsReducer(initialState, action);
+
+    expect(newState.pendingStatus).to.equal(FETCH_STATUS.loading);
   });
 
   it('should populate pending with requests when FETCH_PENDING_APPOINTMENTS_SUCCEEDED', () => {

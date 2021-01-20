@@ -21,16 +21,16 @@ function RequestedAppointmentsList({
   pendingAppointments,
   pendingStatus,
   facilityData,
-  fetchFutureAppointments,
+  fetchPendingAppointments,
   startNewAppointmentFlow,
 }) {
   useEffect(
     () => {
       if (pendingStatus === FETCH_STATUS.notStarted) {
-        fetchFutureAppointments();
+        fetchPendingAppointments();
       }
     },
-    [fetchFutureAppointments, pendingStatus],
+    [fetchPendingAppointments, pendingStatus],
   );
 
   if (pendingStatus === FETCH_STATUS.loading) {
@@ -97,7 +97,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  fetchFutureAppointments: actions.fetchFutureAppointments,
+  fetchPendingAppointments: actions.fetchPendingAppointments,
   startNewAppointmentFlow: actions.startNewAppointmentFlow,
 };
 
