@@ -112,7 +112,7 @@ export class IntroductionPage extends React.Component {
       return (
         <LoadingIndicator
           setFocus
-          message="Loading your contestable issues..."
+          message="Loading your previous decisions..."
         />
       );
     }
