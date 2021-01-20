@@ -144,7 +144,16 @@ export const selectPendingAppointments = createSelector(
 export const selectPastAppointments = createSelector(
   state => state.appointments.past,
   past => {
-    return past?.filter(isValidPastAppointment).sort(sortByDateDescending);
+    if (!past) {
+      return null;
+    }
+
+    const sortedAppointments = past
+      .concat(past)
+      .filter(isValidPastAppointment)
+      .sort(sortByDateAscending);
+
+    return groupAppointmentsByMonth(sortedAppointments);
   },
 );
 
