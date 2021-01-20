@@ -31,6 +31,8 @@ const fakeSipsIntro = user => {
 };
 
 describe('Form 526EZ Entry Page', () => {
+  let gaData;
+  const getLastEvent = (index = -1) => gaData[gaData.length + index];
   const testPage = ({
     verified = false,
     currentlyLoggedIn = true,
@@ -75,6 +77,8 @@ describe('Form 526EZ Entry Page', () => {
       }),
       initialState,
     );
+    window.dataLayer = [];
+    gaData = global.window.dataLayer;
     return mount(
       <Provider store={fakeStore}>
         <Form526Entry
@@ -114,6 +118,9 @@ describe('Form 526EZ Entry Page', () => {
     expect(tree.find('h1')).to.have.lengthOf(1);
     expect(tree.find('AlertBox')).to.have.lengthOf(1);
     expect(tree.find('AlertBox').text()).to.contain('BIRLS ID');
+    const recordedEvent = getLastEvent();
+    expect(recordedEvent.event).to.equal('visible-alert-box');
+    expect(recordedEvent['error-key']).to.include('birls_id');
     tree.unmount();
   });
 
@@ -130,6 +137,9 @@ describe('Form 526EZ Entry Page', () => {
     expect(tree.find('h1')).to.have.lengthOf(1);
     expect(tree.find('AlertBox')).to.have.lengthOf(1);
     expect(tree.find('AlertBox').text()).to.contain('need some information');
+    const recordedEvent = getLastEvent();
+    expect(recordedEvent.event).to.equal('visible-alert-box');
+    expect(recordedEvent['error-key']).to.include('missing_526');
     tree.unmount();
   });
 
@@ -211,6 +221,11 @@ describe('Form 526EZ Entry Page', () => {
     expect(tree.find('AlertBox')).to.have.lengthOf(1);
     expect(tree.find('AlertBox p').text()).to.contain(
       'We need more information',
+    );
+    const recordedEvent = getLastEvent();
+    expect(recordedEvent.event).to.equal('visible-alert-box');
+    expect(recordedEvent['error-key']).to.include(
+      'missing_526_or_original_claims_service',
     );
     tree.unmount();
   });
