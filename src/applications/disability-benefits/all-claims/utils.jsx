@@ -262,7 +262,6 @@ export const disabilityIsSelected = disability => disability['view:selected'];
  * @param {string} str - The string to make SiP-friendly
  * @return {string} The SiP-friendly string
  */
-export const sippableId = str => (str || 'blank').toLowerCase();
 
 const createCheckboxSchema = (schema, disabilityName) => {
   const capitalizedDisabilityName =
@@ -271,7 +270,7 @@ const createCheckboxSchema = (schema, disabilityName) => {
       : NULL_CONDITION_STRING;
   return _.set(
     // As an array like this to prevent periods in the name being interpreted as nested objects
-    [sippableId(disabilityName)],
+    [disabilityName],
     { title: capitalizedDisabilityName, type: 'boolean' },
     schema,
   );
