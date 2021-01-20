@@ -17,7 +17,7 @@
         {% if crumb.url.path == '/' %}
           {% if hideHomeBreadcrumb != true %}
             <li>
-              <a class="breadcrumb-link"  href="{{ crumb.url.path }}"
+              <a href="{{ crumb.url.path }}"
                 onclick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });">{{ crumb.text }}</a>
             </li>
           {% endif %}

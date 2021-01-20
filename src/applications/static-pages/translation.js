@@ -12,9 +12,9 @@ const faqI18Content = {
 };
 const configureBreadCrumbLinks = currentLang => {
   const breadCrumbLinks = document.getElementsByClassName('breadcrumb-link');
-  breadCrumbLinks.forEach(link => {
-    link.setAttribute('lang', currentLang);
-  });
+  for (let i = 0; i < breadCrumbLinks.length; i++) {
+    breadCrumbLinks[i].lang = currentLang;
+  }
 };
 const configureTranslationLink = (e, currentLang, targetLang) => {
   e.dataset.lang = targetLang;
