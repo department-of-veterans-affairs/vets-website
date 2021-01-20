@@ -1,6 +1,11 @@
 import ItemLoop from '../../components/ItemLoop';
 import CardDetailsView from '../../components/CardDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import Typeahead from '../../components/Typeahead';
+import {
+  formatOptions,
+  realEstateTypes,
+} from '../../constants/typeaheadOptions';
 import _ from 'lodash/fp';
 
 export const uiSchema = {
@@ -23,8 +28,10 @@ export const uiSchema = {
     items: {
       realEstateType: {
         'ui:title': 'Type of real estate',
+        'ui:field': Typeahead,
         'ui:options': {
-          widgetClassNames: 'input-size-6',
+          classNames: 'input-size-6',
+          getOptions: () => formatOptions(realEstateTypes),
         },
         'ui:required': () => true,
       },
