@@ -5,6 +5,7 @@ import moment from 'moment';
 import QuestionnaireItem from '../QuestionnaireItem';
 import EmptyMessage from '../Messages/EmptyMessage';
 import ServiceDown from '../Messages/ServiceDown';
+import ViewAndPrint from '../Shared/Buttons/ViewAndPrint';
 
 const index = props => {
   const { questionnaires } = props;
@@ -26,11 +27,7 @@ const index = props => {
                   <QuestionnaireItem
                     key={appointment.id}
                     data={data}
-                    Actions={() => (
-                      <button className="va-button">
-                        View and print questions
-                      </button>
-                    )}
+                    Actions={() => <ViewAndPrint />}
                     DueDate={() => (
                       <p className="completed-date">
                         Submitted on{' '}
