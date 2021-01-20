@@ -164,7 +164,7 @@ export function transformRelatedDisabilities(
   const findCondition = (list, name) =>
     list.find(
       // name should already be lower-case, but just in case...no pun intended
-      claimedName => claimedName.toLowerCase() === name.toLowerCase(),
+      claimedName => claimedName === name,
     );
 
   return (
@@ -319,9 +319,9 @@ export function transform(formConfig, form) {
       const powDisabilities = transformRelatedDisabilities(
         clonedData.powDisabilities,
         getClaimedConditionNames(formData),
-      ).map(name => name.toLowerCase());
+      );
       clonedData.newDisabilities = clonedData.newDisabilities.map(d => {
-        if (powDisabilities.includes(d.condition?.toLowerCase())) {
+        if (powDisabilities.includes(d.condition)) {
           const newSpecialIssues = (d.specialIssues || []).slice();
           newSpecialIssues.push(specialIssueTypes.POW);
           return _.set('specialIssues', newSpecialIssues, d);
