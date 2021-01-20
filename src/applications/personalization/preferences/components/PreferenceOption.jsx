@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Checkbox from '@department-of-veterans-affairs/formation-react/Checkbox';
+import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 export default ({ item, onChange, checked }) => {
   const itemId = item.shortTitle

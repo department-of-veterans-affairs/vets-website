@@ -7,7 +7,7 @@
 export function getVAAppointmentMock() {
   return {
     id: '21cdc6741c00ac67b6cbf6b972d084c1',
-    type: 'va_appointments',
+    type: 'appointment',
     attributes: {
       clinicFriendlyName: 'Fake',
       clinicId: 'fake',

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import { DebtLettersTable } from './DebtLettersTable';
 import { MobileTableView } from './MobileTableView';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
@@ -10,7 +10,7 @@ import { setPageFocus } from '../utils/page';
 import Telephone, {
   CONTACTS,
   PATTERNS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
   useEffect(() => {

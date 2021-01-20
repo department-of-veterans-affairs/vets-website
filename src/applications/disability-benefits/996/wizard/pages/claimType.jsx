@@ -1,5 +1,5 @@
 import React from 'react';
-import RadioButtons from '@department-of-veterans-affairs/formation-react/RadioButtons';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { SAVED_CLAIM_TYPE } from '../../constants';

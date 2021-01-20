@@ -7,7 +7,7 @@ import { focusElement } from 'platform/utilities/ui';
 import { selectProfile } from 'platform/user/selectors';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { WIZARD_STATUS } from 'applications/static-pages/wizard';
 import { SELECTED, SAVED_CLAIM_TYPE } from '../constants';

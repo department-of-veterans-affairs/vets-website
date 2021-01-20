@@ -29,7 +29,6 @@ import createHigherLevelReviewApplicationStatus from 'applications/disability-be
 import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
-import initScrollToTopButton from './scroll-top-button';
 
 import form686CTA from './view-modify-dependent/686-cta/form686CTA';
 import createCaregiverContentToggle from './caregiver-content-toggle/createCaregiverContentToggle';
@@ -71,6 +70,7 @@ import createCovidVaccineUpdatesWidget from './covid-vaccine-updates-cta/createC
 import createThirdPartyApps, {
   thirdPartyAppsReducer,
 } from '../third-party-app-directory/createThirdPartyApps';
+import initTranslation from './translation';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -196,8 +196,8 @@ if (location.pathname === '/') {
   createMyVALoginWidget(store);
 }
 
-// Up to top button for Article Pages
-initScrollToTopButton();
+// translation link
+initTranslation();
 
 /* eslint-disable no-unused-vars,camelcase */
 const lazyLoad = new LazyLoad({

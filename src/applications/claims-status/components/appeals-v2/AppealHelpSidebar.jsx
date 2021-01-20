@@ -2,7 +2,7 @@ import React from 'react';
 import * as Sentry from '@sentry/browser';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { AOJS } from '../../utils/appeals-v2-helpers';
 import AskVAQuestions from '../AskVAQuestions';

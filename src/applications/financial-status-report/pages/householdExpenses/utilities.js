@@ -1,12 +1,20 @@
 import ItemLoop from '../../components/ItemLoop';
 import TableDetailsView from '../../components/TableDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import Typeahead from '../../components/Typeahead';
+import { utilities } from '../../constants/typeaheadOptions';
 import _ from 'lodash/fp';
 
 const utilityOptions = [
   'Yes, I pay utility bills.',
   "No, I don't pay utility bills.",
 ];
+
+const getOptions = () => {
+  return utilities.map(item => ({
+    label: item,
+  }));
+};
 
 export const uiSchema = {
   'ui:title': 'Your monthly utility bills',
@@ -33,8 +41,10 @@ export const uiSchema = {
       items: {
         utilityType: {
           'ui:title': 'Type of utility',
+          'ui:field': Typeahead,
           'ui:options': {
-            widgetClassNames: 'input-size-3',
+            classNames: 'input-size-3',
+            getOptions,
           },
           'ui:required': formData => formData.utilities.hasUtilities,
         },
@@ -57,6 +67,7 @@ export const schema = {
         hasUtilities: {
           type: 'string',
           enum: utilityOptions,
+          default: 'Yes, I pay utility bills.',
         },
         utilityRecords: {
           type: 'array',
