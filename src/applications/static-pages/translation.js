@@ -12,8 +12,11 @@ const faqI18Content = {
 };
 const configureBreadCrumbLinks = currentLang => {
   const breadCrumbLinks = document.getElementsByClassName('breadcrumb-link');
-  for (let i = 0; i < breadCrumbLinks.length; i++) {
-    breadCrumbLinks[i].lang = currentLang;
+  if (!breadCrumbLinks) {
+    return;
+  }
+  for (const link of breadCrumbLinks) {
+    link.lang = currentLang;
   }
 };
 const configureTranslationLink = (e, currentLang, targetLang) => {
@@ -21,12 +24,14 @@ const configureTranslationLink = (e, currentLang, targetLang) => {
   e.lang = targetLang;
   e.innerText = faqI18Content[targetLang].linkTitle;
   e.href = faqI18Content[targetLang].langToggleLink;
-  e.onclick = recordEvent({
-    event: 'faq-lang-toggle-click',
-    faqText: faqI18Content[targetLang].title,
-    faqSection: 'coronavirus veteran frequently asked questions',
-    targetLang,
-  });
+  e.onclick = _ => {
+    recordEvent({
+      event: 'faq-lang-toggle-click',
+      faqText: faqI18Content[targetLang].title,
+      faqSection: 'coronavirus veteran frequently asked questions',
+      targetLang,
+    });
+  };
   configureBreadCrumbLinks(currentLang);
 };
 const displayTranslationLink = () => {
