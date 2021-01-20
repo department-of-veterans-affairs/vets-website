@@ -5,15 +5,17 @@ import {
 } from '../../redux/selectors';
 import { getAvailableHealthcareServices } from '../../services/healthcare-service';
 import {
+  getLocation,
   getLocationsByTypeOfCareAndSiteIds,
   getSiteIdFromFakeFHIRId,
 } from '../../services/location';
 import { getPreciseLocation } from '../../utils/address';
 import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../utils/constants';
-import { captureError } from '../../utils/error';
+import { captureError, has400LevelError } from '../../utils/error';
 import {
   recordEligibilityFailure,
   recordItemsRetrieved,
+  resetDataLayer,
 } from '../../utils/events';
 import newBookingFlow from '../flow';
 import { TYPE_OF_CARE_ID } from '../utils';
@@ -24,6 +26,7 @@ import {
 import moment from 'moment';
 import { getSlots } from '../../services/slot';
 import recordEvent from 'platform/monitoring/record-event';
+import { transformFormToAppointment } from './helpers/formSubmitTransformers';
 
 export const FORM_PAGE_OPENED = 'projectCheetah/FORM_PAGE_OPENED';
 export const FORM_DATA_UPDATED = 'projectCheetah/FORM_DATA_UPDATED';
@@ -66,6 +69,14 @@ export const FORM_SUBMIT_SUCCEEDED = 'projectCheetah/FORM_SUBMIT_SUCCEEDED';
 export const FORM_SUBMIT_FAILED = 'projectCheetah/FORM_SUBMIT_FAILED';
 export const FORM_CLINIC_PAGE_OPENED_SUCCEEDED =
   'projectCheetah/FORM_CLINIC_PAGE_OPENED_SUCCEEDED';
+export const FORM_FETCH_FACILITY_DETAILS =
+  'projectCheetah/FORM_FETCH_FACILITY_DETAILS';
+export const FORM_FETCH_FACILITY_DETAILS_SUCCEEDED =
+  'projectCheetah/FORM_FETCH_FACILITY_DETAILS_SUCCEEDED';
+
+export const GA_FLOWS = {
+  DIRECT: 'direct',
+};
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -345,6 +356,81 @@ export function projectCheetahAppointmentDateChoice(history) {
   };
 }
 
+export function fetchFacilityDetails(facilityId) {
+  let facilityDetails;
+
+  return async dispatch => {
+    dispatch({
+      type: FORM_FETCH_FACILITY_DETAILS,
+    });
+
+    try {
+      facilityDetails = await getLocation({ facilityId });
+    } catch (error) {
+      facilityDetails = null;
+      captureError(error);
+    }
+
+    dispatch({
+      type: FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
+      facilityDetails,
+      facilityId,
+    });
+  };
+}
+export function submitAppointment(history) {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const newAppointment = selectProjectCheetahNewBooking(state);
+
+    dispatch({
+      type: FORM_SUBMIT,
+    });
+
+    const additionalEventData = {
+      'health-TypeOfCare': 'Vaccine',
+    };
+
+    recordEvent({
+      event: `${GA_PREFIX}-direct-submission`,
+      flow: GA_FLOWS.DIRECT,
+      ...additionalEventData,
+    });
+
+    try {
+      const appointmentBody = transformFormToAppointment(getState());
+      await submitAppointment(appointmentBody);
+
+      dispatch({
+        type: FORM_SUBMIT_SUCCEEDED,
+      });
+
+      recordEvent({
+        event: `${GA_PREFIX}-direct-submission-successful`,
+        flow: GA_FLOWS.DIRECT,
+        ...additionalEventData,
+      });
+      resetDataLayer();
+      history.push('/new-project-cheetah-booking/confirmation');
+    } catch (error) {
+      captureError(error, true);
+      dispatch({
+        type: FORM_SUBMIT_FAILED,
+        isVaos400Error: has400LevelError(error),
+      });
+
+      // Remove parse function when converting this call to FHIR service
+      dispatch(fetchFacilityDetails(newAppointment.data.vaFacility));
+
+      recordEvent({
+        event: `${GA_PREFIX}-direct-submission-failed`,
+        flow: GA_FLOWS.DIRECT,
+        ...additionalEventData,
+      });
+      resetDataLayer();
+    }
+  };
+}
 export function routeToPageInFlow(flow, history, current, action) {
   return async (dispatch, getState) => {
     dispatch({

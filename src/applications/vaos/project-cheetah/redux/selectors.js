@@ -38,17 +38,8 @@ export function getSiteIdForChosenFacility(state) {
 }
 
 export function getChosenSlot(state) {
-  const availableSlots = selectProjectCheetah(state).availableSlots;
-  const selectedTime = selectProjectCheetahFormData(state).calendarData
-    ?.selectedDates?.[0].datetime;
-
-  return availableSlots?.find(slot => slot.start === selectedTime);
-}
-
-export function getChosenSlot2(state) {
-  const availableSlots = selectProjectCheetah(state).availableSlots;
-  const selectedTime = selectProjectCheetahFormData(state).calendarData
-    ?.selectedDates?.[1].datetime;
+  const availableSlots = selectProjectCheetahNewBooking(state).availableSlots;
+  const selectedTime = selectProjectCheetahFormData(state).date1[0];
 
   return availableSlots?.find(slot => slot.start === selectedTime);
 }

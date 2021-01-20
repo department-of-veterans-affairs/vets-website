@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-// import * as actions from '../redux/actions';
+import { useHistory } from 'react-router-dom';
+import * as actions from '../redux/actions';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { FETCH_STATUS } from '../../utils/constants';
@@ -18,11 +19,12 @@ function ReviewPage({
   facility,
   facilityDetails,
   clinic,
-  history,
+  submitAppointment,
   submitStatus,
   submitStatusVaos400,
   systemId,
 }) {
+  const history = useHistory();
   const { date1, date2, vaFacility } = data;
 
   useEffect(() => {
@@ -70,6 +72,7 @@ function ReviewPage({
           isLoading={submitStatus === FETCH_STATUS.loading}
           loadingText="Submission in progress"
           className="usa-button usa-button-primary"
+          onClick={() => submitAppointment(history)}
         >
           Confirm appointment
         </LoadingButton>
@@ -129,7 +132,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  // submitAppointmentOrRequest: actions.submitAppointmentOrRequest,
+  submitAppointment: actions.submitAppointment,
 };
 
 export default connect(
