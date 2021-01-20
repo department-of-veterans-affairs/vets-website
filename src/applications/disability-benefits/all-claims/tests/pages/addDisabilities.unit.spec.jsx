@@ -146,12 +146,12 @@ describe('Add new disabilities', () => {
       vaTreatmentFacilities: [
         {
           treatedDisabilityNames: {
-            'something with-hyphens and allcaps': true,
+            'Something with-hyphens and ALLCAPS': true,
           },
         },
       ],
       'view:isPow': {
-        powDisabilities: { 'something with-hyphens and allcaps': true },
+        powDisabilities: { 'Something with-hyphens and ALLCAPS': true },
       },
     });
 
@@ -188,10 +188,10 @@ describe('Add new disabilities', () => {
       const result = updateFormData(oldData(), newData);
       expect(
         result.vaTreatmentFacilities[0].treatedDisabilityNames[
-          'foo-with extraz'
+          'Foo-with EXTRAz'
         ],
       ).to.be.true;
-      expect(result['view:isPow'].powDisabilities['foo-with extraz']).to.be
+      expect(result['view:isPow'].powDisabilities['Foo-with EXTRAz']).to.be
         .true;
     });
 
