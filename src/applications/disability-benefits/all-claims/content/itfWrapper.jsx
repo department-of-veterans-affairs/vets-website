@@ -1,10 +1,10 @@
 import React from 'react';
 import moment from 'moment';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { recordEventOnce } from 'platform/monitoring/record-event';
 

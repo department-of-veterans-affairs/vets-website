@@ -2,7 +2,7 @@ import React from 'react';
 import * as Sentry from '@sentry/browser';
 import { isPlainObject } from 'lodash';
 
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import { VA_FORM_IDS } from 'platform/forms/constants.js';
 import recordEvent from 'platform/monitoring/record-event';

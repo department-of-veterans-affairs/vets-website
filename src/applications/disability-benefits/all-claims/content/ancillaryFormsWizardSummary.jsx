@@ -1,5 +1,5 @@
 import React from 'react';
-import CollapsiblePanel from '@department-of-veterans-affairs/formation-react/CollapsiblePanel';
+import CollapsiblePanel from '@department-of-veterans-affairs/component-library/CollapsiblePanel';
 
 const houseAssistanceContent = (
   <CollapsiblePanel panelName="Adapted housing assistance">

@@ -4,7 +4,7 @@ import moment from 'moment';
 import { useHistory } from 'react-router-dom';
 import * as actions from '../redux/actions';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { FETCH_STATUS } from '../../utils/constants';
 import FacilityAddress from '../../components/FacilityAddress';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';

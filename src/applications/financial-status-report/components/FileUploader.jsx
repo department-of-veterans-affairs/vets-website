@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Scroll from 'react-scroll';
-import FileInput from '@department-of-veterans-affairs/formation-react/FileInput';
+import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
 import { checkForEncryptedPdf } from 'platform/forms-system/src/js/utilities/file';
 import { getScrollOptions } from 'platform/utilities/ui';
 import {
