@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Checkbox from '@department-of-veterans-affairs/formation-react/Checkbox';
+import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 import SignatureInput from './SignatureInput';
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Checkbox from '@department-of-veterans-affairs/formation-react/Checkbox';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import {
   isVAPatient,
   selectProfile,

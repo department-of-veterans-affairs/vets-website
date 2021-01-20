@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
-import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import ProgressButton from '@department-of-veterans-affairs/component-library/ProgressButton';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   CONTINUE_APP_DEFAULT_MESSAGE,

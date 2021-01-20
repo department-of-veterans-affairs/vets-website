@@ -57,6 +57,16 @@ export const ViewRepresentativeDetails = props => (
         <strong>Phone: </strong>
         {props.telephone}
       </p>
+      {props?.searchRepresentative && (
+        <a
+          role="button"
+          target="_self"
+          className="usa-button"
+          href="/view-change-representative/search"
+        >
+          Find a new representative
+        </a>
+      )}
     </div>
     <h2 className="vads-u-font-size--h3" id="whatCanRepresentativeDo">
       What can a representative do?

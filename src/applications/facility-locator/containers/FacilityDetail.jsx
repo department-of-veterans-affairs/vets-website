@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { fetchVAFacility } from '../actions';
 import { focusElement } from 'platform/utilities/ui';
 import AccessToCare from '../components/AccessToCare';
@@ -10,7 +10,7 @@ import LocationDirectionsLink from '../components/search-results-items/common/Lo
 import LocationHours from '../components/LocationHours';
 import LocationMap from '../components/LocationMap';
 import LocationPhoneLink from '../components/search-results-items/common/LocationPhoneLink';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import ServicesAtFacility from '../components/ServicesAtFacility';
 import AppointmentInfo from '../components/AppointmentInfo';
 import { OperatingStatus, FacilityType } from '../constants';

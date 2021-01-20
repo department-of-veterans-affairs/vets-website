@@ -1,6 +1,6 @@
 import React from 'react';
 import { PHONE_TYPE, USA } from '@@vap-svc/constants';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
 import pickBy from 'lodash/pickBy';
 

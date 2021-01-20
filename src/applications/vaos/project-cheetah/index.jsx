@@ -17,7 +17,7 @@ import SelectDate1Page from './components/SelectDate1Page';
 import SelectDate2Page from './components/SelectDate2Page';
 import ReviewPage from './components/ReviewPage';
 import ConfirmationPage from './components/ConfirmationPage';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import FullWidthLayout from '../components/FullWidthLayout';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { selectFeatureProjectCheetah } from '../redux/selectors';

@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import map from 'lodash/map';
 import { connect } from 'react-redux';
 // Relative imports.
-import Checkbox from '@department-of-veterans-affairs/formation-react/Checkbox';
+import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import { states as STATES } from 'vets-json-schema/dist/constants.json';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { fetchResultsThunk } from '../../actions';

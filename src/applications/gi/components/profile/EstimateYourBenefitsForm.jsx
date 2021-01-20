@@ -4,8 +4,8 @@ import _ from 'lodash';
 import { scroller } from 'react-scroll';
 import classNames from 'classnames';
 
-import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
-import TextInput from '@department-of-veterans-affairs/formation-react/TextInput';
+import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
+import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import recordEvent from 'platform/monitoring/record-event';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import AlertBox from '../AlertBox';
