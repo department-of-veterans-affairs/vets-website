@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
-import { selectFeatureHomepageRefresh } from '../redux/selectors';
 import PageLayout from './components/AppointmentsPage/PageLayout';
 import AppointmentsPageV2 from './components/AppointmentsPage/AppointmentsPageV2';
 import AppointmentsPage from './components/AppointmentsPage/index';
@@ -25,9 +24,9 @@ function AppointmentListSection({ featureHomepageRefresh }) {
   );
 }
 
-function mapStateToProps(state) {
+function mapStateToProps() {
   return {
-    featureHomepageRefresh: selectFeatureHomepageRefresh(state),
+    featureHomepageRefresh: true,
   };
 }
 

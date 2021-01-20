@@ -3,21 +3,28 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import { focusElement } from 'platform/utilities/ui';
+import recordEvent from 'platform/monitoring/record-event';
 import * as actions from '../../redux/actions';
-import { getVAAppointmentLocationId } from '../../../services/appointment';
-import { FETCH_STATUS, APPOINTMENT_TYPES } from '../../../utils/constants';
-import { selectFeaturePastAppointments } from '../../../redux/selectors';
+import { focusElement } from 'platform/utilities/ui';
 import {
-  selectPastAppointments,
-  selectExpressCareAvailability,
-} from '../../redux/selectors';
-import ConfirmedAppointmentListItem from '../cards/confirmed/ConfirmedAppointmentListItem';
-import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
+  selectFeatureRequests,
+  selectFeaturePastAppointments,
+} from '../../../redux/selectors';
+import { selectPastAppointments } from '../../redux/selectors';
+import {
+  FETCH_STATUS,
+  GA_PREFIX,
+  APPOINTMENT_TYPES,
+} from '../../../utils/constants';
+import { getVAAppointmentLocationId } from '../../../services/appointment';
+import AppointmentListItem from '../AppointmentsPage/AppointmentListItem';
+import ExpressCareListItem from '../AppointmentsPage/ExpressCareListItem';
+import NoAppointments from '../NoAppointments';
+import moment from 'moment';
+import PastAppointmentsDateDropdown from '../PastAppointmentsList/PastAppointmentsDateDropdown';
 
-function getPastAppointmentDateRangeOptions(today = moment()) {
+export function getPastAppointmentDateRangeOptions(today = moment()) {
   const startOfToday = today.clone().startOf('day');
 
   // Past 3 months
@@ -85,14 +92,15 @@ function getPastAppointmentDateRangeOptions(today = moment()) {
   return options;
 }
 
-function PastAppointmentsList({
-  expressCare,
+function PastAppointmentsListNew({
+  showScheduleButton,
   dateRangeOptions = getPastAppointmentDateRangeOptions(),
-  past,
-  pastSelectedIndex,
+  appointmentsByMonth,
   pastStatus,
   facilityData,
   fetchPastAppointments,
+  startNewAppointmentFlow,
+  pastSelectedIndex,
   showPastAppointments,
 }) {
   const history = useHistory();
@@ -134,96 +142,123 @@ function PastAppointmentsList({
   if (pastStatus === FETCH_STATUS.loading) {
     content = (
       <div className="vads-u-margin-y--8">
-        <LoadingIndicator message="Loading your appointments..." />
+        <LoadingIndicator message="Loading your upcoming appointments..." />
       </div>
     );
-  } else if (pastStatus === FETCH_STATUS.succeeded && past?.length > 0) {
+  } else if (
+    pastStatus === FETCH_STATUS.succeeded &&
+    appointmentsByMonth?.length > 0
+  ) {
     content = (
       <>
-        <span
-          id="queryResultLabel"
-          className="vads-u-font-size--sm vads-u-display--block vads-u-margin-bottom--1"
-          style={{ outline: 'none' }}
-        >
-          Showing appointments for: {dateRangeOptions[pastSelectedIndex].label}
-        </span>
-        <ul className="usa-unstyled-list" id="appointments-list">
-          {past.map((appt, index) => {
-            switch (appt.vaos?.appointmentType) {
-              case APPOINTMENT_TYPES.ccAppointment:
-              case APPOINTMENT_TYPES.vaAppointment:
-                return (
-                  <ConfirmedAppointmentListItem
-                    key={index}
-                    index={index}
-                    appointment={appt}
-                    facility={facilityData[getVAAppointmentLocationId(appt)]}
-                  />
-                );
-              default:
-                return null;
-            }
-          })}
-        </ul>
+        {appointmentsByMonth.map((monthBucket, monthIndex) => {
+          const monthDate = moment(monthBucket[0].start);
+          return (
+            <React.Fragment key={monthIndex}>
+              <h3 id={`appointment_list_${monthDate.format('YYYY-MM')}`}>
+                <span className="sr-only">Appointments in </span>
+                {monthDate.format('MMMM YYYY')}
+              </h3>
+              <ul
+                aria-labelledby={`appointment_list_${monthDate.format(
+                  'YYYY-MM',
+                )}`}
+                className="vads-u-padding-left--0"
+              >
+                {monthBucket.map((appt, index) => {
+                  const facilityId = getVAAppointmentLocationId(appt);
+                  const isCancelled = appt.status === 'cancelled';
+
+                  if (
+                    appt.vaos.appointmentType ===
+                      APPOINTMENT_TYPES.vaAppointment ||
+                    appt.vaos.appointmentType ===
+                      APPOINTMENT_TYPES.ccAppointment
+                  ) {
+                    return (
+                      <AppointmentListItem
+                        key={index}
+                        appointment={appt}
+                        facility={facilityData[facilityId]}
+                        className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3"
+                      />
+                    );
+                  } else if (appt.vaos.isExpressCare) {
+                    return (
+                      <ExpressCareListItem
+                        key={index}
+                        appointment={appt}
+                        facility={facilityData[facilityId]}
+                        cancelled={isCancelled}
+                        className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3"
+                      />
+                    );
+                  }
+                  return null;
+                })}
+              </ul>
+            </React.Fragment>
+          );
+        })}
       </>
     );
   } else if (pastStatus === FETCH_STATUS.failed) {
     content = (
       <AlertBox status="error" headline="We’re sorry. We’ve run into a problem">
-        We’re having trouble getting your past appointments. Please try again
-        later.
+        We’re having trouble getting your past appointments. Please try later.
       </AlertBox>
     );
   } else {
     content = (
-      <h3 className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
-        You don’t have any appointments in the selected date range
-      </h3>
+      <NoAppointments
+        showScheduleButton={showScheduleButton}
+        startNewAppointmentFlow={() => {
+          recordEvent({
+            event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
+          });
+          startNewAppointmentFlow();
+        }}
+      />
     );
   }
 
   return (
-    <div role="tabpanel" aria-labelledby="tabpast" id="tabpanelpast">
-      {!expressCare.hasRequests && (
-        <h2 tabIndex="-1" id="pastAppts" className="vads-u-font-size--h3">
-          Past appointments
-        </h2>
-      )}
+    <>
       <PastAppointmentsDateDropdown
         currentRange={pastSelectedIndex}
         onChange={onDateRangeChange}
         options={dateRangeOptions}
       />
       {content}
-    </div>
+    </>
   );
 }
 
-PastAppointmentsList.propTypes = {
-  past: PropTypes.array,
-  pastStatus: PropTypes.string,
+PastAppointmentsListNew.propTypes = {
   pastSelectedIndex: PropTypes.number,
-  facilityData: PropTypes.object,
   fetchPastAppointments: PropTypes.func,
+  showScheduleButton: PropTypes.bool,
+  startNewAppointmentFlow: PropTypes.func,
   showPastAppointments: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
   return {
-    past: selectPastAppointments(state),
-    pastStatus: state.appointments.pastStatus,
     pastSelectedIndex: state.appointments.pastSelectedIndex,
     facilityData: state.appointments.facilityData,
+    pastStatus: state.appointments.pastStatus,
+    appointmentsByMonth: selectPastAppointments(state),
+    showScheduleButton: selectFeatureRequests(state),
     showPastAppointments: selectFeaturePastAppointments(state),
-    expressCare: selectExpressCareAvailability(state),
   };
 }
 
 const mapDispatchToProps = {
   fetchPastAppointments: actions.fetchPastAppointments,
+  startNewAppointmentFlow: actions.startNewAppointmentFlow,
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(PastAppointmentsList);
+)(PastAppointmentsListNew);
