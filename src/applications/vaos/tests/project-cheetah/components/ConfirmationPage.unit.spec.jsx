@@ -33,26 +33,7 @@ describe('VAOS vaccine flow <ConfirmationPage>', () => {
                 .format(),
             },
           ],
-          facilityDetails: {
-            var983: {
-              id: 'var983',
-              name: 'Cheyenne VA Medical Center',
-              address: {
-                postalCode: '82001-5356',
-                city: 'Cheyenne',
-                state: 'WY',
-                line: ['2360 East Pershing Boulevard'],
-              },
-            },
-          },
-          clinics: {
-            // eslint-disable-next-line camelcase
-            var983_323: [
-              {
-                id: '455',
-              },
-            ],
-          },
+          clinics: {},
           facilities: [
             {
               id: 'var983',
