@@ -134,7 +134,6 @@ export const fetchFormsThunk = (query, options = {}) => async (
     });
   } catch (error) {
     // If we are here, the API request failed.
-    console.log(error);
     dispatch(
       fetchFormsFailure(
         'We’re sorry. Something went wrong on our end. Please try again later.',
