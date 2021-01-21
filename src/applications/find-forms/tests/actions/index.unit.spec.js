@@ -101,11 +101,9 @@ describe('Find VA Forms actions', () => {
       const dispatch = sinon.stub();
       const sortByPropertyName = INITIAL_SORT_STATE;
       const results = ['test'];
-      const getState = () => {
-        return { findVAFormsReducer: { sortByPropertyName, results } };
-      };
-      const thunk = updateSortByPropertyNameThunk(sortByPropertyName);
-      thunk(dispatch, getState);
+
+      const thunk = updateSortByPropertyNameThunk(sortByPropertyName, results);
+      thunk(dispatch);
 
       expect(
         dispatch.firstCall.calledWith({
@@ -140,12 +138,6 @@ describe('Find VA Forms actions', () => {
 
     it('updates search params', async () => {
       const dispatch = sinon.stub();
-      const getState = () => {
-        const sortByPropertyName = INITIAL_SORT_STATE;
-        return {
-          findVAFormsReducer: { sortByPropertyName },
-        };
-      };
       const query = 'health';
       const thunk = fetchFormsThunk(query, {
         location: mockedLocation,
@@ -153,7 +145,7 @@ describe('Find VA Forms actions', () => {
         mockRequest: true,
       });
 
-      await thunk(dispatch, getState);
+      await thunk(dispatch);
 
       const replaceStateStub = mockedHistory.replaceState;
 
@@ -163,12 +155,6 @@ describe('Find VA Forms actions', () => {
 
     it('calls dispatch', async () => {
       const dispatch = sinon.stub();
-      const getState = () => {
-        const sortByPropertyName = INITIAL_SORT_STATE;
-        return {
-          findVAFormsReducer: { sortByPropertyName },
-        };
-      };
       const query = 'health';
       const thunk = fetchFormsThunk(query, {
         location: mockedLocation,
@@ -176,7 +162,7 @@ describe('Find VA Forms actions', () => {
         mockRequest: true,
       });
 
-      await thunk(dispatch, getState);
+      await thunk(dispatch);
 
       expect(
         dispatch.firstCall.calledWith({

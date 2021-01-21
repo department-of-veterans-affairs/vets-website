@@ -1,4 +1,8 @@
+// Dependencies
+import cloneDeep from 'lodash/cloneDeep';
+
 // Relative imports.
+import { sortTheResults } from '../helpers';
 import {
   FETCH_FORMS,
   FETCH_FORMS_FAILURE,
@@ -29,18 +33,27 @@ export default (state = initialState, action) => {
       return { ...state, error: action.error, fetching: false };
     }
     case FETCH_FORMS_SUCCESS: {
+      const clonedResults = cloneDeep(action.results);
       return {
         ...state,
         fetching: false,
         hasOnlyRetiredForms: action.hasOnlyRetiredForms,
-        results: action.results,
+        results: clonedResults.sort((a, b) =>
+          sortTheResults(state.sortByPropertyName, a, b),
+        ),
       };
     }
     case UPDATE_HOW_TO_SORT: {
       return { ...state, sortByPropertyName: action.sortByPropertyName };
     }
     case UPDATE_RESULTS: {
-      return { ...state, results: action.results };
+      const clonedResults = cloneDeep(action.results);
+      return {
+        ...state,
+        results: clonedResults.sort((a, b) =>
+          sortTheResults(state.sortByPropertyName, a, b),
+        ),
+      };
     }
     case UPDATE_PAGINATION: {
       return { ...state, page: action.page, startIndex: action.startIndex };

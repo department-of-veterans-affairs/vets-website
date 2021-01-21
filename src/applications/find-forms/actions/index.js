@@ -1,11 +1,8 @@
 // Dependencies.
 import URLSearchParams from 'url-search-params';
-import cloneDeep from 'lodash/cloneDeep';
 // Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
 import { MAX_PAGE_LIST_LENGTH } from '../containers/SearchResults';
-import { getFindFormsAppState } from '../helpers/selectors';
-import { sortTheResults } from '../helpers';
 import { fetchFormsApi } from '../api';
 import {
   FETCH_FORMS,
@@ -51,21 +48,12 @@ export const updateSortByPropertyName = sortByPropertyName => ({
   type: UPDATE_HOW_TO_SORT,
 });
 
-export const updateSortByPropertyNameThunk = sortByPropertyName => (
-  dispatch,
-  getState,
-) => {
+export const updateSortByPropertyNameThunk = (
+  sortByPropertyName,
+  results,
+) => dispatch => {
   dispatch(updateSortByPropertyName(sortByPropertyName));
-
-  const clonedResults = cloneDeep(
-    getFindFormsAppState(getState()).results || [],
-  );
-
-  const sortedResults = clonedResults.sort((a, b) =>
-    sortTheResults(getFindFormsAppState(getState()).sortByPropertyName, a, b),
-  );
-
-  dispatch(updateResults(sortedResults));
+  dispatch(updateResults(results));
 };
 
 // ============
@@ -80,10 +68,7 @@ export const updatePaginationAction = (page = 1, startIndex = 0) => ({
 // ============
 // Redux Thunks
 // ============
-export const fetchFormsThunk = (query, options = {}) => async (
-  dispatch,
-  getState,
-) => {
+export const fetchFormsThunk = (query, options = {}) => async dispatch => {
   // Derive options properties.
   const location = options?.location || window.location;
   const history = options?.history || window.history;
@@ -107,12 +92,13 @@ export const fetchFormsThunk = (query, options = {}) => async (
   try {
     // Attempt to make the API request to retreive forms.
     const resultsDetails = await fetchFormsApi(query, { mockRequest });
-    const resultsSorted = resultsDetails.results?.sort((a, b) =>
-      sortTheResults(getFindFormsAppState(getState()).sortByPropertyName, a, b),
-    );
+
     // If we are here, the API request succeeded.
     dispatch(
-      fetchFormsSuccess(resultsSorted, resultsDetails.hasOnlyRetiredForms),
+      fetchFormsSuccess(
+        resultsDetails.results,
+        resultsDetails.hasOnlyRetiredForms,
+      ),
     );
 
     // Derive the total number of pages.

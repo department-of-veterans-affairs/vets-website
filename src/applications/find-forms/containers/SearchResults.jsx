@@ -63,7 +63,7 @@ export class SearchResults extends Component {
 
   setSortByPropertyNameState = state => {
     if (state?.value) {
-      this.props.updateSortByPropertyName(state.value);
+      this.props.updateSortByPropertyName(state.value, this.props.results);
     }
   };
 
@@ -223,8 +223,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateSortByPropertyName: sortByPropertyName =>
-    dispatch(updateSortByPropertyNameThunk(sortByPropertyName)),
+  updateSortByPropertyName: (sortByPropertyName, results) =>
+    dispatch(updateSortByPropertyNameThunk(sortByPropertyName, results)),
   updatePagination: (page, startIndex) =>
     dispatch(updatePaginationAction(page, startIndex)),
 });
