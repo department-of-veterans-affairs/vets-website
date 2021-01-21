@@ -179,10 +179,11 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     expect(screen.baseElement).to.contain.text(
       '123 big sky stCincinnati, OH 45220',
     );
+
+    expect((await screen.findAllByRole('radio')).length).to.equal(7);
     expect(screen.baseElement).to.contain.text(
       'Displaying 1 to 5 of 16 providers',
     );
-    expect((await screen.findAllByRole('radio')).length).to.equal(7);
 
     userEvent.click(await screen.findByText(/\+ 5 more providers/i));
     expect(await screen.findByText(/displaying 1 to 10 of 16 providers/i)).to
