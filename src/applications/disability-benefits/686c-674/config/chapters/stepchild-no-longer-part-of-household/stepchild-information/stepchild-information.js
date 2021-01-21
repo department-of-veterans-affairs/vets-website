@@ -47,7 +47,7 @@ export const uiSchema = {
       whoDoesTheStepchildLiveWith: {
         'ui:title': 'Who does this stepchild live with?',
         first: {
-          'ui:title': 'First Name of parent or guardian',
+          'ui:title': 'First name of parent or guardian',
           'ui:required': formData =>
             isChapterFieldRequired(
               formData,
@@ -55,10 +55,10 @@ export const uiSchema = {
             ),
         },
         middle: {
-          'ui:title': 'Middle Name of parent or guardian',
+          'ui:title': 'Middle name of parent or guardian',
         },
         last: {
-          'ui:title': 'Last Name of parent or guardian',
+          'ui:title': 'Last name of parent or guardian',
           'ui:required': formData =>
             isChapterFieldRequired(
               formData,
