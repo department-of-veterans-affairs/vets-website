@@ -44,7 +44,7 @@ const commandLineDefs = [
   {
     name: 'help',
     type: Boolean,
-    description: 'Show this help.',
+    description: 'Show this help menu.',
   },
 ];
 
@@ -54,8 +54,9 @@ if (help) {
   console.log(
     commandLineUsage([
       {
-        header: 'JSON Comparison',
-        content: 'Compare the output of the GraphQL and CMS export data',
+        header: 'Content Build JSON Comparison',
+        content:
+          'Compare the output of GraphQL and transformed CMS export data',
       },
       {
         header: 'Options',
