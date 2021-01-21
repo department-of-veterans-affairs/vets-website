@@ -8,17 +8,18 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import classnames from 'classnames';
 
 class DebtCard extends Component {
-  onChange(debtTitle) {
-    const alreadyIncluded = this.props?.fsrDebts?.includes(debtTitle);
+  onChange(debtIdentifier) {
+    const alreadyIncluded = this.props?.fsrDebts?.includes(debtIdentifier);
+
     if (alreadyIncluded) {
       const fsrDebts = this.props?.fsrDebts?.filter(
-        debtEntry => debtEntry !== debtTitle,
+        debtEntry => debtEntry !== debtIdentifier,
       );
       return this.props.setData({ ...this.props.formData, fsrDebts });
     } else {
       const newFsrDebts = this.props.fsrDebts.length
-        ? [...this.props.fsrDebts, debtTitle]
-        : [debtTitle];
+        ? [...this.props.fsrDebts, debtIdentifier]
+        : [debtIdentifier];
       return this.props.setData({
         ...this.props.formData,
         fsrDebts: newFsrDebts,
@@ -28,6 +29,9 @@ class DebtCard extends Component {
 
   render() {
     const { debt } = this.props;
+    const debtIdentifier = `${debt.currentAr}-${debt.originalAr}-${
+      debt.debtHistory.length
+    }`;
     const mostRecentHistory = head(debt.debtHistory);
     const debtCardHeading =
       deductionCodes[debt.deductionCode] || debt.benefitType;
@@ -36,7 +40,7 @@ class DebtCard extends Component {
       currency: 'USD',
       minimumFractionDigits: 2,
     });
-    const isChecked = this.props.fsrDebts.includes(debtCardHeading);
+    const isChecked = this.props.fsrDebts.includes(debtIdentifier);
     return (
       <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2 debt-card">
         <h3 className="vads-u-font-size--h4 vads-u-margin--0">
@@ -58,11 +62,11 @@ class DebtCard extends Component {
 
         <div className="vads-u-margin-top--2">
           <input
-            id={debt.diaryCodeDescription}
+            id={debtIdentifier}
             type="checkbox"
             className=" vads-u-width--auto"
             checked={isChecked}
-            onChange={() => this.onChange(debtCardHeading)}
+            onChange={() => this.onChange(debtIdentifier)}
           />
           <label
             className={classnames({
@@ -70,7 +74,7 @@ class DebtCard extends Component {
               'vads-u-color--white': !isChecked,
               'vads-u-background-color--white vads-u-color--primary': !isChecked,
             })}
-            htmlFor={debt.diaryCodeDescription}
+            htmlFor={debtIdentifier}
           >
             Request assistance for this debt
           </label>

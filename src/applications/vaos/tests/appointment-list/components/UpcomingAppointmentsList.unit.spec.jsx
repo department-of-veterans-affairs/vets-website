@@ -19,6 +19,7 @@ const initialState = {
     vaOnlineSchedulingCancel: true,
     vaExpressCare: true,
     vaExpressCareNew: true,
+    vaOnlineSchedulingHomepageRefresh: true,
   },
 };
 
@@ -36,7 +37,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
     appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
 
-    mockAppointmentInfo({ va: [appointment] });
+    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState,
       reducers,
@@ -68,7 +69,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       sta6aid: '983GC',
     };
     appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
-    mockAppointmentInfo({ va: [appointment] });
+    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
 
     const facility = {
       id: 'vha_442GC',
@@ -129,7 +130,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     };
     appointment.attributes.vdsAppointments[0].currentStatus =
       'CANCELLED BY CLINIC';
-    mockAppointmentInfo({ va: [appointment] });
+    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
 
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState,
@@ -163,7 +164,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     appointment.attributes.startDate = moment().format();
     appointment.attributes.vdsAppointments[0].currentStatus = 'NO-SHOW';
 
-    mockAppointmentInfo({ va: [appointment] });
+    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState,
       reducers,
@@ -180,7 +181,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       .format();
     appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
 
-    mockAppointmentInfo({ va: [appointment] });
+    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState,
       reducers,
@@ -197,7 +198,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
         `${
           environment.API_URL
         }/vaos/v0/appointment_requests?start_date=${moment()
-          .add(-30, 'days')
+          .add(-120, 'days')
           .format('YYYY-MM-DD')}&end_date=${moment().format('YYYY-MM-DD')}`,
       ),
       { errors: [] },
@@ -232,7 +233,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       status: { description: 'F', code: 'FUTURE' },
     };
 
-    mockAppointmentInfo({ va: [appointment] });
+    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState,
       reducers,
@@ -284,7 +285,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       },
     };
 
-    mockAppointmentInfo({ va: [appointment] });
+    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState,
       reducers,
@@ -323,7 +324,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       status: { description: 'F', code: 'FUTURE' },
     };
 
-    mockAppointmentInfo({ va: [appointment] });
+    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState,
       reducers,
@@ -362,7 +363,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       status: { description: 'F', code: 'FUTURE' },
     };
 
-    mockAppointmentInfo({ va: [appointment] });
+    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState,
       reducers,
@@ -406,7 +407,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       providerPhone: '4065555555',
     };
 
-    mockAppointmentInfo({ cc: [appointment] });
+    mockAppointmentInfo({ cc: [appointment], isHomepageRefresh: true });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState,
       reducers,
@@ -446,15 +447,13 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       providerPhone: '4065555555',
     };
 
-    mockAppointmentInfo({ cc: [appointment] });
+    mockAppointmentInfo({ cc: [appointment], isHomepageRefresh: true });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState,
       reducers,
     });
 
-    await screen.findByText(
-      new RegExp(startDate.tz('America/New_York').format('dddd, MMMM D'), 'i'),
-    );
+    await screen.findByText(new RegExp(startDate.format('dddd, MMMM D'), 'i'));
 
     expect(screen.baseElement).to.contain.text('Big sky medical');
   });
@@ -471,7 +470,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       vdsAppointments: { bookingNote: 'scheduler note' },
     };
 
-    mockAppointmentInfo({ va: [appointment] });
+    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState,
       reducers,
@@ -490,6 +489,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     appointment.attributes = {
       ...appointment.attributes,
       status: 'Submitted',
+      date: startDate,
       optionDate1: startDate,
       optionTime1: 'AM',
       purposeOfVisit: 'New Issue',
@@ -507,7 +507,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       },
     };
     appointment.id = '1234';
-    mockAppointmentInfo({ requests: [appointment] });
+    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
 
     const facility = {
       id: 'vha_442GC',
@@ -552,6 +552,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     appointment.attributes = {
       ...appointment.attributes,
       status: 'Cancelled',
+      date: startDate,
       optionDate1: startDate,
       optionTime1: 'AM',
       purposeOfVisit: 'New Issue',
@@ -569,7 +570,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       },
     };
     appointment.id = '1234';
-    mockAppointmentInfo({ requests: [appointment] });
+    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
 
     const facility = {
       id: 'vha_442GC',
@@ -620,7 +621,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     };
     appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
 
-    mockAppointmentInfo({ va: [appointment] });
+    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState,
       reducers,

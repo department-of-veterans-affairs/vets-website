@@ -11,7 +11,6 @@ describe('Find VA Forms <FormTitle />', () => {
     id: 'VA10192',
     formDetailsUrl:
       'https://www.va.gov/health-care/about-information-for-pre-complaint-processing/',
-    showFindFormsResultsLinkToFormDetailPages: true, //  TODO: 12/17/20 remove prop once feature is deployed to prod in Jan 12 2020 https://github.com/department-of-veterans-affairs/va.gov-team/issues/16930
     title: 'Information for Pre-Complaint Processing',
     recordGAEvent: sinon.stub(),
   };
@@ -21,9 +20,6 @@ describe('Find VA Forms <FormTitle />', () => {
       <FormTitle
         id={props.id}
         formUrl={props.formDetailsUrl}
-        showFindFormsResultsLinkToFormDetailPages={
-          props.showFindFormsResultsLinkToFormDetailPages
-        }
         recordGAEvent={props.recordGAEvent}
         title={props.title}
       />,
@@ -59,9 +55,6 @@ describe('Find VA Forms <FormTitle />', () => {
       <FormTitle
         id={props.id}
         formUrl={props.formDetailsUrl}
-        showFindFormsResultsLinkToFormDetailPages={
-          props.showFindFormsResultsLinkToFormDetailPages
-        }
         title={props.title}
       />,
     );
