@@ -644,7 +644,6 @@ describe('<ReviewCollapsibleChapter>', () => {
       />,
     );
 
-    expect(tree.find('h3').length).to.eq(0);
     expect(tree.find('.form-review-panel-page').length).to.eq(0);
 
     tree.unmount();
