@@ -35,6 +35,22 @@ export function NewBookingSection({ allowBookings, featureProjectCheetah }) {
     [featureProjectCheetah, history],
   );
 
+  useEffect(() => {
+    if (window.History) {
+      window.History.scrollRestoration = 'manual';
+    }
+
+    // We don't want people to start in the middle of the form, so redirect them when they jump
+    // in the middle. We make an exception for the confirmation page in case someone is going back
+    // after submitting.
+    if (
+      !location.pathname.endsWith('new-project-cheetah-booking') &&
+      !location.pathname.endsWith('confirmation')
+    ) {
+      history.replace('/new-project-cheetah-booking');
+    }
+  }, []);
+
   if (!allowBookings) {
     return (
       <FullWidthLayout>

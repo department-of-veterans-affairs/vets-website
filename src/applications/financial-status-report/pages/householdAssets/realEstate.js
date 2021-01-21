@@ -23,7 +23,7 @@ export const uiSchema = {
       expandUnder: 'hasRealEstate',
       doNotScroll: true,
       showSave: true,
-      itemName: 'Add real estate',
+      itemName: 'real estate',
     },
     items: {
       realEstateType: {

@@ -24,7 +24,7 @@ export const uiSchema = {
       expandUnder: 'hasRecreationalVehicle',
       doNotScroll: true,
       showSave: true,
-      itemName: 'Add trailer, camper, or boat',
+      itemName: 'trailer, camper, or boat',
     },
     items: {
       recreationalVehicleType: {
