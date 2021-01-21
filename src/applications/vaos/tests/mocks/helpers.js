@@ -19,6 +19,7 @@ export function mockAppointmentInfo({
   vaError = false,
   cc = [],
   requests = [],
+  isHomepageRefresh = false,
 }) {
   mockFetch();
 
@@ -45,7 +46,7 @@ export function mockAppointmentInfo({
   setFetchJSONResponse(
     global.fetch.withArgs(
       `${environment.API_URL}/vaos/v0/appointment_requests?start_date=${moment()
-        .add(-30, 'days')
+        .add(isHomepageRefresh ? -120 : -30, 'days')
         .format('YYYY-MM-DD')}&end_date=${moment().format('YYYY-MM-DD')}`,
     ),
     { data: requests },

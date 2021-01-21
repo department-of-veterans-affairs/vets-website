@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import recordEvent from 'platform/monitoring/record-event';
 import FormFooter from 'platform/forms/components/FormFooter';
 import Wizard, {
   WIZARD_STATUS_COMPLETE,
@@ -55,6 +56,7 @@ const WizardContainer = ({ setWizardStatus }) => {
             className="va-button-link vads-u-display--inline-block vads-u-margin-bottom--3 skip-wizard-link"
             onClick={e => {
               e.preventDefault();
+              recordEvent({ event: 'howToWizard-skip' });
               setWizardStatus(WIZARD_STATUS_COMPLETE);
             }}
           >

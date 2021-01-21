@@ -39,7 +39,12 @@ const ViewRepresentativeBody = props => {
       />
     );
   } else {
-    content = <ViewRepresentativeDetails {...representative.data} />;
+    content = (
+      <ViewRepresentativeDetails
+        {...representative.data}
+        searchRepresentative={props.searchRepresentative}
+      />
+    );
   }
   return content;
 };

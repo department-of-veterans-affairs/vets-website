@@ -41,9 +41,9 @@ const ReviewDescription = ({ profile }) => {
   return (
     <>
       <div className="form-review-panel-page-header-row">
-        <h3 className="vads-u-font-size--h4 vads-u-margin--0">
+        <h4 className="vads-u-font-size--h4 vads-u-margin--0">
           Contact information
-        </h3>
+        </h4>
         <a
           href={PROFILE_URL}
           target="_blank"

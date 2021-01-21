@@ -1,12 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 const PreSubmitSignature = ({ formData }) => {
-  const fullName = Object.values(formData?.personalData?.fullName)
-    .filter(value => Boolean(value))
-    .join(' ');
   const [isChecked, setIsChecked] = useState(false);
-  const [veteranName, setVeteranName] = useState(fullName);
+  const [veteranName, setVeteranName] = useState('');
+
+  useEffect(
+    () => {
+      if (!formData.personalData) return;
+      const { fullName } = formData.personalData;
+      const name = Object.values(fullName)
+        .filter(value => Boolean(value))
+        .join(' ');
+      setVeteranName(name);
+    },
+    [formData.personalData],
+  );
 
   return (
     <>

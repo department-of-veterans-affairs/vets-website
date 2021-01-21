@@ -276,7 +276,7 @@ export const NULL_CONDITION_STRING = 'Unknown Condition';
 export const DATE_FORMAT = 'LL';
 
 // sessionStorage key used to show the wizard has or hasn't been completed
-export const WIZARD_STATUS = 'wizardStatus';
+export const WIZARD_STATUS = 'wizardStatus526';
 // sessionStorage key used to determine if the form title should be set to BDD
 export const FORM_STATUS_BDD = 'formStatusBdd';
 

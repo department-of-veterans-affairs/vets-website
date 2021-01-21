@@ -19,6 +19,12 @@ const oneHundredEightyDays = moment()
   .format(dateFormat);
 
 function alertContent(isLoggedIn) {
+  const linkText = 'Learn more about the BDD program';
+
+  recordEvent({
+    event: 'howToWizard-alert-displayed',
+    'reason-for-alert': 'Unable to file for BDD',
+  });
   return (
     <>
       <p>
@@ -44,7 +50,17 @@ function alertContent(isLoggedIn) {
         Go to eBenefits
       </a>
       <p>
-        <a href={BDD_INFO_URL}>Learn more about the BDD program</a>
+        <a
+          href={BDD_INFO_URL}
+          onClick={() => {
+            recordEvent({
+              event: 'howToWizard-alert-link-click',
+              'howToWizard-alert-link-click-label': linkText,
+            });
+          }}
+        >
+          {linkText}
+        </a>
       </p>
     </>
   );

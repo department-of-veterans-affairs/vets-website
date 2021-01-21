@@ -10,17 +10,19 @@ const faqI18Content = {
     langToggleLink: '/coronavirus-veteran-frequently-asked-questions-esp',
   },
 };
-
-const configureTranslationLink = (e, currentLang, targetLang) => {
-  const contentDiv = document.getElementById('content');
-  contentDiv.lang = currentLang;
-  e.dataset.lang = currentLang;
+const configureTranslationLink = (e, targetLang) => {
+  e.dataset.lang = targetLang;
+  e.lang = targetLang;
   e.innerText = faqI18Content[targetLang].linkTitle;
   e.href = faqI18Content[targetLang].langToggleLink;
-  e.onclick = recordEvent({
-    event: 'faq-lang-toggle',
-    targetLang,
-  });
+  e.onclick = _ => {
+    recordEvent({
+      event: 'faq-lang-toggle-click',
+      faqText: faqI18Content[targetLang].title,
+      faqSection: 'coronavirus veteran frequently asked questions',
+      targetLang,
+    });
+  };
 };
 const displayTranslationLink = () => {
   const i18LinkWrapper = document.getElementById('i18-link-wrapper');
@@ -44,9 +46,9 @@ const displayTranslationLink = () => {
   }
   const i18link = document.querySelector('a.i18-toggle');
   if (!isSpanish) {
-    configureTranslationLink(i18link, 'en', 'es');
+    configureTranslationLink(i18link, 'es');
   } else {
-    configureTranslationLink(i18link, 'es', 'en');
+    configureTranslationLink(i18link, 'en');
   }
 };
 
