@@ -389,6 +389,15 @@ export function sortByDateAscending(a, b) {
 }
 
 /**
+ * Sort method for appointments requests
+ * @param {Object} a A FHIR appointment resource
+ * @param {Object} b A FHIR appointment resource
+ */
+export function sortByCreatedDateDescending(a, b) {
+  return moment(a.created).isAfter(moment(b.created)) ? -1 : 1;
+}
+
+/**
  * Sort method for future appointment requests
  * @param {Object} a A FHIR appointment resource
  * @param {Object} b A FHIR appointment resource
@@ -492,6 +501,17 @@ export function hasPractitioner(appointment) {
 export function getPractitionerDisplay(participants) {
   return participants?.find(p => p.actor.reference.includes('Practitioner'))
     .actor.display;
+}
+
+/**
+ * Method to parse out the appointment practitioner location display in contained array
+ * @param {Array} participants An array of appointment participants
+ * @return {Object} Returns the appointment practitioner object.
+ */
+export function getPractitionerLocationDisplay(appointment) {
+  return appointment.contained?.find(c =>
+    c.resourceType.includes('Practitioner'),
+  )?.practitionerRole?.[0]?.location?.[0]?.display;
 }
 
 /**

@@ -598,6 +598,7 @@ export function transformPendingAppointments(requests) {
       resourceType: 'Appointment',
       id: `var${appt.id}`,
       status: getRequestStatus(appt, isExpressCare),
+      created: moment(appt.createdDate, 'MM/DD/YYYY HH:mm:SS').format(),
       cancelationReason: unableToReachVeteran
         ? { text: UNABLE_TO_REACH_VETERAN_DETCODE }
         : null,

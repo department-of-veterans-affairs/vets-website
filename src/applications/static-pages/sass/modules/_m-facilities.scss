@@ -283,7 +283,7 @@ $duo-tone-lighten: #000;
     margin-top: 1em;
   }
 
-  h5 {
+  .force-small-header {
     font-size: 1em;
     font-family: "Source Sans Pro";
     margin-top: 1em;
@@ -291,11 +291,6 @@ $duo-tone-lighten: #000;
 
   .usa-button {
     margin-bottom: 0;
-  }
-
-  .phone-numbers {
-    display: flex;
-    flex-direction: column;
   }
 }
 
