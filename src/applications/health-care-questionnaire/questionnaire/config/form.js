@@ -2,6 +2,7 @@ import React from 'react';
 
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -26,6 +27,14 @@ const formConfig = {
   trackingPrefix: 'health-care-questionnaire',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  downtime: {
+    dependencies: [
+      externalServices.hcq,
+      externalServices.mvi,
+      externalServices.idme,
+    ],
+    requiredForPrefill: true,
+  },
   submit,
   transformForSubmit,
   formId: VA_FORM_IDS.FORM_HC_QSTNR,

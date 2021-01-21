@@ -36,4 +36,6 @@ export default {
   vaosWarning: 'vaosWarning',
   // CARMA (Caregiver Record Management Application)
   carma: 'carma',
+  // Health care questionnaire
+  hcq: 'hcq',
 };
