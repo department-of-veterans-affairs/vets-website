@@ -31,10 +31,8 @@ const displayTranslationLink = () => {
     window.location.href.includes('-esp') ||
     window.location.href.includes('nodeId=14580');
   const translatableLinks = [
-    // uncomment the below line once we get through staging review and remove references to preview node
-    // 'coronavirus-veteran-frequently-asked-questions',
+    'coronavirus-veteran-frequently-asked-questions',
     'coronavirus-veteran-frequently-asked-questions-esp',
-    'nodeId=14580',
   ];
   const isTranslatable = translatableLinks.some(url =>
     window.location.href.includes(url),
