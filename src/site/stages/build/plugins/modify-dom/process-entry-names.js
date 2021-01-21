@@ -37,6 +37,14 @@ function copyAssetsToTeamSitePaths(buildOptions, files, entryNamesDictionary) {
 
     if (!file) continue;
 
+    console.log('------------------------------');
+    console.log('------------------------------');
+    console.log('------------------------------');
+    console.log(file);
+    console.log('------------------------------');
+    console.log('------------------------------');
+    console.log('------------------------------');
+
     files[teamSitePath] = file;
   }
 }
