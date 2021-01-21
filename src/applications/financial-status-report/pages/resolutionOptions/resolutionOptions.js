@@ -74,6 +74,10 @@ const renderLabels = () => {
 };
 
 export const uiSchema = {
+  fsrDebts: {
+    'ui:title': ' ',
+    items: {},
+  },
   financialOverview: {
     'ui:field': FinancialOverview,
   },
@@ -129,6 +133,15 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
+    fsrDebts: {
+      type: 'array',
+      title: ' ',
+      minItems: 0,
+      items: {
+        type: 'object',
+        properties: {},
+      },
+    },
     financialOverview: {
       type: 'object',
       properties: {

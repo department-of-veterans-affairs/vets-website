@@ -88,6 +88,14 @@ const formConfig = {
           uiSchema: availableDebts.uiSchema,
           schema: availableDebts.schema,
         },
+        resolutionOptions: {
+          path: 'resolution-options/:index',
+          title: 'Resolution options',
+          showPagePerItem: true,
+          arrayPath: 'fsrDebts',
+          uiSchema: resolutionOptions.uiSchema,
+          schema: resolutionOptions.schema,
+        },
         contactInfo: {
           path: 'contact-information',
           title: 'Contact Information',
@@ -250,12 +258,6 @@ const formConfig = {
     resolutionOptionsChapter: {
       title: 'Resolution options',
       pages: {
-        resolutionOptions: {
-          path: 'resolution-options',
-          title: 'Resolution options',
-          uiSchema: resolutionOptions.uiSchema,
-          schema: resolutionOptions.schema,
-        },
         resolutionComments: {
           path: 'resolution-comments',
           title: 'Resolution comments',
@@ -277,5 +279,19 @@ const formConfig = {
     },
   },
 };
+
+// newDisabilityFollowUp: {
+//   title: formData =>
+//     typeof formData.condition === 'string'
+//       ? capitalizeEachWord(formData.condition)
+//       : NULL_CONDITION_STRING,
+//     depends: claimingNew,
+//     path: 'new-disabilities/follow-up/:index',
+//     showPagePerItem: true,
+//     itemFilter: item => !isDisabilityPtsd(item.condition),
+//     arrayPath: 'newDisabilities',
+//     uiSchema: newDisabilityFollowUp.uiSchema,
+//     schema: newDisabilityFollowUp.schema,
+// },
 
 export default formConfig;

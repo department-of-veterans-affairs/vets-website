@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import head from 'lodash/head';
+import isEqual from 'lodash/isEqual';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
@@ -8,18 +9,20 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import classnames from 'classnames';
 
 class DebtCard extends Component {
-  onChange(debtIdentifier) {
-    const alreadyIncluded = this.props?.fsrDebts?.includes(debtIdentifier);
+  onChange(debt) {
+    const alreadyIncluded = this.props.fsrDebts.some(currentDebt =>
+      isEqual(currentDebt, debt),
+    );
 
     if (alreadyIncluded) {
       const fsrDebts = this.props?.fsrDebts?.filter(
-        debtEntry => debtEntry !== debtIdentifier,
+        debtEntry => !isEqual(debtEntry, debt),
       );
       return this.props.setData({ ...this.props.formData, fsrDebts });
     } else {
       const newFsrDebts = this.props.fsrDebts.length
-        ? [...this.props.fsrDebts, debtIdentifier]
-        : [debtIdentifier];
+        ? [...this.props.fsrDebts, debt]
+        : [debt];
       return this.props.setData({
         ...this.props.formData,
         fsrDebts: newFsrDebts,
@@ -40,7 +43,9 @@ class DebtCard extends Component {
       currency: 'USD',
       minimumFractionDigits: 2,
     });
-    const isChecked = this.props.fsrDebts.includes(debtIdentifier);
+    const isChecked = this.props.fsrDebts.some(currentDebt =>
+      isEqual(currentDebt, debt),
+    );
     return (
       <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2 debt-card">
         <h3 className="vads-u-font-size--h4 vads-u-margin--0">
@@ -66,7 +71,7 @@ class DebtCard extends Component {
             type="checkbox"
             className=" vads-u-width--auto"
             checked={isChecked}
-            onChange={() => this.onChange(debtIdentifier)}
+            onChange={() => this.onChange(debt)}
           />
           <label
             className={classnames({
