@@ -59,8 +59,8 @@
 
       <!-- What You Can Do -->
       <div class="what-you-can-do">
-        <h2>WHAT YOU CAN DO</h2>
-        <h3>{{ fieldClpWhatYouCanDoHeader }}</h3>
+        <p class="grey-header">WHAT YOU CAN DO</p>
+        <h2>{{ fieldClpWhatYouCanDoHeader }}</h2>
         <p>{{ fieldClpWhatYouCanDoIntro }}</p>
 
         {% if fieldClpWhatYouCanDoPromos != empty %}
@@ -80,8 +80,8 @@
 
       <!-- Video -->
       <div class="what-you-can-do">
-        <h2>VIDEO</h2>
-        <h3>{{ fieldClpVideoPanelHeader }}</h3>
+        <p class="grey-header">VIDEO</p>
+        <h2>{{ fieldClpVideoPanelHeader }}</h2>
 
         <iframe
           allowFullScreen
@@ -94,6 +94,48 @@
         <a class="usa-button-secondary" href="{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLink.uri }}" rel="noreferrer noopener" target="_blank">
           {{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel }}
         </a>
+      </div>
+
+      <!-- Spotlight -->
+      <div class="spotlight">
+        <p class="grey-header">SPOTLIGHT</p>
+        <h2>{{ fieldClpSpotlightHeader }}</h2>
+        <p>
+          {{ fieldClpSpotlightIntroText }}
+          <a href="{{ fieldClpSpotlightCta.entity.fieldButtonLink.uri }}" rel="noreferrer noopener" target="_ blank">
+            {{ fieldClpSpotlightCta.entity.fieldButtonLabel }}
+          </a>
+        </p>
+
+        <div class="link-teasers">
+          {% for linkTeaser in fieldClpSpotlightLinkTeasers %}
+            <div class="link-teaser">
+              <a href="{{ linkTeaser.entity.fieldLink.uri }}" rel="noreferrer noopener" target="_blank">{{ linkTeaser.entity.fieldLink.title }}</a>
+              <p>{{ linkTeaser.entity.fieldLinkSummary }}</p>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Stories -->
+      <div class="stories">
+        <p class="grey-header">STORIES</p>
+        <h2>{{ fieldClpStoriesHeader }}</h2>
+        <p>{{ fieldClpStoriesIntro }}</p>
+
+        <div class="stories-list">
+          {% for storyTeaser in fieldClpStoriesTeasers %}
+            <div class="story-teaser">
+              <img alt="{{ storyTeaser.entity.fieldMedia.entity.thumbnail.alt }}" src="{{ storyTeaser.entity.fieldMedia.entity.thumbnail.url }}" />
+              <div class="story-teaser-content">
+                <a href="{{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.uri }}" rel="noreferrer noopener" target="_blank">
+                  {{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.title }}
+                </a>
+                <p>{{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLinkSummary }}</p>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
       </div>
     </div>
 
