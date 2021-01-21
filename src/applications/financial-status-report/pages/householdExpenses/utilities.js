@@ -61,7 +61,6 @@ export const schema = {
         hasUtilities: {
           type: 'string',
           enum: utilityOptions,
-          default: 'Yes, I pay utility bills.',
         },
         utilityRecords: {
           type: 'array',
