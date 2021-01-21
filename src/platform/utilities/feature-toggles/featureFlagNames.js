@@ -76,4 +76,7 @@ export default Object.freeze({
   showFindFormsResultsLinkToFormDetailPages: 'find_forms_mvp_enhancement',
   multipleAddress1010ez: 'multiple_address_10_10ez',
   evssUploadLimit150Mb: 'evss_upload_limit_150mb',
+  searchRepresentative: 'search_representative',
+  gibctStateSearch: 'gibct_state_search',
+  eduFormOmbAndExpiration: 'edu_form_omb_and_expiration',
 });

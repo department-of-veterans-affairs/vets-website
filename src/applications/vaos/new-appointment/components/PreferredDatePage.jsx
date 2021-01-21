@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../components/FormButtons';
 import { getPreferredDate } from '../redux/selectors';

@@ -9,10 +9,24 @@
     {% if constructLcBreadcrumbs == true %}
       {% assign crumbs = entityUrl.breadcrumb | deriveLcBreadcrumbs: title, entityUrl.path, titleInclude %}
     {% endif %}
+    {% assign lang = 'en' %}
+
+    {% if entityUrl.path contains "-esp" %}
+      {% assign lang = 'es' %}
+    {% endif %}
 
     {% for crumb in crumbs %}
       {% if forloop.last == true %}
-        <li><a onclick="recordEvent({ 'event': 'nav-breadcrumb', 'breadcrumb-click-label': '{{ crumb.text }}', 'breadcrumb-click-level': '{{ forloop.index }}', 'breadcrumb-total-levels': '{{ crumbs.length }}' });" aria-current="page" href="/{{ path }}">{{ crumb.text }}</a></li>
+        <li>
+          <a 
+          onclick="recordEvent({ 'event': 'nav-breadcrumb', 'breadcrumb-click-label': '{{ crumb.text }}', 'breadcrumb-click-level': '{{ forloop.index }}', 'breadcrumb-total-levels': '{{ crumbs.length }}' });" 
+          aria-current="page" 
+          href="/{{ path }}"
+          lang={{lang}}
+          >    
+            {{ crumb.text }}
+          </a>
+        </li>
       {% elsif crumb.url.path %}
         {% if crumb.url.path == '/' %}
           {% if hideHomeBreadcrumb != true %}
@@ -23,6 +37,7 @@
           {% endif %}
         {% else %}
           <li><a
+            lang={{lang}}
             onclick="recordEvent({ 'event': 'nav-breadcrumb', 'breadcrumb-click-label': '{{ crumb.text }}', 'breadcrumb-click-level': '{{ forloop.index }}', 'breadcrumb-total-levels': '{{ crumbs.length }}' });"
             href="{{ crumb.url.path }}">{{ crumb.text }}</a></li>
         {% endif %}

@@ -11,6 +11,7 @@ import { recordItemsRetrieved, resetDataLayer } from '../../utils/events';
 import {
   selectSystemIds,
   selectFeatureExpressCare,
+  selectFeatureHomepageRefresh,
 } from '../../redux/selectors';
 
 import {
@@ -45,6 +46,7 @@ import {
 } from '../../redux/sitewide';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
+export const FETCH_PENDING_APPOINTMENTS = 'vaos/FETCH_PENDING_APPOINTMENTS';
 export const FETCH_PENDING_APPOINTMENTS_FAILED =
   'vaos/FETCH_PENDING_APPOINTMENTS_FAILED';
 export const FETCH_PENDING_APPOINTMENTS_SUCCEEDED =
@@ -151,6 +153,8 @@ async function getAdditionalFacilityInfo(futureAppointments) {
 
 export function fetchFutureAppointments() {
   return async (dispatch, getState) => {
+    const featureHomepageRefresh = selectFeatureHomepageRefresh(getState());
+
     dispatch({
       type: FETCH_FUTURE_APPOINTMENTS,
     });
@@ -173,7 +177,7 @@ export function fetchFutureAppointments() {
         }),
         getAppointmentRequests({
           startDate: moment()
-            .subtract(30, 'days')
+            .subtract(featureHomepageRefresh ? 120 : 30, 'days')
             .format('YYYY-MM-DD'),
           endDate: moment().format('YYYY-MM-DD'),
         })
@@ -265,6 +269,66 @@ export function fetchFutureAppointments() {
         type: FETCH_FUTURE_APPOINTMENTS_FAILED,
         error,
       });
+    }
+  };
+}
+
+export function fetchPendingAppointments() {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: FETCH_PENDING_APPOINTMENTS,
+      });
+
+      const featureHomepageRefresh = selectFeatureHomepageRefresh(getState());
+
+      const pendingAppointments = await getAppointmentRequests({
+        startDate: moment()
+          .subtract(featureHomepageRefresh ? 120 : 30, 'days')
+          .format('YYYY-MM-DD'),
+        endDate: moment().format('YYYY-MM-DD'),
+      });
+
+      dispatch({
+        type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
+        data: pendingAppointments,
+      });
+
+      recordEvent({
+        event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
+      });
+
+      if (selectFeatureExpressCare(getState())) {
+        recordItemsRetrieved(
+          'express_care',
+          pendingAppointments.filter(appt => appt.vaos.isExpressCare).length,
+        );
+      }
+
+      try {
+        const facilityData = await getAdditionalFacilityInfo(
+          pendingAppointments,
+        );
+
+        if (facilityData) {
+          dispatch({
+            type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+            facilityData,
+          });
+        }
+      } catch (error) {
+        captureError(error);
+      }
+
+      return pendingAppointments;
+    } catch (error) {
+      recordEvent({
+        event: `${GA_PREFIX}-get-pending-appointments-failed`,
+      });
+      dispatch({
+        type: FETCH_PENDING_APPOINTMENTS_FAILED,
+      });
+      return captureError(error);
     }
   };
 }

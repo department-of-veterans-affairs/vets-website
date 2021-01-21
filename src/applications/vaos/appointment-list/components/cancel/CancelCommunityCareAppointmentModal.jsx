@@ -1,6 +1,6 @@
 import React from 'react';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 export default function CancelCommunityCareAppointmentModal({
   onClose,

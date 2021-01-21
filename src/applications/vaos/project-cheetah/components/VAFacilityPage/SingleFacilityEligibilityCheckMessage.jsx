@@ -1,7 +1,8 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import ErrorMessage from '../../../components/ErrorMessage';
 import { FETCH_STATUS } from '../../../utils/constants';
+import State from '../../../components/State';
 
 export default function SingleFacilityEligibilityCheckMessage({
   facility,
@@ -19,7 +20,7 @@ export default function SingleFacilityEligibilityCheckMessage({
         <p>
           <strong>{facility.name}</strong>
           <br />
-          {facility.address?.city}, {facility.address?.state}
+          {facility.address?.city}, <State state={facility.address?.state} />
         </p>
         {message}
         <p>

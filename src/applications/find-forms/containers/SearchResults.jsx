@@ -1,9 +1,9 @@
 // Dependencies.
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import { connect } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
@@ -11,7 +11,7 @@ import { focusElement } from 'platform/utilities/ui';
 // Relative imports.
 import * as customPropTypes from '../prop-types';
 import { updatePaginationAction } from '../actions';
-import { getFindFormsAppState, mvpEnhancements } from '../helpers/selectors';
+import { getFindFormsAppState } from '../helpers/selectors';
 import SearchResult from '../components/SearchResult';
 
 export const MAX_PAGE_LIST_LENGTH = 10;
@@ -26,7 +26,6 @@ export class SearchResults extends Component {
     results: PropTypes.arrayOf(customPropTypes.Form.isRequired),
     hasOnlyRetiredForms: PropTypes.bool.isRequired,
     startIndex: PropTypes.number.isRequired,
-    showFindFormsResultsLinkToFormDetailPages: PropTypes.bool,
     // From mapDispatchToProps.
     updatePagination: PropTypes.func.isRequired,
   };
@@ -65,7 +64,6 @@ export class SearchResults extends Component {
       query,
       results,
       hasOnlyRetiredForms,
-      showFindFormsResultsLinkToFormDetailPages,
       startIndex,
     } = this.props;
 
@@ -151,9 +149,6 @@ export class SearchResults extends Component {
           key={form.id}
           form={form}
           formMetaInfo={{ ...formMetaInfo, currentPositionOnPage: index + 1 }}
-          showFindFormsResultsLinkToFormDetailPages={
-            showFindFormsResultsLinkToFormDetailPages
-          }
         />
       ));
 
@@ -194,7 +189,6 @@ const mapStateToProps = state => ({
   results: getFindFormsAppState(state).results,
   hasOnlyRetiredForms: getFindFormsAppState(state).hasOnlyRetiredForms,
   startIndex: getFindFormsAppState(state).startIndex,
-  showFindFormsResultsLinkToFormDetailPages: mvpEnhancements(state),
 });
 
 const mapDispatchToProps = dispatch => ({
