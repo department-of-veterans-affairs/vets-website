@@ -7,8 +7,7 @@ import formConfig from '../../config/form';
 import initialData from '../schema/initialData';
 
 import ConfirmationPage from '../../containers/ConfirmationPage';
-import { SELECTED, SAVED_CLAIM_TYPE } from '../../constants';
-import { WIZARD_STATUS } from 'applications/static-pages/wizard';
+import { WIZARD_STATUS, SELECTED, SAVED_CLAIM_TYPE } from '../../constants';
 
 const data = {
   user: {

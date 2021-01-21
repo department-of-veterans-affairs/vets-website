@@ -9,8 +9,7 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
-import { WIZARD_STATUS } from 'applications/static-pages/wizard';
-import { SELECTED, SAVED_CLAIM_TYPE } from '../constants';
+import { SELECTED, SAVED_CLAIM_TYPE, WIZARD_STATUS } from '../constants';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
