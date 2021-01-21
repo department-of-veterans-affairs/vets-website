@@ -32,7 +32,9 @@ describe('helper functions', () => {
     const reformattedReturnPayments = reformatReturnPaymentDates(
       paymentsReturned,
     );
-    expect(reformattedPayments[0].payCheckDt).to.equal('---');
-    expect(reformattedReturnPayments[0].returnedCheckIssueDt).to.equal('---');
+    expect(reformattedPayments[0].payCheckDt).to.be.an('object');
+    expect(reformattedReturnPayments[0].returnedCheckIssueDt).to.be.an(
+      'object',
+    );
   });
 });
