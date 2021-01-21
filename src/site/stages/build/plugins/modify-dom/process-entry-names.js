@@ -38,6 +38,7 @@ function copyAssetsToTeamSitePaths(buildOptions, files, entryNamesDictionary) {
     const file = files[hashedFileNameWithoutLeadingSlash];
 
     if (!file) continue;
+
     files[teamSitePath] = file;
   }
 }
