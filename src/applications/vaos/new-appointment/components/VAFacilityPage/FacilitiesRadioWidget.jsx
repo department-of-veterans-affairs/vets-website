@@ -10,6 +10,7 @@ const INITIAL_FACILITY_DISPLAY_COUNT = 5;
  * form system.
  */
 export default function FacilitiesRadioWidget({
+  id,
   options,
   value,
   onChange,
@@ -50,7 +51,7 @@ export default function FacilitiesRadioWidget({
   return (
     <div>
       {displayedOptions.map((option, i) => {
-        const { id, name, address, legacyVAR } = option?.label;
+        const { name, address, legacyVAR } = option?.label;
         const checked = option.value === value;
         let distance;
 
