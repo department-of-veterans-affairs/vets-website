@@ -38,13 +38,14 @@
         <a href="{{link.url.path}}" class="vads-u-text-decoration--underline"
           {% if linkTeaser.options["target"] %}
             target="{{ linkTeaser.options["target"] }}"
+            rel="noopener noreferrer"
           {% endif %}
         >
           {{ link.title }}
         </a>
       </{{ header }}>
       {% if parentFieldName === "field_spokes" %}
-          <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow">
+          <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="Blue arrow pointing right">
       {% endif %}
     {% endif %}
     {% if linkTeaser.fieldLinkSummary != empty %}
