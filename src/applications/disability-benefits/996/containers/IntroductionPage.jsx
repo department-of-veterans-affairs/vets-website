@@ -29,6 +29,7 @@ import {
   SUPPLEMENTAL_CLAIM_URL,
   FACILITY_LOCATOR_URL,
   GET_HELP_REVIEW_REQUEST_URL,
+  WIZARD_STATUS,
 } from '../constants';
 import {
   noContestableIssuesFound,
@@ -38,7 +39,6 @@ import {
 } from '../content/contestableIssueAlerts';
 import WizardContainer from '../wizard/WizardContainer';
 import {
-  WIZARD_STATUS,
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
@@ -112,7 +112,7 @@ export class IntroductionPage extends React.Component {
       return (
         <LoadingIndicator
           setFocus
-          message="Loading your contestable issues..."
+          message="Loading your previous decisions..."
         />
       );
     }

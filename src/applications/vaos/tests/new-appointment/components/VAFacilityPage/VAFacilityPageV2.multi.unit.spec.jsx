@@ -791,7 +791,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     );
     userEvent.click(additionalInfoButton);
     expect(await screen.findByText(/Facility that is disabled/i)).to.be.ok;
-    expect(screen.getByText(/Bozeman, MT/i)).to.be.ok;
+    expect(screen.baseElement).to.contain.text('Bozeman, MT');
     expect(screen.getByText(/80\.4 miles/i)).to.be.ok;
     expect(screen.getByText(/555-555-5555, ext\. 1234/i)).to.be.ok;
     expect(

@@ -5,6 +5,7 @@ import {
   FETCH_FUTURE_APPOINTMENTS,
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
   FETCH_FUTURE_APPOINTMENTS_FAILED,
+  FETCH_PENDING_APPOINTMENTS,
   FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
   FETCH_PENDING_APPOINTMENTS_FAILED,
   FETCH_PAST_APPOINTMENTS,
@@ -84,6 +85,11 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         confirmedStatus: FETCH_STATUS.failed,
         confirmed: null,
+      };
+    case FETCH_PENDING_APPOINTMENTS:
+      return {
+        ...state,
+        pendingStatus: FETCH_STATUS.loading,
       };
     case FETCH_PENDING_APPOINTMENTS_SUCCEEDED: {
       return {
