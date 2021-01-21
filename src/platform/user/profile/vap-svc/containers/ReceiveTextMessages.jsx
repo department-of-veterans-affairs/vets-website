@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import {
   isVAPatient,
   selectProfile,
@@ -89,7 +89,7 @@ class ReceiveTextMessages extends React.Component {
     return (
       <div className="receive-text-messages">
         <div className="form-checkbox-buttons">
-          <ErrorableCheckbox
+          <Checkbox
             checked={
               !!this.props.profile.vapContactInfo.mobilePhone.isTextPermitted
             }

@@ -10,7 +10,7 @@ import {
 
 import AlertBox, {
   ALERT_TYPE,
-} from '@department-of-veterans-affairs/formation-react/AlertBox';
+} from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import * as userNavActions from 'platform/site-wide/user-nav/actions';
 import * as userSelectors from 'platform/user/selectors';

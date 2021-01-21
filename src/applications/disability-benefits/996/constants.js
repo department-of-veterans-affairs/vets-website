@@ -20,7 +20,7 @@ export const PROFILE_URL = '/profile';
 
 // 8622 is the ID of the <li> wrapping the "Find addresses for other benefit
 // types" accordion
-export const BENEFIT_OFFICES_URL = `${HLR_INFO_URL}/#8622`;
+export const BENEFIT_OFFICES_URL = `${HLR_INFO_URL}#8622`;
 
 export const CONTESTABLE_ISSUES_API =
   '/higher_level_reviews/contestable_issues/';
@@ -47,9 +47,7 @@ export const errorMessages = {
   informalConferenceContactPhonePattern:
     'Please enter a 10-digit phone number (with or without dashes)',
   informalConferenceTimes: 'Please select a time',
-  contestedIssue: 'Please select a contested issue',
-  contestedIssueCommentLength:
-    'Please enter no more than 400 characters in this field',
+  contestedIssue: 'Please select an eligible issue',
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';

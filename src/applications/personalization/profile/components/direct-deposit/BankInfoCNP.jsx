@@ -5,12 +5,11 @@ import { connect } from 'react-redux';
 
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import recordEvent from '~/platform/monitoring/record-event';
-import EbenefitsLink from '~/platform/site-wide/ebenefits/containers/EbenefitsLink';
 
 import { isLOA3 as isLOA3Selector } from '~/platform/user/selectors';
 import { usePrevious } from '~/platform/utilities/react-hooks';
@@ -250,9 +249,7 @@ export const BankInfoCNP = ({
       data.push({
         title: 'Payment history',
         value: (
-          <EbenefitsLink path="ebenefits/about/feature?feature=payment-history">
-            View your payment history
-          </EbenefitsLink>
+          <a href="/va-payment-history/payments/">View your payment history</a>
         ),
       });
     }

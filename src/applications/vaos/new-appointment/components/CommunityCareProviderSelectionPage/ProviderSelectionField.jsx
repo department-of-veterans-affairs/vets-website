@@ -8,16 +8,18 @@ import {
   FACILITY_SORT_METHODS,
   GA_PREFIX,
 } from '../../../utils/constants';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { distanceBetween } from '../../../utils/address';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import ErrorMessage from '../../../components/ErrorMessage';
 import RemoveProviderModal from './RemoveProviderModal';
 import recordEvent from 'platform/monitoring/record-event';
+import NoProvidersAlert from './NoProvidersAlert';
 
 const INITIAL_PROVIDER_DISPLAY_COUNT = 5;
 
 function ProviderSelectionField({
+  typeOfCareName,
   address,
   formData,
   onChange,
@@ -41,6 +43,7 @@ function ProviderSelectionField({
     0,
     providersListLength,
   );
+  const providersListEmpty = currentlyShownProvidersList?.length === 0;
   const loadingProviders =
     requestStatus === FETCH_STATUS.loading ||
     requestStatus === FETCH_STATUS.notStarted;
@@ -250,59 +253,74 @@ function ProviderSelectionField({
                     </button>
                   </p>
                 )}
-                <p role="status" aria-live="polite" aria-atomic="true">
-                  Displaying 1 to {currentlyShownProvidersList.length} of{' '}
-                  {communityCareProviderList.length} providers
-                </p>
-                {currentlyShownProvidersList.map((provider, providerIndex) => {
-                  const { name } = provider;
-                  const checked = provider.id === checkedProvider;
-                  const providerPosition = providerIndex + 1;
-                  return (
-                    <div className="form-radio-buttons" key={provider.id}>
-                      <input
-                        type="radio"
-                        checked={checked}
-                        id={`${idSchema.$id}_${providerPosition}`}
-                        name={`${idSchema.$id}`}
-                        value={provider.id}
-                        onChange={_ => setCheckedProvider(provider.id)}
-                        disabled={loadingProviders}
-                      />
-                      <label htmlFor={`${idSchema.$id}_${providerPosition}`}>
-                        <span className="vads-u-display--block vads-u-font-weight--bold">
-                          {name}
-                        </span>
-                        <span className="vads-u-display--block">
-                          {provider.address?.line}
-                        </span>
-                        <span className="vads-u-display--block">
-                          {provider.address.city}, {provider.address.state}{' '}
-                          {provider.address.postalCode}
-                        </span>
-                        <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold">
-                          {provider[sortMethod]} miles
-                        </span>
-                      </label>
-                      {checked && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            onChange(provider);
-                            setCheckedProvider();
-                            setShowProvidersList(false);
-                            recordEvent({
-                              event: `${GA_PREFIX}-order-position-provider-selection`,
-                              providerPosition,
-                            });
-                          }}
-                        >
-                          Choose provider
-                        </button>
-                      )}
-                    </div>
-                  );
-                })}
+                {providersListEmpty && (
+                  <NoProvidersAlert
+                    sortMethod={sortMethod}
+                    typeOfCareName={typeOfCareName}
+                  />
+                )}
+                {!providersListEmpty && (
+                  <>
+                    <p role="status" aria-live="polite" aria-atomic="true">
+                      Displaying 1 to {currentlyShownProvidersList.length} of{' '}
+                      {communityCareProviderList.length} providers
+                    </p>
+                    {currentlyShownProvidersList.map(
+                      (provider, providerIndex) => {
+                        const { name } = provider;
+                        const checked = provider.id === checkedProvider;
+                        const providerPosition = providerIndex + 1;
+                        return (
+                          <div className="form-radio-buttons" key={provider.id}>
+                            <input
+                              type="radio"
+                              checked={checked}
+                              id={`${idSchema.$id}_${providerPosition}`}
+                              name={`${idSchema.$id}`}
+                              value={provider.id}
+                              onChange={_ => setCheckedProvider(provider.id)}
+                              disabled={loadingProviders}
+                            />
+                            <label
+                              htmlFor={`${idSchema.$id}_${providerPosition}`}
+                            >
+                              <span className="vads-u-display--block vads-u-font-weight--bold">
+                                {name}
+                              </span>
+                              <span className="vads-u-display--block">
+                                {provider.address?.line}
+                              </span>
+                              <span className="vads-u-display--block">
+                                {provider.address.city},{' '}
+                                {provider.address.state}{' '}
+                                {provider.address.postalCode}
+                              </span>
+                              <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold">
+                                {provider[sortMethod]} miles
+                              </span>
+                            </label>
+                            {checked && (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  onChange(provider);
+                                  setCheckedProvider();
+                                  setShowProvidersList(false);
+                                  recordEvent({
+                                    event: `${GA_PREFIX}-order-position-provider-selection`,
+                                    providerPosition,
+                                  });
+                                }}
+                              >
+                                Choose provider
+                              </button>
+                            )}
+                          </div>
+                        );
+                      },
+                    )}
+                  </>
+                )}
               </>
             )}
         </>

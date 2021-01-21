@@ -1,6 +1,11 @@
 import ItemLoop from '../../components/ItemLoop';
 import CardDetailsView from '../../components/CardDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import Typeahead from '../../components/Typeahead';
+import {
+  formatOptions,
+  installmentTypes,
+} from '../../constants/typeaheadOptions';
 import _ from 'lodash/fp';
 
 export const uiSchema = {
@@ -18,7 +23,7 @@ export const uiSchema = {
         viewField: CardDetailsView,
         doNotScroll: true,
         showSave: true,
-        itemName: 'Add installment or other debt',
+        itemName: 'installment or other debt',
         expandUnder: 'hasRepayments',
         expandUnderCondition:
           'Yes, I have installment contracts or other debts.',
@@ -26,8 +31,10 @@ export const uiSchema = {
       items: {
         debtType: {
           'ui:title': 'Purpose of debt',
+          'ui:field': Typeahead,
           'ui:options': {
-            widgetClassNames: 'input-size-7',
+            classNames: 'input-size-7',
+            getOptions: () => formatOptions(installmentTypes),
           },
           'ui:required': () => true,
         },

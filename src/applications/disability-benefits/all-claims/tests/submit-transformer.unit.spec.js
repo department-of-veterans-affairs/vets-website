@@ -106,6 +106,17 @@ describe('transformRelatedDisabilities', () => {
 describe('stringifyRelatedDisabilities', () => {
   it('should return an array of strings', () => {
     const formData = {
+      newDisabilities: [
+        {
+          condition: 'some condition name',
+        },
+        {
+          condition: 'another condition name',
+        },
+        {
+          condition: 'this condition is falsey!',
+        },
+      ],
       vaTreatmentFacilities: [
         {
           treatedDisabilityNames: {
@@ -116,19 +127,27 @@ describe('stringifyRelatedDisabilities', () => {
         },
       ],
     };
-    expect(stringifyRelatedDisabilities(formData)).to.deep.equal({
-      vaTreatmentFacilities: [
-        {
-          treatedDisabilityNames: [
-            'some condition name',
-            'another condition name',
-          ],
-        },
-      ],
-    });
+    expect(
+      stringifyRelatedDisabilities(formData).vaTreatmentFacilities,
+    ).to.deep.equal([
+      {
+        treatedDisabilityNames: [
+          'some condition name',
+          'another condition name',
+        ],
+      },
+    ]);
   });
-  it('will still add conditions to treatment names if they are not claimed', () => {
+  it('will not add conditions to treatment names if they are not claimed', () => {
     const formData = {
+      newDisabilities: [
+        {
+          condition: 'some condition name',
+        },
+        {
+          condition: 'this condition is falsey!',
+        },
+      ],
       vaTreatmentFacilities: [
         {
           treatedDisabilityNames: {
@@ -139,16 +158,13 @@ describe('stringifyRelatedDisabilities', () => {
         },
       ],
     };
-    expect(stringifyRelatedDisabilities(formData)).to.deep.equal({
-      vaTreatmentFacilities: [
-        {
-          treatedDisabilityNames: [
-            'some condition name',
-            'another condition name',
-          ],
-        },
-      ],
-    });
+    expect(
+      stringifyRelatedDisabilities(formData).vaTreatmentFacilities,
+    ).to.deep.equal([
+      {
+        treatedDisabilityNames: ['some condition name'],
+      },
+    ]);
   });
 });
 

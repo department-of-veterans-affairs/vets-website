@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 
 import ScheduleNewAppointment from './ScheduleNewAppointment';
@@ -30,7 +30,6 @@ import RequestExpressCare from './RequestExpressCare';
 import FutureAppointmentsList from '../FutureAppointmentsList';
 import PastAppointmentsList from '../PastAppointmentsList';
 import ExpressCareList from '../ExpressCareList';
-import PageLayout from './PageLayout';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
@@ -110,7 +109,7 @@ function AppointmentsPage({
   );
 
   return (
-    <PageLayout>
+    <>
       <h1 className="vads-u-flex--1">{pageTitle}</h1>
       <DowntimeNotification
         appTitle="VA online scheduling tool"
@@ -186,7 +185,7 @@ function AppointmentsPage({
         onConfirm={confirmCancelAppointment}
         onClose={closeCancelAppointment}
       />
-    </PageLayout>
+    </>
   );
 }
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Scroll from 'react-scroll';
-import ErrorableFileInput from '@department-of-veterans-affairs/formation-react/ErrorableFileInput';
+import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
 import { checkForEncryptedPdf } from 'platform/forms-system/src/js/utilities/file';
 import { getScrollOptions } from 'platform/utilities/ui';
 import {
@@ -75,7 +75,7 @@ const FileUploader = ({ files, requestLockedPdfPassword, onAddFile }) => {
         <strong>Maximum file size: </strong>
       </div>
       <div>50MB</div>
-      <ErrorableFileInput
+      <FileInput
         errorMessage={errorMessage}
         onChange={handleChange}
         buttonText="Add files"

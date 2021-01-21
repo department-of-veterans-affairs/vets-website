@@ -4,8 +4,8 @@ import _ from 'lodash';
 import { scroller } from 'react-scroll';
 import classNames from 'classnames';
 
-import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
-import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
+import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
+import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import recordEvent from 'platform/monitoring/record-event';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import AlertBox from '../AlertBox';
@@ -862,7 +862,7 @@ class EstimateYourBenefitsForm extends React.Component {
 
         zipcodeInput = (
           <div name="beneficiary-zip-question">
-            <ErrorableTextInput
+            <TextInput
               autoFocus
               errorMessage={errorMessageCheck}
               label={label}

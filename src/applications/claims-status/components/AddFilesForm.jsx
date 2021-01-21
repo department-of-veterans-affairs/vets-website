@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 
-import ErrorableFileInput from '@department-of-veterans-affairs/formation-react/ErrorableFileInput';
-import ErrorableSelect from '@department-of-veterans-affairs/formation-react/ErrorableSelect';
-import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
-import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
+import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
+import Select from '@department-of-veterans-affairs/component-library/Select';
+import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
+import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
@@ -27,13 +27,15 @@ import {
   isValidFileSize,
   isEmptyFileSize,
   isValidFileType,
+  isPdf,
   FILE_TYPES,
+  MAX_FILE_SIZE_MB,
+  MAX_PDF_SIZE_MB,
 } from '../utils/validations';
 import { setFocus } from '../utils/page';
+import { uploadPdfLimitFeature } from '../utils/appeals-v2-helpers';
 
-const displayTypes = FILE_TYPES.map(
-  type => (type === 'pdf' ? 'pdf (unlocked)' : type),
-).join(', ');
+const displayTypes = FILE_TYPES.join(', ');
 
 const scrollToFile = position => {
   const options = getScrollOptions({ offset: -25 });
@@ -75,14 +77,15 @@ class AddFilesForm extends React.Component {
 
   add = async files => {
     const file = files[0];
-    const { requestLockedPdfPassword, onAddFile } = this.props;
+    const { requestLockedPdfPassword, onAddFile, pdfSizeFeature } = this.props;
     const extraData = {};
+    const hasPdfSizeLimit = isPdf(file) && pdfSizeFeature;
 
-    if (isValidFile(file)) {
+    if (isValidFile(file, pdfSizeFeature)) {
       // Check if the file is an encrypted PDF
       if (
         requestLockedPdfPassword && // feature flag
-        file.name?.endsWith('pdf')
+        file.name?.toLowerCase().endsWith('pdf')
       ) {
         extraData.isEncrypted = await this.isFileEncrypted(file);
       }
@@ -101,10 +104,10 @@ class AddFilesForm extends React.Component {
       this.setState({
         errorMessage: 'Please choose a file from one of the accepted types.',
       });
-    } else if (!isValidFileSize(file)) {
+    } else if (!isValidFileSize(file, pdfSizeFeature)) {
+      const maxSize = hasPdfSizeLimit ? MAX_PDF_SIZE_MB : MAX_FILE_SIZE_MB;
       this.setState({
-        errorMessage:
-          'The file you selected is larger than the 50MB maximum file size and could not be added.',
+        errorMessage: `The file you selected is larger than the ${maxSize}MB maximum file size and could not be added.`,
       });
     } else if (isEmptyFileSize(file)) {
       this.setState({
@@ -161,7 +164,7 @@ class AddFilesForm extends React.Component {
         </div>
         <Element name="filesList" />
         <div>
-          <ErrorableFileInput
+          <FileInput
             errorMessage={this.getErrorMessage()}
             label={
               <span className="claims-upload-input-title">
@@ -179,7 +182,16 @@ class AddFilesForm extends React.Component {
           <p className="file-requirement-header">Accepted file types:</p>
           <p className="file-requirement-text">{displayTypes}</p>
           <p className="file-requirement-header">Maximum file size:</p>
-          <p className="file-requirement-text">50MB</p>
+          <p className="file-requirement-text">
+            {`${MAX_FILE_SIZE_MB}MB${
+              this.props.pdfSizeFeature ? ' (non-PDF)' : ''
+            }`}
+          </p>
+          {this.props.pdfSizeFeature && (
+            <p className="file-requirement-text">
+              {`${MAX_PDF_SIZE_MB}MB (PDF only)`}
+            </p>
+          )}
         </div>
         {this.props.files.map(
           ({ file, docType, isEncrypted, password }, index) => (
@@ -209,7 +221,7 @@ class AddFilesForm extends React.Component {
                       able to view the document, we will need the password to
                       decrypt it.
                     </p>
-                    <ErrorableTextInput
+                    <TextInput
                       required
                       errorMessage={
                         validateIfDirty(password, isNotBlank)
@@ -229,7 +241,7 @@ class AddFilesForm extends React.Component {
                   </>
                 )}
                 <div className="clearfix" />
-                <ErrorableSelect
+                <Select
                   required
                   errorMessage={
                     validateIfDirty(docType, isNotBlank)
@@ -249,7 +261,7 @@ class AddFilesForm extends React.Component {
             </div>
           ),
         )}
-        <ErrorableCheckbox
+        <Checkbox
           onValueChange={checked => {
             this.setState({ checked });
           }}
@@ -325,6 +337,7 @@ AddFilesForm.propTypes = {
 
 const mapStateToProps = state => ({
   requestLockedPdfPassword: toggleValues(state).request_locked_pdf_password,
+  pdfSizeFeature: uploadPdfLimitFeature(state),
 });
 
 export { AddFilesForm };

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import classNames from 'classnames';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import CalendarRow from './CalendarRow';
 import CalendarNavigation from './CalendarNavigation';
@@ -138,7 +138,8 @@ function handleNext(onClickNext, months, setMonths) {
 
 export default function CalendarWidget({
   additionalOptions,
-  availableDates,
+  availableSlots,
+  id,
   loadingErrorMessage,
   loadingStatus,
   maxDate,
@@ -147,10 +148,12 @@ export default function CalendarWidget({
   onChange,
   onClickNext,
   onClickPrev,
-  value = [],
+  renderOptions,
   selectedIndicatorType,
   startMonth,
+  timezone,
   validationError,
+  value = [],
 }) {
   const [currentlySelectedDate, setCurrentlySelectedDate] = useState(() => {
     if (value.length > 0) {
@@ -229,8 +232,10 @@ export default function CalendarWidget({
                     {getCalendarWeeks(month).map((week, weekIndex) => (
                       <CalendarRow
                         additionalOptions={additionalOptions}
-                        availableDates={availableDates}
+                        availableSlots={availableSlots}
                         cells={week}
+                        id={id}
+                        timezone={timezone}
                         currentlySelectedDate={currentlySelectedDate}
                         handleSelectDate={date => {
                           if (
@@ -267,6 +272,7 @@ export default function CalendarWidget({
                         rowNumber={weekIndex}
                         selectedDates={value}
                         selectedIndicatorType={selectedIndicatorType}
+                        renderOptions={renderOptions}
                       />
                     ))}
                   </div>
@@ -281,7 +287,12 @@ export default function CalendarWidget({
 
 CalendarWidget.propTypes = {
   additionalOptions: PropTypes.object,
-  availableDates: PropTypes.array, // ['YYYY-MM-DD']
+  availableSlots: PropTypes.arrayOf(
+    PropTypes.shape({
+      start: PropTypes.string.isRequired,
+      end: PropTypes.string,
+    }),
+  ),
   loadingStatus: PropTypes.string,
   minDate: PropTypes.string, // YYYY-MM-DD
   maxDate: PropTypes.string, // YYYY-MM-DD
@@ -291,4 +302,7 @@ CalendarWidget.propTypes = {
   onClickNext: PropTypes.func,
   onClickPrev: PropTypes.func,
   validationError: PropTypes.string,
+  renderOptions: PropTypes.func,
+  id: PropTypes.string.isRequired,
+  timezone: PropTypes.string, // America/Denver
 };

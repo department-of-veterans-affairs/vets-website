@@ -1,4 +1,4 @@
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import React from 'react';
 import { NETWORTH_VALUE } from '../../constants';
 

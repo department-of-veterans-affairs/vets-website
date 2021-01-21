@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import FormButtons from '../../components/FormButtons';
@@ -135,11 +135,10 @@ const uiSchema = {
       'ui:description': (
         <AlertBox
           status="info"
-          headline="We’ll try to schedule your appointment with your preferred community provider"
+          headline="We’ll try to schedule your appointment with your preferred provider"
         >
-          If we aren’t able to schedule this appointment with your preferred
-          provider, we’ll make every effort to schedule your appointment with
-          another community provider closest to your home.
+          If we can’t schedule this appointment with them, we’ll schedule it
+          with another provider close to your home.
         </AlertBox>
       ),
     },

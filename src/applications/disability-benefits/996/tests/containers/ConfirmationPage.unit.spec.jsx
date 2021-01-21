@@ -63,7 +63,7 @@ describe('Confirmation page', () => {
     tree.unmount();
   });
   it('should render the submit date', () => {
-    const date = moment(data.form.submission.response).format('MMM D, YYYY');
+    const date = moment(data.form.submission.response).format('MMMM D, YYYY');
     const tree = mount(<ConfirmationPage store={fakeStore} />);
     expect(tree.text()).to.contain(date);
     tree.unmount();

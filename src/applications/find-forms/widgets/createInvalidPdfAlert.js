@@ -2,7 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as Sentry from '@sentry/browser';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import { fetchFormsApi } from '../api';
 
@@ -29,6 +29,16 @@ function InvalidFormDownload({ downloadUrl }) {
   );
 }
 
+// HOF for reusable situations in Component.
+function sentryLogger(form, formNumber, downloadUrl, message) {
+  return Sentry.withScope(scope => {
+    scope.setExtra('form API response', form);
+    scope.setExtra('form number', formNumber);
+    scope.setExtra('download link (invalid)', downloadUrl);
+    Sentry.captureMessage(message);
+  });
+}
+
 export async function onDownloadLinkClick(event) {
   event.preventDefault();
 
@@ -39,33 +49,61 @@ export async function onDownloadLinkClick(event) {
   // Default to true in case we encounter an error
   // determining validity through the API.
   let formPdfIsValid = true;
+  let formPdfUrlIsValid = true;
+  let netWorkRequestError = false;
   let form = null;
 
   try {
     const forms = await fetchFormsApi(formNumber);
     form = forms.results.find(f => f.id === formNumber);
     formPdfIsValid = form?.attributes.validPdf;
+
+    const isSameOrigin = downloadUrl?.startsWith(window.location.origin);
+    if (formPdfIsValid && isSameOrigin) {
+      // URLS can be entered invalid, 400 is returned, this checks to make sure href is valid
+      // NOTE: There are Forms URLS under the https://www.vba.va.gov/ domain, we don't have a way currently to check if URL is valid on FE because of CORS
+      const response = await fetch(downloadUrl, {
+        method: 'HEAD', // HEAD METHOD SHOULD NOT RETURN BODY, WE ONLY CARE IF REQ WAS SUCCESSFUL
+      });
+      if (!response.ok) formPdfUrlIsValid = false;
+    }
   } catch (err) {
-    // Todo
+    if (err) netWorkRequestError = true;
+
+    sentryLogger(
+      form,
+      formNumber,
+      downloadUrl,
+      'Find Forms - Form Detail - onDownloadLinkClick function error',
+    );
   }
 
-  if (formPdfIsValid) {
+  if (formPdfIsValid && formPdfUrlIsValid && !netWorkRequestError) {
     link.removeEventListener('click', onDownloadLinkClick);
     link.click();
   } else {
-    Sentry.withScope(scope => {
-      scope.setExtra('form API response', form);
-      scope.setExtra('form number', formNumber);
-      scope.setExtra('download link (invalid)', downloadUrl);
-      Sentry.captureMessage('Find Forms - Form Detail - invalid PDF accessed');
-    });
+    let errorMessage = 'Find Forms - Form Detail - invalid PDF accessed';
+
+    if (netWorkRequestError)
+      errorMessage =
+        'Find Forms - Form Detail - onDownloadLinkClick function error';
+
+    if (!formPdfIsValid && !formPdfUrlIsValid)
+      errorMessage =
+        'Find Forms - Form Detail - invalid PDF accessed & invalid PDF link';
+
+    if (formPdfIsValid && !formPdfUrlIsValid)
+      errorMessage = 'Find Forms - Form Detail - invalid PDF link';
+
+    sentryLogger(form, formNumber, downloadUrl, errorMessage);
 
     const div = document.createElement('div');
     const alertBox = <InvalidFormDownload downloadUrl={downloadUrl} />;
 
     ReactDOM.render(alertBox, div);
-    link.parentNode.insertBefore(div, link);
-    link.remove();
+    const parentEl = link.parentNode;
+    parentEl.insertBefore(div, link);
+    parentEl.removeChild(link);
   }
 }
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { getCernerURL } from 'platform/utilities/cerner';
 import FormButtons from '../../../components/FormButtons';
@@ -149,6 +149,7 @@ export class VAFacilityPage extends React.Component {
           <SingleFacilityEligibilityCheckMessage
             eligibility={eligibility}
             facility={facility}
+            typeOfCare={typeOfCare}
           />
           <div className="vads-u-margin-top--2">
             <FormButtons
