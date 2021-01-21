@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const deepDiff = require('deep-diff');
-const { map } = require('lodash');
+const { map, camelCase } = require('lodash');
 const commandLineArgs = require('command-line-args');
 const commandLineUsage = require('command-line-usage');
 const assembleEntityTreeFactory = require('../../src/site/stages/build/process-cms-exports');
@@ -68,7 +68,8 @@ if (help) {
 
 /**
  * Converts deep-diff's 'kind' property
- * @param {string} kind
+ * @param {string} kind - The string representing the kind of difference
+ * @return {string} Description of the kind of difference
  */
 const getDiffType = kind => {
   switch (kind) {
@@ -88,7 +89,8 @@ const getDiffType = kind => {
 /**
  * Converts deep-diff's 'item' property
  * https://www.npmjs.com/package/deep-diff#differences
- * @param {object} item
+ * @param {object} item - A deep-diff 'item' object
+ * @return {object} A modified deep-diff 'item' object
  */
 const getDiffItem = item => {
   const diffItem = {
@@ -105,10 +107,48 @@ const getDiffItem = item => {
 };
 
 /**
+ * Finds the parent node and path in ancestor node(s)
+ * of non node entities. Only some paragraph entities are
+ * currently supported
+ * @param {object} node - The node to find the parent of
+ * @param {object []} rawEntities - Array of raw entities
+ * @param {object} parent - The object containing the path and parent node
+ * @return {array} The finalized array containing the path and parent object of the node
+ */
+const getParentNode = (
+  node,
+  rawEntities,
+  parent = { path: '', node: null },
+) => {
+  if (node.baseType === 'node') {
+    // eslint-disable-next-line no-param-reassign
+    parent.node = node;
+  }
+
+  if (parent.path === '') {
+    if (node.parent_type[0].value === 'node') {
+      // eslint-disable-next-line no-param-reassign
+      parent.path += node.parent_field_name[0].value;
+      const ent = rawEntities.find(
+        entity =>
+          entity.baseType === 'node' &&
+          parseInt(entity.nid[0].value, 10) ===
+            parseInt(node.parent_id[0].value, 10),
+      );
+      getParentNode(ent, rawEntities, parent);
+    }
+  } else {
+    // TODO: Add support for deeper nested paragraphs, and other entity types
+  }
+  return parent;
+};
+
+/**
  * Compares two entity JSON objects
  * https://www.npmjs.com/package/deep-diff#differences
- * @param {object} baseGraphQlObject
- * @param {object} baseCmsExportObject
+ * @param {object} baseGraphQlObject - The graphQL object to compare
+ * @param {object} baseCmsExportObject - The transformed CMS export object to compare
+ * @return {object []} The array of differences found from deep-diff'
  */
 const compareJson = (baseGraphQlObject, baseCmsExportObject) => {
   // Only compare present fields in GraphQL entity, excluding entityMetatags for now
@@ -129,16 +169,6 @@ const compareJson = (baseGraphQlObject, baseCmsExportObject) => {
     }
   });
 
-  // fs.writeFileSync(
-  //   path.join(__dirname, `../../graphQl.json`),
-  //   JSON.stringify(baseGraphQlObject),
-  // );
-
-  // fs.writeFileSync(
-  //   path.join(__dirname, `../../cmsexport.json`),
-  //   JSON.stringify(baseCmsExportObject),
-  // );
-
   // Get array of differences. Exclude new properties because transformed
   // CMS objects may have additional properties
   return deepDiff(graphQlObject, cmsExportObject)
@@ -156,6 +186,9 @@ const compareJson = (baseGraphQlObject, baseCmsExportObject) => {
     });
 };
 
+/**
+ * Handles running and outputting the diff based on the command line input
+ */
 const runComparison = () => {
   if (entityNames) {
     const rawEntities = [];
@@ -172,15 +205,44 @@ const runComparison = () => {
       return assembleEntityTree(unTransformedEntity, false);
     });
 
-    // Find GraphQL object from pages.json data
-    const baseObject = graphQL.data.nodeQuery.entities.filter(
-      e =>
-        e.entityBundle === rawEntities[0].entityBundle &&
-        parseInt(e.entityId, 10) === rawEntities[0].nid[0].value,
-    )[0];
+    let graphQlObject;
 
-    if (baseObject) {
-      const diff = compareJson(baseObject, transformedEntities[0]);
+    // Handle paragraph entities
+    if (rawEntities[0].baseType !== 'node') {
+      let fileNames = fs
+        .readdirSync(exportDir)
+        .filter(fn => fn !== 'meta')
+        .map(name => name.split('.').slice(0, 2));
+
+      fileNames = fileNames.filter(
+        ([baseType]) => baseType === 'node' || baseType === 'paragraph',
+      );
+
+      const cmsEntities = map(fileNames, entityDetails =>
+        readEntity(exportDir, ...entityDetails),
+      );
+
+      // Find parent node for paragraph object
+      const parentNode = getParentNode(rawEntities[0], cmsEntities);
+      const graphQlNode = graphQL.data.nodeQuery.entities.filter(
+        e =>
+          e.entityBundle === parentNode.node.entityBundle &&
+          parseInt(e.entityId, 10) === parentNode.node.nid[0].value,
+      )[0];
+
+      // Get specific paragraph object
+      graphQlObject = graphQlNode[camelCase(parentNode.path)][0];
+    } else {
+      // Find GraphQL object from pages.json data
+      graphQlObject = graphQL.data.nodeQuery.entities.filter(
+        e =>
+          e.entityBundle === rawEntities[0].entityBundle &&
+          parseInt(e.entityId, 10) === rawEntities[0].nid[0].value,
+      )[0];
+    }
+
+    if (graphQlObject) {
+      const diff = compareJson(graphQlObject, transformedEntities[0]);
       if (diff) {
         fs.writeFileSync(
           path.join(__dirname, `../../content-object-diff.json`),
@@ -216,9 +278,6 @@ const runComparison = () => {
       assembleEntityTree(entity, false),
     ).filter(e => e);
 
-    // console.log(rawEntities.length);
-    // console.log(transformedEntities.length);
-
     fs.rmdirSync('content-object-diffs', { recursive: true });
     fs.mkdirSync('content-object-diffs');
 
@@ -248,10 +307,9 @@ const runComparison = () => {
           ++diffNum;
         }
         ++totalObjectsCompared;
-      } else {
-        // console.log('Node not present in .cache/localhost/drupal/pages.json');
       }
     });
+
     console.log(
       diffNum === 0
         ? `No differences found in ${totalObjectsCompared} nodes!`
