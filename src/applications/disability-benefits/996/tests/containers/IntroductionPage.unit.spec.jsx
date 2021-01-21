@@ -207,7 +207,7 @@ describe('IntroductionPage', () => {
 
     const Intro = tree.find('Connect(CallToActionWidget)').first();
     expect(Intro.props().children.props.message).to.contain(
-      'Loading your contestable issues',
+      'Loading your previous decisions',
     );
     tree.unmount();
   });

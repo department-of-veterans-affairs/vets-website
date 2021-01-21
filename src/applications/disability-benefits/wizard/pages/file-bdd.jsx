@@ -1,6 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 
+import recordEvent from 'platform/monitoring/record-event';
+
 import { BDD_INFO_URL } from 'applications/disability-benefits/all-claims/constants';
 
 import { pageNames } from './pageList';
@@ -60,9 +62,20 @@ const FileBDDClaim = ({ getPageStateFromPageName, setWizardStatus }) => {
         setWizardStatus,
         label,
         ariaId: 'learn_about_bdd',
+        eventReason: 'wizard completed, starting BDD flow',
       })}
-      <p id="learn_about_bdd">
-        <a href={BDD_INFO_URL}>{linkText}</a>
+      <p id="learn_about_bdd" className="vads-u-margin-bottom--0">
+        <a
+          href={BDD_INFO_URL}
+          onClick={() => {
+            recordEvent({
+              event: 'howToWizard-alert-link-click',
+              'howToWizard-alert-link-click-label': linkText,
+            });
+          }}
+        >
+          {linkText}
+        </a>
       </p>
     </div>
   );
