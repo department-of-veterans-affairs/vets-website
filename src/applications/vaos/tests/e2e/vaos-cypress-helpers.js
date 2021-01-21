@@ -225,10 +225,6 @@ function mockFeatureToggles() {
             value: true,
           },
           {
-            name: 'vaOnlineSchedulingExpressCare',
-            value: true,
-          },
-          {
             name: 'vaOnlineSchedulingExpressCareNew',
             value: true,
           },
