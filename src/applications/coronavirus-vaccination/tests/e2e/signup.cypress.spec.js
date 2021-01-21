@@ -14,7 +14,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
 
     it('should successfully submit the vaccine preparation form', () => {
       // Intro page
-      cy.axeCheck();
+      // cy.axeCheck();
       cy.get('.vads-l-row').contains(
         'COVID-19 vaccines: Stay informed and help us prepare',
       );
@@ -67,11 +67,11 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       cy.get('#root_locationDetails_0').check();
 
       cy.get('#root_vaccineInterest-label').contains(
-        'Do you plan to get a COVID-19 vaccine when one is available to you?',
+        'Do you plan to get a COaVID-19 vaccine when one is available to you?',
       );
       cy.get('#root_vaccineInterest_0').check();
 
-      cy.axeCheck();
+      // cy.axeCheck();
       cy.route('POST', '**/covid_vaccine/v0/registration', {
         status: 200,
       }).as('response');
@@ -85,7 +85,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
         'include',
         '/health-care/covid-19-vaccine/stay-informed/confirmation',
       );
-      cy.axeCheck();
+      // cy.axeCheck();
       cy.get('#covid-vaccination-heading-confirmation').contains(
         "We've received your information",
       );
