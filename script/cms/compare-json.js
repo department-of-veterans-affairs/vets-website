@@ -12,20 +12,6 @@ const {
   readEntity,
 } = require('../../src/site/stages/build/process-cms-exports/helpers');
 
-const exportDir = path.resolve(
-  __dirname,
-  `../../.cache/localhost/cms-export-content`,
-);
-
-// Array of nodes from pages.json
-const graphQL = JSON.parse(
-  fs.readFileSync(
-    path.join(__dirname, `../../.cache/localhost/drupal/pages.json`),
-  ),
-);
-
-const assembleEntityTree = assembleEntityTreeFactory(exportDir);
-
 const commandLineDefs = [
   {
     name: 'entity',
@@ -46,9 +32,31 @@ const commandLineDefs = [
     type: Boolean,
     description: 'Show this help menu.',
   },
+  {
+    name: 'buildtype',
+    type: String,
+    description: 'The buildtype to test the data against.',
+    defaultValue: 'localhost',
+  },
 ];
 
-const { entity: entityNames, bundle, help } = commandLineArgs(commandLineDefs);
+const { entity: entityNames, bundle, help, buildtype } = commandLineArgs(
+  commandLineDefs,
+);
+
+const exportDir = path.resolve(
+  __dirname,
+  `../../.cache/${buildtype}/cms-export-content`,
+);
+
+// Array of nodes from pages.json
+const graphQL = JSON.parse(
+  fs.readFileSync(
+    path.join(__dirname, `../../.cache/${buildtype}/drupal/pages.json`),
+  ),
+);
+
+const assembleEntityTree = assembleEntityTreeFactory(exportDir);
 
 if (help) {
   console.log(
@@ -254,7 +262,7 @@ const runComparison = () => {
         console.log(`No differences found!`);
       }
     } else {
-      console.log('Node not present in .cache/localhost/drupal/pages.json');
+      console.log(`Node not present in .cache/${buildtype}/drupal/pages.json`);
     }
   } else {
     let fileNames = fs
