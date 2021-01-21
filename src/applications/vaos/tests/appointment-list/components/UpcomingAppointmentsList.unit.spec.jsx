@@ -453,9 +453,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       reducers,
     });
 
-    await screen.findByText(
-      new RegExp(startDate.tz('America/New_York').format('dddd, MMMM D'), 'i'),
-    );
+    await screen.findByText(new RegExp(startDate.format('dddd, MMMM D'), 'i'));
 
     expect(screen.baseElement).to.contain.text('Big sky medical');
   });
@@ -491,6 +489,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     appointment.attributes = {
       ...appointment.attributes,
       status: 'Submitted',
+      date: startDate,
       optionDate1: startDate,
       optionTime1: 'AM',
       purposeOfVisit: 'New Issue',
@@ -553,6 +552,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     appointment.attributes = {
       ...appointment.attributes,
       status: 'Cancelled',
+      date: startDate,
       optionDate1: startDate,
       optionTime1: 'AM',
       purposeOfVisit: 'New Issue',

@@ -1,6 +1,5 @@
 // Node modules.
 import React from 'react';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 // Relative imports.
 import * as customPropTypes from '../prop-types';
@@ -64,11 +63,7 @@ const recordGAEventHelper = ({
     'search-typeahead-enabled': false, // consistently populate with false since there's no type ahead enabled for this search feature
   });
 
-const SearchResult = ({
-  form,
-  formMetaInfo,
-  showFindFormsResultsLinkToFormDetailPages,
-}) => {
+const SearchResult = ({ form, formMetaInfo }) => {
   // Escape early if we don't have the necessary form attributes.
   if (!form?.attributes) {
     return null;
@@ -95,7 +90,6 @@ const SearchResult = ({
   const lastRevision = deriveLatestIssue(firstIssuedOn, lastRevisionOn);
 
   const recordGAEvent = (eventTitle, eventUrl, eventType) =>
-    showFindFormsResultsLinkToFormDetailPages &&
     recordGAEventHelper({ ...formMetaInfo, eventTitle, eventUrl, eventType });
 
   return (
@@ -105,9 +99,6 @@ const SearchResult = ({
         formUrl={formDetailsUrl}
         title={title}
         recordGAEvent={recordGAEvent}
-        showFindFormsResultsLinkToFormDetailPages={
-          showFindFormsResultsLinkToFormDetailPages
-        }
       />
 
       <dd className="vads-u-margin-y--1 vads-u-margin-y--1">
@@ -135,7 +126,7 @@ const SearchResult = ({
         </a>
       </dd>
 
-      {showFindFormsResultsLinkToFormDetailPages && formToolUrl ? (
+      {formToolUrl ? (
         <dd>
           <a
             className="usa-button usa-button-secondary vads-u-margin-bottom--3"
@@ -158,7 +149,6 @@ const SearchResult = ({
 SearchResult.propTypes = {
   form: customPropTypes.Form.isRequired,
   formMetaInfo: customPropTypes.FormMetaInfo,
-  showFindFormsResultsLinkToFormDetailPages: PropTypes.bool,
 };
 
 export default SearchResult;
