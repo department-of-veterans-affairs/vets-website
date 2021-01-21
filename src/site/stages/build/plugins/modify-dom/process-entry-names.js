@@ -32,7 +32,9 @@ function copyAssetsToTeamSitePaths(buildOptions, files, entryNamesDictionary) {
       }
     }
 
-    const hashedFileNameWithoutLeadingSlash = hashedFileName.slice(1);
+    const hashedFileNameWithoutLeadingSlash = `generated/${
+      hashedFileName.split('/generated/')[1]
+    }`;
     const file = files[hashedFileNameWithoutLeadingSlash];
 
     if (!file) continue;
