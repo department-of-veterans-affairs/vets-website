@@ -52,6 +52,6 @@ export const fetchFormsApi = async (query, options = {}) => {
 
   return {
     hasOnlyRetiredForms,
-    results: onlyValidForms, // TODO: SORT RESULTS HERE
+    results: onlyValidForms,
   };
 };

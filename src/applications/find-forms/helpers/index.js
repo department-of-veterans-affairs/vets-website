@@ -3,14 +3,14 @@ import { SORT_OPTIONS } from '../constants';
 
 /**
  * This function sorts the results of Find Forms search.
- * @param {string} howToSort Is the state property in the SearchResults Controller
+ * @param {string} sortByPropertyName Is the state property in the SearchResults Controller
  * @param {object} indexA Is a Search Result returned.
  * @param {object} indexB Is a Search Result returned.
  */
 
-export const sortTheResults = (howToSort, indexA, indexB) => {
-  // -1 sorts indexA to the front of the array.
-  // 1 sorts indexA to the back of the array.
+export const sortTheResults = (sortByPropertyName, indexA, indexB) => {
+  // -n (negative number) sorts indexA to the front of the array.
+  // n (positive number) sorts indexA to the back of the array.
   // 0 keeps both indexA and indexB right where they are.
   const [LAST_UPDATED_NEWEST_OPTION, LAST_UPDATED_OLDEST_OPTION] = SORT_OPTIONS;
 
@@ -24,24 +24,14 @@ export const sortTheResults = (howToSort, indexA, indexB) => {
     indexB.attributes.lastRevisionOn,
   );
 
-  const newestDate = deriveLatestIssue(
-    latestTimeStampIndexA,
-    latestTimeStampIndexB,
-  );
-
-  const oldestDate =
-    latestTimeStampIndexA === newestDate
-      ? latestTimeStampIndexB
-      : latestTimeStampIndexA;
-
-  if (howToSort === LAST_UPDATED_NEWEST_OPTION) {
-    if (newestDate === latestTimeStampIndexA) return -1;
-    else if (newestDate === latestTimeStampIndexB) return 1;
+  // DESCENDING
+  if (sortByPropertyName === LAST_UPDATED_NEWEST_OPTION) {
+    return new Date(latestTimeStampIndexB) - new Date(latestTimeStampIndexA);
   }
 
-  if (howToSort === LAST_UPDATED_OLDEST_OPTION) {
-    if (oldestDate === latestTimeStampIndexA) return -1;
-    else if (oldestDate === latestTimeStampIndexB) return 1;
+  // ASCENDING
+  if (sortByPropertyName === LAST_UPDATED_OLDEST_OPTION) {
+    return new Date(latestTimeStampIndexA) - new Date(latestTimeStampIndexB);
   }
 
   return 0;

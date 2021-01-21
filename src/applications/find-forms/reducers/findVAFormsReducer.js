@@ -14,7 +14,7 @@ const initialState = {
   fetching: false,
   page: 1,
   query: '',
-  howToSort: INITIAL_SORT_STATE,
+  sortByPropertyName: INITIAL_SORT_STATE,
   results: null,
   hasOnlyRetiredForms: false,
   startIndex: 0,
@@ -37,7 +37,7 @@ export default (state = initialState, action) => {
       };
     }
     case UPDATE_HOW_TO_SORT: {
-      return { ...state, howToSort: action.howToSort };
+      return { ...state, sortByPropertyName: action.sortByPropertyName };
     }
     case UPDATE_RESULTS: {
       return { ...state, results: action.results };

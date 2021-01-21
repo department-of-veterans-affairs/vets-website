@@ -9,8 +9,8 @@ import {
   fetchFormsThunk,
   updatePaginationAction,
   updateResults,
-  updateHowToSort,
-  updateHowToSortThunk,
+  updateSortByPropertyName,
+  updateSortByPropertyNameThunk,
 } from '../../actions';
 import {
   FETCH_FORMS,
@@ -22,7 +22,6 @@ import {
   UPDATE_RESULTS,
 } from '../../constants';
 
-// TODO NEED UPDATE FF ACTIONS ADDED WITH NEW SORTING WORK
 describe('Find VA Forms actions', () => {
   describe('fetchFormsAction', () => {
     it('should return an action in the shape we expect', () => {
@@ -85,32 +84,32 @@ describe('Find VA Forms actions', () => {
     });
   });
 
-  describe('updateHowToSort', () => {
+  describe('updateSortByPropertyName', () => {
     it('should return an action in the shape we expect', () => {
-      const howToSort = INITIAL_SORT_STATE;
-      const action = updateHowToSort(howToSort);
+      const sortByPropertyName = INITIAL_SORT_STATE;
+      const action = updateSortByPropertyName(sortByPropertyName);
 
       expect(action).to.be.deep.equal({
-        howToSort,
+        sortByPropertyName,
         type: UPDATE_HOW_TO_SORT,
       });
     });
   });
 
-  describe('updateHowToSortThunk', () => {
+  describe('updateSortByPropertyNameThunk', () => {
     it('should return an action in the shape we expect', () => {
       const dispatch = sinon.stub();
-      const howToSort = INITIAL_SORT_STATE;
+      const sortByPropertyName = INITIAL_SORT_STATE;
       const results = ['test'];
       const getState = () => {
-        return { findVAFormsReducer: { howToSort, results } };
+        return { findVAFormsReducer: { sortByPropertyName, results } };
       };
-      const thunk = updateHowToSortThunk(howToSort);
+      const thunk = updateSortByPropertyNameThunk(sortByPropertyName);
       thunk(dispatch, getState);
 
       expect(
         dispatch.firstCall.calledWith({
-          howToSort,
+          sortByPropertyName,
           type: UPDATE_HOW_TO_SORT,
         }),
       ).to.be.true;
@@ -142,8 +141,8 @@ describe('Find VA Forms actions', () => {
     it('updates search params', async () => {
       const dispatch = sinon.stub();
       const getState = () => {
-        const howToSort = INITIAL_SORT_STATE;
-        return { howToSort };
+        const sortByPropertyName = INITIAL_SORT_STATE;
+        return { sortByPropertyName };
       };
       const query = 'health';
       const thunk = fetchFormsThunk(query, {
@@ -163,8 +162,8 @@ describe('Find VA Forms actions', () => {
     it('calls dispatch', async () => {
       const dispatch = sinon.stub();
       const getState = () => {
-        const howToSort = INITIAL_SORT_STATE;
-        return { howToSort };
+        const sortByPropertyName = INITIAL_SORT_STATE;
+        return { sortByPropertyName };
       };
       const query = 'health';
       const thunk = fetchFormsThunk(query, {

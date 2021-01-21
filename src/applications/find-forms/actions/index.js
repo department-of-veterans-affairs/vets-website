@@ -46,20 +46,23 @@ export const updateResults = results => ({
 // =============
 // Update How To Sort
 // =============
-export const updateHowToSort = howToSort => ({
-  howToSort,
+export const updateSortByPropertyName = sortByPropertyName => ({
+  sortByPropertyName,
   type: UPDATE_HOW_TO_SORT,
 });
 
-export const updateHowToSortThunk = howToSort => (dispatch, getState) => {
-  dispatch(updateHowToSort(howToSort));
+export const updateSortByPropertyNameThunk = sortByPropertyName => (
+  dispatch,
+  getState,
+) => {
+  dispatch(updateSortByPropertyName(sortByPropertyName));
 
   const clonedResults = cloneDeep(
     getFindFormsAppState(getState()).results || [],
   );
 
   const sortedResults = clonedResults.sort((a, b) =>
-    sortTheResults(getFindFormsAppState(getState()).howToSort, a, b),
+    sortTheResults(getFindFormsAppState(getState()).sortByPropertyName, a, b),
   );
 
   dispatch(updateResults(sortedResults));
@@ -105,7 +108,7 @@ export const fetchFormsThunk = (query, options = {}) => async (
     // Attempt to make the API request to retreive forms.
     const resultsDetails = await fetchFormsApi(query, { mockRequest });
     const resultsSorted = resultsDetails.results?.sort((a, b) =>
-      sortTheResults(getState().howToSort, a, b),
+      sortTheResults(getFindFormsAppState(getState()).sortByPropertyName, a, b),
     );
     // If we are here, the API request succeeded.
     dispatch(

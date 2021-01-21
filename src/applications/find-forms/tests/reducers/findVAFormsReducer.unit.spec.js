@@ -19,7 +19,7 @@ describe('Find VA Forms reducer: findVAFormsReducer', () => {
       page: 1,
       query: '',
       results: null,
-      howToSort: INITIAL_SORT_STATE,
+      sortByPropertyName: INITIAL_SORT_STATE,
       hasOnlyRetiredForms: false,
       startIndex: 0,
     });
@@ -35,7 +35,7 @@ describe('Find VA Forms reducer: findVAFormsReducer', () => {
       page: 1,
       query: 'testing',
       results: null,
-      howToSort: INITIAL_SORT_STATE,
+      sortByPropertyName: INITIAL_SORT_STATE,
       hasOnlyRetiredForms: false,
       startIndex: 0,
     });

@@ -1,20 +1,18 @@
 // Dependencies.
 import chunk from 'lodash/chunk';
+import { expect } from 'chai';
 
 // Relative Imports
-import {
-  INITIAL_SORT_STATE,
-  SORT_OPTIONS,
-} from '../../containers/SearchResults';
+import { INITIAL_SORT_STATE, SORT_OPTIONS } from '../../constants';
 import { sortTheResults } from '../../helpers';
-
-const stub = require('../../constants/stub.json');
+import stub from '../../constants/stub.json';
 
 const SELECTORS = {
   WIDGET: '[data-widget-type="find-va-forms"]',
   SEARCH_FORM: '[data-e2e-id="find-form-search-form"]',
   SEARCH_RESULT_TITLE: '[data-e2e-id="result-title"]',
   NEXT_PAGE: '.va-pagination-next > a',
+  SORT_SELECT_WIDGET: 'select.find-forms-search--sort-select',
 };
 
 function axeTestPage() {
@@ -28,6 +26,7 @@ describe('functionality of Find Forms', () => {
   });
 
   // NOTE: THIS IS SKIPPED DUE TO showFindFormsResultsLinkToFormDetailPages FLAG BEING OFF FOR VARIOUS ENVS
+  // it('search the form and expect dom to have elements', () => {
   it.skip('search the form and expect dom to have elements', () => {
     cy.server();
     cy.route({
@@ -55,7 +54,8 @@ describe('functionality of Find Forms', () => {
     // iterate through all pages and ensure each form download link is present on each form result.
     const validForms = stub.data
       .filter(form => form.attributes.validPdf)
-      .sort((a, b) => sortTheResults(SORT_OPTIONS[INITIAL_SORT_STATE], a, b));
+      .sort((a, b) => sortTheResults(INITIAL_SORT_STATE, a, b));
+
     const pageLength = 10;
     const pages = chunk(validForms, pageLength);
 
@@ -73,5 +73,17 @@ describe('functionality of Find Forms', () => {
           .then(() => axeTestPage());
       }
     });
+
+    // Ensure Sort Widget exists
+    cy.get(`${SELECTORS.SORT_SELECT_WIDGET}`);
+    cy.get(`${SELECTORS.SORT_SELECT_WIDGET} option`).should(
+      'have.length',
+      SORT_OPTIONS.length,
+    );
+    cy.get(`${SELECTORS.SORT_SELECT_WIDGET} option:first`)
+      .should('be.selected')
+      .then($option => {
+        expect($option.text()).to.have.contain(SORT_OPTIONS[0]);
+      });
   });
 });
