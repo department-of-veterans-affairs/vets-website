@@ -52,6 +52,10 @@ span.sidelines {
     align-items: center;
   }
 
+  .contact-us-link {
+    min-width: 91px;
+  }
+
   .login {
     .explanation-content {
       @include media($medium-large-screen) {

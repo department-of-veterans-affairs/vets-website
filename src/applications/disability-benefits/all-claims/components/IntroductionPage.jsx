@@ -42,7 +42,7 @@ class IntroductionPage extends React.Component {
     const pageTitle = getPageTitle(isBDDForm);
     const startText = getStartText(isBDDForm);
 
-    // Remove this once we original claims feature toggle is set to 100%
+    // Remove this once form526_original_claims feature flag is removed
     if (!allowContinue) {
       return (
         <div className="schemaform-intro">
