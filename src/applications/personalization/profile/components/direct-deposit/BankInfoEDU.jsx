@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { Prompt } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 import recordEvent from '~/platform/monitoring/record-event';
 

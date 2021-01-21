@@ -142,7 +142,9 @@ describe('Find VA Forms actions', () => {
       const dispatch = sinon.stub();
       const getState = () => {
         const sortByPropertyName = INITIAL_SORT_STATE;
-        return { sortByPropertyName };
+        return {
+          findVAFormsReducer: { sortByPropertyName },
+        };
       };
       const query = 'health';
       const thunk = fetchFormsThunk(query, {
@@ -163,7 +165,9 @@ describe('Find VA Forms actions', () => {
       const dispatch = sinon.stub();
       const getState = () => {
         const sortByPropertyName = INITIAL_SORT_STATE;
-        return { sortByPropertyName };
+        return {
+          findVAFormsReducer: { sortByPropertyName },
+        };
       };
       const query = 'health';
       const thunk = fetchFormsThunk(query, {

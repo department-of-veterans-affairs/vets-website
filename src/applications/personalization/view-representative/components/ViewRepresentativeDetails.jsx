@@ -15,6 +15,16 @@ export const ViewRepresentativeDetails = props => (
         <strong>Phone: </strong>
         {props.telephone}
       </p>
+      {props?.searchRepresentative && (
+        <a
+          role="button"
+          target="_self"
+          className="usa-button"
+          href="/view-change-representative/search"
+        >
+          Find a new representative
+        </a>
+      )}
     </div>
     <h3>What can a representative do?</h3>
     <p>

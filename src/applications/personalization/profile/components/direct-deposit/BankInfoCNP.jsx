@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import recordEvent from '~/platform/monitoring/record-event';
 

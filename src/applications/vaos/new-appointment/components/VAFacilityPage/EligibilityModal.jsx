@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { FETCH_STATUS } from '../../../utils/constants';
 import FacilityAddress from '../../../components/FacilityAddress';
 import { aOrAn, lowerCase } from '../../../utils/formatters';

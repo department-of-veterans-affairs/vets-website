@@ -1,11 +1,11 @@
 // Dependencies.
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import { connect } from 'react-redux';
-import Select from '@department-of-veterans-affairs/formation-react/Select';
+import Select from '@department-of-veterans-affairs/component-library/Select';
 
 // Relative imports.
 import { focusElement } from 'platform/utilities/ui';
@@ -30,7 +30,6 @@ export class SearchResults extends Component {
     hasOnlyRetiredForms: PropTypes.bool.isRequired,
     sortByPropertyName: PropTypes.string,
     startIndex: PropTypes.number.isRequired,
-    showFindFormsResultsLinkToFormDetailPages: PropTypes.bool,
     // From mapDispatchToProps.
     updateSortByPropertyName: PropTypes.func,
     updatePagination: PropTypes.func.isRequired,
@@ -164,9 +163,6 @@ export class SearchResults extends Component {
           key={form.id}
           form={form}
           formMetaInfo={{ ...formMetaInfo, currentPositionOnPage: index + 1 }}
-          showFindFormsResultsLinkToFormDetailPages={
-            showFindFormsResultsLinkToFormDetailPages
-          }
         />
       ));
 

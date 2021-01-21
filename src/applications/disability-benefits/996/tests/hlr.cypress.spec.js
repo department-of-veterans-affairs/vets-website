@@ -3,12 +3,11 @@ import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
-import { WIZARD_STATUS } from 'applications/static-pages/wizard';
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 import { mockContestableIssues } from './hlr.cypress.helpers';
 import mockUser from './fixtures/mocks/user.json';
-import { CONTESTABLE_ISSUES_API } from '../constants';
+import { CONTESTABLE_ISSUES_API, WIZARD_STATUS } from '../constants';
 
 const testConfig = createTestConfig(
   {

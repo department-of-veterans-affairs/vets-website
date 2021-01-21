@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PromoBanner from '@department-of-veterans-affairs/formation-react/PromoBanner';
+import PromoBanner from '@department-of-veterans-affairs/component-library/PromoBanner';
 import _recordEvent from 'platform/monitoring/record-event';
 
 export default function PromoBannerWithAnalytics({

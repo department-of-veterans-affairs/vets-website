@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { submitEmail, setEmail } from '../actions';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import TextInput from '@department-of-veterans-affairs/formation-react/TextInput';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 
 class EmailCapture extends React.Component {
   constructor(props) {

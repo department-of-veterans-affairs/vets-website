@@ -4,7 +4,7 @@ import cloneDeep from 'lodash/cloneDeep';
 // Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
 import { MAX_PAGE_LIST_LENGTH } from '../containers/SearchResults';
-import { getFindFormsAppState, mvpEnhancements } from '../helpers/selectors';
+import { getFindFormsAppState } from '../helpers/selectors';
 import { sortTheResults } from '../helpers';
 import { fetchFormsApi } from '../api';
 import {
@@ -120,25 +120,21 @@ export const fetchFormsThunk = (query, options = {}) => async (
       resultsDetails.results.length / MAX_PAGE_LIST_LENGTH,
     );
 
-    // Only record GA event if Feature flag is on
-    const showFindFormsResultsLinkToFormDetailPages = mvpEnhancements(
-      getState(),
-    );
-    if (showFindFormsResultsLinkToFormDetailPages)
-      recordEvent({
-        event: 'view_search_results', // remains consistent, push this event with each search
-        'search-page-path': '/find-forms', // populate with '/find-forms', remains consistent for all searches from find-forms page
-        'search-query': query, // populate with full query user used to execute search
-        'search-results-total-count': resultsDetails?.results?.length, // populate with total number of search results returned
-        'search-results-total-pages': totalPages, // populate with total number of search result pages returned
-        'search-selection': 'Find forms', // populate with 'Find forms' for all searches from /find-forms page
-        'search-typeahead-enabled': false, // populate with boolean false, remains consistent since type ahead won't feature here
-        'type-ahead-option-keyword-selected': undefined, // populate with undefined since type ahead won't feature here
-        'type-ahead-option-position': undefined, // populate with undefined since type ahead won't feature here
-        'type-ahead-options-list': undefined, // populate with undefined since type ahead won't feature here
-      });
+    recordEvent({
+      event: 'view_search_results', // remains consistent, push this event with each search
+      'search-page-path': '/find-forms', // populate with '/find-forms', remains consistent for all searches from find-forms page
+      'search-query': query, // populate with full query user used to execute search
+      'search-results-total-count': resultsDetails?.results?.length, // populate with total number of search results returned
+      'search-results-total-pages': totalPages, // populate with total number of search result pages returned
+      'search-selection': 'Find forms', // populate with 'Find forms' for all searches from /find-forms page
+      'search-typeahead-enabled': false, // populate with boolean false, remains consistent since type ahead won't feature here
+      'type-ahead-option-keyword-selected': undefined, // populate with undefined since type ahead won't feature here
+      'type-ahead-option-position': undefined, // populate with undefined since type ahead won't feature here
+      'type-ahead-options-list': undefined, // populate with undefined since type ahead won't feature here
+    });
   } catch (error) {
     // If we are here, the API request failed.
+    console.log(error);
     dispatch(
       fetchFormsFailure(
         'We’re sorry. Something went wrong on our end. Please try again later.',

@@ -103,7 +103,7 @@ describe('VAOS <ConfirmationPage>', () => {
 
     expect(screen.getByText(/Cheyenne VA Medical Center/i)).to.be.ok;
     expect(screen.getByText(/2360 East Pershing Boulevard/i)).to.be.ok;
-    expect(screen.getByText(/Cheyenne, WY 82001-5356/i)).to.be.ok;
+    expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
     expect(screen.getByText(/Follow-up\/Routine/i)).to.be.ok;
     expect(screen.getByText(/Additional info/i)).to.be.ok;
 
@@ -152,7 +152,7 @@ describe('VAOS <ConfirmationPage>', () => {
     expect(screen.getByText(/Primary care appointment/i)).to.be.ok;
     expect(screen.getByText(/Pending/i)).to.be.ok;
     expect(screen.getByText(/CHYSHR-Sidney VA Clinic/i)).to.be.ok;
-    expect(screen.getByText(/Cheyenne, WY/i)).to.be.ok;
+    expect(screen.baseElement).to.contain.text('Cheyenne, WY');
     expect(screen.getByText(/December 20, 2019 in the morning/i)).to.be.ok;
   });
 
@@ -211,7 +211,7 @@ describe('VAOS <ConfirmationPage>', () => {
     expect(screen.getByText(/Jane Doe/i)).to.be.ok;
     expect(screen.getByText(/555555555/i)).to.be.ok;
     expect(screen.getByText(/123 Test/i)).to.be.ok;
-    expect(screen.getByText(/Northampton, MA 01060/i)).to.be.ok;
+    expect(screen.baseElement).to.contain.text('Northampton, MA 01060');
     expect(screen.getByText(/December 20, 2019 in the morning/i)).to.be.ok;
   });
 

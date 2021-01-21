@@ -47,14 +47,14 @@ export const errorMessages = {
   informalConferenceContactPhonePattern:
     'Please enter a 10-digit phone number (with or without dashes)',
   informalConferenceTimes: 'Please select a time',
-  contestedIssue: 'Please select a contested issue',
-  contestedIssueCommentLength:
-    'Please enter no more than 400 characters in this field',
+  contestedIssue: 'Please select an eligible issue',
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
 
+// session storage keys
 export const SAVED_CLAIM_TYPE = 'hlrClaimType';
+export const WIZARD_STATUS = 'wizardStatus996';
 
 // Values from benefitTypes in vets-json-schema constants
 const supportedBenefitTypes = [

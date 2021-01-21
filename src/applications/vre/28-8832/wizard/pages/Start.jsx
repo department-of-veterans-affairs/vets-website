@@ -1,6 +1,6 @@
 import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import RadioButtons from '@department-of-veterans-affairs/formation-react/RadioButtons';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import { pageNames } from './pageList';
 
 const options = [

@@ -1,6 +1,8 @@
 import ItemLoop from '../../components/ItemLoop';
 import TableDetailsView from '../../components/TableDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import Typeahead from '../../components/Typeahead';
+import { formatOptions, incomeTypes } from '../../constants/typeaheadOptions';
 import _ from 'lodash/fp';
 
 export const uiSchema = {
@@ -26,8 +28,10 @@ export const uiSchema = {
       items: {
         incomeType: {
           'ui:title': 'Type of income',
+          'ui:field': Typeahead,
           'ui:options': {
-            widgetClassNames: 'input-size-3',
+            classNames: 'input-size-3',
+            getOptions: () => formatOptions(incomeTypes),
           },
           'ui:required': formData =>
             formData.additionalIncome.hasAdditionalIncome,
