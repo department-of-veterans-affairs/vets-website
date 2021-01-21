@@ -1,3 +1,5 @@
+import { axeRulesObj } from '../axe-config/axe-rules';
+
 /**
  * Callback from a11y check that logs aXe violations to console output.
  *
@@ -29,10 +31,16 @@ const processAxeCheckResults = violations => {
  * @param {string} [context] - Selector for the container element to aXe check.
  */
 Cypress.Commands.add('axeCheck', (context = 'main', tempOptions = {}) => {
-  const { _13647Exception } = tempOptions;
-  Cypress.log();
+  /* Assume no exceptions and color contrast rule disabled as default */
+  let options = {
+    _13647Exception: false,
+    colorContrast: axeRulesObj.colorContrast,
+  };
 
-  const options = _13647Exception
+  /* Update options with passed tempOptions */
+  options = Object.assign(options, tempOptions);
+
+  const axeConfig = options._13647Exception
     ? {
         includedImpacts: ['critical'],
       }
@@ -41,7 +49,13 @@ Cypress.Commands.add('axeCheck', (context = 'main', tempOptions = {}) => {
           type: 'tag',
           values: ['wcag2a', 'wcag2aa'],
         },
+        rules: {
+          'color-contrast': {
+            enabled: options.colorContrast,
+          },
+        },
       };
 
-  cy.checkA11y(context, options, processAxeCheckResults);
+  Cypress.log();
+  cy.checkA11y(context, axeConfig, processAxeCheckResults);
 });

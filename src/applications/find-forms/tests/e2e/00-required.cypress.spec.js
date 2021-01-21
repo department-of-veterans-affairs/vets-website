@@ -12,7 +12,7 @@ const SELECTORS = {
 
 function axeTestPage() {
   cy.injectAxe();
-  cy.axeCheck();
+  cy.axeCheck('main', { colorContrast: true });
 }
 
 describe('functionality of Find Forms', () => {
