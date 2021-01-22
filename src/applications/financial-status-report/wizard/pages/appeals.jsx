@@ -1,8 +1,5 @@
 import React from 'react';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
-
-import recordEvent from 'platform/monitoring/record-event';
-
 import { pageNames } from '../constants';
 
 const label =
@@ -27,13 +24,6 @@ const AppealsPage = ({ setPageState, state = {} }) => (
     id={`${pageNames.appeals}-option`}
     options={options}
     onValueChange={({ value }) => {
-      recordEvent({
-        event: 'howToWizard-formChange',
-        'form-field-type': 'form-radio-buttons',
-        'form-field-label': label,
-        'form-field-value':
-          value === pageNames.fileClaim ? 'new-worse' : 'disagreeing',
-      });
       setPageState({ selected: value }, value);
     }}
     value={{ value: state.selected }}

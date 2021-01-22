@@ -1,33 +1,26 @@
 import React from 'react';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
-
-import recordEvent from 'platform/monitoring/record-event';
-
 import { pageNames } from '../constants';
 
-const label = 'Are you on active duty right now?';
-
+const label = 'What type of debt do you need help with?';
 const options = [
-  { value: pageNames.bdd, label: 'Yes' },
-  { value: pageNames.appeals, label: 'No' },
+  { value: pageNames.bdd, label: 'A compensation, pension, or education debt' },
+  {
+    value: pageNames.appeals,
+    label: 'A medical copayment or health care debt',
+  },
 ];
 
 const StartPage = ({ setPageState, state = {} }) => (
   <RadioButtons
+    id={`${pageNames.start}-option`}
     name={`${pageNames.start}-option`}
     label={label}
-    id={`${pageNames.start}-option`}
     options={options}
+    value={{ value: state.selected }}
     onValueChange={({ value }) => {
-      recordEvent({
-        event: 'howToWizard-formChange',
-        'form-field-type': 'form-radio-buttons',
-        'form-field-label': label,
-        'form-field-value': value === pageNames.bdd ? 'yes-bdd' : 'no-appeals',
-      });
       setPageState({ selected: value }, value);
     }}
-    value={{ value: state.selected }}
   />
 );
 

@@ -1,9 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 import Date from '@department-of-veterans-affairs/component-library/Date';
-
-import recordEvent from 'platform/monitoring/record-event';
-
 import { pageNames } from '../constants';
 
 const FORM_STATUS_BDD = 'formStatusBdd';
@@ -78,15 +75,6 @@ const BDDPage = ({ setPageState, state = defaultState }) => {
     const date = isDateComplete(pageState) ? getDate(pageState) : null;
     const value = isDateInFuture(date) ? findNextPage(pageState) : null;
 
-    if (value) {
-      recordEvent({
-        event: 'howToWizard-formChange',
-        // Date component wrapper class name
-        'form-field-type': 'usa-date-of-birth',
-        'form-field-label': label,
-        'form-field-value': date.format('YYYY-MM-DD'),
-      });
-    }
     setPageState(pageState, value);
   };
 

@@ -1,45 +1,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import recordEvent from 'platform/monitoring/record-event';
 import FormFooter from 'platform/forms/components/FormFooter';
+import formConfig from '../config/form';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import pages from '../wizard/pages';
 import Wizard, {
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
-
-import pages from '../wizard/pages';
-import formConfig from '../config/form';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 const FORM_STATUS_BDD = 'formStatusBdd';
 
 const WizardContainer = ({ setWizardStatus }) => {
   sessionStorage.removeItem(FORM_STATUS_BDD);
   return (
-    <div className="row">
+    <div className="fsr-wizard row">
       <div className="usa-width-two-thirds medium-8 columns">
         <FormTitle title={'Request help for VA debt'} />
-        <p>
-          Equal to VA Form 21-526EZ (Application for Disability Compensation and
-          Related Compensation Benefits).
+        <p className="subtitle">
+          Equal to VA Form 5655 (Financial Status Report)
         </p>
         <div className="wizard-container">
           <h2>Is this the form I need?</h2>
           <p>
-            Use this form to file for disability benefits for an illness or
-            injury that was caused by&mdash;or got worse because of&mdash;your
-            active military service. If you’re still on active duty, you can
-            file for disability benefits under the Benefits Delivery at
-            Discharge program. This program allows you to file for benefits 180
-            to 90 days before you leave the military.
+            Answer a few questions to find out if VA Form 5655 is the right form
+            for you. If you’re a dependent or family member, you might need to
+            request repayment assistance using a different version of the
+            Financial Status Report.
           </p>
           <p>
-            Not sure you’re eligible for VA disability benefits?{' '}
-            <a href="/disability/eligibility/">
-              Find out if you’re eligible for disability compensation
+            If you already know this is the correct form, you can go directly to
+            the online form without answering questions.{' '}
+            <a href="#">
+              Request financial assistance for VA repayments with the Financial
+              Status Report.
             </a>
           </p>
-          <p>Answer a few questions to get started.</p>
           <Wizard
             pages={pages}
             expander={false}
@@ -56,7 +51,6 @@ const WizardContainer = ({ setWizardStatus }) => {
             className="va-button-link vads-u-display--inline-block vads-u-margin-bottom--3 skip-wizard-link"
             onClick={e => {
               e.preventDefault();
-              recordEvent({ event: 'howToWizard-skip' });
               setWizardStatus(WIZARD_STATUS_COMPLETE);
             }}
           >
