@@ -30,13 +30,14 @@ const displayTranslationLink = () => {
   const isSpanish =
     window.location.href.includes('-esp') ||
     window.location.href.includes('nodeId=14580');
-  const translatableLinks = [
-    'coronavirus-veteran-frequently-asked-questions',
-    'coronavirus-veteran-frequently-asked-questions-esp',
-  ];
-  const isTranslatable = translatableLinks.some(url =>
-    window.location.href.includes(url),
-  );
+
+  const translatableLinks = new Set([
+    '/coronavirus-veteran-frequently-asked-questions/',
+    '/coronavirus-veteran-frequently-asked-questions-esp/',
+  ]);
+
+  const isTranslatable = translatableLinks.has(document.location.pathname);
+
   if (!isTranslatable) return;
 
   if (i18LinkWrapper.classList.contains('vads-u-display--none')) {
