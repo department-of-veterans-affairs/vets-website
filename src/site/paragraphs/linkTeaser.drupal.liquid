@@ -33,21 +33,16 @@
   data-links-list-header="{{ link.title | escape }}"
   data-links-list-section-header="{{ section_header | escape }}"
   {% if parentFieldName === 'field_spokes' %}class="hub-page-link-list__item"{% endif %}>
-    {% if link.title != empty %}
-      <{{ header }} class="{{ headerClass }}">
-        <a href="{{link.url.path}}" class="vads-u-text-decoration--underline"
-          {% if linkTeaser.options["target"] %}
-            target="{{ linkTeaser.options["target"] }}"
-            rel="noopener noreferrer"
-          {% endif %}
-        >
-          {{ link.title }}
-        </a>
-      </{{ header }}>
-      {% if parentFieldName === "field_spokes" %}
-          <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="Blue arrow pointing right">
-      {% endif %}
-    {% endif %}
+    <a href="{{link.url.path}}"
+      {% if linkTeaser.options["target"] %}target="{{ linkTeaser.options["target"] }}"{% endif %}
+      >
+        {% if link.title != empty %}
+            <{{ header }} class="{{ headerClass }}">{{ link.title }}</{{ header }}>
+            {% if parentFieldName === "field_spokes" %}
+                <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow">
+            {% endif %}
+        {% endif %}
+    </a>
     {% if linkTeaser.fieldLinkSummary != empty %}
         <p class="va-nav-linkslist-description">{{ linkTeaser.fieldLinkSummary }}</p>
     {% endif %}

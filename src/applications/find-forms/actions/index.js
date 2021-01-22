@@ -8,7 +8,9 @@ import {
   FETCH_FORMS,
   FETCH_FORMS_FAILURE,
   FETCH_FORMS_SUCCESS,
+  UPDATE_HOW_TO_SORT,
   UPDATE_PAGINATION,
+  UPDATE_RESULTS,
 } from '../constants';
 
 // ============
@@ -29,6 +31,30 @@ export const fetchFormsSuccess = (results, hasOnlyRetiredForms) => ({
   hasOnlyRetiredForms,
   type: FETCH_FORMS_SUCCESS,
 });
+
+// =============
+// Update Results after forms is sorted
+// =============
+export const updateResults = results => ({
+  results,
+  type: UPDATE_RESULTS,
+});
+
+// =============
+// Update How To Sort
+// =============
+export const updateSortByPropertyName = sortByPropertyName => ({
+  sortByPropertyName,
+  type: UPDATE_HOW_TO_SORT,
+});
+
+export const updateSortByPropertyNameThunk = (
+  sortByPropertyName,
+  results,
+) => dispatch => {
+  dispatch(updateSortByPropertyName(sortByPropertyName));
+  dispatch(updateResults(results));
+};
 
 // ============
 // Pagination Actions
