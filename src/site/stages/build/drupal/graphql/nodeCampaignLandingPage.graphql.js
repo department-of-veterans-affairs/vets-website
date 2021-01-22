@@ -32,30 +32,7 @@ module.exports = `
         entityType
         entityBundle
         entityId
-        ... on NodeLandingPage {
-          fieldAdministration {
-            entity {
-              ... on TaxonomyTermAdministration {
-                fieldAcronym
-                fieldDescription
-                fieldEmailUpdatesLinkText
-                fieldEmailUpdatesUrl
-                fieldIntroText
-                fieldLink {
-                  uri
-                  title
-                }
-                fieldMetatags
-                fieldSocialMediaLinks {
-                  platform
-                  value
-                  platformValues
-                }
-              }
-            }
-          }
-          fieldDescription
-        }
+        ... landingPage
       }
     }
     fieldClpAudience {
@@ -285,13 +262,7 @@ module.exports = `
         entityType
         entityBundle
         entityId
-        ... on ParagraphButton {
-          fieldButtonLabel
-          fieldButtonLink {
-            uri
-            title
-          }
-        }
+        ... button
       }
     }
     fieldClpFaqPanel
@@ -363,13 +334,7 @@ module.exports = `
         entityType
         entityBundle
         entityId
-        ... on ParagraphButton {
-          fieldButtonLabel
-          fieldButtonLink {
-            uri
-            title
-          }
-        }
+        ... button
       }
     }
     fieldClpResourcesHeader
@@ -380,13 +345,7 @@ module.exports = `
         entityType
         entityBundle
         entityId
-        ... on ParagraphButton {
-          fieldButtonLabel
-          fieldButtonLink {
-            uri
-            title
-          }
-        }
+        ... button
       }
     }
     fieldClpSpotlightHeader
@@ -455,13 +414,7 @@ module.exports = `
         entityType
         entityBundle
         entityId
-        ... on ParagraphButton {
-          fieldButtonLabel
-          fieldButtonLink {
-            uri
-            title
-          }
-        }
+        ... button
       }
     }
     fieldClpWhatYouCanDoHeader
