@@ -13,6 +13,7 @@ import * as Sentry from '@sentry/browser';
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 import DropDownPanel from '@department-of-veterans-affairs/component-library/DropDownPanel';
+import { logSearchTypeaheadEnabledAction } from '../actions';
 
 export const searchGovSuggestionEndpoint = 'https://search.usa.gov/sayt';
 
@@ -45,12 +46,14 @@ export class SearchMenu extends React.Component {
     // event logging for phased typeahead rollout
     if (
       !prevProps.searchTypeaheadEnabled &&
-      this.props.searchTypeaheadEnabled
+      this.props.searchTypeaheadEnabled &&
+      !this.props.searchTypeaheadLogged
     ) {
       recordEvent({
         event: 'phased-roll-out-enabled',
         'product-description': 'Type Ahead',
       });
+      this.props.logSearchTypeaheadEnabled();
     }
   }
 
@@ -367,6 +370,8 @@ SearchMenu.propTypes = {
   debounceRate: PropTypes.number,
   isOpen: PropTypes.bool.isRequired,
   searchTypeaheadEnabled: PropTypes.bool,
+  searchTypeaheadLogged: PropTypes.bool.isRequired,
+  logSearchTypeaheadEnabled: PropTypes.func.isRequired,
 };
 
 SearchMenu.defaultProps = {
@@ -377,6 +382,14 @@ const mapStateToProps = store => ({
   searchTypeaheadEnabled: toggleValues(store)[
     FEATURE_FLAG_NAMES.searchTypeaheadEnabled
   ],
+  searchTypeaheadLogged: store.userNavReducer.searchTypeaheadLogged,
 });
 
-export default connect(mapStateToProps)(SearchMenu);
+const mapDispatchToProps = dispatch => ({
+  logSearchTypeaheadEnabled: () => dispatch(logSearchTypeaheadEnabledAction()),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SearchMenu);

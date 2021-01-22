@@ -4,6 +4,7 @@ import {
   TOGGLE_FORM_SIGN_IN_MODAL,
   TOGGLE_LOGIN_MODAL,
   UPDATE_SEARCH_HELP_USER_MENU,
+  LOG_SEARCH_TYPEAHEAD_ENABLED,
 } from '../actions';
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
     help: false,
     account: false,
   },
+  searchTypeaheadLogged: false,
 };
 
 function closeAllMenus(menuState) {
@@ -36,6 +38,8 @@ export default function userNavReducer(state = initialState, action) {
       closeAllMenus(state);
       return set(`utilitiesMenuIsOpen.${action.menu}`, action.isOpen, state);
 
+    case LOG_SEARCH_TYPEAHEAD_ENABLED:
+      return set('searchTypeaheadLogged', false, state);
     default:
       return state;
   }
