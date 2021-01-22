@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import Select from '../../../components/Select';
 
 export default function PastAppointmentsDateDropdown({
   currentRange,
@@ -8,27 +9,20 @@ export default function PastAppointmentsDateDropdown({
 }) {
   const [dateRangeIndex, updateDateRangeIndex] = useState(currentRange);
   return (
-    <div className="vads-u-display--flex vads-u-margin-bottom--3 small-screen:vads-u-align-items--center vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+    <>
       <label
-        className="vads-u-display--inline-block vads-u-font-weight--bold vads-u-margin-top--0 vads-u-margin-right--2"
-        htmlFor="options"
+        htmlFor="type-dropdown"
+        className="vads-u-display--inline-block vads-u-margin-top--0 vads-u-margin-right--2"
       >
         Select a date range{' '}
         <span className="sr-only">for your appointments</span>
       </label>
-      <select
-        className="usa-select small-screen:vads-u-width--auto small-screen:vads-u-margin-right--2"
-        name="options"
-        id="options"
-        value={dateRangeIndex}
+      <Select
+        options={options}
         onChange={e => updateDateRangeIndex(Number(e.target.value))}
-      >
-        {options.map((o, index) => (
-          <option key={`date-range-${index}`} value={o.value}>
-            {o.label}
-          </option>
-        ))}
-      </select>
+        id="type-dropdown"
+        value={dateRangeIndex}
+      />
       <button
         type="button"
         aria-label="Update my appointments list"
@@ -40,7 +34,7 @@ export default function PastAppointmentsDateDropdown({
       >
         Update
       </button>
-    </div>
+    </>
   );
 }
 
