@@ -67,6 +67,11 @@
     <script nonce="**CSP_NONCE**" src="{{ botframework_cdn }}"></script>
   {% endif %}
 
+  <script nonce="**CSP_NONCE**" type="text/javascript">
+    window.VetsGov = window.VetsGov || {};
+    window.VetsGov.headerFooter = JSON.parse({{ headerFooterData }});
+  </script>
+
   <script nonce="**CSP_NONCE**" defer nomodule data-entry-name="polyfills.js"></script>
   <script nonce="**CSP_NONCE**" defer data-entry-name="vendor.js"></script>
   <script nonce="**CSP_NONCE**" defer data-entry-name="{{ entryname | default: 'static-pages' }}.js"></script>
@@ -78,10 +83,7 @@
   <script async type="text/javascript" nonce="**CSP_NONCE**" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=VA"
     id="_fed_an_ua_tag"></script>
 
-  <script nonce="**CSP_NONCE**" type="text/javascript">
-    window.VetsGov = window.VetsGov || {};
-    window.VetsGov.headerFooter = {{ headerFooterData }};
-  </script>
+
 
 </head>
 

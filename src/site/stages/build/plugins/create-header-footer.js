@@ -1,3 +1,5 @@
+const jsesc = require('jsesc');
+
 const footerData = require('../../../../platform/static-data/footer-links.json');
 const DRUPALS = require('../../../constants/drupals');
 
@@ -51,17 +53,22 @@ function createHeaderFooterData(buildOptions) {
       megaMenuData,
     };
 
-    const serialized = JSON.stringify(headerFooter, null, 4);
+    const serialized = JSON.stringify(headerFooter);
 
     const drupalMenu = DRUPALS.PREFIXED_ENVIRONMENTS.has(buildOptions.buildtype)
       ? replaceWithDrupalLinks(headerFooter, files)
       : headerFooter;
-    const drupalMenuSerialized = JSON.stringify(drupalMenu, null, 4);
+    const drupalMenuSerialized = JSON.stringify(drupalMenu);
+
+    const drupalMenuSerializedEscaped = jsesc(drupalMenuSerialized, {
+      json: true,
+      isScriptContext: true,
+    });
 
     Object.keys(files).forEach(file => {
       if (files[file].isDrupalPage) {
         // eslint-disable-next-line no-param-reassign
-        files[file].headerFooterData = drupalMenuSerialized;
+        files[file].headerFooterData = drupalMenuSerializedEscaped;
       } else {
         // eslint-disable-next-line no-param-reassign
         files[file].headerFooterData = serialized;
@@ -70,12 +77,12 @@ function createHeaderFooterData(buildOptions) {
 
     // eslint-disable-next-line no-param-reassign
     files['generated/headerFooter.json'] = {
-      contents: new Buffer(serialized),
+      contents: Buffer.from(serialized),
     };
 
     // eslint-disable-next-line no-param-reassign
     files['generated/drupalHeaderFooter.json'] = {
-      contents: new Buffer(drupalMenuSerialized),
+      contents: Buffer.from(drupalMenuSerialized),
     };
 
     done();
