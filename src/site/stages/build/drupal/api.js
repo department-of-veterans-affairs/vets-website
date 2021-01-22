@@ -196,9 +196,18 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
       const assembleEntityTree = entityTreeFactory(contentDir);
 
       const timerStart = process.hrtime.bigint();
-      const transformedEntities = entities.map(entity =>
-        assembleEntityTree(entity),
-      );
+      const transformedEntities = entities.map(entity => {
+        const tree = assembleEntityTree(entity);
+        try {
+          // Check for circular references or other errors:
+          JSON.stringify(tree);
+          return tree;
+        } catch (e) {
+          // eslint-disable-next-line no-console
+          console.error('Error encountered while processing entity', entity, e);
+          return null;
+        }
+      });
       const timeElapsed = (process.hrtime.bigint() - timerStart) / 1000000n;
 
       say(
