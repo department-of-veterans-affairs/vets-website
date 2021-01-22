@@ -10,3 +10,14 @@
     border: none;
   }
 }
+
+.find-forms-search-metadata {
+  div {
+    align-items: center;
+    display: flex;
+    label {
+      margin-top: 0;
+      width: 75px;
+    }
+  }
+}
