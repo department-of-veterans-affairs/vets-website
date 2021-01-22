@@ -10,7 +10,7 @@ import {
 } from '../content/addDisabilities';
 import NewDisability from '../components/NewDisability';
 import ArrayField from '../components/ArrayField';
-// import ConditionReviewField from '../components/ConditionReviewField';
+import ConditionReviewField from '../components/ConditionReviewField';
 import {
   validateDisabilityName,
   requireDisability,
@@ -53,7 +53,7 @@ export const uiSchema = {
             })),
           ),
         {
-          // 'ui:reviewField': ({ children }) => children,
+          'ui:reviewField': ({ children }) => children,
           'ui:options': {
             debounceRate: 200,
             freeInput: true,
@@ -84,7 +84,7 @@ export const uiSchema = {
       ),
       // custom review & submit layout - see https://github.com/department-of-veterans-affairs/vets-website/pull/14091
       // disabled until design changes have been approved
-      // 'ui:objectViewField': ConditionReviewField,
+      'ui:objectViewField': ConditionReviewField,
       'ui:options': {
         ariaLabelForEditButtonOnReview: 'Edit New condition',
       },
