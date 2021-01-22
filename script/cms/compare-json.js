@@ -138,12 +138,12 @@ const getParentNode = (
     if (node.parent_type[0].value === 'node') {
       // eslint-disable-next-line no-param-reassign
       parent.path += node.parent_field_name[0].value;
-      const ent = rawEntities.find(
-        entity =>
-          entity.baseType === 'node' &&
+      const ent = rawEntities.find(entity => {
+        const isSameId =
           parseInt(entity.nid[0].value, 10) ===
-            parseInt(node.parent_id[0].value, 10),
-      );
+          parseInt(node.parent_id[0].value, 10);
+        return entity.baseType === 'node' && isSameId;
+      });
       getParentNode(ent, rawEntities, parent);
     }
   } else {
