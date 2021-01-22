@@ -9,7 +9,9 @@ export default function ScheduleNewAppointment({
   return (
     <div className="vads-u-padding-y--3 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
       <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
-        Create a new appointment
+        {showDirectScheduling
+          ? 'Create a new appointment'
+          : 'Request an appointment'}
       </h2>
       {showCommunityCare &&
         showDirectScheduling && (
@@ -21,15 +23,15 @@ export default function ScheduleNewAppointment({
       {!showCommunityCare &&
         !showDirectScheduling && (
           <p className="vads-u-margin-top--1">
-            Send a request to schedule an appointment at a VA medical center or
-            clinic.
+            You can submit a request for an appointment at a VA medical center
+            or clinic.
           </p>
         )}
       {showCommunityCare &&
         !showDirectScheduling && (
           <p className="vads-u-margin-top--1">
-            Send a request to schedule an appointment at a VA medical center,
-            clinic, or Community Care facility.
+            You can submit a request for an appointment at a VA medical center,
+            clinic, or approved Community Care facility.
           </p>
         )}
       {!showCommunityCare &&
@@ -44,7 +46,9 @@ export default function ScheduleNewAppointment({
         to="/new-appointment"
         onClick={startNewAppointmentFlow}
       >
-        Schedule an appointment
+        {showDirectScheduling
+          ? 'Schedule an appointment'
+          : 'Request an appointment'}
       </Link>
     </div>
   );

@@ -1,6 +1,0 @@
-{
-  "appName": "Connected Accounts",
-  "entryFile": "./connected-accounts-entry.jsx",
-  "entryName": "connected-accounts",
-  "rootUrl": "/account/connected-accounts"
-}

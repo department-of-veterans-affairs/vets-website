@@ -7,11 +7,8 @@ export const veteranPathPageNames = {
   amOther: 'amOther',
   noHonorableDischarge: 'noHonorableDischarge',
   yesHonorableDischarge: 'yesHonorableDischarge',
-  disabilityRating: 'disabilityRating',
+  yesDisabilityRating: 'yesDisabilityRating',
   noDisabilityRating: 'noDisabilityRating',
-  yesActiveDutySeparation: 'yesActiveDutySeparation',
-  interestedInEmploymentHelp: 'interestedInEmploymentHelp',
-  notInterestedInEmploymentHelp: 'notInterestedInEmploymentHelp',
 };
 
 export const serviceMemberPathPageNames = {
@@ -20,7 +17,6 @@ export const serviceMemberPathPageNames = {
   yesHonorableDischargeSM: 'yesHonorableDischargeSM',
   noVaMemorandum: 'noVaMemorandum',
   yesVaMemorandum: 'yesVaMemorandum',
-  notInterestedInHelp: 'notInterestedInHelp',
   yesInterestedInHelp: 'yesInterestedInHelp',
   noIDES: 'noIDES',
   yesIDES: 'yesIDES',

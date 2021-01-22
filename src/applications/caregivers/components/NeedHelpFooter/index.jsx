@@ -2,7 +2,7 @@ import React from 'react';
 import Telephone, {
   CONTACTS,
   PATTERNS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 import { links } from 'applications/caregivers/definitions/content';
 
 const NeedHelpFooter = () => {
@@ -32,7 +32,7 @@ const NeedHelpFooter = () => {
           target="_blank"
           rel="noopener noreferrer"
           href={links.caregiverSupportCoordinators.link}
-          className="vads-u-margin-x--0p5"
+          className="vads-u-margin-right--0p5"
         >
           Use our online Caregiver Support Coordinator search tool
         </a>

@@ -7,10 +7,10 @@ import {
   getPOWValidationMessage,
   pathWithIndex,
   hasClaimedConditions,
-  increaseOnly,
+  isClaimingIncrease,
   hasRatedDisabilities,
   claimingRated,
-  isBDD,
+  showSeparationLocation,
 } from './utils';
 
 import {
@@ -18,8 +18,6 @@ import {
   MILITARY_STATE_VALUES,
   LOWERED_DISABILITY_DESCRIPTIONS,
 } from './constants';
-
-import separationLocations from './content/separationLocations';
 
 export const hasMilitaryRetiredPay = data =>
   _.get('view:hasMilitaryRetiredPay', data, false);
@@ -273,11 +271,19 @@ export const requireDisability = (err, fieldData, formData) => {
   }
 };
 
+export const limitNewDisabilities = (err, fieldData, formData) => {
+  if (formData.newDisabilities?.length > 100) {
+    err.addError(
+      'You have reached the 100 condition limit. If you need to add another condition, you must remove a previously added condition.',
+    );
+  }
+};
+
 /**
  * Requires a rated disability to be entered if the increase only path has been selected.
  */
 export const requireRatedDisability = (err, fieldData, formData) => {
-  if (increaseOnly(formData) && !claimingRated(formData)) {
+  if (isClaimingIncrease(formData) && !claimingRated(formData)) {
     // The actual validation error is displayed as an alert field. The message
     // here will be shown on the review page
     err.addError('Please selected a rated disability');
@@ -299,11 +305,34 @@ export const requireNewDisability = (err, fieldData, formData) => {
   }
 };
 
-export const checkSeparationLocation = (errors, _values = {}, formData) => {
-  const data = formData?.serviceInformation?.separationLocation?.label;
-  const isValid =
-    data && separationLocations.some(({ description }) => data === description);
-  if (!isValid && isBDD(formData)) {
-    errors.addError('Please select an option from the suggestions');
+export const requireSeparationLocation = (err, fieldData, formData) => {
+  if (showSeparationLocation(formData) && !fieldData?.id) {
+    err.addError('Please select a separation location from the suggestions');
   }
 };
+
+// Originally used the function from platform/forms-system/src/js/validation.js,
+// but we need to ignore conditions that have been removed from the new
+// disabilities array; the form data for treatedDisabilityNames doesn't remove
+// previous entries and they may still be true - see
+// https://github.com/department-of-veterans-affairs/va.gov-team/issues/15368
+// the schema name is not altered, only the form data from SiPs
+export function validateBooleanGroup(
+  errors,
+  userGroup,
+  form,
+  schema,
+  errorMessages = {},
+) {
+  const { atLeastOne = 'Please choose at least one option' } = errorMessages;
+  const group = userGroup || {};
+  const props = schema?.properties || {};
+  if (
+    !Object.keys(group).filter(
+      item =>
+        group[item] === true && (props[item] || props[item.toLowerCase()]),
+    ).length
+  ) {
+    errors.addError(atLeastOne);
+  }
+}

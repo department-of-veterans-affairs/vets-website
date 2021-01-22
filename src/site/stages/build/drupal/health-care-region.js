@@ -37,9 +37,13 @@ function createPastEventListPages(page, drupalPagePath, files) {
 
   // separate current events from past events;
   allEvents.entities.forEach(eventTeaser => {
-    const startDate = eventTeaser.fieldDate.startDate;
-    const isPast = moment().diff(startDate, 'days');
-    if (isPast >= 1) {
+    const startDate = eventTeaser.fieldDatetimeRangeTimezone.value;
+
+    // Check if the date is in the past
+    const startDateUTC = startDate;
+    const currentDateUTC = new Date().getTime() / 1000;
+
+    if (startDateUTC < currentDateUTC) {
       pastEventTeasers.entities.push(eventTeaser);
     }
   });
@@ -47,7 +51,7 @@ function createPastEventListPages(page, drupalPagePath, files) {
   // sort past events into reverse chronological order by start date
   pastEventTeasers.entities = _.orderBy(
     pastEventTeasers.entities,
-    ['fieldDate.startDate'],
+    ['fieldDatetimeRangeTimezone.value'],
     ['desc'],
   );
 
@@ -115,7 +119,6 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     mainFacilities: page.mainFacilities,
     otherFacilities: page.otherFacilities,
     fieldOtherVaLocations: page.fieldOtherVaLocations,
-    fieldLocationsIntroBlurb: page.fieldLocationsIntroBlurb,
     facilitySidebar: sidebar,
     entityUrl: locEntityUrl,
     alert: page.alert,
@@ -130,41 +133,6 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     locPage,
     'health_care_region_locations_page.drupal.liquid',
   );
-
-  // Create "A-Z Services" || "Our health services" Page
-  // sort and group health services by their weight in drupal
-  if (page.fieldClinicalHealthServices) {
-    const clinicalHealthServices = sortServices(
-      page.fieldClinicalHealthServices.entities,
-    );
-
-    const hsEntityUrl = createEntityUrlObj(drupalPagePath);
-    const hsObj = {
-      fieldClinicalHealthServi: page.fieldClinicalHealthCareServi,
-      featuredContentHealthServices: page.fieldFeaturedContentHealthser,
-      facilitySidebar: sidebar,
-      entityUrl: hsEntityUrl,
-      alert: page.alert,
-      title: page.title,
-      regionNickname: page.fieldNicknameForThisFacility,
-      clinicalHealthServices,
-    };
-
-    const hsPage = updateEntityUrlObj(
-      hsObj,
-      drupalPagePath,
-      'Patient and health services',
-      'health-services',
-    );
-    const hsPath = hsPage.entityUrl.path;
-    hsPage.regionOrOffice = page.title;
-    hsPage.entityUrl = generateBreadCrumbs(hsPath);
-
-    files[`${drupalPagePath}/health-services/index.html`] = createFileObj(
-      hsPage,
-      'health_services_listing.drupal.liquid',
-    );
-  }
 
   // Press Release listing page
   const prEntityUrl = createEntityUrlObj(drupalPagePath);
@@ -194,7 +162,6 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const nsObj = {
     allNewsStoryTeasers: page.allNewsStoryTeasers,
     newsStoryTeasers: page.newsStoryTeasers,
-    fieldIntroTextNewsStories: page.fieldIntroTextNewsStories,
     facilitySidebar: sidebar,
     entityUrl: nsEntityUrl,
     title: page.title,
@@ -217,35 +184,6 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'news_stories_page.drupal.liquid',
     'news stories',
   );
-
-  // Staff bio listing page
-  const bioEntityUrl = createEntityUrlObj(drupalPagePath);
-  page.allStaffProfiles = {
-    entities: [...page.fieldLeadership],
-  };
-  const bioObj = {
-    allStaffProfiles: page.allStaffProfiles,
-    facilitySidebar: sidebar,
-    entityUrl: bioEntityUrl,
-    title: page.title,
-    alert: page.alert,
-  };
-  const bioListingPage = updateEntityUrlObj(
-    bioObj,
-    drupalPagePath,
-    'Leadership',
-  );
-  const bioPagePath = bioListingPage.entityUrl.path;
-  bioListingPage.regionOrOffice = page.title;
-  bioListingPage.entityUrl = generateBreadCrumbs(bioPagePath);
-
-  paginatePages(
-    bioListingPage,
-    files,
-    'allStaffProfiles',
-    'leadership_listing.drupal.liquid',
-    'bio',
-  );
 }
 
 /**
@@ -256,44 +194,73 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
  * @return nothing
  */
 function addGetUpdatesFields(page, pages) {
-  const regionPage = pages.find(
-    p =>
-      p.entityUrl
-        ? p.entityUrl.path === page.entityUrl.breadcrumb[1].url.path
-        : false,
-  );
+  const regionPageUrlPath = page.entityUrl.breadcrumb[1]?.url?.path;
+
+  if (!regionPageUrlPath) {
+    throw new Error(
+      `CMS error while building breadcrumbs: "${
+        page.entityUrl.path
+      }" is missing reference to a parent or grandparent.`,
+    );
+  }
+
+  const regionPage = pages.find(p => p.entityUrl.path === regionPageUrlPath);
 
   if (regionPage) {
-    page.fieldFacebook = regionPage.fieldFacebook;
-    page.fieldTwitter = regionPage.fieldTwitter;
-    page.fieldFlickr = regionPage.fieldFlickr;
-    page.fieldInstagram = regionPage.fieldInstagram;
     page.fieldLinks = regionPage.fieldLinks;
   }
 }
 
 /**
- * Sorts items from oldest to newest, removing expired items.
+ * Sorts release dates (fieldReleaseDate) from oldest to newest, removing expired items.
  *
- * @param {items} array The items array.
- * @param {field} string The target date field.
+ * @param {releaseDates} array The dates array.
  * @param {reverse} bool Sorting order set to default false.
  * @param {stale} bool Remove expired date items set to default false.
  * @return Filtered array of sorted items.
  */
-function itemSorter(items = [], field, reverse = false, stale = true) {
-  let sorted = items.entities.sort((a, b) => {
-    const start1 = moment(a[field].value);
-    const start2 = moment(b[field].value);
+function releaseDateSorter(legacyDates = [], reverse = false, stale = true) {
+  let sorted = legacyDates.entities.sort((a, b) => {
+    const start1 = moment(a.fieldReleaseDate.value);
+    const start2 = moment(b.fieldReleaseDate.value);
     return reverse ? start2 - start1 : start1 - start2;
   });
 
   if (stale) {
-    sorted = sorted.filter(item => moment(item[field].value).isAfter(moment()));
+    sorted = sorted.filter(item =>
+      moment(item.fieldReleaseDate.value).isAfter(moment()),
+    );
   }
 
   return sorted;
 }
+
+/**
+ * Sorts event dates (fieldDatetimeRangeTimezone) from oldest to newest, removing expired items.
+ *
+ * @param {dates} array The dates array.
+ * @param {reverse} bool Sorting order set to default false.
+ * @param {stale} bool Remove expired date items set to default false.
+ * @return Filtered array of sorted items.
+ */
+function eventDateSorter(dates = [], reverse = false, stale = true) {
+  let sorted = dates.entities.sort((a, b) => {
+    const start1 = a.fieldDatetimeRangeTimezone.value;
+    const start2 = b.fieldDatetimeRangeTimezone.value;
+    return reverse ? start2 - start1 : start1 - start2;
+  });
+
+  const currentDateUTC = new Date().getTime() / 1000;
+
+  if (stale) {
+    sorted = sorted.filter(
+      item => item.fieldDatetimeRangeTimezone.value > currentDateUTC,
+    );
+  }
+
+  return sorted;
+}
+
 /**
  * Add pagers to cms content listing pages.
  *
@@ -307,16 +274,13 @@ function itemSorter(items = [], field, reverse = false, stale = true) {
 function addPager(page, files, field, template, aria) {
   // Sort events and remove stale items.
   if (page.allEventTeasers) {
-    page.allEventTeasers.entities = itemSorter(
-      page.allEventTeasers,
-      'fieldDate',
-    );
+    page.allEventTeasers.entities = eventDateSorter(page.allEventTeasers);
   }
+
   // Sort news teasers.
   if (page.allPressReleaseTeasers) {
-    page.allPressReleaseTeasers.entities = itemSorter(
+    page.allPressReleaseTeasers.entities = releaseDateSorter(
       page.allPressReleaseTeasers,
-      'fieldReleaseDate',
       true,
       false,
     );

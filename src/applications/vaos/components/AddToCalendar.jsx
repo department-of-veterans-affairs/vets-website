@@ -1,7 +1,59 @@
 import React from 'react';
 import moment from 'moment';
+import guid from 'simple-guid';
 
-import { generateICS } from '../utils/appointment';
+/*
+ * ICS files have a 75 character line limit. Longer fields need to be broken
+ * into 75 character chunks with a CRLF in between. They also apparenly need to have a tab
+ * character at the start of each new line, which is why I set the limit to 74
+ * 
+ * Additionally, any actual line breaks in the text need to be escaped
+ */
+const ICS_LINE_LIMIT = 74;
+
+function formatDescription(description) {
+  if (!description) {
+    return description;
+  }
+
+  const descWithEscapedBreaks = description
+    .replace(/\r/g, '')
+    .replace(/\n/g, '\\n');
+
+  const chunked = [];
+  let restOfDescription = `DESCRIPTION:${descWithEscapedBreaks}`;
+  while (restOfDescription.length > ICS_LINE_LIMIT) {
+    chunked.push(restOfDescription.substring(0, ICS_LINE_LIMIT));
+    restOfDescription = restOfDescription.substring(ICS_LINE_LIMIT);
+  }
+  chunked.push(restOfDescription);
+
+  return chunked.join('\r\n\t');
+}
+
+function generateICS(
+  summary,
+  description,
+  location,
+  startDateTime,
+  endDateTime,
+) {
+  const startDate = moment(startDateTime).format('YYYYMMDDTHHmmss');
+  const endDate = moment(endDateTime).format('YYYYMMDDTHHmmss');
+  return `BEGIN:VCALENDAR
+          VERSION:2.0
+          PRODID:VA
+          BEGIN:VEVENT
+          UID:${guid()}
+          SUMMARY:${summary}
+          ${formatDescription(description)}
+          LOCATION:${location}
+          DTSTAMP:${startDate}
+          DTSTART:${startDate}
+          DTEND:${endDate}
+          END:VEVENT
+          END:VCALENDAR`;
+}
 
 export default function AddToCalendar({
   summary,

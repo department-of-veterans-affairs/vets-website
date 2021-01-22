@@ -5,12 +5,9 @@ import moment from 'moment';
 import {
   formTitles,
   formLinks,
-  formConfigs,
-  isFormAuthorizable,
   presentableFormIDs,
   recordDashboardClick,
 } from '../helpers';
-import AuthorizationComponent from 'platform/forms/components/AuthorizationComponent';
 import DashboardAlert, {
   DASHBOARD_ALERT_TYPES,
 } from 'applications/personalization/dashboard/components/DashboardAlert';
@@ -19,7 +16,6 @@ class FormItem extends React.Component {
   render() {
     const savedFormData = this.props.savedFormData;
     const formId = savedFormData.form;
-    const formConfig = formConfigs[formId];
     const {
       lastUpdated: lastSaved,
       expiresAt: expirationTime,
@@ -30,7 +26,6 @@ class FormItem extends React.Component {
     const expirationDate = moment.unix(expirationTime).format('MMMM D, YYYY');
     const isExpired = moment.unix(expirationTime).isBefore();
     const itemTitle = `Application for ${formTitles[formId]}`;
-    const isAuthorizable = isFormAuthorizable(formConfig);
     const formIdTitle = presentableFormIDs[formId];
 
     const activeView = (
@@ -89,15 +84,7 @@ class FormItem extends React.Component {
       </DashboardAlert>
     );
 
-    const content = isExpired ? expiredView : activeView;
-    if (isAuthorizable) {
-      return (
-        <AuthorizationComponent formConfig={formConfig} isVisible>
-          {content}
-        </AuthorizationComponent>
-      );
-    }
-    return content;
+    return isExpired ? expiredView : activeView;
   }
 }
 

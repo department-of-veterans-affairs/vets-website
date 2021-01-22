@@ -4,7 +4,7 @@ import disabilityLabels from './content/disabilityLabels';
 
 export const PAGE_TITLES = {
   ALL: 'File for disability compensation',
-  BDD: 'File for Benefits Disability at Discharge',
+  BDD: 'File a Benefits Delivery at Discharge claim',
 };
 
 export const START_TEXT = {
@@ -89,9 +89,12 @@ export const VA_FORM4142_URL =
 export const VA_FORM4192_URL =
   'https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf';
 
-export const TWENTY_FIVE_MB = 26214400;
+export const MAX_FILE_SIZE_MB = 50;
+export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
 
-export const FIFTY_MB = 52428800;
+export const MAX_PDF_FILE_SIZE_MB = 150;
+// binary based
+export const MAX_PDF_FILE_SIZE_BYTES = MAX_PDF_FILE_SIZE_MB * 1024 ** 2;
 
 export const PTSD_MATCHES = [
   'ptsd',
@@ -151,6 +154,17 @@ export const causeTypes = {
 
 export const specialIssueTypes = {
   POW: 'POW',
+};
+
+export const defaultDisabilityDescriptions = {
+  primaryDescription: 'This disability is related to my military service.',
+  causedByDisabilityDescription:
+    'This disability was caused by another condition.',
+  worsenedDescription: 'This disability was worsened by military service.',
+  worsenedEffects:
+    'This pre-existing disability was worsened by military service.',
+  vaMistreatmentDescription:
+    'This disability was caused by an injury or event that happened while I was receiving VA care.',
 };
 
 export const PTSD_CHANGE_LABELS = {
@@ -262,7 +276,7 @@ export const NULL_CONDITION_STRING = 'Unknown Condition';
 export const DATE_FORMAT = 'LL';
 
 // sessionStorage key used to show the wizard has or hasn't been completed
-export const WIZARD_STATUS = 'wizardStatus';
+export const WIZARD_STATUS = 'wizardStatus526';
 // sessionStorage key used to determine if the form title should be set to BDD
 export const FORM_STATUS_BDD = 'formStatusBdd';
 
@@ -275,3 +289,6 @@ export const EBEN_526_PATH =
 
 export const BDD_INFO_URL =
   '/disability/how-to-file-claim/when-to-file/pre-discharge-claim/';
+
+// PDF upload limit feature
+export const PDF_SIZE_FEATURE = 'pdfSizeFeature';

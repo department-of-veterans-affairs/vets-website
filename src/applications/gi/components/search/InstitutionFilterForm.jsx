@@ -28,7 +28,6 @@ class InstitutionFilterForm extends React.Component {
       onChange={this.handleDropdownChange}
       handleInputFocus={this.props.handleInputFocus}
       displayAllOption
-      gibctFilterEnhancement={this.props.gibctFilterEnhancement}
     />
   );
 
@@ -77,7 +76,7 @@ class InstitutionFilterForm extends React.Component {
 
     return (
       <div>
-        <p>Programs</p>
+        <p className="vads-u-margin-y--3">Programs</p>
         <Checkbox
           checked={filters.studentVeteranGroup}
           name="studentVeteranGroup"
@@ -142,11 +141,7 @@ class InstitutionFilterForm extends React.Component {
 
     return (
       <Dropdown
-        label={
-          this.props.gibctFilterEnhancement
-            ? 'Institution categories'
-            : 'Institution type'
-        }
+        label="Type of school or employer"
         name="type"
         options={options}
         value={this.props.filters.type}
@@ -159,33 +154,11 @@ class InstitutionFilterForm extends React.Component {
   };
 
   render() {
-    if (this.props.gibctFilterEnhancement) {
-      return (
-        <div className="institution-filter-form">
-          {this.renderCountryFilter()}
-          {this.renderStateFilter()}
-
-          {
-            <CautionaryWarningsFilter
-              excludeCautionFlags={this.props.filters.excludeCautionFlags}
-              excludeWarnings={this.props.filters.excludeWarnings}
-              onChange={this.handleCheckboxChange}
-              showModal={this.props.showModal}
-              handleInputFocus={this.props.handleInputFocus}
-            />
-          }
-          {this.renderCategoryFilter()}
-          {this.renderTypeFilter()}
-          {this.renderProgramFilters()}
-        </div>
-      );
-    }
     return (
       <div className="institution-filter-form">
-        <h2>Institution details</h2>
-        {this.renderCategoryFilter()}
         {this.renderCountryFilter()}
         {this.renderStateFilter()}
+
         {
           <CautionaryWarningsFilter
             excludeCautionFlags={this.props.filters.excludeCautionFlags}
@@ -195,8 +168,9 @@ class InstitutionFilterForm extends React.Component {
             handleInputFocus={this.props.handleInputFocus}
           />
         }
-        {this.renderProgramFilters()}
+        {this.renderCategoryFilter()}
         {this.renderTypeFilter()}
+        {this.renderProgramFilters()}
       </div>
     );
   }

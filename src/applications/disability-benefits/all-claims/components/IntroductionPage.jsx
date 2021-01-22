@@ -1,25 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { focusElement } from 'platform/utilities/ui';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { selectAvailableServices } from 'platform/user/selectors';
+import recordEvent from 'platform/monitoring/record-event';
 
 import { itfNotice } from '../content/introductionPage';
 import { originalClaimsFeature } from '../config/selectors';
 import fileOriginalClaimPage from '../../wizard/pages/file-original-claim';
-import { isBDD, getPageTitle, getStartText } from '../utils';
-import { BDD_INFO_URL } from '../constants';
+import { show526Wizard, isBDD, getPageTitle, getStartText } from '../utils';
+import {
+  BDD_INFO_URL,
+  DISABILITY_526_V2_ROOT_URL,
+  WIZARD_STATUS,
+} from '../constants';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('h1');
+    scrollToTop();
   }
 
   render() {
@@ -35,7 +42,7 @@ class IntroductionPage extends React.Component {
     const pageTitle = getPageTitle(isBDDForm);
     const startText = getStartText(isBDDForm);
 
-    // Remove this once we original claims feature toggle is set to 100%
+    // Remove this once form526_original_claims feature flag is removed
     if (!allowContinue) {
       return (
         <div className="schemaform-intro">
@@ -52,7 +59,7 @@ class IntroductionPage extends React.Component {
 
     return (
       <div className="schemaform-intro">
-        <FormTitle title={pageTitle} />
+        <FormTitle title={`${pageTitle} with VA Form 21-526EZ`} />
         {isBDDForm ? (
           <>
             <h2 className="vads-u-font-size--h4">
@@ -87,6 +94,24 @@ class IntroductionPage extends React.Component {
         {itfNotice}
         <h2 className="vads-u-font-size--h4">{subwayTitle}</h2>
         <div className="process schemaform-process">
+          <p className="vads-u-margin-top--0">
+            if you don’t think this is the right form for you,{' '}
+            <a
+              href={
+                this.props.showWizard
+                  ? DISABILITY_526_V2_ROOT_URL
+                  : '/disability/how-to-file-claim/'
+              }
+              className="va-button-link"
+              onClick={() => {
+                sessionStorage.removeItem(WIZARD_STATUS);
+                recordEvent({ event: 'howToWizard-start-over' });
+              }}
+            >
+              go back and answer questions again
+            </a>
+            .
+          </p>
           <ol>
             <li className="process-step list-one">
               <h3 className="vads-u-font-size--h4">Prepare</h3>
@@ -115,9 +140,8 @@ class IntroductionPage extends React.Component {
               {isBDDForm ? (
                 <div className="usa-alert usa-alert-info background-color-only vads-u-margin-bottom--4">
                   <strong className="usa-alert-body">
-                    Please be aware that you will need to be available for 45
-                    days after you file in order to complete VA exams during
-                    this period.
+                    Please be aware that you’ll need to be available for 45 days
+                    after you file a BDD claim to complete a VA exam.
                   </strong>
                 </div>
               ) : (
@@ -190,11 +214,10 @@ class IntroductionPage extends React.Component {
                     the steps you can expect:
                   </h4>
                   <ul>
-                    <li>Provide your Service Member information</li>
+                    <li>Provide your service member information</li>
                     <li>Provide your military history</li>
                     <li>
-                      Describe the conditions you are submitting (a) claim(s)
-                      for
+                      Describe the conditions you’re submitting a claim for
                     </li>
                   </ul>
                   After submitting the form, you’ll get a confirmation message.
@@ -209,7 +232,7 @@ class IntroductionPage extends React.Component {
               )}
             </li>
             <li className="process-step list-three">
-              <h3 className="vads-u-font-size--h4">VA Review</h3>
+              <h3 className="vads-u-font-size--h4">VA review</h3>
               <p>
                 We process applications in the order we receive them. The amount
                 of time it takes to process your claim depends on how many
@@ -248,6 +271,7 @@ const mapStateToProps = state => ({
   formId: state.form.formId,
   user: state.user,
   allowOriginalClaim: originalClaimsFeature(state),
+  showWizard: show526Wizard(state),
   isBDDForm: isBDD(state?.form?.data),
 });
 
@@ -261,6 +285,7 @@ IntroductionPage.propTypes = {
   }).isRequired,
   user: PropTypes.shape({}),
   allowOriginalClaim: PropTypes.bool,
+  showWizard: PropTypes.bool,
   isBDDForm: PropTypes.bool,
 };
 

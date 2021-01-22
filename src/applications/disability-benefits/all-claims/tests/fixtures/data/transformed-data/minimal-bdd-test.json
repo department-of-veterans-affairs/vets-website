@@ -28,13 +28,14 @@
           }
         ],
         "separationLocation": {
-          "separationLocationCode": "Fort Hood"
+          "separationLocationCode": "98283",
+          "separationLocationName": "AF Academy"
         }
       },
       "newPrimaryDisabilities": [
         {
           "cause": "NEW",
-          "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
+          "primaryDescription": "This disability is related to my military service.",
           "condition": "asthma",
           "classificationCode": "540"
         }

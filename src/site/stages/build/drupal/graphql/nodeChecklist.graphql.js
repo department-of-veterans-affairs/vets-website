@@ -22,6 +22,28 @@ fragment nodeChecklist on NodeChecklist {
       ... alertSingle
     }
   }
+  fieldContactInformation {
+    entity {
+      entityBundle
+      ... contactInformation
+    }
+  }
+  fieldRelatedBenefitHubs {
+    entity {
+      ... on NodeLandingPage {
+        fieldHomePageHubLabel
+        fieldTeaserText
+        path {
+          alias
+        }
+        fieldSupportServices {
+          entity {
+            ... supportService
+          }
+        }
+      }
+    }
+  }
   fieldRelatedInformation {
     entity {
       ... linkTeaser
@@ -33,13 +55,28 @@ fragment nodeChecklist on NodeChecklist {
         fieldChecklistSections {
           entity {
             ... on ParagraphChecklistItem {
-              fieldSectionIntro
-              fieldSectionHeader
               fieldChecklistItems
+              fieldSectionHeader
+              fieldSectionIntro
             }
           }
         }
       }
+    }
+  }
+  fieldPrimaryCategory {
+    entity {
+      ... taxonomyTermLcCategories
+    }
+  }
+  fieldOtherCategories {
+    entity {
+      ... taxonomyTermLcCategories
+    }
+  }
+  fieldTags {
+    entity {
+      ... audienceTopics
     }
   }
 }

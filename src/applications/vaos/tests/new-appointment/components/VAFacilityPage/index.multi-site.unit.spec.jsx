@@ -220,7 +220,7 @@ describe('VAOS integration: VA facility page with a multi-site user', () => {
     });
 
     expect(
-      screen.getByLabelText(/Bozeman VA medical center/i),
+      await screen.findByLabelText(/Bozeman VA medical center/i),
     ).to.have.attribute('checked');
   });
 
@@ -612,7 +612,7 @@ describe('VAOS integration: VA facility page with a multi-site user', () => {
       /You’ve reached the limit for appointment requests at this location/i,
     );
 
-    await screen.findByText(/Cheyenne, WY/i);
+    await screen.findByText(/Cheyenne,/i);
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
     expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
     expect(screen.baseElement).to.contain.text('307-778-7550');

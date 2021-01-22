@@ -1,18 +1,26 @@
 import React from 'react';
 import { veteranPathPageNames } from '../pageList';
+import { recordNotificationEvent, fireLinkClickEvent } from '../helpers';
 
-const noHonorableDischarge = () => (
-  <div className="feature">
-    <p>
-      To apply for VR&E benefits, you must have received{' '}
-      <strong>an other than</strong>
-      dishonorable discharge.
-    </p>
-    <a href="/">How to Apply for a Discharge Upgrade</a>
-  </div>
-);
+const NoHonorableDischarge = () => {
+  recordNotificationEvent('ineligibility - received a dishonorable discharge');
+  return (
+    <div className="feature vads-u-background-color--gray-lightest">
+      <p>
+        To apply for VR&E benefits, you must have received{' '}
+        <strong>an other than</strong> dishonorable discharge.
+      </p>
+      <a
+        onClick={e => fireLinkClickEvent(e)}
+        href="/discharge-upgrade-instructions/"
+      >
+        Learn more about how to apply for a discharge upgrade
+      </a>
+    </div>
+  );
+};
 
 export default {
   name: veteranPathPageNames.noHonorableDischarge,
-  component: noHonorableDischarge,
+  component: NoHonorableDischarge,
 };

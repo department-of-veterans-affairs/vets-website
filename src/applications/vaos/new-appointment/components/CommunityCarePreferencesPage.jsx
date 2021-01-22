@@ -1,20 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import FormButtons from '../../components/FormButtons';
-import * as address from '../../utils/address';
-import { LANGUAGES } from './../../utils/constants';
-
-import {
-  openCommunityCarePreferencesPage,
-  updateFormData,
-  routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage,
-} from '../redux/actions';
-import { getFormPageInfo } from '../../utils/selectors';
+import { LANGUAGES, GA_PREFIX } from '../../utils/constants';
+import * as actions from '../redux/actions';
+import { getFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { addressSchema, getAddressUISchema } from '../fields/addressFields';
+import { useHistory } from 'react-router-dom';
+import recordEvent from 'platform/monitoring/record-event';
 
 const initialSchema = {
   type: 'object',
@@ -44,7 +40,7 @@ const initialSchema = {
         lastName: {
           type: 'string',
         },
-        address: address.schema,
+        address: addressSchema,
         phone: {
           type: 'string',
           minLength: 10,
@@ -59,7 +55,7 @@ const initialSchema = {
   },
 };
 
-const addressUISchema = address.uiSchema();
+const addressUISchema = getAddressUISchema();
 const uiSchema = {
   communityCareSystemId: {
     'ui:title': 'What’s the closest city and state to you?',
@@ -139,11 +135,10 @@ const uiSchema = {
       'ui:description': (
         <AlertBox
           status="info"
-          headline="We’ll try to schedule your appointment with your preferred community provider"
+          headline="We’ll try to schedule your appointment with your preferred provider"
         >
-          If we aren’t able to schedule this appointment with your preferred
-          provider, we’ll make every effort to schedule your appointment with
-          another community provider closest to your home.
+          If we can’t schedule this appointment with them, we’ll schedule it
+          with another provider close to your home.
         </AlertBox>
       ),
     },
@@ -153,67 +148,80 @@ const uiSchema = {
 const pageKey = 'ccPreferences';
 const pageTitle = 'Tell us your community care preferences';
 
-export class CommunityCarePreferencesPage extends React.Component {
-  componentDidMount() {
-    this.props.openCommunityCarePreferencesPage(
-      pageKey,
-      uiSchema,
-      initialSchema,
-    );
-    document.title = `${pageTitle}  | Veterans Affairs`;
+// Remove the export when the CommunityCarePreferencesPage.unit.spec.jsx is converted
+export function CommunityCarePreferencesPage({
+  schema,
+  data,
+  pageChangeInProgress,
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+  updateFormData,
+  openCommunityCarePreferencesPage,
+}) {
+  const history = useHistory();
+  useEffect(() => {
+    document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
-  }
+    openCommunityCarePreferencesPage(pageKey, uiSchema, initialSchema);
+  }, []);
+  const previousData = data;
 
-  goBack = () => {
-    this.props.routeToPreviousAppointmentPage(this.props.history, pageKey);
-  };
+  return (
+    <div>
+      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+      {!!schema && (
+        <SchemaForm
+          name="ccPreferences"
+          title="Community Care preferences"
+          schema={schema}
+          uiSchema={uiSchema}
+          onSubmit={formData => {
+            recordEvent({
+              event: `${GA_PREFIX}-community-care-preferences-continue`,
+              [`${GA_PREFIX}-has-community-care-provider`]: formData.hasCommunityCareProvider,
+            });
 
-  goForward = () => {
-    this.props.routeToNextAppointmentPage(this.props.history, pageKey);
-  };
-
-  render() {
-    const { schema, data, pageChangeInProgress } = this.props;
-
-    return (
-      <div>
-        <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-        {!!schema && (
-          <SchemaForm
-            name="ccPreferences"
-            title="Community Care preferences"
-            schema={schema}
-            uiSchema={uiSchema}
-            onSubmit={this.goForward}
-            onChange={newData =>
-              this.props.updateFormData(pageKey, uiSchema, newData)
+            return routeToNextAppointmentPage(history, pageKey);
+          }}
+          onChange={newData => {
+            if (
+              previousData.hasCommunityCareProvider !==
+              newData.hasCommunityCareProvider
+            ) {
+              recordEvent({
+                event: 'int-radio-button-option-click',
+                'radio-button-label': 'Has community care provider',
+                'radio-button-option-click-label':
+                  newData.hasCommunityCareProvider,
+              });
             }
-            data={data}
-          >
-            <FormButtons
-              onBack={this.goBack}
-              pageChangeInProgress={pageChangeInProgress}
-              loadingText="Page change in progress"
-            />
-          </SchemaForm>
-        )}
-      </div>
-    );
-  }
+
+            return updateFormData(pageKey, uiSchema, newData);
+          }}
+          data={data}
+        >
+          <FormButtons
+            onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+            pageChangeInProgress={pageChangeInProgress}
+            loadingText="Page change in progress"
+          />
+        </SchemaForm>
+      )}
+    </div>
+  );
 }
 
 function mapStateToProps(state) {
   return {
     ...getFormPageInfo(state, pageKey),
-    parentFacilitiesStatus: state.newAppointment.parentFacilitiesStatus,
   };
 }
 
 const mapDispatchToProps = {
-  openCommunityCarePreferencesPage,
-  updateFormData,
-  routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage,
+  openCommunityCarePreferencesPage: actions.openCommunityCarePreferencesPage,
+  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
+  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
+  updateFormData: actions.updateFormData,
 };
 
 export default connect(

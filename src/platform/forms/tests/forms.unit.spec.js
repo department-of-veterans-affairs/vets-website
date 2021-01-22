@@ -21,6 +21,7 @@ const missingFromVetsJsonSchema = [
 const root = path.join(__dirname, '../../../');
 
 const formConfigKeys = [
+  'rootUrl',
   'formId',
   'version',
   'migrations',
@@ -49,11 +50,9 @@ const formConfigKeys = [
   'formSavedPage',
   'additionalRoutes',
   'submitErrorText',
-  'authorize',
-  'getAuthorizationState',
-  'authorizationMessage',
   'customText',
   'submissionError',
+  'saveInProgress',
 ];
 
 const validProperty = (
@@ -231,21 +230,23 @@ const validAdditionalRoutes = ({ additionalRoutes }) => {
   }
 };
 
-const validAuthorization = formConfig => {
-  validFunctionProperty(formConfig, 'authorize', false);
-  const { authorize } = formConfig;
-  if (authorize) {
-    validFunctionProperty(formConfig, 'authorizationMessage');
-    validFunctionProperty(formConfig, 'getAuthorizationState');
-  }
-};
-
 const validCustomText = ({ customText }) => {
   validObjectProperty({ customText }, 'customText', false);
   if (customText) {
     expect(
       Object.values(customText).every(value => typeof value === 'string'),
     ).to.equal(true, 'customText has a property value that is not a string');
+  }
+};
+
+const validSaveInProgressConfig = formConfig => {
+  // TODO: Change this to not _require_ saveInProgress
+  validObjectProperty(formConfig, 'saveInProgress');
+  const messages = formConfig.saveInProgress?.messages;
+  if (messages) {
+    validStringProperty(messages, 'inProgress', false);
+    validStringProperty(messages, 'expired', false);
+    validStringProperty(messages, 'saved', false);
   }
 };
 
@@ -264,6 +265,7 @@ describe('form:', () => {
         import(configFilePath).then(({ default: formConfig }) => {
           validFormConfigKeys(formConfig);
           validFormId(formConfig);
+          validStringProperty(formConfig, 'rootUrl', true);
           validNumberProperty(formConfig, 'version');
           validMigrations(formConfig);
           validObjectProperty(formConfig, 'chapters');
@@ -289,9 +291,9 @@ describe('form:', () => {
           validFunctionProperty(formConfig, 'onFormLoaded', false);
           validFunctionProperty(formConfig, 'formSavedPage', false);
           validAdditionalRoutes(formConfig);
-          validAuthorization(formConfig);
           validCustomText(formConfig);
           validFunctionProperty(formConfig, 'submissionError', false);
+          validSaveInProgressConfig(formConfig);
           // This return true is needed for the to.eventually.be.ok a few lines down
           // If any of the expects in the above functions fail,
           // the test for the configFilePath fails as expected

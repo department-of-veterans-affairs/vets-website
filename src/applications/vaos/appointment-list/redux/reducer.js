@@ -5,6 +5,7 @@ import {
   FETCH_FUTURE_APPOINTMENTS,
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
   FETCH_FUTURE_APPOINTMENTS_FAILED,
+  FETCH_PENDING_APPOINTMENTS,
   FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
   FETCH_PENDING_APPOINTMENTS_FAILED,
   FETCH_PAST_APPOINTMENTS,
@@ -32,13 +33,19 @@ import {
   FETCH_STATUS,
   APPOINTMENT_STATUS,
   EXPRESS_CARE,
-  WEEKDAY_INDEXES,
 } from '../../utils/constants';
 import { distanceBetween } from '../../utils/address';
-import {
-  getFacilityIdFromLocation,
-  getTestFacilityId,
-} from '../../services/location';
+import { getFacilityIdFromLocation } from '../../services/location';
+
+const WEEKDAY_INDEXES = {
+  SUNDAY: 0,
+  MONDAY: 1,
+  TUESDAY: 2,
+  WEDNESDAY: 3,
+  THURSDAY: 4,
+  FRIDAY: 5,
+  SATURDAY: 6,
+};
 
 const initialState = {
   pending: null,
@@ -78,6 +85,11 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         confirmedStatus: FETCH_STATUS.failed,
         confirmed: null,
+      };
+    case FETCH_PENDING_APPOINTMENTS:
+      return {
+        ...state,
+        pendingStatus: FETCH_STATUS.loading,
       };
     case FETCH_PENDING_APPOINTMENTS_SUCCEEDED: {
       return {
@@ -180,10 +192,7 @@ export default function appointmentsReducer(state = initialState, action) {
       if (address && facilityData) {
         const facilityMap = new Map();
         facilityData.forEach(facility => {
-          facilityMap.set(
-            getTestFacilityId(getFacilityIdFromLocation(facility)),
-            facility,
-          );
+          facilityMap.set(getFacilityIdFromLocation(facility), facility);
         });
 
         expressCareFacilities.sort((facility1, facility2) => {
@@ -283,7 +292,6 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         showCancelModal: false,
         appointmentToCancel: null,
-        cancelAppointmentStatus: FETCH_STATUS.notStarted,
       };
     case EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED:
       return {

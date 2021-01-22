@@ -19,7 +19,6 @@
   }
 }
 
-
 /* Global */
 .nowrap {
   white-space: nowrap;
@@ -45,19 +44,6 @@
   p {
     margin: 0.5em 0;
   }
-
-  .masked-number {
-    position: relative;
-    display: inline-block;
-    width: 0.6em;
-
-    &:after {
-      content: "\2022";
-      font-size: 2em;
-      position: absolute;
-      top: -0.95em;
-    }
-  }
 }
 
 /* Step 2 */
@@ -72,48 +58,83 @@
 /* Contested issue cards (contested issue page & review/submit page)
  * This could go in the schemaform css, it's used in form 526 & HLR
  */
-.widget-outline {
-  padding: 0;
-  border: solid 4px $color-primary-alt-light;
-  border-radius: 7px;
-  margin-top: 0.5em;
+dl.review {
+  .widget-wrapper {
+    position: relative;
 
-  &.selected {
-    border-color: $color-primary;
+    h4 {
+      margin-top: 0;
+    }
   }
 
-  &:last-child {
-    margin-bottom: 1em;
+  .widget-outline {
+    background: transparent;
+    border: solid 4px $color-primary-alt-light;
+    border-radius: 7px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    max-width: unset;
+
+    &.selected {
+      border-color: $color-primary;
+    }
+
+    &::before {
+      position: absolute;
+      margin-left: 1.5rem;
+      margin-top: 1.5rem;
+    }
   }
 
-  /* long descriptions cause the content to shift down, using flex to fix it */
-  .widget-content {
-    display: flex;
-    flex-direction: column;
-    padding: 1em;
+  dt.widget-checkbox-wrap {
+    margin: 0;
+    width: 0;
+    min-width: unset;
+
+    [type="checkbox"] {
+      width: 1.8rem;
+      height: 1.8rem;
+      margin: 0;
+    }
   }
 
-  h4 {
-    margin-top: 0;
+  .widget-title {
+    margin: 1.5rem 2rem 0 5rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: calc(100% - 7rem);
   }
 
-  input[type="checkbox"] + label {
-    // The former margin was to separate the checkbox from the elements above
-    // it, but now that we have the outline, we need to move the whitespace to
-    // the outside of the border.
-    margin-top: 0em;
-    margin-bottom: 0em;
-    padding: 1em;
+  dd.widget-content {
+    margin-inline-start: 0; /* override user agent */
+    text-align: unset;
+    margin: 3rem 2rem 0 5rem;
+  }
 
-    // Eliminate unnecessary margin inside the label component
-    > div *:last-child {
-      margin-bottom: 0em;
+  .checkbox-hidden {
+    dt.widget-checkbox-wrap {
+      width: 0;
+    }
+
+    .widget-title {
+      margin-left: 0;
+      width: 100%;
+      overflow: visible;
+      white-space: normal;
     }
 
     .widget-content {
-      padding: 0;
+      margin: 2rem 0 0 2rem;
     }
   }
+}
+
+.eligible-issues-error h3 {
+  font-size: 1.7rem /* vads-u-font-size--md */
 }
 
 /* Contested issue page specific definitions */
@@ -142,65 +163,40 @@ article[data-location="contested-issues"] {
   p {
     margin-top: 0;
   }
+
   .schemaform-required-span {
     display: none;
   }
 }
+
 .schemaform-block-header > p + p {
-  margin-top: 1em;
+  margin-top: 1rem;
 }
+
 /* page specific */
-article[data-location="request-informal-conference"] {
-  .schemaform-block-header {
-    margin-bottom: 1.5em;
+article[data-contact-choice] .contact-choice {
+  display: none;
+}
+
+article[data-contact-choice="rep"] .contact-choice.selected-rep,
+article[data-contact-choice="me"] .contact-choice.selected-me {
+  display: inline-block;
+}
+
+article[data-location="informal-conference/representative-information"] {
+  .schemaform-field-container {
+    margin-top: 0;
   }
+}
 
-  .form-expanding-group-open {
-    .schemaform-field-template,
-    .schemaform-field-container {
-      margin-top: 1em;
-    }
-  }
-
-  /* Remove extra spacing between form elements */
-  .form-expanding-group {
-    .schemaform-first-field,
-    .usa-input-error {
-      margin-top: 0;
-    }
-
-    .schemaform-block-header {
-      margin-bottom: 0;
-    }
-  }
-
-  .schemaform-label.usa-input-error-label {
-    font-weight: bold;
-  }
-
-  .form-checkbox label {
-    margin-top: 1em;
+article[data-location="informal-conference/availability"] {
+  #root_informalConferenceTimes_time2-label {
+    margin-top: 2rem;
   }
 }
 
 /* Step 4 Review Application */
 article[data-location="review-and-submit"] {
-  /* reduce huge gaps where text should be rendered */
-  .schemaform-field-template {
-    margin-top: 0;
-  }
-
-  /* tweak second entry */
-  .scheduled-time + .scheduled-time {
-    padding-top: 0;
-    margin-top: -0.5rem;
-    border-top-width: 0;
-
-    /* hide duplicate label */
-    .time-contact {
-      display: none;
-    }
-  }
   .normal-weight-in-review {
     font-weight: normal;
   }
@@ -212,16 +208,27 @@ article[data-location="review-and-submit"] {
     .review-row {
       display: flex;
       flex-direction: column;
-      padding: 1.5rem;
-      padding-left: 0;
+      padding: 1rem;
     }
+
     .review-row > dd {
       padding-left: 0;
       text-align: left;
     }
+
     .review-row > dt > p {
       margin-top: 0;
       margin-bottom: 0;
+    }
+
+    dd.widget-content {
+      margin: 2.5rem 0 0 1rem;
+    }
+
+    .checkbox-hidden {
+      .widget-content {
+        margin: 0 0 0 1rem;
+      }
     }
   }
 }
@@ -231,8 +238,10 @@ article[data-location="confirmation"] {
   h1[tabindex="-1"] {
     outline: none;
   }
+
   @media print {
-    .confirmation-page-title, a {
+    .confirmation-page-title,
+    a {
       text-align: left;
       padding-left: 0;
     }
@@ -243,6 +252,7 @@ article[data-location="confirmation"] {
   .usa-width-two-thirds {
     width: 100%;
   }
+
   .schemaform-title,
   .schemaform-subtitle {
     display: none;

@@ -3,13 +3,15 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 import { shallow } from 'enzyme';
+import { Provider } from 'react-redux';
 
+import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import {
   DefinitionTester,
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 
-import FileField from '../../../src/js/fields/FileField';
+import { FileField } from '../../../src/js/fields/FileField';
 import fileUploadUI, { fileSchema } from '../../../src/js/definitions/file';
 
 const formContext = {
@@ -94,6 +96,66 @@ describe('Schemaform <FileField>', () => {
     );
 
     expect(tree.find('li').text()).to.contain('Test file name');
+    tree.unmount();
+  });
+
+  it('should remove files with empty file object when initializing', () => {
+    const idSchema = {
+      $id: 'field',
+    };
+    const schema = {
+      additionalItems: {},
+      items: [
+        {
+          properties: {},
+        },
+      ],
+    };
+    const uiSchema = fileUploadUI('Files');
+    const formData = [
+      {
+        confirmationCode: 'asdfds',
+        name: 'Test1',
+      },
+      {
+        file: {},
+        name: 'Test2',
+      },
+      {
+        file: {
+          name: 'fake', // should never happen
+        },
+        name: 'Test3',
+      },
+      {
+        file: new File([1, 2, 3], 'Test3'),
+        name: 'Test4',
+      },
+    ];
+    const registry = {
+      fields: {
+        SchemaField: f => f,
+      },
+    };
+    const onChange = sinon.spy();
+    const tree = shallow(
+      <FileField
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        formData={formData}
+        formContext={formContext}
+        onChange={onChange}
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    expect(onChange.calledOnce).to.be.true;
+    expect(onChange.firstCall.args[0].length).to.equal(3);
+    // empty file object was removed;
+    expect(onChange.firstCall.args[0][1].name).to.equal('Test3');
+
     tree.unmount();
   });
 
@@ -365,19 +427,21 @@ describe('Schemaform <FileField>', () => {
       },
     };
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{
-          fileField: [
-            {
-              confirmationCode: 'asdfasfd',
-            },
-          ],
-        }}
-        uiSchema={{
-          fileField: uiSchema,
-        }}
-      />,
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          schema={schema}
+          data={{
+            fileField: [
+              {
+                confirmationCode: 'asdfasfd',
+              },
+            ],
+          }}
+          uiSchema={{
+            fileField: uiSchema,
+          }}
+        />
+      </Provider>,
     );
     const formDOM = getFormDOM(form);
 
@@ -388,7 +452,7 @@ describe('Schemaform <FileField>', () => {
     expect(formDOM.querySelectorAll('li')).to.be.empty;
   });
 
-  it('should upload file', () => {
+  it('should upload png file', () => {
     const uiSchema = fileUploadUI('Files');
     const schema = {
       type: 'object',
@@ -398,27 +462,110 @@ describe('Schemaform <FileField>', () => {
     };
     const uploadFile = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{
-          fileField: [],
-        }}
-        uploadFile={uploadFile}
-        uiSchema={{
-          fileField: uiSchema,
-        }}
-      />,
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          schema={schema}
+          data={{
+            fileField: [],
+          }}
+          uploadFile={uploadFile}
+          uiSchema={{
+            fileField: uiSchema,
+          }}
+        />
+      </Provider>,
     );
     const formDOM = getFormDOM(form);
 
-    formDOM.files('input[type=file]', [{}]);
+    formDOM.files('input[type=file]', [{ name: 'test.png' }]);
 
-    expect(uploadFile.firstCall.args[0]).to.eql({});
+    expect(uploadFile.firstCall.args[0]).to.eql({ name: 'test.png' });
     expect(uploadFile.firstCall.args[1]).to.eql(uiSchema['ui:options']);
     expect(uploadFile.firstCall.args[2]).to.be.a('function');
     expect(uploadFile.firstCall.args[3]).to.be.a('function');
     expect(uploadFile.firstCall.args[4]).to.be.a('function');
   });
+
+  it('should upload unencrypted pdf file', done => {
+    const uiSchema = fileUploadUI('Files');
+    const schema = {
+      type: 'object',
+      properties: {
+        fileField: fileSchema,
+      },
+    };
+    const uploadFile = sinon.spy();
+    const isFileEncrypted = () => Promise.resolve(false);
+    const uiOptions = {
+      ...uiSchema['ui:options'],
+      isFileEncrypted,
+    };
+    const fileField = {
+      ...uiSchema,
+      'ui:options': uiOptions,
+    };
+
+    const form = ReactTestUtils.renderIntoDocument(
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          schema={schema}
+          data={{ fileField: [] }}
+          uploadFile={uploadFile}
+          uiSchema={{ fileField }}
+        />
+      </Provider>,
+    );
+    const formDOM = getFormDOM(form);
+
+    formDOM.files('input[type=file]', [{ name: 'test.pdf' }]);
+
+    setTimeout(() => {
+      expect(uploadFile.firstCall.args[0]).to.eql({ name: 'test.pdf' });
+      expect(uploadFile.firstCall.args[1]).to.eql(uiOptions);
+      expect(uploadFile.firstCall.args[2]).to.be.a('function');
+      expect(uploadFile.firstCall.args[3]).to.be.a('function');
+      expect(uploadFile.firstCall.args[4]).to.be.a('function');
+      done();
+    });
+  });
+  it('should not call uploadFile when initially adding an encrypted PDF', done => {
+    const uiSchema = fileUploadUI('Files');
+    const schema = {
+      type: 'object',
+      properties: {
+        fileField: fileSchema,
+      },
+    };
+    const uploadFile = sinon.spy();
+    const isFileEncrypted = () => Promise.resolve(true);
+    const fileField = {
+      ...uiSchema,
+      'ui:options': {
+        ...uiSchema['ui:options'],
+        isFileEncrypted,
+      },
+    };
+
+    const form = ReactTestUtils.renderIntoDocument(
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          schema={schema}
+          data={{ fileField: [] }}
+          uploadFile={uploadFile}
+          uiSchema={{ fileField }}
+        />
+      </Provider>,
+    );
+    const formDOM = getFormDOM(form);
+
+    formDOM.files('input[type=file]', [{ name: 'test-pw.pdf' }]);
+
+    setTimeout(() => {
+      expect(uploadFile.notCalled).to.be.true;
+      done();
+    });
+  });
+
   it('should render file with attachment type', () => {
     const idSchema = {
       $id: 'field',
@@ -447,7 +594,7 @@ describe('Schemaform <FileField>', () => {
     const formData = [
       {
         confirmationCode: 'asdfds',
-        name: 'Test file name',
+        name: 'Test file name.pdf',
       },
     ];
     const registry = {
@@ -468,7 +615,7 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(tree.find('li').text()).to.contain('Test file name');
+    expect(tree.find('li').text()).to.contain('Test file name.pdf');
     expect(tree.find('SchemaField').prop('schema')).to.equal(
       schema.items[0].properties.attachmentId,
     );

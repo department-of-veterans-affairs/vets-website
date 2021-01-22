@@ -95,7 +95,7 @@
         },
         "treatedDisabilityNames": {
           "Diabetes mellitus0": true,
-          "De-selected": true,
+          "De-selected": false,
           "knee replacement": true
         }
       }
@@ -137,7 +137,6 @@
         "view:descriptionInfo": {}
       }
     ],
-    "view:newDisabilities": true,
     "ratedDisabilities": [
       {
         "name": "Diabetes mellitus0",

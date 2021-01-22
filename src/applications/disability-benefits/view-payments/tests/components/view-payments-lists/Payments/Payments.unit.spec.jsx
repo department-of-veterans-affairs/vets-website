@@ -29,13 +29,14 @@ describe('<Payments />', () => {
     const mockEmptyPayments = [];
     const screen = render(
       <Payments
+        tableVersion="received"
         fields={paymentsReceivedFields}
         data={mockEmptyPayments}
         textContent={paymentsReceivedContent}
       />,
     );
 
-    expect(await screen.findByText(/No Received payments/)).to.exist;
+    expect(await screen.findByText(/No received payments/)).to.exist;
   });
 
   it('should update the display numbers when paginating', async () => {
@@ -47,8 +48,8 @@ describe('<Payments />', () => {
       />,
     );
     fireEvent.click(screen.getByText('Next'));
-    await waitFor(() => expect(screen.getByText(/Displaying 6 - 9 of 9/)));
+    await waitFor(() => expect(screen.getByText(/Displaying 7 - 9 of 9/)));
     fireEvent.click(screen.getByText('Prev'));
-    await waitFor(() => expect(screen.getByText(/Displaying 1 - 5 of 9/)));
+    await waitFor(() => expect(screen.getByText(/Displaying 1 - 6 of 9/)));
   });
 });

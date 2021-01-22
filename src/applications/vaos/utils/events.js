@@ -1,4 +1,5 @@
 import recordEvent from 'platform/monitoring/record-event';
+import { GA_PREFIX } from './constants';
 
 export function recordVaosError(errorKey) {
   recordEvent({
@@ -6,7 +7,6 @@ export function recordVaosError(errorKey) {
     'error-key': errorKey,
   });
 }
-
 export function recordEligibilityFailure(
   errorKey,
   typeOfCare = null,
@@ -28,9 +28,19 @@ export function resetDataLayer() {
     'error-key': undefined,
     appointmentType: undefined,
     facilityType: undefined,
-    'vaos-express-care-number-of-cards': undefined,
-    'vaos-upcoming-number-of-cards': undefined,
     'tab-text': undefined,
     alertBoxHeading: undefined,
+    'vaos-item-type': undefined,
+    'vaos-number-of-items': undefined,
+    'vaos-number-of-preferred-providers': undefined,
   });
+}
+
+export function recordItemsRetrieved(type, count) {
+  recordEvent({
+    event: `${GA_PREFIX}-number-of-items-retrieved`,
+    [`${GA_PREFIX}-item-type`]: type,
+    [`${GA_PREFIX}-number-of-items`]: count || 0,
+  });
+  resetDataLayer();
 }

@@ -51,11 +51,10 @@ function LandingPageTypeOfInstitutionFilter({
       additional: vetTecLogo,
     });
   }
-
   return (
     <div className="type-of-institution-filter">
       <RadioButtons
-        label="Type of institution"
+        label="Select an institution"
         name="category"
         options={options}
         value={category}

@@ -7,8 +7,9 @@ const {
   getWysiwygString,
   unescapeUnicode,
   createMetaTagArray,
-  usePartialSchema,
+  partialSchema,
   findMatchingEntities,
+  entityObjectForKey,
 } = require('../transformers/helpers');
 
 describe('CMS export transformer helpers', () => {
@@ -231,27 +232,27 @@ describe('CMS export transformer helpers', () => {
     });
   });
 
-  describe('usePartialSchema', () => {
+  describe('partialSchema', () => {
     it('Should throw an error when a non-object schema is passed', () => {
-      expect(() => usePartialSchema({ type: 'array' })).to.throw();
-      expect(() => usePartialSchema(['invalid schema'])).to.throw();
+      expect(() => partialSchema({ type: 'array' })).to.throw();
+      expect(() => partialSchema(['invalid schema'])).to.throw();
     });
 
     it('Should throw an error when properties is not an array', () => {
       expect(() =>
-        usePartialSchema({ type: 'object' }, { foo: 'invalid properties' }),
+        partialSchema({ type: 'object' }, { foo: 'invalid properties' }),
       ).to.throw();
     });
 
     it('Should throw an error when properties contains non-strings', () => {
       expect(() =>
-        usePartialSchema({ type: 'object' }, [{ invalid: 'prop name' }]),
+        partialSchema({ type: 'object' }, [{ invalid: 'prop name' }]),
       ).to.throw();
     });
 
     it('Should throw an error when a property specified is missing from the schema', () => {
       expect(() =>
-        usePartialSchema(
+        partialSchema(
           { type: 'object', properties: { stuff: { type: 'string' } } },
           ['thingy'],
         ),
@@ -266,7 +267,7 @@ describe('CMS export transformer helpers', () => {
           foo: { type: 'string' },
         },
       };
-      expect(usePartialSchema(schema, ['foo'])).to.deep.equal({
+      expect(partialSchema(schema, ['foo'])).to.deep.equal({
         type: 'object',
         properties: {
           foo: { type: 'string' },
@@ -283,7 +284,7 @@ describe('CMS export transformer helpers', () => {
           var: { type: 'string' },
         },
       };
-      expect(usePartialSchema(schema, ['foo'])).to.deep.equal({
+      expect(partialSchema(schema, ['foo'])).to.deep.equal({
         type: 'object',
         properties: {
           foo: { type: 'string' },
@@ -301,7 +302,7 @@ describe('CMS export transformer helpers', () => {
         },
         required: ['foo', 'bar'],
       };
-      expect(usePartialSchema(schema, ['foo'])).to.deep.equal({
+      expect(partialSchema(schema, ['foo'])).to.deep.equal({
         type: 'object',
         properties: {
           foo: { type: 'string' },
@@ -375,6 +376,25 @@ describe('CMS export transformer helpers', () => {
         filter: e => e.field_keep_me,
       });
       expect(spy.calledOnce).to.be.true;
+    });
+  });
+
+  describe('entityObjectForKey', () => {
+    it('Returns an object with a single key "entity" and value entity[key][0]', () => {
+      const testEntity = {
+        foo: [{ bar: 1 }],
+      };
+      expect(entityObjectForKey(testEntity, 'foo')).to.deep.equal({
+        entity: { bar: 1 },
+      });
+    });
+
+    it('Returns null if entity is null', () => {
+      expect(entityObjectForKey(null, 'foo')).to.be.null;
+    });
+
+    it('Returns null if entity[key] is null', () => {
+      expect(entityObjectForKey({}, 'foo')).to.be.null;
     });
   });
 });

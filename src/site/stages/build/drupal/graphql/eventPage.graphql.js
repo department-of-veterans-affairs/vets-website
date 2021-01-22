@@ -39,6 +39,13 @@ module.exports = `
         endDate
         endValue
     }
+    fieldDatetimeRangeTimezone {
+      value
+      startTime
+      endValue
+      endTime
+      timezone
+    }    
     fieldAddress {
       addressLine1
       addressLine2

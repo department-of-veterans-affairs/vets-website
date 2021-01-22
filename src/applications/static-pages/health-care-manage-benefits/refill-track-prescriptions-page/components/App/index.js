@@ -2,23 +2,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { isEmpty } from 'lodash';
 // Relative imports.
 import AuthContent from '../AuthContent';
 import LegacyContent from '../LegacyContent';
 import UnauthContent from '../UnauthContent';
 import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
-import { selectIsCernerPatient } from 'platform/user/selectors';
+import { selectPatientFacilities } from 'platform/user/selectors';
+import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 
 export const App = ({
-  isCernerPatient,
+  facilities,
   showNewRefillTrackPrescriptionsPage,
+  authenticatedWithSSOe,
 }) => {
   if (!showNewRefillTrackPrescriptionsPage) {
     return <LegacyContent />;
   }
 
-  if (isCernerPatient) {
-    return <AuthContent />;
+  const cernerFacilities = facilities?.filter(f => f.usesCernerRx);
+  const otherFacilities = facilities?.filter(f => !f.usesCernerRx);
+  if (!isEmpty(cernerFacilities)) {
+    return (
+      <AuthContent
+        cernerFacilities={cernerFacilities}
+        otherFacilities={otherFacilities}
+        authenticatedWithSSOe={authenticatedWithSSOe}
+      />
+    );
   }
 
   return <UnauthContent />;
@@ -26,12 +37,24 @@ export const App = ({
 
 App.propTypes = {
   // From mapStateToProps.
-  isCernerPatient: PropTypes.bool,
-  showNewRefillTrackPrescriptionsPage: PropTypes.bool.isRequired,
+  authenticatedWithSSOe: PropTypes.bool,
+  facilities: PropTypes.arrayOf(
+    PropTypes.shape({
+      facilityId: PropTypes.string.isRequired,
+      isCerner: PropTypes.bool.isRequired,
+      usesCernerAppointments: PropTypes.bool,
+      usesCernerMedicalRecords: PropTypes.bool,
+      usesCernerMessaging: PropTypes.bool,
+      usesCernerRx: PropTypes.bool,
+      usesCernerTestResults: PropTypes.bool,
+    }).isRequired,
+  ),
+  showNewRefillTrackPrescriptionsPage: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
-  isCernerPatient: selectIsCernerPatient(state),
+  facilities: selectPatientFacilities(state),
+  authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
   showNewRefillTrackPrescriptionsPage:
     state?.featureToggles?.[
       featureFlagNames.showNewRefillTrackPrescriptionsPage

@@ -11,6 +11,13 @@ import CustomReviewDOBField from '../containers/CustomReviewDOBField';
 import CustomReviewRadio from '../containers/customReviewRadio';
 import CustomReviewYesNo from '../containers/customReviewYesNo';
 
+const conditionalValidateBooleanGroup = (errors, pageData) => {
+  const { diagnosed, DIAGNOSED_DETAILS } = pageData;
+  if (diagnosed) {
+    validateBooleanGroup(errors.DIAGNOSED_DETAILS, DIAGNOSED_DETAILS);
+  }
+};
+
 export const uiSchema = {
   descriptionText: {
     'view:descriptionText': {
@@ -52,6 +59,7 @@ export const uiSchema = {
         'schemaform-block-title schemaform-block-subtitle vads-u-margin-top--3 vads-u-font-size--h2',
     },
   },
+  'ui:validations': [conditionalValidateBooleanGroup],
   diagnosed: {
     'ui:title': (
       <span>
@@ -62,6 +70,36 @@ export const uiSchema = {
     'ui:widget': 'yesNo',
     'ui:options': {
       classNames: '',
+    },
+  },
+  DIAGNOSED_DETAILS: {
+    'ui:options': {
+      showFieldLabel: true,
+      expandUnder: 'diagnosed',
+    },
+    'ui:title': (
+      <span>
+        <strong>How were you diagnosed?</strong>
+        <br />
+        (Please check all that apply.)
+        <br />
+      </span>
+    ),
+    'DIAGNOSED_DETAILS::SYMPTOMS_ONLY': {
+      'ui:title': 'Based on my symptoms',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_DETAILS::ANTIBODY_BLOOD_TEST': {
+      'ui:title': 'With a positive antibody blood test',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_DETAILS::NASAL_SWAB_TEST_POSITIVE': {
+      'ui:title': 'With a positive nasal swab test',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_DETAILS::DIFFERENT_METHOD': {
+      'ui:title': 'With a different method',
+      'ui:reviewField': CustomReviewField,
     },
   },
   closeContactPositive: {

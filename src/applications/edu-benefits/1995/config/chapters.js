@@ -14,7 +14,7 @@ import {
 
 export const chapters = {
   applicantInformation: {
-    title: 'Applicant Information',
+    title: 'Applicant information',
     pages: {
       applicantInformation: createApplicantInformationPage(fullSchema1995, {
         isVeteran: true,
@@ -29,7 +29,7 @@ export const chapters = {
     },
   },
   benefitSelection: {
-    title: 'Education Benefit',
+    title: 'Education benefit',
     pages: {
       benefitSelection: {
         title: 'Education benefit selection',
@@ -40,7 +40,7 @@ export const chapters = {
     },
   },
   militaryService: {
-    title: 'Military History',
+    title: 'Service history',
     pages: {
       servicePeriods: {
         path: 'military/service',
@@ -57,7 +57,7 @@ export const chapters = {
     },
   },
   schoolSelection: {
-    title: 'School Selection',
+    title: 'School selection',
     pages: {
       newSchool: {
         path: 'school-selection/new-school',
@@ -73,7 +73,7 @@ export const chapters = {
     },
   },
   personalInformation: {
-    title: 'Personal Information',
+    title: 'Personal information',
     pages: {
       contactInformation: createContactInformationPage(fullSchema1995),
       dependents: {

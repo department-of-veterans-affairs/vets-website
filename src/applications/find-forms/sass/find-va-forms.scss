@@ -1,5 +1,23 @@
-.find-va-forms-table {
-  th {
-    min-width: 120px;
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+[data-widget-type="find-va-forms"] {
+  .vads-l-grid-container--full {
+    border-bottom: 1px solid $color-gray-lighter;
+    margin-bottom: 0;
+  }
+
+  .find-va-froms-pagination-override {
+    border: none;
+  }
+}
+
+.find-forms-search-metadata {
+  div {
+    align-items: center;
+    display: flex;
+    label {
+      margin-top: 0;
+      width: 75px;
+    }
   }
 }

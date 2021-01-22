@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import get from 'platform/utilities/data/get';
 import {
   countries,
@@ -81,17 +80,10 @@ const USA = {
 };
 
 const MilitaryBaseInfo = () => (
-  <div className="vads-u-padding-x--2p5">
-    <AdditionalInfo
-      status="info"
-      triggerText="Learn more about military base addresses"
-    >
-      <span>
-        The United States is automatically chosen as your country if you live on
-        a military base outside of the country.
-      </span>
-    </AdditionalInfo>
-  </div>
+  <p className="vads-u-margin-top--3">
+    U.S. military bases are considered a domestic address and a part of the
+    United States.
+  </p>
 );
 
 /**
@@ -129,6 +121,9 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
   return {
     isMilitary: {
       'ui:title': checkBoxTitle,
+      'ui:options': {
+        hideEmptyValueInReview: true,
+      },
     },
     'view:militaryBaseDescription': {
       'ui:description': MilitaryBaseInfo,
@@ -144,7 +139,7 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
         updateSchema: (formData, schema, uiSchema, index) => {
           const formDataPath = getPath(path, index);
           const countryUI = uiSchema;
-          const addressFormData = get(formDataPath, formData);
+          const addressFormData = get(formDataPath, formData) ?? {};
           const { isMilitary } = addressFormData;
           // if isMilitary === true, auto select United States and disable the field
           if (isMilitary) {
@@ -176,9 +171,15 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
     },
     street2: {
       'ui:title': 'Line 2',
+      'ui:options': {
+        hideEmptyValueInReview: true,
+      },
     },
     street3: {
       'ui:title': 'Line 3',
+      'ui:options': {
+        hideEmptyValueInReview: true,
+      },
     },
     city: {
       'ui:required': uiRequiredCallback,
@@ -195,7 +196,7 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
          */
         replaceSchema: (formData, schema, uiSchema, index) => {
           const formDataPath = getPath(path, index);
-          const { isMilitary } = get(formDataPath, formData);
+          const { isMilitary } = get(formDataPath, formData) ?? {};
           if (isMilitary) {
             return {
               type: 'string',
@@ -218,7 +219,7 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
       'ui:required': (formData, index) => {
         // Only required if the country is the United States;
         const formDataPath = getPath(path, index);
-        const { country } = get(formDataPath, formData);
+        const { country } = get(formDataPath, formData) ?? {};
         return country && country === USA.value;
       },
       'ui:errorMessages': {
@@ -238,7 +239,7 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
          */
         replaceSchema: (formData, schema, uiSchema, index) => {
           const formDataPath = getPath(path, index);
-          const { country, isMilitary } = get(formDataPath, formData);
+          const { country, isMilitary } = get(formDataPath, formData) ?? {};
           if (isMilitary) {
             return {
               type: 'string',
@@ -264,7 +265,7 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
     },
     postalCode: {
       'ui:required': uiRequiredCallback,
-      'ui:title': 'Postal Code',
+      'ui:title': 'Postal code',
       'ui:errorMessages': {
         required: 'Postal code is required',
         pattern: 'Please enter a valid US zip code',
@@ -273,7 +274,7 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
         widgetClassNames: 'usa-input-medium',
         replaceSchema: (formData, schema, uiSchema, index) => {
           const formDataPath = getPath(path, index);
-          const { country, isMilitary } = get(formDataPath, formData);
+          const { country, isMilitary } = get(formDataPath, formData) ?? {};
           if (isMilitary || country === 'USA') {
             return {
               type: 'string',

@@ -3,7 +3,9 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
+import { Provider } from 'react-redux';
 
+import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import { AdditionalEvidencePage } from '../../containers/AdditionalEvidencePage';
 
 const params = { id: 1 };
@@ -103,7 +105,7 @@ describe('<AdditionalEvidencePage>', () => {
         submitFiles={onSubmit}
       />,
     );
-    tree.subTree('AddFilesForm').props.onSubmit();
+    tree.subTree('Connect(AddFilesForm)').props.onSubmit();
     expect(onSubmit.calledWith(1, null, files)).to.be.true;
   });
   it('should reset uploads and set title on mount', () => {
@@ -116,13 +118,15 @@ describe('<AdditionalEvidencePage>', () => {
     mainDiv.classList.add('va-nav-breadcrumbs');
     document.body.appendChild(mainDiv);
     ReactTestUtils.renderIntoDocument(
-      <AdditionalEvidencePage
-        params={params}
-        claim={claim}
-        files={[]}
-        uploadField={{ value: null, dirty: false }}
-        resetUploads={resetUploads}
-      />,
+      <Provider store={uploadStore}>
+        <AdditionalEvidencePage
+          params={params}
+          claim={claim}
+          files={[]}
+          uploadField={{ value: null, dirty: false }}
+          resetUploads={resetUploads}
+        />
+      </Provider>,
     );
 
     expect(document.title).to.equal('Additional Evidence');

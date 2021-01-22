@@ -27,7 +27,7 @@ describe('feedback tool applicant info', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(4);
+    expect(form.find('input').length).to.equal(3);
     expect(form.find('select').length).to.equal(3);
     form.unmount();
   });
@@ -44,7 +44,7 @@ describe('feedback tool applicant info', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(4);
+    expect(form.find('input').length).to.equal(3);
     expect(form.find('select').length).to.equal(2);
     form.unmount();
   });
@@ -64,7 +64,7 @@ describe('feedback tool applicant info', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(4);
+    expect(form.find('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -84,7 +84,7 @@ describe('feedback tool applicant info', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(3);
+    expect(form.find('.usa-input-error').length).to.equal(2);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -109,7 +109,6 @@ describe('feedback tool applicant info', () => {
     });
     fillData(form, 'input#root_fullName_first', 'test');
     fillData(form, 'input#root_fullName_last', 'test');
-    fillData(form, 'input#root_socialSecurityNumberLastFour', '1234');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
@@ -132,7 +131,6 @@ describe('feedback tool applicant info', () => {
 
     fillData(form, 'input#root_fullName_first', 'test');
     fillData(form, 'input#root_fullName_last', 'test');
-    fillData(form, 'input#root_socialSecurityNumberLastFour', '1234');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

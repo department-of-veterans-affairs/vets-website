@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 const CallToAction = ({ cta }) => {
   const { description, link, text, gaTag, isEbenefitUrl } = cta;

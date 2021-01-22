@@ -45,13 +45,16 @@ describe('VAOS <TypeOfEyeCarePage>', () => {
       },
     );
 
-    expect(screen.getAllByRole('radio').length).to.equal(2);
+    expect((await screen.findAllByRole('radio')).length).to.equal(2);
     fireEvent.click(screen.getByText(/Continue/));
 
     expect(await screen.findByText('Please provide a response')).to.exist;
     expect(screen.history.push.called).to.not.be.true;
 
     fireEvent.click(await screen.findByLabelText(/ophthalmology/i));
+    await waitFor(() => {
+      expect(screen.getByLabelText(/ophthalmology/i).checked).to.be.true;
+    });
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(

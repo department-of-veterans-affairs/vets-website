@@ -1,5 +1,7 @@
 import React from 'react';
 import FacilityDirectionsLink from '../components/FacilityDirectionsLink';
+import FacilityPhone from './FacilityPhone';
+import State from './State';
 
 export default function FacilityAddress({
   name,
@@ -25,7 +27,7 @@ export default function FacilityAddress({
               <br />
             </React.Fragment>
           ))}
-          {address.city}, {address.state} {address.postalCode}
+          {address.city}, <State state={address.state} /> {address.postalCode}
           <br />
         </>
       )}
@@ -41,7 +43,8 @@ export default function FacilityAddress({
             <strong>Main phone:</strong>
           </dt>{' '}
           <dd className="vads-u-display--inline">
-            <a href={`tel:${phone.replace(/[^0-9]/g, '')}`}>{phone}</a>
+            <br />
+            <FacilityPhone contact={phone} />
           </dd>
         </dl>
       )}

@@ -35,7 +35,6 @@ import * as medicalCare from './medicalCare';
 import * as mentalHealthChanges from './mentalHealthChanges';
 import * as militaryDutyImpact from './militaryDutyImpact';
 import * as militaryHistory from './militaryHistory';
-import * as newDisabilities from './newDisabilities';
 import * as newDisabilityFollowUp from './newDisabilityFollowUp';
 import * as newPTSDFollowUp from './newPTSDFollowUp';
 import * as pastEducationTraining from './pastEducationTraining';
@@ -135,7 +134,6 @@ export {
   mentalHealthChanges,
   militaryDutyImpact,
   militaryHistory,
-  newDisabilities,
   newDisabilityFollowUp,
   newPTSDFollowUp,
   pastEducationTraining,

@@ -5,10 +5,8 @@
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 const healthCareLocalFacilities = require('./facilities-fragments/healthCareLocalFacility.node.graphql');
 const healthCareRegionHealthServices = require('./facilities-fragments/healthCareRegionHealthServices.node.graphql');
-const healthCareRegionFeaturedHealthServices = require('./facilities-fragments/healthCareRegionFeaturedHealthServces.node.graphql');
 const healthCareRegionNewsStories = require('./facilities-fragments/healthCareRegionNewsStories.node.graphql');
 const healthCareRegionEvents = require('./facilities-fragments/healthCareRegionEvents.node.graphql');
-const healthCareStaffBios = require('./facilities-fragments/healthCareRegionStaffBios.node.graphql');
 
 module.exports = `
   fragment healthCareRegionPage on NodeHealthCareRegionPage {
@@ -39,30 +37,6 @@ module.exports = `
       entity {
       	... listOfLinkTeasers
       }
-    }
-    fieldFacebook {
-      url {
-        path
-      }
-      title
-    }
-    fieldTwitter {
-      url {
-        path
-      }
-      title
-    }
-    fieldFlickr {
-      url {
-        path
-      }
-        title
-    }
-    fieldInstagram {
-      url {
-        path
-      }
-      title
     }
     fieldOperatingStatus {
       url {
@@ -97,26 +71,9 @@ module.exports = `
         }
       }
     }
-    ${healthCareStaffBios}
-    fieldLocationsIntroBlurb {
-      processed
-    }
     ${healthCareLocalFacilities}
     fieldOtherVaLocations
-    fieldIntroTextNewsStories {
-      processed
-    }
-    fieldIntroTextEventsPage {
-      processed
-    }
-    fieldClinicalHealthCareServi {
-      processed
-    }
-    ${healthCareRegionFeaturedHealthServices}
     ${healthCareRegionHealthServices}
-    fieldPressReleaseBlurb {
-      processed
-    }
     eventTeasersAll: reverseFieldOfficeNode(limit: 1000, filter: {conditions: [{field: "type", value: "event_listing"}]}) {
       entities {
         ... on NodeEventListing {

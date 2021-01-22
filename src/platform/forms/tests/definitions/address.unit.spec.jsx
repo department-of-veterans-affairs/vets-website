@@ -1,12 +1,18 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
+import sinon from 'sinon';
 
 import {
   DefinitionTester,
   fillData,
-} from '../../../testing/unit/schemaform-utils.jsx';
-import { schema, uiSchema } from '../../definitions/address';
+} from '../../../testing/unit/schemaform-utils';
+import {
+  schema,
+  uiSchema,
+  requireStateWithCountry,
+  requireStateWithData,
+} from '../../definitions/address';
 import { address } from 'vets-json-schema/dist/definitions.json';
 
 const addressSchema = {
@@ -15,7 +21,7 @@ const addressSchema = {
   },
 };
 
-describe('Schemaform definition address', () => {
+describe('Forms library address definition', () => {
   it('should render address', () => {
     const s = schema(addressSchema, false);
     const uis = uiSchema();
@@ -144,7 +150,123 @@ describe('Schemaform definition address', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    const errors = form.find('.usa-input-error-message');
+    expect(errors.length).to.equal(1);
     form.unmount();
   }).timeout(4000);
+
+  it('should not require state for non-required addresses with no other info', () => {
+    const s = schema(addressSchema, false);
+    const uis = uiSchema();
+    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
+
+    form.find('form').simulate('submit');
+
+    const errors = form.find('.usa-input-error-message');
+    expect(errors.length).to.equal(0);
+    form.unmount();
+  }).timeout(4000);
+
+  it('should require state if the country requires it', () => {
+    const s = schema(addressSchema, true);
+    const uis = uiSchema();
+    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
+
+    fillData(form, 'select#root_country', 'USA');
+    fillData(form, 'input#root_street', '123 st');
+    fillData(form, 'input#root_city', 'Northampton');
+    fillData(form, 'input#root_postalCode', '12345');
+
+    form.find('form').simulate('submit');
+
+    const errors = form.find('.usa-input-error-message');
+    expect(errors.length).to.equal(1);
+    expect(errors.first().text()).to.equal('Error Please enter a state');
+    form.unmount();
+  }).timeout(4000);
+});
+
+describe('Forms library address validation', () => {
+  describe('requireStateWithCountry', () => {
+    const validationTest = (requiredFields, country, errorFound) => {
+      const s = schema(addressSchema, requiredFields);
+      const addressData = { country, state: undefined };
+      const errors = {
+        state: {
+          addError: sinon.spy(),
+        },
+      };
+      requireStateWithCountry(errors, addressData, {}, s);
+      expect(
+        errors.state.addError.calledWith('Please select a state or province'),
+      ).to.equal(errorFound);
+    };
+
+    it('should require the state when the country requires it', () => {
+      validationTest(true, 'USA', true);
+    });
+    it('should not require the state when the country does not require it', () => {
+      validationTest(true, 'ASD', false);
+    });
+    it('should not require the state when the country is not required', () => {
+      validationTest(false, 'USA', false);
+    });
+  });
+
+  describe('requireStateWithData', () => {
+    const validationTest = (requiredFields, dataEntered, errorFound) => {
+      const s = schema(addressSchema, requiredFields);
+      const errors = {
+        state: {
+          addError: sinon.spy(),
+        },
+      };
+      requireStateWithData(errors, dataEntered, {}, s);
+      expect(
+        errors.state.addError.calledWith(
+          'Please enter a state or province, or remove other address information.',
+        ),
+      ).to.equal(errorFound);
+    };
+
+    it('should require the state when the country requires it and other data is entered', () => {
+      validationTest(
+        false,
+        {
+          country: 'USA',
+          postalCode: '12345',
+          street: '123 main',
+          city: 'Big City',
+        },
+        true,
+      );
+    });
+    it('should not require the state when the country requires it and other data is not entered', () => {
+      validationTest(false, { country: 'USA' }, false);
+    });
+    it('should not require the state when the country does not require it', () => {
+      validationTest(
+        false,
+        {
+          country: 'ASD',
+          postalCode: '12345',
+          street: '123 main',
+          city: 'Big City',
+        },
+        false,
+      );
+    });
+    it('should not require the state when the schema has required fields', () => {
+      validationTest(
+        true,
+        {
+          country: 'USA',
+          postalCode: '12345',
+          street: '123 main',
+          city: 'Big City',
+        },
+        false,
+      );
+    });
+  });
 });

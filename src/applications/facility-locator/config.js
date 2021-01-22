@@ -32,12 +32,15 @@ export const resolveParamsWithUrl = (
   serviceType,
   page,
   bounds,
+  center,
+  radius,
 ) => {
   const filterableLocations = ['health', 'benefits', 'provider'];
   let facility;
   let service;
   let url = api.url;
   let perPage = 20;
+  let roundRadius;
 
   switch (locationType) {
     case 'urgent_care':
@@ -63,6 +66,7 @@ export const resolveParamsWithUrl = (
       facility = locationType;
       service = serviceType;
   }
+  if (radius) roundRadius = radius.toFixed();
 
   if (url === api.allUrgentCareUrl) {
     return {
@@ -72,6 +76,9 @@ export const resolveParamsWithUrl = (
         ...bounds.map(c => `bbox[]=${c}`),
         `page=${page}`,
         `per_page=${perPage}`,
+        roundRadius ? `radius=${roundRadius}` : null,
+        center && center.length > 0 ? `latitude=${center[0]}` : null,
+        center && center.length > 0 ? `longitude=${center[1]}` : null,
       ]).join('&'),
     };
   }
@@ -89,6 +96,9 @@ export const resolveParamsWithUrl = (
       `per_page=${perPage}`,
       facility === LocationType.VET_CENTER ? `exclude_mobile=true` : null,
       url === api.ccUrl ? `trim=true` : null,
+      roundRadius ? `radius=${roundRadius}` : null,
+      center && center.length > 0 ? `latitude=${center[0]}` : null,
+      center && center.length > 0 ? `longitude=${center[1]}` : null,
     ]).join('&'),
   };
 };
@@ -114,6 +124,7 @@ export const healthServices = {
   All: 'All VA health services',
   PrimaryCare: 'Primary care',
   MentalHealthCare: 'Mental health care',
+  Covid19Vaccine: 'COVID-19 vaccines',
   DentalServices: 'Dental services',
   UrgentCare: 'Urgent care',
   EmergencyCare: 'Emergency care',

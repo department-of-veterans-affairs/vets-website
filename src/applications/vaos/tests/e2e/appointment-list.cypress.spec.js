@@ -3,7 +3,7 @@ import {
   createPastVAAppointments,
 } from './vaos-cypress-helpers';
 
-describe('Appointment List', () => {
+describe('VAOS appointment list', () => {
   beforeEach(() => {
     initAppointmentListMock();
     cy.visit('health-care/schedule-view-va-appointments/appointments/');

@@ -9,6 +9,8 @@ import {
   getDefaultRegistry,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
+import { showReviewField } from '../helpers';
+
 /*
  * This is largely copied from the react-jsonschema-form library,
  * but with the way descriptions are used changed
@@ -94,27 +96,6 @@ class ObjectField extends React.Component {
         registry={this.props.registry}
       />
     );
-
-    const showField = propName => {
-      const hiddenOnSchema = schema.properties[propName]['ui:hidden'];
-      const collapsedOnSchema = schema.properties[propName]['ui:collapsed'];
-      const hideOnReviewIfFalse =
-        _.get([propName, 'ui:options', 'hideOnReviewIfFalse'], uiSchema) ===
-        true;
-      let hideOnReview = _.get(
-        [propName, 'ui:options', 'hideOnReview'],
-        uiSchema,
-      );
-      if (typeof hideOnReview === 'function') {
-        hideOnReview = hideOnReview(formData, formContext);
-      }
-      return (
-        (!hideOnReviewIfFalse || !!formData[propName]) &&
-        !hideOnReview &&
-        !hiddenOnSchema &&
-        !collapsedOnSchema
-      );
-    };
     let divWrapper = false;
 
     const renderedProperties = this.orderAndFilterProperties(properties).map(
@@ -136,10 +117,22 @@ class ObjectField extends React.Component {
           );
         });
         if (objectFields.length > 1 && visible.length > 0) {
-          return objectFields.filter(showField).map(renderField);
+          return objectFields
+            .filter(propName =>
+              showReviewField(
+                propName,
+                schema,
+                uiSchema,
+                formData,
+                formContext,
+              ),
+            )
+            .map(renderField);
         }
-        // eslint-disable-next-line sonarjs/no-extra-arguments
-        return showField(first) ? renderField(first, index) : null;
+        return showReviewField(first, schema, uiSchema, formData, formContext)
+          ? // eslint-disable-next-line sonarjs/no-extra-arguments
+            renderField(first, index)
+          : null;
       },
     );
 
@@ -183,9 +176,9 @@ class ObjectField extends React.Component {
             <div className="form-review-panel-page-header-row">
               {title?.trim() &&
                 !formContext.hideTitle && (
-                  <h3 className="form-review-panel-page-header vads-u-font-size--h5">
+                  <h4 className="form-review-panel-page-header vads-u-font-size--h5">
                     {title}
-                  </h3>
+                  </h4>
                 )}
               {defaultEditButton()}
             </div>

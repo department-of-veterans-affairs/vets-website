@@ -37,11 +37,13 @@ describe('VAOS newAppointmentFlow', () => {
     describe('next page', () => {
       it('should be vaFacility page if no systems have CC support', async () => {
         mockFetch();
-        setFetchJSONResponse(global.fetch, {
-          data: [{ attributes: { assigningAuthority: 'dfn-000' } }],
-        });
 
         const state = {
+          user: {
+            profile: {
+              facilities: [],
+            },
+          },
           featureToggles: {
             loading: false,
             vaOnlineSchedulingDirect: true,
@@ -507,6 +509,57 @@ describe('VAOS newAppointmentFlow', () => {
 
         expect(nextState).to.equal('requestDateTime');
         expect(dispatch.called).to.be.true;
+      });
+    });
+  });
+
+  describe('ccPreferences page', () => {
+    describe('next page', () => {
+      it('should be reasonForAppointment if provider selection is disabled', () => {
+        const state = {
+          featureToggles: {
+            loading: false,
+          },
+        };
+
+        expect(newAppointmentFlow.ccPreferences.next(state)).to.equal(
+          'reasonForAppointment',
+        );
+      });
+
+      it('should be reasonForAppointment if provider selection is enabled but user has no address on file', () => {
+        const state = {
+          featureToggles: {
+            loading: false,
+            vaOnlineSchedulingProviderSelection: true,
+          },
+        };
+
+        expect(newAppointmentFlow.ccPreferences.next(state)).to.equal(
+          'reasonForAppointment',
+        );
+      });
+
+      it('should be ccLanguage if provider selection is enabled', () => {
+        const state = {
+          user: {
+            profile: {
+              vapContactInfo: {
+                residentialAddress: {
+                  addressLine1: '597 Mt Prospect Ave',
+                },
+              },
+            },
+          },
+          featureToggles: {
+            loading: false,
+            vaOnlineSchedulingProviderSelection: true,
+          },
+        };
+
+        expect(newAppointmentFlow.ccPreferences.next(state)).to.equal(
+          'ccLanguage',
+        );
       });
     });
   });

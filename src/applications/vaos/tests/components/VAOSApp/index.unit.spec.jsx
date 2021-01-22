@@ -68,6 +68,7 @@ describe('VAOS <VAOSApp>', () => {
       true,
       initialState,
     );
+    stateWithCernerUser.user.profile.facilities[0].usesCernerAppointments = true;
     const store = createTestStore(stateWithCernerUser);
     const screen = renderWithStoreAndRouter(<VAOSApp>Child content</VAOSApp>, {
       store,
@@ -154,5 +155,30 @@ describe('VAOS <VAOSApp>', () => {
     await waitFor(
       () => expect(screen.queryByText(/unavailable soon/)).to.not.exist,
     );
+  });
+
+  it('should render can’t find any VA medical facility registrations message', async () => {
+    const myInitialState = {
+      ...initialState,
+      user: {
+        ...initialState.user,
+        profile: {
+          ...initialState.user.profile,
+          facilities: [],
+        },
+      },
+    };
+    const store = createTestStore(myInitialState);
+    const screen = renderWithStoreAndRouter(<VAOSApp>Child content</VAOSApp>, {
+      store,
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          /We’re sorry. We can’t find any VA medical facility registrations for you/,
+        ),
+      ).to.be.ok;
+    });
   });
 });

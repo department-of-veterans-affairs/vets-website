@@ -17,8 +17,8 @@ describe('<ExitApplicationButton>', () => {
   const sandbox = sinon.createSandbox();
 
   beforeEach(function() {
-    sandbox.spy(saveInProgressApi, 'removeFormApi');
-    sandbox.spy(captureEvents, 'exitApplication');
+    sandbox.stub(saveInProgressApi, 'removeFormApi');
+    sandbox.stub(captureEvents, 'exitApplication');
   });
 
   afterEach(function() {

@@ -452,7 +452,8 @@ const schema = {
             separationLocationName: {
               type: 'string',
               maxLength: 256,
-              pattern: "([a-zA-Z0-9/-'.#,*()&][a-zA-Z0-9/-'.#,*()& ]?)*$",
+              pattern:
+                "^([a-zA-Z0-9\\/\\-'.#,*()&][a-zA-Z0-9\\/\\-'.#,*()& ]?)*$",
             },
           },
         },

@@ -16,6 +16,8 @@ import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import migrations from '../migrations';
 import captureEvents from '../analytics-functions';
 
+import manifest from '../manifest.json';
+
 import {
   applicantInformation,
   bankInformation,
@@ -29,11 +31,20 @@ import {
 } from '../pages';
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/0994`,
   submit: submitForm,
   trackingPrefix: 'edu-0994-',
   formId: VA_FORM_IDS.FORM_22_0994,
+  saveInProgress: {
+    messages: {
+      inProgress: 'Your VET TEC application (22-0994) is in progress.',
+      expired:
+        'Your saved VET TEC application (22-0994) has expired. If you want to apply for VET TEC, please start a new application.',
+      saved: 'Your VET TEC application has been saved.',
+    },
+  },
   version: migrations.length,
   migrations,
   prefillEnabled: true,
@@ -58,7 +69,7 @@ const formConfig = {
   chapters: {
     // Chapter - Benefits eligibility
     applicantInformation: {
-      title: 'Applicant Information',
+      title: 'Applicant information',
       pages: {
         applicantInformation: {
           title: 'Applicant Information',
@@ -76,9 +87,9 @@ const formConfig = {
         },
       },
     },
-    // Chapter - Military Service
+    // Chapter - Service history
     militaryService: {
-      title: 'Military Service',
+      title: 'Service history',
       pages: {
         militaryService: {
           title: 'Military Service',
@@ -91,7 +102,7 @@ const formConfig = {
     },
     // Chapter - Education History
     educationHistory: {
-      title: 'Education History',
+      title: 'Education history',
       pages: {
         // page - Highest Level of education completed
         educationCompleted: {
@@ -104,7 +115,7 @@ const formConfig = {
     },
     // Chapter - High tech work experience
     highTechWorkExp: {
-      title: 'Work Experience',
+      title: 'Work experience',
       pages: {
         // page - yes/no working in high-tech industry
         highTechIndustry: {
@@ -118,7 +129,7 @@ const formConfig = {
     },
     // Chapter - Program Selection
     programSelection: {
-      title: 'Program Selection',
+      title: 'Program selection',
       pages: {
         // page - picked like to attend training programs
         trainingProgramsChoice: {
@@ -139,7 +150,7 @@ const formConfig = {
     },
     // Chapter - Personal Information
     personalInformation: {
-      title: 'Personal Information',
+      title: 'Personal information',
       pages: {
         // page - contact information
         contactInformation: {

@@ -64,7 +64,7 @@ export function schema(currentSchema, userOptions) {
 export const uiSchema = {
   'ui:title': 'Service periods',
   'ui:options': {
-    itemName: 'Service Period',
+    itemName: 'service period',
     viewField: ServicePeriodView,
     hideTitle: true,
   },
@@ -79,7 +79,7 @@ export const uiSchema = {
     ),
     serviceStatus: {
       'ui:title':
-        'Type of service (Active duty, drilling reservist, IRR, etc.)',
+        'Type of service (Active duty, drilling reservist, National Guard, IRR)',
     },
     applyPeriodToSelected: {
       'ui:title': 'Apply this service period to the benefit I’m applying for.',

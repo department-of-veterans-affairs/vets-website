@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
@@ -25,7 +25,6 @@ export function ProfilePage({
   dispatchHideModal,
   eligibility,
   gibctEybBottomSheet,
-  gibctFilterEnhancement,
   gibctSchoolRatings,
   match,
 }) {
@@ -42,7 +41,9 @@ export function ProfilePage({
 
   useEffect(
     () => {
-      dispatchSetPageTitle(`${institutionName} - GI Bill® Comparison Tool`);
+      if (institutionName) {
+        dispatchSetPageTitle(`${institutionName} - GI Bill® Comparison Tool`);
+      }
     },
     [institutionName],
   );
@@ -89,7 +90,6 @@ export function ProfilePage({
           eligibility={eligibility}
           version={version}
           gibctEybBottomSheet={gibctEybBottomSheet}
-          gibctFilterEnhancement={gibctFilterEnhancement}
           gibctSchoolRatings={gibctSchoolRatings}
         />
       );
@@ -120,9 +120,6 @@ const mapStateToProps = state => {
     eligibility,
     gibctEybBottomSheet: toggleValues(state)[
       FEATURE_FLAG_NAMES.gibctEybBottomSheet
-    ],
-    gibctFilterEnhancement: toggleValues(state)[
-      FEATURE_FLAG_NAMES.gibctFilterEnhancement
     ],
     gibctSchoolRatings: toggleValues(state)[
       FEATURE_FLAG_NAMES.gibctSchoolRatings

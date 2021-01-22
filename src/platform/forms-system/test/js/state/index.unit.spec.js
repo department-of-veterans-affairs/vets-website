@@ -216,6 +216,7 @@ describe('schemaform createSchemaFormReducer', () => {
       );
 
       expect(state.submission.hasAttemptedSubmit).to.be.true;
+      expect(state.submission.timestamp).to.exist;
     });
     it('should set submitted', () => {
       const state = reducer(

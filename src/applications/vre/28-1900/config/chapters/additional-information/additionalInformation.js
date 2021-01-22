@@ -1,17 +1,17 @@
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
-import { addressUISchema } from '../../../../../disability-benefits/686c-674/config/address-schema';
+import { addressUiSchema } from 'applications/vre/definitions/profileAddress';
 
 const { newAddress, isMoving, yearsOfEducation } = fullSchema.properties;
 
-const newAddressUI = addressUISchema(
-  true,
-  'newAddress',
-  formData => formData.isMoving,
-);
-// reset title for checkbox
-newAddressUI['view:livesOnMilitaryBase']['ui:title'] =
+const checkboxTitle =
   'I will live on a United States military base outside of the U.S.';
+
+const newAddressUi = addressUiSchema(
+  'newAddress',
+  checkboxTitle,
+  formData => formData?.isMoving,
+);
 
 export const schema = {
   type: 'object',
@@ -23,19 +23,18 @@ export const schema = {
 };
 
 export const uiSchema = {
-  'ui:description': (
-    <p>
-      <strong>Giving this information is optional.</strong> If you skip this
-      page, and we don't have this information in your record, we may ask you
-      for this again when we process your application.
-    </p>
-  ),
   'ui:title': 'Additional Information',
   yearsOfEducation: {
     'ui:title': 'How many years of education do you have?',
+    'ui:description': (
+      <p className="vads-u-margin--0">
+        (include K-12 and each year of college)
+      </p>
+    ),
     'ui:errorMessages': {
       pattern: 'Please enter a number',
     },
+    'ui:required': () => true,
   },
   isMoving: {
     'ui:widget': 'yesNo',
@@ -44,6 +43,7 @@ export const uiSchema = {
         Are you moving in the <strong>next 30 days?</strong>
       </p>
     ),
+    'ui:required': () => true,
   },
   newAddress: {
     'ui:title': (
@@ -51,7 +51,7 @@ export const uiSchema = {
         Your new address
       </p>
     ),
-    ...newAddressUI,
+    ...newAddressUi,
     'ui:options': {
       expandUnder: 'isMoving',
       expandUnderCondition: true,

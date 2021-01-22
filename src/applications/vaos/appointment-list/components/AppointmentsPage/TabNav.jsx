@@ -18,7 +18,7 @@ export default function TabNav({ hasExpressCareRequests }) {
       <TabItem
         id="upcoming"
         tabpath="/"
-        isActive={pathWithSlash.endsWith('appointments/')}
+        isActive={pathWithSlash === '/'}
         firstTab
         onNextTab={() => {
           history.push('/past');

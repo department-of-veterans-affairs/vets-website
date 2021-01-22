@@ -7,17 +7,25 @@ import { bindActionCreators } from 'redux';
 import { setActiveDebt } from '../actions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { renderAdditionalInfo } from '../const/diary-codes';
 
 const DebtLetterCard = props => {
+  const { debt } = props;
+  const mostRecentHistory = head(debt.debtHistory);
+  const debtCardHeading =
+    deductionCodes[debt.deductionCode] || debt.benefitType;
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 2,
   });
-  const { debt } = props;
-  const mostRecentHistory = head(debt.debtHistory);
-  const debtCardHeading =
-    deductionCodes[debt.deductionCode] || debt.benefitType;
+
+  const additionalInfo = renderAdditionalInfo(
+    debt.diaryCode,
+    mostRecentHistory.date,
+    debt.benefitType,
+  );
+
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2">
       <h3 className="vads-u-margin--0">{debtCardHeading}</h3>
@@ -30,17 +38,22 @@ const DebtLetterCard = props => {
         <strong>Amount owed: </strong>
         {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
       </p>
-      <p className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
-        <strong>Status: </strong>
-        {debt.diaryCodeDescription}
-      </p>
-      <p className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
-        <strong>Next Step: </strong>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa
-        cupiditate eveniet natus quae? Culpa dolores hic ipsam molestiae numquam
-        quisquam reiciendis repellendus sed sit tempora, temporibus unde. Esse
-        harum, provident.
-      </p>
+      {additionalInfo.status && (
+        <div
+          className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans"
+          data-testid="diary-codes-status"
+        >
+          {additionalInfo.status}
+        </div>
+      )}
+      {additionalInfo && (
+        <div
+          className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans"
+          data-testid="diary-codes-next-step"
+        >
+          {additionalInfo.nextStep}
+        </div>
+      )}
       <Link
         className="usa-button"
         onClick={() => props.setActiveDebt(debt)}

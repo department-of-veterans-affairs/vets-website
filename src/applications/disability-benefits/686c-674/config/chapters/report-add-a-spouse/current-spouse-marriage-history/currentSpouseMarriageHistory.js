@@ -11,6 +11,9 @@ export const uiSchema = {
     'ui:title': yourSpouseTitle,
     'ui:widget': 'yesNo',
     'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
+    'ui:options': {
+      useDlWrap: true,
+    },
   },
   spouseMarriageHistory: {
     'ui:title': (
@@ -24,6 +27,7 @@ export const uiSchema = {
       expandUnderCondition: true,
       keepInPageOnReview: true,
       itemName: 'Former spouse',
+      customTitle: ' ',
       // ui:required doesn't play well with expandUnder, possibly because the markup isn't added to the dom until the expandUnder condition is met.
       // Because of this, a user can progress past the below fields, even if they're technically mandatory.
       // Using updateSchema and ensuring at least one item needs to be in the array causes the validations to fire properly.
@@ -38,18 +42,30 @@ export const uiSchema = {
           'ui:title': 'Former spouse’s first name',
           'ui:errorMessages': { required: 'Please enter a first name' },
           'ui:required': formData => formData.spouseWasMarriedBefore,
+          'ui:options': {
+            useDlWrap: true,
+          },
         },
         middle: {
           'ui:title': 'Former spouse’s middle name',
+          'ui:options': {
+            useDlWrap: true,
+          },
         },
         last: {
           'ui:title': 'Former spouse’s last name',
           'ui:errorMessages': { required: 'Please enter a last name' },
           'ui:required': formData => formData.spouseWasMarriedBefore,
+          'ui:options': {
+            useDlWrap: true,
+          },
         },
         suffix: {
           'ui:title': 'Former spouse’s suffix',
-          'ui:options': { widgetClassNames: 'form-select-medium' },
+          'ui:options': {
+            widgetClassNames: 'form-select-medium',
+            useDlWrap: true,
+          },
         },
       },
     },

@@ -15,7 +15,14 @@ describe('Schemaform <FormSaved>', () => {
         path: 'testing',
       },
     ],
-    formConfig: {},
+    formConfig: {
+      formId: '123',
+      saveInProgress: {
+        messages: {
+          saved: 'Your education benefits (123) application has been saved.',
+        },
+      },
+    },
   };
   const formId = VA_FORM_IDS.FORM_10_10EZ;
   const user = () => ({
@@ -47,6 +54,9 @@ describe('Schemaform <FormSaved>', () => {
     ).to.equal('testing');
     expect(tree.subTree('.usa-alert').text()).to.contain('6/12/2017 at');
     expect(tree.subTree('.usa-alert').text()).to.contain('will expire on');
+    expect(tree.subTree('.usa-alert').text()).to.contain(
+      'Your education benefits (123) application has been saved.',
+    );
   });
   it('should display verify link if user is not verified', () => {
     const tree = SkinDeep.shallowRender(
@@ -79,5 +89,107 @@ describe('Schemaform <FormSaved>', () => {
     );
 
     expect(tree.everySubTree('.usa-alert').length).to.equal(1);
+  });
+  it('should still show start a new button', () => {
+    const tree = SkinDeep.shallowRender(
+      <FormSaved
+        scrollParams={{}}
+        location={{}}
+        formId={formId}
+        lastSavedDate={lastSavedDate}
+        expirationDate={expirationDate}
+        route={route}
+        user={user()}
+      />,
+    );
+    expect(tree.subTree('withRouter(FormStartControls)').props.resumeOnly).to
+      .not.be.true;
+  });
+  it('should config form controls to be resume only', () => {
+    const thisRoute = {
+      pageList: [
+        {
+          path: 'wrong-path',
+        },
+        {
+          path: 'testing',
+        },
+      ],
+      formConfig: {
+        formId: '123',
+        saveInProgress: {
+          resumeOnly: true,
+          messages: {
+            saved: 'Your education benefits (123) application has been saved.',
+          },
+        },
+      },
+    };
+    const tree = SkinDeep.shallowRender(
+      <FormSaved
+        scrollParams={{}}
+        location={{}}
+        formId={formId}
+        lastSavedDate={lastSavedDate}
+        expirationDate={expirationDate}
+        route={thisRoute}
+        user={user()}
+      />,
+    );
+    expect(tree.subTree('withRouter(FormStartControls)').props.resumeOnly).to.be
+      .true;
+  });
+
+  it('should handle form config being empty', () => {
+    const thisRoute = {
+      pageList: [
+        {
+          path: 'wrong-path',
+        },
+        {
+          path: 'testing',
+        },
+      ],
+      formConfig: {},
+    };
+    const tree = SkinDeep.shallowRender(
+      <FormSaved
+        scrollParams={{}}
+        location={{}}
+        formId={formId}
+        lastSavedDate={lastSavedDate}
+        expirationDate={expirationDate}
+        route={thisRoute}
+        user={user()}
+      />,
+    );
+    expect(tree.subTree('withRouter(FormStartControls)')).exist;
+  });
+  it('should handle save in progress being empty', () => {
+    const thisRoute = {
+      pageList: [
+        {
+          path: 'wrong-path',
+        },
+        {
+          path: 'testing',
+        },
+      ],
+      formConfig: {
+        saveInProgress: {},
+      },
+    };
+    const tree = SkinDeep.shallowRender(
+      <FormSaved
+        scrollParams={{}}
+        location={{}}
+        formId={formId}
+        lastSavedDate={lastSavedDate}
+        expirationDate={expirationDate}
+        route={thisRoute}
+        user={user()}
+      />,
+    );
+    expect(tree.subTree('withRouter(FormStartControls)')).to.exist;
   });
 });

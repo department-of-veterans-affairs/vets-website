@@ -1,6 +1,6 @@
 import React from 'react';
 import { focusElement } from 'platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
@@ -103,7 +103,7 @@ export class IntroductionPage extends React.Component {
                 <div className="vads-u-font-weight--bold">
                   <p>
                     To be eligible for the{' '}
-                    <a href="https://benefits.va.gov/gibill/fgib/stem.asp">
+                    <a href="/education/other-va-education-benefits/stem-scholarship/">
                       Edith Nourse Rogers STEM Scholarship
                     </a>
                     , you must meet all the requirements below.
@@ -127,6 +127,7 @@ export class IntroductionPage extends React.Component {
                         You've already earned a STEM bachelor’s degree and are
                         pursuing a teaching certification.{' '}
                         <a
+                          aria-label="See eligible degree programs, opening in new tab"
                           href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
                           rel="noopener noreferrer"
                           target="_blank"

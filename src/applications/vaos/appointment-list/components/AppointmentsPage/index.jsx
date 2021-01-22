@@ -1,32 +1,28 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 
 import ScheduleNewAppointment from './ScheduleNewAppointment';
-import {
-  closeCancelAppointment,
-  confirmCancelAppointment,
-  startNewAppointmentFlow,
-  fetchFutureAppointments,
-  fetchExpressCareWindows,
-} from '../../redux/actions';
-import { startNewExpressCareFlow } from '../../../express-care/redux/actions';
+import * as actions from '../../redux/actions';
 import CancelAppointmentModal from '../cancel/CancelAppointmentModal';
 import {
   getCancelInfo,
-  vaosRequests,
-  vaosPastAppts,
-  vaosDirectScheduling,
-  vaosCommunityCare,
-  vaosExpressCare,
-  isWelcomeModalDismissed,
-  selectExpressCare,
   selectFutureStatus,
-} from '../../../utils/selectors';
-import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
+  selectExpressCareAvailability,
+} from '../../redux/selectors';
+import {
+  selectFeatureRequests,
+  selectFeaturePastAppointments,
+  selectFeatureDirectScheduling,
+  selectFeatureCommunityCare,
+  selectFeatureExpressCare,
+  selectIsWelcomeModalDismissed,
+  selectIsCernerOnlyPatient,
+  selectFeatureProjectCheetah,
+} from '../../../redux/selectors';
 import { GA_PREFIX, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import TabNav from './TabNav';
@@ -34,128 +30,163 @@ import RequestExpressCare from './RequestExpressCare';
 import FutureAppointmentsList from '../FutureAppointmentsList';
 import PastAppointmentsList from '../PastAppointmentsList';
 import ExpressCareList from '../ExpressCareList';
-import PageLayout from './PageLayout';
+import DowntimeNotification, {
+  externalServices,
+} from 'platform/monitoring/DowntimeNotification';
+import WarningNotification from '../../../components/WarningNotification';
+import ScheduleNewProjectCheetah from './ScheduleNewProjectCheetah';
 
 const pageTitle = 'VA appointments';
 
-export class AppointmentsPage extends Component {
-  componentDidMount() {
-    if (this.props.isWelcomeModalDismissed) {
-      scrollAndFocus();
-    }
-
-    if (
-      this.props.showExpressCare &&
-      this.props.futureStatus === FETCH_STATUS.notStarted
-    ) {
-      this.props.fetchFutureAppointments();
-    }
-
+function AppointmentsPage({
+  cancelInfo,
+  closeCancelAppointment,
+  confirmCancelAppointment,
+  expressCare,
+  fetchFutureAppointments,
+  fetchExpressCareWindows,
+  futureStatus,
+  isCernerOnlyPatient,
+  isWelcomeModalDismissed,
+  pendingStatus,
+  showCommunityCare,
+  showDirectScheduling,
+  showExpressCare,
+  showPastAppointments,
+  showScheduleButton,
+  showCheetahScheduleButton,
+  startNewAppointmentFlow,
+  startNewExpressCareFlow,
+}) {
+  useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
-    if (
-      this.props.expressCare.enabled &&
-      this.props.expressCare.windowsStatus === FETCH_STATUS.notStarted
-    ) {
-      this.props.fetchExpressCareWindows();
+
+    if (showExpressCare && futureStatus === FETCH_STATUS.notStarted) {
+      fetchFutureAppointments();
     }
-  }
 
-  componentDidUpdate(prevProps) {
     if (
-      this.props.isWelcomeModalDismissed &&
-      !prevProps.isWelcomeModalDismissed
+      expressCare.enabled &&
+      expressCare.windowsStatus === FETCH_STATUS.notStarted
     ) {
-      scrollAndFocus();
+      fetchExpressCareWindows();
     }
-  }
+  }, []);
 
-  startNewAppointmentFlow = () => {
-    recordEvent({
-      event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
-    });
-    this.props.startNewAppointmentFlow();
-  };
+  useEffect(
+    () => {
+      if (isWelcomeModalDismissed) {
+        scrollAndFocus();
+      }
+    },
+    [isWelcomeModalDismissed],
+  );
 
-  startNewExpressCareFlow = () => {
-    recordEvent({
-      event: `${GA_PREFIX}-express-care-request-button-clicked`,
-    });
-    this.props.startNewExpressCareFlow();
-  };
+  useEffect(
+    () => {
+      if (
+        !cancelInfo.showCancelModal &&
+        cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded
+      ) {
+        scrollAndFocus();
+      }
+    },
+    [cancelInfo.showCancelModal, cancelInfo.cancelAppointmentStatus],
+  );
 
-  render() {
-    const {
-      cancelInfo,
-      pendingStatus,
-      showScheduleButton,
-      showCommunityCare,
-      expressCare,
-      showDirectScheduling,
-      isCernerOnlyPatient,
-      showPastAppointments,
-    } = this.props;
-    const isLoading =
-      pendingStatus === FETCH_STATUS.loading ||
-      expressCare.windowsStatus === FETCH_STATUS.loading ||
-      pendingStatus === FETCH_STATUS.notStarted ||
-      expressCare.windowsStatus === FETCH_STATUS.notStarted;
+  const isLoading =
+    pendingStatus === FETCH_STATUS.loading ||
+    expressCare.windowsStatus === FETCH_STATUS.loading ||
+    pendingStatus === FETCH_STATUS.notStarted ||
+    expressCare.windowsStatus === FETCH_STATUS.notStarted;
 
-    const routes = (
-      <Switch>
-        <Route component={PastAppointmentsList} path="/past" />
-        <Route component={ExpressCareList} path="/express-care" />
-        <Route path="/" component={FutureAppointmentsList} />
-      </Switch>
-    );
-    return (
-      <PageLayout>
-        <h1 className="vads-u-flex--1">{pageTitle}</h1>
-        {showScheduleButton && (
-          <ScheduleNewAppointment
-            isCernerOnlyPatient={isCernerOnlyPatient}
-            showCommunityCare={showCommunityCare}
-            showDirectScheduling={showDirectScheduling}
-            startNewAppointmentFlow={this.startNewAppointmentFlow}
-          />
+  const routes = (
+    <Switch>
+      <Route component={PastAppointmentsList} path="/past" />
+      <Route component={ExpressCareList} path="/express-care" />
+      <Route path="/" component={FutureAppointmentsList} />
+    </Switch>
+  );
+
+  return (
+    <>
+      <h1 className="vads-u-flex--1">{pageTitle}</h1>
+      <DowntimeNotification
+        appTitle="VA online scheduling tool"
+        isReady
+        dependencies={[externalServices.vaosWarning]}
+        render={(props, childContent) => (
+          <WarningNotification {...props}>{childContent}</WarningNotification>
         )}
-        {!expressCare.enabled && (
-          <>
-            {showPastAppointments && <TabNav />}
-            {routes}
-          </>
-        )}
-        {expressCare.enabled && (
-          <>
-            {isLoading && (
-              <LoadingIndicator message="Loading your appointment information" />
-            )}
-            {!isLoading && (
-              <>
-                {!isCernerOnlyPatient && (
-                  <RequestExpressCare
-                    {...expressCare}
-                    startNewExpressCareFlow={this.startNewExpressCareFlow}
-                  />
-                )}
-                {expressCare.hasRequests && (
-                  <h2 className="vads-u-font-size--h3 vads-u-margin-y--3">
-                    Your upcoming, past, and Express Care appointments
-                  </h2>
-                )}
-                <TabNav hasExpressCareRequests={expressCare.hasRequests} />
-                {routes}
-              </>
-            )}
-          </>
-        )}
-        <CancelAppointmentModal
-          {...cancelInfo}
-          onConfirm={this.props.confirmCancelAppointment}
-          onClose={this.props.closeCancelAppointment}
+      />
+
+      {showScheduleButton && (
+        <ScheduleNewAppointment
+          isCernerOnlyPatient={isCernerOnlyPatient}
+          showCommunityCare={showCommunityCare}
+          showDirectScheduling={showDirectScheduling}
+          startNewAppointmentFlow={() => {
+            recordEvent({
+              event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
+            });
+            startNewAppointmentFlow();
+          }}
         />
-      </PageLayout>
-    );
-  }
+      )}
+
+      {showCheetahScheduleButton && (
+        <ScheduleNewProjectCheetah
+          startNewAppointmentFlow={() => {
+            recordEvent({
+              event: `${GA_PREFIX}-schedule-project-cheetah-button-clicked`,
+            });
+            startNewAppointmentFlow();
+          }}
+        />
+      )}
+
+      {!expressCare.enabled && (
+        <>
+          {showPastAppointments && <TabNav />}
+          {routes}
+        </>
+      )}
+      {expressCare.enabled && (
+        <>
+          {isLoading && (
+            <LoadingIndicator message="Loading your appointment information" />
+          )}
+          {!isLoading && (
+            <>
+              {!isCernerOnlyPatient && (
+                <RequestExpressCare
+                  {...expressCare}
+                  startNewExpressCareFlow={() => {
+                    recordEvent({
+                      event: `${GA_PREFIX}-express-care-request-button-clicked`,
+                    });
+                    startNewExpressCareFlow();
+                  }}
+                />
+              )}
+              {expressCare.hasRequests && (
+                <h2 className="vads-u-font-size--h3 vads-u-margin-y--3">
+                  Your upcoming, past, and Express Care appointments
+                </h2>
+              )}
+              <TabNav hasExpressCareRequests={expressCare.hasRequests} />
+              {routes}
+            </>
+          )}
+        </>
+      )}
+      <CancelAppointmentModal
+        {...cancelInfo}
+        onConfirm={confirmCancelAppointment}
+        onClose={closeCancelAppointment}
+      />
+    </>
+  );
 }
 
 AppointmentsPage.propTypes = {
@@ -175,24 +206,25 @@ function mapStateToProps(state) {
     pendingStatus: state.appointments.pendingStatus,
     futureStatus: selectFutureStatus(state),
     cancelInfo: getCancelInfo(state),
-    showPastAppointments: vaosPastAppts(state),
-    showScheduleButton: vaosRequests(state),
-    showCommunityCare: vaosCommunityCare(state),
-    showDirectScheduling: vaosDirectScheduling(state),
-    showExpressCare: vaosExpressCare(state),
-    isWelcomeModalDismissed: isWelcomeModalDismissed(state),
+    showPastAppointments: selectFeaturePastAppointments(state),
+    showScheduleButton: selectFeatureRequests(state),
+    showCommunityCare: selectFeatureCommunityCare(state),
+    showDirectScheduling: selectFeatureDirectScheduling(state),
+    showExpressCare: selectFeatureExpressCare(state),
+    showCheetahScheduleButton: selectFeatureProjectCheetah(state),
+    isWelcomeModalDismissed: selectIsWelcomeModalDismissed(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
-    expressCare: selectExpressCare(state),
+    expressCare: selectExpressCareAvailability(state),
   };
 }
 
 const mapDispatchToProps = {
-  fetchExpressCareWindows,
-  closeCancelAppointment,
-  confirmCancelAppointment,
-  startNewAppointmentFlow,
-  startNewExpressCareFlow,
-  fetchFutureAppointments,
+  fetchExpressCareWindows: actions.fetchExpressCareWindows,
+  closeCancelAppointment: actions.closeCancelAppointment,
+  confirmCancelAppointment: actions.confirmCancelAppointment,
+  startNewAppointmentFlow: actions.startNewAppointmentFlow,
+  startNewExpressCareFlow: actions.startNewExpressCareFlow,
+  fetchFutureAppointments: actions.fetchFutureAppointments,
 };
 
 export default connect(

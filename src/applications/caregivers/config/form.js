@@ -7,28 +7,38 @@ import PreSubmitInfo from 'applications/caregivers/components/PreSubmitInfo';
 import SubmitError from 'applications/caregivers/components/SubmitError';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import {
   submitTransform,
+  hasPrimaryCaregiver,
   hasSecondaryCaregiverOne,
   hasSecondaryCaregiverTwo,
 } from 'applications/caregivers/helpers';
+
 import definitions, {
   addressWithoutCountryUI,
 } from 'applications/caregivers/definitions/caregiverUI';
-import {
-  vetInfoPage,
-  vetContactInfoPage,
-  vetMedicalCenterPage,
-  primaryInfoPage,
-  primaryContactInfoPage,
-  primaryMedicalPage,
-  hasSecondaryCaregiverPage,
-  secondaryCaregiverInfoPage,
-  secondaryCaregiverContactPage,
-  secondaryTwoInfoPage,
-  secondaryTwoContactPage,
-} from './pages';
+
+import manifest from '../manifest.json';
+
+// veteran pages
+import vetInfoPage from './chapters/veteran/vetInfo';
+import vetContactInfoPage from './chapters/veteran/vetContactInfo';
+import vetMedicalCenterPage from './chapters/veteran/vetMedicalCenter';
+
+// primary pages
+import hasPrimaryCaregiverPage from './chapters/primary/hasPrimaryCaregiver';
+import primaryInfoPage from './chapters/primary/primaryInfo';
+import primaryContactInfoPage from './chapters/primary/primaryContact';
+import primaryMedicalPage from './chapters/primary/primaryHealthCoverage';
+
+// secondary pages
+import hasSecondaryCaregiverPage from './chapters/secondaryOne/hasSecondaryCaregiver';
+import secondaryCaregiverInfoPage from './chapters/secondaryOne/secondaryInfo';
+import secondaryCaregiverContactPage from './chapters/secondaryOne/secondaryCaregiverContact';
+import secondaryTwoInfoPage from './chapters/secondaryTwo/secondaryTwoInfo';
+import secondaryTwoContactPage from './chapters/secondaryTwo/secondaryTwoContactInfo';
 
 const {
   address,
@@ -46,10 +56,12 @@ const { secondaryCaregiversUI } = definitions;
 
 /* Chapters
  * 1 - Vet/Service Member (required)
- * 2 - Primary Family Caregiver (required)
- * 3 - Secondary & secondaryTwo Family Caregiver (optional -- up to 2 conditionally)
+ * 2 - Primary Family Caregiver
+ * 3 - Secondary & secondaryTwo Family Caregiver
+ * (One caregiver is always required, at least one primary, or one secondary - minimal)
  */
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/caregivers_assistance_claims`,
   transformForSubmit: submitTransform,
@@ -61,8 +73,18 @@ const formConfig = {
   confirmation: ConfirmationPage,
   submissionError: SubmitError,
   formId: VA_FORM_IDS.FORM_10_10CG,
+  saveInProgress: {
+    // messages: {
+    //   inProgress: 'Your [savedFormDescription] is in progress.',
+    //   expired: 'Your saved [savedFormDescription] has expired. If you want to apply for [benefitType], please start a new [appType].',
+    //   saved: 'Your [benefitType] [appType] has been saved.',
+    // },
+  },
   version: 0,
   prefillEnabled: false,
+  downtime: {
+    dependencies: [externalServices.mvi, externalServices.carma],
+  },
   title:
     'Apply for the Program of Comprehensive Assistance for Family Caregivers',
   subTitle: 'Form 10-10CG',
@@ -107,26 +129,34 @@ const formConfig = {
         primaryCaregiverInfoOne: {
           path: 'primary-1',
           title: 'Primary Family Caregiver information',
-          uiSchema: primaryInfoPage.uiSchema,
-          schema: primaryInfoPage.schema,
+          uiSchema: hasPrimaryCaregiverPage.uiSchema,
+          schema: hasPrimaryCaregiverPage.schema,
         },
         primaryCaregiverInfoTwo: {
           path: 'primary-2',
-          title: contactInfoTitle,
-          uiSchema: primaryContactInfoPage.uiSchema,
-          schema: primaryContactInfoPage.schema,
+          title: 'Primary Family Caregiver information',
+          uiSchema: primaryInfoPage.uiSchema,
+          schema: primaryInfoPage.schema,
+          depends: formData => hasPrimaryCaregiver(formData),
         },
         primaryCaregiverInfoThree: {
           path: 'primary-3',
+          title: contactInfoTitle,
+          uiSchema: primaryContactInfoPage.uiSchema,
+          schema: primaryContactInfoPage.schema,
+          depends: formData => hasPrimaryCaregiver(formData),
+        },
+        primaryCaregiverInfoFour: {
+          path: 'primary-4',
           title: 'Health care coverage',
           uiSchema: primaryMedicalPage.uiSchema,
           schema: primaryMedicalPage.schema,
+          depends: formData => hasPrimaryCaregiver(formData),
         },
       },
     },
     secondaryCaregiversChapter: {
       title: 'Secondary Family Caregiver applicant information',
-      depends: formData => hasSecondaryCaregiverOne(formData),
       pages: {
         secondaryCaregiverOneIntro: {
           path: 'secondary-one-1',

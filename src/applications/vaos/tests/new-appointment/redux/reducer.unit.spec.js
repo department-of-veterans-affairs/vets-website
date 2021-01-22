@@ -1,5 +1,8 @@
 import { expect } from 'chai';
-import newAppointmentReducer from '../../../new-appointment/redux/reducer';
+import newAppointmentReducer, {
+  REASON_ADDITIONAL_INFO_TITLES,
+  REASON_MAX_CHARS,
+} from '../../../new-appointment/redux/reducer';
 import {
   FORM_PAGE_OPENED,
   FORM_DATA_UPDATED,
@@ -7,6 +10,8 @@ import {
   FORM_PAGE_CHANGE_COMPLETED,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_OPEN_FAILED,
+  FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
+  // FORM_PAGE_FACILITY_V2_OPEN_FAILED,
   FORM_FETCH_FACILITY_DETAILS,
   FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES,
@@ -22,13 +27,17 @@ import {
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
   FORM_CALENDAR_DATA_CHANGED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED,
+  FORM_REQUESTED_PROVIDERS,
+  FORM_REQUESTED_PROVIDERS_SUCCEEDED,
+  FORM_REQUESTED_PROVIDERS_FAILED,
   FORM_SUBMIT,
   FORM_SUBMIT_FAILED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
-  FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
-  FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+  FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
+  FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
   FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
+  FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
 } from '../../../new-appointment/redux/actions';
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
@@ -37,18 +46,23 @@ import {
 
 import parentFacilities from '../../../services/mocks/var/facilities.json';
 import facilities983 from '../../../services/mocks/var/facilities_983.json';
+import facilityData from '../../../services/mocks/var/facility_data.json';
+import ccProviderData from '../../../services/mocks/var/cc_providers.json';
 import {
   FETCH_STATUS,
-  REASON_ADDITIONAL_INFO_TITLES,
   FLOW_TYPES,
-  REASON_MAX_CHARS,
   PURPOSE_TEXT,
   VHA_FHIR_ID,
   FACILITY_TYPES,
+  FACILITY_SORT_METHODS,
 } from '../../../utils/constants';
 
 import { transformParentFacilities } from '../../../services/organization/transformers';
-import { transformDSFacilities } from '../../../services/location/transformers';
+import {
+  transformDSFacilities,
+  transformFacilities,
+  transformCommunityProviders,
+} from '../../../services/location/transformers';
 import { getSiteIdFromOrganization } from '../../../services/organization';
 
 const parentFacilitiesParsed = transformParentFacilities(
@@ -69,6 +83,26 @@ const defaultState = {
 
 const facilities983Parsed = transformDSFacilities(
   facilities983.data.map(item => ({
+    ...item.attributes,
+    id: item.id,
+  })),
+);
+
+const facilityDataParsed = transformFacilities(
+  facilityData.data.map(item => ({
+    ...item.attributes,
+    id: item.id,
+  })),
+).map(location => ({
+  ...location,
+  legacyVAR: {
+    directSchedulingSupported: { 323: true, 504: true },
+    requestSupported: { 323: true, 504: true },
+  },
+}));
+
+const ccProvidersParsed = transformCommunityProviders(
+  ccProviderData.data.map(item => ({
     ...item.attributes,
     id: item.id,
   })),
@@ -324,6 +358,169 @@ describe('VAOS reducer: newAppointment', () => {
     });
   });
 
+  describe('open flat facility page reducer', () => {
+    const defaultOpenPageAction = {
+      type: FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
+      uiSchema: {},
+      schema: {
+        type: 'object',
+        properties: {
+          vaFacility: {
+            type: 'string',
+            enum: [],
+          },
+        },
+      },
+      typeOfCareId: '323',
+    };
+
+    const residentialAddress = {
+      addressLine1: '290 Ludlow Ave',
+      city: 'Cincinatti',
+      stateCode: 'OH',
+      zipCode: '45220',
+      latitude: 39.1362562, // Cincinatti, OH
+      longitude: -84.6804804,
+    };
+
+    it('should set facilities when page is done loading and page has multiple facilities', () => {
+      const currentState = {
+        ...defaultState,
+      };
+      const action = {
+        ...defaultOpenPageAction,
+        parentFacilities: parentFacilitiesParsed,
+        facilities: facilityDataParsed.slice(0, 3),
+        address: residentialAddress,
+      };
+
+      const newState = newAppointmentReducer(currentState, action);
+      const vaFacilitySchema =
+        newState.pages.vaFacilityV2.properties.vaFacility;
+
+      expect(vaFacilitySchema.enum).to.deep.equal([
+        'var984',
+        'var983',
+        'var983GC',
+      ]);
+      expect(vaFacilitySchema.enumNames[0].name).to.equal(
+        'Dayton VA Medical Center',
+      );
+      expect(vaFacilitySchema.enumNames[1].name).to.equal(
+        'Cheyenne VA Medical Center',
+      );
+      expect(vaFacilitySchema.enumNames[2].name).to.equal(
+        'Fort Collins VA Clinic',
+      );
+      expect(newState.facilityPageSortMethod).to.equal(
+        FACILITY_SORT_METHODS.distanceFromResidential,
+      );
+      expect(newState.data.vaParent).to.equal(undefined);
+    });
+
+    it('should set facilities when page is done loading and page has single facilities', () => {
+      const currentState = {
+        ...defaultState,
+      };
+      const action = {
+        ...defaultOpenPageAction,
+        parentFacilities: parentFacilitiesParsed,
+        facilities: facilityDataParsed.slice(2, 3),
+        address: residentialAddress,
+      };
+
+      const newState = newAppointmentReducer(currentState, action);
+      const vaFacilitySchema =
+        newState.pages.vaFacilityV2.properties.vaFacility;
+
+      expect(vaFacilitySchema.enum).to.deep.equal(['var983GC']);
+      expect(vaFacilitySchema.enumNames[0].name).to.equal(
+        'Fort Collins VA Clinic',
+      );
+      expect(newState.facilityPageSortMethod).to.equal(
+        FACILITY_SORT_METHODS.distanceFromResidential,
+      );
+    });
+
+    it('should set sort method to alphabetical if there is no residental address', () => {
+      const currentState = {
+        ...defaultState,
+      };
+      const action = {
+        ...defaultOpenPageAction,
+        parentFacilities: parentFacilitiesParsed,
+        facilities: facilityDataParsed.slice(0, 3),
+      };
+
+      const newState = newAppointmentReducer(currentState, action);
+      const vaFacilitySchema =
+        newState.pages.vaFacilityV2.properties.vaFacility;
+
+      expect(vaFacilitySchema.enum).to.deep.equal([
+        'var983',
+        'var984',
+        'var983GC',
+      ]);
+      expect(vaFacilitySchema.enumNames[0].name).to.equal(
+        'Cheyenne VA Medical Center',
+      );
+      expect(vaFacilitySchema.enumNames[1].name).to.equal(
+        'Dayton VA Medical Center',
+      );
+      expect(vaFacilitySchema.enumNames[2].name).to.equal(
+        'Fort Collins VA Clinic',
+      );
+      expect(newState.facilityPageSortMethod).to.equal(
+        FACILITY_SORT_METHODS.alphabetical,
+      );
+      expect(newState.data.vaParent).to.equal(undefined);
+    });
+
+    it('should update sort method', () => {
+      const currentState = {
+        ...defaultState,
+        data: {
+          typeOfCareId: '323',
+        },
+      };
+      const action = {
+        ...defaultOpenPageAction,
+        parentFacilities: parentFacilitiesParsed,
+        facilities: facilityDataParsed.slice(0, 3),
+        address: residentialAddress,
+      };
+
+      const newState = newAppointmentReducer(currentState, action);
+      expect(newState.facilityPageSortMethod).to.equal(
+        FACILITY_SORT_METHODS.distanceFromResidential,
+      );
+      const newState2 = newAppointmentReducer(newState, {
+        type: FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
+        sortMethod: FACILITY_SORT_METHODS.alphabetical,
+      });
+      const vaFacilitySchema =
+        newState2.pages.vaFacilityV2.properties.vaFacility;
+
+      expect(vaFacilitySchema.enum).to.deep.equal([
+        'var984',
+        'var983',
+        'var983GC',
+      ]);
+      expect(vaFacilitySchema.enumNames[0].name).to.equal(
+        'Dayton VA Medical Center',
+      );
+      expect(vaFacilitySchema.enumNames[1].name).to.equal(
+        'Cheyenne VA Medical Center',
+      );
+      expect(vaFacilitySchema.enumNames[2].name).to.equal(
+        'Fort Collins VA Clinic',
+      );
+      expect(newState2.facilityPageSortMethod).to.equal(
+        FACILITY_SORT_METHODS.alphabetical,
+      );
+    });
+  });
+
   describe('update facility data reducer', () => {
     const defaultFetchFacilitiesAction = {
       type: FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
@@ -470,6 +667,7 @@ describe('VAOS reducer: newAppointment', () => {
       const action = {
         type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
         typeOfCareId: '323',
+        facilityId: 'var983',
         eligibilityData: {
           clinics: [],
           directPastVisit: {},
@@ -500,6 +698,7 @@ describe('VAOS reducer: newAppointment', () => {
       const action = {
         type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
         typeOfCareId: '323',
+        facilityId: 'var983',
         eligibilityData: {
           clinics: { directFailed: true },
           directPastVisit: {},
@@ -757,24 +956,15 @@ describe('VAOS reducer: newAppointment', () => {
     });
 
     it('should update calendar data on change', () => {
-      const calendarData = {
-        currentlySelectedDate: '2020-03-11',
-        selectedDates: [
-          {
-            date: '2020-03-11',
-            datetime: '2020-03-11T09:40:00',
-          },
-        ],
-        error: null,
-      };
+      const selectedDates = ['2020-03-11T09:40:00'];
 
       const action = {
         type: FORM_CALENDAR_DATA_CHANGED,
-        calendarData,
+        selectedDates,
       };
 
       const newState = newAppointmentReducer(defaultState, action);
-      expect(newState.data.calendarData).to.deep.equal(calendarData);
+      expect(newState.data.selectedDates).to.deep.equal(selectedDates);
     });
   });
 
@@ -997,6 +1187,96 @@ describe('VAOS reducer: newAppointment', () => {
       });
     });
   });
+
+  describe('CC provider selection page', () => {
+    it('should set community care provider list loading', () => {
+      const action = {
+        type: FORM_REQUESTED_PROVIDERS,
+      };
+
+      const newState = newAppointmentReducer({}, action);
+      expect(newState.requestStatus).to.equal(FETCH_STATUS.loading);
+    });
+
+    it('should set community care providers if sorted by distance from residential', () => {
+      const action = {
+        type: FORM_REQUESTED_PROVIDERS_SUCCEEDED,
+        typeOfCareProviders: ccProvidersParsed,
+        address: {
+          addressLine1: '290 Ludlow Ave',
+          city: 'Cincinatti',
+          stateCode: 'OH',
+          zipCode: '45220',
+          latitude: 38.833571, // Alexandria, VA
+          longitude: -77.110408,
+        },
+      };
+
+      const sortMethod = FACILITY_SORT_METHODS.distanceFromResidential;
+
+      const newState = newAppointmentReducer(
+        {
+          data: {
+            typeOfCareId: '323',
+            vaFacility: 'var123',
+          },
+          communityCareProviders: {},
+          ccProviderPageSortMethod: sortMethod,
+        },
+        action,
+      );
+      const key = `${sortMethod}_CCPRMYRTNE`;
+      expect(key in newState.communityCareProviders).to.be.true;
+      expect(newState.communityCareProviders[key].length).to.be.above(0);
+      expect(newState.communityCareProviders[key][0].address.city).to.equal(
+        'Alexandria',
+      );
+      expect(newState.requestStatus).to.equal(FETCH_STATUS.succeeded);
+    });
+
+    it('should set community care providers if sorted by distance from current location', () => {
+      const action = {
+        type: FORM_REQUESTED_PROVIDERS_SUCCEEDED,
+        typeOfCareProviders: ccProvidersParsed,
+        address: {
+          latitude: 38.991034, // Greenbelt, MD
+          longitude: -76.880351,
+        },
+      };
+
+      const sortMethod = FACILITY_SORT_METHODS.distanceFromCurrentLocation;
+
+      const newState = newAppointmentReducer(
+        {
+          data: {
+            typeOfCareId: '323',
+            vaFacility: 'var123',
+          },
+          communityCareProviders: {},
+          ccProviderPageSortMethod: sortMethod,
+        },
+        action,
+      );
+
+      const key = `${sortMethod}_CCPRMYRTNE`;
+      expect(key in newState.communityCareProviders).to.be.true;
+      expect(newState.communityCareProviders[key].length).to.be.above(0);
+      expect(newState.communityCareProviders[key][0].address.city).to.equal(
+        'Greenbelt',
+      );
+      expect(newState.requestStatus).to.equal(FETCH_STATUS.succeeded);
+    });
+
+    it('should set community care provider list loading failed', () => {
+      const action = {
+        type: FORM_REQUESTED_PROVIDERS_FAILED,
+      };
+
+      const newState = newAppointmentReducer({}, action);
+      expect(newState.requestStatus).to.equal(FETCH_STATUS.failed);
+    });
+  });
+
   describe('submit request', () => {
     it('should set loading', () => {
       const action = {
@@ -1096,32 +1376,32 @@ describe('VAOS reducer: newAppointment', () => {
     ).to.be.false;
   });
 
-  it('should set ToC modal to show', () => {
+  it('should set podiatry appointment unavailable modal to show', () => {
     const currentState = {
       data: {},
       pageChangeInProgress: true,
     };
     const action = {
-      type: FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+      type: FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
     };
 
     const newState = newAppointmentReducer(currentState, action);
 
     expect(newState.pageChangeInProgress).to.be.false;
-    expect(newState.showTypeOfCareUnavailableModal).to.be.true;
+    expect(newState.showPodiatryAppointmentUnavailableModal).to.be.true;
   });
 
-  it('should set ToC modal to hidden', () => {
+  it('should set podiatry appointment unavailable modal to hidden', () => {
     const currentState = {
       data: {},
     };
     const action = {
-      type: FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+      type: FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
     };
 
     const newState = newAppointmentReducer(currentState, action);
 
-    expect(newState.showTypeOfCareUnavailableModal).to.be.false;
+    expect(newState.showPodiatryAppointmentUnavailableModal).to.be.false;
   });
 
   it('should reset form when new appointment button is clicked', () => {

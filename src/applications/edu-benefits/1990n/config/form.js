@@ -25,15 +25,27 @@ import { transform } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
 
+import manifest from '../manifest.json';
+
 const { payHighestRateBenefit } = fullSchema1990n.properties;
 
 const { currentlyActiveDuty, date } = fullSchema1990n.definitions;
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1990n`,
   trackingPrefix: 'edu-1990n-',
   formId: VA_FORM_IDS.FORM_22_1990N,
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your education benefits application (22-1990N) is in progress.',
+      expired:
+        'Your saved education benefits application (22-1990N) has expired. If you want to apply for education benefits, please start a new application.',
+      saved: 'Your education benefits application has been saved.',
+    },
+  },
   version: 1,
   migrations: [urlMigration('/1990n')],
   prefillEnabled: true,
@@ -57,7 +69,7 @@ const formConfig = {
   errorText: ErrorText,
   chapters: {
     applicantInformation: {
-      title: 'Applicant Information',
+      title: 'Applicant information',
       pages: {
         applicantInformation: applicantInformationPage(fullSchema1990n, {
           fields: [
@@ -119,7 +131,7 @@ const formConfig = {
       },
     },
     benefitSelection: {
-      title: 'Benefit Selection',
+      title: 'Benefit selection',
       pages: {
         benefitSelection: {
           path: 'benefits/selection', // other forms this is benefits/eligibility
@@ -142,7 +154,7 @@ const formConfig = {
       },
     },
     schoolSelection: {
-      title: 'School Selection',
+      title: 'School selection',
       pages: {
         schoolSelection: schoolSelectionPage(
           fullSchema1990n,
@@ -151,7 +163,7 @@ const formConfig = {
       },
     },
     personalInformation: {
-      title: 'Personal Information',
+      title: 'Personal information',
       pages: {
         contactInformation: contactInformationPage(fullSchema1990n),
         directDeposit: createDirectDepositPage(fullSchema1990n, {

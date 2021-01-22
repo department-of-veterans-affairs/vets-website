@@ -13,6 +13,8 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
+import manifest from '../manifest.json';
+
 const {
   veteranFullName,
   veteranSSN,
@@ -47,12 +49,20 @@ const authorizationToChangeClaimantAddressDescription =
   'I authorize any official representative of the organization named in Item 3A to act on my behalf to change my address in my VA records. This authorization does not extend to any other organization without my further written consent. This authorization will remain in effect until the earlier of the following events: (1) I file a written revocation with VA; or (2) I appoint another representative, or (3) I have been determined unable to manage my financial affairs and the individual or organization named in Item 3A is not my appointed fiduciary';
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/vso_appointments`,
   trackingPrefix: 'form-2122-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_21_22,
+  saveInProgress: {
+    // messages: {
+    //   inProgress: 'Your [savedFormDescription] is in progress.',
+    //   expired: 'Your saved [savedFormDescription] has expired. If you want to apply for [benefitType], please start a new [appType].',
+    //   saved: 'Your [benefitType] [appType] has been saved.',
+    // },
+  },
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {

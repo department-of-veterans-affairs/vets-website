@@ -1,7 +1,7 @@
+import React from 'react';
 import _ from 'lodash/fp';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { validateMatch } from 'platform/forms-system/src/js/validation';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
@@ -63,6 +63,7 @@ import ErrorMessage from '../components/ErrorMessage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
 import DependentView from '../components/DependentView';
 import DemographicField from '../components/DemographicField';
+import { AddressDescription } from '../components/ContentComponents';
 
 import {
   createDependentSchema,
@@ -76,6 +77,8 @@ import {
   validateMarriageDate,
   validateCurrency,
 } from '../validation';
+
+import manifest from '../manifest.json';
 
 const dependentSchema = createDependentSchema(fullSchemaHca);
 const dependentIncomeSchema = createDependentIncomeSchema(fullSchemaHca);
@@ -186,10 +189,20 @@ const attachmentsSchema = {
 // For which page needs prefill-message, check
 // vets-api/config/form_profile_mappings/1010ez.yml
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/health_care_applications`,
   trackingPrefix: 'hca-',
   formId: VA_FORM_IDS.FORM_10_10EZ,
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your health care benefits application (10-10EZ) is in progress.',
+      expired:
+        'Your saved health care benefits application (10-10EZ) has expired. If you want to apply for health care benefits, please start a new application.',
+      saved: 'Your health care benefits application has been saved.',
+    },
+  },
   version: 6,
   migrations,
   prefillEnabled: true,
@@ -377,11 +390,12 @@ const formConfig = {
         },
         veteranAddress: {
           path: 'veteran-information/veteran-address',
-          title: 'Permanent address',
+          title: 'Mailing address',
           initialData: {},
           uiSchema: {
             'ui:description': PrefillMessage,
-            veteranAddress: _.merge(addressUI('Permanent address', true), {
+            veteranAddress: _.merge(addressUI('Mailing address', true), {
+              'ui:description': <AddressDescription addressType="mailing" />,
               street: {
                 'ui:errorMessages': {
                   pattern:
@@ -395,11 +409,79 @@ const formConfig = {
                 },
               },
             }),
+            'view:doesMailingMatchHomeAddress': {
+              'ui:title':
+                'Is your home address the same as your mailing address?',
+              'ui:widget': 'yesNo',
+              'ui:required': formData => formData['view:hasMultipleAddress'],
+              'ui:options': {
+                hideIf: formData => !formData['view:hasMultipleAddress'],
+              },
+            },
           },
           schema: {
             type: 'object',
             properties: {
               veteranAddress: _.merge(addressSchema(fullSchemaHca, true), {
+                properties: {
+                  street: {
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                  street2: {
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                  street3: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                  city: {
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                },
+              }),
+              'view:doesMailingMatchHomeAddress': {
+                type: 'boolean',
+              },
+            },
+          },
+        },
+        veteranHomeAddress: {
+          path: 'veteran-information/veteran-home-address',
+          title: 'Home address',
+          initialData: {},
+          depends: formData =>
+            formData['view:hasMultipleAddress'] &&
+            !formData['view:doesMailingMatchHomeAddress'],
+          uiSchema: {
+            'ui:description': PrefillMessage,
+            veteranHomeAddress: _.merge(addressUI('Home address', true), {
+              'ui:description': <AddressDescription addressType="home" />,
+              street: {
+                'ui:errorMessages': {
+                  pattern:
+                    'Please provide a valid street. Must be at least 1 character.',
+                },
+              },
+              city: {
+                'ui:errorMessages': {
+                  pattern:
+                    'Please provide a valid city. Must be at least 1 character.',
+                },
+              },
+              'ui:options': {
+                'ui:title': 'Street',
+                hideIf: formData => !formData['view:hasMultipleAddress'],
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              veteranHomeAddress: _.merge(addressSchema(fullSchemaHca, true), {
                 properties: {
                   street: {
                     minLength: 1,

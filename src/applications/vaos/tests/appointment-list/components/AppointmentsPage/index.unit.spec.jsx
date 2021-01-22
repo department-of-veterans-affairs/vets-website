@@ -2,11 +2,13 @@ import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent, waitFor } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
 import environment from 'platform/utilities/environment';
 import {
   setFetchJSONFailure,
   mockFetch,
   resetFetch,
+  setFetchJSONResponse,
 } from 'platform/testing/unit/helpers';
 import {
   getVARequestMock,
@@ -21,7 +23,10 @@ import {
   mockFacilitiesFetch,
   mockRequestEligibilityCriteria,
 } from '../../../mocks/helpers';
-import { renderWithStoreAndRouter } from '../../../mocks/setup';
+import {
+  createTestStore,
+  renderWithStoreAndRouter,
+} from '../../../mocks/setup';
 
 import reducers from '../../../../redux/reducer';
 import FutureAppointmentsList from '../../../../appointment-list/components/FutureAppointmentsList';
@@ -58,6 +63,11 @@ describe('VAOS integration: appointment list', () => {
     appointment.attributes = {
       ...appointment.attributes,
       startDate: secondDate.format(),
+      vdsAppointments: [
+        {
+          bookingNote: 'My reason isn’t listed: Looking for a reason',
+        },
+      ],
     };
     const videoAppointment = getVideoAppointmentMock();
     videoAppointment.attributes = {
@@ -82,7 +92,7 @@ describe('VAOS integration: appointment list', () => {
       requests: [request],
     });
 
-    const { baseElement, findAllByRole } = renderWithStoreAndRouter(
+    const { baseElement, findAllByRole, getByText } = renderWithStoreAndRouter(
       <FutureAppointmentsList />,
       {
         initialState,
@@ -102,6 +112,8 @@ describe('VAOS integration: appointment list', () => {
       fourthDate.format('dddd, MMMM D, YYYY [at] h:mm a [UTC UTC]'),
       'Primary care appointment',
     ]);
+    expect(baseElement.querySelector('h4')).to.be.ok;
+    expect(getByText(/My reason isn’t listed/i)).to.be.ok;
   });
 
   it('should sort requests by type of care', async () => {
@@ -153,6 +165,8 @@ describe('VAOS integration: appointment list', () => {
       'Mental health appointment',
       'Primary care appointment',
     ]);
+
+    expect(baseElement.querySelector('h4')).to.be.ok;
   });
 
   it('should show no appointments message when there are no appointments', () => {
@@ -255,8 +269,8 @@ describe('VAOS integration: appointment list', () => {
       reducers,
     });
 
-    const header = await findByText('Create a new Express Care request');
-    const button = await findByText('Create an Express Care request');
+    const header = await findByText('Request a new Express Care appointment');
+    const button = await findByText('Request Express Care');
 
     expect(baseElement).to.contain.text(
       'Talk to VA health care staff today about a condition',
@@ -333,9 +347,7 @@ describe('VAOS integration: appointment list', () => {
     );
 
     await findByText(/Express Care isn’t available right now/i);
-    expect(getByText(/create an express care request/i)).to.have.attribute(
-      'disabled',
-    );
+    expect(getByText(/request express care/i)).to.have.attribute('disabled');
   });
 
   it('should not show express care action or tab when flag is off', async () => {
@@ -347,7 +359,7 @@ describe('VAOS integration: appointment list', () => {
       },
     };
     const {
-      findByText,
+      findAllByText,
       queryByText,
       getAllByRole,
       getByText,
@@ -357,7 +369,7 @@ describe('VAOS integration: appointment list', () => {
       reducers,
     });
 
-    await findByText('Create a new appointment');
+    await findAllByText('Request an appointment');
     expect(queryByText(/request an express care screening/i)).to.not.be.ok;
     expect(getAllByRole('tab').length).to.equal(2);
     expect(getAllByText('Upcoming appointments')[0]).to.have.attribute(
@@ -412,8 +424,9 @@ describe('VAOS integration: appointment list', () => {
       reducers,
     });
 
-    await findByText('Create a new appointment');
-    expect(await findAllByText('Create a new Express Care request')).to.be.ok;
+    await findByText('Request Express Care');
+    expect(await findAllByText('Request a new Express Care appointment')).to.be
+      .ok;
     expect(getAllByRole('tab').length).to.equal(2);
     expect(getAllByText('Upcoming appointments')[0]).to.have.attribute(
       'role',
@@ -499,7 +512,7 @@ describe('VAOS integration: appointment list', () => {
       user: {
         profile: {
           ...userState.profile,
-          vet360: {
+          vapContactInfo: {
             residentialAddress: {
               // Northampton, MA
               latitude: 42.3495,
@@ -514,11 +527,458 @@ describe('VAOS integration: appointment list', () => {
       reducers,
     });
 
-    const button = await screen.findByText('Create an Express Care request');
+    const button = await screen.findByText('Request Express Care');
 
     expect(button).to.not.have.attribute('disabled');
     expect(screen.baseElement).to.contain.text(
       `${closestStart.format('h:mm a')} to ${closestEnd.format('h:mm a')}`,
     );
+  });
+
+  it('should allow tabbing to tab group, but not individual tabs', async () => {
+    const request = getVARequestMock();
+    request.attributes = {
+      ...request.attributes,
+      status: 'Submitted',
+      typeOfCareId: 'CR1',
+    };
+    mockAppointmentInfo({
+      requests: [request],
+    });
+    mockRequestEligibilityCriteria(['983'], []);
+    const initialStateWithExpressCare = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingExpressCare: true,
+        vaOnlineSchedulingExpressCareNew: true,
+      },
+      user: userState,
+    };
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState: initialStateWithExpressCare,
+    });
+
+    expect(
+      await screen.findByRole('tab', {
+        name: 'upcoming appointments',
+        selected: true,
+      }),
+    ).to.not.have.attribute('tabindex');
+    expect(
+      screen.getByRole('tab', {
+        name: 'past appointments',
+        selected: false,
+      }),
+    ).to.have.attribute('tabindex', '-1');
+    expect(
+      screen.getByRole('tab', {
+        name: 'express care appointments',
+        selected: false,
+      }),
+    ).to.have.attribute('tabindex', '-1');
+
+    userEvent.click(
+      screen.getByRole('tab', {
+        name: 'past appointments',
+      }),
+    );
+
+    expect(
+      await screen.findByRole('tab', {
+        name: 'past appointments',
+        selected: true,
+      }),
+    ).to.not.have.attribute('tabindex');
+    expect(
+      screen.getByRole('tab', {
+        name: 'upcoming appointments',
+        selected: false,
+      }),
+    ).to.have.attribute('tabindex', '-1');
+    expect(
+      screen.getByRole('tab', {
+        name: 'express care appointments',
+        selected: false,
+      }),
+    ).to.have.attribute('tabindex', '-1');
+  });
+
+  it('should call next tab on arrow right', async () => {
+    const request = getVARequestMock();
+    request.attributes = {
+      ...request.attributes,
+      status: 'Submitted',
+      typeOfCareId: 'CR1',
+      reasonForVisit: 'Back pain',
+    };
+    mockAppointmentInfo({
+      requests: [request],
+      va: [],
+    });
+    mockRequestEligibilityCriteria(['983'], []);
+    const initialStateWithExpressCare = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingExpressCare: true,
+        vaOnlineSchedulingExpressCareNew: true,
+      },
+      user: userState,
+    };
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState: initialStateWithExpressCare,
+    });
+
+    expect(
+      await screen.findByRole('tab', {
+        name: 'upcoming appointments',
+        selected: true,
+      }),
+    ).to.not.have.attribute('tabindex');
+
+    // triggers arrow right key
+
+    fireEvent.keyDown(
+      screen.getByRole('tab', {
+        name: 'upcoming appointments',
+        selected: true,
+      }),
+      { key: 'ArrowRight', keyCode: 39 },
+    );
+
+    expect(document.activeElement.id).to.equal('tabpast');
+
+    expect(
+      screen.getByRole('tab', {
+        name: 'past appointments',
+        selected: true,
+      }),
+    ).to.not.have.attribute('tabindex');
+    expect(
+      screen.getByRole('tab', {
+        name: 'upcoming appointments',
+        selected: false,
+      }),
+    ).to.have.attribute('tabindex', '-1');
+
+    // triggers arrow right key
+
+    fireEvent.keyDown(
+      await screen.findByRole('tab', {
+        name: 'past appointments',
+        selected: true,
+      }),
+      { key: 'ArrowRight', keyCode: 39 },
+    );
+    expect(document.activeElement.id).to.equal('tabexpress-care');
+    expect(
+      screen.getByRole('tab', {
+        name: 'express care appointments',
+        selected: true,
+      }),
+    ).to.not.have.attribute('tabindex');
+    expect(
+      screen.getByRole('tab', {
+        name: 'past appointments',
+        selected: false,
+      }),
+    ).to.have.attribute('tabindex', '-1');
+  });
+
+  it('should call previous tab on left right', async () => {
+    const request = getVARequestMock();
+    request.attributes = {
+      ...request.attributes,
+      status: 'Submitted',
+      typeOfCareId: 'CR1',
+      reasonForVisit: 'Back pain',
+    };
+    mockAppointmentInfo({
+      requests: [request],
+      va: [],
+    });
+    mockRequestEligibilityCriteria(['983'], []);
+    const initialStateWithExpressCare = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingExpressCare: true,
+        vaOnlineSchedulingExpressCareNew: true,
+      },
+      user: userState,
+    };
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState: initialStateWithExpressCare,
+    });
+
+    expect(
+      await screen.findByRole('tab', {
+        name: 'upcoming appointments',
+        selected: true,
+      }),
+    ).to.not.have.attribute('tabindex');
+
+    // move to the express care tab
+
+    userEvent.click(
+      screen.getByRole('tab', {
+        name: 'express care appointments',
+      }),
+    );
+
+    expect(
+      await screen.findByRole('tab', {
+        name: 'express care appointments',
+        selected: true,
+      }),
+    ).to.not.have.attribute('tabindex');
+
+    // triggers arrow left key
+
+    fireEvent.keyDown(
+      screen.getByRole('tab', {
+        name: 'express care appointments',
+        selected: true,
+      }),
+      { key: 'ArrowLeft', keyCode: 37 },
+    );
+
+    expect(document.activeElement.id).to.equal('tabpast');
+
+    expect(
+      screen.getByRole('tab', {
+        name: 'past appointments',
+        selected: true,
+      }),
+    ).to.not.have.attribute('tabindex');
+    expect(
+      screen.getByRole('tab', {
+        name: 'express care appointments',
+        selected: false,
+      }),
+    ).to.have.attribute('tabindex', '-1');
+
+    // triggers arrow left key
+
+    fireEvent.keyDown(
+      await screen.findByRole('tab', {
+        name: 'past appointments',
+        selected: true,
+      }),
+      { key: 'ArrowLeft', keyCode: 37 },
+    );
+    expect(document.activeElement.id).to.equal('tabupcoming');
+    expect(
+      screen.getByRole('tab', {
+        name: 'upcoming appointments',
+        selected: true,
+      }),
+    ).to.not.have.attribute('tabindex');
+    expect(
+      screen.getByRole('tab', {
+        name: 'past appointments',
+        selected: false,
+      }),
+    ).to.have.attribute('tabindex', '-1');
+  });
+
+  it('should focus on tab panel on arrow down', async () => {
+    const request = getVARequestMock();
+    request.attributes = {
+      ...request.attributes,
+      status: 'Submitted',
+      typeOfCareId: 'CR1',
+      reasonForVisit: 'Back pain',
+    };
+    mockAppointmentInfo({
+      requests: [request],
+      va: [],
+    });
+    mockRequestEligibilityCriteria(['983'], []);
+    const initialStateWithExpressCare = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingExpressCare: true,
+        vaOnlineSchedulingExpressCareNew: true,
+      },
+      user: userState,
+    };
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState: initialStateWithExpressCare,
+    });
+
+    expect(
+      await screen.findByRole('tab', {
+        name: 'upcoming appointments',
+        selected: true,
+      }),
+    ).to.not.have.attribute('tabindex');
+
+    userEvent.click(
+      screen.getByRole('tab', {
+        name: 'express care appointments',
+      }),
+    );
+
+    expect(
+      await screen.findByRole('tab', {
+        name: 'express care appointments',
+        selected: true,
+      }),
+    ).to.not.have.attribute('tabindex');
+
+    // triggers arrow down key
+
+    fireEvent.keyDown(
+      screen.getByRole('tab', {
+        name: 'express care appointments',
+        selected: true,
+      }),
+      { key: 'ArrowDown', keyCode: 40 },
+    );
+
+    expect(document.activeElement.id).to.equal('tabpanelexpress-care');
+    expect(screen.getByText(/Back pain/i)).to.exist;
+  });
+
+  it('should render warning message', async () => {
+    setFetchJSONResponse(
+      global.fetch.withArgs(`${environment.API_URL}/v0/maintenance_windows/`),
+      {
+        data: [
+          {
+            id: '139',
+            type: 'maintenance_windows',
+            attributes: {
+              externalService: 'vaosWarning',
+              description: 'My description',
+              startTime: moment.utc().subtract('1', 'days'),
+              endTime: moment.utc().add('1', 'days'),
+            },
+          },
+        ],
+      },
+    );
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      store,
+    });
+
+    expect(
+      await screen.findByRole('heading', {
+        level: 3,
+        name: /You may have trouble using the VA appointments tool right now/,
+      }),
+    ).to.exist;
+  });
+
+  it('should render schedule button with direct schedule text', async () => {
+    const defaultState = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingDirect: true,
+        vaOnlineSchedulingCommunityCare: false,
+      },
+      user: userState,
+    };
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState: defaultState,
+      reducers,
+    });
+
+    expect(
+      await screen.findByRole('heading', {
+        level: 2,
+        name: /Create a new appointment/,
+      }),
+    );
+    expect(
+      screen.getByText(
+        /Schedule an appointment at a VA medical center or clinic./,
+      ),
+    ).to.be.ok;
+    expect(screen.getByRole('link', { name: 'Schedule an appointment' }));
+  });
+
+  it('should render schedule button with direct schedule text for community care', async () => {
+    const defaultState = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingDirect: true,
+        vaOnlineSchedulingCommunityCare: true,
+      },
+      user: userState,
+    };
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState: defaultState,
+      reducers,
+    });
+
+    expect(
+      await screen.findByRole('heading', {
+        level: 2,
+        name: /Create a new appointment/,
+      }),
+    );
+    expect(
+      screen.getByText(
+        /Schedule an appointment at a VA medical center, clinic, or community care facility./,
+      ),
+    ).to.be.ok;
+    expect(screen.getByRole('link', { name: 'Schedule an appointment' }));
+  });
+
+  it('should render schedule button with request appointment text', async () => {
+    const defaultState = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingDirect: false,
+        vaOnlineSchedulingCommunityCare: false,
+      },
+      user: userState,
+    };
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState: defaultState,
+      reducers,
+    });
+
+    expect(
+      await screen.findByRole('heading', {
+        level: 2,
+        name: /Request an appointment/,
+      }),
+    );
+    expect(
+      screen.getByText(
+        /You can submit a request for an appointment at a VA medical center or clinic./,
+      ),
+    ).to.be.ok;
+    expect(screen.getByRole('link', { name: 'Request an appointment' }));
+  });
+
+  it('should render schedule button with request appointment text for communty care', async () => {
+    const defaultState = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingDirect: false,
+        vaOnlineSchedulingCommunityCare: true,
+      },
+      user: userState,
+    };
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState: defaultState,
+      reducers,
+    });
+
+    expect(
+      await screen.findByRole('heading', {
+        level: 2,
+        name: /Request an appointment/,
+      }),
+    );
+    expect(
+      screen.getByText(
+        /You can submit a request for an appointment at a VA medical center, clinic, or approved Community Care facility./,
+      ),
+    ).to.be.ok;
+    expect(screen.getByRole('link', { name: 'Request an appointment' }));
   });
 });

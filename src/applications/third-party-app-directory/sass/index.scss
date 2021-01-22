@@ -1,0 +1,40 @@
+.va-u-outline--none:focus {
+  outline: none;
+}
+
+.third-party-app-directory {
+  hr {
+    border-top: none;
+  }
+
+  .search-results {
+    li {
+      list-style: none;
+    }
+
+    ul li {
+      list-style: disc;
+    }
+  }
+
+  .third-party-app {
+    border-radius: 5px;
+    overflow: hidden;
+
+    img {
+      height: 70px;
+      width: 70px;
+      min-height: 70px;
+      min-width: 70px;
+      object-fit: cover;
+    }
+
+    p {
+      white-space: pre-line;
+    }
+
+    .learn-more {
+      margin-left: 86px;
+    }
+  }
+}

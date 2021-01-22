@@ -12,39 +12,84 @@ class ResponsiveTable extends React.Component {
     );
   };
 
-  renderRow = item => {
-    const { columns } = this.props;
-    const { key, rowClassName } = item;
+  /**
+   * @param row The object representing columns in this can either be a string for simple tables, a react element,
+   *            or an object for tables that need options for individual rows
+   * @param column The column name
+   */
+  renderRowCell = (row, column) => {
+    const columnData = row[column];
+
+    // This handles the case where columnData is a react.element
+    let cellData = columnData;
+    // Default to column value displayed on desktop
+    let mobileHeaderValue = column;
+
+    const stringCellData = value => (
+      <span className={'vads-u-margin-0'}>{value}</span>
+    );
+
+    if (typeof columnData === 'string') {
+      cellData = stringCellData(columnData);
+    } else if (columnData.value) {
+      const { value, mobileHeader } = columnData;
+
+      cellData = value;
+      if (typeof value === 'string') {
+        cellData = stringCellData(value);
+      }
+
+      if (mobileHeader) {
+        mobileHeaderValue = mobileHeader;
+      }
+    }
+
     return (
-      <tr key={key} className={rowClassName} role="row">
-        {columns.map((field, index) => {
-          const cellName = createId(field);
-          if (index === 0) {
+      <>
+        <dfn className="medium-screen:vads-u-display--none vads-u-font-weight--bold">
+          {mobileHeaderValue}:{' '}
+        </dfn>
+        {cellData}
+      </>
+    );
+  };
+
+  renderRow = row => {
+    const { columns } = this.props;
+    const { key, rowClassName } = row;
+    return (
+      <>
+        <hr className="responsive-table-row-separator" />
+        <tr key={key} className={rowClassName} role="row">
+          {columns.map((column, index) => {
+            const cellName = createId(column);
+
+            if (index === 0) {
+              return (
+                <th
+                  className={`${cellName}-cell`}
+                  scope="row"
+                  /* eslint-disable-next-line jsx-a11y/no-interactive-element-to-noninteractive-role */
+                  role="rowheader"
+                  tabIndex="-1"
+                  key={`${key}-${cellName}`}
+                >
+                  {this.renderRowCell(row, column)}
+                </th>
+              );
+            }
             return (
-              <th
+              <td
                 className={`${cellName}-cell`}
-                scope="row"
-                /* eslint-disable-next-line jsx-a11y/no-interactive-element-to-noninteractive-role */
                 role="cell"
-                tabIndex="-1"
                 key={`${key}-${cellName}`}
               >
-                {item[field]}
-              </th>
+                {this.renderRowCell(row, column)}
+              </td>
             );
-          }
-
-          return (
-            <td
-              className={`${cellName}-cell`}
-              role="cell"
-              key={`${key}-${cellName}`}
-            >
-              {item[field]}
-            </td>
-          );
-        })}
-      </tr>
+          })}
+        </tr>
+      </>
     );
   };
 

@@ -8,11 +8,51 @@ import { mapToFHIRErrors } from '../utils';
 import {
   APPOINTMENT_TYPES,
   APPOINTMENT_STATUS,
-  PAST_APPOINTMENTS_HIDDEN_SET,
-  FUTURE_APPOINTMENTS_HIDDEN_SET,
   VIDEO_TYPES,
-  CONFIRMED_APPOINTMENT_TYPES,
 } from '../../utils/constants';
+
+export const CANCELLED_APPOINTMENT_SET = new Set([
+  'CANCELLED BY CLINIC & AUTO RE-BOOK',
+  'CANCELLED BY CLINIC',
+  'CANCELLED BY PATIENT & AUTO-REBOOK',
+  'CANCELLED BY PATIENT',
+]);
+
+// Appointments in these "HIDE_STATUS_SET"s should show in list, but their status should be hidden
+export const FUTURE_APPOINTMENTS_HIDE_STATUS_SET = new Set([
+  'ACT REQ/CHECKED IN',
+  'ACT REQ/CHECKED OUT',
+]);
+
+export const PAST_APPOINTMENTS_HIDE_STATUS_SET = new Set([
+  'ACTION REQUIRED',
+  'INPATIENT APPOINTMENT',
+  'INPATIENT/ACT REQ',
+  'INPATIENT/CHECKED IN',
+  'INPATIENT/CHECKED OUT',
+  'INPATIENT/FUTURE',
+  'INPATIENT/NO ACT TAKN',
+  'NO ACTION TAKEN',
+  'NO-SHOW & AUTO RE-BOOK',
+  'NO-SHOW',
+  'NON-COUNT',
+]);
+
+const CONFIRMED_APPOINTMENT_TYPES = new Set([
+  APPOINTMENT_TYPES.ccAppointment,
+  APPOINTMENT_TYPES.vaAppointment,
+]);
+
+// Appointments in these "HIDDEN_SET"s should not be shown in appointment lists at all
+export const FUTURE_APPOINTMENTS_HIDDEN_SET = new Set(['NO-SHOW', 'DELETED']);
+
+const PAST_APPOINTMENTS_HIDDEN_SET = new Set([
+  'FUTURE',
+  'DELETED',
+  null,
+  '<null>',
+  'Deleted',
+]);
 
 /**
  * Fetch the logged in user's confirmed appointments that fall between a startDate and endDate
@@ -122,6 +162,32 @@ export function isVideoGFE(appointment) {
 }
 
 /**
+ * Gets legacy VAR ATLAS location from HealthcareService reference
+ *
+ * @param {Object} appointment VAR Appointment in FHIR schema
+ * @returns {Object} the address from legacy VAR tasInfo.address
+ */
+export function getATLASLocation(appointment) {
+  return appointment?.contained.find(res => res.resourceType === 'Location');
+}
+
+/**
+ * Gets legacy VAR ATLAS confirmation code from HealthcareService reference
+ *
+ * @param {Object} appointment VAR Appointment in FHIR schema
+ * @returns {Object} the confirmation code from legacy VAR tasInfo.confirmationCode
+ */
+export function getATLASConfirmationCode(appointment) {
+  const characteristic = appointment.contained
+    ?.find(contained => contained.resourceType === 'HealthcareService')
+    ?.characteristic?.find(c =>
+      c.coding?.find(code => code.system === 'ATLAS_CC'),
+    );
+
+  return characteristic?.coding[0].code;
+}
+
+/**
  * Gets legacy VAR facility id from HealthcareService reference
  *
  * @param {Object} appointment VAR Appointment in FHIR schema
@@ -173,9 +239,12 @@ export function getVARClinicId(appointment) {
  * @returns {String} The location id where the video appointment is located
  */
 export function getVideoAppointmentLocation(appointment) {
+  const serviceResource = appointment.contained.find(
+    res => res.resourceType === 'HealthcareService',
+  );
   const locationReference =
-    appointment.contained?.[0]?.location?.reference ||
-    appointment.contained?.[0]?.providedBy?.reference;
+    serviceResource?.location?.reference ||
+    serviceResource?.providedBy?.reference;
 
   if (locationReference) {
     return locationReference.split('/')[1];
@@ -269,12 +338,63 @@ export function isUpcomingAppointmentOrRequest(appt) {
 }
 
 /**
+ * Returns true if the given Appointment is a confirmed appointment
+ * or an Express Care request
+ *
+ * @export
+ * @param {Object} appt The FHIR Appointment to check
+ * @returns {Boolean} Whether or not the appointment is a valid upcoming
+ *  appointment or Express Care request
+ */
+export function isUpcomingAppointmentOrExpressCare(appt) {
+  if (CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType)) {
+    const apptDateTime = moment(appt.start);
+
+    return (
+      !appt.vaos.isPastAppointment &&
+      !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
+      apptDateTime.isValid() &&
+      apptDateTime.isBefore(moment().add(13, 'months'))
+    );
+  }
+
+  return (
+    appt.vaos.isExpressCare &&
+    appt.status !== APPOINTMENT_STATUS.fulfilled &&
+    moment(appt.start).isAfter(
+      // going one day back to account for late in the day EC requests
+      moment()
+        .startOf('day')
+        .add(-1, 'day'),
+    )
+  );
+}
+
+/**
  * Sort method for past appointments
  * @param {Object} a A FHIR appointment resource
  * @param {Object} b A FHIR appointment resource
  */
 export function sortByDateDescending(a, b) {
   return moment(a.start).isAfter(moment(b.start)) ? -1 : 1;
+}
+
+/**
+ * Sort method for upcoming appointments
+ * @param {Object} a A FHIR appointment resource
+ * @param {Object} b A FHIR appointment resource
+ */
+export function sortByDateAscending(a, b) {
+  return moment(a.start).isBefore(moment(b.start)) ? -1 : 1;
+}
+
+/**
+ * Sort method for appointments requests
+ * @param {Object} a A FHIR appointment resource
+ * @param {Object} b A FHIR appointment resource
+ */
+export function sortByCreatedDateDescending(a, b) {
+  return moment(a.created).isAfter(moment(b.created)) ? -1 : 1;
 }
 
 /**
@@ -379,6 +499,48 @@ export function hasPractitioner(appointment) {
  * @return {Object} Returns the appointment practitioner object.
  */
 export function getPractitionerDisplay(participants) {
-  return participants.find(p => p.actor.reference.includes('Practitioner'))
+  return participants?.find(p => p.actor.reference.includes('Practitioner'))
     .actor.display;
+}
+
+/**
+ * Method to parse out the appointment practitioner location display in contained array
+ * @param {Array} participants An array of appointment participants
+ * @return {Object} Returns the appointment practitioner object.
+ */
+export function getPractitionerLocationDisplay(appointment) {
+  return appointment.contained?.find(c =>
+    c.resourceType.includes('Practitioner'),
+  )?.practitionerRole?.[0]?.location?.[0]?.display;
+}
+
+/**
+ * Groups appointments into an array of arrays by month
+ * Assumes appointments are already sorted
+ *
+ * @export
+ * @param {Array} appointments List of FHIR appointments
+ * @returns {Array} An array of arrays by month
+ */
+export function groupAppointmentsByMonth(appointments) {
+  if (appointments.length === 0) {
+    return [];
+  }
+
+  const appointmentsByMonth = [[]];
+  let currentIndex = 0;
+  appointments.forEach(appt => {
+    if (
+      !appointmentsByMonth[currentIndex].length ||
+      moment(appt.start).format('YYYY-MM') ===
+        moment(appointmentsByMonth[currentIndex][0].start).format('YYYY-MM')
+    ) {
+      appointmentsByMonth[currentIndex].push(appt);
+    } else {
+      appointmentsByMonth.push([appt]);
+      currentIndex++;
+    }
+  });
+
+  return appointmentsByMonth;
 }

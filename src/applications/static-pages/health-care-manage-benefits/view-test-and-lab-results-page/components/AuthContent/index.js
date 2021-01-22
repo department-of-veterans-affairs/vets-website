@@ -1,17 +1,25 @@
 // Node modules.
 import React from 'react';
+import PropTypes from 'prop-types';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 // Relative imports.
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
+import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 
-export const AuthContent = () => (
+export const AuthContent = ({
+  authenticatedWithSSOe,
+  cernerFacilities,
+  otherFacilities,
+}) => (
   <>
     <CernerCallToAction
+      cernerFacilities={cernerFacilities}
+      otherFacilities={otherFacilities}
       linksHeaderText="View lab and test results from:"
-      myHealtheVetLink="https://sqa.eauth.va.gov/mhv-portal-web/eauth"
+      myHealtheVetLink={mhvUrl(authenticatedWithSSOe, 'labs-tests')}
       myVAHealthLink={getCernerURL('/pages/health_record/results/labs')}
     />
     <div>
@@ -318,5 +326,31 @@ export const AuthContent = () => (
     </div>
   </>
 );
+
+AuthContent.propTypes = {
+  authenticatedWithSSOe: PropTypes.bool.isRequired,
+  cernerfacilities: PropTypes.arrayOf(
+    PropTypes.shape({
+      facilityId: PropTypes.string.isRequired,
+      isCerner: PropTypes.bool.isRequired,
+      usesCernerAppointments: PropTypes.string,
+      usesCernerMedicalRecords: PropTypes.string,
+      usesCernerMessaging: PropTypes.string,
+      usesCernerRx: PropTypes.string,
+      usesCernerTestResults: PropTypes.string,
+    }).isRequired,
+  ),
+  otherfacilities: PropTypes.arrayOf(
+    PropTypes.shape({
+      facilityId: PropTypes.string.isRequired,
+      isCerner: PropTypes.bool.isRequired,
+      usesCernerAppointments: PropTypes.string,
+      usesCernerMedicalRecords: PropTypes.string,
+      usesCernerMessaging: PropTypes.string,
+      usesCernerRx: PropTypes.string,
+      usesCernerTestResults: PropTypes.string,
+    }).isRequired,
+  ),
+};
 
 export default AuthContent;

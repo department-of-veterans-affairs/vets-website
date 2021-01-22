@@ -32,7 +32,6 @@ import {
   servedAfter911,
   isNotUploadingPrivateMedical,
   hasNewPtsdDisability,
-  hasNewDisabilities,
   increaseOnly,
   isDisabilityPtsd,
   directToCorrectForm,
@@ -40,6 +39,7 @@ import {
   isBDD,
   showSeparationLocation,
   getPageTitle,
+  claimingNew,
 } from '../utils';
 
 import captureEvents from '../analytics-functions';
@@ -50,7 +50,6 @@ import { transform } from '../submit-transformer';
 
 import { disabilitiesOrientation } from '../content/disabilitiesOrientation';
 import { supportingEvidenceOrientation } from '../content/supportingEvidenceOrientation';
-import { supportingEvidenceOrientationBDD } from '../content/supportingEvidenceOrientationBDD';
 import {
   adaptiveBenefits,
   addDisabilities,
@@ -73,7 +72,6 @@ import {
   individualUnemployability,
   mentalHealthChanges,
   militaryHistory,
-  newDisabilities,
   newDisabilityFollowUp,
   newPTSDFollowUp,
   paymentInformation,
@@ -122,9 +120,12 @@ import { PTSD_INCIDENT_ITERATION, NULL_CONDITION_STRING } from '../constants';
 
 import migrations from '../migrations';
 
+import manifest from '../manifest.json';
+
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   submitUrl: `${
@@ -134,9 +135,23 @@ const formConfig = {
   trackingPrefix: 'disability-526EZ-',
   downtime: {
     requiredForPrefill: true,
-    dependencies: [services.evss, services.emis, services.mvi, services.vet360],
+    dependencies: [
+      services.evss,
+      services.emis,
+      services.mvi,
+      services.vaProfile,
+    ],
   },
   formId: VA_FORM_IDS.FORM_21_526EZ,
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your disability compensation application (21-526EZ) is in progress.',
+      expired:
+        'Your saved disability compensation application (21-526EZ) has expired. If you want to apply for disability compensation, please start a new application.',
+      saved: 'Your disability compensation application has been saved.',
+    },
+  },
   onFormLoaded: directToCorrectForm,
   version: migrations.length,
   migrations,
@@ -196,21 +211,20 @@ const formConfig = {
           uiSchema: separationLocation.uiSchema,
           schema: separationLocation.schema,
         },
-        claimType: {
-          title: 'Claim type',
-          path: 'claim-type',
-          depends: formData =>
-            hasRatedDisabilities(formData) && !isBDD(formData),
-          uiSchema: claimType.uiSchema,
-          schema: claimType.schema,
-          onContinue: captureEvents.claimType,
-        },
         servedInCombatZone: {
           title: 'Combat status',
           path: 'review-veteran-details/combat-status',
           depends: servedAfter911,
           uiSchema: servedInCombatZone.uiSchema,
           schema: servedInCombatZone.schema,
+        },
+        claimType: {
+          title: 'Claim type',
+          path: 'claim-type',
+          depends: formData => hasRatedDisabilities(formData),
+          uiSchema: claimType.uiSchema,
+          schema: claimType.schema,
+          onContinue: captureEvents.claimType,
         },
         reservesNationalGuardService: {
           title: 'Reserves and National Guard service',
@@ -262,8 +276,7 @@ const formConfig = {
           title: '',
           path: DISABILITY_SHARED_CONFIG.orientation.path,
           depends: formData =>
-            DISABILITY_SHARED_CONFIG.orientation.depends(formData) &&
-            !isBDD(formData),
+            DISABILITY_SHARED_CONFIG.orientation.depends(formData),
           uiSchema: { 'ui:description': disabilitiesOrientation },
           schema: { type: 'object', properties: {} },
         },
@@ -271,17 +284,9 @@ const formConfig = {
           title: 'Existing conditions (rated disabilities)',
           path: DISABILITY_SHARED_CONFIG.ratedDisabilities.path,
           depends: formData =>
-            DISABILITY_SHARED_CONFIG.ratedDisabilities.depends(formData) &&
-            !isBDD(formData),
+            DISABILITY_SHARED_CONFIG.ratedDisabilities.depends(formData),
           uiSchema: ratedDisabilities.uiSchema,
           schema: ratedDisabilities.schema,
-        },
-        newDisabilities: {
-          title: 'New disabilities',
-          path: 'new-disabilities',
-          depends: formData => !increaseOnly(formData),
-          uiSchema: newDisabilities.uiSchema,
-          schema: newDisabilities.schema,
         },
         addDisabilities: {
           title: 'Add a new disability',
@@ -293,7 +298,7 @@ const formConfig = {
         },
         followUpDesc: {
           title: 'Follow-up questions',
-          depends: formData => hasNewDisabilities(formData) && !isBDD(formData),
+          depends: formData => claimingNew(formData) && !isBDD(formData),
           path: 'new-disabilities/follow-up',
           uiSchema: {
             'ui:description':
@@ -306,7 +311,7 @@ const formConfig = {
             typeof formData.condition === 'string'
               ? capitalizeEachWord(formData.condition)
               : NULL_CONDITION_STRING,
-          depends: hasNewDisabilities,
+          depends: claimingNew,
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
           itemFilter: item => !isDisabilityPtsd(item.condition),
@@ -549,15 +554,10 @@ const formConfig = {
         orientation: {
           title: '',
           path: 'supporting-evidence/orientation',
-          depends: formData => !isBDD(formData),
-          uiSchema: { 'ui:description': supportingEvidenceOrientation },
-          schema: { type: 'object', properties: {} },
-        },
-        orientationBDD: {
-          title: '',
-          path: 'supporting-evidence/orientation-bdd',
-          depends: formData => isBDD(formData),
-          uiSchema: { 'ui:description': supportingEvidenceOrientationBDD },
+          uiSchema: {
+            'ui:description': formData =>
+              supportingEvidenceOrientation(formData),
+          },
           schema: { type: 'object', properties: {} },
         },
         serviceTreatmentRecords: {
@@ -584,7 +584,7 @@ const formConfig = {
         vaMedicalRecords: {
           title: 'VA medical records',
           path: 'supporting-evidence/va-medical-records',
-          depends: formData => hasVAEvidence(formData) && !isBDD(formData),
+          depends: formData => hasVAEvidence(formData),
           uiSchema: vaMedicalRecords.uiSchema,
           schema: vaMedicalRecords.schema,
         },

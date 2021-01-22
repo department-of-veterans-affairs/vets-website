@@ -5,16 +5,17 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from 'applications/caregivers/config/form';
 import manifest from 'applications/caregivers/manifest.json';
 
-const veteranLabel = `Enter Veteran&apos;s full name`;
-const primaryLabel = `Enter Primary Family Caregiver applicant&apos;s full name`;
-const secondaryOneLabel = `Enter Secondary Family Caregiver applicant&apos;s full name`;
-const secondaryTwoLabel = `Enter Secondary Family Caregiver applicant&apos;s (2) full name`;
+const veteranLabel = `Veteran\u2019s`;
+const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
+const secondaryOneLabel = `Secondary Family Caregiver applicant\u2019s`;
+const secondaryTwoLabel = `Secondary Family Caregiver (2) applicant\u2019s`;
 
 const testSecondaryTwo = createTestConfig(
   {
     dataPrefix: 'data',
     dataSets: [
       'requiredOnly',
+      'secondaryOneOnly',
       'oneSecondaryCaregivers',
       'twoSecondaryCaregivers',
     ],
@@ -36,6 +37,27 @@ const testSecondaryTwo = createTestConfig(
       'review-and-submit': () => {
         cy.get('@testKey').then(testKey => {
           switch (testKey) {
+            case 'secondaryOneOnly':
+              // sign signature as veteran
+              cy.findByTestId(veteranLabel)
+                .find('input')
+                .first()
+                .type('Micky Mouse');
+
+              cy.findByTestId(veteranLabel)
+                .find('[type="checkbox"]')
+                .check();
+
+              // sign signature as secondaryOne caregiver
+              cy.findByTestId(secondaryOneLabel)
+                .find('input')
+                .first()
+                .type('George Geef Goofus');
+
+              cy.findByTestId(secondaryOneLabel)
+                .find('[type="checkbox"]')
+                .check();
+              break;
             case 'oneSecondaryCaregivers':
               // sign signature as veteran
               cy.findByTestId(veteranLabel)
@@ -151,9 +173,6 @@ const testSecondaryTwo = createTestConfig(
         });
       },
     },
-
-    // disable all tests until 1010CG is in production
-    skip: true,
   },
   manifest,
   formConfig,

@@ -12,6 +12,9 @@ const transform = entity => ({
       {
         entity: {
           name: entity.parent[0].entity ? entity.parent[0].entity.name : '',
+          weight: entity.parent[0].entity
+            ? entity.parent[0].entity.weight
+            : null,
         },
       },
     ],
@@ -20,6 +23,7 @@ const transform = entity => ({
       entity.fieldCommonlyTreatedCondition,
     ),
     fieldHealthServiceApiId: getDrupalValue(entity.fieldHealthServiceApiId),
+    weight: getDrupalValue(entity.weight),
   },
 });
 module.exports = {
@@ -30,6 +34,7 @@ module.exports = {
     'field_also_known_as',
     'field_commonly_treated_condition',
     'field_health_service_api_id',
+    'weight',
   ],
   transform,
 };

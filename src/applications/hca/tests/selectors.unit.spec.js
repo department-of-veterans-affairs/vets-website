@@ -158,15 +158,13 @@ describe('simple top-level selectors', () => {
     });
   });
 
-  describe('isEnrolledInVAHealthCare', () => {
+  describe('isEnrolledInESR', () => {
     it('returns `false` if the enrollmentStatus is not set', () => {
       const state = {
         hcaEnrollmentStatus: { ...basicEnrollmentStatusState },
       };
-      const isEnrolledInVAHealthCare = selectors.isEnrolledInVAHealthCare(
-        state,
-      );
-      expect(isEnrolledInVAHealthCare).to.be.false;
+      const isEnrolledInESR = selectors.isEnrolledInESR(state);
+      expect(isEnrolledInESR).to.be.false;
     });
     it('returns `false` if the enrollmentStatus is not enrolled', () => {
       const state = {
@@ -175,10 +173,8 @@ describe('simple top-level selectors', () => {
           enrollmentStatus: HCA_ENROLLMENT_STATUSES.pendingOther,
         },
       };
-      const isEnrolledInVAHealthCare = selectors.isEnrolledInVAHealthCare(
-        state,
-      );
-      expect(isEnrolledInVAHealthCare).to.be.false;
+      const isEnrolledInESR = selectors.isEnrolledInESR(state);
+      expect(isEnrolledInESR).to.be.false;
     });
     it('returns `true` if the enrollmentStatus is enrolled', () => {
       const state = {
@@ -187,10 +183,8 @@ describe('simple top-level selectors', () => {
           enrollmentStatus: HCA_ENROLLMENT_STATUSES.enrolled,
         },
       };
-      const isEnrolledInVAHealthCare = selectors.isEnrolledInVAHealthCare(
-        state,
-      );
-      expect(isEnrolledInVAHealthCare).to.be.true;
+      const isEnrolledInESR = selectors.isEnrolledInESR(state);
+      expect(isEnrolledInESR).to.be.true;
     });
   });
 

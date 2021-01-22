@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import { WIZARD_STATUS } from 'applications/static-pages/wizard';
+import { WIZARD_STATUS } from '../../constants';
 import WizardContainer from '../../wizard/WizardContainer';
 
 describe('<WizardContainer>', () => {
@@ -11,7 +11,7 @@ describe('<WizardContainer>', () => {
   };
 
   it('should render', () => {
-    window.sessionStorage.removeItem(WIZARD_STATUS);
+    sessionStorage.removeItem(WIZARD_STATUS);
     const tree = shallow(<WizardContainer setWizardStatus={setWizardStatus} />);
     expect(tree.find('.wizard-container')).to.have.lengthOf(1);
     expect(tree.find('Connect(Wizard)')).to.have.lengthOf(1);

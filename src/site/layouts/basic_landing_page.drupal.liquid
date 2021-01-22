@@ -1,0 +1,90 @@
+{% include "src/site/includes/header.html" with drupalTags = true %}
+{% include "src/site/includes/alerts.drupal.liquid" %}
+{% include "src/site/includes/preview-edit.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" with constructLcBreadcrumbs = true titleInclude = false %}
+
+<div id="content" class="interior" data-template="node-basic_landing_page">
+  <main class="va-l-detail-page">
+    <div class="usa-grid usa-grid-full">
+      <div class="usa-width-three-fourths">
+        <!-- Draft status -->
+        {% if !entityPublished %}
+          <div class="usa-alert usa-alert-info">
+            <div class="usa-alert-body">
+              <p class="usa-alert-text">You are viewing a draft.</p>
+            </div>
+          </div>
+        {% endif %}
+
+        <article class="usa-content vads-u-padding-bottom--0 medium-screen:vads-u-padding-bottom--6">
+          <!-- Title -->
+          <h1>{{ title }}</h1>
+
+          <!-- Intro -->
+          <div class="va-introtext">{{ fieldIntroTextLimitedHtml.processed }}</div>
+
+          <!-- Alert -->
+          {% if fieldAlertSingle %}
+            {% include "src/site/paragraphs/alert_single.drupal.liquid" with entity = fieldAlertSingle.entity %}
+          {% endif %}
+
+          <!-- Buttons -->
+          {% if fieldButtons != empty %}
+            <div class="vads-u-margin-y--3">
+              {% for fieldButton in fieldButtons %}
+                {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          <!-- TOC -->
+          {% if fieldTableOfContentsBoolean %}
+            <section id="table-of-contents">
+              <h2 class="vads-u-margin-bottom--2 vads-u-font-size--lg">On this page</h2>
+              <ul class="usa-unstyled-list"></ul>
+            </section>
+          {% endif %}
+
+          <!-- Search bar -->
+          <div class="medium-screen:vads-u-border-bottom--2px vads-u-border-color--gray-light medium-screen:vads-u-margin-bottom--3">
+            {% include "src/site/includes/support_resources_search_bar.drupal.liquid" %}
+          </div>
+        </article>
+      </div>
+
+      <!-- Content blocks -->
+      <article class="vads-u-padding-bottom--4">
+        {% for block in fieldContentBlock %}
+          {% if block.entity.entityBundle == 'lists_of_links' and block.entity.fieldSectionHeader == 'Browse by audience' %}
+            {% include 'src/site/components/browse-by-audience.drupal.liquid' %}
+          {% else %}
+              {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
+              {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
+              {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
+          {% endif %}
+
+        {% endfor %}
+      </article>
+
+      <div class="usa-width-three-fourths">
+        <!-- Repeated buttons -->
+        {% if fieldButtonsRepeat %}
+          <div class="vads-u-margin-top--3">
+            {% for fieldButton in fieldButtons %}
+              {% include "src/site/paragraphs/button.drupal.liquid" with entity = fieldButton.entity %}
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Last Updated -->
+      <div class="last-updated usa-content">
+        Last updated: <time
+          datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+      </div>
+    </div>
+  </main>
+</div>
+
+{% include "src/site/includes/footer.html" %}
+{% include "src/site/includes/debug.drupal.liquid" %}

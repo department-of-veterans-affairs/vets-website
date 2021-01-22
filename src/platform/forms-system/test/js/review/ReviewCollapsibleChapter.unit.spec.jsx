@@ -227,12 +227,7 @@ describe('<ReviewCollapsibleChapter>', () => {
       {
         pageKey: 'test1',
         title: '',
-        schema: {
-          properties: {
-            condition1: 'boolean',
-            condition2: 'boolean',
-          },
-        },
+        schema: {},
         uiSchema: {},
       },
       {
@@ -261,7 +256,13 @@ describe('<ReviewCollapsibleChapter>', () => {
         },
         test2: {
           editMode: false,
-          schema: {},
+          schema: {
+            properties: {
+              field1: {
+                type: 'boolean',
+              },
+            },
+          },
           uiSchema: {},
         },
       },
@@ -292,12 +293,7 @@ describe('<ReviewCollapsibleChapter>', () => {
       {
         pageKey: 'test1',
         title: '',
-        schema: {
-          properties: {
-            condition1: 'boolean',
-            condition2: 'boolean',
-          },
-        },
+        schema: {},
         uiSchema: {},
       },
       {
@@ -318,15 +314,25 @@ describe('<ReviewCollapsibleChapter>', () => {
           editMode: false,
           schema: {
             properties: {
-              condition1: 'boolean',
-              condition2: 'boolean',
+              condition1: {
+                type: 'boolean',
+              },
+              condition2: {
+                type: 'boolean',
+              },
             },
           },
           uiSchema: {},
         },
         test2: {
           editMode: false,
-          schema: {},
+          schema: {
+            properties: {
+              condition3: {
+                type: 'boolean',
+              },
+            },
+          },
           uiSchema: {},
         },
       },
@@ -372,7 +378,9 @@ describe('<ReviewCollapsibleChapter>', () => {
           title: '',
           editMode: false,
           schema: {
-            properties: {},
+            properties: {
+              field1: { type: 'boolean' },
+            },
           },
           uiSchema: {},
         },
@@ -501,8 +509,9 @@ describe('<ReviewCollapsibleChapter>', () => {
       />,
     );
 
-    const titleDiv = wrapper.find('.form-review-panel-page-header');
+    expect(wrapper.find('h3').text()).to.equal(testChapterTitle);
 
+    const titleDiv = wrapper.find('h4.form-review-panel-page-header');
     expect(titleDiv.length).to.equal(1);
     expect(titleDiv.text()).to.equal(testPageTitle);
     expect(titleDiv.text()).to.not.equal(testChapterTitle);
@@ -556,11 +565,88 @@ describe('<ReviewCollapsibleChapter>', () => {
       />,
     );
 
+    expect(wrapper.find('h3').text()).to.equal(testChapterTitle);
+
     const titleDiv = wrapper.find('.form-review-panel-page-header');
     // Title is not rendered if it contains an empty string
     expect(titleDiv.length).to.equal(0);
 
     wrapper.unmount();
+  });
+
+  it('does not display page if all fields are hidden on review', () => {
+    const pages = [
+      {
+        pageKey: 'test1',
+        title: '',
+        schema: {},
+        uiSchema: {},
+      },
+    ];
+    const chapterKey = 'test';
+    const chapter = {};
+    const form = {
+      pages: {
+        test1: {
+          editMode: false,
+          schema: {
+            properties: {
+              field1: {
+                type: 'boolean',
+                'ui:hidden': true,
+              },
+              field2: {
+                type: 'boolean',
+                'ui:collapsed': true,
+              },
+              field3: {
+                type: 'boolean',
+              },
+              field4: {
+                type: 'boolean',
+              },
+              field5: {
+                type: 'boolean',
+              },
+            },
+          },
+          uiSchema: {
+            field3: {
+              'ui:options': {
+                hideOnReview: true,
+              },
+            },
+            field4: {
+              'ui:options': {
+                hideOnReview: () => true,
+              },
+            },
+            field5: {
+              'ui:options': {
+                hideOnReviewIfFalse: true,
+              },
+            },
+          },
+        },
+      },
+      data: { field5: false },
+    };
+
+    const tree = shallow(
+      <ReviewCollapsibleChapter
+        viewedPages={new Set()}
+        onEdit={() => {}}
+        open
+        expandedPages={pages}
+        chapterKey={chapterKey}
+        chapterFormConfig={chapter}
+        form={form}
+      />,
+    );
+
+    expect(tree.find('.form-review-panel-page').length).to.eq(0);
+
+    tree.unmount();
   });
 
   describe('updateFormData', () => {
@@ -634,7 +720,11 @@ describe('<ReviewCollapsibleChapter>', () => {
             arrayPath: 'testing',
             title: '',
             schema: {
-              properties: {},
+              properties: {
+                testing: {
+                  items: [{}, {}],
+                },
+              },
             },
             uiSchema: {},
             editMode: [true],

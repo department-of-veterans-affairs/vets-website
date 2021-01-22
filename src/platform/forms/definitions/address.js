@@ -32,23 +32,37 @@ function validatePostalCodes(errors, address) {
 
 export const stateRequiredCountries = new Set(['USA', 'CAN', 'MEX']);
 
-function validateAddress(errors, address, formData, currentSchema) {
-  // Adds error message for state if it is blank and one of the following countries:
-  // USA, Canada, or Mexico
+/**
+ * Require the state when the country field is required and the value is a
+ * country which requires the state.
+ */
+export function requireStateWithCountry(
+  errors,
+  address,
+  formData,
+  currentSchema,
+) {
+  // Adds error message for state if it is blank and the country is one of the
+  // following: USA, Canada, or Mexico
   if (
     stateRequiredCountries.has(address.country) &&
     address.state === undefined &&
-    currentSchema.required.length
+    currentSchema.required.includes('country')
   ) {
     errors.state.addError('Please select a state or province');
   }
+}
 
-  validateWhiteSpace(errors.street, address.street);
-  validateWhiteSpace(errors.city, address.city);
-
+/**
+ * Require the state when the country field is NOT required and the value is one
+ * that requires the state BUT other address data is filled in.
+ */
+export function requireStateWithData(errors, address, formData, currentSchema) {
   const hasAddressInfo =
     stateRequiredCountries.has(address.country) &&
     !currentSchema.required.length &&
+    // It's unclear why all three of these need to be undefined to require the
+    // state as well; this merits further discovery.
     typeof address.street !== 'undefined' &&
     typeof address.city !== 'undefined' &&
     typeof address.postalCode !== 'undefined';
@@ -58,8 +72,14 @@ function validateAddress(errors, address, formData, currentSchema) {
       'Please enter a state or province, or remove other address information.',
     );
   }
+}
 
-  validatePostalCodes(errors, address);
+export function validateStreet(errors, address) {
+  validateWhiteSpace(errors.street, address.street);
+}
+
+export function validateCity(errors, address) {
+  validateWhiteSpace(errors.city, address.city);
 }
 
 const countryValues = countries.map(object => object.value);
@@ -253,7 +273,13 @@ export function uiSchema(
 
   return {
     'ui:title': label,
-    'ui:validations': [validateAddress],
+    'ui:validations': [
+      requireStateWithCountry,
+      requireStateWithData,
+      validateStreet,
+      validateCity,
+      validatePostalCodes,
+    ],
     'ui:options': {
       updateSchema: (formData, addressSchema, addressUiSchema, index, path) => {
         let currentSchema = addressSchema;

@@ -1,36 +1,98 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { deductionCodes } from '../const/deduction-codes';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import {
+  deductionCodes,
+  renderWhyMightIHaveThisDebt,
+} from '../const/deduction-codes';
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
 import { OnThisPageLinks } from './OnThisPageLinks';
 import moment from 'moment';
+import head from 'lodash/head';
 import last from 'lodash/last';
 import first from 'lodash/first';
 import { Link } from 'react-router';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import {
+  renderAdditionalInfo,
+  renderLetterHistory,
+} from '../const/diary-codes';
+
+import { setPageFocus } from '../utils/page';
 
 class DebtDetails extends Component {
   componentDidMount() {
     scrollToTop();
+    setPageFocus('h1');
   }
   render() {
-    if (Object.keys(this.props.selectedDebt).length === 0) {
-      return window.location.replace('/manage-va-debt/your-debt');
-    }
-
+    const { selectedDebt } = this.props;
+    const mostRecentHistory = head(selectedDebt.debtHistory);
     const formatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 2,
     });
 
-    const { selectedDebt } = this.props;
+    const letterCodes = ['100', '101', '102', '109', '117', '123', '130'];
+
+    const filteredHistory = selectedDebt.debtHistory
+      .filter(history => letterCodes.includes(history.letterCode))
+      .reverse();
+
+    const hasFilteredHistory = filteredHistory.length > 0;
+
+    if (Object.keys(selectedDebt).length === 0) {
+      return window.location.replace('/manage-va-debt/your-debt');
+    }
+
+    const additionalInfo = renderAdditionalInfo(
+      selectedDebt.diaryCode,
+      mostRecentHistory.date,
+      selectedDebt.benefitType,
+    );
+
+    const whyMightIHaveThisDebtContent = renderWhyMightIHaveThisDebt(
+      selectedDebt.deductionCode,
+    );
+
+    const renderHistoryTable = history => {
+      if (hasFilteredHistory) {
+        return (
+          <table className="vads-u-margin-y--4">
+            <thead>
+              <tr>
+                <th className="vads-u-font-weight--bold" scope="col">
+                  Date
+                </th>
+                <th className="vads-u-font-weight--bold" scope="col">
+                  Letter
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {history.map((debtEntry, index) => (
+                <tr key={`${debtEntry.date}-${index}`}>
+                  <td>{moment(debtEntry.date).format('MMMM D, YYYY')}</td>
+                  <td>
+                    <p className="vads-u-margin-top--0">
+                      {renderLetterHistory(debtEntry.letterCode)}
+                    </p>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        );
+      }
+      return null;
+    };
+
     return (
       <div className="vads-u-display--flex vads-u-flex-direction--column">
         <Breadcrumbs className="vads-u-font-family--sans">
@@ -39,7 +101,10 @@ class DebtDetails extends Component {
           <a href="/manage-va-debt/your-debt">Your VA debt</a>
           <a href="/manage-va-debt/your-debt/debt-detail">Details</a>
         </Breadcrumbs>
-        <h1 className="vads-u-font-family--serif vads-u-margin-bottom--2">
+        <h1
+          className="vads-u-font-family--serif vads-u-margin-bottom--2"
+          tabIndex="-1"
+        >
           Your {deductionCodes[selectedDebt.deductionCode]}
         </h1>
         <div className="vads-l-row">
@@ -51,45 +116,49 @@ class DebtDetails extends Component {
               )}
             </p>
             <div className="vads-u-display--flex vads-u-flex-direction--row">
-              <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-right--2">
-                <p className="vads-u-margin-y--0 vads-u-font-weight--bold">
-                  Date of first notice:
-                </p>
-                <p className="vads-u-margin-y--1 vads-u-font-weight--bold">
-                  Original debt amount:
-                </p>
-                <p className="vads-u-margin-y--0 vads-u-font-weight--bold">
-                  Current balance:
-                </p>
-              </div>
-              <div className="vads-u-display--flex vads-u-flex-direction--column">
-                <p className="vads-u-margin-y--0">
-                  {moment(first(selectedDebt.debtHistory).date).format(
-                    'MMMM D, YYYY',
-                  )}
-                </p>
-                <p className="vads-u-margin-y--0">
-                  {formatter.format(parseFloat(selectedDebt.originalAr))}
-                </p>
-                <p className="vads-u-margin-y--0">
-                  {formatter.format(parseFloat(selectedDebt.currentAr))}
-                </p>
-              </div>
+              <dl className="vads-u-display--flex vads-u-flex-direction--column">
+                <div className="vads-u-margin-y--1 vads-u-display--flex">
+                  <dt>
+                    <strong>Date of first notice: </strong>
+                  </dt>
+                  <dd className="vads-u-margin-left--1">
+                    {moment(first(selectedDebt.debtHistory).date).format(
+                      'MMMM D, YYYY',
+                    )}
+                  </dd>
+                </div>
+                <div className="vads-u-display--flex ">
+                  <dt>
+                    <strong>Original debt amount: </strong>
+                  </dt>
+                  <dd className="vads-u-margin-left--1">
+                    {formatter.format(parseFloat(selectedDebt.originalAr))}
+                  </dd>
+                </div>
+                <div className="vads-u-margin-y--1 vads-u-display--flex">
+                  <dt>
+                    <strong>Current balance: </strong>
+                  </dt>
+                  <dd className="vads-u-margin-left--1">
+                    {formatter.format(parseFloat(selectedDebt.currentAr))}
+                  </dd>
+                </div>
+              </dl>
             </div>
 
             <AlertBox
               className="vads-u-margin-y--4 debt-details-alert"
-              headline="Hidden alert"
-              content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id felis pulvinar ligula ultricies sollicitudin eget nec dui. Cras augue velit, pellentesque sit amet nisl ut, tristique suscipit sem. Cras sollicitudin auctor mattis."
               status="info"
-              level={2}
-            />
-            <AdditionalInfo triggerText="Why might I have this debt?">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi
-              excepturi fugit non sunt. Asperiores autem error ipsam magnam
-              minus modi nam obcaecati quasi, ratione rem repellendus
-              reprehenderit ut veritatis vitae.
-            </AdditionalInfo>
+              backgroundOnly
+            >
+              {additionalInfo.nextStep}
+            </AlertBox>
+
+            {whyMightIHaveThisDebtContent && (
+              <AdditionalInfo triggerText="Why might I have this debt?">
+                {whyMightIHaveThisDebtContent}
+              </AdditionalInfo>
+            )}
             <OnThisPageLinks isDetailsPage />
 
             <h2
@@ -108,29 +177,7 @@ class DebtDetails extends Component {
               Debt Management Center at <Telephone contact="8008270648" />
               {'.'}
             </p>
-            <table className="vads-u-margin-y--4">
-              <thead>
-                <tr>
-                  <td className="vads-u-font-weight--bold">Date</td>
-                  <td className="vads-u-font-weight--bold">Letter</td>
-                </tr>
-              </thead>
-              <tbody>
-                {selectedDebt.debtHistory.map((debtEntry, index) => (
-                  <tr key={`${debtEntry.date}-${index}`}>
-                    <td>{moment(debtEntry.date).format('MMMM D, YYYY')}</td>
-                    <td>
-                      <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
-                        {debtEntry.status}
-                      </p>
-                      <p className="vads-u-margin-top--0">
-                        {debtEntry.description}
-                      </p>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            {renderHistoryTable(filteredHistory)}
             <h3 id="downloadDebtLetters" className="vads-u-margin-top--0">
               Download debt letters
             </h3>

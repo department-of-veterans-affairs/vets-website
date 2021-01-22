@@ -1,0 +1,38 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
+@import "../../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "../../../../platform/forms/sass/m-form-confirmation";
+
+
+
+div.healthcare-questionnaire-confirm{
+  margin-top: 3.5rem;
+
+.usa-alert-success{
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+ .inset>h2 {
+   margin: 0;
+   font-size: 2rem;
+ }
+
+ .nav-buttons{
+   display: flex;
+ }
+
+ .next-steps{
+  margin-bottom: 3.5rem;
+  h2{
+    margin: 0;
+  }
+ }
+ a.appointment-details-link{
+   color: $color-blue !important;
+ }
+}

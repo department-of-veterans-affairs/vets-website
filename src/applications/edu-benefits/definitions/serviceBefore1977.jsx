@@ -23,7 +23,7 @@ const uiSchema = {
   },
   parentDependent: {
     'ui:title':
-      'Do you have a parent who is dependent on your financial support?',
+      'Do you have a parent who depends on you for financial support?',
     'ui:widget': 'yesNo',
   },
 };

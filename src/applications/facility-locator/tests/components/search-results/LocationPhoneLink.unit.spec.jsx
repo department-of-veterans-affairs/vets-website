@@ -13,7 +13,9 @@ describe('LocationPhoneLink', () => {
     const wrapper = shallow(
       <LocationPhoneLink location={locationWithBadPhone} />,
     );
-    expect(wrapper.html()).to.equal('<div class="facility-phone-group"></div>');
+    expect(wrapper.html()).to.equal(
+      '<div class="facility-phone-group vads-u-margin-top--2"></div>',
+    );
     wrapper.unmount();
   });
 

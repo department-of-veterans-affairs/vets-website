@@ -101,16 +101,15 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       store,
     });
 
+    await screen.findByText(
+      /appointments are available at the following locations/i,
+    );
+
     expect(global.document.title).to.equal(
       'Choose a VA location for your appointment | Veterans Affairs',
     );
     expect(screen.baseElement).to.contain.text(
       'Choose a VA location for your appointment',
-    );
-    expect(screen.baseElement).to.contain.text('Finding your VA facility');
-
-    await screen.findByText(
-      /appointments are available at the following locations/i,
     );
     expect(screen.baseElement).to.contain.text(
       'Bozeman VA medical center (Bozeman, MT)',
@@ -166,24 +165,19 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
 
-    const {
-      findByText,
-      baseElement,
-      getByText,
-      history,
-    } = renderWithStoreAndRouter(<Route component={VAFacilityPage} />, {
-      store,
-    });
+    const { findByText, baseElement, history } = renderWithStoreAndRouter(
+      <Route component={VAFacilityPage} />,
+      {
+        store,
+      },
+    );
 
-    expect(baseElement).to.contain.text('Finding your VA facility');
-    await findByText(/we found one VA location for you/i);
+    await findByText(
+      /We found one facility that accepts online scheduling for this care/i,
+    );
 
     expect(baseElement).to.contain.text('Belgrade VA clinic');
     expect(baseElement).to.contain.text('Belgrade, MT');
-    expect(getByText(/search for a nearby location/i)).to.have.attribute(
-      'href',
-      '/find-locations',
-    );
 
     fireEvent.click(await findByText(/Continue/));
     await waitFor(() =>
@@ -248,11 +242,12 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       store,
     });
 
-    expect(screen.baseElement).to.contain.text('Finding your VA facility');
-    await screen.findByText(/we found one VA location for you/i);
+    await screen.findByText(
+      /The facility we found doesn’t accept online scheduling for this care/i,
+    );
 
     expect(screen.baseElement).to.contain.text(
-      'However, this facility does not allow online requests',
+      'Not all VA facilities offer online scheduling for all types of care',
     );
     expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
   });
@@ -366,7 +361,6 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       store,
     });
 
-    expect(screen.baseElement).to.contain.text('Finding your VA facility');
     await screen.findByText(
       /There are no primary care appointments at this location/,
     );
@@ -419,11 +413,8 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       await screen.findByText(/Bozeman VA medical center/i);
 
       expect(screen.baseElement).to.contain.text(
-        'you need to have been seen within the past 12 months',
+        'you need to have had a mental health appointment at this facility within the last 12 months',
       );
-      expect(
-        screen.getByText(/search for a nearby location/i),
-      ).to.have.attribute('href', '/find-locations');
 
       expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
     });
@@ -445,11 +436,8 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       await screen.findByText(/Bozeman VA medical center/i);
 
       expect(screen.baseElement).to.contain.text(
-        'you have more outstanding requests than this facility allows',
+        'you need to schedule or cancel your open appointment requests at this facility',
       );
-      expect(
-        screen.getByText(/search for a nearby location/i),
-      ).to.have.attribute('href', '/find-locations');
 
       expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
     });
@@ -725,7 +713,6 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       },
     );
 
-    expect(screen.baseElement).to.contain.text('Finding your VA facility');
     await waitFor(() =>
       expect(screen.getByText(/Continue/)).not.to.have.attribute('disabled'),
     );
@@ -784,7 +771,6 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
       },
     );
 
-    expect(screen.baseElement).to.contain.text('Finding your VA facility');
     await waitFor(() =>
       expect(screen.getByText(/Continue/)).not.to.have.attribute('disabled'),
     );
@@ -818,7 +804,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     });
 
     await screen.findByText(
-      /Sorry, we couldn't find any VA health systems you've been seen at/i,
+      /We can’t find a VA health system where you’re registered/i,
     );
     expect(screen.getByText(/Continue/)).to.have.attribute('disabled');
   });

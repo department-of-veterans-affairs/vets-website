@@ -1,5 +1,6 @@
 {% if buildtype != 'vagovprod' %}
-<script data-template="includes/debug">
-  console.info('Metalsmith template generated from content:', {{ debug }});
+<script nonce="**CSP_NONCE**" data-template="includes/debug">
+  window.contentData = {{ debug }};
+  console.info('Metalsmith template generated from content:', window.contentData);
 </script>
 {% endif %}

@@ -12,6 +12,7 @@ module.exports = {
     fieldDescription: {
       type: ['string', 'null'],
     },
+    fieldTableOfContentsBoolean: { type: ['boolean', 'null'] },
     fieldFeaturedContent: {
       type: 'array',
       items: {
@@ -40,7 +41,7 @@ module.exports = {
       },
       required: ['date'],
     },
-    entityMetaTags: {
+    entityMetatags: {
       $ref: 'MetaTags',
     },
     entityPublished: { type: 'boolean' },

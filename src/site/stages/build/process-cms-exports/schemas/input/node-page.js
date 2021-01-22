@@ -44,6 +44,7 @@ module.exports = {
         },
       },
     },
+    field_table_of_contents_boolean: { $ref: 'GenericNestedBoolean' },
     metatag: {
       type: 'object',
     },

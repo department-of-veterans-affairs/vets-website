@@ -1,0 +1,173 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
+@import "../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "../../../platform/forms/sass/m-form-confirmation";
+
+.fsr-introduction {
+  .schemaform-title {
+    margin-bottom: 10px;
+  }
+  .subtitle {
+    margin: 0 0 40px;
+    font-size: 20px;
+  }
+  .alert-button {
+    margin: 25px 0 0;
+  }
+}
+
+.debt-card {
+  [type="checkbox"]:checked + label::before {
+    background-color: $color-white;
+    color: $color-primary;
+    content: "\f00c";
+    font-family: "Font Awesome 5 Free";
+    padding-right: 2px;
+  }
+}
+
+.schemaform-subtitle {
+  width: 100%;
+  margin-top: 10px;
+}
+
+#root__title {
+  height: 35px;
+}
+
+.item-loop-container {
+  margin-top: 10px;
+  .item-loop-header legend {
+    margin-top: 30px;
+  }
+  .item-loop {
+    padding: 5px 15px 20px;
+    background-color: #f1f1f1;
+    .schemaform-field-container {
+      display: flex;
+      flex-wrap: wrap;
+      .schemaform-block-header {
+        width: 100%;
+      }
+      fieldset.schemaform-field-template {
+        margin-top: 5px;
+      }
+      .schemaform-label {
+        margin-top: 0;
+      }
+    }
+    .autosuggest-list {
+      max-height: 140px;
+    }
+    .usa-button-secondary {
+      background: #fff;
+    }
+    .button-group {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+  .edit-item-container {
+    margin: 5px 0;
+    .usa-button-secondary {
+      background: #fff;
+    }
+  }
+  .add-item-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #f1f1f1;
+    padding: 20px 30px 20px;
+    margin-top: 20px;
+    .add-item-link-section {
+      .plus-icon {
+        color: #0071bb;
+        margin-right: 5px;
+      }
+    }
+  }
+  .card-details-view {
+    padding: 10px 30px;
+    .card-title {
+      margin: 15px 0;
+    }
+  }
+}
+
+.contact-info {
+  .checkbox-group {
+    label {
+      margin-top: 0;
+    }
+  }
+  .review-card--body {
+    border: 3px solid #0071bb;
+    padding: 25px;
+  }
+}
+
+// date-widget
+.usa-date-of-birth {
+  padding: 10px 0;
+}
+
+.input-size-1 {
+  @include media($medium-screen) {
+    width: 152px;
+    max-width: 152px;
+    margin: 0 10px 20px 0;
+  }
+}
+
+.input-size-2 {
+  @include media($medium-screen) {
+    width: 173px;
+    max-width: 173px;
+    margin: 0 10px 20px 0;
+  }
+}
+
+.input-size-3 {
+  @include media($medium-screen) {
+    width: 196px;
+    max-width: 196px;
+    margin: 0 10px 20px 0;
+  }
+}
+
+.input-size-4 {
+  @include media($medium-screen) {
+    width: 215px;
+    max-width: 215px;
+    margin: 0 10px 20px 0;
+  }
+}
+
+.input-size-5 {
+  @include media($medium-screen) {
+    width: 262px;
+    max-width: 262px;
+    margin: 0 10px 20px 0;
+  }
+}
+
+.input-size-6 {
+  @include media($medium-screen) {
+    width: 283px;
+    max-width: 283px;
+    margin: 0 10px 20px 0;
+  }
+}
+
+.input-size-7 {
+  @include media($medium-screen) {
+    width: 332px;
+    max-width: 332px;
+    margin: 0 10px 20px 0;
+  }
+}

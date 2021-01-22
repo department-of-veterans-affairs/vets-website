@@ -1,0 +1,238 @@
+.vaos-calendar__loading {
+  opacity: 0.3;
+}
+
+.vaos-calendar__loading-overlay {
+  position: absolute;
+  width: 100%;
+  top: 25%;
+  z-index: 10000;
+}
+
+.vaos-calendar__validation-msg:focus {
+  outline: 0;
+}
+
+.vaos-calendar__weekday {
+  width: 20%;
+}
+
+.vaos-calendar__calendar-day {
+  flex-grow: 1;
+  flex-basis: 0;
+  margin: 4px;
+
+  @include media($small-screen) {
+    margin: 8px;
+  }
+}
+
+.vaos-calendar__day--current {
+  margin-bottom: 12px;
+  @include media($small-screen) {
+    margin-bottom: 8px;
+  }
+}
+
+.vaos-calendar__day--current > button,
+.vaos-calendar__day--selected > button {
+  position: relative;
+  background-color: $color-primary;
+  border-color: $color-primary;
+  color: $color-white;
+
+  &:hover {
+    border: 1px solid $color-primary-darker;
+  }
+}
+
+.vaos-calendar__fa-check-position {
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  font-size: 10px;
+}
+
+.vaos-calendar__day--selected-triangle {
+  display: block;
+  height: 20px;
+  width: 20px;
+  background-color: inherit;
+  border: inherit;
+  position: absolute;
+  bottom: -10px;
+  left: calc(50% - 10px);
+  clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
+  transform: rotate(-45deg);
+  border-radius: 0 0 0 0.25em;
+  z-index: -1;
+}
+
+.vaos-calendar__calendar-day-button {
+  width: 100%;
+  color: $color-base;
+  background-color: $color-gray-lightest;
+  border: 1px solid $color-gray-medium;
+  border-radius: 5px;
+  padding: 12px;
+  margin: 0;
+
+  &:hover {
+    border-color: $color-primary-darker;
+  }
+
+  &:disabled {
+    background-color: $color-gray-lightest;
+    border-color: $color-gray-lightest;
+    color: $color-gray-light;
+  }
+}
+
+.vaos-calendar__indicator-bubbles-container {
+  position: absolute;
+  top: -7px;
+  left: -7px;
+}
+
+.vaos-calendar__indicator-bubble {
+  padding: 3px 6px;
+  border-radius: 25px;
+  font-size: 12px;
+  margin-bottom: 11px;
+}
+
+.vaos-calendar__nav h2 {
+  white-space: nowrap;
+}
+
+.vaos-calendar__nav-links-button {
+  background: none;
+  align-items: center;
+
+  &:disabled {
+    color: $color-gray-light !important;
+    background: none;
+  }
+
+  &:hover {
+    background: none;
+  }
+}
+
+.vaos-calendar__nav-links-button i {
+  font-size: 22px;
+  padding-top: 2px;
+}
+
+.vaos-calendar__options-container {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  margin-top: 15px;
+}
+
+.vaos-calendar__options {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 4px;
+
+  @include media($small-screen) {
+    margin: 0 8px;
+  }
+}
+
+.vaos-calendar__option-cell {
+  padding: 0 8px 16px 8px;
+  width: 50%;
+  min-width: 120px;
+  background-color: $color-primary;
+  position: relative;
+
+  @include media($small-screen) {
+    width: 33.3%;
+  }
+
+  @include media($small-desktop-screen) {
+    width: 25%;
+  }
+
+  @include media($large-screen) {
+    width: 25%;
+  }
+}
+
+.vaos-calendar__option-cell--last:after {
+  content: "";
+  background-color: $color-primary;
+  width: 8px;
+  height: 100%;
+  border-bottom-right-radius: 5px;
+  position: absolute;
+  top: 0;
+  right: -8px;
+}
+
+.vaos-calendar__option {
+  display: flex;
+  border: 1px solid $color-primary;
+  border-radius: 5px;
+  justify-content: center;
+
+  input[type="radio"],
+  input[type="checkbox"] {
+    width: auto;
+  }
+
+  input[type="radio"] + label::before {
+    margin-top: 0;
+    box-shadow: 0 0 0 2px $color-white, 0 0 0 3px $color-primary;
+  }
+
+  input[type="checkbox"] + label::before {
+    margin-top: 0;
+    box-shadow: 0 0 0 1px $color-primary;
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+
+    label {
+      cursor: not-allowed;
+    }
+
+    input[type="checkbox"], input[type="checkbox"] + label::before {
+      box-shadow: 0 0 0 1px $color-gray-light;
+      background: $color-gray-lightest;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.vaos-calendar__option--checkbox {
+  flex: 1;
+  flex-direction: column;
+  padding: 7px 10px;
+  min-width: 105px;
+}
+
+.vaos-calendar__option--radio {
+  display: block;
+  padding: 8px;
+  background-color: $color-white;
+}
+
+.vaos-u-border-radius--top-left {
+  border-top-left-radius: 5px;
+}
+
+.vaos-u-border-radius--top-right {
+  border-top-right-radius: 5px;
+}
+
+.vaos-u-border-radius--bottom-right {
+  border-bottom-right-radius: 5px;
+}
+
+.vaos-u-border-radius--bottom-left {
+  border-bottom-left-radius: 5px;
+}

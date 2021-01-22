@@ -4,20 +4,23 @@ import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import disabilityLabels from '../content/disabilityLabels';
 import {
-  descriptionInfo,
   autoSuggestTitle,
   newOnlyAlert,
   increaseAndNewAlert,
 } from '../content/addDisabilities';
 import NewDisability from '../components/NewDisability';
 import ArrayField from '../components/ArrayField';
-// import ConditionReviewField from '../components/ConditionReviewField';
-import { validateDisabilityName, requireDisability } from '../validations';
+import ConditionReviewField from '../components/ConditionReviewField';
+import {
+  validateDisabilityName,
+  requireDisability,
+  limitNewDisabilities,
+} from '../validations';
 import {
   newConditionsOnly,
   newAndIncrease,
   hasClaimedConditions,
-  claimingRated,
+  claimingNew,
   sippableId,
 } from '../utils';
 
@@ -26,14 +29,15 @@ import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 
 export const uiSchema = {
-  'ui:description': 'Please tell us the new conditions you want to claim.',
   newDisabilities: {
-    'ui:title': 'New condition',
+    'ui:title': 'Please tell us the new conditions you want to claim.',
     'ui:field': ArrayField,
     'ui:options': {
       viewField: NewDisability,
-      reviewTitle: 'New Disabilities',
-      itemName: 'Disability',
+      reviewTitle: 'New Conditions',
+      itemName: 'Condition',
+      includeIndexInTitle: true,
+      includeRequiredLabelInTitle: true,
     },
     // Ideally, this would show the validation on the array itself (or the name
     // field in an array item), but that's not working.
@@ -49,7 +53,7 @@ export const uiSchema = {
             })),
           ),
         {
-          // 'ui:reviewField': ({ children }) => children,
+          'ui:reviewField': ({ children }) => children,
           'ui:options': {
             debounceRate: 200,
             freeInput: true,
@@ -70,20 +74,17 @@ export const uiSchema = {
             ],
           },
           // autoSuggest schema doesn't have any default validations as long as { `freeInput: true` }
-          'ui:validations': [validateDisabilityName],
+          'ui:validations': [validateDisabilityName, limitNewDisabilities],
           'ui:required': () => true,
           'ui:errorMessages': {
             required:
-              'Please enter a condition or select an option from the suggestions',
+              'Please enter a condition or select one from the suggested list',
           },
         },
       ),
-      'view:descriptionInfo': {
-        'ui:description': descriptionInfo,
-      },
       // custom review & submit layout - see https://github.com/department-of-veterans-affairs/vets-website/pull/14091
       // disabled until design changes have been approved
-      // 'ui:objectViewField': ConditionReviewField,
+      'ui:objectViewField': ConditionReviewField,
       'ui:options': {
         ariaLabelForEditButtonOnReview: 'Edit New condition',
       },
@@ -95,20 +96,16 @@ export const uiSchema = {
       'ui:description': newOnlyAlert,
       'ui:options': {
         hideIf: formData =>
-          !newConditionsOnly(formData) || hasClaimedConditions(formData),
+          !(newConditionsOnly(formData) && !claimingNew(formData)),
       },
     },
+    // Only show this alert if the veteran is claiming both rated and new
+    // conditions but no rated conditions were selected
     'view:increaseAndNewAlert': {
       'ui:description': increaseAndNewAlert,
       'ui:options': {
-        hideIf: formData => {
-          // Only show this alert if the veteran is claiming both rated and new
-          // conditions but no rated conditions were selected
-          return (
-            !claimingRated(formData) &&
-            (!newAndIncrease(formData) || hasClaimedConditions(formData))
-          );
-        },
+        hideIf: formData =>
+          !(newAndIncrease(formData) && !hasClaimedConditions(formData)),
       },
     },
   },
@@ -124,7 +121,6 @@ export const schema = {
         type: 'object',
         properties: {
           condition,
-          'view:descriptionInfo': { type: 'object', properties: {} },
         },
       },
     },

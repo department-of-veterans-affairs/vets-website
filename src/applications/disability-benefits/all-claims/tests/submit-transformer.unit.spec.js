@@ -11,6 +11,7 @@ import formConfig from '../config/form';
 import {
   transform,
   transformRelatedDisabilities,
+  stringifyRelatedDisabilities,
   getFlatIncidentKeys,
   getPtsdChangeText,
   setActionTypes,
@@ -99,6 +100,71 @@ describe('transformRelatedDisabilities', () => {
     expect(
       transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
     ).to.eql(['Some Condition Name']);
+  });
+});
+
+describe('stringifyRelatedDisabilities', () => {
+  it('should return an array of strings', () => {
+    const formData = {
+      newDisabilities: [
+        {
+          condition: 'some condition name',
+        },
+        {
+          condition: 'another condition name',
+        },
+        {
+          condition: 'this condition is falsey!',
+        },
+      ],
+      vaTreatmentFacilities: [
+        {
+          treatedDisabilityNames: {
+            'some condition name': true,
+            'another condition name': true,
+            'this condition is falsey!': false,
+          },
+        },
+      ],
+    };
+    expect(
+      stringifyRelatedDisabilities(formData).vaTreatmentFacilities,
+    ).to.deep.equal([
+      {
+        treatedDisabilityNames: [
+          'some condition name',
+          'another condition name',
+        ],
+      },
+    ]);
+  });
+  it('will not add conditions to treatment names if they are not claimed', () => {
+    const formData = {
+      newDisabilities: [
+        {
+          condition: 'some condition name',
+        },
+        {
+          condition: 'this condition is falsey!',
+        },
+      ],
+      vaTreatmentFacilities: [
+        {
+          treatedDisabilityNames: {
+            'some condition name': true,
+            'another condition name': true,
+            'this condition is falsey!': false,
+          },
+        },
+      ],
+    };
+    expect(
+      stringifyRelatedDisabilities(formData).vaTreatmentFacilities,
+    ).to.deep.equal([
+      {
+        treatedDisabilityNames: ['some condition name'],
+      },
+    ]);
   });
 });
 

@@ -4,7 +4,7 @@ import recordEvent from '../../monitoring/record-event';
 import { logOut } from '../../user/authentication/actions';
 import environment from '../../utilities/environment';
 import { fetchAndUpdateSessionExpiration as fetch } from '../../utilities/api';
-import { sanitizeForm } from '../helpers';
+// import { sanitizeForm } from '../helpers';
 import { removeFormApi, saveFormApi } from './api';
 import { REMOVING_SAVED_FORM_SUCCESS } from '../../user/profile/actions';
 
@@ -150,14 +150,37 @@ export function migrateFormData(savedData, migrations) {
 }
 
 /**
+ * @typedef Form~submission - copy of `form.submission` object which stores the
+ *   state of the form last submission attempt
+ * @type {Object}
+ * @property {Boolean|String} status - initialized as `false`, and may end up as
+ *   a string: 'submitPending', 'applicationSubmitted', 'validationError',
+ *  'clientError', 'throttledError', 'serverError', etc.
+ * @property {Boolean|String} errorMessage - initialized as `false`; Returns
+ *   actual server errorMessage
+ * @property {Object} errors - The errors object provided by the jsonschema
+ *   validation library; only available when there are form validation errors
+ *   prior to actual form submission to the server
+ * @property {Boolean} id - initialized as `false`; never altered. A submit ID
+ *   would not be available as the SiPs data is cleared after submission
+ * @property {Boolean|Number} timestamp - initialized as `false`; or contains
+ *   the number of milliseconds* since the Unix Epoch of the submission attempt
+ * @property {Boolean} hasAttemptedSubmit - flag indicating if the user had
+ *   attempted to submit a form
+ * @property {Number} extra - extra 'x-ratelimit-reset' data returned from a
+ *   rate limit ('throttledError) error (see submitToUrl function in the
+ *   forms-system actions file)
+ */
+/**
  * Saves the form data to the back end
  * @param  {String}  saveType  The type of save that's happening, auto or save and redirect
  * @param  {String}  formId    The form’s formId
  * @param  {Object}  formData  The data the user has entered so far
  * @param  {Ingeter} version   The form’s version
  * @param  {String}  returnUrl The last URL the user was at before saving
+ * @param  {Form~submission} submission Form submission data
  */
-function saveForm(saveType, formId, formData, version, returnUrl) {
+function saveForm(saveType, formId, formData, version, returnUrl, submission) {
   const savedAt = Date.now();
 
   return (dispatch, getState) => {
@@ -172,6 +195,7 @@ function saveForm(saveType, formId, formData, version, returnUrl) {
       returnUrl,
       savedAt,
       trackingPrefix,
+      submission,
     )
       .then(json => {
         dispatch(
@@ -305,7 +329,8 @@ export function fetchInProgressForm(
           // related to SiP
           Sentry.captureException(e);
           Sentry.withScope(scope => {
-            scope.setExtra('formData', sanitizeForm(resBody.formData));
+            // TODO: move santitizing function to sentry config and make filtered parameters configurable by forms library users
+            // scope.setExtra('formData', sanitizeForm(resBody.formData));
             scope.setExtra('metadata', resBody.metadata);
             Sentry.captureMessage('vets_sip_error_migration');
           });

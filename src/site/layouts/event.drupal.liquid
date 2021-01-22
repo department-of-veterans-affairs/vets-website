@@ -1,265 +1,20 @@
-{% comment %}
-Example data:
-{
-"entityId": "152",
-"entityBundle": "event",
-"entityPublished": true,
-"title": "Test Event",
-"entityUrl": {
-"breadcrumb": [
-{
-"url": {
-"path": "/",
-"routed": true
-},
-"text": "Home"
-},
-{
-"url": {
-"path": "/pittsburgh-health-care",
-"routed": true
-},
-"text": "Pittsburgh Health Care System"
-}
-],
-"path": "/pittsburgh-health-care/events/test-event"
-},
-"fieldEventDate": {
-"date": "2019-03-15 08:00:00 UTC",
-"value": "2019-03-15T08:00:00"
-},
-"fieldEventDateEnd": {
-"date": "2019-03-15 11:00:00 UTC",
-"value": "2019-03-15T11:00:00"
-},
-"fieldAddress": {
-"addressLine1": "123 Anywhere St.",
-"addressLine2": "",
-"locality": "Pittsburgh",
-"administrativeArea": "PA"
-},
-"fieldFacilityLocation": {
-"entity": {
-"title": "H. John Heinz III Department of Veterans Affairs Medical Center",
-"fieldFacilityLocatorApiId": "VHA_646A4",
-"entityUrl": {
-"path": "/pittsburgh-health-care/locations/heinz-medical-center"
-}
-}
-},
-"fieldLocationHumanreadable": "Kittery Public Library, 3rd Floor Meeting Room",
-"fieldDescription": "This is an event to test. ",
-"fieldBody": {
-"processed": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  Maecenas dignissim vel tellus a posuere. Quisque cursus a turpis nec lobortis.
-  Nunc sit amet massa pellentesque, dictum leo a, aliquet neque. Duis ac
-  vulputate quam, at varius sem. Maecenas lacinia, elit quis imperdiet
-  convallis, ligula tortor ullamcorper ante, nec venenatis tortor sapien eu est.
-  Integer rhoncus leo quis augue hendrerit interdum. Duis ornare venenatis
-  ornare. Aliquam quis nisl ipsum.</p>\n\n<p>Nam lobortis arcu ac maximus
-  gravida. Nunc id odio sed nisi gravida pulvinar. Duis eleifend erat nec enim
-  convallis, id cursus risus convallis. Phasellus et commodo turpis. Etiam augue
-  est, sollicitudin id facilisis id, interdum quis est. Cras at ex sed est
-  finibus fermentum. Nullam rhoncus libero vel tellus suscipit, quis eleifend
-  elit dictum. Donec feugiat velit consequat ex mattis ornare. Praesent vel odio
-  accumsan, blandit sapien et, euismod mauris.</p>"
-},
-"fieldEventCost": "8",
-"fieldEventRegistrationrequired": false,
-"fieldAdditionalInformationAbo": "Registration isn't required."
-}
-]
-}
-{% endcomment %}
 {% include "src/site/includes/header.html" with drupalTags = true %}
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
-{% include "src/site/includes/breadcrumbs.drupal.liquid" with hideHomeBreadcrumb = true %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" with hideHomeBreadcrumb = true deriveBreadcrumbsFromUrl = true replaceLastItem = true %}
 
-{% assign timezone = "America/New_York" %}
-{% comment %}
-Ultimately, we will allow check to use user timezone.
-{% if uid.entity.timezone != empty %}
-{% assign timezone = uid.entity.timezone %}
-{% endif %}
-{% endcomment %}
+{% include "src/site/includes/date.drupal.liquid" %}
 
-{% assign start_date_no_time = fieldDate.startDate | timeZone: timezone, "dddd, MMM D" %}
-{% assign end_date_no_time = fieldDate.endValue | timeZone: timezone, "dddd, MMM D" %}
-
-{% assign start_time = fieldDate.startDate | timeZone: timezone, "h:mm A" %}
-{% assign end_time = fieldDate.endDate | timeZone: timezone, "h:mm A" %}
-
-{% assign start_date_full = fieldDate.startDate | timeZone: timezone, "dddd, MMM D, h:mm A" %}
-{% assign end_date_full = fieldDate.endDate | timeZone: timezone, "dddd, MMM D, h:mm A" %}
-
-{% assign start_timestamp = fieldDate.value | unixFromDate %}
-{% assign current_timestamp = fieldDate.value | currentUnixFromDate %}
-
-{% if fieldDate.value != empty and fieldDate.endValue == empty %}
-  {% assign date_type = "start_date_only" %}
-{% else %}
-  {% if start_date_no_time == end_date_no_time %}
-    {% assign date_type = "same_day" %}
-  {% else %}
-    {% assign date_type = "all_dates" %}
-  {% endif %}
-{% endif %}
 <div class="interior" id="content">
   <main class="va-l-detail-page va-facility-page">
+    <div class="usa-grid usa-grid-full">
+      {% if entityUrl.path contains "/outreach-and-events" %}
+        {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = outreachSidebar %}
+      {% else %}
+        {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
+      {% endif %}
 
-    {% comment %} On prod, show the SideNav. {% endcomment %}
-    {% if buildtype == 'vagovprod' %}
-      <div class="usa-grid usa-grid-full">
-        {% comment %} SideNav {% endcomment %}
-        {% if entityUrl.path contains "/outreach-and-events" %}
-          {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = outreachSidebar %}
-        {% else %}
-          {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
-        {% endif %}
-
-        {% comment %} Content {% endcomment %}
-        <div class="usa-width-three-fourths">
-          {% if !entityPublished %}
-            <div class="usa-alert usa-alert-info">
-              <div class="usa-alert-body">
-                <p class="usa-alert-text">You are viewing a draft.</p>
-              </div>
-            </div>
-          {% endif %}
-
-          <article aria-labelledby="article-heading" class="usa-content" role="region">
-            <div class="usa-grid usa-grid-full">
-              <h1 id="article-heading" class="{% if fieldMedia %}vads-u-margin-bottom--4{% else %}vads-u-margin-bottom--2{% endif %}">
-                {{ title }}</h1>
-              {% if fieldMedia %}
-                <img class="event-detail-img vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4" alt="{{fieldMedia.entity.image.alt}}" src="{{fieldMedia.entity.image.derivative.url}}"/>
-              {% endif %}
-              <div class="va-introtext">
-                <p class="vads-u-margin-top--0 vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--4">
-                  {{ fieldDescription }}</p>
-              </div>
-
-              <div class="usa-width-one-half vads-u-margin-bottom--2p5 medium-screen:vads-u-margin-bottom--0">
-                {% assign facility = fieldFacilityLocation.entity %}
-                <dl class="va-c-event-info">
-                  <dt class="vads-u-font-weight--bold when-where-width vads-u-margin-right--2">
-                    When</dt>
-                  <dd>
-                    {% if date_type == "start_date_only" %}
-                      <span>{{ start_date_no_time }}</span><br>
-                      <span>{{ start_time }}</span>
-                    {% else %}
-                      {% if date_type == "same_day" %}
-                        <span>{{ start_date_no_time }}</span><br>
-                        <span>{{ start_time }}
-                          –
-                          {{ end_time }}</span>
-                      {% else %}
-                        <span>{{ start_date_full }}
-                          –</span><br>
-                        <span>{{ end_date_full }}</span>
-                      {% endif %}
-                    {% endif %}
-                    <span>
-                      ET</span>
-                  </dd>
-                </dl>
-
-                {% if fieldFacilityLocation or fieldAddress.addressLine1 %}
-                  <dl class="va-c-event-info">
-                    <dt class="vads-u-font-weight--bold when-where-width vads-u-margin-right--2">
-                      Where</dt>
-                    <dd>
-                      {% if facility %}
-                        <p class="vads-u-margin--0">
-                          <a href="{{ facility.entityUrl.path }}">{{ facility.title }}</a>
-                        </p>
-                        <p class="vads-u-margin--0">{{ fieldLocationHumanreadable }}
-                        </p>
-                      {% else %}
-                        {% if fieldAddress.addressLine1 %}
-                          <p class="vads-u-margin--0">{{ fieldAddress.addressLine1 }}
-                          </p>
-                        {% endif %}
-                        {% if fieldAddress.addressLine2 %}
-                          <p class="vads-u-margin--0">{{ fieldAddress.addressLine2 }}
-                          </p>
-                        {% endif %}
-                        <p class="vads-u-margin--0">
-                          {% if fieldAddress.locality %}
-                            {{ fieldAddress.locality }}
-                          {% endif %}
-                          {% if fieldAddress.administrativeArea %}
-                            ,
-                            {{ fieldAddress.administrativeArea }}
-                          {% endif %}
-                        </p>
-                      {% endif %}
-                    </dd>
-
-                  </dl>
-                {% endif %}
-
-                  {% if fieldEventCost %}
-                      <dl class="va-c-event-info">
-                        <dt class="vads-u-font-weight--bold vads-u-margin-right--2">Cost</dt>
-                        <dd>
-                          <span>{{ fieldEventCost }}</span>
-                        </dd>
-                      </dl>
-                  {% endif %}
-                  {% if fieldLink or fieldEventCta or fieldAdditionalInformationAbo %}
-                    <div class="registration vads-u-margin-top--4 vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--1">
-                        <p class="vads-u-font-weight--bold vads-u-margin-top--0 vads-u-margin-bottom--1">Registration</p>
-                        {% if start_timestamp < current_timestamp %}
-                            <p class="vads-u-margin--0 vads-u-color--secondary vads-u-font-weight--bold">This event already happened.</p>
-                        {% else %}
-                            {% if fieldLink %}
-                                <p class="vads-u-margin--0"><a
-                                            href="{{ fieldLink.url.path }}"><button class="vads-u-margin--0">
-                                              {% if fieldEventCta %}
-                                                {{ fieldEventCta | removeUnderscores | capitalize }}
-                                              {% else %}
-                                                More details
-                                              {% endif %}
-                                            </button></a>
-                                </p>
-                            {% endif %}
-                            {% if fieldAdditionalInformationAbo %}
-                                <p class="vads-u-margin--0">{{ fieldAdditionalInformationAbo.processed | outputLinks }}</p>
-                            {% endif %}
-                        {% endif %}
-                    </div>
-                  {% endif %}
-              </div>
-
-              <div class="usa-width-one-half va-c-event-share vads-u-margin-bottom--1">
-                {% include "src/site/includes/social-share.drupal.liquid" %}
-              </div>
-            </div>
-
-            <div class="usa-grid usa-grid-full vads-u-margin-top--2">
-              <div class="event-description">
-                {{ fieldBody.processed }}
-              </div>
-            </div>
-            {% assign index = entityUrl.breadcrumb.length | minus: 2 %}
-            <a onclick="recordEvent({ event: 'nav-secondary-button-click' });" href="{{ entityUrl.breadcrumb | getValueFromArrayObjPath: index, 'url.path' }}">See
-                          all events</a>
-          </article>
-
-          <div class="last-updated usa-content">
-            Last updated:
-            <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
-          </div>
-        </div>
-      </div>
-
-      {% comment %} On non-prod environments, do not show the SideNav.
-    {% endcomment %}
-    {% else %}
-      <div class="usa-grid usa-grid-full">
+      <div class="usa-width-three-fourths">
         {% if !entityPublished %}
           <div class="usa-alert usa-alert-info">
             <div class="usa-alert-body">
@@ -284,7 +39,8 @@ Ultimately, we will allow check to use user timezone.
               {% assign facility = fieldFacilityLocation.entity %}
               <dl class="va-c-event-info">
                 <dt class="vads-u-font-weight--bold when-where-width vads-u-margin-right--2">
-                  When</dt>
+                  When
+                </dt>
                 <dd>
                   {% if date_type == "start_date_only" %}
                     <span>{{ start_date_no_time }}</span><br>
@@ -301,8 +57,7 @@ Ultimately, we will allow check to use user timezone.
                       <span>{{ end_date_full }}</span>
                     {% endif %}
                   {% endif %}
-                  <span>
-                    ET</span>
+                  <span>{{ timezone }}</span>
                 </dd>
               </dl>
 
@@ -315,8 +70,7 @@ Ultimately, we will allow check to use user timezone.
                       <p class="vads-u-margin--0">
                         <a href="{{ facility.entityUrl.path }}">{{ facility.title }}</a>
                       </p>
-                      <p class="vads-u-margin--0">{{ fieldLocationHumanreadable }}
-                      </p>
+                      <p class="vads-u-margin--0">{{ fieldLocationHumanreadable }}</p>
                     {% else %}
                       {% if fieldAddress.addressLine1 %}
                         <p class="vads-u-margin--0">{{ fieldAddress.addressLine1 }}</p>
@@ -335,7 +89,6 @@ Ultimately, we will allow check to use user timezone.
                       </p>
                     {% endif %}
                   </dd>
-
                 </dl>
               {% endif %}
 
@@ -354,14 +107,16 @@ Ultimately, we will allow check to use user timezone.
                           <p class="vads-u-margin--0 vads-u-color--secondary vads-u-font-weight--bold">This event already happened.</p>
                       {% else %}
                           {% if fieldLink %}
-                              <p class="vads-u-margin--0"><a
-                                          href="{{ fieldLink.url.path }}"><button class="vads-u-margin--0">
-                                            {% if fieldEventCta %}
-                                              {{ fieldEventCta | removeUnderscores | capitalize }}
-                                            {% else %}
-                                              More details
-                                            {% endif %}
-                                          </button></a>
+                              <p class="vads-u-margin--0">
+                                <a href="{{ fieldLink.url.path }}">
+                                  <button class="vads-u-margin--0">
+                                    {% if fieldEventCta %}
+                                      {{ fieldEventCta | removeUnderscores | capitalize }}
+                                    {% else %}
+                                      More details
+                                    {% endif %}
+                                  </button>
+                                </a>
                               </p>
                           {% endif %}
                           {% if fieldAdditionalInformationAbo %}
@@ -383,8 +138,10 @@ Ultimately, we will allow check to use user timezone.
             </div>
           </div>
           {% assign index = entityUrl.breadcrumb.length | minus: 2 %}
-          <a onclick="recordEvent({ event: 'nav-secondary-button-click' });" href="{{ entityUrl.breadcrumb | getValueFromArrayObjPath: index, 'url.path' }}">See
-                      all events</a>
+          <a onclick="recordEvent({ event: 'nav-secondary-button-click' });"
+             href="{{ entityUrl.breadcrumb | getValueFromArrayObjPath: index, 'url.path' }}">
+            See all events
+          </a>
         </article>
 
         <div class="last-updated usa-content">
@@ -392,7 +149,7 @@ Ultimately, we will allow check to use user timezone.
           <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
         </div>
       </div>
-    {% endif %}
+    </div>
   </main>
 </div>
 {% include "src/site/includes/footer.html" %}

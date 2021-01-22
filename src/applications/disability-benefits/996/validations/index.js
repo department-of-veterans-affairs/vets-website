@@ -1,40 +1,30 @@
-import { errorMessages } from '../constants';
+import { errorMessages, SELECTED } from '../constants';
 
 export const requireRatedDisability = (err, fieldData /* , formData */) => {
-  if (!fieldData.some(entry => entry['view:selected'])) {
+  if (!fieldData.some(entry => entry[SELECTED])) {
     // The actual validation error is displayed as an alert field. The message
     // here will be shown on the review page
     err.addError(errorMessages.contestedIssue);
   }
 };
 
-const conferenceTimes = {
-  min: 1,
-  max: 2,
+export const isFirstConferenceTimeEmpty = formData =>
+  (formData?.informalConferenceTimes?.time1 || '') === '';
+
+export const checkConferenceTimes = (errors, values, formData) => {
+  if (
+    errors &&
+    formData?.informalConference !== 'no' &&
+    (values || '') === ''
+  ) {
+    errors.addError(errorMessages.informalConferenceTimes);
+  }
 };
 
-export const checkConferenceTimes = (errors, values = {}, formData) => {
-  let result = '';
-  const times =
-    Object.keys(values || {}).reduce((acc, time) => {
-      if (values[time]) {
-        acc.push(time);
-      }
-      return acc;
-    }, []) || [];
+const phoneRegexp = /[0-9]+/;
 
-  if (formData?.informalConference !== 'no' && errors) {
-    // validation
-    if (times.length < conferenceTimes.min) {
-      errors.addError(errorMessages.informalConferenceTimesMin);
-    } else if (times.length > conferenceTimes.max) {
-      errors.addError(errorMessages.informalConferenceTimesMax);
-    }
-  } else {
-    // visibility
-    result =
-      times.length >= conferenceTimes.min &&
-      times.length <= conferenceTimes.max;
+export const validatePhone = (errors, phone) => {
+  if (errors && phone && (!phoneRegexp.test(phone) || phone.length !== 10)) {
+    errors.addError(errorMessages.informalConferenceContactPhonePattern);
   }
-  return result;
 };

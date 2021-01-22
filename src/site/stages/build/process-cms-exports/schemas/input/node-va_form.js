@@ -13,6 +13,11 @@ module.exports = {
       maxItems: 1,
       items: { $ref: 'EntityReference' },
     },
+    field_alert: {
+      type: 'array',
+      maxItems: 1,
+      items: { $ref: 'EntityReference' },
+    },
     field_benefit_categories: { $ref: 'EntityReferenceArray' },
     field_va_form_administration: {
       type: 'array',
@@ -58,6 +63,7 @@ module.exports = {
     'metatag',
     'path',
     'field_administration',
+    'field_alert',
     'field_benefit_categories',
     'field_va_form_administration',
     'field_va_form_issue_date',

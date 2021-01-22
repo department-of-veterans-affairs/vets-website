@@ -105,17 +105,19 @@ export default class ArrayField extends React.Component {
   }
 
   scrollToRow(id) {
-    setTimeout(() => {
-      scroller.scrollTo(
-        `table_${id}`,
-        window.Forms?.scroll || {
-          duration: 500,
-          delay: 0,
-          smooth: true,
-          offset: 0,
-        },
-      );
-    }, 100);
+    if (!this.props.uiSchema['ui:options'].doNotScroll) {
+      setTimeout(() => {
+        scroller.scrollTo(
+          `table_${id}`,
+          window.Forms?.scroll || {
+            duration: 500,
+            delay: 0,
+            smooth: true,
+            offset: 0,
+          },
+        );
+      }, 100);
+    }
   }
 
   /*
@@ -145,7 +147,7 @@ export default class ArrayField extends React.Component {
   }
 
   /*
-   * Clicking Add Another
+   * Clicking Add another
    */
   handleAdd() {
     const lastIndex = this.props.formData.length - 1;
@@ -372,7 +374,7 @@ export default class ArrayField extends React.Component {
             disabled={!this.props.formData || addAnotherDisabled}
             onClick={this.handleAdd}
           >
-            Add Another {uiOptions.itemName}
+            Add another {uiOptions.itemName}
           </button>
           <p>
             {addAnotherDisabled &&

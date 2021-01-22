@@ -59,48 +59,12 @@
     }
   },
   {
-    "appName": "Account",
-    "entryName": "account",
-    "rootUrl": "/account",
-    "template": {
-      "title": "Your VA.gov Account",
-      "layout": "page-react.html",
-      "includeBreadcrumbs": true,
-      "breadcrumbs_override": [
-        {
-          "path": "account/",
-          "name": "Your account settings"
-        }
-      ]
-    }
-  },
-  {
     "appName": "Rated Disabilities",
     "entryName": "disability-my-rated-disabilities",
     "rootUrl": "/disability/view-disability-rating/rating",
     "template": {
       "layout": "page-react.html",
       "vagovprod": true
-    }
-  },
-  {
-    "appName": "Connected Accounts",
-    "entryName": "connected-accounts",
-    "rootUrl": "/account/connected-accounts",
-    "template": {
-      "title": "Connected Accounts",
-      "layout": "page-react.html",
-      "includeBreadcrumbs": true,
-      "breadcrumbs_override": [
-        {
-          "path": "account/",
-          "name": "Your account settings"
-        },
-        {
-          "path": "account/connected-accounts/",
-          "name": "Connected Accounts"
-        }
-      ]
     }
   },
   {
@@ -114,7 +78,7 @@
   },
   {
     "appName": "VA Profile",
-    "entryName": "profile-360",
+    "entryName": "profile",
     "rootUrl": "/profile",
     "template": {
       "title": "Your Profile",
@@ -281,7 +245,7 @@
         },
         {
           "path": "view-change-dependents/add-remove-form-686c/",
-          "name": "Add or remove dependents form 21-686c"
+          "name": "Add or remove dependents form 21‑686c"
         }
       ]
     }
@@ -307,24 +271,6 @@
     }
   },
   {
-    "appName": "686 Dependent-status form",
-    "entryName": "686-dependent-status",
-    "rootUrl": "/disability-benefits/apply/dependents",
-    "template": {
-      "title": "Declaration Of Status Of Dependents",
-      "heading": "Declaration of status of dependents",
-      "display_title": "Add or remove a dependent",
-      "layout": "page-react.html",
-      "includeBreadcrumbs": true,
-      "breadcrumbs_override": [
-        {
-          "path": "disability/",
-          "name": "Disability benefits"
-        }
-      ]
-    }
-  },
-  {
     "appName": "Request for Higher-Level Review",
     "entryName": "0996-higher-level-review",
     "rootUrl": "/decision-reviews/higher-level-review/request-higher-level-review-form-20-0996",
@@ -335,14 +281,14 @@
       "layout": "page-react.html",
       "description": "Apply online to request a Higher-Level Review.",
       "includeBreadcrumbs": true,
-      "vagovprod": false,
+      "vagovprod": true,
       "breadcrumbs_override": [
         {
           "name": "VA decision review and appeals",
           "path": "decision-reviews"
         },
         {
-          "name": "Higher-Level Review",
+          "name": "Higher-Level Reviews",
           "path": "decision-reviews/higher-level-review/"
         },
         {
@@ -647,12 +593,12 @@
           "path": "education/"
         },
         {
-          "name": "How to apply",
-          "path": "education/how-to-apply/"
+          "name": "Change your GI Bill school or program",
+          "path": "education/change-gi-bill-benefits/"
         },
         {
-          "name": "Apply for education benefits",
-          "path": "education/apply-for-education-benefits/application/1995"
+          "name": "Change your benefits VA Form 22-1995",
+          "path": "education/apply-for-education-benefits/application/1995/introduction"
         }
       ]
     }
@@ -719,7 +665,7 @@
     "template": {
       "title": "Apply for education benefits",
       "layout": "page-react.html",
-      "description": "Vet Tec.",
+      "description": "VET TEC",
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
         {
@@ -763,6 +709,21 @@
       "title": "GI Bill Comparison Tool",
       "display_title": "GI Bill school comparison",
       "description": "Use our GI Bill Comparison Tool to help you decide which education program and school is best for you. Find out which benefits you’ll get at your chosen school.",
+      "layout": "page-react.html",
+      "collection": "education",
+      "spoke": "More resources",
+      "order": 1
+    }
+  },
+  {
+    "appName": "CT Redesign Sandbox",
+    "entryName": "gi-sandbox",
+    "rootUrl": "/gi-bill-comparison-tool-sandbox",
+    "template": {
+      "vagovprod": false,
+      "title": "CT Redesign Sandbox",
+      "display_title": "CT Redesign Sandbox",
+      "description": "Sandbox for testing the CT redesign features so that the original Comparison Tool codebase is not filled with throw away code",
       "layout": "page-react.html",
       "collection": "education",
       "spoke": "More resources",
@@ -819,26 +780,45 @@
     "rootUrl": "/careers-employment/vocational-rehabilitation/apply",
     "template": {
       "vagovprod": false,
-      "layout": "page-react.html"
-    }
-  },
-  {
-    "appName": "28-8832-planning-and-guidance",
-    "entryName": "28-8832-planning-and-career-guidance",
-    "rootUrl": "/careers-employment/education-and-career-counseling/apply-career-guidance-form-28-8832/",
-    "template": {
-      "title": "Personalized Career Planning and Guidance Chapter 36 Form 28-8832",
-      "vagovprod": false,
       "layout": "page-react.html",
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
         {
+          "path": "careers-employment",
+          "name": "Careers and employment"
+        },
+        {
+          "path": "careers-employment/vocational-rehabilitation",
+          "name": "Veteran Readiness and Employment"
+        },
+        {
+          "path": "careers-employment/vocational-rehabilitation/apply",
+          "name": "Apply for Veteran Readiness and Employment Form 28‑1900"
+        }
+      ]
+    }
+  },
+  {
+    "appName": "Apply for Personalized Career Planning and Guidance with VA Form 28-8832",
+    "entryName": "28-8832-planning-and-career-guidance",
+    "rootUrl": "/careers-employment/education-and-career-counseling/apply-career-guidance-form-28-8832/",
+    "template": {
+      "title": "Personalized Career Planning and Guidance Chapter 36 Form 28-8832",
+      "vagovprod": true,
+      "layout": "page-react.html",
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "careers-employment",
+          "name": "Careers and employment"
+        },
+        {
           "path": "careers-employment/education-and-career-counseling/",
-          "name": "Personalized Career Planning and Guidance"
+          "name": "Career planning and guidance"
         },
         {
           "path": "careers-employment/education-and-career-counseling/apply-career-guidance-form-28-8832/introduction",
-          "name": "Apply for PCPG Form 28-8832"
+          "name": "Apply for Personalized Career Planning and Guidance Form 28‑8832"
         }
       ]
     }
@@ -849,9 +829,15 @@
     "rootUrl": "/va-payment-history/payments",
     "template": {
       "includeBreadcrumbs": true,
-      "vagovprod": false,
+      "vagovprod": true,
       "layout": "page-react.html",
-      "title": "View Payments"
+      "title": "View Payments",
+      "breadcrumbs_override": [
+        {
+          "path": "va-payment-history/payments",
+          "name": "View VA payment history"
+        }
+      ]
     }
   },
   {
@@ -884,9 +870,9 @@
     }
   },
   {
-    "appName": "Healthcare Questionnaire",
+    "appName": "Health care Questionnaire",
     "entryName": "questionnaire",
-    "rootUrl": "/healthcare/questionnaire",
+    "rootUrl": "/health-care/health-questionnaires/questionnaires/answer-questions",
     "template": {
       "vagovprod": true,
       "layout": "page-react.html",
@@ -902,6 +888,99 @@
       "title": "My Documents",
       "layout": "page-react.html",
       "vagovprod": false
+    }
+  },
+  {
+    "appName": "Financial Status Report",
+    "entryName": "financial-status-report",
+    "rootUrl": "/financial-status-report",
+    "template": {
+      "title:": "Financial Status Report",
+      "layout": "page-react.html",
+      "vagovprod": false
+    }
+  },
+  {
+    "appName": "Resources and support",
+    "entryName": "resources-and-support",
+    "rootUrl": "/resources/search",
+    "template": {
+      "title:": "Search results",
+      "layout": "page-react.html",
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "resources/",
+          "name": "Resources and support"
+        },
+        {
+          "path": "resources/search",
+          "name": "Search results"
+        }
+      ]
+    }
+  },
+  {
+    "appName": "Questionnaire List",
+    "entryName": "questionnaire-list",
+    "rootUrl": "/health-care/health-questionnaires/questionnaires",
+    "template": {
+      "vagovprod": true,
+      "layout": "page-react.html",
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "health-care/",
+          "name": "Health care"
+        },
+        {
+          "path": "health-care/health-questionnaires/questionnaires",
+          "name": "Your health questionnaires"
+        }
+      ]
+    }
+  },
+  {
+    "appName": "My Messages",
+    "entryName": "messages",
+    "rootUrl": "/my-messages",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
+    }
+  },
+  {
+    "appName": "coronavirus-vaccination",
+    "entryName": "coronavirus-vaccination",
+    "rootUrl": "/health-care/covid-19-vaccine/stay-informed",
+    "template": {
+      "title": "COVID-19 vaccines: Stay informed and help us prepare",
+      "layout": "page-react.html",
+      "includeBreadcrumbs": true,
+      "description": "We’re working to get COVID-19 vaccines to Veterans as quickly and safely as possible based on CDC guidelines and available supply. Stay informed and help us prepare.",
+      "breadcrumbs_override": [
+        {
+          "path": "health-care/",
+          "name": "Health care"
+        },
+        {
+          "path": "health-care/covid-19-vaccine/",
+          "name": "COVID-19 vaccines"
+        },
+        {
+          "path": "health-care/covid-19-vaccine/stay-informed",
+          "name": "Stay informed and help us prepare"
+        }
+      ]
+    }
+  },
+  {
+    "appName": "View your representative",
+    "entryName": "view-representative",
+    "rootUrl": "/view-change-representative/view",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
     }
   }
 ]

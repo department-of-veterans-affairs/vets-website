@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router } from 'react-router-dom';
+import { Route, Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history-v4';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
@@ -14,6 +14,7 @@ import { renderInReduxProvider } from 'platform/testing/unit/react-testing-libra
 import reducers from '../../redux/reducer';
 import newAppointmentReducer from '../../new-appointment/redux/reducer';
 import expressCareReducer from '../../express-care/redux/reducer';
+import projectCheetahReducer from '../../project-cheetah/redux/reducer';
 import { fetchExpressCareWindows } from '../../appointment-list/redux/actions';
 
 import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
@@ -37,6 +38,7 @@ export function createTestStore(initialState) {
       ...reducers,
       newAppointment: newAppointmentReducer,
       expressCare: expressCareReducer,
+      projectCheetah: projectCheetahReducer,
     }),
     initialState,
     applyMiddleware(thunk),
@@ -98,11 +100,8 @@ export function renderFromRoutes({ initialState, store = null, path = '/' }) {
 }
 
 export async function setTypeOfFacility(store, label) {
-  const history = {
-    push: sinon.spy(),
-  };
-  const { findByLabelText, getByText } = renderWithStoreAndRouter(
-    <TypeOfFacilityPage history={history} />,
+  const { findByLabelText, getByText, history } = renderWithStoreAndRouter(
+    <TypeOfFacilityPage />,
     { store },
   );
 
@@ -116,11 +115,8 @@ export async function setTypeOfFacility(store, label) {
 }
 
 export async function setTypeOfCare(store, label) {
-  const history = {
-    push: sinon.spy(),
-  };
-  const { findByLabelText, getByText } = renderWithStoreAndRouter(
-    <TypeOfCarePage history={history} />,
+  const { findByLabelText, getByText, history } = renderWithStoreAndRouter(
+    <TypeOfCarePage />,
     { store },
   );
 
@@ -134,11 +130,8 @@ export async function setTypeOfCare(store, label) {
 }
 
 export async function setTypeOfEyeCare(store, label) {
-  const history = {
-    push: sinon.spy(),
-  };
-  const { findByLabelText, getByText } = renderWithStoreAndRouter(
-    <TypeOfEyeCarePage history={history} />,
+  const { findByLabelText, getByText, history } = renderWithStoreAndRouter(
+    <TypeOfEyeCarePage />,
     { store },
   );
 
@@ -201,46 +194,44 @@ export async function setVAFacility(store, facilityId) {
 }
 
 export async function setClinic(store, clinicLabel) {
-  const history = {
-    push: sinon.spy(),
-  };
-  const { findByText, findByLabelText } = renderWithStoreAndRouter(
-    <ClinicChoicePage history={history} />,
-    { store },
+  const screen = renderWithStoreAndRouter(
+    <Route component={ClinicChoicePage} />,
+    {
+      store,
+    },
   );
 
-  fireEvent.click(await findByLabelText(clinicLabel));
-  fireEvent.click(await findByText(/Continue/));
-  await waitFor(() => expect(history.push.called).to.be.true);
+  fireEvent.click(await screen.findByLabelText(clinicLabel));
+  fireEvent.click(await screen.findByText(/Continue/));
+  await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
 
-  return history.push.firstCall.args[0];
+  return screen.history.push.firstCall.args[0];
 }
 
 export async function setPreferredDate(store, preferredDate) {
-  const history = {
-    push: sinon.spy(),
-  };
-  const { findByText, getByLabelText, getByText } = renderWithStoreAndRouter(
-    <PreferredDatePage history={history} />,
-    { store },
+  const screen = renderWithStoreAndRouter(
+    <Route component={PreferredDatePage} />,
+    {
+      store,
+    },
   );
 
-  await findByText(/earliest date/);
-  fireEvent.change(getByLabelText('Month'), {
+  await screen.findByText(/earliest date/);
+  fireEvent.change(screen.getByLabelText('Month'), {
     target: { value: preferredDate.month() + 1 },
   });
-  fireEvent.change(getByLabelText('Day'), {
+  fireEvent.change(screen.getByLabelText('Day'), {
     target: { value: preferredDate.date() },
   });
-  fireEvent.change(getByLabelText('Year'), {
+  fireEvent.change(screen.getByLabelText('Year'), {
     target: { value: preferredDate.year() },
   });
-  fireEvent.click(getByText(/Continue/));
-  await waitFor(() => expect(history.push.called).to.be.true);
+  fireEvent.click(screen.getByText(/Continue/));
+  await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
 
-  return history.push.firstCall.args[0];
+  return screen.history.push.firstCall.args[0];
 }
 
 export async function setExpressCareFacility({ store }) {

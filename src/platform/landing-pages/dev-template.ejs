@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= htmlWebpackPlugin.options.title %></title>
 
-    <script>
+    <script nonce="**CSP_NONCE**">
       <%= inlineScripts['record-event.js'] %>
     </script>
 
@@ -34,7 +34,7 @@
 
     <%= modifyScriptTags(htmlWebpackPlugin.tags.bodyTags) %>
 
-    <script type="text/javascript">
+    <script nonce="**CSP_NONCE**" type="text/javascript">
       window.VetsGov = window.VetsGov || {};
       window.VetsGov.headerFooter = <%= JSON.stringify(headerFooterData) %>;
     </script>
@@ -118,7 +118,7 @@
       </div>
     </header>
 
-    <script type="text/javascript">
+    <script nonce="**CSP_NONCE**" type="text/javascript">
     (function() {
       var module = {};
       <%= inlineScripts['incompatible-browser.js'] %>
@@ -174,7 +174,7 @@
       -->
 
     <% if (entryName === 'static-pages') { %>
-    <script type="text/javascript">
+    <script nonce="**CSP_NONCE**" type="text/javascript">
       (function() {
       var module = {};
       <%= inlineScripts['static-page-widgets.js'] %>

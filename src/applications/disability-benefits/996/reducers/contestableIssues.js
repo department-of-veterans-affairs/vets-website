@@ -3,6 +3,7 @@ import {
   FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
   FETCH_CONTESTABLE_ISSUES_FAILED,
 } from '../actions';
+import { getEligibleContestableIssues } from '../helpers';
 
 const initialState = {
   issues: [],
@@ -21,9 +22,10 @@ export default function contestableIssues(state = initialState, action) {
     case FETCH_CONTESTABLE_ISSUES_SUCCEEDED: {
       return {
         ...state,
-        issues: action.response?.data || [],
+        issues: getEligibleContestableIssues(action.response?.data),
         status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
         error: '',
+        benefitType: action.benefitType,
       };
     }
     case FETCH_CONTESTABLE_ISSUES_FAILED: {
@@ -32,6 +34,7 @@ export default function contestableIssues(state = initialState, action) {
         issues: [],
         status: FETCH_CONTESTABLE_ISSUES_FAILED,
         error: action.errors,
+        benefitType: action.benefitType,
       };
     }
     default:

@@ -29,6 +29,9 @@ describe('VAOS <TypeOfVisitPage> ', () => {
     const screen = renderWithStoreAndRouter(<TypeOfVisitPage />, {
       store,
     });
+
+    await screen.findByLabelText(/office visit/i);
+
     expect(screen.getAllByRole('radio').length).to.equal(3);
   });
 });
@@ -52,9 +55,12 @@ it('should save type of visit choice on page change', async () => {
     store,
   });
 
-  expect(await screen.getByLabelText(/Office visit/i)).to.exist;
+  expect(await screen.findByLabelText(/Office visit/i)).to.exist;
 
   fireEvent.click(await screen.findByLabelText(/Office visit/i));
+  await waitFor(() => {
+    expect(screen.getByLabelText(/Office visit/i).checked).to.be.true;
+  });
   await cleanup();
 
   screen = renderWithStoreAndRouter(<Route component={TypeOfVisitPage} />, {

@@ -1,59 +1,88 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { shallow } from 'enzyme';
-import moment from '../../utils/moment-tz.js';
+import { render } from '@testing-library/react';
+import moment from '../../lib/moment-tz.js';
 
 import AddToCalendar from '../../components/AddToCalendar';
+import userEvent from '@testing-library/user-event';
 
 describe('VAOS <AddToCalendar>', () => {
-  describe('Add VA appointment to calendar', () => {
-    const tree = shallow(
+  it('should render link with calendar info', () => {
+    const startDateTime = moment('2020-01-02');
+    const screen = render(
       <AddToCalendar
         summary="VA Appointment"
         description="Follow-up/Routine: some description"
         location="A location"
         duration={60}
-        startDateTime={moment('2020-01-02').toDate()}
+        startDateTime={startDateTime.toDate()}
       />,
     );
 
-    const link = tree.find('a');
-
-    it('should render', () => {
-      expect(tree.exists()).to.be.true;
-    });
-
-    it('should contain valid ICS end command', () => {
-      expect(link.props().href).to.contain(encodeURIComponent('END:VCALENDAR'));
-    });
-
-    it('should contain description', () => {
-      expect(link.props().href).to.contain(
-        encodeURIComponent('some description'),
-      );
-    });
-
-    it('should download ICS commands to a file named "VA_Appointment.ics"', () => {
-      expect(link.props().download).to.equal('VA_Appointment.ics');
-    });
-
-    it('should have an aria label', () => {
-      expect(link.props()['aria-label']).to.equal(
-        `Add January 2, 2020 appointment to your calendar`,
-      );
-    });
-
-    tree.unmount();
+    expect(screen.getByRole('link')).to.contain.text('Add to calendar');
+    expect(screen.getByRole('link')).to.have.attribute(
+      'download',
+      'VA_Appointment.ics',
+    );
+    expect(screen.getByRole('link')).to.have.attribute(
+      'aria-label',
+      `Add January 2, 2020 appointment to your calendar`,
+    );
+    const ics = decodeURIComponent(
+      screen
+        .getByRole('link')
+        .getAttribute('href')
+        .replace('data:text/calendar;charset=utf-8,', ''),
+    );
+    expect(ics).to.contain('PRODID:VA');
+    expect(ics).to.contain('UID:');
+    expect(ics).to.contain('SUMMARY:VA Appointment');
+    expect(ics).to.contain('DESCRIPTION:Follow-up/Routine: some description');
+    expect(ics).to.contain('LOCATION:A location');
+    expect(ics).to.contain(
+      `DTSTAMP:${startDateTime.format('YYYYMMDDTHHmmss')}`,
+    );
+    expect(ics).to.contain(
+      `DTSTART:${startDateTime.format('YYYYMMDDTHHmmss')}`,
+    );
+    expect(ics).to.contain(
+      `DTEND:${startDateTime
+        .clone()
+        .add(60, 'minutes')
+        .format('YYYYMMDDTHHmmss')}`,
+    );
   });
 
-  describe('Add appointment request to calendar in IE', () => {
+  it('should propertly format long descriptions', () => {
+    const startDateTime = moment('2020-01-02');
+    const screen = render(
+      <AddToCalendar
+        summary="VA Appointment"
+        description="Testing long line descriptions Testing long descriptions Testing long descriptions Testing long descriptions Testing long descriptions Testing long descriptions Testing long descriptions Testing long descriptions"
+        location="A location"
+        duration={60}
+        startDateTime={startDateTime.toDate()}
+      />,
+    );
+
+    const ics = decodeURIComponent(
+      screen
+        .getByRole('link')
+        .getAttribute('href')
+        .replace('data:text/calendar;charset=utf-8,', ''),
+    );
+    expect(ics).to.contain(
+      'DESCRIPTION:Testing long line descriptions Testing long descriptions Testi\r\n\tng long descriptions Testing long descriptions Testing long descriptions T\r\n\testing long descriptions Testing long descriptions Testing long descriptio\r\n\tns\n',
+    );
+  });
+  it('should download ICS file via blob in IE', () => {
     const oldValue = window.navigator.msSaveOrOpenBlob;
     Object.defineProperty(window.navigator, 'msSaveOrOpenBlob', {
       value: sinon.spy(),
       writable: true,
     });
-    const tree = shallow(
+    const screen = render(
       <AddToCalendar
         summary="VA Appointment"
         description="Some description"
@@ -63,29 +92,18 @@ describe('VAOS <AddToCalendar>', () => {
       />,
     );
 
-    const button = tree.find('button');
+    expect(screen.getByRole('button')).to.contain.text('Add to calendar');
 
-    it('should render', () => {
-      expect(button.exists()).to.be.true;
+    Object.defineProperty(window.navigator, 'msSaveOrOpenBlob', {
+      value: sinon.spy(),
     });
 
-    it('should download ICS file on click', async () => {
-      Object.defineProperty(window.navigator, 'msSaveOrOpenBlob', {
-        value: sinon.spy(),
-      });
-      button.props().onClick();
-      const filename = window.navigator.msSaveOrOpenBlob.firstCall.args[1];
-      expect(window.navigator.msSaveOrOpenBlob.called).to.be.true;
-      expect(filename).to.equal('VA_Appointment.ics');
-    });
+    userEvent.click(screen.getByRole('button'));
 
-    it('should have an aria label', () => {
-      expect(button.props()['aria-label']).to.equal(
-        `Add January 2, 2020 appointment to your calendar`,
-      );
-    });
+    const filename = window.navigator.msSaveOrOpenBlob.firstCall.args[1];
+    expect(window.navigator.msSaveOrOpenBlob.called).to.be.true;
+    expect(filename).to.equal('VA_Appointment.ics');
 
-    tree.unmount();
     Object.defineProperty(window.navigator, 'msSaveOrOpenBlob', {
       value: oldValue,
       writable: true,

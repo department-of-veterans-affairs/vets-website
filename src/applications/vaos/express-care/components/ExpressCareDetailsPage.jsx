@@ -3,16 +3,17 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import { FETCH_STATUS, EXPRESS_CARE_ERROR_REASON } from '../../utils/constants';
 import FormButtons from '../../components/FormButtons';
 import TextareaWidget from '../../components/TextareaWidget';
 import { validateWhiteSpace } from 'platform/forms/validations';
+import { selectLocalExpressCareWindowString } from '../../appointment-list/redux/selectors';
 import {
   selectExpressCare,
   getExpressCareFormPageInfo,
-} from '../../utils/selectors';
+} from '../redux/selectors';
 
 import * as actions from '../redux/actions';
 
@@ -29,7 +30,7 @@ const initialSchema = {
         </span>
       ),
       type: 'string',
-      maxLength: 256,
+      maxLength: 255,
     },
     contactInfo: {
       type: 'object',
@@ -118,55 +119,58 @@ function ExpressCareDetailsPage({
   return (
     <div>
       <h1>{pageTitle}</h1>
-      <SchemaForm
-        name="Type of appointment"
-        title="Type of appointment"
-        schema={schema || initialSchema}
-        uiSchema={uiSchema}
-        onSubmit={() => submitExpressCareRequest(history)}
-        onChange={newData => updateFormData(pageKey, uiSchema, newData)}
-        data={data}
-      >
-        <FormButtons
-          backButtonText="Back"
-          nextButtonText="Submit Express Care request"
-          pageChangeInProgress={submitStatus === FETCH_STATUS.loading}
-          disabled={submitStatus === FETCH_STATUS.failed}
-          loadingText="Submitting your Express Care request"
-          onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
-        />
-        {submitStatus === FETCH_STATUS.failed && (
-          <>
-            {submitErrorReason === EXPRESS_CARE_ERROR_REASON.error && (
-              <AlertBox
-                status="error"
-                headline="Your request didn’t go through"
-                content={
-                  <p>
-                    Something went wrong when we tried to submit your request
-                    and you’ll need to start over. We suggest you wait a day to
-                    try again or you can call your medical center to help with
-                    your request.
-                  </p>
-                }
-              />
-            )}
-            {submitErrorReason ===
-              EXPRESS_CARE_ERROR_REASON.noActiveFacility && (
-              <AlertBox
-                status="error"
-                headline="Express Care isn’t available right now"
-                content={
-                  <p>
-                    Express Care is only available {localWindowString} today. To
-                    use Express Care, check back during the time shown above.
-                  </p>
-                }
-              />
-            )}
-          </>
-        )}
-      </SchemaForm>
+      {!!schema && (
+        <SchemaForm
+          name="Type of appointment"
+          title="Type of appointment"
+          schema={schema}
+          uiSchema={uiSchema}
+          onSubmit={() => submitExpressCareRequest(history)}
+          onChange={newData => updateFormData(pageKey, uiSchema, newData)}
+          data={data}
+        >
+          <FormButtons
+            backButtonText="Back"
+            nextButtonText="Submit Express Care request"
+            pageChangeInProgress={submitStatus === FETCH_STATUS.loading}
+            disabled={submitStatus === FETCH_STATUS.failed}
+            loadingText="Submitting your Express Care request"
+            onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+          />
+          {submitStatus === FETCH_STATUS.failed && (
+            <>
+              {submitErrorReason === EXPRESS_CARE_ERROR_REASON.error && (
+                <AlertBox
+                  status="error"
+                  headline="Your request didn’t go through"
+                  content={
+                    <p>
+                      Something went wrong when we tried to submit your request
+                      and you’ll need to start over. We suggest you wait a day
+                      to try again or you can call your medical center to help
+                      with your request.
+                    </p>
+                  }
+                />
+              )}
+              {submitErrorReason ===
+                EXPRESS_CARE_ERROR_REASON.noActiveFacility && (
+                <AlertBox
+                  status="error"
+                  headline="Express Care isn’t available right now"
+                  content={
+                    <p>
+                      Express Care is only available {localWindowString} today.
+                      To use Express Care, check back during the time shown
+                      above.
+                    </p>
+                  }
+                />
+              )}
+            </>
+          )}
+        </SchemaForm>
+      )}
     </div>
   );
 }
@@ -181,6 +185,7 @@ const mapDispatchToProps = {
 function mapStateToProps(state) {
   return {
     ...selectExpressCare(state),
+    localWindowString: selectLocalExpressCareWindowString(state),
     ...getExpressCareFormPageInfo(state, pageKey),
   };
 }

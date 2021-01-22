@@ -7,82 +7,21 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import { uiSchema } from '../pages/covidResearchUISchema';
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import {
   ConsentNotice,
   ConsentLabel,
   ConsentError,
 } from '../containers/ConsentFormContent';
+import submitForm from './submitForm';
+
+import { updateData, transform } from './formHelper';
+import manifest from '../manifest.json';
 
 const { fullName, email, usaPhone, date, usaPostalCode } = definitions;
 
-const checkBoxElements = [
-  'HEALTH_HISTORY',
-  'TRANSPORTATION',
-  'EMPLOYMENT_STATUS',
-  'VETERAN',
-  'GENDER',
-  'RACE_ETHNICITY',
-];
-const NONE_OF_ABOVE = 'NONE_OF_ABOVE';
-
-export const setNoneOfAbove = (form, elementName, elementNOA) => {
-  const updatedForm = form;
-  Object.keys(updatedForm[elementName]).map((key, _val) => {
-    updatedForm[elementName][key] = false;
-    updatedForm[elementName][elementNOA] = true;
-    return updatedForm;
-  });
-};
-function updateData(oldForm, newForm) {
-  const updatedForm = newForm;
-  checkBoxElements.forEach(elementName => {
-    // For each checkBoxGroup in the form, get the number of selected elements before and after the current event
-    const oldSelectedCount = Object.keys(oldForm[elementName]).filter(
-      val => oldForm[elementName][val] === true,
-    ).length;
-    const newSelectedCount = Object.keys(newForm[elementName]).filter(
-      val => newForm[elementName][val] === true,
-    ).length;
-
-    const elementNOA = `${elementName}::${NONE_OF_ABOVE}`;
-    // if no change just return
-    if (oldSelectedCount === newSelectedCount) return;
-    if (newSelectedCount === 0) updatedForm[elementName][elementNOA] = true;
-    // When there are 2 selected, need to know if the user just selected NONE_OF_ABOVE of a new selection
-    else if (newSelectedCount === 2) {
-      const oldNoResp = oldForm[elementName][elementNOA];
-      const newNoResp = newForm[elementName][elementNOA];
-      if (oldNoResp !== newNoResp) {
-        setNoneOfAbove(updatedForm, elementName, elementNOA);
-      } else {
-        updatedForm[elementName][elementNOA] = false;
-      }
-    } else if (
-      // if NONE_OF_ABOVE is selected clear out all others
-      newSelectedCount > 2 &&
-      newForm[elementName][elementNOA] === true
-    ) {
-      setNoneOfAbove(updatedForm, elementName, elementNOA);
-    }
-  });
-  return updatedForm;
-}
-
-export function transform(formConfig, form) {
-  const transformedForm = form;
-  checkBoxElements.forEach(elementName => {
-    Object.keys(form.data[elementName])
-      .filter(key => form.data[elementName][key] === undefined)
-      .forEach(filteredKey => {
-        transformedForm.data[elementName][filteredKey] = false;
-      });
-  });
-  return transformForSubmit(formConfig, transformedForm);
-}
-
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/covid-research/volunteer/create`,
   trackingPrefix: 'covid-research-volunteer-',
@@ -90,6 +29,13 @@ const formConfig = {
   confirmation: ConfirmationPage,
   transformForSubmit: transform,
   formId: VA_FORM_IDS.FORM_COVID_VACCINE_TRIAL,
+  saveInProgress: {
+    // messages: {
+    //   inProgress: 'Your [savedFormDescription] is in progress.',
+    //   expired: 'Your saved [savedFormDescription] has expired. If you want to apply for [benefitType], please start a new [appType].',
+    //   saved: 'Your [benefitType] [appType] has been saved.',
+    // },
+  },
   version: 0,
   prefillEnabled: true,
   customText: {
@@ -111,6 +57,7 @@ const formConfig = {
     notice: ConsentNotice(),
     error: ConsentError(),
   },
+  submit: submitForm,
   chapters: {
     chapter1: {
       title: 'Your information',
@@ -122,7 +69,6 @@ const formConfig = {
           uiSchema,
           schema: {
             required: fullSchema.required,
-            // required: [],
             type: 'object',
             properties: {
               descriptionText: {
@@ -153,6 +99,7 @@ const formConfig = {
                 },
               },
               diagnosed: fullSchema.properties.diagnosed,
+              DIAGNOSED_DETAILS: fullSchema.properties.DIAGNOSED_DETAILS,
               closeContactPositive: fullSchema.properties.closeContactPositive,
               hospitalized: fullSchema.properties.hospitalized,
               smokeOrVape: fullSchema.properties.smokeOrVape,

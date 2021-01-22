@@ -1,4 +1,4 @@
-import vet360 from 'vet360/reducers';
+import vapService from '@@vap-svc/reducers';
 
 import _ from 'lodash/fp';
 import {
@@ -21,6 +21,7 @@ import {
   LETTER_ELIGIBILITY_ERROR,
   REQUEST_OPTIONS,
   UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION,
+  LETTER_HAS_EMPTY_ADDRESS,
 } from '../utils/constants';
 
 export const initialState = {
@@ -143,6 +144,12 @@ function letters(state = initialState, action) {
         DOWNLOAD_STATUSES.failure,
         state,
       );
+    case LETTER_HAS_EMPTY_ADDRESS:
+      return {
+        ...state,
+        lettersAvailability: AVAILABILITY_STATUSES.hasEmptyAddress,
+        addressAvailability: AVAILABILITY_STATUSES.hasEmptyAddress,
+      };
     default:
       return state;
   }
@@ -150,5 +157,5 @@ function letters(state = initialState, action) {
 
 export default {
   letters,
-  vet360,
+  vapService,
 };

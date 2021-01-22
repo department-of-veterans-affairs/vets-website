@@ -11,8 +11,9 @@ const inputSchemas = [
   `{ $ref: 'GenericNestedBoolean' }`,
   `{ $ref: 'GenericNestedNumber' }`,
   `{ $ref: 'EntityReferenceArray' }`,
-  `{ $ref: 'RawMetaTag' }`, // Used in the input schema
+  `{ $ref: 'RawMetaTags' }`, // Used in the input schema
   `{ $ref: 'MetaTag' }`, // Used in the output schema
+  `{ $ref: 'RawPath' }`,
 ];
 
 const outputSchemas = [

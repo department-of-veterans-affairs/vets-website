@@ -1,0 +1,24 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+.medium-screen-va-border-left-radius--0 {
+  @media (min-width: $medium-screen) {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+  }
+}
+
+.medium-screen-va-background-color--white {
+  @media (min-width: $medium-screen) {
+    background-color: $color-white !important;
+  }
+}
+
+.va-border-bottom-radius--0 {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.va-border-bottom-radius--5px {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}

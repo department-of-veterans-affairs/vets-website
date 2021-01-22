@@ -1,23 +1,39 @@
 // Node modules.
 import React from 'react';
+import PropTypes from 'prop-types';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 // Relative imports.
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
+import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 
-const AuthContent = () => (
+const AuthContent = ({
+  authenticatedWithSSOe,
+  cernerFacilities,
+  otherFacilities,
+}) => (
   <>
-    <h2>On this page:</h2>
-    <a href="#va-blue-button">
-      My HealtheVet (VA Blue Button) and My VA Health{' '}
-    </a>
-    <a href="#vhie">The Veterans Health Information Exchange (VHIE)</a>
+    <h2 className="vads-u-margin-bottom--2 vads-u-font-size--lg">
+      On this page:
+    </h2>
+    <ul>
+      <li>
+        <a href="#va-blue-button">
+          My HealtheVet (VA Blue Button) and My VA Health{' '}
+        </a>
+      </li>
+      <li>
+        <a href="#vhie">The Veterans Health Information Exchange (VHIE)</a>
+      </li>
+    </ul>
     <h2 id="va-blue-button">My HealtheVet (VA Blue Button) and My VA Health</h2>
     <CernerCallToAction
+      cernerFacilities={cernerFacilities}
+      otherFacilities={otherFacilities}
       linksHeaderText="Get your medical records from:"
-      myHealtheVetLink="https://sqa.eauth.va.gov/mhv-portal-web/eauth?deeplinking=download_my_data"
+      myHealtheVetLink={mhvUrl(authenticatedWithSSOe, 'download-my-data')}
       myVAHealthLink={getCernerURL(
         '/pages/health_record/clinical_documents/sharing',
       )}
@@ -289,7 +305,8 @@ const AuthContent = () => (
       <a href="/vaforms/medical/pdf/10-10163-fill.pdf">
         VA Form 10-10163 (PDF)
       </a>{' '}
-      and return it to your VA facility's ROI office, or submit it online though{' '}
+      and return it to your VA facility's ROI office, or submit it online
+      through{' '}
       <a
         rel="noreferrrer noopener"
         href="https://www.myhealth.va.gov/mhv-portal-web/home"
@@ -306,5 +323,31 @@ const AuthContent = () => (
     </p>
   </>
 );
+
+AuthContent.propTypes = {
+  authenticatedWithSSOe: PropTypes.bool.isRequired,
+  cernerfacilities: PropTypes.arrayOf(
+    PropTypes.shape({
+      facilityId: PropTypes.string.isRequired,
+      isCerner: PropTypes.bool.isRequired,
+      usesCernerAppointments: PropTypes.string,
+      usesCernerMedicalRecords: PropTypes.string,
+      usesCernerMessaging: PropTypes.string,
+      usesCernerRx: PropTypes.string,
+      usesCernerTestResults: PropTypes.string,
+    }).isRequired,
+  ),
+  otherfacilities: PropTypes.arrayOf(
+    PropTypes.shape({
+      facilityId: PropTypes.string.isRequired,
+      isCerner: PropTypes.bool.isRequired,
+      usesCernerAppointments: PropTypes.string,
+      usesCernerMedicalRecords: PropTypes.string,
+      usesCernerMessaging: PropTypes.string,
+      usesCernerRx: PropTypes.string,
+      usesCernerTestResults: PropTypes.string,
+    }).isRequired,
+  ),
+};
 
 export default AuthContent;

@@ -19,7 +19,6 @@
     "view:contactInfoDescription": {},
     "view:hasEvidence": false,
     "view:powStatus": false,
-    "view:newDisabilities": false,
     "ratedDisabilities": [
       {
         "name": "Diabetes mellitus0",

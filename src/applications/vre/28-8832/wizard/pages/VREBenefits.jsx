@@ -1,6 +1,6 @@
 import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import { pageNames } from './pageList';
 
 const options = [
@@ -26,12 +26,12 @@ const VREBenefits = ({ setPageState, state = {} }) => {
     setPageState({ selected: value }, value);
   };
   return (
-    <ErrorableRadioButtons
+    <RadioButtons
       name="vre-benefits"
       label="Are you receiving Chapter 31 Veteran Readiness and Employment (VR&E) benefits?"
       options={options}
       id="vre-benefits"
-      onValueChange={handleValueChange}
+      onValueChange={value => handleValueChange(value)}
       value={{ value: state.selected }}
     />
   );

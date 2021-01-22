@@ -1,5 +1,7 @@
-import { ancillaryFormUploadUi } from '../utils';
 import _ from 'platform/utilities/data';
+import { validateFileField } from 'platform/forms-system/src/js/validation';
+
+import { ancillaryFormUploadUi } from '../utils';
 import { UploadDescription } from '../content/fileUploadDescriptions';
 import { serviceTreatmentRecordsSubmitLater } from '../content/serviceTreatmentRecords';
 // import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
@@ -19,7 +21,8 @@ const { serviceTreatmentRecordsAttachments } = fullSchema.properties;
 export const uiSchema = {
   'view:uploadServiceTreatmentRecordsQualifier': {
     'view:hasServiceTreatmentRecordsToUpload': {
-      'ui:title': 'Do you want to upload your service treatment records?',
+      'ui:title': `Do you want to upload your service treatment records? (You’ll
+        have a chance to upload your medical records later in the application.)`,
       'ui:widget': 'yesNo',
       'ui:options': {
         labels: {
@@ -46,6 +49,7 @@ export const uiSchema = {
         data,
         false,
       ),
+    'ui:validations': [validateFileField],
   },
   'view:serviceTreatmentRecordsSubmitLater': {
     'ui:title': '',

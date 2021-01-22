@@ -4,21 +4,24 @@ import {
   APPOINTMENT_TYPES,
   VIDEO_TYPES,
   APPOINTMENT_STATUS,
-  CANCELLED_APPOINTMENT_SET,
-  PAST_APPOINTMENTS_HIDE_STATUS_SET,
-  FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
 } from '../../../utils/constants';
 import {
   transformConfirmedAppointments,
   transformPendingAppointments,
 } from '../../../services/appointment/transformers';
+import {
+  CANCELLED_APPOINTMENT_SET,
+  PAST_APPOINTMENTS_HIDE_STATUS_SET,
+  FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
+} from '../../../services/appointment';
+import { transformATLASLocation } from '../../../services/location/transformers';
 
 const now = moment();
 const tomorrow = moment().add(1, 'days');
 
 const appt = {
   id: '22cdc6741c00ac67b6cbf6b972d084c0',
-  startDate: '2020-12-07T16:00:00Z',
+  startDate: tomorrow.toISOString(),
   clinicId: '308',
   clinicFriendlyName: null,
   facilityId: '983',
@@ -27,7 +30,7 @@ const appt = {
     {
       bookingNote: 'RP test',
       appointmentLength: '60',
-      appointmentTime: '2020-12-07T16:00:00Z',
+      appointmentTime: tomorrow.toISOString(),
       clinic: {
         name: 'CHY OPT VAR1',
         askForCheckIn: false,
@@ -164,7 +167,7 @@ const ccPendingAppt = {
 
 const videoAppt = {
   id: '05760f00c80ae60ce49879cf37a05fc8',
-  startDate: '2020-11-25T15:17:00Z',
+  startDate: tomorrow.toISOString(),
   clinicId: null,
   clinicFriendlyName: null,
   facilityId: '983',
@@ -175,7 +178,7 @@ const videoAppt = {
       id: '8a74bdfa-0e66-4848-87f5-0d9bb413ae6d',
       appointmentKind: 'ADHOC',
       sourceSystem: 'SM',
-      dateTime: '2020-11-25T15:17:00Z',
+      dateTime: tomorrow.toISOString(),
       duration: 20,
       status: { description: 'F', code: 'FUTURE' },
       schedulingRequestType: 'NEXT_AVAILABLE_APPT',
@@ -207,6 +210,20 @@ const videoAppt = {
           },
         },
       ],
+      tasInfo: {
+        confirmationCode: '7VBBCA',
+        address: {
+          streetAddress: '114 Dewey Ave',
+          city: 'Eureka',
+          state: 'MT',
+          zipCode: '59917',
+          country: 'USA',
+          longitude: -115.1,
+          latitude: 48.8,
+          additionalDetails: '',
+        },
+        siteCode: 9931,
+      },
       providers: [
         {
           name: { firstName: 'Test T+90', lastName: 'Test' },
@@ -308,7 +325,12 @@ describe('VAOS Appointment transformer', () => {
       });
 
       it('should set start date', () => {
-        expect(data.start).to.equal('2020-12-07T09:00:00-07:00');
+        expect(data.start).to.equal(
+          tomorrow
+            .clone()
+            .tz('America/Denver')
+            .format(),
+        );
       });
 
       it('should set minutesDuration', () => {
@@ -418,7 +440,12 @@ describe('VAOS Appointment transformer', () => {
       });
 
       it('should set start date', () => {
-        expect(data.start).to.equal('2020-11-25T08:17:00-07:00');
+        expect(data.start).to.equal(
+          tomorrow
+            .clone()
+            .tz('America/Denver')
+            .format(),
+        );
       });
 
       it('should set minutesDuration', () => {
@@ -439,16 +466,15 @@ describe('VAOS Appointment transformer', () => {
 
       it('should set video url in HealthcareService.telecom', () => {
         expect('contained' in data).to.equal(true);
-        expect(data.contained[0].resourceType).to.equal('HealthcareService');
-        expect(data.contained[0].id).to.contain(
+        expect(data.contained[1].resourceType).to.equal('HealthcareService');
+        expect(data.contained[1].id).to.contain(
           `var${videoAppt.vvsAppointments[0].id}`,
         );
-        expect(data.contained[0].telecom[0].value).to.equal(
+        expect(data.contained[1].telecom[0].value).to.equal(
           'https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VVC8275247@care2.evn.va.gov&pin=3242949390#',
         );
-        expect(data.contained[0].telecom[0].period.start).to.equal(data.start);
-        expect(data.contained[0].resourceType).to.equal('HealthcareService');
-        expect(data.contained[0].characteristic[0].coding[0].system).to.equal(
+        expect(data.contained[1].telecom[0].period.start).to.equal(data.start);
+        expect(data.contained[1].characteristic[0].coding[0].system).to.equal(
           'VVS',
         );
       });
@@ -482,9 +508,24 @@ describe('VAOS Appointment transformer', () => {
           },
         ])[0];
 
-        expect(gfeData.contained[0].resourceType).to.equal('HealthcareService');
-        expect(gfeData.contained[0].characteristic[0].coding[0].code).to.equal(
+        expect(gfeData.contained[1].resourceType).to.equal('HealthcareService');
+        expect(gfeData.contained[1].characteristic[0].coding[0].code).to.equal(
           VIDEO_TYPES.gfe,
+        );
+      });
+      it('should return ATLAS location', () => {
+        const { address } = transformATLASLocation(
+          videoAppt.vvsAppointments[0].tasInfo,
+        );
+
+        expect(data.contained[0].address).to.eql(address);
+      });
+      it('should return confirmation code', () => {
+        expect(data.contained[1].characteristic[1].coding[0].code).to.equal(
+          '7VBBCA',
+        );
+        expect(data.contained[1].characteristic[1].coding[0].system).to.equal(
+          'ATLAS_CC',
         );
       });
     });

@@ -1,17 +1,28 @@
 import React from 'react';
 import { veteranPathPageNames } from '../pageList';
+import { CAREERS_EMPLOYMENT_ROOT_URL } from 'applications/vre/28-1900/constants';
+import { recordNotificationEvent, fireLinkClickEvent } from '../helpers';
 
-const noDisabilityRating = () => (
-  <div className="feature">
-    <p>
-      To apply for VR&E benefits, you must be within 12 years of whichever is
-      later: your date of discharge or the date you received your disability
-      rating.
-    </p>
-  </div>
-);
+const NoDisabilityRating = () => {
+  recordNotificationEvent('ineligibility - does not have disability rating');
+  return (
+    <div className="feature vads-u-background-color--gray-lightest">
+      <p>
+        To be eligible for VR&E benefits, you must have a service-connected
+        disability and an employment handicap in which your disability limits
+        your ability to get a job.
+      </p>
+      <a
+        onClick={e => fireLinkClickEvent(e)}
+        href={CAREERS_EMPLOYMENT_ROOT_URL}
+      >
+        Find out about VA educational and career counseling
+      </a>
+    </div>
+  );
+};
 
 export default {
   name: veteranPathPageNames.noDisabilityRating,
-  component: noDisabilityRating,
+  component: NoDisabilityRating,
 };

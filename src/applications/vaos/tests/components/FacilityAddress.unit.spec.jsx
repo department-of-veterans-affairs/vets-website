@@ -1,6 +1,6 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 import { expect } from 'chai';
+import { render } from '@testing-library/react';
 
 import FacilityAddress from '../../components/FacilityAddress';
 
@@ -24,21 +24,31 @@ const facility = {
 describe('VAOS <FacilityAddress>', () => {
   it('should render address for va facility', () => {
     const address = facility.address;
-    const tree = shallow(<FacilityAddress facility={facility} />);
-    expect(tree.text()).to.contain(address.line[0]);
-    expect(tree.text()).to.contain(address.city);
-    expect(tree.text()).to.contain(address.state);
-    expect(tree.text()).to.contain(address.postalCode);
-    expect(tree.text()).to.contain(facility.telecom[0].value);
-    expect(tree.exists('FacilityDirectionsLink')).to.be.false;
-    tree.unmount();
+    const screen = render(<FacilityAddress facility={facility} />);
+
+    expect(screen.getByText(new RegExp(`${address.line[0]}`))).to.exist;
+    expect(screen.baseElement).to.contain.text(
+      `${address.city}, ${address.state} ${address.postalCode}`,
+    );
+    expect(screen.getByRole('link', { name: '8 5 8. 6 8 9. 2 2 4 1.' })).to
+      .exist;
+
+    expect(screen.queryByText('Directions')).not.to.exist;
   });
 
   it('should show directions link if showDirectionsLink === true', () => {
-    const tree = shallow(
+    const address = facility.address;
+    const screen = render(
       <FacilityAddress facility={facility} showDirectionsLink />,
     );
-    expect(tree.exists('FacilityDirectionsLink')).to.be.true;
-    tree.unmount();
+
+    expect(screen.getByText(new RegExp(`${address.line[0]}`))).to.exist;
+    expect(screen.baseElement).to.contain.text(
+      `${address.city}, ${address.state} ${address.postalCode}`,
+    );
+    expect(screen.getByRole('link', { name: '8 5 8. 6 8 9. 2 2 4 1.' })).to
+      .exist;
+
+    expect(screen.getByText(/^Directions/)).to.exist;
   });
 });

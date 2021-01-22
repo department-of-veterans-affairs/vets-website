@@ -7,7 +7,8 @@ export const IntroductionPageHeader = () => (
     <p>
       Equal to VA Form 21-686c (Application Request to Add And/Or Remove
       Dependents) and/or Equal to VA Form 21-674 (Request for Approval of School
-      Attendance)
+      Attendance) and/or Equal to VA Form 21P-527EZ (Application for Veterans
+      Pension)
     </p>
   </>
 );

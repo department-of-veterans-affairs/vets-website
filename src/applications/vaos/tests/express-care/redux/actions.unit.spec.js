@@ -1,4 +1,4 @@
-import moment from '../../../utils/moment-tz';
+import moment from '../../../lib/moment-tz';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {

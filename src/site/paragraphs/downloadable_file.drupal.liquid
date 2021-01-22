@@ -27,8 +27,8 @@
 
         <a class="file-download-with-icon" target="_blank"
            href="{{url}}" download="{{url}}">
-            <i class="fas fa-download vads-u-margin--0p5" aria-hidden="true" role="img"></i>
-            Download {{entity.fieldTitle}} ({{url | fileExt | upcase}})
+            <i class="fas fa-download vads-u-margin--0p5" aria-label="Download"></i>
+            {{entity.fieldTitle}} ({{url | fileExt | upcase}})
         </a>
     {% endif %}
 
@@ -36,8 +36,8 @@
         {% assign url = entity.fieldMedia.entity.fieldDocument.entity.url %}
         <a class="file-download-with-icon" target="_blank"
            href="{{url}}" download="{{url}}">
-            <i class="fas fa-download vads-u-margin--0p5" aria-hidden="true" role="img"></i>
-            Download {{entity.fieldTitle}} ({{url | fileExt | upcase}})
+            <i class="fas fa-download vads-u-margin--0p5" aria-label="Download"></i>
+            {{entity.fieldTitle}} ({{url | fileExt | upcase}})
         </a>
     {% endif %}
 

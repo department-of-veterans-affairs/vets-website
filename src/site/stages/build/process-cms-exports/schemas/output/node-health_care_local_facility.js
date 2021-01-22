@@ -1,18 +1,3 @@
-const socialMediaSchema = {
-  type: ['object', 'null'],
-  properties: {
-    url: {
-      type: 'object',
-      properties: {
-        path: { type: 'string' },
-      },
-      required: ['path'],
-    },
-    title: { type: 'string' },
-  },
-  required: ['url', 'title'],
-};
-
 module.exports = {
   type: 'object',
   properties: {
@@ -25,8 +10,6 @@ module.exports = {
     entityMetatags: { $ref: 'MetaTags' },
     entityUrl: { $ref: 'EntityUrl' },
     fieldAddress: { $ref: 'Address' },
-    fieldEmailSubscription: { type: ['string', 'null'] },
-    fieldFacebook: socialMediaSchema,
     fieldFacilityHours: {
       type: 'object',
       properties: {
@@ -46,8 +29,6 @@ module.exports = {
       },
     },
     fieldFacilityLocatorApiId: { type: ['string', 'null'] },
-    fieldFlickr: socialMediaSchema,
-    fieldInstagram: socialMediaSchema,
     fieldIntroText: { type: ['string', 'null'] },
     fieldLocalHealthCareService: {
       type: ['array', 'null'],
@@ -81,7 +62,6 @@ module.exports = {
         { type: 'null' },
       ],
     },
-    fieldTwitter: socialMediaSchema,
   },
   required: [
     'title',
@@ -90,12 +70,8 @@ module.exports = {
     'entityMetatags',
     'entityUrl',
     'fieldAddress',
-    'fieldEmailSubscription',
-    'fieldFacebook',
     'fieldFacilityHours',
     'fieldFacilityLocatorApiId',
-    'fieldFlickr',
-    'fieldInstagram',
     'fieldIntroText',
     'fieldLocalHealthCareService',
     'fieldLocationServices',
@@ -107,6 +83,5 @@ module.exports = {
     'fieldOperatingStatusMoreInfo',
     'fieldPhoneNumber',
     'fieldRegionPage',
-    'fieldTwitter',
   ],
 };

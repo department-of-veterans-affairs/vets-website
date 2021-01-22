@@ -4,10 +4,6 @@ import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { GA_PREFIX } from '../../utils/constants';
-import {
-  startNewAppointmentFlow,
-  fetchFacilityDetails,
-} from '../../new-appointment/redux/actions';
 import { transformPendingAppointments } from '../../services/appointment/transformers';
 import ExpressCareCard from '../../appointment-list/components/cards/express-care/ExpressCareCard';
 
@@ -65,12 +61,4 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = {
-  startNewAppointmentFlow,
-  fetchFacilityDetails,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ExpressCareConfirmationPage);
+export default connect(mapStateToProps)(ExpressCareConfirmationPage);

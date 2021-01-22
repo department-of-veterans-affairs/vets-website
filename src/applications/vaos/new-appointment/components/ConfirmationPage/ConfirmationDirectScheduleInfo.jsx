@@ -1,9 +1,9 @@
 import React from 'react';
-import moment from '../../../utils/moment-tz.js';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import moment from '../../../lib/moment-tz.js';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import FacilityAddress from '../../../components/FacilityAddress';
 import AddToCalendar from '../../../components/AddToCalendar';
-import { formatFacilityAddress } from '../../../utils/formatters';
+import { formatFacilityAddress } from '../../../services/location';
 import {
   getTimezoneAbbrBySystemId,
   getTimezoneBySystemId,
@@ -28,10 +28,9 @@ export default function ConfirmationDirectScheduleInfo({
     <div>
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
       <AlertBox status="success">
-        <strong>Your appointment has been scheduled.</strong>
+        <strong>Your appointment is confirmed</strong>
         <br />
-        Your appointment is confirmed. Please see your appointment details
-        below.
+        Please see your appointment details below.
       </AlertBox>
       <div className="vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-y--3 vads-u-border-top--4px vads-u-border-color--green">
         <div className="vaos-form__title vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
@@ -51,32 +50,26 @@ export default function ConfirmationDirectScheduleInfo({
 
         <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
           <div className="vads-u-flex--1 vads-u-margin-top--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
-            <dl className="vads-u-margin--0">
-              <dt className="vads-u-font-weight--bold">
-                {clinic?.serviceName}
-              </dt>
-              <dd>
-                {!!facilityDetails && (
-                  <>
-                    {facilityDetails.name}
-                    <br />
-                    <FacilityAddress facility={facilityDetails} />
-                  </>
-                )}
-              </dd>
-            </dl>
+            <h3 className="vaos-appts__block-label">{clinic?.serviceName}</h3>
+            <div>
+              {!!facilityDetails && (
+                <>
+                  {facilityDetails.name}
+                  <br />
+                  <FacilityAddress facility={facilityDetails} />
+                </>
+              )}
+            </div>
           </div>
           <div className="vads-u-flex--1 vads-u-margin-top--2 vaos-u-word-break--break-word">
-            <dl className="vads-u-margin--0">
-              <dt className="vads-u-font-weight--bold">
-                {
-                  PURPOSE_TEXT.find(
-                    purpose => purpose.id === data.reasonForAppointment,
-                  )?.short
-                }
-              </dt>
-              <dd>{data.reasonAdditionalInfo}</dd>
-            </dl>
+            <h3 className="vaos-appts__block-label">
+              {
+                PURPOSE_TEXT.find(
+                  purpose => purpose.id === data.reasonForAppointment,
+                )?.short
+              }
+            </h3>
+            <div>{data.reasonAdditionalInfo}</div>
           </div>
         </div>
         {facilityDetails && (

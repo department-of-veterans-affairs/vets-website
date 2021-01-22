@@ -9,11 +9,12 @@ import {
   formatNumber,
   locationInfo,
 } from '../../utils/helpers';
-import { ariaLabels } from '../../constants';
+import { ariaLabels, MINIMUM_RATING_COUNT } from '../../constants';
 import CautionFlagHeading from './CautionFlagHeading';
 import SchoolClosingHeading from './SchoolClosingHeading';
 import ScorecardTags from '../ScorecardTags';
 import { renderStars } from '../../utils/render';
+import recordEvent from 'platform/monitoring/record-event';
 
 const IconWithInfo = ({ icon, children, present }) => {
   if (!present) return null;
@@ -35,7 +36,9 @@ class HeadingSummary extends React.Component {
 
     const stars = convertRatingToStars(it.ratingAverage);
     const displayStars =
-      this.props.gibctSchoolRatings && stars && it.ratingCount > 0;
+      this.props.gibctSchoolRatings &&
+      stars &&
+      it.ratingCount >= MINIMUM_RATING_COUNT;
 
     const titleClasses = classNames({
       'vads-u-margin-bottom--0': displayStars,
@@ -76,7 +79,9 @@ class HeadingSummary extends React.Component {
           </div>
           {displayStars && (
             <div className={starClasses}>
-              {renderStars(it.ratingAverage)}{' '}
+              <span className="vads-u-font-size--sm">
+                {renderStars(it.ratingAverage)}
+              </span>{' '}
               <span className="vads-u-padding-left--1 vads-u-padding-right--1">
                 |
               </span>{' '}
@@ -84,7 +89,10 @@ class HeadingSummary extends React.Component {
                 {stars.display} of 5
               </span>{' '}
               (
-              <a href="#profile-school-ratings">
+              <a
+                href="#profile-school-ratings"
+                onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
+              >
                 See {it.ratingCount} ratings by Veterans
               </a>
               )
@@ -153,20 +161,18 @@ class HeadingSummary extends React.Component {
               </IconWithInfo>
             </div>
           </div>
-          {this.props.gibctFilterEnhancement && (
-            <div className="row vads-u-padding-top--1p5">
-              <div className="view-details columns vads-u-display--inline-block">
-                <ScorecardTags
-                  styling={'info-flag'}
-                  it={this.props.institution}
-                  menOnly={this.props.institution.menOnly}
-                  womenOnly={this.props.institution.womenOnly}
-                  hbcu={this.props.institution.hbcu}
-                  relAffil={this.props.institution.relAffil}
-                />
-              </div>
+          <div className="row vads-u-padding-top--1p5">
+            <div className="view-details columns vads-u-display--inline-block">
+              <ScorecardTags
+                styling="info-flag"
+                it={this.props.institution}
+                menOnly={this.props.institution.menOnly}
+                womenOnly={this.props.institution.womenOnly}
+                hbcu={this.props.institution.hbcu}
+                relAffil={this.props.institution.relAffil}
+              />
             </div>
-          )}
+          </div>
         </div>
         <AdditionalResources />
       </div>

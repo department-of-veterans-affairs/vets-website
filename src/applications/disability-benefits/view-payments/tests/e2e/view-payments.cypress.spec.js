@@ -1,3 +1,4 @@
+import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import mockUser from '../fixtures/test-user.json';
 import mockPayments from '../fixtures/test-payments-response.json';
 import mockEmptyPayments from '../fixtures/test-empty-payments-response.json';
@@ -12,8 +13,6 @@ const PAYMENTS_API_ENDPOINT = '/v0/profile/payment_history';
 const testLoadingState = () => {
   cy.visit(PAYMENTS_PATH);
   cy.findByText(/Your VA payments/i).should('exist');
-  cy.findByText(/Loading payment information/i).should('exist');
-  cy.findByText(/Loading payment information/i).should('not.exist');
 };
 
 const testAxe = () => {
@@ -30,7 +29,7 @@ const testPagination = () => {
   testAxe();
   // Paginate to next set of data points
   cy.findByText(/Next/i).click();
-  cy.findByText(/Displaying 6 - 9 of 9/i).should('exist');
+  cy.findByText(/Displaying 7 - 9 of 9/i).should('exist');
 };
 
 const testNoPayments = () => {
@@ -38,7 +37,6 @@ const testNoPayments = () => {
     'mockEmptyPayments',
   );
   cy.visit(PAYMENTS_PATH);
-  cy.findByText(/Loading payment information/i).should('exist');
   cy.wait('@mockEmptyPayments');
   cy.findByText(/We don’t have a record of VA payments for you/i).should(
     'exist',
@@ -54,7 +52,7 @@ const testEmptyPaymentsArray = (category = 'payments') => {
     testLoadingState();
     cy.wait('@mockEmptyReturnedPayments');
     cy.findByText(/Payments you received/i).should('exist');
-    cy.findByText(/Displaying 1 - 5 of 9/i).should('exist');
+    cy.findByText(/Displaying 1 - 6 of 9/i).should('exist');
     cy.findByText(/We don’t have a record of returned payments/i).should(
       'exist',
     );
@@ -102,12 +100,9 @@ const testApiError = (errCode = '500') => {
 };
 
 // Disabling until view-payments is ready for production
-describe.skip('View payment history', () => {
+describe('View payment history', () => {
   beforeEach(() => {
-    window.localStorage.setItem(
-      'DISMISSED_ANNOUNCEMENTS',
-      JSON.stringify(['single-sign-on-intro']),
-    );
+    disableFTUXModals();
     cy.login(mockUser);
   });
   it('should pass an aXe scan and paginate through payment data', () => {

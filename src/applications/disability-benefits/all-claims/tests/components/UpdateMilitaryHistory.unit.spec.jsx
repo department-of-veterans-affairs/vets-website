@@ -1,15 +1,23 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
+import moment from 'moment';
 
 import { SAVED_SEPARATION_DATE } from '../../constants';
 import { UpdateMilitaryHistory } from '../../components/UpdateMilitaryHistory';
 
+const inRangeBddDate = moment()
+  .add(120, 'days')
+  .format('YYYY-MM-DD');
+
+const inRangeBddDate2 = moment()
+  .add(100, 'days')
+  .format('YYYY-MM-DD');
+
 describe('UpdateMilitaryHistory', () => {
   let wrapper;
-  let oldSessionStorage;
-  let storage = {};
-  const servicePeriods = (to = '2020-12-31') => [
+
+  const servicePeriods = (to = inRangeBddDate2) => [
     {
       serviceBranch: 'Army',
       dateRange: {
@@ -31,17 +39,11 @@ describe('UpdateMilitaryHistory', () => {
     const setFormData = data => {
       form.data = data;
     };
-    oldSessionStorage = window.sessionStorage;
-    delete window.sessionStorage;
-    window.sessionStorage = {
-      getItem: key => storage[key] || null,
-      setItem: (key, value) => {
-        storage[key] = value;
-      },
-      removeItem: key => delete storage[key],
-    };
     if (separationDate) {
-      window.sessionStorage.setItem(SAVED_SEPARATION_DATE, separationDate);
+      global.window.sessionStorage.setItem(
+        SAVED_SEPARATION_DATE,
+        separationDate,
+      );
     }
     wrapper = mount(
       <UpdateMilitaryHistory form={form} setFormData={setFormData} />,
@@ -50,8 +52,7 @@ describe('UpdateMilitaryHistory', () => {
   }
 
   afterEach(() => {
-    window.sessionStorage = oldSessionStorage;
-    storage = {};
+    global.window.sessionStorage.removeItem(SAVED_SEPARATION_DATE);
     wrapper.unmount();
     form.data.serviceInformation.servicePeriods = [];
   });
@@ -68,7 +69,7 @@ describe('UpdateMilitaryHistory', () => {
   });
   it('should update the form data', () => {
     setUp({
-      separationDate: '2021-01-30',
+      separationDate: inRangeBddDate,
       callback: () => {
         expect(form.data.serviceInformation.servicePeriods).to.deep.equal([
           ...servicePeriods(),
@@ -76,37 +77,38 @@ describe('UpdateMilitaryHistory', () => {
             serviceBranch: '',
             dateRange: {
               from: '',
-              to: '2021-01-30',
+              to: inRangeBddDate,
             },
           },
         ]);
         expect(form.data.serviceInformation.servicePeriods).to.have.lengthOf(2);
+        expect(form.data['view:isBddData']).to.be.true;
       },
     });
   });
   it('should add separation date to an existing "empty" entry', () => {
-    const separationDate = '2021-01-30';
     setUp({
-      separationDate,
+      separationDate: inRangeBddDate,
       to: '', // Add empty "to" date in prefill
       callback: () => {
         expect(form.data.serviceInformation.servicePeriods).to.deep.equal(
-          servicePeriods(separationDate),
+          servicePeriods(inRangeBddDate),
         );
         expect(form.data.serviceInformation.servicePeriods).to.have.lengthOf(1);
+        expect(form.data['view:isBddData']).to.be.true;
       },
     });
   });
   it('should not add a duplicate separation date', () => {
-    const separationDate = '2021-01-30';
     setUp({
-      separationDate,
-      to: separationDate, // Separation date already in prefill
+      separationDate: inRangeBddDate,
+      to: inRangeBddDate, // Separation date already in prefill
       callback: () => {
         expect(form.data.serviceInformation.servicePeriods).to.deep.equal(
-          servicePeriods(separationDate),
+          servicePeriods(inRangeBddDate),
         );
         expect(form.data.serviceInformation.servicePeriods).to.have.lengthOf(1);
+        // expect(form.data['view:isBddData']).to.be.true;
       },
     });
   });

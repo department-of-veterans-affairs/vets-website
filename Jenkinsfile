@@ -44,7 +44,7 @@ node('vetsgov-general-purpose') {
         unit: {
           dockerContainer.inside(commonStages.DOCKER_ARGS) {
             sh "/cc-test-reporter before-build"
-            sh "cd /application && npm --no-color run test:coverage"
+            sh "cd /application && npm --no-color run test:unit -- --coverage"
             sh "cd /application && /cc-test-reporter after-build -r fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24"
           }
         }
@@ -77,7 +77,7 @@ node('vetsgov-general-purpose') {
           },
 
           cypress: {
-            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress up -d && docker-compose -p cypress run --rm --entrypoint=npm -e CI=true vets-website --no-color run cy:test:docker"
+            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress up -d && docker-compose -p cypress run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 vets-website --no-color run cy:test:docker"
           }
         )
       } catch (error) {

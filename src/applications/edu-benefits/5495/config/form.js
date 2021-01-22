@@ -15,7 +15,7 @@ import createSchoolSelectionPage from '../../pages/schoolSelection';
 import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
 
-import fullNameUI from 'platform/forms/definitions/fullName';
+import sponsorFullNameUI from '../../definitions/sponsorFullName';
 
 import * as personId from 'platform/forms/definitions/personId';
 
@@ -28,6 +28,8 @@ import { urlMigration } from '../../config/migrations';
 
 import { survivorBenefitsLabels } from '../../utils/labels';
 
+import manifest from '../manifest.json';
+
 const {
   benefit,
   outstandingFelony,
@@ -37,10 +39,20 @@ const {
 const { school, educationType, date, fullName } = fullSchema5495.definitions;
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/5495`,
   trackingPrefix: 'edu-5495-',
   formId: VA_FORM_IDS.FORM_22_5495,
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your education benefits application (22-5495) is in progress.',
+      expired:
+        'Your saved education benefits application (22-5495) has expired. If you want to apply for education benefits, please start a new application.',
+      saved: 'Your education benefits application has been saved.',
+    },
+  },
   version: 1,
   migrations: [urlMigration('/5495')],
   prefillEnabled: true,
@@ -66,7 +78,7 @@ const formConfig = {
   errorText: ErrorText,
   chapters: {
     applicantInformation: {
-      title: 'Applicant Information',
+      title: 'Applicant information',
       pages: {
         applicantInformation: applicantInformation(fullSchema5495, {
           required: ['relativeFullName', 'relativeDateOfBirth'],
@@ -83,7 +95,7 @@ const formConfig = {
       },
     },
     benefitSelection: {
-      title: 'Benefit Selection',
+      title: 'Benefit selection',
       pages: {
         benefitSelection: {
           path: 'benefits/selection', // other forms this is benefits/eligibility
@@ -108,18 +120,22 @@ const formConfig = {
       },
     },
     sponsorInformation: {
-      title: 'Sponsor Information',
+      title: 'Sponsor information',
       pages: {
         sponsorInformation: {
           path: 'sponsor/information',
           title: 'Sponsor information',
           uiSchema: {
-            veteranFullName: fullNameUI,
+            veteranFullName: sponsorFullNameUI,
             'view:veteranId': _.merge(personId.uiSchema(), {
               'view:noSSN': {
                 'ui:title': 'I don’t know my sponsor’s Social Security number',
               },
+              vaFileNumber: {
+                'ui:title': "Sponsor's VA file number",
+              },
               veteranSocialSecurityNumber: {
+                'ui:title': "Sponsor's Social Security number",
                 'ui:validations': [
                   (errors, fieldData, formData) => {
                     if (fieldData === formData.relativeSocialSecurityNumber) {
@@ -149,7 +165,7 @@ const formConfig = {
       },
     },
     schoolSelection: {
-      title: 'School Selection',
+      title: 'School selection',
       pages: {
         newSchool: createSchoolSelectionPage(fullSchema5495, {
           required: ['educationType', 'name'],
@@ -161,7 +177,7 @@ const formConfig = {
       },
     },
     personalInformation: {
-      title: 'Personal Information',
+      title: 'Personal information',
       pages: {
         contactInformation: contactInformationPage(
           fullSchema5495,

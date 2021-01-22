@@ -413,6 +413,17 @@ describe('Schemaform validations', () => {
 
       expect(errors[0].__errors).not.to.be.empty;
     });
+    it('should not mark PDF file as invalid if still awaiting password entry', () => {
+      const errors = {};
+      validateFileField(errors, [
+        {
+          isEncrypted: true,
+          // password: '',
+        },
+      ]);
+
+      expect(errors).to.be.empty;
+    });
   });
   describe('validateBooleanGroup', () => {
     it('should add error if no props are true', () => {

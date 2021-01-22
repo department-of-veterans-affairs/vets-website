@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 import { focusElement } from 'platform/utilities/ui';
 
 import DownLoadLink from './DownloadLink';
@@ -31,7 +31,7 @@ const SubmitError = ({ form }) => {
         </div>
 
         <div>
-          <p>Mail your application to:</p>
+          <p className="vads-u-margin-top--1p5">Mail your application to:</p>
 
           <p className="va-address-block vads-u-margin-bottom--2 vads-u-margin-x--0 vads-u-font-size--h4">
             <strong className="vads-u-font-size--h5">
@@ -46,7 +46,7 @@ const SubmitError = ({ form }) => {
 
         <div>
           If you have trouble downloading your application, call our
-          <a className="vads-u-margin-x--0p5" href="VA.gov">
+          <a className="vads-u-margin-x--0p5" href="https://www.va.gov/">
             VA.gov
           </a>
           help desk at <Telephone contact={CONTACTS.HELP_DESK} /> (TTY: 711).

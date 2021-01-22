@@ -45,5 +45,9 @@ export const uiSchema = {
             : formSchema,
       },
     },
+    spouseIncome: {
+      'ui:title': 'Did your spouse have income in the last 365 days?',
+      'ui:widget': 'yesNo',
+    },
   },
 };

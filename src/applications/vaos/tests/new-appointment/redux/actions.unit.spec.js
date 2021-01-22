@@ -17,11 +17,10 @@ import {
   updateFacilityPageData,
   updateReasonForAppointmentData,
   openTypeOfCarePage,
-  openClinicPage,
   openCommunityCarePreferencesPage,
   getAppointmentSlots,
   onCalendarChange,
-  hideTypeOfCareUnavailableModal,
+  hidePodiatryAppointmentUnavailableModal,
   startNewAppointmentFlow,
   startDirectScheduleFlow,
   startRequestAppointmentFlow,
@@ -41,8 +40,6 @@ import {
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   FORM_ELIGIBILITY_CHECKS_FAILED,
-  FORM_CLINIC_PAGE_OPENED,
-  FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
@@ -50,7 +47,7 @@ import {
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
   FORM_CALENDAR_DATA_CHANGED,
-  FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+  FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
   START_REQUEST_APPOINTMENT_FLOW,
   START_DIRECT_SCHEDULE_FLOW,
 } from '../../../new-appointment/redux/actions';
@@ -130,11 +127,11 @@ describe('VAOS newAppointment actions', () => {
     });
   });
 
-  it('should hide ToC modal', () => {
-    const action = hideTypeOfCareUnavailableModal();
+  it('should hide podiatry appointment unavailable modal', () => {
+    const action = hidePodiatryAppointmentUnavailableModal();
 
     expect(action).to.deep.equal({
-      type: FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+      type: FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
     });
   });
 
@@ -231,7 +228,9 @@ describe('VAOS newAppointment actions', () => {
   describe('fetchFacilityDetails', () => {
     it('should fetch facility details', async () => {
       mockFetch();
-      setFetchJSONResponse(global.fetch, {});
+      setFetchJSONResponse(global.fetch, {
+        data: { id: '', attributes: { uniqueId: '' } },
+      });
       const dispatch = sinon.spy();
       const thunk = fetchFacilityDetails('123');
 
@@ -376,7 +375,6 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should fetch parent details if no supported facilities', async () => {
-      setFetchJSONResponse(global.fetch, clinics);
       const dispatch = sinon.spy();
       const previousState = {
         ...defaultState,
@@ -463,7 +461,10 @@ describe('VAOS newAppointment actions', () => {
                     value: '983GC',
                   },
                 ],
-                legacyVAR: {},
+                legacyVAR: {
+                  directSchedulingSupported: { 323: true },
+                  requestSupported: { 323: true },
+                },
               },
             ],
           },
@@ -482,6 +483,9 @@ describe('VAOS newAppointment actions', () => {
 
     it('should skip eligibility request and succeed if facility list is empty', async () => {
       setFetchJSONResponse(global.fetch, { data: [] });
+      setFetchJSONResponse(global.fetch.onCall(1), {
+        data: { id: '123', attributes: { uniqueId: '123' } },
+      });
       const dispatch = sinon.spy();
       const state = set('newAppointment.data.vaParent', 'var983', defaultState);
       const getState = () => state;
@@ -756,7 +760,6 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should send fail action for error in eligibility code', async () => {
-      setFetchJSONResponse(global.fetch, {});
       const dispatch = sinon.spy();
       const previousState = {
         ...defaultState,
@@ -791,36 +794,6 @@ describe('VAOS newAppointment actions', () => {
       );
       expect(dispatch.lastCall.args[0].type).to.equal(
         FORM_ELIGIBILITY_CHECKS_FAILED,
-      );
-    });
-  });
-
-  describe('openClinicPage', () => {
-    it('should fetch facility info', async () => {
-      const dispatch = sinon.spy();
-      const previousState = {
-        newAppointment: {
-          data: {
-            typeOfCareId: '323',
-            vaParent: 'var983',
-            vaFacility: 'var983',
-          },
-          pages: {},
-          parentFacilitiesStatus: FETCH_STATUS.notStarted,
-          parentFacilities: null,
-          facilities: {},
-          eligibility: {},
-        },
-      };
-
-      const getState = () => previousState;
-
-      const thunk = openClinicPage('clinicChoice');
-      await thunk(dispatch, getState);
-
-      expect(dispatch.firstCall.args[0].type).to.equal(FORM_CLINIC_PAGE_OPENED);
-      expect(dispatch.thirdCall.args[0].type).to.equal(
-        FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
       );
     });
   });
@@ -1022,12 +995,7 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should dispatch onChange action', () => {
-      expect(
-        onCalendarChange({
-          currentlySelectedDate: '2020-12-11',
-          selectedDates: [{}, {}],
-        }).type,
-      ).to.equal(FORM_CALENDAR_DATA_CHANGED);
+      expect(onCalendarChange([]).type).to.equal(FORM_CALENDAR_DATA_CHANGED);
     });
   });
 
@@ -1058,7 +1026,7 @@ describe('VAOS newAppointment actions', () => {
       const state = {
         user: {
           profile: {
-            vet360: {
+            vapContactInfo: {
               email: {
                 emailAddress: 'test@va.gov',
               },

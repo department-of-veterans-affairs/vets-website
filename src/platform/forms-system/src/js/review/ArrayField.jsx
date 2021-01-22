@@ -34,7 +34,7 @@ class ArrayField extends React.Component {
     this.handleAdd = this.handleAdd.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleSetData = this.handleSetData.bind(this);
-    this.scrollToTop = this.scrollToTop.bind(this);
+    this.scrollToAndFocus = this.scrollToAndFocus.bind(this);
     this.scrollToRow = this.scrollToRow.bind(this);
     this.isLocked = this.isLocked.bind(this);
   }
@@ -64,22 +64,27 @@ class ArrayField extends React.Component {
     return schema.additionalItems;
   }
 
-  scrollToTop() {
-    setTimeout(() => {
-      // Hacky; won’t work if the array field is used in two pages and one isn’t
-      //  a BasicArrayField nor if the array field is used in three pages.
-      scroller.scrollTo(
-        `topOfTable_${this.props.path[this.props.path.length - 1]}${
-          this.isLocked() ? '_locked' : ''
-        }`,
-        window.Forms?.scroll || {
-          duration: 500,
-          delay: 0,
-          smooth: true,
-          offset: -60,
-        },
-      );
-    }, 100);
+  /**
+   * Scroll to an element, then focus on a button within the element
+   * @param {string} scrollElementName - element with "name" attribute to scroll
+   *   to
+   * @param {string} focusElementSelector - element to focus within element
+   */
+  scrollToAndFocus(scrollElementName, focusElementSelector = '') {
+    if (scrollElementName) {
+      setTimeout(() => {
+        scroller.scrollTo(
+          scrollElementName,
+          window.Forms?.scroll || {
+            duration: 500,
+            delay: 0,
+            smooth: true,
+            offset: -60,
+          },
+        );
+        focusElement(`[name="${scrollElementName}"] ${focusElementSelector}`);
+      }, 100);
+    }
   }
 
   scrollToRow(id) {
@@ -129,16 +134,13 @@ class ArrayField extends React.Component {
     });
   }
 
-  handleNewItemTitleMounted = element => {
-    if (element) {
-      element.focus();
-    }
-  };
-
-  /*
+  /**
    * Clicking Remove when editing an item
+   * @param {number} indexToRemove - Index in array
+   * @param {string} fieldName - Name of ArrayField used by the wrapper;
+   *   determined from path
    */
-  handleRemove(indexToRemove) {
+  handleRemove(indexToRemove, fieldName) {
     const { path, formData } = this.props;
     const newState = _.assign(this.state, {
       items: this.state.items.filter((val, index) => index !== indexToRemove),
@@ -148,7 +150,8 @@ class ArrayField extends React.Component {
     });
     this.setState(newState, () => {
       this.props.setData(_.set(path, this.state.items, formData));
-      this.scrollToTop();
+      // Move focus back to the add button
+      this.scrollToAndFocus(`add-another-${fieldName}`);
     });
   }
 
@@ -166,17 +169,22 @@ class ArrayField extends React.Component {
     });
   }
 
-  /*
+  /**
    * Clicking Update in edit mode.
    *
    * This is only called if the form is valid
    * and data is already saved through handleSetData, so we just need to change
    * the edting state
+   *
+   * @param {number} indexToRemove - Index in array
+   * @param {string} fieldName - Name of ArrayField used by the wrapper;
+   *   determined from path
    */
-  handleSave(index) {
+  handleSave(index, fieldName) {
     const newEditingArray = _.set(index, false, this.state.editing);
     this.setState({ editing: newEditingArray }, () => {
-      this.scrollToTop();
+      // Return focus to button that toggled edit mode
+      this.scrollToAndFocus(`${fieldName}-${index}`, '.edit-btn');
     });
   }
 
@@ -206,12 +214,15 @@ class ArrayField extends React.Component {
     const addAnotherDisabled = items.length >= (schema.maxItems || Infinity);
 
     return (
-      <div className={itemsNeeded ? 'schemaform-review-array-warning' : null}>
+      <div
+        name={fieldName}
+        className={itemsNeeded ? 'schemaform-review-array-warning' : ''}
+      >
         {title && (
           <div className="form-review-panel-page-header-row">
-            <h3 className="form-review-panel-page-header vads-u-font-size--h4">
+            <h4 className="form-review-panel-page-header vads-u-font-size--h4">
               {title}
-            </h3>
+            </h4>
             {itemsNeeded && (
               <span className="schemaform-review-array-warning-icon" />
             )}
@@ -247,14 +258,13 @@ class ArrayField extends React.Component {
                   >
                     <div className="small-12 columns va-growable-expanded">
                       {isLast ? (
-                        <h5
-                          className="schemaform-array-row-title"
-                          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-                          tabIndex="0"
-                          ref={this.handleNewItemTitleMounted}
+                        <h4
+                          className="schemaform-array-row-title vads-u-font-size--h5 va-u-outline--none"
+                          tabIndex="-1"
+                          ref={focusElement}
                         >
                           New {uiOptions.itemName || 'Item'}
-                        </h5>
+                        </h4>
                       ) : null}
                       <SchemaForm
                         data={item}
@@ -270,7 +280,7 @@ class ArrayField extends React.Component {
                         onBlur={this.props.onBlur}
                         onChange={data => this.handleSetData(index, data)}
                         onEdit={() => this.handleEdit(index, !isEditing)}
-                        onSubmit={() => this.handleSave(index)}
+                        onSubmit={() => this.handleSave(index, fieldName)}
                       >
                         <div className="row small-collapse">
                           <div className="small-6 left columns">
@@ -281,7 +291,9 @@ class ArrayField extends React.Component {
                               <button
                                 type="button"
                                 className="usa-button-secondary float-right"
-                                onClick={() => this.handleRemove(index)}
+                                onClick={() =>
+                                  this.handleRemove(index, fieldName)
+                                }
                               >
                                 Remove
                               </button>
@@ -295,7 +307,11 @@ class ArrayField extends React.Component {
               );
             }
             return (
-              <div key={index} className="va-growable-background">
+              <div
+                key={index}
+                name={`${fieldName}-${index}`}
+                className={'va-growable-background'}
+              >
                 <div className="row small-collapse">
                   <SchemaForm
                     reviewMode
@@ -309,7 +325,7 @@ class ArrayField extends React.Component {
                     name={fieldName}
                     onChange={data => this.handleSetData(index, data)}
                     onEdit={() => this.handleEdit(index, !isEditing)}
-                    onSubmit={() => this.handleSave(index)}
+                    onSubmit={() => this.handleSave(index, fieldName)}
                   >
                     <div />
                   </SchemaForm>
@@ -330,13 +346,14 @@ class ArrayField extends React.Component {
               <>
                 <button
                   type="button"
+                  name={`add-another-${fieldName}`}
                   disabled={addAnotherDisabled}
-                  className="edit-btn primary-outline"
+                  className="add-btn primary-outline"
                   onClick={() => this.handleAdd()}
                 >
                   {uiOptions.itemName
-                    ? `Add Another ${uiOptions.itemName}`
-                    : 'Add Another'}
+                    ? `Add another ${uiOptions.itemName}`
+                    : 'Add another'}
                 </button>
                 <div>
                   {addAnotherDisabled &&

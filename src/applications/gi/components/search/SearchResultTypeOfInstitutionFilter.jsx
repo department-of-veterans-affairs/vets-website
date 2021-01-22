@@ -6,8 +6,8 @@ function SearchResultTypeOfInstitutionFilter({
   category,
   onChange,
   handleInputFocus,
-  gibctFilterEnhancement,
 }) {
+  const optionText = 'Employers (On-the-job training [OJT], apprenticeships)';
   const options = [
     {
       value: 'ALL',
@@ -19,17 +19,13 @@ function SearchResultTypeOfInstitutionFilter({
     },
     {
       value: 'employer',
-      label: 'Employers only (OJT, apprenticeships)',
+      label: optionText,
     },
   ];
 
   return (
     <RadioButtons
-      label={
-        gibctFilterEnhancement
-          ? 'Select an institution type'
-          : 'Type of institution'
-      }
+      label="Select an institution"
       name="category"
       options={options}
       value={category}

@@ -10,7 +10,7 @@ import {
   PleaseSelectVAFacility,
   AdditionalCaregiverInfo,
   VeteranSSNInfo,
-  SecondaryCaregiverInfo,
+  SecondaryRequiredAlert,
 } from 'applications/caregivers/components/AdditionalInfo';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
@@ -21,6 +21,7 @@ import {
   medicalCentersByState,
   validateSSNIsUnique,
   facilityNameMaxLength,
+  shouldHideAlert,
 } from 'applications/caregivers/helpers';
 
 const emptyFacilityList = [];
@@ -86,17 +87,16 @@ export default {
     vetRelationshipUI: label => ({
       'ui:title': `What is the ${label}  relationship to the Veteran?`,
     }),
-    hasSecondaryCaregiverOneUI: {
-      'ui:title': 'Would you like to add a Secondary Family Caregiver?',
-      'ui:description': SecondaryCaregiverInfo({
-        additionalInfo: true,
-        headerInfo: false,
-      }),
-      'ui:widget': 'yesNo',
+    secondaryRequiredAlert: {
+      'ui:title': ' ',
+      'ui:widget': SecondaryRequiredAlert,
+      'ui:options': {
+        hideIf: formData => shouldHideAlert(formData),
+      },
     },
     hasSecondaryCaregiverTwoUI: {
       'ui:title': ' ',
-      'ui:description': AdditionalCaregiverInfo(),
+      'ui:description': AdditionalCaregiverInfo,
       'ui:widget': 'yesNo',
     },
   },
@@ -105,6 +105,17 @@ export default {
     previousTreatmentFacilityUI: {
       'ui:title': ' ',
       'ui:order': ['name', 'type'],
+      'ui:description': (
+        <div>
+          <h3 className="vads-u-font-size--h4">Recent medical care</h3>
+          <p>
+            Please enter the name of the medical facility where the Veteran
+            <strong className="vads-u-margin-left--0p5">
+              last received medical treatment.
+            </strong>
+          </p>
+        </div>
+      ),
       name: {
         'ui:required': formData => !!formData.veteranLastTreatmentFacility.type,
         'ui:validations': [
@@ -114,19 +125,7 @@ export default {
             },
           },
         ],
-        'ui:title': (
-          <div>
-            <h3 className="vads-u-font-size--h4">Recent medical care</h3>
-            <p>
-              Please enter the name of the medical facility where the Veteran
-              <strong className="vads-u-margin-left--0p5">
-                last received medical treatment.
-              </strong>
-            </p>
-
-            <p>Name of medical facility</p>
-          </div>
-        ),
+        'ui:title': 'Name of medical facility',
       },
       type: {
         'ui:required': formData => !!formData.veteranLastTreatmentFacility.name,
@@ -202,10 +201,10 @@ export const confirmationEmailUI = (label, dataConstant) => ({
   'ui:validations': [
     {
       validator: (errors, fieldData, formData) => {
-        const emailMatcher = () =>
+        const doesEmailMatch = () =>
           formData[dataConstant] === formData[`view:${dataConstant}`];
-        const doesEmailMatch = emailMatcher();
-        if (!doesEmailMatch) {
+
+        if (!doesEmailMatch()) {
           errors.addError(
             'This email does not match your previously entered email',
           );

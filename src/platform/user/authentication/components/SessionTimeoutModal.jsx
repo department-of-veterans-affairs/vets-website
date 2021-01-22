@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
@@ -89,8 +89,8 @@ class SessionTimeoutModal extends React.Component {
           <div>SECONDS</div>
         </div>
         <p>
-          If you need more time, please click on the blue button below.
-          Otherwise, we’ll sign you out to protect your privacy.
+          If you need more time, please click I need more time below. Otherwise,
+          we’ll sign you out of your account to protect your privacy.
         </p>
         <div className="alert-actions">
           <button className="usa-button" onClick={this.extendSession}>

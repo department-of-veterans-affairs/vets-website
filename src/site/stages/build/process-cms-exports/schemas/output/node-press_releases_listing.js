@@ -1,4 +1,4 @@
-const { usePartialSchema } = require('../../transformers/helpers');
+const { partialSchema } = require('../../transformers/helpers');
 const pressReleaseSchema = require('./node-press_release');
 
 module.exports = {
@@ -27,8 +27,7 @@ module.exports = {
         entities: {
           type: 'array',
           items: {
-            /* eslint-disable react-hooks/rules-of-hooks */
-            entity: usePartialSchema(pressReleaseSchema, [
+            entity: partialSchema(pressReleaseSchema, [
               'title',
               'fieldReleaseDate',
               'entityUrl',

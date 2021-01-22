@@ -1,65 +1,31 @@
-import SelectArrayItemsWidget from '../containers/SelectArrayItemsWidget';
+import EligibleIssuesWidget from '../components/EligibleIssuesWidget';
 
 import {
-  contestedIssuesTitle,
-  disabilityOption,
+  ContestedIssuesTitle,
   disabilitiesExplanation,
-  contestedIssuesAlert,
 } from '../content/contestedIssues';
-import {
-  OfficeForReviewTitle,
-  OfficeForReviewDescription,
-  OfficeForReviewAlert,
-} from '../content/OfficeForReview';
 
 import { requireRatedDisability } from '../validations';
-import SameOfficeReviewField from '../containers/SameOfficeReviewField';
+import { SELECTED } from '../constants';
 
 const contestedIssuesPage = {
   uiSchema: {
-    'ui:title': contestedIssuesTitle,
+    'ui:title': ContestedIssuesTitle,
+    'ui:options': {
+      ariaLabelForEditButtonOnReview: 'Edit issues eligible for review',
+    },
     contestedIssues: {
       'ui:title': ' ',
       'ui:field': 'StringField',
-      'ui:widget': SelectArrayItemsWidget,
+      'ui:widget': EligibleIssuesWidget,
       'ui:options': {
-        showFieldLabel: 'label',
-        label: disabilityOption,
-        widgetClassNames: 'widget-outline',
         keepInPageOnReview: true,
-        customTitle: ' ',
       },
       'ui:validations': [requireRatedDisability],
       'ui:required': () => true,
     },
-    'view:contestedIssuesAlert': {
-      'ui:description': contestedIssuesAlert,
-      'ui:options': {
-        hideIf: formData =>
-          formData.contestedIssues?.some(entry => entry['view:selected']),
-      },
-    },
     'view:disabilitiesExplanation': {
       'ui:description': disabilitiesExplanation,
-    },
-    sameOffice: {
-      'ui:title': OfficeForReviewTitle,
-      // including a description here would add it _above_ the checkbox
-      'ui:widget': 'checkbox',
-      'ui:reviewField': SameOfficeReviewField,
-      'ui:options': {
-        hideLabelText: true,
-      },
-    },
-    'view:sameOfficeDescription': {
-      'ui:title': '',
-      'ui:description': OfficeForReviewDescription,
-    },
-    sameOfficeAlert: {
-      'ui:title': OfficeForReviewAlert,
-      'ui:options': {
-        hideIf: formData => formData?.sameOffice !== true,
-      },
     },
   },
 
@@ -73,25 +39,10 @@ const contestedIssuesPage = {
         items: {
           type: 'object',
           properties: {},
-          'view:selected': 'boolean',
+          [SELECTED]: 'boolean',
         },
       },
-      'view:contestedIssuesAlert': {
-        type: 'object',
-        properties: {},
-      },
       'view:disabilitiesExplanation': {
-        type: 'object',
-        properties: {},
-      },
-      sameOffice: {
-        type: 'boolean',
-      },
-      'view:sameOfficeDescription': {
-        type: 'object',
-        properties: {},
-      },
-      sameOfficeAlert: {
         type: 'object',
         properties: {},
       },

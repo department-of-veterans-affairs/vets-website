@@ -130,16 +130,7 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
       },
     });
     store.dispatch(startDirectScheduleFlow());
-    store.dispatch(
-      onCalendarChange({
-        currentlySelectedDate: start.format(),
-        selectedDates: [
-          {
-            datetime: start.format(),
-          },
-        ],
-      }),
-    );
+    store.dispatch(onCalendarChange([start.format()]));
   });
   afterEach(() => resetFetch());
 
@@ -191,11 +182,12 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
   });
 
   it('should submit successfully', async () => {
+    mockAppointmentSubmit({});
+
     const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
       store,
     });
 
-    mockAppointmentSubmit({});
     await screen.findByText(/scheduling a primary care appointment/i);
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
@@ -212,10 +204,6 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
   });
 
   it('should show appropriate message on bad request submit error', async () => {
-    const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
-      store,
-    });
-
     mockFacilityFetch('vha_442', {
       id: 'vha_442',
       attributes: {
@@ -245,6 +233,11 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
         ],
       },
     );
+
+    const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
+      store,
+    });
+
     await screen.findByText(/scheduling a primary care appointment/i);
 
     userEvent.click(screen.getByText(/Confirm appointment/i));

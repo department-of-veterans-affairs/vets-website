@@ -53,8 +53,8 @@ describe('<MessagingWidget>', () => {
   it('should render only unread messages', () => {
     const tree = SkinDeep.shallowRender(<MessagingWidget {...props} />);
     const messageRows = tree
-      .dive(['.msg-table-list', 'table', 'tbody'])
-      .everySubTree('.messaging-message-row');
+      .dive(['Table', 'table', 'tbody'])
+      .everySubTree('tr');
     expect(messageRows.length).to.equal(1);
   });
 

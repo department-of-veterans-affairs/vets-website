@@ -1,4 +1,5 @@
 export const VA_FORM_IDS = Object.freeze({
+  FORM_0873: '0873',
   FORM_10_10EZ: '1010ez',
   FORM_20_0996: '20-0996',
   FORM_21_526EZ: '21-526EZ',
@@ -23,4 +24,9 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_HC_QSTNR: 'HC-QSTNR',
   FORM_COVID_VACCINE_TRIAL: 'COVID-VACCINE-TRIAL',
   FORM_21_22: '21-22',
+  FORM_5655: '5655',
 });
+
+export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
+  VA_FORM_IDS.FORM_21_526EZ,
+]);

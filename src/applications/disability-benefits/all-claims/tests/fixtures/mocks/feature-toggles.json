@@ -1,7 +1,28 @@
 {
   "data": {
     "type": "feature_toggles",
-    "features": []
+    "features": [
+      {
+        "name": "form526OriginalClaims",
+        "value": true
+      },
+      {
+        "name": "form526BenefitsDeliveryAtDischarge",
+        "value": true
+      },
+      {
+        "name": "show526Wizard",
+        "value": true
+      },
+      {
+        "name": "form526_confirmation_email",
+        "value": true
+      },
+      {
+        "name": "form526_confirmation_email_show_copy",
+        "value": true
+      }
+    ]
   }
 }
 

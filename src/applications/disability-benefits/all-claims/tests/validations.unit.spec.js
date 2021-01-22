@@ -1,6 +1,5 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
-import moment from 'moment';
 
 import {
   isValidYear,
@@ -8,12 +7,11 @@ import {
   oneDisabilityRequired,
   hasMonthYear,
   validateDisabilityName,
-  checkSeparationLocation,
+  validateBooleanGroup,
 } from '../validations';
 
 import disabilityLabels from '../content/disabilityLabels';
 import { capitalizeEachWord } from '../utils';
-import separationLocations from '../content/separationLocations';
 
 describe('526 All Claims validations', () => {
   describe('isValidYear', () => {
@@ -243,65 +241,58 @@ describe('526 All Claims validations', () => {
     });
   });
 
-  describe('checkSeparationLocaton', () => {
-    const checkSeparationLocationValidData = {
-      serviceInformation: {
-        separationLocation: {
-          label: separationLocations[0].description,
-        },
-        servicePeriods: [
-          {
-            dateRange: {
-              to: moment()
-                .add(90, 'days')
-                .format('YYYY-MM-DD'),
-            },
-          },
-        ],
-      },
-    };
-    const checkSeparationLocationInvalidData = {
-      serviceInformation: {
-        servicePeriods: [
-          {
-            dateRange: {
-              to: moment()
-                .add(90, 'days')
-                .format('YYYY-MM-DD'),
-            },
-          },
-        ],
-      },
-    };
-    const checkSeparationLocationIsBDDFalseData = {
-      separationLocation: {
-        label: separationLocations[0].description,
-      },
-    };
+  describe('validateBooleanGroup', () => {
+    it('should add error if no props are true', () => {
+      const errors = { addError: sinon.spy() };
+      validateBooleanGroup(errors, { tests: false }, null, {
+        properties: { tests: 'string' },
+      });
 
-    it('should not add an error when the separation location entered is in the separation locations list and claim is BDD', () => {
-      const errors = { addError: sinon.spy() };
-      checkSeparationLocation(errors, {}, checkSeparationLocationValidData);
-      expect(errors.addError.calledOnce).to.be.false;
+      expect(errors.addError.called).to.be.true;
     });
-    it('should add an error when the separation location entered is not in the separation locations list and claim is BDD', () => {
+
+    it('should add error if empty object', () => {
       const errors = { addError: sinon.spy() };
-      checkSeparationLocation(errors, {}, checkSeparationLocationInvalidData);
-      expect(errors.addError.calledOnce).to.be.true;
+      validateBooleanGroup(errors, {}, null, {
+        properties: { tests: 'string' },
+      });
+
+      expect(errors.addError.called).to.be.true;
     });
-    it('should not add an error when the separation location entered is in the separation locations list and claim is not BDD', () => {
+
+    it('should add error if true prop isnt in the schema', () => {
       const errors = { addError: sinon.spy() };
-      checkSeparationLocation(
+      validateBooleanGroup(errors, { testz: true, tests: false }, null, {
+        properties: { tests: 'string' },
+      });
+
+      expect(errors.addError.called).to.be.true;
+    });
+
+    it('should not add error if at least one prop is true', () => {
+      const errors = { addError: sinon.spy() };
+      validateBooleanGroup(errors, { tests: true }, null, {
+        properties: { tests: 'string' },
+      });
+
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('should use custom message', () => {
+      const errors = { addError: sinon.spy() };
+      validateBooleanGroup(
         errors,
-        {},
-        checkSeparationLocationIsBDDFalseData,
+        { tests: false },
+        null,
+        {
+          properties: { tests: 'string' },
+        },
+        {
+          atLeastOne: 'testing',
+        },
       );
-      expect(errors.addError.calledOnce).to.be.false;
-    });
-    it('should not add an error when the separation location entered is not in the separation locations list and claim is not BDD', () => {
-      const errors = { addError: sinon.spy() };
-      checkSeparationLocation(errors, {}, null);
-      expect(errors.addError.calledOnce).to.be.false;
+
+      expect(errors.addError.firstCall.args[0]).to.equal('testing');
     });
   });
 });

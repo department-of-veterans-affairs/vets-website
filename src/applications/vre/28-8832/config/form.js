@@ -1,81 +1,98 @@
 import fullSchema from 'vets-json-schema/dist/28-8832-schema.json';
+import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
+
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
-import { hasSession } from 'platform/user/profile/utilities';
-
 import { statusSelection } from './chapters/status-selection';
 import { veteranInformation } from './chapters/veteran-information';
 import GetFormHelp from '../components/GetFormHelp';
-import ReadOnlyUserDescription from '../components/ReadOnlyUserDescription';
 import PreSubmitInfo from '../components/PreSubmitInfo';
 
 import {
   claimantInformation,
   claimantAddress,
-  staticClaimantInformation,
 } from './chapters/claimant-information';
-import { isDependent } from './helpers';
+import { isDependent, transform } from './helpers';
+import manifest from '../manifest.json';
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/education_career_counseling_claims',
-  trackingPrefix: '28-8832-planning-and-career-guidance-',
+  submitUrl: `${environment.API_URL}/v0/education_career_counseling_claims`,
+  trackingPrefix: 'careers-employment-28-8832--',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  transformForSubmit: transform,
   formId: VA_FORM_IDS.FORM_28_8832,
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your Personalized Career Planning and Guidance Chapter 36 benefit application is in progress.',
+      expired:
+        'Your saved Personalized Career Planning and Guidance Chapter 36 benefit application has expired. If you want to apply for PCPG Chapter 36 benefits, please start a new application.',
+      saved: 'Your PCPG Chapter 36 benefits application has been saved.',
+    },
+  },
   version: 0,
   getHelp: GetFormHelp,
   preSubmitInfo: PreSubmitInfo,
   prefillEnabled: true,
+  downtime: {
+    dependencies: [externalServices.icmhs],
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for Planning and career guidance.',
     noAuth:
       'Please sign in again to continue your application for Planning and career guidance.',
   },
-  title: '28-8832-planning-and-guidance',
+  title:
+    'Apply for Personalized Career Planning and Guidance with VA Form 28-8832',
   defaultDefinitions: { ...fullSchema.definitions },
   chapters: {
     claimantInformation: {
-      title: 'Claimant Information',
-      reviewDescription: ReadOnlyUserDescription,
+      title: 'Applicant Information',
+      // TODO: possibly re-added some time down later
+      // reviewDescription: ReadOnlyUserDescription,
       pages: {
         claimantInformation: {
-          depends: () => !hasSession(),
-          path: 'basic-information',
-          title: 'Claimant Information',
+          path: 'claimant-information',
+          title: 'Applicant Information',
           uiSchema: claimantInformation.uiSchema,
           schema: claimantInformation.schema,
         },
-        claimantStaticInformation: {
-          depends: () => hasSession(),
-          path: 'claimant-information',
-          title: 'Claimant Information',
-          uiSchema: staticClaimantInformation.uiSchema,
-          schema: staticClaimantInformation.schema,
-        },
+        // TODO: possibly re-added some time later
+        // claimantStaticInformation: {
+        //   depends: formData => {
+        //     return formData.loa === LOA_LEVEL_REQUIRED;
+        //   },
+        //   path: 'claimant-information',
+        //   title: 'Applicant Information',
+        //   uiSchema: staticClaimantInformation.uiSchema,
+        //   schema: staticClaimantInformation.schema,
+        // },
         claimantAddress: {
           path: 'claimant-address',
-          title: 'Claimant Address',
+          title: 'Applicant Address',
           uiSchema: claimantAddress.uiSchema,
           schema: claimantAddress.schema,
         },
         statusSelection: {
           path: 'status-selection',
-          title: 'Claimant Status',
+          title: 'Applicant Status',
           uiSchema: statusSelection.uiSchema,
           schema: statusSelection.schema,
         },
       },
     },
     veteranInformation: {
-      title: 'Veteran or service member information',
+      title: 'Your sponsoring Veteran or service member',
       pages: {
         veteranInformation: {
           depends: formData => isDependent(formData),
           path: 'veteran-information',
-          title: 'Veteran or service member information',
+          title: 'Your sponsor’s information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },

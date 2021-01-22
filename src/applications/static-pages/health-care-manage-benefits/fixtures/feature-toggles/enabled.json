@@ -7,10 +7,6 @@
         "value": true
       },
       {
-        "name": "dashboardShowCovid19Alert",
-        "value": true
-      },
-      {
         "name": "facilityLocatorShowCommunityCares",
         "value": true
       },
@@ -124,10 +120,6 @@
       },
       {
         "name": "form996HigherLevelReview",
-        "value": true
-      },
-      {
-        "name": "gibctFilterEnhancement",
         "value": true
       },
       {

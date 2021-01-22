@@ -642,3 +642,38 @@ export function transformForSubmit(
 
   return JSON.stringify(withoutViewFields, replacer) || '{}';
 }
+
+/**
+ * Determines whether or not the review field should be displayed on the review page
+ *
+ * @param propName {string} The name of the field to check
+ * @param schema {Object} The current JSON Schema
+ * @param uiSchema {Object} The current UI Schema
+ * @param formData {Object} The current form data
+ * @param formContext {Object} The context of the current form
+ * @returns {boolean} the display status of the field
+ */
+export function showReviewField(
+  propName,
+  schema,
+  uiSchema,
+  formData,
+  formContext,
+) {
+  const hiddenOnSchema =
+    schema.properties[propName] && schema.properties[propName]['ui:hidden'];
+  const collapsedOnSchema =
+    schema.properties[propName] && schema.properties[propName]['ui:collapsed'];
+  const hideOnReviewIfFalse =
+    _.get([propName, 'ui:options', 'hideOnReviewIfFalse'], uiSchema) === true;
+  let hideOnReview = _.get([propName, 'ui:options', 'hideOnReview'], uiSchema);
+  if (typeof hideOnReview === 'function') {
+    hideOnReview = hideOnReview(formData, formContext);
+  }
+  return (
+    (!hideOnReviewIfFalse || !!formData[propName]) &&
+    !hideOnReview &&
+    !hiddenOnSchema &&
+    !collapsedOnSchema
+  );
+}

@@ -63,6 +63,7 @@ export default function CancelAppointmentModal(props) {
   if (cancelAppointmentStatus === FETCH_STATUS.failed) {
     return (
       <CancelAppointmentFailedModal
+        isConfirmed={appointmentToCancel.status === APPOINTMENT_STATUS.booked}
         appointment={appointmentToCancel}
         status={cancelAppointmentStatus}
         isBadRequest={cancelAppointmentStatusVaos400}
@@ -73,7 +74,12 @@ export default function CancelAppointmentModal(props) {
   }
 
   if (cancelAppointmentStatus === FETCH_STATUS.succeeded) {
-    return <CancelAppointmentSucceededModal onClose={onClose} />;
+    return (
+      <CancelAppointmentSucceededModal
+        isConfirmed={appointmentToCancel.status === APPOINTMENT_STATUS.booked}
+        onClose={onClose}
+      />
+    );
   }
 
   if (
@@ -82,6 +88,7 @@ export default function CancelAppointmentModal(props) {
   ) {
     return (
       <CancelAppointmentConfirmationModal
+        isConfirmed={appointmentToCancel.status === APPOINTMENT_STATUS.booked}
         onClose={onClose}
         onConfirm={onConfirm}
         status={cancelAppointmentStatus}

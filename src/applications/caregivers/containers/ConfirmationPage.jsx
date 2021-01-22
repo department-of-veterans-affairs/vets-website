@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 import { connect } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
@@ -134,7 +134,7 @@ const ConfirmationPage = props => {
 
           <a
             className="usa-button-primary va-button-primary vads-u-margin-top--1p5 vads-u-margin-bottom--2p5"
-            href="VA.gov"
+            href="https://www.va.gov/"
           >
             Go back to VA.gov
           </a>

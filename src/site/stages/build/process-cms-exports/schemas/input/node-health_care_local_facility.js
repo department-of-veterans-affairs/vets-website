@@ -7,18 +7,6 @@ const tupleSchema = {
   maxItems: 2,
 };
 
-const socialMediaLinkSchema = {
-  type: 'array',
-  items: {
-    type: 'object',
-    properties: {
-      uri: { type: 'string' },
-      title: { type: 'string' },
-    },
-    required: ['uri', 'title'],
-  },
-};
-
 module.exports = {
   type: 'object',
   properties: {
@@ -51,7 +39,7 @@ module.exports = {
             },
             required: ['0', '1', '2', '3', '4', '5', '6', 'caption'],
           },
-          format: { type: 'null' }, // Only ever seen it as null
+          format: { type: ['string', 'null'] },
           caption: { type: ['string', 'null'] },
         },
         required: ['value', 'format', 'caption'],
@@ -85,14 +73,6 @@ module.exports = {
       items: { $ref: 'EntityReference' },
       maxItems: 1,
     },
-
-    // Not sure what any of the following should be; all entities had only empty arrays for these
-    // jq --slurp 'map(select(.type[0].target_id == "health_care_local_facility")) | map(.field_email_subscription) | map(select(. != []))' node.*.json
-    field_email_subscription: { $ref: 'GenericNestedString' },
-    field_facebook: socialMediaLinkSchema,
-    field_twitter: socialMediaLinkSchema,
-    field_instagram: socialMediaLinkSchema,
-    field_flickr: socialMediaLinkSchema,
   },
   required: [
     'title',
@@ -101,12 +81,8 @@ module.exports = {
     'metatag',
     'path',
     'field_address',
-    'field_email_subscription',
-    'field_facebook',
     'field_facility_hours',
     'field_facility_locator_api_id',
-    'field_flickr',
-    'field_instagram',
     'field_intro_text',
     'field_local_health_care_service_',
     'field_location_services',
@@ -118,6 +94,5 @@ module.exports = {
     'field_operating_status_more_info',
     'field_phone_number',
     'field_region_page',
-    'field_twitter',
   ],
 };

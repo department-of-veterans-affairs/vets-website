@@ -6,7 +6,6 @@ import Downshift from 'downshift';
 import classNames from 'classnames';
 import { WAIT_INTERVAL, KEY_CODES } from '../../constants';
 import { handleScrollOnInputFocus } from '../../utils/helpers';
-import environment from 'platform/utilities/environment';
 
 export class KeywordSearch extends React.Component {
   constructor(props) {
@@ -53,10 +52,8 @@ export class KeywordSearch extends React.Component {
       event: 'gibct-autosuggest',
       'gibct-autosuggest-value': searchQuery,
     });
-    if (
-      this.props.searchOnAutcompleteSelection &&
-      this.props.gibctSearchEnhancements
-    ) {
+
+    if (this.props.searchOnAutcompleteSelection) {
       this.props.onUpdateAutocompleteSearchTerm(searchQuery);
     } else {
       this.props.onFilterChange('name', searchQuery);
@@ -64,10 +61,7 @@ export class KeywordSearch extends React.Component {
   };
 
   handleFocus = () => {
-    // prod flag for bah-8821
-    if (!environment.isProduction()) {
-      handleScrollOnInputFocus('keyword-search');
-    }
+    handleScrollOnInputFocus('keyword-search');
   };
 
   render() {
@@ -116,6 +110,7 @@ export class KeywordSearch extends React.Component {
           }) => (
             <div>
               <input
+                className="input-box-margin"
                 {...getInputProps({
                   type: 'text',
                   onChange: this.handleChange,

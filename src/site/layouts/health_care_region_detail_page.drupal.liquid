@@ -61,7 +61,7 @@
 
             <!-- Social Links -->
             {% if isContactPage %}
-              {% if fieldFacebook != empty || fieldFlickr != empty || fieldInstagram != empty || fieldTwitter != empty || fieldEmailSubscription != empty || (fieldLinks != empty and fieldLinks.length)%}
+              {% if fieldLinks != empty and fieldLinks.length %}
                 {% include "src/site/facilities/facility_social_links.drupal.liquid" with regionNickname = fieldOffice.entity.title %}
               {% endif %}
             {% endif %}
@@ -134,7 +134,7 @@
 
             <!-- Social Links -->
             {% if isContactPage %}
-              {% if fieldFacebook != empty || fieldFlickr != empty || fieldInstagram != empty || fieldTwitter != empty || fieldEmailSubscription != empty || (fieldLinks != empty and fieldLinks.length)%}
+              {% if fieldLinks != empty and fieldLinks.length %}
                 {% include "src/site/facilities/facility_social_links.drupal.liquid" with regionNickname = fieldOffice.entity.title %}
               {% endif %}
             {% endif %}

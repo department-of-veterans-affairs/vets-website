@@ -1,58 +1,5 @@
-{% comment %}
-Required variable: node - the news story entity
-Optional variable: header - the header level ('h2','h3', etc.) defaults to h4
-Example data:
-     {
-        "title": "Another Test Event",
-        "fieldDate": {
-            "startDate": "2019-03-16 10:00:01 UTC",
-            "value": "2019-03-16T10:00:01",
-            "endDate": "2019-03-16 11:00:00 UTC",
-            "endValue": "2019-03-16T11:00:00"
-        },
-        "fieldDescription": "This gives the user an overview of the event in teaser views",
-        "fieldLocationHumanreadable": "Here",
-        "fieldFacilityLocation": {
-          "entity": {
-            "title": "Westmoreland County VA Clinic",
-            "entityUrl": {
-              "path": "/pittsburgh-health-care/locations/westmoreland-county"
-            }
-          }
-        },
-        "entityUrl": {
-          "path": "/node/98"
-        }
-      }
-{% endcomment %}
-
 {% if node != empty %}
-    {% assign timezone = "America/New_York" %}
-    {% comment %}
-    Ultimately, we will allow check to use user timezone.
-    {% if uid.entity.timezone != empty %}
-    {% assign timezone = uid.entity.timezone %}
-    {% endif %}
-    {% endcomment %}
-
-    {% assign start_date_no_time = node.fieldDate.startDate | timeZone: timezone, "dddd, MMM D YYYY" %}
-    {% assign end_date_no_time = node.fieldDate.endDate | timeZone: timezone , "dddd, MMM D YYYY" %}
-
-    {% assign start_time = node.fieldDate.startDate | timeZone: timezone, "h:mm A" %}
-    {% assign end_time = node.fieldDate.endDate | timeZone: timezone, "h:mm A" %}
-
-    {% assign start_date_full = node.fieldDate.startDate | timeZone: timezone, "dddd, MMM D YYYY, h:mm A" %}
-    {% assign end_date_full = node.fieldDate.endDate | timeZone: timezone, "dddd, MMM D YYYY, h:mm A" %}
-
-    {% if node.fieldDate.value != empty and node.fieldDate.endValue == empty %}
-        {% assign date_type = "start_date_only" %}
-    {% else %}
-        {% if start_date_no_time == end_date_no_time %}
-            {% assign date_type = "same_day" %}
-        {% else %}
-            {% assign date_type = "all_dates" %}
-        {% endif %}
-    {% endif %}
+  {% include "src/site/includes/date.drupal.liquid" with fieldDate = node.fieldDate fieldDatetimeRangeTimezone = node.fieldDatetimeRangeTimezone %}
 
   {% if header == empty %}
       {% assign header = "h2" %}
@@ -78,7 +25,7 @@ Example data:
                     <span>{{ end_date_full }}</span>
                 {% endif %}
             {% endif %}
-            <span> ET</span>
+            <span>{{ timezone }}</span>
         </div>
       </div>
       {% if node.fieldFacilityLocation != empty %}

@@ -1,19 +1,37 @@
-version: 2
-jobs:
-  lint:
+version: 2.1
+
+executors:
+  circleci-node:
     docker:
-      - image: circleci/node:10.15.3
+      - image: circleci/node:14.15.0
+  cypress:
+    docker:
+      - image: cypress/base:14.15.0
+
+commands:
+  yarn-install-cache:
+    description: "Install packages with yarn using saved cache"
+    parameters:
+      key-prefix:
+        type: string
+        default: yarn-packages-
     steps:
-      - checkout
       - restore_cache:
           keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
+            - << parameters.key-prefix >>{{ checksum "yarn.lock" }}
       - run:
           command: yarn install --frozen-lockfile
       - save_cache:
-          key: yarn-packages-{{ checksum "yarn.lock" }}
+          key: << parameters.key-prefix >>{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
+
+jobs:
+  lint:
+    executor: circleci-node
+    steps:
+      - checkout
+      - yarn-install-cache
       - run: mkdir -p ./test-results
       - run: npx eslint --ext .js --ext .jsx --format junit --output-file ./test-results/eslint.xml .
       - run: yarn lint:sass
@@ -23,45 +41,32 @@ jobs:
           path: ./test-results
 
   unit-test:
-    docker:
-      - image: circleci/node:10.15.3
+    executor: circleci-node
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
-      - run:
-          command: yarn install --frozen-lockfile
-      - save_cache:
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
+      - yarn-install-cache
       - run: mkdir -p ./test-results
       - run:
-          command: ./script/run-isolated-tests.sh
+          command: yarn test:unit --coverage
           environment:
             MOCHA_FILE: ./test-results/test-results.xml
+      - run: node ./script/app-coverage-report.js
       - store_test_results:
           path: ./test-results
       - store_artifacts:
           path: ./test-results
 
   contract-test:
-    docker:
-      - image: circleci/node:10.15.3
+    executor: circleci-node
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
-      - run: yarn install --frozen-lockfile
-      - save_cache:
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
+      - yarn-install-cache
       - run: mkdir -p ./test-results
       - run: mkdir -p ./pacts
-      - run: yarn test:contract
+      - run:
+          command: yarn test:contract
+          environment:
+            MOCHA_FILE: ./test-results/test-results.xml
       - run: yarn pact:publish
       - persist_to_workspace:
           root: .
@@ -72,65 +77,54 @@ jobs:
       - store_artifacts:
           path: ./test-results
 
+  # test ability to pull cache from drupal
+  drupal-cache-test:
+    executor: circleci-node
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run: yarn fetch-drupal-cache
+
   can-i-deploy:
-    docker:
-      - image: circleci/node:10.15.3
+    executor: circleci-node
     steps:
       - checkout
       - attach_workspace:
           at: .
-      - restore_cache:
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
-      - run: yarn install --frozen-lockfile
-      - save_cache:
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
+      - yarn-install-cache
+      - run: yarn pact:verify
       - run: yarn pact:can-i-deploy
 
   security-audit:
-    docker:
-      - image: circleci/node:10.15.3
+    executor: circleci-node
     steps:
       - checkout
       - run: yarn security-check
 
-  additional-linting:
-    docker:
-      - image: circleci/node:10.15.3
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
-      - run:
-          command: yarn install --frozen-lockfile
-      - save_cache:
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
-      - run: npm run lint:circle
+  # additional-linting:
+  #   executor: circleci-node
+  #   steps:
+  #     - checkout
+  #     - yarn-install-cache
+  #     - run: npm run lint:circle
 
   build:
-    docker:
-      - image: circleci/node:10.15.3
+    executor: circleci-node
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
-      - run:
-          command: yarn install --frozen-lockfile
-      - save_cache:
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
+      - yarn-install-cache
       - run: yarn build:webpack
 
   eslint-check:
-    docker:
-      - image: circleci/node:10.18
+    executor: circleci-node
     environment:
       CODE_PATTERN: (/* eslint-disable)|(// eslint-disable)
       OVERALL_REVIEW_COMMENT: >
@@ -155,8 +149,7 @@ jobs:
           command: npm run pr-check
 
   sentry-check:
-    docker:
-      - image: circleci/node:10.18
+    executor: circleci-node
     environment:
       CODE_PATTERN: Sentry\.
       OVERALL_REVIEW_COMMENT: >
@@ -182,8 +175,7 @@ jobs:
           command: npm run pr-check
 
   icon-check:
-    docker:
-      - image: circleci/node:10.18
+    executor: circleci-node
     environment:
       CODE_PATTERN: (<i )|(<i$)
       OVERALL_REVIEW_COMMENT: >
@@ -210,8 +202,7 @@ jobs:
 
   build-e2e:
     working_directory: ~/vets-website
-    docker:
-      - image: cypress/base:10.15.3
+    executor: cypress
     resource_class: xlarge
     steps:
       - checkout
@@ -237,8 +228,7 @@ jobs:
 
   e2e-test:
     working_directory: ~/vets-website
-    docker:
-      - image: cypress/base:10.15.3
+    executor: cypress
     resource_class: xlarge
     steps:
       - checkout
@@ -266,7 +256,6 @@ jobs:
           path: ./cypress/screenshots
 
 workflows:
-  version: 2
   flag-for-manual-review:
     jobs:
       - eslint-check:
@@ -286,19 +275,20 @@ workflows:
       - lint
       - unit-test
       - contract-test
+      - drupal-cache-test
       - security-audit
       - build-e2e
-      - can-i-deploy:
-          requires:
-            - contract-test
       - build:
           requires:
             - lint
             - unit-test
             - security-audit
+      - can-i-deploy:
+          requires:
+            - contract-test
       - e2e-test:
           requires:
             - build-e2e
-  additional-linting:
-    jobs:
-      - additional-linting
+  # additional-linting:
+  #   jobs:
+  #     - additional-linting

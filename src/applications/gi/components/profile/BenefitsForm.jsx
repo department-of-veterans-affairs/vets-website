@@ -6,8 +6,8 @@ import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink
 import { renderLearnMoreLabel } from '../../utils/render';
 import { ariaLabels } from '../../constants';
 import Dropdown from '../Dropdown';
-import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 export class BenefitsForm extends React.Component {
   state = { showYourMilitaryDetails: false };
@@ -20,6 +20,7 @@ export class BenefitsForm extends React.Component {
     handleInputFocus: PropTypes.func,
     giBillChapterOpen: PropTypes.arrayOf(PropTypes.bool),
     yourMilitaryDetails: PropTypes.bool,
+    gibctBenefitFilterEnhancement: PropTypes.bool,
   };
 
   static defaultProps = {

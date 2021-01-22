@@ -1,18 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import FormButtons from '../../components/FormButtons';
 
-import {
-  openFormPage,
-  updateFormData,
-  routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage,
-} from '../redux/actions';
-import { getFormPageInfo } from '../../utils/selectors';
+import { getFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { useHistory } from 'react-router-dom';
+import * as actions from '../redux/actions';
 
 const initialSchema = {
   type: 'object',
@@ -97,48 +93,44 @@ const uiSchema = {
 const pageKey = 'contactInfo';
 const pageTitle = 'Your contact information';
 
-export class ContactInfoPage extends React.Component {
-  componentDidMount() {
-    this.props.openFormPage(pageKey, uiSchema, initialSchema);
+export function ContactInfoPage({
+  schema,
+  data,
+  pageChangeInProgress,
+  openFormPage,
+  updateFormData,
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+}) {
+  const history = useHistory();
+  useEffect(() => {
+    openFormPage(pageKey, uiSchema, initialSchema);
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
-  }
+  }, []);
 
-  goBack = () => {
-    this.props.routeToPreviousAppointmentPage(this.props.history, pageKey);
-  };
-
-  goForward = () => {
-    this.props.routeToNextAppointmentPage(this.props.history, pageKey);
-  };
-
-  render() {
-    const { schema, data, pageChangeInProgress } = this.props;
-
-    return (
-      <div>
-        <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-
+  return (
+    <div>
+      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+      {!!schema && (
         <SchemaForm
           name="Contact info"
           title="Contact info"
-          schema={schema || initialSchema}
+          schema={schema}
           uiSchema={uiSchema}
-          onSubmit={this.goForward}
-          onChange={newData =>
-            this.props.updateFormData(pageKey, uiSchema, newData)
-          }
+          onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
+          onChange={newData => updateFormData(pageKey, uiSchema, newData)}
           data={data}
         >
           <FormButtons
-            onBack={this.goBack}
+            onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
             pageChangeInProgress={pageChangeInProgress}
             loadingText="Page change in progress"
           />
         </SchemaForm>
-      </div>
-    );
-  }
+      )}
+    </div>
+  );
 }
 
 function mapStateToProps(state) {
@@ -146,10 +138,10 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  openFormPage,
-  updateFormData,
-  routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage,
+  openFormPage: actions.openFormPage,
+  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
+  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
+  updateFormData: actions.updateFormData,
 };
 
 export default connect(

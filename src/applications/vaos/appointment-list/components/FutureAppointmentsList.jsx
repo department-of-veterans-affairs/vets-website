@@ -1,21 +1,22 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import environment from 'platform/utilities/environment';
-import { getRealFacilityId } from '../../utils/appointment';
 import recordEvent from 'platform/monitoring/record-event';
 import * as actions from '../redux/actions';
 import {
-  vaosCancel,
-  vaosRequests,
-  vaosPastAppts,
+  selectFeatureCancel,
+  selectFeatureRequests,
+  selectFeaturePastAppointments,
+  selectIsCernerOnlyPatient,
+} from '../../redux/selectors';
+import {
   selectFutureAppointments,
-  selectExpressCare,
+  selectExpressCareAvailability,
   selectFutureStatus,
-} from '../../utils/selectors';
-import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
+} from '../redux/selectors';
 import {
   FETCH_STATUS,
   GA_PREFIX,
@@ -85,9 +86,7 @@ function FutureAppointmentsList({
         )}
         <ul className="usa-unstyled-list" id="appointments-list">
           {future.map((appt, index) => {
-            const facilityId = getRealFacilityId(
-              getVAAppointmentLocationId(appt),
-            );
+            const facilityId = getVAAppointmentLocationId(appt);
 
             switch (appt.vaos?.appointmentType) {
               case APPOINTMENT_TYPES.vaAppointment:
@@ -191,10 +190,10 @@ function mapStateToProps(state) {
     futureStatus: selectFutureStatus(state),
     future: selectFutureAppointments(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
-    showCancelButton: vaosCancel(state),
-    showPastAppointments: vaosPastAppts(state),
-    showScheduleButton: vaosRequests(state),
-    expressCare: selectExpressCare(state),
+    showCancelButton: selectFeatureCancel(state),
+    showPastAppointments: selectFeaturePastAppointments(state),
+    showScheduleButton: selectFeatureRequests(state),
+    expressCare: selectExpressCareAvailability(state),
   };
 }
 

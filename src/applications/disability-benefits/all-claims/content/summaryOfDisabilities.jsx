@@ -6,6 +6,7 @@ import {
   capitalizeEachWord,
   isDisabilityPtsd,
   DISABILITY_SHARED_CONFIG,
+  isClaimingNew,
 } from '../utils';
 import { ptsdTypeEnum } from './ptsdTypeInfo';
 import { NULL_CONDITION_STRING } from '../constants';
@@ -75,7 +76,7 @@ export const SummaryOfDisabilitiesDescription = ({ formData }) => {
         )
     : [];
   const newDisabilityNames =
-    newDisabilities && formData['view:newDisabilities']
+    newDisabilities && isClaimingNew(formData)
       ? newDisabilities.map(
           disability =>
             typeof disability.condition === 'string'

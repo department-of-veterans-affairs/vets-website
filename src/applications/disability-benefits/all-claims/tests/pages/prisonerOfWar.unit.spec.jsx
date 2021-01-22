@@ -126,7 +126,6 @@ describe('Prisoner of war info', () => {
         uiSchema={uiSchema}
         data={Object.assign({}, formData, {
           newDisabilities: [{ condition: 'ASHD' }, { condition: 'scars' }],
-          'view:newDisabilities': true,
         })}
       />,
     );

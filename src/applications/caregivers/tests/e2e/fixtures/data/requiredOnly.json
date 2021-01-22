@@ -1,6 +1,7 @@
 {
   "view:hasSecondaryCaregiverOne": false,
-  "hasHealthInsurance": false,
+  "view:hasPrimaryCaregiver": true,
+  "primaryHasHealthInsurance": false,
   "primaryAddress": {
     "street": "1375 E Buena Vista Dr",
     "city": "Orlando",

@@ -1,5 +1,5 @@
 import 'platform/polyfills';
-import './sass/ask-a-question.scss';
+import './styles/ask-a-question.scss';
 
 import startApp from 'platform/startup';
 

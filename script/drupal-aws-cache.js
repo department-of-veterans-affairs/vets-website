@@ -24,7 +24,6 @@ const defaultBuildtype = ENVIRONMENTS.LOCALHOST;
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'fetch', type: Boolean, defaultValue: false },
   { name: 'buildtype', type: String, defaultValue: defaultBuildtype },
-  { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
 const cacheUrl = `https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload/content`;
 const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
@@ -72,7 +71,7 @@ async function fetchCache() {
     options.buildtype === ENVIRONMENTS.LOCALHOST
       ? ENVIRONMENTS.VAGOVDEV
       : options.buildtype;
-  const cacheKey = getDrupalCacheKey(cacheEnv);
+  const cacheKey = await getDrupalCacheKey(cacheEnv);
   const fullCacheUrl = `${cacheUrl}/${cacheKey}.tar.bz2`;
   const downloadPath = path.join(cacheDirectory, `${cacheKey}.tar.bz2`);
 
@@ -102,13 +101,16 @@ async function createCacheFile() {
     options.buildtype === ENVIRONMENTS.LOCALHOST
       ? ENVIRONMENTS.VAGOVDEV
       : options.buildtype;
-  const cachePath = `${cacheOutput}/${getDrupalCacheKey(cacheEnv)}.tar.bz2`;
+  const cacheKey = await getDrupalCacheKey(cacheEnv);
+  const cachePath = `${cacheOutput}/${cacheKey}.tar.bz2`;
 
   fs.ensureDirSync(cacheOutput);
 
-  const { stdout, stderr } = await exec(
-    `tar -C ${cacheDirectory} -cf ${cachePath} .`,
-  );
+  const tarCmd = `tar -C ${cacheDirectory} -cf ${cachePath} .`;
+
+  console.log('running tar cmd', tarCmd);
+
+  const { stdout, stderr } = exec(tarCmd);
 
   if (stderr) {
     console.error(`Error compressing cache: ${stderr}`);
@@ -119,7 +121,13 @@ async function createCacheFile() {
 }
 
 if (options.fetch) {
-  fetchCache();
+  fetchCache().catch(error => {
+    console.error(`Error in fetchCache: ${error}`);
+    process.exit(1);
+  });
 } else {
-  createCacheFile();
+  createCacheFile().catch(error => {
+    console.error(`Error in createCacheFile: ${error}`);
+    process.exit(1);
+  });
 }

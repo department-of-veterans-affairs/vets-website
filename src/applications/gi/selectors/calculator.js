@@ -7,7 +7,6 @@ import {
   isCountryInternational,
 } from '../utils/helpers';
 import { ariaLabels } from '../constants';
-import environment from 'platform/utilities/environment';
 
 const getConstants = state => state.constants.constants;
 
@@ -565,8 +564,7 @@ const getDerivedValues = createSelector(
     } else if (isFlightOrCorrespondence) {
       housingAllowTerm1 = 0;
     } else if (isOJT) {
-      // Changes for 18970. Keeping the changes behind a production flag until EDU can review the fix.
-      if (onlineClasses === 'yes' && !environment.isProduction()) {
+      if (onlineClasses === 'yes') {
         housingAllowTerm1 = ropOjt * ((tier * avgBah) / 2 + kickerBenefit);
       } else {
         housingAllowTerm1 = ropOjt * (tier * bah + kickerBenefit);

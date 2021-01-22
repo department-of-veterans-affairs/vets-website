@@ -2,9 +2,9 @@ import moment from 'moment';
 import recordEvent from 'platform/monitoring/record-event';
 
 import {
-  selectVet360EmailAddress,
-  selectVet360HomePhoneString,
-  selectVet360MobilePhoneString,
+  selectVAPEmailAddress,
+  selectVAPHomePhoneString,
+  selectVAPMobilePhoneString,
 } from 'platform/user/selectors';
 import newExpressCareRequestFlow from '../newExpressCareRequestFlow';
 import {
@@ -16,14 +16,10 @@ import {
   getRequestLimits,
 } from '../../services/var';
 
-import {
-  transformFormToExpressCareRequest,
-  createPreferenceBody,
-} from '../../utils/data';
-import {
-  selectActiveExpressCareWindows,
-  selectExpressCareNewRequest,
-} from '../../utils/selectors';
+import { createPreferenceBody } from '../../utils/data';
+import { transformFormToExpressCareRequest } from './helpers/formSubmitTransformers';
+import { selectActiveExpressCareWindows } from '../../appointment-list/redux/selectors';
+import { selectExpressCareNewRequest } from '../redux/selectors';
 import { captureError } from '../../utils/error';
 import {
   EXPRESS_CARE,
@@ -76,9 +72,9 @@ export function updateFormData(page, uiSchema, data) {
 export function openAdditionalDetailsPage(page, uiSchema, schema) {
   return (dispatch, getState) => {
     const state = getState();
-    const email = selectVet360EmailAddress(state);
-    const homePhone = selectVet360HomePhoneString(state);
-    const mobilePhone = selectVet360MobilePhoneString(state);
+    const email = selectVAPEmailAddress(state);
+    const homePhone = selectVAPHomePhoneString(state);
+    const mobilePhone = selectVAPMobilePhoneString(state);
     const phoneNumber = mobilePhone || homePhone;
     dispatch({
       type: FORM_ADDITIONAL_DETAILS_PAGE_OPENED,

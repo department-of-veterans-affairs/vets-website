@@ -4,6 +4,7 @@ import environment from '../../utilities/environment';
 import localStorage from '../../utilities/storage/localStorage';
 import { fetchAndUpdateSessionExpiration as fetch } from '../../utilities/api';
 import { sanitizeForm } from '../helpers';
+import { VA_FORM_IDS_SKIP_INFLECTION } from '../constants';
 
 export function removeFormApi(formId) {
   const csrfTokenStored = localStorage.getItem('csrfToken');
@@ -44,26 +45,32 @@ export function saveFormApi(
   returnUrl,
   savedAt,
   trackingPrefix,
+  submission,
 ) {
   const body = JSON.stringify({
     metadata: {
       version,
       returnUrl,
       savedAt,
+      submission,
     },
     formData,
   });
   const csrfTokenStored = localStorage.getItem('csrfToken');
+  const saveFormApiHeaders = {
+    'Content-Type': 'application/json',
+    'X-Key-Inflection': 'camel',
+    'Source-App-Name': window.appName,
+    'X-CSRF-Token': csrfTokenStored,
+  };
+  if (VA_FORM_IDS_SKIP_INFLECTION.includes(formId)) {
+    delete saveFormApiHeaders['X-Key-Inflection'];
+  }
 
   return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
     method: 'PUT',
     credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Key-Inflection': 'camel',
-      'Source-App-Name': window.appName,
-      'X-CSRF-Token': csrfTokenStored,
-    },
+    headers: saveFormApiHeaders,
     body,
   })
     .then(res => {
@@ -92,7 +99,7 @@ export function saveFormApi(
       } else {
         Sentry.captureException(resOrError);
         Sentry.withScope(scope => {
-          scope.setEtxra('form', sanitizeForm(formData));
+          scope.setExtra('form', sanitizeForm(formData));
           Sentry.captureMessage('vets_sip_error_save');
         });
         recordEvent({

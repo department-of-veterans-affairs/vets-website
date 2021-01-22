@@ -1,19 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/component-library/Telephone';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { validateWhiteSpace } from 'platform/forms/validations';
-import {
-  openReasonForAppointment,
-  updateReasonForAppointmentData,
-  routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage,
-} from '../redux/actions';
+import * as actions from '../redux/actions';
 import FormButtons from '../../components/FormButtons';
-import { getFormPageInfo } from '../../utils/selectors';
+import { getFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { PURPOSE_TEXT, FACILITY_TYPES } from '../../utils/constants';
 import TextareaWidget from '../../components/TextareaWidget';
+import { useHistory } from 'react-router-dom';
 
 const initialSchema = {
   default: {
@@ -71,62 +70,42 @@ const uiSchema = {
 
 const pageKey = 'reasonForAppointment';
 
-export class ReasonForAppointmentPage extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.isCommunityCare =
-      this.props.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
-    this.uiSchema = this.isCommunityCare ? uiSchema.cc : uiSchema.default;
-    this.initialSchema = this.isCommunityCare
-      ? initialSchema.cc
-      : initialSchema.default;
-  }
-
-  componentDidMount() {
-    this.props.openReasonForAppointment(
-      pageKey,
-      this.uiSchema,
-      this.initialSchema,
-    );
-
-    document.title = `${this.getPageTitle(
-      this.isCommunityCare,
-    )} | Veterans Affairs`;
+function ReasonForAppointmentPage({
+  data,
+  openReasonForAppointment,
+  pageChangeInProgress,
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+  schema,
+  updateReasonForAppointmentData,
+}) {
+  const history = useHistory();
+  const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
+  const pageUISchema = isCommunityCare ? uiSchema.cc : uiSchema.default;
+  const pageInitialSchema = isCommunityCare
+    ? initialSchema.cc
+    : initialSchema.default;
+  const pageTitle = isCommunityCare
+    ? 'Tell us the reason for this appointment'
+    : 'Choose a reason for your appointment';
+  useEffect(() => {
+    document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
-  }
-  getPageTitle = isCommunityCare =>
-    isCommunityCare
-      ? 'Tell us the reason for this appointment'
-      : 'Choose a reason for your appointment';
+    openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema);
+  }, []);
 
-  goBack = () => {
-    this.props.routeToPreviousAppointmentPage(this.props.history, pageKey);
-  };
-
-  goForward = () => {
-    this.props.routeToNextAppointmentPage(this.props.history, pageKey);
-  };
-
-  render() {
-    const { schema, data, pageChangeInProgress } = this.props;
-    return (
-      <div>
-        <h1 className="vads-u-font-size--h2">
-          {this.getPageTitle(data.facilityType)}
-        </h1>
+  return (
+    <div>
+      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+      {!!schema && (
         <SchemaForm
           name="Reason for appointment"
           title="Reason for appointment"
-          schema={schema || this.initialSchema}
-          uiSchema={this.uiSchema}
-          onSubmit={this.goForward}
+          schema={schema}
+          uiSchema={pageUISchema}
+          onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
           onChange={newData =>
-            this.props.updateReasonForAppointmentData(
-              pageKey,
-              this.uiSchema,
-              newData,
-            )
+            updateReasonForAppointmentData(pageKey, pageUISchema, newData)
           }
           data={data}
         >
@@ -137,12 +116,12 @@ export class ReasonForAppointmentPage extends React.Component {
             content={
               <ul>
                 <li>
-                  Call <a href="tel:911">911</a>,{' '}
+                  Call <Telephone contact={CONTACTS['911']} />,{' '}
                   <span className="vads-u-font-weight--bold">or</span>
                 </li>
                 <li>
                   Call the Veterans Crisis hotline at{' '}
-                  <a href="tel:8002738255">800-273-8255</a> and press 1,{' '}
+                  <Telephone contact={CONTACTS.CRISIS_LINE} /> and press 1,{' '}
                   <span className="vads-u-font-weight--bold">or</span>
                 </li>
                 <li>
@@ -159,14 +138,14 @@ export class ReasonForAppointmentPage extends React.Component {
             }
           />
           <FormButtons
-            onBack={this.goBack}
+            onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
             pageChangeInProgress={pageChangeInProgress}
             loadingText="Page change in progress"
           />
         </SchemaForm>
-      </div>
-    );
-  }
+      )}
+    </div>
+  );
 }
 
 function mapStateToProps(state) {
@@ -174,10 +153,10 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  openReasonForAppointment,
-  updateReasonForAppointmentData,
-  routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage,
+  openReasonForAppointment: actions.openReasonForAppointment,
+  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
+  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
+  updateReasonForAppointmentData: actions.updateReasonForAppointmentData,
 };
 
 export default connect(

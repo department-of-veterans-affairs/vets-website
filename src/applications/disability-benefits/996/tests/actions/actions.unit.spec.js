@@ -19,24 +19,29 @@ describe('fetch contestable issues action', () => {
 
   it('should dispatch an init action', () => {
     const mockData = { data: 'asdf' };
+    const benefitType = 'compensation';
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getContestableIssues()(dispatch).then(() => {
+    return getContestableIssues({ benefitType })(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         FETCH_CONTESTABLE_ISSUES_INIT,
       );
       expect(dispatch.secondCall.args[0]).to.eql({
         type: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
-        response: mockData,
+        response: {
+          ...mockData,
+        },
+        benefitType,
       });
     });
   });
 
   it('should dispatch an add person failed action', () => {
     const mockData = { data: 'asdf' };
+    const props = { benefitType: 'compensation' };
     mockApiRequest(mockData, false);
     const dispatch = sinon.spy();
-    return getContestableIssues()(dispatch).then(() => {
+    return getContestableIssues(props)(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         FETCH_CONTESTABLE_ISSUES_INIT,
       );

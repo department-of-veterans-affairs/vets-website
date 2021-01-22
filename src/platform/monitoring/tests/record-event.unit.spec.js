@@ -4,12 +4,14 @@ import { expect } from 'chai';
 import recordEvent, { recordEventOnce } from '../record-event';
 
 describe('recordEvent', () => {
-  const oldWindow = global.window;
+  let oldWindow = null;
 
   beforeEach(() => {
-    global.window = {
+    oldWindow = global.window;
+    global.window = Object.create(global.window);
+    Object.assign(global.window, {
       dataLayer: [],
-    };
+    });
   });
 
   afterEach(() => {

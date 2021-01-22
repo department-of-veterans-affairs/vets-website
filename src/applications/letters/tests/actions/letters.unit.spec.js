@@ -1,9 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as Sentry from '@sentry/browser';
-import sentryTestkit from 'sentry-testkit';
 
-const { testkit, sentryTransport } = sentryTestkit();
+import { testkit } from 'platform/testing/unit/sentry';
 
 import {
   BACKEND_SERVICE_ERROR,
@@ -25,11 +23,6 @@ import {
   getBenefitSummaryOptions,
   getLetterPdf,
 } from '../../actions/letters';
-
-Sentry.init({
-  dsn: 'http://one@fake/dsn',
-  transport: sentryTransport,
-});
 
 /**
  * Setup() for each test requires stubbing global fetch() and setting userToken.

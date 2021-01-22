@@ -26,7 +26,7 @@ export default function createOldSchoolPage(schema) {
         address: address.uiSchema(),
       },
       trainingEndDate: dateUI(
-        'When did you stop taking classes or participating in the training program? (Future dates are ok)',
+        'When did you stop taking classes or participating in the training program? (Future dates are ok.)',
       ),
       reasonForChange: {
         'ui:title':

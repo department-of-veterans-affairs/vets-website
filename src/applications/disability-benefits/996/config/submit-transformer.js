@@ -1,4 +1,4 @@
-import { DEFAULT_BENEFIT_TYPE } from '../constants';
+import { DEFAULT_BENEFIT_TYPE, SELECTED } from '../constants';
 
 export function transform(formConfig, form) {
   // We require the user to input a 10-digit number; assuming we get a 3-digit
@@ -27,9 +27,10 @@ export function transform(formConfig, form) {
       time1230to1400: '1230-1400 ET',
       time1400to1630: '1400-1630 ET',
     };
-    return Object.keys(informalConferenceTimes).reduce((times, key) => {
-      if (informalConferenceTimes[key]) {
-        times.push(xRef[key]);
+    return ['time1', 'time2'].reduce((times, key) => {
+      const value = informalConferenceTimes[key] ?? '';
+      if (value !== '') {
+        times.push(xRef[value]);
       }
       return times;
     }, []);
@@ -40,18 +41,27 @@ export function transform(formConfig, form) {
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions
     Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const getIssueName = ({ attributes }) => {
-    const hasPercentage = attributes?.ratingIssuePercentNumber
-      ? ` - ${attributes.ratingIssuePercentNumber}%`
-      : '';
-    return `${attributes.ratingIssueSubjectText}${hasPercentage}`;
+  const getIssueName = ({ attributes } = {}) => {
+    const {
+      ratingIssueSubjectText,
+      ratingIssuePercentNumber,
+      description,
+    } = attributes;
+    return [
+      ratingIssueSubjectText,
+      `${ratingIssuePercentNumber || '0'}%`,
+      description,
+    ]
+      .filter(part => part)
+      .join(' - ')
+      .substring(0, 140);
   };
 
   /* submitted contested issue format
   [{
     "type": "contestableIssue",
     "attributes": {
-      "issue": "tinnitus - 10",
+      "issue": "tinnitus - 10% - some longer description",
       "decisionDate": "1900-01-01",
       "decisionIssueId": 1,
       "ratingIssueReferenceId": "2",
@@ -60,7 +70,7 @@ export function transform(formConfig, form) {
   }]
   */
   const getContestedIssues = ({ contestedIssues = [] }) =>
-    contestedIssues.filter(issue => issue['view:selected']).map(issue => {
+    contestedIssues.filter(issue => issue[SELECTED]).map(issue => {
       const attr = issue.attributes;
       const attributes = [
         'decisionIssueId',
@@ -106,7 +116,7 @@ export function transform(formConfig, form) {
               // EVSS has very restrictive address rules; so Lighthouse API will
               // submit something like "use address on file"
               // TODO: postalCode vs zipCode?
-              zipCode5: formData.veteran?.zipCode5 || '00000',
+              zipCode5: formData.zipCode5 || '00000',
             },
             // ** phone & email are optional **
             // phone: getPhoneNumber(formData?.primaryPhone),

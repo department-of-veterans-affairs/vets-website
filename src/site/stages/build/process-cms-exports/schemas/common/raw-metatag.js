@@ -14,8 +14,10 @@ module.exports = {
         description: { type: 'string' },
         twitter_cards_title: { type: 'string' },
         twitter_cards_site: { type: 'string' },
+        abstract: { type: 'string' },
         image_src: { type: 'string' },
         og_title: { type: 'string' },
+        keywords: { type: 'string' },
         og_description: { type: 'string' },
         og_image_height: {
           type: 'string',

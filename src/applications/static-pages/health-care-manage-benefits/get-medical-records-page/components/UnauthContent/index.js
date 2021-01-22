@@ -2,15 +2,23 @@
 import React from 'react';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 // Relative imports.
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 
 const UnauthContent = () => (
   <>
-    <h2>On this page:</h2>
-    <a href="#va-blue-button">VA Blue Button</a>
-    <a href="#vhie">The Veterans Health Information Exchange (VHIE)</a>
+    <h2 className="vads-u-margin-bottom--2 vads-u-font-size--lg">
+      On this page:
+    </h2>
+    <ul>
+      <li>
+        <a href="#va-blue-button">VA Blue Button</a>
+      </li>
+      <li>
+        <a href="#vhie">The Veterans Health Information Exchange (VHIE)</a>
+      </li>
+    </ul>
     <h2 id="va-blue-button">VA Blue Button</h2>
     <CallToActionWidget appId="health-records" setFocus={false} />
     <h3>
@@ -78,11 +86,11 @@ const UnauthContent = () => (
         <a href="https://www.myhealth.va.gov/mhv-portal-web/upgrade-account-to-premium#UpgradeToPremiumAccount">
           Premium <strong>My HealtheVet</strong> account
         </a>
-        , or
+        , <strong>or</strong>
       </li>
       <li>
         A Premium <strong>DS Logon</strong> account (used for eBenefits and
-        milConnect), or
+        milConnect), <strong>or</strong>
       </li>
       <li>
         A verified <strong>ID.me</strong> account that you can{' '}
@@ -240,7 +248,8 @@ const UnauthContent = () => (
       <a href="/vaforms/medical/pdf/10-10163-fill.pdf">
         VA Form 10-10163 (PDF)
       </a>{' '}
-      and return it to your VA facility's ROI office, or submit it online though{' '}
+      and return it to your VA facility's ROI office, or submit it online
+      through{' '}
       <a
         href="https://www.myhealth.va.gov/mhv-portal-web/home"
         rel="noreferrer noopener"

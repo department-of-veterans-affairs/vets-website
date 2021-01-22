@@ -1,6 +1,7 @@
 import { join, sep } from 'path';
 
 import get from 'platform/utilities/data/get';
+import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 
 const APP_SELECTOR = '#react-root';
 const ARRAY_ITEM_SELECTOR =
@@ -517,7 +518,7 @@ const testForm = testConfig => {
     // so those have to be set up _before each_ test.
     beforeEach(() => {
       // Dismiss any announcements.
-      window.localStorage.setItem('DISMISSED_ANNOUNCEMENTS', '*');
+      disableFTUXModals();
 
       cy.wrap(arrayPages).as('arrayPages');
 

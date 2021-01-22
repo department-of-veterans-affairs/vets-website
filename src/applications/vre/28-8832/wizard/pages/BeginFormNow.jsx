@@ -1,6 +1,6 @@
 import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import { pageNames } from './pageList';
 
 const options = [
@@ -26,7 +26,7 @@ const BeginFormNow = ({ setPageState, state = {} }) => {
     setPageState({ selected: value }, value);
   };
   return (
-    <ErrorableRadioButtons
+    <RadioButtons
       name="begin-form-now"
       label="Would you like to apply for career planning and guidance benefits now?"
       options={options}

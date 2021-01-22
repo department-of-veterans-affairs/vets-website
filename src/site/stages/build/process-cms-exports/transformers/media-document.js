@@ -3,8 +3,8 @@ const transform = entity => ({
   entityBundle: 'document',
   fieldDocument: {
     entity: {
-      filename: entity.fieldDocument[0].filename,
-      url: entity.fieldDocument[0].url,
+      filename: encodeURI(entity.fieldDocument[0].filename),
+      url: encodeURI(entity.fieldDocument[0].url.replace('public:/', '/files')),
     },
   },
 });

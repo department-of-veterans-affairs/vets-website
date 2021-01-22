@@ -1,133 +1,151 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
-import { mount } from 'enzyme';
 import moment from 'moment';
 
-import { PreferredDatePage } from '../../../new-appointment/components/PreferredDatePage';
+import PreferredDatePage from '../../../new-appointment/components/PreferredDatePage';
+import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
+import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { fireEvent } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
 
-describe('VAOS <PreferredDatePage>', () => {
-  it('should render', () => {
-    const openFormPage = sinon.spy();
-    const updateFormData = sinon.spy();
+const initialState = {
+  featureToggles: {
+    vaOnlineSchedulingVSPAppointmentNew: false,
+    vaOnlineSchedulingDirect: true,
+    vaOnlineSchedulingCommunityCare: true,
+  },
+  user: {
+    profile: {
+      facilities: [
+        { facilityId: '983', isCerner: false },
+        { facilityId: '984', isCerner: false },
+      ],
+    },
+  },
+};
 
-    const form = mount(
-      <PreferredDatePage
-        openFormPage={openFormPage}
-        updateFormData={updateFormData}
-        data={{}}
-      />,
+describe('VAOS integration: preferred date page with a single-site user', () => {
+  beforeEach(() => mockFetch());
+  afterEach(() => resetFetch());
+
+  it('should render', async () => {
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<PreferredDatePage />, {
+      store,
+    });
+
+    expect(
+      await screen.findByText(
+        /What is the earliest date you’d like to be seen/,
+      ),
+    ).to.exist;
+
+    expect(screen.baseElement).to.contain.text(
+      'Tell us when you want to schedule your appointment',
     );
 
-    expect(form.find('DateWidget').length).to.equal(1);
-    form.unmount();
-  });
-
-  it('should not submit empty form', () => {
-    const openFormPage = sinon.spy();
-    const history = {
-      push: sinon.spy(),
-    };
-
-    const form = mount(
-      <PreferredDatePage
-        openFormPage={openFormPage}
-        history={history}
-        data={{}}
-      />,
+    expect(screen.baseElement).to.contain.text(
+      'Please pick a date within the next 13 months.',
     );
 
-    form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error').length).to.equal(1);
-    expect(history.push.called).to.be.false;
-    form.unmount();
+    // Verify date widget is rendered.
+    expect(screen.getAllByRole('combobox').length).to.equal(2);
+    expect(screen.getAllByRole('spinbutton').length).to.equal(1);
   });
 
-  it('it should not submit with past date', () => {
-    const openFormPage = sinon.spy();
-    const updateFormData = sinon.spy();
-    const history = {
-      push: sinon.spy(),
-    };
+  it('should not submit empty form', async () => {
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<PreferredDatePage />, {
+      store,
+    });
 
-    const form = mount(
-      <PreferredDatePage
-        openFormPage={openFormPage}
-        updateFormData={updateFormData}
-        history={history}
-        data={{ preferredDate: '2016-02-02' }}
-      />,
+    fireEvent.click(await screen.findByText(/Continue/));
+    expect(await screen.findByRole('alert')).to.contain.text(
+      'Please provide a response',
     );
-
-    form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error').length).to.equal(1);
-    expect(history.push.called).to.be.false;
-    form.unmount();
+    expect(screen.history.push.called).to.be.false;
   });
 
-  it('it should not submit beyond 395 days into the future', () => {
-    const openFormPage = sinon.spy();
-    const updateFormData = sinon.spy();
-    const history = {
-      push: sinon.spy(),
-    };
+  it('it should not submit with past date', async () => {
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<PreferredDatePage />, {
+      store,
+    });
 
-    const form = mount(
-      <PreferredDatePage
-        openFormPage={openFormPage}
-        updateFormData={updateFormData}
-        history={history}
-        data={{ preferredDate: '2050-02-02' }}
-      />,
+    await screen.findByText(/Continue/);
+
+    userEvent.selectOptions(screen.getByRole('combobox', { name: /month/i }), [
+      '2',
+    ]);
+    userEvent.selectOptions(screen.getByRole('combobox', { name: /day/i }), [
+      '2',
+    ]);
+    await userEvent.type(
+      screen.getByRole('spinbutton', { name: /year/i }),
+      '2016',
     );
-
-    form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error').length).to.equal(1);
-    expect(history.push.called).to.be.false;
-    form.unmount();
+    fireEvent.click(screen.getByText(/Continue/));
+    expect(await screen.findByRole('alert')).to.contain.text(
+      'Please enter a future date ',
+    );
+    expect(screen.history.push.called).to.be.false;
   });
 
-  it('should submit with valid data', () => {
-    const maxDate = moment()
+  it('it should not submit beyond 395 days into the future', async () => {
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<PreferredDatePage />, {
+      store,
+    });
+
+    await screen.findByText(/Continue/);
+
+    userEvent.selectOptions(screen.getByRole('combobox', { name: /month/i }), [
+      '2',
+    ]);
+    userEvent.selectOptions(screen.getByRole('combobox', { name: /day/i }), [
+      '2',
+    ]);
+    await userEvent.type(
+      screen.getByRole('spinbutton', { name: /year/i }),
+      '2050',
+    );
+    fireEvent.click(screen.getByText(/Continue/));
+    expect(await screen.findByRole('alert')).to.contain.text(
+      'Please enter a date less than 395 days in the future ',
+    );
+    expect(screen.history.push.called).to.be.false;
+  });
+
+  it('should submit with valid data', async () => {
+    const maxMonth = moment()
       .add(395, 'days')
-      .format('YYYY-MM-DD');
+      .format('M');
+    const maxDay = moment()
+      .add(395, 'days')
+      .format('DD')
+      .replace(/\b0/g, '');
+    const maxYear = moment()
+      .add(395, 'days')
+      .format('YYYY');
 
-    const openFormPage = sinon.spy();
-    const routeToNextAppointmentPage = sinon.spy();
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<PreferredDatePage />, {
+      store,
+    });
 
-    const form = mount(
-      <PreferredDatePage
-        openFormPage={openFormPage}
-        routeToNextAppointmentPage={routeToNextAppointmentPage}
-        data={{ preferredDate: maxDate }}
-      />,
+    await screen.findByText(/Continue/);
+
+    userEvent.selectOptions(screen.getByRole('combobox', { name: /month/i }), [
+      maxMonth,
+    ]);
+    userEvent.selectOptions(screen.getByRole('combobox', { name: /day/i }), [
+      maxDay,
+    ]);
+    await userEvent.type(
+      screen.getByRole('spinbutton', { name: /year/i }),
+      maxYear,
     );
-
-    form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(routeToNextAppointmentPage.called).to.be.true;
-    form.unmount();
-  });
-
-  it('document title should match h1 text', () => {
-    const openFormPage = sinon.spy();
-    const updateFormData = sinon.spy();
-    const pageTitle = 'Tell us when you want to schedule your appointment';
-
-    const form = mount(
-      <PreferredDatePage
-        openFormPage={openFormPage}
-        updateFormData={updateFormData}
-        data={{}}
-      />,
-    );
-
-    expect(form.find('h1').text()).to.equal(pageTitle);
-    expect(document.title).contain(pageTitle);
-    form.unmount();
+    fireEvent.click(screen.getByText(/Continue/));
+    expect(screen.history.push.called).to.be.true;
   });
 });

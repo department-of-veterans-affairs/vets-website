@@ -4,15 +4,15 @@ import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+import {
+  expiredMessage,
+  inProgressMessage as getInProgressMessage,
+} from 'platform/forms-system/src/js/utilities/save-in-progress-messages';
 import recordEvent from 'platform/monitoring/record-event';
 import _ from 'platform/utilities/data';
 
-import {
-  formDescriptions,
-  formBenefits,
-} from 'applications/personalization/dashboard/helpers';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import FormStartControls from './FormStartControls';
@@ -56,6 +56,7 @@ class SaveInProgressIntro extends React.Component {
         const expiresAt = moment.unix(savedForm.metadata.expiresAt);
         const expirationDate = expiresAt.format('MMM D, YYYY');
         const isExpired = expiresAt.isBefore();
+        const inProgressMessage = getInProgressMessage(formConfig);
 
         if (!isExpired) {
           const lastSavedDateTime = savedAt.format('M/D/YYYY [at] h:mm a');
@@ -67,10 +68,14 @@ class SaveInProgressIntro extends React.Component {
                   <strong>Your {appType} is in progress</strong>
                 </div>
                 <div className="saved-form-metadata-container">
-                  <span className="saved-form-item-metadata">
-                    Your {formDescriptions[formId]} is in progress.
-                  </span>
-                  <br />
+                  {inProgressMessage && (
+                    <>
+                      <span className="saved-form-item-metadata">
+                        {inProgressMessage}
+                      </span>
+                      <br />
+                    </>
+                  )}
                   <span className="saved-form-item-metadata">
                     Your {appType} was last saved on {lastSavedDateTime}
                   </span>
@@ -96,9 +101,7 @@ class SaveInProgressIntro extends React.Component {
                 </div>
                 <div className="saved-form-metadata-container">
                   <span className="saved-form-metadata">
-                    Your saved {formDescriptions[formId]} has expired. If you
-                    want to apply for {formBenefits[formId]}, please start a new{' '}
-                    {appType}.
+                    {expiredMessage(formConfig)}
                   </span>
                 </div>
                 <div>{this.props.children}</div>

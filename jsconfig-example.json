@@ -5,7 +5,9 @@
     "baseUrl": ".",
     "paths": {
       "*": ["*", "src/*"],
-      "vet360/*": ["./src/platform/user/profile/vet360/*"]
+      "~/*": ["./src/*"],
+      "@@profile/*": ["./src/applications/personalization/profile/*"],
+      "@@vap-svc/*": ["./src/platform/user/profile/vap-svc/*"]
     },
     // adding this line allows you to ⌘click JSX imports to open the source
     "jsx": "react",

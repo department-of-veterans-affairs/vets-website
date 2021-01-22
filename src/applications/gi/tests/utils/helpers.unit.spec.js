@@ -123,6 +123,13 @@ describe('GIBCT helpers:', () => {
       expect(convertRatingToStars('dogs')).to.eq(null);
     });
 
+    it('converts string to number', () => {
+      const { full, half, display } = convertRatingToStars('2.24');
+      expect(full).to.eq(2);
+      expect(half).to.eq(false);
+      expect(display).to.eq('2.2');
+    });
+
     it('converts < .3 as a whole number of stars', () => {
       const { full, half, display } = convertRatingToStars(2.24);
       expect(full).to.eq(2);

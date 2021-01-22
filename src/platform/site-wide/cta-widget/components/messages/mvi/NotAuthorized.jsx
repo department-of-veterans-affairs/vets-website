@@ -22,7 +22,7 @@ function NotAuthorized({ authenticatedWithSSOe }) {
           Verify Your Identity
         </button>
         <p>
-          <a href="/sign-in-faq/#how-to-verify">
+          <a href="/resources/verifying-your-identity-on-vagov/">
             Learn about how to verify your identity
           </a>
         </p>

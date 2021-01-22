@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import { getTypeOfCare } from '../../../utils/selectors';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import { getTypeOfCare } from '../../redux/selectors';
 import { FACILITY_TYPES, PURPOSE_TEXT } from '../../../utils/constants';
 import FacilityAddress from '../../../components/FacilityAddress';
+import State from '../../../components/State';
 
 function formatBestTime(bestTime) {
   const times = [];
@@ -33,19 +34,22 @@ export default function ConfirmationRequestInfo({
   data,
   facilityDetails,
   pageTitle,
+  useProviderSelection,
 }) {
   const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
   const isVideoVisit = data.visitType === 'telehealth';
   const [isAdditionalInfoOpen, toggleAdditionalInfo] = useState(false);
+  const hasSelectedProvider =
+    !!data.communityCareProvider &&
+    !!Object.keys(data.communityCareProvider).length;
 
   return (
     <div>
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
       <AlertBox status="success">
-        <strong>Your appointment request has been submitted.</strong>
-        <br />
-        We’re reviewing your request. You don’t have anything to do right now. A
-        scheduler will contact you to schedule the first available appointment.
+        <strong>We’re reviewing your request</strong>
+        <br />A scheduler will contact you to schedule the first available
+        appointment. You don’t have to do anything right now.
       </AlertBox>
       <div className="vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-y--3 vads-u-border-top--4px vads-u-border-color--warning-message">
         <div className="vaos-form__title vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
@@ -72,23 +76,30 @@ export default function ConfirmationRequestInfo({
         </div>
         <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
           <div className="vads-u-flex--1 vads-u-margin-right--1 vads-u-margin-top--2 vaos-u-word-break--break-word">
-            <dl className="vads-u-margin--0">
+            <div className="vads-u-margin--0">
               {isCommunityCare &&
-                !data.hasCommunityCareProvider && (
+                ((!useProviderSelection && !data.hasCommunityCareProvider) ||
+                  (useProviderSelection && !hasSelectedProvider)) && (
                   <>
-                    <dt>
+                    <h3 className="vaos-appts__block-label">
                       <strong>Preferred provider</strong>
-                    </dt>
-                    <dd>No preference</dd>
+                    </h3>
+                    <p
+                      className="vaos-appts__block-label"
+                      style={{ marginBottom: 0 }}
+                    >
+                      No preference
+                    </p>
                   </>
                 )}
               {isCommunityCare &&
+                !useProviderSelection &&
                 data.hasCommunityCareProvider && (
                   <>
-                    <dt>
+                    <h3 className="vaos-appts__block-label">
                       <strong>Preferred provider</strong>
-                    </dt>
-                    <dd>
+                    </h3>
+                    <div>
                       {!!data.communityCareProvider.practiceName && (
                         <>
                           {data.communityCareProvider.practiceName}
@@ -109,46 +120,65 @@ export default function ConfirmationRequestInfo({
                         )}
                         <br />
                         {data.communityCareProvider.address.city},{' '}
-                        {data.communityCareProvider.address.state}{' '}
+                        <State
+                          state={data.communityCareProvider.address.state}
+                        />{' '}
                         {data.communityCareProvider.address.postalCode}
                         <br />
                       </p>
-                    </dd>
+                    </div>
+                  </>
+                )}
+              {isCommunityCare &&
+                useProviderSelection &&
+                hasSelectedProvider && (
+                  <>
+                    <h3 className="vaos-appts__block-label">
+                      <strong>Preferred provider</strong>
+                    </h3>
+                    <div>
+                      {data.communityCareProvider.name}
+                      <br />
+                      {data.communityCareProvider.address.line.map(line => (
+                        <>
+                          {line}
+                          <br />
+                        </>
+                      ))}
+                      {data.communityCareProvider.address.city},{' '}
+                      <State state={data.communityCareProvider.address.state} />{' '}
+                      {data.communityCareProvider.address.postalCode}
+                      <br />
+                    </div>
                   </>
                 )}
               {!isCommunityCare &&
                 !!facilityDetails && (
                   <>
-                    <dt>
+                    <h3 className="vaos-appts__block-label">
                       <strong>{facilityDetails.name}</strong>
-                    </dt>
-                    <dd>
+                    </h3>
+                    <div>
                       <FacilityAddress facility={facilityDetails} />
-                    </dd>
+                    </div>
                   </>
                 )}
-            </dl>
+            </div>
           </div>
           <div className="vads-u-flex--1 vads-u-margin-top--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
-            <dl className="vads-u-margin--0">
-              <dt className="vads-u-font-weight--bold">
-                Preferred date and time
-              </dt>
-              <dd>
-                <ul className="usa-unstyled-list">
-                  {data.calendarData?.selectedDates.map(
-                    ({ date, optionTime }) => (
-                      <li key={`${date}-${optionTime}`}>
-                        {moment(date).format('MMMM D, YYYY')}{' '}
-                        {optionTime === 'AM'
-                          ? 'in the morning'
-                          : 'in the afternoon'}
-                      </li>
-                    ),
-                  )}
-                </ul>
-              </dd>
-            </dl>
+            <h3 className="vaos-appts__block-label">Preferred date and time</h3>
+            <div>
+              <ul className="usa-unstyled-list">
+                {data.selectedDates?.map(date => (
+                  <li key={date}>
+                    {moment(date).format('MMMM D, YYYY')}{' '}
+                    {moment(date).hour() < 12
+                      ? 'in the morning'
+                      : 'in the afternoon'}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
         <div className="vads-u-margin-top--2">
@@ -158,30 +188,28 @@ export default function ConfirmationRequestInfo({
           >
             <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
               <div className="vaos_appts__message vads-u-flex--1 vaos-u-word-break--break-word">
-                <dl className="vads-u-margin--0 vads-u-margin-right--1">
-                  <dt className="vads-u-font-weight--bold">
+                <div className="vads-u-margin--0 vads-u-margin-right--1">
+                  <h3 className="vaos-appts__block-label">
                     {
                       PURPOSE_TEXT.find(
                         purpose => purpose.id === data.reasonForAppointment,
                       )?.short
                     }
-                  </dt>
-                  <dd>{data.reasonAdditionalInfo}</dd>
-                </dl>
+                  </h3>
+                  <div>{data.reasonAdditionalInfo}</div>
+                </div>
               </div>
               <div className="vads-u-flex--1 vads-u-margin-top--2 small-screen:vads-u-margin-top--0 vaos-u-word-break--break-word">
-                <dl className="vads-u-margin--0">
-                  <dt className="vads-u-font-weight--bold vads-u-display--block">
-                    Your contact details
-                  </dt>
-                  <dd>
-                    {data.email}
-                    <br />
-                    {data.phoneNumber}
-                    <br />
-                    {formatBestTime(data.bestTimeToCall)}{' '}
-                  </dd>
-                </dl>
+                <h3 className="vaos-appts__block-label">
+                  Your contact details
+                </h3>
+                <div>
+                  {data.email}
+                  <br />
+                  {data.phoneNumber}
+                  <br />
+                  {formatBestTime(data.bestTimeToCall)}{' '}
+                </div>
               </div>
             </div>
           </AdditionalInfo>
