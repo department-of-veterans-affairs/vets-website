@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
 import { within } from '@testing-library/dom';
-import reducers from '../../../redux/reducer';
 import {
   getVAAppointmentMock,
   getVAFacilityMock,
@@ -61,7 +60,6 @@ describe('VAOS <PastAppointmentsListV2>', () => {
 
     const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
       initialState,
-      reducers,
     });
 
     await screen.findByText(/You don’t have any appointments/i);
@@ -96,9 +94,9 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
 
     mockPastAppointmentInfo({ va: [appointment] });
+
     const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
       initialState,
-      reducers,
     });
 
     await screen.findAllByText(
@@ -154,7 +152,6 @@ describe('VAOS <PastAppointmentsListV2>', () => {
 
     const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
       initialState,
-      reducers,
     });
 
     await screen.findAllByText(
@@ -172,37 +169,32 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     expect(screen.baseElement).not.to.contain.text('VA appointment');
   });
 
-  // Skipped until cancelled functionality added
-  it.skip('should have correct status when previously cancelled', async () => {
+  it('should have correct status when previously cancelled', async () => {
     const appointment = getVAAppointmentMock();
     appointment.attributes = {
       ...appointment.attributes,
       startDate: pastDate.format(),
-      clinicFriendlyName: 'Some clinic',
+      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
       facilityId: '983',
       sta6aid: '983GC',
     };
     appointment.attributes.vdsAppointments[0].currentStatus =
-      'CANCELLED BY PATIENT';
+      'CANCELLED BY CLINIC';
+
     mockPastAppointmentInfo({ va: [appointment] });
 
     const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
       initialState,
-      reducers,
     });
-
-    await screen.findByText(
-      new RegExp(pastDate.tz('America/Denver').format('MMMM YYYY'), 'i'),
-    );
 
     screen.debug();
 
-    const firstCard = screen.getAllByRole('listitem')[0];
+    await screen.findAllByText(
+      new RegExp(pastDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
+    );
 
-    expect(within(firstCard)).to.contain.text('Canceled');
-    expect(within(firstCard)).to.contain('.fa-exclamation-circle');
-    expect(within(firstCard)).not.to.contain.text('Add to calendar');
-    expect(within(firstCard)).not.to.contain.text('Cancel appointment');
+    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+    expect(screen.baseElement).to.contain.text('Cancelled');
   });
 
   it('should not display when they have hidden statuses', () => {
@@ -211,9 +203,9 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     appointment.attributes.vdsAppointments[0].currentStatus = 'NO-SHOW';
 
     mockPastAppointmentInfo({ va: [appointment] });
+
     const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
       initialState,
-      reducers,
     });
 
     return expect(screen.findByText(/You don’t have any appointments/i)).to
@@ -228,9 +220,9 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
 
     mockPastAppointmentInfo({ va: [appointment] });
+
     const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
       initialState,
-      reducers,
     });
 
     return expect(screen.findByText(/You don’t have any appointments/i)).to
@@ -255,7 +247,6 @@ describe('VAOS <PastAppointmentsListV2>', () => {
 
     const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
       initialState,
-      reducers,
     });
 
     await screen.findAllByText(

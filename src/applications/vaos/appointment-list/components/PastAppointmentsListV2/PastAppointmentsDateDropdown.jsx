@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { focusElement } from 'platform/utilities/ui';
 
 export default function PastAppointmentsDateDropdown({
   currentRange,
@@ -36,8 +35,6 @@ export default function PastAppointmentsDateDropdown({
         onClick={() => {
           if (currentRange !== dateRangeIndex) {
             onChange(dateRangeIndex);
-          } else {
-            focusElement('#queryResultLabel');
           }
         }}
       >

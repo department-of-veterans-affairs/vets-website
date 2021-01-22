@@ -120,7 +120,7 @@ function PastAppointmentsListNew({
   useEffect(
     () => {
       if (pastStatus === FETCH_STATUS.succeeded && !isInitialMount) {
-        focusElement('#queryResultLabel');
+        focusElement('h3');
       }
     },
     [isInitialMount, pastStatus],
@@ -167,7 +167,6 @@ function PastAppointmentsListNew({
               >
                 {monthBucket.map((appt, index) => {
                   const facilityId = getVAAppointmentLocationId(appt);
-                  const isCancelled = appt.status === 'cancelled';
 
                   if (
                     appt.vaos.appointmentType ===
@@ -188,8 +187,6 @@ function PastAppointmentsListNew({
                       <ExpressCareListItem
                         key={index}
                         appointment={appt}
-                        facility={facilityData[facilityId]}
-                        cancelled={isCancelled}
                         className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3"
                       />
                     );
