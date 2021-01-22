@@ -17,7 +17,7 @@
           onclick="recordEvent({ 'event': 'nav-breadcrumb', 'breadcrumb-click-label': '{{ crumb.text }}', 'breadcrumb-click-level': '{{ forloop.index }}', 'breadcrumb-total-levels': '{{ crumbs.length }}' });" 
           aria-current="page" 
           href="/{{ path }}"
-          lang={{ entityUrl.path | detectLang }}
+          lang="{{ entityUrl.path | detectLang }}"
           >    
             {{ crumb.text }}
           </a>
