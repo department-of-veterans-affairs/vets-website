@@ -26,7 +26,7 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import WarningNotification from '../../../components/WarningNotification';
-import Select from './Select';
+import Select from '../../../components/Select';
 
 const pageTitle = 'VA appointments';
 

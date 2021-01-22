@@ -22,7 +22,7 @@ import AppointmentListItem from '../AppointmentsPage/AppointmentListItem';
 import ExpressCareListItem from '../AppointmentsPage/ExpressCareListItem';
 import NoAppointments from '../NoAppointments';
 import moment from 'moment';
-import PastAppointmentsDateDropdown from '../PastAppointmentsList/PastAppointmentsDateDropdown';
+import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
 
 export function getPastAppointmentDateRangeOptions(today = moment()) {
   const startOfToday = today.clone().startOf('day');
