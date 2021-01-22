@@ -36,7 +36,7 @@ export class Modals extends React.Component {
       <p>
         Learn more about the{' '}
         <a
-          href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11#location-based107"
+          href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11#what-is-the-location-based-hou"
           target="_blank"
           rel="noopener noreferrer"
         >
