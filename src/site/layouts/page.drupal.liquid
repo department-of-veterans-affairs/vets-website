@@ -5,7 +5,7 @@
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
 {% assign lang = 'en' %}
 
-{% if entityUrl.path contains "-esp" %}
+{% if {{ entityUrl.path | endsWith: "-esp" }} %}
   {% assign lang = 'es' %}
 {% endif %}
 

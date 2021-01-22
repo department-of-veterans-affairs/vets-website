@@ -554,6 +554,8 @@ module.exports = function registerFilters() {
     return false;
   };
 
+  liquid.filters.endsWith = (url, suffix) => url.endsWith(suffix);
+
   // sort a list of objects by a certain property in the object
   liquid.filters.sortObjectsBy = (entities, path) => _.sortBy(entities, path);
 

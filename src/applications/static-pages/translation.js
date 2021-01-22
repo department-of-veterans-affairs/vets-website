@@ -27,9 +27,7 @@ const configureTranslationLink = (e, targetLang) => {
 const displayTranslationLink = () => {
   const i18LinkWrapper = document.getElementById('i18-link-wrapper');
   if (!i18LinkWrapper) return;
-  const isSpanish =
-    window.location.href.includes('-esp') ||
-    window.location.href.includes('nodeId=14580');
+  const isSpanish = window.location.href.endsWith('-esp');
 
   const translatableLinks = new Set([
     '/coronavirus-veteran-frequently-asked-questions/',
