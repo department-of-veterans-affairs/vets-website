@@ -8,7 +8,7 @@
   "testFiles": "**/tests/**/*.cypress.spec.js?(x)",
   "waitForAnimations": false,
   "retries": {
-    "runMode": 2,
+    "runMode": 30,
     "openMode": 2
   },
   "env": {
