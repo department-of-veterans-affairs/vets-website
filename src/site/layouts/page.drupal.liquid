@@ -3,9 +3,14 @@
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
+{% assign lang = 'en' %}
+
+{% if entityUrl.path contains "-esp" %}
+  {% assign lang = 'es' %}
+{% endif %}
 
 <div itemscope itemtype="https://schema.org/FAQPage">
-  <div id="content" class="interior">
+  <div id="content" class="interior" lang={{lang}}>
     <main class="va-l-detail-page">
       <div class="usa-grid usa-grid-full">
 
