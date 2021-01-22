@@ -39,7 +39,7 @@ export default function userNavReducer(state = initialState, action) {
       return set(`utilitiesMenuIsOpen.${action.menu}`, action.isOpen, state);
 
     case LOG_SEARCH_TYPEAHEAD_ENABLED:
-      return set('searchTypeaheadLogged', false, state);
+      return set('searchTypeaheadLogged', true, state);
     default:
       return state;
   }
