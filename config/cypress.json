@@ -8,8 +8,8 @@
   "testFiles": "**/tests/**/*.cypress.spec.js?(x)",
   "waitForAnimations": false,
   "retries": {
-    "runMode": 30,
-    "openMode": 2
+    "runMode": 2,
+    "openMode": 0
   },
   "env": {
     "vaTopMobileViewports": [
