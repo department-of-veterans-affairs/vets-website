@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 import { setData } from 'platform/forms-system/src/js/actions';
 import classnames from 'classnames';
+import { renderAdditionalInfo } from '../../debt-letters/const/diary-codes';
 
 class DebtCard extends Component {
   onChange(debt) {
@@ -43,6 +44,11 @@ class DebtCard extends Component {
       currency: 'USD',
       minimumFractionDigits: 2,
     });
+    const additionalInfo = renderAdditionalInfo(
+      debt.diaryCode,
+      mostRecentHistory.date,
+      debt.benefitType,
+    );
     const isChecked = this.props.fsrDebts.some(currentDebt =>
       isEqual(currentDebt, debt),
     );
@@ -60,10 +66,7 @@ class DebtCard extends Component {
           <strong>Amount owed: </strong>
           {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
         </p>
-        <p className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
-          <strong>Status: </strong>
-          {debt.diaryCodeDescription}
-        </p>
+        <div className="vads-u-margin-y--2">{additionalInfo.status}</div>
 
         <div className="vads-u-margin-top--2">
           <input

@@ -151,11 +151,7 @@ export const schema = {
           },
           debtRepaymentOptions: {
             type: 'object',
-            properties: {
-              expenses: {
-                type: 'string',
-              },
-            },
+            properties: {},
           },
           resolution: {
             type: 'object',
