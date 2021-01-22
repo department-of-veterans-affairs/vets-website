@@ -303,7 +303,17 @@ const runComparison = () => {
       )[0];
       if (baseObject) {
         const diff = compareJson(baseObject, entity);
-        if (diff) {
+        if (diff && diff.length !== 0) {
+          // Add entity file name to diff output
+          diff.unshift({
+            entityFile: `node.${
+              rawEntities.find(
+                rawEntity =>
+                  parseInt(rawEntity.nid[0].value, 10) ===
+                  parseInt(entity.entityId, 10),
+              ).uuid
+            }.json`,
+          });
           fs.writeFileSync(
             path.join(
               __dirname,
