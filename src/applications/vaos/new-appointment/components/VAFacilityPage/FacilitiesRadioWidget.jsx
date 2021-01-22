@@ -38,11 +38,7 @@ export default function FacilitiesRadioWidget({
   useEffect(
     () => {
       if (displayedOptions.length > INITIAL_FACILITY_DISPLAY_COUNT) {
-        scrollAndFocus(
-          `#${
-            enumOptions[INITIAL_FACILITY_DISPLAY_COUNT].label.id
-          }_${INITIAL_FACILITY_DISPLAY_COUNT + 1}`,
-        );
+        scrollAndFocus(`#${id}_${INITIAL_FACILITY_DISPLAY_COUNT + 1}`);
       }
     },
     [displayedOptions.length, displayAll],
