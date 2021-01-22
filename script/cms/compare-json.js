@@ -44,20 +44,6 @@ const { entity: entityNames, bundle, help, buildtype } = commandLineArgs(
   commandLineDefs,
 );
 
-const exportDir = path.resolve(
-  __dirname,
-  `../../.cache/${buildtype}/cms-export-content`,
-);
-
-// Array of nodes from pages.json
-const graphQL = JSON.parse(
-  fs.readFileSync(
-    path.join(__dirname, `../../.cache/${buildtype}/drupal/pages.json`),
-  ),
-);
-
-const assembleEntityTree = assembleEntityTreeFactory(exportDir);
-
 if (help) {
   console.log(
     commandLineUsage([
@@ -74,6 +60,20 @@ if (help) {
   );
   process.exit(0);
 }
+
+const exportDir = path.resolve(
+  __dirname,
+  `../../.cache/${buildtype}/cms-export-content`,
+);
+
+// Array of nodes from pages.json
+const graphQL = JSON.parse(
+  fs.readFileSync(
+    path.join(__dirname, `../../.cache/${buildtype}/drupal/pages.json`),
+  ),
+);
+
+const assembleEntityTree = assembleEntityTreeFactory(exportDir);
 
 /**
  * Converts deep-diff's 'kind' property
