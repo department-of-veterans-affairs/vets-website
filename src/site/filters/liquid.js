@@ -555,7 +555,7 @@ module.exports = function registerFilters() {
   };
 
   liquid.filters.detectLang = url => {
-    return url && url.endsWith('-esp') ? 'es' : 'en';
+    return url?.endsWith('-esp') ? 'es' : 'en';
   };
 
   // sort a list of objects by a certain property in the object
