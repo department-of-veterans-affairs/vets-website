@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
 import { connect } from 'react-redux';
@@ -6,6 +6,13 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import ErrorMessage from '../components/ErrorMessage';
 import { fetchFormStatus } from '../actions/index';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+
+import WizardContainer from '../wizard/WizardContainer';
+import {
+  WIZARD_STATUS,
+  WIZARD_STATUS_NOT_STARTED,
+  WIZARD_STATUS_COMPLETE,
+} from 'applications/static-pages/wizard';
 
 const App = ({
   location,
@@ -16,6 +23,16 @@ const App = ({
   getFormStatus,
 }) => {
   const showMainContent = !pending && !isError;
+  const showWizard = true;
+  const defaultWizardState =
+    sessionStorage.getItem(WIZARD_STATUS) || WIZARD_STATUS_NOT_STARTED;
+
+  const [wizardState, setWizardState] = useState(defaultWizardState);
+
+  const setWizardStatus = value => {
+    sessionStorage.setItem(WIZARD_STATUS, value);
+    setWizardState(value);
+  };
 
   useEffect(
     () => {
@@ -23,6 +40,10 @@ const App = ({
     },
     [getFormStatus],
   );
+
+  if (showWizard && wizardState !== WIZARD_STATUS_COMPLETE) {
+    return <WizardContainer setWizardStatus={setWizardStatus} />;
+  }
 
   return (
     <>
