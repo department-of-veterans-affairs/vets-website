@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import AlertBox, {
   ALERT_TYPE,
@@ -10,7 +12,7 @@ import AlertBox, {
 import * as userNavActions from 'platform/site-wide/user-nav/actions';
 import * as userSelectors from 'platform/user/selectors';
 
-function Introduction({ isLoggedIn, toggleLoginModal }) {
+function Introduction({ authButtonEnabled, isLoggedIn, toggleLoginModal }) {
   return (
     <>
       <h1>COVID-19 vaccines: Stay informed and help us prepare</h1>
@@ -28,50 +30,70 @@ function Introduction({ isLoggedIn, toggleLoginModal }) {
         country—and when you can get your vaccine if you want one. We’ll also
         offer information and answers to your questions along the way.
       </p>
-
-      {isLoggedIn ? (
-        <Link className="usa-button" to="/form">
-          Sign up to stay informed
-        </Link>
-      ) : (
+      {authButtonEnabled ? (
         <>
-          <p>
-            When you sign in, we can fill in some of your information for you.
-          </p>
-          <p>
-            <button
-              type="button"
-              onClick={() => {
-                toggleLoginModal(true, 'coronavirus-vaccination');
-                recordEvent({
-                  event: 'cta-button-click',
-                  'button-type': 'default',
-                  'button-click-label': 'Sign in',
-                  'button-background-color': '#0071bb',
-                });
-              }}
-              className="usa-button"
-            >
-              Sign in
-            </button>
-            <Link
-              className="usa-button usa-button-secondary"
-              to="/form"
-              onClick={() => {
-                recordEvent({
-                  event: 'cta-button-click',
-                  'button-type': 'secondary',
-                  'button-click-label': 'Continue without signing in',
-                  'button-background-color': 'transparent',
-                });
-              }}
-            >
-              Continue without signing in
+          {isLoggedIn ? (
+            <Link className="usa-button" to="/form">
+              Sign up to stay informed
             </Link>
-          </p>
+          ) : (
+            <>
+              <p>
+                When you sign in, we can fill in some of your information for
+                you.
+              </p>
+              <p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    toggleLoginModal(true, 'coronavirus-vaccination');
+                    recordEvent({
+                      event: 'cta-button-click',
+                      'button-type': 'default',
+                      'button-click-label': 'Sign in',
+                      'button-background-color': '#0071bb',
+                    });
+                  }}
+                  className="usa-button"
+                >
+                  Sign in
+                </button>
+                <Link
+                  className="usa-button usa-button-secondary"
+                  to="/form"
+                  onClick={() => {
+                    recordEvent({
+                      event: 'cta-button-click',
+                      'button-type': 'secondary',
+                      'button-click-label': 'Continue without signing in',
+                      'button-background-color': 'transparent',
+                    });
+                  }}
+                >
+                  Continue without signing in
+                </Link>
+              </p>
+            </>
+          )}
         </>
+      ) : (
+        <p>
+          <Link
+            className="usa-button"
+            to="/form"
+            onClick={() => {
+              recordEvent({
+                event: 'cta-button-click',
+                'button-type': 'default',
+                'button-click-label': 'Continue',
+                'button-background-color': '#0071bb',
+              });
+            }}
+          >
+            Continue
+          </Link>
+        </p>
       )}
-
       <AlertBox
         status={ALERT_TYPE.INFO}
         content={
@@ -98,6 +120,9 @@ function Introduction({ isLoggedIn, toggleLoginModal }) {
 const mapStateToProps = state => {
   return {
     isLoggedIn: userSelectors.isLoggedIn(state),
+    authButtonEnabled: !toggleValues(state)[
+      FEATURE_FLAG_NAMES.covidVaccineUpdatesDisableAuth
+    ],
   };
 };
 
