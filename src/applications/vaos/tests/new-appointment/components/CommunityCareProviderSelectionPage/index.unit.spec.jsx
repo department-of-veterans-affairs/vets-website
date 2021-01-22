@@ -313,12 +313,12 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     userEvent.click(await screen.findByText(/Choose a provider/i));
     expect(
       await screen.findByRole('heading', {
-        name: /we’re sorry\. we’ve run into a problem/i,
+        name: /We can’t load provider information/i,
       }),
     );
     expect(
       await screen.findByText(
-        /something went wrong on our end. please try again later./i,
+        /We’re sorry. Something went wrong on our end. To request this appointment, you can:/i,
       ),
     );
   });
