@@ -13,7 +13,7 @@ import * as Sentry from '@sentry/browser';
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 import DropDownPanel from '@department-of-veterans-affairs/component-library/DropDownPanel';
-import { logSearchTypeaheadEnabledAction } from '../actions';
+import { toggleSearchTypeaheadLoggedAction } from '../actions';
 
 export const searchGovSuggestionEndpoint = 'https://search.usa.gov/sayt';
 
@@ -53,7 +53,7 @@ export class SearchMenu extends React.Component {
         event: 'phased-roll-out-enabled',
         'product-description': 'Type Ahead',
       });
-      this.props.logSearchTypeaheadEnabled();
+      this.props.toggleSearchTypeaheadLogged();
     }
   }
 
@@ -371,7 +371,7 @@ SearchMenu.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   searchTypeaheadEnabled: PropTypes.bool,
   searchTypeaheadLogged: PropTypes.bool.isRequired,
-  logSearchTypeaheadEnabled: PropTypes.func.isRequired,
+  toggleSearchTypeaheadLogged: PropTypes.func.isRequired,
 };
 
 SearchMenu.defaultProps = {
@@ -386,7 +386,8 @@ const mapStateToProps = store => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  logSearchTypeaheadEnabled: () => dispatch(logSearchTypeaheadEnabledAction()),
+  toggleSearchTypeaheadLogged: () =>
+    dispatch(toggleSearchTypeaheadLoggedAction()),
 });
 
 export default connect(
