@@ -29,7 +29,7 @@ import PaymentHistory from './PaymentHistory';
 import BankInfoCNPv2 from './BankInfoCNPv2';
 import BankInfoEDU from './BankInfoEDU';
 
-const benefitTypes = {
+export const benefitTypes = {
   CNP: 'compensation and pension benefits',
   EDU: 'education benefits',
 };
