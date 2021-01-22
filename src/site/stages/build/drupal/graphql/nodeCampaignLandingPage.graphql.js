@@ -325,10 +325,10 @@ module.exports = `
         entityBundle
         entityId
         ... on MediaDocumentExternal {
+          name
           fieldDescription
           fieldMediaExternalFile {
             uri
-            title
           }
           fieldMediaInLibrary
           fieldMimeType
@@ -550,16 +550,9 @@ module.exports = `
         entityBundle
         entityId
         ... on MediaVideo {
+          fieldDescription
+          fieldDuration
           fieldMediaVideoEmbedField
-          name
-          thumbnail {
-            height
-            width
-            url
-            targetId
-            alt
-            title
-          }
         }
       }
     }

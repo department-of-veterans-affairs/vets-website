@@ -91,6 +91,14 @@
           width="100%"
         ></iframe>
 
+        {% if fieldMedia.entity.fieldDuration %}
+          <p>{{ fieldMedia.entity.fieldDuration }}</p>
+        {% endif %}
+
+        {% if fieldMedia.entity.fieldDescription %}
+          <p>{{ fieldMedia.entity.fieldDescription }}</p>
+        {% endif %}
+
         <a class="usa-button-secondary" href="{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLink.uri }}" rel="noreferrer noopener" target="_blank">
           {{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel }}
         </a>
@@ -136,6 +144,35 @@
             </div>
           {% endfor %}
         </div>
+
+        <a class="usa-button-secondary" href="{{ fieldClpStoriesCta.entity.fieldButtonLink.uri }}" rel="noreferrer noopener" target="_blank">
+          {{ fieldClpStoriesCta.entity.fieldButtonLabel }}
+        </a>
+      </div>
+
+      <!-- Downloadable Resources -->
+      <div class="downloadable-resources">
+        <p class="grey-header">DOWNLOADABLE RESOURCES</p>
+        <h2>{{ fieldClpResourcesHeader }}</h2>
+        <p>{{ fieldClpResourcesIntroText }}</p>
+
+        <div class="resources-list">
+          {% for resource in fieldClpResources %}
+            <div class="resource">
+              <img alt="{{ resource.entity.fieldMedia.entity.thumbnail.alt }}" src="{{ resource.entity.fieldMedia.entity.thumbnail.url }}" />
+              <div class="resource-content">
+                <a href="{{ resource.entity.fieldLinkTeaser.entity.fieldLink.uri }}" rel="noreferrer noopener" target="_blank">
+                  {{ resource.entity.fieldLinkTeaser.entity.fieldLink.title }}
+                </a>
+                <p>{{ resource.entity.fieldLinkTeaser.entity.fieldLinkSummary }}</p>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <a class="usa-button-secondary" href="{{ fieldClpResourcesCta.entity.fieldButtonLink.uri }}" rel="noreferrer noopener" target="_blank">
+          {{ fieldClpResourcesCta.entity.fieldButtonLabel }}
+        </a>
       </div>
     </div>
 
