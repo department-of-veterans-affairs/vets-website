@@ -14,6 +14,8 @@ import {
   selectFeatureHomepageRefresh,
 } from '../../redux/selectors';
 
+import { selectPendingAppointments } from '../redux/selectors';
+
 import {
   getCancelReasons,
   getRequestEligibilityCriteria,
@@ -385,6 +387,20 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
       recordEvent({
         event: `${GA_PREFIX}-get-past-appointments-failed`,
       });
+    }
+  };
+}
+
+export function fetchRequestDetails(id) {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const { appointmentDetails } = state;
+    const pendingAppointments = selectPendingAppointments(state);
+    const appointment =
+      appointmentDetails[id] || pendingAppointments.find(p => p.id === id);
+
+    if (!appointment) {
+      // TODO: fetch single appointment
     }
   };
 }
