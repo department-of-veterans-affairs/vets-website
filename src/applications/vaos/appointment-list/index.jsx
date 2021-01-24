@@ -9,26 +9,33 @@ import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDe
 
 function AppointmentListSection({ featureHomepageRefresh }) {
   return (
-    <PageLayout>
-      <Switch>
-        {featureHomepageRefresh && (
-          <Route
-            path="/request/:id"
-            component={RequestedAppointmentDetailsPage}
-          />
-        )}
+    <Switch>
+      {featureHomepageRefresh && (
         <Route
-          path="/"
-          render={() => {
-            if (featureHomepageRefresh) {
-              return <AppointmentsPageV2 />;
-            }
-
-            return <AppointmentsPage />;
-          }}
+          path="/request/:id"
+          component={() => (
+            <PageLayout>
+              <RequestedAppointmentDetailsPage />
+            </PageLayout>
+          )}
         />
-      </Switch>
-    </PageLayout>
+      )}
+      <Route
+        path="/"
+        render={() => {
+          let content = <AppointmentsPage />;
+          if (featureHomepageRefresh) {
+            content = <AppointmentsPageV2 />;
+          }
+
+          return (
+            <PageLayout showBreadcrumbs showNeedHelp>
+              {content}
+            </PageLayout>
+          );
+        }}
+      />
+    </Switch>
   );
 }
 

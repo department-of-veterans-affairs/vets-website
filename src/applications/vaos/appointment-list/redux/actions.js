@@ -64,6 +64,11 @@ export const FETCH_PAST_APPOINTMENTS_FAILED =
 export const FETCH_PAST_APPOINTMENTS_SUCCEEDED =
   'vaos/FETCH_PAST_APPOINTMENTS_SUCCEEDED';
 
+export const FETCH_REQUEST_DETAILS = 'vaos/FETCH_REQUEST_DETAILS';
+export const FETCH_REQUEST_DETAILS_FAILED = 'vaos/FETCH_REQUEST_DETAILS_FAILED';
+export const FETCH_REQUEST_DETAILS_SUCCEEDED =
+  'vaos/FETCH_REQUEST_DETAILS_SUCCEEDED';
+
 export const FETCH_REQUEST_MESSAGES = 'vaos/FETCH_REQUEST_MESSAGES';
 export const FETCH_REQUEST_MESSAGES_FAILED =
   'vaos/FETCH_REQUEST_MESSAGES_FAILED';
@@ -394,12 +399,18 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
 export function fetchRequestDetails(id) {
   return async (dispatch, getState) => {
     const state = getState();
-    const { appointmentDetails } = state;
+    const { appointmentDetails } = state.appointments;
     const pendingAppointments = selectPendingAppointments(state);
-    const appointment =
-      appointmentDetails[id] || pendingAppointments.find(p => p.id === id);
+    const request =
+      appointmentDetails[id] || pendingAppointments?.find(p => p.id === id);
 
-    if (!appointment) {
+    dispatch({
+      type: FETCH_REQUEST_DETAILS,
+    });
+
+    if (request) {
+      dispatch({ type: FETCH_REQUEST_DETAILS_SUCCEEDED, request, id });
+    } else {
       // TODO: fetch single appointment
     }
   };
