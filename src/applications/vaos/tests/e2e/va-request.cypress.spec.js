@@ -100,7 +100,7 @@ function fillOutForm(facilitySelection) {
   cy.findByText('cough');
 }
 
-describe('VAOS request flow', () => {
+describe.skip('VAOS request flow', () => {
   beforeEach(() => {});
 
   it('should submit form successfully for a multi system user', () => {
