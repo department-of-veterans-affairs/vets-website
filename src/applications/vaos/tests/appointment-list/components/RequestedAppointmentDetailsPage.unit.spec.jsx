@@ -4,7 +4,11 @@ import moment from 'moment';
 import { Route } from 'react-router-dom';
 import { fireEvent } from '@testing-library/react';
 import environment from 'platform/utilities/environment';
-import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
+import {
+  mockFetch,
+  resetFetch,
+  setFetchJSONResponse,
+} from 'platform/testing/unit/helpers';
 
 import RequestedAppointmentDetailsPage from '../../../appointment-list/components/RequestedAppointmentDetailsPage';
 import { renderWithStoreAndRouter } from '../../mocks/setup';
@@ -81,7 +85,7 @@ const initialState = {
 };
 
 describe('VAOS <RequestedAppointmentDetailsPage>', () => {
-  it('should render VA request details', async () => {
+  beforeEach(() => {
     mockFetch();
     const message = getMessageMock();
     message.attributes = {
@@ -95,7 +99,10 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       ),
       { data: [message] },
     );
+  });
+  afterEach(() => resetFetch());
 
+  it('should render VA request details', async () => {
     const { findByText, baseElement } = renderWithStoreAndRouter(
       <Route path="/request/:id">
         <RequestedAppointmentDetailsPage />
@@ -131,7 +138,11 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       )} in the afternoon`,
     );
     expect(baseElement).to.contain.text('New issue');
-    await findByText(/a message from the patient/i);
+
+    expect(await findByText(/A message from the patient/i)).to.be.ok;
+    // await waitFor(() =>
+    //   expect(baseElement).to.contain.text('A message from the patient'),
+    // );
     expect(baseElement).to.contain.text('patient.test@va.gov');
     expect(baseElement).to.contain.text('(703) 652-0000');
     expect(baseElement).to.contain.text('Call morning');
