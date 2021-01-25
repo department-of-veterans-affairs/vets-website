@@ -158,6 +158,25 @@ export const selectPastAppointments = createSelector(
 );
 
 /*
+ * V2 Past appointments state selectors
+ */
+
+export const selectPastAppointmentsV2 = createSelector(
+  state => state.appointments.past,
+  past => {
+    if (!past) {
+      return null;
+    }
+
+    const sortedAppointments = past
+      .filter(isValidPastAppointment)
+      .sort(sortByDateAscending);
+
+    return groupAppointmentsByMonth(sortedAppointments);
+  },
+);
+
+/*
  * Express Care related appointments state selectors
  */
 
