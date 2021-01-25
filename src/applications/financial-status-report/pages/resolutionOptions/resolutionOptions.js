@@ -74,97 +74,108 @@ const renderLabels = () => {
 };
 
 export const uiSchema = {
-  financialOverview: {
-    'ui:field': FinancialOverview,
-  },
-  debtRepaymentOptions: {
-    'ui:field': DebtRepayment,
-  },
-  resolution: {
-    resolutionType: {
-      'ui:title':
-        'What type of help do you want for your Post-9/11 GI Bill debt for tuition and fees?',
-      'ui:required': () => true,
-      'ui:widget': 'radio',
-      'ui:options': {
-        labels: renderLabels(),
+  fsrDebts: {
+    items: {
+      financialOverview: {
+        'ui:field': FinancialOverview,
       },
-    },
-    affordToPay: {
-      'ui:options': {
-        expandUnder: 'resolutionType',
-        expandUnderCondition: resolutionOptions[1].type,
+      debtRepaymentOptions: {
+        'ui:field': DebtRepayment,
       },
-      canAffordToPay: _.merge(
-        currencyUI('How much can you afford to pay monthly on this debt?'),
-        {
+      resolution: {
+        resolutionType: {
+          'ui:title':
+            'What type of help do you want for your Post-9/11 GI Bill debt for tuition and fees?',
+          'ui:required': () => true,
+          'ui:widget': 'radio',
           'ui:options': {
-            widgetClassNames: 'input-size-3',
+            labels: renderLabels(),
           },
-          'ui:required': formData =>
-            formData.resolution.resolutionType === resolutionOptions[1].type,
         },
-      ),
-    },
-    offerToPay: {
-      'ui:options': {
-        expandUnder: 'resolutionType',
-        expandUnderCondition: resolutionOptions[2].type,
-      },
-      canOfferToPay: _.merge(
-        currencyUI(
-          'How much do you offer to pay for this debt with a single payment?',
-        ),
-        {
+        affordToPay: {
           'ui:options': {
-            widgetClassNames: 'input-size-3',
+            expandUnder: 'resolutionType',
+            expandUnderCondition: resolutionOptions[1].type,
           },
-          'ui:required': formData =>
-            formData.resolution.resolutionType === resolutionOptions[2].type,
+          canAffordToPay: _.merge(
+            currencyUI('How much can you afford to pay monthly on this debt?'),
+            {
+              'ui:options': {
+                widgetClassNames: 'input-size-3',
+              },
+              'ui:required': formData =>
+                formData.resolution?.resolutionType ===
+                resolutionOptions[1].type,
+            },
+          ),
         },
-      ),
+        offerToPay: {
+          'ui:options': {
+            expandUnder: 'resolutionType',
+            expandUnderCondition: resolutionOptions[2].type,
+          },
+          canOfferToPay: _.merge(
+            currencyUI(
+              'How much do you offer to pay for this debt with a single payment?',
+            ),
+            {
+              'ui:options': {
+                widgetClassNames: 'input-size-3',
+              },
+              'ui:required': formData =>
+                formData.resolution?.resolutionType ===
+                resolutionOptions[2].type,
+            },
+          ),
+        },
+      },
     },
   },
 };
+
 export const schema = {
   type: 'object',
   properties: {
-    financialOverview: {
-      type: 'object',
-      properties: {
-        income: {
-          type: 'string',
-        },
-      },
-    },
-    debtRepaymentOptions: {
-      type: 'object',
-      properties: {
-        expenses: {
-          type: 'string',
-        },
-      },
-    },
-    resolution: {
-      type: 'object',
-      properties: {
-        resolutionType: {
-          type: 'string',
-          enum: resolutionOptions.map(option => option.type),
-        },
-        affordToPay: {
-          type: 'object',
-          properties: {
-            canAffordToPay: {
-              type: 'number',
+    fsrDebts: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          financialOverview: {
+            type: 'object',
+            properties: {
+              income: {
+                type: 'string',
+              },
             },
           },
-        },
-        offerToPay: {
-          type: 'object',
-          properties: {
-            canOfferToPay: {
-              type: 'number',
+          debtRepaymentOptions: {
+            type: 'object',
+            properties: {},
+          },
+          resolution: {
+            type: 'object',
+            properties: {
+              resolutionType: {
+                type: 'string',
+                enum: resolutionOptions.map(option => option.type),
+              },
+              affordToPay: {
+                type: 'object',
+                properties: {
+                  canAffordToPay: {
+                    type: 'number',
+                  },
+                },
+              },
+              offerToPay: {
+                type: 'object',
+                properties: {
+                  canOfferToPay: {
+                    type: 'number',
+                  },
+                },
+              },
             },
           },
         },
