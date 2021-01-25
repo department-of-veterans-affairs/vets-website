@@ -1,6 +1,6 @@
 import React from 'react';
 import FinancialOverview from '../../components/FinancialOverview';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 const ResolutionInfo = (
   <AdditionalInfo triggerText="Why do I need to explain this?">

@@ -5,7 +5,7 @@ import Scroll from 'react-scroll';
 import { focusElement } from 'platform/utilities/ui';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {

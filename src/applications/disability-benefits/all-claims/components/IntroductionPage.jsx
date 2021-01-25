@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
@@ -42,7 +42,7 @@ class IntroductionPage extends React.Component {
     const pageTitle = getPageTitle(isBDDForm);
     const startText = getStartText(isBDDForm);
 
-    // Remove this once we original claims feature toggle is set to 100%
+    // Remove this once form526_original_claims feature flag is removed
     if (!allowContinue) {
       return (
         <div className="schemaform-intro">

@@ -155,7 +155,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       store,
     });
 
-    await screen.findAllByRole('radio');
+    const buttons = await screen.findAllByRole('radio');
 
     await waitFor(() => {
       expect(global.document.title).to.equal(
@@ -193,7 +193,12 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
 
     // Should show 6th facility
     expect(screen.baseElement).to.contain.text('Fake facility name 6');
-    expect(document.activeElement.id).to.equal('var984_6');
+    expect(document.activeElement.id).to.equal('root_vaFacility_6');
+
+    // Should verify that all radio buttons have the same name (508 accessibility)
+    buttons.forEach(button => {
+      expect(button.name).to.equal('root_vaFacility');
+    });
 
     // Should validation message if no facility selected
     fireEvent.click(screen.getByText(/Continue/));
@@ -791,7 +796,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     );
     userEvent.click(additionalInfoButton);
     expect(await screen.findByText(/Facility that is disabled/i)).to.be.ok;
-    expect(screen.getByText(/Bozeman, MT/i)).to.be.ok;
+    expect(screen.baseElement).to.contain.text('Bozeman, MT');
     expect(screen.getByText(/80\.4 miles/i)).to.be.ok;
     expect(screen.getByText(/555-555-5555, ext\. 1234/i)).to.be.ok;
     expect(

@@ -15,6 +15,7 @@ import {
   getVARFacilityId,
   groupAppointmentsByMonth,
   isUpcomingAppointmentOrExpressCare,
+  sortByCreatedDateDescending,
 } from '../../services/appointment';
 import {
   selectFeatureExpressCare,
@@ -134,6 +135,14 @@ export const selectUpcomingAppointments = createSelector(
 
     return groupAppointmentsByMonth(sortedAppointments);
   },
+);
+
+export const selectPendingAppointments = createSelector(
+  state => state.appointments.pending,
+  pending =>
+    pending
+      ?.filter(a => !a.vaos.isExpressCare)
+      .sort(sortByCreatedDateDescending) || null,
 );
 
 export const selectPastAppointments = createSelector(

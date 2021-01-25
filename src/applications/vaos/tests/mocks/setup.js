@@ -14,6 +14,7 @@ import { renderInReduxProvider } from 'platform/testing/unit/react-testing-libra
 import reducers from '../../redux/reducer';
 import newAppointmentReducer from '../../new-appointment/redux/reducer';
 import expressCareReducer from '../../express-care/redux/reducer';
+import projectCheetahReducer from '../../project-cheetah/redux/reducer';
 import { fetchExpressCareWindows } from '../../appointment-list/redux/actions';
 
 import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
@@ -37,6 +38,7 @@ export function createTestStore(initialState) {
       ...reducers,
       newAppointment: newAppointmentReducer,
       expressCare: expressCareReducer,
+      projectCheetah: projectCheetahReducer,
     }),
     initialState,
     applyMiddleware(thunk),

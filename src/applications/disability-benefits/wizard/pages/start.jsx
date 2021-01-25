@@ -1,5 +1,8 @@
 import React from 'react';
-import RadioButtons from '@department-of-veterans-affairs/formation-react/RadioButtons';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+
+import recordEvent from 'platform/monitoring/record-event';
+
 import { pageNames } from './pageList';
 
 const label = 'Are you on active duty right now?';
@@ -15,7 +18,15 @@ const StartPage = ({ setPageState, state = {} }) => (
     label={label}
     id={`${pageNames.start}-option`}
     options={options}
-    onValueChange={({ value }) => setPageState({ selected: value }, value)}
+    onValueChange={({ value }) => {
+      recordEvent({
+        event: 'howToWizard-formChange',
+        'form-field-type': 'form-radio-buttons',
+        'form-field-label': label,
+        'form-field-value': value === pageNames.bdd ? 'yes-bdd' : 'no-appeals',
+      });
+      setPageState({ selected: value }, value);
+    }}
     value={{ value: state.selected }}
   />
 );

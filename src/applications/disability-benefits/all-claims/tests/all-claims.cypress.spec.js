@@ -47,7 +47,9 @@ const testConfig = createTestConfig(
               SAVED_SEPARATION_DATE,
               todayPlus120.join('-'),
             );
-            cy.get('[type="radio"][value="bdd"]').click();
+            cy.get('[type="radio"][value="bdd"]').check({
+              waitForAnimations: true,
+            });
             cy.get('select[name="discharge-dateMonth"]').select(
               todayPlus120[1],
             );
@@ -56,11 +58,15 @@ const testConfig = createTestConfig(
               .clear()
               .type(todayPlus120[0]);
           } else {
-            cy.get('[type="radio"][value="appeals"]').click();
-            cy.get('[type="radio"][value="file-claim"]').click();
+            cy.get('[type="radio"][value="appeals"]').check({
+              waitForAnimations: true,
+            });
+            cy.get('[type="radio"][value="file-claim"]').check({
+              waitForAnimations: true,
+            });
           }
           // close wizard & render intro page content
-          cy.get('.va-button-primary').click();
+          cy.get('.va-button-primary').click({ waitForAnimations: true });
           // Start form
           cy.findAllByText(/start/i, { selector: 'button' })
             .first()

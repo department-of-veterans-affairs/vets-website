@@ -1,8 +1,10 @@
 import React from 'react';
 import moment from 'moment';
-import Date from '@department-of-veterans-affairs/formation-react/Date';
-import { pageNames } from './pageList';
+import Date from '@department-of-veterans-affairs/component-library/Date';
 
+import recordEvent from 'platform/monitoring/record-event';
+
+import { pageNames } from './pageList';
 import unableToFileBDDProduction from './unable-to-file-bdd-production';
 import {
   FORM_STATUS_BDD,
@@ -65,38 +67,52 @@ const label =
 const isDateComplete = date =>
   date.day.value && date.month.value && date.year.value.length === 4;
 
-const isDateInFuture = date =>
+const getDate = date =>
   moment({
     day: date.day.value,
     month: parseInt(date.month.value, 10) - 1,
     year: date.year.value,
-  }).diff(moment()) > 0;
+  });
+
+const isDateInFuture = date => date && date.diff(moment()) > 0;
 
 const BDDPage = ({ setPageState, state = defaultState, allowBDD }) => {
   if (!allowBDD) {
+    // BDD at 100%, this will need to be removed along with the
+    // form526_benefits_delivery_at_discharge feature flag
     return <unableToFileBDDProduction.component />;
   }
 
   const onChange = pageState => {
     saveDischargeDate();
-    const value =
-      isDateComplete(pageState) && isDateInFuture(pageState)
-        ? findNextPage(pageState)
-        : null;
+    const date = isDateComplete(pageState) ? getDate(pageState) : null;
+    const value = isDateInFuture(date) ? findNextPage(pageState) : null;
+
+    if (value) {
+      recordEvent({
+        event: 'howToWizard-formChange',
+        // Date component wrapper class name
+        'form-field-type': 'usa-date-of-birth',
+        'form-field-label': label,
+        'form-field-value': date.format('YYYY-MM-DD'),
+      });
+    }
     setPageState(pageState, value);
   };
 
   return (
-    <Date
-      label={label}
-      onValueChange={onChange}
-      name="discharge-date"
-      date={state}
-      validation={{
-        valid: isDateInFuture(state),
-        message: 'Your separation date must be in the future',
-      }}
-    />
+    <div className="clearfix">
+      <Date
+        label={label}
+        onValueChange={onChange}
+        name="discharge-date"
+        date={state}
+        validation={{
+          valid: isDateInFuture(getDate(state)),
+          message: 'Your separation date must be in the future',
+        }}
+      />
+    </div>
   );
 };
 
