@@ -21,13 +21,17 @@ import {
   eduDirectDepositAccountInformation,
   eduDirectDepositInformation,
   eduDirectDepositIsSetUp,
+  eduDirectDepositLoadError,
   eduDirectDepositUiState as directDepositUiStateSelector,
 } from '@@profile/selectors';
+
+import DirectDepositConnectionError from '../alerts/DirectDepositConnectionError';
 
 import BankInfoForm from './BankInfoForm';
 
 import PaymentInformationEditError from './PaymentInformationEditError';
 import ProfileInfoTable from '../ProfileInfoTable';
+import { benefitTypes } from './DirectDepositV2';
 
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 
@@ -35,6 +39,7 @@ export const DirectDepositEDU = ({
   isLOA3,
   isDirectDepositSetUp,
   directDepositAccountInfo,
+  directDepositServerError,
   directDepositUiState,
   saveBankInformation,
   toggleEditState,
@@ -236,6 +241,10 @@ export const DirectDepositEDU = ({
     return null;
   }
 
+  if (directDepositServerError) {
+    return <DirectDepositConnectionError benefitType={benefitTypes.EDU} />;
+  }
+
   return (
     <>
       <Modal
@@ -289,6 +298,7 @@ DirectDepositEDU.propTypes = {
     financialInstitutionRoutingNumber: PropTypes.string.isRequired,
   }),
   isDirectDepositSetUp: PropTypes.bool.isRequired,
+  directDepositServerError: PropTypes.bool.isRequired,
   directDepositUiState: PropTypes.shape({
     isEditing: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
@@ -303,6 +313,7 @@ export const mapStateToProps = state => ({
   directDepositAccountInfo: eduDirectDepositAccountInformation(state),
   directDepositInfo: eduDirectDepositInformation(state),
   isDirectDepositSetUp: eduDirectDepositIsSetUp(state),
+  directDepositServerError: !!eduDirectDepositLoadError(state),
   directDepositUiState: directDepositUiStateSelector(state),
 });
 
