@@ -32,12 +32,12 @@ export class IntroductionPage extends React.Component {
 
   render() {
     const { status } = this.state;
-    const { showWizard } = this.props;
+    const { showWizard, eduFormOmbAndExpiration } = this.props;
     const show = showWizard && status !== WIZARD_STATUS_COMPLETE;
 
     if (showWizard === undefined) return null;
 
-    const ombInfo = this.props.eduFormOmbAndExpiration ? (
+    const ombInfo = eduFormOmbAndExpiration ? (
       <OMBInfoShared
         resBurden={10}
         ombNumber={'2900-0866'}
