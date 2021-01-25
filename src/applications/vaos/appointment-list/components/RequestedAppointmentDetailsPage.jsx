@@ -84,11 +84,11 @@ function RequestedAppointmentDetailsPage({
       </div>
 
       <h1>Pending {typeOfCareText} appointment</h1>
-      <div className="vvads-u-font-size--sm vads-u-font-weight--bold vads-u-font-family--sans">
+      <h4 className="vaos-appts__block-label vads-u-margin-bottom--0">
         {isCC && 'Community Care'}
         {!isCC && !!isVideoRequest && 'VA Video Connect'}
         {!isCC && !isVideoRequest && 'VA Appointment'}
-      </div>
+      </h4>
 
       {isExpressCare && facility?.name}
       {!!facility &&

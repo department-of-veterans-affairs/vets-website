@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
-import { fireEvent, waitFor } from '@testing-library/dom';
 
 import environment from 'platform/utilities/environment';
 import { setFetchJSONFailure } from 'platform/testing/unit/helpers';
@@ -21,7 +20,7 @@ const initialState = {
 };
 
 describe('VAOS <RequestedAppointmentsList>', () => {
-  it('should show va request and details onclick', async () => {
+  it('should show va request', async () => {
     const startDate = moment.utc();
     const appointment = getVARequestMock();
     appointment.attributes = {
@@ -75,11 +74,6 @@ describe('VAOS <RequestedAppointmentsList>', () => {
     expect(await screen.findByText('Primary care')).to.be.ok;
     expect(screen.baseElement).to.contain.text(facility.attributes.name);
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
-    fireEvent.click(screen.getByText(/details/i));
-
-    await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0]).to.equal('request/var1234'),
-    );
   });
 
   it('should show cc request', async () => {
