@@ -32,6 +32,7 @@ const transform = (entity, { ancestors }) => ({
           : {
               entityLabel: getDrupalValue(entity.fieldOffice[0].title),
               entityType: entity.fieldOffice[0].entityType,
+              title: getDrupalValue(entity.fieldOffice[0].title),
             },
       }
     : null,
