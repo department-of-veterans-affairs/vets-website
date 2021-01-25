@@ -80,13 +80,6 @@ describe('VAOS <RequestedAppointmentsList>', () => {
     await waitFor(() =>
       expect(screen.history.push.lastCall.args[0]).to.equal('request/var1234'),
     );
-
-    expect(await screen.findByText('Pending primary care appointment')).to.be
-      .ok;
-
-    // expect(screen.baseElement).to.contain.text(
-    //   'Pending primary care appointment',
-    // );
   });
 
   it('should show cc request', async () => {

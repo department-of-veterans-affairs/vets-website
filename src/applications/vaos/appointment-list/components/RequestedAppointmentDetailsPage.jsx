@@ -55,10 +55,7 @@ function RequestedAppointmentDetailsPage({
     scrollAndFocus();
   }, []);
 
-  if (
-    appointmentDetailsStatus === FETCH_STATUS.notStarted ||
-    appointmentDetailsStatus === FETCH_STATUS.loading
-  ) {
+  if (appointmentDetailsStatus === FETCH_STATUS.loading) {
     return (
       <div className="vads-u-margin-y--8">
         <LoadingIndicator message="Loading your appointment request..." />
