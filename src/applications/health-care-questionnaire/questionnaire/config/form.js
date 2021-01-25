@@ -134,8 +134,8 @@ const formConfig = {
                 <span>
                   Are there any other concerns or changes in your life that are
                   affecting you or your health? (For example, a marriage,
-                  divorce, new baby, change in your job, or other medical
-                  conditions)
+                  divorce, new baby, change in your job, retirement, or other
+                  medical conditions)
                 </span>
               ),
             },
