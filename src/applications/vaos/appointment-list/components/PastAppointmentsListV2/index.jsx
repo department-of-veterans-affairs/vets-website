@@ -11,7 +11,7 @@ import {
   selectFeatureRequests,
   selectFeaturePastAppointments,
 } from '../../../redux/selectors';
-import { selectPastAppointments } from '../../redux/selectors';
+import { selectPastAppointmentsV2 } from '../../redux/selectors';
 import {
   FETCH_STATUS,
   GA_PREFIX,
@@ -244,7 +244,7 @@ function mapStateToProps(state) {
     pastSelectedIndex: state.appointments.pastSelectedIndex,
     facilityData: state.appointments.facilityData,
     pastStatus: state.appointments.pastStatus,
-    appointmentsByMonth: selectPastAppointments(state),
+    appointmentsByMonth: selectPastAppointmentsV2(state),
     showScheduleButton: selectFeatureRequests(state),
     showPastAppointments: selectFeaturePastAppointments(state),
   };
