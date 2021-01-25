@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import { WIZARD_STATUS } from 'applications/static-pages/wizard';
+import { WIZARD_STATUS } from '../../constants';
 import WizardContainer from '../../wizard/WizardContainer';
 
 describe('<WizardContainer>', () => {

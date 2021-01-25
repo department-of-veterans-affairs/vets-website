@@ -1,5 +1,6 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import State from '../../../components/State';
 
 export default function VAFacilityInfoMessage({ facility }) {
   return (
@@ -10,7 +11,7 @@ export default function VAFacilityInfoMessage({ facility }) {
       <p>
         <strong>{facility.name}</strong>
         <br />
-        {facility.address?.city}, {facility.address?.state}
+        {facility.address?.city}, <State state={facility.address?.state} />
       </p>
       <p>
         Not all VA facilities offer online scheduling for all types of care. If

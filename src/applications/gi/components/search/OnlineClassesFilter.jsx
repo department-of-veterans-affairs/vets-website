@@ -3,7 +3,7 @@ import RadioButtons from '../RadioButtons';
 import PropTypes from 'prop-types';
 import { renderLearnMoreLabel } from '../../utils/render';
 import { ariaLabels } from '../../constants';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 function OnlineClassesFilter({
   showModal,

@@ -1,5 +1,5 @@
 import path from 'path';
-import mockUser from '../fixtures/test-user.json';
+
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
@@ -10,12 +10,11 @@ Cypress.config('waitForAnimations', true);
 
 const testConfig = createTestConfig(
   {
-    skip: ['authenticated'],
+    skip: ['chapter31-maximal'],
     dataPrefix: 'data',
-    dataSets: ['authenticated'],
+    dataSets: ['chapter31-maximal'],
     fixtures: { data: path.join(__dirname, 'formDataSets') },
     setupPerTest: () => {
-      cy.login(mockUser);
       cy.route('POST', '/v0/veteran_readiness_employment_claims', {
         formSubmissionId: '123fake-submission-id-567',
         timestamp: '2020-11-12',
@@ -31,23 +30,20 @@ const testConfig = createTestConfig(
         cy.get('#start-option-0').click();
         cy.get('#isVeteran-option-0').click();
         cy.get('#yesHonorableDischarge-option-0').click();
-        cy.get('#disabilityRating-option-0').click();
+        cy.get('#yesHonorableDischarge-option-0').click();
         cy.get('.usa-button-primary').click();
         cy.get('.usa-button-primary').click();
         cy.get('.usa-button-primary').click();
         cy.get('.usa-button-primary').click();
         cy.get('.usa-button-primary').click();
-        cy.findAllByText(/Apply for Veteran Readiness and Employment/i, {
+        cy.findAllByText(/Apply online with VA Form 28-1900/i, {
           selector: 'a',
         })
           .first()
           .click();
-        cy.injectAxe();
 
         afterHook(() => {
-          cy.findAllByText(/Start the Application/i, { selector: 'button' })
-            .first()
-            .click();
+          cy.get('.va-button-link.schemaform-start-button:first').click();
         });
       },
       'veteran-contact-information': ({ afterHook }) => {

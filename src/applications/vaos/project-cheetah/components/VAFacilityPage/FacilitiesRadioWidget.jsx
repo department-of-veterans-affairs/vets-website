@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import State from '../../../components/State';
 import { FACILITY_SORT_METHODS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 
@@ -79,7 +80,7 @@ export default function FacilitiesRadioWidget({
                 {name}
               </span>
               <span className="vads-u-display--block vads-u-font-size--sm">
-                {address?.city}, {address?.state}
+                {address?.city}, <State state={address?.state} />
               </span>
               {!!distance && (
                 <span className="vads-u-display--block vads-u-font-size--sm">

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import newAppointmentFlow from '../../newAppointmentFlow';
 
 import { LANGUAGES } from '../../../utils/constants';
+import State from '../../../components/State';
 
 export default function SelectedProviderSection({ data, vaCityState }) {
   const provider = data.communityCareProvider;
@@ -26,7 +27,8 @@ export default function SelectedProviderSection({ data, vaCityState }) {
                     <br />
                   </>
                 ))}
-                {provider.address.city}, {provider.address.state}{' '}
+                {provider.address.city},{' '}
+                <State state={provider.address.state} />{' '}
                 {provider.address.postalCode}
               </>
             )}

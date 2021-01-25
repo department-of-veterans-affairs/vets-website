@@ -1,6 +1,11 @@
 import ItemLoop from '../../components/ItemLoop';
 import CardDetailsView from '../../components/CardDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import Typeahead from '../../components/Typeahead';
+import {
+  formatOptions,
+  recreationalVehicleTypes,
+} from '../../constants/typeaheadOptions';
 import _ from 'lodash/fp';
 
 export const uiSchema = {
@@ -19,13 +24,15 @@ export const uiSchema = {
       expandUnder: 'hasRecreationalVehicle',
       doNotScroll: true,
       showSave: true,
-      itemName: 'Add trailer, camper, or boat',
+      itemName: 'trailer, camper, or boat',
     },
     items: {
       recreationalVehicleType: {
         'ui:title': 'Type of vehicle',
+        'ui:field': Typeahead,
         'ui:options': {
-          widgetClassNames: 'input-size-6',
+          classNames: 'input-size-6',
+          getOptions: () => formatOptions(recreationalVehicleTypes),
         },
         'ui:required': () => true,
       },

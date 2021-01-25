@@ -6,7 +6,7 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import { validateIdString } from '../utils/helpers';
-import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 
 class FacilityLocatorApp extends React.Component {
   renderBreadcrumbs(location, selectedResult) {

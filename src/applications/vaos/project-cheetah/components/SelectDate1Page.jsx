@@ -8,11 +8,11 @@ import CalendarWidget from '../../components/calendar/CalendarWidget';
 import moment from 'moment';
 import { FETCH_STATUS } from '../../utils/constants';
 import { getDateTimeSelect } from '../redux/selectors';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { getRealFacilityId } from '../../utils/appointment';
 
 const pageKey = 'selectDate1';
-const pageTitle = 'Select First Date';
+const pageTitle = 'Select first date';
 
 const missingDateError =
   'Please choose your preferred date and time for your appointment.';
@@ -58,8 +58,8 @@ function goForward({
   setSubmitted,
   setValidationError,
 }) {
-  validate({ date: data.selectedDates, setValidationError });
-  if (data.selectedDates?.length) {
+  validate({ date: data.date1, setValidationError });
+  if (data.date1?.length) {
     routeToNextAppointmentPage(history, pageKey);
   } else if (submitted) {
     scrollAndFocus('.usa-input-error-message');
@@ -85,7 +85,7 @@ export function SelectDate1Page({
   const history = useHistory();
   const [submitted, setSubmitted] = useState(false);
   const [validationError, setValidationError] = useState(null);
-  const selectedDates = data.selectedDates;
+  const selectedDates = data.date1;
 
   useEffect(() => {
     getAppointmentSlots(
@@ -140,7 +140,7 @@ export function SelectDate1Page({
         }
         onChange={dates => {
           validate({ dates, setValidationError });
-          onCalendarChange(dates);
+          onCalendarChange(dates, pageKey);
         }}
         onClickNext={getAppointmentSlots}
         onClickPrev={getAppointmentSlots}

@@ -1,3 +1,5 @@
+import * as Sentry from '@sentry/browser';
+
 import { apiRequest } from '~/platform/utilities/api';
 import { refreshProfile } from '~/platform/user/profile/actions';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -229,9 +231,10 @@ export const validateAddress = (
       'Content-Type': 'application/json',
     },
   };
+  let response;
 
   try {
-    const response = isVAProfileServiceConfigured()
+    response = isVAProfileServiceConfigured()
       ? await apiRequest('/profile/address_validation', options)
       : await localVAProfileService.addressValidationSuccess();
     const { addresses, validationKey } = response;
@@ -322,6 +325,15 @@ export const validateAddress = (
       ),
     );
   } catch (error) {
+    if (error instanceof Error) {
+      // Just in case the addresses is an array with suggested addresses in it,
+      // scrape it from the data we send to Sentry.
+      if (response?.addresses?.length) {
+        response.addresses = '[SUGGESTED_ADDRESSES_SCRAPED]';
+      }
+      Sentry.setContext('error parsing address validation response', response);
+      Sentry.captureMessage('error parsing address validation response');
+    }
     const errorCode = error?.errors?.[0]?.code || 'apiRequest-error';
     const errorStatus = error?.errors?.[0]?.status || 'unknown';
 

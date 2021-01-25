@@ -30,7 +30,10 @@
     <ul class="usa-unstyled-list">
         {% for accordionItem in entity.fieldVaParagraphs %}
             {% assign item = accordionItem.entity %}
-            <li id="{{ item.entityId }}" data-entity-id="{{ item.entityId }}">
+            <li id="{{ item.entityId }}"
+              data-template="paragraphs/collapsible_panel__panel"
+              data-entity-id="{{ item.entityId }}"
+              data-analytics-faq-text="{{ item.fieldTitle | escape }}">
                 <button
                         class="usa-accordion-button usa-button-unstyled"
                         aria-expanded="{{ entity.fieldCollapsiblePanelExpand }}"

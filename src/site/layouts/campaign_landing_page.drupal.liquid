@@ -1,0 +1,338 @@
+{% include "src/site/includes/header.html" with drupalTags = true %}
+{% include "src/site/includes/alerts.drupal.liquid" %}
+{% include "src/site/includes/preview-edit.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" with constructLcBreadcrumbs = true titleInclude = false %}
+
+<div id="content" class="interior" data-template="node-campaign_landing_page">
+  <main class="va-l-detail-page">
+    <!-- Draft status -->
+    {% if !entityPublished %}
+      <div class="usa-alert usa-alert-info">
+        <div class="usa-alert-body">
+          <p class="usa-alert-text">You are viewing a draft.</p>
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="campaign-landing-page">
+      <div class="hero" style="background-image: url('{{ fieldHeroImage.entity.image.url }}">
+        <!-- Hero Content -->
+        <div class="hero-content">
+          <h1>{{ title }}</h1>
+          <hr />
+          <p>{{ fieldHeroBlurb }}</p>
+
+          {% if fieldPrimaryCallToAction %}
+            <a class="usa-butto-secondary" href="{{ fieldPrimaryCallToAction.entity.fieldButtonLink.url.path }}" rel="noreferrer noopener">
+              {{ fieldPrimaryCallToAction.entity.fieldButtonLabel }}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Why This Matters -->
+      <div class="why-this-matters">
+        <!-- Content -->
+        <div class="why-this-matters-content">
+          <h2>Why this matters to you</h2>
+          <p>{{ fieldClpWhyThisMatters }}</p>
+          {% if fieldSecondaryCallToAction %}
+            <a class="usa-button-secondary" href="{{ fieldSecondaryCallToAction.entity.fieldButtonLink.url.path }}">
+              {{ fieldSecondaryCallToAction.entity.fieldButtonLabel }}
+            </a>
+          {% endif %}
+        </div>
+
+        <!-- White box w/ social media links -->
+        <div class="why-this-matters-links">
+          {% if fieldClpAudience != empty %}
+            <div class="white-box">
+              <p>THIS PAGE IS FOR</p>
+              <hr />
+              <ul>
+                {% for clpAudience in fieldClpAudience %}
+                  <li>{{ clpAudience.entity.name }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+
+          <!-- Links to social media -->
+          {% include "src/site/includes/social-share.drupal.liquid" %}
+        </div>
+      </div>
+
+      <!-- What You Can Do -->
+      <div class="what-you-can-do">
+        <!-- Title -->
+        <p class="grey-header">WHAT YOU CAN DO</p>
+        <h2>{{ fieldClpWhatYouCanDoHeader }}</h2>
+        <p>{{ fieldClpWhatYouCanDoIntro }}</p>
+
+        <!-- List of promos -->
+        {% if fieldClpWhatYouCanDoPromos != empty %}
+          <ul class="promos">
+            {% for promo in fieldClpWhatYouCanDoPromos %}
+              <li class="promo">
+                <img alt="{{ promo.entity.fieldImage.entity.thumbnail.alt }}" src="{{ promo.entity.fieldImage.entity.thumbnail.url }}" />
+                <a href="{{ promo.entity.fieldPromoLink.entity.fieldLink.url }}" rel="noreferrer noopener" target="_blank">
+                  {{ promo.entity.fieldPromoLink.entity.fieldLink.title }}
+                </a>
+                <p>{{ promo.entity.fieldPromoLink.entity.fieldLinkSummary }}</p>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      <!-- Video -->
+      <div class="what-you-can-do">
+        <!-- Title -->
+        <p class="grey-header">VIDEO</p>
+        <h2>{{ fieldClpVideoPanelHeader }}</h2>
+
+        <!-- Video -->
+        <iframe
+          allowFullScreen
+          frameBorder="0"
+          src="{{ fieldMedia.entity.fieldMediaVideoEmbedField }}"
+          title="{{ fieldMedia.entity.name }}"
+          width="100%"
+        ></iframe>
+
+        <!-- Video description -->
+        {% if fieldMedia.entity.fieldDuration %}
+          <p class="duration">{{ fieldMedia.entity.fieldDuration }}</p>
+        {% endif %}
+        {% if fieldMedia.entity.fieldDescription %}
+          <p>{{ fieldMedia.entity.fieldDescription }}</p>
+        {% endif %}
+
+        <!-- Call to action -->
+        {% if fieldClpVideoPanelMoreVideo %}
+          <a class="usa-button-secondary" href="{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
+            {{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel }}
+          </a>
+        {% endif %}
+      </div>
+
+      <!-- Spotlight -->
+      <div class="spotlight">
+        <!-- Title -->
+        <p class="grey-header">SPOTLIGHT</p>
+        <h2>{{ fieldClpSpotlightHeader }}</h2>
+        <p>
+          {{ fieldClpSpotlightIntroText }}
+          <a href="{{ fieldClpSpotlightCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_ blank">
+            {{ fieldClpSpotlightCta.entity.fieldButtonLabel }}
+          </a>
+        </p>
+
+        <!-- List of spotlights -->
+        {% if fieldClpSpotlightLinkTeasers != empty %}
+          <div class="link-teasers">
+            {% for linkTeaser in fieldClpSpotlightLinkTeasers %}
+              <div class="link-teaser">
+                <a href="{{ linkTeaser.entity.fieldLink.url }}" rel="noreferrer noopener" target="_blank">{{ linkTeaser.entity.fieldLink.title }}</a>
+                <p>{{ linkTeaser.entity.fieldLinkSummary }}</p>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Stories -->
+      <div class="stories">
+        <!-- Title -->
+        <p class="grey-header">STORIES</p>
+        <h2>{{ fieldClpStoriesHeader }}</h2>
+        <p>{{ fieldClpStoriesIntro }}</p>
+
+        <!-- List of stories -->
+        {% if fieldClpStoriesTeasers != empty %}
+          <div class="stories-list">
+            {% for storyTeaser in fieldClpStoriesTeasers %}
+              <div class="story-teaser">
+                <img alt="{{ storyTeaser.entity.fieldMedia.entity.thumbnail.alt }}" src="{{ storyTeaser.entity.fieldMedia.entity.thumbnail.url }}" />
+                <div class="story-teaser-content">
+                  <a href="{{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.url }}" rel="noreferrer noopener" target="_blank">
+                    {{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.title }}
+                  </a>
+                  <p>{{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLinkSummary }}</p>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <!-- Call to action -->
+        {% if fieldClpStoriesCta %}
+          <a class="usa-button-secondary" href="{{ fieldClpStoriesCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
+            {{ fieldClpStoriesCta.entity.fieldButtonLabel }}
+          </a>
+        {% endif %}
+      </div>
+
+      <!-- Downloadable Resources -->
+      <div class="downloadable-resources">
+        <!-- Title -->
+        <p class="grey-header">DOWNLOADABLE RESOURCES</p>
+        <h2>{{ fieldClpResourcesHeader }}</h2>
+        <p>{{ fieldClpResourcesIntroText }}</p>
+
+        <!-- List of resources -->
+        {% if fieldClpResources != empty %}
+          <div class="resources-list">
+            {% for resource in fieldClpResources %}
+              <div class="resource">
+                <h3>{{ resource.entity.name }}</h3>
+                <p>{{ resource.entity.fieldDescription }}</p>
+                <a href="{{ resource.entity.fieldMediaExternalFile.url }}" rel="noreferrer noopener" target="_blank">Download (PDF)</a>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <!-- Call to action -->
+        {% if fieldClpResourcesCta %}
+          <a class="usa-button-secondary" href="{{ fieldClpResourcesCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
+            {{ fieldClpResourcesCta.entity.fieldButtonLabel }}
+          </a>
+        {% endif %}
+      </div>
+
+      <!-- Events -->
+      <div class="events">
+        <!-- Title -->
+        <p class="grey-header">EVENTS</p>
+        <h2>{{ fieldClpEventsHeader }}</h2>
+
+        <!-- List of events -->
+        {% if fieldClpEventsReferences != empty %}
+          <div class="events-list">
+            {% for eventReference in fieldClpEventsReferences %}
+              <div class="event-reference">
+                <!-- Title -->
+                <h3>
+                  <a href="{{ eventReference.entity.fieldLink.url }}" rel="noreferrer noopener" target="_blank">
+                    {{ eventReference.entity.fieldListing.entity.fieldDescription }}
+                  </a>
+                </h3>
+
+                <!-- Description -->
+                {{ eventReference.entity.fieldBody.processed }}
+
+                <!-- When -->
+                <div class="event-reference-data-point">
+                  <p><strong>When</strong></p>
+                  <p>
+                    {% if eventReference.entity.fieldDatetimeRangeTimezone.value != empty %}
+                      {{eventReference.entity.fieldDatetimeRangeTimezone.value | dateFromUnix: "dddd, MMM D, h:mm A" }} -
+                      <br />
+                      {{eventReference.entity.fieldDatetimeRangeTimezone.endValue | dateFromUnix: "dddd, MMM D, h:mm A" }}
+                    {% endif %}
+                    {% if eventReference.entity.fieldDatetimeRangeTimezone.timezone != empty %}
+                      {{ eventReference.entity.fieldDatetimeRangeTimezone.timezone | timezoneAbbrev: fieldDatetimeRangeTimezone.value }}
+                    {% endif %}
+                  </p>
+                </div>
+
+                <!-- Where -->
+                <!-- NOT SURE WHAT TO PUT HERE: https://dsva.slack.com/archives/C01DS1XDEQ0/p1611332573004800?thread_ts=1611331917.004100&cid=C01DS1XDEQ0 -->
+                <div class="event-reference-data-point">
+                  <p><strong>Where</strong></p>
+                  <a href="" rel="noreferrer noopener" target="_blank">
+
+                  </a>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <!-- Call to action -->
+        {% if fieldClpResourcesCta %}
+          <a class="usa-button-secondary" href="{{ fieldClpResourcesCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
+            {{ fieldClpResourcesCta.entity.fieldButtonLabel }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="faq">
+      <!-- Title -->
+      <p class="grey-header">FAQ</p>
+      <h2>Frequently asked questions</h2>
+
+      <!-- Questions/Answers -->
+      <div class="usa-accordion-bordered">
+        <ul class="usa-unstyled-list">
+          {% for faqParagraph in fieldClpFaqParagraphs %}
+            {% if faqParagraph.entity %}
+              <li data-faq-entity-id="{{ faqParagraph.entity.entityId }}">
+                <button type="button" aria-controls="{{ faqParagraph.entity.entityBundle }}-{{ faqParagraph.entity.entityId }}"
+                  class="usa-accordion-button usa-button-unstyled"
+                  aria-expanded="false">{{ faqParagraph.entity.fieldQuestion }}</button>
+                <div id="{{ faqParagraph.entity.entityBundle }}-{{ faqParagraph.entity.entityId }}" class="usa-accordion-content"
+                  aria-hidden="true">
+                  {% assign fieldAnswer = faqParagraph.entity.fieldAnswer[0] %}
+                  {% assign bundleComponent = "src/site/paragraphs/" | append: fieldAnswer.entity.entityBundle %}
+                  {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
+                  {% include {{ bundleComponentWithExtension }} with entity = fieldAnswer.entity %}
+                </div>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+
+      <!-- Call to action -->
+      {% if fieldClpFaqCta %}
+        <a class="usa-button-secondary" href="{{ fieldClpFaqCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
+          {{ fieldClpFaqCta.entity.fieldButtonLabel }}
+        </a>
+      {% endif %}
+    </div>
+
+    <!-- Connect with us -->
+    <div class="connect-with-us">
+      <p class="grey-header">CONNECT WITH US</p>
+      <h2>Get updates from Veterans Health Administration</h2>
+
+      <!-- TODO, check out fieldClpConnectWithUs, I don't think it has everything we need but most of it should be there -->
+    </div>
+
+    <!-- VA Benefits -->
+    <div class="benefits">
+      <p class="grey-header">VA BENEFITS</p>
+      <h2>Learn more about related VA benefits</h2>
+
+      <!-- Benefit landing pages -->
+      {% if fieldBenefitCategories != empty %}
+        <div class="resources-list">
+          {% for benefitCategory in fieldBenefitCategories %}
+            <div class="benefit-category">
+              <a href="{{ benefitCategory.entity.entityUrl.path }}" rel="noreferrer noopener" target="_blank">
+                <div class="inline hub-main-icon">
+                  <i class="icon-large white hub-icon-{{ benefitCategory.entity.fieldTitleIcon }} hub-background-{{ benefitCategory.entity.fieldTitleIcon }}"></i>
+                </div>
+                {{ benefitCategory.entity.title }}
+              </a>
+              <p>{{ benefitCategory.entity.fieldIntroText }}</p>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Last Updated -->
+    <div class="last-updated usa-content">
+      Last updated: <time
+        datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+    </div>
+  </main>
+</div>
+
+{% include "src/site/includes/footer.html" %}
+{% include "src/site/includes/debug.drupal.liquid" %}

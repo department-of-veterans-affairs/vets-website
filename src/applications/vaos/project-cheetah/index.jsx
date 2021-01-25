@@ -17,7 +17,7 @@ import SelectDate1Page from './components/SelectDate1Page';
 import SelectDate2Page from './components/SelectDate2Page';
 import ReviewPage from './components/ReviewPage';
 import ConfirmationPage from './components/ConfirmationPage';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import FullWidthLayout from '../components/FullWidthLayout';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { selectFeatureProjectCheetah } from '../redux/selectors';
@@ -34,6 +34,22 @@ export function NewBookingSection({ allowBookings, featureProjectCheetah }) {
     },
     [featureProjectCheetah, history],
   );
+
+  useEffect(() => {
+    if (window.History) {
+      window.History.scrollRestoration = 'manual';
+    }
+
+    // We don't want people to start in the middle of the form, so redirect them when they jump
+    // in the middle. We make an exception for the confirmation page in case someone is going back
+    // after submitting.
+    if (
+      !location.pathname.endsWith('new-project-cheetah-booking') &&
+      !location.pathname.endsWith('confirmation')
+    ) {
+      history.replace('/new-project-cheetah-booking');
+    }
+  }, []);
 
   if (!allowBookings) {
     return (
