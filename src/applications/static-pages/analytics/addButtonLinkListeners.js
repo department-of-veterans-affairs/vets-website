@@ -8,7 +8,6 @@ function getButtonType(classList) {
   } else if (classList.contains('usa-button')) {
     return 'default';
   }
-
   return 'unknown';
 }
 
