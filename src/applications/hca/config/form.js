@@ -899,7 +899,7 @@ const formConfig = {
               currencyUI('Veteran other income amount'),
             ),
             'view:spouseIncome': {
-              'ui:title': 'Spouse income',
+              'ui:title': "Spouse's income",
               'ui:options': {
                 hideIf: formData =>
                   !formData.maritalStatus ||
@@ -907,7 +907,7 @@ const formConfig = {
                     formData.maritalStatus.toLowerCase() !== 'separated'),
               },
               spouseGrossIncome: _.merge(
-                currencyUI('Spouse gross annual income from employment'),
+                currencyUI("Spouse's gross annual income from employment"),
                 {
                   'ui:required': formData =>
                     formData.maritalStatus &&
@@ -918,7 +918,7 @@ const formConfig = {
               ),
               spouseNetIncome: _.merge(
                 currencyUI(
-                  'Spouse net income from your farm, ranch, property or business',
+                  "Spouse's net income from your farm, ranch, property or business",
                 ),
                 {
                   'ui:required': formData =>
@@ -929,7 +929,7 @@ const formConfig = {
                 },
               ),
               spouseOtherIncome: _.merge(
-                currencyUI('Spouse other income amount'),
+                currencyUI("Spouse's other income amount"),
                 {
                   'ui:required': formData =>
                     formData.maritalStatus &&
