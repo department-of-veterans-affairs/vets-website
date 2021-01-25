@@ -753,7 +753,7 @@ const formConfig = {
             (formData.maritalStatus.toLowerCase() === 'married' ||
               formData.maritalStatus.toLowerCase() === 'separated'),
           uiSchema: {
-            'ui:title': 'Spouse’s information',
+            'ui:title': 'Spouse\u2019s information',
             'ui:description':
               'Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.',
             spouseFullName: {
