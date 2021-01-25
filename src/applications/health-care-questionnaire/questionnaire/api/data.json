@@ -21,6 +21,7 @@
               "name": "CHY PC VAR2",
               "askForCheckIn": false,
               "facilityCode": "983",
+              "phoneNumber":"1112223333",
               "facility": {
                 "displayName": "VDS Facility Primary Care Display Name"
               },
@@ -64,7 +65,8 @@
               "askForCheckIn": false,
               "facilityCode": "983",
               "facility": {
-                "displayName": "VDS Facility Mental Health Display Name"
+                "displayName": "VDS Facility Mental Health Display Name",
+                "phoneNumber":"9998887777"
               },
               "stopCode": "502"
             },
