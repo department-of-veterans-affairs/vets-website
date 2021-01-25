@@ -1,19 +1,14 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Switch, Route, useHistory } from 'react-router-dom';
+import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 
-import ScheduleNewAppointment from './ScheduleNewAppointment';
+import ScheduleNewAppointment from './ScheduleNewAppointmentV2';
 import * as actions from '../../redux/actions';
-import {
-  getCancelInfo,
-  selectFutureStatus,
-  selectExpressCareAvailability,
-} from '../../redux/selectors';
+import { selectExpressCareAvailability } from '../../redux/selectors';
 import {
   selectFeatureRequests,
-  selectFeaturePastAppointments,
   selectFeatureDirectScheduling,
   selectFeatureCommunityCare,
   selectFeatureExpressCare,
@@ -24,44 +19,62 @@ import {
 } from '../../../redux/selectors';
 import { GA_PREFIX, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import RequestExpressCare from './RequestExpressCare';
-import FutureAppointmentsListV2 from '../FutureAppointmentsListV2';
+import RequestExpressCare from './RequestExpressCareV2';
+import RequestedAppointmentsList from '../RequestedAppointmentsList';
+import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
 import PastAppointmentsList from '../PastAppointmentsList';
-import PageLayout from './PageLayout';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import WarningNotification from '../../../components/WarningNotification';
-import ScheduleNewProjectCheetah from './ScheduleNewProjectCheetah';
 import Select from './Select';
 
 const pageTitle = 'VA appointments';
 
+const DROPDOWN_VALUES = {
+  upcoming: 'upcoming',
+  requested: 'requested',
+  past: 'past',
+  cancelled: 'cancelled',
+};
+
 const options = [
-  { label: 'Upcoming', value: 'upcoming' },
-  { label: 'Requested', value: 'requested' },
-  { label: 'Past', value: 'past' },
-  { label: 'Cancelled', value: 'cancelled' },
+  { label: 'Upcoming', value: DROPDOWN_VALUES.upcoming },
+  { label: 'Requested', value: DROPDOWN_VALUES.requested },
+  { label: 'Past', value: DROPDOWN_VALUES.past },
+  { label: 'Cancelled', value: DROPDOWN_VALUES.cancelled },
 ];
 
+function getDropdownValueFromLocation(pathname) {
+  if (pathname.endsWith(DROPDOWN_VALUES.requested)) {
+    return DROPDOWN_VALUES.requested;
+  } else if (pathname.endsWith(DROPDOWN_VALUES.past)) {
+    return DROPDOWN_VALUES.past;
+  } else if (pathname.endsWith(DROPDOWN_VALUES.cancelled)) {
+    return DROPDOWN_VALUES.cancelled;
+  } else {
+    return DROPDOWN_VALUES.upcoming;
+  }
+}
+
 function AppointmentsPageV2({
-  cancelInfo,
   expressCare,
   fetchExpressCareWindows,
   isCernerOnlyPatient,
+  isWelcomeModalDismissed,
   showCommunityCare,
   showDirectScheduling,
   showScheduleButton,
-  showCheetahScheduleButton,
   startNewAppointmentFlow,
   startNewExpressCareFlow,
-  showHomePageRefresh,
 }) {
+  const location = useLocation();
+
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
 
     if (
-      expressCare.enabled &&
+      expressCare.useNewFlow &&
       expressCare.windowsStatus === FETCH_STATUS.notStarted
     ) {
       fetchExpressCareWindows();
@@ -70,41 +83,38 @@ function AppointmentsPageV2({
 
   useEffect(
     () => {
-      if (
-        !cancelInfo.showCancelModal &&
-        cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded
-      ) {
+      if (isWelcomeModalDismissed) {
         scrollAndFocus();
       }
     },
-    [cancelInfo.showCancelModal, cancelInfo.cancelAppointmentStatus],
+    [isWelcomeModalDismissed],
   );
   const history = useHistory();
 
   const routes = (
     <Switch>
-      <Route exact path="/" component={FutureAppointmentsListV2} />
-      <Route path="/upcoming" component={FutureAppointmentsListV2} />
-      <Route path="/requested" component={FutureAppointmentsListV2} />
+      <Route exact path="/" component={UpcomingAppointmentsList} />
+      <Route path="/requested" component={RequestedAppointmentsList} />
       <Route path="/past" component={PastAppointmentsList} />
-      <Route path="/cancelled" component={FutureAppointmentsListV2} />
+      <Route path="/cancelled" component={UpcomingAppointmentsList} />
     </Switch>
   );
 
-  function onChange(e) {
-    if (e.currentTarget.value === 'upcoming') {
-      history.push('/upcoming');
-    } else if (e.currentTarget.value === 'requested') {
+  function onDropdownChange(e) {
+    const value = e.target.value;
+    if (value === DROPDOWN_VALUES.upcoming) {
+      history.push('/');
+    } else if (value === DROPDOWN_VALUES.requested) {
       history.push('/requested');
-    } else if (e.currentTarget.value === 'past') {
+    } else if (value === DROPDOWN_VALUES.past) {
       history.push('/past');
-    } else if (e.currentTarget.value === 'cancelled') {
+    } else if (value === DROPDOWN_VALUES.cancelled) {
       history.push('/cancelled');
     }
   }
 
   return (
-    <PageLayout>
+    <>
       <h1 className="vads-u-flex--1">{pageTitle}</h1>
       <DowntimeNotification
         appTitle="VA online scheduling tool"
@@ -114,13 +124,11 @@ function AppointmentsPageV2({
           <WarningNotification {...props}>{childContent}</WarningNotification>
         )}
       />
-
       {showScheduleButton && (
         <ScheduleNewAppointment
           isCernerOnlyPatient={isCernerOnlyPatient}
           showCommunityCare={showCommunityCare}
           showDirectScheduling={showDirectScheduling}
-          showHomePageRefresh={showHomePageRefresh}
           startNewAppointmentFlow={() => {
             recordEvent({
               event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
@@ -129,63 +137,39 @@ function AppointmentsPageV2({
           }}
         />
       )}
-
-      {showCheetahScheduleButton && (
-        <ScheduleNewProjectCheetah
-          showHomePageRefresh={showHomePageRefresh}
-          startNewAppointmentFlow={() => {
-            recordEvent({
-              event: `${GA_PREFIX}-schedule-project-cheetah-button-clicked`,
-            });
-            startNewAppointmentFlow();
-          }}
-        />
-      )}
-
-      {expressCare.enabled && (
-        <>
-          <>
-            {!isCernerOnlyPatient && (
-              <RequestExpressCare
-                {...expressCare}
-                showHomePageRefresh={showHomePageRefresh}
-                startNewExpressCareFlow={() => {
-                  recordEvent({
-                    event: `${GA_PREFIX}-express-care-request-button-clicked`,
-                  });
-                  startNewExpressCareFlow();
-                }}
-              />
-            )}
-            {expressCare.hasRequests && (
-              <h2 className="vads-u-font-size--h3 vads-u-margin-y--3">
-                Your appointments
-              </h2>
-            )}
-
-            <label className="vads-u-display--inline-block vads-u-margin-top--0 vads-u-margin-right--2">
-              Show by type <span className="sr-only" />
-            </label>
-            <Select
-              options={options}
-              onChange={onChange}
-              aria-labelledby="options"
-            />
-            {routes}
-          </>
-        </>
-      )}
-    </PageLayout>
+      {expressCare.useNewFlow &&
+        !isCernerOnlyPatient && (
+          <RequestExpressCare
+            {...expressCare}
+            startNewExpressCareFlow={() => {
+              recordEvent({
+                event: `${GA_PREFIX}-express-care-request-button-clicked`,
+              });
+              startNewExpressCareFlow();
+            }}
+          />
+        )}
+      <h2 className="vads-u-margin-y--3">Your appointments</h2>
+      <label
+        htmlFor="type-dropdown"
+        className="vads-u-display--inline-block vads-u-margin-top--0 vads-u-margin-right--2"
+      >
+        Show by type
+      </label>
+      <Select
+        options={options}
+        onChange={onDropdownChange}
+        id="type-dropdown"
+        value={getDropdownValueFromLocation(location.pathname)}
+      />
+      {routes}
+    </>
   );
 }
 
 AppointmentsPageV2.propTypes = {
-  cancelInfo: PropTypes.object,
-  closeCancelAppointment: PropTypes.func.isRequired,
-  confirmCancelAppointment: PropTypes.func.isRequired,
   isCernerOnlyPatient: PropTypes.bool.isRequired,
   isWelcomeModalDismissed: PropTypes.bool.isRequired,
-  showPastAppointments: PropTypes.bool.isRequired,
   showCommunityCare: PropTypes.bool.isRequired,
   showDirectScheduling: PropTypes.bool.isRequired,
   startNewAppointmentFlow: PropTypes.func.isRequired,
@@ -193,10 +177,6 @@ AppointmentsPageV2.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    pendingStatus: state.appointments.pendingStatus,
-    futureStatus: selectFutureStatus(state),
-    cancelInfo: getCancelInfo(state),
-    showPastAppointments: selectFeaturePastAppointments(state),
     showScheduleButton: selectFeatureRequests(state),
     showCommunityCare: selectFeatureCommunityCare(state),
     showDirectScheduling: selectFeatureDirectScheduling(state),
@@ -211,12 +191,8 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   fetchExpressCareWindows: actions.fetchExpressCareWindows,
-  closeCancelAppointment: actions.closeCancelAppointment,
-  confirmCancelAppointment: actions.confirmCancelAppointment,
   startNewAppointmentFlow: actions.startNewAppointmentFlow,
   startNewExpressCareFlow: actions.startNewExpressCareFlow,
-  fetchFutureAppointments: actions.fetchFutureAppointments,
-  fetchPastAppointments: actions.fetchPastAppointments,
 };
 
 export default connect(

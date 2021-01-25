@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
-import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
+import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import recordEvent from 'platform/monitoring/record-event';
 import FacilityPhone from '../../../components/FacilityPhone';
 import { GA_PREFIX } from '../../../utils/constants';
+import State from '../../../components/State';
 
 const UNSUPPORTED_FACILITY_RANGE = 100;
 
@@ -87,7 +88,8 @@ export default function FacilitiesNotShown({
               <li key={facility.id} className="vads-u-margin-top--2">
                 <strong>{facility.name}</strong>
                 <br />
-                {facility.address?.city}, {facility.address?.state}
+                {facility.address?.city},{' '}
+                <State state={facility.address?.state} />
                 <br />
                 {!!facility.legacyVAR[sortMethod] && (
                   <>

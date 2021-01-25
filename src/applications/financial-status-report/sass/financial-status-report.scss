@@ -60,6 +60,9 @@
         margin-top: 0;
       }
     }
+    .autosuggest-list {
+      max-height: 140px;
+    }
     .usa-button-secondary {
       background: #fff;
     }
@@ -117,7 +120,7 @@
   @include media($medium-screen) {
     width: 152px;
     max-width: 152px;
-    margin: 5px 10px 20px 0;
+    margin: 0 10px 20px 0;
   }
 }
 
@@ -125,15 +128,15 @@
   @include media($medium-screen) {
     width: 173px;
     max-width: 173px;
-    margin: 5px 10px 20px 0;
+    margin: 0 10px 20px 0;
   }
 }
 
 .input-size-3 {
   @include media($medium-screen) {
-    width: 192px;
-    max-width: 192px;
-    margin: 5px 10px 20px 0;
+    width: 196px;
+    max-width: 196px;
+    margin: 0 10px 20px 0;
   }
 }
 
@@ -141,7 +144,7 @@
   @include media($medium-screen) {
     width: 215px;
     max-width: 215px;
-    margin: 5px 10px 20px 0;
+    margin: 0 10px 20px 0;
   }
 }
 
@@ -149,7 +152,7 @@
   @include media($medium-screen) {
     width: 262px;
     max-width: 262px;
-    margin: 5px 10px 20px 0;
+    margin: 0 10px 20px 0;
   }
 }
 
@@ -157,7 +160,7 @@
   @include media($medium-screen) {
     width: 283px;
     max-width: 283px;
-    margin: 5px 10px 20px 0;
+    margin: 0 10px 20px 0;
   }
 }
 
@@ -165,6 +168,6 @@
   @include media($medium-screen) {
     width: 332px;
     max-width: 332px;
-    margin: 5px 10px 20px 0;
+    margin: 0 10px 20px 0;
   }
 }

@@ -5,7 +5,7 @@ import { sentenceCase, lowerCase } from '../../../../utils/formatters';
 import { getPatientTelecom } from '../../../../services/appointment';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import ExpressCareStatus from './ExpressCareStatus';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 export default function ExpressCareCard({
   appointment,

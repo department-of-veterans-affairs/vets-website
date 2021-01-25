@@ -472,9 +472,7 @@ export default function projectCheetahReducer(state = initialState, action) {
           ...state.newBooking,
           data: {
             ...state.newBooking.data,
-            [action.pageKey.includes('1')
-              ? 'date1'
-              : 'date2']: action.selectedDates,
+            date1: action.selectedDates,
           },
         },
       };

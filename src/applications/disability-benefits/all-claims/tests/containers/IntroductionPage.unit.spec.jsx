@@ -51,7 +51,9 @@ describe('<IntroductionPage/>', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
     const title = wrapper.find('FormTitle');
     expect(title.length).to.equal(1);
-    expect(title.props().title).to.equal(PAGE_TITLES.ALL);
+    expect(title.props().title).to.equal(
+      `${PAGE_TITLES.ALL} with VA Form 21-526EZ`,
+    );
     wrapper.unmount();
   });
 
@@ -65,7 +67,9 @@ describe('<IntroductionPage/>', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
     const title = wrapper.find('FormTitle');
     expect(title.length).to.equal(1);
-    expect(title.props().title).to.equal(PAGE_TITLES.BDD);
+    expect(title.props().title).to.equal(
+      `${PAGE_TITLES.BDD} with VA Form 21-526EZ`,
+    );
     wrapper.unmount();
   });
 
@@ -99,7 +103,7 @@ describe('<IntroductionPage/>', () => {
       wrapper.find('withRouter(Connect(SaveInProgressIntro))').length,
     ).to.equal(2);
     expect(wrapper.find('FormTitle').length).to.equal(1);
-    expect(wrapper.find('FileOriginalClaimPage').length).to.equal(0);
+    expect(wrapper.find('Connect(FileOriginalClaimPage)').length).to.equal(0);
     wrapper.unmount();
   });
   it('should block original claim & show alert', () => {
@@ -110,7 +114,7 @@ describe('<IntroductionPage/>', () => {
       wrapper.find('withRouter(Connect(SaveInProgressIntro))').length,
     ).to.equal(0);
     expect(wrapper.find('FormTitle').length).to.equal(1);
-    expect(wrapper.find('FileOriginalClaimPage').length).to.equal(1);
+    expect(wrapper.find('Connect(FileOriginalClaimPage)').length).to.equal(1);
     wrapper.unmount();
   });
   it('should render reset wizard link to info page', () => {

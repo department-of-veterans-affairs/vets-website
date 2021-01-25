@@ -38,17 +38,8 @@ export function getSiteIdForChosenFacility(state) {
 }
 
 export function getChosenSlot(state) {
-  const availableSlots = selectProjectCheetah(state).availableSlots;
-  const selectedTime = selectProjectCheetahFormData(state).calendarData
-    ?.selectedDates?.[0].datetime;
-
-  return availableSlots?.find(slot => slot.start === selectedTime);
-}
-
-export function getChosenSlot2(state) {
-  const availableSlots = selectProjectCheetah(state).availableSlots;
-  const selectedTime = selectProjectCheetahFormData(state).calendarData
-    ?.selectedDates?.[1].datetime;
+  const availableSlots = selectProjectCheetahNewBooking(state).availableSlots;
+  const selectedTime = selectProjectCheetahFormData(state).date1[0];
 
   return availableSlots?.find(slot => slot.start === selectedTime);
 }
@@ -132,7 +123,7 @@ export function getClinicPageInfo(state, pageKey) {
 
   return {
     ...formPageInfo,
-    facilityDetails: facilities.find(
+    facilityDetails: facilities?.find(
       facility => facility.id === formPageInfo.data.vaFacility,
     ),
   };
@@ -156,6 +147,14 @@ export function getReviewPage(state) {
     clinic: getChosenClinicInfo(state),
     submitStatus: selectProjectCheetah(state).submitStatus,
     submitStatusVaos400: selectProjectCheetah(state).submitStatusVaos400,
+    systemId: getSiteIdForChosenFacility(state),
+  };
+}
+
+export function selectConfirmationPage(state) {
+  return {
+    data: selectProjectCheetahFormData(state),
+    facilityDetails: getChosenFacilityInfo(state),
     systemId: getSiteIdForChosenFacility(state),
   };
 }

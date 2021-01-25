@@ -5,6 +5,7 @@ export const mockConnectedApps = [
     attributes: {
       title: 'Apple Health',
       logo: 'https://ok6static.oktacdn.com/fs/bco/4/fs06uplrfh5ML4ubr2p7',
+      privacyUrl: 'https://www.apple.com/legal/privacy/',
       grants: [
         {
           title: 'Launch as patient',
@@ -25,6 +26,7 @@ export const mockConnectedApps = [
     attributes: {
       title: 'Test App 2',
       logo: 'https://ok6static.oktacdn.com/fs/bco/4/fs06uplrfh5ML4ubr2p7',
+      privacyUrl: '',
       grants: [
         {
           title: 'Launch as patient',

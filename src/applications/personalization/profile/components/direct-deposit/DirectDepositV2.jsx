@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import AlertBox, {
   ALERT_TYPE,
-} from '@department-of-veterans-affairs/formation-react/AlertBox';
+} from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import DowntimeNotification, {
   externalServices,
@@ -29,7 +29,7 @@ import PaymentHistory from './PaymentHistory';
 import BankInfoCNPv2 from './BankInfoCNPv2';
 import BankInfoEDU from './BankInfoEDU';
 
-const benefitTypes = {
+export const benefitTypes = {
   CNP: 'compensation and pension benefits',
   EDU: 'education benefits',
 };

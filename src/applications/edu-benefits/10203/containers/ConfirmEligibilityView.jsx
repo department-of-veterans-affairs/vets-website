@@ -152,14 +152,14 @@ export class ConfirmEligibilityView extends React.Component {
           {this.renderChecks()}
           {this.renderConfirmEligibility()}
         </div>
-        <div className="vads-u-padding-y--4">
+        {/*  eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
+        <div className="vads-u-padding-y--4" tabIndex="0">
           <b>
             You must meet the above requirements to qualify for the scholarship.
           </b>{' '}
           Please consider that ineligible applications delay the processing of
           benefits for eligible applicants.
         </div>
-
         <div>
           <div className="vads-u-margin-top--neg2">
             <ExitApplicationButton

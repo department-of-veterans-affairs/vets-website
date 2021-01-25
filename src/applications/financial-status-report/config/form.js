@@ -6,6 +6,7 @@ import manifest from '../manifest.json';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
 import PreSubmitSignature from '../components/PreSubmitSignature';
+import { prefillTransformer } from '../utils/prefillTransformer';
 import {
   availableDebts,
   employment,
@@ -48,6 +49,7 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_5655,
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   defaultDefinitions: {},
   savedFormMessages: {
     notFound:
@@ -249,8 +251,10 @@ const formConfig = {
       title: 'Resolution options',
       pages: {
         resolutionOptions: {
-          path: 'resolution-options',
+          path: 'resolution-options/:index',
           title: 'Resolution options',
+          showPagePerItem: true,
+          arrayPath: 'fsrDebts',
           uiSchema: resolutionOptions.uiSchema,
           schema: resolutionOptions.schema,
         },

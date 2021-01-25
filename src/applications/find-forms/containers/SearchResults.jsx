@@ -1,21 +1,24 @@
 // Dependencies.
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import { connect } from 'react-redux';
-
-import { focusElement } from 'platform/utilities/ui';
+import Select from '@department-of-veterans-affairs/component-library/Select';
 
 // Relative imports.
+import { focusElement } from 'platform/utilities/ui';
 import * as customPropTypes from '../prop-types';
-import { updatePaginationAction } from '../actions';
+import {
+  updateSortByPropertyNameThunk,
+  updatePaginationAction,
+} from '../actions';
 import { getFindFormsAppState, mvpEnhancements } from '../helpers/selectors';
+import { SORT_OPTIONS } from '../constants';
 import SearchResult from '../components/SearchResult';
 
 export const MAX_PAGE_LIST_LENGTH = 10;
-
 export class SearchResults extends Component {
   static propTypes = {
     // From mapStateToProps.
@@ -25,14 +28,16 @@ export class SearchResults extends Component {
     query: PropTypes.string.isRequired,
     results: PropTypes.arrayOf(customPropTypes.Form.isRequired),
     hasOnlyRetiredForms: PropTypes.bool.isRequired,
+    sortByPropertyName: PropTypes.string,
     startIndex: PropTypes.number.isRequired,
-    showFindFormsResultsLinkToFormDetailPages: PropTypes.bool,
     // From mapDispatchToProps.
+    updateSortByPropertyName: PropTypes.func,
     updatePagination: PropTypes.func.isRequired,
   };
 
   componentDidUpdate(previousProps) {
-    const justRefreshed = previousProps.fetching && !this.props.fetching;
+    const { props } = this;
+    const justRefreshed = previousProps.fetching && !props.fetching;
 
     if (justRefreshed) {
       focusElement('[data-forms-focus]');
@@ -56,14 +61,21 @@ export class SearchResults extends Component {
     focusElement('[data-forms-focus]');
   };
 
+  setSortByPropertyNameState = state => {
+    if (state?.value) {
+      this.props.updateSortByPropertyName(state.value, this.props.results);
+    }
+  };
+
   render() {
-    const { onPageSelect } = this;
+    const { onPageSelect, setSortByPropertyNameState } = this;
     const {
       error,
       fetching,
       page,
       query,
       results,
+      sortByPropertyName,
       hasOnlyRetiredForms,
       showFindFormsResultsLinkToFormDetailPages,
       startIndex,
@@ -151,22 +163,34 @@ export class SearchResults extends Component {
           key={form.id}
           form={form}
           formMetaInfo={{ ...formMetaInfo, currentPositionOnPage: index + 1 }}
-          showFindFormsResultsLinkToFormDetailPages={
-            showFindFormsResultsLinkToFormDetailPages
-          }
         />
       ));
 
     return (
       <>
-        <h2
-          className="vads-u-font-size--base vads-u-line-height--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--1p5"
-          data-forms-focus
-        >
-          Showing <strong>{startLabel}</strong> &ndash;{' '}
-          <strong>{lastLabel}</strong> of <strong>{results.length}</strong>{' '}
-          results for "<strong>{query}</strong>"
-        </h2>
+        <div className="find-forms-search-metadata vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row medium-screen:vads-u-justify-content--space-between">
+          <h2
+            className="vads-u-font-size--base vads-u-line-height--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--1p5"
+            data-forms-focus
+          >
+            Showing <strong>{startLabel}</strong> &ndash;{' '}
+            <strong>{lastLabel}</strong> of <strong>{results.length}</strong>{' '}
+            results for "<strong>{query}</strong>"
+          </h2>
+
+          {/* SORT WIDGET */}
+          {showFindFormsResultsLinkToFormDetailPages && (
+            <Select
+              additionalClass="find-forms-search--sort-select"
+              label="Sort By"
+              includeBlankOption={false}
+              name="findFormsSortBySelect"
+              onValueChange={setSortByPropertyNameState}
+              options={SORT_OPTIONS}
+              value={{ value: sortByPropertyName }}
+            />
+          )}
+        </div>
 
         <dl className="vads-l-grid-container--full">{searchResults}</dl>
 
@@ -189,15 +213,18 @@ export class SearchResults extends Component {
 const mapStateToProps = state => ({
   error: getFindFormsAppState(state).error,
   fetching: getFindFormsAppState(state).fetching,
+  hasOnlyRetiredForms: getFindFormsAppState(state).hasOnlyRetiredForms,
+  sortByPropertyName: getFindFormsAppState(state).sortByPropertyName,
   page: getFindFormsAppState(state).page,
   query: getFindFormsAppState(state).query,
   results: getFindFormsAppState(state).results,
-  hasOnlyRetiredForms: getFindFormsAppState(state).hasOnlyRetiredForms,
-  startIndex: getFindFormsAppState(state).startIndex,
   showFindFormsResultsLinkToFormDetailPages: mvpEnhancements(state),
+  startIndex: getFindFormsAppState(state).startIndex,
 });
 
 const mapDispatchToProps = dispatch => ({
+  updateSortByPropertyName: (sortByPropertyName, results) =>
+    dispatch(updateSortByPropertyNameThunk(sortByPropertyName, results)),
   updatePagination: (page, startIndex) =>
     dispatch(updatePaginationAction(page, startIndex)),
 });
