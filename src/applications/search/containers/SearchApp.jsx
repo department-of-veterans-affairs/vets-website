@@ -61,7 +61,7 @@ class SearchApp extends React.Component {
       this.props.fetchSearchResults(userInput, page, {
         path: document.location.pathname,
         userInput,
-        typeaheadEnabled: undefined,
+        typeaheadEnabled: false,
         keywordSelected: undefined,
         keywordPosition: undefined,
         suggestionsList: undefined,
@@ -106,7 +106,7 @@ class SearchApp extends React.Component {
     this.props.fetchSearchResults(userInput, nextPage, {
       path: document.location.pathname,
       userInput,
-      typeaheadEnabled: undefined,
+      typeaheadEnabled: false,
       keywordSelected: undefined,
       keywordPosition: undefined,
       suggestionsList: undefined,
@@ -151,8 +151,9 @@ class SearchApp extends React.Component {
       'search-results-total-pages': Math.ceil(
         this.props.search?.totalEntries / 10,
       ),
-      'search-selection': 'All VA.gov',
       'search-results-top-recommendation': bestBet,
+      'search-result-type': 'title',
+      'search-selection': 'All VA.gov',
       'search-typeahead-enabled': this.props.searchTypeaheadEnabled,
     });
   };

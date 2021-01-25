@@ -7,10 +7,7 @@ import { DebtLettersTable } from './DebtLettersTable';
 import { MobileTableView } from './MobileTableView';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { setPageFocus } from '../utils/page';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
   useEffect(() => {
@@ -72,39 +69,6 @@ const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
               <DebtLettersTable debtLinks={debtLinks} />
               <MobileTableView debtLinks={debtLinks} />
             </>
-          )}
-        {!isVBMSError &&
-          debtLinks.length < 1 && (
-            <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3">
-              <h2 className="vads-u-font-family--serif vads-u-margin-top--0">
-                We’re collecting again on VA debt
-              </h2>
-              <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
-                On April 3, 2020, we paused collections on new VA debt. On{' '}
-                <strong>January 1, 2021</strong>, we started to send out debt
-                collection letters again. If we granted you an extension due to
-                COVID-19, we’ll start collection again on{' '}
-                <strong>February 1, 2021</strong>.
-              </p>
-              <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
-                If you can’t make your payments, we can help. To avoid late
-                charges, interest, or other collection actions, make a payment
-                or request help now. Call us at{' '}
-                {<Telephone contact={CONTACTS.DMC || '800-827-0648'} />} (or{' '}
-                {
-                  <Telephone
-                    contact={CONTACTS.DMC_OVERSEAS || '1-612-713-6415'}
-                    pattern={PATTERNS.OUTSIDE_US}
-                  />
-                }{' '}
-                from overseas) We’re here Monday through Friday, 7:30 a.m. to
-                7:00 p.m. ET. Or send us a question through our{' '}
-                <a href="https://iris.custhelp.va.gov/app/ask">
-                  {' '}
-                  online question form (called IRIS)
-                </a>
-              </p>
-            </div>
           )}
         <div className="vads-u-margin-bottom--6 vads-u-margin-top--5">
           <h2 className="vads-u-margin-y--0">

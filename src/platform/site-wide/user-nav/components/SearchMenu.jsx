@@ -47,10 +47,16 @@ export class SearchMenu extends React.Component {
       !prevProps.searchTypeaheadEnabled &&
       this.props.searchTypeaheadEnabled
     ) {
-      recordEvent({
-        event: 'phased-roll-out-enabled',
-        'product-description': 'Type Ahead',
-      });
+      const searchTypeaheadLogged = JSON.parse(
+        sessionStorage.getItem('searchTypeaheadLogged'),
+      );
+      if (!searchTypeaheadLogged) {
+        recordEvent({
+          event: 'phased-roll-out-enabled',
+          'product-description': 'Type Ahead',
+        });
+        sessionStorage.setItem('searchTypeaheadLogged', JSON.stringify(true));
+      }
     }
   }
 
