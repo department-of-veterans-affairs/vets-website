@@ -897,7 +897,7 @@ const formConfig = {
               'ui:validations',
               [validateCurrency],
               currencyUI(
-                "Veteran's net income from your farm, ranch, property or business",
+                'Veteran\u2019s net income from your farm, ranch, property or business',
               ),
             ),
             veteranOtherIncome: _.set(
@@ -906,7 +906,7 @@ const formConfig = {
               currencyUI('Veteran\u2019s other income amount'),
             ),
             'view:spouseIncome': {
-              'ui:title': "Spouse's income",
+              'ui:title': 'Spouse\u2019s income',
               'ui:options': {
                 hideIf: formData =>
                   !formData.maritalStatus ||
