@@ -1,6 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
+import { fireEvent, waitFor } from '@testing-library/dom';
+
 import environment from 'platform/utilities/environment';
 import { setFetchJSONFailure } from 'platform/testing/unit/helpers';
 import reducers from '../../../redux/reducer';
@@ -19,7 +21,7 @@ const initialState = {
 };
 
 describe('VAOS <RequestedAppointmentsList>', () => {
-  it('should show va request', async () => {
+  it('should show va request and details onclick', async () => {
     const startDate = moment.utc();
     const appointment = getVARequestMock();
     appointment.attributes = {
@@ -73,6 +75,18 @@ describe('VAOS <RequestedAppointmentsList>', () => {
     expect(await screen.findByText('Primary care')).to.be.ok;
     expect(screen.baseElement).to.contain.text(facility.attributes.name);
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+    fireEvent.click(screen.getByText(/details/i));
+
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0]).to.equal('request/var1234'),
+    );
+
+    expect(await screen.findByText('Pending primary care appointment')).to.be
+      .ok;
+
+    // expect(screen.baseElement).to.contain.text(
+    //   'Pending primary care appointment',
+    // );
   });
 
   it('should show cc request', async () => {
