@@ -745,7 +745,7 @@ const formConfig = {
         },
         spouseInformation: {
           path: 'household-information/spouse-information',
-          title: 'Spouse’s information',
+          title: 'Spouse\u2019s information',
           initialData: {},
           depends: formData =>
             formData.discloseFinancialInformation &&
@@ -779,7 +779,7 @@ const formConfig = {
             },
             spouseSocialSecurityNumber: {
               ...ssnUI,
-              'ui:title': 'Spouse’s Social Security number',
+              'ui:title': 'Spouse\u2019s Social Security number',
             },
             spouseDateOfBirth: currentOrPastDateUI('Spouse’s date of birth'),
             dateOfMarriage: _.assign(currentOrPastDateUI('Date of marriage'), {

@@ -66,7 +66,7 @@ export const uiSchema = {
     'ui:title': 'Dependent\u2019s relationship to you?',
   },
   socialSecurityNumber: _.merge(ssnUI, {
-    'ui:title': 'Dependent’s Social Security number',
+    'ui:title': 'Dependent\u2019s Social Security number',
   }),
   dateOfBirth: currentOrPastDateUI('Dependent’s date of birth'),
   becameDependent: _.assign(
