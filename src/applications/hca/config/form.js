@@ -781,7 +781,9 @@ const formConfig = {
               ...ssnUI,
               'ui:title': 'Spouse\u2019s Social Security number',
             },
-            spouseDateOfBirth: currentOrPastDateUI('Spouse’s date of birth'),
+            spouseDateOfBirth: currentOrPastDateUI(
+              'Spouse\u2019s date of birth',
+            ),
             dateOfMarriage: _.assign(currentOrPastDateUI('Date of marriage'), {
               'ui:validations': [validateMarriageDate],
             }),
