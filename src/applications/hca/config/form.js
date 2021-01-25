@@ -884,19 +884,19 @@ const formConfig = {
             veteranGrossIncome: _.set(
               'ui:validations',
               [validateCurrency],
-              currencyUI('Veteran gross annual income from employment'),
+              currencyUI("Veteran's gross annual income from employment"),
             ),
             veteranNetIncome: _.set(
               'ui:validations',
               [validateCurrency],
               currencyUI(
-                'Veteran net income from your farm, ranch, property or business',
+                "Veteran's net income from your farm, ranch, property or business",
               ),
             ),
             veteranOtherIncome: _.set(
               'ui:validations',
               [validateCurrency],
-              currencyUI('Veteran other income amount'),
+              currencyUI("Veteran's other income amount"),
             ),
             'view:spouseIncome': {
               'ui:title': "Spouse's income",
