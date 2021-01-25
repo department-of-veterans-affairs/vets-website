@@ -46,10 +46,12 @@ class ResponsiveTable extends React.Component {
 
     return (
       <>
-        <dfn className="medium-screen:vads-u-display--none vads-u-font-weight--bold">
-          {mobileHeaderValue}:{' '}
+        <dfn className="vads-u-font-weight--bold">
+          <span className="medium-screen:vads-u-display--none vads-u-font-weight--bold school-name">
+            {mobileHeaderValue}:
+          </span>{' '}
+          <span className="vads-u-font-weight--normal">{cellData}</span>
         </dfn>
-        {cellData}
       </>
     );
   };
@@ -59,7 +61,6 @@ class ResponsiveTable extends React.Component {
     const { key, rowClassName } = row;
     return (
       <>
-        <hr className="responsive-table-row-separator" />
         <tr key={key} className={rowClassName} role="row">
           {columns.map((column, index) => {
             const cellName = createId(column);
