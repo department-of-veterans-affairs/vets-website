@@ -12,7 +12,11 @@ import AlertBox, {
 import * as userNavActions from 'platform/site-wide/user-nav/actions';
 import * as userSelectors from 'platform/user/selectors';
 
-function Introduction({ authButtonEnabled, isLoggedIn, toggleLoginModal }) {
+function Introduction({
+  authButtonDisabled = false,
+  isLoggedIn,
+  toggleLoginModal,
+}) {
   return (
     <>
       <h1>COVID-19 vaccines: Stay informed and help us prepare</h1>
@@ -30,7 +34,24 @@ function Introduction({ authButtonEnabled, isLoggedIn, toggleLoginModal }) {
         country—and when you can get your vaccine if you want one. We’ll also
         offer information and answers to your questions along the way.
       </p>
-      {authButtonEnabled ? (
+      {authButtonDisabled ? (
+        <p>
+          <Link
+            className="usa-button"
+            to="/form"
+            onClick={() => {
+              recordEvent({
+                event: 'cta-button-click',
+                'button-type': 'default',
+                'button-click-label': 'Continue',
+                'button-background-color': '#0071bb',
+              });
+            }}
+          >
+            Continue
+          </Link>
+        </p>
+      ) : (
         <>
           {isLoggedIn ? (
             <Link className="usa-button" to="/form">
@@ -76,23 +97,6 @@ function Introduction({ authButtonEnabled, isLoggedIn, toggleLoginModal }) {
             </>
           )}
         </>
-      ) : (
-        <p>
-          <Link
-            className="usa-button"
-            to="/form"
-            onClick={() => {
-              recordEvent({
-                event: 'cta-button-click',
-                'button-type': 'default',
-                'button-click-label': 'Continue',
-                'button-background-color': '#0071bb',
-              });
-            }}
-          >
-            Continue
-          </Link>
-        </p>
       )}
       <AlertBox
         status={ALERT_TYPE.INFO}
@@ -120,7 +124,7 @@ function Introduction({ authButtonEnabled, isLoggedIn, toggleLoginModal }) {
 const mapStateToProps = state => {
   return {
     isLoggedIn: userSelectors.isLoggedIn(state),
-    authButtonEnabled: !toggleValues(state)[
+    authButtonDisabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.covidVaccineUpdatesDisableAuth
     ],
   };
