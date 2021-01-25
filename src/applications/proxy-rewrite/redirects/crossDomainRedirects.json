@@ -1042,31 +1042,31 @@
   {
     "domain": "www.benefits.va.gov",
     "src": "/PENSION/rates_survivor_pen18.asp",
-    "dest": "https://www.va.gov/pension/survivors-pension-rates/past-rates-2019/"
+    "dest": "/pension/survivors-pension-rates/past-rates-2019/"
   },
   {
     "domain": "www.benefits.va.gov",
     "src": "/PENSION/rates_survivor_pen17.asp",
-    "dest": "https://www.va.gov/pension/survivors-pension-rates/past-rates-2018/"
+    "dest": "/pension/survivors-pension-rates/past-rates-2018/"
   },
   {
     "domain": "www.benefits.va.gov",
     "src": "/PENSION/protected_pension_rate_tables_pen18.asp",
-    "dest": "https://www.va.gov/pension/protected-pension-rates/past-rates-2019/"
+    "dest": "/pension/protected-pension-rates/past-rates-2019/"
   },
   {
     "domain": "www.benefits.va.gov",
     "src": "/PENSION/protected_pension_rate_tables_pen17.asp",
-    "dest": "https://www.va.gov/pension/protected-pension-rates/past-rates-2018/"
+    "dest": "/pension/protected-pension-rates/past-rates-2018/"
   },
   {
     "domain": "www.benefits.va.gov",
     "src": "/PENSION/rates_veteran_pen18.asp",
-    "dest": "https://www.va.gov/pension/veterans-pension-rates/past-rates-2019/"
+    "dest": "/pension/veterans-pension-rates/past-rates-2019/"
   },
   {
     "domain": "www.benefits.va.gov",
     "src": "/PENSION/rates_veteran_pen17.asp",
-    "dest": "https://www.va.gov/pension/veterans-pension-rates/past-rates-2018/"
+    "dest": "/pension/veterans-pension-rates/past-rates-2018/"
   }
 ]
