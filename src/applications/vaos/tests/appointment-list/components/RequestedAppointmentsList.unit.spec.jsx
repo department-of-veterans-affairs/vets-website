@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
-
 import environment from 'platform/utilities/environment';
 import { setFetchJSONFailure } from 'platform/testing/unit/helpers';
 import reducers from '../../../redux/reducer';
