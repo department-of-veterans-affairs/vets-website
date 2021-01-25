@@ -10,7 +10,7 @@ import { waitFor } from '@testing-library/dom';
 import { Route } from 'react-router-dom';
 
 describe('VAOS <DateTimeRequestPage>', () => {
-  it('should allow user to request date and time for a community care appointment', async () => {
+  it.skip('should allow user to request date and time for a community care appointment', async () => {
     const store = createTestStore({
       newAppointment: {
         data: {},
