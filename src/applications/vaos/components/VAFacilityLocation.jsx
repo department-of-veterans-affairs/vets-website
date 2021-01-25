@@ -7,6 +7,7 @@ export default function VAFacilityLocation({
   facility,
   facilityName,
   facilityId,
+  isV2,
 }) {
   let content = null;
 
@@ -40,11 +41,12 @@ export default function VAFacilityLocation({
     );
   }
 
+  const name = clinicName || facilityName || facility?.name;
+
   return (
     <>
-      <h4 className="vaos-appts__block-label">
-        {clinicName || facilityName || facility?.name}
-      </h4>
+      {!isV2 && <h4 className="vaos-appts__block-label">{name}</h4>}
+      {isV2 && name}
       <div>{content}</div>
     </>
   );
