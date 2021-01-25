@@ -3,10 +3,16 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { Route } from 'react-router-dom';
 import { fireEvent } from '@testing-library/react';
+import environment from 'platform/utilities/environment';
+import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 import RequestedAppointmentDetailsPage from '../../../appointment-list/components/RequestedAppointmentDetailsPage';
 import { renderWithStoreAndRouter } from '../../mocks/setup';
-import { getVAFacilityMock, getVARequestMock } from '../../mocks/v0';
+import {
+  getVAFacilityMock,
+  getVARequestMock,
+  getMessageMock,
+} from '../../mocks/v0';
 import { FETCH_STATUS } from '../../../utils/constants';
 import reducers from '../../../redux/reducer';
 import { transformPendingAppointments } from '../../../services/appointment/transformers';
@@ -76,6 +82,20 @@ const initialState = {
 
 describe('VAOS <RequestedAppointmentDetailsPage>', () => {
   it('should render VA request details', async () => {
+    mockFetch();
+    const message = getMessageMock();
+    message.attributes = {
+      ...message.attributes,
+      messageText: 'A message from the patient',
+    };
+
+    setFetchJSONResponse(
+      global.fetch.withArgs(
+        `${environment.API_URL}/vaos/v0/appointment_requests/1234/messages`,
+      ),
+      { data: [message] },
+    );
+
     const { findByText, baseElement } = renderWithStoreAndRouter(
       <Route path="/request/:id">
         <RequestedAppointmentDetailsPage />
@@ -111,6 +131,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       )} in the afternoon`,
     );
     expect(baseElement).to.contain.text('New issue');
+    await findByText(/a message from the patient/i);
     expect(baseElement).to.contain.text('patient.test@va.gov');
     expect(baseElement).to.contain.text('(703) 652-0000');
     expect(baseElement).to.contain.text('Call morning');

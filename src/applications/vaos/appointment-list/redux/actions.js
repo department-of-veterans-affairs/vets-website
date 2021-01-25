@@ -91,6 +91,10 @@ export const FETCH_EXPRESS_CARE_WINDOWS_FAILED =
 export const FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED =
   'vaos/FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED';
 
+function parseFakeFHIRId(id) {
+  return id ? id.replace('var', '') : id;
+}
+
 export function fetchRequestMessages(requestId) {
   return async dispatch => {
     try {
@@ -399,7 +403,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
 export function fetchRequestDetails(id) {
   return async (dispatch, getState) => {
     const state = getState();
-    const { appointmentDetails } = state.appointments;
+    const { appointmentDetails, requestMessages } = state.appointments;
     const pendingAppointments = selectPendingAppointments(state);
     const request =
       appointmentDetails[id] || pendingAppointments?.find(p => p.id === id);
@@ -412,6 +416,13 @@ export function fetchRequestDetails(id) {
       dispatch({ type: FETCH_REQUEST_DETAILS_SUCCEEDED, request, id });
     } else {
       // TODO: fetch single appointment
+    }
+
+    const parsedId = parseFakeFHIRId(id);
+    const messages = requestMessages?.[parsedId];
+
+    if (!messages) {
+      dispatch(fetchRequestMessages(parsedId));
     }
   };
 }
