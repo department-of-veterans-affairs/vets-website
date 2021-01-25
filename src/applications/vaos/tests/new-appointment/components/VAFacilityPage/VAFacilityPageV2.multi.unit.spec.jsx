@@ -466,10 +466,32 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     ).to.be.null;
   });
 
-  it('should show unsupported facilities alert with facility locator tool link', async () => {
+  it.only('should show no valid facilities message with facility data', async () => {
     mockParentSites(['983', '984'], [parentSite983, parentSite984]);
-    mockDirectBookingEligibilityCriteria(parentSiteIds, []);
+    const facilityConfig = getDirectBookingEligibilityCriteriaMock();
+    facilityConfig.attributes.id = '123';
+    facilityConfig.id = '123';
+    facilityConfig.attributes.coreSettings.typeOfCareId = '323';
+    const facilityDetails = getVAFacilityMock();
+    facilityDetails.id = 'vha_123';
+    facilityDetails.attributes.uniqueId = '123';
+    facilityDetails.attributes.name = 'Bozeman VA medical center';
+    facilityDetails.attributes.address = {
+      physical: {
+        zip: 'fake',
+        city: 'Bozeman',
+        state: 'MT',
+        address1: 'fake',
+        address2: null,
+        address3: null,
+      },
+    };
+    facilityDetails.attributes.phone = {
+      main: '4065555858',
+    };
+    mockDirectBookingEligibilityCriteria(parentSiteIds, [facilityConfig]);
     mockRequestEligibilityCriteria(parentSiteIds, []);
+    mockFacilitiesFetch('vha_123', [facilityDetails]);
 
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
@@ -478,11 +500,13 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       store,
     });
 
-    expect(
-      await screen.findByText(
-        /Your registered facilities don’t accept online scheduling for this care right now/i,
-      ),
-    ).to.exist;
+    expect(await screen.findByText(/We couldn’t find a VA facility/i)).to.exist;
+    expect(screen.baseElement).to.contain.text(
+      'None of the facilities where you receive care accepts online appointments for primary care.',
+    );
+    expect(screen.getByText(/Bozeman VA medical center/i)).to.exist;
+    expect(screen.baseElement).to.contain.text('Bozeman, MT');
+    expect(screen.getByText(/406-555-5858/i)).to.exist;
   });
 
   it('should show not supported message when direct is supported and not eligible, and requests are not supported', async () => {
