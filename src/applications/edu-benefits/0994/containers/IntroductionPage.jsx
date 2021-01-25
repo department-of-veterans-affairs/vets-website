@@ -1,7 +1,7 @@
 import React from 'react';
 import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '../components/OMBInfo';
-import * as OMBInfoShared from '@department-of-veterans-affairs/component-library/OMBInfo';
+import OMBInfoShared from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
