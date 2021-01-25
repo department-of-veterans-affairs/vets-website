@@ -15,37 +15,37 @@ export default function ConfirmationPageFooter(props) {
     const facilityId = appointment.attributes.facilityId;
     if (clinic && clinic.phoneNumber && facility && facility.phoneNumber) {
       return (
-        <>
+        <span data-testid="full-details">
           If you have questions about your upcoming appointment, please call
-          your VA provider. You can contact them at {clinic.friendlyName} at
+          your VA provider. You can contact them at {clinic.friendlyName} at{' '}
           <Telephone contact={clinic.phoneNumber} /> or {facility.displayName}{' '}
           at <Telephone contact={facility.phoneNumber} />.
-        </>
+        </span>
       );
     } else if (clinic && clinic.phoneNumber) {
       return (
-        <>
+        <span data-testid="clinic-only-details">
           If you have questions about your upcoming appointment, please call
           your VA provider. You can contact them at {clinic.friendlyName} at{' '}
           <Telephone contact={clinic.phoneNumber} />.
-        </>
+        </span>
       );
     } else if (facility && facility.phoneNumber) {
       return (
-        <>
+        <span data-testid="facility-only-details">
           If you have questions about your upcoming appointment, please call
           your VA provider. You can contact them at {facility.displayName} at{' '}
           <Telephone contact={facility.phoneNumber} />.
-        </>
+        </span>
       );
     } else {
       return (
-        <>
+        <span data-testid="default-details">
           If you have questions about your upcoming appointment,{' '}
           <a href={`/find-locations/facility/vha_${facilityId}`}>
             please call your VA provider
           </a>
-        </>
+        </span>
       );
     }
   };
