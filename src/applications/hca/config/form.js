@@ -759,22 +759,22 @@ const formConfig = {
             spouseFullName: {
               ...fullNameUI,
               first: {
-                'ui:title': 'Spouse’s first name',
+                'ui:title': 'Spouse\u2019s first name',
                 'ui:errorMessages': {
                   required: 'Please enter a first name',
                 },
               },
               last: {
-                'ui:title': 'Spouse’s last name',
+                'ui:title': 'Spouse\u2019s last name',
                 'ui:errorMessages': {
                   required: 'Please enter a last name',
                 },
               },
               middle: {
-                'ui:title': 'Spouse’s middle name',
+                'ui:title': 'Spouse\u2019s middle name',
               },
               suffix: {
-                'ui:title': 'Spouse’s suffix',
+                'ui:title': 'Spouse\u2019s suffix',
               },
             },
             spouseSocialSecurityNumber: {
@@ -891,7 +891,7 @@ const formConfig = {
             veteranGrossIncome: _.set(
               'ui:validations',
               [validateCurrency],
-              currencyUI("Veteran's gross annual income from employment"),
+              currencyUI('Veteran\u2019s gross annual income from employment'),
             ),
             veteranNetIncome: _.set(
               'ui:validations',
@@ -903,7 +903,7 @@ const formConfig = {
             veteranOtherIncome: _.set(
               'ui:validations',
               [validateCurrency],
-              currencyUI("Veteran's other income amount"),
+              currencyUI('Veteran\u2019s other income amount'),
             ),
             'view:spouseIncome': {
               'ui:title': "Spouse's income",
@@ -914,7 +914,7 @@ const formConfig = {
                     formData.maritalStatus.toLowerCase() !== 'separated'),
               },
               spouseGrossIncome: _.merge(
-                currencyUI("Spouse's gross annual income from employment"),
+                currencyUI('Spouse\u2019s gross annual income from employment'),
                 {
                   'ui:required': formData =>
                     formData.maritalStatus &&
@@ -925,7 +925,7 @@ const formConfig = {
               ),
               spouseNetIncome: _.merge(
                 currencyUI(
-                  "Spouse's net income from your farm, ranch, property or business",
+                  'Spouse\u2019s net income from your farm, ranch, property or business',
                 ),
                 {
                   'ui:required': formData =>
@@ -936,7 +936,7 @@ const formConfig = {
                 },
               ),
               spouseOtherIncome: _.merge(
-                currencyUI("Spouse's other income amount"),
+                currencyUI('Spouse\u2019s other income amount'),
                 {
                   'ui:required': formData =>
                     formData.maritalStatus &&

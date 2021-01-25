@@ -50,20 +50,20 @@ export const uiSchema = {
   fullName: {
     ...fullNameUI,
     first: {
-      'ui:title': "Dependent's first name",
+      'ui:title': 'Dependent\u2019s first name',
     },
     last: {
-      'ui:title': "Dependent's last name",
+      'ui:title': 'Dependent\u2019s last name',
     },
     middle: {
-      'ui:title': "Dependent's middle name",
+      'ui:title': 'Dependent\u2019s middle name',
     },
     suffix: {
-      'ui:title': "Dependent's suffix",
+      'ui:title': 'Dependent\u2019s suffix',
     },
   },
   dependentRelation: {
-    'ui:title': 'Dependent’s relationship to you?',
+    'ui:title': 'Dependent\u2019s relationship to you?',
   },
   socialSecurityNumber: _.merge(ssnUI, {
     'ui:title': 'Dependent’s Social Security number',
@@ -109,11 +109,13 @@ export const uiSchema = {
 };
 
 export const dependentIncomeUiSchema = {
-  grossIncome: currencyUI("Dependent's gross annual income from employment"),
-  netIncome: currencyUI(
-    "Dependent's net income from farm, ranch, property or business",
+  grossIncome: currencyUI(
+    'Dependent\u2019s gross annual income from employment',
   ),
-  otherIncome: currencyUI("Dependent's other income amount"),
+  netIncome: currencyUI(
+    'Dependent\u2019s net income from farm, ranch, property or business',
+  ),
+  otherIncome: currencyUI('Dependent\u2019s other income amount'),
   'ui:options': {
     updateSchema: (formData, schema, ui, index) => {
       const name = _.get(`dependents.[${index}].fullName`, formData);
