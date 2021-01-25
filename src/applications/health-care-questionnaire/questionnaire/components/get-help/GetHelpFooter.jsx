@@ -23,20 +23,24 @@ const GetHelpFooter = props => {
     const facility = getFacilityFromAppointment(appointment);
     if (clinic && clinic.phoneNumber) {
       return (
-        <span>
+        <span data-testid="clinic-details">
           You can contact them at {clinic.friendlyName} at{' '}
           <Telephone contact={clinic.phoneNumber} />
         </span>
       );
     } else if (facility && facility.phoneNumber) {
       return (
-        <span>
+        <span data-testid="facility-details">
           You can contact them at {facility.displayName} at{' '}
           <Telephone contact={facility.phoneNumber} />
         </span>
       );
     } else {
-      return <a href={FACILITY_LOCATOR_URL}>Contact your VA provider</a>;
+      return (
+        <a href={FACILITY_LOCATOR_URL} data-testid="default-details">
+          Contact your VA provider
+        </a>
+      );
     }
   };
   return (
