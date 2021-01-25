@@ -21,7 +21,8 @@ function GetFormHelp() {
           contact={CONTACTS.HELP_TTY}
         />
         <br />
-        Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. ET
+        Monday &#8211; Friday, 8:00 a.m. &#8211; 10:00 p.m. ET, and Saturday,
+        8:00 a.m. &#8211; 5:00 p.m. ET.
       </p>
     </div>
   );
