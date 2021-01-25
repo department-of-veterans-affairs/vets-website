@@ -120,7 +120,10 @@ const getClinicFromAppointment = data => {
 
 const getFacilityFromAppointment = data => {
   const clinic = getClinicFromAppointment(data);
-  return clinic?.facility;
+  if (!clinic) {
+    return null;
+  }
+  return clinic.facility;
 };
 
 const getAppointTypeFromAppointment = (data, options = {}) => {
