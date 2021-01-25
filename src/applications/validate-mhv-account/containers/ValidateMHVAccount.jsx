@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import appendQuery from 'append-query';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import { fetchMHVAccount } from 'platform/user/profile/actions';
 
@@ -76,7 +76,7 @@ class ValidateMHVAccount extends React.Component {
       router.replace(`error/needs-va-patient`);
       return;
     }
-    window.location = mhvUrl('home');
+    window.location = mhvUrl(true, 'home');
   };
 
   redirect = () => {
@@ -147,7 +147,7 @@ class ValidateMHVAccount extends React.Component {
       accountLevel === MHV_ACCOUNT_LEVELS.PREMIUM ||
       accountLevel === MHV_ACCOUNT_LEVELS.ADVANCED
     ) {
-      window.location = mhvUrl('home');
+      window.location = mhvUrl(false, 'home');
     } else if (accountLevel === MHV_ACCOUNT_LEVELS.BASIC) {
       router.replace('upgrade-account');
     } else {

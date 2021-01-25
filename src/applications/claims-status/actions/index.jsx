@@ -255,11 +255,22 @@ export function getClaimDetail(id, router, poll = pollRequest) {
     });
     poll({
       onError: response => {
+        /* Claim status development
+           comment out the next block of code to access the claim status, file &
+           details tabs for development
+        /* * /
+        return dispatch({
+          type: SET_CLAIM_DETAIL,
+          claim: response.data,
+          meta: response.meta,
+        });
+        /* */
         if (response.status !== 404 || !router) {
           dispatch({ type: SET_CLAIMS_UNAVAILABLE });
         } else {
           router.replace('your-claims');
         }
+        /* */
       },
       onSuccess: response =>
         dispatch({

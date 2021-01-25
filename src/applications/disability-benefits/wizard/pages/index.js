@@ -6,8 +6,6 @@ import unableToFileBDD from './unable-to-file-bdd';
 import unableToFileBDDProduction from './unable-to-file-bdd-production';
 import fileClaim from './file-claim';
 import fileClaimEarly from './file-claim-early';
-import disagreeing from './disagreeing';
-import decisionReview from './decision-review';
 import disagreeFileClaim from './disagree-file-claim';
 
 export default [
@@ -19,7 +17,5 @@ export default [
   unableToFileBDDProduction,
   fileClaim,
   fileClaimEarly,
-  disagreeing,
-  decisionReview,
   disagreeFileClaim,
 ];

@@ -5,7 +5,7 @@
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
 
 <div itemscope itemtype="https://schema.org/FAQPage">
-  <div id="content" class="interior">
+  <div id="content" class="interior" lang="{{ entityUrl.path | detectLang }}">
     <main class="va-l-detail-page">
       <div class="usa-grid usa-grid-full">
 
@@ -26,6 +26,10 @@
         {% endif %}
 
         <article class="usa-content">
+          <div id="i18-link-wrapper" class="vads-u-display--none vads-u-margin-y--3 medium-screen:vads-u-margin-top--0 medium-screen:vads-u-margin-bottom--3">
+            <i aria-hidden="true" class="fas fa-globe vads-u-color--primary"></i> 
+            <a class="i18-toggle" data-lang="en"></a>
+          </div>
           <h1>{{ title }}</h1>
           <div class="va-introtext">
             <p>{{ fieldIntroText }}</p>

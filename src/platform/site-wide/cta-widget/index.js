@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { logout, verify, mfa } from 'platform/user/authentication/utilities';

@@ -1,7 +1,6 @@
 // Dependencies.
 import * as Sentry from '@sentry/browser';
 import appendQuery from 'append-query';
-import sortBy from 'lodash/sortBy';
 import { apiRequest } from 'platform/utilities/api';
 // Relative imports.
 import STUBBED_RESPONSE from '../constants/stub.json';
@@ -53,6 +52,6 @@ export const fetchFormsApi = async (query, options = {}) => {
 
   return {
     hasOnlyRetiredForms,
-    results: sortBy(onlyValidForms, 'id'),
+    results: onlyValidForms,
   };
 };

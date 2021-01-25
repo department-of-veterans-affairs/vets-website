@@ -17,6 +17,8 @@ import { TITLES, createPathFromTitle } from './utils';
 import manifest from '../manifest.json';
 import { submit, transformForSubmit } from '../api';
 
+import { updateUrls } from './migrations';
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -36,7 +38,8 @@ const formConfig = {
       saved: 'Your questionnaire has been saved.',
     },
   },
-  version: 0,
+  version: 1,
+  migrations: [updateUrls],
   prefillEnabled: true,
   footerContent: GetHelp.footer,
   preSubmitInfo: {

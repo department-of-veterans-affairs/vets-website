@@ -31,6 +31,7 @@ const renderInnerTag = (link, captureEvent) => (
     ) : null}
     {link.href ? (
       <a
+        aria-label={link.ariaLabel}
         href={link.href}
         onClick={captureEvent}
         target={link.target}
@@ -67,6 +68,7 @@ function generateSuperLinks(groupedList) {
       {orderBy(groupedList.bottom_rail, 'order', 'asc').map(link => (
         <li key={`${link.order}`}>
           <a
+            aria-label={link.ariaLabel}
             href={link.href}
             onClick={captureEvent}
             target={link.target}

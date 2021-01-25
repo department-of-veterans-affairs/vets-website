@@ -16,26 +16,31 @@ const getSocialMediaObject = ({ uri, title }) =>
 
 const currentTimeInSeconds = new Date().getTime() / 1000;
 
-const transform = ({
-  title,
-  status,
-  metatag: { value: metaTags },
-  fieldGovdeliveryIdEmerg,
-  fieldGovdeliveryIdNews,
-  fieldOperatingStatus,
-  fieldOtherVaLocations,
-  fieldNicknameForThisFacility,
-  fieldRelatedLinks,
-  fieldLinkFacilityEmergList,
-  reverseFieldRegionPage,
-  reverseFieldOffice,
-  fieldMedia,
-}) => ({
+const transform = (
+  {
+    title,
+    status,
+    metatag: { value: metaTags },
+    fieldIntroText,
+    fieldGovdeliveryIdEmerg,
+    fieldGovdeliveryIdNews,
+    fieldOperatingStatus,
+    fieldOtherVaLocations,
+    fieldNicknameForThisFacility,
+    fieldRelatedLinks,
+    fieldLinkFacilityEmergList,
+    reverseFieldRegionPage,
+    reverseFieldOffice,
+    fieldMedia,
+  },
+  { ancestors },
+) => ({
   entityType: 'node',
   entityBundle: 'health_care_region_page',
   entityPublished: isPublished(getDrupalValue(status)),
   entityLabel: getDrupalValue(title),
   title: getDrupalValue(title),
+  fieldIntroText: getDrupalValue(fieldIntroText),
   fieldGovdeliveryIdEmerg: getDrupalValue(fieldGovdeliveryIdEmerg),
   fieldGovdeliveryIdNews: getDrupalValue(fieldGovdeliveryIdNews),
   fieldOperatingStatus: fieldOperatingStatus[0]
@@ -58,7 +63,11 @@ const transform = ({
   fieldRelatedLinks: fieldRelatedLinks[0],
   entityMetatags: createMetaTagArray(metaTags),
   reverseFieldRegionPageNode: {
-    entities: reverseFieldRegionPage || [],
+    entities: reverseFieldRegionPage
+      ? reverseFieldRegionPage.filter(p => {
+          return !ancestors.find(r => r.entity.uuid === p.uuid);
+        })
+      : [],
   },
   newsStoryTeasers: {
     entities: reverseFieldOffice
@@ -330,6 +339,7 @@ module.exports = {
     'title',
     'status',
     'path',
+    'field_intro_text',
     'field_govdelivery_id_emerg',
     'field_govdelivery_id_news',
     'field_link_facility_emerg_list',

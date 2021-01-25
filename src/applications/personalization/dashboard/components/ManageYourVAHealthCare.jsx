@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import {
   DowntimeNotification,
@@ -8,6 +8,7 @@ import {
 } from 'platform/monitoring/DowntimeNotification';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
 import backendServices from 'platform/user/profile/constants/backendServices';
+import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import {
   isVAPatient as isVAPatientSelector,
   selectCernerAppointmentsFacilities,
@@ -59,6 +60,7 @@ const ManageYourVAHealthCare = ({
   appointmentFacilityNames,
   messagingFacilityNames,
   prescriptionFacilityNames,
+  authenticatedWithSSOe,
   enrollmentDate,
   isInESR,
   preferredFacility,
@@ -118,7 +120,10 @@ const ManageYourVAHealthCare = ({
       </DowntimeNotification>
     )}
     {showCernerMessagingWidget && (
-      <CernerSecureMessagingWidget facilityNames={messagingFacilityNames} />
+      <CernerSecureMessagingWidget
+        facilityNames={messagingFacilityNames}
+        authenticatedWithSSOe={authenticatedWithSSOe}
+      />
     )}
 
     {!showCernerPrescriptionWidget && (
@@ -134,7 +139,10 @@ const ManageYourVAHealthCare = ({
       </DowntimeNotification>
     )}
     {showCernerPrescriptionWidget && (
-      <CernerPrescriptionsWidget facilityNames={prescriptionFacilityNames} />
+      <CernerPrescriptionsWidget
+        facilityNames={prescriptionFacilityNames}
+        authenticatedWithSSOe={authenticatedWithSSOe}
+      />
     )}
 
     {showNonCernerAppointmentWidget && <ScheduleAnAppointmentWidget />}
@@ -199,6 +207,7 @@ const mapStateToProps = state => {
     appointmentFacilityNames,
     messagingFacilityNames,
     prescriptionFacilityNames,
+    authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
   };
 };
 

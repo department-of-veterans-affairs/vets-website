@@ -8,41 +8,14 @@ import CalendarWidget from '../../components/calendar/CalendarWidget';
 import moment from 'moment';
 import { FETCH_STATUS } from '../../utils/constants';
 import { getDateTimeSelect } from '../redux/selectors';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { getRealFacilityId } from '../../utils/appointment';
 
 const pageKey = 'selectDate1';
-const pageTitle = 'Select First Date';
+const pageTitle = 'Select first date';
 
 const missingDateError =
   'Please choose your preferred date and time for your appointment.';
-
-export function getOptionsByDate(
-  selectedDate,
-  timezoneDescription,
-  availableSlots = [],
-) {
-  return availableSlots.reduce((acc, slot) => {
-    if (slot.start.split('T')[0] === selectedDate) {
-      let time = moment(slot.start);
-      if (slot.start.endsWith('Z')) {
-        time = time.tz(timezoneDescription);
-      }
-      const meridiem = time.format('A');
-      const screenReaderMeridiem = meridiem.replace(/\./g, '').toUpperCase();
-      acc.push({
-        value: slot.start,
-        label: (
-          <>
-            {time.format('h:mm')} <span aria-hidden="true">{meridiem}</span>{' '}
-            <span className="sr-only">{screenReaderMeridiem}</span>
-          </>
-        ),
-      });
-    }
-    return acc;
-  }, []);
-}
 
 function ErrorMessage({ facilityId }) {
   return (
@@ -85,8 +58,8 @@ function goForward({
   setSubmitted,
   setValidationError,
 }) {
-  validate({ date: data.selectedDates, setValidationError });
-  if (data.selectedDates?.length) {
+  validate({ date: data.date1, setValidationError });
+  if (data.date1?.length) {
     routeToNextAppointmentPage(history, pageKey);
   } else if (submitted) {
     scrollAndFocus('.usa-input-error-message');
@@ -97,7 +70,6 @@ function goForward({
 
 export function SelectDate1Page({
   appointmentSlotsStatus,
-  availableDates,
   availableSlots,
   data,
   facilityId,
@@ -113,7 +85,7 @@ export function SelectDate1Page({
   const history = useHistory();
   const [submitted, setSubmitted] = useState(false);
   const [validationError, setValidationError] = useState(null);
-  const selectedDates = data.selectedDates;
+  const selectedDates = data.date1;
 
   useEffect(() => {
     getAppointmentSlots(
@@ -151,15 +123,14 @@ export function SelectDate1Page({
       )}
       <CalendarWidget
         maxSelections={1}
-        availableDates={availableDates}
+        availableSlots={availableSlots}
         value={selectedDates}
         additionalOptions={{
           fieldName: 'datetime',
           required: true,
-          maxSelections: 1,
-          getOptionsByDate: selectedDate =>
-            getOptionsByDate(selectedDate, timezone, availableSlots),
         }}
+        id="dateTime"
+        timezone={timezoneDescription}
         loadingStatus={appointmentSlotsStatus}
         loadingErrorMessage={
           <ErrorMessage
@@ -169,7 +140,7 @@ export function SelectDate1Page({
         }
         onChange={dates => {
           validate({ dates, setValidationError });
-          onCalendarChange(dates);
+          onCalendarChange(dates, pageKey);
         }}
         onClickNext={getAppointmentSlots}
         onClickPrev={getAppointmentSlots}

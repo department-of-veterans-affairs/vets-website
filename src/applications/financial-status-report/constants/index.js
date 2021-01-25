@@ -28,7 +28,7 @@ export const SCHEMA_DEFINITIONS = {
   },
   address: {
     type: 'string',
-    maxLength: 20,
+    maxLength: 50,
     pattern: "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$",
   },
   city: {
