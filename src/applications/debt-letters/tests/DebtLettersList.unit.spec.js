@@ -94,7 +94,6 @@ describe('DebtLettersList', () => {
     };
     const wrapper = shallow(<DebtLettersList store={fakeStoreEmptyState} />);
     expect(wrapper.dive().find(`table`).length).to.equal(0);
-    expect(wrapper.dive().find('CoronaVirusAlert').length).to.equal(1);
     wrapper.unmount();
   });
 });
