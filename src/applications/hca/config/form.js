@@ -397,6 +397,7 @@ const formConfig = {
             veteranAddress: _.merge(addressUI('Mailing address', true), {
               'ui:description': <AddressDescription addressType="mailing" />,
               street: {
+                'ui:title': 'Street address',
                 'ui:errorMessages': {
                   pattern:
                     'Please provide a valid street. Must be at least 1 character.',
@@ -461,6 +462,7 @@ const formConfig = {
             veteranHomeAddress: _.merge(addressUI('Home address', true), {
               'ui:description': <AddressDescription addressType="home" />,
               street: {
+                'ui:title': 'Street address',
                 'ui:errorMessages': {
                   pattern:
                     'Please provide a valid street. Must be at least 1 character.',
@@ -806,11 +808,16 @@ const formConfig = {
                 expandUnder: 'sameAddress',
                 expandUnderCondition: false,
               },
-              spouseAddress: addressUI(
-                '',
-                true,
-                formData => formData.sameAddress === false,
-              ),
+              spouseAddress: {
+                ...addressUI(
+                  '',
+                  true,
+                  formData => formData.sameAddress === false,
+                ),
+                street: {
+                  'ui:title': 'Street address',
+                },
+              },
               spousePhone: phoneUI(),
             },
           },
