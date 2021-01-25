@@ -34,7 +34,7 @@ const initialState = {
   user: {
     profile: {
       facilities: [
-        { facilityId: '983', isCerner: false },
+        { facilityId: '983', isCerner: true },
         { facilityId: '984', isCerner: false },
       ],
     },
