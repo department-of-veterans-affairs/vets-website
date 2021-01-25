@@ -17,7 +17,8 @@ export const schema = {
       title: ' ',
       minItems: 0,
       items: {
-        type: 'string',
+        type: 'object',
+        properties: {},
       },
     },
   },
