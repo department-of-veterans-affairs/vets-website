@@ -251,8 +251,10 @@ const formConfig = {
       title: 'Resolution options',
       pages: {
         resolutionOptions: {
-          path: 'resolution-options',
+          path: 'resolution-options/:index',
           title: 'Resolution options',
+          showPagePerItem: true,
+          arrayPath: 'fsrDebts',
           uiSchema: resolutionOptions.uiSchema,
           schema: resolutionOptions.schema,
         },

@@ -27,18 +27,15 @@ const configureTranslationLink = (e, targetLang) => {
 const displayTranslationLink = () => {
   const i18LinkWrapper = document.getElementById('i18-link-wrapper');
   if (!i18LinkWrapper) return;
-  const isSpanish =
-    window.location.href.includes('-esp') ||
-    window.location.href.includes('nodeId=14580');
-  const translatableLinks = [
-    // uncomment the below line once we get through staging review and remove references to preview node
-    // 'coronavirus-veteran-frequently-asked-questions',
-    'coronavirus-veteran-frequently-asked-questions-esp',
-    'nodeId=14580',
-  ];
-  const isTranslatable = translatableLinks.some(url =>
-    window.location.href.includes(url),
-  );
+  const isSpanish = window.location.href.endsWith('-esp/');
+
+  const translatableLinks = new Set([
+    '/coronavirus-veteran-frequently-asked-questions/',
+    '/coronavirus-veteran-frequently-asked-questions-esp/',
+  ]);
+
+  const isTranslatable = translatableLinks.has(document.location.pathname);
+
   if (!isTranslatable) return;
 
   if (i18LinkWrapper.classList.contains('vads-u-display--none')) {

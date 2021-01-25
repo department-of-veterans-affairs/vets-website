@@ -17,6 +17,7 @@
     "build:webpack:local": "yarn build:webpack --env.buildtype localhost",
     "cms:compare": "./script/cms/compare.sh",
     "cms:diff": "./script/cms/diff.sh",
+    "cms:diff:json": "node script/cms/compare-json.js",
     "cms:find-node": "./script/cms/find_node.sh",
     "debug:webpack:prod": "NODE_ENV=production NODE_OPTIONS=--max-old-space-size=4096 node --inspect --inspect-brk ./node_modules/webpack/bin/webpack.js --config config/webpack.config.js --env.buildtype vagovprod",
     "cy:open": "cypress open --config-file config/cypress.json",
@@ -287,6 +288,7 @@
     "cookie-parser": "^1.4.5",
     "core-js": "^3.8.1",
     "cy-mobile-commands": "^0.2.1",
+    "deep-diff": "^1.0.2",
     "downloadjs": "^1.4.7",
     "downshift": "^1.22.5",
     "express": "^4.17.1",
@@ -347,7 +349,7 @@
     "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#6fa2f985fdccf884330f61b94619ce13ddaf85a7",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#e16f99ea509943e15887b8f7e8155ff23f584992",
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {

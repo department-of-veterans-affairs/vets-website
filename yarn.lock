@@ -5657,6 +5657,11 @@ decompress@^4.2.1:
     pify "^2.3.0"
     strip-dirs "^2.0.0"
 
+deep-diff@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/deep-diff/-/deep-diff-1.0.2.tgz#afd3d1f749115be965e89c63edc7abb1506b9c26"
+  integrity sha512-aWS3UIVH+NPGCD1kki+DCU9Dua032iSsO43LqQpcs4R3+dVv7tX0qBGjiVHJHjplsoUM2XRO/KB92glqc68awg==
+
 deep-eql@0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/deep-eql/-/deep-eql-0.1.3.tgz#ef558acab8de25206cd713906d74e56930eb69f2"
@@ -18596,9 +18601,9 @@ verror@1.3.6:
   dependencies:
     extsprintf "1.0.2"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#6fa2f985fdccf884330f61b94619ce13ddaf85a7":
-  version "18.6.0"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#6fa2f985fdccf884330f61b94619ce13ddaf85a7"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#e16f99ea509943e15887b8f7e8155ff23f584992":
+  version "18.6.1"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#e16f99ea509943e15887b8f7e8155ff23f584992"
 
 vinyl-file@^2.0.0:
   version "2.0.0"
