@@ -91,7 +91,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     });
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
-      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
       calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
@@ -293,7 +293,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     await setTypeOfFacility(store, /Community Care/i);
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
-      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
       calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
@@ -329,7 +329,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     await setTypeOfFacility(store, /Community Care/i);
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
-      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
       calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
@@ -366,7 +366,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
-      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
       calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
@@ -401,7 +401,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
-      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
       calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
@@ -452,7 +452,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     mockCCProviderFetch(
       currentPosition,
-      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
       calculateBoundingBox(
         currentPosition.latitude,
         currentPosition.longitude,
@@ -499,7 +499,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
-      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
       calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,

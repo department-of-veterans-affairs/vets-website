@@ -7,6 +7,10 @@
   "supportFile": "src/platform/testing/e2e/cypress/support/index.js",
   "testFiles": "**/tests/**/*.cypress.spec.js?(x)",
   "waitForAnimations": false,
+  "retries": {
+    "runMode": 2,
+    "openMode": 0
+  },
   "env": {
     "vaTopMobileViewports": [
       {
