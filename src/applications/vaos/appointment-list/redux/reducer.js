@@ -156,7 +156,7 @@ export default function appointmentsReducer(state = initialState, action) {
       };
     }
     case FETCH_REQUEST_DETAILS_SUCCEEDED: {
-      const appointmentDetails = state.appointmentDetails;
+      const appointmentDetails = { ...state.appointmentDetails };
 
       appointmentDetails[action.id] = action.request;
 
