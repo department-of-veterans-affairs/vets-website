@@ -5,6 +5,7 @@ module.exports = `
     ${entityElementsFromPages}
     changed
     fieldFacilityLocatorApiId
+    fieldNicknameForThisFacility
     title
     fieldIntroText
     fieldLocationServices {

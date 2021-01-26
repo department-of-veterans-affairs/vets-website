@@ -1,18 +1,27 @@
 /* eslint-disable camelcase */
 const { getDrupalValue, getWysiwygString } = require('./helpers');
 
-const getFieldFacilityLocationObject = ({ title, entityUrl }) =>
+const getFieldFacilityLocationObject = ({
+  title,
+  entityUrl,
+  fieldNicknameForThisFacility,
+  field_nickname_for_this_facility,
+}) =>
   typeof title === 'object'
     ? {
         entity: {
           title: getDrupalValue(title),
           entityUrl,
+          fieldNicknameForThisFacility: getDrupalValue(
+            field_nickname_for_this_facility,
+          ),
         },
       }
     : {
         entity: {
           title,
           entityUrl,
+          fieldNicknameForThisFacility,
         },
       };
 

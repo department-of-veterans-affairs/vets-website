@@ -21,6 +21,7 @@ module.exports = `
           fieldOtherVaLocations
           entityLabel
           title
+          fieldNicknameForThisFacility
         }
       }
     }

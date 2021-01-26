@@ -66,6 +66,7 @@ module.exports = `
         ... on NodeHealthCareRegionPage {
           entityLabel
           title
+          fieldNicknameForThisFacility
         }
       }
     }

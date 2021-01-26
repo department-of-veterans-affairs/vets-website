@@ -16,6 +16,7 @@ module.exports = {
           fieldFacilityLocation: {
             entity: {
               title: { type: 'string' },
+              fieldNicknameForThisFacility: { type: 'string' },
             },
           },
         },

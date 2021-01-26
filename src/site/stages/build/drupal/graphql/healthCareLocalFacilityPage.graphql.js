@@ -8,6 +8,7 @@ module.exports = `
     ${entityElementsFromPages}
     changed
     fieldFacilityLocatorApiId
+    fieldNicknameForThisFacility
     title
     fieldIntroText
     fieldOperatingStatusFacility
@@ -57,6 +58,7 @@ module.exports = `
           entityId
           entityPublished
           title
+          fieldNicknameForThisFacility
           fieldRelatedLinks {
             entity {
               ... listOfLinkTeasers
