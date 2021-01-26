@@ -129,18 +129,19 @@ app.get('/preview', async (req, res, next) => {
           );
         },
       ),
-      fetch(
-        `${urls[options.buildtype]}/generated/headerFooter.json`,
-      ).then(resp => {
-        if (resp.ok) {
-          return resp.json();
-        }
-        throw new Error(
-          `HTTP error when fetching header/footer data: ${resp.status} ${
-            resp.statusText
-          }`,
-        );
-      }),
+
+      fetch(`${urls[options.buildtype]}/generated/headerFooter.json`).then(
+        resp => {
+          if (resp.ok) {
+            return resp.json();
+          }
+          throw new Error(
+            `HTTP error when fetching header/footer data: ${resp.status} ${
+              resp.statusText
+            }`,
+          );
+        },
+      ),
     ];
 
     const [drupalData, fileManifest, headerFooterData] = await Promise.all(
