@@ -14,7 +14,6 @@ export default Object.freeze({
   vaOnlineSchedulingRequests: 'vaOnlineSchedulingRequests',
   vaOnlineSchedulingCommunityCare: 'vaOnlineSchedulingCommunityCare',
   vaOnlineSchedulingDirect: 'vaOnlineSchedulingDirect',
-  vaOnlineSchedulingPast: 'vaOnlineSchedulingPast',
   vaOnlineSchedulingVSPAppointmentList: 'vaOnlineSchedulingVspAppointmentList',
   vaOnlineSchedulingVSPAppointmentNew: 'vaOnlineSchedulingVspAppointmentNew',
   vaOnlineSchedulingCCSPAppointmentList:
@@ -22,7 +21,6 @@ export default Object.freeze({
   vaOnlineSchedulingCCSPRequestNew: 'vaOnlineSchedulingCcspRequestNew',
   vaOnlineSchedulingVSPRequestList: 'vaOnlineSchedulingVspRequestList',
   vaOnlineSchedulingVSPRequestNew: 'vaOnlineSchedulingVspRequestNew',
-  vaOnlineSchedulingExpressCare: 'vaOnlineSchedulingExpressCare',
   vaOnlineSchedulingExpressCareNew: 'vaOnlineSchedulingExpressCareNew',
   vaOnlineSchedulingFlatFacilityPage: 'vaOnlineSchedulingFlatFacilityPage',
   vaOnlineSchedulingFlatFacilityPageSacramento:
