@@ -19,6 +19,7 @@
 					"name": "CHY PC VAR2",
 					"askForCheckIn": false,
 					"facilityCode": "983",
+					"phoneNumber":"5558675309",
 					"facility": {
 						"displayName": "VDS Facility Display Name"
 					},
