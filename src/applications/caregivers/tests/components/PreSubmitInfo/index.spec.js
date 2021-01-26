@@ -4,7 +4,7 @@ import {
   veteranSignatureContent,
   primaryCaregiverContent,
   secondaryCaregiverContent,
-} from 'applications/caregivers/definitions/content.js';
+} from 'applications/caregivers/definitions/content';
 
 describe('SignatureBox content', () => {
   it('veteranSignatureContent has not changed', () => {

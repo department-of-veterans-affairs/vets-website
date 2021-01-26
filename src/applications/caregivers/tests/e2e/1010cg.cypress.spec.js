@@ -1,24 +1,28 @@
 import path from 'path';
 
-import testForm from 'platform/testing/e2e/cypress/support/form-tester';
-import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import formConfig from 'applications/caregivers/config/form';
 import manifest from 'applications/caregivers/manifest.json';
+import testForm from 'platform/testing/e2e/cypress/support/form-tester';
+import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
+import {
+  veteranSignatureContent,
+  primaryCaregiverContent,
+  secondaryCaregiverContent,
+} from 'applications/caregivers/definitions/content';
 
 const veteranLabel = `Veteran\u2019s`;
 const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
 const secondaryOneLabel = `Secondary Family Caregiver applicant\u2019s`;
 const secondaryTwoLabel = `Secondary Family Caregiver (2) applicant\u2019s`;
 
+// 'secondaryOneOnly',
+// 'oneSecondaryCaregivers',
+// 'twoSecondaryCaregivers',
+
 const testSecondaryTwo = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: [
-      'requiredOnly',
-      'secondaryOneOnly',
-      'oneSecondaryCaregivers',
-      'twoSecondaryCaregivers',
-    ],
+    dataSets: ['requiredOnly'],
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
       mocks: path.join(__dirname, 'fixtures', 'mocks'),
@@ -130,6 +134,14 @@ const testSecondaryTwo = createTestConfig(
                 .check();
               break;
             default:
+              // check veteran content
+              cy.get(`[data-testid=${veteranLabel}]`)
+                .contains(veteranSignatureContent[0], {
+                  matchCase: true,
+                  log: true,
+                })
+                .should('not.be.empty');
+
               cy.findByTestId(veteranLabel)
                 .find('input')
                 .first()
