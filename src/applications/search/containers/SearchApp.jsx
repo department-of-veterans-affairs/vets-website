@@ -19,6 +19,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import { apiRequest } from 'platform/utilities/api';
 
 import SearchBreadcrumbs from '../components/SearchBreadcrumbs';
 
@@ -139,10 +140,12 @@ class SearchApp extends React.Component {
       ? bestBetPosition
       : normalResultPosition;
 
+    const query = this.props.router?.location?.query?.query || '';
+
     recordEvent({
       event: 'onsite-search-results-click',
       'search-page-path': document.location.pathname,
-      'search-query': this.state.userInput,
+      'search-query': query,
       'search-result-chosen-page-url': url,
       'search-result-chosen-title': title,
       'search-results-pagination-current-page': this.props.search?.currentPage,
@@ -156,6 +159,19 @@ class SearchApp extends React.Component {
       'search-selection': 'All VA.gov',
       'search-typeahead-enabled': this.props.searchTypeaheadEnabled,
     });
+
+    const encodedUrl = encodeURIComponent(url);
+    const userAgent = encodeURIComponent(navigator.userAgent);
+    const searchClickTrackingEndpoint = `/search_click_tracking`;
+    const encodedQuery = encodeURIComponent(query);
+    const apiRequestOptions = {
+      method: 'POST',
+    };
+
+    apiRequest(
+      `${searchClickTrackingEndpoint}?position=${searchResultPosition}&query=${encodedQuery}&url=${encodedUrl}&user_agent=${userAgent}`,
+      apiRequestOptions,
+    );
   };
 
   renderResults() {
