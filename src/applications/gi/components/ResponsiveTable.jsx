@@ -25,9 +25,18 @@ class ResponsiveTable extends React.Component {
     // Default to column value displayed on desktop
     let mobileHeaderValue = column;
 
-    const stringCellData = value => (
-      <span className={'vads-u-margin-0'}>{value}</span>
-    );
+    const stringCellData = value =>
+      value.length < 20 || screen.width > 320 ? (
+        <span className={'vads-u-margin-0'}>{value}</span>
+      ) : (
+        <span className={'vads-u-margin-0'}>
+          {value.substring(0, value.length - 6)}
+          <br />
+          <span className="zipcode-margin">
+            {value.substring(value.length - 5, value.length)}
+          </span>
+        </span>
+      );
 
     if (typeof columnData === 'string') {
       cellData = stringCellData(columnData);
