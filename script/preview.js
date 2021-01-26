@@ -130,7 +130,7 @@ app.get('/preview', async (req, res, next) => {
         },
       ),
       fetch(
-        `${urls[options.buildtype]}/generated/drupalHeaderFooter.json`,
+        `${urls[options.buildtype]}/generated/headerFooter.json`,
       ).then(resp => {
         if (resp.ok) {
           return resp.json();

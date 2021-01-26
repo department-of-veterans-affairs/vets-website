@@ -7,40 +7,6 @@ const {
   formatHeaderData: convertDrupalHeaderData,
 } = require('../drupal/menus');
 
-function replaceWithDrupalLinks(data, files) {
-  let current = data;
-  if (Array.isArray(data)) {
-    // This means we're always creating a shallow copy of arrays, but
-    // that seems worth the complexity trade-off
-    current = data.map(item => replaceWithDrupalLinks(item, files));
-  } else if (!!current && typeof current === 'object') {
-    Object.keys(current).forEach(key => {
-      let newValue = current;
-
-      if (
-        key === 'href' &&
-        files[
-          `drupal${current[key]
-            .replace('https://www.va.gov', '')
-            .replace(/\/$/, '')}/index.html`
-        ]
-      ) {
-        newValue = current[key].replace('www.va.gov/', 'www.va.gov/drupal/');
-      } else {
-        newValue = replaceWithDrupalLinks(current[key], files);
-      }
-
-      if (newValue !== current[key]) {
-        current = Object.assign({}, current, {
-          [key]: newValue,
-        });
-      }
-    });
-  }
-
-  return current;
-}
-
 function createHeaderFooterData(buildOptions) {
   return (files, metalsmith, done) => {
     const megaMenuData = convertDrupalHeaderData(
@@ -53,36 +19,19 @@ function createHeaderFooterData(buildOptions) {
       megaMenuData,
     };
 
-    const serialized = JSON.stringify(headerFooter);
+    const stringified = JSON.stringify(headerFooter);
 
-    const drupalMenu = DRUPALS.PREFIXED_ENVIRONMENTS.has(buildOptions.buildtype)
-      ? replaceWithDrupalLinks(headerFooter, files)
-      : headerFooter;
-    const drupalMenuSerialized = JSON.stringify(drupalMenu);
-
-    const drupalMenuSerializedEscaped = jsesc(drupalMenuSerialized, {
-      json: true,
-      isScriptContext: true,
-    });
-
-    Object.keys(files).forEach(file => {
-      if (files[file].isDrupalPage) {
-        // eslint-disable-next-line no-param-reassign
-        files[file].headerFooterData = drupalMenuSerializedEscaped;
-      } else {
-        // eslint-disable-next-line no-param-reassign
-        files[file].headerFooterData = serialized;
-      }
+    metalsmith.metadata({
+      headerFooterData: jsesc(stringified, {
+        json: true,
+        isScriptContext: true,
+      }),
+      ...metalsmith.metadata(),
     });
 
     // eslint-disable-next-line no-param-reassign
     files['generated/headerFooter.json'] = {
-      contents: Buffer.from(serialized),
-    };
-
-    // eslint-disable-next-line no-param-reassign
-    files['generated/drupalHeaderFooter.json'] = {
-      contents: Buffer.from(drupalMenuSerialized),
+      contents: Buffer.from(stringified),
     };
 
     done();
