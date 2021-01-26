@@ -107,8 +107,7 @@ describe('VAOS request flow', () => {
     initAppointmentListMock();
     initVARequestMock();
     fillOutForm(() => {
-      cy.findByLabelText(/CHYSHR/).click();
-      cy.findByLabelText('CHYSHR-Sidney VA Clinic (Sidney, NE)').click();
+      cy.findByLabelText(/Sidney/).click();
     });
   });
   it('should submit form successfully for a single system user', () => {
@@ -122,12 +121,12 @@ describe('VAOS request flow', () => {
       },
     });
     fillOutForm(() => {
-      cy.findByLabelText('CHYSHR-Sidney VA Clinic (Sidney, NE)').click();
+      cy.findByLabelText(/Sidney/).click();
     });
   });
   it('should submit form successfully for a user with single system and enabled facility', () => {
     initAppointmentListMock();
-    initVARequestMock();
+    initVARequestMock({ facilityPageV2Enabled: false });
     cy.route({
       method: 'GET',
       url: '/vaos/v0/facilities**',

@@ -36,7 +36,6 @@ describe('VAOS <DateTimeRequestPage>', () => {
       }),
     ).to.be.ok;
 
-    // it should display 2 calendar months for community care appointments
     expect(
       screen.getByRole('heading', {
         level: 2,
@@ -58,12 +57,31 @@ describe('VAOS <DateTimeRequestPage>', () => {
     ]);
 
     // Find all available appointments for the current month
-    const currentMonth = moment()
+    let currentMonth = moment()
       .add(5, 'days')
       .format('MMMM');
-    const buttons = screen
+
+    let buttons = screen
       .getAllByLabelText(new RegExp(currentMonth))
       .filter(button => button.disabled === false);
+
+    // Towards the end of the month our 4 days out min date will be in the next
+    // month, and we need to move the calendar to the next month before selecting a date
+    if (!buttons.length) {
+      userEvent.click(screen.getByText('Next'));
+      await screen.findByRole('heading', {
+        name: moment()
+          .add(1, 'month')
+          .format('MMMM YYYY'),
+      });
+      currentMonth = moment()
+        .add(1, 'month')
+        .format('MMMM');
+
+      buttons = screen
+        .getAllByLabelText(new RegExp(currentMonth))
+        .filter(button => button.disabled === false);
+    }
 
     // it should allow the user to select morning for currently selected date
     userEvent.click(buttons[0]);

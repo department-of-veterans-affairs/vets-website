@@ -15,7 +15,7 @@ const scrollToTop = () => {
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
-    focusElement('.schemaform-title > h1');
+    focusElement('.confirmation-page-title');
     scrollToTop();
   }
 

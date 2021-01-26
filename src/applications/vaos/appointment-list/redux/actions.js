@@ -10,7 +10,6 @@ import {
 import { recordItemsRetrieved, resetDataLayer } from '../../utils/events';
 import {
   selectSystemIds,
-  selectFeatureExpressCare,
   selectFeatureHomepageRefresh,
 } from '../../redux/selectors';
 
@@ -191,12 +190,10 @@ export function fetchFutureAppointments() {
               event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
             });
 
-            if (selectFeatureExpressCare(getState())) {
-              recordItemsRetrieved(
-                'express_care',
-                requests.filter(appt => appt.vaos.isExpressCare).length,
-              );
-            }
+            recordItemsRetrieved(
+              'express_care',
+              requests.filter(appt => appt.vaos.isExpressCare).length,
+            );
 
             return requests;
           })
@@ -298,12 +295,10 @@ export function fetchPendingAppointments() {
         event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
       });
 
-      if (selectFeatureExpressCare(getState())) {
-        recordItemsRetrieved(
-          'express_care',
-          pendingAppointments.filter(appt => appt.vaos.isExpressCare).length,
-        );
-      }
+      recordItemsRetrieved(
+        'express_care',
+        pendingAppointments.filter(appt => appt.vaos.isExpressCare).length,
+      );
 
       try {
         const facilityData = await getAdditionalFacilityInfo(

@@ -85,7 +85,10 @@ export const Form526Entry = ({
   };
 
   useEffect(() => {
-    if (defaultWizardState === WIZARD_STATUS_COMPLETE) {
+    if (
+      window.location.pathname.endsWith('/introduction') &&
+      defaultWizardState === WIZARD_STATUS_COMPLETE
+    ) {
       setPageFocus('h1');
       setWizardStatus(WIZARD_STATUS_COMPLETE);
     } else if (defaultWizardState === WIZARD_STATUS_NOT_STARTED) {

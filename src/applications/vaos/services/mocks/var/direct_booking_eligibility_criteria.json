@@ -978,6 +978,7 @@
           {
             "id": "143",
             "typeOfCare": "Sleep Medicine – Home Sleep Testing",
+            "patientHistoryRequired": "No",
             "patientHistoryDuration": 0,
             "stopCodes": [
               {
