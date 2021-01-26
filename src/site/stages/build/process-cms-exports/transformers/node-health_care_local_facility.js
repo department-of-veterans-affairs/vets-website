@@ -65,9 +65,6 @@ const transform = (entity, { ancestors }) => ({
       ? { entity: getImageCrop(entity.fieldMedia[0], '_32MEDIUMTHUMBNAIL') }
       : null,
   fieldMentalHealthPhone: getDrupalValue(entity.fieldMentalHealthPhone),
-  fieldNicknameForThisFacility: getDrupalValue(
-    entity.fieldNicknameForThisFacility,
-  ),
   fieldOperatingStatusFacility: getDrupalValue(
     entity.fieldOperatingStatusFacility,
   ),
@@ -102,7 +99,6 @@ module.exports = {
     'field_main_location',
     'field_media',
     'field_mental_health_phone',
-    'field_nickname_for_this_facility',
     'field_operating_status_facility',
     'field_operating_status_more_info',
     'field_phone_number',
