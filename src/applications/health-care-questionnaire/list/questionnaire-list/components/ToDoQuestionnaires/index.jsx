@@ -5,6 +5,7 @@ import moment from 'moment';
 import QuestionnaireItem from '../QuestionnaireItem';
 import EmptyMessage from '../Messages/EmptyMessage';
 import ServiceDown from '../Messages/ServiceDown';
+import AnswerQuestions from '../Shared/Buttons/AnswerQuestions';
 
 const index = props => {
   const { questionnaires } = props;
@@ -20,31 +21,30 @@ const index = props => {
               data-testid="questionnaire-list"
               className="questionnaire-list toDo"
             >
-              {questionnaires.map(questionnaire => {
-                const { appointment } = questionnaire;
+              {questionnaires.map(data => {
+                const { appointment, questionnaire } = data;
                 return (
                   <QuestionnaireItem
                     key={appointment.id}
-                    data={questionnaire}
+                    data={data}
                     Actions={() => (
-                      <a
-                        className="usa-button va-button answer-button"
-                        href={`/health-care/health-questionnaires/questionnaires/answer-questions?id=${
-                          appointment.id
-                        }`}
-                        aria-label={`Fill out your pre-appointment questionnaire for your primary care visit at ${
-                          appointment.facilityName
-                        } on ${moment(appointment.appointmentTime).format(
-                          'MMMM, D, YYYY',
-                        )}`}
-                      >
-                        <span>Answer questions</span>
-                        <i className={`fa fa-chevron-right`} />
-                      </a>
+                      <AnswerQuestions
+                        id={appointment.id}
+                        facilityName={
+                          appointment.attributes.vdsAppointments[0].clinic
+                            .facility.displayName
+                        }
+                        appointmentTime={
+                          appointment.attributes.vdsAppointments[0]
+                            .appointmentTime
+                        }
+                        status={questionnaire[0].questionnaireResponse.status}
+                      />
                     )}
                     DueDate={() => {
                       const dueDate = moment(
-                        appointment.appointmentTime,
+                        appointment.attributes.vdsAppointments[0]
+                          .appointmentTime,
                       ).subtract(1, 'day');
                       const meridiem = dueDate.hours() > 12 ? 'p.m.' : 'a.m.';
                       return (

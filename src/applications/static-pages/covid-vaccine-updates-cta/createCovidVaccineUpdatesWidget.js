@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 
 export default function createCovidVaccineUpdatesWidget(store, _widgetType) {
   const isCovidVaccineUpdatesPage =
@@ -19,7 +20,12 @@ export default function createCovidVaccineUpdatesWidget(store, _widgetType) {
     import(/* webpackChunkName: "CovidVaccineUpdatesCTA" */
     './widget').then(module => {
       const CovidVaccineUpdatesCTA = module.default;
-      ReactDOM.render(<CovidVaccineUpdatesCTA store={store} />, reactRoot);
+      ReactDOM.render(
+        <Provider store={store}>
+          <CovidVaccineUpdatesCTA />
+        </Provider>,
+        reactRoot,
+      );
     });
   }
 }
