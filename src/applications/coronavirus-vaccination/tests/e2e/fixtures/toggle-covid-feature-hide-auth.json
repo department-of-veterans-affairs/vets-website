@@ -8,7 +8,7 @@
       },
       {
         "name": "covid_vaccine_registration_frontend_hide_auth",
-        "value": false
+        "value": true
       }
     ]
   }
