@@ -5,10 +5,10 @@ import moment from 'moment';
 import QuestionnaireItem from '../QuestionnaireItem';
 import EmptyMessage from '../Messages/EmptyMessage';
 import ServiceDown from '../Messages/ServiceDown';
+import ViewAndPrint from '../Shared/Buttons/ViewAndPrint';
 
 const index = props => {
   const { questionnaires } = props;
-
   return (
     <div id="tabpanel_completed">
       <h2 className="questionnaire-list-header">Completed questionnaires</h2>
@@ -21,23 +21,19 @@ const index = props => {
               data-testid="questionnaire-list"
               className="questionnaire-list completed"
             >
-              {questionnaires.map(questionnaire => {
-                const { questionnaireResponse } = questionnaire;
+              {questionnaires.map(data => {
+                const { questionnaire, appointment } = data;
                 return (
                   <QuestionnaireItem
-                    key={questionnaire.appointment.id}
-                    data={questionnaire}
-                    Actions={() => (
-                      <button className="va-button">
-                        View and print questions
-                      </button>
-                    )}
+                    key={appointment.id}
+                    data={data}
+                    Actions={() => <ViewAndPrint />}
                     DueDate={() => (
                       <p className="completed-date">
                         Submitted on{' '}
-                        {moment(questionnaireResponse.submittedOn).format(
-                          'MMMM D, YYYY',
-                        )}
+                        {moment(
+                          questionnaire[0].questionnaireResponse.submittedOn,
+                        ).format('MMMM D, YYYY')}
                       </p>
                     )}
                   />
