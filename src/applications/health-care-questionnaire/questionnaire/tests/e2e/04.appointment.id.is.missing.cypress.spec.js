@@ -15,6 +15,6 @@ describe('health care questionnaire -- appointment id is required --', () => {
     cy.visit(
       '/health-care/health-questionnaires/questionnaires/answer-questions/introduction',
     );
-    cy.get('h1').contains('Answer primary care questionnaire');
+    cy.get('h1').contains('Your health questionnaires');
   });
 });
