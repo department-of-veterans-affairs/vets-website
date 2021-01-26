@@ -1,5 +1,7 @@
 import React from 'react';
 
-export default function Healthcare() {
+const Healthcare = () => {
   return <h2>Health care</h2>;
-}
+};
+
+export default Healthcare;

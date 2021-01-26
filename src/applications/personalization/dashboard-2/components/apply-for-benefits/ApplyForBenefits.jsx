@@ -1,5 +1,7 @@
 import React from 'react';
 
-export default function ApplyForBenefits() {
+const ApplyForBenefits = () => {
   return <h2>Apply for benefits</h2>;
-}
+};
+
+export default ApplyForBenefits;

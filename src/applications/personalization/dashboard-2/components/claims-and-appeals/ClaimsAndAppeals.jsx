@@ -1,5 +1,7 @@
 import React from 'react';
 
-export default function ClaimsAndAppeals() {
+const ClaimsAndAppeals = () => {
   return <h2>Claims & appeals</h2>;
-}
+};
+
+export default ClaimsAndAppeals;
