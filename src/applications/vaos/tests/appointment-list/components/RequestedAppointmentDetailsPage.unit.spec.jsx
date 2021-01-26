@@ -142,8 +142,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     );
     expect(screen.baseElement).to.contain.text('New issue');
 
-    // TODO: fix flaky message test
-    // expect(await screen.findByText(/A message from the patient/i)).to.be.ok;
+    expect(await screen.findByText(/A message from the patient/i)).to.be.ok;
     expect(screen.baseElement).to.contain.text('patient.test@va.gov');
     expect(screen.baseElement).to.contain.text('(703) 652-0000');
     expect(screen.baseElement).to.contain.text('Call morning');

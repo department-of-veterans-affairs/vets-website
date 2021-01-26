@@ -16,6 +16,7 @@ import {
   isVideoAppointment,
   getVAAppointmentLocationId,
 } from '../../services/appointment';
+import { selectFirstRequestMessage } from '../redux/selectors';
 
 const TIME_TEXT = {
   AM: 'in the morning',
@@ -30,25 +31,22 @@ function parseFakeFHIRId(id) {
 }
 
 function RequestedAppointmentDetailsPage({
-  appointmentDetails,
+  appointment,
   appointmentDetailsStatus,
   facilityData,
   fetchRequestDetails,
   pendingStatus,
-  requestMessages,
+  message,
 }) {
   const { id } = useParams();
   const history = useHistory();
-  const appointment = appointmentDetails?.[id];
 
   useEffect(() => {
-    const fetchedPending = pendingStatus === FETCH_STATUS.succeeded;
-
-    if (!fetchedPending) {
+    if (pendingStatus !== FETCH_STATUS.succeeded) {
       history.push('/requested');
     }
 
-    if (!appointment) {
+    if (!appointment || appointment.id !== id) {
       fetchRequestDetails(id);
     }
 
@@ -73,9 +71,6 @@ function RequestedAppointmentDetailsPage({
   const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
-  const firstMessage =
-    requestMessages?.[parseFakeFHIRId(appointment.id)]?.[0]?.attributes
-      ?.messageText;
 
   return (
     <div>
@@ -134,7 +129,7 @@ function RequestedAppointmentDetailsPage({
           <h2 className="vads-u-margin-top--2 vaos-appts__block-label">
             {appointment.reason}
           </h2>
-          <div>{firstMessage}</div>
+          <div>{message}</div>
         </>
       )}
 
@@ -163,18 +158,17 @@ function RequestedAppointmentDetailsPage({
 
 function mapStateToProps(state) {
   const {
-    appointmentDetails,
+    currentAppointment,
     appointmentDetailsStatus,
     facilityData,
     pendingStatus,
-    requestMessages,
   } = state.appointments;
 
   return {
-    appointmentDetails,
+    appointment: currentAppointment,
     appointmentDetailsStatus,
     facilityData,
-    requestMessages,
+    message: selectFirstRequestMessage(state),
     pendingStatus,
   };
 }

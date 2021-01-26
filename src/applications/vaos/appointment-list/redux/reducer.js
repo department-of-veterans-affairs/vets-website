@@ -59,6 +59,7 @@ const initialState = {
   pastSelectedIndex: 0,
   showCancelModal: false,
   cancelAppointmentStatus: FETCH_STATUS.notStarted,
+  currentAppointment: null,
   appointmentDetails: {},
   appointmentDetailsStatus: FETCH_STATUS.notStarted,
   appointmentToCancel: null,
@@ -153,6 +154,7 @@ export default function appointmentsReducer(state = initialState, action) {
       return {
         ...state,
         appointmentDetailsStatus: FETCH_STATUS.loading,
+        currentAppointment: null,
       };
     }
     case FETCH_REQUEST_DETAILS_SUCCEEDED: {
@@ -162,6 +164,7 @@ export default function appointmentsReducer(state = initialState, action) {
 
       return {
         ...state,
+        currentAppointment: action.request,
         appointmentDetails,
         appointmentDetailsStatus: FETCH_STATUS.succeeded,
       };
