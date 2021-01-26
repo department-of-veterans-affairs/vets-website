@@ -30,7 +30,7 @@ export default function RequestListItem({ appointment, facility }) {
           Details
         </Link>
         <Link
-          to={`request/${appointment.id}`}
+          to={`requests/${appointment.id}`}
           className="vaos-appts__card-link"
           aria-label={`Details for ${typeOfCareText} request`}
         >
