@@ -1,6 +1,9 @@
 import { expect } from 'chai';
 
-import { reduceErrors } from '../../../src/js/utilities/data/reduceErrors';
+import {
+  reduceErrors,
+  getPropertyInfo,
+} from '../../../src/js/utilities/data/reduceErrors';
 
 describe('Process form validation errors', () => {
   it('should ignore empty data', () => {
@@ -327,5 +330,142 @@ describe('Process form validation errors', () => {
       },
     ];
     expect(reduceErrors(raw, pages)).to.eql(result);
+  });
+});
+
+describe('getPropertyInfo', () => {
+  it('should return an empty object if page is not found', () => {
+    const info = getPropertyInfo([], 'test');
+    expect(info).to.deep.equal({});
+  });
+  it('should find the page with the named property in the schema object', () => {
+    const pageList = [
+      {
+        title: 'Abc',
+        path: '/abc',
+        uiSchema: {
+          'view:baz': {
+            'ui:title': '',
+            'ui:widget': 'yesNo',
+            'ui:options': {},
+          },
+        },
+        schema: {},
+        // initialData content is ignored
+        initialData: {
+          address: {
+            city: '',
+          },
+        },
+        chapterKey: 'bar',
+        pageKey: 'zoo',
+      },
+      {
+        title: 'contact',
+        path: '/contact',
+        uiSchema: {
+          'ui:title': 'Contact info',
+          address: {
+            'ui:title': 'Address',
+            city: {},
+            state: {},
+          },
+        },
+        schema: {},
+        // initialData content is ignored
+        initialData: {
+          'view:baz': {},
+        },
+        chapterTitle: 'Info',
+        chapterKey: 'info',
+        pageKey: 'contact',
+      },
+    ];
+    const property = 'instance.address';
+    const info = getPropertyInfo(pageList, 'city', property);
+    expect(info).to.deep.equal(pageList[1]);
+  });
+  it('should find the page with the named property in a schema array', () => {
+    const pageList = [
+      {},
+      {},
+      {
+        path: '/news/follow-up/:index',
+        showPagePerItem: true,
+        arrayPath: 'news',
+        uiSchema: {
+          'ui:title': 'Details',
+          news: {
+            items: {
+              cause: {
+                'ui:title': {},
+                'ui:widget': 'radio',
+                'ui:options': {},
+              },
+            },
+          },
+        },
+        schema: {},
+        chapterTitle: 'Diz',
+        chapterKey: 'diz',
+        pageKey: 'news',
+      },
+    ];
+    const property = 'instance.news[2]';
+    const info = getPropertyInfo(pageList, 'cause', property);
+    expect(info).to.deep.equal(pageList[2]);
+  });
+  it('should find the page with the named property in a deeply nested schema', () => {
+    const pageList = [
+      {
+        path: '/new-disabilities/follow-up/:index',
+        showPagePerItem: true,
+        arrayPath: 'newDisabilities',
+        uiSchema: {
+          'ui:title': 'Details',
+          newDisabilities: {
+            items: {
+              cause: {
+                'ui:title': 'Cause?',
+                'ui:widget': 'radio',
+                'ui:options': {
+                  labels: {},
+                },
+              },
+              primaryDescription: {
+                'ui:title': '',
+                'ui:widget': 'textarea',
+                'ui:options': {
+                  expandUnder: 'cause',
+                  expandUnderCondition: 'NEW',
+                },
+                'ui:validations': [null],
+              },
+              'view:secondaryFollowUp': {
+                'ui:options': {
+                  expandUnder: 'cause',
+                  expandUnderCondition: 'SECONDARY',
+                },
+                causedByDisability: {
+                  'ui:title': '',
+                  'ui:options': {
+                    labels: {},
+                  },
+                },
+              },
+              'view:serviceConnectedDisability': {},
+            },
+          },
+        },
+        schema: {},
+        chapterTitle: 'Disabilities',
+        chapterKey: 'disabilities',
+        pageKey: 'newDisabilityFollowUp',
+      },
+    ];
+    const property =
+      'instance.newDisabilities[4].view:secondaryFollowUp.causedByDisability';
+    const info = getPropertyInfo(pageList, 'causedByDisability', property);
+    expect(info).to.deep.equal(pageList[0]);
   });
 });

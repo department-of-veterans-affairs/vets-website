@@ -40,7 +40,7 @@ const ignoreKeys = [
  * @return {object} - single page from the matching pageList object, or an empty
  *   object if the name is not found on any page
  */
-const getPropertyInfo = (pageList = [], name, instance = '') => {
+export const getPropertyInfo = (pageList = [], name, instance = '') => {
   const findPageIndex = (obj, insideInstance = instance === '') => {
     if (obj && typeof obj === 'object') {
       return Object.keys(obj).findIndex(key => {
