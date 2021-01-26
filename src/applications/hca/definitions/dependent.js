@@ -71,7 +71,7 @@ export const uiSchema = {
   },
   dateOfBirth: currentOrPastDateUI('Dependent’s date of birth'),
   becameDependent: _.assign(
-    currentOrPastDateUI('When did they became your dependent?'),
+    currentOrPastDateUI('When did they become your dependent?'),
     {
       'ui:validations': [validateDependentDate],
     },
