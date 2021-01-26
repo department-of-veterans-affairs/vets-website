@@ -147,7 +147,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(screen.baseElement).to.contain.text('patient.test@va.gov');
     expect(screen.baseElement).to.contain.text('(703) 652-0000');
     expect(screen.baseElement).to.contain.text('Call morning');
-    screen.debug();
   });
 
   it('should go back to requests page when clicking top link', async () => {
