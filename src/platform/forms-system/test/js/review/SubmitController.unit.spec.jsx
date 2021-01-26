@@ -176,6 +176,7 @@ describe('Schemaform review: SubmitController', () => {
     const setPreSubmit = sinon.spy();
     const setSubmission = sinon.spy();
     const submitForm = sinon.spy();
+    const setFormErrors = sinon.spy();
 
     const store = createStore({
       form,
@@ -190,6 +191,7 @@ describe('Schemaform review: SubmitController', () => {
           router={router}
           setPreSubmit={setPreSubmit}
           setSubmission={setSubmission}
+          setFormErrors={setFormErrors}
           submitForm={submitForm}
           trackingPrefix={formConfig.trackingPrefix}
           user={user}
@@ -201,6 +203,7 @@ describe('Schemaform review: SubmitController', () => {
     fireEvent.click(submitButton);
 
     expect(submitForm.called).to.be.false;
+    expect(setFormErrors.called).to.be.false;
     expect(setSubmission.calledWith('hasAttemptedSubmit')).to.be.true;
     tree.unmount();
   });
@@ -238,6 +241,7 @@ describe('Schemaform review: SubmitController', () => {
     const setSubmission = sinon.spy();
     const submitForm = sinon.spy();
     const autoSaveForm = sinon.spy();
+    const setFormErrors = sinon.spy();
 
     const store = createStore({
       form,
@@ -253,6 +257,7 @@ describe('Schemaform review: SubmitController', () => {
           route={{ formConfig, pageList }}
           setPreSubmit={setPreSubmit}
           setSubmission={setSubmission}
+          setFormErrors={setFormErrors}
           submitForm={submitForm}
           trackingPrefix={formConfig.trackingPrefix}
           user={user}
@@ -266,6 +271,7 @@ describe('Schemaform review: SubmitController', () => {
     expect(submitForm.called).to.be.false;
     expect(setSubmission.calledWith('hasAttemptedSubmit')).to.be.true;
     expect(setSubmission.calledWith('status', 'validationError')).to.be.true;
+    expect(setFormErrors.called).to.be.true;
     expect(autoSaveForm.called).to.be.true;
     tree.unmount();
   });
@@ -303,6 +309,7 @@ describe('Schemaform review: SubmitController', () => {
     const setSubmission = sinon.spy();
     const submitForm = sinon.spy();
     const autoSaveForm = sinon.spy();
+    const setFormErrors = sinon.spy();
 
     const store = createStore({
       form,
@@ -318,6 +325,7 @@ describe('Schemaform review: SubmitController', () => {
           route={{ formConfig, pageList }}
           setPreSubmit={setPreSubmit}
           setSubmission={setSubmission}
+          setFormErrors={setFormErrors}
           submitForm={submitForm}
           trackingPrefix={formConfig.trackingPrefix}
           user={user}
@@ -331,6 +339,7 @@ describe('Schemaform review: SubmitController', () => {
     expect(submitForm.called).to.be.false;
     expect(setSubmission.calledWith('hasAttemptedSubmit')).to.be.true;
     expect(setSubmission.calledWith('status', 'validationError')).to.be.true;
+    expect(setFormErrors.called).to.be.true;
     expect(autoSaveForm.notCalled).to.be.true;
     tree.unmount();
   });
@@ -368,6 +377,7 @@ describe('Schemaform review: SubmitController', () => {
     const setSubmission = sinon.spy();
     const submitForm = sinon.spy();
     const autoSaveForm = sinon.spy();
+    const setFormErrors = sinon.spy();
 
     const store = createStore({
       form,
@@ -383,6 +393,7 @@ describe('Schemaform review: SubmitController', () => {
           route={{ formConfig, pageList }}
           setPreSubmit={setPreSubmit}
           setSubmission={setSubmission}
+          setFormErrors={setFormErrors}
           submitForm={submitForm}
           trackingPrefix={formConfig.trackingPrefix}
           user={user}
@@ -402,6 +413,7 @@ describe('Schemaform review: SubmitController', () => {
     expect(sentryReports[0].extra.errors)
       .to.be.an('array')
       .with.length('1');
+    expect(setFormErrors.called).to.be.true;
     expect(autoSaveForm.called).to.be.true;
 
     tree.unmount();
@@ -418,6 +430,7 @@ describe('Schemaform review: SubmitController', () => {
     const setSubmission = sinon.spy();
     const submitForm = sinon.spy();
     const autoSaveForm = sinon.spy();
+    const setFormErrors = sinon.spy();
 
     const store = createStore({
       form,
@@ -432,6 +445,7 @@ describe('Schemaform review: SubmitController', () => {
           route={{ formConfig, pageList }}
           setPreSubmit={setPreSubmit}
           setSubmission={setSubmission}
+          setFormErrors={setFormErrors}
           submitForm={submitForm}
           autoSaveForm={autoSaveForm}
           trackingPrefix={formConfig.trackingPrefix}
@@ -446,6 +460,7 @@ describe('Schemaform review: SubmitController', () => {
 
     expect(submitForm.called).to.be.true;
     expect(autoSaveForm.called).to.be.true;
+    expect(setFormErrors.called).to.be.false;
     tree.unmount();
   });
 
@@ -460,6 +475,7 @@ describe('Schemaform review: SubmitController', () => {
     const setSubmission = sinon.spy();
     const submitForm = sinon.spy();
     const autoSaveForm = sinon.spy();
+    const setFormErrors = sinon.spy();
 
     const store = createStore({
       form,
@@ -474,6 +490,7 @@ describe('Schemaform review: SubmitController', () => {
           route={{ formConfig, pageList }}
           setPreSubmit={setPreSubmit}
           setSubmission={setSubmission}
+          setFormErrors={setFormErrors}
           submitForm={submitForm}
           autoSaveForm={autoSaveForm}
           trackingPrefix={formConfig.trackingPrefix}
@@ -487,6 +504,7 @@ describe('Schemaform review: SubmitController', () => {
     fireEvent.click(submitButton);
 
     expect(submitForm.called).to.be.true;
+    expect(setFormErrors.called).to.be.false;
     expect(autoSaveForm.notCalled).to.be.true;
     tree.unmount();
   });
@@ -502,6 +520,7 @@ describe('Schemaform review: SubmitController', () => {
     const setSubmission = sinon.spy();
     const submitForm = sinon.spy();
     const autoSaveForm = sinon.spy();
+    const setFormErrors = sinon.spy();
 
     const store = createStore({
       form,
@@ -516,6 +535,7 @@ describe('Schemaform review: SubmitController', () => {
           route={{ formConfig, pageList }}
           setPreSubmit={setPreSubmit}
           setSubmission={setSubmission}
+          setFormErrors={setFormErrors}
           submitForm={submitForm}
           autoSaveForm={autoSaveForm}
           trackingPrefix={formConfig.trackingPrefix}
@@ -528,6 +548,7 @@ describe('Schemaform review: SubmitController', () => {
     fireEvent.click(submitButton);
 
     expect(submitForm.called).to.be.true;
+    expect(setFormErrors.called).to.be.false;
     tree.unmount();
   });
 
@@ -545,6 +566,7 @@ describe('Schemaform review: SubmitController', () => {
     const setSubmission = sinon.spy();
     const submitForm = sinon.spy();
     const autoSaveForm = sinon.spy();
+    const setFormErrors = sinon.spy();
 
     const store = createStore({
       form,
@@ -559,6 +581,7 @@ describe('Schemaform review: SubmitController', () => {
           route={{ formConfig, pageList }}
           setPreSubmit={setPreSubmit}
           setSubmission={setSubmission}
+          setFormErrors={setFormErrors}
           submitForm={submitForm}
           autoSaveForm={autoSaveForm}
           trackingPrefix={formConfig.trackingPrefix}
@@ -573,6 +596,7 @@ describe('Schemaform review: SubmitController', () => {
     expect(tree.getByText('NOTICE')).to.not.be.null;
     expect(submitForm.called).to.be.true;
     expect(autoSaveForm.called).to.be.true;
+    expect(setFormErrors.called).to.be.false;
 
     tree.unmount();
   });
