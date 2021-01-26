@@ -106,13 +106,13 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
   it('should render VA request details', async () => {
     const screen = renderWithStoreAndRouter(
-      <Route path="/request/:id">
+      <Route path="/requests/:id">
         <RequestedAppointmentDetailsPage />
       </Route>,
       {
         initialState,
         reducers,
-        path: '/request/var1234',
+        path: '/requests/var1234',
       },
     );
 
@@ -151,13 +151,13 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
   it('should go back to requests page when clicking top link', async () => {
     const screen = renderWithStoreAndRouter(
-      <Route path="/request/:id">
+      <Route path="/requests/:id">
         <RequestedAppointmentDetailsPage />
       </Route>,
       {
         initialState,
         reducers,
-        path: '/request/var1234',
+        path: '/requests/var1234',
       },
     );
 
@@ -169,13 +169,13 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
   it('should go back to requests page when clicking go back to appointments button', async () => {
     const screen = renderWithStoreAndRouter(
-      <Route path="/request/:id">
+      <Route path="/requests/:id">
         <RequestedAppointmentDetailsPage />
       </Route>,
       {
         initialState,
         reducers,
-        path: '/request/var1234',
+        path: '/requests/var1234',
       },
     );
 

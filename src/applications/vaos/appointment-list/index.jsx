@@ -12,7 +12,7 @@ function AppointmentListSection({ featureHomepageRefresh }) {
     <Switch>
       {featureHomepageRefresh && (
         <Route
-          path="/request/:id"
+          path="/requests/:id"
           component={() => (
             <PageLayout>
               <RequestedAppointmentDetailsPage />
