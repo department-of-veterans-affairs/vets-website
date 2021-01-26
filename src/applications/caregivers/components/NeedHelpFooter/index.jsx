@@ -40,7 +40,7 @@ const NeedHelpFooter = () => {
       </span>
 
       <p>
-        If this form isn't working right for you, please call us at at
+        If this form isn't working right for you, please call us at
         <Telephone
           contact={CONTACTS.HELP_DESK}
           className="vads-u-margin-left--0p5"
