@@ -228,10 +228,6 @@ function mockFeatureToggles({ facilityPageV2Enabled = true } = {}) {
             value: true,
           },
           {
-            name: 'vaOnlineSchedulingExpressCare',
-            value: true,
-          },
-          {
             name: 'vaOnlineSchedulingExpressCareNew',
             value: true,
           },

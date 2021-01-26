@@ -6,20 +6,23 @@ import PropTypes from 'prop-types';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 import { setData } from 'platform/forms-system/src/js/actions';
 import classnames from 'classnames';
+import { renderAdditionalInfo } from '../../debt-letters/const/diary-codes';
 
 class DebtCard extends Component {
-  onChange(debtIdentifier) {
-    const alreadyIncluded = this.props?.fsrDebts?.includes(debtIdentifier);
+  onChange(debt) {
+    const alreadyIncluded = this.props.fsrDebts.some(
+      currentDebt => currentDebt.id === debt.id,
+    );
 
     if (alreadyIncluded) {
       const fsrDebts = this.props?.fsrDebts?.filter(
-        debtEntry => debtEntry !== debtIdentifier,
+        debtEntry => debtEntry.id !== debt.id,
       );
       return this.props.setData({ ...this.props.formData, fsrDebts });
     } else {
       const newFsrDebts = this.props.fsrDebts.length
-        ? [...this.props.fsrDebts, debtIdentifier]
-        : [debtIdentifier];
+        ? [...this.props.fsrDebts, debt]
+        : [debt];
       return this.props.setData({
         ...this.props.formData,
         fsrDebts: newFsrDebts,
@@ -40,7 +43,14 @@ class DebtCard extends Component {
       currency: 'USD',
       minimumFractionDigits: 2,
     });
-    const isChecked = this.props.fsrDebts.includes(debtIdentifier);
+    const additionalInfo = renderAdditionalInfo(
+      debt.diaryCode,
+      mostRecentHistory.date,
+      debt.benefitType,
+    );
+    const isChecked = this.props.fsrDebts.some(
+      currentDebt => currentDebt.id === debt.id,
+    );
     return (
       <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2 debt-card">
         <h3 className="vads-u-font-size--h4 vads-u-margin--0">
@@ -55,10 +65,7 @@ class DebtCard extends Component {
           <strong>Amount owed: </strong>
           {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
         </p>
-        <p className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
-          <strong>Status: </strong>
-          {debt.diaryCodeDescription}
-        </p>
+        <div className="vads-u-margin-y--2">{additionalInfo.status}</div>
 
         <div className="vads-u-margin-top--2">
           <input
@@ -66,7 +73,7 @@ class DebtCard extends Component {
             type="checkbox"
             className=" vads-u-width--auto"
             checked={isChecked}
-            onChange={() => this.onChange(debtIdentifier)}
+            onChange={() => this.onChange(debt)}
           />
           <label
             className={classnames({
