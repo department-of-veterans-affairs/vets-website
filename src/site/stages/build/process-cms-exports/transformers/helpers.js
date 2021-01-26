@@ -166,7 +166,7 @@ module.exports = {
    * @return {string}
    */
   getWysiwygString(value) {
-    return !value ? '' : value;
+    return value || '';
   },
 
   /**
