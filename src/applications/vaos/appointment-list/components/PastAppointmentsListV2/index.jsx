@@ -7,10 +7,6 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 import recordEvent from 'platform/monitoring/record-event';
 import * as actions from '../../redux/actions';
 import { focusElement } from 'platform/utilities/ui';
-import {
-  selectFeatureRequests,
-  selectFeaturePastAppointments,
-} from '../../../redux/selectors';
 import { selectPastAppointmentsV2 } from '../../redux/selectors';
 import {
   FETCH_STATUS,
@@ -23,6 +19,7 @@ import ExpressCareListItem from '../AppointmentsPage/ExpressCareListItem';
 import NoAppointments from '../NoAppointments';
 import moment from 'moment';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
+import { selectFeatureRequests } from '../../../redux/selectors';
 
 export function getPastAppointmentDateRangeOptions(today = moment()) {
   const startOfToday = today.clone().startOf('day');
@@ -95,7 +92,7 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
 function PastAppointmentsListNew({
   showScheduleButton,
   dateRangeOptions = getPastAppointmentDateRangeOptions(),
-  appointmentsByMonth,
+  pastAppointmentsByMonth,
   pastStatus,
   facilityData,
   fetchPastAppointments,
@@ -147,11 +144,11 @@ function PastAppointmentsListNew({
     );
   } else if (
     pastStatus === FETCH_STATUS.succeeded &&
-    appointmentsByMonth?.length > 0
+    pastAppointmentsByMonth?.length > 0
   ) {
     content = (
       <>
-        {appointmentsByMonth.map((monthBucket, monthIndex) => {
+        {pastAppointmentsByMonth.map((monthBucket, monthIndex) => {
           const monthDate = moment(monthBucket[0].start);
           return (
             <React.Fragment key={monthIndex}>
@@ -241,12 +238,11 @@ PastAppointmentsListNew.propTypes = {
 
 function mapStateToProps(state) {
   return {
+    pastAppointmentsByMonth: selectPastAppointmentsV2(state),
+    pastStatus: state.appointments.pastStatus,
     pastSelectedIndex: state.appointments.pastSelectedIndex,
     facilityData: state.appointments.facilityData,
-    pastStatus: state.appointments.pastStatus,
-    appointmentsByMonth: selectPastAppointmentsV2(state),
-    showScheduleButton: selectFeatureRequests(state),
-    showPastAppointments: selectFeaturePastAppointments(state),
+    showPastAppointments: selectFeatureRequests(state),
   };
 }
 
