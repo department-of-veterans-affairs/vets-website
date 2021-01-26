@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Healthcare = () => {
+const HealthCare = () => {
   return <h2>Health care</h2>;
 };
 
-export default Healthcare;
+export default HealthCare;
