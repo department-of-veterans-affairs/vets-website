@@ -24,7 +24,7 @@ export default function RequestListItem({ appointment, facility }) {
       <div>
         <Link
           aria-hidden="true"
-          to={`request/${appointment.id}`}
+          to={`requests/${appointment.id}`}
           className="vads-u-display--none medium-screen:vads-u-display--inline"
         >
           Details
