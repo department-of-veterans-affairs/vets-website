@@ -33,9 +33,9 @@ export const mockSecondaryCaregiverContent = [
   'I understand that participation in Program of Comprehensive Assistance for Family Caregivers does not create an employment relationship between me and the Department of Veterans Affairs.',
 ];
 
-const checkContent = (content, mockContent) => {
+const checkContent = (partyLabel, content, mockContent) => {
   content.forEach((contentItem, idx) => {
-    cy.get(`[data-testid=${veteranLabel}]`)
+    cy.get(`[data-testid="${partyLabel}"]`)
       .contains(contentItem, { matchCase: true })
       .should(signatureParagraph =>
         expect(signatureParagraph[0].innerText).to.eq(mockContent[idx]),
@@ -82,48 +82,97 @@ const testSecondaryTwo = createTestConfig(
         cy.get('@testKey').then(testKey => {
           switch (testKey) {
             case 'secondaryOneOnly':
-              // sign as veteran
+              // Check veteran content && sign
+              checkContent(
+                veteranLabel,
+                veteranSignatureContent,
+                mockVeteranSignatureContent,
+              );
               signAsParty(veteranLabel, 'Micky Mouse');
 
-              // sign as secondaryOne caregiver
+              // check secondary caregiver content && sign
+              checkContent(
+                secondaryOneLabel,
+                secondaryCaregiverContent,
+                mockSecondaryCaregiverContent,
+              );
               signAsParty(secondaryOneLabel, 'George Geef Goofus');
 
               break;
             case 'oneSecondaryCaregivers':
-              // sign as veteran
+              // check veteran content && sign
+              checkContent(
+                veteranLabel,
+                veteranSignatureContent,
+                mockVeteranSignatureContent,
+              );
               signAsParty(veteranLabel, 'Micky Mouse');
 
-              // sign as primary caregiver
+              // Check primary caregiver content && sign
+              checkContent(
+                primaryLabel,
+                primaryCaregiverContent,
+                mockPrimaryCaregiverContent,
+              );
               signAsParty(primaryLabel, 'Mini Mouse');
 
-              // sign as secondaryOne caregiver
+              // Check secondaryOne caregiver content && sign
+              checkContent(
+                secondaryOneLabel,
+                secondaryCaregiverContent,
+                mockSecondaryCaregiverContent,
+              );
               signAsParty(secondaryOneLabel, 'George Geef Goofus');
 
               break;
             case 'twoSecondaryCaregivers':
-              // sign as veteran
-              signAsParty(veteranLabel, 'Micky Mouse');
-
-              // sign as primary caregiver
-              signAsParty(primaryLabel, 'Mini Mouse');
-
-              // sign as secondaryOne caregiver
-              signAsParty(secondaryOneLabel, 'George Geef Goofus');
-
-              // sign signature as secondaryTwo caregiver
-              signAsParty(secondaryTwoLabel, 'Donald Duck');
-              break;
-            default:
-              // check veteran content
+              // check veteran content && sign
               checkContent(
+                veteranLabel,
                 veteranSignatureContent,
                 mockVeteranSignatureContent,
               );
-
-              // sign as veteran
               signAsParty(veteranLabel, 'Micky Mouse');
 
-              // sign as primary caregiver
+              // Check primary caregiver content && sign
+              checkContent(
+                primaryLabel,
+                primaryCaregiverContent,
+                mockPrimaryCaregiverContent,
+              );
+              signAsParty(primaryLabel, 'Mini Mouse');
+
+              // Check secondaryOne caregiver content && sign
+              checkContent(
+                secondaryOneLabel,
+                secondaryCaregiverContent,
+                mockSecondaryCaregiverContent,
+              );
+              signAsParty(secondaryOneLabel, 'George Geef Goofus');
+
+              // Check secondaryTwo caregiver content && sign
+              checkContent(
+                secondaryTwoLabel,
+                secondaryCaregiverContent,
+                mockSecondaryCaregiverContent,
+              );
+              signAsParty(secondaryTwoLabel, 'Donald Duck');
+              break;
+            default:
+              // check veteran content && sign
+              checkContent(
+                veteranLabel,
+                veteranSignatureContent,
+                mockVeteranSignatureContent,
+              );
+              signAsParty(veteranLabel, 'Micky Mouse');
+
+              // Check primary caregiver && sign
+              checkContent(
+                primaryLabel,
+                primaryCaregiverContent,
+                mockPrimaryCaregiverContent,
+              );
               signAsParty(primaryLabel, 'Mini Mouse');
               break;
           }
