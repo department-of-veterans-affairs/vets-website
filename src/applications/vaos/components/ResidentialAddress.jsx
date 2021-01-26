@@ -1,4 +1,5 @@
 import React from 'react';
+import State from './State';
 
 export default function ResidentialAddress({ address }) {
   return (
@@ -18,7 +19,7 @@ export default function ResidentialAddress({ address }) {
             <br />
           </>
         )}
-        {address.city}, {address.stateCode} {address.zipCode}
+        {address.city}, <State state={address.stateCode} /> {address.zipCode}
       </span>
     </>
   );

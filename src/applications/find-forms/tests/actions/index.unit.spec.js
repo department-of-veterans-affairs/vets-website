@@ -8,12 +8,18 @@ import {
   fetchFormsSuccess,
   fetchFormsThunk,
   updatePaginationAction,
+  updateResults,
+  updateSortByPropertyName,
+  updateSortByPropertyNameThunk,
 } from '../../actions';
 import {
   FETCH_FORMS,
   FETCH_FORMS_FAILURE,
   FETCH_FORMS_SUCCESS,
+  INITIAL_SORT_STATE,
+  UPDATE_HOW_TO_SORT,
   UPDATE_PAGINATION,
+  UPDATE_RESULTS,
 } from '../../constants';
 
 describe('Find VA Forms actions', () => {
@@ -66,6 +72,55 @@ describe('Find VA Forms actions', () => {
     });
   });
 
+  describe('updateResults', () => {
+    it('should return an action in the shape we expect', () => {
+      const results = ['test'];
+      const action = updateResults(results);
+
+      expect(action).to.be.deep.equal({
+        results,
+        type: UPDATE_RESULTS,
+      });
+    });
+  });
+
+  describe('updateSortByPropertyName', () => {
+    it('should return an action in the shape we expect', () => {
+      const sortByPropertyName = INITIAL_SORT_STATE;
+      const action = updateSortByPropertyName(sortByPropertyName);
+
+      expect(action).to.be.deep.equal({
+        sortByPropertyName,
+        type: UPDATE_HOW_TO_SORT,
+      });
+    });
+  });
+
+  describe('updateSortByPropertyNameThunk', () => {
+    it('should return an action in the shape we expect', () => {
+      const dispatch = sinon.stub();
+      const sortByPropertyName = INITIAL_SORT_STATE;
+      const results = ['test'];
+
+      const thunk = updateSortByPropertyNameThunk(sortByPropertyName, results);
+      thunk(dispatch);
+
+      expect(
+        dispatch.firstCall.calledWith({
+          sortByPropertyName,
+          type: UPDATE_HOW_TO_SORT,
+        }),
+      ).to.be.true;
+
+      expect(
+        dispatch.secondCall.calledWith({
+          results,
+          type: UPDATE_RESULTS,
+        }),
+      ).to.be.true;
+    });
+  });
+
   describe('fetchFormsThunk', () => {
     let mockedLocation;
     let mockedHistory;
@@ -82,7 +137,7 @@ describe('Find VA Forms actions', () => {
     });
 
     it('updates search params', async () => {
-      const dispatch = () => {};
+      const dispatch = sinon.stub();
       const query = 'health';
       const thunk = fetchFormsThunk(query, {
         location: mockedLocation,

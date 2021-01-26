@@ -15,11 +15,9 @@ import {
   getVARFacilityId,
   groupAppointmentsByMonth,
   isUpcomingAppointmentOrExpressCare,
+  sortByCreatedDateDescending,
 } from '../../services/appointment';
-import {
-  selectFeatureExpressCare,
-  selectFeatureExpressCareNewRequest,
-} from '../../redux/selectors';
+import { selectFeatureExpressCareNewRequest } from '../../redux/selectors';
 import {
   getTimezoneAbbrBySystemId,
   getTimezoneBySystemId,
@@ -102,17 +100,16 @@ export function selectFutureStatus(state) {
 }
 
 export const selectFutureAppointments = createSelector(
-  selectFeatureExpressCare,
   state => state.appointments.pending,
   state => state.appointments.confirmed,
-  (showExpressCare, pending, confirmed) => {
+  (pending, confirmed) => {
     if (!confirmed || !pending) {
       return null;
     }
 
     return confirmed
       .concat(...pending)
-      .filter(appt => !showExpressCare || !appt.vaos.isExpressCare)
+      .filter(appt => !appt.vaos.isExpressCare)
       .filter(isUpcomingAppointmentOrRequest)
       .sort(sortUpcoming);
   },
@@ -134,6 +131,14 @@ export const selectUpcomingAppointments = createSelector(
 
     return groupAppointmentsByMonth(sortedAppointments);
   },
+);
+
+export const selectPendingAppointments = createSelector(
+  state => state.appointments.pending,
+  pending =>
+    pending
+      ?.filter(a => !a.vaos.isExpressCare)
+      .sort(sortByCreatedDateDescending) || null,
 );
 
 export const selectPastAppointments = createSelector(
@@ -311,12 +316,11 @@ export function selectExpressCareAvailability(state) {
       moment(),
     ),
     allowRequests: !!activeWindows?.length,
-    enabled: selectFeatureExpressCare(state),
     useNewFlow: selectFeatureExpressCareNewRequest(state),
     hasWindow: !!selectExpressCareFacilities(state)?.length,
-    hasRequests:
-      selectFeatureExpressCare(state) &&
-      state.appointments.pending?.some(appt => appt.vaos.isExpressCare),
+    hasRequests: state.appointments.pending?.some(
+      appt => appt.vaos.isExpressCare,
+    ),
     windowsStatus: state.appointments.expressCareWindowsStatus,
   };
 }

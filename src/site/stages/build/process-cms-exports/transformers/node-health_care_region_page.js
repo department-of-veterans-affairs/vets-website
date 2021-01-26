@@ -16,22 +16,25 @@ const getSocialMediaObject = ({ uri, title }) =>
 
 const currentTimeInSeconds = new Date().getTime() / 1000;
 
-const transform = ({
-  title,
-  status,
-  metatag: { value: metaTags },
-  fieldIntroText,
-  fieldGovdeliveryIdEmerg,
-  fieldGovdeliveryIdNews,
-  fieldOperatingStatus,
-  fieldOtherVaLocations,
-  fieldNicknameForThisFacility,
-  fieldRelatedLinks,
-  fieldLinkFacilityEmergList,
-  reverseFieldRegionPage,
-  reverseFieldOffice,
-  fieldMedia,
-}) => ({
+const transform = (
+  {
+    title,
+    status,
+    metatag: { value: metaTags },
+    fieldIntroText,
+    fieldGovdeliveryIdEmerg,
+    fieldGovdeliveryIdNews,
+    fieldOperatingStatus,
+    fieldOtherVaLocations,
+    fieldNicknameForThisFacility,
+    fieldRelatedLinks,
+    fieldLinkFacilityEmergList,
+    reverseFieldRegionPage,
+    reverseFieldOffice,
+    fieldMedia,
+  },
+  { ancestors },
+) => ({
   entityType: 'node',
   entityBundle: 'health_care_region_page',
   entityPublished: isPublished(getDrupalValue(status)),
@@ -60,7 +63,11 @@ const transform = ({
   fieldRelatedLinks: fieldRelatedLinks[0],
   entityMetatags: createMetaTagArray(metaTags),
   reverseFieldRegionPageNode: {
-    entities: reverseFieldRegionPage || [],
+    entities: reverseFieldRegionPage
+      ? reverseFieldRegionPage.filter(p => {
+          return !ancestors.find(r => r.entity.uuid === p.uuid);
+        })
+      : [],
   },
   newsStoryTeasers: {
     entities: reverseFieldOffice

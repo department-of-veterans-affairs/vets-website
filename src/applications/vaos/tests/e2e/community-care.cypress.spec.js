@@ -37,6 +37,9 @@ describe('VAOS community care flow', () => {
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/request-date',
     );
     cy.axeCheck();
+    cy.contains('button', 'Next')
+      .focus()
+      .click();
     // Select first available appointment
     cy.get('.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])')
       .first()

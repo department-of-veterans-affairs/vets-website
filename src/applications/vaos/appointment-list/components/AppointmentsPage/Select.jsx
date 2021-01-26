@@ -1,16 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Select({ onChange, options, id }) {
+function Select({ onChange, options, id, value }) {
   return (
     <select
       id={id}
       name={id}
-      className="usa-select vads-u-margin-bottom--6"
+      className="usa-select vads-u-margin-bottom--2p5"
       onChange={onChange}
+      value={value}
     >
       {options.map((o, index) => (
-        <option key={`selected-${index}`} value={o.value}>
+        <option
+          key={`selected-${index}`}
+          value={o.value}
+          className="vads-u-font-weight--normal"
+        >
           {o.label}
         </option>
       ))}

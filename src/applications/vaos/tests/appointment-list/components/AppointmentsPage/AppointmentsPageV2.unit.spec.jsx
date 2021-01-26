@@ -114,6 +114,45 @@ describe('VAOS <AppointmentsPageV2>', () => {
     ).to.exist;
   });
 
+  it('should navigate to list URLs on dropdown change', async () => {
+    const defaultState = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingDirect: true,
+        vaOnlineSchedulingCommunityCare: false,
+      },
+      user: userState,
+    };
+    const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
+      initialState: defaultState,
+    });
+
+    const dropdown = screen.getByLabelText('Show by type');
+    fireEvent.change(dropdown, { target: { value: 'requested' } });
+
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0]).to.equal('/requested'),
+    );
+
+    fireEvent.change(dropdown, { target: { value: 'past' } });
+
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0]).to.equal('/past'),
+    );
+
+    fireEvent.change(dropdown, { target: { value: 'cancelled' } });
+
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0]).to.equal('/cancelled'),
+    );
+
+    fireEvent.change(dropdown, { target: { value: 'upcoming' } });
+
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0]).to.equal('/'),
+    );
+  });
+
   it('should not show express care action when outside of express care window', async () => {
     mockAppointmentInfo({});
     const today = moment();
@@ -161,7 +200,6 @@ describe('VAOS <AppointmentsPageV2>', () => {
       featureToggles: {
         ...initialState.featureToggles,
         vaOnlineSchedulingExpressCareNew: false,
-        vaOnlineSchedulingExpressCare: true,
       },
     };
     const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {

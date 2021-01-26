@@ -85,15 +85,11 @@ describe('VAOS <NoValidVAFacilities>', () => {
     expect(screen.getByText(new RegExp(`${parentDetails.name}`))).to.exist;
     expect(screen.getByText(new RegExp(`${parentDetails.address.line[0]}`))).to
       .exist;
-    expect(
-      screen.getByText(
-        new RegExp(
-          `${parentDetails.address.city}, ${parentDetails.address.state} ${
-            parentDetails.address.postalCode
-          }`,
-        ),
-      ),
-    ).to.exist;
+    expect(screen.baseElement).to.contain.text(
+      `${parentDetails.address.city}, ${parentDetails.address.state} ${
+        parentDetails.address.postalCode
+      }`,
+    );
     expect(screen.getByText('Directions')).to.exist;
     expect(
       screen.getByRole('link', {
