@@ -215,7 +215,6 @@ CMS export returned **774** records.
   - `field_media` | Entity reference
   - `field_meta_tags` | Meta tags
   - `field_meta_title` | Text (plain)
-  - `field_nickname_for_this_facility` | Text (plain)
   - `field_operating_status` | Link
   - `field_other_va_locations` | Text (plain)
   - `field_press_release_blurb` | Text (formatted, long)
@@ -253,7 +252,6 @@ CMS export returned **774** records.
   - `field_mental_health_phone` | Telephone number
   - `field_meta_tags` | Meta tags
   - `field_meta_title` | Text (plain)
-  - `field_nickname_for_this_facility` | Text (plain)
   - `field_operating_status_facility` | List (text)
   - `field_operating_status_more_info` | Text (plain, long)
   - `field_phone_number` | Telephone number
@@ -580,7 +578,6 @@ CMS export returned **774** records.
           "value": "https://dev.cms.va.gov/sites/default/files/2019-04/UD%20front.jpg"
         }
       ],
-      "fieldNicknameForThisFacility": "VA Pittsburgh"
     }
   },
   "fieldIntroText": null,
