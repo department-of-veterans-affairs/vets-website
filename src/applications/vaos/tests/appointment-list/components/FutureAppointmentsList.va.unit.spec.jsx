@@ -3,11 +3,10 @@ import { expect } from 'chai';
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import { setFetchJSONFailure } from 'platform/testing/unit/helpers';
-import reducers from '../../../redux/reducer';
 import { getVAAppointmentMock, getVAFacilityMock } from '../../mocks/v0';
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
 import { renderWithStoreAndRouter } from '../../mocks/setup';
-import FutureAppointmentsList from '../../../appointment-list/components/FutureAppointmentsList';
+import AppointmentsPage from '../../../appointment-list/components/AppointmentsPage';
 
 const initialState = {
   featureToggles: {
@@ -35,9 +34,8 @@ describe('VAOS integration: upcoming VA appointments', () => {
       baseElement,
       getByText,
       queryByText,
-    } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
+    } = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState,
-      reducers,
     });
 
     const dateHeader = await findByText(
@@ -71,10 +69,9 @@ describe('VAOS integration: upcoming VA appointments', () => {
     mockAppointmentInfo({ va: [appointment] });
 
     const { findByText, baseElement } = renderWithStoreAndRouter(
-      <FutureAppointmentsList />,
+      <AppointmentsPage />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -117,10 +114,9 @@ describe('VAOS integration: upcoming VA appointments', () => {
     mockFacilitiesFetch('vha_442GC', [facility]);
 
     const { findByText, baseElement } = renderWithStoreAndRouter(
-      <FutureAppointmentsList />,
+      <AppointmentsPage />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -155,10 +151,9 @@ describe('VAOS integration: upcoming VA appointments', () => {
     mockAppointmentInfo({ va: [appointment] });
 
     const { findByText, baseElement } = renderWithStoreAndRouter(
-      <FutureAppointmentsList />,
+      <AppointmentsPage />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -178,10 +173,9 @@ describe('VAOS integration: upcoming VA appointments', () => {
     mockAppointmentInfo({ va: [appointment] });
 
     const { findByText, baseElement } = renderWithStoreAndRouter(
-      <FutureAppointmentsList />,
+      <AppointmentsPage />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -198,10 +192,9 @@ describe('VAOS integration: upcoming VA appointments', () => {
     mockAppointmentInfo({ va: [appointment] });
 
     const { findByText, baseElement } = renderWithStoreAndRouter(
-      <FutureAppointmentsList />,
+      <AppointmentsPage />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -219,13 +212,9 @@ describe('VAOS integration: upcoming VA appointments', () => {
     appointment.attributes.vdsAppointments[0].currentStatus = 'NO-SHOW';
 
     mockAppointmentInfo({ va: [appointment] });
-    const { findByText } = renderWithStoreAndRouter(
-      <FutureAppointmentsList />,
-      {
-        initialState,
-        reducers,
-      },
-    );
+    const { findByText } = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState,
+    });
 
     return expect(findByText(/You don’t have any appointments/i)).to.eventually
       .be.ok;
@@ -239,13 +228,9 @@ describe('VAOS integration: upcoming VA appointments', () => {
     appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
 
     mockAppointmentInfo({ va: [appointment] });
-    const { findByText } = renderWithStoreAndRouter(
-      <FutureAppointmentsList />,
-      {
-        initialState,
-        reducers,
-      },
-    );
+    const { findByText } = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState,
+    });
 
     return expect(findByText(/You don’t have any appointments/i)).to.eventually
       .be.ok;
@@ -263,13 +248,9 @@ describe('VAOS integration: upcoming VA appointments', () => {
       { errors: [] },
     );
 
-    const { findByText } = renderWithStoreAndRouter(
-      <FutureAppointmentsList />,
-      {
-        initialState,
-        reducers,
-      },
-    );
+    const { findByText } = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState,
+    });
 
     expect(
       await findByText(
