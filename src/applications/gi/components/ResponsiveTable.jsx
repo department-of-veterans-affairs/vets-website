@@ -26,7 +26,7 @@ class ResponsiveTable extends React.Component {
     let mobileHeaderValue = column;
 
     const stringCellData = value =>
-      value.length < 20 || screen.width > 320 ? (
+      screen.width > 320 ? (
         <span className={'vads-u-margin-0'}>{value}</span>
       ) : (
         <span className={'vads-u-margin-0'}>
