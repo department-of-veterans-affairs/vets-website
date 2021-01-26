@@ -44,6 +44,23 @@ const mediaImageStyles = [
 ];
 
 /**
+ * Takes a string with escaped unicode code points and replaces them
+ * with the unicode characters. E.g. '\u2014' -> '—'
+ *
+ * @param {String} string
+ * @return {String}
+ */
+function unescapeUnicode(string) {
+  assert(
+    typeof string === 'string',
+    `Expected type String in unescapeUnicode, but found ${typeof string}: ${string}`,
+  );
+  return string.replace(/\\u(\d{2,4})/g, (wholeMatch, codePoint) =>
+    String.fromCharCode(`0x${codePoint}`),
+  );
+}
+
+/**
  * Extracts a nested string from specific types of export data.
  *
  * @param {Array} arr - An array with one item, which is an object with
@@ -55,7 +72,14 @@ function getDrupalValue(arr) {
   if (!arr || arr.length === 0) return null;
   if (arr.length === 1 && arr[0].processed === '') return null;
   if (arr.length === 1)
-    return arr[0].processed ? arr[0].processed : arr[0].value;
+    if (arr[0].processed)
+      return typeof arr[0].processed === 'string'
+        ? unescapeUnicode(arr[0].processed)
+        : arr[0].processed;
+    else
+      return typeof arr[0].value === 'string'
+        ? unescapeUnicode(arr[0].value)
+        : arr[0].value;
 
   // eslint-disable-next-line no-console
   console.warn(`Unexpected argument: ${arr.toString()}`);
@@ -111,6 +135,7 @@ function uriToUrl(uri) {
 module.exports = {
   getDrupalValue,
   getImageCrop,
+  unescapeUnicode,
   uriToUrl,
 
   /**
