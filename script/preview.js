@@ -6,6 +6,7 @@ const commandLineArgs = require('command-line-args');
 const path = require('path');
 const express = require('express');
 const proxy = require('express-http-proxy');
+const jsesc = require('jsesc');
 const createPipeline = require('../src/site/stages/preview');
 
 const getDrupalClient = require('../src/site/stages/build/drupal/api');
@@ -179,15 +180,20 @@ app.get('/preview', async (req, res, next) => {
       `${compiledPage.entityBundle}.drupal.liquid`,
     );
 
+    const headerFooterDataSerialized = jsesc(JSON.stringify(headerFooterData), {
+      json: true,
+      isScriptContext: true,
+    });
+
     const files = {
       'generated/file-manifest.json': {
         path: 'generated/file-manifest.json',
-        contents: new Buffer(JSON.stringify(fileManifest)),
+        contents: Buffer.from(JSON.stringify(fileManifest)),
       },
       [drupalPath]: {
         ...fullPage,
         isPreview: true,
-        headerFooterData: new Buffer(JSON.stringify(headerFooterData)),
+        headerFooterData: headerFooterDataSerialized,
         drupalSite:
           DRUPALS.PUBLIC_URLS[options['drupal-address']] ||
           options['drupal-address'],
