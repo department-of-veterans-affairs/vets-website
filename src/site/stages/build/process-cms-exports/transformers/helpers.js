@@ -3,7 +3,6 @@ const assert = require('assert');
 const { sortBy, unescape, pick, omit } = require('lodash');
 const moment = require('moment-timezone');
 const { readEntity } = require('../helpers');
-const buckets = require('../../../../constants/buckets');
 
 const mediaImageStyles = [
   {
@@ -109,11 +108,7 @@ function getImageCrop(obj, imageStyle = null) {
       image.machine
     }/public${imageObj.image.derivative.url.replace('/img', '')}`;
     imageObj.image.url = url;
-    // Derivative urls have a full path starting with
-    // 'https://{buildtype}.cms.va.gov/sites/default/files/', so add that here.
-    // It doesn't matter what the build type is since it gets stripped out in convertDrupalFilesToLocal
-    // so just use prod here
-    imageObj.image.derivative.url = `${buckets.vagovprod}${url}`;
+    imageObj.image.derivative.url = url;
     imageObj.image.derivative.width = image.width;
     imageObj.image.derivative.height = image.height;
     return imageObj;
