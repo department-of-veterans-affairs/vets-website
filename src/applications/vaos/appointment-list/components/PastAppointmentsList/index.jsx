@@ -15,7 +15,7 @@ import {
 import ConfirmedAppointmentListItem from '../cards/confirmed/ConfirmedAppointmentListItem';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
 
-function getPastAppointmentDateRangeOptions(today = moment()) {
+export function getPastAppointmentDateRangeOptions(today = moment()) {
   const startOfToday = today.clone().startOf('day');
 
   // Past 3 months
