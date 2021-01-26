@@ -9,10 +9,12 @@ The files in this directory are owned by the following teams:
 |               | node-health_care_local_facility.js
 |               | node-health_care_local_health_service
 |               | node-health_care_region_detail_page
+|               | node-health_care_region_page
 |               | node-health_services_listing
 |               | node-locations_listing
 |               | node-news_story
 |               | node-nca_facility
+|               | node-person_profile
 |               | node-press_release
 |               | node-press_releases_listing
 |               | node-story_listing
