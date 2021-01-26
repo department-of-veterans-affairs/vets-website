@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import head from 'lodash/head';
-import isEqual from 'lodash/isEqual';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
@@ -11,13 +10,13 @@ import { renderAdditionalInfo } from '../../debt-letters/const/diary-codes';
 
 class DebtCard extends Component {
   onChange(debt) {
-    const alreadyIncluded = this.props.fsrDebts.some(currentDebt =>
-      isEqual(currentDebt, debt),
+    const alreadyIncluded = this.props.fsrDebts.some(
+      currentDebt => currentDebt.id === debt.id,
     );
 
     if (alreadyIncluded) {
       const fsrDebts = this.props?.fsrDebts?.filter(
-        debtEntry => !isEqual(debtEntry, debt),
+        debtEntry => debtEntry.id !== debt.id,
       );
       return this.props.setData({ ...this.props.formData, fsrDebts });
     } else {
@@ -49,8 +48,8 @@ class DebtCard extends Component {
       mostRecentHistory.date,
       debt.benefitType,
     );
-    const isChecked = this.props.fsrDebts.some(currentDebt =>
-      isEqual(currentDebt, debt),
+    const isChecked = this.props.fsrDebts.some(
+      currentDebt => currentDebt.id === debt.id,
     );
     return (
       <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2 debt-card">

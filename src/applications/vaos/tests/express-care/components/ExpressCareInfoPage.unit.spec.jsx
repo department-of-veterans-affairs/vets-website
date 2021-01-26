@@ -19,6 +19,9 @@ const initialState = {
       facilities: [{ facilityId: '983', isCerner: false }],
     },
   },
+  featureToggles: {
+    vaOnlineSchedulingExpressCareNew: true,
+  },
 };
 
 describe('VAOS integration: Express Care info page', () => {
