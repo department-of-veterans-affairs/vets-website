@@ -1,7 +1,6 @@
 const jsesc = require('jsesc');
 
 const footerData = require('../../../../platform/static-data/footer-links.json');
-const DRUPALS = require('../../../constants/drupals');
 
 const {
   formatHeaderData: convertDrupalHeaderData,
