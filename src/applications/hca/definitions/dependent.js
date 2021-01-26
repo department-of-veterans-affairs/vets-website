@@ -8,7 +8,7 @@ import { validateDependentDate } from '../validation';
 const incomeFields = ['grossIncome', 'netIncome', 'otherIncome'];
 
 export const createDependentSchema = hcaSchema => {
-  const s = _.merge(hcaSchema.definitions.dependent, {
+  const schema = _.merge(hcaSchema.definitions.dependent, {
     required: [
       'dependentRelation',
       'socialSecurityNumber',
@@ -20,9 +20,9 @@ export const createDependentSchema = hcaSchema => {
     ],
   });
 
-  s.properties = _.omit(incomeFields, s.properties);
+  schema.properties = _.omit(incomeFields, schema.properties);
 
-  return s;
+  return schema;
 };
 
 export const createDependentIncomeSchema = hcaSchema => {
@@ -63,14 +63,15 @@ export const uiSchema = {
     },
   },
   dependentRelation: {
-    'ui:title': 'Dependent\u2019s relationship to you?',
+    'ui:title': 'What\u2019s your dependent\u2019s relationship to you?',
   },
-  socialSecurityNumber: _.merge(ssnUI, {
+  socialSecurityNumber: {
+    ...ssnUI,
     'ui:title': 'Dependent\u2019s Social Security number',
-  }),
+  },
   dateOfBirth: currentOrPastDateUI('Dependent’s date of birth'),
   becameDependent: _.assign(
-    currentOrPastDateUI('Date they became your dependent?'),
+    currentOrPastDateUI('When did they became your dependent?'),
     {
       'ui:validations': [validateDependentDate],
     },
