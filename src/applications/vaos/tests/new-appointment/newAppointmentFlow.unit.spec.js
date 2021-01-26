@@ -65,11 +65,6 @@ describe('VAOS newAppointmentFlow', () => {
         );
         expect(nextState).to.equal('vaFacilityV2');
 
-        // Check v2 feature toggle
-        // state.featureToggles.vaOnlineSchedulingFlatFacilityPage = true;
-        // nextState = newAppointmentFlow.typeOfFacility.next(state);
-        // expect(nextState).to.equal('vaFacilityV2');
-
         resetFetch();
       });
 
@@ -101,10 +96,6 @@ describe('VAOS newAppointmentFlow', () => {
         );
         expect(nextState).to.equal('vaFacilityV2');
 
-        // Check v2 feature toggle
-        // state.featureToggles.vaOnlineSchedulingFlatFacilityPage = true;
-        // nextState = newAppointmentFlow.typeOfFacility.next(state);
-        // expect(nextState).to.equal('vaFacilityV2');
         resetFetch();
       });
 
@@ -321,11 +312,6 @@ describe('VAOS newAppointmentFlow', () => {
 
         const nextState = newAppointmentFlow.typeOfFacility.next(state);
         expect(nextState).to.equal('vaFacilityV2');
-
-        // Check v2 feature toggle
-        // state.featureToggles.vaOnlineSchedulingFlatFacilityPage = true;
-        // nextState = newAppointmentFlow.typeOfFacility.next(state);
-        // expect(nextState).to.equal('vaFacilityV2');
       });
     });
   });

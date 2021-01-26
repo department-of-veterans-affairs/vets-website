@@ -166,44 +166,13 @@ export async function setVAFacility(store, facilityId) {
       parentStationCode: siteCode,
     },
   };
-  const directFacilityAttributes = getDirectBookingEligibilityCriteriaMock()
-    .attributes;
 
   const directFacilities = [
-    {
-      id: facilityId,
-      attributes: {
-        ...directFacilityAttributes,
-        id: facilityId,
-        coreSettings: [
-          {
-            ...directFacilityAttributes.coreSettings[0],
-            id: typeOfCareId,
-            typeOfCare: 'Primary Care',
-          },
-        ],
-      },
-    },
+    getDirectBookingEligibilityCriteriaMock({ id: facilityId, typeOfCareId }),
   ];
 
-  const requestFacilityAttributes = getRequestEligibilityCriteriaMock()
-    .attributes;
-
   const requestFacilities = [
-    {
-      id: facilityId,
-      attributes: {
-        ...requestFacilityAttributes,
-        id: facilityId,
-        requestSettings: [
-          {
-            ...requestFacilityAttributes.requestSettings[0],
-            id: typeOfCareId,
-            typeOfCare: 'Primary Care',
-          },
-        ],
-      },
-    },
+    getRequestEligibilityCriteriaMock({ id: facilityId, typeOfCareId }),
   ];
 
   const realFacilityID = facilityId.replace('983', '442').replace('984', '552');

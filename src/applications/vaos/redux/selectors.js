@@ -36,8 +36,6 @@ export const selectFeatureExpressCare = state =>
 export const selectFeatureExpressCareNewRequest = state =>
   toggleValues(state).vaOnlineSchedulingExpressCareNew;
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
-// const selectFeatureFlatFacilityPage = true;
-// const selectFeatureFlatFacilityPageSacramento = true;
 export const selectFeatureProjectCheetah = state =>
   toggleValues(state).vaOnlineSchedulingCheetah;
 // Use flat facility page for non-Cerner patients
