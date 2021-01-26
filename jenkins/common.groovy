@@ -224,9 +224,11 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
               }
               build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
               envUsedCache[envName] = true
+              sh "echo not content only build"
             } else {
               build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
               envUsedCache[envName] = false
+              sh "echo YES content only build"
             }
           }
         }
