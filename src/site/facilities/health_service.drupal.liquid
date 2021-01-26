@@ -1,7 +1,7 @@
-<div data-template="facilities/health_service" class="usa-accordion-bordered service-accordion-output">
+<div data-template="facilities/health_service" class="usa-accordion usa-accordion-bordered service-accordion-output">
     <ul class="usa-unstyled-list">
         {% assign serviceTaxonomy = healthService.fieldServiceNameAndDescripti.entity %}
-        <li>
+        <li id="{{ serviceTaxonomy.entityId }}">
             <button
                     class="usa-accordion-button usa-button-unstyled"
                     aria-expanded="false"
