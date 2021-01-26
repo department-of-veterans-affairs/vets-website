@@ -84,13 +84,14 @@ function RequestedAppointmentDetailsPage({
       </div>
 
       <h1>Pending {typeOfCareText} appointment</h1>
-      <h4 className="vaos-appts__block-label vads-u-margin-bottom--0">
+      <span className="vads-u-display--block vads-u-font-weight--bold">
         {isCC && 'Community Care'}
         {!isCC && !!isVideoRequest && 'VA Video Connect'}
         {!isCC && !isVideoRequest && 'VA Appointment'}
-      </h4>
+        {isExpressCare && 'Express Care'}
+        {isExpressCare && facility?.name}
+      </span>
 
-      {isExpressCare && facility?.name}
       {!!facility &&
         !isCC &&
         !isExpressCare && (
@@ -98,15 +99,15 @@ function RequestedAppointmentDetailsPage({
             facility={facility}
             facilityName={facility?.name}
             facilityId={parseFakeFHIRId(facilityId)}
-            isV2
+            isHomepageRefresh
           />
         )}
 
       {!isExpressCare && (
         <>
-          <h4 className="vaos-appts__block-label vads-u-margin-bottom--0 vads-u-margin-top--2">
+          <h2 className="vaos-appts__block-label vads-u-margin-bottom--0 vads-u-margin-top--2">
             Preferred date and time
-          </h4>
+          </h2>
           <ul className="usa-unstyled-list">
             {appointment.requestedPeriod.map((option, optionIndex) => (
               <li key={`${appointment.id}-option-${optionIndex}`}>
@@ -121,25 +122,25 @@ function RequestedAppointmentDetailsPage({
       )}
       {isExpressCare && (
         <>
-          <h4 className="vads-u-margin-top--2 vaos-appts__block-label">
+          <h2 className="vads-u-margin-top--2 vaos-appts__block-label">
             Reason for appointment
-          </h4>
+          </h2>
           <div>{appointment.reason}</div>
         </>
       )}
 
       {!isExpressCare && (
         <>
-          <h4 className="vads-u-margin-top--2 vaos-appts__block-label">
+          <h2 className="vads-u-margin-top--2 vaos-appts__block-label">
             {appointment.reason}
-          </h4>
+          </h2>
           <div>{firstMessage}</div>
         </>
       )}
 
-      <h4 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vaos-appts__block-label">
+      <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vaos-appts__block-label">
         Your contact details
-      </h4>
+      </h2>
       <div>
         {getPatientTelecom(appointment, 'email')}
         <br />
