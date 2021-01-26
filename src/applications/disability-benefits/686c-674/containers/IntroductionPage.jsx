@@ -44,25 +44,29 @@ class IntroductionPage extends React.Component {
       content = <LoadingIndicator message="Loading..." />;
     } else if (!dependentsToggle) {
       content = (
-        <AlertBox
-          status="info"
-          headline="We’re still working on this feature"
-          content={
-            <>
-              <p>
-                We’re rolling out the Form 21-686c (Application to add and/or
-                remove dependents) in stages. It’s not quite ready yet. Please
-                check back again soon.{' '}
-              </p>
-              <a
-                href="/view-change-dependents/"
-                className="u-vads-display--block u-vads-margin-top--2"
-              >
-                Return to Dependents Benefits page
-              </a>
-            </>
-          }
-        />
+        <>
+          <h1>Application to add or remove dependents</h1>
+          <AlertBox
+            status="info"
+            headline="We’re still working on this feature"
+            level="2"
+            content={
+              <>
+                <p>
+                  We’re rolling out the Form 21-686c (Application to add and/or
+                  remove dependents) in stages. It’s not quite ready yet. Please
+                  check back again soon.{' '}
+                </p>
+                <a
+                  href="/view-change-dependents/"
+                  className="u-vads-display--block u-vads-margin-top--2"
+                >
+                  Return to Dependents Benefits page
+                </a>
+              </>
+            }
+          />
+        </>
       );
     } else if (user?.login?.currentlyLoggedIn && hasVaFileNumber?.errors) {
       const errCode = hasVaFileNumber.errors[0].code;
