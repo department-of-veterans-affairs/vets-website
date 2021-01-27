@@ -34,7 +34,7 @@ export const selectFeatureExpressCareNewRequest = state =>
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
 export const selectFeatureProjectCheetah = state =>
   toggleValues(state).vaOnlineSchedulingCheetah;
-// Use flat facility page for non-Cerner patients
+// Use flat facility page for non Cerner patients
 export const selectUseFlatFacilityPage = state => !selectIsCernerPatient(state);
 
 const selectFeatureProviderSelection = state =>
