@@ -13,28 +13,29 @@ import serviceInformation from './chapters/militaryService/serviceInformation';
 import additionalInformation from './chapters/militaryService/additionalInformation';
 import documentUpload from './chapters/militaryService/documentUpload';
 
+// chapter 3
+import basicInformation from './chapters/vaBenefits/basicInformation';
+
+// chapter 4
+import financialDisclosure from './chapters/householdInformation/financialDisclosure';
+import spouseInformation from './chapters/householdInformation/spouseInformation';
+import dependentInformation from './chapters/householdInformation/dependentInformation';
+import annualIncome from './chapters/householdInformation/annualIncome';
+import deductibleExpenses from './chapters/householdInformation/deductibleExpenses';
+
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 
-import {
-  schema as addressSchema,
-  uiSchema as addressUI,
-} from 'platform/forms/definitions/address';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-
 import { states } from 'platform/forms/address';
-import fullNameUI from 'platform/forms/definitions/fullName';
+
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { hasSession } from 'platform/user/profile/utilities';
 import environment from 'platform/utilities/environment';
 
-import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
 import DowntimeMessage from '../components/DowntimeMessage';
@@ -44,13 +45,7 @@ import GetFormHelp from '../components/GetFormHelp';
 import IDPage from '../containers/IDPage';
 
 import {
-  deductibleExpensesDescription,
-  disclosureWarning,
-  expensesGreaterThanIncomeWarning,
-  expensesLessThanIncome,
   facilityHelp,
-  financialDisclosureText,
-  incomeDescription,
   isEssentialAcaCoverageDescription,
   medicaidDescription,
   medicalCenterLabels,
@@ -66,21 +61,13 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorMessage from '../components/ErrorMessage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
-import DependentView from '../components/DependentView';
 
-import {
-  createDependentSchema,
-  uiSchema as dependentUI,
-  createDependentIncomeSchema,
-  dependentIncomeUiSchema,
-} from '../definitions/dependent';
-
-import { validateMarriageDate, validateCurrency } from '../validation';
+import { createDependentSchema } from '../definitions/dependent';
 
 import manifest from '../manifest.json';
 
 const dependentSchema = createDependentSchema(fullSchemaHca);
-const dependentIncomeSchema = createDependentIncomeSchema(fullSchemaHca);
+
 const emptyFacilityList = [];
 const emptyObjectSchema = {
   type: 'object',
@@ -88,32 +75,12 @@ const emptyObjectSchema = {
 };
 
 const {
-  cohabitedLastYear,
-  dateOfMarriage,
-  deductibleEducationExpenses,
-  deductibleFuneralExpenses,
-  deductibleMedicalExpenses,
-  dependents,
-  discloseFinancialInformation,
   isCoveredByHealthInsurance,
   isEnrolledMedicarePartA,
   isEssentialAcaCoverage,
   isMedicaidEligible,
   medicarePartAEffectiveDate,
-  provideSupportLastYear,
-  sameAddress,
-  spouseDateOfBirth,
-  spouseFullName,
-  spouseGrossIncome,
-  spouseNetIncome,
-  spouseOtherIncome,
-  spousePhone,
-  spouseSocialSecurityNumber,
-  vaCompensationType,
   vaMedicalFacility,
-  veteranGrossIncome,
-  veteranNetIncome,
-  veteranOtherIncome,
   wantsInitialVaContact,
 } = fullSchemaHca.properties;
 
@@ -207,341 +174,17 @@ const formConfig = {
     vaBenefits: {
       title: 'VA Benefits',
       pages: {
-        vaBenefits: {
-          path: 'va-benefits/basic-information',
-          title: 'VA benefits',
-          uiSchema: {
-            'ui:title': 'Current compensation',
-            'ui:description': PrefillMessage,
-            vaCompensationType: {
-              'ui:title':
-                'Which type of VA compensation do you currently receive?',
-              'ui:widget': 'radio',
-              'ui:options': {
-                labels: {
-                  lowDisability:
-                    'Service-connected disability pay for a 10%, 20%, 30%, or 40% disability rating',
-                  highDisability:
-                    'Service-connected disability pay for a 50% or higher disability rating',
-                  pension: 'VA pension',
-                  none: 'I don’t receive any VA pay',
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['vaCompensationType'],
-            properties: {
-              vaCompensationType,
-            },
-          },
-        },
+        vaBenefits: basicInformation,
       },
     },
     householdInformation: {
       title: 'Household Information',
       pages: {
-        financialDisclosure: {
-          path: 'household-information/financial-disclosure',
-          title: 'Financial disclosure',
-          uiSchema: {
-            'ui:title': 'Financial disclosure',
-            'ui:description': financialDisclosureText,
-            discloseFinancialInformation: {
-              'ui:title': 'Do you want to provide your financial information?',
-              'ui:widget': 'yesNo',
-            },
-            'view:noDiscloseWarning': {
-              'ui:description': disclosureWarning,
-              'ui:options': {
-                hideIf: form => form.discloseFinancialInformation !== false,
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['discloseFinancialInformation'],
-            properties: {
-              discloseFinancialInformation,
-              'view:noDiscloseWarning': emptyObjectSchema,
-            },
-          },
-        },
-        spouseInformation: {
-          path: 'household-information/spouse-information',
-          title: 'Spouse’s information',
-          initialData: {},
-          depends: formData =>
-            formData.discloseFinancialInformation &&
-            formData.maritalStatus &&
-            (formData.maritalStatus.toLowerCase() === 'married' ||
-              formData.maritalStatus.toLowerCase() === 'separated'),
-          uiSchema: {
-            'ui:title': 'Spouse’s information',
-            'ui:description':
-              'Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.',
-            spouseFullName: fullNameUI,
-            spouseSocialSecurityNumber: _.merge(ssnUI, {
-              'ui:title': 'Spouse’s Social Security number',
-            }),
-            spouseDateOfBirth: currentOrPastDateUI('Date of birth'),
-            dateOfMarriage: _.assign(currentOrPastDateUI('Date of marriage'), {
-              'ui:validations': [validateMarriageDate],
-            }),
-            cohabitedLastYear: {
-              'ui:title': 'Did your spouse live with you last year?',
-              'ui:widget': 'yesNo',
-            },
-            provideSupportLastYear: {
-              'ui:title':
-                'If your spouse did not live with you last year, did you provide financial support?',
-              'ui:widget': 'yesNo',
-              'ui:options': {
-                expandUnder: 'cohabitedLastYear',
-                expandUnderCondition: false,
-              },
-            },
-            sameAddress: {
-              'ui:title': 'Do you have the same address as your spouse?',
-              'ui:widget': 'yesNo',
-            },
-            'view:spouseContactInformation': {
-              'ui:title': 'Spouse’s address and telephone number',
-              'ui:options': {
-                expandUnder: 'sameAddress',
-                expandUnderCondition: false,
-              },
-              spouseAddress: addressUI(
-                '',
-                true,
-                formData => formData.sameAddress === false,
-              ),
-              spousePhone: phoneUI(),
-            },
-          },
-          schema: {
-            type: 'object',
-            required: [
-              'spouseSocialSecurityNumber',
-              'spouseDateOfBirth',
-              'dateOfMarriage',
-              'sameAddress',
-            ],
-            properties: {
-              spouseFullName,
-              spouseSocialSecurityNumber,
-              spouseDateOfBirth,
-              dateOfMarriage,
-              cohabitedLastYear,
-              provideSupportLastYear,
-              sameAddress,
-              'view:spouseContactInformation': {
-                type: 'object',
-                properties: {
-                  spouseAddress: addressSchema(fullSchemaHca),
-                  spousePhone,
-                },
-              },
-            },
-          },
-        },
-        dependentInformation: {
-          path: 'household-information/dependent-information',
-          title: 'Dependent information',
-          depends: data => data.discloseFinancialInformation,
-          uiSchema: {
-            'view:reportDependents': {
-              'ui:title': 'Do you have any dependents to report?',
-              'ui:widget': 'yesNo',
-            },
-            dependents: {
-              items: dependentUI,
-              'ui:options': {
-                expandUnder: 'view:reportDependents',
-                itemName: 'Dependent',
-                hideTitle: true,
-                viewField: DependentView,
-              },
-              'ui:errorMessages': {
-                minItems: 'You must add at least one dependent.',
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['view:reportDependents'],
-            properties: {
-              'view:reportDependents': { type: 'boolean' },
-              dependents: _.assign(dependents, {
-                minItems: 1,
-              }),
-            },
-          },
-        },
-        annualIncome: {
-          path: 'household-information/annual-income',
-          title: 'Annual income',
-          initialData: {},
-          depends: data => data.discloseFinancialInformation,
-          uiSchema: {
-            'ui:title': 'Annual income',
-            'ui:description': incomeDescription,
-            veteranGrossIncome: _.set(
-              'ui:validations',
-              [validateCurrency],
-              currencyUI('Veteran gross annual income from employment'),
-            ),
-            veteranNetIncome: _.set(
-              'ui:validations',
-              [validateCurrency],
-              currencyUI(
-                'Veteran net income from your farm, ranch, property or business',
-              ),
-            ),
-            veteranOtherIncome: _.set(
-              'ui:validations',
-              [validateCurrency],
-              currencyUI('Veteran other income amount'),
-            ),
-            'view:spouseIncome': {
-              'ui:title': 'Spouse income',
-              'ui:options': {
-                hideIf: formData =>
-                  !formData.maritalStatus ||
-                  (formData.maritalStatus.toLowerCase() !== 'married' &&
-                    formData.maritalStatus.toLowerCase() !== 'separated'),
-              },
-              spouseGrossIncome: _.merge(
-                currencyUI('Spouse gross annual income from employment'),
-                {
-                  'ui:required': formData =>
-                    formData.maritalStatus &&
-                    (formData.maritalStatus.toLowerCase() === 'married' ||
-                      formData.maritalStatus.toLowerCase() === 'separated'),
-                  'ui:validations': [validateCurrency],
-                },
-              ),
-              spouseNetIncome: _.merge(
-                currencyUI(
-                  'Spouse net income from your farm, ranch, property or business',
-                ),
-                {
-                  'ui:required': formData =>
-                    formData.maritalStatus &&
-                    (formData.maritalStatus.toLowerCase() === 'married' ||
-                      formData.maritalStatus.toLowerCase() === 'separated'),
-                  'ui:validations': [validateCurrency],
-                },
-              ),
-              spouseOtherIncome: _.merge(
-                currencyUI('Spouse other income amount'),
-                {
-                  'ui:required': formData =>
-                    formData.maritalStatus &&
-                    (formData.maritalStatus.toLowerCase() === 'married' ||
-                      formData.maritalStatus.toLowerCase() === 'separated'),
-                  'ui:validations': [validateCurrency],
-                },
-              ),
-            },
-            dependents: {
-              'ui:field': 'BasicArrayField',
-              items: dependentIncomeUiSchema,
-              'ui:options': {
-                hideIf: formData => !_.get('view:reportDependents', formData),
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: [
-              'veteranGrossIncome',
-              'veteranNetIncome',
-              'veteranOtherIncome',
-            ],
-            definitions: {
-              // Override the default schema and use only the income fields
-              dependent: dependentIncomeSchema,
-            },
-            properties: {
-              veteranGrossIncome,
-              veteranNetIncome,
-              veteranOtherIncome,
-              'view:spouseIncome': {
-                type: 'object',
-                properties: {
-                  spouseGrossIncome,
-                  spouseNetIncome,
-                  spouseOtherIncome,
-                },
-              },
-              dependents: _.merge(dependents, {
-                minItems: 1,
-              }),
-            },
-          },
-        },
-        deductibleExpenses: {
-          path: 'household-information/deductible-expenses',
-          title: 'Deductible expenses',
-          depends: data => data.discloseFinancialInformation,
-          uiSchema: {
-            'ui:title': 'Previous Calendar Year’s Deductible Expenses',
-            'ui:description': deductibleExpensesDescription,
-            deductibleMedicalExpenses: _.set(
-              'ui:validations',
-              [validateCurrency],
-              currencyUI(
-                'Amount you or your spouse paid in non-reimbursable medical expenses this past year.',
-              ),
-            ),
-            'view:expensesIncomeWarning1': {
-              'ui:description': expensesGreaterThanIncomeWarning,
-              'ui:options': {
-                hideIf: expensesLessThanIncome('deductibleMedicalExpenses'),
-              },
-            },
-            deductibleFuneralExpenses: _.set(
-              'ui:validations',
-              [validateCurrency],
-              currencyUI(
-                'Amount you paid in funeral or burial expenses for a deceased spouse or child this past year.',
-              ),
-            ),
-            'view:expensesIncomeWarning2': {
-              'ui:description': expensesGreaterThanIncomeWarning,
-              'ui:options': {
-                hideIf: expensesLessThanIncome('deductibleFuneralExpenses'),
-              },
-            },
-            deductibleEducationExpenses: currencyUI(
-              'Amount you paid for anything related to your own education (college or vocational) this past year. Do not list your dependents’ educational expenses.',
-            ),
-            'view:expensesIncomeWarning3': {
-              'ui:description': expensesGreaterThanIncomeWarning,
-              'ui:options': {
-                hideIf: expensesLessThanIncome('deductibleEducationExpenses'),
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: [
-              'deductibleMedicalExpenses',
-              'deductibleFuneralExpenses',
-              'deductibleEducationExpenses',
-            ],
-            properties: {
-              deductibleMedicalExpenses,
-              'view:expensesIncomeWarning1': emptyObjectSchema,
-              deductibleFuneralExpenses,
-              'view:expensesIncomeWarning2': emptyObjectSchema,
-              deductibleEducationExpenses,
-              'view:expensesIncomeWarning3': emptyObjectSchema,
-            },
-          },
-        },
+        financialDisclosure,
+        spouseInformation,
+        dependentInformation,
+        annualIncome,
+        deductibleExpenses,
       },
     },
     insuranceInformation: {
