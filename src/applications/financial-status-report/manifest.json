@@ -2,5 +2,5 @@
   "appName": "Financial Status Report",
   "entryFile": "./app-entry.jsx",
   "entryName": "financial-status-report",
-  "rootUrl": "/financial-status-report"
+  "rootUrl": "/manage-va-debt/financial-status-report"
 }

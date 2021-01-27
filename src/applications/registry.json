@@ -893,11 +893,21 @@
   {
     "appName": "Financial Status Report",
     "entryName": "financial-status-report",
-    "rootUrl": "/financial-status-report",
+    "rootUrl": "/manage-va-debt/financial-status-report",
     "template": {
-      "title:": "Financial Status Report",
-      "layout": "page-react.html",
-      "vagovprod": false
+      "title:": "Request help for VA debt",
+      "vagovprod": false,
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "manage-va-debt",
+          "name": "Manage your VA debt"
+        },
+        {
+          "path": "manage-va-debt/financial-status-report",
+          "name": "Request help for VA debt"
+        }
+      ]
     }
   },
   {
