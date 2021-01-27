@@ -34,7 +34,7 @@
       <div class="why-this-matters">
         <!-- Content -->
         <div class="why-this-matters-content">
-          <h2>Why this matters to you</h2>
+          <h2 class="vads-u-margin--0">Why this matters to you</h2>
           <p>{{ fieldClpWhyThisMatters }}</p>
           {% if fieldSecondaryCallToAction %}
             <a class="usa-button-secondary" href="{{ fieldSecondaryCallToAction.entity.fieldButtonLink.url.path }}">
@@ -65,8 +65,8 @@
       <!-- What You Can Do -->
       <div class="what-you-can-do">
         <!-- Title -->
-        <p class="grey-header">WHAT YOU CAN DO</p>
-        <h2>{{ fieldClpWhatYouCanDoHeader }}</h2>
+        <p class="grey-header vads-u-font-size--sm vads-u-margin-bottom--0">WHAT YOU CAN DO</p>
+        <h2 class="vads-u-margin--0">{{ fieldClpWhatYouCanDoHeader }}</h2>
         <p>{{ fieldClpWhatYouCanDoIntro }}</p>
 
         <!-- List of promos -->
@@ -88,8 +88,8 @@
       <!-- Video -->
       <div class="what-you-can-do">
         <!-- Title -->
-        <p class="grey-header">VIDEO</p>
-        <h2>{{ fieldClpVideoPanelHeader }}</h2>
+        <p class="grey-header vads-u-font-size--sm vads-u-margin-bottom--0">VIDEO</p>
+        <h2 class="vads-u-margin--0">{{ fieldClpVideoPanelHeader }}</h2>
 
         <!-- Video -->
         <iframe
@@ -117,35 +117,37 @@
       </div>
 
       <!-- Spotlight -->
-      <div class="spotlight">
-        <!-- Title -->
-        <p class="grey-header">SPOTLIGHT</p>
-        <h2>{{ fieldClpSpotlightHeader }}</h2>
-        <p>
-          {{ fieldClpSpotlightIntroText }}
-          <a href="{{ fieldClpSpotlightCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_ blank">
-            {{ fieldClpSpotlightCta.entity.fieldButtonLabel }}
-          </a>
-        </p>
+      <div class="spotlight usa-grid usa-grid-full vads-u-padding-y--4 vads-u-padding-x--2 medium-screen:vads-u-padding-x--0">
+        <div class="usa-width-three-fourths">
+          <!-- Title -->
+          <p class="grey-header vads-u-font-size--sm vads-u-margin-bottom--0">SPOTLIGHT</p>
+          <h2 class="vads-u-margin--0" class="vads-u-margin-top--2">{{ fieldClpSpotlightHeader }}</h2>
+          <p class="vads-u-margin-top--1 vads-u-margin-bottom--2">
+            {{ fieldClpSpotlightIntroText }}
+            <a href="{{ fieldClpSpotlightCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_ blank">
+              {{ fieldClpSpotlightCta.entity.fieldButtonLabel }}
+            </a>
+          </p>
 
-        <!-- List of spotlights -->
-        {% if fieldClpSpotlightLinkTeasers != empty %}
-          <div class="link-teasers">
-            {% for linkTeaser in fieldClpSpotlightLinkTeasers %}
-              <div class="link-teaser">
-                <a href="{{ linkTeaser.entity.fieldLink.url }}" rel="noreferrer noopener" target="_blank">{{ linkTeaser.entity.fieldLink.title }}</a>
-                <p>{{ linkTeaser.entity.fieldLinkSummary }}</p>
-              </div>
-            {% endfor %}
-          </div>
-        {% endif %}
+          <!-- List of spotlights -->
+          {% if fieldClpSpotlightLinkTeasers != empty %}
+            <div class="link-teasers vads-u-display--flex vads-u-flex-wrap--wrap">
+              {% for linkTeaser in fieldClpSpotlightLinkTeasers %}
+                <div class="link-teaser medium-screen:vads-l-col--4 medium-screen:vads-u-margin-right--2 vads-u-margin-top--2 vads-u-display--flex vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-padding--2">
+                  <a class="vads-u-font-weight--bold" href="{{ linkTeaser.entity.fieldLink.url }}" rel="noreferrer noopener" target="_blank">{{ linkTeaser.entity.fieldLink.title }}</a>
+                  <p class="vads-u-font-size--sm">{{ linkTeaser.entity.fieldLinkSummary }}</p>
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
       </div>
 
       <!-- Stories -->
       <div class="stories">
         <!-- Title -->
-        <p class="grey-header">STORIES</p>
-        <h2>{{ fieldClpStoriesHeader }}</h2>
+        <p class="grey-header vads-u-font-size--sm vads-u-margin-bottom--0">STORIES</p>
+        <h2 class="vads-u-margin--0">{{ fieldClpStoriesHeader }}</h2>
         <p>{{ fieldClpStoriesIntro }}</p>
 
         <!-- List of stories -->
@@ -176,8 +178,8 @@
       <!-- Downloadable Resources -->
       <div class="downloadable-resources">
         <!-- Title -->
-        <p class="grey-header">DOWNLOADABLE RESOURCES</p>
-        <h2>{{ fieldClpResourcesHeader }}</h2>
+        <p class="grey-header vads-u-font-size--sm vads-u-margin-bottom--0">DOWNLOADABLE RESOURCES</p>
+        <h2 class="vads-u-margin--0">{{ fieldClpResourcesHeader }}</h2>
         <p>{{ fieldClpResourcesIntroText }}</p>
 
         <!-- List of resources -->
@@ -204,8 +206,8 @@
       <!-- Events -->
       <div class="events">
         <!-- Title -->
-        <p class="grey-header">EVENTS</p>
-        <h2>{{ fieldClpEventsHeader }}</h2>
+        <p class="grey-header vads-u-font-size--sm vads-u-margin-bottom--0">EVENTS</p>
+        <h2 class="vads-u-margin--0">{{ fieldClpEventsHeader }}</h2>
 
         <!-- List of events -->
         {% if fieldClpEventsReferences != empty %}
@@ -262,8 +264,8 @@
     <!-- FAQ -->
     <div class="faq">
       <!-- Title -->
-      <p class="grey-header">FAQ</p>
-      <h2>Frequently asked questions</h2>
+      <p class="grey-header vads-u-font-size--sm vads-u-margin-bottom--0">FAQ</p>
+      <h2 class="vads-u-margin--0">Frequently asked questions</h2>
 
       <!-- Questions/Answers -->
       <div class="usa-accordion-bordered">
@@ -297,16 +299,16 @@
 
     <!-- Connect with us -->
     <div class="connect-with-us">
-      <p class="grey-header">CONNECT WITH US</p>
-      <h2>Get updates from Veterans Health Administration</h2>
+      <p class="grey-header vads-u-font-size--sm vads-u-margin-bottom--0">CONNECT WITH US</p>
+      <h2 class="vads-u-margin--0">Get updates from Veterans Health Administration</h2>
 
       <!-- TODO, check out fieldClpConnectWithUs, I don't think it has everything we need but most of it should be there -->
     </div>
 
     <!-- VA Benefits -->
     <div class="benefits">
-      <p class="grey-header">VA BENEFITS</p>
-      <h2>Learn more about related VA benefits</h2>
+      <p class="grey-header vads-u-font-size--sm vads-u-margin-bottom--0">VA BENEFITS</p>
+      <h2 class="vads-u-margin--0">Learn more about related VA benefits</h2>
 
       <!-- Benefit landing pages -->
       {% if fieldBenefitCategories != empty %}
