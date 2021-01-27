@@ -32,7 +32,7 @@ export default class ConfirmationPage extends React.Component {
   }
 
   componentDidMount() {
-    focusElement('.usa-alert-body > h3');
+    focusElement('.usa-alert-body > h2');
     scrollToTop();
   }
 

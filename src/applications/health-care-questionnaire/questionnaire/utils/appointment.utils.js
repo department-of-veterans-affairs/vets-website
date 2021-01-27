@@ -88,23 +88,6 @@ const getAppointmentTypeFromClinic = (clinic, options = {}) => {
     : appointmentType;
 };
 
-const getAppointTypeFromAppointment = (data, options = {}) => {
-  const appointment = data?.attributes;
-  if (!appointment) {
-    return null;
-  }
-  if (!appointment.vdsAppointments?.length) {
-    return null;
-  }
-  const { clinic } = appointment.vdsAppointments[0];
-
-  if (!clinic) {
-    return null;
-  }
-
-  return getAppointmentTypeFromClinic(clinic, options);
-};
-
 const getAppointmentTimeFromAppointment = data => {
   const appointment = data?.attributes;
   if (!appointment) {
@@ -117,9 +100,43 @@ const getAppointmentTimeFromAppointment = data => {
   return appointmentTime;
 };
 
+const getClinicFromAppointment = data => {
+  const appointment = data?.attributes;
+  if (!appointment) {
+    return null;
+  }
+  if (!appointment.vdsAppointments?.length) {
+    return null;
+  }
+  const { clinic } = appointment.vdsAppointments[0];
+  if (clinic) {
+    return {
+      ...clinic,
+      friendlyName: appointment.clinicFriendlyName,
+    };
+  }
+  return clinic || null;
+};
+
+const getFacilityFromAppointment = data => {
+  const clinic = getClinicFromAppointment(data);
+  if (!clinic) {
+    return null;
+  }
+  return clinic.facility;
+};
+
+const getAppointTypeFromAppointment = (data, options = {}) => {
+  const clinic = getClinicFromAppointment(data);
+
+  return getAppointmentTypeFromClinic(clinic, options);
+};
+
 export {
   getBookingNoteFromAppointment,
   getAppointTypeFromAppointment,
   getAppointmentTimeFromAppointment,
   getAppointmentTypeFromClinic,
+  getFacilityFromAppointment,
+  getClinicFromAppointment,
 };

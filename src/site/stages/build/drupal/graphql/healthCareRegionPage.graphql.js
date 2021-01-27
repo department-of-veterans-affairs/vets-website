@@ -13,7 +13,6 @@ module.exports = `
     ${entityElementsFromPages}
     ${healthCareRegionNewsStories}
     ${healthCareRegionEvents}
-    fieldNicknameForThisFacility
     title
     fieldMedia {
       entity {
