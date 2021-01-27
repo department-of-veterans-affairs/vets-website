@@ -25,9 +25,18 @@ class ResponsiveTable extends React.Component {
     // Default to column value displayed on desktop
     let mobileHeaderValue = column;
 
-    const stringCellData = value => (
-      <span className={'vads-u-margin-0'}>{value}</span>
-    );
+    const stringCellData = value =>
+      value.length < 20 || screen.width > 320 ? (
+        <span className={'vads-u-margin-0'}>{value}</span>
+      ) : (
+        <span className={'vads-u-margin-0'}>
+          {value.substring(0, value.length - 6)}
+          <br />
+          <span className="zipcode-margin">
+            {value.substring(value.length - 5, value.length)}
+          </span>
+        </span>
+      );
 
     if (typeof columnData === 'string') {
       cellData = stringCellData(columnData);
@@ -46,10 +55,12 @@ class ResponsiveTable extends React.Component {
 
     return (
       <>
-        <dfn className="medium-screen:vads-u-display--none vads-u-font-weight--bold">
-          {mobileHeaderValue}:{' '}
+        <dfn className="vads-u-font-weight--bold">
+          <span className="medium-screen:vads-u-display--none vads-u-font-weight--bold school-name">
+            {mobileHeaderValue}:
+          </span>{' '}
+          <span className="vads-u-font-weight--normal">{cellData}</span>
         </dfn>
-        {cellData}
       </>
     );
   };
@@ -59,7 +70,6 @@ class ResponsiveTable extends React.Component {
     const { key, rowClassName } = row;
     return (
       <>
-        <hr className="responsive-table-row-separator" />
         <tr key={key} className={rowClassName} role="row">
           {columns.map((column, index) => {
             const cellName = createId(column);
