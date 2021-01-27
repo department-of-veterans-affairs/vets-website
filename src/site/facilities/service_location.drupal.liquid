@@ -103,18 +103,24 @@
     </div>
   {% endif %}
 
-  {% if locationEntity.fieldReferralRequired and locationEntity.fieldReferralRequired != 'not_applicable' %}
-    <p class="vads-u-margin-bottom--0" data-template="paragraphs/service_location">
-      <strong>Referral required?</strong>
-      {% if locationEntity.fieldReferralRequired == '1' %}Yes{% else %}No{% endif %}
-    </p>
+  {% assign OMIT_REFERRAL_OR_WALKIN = "not_applicable, unknown" %}
+
+  {% if locationEntity.fieldReferralRequired %}
+    {% unless OMIT_REFERRAL_OR_WALKIN contains locationEntity.fieldReferralRequired %}
+      <p class="vads-u-margin-bottom--0" data-template="paragraphs/service_location">
+        <strong>Referral required?</strong>
+        {% if locationEntity.fieldReferralRequired == '1' %}Yes{% else %}No{% endif %}
+      </p>
+    {% endunless %}
   {% endif %}
 
-  {% if locationEntity.fieldWalkInsAccepted and locationEntity.fieldWalkInsAccepted != 'not_applicable' %}
-    <p class="vads-u-margin-bottom--0" data-template="paragraphs/service_location">
-      <strong>Walk-ins accepted?</strong>
-      {% if locationEntity.fieldWalkInsAccepted == '1' %}Yes{% else %}No{% endif %}
-    </p>
+  {% if locationEntity.fieldWalkInsAccepted %}
+    {% unless OMIT_REFERRAL_OR_WALKIN contains locationEntity.fieldWalkInsAccepted %}
+      <p class="vads-u-margin-bottom--0" data-template="paragraphs/service_location">
+        <strong>Walk-ins accepted?</strong>
+        {% if locationEntity.fieldWalkInsAccepted == '1' %}Yes{% else %}No{% endif %}
+      </p>
+    {% endunless %}
   {% endif %}
 
   {% if locationEntity.fieldOnlineSchedulingAvailabl == '1' %}

@@ -33,7 +33,7 @@ function mountWidgets(widgets, slowLoadingThreshold) {
           var loadingMessage = widget.querySelector('.loading-indicator-container');
 
           if (!replacedWithWidget && loadingMessage) {
-            loadingMessage.remove();
+            loadingMessage.parentNode.removeChild(loadingMessage);
           }
 
           if (!replacedWithWidget && errorMessage) {
