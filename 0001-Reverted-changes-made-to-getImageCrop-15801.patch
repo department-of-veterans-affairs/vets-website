@@ -1,0 +1,37 @@
+From de223da69a9213a4566cb00bb8346524f021538f Mon Sep 17 00:00:00 2001
+From: Jhonny Gonzalez <55560129+jhonnyoddball@users.noreply.github.com>
+Date: Tue, 26 Jan 2021 14:52:44 -0500
+Subject: [PATCH] Reverted changes made to getImageCrop (#15801)
+
+---
+ .../build/process-cms-exports/transformers/helpers.js      | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
+
+diff --git a/src/site/stages/build/process-cms-exports/transformers/helpers.js b/src/site/stages/build/process-cms-exports/transformers/helpers.js
+index 4e4433b8b8..b6477b5847 100644
+--- a/src/site/stages/build/process-cms-exports/transformers/helpers.js
++++ b/src/site/stages/build/process-cms-exports/transformers/helpers.js
+@@ -3,7 +3,6 @@ const assert = require('assert');
+ const { sortBy, unescape, pick, omit } = require('lodash');
+ const moment = require('moment-timezone');
+ const { readEntity } = require('../helpers');
+-const buckets = require('../../../../constants/buckets');
+ 
+ const mediaImageStyles = [
+   {
+@@ -109,11 +108,7 @@ function getImageCrop(obj, imageStyle = null) {
+       image.machine
+     }/public${imageObj.image.derivative.url.replace('/img', '')}`;
+     imageObj.image.url = url;
+-    // Derivative urls have a full path starting with
+-    // 'https://{buildtype}.cms.va.gov/sites/default/files/', so add that here.
+-    // It doesn't matter what the build type is since it gets stripped out in convertDrupalFilesToLocal
+-    // so just use prod here
+-    imageObj.image.derivative.url = `${buckets.vagovprod}${url}`;
++    imageObj.image.derivative.url = url;
+     imageObj.image.derivative.width = image.width;
+     imageObj.image.derivative.height = image.height;
+     return imageObj;
+-- 
+2.30.0
+

@@ -1,0 +1,57 @@
+From e192bd769f174befa457a9156547e5ac2fd936f9 Mon Sep 17 00:00:00 2001
+From: Gibran <brangi@users.noreply.github.com>
+Date: Tue, 26 Jan 2021 09:22:10 -0600
+Subject: [PATCH] Handle "unknown" values for referral and walkin on VAMC
+ services (#15768)
+
+* handle "unknown" values for referral and walkin on VAMC services
+
+* Fix better conditional
+
+Co-authored-by: Gibran Rodriguez <gribranrodriguez@USRMonitorsMBP2.attlocal.net>
+---
+ .../facilities/service_location.drupal.liquid | 26 ++++++++++++-------
+ 1 file changed, 16 insertions(+), 10 deletions(-)
+
+diff --git a/src/site/facilities/service_location.drupal.liquid b/src/site/facilities/service_location.drupal.liquid
+index a27f7da206..0204383d71 100644
+--- a/src/site/facilities/service_location.drupal.liquid
++++ b/src/site/facilities/service_location.drupal.liquid
+@@ -103,18 +103,24 @@
+     </div>
+   {% endif %}
+ 
+-  {% if locationEntity.fieldReferralRequired and locationEntity.fieldReferralRequired != 'not_applicable' %}
+-    <p class="vads-u-margin-bottom--0" data-template="paragraphs/service_location">
+-      <strong>Referral required?</strong>
+-      {% if locationEntity.fieldReferralRequired == '1' %}Yes{% else %}No{% endif %}
+-    </p>
++  {% assign OMIT_REFERRAL_OR_WALKIN = "not_applicable, unknown" %}
++
++  {% if locationEntity.fieldReferralRequired %}
++    {% unless OMIT_REFERRAL_OR_WALKIN contains locationEntity.fieldReferralRequired %}
++      <p class="vads-u-margin-bottom--0" data-template="paragraphs/service_location">
++        <strong>Referral required?</strong>
++        {% if locationEntity.fieldReferralRequired == '1' %}Yes{% else %}No{% endif %}
++      </p>
++    {% endunless %}
+   {% endif %}
+ 
+-  {% if locationEntity.fieldWalkInsAccepted and locationEntity.fieldWalkInsAccepted != 'not_applicable' %}
+-    <p class="vads-u-margin-bottom--0" data-template="paragraphs/service_location">
+-      <strong>Walk-ins accepted?</strong>
+-      {% if locationEntity.fieldWalkInsAccepted == '1' %}Yes{% else %}No{% endif %}
+-    </p>
++  {% if locationEntity.fieldWalkInsAccepted %}
++    {% unless OMIT_REFERRAL_OR_WALKIN contains locationEntity.fieldWalkInsAccepted %}
++      <p class="vads-u-margin-bottom--0" data-template="paragraphs/service_location">
++        <strong>Walk-ins accepted?</strong>
++        {% if locationEntity.fieldWalkInsAccepted == '1' %}Yes{% else %}No{% endif %}
++      </p>
++    {% endunless %}
+   {% endif %}
+ 
+   {% if locationEntity.fieldOnlineSchedulingAvailabl == '1' %}
+-- 
+2.30.0
+

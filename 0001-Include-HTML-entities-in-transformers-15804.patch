@@ -1,0 +1,46 @@
+From 2a902cd4e907aa06008e4f2aad5800add8949653 Mon Sep 17 00:00:00 2001
+From: Theo Bentum <theo@adhocteam.us>
+Date: Tue, 26 Jan 2021 16:31:01 -0800
+Subject: [PATCH] Include HTML entities in transformers (#15804)
+
+* Include HTML entities in transformers
+
+* Add unescapeUnicode back into transformers/helpers.js
+
+* Refactor getWysiwygString
+---
+ .../build/process-cms-exports/transformers/helpers.js      | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/src/site/stages/build/process-cms-exports/transformers/helpers.js b/src/site/stages/build/process-cms-exports/transformers/helpers.js
+index b6477b5847..adec42671a 100644
+--- a/src/site/stages/build/process-cms-exports/transformers/helpers.js
++++ b/src/site/stages/build/process-cms-exports/transformers/helpers.js
+@@ -1,6 +1,6 @@
+ const fs = require('fs');
+ const assert = require('assert');
+-const { sortBy, unescape, pick, omit } = require('lodash');
++const { sortBy, pick, omit } = require('lodash');
+ const moment = require('moment-timezone');
+ const { readEntity } = require('../helpers');
+ 
+@@ -159,13 +159,14 @@ module.exports = {
+ 
+   /**
+    * Takes a string and applies the following:
+-   * - Transforms escaped unicode to characters
++   * Returns a blank string if the value is not defined,
++   * otherwise, returns the value
+    *
+    * @param {string}
+    * @return {string}
+    */
+   getWysiwygString(value) {
+-    return unescape(value);
++    return value || '';
+   },
+ 
+   /**
+-- 
+2.30.0
+

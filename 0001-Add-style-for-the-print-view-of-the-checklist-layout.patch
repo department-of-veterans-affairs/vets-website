@@ -1,0 +1,63 @@
+From b7bbdf2943988ffc3a058edb1c67c5f51f9e96cc Mon Sep 17 00:00:00 2001
+From: Nick Sullivan <nick.sullivan@adhocteam.us>
+Date: Tue, 26 Jan 2021 10:48:38 -0500
+Subject: [PATCH] Add style for the print view of the checklist layout (#15687)
+
+---
+ .../static-pages/sass/modules/_m-checklist-layout.scss     | 7 +++++++
+ src/applications/static-pages/sass/static-pages.scss       | 2 ++
+ src/site/layouts/checklist.drupal.liquid                   | 4 ++--
+ 3 files changed, 11 insertions(+), 2 deletions(-)
+ create mode 100644 src/applications/static-pages/sass/modules/_m-checklist-layout.scss
+
+diff --git a/src/applications/static-pages/sass/modules/_m-checklist-layout.scss b/src/applications/static-pages/sass/modules/_m-checklist-layout.scss
+new file mode 100644
+index 0000000000..c94c4fea34
+--- /dev/null
++++ b/src/applications/static-pages/sass/modules/_m-checklist-layout.scss
+@@ -0,0 +1,7 @@
++.va-l-detail-page--checklist {
++  @media print {
++    #resources-search-bar-wrapper {
++      display: none;
++    }
++  }
++}
+diff --git a/src/applications/static-pages/sass/static-pages.scss b/src/applications/static-pages/sass/static-pages.scss
+index 0006f90e80..fcfe3d27fc 100644
+--- a/src/applications/static-pages/sass/static-pages.scss
++++ b/src/applications/static-pages/sass/static-pages.scss
+@@ -22,6 +22,8 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
+ @import "modules/m-facilities";
+ @import "modules/m-facility-events";
+ 
++@import "modules/m-checklist-layout";
++
+ //=============================
+ // Home page only styles.
+ //=============================
+diff --git a/src/site/layouts/checklist.drupal.liquid b/src/site/layouts/checklist.drupal.liquid
+index 3440e6ba53..f00fa1e61c 100644
+--- a/src/site/layouts/checklist.drupal.liquid
++++ b/src/site/layouts/checklist.drupal.liquid
+@@ -6,7 +6,7 @@
+ {% assign listchecklistItemIndex = 0 %}
+ 
+ <div id="content" class="interior" data-template="node-checklist">
+-  <main class="va-l-detail-page">
++  <main class="va-l-detail-page va-l-detail-page--checklist">
+     <div class="usa-grid usa-grid-full">
+       <div class="usa-width-three-fourths">
+         <div class="usa-content">
+@@ -20,7 +20,7 @@
+           {% endif %}
+ 
+           <!-- Search bar -->
+-          <div class="medium-screen:vads-u-border-bottom--2px vads-u-border-color--gray-light medium-screen:vads-u-margin-bottom--3">
++          <div id="resources-search-bar-wrapper" class="medium-screen:vads-u-border-bottom--2px vads-u-border-color--gray-light medium-screen:vads-u-margin-bottom--3">
+             {% include "src/site/includes/support_resources_search_bar.drupal.liquid" %}
+           </div>
+ 
+-- 
+2.30.0
+

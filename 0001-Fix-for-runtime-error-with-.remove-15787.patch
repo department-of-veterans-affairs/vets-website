@@ -1,0 +1,25 @@
+From ee1b7c6d5885182721ae8922874ddd9dedb5b99e Mon Sep 17 00:00:00 2001
+From: Nick Sullivan <nick.sullivan@adhocteam.us>
+Date: Tue, 26 Jan 2021 10:43:51 -0500
+Subject: [PATCH] Fix for runtime error with .remove (#15787)
+
+---
+ src/site/assets/js/static-page-widgets.js | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/site/assets/js/static-page-widgets.js b/src/site/assets/js/static-page-widgets.js
+index e638ba8692..737f0c45bd 100644
+--- a/src/site/assets/js/static-page-widgets.js
++++ b/src/site/assets/js/static-page-widgets.js
+@@ -33,7 +33,7 @@ function mountWidgets(widgets, slowLoadingThreshold) {
+           var loadingMessage = widget.querySelector('.loading-indicator-container');
+ 
+           if (!replacedWithWidget && loadingMessage) {
+-            loadingMessage.remove();
++            loadingMessage.parentNode.removeChild(loadingMessage);
+           }
+ 
+           if (!replacedWithWidget && errorMessage) {
+-- 
+2.30.0
+
