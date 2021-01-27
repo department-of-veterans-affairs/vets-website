@@ -24,7 +24,7 @@
 }
 
 @media print {
-  #resources-search-bar-wrapper {
+  .va-hide-on-print-view {
     display: none;
   }
 }
