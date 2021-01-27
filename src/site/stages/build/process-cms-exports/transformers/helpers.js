@@ -1,6 +1,6 @@
 const fs = require('fs');
 const assert = require('assert');
-const { sortBy, unescape, pick, omit } = require('lodash');
+const { sortBy, pick, omit } = require('lodash');
 const moment = require('moment-timezone');
 const { readEntity } = require('../helpers');
 
@@ -159,13 +159,14 @@ module.exports = {
 
   /**
    * Takes a string and applies the following:
-   * - Transforms escaped unicode to characters
+   * Returns a blank string if the value is not defined,
+   * otherwise, returns the value
    *
    * @param {string}
    * @return {string}
    */
   getWysiwygString(value) {
-    return unescape(value);
+    return value || '';
   },
 
   /**
