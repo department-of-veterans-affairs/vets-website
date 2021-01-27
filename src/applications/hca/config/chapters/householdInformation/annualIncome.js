@@ -3,10 +3,12 @@ import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 import { incomeDescription } from '../../../helpers';
-import { dependentIncomeUiSchema } from '../../../definitions/dependent';
 import { validateCurrency } from '../../../validation';
+import {
+  dependentIncomeUiSchema,
+  createDependentIncomeSchema,
+} from '../../../definitions/dependent';
 
-const { createDependentIncomeSchema } = fullSchemaHca.properties;
 const dependentIncomeSchema = createDependentIncomeSchema(fullSchemaHca);
 
 const {

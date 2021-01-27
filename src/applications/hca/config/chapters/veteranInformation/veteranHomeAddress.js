@@ -40,7 +40,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      veteranHomeAddress: _.merge(addressSchema(fullSchemaHca, true), {
+      veteranHomeAddress: merge(addressSchema(fullSchemaHca, true), {
         properties: {
           street: {
             minLength: 1,
