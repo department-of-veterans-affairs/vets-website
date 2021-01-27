@@ -7,7 +7,7 @@ const transform = entity => ({
   entityBundle: 'lists_of_links',
   entity: {
     fieldSectionHeader: getDrupalValue(entity.fieldSectionHeader),
-    fieldVaParagraphs: entity.fieldVaParagraphs,
+    fieldVaParagraphs: entity.fieldVaParagraphs || [],
   },
 });
 
