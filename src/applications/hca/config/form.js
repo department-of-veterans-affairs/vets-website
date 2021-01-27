@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import { set } from 'lodash/fp';
 
 // chapter 1
 import birthInformation from './chapters/veteranInformation/birthInformation';
@@ -23,14 +23,13 @@ import dependentInformation from './chapters/householdInformation/dependentInfor
 import annualIncome from './chapters/householdInformation/annualIncome';
 import deductibleExpenses from './chapters/householdInformation/deductibleExpenses';
 
+// chapter 5
+import medicare from './chapters/insuranceInformation/medicare';
+import general from './chapters/insuranceInformation/general';
+import vaFacility from './chapters/insuranceInformation/vaFacility';
+
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-
-import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
-
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-
-import { states } from 'platform/forms/address';
 
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { hasSession } from 'platform/user/profile/utilities';
@@ -44,45 +43,19 @@ import FormFooter from '../components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
 import IDPage from '../containers/IDPage';
 
-import {
-  facilityHelp,
-  isEssentialAcaCoverageDescription,
-  medicaidDescription,
-  medicalCenterLabels,
-  medicalCentersByState,
-  medicarePartADescription,
-  prefillTransformer,
-  transform,
-} from '../helpers';
+import { prefillTransformer, transform } from '../helpers';
 
 import migrations from './migrations';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorMessage from '../components/ErrorMessage';
-import InsuranceProviderView from '../components/InsuranceProviderView';
 
 import { createDependentSchema } from '../definitions/dependent';
 
 import manifest from '../manifest.json';
 
 const dependentSchema = createDependentSchema(fullSchemaHca);
-
-const emptyFacilityList = [];
-const emptyObjectSchema = {
-  type: 'object',
-  properties: {},
-};
-
-const {
-  isCoveredByHealthInsurance,
-  isEnrolledMedicarePartA,
-  isEssentialAcaCoverage,
-  isMedicaidEligible,
-  medicarePartAEffectiveDate,
-  vaMedicalFacility,
-  wantsInitialVaContact,
-} = fullSchemaHca.properties;
 
 const {
   date,
@@ -92,8 +65,6 @@ const {
   provider,
   ssn,
 } = fullSchemaHca.definitions;
-
-const stateLabels = createUSAStateLabels(states);
 
 // For which page needs prefill-message, check
 // vets-api/config/form_profile_mappings/1010ez.yml
@@ -145,7 +116,7 @@ const formConfig = {
   defaultDefinitions: {
     date,
     provider,
-    fullName: _.set('properties.middle.maxLength', 30, fullName),
+    fullName: set('properties.middle.maxLength', 30, fullName),
     ssn: ssn.oneOf[0], // Mmm...not a fan.
     phone,
     dependent: dependentSchema,
@@ -190,188 +161,9 @@ const formConfig = {
     insuranceInformation: {
       title: 'Insurance Information',
       pages: {
-        medicare: {
-          path: 'insurance-information/medicare',
-          title: 'Medicaid or Medicare coverage',
-          initialData: {},
-          uiSchema: {
-            isMedicaidEligible: {
-              'ui:title': 'Are you eligible for Medicaid?',
-              'ui:description': medicaidDescription,
-              'ui:widget': 'yesNo',
-            },
-            isEnrolledMedicarePartA: {
-              'ui:title':
-                'Are you enrolled in Medicare Part A (hospital insurance)?',
-              'ui:description': medicarePartADescription,
-              'ui:widget': 'yesNo',
-            },
-            medicarePartAEffectiveDate: _.merge(
-              currentOrPastDateUI(
-                'What is your Medicare Part A effective date?',
-              ),
-              {
-                'ui:required': formData => formData.isEnrolledMedicarePartA,
-                'ui:options': {
-                  expandUnder: 'isEnrolledMedicarePartA',
-                },
-              },
-            ),
-          },
-          schema: {
-            type: 'object',
-            required: ['isMedicaidEligible', 'isEnrolledMedicarePartA'],
-            properties: {
-              isMedicaidEligible,
-              isEnrolledMedicarePartA,
-              medicarePartAEffectiveDate,
-            },
-          },
-        },
-        general: {
-          path: 'insurance-information/general',
-          title: 'Other coverage',
-          uiSchema: {
-            'ui:title': 'Other coverage',
-            isCoveredByHealthInsurance: {
-              'ui:title':
-                'Are you covered by health insurance? (Including coverage through a spouse or another person)',
-              'ui:widget': 'yesNo',
-            },
-            providers: {
-              'ui:options': {
-                itemName: 'Insurance Policy',
-                expandUnder: 'isCoveredByHealthInsurance',
-                viewField: InsuranceProviderView,
-              },
-              'ui:errorMessages': {
-                minItems: 'You need to at least one provider.',
-              },
-              items: {
-                insuranceName: {
-                  'ui:title': 'Name of provider',
-                },
-                insurancePolicyHolderName: {
-                  'ui:title': 'Name of policyholder',
-                },
-                insurancePolicyNumber: {
-                  'ui:title':
-                    'Policy number (either this or the group code is required)',
-                  'ui:required': (formData, index) =>
-                    !_.get(`providers[${index}].insuranceGroupCode`, formData),
-                  'ui:errorMessages': {
-                    pattern: 'Please provide a valid policy number.',
-                  },
-                },
-                insuranceGroupCode: {
-                  'ui:title':
-                    'Group code (either this or policy number is required)',
-                  'ui:required': (formData, index) =>
-                    !_.get(
-                      `providers[${index}].insurancePolicyNumber`,
-                      formData,
-                    ),
-                  'ui:errorMessages': {
-                    pattern: 'Please provide a valid group code.',
-                  },
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['isCoveredByHealthInsurance'],
-            properties: {
-              isCoveredByHealthInsurance,
-              providers: {
-                type: 'array',
-                minItems: 1,
-                items: _.merge(provider, {
-                  required: [
-                    'insuranceName',
-                    'insurancePolicyHolderName',
-                    'insurancePolicyNumber',
-                    'insuranceGroupCode',
-                  ],
-                }),
-              },
-            },
-          },
-        },
-        vaFacility: {
-          path: 'insurance-information/va-facility',
-          title: 'VA Facility',
-          initialData: {
-            isEssentialAcaCoverage: false,
-          },
-          uiSchema: {
-            'ui:title': 'VA Facility',
-            isEssentialAcaCoverage: {
-              'ui:title': isEssentialAcaCoverageDescription,
-            },
-            'view:preferredFacility': {
-              'ui:title': 'Select your preferred VA medical facility',
-              'view:facilityState': {
-                'ui:title': 'State',
-                'ui:options': {
-                  labels: stateLabels,
-                },
-              },
-              vaMedicalFacility: {
-                'ui:title': 'Center or clinic',
-                'ui:options': {
-                  labels: medicalCenterLabels,
-                  updateSchema: form => {
-                    const state = _.get(
-                      'view:preferredFacility.view:facilityState',
-                      form,
-                    );
-                    if (state) {
-                      return {
-                        enum: medicalCentersByState[state] || emptyFacilityList,
-                      };
-                    }
-
-                    return {
-                      enum: emptyFacilityList,
-                    };
-                  },
-                },
-              },
-            },
-            'view:locator': {
-              'ui:description': facilityHelp,
-            },
-            wantsInitialVaContact: {
-              'ui:title':
-                'Do you want VA to contact you to schedule your first appointment?',
-              'ui:widget': 'yesNo',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              isEssentialAcaCoverage,
-              'view:preferredFacility': {
-                type: 'object',
-                required: ['view:facilityState', 'vaMedicalFacility'],
-                properties: {
-                  'view:facilityState': {
-                    type: 'string',
-                    enum: states.USA.map(state => state.value).filter(
-                      state => !!medicalCentersByState[state],
-                    ),
-                  },
-                  vaMedicalFacility: _.assign(vaMedicalFacility, {
-                    enum: emptyFacilityList,
-                  }),
-                },
-              },
-              'view:locator': emptyObjectSchema,
-              wantsInitialVaContact,
-            },
-          },
-        },
+        medicare,
+        general,
+        vaFacility,
       },
     },
   },
