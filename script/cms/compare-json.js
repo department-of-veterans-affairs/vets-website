@@ -80,14 +80,16 @@ const assembleEntityTree = assembleEntityTreeFactory(exportDir);
  * @param {string} kind - The string representing the kind of difference
  * @return {string} Description of the kind of difference
  */
-const getDiffType = kind => {
-  switch (kind) {
+const getDiffType = diff => {
+  switch (diff.kind) {
     case 'A':
       return 'Array Change';
     case 'D':
-      return 'Property Deleted';
+      return 'Property Missing';
     case 'E':
-      return 'Property Edited';
+      return typeof diff.lhs !== 'undefined' && typeof diff.rhs !== 'undefined'
+        ? 'Property Edited'
+        : 'Property Missing';
     case 'N':
       return 'New property Added';
     default:
@@ -104,11 +106,11 @@ const getDiffType = kind => {
 const getDiffItem = item => {
   const diffItem = {
     item: {
-      diffType: getDiffType(item.kind),
+      diffType: getDiffType(item),
     },
   };
-  if (!item.lhs || !item.rhs) {
-    return !item.lhs
+  if (!('lhs' in item) || !('rhs' in item)) {
+    return !('lhs' in item)
       ? { ...diffItem.item, cmsExport: item.rhs }
       : { ...diffItem.item, graphQL: item.lhs };
   }
@@ -189,13 +191,13 @@ const compareJson = (baseGraphQlObject, baseCmsExportObject) => {
     ?.filter(d => d.kind !== 'N')
     .map(diff => {
       return {
-        diffType: getDiffType(diff.kind),
+        diffType: getDiffType(diff),
         path: diff.index
           ? `${diff.path.join('/')}[${diff.index}]`
           : diff.path.join('/'),
         ...(diff.item && { item: getDiffItem(diff.item) }),
-        ...(diff.lhs && { graphQL: diff.lhs }),
-        ...(diff.rhs && { cmsExport: diff.rhs }),
+        ...('lhs' in diff && { graphQL: diff.lhs }),
+        ...('rhs' in diff && { cmsExport: diff.rhs }),
       };
     });
 };
