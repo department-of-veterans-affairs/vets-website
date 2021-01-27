@@ -78,6 +78,12 @@
   }
 }
 
+.appointment-details>div{
+ display: flex;
+ dt{
+   margin-right: 0.5rem;
+ }
+}
 
 #root_questions__title{
   color: $color-gray-dark;
