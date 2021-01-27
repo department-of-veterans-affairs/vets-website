@@ -160,27 +160,32 @@ const getParentNode = (
  * @return {object []} The array of differences found from deep-diff'
  */
 const compareJson = (baseGraphQlObject, baseCmsExportObject) => {
-  // Only compare present fields in GraphQL entity, excluding entityMetatags for now
-  // Output missing fields to console
+  // Only compare present fields in GraphQL entity, & exclude fields in keysToIgnore
+  const keysToIgnore = ['entityMetatags', 'entityType'];
+
+  // Save present keys in CMS export and GraphQL objects
   const graphQlObject = {};
   const cmsExportObject = {};
 
-  // Save present keys in CMS export and GraphQL objects
   // Output missing keys to console
   Object.keys(baseGraphQlObject).forEach(key => {
-    if (key in baseCmsExportObject && key !== 'entityMetatags') {
+    if (key in baseCmsExportObject && !keysToIgnore.includes(key)) {
       cmsExportObject[key] = baseCmsExportObject[key];
       graphQlObject[key] = baseGraphQlObject[key];
-    } else if (key !== 'entityMetatags') {
+    } else if (!keysToIgnore.includes(key)) {
+      // Output missing fields to console if '--entity' flag is used
       if (entityNames) console.log(`Field missing: ${key}`);
     } else {
-      // Do nothing because key is 'entityMetatags'
+      // Do nothing because key is in keysToIgnore
     }
   });
 
   // Get array of differences. Exclude new properties because transformed
   // CMS objects may have additional properties
-  return deepDiff(graphQlObject, cmsExportObject)
+  return deepDiff(graphQlObject, cmsExportObject, (diffPath, key) => {
+    // Filter & ignore keys in keysToIgnore
+    return keysToIgnore.includes(key);
+  })
     ?.filter(d => d.kind !== 'N')
     .map(diff => {
       return {

@@ -14,7 +14,7 @@ const transform = entity => {
       entityBundle: 'alert',
       fieldAlertType: getDrupalValue(fieldAlertType),
       fieldAlertHeading: getDrupalValue(fieldAlertHeading),
-      fieldVaParagraphs: fieldVaParagraphs.length ? fieldVaParagraphs : null,
+      fieldVaParagraphs: fieldVaParagraphs.length ? fieldVaParagraphs : [],
       fieldAlertBlockReference: fieldAlertBlockReference?.[0] || null,
     },
   };
