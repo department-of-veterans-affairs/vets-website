@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 
@@ -14,9 +13,9 @@ const Dashboard = () => {
         <a href="/" key="home">
           Home
         </a>
-        <Link to="/" key="dashboard">
+        <a to="/" key="dashboard">
           My VA
-        </Link>
+        </a>
       </Breadcrumbs>
 
       <h1 id="dashboard-title" tabIndex="-1">
