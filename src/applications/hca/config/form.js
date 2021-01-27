@@ -1,12 +1,18 @@
-import React from 'react';
 import _ from 'lodash/fp';
+
+import birthInformation from './chapters/veteranInformation/birthInformation';
+import veteranInformation from './chapters/veteranInformation/personalnformation';
+import demographicInformation from './chapters/veteranInformation/demographicInformation';
+import veteranAddress from './chapters/veteranInformation/veteranAddress';
+import veteranHomeAddress from './chapters/veteranInformation/veteranHomeAddress';
+import contactInformation from './chapters/veteranInformation/contactInformation';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { validateMatch } from 'platform/forms-system/src/js/validation';
+
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import emailUI from 'platform/forms-system/src/js/definitions/email';
+
 import {
   schema as addressSchema,
   uiSchema as addressUI,
@@ -17,14 +23,12 @@ import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
-import { maritalStatuses } from 'platform/static-data/options-for-select';
 import { states } from 'platform/forms/address';
 import fullNameUI from 'platform/forms/definitions/fullName';
-import { genderLabels } from 'platform/static-data/labels';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { hasSession } from 'platform/user/profile/utilities';
 import environment from 'platform/utilities/environment';
-import applicantDescription from 'platform/forms/components/ApplicantDescription';
+
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import MilitaryPrefillMessage from 'platform/forms/save-in-progress/MilitaryPrefillMessage';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
@@ -62,8 +66,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorMessage from '../components/ErrorMessage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
 import DependentView from '../components/DependentView';
-import DemographicField from '../components/DemographicField';
-import { AddressDescription } from '../components/ContentComponents';
 
 import {
   createDependentSchema,
@@ -90,7 +92,6 @@ const emptyObjectSchema = {
 
 const {
   campLejeune,
-  cityOfBirth,
   cohabitedLastYear,
   dateOfMarriage,
   deductibleEducationExpenses,
@@ -100,25 +101,16 @@ const {
   disabledInLineOfDuty,
   dischargeType,
   discloseFinancialInformation,
-  email,
   exposedToRadiation,
-  gender,
-  isAmericanIndianOrAlaskanNative,
-  isAsian,
-  isBlackOrAfricanAmerican,
   isCoveredByHealthInsurance,
   isEnrolledMedicarePartA,
   isEssentialAcaCoverage,
   isFormerPow,
   isMedicaidEligible,
-  isNativeHawaiianOrOtherPacificIslander,
-  isSpanishHispanicLatino,
-  isWhite,
   lastDischargeDate,
   lastEntryDate,
   lastServiceBranch,
   medicarePartAEffectiveDate,
-  mothersMaidenName,
   postNov111998Combat,
   provideSupportLastYear,
   purpleHeartRecipient,
@@ -134,7 +126,6 @@ const {
   swAsiaCombat,
   vaCompensationType,
   vaMedicalFacility,
-  veteranFullName,
   veteranGrossIncome,
   veteranNetIncome,
   veteranOtherIncome,
@@ -246,289 +237,12 @@ const formConfig = {
     veteranInformation: {
       title: 'Veteran Information',
       pages: {
-        veteranInformation: {
-          path: 'veteran-information/personal-information',
-          title: 'Veteran information',
-          initialData: {},
-          uiSchema: {
-            'ui:description': applicantDescription,
-            veteranFullName: _.merge(fullNameUI, {
-              first: {
-                'ui:errorMessages': {
-                  minLength:
-                    'Please provide a valid name. Must be at least 1 character.',
-                  pattern:
-                    'Please provide a valid name. Must be at least 1 character.',
-                },
-              },
-              last: {
-                'ui:errorMessages': {
-                  minLength:
-                    'Please provide a valid name. Must be at least 2 characters.',
-                  pattern:
-                    'Please provide a valid name. Must be at least 2 characters.',
-                },
-              },
-            }),
-            mothersMaidenName: {
-              'ui:title': 'Mother’s maiden name',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              veteranFullName,
-              mothersMaidenName: _.set('maxLength', 35, mothersMaidenName),
-            },
-          },
-        },
-        birthInformation: {
-          path: 'veteran-information/birth-information',
-          title: 'Veteran information',
-          initialData: {},
-          uiSchema: {
-            'ui:description': PrefillMessage,
-            veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
-            veteranSocialSecurityNumber: ssnUI,
-            'view:placeOfBirth': {
-              'ui:title': 'Place of birth',
-              cityOfBirth: {
-                'ui:title': 'City',
-              },
-              stateOfBirth: {
-                'ui:title': 'State',
-                'ui:options': {
-                  labels: stateLabels,
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['veteranDateOfBirth', 'veteranSocialSecurityNumber'],
-            properties: {
-              veteranDateOfBirth: date,
-              veteranSocialSecurityNumber: ssn.oneOf[0],
-              'view:placeOfBirth': {
-                type: 'object',
-                properties: {
-                  cityOfBirth,
-                  stateOfBirth: {
-                    type: 'string',
-                    enum: states.USA.map(state => state.value),
-                  },
-                },
-              },
-            },
-          },
-        },
-        demographicInformation: {
-          path: 'veteran-information/demographic-information',
-          title: 'Veteran information',
-          initialData: {
-            'view:demographicCategories': {
-              isSpanishHispanicLatino: false,
-            },
-          },
-          uiSchema: {
-            'ui:description': PrefillMessage,
-            gender: {
-              'ui:title': 'Gender',
-              'ui:options': {
-                labels: genderLabels,
-              },
-            },
-            maritalStatus: {
-              'ui:title': 'Marital status',
-            },
-            'view:demographicCategories': {
-              'ui:field': DemographicField,
-              'ui:title': 'Which categories best describe you?',
-              'ui:description': 'You may check more than one.',
-              isSpanishHispanicLatino: {
-                'ui:title': 'Spanish, Hispanic, or Latino',
-              },
-              isAmericanIndianOrAlaskanNative: {
-                'ui:title': 'American Indian or Alaskan Native',
-              },
-              isBlackOrAfricanAmerican: {
-                'ui:title': 'Black or African American',
-              },
-              isNativeHawaiianOrOtherPacificIslander: {
-                'ui:title': 'Native Hawaiian or Other Pacific Islander',
-              },
-              isAsian: {
-                'ui:title': 'Asian',
-              },
-              isWhite: {
-                'ui:title': 'White',
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['gender', 'maritalStatus'],
-            properties: {
-              gender,
-              maritalStatus: {
-                type: 'string',
-                enum: maritalStatuses,
-              },
-              'view:demographicCategories': {
-                type: 'object',
-                properties: {
-                  isSpanishHispanicLatino,
-                  isAmericanIndianOrAlaskanNative,
-                  isBlackOrAfricanAmerican,
-                  isNativeHawaiianOrOtherPacificIslander,
-                  isAsian,
-                  isWhite,
-                },
-              },
-            },
-          },
-        },
-        veteranAddress: {
-          path: 'veteran-information/veteran-address',
-          title: 'Mailing address',
-          initialData: {},
-          uiSchema: {
-            'ui:description': PrefillMessage,
-            veteranAddress: _.merge(addressUI('Mailing address', true), {
-              'ui:description': <AddressDescription addressType="mailing" />,
-              street: {
-                'ui:errorMessages': {
-                  pattern:
-                    'Please provide a valid street. Must be at least 1 character.',
-                },
-              },
-              city: {
-                'ui:errorMessages': {
-                  pattern:
-                    'Please provide a valid city. Must be at least 1 character.',
-                },
-              },
-            }),
-            'view:doesMailingMatchHomeAddress': {
-              'ui:title':
-                'Is your home address the same as your mailing address?',
-              'ui:widget': 'yesNo',
-              'ui:required': formData => formData['view:hasMultipleAddress'],
-              'ui:options': {
-                hideIf: formData => !formData['view:hasMultipleAddress'],
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              veteranAddress: _.merge(addressSchema(fullSchemaHca, true), {
-                properties: {
-                  street: {
-                    minLength: 1,
-                    maxLength: 30,
-                  },
-                  street2: {
-                    minLength: 1,
-                    maxLength: 30,
-                  },
-                  street3: {
-                    type: 'string',
-                    minLength: 1,
-                    maxLength: 30,
-                  },
-                  city: {
-                    minLength: 1,
-                    maxLength: 30,
-                  },
-                },
-              }),
-              'view:doesMailingMatchHomeAddress': {
-                type: 'boolean',
-              },
-            },
-          },
-        },
-        veteranHomeAddress: {
-          path: 'veteran-information/veteran-home-address',
-          title: 'Home address',
-          initialData: {},
-          depends: formData =>
-            formData['view:hasMultipleAddress'] &&
-            !formData['view:doesMailingMatchHomeAddress'],
-          uiSchema: {
-            'ui:description': PrefillMessage,
-            veteranHomeAddress: _.merge(addressUI('Home address', true), {
-              'ui:description': <AddressDescription addressType="home" />,
-              street: {
-                'ui:errorMessages': {
-                  pattern:
-                    'Please provide a valid street. Must be at least 1 character.',
-                },
-              },
-              city: {
-                'ui:errorMessages': {
-                  pattern:
-                    'Please provide a valid city. Must be at least 1 character.',
-                },
-              },
-              'ui:options': {
-                'ui:title': 'Street',
-                hideIf: formData => !formData['view:hasMultipleAddress'],
-              },
-            }),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              veteranHomeAddress: _.merge(addressSchema(fullSchemaHca, true), {
-                properties: {
-                  street: {
-                    minLength: 1,
-                    maxLength: 30,
-                  },
-                  street2: {
-                    minLength: 1,
-                    maxLength: 30,
-                  },
-                  street3: {
-                    type: 'string',
-                    minLength: 1,
-                    maxLength: 30,
-                  },
-                  city: {
-                    minLength: 1,
-                    maxLength: 30,
-                  },
-                },
-              }),
-            },
-          },
-        },
-        contactInformation: {
-          path: 'veteran-information/contact-information',
-          title: 'Contact information',
-          initialData: {},
-          uiSchema: {
-            'ui:description': PrefillMessage,
-            'ui:validations': [
-              validateMatch('email', 'view:emailConfirmation'),
-            ],
-            email: emailUI(),
-            'view:emailConfirmation': emailUI('Re-enter email address'),
-            homePhone: phoneUI('Home telephone number'),
-            mobilePhone: phoneUI('Mobile telephone number'),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              email,
-              'view:emailConfirmation': email,
-              homePhone: phone,
-              mobilePhone: phone,
-            },
-          },
-        },
+        veteranInformation,
+        birthInformation,
+        demographicInformation,
+        veteranAddress,
+        veteranHomeAddress,
+        contactInformation,
       },
     },
     militaryService: {
