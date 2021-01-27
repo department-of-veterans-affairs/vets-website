@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 import {
   getClinicFromAppointment,
@@ -17,21 +17,36 @@ export default function AppointmentDisplay({ appointment }) {
     <dl className="appointment-details vads-u-font-weight--bold" itemScope>
       <div itemProp="appointment-date">
         <dt>Date: </dt>
-        <dd data-testid="appointment-date" aria-label="Appointment date">
+        <dd
+          data-testid="appointment-date"
+          aria-label={`Appointment date ${moment(appointmentTime).format(
+            'MMMM Do, YYYY',
+          )}`}
+        >
           {' '}
           {moment(appointmentTime).format('MMMM Do, YYYY')}
         </dd>
       </div>
       <div itemProp="appointment-time">
         <dt>Time: </dt>
-        <dd data-testid="appointment-time" aria-label="Appointment time">
+        <dd
+          data-testid="appointment-time"
+          aria-label={`Appointment time ${moment(appointmentTime).format(
+            'h:mm a z',
+          )}`}
+        >
           {' '}
           {moment(appointmentTime).format('h:mm a z')}
         </dd>
       </div>
       <div itemProp="appointment-location">
         <dt>Location: </dt>
-        <dd data-testid="facility-name" aria-label="Facility Name">
+        <dd
+          data-testid="facility-name"
+          aria-label={`appointment at ${clinic.friendlyName} at ${
+            clinic.facility.displayName
+          }`}
+        >
           {' '}
           {clinic.friendlyName}, {clinic.facility.displayName}
         </dd>

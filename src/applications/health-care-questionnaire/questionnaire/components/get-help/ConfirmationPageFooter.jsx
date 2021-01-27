@@ -45,6 +45,7 @@ export default function ConfirmationPageFooter(props) {
           <a href={`/find-locations/facility/vha_${facilityId}`}>
             please call your VA provider
           </a>
+          .
         </span>
       );
     }

@@ -25,21 +25,24 @@ const GetHelpFooter = props => {
       return (
         <span data-testid="clinic-details">
           You can contact them at {clinic.friendlyName} at{' '}
-          <Telephone contact={clinic.phoneNumber} />
+          <Telephone contact={clinic.phoneNumber} />.
         </span>
       );
     } else if (facility && facility.phoneNumber) {
       return (
         <span data-testid="facility-details">
           You can contact them at {facility.displayName} at{' '}
-          <Telephone contact={facility.phoneNumber} />
+          <Telephone contact={facility.phoneNumber} />.
         </span>
       );
     } else {
       return (
-        <a href={FACILITY_LOCATOR_URL} data-testid="default-details">
-          Contact your VA provider
-        </a>
+        <>
+          <a href={FACILITY_LOCATOR_URL} data-testid="default-details">
+            Contact your VA provider
+          </a>
+          .
+        </>
       );
     }
   };
@@ -65,9 +68,7 @@ const GetHelpFooter = props => {
     </div>
   );
 };
-
 const mapStateToProps = state => ({
   appointment: state?.questionnaireData?.context?.appointment,
 });
-
 export default connect(mapStateToProps)(GetHelpFooter);
