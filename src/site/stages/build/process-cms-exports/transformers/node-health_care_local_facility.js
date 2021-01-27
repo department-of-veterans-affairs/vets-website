@@ -10,34 +10,34 @@ const {
 } = require('./helpers');
 const { mapKeys, camelCase } = require('lodash');
 
-const getSocialMediaObject = ({ uri, title }) =>
-  uri
-    ? {
-        url: { path: uri },
-        title,
-      }
-    : null;
+// const getSocialMediaObject = ({ uri, title }) =>
+//   uri
+//     ? {
+//         url: { path: uri },
+//         title,
+//       }
+//     : null;
 
-const getFieldRegionObject = ({
-  title,
-  field_related_links,
-  field_govdelivery_id_emerg,
-  field_govdelivery_id_news,
-  field_operating_status,
-}) =>
-  title
-    ? {
-        title: getDrupalValue(title),
-        fieldRelatedLinks: field_related_links[0],
-        fieldGovdeliveryIdEmerg: getDrupalValue(field_govdelivery_id_emerg),
-        fieldGovdeliveryIdNews: getDrupalValue(field_govdelivery_id_news),
-        fieldOperatingStatus: field_operating_status[0]
-          ? getSocialMediaObject(field_operating_status[0])
-          : null,
-      }
-    : null;
+// const getFieldRegionObject = ({
+//   title,
+//   field_related_links,
+//   field_govdelivery_id_emerg,
+//   field_govdelivery_id_news,
+//   field_operating_status,
+// }) =>
+//   title
+//     ? {
+//         title: getDrupalValue(title),
+//         fieldRelatedLinks: field_related_links[0],
+//         fieldGovdeliveryIdEmerg: getDrupalValue(field_govdelivery_id_emerg),
+//         fieldGovdeliveryIdNews: getDrupalValue(field_govdelivery_id_news),
+//         fieldOperatingStatus: field_operating_status[0]
+//           ? getSocialMediaObject(field_operating_status[0])
+//           : null,
+//       }
+//     : null;
 
-const transform = (entity, { ancestors }) => ({
+const transform = entity => ({
   entityType: 'node',
   entityBundle: 'health_care_local_facility',
   title: getDrupalValue(entity.title),
@@ -72,15 +72,15 @@ const transform = (entity, { ancestors }) => ({
     entity.fieldOperatingStatusMoreInfo,
   ),
   fieldPhoneNumber: getDrupalValue(entity.fieldPhoneNumber),
-  fieldRegionPage: entity.fieldRegionPage[0]
-    ? {
-        entity: !ancestors.find(
-          r => r.entity.uuid === entity.fieldRegionPage[0].uuid,
-        )
-          ? entity.fieldRegionPage[0]
-          : getFieldRegionObject(entity.fieldRegionPage[0]),
-      }
-    : null,
+  // fieldRegionPage: entity.fieldRegionPage[0]
+  //   ? {
+  //       entity: !ancestors.find(
+  //         r => r.entity.uuid === entity.fieldRegionPage[0].uuid,
+  //       )
+  //         ? entity.fieldRegionPage[0]
+  //         : getFieldRegionObject(entity.fieldRegionPage[0]),
+  //     }
+  //   : null,
 });
 
 module.exports = {

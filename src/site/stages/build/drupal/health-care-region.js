@@ -194,6 +194,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
  * @return nothing
  */
 function addGetUpdatesFields(page, pages) {
+  // can I circumvent this somehow? Will the build fail?
   const regionPageUrlPath = page.entityUrl.breadcrumb[1]?.url?.path;
 
   if (!regionPageUrlPath) {

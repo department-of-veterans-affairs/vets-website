@@ -80,6 +80,5 @@ module.exports = {
     'fieldOperatingStatusFacility',
     'fieldOperatingStatusMoreInfo',
     'fieldPhoneNumber',
-    'fieldRegionPage',
   ],
 };
