@@ -14,7 +14,7 @@ const transform = entity => ({
     fieldCollapsiblePanelMulti: getDrupalValue(
       entity.fieldCollapsiblePanelMulti,
     ),
-    fieldVaParagraphs: entity.fieldVaParagraphs,
+    fieldVaParagraphs: entity.fieldVaParagraphs || [],
   },
 });
 module.exports = {
