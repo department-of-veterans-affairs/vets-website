@@ -165,9 +165,9 @@ describe('<ResponsiveTable>', () => {
 
     expect(
       wrapper.containsAllMatchingElements([
-        <span key={`${row1Data.key}-${createId(column2Header)}`}>
-          {`${column2Header}: `}>{`${column2Header}: `}
-        </span>,
+        <span
+          key={`${row1Data.key}-${createId(column2Header)}`}
+        >{`${column2Header}: `}</span>,
       ]),
     ).to.equal(true);
 
