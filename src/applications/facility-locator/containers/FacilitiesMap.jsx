@@ -51,6 +51,7 @@ let lastZoom = 3;
 let searchAreaSet = false;
 
 const mapboxGlContainer = 'mapbox-gl-container';
+const zoomMessageDivID = 'screenreader-zoom-message';
 
 const FacilitiesMap = props => {
   const [map, setMap] = useState(null);
@@ -265,6 +266,23 @@ const FacilitiesMap = props => {
     }
   };
 
+  const speakZoom = currentZoom => {
+    const screenreaderZoomElement = document.getElementById(zoomMessageDivID);
+
+    if (
+      screenreaderZoomElement &&
+      screenreaderZoomElement.innerText.length === 0
+    ) {
+      if (lastZoom < currentZoom) {
+        screenreaderZoomElement.innerText = 'zooming in';
+      }
+
+      if (lastZoom > currentZoom) {
+        screenreaderZoomElement.innerText = 'zooming out';
+      }
+    }
+  };
+
   const setMapEventHandlers = () => {
     map.on('dragend', () => {
       props.mapMoved();
@@ -275,6 +293,8 @@ const FacilitiesMap = props => {
       // because zoomend is triggered by fitBounds.
 
       const currentZoom = parseInt(map.getZoom(), 10);
+
+      speakZoom(currentZoom);
 
       if (lastZoom && parseInt(lastZoom, 10) > 3) {
         recordZoomEvent(lastZoom, currentZoom);
@@ -311,8 +331,13 @@ const FacilitiesMap = props => {
     );
     setSearchAreaPosition();
     mapInit.on('load', () => {
+      // set up listeners on the zoom-in and zoom-out buttons:
       document.querySelectorAll('.mapboxgl-ctrl > button').forEach(button =>
         button.addEventListener('click', () => {
+          const screenreaderZoomElement = document.getElementById(
+            zoomMessageDivID,
+          );
+          screenreaderZoomElement.innerText = '';
           props.mapMoved();
         }),
       );
@@ -399,8 +424,13 @@ const FacilitiesMap = props => {
             </TabPanel>
             <TabPanel>
               <div
+                id={zoomMessageDivID}
+                aria-live="polite"
+                className="sr-only"
+              />
+              <div
                 style={{ width: '100%', maxHeight: '55vh', height: '55vh' }}
-                id="mapbox-gl-container"
+                id={mapboxGlContainer}
               />
               {selectedResult && (
                 <div className="mobile-search-result">
@@ -461,7 +491,8 @@ const FacilitiesMap = props => {
             />
           </div>
         </div>
-        <div className="desktop-map-container" id="mapbox-gl-container" />
+        <div id={zoomMessageDivID} aria-live="polite" className="sr-only" />
+        <div className="desktop-map-container" id={mapboxGlContainer} />
         <PaginationWrapper
           handlePageSelect={handlePageSelect}
           currentPage={currentPage}
