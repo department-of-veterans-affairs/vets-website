@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 // import { fireEvent } from '@testing-library/react';
 import { rest } from 'msw';
@@ -12,23 +11,21 @@ import { renderInReduxProvider } from 'platform/testing/unit/react-testing-libra
 
 import reducer from '../../reducers';
 
-import FormContainer, { Form } from '../../components/Form';
+import Form from '../../components/Form';
+
+const scheduledDowntimeState = {
+  scheduledDowntime: {
+    globalDowntime: null,
+    isReady: true,
+    isPending: false,
+    serviceMap: {
+      get() {},
+    },
+    dismissedDowntimeWarnings: [],
+  },
+};
 
 describe('<Form/>', () => {
-  it('renders without crashing', () => {
-    const div = document.createElement('div');
-    ReactDOM.render(
-      <Form
-        formState={null}
-        updateFormData={() => {}}
-        router={{}}
-        isLoggedIn={false}
-        profile={{}}
-      />,
-      div,
-    );
-  });
-
   it('renders a form', async () => {
     const initialState = {
       user: {
@@ -40,9 +37,10 @@ describe('<Form/>', () => {
       coronavirusVaccinationApp: {
         formState: null,
       },
+      ...scheduledDowntimeState,
     };
 
-    const screen = renderInReduxProvider(<FormContainer />, {
+    const screen = renderInReduxProvider(<Form />, {
       initialState,
       reducers: reducer,
     });
@@ -136,9 +134,10 @@ describe('<Form/> prefills -> by old form data', () => {
       coronavirusVaccinationApp: {
         formState: null,
       },
+      ...scheduledDowntimeState,
     };
 
-    const screen = renderInReduxProvider(<FormContainer />, {
+    const screen = renderInReduxProvider(<Form />, {
       initialState,
       reducers: reducer,
     });
@@ -196,9 +195,10 @@ describe('<Form/> prefills -> profile data ', () => {
         coronavirusVaccinationApp: {
           formState: null,
         },
+        ...scheduledDowntimeState,
       };
 
-      const screen = renderInReduxProvider(<FormContainer />, {
+      const screen = renderInReduxProvider(<Form />, {
         initialState,
         reducers: reducer,
       });
