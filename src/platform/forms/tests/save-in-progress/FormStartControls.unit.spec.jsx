@@ -226,6 +226,47 @@ describe('Schemaform <FormStartControls>', () => {
     expect(formDOM.querySelector('.va-modal-body')).to.be.null;
   });
 
+  it('should show modal and remove form when starting over', () => {
+    const restartWizardKey = 'testKey';
+    const restartDestination = '/test-page';
+    const routerSpy = {
+      push: sinon.spy(),
+    };
+    const fetchSpy = sinon.spy();
+    const tree = ReactTestUtils.renderIntoDocument(
+      <FormStartControls
+        formId="1010ez"
+        migrations={[]}
+        router={routerSpy}
+        formSaved
+        removeInProgressForm={fetchSpy}
+        prefillAvailable
+        routes={[
+          {},
+          {
+            formConfig: {
+              saveInProgress: {
+                restartWizardKey,
+                restartFormCallback: () => restartDestination,
+              },
+            },
+          },
+        ]}
+      />,
+    );
+    const formDOM = getFormDOM(tree);
+    document.body.appendChild(formDOM);
+    formDOM.click('.usa-button-secondary');
+
+    expect(formDOM.querySelector('.va-modal-body')).to.not.be.null;
+
+    formDOM.click('.va-modal-body .usa-button-primary');
+
+    expect(fetchSpy.called).to.be.true;
+    expect(formDOM.querySelector('.va-modal-body')).to.be.null;
+    expect(sessionStorage.getItem(restartWizardKey)).to.equal('restarting');
+  });
+
   it('should not capture analytics events when starting the form if the `gaStartEventName` prop is explicitly removed', () => {
     const routerSpy = {
       push: sinon.spy(),
