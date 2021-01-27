@@ -55,6 +55,7 @@ src/applications/find-forms @department-of-veterans-affairs/vsa-public-websites-
 src/applications/yellow-ribbon @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-caregiver-frontend
 src/applications/search @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-caregiver-frontend
 src/applications/resources-and-support @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-caregiver-frontend
+src/site/layouts/campaign_landing_page.drupal.liquid
 src/site/stages/build/process-cms-exports/schemas/input/block_content-promo.js
 src/site/stages/build/process-cms-exports/schemas/input/node-basic_landing_page.js
 src/site/stages/build/process-cms-exports/schemas/input/node-checklist.js
