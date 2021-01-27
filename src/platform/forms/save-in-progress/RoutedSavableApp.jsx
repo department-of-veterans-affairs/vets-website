@@ -112,7 +112,26 @@ class RoutedSavableApp extends React.Component {
       newProps.prefillStatus !== this.props.prefillStatus &&
       newProps.prefillStatus === PREFILL_STATUSES.unfilled
     ) {
-      newProps.router.push(this.getFirstNonIntroPagePath(newProps));
+      let newRoute;
+      const { saveInProgress = {} } = newProps?.formConfig || {};
+      // reset wizard status
+      const wizardStatus = saveInProgress?.restartWizardKey || 'formStatus';
+
+      if (
+        newProps.isStartingOver &&
+        typeof saveInProgress?.restartFormCallback === 'function' &&
+        sessionStorage.getItem(wizardStatus) === 'restarting'
+      ) {
+        // Change wizard status to prevent this function from being called more
+        // than once; as long as the status isn't complete, the wizard will
+        // become visible
+        sessionStorage.setItem(wizardStatus, 'restarted');
+        // Restart callback can optionally return a new route
+        newRoute = saveInProgress?.restartFormCallback('restarted') || null;
+      }
+
+      // Form restart redirects to new route or the first page after the intro
+      newProps.router.push(newRoute || this.getFirstNonIntroPagePath(newProps));
     } else if (
       status !== LOAD_STATUSES.notAttempted &&
       status !== LOAD_STATUSES.pending &&

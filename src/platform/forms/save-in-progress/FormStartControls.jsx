@@ -9,6 +9,7 @@ import {
   START_NEW_APP_DEFAULT_MESSAGE,
   APP_TYPE_DEFAULT,
 } from '../../forms-system/src/js/constants';
+import { WIZARD_STATUS } from 'applications/static-pages/wizard';
 
 class FormStartControls extends React.Component {
   constructor(props) {
@@ -65,6 +66,19 @@ class FormStartControls extends React.Component {
       this.props.migrations,
       this.props.prefillTransformer,
     );
+
+    // When restartFormCallback is defined, we're going to try to get a new
+    // destination route, usually the intro page ('/'), when the form is reset
+    const { formConfig = {} } = this.props.routes?.[1] || {};
+    if (typeof formConfig.saveInProgress?.restartFormCallback === 'function') {
+      // Wizard status needs an intermediate value between not-started &
+      // complete to prevent infinite loops in the RoutedSavableApp
+      sessionStorage.setItem(
+        formConfig.saveInProgress?.restartWizardKey || WIZARD_STATUS,
+        'restarting',
+      );
+      formConfig.saveInProgress.restartFormCallback('restarting');
+    }
   };
 
   render() {
