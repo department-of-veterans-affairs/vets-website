@@ -121,7 +121,7 @@
         <div class="usa-width-three-fourths">
           <!-- Title -->
           <p class="grey-header vads-u-font-size--sm vads-u-margin-bottom--0">SPOTLIGHT</p>
-          <h2 class="vads-u-margin--0" class="vads-u-margin-top--2">{{ fieldClpSpotlightHeader }}</h2>
+          <h2 class="vads-u-margin-top--0">{{ fieldClpSpotlightHeader }}</h2>
           <p class="vads-u-margin-top--1 vads-u-margin-bottom--2">
             {{ fieldClpSpotlightIntroText }}
             <a href="{{ fieldClpSpotlightCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_ blank">
@@ -144,35 +144,42 @@
       </div>
 
       <!-- Stories -->
-      <div class="stories">
-        <!-- Title -->
-        <p class="grey-header vads-u-font-size--sm vads-u-margin-bottom--0">STORIES</p>
-        <h2 class="vads-u-margin--0">{{ fieldClpStoriesHeader }}</h2>
-        <p>{{ fieldClpStoriesIntro }}</p>
+      <div class="stories vads-u-background-color--primary-alt-lightest vads-u-padding-bottom--1">
+        <div class="usa-grid usa-grid-full vads-u-padding-y--4 vads-u-padding-x--2 medium-screen:vads-u-padding-x--0">
+          <!-- Title -->
+          <p class="grey-header vads-u-font-size--sm vads-u-margin-bottom--0">STORIES</p>
+          <h2 class="vads-u-margin--0">{{ fieldClpStoriesHeader }}</h2>
+          <p class="vads-u-margin-top--1 vads-u-margin-bottom--4">{{ fieldClpStoriesIntro }}</p>
 
-        <!-- List of stories -->
-        {% if fieldClpStoriesTeasers != empty %}
-          <div class="stories-list">
-            {% for storyTeaser in fieldClpStoriesTeasers %}
-              <div class="story-teaser">
-                <img alt="{{ storyTeaser.entity.fieldMedia.entity.thumbnail.alt }}" src="{{ storyTeaser.entity.fieldMedia.entity.thumbnail.url }}" />
-                <div class="story-teaser-content">
-                  <a href="{{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.url }}" rel="noreferrer noopener" target="_blank">
-                    {{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.title }}
-                  </a>
-                  <p>{{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLinkSummary }}</p>
+          <!-- List of stories -->
+          {% if fieldClpStoriesTeasers != empty %}
+            <div class="stories-list vads-u-display--flex vads-u-flex-direction--column">
+              {% for storyTeaser in fieldClpStoriesTeasers %}
+                <div class="story-teaser vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-margin-bottom--4">
+                  <img alt="{{ storyTeaser.entity.fieldMedia.entity.thumbnail.alt }}" class="vads-l-col--4 medium-screen:vads-u-margin-right--2" src="{{ storyTeaser.entity.fieldMedia.entity.thumbnail.url }}" />
+                  <div class="story-teaser-content">
+                    <a class="vads-u-font-weight--bold" href="{{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.url }}" rel="noreferrer noopener" target="_blank">
+                      {{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.title }}
+                    </a>
+                    <p>{{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLinkSummary }}</p>
+                  </div>
                 </div>
-              </div>
-            {% endfor %}
-          </div>
-        {% endif %}
+              {% endfor %}
+            </div>
+          {% endif %}
 
-        <!-- Call to action -->
-        {% if fieldClpStoriesCta %}
-          <a class="usa-button-secondary" href="{{ fieldClpStoriesCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
-            {{ fieldClpStoriesCta.entity.fieldButtonLabel }}
+          <!-- Call to action -->
+          <a class="usa-button usa-button-secondary vads-u-font-size--sm" href="{{ fieldClpStoriesCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
+            See more stories
+            <i class="fa fa-chevron-right vads-u-margin-left--0p5"></i>
           </a>
-        {% endif %}
+          {% if fieldClpStoriesCta %}
+            <a class="usa-button usa-button-secondary vads-u-font-size--sm" href="{{ fieldClpStoriesCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
+              {{ fieldClpStoriesCta.entity.fieldButtonLabel }}
+              <i class="fa fa-chevron-right vads-u-margin-left--0p5"></i>
+            </a>
+          {% endif %}
+        </div>
       </div>
 
       <!-- Downloadable Resources -->
