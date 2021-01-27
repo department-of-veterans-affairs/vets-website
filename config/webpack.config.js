@@ -84,11 +84,11 @@ function getEntryPoints(entry) {
 }
 
 module.exports = env => {
-  const { buildtype = 'localhost' } = env;
+  const { buildtype = LOCALHOST } = env;
   const buildOptions = {
     api: '',
     buildtype,
-    host: 'localhost',
+    host: LOCALHOST,
     port: 3001,
     scaffold: false,
     watch: false,
@@ -114,7 +114,7 @@ module.exports = env => {
 
   // Set the publicPath conditional so we can get dynamic modules loading from S3
   const publicAssetPath =
-    buildOptions.setPublicPath && buildtype !== 'localhost'
+    buildOptions.setPublicPath && buildtype !== LOCALHOST
       ? `${BUCKETS[buildtype]}/generated/`
       : '/generated/';
 
