@@ -13,9 +13,9 @@ const Dashboard = () => {
         <a href="/" key="home">
           Home
         </a>
-        <a to="/" key="dashboard">
-          My VA
-        </a>
+        <span className="vads-u-color--black" key="dashboard">
+          <strong>My VA</strong>
+        </span>
       </Breadcrumbs>
 
       <h1 id="dashboard-title" tabIndex="-1">
