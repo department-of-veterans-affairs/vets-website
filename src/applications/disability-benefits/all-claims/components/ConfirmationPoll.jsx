@@ -4,6 +4,7 @@ import { createSelector } from 'reselect';
 
 import get from 'platform/utilities/data/get';
 import { apiRequest } from 'platform/utilities/api';
+import { focusElement } from 'platform/utilities/ui';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { pendingMessage } from '../content/confirmation-poll';
@@ -99,6 +100,7 @@ export class ConfirmationPoll extends React.Component {
   render() {
     const { submissionStatus, claimId } = this.state;
     if (submissionStatus === submissionStatuses.pending) {
+      setTimeout(() => focusElement('.loading-indicator-container'));
       return pendingMessage(this.state.longWait);
     }
 
@@ -110,6 +112,7 @@ export class ConfirmationPoll extends React.Component {
       areConfirmationEmailTogglesOn,
     } = this.props;
 
+    setTimeout(() => focusElement('h2'));
     return (
       <ConfirmationPage
         submissionStatus={submissionStatus}
