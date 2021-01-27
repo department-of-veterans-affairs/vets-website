@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
@@ -19,7 +18,6 @@ import ExpressCareListItem from '../AppointmentsPage/ExpressCareListItem';
 import NoAppointments from '../NoAppointments';
 import moment from 'moment';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
-import { selectFeatureRequests } from '../../../redux/selectors';
 
 export function getPastAppointmentDateRangeOptions(today = moment()) {
   const startOfToday = today.clone().startOf('day');
@@ -98,14 +96,10 @@ function PastAppointmentsListNew({
   fetchPastAppointments,
   startNewAppointmentFlow,
   pastSelectedIndex,
-  showPastAppointments,
 }) {
-  const history = useHistory();
   const [isInitialMount, setInitialMount] = useState(true);
   useEffect(() => {
-    if (!showPastAppointments) {
-      history.push('/');
-    } else if (pastStatus === FETCH_STATUS.notStarted) {
+    if (pastStatus === FETCH_STATUS.notStarted) {
       const selectedDateRange = dateRangeOptions[pastSelectedIndex];
       fetchPastAppointments(
         selectedDateRange.startDate,
@@ -233,7 +227,6 @@ PastAppointmentsListNew.propTypes = {
   fetchPastAppointments: PropTypes.func,
   showScheduleButton: PropTypes.bool,
   startNewAppointmentFlow: PropTypes.func,
-  showPastAppointments: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
@@ -242,7 +235,6 @@ function mapStateToProps(state) {
     pastStatus: state.appointments.pastStatus,
     pastSelectedIndex: state.appointments.pastSelectedIndex,
     facilityData: state.appointments.facilityData,
-    showPastAppointments: selectFeatureRequests(state),
   };
 }
 

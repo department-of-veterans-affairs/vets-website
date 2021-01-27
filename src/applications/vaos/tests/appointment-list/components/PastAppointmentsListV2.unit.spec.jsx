@@ -25,8 +25,6 @@ const initialState = {
   },
 };
 
-const pastDate = moment().subtract(3, 'days');
-
 describe('VAOS <PastAppointmentsListV2>', () => {
   it('should show select date range dropdown', async () => {
     mockPastAppointmentInfo({ va: [] });
@@ -42,7 +40,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
   });
 
   it('should update range on dropdown change', async () => {
-    const startDate = moment().subtract(3, 'months');
+    const pastDate = moment().subtract(3, 'months');
     const rangeLabel = `${moment()
       .subtract(3, 'months')
       .startOf('month')
@@ -50,7 +48,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     const appointment = getVAAppointmentMock();
     appointment.attributes = {
       ...appointment.attributes,
-      startDate: startDate.format(),
+      startDate: pastDate.format(),
       clinicFriendlyName: 'Some clinic',
       facilityId: '983',
       sta6aid: '983GC',
@@ -73,7 +71,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     fireEvent.click(screen.queryByText('Update'));
 
     await screen.findByText(
-      new RegExp(startDate.tz('America/Denver').format('MMMM YYYY'), 'i'),
+      new RegExp(pastDate.tz('America/Denver').format('MMMM YYYY'), 'i'),
     );
 
     expect(screen.baseElement).to.contain.text(`Appointments in ${rangeLabel}`);
@@ -82,6 +80,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
   });
 
   it('should show information without facility name', async () => {
+    const pastDate = moment().subtract(3, 'days');
     const appointment = getVAAppointmentMock();
     appointment.attributes = {
       ...appointment.attributes,
@@ -118,6 +117,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
   });
 
   it('should show information with facility name', async () => {
+    const pastDate = moment().subtract(3, 'days');
     const appointment = getVAAppointmentMock();
     appointment.attributes = {
       ...appointment.attributes,
@@ -170,6 +170,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
   });
 
   it('should have correct status when previously cancelled', async () => {
+    const pastDate = moment().subtract(3, 'days');
     const appointment = getVAAppointmentMock();
     appointment.attributes = {
       ...appointment.attributes,
@@ -186,8 +187,6 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
       initialState,
     });
-
-    screen.debug();
 
     await screen.findAllByText(
       new RegExp(pastDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
@@ -213,10 +212,9 @@ describe('VAOS <PastAppointmentsListV2>', () => {
   });
 
   it('should not display when over 13 months away', () => {
+    const pastDate = moment().subtract(14, 'months');
     const appointment = getVAAppointmentMock();
-    appointment.attributes.startDate = moment()
-      .add(14, 'months')
-      .format();
+    appointment.attributes.startDate = pastDate.format();
     appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
 
     mockPastAppointmentInfo({ va: [appointment] });
@@ -230,6 +228,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
   });
 
   it('should show expected video information', async () => {
+    const pastDate = moment().subtract(3, 'days');
     const appointment = getVideoAppointmentMock();
     appointment.attributes = {
       ...appointment.attributes,
