@@ -17,6 +17,8 @@ const headerFooterData = require('../src/platform/landing-pages/header-footer-da
 const BUCKETS = require('../src/site/constants/buckets');
 const ENVIRONMENTS = require('../src/site/constants/environments');
 
+const { VAGOVSTAGING, VAGOVPROD, LOCALHOST } = ENVIRONMENTS;
+
 const {
   getAppManifests,
   getWebpackEntryPoints,
@@ -97,20 +99,14 @@ module.exports = env => {
 
   const apps = getEntryPoints(buildOptions.entry);
   const entryFiles = Object.assign({}, apps, globalEntryFiles);
-  const isOptimizedBuild = [
-    ENVIRONMENTS.VAGOVSTAGING,
-    ENVIRONMENTS.VAGOVPROD,
-  ].includes(buildtype);
+  const isOptimizedBuild = [VAGOVSTAGING, VAGOVPROD].includes(buildtype);
 
-  const useHashFilenames = [
-    ENVIRONMENTS.VAGOVSTAGING,
-    ENVIRONMENTS.VAGOVPROD,
-  ].includes(buildtype);
+  const useHashFilenames = [VAGOVSTAGING, VAGOVPROD].includes(buildtype);
 
   // enable css sourcemaps for all non-localhost builds
   // or if build options include local-css-sourcemaps or entry
   const enableCSSSourcemaps =
-    buildtype !== ENVIRONMENTS.LOCALHOST ||
+    buildtype !== LOCALHOST ||
     buildOptions['local-css-sourcemaps'] ||
     !!buildOptions.entry;
 
@@ -264,7 +260,7 @@ module.exports = env => {
           const { name } = chunk;
           const isMedalliaStyleFile = name === vaMedalliaStylesFilename;
 
-          const isStaging = buildtype === ENVIRONMENTS.VAGOVSTAGING;
+          const isStaging = buildtype === VAGOVSTAGING;
 
           if (isMedalliaStyleFile && isStaging) return `[name].css`;
 
