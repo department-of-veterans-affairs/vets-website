@@ -82,6 +82,11 @@
     </p>
   {% endif %}
 
+
+  {% comment %}
+    if fieldPhoneNumbersParagraph has values
+    use phone numbers from entities
+  {% endcomment %}
   {% if locationEntity.fieldPhoneNumbersParagraph.length > 0 %}
     <div class="vads-u-display--flex vads-u-flex-direction--column" data-template="paragraphs/service_location">
       {% if haveLocationName %}
@@ -102,17 +107,27 @@
       {% endif %}
     </div>
   {% else %}
-    <div class="vads-u-display--flex vads-u-flex-direction--column" data-template="paragraphs/service_location">
-      {% if haveLocationName %}
-        <h4 class="force-small-header">Phone</h4>
-      {% else %}
-        <h5>Phone</h5>
-        <a aria-label="{{ mainFacilityPhoneNumber | accessibleNumber }}"
-           href="tel:{{ mainFacilityPhoneNumber }}">
-          {{ mainFacilityPhoneNumber }}
-        </a>
-      {% endif %}
-    </div>
+
+    {% comment %}
+      if fieldPhoneNumbersParagraph is empty and
+      fieldUseMainFacilityPhone is true use mainFacilityPhoneNumber
+    {% endcomment %}
+
+    {% assign useMainFacilityPhone  = locationEntity.fieldServiceLocation.0.entity.fieldUseMainFacilityPhone  %}
+    {% if useMainFacilityPhone %}
+      <div class="vads-u-display--flex vads-u-flex-direction--column" data-template="paragraphs/service_location">
+        {% if haveLocationName %}
+          <h4 class="force-small-header">Phone</h4>
+        {% else %}
+          <h5>Phone</h5>
+          <a aria-label="{{ mainFacilityPhoneNumber | accessibleNumber }}"
+             href="tel:{{ mainFacilityPhoneNumber }}">
+            {{ mainFacilityPhoneNumber }}
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+
   {% endif %}
 
   {% assign OMIT_REFERRAL_OR_WALKIN = "not_applicable, unknown" %}
