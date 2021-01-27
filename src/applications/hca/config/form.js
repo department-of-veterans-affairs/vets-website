@@ -1,11 +1,17 @@
 import _ from 'lodash/fp';
 
+// chapter 1
 import birthInformation from './chapters/veteranInformation/birthInformation';
 import veteranInformation from './chapters/veteranInformation/personalnformation';
 import demographicInformation from './chapters/veteranInformation/demographicInformation';
 import veteranAddress from './chapters/veteranInformation/veteranAddress';
 import veteranHomeAddress from './chapters/veteranInformation/veteranHomeAddress';
 import contactInformation from './chapters/veteranInformation/contactInformation';
+
+// chapter 2
+import serviceInformation from './chapters/militaryService/serviceInformation';
+import additionalInformation from './chapters/militaryService/additionalInformation';
+import documentUpload from './chapters/militaryService/documentUpload';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -18,8 +24,7 @@ import {
   uiSchema as addressUI,
 } from 'platform/forms/definitions/address';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import dateUI from 'platform/forms-system/src/js/definitions/date';
-import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
@@ -30,7 +35,6 @@ import { hasSession } from 'platform/user/profile/utilities';
 import environment from 'platform/utilities/environment';
 
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
-import MilitaryPrefillMessage from 'platform/forms/save-in-progress/MilitaryPrefillMessage';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
 import DowntimeMessage from '../components/DowntimeMessage';
@@ -41,16 +45,13 @@ import IDPage from '../containers/IDPage';
 
 import {
   deductibleExpensesDescription,
-  dischargeTypeLabels,
   disclosureWarning,
   expensesGreaterThanIncomeWarning,
   expensesLessThanIncome,
   facilityHelp,
-  fileHelp,
   financialDisclosureText,
   incomeDescription,
   isEssentialAcaCoverageDescription,
-  lastServiceBranchLabels,
   medicaidDescription,
   medicalCenterLabels,
   medicalCentersByState,
@@ -74,11 +75,7 @@ import {
   dependentIncomeUiSchema,
 } from '../definitions/dependent';
 
-import {
-  validateServiceDates,
-  validateMarriageDate,
-  validateCurrency,
-} from '../validation';
+import { validateMarriageDate, validateCurrency } from '../validation';
 
 import manifest from '../manifest.json';
 
@@ -91,30 +88,19 @@ const emptyObjectSchema = {
 };
 
 const {
-  campLejeune,
   cohabitedLastYear,
   dateOfMarriage,
   deductibleEducationExpenses,
   deductibleFuneralExpenses,
   deductibleMedicalExpenses,
   dependents,
-  disabledInLineOfDuty,
-  dischargeType,
   discloseFinancialInformation,
-  exposedToRadiation,
   isCoveredByHealthInsurance,
   isEnrolledMedicarePartA,
   isEssentialAcaCoverage,
-  isFormerPow,
   isMedicaidEligible,
-  lastDischargeDate,
-  lastEntryDate,
-  lastServiceBranch,
   medicarePartAEffectiveDate,
-  postNov111998Combat,
   provideSupportLastYear,
-  purpleHeartRecipient,
-  radiumTreatments,
   sameAddress,
   spouseDateOfBirth,
   spouseFullName,
@@ -123,13 +109,11 @@ const {
   spouseOtherIncome,
   spousePhone,
   spouseSocialSecurityNumber,
-  swAsiaCombat,
   vaCompensationType,
   vaMedicalFacility,
   veteranGrossIncome,
   veteranNetIncome,
   veteranOtherIncome,
-  vietnamService,
   wantsInitialVaContact,
 } = fullSchemaHca.properties;
 
@@ -143,39 +127,6 @@ const {
 } = fullSchemaHca.definitions;
 
 const stateLabels = createUSAStateLabels(states);
-
-const attachmentsSchema = {
-  type: 'array',
-  minItems: 1,
-  items: {
-    type: 'object',
-    required: ['attachmentId', 'name'],
-    properties: {
-      name: {
-        type: 'string',
-      },
-      size: {
-        type: 'integer',
-      },
-      confirmationCode: {
-        type: 'string',
-      },
-      attachmentId: {
-        type: 'string',
-        enum: ['1', '2', '3', '4', '5', '6', '7'],
-        enumNames: [
-          'DD214',
-          'DD215 (used to correct or make additions to the DD214)',
-          'WD AGO 53-55 (report of separation used prior to 1950)',
-          'Other discharge papers (like your DD256, DD257, or NGB22)',
-          'Official documentation of a military award (like a Purple Heart, Medal of Honor, or Silver Star)',
-          'Disability rating letter from the Veterans Benefit Administration (VBA)',
-          'Other official military document',
-        ],
-      },
-    },
-  },
-};
 
 // For which page needs prefill-message, check
 // vets-api/config/form_profile_mappings/1010ez.yml
@@ -248,147 +199,9 @@ const formConfig = {
     militaryService: {
       title: 'Military Service',
       pages: {
-        serviceInformation: {
-          path: 'military-service/service-information',
-          title: 'Service periods',
-          uiSchema: {
-            'ui:description': MilitaryPrefillMessage,
-            lastServiceBranch: {
-              'ui:title': 'Last branch of service',
-              'ui:options': {
-                labels: lastServiceBranchLabels,
-              },
-            },
-            // TODO: this should really be a dateRange, but that requires a backend schema change. For now
-            // leaving them as dates, but should change these to get the proper dateRange validation
-            lastEntryDate: currentOrPastDateUI('Service start date'),
-            lastDischargeDate: dateUI('Service end date'),
-            dischargeType: {
-              'ui:title': 'Character of service',
-              'ui:options': {
-                labels: dischargeTypeLabels,
-              },
-            },
-            'ui:validations': [validateServiceDates],
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              lastServiceBranch,
-              lastEntryDate,
-              lastDischargeDate,
-              dischargeType,
-            },
-            required: [
-              'lastServiceBranch',
-              'lastEntryDate',
-              'lastDischargeDate',
-              'dischargeType',
-            ],
-          },
-        },
-        additionalInformation: {
-          path: 'military-service/additional-information',
-          title: 'Service history',
-          uiSchema: {
-            'ui:title': 'Service history',
-            'ui:description': MilitaryPrefillMessage,
-            'view:textObject': {
-              'ui:description': 'Check all that apply to you.',
-            },
-            purpleHeartRecipient: {
-              'ui:title': 'Purple Heart award recipient',
-            },
-            isFormerPow: {
-              'ui:title': 'Former Prisoner of War',
-            },
-            postNov111998Combat: {
-              'ui:title':
-                'Served in combat theater of operations after November 11, 1998',
-            },
-            disabledInLineOfDuty: {
-              'ui:title':
-                'Discharged or retired from the military for a disability incurred in the line of duty',
-            },
-            swAsiaCombat: {
-              'ui:title':
-                'Served in Southwest Asia during the Gulf War between August 2, 1990, and Nov 11, 1998',
-            },
-            vietnamService: {
-              'ui:title':
-                'Served in Vietnam between January 9, 1962, and May 7, 1975',
-            },
-            exposedToRadiation: {
-              'ui:title': 'Exposed to radiation while in the military',
-            },
-            radiumTreatments: {
-              'ui:title':
-                'Received nose/throat radium treatments while in the military',
-            },
-            campLejeune: {
-              'ui:title':
-                'Served on active duty at least 30 days at Camp Lejeune from January 1, 1953, through December 31, 1987',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:textObject': {
-                type: 'object',
-                properties: {},
-              },
-              purpleHeartRecipient,
-              isFormerPow,
-              postNov111998Combat,
-              disabledInLineOfDuty,
-              swAsiaCombat,
-              vietnamService,
-              exposedToRadiation,
-              radiumTreatments,
-              campLejeune,
-            },
-          },
-        },
-        documentUpload: {
-          title: 'Upload your discharge papers',
-          path: 'military-service/documents',
-          depends: formData => !formData['view:isUserInMvi'],
-          editModeOnReviewPage: true,
-          uiSchema: {
-            'ui:title': 'Upload your discharge papers',
-            'ui:description': fileHelp,
-            attachments: fileUploadUI('', {
-              buttonText: 'Upload a document',
-              addAnotherLabel: 'Upload another document',
-              fileUploadUrl: `${environment.API_URL}/v0/hca_attachments`,
-              fileTypes: ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'rtf', 'png'],
-              maxSize: 1024 * 1024 * 10,
-              hideLabelText: true,
-              createPayload: file => {
-                const payload = new FormData();
-                payload.append('hca_attachment[file_data]', file);
-                return payload;
-              },
-              parseResponse: (response, file) => ({
-                name: file.name,
-                confirmationCode: response.data.attributes.guid,
-                size: file.size,
-              }),
-              attachmentSchema: {
-                'ui:title': 'Document type',
-              },
-              attachmentName: {
-                'ui:title': 'Document name',
-              },
-            }),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              attachments: attachmentsSchema,
-            },
-          },
-        },
+        serviceInformation,
+        additionalInformation,
+        documentUpload,
       },
     },
     vaBenefits: {
