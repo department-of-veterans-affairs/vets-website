@@ -187,6 +187,7 @@
                 {% include "src/site/facilities/facility_health_service.drupal.liquid" with
                     healthService = localHealthService
                     locationEntity = localService.entity
+                    mainFacilityPhoneNumber = fieldPhoneNumber
                     locations = localService.entity.fieldServiceLocation
                     localServiceDescription = localService.entity.fieldBody.processed
                     fieldFacilityLocatorApiId = fieldFacilityLocatorApiId
