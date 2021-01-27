@@ -11,6 +11,8 @@ import {
   FETCH_PAST_APPOINTMENTS,
   FETCH_PAST_APPOINTMENTS_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS_FAILED,
+  FETCH_REQUEST_DETAILS,
+  FETCH_REQUEST_DETAILS_SUCCEEDED,
   FETCH_REQUEST_MESSAGES_SUCCEEDED,
   FETCH_EXPRESS_CARE_WINDOWS_FAILED,
   FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
@@ -57,6 +59,9 @@ const initialState = {
   pastSelectedIndex: 0,
   showCancelModal: false,
   cancelAppointmentStatus: FETCH_STATUS.notStarted,
+  currentAppointment: null,
+  appointmentDetails: {},
+  appointmentDetailsStatus: FETCH_STATUS.notStarted,
   appointmentToCancel: null,
   facilityData: {},
   requestMessages: {},
@@ -143,6 +148,25 @@ export default function appointmentsReducer(state = initialState, action) {
       return {
         ...state,
         facilityData,
+      };
+    }
+    case FETCH_REQUEST_DETAILS: {
+      return {
+        ...state,
+        appointmentDetailsStatus: FETCH_STATUS.loading,
+        currentAppointment: null,
+      };
+    }
+    case FETCH_REQUEST_DETAILS_SUCCEEDED: {
+      const appointmentDetails = { ...state.appointmentDetails };
+
+      appointmentDetails[action.id] = action.request;
+
+      return {
+        ...state,
+        currentAppointment: action.request,
+        appointmentDetails,
+        appointmentDetailsStatus: FETCH_STATUS.succeeded,
       };
     }
     case FETCH_REQUEST_MESSAGES_SUCCEEDED: {

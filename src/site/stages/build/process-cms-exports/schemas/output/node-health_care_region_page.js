@@ -32,7 +32,6 @@ const facilitiesSchema = {
           'changed',
           'fieldOperatingStatusFacility',
           'fieldFacilityLocatorApiId',
-          'fieldNicknameForThisFacility',
           'fieldIntroText',
           'fieldLocationServices',
           'fieldAddress',
@@ -100,7 +99,6 @@ module.exports = {
     fieldGovdeliveryIdNews: { type: 'string' },
     fieldOperatingStatus: socialMediaSchema,
     fieldOtherVaLocations: { type: 'array' },
-    fieldNicknameForThisFacility: { type: ['string', 'null'] },
     fieldLinkFacilityEmergList: {
       type: ['object', 'null'],
       properties: {
@@ -164,7 +162,6 @@ module.exports = {
     'fieldGovdeliveryIdNews',
     'fieldOperatingStatus',
     'fieldOtherVaLocations',
-    'fieldNicknameForThisFacility',
     'fieldLinkFacilityEmergList',
     'reverseFieldRegionPageNode',
     'newsStoryTeasers',
