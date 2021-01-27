@@ -25,7 +25,6 @@ export default function addButtonLinkListeners() {
   buttonLinks.forEach(buttonLink => {
     buttonLink.addEventListener('click', event => {
       const style = window.getComputedStyle(event.target);
-
       recordEvent({
         event: 'cta-button-click',
         'button-type': getButtonType(event.target.classList),
