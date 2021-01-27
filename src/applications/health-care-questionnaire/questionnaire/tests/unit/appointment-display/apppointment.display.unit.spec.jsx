@@ -12,13 +12,13 @@ describe('health care questionnaire - display an appointment -- ', () => {
     );
     expect(
       mountedComponent.find('[data-testid="facility-name"]').text(),
-    ).to.equal('VDS Facility Display Name');
+    ).to.equal('CHY PC VAR2, VDS Facility Display Name');
     expect(
       mountedComponent.find('[data-testid="appointment-time"]').text(),
     ).to.match(/([\d]|[\d][\d]):[\d][\d]\s[a|p].m./);
     expect(
       mountedComponent.find('[data-testid="appointment-date"]').text(),
-    ).to.equal('January 26th, 2021.');
+    ).to.equal('January 26th, 2021');
 
     mountedComponent.unmount();
   });

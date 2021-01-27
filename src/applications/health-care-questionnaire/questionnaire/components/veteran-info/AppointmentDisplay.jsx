@@ -23,7 +23,6 @@ export default function AppointmentDisplay({ appointment }) {
             'MMMM Do, YYYY',
           )}`}
         >
-          {' '}
           {moment(appointmentTime).format('MMMM Do, YYYY')}
         </dd>
       </div>
@@ -35,7 +34,6 @@ export default function AppointmentDisplay({ appointment }) {
             'h:mm a z',
           )}`}
         >
-          {' '}
           {moment(appointmentTime).format('h:mm a z')}
         </dd>
       </div>
@@ -47,7 +45,6 @@ export default function AppointmentDisplay({ appointment }) {
             clinic.facility.displayName
           }`}
         >
-          {' '}
           {clinic.friendlyName}, {clinic.facility.displayName}
         </dd>
       </div>
