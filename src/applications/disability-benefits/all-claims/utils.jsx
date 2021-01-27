@@ -46,6 +46,7 @@ import {
   START_TEXT,
   FORM_STATUS_BDD,
   PDF_SIZE_FEATURE,
+  WIZARD_STATUS,
 } from './constants';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
@@ -962,4 +963,26 @@ export const confirmationEmailFeature = state => {
   ].includes(undefined)
     ? false
     : isForm526ConfirmationEmailOn && isForm526ConfirmationEmailShowCopyOn;
+};
+
+/**
+ * Restart callback for when the user chooses to restart the form; it's only
+ * used by the FormStartControls component for form 526 because the form is
+ * rendering the RoutedSavableApp in the Form526EZApp file separate from the
+ * wizard; we need to duplicate the storage manipulation and route destination
+ * from the RoutedSavableApp so the form restarts on the intro page
+ * @param {string} state - current state of the form
+ *   - in FormStartControls state will be 'restarting'
+ *   - in the RoutedSavableApp the state will be 'restarted'
+ * @return {string|null} - redirect form to the intro page when appropriate
+ */
+export const restartFormCallback = state => {
+  if (state === 'restarting') {
+    sessionStorage.setItem(WIZARD_STATUS, state);
+    return null;
+  }
+  // RoutedSavableApp expects a new route or null, but we only want to start
+  // on the intro page when the wizard status is 'restarting' or we end up with
+  // an infinite loop
+  return sessionStorage.getItem(WIZARD_STATUS) === 'restarting' ? '/' : null;
 };

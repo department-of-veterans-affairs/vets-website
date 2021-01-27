@@ -40,6 +40,7 @@ import {
   showSeparationLocation,
   getPageTitle,
   claimingNew,
+  restartFormCallback,
 } from '../utils';
 
 import captureEvents from '../analytics-functions';
@@ -116,7 +117,11 @@ import { createFormConfig781, createFormConfig781a } from './781';
 
 import createformConfig8940 from './8940';
 
-import { PTSD_INCIDENT_ITERATION, NULL_CONDITION_STRING } from '../constants';
+import {
+  PTSD_INCIDENT_ITERATION,
+  NULL_CONDITION_STRING,
+  WIZARD_STATUS,
+} from '../constants';
 
 import migrations from '../migrations';
 
@@ -151,6 +156,8 @@ const formConfig = {
         'Your saved disability compensation application (21-526EZ) has expired. If you want to apply for disability compensation, please start a new application.',
       saved: 'Your disability compensation application has been saved.',
     },
+    restartWizardKey: WIZARD_STATUS,
+    restartFormCallback,
   },
   onFormLoaded: directToCorrectForm,
   version: migrations.length,

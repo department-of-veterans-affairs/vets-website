@@ -18,7 +18,12 @@ import { MissingServices, MissingId } from './containers/MissingServices';
 import { MVI_ADD_SUCCEEDED } from './actions';
 import WizardContainer from './containers/WizardContainer';
 import { WIZARD_STATUS, PDF_SIZE_FEATURE } from './constants';
-import { show526Wizard, isBDD, getPageTitle } from './utils';
+import {
+  show526Wizard,
+  isBDD,
+  getPageTitle,
+  restartFormCallback,
+} from './utils';
 import { uploadPdfLimitFeature } from './config/selectors';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
@@ -66,6 +71,7 @@ export const Form526Entry = ({
   showWizard,
   isBDDForm,
   pdfLimit,
+  router,
 }) => {
   const defaultWizardState = getWizardStatus();
   const [wizardState, setWizardState] = useState(defaultWizardState);
@@ -85,7 +91,11 @@ export const Form526Entry = ({
   };
 
   useEffect(() => {
-    if (
+    const returnUrl = restartFormCallback();
+    if (returnUrl) {
+      router.push(returnUrl);
+      setWizardStatus('restarted');
+    } else if (
       window.location.pathname.endsWith('/introduction') &&
       defaultWizardState === WIZARD_STATUS_COMPLETE
     ) {
@@ -159,6 +169,7 @@ const mapStateToProps = state => ({
   showWizard: show526Wizard(state),
   isBDDForm: isBDD(state?.form?.data),
   pdfLimit: uploadPdfLimitFeature(state),
+  isStartingOver: state.form?.isStartingOver,
 });
 
 export default connect(mapStateToProps)(Form526Entry);
