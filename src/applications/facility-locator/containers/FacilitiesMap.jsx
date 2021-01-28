@@ -25,6 +25,7 @@ import SearchControls from '../components/SearchControls';
 import SearchResultsHeader from '../components/SearchResultsHeader';
 import { browserHistory } from 'react-router';
 import vaDebounce from 'platform/utilities/data/debounce';
+import environment from 'platform/utilities/environment';
 
 import mapboxClient from '../components/MapboxClient';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
@@ -267,18 +268,20 @@ const FacilitiesMap = props => {
   };
 
   const speakZoom = currentZoom => {
-    const screenreaderZoomElement = document.getElementById(zoomMessageDivID);
+    if (!environment.isProduction()) {
+      const screenreaderZoomElement = document.getElementById(zoomMessageDivID);
 
-    if (
-      screenreaderZoomElement &&
-      screenreaderZoomElement.innerText.length === 0
-    ) {
-      if (lastZoom < currentZoom) {
-        screenreaderZoomElement.innerText = 'zooming in';
-      }
+      if (
+        screenreaderZoomElement &&
+        screenreaderZoomElement.innerText.length === 0
+      ) {
+        if (lastZoom < currentZoom) {
+          screenreaderZoomElement.innerText = 'zooming in';
+        }
 
-      if (lastZoom > currentZoom) {
-        screenreaderZoomElement.innerText = 'zooming out';
+        if (lastZoom > currentZoom) {
+          screenreaderZoomElement.innerText = 'zooming out';
+        }
       }
     }
   };
