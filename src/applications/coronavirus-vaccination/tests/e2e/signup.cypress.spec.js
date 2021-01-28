@@ -14,6 +14,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
 
     it('should successfully submit the vaccine preparation form', () => {
       // Intro page
+      cy.task('log', Cypress.env());
       cy.axeCheck();
       cy.get('.vads-l-row').contains(
         'COVID-19 vaccines: Stay informed and help us prepare',
