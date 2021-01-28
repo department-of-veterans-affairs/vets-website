@@ -11,6 +11,16 @@ import {
 
 const dependentIncomeSchema = createDependentIncomeSchema(fullSchemaHca);
 
+const isVeteranMarried = formData =>
+  formData.maritalStatus?.toLowerCase() === 'married';
+
+const isVeteranSeparated = formData =>
+  formData.maritalStatus?.toLowerCase() === 'separated';
+
+const hasVeteranBeenMarried = formData =>
+  (formData.maritalStatus && isVeteranMarried(formData)) ||
+  isVeteranSeparated(formData);
+
 const {
   dependents,
   spouseGrossIncome,
@@ -47,16 +57,12 @@ export default {
       'ui:options': {
         hideIf: formData =>
           !formData.maritalStatus ||
-          (formData.maritalStatus.toLowerCase() !== 'married' &&
-            formData.maritalStatus.toLowerCase() !== 'separated'),
+          (!isVeteranMarried(formData) && !isVeteranSeparated(formData)),
       },
       spouseGrossIncome: merge(
         currencyUI('Spouse gross annual income from employment'),
         {
-          'ui:required': formData =>
-            formData.maritalStatus &&
-            (formData.maritalStatus.toLowerCase() === 'married' ||
-              formData.maritalStatus.toLowerCase() === 'separated'),
+          'ui:required': formData => hasVeteranBeenMarried(formData),
           'ui:validations': [validateCurrency],
         },
       ),
@@ -65,18 +71,12 @@ export default {
           'Spouse net income from your farm, ranch, property or business',
         ),
         {
-          'ui:required': formData =>
-            formData.maritalStatus &&
-            (formData.maritalStatus.toLowerCase() === 'married' ||
-              formData.maritalStatus.toLowerCase() === 'separated'),
+          'ui:required': formData => hasVeteranBeenMarried(formData),
           'ui:validations': [validateCurrency],
         },
       ),
       spouseOtherIncome: merge(currencyUI('Spouse other income amount'), {
-        'ui:required': formData =>
-          formData.maritalStatus &&
-          (formData.maritalStatus.toLowerCase() === 'married' ||
-            formData.maritalStatus.toLowerCase() === 'separated'),
+        'ui:required': formData => hasVeteranBeenMarried(formData),
         'ui:validations': [validateCurrency],
       }),
     },
