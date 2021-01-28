@@ -11,16 +11,17 @@ module.exports = {
         field_email_label: { $ref: 'GenericNestedString' },
       },
     },
-    field_facility_service_hours: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          value: { type: 'array' },
-        },
-        maxItems: 1,
-      },
-    },
+    // TEMPORARY WORKAROUND
+    // field_facility_service_hours: {
+    //   type: 'array',
+    //   items: {
+    //     type: 'object',
+    //     properties: {
+    //       value: { type: 'array' },
+    //     },
+    //     maxItems: 1,
+    //   },
+    // },
     field_hours: { $ref: 'GenericNestedString' },
     field_additional_hours_info: { $ref: 'GenericNestedString' },
     field_phone: { $ref: 'EntityReferenceArray' },
