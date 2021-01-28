@@ -1,6 +1,6 @@
 import fullSchema from 'vets-json-schema/dist/28-8832-schema.json';
 import environment from 'platform/utilities/environment';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+import { VA_FORM_IDS, WIZARD_STATUS } from 'platform/forms/constants';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -26,6 +26,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   transformForSubmit: transform,
   formId: VA_FORM_IDS.FORM_28_8832,
+  wizardStorageKey: WIZARD_STATUS,
   saveInProgress: {
     messages: {
       inProgress:

@@ -8,23 +8,43 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import FormFooter from 'platform/forms/components/FormFooter';
 
+import {
+  WIZARD_STATUS_NOT_STARTED,
+  WIZARD_STATUS_RESTARTED,
+  restartShouldRedirect,
+} from 'applications/static-pages/wizard';
+
 import WizardContainer from './WizardContainer';
-import { WIZARD_STATUS, CAREERS_EMPLOYMENT_ROOT_URL } from '../constants';
+import {
+  WIZARD_STATUS,
+  WIZARD_STATUS_COMPLETE,
+  CAREERS_EMPLOYMENT_ROOT_URL,
+} from '../constants';
 import formConfig from '../config/form';
 
 // Need to set status of whether or not the wizard is complete to local storage
 // Read from local storage to determine if we should render the wizard OR the intro page
 
-function App({ location, children, chapter36Feature }) {
-  const [wizardState, setWizardState] = useState(false);
+function App({ location, children, chapter36Feature, router }) {
+  const [wizardState, setWizardState] = useState(WIZARD_STATUS_NOT_STARTED);
+
+  const setWizardStatus = value => {
+    sessionStorage.setItem(WIZARD_STATUS, value);
+    setWizardState(value);
+  };
+
   let content;
-  useEffect(
-    () => {
-      const wizardStatus = sessionStorage.getItem(WIZARD_STATUS);
-      setWizardState(JSON.parse(wizardStatus));
-    },
-    [setWizardState],
-  );
+  useEffect(() => {
+    const shouldRestart = restartShouldRedirect(WIZARD_STATUS);
+    setWizardStatus(
+      shouldRestart
+        ? WIZARD_STATUS_RESTARTED
+        : sessionStorage.getItem(WIZARD_STATUS),
+    );
+    if (shouldRestart) {
+      router.push('/');
+    }
+  });
 
   if (chapter36Feature === undefined) {
     content = <LoadingIndicator message="Loading..." />;
@@ -61,7 +81,7 @@ function App({ location, children, chapter36Feature }) {
         </div>
       </div>
     );
-  } else if (!wizardState) {
+  } else if (wizardState !== WIZARD_STATUS_COMPLETE) {
     content = <WizardContainer />;
   } else {
     content = (
