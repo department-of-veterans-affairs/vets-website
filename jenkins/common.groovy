@@ -17,8 +17,8 @@ DRUPAL_CREDENTIALS = [
 ]
 
 ALL_VAGOV_BUILDTYPES = [
-  'vagovdev',
-  'vagovstaging',
+  // 'vagovdev',
+  // 'vagovstaging',
   'vagovprod'
 ]
 
