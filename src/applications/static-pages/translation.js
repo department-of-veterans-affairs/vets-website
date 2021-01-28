@@ -4,10 +4,12 @@ const faqI18Content = {
   en: {
     linkTitle: 'Read this page in English',
     langToggleLink: '/coronavirus-veteran-frequently-asked-questions',
+    onThisPage: 'On this page',
   },
   es: {
     linkTitle: 'Leer esta página en Español',
     langToggleLink: '/coronavirus-veteran-frequently-asked-questions-esp',
+    onThisPage: 'On this page',
   },
 };
 const configureTranslationLink = (e, targetLang) => {
