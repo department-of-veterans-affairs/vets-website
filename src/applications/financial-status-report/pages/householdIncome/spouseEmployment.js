@@ -133,6 +133,7 @@ export const schema = {
                   type: 'array',
                   items: {
                     type: 'object',
+                    minItems: 1,
                     properties: {
                       spouseDeductionType: {
                         type: 'string',

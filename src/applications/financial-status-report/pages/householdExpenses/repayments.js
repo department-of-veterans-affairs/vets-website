@@ -98,6 +98,7 @@ export const schema = {
               'debtWithinThreeMonths',
               'pastDueDebt',
             ],
+            minItems: 1,
             properties: {
               debtType: {
                 type: 'string',
