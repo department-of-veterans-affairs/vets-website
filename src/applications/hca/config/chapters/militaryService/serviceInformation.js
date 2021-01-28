@@ -14,8 +14,6 @@ const {
 } = fullSchemaHca.properties;
 
 export default {
-  path: 'military-service/service-information',
-  title: 'Service periods',
   uiSchema: {
     'ui:description': MilitaryPrefillMessage,
     lastServiceBranch: {

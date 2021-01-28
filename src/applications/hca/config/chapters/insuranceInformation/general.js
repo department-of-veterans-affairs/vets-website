@@ -7,8 +7,6 @@ const { provider } = fullSchemaHca.definitions;
 const { isCoveredByHealthInsurance } = fullSchemaHca.properties;
 
 export default {
-  path: 'insurance-information/general',
-  title: 'Other coverage',
   uiSchema: {
     'ui:title': 'Other coverage',
     isCoveredByHealthInsurance: {

@@ -7,9 +7,6 @@ import { uiSchema as dependentUI } from '../../../definitions/dependent';
 const { dependents } = fullSchemaHca.properties;
 
 export default {
-  path: 'household-information/dependent-information',
-  title: 'Dependent information',
-  depends: data => data.discloseFinancialInformation,
   uiSchema: {
     'view:reportDependents': {
       'ui:title': 'Do you have any dependents to report?',

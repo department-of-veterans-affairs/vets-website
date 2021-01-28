@@ -10,8 +10,6 @@ const emptyObjectSchema = {
 };
 
 export default {
-  path: 'household-information/financial-disclosure',
-  title: 'Financial disclosure',
   uiSchema: {
     'ui:title': 'Financial disclosure',
     'ui:description': financialDisclosureText,

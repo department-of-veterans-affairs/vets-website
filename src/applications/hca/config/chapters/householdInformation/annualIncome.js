@@ -22,10 +22,6 @@ const {
 } = fullSchemaHca.properties;
 
 export default {
-  path: 'household-information/annual-income',
-  title: 'Annual income',
-  initialData: {},
-  depends: data => data.discloseFinancialInformation,
   uiSchema: {
     'ui:title': 'Annual income',
     'ui:description': incomeDescription,

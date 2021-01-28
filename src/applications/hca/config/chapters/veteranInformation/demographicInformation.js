@@ -16,13 +16,6 @@ const {
 } = fullSchemaHca.properties;
 
 export default {
-  path: 'veteran-information/demographic-information',
-  title: 'Veteran information',
-  initialData: {
-    'view:demographicCategories': {
-      isSpanishHispanicLatino: false,
-    },
-  },
   uiSchema: {
     'ui:description': PrefillMessage,
     gender: {

@@ -14,9 +14,6 @@ const {
 } = fullSchemaHca.properties;
 
 export default {
-  path: 'insurance-information/medicare',
-  title: 'Medicaid or Medicare coverage',
-  initialData: {},
   uiSchema: {
     isMedicaidEligible: {
       'ui:title': 'Are you eligible for Medicaid?',

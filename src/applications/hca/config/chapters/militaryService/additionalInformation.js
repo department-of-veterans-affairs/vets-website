@@ -14,8 +14,6 @@ const {
 } = fullSchemaHca.properties;
 
 export default {
-  path: 'military-service/additional-information',
-  title: 'Service history',
   uiSchema: {
     'ui:title': 'Service history',
     'ui:description': MilitaryPrefillMessage,

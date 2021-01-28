@@ -23,14 +23,6 @@ const {
 } = fullSchemaHca.properties;
 
 export default {
-  path: 'household-information/spouse-information',
-  title: 'Spouse’s information',
-  initialData: {},
-  depends: formData =>
-    formData.discloseFinancialInformation &&
-    formData.maritalStatus &&
-    (formData.maritalStatus.toLowerCase() === 'married' ||
-      formData.maritalStatus.toLowerCase() === 'separated'),
   uiSchema: {
     'ui:title': 'Spouse’s information',
     'ui:description':

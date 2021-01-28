@@ -8,9 +8,6 @@ const { email } = fullSchemaHca.properties;
 const { phone } = fullSchemaHca.definitions;
 
 export default {
-  path: 'veteran-information/contact-information',
-  title: 'Contact information',
-  initialData: {},
   uiSchema: {
     'ui:description': PrefillMessage,
     'ui:validations': [validateMatch('email', 'view:emailConfirmation')],

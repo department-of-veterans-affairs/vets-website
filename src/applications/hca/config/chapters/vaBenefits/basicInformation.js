@@ -4,8 +4,6 @@ import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 const { vaCompensationType } = fullSchemaHca.properties;
 
 export default {
-  path: 'va-benefits/basic-information',
-  title: 'VA benefits',
   uiSchema: {
     'ui:title': 'Current compensation',
     'ui:description': PrefillMessage,

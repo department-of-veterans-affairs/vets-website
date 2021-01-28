@@ -10,9 +10,6 @@ import {
 } from 'platform/forms/definitions/address';
 
 export default {
-  path: 'veteran-information/veteran-address',
-  title: 'Mailing address',
-  initialData: {},
   uiSchema: {
     'ui:description': PrefillMessage,
     veteranAddress: merge(addressUI('Mailing address', true), {

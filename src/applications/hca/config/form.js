@@ -126,44 +126,163 @@ const formConfig = {
     veteranInformation: {
       title: 'Veteran Information',
       pages: {
-        veteranInformation,
-        birthInformation,
-        demographicInformation,
-        veteranAddress,
-        veteranHomeAddress,
-        contactInformation,
+        veteranInformation: {
+          path: 'veteran-information/personal-information',
+          title: 'Veteran information',
+          initialData: {},
+          uiSchema: veteranInformation.uiSchema,
+          schema: veteranInformation.schema,
+        },
+        birthInformation: {
+          path: 'veteran-information/birth-information',
+          title: 'Veteran information',
+          initialData: {},
+          uiSchema: birthInformation.uiSchema,
+          schema: birthInformation.schema,
+        },
+        demographicInformation: {
+          path: 'veteran-information/demographic-information',
+          title: 'Veteran information',
+          initialData: {
+            'view:demographicCategories': {
+              isSpanishHispanicLatino: false,
+            },
+          },
+          uiSchema: demographicInformation.uiSchema,
+          schema: demographicInformation.schema,
+        },
+        veteranAddress: {
+          path: 'veteran-information/veteran-address',
+          title: 'Mailing address',
+          initialData: {},
+          uiSchema: veteranAddress.uiSchema,
+          schema: veteranAddress.schema,
+        },
+        veteranHomeAddress: {
+          path: 'veteran-information/veteran-home-address',
+          title: 'Home address',
+          initialData: {},
+          depends: formData =>
+            formData['view:hasMultipleAddress'] &&
+            !formData['view:doesMailingMatchHomeAddress'],
+          uiSchema: veteranHomeAddress.uiSchema,
+          schema: veteranHomeAddress.schema,
+        },
+        contactInformation: {
+          path: 'veteran-information/contact-information',
+          title: 'Contact information',
+          initialData: {},
+          uiSchema: contactInformation.uiSchema,
+          schema: contactInformation.schema,
+        },
       },
     },
     militaryService: {
       title: 'Military Service',
       pages: {
-        serviceInformation,
-        additionalInformation,
-        documentUpload,
+        serviceInformation: {
+          path: 'military-service/service-information',
+          title: 'Service periods',
+          uiSchema: serviceInformation.uiSchema,
+          schema: serviceInformation.schema,
+        },
+        additionalInformation: {
+          path: 'military-service/additional-information',
+          title: 'Service history',
+          uiSchema: additionalInformation.uiSchema,
+          schema: additionalInformation.schema,
+        },
+        documentUpload: {
+          title: 'Upload your discharge papers',
+          path: 'military-service/documents',
+          depends: formData => !formData['view:isUserInMvi'],
+          editModeOnReviewPage: true,
+          uiSchema: documentUpload.uiSchema,
+          schema: documentUpload.schema,
+        },
       },
     },
     vaBenefits: {
       title: 'VA Benefits',
       pages: {
-        vaBenefits: basicInformation,
+        vaBenefits: {
+          path: 'va-benefits/basic-information',
+          title: 'VA benefits',
+          uiSchema: basicInformation.uiSchema,
+          schema: basicInformation.schema,
+        },
       },
     },
     householdInformation: {
       title: 'Household Information',
       pages: {
-        financialDisclosure,
-        spouseInformation,
-        dependentInformation,
-        annualIncome,
-        deductibleExpenses,
+        financialDisclosure: {
+          path: 'household-information/financial-disclosure',
+          title: 'Financial disclosure',
+          uiSchema: financialDisclosure.uiSchema,
+          schema: financialDisclosure.schema,
+        },
+        spouseInformation: {
+          path: 'household-information/spouse-information',
+          title: 'Spouse’s information',
+          initialData: {},
+          depends: formData =>
+            formData.discloseFinancialInformation &&
+            formData.maritalStatus &&
+            (formData.maritalStatus.toLowerCase() === 'married' ||
+              formData.maritalStatus.toLowerCase() === 'separated'),
+          uiSchema: spouseInformation.uiSchema,
+          schema: spouseInformation.schema,
+        },
+        dependentInformation: {
+          path: 'household-information/dependent-information',
+          title: 'Dependent information',
+          depends: data => data.discloseFinancialInformation,
+          uiSchema: dependentInformation.uiSchema,
+          schema: dependentInformation.schema,
+        },
+        annualIncome: {
+          path: 'household-information/annual-income',
+          title: 'Annual income',
+          initialData: {},
+          depends: data => data.discloseFinancialInformation,
+          uiSchema: annualIncome.uiSchema,
+          schema: annualIncome.schema,
+        },
+        deductibleExpenses: {
+          path: 'household-information/deductible-expenses',
+          title: 'Deductible expenses',
+          depends: data => data.discloseFinancialInformation,
+          uiSchema: deductibleExpenses.uiSchema,
+          schema: deductibleExpenses.schema,
+        },
       },
     },
     insuranceInformation: {
       title: 'Insurance Information',
       pages: {
-        medicare,
-        general,
-        vaFacility,
+        medicare: {
+          path: 'insurance-information/medicare',
+          title: 'Medicaid or Medicare coverage',
+          initialData: {},
+          uiSchema: medicare.uiSchema,
+          schema: medicare.schema,
+        },
+        general: {
+          path: 'insurance-information/general',
+          title: 'Other coverage',
+          uiSchema: general.uiSchema,
+          schema: general.schema,
+        },
+        vaFacility: {
+          path: 'insurance-information/va-facility',
+          title: 'VA Facility',
+          initialData: {
+            isEssentialAcaCoverage: false,
+          },
+          uiSchema: vaFacility.uiSchema,
+          schema: vaFacility.schema,
+        },
       },
     },
   },

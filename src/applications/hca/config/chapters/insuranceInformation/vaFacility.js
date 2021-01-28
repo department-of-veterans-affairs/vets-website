@@ -25,11 +25,6 @@ const emptyObjectSchema = {
 };
 
 export default {
-  path: 'insurance-information/va-facility',
-  title: 'VA Facility',
-  initialData: {
-    isEssentialAcaCoverage: false,
-  },
   uiSchema: {
     'ui:title': 'VA Facility',
     isEssentialAcaCoverage: {

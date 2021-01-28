@@ -22,9 +22,6 @@ const emptyObjectSchema = {
 };
 
 export default {
-  path: 'household-information/deductible-expenses',
-  title: 'Deductible expenses',
-  depends: data => data.discloseFinancialInformation,
   uiSchema: {
     'ui:title': 'Previous Calendar Year’s Deductible Expenses',
     'ui:description': deductibleExpensesDescription,

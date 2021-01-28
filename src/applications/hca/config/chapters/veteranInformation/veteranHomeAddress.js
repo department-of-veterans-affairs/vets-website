@@ -10,12 +10,6 @@ import {
 } from 'platform/forms/definitions/address';
 
 export default {
-  path: 'veteran-information/veteran-home-address',
-  title: 'Home address',
-  initialData: {},
-  depends: formData =>
-    formData['view:hasMultipleAddress'] &&
-    !formData['view:doesMailingMatchHomeAddress'],
   uiSchema: {
     'ui:description': PrefillMessage,
     veteranHomeAddress: merge(addressUI('Home address', true), {

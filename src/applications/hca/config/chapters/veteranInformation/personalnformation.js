@@ -7,9 +7,6 @@ import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 const { mothersMaidenName, veteranFullName } = fullSchemaHca.properties;
 
 export default {
-  path: 'veteran-information/personal-information',
-  title: 'Veteran information',
-  initialData: {},
   uiSchema: {
     'ui:description': applicantDescription,
     veteranFullName: merge(fullNameUI, {

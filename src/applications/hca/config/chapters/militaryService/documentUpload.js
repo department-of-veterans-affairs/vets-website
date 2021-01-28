@@ -37,10 +37,6 @@ const attachmentsSchema = {
 };
 
 export default {
-  title: 'Upload your discharge papers',
-  path: 'military-service/documents',
-  depends: formData => !formData['view:isUserInMvi'],
-  editModeOnReviewPage: true,
   uiSchema: {
     'ui:title': 'Upload your discharge papers',
     'ui:description': fileHelp,

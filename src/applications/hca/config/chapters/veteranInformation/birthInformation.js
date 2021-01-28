@@ -12,9 +12,6 @@ const { date, ssn } = fullSchemaHca.definitions;
 const stateLabels = createUSAStateLabels(states);
 
 export default {
-  path: 'veteran-information/birth-information',
-  title: 'Veteran information',
-  initialData: {},
   uiSchema: {
     'ui:description': PrefillMessage,
     veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
