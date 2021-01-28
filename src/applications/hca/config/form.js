@@ -1,6 +1,28 @@
 import { set } from 'lodash/fp';
 
-// chapter 1
+// platform imports
+import environment from 'platform/utilities/environment';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import { hasSession } from 'platform/user/profile/utilities';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
+
+// HCA internal app imports
+import migrations from './migrations';
+import manifest from '../manifest.json';
+import IDPage from '../containers/IDPage';
+import ErrorText from '../components/ErrorText';
+import FormFooter from '../components/FormFooter';
+import GetFormHelp from '../components/GetFormHelp';
+import ErrorMessage from '../components/ErrorMessage';
+import DowntimeMessage from '../components/DowntimeMessage';
+import IntroductionPage from '../containers/IntroductionPage';
+import { prefillTransformer, transform } from '../helpers';
+import ConfirmationPage from '../containers/ConfirmationPage';
+import { createDependentSchema } from '../definitions/dependent';
+
+// chapter 1 Veteran Information
 import birthInformation from './chapters/veteranInformation/birthInformation';
 import veteranInformation from './chapters/veteranInformation/personalnformation';
 import demographicInformation from './chapters/veteranInformation/demographicInformation';
@@ -8,52 +30,25 @@ import veteranAddress from './chapters/veteranInformation/veteranAddress';
 import veteranHomeAddress from './chapters/veteranInformation/veteranHomeAddress';
 import contactInformation from './chapters/veteranInformation/contactInformation';
 
-// chapter 2
+// chapter 2 Military Service
 import serviceInformation from './chapters/militaryService/serviceInformation';
 import additionalInformation from './chapters/militaryService/additionalInformation';
 import documentUpload from './chapters/militaryService/documentUpload';
 
-// chapter 3
+// chapter 3 VA Benefits
 import basicInformation from './chapters/vaBenefits/basicInformation';
 
-// chapter 4
+// chapter 4 Household Information
 import financialDisclosure from './chapters/householdInformation/financialDisclosure';
 import spouseInformation from './chapters/householdInformation/spouseInformation';
 import dependentInformation from './chapters/householdInformation/dependentInformation';
 import annualIncome from './chapters/householdInformation/annualIncome';
 import deductibleExpenses from './chapters/householdInformation/deductibleExpenses';
 
-// chapter 5
+// chapter 5 Insurance Information
 import medicare from './chapters/insuranceInformation/medicare';
 import general from './chapters/insuranceInformation/general';
 import vaFacility from './chapters/insuranceInformation/vaFacility';
-
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import { VA_FORM_IDS } from 'platform/forms/constants';
-
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
-import { hasSession } from 'platform/user/profile/utilities';
-import environment from 'platform/utilities/environment';
-
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
-
-import DowntimeMessage from '../components/DowntimeMessage';
-import ErrorText from '../components/ErrorText';
-import FormFooter from '../components/FormFooter';
-import GetFormHelp from '../components/GetFormHelp';
-import IDPage from '../containers/IDPage';
-
-import { prefillTransformer, transform } from '../helpers';
-
-import migrations from './migrations';
-
-import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
-import ErrorMessage from '../components/ErrorMessage';
-
-import { createDependentSchema } from '../definitions/dependent';
-
-import manifest from '../manifest.json';
 
 const dependentSchema = createDependentSchema(fullSchemaHca);
 
