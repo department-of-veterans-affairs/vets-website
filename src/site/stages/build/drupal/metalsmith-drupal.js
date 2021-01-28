@@ -13,7 +13,7 @@ const { compilePage, createFileObj } = require('./page');
 const {
   createHealthCareRegionListPages,
   createPastEventListPages,
-  addGetUpdatesFields,
+  // addGetUpdatesFields,
   addPager,
   sortServices,
 } = require('./health-care-region');
@@ -62,10 +62,10 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
 
     switch (page.entityBundle) {
       case 'health_care_local_facility':
-        addGetUpdatesFields(pageCompiled, pages);
+        // addGetUpdatesFields(pageCompiled, pages);
         break;
       case 'health_care_region_detail_page':
-        addGetUpdatesFields(pageCompiled, pages);
+        // addGetUpdatesFields(pageCompiled, pages);
         break;
       case 'event_listing':
         pageCompiled.pastEventTeasers = pageCompiled.pastEvents;
