@@ -56,9 +56,16 @@
     "va/use-resolved-path": [
       2,
       {
-        "aliases": ["applications", "platform", "site", "@@vap-svc", "@@profile"]
+        "aliases": [
+          "applications",
+          "platform",
+          "site",
+          "@@vap-svc",
+          "@@profile"
+        ]
       }
     ],
+    "va/cypress-viewport-deprecated": 1,
 
     /* || fp plugin || */
     "fp/no-proxy": 2, // IE 11 has no polyfill for Proxy
