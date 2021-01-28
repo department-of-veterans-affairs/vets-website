@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '~/platform/utilities/ui';
 
 import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';

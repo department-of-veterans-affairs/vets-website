@@ -1,6 +1,7 @@
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
-import { MY_VA_ROOT } from 'applications/personalization/dashboard-2/constants';
 import { mockUser } from '@@profile/tests/fixtures/users/user.js';
+
+import manifest from 'applications/personalization/dashboard/manifest.json';
 
 const mockFeatureToggles = () => {
   cy.route({
@@ -30,18 +31,16 @@ const mockFeatureToggles = () => {
  */
 function checkAllPages(mobile = false) {
   mockFeatureToggles();
-  cy.visit(MY_VA_ROOT);
+  cy.visit(manifest.rootUrl);
 
   if (mobile) {
     cy.viewport('iphone-4');
   }
 
-  cy.findByTestId('dashboard-title').should('exist');
-
   // focus should be on the h1
   cy.focused().should('have.attr', 'id', 'dashboard-title');
 
-  // make the a11y check on the Personal Info section
+  // make the a11y check
   cy.injectAxe();
   cy.axeCheck();
 }
