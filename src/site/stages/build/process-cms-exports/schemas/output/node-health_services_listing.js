@@ -12,7 +12,7 @@ module.exports = {
     promote: { type: 'boolean' },
     sticky: { type: 'boolean' },
     defaultLangcode: { type: 'boolean' },
-    revisionTranslationAffected: { type: 'boolean' },
+    revisionTranslationAffected: { type: ['boolean', 'null'] },
     moderationState: { type: 'string' },
     entityMetatags: { $ref: 'MetaTags' },
     fieldAdministration: { $ref: 'output/taxonomy_term-administration' },
