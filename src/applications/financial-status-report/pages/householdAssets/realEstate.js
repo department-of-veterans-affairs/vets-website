@@ -56,6 +56,7 @@ export const schema = {
       items: {
         type: 'object',
         required: ['realEstateType', 'realEstateAmount'],
+        minItems: 1,
         properties: {
           realEstateType: {
             type: 'string',
