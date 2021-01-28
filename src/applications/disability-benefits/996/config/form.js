@@ -46,6 +46,7 @@ const formConfig = {
   },
 
   formId: VA_FORM_IDS.FORM_20_0996,
+  wizardStorageKey: WIZARD_STATUS,
   saveInProgress: {
     messages: {
       inProgress:
@@ -54,8 +55,8 @@ const formConfig = {
         'Your saved Higher-Level Review application (20-0996) has expired. If you want to apply for Higher-Level Review, please start a new application.',
       saved: 'Your Higher-Level Review application has been saved.',
     },
-    restartWizardKey: WIZARD_STATUS,
-    restartFormCallback: () => '/',
+    // return restart destination url
+    restartFormCallback: () => '/', // introduction page
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

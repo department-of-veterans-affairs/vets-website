@@ -8,6 +8,8 @@ import backendServices from 'platform/user/profile/constants/backendServices';
 import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
+  WIZARD_STATUS_RESTARTED,
+  restartShouldRedirect,
 } from 'applications/static-pages/wizard';
 
 import formConfig from './config/form';
@@ -18,12 +20,7 @@ import { MissingServices, MissingId } from './containers/MissingServices';
 import { MVI_ADD_SUCCEEDED } from './actions';
 import WizardContainer from './containers/WizardContainer';
 import { WIZARD_STATUS, PDF_SIZE_FEATURE } from './constants';
-import {
-  show526Wizard,
-  isBDD,
-  getPageTitle,
-  restartFormCallback,
-} from './utils';
+import { show526Wizard, isBDD, getPageTitle } from './utils';
 import { uploadPdfLimitFeature } from './config/selectors';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
@@ -91,10 +88,9 @@ export const Form526Entry = ({
   };
 
   useEffect(() => {
-    const returnUrl = restartFormCallback();
-    if (returnUrl) {
-      router.push(returnUrl);
-      setWizardStatus('restarted');
+    if (restartShouldRedirect(WIZARD_STATUS)) {
+      setWizardStatus(WIZARD_STATUS_RESTARTED);
+      router.push('/');
     } else if (
       window.location.pathname.endsWith('/introduction') &&
       defaultWizardState === WIZARD_STATUS_COMPLETE

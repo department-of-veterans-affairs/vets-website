@@ -40,7 +40,6 @@ import {
   showSeparationLocation,
   getPageTitle,
   claimingNew,
-  restartFormCallback,
 } from '../utils';
 
 import captureEvents from '../analytics-functions';
@@ -148,6 +147,7 @@ const formConfig = {
     ],
   },
   formId: VA_FORM_IDS.FORM_21_526EZ,
+  wizardStorageKey: WIZARD_STATUS,
   saveInProgress: {
     messages: {
       inProgress:
@@ -156,8 +156,8 @@ const formConfig = {
         'Your saved disability compensation application (21-526EZ) has expired. If you want to apply for disability compensation, please start a new application.',
       saved: 'Your disability compensation application has been saved.',
     },
-    restartWizardKey: WIZARD_STATUS,
-    restartFormCallback,
+    // optional, redirect is in Form5256EZApp
+    // restartFormCallback: () => '/',
   },
   onFormLoaded: directToCorrectForm,
   version: migrations.length,
