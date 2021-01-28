@@ -270,7 +270,9 @@ describe('VAOS integration appointment cancellation:', () => {
 
     expect(queryByRole('alertdialog')).to.not.be.ok;
     expect(baseElement).to.contain.text('Canceled');
-    expect(document.activeElement).to.have.tagName('h1');
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
   });
 
   it('should display error when cancel fails', async () => {
