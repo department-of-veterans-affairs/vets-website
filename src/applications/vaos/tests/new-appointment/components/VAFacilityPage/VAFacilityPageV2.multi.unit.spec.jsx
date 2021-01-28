@@ -31,7 +31,6 @@ const initialState = {
   featureToggles: {
     vaOnlineSchedulingVSPAppointmentNew: false,
     vaOnlineSchedulingDirect: true,
-    vaOnlineSchedulingFlatFacilityPage: true,
   },
   user: {
     profile: {
