@@ -64,6 +64,7 @@ node('vetsgov-general-purpose') {
 
   // Run E2E and accessibility tests
   stage('Integration') {
+    // check
     // if (commonStages.shouldBail() || !commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) { return }
     // dir("vets-website") {
     //   try {

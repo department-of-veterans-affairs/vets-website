@@ -35,9 +35,9 @@ const transform = entity => ({
     processed: getWysiwygString(getDrupalValue(entity.fieldBody)),
   },
   fieldServiceNameAndDescripti: entity.fieldServiceNameAndDescripti[0],
-  fieldLocalHealthCareService: entity.fieldLocalHealthCareService?.map(i =>
-    getFieldFacilityLocationObject(i),
-  ),
+  // fieldLocalHealthCareService: entity.fieldLocalHealthCareService?.map(i =>
+  //   getFieldFacilityLocationObject(i),
+  // ),
 });
 module.exports = {
   filter: [
