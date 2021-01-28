@@ -265,7 +265,6 @@ const ItemLoop = ({
   };
 
   const handleEdit = (e, index) => {
-    e.preventDefault();
     const editData = formatEditData(index, true);
 
     if (editing.length === 1) {
@@ -278,14 +277,11 @@ const ItemLoop = ({
   };
 
   const handleSave = (e, index) => {
-    e.preventDefault();
-
-    const { viewType } = uiOptions;
-    if (viewType === 'table') {
-      setShowTable(true);
-    }
-
     if (errorSchemaIsValid(errorSchema[index])) {
+      if (uiOptions.viewType === 'table') {
+        setShowTable(true);
+      }
+
       const editData = formatEditData(index, false);
       setEditing(editData);
       handleScroll(`table_${idSchema.$id}_${index}`, 0);
