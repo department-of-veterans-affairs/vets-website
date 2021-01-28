@@ -7,6 +7,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import { getFormDOM } from '../../../testing/unit/schemaform-utils';
 import { FormStartControls } from '../../save-in-progress/FormStartControls';
+import { WIZARD_STATUS_RESTARTING } from 'applications/static-pages/wizard';
 
 describe('Schemaform <FormStartControls>', () => {
   const startPage = 'testing';
@@ -227,7 +228,7 @@ describe('Schemaform <FormStartControls>', () => {
   });
 
   it('should show modal and remove form when starting over', () => {
-    const restartWizardKey = 'testKey';
+    const wizardStorageKey = 'testKey';
     const restartDestination = '/test-page';
     const routerSpy = {
       push: sinon.spy(),
@@ -245,8 +246,8 @@ describe('Schemaform <FormStartControls>', () => {
           {},
           {
             formConfig: {
+              wizardStorageKey,
               saveInProgress: {
-                restartWizardKey,
                 restartFormCallback: () => restartDestination,
               },
             },
@@ -264,7 +265,9 @@ describe('Schemaform <FormStartControls>', () => {
 
     expect(fetchSpy.called).to.be.true;
     expect(formDOM.querySelector('.va-modal-body')).to.be.null;
-    expect(sessionStorage.getItem(restartWizardKey)).to.equal('restarting');
+    expect(sessionStorage.getItem(wizardStorageKey)).to.equal(
+      WIZARD_STATUS_RESTARTING,
+    );
   });
 
   it('should not capture analytics events when starting the form if the `gaStartEventName` prop is explicitly removed', () => {

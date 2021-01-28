@@ -13,7 +13,7 @@ let oldAddEventListener;
 const location = {
   pathname: '/',
 };
-const restartWizardKey = 'testKey';
+const wizardStorageKey = 'testKey';
 
 const setup = () => {
   oldAddEventListener = global.window.addEventListener;
@@ -23,7 +23,7 @@ const setup = () => {
 
 const teardown = () => {
   global.window.addEventListener = oldAddEventListener;
-  global.window.sessionStorage.removeItem(restartWizardKey);
+  global.window.sessionStorage.removeItem(wizardStorageKey);
 };
 
 describe('Schemaform <RoutedSavableApp>', () => {
@@ -134,12 +134,12 @@ describe('Schemaform <RoutedSavableApp>', () => {
   });
   it('should route to restartFormCallback destination when prefill unfilled (on form restart)', () => {
     const restartDestination = '/test-page';
-    sessionStorage.setItem(restartWizardKey, 'restarting');
+    sessionStorage.setItem(wizardStorageKey, 'restarting');
 
     const formConfig = {
       title: 'Testing',
+      wizardStorageKey,
       saveInProgress: {
-        restartWizardKey,
         restartFormCallback: () => restartDestination,
       },
     };
@@ -186,7 +186,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
     });
 
     expect(router.push.firstCall.args[0]).to.equal(restartDestination);
-    expect(sessionStorage.getItem(restartWizardKey)).to.equal('restarted');
+    expect(sessionStorage.getItem(wizardStorageKey)).to.equal('restarted');
   });
 
   it('should route and reset fetch status on success', () => {
