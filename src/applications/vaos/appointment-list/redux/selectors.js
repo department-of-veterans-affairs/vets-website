@@ -23,6 +23,12 @@ import {
   getTimezoneBySystemId,
 } from '../../utils/timezone';
 
+// Only use this when we need to pass data that comes back from one of our
+// services files to one of the older api functions
+function parseFakeFHIRId(id) {
+  return id ? id.replace('var', '') : id;
+}
+
 export function getCancelInfo(state) {
   const {
     appointmentToCancel,
@@ -147,6 +153,18 @@ export const selectPastAppointments = createSelector(
     return past?.filter(isValidPastAppointment).sort(sortByDateDescending);
   },
 );
+
+export function selectFirstRequestMessage(state) {
+  const { currentAppointment, requestMessages } = state.appointments;
+
+  if (!currentAppointment) {
+    return null;
+  }
+
+  const parsedId = parseFakeFHIRId(currentAppointment.id);
+
+  return requestMessages?.[parsedId]?.[0]?.attributes?.messageText || null;
+}
 
 /*
  * Express Care related appointments state selectors
