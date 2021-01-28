@@ -6,15 +6,17 @@ import {
   getAppointmentTimeFromAppointment,
 } from '../../utils';
 
-export default function AppointmentDisplay({ appointment }) {
+export default function AppointmentDisplay({ appointment, bold }) {
   const appointmentTime = getAppointmentTimeFromAppointment(appointment);
   const clinic = getClinicFromAppointment(appointment);
   if (!clinic) {
     return <></>;
   }
 
+  const boldClass = bold ? 'vads-u-font-weight--bold' : '';
+
   return (
-    <dl className="appointment-details vads-u-font-weight--bold" itemScope>
+    <dl className={`appointment-details ${boldClass}`} itemScope>
       <div itemProp="appointment-date">
         <dt>Date: </dt>
         <dd
