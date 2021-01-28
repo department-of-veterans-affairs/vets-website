@@ -82,7 +82,12 @@
     </p>
   {% endif %}
 
-  {% if locationEntity.fieldPhoneNumbersParagraph != empty %}
+
+  {% comment %}
+    if fieldPhoneNumbersParagraph has values
+    use phone numbers from entities
+  {% endcomment %}
+  {% if locationEntity.fieldPhoneNumbersParagraph.length > 0 %}
     <div class="vads-u-display--flex vads-u-flex-direction--column" data-template="paragraphs/service_location">
       {% if haveLocationName %}
         <h4 class="force-small-header">Phone</h4>
@@ -101,6 +106,22 @@
         {% endfor %}
       {% endif %}
     </div>
+  {% else %}
+    {% comment %}
+      if fieldPhoneNumbersParagraph is empty and
+      fieldUseMainFacilityPhone is true use fieldPhoneNumber
+    {% endcomment %}
+      <div class="vads-u-display--flex vads-u-flex-direction--column" data-template="paragraphs/service_location">
+        {% if haveLocationName %}
+          <h4 class="force-small-header">Phone</h4>
+        {% else %}
+          <h5>Phone</h5>
+          <a aria-label="{{ fieldPhoneNumber | accessibleNumber }}"
+             href="tel:{{ fieldPhoneNumber }}">
+            {{ fieldPhoneNumber }}
+          </a>
+        {% endif %}
+      </div>
   {% endif %}
 
   {% assign OMIT_REFERRAL_OR_WALKIN = "not_applicable, unknown" %}

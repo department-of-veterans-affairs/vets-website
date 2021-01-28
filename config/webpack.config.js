@@ -83,7 +83,7 @@ function getEntryPoints(entry) {
   return getWebpackEntryPoints(manifestsToBuild);
 }
 
-module.exports = env => {
+module.exports = (env = {}) => {
   const { buildtype = LOCALHOST } = env;
   const buildOptions = {
     api: '',
