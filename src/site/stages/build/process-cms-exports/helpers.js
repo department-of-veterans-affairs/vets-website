@@ -1,6 +1,5 @@
 /* eslint-disable import/no-dynamic-require */
 const fs = require('fs');
-const gracefulfs = require('graceful-fs');
 const path = require('path');
 const get = require('lodash/get');
 const cloneDeep = require('lodash/cloneDeep');
@@ -140,10 +139,11 @@ module.exports = {
       global.readEntityCacheHits++;
       return cloneDeep(cachedEntities.get(filename));
     } else {
+      const fd = fs.openSync(path.join(dir, filename));
+      const fileContents = fs.readFileSync(fd).toString('utf8');
+      fs.closeSync(fd);
       const entity = addCommonProperties(
-        JSON.parse(
-          gracefulfs.readFileSync(path.join(dir, filename)).toString('utf8'),
-        ),
+        JSON.parse(fileContents),
         baseType,
         uuid,
       );
