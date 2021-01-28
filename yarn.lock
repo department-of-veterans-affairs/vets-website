@@ -1289,10 +1289,10 @@
     react-transition-group "1"
     recast "^0.14.4"
 
-"@department-of-veterans-affairs/formation@6.13.1":
-  version "6.13.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.13.1.tgz#69ba95ae3b9a052a5dac24e11ffb19fa11d89d1d"
-  integrity sha512-26QewJ27ckql0pNdsDcXOk5y/qAdOT3aKnVs2gLBo7a6hovEMCyeX4O7rQVllC87BD8SjmthCbKrCwXdea+Qdw==
+"@department-of-veterans-affairs/formation@6.13.2":
+  version "6.13.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.13.2.tgz#53e5f101993677ee13c2e5a56983154ae21f2f64"
+  integrity sha512-tFyGfDg4kdQZyWd8ryZ2n/AS4gD2iVfEdFJFWV6GliMKiKxAJq79E0dPV725VQwfVrg/myQTqE/iPvMfgYc0fA==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
