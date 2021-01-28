@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import AppointmentDisplay from '../../../components/veteran-info/AppointmentDisplay';
+import AppointmentDisplay from '../../../components/appointment-display/AppointmentDisplay';
 import testData from '../../../api/appointment-data.json';
 
 describe('health care questionnaire - display an appointment -- ', () => {
