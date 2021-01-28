@@ -13,9 +13,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
   it('should allow user to request date and time for a community care appointment', async () => {
     const store = createTestStore({
       newAppointment: {
-        data: {
-          calendarData: {},
-        },
+        data: {},
         pages: [],
         eligibility: [],
         appointmentSlotsStatus: FETCH_STATUS.succeeded,
@@ -38,7 +36,6 @@ describe('VAOS <DateTimeRequestPage>', () => {
       }),
     ).to.be.ok;
 
-    // it should display 2 calendar months for community care appointments
     expect(
       screen.getByRole('heading', {
         level: 2,
@@ -60,12 +57,31 @@ describe('VAOS <DateTimeRequestPage>', () => {
     ]);
 
     // Find all available appointments for the current month
-    const currentMonth = moment()
+    let currentMonth = moment()
       .add(5, 'days')
       .format('MMMM');
-    const buttons = screen
+
+    let buttons = screen
       .getAllByLabelText(new RegExp(currentMonth))
       .filter(button => button.disabled === false);
+
+    // Towards the end of the month our 4 days out min date will be in the next
+    // month, and we need to move the calendar to the next month before selecting a date
+    if (!buttons.length) {
+      userEvent.click(screen.getByText('Next'));
+      await screen.findByRole('heading', {
+        name: moment()
+          .add(1, 'month')
+          .format('MMMM YYYY'),
+      });
+      currentMonth = moment()
+        .add(1, 'month')
+        .format('MMMM');
+
+      buttons = screen
+        .getAllByLabelText(new RegExp(currentMonth))
+        .filter(button => button.disabled === false);
+    }
 
     // it should allow the user to select morning for currently selected date
     userEvent.click(buttons[0]);
@@ -110,9 +126,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
   it('should allow the user to view different calendar months', async () => {
     const store = createTestStore({
       newAppointment: {
-        data: {
-          calendarData: {},
-        },
+        data: {},
         pages: [],
         eligibility: [],
         appointmentSlotsStatus: FETCH_STATUS.succeeded,
@@ -158,9 +172,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
   it('should display an alert when user selects more than 3 dates', async () => {
     const store = createTestStore({
       newAppointment: {
-        data: {
-          calendarData: {},
-        },
+        data: {},
         pages: [],
         eligibility: [],
         appointmentSlotsStatus: FETCH_STATUS.succeeded,
@@ -242,9 +254,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
   it('should display an alert when user selects 2 dates and multiple times', async () => {
     const store = createTestStore({
       newAppointment: {
-        data: {
-          calendarData: {},
-        },
+        data: {},
         pages: [],
         eligibility: [],
         appointmentSlotsStatus: FETCH_STATUS.succeeded,
@@ -325,9 +335,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
   it('should display an alert when user submits the form with no dates selected', async () => {
     const store = createTestStore({
       newAppointment: {
-        data: {
-          calendarData: {},
-        },
+        data: {},
         pages: [],
         eligibility: [],
         appointmentSlotsStatus: FETCH_STATUS.succeeded,
@@ -365,9 +373,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
   it('should not allow selections after max date', async () => {
     const store = createTestStore({
       newAppointment: {
-        data: {
-          calendarData: {},
-        },
+        data: {},
         pages: [],
         eligibility: [],
         appointmentSlotsStatus: FETCH_STATUS.succeeded,

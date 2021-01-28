@@ -7,12 +7,12 @@ import { inferAddressType } from '~/applications/letters/utils/helpers';
 
 import { ADDRESS_POU, FIELD_NAMES } from '@@vap-svc/constants';
 
-import { showAddressValidationModal } from '../../utilities';
+import { showAddressValidationModal } from '@@vap-svc/util';
 
 import localVAProfileService, {
   isVAProfileServiceConfigured,
 } from '../util/local-vapsvc';
-import { CONFIRMED } from '../../constants/addressValidationMessages';
+import { CONFIRMED } from '../constants/addressValidationMessages';
 import {
   isSuccessfulTransaction,
   isFailedTransaction,
@@ -176,12 +176,14 @@ export function createTransaction(
         method,
       });
 
+      // If the request does not hit the server, apiRequest which is using fetch - will throw an error
+      // it will not return back a transaction with errors on it
       const transaction = isVAProfileServiceConfigured()
         ? await apiRequest(route, options)
         : await localVAProfileService.createTransaction();
 
       if (transaction?.errors) {
-        const error = new Error();
+        const error = new Error('There was a transaction error');
         error.errors = transaction?.errors;
         throw error;
       }
@@ -214,24 +216,25 @@ export const validateAddress = (
   route,
   method,
   fieldName,
-  payload,
+  inputAddress,
   analyticsSectionName,
 ) => async dispatch => {
-  const userEnteredAddress = { address: { ...payload } };
+  const userEnteredAddress = { ...inputAddress };
   dispatch({
     type: ADDRESS_VALIDATION_INITIALIZE,
     fieldName,
   });
   const options = {
-    body: JSON.stringify(userEnteredAddress),
+    body: JSON.stringify({ address: userEnteredAddress }),
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
   };
+  let response;
 
   try {
-    const response = isVAProfileServiceConfigured()
+    response = isVAProfileServiceConfigured()
       ? await apiRequest('/profile/address_validation', options)
       : await localVAProfileService.addressValidationSuccess();
     const { addresses, validationKey } = response;
@@ -250,7 +253,7 @@ export const validateAddress = (
           fieldName === FIELD_NAMES.MAILING_ADDRESS
             ? ADDRESS_POU.CORRESPONDENCE
             : ADDRESS_POU.RESIDENCE,
-        id: payload.id || null,
+        id: inputAddress.id || null,
       }));
     const confirmedSuggestions = suggestedAddresses.filter(
       suggestion =>
@@ -267,13 +270,16 @@ export const validateAddress = (
 
     if (!confirmedSuggestions.length && validationKey) {
       // if there are no confirmed suggestions and user can override, fall back to submitted address
-      selectedAddress = userEnteredAddress.address;
+      selectedAddress = userEnteredAddress;
     }
 
     // we use the unfiltered list of suggested addresses to determine if we need
     // to show the modal because the only time we will skip the modal is if one
     // and only one confirmed address came back from the API
-    const showModal = showAddressValidationModal(suggestedAddresses);
+    const showModal = showAddressValidationModal(
+      suggestedAddresses,
+      userEnteredAddress,
+    );
 
     let selectedAddressId = null;
     if (showModal) {
@@ -294,7 +300,7 @@ export const validateAddress = (
     if (showModal) {
       return dispatch({
         type: ADDRESS_VALIDATION_CONFIRM,
-        addressFromUser: userEnteredAddress.address, // need to use the address with iso3 code added to it
+        addressFromUser: userEnteredAddress, // need to use the address with iso3 code added to it
         addressValidationType: fieldName,
         selectedAddress,
         suggestedAddresses,
@@ -319,15 +325,18 @@ export const validateAddress = (
       ),
     );
   } catch (error) {
-    const errorCode = error.errors?.[0]?.code;
-    const errorStatus = error.errors?.[0]?.status;
-    if (!errorCode || !errorStatus) {
-      if (error instanceof Error) {
-        Sentry.captureException(error);
-      } else {
-        Sentry.captureException(new Error('Unknown address validation error'));
+    if (error instanceof Error) {
+      // Just in case the addresses is an array with suggested addresses in it,
+      // scrape it from the data we send to Sentry.
+      if (response?.addresses?.length) {
+        response.addresses = '[SUGGESTED_ADDRESSES_SCRAPED]';
       }
+      Sentry.setContext('error parsing address validation response', response);
+      Sentry.captureMessage('error parsing address validation response');
     }
+    const errorCode = error?.errors?.[0]?.code || 'apiRequest-error';
+    const errorStatus = error?.errors?.[0]?.status || 'unknown';
+
     recordEvent({
       event: 'profile-edit-failure',
       'profile-action': 'address-suggestion-failure',
@@ -342,7 +351,7 @@ export const validateAddress = (
     return dispatch({
       type: ADDRESS_VALIDATION_ERROR,
       addressValidationError: true,
-      addressFromUser: { ...payload },
+      addressFromUser: { ...inputAddress },
       fieldName,
       error,
     });

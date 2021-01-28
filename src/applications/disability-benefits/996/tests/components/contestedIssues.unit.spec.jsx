@@ -84,7 +84,9 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
     const formDOM = getFormDOM(form);
     $$('.widget-wrapper', formDOM).forEach((wrap, index) => {
       const data = issues[index].attributes;
-      expect($('h3', wrap).textContent).to.equal(data.ratingIssueSubjectText);
+      expect($('label', wrap).textContent).to.contain(
+        data.ratingIssueSubjectText,
+      );
       const content = $('.widget-content', wrap).textContent;
       expect(content).to.contain(data.description || '');
       expect(content).to.contain(
@@ -96,34 +98,5 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
         )}`,
       );
     });
-  });
-
-  // Office for review section
-  it('should render the same office checkbox', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={initialData}
-        uiSchema={uiSchema}
-      />,
-    );
-    const formDOM = getFormDOM(form);
-    expect($('#root_sameOffice', formDOM)).to.not.be.false;
-  });
-
-  // "No" should be selected by default
-  it('should show info alert when checked', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={initialData}
-        uiSchema={uiSchema}
-      />,
-    );
-    const formDOM = getFormDOM(form);
-    formDOM.setCheckbox('#root_sameOffice', true);
-    expect($('#root_sameOfficeAlert__title', formDOM)).to.not.be.false;
   });
 });

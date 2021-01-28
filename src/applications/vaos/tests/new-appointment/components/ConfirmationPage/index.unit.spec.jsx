@@ -38,13 +38,7 @@ describe('VAOS <ConfirmationPage>', () => {
           vaParent: 'var983',
           vaFacility: 'var983',
           clinicId: '455',
-          calendarData: {
-            selectedDates: [
-              {
-                datetime: start.format(),
-              },
-            ],
-          },
+          selectedDates: [start.format()],
         },
         availableSlots: [
           {
@@ -100,8 +94,7 @@ describe('VAOS <ConfirmationPage>', () => {
       store,
     });
 
-    expect(await screen.findByText(/Your appointment has been scheduled./i)).to
-      .be.ok;
+    expect(await screen.findByText(/Your appointment is confirmed/i)).to.be.ok;
     expect(
       screen.getByText(
         new RegExp(start.format('MMMM D, YYYY [at] h:mm a'), 'i'),
@@ -110,7 +103,7 @@ describe('VAOS <ConfirmationPage>', () => {
 
     expect(screen.getByText(/Cheyenne VA Medical Center/i)).to.be.ok;
     expect(screen.getByText(/2360 East Pershing Boulevard/i)).to.be.ok;
-    expect(screen.getByText(/Cheyenne, WY 82001-5356/i)).to.be.ok;
+    expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
     expect(screen.getByText(/Follow-up\/Routine/i)).to.be.ok;
     expect(screen.getByText(/Additional info/i)).to.be.ok;
 
@@ -129,9 +122,7 @@ describe('VAOS <ConfirmationPage>', () => {
         morning: true,
         afternoon: true,
       },
-      calendarData: {
-        selectedDates: [{ date: '2019-12-20', optionTime: 'AM' }],
-      },
+      selectedDates: ['2019-12-20T00:00:00.000'],
       vaFacility: '983',
     };
     const facilityDetails = {
@@ -156,13 +147,12 @@ describe('VAOS <ConfirmationPage>', () => {
       },
     );
 
-    expect(screen.getByText(/Your appointment request has been submitted./i)).to
-      .be.ok;
+    expect(screen.getByText(/We’re reviewing your request/i)).to.be.ok;
     expect(screen.getByText(/VA appointment/i)).to.be.ok;
     expect(screen.getByText(/Primary care appointment/i)).to.be.ok;
     expect(screen.getByText(/Pending/i)).to.be.ok;
     expect(screen.getByText(/CHYSHR-Sidney VA Clinic/i)).to.be.ok;
-    expect(screen.getByText(/Cheyenne, WY/i)).to.be.ok;
+    expect(screen.baseElement).to.contain.text('Cheyenne, WY');
     expect(screen.getByText(/December 20, 2019 in the morning/i)).to.be.ok;
   });
 
@@ -190,9 +180,7 @@ describe('VAOS <ConfirmationPage>', () => {
           postalCode: '01060',
         },
       },
-      calendarData: {
-        selectedDates: [{ date: '2019-12-20', optionTime: 'AM' }],
-      },
+      selectedDates: ['2019-12-20T00:00:00.000'],
     };
     const facilityDetails = {
       name: 'CHYSHR-Sidney VA Clinic',
@@ -216,15 +204,14 @@ describe('VAOS <ConfirmationPage>', () => {
       },
     );
 
-    expect(screen.getByText(/Your appointment request has been submitted./i)).to
-      .be.ok;
+    expect(screen.getByText(/We’re reviewing your request/i)).to.be.ok;
     expect(screen.getByText(/Community Care/i)).to.be.ok;
     expect(screen.getByText(/Primary care appointment/i)).to.be.ok;
     expect(screen.getByText(/Pending/i)).to.be.ok;
     expect(screen.getByText(/Jane Doe/i)).to.be.ok;
     expect(screen.getByText(/555555555/i)).to.be.ok;
     expect(screen.getByText(/123 Test/i)).to.be.ok;
-    expect(screen.getByText(/Northampton, MA 01060/i)).to.be.ok;
+    expect(screen.baseElement).to.contain.text('Northampton, MA 01060');
     expect(screen.getByText(/December 20, 2019 in the morning/i)).to.be.ok;
   });
 
@@ -241,9 +228,7 @@ describe('VAOS <ConfirmationPage>', () => {
         afternoon: true,
       },
       hasCommunityCareProvider: false,
-      calendarData: {
-        selectedDates: [{ date: '2019-12-20', optionTime: 'AM' }],
-      },
+      selectedDates: ['2019-12-20T00:00:00.000'],
     };
     const facilityDetails = {
       name: 'CHYSHR-Sidney VA Clinic',
@@ -267,8 +252,7 @@ describe('VAOS <ConfirmationPage>', () => {
       },
     );
 
-    expect(screen.getByText(/Your appointment request has been submitted./i)).to
-      .be.ok;
+    expect(screen.getByText(/We’re reviewing your request/i)).to.be.ok;
     expect(screen.getByText(/Community Care/i)).to.be.ok;
     expect(screen.getByText(/Primary care appointment/i)).to.be.ok;
     expect(screen.getByText(/Pending/i)).to.be.ok;

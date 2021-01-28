@@ -17,37 +17,37 @@ export const selectIsCernerPatient = state =>
 export const selectIsRegisteredToSacramentoVA = state =>
   selectPatientFacilities(state)?.some(f => f.facilityId === '612');
 
-export const vaosApplication = state => toggleValues(state).vaOnlineScheduling;
-export const vaosCancel = state => toggleValues(state).vaOnlineSchedulingCancel;
-export const vaosRequests = state =>
+export const selectFeatureApplication = state =>
+  toggleValues(state).vaOnlineScheduling;
+export const selectFeatureCancel = state =>
+  toggleValues(state).vaOnlineSchedulingCancel;
+export const selectFeatureRequests = state =>
   toggleValues(state).vaOnlineSchedulingRequests;
-export const vaosCommunityCare = state =>
+export const selectFeatureCommunityCare = state =>
   toggleValues(state).vaOnlineSchedulingCommunityCare;
-export const vaosDirectScheduling = state =>
+export const selectFeatureDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingDirect;
-export const vaosPastAppts = state =>
-  toggleValues(state).vaOnlineSchedulingPast;
-export const vaosVSPAppointmentNew = state =>
+export const selectFeatureVSPAppointmentNew = state =>
   toggleValues(state).vaOnlineSchedulingVspAppointmentNew;
-export const vaosExpressCare = state =>
-  toggleValues(state).vaOnlineSchedulingExpressCare;
-export const vaosExpressCareNew = state =>
+export const selectFeatureExpressCareNewRequest = state =>
   toggleValues(state).vaOnlineSchedulingExpressCareNew;
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
-const vaosFlatFacilityPage = state =>
+const selectFeatureFlatFacilityPage = state =>
   toggleValues(state).vaOnlineSchedulingFlatFacilityPage;
-const vaosFlatFacilityPageSacramento = state =>
+const selectFeatureFlatFacilityPageSacramento = state =>
   toggleValues(state).vaOnlineSchedulingFlatFacilityPageSacramento;
+export const selectFeatureProjectCheetah = state =>
+  toggleValues(state).vaOnlineSchedulingCheetah;
 export const selectUseFlatFacilityPage = state =>
-  vaosFlatFacilityPage(state) &&
+  selectFeatureFlatFacilityPage(state) &&
   !selectIsCernerPatient(state) &&
   (!selectIsRegisteredToSacramentoVA(state) ||
-    vaosFlatFacilityPageSacramento(state));
+    selectFeatureFlatFacilityPageSacramento(state));
 
-const vaosProviderSelection = state =>
+const selectFeatureProviderSelection = state =>
   toggleValues(state).vaOnlineSchedulingProviderSelection;
 export const selectUseProviderSelection = state =>
-  vaosProviderSelection(state) &&
+  selectFeatureProviderSelection(state) &&
   !!selectVAPResidentialAddress(state)?.addressLine1;
 
 export const selectIsWelcomeModalDismissed = state =>
@@ -57,3 +57,6 @@ export const selectIsWelcomeModalDismissed = state =>
 
 export const selectSystemIds = state =>
   selectPatientFacilities(state)?.map(f => f.facilityId) || null;
+
+export const selectFeatureHomepageRefresh = state =>
+  toggleValues(state).vaOnlineSchedulingHomepageRefresh;

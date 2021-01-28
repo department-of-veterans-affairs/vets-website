@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import {
   deductionCodes,
   renderWhyMightIHaveThisDebt,
@@ -17,8 +17,11 @@ import last from 'lodash/last';
 import first from 'lodash/first';
 import { Link } from 'react-router';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
-import { renderAdditionalInfo } from '../const/diary-codes';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import {
+  renderAdditionalInfo,
+  renderLetterHistory,
+} from '../const/diary-codes';
 
 import { setPageFocus } from '../utils/page';
 
@@ -36,6 +39,14 @@ class DebtDetails extends Component {
       minimumFractionDigits: 2,
     });
 
+    const letterCodes = ['100', '101', '102', '109', '117', '123', '130'];
+
+    const filteredHistory = selectedDebt.debtHistory
+      .filter(history => letterCodes.includes(history.letterCode))
+      .reverse();
+
+    const hasFilteredHistory = filteredHistory.length > 0;
+
     if (Object.keys(selectedDebt).length === 0) {
       return window.location.replace('/manage-va-debt/your-debt');
     }
@@ -49,6 +60,38 @@ class DebtDetails extends Component {
     const whyMightIHaveThisDebtContent = renderWhyMightIHaveThisDebt(
       selectedDebt.deductionCode,
     );
+
+    const renderHistoryTable = history => {
+      if (hasFilteredHistory) {
+        return (
+          <table className="vads-u-margin-y--4">
+            <thead>
+              <tr>
+                <th className="vads-u-font-weight--bold" scope="col">
+                  Date
+                </th>
+                <th className="vads-u-font-weight--bold" scope="col">
+                  Letter
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {history.map((debtEntry, index) => (
+                <tr key={`${debtEntry.date}-${index}`}>
+                  <td>{moment(debtEntry.date).format('MMMM D, YYYY')}</td>
+                  <td>
+                    <p className="vads-u-margin-top--0">
+                      {renderLetterHistory(debtEntry.letterCode)}
+                    </p>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        );
+      }
+      return null;
+    };
 
     return (
       <div className="vads-u-display--flex vads-u-flex-direction--column">
@@ -134,31 +177,7 @@ class DebtDetails extends Component {
               Debt Management Center at <Telephone contact="8008270648" />
               {'.'}
             </p>
-            <table className="vads-u-margin-y--4">
-              <thead>
-                <tr>
-                  <th className="vads-u-font-weight--bold" scope="col">
-                    Date
-                  </th>
-                  <th className="vads-u-font-weight--bold" scope="col">
-                    Letter
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {selectedDebt.debtHistory.map((debtEntry, index) => (
-                  <tr key={`${debtEntry.date}-${index}`}>
-                    <td>{moment(debtEntry.date).format('MMMM D, YYYY')}</td>
-                    <td>
-                      {additionalInfo.status}
-                      <p className="vads-u-margin-top--0">
-                        {debtEntry.description}
-                      </p>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            {renderHistoryTable(filteredHistory)}
             <h3 id="downloadDebtLetters" className="vads-u-margin-top--0">
               Download debt letters
             </h3>

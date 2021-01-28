@@ -1,6 +1,9 @@
 import ItemLoop from '../../components/ItemLoop';
 import CardDetailsView from '../../components/CardDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import Typeahead from '../../components/Typeahead';
+import { formatOptions, vehicleTypes } from '../../constants/typeaheadOptions';
+import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your vehicles',
@@ -17,23 +20,42 @@ export const uiSchema = {
       expandUnder: 'hasVehicle',
       doNotScroll: true,
       showSave: true,
-      itemName: 'Add a vehicle',
+      itemName: 'a vehicle',
     },
     items: {
       vehicleType: {
         'ui:title': 'Type of vehicle',
+        'ui:field': Typeahead,
+        'ui:options': {
+          classNames: 'input-size-7',
+          getOptions: () => formatOptions(vehicleTypes),
+        },
         'ui:required': () => true,
       },
       vehicleMake: {
         'ui:title': 'Vehicle make',
+        'ui:options': {
+          widgetClassNames: 'input-size-7',
+        },
       },
       vehicleModel: {
         'ui:title': 'Vehicle model',
+        'ui:options': {
+          widgetClassNames: 'input-size-7',
+        },
       },
       vehicleYear: {
         'ui:title': 'Vehicle year',
+        'ui:options': {
+          widgetClassNames: 'input-size-4',
+        },
       },
-      vehicleValue: currencyUI('Estimated value'),
+      vehicleAmount: _.merge(currencyUI('Estimated value'), {
+        'ui:options': {
+          widgetClassNames: 'input-size-5',
+        },
+        'ui:required': () => true,
+      }),
     },
   },
 };
@@ -48,6 +70,7 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
+        required: ['vehicleType', 'vehicleAmount'],
         properties: {
           vehicleType: {
             type: 'string',
@@ -61,8 +84,8 @@ export const schema = {
           vehicleYear: {
             type: 'string',
           },
-          vehicleValue: {
-            type: 'string',
+          vehicleAmount: {
+            type: 'number',
           },
         },
       },

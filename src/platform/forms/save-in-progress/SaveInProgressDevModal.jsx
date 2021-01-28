@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-import ErrorableTextArea from '@department-of-veterans-affairs/formation-react/ErrorableTextArea';
-import ErrorableSelect from '@department-of-veterans-affairs/formation-react/ErrorableSelect';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import TextArea from '@department-of-veterans-affairs/component-library/TextArea';
+import Select from '@department-of-veterans-affairs/component-library/Select';
 
 import environment from 'platform/utilities/environment';
 import { getActivePages } from 'platform/forms-system/src/js/helpers';
@@ -86,7 +86,7 @@ const SipsDevModal = props => {
         onClose={() => toggleModal(false)}
       >
         <>
-          <ErrorableTextArea
+          <TextArea
             errorMessage={errorMessage}
             label="Form data"
             name="sips_data"
@@ -94,7 +94,7 @@ const SipsDevModal = props => {
             field={{ value: sipsData }}
             onValueChange={field => handleChange(field.value)}
           />
-          <ErrorableSelect
+          <Select
             label="Return url"
             name="sips_url"
             options={availablePaths}

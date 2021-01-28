@@ -3,8 +3,9 @@ import React from 'react';
 import moment from 'moment';
 // Relative imports.
 import * as customPropTypes from '../prop-types';
-
+import { FORM_MOMENT_DATE_FORMAT } from '../constants';
 import FormTitle from './FormTitle';
+import recordEvent from 'platform/monitoring/record-event';
 
 // Helper to derive the download link props.
 const deriveLinkPropsFromFormURL = url => {
@@ -26,7 +27,46 @@ const deriveLinkPropsFromFormURL = url => {
   return linkProps;
 };
 
-const SearchResult = ({ form }) => {
+export const deriveLatestIssue = (d1, d2) => {
+  if (!d1 && !d2) return 'N/A';
+  if (!d1) return moment(d2).format(FORM_MOMENT_DATE_FORMAT); // null scenarios
+  if (!d2) return moment(d1).format(FORM_MOMENT_DATE_FORMAT);
+
+  const date1Formatted = moment(d1).format(FORM_MOMENT_DATE_FORMAT);
+  const date2Formatted = moment(d2).format(FORM_MOMENT_DATE_FORMAT);
+
+  if (moment(date1Formatted).isAfter(date2Formatted)) return date1Formatted;
+
+  return date2Formatted;
+};
+
+const recordGAEventHelper = ({
+  query,
+  eventUrl,
+  eventTitle,
+  eventType,
+  currentPage,
+  currentPositionOnPage,
+  totalResultsCount,
+  totalResultsPages,
+}) =>
+  recordEvent({
+    event: 'onsite-search-results-click', // remains consistent, push this event and metadata with each search result click
+    'search-page-path': '/find-forms', // consistent for all search result clicks from this page
+    'search-query': query, // dynamically populate with the search query
+    'search-result-chosen-page-url': eventUrl, // populate with the full href of the form detail page or tool page
+    'search-result-chosen-title': eventTitle, // or 'Download VA form 10-10EZ (PDF)' or 'Go to online tool'
+    'search-result-type': eventType, // populate with 'pdf' if pdf, or 'cta' if "Go to online tool"
+    'search-results-pagination-current-page': currentPage, // populate with the current pagination number at time of result click
+    'search-results-position': currentPositionOnPage, // populate with position on page of result click, beginning with 1 as the first result, number in relation to total results on the page (10 being last with 10 results are shown)
+    'search-results-total-count': totalResultsCount, // populate with the total number of search results at time of click
+    'search-results-total-pages': totalResultsPages, // populate with total number of result pages at time of click
+    'search-selection': 'Find forms', // populate consistently with 'Find forms'
+    'search-results-top-recommendation': undefined, // consistently populate with undefined since there's no top recommendations surfaced here
+    'search-typeahead-enabled': false, // consistently populate with false since there's no type ahead enabled for this search feature
+  });
+
+const SearchResult = ({ form, formMetaInfo }) => {
   // Escape early if we don't have the necessary form attributes.
   if (!form?.attributes) {
     return null;
@@ -34,6 +74,7 @@ const SearchResult = ({ form }) => {
 
   const {
     attributes: {
+      firstIssuedOn,
       formToolUrl,
       formDetailsUrl,
       lastRevisionOn,
@@ -49,15 +90,21 @@ const SearchResult = ({ form }) => {
 
   // Derive labels.
   const pdfLabel = url.toLowerCase().includes('.pdf') ? '(PDF)' : '';
-  const lastRevision = lastRevisionOn
-    ? moment(lastRevisionOn).format('MM-DD-YYYY')
-    : 'N/A';
+  const lastRevision = deriveLatestIssue(firstIssuedOn, lastRevisionOn);
+
+  const recordGAEvent = (eventTitle, eventUrl, eventType) =>
+    recordGAEventHelper({ ...formMetaInfo, eventTitle, eventUrl, eventType });
 
   return (
     <>
-      <FormTitle id={id} formUrl={formDetailsUrl} title={title} />
+      <FormTitle
+        id={id}
+        formUrl={formDetailsUrl}
+        title={title}
+        recordGAEvent={recordGAEvent}
+      />
 
-      <dd className="vads-u-margin-y--1 vads-u-margin-y--1">
+      <dd className="vads-u-margin-y--1 vads-u-margin-y--1 vsa-from-last-updated">
         <dfn className="vads-u-font-weight--bold">Form last updated:</dfn>{' '}
         {lastRevision}
       </dd>
@@ -70,7 +117,14 @@ const SearchResult = ({ form }) => {
       ) : null}
 
       <dd className="vads-u-margin-bottom--1">
-        <a href={url} rel="noreferrer noopener" {...linkProps}>
+        <a
+          href={url}
+          rel="noreferrer noopener"
+          onClick={() =>
+            recordGAEvent(`Download VA form ${id} ${pdfLabel}`, url, 'pdf')
+          }
+          {...linkProps}
+        >
           Download VA form {id} {pdfLabel}
         </a>
       </dd>
@@ -80,6 +134,9 @@ const SearchResult = ({ form }) => {
           <a
             className="usa-button usa-button-secondary vads-u-margin-bottom--3"
             href={formToolUrl}
+            onClick={() =>
+              recordGAEvent(`Go to online tool`, formToolUrl, 'cta')
+            }
           >
             Go to online tool{' '}
             <span className="vads-u-visibility--screen-reader">
@@ -94,6 +151,7 @@ const SearchResult = ({ form }) => {
 
 SearchResult.propTypes = {
   form: customPropTypes.Form.isRequired,
+  formMetaInfo: customPropTypes.FormMetaInfo,
 };
 
 export default SearchResult;

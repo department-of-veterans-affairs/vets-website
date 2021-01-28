@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 
-import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
+import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import { handleScrollOnInputFocus } from '../utils/helpers';
 
 /**

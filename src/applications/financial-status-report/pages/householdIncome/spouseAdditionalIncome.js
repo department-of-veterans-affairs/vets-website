@@ -1,31 +1,48 @@
 import ItemLoop from '../../components/ItemLoop';
-import CardDetailsView from '../../components/CardDetailsView';
+import TableDetailsView from '../../components/TableDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import Typeahead from '../../components/Typeahead';
+import { formatOptions, incomeTypes } from '../../constants/typeaheadOptions';
+import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your spouse information',
   spouseAdditionalIncome: {
     'ui:title': 'Does your spouse currently receive any additional income?',
     'ui:widget': 'yesNo',
-    'ui:required': () => false,
+    'ui:required': () => true,
   },
   hasAdditionalIncome: {
     'ui:options': {
       expandUnder: 'spouseAdditionalIncome',
     },
     spouseAdditionalIncome: {
+      'ui:description':
+        'Please provide information about additional income your spouse currently receives.',
       'ui:field': ItemLoop,
       'ui:options': {
-        viewField: CardDetailsView,
+        viewType: 'table',
+        viewField: TableDetailsView,
         doNotScroll: true,
         showSave: true,
-        itemName: 'Add income',
+        itemName: 'income',
       },
       items: {
         incomeType: {
           'ui:title': 'Type of income',
+          'ui:field': Typeahead,
+          'ui:options': {
+            classNames: 'input-size-3',
+            getOptions: () => formatOptions(incomeTypes),
+          },
+          'ui:required': formData => formData.spouseAdditionalIncome,
         },
-        incomeAmount: currencyUI('Monthly income amount'),
+        incomeAmount: _.merge(currencyUI('Monthly income amount'), {
+          'ui:options': {
+            widgetClassNames: 'input-size-2',
+          },
+          'ui:required': formData => formData.spouseAdditionalIncome,
+        }),
       },
     },
   },
@@ -43,6 +60,7 @@ export const schema = {
           type: 'array',
           items: {
             type: 'object',
+            required: ['incomeType', 'incomeAmount'],
             properties: {
               incomeType: {
                 type: 'string',

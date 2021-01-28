@@ -10,14 +10,24 @@ import {
   isUpcomingAppointmentOrRequest,
   isValidPastAppointment,
   sortByDateDescending,
+  sortByDateAscending,
   sortUpcoming,
   getVARFacilityId,
+  groupAppointmentsByMonth,
+  isUpcomingAppointmentOrExpressCare,
+  sortByCreatedDateDescending,
 } from '../../services/appointment';
-import { vaosExpressCare, vaosExpressCareNew } from '../../redux/selectors';
+import { selectFeatureExpressCareNewRequest } from '../../redux/selectors';
 import {
   getTimezoneAbbrBySystemId,
   getTimezoneBySystemId,
 } from '../../utils/timezone';
+
+// Only use this when we need to pass data that comes back from one of our
+// services files to one of the older api functions
+function parseFakeFHIRId(id) {
+  return id ? id.replace('var', '') : id;
+}
 
 export function getCancelInfo(state) {
   const {
@@ -96,20 +106,45 @@ export function selectFutureStatus(state) {
 }
 
 export const selectFutureAppointments = createSelector(
-  vaosExpressCare,
   state => state.appointments.pending,
   state => state.appointments.confirmed,
-  (showExpressCare, pending, confirmed) => {
+  (pending, confirmed) => {
     if (!confirmed || !pending) {
       return null;
     }
 
     return confirmed
       .concat(...pending)
-      .filter(appt => !showExpressCare || !appt.vaos.isExpressCare)
+      .filter(appt => !appt.vaos.isExpressCare)
       .filter(isUpcomingAppointmentOrRequest)
       .sort(sortUpcoming);
   },
+);
+
+export const selectUpcomingAppointments = createSelector(
+  // Selecting pending here to pull in EC requests
+  state => state.appointments.pending,
+  state => state.appointments.confirmed,
+  (pending, confirmed) => {
+    if (!confirmed || !pending) {
+      return null;
+    }
+
+    const sortedAppointments = confirmed
+      .concat(pending)
+      .filter(isUpcomingAppointmentOrExpressCare)
+      .sort(sortByDateAscending);
+
+    return groupAppointmentsByMonth(sortedAppointments);
+  },
+);
+
+export const selectPendingAppointments = createSelector(
+  state => state.appointments.pending,
+  pending =>
+    pending
+      ?.filter(a => !a.vaos.isExpressCare)
+      .sort(sortByCreatedDateDescending) || null,
 );
 
 export const selectPastAppointments = createSelector(
@@ -118,6 +153,18 @@ export const selectPastAppointments = createSelector(
     return past?.filter(isValidPastAppointment).sort(sortByDateDescending);
   },
 );
+
+export function selectFirstRequestMessage(state) {
+  const { currentAppointment, requestMessages } = state.appointments;
+
+  if (!currentAppointment) {
+    return null;
+  }
+
+  const parsedId = parseFakeFHIRId(currentAppointment.id);
+
+  return requestMessages?.[parsedId]?.[0]?.attributes?.messageText || null;
+}
 
 /*
  * Express Care related appointments state selectors
@@ -287,12 +334,11 @@ export function selectExpressCareAvailability(state) {
       moment(),
     ),
     allowRequests: !!activeWindows?.length,
-    enabled: vaosExpressCare(state),
-    useNewFlow: vaosExpressCareNew(state),
+    useNewFlow: selectFeatureExpressCareNewRequest(state),
     hasWindow: !!selectExpressCareFacilities(state)?.length,
-    hasRequests:
-      vaosExpressCare(state) &&
-      state.appointments.pending?.some(appt => appt.vaos.isExpressCare),
+    hasRequests: state.appointments.pending?.some(
+      appt => appt.vaos.isExpressCare,
+    ),
     windowsStatus: state.appointments.expressCareWindowsStatus,
   };
 }

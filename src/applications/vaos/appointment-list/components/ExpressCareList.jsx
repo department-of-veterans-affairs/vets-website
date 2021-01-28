@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
 import * as actions from '../redux/actions';
 import {
-  vaosCancel,
-  vaosRequests,
+  selectFeatureCancel,
+  selectFeatureRequests,
   selectIsCernerOnlyPatient,
 } from '../../redux/selectors';
 import { selectExpressCareRequests } from '../redux/selectors';
@@ -97,8 +97,8 @@ function mapStateToProps(state) {
   return {
     expressCareRequests: selectExpressCareRequests(state),
     status: state.appointments.pendingStatus,
-    showCancelButton: vaosCancel(state),
-    showScheduleButton: vaosRequests(state),
+    showCancelButton: selectFeatureCancel(state),
+    showScheduleButton: selectFeatureRequests(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
   };
 }

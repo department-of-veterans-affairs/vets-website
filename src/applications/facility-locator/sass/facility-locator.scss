@@ -527,6 +527,9 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 }
 
+#search-area-control-container {
+  z-index: 1;
+}
 
 #search-area-control {
   background: $color-blue;

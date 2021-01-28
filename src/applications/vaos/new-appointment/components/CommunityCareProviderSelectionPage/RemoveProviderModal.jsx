@@ -1,5 +1,5 @@
 import React from 'react';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { distanceBetween } from '../../../utils/address';
 
 export default function RemoveProviderModal({ onClose, provider, address }) {
@@ -30,6 +30,7 @@ export default function RemoveProviderModal({ onClose, provider, address }) {
         className="usa-button-secondary"
         type="button"
         onClick={() => onClose(false)}
+        aria-label="Cancel removing the selected provider"
       >
         Cancel
       </button>

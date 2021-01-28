@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 // import { getCurrentGlobalDowntime } from 'platform/monitoring/DowntimeNotification/util/helpers';
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';

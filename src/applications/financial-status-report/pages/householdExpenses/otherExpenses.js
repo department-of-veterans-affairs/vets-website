@@ -1,6 +1,9 @@
 import ItemLoop from '../../components/ItemLoop';
 import TableDetailsView from '../../components/TableDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import Typeahead from '../../components/Typeahead';
+import { formatOptions, expenseTypes } from '../../constants/typeaheadOptions';
+import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Other living expenses',
@@ -20,13 +23,24 @@ export const uiSchema = {
         viewField: TableDetailsView,
         doNotScroll: true,
         showSave: true,
-        itemName: 'Add an expense',
+        itemName: 'expense',
       },
       items: {
         expenseType: {
           'ui:title': 'Type of expense',
+          'ui:field': Typeahead,
+          'ui:options': {
+            classNames: 'input-size-3',
+            getOptions: () => formatOptions(expenseTypes),
+          },
+          'ui:required': formData => formData.otherExpenses.hasExpenses,
         },
-        expenseAmount: currencyUI('Monthly payment amount'),
+        expenseAmount: _.merge(currencyUI('Monthly payment amount'), {
+          'ui:options': {
+            widgetClassNames: 'input-size-1',
+          },
+          'ui:required': formData => formData.otherExpenses.hasExpenses,
+        }),
       },
     },
   },
@@ -44,6 +58,7 @@ export const schema = {
           type: 'array',
           items: {
             type: 'object',
+            required: ['expenseType', 'expenseAmount'],
             properties: {
               expenseType: {
                 type: 'string',

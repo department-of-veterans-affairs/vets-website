@@ -1,11 +1,13 @@
 import React from 'react';
 import { focusElement } from 'platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import WizardContainer from 'applications/edu-benefits/wizard/containers/WizardContainer';
 import { connect } from 'react-redux';
 import { showEduBenefits5495Wizard } from 'applications/edu-benefits/selectors/educationWizard';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_NOT_STARTED,
@@ -28,7 +30,7 @@ export class IntroductionPage extends React.Component {
 
   render() {
     const { status } = this.state;
-    const { showWizard } = this.props;
+    const { showWizard, eduFormOmbAndExpiration } = this.props;
     const show = showWizard && status !== WIZARD_STATUS_COMPLETE;
 
     if (showWizard === undefined) return null;
@@ -140,11 +142,19 @@ export class IntroductionPage extends React.Component {
             />
             {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
             <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-              <OMBInfo
-                resBurden={20}
-                ombNumber="2900-0074"
-                expDate="05/31/2018"
-              />
+              {eduFormOmbAndExpiration ? (
+                <OMBInfo
+                  resBurden={20}
+                  ombNumber="2900-0099"
+                  expDate="02/28/2023"
+                />
+              ) : (
+                <OMBInfo
+                  resBurden={20}
+                  ombNumber="2900-0074"
+                  expDate="05/31/2018"
+                />
+              )}
             </div>
           </div>
         )}
@@ -155,6 +165,9 @@ export class IntroductionPage extends React.Component {
 
 const mapStateToProps = state => ({
   showWizard: showEduBenefits5495Wizard(state),
+  eduFormOmbAndExpiration: toggleValues(state)[
+    FEATURE_FLAG_NAMES.eduFormOmbAndExpiration
+  ],
 });
 
 export default connect(mapStateToProps)(IntroductionPage);

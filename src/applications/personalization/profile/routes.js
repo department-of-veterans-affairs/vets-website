@@ -1,7 +1,7 @@
 import AccountSecurity from './components/account-security/AccountSecurity';
 import PersonalInformation from './components/personal-information/PersonalInformation';
 import MilitaryInformation from './components/military-information/MilitaryInformation';
-import DirectDeposit from './components/direct-deposit/DirectDeposit';
+import DirectDepositWrapper from './components/direct-deposit/DirectDepositWrapper';
 import ConnectedApplications from './components/connected-apps/ConnectedApps';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 
@@ -22,7 +22,7 @@ const getRoutes = options => {
       requiresMVI: true,
     },
     {
-      component: DirectDeposit,
+      component: DirectDepositWrapper,
       name: PROFILE_PATH_NAMES.DIRECT_DEPOSIT,
       path: PROFILE_PATHS.DIRECT_DEPOSIT,
       requiresLOA3: true,
@@ -45,7 +45,7 @@ const getRoutes = options => {
   ];
 
   if (options.removeDirectDeposit) {
-    routes = routes.filter(route => route.component !== DirectDeposit);
+    routes = routes.filter(route => route.component !== DirectDepositWrapper);
   }
 
   return routes;

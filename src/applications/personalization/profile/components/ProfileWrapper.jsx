@@ -2,14 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 
 import { isWideScreen } from '~/platform/utilities/accessibility/index';
 import { selectProfile } from '~/platform/user/selectors';
 
 import {
   cnpDirectDepositLoadError,
+  eduDirectDepositLoadError,
   fullNameLoadError,
   militaryInformationLoadError,
   personalInformationLoadError,
@@ -118,6 +119,7 @@ const mapStateToProps = state => {
     hero: state.vaProfile?.hero,
     showNotAllDataAvailableError:
       !!cnpDirectDepositLoadError(state) ||
+      !!eduDirectDepositLoadError(state) ||
       !!fullNameLoadError(state) ||
       !!personalInformationLoadError(state) ||
       (!!militaryInformationLoadError(state) && !invalidVeteranStatus),

@@ -32,6 +32,7 @@ export default function SearchBar({
         'type-ahead-option-position': undefined,
         'type-ahead-options-list': undefined,
       });
+      return;
     }
 
     // Escape early if we are not on the search page to let the form submit manually.
@@ -46,7 +47,7 @@ export default function SearchBar({
   };
 
   return (
-    <div className="vads-u-border-bottom--0 medium-screen:vads-u-border-top--2px vads-u-border-color--gray-light vads-u-padding-y--3 vads-u-padding-x--1">
+    <div className="vads-u-border-bottom--0 medium-screen:vads-u-border-top--2px vads-u-border-color--gray-light vads-u-padding-top--3 vads-u-padding-bottom--0 medium-screen:vads-u-padding-bottom--3 vads-u-padding-x--1">
       {/* Mobile expand/collapse */}
       <button
         className={`${
@@ -84,7 +85,7 @@ export default function SearchBar({
             ? `${searchSettings.rootUrl}/`
             : `${resourcesSettings.rootUrl}/`
         }
-        onSubmit={isGlobalSearch ? null : onSubmit}
+        onSubmit={onSubmit}
       >
         <fieldset className="fieldset-input vads-u-margin--0">
           <legend className="vads-u-font-size--md vads-u-font-family--serif">

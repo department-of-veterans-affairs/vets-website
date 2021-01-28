@@ -1,7 +1,7 @@
+import React from 'react';
 import _ from 'lodash/fp';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { validateMatch } from 'platform/forms-system/src/js/validation';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
@@ -63,6 +63,7 @@ import ErrorMessage from '../components/ErrorMessage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
 import DependentView from '../components/DependentView';
 import DemographicField from '../components/DemographicField';
+import { AddressDescription } from '../components/ContentComponents';
 
 import {
   createDependentSchema,
@@ -389,12 +390,14 @@ const formConfig = {
         },
         veteranAddress: {
           path: 'veteran-information/veteran-address',
-          title: 'Permanent address',
+          title: 'Mailing address',
           initialData: {},
           uiSchema: {
             'ui:description': PrefillMessage,
-            veteranAddress: _.merge(addressUI('Permanent address', true), {
+            veteranAddress: _.merge(addressUI('Mailing address', true), {
+              'ui:description': <AddressDescription addressType="mailing" />,
               street: {
+                'ui:title': 'Street address',
                 'ui:errorMessages': {
                   pattern:
                     'Please provide a valid street. Must be at least 1 character.',
@@ -407,11 +410,80 @@ const formConfig = {
                 },
               },
             }),
+            'view:doesMailingMatchHomeAddress': {
+              'ui:title':
+                'Is your home address the same as your mailing address?',
+              'ui:widget': 'yesNo',
+              'ui:required': formData => formData['view:hasMultipleAddress'],
+              'ui:options': {
+                hideIf: formData => !formData['view:hasMultipleAddress'],
+              },
+            },
           },
           schema: {
             type: 'object',
             properties: {
               veteranAddress: _.merge(addressSchema(fullSchemaHca, true), {
+                properties: {
+                  street: {
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                  street2: {
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                  street3: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                  city: {
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                },
+              }),
+              'view:doesMailingMatchHomeAddress': {
+                type: 'boolean',
+              },
+            },
+          },
+        },
+        veteranHomeAddress: {
+          path: 'veteran-information/veteran-home-address',
+          title: 'Home address',
+          initialData: {},
+          depends: formData =>
+            formData['view:hasMultipleAddress'] &&
+            !formData['view:doesMailingMatchHomeAddress'],
+          uiSchema: {
+            'ui:description': PrefillMessage,
+            veteranHomeAddress: _.merge(addressUI('Home address', true), {
+              'ui:description': <AddressDescription addressType="home" />,
+              street: {
+                'ui:title': 'Street address',
+                'ui:errorMessages': {
+                  pattern:
+                    'Please provide a valid street. Must be at least 1 character.',
+                },
+              },
+              city: {
+                'ui:errorMessages': {
+                  pattern:
+                    'Please provide a valid city. Must be at least 1 character.',
+                },
+              },
+              'ui:options': {
+                'ui:title': 'Street',
+                hideIf: formData => !formData['view:hasMultipleAddress'],
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              veteranHomeAddress: _.merge(addressSchema(fullSchemaHca, true), {
                 properties: {
                   street: {
                     minLength: 1,
@@ -673,7 +745,7 @@ const formConfig = {
         },
         spouseInformation: {
           path: 'household-information/spouse-information',
-          title: 'Spouse’s information',
+          title: 'Spouse\u2019s information',
           initialData: {},
           depends: formData =>
             formData.discloseFinancialInformation &&
@@ -681,14 +753,37 @@ const formConfig = {
             (formData.maritalStatus.toLowerCase() === 'married' ||
               formData.maritalStatus.toLowerCase() === 'separated'),
           uiSchema: {
-            'ui:title': 'Spouse’s information',
+            'ui:title': 'Spouse\u2019s information',
             'ui:description':
               'Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.',
-            spouseFullName: fullNameUI,
-            spouseSocialSecurityNumber: _.merge(ssnUI, {
-              'ui:title': 'Spouse’s Social Security number',
-            }),
-            spouseDateOfBirth: currentOrPastDateUI('Date of birth'),
+            spouseFullName: {
+              ...fullNameUI,
+              first: {
+                'ui:title': 'Spouse\u2019s first name',
+                'ui:errorMessages': {
+                  required: 'Please enter a first name',
+                },
+              },
+              last: {
+                'ui:title': 'Spouse\u2019s last name',
+                'ui:errorMessages': {
+                  required: 'Please enter a last name',
+                },
+              },
+              middle: {
+                'ui:title': 'Spouse\u2019s middle name',
+              },
+              suffix: {
+                'ui:title': 'Spouse\u2019s suffix',
+              },
+            },
+            spouseSocialSecurityNumber: {
+              ...ssnUI,
+              'ui:title': 'Spouse\u2019s Social Security number',
+            },
+            spouseDateOfBirth: currentOrPastDateUI(
+              'Spouse\u2019s date of birth',
+            ),
             dateOfMarriage: _.assign(currentOrPastDateUI('Date of marriage'), {
               'ui:validations': [validateMarriageDate],
             }),
@@ -715,11 +810,16 @@ const formConfig = {
                 expandUnder: 'sameAddress',
                 expandUnderCondition: false,
               },
-              spouseAddress: addressUI(
-                '',
-                true,
-                formData => formData.sameAddress === false,
-              ),
+              spouseAddress: {
+                ...addressUI(
+                  '',
+                  true,
+                  formData => formData.sameAddress === false,
+                ),
+                street: {
+                  'ui:title': 'Street address',
+                },
+              },
               spousePhone: phoneUI(),
             },
           },
@@ -793,22 +893,22 @@ const formConfig = {
             veteranGrossIncome: _.set(
               'ui:validations',
               [validateCurrency],
-              currencyUI('Veteran gross annual income from employment'),
+              currencyUI('Veteran\u2019s gross annual income from employment'),
             ),
             veteranNetIncome: _.set(
               'ui:validations',
               [validateCurrency],
               currencyUI(
-                'Veteran net income from your farm, ranch, property or business',
+                'Veteran\u2019s net income from your farm, ranch, property or business',
               ),
             ),
             veteranOtherIncome: _.set(
               'ui:validations',
               [validateCurrency],
-              currencyUI('Veteran other income amount'),
+              currencyUI('Veteran\u2019s other income amount'),
             ),
             'view:spouseIncome': {
-              'ui:title': 'Spouse income',
+              'ui:title': 'Spouse\u2019s income',
               'ui:options': {
                 hideIf: formData =>
                   !formData.maritalStatus ||
@@ -816,7 +916,7 @@ const formConfig = {
                     formData.maritalStatus.toLowerCase() !== 'separated'),
               },
               spouseGrossIncome: _.merge(
-                currencyUI('Spouse gross annual income from employment'),
+                currencyUI('Spouse\u2019s gross annual income from employment'),
                 {
                   'ui:required': formData =>
                     formData.maritalStatus &&
@@ -827,7 +927,7 @@ const formConfig = {
               ),
               spouseNetIncome: _.merge(
                 currencyUI(
-                  'Spouse net income from your farm, ranch, property or business',
+                  'Spouse\u2019s net income from your farm, ranch, property or business',
                 ),
                 {
                   'ui:required': formData =>
@@ -838,7 +938,7 @@ const formConfig = {
                 },
               ),
               spouseOtherIncome: _.merge(
-                currencyUI('Spouse other income amount'),
+                currencyUI('Spouse\u2019s other income amount'),
                 {
                   'ui:required': formData =>
                     formData.maritalStatus &&

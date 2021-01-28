@@ -1,10 +1,10 @@
 import React from 'react';
 import moment from 'moment';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 import {
   BOARD_APPEALS_URL,
@@ -24,10 +24,8 @@ export const ContestedIssuesTitle = props =>
       Sorry, we couldn’t find any eligible issues
     </h2>
   ) : (
-    <legend name="eligibleScrollElement">
-      <strong className="vads-u-font-size--lg">
-        Select the issue(s) you would like reviewed
-      </strong>
+    <legend name="eligibleScrollElement" className="vads-u-font-size--lg">
+      Select the issue(s) you would like reviewed
       <span className="schemaform-required-span vads-u-font-weight--normal vads-u-font-size--base">
         (*Required)
       </span>
@@ -54,11 +52,11 @@ export const disabilityOption = ({ attributes }) => {
 
   return (
     <div className="widget-content">
-      <h3 className="vads-u-margin-y--0 vads-u-font-size--h4">
+      <span className="vads-u-font-weight--bold">
         {typeof ratingIssueSubjectText === 'string'
           ? ratingIssueSubjectText
           : NULL_CONDITION_STRING}
-      </h3>
+      </span>
       {description && (
         <p className="vads-u-margin-bottom--0">{description || ''}</p>
       )}
@@ -95,8 +93,8 @@ const disabilitiesList = (
         fill out VA Form 20-0996 and submit it by mail or in person.
       </li>
       <li>
-        The issue or decision isn’t our system yet. You’ll need to fill VA Form
-        20-0996 and submit it by mail or in person.
+        The issue or decision isn’t in our system yet. You’ll need to fill out
+        VA Form 20-0996 and submit it by mail or in person.
       </li>
       <li>
         You and another surviving dependent of the Veteran are applying for the

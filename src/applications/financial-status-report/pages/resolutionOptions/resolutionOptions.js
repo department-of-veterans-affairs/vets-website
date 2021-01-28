@@ -2,6 +2,7 @@ import React from 'react';
 import FinancialOverview from '../../components/FinancialOverview';
 import DebtRepayment from '../../components/DebtRepayment';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import _ from 'lodash/fp';
 
 const resolutionOptions = [
   {
@@ -10,8 +11,8 @@ const resolutionOptions = [
       <>
         <div>
           If any monthly payment will create financial hardship for you or your
-          family, you can request that your debt be waived.This will reduce your
-          remaining education benefits entitlement.
+          family, you can request that your debt be waived. This will reduce
+          your remaining education benefits entitlement.
         </div>
         <p>
           If your request for waiver is granted, some or all of your debt will
@@ -73,81 +74,108 @@ const renderLabels = () => {
 };
 
 export const uiSchema = {
-  financialOverview: {
-    'ui:field': FinancialOverview,
-  },
-  debtRepaymentOptions: {
-    'ui:field': DebtRepayment,
-  },
-  resolution: {
-    resolutionType: {
-      'ui:title':
-        'What type of help do you want for your Post-9/11 GI Bill debt for tuition and fees?',
-      'ui:required': () => true,
-      'ui:widget': 'radio',
-      'ui:options': {
-        labels: renderLabels(),
+  fsrDebts: {
+    items: {
+      financialOverview: {
+        'ui:field': FinancialOverview,
       },
-    },
-    affordToPay: {
-      'ui:options': {
-        expandUnder: 'resolutionType',
-        expandUnderCondition: 'Extended monthly payments',
+      debtRepaymentOptions: {
+        'ui:field': DebtRepayment,
       },
-      canAffordToPay: currencyUI(
-        'How much can you afford to pay monthly on this debt?',
-      ),
-    },
-    offerToPay: {
-      'ui:options': {
-        expandUnder: 'resolutionType',
-        expandUnderCondition: 'Compromise',
+      resolution: {
+        resolutionType: {
+          'ui:title':
+            'What type of help do you want for your Post-9/11 GI Bill debt for tuition and fees?',
+          'ui:required': () => true,
+          'ui:widget': 'radio',
+          'ui:options': {
+            labels: renderLabels(),
+          },
+        },
+        affordToPay: {
+          'ui:options': {
+            expandUnder: 'resolutionType',
+            expandUnderCondition: resolutionOptions[1].type,
+          },
+          canAffordToPay: _.merge(
+            currencyUI('How much can you afford to pay monthly on this debt?'),
+            {
+              'ui:options': {
+                widgetClassNames: 'input-size-3',
+              },
+              'ui:required': formData =>
+                formData.resolution?.resolutionType ===
+                resolutionOptions[1].type,
+            },
+          ),
+        },
+        offerToPay: {
+          'ui:options': {
+            expandUnder: 'resolutionType',
+            expandUnderCondition: resolutionOptions[2].type,
+          },
+          canOfferToPay: _.merge(
+            currencyUI(
+              'How much do you offer to pay for this debt with a single payment?',
+            ),
+            {
+              'ui:options': {
+                widgetClassNames: 'input-size-3',
+              },
+              'ui:required': formData =>
+                formData.resolution?.resolutionType ===
+                resolutionOptions[2].type,
+            },
+          ),
+        },
       },
-      canOfferToPay: currencyUI(
-        'How much do you offer to pay for this debt with a single payment?',
-      ),
     },
   },
 };
+
 export const schema = {
   type: 'object',
   properties: {
-    financialOverview: {
-      type: 'object',
-      properties: {
-        income: {
-          type: 'string',
-        },
-      },
-    },
-    debtRepaymentOptions: {
-      type: 'object',
-      properties: {
-        expenses: {
-          type: 'string',
-        },
-      },
-    },
-    resolution: {
-      type: 'object',
-      properties: {
-        resolutionType: {
-          type: 'string',
-          enum: resolutionOptions.map(option => option.type),
-        },
-        affordToPay: {
-          type: 'object',
-          properties: {
-            canAffordToPay: {
-              type: 'number',
+    fsrDebts: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          financialOverview: {
+            type: 'object',
+            properties: {
+              income: {
+                type: 'string',
+              },
             },
           },
-        },
-        offerToPay: {
-          type: 'object',
-          properties: {
-            canOfferToPay: {
-              type: 'number',
+          debtRepaymentOptions: {
+            type: 'object',
+            properties: {},
+          },
+          resolution: {
+            type: 'object',
+            properties: {
+              resolutionType: {
+                type: 'string',
+                enum: resolutionOptions.map(option => option.type),
+              },
+              affordToPay: {
+                type: 'object',
+                properties: {
+                  canAffordToPay: {
+                    type: 'number',
+                  },
+                },
+              },
+              offerToPay: {
+                type: 'object',
+                properties: {
+                  canOfferToPay: {
+                    type: 'number',
+                  },
+                },
+              },
             },
           },
         },

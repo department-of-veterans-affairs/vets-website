@@ -197,7 +197,7 @@
     margin-top: 1px;
   }
 
-  .category-ratings-accordion-headings{
+  .category-ratings-accordion-headings {
     margin-bottom: 9px;
     padding-top: 2rem;
     padding-left: 1rem;
@@ -281,6 +281,12 @@
     .calculator-result {
       margin-top: 1.6rem;
     }
+  }
+  .eyb-h4 {
+    font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times",
+      serif;
+    font-size: 1.7rem;
+    font-weight: 700;
   }
 
   .per-term-section {
@@ -441,6 +447,10 @@
         margin-bottom: 0;
         margin-top: 0;
         font-weight: bold;
+        @include media-maxwidth($small-screen) {
+          margin-bottom: 0.8em;
+          margin-top: 0.8em;
+        }
       }
     }
 
@@ -448,6 +458,10 @@
       padding-left: 16px;
       .extension-cell-label {
         padding-left: 0.5em;
+        @include media-maxwidth($small-screen) {
+          margin-bottom: 0.8em;
+          margin-top: 0.8em;
+        }
       }
     }
 
@@ -490,6 +504,11 @@
       .estimated-housing-cell dfn {
         padding-right: 0.2em;
         white-space: nowrap;
+      }
+      .zipcode-margin {
+        @include media-maxwidth($small-screen) {
+          margin-left: 4.8em;
+        }
       }
 
       .extension-row {

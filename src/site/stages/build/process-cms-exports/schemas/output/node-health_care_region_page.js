@@ -32,7 +32,6 @@ const facilitiesSchema = {
           'changed',
           'fieldOperatingStatusFacility',
           'fieldFacilityLocatorApiId',
-          'fieldNicknameForThisFacility',
           'fieldIntroText',
           'fieldLocationServices',
           'fieldAddress',
@@ -95,11 +94,11 @@ module.exports = {
     entityBundle: { enum: ['health_care_region_page'] },
     title: { type: 'string' },
     entityUrl: { $ref: 'EntityUrl' },
+    fieldIntroText: { type: ['string', 'null'] },
     fieldGovdeliveryIdEmerg: { type: 'string' },
     fieldGovdeliveryIdNews: { type: 'string' },
     fieldOperatingStatus: socialMediaSchema,
     fieldOtherVaLocations: { type: 'array' },
-    fieldNicknameForThisFacility: { type: ['string', 'null'] },
     fieldLinkFacilityEmergList: {
       type: ['object', 'null'],
       properties: {
@@ -158,11 +157,11 @@ module.exports = {
   },
   required: [
     'title',
+    'fieldIntroText',
     'fieldGovdeliveryIdEmerg',
     'fieldGovdeliveryIdNews',
     'fieldOperatingStatus',
     'fieldOtherVaLocations',
-    'fieldNicknameForThisFacility',
     'fieldLinkFacilityEmergList',
     'reverseFieldRegionPageNode',
     'newsStoryTeasers',

@@ -5,7 +5,12 @@ import { Article } from '../prop-types';
 
 import SearchResult from './SearchResult';
 
-export default function SearchResultList({ results, totalResults, query }) {
+export default function SearchResultList({
+  results,
+  totalResults,
+  query,
+  page,
+}) {
   return (
     <ul className="usa-unstyled-list">
       {results.map((article, articleIndex) => {
@@ -16,6 +21,7 @@ export default function SearchResultList({ results, totalResults, query }) {
               position={articleIndex + 1}
               query={query}
               totalResults={totalResults}
+              page={page}
             />
           </li>
         );
@@ -28,4 +34,5 @@ SearchResultList.propTypes = {
   query: PropTypes.string,
   results: PropTypes.arrayOf(Article).isRequired,
   totalResults: PropTypes.number,
+  page: PropTypes.number,
 };

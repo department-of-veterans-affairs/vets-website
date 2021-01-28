@@ -1,8 +1,12 @@
 import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { countries } from 'vets-json-schema/dist/constants.json';
+import environment from 'platform/utilities/environment';
 
-import { schoolStudentIdTitle } from '../content/programDetails';
+import {
+  schoolStudentIdTitle,
+  stemApplicantSco,
+} from '../content/programDetails';
 import { updateProgramDetailsSchema } from '../helpers';
 
 const {
@@ -28,6 +32,7 @@ export const uiSchema = {
     'view:field',
     'schoolStudentId',
     'schoolEmailAddress',
+    'view:stemApplicantSco',
   ],
   degreeName: {
     'ui:title': "What's the name of your STEM degree?",
@@ -59,6 +64,9 @@ export const uiSchema = {
     'ui:title':
       'Your school email address (This email address usually ends with .edu)',
   },
+  'view:stemApplicantSco': {
+    'ui:description': environment.isProduction() ? null : stemApplicantSco,
+  },
 };
 
 export const schema = {
@@ -81,5 +89,9 @@ export const schema = {
     },
     schoolStudentId,
     schoolEmailAddress,
+    'view:stemApplicantSco': {
+      type: 'object',
+      properties: {},
+    },
   },
 };

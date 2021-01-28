@@ -105,6 +105,16 @@
       "state": "MA",
       "postalCode": "01070"
     },
+    "view:doesMailingMatchHomeAddress": false,
+    "veteranHomeAddress": {
+      "street": "456 coral st",
+      "street2": "Apt 1",
+      "street3": "Room 2",
+      "city": "Largo",
+      "country": "USA",
+      "state": "FL",
+      "postalCode": "33771"
+    },
     "gender": "M",
     "maritalStatus": "Married",
     "view:demographicCategories": {

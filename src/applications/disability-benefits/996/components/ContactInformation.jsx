@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { selectProfile } from 'platform/user/selectors';
 import { formatAddress } from 'platform/forms/address/helpers';
@@ -18,19 +18,20 @@ export const ContactInfoDescription = ({ profile }) => {
 
   return (
     <>
+      <h3 className="vads-u-margin-top--0">Contact Information</h3>
       <p>
         This is the contact information we have on file for you. We’ll send any
         important information about your Higher-Level Review to this address.
       </p>
       <p className="vads-u-margin-top--1p5">
-        You can update this information on your{' '}
+        You can{' '}
         <a href={PROFILE_URL} target="_blank" rel="noopener noreferrer">
-          profile page
+          update this information on your profile page
         </a>
         .
       </p>
       <div className="blue-bar-block">
-        <h3 className="vads-u-font-size--h4">Phone &amp; email</h3>
+        <h4 className="vads-u-font-size--h4">Phone &amp; email</h4>
         <p>
           <strong>Primary phone</strong>:{' '}
           <Telephone
@@ -42,7 +43,7 @@ export const ContactInfoDescription = ({ profile }) => {
         <p>
           <strong>Email address</strong>: {email?.emailAddress || ''}
         </p>
-        <h3 className="vads-u-font-size--h4">Mailing address</h3>
+        <h4 className="vads-u-font-size--h4">Mailing address</h4>
         <p>
           {addBrAfter(street)}
           {addBrAfter(cityStateZip)}

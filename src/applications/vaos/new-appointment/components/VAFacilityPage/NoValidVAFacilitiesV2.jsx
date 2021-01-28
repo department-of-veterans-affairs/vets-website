@@ -1,21 +1,16 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { lowerCase } from '../../../utils/formatters';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
-export default function NoValidVAFacilities({ typeOfCare }) {
-  const typeOfCareText = typeOfCare
-    ? lowerCase(typeOfCare)
-    : 'this type of care';
-
+export default function NoValidVAFacilities() {
   return (
     <div aria-atomic="true" aria-live="assertive">
       <AlertBox
         status="warning"
-        headline={`We can’t find a VA facility where you receive care that accepts online appointments for ${typeOfCareText}`}
+        headline={`Your registered facilities don’t accept online scheduling for this care right now`}
         content={
           <>
             <p>
-              You’ll need to call your local VA medical center to schedule this
+              You’ll need to call your local VA health facility to schedule this
               appointment.{' '}
               <a
                 href="/find-locations"
@@ -26,7 +21,7 @@ export default function NoValidVAFacilities({ typeOfCare }) {
               </a>
             </p>
             <p>
-              To request another online appointment, please go back and choose a
+              To request another appointment online, please go back and choose a
               different type of care.
             </p>
           </>

@@ -1,6 +1,9 @@
 import ItemLoop from '../../components/ItemLoop';
 import TableDetailsView from '../../components/TableDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import Typeahead from '../../components/Typeahead';
+import { formatOptions, utilityTypes } from '../../constants/typeaheadOptions';
+import _ from 'lodash/fp';
 
 const utilityOptions = [
   'Yes, I pay utility bills.',
@@ -27,13 +30,24 @@ export const uiSchema = {
         viewField: TableDetailsView,
         doNotScroll: true,
         showSave: true,
-        itemName: 'Add a utility',
+        itemName: 'utility',
       },
       items: {
         utilityType: {
           'ui:title': 'Type of utility',
+          'ui:field': Typeahead,
+          'ui:options': {
+            classNames: 'input-size-3',
+            getOptions: () => formatOptions(utilityTypes),
+          },
+          'ui:required': formData => formData.utilities.hasUtilities,
         },
-        monthlyUtilityAmount: currencyUI('Monthly payment amount'),
+        monthlyUtilityAmount: _.merge(currencyUI('Monthly payment amount'), {
+          'ui:options': {
+            widgetClassNames: 'input-size-1',
+          },
+          'ui:required': formData => formData.utilities.hasUtilities,
+        }),
       },
     },
   },
@@ -52,6 +66,7 @@ export const schema = {
           type: 'array',
           items: {
             type: 'object',
+            required: ['utilityType', 'monthlyUtilityAmount'],
             properties: {
               utilityType: {
                 type: 'string',

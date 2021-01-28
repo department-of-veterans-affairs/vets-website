@@ -5,7 +5,7 @@ const transform = entity => ({
     entityType: 'paragraph',
     entityBundle: 'collapsible_panel_item',
     fieldTitle: getDrupalValue(entity.fieldTitle),
-    fieldVaParagraphs: entity.fieldVaParagraphs,
+    fieldVaParagraphs: entity.fieldVaParagraphs || [],
     fieldWysiwyg: {
       processed: getWysiwygString(getDrupalValue(entity.fieldWysiwyg)),
     },

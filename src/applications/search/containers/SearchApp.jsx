@@ -15,10 +15,11 @@ import { focusElement } from 'platform/utilities/ui';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import IconSearch from '@department-of-veterans-affairs/formation-react/IconSearch';
-import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
+import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import { apiRequest } from 'platform/utilities/api';
 
 import SearchBreadcrumbs from '../components/SearchBreadcrumbs';
 
@@ -58,7 +59,14 @@ class SearchApp extends React.Component {
     // If there's data in userInput, it must have come from the address bar, so we immediately hit the API.
     const { userInput, page } = this.state;
     if (userInput) {
-      this.props.fetchSearchResults(userInput, page);
+      this.props.fetchSearchResults(userInput, page, {
+        path: document.location.pathname,
+        userInput,
+        typeaheadEnabled: false,
+        keywordSelected: undefined,
+        keywordPosition: undefined,
+        suggestionsList: undefined,
+      });
     }
   }
 
@@ -96,7 +104,14 @@ class SearchApp extends React.Component {
     });
 
     // Fetch new results
-    this.props.fetchSearchResults(userInput, nextPage);
+    this.props.fetchSearchResults(userInput, nextPage, {
+      path: document.location.pathname,
+      userInput,
+      typeaheadEnabled: false,
+      keywordSelected: undefined,
+      keywordPosition: undefined,
+      suggestionsList: undefined,
+    });
 
     // Update query is necessary
     if (queryChanged) {
@@ -110,11 +125,11 @@ class SearchApp extends React.Component {
     });
   };
 
-  onSearchResultClick = (bestBet, strippedTitle, index) => () => {
+  onSearchResultClick = ({ bestBet, title, index, url }) => () => {
     if (bestBet) {
       recordEvent({
         event: 'nav-searchresults',
-        'nav-path': `Recommended Results -> ${strippedTitle}`,
+        'nav-path': `Recommended Results -> ${title}`,
       });
     }
 
@@ -125,20 +140,38 @@ class SearchApp extends React.Component {
       ? bestBetPosition
       : normalResultPosition;
 
+    const query = this.props.router?.location?.query?.query || '';
+
     recordEvent({
       event: 'onsite-search-results-click',
       'search-page-path': document.location.pathname,
-      'search-query': this.state.userInput,
+      'search-query': query,
+      'search-result-chosen-page-url': url,
+      'search-result-chosen-title': title,
       'search-results-pagination-current-page': this.props.search?.currentPage,
       'search-results-position': searchResultPosition,
       'search-results-total-count': this.props.search?.totalEntries,
       'search-results-total-pages': Math.ceil(
         this.props.search?.totalEntries / 10,
       ),
-      'search-selection': 'All VA.gov',
       'search-results-top-recommendation': bestBet,
+      'search-result-type': 'title',
+      'search-selection': 'All VA.gov',
       'search-typeahead-enabled': this.props.searchTypeaheadEnabled,
     });
+
+    const encodedUrl = encodeURIComponent(url);
+    const userAgent = encodeURIComponent(navigator.userAgent);
+    const searchClickTrackingEndpoint = `/search_click_tracking`;
+    const encodedQuery = encodeURIComponent(query);
+    const apiRequestOptions = {
+      method: 'POST',
+    };
+
+    apiRequest(
+      `${searchClickTrackingEndpoint}?position=${searchResultPosition}&query=${encodedQuery}&url=${encodedUrl}&user_agent=${userAgent}`,
+      apiRequestOptions,
+    );
   };
 
   renderResults() {
@@ -278,7 +311,12 @@ class SearchApp extends React.Component {
         <a
           className={`result-title ${SCREENREADER_FOCUS_CLASSNAME}`}
           href={replaceWithStagingDomain(result.url)}
-          onClick={this.onSearchResultClick(isBestBet, strippedTitle, index)}
+          onClick={this.onSearchResultClick({
+            bestBet: isBestBet,
+            title: strippedTitle,
+            index,
+            url: result.url,
+          })}
         >
           <h5
             dangerouslySetInnerHTML={{
