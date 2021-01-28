@@ -1,13 +1,13 @@
 import React from 'react';
-import BlueAlert from '../BlueAlert';
+import MiniInfoBox from '../MiniInfoBox';
 
 const ClaimsAndAppeals = () => {
   return (
     <>
       <h2>Claims & appeals</h2>
-      <BlueAlert>
+      <MiniInfoBox>
         This is an example <strong>blue alert</strong>
-      </BlueAlert>
+      </MiniInfoBox>
     </>
   );
 };
