@@ -195,7 +195,7 @@ export function createPastVAAppointments() {
   };
 }
 
-function mockFeatureToggles({ facilityPageV2Enabled = true } = {}) {
+function mockFeatureToggles() {
   cy.route({
     method: 'GET',
     url: '/v0/feature_toggles*',
@@ -230,10 +230,6 @@ function mockFeatureToggles({ facilityPageV2Enabled = true } = {}) {
           {
             name: 'vaOnlineSchedulingExpressCareNew',
             value: true,
-          },
-          {
-            name: 'vaOnlineSchedulingFlatFacilityPage',
-            value: facilityPageV2Enabled,
           },
           {
             name: `cerner_override_668`,
@@ -349,9 +345,9 @@ function mockSubmitVAAppointment() {
   }).as('appointmentPreferences');
 }
 
-function setupSchedulingMocks({ facilityPageV2Enabled = true } = {}) {
+function setupSchedulingMocks() {
   cy.server();
-  mockFeatureToggles({ facilityPageV2Enabled });
+  mockFeatureToggles();
   cy.login(mockUser);
 
   mockSupportedSites();
@@ -545,8 +541,8 @@ export function initExpressCareMocks() {
   });
 }
 
-export function initVAAppointmentMock({ facilityPageV2Enabled = true } = {}) {
-  setupSchedulingMocks({ facilityPageV2Enabled });
+export function initVAAppointmentMock() {
+  setupSchedulingMocks();
   cy.route({
     method: 'GET',
     url: '/v1/facilities/va/vha_442',
@@ -569,8 +565,8 @@ export function initVAAppointmentMock({ facilityPageV2Enabled = true } = {}) {
   mockSubmitVAAppointment();
 }
 
-export function initVARequestMock({ facilityPageV2Enabled = true } = {}) {
-  setupSchedulingMocks({ facilityPageV2Enabled });
+export function initVARequestMock() {
+  setupSchedulingMocks();
   cy.route({
     method: 'GET',
     url: '/vaos/v0/facilities/983/clinics*',
