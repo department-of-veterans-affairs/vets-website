@@ -1,5 +1,6 @@
 /* eslint-disable import/no-dynamic-require */
-const fs = require('fs');
+// const fs = require('fs');
+const gracefulfs = require('graceful-fs');
 const path = require('path');
 const get = require('lodash/get');
 const cloneDeep = require('lodash/cloneDeep');
@@ -88,7 +89,7 @@ module.exports = {
    * @return {Object} - The dict of filename -> exported prop mappings
    */
   getAllImportsFrom(dir, prop) {
-    return fs
+    return gracefulfs
       .readdirSync(dir)
       .filter(name => name.endsWith('.js'))
       .reduce((t, fileName) => {
@@ -139,9 +140,9 @@ module.exports = {
       global.readEntityCacheHits++;
       return cloneDeep(cachedEntities.get(filename));
     } else {
-      const fd = fs.openSync(path.join(dir, filename));
-      const fileContents = fs.readFileSync(fd).toString('utf8');
-      fs.closeSync(fd);
+      const fd = gracefulfs.openSync(path.join(dir, filename));
+      const fileContents = gracefulfs.readFileSync(fd).toString('utf8');
+      gracefulfs.closeSync(fd);
       const entity = addCommonProperties(
         JSON.parse(fileContents),
         baseType,
@@ -161,7 +162,7 @@ module.exports = {
    *                        E.g. [["node", "123"], ["node", "456"]]
    */
   readAllNodeNames(dir) {
-    return fs
+    return gracefulfs
       .readdirSync(dir)
       .filter(name => name.startsWith('node'))
       .map(name => name.split('.').slice(0, 2));
