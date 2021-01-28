@@ -233,10 +233,10 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
         }
       }
 
-      /******** Experimental CMS export build (prod, content only) ********/
+      /******** Experimental CMS export build (dev) ********/
       builds['cms-export-experimental'] = {
         try {
-          build(ref, dockerContainer, assetSource, 'vagovprod', false, contentOnlyBuild, true)
+          build(ref, dockerContainer, assetSource, 'vagovdev', false, contentOnlyBuild, true)
         } catch (error) {
           // Don't fail the build, just report the error
           echo "Experimental CMS export build failed: ${error}"
