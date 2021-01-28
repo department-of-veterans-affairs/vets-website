@@ -92,7 +92,8 @@ export const fetchDebts = () => async (dispatch, getState) => {
     // that have a current amount owed of 0
     const filteredResponse = response.debts
       .filter(res => approvedDeductionCodes.includes(res.deductionCode))
-      .filter(debt => debt.currentAr > 0);
+      .filter(debt => debt.currentAr > 0)
+      .map((debt, index) => ({ ...debt, id: index }));
     return dispatch(fetchDebtLettersSuccess(filteredResponse));
   } catch (error) {
     return null;

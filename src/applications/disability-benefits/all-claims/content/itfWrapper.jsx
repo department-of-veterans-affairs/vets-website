@@ -18,7 +18,13 @@ export const itfMessage = (headline, content, status) => (
   // Inline style to match .full-page-alert bottom margin because usa-grid > :last-child has a
   //  bottom margin of 0 and overrides it
   <div className="full-page-alert itf-wrapper">
-    <AlertBox isVisible headline={headline} content={content} status={status} />
+    <AlertBox
+      isVisible
+      headline={headline}
+      content={content}
+      status={status}
+      level="2"
+    />
   </div>
 );
 
