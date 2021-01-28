@@ -17,6 +17,8 @@ const headerFooterData = require('../src/platform/landing-pages/header-footer-da
 const BUCKETS = require('../src/site/constants/buckets');
 const ENVIRONMENTS = require('../src/site/constants/environments');
 
+const { VAGOVSTAGING, VAGOVPROD, LOCALHOST } = ENVIRONMENTS;
+
 const {
   getAppManifests,
   getWebpackEntryPoints,
@@ -81,47 +83,39 @@ function getEntryPoints(entry) {
   return getWebpackEntryPoints(manifestsToBuild);
 }
 
-module.exports = env => {
+module.exports = (env = {}) => {
+  const { buildtype = LOCALHOST } = env;
   const buildOptions = {
     api: '',
-    buildtype: 'localhost',
-    host: 'localhost',
+    buildtype,
+    host: LOCALHOST,
     port: 3001,
     scaffold: false,
     watch: false,
     setPublicPath: false,
+    destination: path.resolve(__dirname, '../', 'build', buildtype),
     ...env,
-    // Using a getter so we can reference the buildtype
-    get destination() {
-      return path.resolve(__dirname, '../', 'build', this.buildtype);
-    },
   };
 
   const apps = getEntryPoints(buildOptions.entry);
   const entryFiles = Object.assign({}, apps, globalEntryFiles);
-  const isOptimizedBuild = [
-    ENVIRONMENTS.VAGOVSTAGING,
-    ENVIRONMENTS.VAGOVPROD,
-  ].includes(buildOptions.buildtype);
+  const isOptimizedBuild = [VAGOVSTAGING, VAGOVPROD].includes(buildtype);
 
-  const useHashFilenames = [
-    ENVIRONMENTS.VAGOVSTAGING,
-    ENVIRONMENTS.VAGOVPROD,
-  ].includes(buildOptions.buildtype);
+  const useHashFilenames = [VAGOVSTAGING, VAGOVPROD].includes(buildtype);
 
   // enable css sourcemaps for all non-localhost builds
   // or if build options include local-css-sourcemaps or entry
   const enableCSSSourcemaps =
-    buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST ||
+    buildtype !== LOCALHOST ||
     buildOptions['local-css-sourcemaps'] ||
     !!buildOptions.entry;
 
   const outputPath = `${buildOptions.destination}/generated`;
 
-  // Set the pubilcPath conditional so we can get dynamic modules loading from S3
+  // Set the publicPath conditional so we can get dynamic modules loading from S3
   const publicAssetPath =
-    buildOptions.setPublicPath && buildOptions.buildtype !== 'localhost'
-      ? `${BUCKETS[buildOptions.buildtype]}/generated/`
+    buildOptions.setPublicPath && buildtype !== LOCALHOST
+      ? `${BUCKETS[buildtype]}/generated/`
       : '/generated/';
 
   const baseConfig = {
@@ -257,7 +251,7 @@ module.exports = env => {
     },
     plugins: [
       new webpack.DefinePlugin({
-        __BUILDTYPE__: JSON.stringify(buildOptions.buildtype),
+        __BUILDTYPE__: JSON.stringify(buildtype),
         __API__: JSON.stringify(buildOptions.api),
       }),
 
@@ -266,8 +260,7 @@ module.exports = env => {
           const { name } = chunk;
           const isMedalliaStyleFile = name === vaMedalliaStylesFilename;
 
-          const isStaging =
-            buildOptions.buildtype === ENVIRONMENTS.VAGOVSTAGING;
+          const isStaging = buildtype === VAGOVSTAGING;
 
           if (isMedalliaStyleFile && isStaging) return `[name].css`;
 
@@ -418,7 +411,7 @@ module.exports = env => {
   }
 
   if (isOptimizedBuild) {
-    const bucket = BUCKETS[buildOptions.buildtype];
+    const bucket = BUCKETS[buildtype];
 
     baseConfig.plugins.push(
       new webpack.SourceMapDevToolPlugin({
