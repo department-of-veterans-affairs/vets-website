@@ -288,13 +288,16 @@ const FacilitiesMap = props => {
       props.mapMoved();
       recordPanEvent(map.getCenter(), props.currentQuery);
     });
+    map.on('zoom', () => {
+      const currentZoom = parseInt(map.getZoom(), 10);
+
+      speakZoom(currentZoom);
+    });
     map.on('zoomend', () => {
       // Note: DO NOT call props.mapMoved() here
       // because zoomend is triggered by fitBounds.
 
       const currentZoom = parseInt(map.getZoom(), 10);
-
-      speakZoom(currentZoom);
 
       if (lastZoom && parseInt(lastZoom, 10) > 3) {
         recordZoomEvent(lastZoom, currentZoom);
@@ -425,7 +428,7 @@ const FacilitiesMap = props => {
             <TabPanel>
               <div
                 id={zoomMessageDivID}
-                aria-live="polite"
+                aria-live="assertive"
                 className="sr-only"
               />
               <div
@@ -491,7 +494,7 @@ const FacilitiesMap = props => {
             />
           </div>
         </div>
-        <div id={zoomMessageDivID} aria-live="polite" className="sr-only" />
+        <div id={zoomMessageDivID} aria-live="assertive" className="sr-only" />
         <div className="desktop-map-container" id={mapboxGlContainer} />
         <PaginationWrapper
           handlePageSelect={handlePageSelect}
