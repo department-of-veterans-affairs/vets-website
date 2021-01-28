@@ -1,6 +1,6 @@
 import fullSchema from 'vets-json-schema/dist/28-8832-schema.json';
 import environment from 'platform/utilities/environment';
-import { VA_FORM_IDS, WIZARD_STATUS } from 'platform/forms/constants';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -16,6 +16,8 @@ import {
 } from './chapters/claimant-information';
 import { isDependent, transform } from './helpers';
 import manifest from '../manifest.json';
+
+import { WIZARD_STATUS } from '../constants';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,

@@ -11,15 +11,12 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_RESTARTED,
+  WIZARD_STATUS_COMPLETE,
   restartShouldRedirect,
 } from 'applications/static-pages/wizard';
 
 import WizardContainer from './WizardContainer';
-import {
-  WIZARD_STATUS,
-  WIZARD_STATUS_COMPLETE,
-  CAREERS_EMPLOYMENT_ROOT_URL,
-} from '../constants';
+import { WIZARD_STATUS, CAREERS_EMPLOYMENT_ROOT_URL } from '../constants';
 import formConfig from '../config/form';
 
 // Need to set status of whether or not the wizard is complete to local storage
@@ -27,6 +24,12 @@ import formConfig from '../config/form';
 
 function App({ location, children, chapter36Feature, router }) {
   const [wizardState, setWizardState] = useState(WIZARD_STATUS_NOT_STARTED);
+
+  // pass this to wizard pages so re-render doesn't happen on
+  // successful wizard entry
+  const setWizardStatusHandler = value => {
+    sessionStorage.setItem(WIZARD_STATUS, value);
+  };
 
   const setWizardStatus = value => {
     sessionStorage.setItem(WIZARD_STATUS, value);
@@ -82,7 +85,7 @@ function App({ location, children, chapter36Feature, router }) {
       </div>
     );
   } else if (wizardState !== WIZARD_STATUS_COMPLETE) {
-    content = <WizardContainer />;
+    content = <WizardContainer setWizardStatus={setWizardStatusHandler} />;
   } else {
     content = (
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
