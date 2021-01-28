@@ -28,13 +28,6 @@ const ConfirmationPage = props => {
           <h2 className="usa-alert-heading">
             Your information has been sent to your provider.
           </h2>
-          <div className="usa-alert-text">
-            <p>
-              Your provider will discuss the information on your questionnaire
-              during your appointment. We look forward to seeing you at your
-              upcoming appointment.
-            </p>
-          </div>
         </div>
       </div>
 

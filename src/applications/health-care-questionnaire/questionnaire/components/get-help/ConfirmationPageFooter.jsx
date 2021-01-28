@@ -61,7 +61,7 @@ export default function ConfirmationPageFooter(props) {
       </p>
       <div className="nav-buttons">
         <a
-          className="usa-button-primary"
+          className="questionnaire-link usa-button-primary usa-button-secondary"
           href="/health-care/health-questionnaires/questionnaires"
         >
           Go to your health questionnaires
