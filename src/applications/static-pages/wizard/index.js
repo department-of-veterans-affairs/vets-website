@@ -9,6 +9,8 @@ import { form526BDDFeature } from '../../disability-benefits/all-claims/config/s
 export const NO_BENEFIT_REFERRED = 'no benefit was referred';
 export const WIZARD_STATUS = 'wizardStatus';
 export const WIZARD_STATUS_NOT_STARTED = 'not started';
+export const WIZARD_STATUS_RESTARTING = 'restarting';
+export const WIZARD_STATUS_RESTARTED = 'restarted';
 export const WIZARD_STATUS_COMPLETE = 'complete';
 export const WIZARD_STATUS_APPLY_NOW = 'awaiting click on apply button';
 export const WIZARD_STATUS_IN_PROGRESS = 'in progress';
@@ -29,6 +31,17 @@ export const getReferredBenefit = async () =>
 
 export const getWizardStatus = async () =>
   (await sessionStorage.getItem('wizardStatus')) || WIZARD_STATUS_NOT_STARTED;
+
+export const restartShouldRedirect = wizardStatusKey => {
+  if (sessionStorage.getItem(wizardStatusKey) === WIZARD_STATUS_RESTARTING) {
+    // Change wizard status to prevent the router from getting updated more than
+    // once; as long as the status isn't "complete", the wizard will become
+    // visible
+    sessionStorage.setItem(wizardStatusKey, WIZARD_STATUS_RESTARTED);
+    return true;
+  }
+  return false;
+};
 
 export class Wizard extends React.Component {
   constructor(props) {

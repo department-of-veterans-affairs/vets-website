@@ -20,6 +20,8 @@ import { getSaveInProgressState } from './selectors';
 import environment from 'platform/utilities/environment';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
 
+import { restartShouldRedirect } from 'applications/static-pages/wizard';
+
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -113,21 +115,15 @@ class RoutedSavableApp extends React.Component {
       newProps.prefillStatus === PREFILL_STATUSES.unfilled
     ) {
       let newRoute;
-      const { saveInProgress = {} } = newProps?.formConfig || {};
-      // reset wizard status
-      const wizardStatus = saveInProgress?.restartWizardKey || 'formStatus';
-
+      const { formConfig = {} } = newProps;
+      const { saveInProgress = {} } = formConfig;
       if (
         newProps.isStartingOver &&
-        typeof saveInProgress?.restartFormCallback === 'function' &&
-        sessionStorage.getItem(wizardStatus) === 'restarting'
+        typeof saveInProgress.restartFormCallback === 'function' &&
+        restartShouldRedirect(formConfig.wizardStorageKey || 'formStatus')
       ) {
-        // Change wizard status to prevent this function from being called more
-        // than once; as long as the status isn't complete, the wizard will
-        // become visible
-        sessionStorage.setItem(wizardStatus, 'restarted');
         // Restart callback can optionally return a new route
-        newRoute = saveInProgress?.restartFormCallback('restarted') || null;
+        newRoute = saveInProgress?.restartFormCallback() || null;
       }
 
       // Form restart redirects to new route or the first page after the intro
