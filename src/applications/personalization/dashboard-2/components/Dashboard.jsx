@@ -14,7 +14,7 @@ const Dashboard = () => {
   });
 
   return (
-    <div className="vads-l-grid-container vads-u-padding-x--0">
+    <div className="vads-l-grid-container medium-screen:vads-u-padding-x--0">
       <Breadcrumbs>
         <a href="/" key="home">
           Home
