@@ -92,7 +92,7 @@ const formConfig = {
           initialData: {
             contactInfo: {
               primaryEmail: 'hector.smith@email.com',
-              phoneNumber: '555-123-4567',
+              phoneNumber: '5551234567',
             },
           },
           path: 'contact-information',
