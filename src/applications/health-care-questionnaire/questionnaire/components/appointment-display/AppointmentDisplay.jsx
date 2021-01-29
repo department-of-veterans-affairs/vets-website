@@ -44,7 +44,7 @@ export default function AppointmentDisplay({ appointment, bold }) {
       <div itemProp="appointment-location">
         <dt>Location: </dt>
         <dd
-          data-testid="facility-name"
+          data-testid="appointment-location"
           aria-label={`appointment at ${clinic.friendlyName} at ${
             clinic.facility.displayName
           }`}

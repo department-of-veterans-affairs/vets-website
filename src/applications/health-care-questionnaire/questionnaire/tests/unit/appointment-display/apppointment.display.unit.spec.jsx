@@ -11,7 +11,7 @@ describe('health care questionnaire - display an appointment -- ', () => {
       <AppointmentDisplay appointment={testData.data} />,
     );
     expect(
-      mountedComponent.find('[data-testid="facility-name"]').text(),
+      mountedComponent.find('[data-testid="appointment-location"]').text(),
     ).to.equal('CHY PC VAR2, VDS Facility Display Name');
     expect(
       mountedComponent.find('[data-testid="appointment-time"]').text(),
@@ -26,8 +26,9 @@ describe('health care questionnaire - display an appointment -- ', () => {
     const mountedComponent = mount(
       <AppointmentDisplay appointment={undefined} />,
     );
-    expect(mountedComponent.find('[data-testid="facility-name"]').exists()).to
-      .be.false;
+    expect(
+      mountedComponent.find('[data-testid="appointment-location"]').exists(),
+    ).to.be.false;
     expect(mountedComponent.find('[data-testid="appointment-time"]').exists())
       .to.be.false;
     expect(mountedComponent.find('[data-testid="appointment-date"]').exists())
