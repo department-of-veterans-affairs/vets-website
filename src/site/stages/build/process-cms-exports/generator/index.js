@@ -1,5 +1,6 @@
 const path = require('path');
-const fs = require('fs');
+// const fs = require('fs');
+const gracefulfs = require('graceful-fs');
 const Generator = require('yeoman-generator');
 const fuzzy = require('fuzzy');
 const _ = require('lodash');
@@ -47,7 +48,7 @@ module.exports = class extends Generator {
         name: 'bundleName',
         message: "What's the full name of the bundle? (e.g. paragraph-q_a)",
         validate: input =>
-          !fs.existsSync(path.join(transformersDir, `${input}.js`)) ||
+          !gracefulfs.existsSync(path.join(transformersDir, `${input}.js`)) ||
           `${input} transformer already exists.`,
       },
     ]);
@@ -111,17 +112,17 @@ module.exports = class extends Generator {
       entityBundle: this.entityBundle,
       entityType: this.entityType,
     };
-    this.fs.copyTpl(
+    this.gracefulfs.copyTpl(
       path.resolve(__dirname, 'templates/inputSchema'),
       path.resolve(__dirname, `../schemas/input/${this.bundleName}.js`),
       dataForTemplates,
     );
-    this.fs.copyTpl(
+    this.gracefulfs.copyTpl(
       path.resolve(__dirname, 'templates/outputSchema'),
       path.resolve(__dirname, `../schemas/output/${this.bundleName}.js`),
       dataForTemplates,
     );
-    this.fs.copyTpl(
+    this.gracefulfs.copyTpl(
       path.resolve(__dirname, 'templates/transformer'),
       path.resolve(__dirname, `../transformers/${this.bundleName}.js`),
       dataForTemplates,

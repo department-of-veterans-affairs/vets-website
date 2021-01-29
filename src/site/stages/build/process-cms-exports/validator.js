@@ -1,4 +1,5 @@
-const fs = require('fs');
+// const fs = require('fs');
+const gracefulfs = require('graceful-fs');
 const path = require('path');
 const Ajv = require('ajv');
 
@@ -11,7 +12,7 @@ ajv.addFormat('custom-date-time', /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/);
  * Loads all the schemas in a directory into ajv
  */
 const loadSchemas = dir => {
-  fs.readdirSync(dir).forEach(fileName => {
+  gracefulfs.readdirSync(dir).forEach(fileName => {
     // eslint-disable-next-line import/no-dynamic-require
     const schema = require(path.join(dir, fileName));
     ajv.addSchema(

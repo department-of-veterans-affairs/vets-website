@@ -1,4 +1,5 @@
-const fs = require('fs');
+// const fs = require('fs');
+const gracefulfs = require('graceful-fs');
 const assert = require('assert');
 const { sortBy, pick, omit } = require('lodash');
 const moment = require('moment-timezone');
@@ -345,7 +346,7 @@ module.exports = {
       `baseType needs to be a string. Found ${typeof baseType} (${baseType})`,
     );
     assert(
-      fs.lstatSync(contentDir).isDirectory(),
+      gracefulfs.lstatSync(contentDir).isDirectory(),
       `${contentDir} is not a directory.`,
     );
     assert(
@@ -365,7 +366,7 @@ module.exports = {
 
     // Look through contentDir for all `${baseType}.*.json` files
     return (
-      fs
+      gracefulfs
         .readdirSync(contentDir)
         .filter(name => name.startsWith(`${baseType}.`))
         .map(name => {
