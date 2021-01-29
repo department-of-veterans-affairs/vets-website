@@ -30,7 +30,7 @@ Cypress.Commands.add('verifyOptions', () => {
 
 describe('Facility search', () => {
   before(() => {
-    if (Cypress.env('JENKINS')) this.skip();
+    if (!Cypress.env('CIRCLECI')) this.skip();
     cy.syncFixtures({
       constants: path.join(__dirname, '..', '..', 'constants'),
     });
@@ -61,7 +61,6 @@ describe('Facility search', () => {
       cy.get('#facility-type-dropdown').select('VA health');
       cy.get('#service-type-dropdown').select('Primary care');
       cy.get('#facility-search').click();
-      // cy.wait(2000);
       cy.get('#search-results-subheader').contains(
         'Results for "VA health", "Primary care" near "Austin, Texas"',
       );
@@ -148,7 +147,6 @@ describe('Facility search', () => {
       cy.get('#downshift-1-item-0').click();
 
       cy.get('#facility-search').click();
-      // cy.wait(3500);
       cy.get('#search-results-subheader').contains(
         'Results for "Community providers (in VA’s network)", "Dentist - Orofacial Pain " near "Austin, Texas"',
       );
@@ -173,7 +171,6 @@ describe('Facility search', () => {
       cy.get('#downshift-1-item-0').click();
 
       cy.get('#facility-search').click();
-      // cy.wait(3500);
       cy.get('#search-results-subheader').contains(
         'Results for "Community providers (in VA’s network)", "Clinic/Center - Urgent Care" near "Austin, Texas"',
       );
@@ -194,7 +191,6 @@ describe('Facility search', () => {
         'Community urgent care providers (in VA’s network)',
       );
       cy.get('#facility-search').click();
-      // cy.wait(3500);
       cy.get('#search-results-subheader').contains(
         'Results for "Urgent care", "Community urgent care providers (in VA’s network)" near "Austin, Texas"',
       );
@@ -236,7 +232,6 @@ describe('Facility search', () => {
       cy.get('#facility-type-dropdown').select('VA health');
       cy.get('#service-type-dropdown').select('Primary care');
       cy.get('#facility-search').click();
-      // cy.wait(2000);
       cy.get('#search-results-subheader').contains(
         'Results for "VA health", "Primary care" near "Austin, Texas"',
       );
@@ -255,7 +250,6 @@ describe('Facility search', () => {
       cy.get('#street-city-state-zip').type('Los Angeles', { delay: 100 });
       cy.get('#facility-type-dropdown').select('VA benefits');
       cy.get('#facility-search').click();
-      // cy.wait(2000);
       cy.get('#search-results-subheader').contains(
         'Results for "VA benefits", "All VA benefit services" near "Los Angeles, California"',
       );
