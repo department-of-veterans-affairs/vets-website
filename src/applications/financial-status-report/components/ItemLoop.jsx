@@ -198,8 +198,17 @@ const ItemLoop = ({
     .map(item => item['ui:title']);
 
   const [cache, setCache] = useState(formData);
-  const [editing, setEditing] = useState(['add']);
+  const [editing, setEditing] = useState([]);
   const [showTable, setShowTable] = useState(false);
+
+  useEffect(() => {
+    setEditing(['add']);
+    if (formData) {
+      const editData = formData.map(() => false);
+      setEditing(editData);
+      setShowTable(true);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(
     () => {
@@ -278,12 +287,9 @@ const ItemLoop = ({
 
   const handleSave = (e, index) => {
     if (errorSchemaIsValid(errorSchema[index])) {
-      if (uiOptions.viewType === 'table') {
-        setShowTable(true);
-      }
-
       const editData = formatEditData(index, false);
       setEditing(editData);
+      setShowTable(true);
       handleScroll(`table_${idSchema.$id}_${index}`, 0);
     } else {
       // Set all the fields for this item as touched, so we show errors
