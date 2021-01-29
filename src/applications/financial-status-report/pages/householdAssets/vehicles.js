@@ -71,6 +71,7 @@ export const schema = {
       items: {
         type: 'object',
         required: ['vehicleType', 'vehicleAmount'],
+        minItems: 1,
         properties: {
           vehicleType: {
             type: 'string',
