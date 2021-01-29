@@ -84,7 +84,13 @@ function getEntryPoints(entry) {
 }
 
 module.exports = (env = {}) => {
-  const { buildtype = LOCALHOST } = env;
+  const { buildtype = LOCALHOST, destination } = env;
+  const fullDestination = path.resolve(
+    __dirname,
+    '../',
+    'build',
+    destination || buildtype,
+  );
   const buildOptions = {
     api: '',
     buildtype,
@@ -93,8 +99,8 @@ module.exports = (env = {}) => {
     scaffold: false,
     watch: false,
     setPublicPath: false,
-    destination: path.resolve(__dirname, '../', 'build', buildtype),
     ...env,
+    destination: fullDestination,
   };
 
   const apps = getEntryPoints(buildOptions.entry);
