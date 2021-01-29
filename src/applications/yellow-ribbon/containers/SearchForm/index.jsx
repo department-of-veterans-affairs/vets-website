@@ -6,10 +6,15 @@ import classNames from 'classnames';
 import map from 'lodash/map';
 import { connect } from 'react-redux';
 // Relative imports.
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import { states as STATES } from 'vets-json-schema/dist/constants.json';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { fetchResultsThunk } from '../../actions';
+import {
+  getYellowRibbonAppState,
+  yellowRibbonEnhancements,
+} from '../../helpers/selectors';
 
 export class SearchForm extends Component {
   static propTypes = {
@@ -107,7 +112,11 @@ export class SearchForm extends Component {
 
   render() {
     const { onCheckboxChange, onReactStateChange, onSubmitHandler } = this;
-    const { fetching, showMobileForm } = this.props;
+    const {
+      fetching,
+      showMobileForm,
+      showYellowRibbonEnhancements,
+    } = this.props;
     const {
       city,
       contributionAmount,
@@ -149,7 +158,18 @@ export class SearchForm extends Component {
             value={name}
           />
         </div>
-
+        {showYellowRibbonEnhancements && (
+          <AdditionalInfo
+            triggerText="Tips to improve search results"
+            // TODO: ADD GA
+            onClick={() => {}}
+          >
+            <p>
+              Enter A School's full name. For Example, search for New York
+              University not NYU.
+            </p>
+          </AdditionalInfo>
+        )}
         {/* State Field */}
         <label htmlFor="yr-search-state" className="vads-u-margin-top--3">
           State or territory
@@ -225,8 +245,9 @@ export class SearchForm extends Component {
 }
 
 const mapStateToProps = state => ({
-  fetching: state.yellowRibbonReducer.fetching,
-  showMobileForm: state.yellowRibbonReducer.showMobileForm,
+  fetching: getYellowRibbonAppState(state).fetching,
+  showMobileForm: getYellowRibbonAppState(state).showMobileForm,
+  showYellowRibbonEnhancements: yellowRibbonEnhancements(state),
 });
 
 const mapDispatchToProps = {
