@@ -47,15 +47,15 @@ node('vetsgov-general-purpose') {
         //     sh "cd /application && npm --no-color run test:unit -- --coverage"
         //     sh "cd /application && /cc-test-reporter after-build -r fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24"
         //   }
-        }
+        // }
       )
     } catch (error) {
       commonStages.slackNotify()
       throw error
     } finally {
-      dir("vets-website") {
-        // step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
-      }
+      // dir("vets-website") {
+      //   step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
+      // }
     }
   }
 
