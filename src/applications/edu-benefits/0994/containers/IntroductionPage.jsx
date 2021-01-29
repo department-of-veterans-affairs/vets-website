@@ -1,6 +1,7 @@
 import React from 'react';
 import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '../components/OMBInfo';
+import OMBInfoShared from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
@@ -12,6 +13,8 @@ import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 export class IntroductionPage extends React.Component {
   state = {
@@ -29,10 +32,21 @@ export class IntroductionPage extends React.Component {
 
   render() {
     const { status } = this.state;
-    const { showWizard } = this.props;
+    const { showWizard, eduFormOmbAndExpiration } = this.props;
     const show = showWizard && status !== WIZARD_STATUS_COMPLETE;
 
     if (showWizard === undefined) return null;
+
+    const ombInfo = eduFormOmbAndExpiration ? (
+      <OMBInfoShared
+        resBurden={10}
+        ombNumber={'2900-0866'}
+        expDate={'04/30/2022'}
+      />
+    ) : (
+      <OMBInfo resBurden={10} ombNumber={'2900-0866'} expDate={'04/30/2022'} />
+    );
+
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for Veteran Employment Through Technology Education Courses (VET TEC)" />
@@ -167,11 +181,7 @@ export class IntroductionPage extends React.Component {
               startText="Start the VET TEC application"
             />
             <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-              <OMBInfo
-                resBurden={10}
-                ombNumber={'2900-0866'}
-                expDate={'04/30/2022'}
-              />
+              {ombInfo}
             </div>
           </div>
         )}
@@ -182,6 +192,9 @@ export class IntroductionPage extends React.Component {
 
 const mapStateToProps = state => ({
   showWizard: showEduBenefits0994Wizard(state),
+  eduFormOmbAndExpiration: toggleValues(state)[
+    FEATURE_FLAG_NAMES.eduFormOmbAndExpiration
+  ],
 });
 
 export default connect(mapStateToProps)(IntroductionPage);
