@@ -256,9 +256,7 @@ describe('Facility search', () => {
 
     cy.axeCheck();
 
-    cy.get('.facility-result a').contains(
-      'Los Angeles Ambulatory Care Center',
-    );
+    cy.get('.facility-result a').contains('Los Angeles Ambulatory Care Center');
     cy.findByText(/Los Angeles Ambulatory Care Center/i, { selector: 'a' })
       .first()
       .click();
