@@ -24,6 +24,14 @@ const configureTranslationLink = (e, targetLang) => {
     });
   };
 };
+// this can be applied site wide and moved to an accessibility helper
+const hidePresentationalArrowsFromScreenReader = () => {
+  const arrows = document.getElementsByClassName('fa-arrow-down');
+  if (!arrows.length) return;
+  for (const arrow of arrows) {
+    arrow.setAttribute('aria-hidden', true);
+  }
+};
 const displayTranslationLink = () => {
   const i18LinkWrapper = document.getElementById('i18-link-wrapper');
   if (!i18LinkWrapper) return;
@@ -47,6 +55,7 @@ const displayTranslationLink = () => {
   } else {
     configureTranslationLink(i18link, 'en');
   }
+  hidePresentationalArrowsFromScreenReader();
 };
 
 window.addEventListener('popstate', displayTranslationLink);
