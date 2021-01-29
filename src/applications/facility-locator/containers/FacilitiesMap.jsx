@@ -276,11 +276,11 @@ const FacilitiesMap = props => {
         screenreaderZoomElement.innerText.length === 0
       ) {
         if (lastZoom < currentZoom) {
-          screenreaderZoomElement.innerText = 'zooming in';
+          screenreaderZoomElement.innerText = `zooming in, level ${currentZoom}`;
         }
 
         if (lastZoom > currentZoom) {
-          screenreaderZoomElement.innerText = 'zooming out';
+          screenreaderZoomElement.innerText = `zooming out, level ${currentZoom}`;
         }
       }
     }
