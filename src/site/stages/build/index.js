@@ -96,7 +96,7 @@ function build(BUILD_OPTIONS) {
   //
   smith.source(`${BUILD_OPTIONS.contentPagesRoot}`);
   smith.destination(BUILD_OPTIONS.destination);
-  smith.concurrency(10);
+  smith.concurrency(500);
 
   // This lets us access the {{buildtype}} variable within liquid templates.
   smith.metadata({
