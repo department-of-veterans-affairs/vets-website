@@ -87,10 +87,17 @@ const InputSection = ({
   );
 
   const titlePrefix = editing && editing[index] === true ? 'Edit' : 'Add';
-  const containerClassNames = classNames('item-loop', {
-    'vads-u-border-bottom--1px':
-      uiSchema['ui:options'].viewType === 'table' && items?.length > 1,
-  });
+  const containerClassNames = classNames(
+    'item-loop',
+    {
+      'vads-u-margin-top--2 vads-u-margin-bottom--2':
+        uiSchema['ui:options'].viewType === undefined,
+    },
+    {
+      'vads-u-border-bottom--1px vads-u-margin-top--0 vads-u-margin-bottom--0':
+        uiSchema['ui:options'].viewType === 'table' && items?.length > 1,
+    },
+  );
 
   return (
     <div className={containerClassNames}>
