@@ -370,7 +370,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
     });
   });
 
-  it('should not allow selections after max date', async () => {
+  it.skip('should not allow selections after max date', async () => {
     const store = createTestStore({
       newAppointment: {
         data: {},
