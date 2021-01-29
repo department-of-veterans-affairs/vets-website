@@ -29,7 +29,7 @@ Cypress.Commands.add('verifyOptions', () => {
 });
 
 describe('Facility search', () => {
-  before(() => {
+  before(function() {
     if (!Cypress.env('CIRCLECI')) this.skip();
     cy.syncFixtures({
       constants: path.join(__dirname, '..', '..', 'constants'),
