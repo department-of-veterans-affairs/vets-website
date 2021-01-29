@@ -209,6 +209,8 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
       def envUsedCache = [:]
       def assetSource = contentOnlyBuild ? ref : 'local'
 
+      ulimit -a
+
       dockerContainer.inside(DOCKER_ARGS) {
         sh "ulimit -a"
       }
@@ -224,14 +226,14 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
             // a content only build is an attempt to refresh content from the current set
             if (!contentOnlyBuild) {
               dockerContainer.inside(DOCKER_ARGS) {
-                sh "echo YES YES! A CONTENT ONLY BUILD"
+                sh "echo NOT! A CONTENT ONLY BUILD"
                 sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
               }
               build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
               envUsedCache[envName] = true
             } else {
               dockerContainer.inside(DOCKER_ARGS) {
-                sh "echo NOT A CONTENT ONLY BUILD"
+                sh "echo YES A CONTENT ONLY BUILD"
               }
               build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
               envUsedCache[envName] = false
