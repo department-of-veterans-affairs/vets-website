@@ -35,4 +35,24 @@ describe('health care questionnaire - display an appointment -- ', () => {
 
     mountedComponent.unmount();
   });
+  it('does bold', () => {
+    const mountedComponent = mount(
+      <AppointmentDisplay appointment={testData.data} bold />,
+    );
+    const classes = mountedComponent.find('.appointment-details').props('class')
+      .className;
+    expect(classes).to.contain('vads-u-font-weight--bold');
+
+    mountedComponent.unmount();
+  });
+  it('does not bold', () => {
+    const mountedComponent = mount(
+      <AppointmentDisplay appointment={testData.data} bold={false} />,
+    );
+    const classes = mountedComponent.find('.appointment-details').props('class')
+      .className;
+    expect(classes).to.not.contain('vads-u-font-weight--bold');
+
+    mountedComponent.unmount();
+  });
 });
