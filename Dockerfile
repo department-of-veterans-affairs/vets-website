@@ -11,15 +11,15 @@ ENV YARN_VERSION 1.21.1
 ENV NODE_ENV production
 
 RUN apt-get update && apt-get install -y --no-install-recommends gconf-service libasound2 libatk1.0-0 libc6 libcairo2 \
-                                                                 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 \
-                                                                 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 \
-                                                                 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 \
-                                                                 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 \
-                                                                 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 \
-                                                libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates \
-                                                fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils \
-                                                x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable \
-                                                xfonts-cyrillic x11-apps xvfb xauth netcat dumb-init
+  libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 \
+  libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 \
+  libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 \
+  libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 \
+  libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 \
+  libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates \
+  fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils \
+  x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable \
+  xfonts-cyrillic x11-apps xvfb xauth netcat dumb-init
 
 RUN curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /cc-test-reporter
 RUN chmod +x /cc-test-reporter
@@ -33,8 +33,6 @@ RUN aws --version # Verify AWS CLI installation.
 ENV AWS_CA_BUNDLE /aws/dist/botocore/cacert.pem
 
 RUN mkdir -p /application
-RUN ulimit -a
-RUN ulimit -n 4000
 RUN ulimit -a
 
 WORKDIR /application
