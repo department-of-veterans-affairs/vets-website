@@ -210,8 +210,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
       def assetSource = contentOnlyBuild ? ref : 'local'
 
       dockerContainer.inside(DOCKER_ARGS) {
-        sh "ulimit -S 8192"
-        sh "ulimit -a"
+        sh "ulimit -S 8192 && ulimit -a"
       }
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
