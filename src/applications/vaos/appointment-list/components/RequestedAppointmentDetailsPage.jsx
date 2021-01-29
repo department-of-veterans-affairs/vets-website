@@ -16,6 +16,7 @@ import {
   isVideoAppointment,
   getVAAppointmentLocationId,
 } from '../../services/appointment';
+import { selectFirstRequestMessage } from '../redux/selectors';
 
 const TIME_TEXT = {
   AM: 'in the morning',
@@ -35,20 +36,18 @@ function RequestedAppointmentDetailsPage({
   facilityData,
   fetchRequestDetails,
   pendingStatus,
-  requestMessages,
+  message,
 }) {
   const { id } = useParams();
   const history = useHistory();
   const appointment = appointmentDetails?.[id];
 
   useEffect(() => {
-    const fetchedPending = pendingStatus === FETCH_STATUS.succeeded;
-
-    if (!fetchedPending) {
+    if (pendingStatus !== FETCH_STATUS.succeeded) {
       history.push('/requested');
     }
 
-    if (!appointment) {
+    if (!appointment || appointment.id !== id) {
       fetchRequestDetails(id);
     }
 
@@ -73,9 +72,6 @@ function RequestedAppointmentDetailsPage({
   const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
-  const firstMessage =
-    requestMessages?.[parseFakeFHIRId(appointment.id)]?.[0]?.attributes
-      ?.messageText;
 
   return (
     <div>
@@ -84,13 +80,14 @@ function RequestedAppointmentDetailsPage({
       </div>
 
       <h1>Pending {typeOfCareText} appointment</h1>
-      <h4 className="vaos-appts__block-label vads-u-margin-bottom--0">
+      <span className="vads-u-display--block vads-u-font-weight--bold">
         {isCC && 'Community Care'}
         {!isCC && !!isVideoRequest && 'VA Video Connect'}
         {!isCC && !isVideoRequest && 'VA Appointment'}
-      </h4>
+        {isExpressCare && 'Express Care'}
+        {isExpressCare && facility?.name}
+      </span>
 
-      {isExpressCare && facility?.name}
       {!!facility &&
         !isCC &&
         !isExpressCare && (
@@ -98,15 +95,15 @@ function RequestedAppointmentDetailsPage({
             facility={facility}
             facilityName={facility?.name}
             facilityId={parseFakeFHIRId(facilityId)}
-            isV2
+            isHomepageRefresh
           />
         )}
 
       {!isExpressCare && (
         <>
-          <h4 className="vaos-appts__block-label vads-u-margin-bottom--0 vads-u-margin-top--2">
+          <h2 className="vaos-appts__block-label vads-u-margin-bottom--0 vads-u-margin-top--2">
             Preferred date and time
-          </h4>
+          </h2>
           <ul className="usa-unstyled-list">
             {appointment.requestedPeriod.map((option, optionIndex) => (
               <li key={`${appointment.id}-option-${optionIndex}`}>
@@ -121,25 +118,25 @@ function RequestedAppointmentDetailsPage({
       )}
       {isExpressCare && (
         <>
-          <h4 className="vads-u-margin-top--2 vaos-appts__block-label">
+          <h2 className="vads-u-margin-top--2 vaos-appts__block-label">
             Reason for appointment
-          </h4>
+          </h2>
           <div>{appointment.reason}</div>
         </>
       )}
 
       {!isExpressCare && (
         <>
-          <h4 className="vads-u-margin-top--2 vaos-appts__block-label">
+          <h2 className="vads-u-margin-top--2 vaos-appts__block-label">
             {appointment.reason}
-          </h4>
-          <div>{firstMessage}</div>
+          </h2>
+          <div>{message}</div>
         </>
       )}
 
-      <h4 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vaos-appts__block-label">
+      <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vaos-appts__block-label">
         Your contact details
-      </h4>
+      </h2>
       <div>
         {getPatientTelecom(appointment, 'email')}
         <br />
@@ -162,18 +159,17 @@ function RequestedAppointmentDetailsPage({
 
 function mapStateToProps(state) {
   const {
-    appointmentDetails,
+    currentAppointment,
     appointmentDetailsStatus,
     facilityData,
     pendingStatus,
-    requestMessages,
   } = state.appointments;
 
   return {
-    appointmentDetails,
+    appointment: currentAppointment,
     appointmentDetailsStatus,
     facilityData,
-    requestMessages,
+    message: selectFirstRequestMessage(state),
     pendingStatus,
   };
 }

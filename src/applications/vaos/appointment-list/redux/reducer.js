@@ -61,6 +61,7 @@ const initialState = {
   pastSelectedIndex: 0,
   showCancelModal: false,
   cancelAppointmentStatus: FETCH_STATUS.notStarted,
+  currentAppointment: null,
   appointmentDetails: {},
   appointmentDetailsStatus: FETCH_STATUS.notStarted,
   appointmentToCancel: null,

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import head from 'lodash/head';
-import isEqual from 'lodash/isEqual';
+import last from 'lodash/last';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
@@ -11,13 +11,13 @@ import { renderAdditionalInfo } from '../../debt-letters/const/diary-codes';
 
 class DebtCard extends Component {
   onChange(debt) {
-    const alreadyIncluded = this.props.fsrDebts.some(currentDebt =>
-      isEqual(currentDebt, debt),
+    const alreadyIncluded = this.props.fsrDebts.some(
+      currentDebt => currentDebt.id === debt.id,
     );
 
     if (alreadyIncluded) {
       const fsrDebts = this.props?.fsrDebts?.filter(
-        debtEntry => !isEqual(debtEntry, debt),
+        debtEntry => debtEntry.id !== debt.id,
       );
       return this.props.setData({ ...this.props.formData, fsrDebts });
     } else {
@@ -37,6 +37,7 @@ class DebtCard extends Component {
       debt.debtHistory.length
     }`;
     const mostRecentHistory = head(debt.debtHistory);
+    const firstDebtLetter = last(debt.debtHistory);
     const debtCardHeading =
       deductionCodes[debt.deductionCode] || debt.benefitType;
     const formatter = new Intl.NumberFormat('en-US', {
@@ -49,8 +50,8 @@ class DebtCard extends Component {
       mostRecentHistory.date,
       debt.benefitType,
     );
-    const isChecked = this.props.fsrDebts.some(currentDebt =>
-      isEqual(currentDebt, debt),
+    const isChecked = this.props.fsrDebts.some(
+      currentDebt => currentDebt.id === debt.id,
     );
     return (
       <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2 debt-card">
@@ -67,6 +68,11 @@ class DebtCard extends Component {
           {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
         </p>
         <div className="vads-u-margin-y--2">{additionalInfo.status}</div>
+
+        <p className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
+          <strong>Date of first notice: </strong>
+          {moment(firstDebtLetter.date).format('MMMM D, YYYY')}
+        </p>
 
         <div className="vads-u-margin-top--2">
           <input

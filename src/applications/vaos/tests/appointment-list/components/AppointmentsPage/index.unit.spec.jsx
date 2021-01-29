@@ -28,8 +28,6 @@ import {
   renderWithStoreAndRouter,
 } from '../../../mocks/setup';
 
-import reducers from '../../../../redux/reducer';
-import FutureAppointmentsList from '../../../../appointment-list/components/FutureAppointmentsList';
 import AppointmentsPage from '../../../../appointment-list/components/AppointmentsPage';
 
 const initialState = {
@@ -93,10 +91,9 @@ describe('VAOS integration: appointment list', () => {
     });
 
     const { baseElement, findAllByRole, getByText } = renderWithStoreAndRouter(
-      <FutureAppointmentsList />,
+      <AppointmentsPage />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -147,10 +144,9 @@ describe('VAOS integration: appointment list', () => {
     });
 
     const { baseElement, findAllByRole } = renderWithStoreAndRouter(
-      <FutureAppointmentsList />,
+      <AppointmentsPage />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -172,13 +168,9 @@ describe('VAOS integration: appointment list', () => {
   it('should show no appointments message when there are no appointments', () => {
     mockAppointmentInfo({});
 
-    const { findByText } = renderWithStoreAndRouter(
-      <FutureAppointmentsList />,
-      {
-        initialState,
-        reducers,
-      },
-    );
+    const { findByText } = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState,
+    });
 
     return expect(findByText(/You don’t have any appointments/i)).to.eventually
       .be.ok;
@@ -199,10 +191,9 @@ describe('VAOS integration: appointment list', () => {
     );
 
     const { baseElement, findByText } = renderWithStoreAndRouter(
-      <FutureAppointmentsList />,
+      <AppointmentsPage />,
       {
         initialState,
-        reducers,
       },
     );
 
@@ -218,7 +209,7 @@ describe('VAOS integration: appointment list', () => {
     },
   };
 
-  it('should show express care button and tab when flag is on and within express care window', async () => {
+  it('should show express care button and tab when within express care window', async () => {
     const request = getVARequestMock();
     request.attributes = {
       ...request.attributes,
@@ -253,7 +244,6 @@ describe('VAOS integration: appointment list', () => {
     const initialStateWithExpressCare = {
       featureToggles: {
         ...initialState.featureToggles,
-        vaOnlineSchedulingExpressCare: true,
         vaOnlineSchedulingExpressCareNew: true,
       },
       user: userState,
@@ -266,7 +256,6 @@ describe('VAOS integration: appointment list', () => {
       history,
     } = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState: initialStateWithExpressCare,
-      reducers,
     });
 
     const header = await findByText('Request a new Express Care appointment');
@@ -332,17 +321,13 @@ describe('VAOS integration: appointment list', () => {
     ]);
     mockRequestEligibilityCriteria(['983'], [requestCriteria]);
     const initialStateWithExpressCare = {
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingExpressCare: true,
-      },
+      featureToggles: initialState.featureToggles,
       user: userState,
     };
     const { findByText, getByText } = renderWithStoreAndRouter(
       <AppointmentsPage />,
       {
         initialState: initialStateWithExpressCare,
-        reducers,
       },
     );
 
@@ -350,38 +335,7 @@ describe('VAOS integration: appointment list', () => {
     expect(getByText(/request express care/i)).to.have.attribute('disabled');
   });
 
-  it('should not show express care action or tab when flag is off', async () => {
-    mockAppointmentInfo({});
-    const initialStateWithExpressCare = {
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingExpressCare: false,
-      },
-    };
-    const {
-      findAllByText,
-      queryByText,
-      getAllByRole,
-      getByText,
-      getAllByText,
-    } = renderWithStoreAndRouter(<AppointmentsPage />, {
-      initialState: initialStateWithExpressCare,
-      reducers,
-    });
-
-    await findAllByText('Request an appointment');
-    expect(queryByText(/request an express care screening/i)).to.not.be.ok;
-    expect(getAllByRole('tab').length).to.equal(2);
-    expect(getAllByText('Upcoming appointments')[0]).to.have.attribute(
-      'role',
-      'tab',
-    );
-    expect(getByText('Past appointments')).to.have.attribute('role', 'tab');
-    expect(queryByText(/Your upcoming, past, and Express Care appointments/i))
-      .not.to.exist;
-  });
-
-  it('should show express care action but not tab when flag is on and no requests', async () => {
+  it('should show express care action but not tab when no requests', async () => {
     mockAppointmentInfo({});
     const today = moment();
     const requestCriteria = getExpressCareRequestCriteriaMock('983', [
@@ -406,10 +360,7 @@ describe('VAOS integration: appointment list', () => {
     ]);
     mockRequestEligibilityCriteria(['983'], [requestCriteria]);
     const initialStateWithExpressCare = {
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingExpressCare: true,
-      },
+      featureToggles: initialState.featureToggles,
       user: userState,
     };
     const {
@@ -421,7 +372,6 @@ describe('VAOS integration: appointment list', () => {
       queryByText,
     } = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState: initialStateWithExpressCare,
-      reducers,
     });
 
     await findByText('Request Express Care');
@@ -506,7 +456,6 @@ describe('VAOS integration: appointment list', () => {
     const initialStateWithExpressCare = {
       featureToggles: {
         ...initialState.featureToggles,
-        vaOnlineSchedulingExpressCare: true,
         vaOnlineSchedulingExpressCareNew: true,
       },
       user: {
@@ -524,7 +473,6 @@ describe('VAOS integration: appointment list', () => {
     };
     const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState: initialStateWithExpressCare,
-      reducers,
     });
 
     const button = await screen.findByText('Request Express Care');
@@ -549,7 +497,6 @@ describe('VAOS integration: appointment list', () => {
     const initialStateWithExpressCare = {
       featureToggles: {
         ...initialState.featureToggles,
-        vaOnlineSchedulingExpressCare: true,
         vaOnlineSchedulingExpressCareNew: true,
       },
       user: userState,
@@ -619,7 +566,6 @@ describe('VAOS integration: appointment list', () => {
     const initialStateWithExpressCare = {
       featureToggles: {
         ...initialState.featureToggles,
-        vaOnlineSchedulingExpressCare: true,
         vaOnlineSchedulingExpressCareNew: true,
       },
       user: userState,
@@ -700,7 +646,6 @@ describe('VAOS integration: appointment list', () => {
     const initialStateWithExpressCare = {
       featureToggles: {
         ...initialState.featureToggles,
-        vaOnlineSchedulingExpressCare: true,
         vaOnlineSchedulingExpressCareNew: true,
       },
       user: userState,
@@ -796,7 +741,6 @@ describe('VAOS integration: appointment list', () => {
     const initialStateWithExpressCare = {
       featureToggles: {
         ...initialState.featureToggles,
-        vaOnlineSchedulingExpressCare: true,
         vaOnlineSchedulingExpressCareNew: true,
       },
       user: userState,
@@ -881,7 +825,6 @@ describe('VAOS integration: appointment list', () => {
     };
     const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState: defaultState,
-      reducers,
     });
 
     expect(
@@ -909,7 +852,6 @@ describe('VAOS integration: appointment list', () => {
     };
     const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState: defaultState,
-      reducers,
     });
 
     expect(
@@ -937,7 +879,6 @@ describe('VAOS integration: appointment list', () => {
     };
     const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState: defaultState,
-      reducers,
     });
 
     expect(
@@ -965,7 +906,6 @@ describe('VAOS integration: appointment list', () => {
     };
     const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState: defaultState,
-      reducers,
     });
 
     expect(

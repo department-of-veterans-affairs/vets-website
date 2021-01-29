@@ -39,7 +39,6 @@ module.exports = {
           items: {
             entity: partialSchema(healthCareLocalFacilitySchema, [
               'entityUrl',
-              'fieldNicknameForThisFacility',
               'title',
             ]),
           },

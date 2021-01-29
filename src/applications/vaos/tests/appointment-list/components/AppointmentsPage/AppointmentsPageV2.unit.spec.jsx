@@ -205,7 +205,6 @@ describe('VAOS <AppointmentsPageV2>', () => {
       featureToggles: {
         ...initialState.featureToggles,
         vaOnlineSchedulingExpressCareNew: false,
-        vaOnlineSchedulingExpressCare: true,
       },
     };
     const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {

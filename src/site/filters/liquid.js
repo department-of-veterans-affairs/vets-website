@@ -264,11 +264,6 @@ module.exports = function registerFilters() {
     return output;
   };
 
-  liquid.filters.locationUrlConvention = facility =>
-    facility.fieldNicknameForThisFacility
-      ? facility.fieldNicknameForThisFacility.replace(/\s+/g, '-').toLowerCase()
-      : facility.fieldFacilityLocatorApiId;
-
   liquid.filters.hashReference = str =>
     str
       .toLowerCase()
@@ -290,7 +285,6 @@ module.exports = function registerFilters() {
 
       facilityList[id] = f.fieldMedia ? f.fieldMedia.entity.image : {};
       facilityList[id].entityUrl = f.entityUrl;
-      facilityList[id].nickname = f.fieldNicknameForThisFacility;
     });
     return JSON.stringify(facilityList);
   };

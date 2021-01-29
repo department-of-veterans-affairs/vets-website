@@ -8,10 +8,9 @@ export default function RequestExpressCare({
   allowRequests,
   localWindowString,
   localNextAvailableString,
-  useNewFlow,
   startNewExpressCareFlow,
 }) {
-  if (!useNewFlow || windowsStatus !== FETCH_STATUS.succeeded || !hasWindow) {
+  if (windowsStatus !== FETCH_STATUS.succeeded || !hasWindow) {
     return null;
   }
 
