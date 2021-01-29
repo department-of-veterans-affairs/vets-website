@@ -1,7 +1,7 @@
 @Library('va.gov-devops-jenkins-lib') _
 import org.kohsuke.github.GitHub
 
-env.CONCURRENCY = 10
+// env.CONCURRENCY = 10
 
 
 node('vetsgov-general-purpose') {
