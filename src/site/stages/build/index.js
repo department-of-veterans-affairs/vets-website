@@ -96,6 +96,7 @@ function build(BUILD_OPTIONS) {
   //
   smith.source(`${BUILD_OPTIONS.contentPagesRoot}`);
   smith.destination(BUILD_OPTIONS.destination);
+  smith.concurrency(10);
 
   // This lets us access the {{buildtype}} variable within liquid templates.
   smith.metadata({
@@ -103,8 +104,6 @@ function build(BUILD_OPTIONS) {
     hostUrl: BUILD_OPTIONS.hostUrl,
     enabledFeatureFlags: BUILD_OPTIONS.cmsFeatureFlags,
   });
-
-  smith.concurrency(250);
 
   smith.use(
     preserveWebpackOutput(BUILD_OPTIONS.destination, BUILD_OPTIONS.buildtype),
