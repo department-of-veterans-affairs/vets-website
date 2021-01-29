@@ -12,7 +12,9 @@ describe('health care questionnaire - confirmation page  -', () => {
     const wrapper = mount(<ConfirmationPage store={fakeStore} />);
     expect(
       wrapper.find('[data-testid="appointment-type-header"]').text(),
-    ).to.equal('Primary care questionnaire');
+    ).to.equal(
+      'Your provider will discuss the information on your questionnaire during your appointment:',
+    );
     wrapper.unmount();
   });
 });

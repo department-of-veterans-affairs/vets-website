@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { getAppointTypeFromAppointment, clearCurrentSession } from '../utils';
+import { clearCurrentSession } from '../utils';
 import ConfirmationPageFooter from '../components/get-help/ConfirmationPageFooter';
 import AppointmentDisplay from '../components/appointment-display/AppointmentDisplay';
 
@@ -11,10 +11,6 @@ const ConfirmationPage = props => {
   useEffect(() => {
     clearCurrentSession(window);
   }, []);
-
-  const appointmentType = getAppointTypeFromAppointment(appointment, {
-    titleCase: true,
-  });
 
   return (
     <div className="healthcare-questionnaire-confirm">
@@ -28,7 +24,8 @@ const ConfirmationPage = props => {
 
       <div className="inset">
         <h2 data-testid="appointment-type-header">
-          {appointmentType} questionnaire
+          Your provider will discuss the information on your questionnaire
+          during your appointment:
         </h2>
         <AppointmentDisplay appointment={appointment} bold={false} />
         <p>We look forward to seeing you at your upcoming appointment.</p>

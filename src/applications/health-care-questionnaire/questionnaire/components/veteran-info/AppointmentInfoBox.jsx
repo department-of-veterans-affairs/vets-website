@@ -42,6 +42,7 @@ const AppointmentInfoBox = props => {
 
   return (
     <div>
+      <h2 className="upcoming-header">You have an upcoming appointment</h2>
       <AppointmentDisplay appointment={appointment} bold />
       <p>
         Below is the personal and contact information we have on file for you.
