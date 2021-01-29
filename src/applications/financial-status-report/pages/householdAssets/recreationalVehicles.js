@@ -34,13 +34,11 @@ export const uiSchema = {
           classNames: 'input-size-6',
           getOptions: () => formatOptions(recreationalVehicleTypes),
         },
-        'ui:required': () => true,
       },
       recreationalVehicleAmount: _.merge(currencyUI('Estimated value'), {
         'ui:options': {
           widgetClassNames: 'input-size-4',
         },
-        'ui:required': () => true,
       }),
     },
   },
@@ -57,6 +55,7 @@ export const schema = {
       items: {
         type: 'object',
         required: ['recreationalVehicleType', 'recreationalVehicleAmount'],
+        minItems: 1,
         properties: {
           recreationalVehicleType: {
             type: 'string',
