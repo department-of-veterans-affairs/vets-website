@@ -186,7 +186,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLogPath = "/application/${envName}-build.log"
 
-      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose"
+      sh "ulimit -S 8192 && ulimit -a && cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose"
 
       if (envName == 'vagovprod') {
         checkForBrokenLinks(buildLogPath, envName, contentOnlyBuild)
@@ -208,10 +208,6 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
       def builds = [:]
       def envUsedCache = [:]
       def assetSource = contentOnlyBuild ? ref : 'local'
-
-      dockerContainer.inside(DOCKER_ARGS) {
-        sh "ulimit -S 8192 && ulimit -a"
-      }
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
