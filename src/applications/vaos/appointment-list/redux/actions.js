@@ -445,22 +445,14 @@ export function fetchConfirmedAppointmentDetails(id) {
       futureAppointments?.find(appt => appt.id === id);
 
     dispatch({
-      type: FETCH_REQUEST_DETAILS,
+      type: FETCH_CONFIRMED_DETAILS,
     });
 
     if (appointment) {
-      dispatch({ type: FETCH_REQUEST_DETAILS_SUCCEEDED, appointment, id });
+      dispatch({ type: FETCH_CONFIRMED_DETAILS_SUCCEEDED, appointment, id });
     } else {
       // TODO: fetch single appointment
     }
-
-    // TODO: Why???
-    // const parsedId = parseFakeFHIRId(id);
-    // const messages = requestMessages?.[parsedId];
-
-    // if (!messages) {
-    //   dispatch(fetchRequestMessages(parsedId));
-    // }
   };
 }
 

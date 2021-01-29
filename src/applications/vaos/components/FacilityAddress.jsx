@@ -7,7 +7,7 @@ export default function FacilityAddress({
   name,
   facility,
   showDirectionsLink,
-  isV2,
+  isHomepageRefresh,
   clinicFriendlyName,
 }) {
   const address = facility?.address;
@@ -39,7 +39,7 @@ export default function FacilityAddress({
           <br />
         </>
       )}
-      {isV2 &&
+      {isHomepageRefresh &&
         !!phone && (
           <div className="vads-u-margin-top--1p5">
             <strong>Clinic: </strong> {clinicFriendlyName}
@@ -48,7 +48,7 @@ export default function FacilityAddress({
             <FacilityPhone contact={phone} />
           </div>
         )}
-      {!isV2 &&
+      {!isHomepageRefresh &&
         !!phone && (
           <dl className="vads-u-margin-y--0">
             <dt className="vads-u-display--inline">

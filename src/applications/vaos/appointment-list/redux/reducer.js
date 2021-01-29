@@ -161,6 +161,8 @@ export default function appointmentsReducer(state = initialState, action) {
     case (FETCH_REQUEST_DETAILS_SUCCEEDED, FETCH_CONFIRMED_DETAILS_SUCCEEDED): {
       return {
         ...state,
+        ...state.appointmentDetails,
+        currentAppointment: action.appointment,
         appointmentDetails: {
           [action.id]: action.appointment,
         },

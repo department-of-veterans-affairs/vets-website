@@ -13,7 +13,7 @@ export default function AppointmentInstructions({
   return (
     <div className="vads-u-flex--1 vads-u-margin-bottom--2 vaos-u-word-break--break-word">
       {isHomepageRefresh && (
-        <h2 className="vaos-appts__block-label vads-u-font-size--h4">
+        <h2 className="vaos-appts__block-label vads-u-font-size--h5">
           {header}
         </h2>
       )}

@@ -17,6 +17,7 @@ import * as actions from '../redux/actions';
 import { cancelAppointment } from '../redux/actions';
 import AppointmentDateTime from './cards/confirmed/AppointmentDateTime';
 import AppointmentInstructions from './cards/confirmed/AppointmentInstructions';
+import { selectFeatureCancel } from '../../redux/selectors';
 
 // Only use this when we need to pass data that comes back from one of our
 // services files to one of the older api functions
@@ -49,7 +50,7 @@ function ConfirmedAppointmentDetailsPage({
     const status = confirmedStatus === FETCH_STATUS.succeeded;
 
     if (!status) {
-      history.push('/va');
+      history.push('/');
     }
 
     if (!appointment) {
@@ -74,19 +75,16 @@ function ConfirmedAppointmentDetailsPage({
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
 
-  const isCC = appointment?.vaos.isCommunityCare;
   const isExpressCare = appointment?.vaos.isExpressCare;
-  const isCommunityCare = appointment?.vaos.isCommunityCare;
   const isVideo = isVideoAppointment(appointment);
-  const isInPersonVAAppointment = !isVideo && !isCommunityCare;
+  const isInPersonVAAppointment = !isVideo;
 
   const header = 'VA Appointment';
   const showInstructions =
-    isCommunityCare ||
-    (isInPersonVAAppointment &&
-      PURPOSE_TEXT.some(purpose =>
-        appointment?.comment?.startsWith(purpose.short),
-      ));
+    isInPersonVAAppointment &&
+    PURPOSE_TEXT.some(purpose =>
+      appointment?.comment?.startsWith(purpose.short),
+    );
 
   return (
     <div>
@@ -103,12 +101,11 @@ function ConfirmedAppointmentDetailsPage({
       </h1>
 
       {!!facility &&
-        !isCC &&
         !isExpressCare && (
           <>
-            <div className="vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
+            <div className="vads-u-font-size--sm vads-u-font-family--sans">
               <span>
-                <b>{header}</b>
+                <strong>{header}</strong>
               </span>
             </div>
 
@@ -116,7 +113,7 @@ function ConfirmedAppointmentDetailsPage({
               facility={facility}
               facilityName={facility?.name}
               facilityId={parseFakeFHIRId(facilityId)}
-              isV2
+              isHomepageRefresh
               clinicFriendlyName={appointment.participant[0].actor.display}
             />
 
@@ -164,7 +161,7 @@ function ConfirmedAppointmentDetailsPage({
               <div className="vads-u-margin-top--2 vaos-appts__block-label">
                 <i
                   aria-hidden="true"
-                  className="fas fa-times vads-u-margin-right--1"
+                  className="fas fa-times vads-u-margin-right--1 vads-u-font-size--lg"
                 />
                 <button
                   onClick={() => cancelAppointment(appointment)}
@@ -186,10 +183,8 @@ function ConfirmedAppointmentDetailsPage({
         )}
 
       <div className="vads-u-margin-top--3 vaos-appts__block-label">
-        <Link to="/">
-          <button className="usa-button vads-u-margin-top--2">
-            « Go back to appointments
-          </button>
+        <Link to="/" className="usa-button vads-u-margin-top--2" role="button">
+          « Go back to appointments
         </Link>
       </div>
     </div>
@@ -211,6 +206,7 @@ function mapStateToProps(state) {
     facilityData,
     confirmedStatus,
     requestMessages,
+    showCancelButton: selectFeatureCancel(state),
   };
 }
 

@@ -1,10 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
-import {
-  selectFeatureCancel,
-  selectFeatureHomepageRefresh,
-} from '../redux/selectors';
+import { selectFeatureHomepageRefresh } from '../redux/selectors';
 import PageLayout from './components/AppointmentsPage/PageLayout';
 import AppointmentsPageV2 from './components/AppointmentsPage/AppointmentsPageV2';
 import AppointmentsPage from './components/AppointmentsPage/index';
@@ -19,14 +16,14 @@ function AppointmentListSection({ featureHomepageRefresh }) {
           path="/va/:id"
           component={() => (
             <PageLayout>
-              <ConfirmedAppointmentDetailsPage showCancelButton />
+              <ConfirmedAppointmentDetailsPage />
             </PageLayout>
           )}
         />
       )}
       {featureHomepageRefresh && (
         <Route
-          path="/request/:id"
+          path="/requests/:id"
           component={() => (
             <PageLayout>
               <RequestedAppointmentDetailsPage />
@@ -56,7 +53,6 @@ function AppointmentListSection({ featureHomepageRefresh }) {
 function mapStateToProps(state) {
   return {
     featureHomepageRefresh: selectFeatureHomepageRefresh(state),
-    showCancelButton: selectFeatureCancel(state),
   };
 }
 
