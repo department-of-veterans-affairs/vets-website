@@ -113,6 +113,7 @@ def setup() {
       sh "mkdir -p logs/selenium"
       sh "mkdir -p coverage"
       sh "mkdir -p temp"
+      sh "ulimit -a && ulimit -n 8192 && ulimit -a"
 
       dockerImage = docker.build(DOCKER_TAG)
       retry(5) {
