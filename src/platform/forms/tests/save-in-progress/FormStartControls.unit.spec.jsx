@@ -11,6 +11,8 @@ import { WIZARD_STATUS_RESTARTING } from 'applications/static-pages/wizard';
 
 describe('Schemaform <FormStartControls>', () => {
   const startPage = 'testing';
+  const wizardStorageKey = 'testKey';
+  const restartDestination = '/test-page';
   const oldDataLayer = global.window.dataLayer;
   let defaultRoutes;
 
@@ -30,6 +32,7 @@ describe('Schemaform <FormStartControls>', () => {
 
   afterEach(() => {
     global.window.dataLayer = oldDataLayer;
+    sessionStorage.removeItem(wizardStorageKey);
   });
 
   it('should render 1 button when not logged in', () => {
@@ -190,7 +193,7 @@ describe('Schemaform <FormStartControls>', () => {
         router={routerSpy}
         fetchInProgressForm={fetchSpy}
         prefillAvailable
-        routes={defaultRoutes}
+        routes={[{}, { formConfig: { wizardStorageKey } }]}
       />,
     );
     const formDOM = getFormDOM(tree);
@@ -228,8 +231,6 @@ describe('Schemaform <FormStartControls>', () => {
   });
 
   it('should show modal and remove form when starting over', () => {
-    const wizardStorageKey = 'testKey';
-    const restartDestination = '/test-page';
     const routerSpy = {
       push: sinon.spy(),
     };
