@@ -14,6 +14,8 @@ export default function AppointmentDisplay({ appointment, bold }) {
   }
 
   const boldClass = bold ? 'vads-u-font-weight--bold' : '';
+  const guess = moment.tz.guess();
+  const formattedTimezone = moment.tz(guess).format('z');
 
   return (
     <dl className={`appointment-details ${boldClass}`} itemScope>
@@ -36,7 +38,7 @@ export default function AppointmentDisplay({ appointment, bold }) {
             'h:mm a z',
           )}`}
         >
-          {moment(appointmentTime).format('h:mm a z')}
+          {moment(appointmentTime).format('h:mm a')} {formattedTimezone}
         </dd>
       </div>
       <div itemProp="appointment-location">
