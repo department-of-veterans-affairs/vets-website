@@ -23,6 +23,8 @@ import {
   CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
   CANCEL_APPOINTMENT_CLOSED,
   FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+  FETCH_CONFIRMED_DETAILS,
+  FETCH_CONFIRMED_DETAILS_SUCCEEDED,
 } from './actions';
 
 import {
@@ -149,20 +151,18 @@ export default function appointmentsReducer(state = initialState, action) {
         facilityData,
       };
     }
-    case FETCH_REQUEST_DETAILS: {
+    case (FETCH_REQUEST_DETAILS, FETCH_CONFIRMED_DETAILS): {
       return {
         ...state,
         appointmentDetailsStatus: FETCH_STATUS.loading,
       };
     }
-    case FETCH_REQUEST_DETAILS_SUCCEEDED: {
-      const appointmentDetails = state.appointmentDetails;
-
-      appointmentDetails[action.id] = action.request;
-
+    case (FETCH_REQUEST_DETAILS_SUCCEEDED, FETCH_CONFIRMED_DETAILS_SUCCEEDED): {
       return {
         ...state,
-        appointmentDetails,
+        appointmentDetails: {
+          [action.id]: action.appointment,
+        },
         appointmentDetailsStatus: FETCH_STATUS.succeeded,
       };
     }

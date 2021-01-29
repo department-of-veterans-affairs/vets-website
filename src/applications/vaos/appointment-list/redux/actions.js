@@ -14,7 +14,10 @@ import {
   selectFeatureHomepageRefresh,
 } from '../../redux/selectors';
 
-import { selectPendingAppointments } from '../redux/selectors';
+import {
+  selectFutureAppointments,
+  selectPendingAppointments,
+} from '../redux/selectors';
 
 import {
   getCancelReasons,
@@ -67,6 +70,12 @@ export const FETCH_PAST_APPOINTMENTS_SUCCEEDED =
 export const FETCH_REQUEST_DETAILS = 'vaos/FETCH_REQUEST_DETAILS';
 export const FETCH_REQUEST_DETAILS_FAILED = 'vaos/FETCH_REQUEST_DETAILS_FAILED';
 export const FETCH_REQUEST_DETAILS_SUCCEEDED =
+  'vaos/FETCH_REQUEST_DETAILS_SUCCEEDED';
+
+export const FETCH_CONFIRMED_DETAILS = 'vaos/FETCH_CONFIRMED_DETAILS';
+export const FETCH_CONFIRMED_DETAILS_FAILED =
+  'vaos/FETCH_CONFIRMED_DETAILS_FAILED';
+export const FETCH_CONFIRMED_DETAILS_SUCCEEDED =
   'vaos/FETCH_REQUEST_DETAILS_SUCCEEDED';
 
 export const FETCH_REQUEST_MESSAGES = 'vaos/FETCH_REQUEST_MESSAGES';
@@ -413,7 +422,11 @@ export function fetchRequestDetails(id) {
     });
 
     if (request) {
-      dispatch({ type: FETCH_REQUEST_DETAILS_SUCCEEDED, request, id });
+      dispatch({
+        type: FETCH_REQUEST_DETAILS_SUCCEEDED,
+        appointment: request,
+        id,
+      });
     } else {
       // TODO: fetch single appointment
     }
@@ -424,6 +437,35 @@ export function fetchRequestDetails(id) {
     if (!messages) {
       dispatch(fetchRequestMessages(parsedId));
     }
+  };
+}
+
+export function fetchConfirmedAppointmentDetails(id) {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const { appointmentDetails } = state.appointments;
+    const futureAppointments = selectFutureAppointments(state);
+    const appointment =
+      appointmentDetails[id] ||
+      futureAppointments?.find(appt => appt.id === id);
+
+    dispatch({
+      type: FETCH_REQUEST_DETAILS,
+    });
+
+    if (appointment) {
+      dispatch({ type: FETCH_REQUEST_DETAILS_SUCCEEDED, appointment, id });
+    } else {
+      // TODO: fetch single appointment
+    }
+
+    // TODO: Why???
+    // const parsedId = parseFakeFHIRId(id);
+    // const messages = requestMessages?.[parsedId];
+
+    // if (!messages) {
+    //   dispatch(fetchRequestMessages(parsedId));
+    // }
   };
 }
 
