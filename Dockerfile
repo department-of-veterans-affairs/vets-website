@@ -33,7 +33,9 @@ RUN aws --version # Verify AWS CLI installation.
 ENV AWS_CA_BUNDLE /aws/dist/botocore/cacert.pem
 
 RUN mkdir -p /application
+RUN ulimit -a
 RUN ulimit -n 8192
+RUN ulimit -a
 
 WORKDIR /application
 

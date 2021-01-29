@@ -113,7 +113,6 @@ def setup() {
       sh "mkdir -p logs/selenium"
       sh "mkdir -p coverage"
       sh "mkdir -p temp"
-      sh "ulimit -a && ulimit -n 8192 && ulimit -a"
 
       dockerImage = docker.build(DOCKER_TAG)
       retry(5) {
@@ -187,7 +186,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLogPath = "/application/${envName}-build.log"
 
-      sh "ulimit -a && ulimit -n 8192 && ulimit -a && cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose"
+      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose"
 
       if (envName == 'vagovprod') {
         checkForBrokenLinks(buildLogPath, envName, contentOnlyBuild)
