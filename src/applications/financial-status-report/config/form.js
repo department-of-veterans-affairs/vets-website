@@ -89,6 +89,12 @@ const formConfig = {
           schema: availableDebts.schema,
         },
         contactInfo: {
+          initialData: {
+            contactInfo: {
+              primaryEmail: 'hector.smith@email.com',
+              phoneNumber: '555-123-4567',
+            },
+          },
           path: 'contact-information',
           title: 'Contact Information',
           uiSchema: contactInfo.uiSchema,

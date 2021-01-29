@@ -66,6 +66,7 @@ export const schema = {
               'previousEmploymentStart',
               'previousEmploymentEnd',
             ],
+            minItems: 1,
             properties: {
               previousEmploymentType: {
                 type: 'string',
