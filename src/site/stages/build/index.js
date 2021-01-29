@@ -104,7 +104,7 @@ function build(BUILD_OPTIONS) {
     enabledFeatureFlags: BUILD_OPTIONS.cmsFeatureFlags,
   });
 
-  smith.concurrency(500);
+  smith.concurrency(250);
 
   smith.use(
     preserveWebpackOutput(BUILD_OPTIONS.destination, BUILD_OPTIONS.buildtype),
