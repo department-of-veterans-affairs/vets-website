@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import orderBy from 'lodash/orderBy';
@@ -8,10 +8,17 @@ import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
 import { SERVICE_BADGE_IMAGE_PATHS } from '../constants';
 import { getServiceBranchDisplayName } from '../helpers';
 
+import {
+  fetchRatedDisabilities,
+  fetchTotalDisabilityRating,
+} from 'applications/personalization/rated-disabilities/actions';
+
 const ProfileHeader = ({
   userFullName: { first, middle, last, suffix },
   latestBranchOfService,
   showBadgeImage,
+  totalDisabilityRating,
+  fetchTotalDisabilityRating,
 }) => {
   const fullName = [first, middle, last, suffix]
     .filter(name => !!name)
@@ -102,6 +109,12 @@ const ProfileHeader = ({
     ),
   };
 
+  useEffect(() => {
+    fetchTotalDisabilityRating();
+  });
+
+  console.log('These are props in header', totalDisabilityRating);
+
   return (
     <div className={classes.wrapper} data-testid="profile-header">
       <div className={classes.innerWrapper}>
@@ -140,9 +153,15 @@ const mapStateToProps = state => {
 
   return {
     userFullName: state.vaProfile?.hero?.userFullName,
+    totalDisabilityRating: state.totalRating?.totalDisabilityRating,
     latestBranchOfService,
     showBadgeImage: SERVICE_BADGE_IMAGE_PATHS.has(latestBranchOfService),
   };
+};
+
+const mapDispatchToProps = {
+  fetchRatedDisabilities,
+  fetchTotalDisabilityRating,
 };
 
 ProfileHeader.defaultProps = {
@@ -166,4 +185,7 @@ ProfileHeader.propTypes = {
   latestBranchOfService: PropTypes.string.isRequired,
 };
 
-export default connect(mapStateToProps)(ProfileHeader);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ProfileHeader);
