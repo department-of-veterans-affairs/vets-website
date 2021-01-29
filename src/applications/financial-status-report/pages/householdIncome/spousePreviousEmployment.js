@@ -63,7 +63,12 @@ export const schema = {
           type: 'array',
           items: {
             type: 'object',
-            required: ['spouseEmploymentStart', 'spouseEmploymentEnd'],
+            required: [
+              'spouseEmploymentType',
+              'spouseEmploymentStart',
+              'spouseEmploymentEnd',
+            ],
+            minItems: 1,
             properties: {
               spouseEmploymentType: {
                 type: 'string',
