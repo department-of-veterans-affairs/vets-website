@@ -70,8 +70,6 @@ class FormStartControls extends React.Component {
       this.props.prefillTransformer,
     );
 
-    // When restartFormCallback is defined, we're going to see if it returns a
-    // destination route, usually the intro page ('/'), when the form is reset
     const { formConfig = {} } = this.props.routes?.[1] || {};
     // Wizard status needs an intermediate value between not-started &
     // complete to prevent infinite loops in the RoutedSavableApp
