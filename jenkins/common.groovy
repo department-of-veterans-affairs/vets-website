@@ -209,9 +209,8 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
       def envUsedCache = [:]
       def assetSource = contentOnlyBuild ? ref : 'local'
 
-      ulimit -a
-
       dockerContainer.inside(DOCKER_ARGS) {
+        sh "ulimit -S 8192"
         sh "ulimit -a"
       }
 
