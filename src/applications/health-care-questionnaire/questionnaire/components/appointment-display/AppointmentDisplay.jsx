@@ -24,10 +24,10 @@ export default function AppointmentDisplay({ appointment, bold }) {
         <dd
           data-testid="appointment-date"
           aria-label={`Appointment date ${moment(appointmentTime).format(
-            'MMMM Do, YYYY',
+            'dddd, MMMM Do, YYYY',
           )}`}
         >
-          {moment(appointmentTime).format('MMMM Do, YYYY')}
+          {moment(appointmentTime).format('dddd, MMMM Do, YYYY')}
         </dd>
       </div>
       <div itemProp="appointment-time">
