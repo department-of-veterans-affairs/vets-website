@@ -1,5 +1,11 @@
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
-import { BASE_URL, WIZARD_STATUS } from '../constants';
+import { BASE_URL, WIZARD_STATUS, SAVED_CLAIM_TYPE } from '../constants';
+
+Cypress.Commands.add('checkStorage', (key, expectedValue) => {
+  cy.window()
+    .its(`sessionStorage.${key}`)
+    .should('eq', expectedValue);
+});
 
 describe('HLR wizard', () => {
   beforeEach(() => {
@@ -18,11 +24,12 @@ describe('HLR wizard', () => {
   // other claims flow
   it('should show other claims', () => {
     cy.get('[type="radio"][value="other"]').click();
-    cy.axeCheck();
+    cy.checkStorage(SAVED_CLAIM_TYPE, undefined);
     // #8622 set by public websites accordion anchor ID
     cy.get('a[href*="/decision-reviews/higher-level-review/#8622"]').should(
       'exist',
     );
+    cy.axeCheck();
   });
 
   // legacy appeals flow
@@ -48,6 +55,7 @@ describe('HLR wizard', () => {
     cy.get('h1').should('have.text', h1Text);
 
     cy.get('[type="radio"][value="compensation"]').click();
+    cy.checkStorage(SAVED_CLAIM_TYPE, 'compensation');
     cy.get('a[href*="disability/file-an-appeal"]').should('exist');
     cy.get('[type="radio"][value="legacy-no"]').click();
     // learn more link
@@ -62,9 +70,7 @@ describe('HLR wizard', () => {
     // title changes & gets focus
     cy.get('h1').should('have.text', h1Text + h1Addition);
     cy.focused().should('have.text', h1Text + h1Addition);
-    cy.window()
-      .its(`sessionStorage.${WIZARD_STATUS}`)
-      .should('eq', 'complete');
+    cy.checkStorage(WIZARD_STATUS, 'complete');
     cy.axeCheck();
   });
 });
