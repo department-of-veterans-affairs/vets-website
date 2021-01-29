@@ -24,7 +24,6 @@ const configureTranslationLink = (e, targetLang) => {
     });
   };
 };
-
 const displayTranslationLink = () => {
   const i18LinkWrapper = document.getElementById('i18-link-wrapper');
   if (!i18LinkWrapper) return;
