@@ -84,13 +84,7 @@ function getEntryPoints(entry) {
 }
 
 module.exports = (env = {}) => {
-  const { buildtype = LOCALHOST, destination } = env;
-  const fullDestination = path.resolve(
-    __dirname,
-    '../',
-    'build',
-    destination || buildtype,
-  );
+  const { buildtype = LOCALHOST } = env;
   const buildOptions = {
     api: '',
     buildtype,
@@ -99,8 +93,8 @@ module.exports = (env = {}) => {
     scaffold: false,
     watch: false,
     setPublicPath: false,
+    destination: buildtype,
     ...env,
-    destination: fullDestination,
   };
 
   const apps = getEntryPoints(buildOptions.entry);
@@ -116,7 +110,13 @@ module.exports = (env = {}) => {
     buildOptions['local-css-sourcemaps'] ||
     !!buildOptions.entry;
 
-  const outputPath = `${buildOptions.destination}/generated`;
+  const outputPath = path.resolve(
+    __dirname,
+    '../',
+    'build',
+    buildOptions.destination,
+    'generated',
+  );
 
   // Set the publicPath conditional so we can get dynamic modules loading from S3
   const publicAssetPath =
