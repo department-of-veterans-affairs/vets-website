@@ -117,7 +117,7 @@
       </div>
 
       <!-- Spotlight -->
-      <div class="spotlight usa-grid usa-grid-full vads-u-padding-y--4 vads-u-padding-x--2 medium-screen:vads-u-padding-x--0">
+      <div class="spotlight usa-grid usa-grid-full vads-u-padding-y--4 vads-u-padding-x--2 large-screen:vads-u-padding-x--0">
         <div class="usa-width-three-fourths">
           <!-- Title -->
           <p class="grey-header vads-u-font-size--sm vads-u-margin-bottom--0">SPOTLIGHT</p>
@@ -145,7 +145,7 @@
 
       <!-- Stories -->
       <div class="stories vads-u-background-color--primary-alt-lightest vads-u-padding-bottom--1">
-        <div class="usa-grid usa-grid-full vads-u-padding-y--4 vads-u-padding-x--2 medium-screen:vads-u-padding-x--0">
+        <div class="usa-grid usa-grid-full vads-u-padding-y--4 vads-u-padding-x--2 large-screen:vads-u-padding-x--0">
           <!-- Title -->
           <p class="grey-header vads-u-font-size--sm vads-u-margin-bottom--0">STORIES</p>
           <h2 class="vads-u-margin--0">{{ fieldClpStoriesHeader }}</h2>
@@ -155,10 +155,10 @@
           {% if fieldClpStoriesTeasers != empty %}
             <div class="stories-list vads-u-display--flex vads-u-flex-direction--column">
               {% for storyTeaser in fieldClpStoriesTeasers %}
-                <div class="story-teaser vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-margin-bottom--4">
+                <div class="va-c-story-teaser vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-margin-bottom--4">
                   <img alt="{{ storyTeaser.entity.fieldMedia.entity.thumbnail.alt }}" class="vads-l-col--4 medium-screen:vads-u-margin-right--2" src="{{ storyTeaser.entity.fieldMedia.entity.thumbnail.url }}" />
                   <div class="story-teaser-content">
-                    <a class="vads-u-font-weight--bold" href="{{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.url }}" rel="noreferrer noopener" target="_blank">
+                    <a aria-label="{{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.url }} (opens in new window)" class="vads-u-font-weight--bold" href="{{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.url }}" rel="noreferrer noopener" target="_blank">
                       {{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.title }}
                     </a>
                     <p>{{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLinkSummary }}</p>
@@ -172,7 +172,7 @@
           {% if fieldClpStoriesCta %}
             <a class="usa-button usa-button-secondary vads-u-font-size--sm" href="{{ fieldClpStoriesCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
               {{ fieldClpStoriesCta.entity.fieldButtonLabel }}
-              <i class="fa fa-chevron-right vads-u-margin-left--0p5"></i>
+              <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
             </a>
           {% endif %}
         </div>
@@ -320,7 +320,7 @@
             <div class="benefit-category">
               <a href="{{ benefitCategory.entity.entityUrl.path }}" rel="noreferrer noopener" target="_blank">
                 <div class="inline hub-main-icon">
-                  <i class="icon-large white hub-icon-{{ benefitCategory.entity.fieldTitleIcon }} hub-background-{{ benefitCategory.entity.fieldTitleIcon }}"></i>
+                  <i class="icon-large white hub-icon-{{ benefitCategory.entity.fieldTitleIcon }} hub-background-{{ benefitCategory.entity.fieldTitleIcon }}" role="presentation" aria-hidden="true"></i>
                 </div>
                 {{ benefitCategory.entity.title }}
               </a>
