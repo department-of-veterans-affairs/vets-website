@@ -14,24 +14,26 @@
       </div>
     {% endif %}
 
-    <div class="hero" style="background-image: url('{{ fieldHeroImage.entity.image.url }}">
+    <div class="va-c-hero" style="background-image: url('{{ fieldHeroImage.entity.image.url }}">
       <!-- Hero Content -->
-      <div class="hero-content">
-        <h1>{{ title }}</h1>
-        <hr />
-        <p>{{ fieldHeroBlurb }}</p>
+      <div class="usa-grid usa-grid-full">
+        <div class="homepage-hub va-c-hero-content vads-u-padding-x--4 vads-u-padding-y--6">
+          <h1 class="vads-u-color--white">{{ title }}</h1>
+          <hr class="va-c-blue-line vads-u-border-color--primary-alt vads-u-margin-y--2" />
+          <p class="vads-u-color--white">{{ fieldHeroBlurb }}</p>
 
-        {% if fieldPrimaryCallToAction %}
-          <a class="usa-butto-secondary" href="{{ fieldPrimaryCallToAction.entity.fieldButtonLink.url.path }}" rel="noreferrer noopener">
-            {{ fieldPrimaryCallToAction.entity.fieldButtonLabel }}
-          </a>
-        {% endif %}
+          {% if fieldPrimaryCallToAction %}
+            <a class="va-c-custom-hero-button usa-button usa-button-secondary vads-u-margin-top--2 vads-u-background-color--white vads-u-border-color--white vads-u-font-size--sm" href="{{ fieldPrimaryCallToAction.entity.fieldButtonLink.url.path }}" rel="noreferrer noopener">
+              {{ fieldPrimaryCallToAction.entity.fieldButtonLabel }}
+            </a>
+          {% endif %}
+        </div>
       </div>
     </div>
 
     <!-- Why This Matters -->
     <div class="vads-u-background-color--primary-alt-lightest vads-u-padding-bottom--1">
-      <div class="vads-u-display--flex usa-grid usa-grid-full vads-u-padding-y--4 vads-u-padding-x--2 large-screen:vads-u-padding-x--0">
+      <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row usa-grid usa-grid-full vads-u-padding-y--4 vads-u-padding-x--2 large-screen:vads-u-padding-x--0">
         <!-- Content -->
         <div>
           <h2 class="vads-u-margin--0 vads-u-margin-bottom--2">Why this matters to you</h2>
@@ -44,14 +46,14 @@
         </div>
 
         <!-- White box w/ social media links -->
-        <div class="vads-u-margin-left--4">
+        <div class="vads-u-margin-top--3 medium-screen:vads-u-margin-top--0 medium-screen:vads-u-margin-left--4">
           {% if fieldClpAudience != empty %}
             <div class="va-c-white-box vads-u-background-color--white vads-u-padding--2 vads-u-margin-bottom--3">
               <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin--0">THIS PAGE IS FOR</p>
               <hr class="va-c-blue-line vads-u-border-color--primary-alt vads-u-margin-y--2" />
               <ul class="usa-unstyled-list">
                 {% for clpAudience in fieldClpAudience %}
-                  <li class="vads-u-font-size--sm vads-u-font-weight--bold">
+                  <li class="vads-u-font-size--sm vads-u-font-weight--bold vads-u-margin-top--1">
                     {{ clpAudience.entity.name }}
                   </li>
                 {% endfor %}
@@ -131,7 +133,7 @@
         <!-- Title -->
         <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">SPOTLIGHT</p>
         <h2 class="vads-u-margin-top--0">{{ fieldClpSpotlightHeader }}</h2>
-        <p class="vads-u-margin-top--1 vads-u-margin-bottom--2">
+        <p class="vads-u-margin-top--1 vads-u-margin-bottom--4">
           {{ fieldClpSpotlightIntroText }}
           <a href="{{ fieldClpSpotlightCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_ blank">
             {{ fieldClpSpotlightCta.entity.fieldButtonLabel }}
@@ -166,7 +168,7 @@
             {% for storyTeaser in fieldClpStoriesTeasers %}
               <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-margin-bottom--4">
                 <img alt="{{ storyTeaser.entity.fieldMedia.entity.thumbnail.alt }}" class="vads-l-col--4 medium-screen:vads-u-margin-right--2" src="{{ storyTeaser.entity.fieldMedia.entity.thumbnail.url }}" />
-                <div>
+                <div class="vads-u-margin-top--2 medium-screen:vads-u-margin-top--0">
                   <a aria-label="{{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.url }} (opens in new window)" class="vads-u-font-weight--bold" href="{{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.url }}" rel="noreferrer noopener" target="_blank">
                     {{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.title }}
                   </a>
