@@ -228,11 +228,11 @@
 
           <!-- List of events -->
           {% if fieldClpEventsReferences != empty %}
-            <div class="events-list">
+            <div class="events-list vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
               {% for eventReference in fieldClpEventsReferences %}
-                <div class="event-reference">
+                <div class="event-reference vads-u-display--flex vads-u-flex-direction--column vads-u-margin-right--4">
                   <!-- Title -->
-                  <h3>
+                  <h3 class="vads-u-margin-top--2">
                     <a href="{{ eventReference.entity.fieldLink.url }}" rel="noreferrer noopener" target="_blank">
                       {{ eventReference.entity.fieldListing.entity.fieldDescription }}
                     </a>
@@ -242,9 +242,9 @@
                   {{ eventReference.entity.fieldBody.processed }}
 
                   <!-- When -->
-                  <div class="event-reference-data-point">
-                    <p><strong>When</strong></p>
-                    <p>
+                  <div class="event-reference-data-point vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
+                    <p class="vads-u-font-weight--bold vads-u-margin--0 vads-u-margin-right--2">When</p>
+                    <p class="vads-u-margin--0">
                       {% if eventReference.entity.fieldDatetimeRangeTimezone.value != empty %}
                         {{eventReference.entity.fieldDatetimeRangeTimezone.value | dateFromUnix: "dddd, MMM D, h:mm A" }} -
                         <br />
@@ -258,10 +258,10 @@
 
                   <!-- Where -->
                   <!-- NOT SURE WHAT TO PUT HERE: https://dsva.slack.com/archives/C01DS1XDEQ0/p1611332573004800?thread_ts=1611331917.004100&cid=C01DS1XDEQ0 -->
-                  <div class="event-reference-data-point">
-                    <p><strong>Where</strong></p>
+                  <div class="event-reference-data-point vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-margin-top--2">
+                    <p class="vads-u-font-weight--bold vads-u-margin--0 vads-u-margin-right--2">Where</p>
                     <a href="" rel="noreferrer noopener" target="_blank">
-
+                      Not sure what to put here
                     </a>
                   </div>
                 </div>
@@ -271,8 +271,9 @@
 
           <!-- Call to action -->
           {% if fieldClpResourcesCta %}
-            <a class="usa-button-secondary" href="{{ fieldClpResourcesCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
+            <a class="usa-button usa-button-secondary vads-u-font-size--sm vads-u-margin-top--4" href="{{ fieldClpResourcesCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
               {{ fieldClpResourcesCta.entity.fieldButtonLabel }}
+              <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
             </a>
           {% endif %}
         </div>
