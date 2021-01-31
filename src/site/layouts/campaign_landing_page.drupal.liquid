@@ -78,7 +78,7 @@
           {% if fieldClpWhatYouCanDoPromos != empty %}
             <ul class="promos vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-padding--0">
               {% for promo in fieldClpWhatYouCanDoPromos %}
-                <li class="va-c-promo vads-u-background-color--gray-light-alt vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2 medium-screen:vads-u-margin-right--2">
+                <li class="va-c-li-box vads-u-background-color--gray-light-alt vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2 medium-screen:vads-u-margin-right--2">
                   <img alt="{{ promo.entity.fieldImage.entity.thumbnail.alt }}" src="{{ promo.entity.fieldImage.entity.thumbnail.url }}" />
                   <a class="vads-u-margin-top--2 vads-u-font-weight--bold vads-u-font-size--lg vads-u-padding-x--2" href="{{ promo.entity.fieldPromoLink.entity.fieldLink.url }}" rel="noreferrer noopener" target="_blank">
                     {{ promo.entity.fieldPromoLink.entity.fieldLink.title }}
@@ -143,7 +143,7 @@
           {% if fieldClpSpotlightLinkTeasers != empty %}
             <ul class="link-teasers vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-padding--0">
               {% for linkTeaser in fieldClpSpotlightLinkTeasers %}
-                <li class="va-c-link-teaser vads-u-background-color--gray-light-alt vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2 medium-screen:vads-u-margin-right--2">
+                <li class="va-c-li-box vads-u-background-color--gray-light-alt vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2 medium-screen:vads-u-margin-right--2">
                   <a class="vads-u-font-weight--bold vads-u-font-size--lg vads-u-margin-top--2 vads-u-padding-x--2" href="{{ linkTeaser.entity.fieldLink.url }}" rel="noreferrer noopener" target="_blank">{{ linkTeaser.entity.fieldLink.title }}</a>
                   <p class="vads-u-margin-bottom--2 vads-u-margin-top--1 vads-u-padding-x--2">{{ linkTeaser.entity.fieldLinkSummary }}</p>
                 </li>
@@ -165,7 +165,7 @@
           {% if fieldClpStoriesTeasers != empty %}
             <div class="stories-list vads-u-display--flex vads-u-flex-direction--column">
               {% for storyTeaser in fieldClpStoriesTeasers %}
-                <div class="va-c-story-teaser vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-margin-bottom--4">
+                <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-margin-bottom--4">
                   <img alt="{{ storyTeaser.entity.fieldMedia.entity.thumbnail.alt }}" class="vads-l-col--4 medium-screen:vads-u-margin-right--2" src="{{ storyTeaser.entity.fieldMedia.entity.thumbnail.url }}" />
                   <div class="story-teaser-content">
                     <a aria-label="{{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.url }} (opens in new window)" class="vads-u-font-weight--bold" href="{{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.url }}" rel="noreferrer noopener" target="_blank">
@@ -198,21 +198,22 @@
 
           <!-- List of resources -->
           {% if fieldClpResources != empty %}
-            <div class="resources-list">
+            <ul class="resources-list vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-padding--0">
               {% for resource in fieldClpResources %}
-                <div class="resource">
-                  <h3>{{ resource.entity.name }}</h3>
+                <li class="va-c-li-box vads-u-padding--2 vads-u-padding-bottom--3 vads-u-background-color--gray-light-alt vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2 medium-screen:vads-u-margin-right--2">
+                  <h3 class="vads-u-margin--0">{{ resource.entity.name }}</h3>
                   <p>{{ resource.entity.fieldDescription }}</p>
                   <a href="{{ resource.entity.fieldMediaExternalFile.url }}" rel="noreferrer noopener" target="_blank">Download (PDF)</a>
-                </div>
+                </li>
               {% endfor %}
-            </div>
+            </ul>
           {% endif %}
 
           <!-- Call to action -->
           {% if fieldClpResourcesCta %}
-            <a class="usa-button-secondary" href="{{ fieldClpResourcesCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
+            <a class="usa-button usa-button-secondary vads-u-font-size--sm" href="{{ fieldClpResourcesCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
               {{ fieldClpResourcesCta.entity.fieldButtonLabel }}
+              <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
             </a>
           {% endif %}
         </div>
