@@ -101,6 +101,7 @@
           <!-- Video -->
           <iframe
             allowFullScreen
+            class="vads-u-margin-top--4"
             frameBorder="0"
             src="{{ fieldMedia.entity.fieldMediaVideoEmbedField }}"
             title="{{ fieldMedia.entity.name }}"
@@ -109,16 +110,17 @@
 
           <!-- Video description -->
           {% if fieldMedia.entity.fieldDuration %}
-            <p class="duration">{{ fieldMedia.entity.fieldDuration }}</p>
+            <p class="duration vads-u-font-size--sm vads-u-margin--0">{{ fieldMedia.entity.fieldDuration }}</p>
           {% endif %}
           {% if fieldMedia.entity.fieldDescription %}
-            <p>{{ fieldMedia.entity.fieldDescription }}</p>
+            <p class="vads-u-margin-top--1 vads-u-margin-bottom--0">{{ fieldMedia.entity.fieldDescription }}</p>
           {% endif %}
 
           <!-- Call to action -->
           {% if fieldClpVideoPanelMoreVideo %}
-            <a class="usa-button-secondary" href="{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
+            <a class="vads-u-margin-top--4 usa-button usa-button-secondary vads-u-font-size--sm" href="{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
               {{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel }}
+              <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
             </a>
           {% endif %}
         </div>
@@ -139,14 +141,14 @@
 
           <!-- List of spotlights -->
           {% if fieldClpSpotlightLinkTeasers != empty %}
-            <div class="link-teasers vads-u-display--flex vads-u-flex-wrap--wrap">
+            <ul class="link-teasers vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-padding--0">
               {% for linkTeaser in fieldClpSpotlightLinkTeasers %}
-                <div class="link-teaser medium-screen:vads-l-col--4 medium-screen:vads-u-margin-right--2 vads-u-margin-top--2 vads-u-display--flex vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-padding--2">
-                  <a class="vads-u-font-weight--bold" href="{{ linkTeaser.entity.fieldLink.url }}" rel="noreferrer noopener" target="_blank">{{ linkTeaser.entity.fieldLink.title }}</a>
-                  <p class="vads-u-font-size--sm">{{ linkTeaser.entity.fieldLinkSummary }}</p>
-                </div>
+                <li class="va-c-link-teaser vads-u-background-color--gray-light-alt vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2 medium-screen:vads-u-margin-right--2">
+                  <a class="vads-u-font-weight--bold vads-u-font-size--lg vads-u-margin-top--2 vads-u-padding-x--2" href="{{ linkTeaser.entity.fieldLink.url }}" rel="noreferrer noopener" target="_blank">{{ linkTeaser.entity.fieldLink.title }}</a>
+                  <p class="vads-u-margin-bottom--2 vads-u-margin-top--1 vads-u-padding-x--2">{{ linkTeaser.entity.fieldLinkSummary }}</p>
+                </li>
               {% endfor %}
-            </div>
+            </ul>
           {% endif %}
         </div>
       </div>
