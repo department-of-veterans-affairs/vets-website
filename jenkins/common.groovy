@@ -237,7 +237,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
       }
 
       /******** Experimental CMS export build (dev) ********/
-      builds['cms-export-experimental'] = {
+      builds['vagovdev-cms-export'] = {
         try {
           build(ref, dockerContainer, assetSource, 'vagovdev', false, contentOnlyBuild, true)
         } catch (error) {
