@@ -15,7 +15,11 @@ const index = props => {
       {questionnaires ? (
         <>
           {questionnaires.length === 0 ? (
-            <EmptyMessage />
+            <EmptyMessage
+              message={
+                'Your health care providers haven’t sent any questionnaires to you yet.'
+              }
+            />
           ) : (
             <ul
               data-testid="questionnaire-list"
