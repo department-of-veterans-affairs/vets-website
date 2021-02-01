@@ -165,7 +165,10 @@ describe('VAOS community care flow', () => {
 
     // Check form requestBody is as expected
     cy.wait('@appointmentRequests').should(xhr => {
-      let date = moment().add(5, 'days');
+      let date = moment()
+        .add(5, 'days')
+        .add(1, 'months')
+        .startOf('month');
 
       // Check for weekend and select following Monday if true
       if (date.weekday() === 0) {

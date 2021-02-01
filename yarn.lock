@@ -1289,10 +1289,10 @@
     react-transition-group "1"
     recast "^0.14.4"
 
-"@department-of-veterans-affairs/formation@6.13.1":
-  version "6.13.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.13.1.tgz#69ba95ae3b9a052a5dac24e11ffb19fa11d89d1d"
-  integrity sha512-26QewJ27ckql0pNdsDcXOk5y/qAdOT3aKnVs2gLBo7a6hovEMCyeX4O7rQVllC87BD8SjmthCbKrCwXdea+Qdw==
+"@department-of-veterans-affairs/formation@6.13.2":
+  version "6.13.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.13.2.tgz#53e5f101993677ee13c2e5a56983154ae21f2f64"
+  integrity sha512-tFyGfDg4kdQZyWd8ryZ2n/AS4gD2iVfEdFJFWV6GliMKiKxAJq79E0dPV725VQwfVrg/myQTqE/iPvMfgYc0fA==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
@@ -6902,7 +6902,7 @@ eslint-plugin-unicorn@^20.0.0:
     semver "^7.3.2"
 
 eslint-plugin-va@./script/eslint-plugin-va:
-  version "1.0.2"
+  version "1.0.3"
 
 eslint-scope@^4.0.3:
   version "4.0.3"
@@ -10700,6 +10700,11 @@ jsesc@^1.3.0:
 jsesc@^2.5.1:
   version "2.5.2"
   resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-2.5.2.tgz#80564d2e483dacf6e8ef209650a67df3f0c283a4"
+
+jsesc@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-3.0.2.tgz#bb8b09a6597ba426425f2e4a07245c3d00b9343e"
+  integrity sha512-xKqzzWXDttJuOcawBt4KnKHHIf5oQ/Cxax+0PWFG+DFDgHNAdi+TXECADI+RYiFUMmx8792xsMbbgXj4CwnP4g==
 
 jsesc@~0.5.0:
   version "0.5.0"
