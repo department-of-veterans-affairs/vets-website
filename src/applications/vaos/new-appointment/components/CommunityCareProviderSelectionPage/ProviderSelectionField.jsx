@@ -109,7 +109,7 @@ function ProviderSelectionField({
   );
 
   return (
-    <div className="vads-u-background-color--gray-lightest small-screen:vads-u-padding--2 medium-screen:vads-u-padding--3">
+    <div className="vads-u-background-color--gray-lightest vads-u-padding--2 medium-screen:vads-u-padding--3">
       {!showProvidersList &&
         !providerSelected && (
           <button
