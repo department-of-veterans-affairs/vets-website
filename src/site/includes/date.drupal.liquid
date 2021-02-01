@@ -6,7 +6,7 @@
 {% endif %}
 
 {% if fieldDatetimeRangeTimezone.value != empty %}
-    {% assign start_date_no_time = fieldDatetimeRangeTimezone.value | dateFromUnix: 'dddd, MMM, YYYY', fieldDatetimeRangeTimezone.timezone %}
+    {% assign start_date_no_time = fieldDatetimeRangeTimezone.value | dateFromUnix: 'dddd, MMM D, YYYY', fieldDatetimeRangeTimezone.timezone %}
     {% assign start_time = fieldDatetimeRangeTimezone.value | dateFromUnix: "h:mm A", fieldDatetimeRangeTimezone.timezone %}
     {% assign start_date_full = fieldDatetimeRangeTimezone.value | dateFromUnix: "dddd, MMM D, YYYY h:mm A", fieldDatetimeRangeTimezone.timezone %}
     {% assign start_timestamp = fieldDatetimeRangeTimezone.value %}
