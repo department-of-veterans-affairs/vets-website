@@ -6,7 +6,6 @@
 
 assetSource="local"
 buildtype="localhost"
-destination="localhost"
 
 # Save the arguments to this script for later; they get drained in the following for loop
 args="$*"
