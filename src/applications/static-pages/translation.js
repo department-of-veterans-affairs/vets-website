@@ -1,3 +1,5 @@
+import recordEvent from 'platform/monitoring/record-event';
+
 const faqI18Content = {
   en: {
     linkTitle: 'Read this page in English',
@@ -13,6 +15,13 @@ const configureTranslationLink = (e, targetLang) => {
   e.lang = targetLang;
   e.innerText = faqI18Content[targetLang].linkTitle;
   e.href = faqI18Content[targetLang].langToggleLink;
+  e.onclick = _ => {
+    recordEvent({
+      event: 'nav-covid-link-click',
+      faqText: undefined,
+      faqSection: undefined,
+    });
+  };
 };
 const displayTranslationLink = () => {
   const i18LinkWrapper = document.getElementById('i18-link-wrapper');
