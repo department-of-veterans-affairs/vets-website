@@ -51,7 +51,7 @@ const PUBLIC_URLS = {
     'http://dev.cms.va.gov',
   'http://internal-dsva-vagov-staging-cms-1188006.us-gov-west-1.elb.amazonaws.com':
     'http://staging.cms.va.gov',
-  'http://internal-dsva-vagov-prod-cms-2000800896.us-gov-west-1.elb.amazonaws.com':
+  'http://internal-dsva-vagov-prod-cms-test-428849550.us-gov-west-1.elb.amazonaws.com':
     'http://prod.cms.va.gov',
 };
 
