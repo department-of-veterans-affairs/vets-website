@@ -118,7 +118,8 @@ function Introduction({
                 <a
                   href="https://www.cdc.gov/vaccines/covid-19/phased-implementation.html"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
+                  aria-label="CDC COVID-19 risk criteria phased implemention (Open in a new window)"
                 >
                   CDC COVID-19 risk criteria
                 </a>

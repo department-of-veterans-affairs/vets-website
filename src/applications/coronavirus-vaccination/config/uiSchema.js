@@ -51,9 +51,10 @@ export default {
       'ui:description': () => (
         <span>
           <b>Note: </b>
-          Your SSN helps us match your information to your Veteran records. We
-          can then share your vaccine plans with your local VA health facility
-          so they can contact you when you’re eligible to get a vaccine.
+          Your <abbr title="Social Security Number">SSN</abbr> helps us match
+          your information to your Veteran records. We can then share your
+          vaccine plans with your local VA health facility so they can contact
+          you when you’re eligible to get a vaccine.
         </span>
       ),
       'ui:options': {
@@ -172,9 +173,10 @@ export default {
       'ui:description': () => (
         <span>
           <b>Note: </b>
-          Your SSN helps us match your information to your Veteran records. We
-          can then share your vaccine plans with your local VA health facility
-          so they can contact you when you’re eligible to get a vaccine.
+          Your <abbr title="Social Security Number">SSN</abbr> helps us match
+          your information to your Veteran records. We can then share your
+          vaccine plans with your local VA health facility so they can contact
+          you when you’re eligible to get a vaccine.
         </span>
       ),
       'ui:options': {

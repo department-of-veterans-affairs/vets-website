@@ -39,6 +39,8 @@ function Confirmation({ router, formData }) {
         <a
           href="/family-member-benefits/comprehensive-assistance-for-family-caregivers/"
           target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Program of Comprehensive Assistance for Family Caregivers (Open in a new window)"
         >
           Program of Comprehensive Assistance for Family Caregivers
         </a>
@@ -90,7 +92,12 @@ function Confirmation({ router, formData }) {
       </p>
       <p>
         You can also get updates and answers to common questions on our main{' '}
-        <a href="/health-care/covid-19-vaccine/" target="_blank">
+        <a
+          href="/health-care/covid-19-vaccine/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Main COVID-19 vaccines page (Open in a new window)"
+        >
           COVID-19 vaccines page
         </a>
         .

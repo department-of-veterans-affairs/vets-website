@@ -103,7 +103,12 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
           <p>
             <strong>Note:</strong> The information below is from your VA.gov
             profile. If you need to make a change,{' '}
-            <a href="/profile" target="_blank">
+            <a
+              href="/profile"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Go to your VA Profile (Open in a new window)"
+            >
               go to your profile now.
             </a>{' '}
           </p>
