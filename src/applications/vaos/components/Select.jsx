@@ -6,7 +6,7 @@ function Select({ onChange, options, id, value }) {
     <select
       id={id}
       name={id}
-      className="usa-select vads-u-margin-bottom--2p5"
+      className="usa-select vads-u-margin-bottom--1p5"
       onChange={onChange}
       value={value}
     >
