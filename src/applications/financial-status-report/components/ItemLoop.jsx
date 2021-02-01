@@ -205,7 +205,7 @@ const ItemLoop = ({
     .map(item => item['ui:title']);
 
   const [cache, setCache] = useState(formData);
-  const [editing, setEditing] = useState(formData ? [false] : ['add']);
+  const [editing, setEditing] = useState([]);
   const [showTable, setShowTable] = useState(false);
 
   useEffect(
@@ -217,6 +217,12 @@ const ItemLoop = ({
     },
     [idSchema.$id, uiSchema],
   );
+
+  useEffect(() => {
+    const editData = formData ? formData.map(() => false) : ['add'];
+    setEditing(editData);
+    setShowTable(editData.includes(false));
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(
     () => {
