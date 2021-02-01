@@ -10,36 +10,23 @@ export default function ConfirmedCommunityCareLocation({ appointment }) {
     return null;
   }
 
-  const locationMessage =
-    'This appointment is scheduled with a community care provider. Please do not report to your local VA facility. If you have questions please contact your facility community care staff at ';
-
   if (!location.address) {
-    if (!location.name) {
-      return (
-        <>
-          <div>
-            {locationMessage}
-            <a href="/find-locations" target="_blank" rel="noopener noreferrer">
-              your local VA.
-            </a>
-            <br />
-          </div>
-        </>
-      );
-    } else {
-      return (
-        <>
+    return (
+      <>
+        {!!location.name && (
           <h4 className="vaos-appts__block-label">{location.name}</h4>
-          <div>
-            {locationMessage}
-            <a href="/find-locations" target="_blank" rel="noopener noreferrer">
-              your local VA.
-            </a>
-            <br />
-          </div>
-        </>
-      );
-    }
+        )}
+        <div>
+          This appointment is scheduled with a community care provider. Please
+          do not report to your local VA facility. If you have questions, please
+          contact your facility community care staff at{' '}
+          <a href="/find-locations" target="_blank" rel="noopener noreferrer">
+            your local VA.
+          </a>
+          <br />
+        </div>
+      </>
+    );
   } else {
     return (
       <>
