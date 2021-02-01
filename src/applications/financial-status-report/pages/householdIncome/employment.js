@@ -78,7 +78,7 @@ export const uiSchema = {
               'ui:title': 'Type of payroll deduction',
               'ui:field': Typeahead,
               'ui:options': {
-                classNames: 'input-size-3',
+                classNames: 'input-size-5',
                 getOptions: () => formatOptions(deductionTypes),
               },
             },
@@ -130,6 +130,7 @@ export const schema = {
                   items: {
                     type: 'object',
                     minItems: 1,
+                    required: ['deductionType', 'deductionAmount'],
                     properties: {
                       deductionType: {
                         type: 'string',
