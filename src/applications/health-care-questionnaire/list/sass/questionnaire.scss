@@ -91,6 +91,9 @@ ul.questionnaire-list {
   .card{
     background-color: $color-gray-lightest;
     width: 100%;
+    .usa-label{
+      width: min-content;
+    }
     @include media($medium-screen) {
       width: 60%;
     }

@@ -15,9 +15,11 @@ const index = props => {
     appointment.attributes.vdsAppointments[0].appointmentTime;
   return (
     <li data-request-id={appointment.id} className="card">
+      <span className="usa-label">New</span>
       <header data-testid="appointment-type-header">
         {appointmentType} questionnaire
       </header>
+      <p>for your appointment at</p>
       <section className="due-details">{DueDate && <DueDate />}</section>
       <section className="details">
         <p>Appointment details:</p>
