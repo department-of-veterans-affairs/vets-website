@@ -100,7 +100,11 @@ function applyDefaultOptions(options) {
       source: path.join(contentRoot, 'assets'),
       destination: './',
     },
-    destination: path.resolve(projectRoot, 'build', options.buildtype),
+    destination: path.resolve(
+      projectRoot,
+      'build',
+      options.destination || options.buildType,
+    ),
     appAssets: {
       source: '../../assets',
       destination: './',

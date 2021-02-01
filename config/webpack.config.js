@@ -93,7 +93,7 @@ module.exports = (env = {}) => {
     scaffold: false,
     watch: false,
     setPublicPath: false,
-    destination: path.resolve(__dirname, '../', 'build', buildtype),
+    destination: buildtype,
     ...env,
   };
 
@@ -110,7 +110,13 @@ module.exports = (env = {}) => {
     buildOptions['local-css-sourcemaps'] ||
     !!buildOptions.entry;
 
-  const outputPath = `${buildOptions.destination}/generated`;
+  const outputPath = path.resolve(
+    __dirname,
+    '.../',
+    'build',
+    buildOptions.destination,
+    'generated',
+  );
 
   // Set the publicPath conditional so we can get dynamic modules loading from S3
   const publicAssetPath =

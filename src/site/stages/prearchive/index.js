@@ -38,7 +38,7 @@ function main() {
   const directory = path.join(
     __dirname,
     '../../../../build',
-    options.buildtype,
+    options.destination || options.buildtype,
   );
   const fileNames = getFiles(directory);
 
