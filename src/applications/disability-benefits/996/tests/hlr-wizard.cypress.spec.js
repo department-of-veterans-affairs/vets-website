@@ -7,8 +7,29 @@ Cypress.Commands.add('checkStorage', (key, expectedValue) => {
     .should('eq', expectedValue);
 });
 
+Cypress.Commands.add('checkFormChange', ({ label, value }) => {
+  cy.window().then(win => {
+    const data = win.dataLayer.find(obj => obj?.['form-field-value'] === value);
+    assert.equal(data?.event, 'howToWizard-formChange');
+    assert.equal(data['form-field-type'], 'form-radio-buttons');
+    assert.equal(data['form-field-label'], label);
+    assert.equal(data['form-field-value'], value);
+  });
+});
+
+Cypress.Commands.add('checkFormAlert', value => {
+  cy.window().then(win => {
+    const data = win.dataLayer.find(obj =>
+      (obj?.['reason-for-alert'] || '').includes(value),
+    );
+    assert.equal(data.event, 'howToWizard-alert-displayed');
+    expect(data['reason-for-alert']).to.contain(value);
+  });
+});
+
 describe('HLR wizard', () => {
   beforeEach(() => {
+    window.dataLayer = [];
     cy.route('GET', '/v0/feature_toggles?*', mockFeatureToggles);
     sessionStorage.removeItem(WIZARD_STATUS);
     cy.visit(BASE_URL);
@@ -29,6 +50,11 @@ describe('HLR wizard', () => {
     cy.get('a[href*="/decision-reviews/higher-level-review/#8622"]').should(
       'exist',
     );
+    cy.checkFormChange({
+      label: 'For what type of claim are you requesting a Higher-Level Review?',
+      value: 'other',
+    });
+    cy.checkFormAlert('unsupported claim type');
     cy.axeCheck();
   });
 
@@ -36,6 +62,10 @@ describe('HLR wizard', () => {
   it('should show legacy appeals question & alert', () => {
     cy.get('[type="radio"][value="compensation"]').click();
     cy.get('a[href*="disability/file-an-appeal"]').should('exist');
+    cy.checkFormChange({
+      label: 'For what type of claim are you requesting a Higher-Level Review?',
+      value: 'compensation',
+    });
 
     cy.get('[type="radio"][value="legacy-yes"]').click();
     // download form link
@@ -44,6 +74,11 @@ describe('HLR wizard', () => {
     );
     // supplemental claim link
     cy.get('a[href*="/decision-reviews/supplemental-claim"]').should('exist');
+    cy.checkFormChange({
+      label: 'Is this claim going through the legacy appeals process?',
+      value: 'legacy-yes',
+    });
+    cy.checkFormAlert('legacy appeals process');
     cy.axeCheck();
   });
 
@@ -56,10 +91,19 @@ describe('HLR wizard', () => {
 
     cy.get('[type="radio"][value="compensation"]').click();
     cy.checkStorage(SAVED_CLAIM_TYPE, 'compensation');
+    cy.checkFormChange({
+      label: 'For what type of claim are you requesting a Higher-Level Review?',
+      value: 'compensation',
+    });
+
     cy.get('a[href*="disability/file-an-appeal"]').should('exist');
     cy.get('[type="radio"][value="legacy-no"]').click();
     // learn more link
     cy.get('a[href*="/decision-reviews/higher-level-review/"]').should('exist');
+    cy.checkFormChange({
+      label: 'Is this claim going through the legacy appeals process?',
+      value: 'legacy-no',
+    });
     cy.axeCheck();
 
     // start form
