@@ -206,10 +206,12 @@ function build(BUILD_OPTIONS) {
 
   smith.use(
     layouts({
-      engine: 'liquid',
       directory: BUILD_OPTIONS.layouts,
       // Only apply layouts to markdown and html files.
       pattern: '**/*.{md,html}',
+      engineOptions: {
+        engine: 'liquid',
+      },
     }),
     'Apply layouts',
   );
