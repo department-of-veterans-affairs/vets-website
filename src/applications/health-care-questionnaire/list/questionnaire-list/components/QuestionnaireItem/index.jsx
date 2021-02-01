@@ -20,7 +20,7 @@ const index = props => {
         {appointmentType} questionnaire
       </header>
       <p className="appointment-location">
-        for your appointment at {clinic.displayName},{' '}
+        for your appointment at {clinic.friendlyName},{' '}
         {clinic.facility.displayName}
       </p>
       <section className="due-details">{DueDate && <DueDate />}</section>

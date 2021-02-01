@@ -122,10 +122,14 @@ ul.questionnaire-list {
         }
       }
     }
+
     .completed-date, .due-date{
       margin: 0;
       margin-bottom: 1.25rem;
       line-height: 1.5;
+    }
+    .completed-date{
+      margin-top: 1rem;
     }
     .due-date{
       padding-top: 0.75rem;

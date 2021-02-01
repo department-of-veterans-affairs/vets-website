@@ -34,10 +34,13 @@ const index = props => {
                     Actions={() => <ViewAndPrint />}
                     DueDate={() => (
                       <p className="completed-date">
-                        Submitted on{' '}
-                        {moment(
-                          questionnaire[0].questionnaireResponse.submittedOn,
-                        ).format('MMMM D, YYYY')}
+                        Submitted on
+                        <br />
+                        <span className={`vads-u-font-weight--bold`}>
+                          {moment(
+                            questionnaire[0].questionnaireResponse.submittedOn,
+                          ).format('dddd, MMMM D, YYYY')}
+                        </span>
                       </p>
                     )}
                   />
