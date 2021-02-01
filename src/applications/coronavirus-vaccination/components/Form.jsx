@@ -95,7 +95,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
           <p>
             We’ll send you updates on how we’re providing COVID-19 vaccines
             across the country—and when you can get your vaccine if you want
-            one. You don't need to sign up to get a vaccine.
+            one.
           </p>
         )}
 

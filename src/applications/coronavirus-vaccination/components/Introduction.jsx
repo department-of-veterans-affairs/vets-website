@@ -24,13 +24,13 @@ function Introduction({
 }) {
   return (
     <>
-      <h1>COVID-19 vaccines: Stay informed and help us prepare</h1>
+      <h1>Stay informed about getting a COVID-19 vaccine at VA</h1>
       <div className="va-introtext">
         <p>
-          We’re working to get COVID-19 vaccines to Veterans as quickly and
-          safely as possible based on CDC guidelines and available supply. We
-          need your help to prepare. And we want to keep you informed at every
-          step.
+          We’re working to provide COVID-19 vaccines to Veterans as quickly and
+          safely as we can, based on CDC guidelines and available supply. Sign
+          up below to stay informed about when you can get a COVID-19 vaccine at
+          VA.
         </p>
       </div>
       <DowntimeNotification
@@ -38,10 +38,9 @@ function Introduction({
         dependencies={[externalServices.vetextVaccine]}
       >
         <p>
-          Sign up below to help us understand your interest in getting a
-          vaccine. We’ll send you updates on how we’re providing vaccines across
-          the country—and when you can get your vaccine if you want one. We’ll
-          also offer information and answers to your questions along the way.
+          We’ll send you updates on how we’re providing vaccines across the
+          country—and when you can get a vaccine if you want one. We’ll also
+          offer information and answers to your questions along the way.
         </p>
         {authButtonDisabled ? (
           <p>
@@ -69,8 +68,9 @@ function Introduction({
             ) : (
               <>
                 <p>
-                  When you sign in, we can fill in some of your information for
-                  you.
+                  <strong>Note:</strong> You can sign up without signing in to
+                  VA.gov. But when you sign in first, we can fill in some of
+                  your information for you.
                 </p>
                 <p>
                   <button
@@ -112,16 +112,19 @@ function Introduction({
           content={
             <>
               <p>
-                You don’t need to sign up to get a vaccine. And you can change
-                your mind about getting a vaccine at any time. We’ll use the
-                information you provide to understand your interest and keep you
-                informed.
-              </p>
-              <p>
-                <a href="/health-care/covid-19-vaccine/#who-will-get-a-covid-19-vaccin">
-                  Learn who will get a COVID-19 vaccine first based on CDC
-                  guidelines
+                <strong>What you should know about signing up</strong>
+                We continue to contact Veterans as they become eligible to get a
+                COVID-19 vaccine. We base eligibility on VA and{' '}
+                <a
+                  href="https://www.cdc.gov/vaccines/covid-19/phased-implementation.html"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  CDC COVID-19 risk criteria
                 </a>
+                . Within each risk group, we may first contact Veterans who sign
+                up here and tell us that they plan to get a vaccine. But we’ll
+                still contact every eligible Veteran
               </p>
             </>
           }
