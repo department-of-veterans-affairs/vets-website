@@ -93,7 +93,7 @@ function replaceHostIfUsingAWS(originalSrc, usingAWS) {
     const awsURI = getAwsURI(siteURI, usingAWS);
     return originalSrc.replace(siteURI, awsURI);
   } else {
-    console.log(`originalSrc: ++ ${siteURIMatches} ++ ${originalSrc}`);
+    console.log(`originalSrc: ++ ${siteURIMatches} ++ ${usingAWS}`);
     return originalSrc;
   }
   /* eslint-enable no-console */
