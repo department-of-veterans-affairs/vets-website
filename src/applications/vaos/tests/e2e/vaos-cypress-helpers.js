@@ -345,10 +345,34 @@ function mockSubmitVAAppointment() {
   }).as('appointmentPreferences');
 }
 
-function setupSchedulingMocks() {
+function setupSchedulingMocks({ cernerUser = false } = {}) {
   cy.server();
   mockFeatureToggles();
-  cy.login(mockUser);
+
+  if (cernerUser) {
+    const mockCernerUser = {
+      ...mockUser,
+      data: {
+        ...mockUser.data,
+        attributes: {
+          ...mockUser.data.attributes,
+          vaProfile: {
+            ...mockUser.data.attributes.vaProfile,
+            facilities: [
+              ...mockUser.data.attributes.vaProfile.facilities,
+              {
+                facilityID: '123',
+                isCerner: true,
+              },
+            ],
+          },
+        },
+      },
+    };
+    cy.login(mockCernerUser);
+  } else {
+    cy.login(mockUser);
+  }
 
   mockSupportedSites();
   mockCCPrimaryCareEligibility();
@@ -541,8 +565,8 @@ export function initExpressCareMocks() {
   });
 }
 
-export function initVAAppointmentMock() {
-  setupSchedulingMocks();
+export function initVAAppointmentMock({ cernerUser = false } = {}) {
+  setupSchedulingMocks({ cernerUser });
   cy.route({
     method: 'GET',
     url: '/v1/facilities/va/vha_442',
