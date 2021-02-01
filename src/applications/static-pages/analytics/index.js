@@ -47,8 +47,8 @@ function attachAnalytics() {
 
 // Prevent the window from navigating away.
 // Useful to verify analytics when links are clicked.
-// window.onbeforeunload = function() {
-//   return ''
-// }
+window.onbeforeunload = function() {
+  return '';
+};
 
 document.addEventListener('DOMContentLoaded', attachAnalytics);
