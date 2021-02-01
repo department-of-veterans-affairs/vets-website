@@ -216,7 +216,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
             build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
             envUsedCache[envName] = false
           } catch (error) {
-            // Were not using the cache for content only builds, because requesting
+            // We're not using the cache for content only builds, because requesting
             // a content only build is an attempt to refresh content from the current set
             if (!contentOnlyBuild) {
               dockerContainer.inside(DOCKER_ARGS) {
