@@ -116,7 +116,7 @@ describe('VAOS integration: preferred date page with a single-site user', () => 
     expect(screen.history.push.called).to.be.false;
   });
 
-  it('should submit with valid data', async () => {
+  it.skip('should submit with valid data', async () => {
     const maxMonth = moment()
       .add(395, 'days')
       .format('M');
