@@ -448,6 +448,7 @@ const ItemLoop = ({
                 disabled={disabled}
                 readonly={readonly}
                 errorSchema={errorSchema}
+                editing={editing}
                 handleChange={handleChange}
                 handleSave={handleSave}
                 handleRemove={handleRemove}
