@@ -295,7 +295,7 @@
                 <li data-faq-entity-id="{{ faqParagraph.entity.entityId }}">
                   <button aria-controls="{{ faqParagraph.entity.entityBundle }}-{{ faqParagraph.entity.entityId }}" class="usa-accordion-button usa-button-unstyled" aria-expanded="false" type="button">{{ faqParagraph.entity.fieldQuestion }}</button>
                   <div id="{{ faqParagraph.entity.entityBundle }}-{{ faqParagraph.entity.entityId }}" class="usa-accordion-content" aria-hidden="true">
-                    {% assign fieldAnswer = faqParagraph.entity.fieldAnswer[0] %}
+                    {% assign fieldAnswer = faqParagraph.entity.fieldAnswer | first %}
                     {% assign bundleComponent = "src/site/paragraphs/" | append: fieldAnswer.entity.entityBundle %}
                     {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
                     {% include {{ bundleComponentWithExtension }} with entity = fieldAnswer.entity %}
