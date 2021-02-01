@@ -1,7 +1,9 @@
 import React from 'react';
-import moment from 'moment';
 
-import { getAppointTypeFromAppointment } from '../../../../questionnaire/utils';
+import {
+  getAppointTypeFromAppointment,
+  getClinicFromAppointment,
+} from '../../../../questionnaire/utils';
 
 const index = props => {
   const { data, DueDate, Actions } = props;
@@ -9,25 +11,20 @@ const index = props => {
   const appointmentType = getAppointTypeFromAppointment(appointment, {
     titleCase: true,
   });
-  const facilityName =
-    appointment.attributes.vdsAppointments[0].clinic.facility.displayName;
-  const appointmentTime =
-    appointment.attributes.vdsAppointments[0].appointmentTime;
+
+  const clinic = getClinicFromAppointment(appointment);
   return (
     <li data-request-id={appointment.id} className="card">
       <span className="usa-label">New</span>
       <header data-testid="appointment-type-header">
         {appointmentType} questionnaire
       </header>
-      <p>for your appointment at</p>
+      <p className="appointment-location">
+        for your appointment at {clinic.displayName},{' '}
+        {clinic.facility.displayName}
+      </p>
       <section className="due-details">{DueDate && <DueDate />}</section>
-      <section className="details">
-        <p>Appointment details:</p>
-        <p data-testid="facility-name">{facilityName}</p>
-        <time data-testid="appointment-time" dateTime={appointmentTime}>
-          {moment(appointmentTime).format('MMMM D, YYYY')}
-        </time>
-      </section>
+
       {Actions && <Actions />}
     </li>
   );

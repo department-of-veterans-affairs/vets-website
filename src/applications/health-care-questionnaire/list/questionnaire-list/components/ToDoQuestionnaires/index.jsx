@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 import QuestionnaireItem from '../QuestionnaireItem';
 import EmptyMessage from '../Messages/EmptyMessage';
@@ -11,7 +11,7 @@ const index = props => {
   const { questionnaires } = props;
   return (
     <div id="tabpanel_toDo">
-      <h2 className="questionnaire-list-header">To do questionnaires</h2>
+      <h2 className="questionnaire-list-header">To-do questionnaires</h2>
       {questionnaires ? (
         <>
           {questionnaires.length === 0 ? (
@@ -45,14 +45,19 @@ const index = props => {
                       const dueDate = moment(
                         appointment.attributes.vdsAppointments[0]
                           .appointmentTime,
-                      ).subtract(1, 'day');
+                      );
+                      const guess = moment.tz.guess();
+                      const formattedTimezone = moment.tz(guess).format('z');
                       const meridiem = dueDate.hours() > 12 ? 'p.m.' : 'a.m.';
                       return (
                         <section className="due-date">
-                          <p>Due date:</p>
-                          <p>{dueDate.format('dddd, MMMM D, YYYY')}</p>
-                          <p>
-                            {dueDate.format(`H:MM`)} {meridiem}
+                          <p>Complete by</p>
+                          <p className="vads-u-font-weight--bold">
+                            {dueDate.format('dddd, MMMM D, YYYY')}
+                          </p>
+                          <p className="vads-u-font-weight--bold">
+                            {dueDate.format(`H:MM`)} {meridiem}{' '}
+                            {formattedTimezone}
                           </p>
                         </section>
                       );
