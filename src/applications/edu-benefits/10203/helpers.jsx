@@ -10,7 +10,8 @@ export const isChapter33 = form =>
 export const displayConfirmEligibility = form =>
   !isChapter33(form) ||
   (!form.isEnrolledStem && !form.isPursuingTeachingCert) ||
-  form.benefitLeft === 'moreThanSixMonths';
+  form.benefitLeft === 'moreThanSixMonths' ||
+  form['view:remainingEntitlement']?.totalDays > 180;
 
 export function updateProgramDetailsSchema() {
   const usaStates = states.USA.map(state => state.value);
