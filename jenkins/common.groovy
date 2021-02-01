@@ -7,7 +7,7 @@ DRUPAL_MAPPING = [
 DRUPAL_ADDRESSES = [
   'vagovdev'    : 'http://internal-dsva-vagov-dev-cms-812329399.us-gov-west-1.elb.amazonaws.com',
   'vagovstaging': 'http://internal-dsva-vagov-staging-cms-1188006.us-gov-west-1.elb.amazonaws.com',
-  'vagovprod'   : 'http://internal-dsva-vagov-prod-cms-2000800896.us-gov-west-1.elb.amazonaws.com',
+  'vagovprod'   : 'http://internal-dsva-vagov-prod-cms-test-428849550.us-gov-west-1.elb.amazonaws.com',
 ]
 
 DRUPAL_CREDENTIALS = [
@@ -243,7 +243,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 
 def prearchive(dockerContainer, envName) {
   dockerContainer.inside(DOCKER_ARGS) {
-    sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath"
+    sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath --use-cms-export"
     sh "cd /application && node --max-old-space-size=10240 script/prearchive.js --buildtype=${envName}"
   }
 }
