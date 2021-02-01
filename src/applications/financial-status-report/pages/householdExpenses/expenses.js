@@ -12,7 +12,6 @@ export const uiSchema = {
         'ui:options': {
           widgetClassNames: 'input-size-3',
         },
-        'ui:required': () => true,
       },
     ),
     foodExpense: _.merge(
@@ -21,7 +20,6 @@ export const uiSchema = {
         'ui:options': {
           widgetClassNames: 'input-size-3',
         },
-        'ui:required': () => true,
       },
     ),
   },
@@ -32,6 +30,7 @@ export const schema = {
   properties: {
     expenses: {
       type: 'object',
+      required: ['housingExpense', 'foodExpense'],
       properties: {
         housingExpense: {
           type: 'number',
