@@ -4598,6 +4598,13 @@ consolidate@^0.14.0:
   dependencies:
     bluebird "^3.1.1"
 
+consolidate@^0.15.1:
+  version "0.15.1"
+  resolved "https://registry.yarnpkg.com/consolidate/-/consolidate-0.15.1.tgz#21ab043235c71a07d45d9aad98593b0dba56bab7"
+  integrity sha512-DW46nrsMJgy9kqAbPt5rKaCr7uFtpo4mSUvLHIUbJEjm0vo+aY5QLwBUq3FK4tRnJr/X0Psc0C4jf/h+HtXSMw==
+  dependencies:
+    bluebird "^3.1.1"
+
 constants-browserify@^1.0.0, constants-browserify@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/constants-browserify/-/constants-browserify-1.0.0.tgz#c20b96d8c617748aaf1c16021760cd27fcb8cb75"
@@ -10633,13 +10640,13 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-jstransformer-liquid@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/jstransformer-liquid/-/jstransformer-liquid-0.1.1.tgz#87bb62c621114e9c25aae9fa189db5f479697e09"
-  integrity sha1-h7tixiERTpwlqun6GJ219Hlpfgk=
+jstransformer-consolidate@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/jstransformer-consolidate/-/jstransformer-consolidate-0.4.0.tgz#c575397a09f3fe1e3e1c51ac295f17c27ce64a2a"
+  integrity sha1-xXU5egnz/h4+HFGsKV8XwnzmSio=
   dependencies:
-    extend-shallow "^2.0.1"
-    liquid-node "^2.6.1"
+    consolidate "^0.15.1"
+    extend-shallow "^3.0.2"
 
 jstransformer@^1.0.0:
   version "1.0.0"
@@ -10860,14 +10867,6 @@ linkify-it@^3.0.1:
   integrity sha512-gDBO4aHNZS6coiZCKVhSNh43F9ioIL4JwRjLZPkoLIY4yZFwg264Y5lu2x6rb1Js42Gh6Yqm2f6L2AJcnkzinQ==
   dependencies:
     uc.micro "^1.0.1"
-
-liquid-node@^2.6.1:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/liquid-node/-/liquid-node-2.6.1.tgz#bd388b1459fef4fc12c993c80699a1e1e41d7570"
-  integrity sha1-vTiLFFn+9PwSyZPIBpmh4eQddXA=
-  dependencies:
-    native-or-bluebird "~1.2.0"
-    strftime "~0.9.2"
 
 listenercount@~1.0.1:
   version "1.0.1"
@@ -12595,11 +12594,6 @@ nanomatch@^1.2.9:
     regex-not "^1.0.0"
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
-
-native-or-bluebird@~1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/native-or-bluebird/-/native-or-bluebird-1.2.0.tgz#39c47bfd7825d1fb9ffad32210ae25daadf101c9"
-  integrity sha1-OcR7/Xgl0fuf+tMiEK4l2q3xAck=
 
 native-promise-only@^0.8.1:
   version "0.8.1"
@@ -16842,11 +16836,6 @@ stream-splicer@^2.0.0:
   dependencies:
     inherits "^2.0.1"
     readable-stream "^2.0.2"
-
-strftime@~0.9.2:
-  version "0.9.2"
-  resolved "https://registry.yarnpkg.com/strftime/-/strftime-0.9.2.tgz#bcca2861f29456d372aaf6a17811c8bc6f39f583"
-  integrity sha1-vMooYfKUVtNyqvaheBHIvG859YM=
 
 strict-uri-encode@^1.0.0:
   version "1.1.0"

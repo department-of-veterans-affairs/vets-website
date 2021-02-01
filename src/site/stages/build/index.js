@@ -206,18 +206,20 @@ function build(BUILD_OPTIONS) {
 
   smith.use(
     layouts({
-      engine: 'liquid',
       directory: BUILD_OPTIONS.layouts,
       // Only apply layouts to markdown and html files.
       pattern: '**/*.{md,html}',
+      engineOptions: {
+        engine: 'liquid',
+      },
     }),
     'Apply layouts',
   );
 
   /*
-  * This will replace links in static pages with a staging domain,
-  * if it is in the list of domains to replace
-  */
+   * This will replace links in static pages with a staging domain,
+   * if it is in the list of domains to replace
+   */
   smith.use(
     rewriteVaDomains(BUILD_OPTIONS),
     'Rewrite VA domains for the buildtype',
