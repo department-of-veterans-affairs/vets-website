@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
 import { getAppointTypeFromAppointment, clearCurrentSession } from '../utils';
+import ConfirmationPageFooter from '../components/get-help/ConfirmationPageFooter';
 
 const ConfirmationPage = props => {
   const { appointment, form } = props;
@@ -72,32 +72,7 @@ const ConfirmationPage = props => {
         )}
         <button className="usa-button-primary">View and print questions</button>
       </div>
-      {appointment && (
-        <div className="next-steps">
-          <h2>
-            Who can I contact if I have questions about my upcoming appointment?
-          </h2>
-          <p>
-            You can contact the {facility && facility.displayName} at
-            XXX-XXX-XXXX and the {appointment.attributes.clinicFriendlyName} at{' '}
-            <Telephone contact={appointment.attributes.clinicPhone} />.
-          </p>
-          <div className="nav-buttons">
-            <a
-              className="usa-button-primary"
-              href="/health-care/health-questionnaires/questionnaires"
-            >
-              Go to your health questionnaires
-            </a>
-            <a
-              className="appointment-details-link usa-button-primary usa-button-secondary"
-              href="/health-care/schedule-view-va-appointments/appointments/"
-            >
-              Go to your appointment details
-            </a>
-          </div>
-        </div>
-      )}
+      {appointment && <ConfirmationPageFooter appointment={appointment} />}
     </div>
   );
 };

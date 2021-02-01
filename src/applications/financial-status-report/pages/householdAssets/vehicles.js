@@ -1,6 +1,8 @@
 import ItemLoop from '../../components/ItemLoop';
 import CardDetailsView from '../../components/CardDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import Typeahead from '../../components/Typeahead';
+import { formatOptions, vehicleTypes } from '../../constants/typeaheadOptions';
 import _ from 'lodash/fp';
 
 export const uiSchema = {
@@ -18,15 +20,16 @@ export const uiSchema = {
       expandUnder: 'hasVehicle',
       doNotScroll: true,
       showSave: true,
-      itemName: 'Add a vehicle',
+      itemName: 'a vehicle',
     },
     items: {
       vehicleType: {
         'ui:title': 'Type of vehicle',
+        'ui:field': Typeahead,
         'ui:options': {
-          widgetClassNames: 'input-size-7',
+          classNames: 'input-size-7',
+          getOptions: () => formatOptions(vehicleTypes),
         },
-        'ui:required': () => true,
       },
       vehicleMake: {
         'ui:title': 'Vehicle make',
@@ -43,14 +46,13 @@ export const uiSchema = {
       vehicleYear: {
         'ui:title': 'Vehicle year',
         'ui:options': {
-          widgetClassNames: 'input-size-3',
+          widgetClassNames: 'input-size-4',
         },
       },
       vehicleAmount: _.merge(currencyUI('Estimated value'), {
         'ui:options': {
           widgetClassNames: 'input-size-5',
         },
-        'ui:required': () => true,
       }),
     },
   },
@@ -67,6 +69,7 @@ export const schema = {
       items: {
         type: 'object',
         required: ['vehicleType', 'vehicleAmount'],
+        minItems: 1,
         properties: {
           vehicleType: {
             type: 'string',
@@ -78,7 +81,7 @@ export const schema = {
             type: 'string',
           },
           vehicleYear: {
-            type: 'number',
+            type: 'string',
           },
           vehicleAmount: {
             type: 'number',

@@ -20,7 +20,6 @@ module.exports = `
         entityType
         ...on NodeHealthCareRegionPage {
           ${entityElementsFromPages}
-          fieldNicknameForThisFacility
           title
         }
       }

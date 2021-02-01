@@ -27,12 +27,8 @@ export const selectFeatureCommunityCare = state =>
   toggleValues(state).vaOnlineSchedulingCommunityCare;
 export const selectFeatureDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingDirect;
-export const selectFeaturePastAppointments = state =>
-  toggleValues(state).vaOnlineSchedulingPast;
 export const selectFeatureVSPAppointmentNew = state =>
   toggleValues(state).vaOnlineSchedulingVspAppointmentNew;
-export const selectFeatureExpressCare = state =>
-  toggleValues(state).vaOnlineSchedulingExpressCare;
 export const selectFeatureExpressCareNewRequest = state =>
   toggleValues(state).vaOnlineSchedulingExpressCareNew;
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
@@ -61,3 +57,6 @@ export const selectIsWelcomeModalDismissed = state =>
 
 export const selectSystemIds = state =>
   selectPatientFacilities(state)?.map(f => f.facilityId) || null;
+
+export const selectFeatureHomepageRefresh = state =>
+  toggleValues(state).vaOnlineSchedulingHomepageRefresh;

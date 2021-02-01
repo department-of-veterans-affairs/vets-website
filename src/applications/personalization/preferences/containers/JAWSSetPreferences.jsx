@@ -7,7 +7,7 @@ import { Link, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import get from 'platform/utilities/data/get';
 import { focusElement } from 'platform/utilities/ui';

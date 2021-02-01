@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import DropDownPanel from '@department-of-veterans-affairs/formation-react/DropDownPanel';
-import IconUser from '@department-of-veterans-affairs/formation-react/IconUser';
+import DropDownPanel from '@department-of-veterans-affairs/component-library/DropDownPanel';
+import IconUser from '@department-of-veterans-affairs/component-library/IconUser';
 
 import PersonalizationDropdown from './PersonalizationDropdown';
 

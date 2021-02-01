@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { selectProfile } from 'platform/user/selectors';
 import { ADDRESS_TYPES } from 'platform/forms/address/helpers';
@@ -41,9 +41,9 @@ const ReviewDescription = ({ profile }) => {
   return (
     <>
       <div className="form-review-panel-page-header-row">
-        <h3 className="vads-u-font-size--h4 vads-u-margin--0">
+        <h4 className="vads-u-font-size--h4 vads-u-margin--0">
           Contact information
-        </h3>
+        </h4>
         <a
           href={PROFILE_URL}
           target="_blank"

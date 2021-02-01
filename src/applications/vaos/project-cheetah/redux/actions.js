@@ -10,10 +10,11 @@ import {
 } from '../../services/location';
 import { getPreciseLocation } from '../../utils/address';
 import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../utils/constants';
-import { captureError } from '../../utils/error';
+import { captureError, has400LevelError } from '../../utils/error';
 import {
   recordEligibilityFailure,
   recordItemsRetrieved,
+  resetDataLayer,
 } from '../../utils/events';
 import newBookingFlow from '../flow';
 import { TYPE_OF_CARE_ID } from '../utils';
@@ -24,6 +25,8 @@ import {
 import moment from 'moment';
 import { getSlots } from '../../services/slot';
 import recordEvent from 'platform/monitoring/record-event';
+import { transformFormToAppointment } from './helpers/formSubmitTransformers';
+import { submitAppointment } from '../../services/var';
 
 export const FORM_PAGE_OPENED = 'projectCheetah/FORM_PAGE_OPENED';
 export const FORM_DATA_UPDATED = 'projectCheetah/FORM_DATA_UPDATED';
@@ -40,8 +43,6 @@ export const FORM_CALENDAR_FETCH_SLOTS_FAILED =
   'projectCheetah/FORM_CALENDAR_FETCH_SLOTS_FAILED';
 export const FORM_CALENDAR_DATA_CHANGED =
   'projectCheetah/FORM_CALENDAR_DATA_CHANGED';
-export const FORM_CALENDAR_2_DATA_CHANGED =
-  'projectCheetah/FORM_CALENDAR_2_DATA_CHANGED';
 export const FORM_RESET = 'projectCheetah/FORM_RESET';
 export const FORM_SUBMIT = 'projectCheetah/FORM_SUBMIT';
 export const FORM_PAGE_FACILITY_OPEN = 'projectCheetah/FORM_PAGE_FACILITY_OPEN';
@@ -68,6 +69,10 @@ export const FORM_SUBMIT_SUCCEEDED = 'projectCheetah/FORM_SUBMIT_SUCCEEDED';
 export const FORM_SUBMIT_FAILED = 'projectCheetah/FORM_SUBMIT_FAILED';
 export const FORM_CLINIC_PAGE_OPENED_SUCCEEDED =
   'projectCheetah/FORM_CLINIC_PAGE_OPENED_SUCCEEDED';
+
+export const GA_FLOWS = {
+  DIRECT: 'direct',
+};
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -347,6 +352,53 @@ export function projectCheetahAppointmentDateChoice(history) {
   };
 }
 
+export function confirmAppointment(history) {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: FORM_SUBMIT,
+    });
+
+    const additionalEventData = {
+      'health-TypeOfCare': 'Vaccine',
+    };
+
+    recordEvent({
+      event: `${GA_PREFIX}-direct-submission`,
+      flow: GA_FLOWS.DIRECT,
+      ...additionalEventData,
+    });
+
+    try {
+      const appointmentBody = transformFormToAppointment(getState());
+      await submitAppointment(appointmentBody);
+
+      dispatch({
+        type: FORM_SUBMIT_SUCCEEDED,
+      });
+
+      recordEvent({
+        event: `${GA_PREFIX}-direct-submission-successful`,
+        flow: GA_FLOWS.DIRECT,
+        ...additionalEventData,
+      });
+      resetDataLayer();
+      history.push('/new-project-cheetah-booking/confirmation');
+    } catch (error) {
+      captureError(error, true);
+      dispatch({
+        type: FORM_SUBMIT_FAILED,
+        isVaos400Error: has400LevelError(error),
+      });
+
+      recordEvent({
+        event: `${GA_PREFIX}-direct-submission-failed`,
+        flow: GA_FLOWS.DIRECT,
+        ...additionalEventData,
+      });
+      resetDataLayer();
+    }
+  };
+}
 export function routeToPageInFlow(flow, history, current, action) {
   return async (dispatch, getState) => {
     dispatch({
@@ -389,17 +441,11 @@ export function routeToPageInFlow(flow, history, current, action) {
   };
 }
 
-export function onCalendarChange(selectedDates) {
+export function onCalendarChange(selectedDates, pageKey) {
   return {
     type: FORM_CALENDAR_DATA_CHANGED,
     selectedDates,
-  };
-}
-
-export function onCalendar2Change(selectedDates2) {
-  return {
-    type: FORM_CALENDAR_2_DATA_CHANGED,
-    selectedDates2,
+    pageKey,
   };
 }
 

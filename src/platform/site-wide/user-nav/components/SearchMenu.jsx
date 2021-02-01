@@ -11,8 +11,8 @@ import { escape } from 'lodash';
 import * as Sentry from '@sentry/browser';
 
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
-import IconSearch from '@department-of-veterans-affairs/formation-react/IconSearch';
-import DropDownPanel from '@department-of-veterans-affairs/formation-react/DropDownPanel';
+import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
+import DropDownPanel from '@department-of-veterans-affairs/component-library/DropDownPanel';
 
 export const searchGovSuggestionEndpoint = 'https://search.usa.gov/sayt';
 
@@ -47,10 +47,16 @@ export class SearchMenu extends React.Component {
       !prevProps.searchTypeaheadEnabled &&
       this.props.searchTypeaheadEnabled
     ) {
-      recordEvent({
-        event: 'phased-roll-out-enabled',
-        'product-description': 'Type Ahead',
-      });
+      const searchTypeaheadLogged = JSON.parse(
+        sessionStorage.getItem('searchTypeaheadLogged'),
+      );
+      if (!searchTypeaheadLogged) {
+        recordEvent({
+          event: 'phased-roll-out-enabled',
+          'product-description': 'Type Ahead',
+        });
+        sessionStorage.setItem('searchTypeaheadLogged', JSON.stringify(true));
+      }
     }
   }
 

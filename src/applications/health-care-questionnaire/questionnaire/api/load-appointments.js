@@ -1,7 +1,8 @@
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
-const USE_MOCK_DATA = window.Cypress || environment.isLocalhost();
+const USE_MOCK_DATA =
+  window.Cypress || environment.isLocalhost() || environment.isStaging();
 
 const loadAppointment = async id => {
   let promise;
@@ -10,8 +11,14 @@ const loadAppointment = async id => {
       setTimeout(() => {
         import(/* webpackChunkName: "appointment-data" */ './data.json').then(
           module => {
-            const appt = module.default.data.filter(f => f.data.id === id)[0];
-            resolve(appt || module.default.data[0]);
+            const questionnaire = module.default.data.filter(
+              f => f.appointment.id === id,
+            )[0];
+            if (questionnaire) {
+              resolve(questionnaire.appointment);
+            } else {
+              resolve(module.default.data[0].appointment);
+            }
           },
         );
       }, 0);

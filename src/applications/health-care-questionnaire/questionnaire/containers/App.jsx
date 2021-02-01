@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
@@ -33,7 +33,8 @@ const App = props => {
         setLoading();
         const id = getCurrentAppointmentId(window);
         loadAppointment(id).then(response => {
-          const { data } = response;
+          const data = response;
+
           setLoadedAppointment(data);
           setIsLoading(false);
           const apptType = getAppointTypeFromAppointment(data);

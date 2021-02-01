@@ -1,6 +1,11 @@
 import ItemLoop from '../../components/ItemLoop';
 import TableDetailsView from '../../components/TableDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import Typeahead from '../../components/Typeahead';
+import {
+  formatOptions,
+  deductionTypes,
+} from '../../constants/typeaheadOptions';
 import _ from 'lodash/fp';
 
 export const uiSchema = {
@@ -71,8 +76,10 @@ export const uiSchema = {
           items: {
             deductionType: {
               'ui:title': 'Type of payroll deduction',
+              'ui:field': Typeahead,
               'ui:options': {
-                widgetClassNames: 'input-size-3',
+                classNames: 'input-size-5',
+                getOptions: () => formatOptions(deductionTypes),
               },
             },
             deductionAmount: _.merge(currencyUI('Deduction amount'), {
@@ -122,6 +129,8 @@ export const schema = {
                   type: 'array',
                   items: {
                     type: 'object',
+                    minItems: 1,
+                    required: ['deductionType', 'deductionAmount'],
                     properties: {
                       deductionType: {
                         type: 'string',

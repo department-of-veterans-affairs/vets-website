@@ -91,7 +91,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     });
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
-      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
       calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
@@ -179,10 +179,11 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     expect(screen.baseElement).to.contain.text(
       '123 big sky stCincinnati, OH 45220',
     );
+
+    expect((await screen.findAllByRole('radio')).length).to.equal(7);
     expect(screen.baseElement).to.contain.text(
       'Displaying 1 to 5 of 16 providers',
     );
-    expect((await screen.findAllByRole('radio')).length).to.equal(7);
 
     userEvent.click(await screen.findByText(/\+ 5 more providers/i));
     expect(await screen.findByText(/displaying 1 to 10 of 16 providers/i)).to
@@ -292,7 +293,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     await setTypeOfFacility(store, /Community Care/i);
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
-      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
       calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
@@ -312,13 +313,49 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     userEvent.click(await screen.findByText(/Choose a provider/i));
     expect(
       await screen.findByRole('heading', {
-        name: /we’re sorry\. we’ve run into a problem/i,
+        name: /We can’t load provider information/i,
       }),
     );
     expect(
       await screen.findByText(
-        /something went wrong on our end. please try again later./i,
+        /We’re sorry. Something went wrong on our end. To request this appointment, you can:/i,
       ),
+    );
+  });
+
+  it('should display an alert when no providers are available', async () => {
+    const store = createTestStore(initialState);
+    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfFacility(store, /Community Care/i);
+    mockCCProviderFetch(
+      initialState.user.profile.vapContactInfo.residentialAddress,
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
+      calculateBoundingBox(
+        initialState.user.profile.vapContactInfo.residentialAddress.latitude,
+        initialState.user.profile.vapContactInfo.residentialAddress.longitude,
+        60,
+      ),
+      [],
+    );
+    const screen = renderWithStoreAndRouter(
+      <CommunityCareProviderSelectionPage />,
+      {
+        store,
+      },
+    );
+
+    // Trigger provider list loading
+    userEvent.click(await screen.findByText(/Choose a provider/i));
+    expect(await screen.findByText(/your address on file:/i)).to.exist;
+    expect(
+      await screen.findByRole('heading', {
+        name: /We can’t find any Primary care providers close to you/i,
+      }),
+    );
+    expect(
+      await screen.findByRole('link', {
+        name: /Find your health facility’s phone number/i,
+      }),
     );
   });
 
@@ -329,7 +366,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
-      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
       calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
@@ -364,7 +401,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
-      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
       calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,
@@ -415,7 +452,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     mockCCProviderFetch(
       currentPosition,
-      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
       calculateBoundingBox(
         currentPosition.latitude,
         currentPosition.longitude,
@@ -462,7 +499,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
-      ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
       calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,

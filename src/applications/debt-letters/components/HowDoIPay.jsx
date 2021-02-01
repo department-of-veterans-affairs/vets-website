@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import Telephone, {
   PATTERNS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 const HowDoIPay = () => (
   <div className="vads-u-font-family--sans">

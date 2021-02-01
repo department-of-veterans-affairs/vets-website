@@ -18,4 +18,4 @@ export const MARRIAGE_TYPES = {
   other: 'OTHER',
 };
 
-export const NETWORTH_VALUE = '130,733';
+export const NETWORTH_VALUE = '130,773';

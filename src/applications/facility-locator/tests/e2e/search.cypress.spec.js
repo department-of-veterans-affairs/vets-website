@@ -19,17 +19,18 @@ Cypress.Commands.add('verifyOptions', () => {
   cy.get('#facility-type-dropdown').select(
     'Community providers (in VA’s network)',
   );
-  cy.get('#service-type-dropdown').should('not.have.attr', 'disabled');
+  cy.get('#service-typeahead').should('not.have.attr', 'disabled');
 
   // CCP pharmacies dont have services available
   cy.get('#facility-type-dropdown').select(
     'Community pharmacies (in VA’s network)',
   );
-  cy.get('#service-type-dropdown').should('not.have', 'disabled');
+  cy.get('#service-typeahead').should('not.have', 'disabled');
 });
 
-describe.skip('Facility search', () => {
-  before(() => {
+describe('Facility search', () => {
+  before(function() {
+    if (!Cypress.env('CIRCLECI')) this.skip();
     cy.syncFixtures({
       constants: path.join(__dirname, '..', '..', 'constants'),
     });
@@ -135,6 +136,7 @@ describe.skip('Facility search', () => {
 
   it('finds community dentists', () => {
     cy.visit('/find-locations');
+    cy.injectAxe();
 
     cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown').select(
@@ -149,7 +151,6 @@ describe.skip('Facility search', () => {
     );
     cy.get('#other-tools').should('exist');
 
-    cy.injectAxe();
     cy.axeCheck();
 
     cy.get('.facility-result h3').contains('BADEA, LUANA');
@@ -159,12 +160,13 @@ describe.skip('Facility search', () => {
 
   it('finds community urgent care', () => {
     cy.visit('/find-locations');
+    cy.injectAxe();
 
     cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown').select(
       'Community providers (in VA’s network)',
     );
-    cy.get('#service-type-ahead-input').type('Clinic/Center - Urgent care');
+    cy.get('#service-type-ahead-input').type('Clinic/Center - Urgent Care');
     cy.get('#downshift-1-item-0').click();
 
     cy.get('#facility-search').click();
@@ -173,7 +175,6 @@ describe.skip('Facility search', () => {
     );
     cy.get('#other-tools').should('exist');
 
-    cy.injectAxe();
     cy.axeCheck();
 
     cy.get('.facility-result h3').contains('Concentra Urgent Care');
@@ -206,7 +207,10 @@ describe.skip('Facility search', () => {
     cy.injectAxe();
 
     // Invalid location search
-    cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-failed-location').as(
+    cy.route(
+      'GET',
+      '/geocoding/**/*',
+      'fx:constants/mock-failed-location',
       'failedLocation',
     );
 
@@ -222,6 +226,7 @@ describe.skip('Facility search', () => {
     cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data').as(
       'validLocationSearch',
     );
+    cy.get('#street-city-state-zip').clear();
     cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown').select('VA health');
     cy.get('#service-type-dropdown').select('Primary care');

@@ -56,7 +56,13 @@
     "va/use-resolved-path": [
       2,
       {
-        "aliases": ["applications", "platform", "site", "@@vap-svc", "@@profile"]
+        "aliases": [
+          "applications",
+          "platform",
+          "site",
+          "@@vap-svc",
+          "@@profile"
+        ]
       }
     ],
 

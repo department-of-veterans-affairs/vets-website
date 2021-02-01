@@ -10,9 +10,13 @@ describe('health care questionnaire -- utils -- questionnaire list -- ordering b
     const result = sortQuestionnairesByStatus(data);
     expect(result.completed).to.exist;
     const { completed } = result;
-    const first = new Date(completed[0].appointment.appointmentTime);
+    const first = new Date(
+      completed[0].appointment.attributes.vdsAppointments[0].appointmentTime,
+    );
     const last = new Date(
-      completed[completed.length - 1].appointment.appointmentTime,
+      completed[
+        completed.length - 1
+      ].appointment.attributes.vdsAppointments[0].appointmentTime,
     );
     expect(first.getTime() < last.getTime()).to.be.true;
   });
@@ -21,8 +25,14 @@ describe('health care questionnaire -- utils -- questionnaire list -- ordering b
     const result = sortQuestionnairesByStatus(data);
     expect(result.toDo).to.exist;
     const { toDo } = result;
-    const first = new Date(toDo[0].appointment.appointmentTime);
-    const last = new Date(toDo[toDo.length - 1].appointment.appointmentTime);
+    const first = new Date(
+      toDo[0].appointment.attributes.vdsAppointments[0].appointmentTime,
+    );
+    const last = new Date(
+      toDo[
+        toDo.length - 1
+      ].appointment.attributes.vdsAppointments[0].appointmentTime,
+    );
     expect(first.getTime() < last.getTime()).to.be.true;
   });
 });

@@ -1,6 +1,11 @@
 import ItemLoop from '../../components/ItemLoop';
 import CardDetailsView from '../../components/CardDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import Typeahead from '../../components/Typeahead';
+import {
+  formatOptions,
+  realEstateTypes,
+} from '../../constants/typeaheadOptions';
 import _ from 'lodash/fp';
 
 export const uiSchema = {
@@ -18,21 +23,21 @@ export const uiSchema = {
       expandUnder: 'hasRealEstate',
       doNotScroll: true,
       showSave: true,
-      itemName: 'Add real estate',
+      itemName: 'real estate',
     },
     items: {
       realEstateType: {
         'ui:title': 'Type of real estate',
+        'ui:field': Typeahead,
         'ui:options': {
-          widgetClassNames: 'input-size-6',
+          classNames: 'input-size-6',
+          getOptions: () => formatOptions(realEstateTypes),
         },
-        'ui:required': () => true,
       },
       realEstateAmount: _.merge(currencyUI('Estimated value'), {
         'ui:options': {
           widgetClassNames: 'input-size-4',
         },
-        'ui:required': () => true,
       }),
     },
   },
@@ -49,6 +54,7 @@ export const schema = {
       items: {
         type: 'object',
         required: ['realEstateType', 'realEstateAmount'],
+        minItems: 1,
         properties: {
           realEstateType: {
             type: 'string',

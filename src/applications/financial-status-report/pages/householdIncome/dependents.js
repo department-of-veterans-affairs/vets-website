@@ -16,7 +16,7 @@ export const uiSchema = {
       viewField: CardDetailsView,
       doNotScroll: true,
       showSave: true,
-      itemName: 'Add a dependent',
+      itemName: 'a dependent',
     },
     items: {
       dependentAge: {
@@ -41,6 +41,7 @@ export const schema = {
       items: {
         type: 'object',
         required: ['dependentAge'],
+        minItems: 1,
         properties: {
           dependentAge: {
             type: 'string',

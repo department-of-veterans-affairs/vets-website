@@ -63,7 +63,6 @@ module.exports = {
       maxItems: 1,
     },
     field_mental_health_phone: { $ref: 'GenericNestedString' },
-    field_nickname_for_this_facility: { $ref: 'GenericNestedString' },
     field_operating_status_facility: { $ref: 'GenericNestedString' },
     // maxItems: 0 until we have an example of what this should be
     field_operating_status_more_info: { $ref: 'GenericNestedString' },
@@ -89,7 +88,6 @@ module.exports = {
     'field_main_location',
     'field_media',
     'field_mental_health_phone',
-    'field_nickname_for_this_facility',
     'field_operating_status_facility',
     'field_operating_status_more_info',
     'field_phone_number',
