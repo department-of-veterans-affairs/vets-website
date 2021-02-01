@@ -15,7 +15,6 @@ module.exports = {
     },
     fieldButtonsRepeat: { type: 'boolean' },
     fieldContactInformation: { $ref: 'output/paragraph-contact_information' },
-    // TEMPORARY WORKAROUND
     // fieldContentBlock: {
     //   oneOf: [
     //     { $ref: 'output/paragraph-alert' },
@@ -68,7 +67,7 @@ module.exports = {
     'entityMetatags',
     'entityPublished',
     'entityType',
-    'fieldContentBlock',
+    // 'fieldContentBlock',
     'fieldIntroTextLimitedHtml',
   ],
 };
