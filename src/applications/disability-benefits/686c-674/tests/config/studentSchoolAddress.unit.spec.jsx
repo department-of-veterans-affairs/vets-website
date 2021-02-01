@@ -45,8 +45,8 @@ describe('Report 674 school information', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(7);
-    expect(form.find('select').length).to.equal(2);
+    expect(form.find('input').length).to.equal(6);
+    expect(form.find('select').length).to.equal(3);
     form.unmount();
   });
 
@@ -79,7 +79,11 @@ describe('Report 674 school information', () => {
       />,
     );
     fillData(form, 'input#root_schoolInformation_name', 'Phoenix Online');
-    fillData(form, 'input#root_schoolInformation_trainingProgram', 'A Degree');
+    changeDropdown(
+      form,
+      'select#root_schoolInformation_trainingProgram',
+      'HighSch',
+    );
     changeDropdown(
       form,
       'select#root_schoolInformation_address_countryName',
@@ -111,7 +115,11 @@ describe('Report 674 school information', () => {
       />,
     );
     fillData(form, 'input#root_schoolInformation_name', 'Phoenix Online');
-    fillData(form, 'input#root_schoolInformation_trainingProgram', 'A Degree');
+    changeDropdown(
+      form,
+      'select#root_schoolInformation_trainingProgram',
+      'HighSch',
+    );
     changeDropdown(
       form,
       'select#root_schoolInformation_address_countryName',
