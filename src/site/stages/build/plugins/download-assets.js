@@ -43,7 +43,9 @@ async function downloadFromLiveBucket(files, buildOptions) {
 
   console.log(`Downloading assets from ${bucket}...`);
 
-  const fileManifestRequest = await fetch(`${bucket}/${fileManifestPath}`);
+  const fileManifestRequest = await fetch(
+    `https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/${fileManifestPath}`,
+  );
   const fileManifest = await fileManifestRequest.json();
 
   files[fileManifestPath] = {
@@ -55,7 +57,7 @@ async function downloadFromLiveBucket(files, buildOptions) {
 
   const downloads = entryNames.map(async entryName => {
     let bundleFileName = fileManifest[entryName];
-    const bundleUrl = `${bucket}${bundleFileName}`;
+    const bundleUrl = `https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/${bundleFileName}`;
     const bundleResponse = await fetch(bundleUrl);
 
     if (!bundleResponse.ok) {

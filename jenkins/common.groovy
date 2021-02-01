@@ -4,6 +4,7 @@ DRUPAL_MAPPING = [
   'prod': 'vagovprod',
 ]
 
+// Also update these URLs in src/constants/drupal.js
 DRUPAL_ADDRESSES = [
   'vagovdev'    : 'http://internal-dsva-vagov-dev-cms-812329399.us-gov-west-1.elb.amazonaws.com',
   'vagovstaging': 'http://internal-dsva-vagov-staging-cms-1188006.us-gov-west-1.elb.amazonaws.com',
