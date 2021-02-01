@@ -4,9 +4,9 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import PropTypes from 'prop-types';
+import recordEvent from 'platform/monitoring/record-event';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
-import map from 'lodash/map';
 // Relative imports.
 import SearchResult from '../../components/SearchResult';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
@@ -111,6 +111,36 @@ export class SearchResults extends Component {
     return endNumber - (perPage - 1);
   };
 
+  recordEventOnSearchResultClick = (school = {}) => () => {
+    // Derive the current name params.
+    const queryParams = new URLSearchParams(window.location.search);
+
+    // Derive the state values from our query params.
+    const name = queryParams.get('name') || '';
+
+    const { page, perPage, totalResults } = this.props;
+
+    return recordEvent({
+      event: 'onsite-search-results-click',
+      'search-result-type': 'cta',
+      'search-filters-list': {
+        stateOrTerritory: school?.state || undefined,
+        city: school?.city || undefined,
+        contributionAmount: school?.contributionAmount || undefined,
+        numberOfStudents: school?.numberOfStudents || undefined,
+      },
+      'search-results-top-recommendation': undefined,
+      'search-selection': 'Yellow Ribbon',
+      'search-result-chosen-page-url': 'https://benefits.va.gov/benefits', // dynamically populate accoding to the url href
+      'search-result-chosen-title': 'Veterans Benefits Administration Home', // dynamically populate with the top level title
+      'search-query': name,
+      'search-total-results': totalResults,
+      'search-total-result-pages': Math.ceil(totalResults / perPage),
+      'search-result-position': school?.positionInResults,
+      'search-result-page': page,
+    });
+  };
+
   toggleAlertBoxAppearance = state => () =>
     this.setState({
       isSearchResultsTipOpen: state,
@@ -121,6 +151,7 @@ export class SearchResults extends Component {
       deriveResultsEndNumber,
       deriveResultsStartNumber,
       onPageSelect,
+      recordEventOnSearchResultClick,
       toggleAlertBoxAppearance,
       state,
     } = this;
@@ -220,8 +251,12 @@ export class SearchResults extends Component {
           className="search-results vads-u-margin-top--2 vads-u-padding--0"
           data-e2e-id="search-results"
         >
-          {map(results, school => (
-            <SearchResult key={school?.id} school={school} />
+          {results.map((school, index) => (
+            <SearchResult
+              key={school?.id}
+              school={{ ...school, positionInResults: index + 1 }}
+              recordEventOnClick={recordEventOnSearchResultClick}
+            />
           ))}
         </ul>
 

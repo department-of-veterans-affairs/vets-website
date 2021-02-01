@@ -75,7 +75,7 @@ export const deriveEligibleStudentsLabel = (school = {}) => {
   return `${school?.numberOfStudents} students`;
 };
 
-export const deriveInstURLLabel = (school = {}) => {
+export const deriveInstURLLabel = (school = {}, recordEventOnClick) => {
   // Show unknown if there's no insturl.
   if (!school?.insturl) {
     return 'Not provided';
@@ -88,7 +88,12 @@ export const deriveInstURLLabel = (school = {}) => {
 
   // Show the school's website URL.
   return (
-    <a href={href} rel="noreferrer noopener" target="_blank">
+    <a
+      href={href}
+      onClick={recordEventOnClick(school)}
+      rel="noreferrer noopener"
+      target="_blank"
+    >
       {toLower(school?.insturl)}
     </a>
   );
@@ -114,7 +119,7 @@ export const deriveDivisionProfessionalSchool = (school = {}) => {
   return school?.divisionProfessionalSchool;
 };
 
-export const SearchResult = ({ school }) => (
+export const SearchResult = ({ school, recordEventOnClick }) => (
   <li className="usa-unstyled-list vads-l-col vads-u-margin-bottom--2 vads-u-padding-x--2 vads-u-padding-y--2 vads-u-background-color--gray-light-alt">
     {/* School Name */}
     <dl className="vads-u-margin--0">
@@ -161,7 +166,7 @@ export const SearchResult = ({ school }) => (
             School website
             <dfn className="sr-only">:</dfn>
           </dt>
-          <dd>{deriveInstURLLabel(school)}</dd>
+          <dd>{deriveInstURLLabel(school, recordEventOnClick)}</dd>
         </dl>
       </div>
 
@@ -187,6 +192,7 @@ export const SearchResult = ({ school }) => (
 );
 
 SearchResult.propTypes = {
+  recordEventOnClick: PropTypes.func,
   school: PropTypes.shape({
     city: PropTypes.string.isRequired,
     contributionAmount: PropTypes.string.isRequired,
@@ -195,6 +201,7 @@ SearchResult.propTypes = {
     nameOfInstitution: PropTypes.string.isRequired,
     numberOfStudents: PropTypes.number.isRequired,
     state: PropTypes.string.isRequired,
+    positionInResults: PropTypes.number,
   }).isRequired,
 };
 

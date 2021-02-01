@@ -4,18 +4,22 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
 // Relative imports.
-import { SearchForm } from './index';
+import { SearchForm, TOOL_TIP_LABEL, TOOL_TIP_CONTENT } from './index';
 
 describe('Yellow Ribbon container <SearchForm>', () => {
   it('should render', () => {
     const tree = mount(<SearchForm showYellowRibbonEnhancements />);
     const select = tree.find('select');
     const input = tree.find('input');
-    const additionalToolsTip = tree.find('button .additional-info-title');
+    const additionalToolsTipLabel = tree.find('button .additional-info-title');
+    // Change State of CO
+    tree.find('button .additional-info-title').simulate('click');
+    const additionalToolsTipContent = tree.find('.additional-info-content');
 
     expect(select.length).to.be.equal(1);
     expect(input.length).to.be.equal(4);
-    expect(additionalToolsTip.length).to.be.equal(1);
+    expect(additionalToolsTipLabel.html()).to.include(TOOL_TIP_LABEL);
+    expect(additionalToolsTipContent.html()).to.include(TOOL_TIP_CONTENT);
     tree.unmount();
   });
 

@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import map from 'lodash/map';
 import { connect } from 'react-redux';
 // Relative imports.
+import recordEvent from 'platform/monitoring/record-event';
 import { states as STATES } from 'vets-json-schema/dist/constants.json';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { fetchResultsThunk } from '../../actions';
@@ -16,6 +17,9 @@ import {
   yellowRibbonEnhancements,
 } from '../../helpers/selectors';
 
+export const TOOL_TIP_LABEL = 'Tips to improve search results';
+export const TOOL_TIP_CONTENT =
+  "Enter A School's full name. For Example, search for New York University not NYU.";
 export class SearchForm extends Component {
   static propTypes = {
     // From mapStateToProps.
@@ -40,6 +44,7 @@ export class SearchForm extends Component {
     const state = queryParams.get('state') || '';
 
     this.state = {
+      isToolTipOpen: false,
       city,
       contributionAmount,
       name,
@@ -111,8 +116,26 @@ export class SearchForm extends Component {
     scrollToTop();
   };
 
+  onClickToolTipHandler = () => {
+    const nextTipState = !this.state.isToolTipOpen;
+    return this.setState({ isToolTipOpen: nextTipState }, () =>
+      recordEvent({
+        event:
+          nextTipState === false
+            ? 'int-additionalInfo-collapse'
+            : 'int-additionalInfo-expand',
+        'additionalInfo-click-label': TOOL_TIP_LABEL,
+      }),
+    );
+  };
+
   render() {
-    const { onCheckboxChange, onReactStateChange, onSubmitHandler } = this;
+    const {
+      onCheckboxChange,
+      onReactStateChange,
+      onSubmitHandler,
+      onClickToolTipHandler,
+    } = this;
     const {
       fetching,
       showMobileForm,
@@ -161,14 +184,10 @@ export class SearchForm extends Component {
         </div>
         {showYellowRibbonEnhancements && (
           <AdditionalInfo
-            triggerText="Tips to improve search results"
-            // TODO: ADD GA
-            onClick={() => {}}
+            triggerText={TOOL_TIP_LABEL}
+            onClick={onClickToolTipHandler}
           >
-            <p>
-              Enter A School's full name. For Example, search for New York
-              University not NYU.
-            </p>
+            <p>{TOOL_TIP_CONTENT}</p>
           </AdditionalInfo>
         )}
         {/* State Field */}

@@ -8,6 +8,7 @@ import { SearchResult } from './index';
 describe('Yellow Ribbon <SearchResult>', () => {
   it('should render', () => {
     const props = {
+      recordEventOnClick: () => {},
       school: {
         city: 'Los Angeles',
         contributionAmount: '500',
