@@ -473,6 +473,23 @@ export function validateDateRange(
   }
 }
 
+export function validateDateRangeAllowSameMonth(
+  errors,
+  dateRange,
+  formData,
+  schema,
+  errorMessages,
+) {
+  const fromDate = convertToDateField(dateRange.from);
+  const toDate = convertToDateField(dateRange.to);
+
+  if (!isValidDateRange(fromDate, toDate, true)) {
+    errors.to.addError(
+      errorMessages.pattern || 'To date must be after from date',
+    );
+  }
+}
+
 export function getFileError(file) {
   if (file.errorMessage) {
     return file.errorMessage;
