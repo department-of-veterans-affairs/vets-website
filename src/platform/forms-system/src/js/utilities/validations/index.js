@@ -88,14 +88,16 @@ export function dateToMoment(dateField) {
   });
 }
 
-export function isValidDateRange(fromDate, toDate) {
+export function isValidDateRange(fromDate, toDate, allowSameMonth = false) {
   if (isBlankDateField(toDate) || isBlankDateField(fromDate)) {
     return true;
   }
   const momentStart = dateToMoment(fromDate);
   const momentEnd = dateToMoment(toDate);
 
-  return momentStart.isBefore(momentEnd);
+  return allowSameMonth
+    ? momentStart.isSameOrBefore(momentEnd)
+    : momentStart.isBefore(momentEnd);
 }
 
 // Pulled from https://en.wikipedia.org/wiki/Routing_transit_number#Check_digit
