@@ -30,7 +30,7 @@ const createOutreachAssetsData = require('./plugins/create-outreach-assets-data'
 const createReactPages = require('./plugins/create-react-pages');
 const createResourcesAndSupportWebsiteSection = require('./plugins/create-resources-and-support-section');
 const createSitemaps = require('./plugins/create-sitemaps');
-const downloadDrupalAssets = require('./plugins/download-drupal-assets');
+// const downloadDrupalAssets = require('./plugins/download-drupal-assets');
 const leftRailNavResetLevels = require('./plugins/left-rail-nav-reset-levels');
 const modifyDom = require('./plugins/modify-dom');
 const rewriteDrupalPages = require('./plugins/rewrite-drupal-pages');
@@ -225,7 +225,7 @@ function build(BUILD_OPTIONS) {
   smith.use(rewriteDrupalPages(BUILD_OPTIONS), 'Rewrite Drupal pages');
   smith.use(createDrupalDebugPage(BUILD_OPTIONS), 'Create Drupal debug page');
 
-  smith.use(downloadDrupalAssets(BUILD_OPTIONS), 'Download Drupal assets');
+  // smith.use(downloadDrupalAssets(BUILD_OPTIONS), 'Download Drupal assets');
 
   if (BUILD_OPTIONS['asset-source'] !== assetSources.LOCAL) {
     // Download the pre-built application assets if needed

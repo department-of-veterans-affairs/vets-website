@@ -10,9 +10,9 @@ const buckets = require('../../../constants/buckets');
 const assetSources = require('../../../constants/assetSources');
 
 // exits with non-zero if a download failed (for jenkins)
-// process.on('unhandledRejection', up => {
-//   throw up;
-// });
+process.on('unhandledRejection', up => {
+  throw up;
+});
 
 function downloadFile(url, dest) {
   return new Promise((resolve, reject) => {
