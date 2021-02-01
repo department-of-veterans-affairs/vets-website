@@ -15,7 +15,7 @@ const DRUPAL_STAGING = {
 };
 
 const DRUPAL_PROD = {
-  address: 'https://test.prod.cms.va.gov',
+  address: 'https://prod.cms.va.gov',
   user: 'api',
   password: 'drupal8',
 };
@@ -53,7 +53,7 @@ const PUBLIC_URLS = {
   'http://internal-dsva-vagov-staging-cms-1188006.us-gov-west-1.elb.amazonaws.com':
     'http://staging.cms.va.gov',
   'http://internal-dsva-vagov-prod-cms-test-428849550.us-gov-west-1.elb.amazonaws.com':
-    'http://test.prod.cms.va.gov',
+    'http://prod.cms.va.gov',
 };
 
 module.exports = DRUPALS;
