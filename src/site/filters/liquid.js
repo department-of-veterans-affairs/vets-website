@@ -99,8 +99,8 @@ module.exports = function registerFilters() {
           .replace('http://va-gov-cms.lndo.site/sites/default/files', '/img')
           .replace('http://dev.cms.va.gov/sites/default/files', '/img')
           .replace('http://staging.cms.va.gov/sites/default/files', '/img')
-          .replace('http://prod.cms.va.gov/sites/default/files', '/img')
-          .replace('https://prod.cms.va.gov/sites/default/files', '/img')
+          .replace('http://test.prod.cms.va.gov/sites/default/files', '/img')
+          .replace('https://test.prod.cms.va.gov/sites/default/files', '/img')
           .replace('http://cms.va.gov/sites/default/files', '/img')
           .replace('https://cms.va.gov/sites/default/files', '/img'),
       );
@@ -110,8 +110,8 @@ module.exports = function registerFilters() {
           .replace('http://va-gov-cms.lndo.site/sites/default/files', '/files')
           .replace('http://dev.cms.va.gov/sites/default/files', '/files')
           .replace('http://staging.cms.va.gov/sites/default/files', '/files')
-          .replace('http://prod.cms.va.gov/sites/default/files', '/files')
-          .replace('https://prod.cms.va.gov/sites/default/files', '/files')
+          .replace('http://test.prod.cms.va.gov/sites/default/files', '/files')
+          .replace('https://test.prod.cms.va.gov/sites/default/files', '/files')
           .replace('http://cms.va.gov/sites/default/files', '/files')
           .replace('https://cms.va.gov/sites/default/files', '/files'),
       );
