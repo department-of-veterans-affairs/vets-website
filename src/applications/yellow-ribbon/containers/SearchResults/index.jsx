@@ -12,6 +12,10 @@ import SearchResult from '../../components/SearchResult';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { fetchResultsThunk } from '../../actions';
 import { focusElement } from 'platform/utilities/ui';
+import {
+  getYellowRibbonAppState,
+  yellowRibbonEnhancements,
+} from '../../helpers/selectors';
 
 export class SearchResults extends Component {
   static propTypes = {
@@ -31,14 +35,25 @@ export class SearchResults extends Component {
     ),
     page: PropTypes.number.isRequired,
     perPage: PropTypes.number.isRequired,
+    showYellowRibbonEnhancements: PropTypes.bool,
     totalResults: PropTypes.number,
   };
 
-  componentDidUpdate(prevProps) {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isSearchResultsTipOpen: true,
+    };
+  }
+
+  componentDidUpdate(prevProps, prevState) {
     const justRefreshed = prevProps.fetching && !this.props.fetching;
 
     if (justRefreshed) {
       focusElement('[data-display-results-header]');
+      if (!prevState.isSearchResultsTipOpen) {
+        this.toggleAlertBoxAppearance(true)(null);
+      }
     }
   }
 
@@ -96,11 +111,18 @@ export class SearchResults extends Component {
     return endNumber - (perPage - 1);
   };
 
+  toggleAlertBoxAppearance = state => () =>
+    this.setState({
+      isSearchResultsTipOpen: state,
+    });
+
   render() {
     const {
       deriveResultsEndNumber,
       deriveResultsStartNumber,
       onPageSelect,
+      toggleAlertBoxAppearance,
+      state,
     } = this;
     const {
       error,
@@ -108,6 +130,7 @@ export class SearchResults extends Component {
       page,
       perPage,
       results,
+      showYellowRibbonEnhancements,
       totalResults,
     } = this.props;
 
@@ -142,12 +165,25 @@ export class SearchResults extends Component {
           >
             No schools found for your search criteria.
           </h2>
-          <p>To find participating schools:</p>
-          <ul>
-            <li>Double-check your spelling.</li>
-            <li>Try fewer search terms.</li>
-            <li>Try more general search terms.</li>
-          </ul>
+
+          {showYellowRibbonEnhancements ? (
+            <AlertBox
+              content="Enter a school's full name. For example, search for New York University not NYU."
+              headline="Tips to improve your search results"
+              onCloseAlert={toggleAlertBoxAppearance(false)}
+              isVisible={state.isSearchResultsTipOpen}
+              status="info"
+            />
+          ) : (
+            <>
+              <p>To find participating schools:</p>
+              <ul>
+                <li>Double-check your spelling.</li>
+                <li>Try fewer search terms.</li>
+                <li>Try more general search terms.</li>
+              </ul>
+            </>
+          )}
         </>
       );
     }
@@ -169,6 +205,15 @@ export class SearchResults extends Component {
           </span>
           {resultsEndNumber} of {totalResults} results
         </h2>
+        {showYellowRibbonEnhancements && (
+          <AlertBox
+            content="Enter a school's full name. For example, search for New York University not NYU."
+            headline="Tips to improve your search results"
+            isVisible={state.isSearchResultsTipOpen}
+            onCloseAlert={toggleAlertBoxAppearance(false)}
+            status="info"
+          />
+        )}
 
         {/* Table of Results */}
         <ul
@@ -195,12 +240,13 @@ export class SearchResults extends Component {
 }
 
 const mapStateToProps = state => ({
-  error: state.yellowRibbonReducer.error,
-  fetching: state.yellowRibbonReducer.fetching,
-  results: state.yellowRibbonReducer.results,
-  page: state.yellowRibbonReducer.page,
-  perPage: state.yellowRibbonReducer.perPage,
-  totalResults: state.yellowRibbonReducer.totalResults,
+  error: getYellowRibbonAppState(state).error,
+  fetching: getYellowRibbonAppState(state).fetching,
+  results: getYellowRibbonAppState(state).results,
+  page: getYellowRibbonAppState(state).page,
+  perPage: getYellowRibbonAppState(state).perPage,
+  showYellowRibbonEnhancements: yellowRibbonEnhancements(state),
+  totalResults: getYellowRibbonAppState(state).totalResults,
 });
 
 const mapDispatchToProps = dispatch => ({

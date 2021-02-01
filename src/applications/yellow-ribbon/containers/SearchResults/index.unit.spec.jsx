@@ -1,7 +1,7 @@
 // Dependencies.
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import times from 'lodash/times';
 // Relative imports.
 import { SearchResults } from './index';
@@ -37,6 +37,19 @@ describe('Yellow Ribbon container <SearchResults>', () => {
     const tree = shallow(<SearchResults results={[]} />);
 
     expect(tree.html()).to.include('No schools found');
+
+    tree.unmount();
+  });
+
+  it('renders alert tip component with no results found', () => {
+    const tree = mount(
+      <SearchResults results={[]} showYellowRibbonEnhancements />,
+    );
+
+    expect(tree.html()).to.include(
+      "Enter a school's full name. For example, search for New York University not NYU.",
+    );
+    expect(tree.html()).to.include('Tips to improve your search results');
 
     tree.unmount();
   });

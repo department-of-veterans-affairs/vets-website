@@ -2,18 +2,20 @@
 import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 // Relative imports.
 import { SearchForm } from './index';
 
 describe('Yellow Ribbon container <SearchForm>', () => {
   it('should render', () => {
-    const tree = shallow(<SearchForm />);
+    const tree = mount(<SearchForm showYellowRibbonEnhancements />);
     const select = tree.find('select');
     const input = tree.find('input');
+    const additionalToolsTip = tree.find('button .additional-info-title');
 
     expect(select.length).to.be.equal(1);
-    expect(input.length).to.be.equal(2);
+    expect(input.length).to.be.equal(4);
+    expect(additionalToolsTip.length).to.be.equal(1);
     tree.unmount();
   });
 

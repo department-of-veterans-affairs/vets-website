@@ -1,13 +1,13 @@
 // Dependencies.
 import React, { Component } from 'react';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import PropTypes from 'prop-types';
+import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import URLSearchParams from 'url-search-params';
 import classNames from 'classnames';
 import map from 'lodash/map';
 import { connect } from 'react-redux';
 // Relative imports.
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import { states as STATES } from 'vets-json-schema/dist/constants.json';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { fetchResultsThunk } from '../../actions';
@@ -21,6 +21,7 @@ export class SearchForm extends Component {
     // From mapStateToProps.
     fetching: PropTypes.bool.isRequired,
     showMobileForm: PropTypes.bool.isRequired,
+    showYellowRibbonEnhancements: PropTypes.bool,
     // From mapDispatchToProps.
     fetchResultsThunk: PropTypes.func.isRequired,
   };
