@@ -14,44 +14,48 @@
       </div>
     {% endif %}
 
-    <div class="campaign-landing-page">
-      <div class="hero" style="background-image: url('{{ fieldHeroImage.entity.image.url }}">
-        <!-- Hero Content -->
-        <div class="hero-content">
-          <h1>{{ title }}</h1>
-          <hr />
-          <p>{{ fieldHeroBlurb }}</p>
+    <div class="va-c-hero" style="background-image: url('{{ fieldHeroImage.entity.image.url }}">
+      <!-- Hero Content -->
+      <div class="usa-grid usa-grid-full">
+        <div class="homepage-hub va-c-hero-content vads-u-padding-x--4 vads-u-padding-y--6">
+          <h1 class="vads-u-color--white">{{ title }}</h1>
+          <hr class="va-c-blue-line vads-u-border-color--primary-alt vads-u-margin-y--2" />
+          <p class="vads-u-color--white">{{ fieldHeroBlurb }}</p>
 
           {% if fieldPrimaryCallToAction %}
-            <a class="usa-butto-secondary" href="{{ fieldPrimaryCallToAction.entity.fieldButtonLink.url.path }}" rel="noreferrer noopener">
+            <a class="va-c-custom-hero-button usa-button usa-button-secondary vads-u-margin-top--2 vads-u-background-color--white vads-u-border-color--white vads-u-font-size--sm" href="{{ fieldPrimaryCallToAction.entity.fieldButtonLink.url.path }}" rel="noreferrer noopener">
               {{ fieldPrimaryCallToAction.entity.fieldButtonLabel }}
             </a>
           {% endif %}
         </div>
       </div>
+    </div>
 
-      <!-- Why This Matters -->
-      <div class="why-this-matters">
+    <!-- Why This Matters -->
+    <div class="vads-u-background-color--primary-alt-lightest vads-u-padding-bottom--1">
+      <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row usa-grid usa-grid-full vads-u-padding-y--4 vads-u-padding-x--2 large-screen:vads-u-padding-x--0">
         <!-- Content -->
-        <div class="why-this-matters-content">
-          <h2>Why this matters to you</h2>
-          <p>{{ fieldClpWhyThisMatters }}</p>
+        <div>
+          <h2 class="vads-u-margin--0 vads-u-margin-bottom--2">Why this matters to you</h2>
+          <p class="vads-u-margin-top--0 vads-u-margin-bottom--2">{{ fieldClpWhyThisMatters }}</p>
           {% if fieldSecondaryCallToAction %}
-            <a class="usa-button-secondary" href="{{ fieldSecondaryCallToAction.entity.fieldButtonLink.url.path }}">
+            <a class="usa-button usa-button-secondary vads-u-font-size--sm" href="{{ fieldSecondaryCallToAction.entity.fieldButtonLink.url.path }}">
               {{ fieldSecondaryCallToAction.entity.fieldButtonLabel }}
             </a>
           {% endif %}
         </div>
 
         <!-- White box w/ social media links -->
-        <div class="why-this-matters-links">
+        <div class="vads-u-margin-top--3 medium-screen:vads-u-margin-top--0 medium-screen:vads-u-margin-left--4">
           {% if fieldClpAudience != empty %}
-            <div class="white-box">
-              <p>THIS PAGE IS FOR</p>
-              <hr />
-              <ul>
+            <div class="va-c-white-box vads-u-background-color--white vads-u-padding--2 vads-u-margin-bottom--3">
+              <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin--0">THIS PAGE IS FOR</p>
+              <hr class="va-c-blue-line vads-u-border-color--primary-alt vads-u-margin-y--2" />
+              <ul class="usa-unstyled-list">
                 {% for clpAudience in fieldClpAudience %}
-                  <li>{{ clpAudience.entity.name }}</li>
+                  <li class="vads-u-font-size--sm vads-u-font-weight--bold vads-u-margin-top--1">
+                    {{ clpAudience.entity.name }}
+                  </li>
                 {% endfor %}
               </ul>
             </div>
@@ -61,39 +65,44 @@
           {% include "src/site/includes/social-share.drupal.liquid" %}
         </div>
       </div>
+    </div>
 
-      <!-- What You Can Do -->
-      <div class="what-you-can-do">
+    <!-- What You Can Do -->
+    <div class="usa-grid usa-grid-full vads-u-padding-y--4 vads-u-padding-x--2 large-screen:vads-u-padding-x--0">
+      <div class="usa-width-three-fourths">
         <!-- Title -->
-        <p class="grey-header">WHAT YOU CAN DO</p>
-        <h2>{{ fieldClpWhatYouCanDoHeader }}</h2>
-        <p>{{ fieldClpWhatYouCanDoIntro }}</p>
+        <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">WHAT YOU CAN DO</p>
+        <h2 class="vads-u-margin--0">{{ fieldClpWhatYouCanDoHeader }}</h2>
+        <p class="vads-u-margin-top--1 vads-u-margin-bottom--4">{{ fieldClpWhatYouCanDoIntro }}</p>
 
         <!-- List of promos -->
         {% if fieldClpWhatYouCanDoPromos != empty %}
-          <ul class="promos">
+          <ul class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-padding--0">
             {% for promo in fieldClpWhatYouCanDoPromos %}
-              <li class="promo">
+              <li class="va-c-li-box vads-u-background-color--gray-light-alt vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2 medium-screen:vads-u-margin-right--2">
                 <img alt="{{ promo.entity.fieldImage.entity.thumbnail.alt }}" src="{{ promo.entity.fieldImage.entity.thumbnail.url }}" />
-                <a href="{{ promo.entity.fieldPromoLink.entity.fieldLink.url }}" rel="noreferrer noopener" target="_blank">
+                <a class="vads-u-margin-top--2 vads-u-font-weight--bold vads-u-font-size--lg vads-u-padding-x--2" href="{{ promo.entity.fieldPromoLink.entity.fieldLink.url }}" rel="noreferrer noopener" target="_blank">
                   {{ promo.entity.fieldPromoLink.entity.fieldLink.title }}
                 </a>
-                <p>{{ promo.entity.fieldPromoLink.entity.fieldLinkSummary }}</p>
+                <p class="vads-u-margin-bottom--2 vads-u-margin-top--1 vads-u-padding-x--2">{{ promo.entity.fieldPromoLink.entity.fieldLinkSummary }}</p>
               </li>
             {% endfor %}
           </ul>
         {% endif %}
       </div>
+    </div>
 
-      <!-- Video -->
-      <div class="what-you-can-do">
+    <!-- Video -->
+    <div class="vads-u-background-color--primary-alt-lightest vads-u-padding-bottom--1">
+      <div class="usa-grid usa-grid-full vads-u-padding-y--4 vads-u-padding-x--2 large-screen:vads-u-padding-x--0">
         <!-- Title -->
-        <p class="grey-header">VIDEO</p>
-        <h2>{{ fieldClpVideoPanelHeader }}</h2>
+        <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">VIDEO</p>
+        <h2 class="vads-u-margin--0">{{ fieldClpVideoPanelHeader }}</h2>
 
         <!-- Video -->
         <iframe
           allowFullScreen
+          class="vads-u-margin-top--4"
           frameBorder="0"
           src="{{ fieldMedia.entity.fieldMediaVideoEmbedField }}"
           title="{{ fieldMedia.entity.name }}"
@@ -102,26 +111,29 @@
 
         <!-- Video description -->
         {% if fieldMedia.entity.fieldDuration %}
-          <p class="duration">{{ fieldMedia.entity.fieldDuration }}</p>
+          <p class="duration vads-u-font-size--sm vads-u-margin--0">{{ fieldMedia.entity.fieldDuration }}</p>
         {% endif %}
         {% if fieldMedia.entity.fieldDescription %}
-          <p>{{ fieldMedia.entity.fieldDescription }}</p>
+          <p class="vads-u-margin-top--1 vads-u-margin-bottom--0">{{ fieldMedia.entity.fieldDescription }}</p>
         {% endif %}
 
         <!-- Call to action -->
         {% if fieldClpVideoPanelMoreVideo %}
-          <a class="usa-button-secondary" href="{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
+          <a class="vads-u-margin-top--4 usa-button usa-button-secondary vads-u-font-size--sm" href="{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
             {{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel }}
+            <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
           </a>
         {% endif %}
       </div>
+    </div>
 
-      <!-- Spotlight -->
-      <div class="spotlight">
+    <!-- Spotlight -->
+    <div class="usa-grid usa-grid-full vads-u-padding-y--4 vads-u-padding-x--2 large-screen:vads-u-padding-x--0">
+      <div class="usa-width-three-fourths">
         <!-- Title -->
-        <p class="grey-header">SPOTLIGHT</p>
-        <h2>{{ fieldClpSpotlightHeader }}</h2>
-        <p>
+        <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">SPOTLIGHT</p>
+        <h2 class="vads-u-margin-top--0">{{ fieldClpSpotlightHeader }}</h2>
+        <p class="vads-u-margin-top--1 vads-u-margin-bottom--4">
           {{ fieldClpSpotlightIntroText }}
           <a href="{{ fieldClpSpotlightCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_ blank">
             {{ fieldClpSpotlightCta.entity.fieldButtonLabel }}
@@ -130,32 +142,34 @@
 
         <!-- List of spotlights -->
         {% if fieldClpSpotlightLinkTeasers != empty %}
-          <div class="link-teasers">
+          <ul class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-padding--0">
             {% for linkTeaser in fieldClpSpotlightLinkTeasers %}
-              <div class="link-teaser">
-                <a href="{{ linkTeaser.entity.fieldLink.url }}" rel="noreferrer noopener" target="_blank">{{ linkTeaser.entity.fieldLink.title }}</a>
-                <p>{{ linkTeaser.entity.fieldLinkSummary }}</p>
-              </div>
+              <li class="va-c-li-box vads-u-background-color--gray-light-alt vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2 medium-screen:vads-u-margin-right--2">
+                <a class="vads-u-font-weight--bold vads-u-font-size--lg vads-u-margin-top--2 vads-u-padding-x--2" href="{{ linkTeaser.entity.fieldLink.url }}" rel="noreferrer noopener" target="_blank">{{ linkTeaser.entity.fieldLink.title }}</a>
+                <p class="vads-u-margin-bottom--2 vads-u-margin-top--1 vads-u-padding-x--2">{{ linkTeaser.entity.fieldLinkSummary }}</p>
+              </li>
             {% endfor %}
-          </div>
+          </ul>
         {% endif %}
       </div>
+    </div>
 
-      <!-- Stories -->
-      <div class="stories">
+    <!-- Stories -->
+    <div class="vads-u-background-color--primary-alt-lightest vads-u-padding-bottom--1">
+      <div class="usa-grid usa-grid-full vads-u-padding-y--4 vads-u-padding-x--2 large-screen:vads-u-padding-x--0">
         <!-- Title -->
-        <p class="grey-header">STORIES</p>
-        <h2>{{ fieldClpStoriesHeader }}</h2>
-        <p>{{ fieldClpStoriesIntro }}</p>
+        <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">STORIES</p>
+        <h2 class="vads-u-margin--0">{{ fieldClpStoriesHeader }}</h2>
+        <p class="vads-u-margin-top--1 vads-u-margin-bottom--4">{{ fieldClpStoriesIntro }}</p>
 
         <!-- List of stories -->
         {% if fieldClpStoriesTeasers != empty %}
-          <div class="stories-list">
+          <div class="vads-u-display--flex vads-u-flex-direction--column">
             {% for storyTeaser in fieldClpStoriesTeasers %}
-              <div class="story-teaser">
-                <img alt="{{ storyTeaser.entity.fieldMedia.entity.thumbnail.alt }}" src="{{ storyTeaser.entity.fieldMedia.entity.thumbnail.url }}" />
-                <div class="story-teaser-content">
-                  <a href="{{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.url }}" rel="noreferrer noopener" target="_blank">
+              <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-margin-bottom--4">
+                <img alt="{{ storyTeaser.entity.fieldMedia.entity.thumbnail.alt }}" class="vads-l-col--4 medium-screen:vads-u-margin-right--2" src="{{ storyTeaser.entity.fieldMedia.entity.thumbnail.url }}" />
+                <div class="vads-u-margin-top--2 medium-screen:vads-u-margin-top--0">
+                  <a aria-label="{{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.url }} (opens in new window)" class="vads-u-font-weight--bold" href="{{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.url }}" rel="noreferrer noopener" target="_blank">
                     {{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.title }}
                   </a>
                   <p>{{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLinkSummary }}</p>
@@ -167,53 +181,59 @@
 
         <!-- Call to action -->
         {% if fieldClpStoriesCta %}
-          <a class="usa-button-secondary" href="{{ fieldClpStoriesCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
+          <a class="usa-button usa-button-secondary vads-u-font-size--sm" href="{{ fieldClpStoriesCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
             {{ fieldClpStoriesCta.entity.fieldButtonLabel }}
+            <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
           </a>
         {% endif %}
       </div>
+    </div>
 
-      <!-- Downloadable Resources -->
-      <div class="downloadable-resources">
+    <!-- Downloadable Resources -->
+    <div class="usa-grid usa-grid-full vads-u-padding-y--4 vads-u-padding-x--2 large-screen:vads-u-padding-x--0">
+      <div class="usa-width-three-fourths">
         <!-- Title -->
-        <p class="grey-header">DOWNLOADABLE RESOURCES</p>
-        <h2>{{ fieldClpResourcesHeader }}</h2>
-        <p>{{ fieldClpResourcesIntroText }}</p>
+        <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">DOWNLOADABLE RESOURCES</p>
+        <h2 class="vads-u-margin--0">{{ fieldClpResourcesHeader }}</h2>
+        <p class="vads-u-margin-top--1 vads-u-margin-bottom--4">{{ fieldClpResourcesIntroText }}</p>
 
         <!-- List of resources -->
         {% if fieldClpResources != empty %}
-          <div class="resources-list">
+          <ul class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-padding--0">
             {% for resource in fieldClpResources %}
-              <div class="resource">
-                <h3>{{ resource.entity.name }}</h3>
+              <li class="va-c-li-box vads-u-padding--2 vads-u-padding-bottom--3 vads-u-background-color--gray-light-alt vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2 medium-screen:vads-u-margin-right--2">
+                <h3 class="vads-u-margin--0">{{ resource.entity.name }}</h3>
                 <p>{{ resource.entity.fieldDescription }}</p>
                 <a href="{{ resource.entity.fieldMediaExternalFile.url }}" rel="noreferrer noopener" target="_blank">Download (PDF)</a>
-              </div>
+              </li>
             {% endfor %}
-          </div>
+          </ul>
         {% endif %}
 
         <!-- Call to action -->
         {% if fieldClpResourcesCta %}
-          <a class="usa-button-secondary" href="{{ fieldClpResourcesCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
+          <a class="usa-button usa-button-secondary vads-u-font-size--sm" href="{{ fieldClpResourcesCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
             {{ fieldClpResourcesCta.entity.fieldButtonLabel }}
+            <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
           </a>
         {% endif %}
       </div>
+    </div>
 
-      <!-- Events -->
-      <div class="events">
+    <!-- Events -->
+    <div class="vads-u-background-color--primary-alt-lightest vads-u-padding-bottom--1">
+      <div class="usa-grid usa-grid-full vads-u-padding-y--4 vads-u-padding-x--2 large-screen:vads-u-padding-x--0">
         <!-- Title -->
-        <p class="grey-header">EVENTS</p>
-        <h2>{{ fieldClpEventsHeader }}</h2>
+        <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">EVENTS</p>
+        <h2 class="vads-u-margin--0">{{ fieldClpEventsHeader }}</h2>
 
         <!-- List of events -->
         {% if fieldClpEventsReferences != empty %}
-          <div class="events-list">
+          <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
             {% for eventReference in fieldClpEventsReferences %}
-              <div class="event-reference">
+              <div class="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-right--4">
                 <!-- Title -->
-                <h3>
+                <h3 class="vads-u-margin-top--2">
                   <a href="{{ eventReference.entity.fieldLink.url }}" rel="noreferrer noopener" target="_blank">
                     {{ eventReference.entity.fieldListing.entity.fieldDescription }}
                   </a>
@@ -223,9 +243,9 @@
                 {{ eventReference.entity.fieldBody.processed }}
 
                 <!-- When -->
-                <div class="event-reference-data-point">
-                  <p><strong>When</strong></p>
-                  <p>
+                <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
+                  <p class="vads-u-font-weight--bold vads-u-margin--0 vads-u-margin-right--2">When</p>
+                  <p class="vads-u-margin--0">
                     {% if eventReference.entity.fieldDatetimeRangeTimezone.value != empty %}
                       {{eventReference.entity.fieldDatetimeRangeTimezone.value | dateFromUnix: "dddd, MMM D, h:mm A" }} -
                       <br />
@@ -239,10 +259,10 @@
 
                 <!-- Where -->
                 <!-- NOT SURE WHAT TO PUT HERE: https://dsva.slack.com/archives/C01DS1XDEQ0/p1611332573004800?thread_ts=1611331917.004100&cid=C01DS1XDEQ0 -->
-                <div class="event-reference-data-point">
-                  <p><strong>Where</strong></p>
+                <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-margin-top--2">
+                  <p class="vads-u-font-weight--bold vads-u-margin--0 vads-u-margin-right--2">Where</p>
                   <a href="" rel="noreferrer noopener" target="_blank">
-
+                    Not sure what to put here
                   </a>
                 </div>
               </div>
@@ -252,84 +272,91 @@
 
         <!-- Call to action -->
         {% if fieldClpResourcesCta %}
-          <a class="usa-button-secondary" href="{{ fieldClpResourcesCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
+          <a class="usa-button usa-button-secondary vads-u-font-size--sm vads-u-margin-top--4" href="{{ fieldClpResourcesCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
             {{ fieldClpResourcesCta.entity.fieldButtonLabel }}
+            <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
           </a>
         {% endif %}
       </div>
     </div>
 
     <!-- FAQ -->
-    <div class="faq">
-      <!-- Title -->
-      <p class="grey-header">FAQ</p>
-      <h2>Frequently asked questions</h2>
+    <div class="usa-grid usa-grid-full vads-u-padding-y--4 vads-u-padding-x--2 large-screen:vads-u-padding-x--0">
+      <div class="usa-width-three-fourths">
+        <!-- Title -->
+        <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">FAQ</p>
+        <h2 class="vads-u-margin--0">Frequently asked questions</h2>
 
-      <!-- Questions/Answers -->
-      <div class="usa-accordion-bordered">
-        <ul class="usa-unstyled-list">
-          {% for faqParagraph in fieldClpFaqParagraphs %}
-            {% if faqParagraph.entity %}
-              <li data-faq-entity-id="{{ faqParagraph.entity.entityId }}">
-                <button type="button" aria-controls="{{ faqParagraph.entity.entityBundle }}-{{ faqParagraph.entity.entityId }}"
-                  class="usa-accordion-button usa-button-unstyled"
-                  aria-expanded="false">{{ faqParagraph.entity.fieldQuestion }}</button>
-                <div id="{{ faqParagraph.entity.entityBundle }}-{{ faqParagraph.entity.entityId }}" class="usa-accordion-content"
-                  aria-hidden="true">
-                  {% assign fieldAnswer = faqParagraph.entity.fieldAnswer[0] %}
-                  {% assign bundleComponent = "src/site/paragraphs/" | append: fieldAnswer.entity.entityBundle %}
-                  {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
-                  {% include {{ bundleComponentWithExtension }} with entity = fieldAnswer.entity %}
-                </div>
-              </li>
-            {% endif %}
-          {% endfor %}
-        </ul>
+        <!-- Questions/Answers -->
+        <div class="usa-accordion-bordered vads-u-margin-y--2">
+          <ul class="usa-unstyled-list">
+            {% for faqParagraph in fieldClpFaqParagraphs %}
+              {% if faqParagraph.entity %}
+                <li data-faq-entity-id="{{ faqParagraph.entity.entityId }}">
+                  <button aria-controls="{{ faqParagraph.entity.entityBundle }}-{{ faqParagraph.entity.entityId }}" class="usa-accordion-button usa-button-unstyled" aria-expanded="false" type="button">{{ faqParagraph.entity.fieldQuestion }}</button>
+                  <div id="{{ faqParagraph.entity.entityBundle }}-{{ faqParagraph.entity.entityId }}" class="usa-accordion-content" aria-hidden="true">
+                    {% assign fieldAnswer = faqParagraph.entity.fieldAnswer[0] %}
+                    {% assign bundleComponent = "src/site/paragraphs/" | append: fieldAnswer.entity.entityBundle %}
+                    {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
+                    {% include {{ bundleComponentWithExtension }} with entity = fieldAnswer.entity %}
+                  </div>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+
+        <!-- Call to action -->
+        {% if fieldClpFaqCta %}
+          <a class="usa-button usa-button-secondary vads-u-font-size--sm" href="{{ fieldClpFaqCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
+            {{ fieldClpFaqCta.entity.fieldButtonLabel }}
+            <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
+          </a>
+        {% endif %}
       </div>
-
-      <!-- Call to action -->
-      {% if fieldClpFaqCta %}
-        <a class="usa-button-secondary" href="{{ fieldClpFaqCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
-          {{ fieldClpFaqCta.entity.fieldButtonLabel }}
-        </a>
-      {% endif %}
     </div>
 
     <!-- Connect with us -->
-    <div class="connect-with-us">
-      <p class="grey-header">CONNECT WITH US</p>
-      <h2>Get updates from Veterans Health Administration</h2>
+    <div class="vads-u-background-color--primary-alt-lightest vads-u-padding-bottom--1">
+      <div class="usa-grid usa-grid-full vads-u-padding-y--4 vads-u-padding-x--2 large-screen:vads-u-padding-x--0">
+        <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">CONNECT WITH US</p>
+        <h2 class="vads-u-margin--0">Get updates from Veterans Health Administration</h2>
 
-      <!-- TODO, check out fieldClpConnectWithUs, I don't think it has everything we need but most of it should be there -->
+        <!-- TODO, check out fieldClpConnectWithUs, I don't think it has everything we need but most of it should be there -->
+      </div>
     </div>
 
     <!-- VA Benefits -->
-    <div class="benefits">
-      <p class="grey-header">VA BENEFITS</p>
-      <h2>Learn more about related VA benefits</h2>
+    <div class="usa-grid usa-grid-full vads-u-padding-y--4 vads-u-padding-x--2 large-screen:vads-u-padding-x--0">
+      <div class="usa-width-three-fourths">
+        <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">VA BENEFITS</p>
+        <h2 class="vads-u-margin--0">Learn more about related VA benefits</h2>
 
-      <!-- Benefit landing pages -->
-      {% if fieldBenefitCategories != empty %}
-        <div class="resources-list">
-          {% for benefitCategory in fieldBenefitCategories %}
-            <div class="benefit-category">
-              <a href="{{ benefitCategory.entity.entityUrl.path }}" rel="noreferrer noopener" target="_blank">
-                <div class="inline hub-main-icon">
-                  <i class="icon-large white hub-icon-{{ benefitCategory.entity.fieldTitleIcon }} hub-background-{{ benefitCategory.entity.fieldTitleIcon }}"></i>
-                </div>
-                {{ benefitCategory.entity.title }}
-              </a>
-              <p>{{ benefitCategory.entity.fieldIntroText }}</p>
-            </div>
-          {% endfor %}
-        </div>
-      {% endif %}
+        <!-- Benefit landing pages -->
+        {% if fieldBenefitCategories != empty %}
+          <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-margin-top--4">
+            {% for benefitCategory in fieldBenefitCategories %}
+              <div class="va-c-benefit-category vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2 medium-screen:vads-u-margin-right--4">
+                <a class="vads-u-display--flex vads-u-align-items--center" href="{{ benefitCategory.entity.entityUrl.path }}" rel="noreferrer noopener" target="_blank">
+                  <div class="inline hub-main-icon vads-u-margin-right--2">
+                    <i class="icon-large white hub-icon-{{ benefitCategory.entity.fieldTitleIcon }} hub-background-{{ benefitCategory.entity.fieldTitleIcon }}" role="presentation" aria-hidden="true"></i>
+                  </div>
+                  {{ benefitCategory.entity.title }}
+                </a>
+                <p>{{ benefitCategory.entity.fieldIntroText }}</p>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
     </div>
 
     <!-- Last Updated -->
-    <div class="last-updated usa-content">
-      Last updated: <time
-        datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+    <div class="usa-grid usa-grid-full">
+      <div class="last-updated usa-content">
+        Last updated: <time
+          datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+      </div>
     </div>
   </main>
 </div>
