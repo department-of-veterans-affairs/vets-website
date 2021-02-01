@@ -205,17 +205,8 @@ const ItemLoop = ({
     .map(item => item['ui:title']);
 
   const [cache, setCache] = useState(formData);
-  const [editing, setEditing] = useState([]);
+  const [editing, setEditing] = useState(formData ? [false] : ['add']);
   const [showTable, setShowTable] = useState(false);
-
-  useEffect(() => {
-    setEditing(['add']);
-    if (formData) {
-      const editData = formData.map(() => false);
-      setEditing(editData);
-      setShowTable(true);
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(
     () => {
