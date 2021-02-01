@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { selectProfile, selectVAPContactInfo } from 'platform/user/selectors';
 
-import AppointmentDisplay from './AppointmentDisplay';
+import AppointmentDisplay from '../appointment-display/AppointmentDisplay';
 import { autoSaveForm } from 'platform/forms/save-in-progress/actions';
 import VeteranInformationDisplay from './VeteranInformationDisplay';
 
@@ -42,7 +42,8 @@ const AppointmentInfoBox = props => {
 
   return (
     <div>
-      <AppointmentDisplay appointment={appointment} />
+      <h2 className="upcoming-header">You have an upcoming appointment</h2>
+      <AppointmentDisplay appointment={appointment} bold />
       <p>
         Below is the personal and contact information we have on file for you.
       </p>
