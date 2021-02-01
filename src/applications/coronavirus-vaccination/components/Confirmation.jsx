@@ -34,8 +34,8 @@ function Confirmation({ router, formData }) {
         information at any time.
       </p>
       <p>
-        <strong>Note for caregivers:</strong>
-        If you’re a designated primary or secondary caregiver in our{' '}
+        <strong>Note for caregivers:</strong> If you’re a designated primary or
+        secondary caregiver in our{' '}
         <a
           href="/family-member-benefits/comprehensive-assistance-for-family-caregivers/"
           target="_blank"
@@ -89,9 +89,8 @@ function Confirmation({ router, formData }) {
         reserve a vaccine.
       </p>
       <p>
-        You can also get updates and answers to common questions on our main
+        You can also get updates and answers to common questions on our main{' '}
         <a href="/health-care/covid-19-vaccine/" target="_blank">
-          {' '}
           COVID-19 vaccines page
         </a>
         .
