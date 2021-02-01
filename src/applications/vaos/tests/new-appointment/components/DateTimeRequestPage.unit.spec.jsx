@@ -1,4 +1,5 @@
 import React from 'react';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
@@ -10,6 +11,12 @@ import { waitFor } from '@testing-library/dom';
 import { Route } from 'react-router-dom';
 
 describe('VAOS <DateTimeRequestPage>', () => {
+  beforeEach(() => {
+    MockDate.set(moment('2020-01-26T14:00:00'));
+  });
+  afterEach(() => {
+    MockDate.reset();
+  });
   it('should allow user to request date and time for a community care appointment', async () => {
     const store = createTestStore({
       newAppointment: {

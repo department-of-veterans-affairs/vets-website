@@ -1,5 +1,7 @@
 import React from 'react';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
+import moment from 'moment';
 
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import { waitFor } from '@testing-library/dom';
@@ -22,8 +24,14 @@ const initialState = {
 };
 
 describe('VAOS integration: Express Care form', () => {
-  beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
+  beforeEach(() => {
+    mockFetch();
+    MockDate.set(moment('2020-01-26T14:00:00'));
+  });
+  afterEach(() => {
+    resetFetch();
+    MockDate.reset();
+  });
 
   it('should contain expected elements', async () => {
     setupExpressCareMocks({ isWindowOpen: true, isUnderRequestLimit: true });
