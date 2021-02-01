@@ -84,14 +84,17 @@ function getAwsURI(siteURI, usingAWS) {
 function replaceHostIfUsingAWS(originalSrc, usingAWS) {
   const cmsURLExpression = /https?:\/\/([a-zA-Z0-9-]+[.])*cms[.]va[.]gov/;
   const siteURIMatches = originalSrc.match(cmsURLExpression);
-
+  /* eslint-disable no-console */
   if (siteURIMatches && usingAWS) {
+    console.log(`siteURIMatches && usingAWS ${siteURIMatches}`);
     const siteURI = siteURIMatches[0];
     const awsURI = getAwsURI(siteURI, usingAWS);
     return originalSrc.replace(siteURI, awsURI);
   } else {
+    console.log(`originalSrc: ${originalSrc}`);
     return originalSrc;
   }
+  /* eslint-enable no-console */
 }
 
 // Update WYSIWYG asset URLs based on environment (local vs CI)
