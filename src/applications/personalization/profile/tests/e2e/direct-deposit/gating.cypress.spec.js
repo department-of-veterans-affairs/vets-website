@@ -74,33 +74,40 @@ function confirmDirectDepositIsBlocked() {
 }
 
 describe('Direct Deposit', () => {
+  let getPaymentInfoStub;
   beforeEach(() => {
     disableFTUXModals();
+    getPaymentInfoStub = cy.stub();
     cy.login();
     cy.route('GET', '/v0/feature_toggles*', dd4eduEnabled);
   });
   it('should be blocked if the user is not in EVSS and they are not signed up for DD4EDU', () => {
     cy.route('GET', 'v0/user', mockUserNotInEVSS);
     cy.route('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUNotEnrolled);
+    cy.intercept('v0/ppiu/payment_information', () => {
+      getPaymentInfoStub();
+    });
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-
-    // TODO: add test to make sure that GET payment_information is not called?
-
-    // I attempted to do this based on [this
-    // example](https://github.com/cypress-io/cypress-example-recipes/blob/master/examples/stubbing-spying__window-fetch/cypress/integration/spy-on-fetch-spec.js)
-    // but was unable to get even this simple assertion to work:
-    // `cy.window().its('fetch').should('be.called')`
 
     confirmDirectDepositIsBlocked();
     confirmDDBlockedAlertIsNotShown();
+    cy.should(() => {
+      expect(getPaymentInfoStub).not.to.be.called;
+    });
   });
   it('should not be blocked if the user is not in EVSS but they are signed up for DD4EDU', () => {
     cy.route('GET', 'v0/user', mockUserNotInEVSS);
     cy.route('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUEnrolled);
+    cy.intercept('v0/ppiu/payment_information', () => {
+      getPaymentInfoStub();
+    });
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     confirmDirectDepositIsAvailable();
     confirmDDBlockedAlertIsNotShown();
+    cy.should(() => {
+      expect(getPaymentInfoStub).not.to.be.called;
+    });
   });
   it('should be blocked if the user is not enrolled in or eligible for DD4CNP and not signed up for DD4EDU', () => {
     cy.route('GET', 'v0/user', mockUserInEVSS);
