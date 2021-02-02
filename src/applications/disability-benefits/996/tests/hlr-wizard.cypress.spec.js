@@ -27,6 +27,10 @@ Cypress.Commands.add('checkFormAlert', value => {
   });
 });
 
+const checkOpt = {
+  waitForAnimations: true,
+};
+
 describe('HLR wizard', () => {
   beforeEach(() => {
     window.dataLayer = [];
@@ -44,7 +48,7 @@ describe('HLR wizard', () => {
   });
   // other claims flow
   it('should show other claims', () => {
-    cy.get('[type="radio"][value="other"]').click();
+    cy.get('[type="radio"][value="other"]').check(checkOpt);
     cy.checkStorage(SAVED_CLAIM_TYPE, undefined);
     // #8622 set by public websites accordion anchor ID
     cy.get('a[href*="/decision-reviews/higher-level-review/#8622"]').should(
@@ -60,14 +64,14 @@ describe('HLR wizard', () => {
 
   // legacy appeals flow
   it('should show legacy appeals question & alert', () => {
-    cy.get('[type="radio"][value="compensation"]').click();
+    cy.get('[type="radio"][value="compensation"]').check(checkOpt);
     cy.get('a[href*="disability/file-an-appeal"]').should('exist');
     cy.checkFormChange({
       label: 'For what type of claim are you requesting a Higher-Level Review?',
       value: 'compensation',
     });
 
-    cy.get('[type="radio"][value="legacy-yes"]').click();
+    cy.get('[type="radio"][value="legacy-yes"]').check(checkOpt);
     // download form link
     cy.get('a[href*="www.vba.va.gov/pubs/forms/VBA-20-0996-ARE.pdf"]').should(
       'exist',
@@ -89,7 +93,7 @@ describe('HLR wizard', () => {
     cy.focused().should('have.attr', 'id', 'va-breadcrumbs-list');
     cy.get('h1').should('have.text', h1Text);
 
-    cy.get('[type="radio"][value="compensation"]').click();
+    cy.get('[type="radio"][value="compensation"]').check(checkOpt);
     cy.checkStorage(SAVED_CLAIM_TYPE, 'compensation');
     cy.checkFormChange({
       label: 'For what type of claim are you requesting a Higher-Level Review?',
@@ -97,7 +101,7 @@ describe('HLR wizard', () => {
     });
 
     cy.get('a[href*="disability/file-an-appeal"]').should('exist');
-    cy.get('[type="radio"][value="legacy-no"]').click();
+    cy.get('[type="radio"][value="legacy-no"]').check(checkOpt);
     // learn more link
     cy.get('a[href*="/decision-reviews/higher-level-review/"]').should('exist');
     cy.checkFormChange({
