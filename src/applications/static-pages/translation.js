@@ -6,13 +6,18 @@ const faqI18Content = {
   es: {
     linkTitle: 'Leer esta página en Español',
     langToggleLink: '/coronavirus-veteran-frequently-asked-questions-esp',
+    onThisPage: 'Spanish Translation of on this page',
   },
 };
-const configureTranslationLink = (e, targetLang) => {
+const configureTranslationLink = (e, targetLang, currentLang) => {
   e.dataset.lang = targetLang;
   e.lang = targetLang;
   e.innerText = faqI18Content[targetLang].linkTitle;
   e.href = faqI18Content[targetLang].langToggleLink;
+  if (currentLang === 'es') {
+    const onThisPageEl = document?.getElementById('on-this-page');
+    onThisPageEl.innerText = faqI18Content.es.onThisPage;
+  }
 };
 const displayTranslationLink = () => {
   const i18LinkWrapper = document.getElementById('i18-link-wrapper');
@@ -33,9 +38,9 @@ const displayTranslationLink = () => {
   }
   const i18link = document.querySelector('a.i18-toggle');
   if (!isSpanish) {
-    configureTranslationLink(i18link, 'es');
+    configureTranslationLink(i18link, 'es', 'en');
   } else {
-    configureTranslationLink(i18link, 'en');
+    configureTranslationLink(i18link, 'en', 'es');
   }
 };
 
