@@ -65,7 +65,6 @@ function VAFacilityPageV2({
   singleValidVALocation,
   sortMethod,
   typeOfCare,
-  typeOfCareId,
   updateFacilitySortMethod,
   updateFormData,
 }) {
@@ -91,7 +90,7 @@ function VAFacilityPageV2({
 
   const title = (
     <h1 className="vads-u-font-size--h2">
-      Choose a VA location for your {typeOfCare} appointment
+      Choose a VA location for your {typeOfCare?.name} appointment
     </h1>
   );
 
@@ -99,7 +98,7 @@ function VAFacilityPageV2({
     return (
       <div>
         {title}
-        <ErrorMessage />
+        <ErrorMessage level="2" />
       </div>
     );
   }
@@ -138,7 +137,12 @@ function VAFacilityPageV2({
     return (
       <div>
         {title}
-        <NoValidVAFacilities typeOfCare={typeOfCare} />
+        <NoValidVAFacilities
+          address={address}
+          facilities={facilities}
+          sortMethod={sortMethod}
+          typeOfCare={typeOfCare}
+        />
         <div className="vads-u-margin-top--2">
           <FormButtons
             onBack={goBack}
@@ -158,7 +162,7 @@ function VAFacilityPageV2({
         <SingleFacilityEligibilityCheckMessage
           eligibility={eligibility}
           facility={selectedFacility}
-          typeOfCare={typeOfCare}
+          typeOfCare={typeOfCare?.name}
         />
         <div className="vads-u-margin-top--2">
           <FormButtons
@@ -202,7 +206,7 @@ function VAFacilityPageV2({
       {title}
       <p>
         Below is a list of VA locations where you’re registered that offer{' '}
-        {typeOfCare} appointments.
+        {typeOfCare?.name} appointments.
         {(sortByDistanceFromResidential || sortByDistanceFromCurrentLocation) &&
           ' Locations closest to you are at the top of the list.'}
       </p>
@@ -280,7 +284,7 @@ function VAFacilityPageV2({
             <FacilitiesNotShown
               facilities={facilities}
               sortMethod={sortMethod}
-              typeOfCareId={typeOfCareId}
+              typeOfCareId={typeOfCare?.id}
             />
             <FormButtons
               continueLabel=""
@@ -309,7 +313,7 @@ function VAFacilityPageV2({
           onClose={hideEligibilityModal}
           eligibility={eligibility}
           facilityDetails={selectedFacility}
-          typeOfCare={typeOfCare}
+          typeOfCare={typeOfCare?.name}
         />
       )}
     </div>
