@@ -9,7 +9,11 @@ import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import pages from '../../wizard/pages';
 import formConfig from '../config/form';
 import { getPageTitle } from '../utils';
-import { SAVED_SEPARATION_DATE, FORM_STATUS_BDD } from '../constants';
+import {
+  SAVED_SEPARATION_DATE,
+  FORM_STATUS_BDD,
+  DISABILITY_526_V2_ROOT_URL,
+} from '../constants';
 
 const WizardContainer = ({ setWizardStatus }) => {
   sessionStorage.removeItem(SAVED_SEPARATION_DATE);
@@ -50,9 +54,9 @@ const WizardContainer = ({ setWizardStatus }) => {
             complete this application, you can go straight to the application
             without answering the questions above.
           </p>
-          <button
-            type="button"
-            className="va-button-link vads-u-display--inline-block vads-u-margin-bottom--3 skip-wizard-link"
+          <a
+            href={DISABILITY_526_V2_ROOT_URL}
+            className="vads-u-display--inline-block vads-u-margin-bottom--3 skip-wizard-link"
             onClick={e => {
               e.preventDefault();
               recordEvent({ event: 'howToWizard-skip' });
@@ -60,7 +64,7 @@ const WizardContainer = ({ setWizardStatus }) => {
             }}
           >
             If you know VA Form 21-526EZ is right, apply now
-          </button>
+          </a>
         </div>
         <FormFooter formConfig={formConfig} />
       </div>

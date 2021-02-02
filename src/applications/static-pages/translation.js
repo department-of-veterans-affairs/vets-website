@@ -17,10 +17,9 @@ const configureTranslationLink = (e, targetLang) => {
   e.href = faqI18Content[targetLang].langToggleLink;
   e.onclick = _ => {
     recordEvent({
-      event: 'faq-lang-toggle-click',
-      faqText: faqI18Content[targetLang].title,
-      faqSection: 'coronavirus veteran frequently asked questions',
-      targetLang,
+      event: 'nav-covid-link-click',
+      faqText: undefined,
+      faqSection: undefined,
     });
   };
 };
