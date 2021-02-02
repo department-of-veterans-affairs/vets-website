@@ -53,6 +53,8 @@ const PUBLIC_URLS = {
     'http://staging.cms.va.gov',
   'http://internal-dsva-vagov-prod-cms-2000800896.us-gov-west-1.elb.amazonaws.com':
     'http://prod.cms.va.gov',
+  'http://internal-dsva-vagov-prod-cms-test-428849550.us-gov-west-1.elb.amazonaws.com':
+    'http://test.prod.cms.va.gov',
 };
 
 module.exports = DRUPALS;

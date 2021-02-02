@@ -91,7 +91,7 @@ module.exports = {
               'id',
             )}" onClick="recordEvent({ event: 'nav-jumplink-click' });"
               class="vads-u-display--flex vads-u-text-decoration--none">
-              <i class="fas fa-arrow-down va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1">
+              <i class="fas fa-arrow-down va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1" aria-hidden=true>
               </i>${heading.text()}</a></li>`,
           );
           idAdded = true;
