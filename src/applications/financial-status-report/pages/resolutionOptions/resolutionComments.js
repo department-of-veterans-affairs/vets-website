@@ -25,6 +25,7 @@ export const uiSchema = {
   resolutionComments: {
     'ui:title': ' ',
     'ui:widget': 'textarea',
+    'ui:required': () => true,
     'ui:options': {
       rows: 5,
       maxLength: 32000,
