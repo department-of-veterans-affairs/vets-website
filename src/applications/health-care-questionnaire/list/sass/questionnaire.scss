@@ -92,7 +92,13 @@ ul.questionnaire-list {
     background-color: $color-gray-lightest;
     width: 100%;
     .usa-label{
-      width: min-content;
+      width: max-content;
+      font-size: 1.5rem;
+      font-weight: bold;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.71;
+      letter-spacing: 0.5px;
     }
     @include media($medium-screen) {
       width: 60%;
@@ -102,6 +108,7 @@ ul.questionnaire-list {
       font-weight: bold;
       line-height: 1.3;
       font-family: "Bitter";
+      margin-top: 0.5rem;
     }
     .appointment-location{
       margin: 0;

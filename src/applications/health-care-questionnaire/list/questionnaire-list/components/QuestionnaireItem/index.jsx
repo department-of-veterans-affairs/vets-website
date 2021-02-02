@@ -4,6 +4,7 @@ import {
   getAppointTypeFromAppointment,
   getClinicFromAppointment,
 } from '../../../../questionnaire/utils';
+import Status from '../Shared/Labels/Status';
 
 const index = props => {
   const { data, DueDate, Actions } = props;
@@ -15,7 +16,7 @@ const index = props => {
   const clinic = getClinicFromAppointment(appointment);
   return (
     <li data-request-id={appointment.id} className="card">
-      <span className="usa-label">New</span>
+      <Status data={data} />
       <header data-testid="appointment-type-header">
         {appointmentType} questionnaire
       </header>
