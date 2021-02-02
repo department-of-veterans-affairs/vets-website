@@ -4,14 +4,16 @@
   if (!isStaging) return
 
   var teamSitePathnames = [
-    /\/ormdi/i,
+    // `/ORMDI` redirects to include a trailing slash (`/ORMDI/`)
+    /\/ormdi\//i,
     /\/ormdi\/NoFEAR_Select.asp/i,
     /\/ormdi\/Contact_Us.asp/i,
     /\/ormdi\/EEOcomplaint.asp/i,
     /\/ormdi\/HPP.asp/i,
     /\/ormdi\/Diversity_Inclusion.asp/i,
     /\/ormdi\/Reasonable_Accommodations1.asp/i,
-    /\/adr/i,
+    // `/adr` redirects to include a trailing slash (`/adr/`)
+    /\/adr\//i,
   ];
   var pathname = window.location.pathname;
   var isApprovedPathname = teamSitePathnames.some(x => x.test(pathname))
