@@ -113,19 +113,26 @@ ul.questionnaire-list {
     .appointment-location{
       margin: 0;
     }
-    .answer-button {
+    .view-and-print-button{
+      width: 100%;
+    }
+    .view-and-print-button, .answer-button {
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
       i {
         display: none;
+        font-size: 1.5rem;
       }
       @include media($medium-screen) {
         justify-content: space-between;
-        width: 19rem;
+        width: max-content;
+        align-items: flex-end;
+
         i{
           display: inherit;
+          margin-left: 1rem;
         }
       }
     }

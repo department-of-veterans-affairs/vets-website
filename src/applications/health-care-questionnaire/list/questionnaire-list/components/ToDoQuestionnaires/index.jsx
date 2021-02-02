@@ -6,6 +6,8 @@ import QuestionnaireItem from '../QuestionnaireItem';
 import EmptyMessage from '../Messages/EmptyMessage';
 import ServiceDown from '../Messages/ServiceDown';
 import AnswerQuestions from '../Shared/Buttons/AnswerQuestions';
+import ViewAndPrint from '../Shared/Buttons/ViewAndPrint';
+import { getAppointmentStatus, isAppointmentCancelled } from '../../../utils';
 
 const index = props => {
   const { questionnaires } = props;
@@ -27,24 +29,31 @@ const index = props => {
             >
               {questionnaires.map(data => {
                 const { appointment, questionnaire } = data;
+                const appointmentStatus = getAppointmentStatus(appointment);
+                const isCancelled = isAppointmentCancelled(appointmentStatus);
+
                 return (
                   <QuestionnaireItem
                     key={appointment.id}
                     data={data}
-                    Actions={() => (
-                      <AnswerQuestions
-                        id={appointment.id}
-                        facilityName={
-                          appointment.attributes.vdsAppointments[0].clinic
-                            .facility.displayName
-                        }
-                        appointmentTime={
-                          appointment.attributes.vdsAppointments[0]
-                            .appointmentTime
-                        }
-                        status={questionnaire[0].questionnaireResponse.status}
-                      />
-                    )}
+                    Actions={() =>
+                      isCancelled ? (
+                        <ViewAndPrint />
+                      ) : (
+                        <AnswerQuestions
+                          id={appointment.id}
+                          facilityName={
+                            appointment.attributes.vdsAppointments[0].clinic
+                              .facility.displayName
+                          }
+                          appointmentTime={
+                            appointment.attributes.vdsAppointments[0]
+                              .appointmentTime
+                          }
+                          status={questionnaire[0].questionnaireResponse.status}
+                        />
+                      )
+                    }
                     DueDate={() => {
                       const dueDate = moment(
                         appointment.attributes.vdsAppointments[0]

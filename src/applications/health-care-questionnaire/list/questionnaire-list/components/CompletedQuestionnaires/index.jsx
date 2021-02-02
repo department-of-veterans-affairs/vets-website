@@ -31,7 +31,7 @@ const index = props => {
                   <QuestionnaireItem
                     key={appointment.id}
                     data={data}
-                    Actions={() => <ViewAndPrint />}
+                    Actions={() => <ViewAndPrint displayArrow={false} />}
                     DueDate={() => (
                       <p className="completed-date">
                         Submitted on
