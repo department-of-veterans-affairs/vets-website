@@ -6,10 +6,21 @@ import PageLayout from './components/AppointmentsPage/PageLayout';
 import AppointmentsPageV2 from './components/AppointmentsPage/AppointmentsPageV2';
 import AppointmentsPage from './components/AppointmentsPage/index';
 import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
+import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
 
 function AppointmentListSection({ featureHomepageRefresh }) {
   return (
     <Switch>
+      {featureHomepageRefresh && (
+        <Route
+          path="/va/:id"
+          component={() => (
+            <PageLayout>
+              <ConfirmedAppointmentDetailsPage />
+            </PageLayout>
+          )}
+        />
+      )}
       {featureHomepageRefresh && (
         <Route
           path="/requests/:id"

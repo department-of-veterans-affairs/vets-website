@@ -12,7 +12,6 @@ function pageTransform(entity) {
   const {
     title,
     changed,
-    fieldIntroText,
     fieldPageLastBuilt,
     fieldAlert,
     fieldDescription,
@@ -26,7 +25,7 @@ function pageTransform(entity) {
     entityBundle: 'page',
     fieldAdministration: entity.fieldAdministration[0],
     fieldRelatedLinks: entity.fieldRelatedLinks[0],
-    fieldIntroText: getDrupalValue(fieldIntroText),
+    fieldIntroTextLimitedHtml: entity.fieldIntroTextLimitedHtml[0],
     fieldDescription: getDrupalValue(fieldDescription),
     fieldTableOfContentsBoolean: getDrupalValue(fieldTableOfContentsBoolean),
     changed: utcToEpochTime(getDrupalValue(changed)),
@@ -55,7 +54,7 @@ function pageTransform(entity) {
 
 module.exports = {
   filter: [
-    'field_intro_text',
+    'field_intro_text_limited_html',
     'field_description',
     'field_table_of_contents_boolean',
     'field_featured_content',
