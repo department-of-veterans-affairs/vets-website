@@ -161,7 +161,7 @@ describe('VAOS selectors', () => {
             vaFacility: 'var983',
           },
           facilities: {
-            '323_var123': [
+            '323': [
               {
                 id: 'var983',
               },
@@ -171,7 +171,7 @@ describe('VAOS selectors', () => {
       };
 
       expect(getChosenFacilityInfo(state)).to.equal(
-        state.newAppointment.facilities['323_var123'][0],
+        state.newAppointment.facilities['323'][0],
       );
     });
   });
@@ -182,17 +182,16 @@ describe('VAOS selectors', () => {
         newAppointment: {
           data: {
             vaFacility: '983',
+            typeOfCareId: '323',
           },
-          facilityDetails: {
-            983: {
-              institutionCode: '983',
-            },
+          facilities: {
+            323: [{ id: '983' }],
           },
         },
       };
 
       expect(getChosenFacilityDetails(state)).to.equal(
-        state.newAppointment.facilityDetails['983'],
+        state.newAppointment.facilities['323'][0],
       );
     });
   });
@@ -368,7 +367,7 @@ describe('VAOS selectors', () => {
             },
           ],
           facilities: {
-            '323_var983': [
+            '323': [
               {
                 id: 'var983',
               },

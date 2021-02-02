@@ -41,7 +41,7 @@ describe('VAOS data transformation', () => {
           },
         ],
         facilities: {
-          '323_var983A6': [
+          '323': [
             {
               id: 'var983GB',
               identifier: [
@@ -50,7 +50,7 @@ describe('VAOS data transformation', () => {
                   value: '983GB',
                 },
               ],
-              name: 'CHYSHR-Cheyenne VA Medical Center',
+              name: 'Cheyenne VA Medical Center',
               address: {
                 city: 'Cheyenne',
                 state: 'WY',
@@ -131,7 +131,7 @@ describe('VAOS data transformation', () => {
           },
         ],
         facilities: {
-          '349_var983': [
+          '349': [
             {
               id: 'var983GB',
               identifier: [
@@ -140,7 +140,7 @@ describe('VAOS data transformation', () => {
                   value: '983GB',
                 },
               ],
-              name: 'CHYSHR-Cheyenne VA Medical Center',
+              name: 'Cheyenne VA Medical Center',
               address: {
                 city: 'Cheyenne',
                 state: 'WY',
@@ -508,7 +508,7 @@ describe('VAOS data transformation', () => {
           },
         ],
         facilities: {
-          '323_var983': [
+          '323': [
             {
               id: 'var983',
               identifier: [
@@ -517,7 +517,7 @@ describe('VAOS data transformation', () => {
                   value: '983',
                 },
               ],
-              name: 'CHYSHR-Cheyenne VA Medical Center',
+              name: 'Cheyenne VA Medical Center',
               address: {
                 city: 'Cheyenne',
                 state: 'WY',
@@ -630,7 +630,7 @@ describe('VAOS data transformation', () => {
           },
         ],
         facilities: {
-          '407_var983': [
+          '407': [
             {
               id: 'var983GB',
               identifier: [
@@ -639,7 +639,7 @@ describe('VAOS data transformation', () => {
                   value: '983GB',
                 },
               ],
-              name: 'CHYSHR-Cheyenne VA Medical Center',
+              name: 'Cheyenne VA Medical Center',
               address: {
                 city: 'Cheyenne',
                 state: 'WY',
