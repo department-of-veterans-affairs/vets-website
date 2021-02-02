@@ -17,9 +17,6 @@ const PURPOSE_TEXT = Object.freeze([
   },
 ]);
 
-// NOTE: There is a room for refactor here, but to make sure its the correct refactor,
-// The front end team is waiting until a third method is created to create a smart refactor
-
 const getBookingNoteFromAppointment = data => {
   const appointment = data?.attributes;
   if (!appointment) {

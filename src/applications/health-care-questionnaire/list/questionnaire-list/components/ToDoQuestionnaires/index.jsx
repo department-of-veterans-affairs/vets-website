@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 import QuestionnaireItem from '../QuestionnaireItem';
 import EmptyMessage from '../Messages/EmptyMessage';
@@ -45,7 +45,8 @@ const index = props => {
                       const dueDate = moment(
                         appointment.attributes.vdsAppointments[0]
                           .appointmentTime,
-                      ).subtract(1, 'day');
+                      );
+
                       const meridiem = dueDate.hours() > 12 ? 'p.m.' : 'a.m.';
                       return (
                         <section className="due-date">
