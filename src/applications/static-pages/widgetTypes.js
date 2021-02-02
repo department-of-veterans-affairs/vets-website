@@ -1,6 +1,5 @@
 export default {
   BURIALS_APP_STATUS: 'burials-app-status',
-  CAREGIVER_CONTENT_TOGGLE: 'caregiver-content-toggle',
   CHAPTER_31_WIZARD: 'chapter-31-Wizard',
   CHAPTER_36_CTA: 'chapter-36-cta',
   CHAPTER_31_CTA: 'chapter-31-cta',

@@ -34,7 +34,6 @@ export default Object.freeze({
   ssoeEbenefitsLinks: 'ssoeEbenefitsLinks',
   form526OriginalClaims: 'form526OriginalClaims',
   vaViewDependentsAccess: 'vaViewDependentsAccess',
-  allowOnline1010cgSubmissions: 'allow_online_10_10cg_submissions',
   gibctEybBottomSheet: 'gibctEybBottomSheet',
   gibctBenefitFilterEnhancement: 'gibctBenefitFilterEnhancement',
   gibctSchoolRatings: 'gibctSchoolRatings',
