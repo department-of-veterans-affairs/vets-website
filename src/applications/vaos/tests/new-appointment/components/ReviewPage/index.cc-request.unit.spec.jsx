@@ -102,29 +102,7 @@ describe('VAOS <ReviewPage> CC request', () => {
             ],
           },
         ],
-        facilityDetails: {
-          var983: {
-            id: 'var983',
-            name: 'Cheyenne VA Medical Center',
-            address: {
-              postalCode: '82001-5356',
-              city: 'Cheyenne',
-              state: 'WY',
-              line: ['2360 East Pershing Boulevard'],
-            },
-          },
-        },
-        facilities: {
-          '323_var983': [
-            {
-              id: 'var983',
-              name: 'Cheyenne VA Medical Center',
-              identifier: [
-                { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
-              ],
-            },
-          ],
-        },
+        facilities: {},
       },
     });
     store.dispatch(startRequestAppointmentFlow());
@@ -270,13 +248,6 @@ describe('VAOS <ReviewPage> CC request', () => {
       'Something went wrong when we tried to submit your request and you’ll need to start over. We suggest you wait a day',
     );
 
-    await screen.findByText('307-778-7550');
-
-    // Not sure of a better way to search for test just within the alert
-    const alert = screen.baseElement.querySelector('.usa-alert');
-    expect(alert).contain.text('Cheyenne VA Medical Center');
-    expect(alert).contain.text('2360 East Pershing Boulevard');
-    expect(alert).contain.text('Cheyenne, WY 82001-5356');
     expect(screen.history.push.called).to.be.false;
   });
 });
@@ -524,13 +495,6 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
       'Something went wrong when we tried to submit your request and you’ll need to start over. We suggest you wait a day',
     );
 
-    await screen.findByText('307-778-7550');
-
-    // Not sure of a better way to search for test just within the alert
-    const alert = screen.baseElement.querySelector('.usa-alert');
-    expect(alert).contain.text('Cheyenne VA Medical Center');
-    expect(alert).contain.text('2360 East Pershing Boulevard');
-    expect(alert).contain.text('Cheyenne, WY 82001-5356');
     expect(screen.history.push.called).to.be.false;
   });
 });
