@@ -27,12 +27,12 @@
 
         <article class="usa-content">
           <div id="i18-link-wrapper" class="vads-u-display--none vads-u-margin-y--3 medium-screen:vads-u-margin-top--0 medium-screen:vads-u-margin-bottom--3">
-            <i aria-hidden="true" class="fas fa-globe vads-u-color--primary"></i> 
+            <i aria-hidden="true" class="fas fa-globe vads-u-color--primary"></i>
             <a class="i18-toggle" data-lang="en"></a>
           </div>
           <h1>{{ title }}</h1>
           <div class="va-introtext">
-            <p>{{ fieldIntroText }}</p>
+            <p>{{ fieldIntroTextLimitedHtml.processed }}</p>
           </div>
           {% if fieldAlert.length %}
             {% for alert in fieldAlert %}
