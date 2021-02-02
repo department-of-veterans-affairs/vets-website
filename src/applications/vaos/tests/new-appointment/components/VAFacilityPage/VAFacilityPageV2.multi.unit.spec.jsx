@@ -155,7 +155,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       store,
     });
 
-    await screen.findAllByRole('radio');
+    const buttons = await screen.findAllByRole('radio');
 
     await waitFor(() => {
       expect(global.document.title).to.equal(
@@ -193,7 +193,12 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
 
     // Should show 6th facility
     expect(screen.baseElement).to.contain.text('Fake facility name 6');
-    expect(document.activeElement.id).to.equal('var984_6');
+    expect(document.activeElement.id).to.equal('root_vaFacility_6');
+
+    // Should verify that all radio buttons have the same name (508 accessibility)
+    buttons.forEach(button => {
+      expect(button.name).to.equal('root_vaFacility');
+    });
 
     // Should validation message if no facility selected
     fireEvent.click(screen.getByText(/Continue/));
@@ -466,10 +471,175 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     ).to.be.null;
   });
 
-  it('should show unsupported facilities alert with facility locator tool link', async () => {
+  it('should show no facilities message with up to two unsupported facilities for users with address', async () => {
     mockParentSites(['983', '984'], [parentSite983, parentSite984]);
-    mockDirectBookingEligibilityCriteria(parentSiteIds, []);
+    const facilityConfig = getDirectBookingEligibilityCriteriaMock({
+      id: '123',
+      typeOfCareId: '323',
+      patientHistoryRequired: null,
+    });
+    const facilityDetails = getVAFacilityMock({
+      id: '123',
+      name: 'Bozeman VA medical center',
+      lat: 39.1362562,
+      long: -85.6804804,
+    });
+    facilityDetails.attributes.address = {
+      physical: {
+        zip: 'fake',
+        city: 'Bozeman',
+        state: 'MT',
+        address1: 'fake',
+        address2: null,
+        address3: null,
+      },
+    };
+    facilityDetails.attributes.phone = {
+      main: '4065555858',
+    };
+    mockDirectBookingEligibilityCriteria(parentSiteIds, [
+      facilityConfig,
+      getDirectBookingEligibilityCriteriaMock({
+        id: '124',
+        typeOfCareId: '323',
+        patientHistoryRequired: null,
+      }),
+      getDirectBookingEligibilityCriteriaMock({
+        id: '125',
+        typeOfCareId: '323',
+        patientHistoryRequired: null,
+      }),
+    ]);
     mockRequestEligibilityCriteria(parentSiteIds, []);
+    mockFacilitiesFetch('vha_123,vha_124,vha_125', [
+      facilityDetails,
+      getVAFacilityMock({
+        id: '124',
+        name: 'Facility 124',
+        lat: 39.1362562,
+        long: -85.6804804,
+      }),
+      getVAFacilityMock({
+        id: '125',
+        name: 'Facility 125',
+        lat: 39.1362562,
+        long: -86.6804804,
+      }),
+    ]);
+
+    const state = {
+      ...initialState,
+      user: {
+        ...initialState.user,
+        profile: {
+          ...initialState.user.profile,
+          vapContactInfo: {
+            residentialAddress: {
+              addressLine1: '290 Ludlow Ave',
+              city: 'Cincinnati',
+              stateCode: 'OH',
+              zipCode: '45220',
+              latitude: 39.1362562,
+              longitude: -84.6804804,
+            },
+          },
+        },
+      },
+    };
+    const store = createTestStore(state);
+    await setTypeOfCare(store, /primary care/i);
+
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+
+    expect(await screen.findByText(/We couldn’t find a VA facility/i)).to.exist;
+    expect(screen.baseElement).to.contain.text(
+      'None of the facilities where you receive care accepts online appointments for primary care.',
+    );
+    expect(screen.getByText(/Bozeman VA medical center/i)).to.exist;
+    expect(screen.baseElement).to.contain.text('Bozeman, MT');
+    expect(screen.getByText(/406-555-5858/i)).to.exist;
+    expect(screen.getByText(/Facility 124/i)).to.exist;
+    expect(screen.queryByText(/Facility 125/i)).not.to.exist;
+  });
+
+  it('should show no facilities message with up to five unsupported facilities for users without address', async () => {
+    mockParentSites(['983', '984'], [parentSite983, parentSite984]);
+    const facilityConfig = getDirectBookingEligibilityCriteriaMock({
+      id: '123',
+      typeOfCareId: '323',
+      patientHistoryRequired: null,
+    });
+    const facilityDetails = getVAFacilityMock({
+      id: '123',
+      name: 'Bozeman VA medical center',
+    });
+    facilityDetails.attributes.address = {
+      physical: {
+        zip: 'fake',
+        city: 'Bozeman',
+        state: 'MT',
+        address1: 'fake',
+        address2: null,
+        address3: null,
+      },
+    };
+    facilityDetails.attributes.phone = {
+      main: '4065555858',
+    };
+    mockDirectBookingEligibilityCriteria(parentSiteIds, [
+      facilityConfig,
+      getDirectBookingEligibilityCriteriaMock({
+        id: '124',
+        typeOfCareId: '323',
+        patientHistoryRequired: null,
+      }),
+      getDirectBookingEligibilityCriteriaMock({
+        id: '125',
+        typeOfCareId: '323',
+        patientHistoryRequired: null,
+      }),
+      getDirectBookingEligibilityCriteriaMock({
+        id: '126',
+        typeOfCareId: '323',
+        patientHistoryRequired: null,
+      }),
+      getDirectBookingEligibilityCriteriaMock({
+        id: '127',
+        typeOfCareId: '323',
+        patientHistoryRequired: null,
+      }),
+      getDirectBookingEligibilityCriteriaMock({
+        id: '128',
+        typeOfCareId: '323',
+        patientHistoryRequired: null,
+      }),
+    ]);
+    mockRequestEligibilityCriteria(parentSiteIds, []);
+    mockFacilitiesFetch('vha_123,vha_124,vha_125,vha_126,vha_127,vha_128', [
+      facilityDetails,
+      getVAFacilityMock({
+        id: '124',
+        name: 'Facility 124',
+      }),
+      getVAFacilityMock({
+        id: '125',
+        name: 'Facility 125',
+      }),
+      getVAFacilityMock({
+        id: '126',
+        name: 'Facility 126',
+      }),
+      getVAFacilityMock({
+        id: '127',
+        name: 'Facility 127',
+      }),
+      getVAFacilityMock({
+        id: '128',
+        name: 'Facility 128',
+      }),
+    ]);
 
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
@@ -478,11 +648,18 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       store,
     });
 
-    expect(
-      await screen.findByText(
-        /Your registered facilities don’t accept online scheduling for this care right now/i,
-      ),
-    ).to.exist;
+    expect(await screen.findByText(/We couldn’t find a VA facility/i)).to.exist;
+    expect(screen.baseElement).to.contain.text(
+      'None of the facilities where you receive care accepts online appointments for primary care.',
+    );
+    expect(screen.getByText(/Bozeman VA medical center/i)).to.exist;
+    expect(screen.baseElement).to.contain.text('Bozeman, MT');
+    expect(screen.getByText(/406-555-5858/i)).to.exist;
+    expect(screen.getByText(/Facility 124/i)).to.exist;
+    expect(screen.getByText(/Facility 125/i)).to.exist;
+    expect(screen.getByText(/Facility 126/i)).to.exist;
+    expect(screen.getByText(/Facility 127/i)).to.exist;
+    expect(screen.queryByText(/Facility 128/i)).not.to.exist;
   });
 
   it('should show not supported message when direct is supported and not eligible, and requests are not supported', async () => {

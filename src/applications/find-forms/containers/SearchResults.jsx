@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import Select from '@department-of-veterans-affairs/component-library/Select';
 
 // Relative imports.
+import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 import * as customPropTypes from '../prop-types';
 import {
@@ -61,9 +62,20 @@ export class SearchResults extends Component {
     focusElement('[data-forms-focus]');
   };
 
-  setSortByPropertyNameState = state => {
+  setSortByPropertyNameState = formMetaInfo => state => {
     if (state?.value) {
       this.props.updateSortByPropertyName(state.value, this.props.results);
+
+      recordEvent({
+        event: 'onsite-search-results-change',
+        'search-query': formMetaInfo?.query, // dynamically populate with the search query
+        'search-page-path': '/find-forms', // consistent for all search results from this page
+        'search-results-change-action-type': 'sort', // will consistently classify these actions as 'sort', leaves the door open for other search enhancements to user "filter"
+        'search-results-change-action-label': state.value, // 'oldest' // populate according to user selection
+        'search-results-pagination-current-page': formMetaInfo?.currentPage, // populate with the current pagination number
+        'search-results-total-count': formMetaInfo?.totalResultsCount, // populate with the total number of search results
+        'search-results-total-pages': formMetaInfo?.totalResultsPages, // populate with total number of result pages
+      });
     }
   };
 
@@ -185,7 +197,7 @@ export class SearchResults extends Component {
               label="Sort By"
               includeBlankOption={false}
               name="findFormsSortBySelect"
-              onValueChange={setSortByPropertyNameState}
+              onValueChange={setSortByPropertyNameState(formMetaInfo)}
               options={SORT_OPTIONS}
               value={{ value: sortByPropertyName }}
             />

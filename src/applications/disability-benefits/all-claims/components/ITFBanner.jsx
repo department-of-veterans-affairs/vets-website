@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { focusElement } from 'platform/utilities/ui';
+
 import {
   itfMessage,
   itfError,
@@ -53,6 +55,10 @@ export default class ITFBanner extends React.Component {
           `Unexpected status prop in ITFBanner: ${this.props.status}`,
         );
     }
+
+    setTimeout(() => {
+      focusElement('.itf-wrapper');
+    });
 
     return (
       <div className="vads-l-grid-container vads-u-padding-left--0 vads-u-padding-bottom--5">

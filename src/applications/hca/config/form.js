@@ -397,6 +397,7 @@ const formConfig = {
             veteranAddress: _.merge(addressUI('Mailing address', true), {
               'ui:description': <AddressDescription addressType="mailing" />,
               street: {
+                'ui:title': 'Street address',
                 'ui:errorMessages': {
                   pattern:
                     'Please provide a valid street. Must be at least 1 character.',
@@ -461,6 +462,7 @@ const formConfig = {
             veteranHomeAddress: _.merge(addressUI('Home address', true), {
               'ui:description': <AddressDescription addressType="home" />,
               street: {
+                'ui:title': 'Street address',
                 'ui:errorMessages': {
                   pattern:
                     'Please provide a valid street. Must be at least 1 character.',
@@ -743,7 +745,7 @@ const formConfig = {
         },
         spouseInformation: {
           path: 'household-information/spouse-information',
-          title: 'Spouse’s information',
+          title: 'Spouse\u2019s information',
           initialData: {},
           depends: formData =>
             formData.discloseFinancialInformation &&
@@ -751,14 +753,37 @@ const formConfig = {
             (formData.maritalStatus.toLowerCase() === 'married' ||
               formData.maritalStatus.toLowerCase() === 'separated'),
           uiSchema: {
-            'ui:title': 'Spouse’s information',
+            'ui:title': 'Spouse\u2019s information',
             'ui:description':
               'Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.',
-            spouseFullName: fullNameUI,
-            spouseSocialSecurityNumber: _.merge(ssnUI, {
-              'ui:title': 'Spouse’s Social Security number',
-            }),
-            spouseDateOfBirth: currentOrPastDateUI('Date of birth'),
+            spouseFullName: {
+              ...fullNameUI,
+              first: {
+                'ui:title': 'Spouse\u2019s first name',
+                'ui:errorMessages': {
+                  required: 'Please enter a first name',
+                },
+              },
+              last: {
+                'ui:title': 'Spouse\u2019s last name',
+                'ui:errorMessages': {
+                  required: 'Please enter a last name',
+                },
+              },
+              middle: {
+                'ui:title': 'Spouse\u2019s middle name',
+              },
+              suffix: {
+                'ui:title': 'Spouse\u2019s suffix',
+              },
+            },
+            spouseSocialSecurityNumber: {
+              ...ssnUI,
+              'ui:title': 'Spouse\u2019s Social Security number',
+            },
+            spouseDateOfBirth: currentOrPastDateUI(
+              'Spouse\u2019s date of birth',
+            ),
             dateOfMarriage: _.assign(currentOrPastDateUI('Date of marriage'), {
               'ui:validations': [validateMarriageDate],
             }),
@@ -785,11 +810,16 @@ const formConfig = {
                 expandUnder: 'sameAddress',
                 expandUnderCondition: false,
               },
-              spouseAddress: addressUI(
-                '',
-                true,
-                formData => formData.sameAddress === false,
-              ),
+              spouseAddress: {
+                ...addressUI(
+                  '',
+                  true,
+                  formData => formData.sameAddress === false,
+                ),
+                street: {
+                  'ui:title': 'Street address',
+                },
+              },
               spousePhone: phoneUI(),
             },
           },
@@ -863,22 +893,22 @@ const formConfig = {
             veteranGrossIncome: _.set(
               'ui:validations',
               [validateCurrency],
-              currencyUI('Veteran gross annual income from employment'),
+              currencyUI('Veteran\u2019s gross annual income from employment'),
             ),
             veteranNetIncome: _.set(
               'ui:validations',
               [validateCurrency],
               currencyUI(
-                'Veteran net income from your farm, ranch, property or business',
+                'Veteran\u2019s net income from your farm, ranch, property or business',
               ),
             ),
             veteranOtherIncome: _.set(
               'ui:validations',
               [validateCurrency],
-              currencyUI('Veteran other income amount'),
+              currencyUI('Veteran\u2019s other income amount'),
             ),
             'view:spouseIncome': {
-              'ui:title': 'Spouse income',
+              'ui:title': 'Spouse\u2019s income',
               'ui:options': {
                 hideIf: formData =>
                   !formData.maritalStatus ||
@@ -886,7 +916,7 @@ const formConfig = {
                     formData.maritalStatus.toLowerCase() !== 'separated'),
               },
               spouseGrossIncome: _.merge(
-                currencyUI('Spouse gross annual income from employment'),
+                currencyUI('Spouse\u2019s gross annual income from employment'),
                 {
                   'ui:required': formData =>
                     formData.maritalStatus &&
@@ -897,7 +927,7 @@ const formConfig = {
               ),
               spouseNetIncome: _.merge(
                 currencyUI(
-                  'Spouse net income from your farm, ranch, property or business',
+                  'Spouse\u2019s net income from your farm, ranch, property or business',
                 ),
                 {
                   'ui:required': formData =>
@@ -908,7 +938,7 @@ const formConfig = {
                 },
               ),
               spouseOtherIncome: _.merge(
-                currencyUI('Spouse other income amount'),
+                currencyUI('Spouse\u2019s other income amount'),
                 {
                   'ui:required': formData =>
                     formData.maritalStatus &&

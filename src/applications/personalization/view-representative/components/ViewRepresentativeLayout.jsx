@@ -1,5 +1,4 @@
 import React from 'react';
-import SideBar from './SideBar';
 import ViewRepresentativeBody from './ViewRepresentativeBody';
 
 const ViewRepresentativeLayout = props => {
@@ -14,9 +13,6 @@ const ViewRepresentativeLayout = props => {
           />
         </header>
       </main>
-      <section className="vads-l-col--12 medium-screen:vads-l-col--4">
-        <SideBar />
-      </section>
     </div>
   );
 };

@@ -10,9 +10,10 @@ import {
 import { recordItemsRetrieved, resetDataLayer } from '../../utils/events';
 import {
   selectSystemIds,
-  selectFeatureExpressCare,
   selectFeatureHomepageRefresh,
 } from '../../redux/selectors';
+
+import { selectPendingAppointments } from '../redux/selectors';
 
 import {
   getCancelReasons,
@@ -62,6 +63,11 @@ export const FETCH_PAST_APPOINTMENTS_FAILED =
 export const FETCH_PAST_APPOINTMENTS_SUCCEEDED =
   'vaos/FETCH_PAST_APPOINTMENTS_SUCCEEDED';
 
+export const FETCH_REQUEST_DETAILS = 'vaos/FETCH_REQUEST_DETAILS';
+export const FETCH_REQUEST_DETAILS_FAILED = 'vaos/FETCH_REQUEST_DETAILS_FAILED';
+export const FETCH_REQUEST_DETAILS_SUCCEEDED =
+  'vaos/FETCH_REQUEST_DETAILS_SUCCEEDED';
+
 export const FETCH_REQUEST_MESSAGES = 'vaos/FETCH_REQUEST_MESSAGES';
 export const FETCH_REQUEST_MESSAGES_FAILED =
   'vaos/FETCH_REQUEST_MESSAGES_FAILED';
@@ -83,6 +89,10 @@ export const FETCH_EXPRESS_CARE_WINDOWS_FAILED =
   'vaos/FETCH_EXPRESS_CARE_WINDOWS_FAILED';
 export const FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED =
   'vaos/FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED';
+
+function parseFakeFHIRId(id) {
+  return id ? id.replace('var', '') : id;
+}
 
 export function fetchRequestMessages(requestId) {
   return async dispatch => {
@@ -191,12 +201,10 @@ export function fetchFutureAppointments() {
               event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
             });
 
-            if (selectFeatureExpressCare(getState())) {
-              recordItemsRetrieved(
-                'express_care',
-                requests.filter(appt => appt.vaos.isExpressCare).length,
-              );
-            }
+            recordItemsRetrieved(
+              'express_care',
+              requests.filter(appt => appt.vaos.isExpressCare).length,
+            );
 
             return requests;
           })
@@ -298,12 +306,10 @@ export function fetchPendingAppointments() {
         event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
       });
 
-      if (selectFeatureExpressCare(getState())) {
-        recordItemsRetrieved(
-          'express_care',
-          pendingAppointments.filter(appt => appt.vaos.isExpressCare).length,
-        );
-      }
+      recordItemsRetrieved(
+        'express_care',
+        pendingAppointments.filter(appt => appt.vaos.isExpressCare).length,
+      );
 
       try {
         const facilityData = await getAdditionalFacilityInfo(
@@ -385,6 +391,33 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
       recordEvent({
         event: `${GA_PREFIX}-get-past-appointments-failed`,
       });
+    }
+  };
+}
+
+export function fetchRequestDetails(id) {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const { appointmentDetails, requestMessages } = state.appointments;
+    const pendingAppointments = selectPendingAppointments(state);
+    const request =
+      appointmentDetails[id] || pendingAppointments?.find(p => p.id === id);
+
+    dispatch({
+      type: FETCH_REQUEST_DETAILS,
+    });
+
+    if (request) {
+      dispatch({ type: FETCH_REQUEST_DETAILS_SUCCEEDED, request, id });
+    } else {
+      // TODO: fetch single appointment
+    }
+
+    const parsedId = parseFakeFHIRId(id);
+    const messages = requestMessages?.[parsedId];
+
+    if (!messages) {
+      dispatch(fetchRequestMessages(parsedId));
     }
   };
 }

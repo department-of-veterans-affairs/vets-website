@@ -11,10 +11,10 @@ import {
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { distanceBetween } from '../../../utils/address';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import ErrorMessage from '../../../components/ErrorMessage';
 import RemoveProviderModal from './RemoveProviderModal';
 import recordEvent from 'platform/monitoring/record-event';
 import NoProvidersAlert from './NoProvidersAlert';
+import LoadProvidersErrorAlert from './LoadProvidersErrorAlert';
 
 const INITIAL_PROVIDER_DISPLAY_COUNT = 5;
 
@@ -109,7 +109,7 @@ function ProviderSelectionField({
   );
 
   return (
-    <div className="vads-u-background-color--gray-lightest small-screen:vads-u-padding--2 medium-screen:vads-u-padding--3">
+    <div className="vads-u-background-color--gray-lightest vads-u-padding--2 medium-screen:vads-u-padding--3">
       {!showProvidersList &&
         !providerSelected && (
           <button
@@ -220,7 +220,7 @@ function ProviderSelectionField({
           )}
           {requestStatus === FETCH_STATUS.failed && (
             <div className="vads-u-padding-bottom--2">
-              <ErrorMessage />
+              <LoadProvidersErrorAlert />
             </div>
           )}
           {!loadingLocations &&

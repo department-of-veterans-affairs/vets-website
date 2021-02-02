@@ -45,7 +45,6 @@ module.exports = {
     fieldMainLocation: { type: 'boolean' },
     fieldMedia: { $ref: 'Media' },
     fieldMentalHealthPhone: { type: ['string', 'null'] },
-    fieldNicknameForThisFacility: { type: ['string', 'null'] },
     // Could probably be an enum, but it's not clear what all the possible values are
     fieldOperatingStatusFacility: { type: 'string' },
     // Only found null as an example; not sure what else it's supposed to be
@@ -78,7 +77,6 @@ module.exports = {
     'fieldMainLocation',
     'fieldMedia',
     'fieldMentalHealthPhone',
-    'fieldNicknameForThisFacility',
     'fieldOperatingStatusFacility',
     'fieldOperatingStatusMoreInfo',
     'fieldPhoneNumber',

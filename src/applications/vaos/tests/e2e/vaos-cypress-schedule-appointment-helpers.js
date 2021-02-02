@@ -75,6 +75,9 @@ export function selectTimeSlotTest() {
 
 export function selectRequestSlotTest() {
   cy.url().should('include', '/request-date');
+  cy.contains('button', 'Next')
+    .focus()
+    .click();
   cy.get('.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])')
     .first()
     .click();

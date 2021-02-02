@@ -21,13 +21,17 @@ import {
   cnpDirectDepositAddressIsSetUp,
   cnpDirectDepositInformation,
   cnpDirectDepositIsSetUp,
+  cnpDirectDepositLoadError,
   cnpDirectDepositUiState as directDepositUiStateSelector,
 } from '@@profile/selectors';
+
+import DirectDepositConnectionError from '../alerts/DirectDepositConnectionError';
 
 import BankInfoForm from './BankInfoForm';
 
 import PaymentInformationEditError from './PaymentInformationEditError';
 import ProfileInfoTable from '../ProfileInfoTable';
+import { benefitTypes } from './DirectDepositV2';
 
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 
@@ -36,6 +40,7 @@ export const BankInfoCNP = ({
   isDirectDepositSetUp,
   isEligibleToSetUpDirectDeposit,
   directDepositAccountInfo,
+  directDepositServerError,
   directDepositUiState,
   saveBankInformation,
   toggleEditState,
@@ -269,6 +274,10 @@ export const BankInfoCNP = ({
     return null;
   }
 
+  if (directDepositServerError) {
+    return <DirectDepositConnectionError benefitType={benefitTypes.CNP} />;
+  }
+
   return (
     <>
       <Modal
@@ -322,6 +331,7 @@ BankInfoCNP.propTypes = {
     financialInstitutionRoutingNumber: PropTypes.string.isRequired,
   }),
   isDirectDepositSetUp: PropTypes.bool.isRequired,
+  directDepositServerError: PropTypes.bool.isRequired,
   isEligibleToSetUpDirectDeposit: PropTypes.bool.isRequired,
   directDepositUiState: PropTypes.shape({
     isEditing: PropTypes.bool.isRequired,
@@ -337,6 +347,7 @@ export const mapStateToProps = state => ({
   directDepositAccountInfo: cnpDirectDepositAccountInformation(state),
   directDepositInfo: cnpDirectDepositInformation(state),
   isDirectDepositSetUp: cnpDirectDepositIsSetUp(state),
+  directDepositServerError: !!cnpDirectDepositLoadError(state),
   isEligibleToSetUpDirectDeposit: cnpDirectDepositAddressIsSetUp(state),
   directDepositUiState: directDepositUiStateSelector(state),
 });

@@ -28,7 +28,6 @@ const HEALTH_SERVICES_RESULTS = `
                       path
                     }
                   }
-                  fieldNicknameForThisFacility
                   title
                 }
               }
