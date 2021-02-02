@@ -4,6 +4,8 @@ import {
   getAppointTypeFromAppointment,
   getClinicFromAppointment,
 } from '../../../../questionnaire/utils';
+import { getAppointmentStatus, isAppointmentCancelled } from '../../../utils';
+
 import Status from '../Shared/Labels/Status';
 
 const index = props => {
@@ -12,6 +14,8 @@ const index = props => {
   const appointmentType = getAppointTypeFromAppointment(appointment, {
     titleCase: true,
   });
+  const appointmentStatus = getAppointmentStatus(appointment);
+  const isCancelled = isAppointmentCancelled(appointmentStatus);
 
   const clinic = getClinicFromAppointment(appointment);
   return (
@@ -21,8 +25,8 @@ const index = props => {
         {appointmentType} questionnaire
       </header>
       <p className="appointment-location">
-        for your appointment at {clinic.friendlyName},{' '}
-        {clinic.facility.displayName}
+        for your {isCancelled ? 'canceled of rescheduled ' : ''}
+        appointment at {clinic.friendlyName}, {clinic.facility.displayName}
       </p>
       <section className="due-details">{DueDate && <DueDate />}</section>
 
