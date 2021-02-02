@@ -27,6 +27,7 @@ function ViewDependentsLayout(props) {
   } else {
     mainContent = (
       <ViewDependentsLists
+        manageDependentsToggle={props.manageDependentsToggle}
         loading={props.loading}
         onAwardDependents={props.onAwardDependents}
         notOnAwardDependents={props.notOnAwardDependents}

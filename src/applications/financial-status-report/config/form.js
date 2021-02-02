@@ -67,7 +67,7 @@ const formConfig = {
         'Your application for financial hardship assistance has been saved.',
     },
   },
-  title: 'Request help for VA debt',
+  title: 'Request help with VA debt with VA Form 5655',
   subTitle: 'Form 5655',
   footerContent: FormFooter,
   getHelp: GetFormHelp,
@@ -114,6 +114,7 @@ const formConfig = {
         previousEmployment: {
           path: 'previous-employment',
           title: 'Previous employment',
+          depends: formData => formData.employment.hasBeenEmployed,
           uiSchema: previousEmployment.uiSchema,
           schema: previousEmployment.schema,
         },
@@ -153,7 +154,8 @@ const formConfig = {
           path: 'spouse-previous-employment',
           title: 'Spouse previous employment',
           depends: formData =>
-            formData.spouseInformation.maritalStatus === 'Married',
+            formData.spouseInformation.maritalStatus === 'Married' &&
+            formData.employment.spouseHasBeenEmployed,
           uiSchema: spousePreviousEmployment.uiSchema,
           schema: spousePreviousEmployment.schema,
         },
