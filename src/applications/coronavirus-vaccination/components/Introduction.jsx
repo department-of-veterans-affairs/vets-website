@@ -113,6 +113,8 @@ function Introduction({
             <>
               <p>
                 <strong>What you should know about signing up</strong>
+              </p>
+              <p>
                 We continue to contact Veterans as they become eligible to get a
                 COVID-19 vaccine. We base eligibility on VA and{' '}
                 <a
@@ -125,7 +127,14 @@ function Introduction({
                 </a>
                 . Within each risk group, we may first contact Veterans who sign
                 up here and tell us that they plan to get a vaccine. But we’ll
-                still contact every eligible Veteran
+                still contact every eligible Veteran in each risk group to ask
+                if they want to get a vaccine. You don’t need to sign up here,
+                call, or come to a VA facility to request or reserve a vaccine.
+              </p>
+              <p>
+                By sharing your plans for getting a vaccine, you help us better
+                plan our efforts. This helps us do the most good with our
+                limited vaccine supply.
               </p>
             </>
           }
