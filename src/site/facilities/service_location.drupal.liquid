@@ -88,7 +88,7 @@
     use phone numbers from entities
   {% endcomment %}
   {% if locationEntity.fieldPhoneNumbersParagraph.length > 0 %}
-    <div class="vads-u-display--flex vads-u-flex-direction--column" data-template="paragraphs/service_location">
+    <div class="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1" data-template="paragraphs/service_location">
       {% if haveLocationName %}
         <h4 class="force-small-header">Phone</h4>
       {% else %}
@@ -111,7 +111,7 @@
       if fieldPhoneNumbersParagraph is empty and
       fieldUseMainFacilityPhone is true use fieldPhoneNumber
     {% endcomment %}
-      <div class="vads-u-display--flex vads-u-flex-direction--column" data-template="paragraphs/service_location">
+      <div class="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1" data-template="paragraphs/service_location">
         {% if haveLocationName %}
           <h4 class="force-small-header">Phone</h4>
         {% else %}
@@ -128,7 +128,7 @@
 
   {% if locationEntity.fieldReferralRequired %}
     {% unless OMIT_REFERRAL_OR_WALKIN contains locationEntity.fieldReferralRequired %}
-      <p class="vads-u-margin-bottom--0" data-template="paragraphs/service_location">
+      <p class="vads-u-margin-bottom--1" data-template="paragraphs/service_location">
         <strong>Referral required?</strong>
         {% if locationEntity.fieldReferralRequired == '1' %}Yes{% else %}No{% endif %}
       </p>
@@ -137,7 +137,7 @@
 
   {% if locationEntity.fieldWalkInsAccepted %}
     {% unless OMIT_REFERRAL_OR_WALKIN contains locationEntity.fieldWalkInsAccepted %}
-      <p class="vads-u-margin-bottom--0" data-template="paragraphs/service_location">
+      <p class="vads-u-margin-bottom--1" data-template="paragraphs/service_location">
         <strong>Walk-ins accepted?</strong>
         {% if locationEntity.fieldWalkInsAccepted == '1' %}Yes{% else %}No{% endif %}
       </p>
@@ -145,7 +145,7 @@
   {% endif %}
 
   {% if locationEntity.fieldOnlineSchedulingAvailabl == '1' %}
-    <a class="usa-button vads-u-margin-bottom--1"
+    <a class="usa-button vads-u-margin-bottom--0"
        data-entity-substitution="canonical"
        data-entity-type="node"
        data-template="paragraphs/service_location"
