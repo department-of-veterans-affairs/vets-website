@@ -28,7 +28,7 @@ function formatDescription(description) {
   }
   chunked.push(restOfDescription);
 
-  return chunked.join('\r\n\t');
+  return chunked.join('\r\n\t').replace(/,/g, '\\,');
 }
 
 function generateICS(
@@ -40,19 +40,21 @@ function generateICS(
 ) {
   const startDate = moment(startDateTime).format('YYYYMMDDTHHmmss');
   const endDate = moment(endDateTime).format('YYYYMMDDTHHmmss');
-  return `BEGIN:VCALENDAR
-          VERSION:2.0
-          PRODID:VA
-          BEGIN:VEVENT
-          UID:${guid()}
-          SUMMARY:${summary}
-          ${formatDescription(description)}
-          LOCATION:${location}
-          DTSTAMP:${startDate}
-          DTSTART:${startDate}
-          DTEND:${endDate}
-          END:VEVENT
-          END:VCALENDAR`;
+  return [
+    `BEGIN:VCALENDAR`,
+    `VERSION:2.0`,
+    `PRODID:VA`,
+    `BEGIN:VEVENT`,
+    `UID:${guid()}`,
+    `SUMMARY:${summary}`,
+    `${formatDescription(description)}`,
+    `LOCATION:${location?.replace(/,/g, '\\,')}`,
+    `DTSTAMP:${startDate}`,
+    `DTSTART:${startDate}`,
+    `DTEND:${endDate}`,
+    `END:VEVENT`,
+    `END:VCALENDAR`,
+  ].join('\r\n');
 }
 
 export default function AddToCalendar({
@@ -68,9 +70,7 @@ export default function AddToCalendar({
     description,
     location,
     startDateTime,
-    moment(startDateTime)
-      .add(duration, 'minutes')
-      .toDate(),
+    moment(startDateTime).add(duration, 'minutes'),
   );
   const formattedDate = moment(startDateTime).format('MMMM D, YYYY');
 

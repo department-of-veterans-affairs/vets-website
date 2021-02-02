@@ -14,7 +14,7 @@ describe('VAOS <AddToCalendar>', () => {
       <AddToCalendar
         summary="VA Appointment"
         description="Follow-up/Routine: some description"
-        location="A location"
+        location="123 main street, bozeman, MT"
         duration={60}
         startDateTime={startDateTime.toDate()}
       />,
@@ -39,7 +39,7 @@ describe('VAOS <AddToCalendar>', () => {
     expect(ics).to.contain('UID:');
     expect(ics).to.contain('SUMMARY:VA Appointment');
     expect(ics).to.contain('DESCRIPTION:Follow-up/Routine: some description');
-    expect(ics).to.contain('LOCATION:A location');
+    expect(ics).to.contain('LOCATION:123 main street\\, bozeman\\, MT');
     expect(ics).to.contain(
       `DTSTAMP:${startDateTime.format('YYYYMMDDTHHmmss')}`,
     );
@@ -73,7 +73,7 @@ describe('VAOS <AddToCalendar>', () => {
         .replace('data:text/calendar;charset=utf-8,', ''),
     );
     expect(ics).to.contain(
-      'DESCRIPTION:Testing long line descriptions Testing long descriptions Testi\r\n\tng long descriptions Testing long descriptions Testing long descriptions T\r\n\testing long descriptions Testing long descriptions Testing long descriptio\r\n\tns\n',
+      'DESCRIPTION:Testing long line descriptions Testing long descriptions Testi\r\n\tng long descriptions Testing long descriptions Testing long descriptions T\r\n\testing long descriptions Testing long descriptions Testing long descriptio\r\n\tns\r\n',
     );
   });
   it('should download ICS file via blob in IE', () => {
