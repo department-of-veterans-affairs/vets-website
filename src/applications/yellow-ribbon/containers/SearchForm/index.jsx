@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import URLSearchParams from 'url-search-params';
 import classNames from 'classnames';
-import map from 'lodash/map';
 import { connect } from 'react-redux';
 // Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
 import { states as STATES } from 'vets-json-schema/dist/constants.json';
+import { TOOL_TIP_CONTENT, TOOL_TIP_LABEL } from '../../constants';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { fetchResultsThunk } from '../../actions';
 import {
@@ -17,9 +17,6 @@ import {
   yellowRibbonEnhancements,
 } from '../../helpers/selectors';
 
-export const TOOL_TIP_LABEL = 'Tips to improve search results';
-export const TOOL_TIP_CONTENT =
-  "Enter A School's full name. For Example, search for New York University not NYU.";
 export class SearchForm extends Component {
   static propTypes = {
     // From mapStateToProps.
@@ -203,14 +200,15 @@ export class SearchForm extends Component {
             value={state}
           >
             <option value="">- Select -</option>
-            {map(STATES.USA, provincialState => (
-              <option
-                key={provincialState?.value}
-                value={provincialState?.value}
-              >
-                {provincialState?.label}
-              </option>
-            ))}
+            {STATES?.USA &&
+              STATES.USA.map(provincialState => (
+                <option
+                  key={provincialState?.value}
+                  value={provincialState?.value}
+                >
+                  {provincialState?.label}
+                </option>
+              ))}
           </select>
         </div>
 

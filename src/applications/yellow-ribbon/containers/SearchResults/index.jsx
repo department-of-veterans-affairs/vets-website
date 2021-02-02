@@ -16,6 +16,7 @@ import {
   getYellowRibbonAppState,
   yellowRibbonEnhancements,
 } from '../../helpers/selectors';
+import { TOOL_TIP_CONTENT, TOOL_TIP_LABEL } from '../../constants';
 
 export class SearchResults extends Component {
   static propTypes = {
@@ -199,8 +200,8 @@ export class SearchResults extends Component {
 
           {showYellowRibbonEnhancements ? (
             <AlertBox
-              content="Enter a school's full name. For example, search for New York University not NYU."
-              headline="Tips to improve your search results"
+              content={TOOL_TIP_CONTENT}
+              headline={TOOL_TIP_LABEL}
               onCloseAlert={toggleAlertBoxAppearance(false)}
               isVisible={state.isSearchResultsTipOpen}
               status="info"
@@ -238,8 +239,8 @@ export class SearchResults extends Component {
         </h2>
         {showYellowRibbonEnhancements && (
           <AlertBox
-            content="Enter a school's full name. For example, search for New York University not NYU."
-            headline="Tips to improve your search results"
+            content={TOOL_TIP_CONTENT}
+            headline={TOOL_TIP_LABEL}
             isVisible={state.isSearchResultsTipOpen}
             onCloseAlert={toggleAlertBoxAppearance(false)}
             status="info"

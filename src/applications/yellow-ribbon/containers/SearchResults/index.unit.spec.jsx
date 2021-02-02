@@ -5,6 +5,7 @@ import { mount, shallow } from 'enzyme';
 import times from 'lodash/times';
 // Relative imports.
 import { SearchResults } from './index';
+import { TOOL_TIP_CONTENT, TOOL_TIP_LABEL } from '../../constants';
 
 describe('Yellow Ribbon container <SearchResults>', () => {
   it('renders a loading indicator', () => {
@@ -46,10 +47,8 @@ describe('Yellow Ribbon container <SearchResults>', () => {
       <SearchResults results={[]} showYellowRibbonEnhancements />,
     );
 
-    expect(tree.html()).to.include(
-      "Enter a school's full name. For example, search for New York University not NYU.",
-    );
-    expect(tree.html()).to.include('Tips to improve your search results');
+    expect(tree.html()).to.include(TOOL_TIP_CONTENT);
+    expect(tree.html()).to.include(TOOL_TIP_LABEL);
 
     tree.unmount();
   });

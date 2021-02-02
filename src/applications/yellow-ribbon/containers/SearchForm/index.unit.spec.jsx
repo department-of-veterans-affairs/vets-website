@@ -4,7 +4,8 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
 // Relative imports.
-import { SearchForm, TOOL_TIP_LABEL, TOOL_TIP_CONTENT } from './index';
+import { SearchForm } from './index';
+import { TOOL_TIP_LABEL, TOOL_TIP_CONTENT } from '../../constants';
 
 describe('Yellow Ribbon container <SearchForm>', () => {
   it('should render', () => {
