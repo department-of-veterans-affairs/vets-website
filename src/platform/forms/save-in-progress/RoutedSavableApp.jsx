@@ -122,8 +122,8 @@ class RoutedSavableApp extends React.Component {
         typeof saveInProgress.restartFormCallback === 'function' &&
         restartShouldRedirect(formConfig.wizardStorageKey)
       ) {
-        // Restart callback can optionally return a new route
-        newRoute = saveInProgress?.restartFormCallback() || null;
+        // Restart callback returns a new route
+        newRoute = saveInProgress?.restartFormCallback();
       }
 
       // Form restart redirects to new route or the first page after the intro
