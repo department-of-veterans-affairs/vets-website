@@ -244,8 +244,9 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 }
 
 def prearchive(dockerContainer, envName) {
+  def drupalAddress = DRUPAL_ADDRESSES.get('vagovprod')
   dockerContainer.inside(DOCKER_ARGS) {
-    sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath"
+    sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath --drupal-address ${drupalAddress}"
     sh "cd /application && node --max-old-space-size=10240 script/prearchive.js --buildtype=${envName}"
   }
 }
