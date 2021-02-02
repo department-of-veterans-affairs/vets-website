@@ -12,7 +12,7 @@ import {
   WIZARD_STATUS_RESTARTING,
   WIZARD_STATUS_RESTARTED,
   WIZARD_STATUS_COMPLETE,
-} from 'platform/site-wide/wizard/constants.js';
+} from 'platform/site-wide/wizard';
 
 export {
   WIZARD_STATUS,

@@ -21,6 +21,7 @@ describe('Schemaform <FormStartControls>', () => {
       'dummyProp',
       {
         formConfig: {
+          wizardStorageKey,
           customText: {
             startNewAppButtonText: '',
             continueAppButtonText: '',
@@ -32,7 +33,7 @@ describe('Schemaform <FormStartControls>', () => {
 
   afterEach(() => {
     global.window.dataLayer = oldDataLayer;
-    sessionStorage.removeItem(wizardStorageKey);
+    global.window.sessionStorage.removeItem(wizardStorageKey);
   });
 
   it('should render 1 button when not logged in', () => {
@@ -266,7 +267,7 @@ describe('Schemaform <FormStartControls>', () => {
 
     expect(fetchSpy.called).to.be.true;
     expect(formDOM.querySelector('.va-modal-body')).to.be.null;
-    expect(sessionStorage.getItem(wizardStorageKey)).to.equal(
+    expect(global.window.sessionStorage.getItem(wizardStorageKey)).to.equal(
       WIZARD_STATUS_RESTARTING,
     );
   });

@@ -1,17 +1,17 @@
-import { restartShouldRedirect } from './helpers';
-import {
-  WIZARD_STATUS,
-  WIZARD_STATUS_NOT_STARTED,
-  WIZARD_STATUS_RESTARTING,
-  WIZARD_STATUS_RESTARTED,
-  WIZARD_STATUS_COMPLETE,
-} from './constants';
+export const WIZARD_STATUS = 'wizardStatus';
+export const WIZARD_STATUS_NOT_STARTED = 'not started';
+export const WIZARD_STATUS_RESTARTING = 'restarting';
+export const WIZARD_STATUS_RESTARTED = 'restarted';
+export const WIZARD_STATUS_COMPLETE = 'complete';
 
-export default {
-  restartShouldRedirect,
-  WIZARD_STATUS,
-  WIZARD_STATUS_NOT_STARTED,
-  WIZARD_STATUS_RESTARTING,
-  WIZARD_STATUS_RESTARTED,
-  WIZARD_STATUS_COMPLETE,
+export const restartShouldRedirect = wizardStatusKey => {
+  const key = wizardStatusKey || WIZARD_STATUS;
+  if (sessionStorage.getItem(key) === WIZARD_STATUS_RESTARTING) {
+    // Change wizard status to prevent the router from getting updated more than
+    // once; as long as the status isn't "complete", the wizard will become
+    // visible
+    sessionStorage.setItem(key, WIZARD_STATUS_RESTARTED);
+    return true;
+  }
+  return false;
 };
