@@ -9,7 +9,7 @@ const Covid19Alert = () => {
       <i
         aria-hidden="true"
         role="img"
-        className={`fa fa-exclamation-circle vads-u-margin-top--1 icon-base`}
+        className={`fa fa-info-circle vads-u-margin-top--1 icon-base`}
       />
       <span className="sr-only">Alert: </span>
       <div className="usa-alert-body">

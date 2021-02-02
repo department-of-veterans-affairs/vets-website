@@ -52,8 +52,15 @@ used in a template with navigation-sidebar.html
   }
 
   function setElementHeights() {
-    navTriggerPlaceholder.style.height = `${getButtonHeight(true)}px`
-    buttonBackground.style.height = `${getButtonHeight(false)}px`
+    // In some edge cases when switching from desktop to mobile viewport (such
+    // as when you open the web inspector), getButtonHeight() was returning 0,
+    // likely due to `mobileMediaQuery.matches` failing. This simple hack
+    // ensures that the height is not computed until the next run of the event
+    // loop
+    setTimeout(() => {
+      navTriggerPlaceholder.style.height = getButtonHeight(true) + 'px'
+      buttonBackground.style.height = getButtonHeight(false) + 'px'
+    }, 0)
   }
 
   function setMenuTriggerPosition() {
