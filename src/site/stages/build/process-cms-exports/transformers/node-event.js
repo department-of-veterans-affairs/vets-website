@@ -83,6 +83,8 @@ const transform = entity => ({
           entity: {
             entityUrl: entity.fieldFacilityLocation[0].entityUrl,
             title: entity.fieldFacilityLocation[0].title,
+            fieldFacilityLocatorApiId:
+              entity.fieldFacilityLocation[0].fieldFacilityLocatorApiId,
           },
         }
       : null,
