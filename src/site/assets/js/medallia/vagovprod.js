@@ -5,6 +5,7 @@
 
   var teamSitePathnames = [
     // `/ORMDI` redirects to include a trailing slash (`/ORMDI/`)
+    // TODO: Update regex to reject `/ormdi/*` (for example, `/ormdi/foo`)
     /\/ormdi\//i,
     /\/ormdi\/NoFEAR_Select.asp/i,
     /\/ormdi\/Contact_Us.asp/i,
@@ -13,6 +14,7 @@
     /\/ormdi\/Diversity_Inclusion.asp/i,
     /\/ormdi\/Reasonable_Accommodations1.asp/i,
     // `/adr` redirects to include a trailing slash (`/adr/`)
+    // TODO: Update regex to reject `/adr/*` (for example, `/adr/foo`)
     /\/adr\//i,
   ];
   var pathname = window.location.pathname;
