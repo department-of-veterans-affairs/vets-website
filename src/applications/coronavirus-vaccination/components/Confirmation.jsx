@@ -40,9 +40,7 @@ function Confirmation({ router, formData }) {
         You can also get updates and answers to common questions on our main{' '}
         <a
           href="/health-care/covid-19-vaccine/"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Main COVID-19 vaccines page (Open in a new window)"
+          aria-label="Main COVID-19 vaccines page"
         >
           COVID-19 vaccines page
         </a>

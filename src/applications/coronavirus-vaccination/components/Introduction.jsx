@@ -146,8 +146,6 @@ function Introduction({
               <span>
                 <a
                   href="/health-care/covid-19-vaccine/#who-will-get-a-covid-19-vaccin"
-                  target="_blank"
-                  rel="noopener noreferrer"
                   aria-label="Learn who will get a COVID-19 vaccine first based on CDC
                   guidelines (Open in a new window)"
                 >
@@ -159,8 +157,8 @@ function Introduction({
           }
         />
       </DowntimeNotification>
-      <br />
-      <span>
+
+      <div className="vads-u-margin-top--1">
         <CollapsiblePanel panelName="Why would VA contact Veterans who are planning to get a vaccine first?">
           <WhyContact />
         </CollapsiblePanel>
@@ -173,7 +171,7 @@ function Introduction({
         <CollapsiblePanel panelName="How will VA contact me when I can get a COVID-19 vaccine?">
           <ContactRules />
         </CollapsiblePanel>
-      </span>
+      </div>
     </>
   );
 }

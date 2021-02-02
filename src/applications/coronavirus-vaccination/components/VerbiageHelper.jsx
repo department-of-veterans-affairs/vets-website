@@ -8,9 +8,7 @@ export const CaregiverMessage = () => {
         secondary caregiver in our{' '}
         <a
           href="/family-member-benefits/comprehensive-assistance-for-family-caregivers/"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Program of Comprehensive Assistance for Family Caregivers (Open in a new window)"
+          aria-label="Program of Comprehensive Assistance for Family Caregivers"
         >
           Program of Comprehensive Assistance for Family Caregivers
         </a>
@@ -59,9 +57,7 @@ export const WhatIfIDontSignUp = () => {
         <p>
           <a
             href="/health-care/covid-19-vaccine/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Main COVID-19 vaccines page (Open in a new window)"
+            aria-label="Main COVID-19 vaccines page"
           >
             Get answers to common questions about COVID-19 vaccines at VA
           </a>
@@ -80,9 +76,7 @@ export const WhatIfIDontSignUp = () => {
         <p>
           <a
             href="https://blogs.va.gov/VAntage/83031/va-nurse-tuskegee-daughter-urges-veterans-learn-vaccines/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Blog post about a VA nurse's decision to get a COVID-19 vaccine (Open in a new window)"
+            aria-label="Blog post about a VA nurse's decision to get a COVID-19 vaccine"
           >
             Read about one VA nurse’s decision to get a COVID-19 vaccine
           </a>
