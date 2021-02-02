@@ -110,14 +110,7 @@
         "name": "vaViewDependentsAccess",
         "value": true
       },
-      {
-        "name": "allow_online_10_10cg_submissions",
-        "value": true
-      },
-      {
-        "name": "allowOnline1010cgSubmissions",
-        "value": true
-      },
+      
       {
         "name": "gibctEybBottomSheet",
         "value": true
