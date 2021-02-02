@@ -7,6 +7,8 @@ import preferences from '../../preferences/reducers';
 import appointments from '../../appointments/reducers';
 import profile from '@@profile/reducers';
 
+import ratedDisabilities from '~/applications/personalization/rated-disabilities/reducers';
+
 import { combineReducers } from 'redux';
 
 export default {
@@ -14,6 +16,7 @@ export default {
   preferences,
   appointments,
   ...profile,
+  ...ratedDisabilities,
   hcaEnrollmentStatus,
   health: combineReducers({
     rx: combineReducers({

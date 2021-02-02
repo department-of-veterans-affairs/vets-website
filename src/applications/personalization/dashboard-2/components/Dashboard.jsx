@@ -11,6 +11,8 @@ import {
   fetchPersonalInformation as fetchPersonalInformationAction,
 } from '@@profile/actions';
 
+import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from 'applications/personalization/rated-disabilities/actions';
+
 import ProfileHeader from 'applications/personalization/profile/components/ProfileHeader';
 
 import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
@@ -22,14 +24,18 @@ const Dashboard = props => {
     props.fetchFullName();
     props.fetchPersonalInformation();
     props.fetchMilitaryInformation();
+    props.fetchTotalDisabilityRating();
     focusElement('#dashboard-title');
-  });
-
-  console.log('This is props', props);
+  }, []);
 
   return (
     <>
-      {isEmpty(props.hero?.errors) && <ProfileHeader />}
+      {isEmpty(props.hero?.errors) && (
+        <ProfileHeader
+          showUpdatedHeader
+          totalDisabilityRating={props.totalDisabilityRating}
+        />
+      )}
       <div className="vads-l-grid-container vads-u-padding-x--0">
         <Breadcrumbs>
           <a href="/" key="home">
@@ -55,6 +61,7 @@ const Dashboard = props => {
 const mapStateToProps = state => {
   return {
     hero: state.vaProfile?.hero,
+    totalDisabilityRating: state.totalRating?.totalDisabilityRating,
   };
 };
 
@@ -62,6 +69,7 @@ const mapDispatchToProps = {
   fetchFullName: fetchHeroAction,
   fetchMilitaryInformation: fetchMilitaryInformationAction,
   fetchPersonalInformation: fetchPersonalInformationAction,
+  fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,
 };
 
 export default connect(
