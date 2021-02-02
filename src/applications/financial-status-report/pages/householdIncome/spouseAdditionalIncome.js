@@ -61,6 +61,7 @@ export const schema = {
           items: {
             type: 'object',
             required: ['incomeType', 'incomeAmount'],
+            minItems: 1,
             properties: {
               incomeType: {
                 type: 'string',
