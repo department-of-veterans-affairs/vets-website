@@ -31,7 +31,6 @@ import createPost911GiBillStatusWidget, {
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
 
 import form686CTA from './view-modify-dependent/686-cta/form686CTA';
-import createCaregiverContentToggle from './caregiver-content-toggle/createCaregiverContentToggle';
 
 // Health Care | Manage Benefits widgets.
 import createGetMedicalRecordsPage from './health-care-manage-benefits/get-medical-records-page';
@@ -168,8 +167,6 @@ createCovidVaccineUpdatesWidget(store, widgetTypes.COVID_VACCINE_UPDATES_CTA);
 
 createViewDependentsCTA(store, widgetTypes.VIEW_DEPENDENTS_CTA);
 form686CTA(store, widgetTypes.FORM_686_CTA);
-
-createCaregiverContentToggle(store, widgetTypes.CAREGIVER_CONTENT_TOGGLE);
 
 // Create Health Care | Manage Benefits widgets.
 createGetMedicalRecordsPage(store, widgetTypes.GET_MEDICAL_RECORDS_PAGE);
