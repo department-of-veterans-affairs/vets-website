@@ -1,9 +1,12 @@
 const getAppointmentStatus = appointment => {
-  return appointment?.attributes?.vdsAppointments[0]?.currentStatus;
+  if (appointment?.attributes?.vdsAppointments) {
+    return appointment?.attributes?.vdsAppointments[0]?.currentStatus;
+  }
+  return null;
 };
 
 const isAppointmentCancelled = appointmentStatus =>
-  appointmentStatus.includes('CANCELLED');
+  appointmentStatus?.toUpperCase().includes('CANCELLED');
 
 const sortQuestionnairesByStatus = questionnaires => {
   let data = questionnaires;
