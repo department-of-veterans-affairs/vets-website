@@ -55,7 +55,6 @@ export const schema = {
       items: {
         type: 'object',
         required: ['recreationalVehicleType', 'recreationalVehicleAmount'],
-        minItems: 1,
         properties: {
           recreationalVehicleType: {
             type: 'string',

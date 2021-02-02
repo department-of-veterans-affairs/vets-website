@@ -73,4 +73,29 @@ describe('<ProfileHeader>', () => {
     expect(component.find('img').first()).to.not.be.undefined;
     component.unmount();
   });
+
+  it('should render disability rating when the dashboardShowDashboard2 feature flag is turned on and the user has a disability rating', () => {
+    const component = mount(
+      <ProfileHeader
+        showUpdatedHeader
+        totalDisabilityRating="70"
+        store={fakeStore}
+      />,
+    );
+    expect(
+      component
+        .find('dd')
+        .at(2)
+        .text(),
+    ).to.contain('70% Service connected');
+    component.unmount();
+  });
+
+  it('should not render disability rating when the dashboardShowDashboard2 feature flag is turned on and the user has no disability rating', () => {
+    const component = mount(
+      <ProfileHeader showUpdatedHeader store={fakeStore} />,
+    );
+    expect(component.text()).to.not.contain('Service connected');
+    component.unmount();
+  });
 });

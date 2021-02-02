@@ -6,6 +6,7 @@ module.exports = `
     entityId
     entityPublished
     title
+    vid
     entityUrl {
       ... on EntityCanonicalUrl {
         breadcrumb {
