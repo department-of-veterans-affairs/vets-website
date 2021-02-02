@@ -62,7 +62,6 @@ export const schema = {
           items: {
             type: 'object',
             required: ['spouseEmploymentType', 'spouseEmploymentStart'],
-            minItems: 1,
             properties: {
               spouseEmploymentType: {
                 type: 'string',
