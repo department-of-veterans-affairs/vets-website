@@ -27,6 +27,7 @@ const getFieldRegionObject = ({
 }) =>
   title
     ? {
+        entityBundle: 'health_care_region_page',
         title: getDrupalValue(title),
         fieldRelatedLinks: field_related_links[0],
         fieldGovdeliveryIdEmerg: getDrupalValue(field_govdelivery_id_emerg),
