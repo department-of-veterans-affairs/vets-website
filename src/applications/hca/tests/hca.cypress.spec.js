@@ -11,7 +11,6 @@ import toggleOff from './fixtures/mocks/toggle-off-multiple-address-1010ez.json'
 
 const testConfig = createTestConfig(
   {
-    _13647Exception: true,
     dataPrefix: 'data',
     dataSets: ['maximal-test', 'minimal-test', 'foreign-address-test'],
     fixtures: { data: path.join(__dirname, 'schema') },

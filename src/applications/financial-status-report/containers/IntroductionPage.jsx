@@ -19,7 +19,7 @@ const IntroductionPage = props => {
 
   return (
     <div className="fsr-introduction schemaform-intro">
-      <FormTitle title={'Request help for VA debt'} />
+      <FormTitle title={'Request help with VA debt with VA Form 5655'} />
       <p className="subtitle">
         Equal to VA Form 5655 (Financial Status Report)
       </p>

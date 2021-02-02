@@ -41,7 +41,7 @@ const testConfig = createTestConfig(
     },
     setupPerTest: () => {
       window.sessionStorage.removeItem('wizardStatus');
-      cy.route('GET', '/v0/feature_toggles*', {
+      cy.intercept('GET', '/v0/feature_toggles*', {
         data: {
           type: 'feature_toggles',
           features: [
@@ -52,7 +52,7 @@ const testConfig = createTestConfig(
           ],
         },
       });
-      cy.route('POST', '/v0/education_career_counseling_claims', {
+      cy.intercept('POST', '/v0/education_career_counseling_claims', {
         formSubmissionId: '123fake-submission-id-567',
         timestamp: '2020-11-12',
         attributes: {

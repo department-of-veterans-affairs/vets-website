@@ -71,7 +71,7 @@ describe('VAOS <RequestedAppointmentsList>', () => {
     });
 
     expect(await screen.findByText('Primary care')).to.be.ok;
-    expect(screen.baseElement).to.contain.text(facility.attributes.name);
+    expect(await screen.findByText(facility.attributes.name)).to.be.ok;
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
   });
 
