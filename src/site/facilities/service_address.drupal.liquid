@@ -54,26 +54,4 @@
       {{ single.fieldServiceLocationAddress.entity.fieldWingFloorOrRoomNumber }}
     </span>
   {% endif %}
-
-  {% if address.fieldAddress.locality and useParent == false %}
-    <span class="vads-u-margin-bottom--0">
-      {{ address.fieldAddress.locality }}{% if address.fieldAddress.administrativeArea %},
-        {{ address.fieldAddress.administrativeArea }}
-      {% endif %}
-
-      {% if address.fieldAddress.postalCode %}
-        &nbsp;{{ address.fieldAddress.postalCode }}
-      {% endif %}
-    </span>
-  {% else %}
-    <span class="vads-u-margin-bottom--0">
-      {{ fieldAddress.locality }}{% if fieldAddress.administrativeArea %},
-        {{ fieldAddress.administrativeArea }}
-      {% endif %}
-
-      {% if fieldAddress.postalCode %}
-        &nbsp;{{ fieldAddress.postalCode }}
-      {% endif %}
-    </span>
-  {% endif %}
 </div>
