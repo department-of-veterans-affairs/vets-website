@@ -23,7 +23,7 @@ describe('Wizard Container', () => {
   it('should update wizard status on bypass click', () => {
     global.status = '';
     const tree = shallow(<WizardContainer {...props} />);
-    tree.find('.va-button-link').simulate('click', {
+    tree.find('.skip-wizard-link').simulate('click', {
       preventDefault: () => {},
     });
     expect(tree.find('.wizard-container')).to.have.lengthOf(1);
