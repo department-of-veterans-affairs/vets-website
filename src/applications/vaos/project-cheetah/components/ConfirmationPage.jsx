@@ -39,7 +39,7 @@ function ConfirmationPage({ data, systemId, facilityDetails }) {
         First dose
         <br />
         {moment(date1, 'YYYY-MM-DDTHH:mm:ssZ').format(
-          'dddd, MMMM DD, YYYY [at] h:mm a ',
+          'dddd, MMMM D, YYYY [at] h:mm a ',
         ) + getTimezoneAbbrBySystemId(systemId)}
         <br />
         <br />

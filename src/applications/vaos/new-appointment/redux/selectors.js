@@ -312,8 +312,7 @@ export function getFacilityPageV2Info(state) {
     singleValidVALocation: validFacilities?.length === 1 && !!data.vaFacility,
     showEligibilityModal,
     sortMethod: facilityPageSortMethod,
-    typeOfCare: typeOfCare?.name,
-    typeOfCareId: typeOfCare?.id,
+    typeOfCare,
   };
 }
 
