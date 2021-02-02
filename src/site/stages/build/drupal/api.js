@@ -81,6 +81,8 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
     },
 
     async query(args) {
+      /* eslint-disable no-console */
+      console.log({ drupalUri });
       const response = await this.proxyFetch(drupalUri, {
         headers,
         method: 'post',
