@@ -6,10 +6,10 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import {
+  restartShouldRedirect,
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
   WIZARD_STATUS_RESTARTED,
-  restartShouldRedirect,
 } from 'applications/static-pages/wizard';
 
 import formConfig from './config/form';

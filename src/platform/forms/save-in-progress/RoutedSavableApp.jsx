@@ -20,7 +20,7 @@ import { getSaveInProgressState } from './selectors';
 import environment from 'platform/utilities/environment';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
 
-import { restartShouldRedirect } from 'applications/static-pages/wizard';
+import { restartShouldRedirect } from 'platform/site-wide/wizard';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -120,7 +120,7 @@ class RoutedSavableApp extends React.Component {
       if (
         newProps.isStartingOver &&
         typeof saveInProgress.restartFormCallback === 'function' &&
-        restartShouldRedirect(formConfig.wizardStorageKey || 'formStatus')
+        restartShouldRedirect(formConfig.wizardStorageKey)
       ) {
         // Restart callback can optionally return a new route
         newRoute = saveInProgress?.restartFormCallback() || null;

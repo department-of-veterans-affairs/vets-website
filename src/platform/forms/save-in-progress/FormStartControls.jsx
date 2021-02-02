@@ -9,10 +9,11 @@ import {
   START_NEW_APP_DEFAULT_MESSAGE,
   APP_TYPE_DEFAULT,
 } from '../../forms-system/src/js/constants';
+
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_RESTARTING,
-} from 'applications/static-pages/wizard';
+} from 'platform/site-wide/wizard';
 
 class FormStartControls extends React.Component {
   constructor(props) {

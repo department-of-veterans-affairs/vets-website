@@ -7,7 +7,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import { getFormDOM } from '../../../testing/unit/schemaform-utils';
 import { FormStartControls } from '../../save-in-progress/FormStartControls';
-import { WIZARD_STATUS_RESTARTING } from 'applications/static-pages/wizard';
+import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
 
 describe('Schemaform <FormStartControls>', () => {
   const startPage = 'testing';

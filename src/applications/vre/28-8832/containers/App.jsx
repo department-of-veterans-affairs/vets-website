@@ -13,7 +13,7 @@ import {
   WIZARD_STATUS_RESTARTED,
   WIZARD_STATUS_COMPLETE,
   restartShouldRedirect,
-} from 'applications/static-pages/wizard';
+} from 'platform/site-wide/wizard';
 
 import WizardContainer from './WizardContainer';
 import { WIZARD_STATUS, CAREERS_EMPLOYMENT_ROOT_URL } from '../constants';

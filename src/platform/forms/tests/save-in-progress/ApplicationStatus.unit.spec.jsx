@@ -9,7 +9,7 @@ import { getFormDOM } from '../../../testing/unit/schemaform-utils';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import { ApplicationStatus } from '../../save-in-progress/ApplicationStatus';
-import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 
 describe('schemaform <ApplicationStatus>', () => {
   let formConfigDefaultData;

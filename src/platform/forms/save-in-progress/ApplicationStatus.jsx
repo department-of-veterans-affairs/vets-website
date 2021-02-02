@@ -23,7 +23,7 @@ import {
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_COMPLETE,
-} from 'applications/static-pages/wizard';
+} from 'platform/site-wide/wizard';
 
 export class ApplicationStatus extends React.Component {
   constructor(props) {
