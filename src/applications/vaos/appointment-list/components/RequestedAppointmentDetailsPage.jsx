@@ -3,9 +3,10 @@ import { Link, useParams, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import moment from 'moment';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import * as actions from '../redux/actions';
-import { FETCH_STATUS } from '../../utils/constants';
+import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../utils/constants';
 import { lowerCase } from '../../utils/formatters';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import ListBestTimeToCall from './cards/pending/ListBestTimeToCall';
@@ -65,6 +66,7 @@ function RequestedAppointmentDetailsPage({
     return null;
   }
 
+  const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isCC = appointment.vaos.isCommunityCare;
   const isExpressCare = appointment.vaos.isExpressCare;
   const isVideoRequest = isVideoAppointment(appointment);
@@ -78,7 +80,32 @@ function RequestedAppointmentDetailsPage({
         ‹ <Link to="/requested">Manage appointments</Link>
       </div>
 
-      <h1>Pending {typeOfCareText} appointment</h1>
+      <h1>
+        {canceled ? 'Canceled' : 'Pending'} {typeOfCareText} appointment
+      </h1>
+      <AlertBox
+        status={canceled ? 'error' : 'info'}
+        className="vads-u-display--block vads-u-margin-bottom--2"
+        backgroundOnly
+      >
+        {canceled && 'This request has been canceled'}
+        {!canceled && (
+          <>
+            Your appointment request has been submitted. We will review your
+            request and contact you to schedule the first available appointment.
+            <div className="vads-u-display--flex vads-u-align-items--center vads-u-color--link-default vads-u-margin-top--2">
+              <i className="fas fa-times vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin-right--1" />
+
+              <button
+                aria-label="Cancel request"
+                className="vaos-appts__cancel-btn va-button-link vads-u-flex--0"
+              >
+                Cancel Request
+              </button>
+            </div>
+          </>
+        )}
+      </AlertBox>
       <span className="vads-u-display--block vads-u-font-weight--bold">
         {isCC && 'Community Care'}
         {!isCC && !!isVideoRequest && 'VA Video Connect'}
