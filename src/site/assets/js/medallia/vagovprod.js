@@ -5,8 +5,10 @@
 
   var teamSitePathnames = [
     // `/ORMDI` redirects to include a trailing slash (`/ORMDI/`)
-    // TODO: Update regex to reject `/ormdi/*` (for example, `/ormdi/foo`)
-    /\/ormdi\//i,
+    // `/\/ormdi\/$/i.test('/ormdi/')` // true
+    // `/\/ormdi\/$/i.test('/ORMDI/')` // true
+    // `/\/ormdi\/$/i.test('/ORMDI/foo')` // false
+    /\/ormdi\/$/i,
     /\/ormdi\/NoFEAR_Select.asp/i,
     /\/ormdi\/Contact_Us.asp/i,
     /\/ormdi\/EEOcomplaint.asp/i,
@@ -14,8 +16,10 @@
     /\/ormdi\/Diversity_Inclusion.asp/i,
     /\/ormdi\/Reasonable_Accommodations1.asp/i,
     // `/adr` redirects to include a trailing slash (`/adr/`)
-    // TODO: Update regex to reject `/adr/*` (for example, `/adr/foo`)
-    /\/adr\//i,
+    // `/\/adr\/$/i.test('/adr/')` // true
+    // `/\/adr\/$/i.test('/ADR/')` // true
+    // `/\/adr\/$/i.test('/ADR/foo')` // false
+    /\/adr\/$/i,
   ];
   var pathname = window.location.pathname;
   var isApprovedPathname = teamSitePathnames.some(x => x.test(pathname))
