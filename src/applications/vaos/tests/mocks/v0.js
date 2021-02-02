@@ -34,13 +34,18 @@ export function getVAAppointmentMock() {
   };
 }
 
-export function getVAFacilityMock() {
+export function getVAFacilityMock({
+  id = 'fake',
+  name = 'Fake name',
+  lat = null,
+  long = null,
+} = {}) {
   return {
-    id: 'vha_fake',
+    id: `vha_${id}`,
     type: 'va_facilities',
     attributes: {
-      uniqueId: 'fake',
-      name: 'Fake name',
+      uniqueId: id,
+      name,
       address: {
         physical: {
           zip: 'fake zip',
@@ -51,6 +56,8 @@ export function getVAFacilityMock() {
           address3: null,
         },
       },
+      lat,
+      long,
       phone: {
         main: 'Fake phone',
       },
