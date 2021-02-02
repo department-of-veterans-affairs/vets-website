@@ -11,7 +11,7 @@ import {
 } from '../../redux/selectors';
 import {
   selectFutureStatus,
-  selectUpcomingAppointments,
+  selectCanceledAppointments,
 } from '../redux/selectors';
 import {
   FETCH_STATUS,
@@ -134,7 +134,7 @@ function mapStateToProps(state) {
   return {
     facilityData: state.appointments.facilityData,
     futureStatus: selectFutureStatus(state),
-    appointmentsByMonth: selectUpcomingAppointments(state),
+    appointmentsByMonth: selectCanceledAppointments(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showScheduleButton: selectFeatureRequests(state),
   };

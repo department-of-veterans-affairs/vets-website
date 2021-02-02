@@ -14,6 +14,7 @@ import {
   sortUpcoming,
   getVARFacilityId,
   groupAppointmentsByMonth,
+  isCanceledConfirmedOrExpressCare,
   isUpcomingAppointmentOrExpressCare,
   sortByCreatedDateDescending,
 } from '../../services/appointment';
@@ -151,6 +152,23 @@ export const selectPastAppointments = createSelector(
   state => state.appointments.past,
   past => {
     return past?.filter(isValidPastAppointment).sort(sortByDateDescending);
+  },
+);
+
+export const selectCanceledAppointments = createSelector(
+  // Selecting pending here to pull in EC requests
+  state => state.appointments.pending,
+  state => state.appointments.confirmed,
+  (pending, confirmed) => {
+    if (!confirmed || !pending) {
+      return null;
+    }
+
+    const sortedAppointments = confirmed
+      .filter(isCanceledConfirmedOrExpressCare)
+      .sort(sortByDateDescending);
+
+    return groupAppointmentsByMonth(sortedAppointments);
   },
 );
 
