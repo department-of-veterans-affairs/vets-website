@@ -68,16 +68,18 @@
   color: $color-gray-dark;
   padding: 2rem 10rem 2.5rem 2.5rem;
   margin-bottom: 5rem;
+  width: 60%;
   p{
     margin: 0;
     padding: 0;
-    width: 75%;
   }
 
 }
 
 .questionnaire-unavailable{
   margin-bottom: 5rem;
+  width: 75%;
+
 }
 
 ul.questionnaire-list {

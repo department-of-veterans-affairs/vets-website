@@ -63,7 +63,7 @@ const formConfig = {
   },
   chapters: {
     chapter1: {
-      title: 'Veteran Information',
+      title: TITLES.demographics,
       reviewDescription: VeteranInfoPage.review,
       pages: {
         demographicsPage: {
@@ -101,7 +101,7 @@ const formConfig = {
       },
     },
     chapter2: {
-      title: 'Prepare for Your Appointment',
+      title: TITLES.reasonForVisit,
       pages: {
         reasonForVisit: {
           path: createPathFromTitle(TITLES.reasonForVisit),
@@ -134,8 +134,8 @@ const formConfig = {
                 <span>
                   Are there any other concerns or changes in your life that are
                   affecting you or your health? (For example, a marriage,
-                  divorce, new baby, change in your job, or other medical
-                  conditions)
+                  divorce, new baby, change in your job, retirement, or other
+                  medical conditions)
                 </span>
               ),
             },

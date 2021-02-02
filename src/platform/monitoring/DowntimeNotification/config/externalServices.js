@@ -36,4 +36,6 @@ export default {
   vaosWarning: 'vaosWarning',
   // CARMA (Caregiver Record Management Application)
   carma: 'carma',
+  // Covid-19 Vaccination Keep Me Informed
+  vetextVaccine: 'vetext_vaccine',
 };

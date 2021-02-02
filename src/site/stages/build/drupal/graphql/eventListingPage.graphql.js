@@ -34,7 +34,7 @@ module.exports = `
                 endValue
                 endTime
                 timezone
-              }              
+              }
               fieldDate {
                 startDate
                 value
@@ -77,7 +77,7 @@ module.exports = `
               endValue
               endTime
               timezone
-            }            
+            }
             fieldDate {
               startDate
               value
@@ -103,7 +103,6 @@ module.exports = `
         ...on NodeHealthCareRegionPage {
           entityLabel
           title
-          fieldNicknameForThisFacility
         }
       }
     }

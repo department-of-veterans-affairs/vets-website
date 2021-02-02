@@ -67,7 +67,7 @@ const formConfig = {
         'Your application for financial hardship assistance has been saved.',
     },
   },
-  title: 'Request help for VA debt',
+  title: 'Request help with VA debt with VA Form 5655',
   subTitle: 'Form 5655',
   footerContent: FormFooter,
   getHelp: GetFormHelp,
@@ -89,6 +89,12 @@ const formConfig = {
           schema: availableDebts.schema,
         },
         contactInfo: {
+          initialData: {
+            contactInfo: {
+              primaryEmail: 'hector.smith@email.com',
+              phoneNumber: '5551234567',
+            },
+          },
           path: 'contact-information',
           title: 'Contact Information',
           uiSchema: contactInfo.uiSchema,
@@ -251,8 +257,10 @@ const formConfig = {
       title: 'Resolution options',
       pages: {
         resolutionOptions: {
-          path: 'resolution-options',
+          path: 'resolution-options/:index',
           title: 'Resolution options',
+          showPagePerItem: true,
+          arrayPath: 'fsrDebts',
           uiSchema: resolutionOptions.uiSchema,
           schema: resolutionOptions.schema,
         },

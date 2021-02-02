@@ -23,6 +23,7 @@ import ErrorMessage from '../components/ErrorMessage';
 function NewExpressCareRequestSection({
   windowsStatus,
   allowRequests,
+  useNewFlow,
   fetchExpressCareWindows,
 }) {
   const match = useRouteMatch();
@@ -50,11 +51,14 @@ function NewExpressCareRequestSection({
 
   useEffect(
     () => {
-      if (windowsStatus === FETCH_STATUS.succeeded && !allowRequests) {
+      if (
+        !useNewFlow ||
+        (windowsStatus === FETCH_STATUS.succeeded && !allowRequests)
+      ) {
         history.push('/');
       }
     },
-    [history, windowsStatus, allowRequests],
+    [history, windowsStatus, allowRequests, useNewFlow],
   );
 
   return (

@@ -16,7 +16,6 @@ const initialState = {
 
 const questionnaireReducer = (state = initialState, action) => {
   const { context } = state;
-  // console.log('in my reducer', { state, context, action });
   switch (action.type) {
     case QUESTIONNAIRE_APPOINTMENT_LOADING:
       context.status = { ...context.status, isLoading: true };
