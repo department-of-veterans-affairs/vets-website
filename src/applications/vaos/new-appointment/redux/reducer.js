@@ -90,7 +90,7 @@ export const REASON_ADDITIONAL_INFO_TITLES = {
 };
 
 export const REASON_MAX_CHARS = {
-  request: 100,
+  request: 255,
   direct: 150,
 };
 
