@@ -1,18 +1,20 @@
 {% include "src/site/includes/header.html" with drupalTags = true %}
 {% include "src/site/includes/alerts.drupal.liquid" %}
-{% include "src/site/includes/preview-edit.drupal.liquid" %}
-{% include "src/site/includes/breadcrumbs.drupal.liquid" with constructLcBreadcrumbs = true titleInclude = false %}
+
+<!-- Draft status -->
+{% if !entityPublished %}
+<div class="vads-u-font-size--h4 vads-u-background-color--primary-alt-lightest vads-u-border-color--primary-darker vads-u-border-bottom--2px vads-u-padding--1">
+  You are viewing a draft of "{{ entityUrl.path }}". <a data-same-tab href="{{ drupalSite }}/node/{{ entityId }}/edit">Edit this page in the CMS.</a>
+</div>
+{% endif %}
+
+{% comment %}
+  {% include "src/site/includes/breadcrumbs.drupal.liquid" with constructLcBreadcrumbs = true titleInclude = false %}
+{% endcomment %}
 
 <div id="content" class="interior" data-template="node-campaign_landing_page">
   <main class="va-l-detail-page">
-    <!-- Draft status -->
-    {% if !entityPublished %}
-      <div class="usa-alert usa-alert-info">
-        <div class="usa-alert-body">
-          <p class="usa-alert-text">You are viewing a draft.</p>
-        </div>
-      </div>
-    {% endif %}
+
 
     <div class="va-c-hero" style="background-image: url('{{ fieldHeroImage.entity.image.url }}">
       <!-- Hero Content -->
