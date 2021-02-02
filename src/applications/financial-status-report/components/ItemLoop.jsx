@@ -87,10 +87,17 @@ const InputSection = ({
   );
 
   const titlePrefix = editing && editing[index] === true ? 'Edit' : 'Add';
-  const containerClassNames = classNames('item-loop', {
-    'vads-u-border-bottom--1px':
-      uiSchema['ui:options'].viewType === 'table' && items?.length > 1,
-  });
+  const containerClassNames = classNames(
+    'item-loop',
+    {
+      'vads-u-margin-top--2 vads-u-margin-bottom--2':
+        uiSchema['ui:options'].viewType === undefined,
+    },
+    {
+      'vads-u-border-bottom--1px vads-u-margin-top--0 vads-u-margin-bottom--0':
+        uiSchema['ui:options'].viewType === 'table' && items?.length > 1,
+    },
+  );
 
   return (
     <div className={containerClassNames}>
@@ -198,7 +205,7 @@ const ItemLoop = ({
     .map(item => item['ui:title']);
 
   const [cache, setCache] = useState(formData);
-  const [editing, setEditing] = useState(['add']);
+  const [editing, setEditing] = useState([]);
   const [showTable, setShowTable] = useState(false);
 
   useEffect(
@@ -210,6 +217,12 @@ const ItemLoop = ({
     },
     [idSchema.$id, uiSchema],
   );
+
+  useEffect(() => {
+    const editData = formData ? formData.map(() => false) : ['add'];
+    setEditing(editData);
+    setShowTable(editData.includes(false));
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(
     () => {
@@ -278,12 +291,9 @@ const ItemLoop = ({
 
   const handleSave = (e, index) => {
     if (errorSchemaIsValid(errorSchema[index])) {
-      if (uiOptions.viewType === 'table') {
-        setShowTable(true);
-      }
-
       const editData = formatEditData(index, false);
       setEditing(editData);
+      setShowTable(true);
       handleScroll(`table_${idSchema.$id}_${index}`, 0);
     } else {
       // Set all the fields for this item as touched, so we show errors
@@ -438,6 +448,7 @@ const ItemLoop = ({
                 disabled={disabled}
                 readonly={readonly}
                 errorSchema={errorSchema}
+                editing={editing}
                 handleChange={handleChange}
                 handleSave={handleSave}
                 handleRemove={handleRemove}
