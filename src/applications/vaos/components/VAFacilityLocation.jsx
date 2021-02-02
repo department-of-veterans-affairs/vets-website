@@ -8,6 +8,7 @@ export default function VAFacilityLocation({
   facilityName,
   facilityId,
   isHomepageRefresh,
+  clinicFriendlyName,
 }) {
   let content = null;
 
@@ -36,7 +37,12 @@ export default function VAFacilityLocation({
             <br />
           </>
         )}
-        <FacilityAddress facility={facility} showDirectionsLink />
+        <FacilityAddress
+          facility={facility}
+          showDirectionsLink
+          isHomepageRefresh
+          clinicFriendlyName={clinicFriendlyName}
+        />
       </>
     );
   }
