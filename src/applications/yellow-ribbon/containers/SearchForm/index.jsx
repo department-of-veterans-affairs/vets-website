@@ -117,11 +117,11 @@ export class SearchForm extends Component {
   };
 
   onClickToolTipHandler = () => {
-    const nextTipState = !this.state.isToolTipOpen;
-    return this.setState({ isToolTipOpen: nextTipState }, () =>
+    const nextStateOfToolTip = !this.state.isToolTipOpen;
+    return this.setState({ isToolTipOpen: nextStateOfToolTip }, () =>
       recordEvent({
         event:
-          nextTipState === false
+          nextStateOfToolTip === false
             ? 'int-additionalInfo-collapse'
             : 'int-additionalInfo-expand',
         'additionalInfo-click-label': TOOL_TIP_LABEL,
