@@ -5,6 +5,7 @@ import * as benefits from './householdIncome/benefits';
 import * as socialSecurity from './householdIncome/socialSecurity';
 import * as veteranInfo from './veteranInformation/veteranInfo';
 import * as additionalIncome from './householdIncome/additionalIncome';
+import * as additionalIncomeRecords from './householdIncome/additionalIncome/records';
 import * as spouseAdditionalIncome from './householdIncome/spouseAdditionalIncome';
 import * as spouseBenefits from './householdIncome/spouseBenefits';
 import * as spouseEmployment from './householdIncome/spouseEmployment';
@@ -33,6 +34,7 @@ export {
   benefits,
   socialSecurity,
   additionalIncome,
+  additionalIncomeRecords,
   spouseAdditionalIncome,
   veteranInfo,
   spouseInformation,
