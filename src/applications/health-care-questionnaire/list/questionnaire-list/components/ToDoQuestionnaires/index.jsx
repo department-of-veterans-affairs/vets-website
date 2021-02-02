@@ -36,6 +36,11 @@ const index = props => {
                   <QuestionnaireItem
                     key={appointment.id}
                     data={data}
+                    extraText={
+                      isCancelled
+                        ? 'for your canceled or rescheduled appointment at CHY PC CASSIDY, Cheyenne VA Medical Center. You can access this questionnaire to copy answers for a rescheduled appointment.'
+                        : ''
+                    }
                     Actions={() =>
                       isCancelled ? (
                         <ViewAndPrint />
@@ -64,14 +69,16 @@ const index = props => {
                       const meridiem = dueDate.hours() > 12 ? 'p.m.' : 'a.m.';
                       return (
                         <section className="due-date">
-                          <p>Complete by</p>
+                          <p>{isCancelled ? 'Access until' : 'Complete by'}</p>
                           <p className="vads-u-font-weight--bold">
                             {dueDate.format('dddd, MMMM D, YYYY')}
                           </p>
-                          <p className="vads-u-font-weight--bold">
-                            {dueDate.format(`H:MM`)} {meridiem}{' '}
-                            {formattedTimezone}
-                          </p>
+                          {!isCancelled && (
+                            <p className="vads-u-font-weight--bold">
+                              {dueDate.format(`H:MM`)} {meridiem}{' '}
+                              {formattedTimezone}
+                            </p>
+                          )}
                         </section>
                       );
                     }}

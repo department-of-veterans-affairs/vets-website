@@ -9,7 +9,7 @@ import { getAppointmentStatus, isAppointmentCancelled } from '../../../utils';
 import Status from '../Shared/Labels/Status';
 
 const index = props => {
-  const { data, DueDate, Actions } = props;
+  const { data, DueDate, Actions, extraText } = props;
   const { appointment } = data;
   const appointmentType = getAppointTypeFromAppointment(appointment, {
     titleCase: true,
@@ -27,6 +27,7 @@ const index = props => {
       <p className="appointment-location">
         for your {isCancelled ? 'canceled of rescheduled ' : ''}
         appointment at {clinic.friendlyName}, {clinic.facility.displayName}
+        {extraText}
       </p>
       <section className="due-details">{DueDate && <DueDate />}</section>
 
