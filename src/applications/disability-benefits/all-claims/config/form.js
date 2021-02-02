@@ -156,8 +156,6 @@ const formConfig = {
         'Your saved disability compensation application (21-526EZ) has expired. If you want to apply for disability compensation, please start a new application.',
       saved: 'Your disability compensation application has been saved.',
     },
-    // optional, redirect is in Form5256EZApp
-    // restartFormCallback: () => '/',
   },
   onFormLoaded: directToCorrectForm,
   version: migrations.length,
