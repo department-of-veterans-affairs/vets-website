@@ -589,8 +589,8 @@ export function initVAAppointmentMock({ cernerUser = false } = {}) {
   mockSubmitVAAppointment();
 }
 
-export function initVARequestMock() {
-  setupSchedulingMocks();
+export function initVARequestMock({ cernerUser = false } = {}) {
+  setupSchedulingMocks({ cernerUser });
   cy.route({
     method: 'GET',
     url: '/vaos/v0/facilities/983/clinics*',
