@@ -63,7 +63,7 @@ const formConfig = {
   },
   chapters: {
     chapter1: {
-      title: 'Veteran Information',
+      title: TITLES.demographics,
       reviewDescription: VeteranInfoPage.review,
       pages: {
         demographicsPage: {
@@ -101,7 +101,7 @@ const formConfig = {
       },
     },
     chapter2: {
-      title: 'Prepare for Your Appointment',
+      title: TITLES.reasonForVisit,
       pages: {
         reasonForVisit: {
           path: createPathFromTitle(TITLES.reasonForVisit),
