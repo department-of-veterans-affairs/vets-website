@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 
-import { WIZARD_STATUS } from 'applications/static-pages/wizard';
+import { WIZARD_STATUS } from '../constants';
 
 const formIds = new Set([VA_FORM_IDS.FORM_20_0996]);
 

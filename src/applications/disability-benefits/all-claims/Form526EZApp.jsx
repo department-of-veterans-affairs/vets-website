@@ -10,7 +10,7 @@ import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
   WIZARD_STATUS_RESTARTED,
-} from 'applications/static-pages/wizard';
+} from 'platform/site-wide/wizard';
 
 import formConfig from './config/form';
 import AddPerson from './containers/AddPerson';
