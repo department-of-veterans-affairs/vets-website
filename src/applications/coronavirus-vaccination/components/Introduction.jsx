@@ -16,6 +16,13 @@ import AlertBox, {
 
 import * as userNavActions from 'platform/site-wide/user-nav/actions';
 import * as userSelectors from 'platform/user/selectors';
+import CollapsiblePanel from '@department-of-veterans-affairs/component-library/CollapsiblePanel';
+import {
+  ContactRules,
+  ProvideSSNAndDOB,
+  WhatIfIDontSignUp,
+  WhyContact,
+} from './VerbiageHelper';
 
 function Introduction({
   authButtonDisabled = false,
@@ -136,10 +143,37 @@ function Introduction({
                 plan our efforts. This helps us do the most good with our
                 limited vaccine supply.
               </p>
+              <span>
+                <a
+                  href="/health-care/covid-19-vaccine/#who-will-get-a-covid-19-vaccin"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Learn who will get a COVID-19 vaccine first based on CDC
+                  guidelines (Open in a new window)"
+                >
+                  Learn who can get a COVID-19 vaccine now based on CDC
+                  guidelines
+                </a>
+              </span>
             </>
           }
         />
       </DowntimeNotification>
+      <br />
+      <span>
+        <CollapsiblePanel panelName="Why would VA contact Veterans who are planning to get a vaccine first?">
+          <WhyContact />
+        </CollapsiblePanel>
+        <CollapsiblePanel panelName="If I don’t sign up or tell VA I plan to get a vaccine, will VA still contact me when I can get a vaccine?">
+          <WhatIfIDontSignUp />
+        </CollapsiblePanel>
+        <CollapsiblePanel panelName="Do I have to provide my Social Security number and date of birth?">
+          <ProvideSSNAndDOB />
+        </CollapsiblePanel>
+        <CollapsiblePanel panelName="How will VA contact me when I can get a COVID-19 vaccine?">
+          <ContactRules />
+        </CollapsiblePanel>
+      </span>
     </>
   );
 }
