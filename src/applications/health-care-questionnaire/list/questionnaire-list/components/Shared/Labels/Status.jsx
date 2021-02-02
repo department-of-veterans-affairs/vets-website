@@ -11,12 +11,24 @@ export default function Status(props) {
   const appointmentStatus = getAppointmentStatus(appointment);
   const isCancelled = isAppointmentCancelled(appointmentStatus);
   if (isCancelled) {
-    return <span className="usa-label">canceled</span>;
+    return (
+      <span data-testid="status-label" className="usa-label">
+        canceled
+      </span>
+    );
   } else if (questionnaireStatus === 'in-progress') {
-    return <span className="usa-label">in progress</span>;
+    return (
+      <span data-testid="status-label" className="usa-label">
+        in progress
+      </span>
+    );
   } else if (questionnaireStatus === 'completed') {
     return <></>;
   } else {
-    return <span className="usa-label">not started</span>;
+    return (
+      <span data-testid="status-label" className="usa-label">
+        not started
+      </span>
+    );
   }
 }
