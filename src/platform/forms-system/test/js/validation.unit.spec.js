@@ -11,6 +11,7 @@ import {
   validateCurrentOrFutureDate,
   validateMatch,
   validateDateRange,
+  validateDateRangeAllowSameMonth,
   validateFileField,
   validateBooleanGroup,
   validateMonthYear,
@@ -362,6 +363,48 @@ describe('Schemaform validations', () => {
     it('should set custom message from config if date range is not valid', () => {
       const errors = { to: { addError: sinon.spy() } };
       validateDateRange(
+        errors,
+        {
+          from: '2014-01-04',
+          to: '2012-01-04',
+        },
+        null,
+        null,
+        { pattern: 'Test message' },
+      );
+
+      expect(errors.to.addError.calledWith('Test message')).to.be.true;
+    });
+  });
+  describe('validateDateRangeAllowSameMonth', () => {
+    it('should not set message if date range is valid', () => {
+      const errors = { to: { addError: sinon.spy() } };
+      validateDateRangeAllowSameMonth(errors, {
+        // the difference from validateDateRange
+        from: '2014-01-04',
+        to: '2014-01-05',
+      });
+
+      expect(errors.to.addError.called).to.be.false;
+    });
+    it('should set message if date range is not valid', () => {
+      const errors = { to: { addError: sinon.spy() } };
+      validateDateRangeAllowSameMonth(
+        errors,
+        {
+          from: '2014-01-04',
+          to: '2012-01-04',
+        },
+        null,
+        null,
+        {},
+      );
+
+      expect(errors.to.addError.called).to.be.true;
+    });
+    it('should set custom message from config if date range is not valid', () => {
+      const errors = { to: { addError: sinon.spy() } };
+      validateDateRangeAllowSameMonth(
         errors,
         {
           from: '2014-01-04',
