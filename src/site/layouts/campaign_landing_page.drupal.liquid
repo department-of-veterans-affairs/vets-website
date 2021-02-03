@@ -98,7 +98,7 @@
             <div class="vads-u-margin-y--1 medium-screen:vads-u-margin-x--1 medium-screen:vads-u-margin-y--0">
               <div class="va-c-li-box vads-u-background-color--gray-light-alt vads-u-display--flex vads-u-flex-direction--column">
                 <img alt="{{ promo.entity.fieldImage.entity.thumbnail.alt }}" src="{{ promo.entity.fieldImage.entity.thumbnail.url }}" />
-                <h3 class="vads-u-padding-x--2">
+                <h3 class="vads-u-padding-x--2 vads-u-margin-top--0">
                   <a href="{{ promo.entity.fieldPromoLink.entity.fieldLink.url }}">
                     {{ promo.entity.fieldPromoLink.entity.fieldLink.title }}
                   </a>
@@ -130,7 +130,7 @@
               class="vads-u-margin-top--4"
               frameBorder="0"
               src="{{ fieldMedia.entity.fieldMediaVideoEmbedField }}"
-              title="{{ fieldMedia.entity.name | default: 'YouTube video' }}"
+              title="{{ fieldMedia.entity.name | default: 'A related YouTube video' }}"
               width="100%"
             ></iframe>
 
@@ -145,7 +145,7 @@
 
             <!-- Call to action -->
             {% if fieldClpVideoPanelMoreVideo %}
-              <a class="vads-u-margin-top--4 usa-button usa-button-secondary vads-u-font-size--sm" href="{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
+              <a class="vads-u-margin-top--4 usa-button usa-button-secondary vads-u-font-size--sm" href="{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLink.url.path }}">
                 {{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel }}
                 <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
               </a>
@@ -163,7 +163,7 @@
           <h2 class="vads-u-margin-top--0">{{ fieldClpSpotlightHeader }}</h2>
           <p class="va-introtext vads-u-margin-top--1 vads-u-margin-bottom--4">
             {{ fieldClpSpotlightIntroText }}
-            <a href="{{ fieldClpSpotlightCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_ blank">
+            <a href="{{ fieldClpSpotlightCta.entity.fieldButtonLink.url.path }}">
               {{ fieldClpSpotlightCta.entity.fieldButtonLabel }}
             </a>
           </p>
@@ -174,7 +174,7 @@
           <div class="vads-l-col--12 medium-screen:vads-l-col--4">
             <div class="vads-u-margin-y--1 medium-screen:vads-u-margin-x--1 medium-screen:vads-u-margin-y--0">
               <div class="va-c-li-box vads-u-background-color--gray-light-alt vads-u-display--flex vads-u-flex-direction--column">
-                <h3 class="vads-u-padding-x--2">
+                <h3 class="vads-u-padding-x--2 vads-u-margin-top--0">
                   <a href="{{ linkTeaser.entity.fieldLink.uri }}">
                     {{ linkTeaser.entity.fieldLink.title }}
                   </a>
@@ -196,7 +196,7 @@
           <div class="vads-l-col--12 medium-screen:vads-l-col--9">
             <!-- Title -->
             <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">STORIES</p>
-            <h2 class="vads-u-margin--0">{{ fieldClpStoriesHeader }}</h2>
+            <h2 class="vads-u-margin-top--0">{{ fieldClpStoriesHeader }}</h2>
             <p class="va-introtext vads-u-margin-top--1 vads-u-margin-bottom--4">{{ fieldClpStoriesIntro }}</p>
 
             <!-- List of stories -->
@@ -206,7 +206,7 @@
                   <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-margin-bottom--4">
                     <img alt="{{ storyTeaser.entity.fieldMedia.entity.thumbnail.alt }}" class="vads-l-col--12 medium-screen:vads-l-col--4 medium-screen:vads-u-margin-right--2" src="{{ storyTeaser.entity.fieldMedia.entity.thumbnail.url }}" />
                     <div class="vads-u-margin-top--2 medium-screen:vads-u-margin-top--0">
-                      <h3>
+                      <h3 class="vads-u-margin-top--0">
                         <a href="{{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.uri }}">
                           {{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.title }}
                         </a>
@@ -236,7 +236,7 @@
         <div class="vads-l-col--12 medium-screen:vads-l-col--9">
           <!-- Title -->
           <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">DOWNLOADABLE RESOURCES</p>
-          <h2 class="vads-u-margin--0">{{ fieldClpResourcesHeader }}</h2>
+          <h2 class="vads-u-margin-top--0">{{ fieldClpResourcesHeader }}</h2>
           <p class="va-introtext vads-u-margin-top--1 vads-u-margin-bottom--4">{{ fieldClpResourcesIntroText }}</p>
         </div>
       </div>
@@ -249,7 +249,7 @@
                 <div class="vads-u-padding--2">
                   <h3 class="vads-u-margin--0">{{ resource.entity.name }}</h3>
                   <p>{{ resource.entity.fieldDescription }}</p>
-                  <a href="{{ resource.entity.fieldMediaExternalFile.url }}" rel="noreferrer noopener" target="_blank">Download (PDF)</a>
+                  <a href="{{ resource.entity.fieldMediaExternalFile.url }}" download>Download (PDF)</a>
                 </div>
               </div>
             </div>
@@ -260,7 +260,7 @@
       {% if fieldClpResourcesCta %}
         <div class="vads-l-row">
           <div class="vads-u-col--12">
-            <a class="usa-button usa-button-secondary vads-u-font-size--sm" href="{{ fieldClpResourcesCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
+            <a class="usa-button usa-button-secondary vads-u-font-size--sm" href="{{ fieldClpResourcesCta.entity.fieldButtonLink.url.path }}">
               {{ fieldClpResourcesCta.entity.fieldButtonLabel }}
               <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
             </a>
@@ -270,20 +270,26 @@
     </div><!--/  Downloadable Resources -->
 
     <!-- Events -->
-    <div class="vads-u-background-color--primary-alt-lightest vads-u-padding-bottom--1">
-      <div class="usa-grid usa-grid-full vads-u-padding-y--4 vads-u-padding-x--2 large-screen:vads-u-padding-x--0">
-        <!-- Title -->
-        <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">EVENTS</p>
-        <h2 class="vads-u-margin--0">{{ fieldClpEventsHeader }}</h2>
+    <div class="vads-u-background-color--primary-alt-lightest">
+      <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 medium-screen:vads-u-padding-x--0">
+
+        <!-- CONTENT -->
+        <div class="vads-l-row">
+          <div class="vads-l-col--12 medium-screen:vads-l-col--9">
+            <!-- Title -->
+            <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">EVENTS</p>
+            <h2 class="vads-u-margin-top--0">{{ fieldClpEventsHeader }}</h2>
+          </div>
+        </div>
 
         <!-- List of events -->
-        {% if fieldClpEventsReferences != empty %}
-          <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
-            {% for eventReference in fieldClpEventsReferences %}
-              <div class="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-right--4">
+        <div class="vads-l-row vads-u-margin-bottom--2 medium-screen:vads-u-margin-x--neg6">
+          {% for eventReference in fieldClpEventsReferences %}
+            <div class="vads-l-col--12 medium-screen:vads-l-col--6">
+              <div class="medium-screen:vads-u-margin-x--6">
                 <!-- Title -->
-                <h3 class="vads-u-margin-top--2">
-                  <a href="{{ eventReference.entity.fieldLink.url }}" rel="noreferrer noopener" target="_blank">
+                <h3 class="vads-u-margin-top--0">
+                  <a href="{{ eventReference.entity.fieldLink.url }}">
                     {{ eventReference.entity.fieldListing.entity.fieldDescription }}
                   </a>
                 </h3>
@@ -311,133 +317,149 @@
                 <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-margin-top--2">
                   <p class="vads-u-font-weight--bold vads-u-margin--0 vads-u-margin-right--2">Where</p>
                   <a href="" rel="noreferrer noopener" target="_blank">
-                    Not sure what to put here
+                    TODO
                   </a>
                 </div>
               </div>
-            {% endfor %}
-          </div>
-        {% endif %}
-
-        <!-- Call to action -->
-        {% if fieldClpResourcesCta %}
-          <a class="usa-button usa-button-secondary vads-u-font-size--sm vads-u-margin-top--4" href="{{ fieldClpResourcesCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
-            {{ fieldClpResourcesCta.entity.fieldButtonLabel }}
-            <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
-          </a>
-        {% endif %}
-      </div>
-    </div>
-
-    <!-- FAQ -->
-    <div class="usa-grid usa-grid-full vads-u-padding-y--4 vads-u-padding-x--2 large-screen:vads-u-padding-x--0">
-      <div class="usa-width-three-fourths">
-        <!-- Title -->
-        <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">FAQ</p>
-        <h2 class="vads-u-margin--0">Frequently asked questions</h2>
-
-        <!-- Questions/Answers -->
-        <div class="usa-accordion-bordered vads-u-margin-y--2">
-          <ul class="usa-unstyled-list">
-            {% for faqParagraph in fieldClpFaqParagraphs %}
-              {% if faqParagraph.entity %}
-                <li data-faq-entity-id="{{ faqParagraph.entity.entityId }}">
-                  <button aria-controls="{{ faqParagraph.entity.entityBundle }}-{{ faqParagraph.entity.entityId }}" class="usa-accordion-button usa-button-unstyled" aria-expanded="false" type="button">{{ faqParagraph.entity.fieldQuestion }}</button>
-                  <div id="{{ faqParagraph.entity.entityBundle }}-{{ faqParagraph.entity.entityId }}" class="usa-accordion-content" aria-hidden="true">
-                    {% assign fieldAnswer = faqParagraph.entity.fieldAnswer | first %}
-                    {% assign bundleComponent = "src/site/paragraphs/" | append: fieldAnswer.entity.entityBundle %}
-                    {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
-                    {% include {{ bundleComponentWithExtension }} with entity = fieldAnswer.entity %}
-                  </div>
-                </li>
-              {% endif %}
-            {% endfor %}
-          </ul>
+            </div>
+          {% endfor %}
         </div>
-
-        <!-- Call to action -->
-        {% if fieldClpFaqCta %}
-          <a class="usa-button usa-button-secondary vads-u-font-size--sm" href="{{ fieldClpFaqCta.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
-            {{ fieldClpFaqCta.entity.fieldButtonLabel }}
-            <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
-          </a>
-        {% endif %}
       </div>
-    </div>
+    </div> <!--/Events -->
+
+    <!-- FAQs -->
+    <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 medium-screen:vads-u-padding-x--0">
+      <div class="vads-l-row">
+        <div class="vads-l-col--12 medium-screen:vads-l-col--9">
+          <!-- Title -->
+          <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">FAQ</p>
+          <h2 class="vads-u-margin-top--0">Frequently asked questions</h2>
+
+          <!-- Questions/Answers -->
+          <div class="usa-accordion-bordered vads-u-margin-y--2">
+            <ul class="usa-unstyled-list">
+              {% for faqParagraph in fieldClpFaqParagraphs %}
+                {% if faqParagraph.entity %}
+                  <li data-faq-entity-id="{{ faqParagraph.entity.entityId }}">
+                    <button aria-controls="{{ faqParagraph.entity.entityBundle }}-{{ faqParagraph.entity.entityId }}" class="usa-accordion-button usa-button-unstyled" aria-expanded="false" type="button">{{ faqParagraph.entity.fieldQuestion }}</button>
+                    <div id="{{ faqParagraph.entity.entityBundle }}-{{ faqParagraph.entity.entityId }}" class="usa-accordion-content" aria-hidden="true">
+                      {% assign fieldAnswer = faqParagraph.entity.fieldAnswer | first %}
+                      {% assign bundleComponent = "src/site/paragraphs/" | append: fieldAnswer.entity.entityBundle %}
+                      {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
+                      {% include {{ bundleComponentWithExtension }} with entity = fieldAnswer.entity %}
+                    </div>
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {% if fieldClpFaqCta %}
+        <div class="vads-l-row">
+          <div class="vads-u-col--12">
+            <a class="usa-button usa-button-secondary vads-u-font-size--sm" href="{{ fieldClpFaqCta.entity.fieldButtonLink.url.path }}">
+              {{ fieldClpFaqCta.entity.fieldButtonLabel }}
+              <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+      {% endif %}
+    </div><!--/  FAQs -->
 
     <!-- Connect with us -->
-    {% assign socialLinksObject = fieldClpConnectWithUs.entity.fieldSocialMediaLinks.platformValues | jsonToObj %}
+    <div class="vads-u-background-color--primary-alt-lightest">
+      {% assign socialLinksObject = fieldClpConnectWithUs.entity.fieldSocialMediaLinks.platformValues | jsonToObj %}
+      <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 medium-screen:vads-u-padding-x--0">
+        <div class="vads-l-row">
+          <!-- CONTENT -->
+          <div class="vads-l-col--12 medium-screen:vads-l-col--9">
+            <!-- Title -->
+            <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">CONNECT WITH US</p>
+            <h2 class="vads-u-margin-top--0">Get updates from Veterans Health Administration</h2>
+          </div>
+        </div>
 
-    <div class="vads-u-background-color--primary-alt-lightest vads-u-padding-bottom--1">
-      <div class="usa-grid usa-grid-full vads-u-padding-y--4 vads-u-padding-x--2 large-screen:vads-u-padding-x--0">
-        <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">CONNECT WITH US</p>
-        <h2 class="vads-u-margin--0">Get updates from Veterans Health Administration</h2>
-
-        <ul class="usa-unstyled-list vads-u-padding-top--4 vads-u-display--flex vads-u-flex-wrap--wrap">
-          <li class="vads-l-col--6 medium-screen:vads-l-col--4 vads-u-margin-bottom--2">
-            <a aria-label="{{ fieldClpConnectWithUs.entity.fieldEmailUpdatesLinkText }} (opens in a new window)" href="{{ fieldClpConnectWithUs.entity.fieldEmailUpdatesUrl }}" onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Connect with us' });" rel="noreferrer noopener" target="_blank">
-              <i aria-hidden="true" class="fas fa-envelope vads-u-padding-right--1"></i>
-              {{ fieldClpConnectWithUs.entity.fieldEmailUpdatesLinkText }}
-            </a>
-          </li>
-          <li class="vads-l-col--6 medium-screen:vads-l-col--4 vads-u-margin-bottom--2">
-            <a aria-label="{{ fieldClpConnectWithUs.entity.name }} Twitter (opens in a new window)" href="https://twitter.com/{{ socialLinksObject.twitter }}" onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Connect with us' });" rel="noreferrer noopener" target="_blank">
-              <i aria-hidden="true" class="fab fa-twitter vads-u-padding-right--1"></i>
-              {{ fieldClpConnectWithUs.entity.name }} Twitter
-            </a>
-          </li>
-          <li class="vads-l-col--6 medium-screen:vads-l-col--4 vads-u-margin-bottom--2">
-            <a aria-label="{{ fieldClpConnectWithUs.entity.name }} Facebook (opens in a new window)" href="https://facebook.com/{{ socialLinksObject.facebook }}" onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Connect with us' });" rel="noreferrer noopener" target="_blank">
-              <i aria-hidden="true" class="fab fa-facebook vads-u-padding-right--1"></i>
-              {{ fieldClpConnectWithUs.entity.name }} Facebook
-            </a>
-          </li>
-          <li class="vads-l-col--6 medium-screen:vads-l-col--4 vads-u-margin-bottom--2">
-            <a aria-label="{{ fieldClpConnectWithUs.entity.name }} YouTube (opens in a new window)" href="https://youtube.com/channel/{{ socialLinksObject.youtube }}" onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Connect with us' });" rel="noreferrer noopener" target="_blank">
-              <i aria-hidden="true" class="fab fa-youtube vads-u-padding-right--1"></i>
-              {{ fieldClpConnectWithUs.entity.name }} YouTube
-            </a>
-          </li>
-          <li class="vads-l-col--6 medium-screen:vads-l-col--4 vads-u-margin-bottom--2">
-            <a aria-label="{{ fieldClpConnectWithUs.entity.name }} Linkedin (opens in a new window)" href="https://linkedin.com/{{ socialLinksObject.linkedin }}" onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Connect with us' });" rel="noreferrer noopener" target="_blank">
-              <i aria-hidden="true" class="fab fa-linkedin vads-u-padding-right--1"></i>
-              {{ fieldClpConnectWithUs.entity.name }} Linkedin
-            </a>
-          </li>
-          <li class="vads-l-col--6 medium-screen:vads-l-col--4 vads-u-margin-bottom--2">
-            <a aria-label="{{ fieldClpConnectWithUs.entity.name }} Instagram (opens in a new window)" href="https://instagram.com/{{ socialLinksObject.instagram }}" onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Connect with us' });" rel="noreferrer noopener" target="_blank">
-              <i aria-hidden="true" class="fab fa-instagram vads-u-padding-right--1"></i>
-              {{ fieldClpConnectWithUs.entity.name }} Instagram
-            </a>
-          </li>
-        </ul>
+        <div class="vads-l-row medium-screen:vads-u-margin-x--neg1">
+          <div class="vads-l-col--12 medium-screen:vads-l-col--4">
+            <div class="vads-u-margin-y--1 medium-screen:vads-u-margin-x--1">
+              <a aria-label="{{ fieldClpConnectWithUs.entity.fieldEmailUpdatesLinkText }} (opens in a new window)" href="{{ fieldClpConnectWithUs.entity.fieldEmailUpdatesUrl }}" rel="noreferrer noopener" target="_blank">
+                <i aria-hidden="true" class="fas fa-envelope vads-u-padding-right--1"></i>
+                {{ fieldClpConnectWithUs.entity.fieldEmailUpdatesLinkText }}
+              </a>
+            </div>
+          </div>
+          <div class="vads-l-col--12 medium-screen:vads-l-col--4">
+            <div class="vads-u-margin-y--1 medium-screen:vads-u-margin-x--1">
+              <a aria-label="{{ fieldClpConnectWithUs.entity.name }} Twitter (opens in a new window)" href="https://twitter.com/{{ socialLinksObject.twitter.value }}" onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Connect with us' });" rel="noreferrer noopener" target="_blank">
+                <i aria-hidden="true" class="fab fa-twitter vads-u-padding-right--1"></i>
+                {{ fieldClpConnectWithUs.entity.name }} Twitter
+              </a>
+            </div>
+          </div>
+          <div class="vads-l-col--12 medium-screen:vads-l-col--4">
+            <div class="vads-u-margin-y--1 medium-screen:vads-u-margin-x--1">
+              <a aria-label="{{ fieldClpConnectWithUs.entity.name }} Facebook (opens in a new window)" href="https://facebook.com/{{ socialLinksObject.facebook.value }}" onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Connect with us' });" rel="noreferrer noopener" target="_blank">
+                <i aria-hidden="true" class="fab fa-facebook vads-u-padding-right--1"></i>
+                {{ fieldClpConnectWithUs.entity.name }} Facebook
+              </a>
+            </div>
+          </div>
+          <div class="vads-l-col--12 medium-screen:vads-l-col--4">
+            <div class="vads-u-margin-y--1 medium-screen:vads-u-margin-x--1">
+              <a aria-label="{{ fieldClpConnectWithUs.entity.name }} YouTube (opens in a new window)" href="https://youtube.com/channel/{{ socialLinksObject.youtube.value }}" onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Connect with us' });" rel="noreferrer noopener" target="_blank">
+                <i aria-hidden="true" class="fab fa-youtube vads-u-padding-right--1"></i>
+                {{ fieldClpConnectWithUs.entity.name }} YouTube
+              </a>
+            </div>
+          </div>
+          <div class="vads-l-col--12 medium-screen:vads-l-col--4">
+            <div class="vads-u-margin-y--1 medium-screen:vads-u-margin-x--1">
+              <a aria-label="{{ fieldClpConnectWithUs.entity.name }} Linkedin (opens in a new window)" href="https://linkedin.com/{{ socialLinksObject.linkedin.value }}" onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Connect with us' });" rel="noreferrer noopener" target="_blank">
+                <i aria-hidden="true" class="fab fa-linkedin vads-u-padding-right--1"></i>
+                {{ fieldClpConnectWithUs.entity.name }} Linkedin
+              </a>
+            </div>
+          </div>
+          <div class="vads-l-col--12 medium-screen:vads-l-col--4">
+            <div class="vads-u-margin-y--1 medium-screen:vads-u-margin-x--1">
+              <a aria-label="{{ fieldClpConnectWithUs.entity.name }} Instagram (opens in a new window)" href="https://instagram.com/{{ socialLinksObject.instagram.value }}" onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Connect with us' });" rel="noreferrer noopener" target="_blank">
+                <i aria-hidden="true" class="fab fa-instagram vads-u-padding-right--1"></i>
+                {{ fieldClpConnectWithUs.entity.name }} Instagram
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </div> <!-- Connect with us -->
 
     <!-- VA Benefits -->
-    <div class="usa-grid usa-grid-full vads-u-padding-y--4 vads-u-padding-x--2 large-screen:vads-u-padding-x--0">
-      <div class="usa-width-three-fourths">
-        <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">VA BENEFITS</p>
-        <h2 class="vads-u-margin--0">Learn more about related VA benefits</h2>
-
-        <!-- Benefit landing pages -->
-        {% if fieldBenefitCategories != empty %}
-          <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-margin-top--4">
-            {% for benefitCategory in fieldBenefitCategories %}
-              <div class="va-c-benefit-category vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2 medium-screen:vads-u-margin-right--4">
-                <a class="vads-u-display--flex vads-u-align-items--center" href="{{ benefitCategory.entity.entityUrl.path }}" rel="noreferrer noopener" target="_blank">
-                  <div class="inline hub-main-icon vads-u-margin-right--2">
-                    <i class="icon-large white hub-icon-{{ benefitCategory.entity.fieldTitleIcon }} hub-background-{{ benefitCategory.entity.fieldTitleIcon }}" role="presentation" aria-hidden="true"></i>
-                  </div>
-                  {{ benefitCategory.entity.title }}
-                </a>
-                <p>{{ benefitCategory.entity.fieldIntroText }}</p>
-              </div>
-            {% endfor %}
-          </div>
-        {% endif %}
+    <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 medium-screen:vads-u-padding-x--0">
+      <div class="vads-l-row">
+        <div class="vads-l-col--12 medium-screen:vads-l-col--9">
+          <!-- Title -->
+          <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">VA BENEFITS</p>
+          <h2 class="vads-u-margin-top--0">Learn more about related VA benefits</h2>
+        </div>
       </div>
-    </div>
+
+      <div class="vads-l-row medium-screen:vads-u-margin-x--neg6">
+        {% for benefitCategory in fieldBenefitCategories %}
+          <div class="vads-l-col--12 medium-screen:vads-l-col--6">
+            <div class="medium-screen:vads-u-margin-x--6">
+              <div class="vads-u-display--flex vads-u-align-items--center">
+                <div class="inline hub-main-icon vads-u-margin-right--2">
+                  <i class="icon-large white hub-icon-{{ benefitCategory.entity.fieldTitleIcon }} hub-background-{{ benefitCategory.entity.fieldTitleIcon }}" role="presentation" aria-hidden="true"></i>
+                </div>
+                <a href="{{ benefitCategory.entity.entityUrl.path }}">{{ benefitCategory.entity.title }}</a>
+              </div>
+              <p class="vads-u-margin-top--0">{{ benefitCategory.entity.fieldIntroText }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div><!--/  VA Benefits -->
 
     <!-- Last Updated -->
     <div class="usa-grid usa-grid-full">
