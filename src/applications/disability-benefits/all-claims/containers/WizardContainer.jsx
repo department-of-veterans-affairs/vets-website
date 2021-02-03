@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
 import FormFooter from 'platform/forms/components/FormFooter';
-import Wizard, {
-  WIZARD_STATUS_COMPLETE,
-} from 'applications/static-pages/wizard';
+import Wizard from 'applications/static-pages/wizard';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 
 import pages from '../../wizard/pages';
 import formConfig from '../config/form';

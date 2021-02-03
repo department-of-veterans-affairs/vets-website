@@ -147,7 +147,7 @@ function Introduction({
                 <a
                   href="/health-care/covid-19-vaccine/#who-will-get-a-covid-19-vaccin"
                   aria-label="Learn who will get a COVID-19 vaccine first based on CDC
-                  guidelines (Open in a new window)"
+                  guidelines"
                 >
                   Learn who can get a COVID-19 vaccine now based on CDC
                   guidelines
