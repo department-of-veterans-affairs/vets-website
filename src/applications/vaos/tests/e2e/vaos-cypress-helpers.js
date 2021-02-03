@@ -195,7 +195,7 @@ export function createPastVAAppointments() {
   };
 }
 
-function mockFeatureToggles() {
+export function mockFeatureToggles({ providerSelectionEnabled = false } = {}) {
   cy.route({
     method: 'GET',
     url: '/v0/feature_toggles*',
@@ -234,6 +234,10 @@ function mockFeatureToggles() {
           {
             name: `cerner_override_668`,
             value: false,
+          },
+          {
+            name: 'vaOnlineSchedulingProviderSelection',
+            value: providerSelectionEnabled,
           },
         ],
       },
@@ -627,6 +631,46 @@ export function initCommunityCareMock() {
     method: 'GET',
     url: '/vaos/v0/appointments?start_date=*&end_date=*&type=va',
     response: updateConfirmedVADates(confirmedVA),
+  });
+  cy.route({
+    method: 'GET',
+    url: '/v1/facilities/ccp*',
+    response: {
+      data: [
+        {
+          id: '1497723753',
+          type: 'provider',
+          attributes: {
+            accNewPatients: 'true',
+            address: {
+              street: '1012 14TH ST NW STE 700',
+              city: 'WASHINGTON',
+              state: 'DC',
+              zip: '20005-3477',
+            },
+            caresitePhone: '202-638-0750',
+            email: null,
+            fax: null,
+            gender: 'Male',
+            lat: 38.903195,
+            long: -77.032382,
+            name: 'Doe, Jane',
+            phone: null,
+            posCodes: null,
+            prefContact: null,
+            uniqueId: '1497723753',
+          },
+          relationships: {
+            specialties: {
+              data: [
+                { id: '363L00000X', type: 'specialty' },
+                { id: '363LP2300X', type: 'specialty' },
+              ],
+            },
+          },
+        },
+      ],
+    },
   });
 
   cy.route({
