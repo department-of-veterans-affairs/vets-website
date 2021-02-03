@@ -43,7 +43,7 @@ function CommunityCareAppointmentDetailsPage({
   if (appointmentDetailsStatus === FETCH_STATUS.loading) {
     return (
       <div className="vads-u-margin-y--8">
-        <LoadingIndicator message="Loading your appointment request...!!!!" />
+        <LoadingIndicator message="Loading your confirmed appointments..." />
       </div>
     );
   }
@@ -57,7 +57,7 @@ function CommunityCareAppointmentDetailsPage({
     res => res.resourceType === 'Location',
   );
 
-  // NOTE: A header can be added to a comment by prepending a header ending with a colon.
+  // NOTE: A header can be added to a comment by prepending the comment with header text ending with a colon.
   const prefix = 'Special Instructions: ';
   const instructions = appointment.comment
     ? prefix.concat(appointment.comment)
@@ -114,7 +114,7 @@ function CommunityCareAppointmentDetailsPage({
         />
         <AddToCalendar
           summary={`${header}`}
-          description={`instructionText`}
+          description={appointment.comment}
           location={location}
           duration={appointment.minutesDuration}
           startDateTime={moment.parseZone(appointment.start)}
