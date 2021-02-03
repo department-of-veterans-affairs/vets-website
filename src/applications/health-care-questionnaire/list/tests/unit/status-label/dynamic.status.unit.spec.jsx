@@ -15,7 +15,7 @@ describe('health care questionnaire list - get status label', () => {
     const component = mount(<Status data={data} />);
     expect(component.exists('[data-testid="status-label"]')).to.be.true;
     expect(component.find('[data-testid="status-label"]').text()).to.equal(
-      'in progress',
+      'in-progress',
     );
     component.unmount();
   });

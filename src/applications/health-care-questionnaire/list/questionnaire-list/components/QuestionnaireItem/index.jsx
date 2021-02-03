@@ -25,7 +25,7 @@ const index = props => {
         {appointmentType} questionnaire
       </header>
       <p className="appointment-location">
-        for your {isCancelled ? 'canceled of rescheduled ' : ''}
+        for your {isCancelled ? 'canceled or rescheduled ' : ''}
         appointment at {clinic.friendlyName}, {clinic.facility.displayName}
         {extraText}
       </p>

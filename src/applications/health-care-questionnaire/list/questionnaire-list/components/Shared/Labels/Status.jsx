@@ -19,7 +19,7 @@ export default function Status(props) {
   } else if (questionnaireStatus === 'in-progress') {
     return (
       <span data-testid="status-label" className="usa-label">
-        in progress
+        in-progress
       </span>
     );
   } else if (questionnaireStatus === 'completed') {
