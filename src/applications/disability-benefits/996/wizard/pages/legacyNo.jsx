@@ -1,6 +1,6 @@
 import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { HLR_INFO_URL } from '../../constants';
 
 import pageNames from './pageNames';

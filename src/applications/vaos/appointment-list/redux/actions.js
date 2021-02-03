@@ -191,7 +191,7 @@ export function fetchFutureAppointments() {
         getBookedAppointments({
           startDate: moment().format('YYYY-MM-DD'),
           endDate: moment()
-            .add(13, 'months')
+            .add(395, 'days')
             .format('YYYY-MM-DD'),
         }),
         getAppointmentRequests({

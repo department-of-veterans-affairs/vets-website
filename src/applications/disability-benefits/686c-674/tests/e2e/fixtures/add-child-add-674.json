@@ -35,7 +35,8 @@
         "city": "Washington",
         "stateCode": "DC",
         "zipCode": "20500"
-      }
+      },
+      "trainingProgram": "HighSch"
     },
     "studentAddressMarriageTuition": {
       "address": {
