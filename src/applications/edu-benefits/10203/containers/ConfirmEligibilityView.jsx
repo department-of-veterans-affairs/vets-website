@@ -201,9 +201,9 @@ const mapStateToProps = (state, ownProps) => {
       confirmEligibility === undefined,
     formId: state.form.formId,
     isLoggedIn: state.user.login.currentlyLoggedIn,
-    stemAutomatedDecision: toggleValues(state)[
-      FEATURE_FLAG_NAMES.stemAutomatedDecision
-    ],
+    stemAutomatedDecision:
+      ownProps.stemAutomatedDecision ||
+      toggleValues(state)[FEATURE_FLAG_NAMES.stemAutomatedDecision],
   };
 };
 
