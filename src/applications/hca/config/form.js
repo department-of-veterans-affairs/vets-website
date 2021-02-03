@@ -219,7 +219,7 @@ const formConfig = {
         },
         spouseInformation: {
           path: 'household-information/spouse-information',
-          title: 'Spouse’s information',
+          title: 'Spouse\u2019s information',
           initialData: {},
           depends: formData =>
             formData.discloseFinancialInformation &&

@@ -36,7 +36,6 @@ export const uiSchema = {
             classNames: 'input-size-7',
             getOptions: () => formatOptions(installmentTypes),
           },
-          'ui:required': () => true,
         },
         creditorName: {
           'ui:title': 'Name of creditor',
@@ -58,18 +57,15 @@ export const uiSchema = {
           'ui:options': {
             widgetClassNames: 'input-size-5',
           },
-          'ui:required': () => true,
         }),
         debtWithinThreeMonths: {
           'ui:title':
             'Did this installment or debt happen within the past 3 months?',
           'ui:widget': 'radio',
-          'ui:required': () => true,
         },
         pastDueDebt: {
           'ui:title': 'Are you past due on this installment or debt?',
           'ui:widget': 'radio',
-          'ui:required': () => true,
         },
       },
     },
@@ -98,6 +94,7 @@ export const schema = {
               'debtWithinThreeMonths',
               'pastDueDebt',
             ],
+            minItems: 1,
             properties: {
               debtType: {
                 type: 'string',

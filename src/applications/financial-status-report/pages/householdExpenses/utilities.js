@@ -67,6 +67,7 @@ export const schema = {
           items: {
             type: 'object',
             required: ['utilityType', 'monthlyUtilityAmount'],
+            minItems: 1,
             properties: {
               utilityType: {
                 type: 'string',
