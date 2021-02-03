@@ -94,7 +94,10 @@ function RequestedAppointmentDetailsPage({
             Your appointment request has been submitted. We will review your
             request and contact you to schedule the first available appointment.
             <div className="vads-u-display--flex vads-u-align-items--center vads-u-color--link-default vads-u-margin-top--2">
-              <i className="fas fa-times vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin-right--1" />
+              <i
+                aria-hidden="true"
+                className="fas fa-times vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin-right--1"
+              />
 
               <button
                 aria-label="Cancel request"
