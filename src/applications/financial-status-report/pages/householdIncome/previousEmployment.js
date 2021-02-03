@@ -36,7 +36,6 @@ export const uiSchema = {
         previousEmploymentEnd: {
           'ui:title': 'Employment end date',
           'ui:widget': 'date',
-          'ui:required': formData => formData.employment.hasPreviousEmployment,
         },
         previousEmployerName: {
           'ui:title': 'Employer name',
@@ -61,12 +60,7 @@ export const schema = {
           type: 'array',
           items: {
             type: 'object',
-            required: [
-              'previousEmploymentType',
-              'previousEmploymentStart',
-              'previousEmploymentEnd',
-            ],
-            minItems: 1,
+            required: ['previousEmploymentType', 'previousEmploymentStart'],
             properties: {
               previousEmploymentType: {
                 type: 'string',

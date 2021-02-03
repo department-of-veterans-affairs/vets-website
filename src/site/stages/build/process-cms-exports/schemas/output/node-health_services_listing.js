@@ -8,7 +8,6 @@ module.exports = {
     entityBundle: { enum: ['health_services_listing'] },
     title: { type: 'string' },
     created: { type: 'number' },
-    changed: { type: 'number' },
     promote: { type: 'boolean' },
     sticky: { type: 'boolean' },
     defaultLangcode: { type: 'boolean' },
@@ -38,7 +37,6 @@ module.exports = {
   required: [
     'title',
     'created',
-    'changed',
     'promote',
     'sticky',
     'defaultLangcode',

@@ -127,9 +127,9 @@ describe('VAOS request flow', () => {
       cy.findByLabelText(/Sidney/).click();
     });
   });
-  it('should submit form successfully for a user with single system and enabled facility', () => {
+  it('should submit form successfully for a user with multi system including a Cerner facility', () => {
     initAppointmentListMock();
-    initVARequestMock({ facilityPageV2Enabled: false });
+    initVARequestMock({ cernerUser: true });
     cy.route({
       method: 'GET',
       url: '/vaos/v0/facilities**',
