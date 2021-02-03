@@ -18,8 +18,7 @@ const isVeteranSeparated = formData =>
   formData.maritalStatus?.toLowerCase() === 'separated';
 
 const hasVeteranBeenMarried = formData =>
-  (formData.maritalStatus && isVeteranMarried(formData)) ||
-  isVeteranSeparated(formData);
+  isVeteranMarried(formData) || isVeteranSeparated(formData);
 
 const {
   dependents,
