@@ -5,7 +5,7 @@
 }
 
 .va-c-white-box {
-  width: 220px;
+  // width: 220px;
 }
 
 .va-c-blue-line {
@@ -13,8 +13,8 @@
 }
 
 .va-c-li-box {
-  min-width: 280px;
-  width: 280px;
+  // min-width: 280px;
+  // width: 280px;
 }
 
 .va-c-benefit-category {
@@ -32,5 +32,6 @@
 }
 
 .va-c-hero-content {
-  max-width: 400px;
+  // max-width: 400px;
+  @include linear-gradient-background($color-old-browser-background-start, $color-old-browser-background-end);
 }

@@ -4,7 +4,9 @@
 <!-- Draft status -->
 {% if !entityPublished %}
 <div class="vads-u-font-size--h4 vads-u-background-color--primary-alt-lightest vads-u-border-color--primary-darker vads-u-border-bottom--2px vads-u-padding--1">
-  You are viewing a draft of "{{ entityUrl.path }}". <a data-same-tab href="{{ drupalSite }}/node/{{ entityId }}/edit">Edit this page in the CMS.</a>
+  <div class="vads-l-grid-container medium-screen:vads-u-padding-x--0">
+    You are viewing a draft of "{{ entityUrl.path }}". <a data-same-tab href="{{ drupalSite }}/node/{{ entityId }}/edit">Edit this page in the CMS.</a>
+  </div>
 </div>
 {% endif %}
 
@@ -16,116 +18,136 @@
   <main class="va-l-detail-page">
 
 
+    <!-- HERO-->
     <div class="va-c-hero" style="background-image: url('{{ fieldHeroImage.entity.image.url }}">
       <!-- Hero Content -->
-      <div class="usa-grid usa-grid-full">
-        <div class="homepage-hub va-c-hero-content vads-u-padding-x--4 vads-u-padding-y--6">
-          <h1 class="vads-u-color--white">{{ title }}</h1>
-          <hr class="va-c-blue-line vads-u-border-color--primary-alt vads-u-margin-y--2" />
-          <p class="vads-u-color--white">{{ fieldHeroBlurb }}</p>
+      <div class="vads-l-grid-container vads-u-padding-x--0">
+        <div class="vads-l-row">
+          <div class="vads-l-col--12 medium-screen:vads-l-col--6">
+            <div class="va-c-hero-content vads-u-padding-x--4 vads-u-padding-y--6  medium-screen:vads-u-margin-right--4">
+              <h1 class="vads-u-color--white">{{ title }}</h1>
+              <hr class="va-c-blue-line vads-u-border-color--primary-alt vads-u-margin-y--2" />
+              <p class="va-introtext vads-u-color--white">{{ fieldHeroBlurb }}</p>
 
-          {% if fieldPrimaryCallToAction %}
-            <a class="va-c-custom-hero-button usa-button usa-button-secondary vads-u-margin-top--2 vads-u-background-color--white vads-u-border-color--white vads-u-font-size--sm" href="{{ fieldPrimaryCallToAction.entity.fieldButtonLink.url.path }}" rel="noreferrer noopener">
-              {{ fieldPrimaryCallToAction.entity.fieldButtonLabel }}
-            </a>
-          {% endif %}
+              {% if fieldPrimaryCallToAction %}
+                <a class="va-c-custom-hero-button usa-button usa-button-secondary vads-u-margin-top--2 vads-u-background-color--white vads-u-border-color--white vads-u-font-size--sm" href="{{ fieldPrimaryCallToAction.entity.fieldButtonLink.url.path }}" rel="noreferrer noopener">
+                  {{ fieldPrimaryCallToAction.entity.fieldButtonLabel }}
+                </a>
+              {% endif %}
+            </div>
+          </div>
         </div>
       </div>
     </div>
+    <!-- /Hero -->
 
     <!-- Why This Matters -->
-    <div class="vads-u-background-color--primary-alt-lightest vads-u-padding-bottom--1">
-      <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row usa-grid usa-grid-full vads-u-padding-y--4 vads-u-padding-x--2 large-screen:vads-u-padding-x--0">
-        <!-- Content -->
-        <div>
-          <h2 class="vads-u-margin--0 vads-u-margin-bottom--2">Why this matters to you</h2>
-          <p class="vads-u-margin-top--0 vads-u-margin-bottom--2">{{ fieldClpWhyThisMatters }}</p>
-          {% if fieldSecondaryCallToAction %}
-            <a class="usa-button usa-button-secondary vads-u-font-size--sm" href="{{ fieldSecondaryCallToAction.entity.fieldButtonLink.url.path }}">
-              {{ fieldSecondaryCallToAction.entity.fieldButtonLabel }}
-            </a>
-          {% endif %}
-        </div>
+    <div class="vads-u-background-color--primary-alt-lightest">
+      <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 medium-screen:vads-u-padding-x--0">
+          <div class="vads-l-row">
+            <!-- CONTENT -->
+            <div class="vads-l-col--12 medium-screen:vads-l-col--9">
+              <h2 class="vads-u-margin--0 vads-u-margin-bottom--2">Why this matters to you</h2>
+              <p class="va-introtext vads-u-margin-top--0 vads-u-margin-bottom--2">{{ fieldClpWhyThisMatters }}</p>
+              {% if fieldSecondaryCallToAction %}
+                <a class="usa-button usa-button-secondary vads-u-font-size--sm" href="{{ fieldSecondaryCallToAction.entity.fieldButtonLink.url.path }}">
+                  {{ fieldSecondaryCallToAction.entity.fieldButtonLabel }}
+                </a>
+              {% endif %}
+            </div><!-- /CONTENT -->
 
-        <!-- White box w/ social media links -->
-        <div class="vads-u-margin-top--3 medium-screen:vads-u-margin-top--0 medium-screen:vads-u-margin-left--4">
-          {% if fieldClpAudience != empty %}
-            <div class="va-c-white-box vads-u-background-color--white vads-u-padding--2 vads-u-margin-bottom--3">
-              <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin--0">THIS PAGE IS FOR</p>
-              <hr class="va-c-blue-line vads-u-border-color--primary-alt vads-u-margin-y--2" />
-              <ul class="usa-unstyled-list">
-                {% for clpAudience in fieldClpAudience %}
-                  <li class="vads-u-font-size--sm vads-u-font-weight--bold vads-u-margin-top--1">
-                    {{ clpAudience.entity.name }}
-                  </li>
-                {% endfor %}
-              </ul>
-            </div>
-          {% endif %}
+            <!-- THIS PAGE IS FOR -->
+            <div class="vads-l-col--12 medium-screen:vads-l-col--3">
+              <div class=" vads-u-margin-top--6 medium-screen:vads-u-margin-top--0 medium-screen:vads-u-margin-left--2">
+                {% if fieldClpAudience != empty %}
+                  <div class="va-c-white-box vads-u-background-color--white vads-u-padding--2 vads-u-margin-bottom--2">
+                    <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin--0">THIS PAGE IS FOR</p>
+                    <hr class="va-c-blue-line vads-u-border-color--primary-alt vads-u-margin-y--2" />
+                    <ul class="usa-unstyled-list">
+                      {% for clpAudience in fieldClpAudience %}
+                        <li class="vads-u-font-size--sm vads-u-font-weight--bold vads-u-margin-top--1">
+                          {{ clpAudience.entity.name }}
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                {% endif %}
+                {% include "src/site/includes/social-share.drupal.liquid" %}
+              </div>
+            </div><!-- /THIS PAGE IS FOR-->
 
-          <!-- Links to social media -->
-          {% include "src/site/includes/social-share.drupal.liquid" %}
+          </div>
         </div>
       </div>
     </div>
+    <!-- /Why This Matters -->
 
     <!-- What You Can Do -->
-    <div class="usa-grid usa-grid-full vads-u-padding-y--4 vads-u-padding-x--2 large-screen:vads-u-padding-x--0">
-      <div class="usa-width-three-fourths">
-        <!-- Title -->
-        <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">WHAT YOU CAN DO</p>
-        <h2 class="vads-u-margin--0">{{ fieldClpWhatYouCanDoHeader }}</h2>
-        <p class="vads-u-margin-top--1 vads-u-margin-bottom--4">{{ fieldClpWhatYouCanDoIntro }}</p>
-
-        <!-- List of promos -->
-        {% if fieldClpWhatYouCanDoPromos != empty %}
-          <ul class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-padding--0">
-            {% for promo in fieldClpWhatYouCanDoPromos %}
-              <li class="va-c-li-box vads-u-background-color--gray-light-alt vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2 medium-screen:vads-u-margin-right--2">
+    <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 medium-screen:vads-u-padding-x--0">
+      <div class="vads-l-row">
+        <div class="vads-l-col--12 medium-screen:vads-l-col--9">
+          <!-- Title -->
+          <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">WHAT YOU CAN DO</p>
+          <h2 class="vads-u-margin--0">{{ fieldClpWhatYouCanDoHeader }}</h2>
+          <p class="va-introtext vads-u-margin-top--1 vads-u-margin-bottom--4">{{ fieldClpWhatYouCanDoIntro }}</p>
+        </div>
+      </div>
+      <div class="vads-l-row vads-u-margin-bottom--2 medium-screen:vads-u-margin-x--neg1">
+        {% for promo in fieldClpWhatYouCanDoPromos %}
+          <div class="vads-l-col--12 medium-screen:vads-l-col--4">
+            <div class="vads-u-margin-y--1 medium-screen:vads-u-margin-x--1 medium-screen:vads-u-margin-y--0">
+              <div class="va-c-li-box vads-u-background-color--gray-light-alt vads-u-display--flex vads-u-flex-direction--column">
                 <img alt="{{ promo.entity.fieldImage.entity.thumbnail.alt }}" src="{{ promo.entity.fieldImage.entity.thumbnail.url }}" />
                 <a class="vads-u-margin-top--2 vads-u-font-weight--bold vads-u-font-size--lg vads-u-padding-x--2" href="{{ promo.entity.fieldPromoLink.entity.fieldLink.url }}" rel="noreferrer noopener" target="_blank">
                   {{ promo.entity.fieldPromoLink.entity.fieldLink.title }}
                 </a>
                 <p class="vads-u-margin-bottom--2 vads-u-margin-top--1 vads-u-padding-x--2">{{ promo.entity.fieldPromoLink.entity.fieldLinkSummary }}</p>
-              </li>
-            {% endfor %}
-          </ul>
-        {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
       </div>
     </div>
+    <!--/ What You Can Do -->
 
     <!-- Video -->
-    <div class="vads-u-background-color--primary-alt-lightest vads-u-padding-bottom--1">
-      <div class="usa-grid usa-grid-full vads-u-padding-y--4 vads-u-padding-x--2 large-screen:vads-u-padding-x--0">
-        <!-- Title -->
-        <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">VIDEO</p>
-        <h2 class="vads-u-margin--0">{{ fieldClpVideoPanelHeader }}</h2>
+    <div class="vads-u-background-color--primary-alt-lightest">
+      <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 medium-screen:vads-u-padding-x--0">
+        <div class="vads-l-row">
+          <!-- CONTENT -->
+          <div class="vads-l-col--12 medium-screen:vads-l-col--9">
+            <!-- Title -->
+            <p class="vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">VIDEO</p>
+            <h2 class="vads-u-margin--0">{{ fieldClpVideoPanelHeader }}</h2>
 
-        <!-- Video -->
-        <iframe
-          allowFullScreen
-          class="vads-u-margin-top--4"
-          frameBorder="0"
-          src="{{ fieldMedia.entity.fieldMediaVideoEmbedField }}"
-          title="{{ fieldMedia.entity.name }}"
-          width="100%"
-        ></iframe>
+            <!-- Video -->
+            <iframe
+              allowFullScreen
+              class="vads-u-margin-top--4"
+              frameBorder="0"
+              src="{{ fieldMedia.entity.fieldMediaVideoEmbedField }}"
+              title="{{ fieldMedia.entity.name | default: 'YouTube video' }}"
+              width="100%"
+            ></iframe>
 
-        <!-- Video description -->
-        {% if fieldMedia.entity.fieldDuration %}
-          <p class="duration vads-u-font-size--sm vads-u-margin--0">{{ fieldMedia.entity.fieldDuration }}</p>
-        {% endif %}
-        {% if fieldMedia.entity.fieldDescription %}
-          <p class="vads-u-margin-top--1 vads-u-margin-bottom--0">{{ fieldMedia.entity.fieldDescription }}</p>
-        {% endif %}
+            <!-- Video description -->
+            {% if fieldMedia.entity.fieldDuration %}
+              <p class="duration vads-u-font-size--sm vads-u-margin--0">{{ fieldMedia.entity.fieldDuration }}</p>
+            {% endif %}
 
-        <!-- Call to action -->
-        {% if fieldClpVideoPanelMoreVideo %}
-          <a class="vads-u-margin-top--4 usa-button usa-button-secondary vads-u-font-size--sm" href="{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
-            {{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel }}
-            <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
-          </a>
-        {% endif %}
+            {% if fieldMedia.entity.fieldDescription %}
+              <p class="va-introtext vads-u-margin-top--1 vads-u-margin-bottom--0">{{ fieldMedia.entity.fieldDescription }}</p>
+            {% endif %}
+
+            <!-- Call to action -->
+            {% if fieldClpVideoPanelMoreVideo %}
+              <a class="vads-u-margin-top--4 usa-button usa-button-secondary vads-u-font-size--sm" href="{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLink.url }}" rel="noreferrer noopener" target="_blank">
+                {{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel }}
+                <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
+              </a>
+            {% endif %}
+          </div>
+        </div>
       </div>
     </div>
 
