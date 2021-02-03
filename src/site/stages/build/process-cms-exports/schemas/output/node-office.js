@@ -1,6 +1,7 @@
 module.exports = {
   type: 'object',
   properties: {
+    targetId: { type: 'number' },
     entityType: { type: 'string', enum: ['node'] },
     entityBundle: { type: 'string', enum: ['office'] },
     title: { type: 'string' },
@@ -13,6 +14,7 @@ module.exports = {
     fieldMetaTitle: { type: 'string' },
   },
   required: [
+    'targetId',
     'title',
     'created',
     'changed',
