@@ -165,6 +165,7 @@ export const selectCanceledAppointments = createSelector(
     }
 
     const sortedAppointments = confirmed
+      .concat(pending)
       .filter(isCanceledConfirmedOrExpressCare)
       .sort(sortByDateDescending);
 

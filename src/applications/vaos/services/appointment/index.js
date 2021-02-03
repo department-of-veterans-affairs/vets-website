@@ -316,7 +316,7 @@ export function isUpcomingAppointmentOrRequest(appt) {
       !appt.vaos.isPastAppointment &&
       !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
       apptDateTime.isValid() &&
-      apptDateTime.isBefore(moment().add(13, 'months'))
+      apptDateTime.isBefore(moment().add(395, 'days'))
     );
   }
 
@@ -358,7 +358,7 @@ export function isUpcomingAppointmentOrExpressCare(appt) {
       apptDateTime.isBefore(
         moment()
           .endOf('day')
-          .add(13, 'months'),
+          .add(395, 'days'),
       )
     );
   }
@@ -406,7 +406,7 @@ export function isCanceledConfirmedOrExpressCare(appt) {
         today
           .clone()
           .endOf('day')
-          .add(13, 'months'),
+          .add(395, 'days'),
       )
     );
   }
