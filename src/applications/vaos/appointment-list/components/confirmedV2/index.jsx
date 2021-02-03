@@ -3,21 +3,26 @@ import { connect } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-import AddToCalendar from '../../components/AddToCalendar';
-import VAFacilityLocation from '../../components/VAFacilityLocation';
-import moment from '../../lib/moment-tz';
+import AddToCalendar from '../../../components/AddToCalendar';
+import VAFacilityLocation from '../../../components/VAFacilityLocation';
+import moment from '../../../lib/moment-tz';
 import {
   getVAAppointmentLocationId,
   getVARFacilityId,
+  isAtlasLocation,
   isVideoAppointment,
-} from '../../services/appointment';
-import { FETCH_STATUS, PURPOSE_TEXT } from '../../utils/constants';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import * as actions from '../redux/actions';
-import { cancelAppointment } from '../redux/actions';
-import AppointmentDateTime from './cards/confirmed/AppointmentDateTime';
-import AppointmentInstructions from './cards/confirmed/AppointmentInstructions';
-import { selectFeatureCancel } from '../../redux/selectors';
+  isVideoGFE,
+  isVideoHome,
+  isVideoVAFacility,
+} from '../../../services/appointment';
+import { FETCH_STATUS, PURPOSE_TEXT } from '../../../utils/constants';
+import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import * as actions from '../../redux/actions';
+import { cancelAppointment } from '../../redux/actions';
+import AppointmentDateTime from './AppointmentDateTime';
+import AppointmentInstructions from './AppointmentInstructions';
+import { selectFeatureCancel } from '../../../redux/selectors';
+import VideoVisitSection from './VideoVisitSection';
 
 // Only use this when we need to pass data that comes back from one of our
 // services files to one of the older api functions
@@ -33,7 +38,21 @@ function formatAppointmentDate(date) {
   return date.format('MMMM D, YYYY');
 }
 
-function ConfirmedAppointmentDetailsPage({
+function formatHeader(appointment) {
+  if (isVideoGFE(appointment)) {
+    return 'VA Video Connect using device';
+  } else if (isVideoVAFacility(appointment)) {
+    return 'VA Video Connect at VA location';
+  } else if (isAtlasLocation(appointment)) {
+    return 'VA Video Connect at an ATLAS location';
+  } else if (isVideoHome(appointment)) {
+    return 'VA Video Connect at home';
+  } else {
+    return 'VA Appointment';
+  }
+}
+
+function Index({
   appointmentDetails,
   appointmentDetailsStatus,
   facilityData,
@@ -79,7 +98,8 @@ function ConfirmedAppointmentDetailsPage({
   const isVideo = isVideoAppointment(appointment);
   const isInPersonVAAppointment = !isVideo;
 
-  const header = 'VA Appointment';
+  const header = formatHeader(appointment);
+
   const showInstructions =
     isInPersonVAAppointment &&
     PURPOSE_TEXT.some(purpose =>
@@ -100,15 +120,30 @@ function ConfirmedAppointmentDetailsPage({
         />
       </h1>
 
+      {isVideo && (
+        <>
+          <div className="vads-u-font-size--sm vads-u-font-family--sans">
+            <span>
+              <strong>{header}</strong>
+            </span>
+          </div>
+          <VideoVisitSection
+            header={header}
+            facility={facility}
+            appointment={appointment}
+          />
+        </>
+      )}
+
       {!!facility &&
-        !isExpressCare && (
+        !isExpressCare &&
+        !isVideo && (
           <>
             <div className="vads-u-font-size--sm vads-u-font-family--sans">
               <span>
                 <strong>{header}</strong>
               </span>
             </div>
-
             <VAFacilityLocation
               facility={facility}
               facilityName={facility?.name}
@@ -217,4 +252,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ConfirmedAppointmentDetailsPage);
+)(Index);
