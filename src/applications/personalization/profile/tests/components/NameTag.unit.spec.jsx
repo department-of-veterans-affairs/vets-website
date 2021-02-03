@@ -77,7 +77,7 @@ describe('<NameTag>', () => {
   it('should render disability rating when the dashboardShowDashboard2 feature flag is turned on and the user has a disability rating', () => {
     const component = mount(
       <NameTag
-        showUpdatedHeader
+        showUpdatedNameTag
         totalDisabilityRating="70"
         store={fakeStore}
       />,
@@ -92,7 +92,7 @@ describe('<NameTag>', () => {
   });
 
   it('should not render disability rating when the dashboardShowDashboard2 feature flag is turned on and the user has no disability rating', () => {
-    const component = mount(<NameTag showUpdatedHeader store={fakeStore} />);
+    const component = mount(<NameTag showUpdatedNameTag store={fakeStore} />);
     expect(component.text()).to.not.contain('Service connected');
     component.unmount();
   });

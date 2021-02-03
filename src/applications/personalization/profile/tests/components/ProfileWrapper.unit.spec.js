@@ -46,7 +46,7 @@ describe('ProfileWrapper', () => {
       },
     };
     const { getByTestId } = render(ui, { initialState });
-    const NameTag = getByTestId('profile-header');
+    const NameTag = getByTestId('name-tag');
     expect(NameTag.textContent.match(/Test Test/i)).not.to.be.null;
   });
 
@@ -59,7 +59,7 @@ describe('ProfileWrapper', () => {
       },
     };
     const { queryByTestId } = render(ui, { initialState });
-    const NameTag = queryByTestId('profile-header');
+    const NameTag = queryByTestId('name-tag');
     expect(NameTag).to.be.null;
   });
 
@@ -78,7 +78,7 @@ describe('ProfileWrapper', () => {
       },
     };
     const { queryByTestId } = render(ui, { initialState });
-    const NameTag = queryByTestId('profile-header');
+    const NameTag = queryByTestId('name-tag');
     expect(NameTag).to.not.exist;
   });
 });

@@ -32,7 +32,7 @@ const Dashboard = props => {
     <>
       {isEmpty(props.hero?.errors) && (
         <NameTag
-          showUpdatedHeader
+          showUpdatedNameTag
           totalDisabilityRating={props.totalDisabilityRating}
         />
       )}

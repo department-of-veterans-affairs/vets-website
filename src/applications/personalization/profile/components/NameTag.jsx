@@ -13,7 +13,7 @@ const NameTag = ({
   latestBranchOfService,
   showBadgeImage,
   totalDisabilityRating,
-  showUpdatedHeader,
+  showUpdatedNameTag,
 }) => {
   const fullName = [first, middle, last, suffix]
     .filter(name => !!name)
@@ -93,7 +93,7 @@ const NameTag = ({
     'medium',
   );
 
-  const wrapperClassDerived = showUpdatedHeader
+  const wrapperClassDerived = showUpdatedNameTag
     ? updatedWrapperClasses
     : wrapperClasses;
 
@@ -116,7 +116,7 @@ const NameTag = ({
   };
 
   return (
-    <div className={classes.wrapper} data-testid="profile-header">
+    <div className={classes.wrapper} data-testid="name-tag">
       <div className={classes.innerWrapper}>
         <div className={classes.serviceBadge}>
           {showBadgeImage && (
@@ -138,7 +138,7 @@ const NameTag = ({
                 {getServiceBranchDisplayName(latestBranchOfService)}
               </dd>
             )}
-            {showUpdatedHeader &&
+            {showUpdatedNameTag &&
               totalDisabilityRating && (
                 <>
                   <dt className="sr-only">total disability rating</dt>

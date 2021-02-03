@@ -40,7 +40,7 @@ function checkAllPages(mobile = false) {
 
   // since we did not mock the `GET profile/full_name` endpoint, the
   // NameTag should not be rendered on the page
-  cy.findByTestId('profile-header').should('not.exist');
+  cy.findByTestId('name-tag').should('not.exist');
 
   // visiting /profile should redirect to profile/personal-information
   cy.url().should(
