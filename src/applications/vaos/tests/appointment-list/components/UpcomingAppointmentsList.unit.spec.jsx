@@ -546,7 +546,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     expect(screen.baseElement).to.contain.text('Express Care request');
   });
 
-  it('should show cancelled express care appointment text', async () => {
+  it('should show canceled express care appointment text', async () => {
     const startDate = moment.utc();
     const appointment = getVARequestMock();
     appointment.attributes = {
@@ -603,7 +603,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
     expect(screen.baseElement).to.contain.text('Cancelled');
-    expect(screen.baseElement).to.contain.text(
+    expect(screen.baseElement).not.to.contain.text(
       'A VA health care provider will follow up with you today.',
     );
     expect(screen.baseElement).to.contain.text('Express Care request');
