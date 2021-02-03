@@ -61,7 +61,6 @@ export const schema = {
           items: {
             type: 'object',
             required: ['previousEmploymentType', 'previousEmploymentStart'],
-            minItems: 1,
             properties: {
               previousEmploymentType: {
                 type: 'string',

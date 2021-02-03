@@ -114,6 +114,7 @@ const formConfig = {
         previousEmployment: {
           path: 'previous-employment',
           title: 'Previous employment',
+          depends: formData => formData.employment.hasBeenEmployed,
           uiSchema: previousEmployment.uiSchema,
           schema: previousEmployment.schema,
         },
@@ -153,7 +154,8 @@ const formConfig = {
           path: 'spouse-previous-employment',
           title: 'Spouse previous employment',
           depends: formData =>
-            formData.spouseInformation.maritalStatus === 'Married',
+            formData.spouseInformation.maritalStatus === 'Married' &&
+            formData.employment.spouseHasBeenEmployed,
           uiSchema: spousePreviousEmployment.uiSchema,
           schema: spousePreviousEmployment.schema,
         },
