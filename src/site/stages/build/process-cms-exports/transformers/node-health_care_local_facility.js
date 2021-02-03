@@ -59,7 +59,18 @@ const transform = (entity, { ancestors }) => ({
   fieldFacilityLocatorApiId: getDrupalValue(entity.fieldFacilityLocatorApiId),
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldLocalHealthCareService: entity.fieldLocalHealthCareService.length
-    ? entity.fieldLocalHealthCareService.filter(n => Object.keys(n).length)
+    ? entity.fieldLocalHealthCareService
+        .filter(s => Object.keys(s).length && s.entity)
+        .map(s => {
+          const newRegionalEntity = {
+            ...s.entity.fieldRegionalHealthService.entity,
+            entityBundle: 'regional_health_care_service_des',
+          };
+          return Object.assign(
+            s.entity.fieldRegionalHealthService.entity,
+            newRegionalEntity,
+          );
+        })
     : null,
   fieldLocationServices: entity.fieldLocationServices.length
     ? entity.fieldLocationServices
