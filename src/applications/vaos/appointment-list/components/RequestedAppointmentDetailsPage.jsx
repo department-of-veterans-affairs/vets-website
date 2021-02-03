@@ -153,7 +153,6 @@ function RequestedAppointmentDetailsPage({
           <div>{appointment.reason}</div>
         </>
       )}
-
       {!isExpressCare && (
         <>
           <h2 className="vads-u-margin-top--2 vaos-appts__block-label">
@@ -162,7 +161,6 @@ function RequestedAppointmentDetailsPage({
           <div>{message}</div>
         </>
       )}
-
       <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vaos-appts__block-label">
         Your contact details
       </h2>
@@ -185,7 +183,6 @@ function RequestedAppointmentDetailsPage({
     </div>
   );
 }
-
 function mapStateToProps(state) {
   const {
     currentAppointment,
@@ -193,7 +190,6 @@ function mapStateToProps(state) {
     facilityData,
     pendingStatus,
   } = state.appointments;
-
   return {
     appointment: currentAppointment,
     appointmentDetailsStatus,
@@ -202,11 +198,9 @@ function mapStateToProps(state) {
     pendingStatus,
   };
 }
-
 const mapDispatchToProps = {
   fetchRequestDetails: actions.fetchRequestDetails,
 };
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

@@ -298,7 +298,8 @@ const runComparison = () => {
     fs.mkdirSync('content-object-diffs');
 
     // Keep track of number or diffs
-    let diffNum = 0;
+    let nodesWithDiffs = 0;
+    let totalDiffs = 0;
     let totalObjectsCompared = 0;
 
     // Compare JSON objects for each node entity
@@ -311,6 +312,7 @@ const runComparison = () => {
       if (baseObject) {
         const diff = compareJson(baseObject, entity);
         if (diff && diff.length !== 0) {
+          totalDiffs += diff.length - 1;
           // Add entity file name to diff output
           diff.unshift({
             entityFile: `node.${
@@ -330,16 +332,16 @@ const runComparison = () => {
             ),
             JSON.stringify(diff),
           );
-          ++diffNum;
+          ++nodesWithDiffs;
         }
         ++totalObjectsCompared;
       }
     });
 
     console.log(
-      diffNum === 0
+      nodesWithDiffs === 0
         ? `No differences found in ${totalObjectsCompared} nodes!`
-        : `${diffNum}/${totalObjectsCompared} nodes with differences: './content-object-diffs'`,
+        : `${nodesWithDiffs}/${totalObjectsCompared} nodes with ${totalDiffs} differences: './content-object-diffs'`,
     );
   }
 };

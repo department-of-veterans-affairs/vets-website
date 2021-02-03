@@ -387,7 +387,7 @@ describe('VAOS Appointment service', () => {
         filteredRequests.filter(req => req.status === 'Booked').length,
       ).to.equal(0);
     });
-    it.skip('should filter future confirmed appointments', () => {
+    it('should filter future confirmed appointments', () => {
       const confirmedAppts = [
         // appointment more than 395 days should not show
         {

@@ -41,10 +41,12 @@ export default function ConfirmationPageFooter(props) {
     } else {
       return (
         <span data-testid="default-details">
-          If you have questions about your upcoming appointment,{' '}
+          If you have questions about your upcoming appointment, please call
+          your VA provider.{' '}
           <a href={`/find-locations/facility/vha_${facilityId}`}>
-            please call your VA provider
+            Contact your VA provider
           </a>
+          .
         </span>
       );
     }
@@ -52,15 +54,13 @@ export default function ConfirmationPageFooter(props) {
 
   return (
     <div className="next-steps">
-      <h2>
-        Who can I contact if I have questions about my upcoming appointment?
-      </h2>
+      <h2>What if I have questions about my appointment?</h2>
       <p>
         <PhoneNumbers />
       </p>
       <div className="nav-buttons">
         <a
-          className="usa-button-primary"
+          className="questionnaire-link usa-button-primary usa-button-secondary"
           href="/health-care/health-questionnaires/questionnaires"
         >
           Go to your health questionnaires

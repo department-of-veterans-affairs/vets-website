@@ -8,7 +8,6 @@ module.exports = {
     entityBundle: { type: 'string', enum: ['story_listing'] },
     title: { type: 'string' },
     created: { type: 'number' },
-    changed: { type: 'number' },
     entityPublished: { type: 'boolean' },
     entityMetatags: { $ref: 'MetaTags' },
     fieldAdministration: { $ref: 'output/taxonomy_term-administration' },
@@ -48,7 +47,6 @@ module.exports = {
   required: [
     'title',
     'created',
-    'changed',
     'entityPublished',
     'entityMetatags',
     'fieldAdministration',

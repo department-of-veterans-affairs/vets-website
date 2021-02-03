@@ -9,7 +9,6 @@ const transform = (entity, { ancestors }) => ({
   entityBundle: 'health_services_listing',
   title: getDrupalValue(entity.title),
   created: utcToEpochTime(getDrupalValue(entity.created)),
-  changed: utcToEpochTime(getDrupalValue(entity.changed)),
   promote: getDrupalValue(entity.promote),
   sticky: getDrupalValue(entity.sticky),
   defaultLangcode: getDrupalValue(entity.defaultLangcode),
@@ -51,7 +50,6 @@ module.exports = {
   filter: [
     'title',
     'created',
-    'changed',
     'promote',
     'sticky',
     'default_langcode',

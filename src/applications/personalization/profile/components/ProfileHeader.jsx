@@ -12,6 +12,8 @@ const ProfileHeader = ({
   userFullName: { first, middle, last, suffix },
   latestBranchOfService,
   showBadgeImage,
+  totalDisabilityRating,
+  showUpdatedHeader,
 }) => {
   const fullName = [first, middle, last, suffix]
     .filter(name => !!name)
@@ -23,6 +25,13 @@ const ProfileHeader = ({
     'margin-bottom--0',
     'padding-y--2',
   ]);
+
+  const updatedWrapperClasses = prefixUtilityClasses([
+    'background-color--primary',
+    'margin-bottom--0',
+    'padding-y--2',
+  ]);
+
   const wrapperClassesMedium = prefixUtilityClasses(
     ['padding-y--2p5', 'margin-bottom--2'],
     'medium',
@@ -84,8 +93,12 @@ const ProfileHeader = ({
     'medium',
   );
 
+  const wrapperClassDerived = showUpdatedHeader
+    ? updatedWrapperClasses
+    : wrapperClasses;
+
   const classes = {
-    wrapper: [...wrapperClasses, ...wrapperClassesMedium].join(' '),
+    wrapper: [...wrapperClassDerived, ...wrapperClassesMedium].join(' '),
     innerWrapper: [
       ...innerWrapperClasses,
       ...innerWrapperClassesMedium,
@@ -110,11 +123,12 @@ const ProfileHeader = ({
             <img
               src={SERVICE_BADGE_IMAGE_PATHS.get(latestBranchOfService)}
               alt={`${latestBranchOfService} seal`}
-              className="profile-service-badge vads-u-padding-right--3"
+              className="vads-u-padding-right--3"
+              style={{ maxHeight: '75px' }}
             />
           )}
         </div>
-        <div className="name-and-title-wrapper">
+        <div>
           <dl className="vads-u-margin-y--0">
             <dt className="sr-only">Name: </dt>
             <dd className={classes.fullName}>{fullName}</dd>
@@ -124,6 +138,26 @@ const ProfileHeader = ({
                 {getServiceBranchDisplayName(latestBranchOfService)}
               </dd>
             )}
+            {showUpdatedHeader &&
+              totalDisabilityRating && (
+                <>
+                  <dt className="sr-only">total disability rating</dt>
+                  <dd className="vads-u-margin-top--0p5">
+                    <a
+                      href="/disability/view-disability-rating/rating"
+                      aria-label="view your disability rating"
+                      className="vads-u-color--white vads-u-font-size--md font-weight--bold"
+                    >
+                      {totalDisabilityRating}% Service connected{' '}
+                      <i
+                        className={`fa fa-angle-double-right`}
+                        aria-hidden="true"
+                        role="img"
+                      />
+                    </a>
+                  </dd>
+                </>
+              )}
           </dl>
         </div>
       </div>
