@@ -1,9 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 
 import { months, days } from '../utilities/date';
-import { formatISOPartialDate, parseISODate } from '../helpers';
+import {
+  formatISOPartialDate,
+  parseISODate,
+  minYear,
+  maxYear,
+} from '../helpers';
 
 function getEmptyState(value) {
   return {
@@ -80,6 +86,7 @@ export default class DateWidget extends React.Component {
     if (month) {
       daysForSelectedMonth = days[month];
     }
+
     return (
       <div className="usa-date-of-birth row">
         <div className="form-datefield-month">
@@ -91,6 +98,7 @@ export default class DateWidget extends React.Component {
             id={`${id}Month`}
             value={month}
             disabled={disabled}
+            aria-describedby={`${id}-${'error-message'}`}
             onChange={event => this.handleChange('month', event.target.value)}
           >
             <option value="" />
@@ -111,6 +119,7 @@ export default class DateWidget extends React.Component {
               id={`${id}Day`}
               value={day}
               disabled={disabled}
+              aria-describedby={`${id}-error-message`}
               onChange={event => this.handleChange('day', event.target.value)}
             >
               <option value="" />
@@ -133,8 +142,9 @@ export default class DateWidget extends React.Component {
             name={`${id}Year`}
             id={`${id}Year`}
             disabled={disabled}
-            max="3000"
-            min="1900"
+            aria-describedby={`${id}-error-message`}
+            max={maxYear}
+            min={minYear}
             pattern="[0-9]{4}"
             value={year}
             onBlur={() => this.handleBlur('year')}
