@@ -27,7 +27,7 @@ export default {
       },
     }),
     mothersMaidenName: {
-      'ui:title': 'Mother’s maiden name',
+      'ui:title': 'Mother\u2019s maiden name',
     },
   },
   schema: {
