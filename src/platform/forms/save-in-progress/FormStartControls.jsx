@@ -10,6 +10,11 @@ import {
   APP_TYPE_DEFAULT,
 } from '../../forms-system/src/js/constants';
 
+import {
+  WIZARD_STATUS,
+  WIZARD_STATUS_RESTARTING,
+} from 'platform/site-wide/wizard';
+
 class FormStartControls extends React.Component {
   constructor(props) {
     super(props);
@@ -64,6 +69,14 @@ class FormStartControls extends React.Component {
       this.props.formId,
       this.props.migrations,
       this.props.prefillTransformer,
+    );
+
+    const { formConfig = {} } = this.props.routes?.[1] || {};
+    // Wizard status needs an intermediate value between not-started &
+    // complete to prevent infinite loops in the RoutedSavableApp
+    sessionStorage.setItem(
+      formConfig.wizardStorageKey || WIZARD_STATUS,
+      WIZARD_STATUS_RESTARTING,
     );
   };
 
