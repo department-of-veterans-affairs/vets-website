@@ -38,29 +38,29 @@ export default {
     veteranGrossIncome: set(
       'ui:validations',
       [validateCurrency],
-      currencyUI('Veteran gross annual income from employment'),
+      currencyUI('Veteran\u2019s gross annual income from employment'),
     ),
     veteranNetIncome: set(
       'ui:validations',
       [validateCurrency],
       currencyUI(
-        'Veteran net income from your farm, ranch, property or business',
+        'Veteran\u2019s net income from your farm, ranch, property or business',
       ),
     ),
     veteranOtherIncome: set(
       'ui:validations',
       [validateCurrency],
-      currencyUI('Veteran other income amount'),
+      currencyUI('Veteran\u2019s other income amount'),
     ),
     'view:spouseIncome': {
-      'ui:title': 'Spouse income',
+      'ui:title': 'Spouse\u2019s income',
       'ui:options': {
         hideIf: formData =>
           !formData.maritalStatus ||
           (!isVeteranMarried(formData) && !isVeteranSeparated(formData)),
       },
       spouseGrossIncome: merge(
-        currencyUI('Spouse gross annual income from employment'),
+        currencyUI('Spouse\u2019s gross annual income from employment'),
         {
           'ui:required': formData => hasVeteranBeenMarried(formData),
           'ui:validations': [validateCurrency],
@@ -68,17 +68,20 @@ export default {
       ),
       spouseNetIncome: merge(
         currencyUI(
-          'Spouse net income from your farm, ranch, property or business',
+          'Spouse\u2019s net income from your farm, ranch, property or business',
         ),
         {
           'ui:required': formData => hasVeteranBeenMarried(formData),
           'ui:validations': [validateCurrency],
         },
       ),
-      spouseOtherIncome: merge(currencyUI('Spouse other income amount'), {
-        'ui:required': formData => hasVeteranBeenMarried(formData),
-        'ui:validations': [validateCurrency],
-      }),
+      spouseOtherIncome: merge(
+        currencyUI('Spouse\u2019s other income amount'),
+        {
+          'ui:required': formData => hasVeteranBeenMarried(formData),
+          'ui:validations': [validateCurrency],
+        },
+      ),
     },
     dependents: {
       'ui:field': 'BasicArrayField',

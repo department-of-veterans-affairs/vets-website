@@ -15,6 +15,7 @@ export default {
     veteranAddress: merge(addressUI('Mailing address', true), {
       'ui:description': <AddressDescription addressType="mailing" />,
       street: {
+        'ui:title': 'Street address',
         'ui:errorMessages': {
           pattern:
             'Please provide a valid street. Must be at least 1 character.',
