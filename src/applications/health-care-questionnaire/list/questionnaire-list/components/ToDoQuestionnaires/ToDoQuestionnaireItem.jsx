@@ -17,7 +17,7 @@ export default function ToDoQuestionnaireItem({ data }) {
       data={data}
       extraText={
         isCancelled
-          ? '. You can access this questionnaire to copy answers for a rescheduled appointment.'
+          ? 'You can access this questionnaire to copy answers for a rescheduled appointment.'
           : ''
       }
       Actions={() =>
@@ -45,13 +45,16 @@ export default function ToDoQuestionnaireItem({ data }) {
         const formattedTimezone = moment.tz(guess).format('z');
         const meridiem = dueDate.hours() > 12 ? 'p.m.' : 'a.m.';
         return (
-          <section className="due-date">
+          <section className="due-date" data-testid="due-date">
             <p>{isCancelled ? 'Access until' : 'Complete by'}</p>
             <p className="vads-u-font-weight--bold">
               {dueDate.format('dddd, MMMM D, YYYY')}
             </p>
             {!isCancelled && (
-              <p className="vads-u-font-weight--bold">
+              <p
+                className="vads-u-font-weight--bold"
+                data-testid="due-by-timestamp"
+              >
                 {dueDate.format(`H:MM`)} {meridiem} {formattedTimezone}
               </p>
             )}
