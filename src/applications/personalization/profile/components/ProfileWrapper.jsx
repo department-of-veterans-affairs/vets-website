@@ -16,7 +16,7 @@ import {
   personalInformationLoadError,
 } from '@@profile/selectors';
 
-import ProfileHeader from './ProfileHeader';
+import NameTag from './NameTag';
 import ProfileSubNav from './ProfileSubNav';
 import ProfileMobileSubNav from './ProfileMobileSubNav';
 import { PROFILE_PATHS } from '../constants';
@@ -84,7 +84,7 @@ const ProfileWrapper = ({
         </Breadcrumbs>
       </div>
 
-      {isEmpty(hero.errors) && isLOA3 && <ProfileHeader />}
+      {isEmpty(hero.errors) && isLOA3 && <NameTag />}
 
       <div className="medium-screen:vads-u-display--none">
         <ProfileMobileSubNav

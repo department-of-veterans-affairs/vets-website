@@ -8,7 +8,7 @@ import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
 import { SERVICE_BADGE_IMAGE_PATHS } from '../constants';
 import { getServiceBranchDisplayName } from '../helpers';
 
-const ProfileHeader = ({
+const NameTag = ({
   userFullName: { first, middle, last, suffix },
   latestBranchOfService,
   showBadgeImage,
@@ -179,7 +179,7 @@ const mapStateToProps = state => {
   };
 };
 
-ProfileHeader.defaultProps = {
+NameTag.defaultProps = {
   userFullName: {
     first: '',
     middle: '',
@@ -189,7 +189,7 @@ ProfileHeader.defaultProps = {
   latestBranchOfService: '',
 };
 
-ProfileHeader.propTypes = {
+NameTag.propTypes = {
   showBadgeImage: PropTypes.bool,
   userFullName: PropTypes.shape({
     first: PropTypes.string,
@@ -200,4 +200,4 @@ ProfileHeader.propTypes = {
   latestBranchOfService: PropTypes.string.isRequired,
 };
 
-export default connect(mapStateToProps)(ProfileHeader);
+export default connect(mapStateToProps)(NameTag);

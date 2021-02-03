@@ -34,7 +34,7 @@ describe('ProfileWrapper', () => {
       .not.to.be.null;
   });
 
-  it('should render ProfileHeader when the full name of the user was fetched)', () => {
+  it('should render NameTag when the full name of the user was fetched)', () => {
     const initialState = {
       vaProfile: {
         hero: {
@@ -46,11 +46,11 @@ describe('ProfileWrapper', () => {
       },
     };
     const { getByTestId } = render(ui, { initialState });
-    const profileHeader = getByTestId('profile-header');
-    expect(profileHeader.textContent.match(/Test Test/i)).not.to.be.null;
+    const NameTag = getByTestId('profile-header');
+    expect(NameTag.textContent.match(/Test Test/i)).not.to.be.null;
   });
 
-  it('should not render ProfileHeader when the full name of the user could not be fetched)', () => {
+  it('should not render NameTag when the full name of the user could not be fetched)', () => {
     const initialState = {
       vaProfile: {
         hero: {
@@ -59,11 +59,11 @@ describe('ProfileWrapper', () => {
       },
     };
     const { queryByTestId } = render(ui, { initialState });
-    const profileHeader = queryByTestId('profile-header');
-    expect(profileHeader).to.be.null;
+    const NameTag = queryByTestId('profile-header');
+    expect(NameTag).to.be.null;
   });
 
-  it('should not render ProfileHeader when the user is LOA1)', () => {
+  it('should not render NameTag when the user is LOA1)', () => {
     ui = (
       <MemoryRouter initialEntries={[PROFILE_PATHS.PERSONAL_INFORMATION]}>
         <ProfileWrapper routes={getRoutes(config)} />
@@ -78,7 +78,7 @@ describe('ProfileWrapper', () => {
       },
     };
     const { queryByTestId } = render(ui, { initialState });
-    const profileHeader = queryByTestId('profile-header');
-    expect(profileHeader).to.not.exist;
+    const NameTag = queryByTestId('profile-header');
+    expect(NameTag).to.not.exist;
   });
 });
