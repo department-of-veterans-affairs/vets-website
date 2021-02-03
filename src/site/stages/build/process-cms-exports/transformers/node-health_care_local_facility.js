@@ -60,16 +60,14 @@ const transform = (entity, { ancestors }) => ({
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldLocalHealthCareService: entity.fieldLocalHealthCareService.length
     ? entity.fieldLocalHealthCareService
-        .filter(s => Object.keys(s).length && s.entity)
+        .filter(
+          // WIP. This eliminates the "bad" entries but
+          // causes many valid CMS entries to be omitted!
+          s =>
+            Object.keys(s).length &&
+            s.entity?.fieldRegionalHealthService.entity,
+        )
         .map(s => {
-          // if (!s.entity.fieldRegionalHealthService.entity.fieldBody) {
-          //   console.log("fieldBody is missing from s.entity.fieldRegionalHealthService.entity",
-          //     s.entity.fieldRegionalHealthService.entity)
-          // }
-          // if (!s.entity.fieldRegionalHealthService.entity.fieldServiceNameAndDescripti) {
-          //   console.log("fieldServiceNameAndDescripti is missing from s.entity.fieldRegionalHealthService.entity",
-          //     s.entity.fieldRegionalHealthService.entity)
-          // }
           const newRegionalEntity = {
             ...s.entity.fieldRegionalHealthService.entity,
             entityBundle: 'regional_health_care_service_des',
