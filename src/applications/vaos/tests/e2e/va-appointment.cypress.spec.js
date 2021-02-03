@@ -23,7 +23,7 @@ describe('VAOS direct schedule flow', () => {
     // Choose Facility Type
     newApptTests.chooseFacilityTypeTest(/VA medical center/);
 
-    // Choose VA Facility
+    // Choose VA Flat Facility
     newApptTests.chooseVAFacilityV2Test();
 
     // Choose Clinic
@@ -214,11 +214,10 @@ describe('VAOS direct schedule flow', () => {
     newApptTests.confirmationPageTest(additionalInfo);
   });
 });
-
-describe('VAOS direct schedule flow: 2-step facility selection', () => {
+describe('VAOS direct schedule flow with a Cerner site', () => {
   it('should submit form', () => {
     initAppointmentListMock();
-    initVAAppointmentMock({ facilityPageV2Enabled: false });
+    initVAAppointmentMock({ cernerUser: true });
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
     cy.get('.va-modal-body button').click();
@@ -288,7 +287,7 @@ describe('VAOS direct schedule flow: 2-step facility selection', () => {
 
   it('should submit form with an eye care type of care', () => {
     initAppointmentListMock();
-    initVAAppointmentMock({ facilityPageV2Enabled: false });
+    initVAAppointmentMock({ cernerUser: true });
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
     cy.get('.va-modal-body button').click();
@@ -357,7 +356,7 @@ describe('VAOS direct schedule flow: 2-step facility selection', () => {
 
   it('should submit form with a sleep care type of care', () => {
     initAppointmentListMock();
-    initVAAppointmentMock({ facilityPageV2Enabled: false });
+    initVAAppointmentMock({ cernerUser: true });
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
     cy.get('.va-modal-body button').click();
