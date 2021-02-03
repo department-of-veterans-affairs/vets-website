@@ -1,3 +1,7 @@
+/**
+ * @typedef { import("./types").Appointment } Appointment
+ */
+
 import moment from 'moment';
 import { getConfirmedAppointments, getPendingAppointments } from '../var';
 import {
@@ -60,7 +64,7 @@ const PAST_APPOINTMENTS_HIDDEN_SET = new Set([
  * @export
  * @param {String} startDate Date in YYYY-MM-DD format
  * @param {String} endDate Date in YYYY-MM-DD format
- * @returns {Object} A FHIR searchset of booked Appointment resources
+ * @returns {Array<Appointment>} A FHIR searchset of booked Appointment resources
  */
 export async function getBookedAppointments({ startDate, endDate }) {
   try {

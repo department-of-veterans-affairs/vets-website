@@ -1,3 +1,7 @@
+/**
+ * @typedef { import("./types").Appointment } Appointment
+ */
+
 import moment from '../../lib/moment-tz';
 
 import {
@@ -545,7 +549,7 @@ function setLegacyVAR(appt) {
  *
  * @export
  * @param {Array} appointments An array of appointments from the VA facilities api
- * @returns {Array} An array of FHIR Appointment resource
+ * @returns {Array<Appointment>} An array of FHIR Appointment resource
  */
 export function transformConfirmedAppointments(appointments) {
   return appointments.map(appt => {
