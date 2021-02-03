@@ -169,15 +169,15 @@
       </div>
       <div class="vads-l-row vads-u-margin-bottom--2 medium-screen:vads-u-margin-x--neg1">
         {% for linkTeaser in fieldClpSpotlightLinkTeasers %}
-          <div class="vads-l-col--12 medium-screen:vads-l-col--4">
-            <div class="vads-u-margin-y--1 medium-screen:vads-u-margin-x--1 medium-screen:vads-u-margin-y--0">
-              <div class="va-c-li-box vads-u-background-color--gray-light-alt vads-u-display--flex vads-u-flex-direction--column">
-                <h3 class="vads-u-padding-x--2">
+          <div class="vads-l-col--12 medium-screen:vads-l-col--4 vads-u-align-content--stretch vads-u-margin-y--1 ">
+            <div class="vads-u-background-color--gray-light-alt vads-u-height--full medium-screen:vads-u-margin-x--1 medium-screen:vads-u-margin-y--0">
+              <div class="vads-u-padding--2">
+                <h3 class="vads-u-margin-top--0">
                   <a href="{{ linkTeaser.entity.fieldLink.uri }}">
                     {{ linkTeaser.entity.fieldLink.title }}
                   </a>
                 </h3>
-                <p class="vads-u-margin-bottom--2 vads-u-margin-top--1 vads-u-padding-x--2">{{ linkTeaser.entity.fieldLinkSummary }}</p>
+                <p class="vads-u-margin-top--1">{{ linkTeaser.entity.fieldLinkSummary }}</p>
               </div>
             </div>
           </div>
@@ -241,14 +241,12 @@
 
       <div class="vads-l-row vads-u-margin-bottom--2 medium-screen:vads-u-margin-x--neg1">
         {% for resource in fieldClpResources %}
-          <div class="vads-l-col--12 medium-screen:vads-l-col--4">
-            <div class="vads-u-margin-y--1 medium-screen:vads-u-margin-x--1 medium-screen:vads-u-margin-y--0">
-              <div class="va-c-li-box vads-u-background-color--gray-light-alt vads-u-display--flex vads-u-flex-direction--column">
-                <div class="vads-u-padding--2">
-                  <h3 class="vads-u-margin--0">{{ resource.entity.name }}</h3>
-                  <p>{{ resource.entity.fieldDescription }}</p>
-                  <a href="{{ resource.entity.fieldMediaExternalFile.url }}" download>Download (PDF)</a>
-                </div>
+          <div class="vads-l-col--12 medium-screen:vads-l-col--4 vads-u-align-content--stretch vads-u-margin-y--1 ">
+            <div class="vads-u-background-color--gray-light-alt vads-u-height--full medium-screen:vads-u-margin-x--1 medium-screen:vads-u-margin-y--0">
+              <div class="vads-u-padding--2">
+                <h3 class="vads-u-margin--0">{{ resource.entity.name }}</h3>
+                <p>{{ resource.entity.fieldDescription }}</p>
+                <a href="{{ resource.entity.fieldMediaExternalFile.url }}" download>Download (PDF)</a>
               </div>
             </div>
           </div>
