@@ -24,10 +24,10 @@ const index = props => {
       <header data-testid="appointment-type-header">
         {appointmentType} questionnaire
       </header>
-      <p className="appointment-location">
+      <p className="appointment-location" data-testid="appointment-location">
         for your {isCancelled ? 'canceled or rescheduled ' : ''}
         appointment at {clinic.friendlyName}, {clinic.facility.displayName}
-        {extraText}
+        {extraText && `. ${extraText}`}
       </p>
       <section className="due-details">{DueDate && <DueDate />}</section>
 

@@ -38,7 +38,7 @@ const index = props => {
                     data={data}
                     extraText={
                       isCancelled
-                        ? 'for your canceled or rescheduled appointment at CHY PC CASSIDY, Cheyenne VA Medical Center. You can access this questionnaire to copy answers for a rescheduled appointment.'
+                        ? '. You can access this questionnaire to copy answers for a rescheduled appointment.'
                         : ''
                     }
                     Actions={() =>
