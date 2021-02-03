@@ -19,6 +19,7 @@ const getSocialMediaObject = ({ uri, title }) =>
     : null;
 
 const getFieldRegionObject = ({
+  nid,
   title,
   field_related_links,
   field_govdelivery_id_emerg,
@@ -27,6 +28,7 @@ const getFieldRegionObject = ({
 }) =>
   title
     ? {
+        entityId: getDrupalValue(nid).toString(),
         entityBundle: 'health_care_region_page',
         title: getDrupalValue(title),
         fieldRelatedLinks: field_related_links[0],
