@@ -1,7 +1,12 @@
 // Medallia Embed Script
 (function(g) {
+  console.log("src/site/assets/js/medallia/vagovprod.js")
+  console.log("Begin generating Medallia script")
   var isStaging = window.location.host.includes('staging');
-  if (!isStaging) return
+  if (!isStaging) {
+    console.log("Stop generating Medallia script; `window.location.host` doesn't include 'staging'.")
+    return
+  }
 
   var teamSitePathnames = [
     // `/ORMDI` redirects to include a trailing slash (`/ORMDI/`)
@@ -23,7 +28,10 @@
   ];
   var pathname = window.location.pathname;
   var isApprovedPathname = teamSitePathnames.some(x => x.test(pathname))
-  if (!isApprovedPathname) return
+  if (!isApprovedPathname) {
+    console.log("Stop generating Medallia script; page isn't included in the allow list.")
+    return
+  }
 
   var d = document,
     am = d.createElement('script'),
@@ -37,6 +45,7 @@
   for (var attr in aex) {
     am.setAttribute(attr, aex[attr]);
   }
+  console.log("Begin appending Medallia script")
   h.appendChild(am);
   g[fsr] ||
     (g[fsr] = function() {
@@ -44,5 +53,6 @@
       g[aT] = g[aT] || [];
       g[aT].push(arguments);
     });
+  console.log("Finish appending Medallia script")
 })(window);
 
