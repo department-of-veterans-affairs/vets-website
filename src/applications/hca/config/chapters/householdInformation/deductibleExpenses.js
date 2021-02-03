@@ -23,7 +23,7 @@ const emptyObjectSchema = {
 
 export default {
   uiSchema: {
-    'ui:title': 'Previous Calendar Year’s Deductible Expenses',
+    'ui:title': 'Previous Calendar Year\u2019s Deductible Expenses',
     'ui:description': deductibleExpensesDescription,
     deductibleMedicalExpenses: set(
       'ui:validations',

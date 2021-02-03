@@ -74,7 +74,7 @@ export default {
       'ui:widget': 'yesNo',
     },
     'view:spouseContactInformation': {
-      'ui:title': 'Spouse’s address and telephone number',
+      'ui:title': 'Spouse\u2019s address and telephone number',
       'ui:options': {
         expandUnder: 'sameAddress',
         expandUnderCondition: false,
