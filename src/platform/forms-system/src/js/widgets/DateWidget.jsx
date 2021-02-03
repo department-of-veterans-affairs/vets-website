@@ -104,7 +104,7 @@ export default class DateWidget extends React.Component {
             <option value="" />
             {months.map(mnth => (
               <option key={mnth.value} value={mnth.value}>
-                {mnth.label}
+                {mnth.text}
               </option>
             ))}
           </select>
