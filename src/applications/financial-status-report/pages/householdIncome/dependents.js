@@ -41,7 +41,6 @@ export const schema = {
       items: {
         type: 'object',
         required: ['dependentAge'],
-        minItems: 1,
         properties: {
           dependentAge: {
             type: 'string',

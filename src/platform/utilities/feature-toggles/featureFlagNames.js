@@ -75,4 +75,5 @@ export default Object.freeze({
   searchRepresentative: 'search_representative',
   gibctStateSearch: 'gibct_state_search',
   eduFormOmbAndExpiration: 'edu_form_omb_and_expiration',
+  manageDependents: 'dependents_management',
 });

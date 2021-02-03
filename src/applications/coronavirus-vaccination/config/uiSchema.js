@@ -37,7 +37,9 @@ export default {
         <span>
           <b>Note: </b>
           Your date of birth helps us match your information to your Veteran
-          records so we can better understand your needs.
+          records. We can then share your vaccine plans with your local VA
+          health facility so they can contact you when you’re eligible to get a
+          vaccine.
         </span>
       ),
       'ui:widget': 'date',
@@ -49,8 +51,10 @@ export default {
       'ui:description': () => (
         <span>
           <b>Note: </b>
-          Your SSN helps us match your information to your Veteran records so we
-          can better understand your needs.
+          Your <abbr title="Social Security Number">SSN</abbr> helps us match
+          your information to your Veteran records. We can then share your
+          vaccine plans with your local VA health facility so they can contact
+          you when you’re eligible to get a vaccine.
         </span>
       ),
       'ui:options': {
@@ -116,6 +120,13 @@ export default {
           PREFER_NO_ANSWER: 'I prefer not to answer.',
         },
       },
+      'ui:description': () => (
+        <span>
+          <b>Note: </b>
+          Your facility may use this information to determine when to contact
+          you about getting a vaccine once your risk group becomes eligible.
+        </span>
+      ),
     },
   },
   unauthenticated: {
@@ -144,7 +155,9 @@ export default {
         <span>
           <b>Note: </b>
           Your date of birth helps us match your information to your Veteran
-          records so we can better understand your needs.
+          records. We can then share your vaccine plans with your local VA
+          health facility so they can contact you when you’re eligible to get a
+          vaccine.
         </span>
       ),
       'ui:widget': 'date',
@@ -160,8 +173,10 @@ export default {
       'ui:description': () => (
         <span>
           <b>Note: </b>
-          Your SSN helps us match your information to your Veteran records so we
-          can better understand your needs.
+          Your <abbr title="Social Security Number">SSN</abbr> helps us match
+          your information to your Veteran records. We can then share your
+          vaccine plans with your local VA health facility so they can contact
+          you when you’re eligible to get a vaccine.
         </span>
       ),
       'ui:options': {
@@ -227,6 +242,13 @@ export default {
           PREFER_NO_ANSWER: 'I prefer not to answer.',
         },
       },
+      'ui:description': () => (
+        <span>
+          <b>Note: </b>
+          Your facility may use this information to determine when to contact
+          you about getting a vaccine once your risk group becomes eligible.
+        </span>
+      ),
     },
   },
 };
