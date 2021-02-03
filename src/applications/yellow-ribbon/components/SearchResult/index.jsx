@@ -93,6 +93,7 @@ export const deriveInstURLLabel = (school = {}, recordEventOnClick) => {
       onClick={recordEventOnClick(school)}
       rel="noreferrer noopener"
       target="_blank"
+      aria-label={`${href} Opens in a new window`}
     >
       {toLower(school?.insturl)}
     </a>
