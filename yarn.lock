@@ -12590,6 +12590,11 @@ mocha@^8.2.1:
     yargs-parser "13.1.2"
     yargs-unparser "2.0.0"
 
+mockdate@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/mockdate/-/mockdate-3.0.2.tgz#a5a7bb5820da617747af424d7a4dcb22c6c03d79"
+  integrity sha512-ldfYSUW1ocqSHGTK6rrODUiqAFPGAg0xaHqYJ5tvj1hQyFsjuHpuWgWFTZWwDVlzougN/s2/mhDr8r5nY5xDpA==
+
 mocker-api@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/mocker-api/-/mocker-api-2.1.0.tgz#f38c13e118c9bc55de5c87351fb79fa6693ddb5a"
