@@ -82,5 +82,9 @@ export const uiSchema = {
         expandUnderCondition: 'Other',
       },
     },
+    spouseIncome: {
+      'ui:title': 'Did your former spouse have income in the last 365 days?',
+      'ui:widget': 'yesNo',
+    },
   },
 };
