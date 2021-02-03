@@ -9,6 +9,7 @@ export default function FacilityAddress({
   showDirectionsLink,
   isHomepageRefresh,
   clinicFriendlyName,
+  isCommunityCare,
 }) {
   const address = facility?.address;
   const phone = facility?.telecom?.find(tele => tele.system === 'phone')?.value;
@@ -42,8 +43,12 @@ export default function FacilityAddress({
       {isHomepageRefresh &&
         !!phone && (
           <div className="vads-u-margin-top--1p5">
-            <strong>Clinic: </strong> {clinicFriendlyName}
-            <br />
+            {!isCommunityCare && (
+              <>
+                <strong>Clinic: </strong> {clinicFriendlyName}
+                <br />
+              </>
+            )}
             <strong>Main phone: </strong>
             <FacilityPhone contact={phone} />
           </div>
