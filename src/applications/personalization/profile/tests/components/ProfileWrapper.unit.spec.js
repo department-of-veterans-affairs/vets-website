@@ -9,10 +9,11 @@ import { PROFILE_PATHS } from '../../constants';
 import { renderWithProfileReducers as render } from '../unit-test-helpers';
 
 describe('ProfileWrapper', () => {
+  let ui;
   const config = {};
-  const ui = (
+  ui = (
     <MemoryRouter initialEntries={[PROFILE_PATHS.PERSONAL_INFORMATION]}>
-      <ProfileWrapper routes={getRoutes(config)} />
+      <ProfileWrapper routes={getRoutes(config)} isLOA3 />
     </MemoryRouter>
   );
 
@@ -60,5 +61,24 @@ describe('ProfileWrapper', () => {
     const { queryByTestId } = render(ui, { initialState });
     const profileHeader = queryByTestId('profile-header');
     expect(profileHeader).to.be.null;
+  });
+
+  it('should not render ProfileHeader when the user is LOA1)', () => {
+    ui = (
+      <MemoryRouter initialEntries={[PROFILE_PATHS.PERSONAL_INFORMATION]}>
+        <ProfileWrapper routes={getRoutes(config)} />
+      </MemoryRouter>
+    );
+
+    const initialState = {
+      vaProfile: {
+        hero: {
+          errors: ['This is an error'],
+        },
+      },
+    };
+    const { queryByTestId } = render(ui, { initialState });
+    const profileHeader = queryByTestId('profile-header');
+    expect(profileHeader).to.not.exist;
   });
 });

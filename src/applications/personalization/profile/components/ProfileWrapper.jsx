@@ -84,7 +84,7 @@ const ProfileWrapper = ({
         </Breadcrumbs>
       </div>
 
-      {isEmpty(hero.errors) && <ProfileHeader />}
+      {isEmpty(hero.errors) && isLOA3 && <ProfileHeader />}
 
       <div className="medium-screen:vads-u-display--none">
         <ProfileMobileSubNav
