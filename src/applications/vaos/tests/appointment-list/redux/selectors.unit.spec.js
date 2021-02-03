@@ -261,56 +261,6 @@ describe('VAOS selectors', () => {
       );
     });
 
-    it.skip('should return next day’s schedule if current time is after window start', () => {
-      const today = moment();
-      const tomorrow = moment()
-        .add(1, 'days')
-        .clone()
-        .tz('America/Denver');
-      const startTime = today
-        .clone()
-        .subtract(2, 'minutes')
-        .tz('America/Denver');
-      const endTime = today
-        .clone()
-        .subtract(1, 'minutes')
-        .tz('America/Denver');
-      const state = {
-        appointments: {
-          expressCareFacilities: [
-            {
-              facilityId: '983',
-              days: [
-                {
-                  day: today
-                    .clone()
-                    .tz('America/Denver')
-                    .format('dddd')
-                    .toUpperCase(),
-                  canSchedule: true,
-                  startTime: startTime.format('HH:mm'),
-                  endTime: endTime.format('HH:mm'),
-                  dayOfWeekIndex: today.format('d'),
-                },
-                {
-                  day: tomorrow.format('dddd').toUpperCase(),
-                  canSchedule: true,
-                  startTime: startTime.format('HH:mm'),
-                  endTime: endTime.format('HH:mm'),
-                  dayOfWeekIndex: tomorrow.format('d'),
-                },
-              ].sort((a, b) => (a.dayOfWeekIndex < b.dayOfWeekIndex ? -1 : 1)),
-            },
-          ],
-        },
-      };
-      expect(selectNextAvailableExpressCareWindowString(state, today)).to.equal(
-        `${tomorrow.format('dddd')} from ${startTime.format(
-          'h:mm a',
-        )} to ${endTime.format('h:mm a')} MT`,
-      );
-    });
-
     it('should return today’s schedule and designate next week if current time is after window start and today is the only schedulable day', () => {
       const today = moment();
       const startTime = today

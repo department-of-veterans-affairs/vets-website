@@ -223,6 +223,7 @@
     "mocha": "^8.2.1",
     "mocha-junit-reporter": "^2.0.0",
     "mocha-snapshots": "^4.2.0",
+    "mockdate": "^3.0.2",
     "mocker-api": "^2.1.0",
     "moment-timezone": "^0.5.31",
     "morgan": "^1.10.0",
@@ -350,7 +351,7 @@
     "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#22405bcf81d28ecf6603a52713c4c779de342873",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#4e6224f76ac3c2e498c1123646abcf2e5880f7e4",
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {
