@@ -79,13 +79,13 @@ function RequestedAppointmentDetailsPage({
       </div>
 
       <h1>Pending {typeOfCareText} appointment</h1>
-      <span className="vads-u-display--block vads-u-font-weight--bold">
+      <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
         {isCC && 'Community Care'}
         {!isCC && !!isVideoRequest && 'VA Video Connect'}
         {!isCC && !isVideoRequest && 'VA Appointment'}
         {isExpressCare && 'Express Care'}
         {isExpressCare && facility?.name}
-      </span>
+      </h2>
 
       {!!facility &&
         !isCC &&
