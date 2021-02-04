@@ -7,7 +7,7 @@ import { combineReducers, createStore } from 'redux';
 
 import { commonReducer } from 'platform/startup/store';
 import localStorage from 'platform/utilities/storage/localStorage';
-import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 
 import Form526Entry, { serviceRequired, idRequired } from '../../Form526EZApp';
 import reducers from '../../reducers';

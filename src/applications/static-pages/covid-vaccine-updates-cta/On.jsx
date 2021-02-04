@@ -31,20 +31,21 @@ function OnState() {
       </DowntimeNotification>
       <AlertBox
         status={ALERT_TYPE.INFO}
-        headline="Stay informed and help us prepare"
+        headline="Stay informed about getting a COVID-19 vaccine"
         content={
           <>
             <p>
-              Sign up for an easy way to stay informed about our COVID-19 plans.
+              Sign up for an easy way to stay informed about getting a COVID-19
+              vaccine at VA.
             </p>
             <p>
-              When you sign up, we'll also ask about your interest in getting a
-              vaccine when one is available to you. By sharing your interest,
-              you can help us better prepare as we work to offer vaccines to
-              more Veterans.
+              When you sign up, we’ll also ask about your vaccine plans. Your
+              local VA health facility may use this information to determine
+              when to contact you once your risk group becomes eligible.
             </p>
             <p>
-              <strong>Note:</strong> You don’t need to sign up to get a vaccine.
+              <strong>Note:</strong> We’ll contact every eligible Veteran in
+              each risk group. You don’t need to sign up to get a vaccine.
             </p>
             <DowntimeNotification
               dependencies={[externalServices.vetextVaccine]}

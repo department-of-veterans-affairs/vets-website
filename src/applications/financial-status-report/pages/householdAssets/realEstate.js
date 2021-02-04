@@ -33,13 +33,11 @@ export const uiSchema = {
           classNames: 'input-size-6',
           getOptions: () => formatOptions(realEstateTypes),
         },
-        'ui:required': () => true,
       },
       realEstateAmount: _.merge(currencyUI('Estimated value'), {
         'ui:options': {
           widgetClassNames: 'input-size-4',
         },
-        'ui:required': () => true,
       }),
     },
   },

@@ -117,6 +117,18 @@
   padding: 10px 0;
 }
 
+// bankruptcyHistory
+.court-location label {
+  margin-top: 10px;
+}
+
+.docket-number-description {
+  margin: 4px 0 8px;
+  font-size: 15px;
+  color: #757575;
+}
+
+// input fields
 .input-size-1 {
   @include media($medium-screen) {
     width: 152px;
