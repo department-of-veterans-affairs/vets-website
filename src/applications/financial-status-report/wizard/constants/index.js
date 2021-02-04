@@ -7,4 +7,5 @@ export const pageNames = {
   fileClaim: 'file-claim',
   fileClaimEarly: 'file-claim-early',
   disagreeFileClaim: 'disagree-file-claim',
+  recipient: 'recipient',
 };

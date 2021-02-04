@@ -2,24 +2,32 @@ import React from 'react';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import { pageNames } from '../constants';
 
-const label = 'Are you filing a new claim?';
+const label = 'Who was the recipient of this debt?';
 
 const options = [
   {
+    value: pageNames.disagreeFileClaim,
+    label: 'Active duty service member',
+  },
+  {
     value: pageNames.fileClaim,
-    label: 'I’m filing a claim for a new condition for a condition',
+    label: 'Veteran',
   },
   {
     value: pageNames.disagreeFileClaim,
-    label: 'I’m disagreeing with a VA decision on my claim',
+    label: 'Spouse',
+  },
+  {
+    value: pageNames.disagreeFileClaim,
+    label: 'Dependent',
   },
 ];
 
-const AppealsPage = ({ setPageState, state = {} }) => (
+const RecipientPage = ({ setPageState, state = {} }) => (
   <RadioButtons
-    name={`${pageNames.appeals}-option`}
+    name={`${pageNames.recipient}-option`}
     label={label}
-    id={`${pageNames.appeals}-option`}
+    id={`${pageNames.recipient}-option`}
     options={options}
     onValueChange={({ value }) => {
       setPageState({ selected: value }, value);
@@ -29,6 +37,6 @@ const AppealsPage = ({ setPageState, state = {} }) => (
 );
 
 export default {
-  name: pageNames.appeals,
-  component: AppealsPage,
+  name: pageNames.recipient,
+  component: RecipientPage,
 };

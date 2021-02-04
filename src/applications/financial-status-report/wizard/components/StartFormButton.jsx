@@ -1,7 +1,7 @@
 import React from 'react';
 import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
 
-const ROOT_URL = '/financial-status-report';
+const ROOT_URL = '/manage-va-debt/request-debt-help-5655';
 
 const StartFormButton = ({ setWizardStatus, label, ariaId }) => {
   return (
