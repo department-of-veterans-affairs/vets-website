@@ -61,18 +61,6 @@ describe('VAOS <ConfirmationPage>', () => {
             ],
           },
         ],
-        facilityDetails: {
-          var983: {
-            id: 'var983',
-            name: 'Cheyenne VA Medical Center',
-            address: {
-              postalCode: '82001-5356',
-              city: 'Cheyenne',
-              state: 'WY',
-              line: ['2360 East Pershing Boulevard'],
-            },
-          },
-        },
         clinics: {
           // eslint-disable-next-line camelcase
           var983_323: [
@@ -82,10 +70,22 @@ describe('VAOS <ConfirmationPage>', () => {
           ],
         },
         facilities: {
-          '323_var983': {
-            id: 'var983',
-            name: 'Cheyenne VA Medical Center',
-          },
+          '323': [
+            {
+              id: 'var983',
+              name: 'Cheyenne VA Medical Center',
+              identifier: [
+                { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
+              ],
+              address: {
+                postalCode: '82001-5356',
+                city: 'Cheyenne',
+                state: 'WY',
+                line: ['2360 East Pershing Boulevard'],
+              },
+              telecom: [{ system: 'phone', value: '307-778-7550' }],
+            },
+          ],
         },
       },
     });

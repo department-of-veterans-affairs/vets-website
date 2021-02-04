@@ -6,13 +6,23 @@ import set from 'platform/utilities/data/set';
 import { connect } from 'react-redux';
 import { form526BDDFeature } from '../../disability-benefits/all-claims/config/selectors';
 
+import {
+  WIZARD_STATUS,
+  WIZARD_STATUS_NOT_STARTED,
+  WIZARD_STATUS_RESTARTING,
+  WIZARD_STATUS_RESTARTED,
+  WIZARD_STATUS_COMPLETE,
+} from 'platform/site-wide/wizard';
+
+export {
+  WIZARD_STATUS,
+  WIZARD_STATUS_NOT_STARTED,
+  WIZARD_STATUS_RESTARTING,
+  WIZARD_STATUS_RESTARTED,
+  WIZARD_STATUS_COMPLETE,
+};
+
 export const NO_BENEFIT_REFERRED = 'no benefit was referred';
-export const WIZARD_STATUS = 'wizardStatus';
-export const WIZARD_STATUS_NOT_STARTED = 'not started';
-export const WIZARD_STATUS_COMPLETE = 'complete';
-export const WIZARD_STATUS_APPLY_NOW = 'awaiting click on apply button';
-export const WIZARD_STATUS_IN_PROGRESS = 'in progress';
-export const WIZARD_STATUS_UPDATING = 'updating';
 export const formIdSuffixes = {
   FORM_ID_1990: '1990',
   FORM_ID_10203: '10203',

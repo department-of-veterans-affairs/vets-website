@@ -16,6 +16,13 @@ import AlertBox, {
 
 import * as userNavActions from 'platform/site-wide/user-nav/actions';
 import * as userSelectors from 'platform/user/selectors';
+import CollapsiblePanel from '@department-of-veterans-affairs/component-library/CollapsiblePanel';
+import {
+  ContactRules,
+  ProvideSSNAndDOB,
+  WhatIfIDontSignUp,
+  WhyContact,
+} from './VerbiageHelper';
 
 function Introduction({
   authButtonDisabled = false,
@@ -24,13 +31,13 @@ function Introduction({
 }) {
   return (
     <>
-      <h1>COVID-19 vaccines: Stay informed and help us prepare</h1>
+      <h1>Stay informed about getting a COVID-19 vaccine at VA</h1>
       <div className="va-introtext">
         <p>
-          We’re working to get COVID-19 vaccines to Veterans as quickly and
-          safely as possible based on CDC guidelines and available supply. We
-          need your help to prepare. And we want to keep you informed at every
-          step.
+          We’re working to provide COVID-19 vaccines to Veterans as quickly and
+          safely as we can, based on CDC guidelines and available supply. Sign
+          up below to stay informed about when you can get a COVID-19 vaccine at
+          VA.
         </p>
       </div>
       <DowntimeNotification
@@ -38,10 +45,9 @@ function Introduction({
         dependencies={[externalServices.vetextVaccine]}
       >
         <p>
-          Sign up below to help us understand your interest in getting a
-          vaccine. We’ll send you updates on how we’re providing vaccines across
-          the country—and when you can get your vaccine if you want one. We’ll
-          also offer information and answers to your questions along the way.
+          We’ll send you updates on how we’re providing vaccines across the
+          country—and when you can get a vaccine if you want one. We’ll also
+          offer information and answers to your questions along the way.
         </p>
         {authButtonDisabled ? (
           <p>
@@ -69,8 +75,9 @@ function Introduction({
             ) : (
               <>
                 <p>
-                  When you sign in, we can fill in some of your information for
-                  you.
+                  <strong>Note:</strong> You can sign up without signing in to
+                  VA.gov. But when you sign in first, we can fill in some of
+                  your information for you.
                 </p>
                 <p>
                   <button
@@ -112,21 +119,59 @@ function Introduction({
           content={
             <>
               <p>
-                You don’t need to sign up to get a vaccine. And you can change
-                your mind about getting a vaccine at any time. We’ll use the
-                information you provide to understand your interest and keep you
-                informed.
+                <strong>What you should know about signing up</strong>
               </p>
               <p>
-                <a href="/health-care/covid-19-vaccine/#who-will-get-a-covid-19-vaccin">
-                  Learn who will get a COVID-19 vaccine first based on CDC
+                We continue to contact Veterans as they become eligible to get a
+                COVID-19 vaccine. We base eligibility on VA and{' '}
+                <a
+                  href="https://www.cdc.gov/vaccines/covid-19/phased-implementation.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="CDC COVID-19 risk criteria phased implemention (Open in a new window)"
+                >
+                  CDC COVID-19 risk criteria
+                </a>
+                . Within each risk group, we may first contact Veterans who sign
+                up here and tell us that they plan to get a vaccine. But we’ll
+                still contact every eligible Veteran in each risk group to ask
+                if they want to get a vaccine. You don’t need to sign up here,
+                call, or come to a VA facility to request or reserve a vaccine.
+              </p>
+              <p>
+                By sharing your plans for getting a vaccine, you help us better
+                plan our efforts. This helps us do the most good with our
+                limited vaccine supply.
+              </p>
+              <span>
+                <a
+                  href="/health-care/covid-19-vaccine/#who-will-get-a-covid-19-vaccin"
+                  aria-label="Learn who will get a COVID-19 vaccine first based on CDC
+                  guidelines"
+                >
+                  Learn who can get a COVID-19 vaccine now based on CDC
                   guidelines
                 </a>
-              </p>
+              </span>
             </>
           }
         />
       </DowntimeNotification>
+
+      <div className="vads-u-margin-top--1">
+        <CollapsiblePanel panelName="Why would VA contact Veterans who are planning to get a vaccine first?">
+          <WhyContact />
+        </CollapsiblePanel>
+        <CollapsiblePanel panelName="If I don’t sign up or tell VA I plan to get a vaccine, will VA still contact me when I can get a vaccine?">
+          <WhatIfIDontSignUp />
+        </CollapsiblePanel>
+        <CollapsiblePanel panelName="Do I have to provide my Social Security number and date of birth?">
+          <ProvideSSNAndDOB />
+        </CollapsiblePanel>
+        <CollapsiblePanel panelName="How will VA contact me when I can get a COVID-19 vaccine?">
+          <ContactRules />
+        </CollapsiblePanel>
+      </div>
     </>
   );
 }

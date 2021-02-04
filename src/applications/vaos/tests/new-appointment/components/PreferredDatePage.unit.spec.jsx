@@ -5,7 +5,7 @@ import moment from 'moment';
 import PreferredDatePage from '../../../new-appointment/components/PreferredDatePage';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 
 const initialState = {
@@ -116,7 +116,7 @@ describe('VAOS integration: preferred date page with a single-site user', () => 
     expect(screen.history.push.called).to.be.false;
   });
 
-  it.skip('should submit with valid data', async () => {
+  it('should submit with valid data', async () => {
     const maxMonth = moment()
       .add(395, 'days')
       .format('M');
@@ -146,6 +146,6 @@ describe('VAOS integration: preferred date page with a single-site user', () => 
       maxYear,
     );
     fireEvent.click(screen.getByText(/Continue/));
-    expect(screen.history.push.called).to.be.true;
+    await waitFor(() => expect(screen.history.push.called).to.be.true);
   });
 });
