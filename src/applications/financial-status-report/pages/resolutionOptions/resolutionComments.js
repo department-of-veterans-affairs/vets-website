@@ -1,13 +1,13 @@
 import React from 'react';
 import FinancialOverview from '../../components/FinancialOverview';
+import FinancialHardshipExplanation from '../../components/FinancialHardshipExplanation';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 const ResolutionInfo = (
-  <AdditionalInfo triggerText="Why do I need to explain this?">
-    Numbers on a page may not clearly show your financial status. Please provide
-    more details about any special circumstances or difficulties that you or
-    your family are facing. This will help us make the best decision regarding
-    repayment of money owed to VA.
+  <AdditionalInfo triggerText="Why do I need to share this information?">
+    We want to fully understand your situation so we can make the best decision
+    on your request. You can share any details that you think we should know
+    about why it's hard for you or your family to repay this debt.
   </AdditionalInfo>
 );
 
@@ -16,8 +16,7 @@ export const uiSchema = {
     'ui:field': FinancialOverview,
   },
   'view:financialHardshipExplanation': {
-    'ui:description':
-      'Please explain your financial hardship or any special circumstances leading to this request for assistance.',
+    'ui:field': FinancialHardshipExplanation,
   },
   'view:resolutionOptionsInfo': {
     'ui:description': ResolutionInfo,
@@ -25,10 +24,11 @@ export const uiSchema = {
   resolutionComments: {
     'ui:title': ' ',
     'ui:widget': 'textarea',
-    'ui:required': formData =>
+    'ui:required': formData => {
       formData.fsrDebts.some(
         debt => debt.resolution?.resolutionType === 'Waiver',
-      ),
+      );
+    },
     'ui:options': {
       rows: 5,
       maxLength: 32000,
