@@ -3,7 +3,6 @@ import RadioButtons from '@department-of-veterans-affairs/component-library/Radi
 import { pageNames } from '../constants';
 
 const label = 'Who was the recipient of this debt?';
-
 const options = [
   {
     value: pageNames.disagreeFileClaim,

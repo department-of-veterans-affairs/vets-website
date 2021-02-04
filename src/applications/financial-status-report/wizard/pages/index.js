@@ -1,6 +1,6 @@
 import start from './start';
 import appeals from './appeals';
-import bdd from './bdd';
+import todo from './todo';
 import fileBDD from './file-bdd';
 import unableToFileBDD from './unable-to-file-bdd';
 import fileClaim from './file-claim';
@@ -10,7 +10,7 @@ import recipient from './recipient';
 export default [
   start,
   appeals,
-  bdd,
+  todo,
   fileBDD,
   unableToFileBDD,
   fileClaim,

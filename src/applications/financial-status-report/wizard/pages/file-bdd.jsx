@@ -5,7 +5,7 @@ import { pageNames } from '../constants';
 import StartFormButton from '../components/StartFormButton';
 
 const FileBDDClaim = ({ getPageStateFromPageName, setWizardStatus }) => {
-  const stateBDD = getPageStateFromPageName('bdd');
+  const stateBDD = getPageStateFromPageName('todo');
 
   const label = 'File a BDD disability claim online';
   const linkText = 'Learn more about the BDD program';

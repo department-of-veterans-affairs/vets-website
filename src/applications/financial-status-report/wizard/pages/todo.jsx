@@ -3,7 +3,6 @@ import RadioButtons from '@department-of-veterans-affairs/component-library/Radi
 import { pageNames } from '../constants';
 
 const label = 'What do you need to do?';
-
 const options = [
   {
     value: pageNames.fileClaim,
@@ -27,7 +26,7 @@ const options = [
   },
 ];
 
-const AppealsPage = ({ setPageState, state = {} }) => (
+const Todo = ({ setPageState, state = {} }) => (
   <RadioButtons
     name={`${pageNames.appeals}-option`}
     label={label}
@@ -41,6 +40,6 @@ const AppealsPage = ({ setPageState, state = {} }) => (
 );
 
 export default {
-  name: pageNames.bdd,
-  component: AppealsPage,
+  name: pageNames.todo,
+  component: Todo,
 };

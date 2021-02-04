@@ -4,7 +4,10 @@ import { pageNames } from '../constants';
 
 const label = 'What type of debt do you need help with?';
 const options = [
-  { value: pageNames.bdd, label: 'A compensation, pension, or education debt' },
+  {
+    value: pageNames.todo,
+    label: 'A compensation, pension, or education debt',
+  },
   {
     value: pageNames.appeals,
     label: 'A medical copayment or health care debt',

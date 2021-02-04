@@ -1,7 +1,7 @@
 export const pageNames = {
   start: 'start',
   appeals: 'appeals',
-  bdd: 'bdd',
+  todo: 'todo',
   fileBDD: 'file-bdd',
   unableToFileBDD: 'unable-to-file-bdd',
   fileClaim: 'file-claim',

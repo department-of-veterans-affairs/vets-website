@@ -3,7 +3,6 @@ import RadioButtons from '@department-of-veterans-affairs/component-library/Radi
 import { pageNames } from '../constants';
 
 const label = 'Are you filing a new claim?';
-
 const options = [
   {
     value: pageNames.fileClaim,
