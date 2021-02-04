@@ -2,7 +2,7 @@ import React from 'react';
 
 import recordEvent from 'platform/monitoring/record-event';
 
-import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { DISABILITY_526_V2_ROOT_URL } from 'applications/disability-benefits/all-claims/constants';
 
 export const formStartButton = ({
