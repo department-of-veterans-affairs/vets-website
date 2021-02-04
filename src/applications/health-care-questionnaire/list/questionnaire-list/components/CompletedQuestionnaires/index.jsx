@@ -15,7 +15,11 @@ const index = props => {
       {questionnaires ? (
         <>
           {questionnaires.length === 0 ? (
-            <EmptyMessage />
+            <EmptyMessage
+              message={
+                "We don't have any completed health questionnaires for you in our system."
+              }
+            />
           ) : (
             <ul
               data-testid="questionnaire-list"
@@ -27,13 +31,16 @@ const index = props => {
                   <QuestionnaireItem
                     key={appointment.id}
                     data={data}
-                    Actions={() => <ViewAndPrint />}
+                    Actions={() => <ViewAndPrint displayArrow={false} />}
                     DueDate={() => (
                       <p className="completed-date">
-                        Submitted on{' '}
-                        {moment(
-                          questionnaire[0].questionnaireResponse.submittedOn,
-                        ).format('MMMM D, YYYY')}
+                        Submitted on
+                        <br />
+                        <span className={`vads-u-font-weight--bold`}>
+                          {moment(
+                            questionnaire[0].questionnaireResponse.submittedOn,
+                          ).format('dddd, MMMM D, YYYY')}
+                        </span>
                       </p>
                     )}
                   />

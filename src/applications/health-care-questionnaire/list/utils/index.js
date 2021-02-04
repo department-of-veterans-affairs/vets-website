@@ -1,3 +1,13 @@
+const getAppointmentStatus = appointment => {
+  if (appointment?.attributes?.vdsAppointments) {
+    return appointment?.attributes?.vdsAppointments[0]?.currentStatus;
+  }
+  return null;
+};
+
+const isAppointmentCancelled = appointmentStatus =>
+  appointmentStatus?.toUpperCase().includes('CANCELLED');
+
 const sortQuestionnairesByStatus = questionnaires => {
   let data = questionnaires;
   if (!data) {
@@ -25,13 +35,12 @@ const sortQuestionnairesByStatus = questionnaires => {
   const toDo = data.filter(f => {
     const questionnaireStatus =
       f.questionnaire[0]?.questionnaireResponse.status;
-    const appointmentStatus =
-      f.appointment.attributes.vdsAppointments[0].currentStatus;
+    const appointmentStatus = getAppointmentStatus(f.appointment);
     return (
       (appointmentStatus === 'FUTURE' && !questionnaireStatus) ||
       (appointmentStatus === 'FUTURE' &&
         questionnaireStatus === 'in-progress') ||
-      (appointmentStatus.includes('CANCELLED') &&
+      (isAppointmentCancelled(appointmentStatus) &&
         questionnaireStatus === 'in-progress')
     );
   });
@@ -41,4 +50,9 @@ const sortQuestionnairesByStatus = questionnaires => {
     toDo,
   };
 };
-export { sortQuestionnairesByStatus };
+
+export {
+  sortQuestionnairesByStatus,
+  getAppointmentStatus,
+  isAppointmentCancelled,
+};
