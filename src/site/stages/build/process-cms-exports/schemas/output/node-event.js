@@ -48,6 +48,7 @@ module.exports = {
       },
       required: ['entity'],
     },
+    fieldFeatured: { type: 'boolean' },
     fieldLink: {
       type: ['object', 'null'],
       properties: {
@@ -80,6 +81,7 @@ module.exports = {
     'fieldEventCta',
     'fieldEventRegistrationrequired',
     'fieldFacilityLocation',
+    'fieldFeatured',
     'fieldLink',
     'fieldLocationHumanreadable',
     'fieldMedia',

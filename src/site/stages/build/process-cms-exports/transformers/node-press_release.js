@@ -17,7 +17,6 @@ const transform = entity => ({
   // uid: entity.uid[0],
   title: getDrupalValue(entity.title),
   created: utcToEpochTime(getDrupalValue(entity.created)),
-  changed: utcToEpochTime(getDrupalValue(entity.changed)),
   promote: getDrupalValue(entity.promote),
   entityMetatags: createMetaTagArray(entity.metatag.value),
   fieldAddress: entity.fieldAddress[0]
@@ -51,7 +50,6 @@ module.exports = {
     // 'uid',
     'title',
     'created',
-    'changed',
     'promote',
     'metatag',
     'path',

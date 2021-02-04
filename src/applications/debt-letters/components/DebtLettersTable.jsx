@@ -94,7 +94,7 @@ export const DebtLettersTable = ({ debtLinks }) => {
                 />
                 <span aria-hidden="true">Download letter </span>
                 <span className="sr-only">
-                  Download Second Demand Letter dated{' '}
+                  Download {debtLetter.typeDescription} dated{' '}
                   {moment(debtLetter.receivedAt).format('MMM D, YYYY')}
                 </span>
                 <dfn>

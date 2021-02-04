@@ -134,7 +134,6 @@ export const schema = {
                   items: {
                     type: 'object',
                     required: ['spouseDeductionType', 'spouseDeductionAmount'],
-                    minItems: 1,
                     properties: {
                       spouseDeductionType: {
                         type: 'string',

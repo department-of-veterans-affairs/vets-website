@@ -10,7 +10,6 @@ const transform = (entity, { ancestors }) => ({
   entityBundle: 'story_listing',
   title: getDrupalValue(entity.title),
   created: utcToEpochTime(getDrupalValue(entity.created)),
-  changed: utcToEpochTime(getDrupalValue(entity.changed)),
   entityPublished: isPublished(getDrupalValue(entity.status)),
   entityMetatags: createMetaTagArray(entity.metatag.value),
   fieldAdministration: entity.fieldAdministration[0],
@@ -65,7 +64,6 @@ module.exports = {
   filter: [
     'title',
     'created',
-    'changed',
     'moderation_state',
     'metatag',
     'path',
