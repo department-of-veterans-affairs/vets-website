@@ -409,12 +409,11 @@ describe('VAOS <CanceledAppointmentsList>', () => {
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(screen.baseElement).to.contain.text('Cancelled');
+    expect(screen.baseElement).to.contain.text('Canceled');
     expect(screen.baseElement).not.to.contain.text(
       'A VA health care provider will follow up with you today.',
     );
     expect(screen.baseElement).to.contain.text('Express Care request');
-    expect(screen.baseElement).to.contain.text('Canceled');
   });
 
   it('should show phone call appointment text', async () => {
