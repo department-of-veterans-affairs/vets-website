@@ -35,6 +35,60 @@ export type Participant =
   | VALocationPartipant
   | VideoPractitionerParticipant
   | CommunityCarePractitionerParticipant;
+
+type VideoVisitType =
+  | 'ADHOC'
+  | 'MOBILE_GFE'
+  | 'CLINIC_BASED'
+  | 'STORE_FORWARD'
+  | 'MOBILE_ANY';
+type VideoVisitCoding = {
+  coding: [
+    {
+      system: 'VVS';
+      code: VideoVisitType;
+    }
+  ];
+};
+type ATLASCode = {
+  coding: [
+    {
+      system: 'ATLAS_CC';
+      code: string;
+    }
+  ];
+};
+
+type LocationId = `Location/${string}`; 
+type VideoVisitResource = {
+  resourceType: 'HealthcareService';
+  id: string;
+  type: [
+    {
+      text: 'Patient Virtual Meeting Room';
+    }
+  ];
+  providedBy: {
+    reference: string;
+  };
+  location?: {
+    // reference: string;
+    reference: LocationId;
+  };
+  telecom: [
+    {
+      system: 'url';
+      value: string;
+      period: {
+        start: string;
+      };
+    }
+  ];
+  characteristic: [VideoVisitCoding, ATLASCode | undefined];
+};
+
+type ContainedResource = VideoVisitResource;
+
 export type Appointment = {
   id: string;
   created?: string;
@@ -50,7 +104,7 @@ export type Appointment = {
   reason?: string;
   comment?: string;
   participant: Array<Participant>;
-  contained: Array;
+  contained: Array<ContainedResource>;
   legacyVAR: Object;
   type?: FHIRType;
   requestedPeriods?: Array<{
