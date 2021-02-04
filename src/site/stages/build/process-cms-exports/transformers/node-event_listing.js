@@ -18,7 +18,6 @@ const reverseFields = reverseFieldListing => ({
           entityUrl: reverseField.entityUrl,
           entityBundle: reverseField.entityBundle,
           entityPublished: reverseField.entityPublished,
-          uid: reverseField.uid,
           fieldFeatured: reverseField.fieldFeatured,
           fieldDatetimeRangeTimezone: reverseField.fieldDatetimeRangeTimezone,
           fieldDescription: reverseField.fieldDescription,

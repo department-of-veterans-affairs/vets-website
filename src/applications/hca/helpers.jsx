@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash/fp';
+import { set, mapValues } from 'lodash/fp';
 import moment from 'moment';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import vaMedicalFacilities from 'vets-json-schema/dist/vaMedicalFacilities.json';
@@ -129,7 +129,7 @@ export function transform(formConfig, form) {
 
   // add back dependents here, because it could have been removed in filterViewFields
   if (!withoutViewFields.dependents) {
-    withoutViewFields = _.set('dependents', [], withoutViewFields);
+    withoutViewFields = set('dependents', [], withoutViewFields);
   }
 
   // convert `attachmentId` values to a `dd214` boolean
@@ -251,7 +251,7 @@ export function fileHelp({ formContext }) {
 }
 
 // Turns the facility list for each state into an array of strings
-export const medicalCentersByState = _.mapValues(
+export const medicalCentersByState = mapValues(
   val => val.map(center => center.value),
   vaMedicalFacilities,
 );
