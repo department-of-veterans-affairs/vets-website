@@ -45,7 +45,7 @@ function CanceledAppointmentsList({
   if (futureStatus === FETCH_STATUS.loading) {
     return (
       <div className="vads-u-margin-y--8">
-        <LoadingIndicator message="Loading your upcoming appointments..." />
+        <LoadingIndicator message="Loading your canceled appointments..." />
       </div>
     );
   } else if (
