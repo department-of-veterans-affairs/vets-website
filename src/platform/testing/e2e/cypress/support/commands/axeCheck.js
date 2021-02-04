@@ -1,5 +1,3 @@
-import { axeRulesObj } from '../axe-config/axe-rules';
-
 /**
  * Callback from a11y check that logs aXe violations to console output.
  *
@@ -27,34 +25,40 @@ const processAxeCheckResults = violations => {
 };
 
 /**
- * Checks the current page for aXe violations.
- * @param {string} [context] - Selector for the container element to aXe check.
+ * Checks the passed selector and children for axe violations.
+ * @param {string} [context=main] - CSS/HTML selector for the container element to check with aXe.
+ * @param {Object} [tempOptions={}] - Rules object to enable _13647 exception or modify aXe config.
  */
 Cypress.Commands.add('axeCheck', (context = 'main', tempOptions = {}) => {
-  /* Assume no exceptions and color contrast rule disabled as default */
-  let options = {
-    _13647Exception: false,
-    colorContrast: axeRulesObj.colorContrast,
+  const { _13647Exception } = tempOptions;
+
+  /**
+   * Default required ruleset to meet Section 508 compliance.
+   * Do not remove the values[] entries. Only add new rulesets like 'best-practices'.
+   * https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#axe-core-tags
+   */
+  let axeBuilder = {
+    runOnly: {
+      type: 'tag',
+      values: ['section508', 'wcag2a', 'wcag2aa'],
+    },
+    rules: {
+      'color-contrast': {
+        enabled: false,
+      },
+    },
   };
 
-  /* Update options with passed tempOptions */
-  options = Object.assign(options, tempOptions);
+  /**
+   * TODO: Confirm the build step won't break
+   * Update axeRuleBuilder with tempOptions - No IE11 support
+   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+   */
+  axeBuilder = Object.assign(axeBuilder, tempOptions);
 
-  const axeConfig = options._13647Exception
-    ? {
-        includedImpacts: ['critical'],
-      }
-    : {
-        runOnly: {
-          type: 'tag',
-          values: ['wcag2a', 'wcag2aa'],
-        },
-        rules: {
-          'color-contrast': {
-            enabled: options.colorContrast,
-          },
-        },
-      };
+  const axeConfig = _13647Exception
+    ? { includedImpacts: ['critical'] }
+    : axeBuilder;
 
   Cypress.log();
   cy.checkA11y(context, axeConfig, processAxeCheckResults);

@@ -20,8 +20,6 @@ describe('Google Analytics FL Events', () => {
       cy.get('#street-city-state-zip').type('Austin, TX');
       cy.get('#facility-type-dropdown').select('VA health');
       cy.get('#facility-search').click();
-      cy.injectAxe();
-      cy.axeCheck();
 
       cy.get('#mapbox-gl-container', { timeout: 10000 }).should(() => {
         assertDataLayerEvent(win, 'fl-search');
@@ -41,6 +39,28 @@ describe('Google Analytics FL Events', () => {
             'fl-facility-distance-from-search',
           ]);
         });
+
+      /**
+       * TODO: REMOVE these extra rulesets!
+       */
+      cy.injectAxe();
+      cy.axeCheck('main', {
+        runOnly: {
+          values: [
+            'section508',
+            'wcag2a',
+            'wcag2aa',
+            'wcag21a',
+            'wcag21aa',
+            'best-practice',
+          ],
+        },
+        rules: {
+          'color-contrast': {
+            enabled: true,
+          },
+        },
+      });
 
       [...Array(5)].forEach(_ =>
         cy.get('.mapboxgl-ctrl-zoom-in').click({ waitForAnimations: true }),
@@ -73,15 +93,27 @@ describe('Google Analytics FL Events', () => {
         .first()
         .click();
 
-      cy.get('#facility-detail-id', { timeout: 10000 }).should(() => {
-        assertEventAndAttributes(win, 'fl-results-click', [
-          'fl-facility-name',
-          'fl-facility-type',
-          'fl-facility-classification',
-          'fl-facility-id',
-          'fl-result-page-number',
-          'fl-result-position',
-        ]);
+      cy.get('#facility-detail-id', { timeout: 10000 }).should(
+        'be.visible',
+        () => {
+          assertEventAndAttributes(win, 'fl-results-click', [
+            'fl-facility-name',
+            'fl-facility-type',
+            'fl-facility-classification',
+            'fl-facility-id',
+            'fl-result-page-number',
+            'fl-result-position',
+          ]);
+        },
+      );
+
+      cy.injectAxe();
+      cy.axeCheck('main', {
+        rules: {
+          'color-contrast': {
+            enabled: true,
+          },
+        },
       });
     });
   });
