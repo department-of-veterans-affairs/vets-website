@@ -1,5 +1,3 @@
-const { getDrupalValue, createLink } = require('./helpers');
-
 const transform = entity => ({
   entity: {
     fieldLinkTeaser: entity.fieldLinkTeaser?.[0],
