@@ -100,7 +100,7 @@ function CanceledAppointmentsList({
   } else if (futureStatus === FETCH_STATUS.failed) {
     return (
       <AlertBox status="error" headline="We’re sorry. We’ve run into a problem">
-        We’re having trouble getting your upcoming appointments. Please try
+        We’re having trouble getting your canceled appointments. Please try
         again later.
       </AlertBox>
     );
