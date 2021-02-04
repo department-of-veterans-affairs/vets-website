@@ -175,7 +175,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
 
     expect(
       await screen.findByText(
-        /We’re having trouble getting your upcoming appointments/i,
+        /We’re having trouble getting your canceled appointments/i,
       ),
     ).to.be.ok;
   });
