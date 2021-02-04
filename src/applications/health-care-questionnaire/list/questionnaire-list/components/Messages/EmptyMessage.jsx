@@ -1,11 +1,9 @@
 import React from 'react';
 
-export default function EmptyMessage() {
+export default function EmptyMessage({ message }) {
   return (
     <section data-testid="empty-message" className="empty-message">
-      <p>
-        Your health care providers haven’t sent any questionnaires to you yet.
-      </p>
+      <p>{message}</p>
     </section>
   );
 }

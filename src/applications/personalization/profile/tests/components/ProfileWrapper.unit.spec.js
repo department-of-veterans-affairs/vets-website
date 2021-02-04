@@ -34,21 +34,21 @@ describe('ProfileWrapper', () => {
       .not.to.be.null;
   });
 
-  it('should render NameTag when the full name of the user was fetched)', () => {
-    const initialState = {
-      vaProfile: {
-        hero: {
-          userFullName: {
-            first: 'Test',
-            last: 'Test',
-          },
-        },
-      },
-    };
-    const { getByTestId } = render(ui, { initialState });
-    const NameTag = getByTestId('name-tag');
-    expect(NameTag.textContent.match(/Test Test/i)).not.to.be.null;
-  });
+  // it('should render NameTag when the full name of the user was fetched)', () => {
+  //   const initialState = {
+  //     vaProfile: {
+  //       hero: {
+  //         userFullName: {
+  //           first: 'Test',
+  //           last: 'Test',
+  //         },
+  //       },
+  //     },
+  //   };
+  //   const { getByTestId } = render(ui, { initialState });
+  //   const NameTag = getByTestId('name-tag');
+  //   expect(NameTag.textContent.match(/Test Test/i)).not.to.be.null;
+  // });
 
   it('should not render NameTag when the full name of the user could not be fetched)', () => {
     const initialState = {

@@ -53,7 +53,7 @@
       {% endif %}
       <a aria-label="{{ email.entity.fieldEmailAddress }}"
          data-template="paragraphs/service_location"
-         href="{{ email.entity.fieldEmailAddress }}">{{ email.entity.fieldEmailAddress }}
+         href="mailto:{{ email.entity.fieldEmailAddress }}">{{ email.entity.fieldEmailAddress }}
       </a>
     {% endfor %}
   {% endif %}
