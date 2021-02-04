@@ -5,7 +5,6 @@ module.exports = {
   properties: {
     changed: { type: 'number' },
     entityBundle: { type: 'string', enum: ['campaign_landing_page'] },
-    entityId: { type: 'string' },
     entityMetatags: { $ref: 'MetaTags' },
     entityType: { type: 'string', enum: ['node'] },
     title: { type: 'string' },
@@ -148,7 +147,6 @@ module.exports = {
   required: [
     'changed',
     'entityBundle',
-    'entityId',
     'entityMetatags',
     'entityType',
     'title',

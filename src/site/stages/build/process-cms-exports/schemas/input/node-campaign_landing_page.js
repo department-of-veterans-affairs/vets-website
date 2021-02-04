@@ -8,7 +8,6 @@ module.exports = {
     moderation_state: { $ref: 'GenericNestedString' },
     path: { $ref: 'RawPath' },
     title: { $ref: 'GenericNestedString' },
-    entity_id: { $ref: 'GenericNestedString' },
     field_administration: {
       type: 'array',
       items: { $ref: 'EntityReference' },
@@ -110,7 +109,6 @@ module.exports = {
     'moderation_state',
     'path',
     'title',
-    'entity_id',
     'field_administration',
     'field_benefit_categories',
     'field_clp_audience',
