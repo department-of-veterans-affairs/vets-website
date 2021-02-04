@@ -6,9 +6,11 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import {
+  restartShouldRedirect,
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
-} from 'applications/static-pages/wizard';
+  WIZARD_STATUS_RESTARTED,
+} from 'platform/site-wide/wizard';
 
 import formConfig from './config/form';
 import AddPerson from './containers/AddPerson';
@@ -66,6 +68,7 @@ export const Form526Entry = ({
   showWizard,
   isBDDForm,
   pdfLimit,
+  router,
 }) => {
   const defaultWizardState = getWizardStatus();
   const [wizardState, setWizardState] = useState(defaultWizardState);
@@ -85,7 +88,10 @@ export const Form526Entry = ({
   };
 
   useEffect(() => {
-    if (
+    if (restartShouldRedirect(WIZARD_STATUS)) {
+      setWizardStatus(WIZARD_STATUS_RESTARTED);
+      router.push('/');
+    } else if (
       window.location.pathname.endsWith('/introduction') &&
       defaultWizardState === WIZARD_STATUS_COMPLETE
     ) {
@@ -159,6 +165,7 @@ const mapStateToProps = state => ({
   showWizard: show526Wizard(state),
   isBDDForm: isBDD(state?.form?.data),
   pdfLimit: uploadPdfLimitFeature(state),
+  isStartingOver: state.form?.isStartingOver,
 });
 
 export default connect(mapStateToProps)(Form526Entry);
