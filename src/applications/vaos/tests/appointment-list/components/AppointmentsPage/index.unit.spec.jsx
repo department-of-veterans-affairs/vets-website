@@ -183,7 +183,7 @@ describe('VAOS integration: appointment list', () => {
         `${environment.API_URL}/vaos/v0/appointments?start_date=${moment()
           .startOf('day')
           .toISOString()}&end_date=${moment()
-          .add(13, 'months')
+          .add(395, 'days')
           .startOf('day')
           .toISOString()}&type=va`,
       ),
