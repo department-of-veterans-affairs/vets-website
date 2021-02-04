@@ -38,7 +38,7 @@ export function isValidYear(value) {
 }
 
 export function isValidPartialDate(day, month, year) {
-  if (year?.length < 4 || !isValidYear(year)) {
+  if (year && !isValidYear(year)) {
     return false;
   }
 
