@@ -3,7 +3,7 @@ const { getDrupalValue } = require('./helpers');
 
 const transform = entity => ({
   entityType: 'media',
-  entityBundle: 'document',
+  entityBundle: 'document_external',
   name: getDrupalValue(entity.name),
   fieldDescription: getDrupalValue(entity.fieldDescription),
   fieldMediaExternalFile: entity.fieldMediaExternalFile[0],

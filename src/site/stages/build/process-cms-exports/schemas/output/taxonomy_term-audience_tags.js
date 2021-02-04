@@ -3,7 +3,7 @@ module.exports = {
   properties: {
     entity: {
       type: 'object',
-      required: ['name', 'entityUrl'],
+      required: ['name'],
       properties: {
         entityType: { type: 'string', enum: ['taxonomy_term'] },
         entityBundle: { type: 'string', enum: ['audience_tags'] },

@@ -1,9 +1,9 @@
 module.exports = {
   type: 'object',
   properties: {
-    contentModelType: { enum: ['media-document'] },
+    contentModelType: { enum: ['media-document_external'] },
     entityType: { enum: ['media'] },
-    entityBundle: { enum: ['document'] },
+    entityBundle: { enum: ['document_external'] },
     name: { type: 'string' },
     fieldDescription: { type: 'string' },
     fieldMediaExternalFile: {

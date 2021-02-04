@@ -17,12 +17,7 @@ module.exports = {
         $ref: 'output/node-landing_page',
       },
     },
-    fieldClpAudience: {
-      type: 'array',
-      items: {
-        $ref: 'output/taxonomy_term-audience_tags',
-      },
-    },
+    fieldClpAudience: { $ref: 'output/taxonomy_term-audience_tags' },
     fieldClpConnectWithUs: {
       $ref: 'output/taxonomy_term-administration',
     },
@@ -87,7 +82,10 @@ module.exports = {
       type: 'boolean',
     },
     fieldClpStoriesCta: {
-      $ref: 'output/paragraph-button',
+      oneOf: [
+        { $ref: 'output/paragraph-button' },
+        { type: 'array', maxItems: 0 },
+      ],
     },
     fieldClpStoriesHeader: {
       type: 'string',
