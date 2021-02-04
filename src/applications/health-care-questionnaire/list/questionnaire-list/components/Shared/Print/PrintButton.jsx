@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import ViewAndPrint from '../Buttons/ViewAndPrint';
 import PrintErrorMessage from '../../Messages/PrintErrorMessage';
 
-export default function PrintButton() {
+export default function PrintButton({ displayArrow = true }) {
   const [isError, setIsError] = useState(false);
   const handleClick = () => {
     setIsError(true);
@@ -11,5 +11,5 @@ export default function PrintButton() {
   if (isError) {
     return <PrintErrorMessage />;
   }
-  return <ViewAndPrint onClick={handleClick} />;
+  return <ViewAndPrint onClick={handleClick} displayArrow={displayArrow} />;
 }
