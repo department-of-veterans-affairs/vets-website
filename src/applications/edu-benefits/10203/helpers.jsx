@@ -13,7 +13,7 @@ export const displayConfirmEligibility = form =>
   (!form.isEnrolledStem && !form.isPursuingTeachingCert) ||
   form.benefitLeft === 'moreThanSixMonths' ||
   (form['view:remainingEntitlement']?.totalDays > 180 &&
-    environment.isProduction());
+    !environment.isProduction());
 
 export function updateProgramDetailsSchema() {
   const usaStates = states.USA.map(state => state.value);
