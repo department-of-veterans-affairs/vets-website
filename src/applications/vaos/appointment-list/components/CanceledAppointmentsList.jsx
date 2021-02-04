@@ -127,6 +127,9 @@ CanceledAppointmentsList.propTypes = {
   fetchFutureAppointments: PropTypes.func,
   showScheduleButton: PropTypes.bool,
   startNewAppointmentFlow: PropTypes.func,
+  futureStatus: PropTypes.string,
+  facilityData: PropTypes.object,
+  appointmentsByMonth: PropTypes.array,
 };
 
 function mapStateToProps(state) {
