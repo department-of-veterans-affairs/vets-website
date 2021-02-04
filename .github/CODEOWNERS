@@ -58,6 +58,7 @@ src/applications/resources-and-support @department-of-veterans-affairs/vsa-publi
 src/site/layouts/campaign_landing_page.drupal.liquid @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/schemas/input/block_content-promo.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/schemas/input/node-basic_landing_page.js @department-of-veterans-affairs/vsa-public-websites-frontend
+src/site/stages/build/process-cms-exports/schemas/input/node-campaign_landing_page.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/schemas/input/node-checklist.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/schemas/input/node-faq_multiple_q_a.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/schemas/input/node-full_width_banner_alert.js @department-of-veterans-affairs/vsa-public-websites-frontend
@@ -96,6 +97,7 @@ src/site/stages/build/process-cms-exports/schemas/input/taxonomy_term-products.j
 src/site/stages/build/process-cms-exports/schemas/input/taxonomy_term-topics.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/schemas/output/block_content-promo.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/schemas/output/node-basic_landing_page.js @department-of-veterans-affairs/vsa-public-websites-frontend
+src/site/stages/build/process-cms-exports/schemas/output/node-campaign_landing_page.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/schemas/output/node-checklist.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/schemas/output/node-faq_multiple_q_a.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/schemas/output/node-full_width_banner_alert.js @department-of-veterans-affairs/vsa-public-websites-frontend
@@ -134,6 +136,7 @@ src/site/stages/build/process-cms-exports/schemas/output/taxonomy_term-products.
 src/site/stages/build/process-cms-exports/schemas/output/taxonomy_term-topics.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/transformers/block_content-promo.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/transformers/node-basic_landing_page.js @department-of-veterans-affairs/vsa-public-websites-frontend
+src/site/stages/build/process-cms-exports/transformers/node-campaign_landing_page.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/transformers/node-checklist.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/transformers/node-faq_multiple_q_a.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/transformers/node-full_width_banner_alert.js @department-of-veterans-affairs/vsa-public-websites-frontend
