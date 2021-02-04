@@ -12,7 +12,7 @@
   background-size: cover;
 }
 
-.va-u-background--gradiant-blue{
+.va-u-background--gradiant-blue {
   @include linear-gradient-background($color-old-browser-background-start, $color-old-browser-background-end);
 }
 
