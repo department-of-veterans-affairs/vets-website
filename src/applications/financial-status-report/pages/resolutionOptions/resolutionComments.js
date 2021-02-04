@@ -24,11 +24,10 @@ export const uiSchema = {
   resolutionComments: {
     'ui:title': ' ',
     'ui:widget': 'textarea',
-    'ui:required': formData => {
+    'ui:required': formData =>
       formData.fsrDebts.some(
         debt => debt.resolution?.resolutionType === 'Waiver',
-      );
-    },
+      ),
     'ui:options': {
       rows: 5,
       maxLength: 32000,
