@@ -92,6 +92,7 @@ src/site/stages/build/process-cms-exports/schemas/input/paragraph-table.js @depa
 src/site/stages/build/process-cms-exports/schemas/input/paragraph-wysiwyg.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/schemas/input/taxonomy_term-administration.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/schemas/input/taxonomy_term-audience_beneficiaries.js @department-of-veterans-affairs/vsa-public-websites-frontend
+src/site/stages/build/process-cms-exports/schemas/input/taxonomy_term-audience_tags.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/schemas/input/taxonomy_term-lc_categories.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/schemas/input/taxonomy_term-products.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/schemas/input/taxonomy_term-topics.js @department-of-veterans-affairs/vsa-public-websites-frontend
@@ -131,6 +132,7 @@ src/site/stages/build/process-cms-exports/schemas/output/paragraph-table.js @dep
 src/site/stages/build/process-cms-exports/schemas/output/paragraph-wysiwyg.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/schemas/output/taxonomy_term-administration.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/schemas/output/taxonomy_term-audience_beneficiaries.js @department-of-veterans-affairs/vsa-public-websites-frontend
+src/site/stages/build/process-cms-exports/schemas/output/taxonomy_term-audience_tags.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/schemas/output/taxonomy_term-lc_categories.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/schemas/output/taxonomy_term-products.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/schemas/output/taxonomy_term-topics.js @department-of-veterans-affairs/vsa-public-websites-frontend
@@ -170,6 +172,7 @@ src/site/stages/build/process-cms-exports/transformers/paragraph-table.js @depar
 src/site/stages/build/process-cms-exports/transformers/paragraph-wysiwyg.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/transformers/taxonomy_term-administration.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/transformers/taxonomy_term-audience_beneficiaries.js @department-of-veterans-affairs/vsa-public-websites-frontend
+src/site/stages/build/process-cms-exports/transformers/taxonomy_term-audience_tags.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/transformers/taxonomy_term-lc_categories.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/transformers/taxonomy_term-products.js @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/stages/build/process-cms-exports/transformers/taxonomy_term-topics.js @department-of-veterans-affairs/vsa-public-websites-frontend

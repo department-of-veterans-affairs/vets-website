@@ -60,6 +60,7 @@ The files in this directory are owned by the following teams:
 |               | paragraph-wysiwyg
 |               | taxonomy_term-administration
 |               | taxonomy_term-audience_beneficiaries
+|               | taxonomy_term-audience_tags
 |               | taxonomy_term-lc_categories
 |               | taxonomy_term-products
 |               | taxonomy_term-topics
