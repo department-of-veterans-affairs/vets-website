@@ -30,11 +30,15 @@ const IdentityNotVerified = () => {
 
   return (
     <>
-      <AlertBox
-        headline="Verify your identity to access more VA.gov tools and features"
-        content={content}
-        status="warning"
-      />
+      <div className="vads-l-row">
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+          <AlertBox
+            headline="Verify your identity to access more VA.gov tools and features"
+            content={content}
+            status="warning"
+          />
+        </div>
+      </div>
       <div
         className="account-security-content vads-u-margin--2p5"
         // TODO: determine analytics events
