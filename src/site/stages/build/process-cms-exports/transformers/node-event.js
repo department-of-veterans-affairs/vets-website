@@ -88,6 +88,7 @@ const transform = entity => ({
           },
         }
       : null,
+  fieldFeatured: getDrupalValue(entity.fieldFeatured),
   fieldLink: createLink(entity.fieldLink, ['url']),
   fieldLocationHumanreadable: getDrupalValue(entity.fieldLocationHumanreadable),
   fieldMedia:
@@ -113,6 +114,7 @@ module.exports = {
     'field_event_cta',
     'field_event_registrationrequired',
     'field_facility_location',
+    'field_featured',
     'field_link',
     'field_location_humanreadable',
     'field_media',

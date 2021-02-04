@@ -1274,10 +1274,10 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-1.0.0.tgz#79543c46c7483440fd5bd0daaf4d7d73e1c47da7"
-  integrity sha512-FNLheynSd87IZWZmLDm+CJzK4cqR2neeXbA1kG9lDHDhi+5PokKkEGk0py5eEZ48IUKaoVXn8y8XNFPTzVyDiw==
+"@department-of-veterans-affairs/component-library@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-1.1.0.tgz#0a2ce8fdaa1c974b7a24c861d6a3ec902f24a632"
+  integrity sha512-bWNqPHc1/soAj/DPFtml+6RWRzJ3FZIDehEfOq31GWbdAp9U7AWIMZuniQIQUtb7vq+Qjx0hCw1of6rJPzocaA==
   dependencies:
     classnames "^2.2.6"
     lodash "^4.17.15"
@@ -18681,9 +18681,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#e16f99ea509943e15887b8f7e8155ff23f584992":
-  version "18.6.1"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#e16f99ea509943e15887b8f7e8155ff23f584992"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#baf106d20d971f711ab834efc9730fac5df775db":
+  version "18.6.3"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#baf106d20d971f711ab834efc9730fac5df775db"
 
 vinyl-file@^2.0.0:
   version "2.0.0"
