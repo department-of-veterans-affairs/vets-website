@@ -18681,9 +18681,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#39172f1da96515b913a3a7e3f83cda59e0350ad8":
-  version "18.6.2"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#39172f1da96515b913a3a7e3f83cda59e0350ad8"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#baf106d20d971f711ab834efc9730fac5df775db":
+  version "18.6.3"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#baf106d20d971f711ab834efc9730fac5df775db"
 
 vinyl-file@^2.0.0:
   version "2.0.0"
