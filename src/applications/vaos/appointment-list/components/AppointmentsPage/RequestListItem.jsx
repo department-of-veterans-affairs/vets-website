@@ -17,11 +17,7 @@ export default function RequestListItem({ appointment, facility }) {
     >
       <div className="vads-u-flex--1">
         {canceled && (
-          <span
-            className="vads-u-display--block vaos-u-text-transform--uppercase vads-u-color--secondary-dark
-$color-secondary-dark
- vads-u-font-weight--bold"
-          >
+          <span className="vads-u-display--block vaos-u-text-transform--uppercase vads-u-color--secondary-dark vads-u-font-weight--bold">
             Canceled
           </span>
         )}
