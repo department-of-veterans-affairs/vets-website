@@ -54,7 +54,6 @@ function CanceledAppointmentsList({
   ) {
     return (
       <>
-        <h2>Canceled</h2>
         {appointmentsByMonth.map((monthBucket, monthIndex) => {
           const monthDate = moment(monthBucket[0].start);
           return (
