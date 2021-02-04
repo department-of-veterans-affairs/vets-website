@@ -13,6 +13,7 @@ export const displayConfirmEligibility = form =>
   (!form.isEnrolledStem && !form.isPursuingTeachingCert) ||
   form.benefitLeft === 'moreThanSixMonths' ||
   (form['view:remainingEntitlement']?.totalDays > 180 &&
+    // Production flag for 18861
     !environment.isProduction());
 
 export function updateProgramDetailsSchema() {
