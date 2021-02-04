@@ -205,7 +205,7 @@
                   <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-margin-bottom--4">
                     <img alt="{{ storyTeaser.entity.fieldMedia.entity.thumbnail.alt }}" class="vads-l-col--12 medium-screen:vads-l-col--4 medium-screen:vads-u-margin-right--2" src="{{ storyTeaser.entity.fieldMedia.entity.thumbnail.url }}" />
                     <div class="vads-u-margin-top--2 medium-screen:vads-u-margin-top--0">
-                      <h3 class="vads-u-margin-top--0">
+                      <h3 class="medium-screen:vads-u-margin-top--0">
                         <a href="{{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.uri }}">
                           {{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.title }}
                         </a>
@@ -459,10 +459,14 @@
     </div><!--/  VA Benefits -->
 
     <!-- Last Updated -->
-    <div class="usa-grid usa-grid-full">
-      <div class="last-updated usa-content">
-        Last updated: <time
-          datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+    <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
+      <div class="vads-l-row">
+        <div class="vads-l-col--12 medium-screen:vads-l-col--9">
+          <div class="last-updated">
+            Last updated: <time
+              datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+          </div>
+        </div>
       </div>
     </div>
   </main>
