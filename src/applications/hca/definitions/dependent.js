@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import { merge, omit, assign, pick, get } from 'lodash/fp';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
@@ -8,7 +8,7 @@ import { validateDependentDate } from '../validation';
 const incomeFields = ['grossIncome', 'netIncome', 'otherIncome'];
 
 export const createDependentSchema = hcaSchema => {
-  const schema = _.merge(hcaSchema.definitions.dependent, {
+  const schema = merge(hcaSchema.definitions.dependent, {
     required: [
       'dependentRelation',
       'socialSecurityNumber',
@@ -20,15 +20,15 @@ export const createDependentSchema = hcaSchema => {
     ],
   });
 
-  schema.properties = _.omit(incomeFields, schema.properties);
+  schema.properties = omit(incomeFields, schema.properties);
 
   return schema;
 };
 
 export const createDependentIncomeSchema = hcaSchema => {
   const dependent = hcaSchema.definitions.dependent;
-  return _.assign(dependent, {
-    properties: _.pick(incomeFields, dependent.properties),
+  return assign(dependent, {
+    properties: pick(incomeFields, dependent.properties),
     required: incomeFields,
   });
 };
@@ -70,7 +70,7 @@ export const uiSchema = {
     'ui:title': 'Dependent\u2019s Social Security number',
   },
   dateOfBirth: currentOrPastDateUI('Dependent’s date of birth'),
-  becameDependent: _.assign(
+  becameDependent: assign(
     currentOrPastDateUI('When did they become your dependent?'),
     {
       'ui:validations': [validateDependentDate],
@@ -104,7 +104,7 @@ export const uiSchema = {
       // Not being invoked until the data is changed...which means this is open
       //  by default
       hideIf: (formData, index) =>
-        _.get(`dependents[${index}].cohabitedLastYear`, formData) !== false,
+        get(`dependents[${index}].cohabitedLastYear`, formData) !== false,
     },
   },
 };
@@ -119,7 +119,7 @@ export const dependentIncomeUiSchema = {
   otherIncome: currencyUI('Dependent\u2019s other income amount'),
   'ui:options': {
     updateSchema: (formData, schema, ui, index) => {
-      const name = _.get(`dependents.[${index}].fullName`, formData);
+      const name = get(`dependents.[${index}].fullName`, formData);
       if (name) {
         return {
           title: `${name.first} ${name.last} income`,
