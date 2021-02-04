@@ -191,7 +191,7 @@ describe('<ConfirmEligibilityView>', () => {
     });
     const tree = mount(
       <Provider store={store}>
-        <ConfirmEligibilityView {...defaultProps} />
+        <ConfirmEligibilityView {...defaultProps} stemAutomatedDecision />
       </Provider>,
     );
 
@@ -210,7 +210,7 @@ describe('<ConfirmEligibilityView>', () => {
     });
     const tree = mount(
       <Provider store={store}>
-        <ConfirmEligibilityView {...defaultProps} stemAutomatedDecision />
+        <ConfirmEligibilityView {...defaultProps} />
       </Provider>,
     );
 
