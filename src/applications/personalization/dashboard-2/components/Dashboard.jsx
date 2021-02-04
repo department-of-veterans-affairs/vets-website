@@ -11,9 +11,9 @@ import {
   fetchPersonalInformation as fetchPersonalInformationAction,
 } from '@@profile/actions';
 
-import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from 'applications/personalization/rated-disabilities/actions';
+import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
 
-import ProfileHeader from 'applications/personalization/profile/components/ProfileHeader';
+import NameTag from '~/applications/personalization/profile/components/NameTag';
 
 import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
@@ -31,8 +31,8 @@ const Dashboard = props => {
   return (
     <>
       {isEmpty(props.hero?.errors) && (
-        <ProfileHeader
-          showUpdatedHeader
+        <NameTag
+          showUpdatedNameTag
           totalDisabilityRating={props.totalDisabilityRating}
         />
       )}

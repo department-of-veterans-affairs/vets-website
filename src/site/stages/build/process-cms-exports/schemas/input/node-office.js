@@ -3,6 +3,7 @@
 module.exports = {
   type: 'object',
   properties: {
+    nid: { $ref: 'GenericNestedNumber' },
     title: { $ref: 'GenericNestedString' },
     created: { $ref: 'GenericNestedString' },
     changed: { $ref: 'GenericNestedString' },
@@ -18,6 +19,7 @@ module.exports = {
     field_meta_title: { $ref: 'GenericNestedString' },
   },
   required: [
+    'nid',
     'title',
     'created',
     'changed',
