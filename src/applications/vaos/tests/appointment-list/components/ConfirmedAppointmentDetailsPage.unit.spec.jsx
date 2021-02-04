@@ -104,10 +104,9 @@ describe('VAOS <AppointmentsPageV2>', () => {
 
     // Verify page content...
     expect(
-      await screen.findByRole('heading', {
-        level: 1,
-        name: new RegExp(moment().format('dddd, MMMM D, YYYY'), 'i'),
-      }),
+      await screen.findByText(
+        new RegExp(moment().format('dddd, MMMM D, YYYY'), 'i'),
+      ),
     ).to.be.ok;
 
     // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
