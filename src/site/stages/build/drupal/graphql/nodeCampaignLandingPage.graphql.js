@@ -51,6 +51,7 @@ module.exports = `
         entityBundle
         entityId
         ... on TaxonomyTermAdministration {
+          name
           fieldAcronym
           fieldDescription
           fieldEmailUpdatesLinkText

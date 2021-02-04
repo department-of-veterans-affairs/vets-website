@@ -22,9 +22,6 @@ export default Object.freeze({
   vaOnlineSchedulingVSPRequestList: 'vaOnlineSchedulingVspRequestList',
   vaOnlineSchedulingVSPRequestNew: 'vaOnlineSchedulingVspRequestNew',
   vaOnlineSchedulingExpressCareNew: 'vaOnlineSchedulingExpressCareNew',
-  vaOnlineSchedulingFlatFacilityPage: 'vaOnlineSchedulingFlatFacilityPage',
-  vaOnlineSchedulingFlatFacilityPageSacramento:
-    'vaOnlineSchedulingFlatFacilityPageSacramento',
   vaOnlineSchedulingProviderSelection: 'vaOnlineSchedulingProviderSelection',
   vaOnlineSchedulingCheetah: 'vaOnlineSchedulingCheetah',
   vaGlobalDowntimeNotification: 'vaGlobalDowntimeNotification',
@@ -78,4 +75,5 @@ export default Object.freeze({
   searchRepresentative: 'search_representative',
   gibctStateSearch: 'gibct_state_search',
   eduFormOmbAndExpiration: 'edu_form_omb_and_expiration',
+  manageDependents: 'dependents_management',
 });
