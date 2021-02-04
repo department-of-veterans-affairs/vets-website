@@ -41,15 +41,20 @@ describe('VAOS <AddToCalendar>', () => {
     expect(ics).to.contain('DESCRIPTION:Follow-up/Routine: some description');
     expect(ics).to.contain('LOCATION:123 main street\\, bozeman\\, MT');
     expect(ics).to.contain(
-      `DTSTAMP:${startDateTime.format('YYYYMMDDTHHmmss')}`,
+      `DTSTAMP:${moment(startDateTime)
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
     );
     expect(ics).to.contain(
-      `DTSTART:${startDateTime.format('YYYYMMDDTHHmmss')}`,
+      `DTSTART:${moment(startDateTime)
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
     );
     expect(ics).to.contain(
       `DTEND:${startDateTime
         .clone()
         .add(60, 'minutes')
+        .utc()
         .format('YYYYMMDDTHHmmss')}`,
     );
   });

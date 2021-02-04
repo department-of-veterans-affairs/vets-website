@@ -38,8 +38,12 @@ function generateICS(
   startDateTime,
   endDateTime,
 ) {
-  const startDate = moment(startDateTime).format('YYYYMMDDTHHmmss');
-  const endDate = moment(endDateTime).format('YYYYMMDDTHHmmss');
+  const startDate = moment(startDateTime)
+    .utc()
+    .format('YYYYMMDDTHHmmss[Z]');
+  const endDate = moment(endDateTime)
+    .utc()
+    .format('YYYYMMDDTHHmmss[Z]');
   return [
     `BEGIN:VCALENDAR`,
     `VERSION:2.0`,
@@ -72,7 +76,7 @@ export default function AddToCalendar({
     startDateTime,
     moment(startDateTime).add(duration, 'minutes'),
   );
-  const formattedDate = moment(startDateTime).format('MMMM D, YYYY');
+  const formattedDate = moment.parseZone(startDateTime).format('MMMM D, YYYY');
 
   // IE11 doesn't support the download attribute, so this creates a button
   // and uses an ms blob save api
