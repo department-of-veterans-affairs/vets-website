@@ -4,8 +4,6 @@ import classNames from 'classnames';
 import { isChapter33 } from '../helpers';
 import captureEvents from '../analytics-functions';
 import { ExitApplicationButton } from '../components/ExitApplicationButton';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 export class ConfirmEligibilityView extends React.Component {
   onChange = property => {
@@ -109,8 +107,7 @@ export class ConfirmEligibilityView extends React.Component {
   renderConfirmEligibility = () => {
     return (
       <div>
-        {this.props.stemAutomatedDecision &&
-          this.props.remainingEntitlement &&
+        {this.props.remainingEntitlement &&
           this.props.remainingEntitlement.totalDays > 180 && (
             <div>
               <div className="usa-alert usa-alert-warning vads-u-background-color--white">
@@ -201,9 +198,6 @@ const mapStateToProps = (state, ownProps) => {
       confirmEligibility === undefined,
     formId: state.form.formId,
     isLoggedIn: state.user.login.currentlyLoggedIn,
-    stemAutomatedDecision:
-      ownProps.stemAutomatedDecision ||
-      toggleValues(state)[FEATURE_FLAG_NAMES.stemAutomatedDecision],
   };
 };
 
