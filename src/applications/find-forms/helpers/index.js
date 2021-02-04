@@ -9,8 +9,16 @@ import { SORT_OPTIONS } from '../constants';
 export const sortTheResults = (sortByPropertyName, indexA, indexB) => {
   // -n (negative number) sorts indexA to the front of the array.
   // n (positive number) sorts indexA to the back of the array.
-  // 0 keeps both indexA and indexB right where they are.
-  const [LAST_UPDATED_NEWEST_OPTION, LAST_UPDATED_OLDEST_OPTION] = SORT_OPTIONS;
+  // stayPut keeps both indexA and indexB right where they are.
+  const [
+    ALPHA_ASCENDING,
+    ALPHA_DESCENDING,
+    LAST_UPDATED_NEWEST_OPTION,
+    LAST_UPDATED_OLDEST_OPTION,
+  ] = SORT_OPTIONS;
+  const sortIndexToFront = -1;
+  const sortIndexToBack = 1;
+  const indexRemainsInPlace = 0;
   const latestTimeStampIndexA = deriveLatestIssue(
     indexA.attributes.firstIssuedOn,
     indexA.attributes.lastRevisionOn,
@@ -35,14 +43,38 @@ export const sortTheResults = (sortByPropertyName, indexA, indexB) => {
     return new Date(year, month, day);
   };
 
-  // DESCENDING
-  if (sortByPropertyName === LAST_UPDATED_NEWEST_OPTION) {
-    return (
-      makeMomentDateFriendlyToJSDateConstrcutor(latestTimeStampIndexB) -
-      makeMomentDateFriendlyToJSDateConstrcutor(latestTimeStampIndexA)
-    );
+  // SORT BY ALPHABET
+  // ASCENDING
+  if (sortByPropertyName === ALPHA_ASCENDING) {
+    if (
+      `${indexA?.attributes?.formName} ${indexA?.attributes?.title}` <
+      `${indexB?.attributes?.formName} ${indexB?.attributes?.title}`
+    ) {
+      return sortIndexToFront;
+    } else if (
+      `${indexA?.attributes?.formName} ${indexA?.attributes?.title}` >
+      `${indexB?.attributes?.formName} ${indexB?.attributes?.title}`
+    ) {
+      return sortIndexToBack;
+    } else return indexRemainsInPlace;
   }
 
+  // DESCENDING
+  if (sortByPropertyName === ALPHA_DESCENDING) {
+    if (
+      `${indexB?.attributes?.formName} ${indexB?.attributes?.title}` <
+      `${indexA?.attributes?.formName} ${indexA?.attributes?.title}`
+    ) {
+      return sortIndexToFront;
+    } else if (
+      `${indexB?.attributes?.formName} ${indexB?.attributes?.title}` >
+      `${indexA?.attributes?.formName} ${indexA?.attributes?.title}`
+    ) {
+      return sortIndexToBack;
+    } else return indexRemainsInPlace;
+  }
+
+  // SORT BY DATE
   // ASCENDING
   if (sortByPropertyName === LAST_UPDATED_OLDEST_OPTION) {
     return (
@@ -50,5 +82,13 @@ export const sortTheResults = (sortByPropertyName, indexA, indexB) => {
       makeMomentDateFriendlyToJSDateConstrcutor(latestTimeStampIndexB)
     );
   }
-  return 0;
+
+  // DESCENDING
+  if (sortByPropertyName === LAST_UPDATED_NEWEST_OPTION) {
+    return (
+      makeMomentDateFriendlyToJSDateConstrcutor(latestTimeStampIndexB) -
+      makeMomentDateFriendlyToJSDateConstrcutor(latestTimeStampIndexA)
+    );
+  }
+  return indexRemainsInPlace;
 };
