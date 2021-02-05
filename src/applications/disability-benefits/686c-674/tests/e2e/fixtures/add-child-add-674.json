@@ -36,7 +36,8 @@
         "stateCode": "DC",
         "zipCode": "20500"
       },
-      "trainingProgram": "HighSch"
+      "schoolType": "HighSch",
+      "trainingProgram": "Marine Biology"
     },
     "studentAddressMarriageTuition": {
       "address": {

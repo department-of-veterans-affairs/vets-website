@@ -6,6 +6,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
 .fsr-introduction {
   .schemaform-title {
@@ -46,7 +47,7 @@
   }
   .item-loop {
     padding: 5px 15px 20px;
-    background-color: #f1f1f1;
+    background-color: $color-gray-lightest;
     .schemaform-field-container {
       display: flex;
       flex-wrap: wrap;
@@ -64,7 +65,7 @@
       max-height: 140px;
     }
     .usa-button-secondary {
-      background: #fff;
+      background: $color-white;
     }
     .button-group {
       display: flex;
@@ -75,18 +76,18 @@
   .edit-item-container {
     margin: 5px 0;
     .usa-button-secondary {
-      background: #fff;
+      background: $color-white;
     }
   }
   .add-item-container {
     display: flex;
     flex-direction: column;
-    background-color: #f1f1f1;
+    background-color: $color-gray-lightest;
     padding: 20px 30px 20px;
     margin-top: 20px;
     .add-item-link-section {
       .plus-icon {
-        color: #0071bb;
+        color: $color-light-blue;
         margin-right: 5px;
       }
     }
@@ -106,7 +107,7 @@
     }
   }
   .review-card--body {
-    border: 3px solid #0071bb;
+    border: 3px solid $color-light-blue;
     padding: 25px;
   }
 }
@@ -124,7 +125,7 @@
 .docket-number-description {
   margin: 4px 0 8px;
   font-size: 15px;
-  color: #757575;
+  color: $color-gray-medium;
 }
 
 // input fields
