@@ -1,5 +1,5 @@
 - [x] person_profile
-- [ ] documentation_page
+- [ ] documentation_page ****
 - [x] landing_page
 - [x] office
 - [x] health_care_region_detail_page
@@ -16,8 +16,8 @@
 - [ ] support_service
 - [x] leadership_listing
 - [x] health_services_listing
-- [ ] vet_center
-- [ ] vba_facility
+- [ ] vet_center ****
+- [ ] vba_facility ****
 - [x] page
 - [ ] vamc_operating_status_and_alerts
 - [x] va_form
