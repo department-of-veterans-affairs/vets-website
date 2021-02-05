@@ -8,9 +8,13 @@
   .health-care {
     hr {
       background: $color-primary;
-      height: 2px;
-      width: 600px;
+      height: 3px;
+      width: 75%;
       border: none;
+
+      @media (max-width: $small-screen) {
+        width: 100%;
+      }
     }
   }
 }

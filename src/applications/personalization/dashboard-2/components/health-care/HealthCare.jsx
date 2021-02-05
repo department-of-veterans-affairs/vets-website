@@ -3,7 +3,7 @@ import NotificationCTA from '../NotificationCTA';
 
 import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
-import { recordDashboardClick } from 'applications/personalization/dashboard/helpers';
+// import { recordDashboardClick } from 'applications/personalization/dashboard/helpers';
 
 const HealthCareCard = props => {
   let cardTitle;
@@ -74,7 +74,7 @@ const HealthCareCard = props => {
 
 const HealthCare = () => {
   return (
-    <div className="health-care">
+    <div className="health-care vads-u-margin-y--6">
       <h2 className="vads-u-margin-y--0">Health care</h2>
 
       <div className="vads-u-display--flex vads-u-flex-wrap--wrap">
@@ -107,7 +107,7 @@ const HealthCare = () => {
         <p>
           <a
             href="/health-care/get-medical-records/"
-            onClick={recordDashboardClick('health-records')}
+            // onClick={recordDashboardClick('health-records')}
           >
             Get your VA medical records
           </a>
