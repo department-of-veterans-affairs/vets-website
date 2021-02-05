@@ -180,27 +180,31 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
         },
       };
 
-      for (const [queryName, query] of Object.entries(individualQueries)) {
-        const request = this.query({
-          query,
-          variables: {
-            today: moment().format('YYYY-MM-DD'),
-            onlyPublishedContent,
-          },
-        });
+      const requests = Object.entries(individualQueries).map(
+        async ([queryName, query]) => {
+          const request = this.query({
+            query,
+            variables: {
+              today: moment().format('YYYY-MM-DD'),
+              onlyPublishedContent,
+            },
+          });
 
-        console.time(`Finished "${queryName}"`);
+          console.time(`"${queryName}" done`);
 
-        const json = await request;
+          const json = await request;
 
-        if (json.data?.nodeQuery) {
-          const { entities } = json.data.nodeQuery;
+          if (json.data?.nodeQuery) {
+            const { entities } = json.data.nodeQuery;
 
-          result.data.nodeQuery.entities.push(...entities);
-          console.log(`Loaded ${entities.length} nodes`);
-        }
-        console.timeEnd(`Finished "${queryName}"`);
-      }
+            result.data.nodeQuery.entities.push(...entities);
+            console.log(`${entities.length} loaded from "${queryName}"`);
+          }
+          console.timeEnd(`"${queryName}" done`);
+        },
+      );
+
+      await Promise.all(requests);
 
       console.log(
         `Finished all queries - ${result.data.nodeQuery.entities.length} pages`,
