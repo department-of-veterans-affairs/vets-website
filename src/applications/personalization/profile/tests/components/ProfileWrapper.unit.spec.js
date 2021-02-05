@@ -9,9 +9,8 @@ import { PROFILE_PATHS } from '../../constants';
 import { renderWithProfileReducers as render } from '../unit-test-helpers';
 
 describe('ProfileWrapper', () => {
-  let ui;
   const config = {};
-  ui = (
+  const uiLOA3 = (
     <MemoryRouter initialEntries={[PROFILE_PATHS.PERSONAL_INFORMATION]}>
       <ProfileWrapper routes={getRoutes(config)} isLOA3 />
     </MemoryRouter>
@@ -28,27 +27,28 @@ describe('ProfileWrapper', () => {
         },
       },
     };
-    const { getByTestId } = render(ui, { initialState });
+    const { getByTestId } = render(uiLOA3, { initialState });
     const breadcrumbs = getByTestId('breadcrumbs');
     expect(breadcrumbs.textContent.match(/Personal and contact information/i))
       .not.to.be.null;
   });
 
-  // it('should render NameTag when the full name of the user was fetched)', () => {
-  //   const initialState = {
-  //     vaProfile: {
-  //       hero: {
-  //         userFullName: {
-  //           first: 'Test',
-  //           last: 'Test',
-  //         },
-  //       },
-  //     },
-  //   };
-  //   const { getByTestId } = render(ui, { initialState });
-  //   const NameTag = getByTestId('name-tag');
-  //   expect(NameTag.textContent.match(/Test Test/i)).not.to.be.null;
-  // });
+  it('should render NameTag when the full name of the user was fetched)', () => {
+    const initialState = {
+      vaProfile: {
+        hero: {
+          userFullName: {
+            first: 'Test',
+            last: 'Test',
+          },
+        },
+      },
+    };
+    const { getByTestId } = render(uiLOA3, { initialState });
+
+    const NameTag = getByTestId('name-tag');
+    expect(NameTag.textContent.match(/Test Test/i)).not.to.be.null;
+  });
 
   it('should not render NameTag when the full name of the user could not be fetched)', () => {
     const initialState = {
@@ -58,13 +58,13 @@ describe('ProfileWrapper', () => {
         },
       },
     };
-    const { queryByTestId } = render(ui, { initialState });
+    const { queryByTestId } = render(uiLOA3, { initialState });
     const NameTag = queryByTestId('name-tag');
     expect(NameTag).to.be.null;
   });
 
   it('should not render NameTag when the user is LOA1)', () => {
-    ui = (
+    const uiLOA1 = (
       <MemoryRouter initialEntries={[PROFILE_PATHS.PERSONAL_INFORMATION]}>
         <ProfileWrapper routes={getRoutes(config)} />
       </MemoryRouter>
@@ -77,7 +77,7 @@ describe('ProfileWrapper', () => {
         },
       },
     };
-    const { queryByTestId } = render(ui, { initialState });
+    const { queryByTestId } = render(uiLOA1, { initialState });
     const NameTag = queryByTestId('name-tag');
     expect(NameTag).to.not.exist;
   });

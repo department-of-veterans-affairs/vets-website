@@ -101,11 +101,9 @@ export default function ConfirmedAppointmentListItem({
   if (isAtlas) {
     header = 'VA Video Connect';
     subHeader = ' at an ATLAS location';
-    const { address } = getATLASLocation(appointment);
-    if (address) {
-      location = `${address.streetAddress}, ${address.city}, ${address.state} ${
-        address.zipCode
-      }`;
+    const atlasLocation = getATLASLocation(appointment);
+    if (atlasLocation?.address) {
+      location = formatFacilityAddress(atlasLocation);
     }
   } else if (videoKind === VIDEO_TYPES.clinic) {
     header = 'VA Video Connect';
@@ -134,6 +132,7 @@ export default function ConfirmedAppointmentListItem({
     location = facility ? formatFacilityAddress(facility) : null;
     if (appointment.vaos.isPhoneAppointment) {
       subHeader = ' over the phone';
+      location = 'Phone call';
     }
   }
 
@@ -221,7 +220,7 @@ export default function ConfirmedAppointmentListItem({
               description={instructionText}
               location={location}
               duration={appointment.minutesDuration}
-              startDateTime={moment.parseZone(appointment.start)}
+              startDateTime={appointment.start}
             />
             {showCancelButton && (
               <button

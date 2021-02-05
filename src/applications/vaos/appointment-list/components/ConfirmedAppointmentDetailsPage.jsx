@@ -135,7 +135,7 @@ function ConfirmedAppointmentDetailsPage({
                 description={`instructionText`}
                 location={location}
                 duration={appointment.minutesDuration}
-                startDateTime={moment.parseZone(appointment.start)}
+                startDateTime={appointment.start}
               />
             </div>
 
