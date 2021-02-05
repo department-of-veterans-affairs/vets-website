@@ -4,7 +4,7 @@
 - [x] office
 - [x] health_care_region_detail_page
 - [x] health_care_local_facility
-- [ ] full_width_banner_alert
+- [ ] full_width_banner_alert ****
 - [x] locations_listing
 - [x] event_listing
 - [x] press_releases_listing
@@ -12,7 +12,7 @@
 - [x] news_story
 - [x] press_release
 - [x] event
-- [ ] outreach_asset
+- [ ] outreach_asset ****
 - [ ] support_service
 - [x] leadership_listing
 - [x] health_services_listing
