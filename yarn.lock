@@ -18758,9 +18758,11 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   dependencies:
     minimalistic-assert "^1.0.0"
 
-"web-components@link:../va-component-library":
-  version "0.0.0"
-  uid ""
+"web-components@https://github.com/department-of-veterans-affairs/component-library.git#wc-accordion":
+  version "0.0.1"
+  resolved "https://github.com/department-of-veterans-affairs/component-library.git#9d18b45b5aa7cb1bbcd0e6fe1e89d49002ff142e"
+  dependencies:
+    "@stencil/core" "^2.0.1"
 
 webidl-conversions@^4.0.2:
   version "4.0.2"
