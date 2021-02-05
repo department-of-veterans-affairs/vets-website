@@ -83,6 +83,13 @@ const formConfig = {
           uiSchema: pages.employment.uiSchema,
           schema: pages.employment.schema,
         },
+        employmentRecords: {
+          path: 'employment-records',
+          title: 'Employment',
+          uiSchema: pages.employmentRecords.uiSchema,
+          schema: pages.employmentRecords.schema,
+          depends: formData => formData.employment.isEmployed === true,
+        },
         previousEmployment: {
           path: 'previous-employment',
           title: 'Previous employment',

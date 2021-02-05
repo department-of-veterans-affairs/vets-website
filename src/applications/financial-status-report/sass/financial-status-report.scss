@@ -42,15 +42,13 @@
 
 .item-loop-container {
   margin-top: 10px;
-  .item-loop-header legend {
-    margin-top: 30px;
-  }
   .item-loop {
     padding: 5px 15px 20px;
     background-color: $color-gray-lightest;
     .schemaform-field-container {
       display: flex;
       flex-wrap: wrap;
+      justify-content: space-between;
       .schemaform-block-header {
         width: 100%;
       }
@@ -128,12 +126,24 @@
   color: $color-gray-medium;
 }
 
+// current employment
+.current-employment-container {
+  .schemaform-block-header {
+    margin: 25px 0;
+  }
+  .employment-start {
+    margin-top: 16px;
+  }
+  .employer-name label {
+    margin-top: 16px;
+  }
+}
+
 // input fields
 .input-size-1 {
   @include media($medium-screen) {
     width: 152px;
     max-width: 152px;
-    margin: 0 10px 20px 0;
   }
 }
 
@@ -141,7 +151,6 @@
   @include media($medium-screen) {
     width: 173px;
     max-width: 173px;
-    margin: 0 10px 20px 0;
   }
 }
 
@@ -149,7 +158,6 @@
   @include media($medium-screen) {
     width: 196px;
     max-width: 196px;
-    margin: 0 10px 20px 0;
   }
 }
 
@@ -157,7 +165,6 @@
   @include media($medium-screen) {
     width: 215px;
     max-width: 215px;
-    margin: 0 10px 20px 0;
   }
 }
 
@@ -165,7 +172,6 @@
   @include media($medium-screen) {
     width: 262px;
     max-width: 262px;
-    margin: 0 10px 20px 0;
   }
 }
 
@@ -173,7 +179,6 @@
   @include media($medium-screen) {
     width: 283px;
     max-width: 283px;
-    margin: 0 10px 20px 0;
   }
 }
 
@@ -181,6 +186,5 @@
   @include media($medium-screen) {
     width: 332px;
     max-width: 332px;
-    margin: 0 10px 20px 0;
   }
 }
