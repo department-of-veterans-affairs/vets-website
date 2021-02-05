@@ -37,6 +37,10 @@ const {
   GetNodePressReleasePages,
 } = require('./graphql/pressReleasePage.graphql');
 
+const {
+  GetNodePressReleaseListingPages,
+} = require('./graphql/pressReleasesListingPage.graphql');
+
 const individualQueries = {
   GetNodePages,
   GetNodeLandingPages,
@@ -48,6 +52,7 @@ const individualQueries = {
   GetNodeHealthServicesListingPages,
   GetNodeNewsStoryPages,
   GetNodePressReleasePages,
+  GetNodePressReleaseListingPages,
 };
 
 module.exports = {

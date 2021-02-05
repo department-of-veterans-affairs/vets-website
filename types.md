@@ -10,7 +10,7 @@
 - [ ] press_releases_listing
 - [ ] story_listing
 - [x] news_story
-- [ ] press_release
+- [x] press_release
 - [ ] event
 - [ ] outreach_asset
 - [ ] support_service
