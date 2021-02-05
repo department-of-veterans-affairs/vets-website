@@ -5,14 +5,13 @@ import environment from 'platform/utilities/environment';
 import { setFetchJSONFailure } from 'platform/testing/unit/helpers';
 import reducers from '../../../redux/reducer';
 import {
-  getCCAppointmentMock,
   getVAAppointmentMock,
   getVAFacilityMock,
   getVARequestMock,
 } from '../../mocks/v0';
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
 import { renderWithStoreAndRouter } from '../../mocks/setup';
-import UpcomingAppointmentsList from '../../../appointment-list/components/UpcomingAppointmentsList';
+import CanceledAppointmentsList from '../../../appointment-list/components/CanceledAppointmentsList';
 
 const initialState = {
   featureToggles: {
@@ -23,7 +22,7 @@ const initialState = {
   },
 };
 
-describe('VAOS <UpcomingAppointmentsList>', () => {
+describe('VAOS <CanceledAppointmentsList>', () => {
   it('should show information without facility name', async () => {
     const startDate = moment.utc();
     const appointment = getVAAppointmentMock();
@@ -34,11 +33,12 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       facilityId: '983',
       sta6aid: '983GC',
     };
-    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+    appointment.attributes.vdsAppointments[0].currentStatus =
+      'CANCELLED BY CLINIC';
     appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
 
     mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
+    const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
     });
@@ -52,7 +52,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(screen.baseElement).not.to.contain.text('Canceled');
+    expect(screen.baseElement).to.contain.text('Canceled');
     expect(screen.baseElement).to.contain.text('VA appointment');
 
     expect(timeHeader).to.contain.text('MT');
@@ -68,7 +68,8 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       facilityId: '983',
       sta6aid: '983GC',
     };
-    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+    appointment.attributes.vdsAppointments[0].currentStatus =
+      'CANCELLED BY CLINIC';
     mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
 
     const facility = {
@@ -92,7 +93,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     };
     mockFacilitiesFetch('vha_442GC', [facility]);
 
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
+    const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
     });
@@ -118,44 +119,6 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     ).to.exist;
     expect(await screen.findByText(/Cheyenne VA Medical Center/i)).to.exist;
     expect(screen.baseElement).not.to.contain.text('VA appointment');
-  });
-
-  it('should have correct status when previously cancelled', async () => {
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      startDate: moment().format(),
-      facilityId: '983',
-      sta6aid: '983GC',
-    };
-    appointment.attributes.vdsAppointments[0].currentStatus =
-      'CANCELLED BY CLINIC';
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
-
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
-      initialState,
-      reducers,
-    });
-
-    await screen.findByText(
-      new RegExp(
-        moment()
-          .tz('America/Denver')
-          .format('dddd, MMMM D'),
-        'i',
-      ),
-    );
-
-    expect(
-      screen.getByText(
-        new RegExp(
-          moment()
-            .tz('America/Denver')
-            .format('h:mm'),
-          'i',
-        ),
-      ),
-    ).to.exist;
     expect(screen.baseElement).to.contain.text('Canceled');
   });
 
@@ -165,7 +128,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     appointment.attributes.vdsAppointments[0].currentStatus = 'NO-SHOW';
 
     mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
+    const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
     });
@@ -179,10 +142,11 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     appointment.attributes.startDate = moment()
       .add(14, 'months')
       .format();
-    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+    appointment.attributes.vdsAppointments[0].currentStatus =
+      'CANCELLED BY CLINIC';
 
     mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
+    const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
     });
@@ -204,14 +168,14 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       { errors: [] },
     );
 
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
+    const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
     });
 
     expect(
       await screen.findByText(
-        /We’re having trouble getting your upcoming appointments/i,
+        /We’re having trouble getting your canceled appointments/i,
       ),
     ).to.be.ok;
   });
@@ -230,11 +194,11 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       dateTime: startDate.format(),
       bookingNotes: 'Some random note',
       appointmentKind: 'ADHOC',
-      status: { description: 'F', code: 'FUTURE' },
+      status: { description: 'F', code: 'CANCELLED BY CLINIC' },
     };
 
     mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
+    const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
     });
@@ -251,6 +215,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
     expect(screen.baseElement).to.contain.text('VA Video Connect at home');
+    expect(screen.baseElement).to.contain.text('Canceled');
   });
 
   it('should show ATLAS video appointment text', async () => {
@@ -267,7 +232,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       dateTime: startDate.format(),
       bookingNotes: 'Some random note',
       appointmentKind: 'ADHOC',
-      status: { description: 'F', code: 'FUTURE' },
+      status: { description: 'F', code: 'CANCELLED BY CLINIC' },
       tasInfo: {
         siteCode: '9931',
         slotId: 'Slot8',
@@ -286,7 +251,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     };
 
     mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
+    const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
     });
@@ -305,6 +270,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     expect(screen.baseElement).to.contain.text(
       'VA Video Connect at an ATLAS location',
     );
+    expect(screen.baseElement).to.contain.text('Canceled');
   });
 
   it('should show video appointment on gfe text', async () => {
@@ -321,11 +287,11 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       dateTime: startDate.format(),
       bookingNotes: 'Some random note',
       appointmentKind: 'MOBILE_GFE',
-      status: { description: 'F', code: 'FUTURE' },
+      status: { description: 'F', code: 'CANCELLED BY CLINIC' },
     };
 
     mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
+    const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
     });
@@ -344,6 +310,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     expect(screen.baseElement).to.contain.text(
       'VA Video Connect using a VA device',
     );
+    expect(screen.baseElement).to.contain.text('Canceled');
   });
 
   it('should show video appointment at VA location text', async () => {
@@ -360,11 +327,11 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       dateTime: startDate.format(),
       bookingNotes: 'Some random note',
       appointmentKind: 'CLINIC_BASED',
-      status: { description: 'F', code: 'FUTURE' },
+      status: { description: 'F', code: 'CANCELLED BY CLINIC' },
     };
 
     mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
+    const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
     });
@@ -383,170 +350,10 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     expect(screen.baseElement).to.contain.text(
       'VA Video Connect at a VA location',
     );
+    expect(screen.baseElement).to.contain.text('Canceled');
   });
 
-  it('should show community care provider text', async () => {
-    const startDate = moment().add(1, 'days');
-    const appointment = getCCAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      appointmentTime: startDate
-        .clone()
-        .add(5, 'hours')
-        .format('MM/DD/YYYY HH:mm:ss'),
-      timeZone: '-05:00 EST',
-      instructionsToVeteran: 'Bring your glasses',
-      address: {
-        street: '123 Big Sky st',
-        city: 'Bozeman',
-        state: 'MT',
-        zipCode: '59715',
-      },
-      name: { firstName: 'Jane', lastName: 'Doctor' },
-      providerPractice: 'Big sky medical',
-      providerPhone: '4065555555',
-    };
-
-    mockAppointmentInfo({ cc: [appointment], isHomepageRefresh: true });
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
-      initialState,
-      reducers,
-    });
-
-    await screen.findByText(new RegExp(startDate.format('dddd, MMMM D'), 'i'));
-
-    const timeHeader = screen.getByText(
-      new RegExp(startDate.format('h:mm'), 'i'),
-    );
-    expect(timeHeader).to.contain.text('ET');
-    expect(timeHeader).to.contain.text('Eastern time');
-
-    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(screen.baseElement).to.contain.text('Jane Doctor');
-  });
-
-  it('should show community care practice name text', async () => {
-    const startDate = moment().add(1, 'days');
-    const appointment = getCCAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      appointmentTime: startDate
-        .clone()
-        .add(5, 'hours')
-        .format('MM/DD/YYYY HH:mm:ss'),
-      timeZone: '-05:00 EST',
-      instructionsToVeteran: 'Bring your glasses',
-      address: {
-        street: '123 Big Sky st',
-        city: 'Bozeman',
-        state: 'MT',
-        zipCode: '59715',
-      },
-      name: null,
-      providerPractice: 'Big sky medical',
-      providerPhone: '4065555555',
-    };
-
-    mockAppointmentInfo({ cc: [appointment], isHomepageRefresh: true });
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
-      initialState,
-      reducers,
-    });
-
-    await screen.findByText(new RegExp(startDate.format('dddd, MMMM D'), 'i'));
-
-    expect(screen.baseElement).to.contain.text('Big sky medical');
-  });
-
-  it('should show community care text for VistA cc appointments', async () => {
-    const startDate = moment().add(1, 'days');
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      startDate: startDate.format(),
-      communityCare: true,
-      facilityId: '983',
-      sta6aid: '983GC',
-      vdsAppointments: { bookingNote: 'scheduler note' },
-    };
-
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
-      initialState,
-      reducers,
-    });
-
-    await screen.findByText(
-      new RegExp(startDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
-    );
-
-    expect(screen.baseElement).to.contain.text('Community care');
-  });
-
-  it('should show express care appointment text', async () => {
-    const startDate = moment.utc();
-    const appointment = getVARequestMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      status: 'Submitted',
-      date: startDate,
-      optionDate1: startDate,
-      optionTime1: 'AM',
-      purposeOfVisit: 'New Issue',
-      bestTimetoCall: ['Morning'],
-      email: 'patient.test@va.gov',
-      phoneNumber: '5555555566',
-      typeOfCareId: 'CR1',
-      reasonForVisit: 'Back pain',
-      friendlyLocationName: 'Some VA medical center',
-      appointmentType: 'Express Care',
-      comment: 'loss of smell',
-      facility: {
-        ...appointment.attributes.facility,
-        facilityCode: '983GC',
-      },
-    };
-    appointment.id = '1234';
-    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
-
-    const facility = {
-      id: 'vha_442GC',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '442GC',
-        name: 'Cheyenne VA Medical Center',
-        address: {
-          physical: {
-            zip: '82001-5356',
-            city: 'Cheyenne',
-            state: 'WY',
-            address1: '2360 East Pershing Boulevard',
-          },
-        },
-        phone: {
-          main: '307-778-7550',
-        },
-      },
-    };
-    mockFacilitiesFetch('vha_442GC', [facility]);
-
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
-      initialState,
-      reducers,
-    });
-
-    await screen.findByText(
-      new RegExp(startDate.tz('America/New_York').format('dddd, MMMM D'), 'i'),
-    );
-
-    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(screen.baseElement).to.contain.text(
-      'A VA health care provider will follow up with you today.',
-    );
-    expect(screen.baseElement).to.contain.text('Express Care request');
-  });
-
-  it('should show canceled express care appointment text', async () => {
+  it('should show cancelled express care appointment text', async () => {
     const startDate = moment.utc();
     const appointment = getVARequestMock();
     appointment.attributes = {
@@ -592,7 +399,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       },
     };
     mockFacilitiesFetch('vha_442GC', [facility]);
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
+    const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
     });
@@ -619,10 +426,11 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       sta6aid: '983GC',
       phoneOnly: true,
     };
-    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+    appointment.attributes.vdsAppointments[0].currentStatus =
+      'CANCELLED BY CLINIC';
 
     mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
+    const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
     });
@@ -633,5 +441,134 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
     expect(screen.baseElement).to.contain.text('Phone call');
+    expect(screen.baseElement).to.contain.text('Canceled');
+  });
+
+  it('should show canceled appointment from past if less than 30 days ago', async () => {
+    const startDate = moment()
+      .subtract(28, 'days')
+      .utc();
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      startDate: startDate.format(),
+      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
+      facilityId: '983',
+      sta6aid: '983GC',
+    };
+    appointment.attributes.vdsAppointments[0].currentStatus =
+      'CANCELLED BY CLINIC';
+    appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
+
+    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
+      initialState,
+      reducers,
+    });
+
+    await screen.findByText(
+      new RegExp(startDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
+    );
+
+    const timeHeader = screen.getByText(
+      new RegExp(startDate.tz('America/Denver').format('h:mm'), 'i'),
+    );
+
+    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+    expect(screen.baseElement).to.contain.text('Canceled');
+    expect(screen.baseElement).to.contain.text('VA appointment');
+
+    expect(timeHeader).to.contain.text('MT');
+    expect(timeHeader).to.contain.text('Mountain time');
+  });
+
+  it('should show canceled appointment from past if less than 395 days ahead', async () => {
+    const startDate = moment()
+      .add(393, 'days')
+      .utc();
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      startDate: startDate.format(),
+      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
+      facilityId: '983',
+      sta6aid: '983GC',
+    };
+    appointment.attributes.vdsAppointments[0].currentStatus =
+      'CANCELLED BY CLINIC';
+    appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
+
+    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
+      initialState,
+      reducers,
+    });
+
+    await screen.findByText(
+      new RegExp(startDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
+    );
+
+    const timeHeader = screen.getByText(
+      new RegExp(startDate.tz('America/Denver').format('h:mm'), 'i'),
+    );
+
+    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+    expect(screen.baseElement).to.contain.text('Canceled');
+    expect(screen.baseElement).to.contain.text('VA appointment');
+
+    expect(timeHeader).to.contain.text('MT');
+    expect(timeHeader).to.contain.text('Mountain time');
+  });
+
+  it('should not show canceled appointment from past if more than 30 days ago', async () => {
+    const startDate = moment()
+      .subtract(32, 'days')
+      .utc();
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      startDate: startDate.format(),
+      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
+      facilityId: '983',
+      sta6aid: '983GC',
+    };
+    appointment.attributes.vdsAppointments[0].currentStatus =
+      'CANCELLED BY CLINIC';
+    appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
+
+    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
+      initialState,
+      reducers,
+    });
+
+    return expect(screen.findByText(/You don’t have any appointments/i)).to
+      .eventually.be.ok;
+  });
+
+  it('should not show canceled appointment if more than 395 days ahead', async () => {
+    const startDate = moment()
+      .add(397, 'days')
+      .utc();
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      startDate: startDate.format(),
+      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
+      facilityId: '983',
+      sta6aid: '983GC',
+    };
+    appointment.attributes.vdsAppointments[0].currentStatus =
+      'CANCELLED BY CLINIC';
+    appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
+
+    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
+      initialState,
+      reducers,
+    });
+
+    return expect(screen.findByText(/You don’t have any appointments/i)).to
+      .eventually.be.ok;
   });
 });
