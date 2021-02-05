@@ -13,9 +13,9 @@ const { compilePage, createFileObj } = require('./page');
 const {
   createHealthCareRegionListPages,
   createPastEventListPages,
-  addGetUpdatesFields,
+  // addGetUpdatesFields,
   addPager,
-  sortServices,
+  // sortServices,
 } = require('./health-care-region');
 
 const { addHubIconField } = require('./benefit-hub');
@@ -62,10 +62,10 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
 
     switch (page.entityBundle) {
       case 'health_care_local_facility':
-        addGetUpdatesFields(pageCompiled, pages);
+        // addGetUpdatesFields(pageCompiled, pages);
         break;
       case 'health_care_region_detail_page':
-        addGetUpdatesFields(pageCompiled, pages);
+        // addGetUpdatesFields(pageCompiled, pages);
         break;
       case 'event_listing':
         pageCompiled.pastEventTeasers = pageCompiled.pastEvents;
@@ -98,11 +98,13 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
           'press_release',
         );
         break;
-      case 'health_services_listing':
-        pageCompiled.clinicalHealthServices = sortServices(
-          pageCompiled.fieldOffice.entity.reverseFieldRegionPageNode.entities,
-        );
-        break;
+      // case 'health_services_listing':
+      //   if (pageCompiled.fieldOffice !== null) {
+      //     pageCompiled.clinicalHealthServices = sortServices(
+      //       pageCompiled.fieldOffice.entity.reverseFieldRegionPageNode.entities,
+      //     );
+      //   }
+      //   break;
       case 'leadership_listing':
         pageCompiled.allStaffProfiles = page.fieldLeadership;
         addPager(

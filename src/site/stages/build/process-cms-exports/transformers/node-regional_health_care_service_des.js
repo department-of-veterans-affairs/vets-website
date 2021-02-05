@@ -6,15 +6,23 @@ const getFieldFacilityLocationObject = ({
   title,
   entityUrl,
   field_facility_location,
-}) =>
-  typeof title === 'object'
+}) => {
+  const fieldFacilityTitle =
+    field_facility_location && field_facility_location[0]?.title
+      ? field_facility_location[0].title
+      : '';
+  const fieldFacilityUrl =
+    field_facility_location && field_facility_location[0]?.entityUrl
+      ? field_facility_location[0].entityUrl
+      : '';
+  return typeof title === 'object'
     ? {
         entity: {
           title: getDrupalValue(title),
           fieldFacilityLocation: {
             entity: {
-              title: getDrupalValue(field_facility_location[0].title),
-              entityUrl: field_facility_location[0].entityUrl,
+              title: getDrupalValue(fieldFacilityTitle),
+              entityUrl: fieldFacilityUrl,
             },
           },
           entityUrl,
@@ -27,6 +35,7 @@ const getFieldFacilityLocationObject = ({
           entityUrl,
         },
       };
+};
 
 const transform = entity => ({
   entityType: 'node',

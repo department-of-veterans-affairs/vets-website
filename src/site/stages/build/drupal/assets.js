@@ -119,6 +119,8 @@ function updateAttr(attr, doc, usingAWS) {
 }
 
 function convertDrupalFilesToLocal(drupalData, files, options) {
+  // eslint-disable-next-line no-console
+  console.log('Converting Drupal Files to Local...');
   const client = getDrupalClient(options);
   const usingAWS = !!PUBLIC_URLS[client.getSiteUri()];
 
@@ -160,7 +162,7 @@ function convertDrupalFilesToLocal(drupalData, files, options) {
       return doc.html();
     }
 
-    return data;
+    return '';
   });
 }
 

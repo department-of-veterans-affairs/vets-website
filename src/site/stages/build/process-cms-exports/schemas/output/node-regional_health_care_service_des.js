@@ -12,10 +12,11 @@ module.exports = {
       type: 'array',
       items: {
         entity: {
-          title: { type: 'string' },
+          title: { type: ['string', 'TBD'] },
           fieldFacilityLocation: {
             entity: {
-              title: { type: 'string' },
+              title: { type: ['string', 'TBD'] },
+              entityUrl: { type: ['string', 'null'] },
             },
           },
         },
