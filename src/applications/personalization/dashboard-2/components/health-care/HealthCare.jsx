@@ -1,6 +1,10 @@
 import React from 'react';
 import NotificationCTA from '../NotificationCTA';
 
+import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
+import { mhvUrl } from 'platform/site-wide/mhv/utilities';
+import { recordDashboardClick } from 'applications/personalization/dashboard/helpers';
+
 const HealthCareCard = props => {
   let cardTitle;
   let line1;
@@ -17,7 +21,7 @@ const HealthCareCard = props => {
     sectionTitle = 'Messages';
     CTA.icon = 'envelope';
     CTA.text = 'You have 2 unread messages';
-    CTA.href = 'www.google.com';
+    CTA.href = '';
     CTA.ariaLabel = 'View your unread messages';
   }
 
@@ -29,7 +33,7 @@ const HealthCareCard = props => {
     sectionTitle = 'Appointments';
     CTA.icon = 'calendar';
     CTA.text = '6 upcoming appointments';
-    CTA.href = 'www.google.com';
+    CTA.href = '';
     CTA.ariaLabel = 'View upcoming appointments';
   }
 
@@ -41,7 +45,7 @@ const HealthCareCard = props => {
     line3 = '';
     CTA.icon = 'prescription-bottle';
     CTA.text = '3 prescription updates';
-    CTA.href = 'www.google.com';
+    CTA.href = '';
     CTA.ariaLabel = 'View prescription updates';
   }
 
@@ -70,7 +74,7 @@ const HealthCareCard = props => {
 
 const HealthCare = () => {
   return (
-    <>
+    <div className="health-care">
       <h2 className="vads-u-margin-y--0">Health care</h2>
 
       <div className="vads-u-display--flex vads-u-flex-wrap--wrap">
@@ -81,7 +85,31 @@ const HealthCare = () => {
         {/* Prescriptions */}
         <HealthCareCard type="prescriptions" />
       </div>
-    </>
+
+      <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-top--4">
+        <h3>Manage your health care benefits</h3>
+        <hr
+          aria-hidden="true"
+          className="vads-u-margin-bottom--2 vads-u-margin-top--0p5"
+        />
+
+        <a
+          href={mhvUrl(isAuthenticatedWithSSOe, 'download-my-data')}
+          rel="noreferrer noopener"
+          target="_blank"
+          className="vads-u-margin-bottom--2"
+        >
+          Get your lab and test results
+        </a>
+
+        <a
+          href="/health-care/get-medical-records/"
+          onClick={recordDashboardClick('health-records')}
+        >
+          Get your VA medical records
+        </a>
+      </div>
+    </div>
   );
 };
 
