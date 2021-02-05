@@ -42,7 +42,10 @@ function CanceledAppointmentsList({
     [fetchFutureAppointments, futureStatus],
   );
 
-  if (futureStatus === FETCH_STATUS.loading) {
+  if (
+    futureStatus === FETCH_STATUS.notStarted ||
+    futureStatus === FETCH_STATUS.loading
+  ) {
     return (
       <div className="vads-u-margin-y--8">
         <LoadingIndicator message="Loading your canceled appointments..." />
