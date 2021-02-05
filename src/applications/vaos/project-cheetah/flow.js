@@ -10,7 +10,20 @@ export default {
   },
   info: {
     url: '/new-project-cheetah-booking',
-    next: 'vaFacility',
+    next: 'receivedDoseScreener',
+  },
+  receivedDoseScreener: {
+    url: '/new-project-cheetah-booking/received-dose',
+    next(state) {
+      const formData = selectProjectCheetahFormData(state);
+      if (formData.hasReceivedDose) {
+        return 'contactFacilities';
+      }
+      return 'vaFacility';
+    },
+  },
+  contactFacilities: {
+    url: '/new-project-cheetah-booking/contact-facilities',
   },
   vaFacility: {
     url: '/new-project-cheetah-booking/facility',
