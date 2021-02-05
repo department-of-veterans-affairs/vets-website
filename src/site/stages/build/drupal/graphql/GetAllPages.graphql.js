@@ -84,7 +84,7 @@ const buildQuery = ({ useTomeSync }) => {
   ${qaPage.fragment}
   ${faqMultipleQaPage.fragment}
   ${stepByStepPage.fragment}
-  ${mediaListImages}
+  ${mediaListImages.fragment}
   ${checklistPage}
   ${mediaListVideos}
   ${supportResourcesDetailPage}
