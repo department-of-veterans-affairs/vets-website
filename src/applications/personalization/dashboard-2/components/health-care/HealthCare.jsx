@@ -86,28 +86,32 @@ const HealthCare = () => {
         <HealthCareCard type="prescriptions" />
       </div>
 
-      <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-top--4">
+      <div className="vads-u-margin-top--4">
         <h3>Manage your health care benefits</h3>
         <hr
           aria-hidden="true"
           className="vads-u-margin-bottom--2 vads-u-margin-top--0p5"
         />
 
-        <a
-          href={mhvUrl(isAuthenticatedWithSSOe, 'download-my-data')}
-          rel="noreferrer noopener"
-          target="_blank"
-          className="vads-u-margin-bottom--2"
-        >
-          Get your lab and test results
-        </a>
+        <p>
+          <a
+            href={mhvUrl(isAuthenticatedWithSSOe, 'download-my-data')}
+            rel="noreferrer noopener"
+            target="_blank"
+            className="vads-u-margin-bottom--2"
+          >
+            Get your lab and test results
+          </a>
+        </p>
 
-        <a
-          href="/health-care/get-medical-records/"
-          onClick={recordDashboardClick('health-records')}
-        >
-          Get your VA medical records
-        </a>
+        <p>
+          <a
+            href="/health-care/get-medical-records/"
+            onClick={recordDashboardClick('health-records')}
+          >
+            Get your VA medical records
+          </a>
+        </p>
       </div>
     </div>
   );
