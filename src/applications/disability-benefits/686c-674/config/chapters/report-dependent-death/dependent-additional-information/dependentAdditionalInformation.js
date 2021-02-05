@@ -26,6 +26,10 @@ export const uiSchema = {
         'Place of death',
         'reportDeath',
       ),
+      dependentIncome: {
+        'ui:title': 'Did this person have an income in the last 365 days?',
+        'ui:widget': 'yesNo',
+      },
     },
   },
 };
