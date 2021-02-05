@@ -98,7 +98,6 @@ export default class DateWidget extends React.Component {
             id={`${id}Month`}
             value={month}
             disabled={disabled}
-            aria-describedby={`${id}-label ${id}-${'error-message'}`}
             onChange={event => this.handleChange('month', event.target.value)}
           >
             <option value="" />
@@ -119,7 +118,6 @@ export default class DateWidget extends React.Component {
               id={`${id}Day`}
               value={day}
               disabled={disabled}
-              aria-describedby={`${id}-label ${id}-error-message`}
               onChange={event => this.handleChange('day', event.target.value)}
             >
               <option value="" />
@@ -142,7 +140,6 @@ export default class DateWidget extends React.Component {
             name={`${id}Year`}
             id={`${id}Year`}
             disabled={disabled}
-            aria-describedby={`${id}-label ${id}-error-message`}
             max={maxYear}
             min={minYear}
             pattern="[0-9]{4}"
