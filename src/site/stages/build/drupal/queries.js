@@ -72,6 +72,7 @@ const {
 } = require('./graphql/healthCareRegionDetailPage.graphql');
 
 const { GetNodeQa } = require('./graphql/nodeQa.graphql');
+const { GetNodeMultipleQaPages } = require('./graphql/faqMultipleQa.graphql');
 
 const nodeQueries = {
   GetNodePages,
@@ -94,6 +95,7 @@ const nodeQueries = {
   GetNodePublicationListingPages,
   GetNodeHealthCareRegionDetailPage,
   GetNodeQa,
+  GetNodeMultipleQaPages,
 };
 
 function nonNodeQueries() {
