@@ -5,7 +5,7 @@
 - [x] health_care_region_detail_page
 - [x] health_care_local_facility
 - [ ] full_width_banner_alert
-- [ ] locations_listing
+- [x] locations_listing
 - [x] event_listing
 - [x] press_releases_listing
 - [x] story_listing
@@ -14,7 +14,7 @@
 - [x] event
 - [ ] outreach_asset
 - [ ] support_service
-- [ ] leadership_listing
+- [x] leadership_listing
 - [x] health_services_listing
 - [ ] vet_center
 - [ ] vba_facility
