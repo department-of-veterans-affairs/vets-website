@@ -330,7 +330,7 @@ const runComparison = () => {
                 entity.entityId
               }.json`,
             ),
-            JSON.stringify(diff),
+            JSON.stringify(diff, null, 2),
           );
           ++nodesWithDiffs;
         }
