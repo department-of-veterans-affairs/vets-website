@@ -1,6 +1,6 @@
 const landingPage = require('./landingPage.graphql');
 const page = require('./page.graphql');
-const fragments = require('./fragments.graphql');
+const { ALL_FRAGMENTS } = require('./fragments.graphql');
 const healthCareRegionPage = require('./healthCareRegionPage.graphql');
 
 const alertsQuery = require('./alerts.graphql');
@@ -44,7 +44,7 @@ const {
  */
 module.exports = `
 
-  ${fragments}
+  ${ALL_FRAGMENTS}
   ${landingPage}
   ${page}
   ${healthCareRegionPage}

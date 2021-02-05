@@ -7,7 +7,7 @@ const chalk = require('chalk');
 const SocksProxyAgent = require('socks-proxy-agent');
 
 const DRUPALS = require('../../../constants/drupals');
-const { queries, getQuery } = require('./queries');
+const { queries, getQuery, individualQueries } = require('./queries');
 
 const syswidecas = require('syswide-cas');
 
@@ -167,14 +167,46 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
       }
     },
 
-    getAllPages(onlyPublishedContent = true) {
-      return this.query({
-        query: getQuery(queries.GET_ALL_PAGES),
-        variables: {
-          today: moment().format('YYYY-MM-DD'),
-          onlyPublishedContent,
+    async getAllPages(onlyPublishedContent = true) {
+      /* eslint-disable no-console, no-await-in-loop */
+
+      console.log('Pulling from Drupal via GraphQL...');
+
+      const result = {
+        data: {
+          nodeQuery: {
+            entities: [],
+          },
         },
-      });
+      };
+
+      for (const [queryName, query] of Object.entries(individualQueries)) {
+        const request = this.query({
+          query,
+          variables: {
+            today: moment().format('YYYY-MM-DD'),
+            onlyPublishedContent,
+          },
+        });
+
+        console.time(`Finished "${queryName}"`);
+
+        const json = await request;
+
+        if (json.data?.nodeQuery) {
+          const { entities } = json.data.nodeQuery;
+
+          result.data.nodeQuery.entities.push(...entities);
+          console.log(`Loaded ${entities.length} nodes`);
+        }
+        console.timeEnd(`Finished "${queryName}"`);
+      }
+
+      console.log(
+        `Finished all queries - ${result.data.nodeQuery.entities.length} pages`,
+      );
+
+      process.exit();
     },
 
     getNonNodeContent(onlyPublishedContent = true) {

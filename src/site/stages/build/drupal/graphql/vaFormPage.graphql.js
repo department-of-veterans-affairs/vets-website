@@ -1,7 +1,8 @@
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 const { FIELD_ALERT } = require('./block-fragments/alert.block.graphql');
+const fragments = require('./fragments.graphql');
 
-const fragment = `
+const vaFormFragment = `
 fragment vaFormPage on NodeVaForm {
   ${entityElementsFromPages}
   changed
@@ -77,4 +78,27 @@ fragment vaFormPage on NodeVaForm {
 }
 `;
 
-module.exports = fragment;
+const GetNodeVaForms = `
+
+  ${fragments.alert}
+  ${fragments.linkTeaser}
+  ${vaFormFragment}
+
+  query GetNodeVaForms($onlyPublishedContent: Boolean!) {
+    nodeQuery(limit: 1000, filter: {
+      conditions: [
+        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+        { field: "type", value: ["va_form"] }
+      ]
+    }) {
+      entities {
+        ... vaFormPage
+      }
+    }
+  }
+`;
+
+module.exports = {
+  fragment: vaFormFragment,
+  GetNodeVaForms,
+};

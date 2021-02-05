@@ -14,7 +14,7 @@ const eventListingPage = require('./eventListingPage.graphql');
 const eventPage = require('./eventPage.graphql');
 const facilitySidebarQuery = require('./navigation-fragments/facilitySidebar.nav.graphql');
 const faqMultipleQaPage = require('./faqMultipleQa.graphql');
-const fragments = require('./fragments.graphql');
+const { ALL_FRAGMENTS } = require('./fragments.graphql');
 const healthCareLocalFacilityPage = require('./healthCareLocalFacilityPage.graphql');
 const healthCareRegionDetailPage = require('./healthCareRegionDetailPage.graphql');
 const healthServicesListingPage = require('./healthServicesListingPage.graphql');
@@ -61,9 +61,9 @@ const buildQuery = ({ useTomeSync }) => {
   const nodeContentFragments = useTomeSync
     ? ''
     : `
-  ${fragments}
+  ${ALL_FRAGMENTS}
   ${landingPage}
-  ${page}
+  ${page.fragment}
   ${healthCareRegionPage}
   ${healthCareLocalFacilityPage}
   ${healthCareRegionDetailPage}
@@ -73,7 +73,7 @@ const buildQuery = ({ useTomeSync }) => {
   ${eventPage}
   ${officePage}
   ${bioPage}
-  ${vaFormPage}
+  ${vaFormPage.fragment}
   ${benefitListingPage}
   ${eventListingPage}
   ${storyListingPage}
