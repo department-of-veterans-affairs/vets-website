@@ -5,6 +5,8 @@ import { clearCurrentSession } from '../utils';
 import ConfirmationPageFooter from '../components/get-help/ConfirmationPageFooter';
 import AppointmentDisplay from '../components/appointment-display/AppointmentDisplay';
 
+import PrintButton from '../../list/questionnaire-list/components/Shared/Print/PrintButton';
+
 const ConfirmationPage = props => {
   const { appointment } = props;
 
@@ -29,7 +31,7 @@ const ConfirmationPage = props => {
         </h2>
         <AppointmentDisplay appointment={appointment} bold={false} />
         <p>We look forward to seeing you at your upcoming appointment.</p>
-        <button className="usa-button-primary">View and print questions</button>
+        <PrintButton />
       </div>
       {appointment && <ConfirmationPageFooter appointment={appointment} />}
     </div>

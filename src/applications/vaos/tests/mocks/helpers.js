@@ -23,9 +23,13 @@ export function mockAppointmentInfo({
 }) {
   mockFetch();
 
+  const startDate = isHomepageRefresh
+    ? moment().subtract(30, 'days')
+    : moment();
+
   const baseUrl = `${
     environment.API_URL
-  }/vaos/v0/appointments?start_date=${moment()
+  }/vaos/v0/appointments?start_date=${startDate
     .startOf('day')
     .toISOString()}&end_date=${moment()
     .add(395, 'days')
