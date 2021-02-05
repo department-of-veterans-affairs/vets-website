@@ -89,7 +89,7 @@ const buildQuery = ({ useTomeSync }) => {
   ${mediaListVideos.fragment}
   ${supportResourcesDetailPage.fragment}
   ${basicLandingPage.fragment}
-  ${nodeCampaignLandingPage}
+  ${nodeCampaignLandingPage.fragment}
 `;
 
   const todayQueryVar = useTomeSync ? '' : '$today: String!,';

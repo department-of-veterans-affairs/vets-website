@@ -1,6 +1,8 @@
+const fragments = require('./fragments.graphql');
+const { fragment: landingPageFragment } = require('./landingPage.graphql');
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-module.exports = `
+const nodeCampaignLandingPage = `
   fragment nodeCampaignLandingPage on NodeCampaignLandingPage {
     ${entityElementsFromPages}
     changed
@@ -528,3 +530,31 @@ module.exports = `
     }
   }
 `;
+
+const GetCampaignLandingPages = `
+  ${fragments.button}
+  ${fragments.promo}
+  ${fragments.listOfLinkTeasers}
+  ${fragments.linkTeaser}
+  ${fragments.alert}
+  ${fragments.administration}
+  ${landingPageFragment}
+  ${nodeCampaignLandingPage}
+
+  query GetCampaignLandingPages($onlyPublishedContent: Boolean!) {
+    nodeQuery(limit: 100, filter: {
+      conditions: [
+        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+        { field: "type", value: ["campaign_landing_page"] }
+      ]
+    }) {
+      entities {
+        ... nodeCampaignLandingPage
+      }
+    }
+  }
+`;
+module.exports = {
+  fragment: nodeCampaignLandingPage,
+  GetCampaignLandingPages,
+};

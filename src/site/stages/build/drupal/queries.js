@@ -90,6 +90,10 @@ const {
   GetNodeBasicLandingPage,
 } = require('./graphql/nodeBasicLandingPage.graphql');
 
+const {
+  GetCampaignLandingPages,
+} = require('./graphql/nodeCampaignLandingPage.graphql');
+
 const nodeQueries = {
   GetNodePages,
   GetNodeLandingPages,
@@ -118,6 +122,7 @@ const nodeQueries = {
   GetNodeMediaListVideos,
   GetNodeSupportResourcesDetailPage,
   GetNodeBasicLandingPage,
+  GetCampaignLandingPages,
 };
 
 function nonNodeQueries() {
