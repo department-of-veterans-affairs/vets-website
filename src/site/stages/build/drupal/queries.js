@@ -19,6 +19,7 @@ const { GetNodePersonProfiles } = require('./graphql/bioPage.graphql');
 const {
   GetNodeHealthCareRegionPages,
 } = require('./graphql/healthCareRegionPage.graphql');
+const { GetNodeOffices } = require('./graphql/officePage.graphql');
 
 const individualQueries = {
   GetNodePages,
@@ -26,6 +27,7 @@ const individualQueries = {
   GetNodeVaForms,
   GetNodeHealthCareRegionPages,
   GetNodePersonProfiles,
+  GetNodeOffices,
 };
 
 module.exports = {
