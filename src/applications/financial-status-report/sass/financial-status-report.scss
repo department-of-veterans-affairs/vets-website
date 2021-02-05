@@ -52,12 +52,6 @@
       .schemaform-block-header {
         width: 100%;
       }
-      fieldset.schemaform-field-template {
-        margin-top: 5px;
-      }
-      .schemaform-label {
-        margin-top: 0;
-      }
     }
     .autosuggest-list {
       max-height: 140px;
@@ -136,6 +130,22 @@
   }
   .employer-name label {
     margin-top: 16px;
+  }
+}
+
+//previous employment
+.previous-employment-container {
+  .work-type label {
+    margin-top: 0;
+  }
+  .schemaform-field-template {
+    margin-top: 16px;
+  }
+  .employer-name {
+    margin-bottom: 16px;
+    label {
+      margin-top: 16px;
+    }
   }
 }
 

@@ -2,6 +2,7 @@ import * as availableDebts from './veteranInformation/availableDebts';
 import * as employment from './householdIncome/employment';
 import * as employmentRecords from './householdIncome/employment/records';
 import * as previousEmployment from './householdIncome/previousEmployment';
+import * as previousEmploymentRecords from './householdIncome/previousEmployment/records';
 import * as benefits from './householdIncome/benefits';
 import * as socialSecurity from './householdIncome/socialSecurity';
 import * as veteranInfo from './veteranInformation/veteranInfo';
@@ -33,6 +34,7 @@ export {
   employment,
   employmentRecords,
   previousEmployment,
+  previousEmploymentRecords,
   benefits,
   socialSecurity,
   additionalIncome,
