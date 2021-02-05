@@ -45,6 +45,12 @@ const {
   GetNodeEventListingPage,
 } = require('./graphql/eventListingPage.graphql');
 
+const { GetNodeEventPages } = require('./graphql/eventPage.graphql');
+
+const {
+  GetNodeStoryListingPages,
+} = require('./graphql/storyListingPage.graphql');
+
 const individualQueries = {
   GetNodePages,
   GetNodeLandingPages,
@@ -58,6 +64,8 @@ const individualQueries = {
   GetNodePressReleasePages,
   GetNodePressReleaseListingPages,
   GetNodeEventListingPage,
+  GetNodeEventPages,
+  GetNodeStoryListingPages,
 };
 
 module.exports = {

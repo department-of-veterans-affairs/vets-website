@@ -8,10 +8,10 @@
 - [ ] locations_listing
 - [x] event_listing
 - [x] press_releases_listing
-- [ ] story_listing
+- [x] story_listing
 - [x] news_story
 - [x] press_release
-- [ ] event
+- [x] event
 - [ ] outreach_asset
 - [ ] support_service
 - [ ] leadership_listing

@@ -4,7 +4,7 @@
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-module.exports = `
+const eventPage = `
  fragment eventPage on NodeEvent {
     ${entityElementsFromPages}
     changed
@@ -43,7 +43,7 @@ module.exports = `
       value
       endValue
       timezone
-    }    
+    }
     fieldAddress {
       addressLine1
       addressLine2
@@ -77,3 +77,25 @@ module.exports = `
     fieldAdditionalInformationAbo {processed}
  }
 `;
+
+const GetNodeEventPages = `
+  ${eventPage}
+
+  query GetNodeEventPages($onlyPublishedContent: Boolean!) {
+    nodeQuery(limit: 1000, filter: {
+      conditions: [
+        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+        { field: "type", value: ["event"] }
+      ]
+    }) {
+      entities {
+        ... eventPage
+      }
+    }
+  }
+`;
+
+module.exports = {
+  fragment: eventPage,
+  GetNodeEventPages,
+};
