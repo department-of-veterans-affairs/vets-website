@@ -150,6 +150,12 @@ fieldset.schemaform-block,
   white-space: pre-wrap;
 }
 
+article[data-location="review-veteran-details/separation-location"] {
+  fieldset > .schemaform-field-container {
+    margin-top: 0;
+  }
+}
+
 // Style fix for "Private medical records"
 dl.review,
 div.review {

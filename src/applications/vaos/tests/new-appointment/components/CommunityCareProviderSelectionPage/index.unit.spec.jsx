@@ -440,7 +440,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     }).to.not.throw();
   });
 
-  it('should sort provider addresses by distance from current location in ascending order', async () => {
+  it('should sort provider addresses by distance from current location in ascending order and display distance from current location when chosen', async () => {
     const store = createTestStore(initialState);
     const currentPosition = {
       latitude: 37.5615,
@@ -492,6 +492,15 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
           throw new Error();
       }
     }).to.not.throw();
+
+    userEvent.click(await screen.findByText(/OH, JANICE/i));
+    userEvent.click(
+      await screen.findByRole('button', { name: /choose provider/i }),
+    );
+
+    expect(screen.baseElement).to.contain.text(
+      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-24007019.4 miles',
+    );
   });
 
   it('should reset provider selected when type of care changes', async () => {
