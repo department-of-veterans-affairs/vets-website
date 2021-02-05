@@ -1,9 +1,10 @@
+const fragments = require('./fragments.graphql');
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 const socialMediaFields = require('./facilities-fragments/healthCareSocialMedia.fields.graphql');
 const serviceLocation = require('./paragraph-fragments/serviceLocation.paragraph.graphql');
 const appointmentItems = require('./file-fragments/appointmentItems.graphql');
 
-module.exports = `
+const healthCareLocalFacilityPageFragment = `
   fragment healthCareLocalFacilityPage on NodeHealthCareLocalFacility {
     ${entityElementsFromPages}
     changed
@@ -119,3 +120,28 @@ module.exports = `
     }
   }
 `;
+
+const GetNodeHealthCareLocalFacilityPages = `
+
+  ${fragments.listOfLinkTeasers}
+  ${fragments.linkTeaser}
+  ${healthCareLocalFacilityPageFragment}
+
+  query GetNodeHealthCareLocalFacilityPages($onlyPublishedContent: Boolean!) {
+    nodeQuery(limit: 1000, filter: {
+      conditions: [
+        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+        { field: "type", value: ["health_care_local_facility"] }
+      ]
+    }) {
+      entities {
+        ... healthCareLocalFacilityPage
+      }
+    }
+  }
+`;
+
+module.exports = {
+  fragment: healthCareLocalFacilityPageFragment,
+  GetNodeHealthCareLocalFacilityPages,
+};
