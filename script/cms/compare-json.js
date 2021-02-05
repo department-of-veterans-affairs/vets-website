@@ -12,6 +12,9 @@ const {
   readEntity,
 } = require('../../src/site/stages/build/process-cms-exports/helpers');
 
+// Only compare present fields in GraphQL entity, & exclude fields in keysToIgnore
+const keysToIgnore = ['entityMetatags', 'entityType'];
+
 const commandLineDefs = [
   {
     name: 'entity',
@@ -154,6 +157,61 @@ const getParentNode = (
   return parent;
 };
 
+const compareArrays = (cmsExportArray, graphQLArray, myKey) => {
+  const cmsArrayLength = cmsExportArray.length;
+  const graphQLLength = graphQLArray.length;
+
+  // console.log(
+  //   'CMS array:',
+  //   JSON.stringify(cmsExportArray.map(i => [i.title, i.entityId]), null, 2),
+  // );
+  // console.log(
+  //   'GQL array:',
+  //   JSON.stringify(graphQLArray.map(i => [i.title, i.entityId]), null, 2),
+  // );
+
+  if (cmsArrayLength !== graphQLLength) {
+    console.log(
+      'ARRAY LENGTHS DIFFER FOR',
+      myKey,
+      'cmsExport length: ',
+      cmsArrayLength,
+      'graphQL length',
+      graphQLLength,
+    );
+  }
+
+  let diffs;
+
+  if (
+    JSON.stringify(cmsExportArray, null, 2) !==
+    JSON.stringify(graphQLArray, null, 2)
+  ) {
+    diffs = true;
+  }
+
+  if (diffs) {
+    console.log('ARRAY DIFFS FOUND FOR', myKey, JSON.stringify(diffs, null, 2));
+  }
+};
+
+const checkArrays = (baseCmsExportObject, baseGraphQlObject) => {
+  if (!baseCmsExportObject || !baseGraphQlObject) {
+    return;
+  }
+
+  Object.keys(baseCmsExportObject).forEach(key => {
+    if (!keysToIgnore.includes(key)) {
+      if (Array.isArray(baseCmsExportObject[key])) {
+        compareArrays(baseCmsExportObject[key], baseGraphQlObject[key], key);
+      }
+      if (typeof baseCmsExportObject[key] === 'object') {
+        checkArrays(baseCmsExportObject[key], baseGraphQlObject[key]);
+      }
+    }
+  });
+};
+
 /**
  * Compares two entity JSON objects
  * https://www.npmjs.com/package/deep-diff#differences
@@ -162,9 +220,6 @@ const getParentNode = (
  * @return {object []} The array of differences found from deep-diff'
  */
 const compareJson = (baseGraphQlObject, baseCmsExportObject) => {
-  // Only compare present fields in GraphQL entity, & exclude fields in keysToIgnore
-  const keysToIgnore = ['entityMetatags', 'entityType'];
-
   // Save present keys in CMS export and GraphQL objects
   const graphQlObject = {};
   const cmsExportObject = {};
@@ -181,6 +236,8 @@ const compareJson = (baseGraphQlObject, baseCmsExportObject) => {
       // Do nothing because key is in keysToIgnore
     }
   });
+
+  checkArrays(baseCmsExportObject, baseCmsExportObject);
 
   // Get array of differences. Exclude new properties because transformed
   // CMS objects may have additional properties
