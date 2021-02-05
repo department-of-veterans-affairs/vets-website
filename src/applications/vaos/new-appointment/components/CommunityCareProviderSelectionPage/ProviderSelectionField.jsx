@@ -9,7 +9,6 @@ import {
   GA_PREFIX,
 } from '../../../utils/constants';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import { distanceBetween } from '../../../utils/address';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RemoveProviderModal from './RemoveProviderModal';
 import recordEvent from 'platform/monitoring/record-event';
@@ -152,13 +151,7 @@ function ProviderSelectionField({
               {formData.address?.postalCode}
             </span>
             <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold">
-              {distanceBetween(
-                formData.position?.latitude,
-                formData.position?.longitude,
-                address.latitude,
-                address.longitude,
-              )}{' '}
-              miles
+              {formData[sortMethod]} miles
             </span>
             <div className="vads-u-display--flex">
               <button
