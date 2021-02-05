@@ -9,7 +9,7 @@
 - [ ] event_listing
 - [ ] press_releases_listing
 - [ ] story_listing
-- [ ] news_story
+- [x] news_story
 - [ ] press_release
 - [ ] event
 - [ ] outreach_asset
