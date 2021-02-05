@@ -14,7 +14,7 @@ import {
   isLoggedIn as isLoggedInSelector,
 } from '~/platform/user/selectors';
 
-import NameTag from '~/applications/personalization/profile/components/NameTag';
+import NameTag from '~/applications/personalization/components/NameTag';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
 
 import {
