@@ -4,7 +4,7 @@
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-module.exports = `
+const personProfileFragment = `
  fragment bioPage on NodePersonProfile {
   ${entityElementsFromPages}
   fieldNameFirst
@@ -48,3 +48,25 @@ module.exports = `
   changed
  }
 `;
+
+const GetNodePersonProfiles = `
+  ${personProfileFragment}
+
+  query GetNodePersonProfiles($onlyPublishedContent: Boolean!) {
+    nodeQuery(limit: 1000, filter: {
+      conditions: [
+        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+        { field: "type", value: ["person_profile"] }
+      ]
+    }) {
+      entities {
+        ... bioPage
+      }
+    }
+  }
+`;
+
+module.exports = {
+  fragment: personProfileFragment,
+  GetNodePersonProfiles,
+};

@@ -193,10 +193,11 @@ const healthCareRegionPageFragment = `
 `;
 
 const GetNodeHealthCareRegionPages = `
+  ${fragments.linkTeaser}
   ${fragments.listOfLinkTeasers}
   ${healthCareRegionPageFragment}
 
-  query GetNodeHealthCareRegionPages($onlyPublishedContent: Boolean!) {
+  query GetNodeHealthCareRegionPages($today: String!, $onlyPublishedContent: Boolean!) {
     nodeQuery(limit: 1000, filter: {
       conditions: [
         { field: "status", value: ["1"], enabled: $onlyPublishedContent },

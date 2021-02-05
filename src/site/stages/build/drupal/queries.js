@@ -15,6 +15,7 @@ function getQuery(query, { useTomeSync } = {}) {
 const { GetNodePages } = require('./graphql/page.graphql');
 const { GetNodeLandingPages } = require('./graphql/landingPage.graphql');
 const { GetNodeVaForms } = require('./graphql/vaFormPage.graphql');
+const { GetNodePersonProfiles } = require('./graphql/bioPage.graphql');
 const {
   GetNodeHealthCareRegionPages,
 } = require('./graphql/healthCareRegionPage.graphql');
@@ -24,6 +25,7 @@ const individualQueries = {
   GetNodeLandingPages,
   GetNodeVaForms,
   GetNodeHealthCareRegionPages,
+  GetNodePersonProfiles,
 };
 
 module.exports = {
