@@ -78,6 +78,9 @@ const {
   GetNodeMediaListImages,
 } = require('./graphql/nodeMediaListImages.graphql');
 const { GetNodeChecklist } = require('./graphql/nodeChecklist.graphql');
+const {
+  GetNodeMediaListVideos,
+} = require('./graphql/nodeMediaListVideos.graphql');
 
 const nodeQueries = {
   GetNodePages,
@@ -104,6 +107,7 @@ const nodeQueries = {
   GetNodeStepByStep,
   GetNodeMediaListImages,
   GetNodeChecklist,
+  GetNodeMediaListVideos,
 };
 
 function nonNodeQueries() {
