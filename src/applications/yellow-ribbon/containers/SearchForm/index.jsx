@@ -14,7 +14,7 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { fetchResultsThunk } from '../../actions';
 import {
   getYellowRibbonAppState,
-  yellowRibbonEnhancements,
+  selectShowYellowRibbonEnhancements,
 } from '../../helpers/selectors';
 
 export class SearchForm extends Component {
@@ -117,10 +117,9 @@ export class SearchForm extends Component {
     const nextStateOfToolTip = !this.state.isToolTipOpen;
     return this.setState({ isToolTipOpen: nextStateOfToolTip }, () =>
       recordEvent({
-        event:
-          nextStateOfToolTip === false
-            ? 'int-additionalInfo-collapse'
-            : 'int-additionalInfo-expand',
+        event: nextStateOfToolTip
+          ? 'int-additionalInfo-expand'
+          : 'int-additionalInfo-collapse',
         'additionalInfo-click-label': TOOL_TIP_LABEL,
       }),
     );
@@ -200,15 +199,14 @@ export class SearchForm extends Component {
             value={state}
           >
             <option value="">- Select -</option>
-            {STATES?.USA &&
-              STATES.USA.map(provincialState => (
-                <option
-                  key={provincialState?.value}
-                  value={provincialState?.value}
-                >
-                  {provincialState?.label}
-                </option>
-              ))}
+            {STATES.USA.map(provincialState => (
+              <option
+                key={provincialState?.value}
+                value={provincialState?.value}
+              >
+                {provincialState?.label}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -265,7 +263,7 @@ export class SearchForm extends Component {
 const mapStateToProps = state => ({
   fetching: getYellowRibbonAppState(state).fetching,
   showMobileForm: getYellowRibbonAppState(state).showMobileForm,
-  showYellowRibbonEnhancements: yellowRibbonEnhancements(state),
+  showYellowRibbonEnhancements: selectShowYellowRibbonEnhancements(state),
 });
 
 const mapDispatchToProps = {

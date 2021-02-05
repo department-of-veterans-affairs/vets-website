@@ -8,6 +8,7 @@ import {
   FETCH_RESULTS_FAILURE,
   FETCH_RESULTS_SUCCESS,
   TOGGLE_SHOW_MOBILE_FORM,
+  TOGGLE_TOOL_TIP,
 } from '../constants';
 
 // ============
@@ -34,6 +35,11 @@ export const fetchResultsSuccess = response => ({
 export const toggleShowMobileFormAction = () => ({
   type: TOGGLE_SHOW_MOBILE_FORM,
 });
+
+// ============
+// Toggle alert tool tip
+// ============
+export const toggleToolTip = () => ({ type: TOGGLE_TOOL_TIP });
 
 // ============
 // Redux Thunks

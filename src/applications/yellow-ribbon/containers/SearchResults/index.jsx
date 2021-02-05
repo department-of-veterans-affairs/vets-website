@@ -10,11 +10,11 @@ import URLSearchParams from 'url-search-params';
 // Relative imports.
 import SearchResult from '../../components/SearchResult';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { fetchResultsThunk } from '../../actions';
+import { fetchResultsThunk, toggleToolTip } from '../../actions';
 import { focusElement } from 'platform/utilities/ui';
 import {
   getYellowRibbonAppState,
-  yellowRibbonEnhancements,
+  selectShowYellowRibbonEnhancements,
 } from '../../helpers/selectors';
 import { TOOL_TIP_CONTENT, TOOL_TIP_LABEL } from '../../constants';
 
@@ -23,6 +23,7 @@ export class SearchResults extends Component {
     // From mapStateToProps.
     error: PropTypes.string.isRequired,
     fetching: PropTypes.bool.isRequired,
+    isToolTipOpen: PropTypes.bool.isRequired,
     results: PropTypes.arrayOf(
       PropTypes.shape({
         city: PropTypes.string.isRequired,
@@ -38,23 +39,16 @@ export class SearchResults extends Component {
     perPage: PropTypes.number.isRequired,
     showYellowRibbonEnhancements: PropTypes.bool,
     totalResults: PropTypes.number,
+    // mapDispatchToProps
+    toggleAlertToolTip: PropTypes.func,
+    fetchResultsThunk: PropTypes.func,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isSearchResultsTipOpen: true,
-    };
-  }
-
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     const justRefreshed = prevProps.fetching && !this.props.fetching;
 
     if (justRefreshed) {
       focusElement('[data-display-results-header]');
-      if (!prevState.isSearchResultsTipOpen) {
-        this.toggleAlertBoxAppearance(true)(null);
-      }
     }
   }
 
@@ -142,28 +136,23 @@ export class SearchResults extends Component {
     });
   };
 
-  toggleAlertBoxAppearance = state => () =>
-    this.setState({
-      isSearchResultsTipOpen: state,
-    });
-
   render() {
     const {
       deriveResultsEndNumber,
       deriveResultsStartNumber,
       onPageSelect,
       recordEventOnSearchResultClick,
-      toggleAlertBoxAppearance,
-      state,
     } = this;
     const {
       error,
       fetching,
+      isToolTipOpen,
       page,
       perPage,
       results,
       showYellowRibbonEnhancements,
       totalResults,
+      toggleAlertToolTip,
     } = this.props;
 
     // Show loading indicator if we are fetching.
@@ -202,8 +191,8 @@ export class SearchResults extends Component {
             <AlertBox
               content={TOOL_TIP_CONTENT}
               headline={TOOL_TIP_LABEL}
-              onCloseAlert={toggleAlertBoxAppearance(false)}
-              isVisible={state.isSearchResultsTipOpen}
+              onCloseAlert={toggleAlertToolTip}
+              isVisible={isToolTipOpen}
               status="info"
             />
           ) : (
@@ -241,8 +230,8 @@ export class SearchResults extends Component {
           <AlertBox
             content={TOOL_TIP_CONTENT}
             headline={TOOL_TIP_LABEL}
-            isVisible={state.isSearchResultsTipOpen}
-            onCloseAlert={toggleAlertBoxAppearance(false)}
+            isVisible={isToolTipOpen}
+            onCloseAlert={toggleAlertToolTip}
             status="info"
           />
         )}
@@ -252,11 +241,11 @@ export class SearchResults extends Component {
           className="search-results vads-u-margin-top--2 vads-u-padding--0"
           data-e2e-id="search-results"
         >
-          {results.map((school, index) => (
+          {results?.map((school, index) => (
             <SearchResult
               key={school?.id}
               school={{ ...school, positionInResults: index + 1 }}
-              recordEventOnClick={recordEventOnSearchResultClick}
+              onSearchResultClick={recordEventOnSearchResultClick}
             />
           ))}
         </ul>
@@ -278,15 +267,17 @@ export class SearchResults extends Component {
 const mapStateToProps = state => ({
   error: getYellowRibbonAppState(state).error,
   fetching: getYellowRibbonAppState(state).fetching,
+  isToolTipOpen: getYellowRibbonAppState(state).isToolTipOpen,
   results: getYellowRibbonAppState(state).results,
   page: getYellowRibbonAppState(state).page,
   perPage: getYellowRibbonAppState(state).perPage,
-  showYellowRibbonEnhancements: yellowRibbonEnhancements(state),
+  showYellowRibbonEnhancements: selectShowYellowRibbonEnhancements(state),
   totalResults: getYellowRibbonAppState(state).totalResults,
 });
 
 const mapDispatchToProps = dispatch => ({
   fetchResults: options => fetchResultsThunk(options)(dispatch),
+  toggleAlertToolTip: () => dispatch(toggleToolTip()),
 });
 
 export default connect(

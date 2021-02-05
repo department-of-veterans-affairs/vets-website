@@ -75,7 +75,7 @@ export const deriveEligibleStudentsLabel = (school = {}) => {
   return `${school?.numberOfStudents} students`;
 };
 
-export const deriveInstURLLabel = (school = {}, recordEventOnClick) => {
+export const deriveInstURLLabel = (school = {}, onSearchResultClick) => {
   // Show unknown if there's no insturl.
   if (!school?.insturl) {
     return 'Not provided';
@@ -90,7 +90,7 @@ export const deriveInstURLLabel = (school = {}, recordEventOnClick) => {
   return (
     <a
       href={href}
-      onClick={recordEventOnClick(school)}
+      onClick={onSearchResultClick(school)}
       rel="noreferrer noopener"
       target="_blank"
       aria-label={`${school?.insturl} Opens in a new window`}
@@ -120,7 +120,7 @@ export const deriveDivisionProfessionalSchool = (school = {}) => {
   return school?.divisionProfessionalSchool;
 };
 
-export const SearchResult = ({ school, recordEventOnClick }) => (
+export const SearchResult = ({ school, onSearchResultClick }) => (
   <li className="usa-unstyled-list vads-l-col vads-u-margin-bottom--2 vads-u-padding-x--2 vads-u-padding-y--2 vads-u-background-color--gray-light-alt">
     {/* School Name */}
     <dl className="vads-u-margin--0">
@@ -167,7 +167,7 @@ export const SearchResult = ({ school, recordEventOnClick }) => (
             School website
             <dfn className="sr-only">:</dfn>
           </dt>
-          <dd>{deriveInstURLLabel(school, recordEventOnClick)}</dd>
+          <dd>{deriveInstURLLabel(school, onSearchResultClick)}</dd>
         </dl>
       </div>
 
@@ -193,7 +193,7 @@ export const SearchResult = ({ school, recordEventOnClick }) => (
 );
 
 SearchResult.propTypes = {
-  recordEventOnClick: PropTypes.func,
+  onSearchResultClick: PropTypes.func,
   school: PropTypes.shape({
     city: PropTypes.string.isRequired,
     contributionAmount: PropTypes.string.isRequired,
