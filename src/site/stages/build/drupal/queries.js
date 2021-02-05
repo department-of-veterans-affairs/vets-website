@@ -16,13 +16,20 @@ const { GetNodePages } = require('./graphql/page.graphql');
 const { GetNodeLandingPages } = require('./graphql/landingPage.graphql');
 const { GetNodeVaForms } = require('./graphql/vaFormPage.graphql');
 const { GetNodePersonProfiles } = require('./graphql/bioPage.graphql');
+
 const {
   GetNodeHealthCareRegionPages,
 } = require('./graphql/healthCareRegionPage.graphql');
+
 const { GetNodeOffices } = require('./graphql/officePage.graphql');
+
 const {
   GetNodeHealthCareLocalFacilityPages,
 } = require('./graphql/healthCareLocalFacilityPage.graphql');
+
+const {
+  GetNodeHealthServicesListingPages,
+} = require('./graphql/healthServicesListingPage.graphql');
 
 const individualQueries = {
   GetNodePages,
@@ -32,6 +39,7 @@ const individualQueries = {
   GetNodePersonProfiles,
   GetNodeOffices,
   GetNodeHealthCareLocalFacilityPages,
+  GetNodeHealthServicesListingPages,
 };
 
 module.exports = {

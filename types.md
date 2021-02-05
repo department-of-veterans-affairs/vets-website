@@ -3,7 +3,7 @@
 - [x] landing_page
 - [x] office
 - [x] health_care_region_detail_page
-- [ ] health_care_local_facility
+- [x] health_care_local_facility
 - [ ] full_width_banner_alert
 - [ ] locations_listing
 - [ ] event_listing
@@ -15,7 +15,7 @@
 - [ ] outreach_asset
 - [ ] support_service
 - [ ] leadership_listing
-- [ ] health_services_listing
+- [x] health_services_listing
 - [ ] vet_center
 - [ ] vba_facility
 - [x] page
