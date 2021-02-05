@@ -131,7 +131,7 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
   return pageReturn;
 }
 
-// Return page object with path, breadcrumb and title set.
+// Return page object with path, breadcrumb and title set
 function updateEntityUrlObj(page, drupalPagePath, title, pathSuffix) {
   pathSuffix =
     pathSuffix ||
