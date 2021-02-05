@@ -1,8 +1,8 @@
 import React from 'react';
 import NotificationCTA from '../NotificationCTA';
 
-import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
-import { mhvUrl } from 'platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 // import { recordDashboardClick } from 'applications/personalization/dashboard/helpers';
 
 const HealthCareCard = props => {
@@ -90,7 +90,7 @@ const HealthCare = () => {
         <h3>Manage your health care benefits</h3>
         <hr
           aria-hidden="true"
-          className="vads-u-margin-bottom--2 vads-u-margin-top--0p5"
+          className="vads-u-background-color--primary vads-u-margin-bottom--2 vads-u-margin-top--0p5 vads-u-border--0"
         />
 
         <p>
