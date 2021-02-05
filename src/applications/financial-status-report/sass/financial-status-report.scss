@@ -109,15 +109,16 @@
   padding: 10px 0;
 }
 
-// bankruptcyHistory
-.court-location label {
-  margin-top: 10px;
-}
-
-.docket-number-description {
+// form field subtitle
+.formfield-subtitle {
   margin: 4px 0 8px;
   font-size: 15px;
   color: $color-gray-medium;
+}
+
+// bankruptcyHistory
+.court-location label {
+  margin-top: 10px;
 }
 
 // current employment

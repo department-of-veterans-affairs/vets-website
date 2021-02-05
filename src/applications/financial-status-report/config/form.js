@@ -64,6 +64,7 @@ const formConfig = {
           initialData: {
             contactInfo: {
               primaryEmail: 'hector.smith@email.com',
+              confirmationEmail: 'hector.smith@email.com',
               phoneNumber: '5551234567',
             },
           },
