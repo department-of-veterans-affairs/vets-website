@@ -6,8 +6,8 @@
 - [x] health_care_local_facility
 - [ ] full_width_banner_alert
 - [ ] locations_listing
-- [ ] event_listing
-- [ ] press_releases_listing
+- [x] event_listing
+- [x] press_releases_listing
 - [ ] story_listing
 - [x] news_story
 - [x] press_release
