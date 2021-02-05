@@ -192,22 +192,27 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
             },
           });
 
-          console.time(`"${queryName}" done`);
+          console.time(`${queryName} done`);
 
           const json = await request;
+
+          if (json.errors) {
+            console.log(json.errors);
+            throw new Error(`${queryName} resulted in errors`);
+          }
 
           if (json.data?.nodeQuery) {
             const { entities } = json.data.nodeQuery;
 
             result.data.nodeQuery.entities.push(...entities);
             console.log(
-              `${entities.length} page nodes loaded from "${queryName}"`,
+              `${entities.length} page nodes loaded from ${queryName}`,
             );
           } else {
             Object.assign(result.data, json.data);
           }
 
-          console.timeEnd(`"${queryName}" done`);
+          console.timeEnd(`${queryName} done`);
         },
       );
 
