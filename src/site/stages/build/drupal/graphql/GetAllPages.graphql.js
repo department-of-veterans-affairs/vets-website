@@ -62,25 +62,25 @@ const buildQuery = ({ useTomeSync }) => {
     ? ''
     : `
   ${ALL_FRAGMENTS}
-  ${landingPage}
+  ${landingPage.fragment}
   ${page.fragment}
-  ${healthCareRegionPage}
-  ${healthCareLocalFacilityPage}
-  ${healthCareRegionDetailPage}
-  ${pressReleasePage}
-  ${vamcOperatingStatusAndAlerts}
-  ${newsStoryPage}
-  ${eventPage}
-  ${officePage}
-  ${bioPage}
+  ${healthCareRegionPage.fragment}
+  ${healthCareLocalFacilityPage.fragment}
+  ${healthCareRegionDetailPage.fragment}
+  ${pressReleasePage.fragment}
+  ${vamcOperatingStatusAndAlerts.fragment}
+  ${newsStoryPage.fragment}
+  ${eventPage.fragment}
+  ${officePage.fragment}
+  ${bioPage.fragment}
   ${vaFormPage.fragment}
-  ${benefitListingPage}
-  ${eventListingPage}
-  ${storyListingPage}
-  ${leadershipListingPage}
-  ${healthServicesListingPage}
-  ${pressReleasesListingPage}
-  ${locationListingPage}
+  ${benefitListingPage.fragment}
+  ${eventListingPage.fragment}
+  ${storyListingPage.fragment}
+  ${leadershipListingPage.fragment}
+  ${healthServicesListingPage.fragment}
+  ${pressReleasesListingPage.fragment}
+  ${locationListingPage.fragment}
   ${qaPage}
   ${faqMultipleQaPage}
   ${stepByStepPage}

@@ -63,6 +63,14 @@ const {
   GetNodeVamcOperatingStatusAndAlerts,
 } = require('./graphql/vamcOperatingStatusAndAlerts.graphql');
 
+const {
+  GetNodePublicationListingPages,
+} = require('./graphql/benefitListingPage.graphql');
+
+const {
+  GetNodeHealthCareRegionDetailPage,
+} = require('./graphql/healthCareRegionDetailPage.graphql');
+
 const individualQueries = {
   GetNodePages,
   GetNodeLandingPages,
@@ -81,6 +89,8 @@ const individualQueries = {
   GetNodeLocationsListingPages,
   GetNodeLeadershipListingPages,
   GetNodeVamcOperatingStatusAndAlerts,
+  GetNodePublicationListingPages,
+  GetNodeHealthCareRegionDetailPage,
 };
 
 module.exports = {

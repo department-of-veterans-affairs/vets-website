@@ -19,11 +19,11 @@
 - [ ] vet_center ****
 - [ ] vba_facility ****
 - [x] page
-- [ ] vamc_operating_status_and_alerts
+- [x] vamc_operating_status_and_alerts
 - [x] va_form
-- [ ] health_care_local_health_service
-- [ ] regional_health_care_service_des
-- [ ] publication_listing
+- [ ] health_care_local_health_service ****
+- [ ] regional_health_care_service_des ****
+- [x] publication_listing
 - [ ] q_a
 - [ ] step_by_step
 - [ ] support_resources_detail_page

@@ -3,6 +3,8 @@
  * Example: /pittsburgh_health_care_system
  */
 
+const fragments = require('./fragments.graphql');
+
 const {
   FIELD_RELATED_LINKS,
 } = require('./paragraph-fragments/listOfLinkTeasers.paragraph.graphql');
@@ -23,7 +25,7 @@ const DOWNLOADABLE_FILE_PARAGRAPH = '... downloadableFile';
 const MEDIA_PARAGRAPH = '... embeddedImage';
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-module.exports = `
+const healthCareRegionDetailPage = `
   fragment healthCareRegionDetailPage on NodeHealthCareRegionDetailPage {
     title
     ${entityElementsFromPages}
@@ -70,3 +72,41 @@ module.exports = `
     }
   }
 `;
+
+const GetNodeHealthCareRegionDetailPage = `
+  ${fragments.wysiwyg}
+  ${fragments.staffProfile}
+  ${fragments.collapsiblePanel}
+  ${fragments.process}
+  ${fragments.qaSection}
+  ${fragments.qa}
+  ${fragments.listOfLinkTeasers}
+  ${fragments.reactWidget}
+  ${fragments.numberCallout}
+  ${fragments.table}
+  ${fragments.alertParagraph}
+  ${fragments.downloadableFile}
+  ${fragments.embeddedImage}
+  ${fragments.linkTeaser}
+  ${fragments.alert}
+
+  ${healthCareRegionDetailPage}
+
+  query GetNodeHealthCareRegionDetailPage($onlyPublishedContent: Boolean!) {
+    nodeQuery(limit: 1000, filter: {
+      conditions: [
+        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+        { field: "type", value: ["health_care_region_detail_page"] }
+      ]
+    }) {
+      entities {
+        ... healthCareRegionDetailPage
+      }
+    }
+  }
+`;
+
+module.exports = {
+  fragment: healthCareRegionDetailPage,
+  GetNodeHealthCareRegionDetailPage,
+};
