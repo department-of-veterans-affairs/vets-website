@@ -93,6 +93,10 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       );
       cy.get('#root_vaccineInterest_0').check();
 
+      cy.get('.help-talk').contains(
+        'If you have questions or need help filling out this form, call our MyVA411 main information line at 800-698-2411 (TTY: 711).',
+      );
+
       cy.axeCheck();
       cy.route('POST', '**/covid_vaccine/v0/registration', {
         status: 200,
