@@ -61,9 +61,13 @@ export class Wizard extends React.Component {
 
   setPageState = (index, newState, nextPageName) => {
     let newHistory = set(`[${index}].state`, newState, this.state.pageHistory);
-
-    // If the next page is new, rewrite the future history
-    if (nextPageName) {
+    if (nextPageName === index && newHistory.length - 1 > index) {
+      // Remove previous page (needed to not show messaging when an invalid
+      // value is provided; e.g. for an invalid date, we don't want to show an
+      // inappropriate alert message)
+      newHistory.pop();
+    } else if (typeof nextPageName === 'string') {
+      // If the next page is new, rewrite the future history
       const nextPageIndex = index + 1;
       const nextPage = this.props.pages.find(p => p.name === nextPageName);
       const { pageHistory } = this.state;

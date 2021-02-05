@@ -30,19 +30,24 @@ const UnableToFileBDDPage = ({ getPageStateFromPageName }) => {
     'reason-for-alert': 'Unable to file for BDD',
   });
   return (
-    <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
+    <div
+      id="not-eligible-for-bdd"
+      className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2"
+    >
       <p className="vads-u-margin-top--0">
         Based on your separation date, you’re not eligible to file for
         disability benefits right now.
       </p>
-      <p>
-        You’ll be eligible to file a disability claim under the Benefits
-        Delivery at Discharge (BDD) program in{' '}
-        <strong>{differenceBetweenDatesInDays}</strong> days (
-        <strong>{dateEligible}</strong>
-        ). This program allows you to apply for disability benefits before you
-        leave the military.
-      </p>
+      {differenceBetweenDatesInDays > 0 && (
+        <p>
+          You’ll be eligible to file a disability claim under the Benefits
+          Delivery at Discharge (BDD) program in{' '}
+          <strong>{differenceBetweenDatesInDays}</strong> days (
+          <strong>{dateEligible}</strong>
+          ). This program allows you to apply for disability benefits before you
+          leave the military.
+        </p>
+      )}
       <p>
         <a
           href={BDD_INFO_URL}

@@ -32,38 +32,37 @@ const FileBDDClaim = ({ getPageStateFromPageName, setWizardStatus }) => {
 
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
-      <p className="vads-u-margin-top--0">
-        Based on your separation date, you can file a disability claim under the
-        Benefits Delivery at Discharge (BDD) program.
-      </p>
-      <p>
-        {isLastDayToFileBDD ? (
-          <>
-            This is your <b>last day</b>
-          </>
-        ) : (
-          <>
-            You have <b>{daysRemainingToFileBDD}</b> day(s) left
-          </>
-        )}{' '}
-        to file a BDD claim.{' '}
-        {isLastDayToFileBDD ? (
-          <>
-            You have until <b>11:59 p.m. CST</b>
-          </>
-        ) : (
-          <>
-            You have until <b>{dateOfLastBDDEligibility} at 11:59 p.m. CST</b>
-          </>
-        )}{' '}
-        to complete and submit the form.
-      </p>
-      {formStartButton({
-        setWizardStatus,
-        label,
-        ariaId: 'learn_about_bdd',
-        eventReason: 'wizard completed, starting BDD flow',
-      })}
+      {daysRemainingToFileBDD < 0 ? null : (
+        <>
+          <p className="vads-u-margin-top--0">
+            Based on your separation date, you can file a disability claim under
+            the Benefits Delivery at Discharge (BDD) program.
+          </p>
+          <p>
+            {isLastDayToFileBDD ? (
+              <>
+                This is your <b>last day</b>
+              </>
+            ) : (
+              <>
+                You have <b>{daysRemainingToFileBDD}</b> day(s) left
+              </>
+            )}{' '}
+            to file a BDD claim. You have until{' '}
+            <strong>
+              {isLastDayToFileBDD ? '' : dateOfLastBDDEligibility}
+              {' at 11:59 p.m. CST'}
+            </strong>{' '}
+            to complete and submit the form.
+          </p>
+          {formStartButton({
+            setWizardStatus,
+            label,
+            ariaId: 'learn_about_bdd',
+            eventReason: 'wizard completed, starting BDD flow',
+          })}
+        </>
+      )}
       <p id="learn_about_bdd" className="vads-u-margin-bottom--0">
         <a
           href={BDD_INFO_URL}
