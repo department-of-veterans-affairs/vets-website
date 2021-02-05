@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import LoadingIndicator from '~/applications/vaos/components/LoadingIndicator';
 
 import AddToCalendar from '../../components/AddToCalendar';
 import VAFacilityLocation from '../../components/VAFacilityLocation';

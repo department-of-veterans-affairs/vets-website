@@ -100,6 +100,8 @@ export function DateTimeSelectPage({
   const [validationError, setValidationError] = useState(null);
 
   useEffect(() => {
+    document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
     getAppointmentSlots(
       moment(preferredDate)
         .startOf('month')
@@ -110,8 +112,6 @@ export function DateTimeSelectPage({
         .format('YYYY-MM-DD'),
       true,
     );
-    document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
   }, []);
 
   useEffect(

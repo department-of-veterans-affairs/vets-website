@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import LoadingIndicator from '~/applications/vaos/components/LoadingIndicator';
 
 export default function LoadingOverlay({ show, message }) {
   useEffect(

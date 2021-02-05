@@ -8,7 +8,7 @@ import {
   FACILITY_SORT_METHODS,
   GA_PREFIX,
 } from '../../../utils/constants';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import LoadingIndicator from '~/applications/vaos/components/LoadingIndicator';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RemoveProviderModal from './RemoveProviderModal';
 import recordEvent from 'platform/monitoring/record-event';

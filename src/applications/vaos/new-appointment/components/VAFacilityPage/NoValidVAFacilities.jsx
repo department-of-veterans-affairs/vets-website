@@ -3,7 +3,7 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 import FacilityAddress from '../../../components/FacilityAddress';
 import FacilityHours from '../../../components/FacilityHours';
 import { FETCH_STATUS } from '../../../utils/constants';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import LoadingIndicator from '~/applications/vaos/components/LoadingIndicator';
 import { lowerCase } from '../../../utils/formatters';
 import { getRealFacilityId } from '../../../utils/appointment';
 
