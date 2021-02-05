@@ -24,7 +24,7 @@
 - [ ] health_care_local_health_service ****
 - [ ] regional_health_care_service_des ****
 - [x] publication_listing
-- [ ] q_a
-- [ ] step_by_step
+- [x] q_a
+- [x] step_by_step
 - [ ] support_resources_detail_page
-- [ ] faq_multiple_q_a
+- [x] faq_multiple_q_a
