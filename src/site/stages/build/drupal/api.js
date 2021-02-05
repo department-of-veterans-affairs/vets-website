@@ -222,7 +222,7 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
         `Finished all queries - ${result.data.nodeQuery.entities.length} pages`,
       );
 
-      process.exit();
+      return result;
     },
 
     getNonNodeContent(onlyPublishedContent = true) {
