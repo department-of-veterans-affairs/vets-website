@@ -201,7 +201,7 @@ const GetNodeHealthCareRegionPages = `
     nodeQuery(limit: 1000, filter: {
       conditions: [
         { field: "status", value: ["1"], enabled: $onlyPublishedContent },
-        { field: "type", value: ["health_care_region_detail_page"] }
+        { field: "type", value: ["health_care_region_page"] }
       ]
     }) {
       entities {
