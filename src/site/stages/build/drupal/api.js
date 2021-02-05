@@ -7,7 +7,7 @@ const chalk = require('chalk');
 const SocksProxyAgent = require('socks-proxy-agent');
 
 const DRUPALS = require('../../../constants/drupals');
-const { queries, getQuery, individualQueries } = require('./queries');
+const { queries, getQuery, getIndividualizedQueries } = require('./queries');
 
 const syswidecas = require('syswide-cas');
 
@@ -180,6 +180,8 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
         },
       };
 
+      const individualQueries = getIndividualizedQueries();
+
       const requests = Object.entries(individualQueries).map(
         async ([queryName, query]) => {
           const request = this.query({
@@ -198,8 +200,13 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
             const { entities } = json.data.nodeQuery;
 
             result.data.nodeQuery.entities.push(...entities);
-            console.log(`${entities.length} loaded from "${queryName}"`);
+            console.log(
+              `${entities.length} page nodes loaded from "${queryName}"`,
+            );
+          } else {
+            Object.assign(result.data, json.data);
           }
+
           console.timeEnd(`"${queryName}" done`);
         },
       );
