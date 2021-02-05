@@ -87,7 +87,7 @@ const buildQuery = ({ useTomeSync }) => {
   ${mediaListImages.fragment}
   ${checklistPage.fragment}
   ${mediaListVideos.fragment}
-  ${supportResourcesDetailPage}
+  ${supportResourcesDetailPage.fragment}
   ${basicLandingPage}
   ${nodeCampaignLandingPage}
 `;

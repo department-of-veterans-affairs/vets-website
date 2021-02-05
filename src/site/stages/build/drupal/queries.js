@@ -82,6 +82,10 @@ const {
   GetNodeMediaListVideos,
 } = require('./graphql/nodeMediaListVideos.graphql');
 
+const {
+  GetNodeSupportResourcesDetailPage,
+} = require('./graphql/nodeSupportResourcesDetailPage.graphql');
+
 const nodeQueries = {
   GetNodePages,
   GetNodeLandingPages,
@@ -108,6 +112,7 @@ const nodeQueries = {
   GetNodeMediaListImages,
   GetNodeChecklist,
   GetNodeMediaListVideos,
+  GetNodeSupportResourcesDetailPage,
 };
 
 function nonNodeQueries() {
