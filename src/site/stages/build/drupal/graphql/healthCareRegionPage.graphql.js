@@ -2,13 +2,14 @@
  * The top-level page for a health care region.
  * Example: /pittsburgh_health_care_system
  */
+const fragments = require('./fragments.graphql');
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 const healthCareLocalFacilities = require('./facilities-fragments/healthCareLocalFacility.node.graphql');
 const healthCareRegionHealthServices = require('./facilities-fragments/healthCareRegionHealthServices.node.graphql');
 const healthCareRegionNewsStories = require('./facilities-fragments/healthCareRegionNewsStories.node.graphql');
 const healthCareRegionEvents = require('./facilities-fragments/healthCareRegionEvents.node.graphql');
 
-module.exports = `
+const healthCareRegionPageFragment = `
   fragment healthCareRegionPage on NodeHealthCareRegionPage {
     ${entityElementsFromPages}
     ${healthCareRegionNewsStories}
@@ -190,3 +191,26 @@ module.exports = `
     }
   }
 `;
+
+const GetNodeHealthCareRegionPages = `
+  ${fragments.listOfLinkTeasers}
+  ${healthCareRegionPageFragment}
+
+  query GetNodeHealthCareRegionPages($onlyPublishedContent: Boolean!) {
+    nodeQuery(limit: 1000, filter: {
+      conditions: [
+        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+        { field: "type", value: ["health_care_region_detail_page"] }
+      ]
+    }) {
+      entities {
+        ... healthCareRegionPage
+      }
+    }
+  }
+`;
+
+module.exports = {
+  fragment: healthCareRegionPageFragment,
+  GetNodeHealthCareRegionPages,
+};

@@ -1,8 +1,8 @@
 - [ ] person_profile
 - [ ] documentation_page
-- [ ] landing_page
+- [x] landing_page
 - [ ] office
-- [ ] health_care_region_detail_page
+- [x] health_care_region_detail_page
 - [ ] health_care_local_facility
 - [ ] full_width_banner_alert
 - [ ] locations_listing
