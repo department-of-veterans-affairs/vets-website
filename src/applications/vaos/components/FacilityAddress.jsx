@@ -9,7 +9,7 @@ export default function FacilityAddress({
   facility,
   showDirectionsLink,
   clinicName,
-  level = '5',
+  level = '4',
 }) {
   const address = facility?.address;
   const phone = facility?.telecom?.find(tele => tele.system === 'phone')?.value;
@@ -17,12 +17,15 @@ export default function FacilityAddress({
     'vads-u-margin-top--1p5': !!clinicName || !!phone,
   });
   const Heading = `h${level}`;
+  const HeadingSub = `h${parseInt(level, 10) + 1}`;
 
   return (
     <>
       {!!name && (
         <>
-          <strong>{name}</strong>
+          <Heading className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
+            {name}
+          </Heading>
           <br />
         </>
       )}
@@ -47,9 +50,9 @@ export default function FacilityAddress({
       <div className={extraInfoClasses}>
         {!!clinicName && (
           <>
-            <Heading className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
+            <HeadingSub className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
               Clinic:
-            </Heading>{' '}
+            </HeadingSub>{' '}
             {clinicName}
           </>
         )}
