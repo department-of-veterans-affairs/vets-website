@@ -17,9 +17,6 @@ const PURPOSE_TEXT = Object.freeze([
   },
 ]);
 
-// NOTE: There is a room for refactor here, but to make sure its the correct refactor,
-// The front end team is waiting until a third method is created to create a smart refactor
-
 const getBookingNoteFromAppointment = data => {
   const appointment = data?.attributes;
   if (!appointment) {
@@ -88,23 +85,6 @@ const getAppointmentTypeFromClinic = (clinic, options = {}) => {
     : appointmentType;
 };
 
-const getAppointTypeFromAppointment = (data, options = {}) => {
-  const appointment = data?.attributes;
-  if (!appointment) {
-    return null;
-  }
-  if (!appointment.vdsAppointments?.length) {
-    return null;
-  }
-  const { clinic } = appointment.vdsAppointments[0];
-
-  if (!clinic) {
-    return null;
-  }
-
-  return getAppointmentTypeFromClinic(clinic, options);
-};
-
 const getAppointmentTimeFromAppointment = data => {
   const appointment = data?.attributes;
   if (!appointment) {
@@ -117,9 +97,43 @@ const getAppointmentTimeFromAppointment = data => {
   return appointmentTime;
 };
 
+const getClinicFromAppointment = data => {
+  const appointment = data?.attributes;
+  if (!appointment) {
+    return null;
+  }
+  if (!appointment.vdsAppointments?.length) {
+    return null;
+  }
+  const { clinic } = appointment.vdsAppointments[0];
+  if (clinic) {
+    return {
+      ...clinic,
+      friendlyName: appointment.clinicFriendlyName,
+    };
+  }
+  return clinic || null;
+};
+
+const getFacilityFromAppointment = data => {
+  const clinic = getClinicFromAppointment(data);
+  if (!clinic) {
+    return null;
+  }
+  return clinic.facility;
+};
+
+const getAppointTypeFromAppointment = (data, options = {}) => {
+  const clinic = getClinicFromAppointment(data);
+
+  return getAppointmentTypeFromClinic(clinic, options);
+};
+
 export {
   getBookingNoteFromAppointment,
   getAppointTypeFromAppointment,
   getAppointmentTimeFromAppointment,
   getAppointmentTypeFromClinic,
+  getFacilityFromAppointment,
+  getClinicFromAppointment,
 };

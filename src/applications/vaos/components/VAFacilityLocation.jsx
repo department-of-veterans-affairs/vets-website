@@ -7,6 +7,8 @@ export default function VAFacilityLocation({
   facility,
   facilityName,
   facilityId,
+  isHomepageRefresh,
+  clinicFriendlyName,
 }) {
   let content = null;
 
@@ -35,16 +37,24 @@ export default function VAFacilityLocation({
             <br />
           </>
         )}
-        <FacilityAddress facility={facility} showDirectionsLink />
+        <FacilityAddress
+          facility={facility}
+          showDirectionsLink
+          isHomepageRefresh
+          clinicFriendlyName={clinicFriendlyName}
+        />
       </>
     );
   }
 
+  const name = clinicName || facilityName || facility?.name;
+
   return (
     <>
-      <h4 className="vaos-appts__block-label">
-        {clinicName || facilityName || facility?.name}
-      </h4>
+      {!isHomepageRefresh && (
+        <h4 className="vaos-appts__block-label">{name}</h4>
+      )}
+      {isHomepageRefresh && name}
       <div>{content}</div>
     </>
   );

@@ -80,14 +80,16 @@ const assembleEntityTree = assembleEntityTreeFactory(exportDir);
  * @param {string} kind - The string representing the kind of difference
  * @return {string} Description of the kind of difference
  */
-const getDiffType = kind => {
-  switch (kind) {
+const getDiffType = diff => {
+  switch (diff.kind) {
     case 'A':
       return 'Array Change';
     case 'D':
-      return 'Property Deleted';
+      return 'Property Missing';
     case 'E':
-      return 'Property Edited';
+      return typeof diff.lhs !== 'undefined' && typeof diff.rhs !== 'undefined'
+        ? 'Property Edited'
+        : 'Property Missing';
     case 'N':
       return 'New property Added';
     default:
@@ -104,11 +106,11 @@ const getDiffType = kind => {
 const getDiffItem = item => {
   const diffItem = {
     item: {
-      diffType: getDiffType(item.kind),
+      diffType: getDiffType(item),
     },
   };
-  if (!item.lhs || !item.rhs) {
-    return !item.lhs
+  if (!('lhs' in item) || !('rhs' in item)) {
+    return !('lhs' in item)
       ? { ...diffItem.item, cmsExport: item.rhs }
       : { ...diffItem.item, graphQL: item.lhs };
   }
@@ -160,37 +162,42 @@ const getParentNode = (
  * @return {object []} The array of differences found from deep-diff'
  */
 const compareJson = (baseGraphQlObject, baseCmsExportObject) => {
-  // Only compare present fields in GraphQL entity, excluding entityMetatags for now
-  // Output missing fields to console
+  // Only compare present fields in GraphQL entity, & exclude fields in keysToIgnore
+  const keysToIgnore = ['entityMetatags', 'entityType'];
+
+  // Save present keys in CMS export and GraphQL objects
   const graphQlObject = {};
   const cmsExportObject = {};
 
-  // Save present keys in CMS export and GraphQL objects
   // Output missing keys to console
   Object.keys(baseGraphQlObject).forEach(key => {
-    if (key in baseCmsExportObject && key !== 'entityMetatags') {
+    if (key in baseCmsExportObject && !keysToIgnore.includes(key)) {
       cmsExportObject[key] = baseCmsExportObject[key];
       graphQlObject[key] = baseGraphQlObject[key];
-    } else if (key !== 'entityMetatags') {
+    } else if (!keysToIgnore.includes(key)) {
+      // Output missing fields to console if '--entity' flag is used
       if (entityNames) console.log(`Field missing: ${key}`);
     } else {
-      // Do nothing because key is 'entityMetatags'
+      // Do nothing because key is in keysToIgnore
     }
   });
 
   // Get array of differences. Exclude new properties because transformed
   // CMS objects may have additional properties
-  return deepDiff(graphQlObject, cmsExportObject)
+  return deepDiff(graphQlObject, cmsExportObject, (diffPath, key) => {
+    // Filter & ignore keys in keysToIgnore
+    return keysToIgnore.includes(key);
+  })
     ?.filter(d => d.kind !== 'N')
     .map(diff => {
       return {
-        diffType: getDiffType(diff.kind),
+        diffType: getDiffType(diff),
         path: diff.index
           ? `${diff.path.join('/')}[${diff.index}]`
           : diff.path.join('/'),
         ...(diff.item && { item: getDiffItem(diff.item) }),
-        ...(diff.lhs && { graphQL: diff.lhs }),
-        ...(diff.rhs && { cmsExport: diff.rhs }),
+        ...('lhs' in diff && { graphQL: diff.lhs }),
+        ...('rhs' in diff && { cmsExport: diff.rhs }),
       };
     });
 };
@@ -291,7 +298,8 @@ const runComparison = () => {
     fs.mkdirSync('content-object-diffs');
 
     // Keep track of number or diffs
-    let diffNum = 0;
+    let nodesWithDiffs = 0;
+    let totalDiffs = 0;
     let totalObjectsCompared = 0;
 
     // Compare JSON objects for each node entity
@@ -304,6 +312,7 @@ const runComparison = () => {
       if (baseObject) {
         const diff = compareJson(baseObject, entity);
         if (diff && diff.length !== 0) {
+          totalDiffs += diff.length - 1;
           // Add entity file name to diff output
           diff.unshift({
             entityFile: `node.${
@@ -323,16 +332,16 @@ const runComparison = () => {
             ),
             JSON.stringify(diff),
           );
-          ++diffNum;
+          ++nodesWithDiffs;
         }
         ++totalObjectsCompared;
       }
     });
 
     console.log(
-      diffNum === 0
+      nodesWithDiffs === 0
         ? `No differences found in ${totalObjectsCompared} nodes!`
-        : `${diffNum}/${totalObjectsCompared} nodes with differences: './content-object-diffs'`,
+        : `${nodesWithDiffs}/${totalObjectsCompared} nodes with ${totalDiffs} differences: './content-object-diffs'`,
     );
   }
 };

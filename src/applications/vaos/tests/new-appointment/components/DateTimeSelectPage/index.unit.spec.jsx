@@ -1,4 +1,5 @@
 import React from 'react';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import moment from 'moment';
@@ -37,8 +38,14 @@ const initialState = {
 };
 
 describe('VAOS <DateTimeSelectPage>', () => {
-  beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
+  beforeEach(() => {
+    mockFetch();
+    MockDate.set(moment('2020-01-26T14:00:00'));
+  });
+  afterEach(() => {
+    resetFetch();
+    MockDate.reset();
+  });
   it('should not submit form with validation error', async () => {
     const store = createTestStore({
       newAppointment: {

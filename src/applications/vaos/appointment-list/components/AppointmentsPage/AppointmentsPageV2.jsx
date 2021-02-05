@@ -11,7 +11,6 @@ import {
   selectFeatureRequests,
   selectFeatureDirectScheduling,
   selectFeatureCommunityCare,
-  selectFeatureExpressCare,
   selectIsWelcomeModalDismissed,
   selectIsCernerOnlyPatient,
   selectFeatureProjectCheetah,
@@ -22,12 +21,12 @@ import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RequestExpressCare from './RequestExpressCareV2';
 import RequestedAppointmentsList from '../RequestedAppointmentsList';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
-import PastAppointmentsList from '../PastAppointmentsList';
+import PastAppointmentsListV2 from '../PastAppointmentsListV2';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import WarningNotification from '../../../components/WarningNotification';
-import Select from './Select';
+import Select from '../../../components/Select';
 
 const pageTitle = 'VA appointments';
 
@@ -95,7 +94,7 @@ function AppointmentsPageV2({
     <Switch>
       <Route exact path="/" component={UpcomingAppointmentsList} />
       <Route path="/requested" component={RequestedAppointmentsList} />
-      <Route path="/past" component={PastAppointmentsList} />
+      <Route path="/past" component={PastAppointmentsListV2} />
       <Route path="/cancelled" component={UpcomingAppointmentsList} />
     </Switch>
   );
@@ -180,7 +179,6 @@ function mapStateToProps(state) {
     showScheduleButton: selectFeatureRequests(state),
     showCommunityCare: selectFeatureCommunityCare(state),
     showDirectScheduling: selectFeatureDirectScheduling(state),
-    showExpressCare: selectFeatureExpressCare(state),
     showCheetahScheduleButton: selectFeatureProjectCheetah(state),
     showHomePageRefresh: selectFeatureHomepageRefresh(state),
     isWelcomeModalDismissed: selectIsWelcomeModalDismissed(state),

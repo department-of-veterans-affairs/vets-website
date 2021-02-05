@@ -26,7 +26,6 @@ const transform = (
     fieldGovdeliveryIdNews,
     fieldOperatingStatus,
     fieldOtherVaLocations,
-    fieldNicknameForThisFacility,
     fieldRelatedLinks,
     fieldLinkFacilityEmergList,
     reverseFieldRegionPage,
@@ -50,7 +49,6 @@ const transform = (
     fieldMedia && fieldMedia.length
       ? { entity: getImageCrop(fieldMedia[0], '_72MEDIUMTHUMBNAIL') }
       : null,
-  fieldNicknameForThisFacility: getDrupalValue(fieldNicknameForThisFacility),
   fieldLinkFacilityEmergList:
     fieldLinkFacilityEmergList && fieldLinkFacilityEmergList[0]
       ? {
@@ -184,11 +182,6 @@ const transform = (
             reverseField =>
               reverseField.fieldMainLocation && reverseField.entityPublished,
           )
-          .sort((a, b) =>
-            a.fieldNicknameForThisFacility.localeCompare(
-              b.fieldNicknameForThisFacility,
-            ),
-          )
           .map(r => ({
             entityUrl: r.entityUrl,
             entityBundle: r.entityBundle,
@@ -197,7 +190,6 @@ const transform = (
             changed: r.changed,
             fieldOperatingStatusFacility: r.fieldOperatingStatusFacility,
             fieldFacilityLocatorApiId: r.fieldFacilityLocatorApiId,
-            fieldNicknameForThisFacility: r.fieldNicknameForThisFacility,
             fieldIntroText: r.fieldIntroText,
             fieldLocationServices: r.fieldLocationServices,
             fieldAddress: r.fieldAddress,
@@ -217,11 +209,6 @@ const transform = (
             reverseField =>
               !reverseField.fieldMainLocation && reverseField.entityPublished,
           )
-          .sort((a, b) =>
-            a.fieldNicknameForThisFacility.localeCompare(
-              b.fieldNicknameForThisFacility,
-            ),
-          )
           .map(r => ({
             entityUrl: r.entityUrl,
             entityBundle: r.entityBundle,
@@ -230,7 +217,6 @@ const transform = (
             changed: r.changed,
             fieldOperatingStatusFacility: r.fieldOperatingStatusFacility,
             fieldFacilityLocatorApiId: r.fieldFacilityLocatorApiId,
-            fieldNicknameForThisFacility: r.fieldNicknameForThisFacility,
             fieldIntroText: r.fieldIntroText,
             fieldLocationServices: r.fieldLocationServices,
             fieldAddress: r.fieldAddress,
@@ -344,7 +330,6 @@ module.exports = {
     'field_govdelivery_id_news',
     'field_link_facility_emerg_list',
     'field_media',
-    'field_nickname_for_this_facility',
     'field_operating_status',
     'field_other_va_locations',
     'field_press_release_blurb',

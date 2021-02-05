@@ -8,6 +8,7 @@ export default function TypeOfCareAlert() {
     <AlertBox
       status="info"
       headline={headline}
+      level="2"
       className="vads-u-margin-top--3 vads-u-margin-bottom--7"
       content={
         <p>

@@ -7,8 +7,10 @@ module.exports = {
     title: {
       $ref: 'GenericNestedString',
     },
-    field_intro_text: {
-      $ref: 'GenericNestedString',
+    field_intro_text_limited_html: {
+      type: 'array',
+      maxItems: 1,
+      items: { $ref: 'ProcessedString' },
     },
     field_description: {
       $ref: 'GenericNestedString',

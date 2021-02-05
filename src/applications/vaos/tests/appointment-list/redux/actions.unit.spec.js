@@ -54,10 +54,6 @@ describe('VAOS actions: appointments', () => {
     resetFetch();
   });
 
-  const featureToggles = {
-    vaOnlineSchedulingExpressCare: true,
-  };
-
   it('should fetch past appointments', async () => {
     const data = {
       data: [],
@@ -67,7 +63,7 @@ describe('VAOS actions: appointments', () => {
     const thunk = fetchPastAppointments('2019-02-02', '2029-12-31', 1);
     const dispatchSpy = sinon.spy();
     const getState = () => ({
-      featureToggles,
+      featureToggles: {},
       appointments: {
         pastStatus: 'notStarted',
         past: [{ facilityId: '442' }],
@@ -131,7 +127,7 @@ describe('VAOS actions: appointments', () => {
     setFetchJSONFailure(global.fetch.onCall(3), {});
     const thunk = fetchFutureAppointments();
     const dispatchSpy = sinon.spy();
-    await thunk(dispatchSpy, () => ({ featureToggles }));
+    await thunk(dispatchSpy, () => ({}));
     expect(dispatchSpy.firstCall.args[0].type).to.eql(
       FETCH_FUTURE_APPOINTMENTS,
     );
@@ -150,7 +146,7 @@ describe('VAOS actions: appointments', () => {
     setFetchJSONResponse(global.fetch.onCall(2), facilityData);
     const thunk = fetchPendingAppointments();
     const dispatchSpy = sinon.spy();
-    await thunk(dispatchSpy, () => ({ featureToggles }));
+    await thunk(dispatchSpy, () => ({}));
     expect(dispatchSpy.firstCall.args[0].type).to.eql(
       FETCH_PENDING_APPOINTMENTS,
     );

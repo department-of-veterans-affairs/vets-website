@@ -33,7 +33,8 @@ const App = props => {
         setLoading();
         const id = getCurrentAppointmentId(window);
         loadAppointment(id).then(response => {
-          const { data } = response;
+          const data = response;
+
           setLoadedAppointment(data);
           setIsLoading(false);
           const apptType = getAppointTypeFromAppointment(data);

@@ -31,15 +31,14 @@ const template = (props, title, content, submissionMessage, messageType) => {
       headline={title}
       content={renderableContent}
       status={messageType}
+      level="2"
     />
   );
 
   const backButtonContent = (
     <div className="row form-progress-buttons schemaform-back-buttons">
       <div className="small-6 usa-width-one-half columns">
-        <a href="/">
-          <button className="usa-button-primary">Go back to VA.gov</button>
-        </a>
+        <a href="/">Go back to VA.gov</a>
       </div>
     </div>
   );
@@ -69,6 +68,7 @@ const template = (props, title, content, submissionMessage, messageType) => {
         headline={title}
         content={renderableContent}
         status={messageType}
+        level="2"
       />
 
       {props.areConfirmationEmailTogglesOn ? (
@@ -85,9 +85,9 @@ const template = (props, title, content, submissionMessage, messageType) => {
       )}
 
       <div className="inset">
-        <h3 className="vads-u-font-size--h4">
+        <h2 className="vads-u-font-size--h4">
           {pageTitle} <span className="additional">(Form 21-526EZ)</span>
-        </h3>
+        </h2>
         <span>
           For {first} {middle} {last} {suffix}
         </span>
@@ -121,9 +121,9 @@ const template = (props, title, content, submissionMessage, messageType) => {
       </div>
 
       <div className="confirmation-guidance-container">
-        <h3 className="confirmation-guidance-heading vads-u-font-size--h4">
+        <h2 className="confirmation-guidance-heading vads-u-font-size--h4">
           How long will it take VA to make a decision on my claim?
-        </h3>
+        </h2>
         <p className="confirmation-guidance-message">
           We process applications in the order we receive them. The amount of
           time it takes us to review you claim depends on:
@@ -141,9 +141,9 @@ const template = (props, title, content, submissionMessage, messageType) => {
           </li>
         </ul>
 
-        <h3 className="confirmation-guidance-heading vads-u-font-size--h4">
+        <h2 className="confirmation-guidance-heading vads-u-font-size--h4">
           How can I check the status of my claim?
-        </h3>
+        </h2>
         <p className="confirmation-guidance-message">
           You can check the status of your claim online. Please allow 24 hours
           for your disability claim to show up there. If you don’t see your
@@ -155,9 +155,9 @@ const template = (props, title, content, submissionMessage, messageType) => {
           <a href="/track-claims">Check the status of your claim</a>
         </p>
 
-        <h3 className="confirmation-guidance-heading vads-u-font-size--h4">
+        <h2 className="confirmation-guidance-heading vads-u-font-size--h4">
           What happens after I file a claim for disability compensation?
-        </h3>
+        </h2>
         <p className="confirmation-guidance-message">
           <a href="/disability/after-you-file-claim/">
             Learn more about what happens after you file a disability claim

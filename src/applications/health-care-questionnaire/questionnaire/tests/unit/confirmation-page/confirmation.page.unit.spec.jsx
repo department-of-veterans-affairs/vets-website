@@ -10,24 +10,11 @@ describe('health care questionnaire - confirmation page  -', () => {
   it('displays information -- has data', () => {
     const fakeStore = createFakeConfirmationStore({ hasData: true });
     const wrapper = mount(<ConfirmationPage store={fakeStore} />);
-    expect(wrapper.find('[data-testid="veterans-full-name"]').text()).to.equal(
-      'Mickey Mouse',
-    );
-    expect(wrapper.find('[data-testid="facility-name"]').text()).to.equal(
-      'Magic Kingdom',
-    );
     expect(
       wrapper.find('[data-testid="appointment-type-header"]').text(),
-    ).to.equal('Primary care questionnaire');
-
-    wrapper.unmount();
-  });
-  it('displays information -- no data', () => {
-    const fakeStore = createFakeConfirmationStore({ hasData: false });
-    const wrapper = mount(<ConfirmationPage store={fakeStore} />);
-    expect(wrapper.find('[data-testid="veterans-full-name"]').exists()).to.be
-      .false;
-    expect(wrapper.find('[data-testid="facility-name"]').exists()).to.be.false;
+    ).to.equal(
+      'Your provider will discuss the information on your questionnaire during your appointment:',
+    );
     wrapper.unmount();
   });
 });
