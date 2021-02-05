@@ -12,9 +12,7 @@ const getFieldAlert = fieldAlert => {
   if (!isEmpty(flatten(fieldAlert))) {
     return fieldAlert[0];
   }
-  return isEmpty(flatten(fieldAlert)) && isEmpty(fieldAlert)
-    ? null
-    : { entity: null };
+  return isEmpty(fieldAlert) ? null : { entity: null };
 };
 
 function pageTransform(entity) {
