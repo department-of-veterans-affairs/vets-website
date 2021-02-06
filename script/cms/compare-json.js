@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const deepDiff = require('deep-diff');
-const { map, camelCase } = require('lodash');
+const { map, camelCase, isEqual } = require('lodash');
 const commandLineArgs = require('command-line-args');
 const commandLineUsage = require('command-line-usage');
 const assembleEntityTreeFactory = require('../../src/site/stages/build/process-cms-exports');
@@ -157,23 +157,21 @@ const getParentNode = (
   return parent;
 };
 
-const compareArrays = (cmsExportArray, graphQLArray, myKey) => {
+/**
+ * Compares two arrays using lodash isEqual on each item.
+ * TODO: convert this output to match deep-diff format
+ * @param cmsExportArray
+ * @param graphQLArray
+ * @param dataPath
+ */
+const compareArrays = (cmsExportArray, graphQLArray, dataPath) => {
   const cmsArrayLength = cmsExportArray.length;
   const graphQLLength = graphQLArray.length;
-
-  // console.log(
-  //   'CMS array:',
-  //   JSON.stringify(cmsExportArray.map(i => [i.title, i.entityId]), null, 2),
-  // );
-  // console.log(
-  //   'GQL array:',
-  //   JSON.stringify(graphQLArray.map(i => [i.title, i.entityId]), null, 2),
-  // );
 
   if (cmsArrayLength !== graphQLLength) {
     console.log(
       'ARRAY LENGTHS DIFFER FOR',
-      myKey,
+      dataPath,
       'cmsExport length: ',
       cmsArrayLength,
       'graphQL length',
@@ -181,35 +179,25 @@ const compareArrays = (cmsExportArray, graphQLArray, myKey) => {
     );
   }
 
-  let diffs;
-
-  if (
-    JSON.stringify(cmsExportArray, null, 2) !==
-    JSON.stringify(graphQLArray, null, 2)
-  ) {
-    diffs = true;
-  }
-
-  if (diffs) {
-    console.log('ARRAY DIFFS FOUND FOR', myKey, JSON.stringify(diffs, null, 2));
-  }
-};
-
-const checkArrays = (baseCmsExportObject, baseGraphQlObject) => {
-  if (!baseCmsExportObject || !baseGraphQlObject) {
-    return;
-  }
-
-  Object.keys(baseCmsExportObject).forEach(key => {
-    if (!keysToIgnore.includes(key)) {
-      if (Array.isArray(baseCmsExportObject[key])) {
-        compareArrays(baseCmsExportObject[key], baseGraphQlObject[key], key);
-      }
-      if (typeof baseCmsExportObject[key] === 'object') {
-        checkArrays(baseCmsExportObject[key], baseGraphQlObject[key]);
-      }
+  cmsExportArray.forEach((cmsItem, index) => {
+    if (!isEqual(cmsItem, graphQLArray[index])) {
+      console.log('ARRAY DIFF FOUND FOR', dataPath, 'index', index);
+      console.log('CMS item:', JSON.stringify(cmsItem, null, 2));
+      console.log('GQL item:', JSON.stringify(graphQLArray[index], null, 2));
     }
   });
+};
+
+Object.byArray = (o, pathArray) => {
+  let result = o;
+  for (const pathPart of pathArray) {
+    if (pathPart in result) {
+      result = result[pathPart];
+    } else {
+      break;
+    }
+  }
+  return result;
 };
 
 /**
@@ -237,26 +225,48 @@ const compareJson = (baseGraphQlObject, baseCmsExportObject) => {
     }
   });
 
-  checkArrays(baseCmsExportObject, baseCmsExportObject);
+  const arraysToCompare = [];
 
   // Get array of differences. Exclude new properties because transformed
   // CMS objects may have additional properties
-  return deepDiff(graphQlObject, cmsExportObject, (diffPath, key) => {
+  const diffs = deepDiff(graphQlObject, cmsExportObject, (diffPath, key) => {
+    // Store arrays for comparison by alternate method.
+    const cmsObject = Object.byArray(cmsExportObject, diffPath);
+    const graphQLObject = Object.byArray(cmsExportObject, diffPath);
+    const isArray = Array.isArray(cmsObject);
+
+    if (isArray) {
+      arraysToCompare.push({
+        cmsObject,
+        graphQLObject,
+        path: diffPath.join('.'),
+      });
+      return true;
+    }
+
     // Filter & ignore keys in keysToIgnore
     return keysToIgnore.includes(key);
-  })
-    ?.filter(d => d.kind !== 'N')
-    .map(diff => {
-      return {
-        diffType: getDiffType(diff),
-        path: diff.index
-          ? `${diff.path.join('/')}[${diff.index}]`
-          : diff.path.join('/'),
-        ...(diff.item && { item: getDiffItem(diff.item) }),
-        ...('lhs' in diff && { graphQL: diff.lhs }),
-        ...('rhs' in diff && { cmsExport: diff.rhs }),
-      };
-    });
+  });
+
+  arraysToCompare.forEach(comparison => {
+    compareArrays(
+      comparison.cmsObject,
+      comparison.graphQLObject,
+      comparison.path,
+    );
+  });
+
+  return diffs?.filter(d => d.kind !== 'N').map(diff => {
+    return {
+      diffType: getDiffType(diff),
+      path: diff.index
+        ? `${diff.path.join('/')}[${diff.index}]`
+        : diff.path.join('/'),
+      ...(diff.item && { item: getDiffItem(diff.item) }),
+      ...('lhs' in diff && { graphQL: diff.lhs }),
+      ...('rhs' in diff && { cmsExport: diff.rhs }),
+    };
+  });
 };
 
 /**
