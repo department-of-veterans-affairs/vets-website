@@ -194,7 +194,7 @@ export const BankInfoCNP = ({
             recordEvent({
               event: 'profile-navigation',
               'profile-action': 'view-link',
-              'profile-section': 'education-benefits',
+              'profile-section': 'disability-benefits',
             });
           }}
         >
