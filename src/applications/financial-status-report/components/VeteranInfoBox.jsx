@@ -52,23 +52,13 @@ VeteranInfoBox.propTypes = {
   vaFileNumber: PropTypes.string,
 };
 
-VeteranInfoBox.defaultProps = {
-  // set these back to empty strings after UAT
-  first: 'Hector',
-  last: 'Smith',
-  middle: 'R',
-  dateOfBirth: '01/01/1970',
-  ssnLastFour: '1234',
-  vaFileNumber: '5678',
-};
-
-const mapStateToProps = state => ({
-  first: state.form?.data?.personalData?.fullName?.first,
-  middle: state.form?.data?.personalData?.fullName?.middle,
-  last: state.form?.data?.personalData?.fullName?.last,
-  dateOfBirth: state.form?.data?.personalData?.dateOfBirth,
-  ssnLastFour: state.form?.data?.personalIdentification?.sSn,
-  vaFileNumber: state.form?.data?.personalIdentification?.vaFileNumber,
+const mapStateToProps = ({ form }) => ({
+  first: form?.data?.personalData?.fullName?.first,
+  middle: form?.data?.personalData?.fullName?.middle,
+  last: form?.data?.personalData?.fullName?.last,
+  dateOfBirth: form?.data?.personalData?.dateOfBirth,
+  ssnLastFour: form?.data?.personalIdentification?.sSn,
+  vaFileNumber: form?.data?.personalIdentification?.vaFileNumber,
 });
 
 export default connect(

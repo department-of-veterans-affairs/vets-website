@@ -52,9 +52,31 @@ const formConfig = {
           title: 'Veteran information',
           uiSchema: pages.veteranInfo.uiSchema,
           schema: pages.veteranInfo.schema,
+          initialData: {
+            personalData: {
+              fullName: {
+                first: 'Hector',
+                last: 'Smith',
+                middle: 'R',
+              },
+              dateOfBirth: '01/01/1970',
+            },
+            personalIdentification: {
+              sSn: '1234',
+              vaFileNumber: '5678',
+            },
+          },
         },
         availableDebts: {
-          initialData: { fsrDebts: [] },
+          initialData: {
+            fsrDebts: [],
+            debt: {
+              currentAr: 0,
+              debtHistory: [{ date: '' }],
+              deductionCode: '',
+              originalAr: 0,
+            },
+          },
           path: 'available-debts',
           title: 'Available Debts',
           uiSchema: pages.availableDebts.uiSchema,
@@ -66,6 +88,13 @@ const formConfig = {
               primaryEmail: 'hector.smith@email.com',
               confirmationEmail: 'hector.smith@email.com',
               phoneNumber: '5551234567',
+            },
+            mailingAddress: {
+              country: 'United States',
+              city: 'Tampa',
+              state: 'FL',
+              zipCode: '33614',
+              addressLine1: '1234 W Nebraska St',
             },
           },
           path: 'contact-information',
@@ -109,6 +138,9 @@ const formConfig = {
           title: 'Benefits',
           uiSchema: pages.benefits.uiSchema,
           schema: pages.benefits.schema,
+          initialData: {
+            benefits: {},
+          },
         },
         socialSecurity: {
           path: 'social-security',
