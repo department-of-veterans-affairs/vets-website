@@ -1,5 +1,7 @@
 const fragments = require('./fragments.graphql');
-const { landingPageFragment } = require('./landingPage.graphql');
+const {
+  modifiedFragment: landingPageFragment,
+} = require('./landingPage.graphql');
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
 const nodeCampaignLandingPage = `
