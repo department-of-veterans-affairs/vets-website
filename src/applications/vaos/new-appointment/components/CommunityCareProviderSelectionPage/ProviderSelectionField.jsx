@@ -9,7 +9,6 @@ import {
   GA_PREFIX,
 } from '../../../utils/constants';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import { distanceBetween } from '../../../utils/address';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RemoveProviderModal from './RemoveProviderModal';
 import recordEvent from 'platform/monitoring/record-event';
@@ -75,9 +74,11 @@ function ProviderSelectionField({
   useEffect(
     () => {
       if (showProvidersList) {
-        scrollAndFocus('h2');
-      } else if (mounted) {
+        scrollAndFocus('#providerSelectionHeader');
+      } else if (mounted && !providerSelected) {
         scrollAndFocus('.va-button-link');
+      } else if (mounted) {
+        scrollAndFocus('#selectedProvider');
       }
     },
     [showProvidersList],
@@ -108,6 +109,17 @@ function ProviderSelectionField({
     [providersListLength],
   );
 
+  useEffect(
+    () => {
+      if (showProvidersList && (loadingProviders || loadingLocations)) {
+        scrollAndFocus('.loading-indicator');
+      } else if (showProvidersList && !loadingProviders && !loadingLocations) {
+        scrollAndFocus('#providerSelectionHeader');
+      }
+    },
+    [loadingProviders, loadingLocations],
+  );
+
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-padding--2 medium-screen:vads-u-padding--3">
       {!showProvidersList &&
@@ -115,6 +127,7 @@ function ProviderSelectionField({
           <button
             className="va-button-link"
             type="button"
+            aria-describedby="providerSelectionDescription"
             onClick={() => {
               setShowProvidersList(true);
               recordEvent({ event: `${GA_PREFIX}-choose-provider-click` });
@@ -126,7 +139,7 @@ function ProviderSelectionField({
         )}
       {!showProvidersList &&
         providerSelected && (
-          <>
+          <section id="selectedProvider" aria-label="Selected provider">
             <span className="vads-u-display--block vads-u-font-weight--bold">
               {formData.name}
             </span>
@@ -138,13 +151,7 @@ function ProviderSelectionField({
               {formData.address?.postalCode}
             </span>
             <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold">
-              {distanceBetween(
-                formData.position?.latitude,
-                formData.position?.longitude,
-                address.latitude,
-                address.longitude,
-              )}{' '}
-              miles
+              {formData[sortMethod]} miles
             </span>
             <div className="vads-u-display--flex">
               <button
@@ -168,11 +175,14 @@ function ProviderSelectionField({
                 Remove
               </button>
             </div>
-          </>
+          </section>
         )}
       {showProvidersList && (
         <>
-          <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
+          <h2
+            id="providerSelectionHeader"
+            className="vads-u-font-size--h3 vads-u-margin-top--0"
+          >
             Choose a provider
           </h2>
           {!loadingProviders &&
@@ -261,7 +271,12 @@ function ProviderSelectionField({
                 )}
                 {!providersListEmpty && (
                   <>
-                    <p role="status" aria-live="polite" aria-atomic="true">
+                    <p
+                      id="provider-list-status"
+                      role="status"
+                      aria-live="polite"
+                      aria-atomic="true"
+                    >
                       Displaying 1 to {currentlyShownProvidersList.length} of{' '}
                       {communityCareProviderList.length} providers
                     </p>
@@ -297,6 +312,12 @@ function ProviderSelectionField({
                               </span>
                               <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold">
                                 {provider[sortMethod]} miles
+                                <span className="sr-only">
+                                  {' '}
+                                  {sortByDistanceFromCurrentLocation
+                                    ? 'from your current location'
+                                    : 'from your home address'}
+                                </span>
                               </span>
                             </label>
                             {checked && (

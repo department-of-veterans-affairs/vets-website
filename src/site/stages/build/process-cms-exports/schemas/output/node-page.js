@@ -6,9 +6,7 @@ module.exports = {
     title: {
       type: 'string',
     },
-    fieldIntroText: {
-      type: ['string', 'null'],
-    },
+    fieldIntroTextLimitedHtml: { $ref: 'ProcessedString' },
     fieldDescription: {
       type: ['string', 'null'],
     },

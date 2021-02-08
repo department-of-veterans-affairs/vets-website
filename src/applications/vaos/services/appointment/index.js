@@ -316,7 +316,7 @@ export function isUpcomingAppointmentOrRequest(appt) {
       !appt.vaos.isPastAppointment &&
       !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
       apptDateTime.isValid() &&
-      apptDateTime.isBefore(moment().add(13, 'months'))
+      apptDateTime.isBefore(moment().add(395, 'days'))
     );
   }
 
@@ -354,7 +354,12 @@ export function isUpcomingAppointmentOrExpressCare(appt) {
       !appt.vaos.isPastAppointment &&
       !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
       apptDateTime.isValid() &&
-      apptDateTime.isBefore(moment().add(13, 'months'))
+      apptDateTime.isAfter(moment().startOf('day')) &&
+      apptDateTime.isBefore(
+        moment()
+          .endOf('day')
+          .add(395, 'days'),
+      )
     );
   }
 
@@ -368,6 +373,45 @@ export function isUpcomingAppointmentOrExpressCare(appt) {
         .add(-1, 'day'),
     )
   );
+}
+
+/**
+ * Returns true if the given Appointment is a canceled confirmed appointment
+ * or a canceled Express Care request
+ *
+ * @export
+ * @param {Object} appt The FHIR Appointment to check
+ * @returns {Boolean} Whether or not the appointment is a canceled
+ *  appointment or Express Care request
+ */
+export function isCanceledConfirmedOrExpressCare(appt) {
+  const today = moment();
+
+  if (
+    CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType) ||
+    appt.vaos.isExpressCare
+  ) {
+    const apptDateTime = moment(appt.start);
+
+    return (
+      appt.status === APPOINTMENT_STATUS.cancelled &&
+      apptDateTime.isValid() &&
+      apptDateTime.isAfter(
+        today
+          .clone()
+          .startOf('day')
+          .subtract(30, 'days'),
+      ) &&
+      apptDateTime.isBefore(
+        today
+          .clone()
+          .endOf('day')
+          .add(395, 'days'),
+      )
+    );
+  }
+
+  return false;
 }
 
 /**

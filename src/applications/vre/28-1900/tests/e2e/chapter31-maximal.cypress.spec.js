@@ -15,7 +15,7 @@ const testConfig = createTestConfig(
     dataSets: ['chapter31-maximal'],
     fixtures: { data: path.join(__dirname, 'formDataSets') },
     setupPerTest: () => {
-      cy.route('POST', '/v0/veteran_readiness_employment_claims', {
+      cy.intercept('POST', '/v0/veteran_readiness_employment_claims', {
         formSubmissionId: '123fake-submission-id-567',
         timestamp: '2020-11-12',
         attributes: {

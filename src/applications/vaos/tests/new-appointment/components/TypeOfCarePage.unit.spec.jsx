@@ -88,7 +88,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/new-appointment/va-facility',
+        '/new-appointment/va-facility-2',
       ),
     );
   });
@@ -107,7 +107,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/new-appointment/va-facility',
+        '/new-appointment/va-facility-2',
       ),
     );
     await cleanup();

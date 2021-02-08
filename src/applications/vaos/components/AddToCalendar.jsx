@@ -28,7 +28,7 @@ function formatDescription(description) {
   }
   chunked.push(restOfDescription);
 
-  return chunked.join('\r\n\t');
+  return chunked.join('\r\n\t').replace(/,/g, '\\,');
 }
 
 function generateICS(
@@ -38,21 +38,27 @@ function generateICS(
   startDateTime,
   endDateTime,
 ) {
-  const startDate = moment(startDateTime).format('YYYYMMDDTHHmmss');
-  const endDate = moment(endDateTime).format('YYYYMMDDTHHmmss');
-  return `BEGIN:VCALENDAR
-          VERSION:2.0
-          PRODID:VA
-          BEGIN:VEVENT
-          UID:${guid()}
-          SUMMARY:${summary}
-          ${formatDescription(description)}
-          LOCATION:${location}
-          DTSTAMP:${startDate}
-          DTSTART:${startDate}
-          DTEND:${endDate}
-          END:VEVENT
-          END:VCALENDAR`;
+  const startDate = moment(startDateTime)
+    .utc()
+    .format('YYYYMMDDTHHmmss[Z]');
+  const endDate = moment(endDateTime)
+    .utc()
+    .format('YYYYMMDDTHHmmss[Z]');
+  return [
+    `BEGIN:VCALENDAR`,
+    `VERSION:2.0`,
+    `PRODID:VA`,
+    `BEGIN:VEVENT`,
+    `UID:${guid()}`,
+    `SUMMARY:${summary}`,
+    `${formatDescription(description)}`,
+    `LOCATION:${location?.replace(/,/g, '\\,')}`,
+    `DTSTAMP:${startDate}`,
+    `DTSTART:${startDate}`,
+    `DTEND:${endDate}`,
+    `END:VEVENT`,
+    `END:VCALENDAR`,
+  ].join('\r\n');
 }
 
 export default function AddToCalendar({
@@ -68,11 +74,9 @@ export default function AddToCalendar({
     description,
     location,
     startDateTime,
-    moment(startDateTime)
-      .add(duration, 'minutes')
-      .toDate(),
+    moment(startDateTime).add(duration, 'minutes'),
   );
-  const formattedDate = moment(startDateTime).format('MMMM D, YYYY');
+  const formattedDate = moment.parseZone(startDateTime).format('MMMM D, YYYY');
 
   // IE11 doesn't support the download attribute, so this creates a button
   // and uses an ms blob save api

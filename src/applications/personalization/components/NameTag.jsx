@@ -3,15 +3,17 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import orderBy from 'lodash/orderBy';
 
-import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
+import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 
-import { SERVICE_BADGE_IMAGE_PATHS } from '../constants';
-import { getServiceBranchDisplayName } from '../helpers';
+import { SERVICE_BADGE_IMAGE_PATHS } from '../profile/constants';
+import { getServiceBranchDisplayName } from '../profile/helpers';
 
-const ProfileHeader = ({
+const NameTag = ({
   userFullName: { first, middle, last, suffix },
   latestBranchOfService,
   showBadgeImage,
+  totalDisabilityRating,
+  showUpdatedNameTag,
 }) => {
   const fullName = [first, middle, last, suffix]
     .filter(name => !!name)
@@ -23,6 +25,13 @@ const ProfileHeader = ({
     'margin-bottom--0',
     'padding-y--2',
   ]);
+
+  const updatedWrapperClasses = prefixUtilityClasses([
+    'background-color--primary',
+    'margin-bottom--0',
+    'padding-y--2',
+  ]);
+
   const wrapperClassesMedium = prefixUtilityClasses(
     ['padding-y--2p5', 'margin-bottom--2'],
     'medium',
@@ -84,8 +93,12 @@ const ProfileHeader = ({
     'medium',
   );
 
+  const wrapperClassDerived = showUpdatedNameTag
+    ? updatedWrapperClasses
+    : wrapperClasses;
+
   const classes = {
-    wrapper: [...wrapperClasses, ...wrapperClassesMedium].join(' '),
+    wrapper: [...wrapperClassDerived, ...wrapperClassesMedium].join(' '),
     innerWrapper: [
       ...innerWrapperClasses,
       ...innerWrapperClassesMedium,
@@ -103,18 +116,19 @@ const ProfileHeader = ({
   };
 
   return (
-    <div className={classes.wrapper} data-testid="profile-header">
+    <div className={classes.wrapper} data-testid="name-tag">
       <div className={classes.innerWrapper}>
         <div className={classes.serviceBadge}>
           {showBadgeImage && (
             <img
               src={SERVICE_BADGE_IMAGE_PATHS.get(latestBranchOfService)}
               alt={`${latestBranchOfService} seal`}
-              className="profile-service-badge vads-u-padding-right--3"
+              className="vads-u-padding-right--3"
+              style={{ maxHeight: '75px' }}
             />
           )}
         </div>
-        <div className="name-and-title-wrapper">
+        <div>
           <dl className="vads-u-margin-y--0">
             <dt className="sr-only">Name: </dt>
             <dd className={classes.fullName}>{fullName}</dd>
@@ -124,6 +138,26 @@ const ProfileHeader = ({
                 {getServiceBranchDisplayName(latestBranchOfService)}
               </dd>
             )}
+            {showUpdatedNameTag &&
+              totalDisabilityRating && (
+                <>
+                  <dt className="sr-only">total disability rating</dt>
+                  <dd className="vads-u-margin-top--0p5">
+                    <a
+                      href="/disability/view-disability-rating/rating"
+                      aria-label="view your disability rating"
+                      className="vads-u-color--white vads-u-font-size--md font-weight--bold"
+                    >
+                      {totalDisabilityRating}% Service connected{' '}
+                      <i
+                        className={`fa fa-angle-double-right`}
+                        aria-hidden="true"
+                        role="img"
+                      />
+                    </a>
+                  </dd>
+                </>
+              )}
           </dl>
         </div>
       </div>
@@ -145,7 +179,7 @@ const mapStateToProps = state => {
   };
 };
 
-ProfileHeader.defaultProps = {
+NameTag.defaultProps = {
   userFullName: {
     first: '',
     middle: '',
@@ -155,7 +189,7 @@ ProfileHeader.defaultProps = {
   latestBranchOfService: '',
 };
 
-ProfileHeader.propTypes = {
+NameTag.propTypes = {
   showBadgeImage: PropTypes.bool,
   userFullName: PropTypes.shape({
     first: PropTypes.string,
@@ -166,4 +200,4 @@ ProfileHeader.propTypes = {
   latestBranchOfService: PropTypes.string.isRequired,
 };
 
-export default connect(mapStateToProps)(ProfileHeader);
+export default connect(mapStateToProps)(NameTag);
