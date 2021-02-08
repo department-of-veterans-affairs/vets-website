@@ -22,6 +22,7 @@ import RequestExpressCare from './RequestExpressCareV2';
 import RequestedAppointmentsList from '../RequestedAppointmentsList';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
 import PastAppointmentsListV2 from '../PastAppointmentsListV2';
+import CanceledAppointmentsList from '../CanceledAppointmentsList';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
@@ -35,14 +36,14 @@ const DROPDOWN_VALUES = {
   upcoming: 'upcoming',
   requested: 'requested',
   past: 'past',
-  cancelled: 'cancelled',
+  canceled: 'canceled',
 };
 
 const options = [
   { label: 'Upcoming', value: DROPDOWN_VALUES.upcoming },
   { label: 'Requested', value: DROPDOWN_VALUES.requested },
   { label: 'Past', value: DROPDOWN_VALUES.past },
-  { label: 'Cancelled', value: DROPDOWN_VALUES.cancelled },
+  { label: 'Canceled', value: DROPDOWN_VALUES.canceled },
 ];
 
 function getDropdownValueFromLocation(pathname) {
@@ -50,8 +51,8 @@ function getDropdownValueFromLocation(pathname) {
     return DROPDOWN_VALUES.requested;
   } else if (pathname.endsWith(DROPDOWN_VALUES.past)) {
     return DROPDOWN_VALUES.past;
-  } else if (pathname.endsWith(DROPDOWN_VALUES.cancelled)) {
-    return DROPDOWN_VALUES.cancelled;
+  } else if (pathname.endsWith(DROPDOWN_VALUES.canceled)) {
+    return DROPDOWN_VALUES.canceled;
   } else {
     return DROPDOWN_VALUES.upcoming;
   }
@@ -98,7 +99,7 @@ function AppointmentsPageV2({
       <Route exact path="/" component={UpcomingAppointmentsList} />
       <Route path="/requested" component={RequestedAppointmentsList} />
       <Route path="/past" component={PastAppointmentsListV2} />
-      <Route path="/cancelled" component={UpcomingAppointmentsList} />
+      <Route path="/canceled" component={CanceledAppointmentsList} />
     </Switch>
   );
 
@@ -110,8 +111,8 @@ function AppointmentsPageV2({
       history.push('/requested');
     } else if (value === DROPDOWN_VALUES.past) {
       history.push('/past');
-    } else if (value === DROPDOWN_VALUES.cancelled) {
-      history.push('/cancelled');
+    } else if (value === DROPDOWN_VALUES.canceled) {
+      history.push('/canceled');
     }
   }
 

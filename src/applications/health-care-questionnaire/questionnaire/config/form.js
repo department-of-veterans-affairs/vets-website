@@ -11,6 +11,7 @@ import ReasonForVisitDescription from '../components/reason-for-visit-descriptio
 import GetHelp from '../components/get-help';
 import ExpiresAt from '../components/expires-at';
 import HiddenFields from '../components/hidden-fields';
+import Messages from '../components/messages';
 
 import { TITLES, createPathFromTitle } from './utils';
 
@@ -28,6 +29,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   submit,
   transformForSubmit,
+  submissionError: Messages.ServiceDown,
   formId: VA_FORM_IDS.FORM_HC_QSTNR,
   saveInProgress: {
     resumeOnly: true,
