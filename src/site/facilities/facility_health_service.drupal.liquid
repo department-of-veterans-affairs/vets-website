@@ -23,11 +23,8 @@
         {% if serviceTaxonomy.description.processed %}
           <div>{{ serviceTaxonomy.description.processed }}</div>
         {% endif %}
-        {% comment %}
-          After all service location content has been populated, remove
-          the buildtype != 'vagovprod' check.
-        {% endcomment %}
-        {% if locations.0.entity and buildtype != 'vagovprod' %}
+
+        {% if locations.0.entity %}
           {% include "src/site/facilities/service_location.drupal.liquid" %}
         {% else %}
           <div>{{ localServiceDescription }}</div>

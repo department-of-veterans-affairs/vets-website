@@ -2,17 +2,23 @@ import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '~/platform/monitoring/record-event';
 
-const IdentityNotVerified = () => {
+const IdentityNotVerified = ({
+  alertHeadline,
+  alertContent = (
+    <p>
+      We need to make sure you’re you — and not someone pretending to be you —
+      before we give you access to your personal and health-related information.
+      This helps to keep your information safe and prevent fraud and identity
+      theft.
+    </p>
+  ),
+  additionalInfoClickHandler = null,
+}) => {
   const content = (
     <>
-      <p>
-        We need to make sure you’re you — and not someone pretending to be you —
-        before we give you access to your personal and health-related
-        information. This helps to keep your information safe and prevent fraud
-        and identity theft.
-      </p>
+      {alertContent}
       <p>
         <strong>This one-time process takes about 5-10 minutes.</strong>
       </p>
@@ -30,20 +36,10 @@ const IdentityNotVerified = () => {
 
   return (
     <>
-      <AlertBox
-        headline="Verify your identity to view your complete profile"
-        content={content}
-        status="warning"
-      />
+      <AlertBox headline={alertHeadline} content={content} status="warning" />
       <div
         className="account-security-content vads-u-margin--2p5"
-        onClick={() =>
-          recordEvent({
-            event: 'profile-navigation',
-            'profile-action': 'view-link',
-            'additional-info': 'learn-more-identity',
-          })
-        }
+        onClick={additionalInfoClickHandler}
       >
         <AdditionalInfo triggerText="How will VA.gov verify my identity?">
           <p>
