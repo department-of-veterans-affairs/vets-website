@@ -32,7 +32,7 @@ export const uiSchema = {
       docketNumber: {
         'ui:title': 'Case or docket number',
         'ui:description': (
-          <p className="docket-number-description">
+          <p className="formfield-subtitle">
             You’ll find this number on your case documents.
           </p>
         ),
