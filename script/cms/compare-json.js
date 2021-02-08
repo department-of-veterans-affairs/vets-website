@@ -4,7 +4,15 @@ const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const deepDiff = require('deep-diff');
-const { map, camelCase, get, isEqual, omit } = require('lodash');
+const {
+  map,
+  camelCase,
+  get,
+  isEqual,
+  omit,
+  transform,
+  isObject,
+} = require('lodash');
 const commandLineArgs = require('command-line-args');
 const commandLineUsage = require('command-line-usage');
 const assembleEntityTreeFactory = require('../../src/site/stages/build/process-cms-exports');
@@ -13,7 +21,13 @@ const {
 } = require('../../src/site/stages/build/process-cms-exports/helpers');
 
 // Only compare present fields in GraphQL entity, & exclude fields in keysToIgnore
-const keysToIgnore = ['entityMetatags', 'entityType'];
+const keysToIgnore = [
+  'entityMetatags',
+  'entityType',
+  'contentModelType',
+  'entityBundle',
+  'entityId',
+];
 
 const commandLineDefs = [
   {
@@ -159,7 +173,6 @@ const getParentNode = (
 
 /**
  * Compares two arrays using lodash isEqual on each item.
- * TODO: convert this output to match deep-diff format
  * @param cmsExportArray
  * @param graphQLArray
  * @param dataPath
@@ -178,16 +191,26 @@ const compareArrays = (cmsExportArray, graphQLArray, dataPath) => {
     });
   }
 
-  cmsExportArray.forEach((cmsItem, index) => {
-    const graphQlItem = graphQLArray[index];
-    if (
-      !isEqual(omit(cmsItem, keysToIgnore), omit(graphQlItem, keysToIgnore))
-    ) {
+  const omitIgnoredKeys = (result, value, key) => {
+    // eslint-disable-next-line no-param-reassign
+    result[key] = isObject(value) ? omit(value, keysToIgnore) : value;
+  };
+
+  graphQLArray.forEach((graphQlItem, index) => {
+    // using lodash transform to recursively remove ignored keys
+    const cleanGraphQlItem = transform(graphQlItem, omitIgnoredKeys);
+    // for some reason we need to do an extra level of cleaning on the cms items?
+    const cleanCmsItem = omit(
+      transform(cmsExportArray[index], omitIgnoredKeys),
+      keysToIgnore,
+    );
+
+    if (!isEqual(cleanGraphQlItem, cleanCmsItem)) {
       arrayDiffs.push({
         diffType: 'Array Edit',
         path: `${dataPath}/${index}`,
-        graphQL: graphQLArray[index],
-        cmsExport: cmsItem,
+        graphQL: cleanGraphQlItem,
+        cmsExport: cleanCmsItem,
       });
     }
   });
@@ -264,6 +287,8 @@ const compareJson = (baseGraphQlObject, baseCmsExportObject) => {
 
   return { deepDiffs: diffs, arrayDiffs };
 };
+
+const MAX_DIFFS = 100;
 
 /**
  * Handles running and outputting the diff based on the command line input
@@ -408,7 +433,7 @@ const runComparison = () => {
             diff.arrayDiffs.unshift(entityFileObject);
             fs.writeFileSync(
               `${defaultFileName}-array.json`,
-              JSON.stringify(diff.arrayDiffs, null, 2),
+              JSON.stringify(diff.arrayDiffs.slice(0, MAX_DIFFS), null, 2),
             );
           }
         }
