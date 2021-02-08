@@ -5,8 +5,9 @@ import { fireEvent } from '@testing-library/react';
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
 import { getVAFacilityMock, getVideoAppointmentMock } from '../../mocks/v0';
 import { renderWithStoreAndRouter } from '../../mocks/setup';
-
-import AppointmentsPage from '../../../appointment-list/components/AppointmentsPage';
+import { waitFor } from '@testing-library/dom';
+import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { AppointmentList } from '../../../appointment-list';
 
 const initialState = {
   featureToggles: {
@@ -15,7 +16,13 @@ const initialState = {
   },
 };
 
+// VA appointment id from confirmed_va.json
+const url = 'va/var05760f00c80ae60ce49879cf37a05fc8';
+
 describe('VAOS integration: upcoming video appointments', () => {
+  beforeEach(() => mockFetch());
+  afterEach(() => resetFetch());
+
   it('should show info and disabled link when ad hoc', async () => {
     const appointment = getVideoAppointmentMock();
     const startDate = moment.utc().add(3, 'days');
@@ -32,73 +39,89 @@ describe('VAOS integration: upcoming video appointments', () => {
       appointmentKind: 'ADHOC',
       status: { description: 'F', code: 'FUTURE' },
     };
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
 
-    const {
-      findByText,
-      baseElement,
-      getByText,
-      queryByText,
-    } = renderWithStoreAndRouter(<AppointmentsPage />, {
-      initialState,
+    mockAppointmentInfo({
+      va: [appointment],
+      cc: [],
+      requests: [],
+      isHomepageRefresh: true,
     });
 
-    await findByText(
-      (_, node) => node.textContent === 'VA Video Connect at home',
+    const screen = renderWithStoreAndRouter(
+      <AppointmentList featureHomepageRefresh />,
+      {
+        initialState,
+      },
     );
 
-    expect(baseElement).to.contain('h4');
-    expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(baseElement).to.contain.text('VA Video Connect');
-    expect(baseElement).to.contain.text('Confirmed');
-    expect(baseElement).to.contain('.fa-check-circle');
-    expect(getByText(/join appointment/i)).to.have.attribute(
+    fireEvent.click(await screen.findByText(/Details/));
+
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0]).to.equal(url),
+    );
+
+    expect(screen.getByRole('link', { name: /Manage appointments/ })).to.be.ok;
+
+    await screen.findByText(
+      new RegExp(
+        startDate.tz('America/Denver').format('dddd, MMMM D, YYYY [at] h:mm a'),
+        'i',
+      ),
+    );
+
+    expect(screen.baseElement).to.contain.text('VA Video Connect at home');
+
+    expect(screen.baseElement).to.contain.text(
+      'You can join this meeting from your home or anywhere you have a secure Internet connnection.',
+    );
+    expect(screen.baseElement).to.contain.text(
+      'You can join VA Video Connect up to 30 minutes prior to the start time.',
+    );
+
+    expect(screen.getByText(/join appointment/i)).to.have.attribute(
       'aria-disabled',
       'true',
     );
 
+    expect(screen.baseElement).to.contain.text('You’ll be meeting with');
+    expect(screen.baseElement).to.contain.text('Test T+90 Test');
+
     expect(
-      getByText(
-        new RegExp(
-          startDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
+      screen.getByRole('link', {
+        name: new RegExp(
+          startDate.format('[Add] MMMM D, YYYY [appointment to your calendar]'),
           'i',
         ),
-      ),
-    ).to.exist;
+      }),
+    ).to.be.ok;
+    expect(screen.getByRole('link', { name: /Print/ })).to.be.ok;
+    expect(screen.baseElement).to.not.contain.text('Reschedule');
 
-    const timeEl = getByText(
-      new RegExp(startDate.tz('America/Denver').format('h:mm'), 'i'),
+    expect(screen.baseElement).to.contain.text('Prepare for video visit');
+
+    expect(screen.baseElement).to.contain.text(
+      'Contact this facility if you need to reschedule or cancel your appointment.Test T+90 Test',
     );
-    expect(baseElement).to.contain('h4');
-    expect(timeEl).to.contain.text('MT');
-    expect(timeEl).to.contain.text('Mountain time');
-    expect(baseElement).not.to.contain.text('Some random note');
-    expect(getByText(/add to calendar/i)).to.have.tagName('a');
-    expect(getByText(/cancel appointment/i)).to.have.tagName('button');
+
     expect(
-      global.window.dataLayer.find(
-        e =>
-          e.event === 'vaos-number-of-items-retrieved' &&
-          e['vaos-item-type'] === 'video_home',
-      )['vaos-number-of-items'],
-    ).to.equal(1);
+      screen.getByRole('button', {
+        name: /Go back to appointments/,
+      }),
+    ).to.be.ok;
   });
 
   it('should show active link if 30 minutes in the future', async () => {
     const appointment = getVideoAppointmentMock();
+    const startDate = moment.utc().add(30, 'minutes');
     appointment.attributes = {
       ...appointment.attributes,
       facilityId: '983',
       clinicId: null,
-      startDate: moment()
-        .add(30, 'minutes')
-        .format(),
+      startDate: startDate.format(),
     };
     appointment.attributes.vvsAppointments[0] = {
       ...appointment.attributes.vvsAppointments[0],
-      dateTime: moment()
-        .add(30, 'minutes')
-        .format(),
+      dateTime: startDate.format(),
       bookingNotes: 'Some random note',
       appointmentKind: 'ADHOC',
       status: { description: 'F', code: 'FUTURE' },
@@ -110,54 +133,58 @@ describe('VAOS integration: upcoming video appointments', () => {
         },
       ],
     };
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
-
-    const {
-      baseElement,
-      findByText,
-      getByText,
-      queryByText,
-    } = renderWithStoreAndRouter(<AppointmentsPage />, {
-      initialState,
+    mockAppointmentInfo({
+      va: [appointment],
+      cc: [],
+      requests: [],
+      isHomepageRefresh: true,
     });
 
-    await findByText(
+    const screen = renderWithStoreAndRouter(
+      <AppointmentList featureHomepageRefresh />,
+      {
+        initialState,
+      },
+    );
+
+    fireEvent.click(await screen.findByText(/Details/));
+
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0]).to.equal(url),
+    );
+
+    await screen.findByText(
       new RegExp(
-        moment()
-          .tz('America/Denver')
-          .add(30, 'minutes')
-          .format('dddd, MMMM D, YYYY'),
+        startDate.tz('America/Denver').format('dddd, MMMM D, YYYY [at] h:mm a'),
         'i',
       ),
     );
 
-    expect(baseElement).to.contain('h4');
-    expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(getByText(/join appointment/i)).to.have.attribute(
+    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+
+    expect(screen.getByText(/join appointment/i)).to.have.attribute(
       'aria-disabled',
       'false',
     );
-    expect(getByText(/join appointment/i)).to.have.attribute(
+
+    expect(screen.getByText(/join appointment/i)).to.have.attribute(
       'href',
       'http://videourl.va.gov',
     );
   });
 
   it('should show active link less than 30 minutes in the future', async () => {
+    const startDate = moment.utc().add(20, 'minutes');
     const appointment = getVideoAppointmentMock();
     appointment.attributes = {
       ...appointment.attributes,
       facilityId: '983',
       clinicId: null,
-      startDate: moment()
-        .add(20, 'minutes')
-        .format(),
+      startDate: startDate.format(),
     };
     appointment.attributes.vvsAppointments[0] = {
       ...appointment.attributes.vvsAppointments[0],
-      dateTime: moment()
-        .add(20, 'minutes')
-        .format(),
+      dateTime: startDate.format(),
       appointmentKind: 'ADHOC',
       status: { description: 'F', code: 'FUTURE' },
       patients: [
@@ -168,53 +195,58 @@ describe('VAOS integration: upcoming video appointments', () => {
         },
       ],
     };
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({
+      va: [appointment],
+      cc: [],
+      requests: [],
+      isHomepageRefresh: true,
+    });
 
-    const { findByText, getByText, queryByText } = renderWithStoreAndRouter(
-      <AppointmentsPage />,
+    const screen = renderWithStoreAndRouter(
+      <AppointmentList featureHomepageRefresh />,
       {
         initialState,
       },
     );
 
-    await findByText(
+    fireEvent.click(await screen.findByText(/Details/));
+
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0]).to.equal(url),
+    );
+
+    await screen.findByText(
       new RegExp(
-        moment()
-          .tz('America/Denver')
-          .add(30, 'minutes')
-          .format('dddd, MMMM D, YYYY'),
+        startDate.tz('America/Denver').format('dddd, MMMM D, YYYY [at] h:mm a'),
         'i',
       ),
     );
 
-    expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
+    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
 
-    expect(getByText(/join appointment/i)).to.have.attribute(
+    expect(screen.getByText(/join appointment/i)).to.have.attribute(
       'aria-disabled',
       'false',
     );
 
-    expect(getByText(/join appointment/i)).to.have.attribute(
+    expect(screen.getByText(/join appointment/i)).to.have.attribute(
       'href',
       'http://videourl.va.gov',
     );
   });
 
   it('should show active link if less than 4 hours in the past', async () => {
+    const startDate = moment.utc().add(-239, 'minutes');
     const appointment = getVideoAppointmentMock();
     appointment.attributes = {
       ...appointment.attributes,
       facilityId: '983',
       clinicId: null,
-      startDate: moment()
-        .add(-239, 'minutes')
-        .format(),
+      startDate: startDate.format(),
     };
     appointment.attributes.vvsAppointments[0] = {
       ...appointment.attributes.vvsAppointments[0],
-      dateTime: moment()
-        .add(-239, 'minutes')
-        .format(),
+      dateTime: startDate.format(),
       bookingNotes: 'Some random note',
       appointmentKind: 'ADHOC',
       status: { description: 'F', code: 'FUTURE' },
@@ -226,37 +258,41 @@ describe('VAOS integration: upcoming video appointments', () => {
         },
       ],
     };
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
-
-    const {
-      baseElement,
-      findByText,
-      getByText,
-      queryByText,
-    } = renderWithStoreAndRouter(<AppointmentsPage />, {
-      initialState,
+    mockAppointmentInfo({
+      va: [appointment],
+      cc: [],
+      requests: [],
+      isHomepageRefresh: true,
     });
 
-    await findByText(
+    const screen = renderWithStoreAndRouter(
+      <AppointmentList featureHomepageRefresh />,
+      {
+        initialState,
+      },
+    );
+
+    fireEvent.click(await screen.findByText(/Details/));
+
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0]).to.equal(url),
+    );
+
+    await screen.findByText(
       new RegExp(
-        moment()
-          .tz('America/Denver')
-          .add(-239, 'minutes')
-          .format('dddd, MMMM D, YYYY'),
+        startDate.tz('America/Denver').format('dddd, MMMM D, YYYY [at] h:mm a'),
         'i',
       ),
     );
 
-    expect(baseElement).to.contain('h4');
+    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
 
-    expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
-
-    expect(getByText(/join appointment/i)).to.have.attribute(
+    expect(screen.getByText(/join appointment/i)).to.have.attribute(
       'aria-disabled',
       'false',
     );
 
-    expect(getByText(/join appointment/i)).to.have.attribute(
+    expect(screen.getByText(/join appointment/i)).to.have.attribute(
       'href',
       'http://videourl.va.gov',
     );
@@ -277,157 +313,55 @@ describe('VAOS integration: upcoming video appointments', () => {
       appointmentKind: 'MOBILE_GFE',
       status: { description: 'F', code: 'FUTURE' },
     };
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
-
-    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
-      initialState,
+    mockAppointmentInfo({
+      va: [appointment],
+      cc: [],
+      requests: [],
+      isHomepageRefresh: true,
     });
 
-    await screen.findByText(
-      (_, node) => node.textContent === 'VA Video Connect using a VA device',
+    const screen = renderWithStoreAndRouter(
+      <AppointmentList featureHomepageRefresh />,
+      {
+        initialState,
+      },
     );
 
-    // Should display appointment date
-    expect(
-      screen.getByText(
-        new RegExp(
-          startDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
-          'i',
-        ),
-      ),
-    ).to.be.ok;
+    fireEvent.click(await screen.findByText(/Details/));
 
-    // Should display appointment status
-    expect(screen.getByText(/Confirmed/i)).to.be.ok;
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0]).to.equal(url),
+    );
 
-    // Should display how to join instructions
-    expect(screen.getByText(/How to join your video appointment/i)).to.be.ok;
-    expect(
-      screen.getByText(
-        /You can join this video meeting using a device provided by VA./i,
-      ),
-    ).to.be.ok;
-
-    // Should display button to add appointment to calendar
-    expect(
-      screen.getByRole('link', {
-        name: `Add ${startDate
-          .tz('America/Denver')
-          .format('MMMM D, YYYY')} appointment to your calendar`,
-      }),
-    ).to.be.ok;
-
-    // Using queryByText since it won't throw an execption when not found.
-    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(screen.queryByText(/join appointment/i)).not.to.exist;
-
-    expect(
-      global.window.dataLayer.find(
-        e =>
-          e.event === 'vaos-number-of-items-retrieved' &&
-          e['vaos-item-type'] === 'video_gfe',
-      )['vaos-number-of-items'],
-    ).to.equal(1);
-  });
-
-  it('should reveal medication review instructions', async () => {
-    const appointment = getVideoAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      facilityId: '983',
-      clinicId: null,
-      startDate: moment()
-        .add(30, 'minutes')
-        .format(),
-    };
-    appointment.attributes.vvsAppointments[0] = {
-      ...appointment.attributes.vvsAppointments[0],
-      dateTime: moment()
-        .add(30, 'minutes')
-        .format(),
-      instructionsTitle: 'Medication Review',
-      status: { description: 'F', code: 'FUTURE' },
-    };
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
-
-    const {
-      baseElement,
-      findByText,
-      getByText,
-      queryByText,
-    } = renderWithStoreAndRouter(<AppointmentsPage />, {
-      initialState,
-    });
-
-    await findByText(
+    await screen.findByText(
       new RegExp(
-        moment()
-          .tz('America/Denver')
-          .add(30, 'minutes')
-          .format('dddd, MMMM D, YYYY'),
+        startDate.tz('America/Denver').format('dddd, MMMM D, YYYY [at] h:mm a'),
         'i',
       ),
     );
 
-    expect(baseElement).to.contain('h4');
-    expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(queryByText(/medication review/i)).to.not.exist;
-    fireEvent.click(getByText(/prepare for video visit/i));
+    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
 
-    return expect(findByText(/medication review/i)).to.eventually.be.ok;
+    expect(screen.baseElement).to.contain.text(
+      'VA Video Connect using VA device',
+    );
+    expect(screen.baseElement).to.contain.text(
+      'You can join this video meeting using a device provided by VA.',
+    );
+
+    expect(screen.queryByText(/join appointment/i)).not.to.exist;
+
+    expect(screen.baseElement).to.contain.text('You’ll be meeting with');
+    expect(screen.baseElement).to.contain.text('Test T+90 Test');
+
+    expect(screen.baseElement).to.contain.text(
+      'Contact this facility if you need to reschedule or cancel your appointment.Test T+90 Test',
+    );
   });
 
   it('should reveal video visit instructions', async () => {
+    const startDate = moment.utc().add(30, 'minutes');
     const appointment = getVideoAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      facilityId: '983',
-      clinicId: null,
-      startDate: moment()
-        .add(30, 'minutes')
-        .format(),
-    };
-    appointment.attributes.vvsAppointments[0] = {
-      ...appointment.attributes.vvsAppointments[0],
-      dateTime: moment()
-        .add(30, 'minutes')
-        .format(),
-      instructionsTitle: 'Video Visit Preparation',
-      status: { description: 'F', code: 'FUTURE' },
-    };
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
-
-    const {
-      baseElement,
-      findByText,
-      getByText,
-      queryByText,
-    } = renderWithStoreAndRouter(<AppointmentsPage />, {
-      initialState,
-    });
-
-    await findByText(
-      new RegExp(
-        moment()
-          .tz('America/Denver')
-          .add(30, 'minutes')
-          .format('dddd, MMMM D, YYYY'),
-        'i',
-      ),
-    );
-
-    expect(baseElement).to.contain('h4');
-    expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(queryByText(/before your appointment/i)).to.not.exist;
-
-    fireEvent.click(getByText(/prepare for video visit/i));
-
-    return expect(findByText('Before your appointment:')).to.eventually.be.ok;
-  });
-
-  it('should display canceled appointment', async () => {
-    const appointment = getVideoAppointmentMock();
-    const startDate = moment.utc().add(3, 'days');
     appointment.attributes = {
       ...appointment.attributes,
       facilityId: '983',
@@ -439,50 +373,43 @@ describe('VAOS integration: upcoming video appointments', () => {
       dateTime: startDate.format(),
       bookingNotes: 'Some random note',
       appointmentKind: 'ADHOC',
-      status: { description: 'F', code: 'CANCELLED BY PATIENT' },
+      status: { description: 'F', code: 'FUTURE' },
     };
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
-
-    const {
-      findByText,
-      baseElement,
-      getByText,
-      queryByText,
-    } = renderWithStoreAndRouter(<AppointmentsPage />, {
-      initialState,
+    mockAppointmentInfo({
+      va: [appointment],
+      cc: [],
+      requests: [],
+      isHomepageRefresh: true,
     });
 
-    await findByText(
-      (_, node) => node.textContent === 'VA Video Connect at home',
+    const screen = renderWithStoreAndRouter(
+      <AppointmentList featureHomepageRefresh />,
+      {
+        initialState,
+      },
     );
 
-    expect(baseElement).to.contain('h4');
-    expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(baseElement).to.contain.text('VA Video Connect');
-    expect(baseElement).to.contain.text('Canceled');
-    expect(baseElement).to.contain('.fa-exclamation-circle');
+    fireEvent.click(await screen.findByText(/Details/));
 
-    expect(getByText(/join appointment/i)).to.have.attribute(
-      'aria-disabled',
-      'true',
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0]).to.equal(url),
     );
 
-    expect(
-      getByText(
-        new RegExp(
-          startDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
-          'i',
-        ),
+    await screen.findByText(
+      new RegExp(
+        startDate.tz('America/Denver').format('dddd, MMMM D, YYYY [at] h:mm a'),
+        'i',
       ),
-    ).to.exist;
-
-    const timeEl = getByText(
-      new RegExp(startDate.tz('America/Denver').format('h:mm'), 'i'),
     );
-    expect(timeEl).to.contain.text('MT');
-    expect(timeEl).to.contain.text('Mountain time');
-    expect(baseElement).not.to.contain.text('Some random note');
-    expect(queryByText(/cancel appointment/i)).not.to.exist;
+
+    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+    expect(screen.queryByText(/before your appointment/i)).to.not.exist;
+
+    fireEvent.click(
+      screen.getByRole('button', { name: /Prepare for video visit/ }),
+    );
+    return expect(screen.findByText('Before your appointment:')).to.eventually
+      .be.ok;
   });
 
   it('should show address info for clinic based appointment', async () => {
@@ -494,6 +421,7 @@ describe('VAOS integration: upcoming video appointments', () => {
       clinicId: '123',
       sta6aid: '983',
       startDate: startDate.format(),
+      clinicFriendlyName: 'CHY PC VAR2',
     };
     appointment.attributes.vvsAppointments[0] = {
       ...appointment.attributes.vvsAppointments[0],
@@ -510,7 +438,13 @@ describe('VAOS integration: upcoming video appointments', () => {
         },
       ],
     };
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    mockAppointmentInfo({
+      va: [appointment],
+      cc: [],
+      requests: [],
+      isHomepageRefresh: true,
+    });
+
     const facility = {
       id: 'vha_442',
       attributes: {
@@ -532,57 +466,50 @@ describe('VAOS integration: upcoming video appointments', () => {
     };
     mockFacilitiesFetch('vha_442', [facility]);
 
-    const {
-      findByText,
-      baseElement,
-      getByText,
-      queryByText,
-    } = renderWithStoreAndRouter(<AppointmentsPage />, {
-      initialState,
-    });
-
-    await findByText(/Cheyenne VA Medical Center/i);
-    expect(baseElement).to.contain('h4');
-    expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(baseElement).to.contain.text('VA Video Connect');
-    expect(baseElement).to.contain.text('Confirmed');
-    expect(baseElement).to.contain('.fa-check-circle');
-
-    expect(queryByText(/join appointment/i)).to.not.exist;
-    expect(baseElement).to.contain.text('Cheyenne VA Medical Center');
-    expect(baseElement).to.contain.text('2360 East Pershing Boulevard');
-    expect(baseElement).to.contain.text('Cheyenne, WY 82001-5356');
-    expect(baseElement).to.contain.text('307-778-7550');
-
-    expect(
-      getByText(
-        new RegExp(
-          startDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
-          'i',
-        ),
-      ),
-    ).to.exist;
-
-    const timeEl = getByText(
-      new RegExp(startDate.tz('America/Denver').format('h:mm'), 'i'),
+    const screen = renderWithStoreAndRouter(
+      <AppointmentList featureHomepageRefresh />,
+      {
+        initialState,
+      },
     );
-    expect(timeEl).to.contain.text('MT');
-    expect(timeEl).to.contain.text('Mountain time');
-    expect(baseElement).not.to.contain.text('Some random note');
-    expect(getByText(/add to calendar/i)).to.have.tagName('a');
-    expect(getByText(/cancel appointment/i)).to.have.tagName('button');
 
-    expect(
-      global.window.dataLayer.find(
-        e =>
-          e.event === 'vaos-number-of-items-retrieved' &&
-          e['vaos-item-type'] === 'video_va_facility',
-      )['vaos-number-of-items'],
-    ).to.equal(1);
+    fireEvent.click(await screen.findByText(/Details/));
+
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0]).to.equal(url),
+    );
+
+    await screen.findByText(
+      new RegExp(
+        startDate.tz('America/Denver').format('dddd, MMMM D, YYYY [at] h:mm a'),
+        'i',
+      ),
+    );
+
+    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+    expect(screen.baseElement).to.contain.text(
+      'VA Video Connect at VA location',
+    );
+    expect(screen.baseElement).to.contain.text(
+      'You must join this video meeting from the VA location listed below.',
+    );
+    expect(screen.queryByText(/join appointment/i)).to.not.exist;
+    expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
+    expect(screen.baseElement).to.contain.text('2360 East Pershing Boulevard');
+    expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
+    expect(screen.getByRole('link', { name: /Directions/ })).to.be.ok;
+
+    expect(screen.baseElement).to.contain.text('Clinic:  CHY PC VAR2');
+    expect(screen.baseElement).to.contain.text('Main phone: 307-778-7550');
+    expect(screen.getByRole('link', { name: /3 0 7. 7 7 8. 7 5 5 0./ })).to.be
+      .ok;
   });
 });
 
 describe('VAOS integration: upcoming ATLAS video appointments', () => {
+  beforeEach(() => mockFetch());
+  afterEach(() => resetFetch());
+
   it('should display ATLAS title', async () => {
     const appointment = getVideoAppointmentMock();
     const startDate = moment.utc().add(3, 'days');
@@ -630,61 +557,69 @@ describe('VAOS integration: upcoming ATLAS video appointments', () => {
       },
     };
 
-    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
-
-    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
-      initialState,
+    mockAppointmentInfo({
+      va: [appointment],
+      cc: [],
+      requests: [],
+      isHomepageRefresh: true,
     });
 
-    await screen.findByText(
-      (_, node) => node.textContent === 'VA Video Connect at an ATLAS location',
+    const screen = renderWithStoreAndRouter(
+      <AppointmentList featureHomepageRefresh />,
+      {
+        initialState,
+      },
     );
 
-    // Should display appointment date
-    expect(
-      screen.getByText(
-        new RegExp(
-          startDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
-          'i',
-        ),
+    fireEvent.click(await screen.findByText(/Details/));
+
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0]).to.equal(url),
+    );
+
+    expect(screen.getByRole('link', { name: /Manage appointments/ })).to.be.ok;
+
+    await screen.findByText(
+      new RegExp(
+        startDate.tz('America/Denver').format('dddd, MMMM D, YYYY [at] h:mm a'),
+        'i',
       ),
-    ).to.be.ok;
+    );
 
-    // Should display appointment status
-    expect(screen.getByText(/Confirmed/i)).to.be.ok;
+    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
 
-    // Should display how to join instructions
-    expect(screen.getByText(/How to join your video appointment/i)).to.be.ok;
-    expect(
-      screen.getByText(
-        /You must join this video meeting from the ATLAS \(non-VA\) location listed below./i,
-      ),
-    ).to.be.ok;
+    expect(screen.baseElement).to.contain.text(
+      'VA Video Connect at an ATLAS location',
+    );
 
-    // Should display appointment location address
-    expect(screen.getByText(/114 Dewey Ave/i)).to.be.ok;
+    expect(screen.baseElement).to.contain.text(
+      'You must join this video meeting from the ATLAS (non-VA) location listed below.',
+    );
+    expect(screen.baseElement).to.contain.text('114 Dewey Ave');
     expect(screen.baseElement).to.contain.text('Eureka, MT 59917');
+    expect(screen.getByRole('link', { name: /Directions/ })).to.be.ok;
 
-    // Should display directions to location
+    expect(screen.findByText(/Appointment Code: 7VBBCA/i)).to.be.ok;
+    expect(
+      screen.findByText(
+        /You will use this code to find your appointment using the computer provided at the site./i,
+      ),
+    ).to.be.ok;
+
     expect(
       screen.getByRole('link', {
-        name: 'Directions to ATLAS facility in Eureka, MT',
+        name: new RegExp(
+          startDate.format('[Add] MMMM D, YYYY [appointment to your calendar]'),
+          'i',
+        ),
       }),
     ).to.be.ok;
-
-    // Should display appointment code
-    expect(screen.getByText(/Appointment Code: 7VBBCA/i)).to.be.ok;
-
-    // Should display who you will be meeting with
-    expect(screen.getByText(/You’ll be meeting with/i)).to.be.ok;
-    expect(screen.getByText(/Meg Smith/i)).to.be.ok;
+    expect(screen.getByRole('link', { name: /Print/ })).to.be.ok;
 
     expect(
-      global.window.dataLayer.find(
-        e =>
-          e.event === 'vaos-number-of-items-retrieved' &&
-          e['vaos-item-type'] === 'video_atlas',
-      )['vaos-number-of-items'],
-    ).to.equal(1);
+      screen.findByText(
+        /contact this facility if you need to reschedule or cancel your appointment\./i,
+      ),
+    ).to.be.ok;
   });
 });

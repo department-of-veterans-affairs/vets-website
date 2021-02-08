@@ -33,11 +33,8 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
   const isGFE = isVideoGFE(appointment);
   const isVA = isVideoVAFacility(appointment);
   const [showMoreOpen, setShowMoreOpen] = useState(false);
-  const phone =
-    facility?.telecom?.find(tele => tele.system === 'phone').value ||
-    appointment.legacyVAR.apiData.vvsAppointments[0].providers[0]
-      .contactInformation.mobile;
-  const name = facility?.name || appointment.participant[0].actor.display;
+  const phone = facility?.telecom?.find(tele => tele.system === 'phone').value;
+  const name = facility?.name || appointment.participant[0]?.actor.display;
 
   if (appointment.vaos.isPastAppointment && videoKind === VIDEO_TYPES.clinic) {
     return (
@@ -130,8 +127,12 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
             !isVA && (
               <span className="vads-u-display--block vads-u-margin-top--2">
                 {name}
-                <br />
-                Main phone: <FacilityPhone contact={phone} />
+                {phone && (
+                  <>
+                    <br />
+                    Main phone: <FacilityPhone contact={phone} />
+                  </>
+                )}
               </span>
             )}
         </AlertBox>

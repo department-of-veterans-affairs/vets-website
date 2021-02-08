@@ -40,7 +40,7 @@ function formatAppointmentDate(date) {
 
 function formatHeader(appointment) {
   if (isVideoGFE(appointment)) {
-    return 'VA Video Connect using device';
+    return 'VA Video Connect using VA device';
   } else if (isVideoVAFacility(appointment)) {
     return 'VA Video Connect at VA location';
   } else if (isAtlasLocation(appointment)) {

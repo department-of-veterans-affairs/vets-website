@@ -112,7 +112,30 @@ export function getVideoAppointmentMock() {
               },
             },
           ],
-          providers: [],
+          providers: [
+            {
+              name: { firstName: 'Test T+90', lastName: 'Test' },
+              contactInformation: {
+                mobile: '8888888888',
+                preferredEmail: 'marcy.nadeau@va.gov',
+                timeZone: '10',
+              },
+              location: {
+                type: 'VA',
+                facility: {
+                  name: 'CHEYENNE VAMC',
+                  siteCode: '983',
+                  timeZone: '10',
+                },
+              },
+              virtualMeetingRoom: {
+                conference: 'VVC8275247',
+                pin: '7172705#',
+                url:
+                  'https://care2.evn.va.gov/vvc-app/?name=Test%2CTest+T%2B90&join=1&media=1&escalate=1&conference=VVC8275247@care2.evn.va.gov&pin=7172705#',
+              },
+            },
+          ],
         },
       ],
     },
