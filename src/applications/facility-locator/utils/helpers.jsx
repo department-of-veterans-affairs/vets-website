@@ -6,11 +6,13 @@ import { CLINIC_URGENTCARE_SERVICE, LocationType } from '../constants';
 import UrgentCareAlert from '../containers/UrgentCareAlert';
 import { recordMarkerEvents } from '../utils/analytics';
 
-export const setFocus = selector => {
+// https://stackoverflow.com/a/50171440/1000622
+// Should stop adding this attribute at all?
+export const setFocus = (selector, tabRemove) => {
   const el =
     typeof selector === 'string' ? document.querySelector(selector) : selector;
   if (el) {
-    el.setAttribute('tabIndex', -1);
+    if (!tabRemove) el.setAttribute('tabIndex', -1);
     el.focus();
   }
 };
