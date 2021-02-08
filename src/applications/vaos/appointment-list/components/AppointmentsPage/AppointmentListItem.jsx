@@ -86,7 +86,7 @@ export default function AppointmentListItem({ appointment, facility }) {
       <div className="vads-u-flex--1">
         {appointment.status === APPOINTMENT_STATUS.cancelled && (
           <span className="vaos-u-text-transform--uppercase vads-u-font-size--base vads-u-font-weight--bold vads-u-color--secondary-dark vads-u-margin-x--0 vads-u-margin-y--0">
-            Cancelled
+            Canceled
           </span>
         )}
         <h4 className="vads-u-font-size--h4 vads-u-margin-x--0 vads-u-margin-top--0 vads-u-margin-bottom--0p25">

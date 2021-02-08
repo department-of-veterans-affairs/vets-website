@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 
-import ProfileHeader from '../../components/ProfileHeader';
+import NameTag from './NameTag';
 
 const fakeStore = {
   getState: () => ({
@@ -41,14 +41,14 @@ const fakeStore = {
   dispatch: () => {},
 };
 
-describe('<ProfileHeader>', () => {
+describe('<NameTag>', () => {
   it('should render', () => {
-    const component = mount(<ProfileHeader store={fakeStore} />);
+    const component = mount(<NameTag store={fakeStore} />);
     expect(component).to.not.be.undefined;
     component.unmount();
   });
   it('should render name', () => {
-    const component = mount(<ProfileHeader store={fakeStore} />);
+    const component = mount(<NameTag store={fakeStore} />);
     expect(
       component
         .find('dd')
@@ -59,7 +59,7 @@ describe('<ProfileHeader>', () => {
   });
   it('should render most recent military service', () => {
     // this will render the most recent military service regardless of where it lands in the array
-    const component = mount(<ProfileHeader store={fakeStore} />);
+    const component = mount(<NameTag store={fakeStore} />);
     expect(
       component
         .find('dd')
@@ -69,15 +69,15 @@ describe('<ProfileHeader>', () => {
     component.unmount();
   });
   it('should render latest service badge', () => {
-    const component = mount(<ProfileHeader store={fakeStore} />);
+    const component = mount(<NameTag store={fakeStore} />);
     expect(component.find('img').first()).to.not.be.undefined;
     component.unmount();
   });
 
   it('should render disability rating when the dashboardShowDashboard2 feature flag is turned on and the user has a disability rating', () => {
     const component = mount(
-      <ProfileHeader
-        showUpdatedHeader
+      <NameTag
+        showUpdatedNameTag
         totalDisabilityRating="70"
         store={fakeStore}
       />,
@@ -92,9 +92,7 @@ describe('<ProfileHeader>', () => {
   });
 
   it('should not render disability rating when the dashboardShowDashboard2 feature flag is turned on and the user has no disability rating', () => {
-    const component = mount(
-      <ProfileHeader showUpdatedHeader store={fakeStore} />,
-    );
+    const component = mount(<NameTag showUpdatedNameTag store={fakeStore} />);
     expect(component.text()).to.not.contain('Service connected');
     component.unmount();
   });
