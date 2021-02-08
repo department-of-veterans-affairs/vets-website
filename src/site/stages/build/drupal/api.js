@@ -7,7 +7,8 @@ const chalk = require('chalk');
 const SocksProxyAgent = require('socks-proxy-agent');
 
 const DRUPALS = require('../../../constants/drupals');
-const { queries, getQuery, getIndividualizedQueries } = require('./queries');
+const { queries, getQuery } = require('./queries');
+const { getIndividualizedQueries } = require('./individual-queries');
 
 const syswidecas = require('syswide-cas');
 
@@ -170,7 +171,7 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
     async getAllPages(onlyPublishedContent = true) {
       /* eslint-disable no-console, no-await-in-loop */
 
-      console.log('Pulling from Drupal via GraphQL...');
+      say('Pulling from Drupal via GraphQL...');
 
       const result = {
         data: {
@@ -205,9 +206,7 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
             const { entities } = json.data.nodeQuery;
 
             result.data.nodeQuery.entities.push(...entities);
-            console.log(
-              `${entities.length} page nodes loaded from ${queryName}`,
-            );
+            say(`${entities.length} page nodes loaded from ${queryName}`);
           } else {
             Object.assign(result.data, json.data);
           }
