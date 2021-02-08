@@ -193,7 +193,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(screen.baseElement).to.contain.text('Cancelled');
+    expect(screen.baseElement).to.contain.text('Canceled');
   });
 
   it('should not display when they have hidden statuses', () => {

@@ -10,7 +10,6 @@ const reverseFieldSchema = {
         entity: partialSchema(eventSchema, [
           'title',
           'entityUrl',
-          'fieldDate',
           'fieldDatetimeRangeTimezone',
           'fieldDescription',
           'fieldLocationHumanreadable',
