@@ -137,11 +137,7 @@ class Profile extends Component {
     return (
       <BrowserRouter>
         <LastLocationProvider>
-          <ProfileWrapper
-            routes={routes}
-            isLOA3={this.props.isLOA3}
-            isInMVI={this.props.isInMVI}
-          >
+          <ProfileWrapper routes={routes} isInMVI={this.props.isInMVI}>
             <Switch>
               {/* Redirect users to Account Security to upgrade their account if they need to */}
               {routes.map(route => {

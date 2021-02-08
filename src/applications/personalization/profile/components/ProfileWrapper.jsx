@@ -7,7 +7,10 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 
 import { isWideScreen } from '~/platform/utilities/accessibility/index';
-import { selectProfile } from '~/platform/user/selectors';
+import {
+  selectProfile,
+  isLOA3 as isLOA3Selector,
+} from '~/platform/user/selectors';
 
 import {
   cnpDirectDepositLoadError,
@@ -18,6 +21,9 @@ import {
 } from '@@profile/selectors';
 
 import NameTag from '~/applications/personalization/components/NameTag';
+import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
+import { selectShowDashboard2 } from '~/applications/personalization/dashboard-2/selectors';
+
 import ProfileSubNav from './ProfileSubNav';
 import ProfileMobileSubNav from './ProfileMobileSubNav';
 import { PROFILE_PATHS } from '../constants';
@@ -43,8 +49,10 @@ const ProfileWrapper = ({
   routes,
   isLOA3,
   isInMVI,
-  hero,
   showNotAllDataAvailableError,
+  totalDisabilityRating,
+  showUpdatedNameTag,
+  showNameTag,
 }) => {
   const location = useLocation();
   const createBreadCrumbAttributes = () => {
@@ -66,6 +74,14 @@ const ProfileWrapper = ({
 
   return (
     <>
+      {showNameTag &&
+        showUpdatedNameTag && (
+          <NameTag
+            showUpdatedNameTag
+            totalDisabilityRating={totalDisabilityRating}
+          />
+        )}
+
       {/* Breadcrumbs */}
       <div data-testid="breadcrumbs">
         <Breadcrumbs className="vads-u-padding-x--1 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
@@ -84,7 +100,7 @@ const ProfileWrapper = ({
         </Breadcrumbs>
       </div>
 
-      {isEmpty(hero.errors) && isLOA3 && <NameTag />}
+      {showNameTag && !showUpdatedNameTag && <NameTag />}
 
       <div className="medium-screen:vads-u-display--none">
         <ProfileMobileSubNav
@@ -114,9 +130,18 @@ const mapStateToProps = state => {
   const veteranStatus = selectProfile(state)?.veteranStatus;
   const invalidVeteranStatus =
     !veteranStatus || veteranStatus === 'NOT_AUTHORIZED';
+  const LSDashboardVersion = localStorage.getItem('DASHBOARD_VERSION');
+  const LSDashboard1 = LSDashboardVersion === '1';
+  const LSDashboard2 = LSDashboardVersion === '2';
+  const FFDashboard2 = selectShowDashboard2(state);
+  const isLOA3 = isLOA3Selector(state);
+  const hero = state.vaProfile?.hero;
 
   return {
-    hero: state.vaProfile?.hero,
+    hero,
+    totalDisabilityRating: state.totalRating?.totalDisabilityRating,
+    showUpdatedNameTag: LSDashboard2 || (FFDashboard2 && !LSDashboard1),
+    showNameTag: isLOA3 && isEmpty(hero?.errors),
     showNotAllDataAvailableError:
       !!cnpDirectDepositLoadError(state) ||
       !!eduDirectDepositLoadError(state) ||
@@ -124,6 +149,10 @@ const mapStateToProps = state => {
       !!personalInformationLoadError(state) ||
       (!!militaryInformationLoadError(state) && !invalidVeteranStatus),
   };
+};
+
+const mapDispatchToProps = {
+  fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,
 };
 
 ProfileWrapper.propTypes = {
@@ -142,4 +171,7 @@ ProfileWrapper.propTypes = {
   showNotAllDataAvailableError: PropTypes.bool.isRequired,
 };
 
-export default connect(mapStateToProps)(ProfileWrapper);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ProfileWrapper);
