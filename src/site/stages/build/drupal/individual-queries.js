@@ -35,7 +35,6 @@ const {
   GetNodeEventsSlice1,
   GetNodeEventsSlice2,
   GetNodeEventsSlice3,
-  GetNodeEventsSlice4,
 } = require('./graphql/eventPage.graphql');
 
 const {
@@ -101,7 +100,6 @@ const nodeQueries = {
   GetNodeEventsSlice1,
   GetNodeEventsSlice2,
   GetNodeEventsSlice3,
-  GetNodeEventsSlice4,
   GetNodeStoryListingPages,
   GetNodeLocationsListingPages,
   GetNodeLeadershipListingPages,
