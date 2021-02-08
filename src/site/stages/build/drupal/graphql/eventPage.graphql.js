@@ -3,6 +3,7 @@
  * Example: /pittsburgh-health-care/events/example-event
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
+const moment = require('moment');
 
 const eventPage = `
  fragment eventPage on NodeEvent {
@@ -78,6 +79,13 @@ const eventPage = `
  }
 `;
 
+const firstDayOfMonthUnixStamp = moment()
+  .second(0)
+  .minute(0)
+  .hour(0)
+  .date(1)
+  .unix();
+
 const GetNodeEventPages = `
   ${eventPage}
 
@@ -85,7 +93,7 @@ const GetNodeEventPages = `
     nodeQuery(limit: 1000, filter: {
       conditions: [
         { field: "status", value: ["1"], enabled: $onlyPublishedContent },
-        { field: "type", value: ["event"] }
+        { field: "field_datetime_range_timezone.end_value", value: ["${firstDayOfMonthUnixStamp}"], operator: GREATER_THAN },
       ]
     }) {
       entities {
@@ -95,7 +103,26 @@ const GetNodeEventPages = `
   }
 `;
 
+const GetArchivedNodeEventPages = `
+${eventPage}
+
+query GetNodeEventPages($onlyPublishedContent: Boolean!) {
+  nodeQuery(limit: 1000, filter: {
+    conditions: [
+      { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+      { field: "type", value: ["event"] },
+      { field: "field_datetime_range_timezone.end_value", value: ["${firstDayOfMonthUnixStamp}"], operator: SMALLER_THAN_OR_EQUAL },
+    ]
+  }) {
+    entities {
+      ... eventPage
+    }
+  }
+}
+`;
+
 module.exports = {
   fragment: eventPage,
   GetNodeEventPages,
+  GetArchivedNodeEventPages,
 };
