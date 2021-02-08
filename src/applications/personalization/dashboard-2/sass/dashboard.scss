@@ -8,10 +8,10 @@
   .health-care {
     hr {
       height: 3px;
-      width: 60%;
+      width: 100%;
 
-      @media (max-width: $small-screen) {
-        width: 100%;
+      @media (min-width: $medium-screen) {
+        width: 60%;
       }
     }
   }
