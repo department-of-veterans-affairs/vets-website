@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const deepDiff = require('deep-diff');
-const { map, camelCase, isEqual } = require('lodash');
+const { map, camelCase, get, isEqual, omit } = require('lodash');
 const commandLineArgs = require('command-line-args');
 const commandLineUsage = require('command-line-usage');
 const assembleEntityTreeFactory = require('../../src/site/stages/build/process-cms-exports');
@@ -180,24 +180,15 @@ const compareArrays = (cmsExportArray, graphQLArray, dataPath) => {
   }
 
   cmsExportArray.forEach((cmsItem, index) => {
-    if (!isEqual(cmsItem, graphQLArray[index])) {
+    const graphQlItem = graphQLArray[index];
+    if (
+      !isEqual(omit(cmsItem, keysToIgnore), omit(graphQlItem, keysToIgnore))
+    ) {
       console.log('ARRAY DIFF FOUND FOR', dataPath, 'index', index);
       console.log('CMS item:', JSON.stringify(cmsItem, null, 2));
       console.log('GQL item:', JSON.stringify(graphQLArray[index], null, 2));
     }
   });
-};
-
-Object.byArray = (o, pathArray) => {
-  let result = o;
-  for (const pathPart of pathArray) {
-    if (pathPart in result) {
-      result = result[pathPart];
-    } else {
-      break;
-    }
-  }
-  return result;
 };
 
 /**
@@ -231,14 +222,19 @@ const compareJson = (baseGraphQlObject, baseCmsExportObject) => {
   // CMS objects may have additional properties
   const diffs = deepDiff(graphQlObject, cmsExportObject, (diffPath, key) => {
     // Store arrays for comparison by alternate method.
-    const cmsObject = Object.byArray(cmsExportObject, diffPath);
-    const graphQLObject = Object.byArray(cmsExportObject, diffPath);
-    const isArray = Array.isArray(cmsObject);
+    const cmsObjectAtPath = get(cmsExportObject, diffPath);
+    const graphQlObjectAtPath = get(graphQlObject, diffPath);
 
-    if (isArray) {
+    const isArrayPath =
+      cmsObjectAtPath &&
+      graphQlObjectAtPath &&
+      Array.isArray(cmsObjectAtPath) &&
+      Array.isArray(graphQlObjectAtPath);
+
+    if (isArrayPath) {
       arraysToCompare.push({
-        cmsObject,
-        graphQLObject,
+        cmsObjectAtPath,
+        graphQlObjectAtPath,
         path: diffPath.join('.'),
       });
       return true;
@@ -250,8 +246,8 @@ const compareJson = (baseGraphQlObject, baseCmsExportObject) => {
 
   arraysToCompare.forEach(comparison => {
     compareArrays(
-      comparison.cmsObject,
-      comparison.graphQLObject,
+      comparison.cmsObjectAtPath,
+      comparison.graphQlObjectAtPath,
       comparison.path,
     );
   });
