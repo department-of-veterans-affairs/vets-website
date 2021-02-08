@@ -24,6 +24,7 @@ import {
 
 import reducers from '../../../../redux/reducer';
 import AppointmentsPageV2 from '../../../../appointment-list/components/AppointmentsPage/AppointmentsPageV2';
+import ScheduleNewProjectCheetah from '../../../../appointment-list/components/AppointmentsPage/ScheduleNewProjectCheetah';
 
 const initialState = {
   featureToggles: {
@@ -436,5 +437,28 @@ describe('VAOS <AppointmentsPageV2>', () => {
       ),
     ).to.be.ok;
     expect(screen.getByRole('link', { name: 'Request appointment' }));
+  });
+  it('should show COVID-19 appt schedule button', async () => {
+    const defaultState = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingCheetah: true,
+      },
+      user: userState,
+    };
+    const screen = renderWithStoreAndRouter(<ScheduleNewProjectCheetah />, {
+      initialState: defaultState,
+    });
+
+    expect(
+      await screen.findAllByRole('heading', {
+        level: 2,
+        name: /Schedule a COVID-19 vaccination/,
+      }),
+    );
+
+    expect(
+      screen.getByText(/You may be eligible to receive the COVID-19 vaccine/i),
+    ).to.be.ok;
   });
 });

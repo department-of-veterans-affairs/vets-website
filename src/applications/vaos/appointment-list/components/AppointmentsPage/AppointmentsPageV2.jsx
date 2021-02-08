@@ -27,6 +27,7 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import WarningNotification from '../../../components/WarningNotification';
 import Select from '../../../components/Select';
+import ScheduleNewProjectCheetah from './ScheduleNewProjectCheetah';
 
 const pageTitle = 'VA appointments';
 
@@ -61,11 +62,13 @@ function AppointmentsPageV2({
   fetchExpressCareWindows,
   isCernerOnlyPatient,
   isWelcomeModalDismissed,
+  showCheetahScheduleButton,
   showCommunityCare,
   showDirectScheduling,
   showScheduleButton,
   startNewAppointmentFlow,
   startNewExpressCareFlow,
+  showHomePageRefresh,
 }) {
   const location = useLocation();
 
@@ -136,6 +139,18 @@ function AppointmentsPageV2({
           }}
         />
       )}
+      {showCheetahScheduleButton && (
+        <ScheduleNewProjectCheetah
+          startNewAppointmentFlow={() => {
+            recordEvent({
+              event: `${GA_PREFIX}-schedule-project-cheetah-button-clicked`,
+            });
+            startNewAppointmentFlow();
+          }}
+          showHomePageRefresh={showHomePageRefresh}
+        />
+      )}
+
       {expressCare.useNewFlow &&
         !isCernerOnlyPatient && (
           <RequestExpressCare
@@ -172,6 +187,7 @@ AppointmentsPageV2.propTypes = {
   showCommunityCare: PropTypes.bool.isRequired,
   showDirectScheduling: PropTypes.bool.isRequired,
   startNewAppointmentFlow: PropTypes.func.isRequired,
+  showCheetahScheduleButton: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
