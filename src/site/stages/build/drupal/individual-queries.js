@@ -31,7 +31,10 @@ const {
   GetNodeEventListingPage,
 } = require('./graphql/eventListingPage.graphql');
 
-const { GetNodeEventPages, GetArchivedNodeEventPages } = require('./graphql/eventPage.graphql');
+const {
+  GetNodeEventPages,
+  GetArchivedNodeEventPages,
+} = require('./graphql/eventPage.graphql');
 
 const {
   GetNodeStoryListingPages,
