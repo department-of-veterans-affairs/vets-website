@@ -164,6 +164,15 @@ describe('VAOS cheetah: <ContactFacilitiesPage>', () => {
     expect(screen.getByText(/555-555-5556, ext\. 1234/i)).to.be.ok;
 
     expect(screen.queryByText(/Facility that is furthest away/i)).not.to.be.ok;
+    expect(screen.getAllByRole('link').map(el => el.textContent)).to.deep.equal(
+      [
+        'Facility that is enabled',
+        '555-555-5555, ext. 1234',
+        'Facility that is also enabled',
+        '555-555-5556, ext. 1234',
+        'Search for more facilities',
+      ],
+    );
     expect(
       screen.getByRole('link', { name: /search for more facilities/i }),
     ).to.have.attribute('href', '/find-locations');
