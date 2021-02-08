@@ -167,16 +167,15 @@ const getParentNode = (
 const compareArrays = (cmsExportArray, graphQLArray, dataPath) => {
   const cmsArrayLength = cmsExportArray.length;
   const graphQLLength = graphQLArray.length;
+  const arrayDiffs = [];
 
   if (cmsArrayLength !== graphQLLength) {
-    console.log(
-      'ARRAY LENGTHS DIFFER FOR',
-      dataPath,
-      'cmsExport length: ',
-      cmsArrayLength,
-      'graphQL length',
-      graphQLLength,
-    );
+    arrayDiffs.push({
+      diffType: 'Array Length',
+      path: dataPath,
+      graphQL: graphQLLength,
+      cmsExport: cmsArrayLength,
+    });
   }
 
   cmsExportArray.forEach((cmsItem, index) => {
@@ -184,11 +183,16 @@ const compareArrays = (cmsExportArray, graphQLArray, dataPath) => {
     if (
       !isEqual(omit(cmsItem, keysToIgnore), omit(graphQlItem, keysToIgnore))
     ) {
-      console.log('ARRAY DIFF FOUND FOR', dataPath, 'index', index);
-      console.log('CMS item:', JSON.stringify(cmsItem, null, 2));
-      console.log('GQL item:', JSON.stringify(graphQLArray[index], null, 2));
+      arrayDiffs.push({
+        diffType: 'Array Edit',
+        path: `${dataPath}/${index}`,
+        graphQL: graphQLArray[index],
+        cmsExport: cmsItem,
+      });
     }
   });
+
+  return arrayDiffs.length ? arrayDiffs : null;
 };
 
 /**
@@ -216,11 +220,11 @@ const compareJson = (baseGraphQlObject, baseCmsExportObject) => {
     }
   });
 
-  const arraysToCompare = [];
+  const arrayDiffs = [];
 
   // Get array of differences. Exclude new properties because transformed
   // CMS objects may have additional properties
-  const diffs = deepDiff(graphQlObject, cmsExportObject, (diffPath, key) => {
+  let diffs = deepDiff(graphQlObject, cmsExportObject, (diffPath, key) => {
     // Store arrays for comparison by alternate method.
     const cmsObjectAtPath = get(cmsExportObject, diffPath);
     const graphQlObjectAtPath = get(graphQlObject, diffPath);
@@ -232,11 +236,13 @@ const compareJson = (baseGraphQlObject, baseCmsExportObject) => {
       Array.isArray(graphQlObjectAtPath);
 
     if (isArrayPath) {
-      arraysToCompare.push({
+      const compareArrayResult = compareArrays(
         cmsObjectAtPath,
         graphQlObjectAtPath,
-        path: diffPath.join('.'),
-      });
+        diffPath.join('.'),
+      );
+      if (compareArrayResult) arrayDiffs.push(...compareArrayResult);
+
       return true;
     }
 
@@ -244,15 +250,7 @@ const compareJson = (baseGraphQlObject, baseCmsExportObject) => {
     return keysToIgnore.includes(key);
   });
 
-  arraysToCompare.forEach(comparison => {
-    compareArrays(
-      comparison.cmsObjectAtPath,
-      comparison.graphQlObjectAtPath,
-      comparison.path,
-    );
-  });
-
-  return diffs?.filter(d => d.kind !== 'N').map(diff => {
+  diffs = diffs?.filter(d => d.kind !== 'N').map(diff => {
     return {
       diffType: getDiffType(diff),
       path: diff.index
@@ -263,6 +261,8 @@ const compareJson = (baseGraphQlObject, baseCmsExportObject) => {
       ...('rhs' in diff && { cmsExport: diff.rhs }),
     };
   });
+
+  return { deepDiffs: diffs, arrayDiffs };
 };
 
 /**
@@ -325,9 +325,11 @@ const runComparison = () => {
       if (diff) {
         fs.writeFileSync(
           path.join(__dirname, `../../content-object-diff.json`),
-          JSON.stringify(diff),
+          JSON.stringify(diff.deepDiffs),
         );
-        console.log(`${diff.length} differences: './content-object-diff.json'`);
+        console.log(
+          `${diff.deepDiffs.length} differences: './content-object-diff.json'`,
+        );
       } else {
         console.log(`No differences found!`);
       }
@@ -374,10 +376,9 @@ const runComparison = () => {
       )[0];
       if (baseObject) {
         const diff = compareJson(baseObject, entity);
-        if (diff && diff.length !== 0) {
-          totalDiffs += diff.length - 1;
-          // Add entity file name to diff output
-          diff.unshift({
+        if (diff.deepDiffs?.length > 0 || diff.arrayDiffs?.length > 0) {
+          // Entity file name object to add to diff file
+          const entityFileObject = {
             entityFile: `node.${
               rawEntities.find(
                 rawEntity =>
@@ -385,17 +386,31 @@ const runComparison = () => {
                   parseInt(entity.entityId, 10),
               ).uuid
             }.json`,
-          });
-          fs.writeFileSync(
-            path.join(
-              __dirname,
-              `../../content-object-diffs/${entity.entityBundle}-${
-                entity.entityId
-              }.json`,
-            ),
-            JSON.stringify(diff, null, 2),
+          };
+          // Default name for file
+          const defaultFileName = path.join(
+            __dirname,
+            `../../content-object-diffs/${entity.entityBundle}-${
+              entity.entityId
+            }`,
           );
-          ++nodesWithDiffs;
+
+          // Add entity file name to deepDiff/arrayDiff outputs
+          if (diff.deepDiffs?.length > 0) {
+            totalDiffs += diff.deepDiffs.length - 1;
+            diff.deepDiffs.unshift(entityFileObject);
+            fs.writeFileSync(
+              `${defaultFileName}.json`,
+              JSON.stringify(diff.deepDiffs, null, 2),
+            );
+            ++nodesWithDiffs;
+          } else {
+            diff.arrayDiffs.unshift(entityFileObject);
+            fs.writeFileSync(
+              `${defaultFileName}-array.json`,
+              JSON.stringify(diff.arrayDiffs, null, 2),
+            );
+          }
         }
         ++totalObjectsCompared;
       }
