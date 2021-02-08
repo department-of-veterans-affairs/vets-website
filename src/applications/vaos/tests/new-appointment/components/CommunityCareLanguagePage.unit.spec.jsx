@@ -63,7 +63,7 @@ describe('VAOS integration: reason for appointment page with a single-site user'
     expect(textBox).to.exist;
     expect(textBox)
       .to.have.attribute('maxlength')
-      .to.equal('100');
+      .to.equal('250');
 
     expect(screen.baseElement).to.contain.text(
       'Tell us the reason for this appointment',
