@@ -181,41 +181,59 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
         },
       };
 
-      const individualQueries = getIndividualizedQueries();
+      const individualQueries = Object.entries(getIndividualizedQueries());
 
-      const requests = Object.entries(individualQueries).map(
-        async ([queryName, query]) => {
-          const request = this.query({
-            query,
-            variables: {
-              today: moment().format('YYYY-MM-DD'),
-              onlyPublishedContent,
-            },
-          });
+      const parallelQuery = async () => {
+        const [queryName, query] = individualQueries.pop();
+        const request = this.query({
+          query,
+          variables: {
+            today: moment().format('YYYY-MM-DD'),
+            onlyPublishedContent,
+          },
+        });
 
-          console.time(`${queryName} done`);
+        const startTime = moment();
+        const json = await request;
 
-          const json = await request;
+        if (json.errors) {
+          console.log(json.errors);
+          throw new Error(`${queryName} resulted in errors`);
+        }
 
-          if (json.errors) {
-            console.log(json.errors);
-            throw new Error(`${queryName} resulted in errors`);
-          }
+        if (json.data?.nodeQuery) {
+          result.data.nodeQuery.entities.push(...json.data.nodeQuery.entities);
+        } else {
+          Object.assign(result.data, json.data);
+        }
 
-          if (json.data?.nodeQuery) {
-            const { entities } = json.data.nodeQuery;
+        let timeElapsed = moment().diff(startTime, 'seconds');
+        let pageCount = json.data.nodeQuery
+          ? json.data.nodeQuery.entities.length
+          : '[n/a]';
 
-            result.data.nodeQuery.entities.push(...entities);
-            say(`${entities.length} page nodes loaded from ${queryName}`);
-          } else {
-            Object.assign(result.data, json.data);
-          }
+        if (timeElapsed > 60) {
+          timeElapsed = chalk.red(timeElapsed);
+        }
 
-          console.timeEnd(`${queryName} done`);
-        },
+        if (pageCount > 100) {
+          pageCount = chalk.red(pageCount);
+        }
+
+        say(`${chalk.blue(queryName)} | ${timeElapsed}s | ${pageCount} pages`);
+
+        if (individualQueries.length > 0) {
+          return parallelQuery();
+        }
+
+        return true;
+      };
+
+      const maxParallelRequests = 8;
+
+      await Promise.all(
+        new Array(maxParallelRequests).fill(null).map(() => parallelQuery()),
       );
-
-      await Promise.all(requests);
 
       console.log(
         `Finished all queries - ${result.data.nodeQuery.entities.length} pages`,
