@@ -46,7 +46,7 @@ function ContactFacilitiesPage({
     return (
       <div>
         {title}
-        <ErrorMessage />
+        <ErrorMessage level="2" />
       </div>
     );
   }
