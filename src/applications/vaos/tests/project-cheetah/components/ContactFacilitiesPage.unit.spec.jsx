@@ -169,6 +169,140 @@ describe('VAOS cheetah: <ContactFacilitiesPage>', () => {
     ).to.have.attribute('href', '/find-locations');
   });
 
+  it('should show five facilities in alpha order when no residential address', async () => {
+    mockDirectBookingEligibilityCriteria(parentSiteIds, [
+      getDirectBookingEligibilityCriteriaMock({
+        id: '983',
+        typeOfCareId: '301',
+        patientHistoryRequired: null,
+      }),
+      getDirectBookingEligibilityCriteriaMock({
+        id: '983GC',
+        typeOfCareId: '301',
+        patientHistoryRequired: null,
+      }),
+      getDirectBookingEligibilityCriteriaMock({
+        id: '984',
+        typeOfCareId: '301',
+        patientHistoryRequired: null,
+      }),
+      getDirectBookingEligibilityCriteriaMock({
+        id: '984GC',
+        typeOfCareId: '301',
+        patientHistoryRequired: null,
+      }),
+      getDirectBookingEligibilityCriteriaMock({
+        id: '984GD',
+        typeOfCareId: '301',
+        patientHistoryRequired: null,
+      }),
+      getDirectBookingEligibilityCriteriaMock({
+        id: '984GA',
+        typeOfCareId: '301',
+        patientHistoryRequired: null,
+      }),
+    ]);
+    mockRequestEligibilityCriteria(parentSiteIds, [
+      getRequestEligibilityCriteriaMock({
+        id: '983',
+        typeOfCareId: '301',
+        patientHistoryRequired: null,
+      }),
+      getRequestEligibilityCriteriaMock({
+        id: '983GC',
+        typeOfCareId: '301',
+        patientHistoryRequired: null,
+      }),
+      getRequestEligibilityCriteriaMock({
+        id: '984',
+        typeOfCareId: '301',
+        patientHistoryRequired: null,
+      }),
+      getRequestEligibilityCriteriaMock({
+        id: '984GC',
+        typeOfCareId: '301',
+        patientHistoryRequired: null,
+      }),
+      getRequestEligibilityCriteriaMock({
+        id: '984GD',
+        typeOfCareId: '301',
+        patientHistoryRequired: null,
+      }),
+      getRequestEligibilityCriteriaMock({
+        id: '984GA',
+        typeOfCareId: '301',
+        patientHistoryRequired: null,
+      }),
+    ]);
+    mockFacilitiesFetch(
+      'vha_442,vha_442GC,vha_552,vha_552GC,vha_552GD,vha_552GA',
+      [
+        {
+          id: '983',
+          attributes: {
+            ...getVAFacilityMock().attributes,
+            uniqueId: '983',
+            name: 'F facility',
+          },
+        },
+        {
+          id: '983GC',
+          attributes: {
+            ...getVAFacilityMock().attributes,
+            uniqueId: '983GC',
+            name: 'A facility',
+          },
+        },
+        {
+          id: '984',
+          attributes: {
+            ...getVAFacilityMock().attributes,
+            uniqueId: '984',
+            name: 'B facility',
+          },
+        },
+        {
+          id: '984GC',
+          attributes: {
+            ...getVAFacilityMock().attributes,
+            uniqueId: '984GC',
+            name: 'C facility',
+          },
+        },
+        {
+          id: '984GD',
+          attributes: {
+            ...getVAFacilityMock().attributes,
+            uniqueId: '984GD',
+            name: 'D facility',
+          },
+        },
+        {
+          id: '984GA',
+          attributes: {
+            ...getVAFacilityMock().attributes,
+            uniqueId: '984GA',
+            name: 'E facility',
+          },
+        },
+      ],
+    );
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<ContactFacilitiesPage />, {
+      store,
+    });
+    expect(await screen.findByRole('link', { name: /A facility/i })).to.be.ok;
+    expect(screen.getAllByRole('link').map(el => el.textContent)).to.deep.equal(
+      [
+        'A facility',
+        'B facility',
+        'C facility',
+        'D facility',
+        'E facility',
+        'Search for more facilities',
+      ],
+    );
+  });
   it('should show error message', async () => {
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<ContactFacilitiesPage />, {
