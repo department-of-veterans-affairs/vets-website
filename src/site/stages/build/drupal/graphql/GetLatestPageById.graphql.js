@@ -45,26 +45,26 @@ const {
 module.exports = `
 
   ${ALL_FRAGMENTS}
-  ${landingPage}
-  ${page}
-  ${healthCareRegionPage}
-  ${healthCareLocalFacilityPage}
-  ${healthCareRegionDetailPage}
-  ${pressReleasePage}
-  ${vamcOperatingStatusAndAlerts}
-  ${newsStoryPage}
-  ${eventPage}
-  ${bioPage}
-  ${vaFormPage}
-  ${nodeQa}
-  ${faqMultipleQa}
-  ${nodeStepByStep}
-  ${nodeMediaListImages}
-  ${nodeChecklist}
-  ${nodeMediaListVideos}
-  ${nodeSupportResourcesDetailPage}
-  ${nodeBasicLandingPage}
-  ${nodeCampaignLandingPage}
+  ${landingPage.fragment}
+  ${page.fragment}
+  ${healthCareRegionPage.fragment}
+  ${healthCareLocalFacilityPage.fragment}
+  ${healthCareRegionDetailPage.fragment}
+  ${pressReleasePage.fragment}
+  ${vamcOperatingStatusAndAlerts.fragment}
+  ${newsStoryPage.fragment}
+  ${eventPage.fragment}
+  ${bioPage.fragment}
+  ${vaFormPage.fragment}
+  ${nodeQa.fragment}
+  ${faqMultipleQa.fragment}
+  ${nodeStepByStep.fragment}
+  ${nodeMediaListImages.fragment}
+  ${nodeChecklist.fragment}
+  ${nodeMediaListVideos.fragment}
+  ${nodeSupportResourcesDetailPage.fragment}
+  ${nodeBasicLandingPage.fragment}
+  ${nodeCampaignLandingPage.fragment}
 
   query GetLatestPageById($id: String!, $today: String!, $onlyPublishedContent: Boolean!) {
     nodes: nodeQuery(revisions: LATEST, filter: {
