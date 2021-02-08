@@ -176,17 +176,21 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
   }
 }
 
-def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache, Boolean contentOnlyBuild) {
+def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache, Boolean contentOnlyBuild, Boolean useCMSExport) {
   // Use Drupal prod for all environments
   def drupalAddress = DRUPAL_ADDRESSES.get('vagovprod')
   def drupalCred = DRUPAL_CREDENTIALS.get('vagovprod')
   def drupalMode = useCache ? '' : '--pull-drupal'
+  def cmsExportFlag = useCMSExport ? '--use-cms-export' : ''
+
+  // Output CMS export builds to separate directories for comparison
+  def destination = useCMSExport ? "${envName}-cms-export" : envName;
 
   withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLogPath = "/application/${envName}-build.log"
 
-      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose"
+      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose ${cmsExportFlag} --destination ${destination}"
 
       if (envName == 'vagovprod' || envName == 'vagovstaging') {
         // Find any broken links in the log
@@ -211,7 +215,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
         def envName = VAGOV_BUILDTYPES.get(i)
         builds[envName] = {
           try {
-            build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+            build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild, false)
             envUsedCache[envName] = false
           } catch (error) {
             // We're not using the cache for content only builds, because requesting
@@ -220,15 +224,26 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
               dockerContainer.inside(DOCKER_ARGS) {
                 sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
               }
-              build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
+              build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild, false)
               envUsedCache[envName] = true
             } else {
-              build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+              build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild, false)
               envUsedCache[envName] = false
             }
           }
         }
       }
+
+      /******** Experimental CMS export build (dev) ********/
+      builds['vagovdev-cms-export'] = {
+        try {
+          build(ref, dockerContainer, assetSource, 'vagovdev', false, contentOnlyBuild, true)
+        } catch (error) {
+          // Don't fail the build, just report the error
+          echo "Experimental CMS export build failed: ${error}"
+        }
+      }
+      /******** End experimental CMS export build ********/
 
       parallel builds
       return envUsedCache

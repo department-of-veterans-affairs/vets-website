@@ -187,9 +187,18 @@ export function fetchFutureAppointments() {
     });
 
     try {
+      /**
+       * Canceled list will use the same fetched appointments as the upcoming
+       * and requests lists, but needs confirmed to go back 30 days. Appointments
+       * will be filtered out by date accordingly in our selectors
+       */
       const data = await Promise.all([
         getBookedAppointments({
-          startDate: moment().format('YYYY-MM-DD'),
+          startDate: featureHomepageRefresh
+            ? moment()
+                .subtract(30, 'days')
+                .format('YYYY-MM-DD')
+            : moment().format('YYYY-MM-DD'),
           endDate: moment()
             .add(395, 'days')
             .format('YYYY-MM-DD'),
