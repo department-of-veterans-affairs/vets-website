@@ -43,17 +43,8 @@ export const uiSchema = {
         </p>
         <p>
           If you want to change your address for other VA benefits and services,{' '}
-          <a
-            className="vads-u-text-decoration--none"
-            href="https://va.gov/profile"
-          >
-            go to your VA.gov profile
-          </a>
-          . Or{' '}
-          <a
-            className="vads-u-text-decoration--none"
-            href="https://va.gov/profile"
-          >
+          <a href="https://va.gov/profile">go to your VA.gov profile</a>. Or{' '}
+          <a href="https://va.gov/profile">
             find out how to change your address on file with VA
           </a>
           .
@@ -245,6 +236,7 @@ export const schema = {
   properties: {
     mailingAddress: {
       type: 'object',
+      required: ['country', 'addressLine1', 'city', 'state', 'zipCode'],
       properties: {
         livesOutsideUS: {
           type: 'boolean',
