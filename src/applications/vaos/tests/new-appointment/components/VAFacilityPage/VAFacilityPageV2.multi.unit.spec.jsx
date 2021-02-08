@@ -133,11 +133,11 @@ closestFacility.attributes.name = 'Closest facility';
 closestFacility.attributes.lat = 39.50603012; // Dayton, OH
 closestFacility.attributes.long = -84.3164749;
 
-describe('VAOS cheetah <VAFacilityPage>', () => {
+describe('VAOS integration: VA flat facility page - multiple facilities', () => {
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
 
-  it('should display list of facilities', async () => {
+  it('should display list of facilities with show more button', async () => {
     mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
     mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
     mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
