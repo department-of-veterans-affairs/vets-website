@@ -168,7 +168,7 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
       }
     },
 
-    async getAllPages(onlyPublishedContent = true) {
+    async getAllPagesViaIndividualGraphQlQueries(onlyPublishedContent = true) {
       /* eslint-disable no-console, no-await-in-loop */
 
       say('Pulling from Drupal via GraphQL...');
@@ -222,6 +222,16 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
       );
 
       return result;
+    },
+
+    getAllPages(onlyPublishedContent = true) {
+      return this.query({
+        query: getQuery(queries.GET_ALL_PAGES),
+        variables: {
+          today: moment().format('YYYY-MM-DD'),
+          onlyPublishedContent,
+        },
+      });
     },
 
     getNonNodeContent(onlyPublishedContent = true) {

@@ -102,6 +102,7 @@ const GetNodeLandingPages = `
 `;
 
 module.exports = {
-  fragment: landingPageFragmentModified,
+  fragment: landingPageFragment,
+  modifiedFragment: landingPageFragmentModified,
   GetNodeLandingPages,
 };

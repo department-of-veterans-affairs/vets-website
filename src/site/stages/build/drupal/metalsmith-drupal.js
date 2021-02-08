@@ -159,7 +159,11 @@ async function getContentViaGraphQL(buildOptions) {
 
     console.time(drupalTimer);
 
-    drupalPages = await contentApi.getAllPages();
+    if (buildOptions.buildtype === ENVIRONMENTS.VAGOVPROD) {
+      drupalPages = await contentApi.getAllPages();
+    } else {
+      drupalPages = await contentApi.getAllPagesViaIndividualGraphQlQueries();
+    }
 
     console.timeEnd(drupalTimer);
 
