@@ -4,8 +4,7 @@ import { useHistory } from 'react-router-dom';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../components/FormButtons';
 import * as actions from '../redux/actions';
-import { getFormPageInfo } from '../redux/selectors';
-import { TYPE_OF_VISIT } from '../../utils/constants';
+import { getProjectCheetahFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 
 const initialSchema = {
@@ -69,7 +68,7 @@ function ReceivedDoseScreenerPage({
 }
 
 function mapStateToProps(state) {
-  return getFormPageInfo(state, pageKey);
+  return getProjectCheetahFormPageInfo(state, pageKey);
 }
 
 const mapDispatchToProps = {

@@ -158,3 +158,15 @@ export function selectConfirmationPage(state) {
     systemId: getSiteIdForChosenFacility(state),
   };
 }
+
+export function selectContactFacilitiesPageInfo(state) {
+  const newBooking = selectProjectCheetahNewBooking(state);
+
+  const { facilities, facilitiesStatus } = newBooking;
+
+  return {
+    facilities,
+    facilitiesStatus,
+    sortMethod: newBooking.facilityPageSortMethod,
+  };
+}

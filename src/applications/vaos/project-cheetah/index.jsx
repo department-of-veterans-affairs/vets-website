@@ -21,6 +21,8 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 import FullWidthLayout from '../components/FullWidthLayout';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { selectFeatureProjectCheetah } from '../redux/selectors';
+import ReceivedDoseScreenerPage from './components/ReceivedDoseScreenerPage';
+import ContactFacilitiesPage from './components/ContactFacilitiesPage';
 
 export function NewBookingSection({ allowBookings, featureProjectCheetah }) {
   const match = useRouteMatch();
@@ -75,6 +77,14 @@ export function NewBookingSection({ allowBookings, featureProjectCheetah }) {
     <FormLayout>
       {allowBookings && (
         <Switch>
+          <Route
+            path={`${match.url}/received-dose`}
+            component={ReceivedDoseScreenerPage}
+          />
+          <Route
+            path={`${match.url}/contact-facilities`}
+            component={ContactFacilitiesPage}
+          />
           <Route path={`${match.url}/facility`} component={VAFacilityPage} />
           <Route path={`${match.url}/clinic`} component={ClinicChoicePage} />
           <Route
