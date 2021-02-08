@@ -14,7 +14,8 @@ import {
   isLoggedIn as isLoggedInSelector,
 } from '~/platform/user/selectors';
 
-import NameTag from '~/applications/personalization/profile/components/NameTag';
+import NameTag from '~/applications/personalization/components/NameTag';
+import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
 
 import {
@@ -22,7 +23,6 @@ import {
   fetchHero as fetchHeroAction,
 } from '@@profile/actions';
 
-import IdentityNotVerified from './IdentityNotVerified';
 import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import HealthCare from './health-care/HealthCare';
@@ -97,7 +97,13 @@ const Dashboard = ({
             My VA
           </h1>
 
-          {props.showValidateIdentityAlert && <IdentityNotVerified />}
+          {props.showValidateIdentityAlert && (
+            <div className="vads-l-row">
+              <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+                <IdentityNotVerified alertHeadline="Verify your identity to access more VA.gov tools and features" />
+              </div>
+            </div>
+          )}
           {props.showClaimsAndAppeals && <ClaimsAndAppeals />}
           {props.showHealthCare && <HealthCare />}
           <ApplyForBenefits />

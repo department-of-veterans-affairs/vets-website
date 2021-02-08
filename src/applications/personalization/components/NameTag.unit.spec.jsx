@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 
-import NameTag from '../../components/NameTag';
+import NameTag from './NameTag';
 
 const fakeStore = {
   getState: () => ({
