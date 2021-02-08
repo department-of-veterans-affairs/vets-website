@@ -1,20 +1,12 @@
 type TypeOfCareId = 'CR1' | '323';
 
-interface FHIRType {
-  coding: [
-    {
-      code: TypeOfCareId;
-      display: string;
-    }
-  ];
-}
 type LocationReference = `Location/${string}`; 
 type OrganizationReference = `Organization/${string}`; 
 type HealthcareServiceReference = `HealthcareServiceReference/${string}`; 
 type PractitionerReference = `PractitionerReference/${string}`; 
 type ClinicPartipant = {
   actor: {
-    reference: string;
+    reference: HealthcareServiceReference;
     display: string;
   };
 };
@@ -35,11 +27,6 @@ type CommunityCarePractitionerParticipant = {
     display: string;
   };
 };
-export type Participant =
-  | ClinicPartipant
-  | VALocationPartipant
-  | VideoPractitionerParticipant
-  | CommunityCarePractitionerParticipant;
 
 type VideoVisitType =
   | 'ADHOC'
@@ -90,8 +77,6 @@ type VideoVisitResource = {
   characteristic: [VideoVisitCoding, ATLASCode | undefined];
 };
 
-type ContainedResource = VideoVisitResource;
-
 export type Appointment = {
   resourceType: 'Appointment';
   // Mapped from the mobile appointment service id or the var-resources request id
@@ -123,25 +108,78 @@ export type Appointment = {
   // Mapped from vdsAppointment.currentStatus or vvsAppointment.status.code for appoinments
   // Null for other types of appointments/requests
   description?: string;
+  // Only mapped for requests, undefined for appointments 
+  type?: {
+    coding: [
+      {
+        // Mapped from appt.typeOfCareId
+        code: TypeOfCareId;
+        // Mapped from appt.appointmentType
+        display: string;
+      }
+    ];
+  }
+  // Mapped from appointmentTime for CC appointments, vvsAppointments.dateTime for video appointments,
+  // startDate for VistA appointments, and date for Express Care requests
   start?: string;
+  // Mapped from vdsAppointments.appointmentLength for VistA appointments or vvsAppointments.duration
+  // for video appointments. Defaulted to 60 minutes if missing or a request.
   minutesDuration: number;
+  // Mapped from instructionsToVeteran for community care appointments
+  // Mapped from vdsAppointments.bookingNotes for VistA appointments
+  // Mapped from vvsAppointments.instructionsTitle for video appointments,
+  // Mapped from additionalInformation for requests, but that only has content for Express Care requests
   comment?: string;
+  // Mapped from reasonForVisit for Express Care requests
+  // Mapped from purposeForVisit for regular requests
+  // Empty for other appointment types
   reason?: string;
-  comment?: string;
-  participant: Array<Participant>;
-  contained: Array<ContainedResource>;
-  legacyVAR: Object;
-  type?: FHIRType;
+  // Array of resources participating in this appointment, used to store information like clinic and location
+  participant: Array<
+    // Mapped from VistA clinic information for appointments
+    ClinicPartipant |
+    // Mapped from VA facility id and name info in appointments or requests 
+    VALocationPartipant|
+    // Mapped from vvsAppointments.providers for video appointments
+    VideoPractitionerParticipant |
+    // Mapped from community care provider info for community care appointments
+    CommunityCarePractitionerParticipant
+  >;
+  // Fully defined resources specific to this appointment, currently just used for video information
+  contained: Array<VideoVisitResource>;
+  legacyVAR: {
+    // This is the full appointment/request object. Generally, we shouldn't be pulling data from here
+    apiData: Object;
+    // Mapped from bestTimetoCall for requests
+    bestTimeToCall: Array<string>;
+  };
+  // Mapped from optionDate and optionTime fields 1 through 3
   requestedPeriods?: Array<{
+    // These dates will either have a midnight to Noon start and end time, or a Noon to midnight timeframe,
+    // dependening on if the user chose AM or PM
     start: string;
     end: string;
   }>;
+  // This object should contain derived data or information we need that doesn't fit in the FHIR format
   vaos: {
-    appointmentType: string;
+    appointmentType: 
+      // Chosen for any item that has a typeOfCareId starting with CC 
+      'ccRequest' |
+      // Chosen for any item with an appointmentTime field or a communityCare flag set to true 
+      'ccAppointment' | 
+      // Chosen for any item with a typeOfCareId field that doesn't start with CC
+      'request' |
+      // Chosen for any item with a vvsAppointments array or a clinicId and a falsy communityCare flag
+      'vaAppointment';
+    // Set to true if appointmentType above is either ccRequest or ccAppointment
     isCommunityCare: boolean;
+    // Set to true if the appointment is in the past, undefined for requests
     isPastAppointment?: boolean;
+    // Mapped to timeZone for community care requests, null or undefined otherwise
     timeZone?: string;
+    // Mapped from phoneOnly field for VistA appointments, undefined otherwise
     isPhoneAppointment?: boolean;
+    // Set to true if typeOfCareId is CR1
     isExpressCare?: boolean;
   };
 };
