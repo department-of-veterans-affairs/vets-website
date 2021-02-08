@@ -3,7 +3,6 @@
  * Example: /pittsburgh-health-care/events/example-event
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
-const moment = require('moment');
 
 const eventPage = `
  fragment eventPage on NodeEvent {
@@ -79,50 +78,32 @@ const eventPage = `
  }
 `;
 
-const firstDayOfMonthUnixStamp = moment()
-  .second(0)
-  .minute(0)
-  .hour(0)
-  .date(1)
-  .unix();
+function getNodeEventSlice(operationName, offset, limit = 200) {
+  return `
+    ${eventPage}
 
-const GetNodeEventPages = `
-  ${eventPage}
-
-  query GetNodeEventPages($onlyPublishedContent: Boolean!) {
-    nodeQuery(limit: 1000, filter: {
-      conditions: [
-        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
-        { field: "field_datetime_range_timezone.end_value", value: ["${firstDayOfMonthUnixStamp}"], operator: GREATER_THAN },
-      ]
-    }) {
-      entities {
-        ... eventPage
+    query ${operationName}($onlyPublishedContent: Boolean!) {
+      nodeQuery(
+        limit: ${limit}
+        offset: ${offset}
+        sort: { field: "field_datetime_range_timezone.end_value", direction:  ASC }
+        filter: {
+        conditions: [
+          { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+          { field: "type", value: ["event"] }
+        ]
+      }) {
+        entities {
+          ... eventPage
+        }
       }
     }
-  }
-`;
-
-const GetArchivedNodeEventPages = `
-${eventPage}
-
-query GetNodeEventPages($onlyPublishedContent: Boolean!) {
-  nodeQuery(limit: 1000, filter: {
-    conditions: [
-      { field: "status", value: ["1"], enabled: $onlyPublishedContent },
-      { field: "type", value: ["event"] },
-      { field: "field_datetime_range_timezone.end_value", value: ["${firstDayOfMonthUnixStamp}"], operator: SMALLER_THAN_OR_EQUAL },
-    ]
-  }) {
-    entities {
-      ... eventPage
-    }
-  }
+  `;
 }
-`;
 
 module.exports = {
   fragment: eventPage,
-  GetNodeEventPages,
-  GetArchivedNodeEventPages,
+  GetNodeEventsSlice1: getNodeEventSlice('GetNodeEventsSlice1', 0),
+  GetNodeEventsSlice2: getNodeEventSlice('GetNodeEventsSlice1', 200),
+  GetNodeEventsSlice3: getNodeEventSlice('GetNodeEventsSlice1', 400, 9999),
 };
