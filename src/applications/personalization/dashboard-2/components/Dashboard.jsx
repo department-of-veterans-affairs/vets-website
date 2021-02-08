@@ -76,7 +76,7 @@ const Dashboard = ({
     return <Loader />;
   } else {
     return (
-      <>
+      <div className="dashboard">
         {props.showNameTag && (
           <NameTag
             showUpdatedNameTag
@@ -108,7 +108,7 @@ const Dashboard = ({
           {props.showHealthCare && <HealthCare />}
           <ApplyForBenefits />
         </div>
-      </>
+      </div>
     );
   }
 };
