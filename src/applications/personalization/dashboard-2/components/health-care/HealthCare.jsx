@@ -99,6 +99,7 @@ const HealthCare = () => {
             rel="noreferrer noopener"
             target="_blank"
             className="vads-u-margin-bottom--2"
+            // onClick={recordEvent()}
           >
             Get your lab and test results
           </a>
