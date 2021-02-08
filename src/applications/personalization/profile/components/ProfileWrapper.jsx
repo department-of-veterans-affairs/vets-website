@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
@@ -7,10 +7,7 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 
 import { isWideScreen } from '~/platform/utilities/accessibility/index';
-import {
-  selectProfile,
-  isLOA3 as isLOA3Selector,
-} from '~/platform/user/selectors';
+import { selectProfile } from '~/platform/user/selectors';
 
 import {
   cnpDirectDepositLoadError,
@@ -50,10 +47,21 @@ const ProfileWrapper = ({
   isLOA3,
   isInMVI,
   showNotAllDataAvailableError,
+  fetchTotalDisabilityRating,
   totalDisabilityRating,
   showUpdatedNameTag,
   showNameTag,
 }) => {
+  // fetch data when we determine they are LOA3
+  useEffect(
+    () => {
+      if (isLOA3 && showUpdatedNameTag) {
+        fetchTotalDisabilityRating();
+      }
+    },
+    [showUpdatedNameTag, isLOA3, fetchTotalDisabilityRating],
+  );
+
   const location = useLocation();
   const createBreadCrumbAttributes = () => {
     const activeLocation = location?.pathname;
@@ -126,7 +134,7 @@ const ProfileWrapper = ({
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   const veteranStatus = selectProfile(state)?.veteranStatus;
   const invalidVeteranStatus =
     !veteranStatus || veteranStatus === 'NOT_AUTHORIZED';
@@ -134,14 +142,13 @@ const mapStateToProps = state => {
   const LSDashboard1 = LSDashboardVersion === '1';
   const LSDashboard2 = LSDashboardVersion === '2';
   const FFDashboard2 = selectShowDashboard2(state);
-  const isLOA3 = isLOA3Selector(state);
   const hero = state.vaProfile?.hero;
 
   return {
     hero,
     totalDisabilityRating: state.totalRating?.totalDisabilityRating,
     showUpdatedNameTag: LSDashboard2 || (FFDashboard2 && !LSDashboard1),
-    showNameTag: isLOA3 && isEmpty(hero?.errors),
+    showNameTag: ownProps.isLOA3 && isEmpty(hero?.errors),
     showNotAllDataAvailableError:
       !!cnpDirectDepositLoadError(state) ||
       !!eduDirectDepositLoadError(state) ||
