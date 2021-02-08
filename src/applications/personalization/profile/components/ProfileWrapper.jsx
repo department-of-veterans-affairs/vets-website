@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
@@ -18,9 +18,6 @@ import {
 } from '@@profile/selectors';
 
 import NameTag from '~/applications/personalization/components/NameTag';
-import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
-import { selectShowDashboard2 } from '~/applications/personalization/dashboard-2/selectors';
-
 import ProfileSubNav from './ProfileSubNav';
 import ProfileMobileSubNav from './ProfileMobileSubNav';
 import { PROFILE_PATHS } from '../constants';
@@ -47,21 +44,10 @@ const ProfileWrapper = ({
   isLOA3,
   isInMVI,
   showNotAllDataAvailableError,
-  fetchTotalDisabilityRating,
   totalDisabilityRating,
   showUpdatedNameTag,
   showNameTag,
 }) => {
-  // fetch data when we determine they are LOA3
-  useEffect(
-    () => {
-      if (isLOA3 && showUpdatedNameTag) {
-        fetchTotalDisabilityRating();
-      }
-    },
-    [showUpdatedNameTag, isLOA3, fetchTotalDisabilityRating],
-  );
-
   const location = useLocation();
   const createBreadCrumbAttributes = () => {
     const activeLocation = location?.pathname;
@@ -138,16 +124,11 @@ const mapStateToProps = (state, ownProps) => {
   const veteranStatus = selectProfile(state)?.veteranStatus;
   const invalidVeteranStatus =
     !veteranStatus || veteranStatus === 'NOT_AUTHORIZED';
-  const LSDashboardVersion = localStorage.getItem('DASHBOARD_VERSION');
-  const LSDashboard1 = LSDashboardVersion === '1';
-  const LSDashboard2 = LSDashboardVersion === '2';
-  const FFDashboard2 = selectShowDashboard2(state);
   const hero = state.vaProfile?.hero;
 
   return {
     hero,
     totalDisabilityRating: state.totalRating?.totalDisabilityRating,
-    showUpdatedNameTag: LSDashboard2 || (FFDashboard2 && !LSDashboard1),
     showNameTag: ownProps.isLOA3 && isEmpty(hero?.errors),
     showNotAllDataAvailableError:
       !!cnpDirectDepositLoadError(state) ||
@@ -156,10 +137,6 @@ const mapStateToProps = (state, ownProps) => {
       !!personalInformationLoadError(state) ||
       (!!militaryInformationLoadError(state) && !invalidVeteranStatus),
   };
-};
-
-const mapDispatchToProps = {
-  fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,
 };
 
 ProfileWrapper.propTypes = {
@@ -178,7 +155,4 @@ ProfileWrapper.propTypes = {
   showNotAllDataAvailableError: PropTypes.bool.isRequired,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ProfileWrapper);
+export default connect(mapStateToProps)(ProfileWrapper);
