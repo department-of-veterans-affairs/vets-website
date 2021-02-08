@@ -190,6 +190,13 @@ export const BankInfoCNP = ({
           target="_blank"
           rel="noopener noreferrer"
           href="https://www.va.gov/disability/eligibility/"
+          onClick={() => {
+            recordEvent({
+              event: 'profile-navigation',
+              'profile-action': 'view-link',
+              'profile-section': 'education-benefits',
+            });
+          }}
         >
           Find out if you’re eligible for VA disability benefits
         </a>
