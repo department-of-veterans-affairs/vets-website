@@ -205,7 +205,10 @@ const compareArrays = (cmsExportArray, graphQLArray, dataPath) => {
       keysToIgnore,
     );
 
-    if (!isEqual(cleanGraphQlItem, cleanCmsItem)) {
+    if (
+      !isEqual(cleanGraphQlItem, cleanCmsItem) &&
+      JSON.stringify(cleanGraphQlItem) !== JSON.stringify(cleanCmsItem)
+    ) {
       arrayDiffs.push({
         diffType: 'Array Edit',
         path: `${dataPath}/${index}`,
