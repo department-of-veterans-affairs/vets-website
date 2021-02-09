@@ -45,6 +45,10 @@ export default {
   },
   selectDate1: {
     url: '/new-project-cheetah-booking/select-date-1',
+    next: 'contactInfo',
+  },
+  contactInfo: {
+    url: '/new-project-cheetah-booking/contact-info',
     next: 'review',
   },
   review: {

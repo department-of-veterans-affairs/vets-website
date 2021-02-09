@@ -15,6 +15,7 @@ import VAFacilityPage from './components/VAFacilityPage';
 import ClinicChoicePage from './components/ClinicChoicePage';
 import SelectDate1Page from './components/SelectDate1Page';
 import SelectDate2Page from './components/SelectDate2Page';
+import ContactInfoPage from './components/ContactInfoPage';
 import ReviewPage from './components/ReviewPage';
 import ConfirmationPage from './components/ConfirmationPage';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
@@ -84,6 +85,10 @@ export function NewBookingSection({ allowBookings, featureProjectCheetah }) {
           <Route
             path={`${match.url}/select-date-2`}
             component={SelectDate2Page}
+          />
+          <Route
+            path={`${match.url}/contact-info`}
+            component={ContactInfoPage}
           />
           <Route path={`${match.url}/review`} component={ReviewPage} />
           <Route
