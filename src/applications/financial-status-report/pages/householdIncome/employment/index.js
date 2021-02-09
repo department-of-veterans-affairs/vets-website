@@ -2,7 +2,7 @@ export const uiSchema = {
   'ui:title': 'Your employment history',
   employment: {
     isEmployed: {
-      'ui:title': 'Do you have a job now?',
+      'ui:title': 'Do you currently have a job?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
     },
