@@ -215,10 +215,10 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
       def builds = [:]
       def envUsedCache = [:]
       def assetSource = contentOnlyBuild ? ref : 'local'
-      def useCMSExport = envName == 'vagovdev-cms-export' ? true : false
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
+        def useCMSExport = envName == 'vagovdev-cms-export' ? true : false
         builds[envName] = {
           try {
             build(ref, dockerContainer, assetSource, 'vagovdev', false, contentOnlyBuild, useCMSExport)
