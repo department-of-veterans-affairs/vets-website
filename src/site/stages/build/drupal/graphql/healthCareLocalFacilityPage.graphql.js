@@ -121,27 +121,78 @@ const healthCareLocalFacilityPageFragment = `
   }
 `;
 
-const GetNodeHealthCareLocalFacilityPages = `
+function getNodeHealthCareLocalFacilityPagesSlice(
+  operationName,
+  offset,
+  limit = 100,
+) {
+  return `
+    ${fragments.listOfLinkTeasers}
+    ${fragments.linkTeaser}
+    ${healthCareLocalFacilityPageFragment}
 
-  ${fragments.listOfLinkTeasers}
-  ${fragments.linkTeaser}
-  ${healthCareLocalFacilityPageFragment}
-
-  query GetNodeHealthCareLocalFacilityPages($onlyPublishedContent: Boolean!) {
-    nodeQuery(limit: 1000, filter: {
-      conditions: [
-        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
-        { field: "type", value: ["health_care_local_facility"] }
-      ]
-    }) {
-      entities {
-        ... healthCareLocalFacilityPage
+    query ${operationName}($onlyPublishedContent: Boolean!) {
+      nodeQuery(
+        limit: ${limit}
+        offset: ${offset}
+        sort: { field: "changed", direction:  ASC }
+        filter: {
+          conditions: [
+            { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+            { field: "type", value: ["health_care_local_facility"] }
+          ]
+      }) {
+        entities {
+          ... healthCareLocalFacilityPage
+        }
       }
     }
-  }
-`;
+  `;
+}
 
 module.exports = {
   fragment: healthCareLocalFacilityPageFragment,
-  GetNodeHealthCareLocalFacilityPages,
+  NodeHealthCareLocalFacilityPageSlices: {
+    GetNodeHealthCareLocalFacilityPagesSlice1: getNodeHealthCareLocalFacilityPagesSlice(
+      'GetNodeHealthCareLocalFacilityPagesSlice1',
+      0,
+    ),
+    GetNodeHealthCareLocalFacilityPagesSlice2: getNodeHealthCareLocalFacilityPagesSlice(
+      'GetNodeHealthCareLocalFacilityPagesSlice2',
+      100,
+    ),
+    GetNodeHealthCareLocalFacilityPagesSlice3: getNodeHealthCareLocalFacilityPagesSlice(
+      'GetNodeHealthCareLocalFacilityPagesSlice3',
+      200,
+    ),
+    GetNodeHealthCareLocalFacilityPagesSlice4: getNodeHealthCareLocalFacilityPagesSlice(
+      'GetNodeHealthCareLocalFacilityPagesSlice4',
+      300,
+    ),
+    GetNodeHealthCareLocalFacilityPagesSlice5: getNodeHealthCareLocalFacilityPagesSlice(
+      'GetNodeHealthCareLocalFacilityPagesSlice5',
+      400,
+    ),
+    GetNodeHealthCareLocalFacilityPagesSlice6: getNodeHealthCareLocalFacilityPagesSlice(
+      'GetNodeHealthCareLocalFacilityPagesSlice6',
+      500,
+    ),
+    GetNodeHealthCareLocalFacilityPagesSlice7: getNodeHealthCareLocalFacilityPagesSlice(
+      'GetNodeHealthCareLocalFacilityPagesSlice7',
+      600,
+    ),
+    GetNodeHealthCareLocalFacilityPagesSlice8: getNodeHealthCareLocalFacilityPagesSlice(
+      'GetNodeHealthCareLocalFacilityPagesSlice8',
+      700,
+    ),
+    GetNodeHealthCareLocalFacilityPagesSlice9: getNodeHealthCareLocalFacilityPagesSlice(
+      'GetNodeHealthCareLocalFacilityPagesSlice9',
+      800,
+    ),
+    GetNodeHealthCareLocalFacilityPagesSlice10: getNodeHealthCareLocalFacilityPagesSlice(
+      'GetNodeHealthCareLocalFacilityPagesSlice10',
+      900,
+      9999,
+    ),
+  },
 };

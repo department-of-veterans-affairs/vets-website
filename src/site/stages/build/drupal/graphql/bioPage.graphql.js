@@ -49,11 +49,11 @@ const personProfileFragment = `
  }
 `;
 
-function getNodePersonProfilesSlices(operationName, offset, limit = 50) {
+function getNodePersonProfilesSlices(operationName, offset, limit = 100) {
   return `
     ${personProfileFragment}
 
-    query GetNodePersonProfiles($onlyPublishedContent: Boolean!) {
+    query ${operationName}($onlyPublishedContent: Boolean!) {
       nodeQuery(
         limit: ${limit}
         offset: ${offset}
@@ -81,11 +81,39 @@ module.exports = {
     ),
     GetNodePersonProfileSlice2: getNodePersonProfilesSlices(
       'GetNodePersonProfileSlice2',
-      50,
+      100,
     ),
     GetNodePersonProfileSlice3: getNodePersonProfilesSlices(
       'GetNodePersonProfileSlice3',
-      100,
+      200,
+    ),
+    GetNodePersonProfileSlice4: getNodePersonProfilesSlices(
+      'GetNodePersonProfileSlice4',
+      300,
+    ),
+    GetNodePersonProfileSlice5: getNodePersonProfilesSlices(
+      'GetNodePersonProfileSlice5',
+      400,
+    ),
+    GetNodePersonProfileSlice6: getNodePersonProfilesSlices(
+      'GetNodePersonProfileSlice6',
+      500,
+    ),
+    GetNodePersonProfileSlice7: getNodePersonProfilesSlices(
+      'GetNodePersonProfileSlice7',
+      600,
+    ),
+    GetNodePersonProfileSlice8: getNodePersonProfilesSlices(
+      'GetNodePersonProfileSlice8',
+      700,
+    ),
+    GetNodePersonProfileSlice9: getNodePersonProfilesSlices(
+      'GetNodePersonProfileSlice9',
+      800,
+    ),
+    GetNodePersonProfileSlice10: getNodePersonProfilesSlices(
+      'GetNodePersonProfileSlice10',
+      900,
       9999,
     ),
   },

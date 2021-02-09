@@ -73,40 +73,96 @@ const healthCareRegionDetailPage = `
   }
 `;
 
-const GetNodeHealthCareRegionDetailPage = `
-  ${fragments.wysiwyg}
-  ${fragments.staffProfile}
-  ${fragments.collapsiblePanel}
-  ${fragments.process}
-  ${fragments.qaSection}
-  ${fragments.qa}
-  ${fragments.listOfLinkTeasers}
-  ${fragments.reactWidget}
-  ${fragments.numberCallout}
-  ${fragments.table}
-  ${fragments.alertParagraph}
-  ${fragments.downloadableFile}
-  ${fragments.embeddedImage}
-  ${fragments.linkTeaser}
-  ${fragments.alert}
+function getNodeHealthCareRegionDetailPageSlice(
+  operationName,
+  offset,
+  limit = 100,
+) {
+  return `
+    ${fragments.wysiwyg}
+    ${fragments.staffProfile}
+    ${fragments.collapsiblePanel}
+    ${fragments.process}
+    ${fragments.qaSection}
+    ${fragments.qa}
+    ${fragments.listOfLinkTeasers}
+    ${fragments.reactWidget}
+    ${fragments.numberCallout}
+    ${fragments.table}
+    ${fragments.alertParagraph}
+    ${fragments.downloadableFile}
+    ${fragments.embeddedImage}
+    ${fragments.linkTeaser}
+    ${fragments.alert}
 
-  ${healthCareRegionDetailPage}
+    ${healthCareRegionDetailPage}
 
-  query GetNodeHealthCareRegionDetailPage($onlyPublishedContent: Boolean!) {
-    nodeQuery(limit: 1000, filter: {
-      conditions: [
-        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
-        { field: "type", value: ["health_care_region_detail_page"] }
-      ]
-    }) {
-      entities {
-        ... healthCareRegionDetailPage
+    query ${operationName}($onlyPublishedContent: Boolean!) {
+      nodeQuery(
+        limit: ${limit}
+        offset: ${offset}
+        sort: { field: "changed", direction:  ASC }
+        filter: {
+          conditions: [
+            { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+            { field: "type", value: ["health_care_region_detail_page"] }
+          ]
+      }) {
+        entities {
+          ... healthCareRegionDetailPage
+        }
       }
     }
-  }
-`;
+  `;
+}
 
 module.exports = {
   fragment: healthCareRegionDetailPage,
-  GetNodeHealthCareRegionDetailPage,
+  HealthCareRegionDetailPageSlices: {
+    GetNodeHealthCareRegionDetailPageSlice1: getNodeHealthCareRegionDetailPageSlice(
+      'GetNodeHealthCareRegionDetailPageSlice1',
+      0,
+    ),
+    GetNodeHealthCareRegionDetailPageSlice2: getNodeHealthCareRegionDetailPageSlice(
+      'GetNodeHealthCareRegionDetailPageSlice2',
+      100,
+    ),
+    GetNodeHealthCareRegionDetailPageSlice3: getNodeHealthCareRegionDetailPageSlice(
+      'GetNodeHealthCareRegionDetailPageSlice3',
+      200,
+    ),
+    GetNodeHealthCareRegionDetailPageSlice4: getNodeHealthCareRegionDetailPageSlice(
+      'GetNodeHealthCareRegionDetailPageSlice4',
+      300,
+    ),
+    GetNodeHealthCareRegionDetailPageSlice5: getNodeHealthCareRegionDetailPageSlice(
+      'GetNodeHealthCareRegionDetailPageSlice5',
+      400,
+    ),
+    GetNodeHealthCareRegionDetailPageSlice6: getNodeHealthCareRegionDetailPageSlice(
+      'GetNodeHealthCareRegionDetailPageSlice6',
+      500,
+    ),
+    GetNodeHealthCareRegionDetailPageSlice7: getNodeHealthCareRegionDetailPageSlice(
+      'GetNodeHealthCareRegionDetailPageSlice7',
+      600,
+    ),
+    GetNodeHealthCareRegionDetailPageSlice8: getNodeHealthCareRegionDetailPageSlice(
+      'GetNodeHealthCareRegionDetailPageSlice8',
+      700,
+    ),
+    GetNodeHealthCareRegionDetailPageSlice9: getNodeHealthCareRegionDetailPageSlice(
+      'GetNodeHealthCareRegionDetailPageSlice9',
+      800,
+    ),
+    GetNodeHealthCareRegionDetailPageSlice10: getNodeHealthCareRegionDetailPageSlice(
+      'GetNodeHealthCareRegionDetailPageSlice10',
+      900,
+    ),
+    GetNodeHealthCareRegionDetailPageSlice11: getNodeHealthCareRegionDetailPageSlice(
+      'GetNodeHealthCareRegionDetailPageSlice11',
+      1000,
+      9999,
+    ),
+  },
 };

@@ -5,17 +5,17 @@ const { VaFormQuerySlices } = require('./graphql/vaFormPage.graphql');
 const { NodePersonProfilesSlices } = require('./graphql/bioPage.graphql');
 
 const {
-  GetNodeHealthCareRegionPages,
+  NodeHealthCareRegionPageSlices,
 } = require('./graphql/healthCareRegionPage.graphql');
 
 const { GetNodeOffices } = require('./graphql/officePage.graphql');
 
 const {
-  GetNodeHealthCareLocalFacilityPages,
+  NodeHealthCareLocalFacilityPageSlices,
 } = require('./graphql/healthCareLocalFacilityPage.graphql');
 
 const {
-  GetNodeHealthServicesListingPages,
+  NodeHealthServicesListingPageSlices,
 } = require('./graphql/healthServicesListingPage.graphql');
 
 const { GetNodeNewsStoryPages } = require('./graphql/newStoryPage.graphql');
@@ -55,7 +55,7 @@ const {
 } = require('./graphql/benefitListingPage.graphql');
 
 const {
-  GetNodeHealthCareRegionDetailPage,
+  HealthCareRegionDetailPageSlices,
 } = require('./graphql/healthCareRegionDetailPage.graphql');
 
 const { GetNodeQa } = require('./graphql/nodeQa.graphql');
@@ -85,11 +85,11 @@ const nodeQueries = {
   ...NodePageSlices,
   GetNodeLandingPages,
   ...VaFormQuerySlices,
-  GetNodeHealthCareRegionPages,
+  ...NodeHealthCareRegionPageSlices,
   ...NodePersonProfilesSlices,
   GetNodeOffices,
-  GetNodeHealthCareLocalFacilityPages,
-  GetNodeHealthServicesListingPages,
+  ...NodeHealthCareLocalFacilityPageSlices,
+  ...NodeHealthServicesListingPageSlices,
   GetNodeNewsStoryPages,
   GetNodePressReleasePages,
   GetNodePressReleaseListingPages,
@@ -100,7 +100,7 @@ const nodeQueries = {
   GetNodeLeadershipListingPages,
   GetNodeVamcOperatingStatusAndAlerts,
   GetNodePublicationListingPages,
-  GetNodeHealthCareRegionDetailPage,
+  ...HealthCareRegionDetailPageSlices,
   GetNodeQa,
   GetNodeMultipleQaPages,
   GetNodeStepByStep,

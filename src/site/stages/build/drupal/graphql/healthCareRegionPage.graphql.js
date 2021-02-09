@@ -211,7 +211,75 @@ const GetNodeHealthCareRegionPages = `
   }
 `;
 
+function getNodeHealthCareRegionPageSlice(operationName, offset, limit = 5) {
+  return `
+    ${fragments.linkTeaser}
+    ${fragments.listOfLinkTeasers}
+    ${healthCareRegionPageFragment}
+
+    query ${operationName}($today: String!, $onlyPublishedContent: Boolean!) {
+      nodeQuery(
+        limit: ${limit}
+        offset: ${offset}
+        sort: { field: "title", direction:  ASC }
+        filter: {
+          conditions: [
+            { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+            { field: "type", value: ["health_care_region_page"] }
+          ]
+      }) {
+        entities {
+          ... healthCareRegionPage
+        }
+      }
+    }
+`;
+}
+
 module.exports = {
   fragment: healthCareRegionPageFragment,
   GetNodeHealthCareRegionPages,
+  NodeHealthCareRegionPageSlices: {
+    GetNodeHealthCareRegionPageSlice1: getNodeHealthCareRegionPageSlice(
+      'GetNodeHealthCareRegionPageSlice1',
+      0,
+    ),
+    GetNodeHealthCareRegionPageSlice2: getNodeHealthCareRegionPageSlice(
+      'GetNodeHealthCareRegionPageSlice2',
+      5,
+    ),
+    GetNodeHealthCareRegionPageSlice3: getNodeHealthCareRegionPageSlice(
+      'GetNodeHealthCareRegionPageSlice3',
+      10,
+    ),
+    GetNodeHealthCareRegionPageSlice4: getNodeHealthCareRegionPageSlice(
+      'GetNodeHealthCareRegionPageSlice4',
+      15,
+    ),
+    GetNodeHealthCareRegionPageSlice5: getNodeHealthCareRegionPageSlice(
+      'GetNodeHealthCareRegionPageSlice5',
+      20,
+    ),
+    GetNodeHealthCareRegionPageSlice6: getNodeHealthCareRegionPageSlice(
+      'GetNodeHealthCareRegionPageSlice6',
+      25,
+    ),
+    GetNodeHealthCareRegionPageSlice7: getNodeHealthCareRegionPageSlice(
+      'GetNodeHealthCareRegionPageSlice7',
+      30,
+    ),
+    GetNodeHealthCareRegionPageSlice8: getNodeHealthCareRegionPageSlice(
+      'GetNodeHealthCareRegionPageSlice8',
+      35,
+    ),
+    GetNodeHealthCareRegionPageSlice9: getNodeHealthCareRegionPageSlice(
+      'GetNodeHealthCareRegionPageSlice9',
+      40,
+    ),
+    GetNodeHealthCareRegionPageSlice10: getNodeHealthCareRegionPageSlice(
+      'GetNodeHealthCareRegionPageSlice10',
+      45,
+      9999,
+    ),
+  },
 };
