@@ -27,6 +27,7 @@ const keysToIgnore = [
   'contentModelType',
   'entityBundle',
   'entityId',
+  'breadcrumb', // breadcrumbs are generated from the URL
 ];
 
 const commandLineDefs = [
