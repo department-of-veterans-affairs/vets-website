@@ -6,6 +6,8 @@ import {
   isVideoHome,
   isVideoGFE,
   isVideoVAFacility,
+  getATLASLocation,
+  isVideoAppointment,
 } from '../../../services/appointment';
 import { VIDEO_TYPES } from '../../../utils/constants';
 import VideoLink from './VideoLink';
@@ -19,6 +21,7 @@ import AdditionalInfoRow from './AdditionalInfoRow';
 import { VideoVisitInstructions } from './VideoInstructions';
 import AddToCalendar from 'applications/vaos/components/AddToCalendar';
 import moment from 'applications/vaos/lib/moment-tz';
+import { formatFacilityAddress } from 'applications/vaos/services/location';
 
 // Only use this when we need to pass data that comes back from one of our
 // services files to one of the older api functions
@@ -26,15 +29,62 @@ function parseFakeFHIRId(id) {
   return id ? id.replace('var', '') : id;
 }
 
+function getLocation(
+  isAtlas,
+  isVideo,
+  videoKind,
+  isCommunityCare,
+  facility,
+  appointment,
+) {
+  if (isAtlas) {
+    const atlasLocation = getATLASLocation(appointment);
+    if (atlasLocation?.address) {
+      return formatFacilityAddress(atlasLocation);
+    }
+  } else if (videoKind === VIDEO_TYPES.clinic) {
+    return facility ? formatFacilityAddress(facility) : null;
+  } else if (videoKind === VIDEO_TYPES.gfe) {
+    return 'Video conference';
+  } else if (isVideo) {
+    return 'Video conference';
+  } else if (isCommunityCare) {
+    const address = appointment.contained.find(
+      res => res.resourceType === 'Location',
+    )?.address;
+    if (address) {
+      return `${address.line[0]}, ${address.city}, ${address.state} ${
+        address.postalCode
+      }`;
+    }
+  } else {
+    if (appointment.vaos.isPhoneAppointment) {
+      return 'Phone call';
+    }
+    return facility ? formatFacilityAddress(facility) : null;
+  }
+  return '';
+}
+
 export default function VideoVisitLocation({ header, appointment, facility }) {
   const videoKind = getVideoKind(appointment);
   const isAtlas = isAtlasLocation(appointment);
   const isHome = isVideoHome(appointment);
+  const isVideo = isVideoAppointment(appointment);
   const isGFE = isVideoGFE(appointment);
   const isVA = isVideoVAFacility(appointment);
   const [showMoreOpen, setShowMoreOpen] = useState(false);
   const phone = facility?.telecom?.find(tele => tele.system === 'phone').value;
   const name = facility?.name || appointment.participant[0]?.actor.display;
+  const isCommunityCare = appointment.vaos.isCommunityCare;
+  const location = getLocation(
+    isAtlas,
+    isVideo,
+    videoKind,
+    isCommunityCare,
+    facility,
+    appointment,
+  );
 
   if (appointment.vaos.isPastAppointment && videoKind === VIDEO_TYPES.clinic) {
     return (
