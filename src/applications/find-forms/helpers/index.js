@@ -1,3 +1,7 @@
+// dependencies
+import moment from 'moment';
+
+// relative imports
 import { deriveLatestIssue } from '../components/SearchResult';
 import { SORT_OPTIONS } from '../constants';
 /**
@@ -12,7 +16,6 @@ export const sortTheResults = (sortByPropertyName, indexA, indexB) => {
   // stayPut keeps both indexA and indexB right where they are.
   const [
     ALPHA_ASCENDING,
-    ALPHA_DESCENDING,
     LAST_UPDATED_NEWEST_OPTION,
     LAST_UPDATED_OLDEST_OPTION,
   ] = SORT_OPTIONS;
@@ -28,67 +31,39 @@ export const sortTheResults = (sortByPropertyName, indexA, indexB) => {
     indexB.attributes.lastRevisionOn,
   );
 
-  /**
-   * This function converts string to js date so it can properly sort using the js date object
-   * @param {string} date string
-   */
-  const makeMomentDateFriendlyToJSDateConstrcutor = date => {
-    if (date === 'N/A') {
-      // catch all, if date is N/A from deriveLatestIssue() ,
-      // Date constructor returns Wed Dec 31 1969 19:00:00 GMT-0500 (Eastern Standard Time) when null is passed as a parameter
-      return null;
-    }
-    const splitDate = date.split('-');
-    const [month, day, year] = splitDate;
-    return new Date(year, month, day);
-  };
-
-  // SORT BY ALPHABET
-  // ASCENDING
-  if (sortByPropertyName === ALPHA_ASCENDING) {
-    if (
-      `${indexA?.attributes?.formName} ${indexA?.attributes?.title}` <
-      `${indexB?.attributes?.formName} ${indexB?.attributes?.title}`
-    ) {
-      return sortIndexToFront;
-    } else if (
-      `${indexA?.attributes?.formName} ${indexA?.attributes?.title}` >
-      `${indexB?.attributes?.formName} ${indexB?.attributes?.title}`
-    ) {
-      return sortIndexToBack;
-    } else return indexRemainsInPlace;
-  }
-
-  // DESCENDING
-  if (sortByPropertyName === ALPHA_DESCENDING) {
-    if (
-      `${indexB?.attributes?.formName} ${indexB?.attributes?.title}` <
-      `${indexA?.attributes?.formName} ${indexA?.attributes?.title}`
-    ) {
-      return sortIndexToFront;
-    } else if (
-      `${indexB?.attributes?.formName} ${indexB?.attributes?.title}` >
-      `${indexA?.attributes?.formName} ${indexA?.attributes?.title}`
-    ) {
-      return sortIndexToBack;
-    } else return indexRemainsInPlace;
-  }
-
   // SORT BY DATE
   // ASCENDING
   if (sortByPropertyName === LAST_UPDATED_OLDEST_OPTION) {
     return (
-      makeMomentDateFriendlyToJSDateConstrcutor(latestTimeStampIndexA) -
-      makeMomentDateFriendlyToJSDateConstrcutor(latestTimeStampIndexB)
+      moment(latestTimeStampIndexA, 'MM-DD-YYYY').toDate() -
+      moment(latestTimeStampIndexB, 'MM-DD-YYYY').toDate()
     );
   }
 
   // DESCENDING
   if (sortByPropertyName === LAST_UPDATED_NEWEST_OPTION) {
     return (
-      makeMomentDateFriendlyToJSDateConstrcutor(latestTimeStampIndexB) -
-      makeMomentDateFriendlyToJSDateConstrcutor(latestTimeStampIndexA)
+      moment(latestTimeStampIndexB, 'MM-DD-YYYY').toDate() -
+      moment(latestTimeStampIndexA, 'MM-DD-YYYY').toDate()
     );
   }
-  return indexRemainsInPlace;
+
+  // SORT BY ALPHABET
+  if (
+    `${indexA?.attributes?.formName} ${indexA?.attributes?.title}` <
+    `${indexB?.attributes?.formName} ${indexB?.attributes?.title}`
+  ) {
+    return sortByPropertyName === ALPHA_ASCENDING
+      ? sortIndexToFront
+      : sortIndexToBack;
+  } else if (
+    `${indexA?.attributes?.formName} ${indexA?.attributes?.title}` >
+    `${indexB?.attributes?.formName} ${indexB?.attributes?.title}`
+  ) {
+    return sortByPropertyName === ALPHA_ASCENDING
+      ? sortIndexToBack
+      : sortIndexToFront;
+  } else {
+    return indexRemainsInPlace;
+  }
 };
