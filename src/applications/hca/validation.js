@@ -1,5 +1,6 @@
 import moment from 'moment';
-import _ from 'lodash/fp';
+import { get } from 'lodash/fp';
+
 import {
   convertToDateField,
   validateCurrentOrPastDate,
@@ -80,7 +81,7 @@ export function validateDependentDate(
   index,
 ) {
   const dependent = moment(dependentDate);
-  const dob = moment(_.get(`dependents[${index}].dateOfBirth`, formData));
+  const dob = moment(get(`dependents[${index}].dateOfBirth`, formData));
 
   if (formData.discloseFinancialInformation && dob.isAfter(dependent)) {
     errors.addError('This date must come after the dependent’s birth date');

@@ -22,9 +22,6 @@ export default Object.freeze({
   vaOnlineSchedulingVSPRequestList: 'vaOnlineSchedulingVspRequestList',
   vaOnlineSchedulingVSPRequestNew: 'vaOnlineSchedulingVspRequestNew',
   vaOnlineSchedulingExpressCareNew: 'vaOnlineSchedulingExpressCareNew',
-  vaOnlineSchedulingFlatFacilityPage: 'vaOnlineSchedulingFlatFacilityPage',
-  vaOnlineSchedulingFlatFacilityPageSacramento:
-    'vaOnlineSchedulingFlatFacilityPageSacramento',
   vaOnlineSchedulingProviderSelection: 'vaOnlineSchedulingProviderSelection',
   vaOnlineSchedulingCheetah: 'vaOnlineSchedulingCheetah',
   vaGlobalDowntimeNotification: 'vaGlobalDowntimeNotification',
@@ -73,9 +70,11 @@ export default Object.freeze({
   covidVaccineUpdatesDisableAuth:
     'covid_vaccine_registration_frontend_hide_auth',
   showFindFormsResultsLinkToFormDetailPages: 'find_forms_mvp_enhancement',
+  yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
   multipleAddress1010ez: 'multiple_address_10_10ez',
   evssUploadLimit150Mb: 'evss_upload_limit_150mb',
   searchRepresentative: 'search_representative',
   gibctStateSearch: 'gibct_state_search',
   eduFormOmbAndExpiration: 'edu_form_omb_and_expiration',
+  manageDependents: 'dependents_management',
 });

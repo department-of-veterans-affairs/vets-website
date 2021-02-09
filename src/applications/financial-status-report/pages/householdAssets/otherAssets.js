@@ -53,7 +53,6 @@ export const schema = {
       items: {
         type: 'object',
         required: ['otherAssetType', 'otherAssetAmount'],
-        minItems: 1,
         properties: {
           otherAssetType: {
             type: 'string',

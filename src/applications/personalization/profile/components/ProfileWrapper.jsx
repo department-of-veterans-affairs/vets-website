@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
+import { isEmpty } from 'lodash';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 
@@ -16,11 +17,10 @@ import {
   personalInformationLoadError,
 } from '@@profile/selectors';
 
-import ProfileHeader from './ProfileHeader';
+import NameTag from '~/applications/personalization/components/NameTag';
 import ProfileSubNav from './ProfileSubNav';
 import ProfileMobileSubNav from './ProfileMobileSubNav';
 import { PROFILE_PATHS } from '../constants';
-import { isEmpty } from 'lodash';
 
 const NotAllDataAvailableError = () => (
   <div data-testid="not-all-data-available-error">
@@ -84,7 +84,7 @@ const ProfileWrapper = ({
         </Breadcrumbs>
       </div>
 
-      {isEmpty(hero.errors) && <ProfileHeader />}
+      {isEmpty(hero.errors) && isLOA3 && <NameTag />}
 
       <div className="medium-screen:vads-u-display--none">
         <ProfileMobileSubNav

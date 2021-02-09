@@ -1,18 +1,16 @@
-import ItemLoop from '../../components/ItemLoop';
-import TableDetailsView from '../../components/TableDetailsView';
+import ItemLoop from '../../../components/ItemLoop';
+import TableDetailsView from '../../../components/TableDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import Typeahead from '../../components/Typeahead';
-import { formatOptions, incomeTypes } from '../../constants/typeaheadOptions';
+import Typeahead from '../../../components/Typeahead';
+import {
+  formatOptions,
+  incomeTypes,
+} from '../../../constants/typeaheadOptions';
 import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your other income',
   additionalIncome: {
-    hasAdditionalIncome: {
-      'ui:title': 'Do you currently receive any additional income?',
-      'ui:widget': 'yesNo',
-      'ui:required': () => true,
-    },
     additionalIncomeRecords: {
       'ui:field': ItemLoop,
       'ui:description':
@@ -22,7 +20,6 @@ export const uiSchema = {
         viewField: TableDetailsView,
         doNotScroll: true,
         showSave: true,
-        expandUnder: 'hasAdditionalIncome',
         itemName: 'income',
       },
       items: {
@@ -53,15 +50,11 @@ export const schema = {
     additionalIncome: {
       type: 'object',
       properties: {
-        hasAdditionalIncome: {
-          type: 'boolean',
-        },
         additionalIncomeRecords: {
           type: 'array',
           items: {
             type: 'object',
             required: ['incomeType', 'monthlyAmount'],
-            minItems: 1,
             properties: {
               incomeType: {
                 type: 'string',

@@ -22,14 +22,12 @@ export default function CancelVideoAppointmentModal({ onClose, facility }) {
           </>
         ) : null}
         {!!phone && (
-          <dl className="vads-u-margin-y--0">
-            <dt className="vads-u-display--inline">
-              <strong>Main phone:</strong>
-            </dt>{' '}
-            <dd className="vads-u-display--inline">
-              <Telephone contact={phone} />
-            </dd>
-          </dl>
+          <>
+            <h4 className="vaos-appts__block-label vads-u-display--inline">
+              Main phone:
+            </h4>{' '}
+            <Telephone contact={phone} />
+          </>
         )}
       </p>
       <button onClick={onClose}>OK</button>

@@ -224,29 +224,6 @@ const ItemLoop = ({
     setShowTable(editData.includes(false));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(
-    () => {
-      if (schema.additionalItems.minItems > 0 && !schema.items.length) {
-        onChange(
-          Array(schema.minItems).fill(
-            getDefaultFormState(
-              schema.additionalItems,
-              undefined,
-              registry.definitions,
-            ),
-          ),
-        );
-      }
-    },
-    [
-      onChange,
-      registry.definitions,
-      schema.additionalItems,
-      schema.minItems,
-      schema.items.length,
-    ],
-  );
-
   // use formData otherwise use an array with a single default object
   const items = formData?.length
     ? formData

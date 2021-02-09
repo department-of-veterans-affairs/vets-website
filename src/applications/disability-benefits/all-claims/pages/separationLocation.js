@@ -10,10 +10,8 @@ import { requireSeparationLocation } from '../validations';
 
 export const uiSchema = {
   serviceInformation: {
-    'view:separationLocation': {
-      'ui:title': SeparationLocationTitle,
-      'ui:description': SeparationLocationDescription,
-    },
+    'ui:title': SeparationLocationTitle,
+    'ui:description': SeparationLocationDescription,
     separationLocation: autosuggest.uiSchema(
       'Enter a location',
       getSeparationLocations,
