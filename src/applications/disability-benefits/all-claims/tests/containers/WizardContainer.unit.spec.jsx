@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import WizardContainer from '../../containers/WizardContainer';
-import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 
 describe('Wizard Container', () => {
   global.status = '';
@@ -23,7 +23,7 @@ describe('Wizard Container', () => {
   it('should update wizard status on bypass click', () => {
     global.status = '';
     const tree = shallow(<WizardContainer {...props} />);
-    tree.find('.va-button-link').simulate('click', {
+    tree.find('.skip-wizard-link').simulate('click', {
       preventDefault: () => {},
     });
     expect(tree.find('.wizard-container')).to.have.lengthOf(1);

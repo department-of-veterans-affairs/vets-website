@@ -18,10 +18,11 @@ const submit = (form, formConfig) => {
   //   JSON.stringify(body),
   //   formConfig.submitUrl,
   //   formConfig.trackingPrefix,
-  //   eventData,
+  //   // eventData,
   // );
   return new Promise((resolve, _reject) => {
     resolve(body);
+    // reject(body);
   });
 };
 

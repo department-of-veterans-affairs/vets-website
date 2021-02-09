@@ -1,4 +1,5 @@
 import React from 'react';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
@@ -10,6 +11,12 @@ import { waitFor } from '@testing-library/dom';
 import { Route } from 'react-router-dom';
 
 describe('VAOS <DateTimeRequestPage>', () => {
+  beforeEach(() => {
+    MockDate.set(moment('2020-01-26T14:00:00'));
+  });
+  afterEach(() => {
+    MockDate.reset();
+  });
   it('should allow user to request date and time for a community care appointment', async () => {
     const store = createTestStore({
       newAppointment: {
@@ -388,34 +395,33 @@ describe('VAOS <DateTimeRequestPage>', () => {
       },
     );
 
-    const datePastMax = moment().add(121, 'days');
+    const datePastMax = moment()
+      .add(121, 'days')
+      // first monday after the max
+      .day(8);
     const endMonth = datePastMax.format('MMMM YYYY');
     let monthHeader = screen.queryByText(endMonth);
-    const nextButton = await screen.findByText(/next/i);
+    await screen.findByText(/next/i);
+    // Doing the normal byText query doesn't grab the button element
+    // and doing getAllByRole for buttons with a particular title is slow
+    // because of how many buttons there are on the page
+    const nextButton = screen
+      .getAllByRole('button')
+      .find(el => el.textContent.includes('Next'));
+
     while (!monthHeader && !nextButton.disabled) {
       userEvent.click(nextButton);
       monthHeader = screen.queryByText(endMonth);
     }
 
     if (monthHeader) {
-      let dateButton = screen.queryByText(datePastMax.format('D'));
-      // If we can't find a date, push out two days to get past the weekend
-      if (!dateButton) {
-        dateButton = screen.queryByText(
-          datePastMax
-            .clone()
-            .add(2, 'days')
-            .format('D'),
-        );
-      }
-
-      if (dateButton) {
-        expect(dateButton.disabled).to.be.true;
-      } else {
-        // if the date button still doesn't exist, we must have
-        // hit the end of the month, so make sure we can't go further
-        expect(nextButton.disabled).to.be.true;
-      }
+      // if the max date is within a month we can get to, then make sure the
+      // date is disabled
+      const dateButton = screen.queryByText(datePastMax.format('D'));
+      expect(dateButton.disabled).to.be.true;
+    } else {
+      // if the max date is in a month we can't get to, make sure next button is disabled
+      expect(nextButton.disabled).to.be.true;
     }
   });
 });

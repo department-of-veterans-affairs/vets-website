@@ -1,4 +1,5 @@
 // Builds the site using Metalsmith as the top-level build runner.
+/* eslint-disable no-console */
 const fs = require('fs-extra');
 const path = require('path');
 
@@ -50,12 +51,13 @@ const updateRobots = require('./plugins/update-robots');
  * This can be removed when we move the content build to a new repository and
  * this script no longer interacts with the Webpack output at all.
  */
-function preserveWebpackOutput(metalsmithDestination, buildType) {
+function preserveWebpackOutput(metalsmithDestination) {
+  const destinationDirName = path.basename(metalsmithDestination);
   const webpackBuildDirName = 'generated';
   const tempDir = path.join(
     __dirname,
     '../../../../tmp/',
-    buildType,
+    destinationDirName,
     webpackBuildDirName,
   );
   const webpackDir = path.join(metalsmithDestination, webpackBuildDirName);
@@ -64,7 +66,6 @@ function preserveWebpackOutput(metalsmithDestination, buildType) {
 
   // Immediately move the Webpack output to a new directory
   if (webpackDirExists) {
-    // eslint-disable-next-line no-console
     console.log(`Found Webpack directory at ${webpackDir}`);
     fs.moveSync(webpackDir, tempDir, { overwrite: true });
   }
@@ -78,7 +79,6 @@ function preserveWebpackOutput(metalsmithDestination, buildType) {
         fs.rmdirSync(path.resolve(tempDir, '..'));
       }
     } else {
-      // eslint-disable-next-line no-console
       console.log(
         'No Webpack output found. Skipping the asset preservation step.',
       );
@@ -86,7 +86,39 @@ function preserveWebpackOutput(metalsmithDestination, buildType) {
   };
 }
 
+const pagesJSONPath = '.cache/localhost/drupal/pages.json';
+const backupPath = '/tmp/pages.json';
+
+function backupPagesJSON() {
+  try {
+    if (fs.existsSync(pagesJSONPath)) {
+      console.log('Backing up pages.json');
+      fs.renameSync(pagesJSONPath, backupPath);
+      console.log(`${pagesJSONPath} moved to ${backupPath}`);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+function restorePagesJSON() {
+  try {
+    if (fs.existsSync(backupPath)) {
+      console.log('Restoring pages.json');
+      fs.renameSync(backupPath, pagesJSONPath);
+      console.log(`pages.json restored to ${pagesJSONPath}`);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 function build(BUILD_OPTIONS) {
+  const usingCMSExport = BUILD_OPTIONS['use-cms-export'];
+  if (usingCMSExport) {
+    backupPagesJSON();
+  }
+
   const smith = silverSmith();
 
   registerLiquidFilters();
@@ -105,7 +137,7 @@ function build(BUILD_OPTIONS) {
   });
 
   smith.use(
-    preserveWebpackOutput(BUILD_OPTIONS.destination, BUILD_OPTIONS.buildtype),
+    preserveWebpackOutput(BUILD_OPTIONS.destination),
     'Preserving Webpack build output',
   );
 
@@ -257,6 +289,9 @@ function build(BUILD_OPTIONS) {
         smith.printSummary();
       }
       console.log('Build finished!');
+      if (usingCMSExport) {
+        restorePagesJSON();
+      }
     }
   });
 }

@@ -32,17 +32,10 @@ export const selectFeatureVSPAppointmentNew = state =>
 export const selectFeatureExpressCareNewRequest = state =>
   toggleValues(state).vaOnlineSchedulingExpressCareNew;
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
-const selectFeatureFlatFacilityPage = state =>
-  toggleValues(state).vaOnlineSchedulingFlatFacilityPage;
-const selectFeatureFlatFacilityPageSacramento = state =>
-  toggleValues(state).vaOnlineSchedulingFlatFacilityPageSacramento;
 export const selectFeatureProjectCheetah = state =>
   toggleValues(state).vaOnlineSchedulingCheetah;
-export const selectUseFlatFacilityPage = state =>
-  selectFeatureFlatFacilityPage(state) &&
-  !selectIsCernerPatient(state) &&
-  (!selectIsRegisteredToSacramentoVA(state) ||
-    selectFeatureFlatFacilityPageSacramento(state));
+// Use flat facility page for non Cerner patients
+export const selectUseFlatFacilityPage = state => !selectIsCernerPatient(state);
 
 const selectFeatureProviderSelection = state =>
   toggleValues(state).vaOnlineSchedulingProviderSelection;

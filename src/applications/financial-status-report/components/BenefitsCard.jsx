@@ -50,12 +50,8 @@ BenefitsCard.propTypes = {
   benefits: PropTypes.object,
 };
 
-BenefitsCard.defaultProps = {
-  benefits: {},
-};
-
-const mapStateToProps = state => ({
-  benefits: state.form?.data,
+const mapStateToProps = ({ form }) => ({
+  benefits: form?.data,
 });
 
 export default connect(

@@ -25,6 +25,9 @@ import * as actions from '../actions';
 import useInitializeForm from '../hooks/useInitializeForm';
 import useSubmitForm from '../hooks/useSubmitForm';
 
+import FormFooter from 'platform/forms/components/FormFooter';
+import GetHelp from './GetHelp';
+
 function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
   const [submitStatus, submitToApi] = useSubmitForm();
 
@@ -95,7 +98,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
           <p>
             We’ll send you updates on how we’re providing COVID-19 vaccines
             across the country—and when you can get your vaccine if you want
-            one. You don't need to sign up to get a vaccine.
+            one.
           </p>
         )}
 
@@ -103,7 +106,12 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
           <p>
             <strong>Note:</strong> The information below is from your VA.gov
             profile. If you need to make a change,{' '}
-            <a href="/profile" target="_blank">
+            <a
+              href="/profile"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Go to your VA Profile (Open in a new window)"
+            >
               go to your profile now.
             </a>{' '}
           </p>
@@ -140,6 +148,9 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
           <LoadingIndicator message="Loading the form..." />
         )}
       </DowntimeNotification>
+      <div className="vads-u-margin-top--1">
+        <FormFooter formConfig={{ getHelp: GetHelp }} />
+      </div>
     </>
   );
 }

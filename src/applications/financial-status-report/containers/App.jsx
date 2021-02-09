@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import ErrorMessage from '../components/ErrorMessage';
 import { fetchFormStatus } from '../actions/index';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 
 const App = ({
   location,
@@ -26,13 +25,6 @@ const App = ({
 
   return (
     <>
-      <Breadcrumbs>
-        <a href="/">Home</a>
-        <a href="#">Debt Management</a>
-        <span>
-          <strong>Financial Status Report</strong>
-        </span>
-      </Breadcrumbs>
       {pending && (
         <LoadingIndicator setFocus message="Loading your information..." />
       )}

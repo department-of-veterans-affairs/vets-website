@@ -82,5 +82,9 @@ export const uiSchema = {
         expandUnderCondition: 'Other',
       },
     },
+    spouseIncome: {
+      'ui:title': 'Did this person have an income in the last 365 days?',
+      'ui:widget': 'yesNo',
+    },
   },
 };

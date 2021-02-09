@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import head from 'lodash/head';
+import last from 'lodash/last';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
@@ -36,6 +37,7 @@ class DebtCard extends Component {
       debt.debtHistory.length
     }`;
     const mostRecentHistory = head(debt.debtHistory);
+    const firstDebtLetter = last(debt.debtHistory);
     const debtCardHeading =
       deductionCodes[debt.deductionCode] || debt.benefitType;
     const formatter = new Intl.NumberFormat('en-US', {
@@ -66,6 +68,11 @@ class DebtCard extends Component {
           {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
         </p>
         <div className="vads-u-margin-y--2">{additionalInfo.status}</div>
+
+        <p className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
+          <strong>Date of first notice: </strong>
+          {moment(firstDebtLetter.date).format('MMMM D, YYYY')}
+        </p>
 
         <div className="vads-u-margin-top--2">
           <input
@@ -103,19 +110,9 @@ DebtCard.propTypes = {
   }),
 };
 
-DebtCard.defaultProps = {
-  debt: {
-    currentAr: 0,
-    debtHistory: [{ date: '' }],
-    deductionCode: '',
-    originalAr: 0,
-  },
-  fsrDebts: [],
-};
-
-const mapStateToProps = state => ({
-  formData: state.form.data,
-  fsrDebts: state.form.data.fsrDebts,
+const mapStateToProps = ({ form }) => ({
+  formData: form.data,
+  fsrDebts: form.data.fsrDebts,
 });
 
 const mapDispatchToProps = {
