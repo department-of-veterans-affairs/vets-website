@@ -19,7 +19,7 @@ const initialState = {
   },
 };
 
-describe('VAOS <AppointmentsPageV2>', () => {
+describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
 
@@ -77,13 +77,13 @@ describe('VAOS <AppointmentsPageV2>', () => {
       }),
     ).to.be.ok;
 
-    expect(screen.getByText(/Community Care/)).to.be.ok;
-    expect(await screen.getByText(/123/)).to.be.ok;
-    expect(await screen.getByText(/Burke,/)).to.be.ok;
+    expect(screen.getByText(/Community care/)).to.be.ok;
+    expect(screen.getByText(/123/)).to.be.ok;
+    expect(screen.getByText(/Burke,/)).to.be.ok;
     expect(screen.getByRole('link', { name: /7 0 3. 5 5 5. 1 2 6 4./ })).to.be
       .ok;
     expect(
-      screen.getByRole('heading', { level: 2, name: /Special Instructions/ }),
+      screen.getByRole('heading', { level: 2, name: /Special instructions/ }),
     ).to.be.ok;
     expect(screen.getByText(/Bring your glasses/)).to.be.ok;
     expect(

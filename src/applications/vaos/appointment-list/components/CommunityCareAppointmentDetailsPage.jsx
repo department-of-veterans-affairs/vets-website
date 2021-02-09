@@ -52,13 +52,13 @@ function CommunityCareAppointmentDetailsPage({
     return null;
   }
 
-  const header = 'Community Care';
+  const header = 'Community care';
   const location = appointment.contained.find(
     res => res.resourceType === 'Location',
   );
 
   // NOTE: A header can be added to a comment by prepending the comment with header text ending with a colon.
-  const prefix = 'Special Instructions: ';
+  const prefix = 'Special instructions: ';
   const instructions = appointment.comment
     ? prefix.concat(appointment.comment)
     : prefix;
@@ -97,7 +97,6 @@ function CommunityCareAppointmentDetailsPage({
         facility={location}
         showDirectionsLink={!!location.address}
         isHomepageRefresh
-        isCommunityCare
       />
 
       <div className="vads-u-margin-top--3 vaos-appts__block-label">
@@ -113,9 +112,11 @@ function CommunityCareAppointmentDetailsPage({
           className="far fa-calendar vads-u-margin-right--1"
         />
         <AddToCalendar
-          summary={`${header}`}
+          summary={header}
           description={appointment.comment}
-          location={location}
+          location={`${location?.address?.line[0]}, ${
+            location?.address?.city
+          }, ${location?.address?.state} ${location?.address?.postalCode}`}
           duration={appointment.minutesDuration}
           startDateTime={moment.parseZone(appointment.start)}
         />
