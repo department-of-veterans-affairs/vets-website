@@ -215,7 +215,7 @@ const compareArrays = (cmsExportArray, graphQLArray, dataPath) => {
     }
   });
 
-  return arrayDiffs.length ? arrayDiffs : null;
+  return arrayDiffs.length > 0 ? arrayDiffs : null;
 };
 
 /**
@@ -429,7 +429,8 @@ const runComparison = () => {
               JSON.stringify(diff.deepDiffs, null, 2),
             );
             ++nodesWithDiffs;
-          } else {
+          }
+          if (diff.arrayDiffs?.length > 0) {
             diff.arrayDiffs.unshift(entityFileObject);
             fs.writeFileSync(
               `${defaultFileName}-array.json`,
