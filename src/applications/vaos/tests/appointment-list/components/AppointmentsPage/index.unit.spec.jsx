@@ -29,7 +29,6 @@ import {
 } from '../../../mocks/setup';
 
 import AppointmentsPage from '../../../../appointment-list/components/AppointmentsPage';
-import ScheduleNewProjectCheetah from '../../../../appointment-list/components/AppointmentsPage/ScheduleNewProjectCheetah';
 
 const initialState = {
   featureToggles: {
@@ -931,7 +930,7 @@ describe('VAOS integration: appointment list', () => {
       },
       user: userState,
     };
-    const screen = renderWithStoreAndRouter(<ScheduleNewProjectCheetah />, {
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState: defaultState,
     });
 

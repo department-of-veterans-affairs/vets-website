@@ -24,7 +24,6 @@ import {
 
 import reducers from '../../../../redux/reducer';
 import AppointmentsPageV2 from '../../../../appointment-list/components/AppointmentsPage/AppointmentsPageV2';
-import ScheduleNewProjectCheetah from '../../../../appointment-list/components/AppointmentsPage/ScheduleNewProjectCheetah';
 
 const initialState = {
   featureToggles: {
@@ -446,7 +445,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
       },
       user: userState,
     };
-    const screen = renderWithStoreAndRouter(<ScheduleNewProjectCheetah />, {
+    const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
       initialState: defaultState,
     });
 
