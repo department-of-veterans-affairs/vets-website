@@ -74,33 +74,40 @@ function confirmDirectDepositIsBlocked() {
 }
 
 describe('Direct Deposit', () => {
+  let getPaymentInfoStub;
   beforeEach(() => {
     disableFTUXModals();
+    getPaymentInfoStub = cy.stub();
     cy.login();
     cy.route('GET', '/v0/feature_toggles*', dd4eduEnabled);
   });
   it('should be blocked if the user is not in EVSS and they are not signed up for DD4EDU', () => {
     cy.route('GET', 'v0/user', mockUserNotInEVSS);
     cy.route('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUNotEnrolled);
+    cy.intercept('v0/ppiu/payment_information', () => {
+      getPaymentInfoStub();
+    });
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-
-    // TODO: add test to make sure that GET payment_information is not called?
-
-    // I attempted to do this based on [this
-    // example](https://github.com/cypress-io/cypress-example-recipes/blob/master/examples/stubbing-spying__window-fetch/cypress/integration/spy-on-fetch-spec.js)
-    // but was unable to get even this simple assertion to work:
-    // `cy.window().its('fetch').should('be.called')`
 
     confirmDirectDepositIsBlocked();
     confirmDDBlockedAlertIsNotShown();
+    cy.should(() => {
+      expect(getPaymentInfoStub).not.to.be.called;
+    });
   });
   it('should not be blocked if the user is not in EVSS but they are signed up for DD4EDU', () => {
     cy.route('GET', 'v0/user', mockUserNotInEVSS);
     cy.route('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUEnrolled);
+    cy.intercept('v0/ppiu/payment_information', () => {
+      getPaymentInfoStub();
+    });
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     confirmDirectDepositIsAvailable();
     confirmDDBlockedAlertIsNotShown();
+    cy.should(() => {
+      expect(getPaymentInfoStub).not.to.be.called;
+    });
   });
   it('should be blocked if the user is not enrolled in or eligible for DD4CNP and not signed up for DD4EDU', () => {
     cy.route('GET', 'v0/user', mockUserInEVSS);
@@ -146,7 +153,6 @@ describe('Direct Deposit', () => {
     confirmDDBlockedAlertIsNotShown();
 
     cy.findByTestId('not-all-data-available-error').should('exist');
-    cy.findByText(/something went wrong/i).should('exist');
   });
   it('should not be blocked if `GET payment_information` fails but they have DD4EDU set up', () => {
     cy.route('GET', 'v0/user', mockUserInEVSS);
@@ -158,10 +164,18 @@ describe('Direct Deposit', () => {
     confirmDDBlockedAlertIsNotShown();
 
     cy.findByTestId('not-all-data-available-error').should('exist');
-    cy.findByText(/something went wrong/i).should('exist');
 
-    // TODO: add check to make sure we show in error alert in place of the CNP bank info
-    // content TBD: https://github.com/department-of-veterans-affairs/va.gov-team/issues/18338
+    cy.findByText(/not receiving disability.*payments/i).should('not.exist');
+    cy.findByRole('link', {
+      name: /find out.*eligible.*VA disability benefits/i,
+    }).should('not.exist');
+    cy.findByRole('link', {
+      name: /find out.*eligible.*VA pension benefits/i,
+    }).should('not.exist');
+    cy.findByText(/can’t load disability.*information/i)
+      .should('exist')
+      .closest('.usa-alert-warning')
+      .should('exist');
   });
   it('should not be blocked if `GET ch33_bank_accounts` fails but they have DD4CNP set up', () => {
     cy.route('GET', 'v0/user', mockUserInEVSS);
@@ -173,10 +187,15 @@ describe('Direct Deposit', () => {
     confirmDDBlockedAlertIsNotShown();
 
     cy.findByTestId('not-all-data-available-error').should('exist');
-    cy.findByText(/something went wrong/i).should('exist');
 
-    // TODO: add check to make sure we show in error alert in place of the EDU bank info
-    // content TBD: https://github.com/department-of-veterans-affairs/va.gov-team/issues/18338
+    cy.findByText(/not receiving education.*payments/i).should('not.exist');
+    cy.findByRole('link', {
+      name: /find out.*eligible.*VA education benefits/i,
+    }).should('not.exist');
+    cy.findByText(/can’t load education.*information/i)
+      .should('exist')
+      .closest('.usa-alert-warning')
+      .should('exist');
   });
   it('should not be blocked if the user is eligible for DD4CNP', () => {
     cy.route('GET', 'v0/user', mockUserInEVSS);

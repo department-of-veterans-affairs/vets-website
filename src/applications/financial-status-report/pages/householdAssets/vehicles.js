@@ -30,7 +30,6 @@ export const uiSchema = {
           classNames: 'input-size-7',
           getOptions: () => formatOptions(vehicleTypes),
         },
-        'ui:required': () => true,
       },
       vehicleMake: {
         'ui:title': 'Vehicle make',
@@ -54,7 +53,6 @@ export const uiSchema = {
         'ui:options': {
           widgetClassNames: 'input-size-5',
         },
-        'ui:required': () => true,
       }),
     },
   },

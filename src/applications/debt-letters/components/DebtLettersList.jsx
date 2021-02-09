@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CoronaVirusAlert } from '../const/deduction-codes';
 import { DebtLettersTable } from './DebtLettersTable';
 import { connect } from 'react-redux';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
@@ -46,12 +45,6 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
             </p>
             <DebtLettersTable debtLinks={debtLinks} />
           </>
-        )}
-      {!isVBMSError &&
-        debtLinks.length < 1 && (
-          <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3">
-            <CoronaVirusAlert />
-          </div>
         )}
       <div className="vads-u-margin-bottom--6 vads-u-margin-top--3">
         <h3 className="vads-u-margin-y--0">

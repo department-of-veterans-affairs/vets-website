@@ -8,15 +8,21 @@ export const childStatusDescription = (
       <span className="vads-u-color--gray-dark vads-u-font-weight--bold">
         Biological
       </span>{' '}
-      or if you don't live in the U.S. or a territory of the U.S., we require
+      or if you don’t live in the U.S. or a territory of the U.S., we require
       additional evidence to establish a dependent.
     </p>
     <AdditionalInfo triggerText="What are some examples of additional evidence?">
       <p>
-        You’ll need to provide a copy of your stepchild’s birth certificate,
-        showing the names of both parents if you don’t live in the U.S. or a
-        territory of the U.S.
+        To add a stepchild, you’ll need to provide a copy of their birth
+        certificate, showing the names of both parents if:
       </p>
+      <ul>
+        <li>
+          Your stepchild is not the biological child of your spouse (adopted,
+          for example) or
+        </li>
+        <li>You don’t live in the U.S. or a territory of the U.S.</li>
+      </ul>
       <p>
         A claim for additional benefits for an <strong>adopted child</strong>{' '}
         must include a copy of one of the following:

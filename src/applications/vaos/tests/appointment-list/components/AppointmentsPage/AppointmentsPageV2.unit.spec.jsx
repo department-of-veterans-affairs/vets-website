@@ -140,10 +140,10 @@ describe('VAOS <AppointmentsPageV2>', () => {
       expect(screen.history.push.lastCall.args[0]).to.equal('/past'),
     );
 
-    fireEvent.change(dropdown, { target: { value: 'cancelled' } });
+    fireEvent.change(dropdown, { target: { value: 'canceled' } });
 
     await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0]).to.equal('/cancelled'),
+      expect(screen.history.push.lastCall.args[0]).to.equal('/canceled'),
     );
 
     fireEvent.change(dropdown, { target: { value: 'upcoming' } });
@@ -200,7 +200,6 @@ describe('VAOS <AppointmentsPageV2>', () => {
       featureToggles: {
         ...initialState.featureToggles,
         vaOnlineSchedulingExpressCareNew: false,
-        vaOnlineSchedulingExpressCare: true,
       },
     };
     const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {

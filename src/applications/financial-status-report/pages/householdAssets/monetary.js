@@ -10,7 +10,6 @@ export const uiSchema = {
         'ui:options': {
           widgetClassNames: 'input-size-3',
         },
-        'ui:required': () => true,
       },
     ),
     availableAssets: _.merge(
@@ -19,7 +18,6 @@ export const uiSchema = {
         'ui:options': {
           widgetClassNames: 'input-size-3',
         },
-        'ui:required': () => true,
       },
     ),
     savingsBonds: _.merge(
@@ -28,7 +26,6 @@ export const uiSchema = {
         'ui:options': {
           widgetClassNames: 'input-size-3',
         },
-        'ui:required': () => true,
       },
     ),
     stocksAndOtherBonds: _.merge(
@@ -37,7 +34,6 @@ export const uiSchema = {
         'ui:options': {
           widgetClassNames: 'input-size-3',
         },
-        'ui:required': () => true,
       },
     ),
   },
@@ -48,6 +44,12 @@ export const schema = {
   properties: {
     householdAssets: {
       type: 'object',
+      required: [
+        'checkingAndSavings',
+        'availableAssets',
+        'savingsBonds',
+        'stocksAndOtherBonds',
+      ],
       properties: {
         checkingAndSavings: {
           type: 'number',

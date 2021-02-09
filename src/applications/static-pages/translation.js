@@ -17,19 +17,16 @@ const configureTranslationLink = (e, targetLang) => {
   e.href = faqI18Content[targetLang].langToggleLink;
   e.onclick = _ => {
     recordEvent({
-      event: 'faq-lang-toggle-click',
-      faqText: faqI18Content[targetLang].title,
-      faqSection: 'coronavirus veteran frequently asked questions',
-      targetLang,
+      event: 'nav-covid-link-click',
+      faqText: undefined,
+      faqSection: undefined,
     });
   };
 };
 const displayTranslationLink = () => {
   const i18LinkWrapper = document.getElementById('i18-link-wrapper');
   if (!i18LinkWrapper) return;
-  const isSpanish =
-    window.location.href.includes('-esp') ||
-    window.location.href.includes('nodeId=14580');
+  const isSpanish = window.location.href.endsWith('-esp/');
 
   const translatableLinks = new Set([
     '/coronavirus-veteran-frequently-asked-questions/',

@@ -2,6 +2,7 @@ import ItemLoop from '../../components/ItemLoop';
 import CardDetailsView from '../../components/CardDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import Typeahead from '../../components/Typeahead';
+import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
 import {
   formatOptions,
   installmentTypes,
@@ -36,7 +37,6 @@ export const uiSchema = {
             classNames: 'input-size-7',
             getOptions: () => formatOptions(installmentTypes),
           },
-          'ui:required': () => true,
         },
         creditorName: {
           'ui:title': 'Name of creditor',
@@ -46,31 +46,25 @@ export const uiSchema = {
         },
         originalDebtAmount: _.merge(currencyUI('Original debt amount'), {
           'ui:options': {
-            widgetClassNames: 'input-size-5',
+            widgetClassNames: 'input-size-6',
           },
         }),
         unpaidBalance: _.merge(currencyUI('Unpaid balance'), {
           'ui:options': {
-            widgetClassNames: 'input-size-5',
+            widgetClassNames: 'input-size-6',
           },
         }),
         monthlyPaymentAmount: _.merge(currencyUI('Monthly payment amount'), {
           'ui:options': {
-            widgetClassNames: 'input-size-5',
+            widgetClassNames: 'input-size-6',
           },
-          'ui:required': () => true,
         }),
-        debtWithinThreeMonths: {
-          'ui:title':
-            'Did this installment or debt happen within the past 3 months?',
-          'ui:widget': 'radio',
-          'ui:required': () => true,
-        },
-        pastDueDebt: {
-          'ui:title': 'Are you past due on this installment or debt?',
-          'ui:widget': 'radio',
-          'ui:required': () => true,
-        },
+        debtDate: monthYearUI('Date debt began'),
+        amountOverdue: _.merge(currencyUI('Amount overdue'), {
+          'ui:options': {
+            widgetClassNames: 'input-size-6',
+          },
+        }),
       },
     },
   },
@@ -92,12 +86,7 @@ export const schema = {
           type: 'array',
           items: {
             type: 'object',
-            required: [
-              'debtType',
-              'monthlyPaymentAmount',
-              'debtWithinThreeMonths',
-              'pastDueDebt',
-            ],
+            required: ['debtType', 'monthlyPaymentAmount', 'debtDate'],
             properties: {
               debtType: {
                 type: 'string',
@@ -114,19 +103,11 @@ export const schema = {
               monthlyPaymentAmount: {
                 type: 'number',
               },
-              debtWithinThreeMonths: {
+              debtDate: {
                 type: 'string',
-                enum: [
-                  'Yes, it’s less than 3 months old.',
-                  'No, it’s older than 3 months old.',
-                ],
               },
-              pastDueDebt: {
-                type: 'string',
-                enum: [
-                  'Yes, I have payments past due.',
-                  'No, I don’t have payments past due.',
-                ],
+              amountOverdue: {
+                type: 'number',
               },
             },
           },

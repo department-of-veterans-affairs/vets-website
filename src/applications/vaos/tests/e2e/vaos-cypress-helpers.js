@@ -195,7 +195,7 @@ export function createPastVAAppointments() {
   };
 }
 
-function mockFeatureToggles({ facilityPageV2Enabled = true } = {}) {
+export function mockFeatureToggles({ providerSelectionEnabled = false } = {}) {
   cy.route({
     method: 'GET',
     url: '/v0/feature_toggles*',
@@ -228,20 +228,16 @@ function mockFeatureToggles({ facilityPageV2Enabled = true } = {}) {
             value: true,
           },
           {
-            name: 'vaOnlineSchedulingExpressCare',
-            value: true,
-          },
-          {
             name: 'vaOnlineSchedulingExpressCareNew',
             value: true,
           },
           {
-            name: 'vaOnlineSchedulingFlatFacilityPage',
-            value: facilityPageV2Enabled,
-          },
-          {
             name: `cerner_override_668`,
             value: false,
+          },
+          {
+            name: 'vaOnlineSchedulingProviderSelection',
+            value: providerSelectionEnabled,
           },
         ],
       },
@@ -353,10 +349,34 @@ function mockSubmitVAAppointment() {
   }).as('appointmentPreferences');
 }
 
-function setupSchedulingMocks({ facilityPageV2Enabled = true } = {}) {
+function setupSchedulingMocks({ cernerUser = false } = {}) {
   cy.server();
-  mockFeatureToggles({ facilityPageV2Enabled });
-  cy.login(mockUser);
+  mockFeatureToggles();
+
+  if (cernerUser) {
+    const mockCernerUser = {
+      ...mockUser,
+      data: {
+        ...mockUser.data,
+        attributes: {
+          ...mockUser.data.attributes,
+          vaProfile: {
+            ...mockUser.data.attributes.vaProfile,
+            facilities: [
+              ...mockUser.data.attributes.vaProfile.facilities,
+              {
+                facilityID: '123',
+                isCerner: true,
+              },
+            ],
+          },
+        },
+      },
+    };
+    cy.login(mockCernerUser);
+  } else {
+    cy.login(mockUser);
+  }
 
   mockSupportedSites();
   mockCCPrimaryCareEligibility();
@@ -549,8 +569,8 @@ export function initExpressCareMocks() {
   });
 }
 
-export function initVAAppointmentMock({ facilityPageV2Enabled = true } = {}) {
-  setupSchedulingMocks({ facilityPageV2Enabled });
+export function initVAAppointmentMock({ cernerUser = false } = {}) {
+  setupSchedulingMocks({ cernerUser });
   cy.route({
     method: 'GET',
     url: '/v1/facilities/va/vha_442',
@@ -573,8 +593,8 @@ export function initVAAppointmentMock({ facilityPageV2Enabled = true } = {}) {
   mockSubmitVAAppointment();
 }
 
-export function initVARequestMock({ facilityPageV2Enabled = true } = {}) {
-  setupSchedulingMocks({ facilityPageV2Enabled });
+export function initVARequestMock({ cernerUser = false } = {}) {
+  setupSchedulingMocks({ cernerUser });
   cy.route({
     method: 'GET',
     url: '/vaos/v0/facilities/983/clinics*',
@@ -611,6 +631,46 @@ export function initCommunityCareMock() {
     method: 'GET',
     url: '/vaos/v0/appointments?start_date=*&end_date=*&type=va',
     response: updateConfirmedVADates(confirmedVA),
+  });
+  cy.route({
+    method: 'GET',
+    url: '/v1/facilities/ccp*',
+    response: {
+      data: [
+        {
+          id: '1497723753',
+          type: 'provider',
+          attributes: {
+            accNewPatients: 'true',
+            address: {
+              street: '1012 14TH ST NW STE 700',
+              city: 'WASHINGTON',
+              state: 'DC',
+              zip: '20005-3477',
+            },
+            caresitePhone: '202-638-0750',
+            email: null,
+            fax: null,
+            gender: 'Male',
+            lat: 38.903195,
+            long: -77.032382,
+            name: 'Doe, Jane',
+            phone: null,
+            posCodes: null,
+            prefContact: null,
+            uniqueId: '1497723753',
+          },
+          relationships: {
+            specialties: {
+              data: [
+                { id: '363L00000X', type: 'specialty' },
+                { id: '363LP2300X', type: 'specialty' },
+              ],
+            },
+          },
+        },
+      ],
+    },
   });
 
   cy.route({
