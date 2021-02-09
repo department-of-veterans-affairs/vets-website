@@ -215,17 +215,13 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
       def builds = [:]
       def envUsedCache = [:]
       def assetSource = contentOnlyBuild ? ref : 'local'
+      def useCMSExport = envName == 'vagovdev-cms-export' ? true : false
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
         builds[envName] = {
           try {
-            if(envName == 'vagovdev-cms-export') {
-              build(ref, dockerContainer, assetSource, 'vagovdev', false, contentOnlyBuild, true)
-            } else {
-              build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild, false)
-            }
-            
+            build(ref, dockerContainer, assetSource, 'vagovdev', false, contentOnlyBuild, useCMSExport)
             envUsedCache[envName] = false
           } catch (error) {
             // We're not using the cache for content only builds, because requesting
@@ -234,10 +230,10 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
               dockerContainer.inside(DOCKER_ARGS) {
                 sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
               }
-              build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild, false)
+              build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild, useCMSExport)
               envUsedCache[envName] = true
             } else {
-              build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild, false)
+              build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild, useCMSExport)
               envUsedCache[envName] = false
             }
           }
