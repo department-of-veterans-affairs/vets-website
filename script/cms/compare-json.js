@@ -4,15 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const deepDiff = require('deep-diff');
-const {
-  map,
-  camelCase,
-  get,
-  isEqual,
-  omit,
-  transform,
-  isObject,
-} = require('lodash');
+const { map, camelCase, get, isEqual, omit } = require('lodash');
 const commandLineArgs = require('command-line-args');
 const commandLineUsage = require('command-line-usage');
 const assembleEntityTreeFactory = require('../../src/site/stages/build/process-cms-exports');
@@ -172,6 +164,20 @@ const getParentNode = (
   return parent;
 };
 
+const stripIgnoredKeys = obj => {
+  const result = omit(obj, keysToIgnore);
+
+  Object.keys(result).forEach(key => {
+    if (Array.isArray(result[key])) {
+      result[key] = result[key].map(item => stripIgnoredKeys(item));
+    } else if (typeof result[key] === 'object') {
+      result[key] = stripIgnoredKeys(result[key]);
+    }
+  });
+
+  return result;
+};
+
 /**
  * Compares two arrays using lodash isEqual on each item.
  * @param cmsExportArray
@@ -192,19 +198,9 @@ const compareArrays = (cmsExportArray, graphQLArray, dataPath) => {
     });
   }
 
-  const omitIgnoredKeys = (result, value, key) => {
-    // eslint-disable-next-line no-param-reassign
-    result[key] = isObject(value) ? omit(value, keysToIgnore) : value;
-  };
-
   graphQLArray.forEach((graphQlItem, index) => {
-    // using lodash transform to recursively remove ignored keys
-    const cleanGraphQlItem = transform(graphQlItem, omitIgnoredKeys);
-    // for some reason we need to do an extra level of cleaning on the cms items?
-    const cleanCmsItem = omit(
-      transform(cmsExportArray[index], omitIgnoredKeys),
-      keysToIgnore,
-    );
+    const cleanGraphQlItem = stripIgnoredKeys(graphQlItem);
+    const cleanCmsItem = stripIgnoredKeys(cmsExportArray[index]);
 
     if (
       !isEqual(cleanGraphQlItem, cleanCmsItem) &&
