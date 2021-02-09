@@ -66,7 +66,7 @@ Cypress.Commands.add('checkCallToAction', () => {
 describe('526 wizard', () => {
   beforeEach(() => {
     window.dataLayer = [];
-    cy.route('GET', '/v0/feature_toggles?*', mockFeatureToggles);
+    cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
     sessionStorage.removeItem(WIZARD_STATUS);
     sessionStorage.removeItem(FORM_STATUS_BDD);
     sessionStorage.removeItem(SAVED_SEPARATION_DATE);

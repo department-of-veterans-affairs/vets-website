@@ -8,6 +8,13 @@ const {
   isPublished,
 } = require('./helpers');
 
+const getFieldAlert = fieldAlert => {
+  if (!isEmpty(flatten(fieldAlert))) {
+    return fieldAlert[0];
+  }
+  return isEmpty(fieldAlert) ? null : { entity: null };
+};
+
 function pageTransform(entity) {
   const {
     title,
@@ -15,6 +22,7 @@ function pageTransform(entity) {
     fieldPageLastBuilt,
     fieldAlert,
     fieldDescription,
+    fieldIntroText,
     fieldTableOfContentsBoolean,
     status,
     metatag: { value: metaTags },
@@ -24,26 +32,28 @@ function pageTransform(entity) {
     title: getDrupalValue(title),
     entityBundle: 'page',
     fieldAdministration: entity.fieldAdministration[0],
-    fieldRelatedLinks: entity.fieldRelatedLinks[0],
-    fieldIntroTextLimitedHtml: entity.fieldIntroTextLimitedHtml[0],
+    fieldRelatedLinks: entity.fieldRelatedLinks.length
+      ? entity.fieldRelatedLinks[0]
+      : null,
+    fieldIntroTextLimitedHtml: entity.fieldIntroTextLimitedHtml[0] || null,
+    fieldIntroText: getDrupalValue(fieldIntroText),
     fieldDescription: getDrupalValue(fieldDescription),
     fieldTableOfContentsBoolean: getDrupalValue(fieldTableOfContentsBoolean),
     changed: utcToEpochTime(getDrupalValue(changed)),
-    fieldPageLastBuilt: {
-      // Assume the raw data is in UTC
-      date: moment
-        .tz(getDrupalValue(fieldPageLastBuilt), 'UTC')
-        .format('YYYY-MM-DD HH:mm:ss UTC'),
-    },
-    // fieldPageLastBuilt: new Date(
-    //   getDrupalValue(fieldPageLastBuilt),
-    // ).toUTCString(),
+    fieldPageLastBuilt: fieldPageLastBuilt.length
+      ? {
+          // Assume the raw data is in UTC
+          date: moment
+            .tz(getDrupalValue(fieldPageLastBuilt), 'UTC')
+            .format('YYYY-MM-DD HH:mm:ss UTC'),
+        }
+      : null,
 
     entityPublished: isPublished(getDrupalValue(status)),
     entityMetatags: createMetaTagArray(metaTags),
   });
 
-  transformed.fieldAlert = !isEmpty(flatten(fieldAlert)) ? fieldAlert[0] : null;
+  transformed.fieldAlert = getFieldAlert(fieldAlert);
 
   delete transformed.status;
   delete transformed.metatag;
