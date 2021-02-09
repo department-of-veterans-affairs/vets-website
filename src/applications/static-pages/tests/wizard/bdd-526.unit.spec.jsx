@@ -11,9 +11,8 @@ describe('the Education Benefits Wizard', () => {
   let defaultProps;
   const setWizardStatus = value => sessionStorage.setItem(WIZARD_STATUS, value);
   const getDateDiff = (diff, type = 'days') => moment().add(diff, type);
-  // const getDateFormat = date => date.format('YYYY-M-D');
-  // const getDateDiffFormat = (diff, type) =>
-  //   getDateFormat(getDateDiff(diff, type));
+  const getDateFormat = date => date.format('YYYY-M-D').split('-');
+  const getPageHistory = (wrap, page) => wrap.state('pageHistory')[page].name;
 
   beforeEach(() => {
     setWizardStatus('');
@@ -30,35 +29,180 @@ describe('the Education Benefits Wizard', () => {
     wrapper.unmount();
   });
 
-  it('should take you to the 1990E form with no warning alert', () => {
+  it('should take you to the disability start with no warning message', () => {
     const wrapper = mount(<Wizard {...defaultProps} />);
-    expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
+    expect(getPageHistory(wrapper, 0)).to.equal('start');
 
     // start BDD flow
     wrapper.find('input[value="bdd"]').invoke('onChange')({
       target: { value: 'bdd' },
     });
-    expect(wrapper.state('pageHistory')[0].state).to.deep.equal({
-      selected: 'bdd',
+    expect(getPageHistory(wrapper, 1)).to.equal('bdd');
+
+    // valid BDD date = between 90-180 days from today; 80 = file disability
+    const [year, month, day] = getDateFormat(getDateDiff(80, 'days'));
+    wrapper.find('Date').invoke('onValueChange')({
+      day: { value: day, dirty: true },
+      month: { value: month, dirty: true },
+      year: { value: year, dirty: true },
     });
 
-    // valid BDD = 90-180 days from today
-    const year = getDateDiff(200, 'years').year();
-    wrapper.find('input[name="discharge-dateYear"]').invoke('onChange')({
-      target: { value: year },
+    // start disability benefits form button
+    expect(getPageHistory(wrapper, 2)).to.equal('file-claim-early');
+    expect(wrapper.find('a[href$="introduction"]')).to.exist;
+    expect(wrapper.find('#other_ways_to_file_526')).to.exist;
+    wrapper.unmount();
+  });
+
+  it('should take you to the BDD start with no warning message', () => {
+    const wrapper = mount(<Wizard {...defaultProps} />);
+    expect(getPageHistory(wrapper, 0)).to.equal('start');
+
+    // start BDD flow
+    wrapper.find('input[value="bdd"]').invoke('onChange')({
+      target: { value: 'bdd' },
     });
-    wrapper.find('input[name="discharge-dateYear"]').invoke('onBlur');
-    // wrapper
-    //   .find('Date')
-    //   .props()
-    //   .onValueChange({
-    //     day: { value: '', dirty: false },
-    //     month: { value: '', dirty: false },
-    //     year: { value: year, dirty: true },
-    //   });
-    // console.log(wrapper.find('Date').props(), year, wrapper.html());
-    expect(wrapper.find('.input-error-date').exists()).to.be.true;
-    // expect(wrapper.find('.input-error-date').text()).to.contain('year between');
+    expect(getPageHistory(wrapper, 1)).to.equal('bdd');
+
+    // valid BDD date = between 90-180 days from today
+    const [year, month, day] = getDateFormat(getDateDiff(100, 'days'));
+    wrapper.find('Date').invoke('onValueChange')({
+      day: { value: day, dirty: true },
+      month: { value: month, dirty: true },
+      year: { value: year, dirty: true },
+    });
+
+    // start BDD form button
+    expect(getPageHistory(wrapper, 2)).to.equal('file-bdd');
+    expect(wrapper.find('a[href$="introduction"]')).to.exist;
+    expect(wrapper.find('#learn_about_bdd')).to.exist;
+    wrapper.unmount();
+  });
+
+  it('should show the not-eligible warning message', () => {
+    const wrapper = mount(<Wizard {...defaultProps} />);
+    expect(getPageHistory(wrapper, 0)).to.equal('start');
+
+    // start BDD flow
+    wrapper.find('input[value="bdd"]').invoke('onChange')({
+      target: { value: 'bdd' },
+    });
+    expect(getPageHistory(wrapper, 1)).to.equal('bdd');
+
+    // valid BDD date = between 90-180 days from today
+    const [year, month, day] = getDateFormat(getDateDiff(190, 'days'));
+    wrapper.find('Date').invoke('onValueChange')({
+      day: { value: day, dirty: true },
+      month: { value: month, dirty: true },
+      year: { value: year, dirty: true },
+    });
+
+    expect(getPageHistory(wrapper, 2)).to.equal('unable-to-file-bdd');
+    expect(wrapper.find('#not-eligible-for-bdd')).to.exist;
+    wrapper.unmount();
+  });
+
+  // Date errors
+  it('should show invalid year range error', () => {
+    const wrapper = mount(<Wizard {...defaultProps} />);
+    expect(getPageHistory(wrapper, 0)).to.equal('start');
+
+    wrapper.find('input[value="bdd"]').invoke('onChange')({
+      target: { value: 'bdd' },
+    });
+
+    const [year] = getDateFormat(getDateDiff(200, 'years'));
+    wrapper.find('Date').invoke('onValueChange')({
+      day: { value: '', dirty: false },
+      month: { value: '', dirty: false },
+      year: { value: year, dirty: true },
+    });
+
+    expect(wrapper.find('.input-error-date')).to.exist;
+    expect(wrapper.find('.usa-input-error-message').text()).to.contain(
+      'year between',
+    );
+    wrapper.unmount();
+  });
+  it('should show invalid date error', () => {
+    const wrapper = mount(<Wizard {...defaultProps} />);
+    wrapper.find('input[value="bdd"]').invoke('onChange')({
+      target: { value: 'bdd' },
+    });
+
+    wrapper.find('Date').invoke('onValueChange')({
+      day: { value: '1', dirty: true },
+      month: { value: '1', dirty: true },
+      year: { value: '0000', dirty: true },
+    });
+
+    expect(wrapper.find('.input-error-date')).to.exist;
+    expect(wrapper.find('.usa-input-error-message').text()).to.contain(
+      'provide a valid date',
+    );
+    wrapper.unmount();
+  });
+  it('should show date not in the future error', () => {
+    const wrapper = mount(<Wizard {...defaultProps} />);
+    wrapper.find('input[value="bdd"]').invoke('onChange')({
+      target: { value: 'bdd' },
+    });
+
+    const [year, month, day] = getDateFormat(getDateDiff(-1, 'days'));
+    wrapper.find('Date').invoke('onValueChange')({
+      day: { value: day, dirty: true },
+      month: { value: month, dirty: true },
+      year: { value: year, dirty: true },
+    });
+
+    expect(wrapper.find('.input-error-date')).to.exist;
+    expect(wrapper.find('.usa-input-error-message').text()).to.contain(
+      'must be in the future',
+    );
+    wrapper.unmount();
+  });
+
+  // new claim flow
+  it('should allow disability form start when filing a new claim', () => {
+    const wrapper = mount(<Wizard {...defaultProps} />);
+    expect(getPageHistory(wrapper, 0)).to.equal('start');
+
+    // start disability benefit flow
+    wrapper.find('input[value="appeals"]').invoke('onChange')({
+      target: { value: 'appeals' },
+    });
+    expect(getPageHistory(wrapper, 1)).to.equal('appeals');
+
+    wrapper.find('input[value="file-claim"]').invoke('onChange')({
+      target: { value: 'file-claim' },
+    });
+
+    // start disability benefits form button
+    expect(getPageHistory(wrapper, 2)).to.equal('file-claim');
+    expect(wrapper.find('a[href$="introduction"]')).to.exist;
+    expect(wrapper.find('#other_ways_to_file_526')).to.exist;
+    wrapper.unmount();
+  });
+
+  // disagreeing flow
+  it('should allow disability form start when filing a new claim', () => {
+    const wrapper = mount(<Wizard {...defaultProps} />);
+    expect(getPageHistory(wrapper, 0)).to.equal('start');
+
+    // start disability benefit flow
+    wrapper.find('input[value="appeals"]').invoke('onChange')({
+      target: { value: 'appeals' },
+    });
+    expect(getPageHistory(wrapper, 1)).to.equal('appeals');
+
+    wrapper.find('input[value="disagree-file-claim"]').invoke('onChange')({
+      target: { value: 'disagree-file-claim' },
+    });
+
+    // start disability benefits form button
+    expect(getPageHistory(wrapper, 2)).to.equal('disagree-file-claim');
+    expect(wrapper.find('a[href$="decision-reviews/"]')).to.exist;
+    expect(wrapper.find('a[href$="introduction"]')).to.be.empty;
     wrapper.unmount();
   });
 });
