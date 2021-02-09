@@ -123,7 +123,7 @@ function nonNodeQueries() {
   } = require('./graphql/navigation-fragments/sidebar.nav.graphql');
 
   const {
-    GetFacilitySidebars,
+    VaFacilitySidebars,
   } = require('./graphql/navigation-fragments/facilitySidebar.nav.graphql');
 
   const {
@@ -146,7 +146,7 @@ function nonNodeQueries() {
   const componentQueries = {
     GetIcsFiles,
     GetSidebars,
-    GetFacilitySidebars,
+    ...VaFacilitySidebars,
     GetOutreachSidebar,
     GetAlerts,
     GetBannnerAlerts,
