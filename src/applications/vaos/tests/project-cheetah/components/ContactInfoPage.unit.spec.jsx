@@ -5,29 +5,15 @@ import userEvent from '@testing-library/user-event';
 
 import ContactInfoPage from '../../../project-cheetah/components/ContactInfoPage';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
-import { FETCH_STATUS } from '../../../utils/constants';
 import { cleanup } from 'axe-core';
 
 describe('VAOS <ContactInfoPage>', () => {
-  const initialState = {
-    projectCheetah: {
-      newBooking: {
-        data: {},
-        pages: [],
-        previousPages: [],
-      },
-    },
-  };
-
   it('should submit with valid data', async () => {
-    const store = createTestStore(initialState);
+    const store = createTestStore();
 
-    let screen = renderWithStoreAndRouter(
-      <Route component={ContactInfoPage} />,
-      {
-        store,
-      },
-    );
+    let screen = renderWithStoreAndRouter(<ContactInfoPage />, {
+      store,
+    });
 
     let input = await screen.findByLabelText(/^Your phone number/);
     userEvent.type(input, '5555555555');
@@ -56,14 +42,11 @@ describe('VAOS <ContactInfoPage>', () => {
   });
 
   it('should not submit empty form', async () => {
-    const store = createTestStore(initialState);
+    const store = createTestStore();
 
-    const screen = renderWithStoreAndRouter(
-      <Route component={ContactInfoPage} />,
-      {
-        store,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<ContactInfoPage />, {
+      store,
+    });
 
     const button = await screen.findByText(/^Continue/);
     userEvent.click(button);
