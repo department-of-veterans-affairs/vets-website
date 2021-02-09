@@ -31,7 +31,11 @@ const FileBDDClaim = ({ getPageStateFromPageName, setWizardStatus }) => {
     .format('MMMM D, YYYY');
 
   return (
-    <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
+    <div
+      className="usa-alert usa-alert-info background-color-only vads-u-padding--2 vads-u-margin-top--2"
+      aria-live="polite"
+    >
+      <span className="sr-only">Info: </span>
       {daysRemainingToFileBDD < 0 ? null : (
         <>
           <p className="vads-u-margin-top--0">

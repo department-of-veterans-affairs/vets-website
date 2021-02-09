@@ -32,8 +32,10 @@ const UnableToFileBDDPage = ({ getPageStateFromPageName }) => {
   return (
     <div
       id="not-eligible-for-bdd"
-      className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2"
+      className="usa-alert usa-alert-info background-color-only vads-u-padding--2 vads-u-margin-top--2"
+      aria-live="polite"
     >
+      <span className="sr-only">Info: </span>
       <p className="vads-u-margin-top--0">
         Based on your separation date, you’re not eligible to file for
         disability benefits right now.
