@@ -20,6 +20,7 @@ import {
   getPatientTelecom,
   isVideoAppointment,
   getVAAppointmentLocationId,
+  getPractitionerLocationDisplay,
 } from '../../services/appointment';
 import { selectFirstRequestMessage } from '../redux/selectors';
 
@@ -79,9 +80,7 @@ function RequestedAppointmentDetailsPage({
   const facility = facilityData?.[facilityId];
   const isCCRequest =
     appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;
-  const practitionerName = appointment.contained
-    .filter(res => res.resourceType === 'Practitioner')
-    .map(provider => provider.practitionerRole?.[0].location?.[0].display);
+  const practitionerName = getPractitionerLocationDisplay(appointment);
 
   return (
     <div>
@@ -138,7 +137,8 @@ function RequestedAppointmentDetailsPage({
         )}
 
       {isCC &&
-        isCCRequest && (
+        isCCRequest &&
+        practitionerName && (
           <>
             <h2 className="vaos-appts__block-label vads-u-margin-bottom--0 vads-u-margin-top--2">
               Preferred community care provider
