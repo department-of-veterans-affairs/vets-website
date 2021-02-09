@@ -305,7 +305,7 @@ const mapStateToProps = state => {
   const hasLoadedEDUPaymentInformation = eduDirectDepositInformation(state);
 
   const hasLoadedTotalDisabilityRating =
-    state.totalRating?.totalDisabilityRating;
+    state.totalRating?.totalDisabilityRating || state.totalRating?.error;
 
   const hasLoadedAllData =
     hasLoadedFullName &&
