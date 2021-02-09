@@ -59,7 +59,6 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     const pageCompiled = compilePage(page, contentData);
     const drupalPageDir = path.join('.', drupalUrl);
     const drupalFileName = path.join(drupalPageDir, 'index.html');
-    const layoutName = entityBundle || 'page';
 
     switch (page.entityBundle) {
       case 'health_care_local_facility':
@@ -122,7 +121,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
 
     files[drupalFileName] = createFileObj(
       pageCompiled,
-      `${layoutName}.drupal.liquid`,
+      `${entityBundle}.drupal.liquid`,
     );
 
     if (page.entityBundle === 'health_care_region_page') {
