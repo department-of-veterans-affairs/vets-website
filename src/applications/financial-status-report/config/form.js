@@ -76,7 +76,7 @@ const formConfig = {
               dateOfBirth: '01/01/1970',
             },
             personalIdentification: {
-              sSn: '1234',
+              ssn: '1234',
               vaFileNumber: '5678',
             },
           },
