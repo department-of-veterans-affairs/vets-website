@@ -12,7 +12,10 @@ const ApplicationInProgress = ({
   presentableFormId,
 }) => {
   return (
-    <div className="vads-u-display--flex vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--4 medium-screen:vads-u-padding-right--3 vads-u-padding-bottom--3">
+    <div
+      className="vads-u-display--flex vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--4 medium-screen:vads-u-padding-right--3 vads-u-padding-bottom--3"
+      data-testid="application-in-progress"
+    >
       <div className="vads-u-display--flex vads-u-width--full vads-u-flex-direction--column vads-u-justify-content--space-between vads-u-align-items--flex-start vads-u-background-color--gray-lightest vads-u-padding--2p5">
         <div>
           <div style={{ textTransform: 'uppercase' }}>{presentableFormId}</div>
