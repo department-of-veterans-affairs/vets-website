@@ -7,9 +7,9 @@ export default function PrintErrorMessage() {
       className="usa-alert usa-alert-error print-error-message"
     >
       <div className="usa-alert-body">
-        <h4 className="claims-alert-header">
+        <h3 className="claims-alert-header">
           We’ve run into a problem viewing and printing your questionnaire
-        </h4>
+        </h3>
         <p className="usa-alert-text">
           We're sorry. Something went wrong on our end. Please refresh this page
           or try again later.
