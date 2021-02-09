@@ -1,4 +1,4 @@
-import { submitToUrl } from 'platform/forms-system/src/js/actions';
+// import { submitToUrl } from 'platform/forms-system/src/js/actions';
 
 const submit = (form, formConfig) => {
   const body = {
@@ -14,16 +14,16 @@ const submit = (form, formConfig) => {
   //   eventData,
   // });
 
-  return submitToUrl(
-    JSON.stringify(body),
-    formConfig.submitUrl,
-    formConfig.trackingPrefix,
-    // eventData,
-  );
-  // return new Promise((_resolve, reject) => {
-  //   // resolve(body);
-  //   reject(body);
-  // });
+  // return submitToUrl(
+  //   JSON.stringify(body),
+  //   formConfig.submitUrl,
+  //   formConfig.trackingPrefix,
+  //   // eventData,
+  // );
+  return new Promise((resolve, _reject) => {
+    resolve(body);
+    // reject(body);
+  });
 };
 
 const createAnAnswer = valueString => ({ valueString });

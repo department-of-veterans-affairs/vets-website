@@ -23,8 +23,14 @@ import {
 
 export const uiSchema = {
   'ui:title': 'Contact information',
-  'ui:description':
-    'This is the contact information we have on file for you. Please verify that this information is correct.',
+  'ui:description': (
+    <p>
+      This is the contact information we have on file for you. We’ll send any
+      information about your debt to this mailing address. Please review and
+      make any needed edits. You can also add or change your phone number or
+      email address.
+    </p>
+  ),
   'ui:options': {
     classNames: 'contact-info',
   },
@@ -32,18 +38,16 @@ export const uiSchema = {
     'ui:subtitle': (
       <>
         <p>
-          Any updates you make here to your address will apply only to this
-          application.
+          Any updates you make here will only change your mailing address for
+          this request.
         </p>
         <p>
-          To update your address for all of your VA accounts, you’ll need to go
-          to your profile page.{' '}
-          <a
-            className="vads-u-text-decoration--none"
-            href="https://va.gov/profile"
-          >
-            View the address that's on file in your profile.
+          If you want to change your address for other VA benefits and services,{' '}
+          <a href="https://va.gov/profile">go to your VA.gov profile</a>. Or{' '}
+          <a href="https://va.gov/profile">
+            find out how to change your address on file with VA
           </a>
+          .
         </p>
       </>
     ),
@@ -54,8 +58,7 @@ export const uiSchema = {
       startInEdit: false,
     },
     livesOutsideUS: {
-      'ui:title':
-        'I live on a United States military base outside of the United States.',
+      'ui:title': 'I live on a U.S. military base outside of the U.S.',
       'ui:options': {
         widgetClassNames: 'checkbox-group',
       },
@@ -163,7 +166,6 @@ export const uiSchema = {
           };
         },
       },
-      // 'ui:required': formData => !formData.mailingAddress.livesOutsideUS,
       'ui:validations': [
         {
           options: { addressPath: 'mailingAddress' },
@@ -178,7 +180,6 @@ export const uiSchema = {
     zipCode: {
       'ui:title': 'Postal code',
       'ui:validations': [validateZIP],
-      // 'ui:required': formData => !formData.mailingAddress.livesOutsideUS,
       'ui:errorMessages': {
         required: 'Please enter a postal code',
         pattern:
@@ -206,6 +207,12 @@ export const uiSchema = {
     },
     confirmationEmail: {
       ...emailUI('Re-enter email address'),
+      'ui:description': (
+        <p className="formfield-subtitle">
+          To receive a confirmation email when you submit your request, you must
+          re-enter your email address.
+        </p>
+      ),
       'ui:options': {
         classNames: 'input-size-7',
         hideOnReview: true,
@@ -229,7 +236,7 @@ export const schema = {
   properties: {
     mailingAddress: {
       type: 'object',
-      // required: ['country', 'city', 'addressLine1'],
+      required: ['country', 'addressLine1', 'city', 'state', 'zipCode'],
       properties: {
         livesOutsideUS: {
           type: 'boolean',
