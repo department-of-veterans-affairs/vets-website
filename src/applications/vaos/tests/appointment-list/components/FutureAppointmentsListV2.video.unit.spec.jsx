@@ -499,7 +499,7 @@ describe('VAOS integration: upcoming video appointments', () => {
     expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
     expect(screen.getByRole('link', { name: /Directions/ })).to.be.ok;
 
-    expect(screen.baseElement).to.contain.text('Clinic:  CHY PC VAR2');
+    expect(screen.baseElement).to.contain.text('Clinic: CHY PC VAR2');
     expect(screen.baseElement).to.contain.text('Main phone: 307-778-7550');
     expect(screen.getByRole('link', { name: /3 0 7. 7 7 8. 7 5 5 0./ })).to.be
       .ok;
