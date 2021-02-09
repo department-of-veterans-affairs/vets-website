@@ -95,18 +95,18 @@ module.exports = `
         ... nodeCampaignLandingPage
       }
     }
-    ${icsFileQuery}
-    ${sidebarQuery}
-    ${facilitySidebarQuery}
-    ${alertsQuery}
-    ${bannerAlertsQuery}
+    ${icsFileQuery.partialQuery}
+    ${sidebarQuery.partialQuery}
+    ${facilitySidebarQuery.partialQuery}
+    ${alertsQuery.partialQuery}
+    ${bannerAlertsQuery.partialQuery}
     ${
       cmsFeatureFlags.FEATURE_ALL_HUB_SIDE_NAVS
-        ? `${allSideNavMachineNamesQuery}`
+        ? `${allSideNavMachineNamesQuery.partialQuery}`
         : ''
     }
-    ${menuLinksQuery}
-    ${taxonomiesQuery}
+    ${menuLinksQuery.partialQuery}
+    ${taxonomiesQuery.partialQuery}
   }
 `;
 

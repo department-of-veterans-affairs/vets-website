@@ -172,4 +172,13 @@ FACILITY_MENU_NAMES.forEach(facilityMenuName => {
         `;
 });
 
-module.exports = compiledQuery;
+const GetFacilitySidebars = `
+  query {
+    ${compiledQuery}
+  }
+`;
+
+module.exports = {
+  partialQuery: compiledQuery,
+  GetFacilitySidebars,
+};

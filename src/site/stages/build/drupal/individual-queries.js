@@ -116,33 +116,55 @@ function nonNodeQueries() {
   // Get current feature flags
   const { cmsFeatureFlags } = global;
 
-  const componentQueries = [
-    require('./graphql/file-fragments/ics.file.graphql'),
-    require('./graphql/navigation-fragments/sidebar.nav.graphql'),
-    require('./graphql/navigation-fragments/facilitySidebar.nav.graphql'),
-    require('./graphql/navigation-fragments/outreachSidebar.nav.graphql'),
-    require('./graphql/alerts.graphql'),
-    require('./graphql/bannerAlerts.graphql'),
-    require('./graphql/file-fragments/outreachAssets.graphql'),
-    require('./graphql/homePage.graphql'),
-    require('./graphql/navigation-fragments/menuLinks.nav.graphql'),
-    require('./graphql/taxonomy-fragments/GetTaxonomies.graphql'),
-  ];
+  const { GetIcsFiles } = require('./graphql/file-fragments/ics.file.graphql');
+
+  const {
+    GetSidebars,
+  } = require('./graphql/navigation-fragments/sidebar.nav.graphql');
+
+  const {
+    GetFacilitySidebars,
+  } = require('./graphql/navigation-fragments/facilitySidebar.nav.graphql');
+
+  const {
+    GetOutreachSidebar,
+  } = require('./graphql/navigation-fragments/outreachSidebar.nav.graphql');
+
+  const { GetAlerts } = require('./graphql/alerts.graphql');
+  const { GetBannnerAlerts } = require('./graphql/bannerAlerts.graphql');
+  const {
+    GetOutreachAssets,
+  } = require('./graphql/file-fragments/outreachAssets.graphql');
+  const { GetHomepage } = require('./graphql/homePage.graphql');
+  const {
+    GetMenuLinks,
+  } = require('./graphql/navigation-fragments/menuLinks.nav.graphql');
+  const {
+    GetTaxonomies,
+  } = require('./graphql/taxonomy-fragments/GetTaxonomies.graphql');
+
+  const componentQueries = {
+    GetIcsFiles,
+    GetSidebars,
+    GetFacilitySidebars,
+    GetOutreachSidebar,
+    GetAlerts,
+    GetBannnerAlerts,
+    GetOutreachAssets,
+    GetHomepage,
+    GetMenuLinks,
+    GetTaxonomies,
+  };
 
   if (cmsFeatureFlags.FEATURE_ALL_HUB_SIDE_NAVS) {
-    componentQueries.push(
-      require('./graphql/navigation-fragments/allSideNavMachineNames.nav.graphql'),
-    );
+    const {
+      GetAllSideNavMachineNames,
+    } = require('./graphql/navigation-fragments/allSideNavMachineNames.nav.graphql');
+
+    componentQueries.GetAllSideNavMachineNames = GetAllSideNavMachineNames;
   }
 
-  // @todo - wrap each component like the nodes instead of doing a mono query
-  const GetNonNodeWebsiteComponents = `
-    query GetNonNodeWebsiteComponents($onlyPublishedContent: Boolean!) {
-      ${componentQueries.join('\n')}
-    }
-  `;
-
-  return { GetNonNodeWebsiteComponents };
+  return componentQueries;
 }
 
 function getIndividualizedQueries() {

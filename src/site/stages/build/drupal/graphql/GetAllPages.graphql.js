@@ -144,21 +144,21 @@ const buildQuery = ({ useTomeSync }) => {
 
   query GetAllPages(${todayQueryVar} $onlyPublishedContent: Boolean!) {
     ${nodeQuery}
-    ${icsFileQuery}
-    ${sidebarQuery}
-    ${facilitySidebarQuery}
-    ${outreachSidebarQuery}
-    ${alertsQuery}
-    ${bannerAlertsQuery}
-    ${outreachAssetsQuery}
-    ${homePageQuery}
+    ${icsFileQuery.partialQuery}
+    ${sidebarQuery.partialQuery}
+    ${facilitySidebarQuery.partialQuery}
+    ${outreachSidebarQuery.partialQuery}
+    ${alertsQuery.partialQuery}
+    ${bannerAlertsQuery.partialQuery}
+    ${outreachAssetsQuery.partialQuery}
+    ${homePageQuery.partialQuery}
     ${
       cmsFeatureFlags.FEATURE_ALL_HUB_SIDE_NAVS
-        ? `${allSideNavMachineNamesQuery}`
+        ? `${allSideNavMachineNamesQuery.partialQuery}`
         : ''
     }
-    ${menuLinksQuery}
-    ${taxonomiesQuery}
+    ${menuLinksQuery.partialQuery}
+    ${taxonomiesQuery.partialQuery}
   }
 `;
 
