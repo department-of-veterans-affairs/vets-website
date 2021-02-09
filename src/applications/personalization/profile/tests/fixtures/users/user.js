@@ -1,6 +1,6 @@
 import { mockContactInformation } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
 
-const mockUser = {
+export const mockUser = {
   data: {
     id: '',
     type: 'users_scaffolds',
@@ -83,5 +83,3 @@ const mockUser = {
   },
   meta: { errors: null },
 };
-
-export default mockUser;
