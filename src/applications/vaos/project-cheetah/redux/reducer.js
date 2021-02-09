@@ -28,6 +28,7 @@ import {
   FORM_CALENDAR_FETCH_SLOTS,
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
+  FORM_PREFILL_CONTACT_INFO,
 } from './actions';
 
 import { FACILITY_SORT_METHODS, FETCH_STATUS } from '../../utils/constants';
@@ -421,6 +422,20 @@ export default function projectCheetahReducer(state = initialState, action) {
           pages: {
             ...state.newBooking.pages,
             [action.page]: schema,
+          },
+        },
+      };
+    }
+    case FORM_PREFILL_CONTACT_INFO: {
+      const data = state.newBooking.data;
+      return {
+        ...state,
+        newBooking: {
+          ...state.newBooking,
+          data: {
+            ...data,
+            phoneNumber: data.phoneNumber || action.phoneNumber,
+            email: data.email || action.email,
           },
         },
       };

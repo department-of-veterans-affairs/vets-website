@@ -54,16 +54,18 @@ const pageKey = 'contactInfo';
 const pageTitle = 'Confirm your contact information';
 
 export function ContactInfoPage({
-  schema,
   data,
-  pageChangeInProgress,
   openFormPage,
-  updateFormData,
+  pageChangeInProgress,
+  prefillContactInfo,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
+  schema,
+  updateFormData,
 }) {
   const history = useHistory();
   useEffect(() => {
+    prefillContactInfo();
     openFormPage(pageKey, uiSchema, initialSchema);
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
@@ -101,6 +103,7 @@ const mapDispatchToProps = {
   openFormPage: actions.openFormPage,
   routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
   routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
+  prefillContactInfo: actions.prefillContactInfo,
   updateFormData: actions.updateFormData,
 };
 
