@@ -6,6 +6,7 @@ import { within } from '@testing-library/dom';
 import {
   getVAAppointmentMock,
   getVAFacilityMock,
+  getVARequestMock,
   getVideoAppointmentMock,
 } from '../../mocks/v0';
 import {
@@ -22,6 +23,7 @@ const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
     vaOnlineSchedulingPast: true,
+    vaOnlineSchedulingHomepageRefresh: true,
   },
 };
 
@@ -307,5 +309,36 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       expect(ranges[5].startDate).to.include('2019-01-01T00:00:00');
       expect(ranges[5].endDate).to.include('2019-12-31T23:59:59');
     });
+  });
+
+  it.only('should include fulfilled Express Care requests', async () => {
+    const startDate = moment();
+    const request = getVARequestMock();
+    request.attributes = {
+      ...request.attributes,
+      status: 'Resolved',
+      optionDate1: startDate.format('mm/dd/yyyy'),
+      optionTime1: 'AM',
+      date: startDate.format(),
+      typeOfCareId: 'CR1',
+      email: 'patient.test@va.gov',
+      phoneNumber: '5555555566',
+      reasonForVisit: 'Back pain',
+      additionalInformation: 'Need help ASAP',
+    };
+    request.id = '1234';
+    mockPastAppointmentInfo({ va: [], requests: [request] });
+
+    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
+      initialState,
+    });
+
+    await screen.findAllByText(
+      new RegExp(startDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
+    );
+
+    const firstCard = screen.getAllByRole('listitem')[0];
+
+    expect(firstCard).to.contain.text('Express Care request');
   });
 });

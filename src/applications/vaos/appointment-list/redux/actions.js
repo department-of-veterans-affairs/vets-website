@@ -378,7 +378,12 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
       ];
 
       if (featureHomepageRefresh) {
-        fetches.push(getAppointmentRequests(startDate, endDate));
+        fetches.push(
+          getAppointmentRequests({
+            startDate: moment(startDate).format('YYYY-MM-DD'),
+            endDate: moment(endDate).format('YYYY-MM-DD'),
+          }),
+        );
       }
 
       const [appointments, requests] = await Promise.all(fetches);
