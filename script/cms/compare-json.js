@@ -227,8 +227,8 @@ const compareArrays = (cmsExportArray, graphQLArray, dataPath) => {
  */
 const compareJson = (baseGraphQlObject, baseCmsExportObject) => {
   // Save present keys in CMS export and GraphQL objects
-  const graphQlObject = {};
-  const cmsExportObject = {};
+  let graphQlObject = {};
+  let cmsExportObject = {};
 
   // Output missing keys to console
   Object.keys(baseGraphQlObject).forEach(key => {
@@ -244,6 +244,9 @@ const compareJson = (baseGraphQlObject, baseCmsExportObject) => {
   });
 
   const arrayDiffs = [];
+
+  graphQlObject = stripIgnoredKeys(graphQlObject);
+  cmsExportObject = stripIgnoredKeys(cmsExportObject);
 
   // Get array of differences. Exclude new properties because transformed
   // CMS objects may have additional properties
