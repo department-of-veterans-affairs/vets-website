@@ -339,7 +339,7 @@ const FacilitiesMap = props => {
     const mapBoxLogo = document.querySelector(
       'a.mapboxgl-ctrl-logo.mapboxgl-compact',
     );
-    if (mapBoxLogo) mapBoxLogo.remove();
+    if (mapBoxLogo) mapBoxLogo.setAttribute('tabIndex', -1);
     mapInit.on('load', () => {
       // set up listeners on the zoom-in and zoom-out buttons:
       document.querySelectorAll('.mapboxgl-ctrl > button').forEach(button =>
