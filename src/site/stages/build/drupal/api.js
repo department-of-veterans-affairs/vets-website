@@ -182,6 +182,7 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
       };
 
       const individualQueries = Object.entries(getIndividualizedQueries());
+      const totalQueries = individualQueries.length;
 
       const parallelQuery = async () => {
         const [queryName, query] = individualQueries.pop();
@@ -220,7 +221,9 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
           pageCount = chalk.red(pageCount);
         }
 
-        say(`${chalk.blue(queryName)} | ${timeElapsed}s | ${pageCount} pages`);
+        say(
+          `| ${chalk.blue(queryName)} | ${timeElapsed}s | ${pageCount} pages |`,
+        );
 
         if (individualQueries.length > 0) {
           return parallelQuery();
@@ -233,6 +236,7 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
       // And also stagger their execution so that at no point
       // are we totally overwhelming the CMS.
       const maxParallelRequests = 15;
+      const overallStartTime = moment();
       const staggeredRequests = new Array(maxParallelRequests)
         .fill(null)
         .map(() => {
@@ -243,8 +247,12 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
 
       await Promise.all(staggeredRequests);
 
+      const overallTimeElapsed = moment().diff(overallStartTime, 'seconds');
+
       console.log(
-        `Finished all queries - ${result.data.nodeQuery.entities.length} pages`,
+        `Finished ${totalQueries} queries in ${overallTimeElapsed}s with ${
+          result.data.nodeQuery.entities.length
+        } pages`,
       );
 
       return result;

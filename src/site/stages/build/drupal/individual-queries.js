@@ -1,7 +1,8 @@
-const { GetNodePages } = require('./graphql/page.graphql');
+const { NodePageSlices } = require('./graphql/page.graphql');
 const { GetNodeLandingPages } = require('./graphql/landingPage.graphql');
-const { GetNodeVaForms } = require('./graphql/vaFormPage.graphql');
-const { GetNodePersonProfiles } = require('./graphql/bioPage.graphql');
+const { VaFormQuerySlices } = require('./graphql/vaFormPage.graphql');
+
+const { NodePersonProfilesSlices } = require('./graphql/bioPage.graphql');
 
 const {
   GetNodeHealthCareRegionPages,
@@ -31,11 +32,7 @@ const {
   GetNodeEventListingPage,
 } = require('./graphql/eventListingPage.graphql');
 
-const {
-  GetNodeEventsSlice1,
-  GetNodeEventsSlice2,
-  GetNodeEventsSlice3,
-} = require('./graphql/eventPage.graphql');
+const { NodeEventQuerySlices } = require('./graphql/eventPage.graphql');
 
 const {
   GetNodeStoryListingPages,
@@ -85,11 +82,11 @@ const {
 } = require('./graphql/nodeCampaignLandingPage.graphql');
 
 const nodeQueries = {
-  GetNodePages,
+  ...NodePageSlices,
   GetNodeLandingPages,
-  GetNodeVaForms,
+  ...VaFormQuerySlices,
   GetNodeHealthCareRegionPages,
-  GetNodePersonProfiles,
+  ...NodePersonProfilesSlices,
   GetNodeOffices,
   GetNodeHealthCareLocalFacilityPages,
   GetNodeHealthServicesListingPages,
@@ -97,9 +94,7 @@ const nodeQueries = {
   GetNodePressReleasePages,
   GetNodePressReleaseListingPages,
   GetNodeEventListingPage,
-  GetNodeEventsSlice1,
-  GetNodeEventsSlice2,
-  GetNodeEventsSlice3,
+  ...NodeEventQuerySlices,
   GetNodeStoryListingPages,
   GetNodeLocationsListingPages,
   GetNodeLeadershipListingPages,

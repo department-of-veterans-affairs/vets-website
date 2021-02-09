@@ -78,27 +78,38 @@ fragment vaFormPage on NodeVaForm {
 }
 `;
 
-const GetNodeVaForms = `
+function getNodeVaFormSlice(operationName, offset, limit = 100) {
+  return `
+    ${fragments.alert}
+    ${fragments.linkTeaser}
+    ${vaFormFragment}
 
-  ${fragments.alert}
-  ${fragments.linkTeaser}
-  ${vaFormFragment}
-
-  query GetNodeVaForms($onlyPublishedContent: Boolean!) {
-    nodeQuery(limit: 1000, filter: {
-      conditions: [
-        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
-        { field: "type", value: ["va_form"] }
-      ]
-    }) {
-      entities {
-        ... vaFormPage
+    query ${operationName}($onlyPublishedContent: Boolean!) {
+      nodeQuery(
+        limit: ${limit}
+        offset: ${offset}
+        sort: { field: "changed", direction:  ASC }
+        filter: {
+          conditions: [
+            { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+            { field: "type", value: ["va_form"] }
+          ]
+      }) {
+        entities {
+          ... vaFormPage
+        }
       }
     }
-  }
 `;
+}
 
 module.exports = {
   fragment: vaFormFragment,
-  GetNodeVaForms,
+  VaFormQuerySlices: {
+    GetNodeVaFormsSlice1: getNodeVaFormSlice('GetNodeVaFormsSlice2', 0),
+    GetNodeVaFormsSlice2: getNodeVaFormSlice('GetNodeVaFormsSlice3', 100),
+    GetNodeVaFormsSlice3: getNodeVaFormSlice('GetNodeVaFormsSlice3', 200),
+    GetNodeVaFormsSlice4: getNodeVaFormSlice('GetNodeVaFormsSlice3', 300),
+    GetNodeVaFormsSlice5: getNodeVaFormSlice('GetNodeVaFormsSlice3', 400, 9999),
+  },
 };

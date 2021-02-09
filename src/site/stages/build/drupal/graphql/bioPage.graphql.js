@@ -49,24 +49,44 @@ const personProfileFragment = `
  }
 `;
 
-const GetNodePersonProfiles = `
-  ${personProfileFragment}
+function getNodePersonProfilesSlices(operationName, offset, limit = 50) {
+  return `
+    ${personProfileFragment}
 
-  query GetNodePersonProfiles($onlyPublishedContent: Boolean!) {
-    nodeQuery(limit: 1000, filter: {
-      conditions: [
-        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
-        { field: "type", value: ["person_profile"] }
-      ]
-    }) {
-      entities {
-        ... bioPage
+    query GetNodePersonProfiles($onlyPublishedContent: Boolean!) {
+      nodeQuery(
+        limit: ${limit}
+        offset: ${offset}
+        sort: { field: "changed", direction:  ASC }
+        filter: {
+          conditions: [
+            { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+            { field: "type", value: ["person_profile"] }
+          ]
+      }) {
+        entities {
+          ... bioPage
+        }
       }
     }
-  }
 `;
+}
 
 module.exports = {
   fragment: personProfileFragment,
-  GetNodePersonProfiles,
+  NodePersonProfilesSlices: {
+    GetNodePersonProfileSlice1: getNodePersonProfilesSlices(
+      'GetNodePersonProfileSlice1',
+      0,
+    ),
+    GetNodePersonProfileSlice2: getNodePersonProfilesSlices(
+      'GetNodePersonProfileSlice2',
+      50,
+    ),
+    GetNodePersonProfileSlice3: getNodePersonProfilesSlices(
+      'GetNodePersonProfileSlice3',
+      100,
+      9999,
+    ),
+  },
 };

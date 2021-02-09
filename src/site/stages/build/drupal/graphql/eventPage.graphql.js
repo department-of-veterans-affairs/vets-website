@@ -78,7 +78,7 @@ const eventPage = `
  }
 `;
 
-function getNodeEventSlice(operationName, offset, limit = 200) {
+function getNodeEventSlice(operationName, offset, limit = 100) {
   return `
     ${eventPage}
 
@@ -103,7 +103,13 @@ function getNodeEventSlice(operationName, offset, limit = 200) {
 
 module.exports = {
   fragment: eventPage,
-  GetNodeEventsSlice1: getNodeEventSlice('GetNodeEventsSlice1', 0),
-  GetNodeEventsSlice2: getNodeEventSlice('GetNodeEventsSlice1', 200),
-  GetNodeEventsSlice3: getNodeEventSlice('GetNodeEventsSlice1', 400, 9999),
+  NodeEventQuerySlices: {
+    GetNodeEventsSlice1: getNodeEventSlice('GetNodeEventsSlice1', 0),
+    GetNodeEventsSlice2: getNodeEventSlice('GetNodeEventsSlice2', 100),
+    GetNodeEventsSlice3: getNodeEventSlice('GetNodeEventsSlice3', 200),
+    GetNodeEventsSlice4: getNodeEventSlice('GetNodeEventsSlice4', 300),
+    GetNodeEventsSlice5: getNodeEventSlice('GetNodeEventsSlice5', 400),
+    GetNodeEventsSlice6: getNodeEventSlice('GetNodeEventsSlice6', 500),
+    GetNodeEventsSlice7: getNodeEventSlice('GetNodeEventsSlice7', 600, 9999),
+  },
 };
