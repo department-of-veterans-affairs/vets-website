@@ -173,6 +173,8 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
 
       say('Pulling from Drupal via GraphQL...');
 
+      const oldGraphQlResultRequest = this.getAllPages(onlyPublishedContent);
+
       const result = {
         data: {
           nodeQuery: {
@@ -253,7 +255,22 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
         `Finished ${totalQueries} queries in ${overallTimeElapsed}s with ${
           result.data.nodeQuery.entities.length
         } pages`,
-      );
+        );
+
+      const oldGraphQlResult = await oldGraphQlResultRequest;
+
+      fs.writeJSONSync(
+        path.join(__dirname, '../../../../../legacy-pages.json'),
+        oldGraphQlResult
+      )
+
+      fs.writeJSONSync(
+        path.join(__dirname, '../../../../../new-pages.json'),
+        result
+      )
+
+      process.exit()
+
 
       return result;
     },
