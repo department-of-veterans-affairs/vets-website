@@ -165,7 +165,7 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
       // slackUploadFile(filePath: csvFile, channel: 'dev_null', failOnError: true, initialComment: "Found broken links in the ${envName} build on `${env.BRANCH_NAME}`.")
 
       // Until slackUploadFile works...
-      def brokenLinks = readFile(file: "/application/${csvFileName}")
+      def brokenLinks = readFile(file: csvFile)
       def brokenLinksCount = sh(returnStdout: true, script: "wc -l /application/${csvFileName} | cut -d ' ' -f1") as Integer
 
       slackSend message: "${brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}\n${brokenLinks}".stripMargin(),
@@ -196,7 +196,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
 
       sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose ${cmsExportFlag} --destination ${destination}"
 
-      if (envName == 'vagovprod') {
+      if (envName == 'vagovprod' || envName == 'vagovstaging') {
         // Find any broken links in the log
         checkForBrokenLinks(buildLogPath, envName, contentOnlyBuild)
         // Find any missing query flags in the log
