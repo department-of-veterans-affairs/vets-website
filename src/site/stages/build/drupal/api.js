@@ -229,11 +229,19 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
         return true;
       };
 
-      const maxParallelRequests = 8;
+      // Cap the amount of pending requests allowed out at once
+      // And also stagger their execution so that at no point
+      // are we totally overwhelming the CMS.
+      const maxParallelRequests = 15;
+      const staggeredRequests = new Array(maxParallelRequests)
+        .fill(null)
+        .map(() => {
+          return new Promise(resolve => {
+            setTimeout(() => resolve(parallelQuery()), 1000);
+          });
+        });
 
-      await Promise.all(
-        new Array(maxParallelRequests).fill(null).map(() => parallelQuery()),
-      );
+      await Promise.all(staggeredRequests);
 
       console.log(
         `Finished all queries - ${result.data.nodeQuery.entities.length} pages`,
