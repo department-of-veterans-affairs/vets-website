@@ -39,7 +39,7 @@ export const toggleShowMobileFormAction = () => ({
 // ============
 // Toggle alert tool tip
 // ============
-export const toggleToolTip = () => ({ type: TOGGLE_TOOL_TIP });
+export const toggleSearchResultsToolTip = () => ({ type: TOGGLE_TOOL_TIP });
 
 // ============
 // Redux Thunks

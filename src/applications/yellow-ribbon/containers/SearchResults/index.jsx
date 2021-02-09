@@ -10,7 +10,7 @@ import URLSearchParams from 'url-search-params';
 // Relative imports.
 import SearchResult from '../../components/SearchResult';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { fetchResultsThunk, toggleToolTip } from '../../actions';
+import { fetchResultsThunk, toggleSearchResultsToolTip } from '../../actions';
 import { focusElement } from 'platform/utilities/ui';
 import {
   getYellowRibbonAppState,
@@ -111,11 +111,11 @@ export class SearchResults extends Component {
     const queryParams = new URLSearchParams(window.location.search);
 
     // Derive the state values from our query params.
-    const name = queryParams.get('name') || '';
+    const searchQuery = queryParams.get('name') || '';
 
     const { page, perPage, totalResults } = this.props;
 
-    return recordEvent({
+    recordEvent({
       event: 'onsite-search-results-click',
       'search-result-type': 'cta',
       'search-filters-list': {
@@ -126,9 +126,9 @@ export class SearchResults extends Component {
       },
       'search-results-top-recommendation': undefined,
       'search-selection': 'Yellow Ribbon',
-      'search-result-chosen-page-url': 'https://benefits.va.gov/benefits', // dynamically populate accoding to the url href
-      'search-result-chosen-title': 'Veterans Benefits Administration Home', // dynamically populate with the top level title
-      'search-query': name,
+      'search-result-chosen-page-url': window.location.href,
+      'search-result-chosen-title': school?.nameOfInstitution,
+      'search-query': searchQuery,
       'search-total-results': totalResults,
       'search-total-result-pages': Math.ceil(totalResults / perPage),
       'search-result-position': school?.positionInResults,
@@ -277,7 +277,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchResults: options => fetchResultsThunk(options)(dispatch),
-  toggleAlertToolTip: () => dispatch(toggleToolTip()),
+  toggleAlertToolTip: () => dispatch(toggleSearchResultsToolTip()),
 });
 
 export default connect(
