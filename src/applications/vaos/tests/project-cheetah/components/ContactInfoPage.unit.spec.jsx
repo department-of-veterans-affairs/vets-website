@@ -9,15 +9,18 @@ import { FETCH_STATUS } from '../../../utils/constants';
 import { cleanup } from 'axe-core';
 
 describe('VAOS <ContactInfoPage>', () => {
-  it('should submit with valid data', async () => {
-    const store = createTestStore({
-      projectCheetah: {
-        newBooking: {
-          pages: [],
-          previousPages: [],
-        },
+  const initialState = {
+    projectCheetah: {
+      newBooking: {
+        data: {},
+        pages: [],
+        previousPages: [],
       },
-    });
+    },
+  };
+
+  it('should submit with valid data', async () => {
+    const store = createTestStore(initialState);
 
     let screen = renderWithStoreAndRouter(
       <Route component={ContactInfoPage} />,
@@ -53,17 +56,7 @@ describe('VAOS <ContactInfoPage>', () => {
   });
 
   it('should not submit empty form', async () => {
-    const store = createTestStore({
-      projectCheetah: {
-        newBooking: {
-          data: {},
-          eligibility: [],
-          pages: [],
-          previousPages: [],
-          appointmentSlotsStatus: FETCH_STATUS.succeeded,
-        },
-      },
-    });
+    const store = createTestStore(initialState);
 
     const screen = renderWithStoreAndRouter(
       <Route component={ContactInfoPage} />,
@@ -78,7 +71,8 @@ describe('VAOS <ContactInfoPage>', () => {
     // it should display page heading
     expect(screen.getByText('Confirm your contact information')).to.be.ok;
 
-    expect(await screen.findByText(/^Please enter a phone number/)).to.be.ok;
+    expect(await screen.findByText(/^Please enter a 10-digit phone number/)).to
+      .be.ok;
     expect(screen.getByText(/^Please provide a response/)).to.be.ok;
 
     userEvent.click(button);
