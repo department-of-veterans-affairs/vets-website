@@ -7,6 +7,7 @@ import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { getExpressCareFormPageInfo } from '../redux/selectors';
 import FormButtons from '../../components/FormButtons';
 import * as actions from '../redux/actions';
+import PostFormFieldContent from '../../components/PostFormFieldContent';
 
 const EXPRESS_CARE_REASONS = [
   {
@@ -135,29 +136,32 @@ function ExpressCareReasonPage({
           onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
           data={data}
         >
-          <AlertBox status="info" className="vads-u-margin-y--2">
-            <h2 className="vads-u-margin-top--0 vads-u-font-size--h4 vads-u-margin-bottom--1">
-              If you need a mental health appointment today
-            </h2>
-            <p className="vads-u-margin-top--0">
-              Please call your nearest VA medical center or Vet center, and ask
-              for a “same-day mental health appointment.”
-              <br />
-              <a href="/find-locations?facilityType=health&serviceType=MentalHealthCare">
-                Find a VA location
-              </a>
-            </p>
-            <h2 className="vads-u-font-size--h4 vads-u-margin-bottom--1">
-              If your health concern isn’t listed here
-            </h2>
-            <p className="vads-u-margin-top--0">
-              Please use our{' '}
-              <Link id="new-appointment" to="/new-appointment">
-                appointments tool
-              </Link>{' '}
-              to schedule an appointment.
-            </p>
-          </AlertBox>
+          <PostFormFieldContent>
+            <AlertBox
+              status="info"
+              className="vads-u-margin-y--2"
+              headline="If you need a mental health appointment today"
+            >
+              <p className="vads-u-margin-top--0">
+                Please call your nearest VA medical center or Vet center, and
+                ask for a “same-day mental health appointment.”
+                <br />
+                <a href="/find-locations?facilityType=health&serviceType=MentalHealthCare">
+                  Find a VA location
+                </a>
+              </p>
+              <h2 className="vads-u-font-size--h4 vads-u-margin-bottom--1">
+                If your health concern isn’t listed here
+              </h2>
+              <p className="vads-u-margin-top--0">
+                Please use our{' '}
+                <Link id="new-appointment" to="/new-appointment">
+                  appointments tool
+                </Link>{' '}
+                to schedule an appointment.
+              </p>
+            </AlertBox>
+          </PostFormFieldContent>
           <FormButtons
             backButtonText="Back"
             nextButtonText="Continue"
