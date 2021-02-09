@@ -1,5 +1,5 @@
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
-import { loa3User } from '@@profile/tests/fixtures/users/user.js';
+import loa3User from '@@profile/tests/fixtures/users/user.js';
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
