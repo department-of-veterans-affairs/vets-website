@@ -49,25 +49,27 @@ function ViewDependentsListItem(props) {
         ) : null}
       </dl>
       {manageDependentsToggle && (
-        <button
-          onClick={handleClick}
-          className="usa-button-secondary vads-u-margin-x--2 vads-u-background-color--white"
-        >
-          Remove this dependent
-        </button>
-      )}
-      <div
-        className={`vads-l-row vads-l-row vads-u-padding-x--2 vads-u-display--${
-          open ? 'flex' : 'none'
-        }`}
-      >
-        <div className="vads-l-col--8">
-          <p>
-            To remove this dependent from your VA benefits, please enter the
-            information below.
-          </p>
+        <div>
+          <button
+            onClick={handleClick}
+            className="usa-button-secondary vads-u-margin-x--2 vads-u-background-color--white"
+          >
+            Remove this dependent
+          </button>
+          <div
+            className={`vads-l-row vads-l-row vads-u-padding-x--2 vads-u-display--${
+              open ? 'flex' : 'none'
+            }`}
+          >
+            <div className="vads-l-col--8">
+              <p>
+                To remove this dependent from your VA benefits, please enter the
+                information below.
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
