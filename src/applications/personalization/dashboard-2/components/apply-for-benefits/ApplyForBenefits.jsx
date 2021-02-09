@@ -38,11 +38,12 @@ const ApplyForBenefits = ({ savedForms }) => {
               return (
                 <ApplicationInProgress
                   key={formId}
-                  formId={presentableFormId}
+                  continueUrl={continueUrl}
+                  expirationDate={expirationDate}
+                  formId={formId}
                   formTitle={formTitle}
                   lastOpenedDate={lastOpenedDate}
-                  expirationDate={expirationDate}
-                  continueUrl={continueUrl}
+                  presentableFormId={presentableFormId}
                 />
               );
             })}

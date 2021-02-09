@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { recordDashboardClick } from '~/applications/personalization/dashboard/helpers';
 
@@ -8,12 +9,13 @@ const ApplicationInProgress = ({
   formId,
   formTitle,
   lastOpenedDate,
+  presentableFormId,
 }) => {
   return (
     <div className="vads-u-display--flex vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--4 medium-screen:vads-u-padding-right--3 vads-u-padding-bottom--3">
       <div className="vads-u-display--flex vads-u-width--full vads-u-flex-direction--column vads-u-justify-content--space-between vads-u-align-items--flex-start vads-u-background-color--gray-lightest vads-u-padding--2p5">
         <div>
-          <div style={{ textTransform: 'uppercase' }}>{formId}</div>
+          <div style={{ textTransform: 'uppercase' }}>{presentableFormId}</div>
           <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
             {formTitle}
           </h4>
@@ -41,6 +43,21 @@ const ApplicationInProgress = ({
       </div>
     </div>
   );
+};
+
+ApplicationInProgress.propTypes = {
+  // The URL that lets the user continue their application
+  continueUrl: PropTypes.string.isRequired,
+  // The display-ready application expiration date
+  expirationDate: PropTypes.string.isRequired,
+  // The Form ID for Google Analytics tracking purposes
+  formId: PropTypes.string.isRequired,
+  // String to use as the main "headline" of the component
+  formTitle: PropTypes.string.isRequired,
+  // The display-ready date when the application was last opened by the user
+  lastOpenedDate: PropTypes.string.isRequired,
+  // String to show at the very top of the component, usually `Form ${formId}`
+  presentableFormId: PropTypes.string.isRequired,
 };
 
 export default ApplicationInProgress;
