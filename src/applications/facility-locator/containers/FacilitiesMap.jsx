@@ -336,6 +336,10 @@ const FacilitiesMap = props => {
       'top-left',
     );
     setSearchAreaPosition();
+    const mapBoxLogo = document.querySelector(
+      'a.mapboxgl-ctrl-logo.mapboxgl-compact',
+    );
+    if (mapBoxLogo) mapBoxLogo.remove();
     mapInit.on('load', () => {
       // set up listeners on the zoom-in and zoom-out buttons:
       document.querySelectorAll('.mapboxgl-ctrl > button').forEach(button =>
