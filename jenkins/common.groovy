@@ -5,9 +5,9 @@ DRUPAL_MAPPING = [
 ]
 
 DRUPAL_ADDRESSES = [
-  'vagovdev'    : 'http://internal-dsva-vagov-dev-cms-812329399.us-gov-west-1.elb.amazonaws.com',
-  'vagovstaging': 'http://internal-dsva-vagov-staging-cms-1188006.us-gov-west-1.elb.amazonaws.com',
-  'vagovprod'   : 'http://internal-dsva-vagov-prod-cms-2000800896.us-gov-west-1.elb.amazonaws.com',
+  'vagovdev'            : 'http://internal-dsva-vagov-dev-cms-812329399.us-gov-west-1.elb.amazonaws.com',
+  'vagovstaging'        : 'http://internal-dsva-vagov-staging-cms-1188006.us-gov-west-1.elb.amazonaws.com',
+  'vagovprod'           : 'http://internal-dsva-vagov-prod-cms-2000800896.us-gov-west-1.elb.amazonaws.com',
 ]
 
 DRUPAL_CREDENTIALS = [
@@ -19,7 +19,8 @@ DRUPAL_CREDENTIALS = [
 ALL_VAGOV_BUILDTYPES = [
   'vagovdev',
   'vagovstaging',
-  'vagovprod'
+  'vagovprod',
+  'vagovdev-cms-export'
 ]
 
 BUILD_TYPE_OVERRIDE = DRUPAL_MAPPING.get(params.cmsEnvBuildOverride, null)
@@ -219,7 +220,12 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
         def envName = VAGOV_BUILDTYPES.get(i)
         builds[envName] = {
           try {
-            build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild, false)
+            if(envName == 'vagovdev-cms-export') {
+              build(ref, dockerContainer, assetSource, 'vagovdev', false, contentOnlyBuild, true)
+            } else {
+              build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild, false)
+            }
+            
             envUsedCache[envName] = false
           } catch (error) {
             // We're not using the cache for content only builds, because requesting
@@ -239,14 +245,14 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
       }
 
       /******** Experimental CMS export build (dev) ********/
-      builds['vagovdev-cms-export'] = {
-        try {
-          build(ref, dockerContainer, assetSource, 'vagovdev', false, contentOnlyBuild, true)
-        } catch (error) {
-          // Don't fail the build, just report the error
-          echo "Experimental CMS export build failed: ${error}"
-        }
-      }
+      // builds['vagovdev-cms-export'] = {
+      //   try {
+      //     build(ref, dockerContainer, assetSource, 'vagovdev', false, contentOnlyBuild, true)
+      //   } catch (error) {
+      //     // Don't fail the build, just report the error
+      //     echo "Experimental CMS export build failed: ${error}"
+      //   }
+      // }
       /******** End experimental CMS export build ********/
 
       parallel builds
