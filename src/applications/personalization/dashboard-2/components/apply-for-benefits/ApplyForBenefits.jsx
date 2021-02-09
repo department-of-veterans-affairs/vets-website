@@ -27,8 +27,18 @@ const ApplicationInProgress = ({
           <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
             {formTitle}
           </h4>
-          <p>Application expires on: {expirationDate}</p>
-          <p>Last opened on: {lastOpenedDate}</p>
+          <div className="vads-u-display--flex">
+            <i
+              aria-hidden="true"
+              className={`fas fa-fw fa-exclamation-circle vads-u-margin-right--1 vads-u-margin-top--0p5`}
+            />
+            <div>
+              <p className="vads-u-margin-top--0">
+                Application expires on: {expirationDate}
+              </p>
+              <p>Last opened on: {lastOpenedDate}</p>
+            </div>
+          </div>
         </div>
         <a
           className="usa-button usa-button-primary"

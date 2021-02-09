@@ -83,7 +83,7 @@ const Dashboard = ({
             totalDisabilityRating={props.totalDisabilityRating}
           />
         )}
-        <div className="vads-l-grid-container">
+        <div className="vads-l-grid-container medium-screen:vads-u-padding--2 small-desktop-screen:vads-u-padding--0">
           <Breadcrumbs>
             <a href="/" key="home">
               Home
