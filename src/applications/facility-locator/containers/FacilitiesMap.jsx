@@ -258,7 +258,7 @@ const FacilitiesMap = props => {
 
     if (searchAreaControl.style.display === 'none') {
       searchAreaControl.style.display = 'block';
-      setFocus('#search-area-control', true);
+      setFocus('#search-area-control', false);
     }
 
     if (searchAreaControl && !searchAreaSet) {

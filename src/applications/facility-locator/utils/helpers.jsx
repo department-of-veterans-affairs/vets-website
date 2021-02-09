@@ -7,12 +7,11 @@ import UrgentCareAlert from '../containers/UrgentCareAlert';
 import { recordMarkerEvents } from '../utils/analytics';
 
 // https://stackoverflow.com/a/50171440/1000622
-// Should stop adding this attribute at all?
-export const setFocus = (selector, tabRemove) => {
+export const setFocus = (selector, tabIndexInclude = true) => {
   const el =
     typeof selector === 'string' ? document.querySelector(selector) : selector;
   if (el) {
-    if (!tabRemove) el.setAttribute('tabIndex', -1);
+    if (tabIndexInclude) el.setAttribute('tabIndex', -1);
     el.focus();
   }
 };
