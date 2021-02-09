@@ -300,6 +300,24 @@ export function isValidPastAppointment(appt) {
 }
 
 /**
+ * Checks to see if a past appointment has a valid status
+ *
+ * @param {Object} appt A FHIR appointment resource
+ * @returns Whether or not the appt should be shown
+ */
+export function isValidPastAppointmentOrExpressCare(appt) {
+  return (
+    (appt.vaos.isExpressCare && appt.status === APPOINTMENT_STATUS.fulfilled) ||
+    (appt.vaos.isExpressCare &&
+      appt.status !== APPOINTMENT_STATUS.fulfilled &&
+      moment(appt.created).isBefore(moment().subtract(2, 'days'))) ||
+    (appt.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment &&
+      !PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description)) ||
+    appt.vaos.appointmentType === APPOINTMENT_TYPES.ccAppointment
+  );
+}
+
+/**
  * Returns true if the given Appointment is a confirmed appointment
  * or a request that still needs processing
  *
