@@ -91,12 +91,14 @@ describe('VAOS <ContactInfoPage>', () => {
       store,
     });
 
+    // Phone and email should be prefilled based on vapContactInfo
     let input = await screen.findByLabelText(/^Your phone number/);
     expect(input.value).to.equal('9737773614');
 
     input = screen.getByLabelText(/^Your email address/);
     expect(input.value).to.equal('iquickley@gmail.com');
 
+    // Simulate user changing email and phone
     userEvent.clear(input);
     userEvent.type(input, 'joe.blow@gmail.com');
     expect(input.value).to.equal('joe.blow@gmail.com');
@@ -113,7 +115,8 @@ describe('VAOS <ContactInfoPage>', () => {
     userEvent.click(button);
     expect(screen.history.push.called).to.be.true;
 
-    // Expect the previously entered form data is still there if you unmount and remount the page with the same store,
+    // Expect user entered form data is still there if you unmount and
+    // remount the page with the same store, instead of vap contact info
     await cleanup();
     screen = renderWithStoreAndRouter(<ContactInfoPage />, {
       store,
