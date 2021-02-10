@@ -261,6 +261,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 
 def prearchive(dockerContainer, envName) {
   dockerContainer.inside(DOCKER_ARGS) {
+    // Special condition to point dev cms export to vagovdev
     if (envName == 'vagovdev-cms-export') {
       sh "cd /application && NODE_ENV=production yarn build --buildtype vagovdev --setPublicPath --use-cms-export --destination vagovdev-cms-export"
     } else {
