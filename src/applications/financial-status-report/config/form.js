@@ -261,6 +261,13 @@ const formConfig = {
           uiSchema: pages.dependents.uiSchema,
           schema: pages.dependents.schema,
         },
+        dependentRecords: {
+          path: 'dependent-records',
+          title: 'Dependents',
+          uiSchema: pages.dependentRecords.uiSchema,
+          schema: pages.dependentRecords.schema,
+          depends: formData => formData.income.hasDependents,
+        },
       },
     },
     householdAssetsChapter: {
