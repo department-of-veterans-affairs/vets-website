@@ -392,6 +392,7 @@ const runComparison = () => {
     let nodesWithDiffs = 0;
     let totalDiffs = 0;
     let totalObjectsCompared = 0;
+    const diffsByBundle = {};
 
     // Compare JSON objects for each node entity
     transformedEntities.forEach(entity => {
@@ -424,6 +425,10 @@ const runComparison = () => {
             }`,
           );
 
+          // Increment number of diffs for bundle.
+          diffsByBundle[entity.entityBundle] =
+            diffsByBundle[entity.entityBundle] + 1 || 1;
+
           // Add entity file name to deepDiff/arrayDiff outputs
           if (diff.deepDiffs?.length > 0) {
             totalDiffs += diff.deepDiffs.length - 1;
@@ -434,6 +439,7 @@ const runComparison = () => {
             );
             ++nodesWithDiffs;
           }
+
           if (diff.arrayDiffs?.length > 0) {
             diff.arrayDiffs.unshift(entityFileObject);
             fs.writeFileSync(
@@ -450,6 +456,11 @@ const runComparison = () => {
       nodesWithDiffs === 0
         ? `No differences found in ${totalObjectsCompared} nodes!`
         : `${nodesWithDiffs}/${totalObjectsCompared} nodes with ${totalDiffs} differences: './content-object-diffs'`,
+    );
+
+    console.log(
+      'Number of diffs by bundle:',
+      JSON.stringify(diffsByBundle, null, 2),
     );
   }
 };
