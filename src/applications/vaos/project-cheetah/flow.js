@@ -1,3 +1,5 @@
+import recordEvent from 'platform/monitoring/record-event';
+import { GA_PREFIX } from '../utils/constants';
 import { getClinics, showEligibilityModal } from './redux/actions';
 import {
   selectProjectCheetahFormData,
@@ -17,8 +19,14 @@ export default {
     next(state) {
       const formData = selectProjectCheetahFormData(state);
       if (formData.hasReceivedDose) {
+        recordEvent({
+          event: `${GA_PREFIX}-cheetah-screener-yes`,
+        });
         return 'contactFacilities';
       }
+      recordEvent({
+        event: `${GA_PREFIX}-cheetah-screener-no`,
+      });
       return 'vaFacility';
     },
   },
