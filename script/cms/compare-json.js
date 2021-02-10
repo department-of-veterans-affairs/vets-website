@@ -399,7 +399,7 @@ const runComparison = () => {
     let nodesWithDiffs = 0;
     let totalDiffs = 0;
     let totalObjectsCompared = 0;
-    const pagesWithDiffs = [];
+    const pagesWithDiffs = {};
     const diffsByBundle = {};
 
     // Compare JSON objects for each node entity
@@ -428,9 +428,9 @@ const runComparison = () => {
           // Default name for file
           const defaultFileName = path.join(
             __dirname,
-            `../../content-object-diffs/${entity.entityBundle}-${
-              entity.entityId
-            }`,
+            '../../',
+            'content-object-diffs',
+            `${entity.entityBundle}-${entity.entityId}`,
           );
 
           // Increment number of diffs for bundle.
@@ -458,9 +458,15 @@ const runComparison = () => {
 
           if (outputHtml) {
             // Keep track of the subset of pages to validate by HTML comparison.
-            pagesWithDiffs.push(
-              path.join('.', entity.entityUrl.path, 'index.html'),
-            );
+            const htmlPagePath = path.join(entity.entityUrl.path, 'index.html');
+            pagesWithDiffs[htmlPagePath] = {
+              ...(diff.deepDiffs?.length && {
+                deepDiff: `${defaultFileName}.json`,
+              }),
+              ...(diff.arrayDiffs?.length && {
+                arrayDiff: `${defaultFileName}-array.json`,
+              }),
+            };
           }
         }
         ++totalObjectsCompared;
@@ -468,14 +474,23 @@ const runComparison = () => {
     });
 
     if (outputHtml) {
-      pagesWithDiffs.sort();
+      const htmlPagePaths = Object.keys(pagesWithDiffs);
+      htmlPagePaths.sort();
+
+      const sortedPagesWithDiffs = htmlPagePaths.reduce(
+        (diffs, page) => ({
+          ...diffs,
+          [page]: pagesWithDiffs[page],
+        }),
+        {},
+      );
 
       fs.writeFileSync(
         path.join(
           __dirname,
           `../../content-object-diffs/pages-with-diffs.json`,
         ),
-        JSON.stringify(pagesWithDiffs, null, 2),
+        JSON.stringify(sortedPagesWithDiffs, null, 2),
       );
     }
 
