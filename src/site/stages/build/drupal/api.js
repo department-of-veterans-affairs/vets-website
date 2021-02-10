@@ -8,7 +8,10 @@ const SocksProxyAgent = require('socks-proxy-agent');
 
 const DRUPALS = require('../../../constants/drupals');
 const { queries, getQuery } = require('./queries');
-const { getIndividualizedQueries } = require('./individual-queries');
+const {
+  getIndividualizedQueries,
+  CountEntityTypes,
+} = require('./individual-queries');
 
 const syswidecas = require('syswide-cas');
 
@@ -174,6 +177,12 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
       say('Pulling from Drupal via GraphQL...');
 
       const oldGraphQlResultRequest = this.getAllPages(onlyPublishedContent);
+      const entityCounts = await this.query({
+        query: CountEntityTypes,
+      });
+
+      say('Received node counts...');
+      console.table(entityCounts.data);
 
       const result = {
         data: {
@@ -183,7 +192,10 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
         },
       };
 
-      const individualQueries = Object.entries(getIndividualizedQueries());
+      const individualQueries = Object.entries(
+        getIndividualizedQueries(entityCounts),
+      );
+
       const totalQueries = individualQueries.length;
 
       const parallelQuery = async () => {
@@ -255,22 +267,21 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
         `Finished ${totalQueries} queries in ${overallTimeElapsed}s with ${
           result.data.nodeQuery.entities.length
         } pages`,
-        );
+      );
 
       const oldGraphQlResult = await oldGraphQlResultRequest;
 
       fs.writeJSONSync(
         path.join(__dirname, '../../../../../legacy-pages.json'),
-        oldGraphQlResult
-      )
+        oldGraphQlResult,
+      );
 
       fs.writeJSONSync(
         path.join(__dirname, '../../../../../new-pages.json'),
-        result
-      )
+        result,
+      );
 
-      process.exit()
-
+      process.exit();
 
       return result;
     },

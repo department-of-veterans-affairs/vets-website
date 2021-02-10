@@ -9,6 +9,8 @@ const healthCareRegionHealthServices = require('./facilities-fragments/healthCar
 const healthCareRegionNewsStories = require('./facilities-fragments/healthCareRegionNewsStories.node.graphql');
 const healthCareRegionEvents = require('./facilities-fragments/healthCareRegionEvents.node.graphql');
 
+const { generatePaginatedQueries } = require('../individual-queries-helpers');
+
 const healthCareRegionPageFragment = `
   fragment healthCareRegionPage on NodeHealthCareRegionPage {
     ${entityElementsFromPages}
@@ -192,26 +194,7 @@ const healthCareRegionPageFragment = `
   }
 `;
 
-const GetNodeHealthCareRegionPages = `
-  ${fragments.linkTeaser}
-  ${fragments.listOfLinkTeasers}
-  ${healthCareRegionPageFragment}
-
-  query GetNodeHealthCareRegionPages($today: String!, $onlyPublishedContent: Boolean!) {
-    nodeQuery(limit: 1000, filter: {
-      conditions: [
-        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
-        { field: "type", value: ["health_care_region_page"] }
-      ]
-    }) {
-      entities {
-        ... healthCareRegionPage
-      }
-    }
-  }
-`;
-
-function getNodeHealthCareRegionPageSlice(operationName, offset, limit = 5) {
+function getNodeHealthCareRegionPageSlice(operationName, offset, limit) {
   return `
     ${fragments.linkTeaser}
     ${fragments.listOfLinkTeasers}
@@ -236,50 +219,16 @@ function getNodeHealthCareRegionPageSlice(operationName, offset, limit = 5) {
 `;
 }
 
+function getNodeHealthCareRegionPageQueries(entityCounts) {
+  return generatePaginatedQueries({
+    operationNamePrefix: 'GetNodeHealthCareRegionPage',
+    entitiesPerSlice: 5,
+    totalEntities: entityCounts.data.healthCareRegionDetailPage.count,
+    getSlice: getNodeHealthCareRegionPageSlice,
+  });
+}
+
 module.exports = {
   fragment: healthCareRegionPageFragment,
-  GetNodeHealthCareRegionPages,
-  NodeHealthCareRegionPageSlices: {
-    GetNodeHealthCareRegionPageSlice1: getNodeHealthCareRegionPageSlice(
-      'GetNodeHealthCareRegionPageSlice1',
-      0,
-    ),
-    GetNodeHealthCareRegionPageSlice2: getNodeHealthCareRegionPageSlice(
-      'GetNodeHealthCareRegionPageSlice2',
-      5,
-    ),
-    GetNodeHealthCareRegionPageSlice3: getNodeHealthCareRegionPageSlice(
-      'GetNodeHealthCareRegionPageSlice3',
-      10,
-    ),
-    GetNodeHealthCareRegionPageSlice4: getNodeHealthCareRegionPageSlice(
-      'GetNodeHealthCareRegionPageSlice4',
-      15,
-    ),
-    GetNodeHealthCareRegionPageSlice5: getNodeHealthCareRegionPageSlice(
-      'GetNodeHealthCareRegionPageSlice5',
-      20,
-    ),
-    GetNodeHealthCareRegionPageSlice6: getNodeHealthCareRegionPageSlice(
-      'GetNodeHealthCareRegionPageSlice6',
-      25,
-    ),
-    GetNodeHealthCareRegionPageSlice7: getNodeHealthCareRegionPageSlice(
-      'GetNodeHealthCareRegionPageSlice7',
-      30,
-    ),
-    GetNodeHealthCareRegionPageSlice8: getNodeHealthCareRegionPageSlice(
-      'GetNodeHealthCareRegionPageSlice8',
-      35,
-    ),
-    GetNodeHealthCareRegionPageSlice9: getNodeHealthCareRegionPageSlice(
-      'GetNodeHealthCareRegionPageSlice9',
-      40,
-    ),
-    GetNodeHealthCareRegionPageSlice10: getNodeHealthCareRegionPageSlice(
-      'GetNodeHealthCareRegionPageSlice10',
-      45,
-      9999,
-    ),
-  },
+  getNodeHealthCareRegionPageQueries,
 };

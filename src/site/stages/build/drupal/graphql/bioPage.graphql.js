@@ -3,6 +3,7 @@
  *
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
+const { generatePaginatedQueries } = require('../individual-queries-helpers');
 
 const personProfileFragment = `
  fragment bioPage on NodePersonProfile {
@@ -49,7 +50,7 @@ const personProfileFragment = `
  }
 `;
 
-function getNodePersonProfilesSlices(operationName, offset, limit = 100) {
+function getNodePersonProfilesSlice(operationName, offset, limit) {
   return `
     ${personProfileFragment}
 
@@ -72,49 +73,16 @@ function getNodePersonProfilesSlices(operationName, offset, limit = 100) {
 `;
 }
 
+function getNodePersonProfileQueries(entityCounts) {
+  return generatePaginatedQueries({
+    operationNamePrefix: 'GetNodePersonProfile',
+    entitiesPerSlice: 50,
+    totalEntities: entityCounts.data.personProfile.count,
+    getSlice: getNodePersonProfilesSlice,
+  });
+}
+
 module.exports = {
   fragment: personProfileFragment,
-  NodePersonProfilesSlices: {
-    GetNodePersonProfileSlice1: getNodePersonProfilesSlices(
-      'GetNodePersonProfileSlice1',
-      0,
-    ),
-    GetNodePersonProfileSlice2: getNodePersonProfilesSlices(
-      'GetNodePersonProfileSlice2',
-      100,
-    ),
-    GetNodePersonProfileSlice3: getNodePersonProfilesSlices(
-      'GetNodePersonProfileSlice3',
-      200,
-    ),
-    GetNodePersonProfileSlice4: getNodePersonProfilesSlices(
-      'GetNodePersonProfileSlice4',
-      300,
-    ),
-    GetNodePersonProfileSlice5: getNodePersonProfilesSlices(
-      'GetNodePersonProfileSlice5',
-      400,
-    ),
-    GetNodePersonProfileSlice6: getNodePersonProfilesSlices(
-      'GetNodePersonProfileSlice6',
-      500,
-    ),
-    GetNodePersonProfileSlice7: getNodePersonProfilesSlices(
-      'GetNodePersonProfileSlice7',
-      600,
-    ),
-    GetNodePersonProfileSlice8: getNodePersonProfilesSlices(
-      'GetNodePersonProfileSlice8',
-      700,
-    ),
-    GetNodePersonProfileSlice9: getNodePersonProfilesSlices(
-      'GetNodePersonProfileSlice9',
-      800,
-    ),
-    GetNodePersonProfileSlice10: getNodePersonProfilesSlices(
-      'GetNodePersonProfileSlice10',
-      900,
-      9999,
-    ),
-  },
+  getNodePersonProfileQueries,
 };
