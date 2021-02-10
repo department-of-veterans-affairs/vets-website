@@ -300,7 +300,9 @@ export function isValidPastAppointment(appt) {
 }
 
 /**
- * Checks to see if a past appointment has a valid status
+ * Checks to see if the appointment is either an appointment that does
+ * not have one of the excluded statuses for past appointments or an
+ * Express Care request that is either resolved or old enough to show
  *
  * @param {Object} appt A FHIR appointment resource
  * @returns Whether or not the appt should be shown
