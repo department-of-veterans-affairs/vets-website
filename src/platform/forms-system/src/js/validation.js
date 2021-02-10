@@ -462,17 +462,19 @@ export function validateDateRange(
   formData,
   schema,
   errorMessages,
+  allowSameMonth = false,
 ) {
   const fromDate = convertToDateField(dateRange.from);
   const toDate = convertToDateField(dateRange.to);
 
-  if (!isValidDateRange(fromDate, toDate)) {
+  if (!isValidDateRange(fromDate, toDate, allowSameMonth)) {
     errors.to.addError(
-      errorMessages.pattern || 'To date must be after from date',
+      errorMessages?.pattern || 'To date must be after from date',
     );
   }
 }
 
+// using ...args here breaks unit test that don't include all parameters
 export function validateDateRangeAllowSameMonth(
   errors,
   dateRange,
@@ -480,14 +482,7 @@ export function validateDateRangeAllowSameMonth(
   schema,
   errorMessages,
 ) {
-  const fromDate = convertToDateField(dateRange.from);
-  const toDate = convertToDateField(dateRange.to);
-
-  if (!isValidDateRange(fromDate, toDate, true)) {
-    errors.to.addError(
-      errorMessages.pattern || 'To date must be after from date',
-    );
-  }
+  validateDateRange(errors, dateRange, formData, schema, errorMessages, true);
 }
 
 export function getFileError(file) {
