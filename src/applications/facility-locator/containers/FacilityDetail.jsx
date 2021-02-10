@@ -145,7 +145,7 @@ class FacilityDetail extends Component {
   }
 
   render() {
-    const { facility, currentQuery } = this.props;
+    const { facility, currentQuery, showHoursSpecialInstructions } = this.props;
 
     if (!facility) {
       return null;
@@ -178,7 +178,10 @@ class FacilityDetail extends Component {
           <div>
             <LocationMap info={facility} />
             <div className="vads-u-margin-bottom--4">
-              <LocationHours location={facility} />
+              <LocationHours
+                location={facility}
+                showHoursSpecialInstructions={showHoursSpecialInstructions}
+              />
             </div>
           </div>
         </div>
