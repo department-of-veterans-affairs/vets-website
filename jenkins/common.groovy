@@ -225,17 +225,22 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
             build(ref, dockerContainer, assetSource, setEvnName, false, contentOnlyBuild, useCMSExport)
             envUsedCache[envName] = false
           } catch (error) {
-            // We're not using the cache for content only builds, because requesting
-            // a content only build is an attempt to refresh content from the current set
-            if (!contentOnlyBuild) {
-              dockerContainer.inside(DOCKER_ARGS) {
-                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${setEnvName}"
-              }
-              build(ref, dockerContainer, assetSource, setEnvName, true, contentOnlyBuild, useCMSExport)
-              envUsedCache[setEnvName] = true
+            if (useCMSExport) {
+              // Output error message but don't fail the build
+              echo "CMS Export build failed: ${error}"
             } else {
-              build(ref, dockerContainer, assetSource, setEnvName, false, contentOnlyBuild, useCMSExport)
-              envUsedCache[setEnvName] = false
+              // We're not using the cache for content only builds, because requesting
+              // a content only build is an attempt to refresh content from the current set
+              if (!contentOnlyBuild) {
+                dockerContainer.inside(DOCKER_ARGS) {
+                  sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${setEnvName}"
+                }
+                build(ref, dockerContainer, assetSource, setEnvName, true, contentOnlyBuild, useCMSExport)
+                envUsedCache[setEnvName] = true
+              } else {
+                build(ref, dockerContainer, assetSource, setEnvName, false, contentOnlyBuild, useCMSExport)
+                envUsedCache[setEnvName] = false
+              }
             }
           }
         }
