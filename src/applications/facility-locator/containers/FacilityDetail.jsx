@@ -15,6 +15,7 @@ import ServicesAtFacility from '../components/ServicesAtFacility';
 import AppointmentInfo from '../components/AppointmentInfo';
 import { OperatingStatus, FacilityType } from '../constants';
 import VABenefitsCall from '../components/VABenefitsCall';
+import { facilityLocatorShowOperationalHoursSpecialInstructions } from '../utils/selectors';
 
 class FacilityDetail extends Component {
   // eslint-disable-next-line camelcase
@@ -194,6 +195,9 @@ function mapStateToProps(state) {
   return {
     facility: state.searchResult.selectedResult,
     currentQuery: state.searchQuery,
+    showHoursSpecialInstructions: facilityLocatorShowOperationalHoursSpecialInstructions(
+      state,
+    ),
   };
 }
 
