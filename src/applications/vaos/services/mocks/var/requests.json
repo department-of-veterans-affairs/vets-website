@@ -180,9 +180,12 @@
             {
               "firstName": "Test",
               "lastName": "User",
-              "practiceName": "Some practiceSome practiceSome practiceSome practice",
+              "practiceName": "Atlantic Medical Care",
               "address": {
-                "zipCode": "01060"
+                "street": "123 Main Street",
+                "city": "Orlando",
+                "state": "FL",
+                "zipCode": "32826"
               },
               "preferredOrder": 0,
               "providerZipCode": "01060",

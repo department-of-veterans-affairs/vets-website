@@ -70,6 +70,7 @@ export default Object.freeze({
   covidVaccineUpdatesDisableAuth:
     'covid_vaccine_registration_frontend_hide_auth',
   showFindFormsResultsLinkToFormDetailPages: 'find_forms_mvp_enhancement',
+  yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
   multipleAddress1010ez: 'multiple_address_10_10ez',
   evssUploadLimit150Mb: 'evss_upload_limit_150mb',
   searchRepresentative: 'search_representative',

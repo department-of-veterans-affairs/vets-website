@@ -9,7 +9,7 @@ import {
   mapStateToProps,
 } from '@@profile/components/account-security/AccountSecurityContent';
 import ProfileInfoTable from '@@profile/components/ProfileInfoTable';
-import IdentityNotVerified from '@@profile/components/account-security/IdentityNotVerified';
+import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
 import TwoFactorAuthorizationStatus from '@@profile/components/account-security/TwoFactorAuthorizationStatus';
 import MHVTermsAndConditionsStatus from '@@profile/components/account-security/MHVTermsAndConditionsStatus';
 import EmailAddressNotification from '@@profile/components/personal-information/email-addresses/EmailAddressNotification';

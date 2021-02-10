@@ -6,6 +6,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
 .fsr-introduction {
   .schemaform-title {
@@ -41,52 +42,45 @@
 
 .item-loop-container {
   margin-top: 10px;
-  .item-loop-header legend {
-    margin-top: 30px;
-  }
   .item-loop {
     padding: 5px 15px 20px;
-    background-color: #f1f1f1;
+    background-color: $color-gray-lightest;
     .schemaform-field-container {
       display: flex;
       flex-wrap: wrap;
+      justify-content: space-between;
       .schemaform-block-header {
         width: 100%;
-      }
-      fieldset.schemaform-field-template {
-        margin-top: 5px;
-      }
-      .schemaform-label {
-        margin-top: 0;
       }
     }
     .autosuggest-list {
       max-height: 140px;
     }
     .usa-button-secondary {
-      background: #fff;
+      background: $color-white;
     }
     .button-group {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-top: 10px;
     }
   }
   .edit-item-container {
     margin: 5px 0;
     .usa-button-secondary {
-      background: #fff;
+      background: $color-white;
     }
   }
   .add-item-container {
     display: flex;
     flex-direction: column;
-    background-color: #f1f1f1;
+    background-color: $color-gray-lightest;
     padding: 20px 30px 20px;
     margin-top: 20px;
     .add-item-link-section {
       .plus-icon {
-        color: #0071bb;
+        color: $color-light-blue;
         margin-right: 5px;
       }
     }
@@ -106,9 +100,13 @@
     }
   }
   .review-card--body {
-    border: 3px solid #0071bb;
+    border: 3px solid $color-light-blue;
     padding: 25px;
   }
+}
+
+.schemaform-first-field {
+  margin-top: 30px;
 }
 
 // date-widget
@@ -116,15 +114,45 @@
   padding: 10px 0;
 }
 
+// form field subtitle
+.formfield-subtitle {
+  margin: 4px 0 8px;
+  font-size: 15px;
+  color: $color-gray-medium;
+}
+
 // bankruptcyHistory
 .court-location label {
   margin-top: 10px;
 }
 
-.docket-number-description {
-  margin: 4px 0 8px;
-  font-size: 15px;
-  color: #757575;
+// current employment
+.current-employment-container {
+  .schemaform-block-header {
+    margin: 25px 0;
+  }
+  .employment-start {
+    margin-top: 16px;
+  }
+  .employer-name label {
+    margin-top: 16px;
+  }
+}
+
+//previous employment
+.previous-employment-container {
+  .work-type label {
+    margin-top: 0;
+  }
+  .schemaform-field-template {
+    margin-top: 16px;
+  }
+  .employer-name {
+    margin-bottom: 16px;
+    label {
+      margin-top: 16px;
+    }
+  }
 }
 
 // input fields
@@ -132,7 +160,6 @@
   @include media($medium-screen) {
     width: 152px;
     max-width: 152px;
-    margin: 0 10px 20px 0;
   }
 }
 
@@ -140,7 +167,6 @@
   @include media($medium-screen) {
     width: 173px;
     max-width: 173px;
-    margin: 0 10px 20px 0;
   }
 }
 
@@ -148,7 +174,6 @@
   @include media($medium-screen) {
     width: 196px;
     max-width: 196px;
-    margin: 0 10px 20px 0;
   }
 }
 
@@ -156,7 +181,6 @@
   @include media($medium-screen) {
     width: 215px;
     max-width: 215px;
-    margin: 0 10px 20px 0;
   }
 }
 
@@ -164,7 +188,6 @@
   @include media($medium-screen) {
     width: 262px;
     max-width: 262px;
-    margin: 0 10px 20px 0;
   }
 }
 
@@ -172,7 +195,6 @@
   @include media($medium-screen) {
     width: 283px;
     max-width: 283px;
-    margin: 0 10px 20px 0;
   }
 }
 
@@ -180,6 +202,5 @@
   @include media($medium-screen) {
     width: 332px;
     max-width: 332px;
-    margin: 0 10px 20px 0;
   }
 }
