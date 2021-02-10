@@ -45,6 +45,11 @@ const commandLineDefs = [
     description: 'Show this help menu.',
   },
   {
+    name: 'html',
+    type: Boolean,
+    description: 'Output list of paths to HTML pages for mismatched nodes',
+  },
+  {
     name: 'buildtype',
     type: String,
     description: 'The buildtype to test the data against.',
@@ -52,9 +57,13 @@ const commandLineDefs = [
   },
 ];
 
-const { entity: entityNames, bundle, help, buildtype } = commandLineArgs(
-  commandLineDefs,
-);
+const {
+  entity: entityNames,
+  bundle,
+  help,
+  html: outputHtml,
+  buildtype,
+} = commandLineArgs(commandLineDefs);
 
 if (help) {
   console.log(
@@ -392,6 +401,7 @@ const runComparison = () => {
     let nodesWithDiffs = 0;
     let totalDiffs = 0;
     let totalObjectsCompared = 0;
+    const pagesWithDiffs = [];
     const diffsByBundle = {};
 
     // Compare JSON objects for each node entity
@@ -447,10 +457,29 @@ const runComparison = () => {
               JSON.stringify(diff.arrayDiffs.slice(0, MAX_DIFFS), null, 2),
             );
           }
+
+          if (outputHtml) {
+            // Keep track of the subset of pages to validate by HTML comparison.
+            pagesWithDiffs.push(
+              path.join('.', entity.entityUrl.path, 'index.html'),
+            );
+          }
         }
         ++totalObjectsCompared;
       }
     });
+
+    if (outputHtml) {
+      pagesWithDiffs.sort();
+
+      fs.writeFileSync(
+        path.join(
+          __dirname,
+          `../../content-object-diffs/pages-with-diffs.json`,
+        ),
+        JSON.stringify(pagesWithDiffs, null, 2),
+      );
+    }
 
     console.log(
       nodesWithDiffs === 0
