@@ -16,6 +16,7 @@ export const sortTheResults = (sortByPropertyName, indexA, indexB) => {
   // stayPut keeps both indexA and indexB right where they are.
   const [
     ALPHA_ASCENDING,
+    ALPHA_DESCENDING,
     LAST_UPDATED_NEWEST_OPTION,
     LAST_UPDATED_OLDEST_OPTION,
   ] = SORT_OPTIONS;
@@ -50,20 +51,25 @@ export const sortTheResults = (sortByPropertyName, indexA, indexB) => {
 
   // SORT BY ALPHABET
   if (
-    `${indexA?.attributes?.formName} ${indexA?.attributes?.title}` <
-    `${indexB?.attributes?.formName} ${indexB?.attributes?.title}`
+    sortByPropertyName === ALPHA_ASCENDING ||
+    sortByPropertyName === ALPHA_DESCENDING
   ) {
-    return sortByPropertyName === ALPHA_ASCENDING
-      ? sortIndexToFront
-      : sortIndexToBack;
-  } else if (
-    `${indexA?.attributes?.formName} ${indexA?.attributes?.title}` >
-    `${indexB?.attributes?.formName} ${indexB?.attributes?.title}`
-  ) {
-    return sortByPropertyName === ALPHA_ASCENDING
-      ? sortIndexToBack
-      : sortIndexToFront;
-  } else {
-    return indexRemainsInPlace;
+    if (
+      `${indexA?.attributes?.formName} ${indexA?.attributes?.title}` <
+      `${indexB?.attributes?.formName} ${indexB?.attributes?.title}`
+    ) {
+      return sortByPropertyName === ALPHA_ASCENDING
+        ? sortIndexToFront
+        : sortIndexToBack;
+    } else if (
+      `${indexA?.attributes?.formName} ${indexA?.attributes?.title}` >
+      `${indexB?.attributes?.formName} ${indexB?.attributes?.title}`
+    ) {
+      return sortByPropertyName === ALPHA_ASCENDING
+        ? sortIndexToBack
+        : sortIndexToFront;
+    }
   }
+
+  return indexRemainsInPlace;
 };
