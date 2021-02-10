@@ -66,7 +66,7 @@ export class Wizard extends React.Component {
       // value is provided; e.g. for an invalid date, we don't want to show an
       // inappropriate alert message)
       newHistory.pop();
-    } else if (typeof nextPageName === 'string') {
+    } else if (nextPageName) {
       // If the next page is new, rewrite the future history
       const nextPageIndex = index + 1;
       const nextPage = this.props.pages.find(p => p.name === nextPageName);
