@@ -338,10 +338,8 @@ const runComparison = () => {
     // Handle paragraph entities
     if (rawEntities[0].baseType !== 'node') {
       const cmsEntities = readAllNodeNames(exportDir)
-        .map(entityDetails => readEntity(exportDir, ...entityDetails))
-        .filter(
-          ([baseType]) => baseType === 'node' || baseType === 'paragraph',
-        );
+        .filter(([baseType]) => ['node', 'paragraph'].includes(baseType))
+        .map(entityDetails => readEntity(exportDir, ...entityDetails));
 
       // Find parent node for paragraph object
       const parentNode = getParentNode(rawEntities[0], cmsEntities);
