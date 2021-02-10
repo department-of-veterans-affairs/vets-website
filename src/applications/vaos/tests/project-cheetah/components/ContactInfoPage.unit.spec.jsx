@@ -1,5 +1,4 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
 import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
 
@@ -30,7 +29,7 @@ describe('VAOS <ContactInfoPage>', () => {
 
     // Expect the previously entered form data is still there if you unmount and remount the page with the same store,
     await cleanup();
-    screen = renderWithStoreAndRouter(<Route component={ContactInfoPage} />, {
+    screen = renderWithStoreAndRouter(<ContactInfoPage />, {
       store,
     });
 
@@ -60,5 +59,70 @@ describe('VAOS <ContactInfoPage>', () => {
 
     userEvent.click(button);
     expect(screen.history.push.called).to.be.false;
+  });
+
+  it('should prefill email and phone, and reenter the form data if user changed it and remounted the page', async () => {
+    const initialState = {
+      projectCheetah: {
+        newBooking: {
+          data: {},
+          pages: [],
+          previousPages: [],
+        },
+      },
+      user: {
+        profile: {
+          vapContactInfo: {
+            email: {
+              emailAddress: 'iquickley@gmail.com',
+            },
+            mobilePhone: {
+              areaCode: '973',
+              phoneNumber: '7773614',
+            },
+          },
+        },
+      },
+    };
+
+    const store = createTestStore(initialState);
+
+    let screen = renderWithStoreAndRouter(<ContactInfoPage />, {
+      store,
+    });
+
+    let input = await screen.findByLabelText(/^Your phone number/);
+    expect(input.value).to.equal('9737773614');
+
+    input = screen.getByLabelText(/^Your email address/);
+    expect(input.value).to.equal('iquickley@gmail.com');
+
+    userEvent.clear(input);
+    userEvent.type(input, 'joe.blow@gmail.com');
+    expect(input.value).to.equal('joe.blow@gmail.com');
+
+    input = await screen.findByLabelText(/^Your phone number/);
+    userEvent.clear(input);
+    userEvent.type(input, '5555555555');
+    expect(input.value).to.equal('5555555555');
+
+    // it should display page heading
+    expect(screen.getByText('Confirm your contact information')).to.be.ok;
+    const button = await screen.findByText(/^Continue/);
+
+    userEvent.click(button);
+    expect(screen.history.push.called).to.be.true;
+
+    // Expect the previously entered form data is still there if you unmount and remount the page with the same store,
+    await cleanup();
+    screen = renderWithStoreAndRouter(<ContactInfoPage />, {
+      store,
+    });
+
+    input = await screen.findByLabelText(/^Your phone number/);
+    expect(input.value).to.equal('5555555555');
+
+    input = screen.getByLabelText(/^Your email address/);
+    expect(input.value).to.equal('joe.blow@gmail.com');
   });
 });
