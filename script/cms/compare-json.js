@@ -4,11 +4,13 @@ const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const deepDiff = require('deep-diff');
-const { map, camelCase, get, isEqual, omit } = require('lodash');
+const { camelCase, get, isEqual, omit } = require('lodash');
 const commandLineArgs = require('command-line-args');
 const commandLineUsage = require('command-line-usage');
 const assembleEntityTreeFactory = require('../../src/site/stages/build/process-cms-exports');
+
 const {
+  readAllNodeNames,
   readEntity,
 } = require('../../src/site/stages/build/process-cms-exports/helpers');
 
@@ -326,18 +328,11 @@ const runComparison = () => {
 
     // Handle paragraph entities
     if (rawEntities[0].baseType !== 'node') {
-      let fileNames = fs
-        .readdirSync(exportDir)
-        .filter(fn => fn !== 'meta')
-        .map(name => name.split('.').slice(0, 2));
-
-      fileNames = fileNames.filter(
-        ([baseType]) => baseType === 'node' || baseType === 'paragraph',
-      );
-
-      const cmsEntities = map(fileNames, entityDetails =>
-        readEntity(exportDir, ...entityDetails),
-      );
+      const cmsEntities = readAllNodeNames(exportDir)
+        .map(entityDetails => readEntity(exportDir, ...entityDetails))
+        .filter(
+          ([baseType]) => baseType === 'node' || baseType === 'paragraph',
+        );
 
       // Find parent node for paragraph object
       const parentNode = getParentNode(rawEntities[0], cmsEntities);
@@ -375,14 +370,7 @@ const runComparison = () => {
       console.log(`Node not present in .cache/${buildtype}/drupal/pages.json`);
     }
   } else {
-    let fileNames = fs
-      .readdirSync(exportDir)
-      .filter(fn => fn !== 'meta')
-      .map(name => name.split('.').slice(0, 2));
-
-    fileNames = fileNames.filter(([baseType]) => baseType === 'node');
-
-    let rawEntities = map(fileNames, entityDetails =>
+    let rawEntities = readAllNodeNames(exportDir).map(entityDetails =>
       readEntity(exportDir, ...entityDetails),
     );
 
@@ -393,9 +381,9 @@ const runComparison = () => {
     }
 
     // Get only published nodes
-    const transformedEntities = map(rawEntities, entity =>
-      assembleEntityTree(entity, false),
-    ).filter(e => e);
+    const transformedEntities = rawEntities
+      .map(entity => assembleEntityTree(entity, false))
+      .filter(e => e && Object.keys(e).length);
 
     fs.rmdirSync('content-object-diffs', { recursive: true });
     fs.mkdirSync('content-object-diffs');
@@ -412,8 +400,10 @@ const runComparison = () => {
           e.entityBundle === entity.entityBundle &&
           parseInt(e.entityId, 10) === parseInt(entity.entityId, 10),
       )[0];
+
       if (baseObject) {
         const diff = compareJson(baseObject, entity);
+
         if (diff.deepDiffs?.length > 0 || diff.arrayDiffs?.length > 0) {
           // Entity file name object to add to diff file
           const entityFileObject = {
@@ -425,6 +415,7 @@ const runComparison = () => {
               ).uuid
             }.json`,
           };
+
           // Default name for file
           const defaultFileName = path.join(
             __dirname,
