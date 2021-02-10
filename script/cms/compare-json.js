@@ -206,12 +206,22 @@ const compareArrays = (cmsExportArray, graphQLArray, dataPath) => {
       !isEqual(cleanGraphQlItem, cleanCmsItem) &&
       JSON.stringify(cleanGraphQlItem) !== JSON.stringify(cleanCmsItem)
     ) {
-      arrayDiffs.push({
-        diffType: 'Array Edit',
-        path: `${dataPath}/${index}`,
-        graphQL: cleanGraphQlItem,
-        cmsExport: cleanCmsItem,
-      });
+      let addDiff = true;
+
+      if (typeof cleanGraphQlItem === 'object') {
+        const diff = deepDiff(cleanGraphQlItem, cleanCmsItem).filter(
+          d => d.kind !== 'N',
+        );
+        if (!diff?.length > 0) addDiff = false;
+      }
+      if (addDiff) {
+        arrayDiffs.push({
+          diffType: 'Array Edit',
+          path: `${dataPath}/${index}`,
+          graphQL: cleanGraphQlItem,
+          cmsExport: cleanCmsItem,
+        });
+      }
     }
   });
 
