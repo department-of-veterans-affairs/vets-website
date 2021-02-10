@@ -11,6 +11,7 @@ import * as socialSecurityRecords from './income/socialSecurity/records';
 import * as additionalIncome from './income/additionalIncome';
 import * as additionalIncomeRecords from './income/additionalIncome/records';
 import * as spouseAdditionalIncome from './income/spouse/additionalIncome';
+import * as spouseAdditionalIncomeRecords from './income/spouse/additionalIncome/records';
 import * as spouseBenefits from './income/spouse/benefits';
 import * as spouseBenefitRecords from './income/spouse/benefits/records';
 import * as spouseEmployment from './income/spouse/employment';
@@ -35,6 +36,7 @@ import * as resolutionComments from './resolution/comments';
 import * as bankruptcyHistory from './bankruptcy/history';
 
 export {
+  veteranInfo,
   availableDebts,
   employment,
   employmentRecords,
@@ -46,7 +48,7 @@ export {
   additionalIncome,
   additionalIncomeRecords,
   spouseAdditionalIncome,
-  veteranInfo,
+  spouseAdditionalIncomeRecords,
   spouseInformation,
   spouseBenefits,
   spouseBenefitRecords,
