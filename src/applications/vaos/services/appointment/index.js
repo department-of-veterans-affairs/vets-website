@@ -309,12 +309,16 @@ export function isValidPastAppointment(appt) {
  */
 export function isValidPastAppointmentOrExpressCare(appt) {
   return (
+    // Show any fulfilled EC request
     (appt.vaos.isExpressCare && appt.status === APPOINTMENT_STATUS.fulfilled) ||
+    // Only show non-fulfilled EC requests if they're more than 2 days old
     (appt.vaos.isExpressCare &&
       appt.status !== APPOINTMENT_STATUS.fulfilled &&
       moment(appt.created).isBefore(moment().subtract(2, 'days'))) ||
+    // Show any VA appointment that doesn't have a status in our hidden list
     (appt.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment &&
       !PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description)) ||
+    // Show any booked community care appointment
     appt.vaos.appointmentType === APPOINTMENT_TYPES.ccAppointment
   );
 }

@@ -322,10 +322,6 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       date: startDate.format(),
       createdDate: startDate.format('MM/DD/YYYY HH:mm:SS'),
       typeOfCareId: 'CR1',
-      email: 'patient.test@va.gov',
-      phoneNumber: '5555555566',
-      reasonForVisit: 'Back pain',
-      additionalInformation: 'Need help ASAP',
     };
     request.id = '1234';
     mockPastAppointmentInfo({ va: [], requests: [request] });
@@ -354,10 +350,6 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       date: startDate.format(),
       createdDate: startDate.format('MM/DD/YYYY HH:mm:SS'),
       typeOfCareId: 'CR1',
-      email: 'patient.test@va.gov',
-      phoneNumber: '5555555566',
-      reasonForVisit: 'Back pain',
-      additionalInformation: 'Need help ASAP',
     };
     pendingRequest.id = '1234';
     const cancelledRequest = { ...pendingRequest };
@@ -398,10 +390,6 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       date: startDate.format(),
       createdDate: startDate.format('MM/DD/YYYY HH:mm:SS'),
       typeOfCareId: 'CR1',
-      email: 'patient.test@va.gov',
-      phoneNumber: '5555555566',
-      reasonForVisit: 'Back pain',
-      additionalInformation: 'Need help ASAP',
     };
     pendingRequest.id = '1234';
     const cancelledRequest = { ...pendingRequest };
