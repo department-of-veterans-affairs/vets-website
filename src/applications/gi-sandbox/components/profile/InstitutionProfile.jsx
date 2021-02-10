@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-has-content */
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -6,8 +5,9 @@ import ProfileSection from '../ProfileSection';
 import HeadingSummary from './HeadingSummary';
 import { scroller } from 'react-scroll';
 import { getScrollOptions } from 'platform/utilities/ui';
-import { convertRatingToStars } from '../../utils/helpers';
+import { convertRatingToStars, createId } from '../../utils/helpers';
 import { MINIMUM_RATING_COUNT } from '../../constants';
+import ProfileNavBar from '../ProfileNavBar';
 
 export class InstitutionProfile extends React.Component {
   static propTypes = {
@@ -30,23 +30,53 @@ export class InstitutionProfile extends React.Component {
     const displayStars =
       stars && profile.attributes.ratingCount >= MINIMUM_RATING_COUNT;
 
+    const profileSections = {
+      'Estimate your benefits': {
+        display: true,
+        component: <div />,
+      },
+      'Institution Details': {
+        display: true,
+      },
+      'Fields of Study': {
+        display: true,
+      },
+      'School locations': {
+        display: this.shouldShowSchoolLocations(profile.attributes.facilityMap),
+      },
+      'Cautionary information': {
+        display: true,
+      },
+      'Student ratings': {
+        display: displayStars,
+      },
+      'Contact details': {
+        display: true,
+      },
+    };
+
     return (
       <div className="institution-profile">
         <HeadingSummary
           institution={profile.attributes}
           onLearnMore={showModal.bind(this, 'gibillstudents')}
         />
+        <ProfileNavBar profileSections={Object.keys(profileSections)} />
         <div>
           <ul>
-            <ProfileSection name="Estimate your benefits" />
-            <ProfileSection name="Institution Details" />
-            <ProfileSection name="Fields of Study" />
-            {this.shouldShowSchoolLocations(profile.attributes.facilityMap) && (
-              <ProfileSection name="School locations" />
-            )}
-            <ProfileSection name="Cautionary information" />
-            {displayStars && <ProfileSection name="Student ratings" />}
-            <ProfileSection name="Contact details" />
+            {Object.entries(profileSections).map(([section, props]) => {
+              if (props.display) {
+                return (
+                  <ProfileSection
+                    key={`${createId(name)}-profile-section`}
+                    name={section}
+                  >
+                    {props.component}
+                  </ProfileSection>
+                );
+              }
+              return null;
+            })}
           </ul>
         </div>
       </div>
