@@ -38,6 +38,7 @@ export default function App({ params }) {
       <MetaTags>
         <meta name="robots" content="noindex" />
       </MetaTags>
+      <a href="a borken link">testing</a>
       <div className="vads-l-grid-container">
         <h1>{introText.h1[selectedLanguage]}</h1>
         <div className="va-introtext">

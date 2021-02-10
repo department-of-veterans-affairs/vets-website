@@ -159,15 +159,17 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
     echo "Found broken links."
 
     // Only break the build if broken links are found in master
-    if (IS_PROD_BRANCH || contentOnlyBuild) {
+    // if (IS_PROD_BRANCH || contentOnlyBuild) {
+    if (true || contentOnlyBuild) { // TODO: TESTING
       echo "Notifying Slack channel."
       // TODO: Move this slackUploadFile to cacheDrupalContent and update the echo statement above
       // slackUploadFile(filePath: csvFile, channel: 'dev_null', failOnError: true, initialComment: "Found broken links in the ${envName} build on `${env.BRANCH_NAME}`.")
 
       // Until slackUploadFile works...
+      def brokenLinks = readFile(csvFile)
       def brokenLinksCount = sh(returnStdout: true, script: "wc -l /application/${csvFileName} | cut -d ' ' -f1") as Integer
 
-      slackSend message: "${brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}".stripMargin(),
+      slackSend message: "${brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}\n${brokenLinks}".stripMargin(),
         color: 'danger',
         failOnError: true,
         channel: 'cms-team'
