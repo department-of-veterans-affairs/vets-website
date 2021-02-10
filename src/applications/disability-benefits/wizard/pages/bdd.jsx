@@ -36,17 +36,23 @@ const findNextPage = state => {
   const differenceBetweenDatesInDays =
     dateDischarge.diff(dateToday, 'days') + 1;
 
-  if (differenceBetweenDatesInDays > 0) {
-    if (differenceBetweenDatesInDays < 90) {
-      saveDischargeDate(dateDischarge, false);
-      return pageNames.fileClaimEarly;
-    } else if (differenceBetweenDatesInDays <= 180) {
-      saveDischargeDate(dateDischarge, true);
-      return pageNames.fileBDD;
-    }
+  if (differenceBetweenDatesInDays < 0) {
+    saveDischargeDate();
+    return null;
   }
+
+  if (differenceBetweenDatesInDays < 90) {
+    saveDischargeDate(dateDischarge, false);
+    return pageNames.fileClaimEarly;
+  }
+
+  if (differenceBetweenDatesInDays <= 180) {
+    saveDischargeDate(dateDischarge, true);
+    return pageNames.fileBDD;
+  }
+
   saveDischargeDate();
-  return differenceBetweenDatesInDays < 0 ? null : pageNames.unableToFileBDD;
+  return pageNames.unableToFileBDD;
 };
 
 const defaultState = {
