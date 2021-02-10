@@ -12,6 +12,7 @@ import * as additionalIncome from './income/additionalIncome';
 import * as additionalIncomeRecords from './income/additionalIncome/records';
 import * as spouseAdditionalIncome from './income/spouse/additionalIncome';
 import * as spouseBenefits from './income/spouse/benefits';
+import * as spouseBenefitRecords from './income/spouse/benefits/records';
 import * as spouseEmployment from './income/spouse/employment';
 import * as spouseEmploymentRecords from './income/spouse/employment/records';
 import * as spousePreviousEmployment from './income/spouse/previousEmployment';
@@ -47,6 +48,7 @@ export {
   veteranInfo,
   spouseInformation,
   spouseBenefits,
+  spouseBenefitRecords,
   spouseEmployment,
   spouseEmploymentRecords,
   spousePreviousEmployment,

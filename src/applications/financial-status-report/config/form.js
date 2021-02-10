@@ -214,6 +214,15 @@ const formConfig = {
           depends: formData =>
             formData.spouseInformation.maritalStatus === 'Married',
         },
+        spouseBenefitRecords: {
+          path: 'spouse-benefit-records',
+          title: 'Spouse benefits',
+          uiSchema: pages.spouseBenefitRecords.uiSchema,
+          schema: pages.spouseBenefitRecords.schema,
+          depends: formData =>
+            formData.spouseInformation.maritalStatus === 'Married' &&
+            formData.benefits.spouseHasBenefits,
+        },
         spouseSocialSecurity: {
           path: 'spouse-social-security',
           title: 'Spouse social security',
