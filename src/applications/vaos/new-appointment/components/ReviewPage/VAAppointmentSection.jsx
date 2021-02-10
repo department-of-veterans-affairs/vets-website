@@ -5,6 +5,7 @@ import PreferredDatesSection from './PreferredDatesSection';
 import ContactDetailSection from './ContactDetailSection';
 import ReasonForAppointmentSection from './ReasonForAppointmentSection';
 import { TYPE_OF_VISIT } from '../../../utils/constants';
+import State from '../../../components/State';
 
 export default function VAAppointmentSection({ data, facility }) {
   return (
@@ -12,7 +13,7 @@ export default function VAAppointmentSection({ data, facility }) {
       <PreferredDatesSection data={data} />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <h3 className="vaos-appts__block-label">{facility.name}</h3>
-      {facility.address?.city}, {facility.address?.state}
+      {facility.address?.city}, <State state={facility.address?.state} />
       <ReasonForAppointmentSection data={data} />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <div className="vads-l-grid-container vads-u-padding--0">

@@ -58,6 +58,7 @@ describe('VAOS <ReviewPage> CC request', () => {
           email: 'joeblow@gmail.com',
           reasonAdditionalInfo: 'I need an appt',
           communityCareSystemId: 'var983',
+          preferredLanguage: 'english',
           hasCommunityCareProvider: true,
           communityCareProvider: {
             practiceName: 'Community medical center',
@@ -101,42 +102,12 @@ describe('VAOS <ReviewPage> CC request', () => {
             ],
           },
         ],
-        facilityDetails: {
-          var983: {
-            id: 'var983',
-            name: 'Cheyenne VA Medical Center',
-            address: {
-              postalCode: '82001-5356',
-              city: 'Cheyenne',
-              state: 'WY',
-              line: ['2360 East Pershing Boulevard'],
-            },
-          },
-        },
-        facilities: {
-          '323_var983': [
-            {
-              id: 'var983',
-              name: 'Cheyenne VA Medical Center',
-              identifier: [
-                { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
-              ],
-            },
-          ],
-        },
+        facilities: {},
       },
     });
     store.dispatch(startRequestAppointmentFlow());
     store.dispatch(
-      onCalendarChange({
-        currentlySelectedDate: start.format('YYYY-MM-DD'),
-        selectedDates: [
-          {
-            date: start.format('YYYY-MM-DD'),
-            optionTime: 'AM',
-          },
-        ],
-      }),
+      onCalendarChange([start.format('YYYY-MM-DD[T00:00:00.000]')]),
     );
   });
   afterEach(() => resetFetch());
@@ -222,6 +193,16 @@ describe('VAOS <ReviewPage> CC request', () => {
 
     const preferences = JSON.parse(global.fetch.getCall(3).args[1].body);
     expect(preferences.emailAddress).to.equal('joeblow@gmail.com');
+
+    const dataLayer = global.window.dataLayer;
+    expect(dataLayer[1]).to.deep.equal({
+      event: 'vaos-community-care-submission',
+      'health-TypeOfCare': 'Primary care',
+      'health-ReasonForAppointment': undefined,
+      'vaos-number-of-preferred-providers': 1,
+      'vaos-community-care-preferred-language': 'english',
+      flow: 'cc-request',
+    });
   });
 
   it('should show error message on failure', async () => {
@@ -267,13 +248,6 @@ describe('VAOS <ReviewPage> CC request', () => {
       'Something went wrong when we tried to submit your request and you’ll need to start over. We suggest you wait a day',
     );
 
-    await screen.findByText('307-778-7550');
-
-    // Not sure of a better way to search for test just within the alert
-    const alert = screen.baseElement.querySelector('.usa-alert');
-    expect(alert).contain.text('Cheyenne VA Medical Center');
-    expect(alert).contain.text('2360 East Pershing Boulevard');
-    expect(alert).contain.text('Cheyenne, WY 82001-5356');
     expect(screen.history.push.called).to.be.false;
   });
 });
@@ -382,15 +356,7 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
     });
     store.dispatch(startRequestAppointmentFlow());
     store.dispatch(
-      onCalendarChange({
-        currentlySelectedDate: start.format('YYYY-MM-DD'),
-        selectedDates: [
-          {
-            date: start.format('YYYY-MM-DD'),
-            optionTime: 'AM',
-          },
-        ],
-      }),
+      onCalendarChange([start.format('YYYY-MM-DD[T00:00:00.000]')]),
     );
   });
   afterEach(() => resetFetch());
@@ -529,13 +495,6 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
       'Something went wrong when we tried to submit your request and you’ll need to start over. We suggest you wait a day',
     );
 
-    await screen.findByText('307-778-7550');
-
-    // Not sure of a better way to search for test just within the alert
-    const alert = screen.baseElement.querySelector('.usa-alert');
-    expect(alert).contain.text('Cheyenne VA Medical Center');
-    expect(alert).contain.text('2360 East Pershing Boulevard');
-    expect(alert).contain.text('Cheyenne, WY 82001-5356');
     expect(screen.history.push.called).to.be.false;
   });
 });

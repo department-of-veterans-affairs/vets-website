@@ -21,21 +21,23 @@ const VeteranInfoBox = ({
       <p>This is the personal information we have on file for you.</p>
       <div className="vads-u-border-left--7px vads-u-border-color--primary">
         <div className="vads-u-padding-left--1">
-          <p className="vads-u-margin--1px">Name: {fullName}</p>
+          <p className="vads-u-margin--1px">
+            <strong>{fullName}</strong>
+          </p>
           <p className="vads-u-margin--1px">
             Last 4 of Social Security number: {ssnLastFour}
           </p>
-          <p className="vads-u-margin--1px">File number: {vaFileNumber}</p>
+          <p className="vads-u-margin--1px">VA File number: {vaFileNumber}</p>
           <p className="vads-u-margin--1px">
-            Date of birth: {moment(dateOfBirth).format('MMMM DD, YYYY')}
+            Date of birth: {moment(dateOfBirth).format('DD/MM/YYYY')}
           </p>
         </div>
       </div>
       <p>
-        <span className="vads-u-font-weight--bold">Note:</span> If you need to
-        update your personal information, please call Veterans Benefits
-        Assistance at <a href="tel:800-827-1000">800-827-1000</a>, Monday
-        through Friday, 8:00 a.m. to 9:00 p.m. ET.
+        <strong>Note: </strong>
+        If you need to update your personal information, call our VA benefits
+        hotline at <a href="tel:800-827-1000">800-827-1000</a>, Monday through
+        Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </div>
   );
@@ -50,22 +52,13 @@ VeteranInfoBox.propTypes = {
   vaFileNumber: PropTypes.string,
 };
 
-VeteranInfoBox.defaultProps = {
-  first: '',
-  last: '',
-  middle: '',
-  dateOfBirth: '',
-  ssnLastFour: '',
-  vaFileNumber: '',
-};
-
-const mapStateToProps = state => ({
-  first: state.form?.data?.personalData?.fullName?.first,
-  middle: state.form?.data?.personalData?.fullName?.middle,
-  last: state.form?.data?.personalData?.fullName?.last,
-  dateOfBirth: state.form?.data?.personalData?.dateOfBirth,
-  ssnLastFour: state.form?.data?.personalIdentification?.sSn,
-  vaFileNumber: '0123456789',
+const mapStateToProps = ({ form }) => ({
+  first: form?.data?.personalData?.fullName?.first,
+  middle: form?.data?.personalData?.fullName?.middle,
+  last: form?.data?.personalData?.fullName?.last,
+  dateOfBirth: form?.data?.personalData?.dateOfBirth,
+  ssnLastFour: form?.data?.personalIdentification?.sSn,
+  vaFileNumber: form?.data?.personalIdentification?.vaFileNumber,
 });
 
 export default connect(

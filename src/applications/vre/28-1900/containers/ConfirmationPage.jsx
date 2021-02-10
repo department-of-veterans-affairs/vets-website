@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 import { focusElement } from 'platform/utilities/ui';
 
 const scroller = Scroll.scroller;
@@ -40,7 +40,7 @@ export class ConfirmationPage extends React.Component {
           </h2>
           <h3 className="vads-u-font-size--h4">
             Veteran Readiness and Employment Application{' '}
-            <span className="additional">(Form 28-8832)</span>
+            <span className="additional">(VA Form 28-1900)</span>
           </h3>
           <span>
             FOR: {name.first} {name?.middle} {name.last} {name?.suffix}

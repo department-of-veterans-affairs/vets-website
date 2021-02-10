@@ -2,7 +2,6 @@ import React from 'react';
 import merge from 'lodash/merge';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import { hasSession } from 'platform/user/profile/utilities';
 import { claimantInformation } from '../../utilities';
 
 export const schema = claimantInformation;
@@ -11,25 +10,29 @@ export const uiSchema = {
   fullName: {
     first: {
       'ui:title': 'First name',
-      'ui:required': () => !hasSession(),
+      'ui:required': () => true,
     },
     middle: {
       'ui:title': 'Middle name',
+      'ui:options': {
+        hideEmptyValueInReview: true,
+      },
     },
     last: {
       'ui:title': 'Last name',
-      'ui:required': () => !hasSession(),
+      'ui:required': () => true,
     },
     suffix: {
       'ui:title': 'Suffix',
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
+        hideEmptyValueInReview: true,
       },
     },
   },
   ssn: {
     ...ssnUI,
-    'ui:required': () => !hasSession(),
+    'ui:required': () => true,
   },
   VAFileNumber: {
     'ui:title': (
@@ -40,12 +43,13 @@ export const uiSchema = {
     ),
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
+      hideEmptyValueInReview: true,
     },
     'ui:errorMessages': {
       pattern: 'Please enter a valid VA file number',
     },
   },
   dateOfBirth: merge(currentOrPastDateUI('Date of birth'), {
-    'ui:required': () => !hasSession(),
+    'ui:required': () => true,
   }),
 };

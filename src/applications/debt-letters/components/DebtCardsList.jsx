@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import DebtLetterCard from './DebtLetterCard';
 import { Link } from 'react-router';
 
@@ -45,9 +45,9 @@ const DebtCardsList = ({ debts, isError }) => {
       {!isError &&
         debts.length < 1 && (
           <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3">
-            <h4 className="vads-u-font-family--serif vads-u-margin-top--0">
+            <h3 className="vads-u-font-family--serif vads-u-margin-top--0 vads-u-font-size--h4">
               Our records show that you don't have any current debts
-            </h4>
+            </h3>
             <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
               If you believe that you have a debt with the VA, call the Debt
               Management Center at <Telephone contact="8008270648" />

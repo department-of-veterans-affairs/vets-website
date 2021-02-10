@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { focusElement } from 'platform/utilities/ui';
 import * as actions from '../../redux/actions';
 import { getVAAppointmentLocationId } from '../../../services/appointment';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../../../utils/constants';
 import {
-  vaosPastAppts,
   selectPastAppointments,
-  selectExpressCare,
-} from '../../../utils/selectors';
+  selectExpressCareAvailability,
+} from '../../redux/selectors';
 import ConfirmedAppointmentListItem from '../cards/confirmed/ConfirmedAppointmentListItem';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
 
@@ -93,14 +91,10 @@ function PastAppointmentsList({
   pastStatus,
   facilityData,
   fetchPastAppointments,
-  showPastAppointments,
 }) {
-  const history = useHistory();
   const [isInitialMount, setInitialMount] = useState(true);
   useEffect(() => {
-    if (!showPastAppointments) {
-      history.push('/');
-    } else if (pastStatus === FETCH_STATUS.notStarted) {
+    if (pastStatus === FETCH_STATUS.notStarted) {
       const selectedDateRange = dateRangeOptions[pastSelectedIndex];
       fetchPastAppointments(
         selectedDateRange.startDate,
@@ -205,7 +199,6 @@ PastAppointmentsList.propTypes = {
   pastSelectedIndex: PropTypes.number,
   facilityData: PropTypes.object,
   fetchPastAppointments: PropTypes.func,
-  showPastAppointments: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
@@ -214,8 +207,7 @@ function mapStateToProps(state) {
     pastStatus: state.appointments.pastStatus,
     pastSelectedIndex: state.appointments.pastSelectedIndex,
     facilityData: state.appointments.facilityData,
-    showPastAppointments: vaosPastAppts(state),
-    expressCare: selectExpressCare(state),
+    expressCare: selectExpressCareAvailability(state),
   };
 }
 

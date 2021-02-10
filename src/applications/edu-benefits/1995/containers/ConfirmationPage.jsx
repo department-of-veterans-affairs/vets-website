@@ -3,16 +3,8 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
-
 import { benefitsLabels } from '../../utils/labels';
-import {
-  claimList,
-  ConfirmationGuidance,
-  ConfirmationNoDocumentsRequired,
-  ConfirmationPageSummary,
-  ConfirmationPageTitle,
-  ConfirmationReturnHome,
-} from '../../components/ConfirmationPage';
+import { ConfirmationPageContent } from '../../components/ConfirmationPageContent';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -34,66 +26,44 @@ class ConfirmationPage extends React.Component {
     scrollToTop();
   }
 
-  toggleExpanded = e => {
-    e.preventDefault();
-    this.setState({ isExpanded: !this.state.isExpanded });
-  };
-
   render() {
     const form = this.props.form;
-    const { formId, submission } = form;
+    const { submission, formId } = form;
+    const { benefit } = form.data;
 
-    const response = submission.response ? submission.response.attributes : {};
-    const name = form.data.veteranFullName;
-    const benefit = form.data.benefit;
-
-    const docExplanation = this.state.isExpanded ? (
-      <div className="usa-accordion-content" aria-hidden="false">
-        <p>In the future, you might need:</p>
-        <ul>
-          <li>Your reserve kicker</li>
-          <li>
-            Documentation of additional contributions that would increase your
-            monthly benefits
-          </li>
-        </ul>
-        <p>
-          Documents can be uploaded using the{' '}
-          <a href="https://gibill.custhelp.com/app/utils/login_form/redirect/account%252">
-            GI Bill site
-          </a>
-          .
-        </p>
-      </div>
-    ) : null;
-
-    const claimInfoList = claimList(response, submission);
-    claimInfoList.unshift(
-      <li key={'benefit'}>
-        <strong>Benefit to be transferred</strong>
-        <br />
-        {benefitsLabels[benefit]}
-      </li>,
-    );
     return (
-      <div>
-        <ConfirmationPageTitle formId={formId} />
-        <ConfirmationPageSummary
-          formId={formId}
-          response={response}
-          submission={submission}
-          name={name}
-          claimInfoList={claimInfoList}
-        />
-        <ConfirmationNoDocumentsRequired
-          expanded={this.state.isExpanded}
-          toggleExpanded={this.toggleExpanded}
-        >
-          {docExplanation}
-        </ConfirmationNoDocumentsRequired>
-        <ConfirmationGuidance />
-        <ConfirmationReturnHome />
-      </div>
+      <ConfirmationPageContent
+        claimInfoListItems={[
+          <li key={'benefit'}>
+            <strong>Benefit to be transferred</strong>
+            <br />
+            {benefitsLabels[benefit]}
+          </li>,
+        ]}
+        docExplanationHeader="No documents required at this time"
+        docExplanation={
+          <>
+            <p>In the future, you might need:</p>
+            <ul>
+              <li>Your reserve kicker</li>
+              <li>
+                Documentation of additional contributions that would increase
+                your monthly benefits
+              </li>
+            </ul>
+            <p>
+              Documents can be uploaded using the{' '}
+              <a href="https://gibill.custhelp.com/app/utils/login_form/redirect/account%252">
+                GI Bill site
+              </a>
+              .
+            </p>
+          </>
+        }
+        formId={formId}
+        name={form.data.veteranFullName}
+        submission={submission}
+      />
     );
   }
 }

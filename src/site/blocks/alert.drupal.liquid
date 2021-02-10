@@ -27,10 +27,9 @@
 
 <div data-template="blocks/alert" data-entity-id="{{ alert.entityId }}" class="usa-alert usa-alert-{{ alertType }}" role="alert">
   <div class="usa-alert-body">
-    <h3 class="usa-alert-heading">
+    <h2 class="usa-alert-heading vads-u-font-size--h3">
       {{ alert.fieldAlertTitle }}
-    </h3>
-
+    </h2>
     {% if expander.fieldTextExpander == empty %}
         {{ expander.fieldWysiwyg.processed }}
     {% endif %}

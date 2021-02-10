@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { getExpressCareFormPageInfo } from '../../utils/selectors';
+import { getExpressCareFormPageInfo } from '../redux/selectors';
 import FormButtons from '../../components/FormButtons';
 import * as actions from '../redux/actions';
 

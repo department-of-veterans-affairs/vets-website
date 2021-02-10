@@ -1,7 +1,8 @@
-// Dependencies.
 import React from 'react';
+// Dependencies.
 import { expect } from 'chai';
 import { mount } from 'enzyme';
+import sinon from 'sinon';
 // Relative imports.
 import FormTitle from '../../components/FormTitle';
 
@@ -11,6 +12,7 @@ describe('Find VA Forms <FormTitle />', () => {
     formDetailsUrl:
       'https://www.va.gov/health-care/about-information-for-pre-complaint-processing/',
     title: 'Information for Pre-Complaint Processing',
+    recordGAEvent: sinon.stub(),
   };
 
   it('should expect props', () => {
@@ -18,6 +20,7 @@ describe('Find VA Forms <FormTitle />', () => {
       <FormTitle
         id={props.id}
         formUrl={props.formDetailsUrl}
+        recordGAEvent={props.recordGAEvent}
         title={props.title}
       />,
     );
@@ -26,6 +29,7 @@ describe('Find VA Forms <FormTitle />', () => {
     expect(tree.props().id).to.equal(props.id);
     expect(tree.props().formUrl).to.equal(props.formDetailsUrl);
     expect(tree.props().title).to.equal(props.title);
+    expect(tree.props().recordGAEvent).to.equal(props.recordGAEvent);
 
     tree.unmount();
   });

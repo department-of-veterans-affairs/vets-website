@@ -5,13 +5,13 @@ import { forIn, upperFirst } from 'lodash';
 export const buildHours = (hours, shortDay = false) => {
   const builtHours = [];
   const shortDays = {
-    Monday: 'Mon',
-    Tuesday: 'Tue',
-    Wednesday: 'Wed',
-    Thursday: 'Thu',
-    Friday: 'Fri',
-    Saturday: 'Sat',
-    Sunday: 'Sun',
+    Monday: 'Mon.',
+    Tuesday: 'Tue.',
+    Wednesday: 'Wed.',
+    Thursday: 'Thu.',
+    Friday: 'Fri.',
+    Saturday: 'Sat.',
+    Sunday: 'Sun.',
   };
 
   forIn(hours, (value, key) => {

@@ -1,3 +1,6 @@
+const { partialSchema } = require('../../transformers/helpers');
+const healthCareLocalFacilitySchema = require('./node-health_care_local_facility');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -18,27 +21,41 @@ module.exports = {
           },
         },
         fieldServiceLocation: {
-          type: 'array',
+          type: ['array', 'null'],
           items: {
             entity: {
               type: { $ref: 'output/paragraph-service_location' },
             },
           },
         },
+        fieldHserviceApptLeadin: { type: ['string', 'null'] },
+        fieldHserviceApptIntroSelect: { type: ['string', 'null'] },
         fieldOnlineSchedulingAvailabl: { type: ['string', 'null'] },
         fieldReferralRequired: { type: ['string', 'null'] },
         fieldWalkInsAccepted: { type: ['string', 'null'] },
         fieldPhoneNumbersParagraph: { type: 'array' },
+        fieldFacilityLocation: {
+          type: ['object', 'null'],
+          items: {
+            entity: partialSchema(healthCareLocalFacilitySchema, [
+              'entityUrl',
+              'title',
+            ]),
+          },
+        },
       },
       required: [
         'title',
         'fieldBody',
         'fieldRegionalHealthService',
         'fieldServiceLocation',
+        'fieldHserviceApptLeadin',
+        'fieldHserviceApptIntroSelect',
         'fieldOnlineSchedulingAvailabl',
         'fieldReferralRequired',
         'fieldWalkInsAccepted',
         'fieldPhoneNumbersParagraph',
+        'fieldFacilityLocation',
       ],
     },
   },

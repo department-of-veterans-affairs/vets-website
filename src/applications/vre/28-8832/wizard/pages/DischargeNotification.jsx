@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import { WIZARD_STATUS, WIZARD_STATUS_INELIGIBLE } from '../../constants';
 
 const DischargeNotification = () => {
   useEffect(() => {
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_INELIGIBLE);
     recordEvent({
       event: `howToWizard-alert-displayed`,
-      'reason-for-notice':
+      'reason-for-alert':
         'ineligibility - outside time period from active duty discharge',
     });
   });

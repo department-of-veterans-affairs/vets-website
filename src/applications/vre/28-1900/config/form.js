@@ -1,10 +1,8 @@
 import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
-import { hasSession } from 'platform/user/profile/utilities';
 import environment from 'platform/utilities/environment';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PreSubmitInfo from 'applications/vre/28-1900/components/PreSubmitInfo';
-import VeteranInformationViewComponent from '../components/VeteranInformationViewComponent';
 import { additionalInformation } from './chapters/additional-information';
 import { communicationPreferences } from './chapters/communication-preferences';
 import { veteranInformation, veteranAddress } from './chapters/veteran';
@@ -18,7 +16,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/veteran_readiness_employment_claims`,
-  trackingPrefix: '28-1900-chapter-31-',
+  trackingPrefix: 'careers-employment-28-1900--',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: PreSubmitInfo,
@@ -51,23 +49,23 @@ const formConfig = {
       title: 'Veteran Information',
       reviewDescription: StaticInformationReviewField,
       pages: {
-        veteranStaticInformation: {
-          depends: () => hasSession(),
-          path: 'veteran-information-review',
-          title: 'Veteran Information Review',
-          hideHeaderRow: true,
-          schema: {
-            type: 'object',
-            properties: {},
-          },
-          uiSchema: {
-            'ui:description': VeteranInformationViewComponent,
-            'ui:reviewField': StaticInformationReviewField,
-          },
-        },
+        // TODO: possibly add this back in once issue has been investigated.
+        // veteranStaticInformation: {
+        //   depends: () => hasSession(),
+        //   path: 'veteran-information-review',
+        //   title: 'Veteran Information Review',
+        //   hideHeaderRow: true,
+        //   schema: {
+        //     type: 'object',
+        //     properties: {},
+        //   },
+        //   uiSchema: {
+        //     'ui:description': VeteranInformationViewComponent,
+        //     'ui:reviewField': StaticInformationReviewField,
+        //   },
+        // },
         veteranInformation: {
-          depends: () => !hasSession(),
-          path: 'veteran-information',
+          path: 'veteran-information-review',
           title: 'Veteran Information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,

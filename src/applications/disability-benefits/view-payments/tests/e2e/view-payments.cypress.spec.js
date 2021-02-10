@@ -1,3 +1,4 @@
+import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import mockUser from '../fixtures/test-user.json';
 import mockPayments from '../fixtures/test-payments-response.json';
 import mockEmptyPayments from '../fixtures/test-empty-payments-response.json';
@@ -20,7 +21,7 @@ const testAxe = () => {
 };
 
 const testPagination = () => {
-  cy.route('GET', PAYMENTS_API_ENDPOINT, mockPayments).as('mockPayments');
+  cy.intercept('GET', PAYMENTS_API_ENDPOINT, mockPayments).as('mockPayments');
   testLoadingState();
   cy.wait('@mockPayments');
   cy.findByText(/Payments you received/i).should('exist');
@@ -32,7 +33,7 @@ const testPagination = () => {
 };
 
 const testNoPayments = () => {
-  cy.route('GET', PAYMENTS_API_ENDPOINT, mockEmptyPayments).as(
+  cy.intercept('GET', PAYMENTS_API_ENDPOINT, mockEmptyPayments).as(
     'mockEmptyPayments',
   );
   cy.visit(PAYMENTS_PATH);
@@ -45,7 +46,7 @@ const testNoPayments = () => {
 
 const testEmptyPaymentsArray = (category = 'payments') => {
   if (category === 'returnPayments') {
-    cy.route('GET', PAYMENTS_API_ENDPOINT, mockEmptyPaymentsReturned).as(
+    cy.intercept('GET', PAYMENTS_API_ENDPOINT, mockEmptyPaymentsReturned).as(
       'mockEmptyReturnedPayments',
     );
     testLoadingState();
@@ -56,7 +57,7 @@ const testEmptyPaymentsArray = (category = 'payments') => {
       'exist',
     );
   } else {
-    cy.route('GET', PAYMENTS_API_ENDPOINT, mockEmptyPaymentsReceived).as(
+    cy.intercept('GET', PAYMENTS_API_ENDPOINT, mockEmptyPaymentsReceived).as(
       'mockEmptyReceivedPayments',
     );
     testLoadingState();
@@ -71,11 +72,9 @@ const testEmptyPaymentsArray = (category = 'payments') => {
 
 const testApiError = (errCode = '500') => {
   if (errCode === '400') {
-    cy.route({
-      method: 'GET',
-      url: PAYMENTS_API_ENDPOINT,
-      status: 404,
-      response: mockClientError,
+    cy.intercept(PAYMENTS_API_ENDPOINT, {
+      body: mockClientError,
+      statusCode: 404,
     }).as('clientError');
     testLoadingState();
     cy.wait('@clientError');
@@ -83,11 +82,9 @@ const testApiError = (errCode = '500') => {
       selector: 'h2',
     });
   } else {
-    cy.route({
-      method: 'GET',
-      url: PAYMENTS_API_ENDPOINT,
-      status: 500,
-      response: mockServerError,
+    cy.intercept(PAYMENTS_API_ENDPOINT, {
+      body: mockServerError,
+      statusCode: 500,
     }).as('serverError');
     testLoadingState();
     cy.wait('@serverError');
@@ -99,13 +96,21 @@ const testApiError = (errCode = '500') => {
 };
 
 // Disabling until view-payments is ready for production
-describe.skip('View payment history', () => {
+describe('View payment history', () => {
   beforeEach(() => {
-    window.localStorage.setItem(
-      'DISMISSED_ANNOUNCEMENTS',
-      JSON.stringify(['single-sign-on-intro']),
-    );
+    disableFTUXModals();
     cy.login(mockUser);
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          {
+            name: 'view_payment_history',
+            value: true,
+          },
+        ],
+      },
+    });
   });
   it('should pass an aXe scan and paginate through payment data', () => {
     testPagination();

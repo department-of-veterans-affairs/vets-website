@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 
 export default function VAOSBreadcrumbs({ children }) {
   return (
-    <Breadcrumbs customClasses="new-grid">
+    <Breadcrumbs className="medium-screen:vads-u-padding-x--0">
       <a href="/" key="home">
         Home
       </a>

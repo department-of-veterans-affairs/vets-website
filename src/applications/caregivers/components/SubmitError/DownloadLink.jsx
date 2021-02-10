@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import * as Sentry from '@sentry/browser';
 import moment from 'moment';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import formConfig from 'applications/caregivers/config/form';
 import environment from 'platform/utilities/environment';

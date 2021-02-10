@@ -5,72 +5,9 @@ import environment from 'platform/utilities/environment';
 import manifest from '../manifest.json';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
-import {
-  availableDebts,
-  currentEmployment,
-  previousEmployment,
-  benefits,
-  socialSecurity,
-  additionalIncome,
-  veteranInfo,
-  spouseInformation,
-  spouseAdditionalIncome,
-  spouseEmployment,
-  spouseSocialSecurity,
-  spouseBenefits,
-  spouseAdditionalEmployment,
-  dependents,
-  monetary,
-  realEstate,
-  recreationalVehicles,
-  vehicles,
-  otherAssets,
-  expenses,
-  utilities,
-  repayments,
-  otherExpenses,
-  resolutionOptions,
-  resolutionComments,
-  bankruptcyHistory,
-} from '../pages';
-
-const formChapterTitles = {
-  veteranInformationTitle: 'Veteran information',
-  householdIncomeTitle: 'Household income',
-  householdAssets: 'Household assets',
-  householdExpenses: 'Household expenses',
-  resolutionOptions: 'Resolution options',
-  bankruptcyHistory: 'Bankruptcy history',
-};
-
-const formPageTitles = {
-  veteranInfo: 'Veteran information',
-  availableDebts: 'Available Debts',
-  currentEmployment: 'Current employment',
-  previousEmployment: 'Previous employment',
-  benefits: 'Benefits',
-  socialSecurity: 'Social security',
-  additionalIncome: 'Additional Income',
-  spouseInformation: 'Spouse information',
-  spouseEmployment: 'Spouse employment',
-  spouseAdditionalEmployment: 'Spouse additonal employment',
-  spouseSocialSecurity: 'Spouse social security',
-  spouseBenefits: 'Spouse benefits',
-  spouseAdditionalIncome: 'Spouse additional Income',
-  dependents: 'Dependents',
-  monetary: 'Monetary assets',
-  realEstate: 'Realestate assets',
-  expenses: 'Household Expenses',
-  utilities: 'Household Utilities',
-  repayments: 'Household Repayments',
-  otherExpenses: 'Other expenses',
-  resolutionOptions: 'Resolution Options',
-  resolutionComments: 'Resolution Comments',
-  bankruptcyHistory: 'Bankruptcy History',
-  recreationalVehicles: 'Recreational Vehicles',
-  vehicles: 'Vehicles',
-  otherAssets: 'Other Assets',
-};
+import PreSubmitSignature from '../components/PreSubmitSignature';
+import { prefillTransformer } from '../utils/prefillTransformer';
+import * as pages from '../pages';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -80,9 +17,11 @@ const formConfig = {
   verifyRequiredPrefill: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  preSubmitInfo: PreSubmitSignature,
   formId: VA_FORM_IDS.FORM_5655,
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   defaultDefinitions: {},
   savedFormMessages: {
     notFound:
@@ -100,195 +39,283 @@ const formConfig = {
         'Your application for financial hardship assistance has been saved.',
     },
   },
-  title: 'Request help for VA debt',
+  title: 'Request help with VA debt with VA Form 5655',
   subTitle: 'Form 5655',
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   chapters: {
     veteranInformationChapter: {
-      title: formChapterTitles.veteranInformationTitle,
+      title: 'Veteran information',
       pages: {
-        [formPageTitles.veteranInfo]: {
+        veteranInfo: {
           path: 'veteran-information',
-          title: formPageTitles.veteranInfo,
-          uiSchema: veteranInfo.uiSchema,
-          schema: veteranInfo.schema,
+          title: 'Veteran information',
+          uiSchema: pages.veteranInfo.uiSchema,
+          schema: pages.veteranInfo.schema,
+          initialData: {
+            personalData: {
+              fullName: {
+                first: 'Hector',
+                last: 'Smith',
+                middle: 'R',
+              },
+              dateOfBirth: '01/01/1970',
+            },
+            personalIdentification: {
+              sSn: '1234',
+              vaFileNumber: '5678',
+            },
+          },
         },
         availableDebts: {
-          initialData: { fsrDebts: [] },
+          initialData: {
+            fsrDebts: [],
+            debt: {
+              currentAr: 0,
+              debtHistory: [{ date: '' }],
+              deductionCode: '',
+              originalAr: 0,
+            },
+          },
           path: 'available-debts',
-          title: formPageTitles.availableDebts,
-          uiSchema: availableDebts.uiSchema,
-          schema: availableDebts.schema,
+          title: 'Available Debts',
+          uiSchema: pages.availableDebts.uiSchema,
+          schema: pages.availableDebts.schema,
+        },
+        contactInfo: {
+          initialData: {
+            contactInfo: {
+              primaryEmail: 'hector.smith@email.com',
+              confirmationEmail: 'hector.smith@email.com',
+              phoneNumber: '5551234567',
+            },
+            mailingAddress: {
+              country: 'United States',
+              city: 'Tampa',
+              state: 'FL',
+              zipCode: '33614',
+              addressLine1: '1234 W Nebraska St',
+            },
+          },
+          path: 'contact-information',
+          title: 'Contact Information',
+          uiSchema: pages.contactInfo.uiSchema,
+          schema: pages.contactInfo.schema,
         },
       },
     },
     householdIncomeChapter: {
-      title: formChapterTitles.householdIncomeTitle,
+      title: 'Household income',
       pages: {
-        [formPageTitles.currentEmployment]: {
-          path: 'current-employment',
-          title: formPageTitles.currentEmployment,
-          uiSchema: currentEmployment.uiSchema,
-          schema: currentEmployment.schema,
+        employment: {
+          path: 'employment',
+          title: 'Employment',
+          uiSchema: pages.employment.uiSchema,
+          schema: pages.employment.schema,
         },
-        [formPageTitles.previousEmployment]: {
+        employmentRecords: {
+          path: 'employment-records',
+          title: 'Employment',
+          uiSchema: pages.employmentRecords.uiSchema,
+          schema: pages.employmentRecords.schema,
+          depends: formData => formData.employment.isEmployed === true,
+        },
+        previousEmployment: {
           path: 'previous-employment',
-          title: formPageTitles.previousEmployment,
-          uiSchema: previousEmployment.uiSchema,
-          schema: previousEmployment.schema,
+          title: 'Previous employment',
+          uiSchema: pages.previousEmployment.uiSchema,
+          schema: pages.previousEmployment.schema,
         },
-        [formPageTitles.benefits]: {
+        previousEmploymentRecords: {
+          path: 'previous-employment-records',
+          title: 'Previous employment',
+          uiSchema: pages.previousEmploymentRecords.uiSchema,
+          schema: pages.previousEmploymentRecords.schema,
+          depends: formData => formData.employment.previouslyEmployed === true,
+        },
+        benefits: {
           path: 'benefits',
-          title: formPageTitles.benefits,
-          uiSchema: benefits.uiSchema,
-          schema: benefits.schema,
+          title: 'Benefits',
+          uiSchema: pages.benefits.uiSchema,
+          schema: pages.benefits.schema,
+          initialData: {
+            benefits: {},
+          },
         },
-        [formPageTitles.socialSecurity]: {
+        socialSecurity: {
           path: 'social-security',
-          title: formPageTitles.socialSecurity,
-          uiSchema: socialSecurity.uiSchema,
-          schema: socialSecurity.schema,
+          title: 'Social security',
+          uiSchema: pages.socialSecurity.uiSchema,
+          schema: pages.socialSecurity.schema,
         },
-        [formPageTitles.additionalIncome]: {
+        socialSecurityRecords: {
+          path: 'social-security-records',
+          title: 'Social security',
+          uiSchema: pages.socialSecurityRecords.uiSchema,
+          schema: pages.socialSecurityRecords.schema,
+          depends: formData =>
+            formData.income.hasSocialSecurityPayments === true,
+        },
+        additionalIncome: {
           path: 'additional-income',
-          title: formPageTitles.additionalIncome,
-          uiSchema: additionalIncome.uiSchema,
-          schema: additionalIncome.schema,
+          title: 'Additional income',
+          uiSchema: pages.additionalIncome.uiSchema,
+          schema: pages.additionalIncome.schema,
         },
-        [formPageTitles.spouseInformation]: {
+        additionalIncomeRecords: {
+          path: 'additional-income-records',
+          title: 'Additional income',
+          uiSchema: pages.additionalIncomeRecords.uiSchema,
+          schema: pages.additionalIncomeRecords.schema,
+          depends: formData =>
+            formData.additionalIncome.hasAdditionalIncome === true,
+        },
+        spouseInformation: {
           path: 'spouse-information',
-          title: formPageTitles.spouseInformation,
-          uiSchema: spouseInformation.uiSchema,
-          schema: spouseInformation.schema,
+          title: 'Spouse information',
+          uiSchema: pages.spouseInformation.uiSchema,
+          schema: pages.spouseInformation.schema,
         },
-        [formPageTitles.spouseEmployment]: {
+        spouseEmployment: {
           path: 'spouse-employment',
-          title: formPageTitles.spouseEmployment,
-          uiSchema: spouseEmployment.uiSchema,
-          schema: spouseEmployment.schema,
+          title: 'Spouse employment',
+          depends: formData =>
+            formData.spouseInformation.maritalStatus === 'Married',
+          uiSchema: pages.spouseEmployment.uiSchema,
+          schema: pages.spouseEmployment.schema,
         },
-        [formPageTitles.spouseAdditionalEmployment]: {
-          path: 'spouse-additional-employment',
-          title: formPageTitles.spouseAdditionalEmployment,
-          uiSchema: spouseAdditionalEmployment.uiSchema,
-          schema: spouseAdditionalEmployment.schema,
+        spousePreviousEmployment: {
+          path: 'spouse-previous-employment',
+          title: 'Spouse previous employment',
+          depends: formData =>
+            formData.spouseInformation.maritalStatus === 'Married' &&
+            formData.employment.spouseHasBeenEmployed,
+          uiSchema: pages.spousePreviousEmployment.uiSchema,
+          schema: pages.spousePreviousEmployment.schema,
         },
-        [formPageTitles.spouseBenefits]: {
+        spouseBenefits: {
           path: 'spouse-benefits',
-          title: formPageTitles.spouseBenefits,
-          uiSchema: spouseBenefits.uiSchema,
-          schema: spouseBenefits.schema,
+          title: 'Spouse benefits',
+          depends: formData =>
+            formData.spouseInformation.maritalStatus === 'Married',
+          uiSchema: pages.spouseBenefits.uiSchema,
+          schema: pages.spouseBenefits.schema,
         },
-        [formPageTitles.spouseSocialSecurity]: {
+        spouseSocialSecurity: {
           path: 'spouse-social-security',
-          title: formPageTitles.spouseSocialSecurity,
-          uiSchema: spouseSocialSecurity.uiSchema,
-          schema: spouseSocialSecurity.schema,
+          title: 'Spouse social security',
+          depends: formData =>
+            formData.spouseInformation.maritalStatus === 'Married',
+          uiSchema: pages.spouseSocialSecurity.uiSchema,
+          schema: pages.spouseSocialSecurity.schema,
         },
-        [formPageTitles.spouseAdditionalIncome]: {
+        spouseAdditionalIncome: {
           path: 'spouse-additional-income',
-          title: formPageTitles.spouseAdditionalIncome,
-          uiSchema: spouseAdditionalIncome.uiSchema,
-          schema: spouseAdditionalIncome.schema,
+          title: 'Spouse additional income',
+          depends: formData =>
+            formData.spouseInformation.maritalStatus === 'Married',
+          uiSchema: pages.spouseAdditionalIncome.uiSchema,
+          schema: pages.spouseAdditionalIncome.schema,
         },
-        [formPageTitles.dependents]: {
+        dependents: {
           path: 'dependents',
-          title: formPageTitles.dependents,
-          uiSchema: dependents.uiSchema,
-          schema: dependents.schema,
+          title: 'Dependents',
+          uiSchema: pages.dependents.uiSchema,
+          schema: pages.dependents.schema,
         },
       },
     },
     householdAssetsChapter: {
-      title: formChapterTitles.householdAssets,
+      title: 'Household assets',
       pages: {
-        [formPageTitles.monetary]: {
+        monetary: {
           path: 'monetary-assets',
-          title: formPageTitles.monetary,
-          uiSchema: monetary.uiSchema,
-          schema: monetary.schema,
+          title: 'Monetary assets',
+          uiSchema: pages.monetary.uiSchema,
+          schema: pages.monetary.schema,
         },
-        [formPageTitles.realEstate]: {
+        realEstate: {
           path: 'real-estate-assets',
-          title: formPageTitles.realEstate,
-          uiSchema: realEstate.uiSchema,
-          schema: realEstate.schema,
+          title: 'Real estate',
+          uiSchema: pages.realEstate.uiSchema,
+          schema: pages.realEstate.schema,
         },
-        [formPageTitles.recreationalVehicles]: {
+        recreationalVehicles: {
           path: 'recreational-vehicles',
-          title: formPageTitles.recreationalVehicles,
-          uiSchema: recreationalVehicles.uiSchema,
-          schema: recreationalVehicles.schema,
+          title: 'Recreational vehicles',
+          uiSchema: pages.recreationalVehicles.uiSchema,
+          schema: pages.recreationalVehicles.schema,
         },
-        [formPageTitles.vehicles]: {
+        vehicles: {
           path: 'vehicles',
-          title: formPageTitles.vehicles,
-          uiSchema: vehicles.uiSchema,
-          schema: vehicles.schema,
+          title: 'Vehicles',
+          uiSchema: pages.vehicles.uiSchema,
+          schema: pages.vehicles.schema,
         },
-        [formPageTitles.otherAssets]: {
+        otherAssets: {
           path: 'other-assets',
-          title: formPageTitles.otherAssets,
-          uiSchema: otherAssets.uiSchema,
-          schema: otherAssets.schema,
+          title: 'Other assets',
+          uiSchema: pages.otherAssets.uiSchema,
+          schema: pages.otherAssets.schema,
         },
       },
     },
     householdExpensesChapter: {
-      title: formChapterTitles.householdExpenses,
+      title: 'Household expenses',
       pages: {
-        [formPageTitles.expenses]: {
+        expenses: {
           path: 'expenses',
-          title: formPageTitles.expenses,
-          uiSchema: expenses.uiSchema,
-          schema: expenses.schema,
+          title: 'Expenses',
+          uiSchema: pages.expenses.uiSchema,
+          schema: pages.expenses.schema,
         },
-        [formPageTitles.utilities]: {
+        utilities: {
           path: 'utilities',
-          title: formPageTitles.utilities,
-          uiSchema: utilities.uiSchema,
-          schema: utilities.schema,
+          title: 'Utilities',
+          uiSchema: pages.utilities.uiSchema,
+          schema: pages.utilities.schema,
         },
-        [formPageTitles.repayments]: {
+        repayments: {
           path: 'repayments',
-          title: formPageTitles.repayments,
-          uiSchema: repayments.uiSchema,
-          schema: repayments.schema,
+          title: 'Repayments',
+          uiSchema: pages.repayments.uiSchema,
+          schema: pages.repayments.schema,
         },
-        [formPageTitles.otherExpenses]: {
+        otherExpenses: {
           path: 'other-expenses',
-          title: formPageTitles.otherExpenses,
-          uiSchema: otherExpenses.uiSchema,
-          schema: otherExpenses.schema,
+          title: 'Other expenses',
+          uiSchema: pages.otherExpenses.uiSchema,
+          schema: pages.otherExpenses.schema,
         },
       },
     },
     resolutionOptionsChapter: {
-      title: formChapterTitles.resolutionOptions,
+      title: 'Resolution options',
       pages: {
-        [formPageTitles.resolutionOptions]: {
-          path: 'resolution-options',
-          title: formPageTitles.resolutionOptions,
-          uiSchema: resolutionOptions.uiSchema,
-          schema: resolutionOptions.schema,
+        resolutionOptions: {
+          path: 'resolution-options/:index',
+          title: 'Resolution options',
+          showPagePerItem: true,
+          arrayPath: 'fsrDebts',
+          uiSchema: pages.resolutionOptions.uiSchema,
+          schema: pages.resolutionOptions.schema,
         },
-        [formPageTitles.resolutionComments]: {
+        resolutionComments: {
           path: 'resolution-comments',
-          title: formPageTitles.resolutionComments,
-          uiSchema: resolutionComments.uiSchema,
-          schema: resolutionComments.schema,
+          title: 'Resolution comments',
+          uiSchema: pages.resolutionComments.uiSchema,
+          schema: pages.resolutionComments.schema,
         },
       },
     },
     bankruptcyAttestationChapter: {
-      title: formChapterTitles.bankruptcyHistory,
+      title: 'Bankruptcy history',
       pages: {
-        [formPageTitles.bankruptcyHistory]: {
+        bankruptcyHistory: {
           path: 'bankruptcy-history',
-          title: formPageTitles.bankruptcyHistory,
-          uiSchema: bankruptcyHistory.uiSchema,
-          schema: bankruptcyHistory.schema,
+          title: 'Bankruptcy history',
+          uiSchema: pages.bankruptcyHistory.uiSchema,
+          schema: pages.bankruptcyHistory.schema,
         },
       },
     },

@@ -1,4 +1,4 @@
-<table class="service-hours">
+<table class="service-hours" data-template="paragraphs/service_hours">
   <colgroup>
     <col class="day" />
     <col class="hours" />
@@ -7,7 +7,7 @@
   {% for hours in serviceHours %}
     {% if hours %}
       <tr>
-        <td>{{ hours.0 }}</td>
+        <td>{{ hours.0 }}.</td>
         <td>{{ hours.1 }}</td>
       </tr>
     {% endif %}

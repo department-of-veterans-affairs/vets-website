@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { selectProviderSelectionInfo } from '../../../utils/selectors';
+import { selectProviderSelectionInfo } from '../../redux/selectors';
 import ResidentialAddress from '../../../components/ResidentialAddress';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions';
-import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import { distanceBetween } from '../../../utils/address';
+import {
+  FETCH_STATUS,
+  FACILITY_SORT_METHODS,
+  GA_PREFIX,
+} from '../../../utils/constants';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import ErrorMessage from '../../../components/ErrorMessage';
 import RemoveProviderModal from './RemoveProviderModal';
+import recordEvent from 'platform/monitoring/record-event';
+import NoProvidersAlert from './NoProvidersAlert';
+import LoadProvidersErrorAlert from './LoadProvidersErrorAlert';
 
 const INITIAL_PROVIDER_DISPLAY_COUNT = 5;
 
 function ProviderSelectionField({
+  typeOfCareName,
   address,
   formData,
   onChange,
@@ -36,6 +42,7 @@ function ProviderSelectionField({
     0,
     providersListLength,
   );
+  const providersListEmpty = currentlyShownProvidersList?.length === 0;
   const loadingProviders =
     requestStatus === FETCH_STATUS.loading ||
     requestStatus === FETCH_STATUS.notStarted;
@@ -67,9 +74,11 @@ function ProviderSelectionField({
   useEffect(
     () => {
       if (showProvidersList) {
-        scrollAndFocus('h2');
-      } else if (mounted) {
+        scrollAndFocus('#providerSelectionHeader');
+      } else if (mounted && !providerSelected) {
         scrollAndFocus('.va-button-link');
+      } else if (mounted) {
+        scrollAndFocus('#selectedProvider');
       }
     },
     [showProvidersList],
@@ -84,14 +93,45 @@ function ProviderSelectionField({
     [formData],
   );
 
+  useEffect(
+    () => {
+      if (
+        showProvidersList &&
+        providersListLength > INITIAL_PROVIDER_DISPLAY_COUNT
+      ) {
+        scrollAndFocus(
+          `#${idSchema.$id}_${providersListLength -
+            INITIAL_PROVIDER_DISPLAY_COUNT +
+            1}`,
+        );
+      }
+    },
+    [providersListLength],
+  );
+
+  useEffect(
+    () => {
+      if (showProvidersList && (loadingProviders || loadingLocations)) {
+        scrollAndFocus('.loading-indicator');
+      } else if (showProvidersList && !loadingProviders && !loadingLocations) {
+        scrollAndFocus('#providerSelectionHeader');
+      }
+    },
+    [loadingProviders, loadingLocations],
+  );
+
   return (
-    <div className="vads-u-background-color--gray-lightest small-screen:vads-u-padding--2 medium-screen:vads-u-padding--3">
+    <div className="vads-u-background-color--gray-lightest vads-u-padding--2 medium-screen:vads-u-padding--3">
       {!showProvidersList &&
         !providerSelected && (
           <button
             className="va-button-link"
             type="button"
-            onClick={() => setShowProvidersList(true)}
+            aria-describedby="providerSelectionDescription"
+            onClick={() => {
+              setShowProvidersList(true);
+              recordEvent({ event: `${GA_PREFIX}-choose-provider-click` });
+            }}
           >
             <i className="fas fa-plus vads-u-padding-right--0p5" />
             Choose a provider
@@ -99,7 +139,7 @@ function ProviderSelectionField({
         )}
       {!showProvidersList &&
         providerSelected && (
-          <>
+          <section id="selectedProvider" aria-label="Selected provider">
             <span className="vads-u-display--block vads-u-font-weight--bold">
               {formData.name}
             </span>
@@ -111,13 +151,7 @@ function ProviderSelectionField({
               {formData.address?.postalCode}
             </span>
             <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold">
-              {distanceBetween(
-                formData.position?.latitude,
-                formData.position?.longitude,
-                address.latitude,
-                address.longitude,
-              )}{' '}
-              miles
+              {formData[sortMethod]} miles
             </span>
             <div className="vads-u-display--flex">
               <button
@@ -141,11 +175,14 @@ function ProviderSelectionField({
                 Remove
               </button>
             </div>
-          </>
+          </section>
         )}
       {showProvidersList && (
         <>
-          <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
+          <h2
+            id="providerSelectionHeader"
+            className="vads-u-font-size--h3 vads-u-margin-top--0"
+          >
             Choose a provider
           </h2>
           {!loadingProviders &&
@@ -193,7 +230,7 @@ function ProviderSelectionField({
           )}
           {requestStatus === FETCH_STATUS.failed && (
             <div className="vads-u-padding-bottom--2">
-              <ErrorMessage />
+              <LoadProvidersErrorAlert />
             </div>
           )}
           {!loadingLocations &&
@@ -226,58 +263,85 @@ function ProviderSelectionField({
                     </button>
                   </p>
                 )}
-                <p>
-                  Displaying 1 to {currentlyShownProvidersList.length} of{' '}
-                  {communityCareProviderList.length} providers
-                </p>
-                {currentlyShownProvidersList.map(provider => {
-                  const { name } = provider;
-                  const checked = provider.id === checkedProvider;
-                  return (
-                    <div className="form-radio-buttons" key={provider.id}>
-                      <input
-                        type="radio"
-                        checked={checked}
-                        id={`${idSchema.$id}_${provider.id}`}
-                        name={`${idSchema.$id}`}
-                        value={provider.id}
-                        onChange={_ => setCheckedProvider(provider.id)}
-                        disabled={loadingProviders}
-                      />
-                      <label htmlFor={`${idSchema.$id}_${provider.id}`}>
-                        <span className="vads-u-display--block vads-u-font-weight--bold">
-                          {name}
-                        </span>
-                        <span className="vads-u-display--block">
-                          {provider.address?.line}
-                        </span>
-                        <span className="vads-u-display--block">
-                          {provider.address.city}, {provider.address.state}{' '}
-                          {provider.address.postalCode}
-                        </span>
-                        <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold">
-                          {provider[sortMethod]} miles
-                        </span>
-                      </label>
-                      {checked && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            onChange(
-                              communityCareProviderList.find(
-                                p => p.id === checkedProvider,
-                              ),
-                            );
-                            setCheckedProvider();
-                            setShowProvidersList(false);
-                          }}
-                        >
-                          Choose provider
-                        </button>
-                      )}
-                    </div>
-                  );
-                })}
+                {providersListEmpty && (
+                  <NoProvidersAlert
+                    sortMethod={sortMethod}
+                    typeOfCareName={typeOfCareName}
+                  />
+                )}
+                {!providersListEmpty && (
+                  <>
+                    <p
+                      id="provider-list-status"
+                      role="status"
+                      aria-live="polite"
+                      aria-atomic="true"
+                    >
+                      Displaying 1 to {currentlyShownProvidersList.length} of{' '}
+                      {communityCareProviderList.length} providers
+                    </p>
+                    {currentlyShownProvidersList.map(
+                      (provider, providerIndex) => {
+                        const { name } = provider;
+                        const checked = provider.id === checkedProvider;
+                        const providerPosition = providerIndex + 1;
+                        return (
+                          <div className="form-radio-buttons" key={provider.id}>
+                            <input
+                              type="radio"
+                              checked={checked}
+                              id={`${idSchema.$id}_${providerPosition}`}
+                              name={`${idSchema.$id}`}
+                              value={provider.id}
+                              onChange={_ => setCheckedProvider(provider.id)}
+                              disabled={loadingProviders}
+                            />
+                            <label
+                              htmlFor={`${idSchema.$id}_${providerPosition}`}
+                            >
+                              <span className="vads-u-display--block vads-u-font-weight--bold">
+                                {name}
+                              </span>
+                              <span className="vads-u-display--block">
+                                {provider.address?.line}
+                              </span>
+                              <span className="vads-u-display--block">
+                                {provider.address.city},{' '}
+                                {provider.address.state}{' '}
+                                {provider.address.postalCode}
+                              </span>
+                              <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold">
+                                {provider[sortMethod]} miles
+                                <span className="sr-only">
+                                  {' '}
+                                  {sortByDistanceFromCurrentLocation
+                                    ? 'from your current location'
+                                    : 'from your home address'}
+                                </span>
+                              </span>
+                            </label>
+                            {checked && (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  onChange(provider);
+                                  setCheckedProvider();
+                                  setShowProvidersList(false);
+                                  recordEvent({
+                                    event: `${GA_PREFIX}-order-position-provider-selection`,
+                                    providerPosition,
+                                  });
+                                }}
+                              >
+                                Choose provider
+                              </button>
+                            )}
+                          </div>
+                        );
+                      },
+                    )}
+                  </>
+                )}
               </>
             )}
         </>
@@ -294,10 +358,16 @@ function ProviderSelectionField({
                 <button
                   type="button"
                   className="additional-info-button va-button-link vads-u-display--block vads-u-margin-right--2"
-                  onClick={() =>
-                    setProvidersListLength(providersListLength + 5)
-                  }
+                  onClick={() => {
+                    setProvidersListLength(
+                      providersListLength + INITIAL_PROVIDER_DISPLAY_COUNT,
+                    );
+                    recordEvent({
+                      event: `${GA_PREFIX}-provider-list-paginate`,
+                    });
+                  }}
                 >
+                  <span className="sr-only">show</span>
                   <span className="va-button-link">
                     +{' '}
                     {Math.min(

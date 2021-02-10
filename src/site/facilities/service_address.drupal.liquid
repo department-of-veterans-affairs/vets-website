@@ -1,0 +1,57 @@
+<div class="vads-u-display--flex vads-u-flex-direction--column">
+  {% if address.fieldUseFacilityAddress == false %}
+    {% assign address = single.fieldServiceLocationAddress.entity %}
+    {% assign useParent = false %}
+  {% else %}
+    {% assign address = fieldAddress %}
+    {% assign useParent = true %}
+  {% endif %}
+
+  {% if single.fieldServiceLocationAddress.entity.fieldClinicName %}
+    <h4>
+      {{ single.fieldServiceLocationAddress.entity.fieldClinicName }}
+    </h4>
+  {% endif %}
+
+  {% if address.fieldAddress.addressLine1 and useParent == false %}
+    <span class="vads-u-margin-bottom--0">
+      {{ address.fieldAddress.addressLine1 }}
+    </span>
+  {% else %}
+    <span class="vads-u-margin-bottom--0">
+      {{ fieldAddress.addressLine1 }}
+    </span>
+  {% endif %}
+
+  {% if address.fieldAddress.addressLine2 and useParent == false %}
+    <span class="vads-u-margin-bottom--0">
+      {{ address.fieldAddress.addressLine2 }}
+    </span>
+  {% else %}
+    <span class="vads-u-margin-bottom--0">
+      {{ fieldAddress.addressLine2 }}
+    </span>
+  {% endif %}
+
+  {% if address.fieldAddress.organization and useParent == false %}
+    <span class="vads-u-margin-bottom--0">
+      {{ address.fieldAddress.organization }}
+    </span>
+  {% else %}
+    <span class="vads-u-margin-bottom--0">
+      {{ fieldAddress.organization }}
+    </span>
+  {% endif %}
+
+  {% if single.fieldServiceLocationAddress.entity.fieldBuildingNameNumber %}
+    <span class="vads-u-margin-bottom--0">
+      {{ single.fieldServiceLocationAddress.entity.fieldBuildingNameNumber }}
+    </span>
+  {% endif %}
+
+  {% if single.fieldServiceLocationAddress.entity.fieldWingFloorOrRoomNumber %}
+    <span class="vads-u-margin-bottom--0">
+      {{ single.fieldServiceLocationAddress.entity.fieldWingFloorOrRoomNumber }}
+    </span>
+  {% endif %}
+</div>

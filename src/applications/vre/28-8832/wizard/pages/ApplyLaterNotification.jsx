@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import { WIZARD_STATUS, WIZARD_STATUS_COMPLETE } from '../../constants';
+import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
 
-const ApplyLaterNotification = () => {
+const ApplyLaterNotification = props => {
+  const { setWizardStatus } = props;
   useEffect(() => {
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    setWizardStatus(WIZARD_STATUS_COMPLETE);
     recordEvent({
       event: `howToWizard-alert-displayed`,
-      'reason-for-notice': 'chose not to apply now',
+      'reason-for-alert': 'chose not to apply now',
     });
   });
 

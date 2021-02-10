@@ -6,13 +6,29 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
-[type="checkbox"]:checked + label::before {
-  background-color: $color-white;
-  color: $color-primary;
-  content: "\f00c";
-  font-family: "Font Awesome 5 Free";
-  padding-right: 2px;
+.fsr-introduction {
+  .schemaform-title {
+    margin-bottom: 10px;
+  }
+  .subtitle {
+    margin: 0 0 40px;
+    font-size: 20px;
+  }
+  .alert-button {
+    margin: 25px 0 0;
+  }
+}
+
+.debt-card {
+  [type="checkbox"]:checked + label::before {
+    background-color: $color-white;
+    color: $color-primary;
+    content: "\f00c";
+    font-family: "Font Awesome 5 Free";
+    padding-right: 2px;
+  }
 }
 
 .schemaform-subtitle {
@@ -20,193 +36,171 @@
   margin-top: 10px;
 }
 
-.schemaform-block {
+#root__title {
+  height: 35px;
+}
+
+.item-loop-container {
   margin-top: 10px;
-}
-
-// employment history
-.employment-history-title {
-  margin: 20px 0;
-}
-
-.employment-record-review {
-  display: flex;
-  flex-direction: column;
-  width: 575px;
-  background-color: #f1f1f1;
-  padding: 10px 30px 20px;
-  margin-bottom: 25px;
-  .review-content {
-    margin: 10px 0;
-  }
-  .btn-edit {
-    max-width: fit-content;
-    background-color: #fff;
-  }
-}
-
-.employment-history-container {
-  display: flex;
-  flex-direction: column;
-  background-color: #f1f1f1;
-  padding: 10px 30px 20px;
-
-  .deduction-label {
-    margin-top: 10px;
-  }
-  .input-employment-type {
-    width: 200px;
-  }
-  .input-employment-start {
-    margin-right: 25px;
-    .schemaform-label {
-      margin-bottom: 15px;
+  .item-loop {
+    padding: 5px 15px 20px;
+    background-color: $color-gray-lightest;
+    .schemaform-field-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      .schemaform-block-header {
+        width: 100%;
+      }
+    }
+    .autosuggest-list {
+      max-height: 140px;
+    }
+    .usa-button-secondary {
+      background: $color-white;
+    }
+    .button-group {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
     }
   }
-  .input-employer-name {
-    width: 278px;
-  }
-  .input-monthly-income {
-    width: 152px;
-  }
-  .input-payroll-deduction {
-    width: 152px;
-  }
-
-  .monthly-net-income {
-    margin-top: 20px;
-  }
-
-  .add-item-link,
-  .remove-link {
-    font-size: 16px;
-    color: #004795;
-    line-height: 24px;
-    text-decoration: underline;
-    margin-bottom: 7px;
-    cursor: pointer;
-    user-select: none;
-  }
-  .btn-save {
-    margin-top: 20px;
-    max-width: fit-content;
-  }
-
-  .add-item-link-section {
-    margin-top: 25px;
-    .plus-icon {
-      color: #0071bb;
-      margin-right: 5px;
+  .edit-item-container {
+    margin: 5px 0;
+    .usa-button-secondary {
+      background: $color-white;
     }
   }
-}
-
-.add-item-container {
-  display: flex;
-  flex-direction: column;
-  background-color: #f1f1f1;
-  padding: 20px 30px 20px;
-  margin-top: 25px;
-  .add-income-link-section {
-    .plus-icon {
-      color: #0071bb;
-      margin-right: 5px;
-    }
-  }
-}
-
-// list-loop component
-.list-loop-container {
-  display: flex;
-  flex-direction: column;
-  background-color: $color-gray-lightest;
-  padding: 10px 30px 20px;
-  .list-loop-item-list {
+  .add-item-container {
     display: flex;
-    justify-content: left;
-    align-items: flex-end;
-    margin-bottom: 30px;
-    .list-loop-item-label {
-      margin-bottom: 15px;
-    }
-    .list-loop-item-1 {
-      width: 275px;
-    }
-    .list-loop-item-2 {
-      width: 150px;
-    }
-    .list-loop-edit {
-      width: 40px;
-    }
-  }
-  .title-section {
-    margin-bottom: 20px;
-    .title {
-      width: 200px;
-      height: 15px;
-      font-family: Bitter;
-      font-size: 17px;
-      color: $color-gray-dark;
-      line-height: 22px;
-    }
-    .sub-title {
-      height: 16px;
-      font-size: 16px;
-      color: $color-gray-dark;
-      line-height: 24px;
-    }
-  }
-  .list-input-section {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    .input-section-container {
-      padding: 0;
-      margin: 0;
-      .input-row {
-        list-style: none;
-        margin-bottom: 20px;
-        .input-container {
-          display: flex;
-          align-items: flex-end;
-          margin-bottom: 20px;
-        }
-        .input-placeholder {
-          margin-bottom: 10px;
-        }
-        .input-custom {
-          margin-right: 25px;
-          .schemaform-label {
-            margin: 0;
-          }
-        }
-        .input-1 {
-          width: 250px;
-        }
-        .input-2 {
-          width: 125px;
-        }
-        .input-3 {
-          width: 125px;
-        }
+    flex-direction: column;
+    background-color: $color-gray-lightest;
+    padding: 20px 30px 20px;
+    margin-top: 20px;
+    .add-item-link-section {
+      .plus-icon {
+        color: $color-light-blue;
+        margin-right: 5px;
       }
     }
   }
-  .add-income-link-section {
-    .plus-icon {
-      color: $color-blue;
-      margin-right: 5px;
+  .card-details-view {
+    padding: 10px 30px;
+    .card-title {
+      margin: 15px 0;
     }
   }
-  .add-income-link,
-  .remove-link {
-    font-size: 16px;
-    color: $color-link-default;
-    line-height: 24px;
-    text-decoration: underline;
-    margin-bottom: 7px;
+}
+
+.contact-info {
+  .checkbox-group {
+    label {
+      margin-top: 0;
+    }
   }
-  .btn-save {
-    max-width: fit-content;
+  .review-card--body {
+    border: 3px solid $color-light-blue;
+    padding: 25px;
+  }
+}
+
+.schemaform-first-field {
+  margin-top: 30px;
+}
+
+// date-widget
+.usa-date-of-birth {
+  padding: 10px 0;
+}
+
+// form field subtitle
+.formfield-subtitle {
+  margin: 4px 0 8px;
+  font-size: 15px;
+  color: $color-gray-medium;
+}
+
+// bankruptcyHistory
+.court-location label {
+  margin-top: 10px;
+}
+
+// current employment
+.current-employment-container {
+  .schemaform-block-header {
+    margin: 25px 0;
+  }
+  .employment-start {
+    margin-top: 16px;
+  }
+  .employer-name label {
+    margin-top: 16px;
+  }
+}
+
+//previous employment
+.previous-employment-container {
+  .work-type label {
+    margin-top: 0;
+  }
+  .schemaform-field-template {
+    margin-top: 16px;
+  }
+  .employer-name {
+    margin-bottom: 16px;
+    label {
+      margin-top: 16px;
+    }
+  }
+}
+
+// input fields
+.input-size-1 {
+  @include media($medium-screen) {
+    width: 152px;
+    max-width: 152px;
+  }
+}
+
+.input-size-2 {
+  @include media($medium-screen) {
+    width: 173px;
+    max-width: 173px;
+  }
+}
+
+.input-size-3 {
+  @include media($medium-screen) {
+    width: 196px;
+    max-width: 196px;
+  }
+}
+
+.input-size-4 {
+  @include media($medium-screen) {
+    width: 215px;
+    max-width: 215px;
+  }
+}
+
+.input-size-5 {
+  @include media($medium-screen) {
+    width: 262px;
+    max-width: 262px;
+  }
+}
+
+.input-size-6 {
+  @include media($medium-screen) {
+    width: 283px;
+    max-width: 283px;
+  }
+}
+
+.input-size-7 {
+  @include media($medium-screen) {
+    width: 332px;
+    max-width: 332px;
   }
 }

@@ -1,13 +1,16 @@
+import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS } from '../../constants';
 
 import mockLOA1User from '../fixtures/users/user-loa1.json';
 
+import {
+  onlyAccountSecuritySectionIsAccessible,
+  subNavOnlyContainsAccountSecurity,
+} from './helpers';
+
 describe('LOA1 users', () => {
   beforeEach(() => {
-    window.localStorage.setItem(
-      'DISMISSED_ANNOUNCEMENTS',
-      JSON.stringify(['single-sign-on-intro']),
-    );
+    disableFTUXModals();
     cy.login(mockLOA1User);
     // login() calls cy.server() so we can now mock routes
   });
@@ -28,33 +31,8 @@ describe('LOA1 users', () => {
       `${Cypress.config().baseUrl}${PROFILE_PATHS.ACCOUNT_SECURITY}`,
     );
 
-    // Check that the sub nav does not contain anything other than the Account
-    // Security section
-    cy.findByRole('link', { name: /personal.*info/i }).should('not.exist');
-    cy.findByRole('link', { name: /military info/i }).should('not.exist');
-    cy.findByRole('link', { name: /direct deposit/i }).should('not.exist');
-    cy.findByRole('link', { name: /connected app/i }).should('not.exist');
+    subNavOnlyContainsAccountSecurity();
 
-    // There should be an Account Security item in the sub nav.
-    // NOTE: There are two link elements that contain `account security` so look
-    // for the link specifically in the secondary nav
-    cy.findByRole('navigation', { name: /secondary/i }).within(() => {
-      cy.findByRole('link', { name: /account security/i }).should('exist');
-    });
-
-    // Going directly to any other should redirect to the
-    // account security section
-    [
-      PROFILE_PATHS.CONNECTED_APPLICATIONS,
-      PROFILE_PATHS.DIRECT_DEPOSIT,
-      PROFILE_PATHS.MILITARY_INFORMATION,
-      PROFILE_PATHS.PERSONAL_INFORMATION,
-    ].forEach(path => {
-      cy.visit(path);
-      cy.url().should(
-        'eq',
-        `${Cypress.config().baseUrl}${PROFILE_PATHS.ACCOUNT_SECURITY}`,
-      );
-    });
+    onlyAccountSecuritySectionIsAccessible();
   });
 });

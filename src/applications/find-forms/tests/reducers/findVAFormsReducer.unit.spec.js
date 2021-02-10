@@ -1,7 +1,11 @@
 // Dependencies.
 import { expect } from 'chai';
 // Relative imports.
-import { FETCH_FORMS, FETCH_FORMS_SUCCESS } from '../../constants';
+import {
+  FETCH_FORMS,
+  FETCH_FORMS_SUCCESS,
+  INITIAL_SORT_STATE,
+} from '../../constants';
 import findVAFormsReducer from '../../reducers/findVAFormsReducer';
 
 describe('Find VA Forms reducer: findVAFormsReducer', () => {
@@ -15,6 +19,8 @@ describe('Find VA Forms reducer: findVAFormsReducer', () => {
       page: 1,
       query: '',
       results: null,
+      sortByPropertyName: INITIAL_SORT_STATE,
+      hasOnlyRetiredForms: false,
       startIndex: 0,
     });
   });
@@ -29,6 +35,8 @@ describe('Find VA Forms reducer: findVAFormsReducer', () => {
       page: 1,
       query: 'testing',
       results: null,
+      sortByPropertyName: INITIAL_SORT_STATE,
+      hasOnlyRetiredForms: false,
       startIndex: 0,
     });
   });
@@ -38,7 +46,11 @@ describe('Find VA Forms reducer: findVAFormsReducer', () => {
       fetching: true,
       results: null,
     };
-    const action = { type: FETCH_FORMS_SUCCESS, results: [] };
+    const action = {
+      type: FETCH_FORMS_SUCCESS,
+      results: [],
+      hasOnlyRetiredForms: false,
+    };
     const state = findVAFormsReducer(initialState, action);
 
     expect(state.fetching).to.be.false;

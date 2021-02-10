@@ -4,7 +4,12 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
 
-import { submissionStatuses } from '../constants';
+import {
+  submissionStatuses,
+  WIZARD_STATUS,
+  FORM_STATUS_BDD,
+  SAVED_SEPARATION_DATE,
+} from '../constants';
 import {
   retryableErrorContent,
   successfulSubmitContent,
@@ -27,11 +32,16 @@ export default class ConfirmationPage extends React.Component {
   }
 
   componentDidMount() {
-    focusElement('.usa-alert-body > h3');
+    focusElement('.usa-alert-body > h2');
     scrollToTop();
   }
 
   render() {
+    // Reset everything
+    sessionStorage.removeItem(WIZARD_STATUS);
+    sessionStorage.removeItem(FORM_STATUS_BDD);
+    sessionStorage.removeItem(SAVED_SEPARATION_DATE);
+
     switch (this.props.submissionStatus) {
       case submissionStatuses.succeeded:
         return successfulSubmitContent(this.props);

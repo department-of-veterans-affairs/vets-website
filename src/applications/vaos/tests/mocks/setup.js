@@ -14,21 +14,32 @@ import { renderInReduxProvider } from 'platform/testing/unit/react-testing-libra
 import reducers from '../../redux/reducer';
 import newAppointmentReducer from '../../new-appointment/redux/reducer';
 import expressCareReducer from '../../express-care/redux/reducer';
+import projectCheetahReducer from '../../project-cheetah/redux/reducer';
 import { fetchExpressCareWindows } from '../../appointment-list/redux/actions';
 
 import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
-import VAFacilityPage from '../../new-appointment/components/VAFacilityPage';
 import ExpressCareInfoPage from '../../express-care/components/ExpressCareInfoPage';
 import ExpressCareReasonPage from '../../express-care/components/ExpressCareReasonPage';
 import { cleanup } from '@testing-library/react';
 import ClinicChoicePage from '../../new-appointment/components/ClinicChoicePage';
 import PreferredDatePage from '../../new-appointment/components/PreferredDatePage';
-import { getParentSiteMock, getFacilityMock } from './v0';
-import { mockParentSites, mockSupportedFacilities } from './helpers';
+import {
+  getDirectBookingEligibilityCriteriaMock,
+  getParentSiteMock,
+  getRequestEligibilityCriteriaMock,
+  getVAFacilityMock,
+} from './v0';
+import {
+  mockDirectBookingEligibilityCriteria,
+  mockFacilitiesFetch,
+  mockParentSites,
+  mockRequestEligibilityCriteria,
+} from './helpers';
 
 import createRoutesWithStore from '../../routes';
 import TypeOfEyeCarePage from '../../new-appointment/components/TypeOfEyeCarePage';
 import TypeOfFacilityPage from '../../new-appointment/components/TypeOfFacilityPage';
+import VAFacilityPageV2 from '../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
 
 export function createTestStore(initialState) {
   return createStore(
@@ -37,6 +48,7 @@ export function createTestStore(initialState) {
       ...reducers,
       newAppointment: newAppointmentReducer,
       expressCare: expressCareReducer,
+      projectCheetah: projectCheetahReducer,
     }),
     initialState,
     applyMiddleware(thunk),
@@ -154,32 +166,34 @@ export async function setVAFacility(store, facilityId) {
       parentStationCode: siteCode,
     },
   };
-  mockParentSites([siteCode], [parentSite]);
+
+  const directFacilities = [
+    getDirectBookingEligibilityCriteriaMock({ id: facilityId, typeOfCareId }),
+  ];
+
+  const requestFacilities = [
+    getRequestEligibilityCriteriaMock({ id: facilityId, typeOfCareId }),
+  ];
+
+  const realFacilityID = facilityId.replace('983', '442').replace('984', '552');
+
   const facilities = [
     {
-      id: facilityId,
+      id: `vha_${realFacilityID}`,
       attributes: {
-        ...getFacilityMock().attributes,
-        institutionCode: facilityId,
-        rootStationCode: siteCode,
-        parentStationCode: siteCode,
-        requestSupported: true,
-        directSchedulingSupported: true,
+        ...getVAFacilityMock().attributes,
+        uniqueId: realFacilityID,
       },
     },
   ];
-  mockSupportedFacilities({
-    siteId: siteCode,
-    parentId: siteCode,
-    typeOfCareId,
-    data: facilities,
-  });
 
-  const history = {
-    push: sinon.spy(),
-  };
-  const { findByText } = renderWithStoreAndRouter(
-    <VAFacilityPage history={history} />,
+  mockParentSites([siteCode], [parentSite]);
+  mockDirectBookingEligibilityCriteria([siteCode], directFacilities);
+  mockRequestEligibilityCriteria([siteCode], requestFacilities);
+  mockFacilitiesFetch(`vha_${realFacilityID}`, facilities);
+
+  const { findByText, history } = renderWithStoreAndRouter(
+    <VAFacilityPageV2 />,
     { store },
   );
 

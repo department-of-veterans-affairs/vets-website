@@ -461,7 +461,10 @@ describe('VAOS newAppointment actions', () => {
                     value: '983GC',
                   },
                 ],
-                legacyVAR: {},
+                legacyVAR: {
+                  directSchedulingSupported: { 323: true },
+                  requestSupported: { 323: true },
+                },
               },
             ],
           },
@@ -992,12 +995,7 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should dispatch onChange action', () => {
-      expect(
-        onCalendarChange({
-          currentlySelectedDate: '2020-12-11',
-          selectedDates: [{}, {}],
-        }).type,
-      ).to.equal(FORM_CALENDAR_DATA_CHANGED);
+      expect(onCalendarChange([]).type).to.equal(FORM_CALENDAR_DATA_CHANGED);
     });
   });
 

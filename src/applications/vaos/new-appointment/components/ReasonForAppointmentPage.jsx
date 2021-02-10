@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { validateWhiteSpace } from 'platform/forms/validations';
 import * as actions from '../redux/actions';
 import FormButtons from '../../components/FormButtons';
-import { getFormPageInfo } from '../../utils/selectors';
+import { getFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { PURPOSE_TEXT, FACILITY_TYPES } from '../../utils/constants';
 import TextareaWidget from '../../components/TextareaWidget';
@@ -113,6 +113,7 @@ function ReasonForAppointmentPage({
             status="warning"
             headline="If you have an urgent medical need, please:"
             className="vads-u-margin-y--3"
+            level="2"
             content={
               <ul>
                 <li>

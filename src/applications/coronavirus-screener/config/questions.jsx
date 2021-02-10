@@ -125,34 +125,32 @@ export const questions = [
   {
     id: 'travel-459',
     text: {
-      en: 'In the past 14 days, have you traveled outside of Hawaii?',
-      es: 'En los últimos 14 días, ¿ha viajado fuera de Hawái?',
+      en: 'In the past 14 days, have you traveled off island?',
+      es: 'En los últimos 14 días, ¿ha viajado fuera de la isla?',
     },
     customId: ['459'],
   },
   {
     id: 'travel-459GE',
     text: {
-      en: 'In the past 14 days, have you traveled outside of Guam?',
-      es: 'En los últimos 14 días, ¿ha viajado fuera de Guam?',
+      en: 'In the past 14 days, have you traveled off island?',
+      es: 'En los últimos 14 días, ¿ha viajado fuera de la isla?',
     },
     customId: ['459GE'],
   },
   {
     id: 'travel-459GF',
     text: {
-      en: 'In the past 14 days, have you traveled outside of American Samoa?',
-      es: 'En los últimos 14 días, ¿ha viajado fuera de Samoa Americana?',
+      en: 'In the past 14 days, have you traveled off island?',
+      es: 'En los últimos 14 días, ¿ha viajado fuera de la isla?',
     },
     customId: ['459GF'],
   },
   {
     id: 'travel-459GH',
     text: {
-      en:
-        'In the past 14 days, have you traveled outside of the Northern Mariana Islands?',
-      es:
-        'En los últimos 14 días, ¿ha viajado fuera de las Islas Marianas de Norte?',
+      en: 'In the past 14 days, have you traveled off island?',
+      es: 'En los últimos 14 días, ¿ha viajado fuera de la isla?',
     },
     customId: ['459GH'],
   },

@@ -1,5 +1,5 @@
 import React from 'react';
-import ProgressBar from '@department-of-veterans-affairs/formation-react/ProgressBar';
+import ProgressBar from '@department-of-veterans-affairs/component-library/ProgressBar';
 
 export default function UploadStatus({ progress, files, onCancel }) {
   return (

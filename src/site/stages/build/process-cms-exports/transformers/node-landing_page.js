@@ -7,6 +7,7 @@ const {
 } = require('./helpers');
 
 const transform = entity => ({
+  targetId: getDrupalValue(entity.nid),
   entityType: 'node',
   entityBundle: 'landing_page',
   title: getDrupalValue(entity.title),
@@ -32,11 +33,13 @@ const transform = entity => ({
   fieldRelatedLinks: entity.fieldRelatedLinks[0] || null,
   fieldSpokes: entity.fieldSpokes,
   fieldSupportServices: entity.fieldSupportServices,
+  fieldTeaserText: getDrupalValue(entity.fieldTeaserText),
   fieldTitleIcon: getDrupalValue(entity.fieldTitleIcon),
 });
 
 module.exports = {
   filter: [
+    'nid',
     'title',
     'changed',
     'path',
@@ -52,6 +55,7 @@ module.exports = {
     'field_related_links',
     'field_spokes',
     'field_support_services',
+    'field_teaser_text',
     'field_title_icon',
     'metatag',
     'status',

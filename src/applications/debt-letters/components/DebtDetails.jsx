@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
-import { deductionCodes } from '../const/deduction-codes';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import {
+  deductionCodes,
+  renderWhyMightIHaveThisDebt,
+} from '../const/deduction-codes';
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
 import { OnThisPageLinks } from './OnThisPageLinks';
@@ -13,8 +17,12 @@ import last from 'lodash/last';
 import first from 'lodash/first';
 import { Link } from 'react-router';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
-import { renderAdditionalInfo } from '../const/diary-codes';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import {
+  renderAdditionalInfo,
+  renderLetterHistory,
+} from '../const/diary-codes';
+
 import { setPageFocus } from '../utils/page';
 
 class DebtDetails extends Component {
@@ -31,6 +39,14 @@ class DebtDetails extends Component {
       minimumFractionDigits: 2,
     });
 
+    const letterCodes = ['100', '101', '102', '109', '117', '123', '130'];
+
+    const filteredHistory = selectedDebt.debtHistory
+      .filter(history => letterCodes.includes(history.letterCode))
+      .reverse();
+
+    const hasFilteredHistory = filteredHistory.length > 0;
+
     if (Object.keys(selectedDebt).length === 0) {
       return window.location.replace('/manage-va-debt/your-debt');
     }
@@ -40,6 +56,42 @@ class DebtDetails extends Component {
       mostRecentHistory.date,
       selectedDebt.benefitType,
     );
+
+    const whyMightIHaveThisDebtContent = renderWhyMightIHaveThisDebt(
+      selectedDebt.deductionCode,
+    );
+
+    const renderHistoryTable = history => {
+      if (hasFilteredHistory) {
+        return (
+          <table className="vads-u-margin-y--4">
+            <thead>
+              <tr>
+                <th className="vads-u-font-weight--bold" scope="col">
+                  Date
+                </th>
+                <th className="vads-u-font-weight--bold" scope="col">
+                  Letter
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {history.map((debtEntry, index) => (
+                <tr key={`${debtEntry.date}-${index}`}>
+                  <td>{moment(debtEntry.date).format('MMMM D, YYYY')}</td>
+                  <td>
+                    <div className="vads-u-margin-top--0">
+                      {renderLetterHistory(debtEntry.letterCode)}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        );
+      }
+      return null;
+    };
 
     return (
       <div className="vads-u-display--flex vads-u-flex-direction--column">
@@ -94,23 +146,19 @@ class DebtDetails extends Component {
               </dl>
             </div>
 
-            {additionalInfo &&
-              (additionalInfo.nextStep ? (
-                <div className="debt-details-nextstep">
-                  {additionalInfo.nextStep}
-                </div>
-              ) : (
-                additionalInfo.headline && (
-                  <AlertBox
-                    className="vads-u-margin-y--4 debt-details-alert"
-                    headline={additionalInfo.headline}
-                    content={additionalInfo.content}
-                    status="info"
-                    level={2}
-                  />
-                )
-              ))}
+            <AlertBox
+              className="vads-u-margin-y--4 debt-details-alert"
+              status="info"
+              backgroundOnly
+            >
+              {additionalInfo.nextStep}
+            </AlertBox>
 
+            {whyMightIHaveThisDebtContent && (
+              <AdditionalInfo triggerText="Why might I have this debt?">
+                {whyMightIHaveThisDebtContent}
+              </AdditionalInfo>
+            )}
             <OnThisPageLinks isDetailsPage />
 
             <h2
@@ -129,31 +177,7 @@ class DebtDetails extends Component {
               Debt Management Center at <Telephone contact="8008270648" />
               {'.'}
             </p>
-            <table className="vads-u-margin-y--4">
-              <thead>
-                <tr>
-                  <th className="vads-u-font-weight--bold" scope="col">
-                    Date
-                  </th>
-                  <th className="vads-u-font-weight--bold" scope="col">
-                    Letter
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {selectedDebt.debtHistory.map((debtEntry, index) => (
-                  <tr key={`${debtEntry.date}-${index}`}>
-                    <td>{moment(debtEntry.date).format('MMMM D, YYYY')}</td>
-                    <td>
-                      {additionalInfo.status}
-                      <p className="vads-u-margin-top--0">
-                        {debtEntry.description}
-                      </p>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            {renderHistoryTable(filteredHistory)}
             <h3 id="downloadDebtLetters" className="vads-u-margin-top--0">
               Download debt letters
             </h3>

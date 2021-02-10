@@ -1,5 +1,5 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
 
 export default function TypeOfCareAlert() {
@@ -8,6 +8,7 @@ export default function TypeOfCareAlert() {
     <AlertBox
       status="info"
       headline={headline}
+      level="2"
       className="vads-u-margin-top--3 vads-u-margin-bottom--7"
       content={
         <p>

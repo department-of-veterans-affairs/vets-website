@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 const BenefitsCard = () => {
   return (
@@ -36,11 +36,10 @@ const BenefitsCard = () => {
           $1,100.00
         </div>
       </div>
-      <p>
-        <strong>Note:</strong> If these amounts are incorrect, please call
-        Veterans Benefits Assistance at{' '}
-        <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
-        8:00 a.m. to 9:00 p.m. ET.
+      <p className="vads-u-margin-right--4 vads-u-padding-right--4">
+        <strong>Note:</strong> If this information isn’t right, call our VA
+        benefits hotline at <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday
+        through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </>
   );
@@ -50,12 +49,8 @@ BenefitsCard.propTypes = {
   benefits: PropTypes.object,
 };
 
-BenefitsCard.defaultProps = {
-  benefits: {},
-};
-
-const mapStateToProps = state => ({
-  benefits: state.form?.data,
+const mapStateToProps = ({ form }) => ({
+  benefits: form?.data,
 });
 
 export default connect(

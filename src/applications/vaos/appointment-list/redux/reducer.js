@@ -5,11 +5,14 @@ import {
   FETCH_FUTURE_APPOINTMENTS,
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
   FETCH_FUTURE_APPOINTMENTS_FAILED,
+  FETCH_PENDING_APPOINTMENTS,
   FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
   FETCH_PENDING_APPOINTMENTS_FAILED,
   FETCH_PAST_APPOINTMENTS,
   FETCH_PAST_APPOINTMENTS_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS_FAILED,
+  FETCH_REQUEST_DETAILS,
+  FETCH_REQUEST_DETAILS_SUCCEEDED,
   FETCH_REQUEST_MESSAGES_SUCCEEDED,
   FETCH_EXPRESS_CARE_WINDOWS_FAILED,
   FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
@@ -20,6 +23,8 @@ import {
   CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
   CANCEL_APPOINTMENT_CLOSED,
   FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+  FETCH_CONFIRMED_DETAILS,
+  FETCH_CONFIRMED_DETAILS_SUCCEEDED,
 } from './actions';
 
 import {
@@ -56,6 +61,9 @@ const initialState = {
   pastSelectedIndex: 0,
   showCancelModal: false,
   cancelAppointmentStatus: FETCH_STATUS.notStarted,
+  currentAppointment: null,
+  appointmentDetails: {},
+  appointmentDetailsStatus: FETCH_STATUS.notStarted,
   appointmentToCancel: null,
   facilityData: {},
   requestMessages: {},
@@ -84,6 +92,11 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         confirmedStatus: FETCH_STATUS.failed,
         confirmed: null,
+      };
+    case FETCH_PENDING_APPOINTMENTS:
+      return {
+        ...state,
+        pendingStatus: FETCH_STATUS.loading,
       };
     case FETCH_PENDING_APPOINTMENTS_SUCCEEDED: {
       return {
@@ -137,6 +150,23 @@ export default function appointmentsReducer(state = initialState, action) {
       return {
         ...state,
         facilityData,
+      };
+    }
+    case (FETCH_REQUEST_DETAILS, FETCH_CONFIRMED_DETAILS): {
+      return {
+        ...state,
+        appointmentDetailsStatus: FETCH_STATUS.loading,
+      };
+    }
+    case (FETCH_REQUEST_DETAILS_SUCCEEDED, FETCH_CONFIRMED_DETAILS_SUCCEEDED): {
+      return {
+        ...state,
+        ...state.appointmentDetails,
+        currentAppointment: action.appointment,
+        appointmentDetails: {
+          [action.id]: action.appointment,
+        },
+        appointmentDetailsStatus: FETCH_STATUS.succeeded,
       };
     }
     case FETCH_REQUEST_MESSAGES_SUCCEEDED: {

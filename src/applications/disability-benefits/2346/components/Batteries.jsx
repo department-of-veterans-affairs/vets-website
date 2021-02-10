@@ -1,5 +1,5 @@
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import classnames from 'classnames';
 import moment from 'moment';
 import { setData } from 'platform/forms-system/src/js/actions';

@@ -3,18 +3,7 @@
     "id": "",
     "type": "users_scaffolds",
     "attributes": {
-      "services": [
-        "facilities",
-        "hca",
-        "edu-benefits",
-        "form-save-in-progress",
-        "form-prefill",
-        "user-profile",
-        "appeals-status",
-        "identity-proofed",
-        "evss_common_client",
-        "claim_increase"
-      ],
+      "services": [],
       "account": { "accountUuid": "c049d895-ecdf-40a4-ac0f-7947a06ea0c2" },
       "profile": {
         "email": "vets.gov.user+36@gmail.com",
@@ -33,42 +22,8 @@
       },
       "vaProfile": null,
       "veteranStatus": null,
-      "inProgressForms": [
-        {
-          "form": "22-10203",
-          "metadata": {
-            "version": 1,
-            "returnUrl": "/benefits/stem-eligibility",
-            "savedAt": 1597089200404,
-            "expiresAt": 1602273198,
-            "lastUpdated": 1597089198
-          },
-          "lastUpdated": 1597089198
-        }
-      ],
-      "prefillsAvailable": [
-        "21-686C",
-        "40-10007",
-        "22-1990",
-        "22-1990N",
-        "22-1990E",
-        "22-1995",
-        "22-1995S",
-        "22-5490",
-        "22-5495",
-        "22-0993",
-        "22-0994",
-        "FEEDBACK-TOOL",
-        "22-10203",
-        "21-526EZ",
-        "21-526EZ-BDD",
-        "1010ez",
-        "21P-530",
-        "21P-527EZ",
-        "686C-674",
-        "20-0996",
-        "MDOT"
-      ],
+      "inProgressForms": [],
+      "prefillsAvailable": [],
       "vet360ContactInformation": {}
     }
   },

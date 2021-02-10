@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { selectUser, selectPatientFacilities } from 'platform/user/selectors';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
@@ -12,10 +12,10 @@ import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 
 import {
-  vaosApplication,
+  selectFeatureApplication,
   selectFeatureToggleLoading,
   selectUseFlatFacilityPage,
-} from '../../utils/selectors';
+} from '../../redux/selectors';
 import NoRegistrationMessage from './NoRegistrationMessage';
 import AppUnavailable from './AppUnavailable';
 import DowntimeMessage from './DowntimeMessage';
@@ -77,7 +77,7 @@ function VAOSApp({
 function mapStateToProps(state) {
   return {
     user: selectUser(state),
-    showApplication: vaosApplication(state),
+    showApplication: selectFeatureApplication(state),
     loadingFeatureToggles: selectFeatureToggleLoading(state),
     sites: selectPatientFacilities(state),
     useFlatFacilityPage: selectUseFlatFacilityPage(state),

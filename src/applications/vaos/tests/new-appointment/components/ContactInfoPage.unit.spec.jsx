@@ -59,9 +59,7 @@ describe('VAOS <ContactInfoPage>', () => {
   it('should not submit empty form', async () => {
     const store = createTestStore({
       newAppointment: {
-        data: {
-          calendarData: {},
-        },
+        data: {},
         eligibility: [],
         pages: [],
         previousPages: [],

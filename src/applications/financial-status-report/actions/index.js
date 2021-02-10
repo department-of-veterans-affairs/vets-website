@@ -7,8 +7,6 @@ import {
   FSR_API_ERROR,
   FSR_RESET_ERRORS,
   FSR_API_CALL_INITIATED,
-  FSR_ADDITIONAL_INCOME,
-  FSR_EMPLOYMENT_HISTORY,
 } from '../constants/actionTypes';
 import { isVAProfileServiceConfigured } from '@@vap-svc/util/local-vapsvc';
 import moment from 'moment';
@@ -94,19 +92,10 @@ export const fetchDebts = () => async (dispatch, getState) => {
     // that have a current amount owed of 0
     const filteredResponse = response.debts
       .filter(res => approvedDeductionCodes.includes(res.deductionCode))
-      .filter(debt => debt.currentAr > 0);
+      .filter(debt => debt.currentAr > 0)
+      .map((debt, index) => ({ ...debt, id: index }));
     return dispatch(fetchDebtLettersSuccess(filteredResponse));
   } catch (error) {
     return null;
   }
 };
-
-export const setAdditionalIncomeData = additionalIncome => ({
-  type: FSR_ADDITIONAL_INCOME,
-  additionalIncome,
-});
-
-export const setEmploymentHistoryData = employmentHistory => ({
-  type: FSR_EMPLOYMENT_HISTORY,
-  employmentHistory,
-});

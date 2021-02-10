@@ -288,7 +288,7 @@
           "path": "decision-reviews"
         },
         {
-          "name": "Higher-Level Review",
+          "name": "Higher-Level Reviews",
           "path": "decision-reviews/higher-level-review/"
         },
         {
@@ -665,7 +665,7 @@
     "template": {
       "title": "Apply for education benefits",
       "layout": "page-react.html",
-      "description": "Vet Tec.",
+      "description": "VET TEC",
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
         {
@@ -716,6 +716,21 @@
     }
   },
   {
+    "appName": "CT Redesign Sandbox",
+    "entryName": "gi-sandbox",
+    "rootUrl": "/gi-bill-comparison-tool-sandbox",
+    "template": {
+      "vagovprod": false,
+      "title": "CT Redesign Sandbox",
+      "display_title": "CT Redesign Sandbox",
+      "description": "Sandbox for testing the CT redesign features so that the original Comparison Tool codebase is not filled with throw away code",
+      "layout": "page-react.html",
+      "collection": "education",
+      "spoke": "More resources",
+      "order": 1
+    }
+  },
+  {
     "appName": "Search",
     "entryName": "search",
     "rootUrl": "/search",
@@ -754,7 +769,7 @@
     "entryName": "your-debt",
     "rootUrl": "/manage-va-debt/your-debt",
     "template": {
-      "vagovprod": false,
+      "vagovprod": true,
       "title": "Your VA Debt",
       "layout": "page-react.html"
     }
@@ -789,7 +804,7 @@
     "rootUrl": "/careers-employment/education-and-career-counseling/apply-career-guidance-form-28-8832/",
     "template": {
       "title": "Personalized Career Planning and Guidance Chapter 36 Form 28-8832",
-      "vagovprod": false,
+      "vagovprod": true,
       "layout": "page-react.html",
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
@@ -814,7 +829,7 @@
     "rootUrl": "/va-payment-history/payments",
     "template": {
       "includeBreadcrumbs": true,
-      "vagovprod": false,
+      "vagovprod": true,
       "layout": "page-react.html",
       "title": "View Payments",
       "breadcrumbs_override": [
@@ -877,12 +892,22 @@
   },
   {
     "appName": "Financial Status Report",
-    "entryName": "financial-status-report",
-    "rootUrl": "/financial-status-report",
+    "entryName": "request-debt-help-5655",
+    "rootUrl": "/manage-va-debt/request-debt-help-5655",
     "template": {
-      "title:": "Financial Status Report",
-      "layout": "page-react.html",
-      "vagovprod": false
+      "title:": "Request help with VA debt with VA Form 5655",
+      "vagovprod": false,
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "manage-va-debt",
+          "name": "Manage your VA debt"
+        },
+        {
+          "path": "manage-va-debt/request-debt-help-5655",
+          "name": "Request help with VA debt with VA Form 5655"
+        }
+      ]
     }
   },
   {
@@ -893,7 +918,6 @@
       "title:": "Search results",
       "layout": "page-react.html",
       "includeBreadcrumbs": true,
-      "private": true,
       "breadcrumbs_override": [
         {
           "path": "resources/",
@@ -912,7 +936,18 @@
     "rootUrl": "/health-care/health-questionnaires/questionnaires",
     "template": {
       "vagovprod": true,
-      "layout": "page-react.html"
+      "layout": "page-react.html",
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "health-care/",
+          "name": "Health care"
+        },
+        {
+          "path": "health-care/health-questionnaires/questionnaires",
+          "name": "Your health questionnaires"
+        }
+      ]
     }
   },
   {
@@ -929,9 +964,10 @@
     "entryName": "coronavirus-vaccination",
     "rootUrl": "/health-care/covid-19-vaccine/stay-informed",
     "template": {
-      "title": "COVID-19 vaccines — Stay informed and help us prepare",
+      "title": "COVID-19 vaccines: Stay informed and help us prepare",
       "layout": "page-react.html",
       "includeBreadcrumbs": true,
+      "description": "We’re working to get COVID-19 vaccines to Veterans as quickly and safely as possible based on CDC guidelines and available supply. Stay informed and help us prepare.",
       "breadcrumbs_override": [
         {
           "path": "health-care/",
