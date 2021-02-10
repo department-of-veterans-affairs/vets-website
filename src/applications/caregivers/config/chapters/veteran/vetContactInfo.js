@@ -4,6 +4,7 @@ import { vetFields } from 'applications/caregivers/definitions/constants';
 import definitions, {
   addressWithoutCountryUI,
   confirmationEmailUI,
+  vetInputLabel,
 } from 'applications/caregivers/definitions/caregiverUI';
 
 const { veteran } = fullSchema.properties;
@@ -16,22 +17,18 @@ const {
   contactInfoTitle,
 } = definitions.sharedItems;
 
-const { vetUI } = definitions;
-
 const vetContactInfoPage = {
   uiSchema: {
     'ui:description': VetInfo({
       pageTitle: contactInfoTitle,
       headerInfo: true,
     }),
-    [vetFields.address]: addressWithoutCountryUI(vetUI.vetInputLabel),
-    [vetFields.primaryPhoneNumber]: primaryPhoneNumberUI(vetUI.vetInputLabel),
-    [vetFields.alternativePhoneNumber]: alternativePhoneNumberUI(
-      vetUI.vetInputLabel,
-    ),
-    [vetFields.email]: emailUI(vetUI.vetInputLabel),
+    [vetFields.address]: addressWithoutCountryUI(vetInputLabel),
+    [vetFields.primaryPhoneNumber]: primaryPhoneNumberUI(vetInputLabel),
+    [vetFields.alternativePhoneNumber]: alternativePhoneNumberUI(vetInputLabel),
+    [vetFields.email]: emailUI(vetInputLabel),
     [vetFields.verifyEmail]: confirmationEmailUI(
-      vetUI.vetInputLabel,
+      vetInputLabel,
       vetFields.email,
     ),
   },

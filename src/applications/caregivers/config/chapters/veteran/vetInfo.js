@@ -1,21 +1,21 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { VetInfo } from 'applications/caregivers/components/AdditionalInfo';
 import { vetFields } from 'applications/caregivers/definitions/constants';
-import definitions from 'applications/caregivers/definitions/caregiverUI';
+import definitions, {
+  vetInputLabel,
+} from 'applications/caregivers/definitions/caregiverUI';
 
 const { veteran } = fullSchema.properties;
 const veteranProps = veteran.properties;
 const { dateOfBirthUI, fullNameUI, genderUI, ssnUI } = definitions.sharedItems;
 
-const { vetUI } = definitions;
-
 const vetInfoPage = {
   uiSchema: {
     'ui:description': VetInfo({ headerInfo: true }),
-    [vetFields.fullName]: fullNameUI(vetUI.vetInputLabel),
-    [vetFields.ssn]: ssnUI(vetUI.vetInputLabel),
-    [vetFields.dateOfBirth]: dateOfBirthUI(vetUI.vetInputLabel),
-    [vetFields.gender]: genderUI(vetUI.vetInputLabel),
+    [vetFields.fullName]: fullNameUI(vetInputLabel),
+    [vetFields.ssn]: ssnUI(vetInputLabel),
+    [vetFields.dateOfBirth]: dateOfBirthUI(vetInputLabel),
+    [vetFields.gender]: genderUI(vetInputLabel),
   },
   schema: {
     type: 'object',

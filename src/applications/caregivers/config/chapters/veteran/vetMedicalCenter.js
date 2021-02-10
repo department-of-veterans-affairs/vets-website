@@ -2,20 +2,21 @@ import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { medicalCentersByState } from 'applications/caregivers/helpers';
 import { states } from 'platform/forms/address';
 import { vetFields } from 'applications/caregivers/definitions/constants';
-import definitions from 'applications/caregivers/definitions/caregiverUI';
+import {
+  previousTreatmentFacilityUI,
+  veteranPreferredFacility,
+  preferredFacilityView,
+} from 'applications/caregivers/definitions/caregiverUI';
 
 const plannedClinic = fullSchema.properties.veteran.properties.plannedClinic;
 const lastTreatmentFacility =
   fullSchema.properties.veteran.properties.lastTreatmentFacility;
-const { vetUI } = definitions;
 
 const vetMedicalCenterPage = {
   uiSchema: {
-    [vetFields.previousTreatmentFacility]: vetUI.previousTreatmentFacilityUI,
-    [vetFields.preferredFacilityView]: {
-      ...vetUI[vetFields.preferredFacilityView],
-    },
-    [vetFields.preferredFacilityInfoView]: vetUI.preferredFacilityInfo,
+    [vetFields.previousTreatmentFacility]: previousTreatmentFacilityUI,
+    [vetFields.preferredFacilityView]: { ...preferredFacilityView },
+    [vetFields.preferredFacilityInfoView]: veteranPreferredFacility,
   },
   schema: {
     type: 'object',
