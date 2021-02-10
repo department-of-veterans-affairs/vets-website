@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import classNames from 'classnames';
+import buildFormlett from '../ViewDependentsFormStates/BuildFormlett.jsx';
 
 function ViewDependentsListItem(props) {
   const [open, setOpen] = useState(false);
@@ -17,6 +18,7 @@ function ViewDependentsListItem(props) {
     ssn,
     dateOfBirth,
   } = props;
+
   return (
     <div className="vads-l-row vads-u-background-color--gray-lightest vads-u-margin-top--0 vads-u-margin-bottom--2">
       <dl
@@ -66,6 +68,7 @@ function ViewDependentsListItem(props) {
                 To remove this dependent from your VA benefits, please enter the
                 information below.
               </p>
+              {buildFormlett(relationship)}
             </div>
           </div>
         </div>
