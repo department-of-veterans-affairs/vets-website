@@ -40,8 +40,8 @@ export default function VAFacilityLocation({
         <FacilityAddress
           facility={facility}
           showDirectionsLink
-          isHomepageRefresh
-          clinicFriendlyName={clinicFriendlyName}
+          clinicName={clinicFriendlyName}
+          level={isHomepageRefresh ? 2 : 4}
         />
       </>
     );

@@ -113,6 +113,7 @@ function ReasonForAppointmentPage({
             status="warning"
             headline="If you have an urgent medical need, please:"
             className="vads-u-margin-y--3"
+            level="2"
             content={
               <ul>
                 <li>
