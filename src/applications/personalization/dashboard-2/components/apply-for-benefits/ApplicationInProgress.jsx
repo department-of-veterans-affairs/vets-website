@@ -18,7 +18,9 @@ const ApplicationInProgress = ({
     >
       <div className="vads-u-display--flex vads-u-width--full vads-u-flex-direction--column vads-u-justify-content--space-between vads-u-align-items--flex-start vads-u-background-color--gray-lightest vads-u-padding--2p5">
         <div>
-          <div style={{ textTransform: 'uppercase' }}>{presentableFormId}</div>
+          <div className="vads-u-text-transform--uppercase">
+            {presentableFormId}
+          </div>
           <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
             {formTitle}
           </h4>
