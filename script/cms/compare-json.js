@@ -219,6 +219,7 @@ const convertToRelativePath = object => {
       }
     });
   }
+};
 
 const stripIgnoredKeys = obj => {
   const result = omit(obj, keysToIgnore);
