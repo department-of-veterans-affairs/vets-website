@@ -33,20 +33,15 @@ export const sortTheResults = (sortByPropertyName, indexA, indexB) => {
   );
 
   // SORT BY DATE
-  // ASCENDING
-  if (sortByPropertyName === LAST_UPDATED_OLDEST_OPTION) {
-    return (
-      moment(latestTimeStampIndexA, 'MM-DD-YYYY').toDate() -
-      moment(latestTimeStampIndexB, 'MM-DD-YYYY').toDate()
-    );
-  }
-
-  // DESCENDING
-  if (sortByPropertyName === LAST_UPDATED_NEWEST_OPTION) {
-    return (
-      moment(latestTimeStampIndexB, 'MM-DD-YYYY').toDate() -
-      moment(latestTimeStampIndexA, 'MM-DD-YYYY').toDate()
-    );
+  if (
+    sortByPropertyName === LAST_UPDATED_OLDEST_OPTION ||
+    sortByPropertyName === LAST_UPDATED_NEWEST_OPTION
+  ) {
+    return sortByPropertyName === LAST_UPDATED_OLDEST_OPTION
+      ? moment(latestTimeStampIndexA, 'MM-DD-YYYY').toDate() - // DESCENDING
+          moment(latestTimeStampIndexB, 'MM-DD-YYYY').toDate()
+      : moment(latestTimeStampIndexB, 'MM-DD-YYYY').toDate() - // ASCENDING
+          moment(latestTimeStampIndexA, 'MM-DD-YYYY').toDate();
   }
 
   // SORT BY ALPHABET
