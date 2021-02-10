@@ -14,6 +14,7 @@ import AppointmentInstructions from './cards/confirmed/AppointmentInstructions';
 import AddToCalendar from '../../components/AddToCalendar';
 import { selectFeatureCancel } from '../../redux/selectors';
 import FacilityAddress from '../../components/FacilityAddress';
+import { formatFacilityAddress } from '../../services/location';
 
 function CommunityCareAppointmentDetailsPage({
   appointmentDetails,
@@ -80,19 +81,18 @@ function CommunityCareAppointmentDetailsPage({
         />
       </h1>
 
-      <div className="vads-u-font-size--sm vads-u-font-family--sans">
+      <h2 className="vads-u-font-size--sm vads-u-font-family--sans">
         <span>
           <strong>{header}</strong>
         </span>
-      </div>
+      </h2>
 
-      {!!practitionerName ||
-        (location.name && (
-          <>
-            {practitionerName || location.name}
-            <br />
-          </>
-        ))}
+      {(!!practitionerName || !!location.name) && (
+        <>
+          {practitionerName || location.name}
+          <br />
+        </>
+      )}
       <FacilityAddress
         facility={location}
         showDirectionsLink={!!location.address}
@@ -114,9 +114,7 @@ function CommunityCareAppointmentDetailsPage({
         <AddToCalendar
           summary={header}
           description={appointment.comment}
-          location={`${location?.address?.line[0]}, ${
-            location?.address?.city
-          }, ${location?.address?.state} ${location?.address?.postalCode}`}
+          location={formatFacilityAddress(location)}
           duration={appointment.minutesDuration}
           startDateTime={moment.parseZone(appointment.start)}
         />
