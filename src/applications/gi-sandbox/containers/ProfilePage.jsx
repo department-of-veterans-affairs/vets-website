@@ -10,6 +10,7 @@ import ServiceError from '../components/ServiceError';
 import { useQueryParams } from '../utils/helpers';
 import VetTecInstitutionProfile from '../components/vet-tec/InstitutionProfile';
 import InstitutionProfile from '../components/profile/InstitutionProfile';
+import { PAGE_TITLE } from '../constants';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -35,7 +36,7 @@ export function ProfilePage({
   useEffect(
     () => {
       if (institutionName) {
-        dispatchSetPageTitle(`${institutionName} - GI Bill® Comparison Tool`);
+        dispatchSetPageTitle(`${institutionName} - ${PAGE_TITLE}`);
       }
     },
     [institutionName],
@@ -87,12 +88,10 @@ const mapStateToProps = state => {
   const {
     constants: { constants },
     profile,
-    eligibility,
   } = state;
   return {
     constants,
     profile,
-    eligibility,
   };
 };
 
