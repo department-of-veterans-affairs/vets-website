@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import FindYellowRibbonPage from '../../components/FindYellowRibbonPage';
 import SearchResultsPage from '../../components/SearchResultsPage';
 import manifest from '../../manifest.json';
+import { getYellowRibbonAppState } from '../../helpers/selectors';
 
 export const YellowRibbonApp = ({ hasFetchedOnce }) => (
   <div
@@ -32,7 +33,7 @@ YellowRibbonApp.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  hasFetchedOnce: state.yellowRibbonReducer.hasFetchedOnce,
+  hasFetchedOnce: getYellowRibbonAppState(state).hasFetchedOnce,
 });
 
 export default connect(

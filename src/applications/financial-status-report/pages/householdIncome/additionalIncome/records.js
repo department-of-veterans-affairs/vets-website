@@ -27,18 +27,14 @@ export const uiSchema = {
           'ui:title': 'Type of income',
           'ui:field': Typeahead,
           'ui:options': {
-            classNames: 'input-size-3',
+            classNames: 'input-size-4',
             getOptions: () => formatOptions(incomeTypes),
           },
-          'ui:required': formData =>
-            formData.additionalIncome.hasAdditionalIncome,
         },
         monthlyAmount: _.merge(currencyUI('Monthly income amount'), {
           'ui:options': {
             widgetClassNames: 'input-size-2',
           },
-          'ui:required': formData =>
-            formData.additionalIncome.hasAdditionalIncome,
         }),
       },
     },
