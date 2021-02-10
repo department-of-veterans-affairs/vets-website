@@ -9,7 +9,7 @@ function generatePaginatedQueries({
   return new Array(numberOfSlices)
     .fill(null)
     .map((_, index) => {
-      const operationName = `${operationNamePrefix}__slice${index}`;
+      const operationName = `${operationNamePrefix}__slice${index + 1}`;
       const offset = entitiesPerSlice * index;
       const isLastPage = index + 1 === numberOfSlices;
 
