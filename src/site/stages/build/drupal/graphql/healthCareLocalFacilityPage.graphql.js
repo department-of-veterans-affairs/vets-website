@@ -4,6 +4,8 @@ const socialMediaFields = require('./facilities-fragments/healthCareSocialMedia.
 const serviceLocation = require('./paragraph-fragments/serviceLocation.paragraph.graphql');
 const appointmentItems = require('./file-fragments/appointmentItems.graphql');
 
+const { generatePaginatedQueries } = require('../individual-queries-helpers');
+
 const healthCareLocalFacilityPageFragment = `
   fragment healthCareLocalFacilityPage on NodeHealthCareLocalFacility {
     ${entityElementsFromPages}
@@ -124,7 +126,7 @@ const healthCareLocalFacilityPageFragment = `
 function getNodeHealthCareLocalFacilityPagesSlice(
   operationName,
   offset,
-  limit = 100,
+  limit,
 ) {
   return `
     ${fragments.listOfLinkTeasers}
@@ -150,49 +152,16 @@ function getNodeHealthCareLocalFacilityPagesSlice(
   `;
 }
 
+function getNodeHealthCareLocalFacilityPageQueries(entityCounts) {
+  return generatePaginatedQueries({
+    operationNamePrefix: 'GetNodePersonProfile',
+    entitiesPerSlice: 50,
+    totalEntities: entityCounts.data.healthCareLocalFacility.count,
+    getSlice: getNodeHealthCareLocalFacilityPagesSlice,
+  });
+}
+
 module.exports = {
   fragment: healthCareLocalFacilityPageFragment,
-  NodeHealthCareLocalFacilityPageSlices: {
-    GetNodeHealthCareLocalFacilityPagesSlice1: getNodeHealthCareLocalFacilityPagesSlice(
-      'GetNodeHealthCareLocalFacilityPagesSlice1',
-      0,
-    ),
-    GetNodeHealthCareLocalFacilityPagesSlice2: getNodeHealthCareLocalFacilityPagesSlice(
-      'GetNodeHealthCareLocalFacilityPagesSlice2',
-      100,
-    ),
-    GetNodeHealthCareLocalFacilityPagesSlice3: getNodeHealthCareLocalFacilityPagesSlice(
-      'GetNodeHealthCareLocalFacilityPagesSlice3',
-      200,
-    ),
-    GetNodeHealthCareLocalFacilityPagesSlice4: getNodeHealthCareLocalFacilityPagesSlice(
-      'GetNodeHealthCareLocalFacilityPagesSlice4',
-      300,
-    ),
-    GetNodeHealthCareLocalFacilityPagesSlice5: getNodeHealthCareLocalFacilityPagesSlice(
-      'GetNodeHealthCareLocalFacilityPagesSlice5',
-      400,
-    ),
-    GetNodeHealthCareLocalFacilityPagesSlice6: getNodeHealthCareLocalFacilityPagesSlice(
-      'GetNodeHealthCareLocalFacilityPagesSlice6',
-      500,
-    ),
-    GetNodeHealthCareLocalFacilityPagesSlice7: getNodeHealthCareLocalFacilityPagesSlice(
-      'GetNodeHealthCareLocalFacilityPagesSlice7',
-      600,
-    ),
-    GetNodeHealthCareLocalFacilityPagesSlice8: getNodeHealthCareLocalFacilityPagesSlice(
-      'GetNodeHealthCareLocalFacilityPagesSlice8',
-      700,
-    ),
-    GetNodeHealthCareLocalFacilityPagesSlice9: getNodeHealthCareLocalFacilityPagesSlice(
-      'GetNodeHealthCareLocalFacilityPagesSlice9',
-      800,
-    ),
-    GetNodeHealthCareLocalFacilityPagesSlice10: getNodeHealthCareLocalFacilityPagesSlice(
-      'GetNodeHealthCareLocalFacilityPagesSlice10',
-      900,
-      9999,
-    ),
-  },
+  getNodeHealthCareLocalFacilityPageQueries,
 };

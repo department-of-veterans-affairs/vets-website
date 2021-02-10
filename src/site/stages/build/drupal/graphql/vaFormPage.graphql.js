@@ -2,6 +2,8 @@ const entityElementsFromPages = require('./entityElementsForPages.graphql');
 const { FIELD_ALERT } = require('./block-fragments/alert.block.graphql');
 const fragments = require('./fragments.graphql');
 
+const { generatePaginatedQueries } = require('../individual-queries-helpers');
+
 const vaFormFragment = `
 fragment vaFormPage on NodeVaForm {
   ${entityElementsFromPages}
@@ -78,7 +80,7 @@ fragment vaFormPage on NodeVaForm {
 }
 `;
 
-function getNodeVaFormSlice(operationName, offset, limit = 100) {
+function getNodeVaFormSlice(operationName, offset, limit) {
   return `
     ${fragments.alert}
     ${fragments.linkTeaser}
@@ -103,13 +105,16 @@ function getNodeVaFormSlice(operationName, offset, limit = 100) {
 `;
 }
 
+function getNodeVaFormQueries(entityCounts) {
+  return generatePaginatedQueries({
+    operationNamePrefix: 'GetNodeVaForm',
+    entitiesPerSlice: 25,
+    totalEntities: entityCounts.data.vaForm.count,
+    getSlice: getNodeVaFormSlice,
+  });
+}
+
 module.exports = {
   fragment: vaFormFragment,
-  VaFormQuerySlices: {
-    GetNodeVaFormsSlice1: getNodeVaFormSlice('GetNodeVaFormsSlice2', 0),
-    GetNodeVaFormsSlice2: getNodeVaFormSlice('GetNodeVaFormsSlice3', 100),
-    GetNodeVaFormsSlice3: getNodeVaFormSlice('GetNodeVaFormsSlice3', 200),
-    GetNodeVaFormsSlice4: getNodeVaFormSlice('GetNodeVaFormsSlice3', 300),
-    GetNodeVaFormsSlice5: getNodeVaFormSlice('GetNodeVaFormsSlice3', 400, 9999),
-  },
+  getNodeVaFormQueries,
 };

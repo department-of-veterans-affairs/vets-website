@@ -25,6 +25,8 @@ const DOWNLOADABLE_FILE_PARAGRAPH = '... downloadableFile';
 const MEDIA_PARAGRAPH = '... embeddedImage';
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
+const { generatePaginatedQueries } = require('../individual-queries-helpers');
+
 const healthCareRegionDetailPage = `
   fragment healthCareRegionDetailPage on NodeHealthCareRegionDetailPage {
     title
@@ -73,11 +75,7 @@ const healthCareRegionDetailPage = `
   }
 `;
 
-function getNodeHealthCareRegionDetailPageSlice(
-  operationName,
-  offset,
-  limit = 100,
-) {
+function getNodeHealthCareRegionDetailPageSlice(operationName, offset, limit) {
   return `
     ${fragments.wysiwyg}
     ${fragments.staffProfile}
@@ -116,53 +114,16 @@ function getNodeHealthCareRegionDetailPageSlice(
   `;
 }
 
+function getNodeHealthCareRegionDetailPageQueries(entityCounts) {
+  return generatePaginatedQueries({
+    operationNamePrefix: 'GetNodeHealthCareRegionDetailPage',
+    entitiesPerSlice: 50,
+    totalEntities: entityCounts.data.healthCareRegionDetailPage.count,
+    getSlice: getNodeHealthCareRegionDetailPageSlice,
+  });
+}
+
 module.exports = {
   fragment: healthCareRegionDetailPage,
-  HealthCareRegionDetailPageSlices: {
-    GetNodeHealthCareRegionDetailPageSlice1: getNodeHealthCareRegionDetailPageSlice(
-      'GetNodeHealthCareRegionDetailPageSlice1',
-      0,
-    ),
-    GetNodeHealthCareRegionDetailPageSlice2: getNodeHealthCareRegionDetailPageSlice(
-      'GetNodeHealthCareRegionDetailPageSlice2',
-      100,
-    ),
-    GetNodeHealthCareRegionDetailPageSlice3: getNodeHealthCareRegionDetailPageSlice(
-      'GetNodeHealthCareRegionDetailPageSlice3',
-      200,
-    ),
-    GetNodeHealthCareRegionDetailPageSlice4: getNodeHealthCareRegionDetailPageSlice(
-      'GetNodeHealthCareRegionDetailPageSlice4',
-      300,
-    ),
-    GetNodeHealthCareRegionDetailPageSlice5: getNodeHealthCareRegionDetailPageSlice(
-      'GetNodeHealthCareRegionDetailPageSlice5',
-      400,
-    ),
-    GetNodeHealthCareRegionDetailPageSlice6: getNodeHealthCareRegionDetailPageSlice(
-      'GetNodeHealthCareRegionDetailPageSlice6',
-      500,
-    ),
-    GetNodeHealthCareRegionDetailPageSlice7: getNodeHealthCareRegionDetailPageSlice(
-      'GetNodeHealthCareRegionDetailPageSlice7',
-      600,
-    ),
-    GetNodeHealthCareRegionDetailPageSlice8: getNodeHealthCareRegionDetailPageSlice(
-      'GetNodeHealthCareRegionDetailPageSlice8',
-      700,
-    ),
-    GetNodeHealthCareRegionDetailPageSlice9: getNodeHealthCareRegionDetailPageSlice(
-      'GetNodeHealthCareRegionDetailPageSlice9',
-      800,
-    ),
-    GetNodeHealthCareRegionDetailPageSlice10: getNodeHealthCareRegionDetailPageSlice(
-      'GetNodeHealthCareRegionDetailPageSlice10',
-      900,
-    ),
-    GetNodeHealthCareRegionDetailPageSlice11: getNodeHealthCareRegionDetailPageSlice(
-      'GetNodeHealthCareRegionDetailPageSlice11',
-      1000,
-      9999,
-    ),
-  },
+  getNodeHealthCareRegionDetailPageQueries,
 };

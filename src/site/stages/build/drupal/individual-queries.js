@@ -1,21 +1,23 @@
-const { NodePageSlices } = require('./graphql/page.graphql');
-const { GetNodeLandingPages } = require('./graphql/landingPage.graphql');
-const { VaFormQuerySlices } = require('./graphql/vaFormPage.graphql');
+const { CountEntityTypes } = require('./graphql/CountEntityTypes.graphql');
 
-const { NodePersonProfilesSlices } = require('./graphql/bioPage.graphql');
+const { getNodePageQueries } = require('./graphql/page.graphql');
+const { GetNodeLandingPages } = require('./graphql/landingPage.graphql');
+const { getNodeVaFormQueries } = require('./graphql/vaFormPage.graphql');
+
+const { getNodePersonProfileQueries } = require('./graphql/bioPage.graphql');
 
 const {
-  NodeHealthCareRegionPageSlices,
+  getNodeHealthCareRegionPageQueries,
 } = require('./graphql/healthCareRegionPage.graphql');
 
 const { GetNodeOffices } = require('./graphql/officePage.graphql');
 
 const {
-  NodeHealthCareLocalFacilityPageSlices,
+  getNodeHealthCareLocalFacilityPageQueries,
 } = require('./graphql/healthCareLocalFacilityPage.graphql');
 
 const {
-  NodeHealthServicesListingPageSlices,
+  getNodeHealthServicesListingPageQueries,
 } = require('./graphql/healthServicesListingPage.graphql');
 
 const { GetNodeNewsStoryPages } = require('./graphql/newStoryPage.graphql');
@@ -32,7 +34,7 @@ const {
   GetNodeEventListingPage,
 } = require('./graphql/eventListingPage.graphql');
 
-const { NodeEventQuerySlices } = require('./graphql/eventPage.graphql');
+const { getNodeEventQueries } = require('./graphql/eventPage.graphql');
 
 const {
   GetNodeStoryListingPages,
@@ -55,7 +57,7 @@ const {
 } = require('./graphql/benefitListingPage.graphql');
 
 const {
-  HealthCareRegionDetailPageSlices,
+  getNodeHealthCareRegionDetailPageQueries,
 } = require('./graphql/healthCareRegionDetailPage.graphql');
 
 const { GetNodeQa } = require('./graphql/nodeQa.graphql');
@@ -81,36 +83,38 @@ const {
   GetCampaignLandingPages,
 } = require('./graphql/nodeCampaignLandingPage.graphql');
 
-const nodeQueries = {
-  ...NodePageSlices,
-  GetNodeLandingPages,
-  ...VaFormQuerySlices,
-  ...NodeHealthCareRegionPageSlices,
-  ...NodePersonProfilesSlices,
-  GetNodeOffices,
-  ...NodeHealthCareLocalFacilityPageSlices,
-  ...NodeHealthServicesListingPageSlices,
-  GetNodeNewsStoryPages,
-  GetNodePressReleasePages,
-  GetNodePressReleaseListingPages,
-  GetNodeEventListingPage,
-  ...NodeEventQuerySlices,
-  GetNodeStoryListingPages,
-  GetNodeLocationsListingPages,
-  GetNodeLeadershipListingPages,
-  GetNodeVamcOperatingStatusAndAlerts,
-  GetNodePublicationListingPages,
-  ...HealthCareRegionDetailPageSlices,
-  GetNodeQa,
-  GetNodeMultipleQaPages,
-  GetNodeStepByStep,
-  GetNodeMediaListImages,
-  GetNodeChecklist,
-  GetNodeMediaListVideos,
-  GetNodeSupportResourcesDetailPage,
-  GetNodeBasicLandingPage,
-  GetCampaignLandingPages,
-};
+function getNodeQueries(entityCounts) {
+  return {
+    ...getNodePageQueries(entityCounts),
+    GetNodeLandingPages,
+    ...getNodeVaFormQueries(entityCounts),
+    ...getNodeHealthCareRegionPageQueries(entityCounts),
+    ...getNodePersonProfileQueries(entityCounts),
+    GetNodeOffices,
+    ...getNodeHealthCareLocalFacilityPageQueries(entityCounts),
+    ...getNodeHealthServicesListingPageQueries(entityCounts),
+    GetNodeNewsStoryPages,
+    GetNodePressReleasePages,
+    GetNodePressReleaseListingPages,
+    GetNodeEventListingPage,
+    ...getNodeEventQueries(entityCounts),
+    GetNodeStoryListingPages,
+    GetNodeLocationsListingPages,
+    GetNodeLeadershipListingPages,
+    GetNodeVamcOperatingStatusAndAlerts,
+    GetNodePublicationListingPages,
+    ...getNodeHealthCareRegionDetailPageQueries(entityCounts),
+    GetNodeQa,
+    GetNodeMultipleQaPages,
+    GetNodeStepByStep,
+    GetNodeMediaListImages,
+    GetNodeChecklist,
+    GetNodeMediaListVideos,
+    GetNodeSupportResourcesDetailPage,
+    GetNodeBasicLandingPage,
+    GetCampaignLandingPages,
+  };
+}
 
 function nonNodeQueries() {
   // Get current feature flags
@@ -167,13 +171,14 @@ function nonNodeQueries() {
   return componentQueries;
 }
 
-function getIndividualizedQueries() {
+function getIndividualizedQueries(entityCounts) {
   return {
-    ...nodeQueries,
+    ...getNodeQueries(entityCounts),
     ...nonNodeQueries(),
   };
 }
 
 module.exports = {
   getIndividualizedQueries,
+  CountEntityTypes,
 };

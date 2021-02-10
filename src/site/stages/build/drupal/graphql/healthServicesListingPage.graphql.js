@@ -4,6 +4,8 @@
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
+const { generatePaginatedQueries } = require('../individual-queries-helpers');
+
 const healthServicesListingPage = `
  fragment healthServicesListingPage on NodeHealthServicesListing {
     ${entityElementsFromPages}
@@ -111,7 +113,7 @@ const healthServicesListingPage = `
  }
 `;
 
-function getNodeHealthServicesListingPages(operationName, offset, limit = 5) {
+function getNodeHealthServicesListingPages(operationName, offset, limit) {
   return `
     ${healthServicesListingPage}
     query ${operationName}($onlyPublishedContent: Boolean!) {
@@ -133,53 +135,16 @@ function getNodeHealthServicesListingPages(operationName, offset, limit = 5) {
 `;
 }
 
+function getNodeHealthServicesListingPageQueries(entityCounts) {
+  return generatePaginatedQueries({
+    operationNamePrefix: 'GetNodeHealthServicesListingPage',
+    entitiesPerSlice: 5,
+    totalEntities: entityCounts.data.healthServicesListing.count,
+    getSlice: getNodeHealthServicesListingPages,
+  });
+}
+
 module.exports = {
   fragment: healthServicesListingPage,
-  NodeHealthServicesListingPageSlices: {
-    GetNodeHealthServicesListingPageSlice1: getNodeHealthServicesListingPages(
-      'GetNodeHealthServicesListingPageSlice1',
-      0,
-    ),
-    GetNodeHealthServicesListingPageSlice2: getNodeHealthServicesListingPages(
-      'GetNodeHealthServicesListingPageSlice2',
-      5,
-    ),
-    GetNodeHealthServicesListingPageSlice3: getNodeHealthServicesListingPages(
-      'GetNodeHealthServicesListingPageSlice3',
-      10,
-    ),
-    GetNodeHealthServicesListingPageSlice4: getNodeHealthServicesListingPages(
-      'GetNodeHealthServicesListingPageSlice4',
-      15,
-    ),
-    GetNodeHealthServicesListingPageSlice5: getNodeHealthServicesListingPages(
-      'GetNodeHealthServicesListingPageSlice5',
-      20,
-    ),
-    GetNodeHealthServicesListingPageSlice6: getNodeHealthServicesListingPages(
-      'GetNodeHealthServicesListingPageSlice6',
-      25,
-    ),
-    GetNodeHealthServicesListingPageSlice7: getNodeHealthServicesListingPages(
-      'GetNodeHealthServicesListingPageSlice7',
-      30,
-    ),
-    GetNodeHealthServicesListingPageSlice8: getNodeHealthServicesListingPages(
-      'GetNodeHealthServicesListingPageSlice8',
-      35,
-    ),
-    GetNodeHealthServicesListingPageSlice9: getNodeHealthServicesListingPages(
-      'GetNodeHealthServicesListingPageSlice9',
-      40,
-    ),
-    GetNodeHealthServicesListingPageSlice10: getNodeHealthServicesListingPages(
-      'GetNodeHealthServicesListingPageSlice10',
-      45,
-    ),
-    GetNodeHealthServicesListingPageSlice11: getNodeHealthServicesListingPages(
-      'GetNodeHealthServicesListingPageSlice11',
-      50,
-      9999,
-    ),
-  },
+  getNodeHealthServicesListingPageQueries,
 };

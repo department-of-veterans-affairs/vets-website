@@ -5,6 +5,8 @@ const {
   FIELD_RELATED_LINKS,
 } = require('./paragraph-fragments/listOfLinkTeasers.paragraph.graphql');
 
+const { generatePaginatedQueries } = require('../individual-queries-helpers');
+
 const pageFragment = `
 
   fragment page on NodePage {
@@ -59,7 +61,7 @@ const pageFragment = `
   }
 `;
 
-function getPageNodeSlice(operationName, offset, limit = 100) {
+function getPageNodeSlice(operationName, offset, limit) {
   return `
     ${fragments.linkTeaser}
     ${fragments.alert}
@@ -98,12 +100,16 @@ function getPageNodeSlice(operationName, offset, limit = 100) {
 `;
 }
 
+function getNodePageQueries(entityCounts) {
+  return generatePaginatedQueries({
+    operationNamePrefix: 'GetNodePage',
+    entitiesPerSlice: 25,
+    totalEntities: entityCounts.data.benefitPages.count,
+    getSlice: getPageNodeSlice,
+  });
+}
+
 module.exports = {
   fragment: pageFragment,
-  NodePageSlices: {
-    GetNodePagesSlice1: getPageNodeSlice('GetNodePagesSlice1', 0),
-    GetNodePagesSlice2: getPageNodeSlice('GetNodePagesSlice2', 100),
-    GetNodePagesSlice3: getPageNodeSlice('GetNodePagesSlice3', 200),
-    GetNodePagesSlice4: getPageNodeSlice('GetNodePagesSlice4', 300, 9999),
-  },
+  getNodePageQueries,
 };

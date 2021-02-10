@@ -4,6 +4,8 @@
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
+const { generatePaginatedQueries } = require('../individual-queries-helpers');
+
 const eventPage = `
  fragment eventPage on NodeEvent {
     ${entityElementsFromPages}
@@ -101,15 +103,16 @@ function getNodeEventSlice(operationName, offset, limit = 100) {
   `;
 }
 
+function getNodeEventQueries(entityCounts) {
+  return generatePaginatedQueries({
+    operationNamePrefix: 'GetNodeEvents',
+    entitiesPerSlice: 50,
+    totalEntities: entityCounts.data.event.count,
+    getSlice: getNodeEventSlice,
+  });
+}
+
 module.exports = {
   fragment: eventPage,
-  NodeEventQuerySlices: {
-    GetNodeEventsSlice1: getNodeEventSlice('GetNodeEventsSlice1', 0),
-    GetNodeEventsSlice2: getNodeEventSlice('GetNodeEventsSlice2', 100),
-    GetNodeEventsSlice3: getNodeEventSlice('GetNodeEventsSlice3', 200),
-    GetNodeEventsSlice4: getNodeEventSlice('GetNodeEventsSlice4', 300),
-    GetNodeEventsSlice5: getNodeEventSlice('GetNodeEventsSlice5', 400),
-    GetNodeEventsSlice6: getNodeEventSlice('GetNodeEventsSlice6', 500),
-    GetNodeEventsSlice7: getNodeEventSlice('GetNodeEventsSlice7', 600, 9999),
-  },
+  getNodeEventQueries,
 };
