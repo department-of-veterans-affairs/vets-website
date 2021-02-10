@@ -26,8 +26,8 @@ import * as expenses from './expenses/household';
 import * as utilities from './expenses/utilities';
 import * as repayments from './expenses/repayments';
 import * as otherExpenses from './expenses/other';
-import * as resolutionOptions from './resolutionOptions/resolutionOptions';
-import * as resolutionComments from './resolutionOptions/resolutionComments';
+import * as resolutionOptions from './resolution/options';
+import * as resolutionComments from './resolution/comments';
 import * as bankruptcyHistory from './bankruptcy/history';
 
 export {
