@@ -1,6 +1,6 @@
-import * as veteranInfo from './veteranInformation/veteranInfo';
-import * as contactInfo from './veteranInformation/contactInformation';
-import * as availableDebts from './veteranInformation/availableDebts';
+import * as veteranInfo from './veteran/veteranInfo';
+import * as contactInfo from './veteran/contact';
+import * as availableDebts from './veteran/debts';
 import * as employment from './income/employment';
 import * as employmentRecords from './income/employment/records';
 import * as previousEmployment from './income/previousEmployment';
