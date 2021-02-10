@@ -1,8 +1,11 @@
-import ItemLoop from '../../components/ItemLoop';
-import TableDetailsView from '../../components/TableDetailsView';
+import ItemLoop from '../../../components/ItemLoop';
+import TableDetailsView from '../../../components/TableDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import Typeahead from '../../components/Typeahead';
-import { formatOptions, incomeTypes } from '../../constants/typeaheadOptions';
+import Typeahead from '../../../components/Typeahead';
+import {
+  formatOptions,
+  incomeTypes,
+} from '../../../constants/typeaheadOptions';
 import _ from 'lodash/fp';
 
 export const uiSchema = {
