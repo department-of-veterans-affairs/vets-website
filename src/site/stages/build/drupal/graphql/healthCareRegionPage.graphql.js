@@ -223,7 +223,7 @@ function getNodeHealthCareRegionPageQueries(entityCounts) {
   return generatePaginatedQueries({
     operationNamePrefix: 'GetNodeHealthCareRegionPage',
     entitiesPerSlice: 5,
-    totalEntities: entityCounts.data.healthCareRegionDetailPage.count,
+    totalEntities: entityCounts.data.healthCareRegionPage.count,
     getSlice: getNodeHealthCareRegionPageSlice,
   });
 }
