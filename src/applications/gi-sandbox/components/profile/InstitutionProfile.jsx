@@ -12,11 +12,6 @@ import { MINIMUM_RATING_COUNT } from '../../constants';
 export class InstitutionProfile extends React.Component {
   static propTypes = {
     profile: PropTypes.object,
-    isOJT: PropTypes.bool,
-    constants: PropTypes.object,
-    calculator: PropTypes.object,
-    eligibility: PropTypes.object,
-    gibctEybBottemSheet: PropTypes.bool,
   };
 
   shouldShowSchoolLocations = facilityMap =>

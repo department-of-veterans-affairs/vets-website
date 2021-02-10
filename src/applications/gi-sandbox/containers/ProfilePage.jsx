@@ -14,17 +14,14 @@ import InstitutionProfile from '../components/profile/InstitutionProfile';
 const { Element: ScrollElement, scroller } = Scroll;
 
 export function ProfilePage({
-  constants,
   profile,
-  calculator,
   dispatchFetchProfile,
   dispatchSetPageTitle,
   dispatchShowModal,
   dispatchHideModal,
-  eligibility,
   match,
 }) {
-  const { facilityCode, preSelectedProgram } = match.params;
+  const { facilityCode } = match.params;
   const queryParams = useQueryParams();
   const version = queryParams.get('version');
   const institutionName = _.get(profile, 'attributes.name');
@@ -63,31 +60,17 @@ export function ProfilePage({
 
   if (profile.inProgress || _.isEmpty(profile.attributes)) {
     content = <LoadingIndicator message="Loading your profile..." />;
+  } else if (profile.attributes.vetTecProvider) {
+    content = (
+      <VetTecInstitutionProfile
+        institution={profile.attributes}
+        showModal={dispatchShowModal}
+      />
+    );
   } else {
-    const isOJT = profile.attributes.type.toLowerCase() === 'ojt';
-
-    if (profile.attributes.vetTecProvider) {
-      content = (
-        <VetTecInstitutionProfile
-          institution={profile.attributes}
-          showModal={dispatchShowModal}
-          preSelectedProgram={preSelectedProgram}
-          selectedProgram={calculator.selectedProgram}
-        />
-      );
-    } else {
-      content = (
-        <InstitutionProfile
-          profile={profile}
-          isOJT={isOJT}
-          constants={constants}
-          showModal={dispatchShowModal}
-          calculator={calculator}
-          eligibility={eligibility}
-          version={version}
-        />
-      );
-    }
+    content = (
+      <InstitutionProfile profile={profile} showModal={dispatchShowModal} />
+    );
   }
 
   return (
@@ -104,13 +87,11 @@ const mapStateToProps = state => {
   const {
     constants: { constants },
     profile,
-    calculator,
     eligibility,
   } = state;
   return {
     constants,
     profile,
-    calculator,
     eligibility,
   };
 };
