@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
+import { deductionCodes } from '../../debt-letters/const/deduction-codes/';
 
 import { focusElement } from 'platform/utilities/ui';
 
@@ -23,22 +24,22 @@ export class ConfirmationPage extends React.Component {
   render() {
     const { submission, data } = this.props.form;
     const { response } = submission;
-    const name = data.veteranFullName;
+    const name = data.personalData.fullName;
 
     return (
       <div>
-        <h3 className="confirmation-page-title">Claim received</h3>
-        <p>
-          We usually process claims within <strong>a week</strong>.
+        <p className="vads-u-margin-top--0">
+          <strong>Please print this page for your records.</strong>
         </p>
+        <h3 className="confirmation-page-title">We've received your request</h3>
         <p>
-          We may contact you for more information or documents.
-          <br />
-          <i>Please print this page for your records.</i>
+          We'll send you a letter with our decision and any next steps within 45
+          days. If you experience changes that may affect our decision (like a
+          job loss or new job), you'll need to submit a new request.
         </p>
         <div className="inset">
-          <h4>
-            Financial Status Report Claim{' '}
+          <h4 className="vads-u-margin-top--0">
+            Request help for VA debt{' '}
             <span className="additional">(Form 5655)</span>
           </h4>
           {name ? (
@@ -48,15 +49,66 @@ export class ConfirmationPage extends React.Component {
           ) : null}
 
           {response ? (
-            <ul className="claim-list">
-              <li>
+            <>
+              <p>
+                <strong>Requested repayment or relief options</strong>
+              </p>
+              <ul>
+                {data.fsrDebts.map((debt, index) => (
+                  <li key={index}>
+                    {debt.resolution.resolutionType} for{' '}
+                    {deductionCodes[debt.deductionCode]}{' '}
+                  </li>
+                ))}
+              </ul>
+              <p className="vads-u-margin-bottom--0">
                 <strong>Date received</strong>
-                <br />
-                <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
-              </li>
-            </ul>
+              </p>
+              <p className="vads-u-margin-top--0p5">
+                {moment(response.timestamp).format('MMM D, YYYY')}
+              </p>
+              <p className="vads-u-margin-bottom--0p5">
+                <strong>Your request was sent to</strong>
+              </p>
+              <p className="vads-u-margin-y--0">Debt Management Center</p>
+              <p className="vads-u-margin-y--0">P.O. Box 11930</p>
+              <p className="vads-u-margin-y--0">St. Paul, MN 5111-0930</p>
+            </>
           ) : null}
         </div>
+        <h3>When will VA make a decision on my request?</h3>
+        <p>
+          You can expect our decision within 45 days. We'll send you a letter by
+          mail with our decision and any next steps to resolve your debt.
+        </p>
+        <ol>
+          <li className="process-step list-one">
+            <h4>Sign in to VA.gov</h4>
+            <p>
+              You can sign in with your DS Logon, My HealtheVet, or ID.me
+              account.
+            </p>
+          </li>
+          <li className="process-step list-two">
+            <h4>
+              If you haven't yet verified your identity, complete this process
+              when prompted
+            </h4>
+            <p>
+              This helps keep your information safe, and prevents fraud and
+              identity theft. If you've already verified your identity with us,
+              you don't need to do this again.
+            </p>
+          </li>
+          <li className="process-step list-three">
+            <h4>Go to your debt management portal</h4>
+            <p>
+              Once you're signed in, you can go to{' '}
+              <a href="/manage-va-debt">Manage my VA debt</a> to check the
+              status of your current debts.
+            </p>
+          </li>
+        </ol>
       </div>
     );
   }
