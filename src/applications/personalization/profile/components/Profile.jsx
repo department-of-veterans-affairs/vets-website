@@ -45,6 +45,10 @@ import {
   fetchCNPPaymentInformation as fetchCNPPaymentInformationAction,
   fetchEDUPaymentInformation as fetchEDUPaymentInformationAction,
 } from '@@profile/actions/paymentInformation';
+
+import { selectShowDashboard2 } from '~/applications/personalization/dashboard-2/selectors';
+import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
+
 import getRoutes from '../routes';
 import { PROFILE_PATHS } from '../constants';
 
@@ -53,13 +57,15 @@ import ProfileWrapper from './ProfileWrapper';
 class Profile extends Component {
   componentDidMount() {
     const {
+      fetchCNPPaymentInformation,
+      fetchEDUPaymentInformation,
       fetchFullName,
       fetchMHVAccount,
       fetchMilitaryInformation,
       fetchPersonalInformation,
-      fetchCNPPaymentInformation,
-      fetchEDUPaymentInformation,
+      fetchTotalDisabilityRating,
       shouldFetchCNPDirectDepositInformation,
+      shouldFetchTotalDisabilityRating,
       shouldFetchEDUDirectDepositInformation,
     } = this.props;
     fetchMHVAccount();
@@ -69,12 +75,21 @@ class Profile extends Component {
     if (shouldFetchCNPDirectDepositInformation) {
       fetchCNPPaymentInformation();
     }
+    if (shouldFetchTotalDisabilityRating) {
+      fetchTotalDisabilityRating();
+    }
     if (shouldFetchEDUDirectDepositInformation) {
       fetchEDUPaymentInformation();
     }
   }
 
   componentDidUpdate(prevProps) {
+    if (
+      this.props.shouldFetchTotalDisabilityRating &&
+      !prevProps.shouldFetchTotalDisabilityRating
+    ) {
+      this.props.fetchTotalDisabilityRating();
+    }
     if (
       this.props.shouldFetchCNPDirectDepositInformation &&
       !prevProps.shouldFetchCNPDirectDepositInformation
@@ -139,8 +154,9 @@ class Profile extends Component {
         <LastLocationProvider>
           <ProfileWrapper
             routes={routes}
-            isLOA3={this.props.isLOA3}
             isInMVI={this.props.isInMVI}
+            isLOA3={this.props.isLOA3}
+            showUpdatedNameTag={this.props.shouldFetchTotalDisabilityRating}
           >
             <Switch>
               {/* Redirect users to Account Security to upgrade their account if they need to */}
@@ -247,6 +263,12 @@ const mapStateToProps = state => {
   const isCNPDirectDepositBlocked = cnpDirectDepositIsBlocked(state);
   const isEligibleToSetUpCNP = cnpDirectDepositAddressIsSetUp(state);
   const is2faEnabled = isMultifactorEnabled(state);
+
+  const LSDashboardVersion = localStorage.getItem('DASHBOARD_VERSION');
+  const LSDashboard1 = LSDashboardVersion === '1';
+  const LSDashboard2 = LSDashboardVersion === '2';
+  const FFDashboard2 = selectShowDashboard2(state);
+
   const shouldFetchCNPDirectDepositInformation =
     isEvssAvailable && is2faEnabled;
   const shouldFetchEDUDirectDepositInformation =
@@ -254,6 +276,9 @@ const mapStateToProps = state => {
   const currentlyLoggedIn = isLoggedIn(state);
   const isLOA1 = isLOA1Selector(state);
   const isLOA3 = isLOA3Selector(state);
+
+  const shouldFetchTotalDisabilityRating =
+    isLOA3 && (LSDashboard2 || (FFDashboard2 && !LSDashboard1));
 
   // this piece of state will be set if the call to load military info succeeds
   // or fails:
@@ -279,11 +304,17 @@ const mapStateToProps = state => {
 
   const hasLoadedEDUPaymentInformation = eduDirectDepositInformation(state);
 
+  const hasLoadedTotalDisabilityRating =
+    state.totalRating?.totalDisabilityRating || state.totalRating?.error;
+
   const hasLoadedAllData =
     hasLoadedFullName &&
     hasLoadedMHVInformation &&
     hasLoadedPersonalInformation &&
     hasLoadedMilitaryInformation &&
+    (shouldFetchTotalDisabilityRating
+      ? hasLoadedTotalDisabilityRating
+      : true) &&
     (shouldFetchCNPDirectDepositInformation
       ? hasLoadedCNPPaymentInformation
       : true) &&
@@ -312,6 +343,7 @@ const mapStateToProps = state => {
     isLOA3,
     shouldFetchCNPDirectDepositInformation,
     shouldFetchEDUDirectDepositInformation,
+    shouldFetchTotalDisabilityRating,
     shouldShowDirectDeposit: shouldShowDirectDeposit(),
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',
@@ -326,6 +358,7 @@ const mapDispatchToProps = {
   fetchPersonalInformation: fetchPersonalInformationAction,
   fetchCNPPaymentInformation: fetchCNPPaymentInformationAction,
   fetchEDUPaymentInformation: fetchEDUPaymentInformationAction,
+  fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,
   initializeDowntimeWarnings,
   dismissDowntimeWarning,
 };

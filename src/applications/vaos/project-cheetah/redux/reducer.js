@@ -14,6 +14,9 @@ import {
   FORM_PAGE_FACILITY_OPEN,
   FORM_PAGE_FACILITY_OPEN_FAILED,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+  FORM_PAGE_CONTACT_FACILITIES_OPEN,
+  FORM_PAGE_CONTACT_FACILITIES_OPEN_SUCCEEDED,
+  FORM_PAGE_CONTACT_FACILITIES_OPEN_FAILED,
   FORM_FETCH_CLINICS,
   FORM_FETCH_CLINICS_FAILED,
   FORM_FETCH_CLINICS_SUCCEEDED,
@@ -148,6 +151,7 @@ export default function projectCheetahReducer(state = initialState, action) {
         },
       };
     }
+    case FORM_PAGE_CONTACT_FACILITIES_OPEN:
     case FORM_PAGE_FACILITY_OPEN: {
       return {
         ...state,
@@ -233,6 +237,7 @@ export default function projectCheetahReducer(state = initialState, action) {
         },
       };
     }
+    case FORM_PAGE_CONTACT_FACILITIES_OPEN_FAILED:
     case FORM_PAGE_FACILITY_OPEN_FAILED: {
       return {
         ...state,
@@ -489,6 +494,46 @@ export default function projectCheetahReducer(state = initialState, action) {
             ...state.newBooking.data,
             date1: action.selectedDates,
           },
+        },
+      };
+    }
+    case FORM_PAGE_CONTACT_FACILITIES_OPEN_SUCCEEDED: {
+      let facilities = action.facilities;
+      const address = action.address;
+      const hasResidentialCoordinates =
+        !!action.address?.latitude && !!action.address?.longitude;
+      const sortMethod = hasResidentialCoordinates
+        ? FACILITY_SORT_METHODS.distanceFromResidential
+        : FACILITY_SORT_METHODS.alphabetical;
+
+      if (hasResidentialCoordinates && facilities.length) {
+        facilities = facilities
+          .map(facility => {
+            const distanceFromResidentialAddress = distanceBetween(
+              address.latitude,
+              address.longitude,
+              facility.position.latitude,
+              facility.position.longitude,
+            );
+
+            return {
+              ...facility,
+              legacyVAR: {
+                ...facility.legacyVAR,
+                distanceFromResidentialAddress,
+              },
+            };
+          })
+          .sort((a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod]);
+      }
+
+      return {
+        ...state,
+        newBooking: {
+          ...state.newBooking,
+          facilities,
+          facilitiesStatus: FETCH_STATUS.succeeded,
+          facilityPageSortMethod: sortMethod,
         },
       };
     }

@@ -9,12 +9,20 @@ import {
 import _ from 'lodash/fp';
 
 export const uiSchema = {
-  'ui:title': 'Your other income',
-  additionalIncome: {
-    additionalIncomeRecords: {
-      'ui:field': ItemLoop,
+  'ui:title': 'Your spouse information',
+  spouseAdditionalIncome: {
+    'ui:title': 'Does your spouse currently receive any additional income?',
+    'ui:widget': 'yesNo',
+    'ui:required': () => true,
+  },
+  hasAdditionalIncome: {
+    'ui:options': {
+      expandUnder: 'spouseAdditionalIncome',
+    },
+    spouseAdditionalIncome: {
       'ui:description':
-        'Please provide information about additional income you currently receive.',
+        'Please provide information about additional income your spouse currently receives.',
+      'ui:field': ItemLoop,
       'ui:options': {
         viewType: 'table',
         viewField: TableDetailsView,
@@ -30,15 +38,13 @@ export const uiSchema = {
             classNames: 'input-size-3',
             getOptions: () => formatOptions(incomeTypes),
           },
-          'ui:required': formData =>
-            formData.additionalIncome.hasAdditionalIncome,
+          'ui:required': formData => formData.spouseAdditionalIncome,
         },
-        monthlyAmount: _.merge(currencyUI('Monthly income amount'), {
+        incomeAmount: _.merge(currencyUI('Monthly income amount'), {
           'ui:options': {
             widgetClassNames: 'input-size-2',
           },
-          'ui:required': formData =>
-            formData.additionalIncome.hasAdditionalIncome,
+          'ui:required': formData => formData.spouseAdditionalIncome,
         }),
       },
     },
@@ -47,19 +53,22 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    additionalIncome: {
+    spouseAdditionalIncome: {
+      type: 'boolean',
+    },
+    hasAdditionalIncome: {
       type: 'object',
       properties: {
-        additionalIncomeRecords: {
+        spouseAdditionalIncome: {
           type: 'array',
           items: {
             type: 'object',
-            required: ['incomeType', 'monthlyAmount'],
+            required: ['incomeType', 'incomeAmount'],
             properties: {
               incomeType: {
                 type: 'string',
               },
-              monthlyAmount: {
+              incomeAmount: {
                 type: 'number',
               },
             },

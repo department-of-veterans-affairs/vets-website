@@ -4,13 +4,23 @@ const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const deepDiff = require('deep-diff');
-const { map, camelCase } = require('lodash');
+const { map, camelCase, get, isEqual, omit } = require('lodash');
 const commandLineArgs = require('command-line-args');
 const commandLineUsage = require('command-line-usage');
 const assembleEntityTreeFactory = require('../../src/site/stages/build/process-cms-exports');
 const {
   readEntity,
 } = require('../../src/site/stages/build/process-cms-exports/helpers');
+
+// Only compare present fields in GraphQL entity, & exclude fields in keysToIgnore
+const keysToIgnore = [
+  'entityMetatags',
+  'entityType',
+  'contentModelType',
+  'entityBundle',
+  'entityId',
+  'breadcrumb', // breadcrumbs are generated from the URL
+];
 
 const commandLineDefs = [
   {
@@ -154,6 +164,70 @@ const getParentNode = (
   return parent;
 };
 
+const stripIgnoredKeys = obj => {
+  const result = omit(obj, keysToIgnore);
+
+  Object.keys(result).forEach(key => {
+    if (Array.isArray(result[key])) {
+      result[key] = result[key].map(item => stripIgnoredKeys(item));
+    } else if (typeof result[key] === 'object') {
+      result[key] = stripIgnoredKeys(result[key]);
+    }
+  });
+
+  return result;
+};
+
+/**
+ * Compares two arrays using lodash isEqual on each item.
+ * @param cmsExportArray
+ * @param graphQLArray
+ * @param dataPath
+ */
+const compareArrays = (cmsExportArray, graphQLArray, dataPath) => {
+  const cmsArrayLength = cmsExportArray.length;
+  const graphQLLength = graphQLArray.length;
+  const arrayDiffs = [];
+
+  if (cmsArrayLength !== graphQLLength) {
+    arrayDiffs.push({
+      diffType: 'Array Length',
+      path: dataPath,
+      graphQL: graphQLLength,
+      cmsExport: cmsArrayLength,
+    });
+  }
+
+  graphQLArray.forEach((graphQlItem, index) => {
+    const cleanGraphQlItem = stripIgnoredKeys(graphQlItem);
+    const cleanCmsItem = stripIgnoredKeys(cmsExportArray[index]);
+
+    if (
+      !isEqual(cleanGraphQlItem, cleanCmsItem) &&
+      JSON.stringify(cleanGraphQlItem) !== JSON.stringify(cleanCmsItem)
+    ) {
+      let addDiff = true;
+
+      if (typeof cleanGraphQlItem === 'object') {
+        const diff = deepDiff(cleanGraphQlItem, cleanCmsItem).filter(
+          d => d.kind !== 'N',
+        );
+        if (!diff?.length > 0) addDiff = false;
+      }
+      if (addDiff) {
+        arrayDiffs.push({
+          diffType: 'Array Edit',
+          path: `${dataPath}/${index}`,
+          graphQL: cleanGraphQlItem,
+          cmsExport: cleanCmsItem,
+        });
+      }
+    }
+  });
+
+  return arrayDiffs.length > 0 ? arrayDiffs : null;
+};
+
 /**
  * Compares two entity JSON objects
  * https://www.npmjs.com/package/deep-diff#differences
@@ -162,12 +236,9 @@ const getParentNode = (
  * @return {object []} The array of differences found from deep-diff'
  */
 const compareJson = (baseGraphQlObject, baseCmsExportObject) => {
-  // Only compare present fields in GraphQL entity, & exclude fields in keysToIgnore
-  const keysToIgnore = ['entityMetatags', 'entityType'];
-
   // Save present keys in CMS export and GraphQL objects
-  const graphQlObject = {};
-  const cmsExportObject = {};
+  let graphQlObject = {};
+  let cmsExportObject = {};
 
   // Output missing keys to console
   Object.keys(baseGraphQlObject).forEach(key => {
@@ -182,25 +253,55 @@ const compareJson = (baseGraphQlObject, baseCmsExportObject) => {
     }
   });
 
+  const arrayDiffs = [];
+
+  graphQlObject = stripIgnoredKeys(graphQlObject);
+  cmsExportObject = stripIgnoredKeys(cmsExportObject);
+
   // Get array of differences. Exclude new properties because transformed
   // CMS objects may have additional properties
-  return deepDiff(graphQlObject, cmsExportObject, (diffPath, key) => {
+  let diffs = deepDiff(graphQlObject, cmsExportObject, (diffPath, key) => {
+    // Store arrays for comparison by alternate method.
+    const cmsObjectAtPath = get(cmsExportObject, diffPath);
+    const graphQlObjectAtPath = get(graphQlObject, diffPath);
+
+    const isArrayPath =
+      cmsObjectAtPath &&
+      graphQlObjectAtPath &&
+      Array.isArray(cmsObjectAtPath) &&
+      Array.isArray(graphQlObjectAtPath);
+
+    if (isArrayPath) {
+      const compareArrayResult = compareArrays(
+        cmsObjectAtPath,
+        graphQlObjectAtPath,
+        diffPath.join('.'),
+      );
+      if (compareArrayResult) arrayDiffs.push(...compareArrayResult);
+
+      return true;
+    }
+
     // Filter & ignore keys in keysToIgnore
     return keysToIgnore.includes(key);
-  })
-    ?.filter(d => d.kind !== 'N')
-    .map(diff => {
-      return {
-        diffType: getDiffType(diff),
-        path: diff.index
-          ? `${diff.path.join('/')}[${diff.index}]`
-          : diff.path.join('/'),
-        ...(diff.item && { item: getDiffItem(diff.item) }),
-        ...('lhs' in diff && { graphQL: diff.lhs }),
-        ...('rhs' in diff && { cmsExport: diff.rhs }),
-      };
-    });
+  });
+
+  diffs = diffs?.filter(d => d.kind !== 'N').map(diff => {
+    return {
+      diffType: getDiffType(diff),
+      path: diff.index
+        ? `${diff.path.join('/')}[${diff.index}]`
+        : diff.path.join('/'),
+      ...(diff.item && { item: getDiffItem(diff.item) }),
+      ...('lhs' in diff && { graphQL: diff.lhs }),
+      ...('rhs' in diff && { cmsExport: diff.rhs }),
+    };
+  });
+
+  return { deepDiffs: diffs, arrayDiffs };
 };
+
+const MAX_DIFFS = 100;
 
 /**
  * Handles running and outputting the diff based on the command line input
@@ -262,9 +363,11 @@ const runComparison = () => {
       if (diff) {
         fs.writeFileSync(
           path.join(__dirname, `../../content-object-diff.json`),
-          JSON.stringify(diff),
+          JSON.stringify(diff.deepDiffs),
         );
-        console.log(`${diff.length} differences: './content-object-diff.json'`);
+        console.log(
+          `${diff.deepDiffs.length} differences: './content-object-diff.json'`,
+        );
       } else {
         console.log(`No differences found!`);
       }
@@ -311,10 +414,9 @@ const runComparison = () => {
       )[0];
       if (baseObject) {
         const diff = compareJson(baseObject, entity);
-        if (diff && diff.length !== 0) {
-          totalDiffs += diff.length - 1;
-          // Add entity file name to diff output
-          diff.unshift({
+        if (diff.deepDiffs?.length > 0 || diff.arrayDiffs?.length > 0) {
+          // Entity file name object to add to diff file
+          const entityFileObject = {
             entityFile: `node.${
               rawEntities.find(
                 rawEntity =>
@@ -322,17 +424,32 @@ const runComparison = () => {
                   parseInt(entity.entityId, 10),
               ).uuid
             }.json`,
-          });
-          fs.writeFileSync(
-            path.join(
-              __dirname,
-              `../../content-object-diffs/${entity.entityBundle}-${
-                entity.entityId
-              }.json`,
-            ),
-            JSON.stringify(diff, null, 2),
+          };
+          // Default name for file
+          const defaultFileName = path.join(
+            __dirname,
+            `../../content-object-diffs/${entity.entityBundle}-${
+              entity.entityId
+            }`,
           );
-          ++nodesWithDiffs;
+
+          // Add entity file name to deepDiff/arrayDiff outputs
+          if (diff.deepDiffs?.length > 0) {
+            totalDiffs += diff.deepDiffs.length - 1;
+            diff.deepDiffs.unshift(entityFileObject);
+            fs.writeFileSync(
+              `${defaultFileName}.json`,
+              JSON.stringify(diff.deepDiffs, null, 2),
+            );
+            ++nodesWithDiffs;
+          }
+          if (diff.arrayDiffs?.length > 0) {
+            diff.arrayDiffs.unshift(entityFileObject);
+            fs.writeFileSync(
+              `${defaultFileName}-array.json`,
+              JSON.stringify(diff.arrayDiffs.slice(0, MAX_DIFFS), null, 2),
+            );
+          }
         }
         ++totalObjectsCompared;
       }

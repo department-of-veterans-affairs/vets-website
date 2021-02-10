@@ -1,33 +1,34 @@
-import * as availableDebts from './veteranInformation/availableDebts';
-import * as employment from './householdIncome/employment';
-import * as employmentRecords from './householdIncome/employment/records';
-import * as previousEmployment from './householdIncome/previousEmployment';
-import * as previousEmploymentRecords from './householdIncome/previousEmployment/records';
-import * as benefits from './householdIncome/benefits';
-import * as socialSecurity from './householdIncome/socialSecurity';
-import * as veteranInfo from './veteranInformation/veteranInfo';
-import * as additionalIncome from './householdIncome/additionalIncome';
-import * as additionalIncomeRecords from './householdIncome/additionalIncome/records';
-import * as spouseAdditionalIncome from './householdIncome/spouseAdditionalIncome';
-import * as spouseBenefits from './householdIncome/spouseBenefits';
-import * as spouseEmployment from './householdIncome/spouseEmployment';
-import * as spousePreviousEmployment from './householdIncome/spousePreviousEmployment';
-import * as dependents from './householdIncome/dependents';
-import * as monetary from './householdAssets/monetary';
-import * as realEstate from './householdAssets/realEstate';
-import * as recreationalVehicles from './householdAssets/recreationalVehicles';
-import * as vehicles from './householdAssets/vehicles';
-import * as otherAssets from './householdAssets/otherAssets';
-import * as spouseInformation from './householdIncome/spouseInformation';
-import * as spouseSocialSecurity from './householdIncome/spouseSocialSecurity';
-import * as expenses from './householdExpenses/expenses';
-import * as utilities from './householdExpenses/utilities';
-import * as repayments from './householdExpenses/repayments';
-import * as otherExpenses from './householdExpenses/otherExpenses';
-import * as resolutionOptions from './resolutionOptions/resolutionOptions';
-import * as resolutionComments from './resolutionOptions/resolutionComments';
-import * as bankruptcyHistory from './bankruptcyAttestation/bankruptcyHistory';
-import * as contactInfo from './veteranInformation/contactInformation';
+import * as veteranInfo from './veteran/veteranInfo';
+import * as contactInfo from './veteran/contact';
+import * as availableDebts from './veteran/debts';
+import * as employment from './income/employment';
+import * as employmentRecords from './income/employment/records';
+import * as previousEmployment from './income/previousEmployment';
+import * as previousEmploymentRecords from './income/previousEmployment/records';
+import * as benefits from './income/benefits';
+import * as socialSecurity from './income/socialSecurity';
+import * as socialSecurityRecords from './income/socialSecurity/records';
+import * as additionalIncome from './income/additionalIncome';
+import * as additionalIncomeRecords from './income/additionalIncome/records';
+import * as spouseAdditionalIncome from './income/spouse/additionalIncome';
+import * as spouseBenefits from './income/spouse/benefits';
+import * as spouseEmployment from './income/spouse/employment';
+import * as spousePreviousEmployment from './income/spouse/previousEmployment';
+import * as dependents from './income/dependents';
+import * as spouseInformation from './income/spouse/spouseInfo';
+import * as spouseSocialSecurity from './income/spouse/socialSecurity';
+import * as monetary from './assets/monetary';
+import * as realEstate from './assets/realEstate';
+import * as recreationalVehicles from './assets/recreationalVehicles';
+import * as vehicles from './assets/vehicles';
+import * as otherAssets from './assets/otherAssets';
+import * as expenses from './expenses/household';
+import * as utilities from './expenses/utilities';
+import * as repayments from './expenses/repayments';
+import * as otherExpenses from './expenses/other';
+import * as resolutionOptions from './resolution/options';
+import * as resolutionComments from './resolution/comments';
+import * as bankruptcyHistory from './bankruptcy/history';
 
 export {
   availableDebts,
@@ -37,6 +38,7 @@ export {
   previousEmploymentRecords,
   benefits,
   socialSecurity,
+  socialSecurityRecords,
   additionalIncome,
   additionalIncomeRecords,
   spouseAdditionalIncome,

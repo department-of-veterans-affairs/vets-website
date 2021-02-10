@@ -1,20 +1,21 @@
 export const uiSchema = {
-  'ui:title': 'Your other income',
-  additionalIncome: {
-    hasAdditionalIncome: {
-      'ui:title': 'Do you currently receive any additional income?',
+  'ui:title': 'Your employment history',
+  employment: {
+    isEmployed: {
+      'ui:title': 'Do you currently have a job?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
     },
   },
 };
+
 export const schema = {
   type: 'object',
   properties: {
-    additionalIncome: {
+    employment: {
       type: 'object',
       properties: {
-        hasAdditionalIncome: {
+        isEmployed: {
           type: 'boolean',
         },
       },

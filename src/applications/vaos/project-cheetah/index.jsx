@@ -12,6 +12,8 @@ import ContactInfoPage from './components/ContactInfoPage';
 import ReviewPage from './components/ReviewPage';
 import ConfirmationPage from './components/ConfirmationPage';
 import { selectFeatureProjectCheetah } from '../redux/selectors';
+import ReceivedDoseScreenerPage from './components/ReceivedDoseScreenerPage';
+import ContactFacilitiesPage from './components/ContactFacilitiesPage';
 
 export function NewBookingSection({ featureProjectCheetah }) {
   const match = useRouteMatch();
@@ -45,6 +47,14 @@ export function NewBookingSection({ featureProjectCheetah }) {
   return (
     <FormLayout>
       <Switch>
+        <Route
+          path={`${match.url}/received-dose`}
+          component={ReceivedDoseScreenerPage}
+        />
+        <Route
+          path={`${match.url}/contact-facilities`}
+          component={ContactFacilitiesPage}
+        />
         <Route path={`${match.url}/facility`} component={VAFacilityPage} />
         <Route path={`${match.url}/clinic`} component={ClinicChoicePage} />
         <Route

@@ -44,17 +44,14 @@ export const uiSchema = {
         'ui:options': {
           widgetClassNames: 'input-size-1',
         },
-        'ui:required': formData => formData.employment?.isEmployed,
-      }),
-      'view:employmentNote': {
         'ui:description': (
-          <p>
-            <strong>Note: </strong>
+          <p className="formfield-subtitle">
             You’ll find this in your paycheck. It’s the amount of your pay
             before taxes and deductions.
           </p>
         ),
-      },
+        'ui:required': formData => formData.employment?.isEmployed,
+      }),
       payrollDeductions: {
         'ui:field': ItemLoop,
         'ui:title': 'Payroll deductions',
@@ -108,10 +105,6 @@ export const schema = {
             },
             grossMonthlyIncome: {
               type: 'number',
-            },
-            'view:employmentNote': {
-              type: 'object',
-              properties: {},
             },
             payrollDeductions: {
               type: 'array',

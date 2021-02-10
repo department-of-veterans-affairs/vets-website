@@ -76,6 +76,12 @@ export const FORM_CLINIC_PAGE_OPENED_SUCCEEDED =
   'projectCheetah/FORM_CLINIC_PAGE_OPENED_SUCCEEDED';
 export const FORM_PREFILL_CONTACT_INFO =
   'projectCheetah/FORM_PREFILL_CONTACT_INFO';
+export const FORM_PAGE_CONTACT_FACILITIES_OPEN =
+  'projectCheetah/FORM_CONTACT_FACILITIES_OPEN';
+export const FORM_PAGE_CONTACT_FACILITIES_OPEN_SUCCEEDED =
+  'projectCheetah/FORM_CONTACT_FACILITIES_OPEN_SUCCEEDED';
+export const FORM_PAGE_CONTACT_FACILITIES_OPEN_FAILED =
+  'projectCheetah/FORM_CONTACT_FACILITIES_OPEN_FAILED';
 
 export const GA_FLOWS = {
   DIRECT: 'direct',
@@ -471,6 +477,41 @@ export function onCalendarChange(selectedDates, pageKey) {
   };
 }
 
+export function openContactFacilitiesPage() {
+  return async (dispatch, getState) => {
+    try {
+      const initialState = getState();
+      const newBooking = selectProjectCheetahNewBooking(initialState);
+      const siteIds = selectSystemIds(initialState);
+      let facilities = newBooking.facilities;
+
+      dispatch({
+        type: FORM_PAGE_CONTACT_FACILITIES_OPEN,
+      });
+
+      // Fetch facilities that support this type of care
+      if (!facilities) {
+        facilities = await getLocationsByTypeOfCareAndSiteIds({
+          siteIds,
+          directSchedulingEnabled: true,
+        });
+      }
+
+      recordItemsRetrieved('cheetah_available_facilities', facilities?.length);
+
+      dispatch({
+        type: FORM_PAGE_CONTACT_FACILITIES_OPEN_SUCCEEDED,
+        facilities: facilities || [],
+        address: selectVAPResidentialAddress(initialState),
+      });
+    } catch (e) {
+      captureError(e, false, 'cheetah facility page');
+      dispatch({
+        type: FORM_PAGE_CONTACT_FACILITIES_OPEN_FAILED,
+      });
+    }
+  };
+}
 export function routeToNextAppointmentPage(history, current) {
   return routeToPageInFlow(newBookingFlow, history, current, 'next');
 }
