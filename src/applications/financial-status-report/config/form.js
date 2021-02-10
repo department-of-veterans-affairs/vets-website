@@ -148,6 +148,14 @@ const formConfig = {
           uiSchema: pages.socialSecurity.uiSchema,
           schema: pages.socialSecurity.schema,
         },
+        socialSecurityRecords: {
+          path: 'social-security-records',
+          title: 'Social security',
+          uiSchema: pages.socialSecurityRecords.uiSchema,
+          schema: pages.socialSecurityRecords.schema,
+          depends: formData =>
+            formData.income.hasSocialSecurityPayments === true,
+        },
         additionalIncome: {
           path: 'additional-income',
           title: 'Additional income',
