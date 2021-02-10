@@ -163,6 +163,9 @@ export function CommunityCarePreferencesPage({
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
     openCommunityCarePreferencesPage(pageKey, uiSchema, initialSchema);
+    recordEvent({
+      event: `${GA_PREFIX}-community-care-legacy-provider-page`,
+    });
   }, []);
   const previousData = data;
 
