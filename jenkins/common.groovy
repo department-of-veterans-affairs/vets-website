@@ -261,7 +261,12 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 
 def prearchive(dockerContainer, envName) {
   dockerContainer.inside(DOCKER_ARGS) {
-    sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath"
+    if (envName == 'vagovdev-cms-export') {
+      sh "cd /application && NODE_ENV=production yarn build --buildtype vagovdev --setPublicPath --use-cms-export --destination vagovdev-cms-export"
+    } else {
+      sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath"
+    }
+    
     sh "cd /application && node --max-old-space-size=10240 script/prearchive.js --buildtype=${envName}"
   }
 }
