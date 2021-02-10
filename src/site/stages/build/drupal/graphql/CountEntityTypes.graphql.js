@@ -61,6 +61,16 @@ const CountEntityTypes = `
     count
   }
 
+  healthCareRegionPage: nodeQuery(
+    filter: {
+      conditions: [
+        {field: "status", value: ["1"]},
+        {field: "type", value: ["health_care_region_page"]}
+      ]}
+  	) {
+    count
+  }
+
   personProfile: nodeQuery(
     filter: {
       conditions: [
