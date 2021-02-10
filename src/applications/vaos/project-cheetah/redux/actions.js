@@ -1,4 +1,9 @@
-import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import {
+  selectVAPResidentialAddress,
+  selectVAPEmailAddress,
+  selectVAPHomePhoneString,
+  selectVAPMobilePhoneString,
+} from 'platform/user/selectors';
 import {
   selectFeatureVSPAppointmentNew,
   selectSystemIds,
@@ -69,6 +74,8 @@ export const FORM_SUBMIT_SUCCEEDED = 'projectCheetah/FORM_SUBMIT_SUCCEEDED';
 export const FORM_SUBMIT_FAILED = 'projectCheetah/FORM_SUBMIT_FAILED';
 export const FORM_CLINIC_PAGE_OPENED_SUCCEEDED =
   'projectCheetah/FORM_CLINIC_PAGE_OPENED_SUCCEEDED';
+export const FORM_PREFILL_CONTACT_INFO =
+  'projectCheetah/FORM_PREFILL_CONTACT_INFO';
 export const FORM_PAGE_CONTACT_FACILITIES_OPEN =
   'projectCheetah/FORM_CONTACT_FACILITIES_OPEN';
 export const FORM_PAGE_CONTACT_FACILITIES_OPEN_SUCCEEDED =
@@ -355,6 +362,21 @@ export function projectCheetahAppointmentDateChoice(history) {
   return dispatch => {
     dispatch(startAppointmentFlow());
     history.replace('/new-project-cheetah-booking');
+  };
+}
+
+export function prefillContactInfo() {
+  return (dispatch, getState) => {
+    const state = getState();
+    const email = selectVAPEmailAddress(state);
+    const homePhone = selectVAPHomePhoneString(state);
+    const mobilePhone = selectVAPMobilePhoneString(state);
+
+    dispatch({
+      type: FORM_PREFILL_CONTACT_INFO,
+      email,
+      phoneNumber: mobilePhone || homePhone,
+    });
   };
 }
 
