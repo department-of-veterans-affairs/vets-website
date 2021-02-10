@@ -164,6 +164,63 @@ const getParentNode = (
   return parent;
 };
 
+const drupalToVaPath = content => {
+  let replaced = content;
+  if (content) {
+    replaced = content.replace(/.*(?:png|jpg|jpeg|svg|gif)/gi, img =>
+      img
+        .replace('http://va-gov-cms.lndo.site/sites/default/files', '/img')
+        .replace('http://dev.cms.va.gov/sites/default/files', '/img')
+        .replace('http://staging.cms.va.gov/sites/default/files', '/img')
+        .replace('http://prod.cms.va.gov/sites/default/files', '/img')
+        .replace('https://prod.cms.va.gov/sites/default/files', '/img')
+        .replace('http://cms.va.gov/sites/default/files', '/img')
+        .replace('https://cms.va.gov/sites/default/files', '/img'),
+    );
+
+    replaced = replaced.replace(/.*\.(?:doc|docx|xls|pdf|txt)/gi, file =>
+      file
+        .replace('http://va-gov-cms.lndo.site/sites/default/files', '/files')
+        .replace('http://dev.cms.va.gov/sites/default/files', '/files')
+        .replace('http://staging.cms.va.gov/sites/default/files', '/files')
+        .replace('http://prod.cms.va.gov/sites/default/files', '/files')
+        .replace('https://prod.cms.va.gov/sites/default/files', '/files')
+        .replace('http://cms.va.gov/sites/default/files', '/files')
+        .replace('https://cms.va.gov/sites/default/files', '/files'),
+    );
+
+    replaced = replaced.replace(/\/(img|files)\/.+/g, url =>
+      url.replace(/\?.+/g, ''),
+    );
+  }
+
+  return replaced;
+};
+
+const searchItem = (object, item) => {
+  const newObj = object[item];
+  if (newObj) {
+    Object.keys(newObj).forEach(key => {
+      if (typeof newObj[key] === 'object') {
+        searchItem(newObj, key);
+      }
+      if (typeof newObj[key] === 'string' && key !== 'processed') {
+        newObj[key] = drupalToVaPath(newObj[key]);
+      }
+    });
+  }
+};
+
+const convertToRelativePath = object => {
+  if (object) {
+    Object.keys(object).forEach(item => {
+      if (typeof object[item] === 'object') {
+        searchItem(object, item);
+      }
+    });
+  }
+};
+
 const stripIgnoredKeys = obj => {
   const result = omit(obj, keysToIgnore);
 
@@ -252,6 +309,8 @@ const compareJson = (baseGraphQlObject, baseCmsExportObject) => {
       // Do nothing because key is in keysToIgnore
     }
   });
+
+  convertToRelativePath(graphQlObject);
 
   const arrayDiffs = [];
 
