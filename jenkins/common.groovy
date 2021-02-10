@@ -218,22 +218,24 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
         def useCMSExport = envName == 'vagovdev-cms-export' ? true : false
+        def setEnvName = envName == 'vagovdev-cms-export' ? 'vagovdev' : envName
+
         builds[envName] = {
           try {
-            build(ref, dockerContainer, assetSource, 'vagovdev', false, contentOnlyBuild, useCMSExport)
+            build(ref, dockerContainer, assetSource, setEvnName, false, contentOnlyBuild, useCMSExport)
             envUsedCache[envName] = false
           } catch (error) {
             // We're not using the cache for content only builds, because requesting
             // a content only build is an attempt to refresh content from the current set
             if (!contentOnlyBuild) {
               dockerContainer.inside(DOCKER_ARGS) {
-                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
+                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${setEnvName}"
               }
-              build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild, useCMSExport)
-              envUsedCache[envName] = true
+              build(ref, dockerContainer, assetSource, setEnvName, true, contentOnlyBuild, useCMSExport)
+              envUsedCache[setEnvName] = true
             } else {
-              build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild, useCMSExport)
-              envUsedCache[envName] = false
+              build(ref, dockerContainer, assetSource, setEnvName, false, contentOnlyBuild, useCMSExport)
+              envUsedCache[setEnvName] = false
             }
           }
         }
@@ -260,12 +262,13 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 }
 
 def prearchive(dockerContainer, envName) {
+  def drupalAddress = DRUPAL_ADDRESSES.get('vagovprod')
   dockerContainer.inside(DOCKER_ARGS) {
     // Special condition to point dev cms export to vagovdev
     if (envName == 'vagovdev-cms-export') {
-      sh "cd /application && NODE_ENV=production yarn build --buildtype vagovdev --setPublicPath --use-cms-export --destination vagovdev-cms-export"
+      sh "cd /application && NODE_ENV=production yarn build --buildtype vagovdev --setPublicPath --drupal-address ${drupalAddress} --use-cms-export --destination vagovdev-cms-export"
     } else {
-      sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath"
+      sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath --drupal-address ${drupalAddress} "
     }
     
     sh "cd /application && node --max-old-space-size=10240 script/prearchive.js --buildtype=${envName}"
