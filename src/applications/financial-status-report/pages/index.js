@@ -20,6 +20,7 @@ import * as spousePreviousEmploymentRecords from './income/spouse/previousEmploy
 import * as dependents from './income/dependents';
 import * as spouseInformation from './income/spouse/spouseInfo';
 import * as spouseSocialSecurity from './income/spouse/socialSecurity';
+import * as spouseSocialSecurityRecords from './income/spouse/socialSecurity/records';
 import * as monetary from './assets/monetary';
 import * as realEstate from './assets/realEstate';
 import * as recreationalVehicles from './assets/recreationalVehicles';
@@ -54,6 +55,7 @@ export {
   spousePreviousEmployment,
   spousePreviousEmploymentRecords,
   spouseSocialSecurity,
+  spouseSocialSecurityRecords,
   dependents,
   monetary,
   realEstate,
