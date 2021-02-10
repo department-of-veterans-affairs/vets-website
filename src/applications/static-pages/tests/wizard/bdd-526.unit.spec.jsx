@@ -7,7 +7,7 @@ import { Wizard } from 'applications/static-pages/wizard';
 import { WIZARD_STATUS } from 'applications/disability-benefits/all-claims/constants';
 import pages from 'applications/disability-benefits/wizard/pages';
 
-describe('the Education Benefits Wizard', () => {
+describe('Form 526 Wizard', () => {
   let defaultProps;
   const setWizardStatus = value => sessionStorage.setItem(WIZARD_STATUS, value);
   const getDateDiff = (diff, type = 'days') => moment().add(diff, type);
@@ -111,17 +111,31 @@ describe('the Education Benefits Wizard', () => {
       target: { value: 'bdd' },
     });
 
-    const [year] = getDateFormat(getDateDiff(200, 'years'));
+    // valid BDD date = between 90-180 days from today
+    const [year, month, day] = getDateFormat(getDateDiff(100, 'days'));
+    wrapper.find('Date').invoke('onValueChange')({
+      day: { value: day, dirty: true },
+      month: { value: month, dirty: true },
+      year: { value: year, dirty: true },
+    });
+    expect(wrapper.find('a[href$="introduction"]')).to.exist;
+    expect(wrapper.find('#learn_about_bdd')).to.exist;
+
+    // now make it invalid
+    const [yearFuture] = getDateFormat(getDateDiff(200, 'years'));
     wrapper.find('Date').invoke('onValueChange')({
       day: { value: '', dirty: false },
       month: { value: '', dirty: false },
-      year: { value: year, dirty: true },
+      year: { value: yearFuture, dirty: true },
     });
 
     expect(wrapper.find('.input-error-date')).to.exist;
     expect(wrapper.find('.usa-input-error-message').text()).to.contain(
       'year between',
     );
+    // make sure we're not rendering the start BDD button
+    expect(wrapper.find('a[href$="introduction"]')).to.be.empty;
+    expect(wrapper.find('#learn_about_bdd')).to.be.empty;
     wrapper.unmount();
   });
   it('should show invalid date error', () => {
