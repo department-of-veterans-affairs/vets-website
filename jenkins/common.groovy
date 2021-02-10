@@ -5,9 +5,9 @@ DRUPAL_MAPPING = [
 ]
 
 DRUPAL_ADDRESSES = [
-  'vagovdev'            : 'http://internal-dsva-vagov-dev-cms-812329399.us-gov-west-1.elb.amazonaws.com',
-  'vagovstaging'        : 'http://internal-dsva-vagov-staging-cms-1188006.us-gov-west-1.elb.amazonaws.com',
-  'vagovprod'           : 'http://internal-dsva-vagov-prod-cms-2000800896.us-gov-west-1.elb.amazonaws.com',
+  'vagovdev'    : 'http://internal-dsva-vagov-dev-cms-812329399.us-gov-west-1.elb.amazonaws.com',
+  'vagovstaging': 'http://internal-dsva-vagov-staging-cms-1188006.us-gov-west-1.elb.amazonaws.com',
+  'vagovprod'   : 'http://internal-dsva-vagov-prod-cms-2000800896.us-gov-west-1.elb.amazonaws.com',
 ]
 
 DRUPAL_CREDENTIALS = [
@@ -240,17 +240,6 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
           }
         }
       }
-
-      /******** Experimental CMS export build (dev) ********/
-      // builds['vagovdev-cms-export'] = {
-      //   try {
-      //     build(ref, dockerContainer, assetSource, 'vagovdev', false, contentOnlyBuild, true)
-      //   } catch (error) {
-      //     // Don't fail the build, just report the error
-      //     echo "Experimental CMS export build failed: ${error}"
-      //   }
-      // }
-      /******** End experimental CMS export build ********/
 
       parallel builds
       return envUsedCache
