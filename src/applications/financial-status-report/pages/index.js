@@ -13,7 +13,9 @@ import * as additionalIncomeRecords from './income/additionalIncome/records';
 import * as spouseAdditionalIncome from './income/spouse/additionalIncome';
 import * as spouseBenefits from './income/spouse/benefits';
 import * as spouseEmployment from './income/spouse/employment';
+import * as spouseEmploymentRecords from './income/spouse/employment/records';
 import * as spousePreviousEmployment from './income/spouse/previousEmployment';
+import * as spousePreviousEmploymentRecords from './income/spouse/previousEmployment/records';
 import * as dependents from './income/dependents';
 import * as spouseInformation from './income/spouse/spouseInfo';
 import * as spouseSocialSecurity from './income/spouse/socialSecurity';
@@ -46,7 +48,9 @@ export {
   spouseInformation,
   spouseBenefits,
   spouseEmployment,
+  spouseEmploymentRecords,
   spousePreviousEmployment,
+  spousePreviousEmploymentRecords,
   spouseSocialSecurity,
   dependents,
   monetary,
