@@ -14,7 +14,7 @@ export const uiSchema = {
     additionalIncomeRecords: {
       'ui:field': ItemLoop,
       'ui:description':
-        'Please provide information about additional income you currently receive.',
+        'Tell us how much you get each month for each type of income.',
       'ui:options': {
         viewType: 'table',
         viewField: TableDetailsView,

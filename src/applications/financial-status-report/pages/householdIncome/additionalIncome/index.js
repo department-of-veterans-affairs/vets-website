@@ -2,7 +2,8 @@ export const uiSchema = {
   'ui:title': 'Your other income',
   additionalIncome: {
     hasAdditionalIncome: {
-      'ui:title': 'Do you currently receive any additional income?',
+      'ui:title':
+        'Do you get income from any other sources (like a retirement pension or alimony support)?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
     },
