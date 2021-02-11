@@ -304,12 +304,17 @@ const mapStateToProps = state => {
 
   const hasLoadedEDUPaymentInformation = eduDirectDepositInformation(state);
 
+  const hasLoadedTotalDisabilityRating =
+    state.totalRating && !state.totalRating.loading;
+
   const hasLoadedAllData =
     hasLoadedFullName &&
     hasLoadedMHVInformation &&
     hasLoadedPersonalInformation &&
     hasLoadedMilitaryInformation &&
-    (shouldFetchTotalDisabilityRating ? !state.totalRating?.loading : true) &&
+    (shouldFetchTotalDisabilityRating
+      ? hasLoadedTotalDisabilityRating
+      : true) &&
     (shouldFetchCNPDirectDepositInformation
       ? hasLoadedCNPPaymentInformation
       : true) &&
