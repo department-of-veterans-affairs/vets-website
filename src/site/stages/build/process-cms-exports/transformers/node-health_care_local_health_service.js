@@ -16,73 +16,53 @@ const getFieldFacilityLocationObject = ({ title, entityUrl }) =>
         },
       };
 
-const transform = entity => {
-  let regionalHealthServiceValid;
-
-  if (
-    !entity.fieldRegionalHealthService[0]?.fieldBody ||
-    !entity.fieldRegionalHealthService[0]?.fieldServiceNameAndDescripti
-  ) {
-    // eslint-disable-next-line no-console
-    console.log(
-      'fieldRegionalHealthService is messed up:',
-      entity.fieldRegionalHealthService,
-    );
-    regionalHealthServiceValid = false;
-  } else {
-    regionalHealthServiceValid = true;
-  }
-
-  return {
-    entity: {
-      entityType: 'node',
-      entityBundle: 'health_care_local_health_service',
-      title: getDrupalValue(entity.title),
-      fieldBody: {
-        processed: getWysiwygString(getDrupalValue(entity.fieldBody)),
-      },
-      fieldRegionalHealthService: regionalHealthServiceValid
+const transform = entity => ({
+  entity: {
+    entityType: 'node',
+    entityBundle: 'health_care_local_health_service',
+    title: getDrupalValue(entity.title),
+    fieldBody: {
+      processed: getWysiwygString(getDrupalValue(entity.fieldBody)),
+    },
+    fieldRegionalHealthService:
+      entity.fieldRegionalHealthService.length > 0
         ? {
             entity: {
-              fieldBody:
-                entity.fieldRegionalHealthService[0].fieldBody?.processed,
-              fieldServiceNameAndDescripti: {
-                entity:
-                  entity.fieldRegionalHealthService[0]
-                    .fieldServiceNameAndDescripti?.entity,
-              },
+              entityUrl: entity.fieldRegionalHealthService[0].entityUrl,
+              fieldBody: entity.fieldRegionalHealthService[0].fieldBody,
+              fieldServiceNameAndDescripti:
+                entity.fieldRegionalHealthService[0]
+                  .fieldServiceNameAndDescripti,
             },
           }
         : {},
-      fieldServiceLocation: entity.fieldServiceLocation.map(locationData => ({
-        entity: locationData,
-      })),
-      fieldHserviceApptLeadin: getDrupalValue(entity.fieldHserviceApptLeadin),
-      fieldHserviceApptIntroSelect: getDrupalValue(
-        entity.fieldHserviceApptIntroSelect,
-      ),
-      fieldOnlineSchedulingAvailabl: getDrupalValue(
-        entity.fieldOnlineSchedulingAvailabl,
-      ),
-      fieldReferralRequired: getDrupalValue(entity.fieldReferralRequired),
-      fieldWalkInsAccepted: getDrupalValue(entity.fieldWalkInsAccepted),
-      fieldPhoneNumbersParagraph: entity.fieldPhoneNumbersParagraph.map(
-        phoneData => ({
-          entity: {
-            fieldPhoneExtension: phoneData.fieldPhoneExtension,
-            fieldPhoneLabel: phoneData.fieldPhoneLabel,
-            fieldPhoneNumber: phoneData.fieldPhoneNumber,
-            fieldPhoneNumberType: phoneData.fieldPhoneNumberType,
-          },
-        }),
-      ),
-      fieldFacilityLocation: entity.fieldFacilityLocation[0]
-        ? getFieldFacilityLocationObject(entity.fieldFacilityLocation[0])
-        : null,
-    },
-  };
-};
-
+    fieldServiceLocation: entity.fieldServiceLocation.map(locationData => ({
+      entity: locationData,
+    })),
+    fieldHserviceApptLeadin: getDrupalValue(entity.fieldHserviceApptLeadin),
+    fieldHserviceApptIntroSelect: getDrupalValue(
+      entity.fieldHserviceApptIntroSelect,
+    ),
+    fieldOnlineSchedulingAvailabl: getDrupalValue(
+      entity.fieldOnlineSchedulingAvailabl,
+    ),
+    fieldReferralRequired: getDrupalValue(entity.fieldReferralRequired),
+    fieldWalkInsAccepted: getDrupalValue(entity.fieldWalkInsAccepted),
+    fieldPhoneNumbersParagraph: entity.fieldPhoneNumbersParagraph.map(
+      phoneData => ({
+        entity: {
+          fieldPhoneExtension: phoneData.fieldPhoneExtension,
+          fieldPhoneLabel: phoneData.fieldPhoneLabel,
+          fieldPhoneNumber: phoneData.fieldPhoneNumber,
+          fieldPhoneNumberType: phoneData.fieldPhoneNumberType,
+        },
+      }),
+    ),
+    fieldFacilityLocation: entity.fieldFacilityLocation[0]
+      ? getFieldFacilityLocationObject(entity.fieldFacilityLocation[0])
+      : null,
+  },
+});
 module.exports = {
   filter: [
     'title',
