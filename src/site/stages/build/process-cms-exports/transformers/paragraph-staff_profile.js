@@ -2,10 +2,6 @@ const { getImageCrop } = require('./helpers');
 
 const setImageCrop = media => {
   const imageObj = Object.assign({}, media);
-  // Reset the values to the original state
-  imageObj.image.url = encodeURI(
-    imageObj.thumbnail.url.replace('public:/', '/img'),
-  );
   imageObj.image.derivative.url = encodeURI(
     imageObj.thumbnail.url.replace('public:/', '/img'),
   );
