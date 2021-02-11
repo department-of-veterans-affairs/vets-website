@@ -163,7 +163,7 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
             },
             body: {
               data: {
-                id: string('BC79619E54A14BFF0D1607952232618112202'),
+                id: '',
                 type: 'covid_vaccine_v0_registration_submissions',
                 attributes: like({
                   createdAt: '2020-12-14T13:23:52.929Z',
