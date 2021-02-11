@@ -18,7 +18,7 @@ function ViewDependentsSpouseForm() {
   return (
     <SchemaForm
       name="View Dependents Spouse Form"
-      title="Our form"
+      title=""
       schema={schema}
       uiSchema={uiSchema}
       onSubmit={show}

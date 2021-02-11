@@ -18,7 +18,7 @@ function ViewDependentsChildForm() {
   return (
     <SchemaForm
       name="View Dependents Child Form"
-      title="Our form"
+      title=""
       schema={schema}
       uiSchema={uiSchema}
       onSubmit={show}
