@@ -16,12 +16,12 @@ const IntroductionPage = props => {
 
   return (
     <div className="fsr-introduction schemaform-intro">
-      <FormTitle title={'Request help with VA debt with VA Form 5655'} />
+      <FormTitle title={'Request help with VA debt (VA Form 5655)'} />
       <p className="subtitle">
         Equal to VA Form 5655 (Financial Status Report)
       </p>
       <SaveInProgressIntro
-        startText="Submit a report to request help"
+        startText="Start your request now"
         unauthStartText="Sign in or create an account"
         messages={props.route.formConfig.savedFormMessages}
         pageList={props.route.pageList}
@@ -34,8 +34,7 @@ const IntroductionPage = props => {
         unverifiedPrefillAlert={<UnverifiedPrefillAlert />}
       />
       <h2 className="vads-u-font-size--h3">
-        Follow the steps below to request a waiver, compromise, or extended
-        monthly payments for a VA debt.
+        Follow these steps to request help with a VA debt payment
       </h2>
       <div className="process schemaform-process">
         <ol>
@@ -136,7 +135,7 @@ const IntroductionPage = props => {
         </ol>
         <SaveInProgressIntro
           buttonOnly
-          startText="Submit a report to request help"
+          startText="Start your request now"
           unauthStartText="Sign in or create an account"
           pageList={props.route.pageList}
           messages={props.route.formConfig.savedFormMessages}
