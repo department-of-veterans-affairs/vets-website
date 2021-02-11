@@ -1,5 +1,5 @@
 {
-  "isIdentityVerified" :false,
+  "isIdentityVerified": false,
   "firstName": "Jane",
   "lastName": "Doe",
   "birthDate": "1960-01-01",
