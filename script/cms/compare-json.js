@@ -532,27 +532,6 @@ const runComparison = () => {
       }
     });
 
-    if (outputHtml) {
-      const htmlPagePaths = Object.keys(pagesWithDiffs);
-      htmlPagePaths.sort();
-
-      const sortedPagesWithDiffs = htmlPagePaths.reduce(
-        (diffs, page) => ({
-          ...diffs,
-          [page]: pagesWithDiffs[page],
-        }),
-        {},
-      );
-
-      fs.writeFileSync(
-        path.join(
-          __dirname,
-          `../../content-object-diffs/pages-with-diffs.json`,
-        ),
-        JSON.stringify(sortedPagesWithDiffs, null, 2),
-      );
-    }
-
     console.log(
       nodesWithDiffs === 0
         ? `No differences found in ${totalObjectsCompared} nodes!`
@@ -563,6 +542,34 @@ const runComparison = () => {
       'Number of diffs by bundle:',
       JSON.stringify(diffsByBundle, null, 2),
     );
+
+    if (outputHtml) {
+      const htmlPagePaths = Object.keys(pagesWithDiffs);
+      htmlPagePaths.sort();
+
+      const outputHtmlPath = path.join(
+        __dirname,
+        '..',
+        '..',
+        'content-object-diffs',
+        'pages-with-diffs.json',
+      );
+
+      const sortedPagesWithDiffs = htmlPagePaths.reduce(
+        (diffs, page) => ({
+          ...diffs,
+          [page]: pagesWithDiffs[page],
+        }),
+        {},
+      );
+
+      fs.writeFileSync(
+        outputHtmlPath,
+        JSON.stringify(sortedPagesWithDiffs, null, 2),
+      );
+
+      console.log('HTML pages with diffs:', outputHtmlPath);
+    }
   }
 };
 
