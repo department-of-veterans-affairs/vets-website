@@ -3,8 +3,6 @@ import React from 'react';
 
 import ProfileSection from '../ProfileSection';
 import HeadingSummary from './HeadingSummary';
-import { scroller } from 'react-scroll';
-import { getScrollOptions } from 'platform/utilities/ui';
 import { convertRatingToStars, createId } from '../../utils/helpers';
 import { MINIMUM_RATING_COUNT } from '../../constants';
 import ProfileNavBar from '../ProfileNavBar';
@@ -18,10 +16,6 @@ export class InstitutionProfile extends React.Component {
     facilityMap &&
     (facilityMap.main.extensions.length > 0 ||
       facilityMap.main.branches.length > 0);
-
-  scrollToLocations = () => {
-    scroller.scrollTo('school-locations', getScrollOptions());
-  };
 
   render() {
     const { profile, showModal } = this.props;

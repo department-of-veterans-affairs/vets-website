@@ -1,7 +1,52 @@
-@import "../../gi/sass/gi";
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
+@import "partials/gi-vet-tec";
+@import "partials/gi-modal";
 @import "partials/gi-profile-page";
 
-ul {
-  list-style-type: none;
-}
+.gi-app {
 
+  ul {
+    list-style-type: none;
+  }
+
+  .disclaimer {
+    margin: 1em 0;
+    padding: 0;
+    border-top: 1px solid $color-gray-light;
+    z-index: 500;
+    color: $color-gray-dark;
+    background: $color-white;
+  }
+
+  select.hide-arrows {
+    background-image: none;
+  }
+
+  .disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    select:disabled {
+      background-color: $color-gray-lightest;
+    }
+  }
+
+  h1:focus,
+  h2:focus,
+  h3:focus {
+    outline: none;
+  }
+
+  nav {
+    margin-left: 0.5rem;
+  }
+
+  /*
+   * These styles override our overly broad accordion styles
+   */
+  .learn-more-button {
+    background-image: none !important;
+    font-weight: inherit !important;
+  }
+}
