@@ -4,12 +4,14 @@ const crypto = require('crypto');
 const fs = require('fs');
 const { JSDOM } = require('jsdom');
 const path = require('path');
+const { runCommandSync } = require('../utils');
 
 // Mapping of file paths (relative to a build path) to an array of hashes where
 // the indices correspond to the position of the build in the list of arguments
 // for the script. For example, the hashes for a file from two builds:
 // 'a/file/path': ['abcdef', '123456']
 const fileHashes = {};
+let jsonDiffPages = [];
 
 /**
  * Calculates MD5 hash for a file.
@@ -35,7 +37,10 @@ const collectFileHashes = (dirPath, buildIndex) => {
 
     if (fs.statSync(filePath).isDirectory()) {
       collectFileHashes(filePath, buildIndex);
-    } else if (fileName.endsWith('.html')) {
+    } else if (
+      fileName.endsWith('.html') &&
+      jsonDiffPages.includes(`/${filePath}`)
+    ) {
       if (!fileHashes[filePath]) fileHashes[filePath] = [];
       fileHashes[filePath][buildIndex] = calculateFileHash(filePath);
     }
@@ -65,6 +70,16 @@ const isDomEqual = async (filePath, buildPaths) => {
  * @param {string} buildPaths - Array of paths to build directories.
  */
 const compareBuilds = async (buildPaths = []) => {
+  const pagesWithDiffsFile = 'content-object-diffs/pages-with-diffs.json';
+
+  if (!fs.existsSync(pagesWithDiffsFile)) {
+    console.log('Running JSON diff tool.');
+    runCommandSync('yarn cms:diff:json --html');
+  }
+
+  const jsonDiffList = JSON.parse(fs.readFileSync(pagesWithDiffsFile));
+  jsonDiffPages = Object.keys(jsonDiffList);
+
   const outputDir = 'comparison-output';
   const allHashesFile = path.join(outputDir, 'all-hashes.json');
   const diffHashes = {};
