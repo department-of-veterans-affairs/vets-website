@@ -222,7 +222,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 
         builds[envName] = {
           try {
-            build(ref, dockerContainer, assetSource, setEvnName, false, contentOnlyBuild, useCMSExport)
+            build(ref, dockerContainer, assetSource, setEnvName, false, contentOnlyBuild, useCMSExport)
             envUsedCache[envName] = false
           } catch (error) {
             if (useCMSExport) {
@@ -273,22 +273,27 @@ def prearchiveAll(dockerContainer) {
   stage("Prearchive Optimizations") {
     if (shouldBail()) { return }
 
-    try {
-      def builds = [:]
+    def builds = [:]
 
-      for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
-        def envName = VAGOV_BUILDTYPES.get(i)
+    for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
+      def envName = VAGOV_BUILDTYPES.get(i)
 
-        builds[envName] = {
+      builds[envName] = {
+        try {
           prearchive(dockerContainer, envName)
+        } catch (error) {
+          if (envName == 'vagovdev-cms-export') {
+            // Output error message but don't fail the build
+            echo "CMS Export prearchive failed: ${error}"
+          } else {
+            slackNotify()
+            throw error
+          } 
         }
       }
-
-      parallel builds
-    } catch (error) {
-      slackNotify()
-      throw error
     }
+
+    parallel builds
   }
 }
 
@@ -310,23 +315,27 @@ def archiveAll(dockerContainer, String ref) {
   stage("Archive") {
     if (shouldBail()) { return }
 
-    try {
-      def archives = [:]
+    def archives = [:]
 
-      for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
-        def envName = VAGOV_BUILDTYPES.get(i)
+    for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
+      def envName = VAGOV_BUILDTYPES.get(i)
 
-        archives[envName] = {
+      archives[envName] = {
+        try {
           archive(dockerContainer, ref, envName)
+        } catch (error) {
+          if (envName == 'vagovdev-cms-export') {
+            // Output error message but don't fail the build
+            echo "CMS Export prearchive failed: ${error}"
+          } else {
+            slackNotify()
+            throw error
+          }
         }
       }
-
-      parallel archives
-
-    } catch (error) {
-      slackNotify()
-      throw error
     }
+
+    parallel archives
   }
 }
 
