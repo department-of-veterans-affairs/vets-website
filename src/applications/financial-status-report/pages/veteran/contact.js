@@ -44,7 +44,7 @@ export const uiSchema = {
         <p>
           If you want to change your address for other VA benefits and services,{' '}
           <a href="https://va.gov/profile">go to your VA.gov profile</a>. Or{' '}
-          <a href="https://va.gov/profile">
+          <a href="https://www.va.gov/resources/change-your-address-on-file-with-va/">
             find out how to change your address on file with VA
           </a>
           .
@@ -178,7 +178,7 @@ export const uiSchema = {
       },
     },
     zipCode: {
-      'ui:title': 'Postal code',
+      'ui:title': 'Zip code',
       'ui:validations': [validateZIP],
       'ui:errorMessages': {
         required: 'Please enter a postal code',
@@ -206,7 +206,7 @@ export const uiSchema = {
       },
     },
     confirmationEmail: {
-      ...emailUI('Re-enter email address'),
+      ...emailUI('Re-enter email field'),
       'ui:description': (
         <p className="formfield-subtitle">
           To receive a confirmation email when you submit your request, you must
