@@ -505,6 +505,10 @@ const nodeCampaignLandingPage = `
           fieldDescription
           fieldDuration
           fieldMediaVideoEmbedField
+          fieldPublicationDate {
+            date
+            value
+          }
         }
       }
     }

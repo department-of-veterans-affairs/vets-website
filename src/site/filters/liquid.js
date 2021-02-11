@@ -12,10 +12,6 @@ function getPath(obj) {
 module.exports = function registerFilters() {
   const { cmsFeatureFlags } = global;
 
-  // Set timeout option to something higher (20mins)
-  // eslint-disable-next-line no-new
-  new liquid.Context({ timeout: 1200000 });
-
   // Custom liquid filter(s)
   liquid.filters.humanizeDate = dt =>
     moment(dt, 'YYYY-MM-DD').format('MMMM D, YYYY');
@@ -609,5 +605,32 @@ module.exports = function registerFilters() {
 
     const formattedURL = _.replace(url, 'youtu.be', 'youtube.com/embed');
     return formattedURL;
+  };
+
+  liquid.filters.formatSeconds = rawSeconds => {
+    // Dates need milliseconds, so mulitply by 1000.
+    const date = new Date(rawSeconds * 1000);
+
+    // Derive digits.
+    const hours = date.getUTCHours() || '';
+    const minutes = date.getUTCMinutes() || '';
+    const seconds = date.getUTCSeconds() || '';
+
+    // Derive if we should say 'hours', 'minutes', or 'seconds' at the end.
+    let text = '';
+    if (seconds) {
+      text = ' seconds';
+    }
+    if (minutes) {
+      text = ' minutes';
+    }
+    if (hours) {
+      text = ' hours';
+    }
+
+    const digits = [hours, minutes, seconds].filter(digits => digits).join(':');
+
+    // Return a formatted timestamp string.
+    return `${digits}${text}`;
   };
 };

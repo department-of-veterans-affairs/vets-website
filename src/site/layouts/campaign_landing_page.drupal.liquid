@@ -119,18 +119,23 @@
             <iframe
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
-              class="vads-u-margin-top--4"
+              class="va-c-video vads-u-margin-top--4"
               frameBorder="0"
               height="315"
               src="{{ videoURL }}"
-              style="max-width: 560px;"
               title="{{ fieldMedia.entity.name | default: 'A related YouTube video' }}"
               width="100%"
             ></iframe>
 
             <!-- Video description -->
             {% if fieldMedia.entity.fieldDuration %}
-              <p class="duration vads-u-font-size--sm vads-u-margin--0">{{ fieldMedia.entity.fieldDuration }}</p>
+              <p class="vads-u-font-size--sm vads-u-margin--0">
+                {{ fieldMedia.entity.fieldDuration | formatSeconds }}
+                {% if fieldMedia.entity.fieldDuration != empty && fieldMedia.entity.fieldPublicationDate.date != empty %}
+                  &bull;
+                {% endif %}
+                {{ fieldMedia.entity.fieldPublicationDate.date | humanizeDate }}
+              </p>
             {% endif %}
 
             {% if fieldMedia.entity.fieldDescription %}
