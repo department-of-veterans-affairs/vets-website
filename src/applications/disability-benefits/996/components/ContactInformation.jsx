@@ -33,7 +33,7 @@ export const ContactInfoDescription = ({ profile }) => {
       <div className="blue-bar-block">
         <h4 className="vads-u-font-size--h4">Phone &amp; email</h4>
         <p>
-          <strong>Primary phone</strong>:{' '}
+          <strong>Home phone</strong>:{' '}
           <Telephone
             contact={phone}
             extension={homePhone?.extension}

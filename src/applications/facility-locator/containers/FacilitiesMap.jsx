@@ -258,7 +258,7 @@ const FacilitiesMap = props => {
 
     if (searchAreaControl.style.display === 'none') {
       searchAreaControl.style.display = 'block';
-      setFocus('#search-area-control');
+      setFocus('#search-area-control', false);
     }
 
     if (searchAreaControl && !searchAreaSet) {
@@ -336,6 +336,10 @@ const FacilitiesMap = props => {
       'top-left',
     );
     setSearchAreaPosition();
+    const mapBoxLogo = document.querySelector(
+      'a.mapboxgl-ctrl-logo.mapboxgl-compact',
+    );
+    if (mapBoxLogo) mapBoxLogo.setAttribute('tabIndex', -1);
     mapInit.on('load', () => {
       // set up listeners on the zoom-in and zoom-out buttons:
       document.querySelectorAll('.mapboxgl-ctrl > button').forEach(button =>

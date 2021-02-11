@@ -194,6 +194,7 @@ export class SearchResults extends Component {
           {showFindFormsResultsLinkToFormDetailPages && (
             <Select
               additionalClass="find-forms-search--sort-select"
+              ariaLiveRegionText="Results sorted by "
               label="Sort By"
               includeBlankOption={false}
               name="findFormsSortBySelect"

@@ -1274,10 +1274,10 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-1.1.1.tgz#374854780cf29aec21096d73ba9ac398c62e3ad5"
-  integrity sha512-QwPV1SA13v8VZth1FXdJwGqhGJRHoBHWKCZw7hnQq7j9SKWBs+RlRWvUBTftr4eTul0CWr3SRp9plSGaMdhFBQ==
+"@department-of-veterans-affairs/component-library@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-1.1.2.tgz#746c20c99b0efe3e859d36b34ed83915180c0082"
+  integrity sha512-T7wiVZX21Wr+Wz3pgb6fy6u6rl5vaNL6vn0CMvneUJr1rt/7FnvLJ1e3ffSzfudZ7KPqxacy45YqLvagq+GeJw==
   dependencies:
     classnames "^2.2.6"
     lodash "^4.17.15"

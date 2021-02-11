@@ -63,6 +63,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-top: 10px;
     }
   }
   .edit-item-container {
@@ -102,6 +103,10 @@
     border: 3px solid $color-light-blue;
     padding: 25px;
   }
+}
+
+.schemaform-first-field {
+  margin-top: 30px;
 }
 
 // date-widget
