@@ -99,7 +99,9 @@ const LocationHours = ({ location, showHoursSpecialInstructions }) => {
       {isVaHealth &&
         showHoursSpecialInstructions &&
         operationalHoursSpecialInstructions && (
-          <p>{operationalHoursSpecialInstructions}</p>
+          <p id="operational-special-p">
+            {operationalHoursSpecialInstructions}
+          </p>
         )}
     </div>
   );
