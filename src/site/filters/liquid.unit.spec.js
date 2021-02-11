@@ -155,3 +155,17 @@ describe('deriveLastBreadcrumbFromPath', () => {
     expect(last.text).to.eq(title);
   });
 });
+
+describe('formatSeconds', () => {
+  it('returns hours when needed', () => {
+    expect(liquid.filters.formatSeconds(65245)).to.eq('18:7:25 hours');
+  });
+
+  it('returns minutes when needed', () => {
+    expect(liquid.filters.formatSeconds(160)).to.eq('2:40 minutes');
+  });
+
+  it('returns seconds when needed', () => {
+    expect(liquid.filters.formatSeconds(23)).to.eq('23 seconds');
+  });
+});
