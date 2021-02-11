@@ -12,6 +12,7 @@ import {
 
 import disabilityLabels from '../content/disabilityLabels';
 import { capitalizeEachWord } from '../utils';
+import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
 
 describe('526 All Claims validations', () => {
   describe('isValidYear', () => {
@@ -31,23 +32,23 @@ describe('526 All Claims validations', () => {
       expect(err.addError.called).to.be.true;
     });
 
-    it('should add an error if the year is less than 1900', () => {
+    it(`should add an error if the year is less than ${minYear}`, () => {
       const err = {
         addError: sinon.spy(),
       };
-      isValidYear(err, '1899');
+      isValidYear(err, minYear - 1);
       expect(err.addError.called).to.be.true;
     });
 
-    it('should add an error if the year is more than 3000', () => {
+    it(`should add an error if the year is more than ${maxYear}`, () => {
       const err = {
         addError: sinon.spy(),
       };
-      isValidYear(err, '3001');
+      isValidYear(err, maxYear + 1);
       expect(err.addError.called).to.be.true;
     });
 
-    it('should not add an error if the year is between 1900 and 3000', () => {
+    it(`should not add an error if the year is between ${minYear} and ${maxYear}`, () => {
       const err = {
         addError: sinon.spy(),
       };
@@ -59,7 +60,7 @@ describe('526 All Claims validations', () => {
       const err = {
         addError: sinon.spy(),
       };
-      isValidYear(err, '2999');
+      isValidYear(err, maxYear - 1);
       expect(err.addError.called).to.be.true;
     });
     describe('oneDisabilityRequired', () => {

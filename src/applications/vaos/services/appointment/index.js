@@ -300,6 +300,30 @@ export function isValidPastAppointment(appt) {
 }
 
 /**
+ * Checks to see if the appointment is either an appointment that does
+ * not have one of the excluded statuses for past appointments or an
+ * Express Care request that is either resolved or old enough to show
+ *
+ * @param {Object} appt A FHIR appointment resource
+ * @returns Whether or not the appt should be shown
+ */
+export function isValidPastAppointmentOrExpressCare(appt) {
+  return (
+    // Show any fulfilled EC request
+    (appt.vaos.isExpressCare && appt.status === APPOINTMENT_STATUS.fulfilled) ||
+    // Only show non-fulfilled EC requests if they're more than 2 days old
+    (appt.vaos.isExpressCare &&
+      appt.status !== APPOINTMENT_STATUS.fulfilled &&
+      moment(appt.created).isBefore(moment().subtract(2, 'days'))) ||
+    // Show any VA appointment that doesn't have a status in our hidden list
+    (appt.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment &&
+      !PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description)) ||
+    // Show any booked community care appointment
+    appt.vaos.appointmentType === APPOINTMENT_TYPES.ccAppointment
+  );
+}
+
+/**
  * Returns true if the given Appointment is a confirmed appointment
  * or a request that still needs processing
  *

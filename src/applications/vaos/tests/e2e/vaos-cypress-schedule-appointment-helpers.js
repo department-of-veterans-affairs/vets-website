@@ -53,7 +53,7 @@ export function choosePreferredDateTest() {
     .startOf('month')
     .add(4, 'days');
 
-  cy.findByLabelText('Month').select(preferredDate.format('MMM'));
+  cy.findByLabelText('Month').select(preferredDate.format('MMMM'));
   cy.findByLabelText('Day').select(preferredDate.format('D'));
   cy.findByLabelText('Year').type(preferredDate.format('YYYY'));
   cy.findByText(/Continue/).click();
