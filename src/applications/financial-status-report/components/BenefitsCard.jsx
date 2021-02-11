@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Telephone, {
   CONTACTS,
+  PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
 const BenefitsCard = () => {
@@ -11,7 +12,7 @@ const BenefitsCard = () => {
       <div className="usa-alert background-color-only">
         <div className="vads-u-margin-bottom--1">
           <h4 className="vads-u-margin--0">
-            Compensation and pension benefits
+            Disability compensation and pension benefits
           </h4>
         </div>
         <div className="vads-u-margin-bottom--1">
@@ -38,8 +39,9 @@ const BenefitsCard = () => {
       </div>
       <p className="vads-u-margin-right--4 vads-u-padding-right--4">
         <strong>Note:</strong> If this information isn’t right, call our VA
-        benefits hotline at <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday
-        through Friday, 8:00 a.m. to 9:00 p.m. ET.
+        benefits hotline at <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
+        <Telephone contact={CONTACTS[711]} pattern={PATTERNS['3_DIGIT']} />) ,
+        Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </>
   );
