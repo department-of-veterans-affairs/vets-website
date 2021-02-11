@@ -46,7 +46,7 @@ export default function FieldTemplate(props) {
   let errorSpan;
   let errorClass;
   if (hasErrors) {
-    errorClass = isDateField ? 'input-error-date' : 'usa-input-error';
+    errorClass = `usa-input-error ${isDateField ? 'input-error-date' : ''}`;
     errorSpanId = `${id}-error-message`;
     errorSpan = (
       <span className="usa-input-error-message" role="alert" id={errorSpanId}>
