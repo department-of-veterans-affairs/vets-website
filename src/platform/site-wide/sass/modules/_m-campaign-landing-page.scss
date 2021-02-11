@@ -27,3 +27,7 @@
 .va-c-video {
   max-width: 560px;
 }
+
+.va-c-main > :nth-child(even) {
+  background: $color-primary-alt-lightest;
+}
