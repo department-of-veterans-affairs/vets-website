@@ -133,6 +133,7 @@ export class Wizard extends React.Component {
       <form onSubmit={e => e.preventDefault()}>
         {expander && (
           <button
+            type="button"
             aria-expanded={this.state.expanded ? 'true' : 'false'}
             aria-controls="wizardOptions"
             className={buttonClasses}
