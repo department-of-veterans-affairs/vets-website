@@ -31,7 +31,9 @@ describe('VAOS <AppointmentsPageV2>', () => {
     const appointment = getVAAppointmentMock();
     appointment.attributes = {
       ...appointment.attributes,
-      startDate: moment().format(),
+      startDate: moment()
+        .tz('America/Denver')
+        .format(),
       clinicId: '308',
       clinicFriendlyName: "Jennie's Lab",
       facilityId: '983',
@@ -106,7 +108,12 @@ describe('VAOS <AppointmentsPageV2>', () => {
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: new RegExp(moment().format('dddd, MMMM D, YYYY'), 'i'),
+        name: new RegExp(
+          moment()
+            .tz('America/Denver')
+            .format('dddd, MMMM D, YYYY'),
+          'i',
+        ),
       }),
     ).to.be.ok;
 
@@ -120,7 +127,9 @@ describe('VAOS <AppointmentsPageV2>', () => {
     expect(
       screen.getByRole('link', {
         name: new RegExp(
-          moment().format('[Add] MMMM D, YYYY [appointment to your calendar]'),
+          moment()
+            .tz('America/Denver')
+            .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
           'i',
         ),
       }),
@@ -147,7 +156,12 @@ describe('VAOS <AppointmentsPageV2>', () => {
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: new RegExp(moment().format('dddd, MMMM D, YYYY'), 'i'),
+        name: new RegExp(
+          moment()
+            .tz('America/Denver')
+            .format('dddd, MMMM D, YYYY'),
+          'i',
+        ),
         // name: /Thursday, January 28, 2021/,
       }),
     ).to.be.ok;
