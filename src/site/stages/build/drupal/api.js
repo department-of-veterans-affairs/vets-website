@@ -176,6 +176,8 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
 
       say('Pulling from Drupal via GraphQL...');
 
+      const oldGraphQlResultRequest = await this.getAllPages(onlyPublishedContent);
+
       const entityCounts = await this.query({
         query: CountEntityTypes,
       });
