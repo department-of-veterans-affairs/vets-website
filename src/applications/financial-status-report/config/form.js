@@ -153,7 +153,8 @@ const formConfig = {
           title: 'Social security',
           uiSchema: pages.socialSecurityRecords.uiSchema,
           schema: pages.socialSecurityRecords.schema,
-          depends: formData => formData.income.hasSocialSecurityPayments,
+          depends: formData =>
+            formData.socialSecurity.hasSocialSecurityPayments,
         },
         additionalIncome: {
           path: 'additional-income',
@@ -238,7 +239,7 @@ const formConfig = {
           schema: pages.spouseSocialSecurityRecords.schema,
           depends: formData =>
             formData.spouseInformation.maritalStatus === 'Married' &&
-            formData.income.spouse.hasSocialSecurityPayments,
+            formData.socialSecurity.spouse.hasSocialSecurityPayments,
         },
         spouseAdditionalIncome: {
           path: 'spouse-additional-income',
@@ -253,7 +254,8 @@ const formConfig = {
           title: 'Spouse additional income',
           uiSchema: pages.spouseAdditionalIncomeRecords.uiSchema,
           schema: pages.spouseAdditionalIncomeRecords.schema,
-          depends: formData => formData.income.spouse.hasAdditionalIncome,
+          depends: formData =>
+            formData.additionalIncome.spouse.hasAdditionalIncome,
         },
         dependents: {
           path: 'dependents',
@@ -266,7 +268,7 @@ const formConfig = {
           title: 'Dependents',
           uiSchema: pages.dependentRecords.uiSchema,
           schema: pages.dependentRecords.schema,
-          depends: formData => formData.income.hasDependents,
+          depends: formData => formData.dependents.hasDependents,
         },
       },
     },

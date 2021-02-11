@@ -3,18 +3,18 @@ import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your spouse information',
-  income: {
+  socialSecurity: {
     spouse: {
-      socialSecurity: {
-        socialSecurityAmount: _.merge(
-          currencyUI('How much do you get for Social Security each month?'),
-          {
-            'ui:options': {
-              widgetClassNames: 'input-size-3',
-            },
-          },
+      socialSecurityAmount: _.merge(
+        currencyUI(
+          'How much does your spouse get for Social Security each month?',
         ),
-      },
+        {
+          'ui:options': {
+            widgetClassNames: 'input-size-3',
+          },
+        },
+      ),
     },
   },
 };
@@ -22,20 +22,15 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    income: {
+    socialSecurity: {
       type: 'object',
       properties: {
         spouse: {
           type: 'object',
+          required: ['socialSecurityAmount'],
           properties: {
-            socialSecurity: {
-              type: 'object',
-              required: ['socialSecurityAmount'],
-              properties: {
-                socialSecurityAmount: {
-                  type: 'number',
-                },
-              },
+            socialSecurityAmount: {
+              type: 'number',
             },
           },
         },

@@ -1,5 +1,5 @@
 export const uiSchema = {
-  'ui:title': 'Your employment history',
+  'ui:title': 'Your work history',
   employment: {
     previouslyEmployed: {
       'ui:title': 'Have you had any other jobs in the past 2 years?',
