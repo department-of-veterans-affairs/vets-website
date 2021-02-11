@@ -35,7 +35,6 @@ module.exports = {
     },
   },
   required: [
-    'fake_property_to_create_error',
     'name',
     'thumbnail',
     'metatag',
