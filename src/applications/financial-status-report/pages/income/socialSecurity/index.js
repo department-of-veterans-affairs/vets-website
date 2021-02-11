@@ -1,6 +1,6 @@
 export const uiSchema = {
   'ui:title': 'Your other income',
-  income: {
+  socialSecurity: {
     hasSocialSecurityPayments: {
       'ui:title': 'Do you get Social Security payments?',
       'ui:widget': 'yesNo',
@@ -8,11 +8,10 @@ export const uiSchema = {
     },
   },
 };
-
 export const schema = {
   type: 'object',
   properties: {
-    income: {
+    socialSecurity: {
       type: 'object',
       properties: {
         hasSocialSecurityPayments: {

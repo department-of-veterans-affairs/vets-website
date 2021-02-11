@@ -1,6 +1,6 @@
 export const uiSchema = {
   'ui:title': 'Your dependents',
-  income: {
+  dependents: {
     hasDependents: {
       'ui:title':
         'Do you have any dependents who rely on you for financial support?',
@@ -13,7 +13,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    income: {
+    dependents: {
       type: 'object',
       properties: {
         hasDependents: {
