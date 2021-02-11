@@ -18,6 +18,7 @@ import {
   validateAutosuggestOption,
   isValidForm,
 } from '../../src/js/validation';
+import { minYear, maxYear } from '../../src/js/helpers';
 
 describe('Schemaform validations', () => {
   describe('transformErrors', () => {
@@ -252,6 +253,16 @@ describe('Schemaform validations', () => {
 
       expect(errors.addError.callCount).to.equal(1);
     });
+    it('should set message if date is less than min year', () => {
+      const errors = { addError: sinon.spy() };
+      validateDate(errors, `${minYear - 1}-01-01`);
+      expect(errors.addError.callCount).to.equal(1);
+    });
+    it('should set message if date is greater than max year', () => {
+      const errors = { addError: sinon.spy() };
+      validateDate(errors, `${maxYear + 1}-01-01`);
+      expect(errors.addError.callCount).to.equal(1);
+    });
   });
   describe('validateCurrentOrPastDate', () => {
     it('should set message if invalid', () => {
@@ -264,6 +275,16 @@ describe('Schemaform validations', () => {
       expect(errors.addError.callCount).to.equal(1);
       expect(errors.addError.firstCall.args[0]).to.equal(
         'Please provide a valid current or past date',
+      );
+    });
+    it('should set message if invalid', () => {
+      const errors = { addError: sinon.spy() };
+      const pastDate = `${minYear - 1}-01-01`;
+      validateCurrentOrPastDate(errors, pastDate);
+
+      expect(errors.addError.callCount).to.equal(1);
+      expect(errors.addError.firstCall.args[0]).to.equal(
+        `Please enter a year between ${minYear} and ${maxYear}`,
       );
     });
     it('should use custom message', () => {

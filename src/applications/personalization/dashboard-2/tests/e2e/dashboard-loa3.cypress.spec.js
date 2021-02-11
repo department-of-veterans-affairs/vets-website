@@ -1,5 +1,5 @@
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
-import { loa3User } from '@@profile/tests/fixtures/users/user.js';
+import { mockUser } from '@@profile/tests/fixtures/users/user.js';
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
@@ -53,7 +53,7 @@ function loa3DashboardTest(mobile) {
 describe('The My VA Dashboard', () => {
   beforeEach(() => {
     disableFTUXModals();
-    cy.login(loa3User);
+    cy.login(mockUser);
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept(

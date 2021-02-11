@@ -2,10 +2,11 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import { setPageTitle } from '../actions';
+import { PAGE_TITLE } from '../constants';
 
 export function LandingPage({ dispatchSetPageTitle }) {
   useEffect(() => {
-    dispatchSetPageTitle(`GI Bill® CT Redesign Sandbox: VA.gov`);
+    dispatchSetPageTitle(`${PAGE_TITLE}: VA.gov`);
   }, []);
   return (
     <span className="landing-page">
