@@ -66,6 +66,7 @@ export const uiSchema = {
           'When did you first visit this facility?',
           'When was your most recent visit? (Optional)',
           'Date of last treatment must be after date of first treatment',
+          true,
         ),
         {
           from: {

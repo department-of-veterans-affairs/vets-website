@@ -1,13 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import {
-  Switch,
-  Route,
-  useRouteMatch,
-  Link,
-  useHistory,
-} from 'react-router-dom';
-import { selectAllowProjectCheetahBookings } from './redux/selectors';
+import { Switch, Route, useRouteMatch, useHistory } from 'react-router-dom';
 import projectCheetahReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
 import InfoPage from './components/InfoPage';
@@ -15,14 +8,14 @@ import VAFacilityPage from './components/VAFacilityPage';
 import ClinicChoicePage from './components/ClinicChoicePage';
 import SelectDate1Page from './components/SelectDate1Page';
 import SelectDate2Page from './components/SelectDate2Page';
+import ContactInfoPage from './components/ContactInfoPage';
 import ReviewPage from './components/ReviewPage';
 import ConfirmationPage from './components/ConfirmationPage';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import FullWidthLayout from '../components/FullWidthLayout';
-import Breadcrumbs from '../components/Breadcrumbs';
 import { selectFeatureProjectCheetah } from '../redux/selectors';
+import ReceivedDoseScreenerPage from './components/ReceivedDoseScreenerPage';
+import ContactFacilitiesPage from './components/ContactFacilitiesPage';
 
-export function NewBookingSection({ allowBookings, featureProjectCheetah }) {
+export function NewBookingSection({ featureProjectCheetah }) {
   const match = useRouteMatch();
   const history = useHistory();
 
@@ -51,48 +44,35 @@ export function NewBookingSection({ allowBookings, featureProjectCheetah }) {
     }
   }, []);
 
-  if (!allowBookings) {
-    return (
-      <FullWidthLayout>
-        <Breadcrumbs>
-          <Link to="new-project-cheetah-booking">Project Cheetah Booking</Link>
-        </Breadcrumbs>
-        <AlertBox
-          headline="Please contact your VA facility"
-          status="warning"
-          className="vads-u-margin-top--0p5 vads-u-margin-bottom--4"
-          isVisible
-        >
-          You should contact your doctor or the{' '}
-          <a href="/find-locations">nearest VA facility</a> if you have
-          questions about project cheetah.
-        </AlertBox>
-      </FullWidthLayout>
-    );
-  }
-
   return (
     <FormLayout>
-      {allowBookings && (
-        <Switch>
-          <Route path={`${match.url}/facility`} component={VAFacilityPage} />
-          <Route path={`${match.url}/clinic`} component={ClinicChoicePage} />
-          <Route
-            path={`${match.url}/select-date-1`}
-            component={SelectDate1Page}
-          />
-          <Route
-            path={`${match.url}/select-date-2`}
-            component={SelectDate2Page}
-          />
-          <Route path={`${match.url}/review`} component={ReviewPage} />
-          <Route
-            path={`${match.url}/confirmation`}
-            component={ConfirmationPage}
-          />
-          <Route path="/" component={InfoPage} />
-        </Switch>
-      )}
+      <Switch>
+        <Route
+          path={`${match.url}/received-dose`}
+          component={ReceivedDoseScreenerPage}
+        />
+        <Route
+          path={`${match.url}/contact-facilities`}
+          component={ContactFacilitiesPage}
+        />
+        <Route path={`${match.url}/facility`} component={VAFacilityPage} />
+        <Route path={`${match.url}/clinic`} component={ClinicChoicePage} />
+        <Route
+          path={`${match.url}/select-date-1`}
+          component={SelectDate1Page}
+        />
+        <Route
+          path={`${match.url}/select-date-2`}
+          component={SelectDate2Page}
+        />
+        <Route path={`${match.url}/contact-info`} component={ContactInfoPage} />
+        <Route path={`${match.url}/review`} component={ReviewPage} />
+        <Route
+          path={`${match.url}/confirmation`}
+          component={ConfirmationPage}
+        />
+        <Route path="/" component={InfoPage} />
+      </Switch>
     </FormLayout>
   );
 }
@@ -100,7 +80,6 @@ export function NewBookingSection({ allowBookings, featureProjectCheetah }) {
 function mapStateToProps(state) {
   return {
     featureProjectCheetah: selectFeatureProjectCheetah(state),
-    allowBookings: selectAllowProjectCheetahBookings(state),
   };
 }
 

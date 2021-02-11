@@ -170,16 +170,11 @@ function PastAppointmentsListNew({
                         key={index}
                         appointment={appt}
                         facility={facilityData[facilityId]}
-                        className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3"
                       />
                     );
                   } else if (appt.vaos.isExpressCare) {
                     return (
-                      <ExpressCareListItem
-                        key={index}
-                        appointment={appt}
-                        className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3"
-                      />
+                      <ExpressCareListItem key={index} appointment={appt} />
                     );
                   }
                   return null;
