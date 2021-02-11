@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 
 import '../sass/dashboard.scss';
 
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 import { focusElement } from '~/platform/utilities/ui';
 import {
@@ -13,6 +13,15 @@ import {
   isLOA1 as isLOA1Selector,
   isLoggedIn as isLoggedInSelector,
 } from '~/platform/user/selectors';
+import RequiredLoginView, {
+  RequiredLoginLoader,
+} from '~/platform/user/authorization/components/RequiredLoginView';
+import backendServices from '~/platform/user/profile/constants/backendServices';
+import {
+  DowntimeNotification,
+  externalServices,
+} from '~/platform/monitoring/DowntimeNotification';
+import externalServiceStatus from '~/platform/monitoring/DowntimeNotification/config/externalServiceStatus';
 
 import NameTag from '~/applications/personalization/components/NameTag';
 import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
@@ -27,16 +36,6 @@ import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import HealthCare from './health-care/HealthCare';
 
-// content to show if the component is waiting for data to load. This loader
-// matches the loader shown by the RequiredLoginView component, so when the
-// RequiredLoginView is done with its loading and this component takes over, it
-// appears seamless to the user.
-const Loader = () => (
-  <div className="vads-u-margin-y--5">
-    <LoadingIndicator setFocus message="Loading your information..." />
-  </div>
-);
-
 const Dashboard = ({
   fetchFullName,
   fetchMilitaryInformation,
@@ -45,6 +44,7 @@ const Dashboard = ({
   showLoader,
   ...props
 }) => {
+  const [modalDismissed, setModalDismissed] = useState(false);
   // focus on the header when we are done loading
   useEffect(
     () => {
@@ -72,45 +72,101 @@ const Dashboard = ({
     ],
   );
 
-  if (showLoader) {
-    return <Loader />;
-  } else {
-    return (
-      <div className="dashboard">
-        {props.showNameTag && (
-          <NameTag
-            showUpdatedNameTag
-            totalDisabilityRating={props.totalDisabilityRating}
-          />
-        )}
-        <div className="vads-l-grid-container medium-screen:vads-u-padding--2 small-desktop-screen:vads-u-padding--0">
-          <Breadcrumbs>
-            <a href="/" key="home">
-              Home
-            </a>
-            <span className="vads-u-color--black" key="dashboard">
-              <strong>My VA</strong>
-            </span>
-          </Breadcrumbs>
+  const renderDowntimeModal = (downtime, children) => {
+    if (downtime.status === externalServiceStatus.downtimeApproaching) {
+      return (
+        <>
+          <Modal
+            id="downtime-approaching-modal"
+            title="Some parts of your dashboard will be down for maintenance soon"
+            status="info"
+            onClose={() => {
+              setModalDismissed(true);
+            }}
+            visible={!modalDismissed}
+          >
+            <p>
+              We’ll be making updates to some tools and features on{' '}
+              {downtime.startTime.format('MMMM Do')} between{' '}
+              {downtime.startTime.format('LT')} and{' '}
+              {downtime.endTime.format('LT')} If you have trouble using parts of
+              the dashboard during that time, please check back soon.
+            </p>
+            <button
+              type="button"
+              className="usa-button-secondary"
+              onClick={() => {
+                setModalDismissed(true);
+              }}
+            >
+              Continue
+            </button>
+          </Modal>
+          {children}
+        </>
+      );
+    }
+    return children;
+  };
 
-          <h1 id="dashboard-title" data-testid="dashboard-title" tabIndex="-1">
-            My VA
-          </h1>
+  return (
+    <RequiredLoginView
+      serviceRequired={[backendServices.USER_PROFILE]}
+      user={props.user}
+    >
+      <DowntimeNotification
+        appTitle="user dashboard"
+        loadingIndicator={<RequiredLoginLoader />}
+        dependencies={[
+          externalServices.mvi,
+          externalServices.mhv,
+          externalServices.appeals,
+        ]}
+        render={renderDowntimeModal}
+      >
+        {showLoader && <RequiredLoginLoader />}
+        {!showLoader && (
+          <div className="dashboard">
+            {props.showNameTag && (
+              <NameTag
+                showUpdatedNameTag
+                totalDisabilityRating={props.totalDisabilityRating}
+              />
+            )}
+            <div className="vads-l-grid-container medium-screen:vads-u-padding--2 small-desktop-screen:vads-u-padding--0">
+              <Breadcrumbs>
+                <a href="/" key="home">
+                  Home
+                </a>
+                <span className="vads-u-color--black" key="dashboard">
+                  <strong>My VA</strong>
+                </span>
+              </Breadcrumbs>
 
-          {props.showValidateIdentityAlert && (
-            <div className="vads-l-row">
-              <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-                <IdentityNotVerified alertHeadline="Verify your identity to access more VA.gov tools and features" />
-              </div>
+              <h1
+                id="dashboard-title"
+                data-testid="dashboard-title"
+                tabIndex="-1"
+              >
+                My VA
+              </h1>
+
+              {props.showValidateIdentityAlert && (
+                <div className="vads-l-row">
+                  <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+                    <IdentityNotVerified alertHeadline="Verify your identity to access more VA.gov tools and features" />
+                  </div>
+                </div>
+              )}
+              {props.showClaimsAndAppeals && <ClaimsAndAppeals />}
+              {props.showHealthCare && <HealthCare />}
+              <ApplyForBenefits />
             </div>
-          )}
-          {props.showClaimsAndAppeals && <ClaimsAndAppeals />}
-          {props.showHealthCare && <HealthCare />}
-          <ApplyForBenefits />
-        </div>
-      </div>
-    );
-  }
+          </div>
+        )}
+      </DowntimeNotification>
+    </RequiredLoginView>
+  );
 };
 
 const mapStateToProps = state => {
@@ -149,6 +205,7 @@ const mapStateToProps = state => {
     showNameTag,
     hero,
     totalDisabilityRating: state.totalRating?.totalDisabilityRating,
+    user: state.user,
   };
 };
 
