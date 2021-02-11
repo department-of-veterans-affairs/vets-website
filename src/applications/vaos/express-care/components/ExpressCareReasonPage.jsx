@@ -140,6 +140,7 @@ function ExpressCareReasonPage({
             <AlertBox
               status="info"
               className="vads-u-margin-y--2"
+              level="2"
               headline="If you need a mental health appointment today"
             >
               <p className="vads-u-margin-top--0">
