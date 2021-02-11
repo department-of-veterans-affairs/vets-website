@@ -4,13 +4,25 @@ const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const deepDiff = require('deep-diff');
-const { map, camelCase } = require('lodash');
+const { camelCase, get, isEqual, omit } = require('lodash');
 const commandLineArgs = require('command-line-args');
 const commandLineUsage = require('command-line-usage');
 const assembleEntityTreeFactory = require('../../src/site/stages/build/process-cms-exports');
+
 const {
+  readAllNodeNames,
   readEntity,
 } = require('../../src/site/stages/build/process-cms-exports/helpers');
+
+// Only compare present fields in GraphQL entity, & exclude fields in keysToIgnore
+const keysToIgnore = [
+  'entityMetatags',
+  'entityType',
+  'contentModelType',
+  'entityBundle',
+  'entityId',
+  'breadcrumb', // breadcrumbs are generated from the URL
+];
 
 const commandLineDefs = [
   {
@@ -33,6 +45,11 @@ const commandLineDefs = [
     description: 'Show this help menu.',
   },
   {
+    name: 'html',
+    type: Boolean,
+    description: 'Output list of paths to HTML pages for mismatched nodes',
+  },
+  {
     name: 'buildtype',
     type: String,
     description: 'The buildtype to test the data against.',
@@ -40,9 +57,13 @@ const commandLineDefs = [
   },
 ];
 
-const { entity: entityNames, bundle, help, buildtype } = commandLineArgs(
-  commandLineDefs,
-);
+const {
+  entity: entityNames,
+  bundle,
+  help,
+  html: outputHtml,
+  buildtype,
+} = commandLineArgs(commandLineDefs);
 
 if (help) {
   console.log(
@@ -154,6 +175,127 @@ const getParentNode = (
   return parent;
 };
 
+const drupalToVaPath = content => {
+  let replaced = content;
+  if (content) {
+    replaced = content.replace(/.*(?:png|jpg|jpeg|svg|gif)/gi, img =>
+      img
+        .replace('http://va-gov-cms.lndo.site/sites/default/files', '/img')
+        .replace('http://dev.cms.va.gov/sites/default/files', '/img')
+        .replace('http://staging.cms.va.gov/sites/default/files', '/img')
+        .replace('http://prod.cms.va.gov/sites/default/files', '/img')
+        .replace('https://prod.cms.va.gov/sites/default/files', '/img')
+        .replace('http://cms.va.gov/sites/default/files', '/img')
+        .replace('https://cms.va.gov/sites/default/files', '/img'),
+    );
+
+    replaced = replaced.replace(/.*\.(?:doc|docx|xls|pdf|txt)/gi, file =>
+      file
+        .replace('http://va-gov-cms.lndo.site/sites/default/files', '/files')
+        .replace('http://dev.cms.va.gov/sites/default/files', '/files')
+        .replace('http://staging.cms.va.gov/sites/default/files', '/files')
+        .replace('http://prod.cms.va.gov/sites/default/files', '/files')
+        .replace('https://prod.cms.va.gov/sites/default/files', '/files')
+        .replace('http://cms.va.gov/sites/default/files', '/files')
+        .replace('https://cms.va.gov/sites/default/files', '/files'),
+    );
+
+    replaced = replaced.replace(/\/(img|files)\/.+/g, url =>
+      url.replace(/\?.+/g, ''),
+    );
+  }
+
+  return replaced;
+};
+
+const searchItem = (object, item) => {
+  const newObj = object[item];
+  if (newObj) {
+    Object.keys(newObj).forEach(key => {
+      if (typeof newObj[key] === 'object') {
+        searchItem(newObj, key);
+      }
+      if (typeof newObj[key] === 'string' && key !== 'processed') {
+        newObj[key] = drupalToVaPath(newObj[key]);
+      }
+    });
+  }
+};
+
+const convertToRelativePath = object => {
+  if (object) {
+    Object.keys(object).forEach(item => {
+      if (typeof object[item] === 'object') {
+        searchItem(object, item);
+      }
+    });
+  }
+};
+
+const stripIgnoredKeys = obj => {
+  const result = omit(obj, keysToIgnore);
+
+  Object.keys(result).forEach(key => {
+    if (Array.isArray(result[key])) {
+      result[key] = result[key].map(item => stripIgnoredKeys(item));
+    } else if (typeof result[key] === 'object') {
+      result[key] = stripIgnoredKeys(result[key]);
+    }
+  });
+
+  return result;
+};
+
+/**
+ * Compares two arrays using lodash isEqual on each item.
+ * @param cmsExportArray
+ * @param graphQLArray
+ * @param dataPath
+ */
+const compareArrays = (cmsExportArray, graphQLArray, dataPath) => {
+  const cmsArrayLength = cmsExportArray.length;
+  const graphQLLength = graphQLArray.length;
+  const arrayDiffs = [];
+
+  if (cmsArrayLength !== graphQLLength) {
+    arrayDiffs.push({
+      diffType: 'Array Length',
+      path: dataPath,
+      graphQL: graphQLLength,
+      cmsExport: cmsArrayLength,
+    });
+  }
+
+  graphQLArray.forEach((graphQlItem, index) => {
+    const cleanGraphQlItem = stripIgnoredKeys(graphQlItem);
+    const cleanCmsItem = stripIgnoredKeys(cmsExportArray[index]);
+
+    if (
+      !isEqual(cleanGraphQlItem, cleanCmsItem) &&
+      JSON.stringify(cleanGraphQlItem) !== JSON.stringify(cleanCmsItem)
+    ) {
+      let addDiff = true;
+
+      if (typeof cleanGraphQlItem === 'object') {
+        const diff = deepDiff(cleanGraphQlItem, cleanCmsItem).filter(
+          d => d.kind !== 'N',
+        );
+        if (!diff?.length > 0) addDiff = false;
+      }
+      if (addDiff) {
+        arrayDiffs.push({
+          diffType: 'Array Edit',
+          path: `${dataPath}/${index}`,
+          graphQL: cleanGraphQlItem,
+          cmsExport: cleanCmsItem,
+        });
+      }
+    }
+  });
+
+  return arrayDiffs.length > 0 ? arrayDiffs : null;
+};
+
 /**
  * Compares two entity JSON objects
  * https://www.npmjs.com/package/deep-diff#differences
@@ -162,12 +304,9 @@ const getParentNode = (
  * @return {object []} The array of differences found from deep-diff'
  */
 const compareJson = (baseGraphQlObject, baseCmsExportObject) => {
-  // Only compare present fields in GraphQL entity, & exclude fields in keysToIgnore
-  const keysToIgnore = ['entityMetatags', 'entityType'];
-
   // Save present keys in CMS export and GraphQL objects
-  const graphQlObject = {};
-  const cmsExportObject = {};
+  let graphQlObject = {};
+  let cmsExportObject = {};
 
   // Output missing keys to console
   Object.keys(baseGraphQlObject).forEach(key => {
@@ -182,25 +321,57 @@ const compareJson = (baseGraphQlObject, baseCmsExportObject) => {
     }
   });
 
+  convertToRelativePath(graphQlObject);
+
+  const arrayDiffs = [];
+
+  graphQlObject = stripIgnoredKeys(graphQlObject);
+  cmsExportObject = stripIgnoredKeys(cmsExportObject);
+
   // Get array of differences. Exclude new properties because transformed
   // CMS objects may have additional properties
-  return deepDiff(graphQlObject, cmsExportObject, (diffPath, key) => {
+  let diffs = deepDiff(graphQlObject, cmsExportObject, (diffPath, key) => {
+    // Store arrays for comparison by alternate method.
+    const cmsObjectAtPath = get(cmsExportObject, diffPath);
+    const graphQlObjectAtPath = get(graphQlObject, diffPath);
+
+    const isArrayPath =
+      cmsObjectAtPath &&
+      graphQlObjectAtPath &&
+      Array.isArray(cmsObjectAtPath) &&
+      Array.isArray(graphQlObjectAtPath);
+
+    if (isArrayPath) {
+      const compareArrayResult = compareArrays(
+        cmsObjectAtPath,
+        graphQlObjectAtPath,
+        diffPath.join('.'),
+      );
+      if (compareArrayResult) arrayDiffs.push(...compareArrayResult);
+
+      return true;
+    }
+
     // Filter & ignore keys in keysToIgnore
     return keysToIgnore.includes(key);
-  })
-    ?.filter(d => d.kind !== 'N')
-    .map(diff => {
-      return {
-        diffType: getDiffType(diff),
-        path: diff.index
-          ? `${diff.path.join('/')}[${diff.index}]`
-          : diff.path.join('/'),
-        ...(diff.item && { item: getDiffItem(diff.item) }),
-        ...('lhs' in diff && { graphQL: diff.lhs }),
-        ...('rhs' in diff && { cmsExport: diff.rhs }),
-      };
-    });
+  });
+
+  diffs = diffs?.filter(d => d.kind !== 'N').map(diff => {
+    return {
+      diffType: getDiffType(diff),
+      path: diff.index
+        ? `${diff.path.join('/')}[${diff.index}]`
+        : diff.path.join('/'),
+      ...(diff.item && { item: getDiffItem(diff.item) }),
+      ...('lhs' in diff && { graphQL: diff.lhs }),
+      ...('rhs' in diff && { cmsExport: diff.rhs }),
+    };
+  });
+
+  return { deepDiffs: diffs, arrayDiffs };
 };
+
+const MAX_DIFFS = 100;
 
 /**
  * Handles running and outputting the diff based on the command line input
@@ -225,18 +396,9 @@ const runComparison = () => {
 
     // Handle paragraph entities
     if (rawEntities[0].baseType !== 'node') {
-      let fileNames = fs
-        .readdirSync(exportDir)
-        .filter(fn => fn !== 'meta')
-        .map(name => name.split('.').slice(0, 2));
-
-      fileNames = fileNames.filter(
-        ([baseType]) => baseType === 'node' || baseType === 'paragraph',
-      );
-
-      const cmsEntities = map(fileNames, entityDetails =>
-        readEntity(exportDir, ...entityDetails),
-      );
+      const cmsEntities = readAllNodeNames(exportDir)
+        .filter(([baseType]) => ['node', 'paragraph'].includes(baseType))
+        .map(entityDetails => readEntity(exportDir, ...entityDetails));
 
       // Find parent node for paragraph object
       const parentNode = getParentNode(rawEntities[0], cmsEntities);
@@ -262,9 +424,11 @@ const runComparison = () => {
       if (diff) {
         fs.writeFileSync(
           path.join(__dirname, `../../content-object-diff.json`),
-          JSON.stringify(diff),
+          JSON.stringify(diff.deepDiffs),
         );
-        console.log(`${diff.length} differences: './content-object-diff.json'`);
+        console.log(
+          `${diff.deepDiffs.length} differences: './content-object-diff.json'`,
+        );
       } else {
         console.log(`No differences found!`);
       }
@@ -272,14 +436,7 @@ const runComparison = () => {
       console.log(`Node not present in .cache/${buildtype}/drupal/pages.json`);
     }
   } else {
-    let fileNames = fs
-      .readdirSync(exportDir)
-      .filter(fn => fn !== 'meta')
-      .map(name => name.split('.').slice(0, 2));
-
-    fileNames = fileNames.filter(([baseType]) => baseType === 'node');
-
-    let rawEntities = map(fileNames, entityDetails =>
+    let rawEntities = readAllNodeNames(exportDir).map(entityDetails =>
       readEntity(exportDir, ...entityDetails),
     );
 
@@ -290,9 +447,9 @@ const runComparison = () => {
     }
 
     // Get only published nodes
-    const transformedEntities = map(rawEntities, entity =>
-      assembleEntityTree(entity, false),
-    ).filter(e => e);
+    const transformedEntities = rawEntities
+      .map(entity => assembleEntityTree(entity, false))
+      .filter(e => e && Object.keys(e).length);
 
     fs.rmdirSync('content-object-diffs', { recursive: true });
     fs.mkdirSync('content-object-diffs');
@@ -301,6 +458,8 @@ const runComparison = () => {
     let nodesWithDiffs = 0;
     let totalDiffs = 0;
     let totalObjectsCompared = 0;
+    const pagesWithDiffs = {};
+    const diffsByBundle = {};
 
     // Compare JSON objects for each node entity
     transformedEntities.forEach(entity => {
@@ -309,12 +468,13 @@ const runComparison = () => {
           e.entityBundle === entity.entityBundle &&
           parseInt(e.entityId, 10) === parseInt(entity.entityId, 10),
       )[0];
+
       if (baseObject) {
         const diff = compareJson(baseObject, entity);
-        if (diff && diff.length !== 0) {
-          totalDiffs += diff.length - 1;
-          // Add entity file name to diff output
-          diff.unshift({
+
+        if (diff.deepDiffs?.length > 0 || diff.arrayDiffs?.length > 0) {
+          // Entity file name object to add to diff file
+          const entityFileObject = {
             entityFile: `node.${
               rawEntities.find(
                 rawEntity =>
@@ -322,17 +482,51 @@ const runComparison = () => {
                   parseInt(entity.entityId, 10),
               ).uuid
             }.json`,
-          });
-          fs.writeFileSync(
-            path.join(
-              __dirname,
-              `../../content-object-diffs/${entity.entityBundle}-${
-                entity.entityId
-              }.json`,
-            ),
-            JSON.stringify(diff, null, 2),
+          };
+
+          // Default name for file
+          const defaultFileName = path.join(
+            __dirname,
+            '../../',
+            'content-object-diffs',
+            `${entity.entityBundle}-${entity.entityId}`,
           );
-          ++nodesWithDiffs;
+
+          // Increment number of diffs for bundle.
+          diffsByBundle[entity.entityBundle] =
+            diffsByBundle[entity.entityBundle] + 1 || 1;
+
+          // Add entity file name to deepDiff/arrayDiff outputs
+          if (diff.deepDiffs?.length > 0) {
+            totalDiffs += diff.deepDiffs.length - 1;
+            diff.deepDiffs.unshift(entityFileObject);
+            fs.writeFileSync(
+              `${defaultFileName}.json`,
+              JSON.stringify(diff.deepDiffs, null, 2),
+            );
+            ++nodesWithDiffs;
+          }
+
+          if (diff.arrayDiffs?.length > 0) {
+            diff.arrayDiffs.unshift(entityFileObject);
+            fs.writeFileSync(
+              `${defaultFileName}-array.json`,
+              JSON.stringify(diff.arrayDiffs.slice(0, MAX_DIFFS), null, 2),
+            );
+          }
+
+          if (outputHtml) {
+            // Keep track of the subset of pages to validate by HTML comparison.
+            const htmlPagePath = path.join(entity.entityUrl.path, 'index.html');
+            pagesWithDiffs[htmlPagePath] = {
+              ...(diff.deepDiffs?.length && {
+                deepDiff: `${defaultFileName}.json`,
+              }),
+              ...(diff.arrayDiffs?.length && {
+                arrayDiff: `${defaultFileName}-array.json`,
+              }),
+            };
+          }
         }
         ++totalObjectsCompared;
       }
@@ -343,6 +537,39 @@ const runComparison = () => {
         ? `No differences found in ${totalObjectsCompared} nodes!`
         : `${nodesWithDiffs}/${totalObjectsCompared} nodes with ${totalDiffs} differences: './content-object-diffs'`,
     );
+
+    console.log(
+      'Number of diffs by bundle:',
+      JSON.stringify(diffsByBundle, null, 2),
+    );
+
+    if (outputHtml) {
+      const htmlPagePaths = Object.keys(pagesWithDiffs);
+      htmlPagePaths.sort();
+
+      const outputHtmlPath = path.join(
+        __dirname,
+        '..',
+        '..',
+        'content-object-diffs',
+        'pages-with-diffs.json',
+      );
+
+      const sortedPagesWithDiffs = htmlPagePaths.reduce(
+        (diffs, page) => ({
+          ...diffs,
+          [page]: pagesWithDiffs[page],
+        }),
+        {},
+      );
+
+      fs.writeFileSync(
+        outputHtmlPath,
+        JSON.stringify(sortedPagesWithDiffs, null, 2),
+      );
+
+      console.log('HTML pages with diffs:', outputHtmlPath);
+    }
   }
 };
 

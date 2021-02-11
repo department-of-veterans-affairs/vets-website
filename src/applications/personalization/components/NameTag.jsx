@@ -146,13 +146,13 @@ const NameTag = ({
                     <a
                       href="/disability/view-disability-rating/rating"
                       aria-label="view your disability rating"
-                      className="vads-u-color--white vads-u-font-size--md font-weight--bold"
+                      className="vads-u-color--white font-weight--bold"
                     >
                       {totalDisabilityRating}% Service connected{' '}
                       <i
-                        className={`fa fa-angle-double-right`}
                         aria-hidden="true"
                         role="img"
+                        className="fas fa-chevron-right vads-u-padding-left--0p5"
                       />
                     </a>
                   </dd>

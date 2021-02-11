@@ -6,7 +6,11 @@ import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import * as actions from '../redux/actions';
-import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../utils/constants';
+import {
+  APPOINTMENT_STATUS,
+  APPOINTMENT_TYPES,
+  FETCH_STATUS,
+} from '../../utils/constants';
 import { lowerCase } from '../../utils/formatters';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import ListBestTimeToCall from './cards/pending/ListBestTimeToCall';
@@ -16,6 +20,7 @@ import {
   getPatientTelecom,
   isVideoAppointment,
   getVAAppointmentLocationId,
+  getPractitionerLocationDisplay,
 } from '../../services/appointment';
 import { selectFirstRequestMessage } from '../redux/selectors';
 
@@ -73,6 +78,9 @@ function RequestedAppointmentDetailsPage({
   const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
+  const isCCRequest =
+    appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;
+  const practitionerName = getPractitionerLocationDisplay(appointment);
 
   return (
     <div>
@@ -109,13 +117,13 @@ function RequestedAppointmentDetailsPage({
           </>
         )}
       </AlertBox>
-      <span className="vads-u-display--block vads-u-font-weight--bold">
-        {isCC && 'Community Care'}
+      <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+        {isCC && !isCCRequest && 'Community Care'}
         {!isCC && !!isVideoRequest && 'VA Video Connect'}
         {!isCC && !isVideoRequest && 'VA Appointment'}
         {isExpressCare && 'Express Care'}
         {isExpressCare && facility?.name}
-      </span>
+      </h2>
 
       {!!facility &&
         !isCC &&
@@ -126,6 +134,17 @@ function RequestedAppointmentDetailsPage({
             facilityId={parseFakeFHIRId(facilityId)}
             isHomepageRefresh
           />
+        )}
+
+      {isCC &&
+        isCCRequest &&
+        practitionerName && (
+          <>
+            <h2 className="vaos-appts__block-label vads-u-margin-bottom--0 vads-u-margin-top--2">
+              Preferred community care provider
+            </h2>
+            <span>{practitionerName}</span>
+          </>
         )}
 
       {!isExpressCare && (

@@ -43,8 +43,10 @@ const ProfileWrapper = ({
   routes,
   isLOA3,
   isInMVI,
-  hero,
   showNotAllDataAvailableError,
+  totalDisabilityRating,
+  showUpdatedNameTag,
+  showNameTag,
 }) => {
   const location = useLocation();
   const createBreadCrumbAttributes = () => {
@@ -66,6 +68,14 @@ const ProfileWrapper = ({
 
   return (
     <>
+      {showNameTag &&
+        showUpdatedNameTag && (
+          <NameTag
+            showUpdatedNameTag
+            totalDisabilityRating={totalDisabilityRating}
+          />
+        )}
+
       {/* Breadcrumbs */}
       <div data-testid="breadcrumbs">
         <Breadcrumbs className="vads-u-padding-x--1 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
@@ -84,7 +94,7 @@ const ProfileWrapper = ({
         </Breadcrumbs>
       </div>
 
-      {isEmpty(hero.errors) && isLOA3 && <NameTag />}
+      {showNameTag && !showUpdatedNameTag && <NameTag />}
 
       <div className="medium-screen:vads-u-display--none">
         <ProfileMobileSubNav
@@ -110,13 +120,16 @@ const ProfileWrapper = ({
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   const veteranStatus = selectProfile(state)?.veteranStatus;
   const invalidVeteranStatus =
     !veteranStatus || veteranStatus === 'NOT_AUTHORIZED';
+  const hero = state.vaProfile?.hero;
 
   return {
-    hero: state.vaProfile?.hero,
+    hero,
+    totalDisabilityRating: state.totalRating?.totalDisabilityRating,
+    showNameTag: ownProps.isLOA3 && isEmpty(hero?.errors),
     showNotAllDataAvailableError:
       !!cnpDirectDepositLoadError(state) ||
       !!eduDirectDepositLoadError(state) ||

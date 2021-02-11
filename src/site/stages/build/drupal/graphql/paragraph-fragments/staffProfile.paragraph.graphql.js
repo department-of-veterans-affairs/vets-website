@@ -34,7 +34,6 @@ module.exports = `
               image {
                 alt
                 title
-                url
                 derivative(style: _11SQUAREMEDIUMTHUMBNAIL) {
                   url
                   width

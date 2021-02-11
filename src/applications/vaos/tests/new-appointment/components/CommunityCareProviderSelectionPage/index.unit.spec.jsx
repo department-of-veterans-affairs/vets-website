@@ -113,6 +113,13 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     );
 
     expect((await screen.findAllByRole('radio')).length).to.equal(2);
+
+    expect(
+      global.window.dataLayer.some(
+        e => e === `${GA_PREFIX}-community-care-provider-selection-page`,
+      ),
+    );
+
     expect(screen.getByLabelText('Bozeman, MT')).to.exist;
     expect(screen.getByLabelText('Belgrade, MT')).to.exist;
     expect(screen.baseElement).to.contain.text(

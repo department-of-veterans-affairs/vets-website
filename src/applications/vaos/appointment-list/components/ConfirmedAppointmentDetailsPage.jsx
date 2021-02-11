@@ -103,11 +103,9 @@ function ConfirmedAppointmentDetailsPage({
       {!!facility &&
         !isExpressCare && (
           <>
-            <div className="vads-u-font-size--sm vads-u-font-family--sans">
-              <span>
-                <strong>{header}</strong>
-              </span>
-            </div>
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+              {header}
+            </h2>
 
             <VAFacilityLocation
               facility={facility}
