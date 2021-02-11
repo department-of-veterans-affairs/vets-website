@@ -50,9 +50,9 @@
 
             <!-- THIS PAGE IS FOR -->
             <div class="vads-l-col--12 medium-screen:vads-l-col--3">
-              <div class=" vads-u-margin-top--6 medium-screen:vads-u-margin-top--0 medium-screen:vads-u-margin-left--2">
+              <div class=" vads-u-margin-top--3 medium-screen:vads-u-margin-top--0 medium-screen:vads-u-margin-left--2">
                 {% if fieldClpAudience != empty %}
-                  <div class="va-c-white-box vads-u-background-color--white vads-u-padding--2 vads-u-margin-bottom--2">
+                  <div class="va-c-white-box vads-u-background-color--white vads-u-padding--2 vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--2">
                     <p class="va-u-text-transform--uppercase vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin--0">This page is for</p>
                     <hr class="va-c-blue-line vads-u-border-color--primary-alt vads-u-margin-y--2" />
                     <ul class="usa-unstyled-list">
@@ -205,7 +205,7 @@
                   <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-margin-bottom--4">
                     <img alt="{{ storyTeaser.entity.fieldMedia.entity.thumbnail.alt }}" class="vads-l-col--12 medium-screen:vads-l-col--4 medium-screen:vads-u-margin-right--2" src="{{ storyTeaser.entity.fieldMedia.entity.thumbnail.url }}" />
                     <div class="vads-u-margin-top--2 medium-screen:vads-u-margin-top--0">
-                      <h3 class="medium-screen:vads-u-margin-top--0">
+                      <h3 class="vads-u-margin-top--0">
                         <a href="{{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.uri }}">
                           {{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.title }}
                         </a>
@@ -236,7 +236,7 @@
           <!-- Title -->
           <p class="va-u-text-transform--uppercase vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">Downloadable resources</p>
           <h2 class="vads-u-margin-top--0">{{ fieldClpResourcesHeader }}</h2>
-          <p class="va-introtext vads-u-margin-top--1 vads-u-margin-bottom--4">{{ fieldClpResourcesIntroText }}</p>
+          <p class="va-introtext vads-u-margin-top--1 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--4">{{ fieldClpResourcesIntroText }}</p>
         </div>
       </div>
 
@@ -282,7 +282,7 @@
         <!-- List of events -->
         <div class="vads-l-row vads-u-margin-bottom--2 medium-screen:vads-u-margin-x--neg6">
           {% for eventReference in fieldClpEventsReferences %}
-            <div class="vads-l-col--12 medium-screen:vads-l-col--6">
+            <div class="vads-l-col--12 medium-screen:vads-l-col--6 {% if !forloop.first %}vads-u-margin-top--4 medium-screen:vads-u-margin-top--0{% endif %}">
               <div class="medium-screen:vads-u-margin-x--6">
                 <!-- Title -->
                 <h3 class="vads-u-margin-top--0">
@@ -437,13 +437,13 @@
         <div class="vads-l-col--12 medium-screen:vads-l-col--9">
           <!-- Title -->
           <p class="va-u-text-transform--uppercase vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">VA Benefits</p>
-          <h2 class="vads-u-margin-top--0">Learn more about related VA benefits</h2>
+          <h2 class="vads-u-margin-top--0 vads-u-margin-bottom--3">Learn more about related VA benefits</h2>
         </div>
       </div>
 
       <div class="vads-l-row medium-screen:vads-u-margin-x--neg6">
         {% for benefitCategory in fieldBenefitCategories %}
-          <div class="vads-l-col--12 medium-screen:vads-l-col--6">
+          <div class="vads-l-col--12 medium-screen:vads-l-col--6 {% if !forloop.first %}vads-u-margin-top--2 medium-screen:vads-u-margin-top--0{% endif %}">
             <div class="medium-screen:vads-u-margin-x--6">
               <div class="vads-u-display--flex vads-u-align-items--center">
                 <div class="inline hub-main-icon vads-u-margin-right--2">
