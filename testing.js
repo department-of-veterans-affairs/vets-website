@@ -41,3 +41,8 @@ console.log(otherDiff)
 
 console.log(oldEntities.filter(old => JSON.stringify(old) !== '{}').length)
 console.log(newEntities.length)
+
+console.log(Object.keys(legacy.data))
+console.log(Object.keys(newb.data))
+
+console.log(_.difference(Object.keys(legacy.data), Object.keys(newb.data)))
