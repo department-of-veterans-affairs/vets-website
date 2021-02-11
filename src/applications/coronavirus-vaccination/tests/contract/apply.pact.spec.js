@@ -9,7 +9,7 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
     context('saved registration exists', () => {
       it('returns a 200 OK HTTP response and the registration data', async () => {
         const interaction = {
-          state: 'retrieves previously saved submission data for user',
+          state: 'registration data exists',
           uponReceiving: 'a GET request',
           withRequest: {
             method: 'GET',
@@ -55,7 +55,7 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
     context('saved registration does not exist', () => {
       it('returns a 404 Not Found HTTP response and errors', async () => {
         const interaction = {
-          state: 'submission data for user does not exist',
+          state: 'registration data does not exist',
           uponReceiving: 'a GET request',
           withRequest: {
             method: 'GET',
