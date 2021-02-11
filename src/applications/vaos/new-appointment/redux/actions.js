@@ -464,14 +464,18 @@ export function openFacilityPageV2(page, uiSchema, schema) {
 }
 
 export function updateCCProviderSortMethod(sortMethod) {
-  return async (dispatch, _getState) => {
+  return async (dispatch, getState) => {
     let location = null;
+    const { currentLocation } = getNewAppointment(getState());
     const action = {
       type: FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED,
       sortMethod,
     };
 
-    if (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation) {
+    if (
+      sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation &&
+      Object.keys(currentLocation).length === 0
+    ) {
       dispatch({
         type: FORM_REQUEST_CURRENT_LOCATION,
       });
