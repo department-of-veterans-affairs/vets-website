@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import StepComponent from './StepComponent';
+import { orientationSteps } from './utils';
 
 const OrientationApp = props => {
   const [step, setStep] = useState(0);
@@ -25,7 +26,7 @@ const OrientationApp = props => {
         )}
         <a
           onClick={() => {
-            if (step < 4) {
+            if (step < orientationSteps.length - 1) {
               setStep(step + 1);
             } else {
               formStartHandler(true);
@@ -34,7 +35,7 @@ const OrientationApp = props => {
           type="button"
           className="usa-button-primary"
         >
-          Continue »
+          {step === 0 ? 'Start VR&E orientation' : 'Continue »'}
         </a>
       </div>
     </div>
