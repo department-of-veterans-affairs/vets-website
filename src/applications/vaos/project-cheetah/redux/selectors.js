@@ -1,8 +1,4 @@
-import moment from 'moment';
-import {
-  selectProfile,
-  selectVAPResidentialAddress,
-} from 'platform/user/selectors';
+import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import { FETCH_STATUS } from '../../utils/constants';
 import {
   getTimezoneBySystemId,
@@ -38,17 +34,8 @@ export function getSiteIdForChosenFacility(state) {
 }
 
 export function getChosenSlot(state) {
-  const availableSlots = selectProjectCheetah(state).availableSlots;
-  const selectedTime = selectProjectCheetahFormData(state).calendarData
-    ?.selectedDates?.[0].datetime;
-
-  return availableSlots?.find(slot => slot.start === selectedTime);
-}
-
-export function getChosenSlot2(state) {
-  const availableSlots = selectProjectCheetah(state).availableSlots;
-  const selectedTime = selectProjectCheetahFormData(state).calendarData
-    ?.selectedDates?.[1].datetime;
+  const availableSlots = selectProjectCheetahNewBooking(state).availableSlots;
+  const selectedTime = selectProjectCheetahFormData(state).date1[0];
 
   return availableSlots?.find(slot => slot.start === selectedTime);
 }
@@ -75,10 +62,6 @@ export function getDateTimeSelect(state, pageKey) {
     timezone,
     timezoneDescription,
   };
-}
-
-export function selectAllowProjectCheetahBookings(state) {
-  return moment().diff(moment(selectProfile(state).dob), 'years') >= 15;
 }
 
 export function getChosenFacilityInfo(state) {
@@ -132,7 +115,7 @@ export function getClinicPageInfo(state, pageKey) {
 
   return {
     ...formPageInfo,
-    facilityDetails: facilities.find(
+    facilityDetails: facilities?.find(
       facility => facility.id === formPageInfo.data.vaFacility,
     ),
   };
@@ -157,5 +140,25 @@ export function getReviewPage(state) {
     submitStatus: selectProjectCheetah(state).submitStatus,
     submitStatusVaos400: selectProjectCheetah(state).submitStatusVaos400,
     systemId: getSiteIdForChosenFacility(state),
+  };
+}
+
+export function selectConfirmationPage(state) {
+  return {
+    data: selectProjectCheetahFormData(state),
+    facilityDetails: getChosenFacilityInfo(state),
+    systemId: getSiteIdForChosenFacility(state),
+  };
+}
+
+export function selectContactFacilitiesPageInfo(state) {
+  const newBooking = selectProjectCheetahNewBooking(state);
+
+  const { facilities, facilitiesStatus } = newBooking;
+
+  return {
+    facilities,
+    facilitiesStatus,
+    sortMethod: newBooking.facilityPageSortMethod,
   };
 }

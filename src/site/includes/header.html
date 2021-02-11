@@ -80,7 +80,7 @@
 
   <script nonce="**CSP_NONCE**" type="text/javascript">
     window.VetsGov = window.VetsGov || {};
-    window.VetsGov.headerFooter = {{ headerFooterData }};
+    window.VetsGov.headerFooter = JSON.parse({{ headerFooterData }});
   </script>
 
 </head>

@@ -157,7 +157,7 @@ function transformOperatingHours(facilityHours) {
  * @returns A facility id with either 442 or 552 replaced with 983 or 984
  */
 function getTestFacilityId(facilityId) {
-  if (!environment.isProduction() && facilityId) {
+  if (facilityId && (!environment.isProduction() || window.Cypress)) {
     return facilityId.replace('442', '983').replace('552', '984');
   }
 

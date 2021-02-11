@@ -12,6 +12,7 @@ import ReasonForVisitDescription from '../components/reason-for-visit-descriptio
 import GetHelp from '../components/get-help';
 import ExpiresAt from '../components/expires-at';
 import HiddenFields from '../components/hidden-fields';
+import Messages from '../components/messages';
 
 import { TITLES, createPathFromTitle } from './utils';
 
@@ -37,6 +38,7 @@ const formConfig = {
   },
   submit,
   transformForSubmit,
+  submissionError: Messages.ServiceDown,
   formId: VA_FORM_IDS.FORM_HC_QSTNR,
   saveInProgress: {
     resumeOnly: true,
@@ -72,7 +74,7 @@ const formConfig = {
   },
   chapters: {
     chapter1: {
-      title: 'Veteran Information',
+      title: TITLES.demographics,
       reviewDescription: VeteranInfoPage.review,
       pages: {
         demographicsPage: {
@@ -110,7 +112,7 @@ const formConfig = {
       },
     },
     chapter2: {
-      title: 'Prepare for Your Appointment',
+      title: TITLES.reasonForVisit,
       pages: {
         reasonForVisit: {
           path: createPathFromTitle(TITLES.reasonForVisit),
@@ -143,8 +145,8 @@ const formConfig = {
                 <span>
                   Are there any other concerns or changes in your life that are
                   affecting you or your health? (For example, a marriage,
-                  divorce, new baby, change in your job, or other medical
-                  conditions)
+                  divorce, new baby, change in your job, retirement, or other
+                  medical conditions)
                 </span>
               ),
             },

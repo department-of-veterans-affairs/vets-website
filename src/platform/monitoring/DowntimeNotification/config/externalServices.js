@@ -38,4 +38,6 @@ export default {
   carma: 'carma',
   // Health care questionnaire
   hcq: 'hcq',
+  // Covid-19 Vaccination Keep Me Informed
+  vetextVaccine: 'vetext_vaccine',
 };

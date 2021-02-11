@@ -25,6 +25,7 @@ import SearchControls from '../components/SearchControls';
 import SearchResultsHeader from '../components/SearchResultsHeader';
 import { browserHistory } from 'react-router';
 import vaDebounce from 'platform/utilities/data/debounce';
+import environment from 'platform/utilities/environment';
 
 import mapboxClient from '../components/MapboxClient';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
@@ -51,6 +52,7 @@ let lastZoom = 3;
 let searchAreaSet = false;
 
 const mapboxGlContainer = 'mapbox-gl-container';
+const zoomMessageDivID = 'screenreader-zoom-message';
 
 const FacilitiesMap = props => {
   const [map, setMap] = useState(null);
@@ -256,7 +258,7 @@ const FacilitiesMap = props => {
 
     if (searchAreaControl.style.display === 'none') {
       searchAreaControl.style.display = 'block';
-      setFocus('#search-area-control');
+      setFocus('#search-area-control', false);
     }
 
     if (searchAreaControl && !searchAreaSet) {
@@ -265,10 +267,34 @@ const FacilitiesMap = props => {
     }
   };
 
+  const speakZoom = currentZoom => {
+    if (!environment.isProduction()) {
+      const screenreaderZoomElement = document.getElementById(zoomMessageDivID);
+
+      if (
+        screenreaderZoomElement &&
+        screenreaderZoomElement.innerText.length === 0
+      ) {
+        if (lastZoom < currentZoom) {
+          screenreaderZoomElement.innerText = `zooming in, level ${currentZoom}`;
+        }
+
+        if (lastZoom > currentZoom) {
+          screenreaderZoomElement.innerText = `zooming out, level ${currentZoom}`;
+        }
+      }
+    }
+  };
+
   const setMapEventHandlers = () => {
     map.on('dragend', () => {
       props.mapMoved();
       recordPanEvent(map.getCenter(), props.currentQuery);
+    });
+    map.on('zoom', () => {
+      const currentZoom = parseInt(map.getZoom(), 10);
+
+      speakZoom(currentZoom);
     });
     map.on('zoomend', () => {
       // Note: DO NOT call props.mapMoved() here
@@ -310,9 +336,18 @@ const FacilitiesMap = props => {
       'top-left',
     );
     setSearchAreaPosition();
+    const mapBoxLogo = document.querySelector(
+      'a.mapboxgl-ctrl-logo.mapboxgl-compact',
+    );
+    if (mapBoxLogo) mapBoxLogo.setAttribute('tabIndex', -1);
     mapInit.on('load', () => {
+      // set up listeners on the zoom-in and zoom-out buttons:
       document.querySelectorAll('.mapboxgl-ctrl > button').forEach(button =>
         button.addEventListener('click', () => {
+          const screenreaderZoomElement = document.getElementById(
+            zoomMessageDivID,
+          );
+          screenreaderZoomElement.innerText = '';
           props.mapMoved();
         }),
       );
@@ -399,8 +434,13 @@ const FacilitiesMap = props => {
             </TabPanel>
             <TabPanel>
               <div
+                id={zoomMessageDivID}
+                aria-live="assertive"
+                className="sr-only"
+              />
+              <div
                 style={{ width: '100%', maxHeight: '55vh', height: '55vh' }}
-                id="mapbox-gl-container"
+                id={mapboxGlContainer}
               />
               {selectedResult && (
                 <div className="mobile-search-result">
@@ -461,7 +501,8 @@ const FacilitiesMap = props => {
             />
           </div>
         </div>
-        <div className="desktop-map-container" id="mapbox-gl-container" />
+        <div id={zoomMessageDivID} aria-live="assertive" className="sr-only" />
+        <div className="desktop-map-container" id={mapboxGlContainer} />
         <PaginationWrapper
           handlePageSelect={handlePageSelect}
           currentPage={currentPage}

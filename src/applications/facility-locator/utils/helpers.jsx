@@ -6,11 +6,12 @@ import { CLINIC_URGENTCARE_SERVICE, LocationType } from '../constants';
 import UrgentCareAlert from '../containers/UrgentCareAlert';
 import { recordMarkerEvents } from '../utils/analytics';
 
-export const setFocus = selector => {
+// https://stackoverflow.com/a/50171440/1000622
+export const setFocus = (selector, tabIndexInclude = true) => {
   const el =
     typeof selector === 'string' ? document.querySelector(selector) : selector;
   if (el) {
-    el.setAttribute('tabIndex', -1);
+    if (tabIndexInclude) el.setAttribute('tabIndex', -1);
     el.focus();
   }
 };

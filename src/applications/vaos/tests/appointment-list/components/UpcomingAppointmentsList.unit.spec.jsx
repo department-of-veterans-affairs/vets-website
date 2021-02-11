@@ -156,7 +156,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
         ),
       ),
     ).to.exist;
-    expect(screen.baseElement).to.contain.text('Cancelled');
+    expect(screen.baseElement).to.contain.text('Canceled');
   });
 
   it('should not display when they have hidden statuses', () => {
@@ -453,9 +453,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       reducers,
     });
 
-    await screen.findByText(
-      new RegExp(startDate.tz('America/New_York').format('dddd, MMMM D'), 'i'),
-    );
+    await screen.findByText(new RegExp(startDate.format('dddd, MMMM D'), 'i'));
 
     expect(screen.baseElement).to.contain.text('Big sky medical');
   });
@@ -491,6 +489,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     appointment.attributes = {
       ...appointment.attributes,
       status: 'Submitted',
+      date: startDate,
       optionDate1: startDate,
       optionTime1: 'AM',
       purposeOfVisit: 'New Issue',
@@ -547,12 +546,13 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     expect(screen.baseElement).to.contain.text('Express Care request');
   });
 
-  it('should show cancelled express care appointment text', async () => {
+  it('should show canceled express care appointment text', async () => {
     const startDate = moment.utc();
     const appointment = getVARequestMock();
     appointment.attributes = {
       ...appointment.attributes,
       status: 'Cancelled',
+      date: startDate,
       optionDate1: startDate,
       optionTime1: 'AM',
       purposeOfVisit: 'New Issue',
@@ -602,8 +602,8 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(screen.baseElement).to.contain.text('Cancelled');
-    expect(screen.baseElement).to.contain.text(
+    expect(screen.baseElement).to.contain.text('Canceled');
+    expect(screen.baseElement).not.to.contain.text(
       'A VA health care provider will follow up with you today.',
     );
     expect(screen.baseElement).to.contain.text('Express Care request');

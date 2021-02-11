@@ -1,4 +1,9 @@
-import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import {
+  selectVAPResidentialAddress,
+  selectVAPEmailAddress,
+  selectVAPHomePhoneString,
+  selectVAPMobilePhoneString,
+} from 'platform/user/selectors';
 import {
   selectFeatureVSPAppointmentNew,
   selectSystemIds,
@@ -10,10 +15,11 @@ import {
 } from '../../services/location';
 import { getPreciseLocation } from '../../utils/address';
 import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../utils/constants';
-import { captureError } from '../../utils/error';
+import { captureError, has400LevelError } from '../../utils/error';
 import {
   recordEligibilityFailure,
   recordItemsRetrieved,
+  resetDataLayer,
 } from '../../utils/events';
 import newBookingFlow from '../flow';
 import { TYPE_OF_CARE_ID } from '../utils';
@@ -24,6 +30,8 @@ import {
 import moment from 'moment';
 import { getSlots } from '../../services/slot';
 import recordEvent from 'platform/monitoring/record-event';
+import { transformFormToAppointment } from './helpers/formSubmitTransformers';
+import { submitAppointment } from '../../services/var';
 
 export const FORM_PAGE_OPENED = 'projectCheetah/FORM_PAGE_OPENED';
 export const FORM_DATA_UPDATED = 'projectCheetah/FORM_DATA_UPDATED';
@@ -66,6 +74,18 @@ export const FORM_SUBMIT_SUCCEEDED = 'projectCheetah/FORM_SUBMIT_SUCCEEDED';
 export const FORM_SUBMIT_FAILED = 'projectCheetah/FORM_SUBMIT_FAILED';
 export const FORM_CLINIC_PAGE_OPENED_SUCCEEDED =
   'projectCheetah/FORM_CLINIC_PAGE_OPENED_SUCCEEDED';
+export const FORM_PREFILL_CONTACT_INFO =
+  'projectCheetah/FORM_PREFILL_CONTACT_INFO';
+export const FORM_PAGE_CONTACT_FACILITIES_OPEN =
+  'projectCheetah/FORM_CONTACT_FACILITIES_OPEN';
+export const FORM_PAGE_CONTACT_FACILITIES_OPEN_SUCCEEDED =
+  'projectCheetah/FORM_CONTACT_FACILITIES_OPEN_SUCCEEDED';
+export const FORM_PAGE_CONTACT_FACILITIES_OPEN_FAILED =
+  'projectCheetah/FORM_CONTACT_FACILITIES_OPEN_FAILED';
+
+export const GA_FLOWS = {
+  DIRECT: 'direct',
+};
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -345,6 +365,68 @@ export function projectCheetahAppointmentDateChoice(history) {
   };
 }
 
+export function prefillContactInfo() {
+  return (dispatch, getState) => {
+    const state = getState();
+    const email = selectVAPEmailAddress(state);
+    const homePhone = selectVAPHomePhoneString(state);
+    const mobilePhone = selectVAPMobilePhoneString(state);
+
+    dispatch({
+      type: FORM_PREFILL_CONTACT_INFO,
+      email,
+      phoneNumber: mobilePhone || homePhone,
+    });
+  };
+}
+
+export function confirmAppointment(history) {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: FORM_SUBMIT,
+    });
+
+    const additionalEventData = {
+      'health-TypeOfCare': 'Vaccine',
+    };
+
+    recordEvent({
+      event: `${GA_PREFIX}-direct-submission`,
+      flow: GA_FLOWS.DIRECT,
+      ...additionalEventData,
+    });
+
+    try {
+      const appointmentBody = transformFormToAppointment(getState());
+      await submitAppointment(appointmentBody);
+
+      dispatch({
+        type: FORM_SUBMIT_SUCCEEDED,
+      });
+
+      recordEvent({
+        event: `${GA_PREFIX}-direct-submission-successful`,
+        flow: GA_FLOWS.DIRECT,
+        ...additionalEventData,
+      });
+      resetDataLayer();
+      history.push('/new-project-cheetah-booking/confirmation');
+    } catch (error) {
+      captureError(error, true);
+      dispatch({
+        type: FORM_SUBMIT_FAILED,
+        isVaos400Error: has400LevelError(error),
+      });
+
+      recordEvent({
+        event: `${GA_PREFIX}-direct-submission-failed`,
+        flow: GA_FLOWS.DIRECT,
+        ...additionalEventData,
+      });
+      resetDataLayer();
+    }
+  };
+}
 export function routeToPageInFlow(flow, history, current, action) {
   return async (dispatch, getState) => {
     dispatch({
@@ -395,6 +477,41 @@ export function onCalendarChange(selectedDates, pageKey) {
   };
 }
 
+export function openContactFacilitiesPage() {
+  return async (dispatch, getState) => {
+    try {
+      const initialState = getState();
+      const newBooking = selectProjectCheetahNewBooking(initialState);
+      const siteIds = selectSystemIds(initialState);
+      let facilities = newBooking.facilities;
+
+      dispatch({
+        type: FORM_PAGE_CONTACT_FACILITIES_OPEN,
+      });
+
+      // Fetch facilities that support this type of care
+      if (!facilities) {
+        facilities = await getLocationsByTypeOfCareAndSiteIds({
+          siteIds,
+          directSchedulingEnabled: true,
+        });
+      }
+
+      recordItemsRetrieved('cheetah_available_facilities', facilities?.length);
+
+      dispatch({
+        type: FORM_PAGE_CONTACT_FACILITIES_OPEN_SUCCEEDED,
+        facilities: facilities || [],
+        address: selectVAPResidentialAddress(initialState),
+      });
+    } catch (e) {
+      captureError(e, false, 'cheetah facility page');
+      dispatch({
+        type: FORM_PAGE_CONTACT_FACILITIES_OPEN_FAILED,
+      });
+    }
+  };
+}
 export function routeToNextAppointmentPage(history, current) {
   return routeToPageInFlow(newBookingFlow, history, current, 'next');
 }

@@ -25,8 +25,6 @@ import {
   cnpDirectDepositUiState as directDepositUiStateSelector,
 } from '@@profile/selectors';
 
-import { cnpPrefix } from '@@profile/util';
-
 import BankInfoForm from './BankInfoForm';
 
 import PaymentInformationEditError from './PaymentInformationEditError';
@@ -162,7 +160,7 @@ export const BankInfoCNP = ({
           recordEvent({
             event: 'profile-navigation',
             'profile-action': 'edit-link',
-            'profile-section': `${cnpPrefix}direct-deposit-information`,
+            'profile-section': `cnp-direct-deposit-information`,
           });
           toggleEditState();
         }}
@@ -181,7 +179,7 @@ export const BankInfoCNP = ({
         recordEvent({
           event: 'profile-navigation',
           'profile-action': 'add-link',
-          'profile-section': `${cnpPrefix}direct-deposit-information`,
+          'profile-section': `cnp-direct-deposit-information`,
         });
         toggleEditState();
       }}
@@ -249,7 +247,18 @@ export const BankInfoCNP = ({
       data.push({
         title: 'Payment history',
         value: (
-          <a href="/va-payment-history/payments/">View your payment history</a>
+          <a
+            href="/va-payment-history/payments/"
+            onClick={() =>
+              recordEvent({
+                event: 'profile-navigation',
+                'profile-action': 'view-link',
+                'profile-section': 'view-payment-history',
+              })
+            }
+          >
+            View your payment history
+          </a>
         ),
       });
     }

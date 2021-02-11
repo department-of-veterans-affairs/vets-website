@@ -10,33 +10,31 @@ const faqI18Content = {
     langToggleLink: '/coronavirus-veteran-frequently-asked-questions-esp',
   },
 };
-
-const configureTranslationLink = (e, currentLang, targetLang) => {
-  const contentDiv = document.getElementById('content');
-  contentDiv.lang = currentLang;
-  e.dataset.lang = currentLang;
+const configureTranslationLink = (e, targetLang) => {
+  e.dataset.lang = targetLang;
+  e.lang = targetLang;
   e.innerText = faqI18Content[targetLang].linkTitle;
   e.href = faqI18Content[targetLang].langToggleLink;
-  e.onclick = recordEvent({
-    event: 'faq-lang-toggle',
-    targetLang,
-  });
+  e.onclick = _ => {
+    recordEvent({
+      event: 'nav-covid-link-click',
+      faqText: undefined,
+      faqSection: undefined,
+    });
+  };
 };
 const displayTranslationLink = () => {
   const i18LinkWrapper = document.getElementById('i18-link-wrapper');
   if (!i18LinkWrapper) return;
-  const isSpanish =
-    window.location.href.includes('-esp') ||
-    window.location.href.includes('nodeId=14580');
-  const translatableLinks = [
-    // uncomment the below line once we get through staging review and remove references to preview node
-    // 'coronavirus-veteran-frequently-asked-questions',
-    'coronavirus-veteran-frequently-asked-questions-esp',
-    'nodeId=14580',
-  ];
-  const isTranslatable = translatableLinks.some(url =>
-    window.location.href.includes(url),
-  );
+  const isSpanish = window.location.href.endsWith('-esp/');
+
+  const translatableLinks = new Set([
+    '/coronavirus-veteran-frequently-asked-questions/',
+    '/coronavirus-veteran-frequently-asked-questions-esp/',
+  ]);
+
+  const isTranslatable = translatableLinks.has(document.location.pathname);
+
   if (!isTranslatable) return;
 
   if (i18LinkWrapper.classList.contains('vads-u-display--none')) {
@@ -44,9 +42,9 @@ const displayTranslationLink = () => {
   }
   const i18link = document.querySelector('a.i18-toggle');
   if (!isSpanish) {
-    configureTranslationLink(i18link, 'en', 'es');
+    configureTranslationLink(i18link, 'es');
   } else {
-    configureTranslationLink(i18link, 'es', 'en');
+    configureTranslationLink(i18link, 'en');
   }
 };
 

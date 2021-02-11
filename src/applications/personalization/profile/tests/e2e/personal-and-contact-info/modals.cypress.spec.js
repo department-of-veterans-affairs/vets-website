@@ -37,8 +37,8 @@ const checkModals = options => {
 
   // Make an edit
   cy.get(`#${editLineId}`)
-    .click()
-    .type('test');
+    .click({ force: true })
+    .type('test', { force: true });
 
   // confirm that the update button is enabled
   cy.findByRole('button', { name: 'Update' }).should('not.be.disabled');

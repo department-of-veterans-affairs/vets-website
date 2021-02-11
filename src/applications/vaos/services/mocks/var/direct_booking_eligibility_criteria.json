@@ -74,8 +74,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryRequired": "No",
-            "patientHistoryDuration": 0,
             "stopCodes": [
               {
                 "primary": "211"
@@ -308,8 +306,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryRequired": "No",
-            "patientHistoryDuration": 0,
             "stopCodes": [
               {
                 "primary": "211"
@@ -540,7 +536,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryDuration": 0,
             "stopCodes": [
               {
                 "primary": "211"
@@ -771,8 +766,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryRequired": "No",
-            "patientHistoryDuration": 0,
             "stopCodes": [
               {
                 "primary": "211"
@@ -978,6 +971,7 @@
           {
             "id": "143",
             "typeOfCare": "Sleep Medicine – Home Sleep Testing",
+            "patientHistoryRequired": "No",
             "patientHistoryDuration": 0,
             "stopCodes": [
               {
@@ -1005,7 +999,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryDuration": 0,
             "stopCodes": [
               {
                 "primary": "211"
@@ -1262,7 +1255,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryDuration": 0,
             "stopCodes": [
               {
                 "primary": "211"
@@ -1488,7 +1480,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryDuration": 0,
             "stopCodes": [
               {
                 "primary": "211"
@@ -1712,7 +1703,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryDuration": 0,
             "stopCodes": [
               {
                 "primary": "211"
@@ -1936,7 +1926,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryDuration": 0,
             "stopCodes": [
               {
                 "primary": "211"
@@ -2161,7 +2150,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryDuration": 0,
             "stopCodes": [
               {
                 "primary": "211"
@@ -2385,7 +2373,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryDuration": 0,
             "stopCodes": [
               {
                 "primary": "211"

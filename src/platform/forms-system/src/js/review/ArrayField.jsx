@@ -220,9 +220,9 @@ class ArrayField extends React.Component {
       >
         {title && (
           <div className="form-review-panel-page-header-row">
-            <h3 className="form-review-panel-page-header vads-u-font-size--h4">
+            <h4 className="form-review-panel-page-header vads-u-font-size--h4">
               {title}
-            </h3>
+            </h4>
             {itemsNeeded && (
               <span className="schemaform-review-array-warning-icon" />
             )}

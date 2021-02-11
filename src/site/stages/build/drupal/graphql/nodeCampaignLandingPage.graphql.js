@@ -32,30 +32,7 @@ module.exports = `
         entityType
         entityBundle
         entityId
-        ... on NodeLandingPage {
-          fieldAdministration {
-            entity {
-              ... on TaxonomyTermAdministration {
-                fieldAcronym
-                fieldDescription
-                fieldEmailUpdatesLinkText
-                fieldEmailUpdatesUrl
-                fieldIntroText
-                fieldLink {
-                  uri
-                  title
-                }
-                fieldMetatags
-                fieldSocialMediaLinks {
-                  platform
-                  value
-                  platformValues
-                }
-              }
-            }
-          }
-          fieldDescription
-        }
+        ... landingPage
       }
     }
     fieldClpAudience {
@@ -74,6 +51,7 @@ module.exports = `
         entityBundle
         entityId
         ... on TaxonomyTermAdministration {
+          name
           fieldAcronym
           fieldDescription
           fieldEmailUpdatesLinkText
@@ -285,13 +263,7 @@ module.exports = `
         entityType
         entityBundle
         entityId
-        ... on ParagraphButton {
-          fieldButtonLabel
-          fieldButtonLink {
-            uri
-            title
-          }
-        }
+        ... button
       }
     }
     fieldClpFaqPanel
@@ -325,10 +297,10 @@ module.exports = `
         entityBundle
         entityId
         ... on MediaDocumentExternal {
+          name
           fieldDescription
           fieldMediaExternalFile {
             uri
-            title
           }
           fieldMediaInLibrary
           fieldMimeType
@@ -363,13 +335,7 @@ module.exports = `
         entityType
         entityBundle
         entityId
-        ... on ParagraphButton {
-          fieldButtonLabel
-          fieldButtonLink {
-            uri
-            title
-          }
-        }
+        ... button
       }
     }
     fieldClpResourcesHeader
@@ -380,13 +346,7 @@ module.exports = `
         entityType
         entityBundle
         entityId
-        ... on ParagraphButton {
-          fieldButtonLabel
-          fieldButtonLink {
-            uri
-            title
-          }
-        }
+        ... button
       }
     }
     fieldClpSpotlightHeader
@@ -455,13 +415,7 @@ module.exports = `
         entityType
         entityBundle
         entityId
-        ... on ParagraphButton {
-          fieldButtonLabel
-          fieldButtonLink {
-            uri
-            title
-          }
-        }
+        ... button
       }
     }
     fieldClpWhatYouCanDoHeader
@@ -550,15 +504,9 @@ module.exports = `
         entityBundle
         entityId
         ... on MediaVideo {
-          name
-          thumbnail {
-            height
-            width
-            url
-            targetId
-            alt
-            title
-          }
+          fieldDescription
+          fieldDuration
+          fieldMediaVideoEmbedField
         }
       }
     }
@@ -567,13 +515,7 @@ module.exports = `
         entityType
         entityBundle
         entityId
-        ... on ParagraphButton {
-          fieldButtonLabel
-          fieldButtonLink {
-            uri
-            title
-          }
-        }
+        ... button
       }
     }
     fieldSecondaryCallToAction {
@@ -581,13 +523,7 @@ module.exports = `
         entityType
         entityBundle
         entityId
-        ... on ParagraphButton {
-          fieldButtonLabel
-          fieldButtonLink {
-            uri
-            title
-          }
-        }
+        ... button
       }
     }
   }
