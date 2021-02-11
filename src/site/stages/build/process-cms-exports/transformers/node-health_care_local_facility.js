@@ -59,25 +59,11 @@ const transform = (entity, { ancestors }) => ({
   fieldFacilityLocatorApiId: getDrupalValue(entity.fieldFacilityLocatorApiId),
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldLocalHealthCareService: entity.fieldLocalHealthCareService.length
-    ? entity.fieldLocalHealthCareService
-        .filter(
-          // WIP. This eliminates the "bad" entries but
-          // causes many valid CMS entries to be omitted!
-          s =>
-            Object.keys(s).length &&
-            s.entity?.fieldRegionalHealthService.entity,
-        )
-        .map(s => {
-          const newRegionalEntity = {
-            ...s.entity.fieldRegionalHealthService.entity,
-            entityBundle: 'regional_health_care_service_des',
-          };
-          Object.assign(
-            s.entity.fieldRegionalHealthService.entity,
-            newRegionalEntity,
-          );
-          return s;
-        })
+    ? entity.fieldLocalHealthCareService.filter(
+        s =>
+          s.entity?.fieldRegionalHealthService?.entity
+            ?.fieldServiceNameAndDescripti?.entity?.name,
+      )
     : null,
   fieldLocationServices: entity.fieldLocationServices.length
     ? entity.fieldLocationServices
