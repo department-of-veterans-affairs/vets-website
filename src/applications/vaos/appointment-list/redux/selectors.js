@@ -14,6 +14,7 @@ import {
   sortUpcoming,
   getVARFacilityId,
   groupAppointmentsByMonth,
+  isCanceledConfirmedOrExpressCare,
   isUpcomingAppointmentOrExpressCare,
   sortByCreatedDateDescending,
 } from '../../services/appointment';
@@ -154,6 +155,24 @@ export const selectPastAppointments = createSelector(
   },
 );
 
+export const selectCanceledAppointments = createSelector(
+  // Selecting pending here to pull in EC requests
+  state => state.appointments.pending,
+  state => state.appointments.confirmed,
+  (pending, confirmed) => {
+    if (!confirmed || !pending) {
+      return null;
+    }
+
+    const sortedAppointments = confirmed
+      .concat(pending)
+      .filter(isCanceledConfirmedOrExpressCare)
+      .sort(sortByDateDescending);
+
+    return groupAppointmentsByMonth(sortedAppointments);
+  },
+);
+
 export function selectFirstRequestMessage(state) {
   const { currentAppointment, requestMessages } = state.appointments;
 
@@ -165,6 +184,25 @@ export function selectFirstRequestMessage(state) {
 
   return requestMessages?.[parsedId]?.[0]?.attributes?.messageText || null;
 }
+
+/*
+ * V2 Past appointments state selectors
+ */
+
+export const selectPastAppointmentsV2 = createSelector(
+  state => state.appointments.past,
+  past => {
+    if (!past) {
+      return null;
+    }
+
+    const sortedAppointments = past
+      .filter(isValidPastAppointment)
+      .sort(sortByDateAscending);
+
+    return groupAppointmentsByMonth(sortedAppointments);
+  },
+);
 
 /*
  * Express Care related appointments state selectors

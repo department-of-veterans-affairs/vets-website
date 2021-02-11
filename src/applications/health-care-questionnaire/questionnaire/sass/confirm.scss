@@ -17,6 +17,7 @@ div.healthcare-questionnaire-confirm{
   padding-bottom: 2rem;
 }
 
+ .next-steps>h2,
  .inset>h2 {
    margin: 0;
    font-size: 2rem;
@@ -32,7 +33,11 @@ div.healthcare-questionnaire-confirm{
     margin: 0;
   }
  }
- a.appointment-details-link{
+ a.appointment-details-link, a.questionnaire-link{
    color: $color-blue !important;
  }
+}
+
+div.usa-alert.usa-alert-error.print-error-message{
+  background-color: $color-white;
 }

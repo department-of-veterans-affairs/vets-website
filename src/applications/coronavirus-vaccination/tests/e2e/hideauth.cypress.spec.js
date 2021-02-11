@@ -16,7 +16,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       // Intro page
       cy.axeCheck();
       cy.get('.vads-l-row').contains(
-        'COVID-19 vaccines: Stay informed and help us prepare',
+        'Stay informed about getting a COVID-19 vaccine at VA',
       );
 
       cy.get('.usa-button').contains('Continue');
@@ -41,7 +41,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
         .clear()
         .type('Veteran');
 
-      cy.findByLabelText(/^Month/).select('Jun');
+      cy.findByLabelText(/^Month/).select('June');
 
       cy.findByLabelText(/^Day/).select('30');
 
@@ -93,9 +93,14 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       cy.get('.vads-l-row').contains(
         'Thank you for signing up to stay informed about COVID-19 vaccines at VA',
       );
-
       cy.get('.vads-l-row').contains(
-        'Remember: This form doesn’t sign you up to get a vaccine',
+        'Your local VA health facility may also use the information you provided to determine when to contact you about getting a vaccine once your risk group becomes eligible',
+      );
+      cy.get('.vads-l-row').contains(
+        'Your local VA health facility may contact you by phone, email, or text message.',
+      );
+      cy.get('.vads-l-row').contains(
+        'By sharing your plans for getting a vaccine, you help us better plan our efforts',
       );
     });
   });

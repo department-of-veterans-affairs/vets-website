@@ -61,6 +61,7 @@ module.exports = {
     field_event_cta: { $ref: 'GenericNestedString' },
     field_event_registrationrequired: { $ref: 'GenericNestedBoolean' },
     field_facility_location: { $ref: 'EntityReferenceArray' },
+    field_featured: { $ref: 'GenericNestedBoolean' },
     field_link: {
       // Might be worth pulling this out into a common schema
       type: 'array',
@@ -94,6 +95,7 @@ module.exports = {
     'field_event_cost',
     'field_event_cta',
     'field_event_registrationrequired',
+    'field_featured',
     'field_facility_location',
     'field_link',
     'field_location_humanreadable',

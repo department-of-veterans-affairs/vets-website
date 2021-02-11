@@ -169,6 +169,13 @@ export const DirectDepositEDU = ({
           target="_blank"
           rel="noopener noreferrer"
           href="https://www.va.gov/education/eligibility/"
+          onClick={() => {
+            recordEvent({
+              event: 'profile-navigation',
+              'profile-action': 'view-link',
+              'profile-section': 'education-benefits',
+            });
+          }}
         >
           Find out if you’re eligible for VA education benefits
         </a>

@@ -123,16 +123,13 @@ describe('<ResponsiveTable>', () => {
       `${row1Data.key}-${createId(column1Header)}`,
     );
 
-    const dfn = column1.find('dfn');
-    expect(dfn.matchesElement(<dfn>{`${column1Header}: `}</dfn>)).to.equal(
-      true,
-    );
-
-    const span = column1.find('span');
     expect(
-      span.matchesElement(<span>{row1Data[column1Header]}</span>),
+      wrapper.containsAllMatchingElements([
+        <span
+          key={`${row1Data.key}-${createId(column1Header)}`}
+        >{`${column1Header}: `}</span>,
+      ]),
     ).to.equal(true);
-
     wrapper.unmount();
   });
 
@@ -166,14 +163,12 @@ describe('<ResponsiveTable>', () => {
       `${row1Data.key}-${createId(column2Header)}`,
     );
 
-    const dfn = column2.find('dfn');
-    expect(dfn.matchesElement(<dfn>{`${column2Header}: `}</dfn>)).to.equal(
-      true,
-    );
-
-    const span = column2.find('span');
     expect(
-      span.matchesElement(<span>{row1Data[column2Header]}</span>),
+      wrapper.containsAllMatchingElements([
+        <span
+          key={`${row1Data.key}-${createId(column2Header)}`}
+        >{`${column2Header}: `}</span>,
+      ]),
     ).to.equal(true);
 
     wrapper.unmount();

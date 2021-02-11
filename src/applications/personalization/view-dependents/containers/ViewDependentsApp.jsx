@@ -32,6 +32,7 @@ class ViewDependentsApp extends Component {
               onAwardDependents={this.props.onAwardDependents}
               notOnAwardDependents={this.props.notOnAwardDependents}
               dependentsToggle={this.props.dependentsToggle}
+              manageDependentsToggle={this.props.manageDependentsToggle}
             />
           </RequiredLoginView>
         </DowntimeNotification>
@@ -46,6 +47,9 @@ const mapStateToProps = state => ({
   error: state.allDependents.error,
   dependentsToggle: toggleValues(state)[
     FEATURE_FLAG_NAMES.vaViewDependentsAccess
+  ],
+  manageDependentsToggle: toggleValues(state)[
+    FEATURE_FLAG_NAMES.manageDependents
   ],
   onAwardDependents: state.allDependents.onAwardDependents,
   notOnAwardDependents: state.allDependents.notOnAwardDependents,

@@ -191,13 +191,14 @@ export class SearchResults extends Component {
 
           {/* SORT WIDGET */}
           <Select
-            additionalClass="find-forms-search--sort-select"
-            label="Sort By"
-            includeBlankOption={false}
-            name="findFormsSortBySelect"
-            onValueChange={setSortByPropertyNameState(formMetaInfo)}
-            options={SORT_OPTIONS}
-            value={{ value: sortByPropertyName }}
+              additionalClass="find-forms-search--sort-select"
+              ariaLiveRegionText="Results sorted by "
+              label="Sort By"
+              includeBlankOption={false}
+              name="findFormsSortBySelect"
+              onValueChange={setSortByPropertyNameState(formMetaInfo)}
+              options={SORT_OPTIONS}
+              value={{ value: sortByPropertyName }}
           />
         </div>
 

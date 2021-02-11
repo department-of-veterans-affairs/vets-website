@@ -18,6 +18,8 @@ import {
   questionnaireListLoadedWithError,
 } from '../../../actions';
 
+import GetHelpFooter from '../../../../questionnaire/components/get-help/GetHelpFooter';
+
 import { sortQuestionnairesByStatus } from '../../../utils';
 
 import { path, todoPath, completedPath } from './routes';
@@ -81,6 +83,7 @@ const Home = props => {
             </Router>
           </ShowErrorStatus>
         )}
+        <GetHelpFooter />
       </div>
     </RequiredLoginView>
   );

@@ -34,7 +34,7 @@ IS_DEV_BRANCH = env.BRANCH_NAME == DEV_BRANCH
 IS_STAGING_BRANCH = env.BRANCH_NAME == STAGING_BRANCH
 IS_PROD_BRANCH = env.BRANCH_NAME == PROD_BRANCH
 
-DOCKER_ARGS = "-v ${WORKSPACE}/vets-website:/application -v ${WORKSPACE}/vagov-content:/vagov-content"
+DOCKER_ARGS = "-v ${WORKSPACE}/vets-website:/application -v ${WORKSPACE}/vagov-content:/vagov-content --ulimit nofile=8192:8192"
 IMAGE_TAG = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
 DOCKER_TAG = "vets-website:" + IMAGE_TAG
 
@@ -156,19 +156,22 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
   // Output a csv file with the broken links
   sh "cd /application && jenkins/glean-broken-links.sh ${buildLogPath} ${csvFileName}"
   if (fileExists(csvFile)) {
-    echo "Found broken links; notifying the Slack channel."
-    // TODO: Move this slackUploadFile to cacheDrupalContent and update the echo statement above
-    // slackUploadFile(filePath: csvFile, channel: 'dev_null', failOnError: true, initialComment: "Found broken links in the ${envName} build on `${env.BRANCH_NAME}`.")
-
-    // Until slackUploadFile works...
-    def linkCount = sh(returnStdout: true, script: "cd /application && wc -l ${csvFileName} | cut -d ' ' -f1") as Integer
-    slackSend message: "${linkCount} broken links found in the ${envName} build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}".stripMargin(),
-      color: 'danger',
-      failOnError: true,
-      channel: 'cms-team'
+    echo "Found broken links."
 
     // Only break the build if broken links are found in master
     if (IS_PROD_BRANCH || contentOnlyBuild) {
+      echo "Notifying Slack channel."
+      // TODO: Move this slackUploadFile to cacheDrupalContent and update the echo statement above
+      // slackUploadFile(filePath: csvFile, channel: 'dev_null', failOnError: true, initialComment: "Found broken links in the ${envName} build on `${env.BRANCH_NAME}`.")
+
+      // Until slackUploadFile works...
+      def brokenLinksCount = sh(returnStdout: true, script: "wc -l /application/${csvFileName} | cut -d ' ' -f1") as Integer
+
+      slackSend message: "${brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}".stripMargin(),
+        color: 'danger',
+        failOnError: true,
+        channel: 'cms-team'
+      
       throw new Exception('Broken links found')
     }
   } else {
@@ -176,24 +179,26 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
   }
 }
 
-def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache, Boolean contentOnlyBuild) {
+def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache, Boolean contentOnlyBuild, Boolean useCMSExport) {
   // Use Drupal prod for all environments
   def drupalAddress = DRUPAL_ADDRESSES.get('vagovprod')
   def drupalCred = DRUPAL_CREDENTIALS.get('vagovprod')
   def drupalMode = useCache ? '' : '--pull-drupal'
+  def cmsExportFlag = useCMSExport ? '--use-cms-export' : ''
+
+  // Output CMS export builds to separate directories for comparison
+  def destination = useCMSExport ? "${envName}-cms-export" : envName;
 
   withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLogPath = "/application/${envName}-build.log"
 
-      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose"
+      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose ${cmsExportFlag} --destination ${destination}"
 
       if (envName == 'vagovprod') {
+        // Find any broken links in the log
         checkForBrokenLinks(buildLogPath, envName, contentOnlyBuild)
-      }
-
-      // Find any missing query flags in the log
-      if (envName == 'vagovprod') {
+        // Find any missing query flags in the log
         findMissingQueryFlags(buildLogPath, envName)
       }
     }
@@ -213,7 +218,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
         def envName = VAGOV_BUILDTYPES.get(i)
         builds[envName] = {
           try {
-            build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+            build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild, false)
             envUsedCache[envName] = false
           } catch (error) {
             // We're not using the cache for content only builds, because requesting
@@ -222,15 +227,26 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
               dockerContainer.inside(DOCKER_ARGS) {
                 sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
               }
-              build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
+              build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild, false)
               envUsedCache[envName] = true
             } else {
-              build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+              build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild, false)
               envUsedCache[envName] = false
             }
           }
         }
       }
+
+      /******** Experimental CMS export build (dev) ********/
+      builds['vagovdev-cms-export'] = {
+        try {
+          build(ref, dockerContainer, assetSource, 'vagovdev', false, contentOnlyBuild, true)
+        } catch (error) {
+          // Don't fail the build, just report the error
+          echo "Experimental CMS export build failed: ${error}"
+        }
+      }
+      /******** End experimental CMS export build ********/
 
       parallel builds
       return envUsedCache
