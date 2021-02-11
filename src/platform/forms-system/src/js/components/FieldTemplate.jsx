@@ -66,7 +66,7 @@ export default function FieldTemplate(props) {
   });
 
   const inputWrapperClassNames = classNames('schemaform-widget-wrapper', {
-    'usa-input-error form-error-date': isDateField && hasErrors,
+    'form-error-date': isDateField && hasErrors,
   });
 
   const noWrapperContent =
