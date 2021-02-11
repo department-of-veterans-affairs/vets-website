@@ -52,7 +52,6 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
       });
     });
 
-    // done
     context('saved registration does not exist', () => {
       it('returns a 404 Not Found HTTP response and errors', async () => {
         const interaction = {
@@ -97,7 +96,6 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
     });
   });
 
-  // done
   describe('POST /registration', () => {
     context('authenticated user with valid registration', () => {
       it('returns a 201 Created HTTP response', async () => {
@@ -141,7 +139,6 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
       });
     });
 
-    // done
     context('unauthenticated user with valid registration', () => {
       it('returns a 201 Created HTTP response', async () => {
         const interaction = {
