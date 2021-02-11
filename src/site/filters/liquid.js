@@ -603,8 +603,7 @@ module.exports = function registerFilters() {
       return url;
     }
 
-    const formattedURL = _.replace(url, 'youtu.be', 'youtube.com/embed');
-    return formattedURL;
+    return _.replace(url, 'youtu.be', 'youtube.com/embed');
   };
 
   liquid.filters.formatSeconds = rawSeconds => {
@@ -628,7 +627,7 @@ module.exports = function registerFilters() {
       text = ' hours';
     }
 
-    const digits = [hours, minutes, seconds].filter(digits => digits).join(':');
+    const digits = [hours, minutes, seconds].filter(item => item).join(':');
 
     // Return a formatted timestamp string.
     return `${digits}${text}`;
