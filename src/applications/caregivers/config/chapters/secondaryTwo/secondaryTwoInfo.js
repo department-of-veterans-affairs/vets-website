@@ -3,7 +3,7 @@ import { SecondaryCaregiverInfo } from 'applications/caregivers/components/Addit
 import { secondaryCaregiverFields } from 'applications/caregivers/definitions/constants';
 import definitions, {
   addressWithoutCountryUI,
-} from 'applications/caregivers/definitions/caregiverUI';
+} from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
 
 const { secondaryCaregiverTwo } = fullSchema.properties;
 const secondaryCaregiverTwoProps = secondaryCaregiverTwo.properties;

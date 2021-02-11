@@ -4,7 +4,7 @@ import { secondaryCaregiverFields } from 'applications/caregivers/definitions/co
 import definitions, {
   addressWithoutCountryUI,
   confirmationEmailUI,
-} from 'applications/caregivers/definitions/caregiverUI';
+} from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
 
 const { secondaryCaregiverTwo } = fullSchema.properties;
 const secondaryCaregiverTwoProps = secondaryCaregiverTwo.properties;

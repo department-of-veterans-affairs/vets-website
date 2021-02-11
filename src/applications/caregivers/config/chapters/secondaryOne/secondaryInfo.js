@@ -1,7 +1,7 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { SecondaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo';
 import { secondaryCaregiverFields } from 'applications/caregivers/definitions/constants';
-import definitions from 'applications/caregivers/definitions/caregiverUI';
+import definitions from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
 
 const { secondaryCaregiverOne } = fullSchema.properties;
 const secondaryCaregiverOneProps = secondaryCaregiverOne.properties;

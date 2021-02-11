@@ -1,4 +1,4 @@
-import definitions from 'applications/caregivers/definitions/caregiverUI';
+import definitions from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
 import { primaryCaregiverFields } from 'applications/caregivers/definitions/constants';
 import { SecondaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo';
 

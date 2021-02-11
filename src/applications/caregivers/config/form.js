@@ -18,7 +18,7 @@ import {
 
 import definitions, {
   addressWithoutCountryUI,
-} from 'applications/caregivers/definitions/caregiverUI';
+} from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
 
 import manifest from '../manifest.json';
 

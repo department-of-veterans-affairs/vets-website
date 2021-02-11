@@ -1,7 +1,7 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { PrimaryHealthCoverage } from 'applications/caregivers/components/AdditionalInfo';
 import { primaryCaregiverFields } from 'applications/caregivers/definitions/constants';
-import definitions from 'applications/caregivers/definitions/caregiverUI';
+import definitions from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
 
 const { primaryCaregiver } = fullSchema.properties;
 const primaryCaregiverProps = primaryCaregiver.properties;

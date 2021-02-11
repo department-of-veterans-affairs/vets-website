@@ -4,7 +4,7 @@ import { primaryCaregiverFields } from 'applications/caregivers/definitions/cons
 import definitions, {
   addressWithoutCountryUI,
   confirmationEmailUI,
-} from 'applications/caregivers/definitions/caregiverUI';
+} from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
 
 const { primaryCaregiver } = fullSchema.properties;
 const primaryCaregiverProps = primaryCaregiver.properties;

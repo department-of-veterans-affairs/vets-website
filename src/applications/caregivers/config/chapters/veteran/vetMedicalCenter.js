@@ -6,7 +6,7 @@ import {
   previousTreatmentFacilityUI,
   veteranPreferredFacility,
   preferredFacilityView,
-} from 'applications/caregivers/definitions/caregiverUI';
+} from 'applications/caregivers/definitions/UIDefinitions/veteranUI';
 
 const plannedClinic = fullSchema.properties.veteran.properties.plannedClinic;
 const lastTreatmentFacility =

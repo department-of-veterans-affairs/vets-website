@@ -1,11 +1,11 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { VetInfo } from 'applications/caregivers/components/AdditionalInfo';
 import { vetFields } from 'applications/caregivers/definitions/constants';
+import { vetInputLabel } from 'applications/caregivers/definitions/UIDefinitions/veteranUI';
 import definitions, {
   addressWithoutCountryUI,
   confirmationEmailUI,
-  vetInputLabel,
-} from 'applications/caregivers/definitions/caregiverUI';
+} from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
 
 const { veteran } = fullSchema.properties;
 const veteranProps = veteran.properties;
