@@ -305,8 +305,8 @@ module.exports = function registerFilters() {
   liquid.filters.eventSorter = item =>
     item &&
     item.sort((a, b) => {
-      const start1 = moment(a.fieldDate.startDate);
-      const start2 = moment(b.fieldDate.startDate);
+      const start1 = moment(a.fieldDatetimeRangeTimezone.startTime);
+      const start2 = moment(b.fieldDatetimeRangeTimezone.startTime);
       return start1.isAfter(start2);
     });
 
