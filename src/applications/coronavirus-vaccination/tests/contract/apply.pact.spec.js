@@ -1,5 +1,5 @@
 import contractTest from 'platform/testing/contract';
-import { like, string, term } from '@pact-foundation/pact/dsl/matchers';
+import { like, term } from '@pact-foundation/pact/dsl/matchers';
 import { retrievePreviouslySubmittedForm, saveForm } from '../../api/';
 import authenticatedApplicationData from '../cypress/fixtures/data/authenticated-coronavirus-vaccination-application.json';
 import unauthenticatedApplicationData from '../cypress/fixtures/data/unauthenticated-coronavirus-vaccination-application.json';
@@ -52,6 +52,7 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
       });
     });
 
+    // done
     context('saved registration does not exist', () => {
       it('returns a 404 Not Found HTTP response and errors', async () => {
         const interaction = {
@@ -96,6 +97,7 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
     });
   });
 
+  // done
   describe('POST /registration', () => {
     context('authenticated user with valid registration', () => {
       it('returns a 201 Created HTTP response', async () => {
@@ -121,7 +123,7 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
             },
             body: {
               data: {
-                id: string('BC79619E54A14BFF0D1607952232618112202'),
+                id: '',
                 type: 'covid_vaccine_v0_registration_submissions',
                 attributes: like({
                   createdAt: '2020-12-14T13:23:52.929Z',
@@ -139,6 +141,7 @@ contractTest('Coronavirus Vaccination', 'VA.gov API', mockApi => {
       });
     });
 
+    // done
     context('unauthenticated user with valid registration', () => {
       it('returns a 201 Created HTTP response', async () => {
         const interaction = {
