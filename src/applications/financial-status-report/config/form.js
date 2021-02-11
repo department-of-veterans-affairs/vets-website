@@ -5,19 +5,27 @@ import environment from 'platform/utilities/environment';
 import manifest from '../manifest.json';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
-import PreSubmitSignature from '../components/PreSubmitSignature';
+// import PreSubmitSignature from '../components/PreSubmitSignature';
 import { prefillTransformer } from '../utils/prefillTransformer';
 import * as pages from '../pages';
+import moment from 'moment';
+
+const submit = () => {
+  return Promise.resolve(
+    JSON.stringify({ submission: { response: { timestamp: moment() } } }),
+  );
+};
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
+  submit,
   submitUrl: `${environment.API_URL}/v0/api`,
   trackingPrefix: 'fsr-5655-',
   verifyRequiredPrefill: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  preSubmitInfo: PreSubmitSignature,
+  // preSubmitInfo: PreSubmitSignature,
   formId: VA_FORM_IDS.FORM_5655,
   version: 0,
   prefillEnabled: true,
