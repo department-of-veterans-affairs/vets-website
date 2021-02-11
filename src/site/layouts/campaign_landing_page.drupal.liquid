@@ -308,13 +308,23 @@
                 </div>
 
                 <!-- Where -->
-                <!-- NOT SURE WHAT TO PUT HERE: https://dsva.slack.com/archives/C01DS1XDEQ0/p1611332573004800?thread_ts=1611331917.004100&cid=C01DS1XDEQ0 -->
-                <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-margin-top--2">
-                  <p class="vads-u-font-weight--bold vads-u-margin--0 vads-u-margin-right--2">Where</p>
-                  <a href="" rel="noreferrer noopener" target="_blank">
-                    TODO
-                  </a>
-                </div>
+                {% if eventReference.entity.fieldFacilityLocation.entity.entityUrl.path || node.fieldLocationHumanreadable != empty %}
+                  <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-margin-top--2">
+                    <p class="vads-u-font-weight--bold vads-u-margin--0 vads-u-margin-right--2">Where</p>
+
+                    <!-- Event link -->
+                    {% if eventReference.entity.fieldFacilityLocation.entity.entityUrl.path %}
+                      <a href="{{ eventReference.entity.fieldFacilityLocation.entity.entityUrl.path }}" rel="noreferrer noopener" target="_blank">
+                        {{ eventReference.entity.fieldFacilityLocation.entity.title }}
+                      </a>
+                    {% endif %}
+
+                    <!-- Event address -->
+                    {% if eventReference.entity.fieldLocationHumanreadable != empty %}
+                      <p>{{ eventReference.entity.fieldLocationHumanreadable }}</p>
+                    {% endif %}
+                  </div>
+                {% endif %}
               </div>
             </div>
           {% endfor %}
