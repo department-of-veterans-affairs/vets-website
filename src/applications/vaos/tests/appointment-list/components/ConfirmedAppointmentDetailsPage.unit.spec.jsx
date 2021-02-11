@@ -31,9 +31,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
     const appointment = getVAAppointmentMock();
     appointment.attributes = {
       ...appointment.attributes,
-      startDate: moment()
-        .tz('America/Denver')
-        .format(),
+      startDate: moment().format(),
       clinicId: '308',
       clinicFriendlyName: "Jennie's Lab",
       facilityId: '983',
