@@ -36,6 +36,9 @@ const testConfig = createTestConfig(
         cy.get('.usa-button-primary').click();
         cy.get('.usa-button-primary').click();
         cy.get('.usa-button-primary').click();
+        cy.get('.usa-button-primary').click();
+        cy.get('.usa-button-primary').click();
+        cy.get('.usa-button-primary').click();
         cy.findAllByText(/Apply online with VA Form 28-1900/i, {
           selector: 'a',
         })
