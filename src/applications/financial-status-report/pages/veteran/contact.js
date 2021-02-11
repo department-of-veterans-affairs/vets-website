@@ -191,8 +191,6 @@ export const uiSchema = {
     },
   },
   contactInfo: {
-    'ui:description':
-      "We'll contact you about your request with the phone number and email address below.",
     phoneNumber: {
       ...phoneUI('Phone number'),
       'ui:options': {
@@ -206,7 +204,7 @@ export const uiSchema = {
       },
     },
     confirmationEmail: {
-      ...emailUI('Re-enter email field'),
+      ...emailUI('Re-enter email address'),
       'ui:description': (
         <p className="formfield-subtitle">
           To receive a confirmation email when you submit your request, you must
