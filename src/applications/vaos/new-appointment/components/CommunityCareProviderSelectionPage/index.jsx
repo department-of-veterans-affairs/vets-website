@@ -64,6 +64,9 @@ function CommunityCareProviderSelectionPage({
       document.title = `${pageTitle} | Veterans Affairs`;
       scrollAndFocus();
       openCommunityCareProviderSelectionPage(pageKey, uiSchema, initialSchema);
+      recordEvent({
+        event: `${GA_PREFIX}-community-care-provider-selection-page`,
+      });
     }
   }, []);
 

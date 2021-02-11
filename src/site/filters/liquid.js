@@ -12,6 +12,10 @@ function getPath(obj) {
 module.exports = function registerFilters() {
   const { cmsFeatureFlags } = global;
 
+  // Set timeout option to something higher (20mins)
+  // eslint-disable-next-line no-new
+  new liquid.Context({ timeout: 1200000 });
+
   // Custom liquid filter(s)
   liquid.filters.humanizeDate = dt =>
     moment(dt, 'YYYY-MM-DD').format('MMMM D, YYYY');
