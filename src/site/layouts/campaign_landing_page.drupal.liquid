@@ -115,11 +115,15 @@
             <h2 class="vads-u-margin--0">{{ fieldClpVideoPanelHeader }}</h2>
 
             <!-- Video -->
+            {% assign videoURL = fieldMedia.entity.fieldMediaVideoEmbedField | createEmbedYouTubeVideoURL %}
             <iframe
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
               class="vads-u-margin-top--4"
               frameBorder="0"
-              src="{{ fieldMedia.entity.fieldMediaVideoEmbedField }}"
+              height="315"
+              src="{{ videoURL }}"
+              style="max-width: 560px;"
               title="{{ fieldMedia.entity.name | default: 'A related YouTube video' }}"
               width="100%"
             ></iframe>

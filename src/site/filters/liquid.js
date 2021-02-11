@@ -593,4 +593,21 @@ module.exports = function registerFilters() {
 
   liquid.filters.sortEntityMetatags = item =>
     item ? item.sort((a, b) => a.key.localeCompare(b.key)) : undefined;
+
+  liquid.filters.createEmbedYouTubeVideoURL = url => {
+    if (!url) {
+      return url;
+    }
+
+    if (!_.includes(url, 'youtu')) {
+      return url;
+    }
+
+    if (_.includes(url, 'embed')) {
+      return url;
+    }
+
+    const formattedURL = _.replace(url, 'youtu.be', 'youtube.com/embed');
+    return formattedURL;
+  };
 };
