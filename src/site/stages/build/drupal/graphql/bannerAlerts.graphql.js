@@ -2,7 +2,7 @@
  * The alerts that appear above content.
  */
 
-const bannerAlerts = `
+module.exports = `
   bannerAlerts: nodeQuery(limit: 500, filter: {conditions: [{field: "status", value: "1", operator: EQUAL}, {field: "type", value: "full_width_banner_alert"}]}) {
     entities {
       ... on NodeFullWidthBannerAlert {
@@ -59,14 +59,3 @@ const bannerAlerts = `
     }
   }
 `;
-
-const GetBannnerAlerts = `
-  query {
-    ${bannerAlerts}
-  }
-`;
-
-module.exports = {
-  partialQuery: bannerAlerts,
-  GetBannnerAlerts,
-};

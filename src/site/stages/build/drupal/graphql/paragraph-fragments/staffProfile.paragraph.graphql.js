@@ -16,7 +16,7 @@ module.exports = `
         fieldDescription
         fieldEmailAddress
         fieldPhoneNumber
-
+        
         fieldBody {
           processed
         }
@@ -34,7 +34,7 @@ module.exports = `
               image {
                 alt
                 title
-                derivative(style: _11SQUAREMEDIUMTHUMBNAIL) {
+                derivative(style: _1_1_SQUARE_MEDIUM_THUMBNAIL) {
                   url
                   width
                   height
@@ -49,5 +49,3 @@ module.exports = `
   }
 }
 `;
-
-// Had to change "_11SQUAREMEDIUMTHUMBNAIL" to "_11SQUAREMEDIUMTHUMBNAIL"

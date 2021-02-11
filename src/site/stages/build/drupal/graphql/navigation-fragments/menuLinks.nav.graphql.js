@@ -6,7 +6,7 @@
 
 const headerQuery = require('./header.nav.graphql');
 
-const menuLinkContentQuery = `
+module.exports = `
   menuLinkContentQuery(limit: 5000, filter: {conditions: [{field: "enabled", value: "1"}]}) {
     entities {
       entityId
@@ -15,14 +15,3 @@ const menuLinkContentQuery = `
     }
   }
 `;
-
-const GetMenuLinks = `
-  query {
-    ${menuLinkContentQuery}
-  }
-`;
-
-module.exports = {
-  partialQuery: menuLinkContentQuery,
-  GetMenuLinks,
-};

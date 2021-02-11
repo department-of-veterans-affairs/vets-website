@@ -2,7 +2,7 @@
  * The alerts that appear above content.
  */
 
-const partialQuery = `
+module.exports = `
     alerts:   blockContentQuery(filter: {conditions: [{field: "type", value: "alert"}, {field: "status", value: "1"}]},
     sort: {field: "field_node_reference", direction: DESC}
     limit: 100) {
@@ -26,14 +26,3 @@ const partialQuery = `
     }
   }
 `;
-
-const GetAlerts = `
-  query {
-    ${partialQuery}
-  }
-`;
-
-module.exports = {
-  partialQuery,
-  GetAlerts,
-};

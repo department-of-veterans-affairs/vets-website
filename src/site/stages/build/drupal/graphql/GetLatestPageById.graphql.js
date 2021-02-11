@@ -1,6 +1,6 @@
 const landingPage = require('./landingPage.graphql');
 const page = require('./page.graphql');
-const { ALL_FRAGMENTS } = require('./fragments.graphql');
+const fragments = require('./fragments.graphql');
 const healthCareRegionPage = require('./healthCareRegionPage.graphql');
 
 const alertsQuery = require('./alerts.graphql');
@@ -44,27 +44,27 @@ const {
  */
 module.exports = `
 
-  ${ALL_FRAGMENTS}
-  ${landingPage.fragment}
-  ${page.fragment}
-  ${healthCareRegionPage.fragment}
-  ${healthCareLocalFacilityPage.fragment}
-  ${healthCareRegionDetailPage.fragment}
-  ${pressReleasePage.fragment}
-  ${vamcOperatingStatusAndAlerts.fragment}
-  ${newsStoryPage.fragment}
-  ${eventPage.fragment}
-  ${bioPage.fragment}
-  ${vaFormPage.fragment}
-  ${nodeQa.fragment}
-  ${faqMultipleQa.fragment}
-  ${nodeStepByStep.fragment}
-  ${nodeMediaListImages.fragment}
-  ${nodeChecklist.fragment}
-  ${nodeMediaListVideos.fragment}
-  ${nodeSupportResourcesDetailPage.fragment}
-  ${nodeBasicLandingPage.fragment}
-  ${nodeCampaignLandingPage.fragment}
+  ${fragments}
+  ${landingPage}
+  ${page}
+  ${healthCareRegionPage}
+  ${healthCareLocalFacilityPage}
+  ${healthCareRegionDetailPage}
+  ${pressReleasePage}
+  ${vamcOperatingStatusAndAlerts}
+  ${newsStoryPage}
+  ${eventPage}
+  ${bioPage}
+  ${vaFormPage}
+  ${nodeQa}
+  ${faqMultipleQa}
+  ${nodeStepByStep}
+  ${nodeMediaListImages}
+  ${nodeChecklist}
+  ${nodeMediaListVideos}
+  ${nodeSupportResourcesDetailPage}
+  ${nodeBasicLandingPage}
+  ${nodeCampaignLandingPage}
 
   query GetLatestPageById($id: String!, $today: String!, $onlyPublishedContent: Boolean!) {
     nodes: nodeQuery(revisions: LATEST, filter: {
@@ -95,18 +95,18 @@ module.exports = `
         ... nodeCampaignLandingPage
       }
     }
-    ${icsFileQuery.partialQuery}
-    ${sidebarQuery.partialQuery}
-    ${facilitySidebarQuery.partialQuery}
-    ${alertsQuery.partialQuery}
-    ${bannerAlertsQuery.partialQuery}
+    ${icsFileQuery}
+    ${sidebarQuery}
+    ${facilitySidebarQuery}
+    ${alertsQuery}
+    ${bannerAlertsQuery}
     ${
       cmsFeatureFlags.FEATURE_ALL_HUB_SIDE_NAVS
-        ? `${allSideNavMachineNamesQuery.partialQuery}`
+        ? `${allSideNavMachineNamesQuery}`
         : ''
     }
-    ${menuLinksQuery.partialQuery}
-    ${taxonomiesQuery.partialQuery}
+    ${menuLinksQuery}
+    ${taxonomiesQuery}
   }
 `;
 

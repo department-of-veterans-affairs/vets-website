@@ -3,9 +3,8 @@
  *
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
-const { generatePaginatedQueries } = require('../individual-queries-helpers');
 
-const personProfileFragment = `
+module.exports = `
  fragment bioPage on NodePersonProfile {
   ${entityElementsFromPages}
   fieldNameFirst
@@ -48,40 +47,3 @@ const personProfileFragment = `
   changed
  }
 `;
-
-function getNodePersonProfilesSlice(operationName, offset, limit) {
-  return `
-    ${personProfileFragment}
-
-    query ${operationName}($onlyPublishedContent: Boolean!) {
-      nodeQuery(
-        limit: ${limit}
-        offset: ${offset}
-        sort: { field: "changed", direction:  ASC }
-        filter: {
-          conditions: [
-            { field: "status", value: ["1"], enabled: $onlyPublishedContent },
-            { field: "type", value: ["person_profile"] }
-          ]
-      }) {
-        entities {
-          ... bioPage
-        }
-      }
-    }
-`;
-}
-
-function getNodePersonProfileQueries(entityCounts) {
-  return generatePaginatedQueries({
-    operationNamePrefix: 'GetNodePersonProfile',
-    entitiesPerSlice: 50,
-    totalEntities: entityCounts.data.personProfile.count,
-    getSlice: getNodePersonProfilesSlice,
-  });
-}
-
-module.exports = {
-  fragment: personProfileFragment,
-  getNodePersonProfileQueries,
-};

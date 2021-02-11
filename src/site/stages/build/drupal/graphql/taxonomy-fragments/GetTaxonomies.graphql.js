@@ -1,4 +1,4 @@
-const partialQuery = `
+module.exports = `
   allTaxonomies: taxonomyTermQuery(limit: 1000) {
     entities {
       entityBundle
@@ -27,14 +27,3 @@ const partialQuery = `
     }
   }
 `;
-
-const GetTaxonomies = `
-  query {
-    ${partialQuery}
-  }
-`;
-
-module.exports = {
-  partialQuery,
-  GetTaxonomies,
-};

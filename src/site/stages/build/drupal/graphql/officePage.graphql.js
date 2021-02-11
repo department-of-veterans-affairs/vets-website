@@ -4,7 +4,7 @@
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-const officeFragment = `
+module.exports = `
  fragment officePage on NodeOffice {
     ${entityElementsFromPages}
     changed
@@ -39,26 +39,3 @@ const officeFragment = `
    }
  }
 `;
-
-const GetNodeOffices = `
-
-  ${officeFragment}
-
-  query GetNodeOffices($onlyPublishedContent: Boolean!) {
-    nodeQuery(limit: 1000, filter: {
-      conditions: [
-        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
-        { field: "type", value: ["office"] }
-      ]
-    }) {
-      entities {
-        ... officePage
-      }
-    }
-  }
-`;
-
-module.exports = {
-  fragment: officeFragment,
-  GetNodeOffices,
-};

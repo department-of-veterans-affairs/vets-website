@@ -1,7 +1,6 @@
-const fragments = require('./fragments.graphql');
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-const nodeSupportResourcesDetailPage = `
+const fragment = `
 fragment nodeSupportResourcesDetailPage on NodeSupportResourcesDetailPage {
   ${entityElementsFromPages}
   entityBundle
@@ -87,50 +86,4 @@ fragment nodeSupportResourcesDetailPage on NodeSupportResourcesDetailPage {
 }
 `;
 
-const GetNodeSupportResourcesDetailPage = `
-
-  ${fragments.linkTeaser}
-  ${fragments.alertParagraphSingle}
-  ${fragments.button}
-  ${fragments.contactInformation}
-  ${fragments.supportService}
-  ${fragments.termTopics}
-  ${fragments.termLcCategory}
-  ${fragments.audienceTopics}
-  ${fragments.emailContact}
-  ${fragments.phoneNumber}
-  ${fragments.audienceBeneficiaries}
-  ${fragments.audienceNonBeneficiaries}
-  ${fragments.wysiwyg}
-  ${fragments.collapsiblePanel}
-  ${fragments.process}
-  ${fragments.qaSection}
-  ${fragments.qa}
-  ${fragments.listOfLinkTeasers}
-  ${fragments.reactWidget}
-  ${fragments.spanishSummary}
-  ${fragments.alertParagraph}
-  ${fragments.table}
-  ${fragments.downloadableFile}
-  ${fragments.embeddedImage}
-  ${fragments.numberCallout}
-
-  ${nodeSupportResourcesDetailPage}
-
-  query GetNodeSupportResourcesDetailPage($onlyPublishedContent: Boolean!) {
-    nodeQuery(limit: 100, filter: {
-      conditions: [
-        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
-        { field: "type", value: ["support_resources_detail_page"] }
-      ]
-    }) {
-      entities {
-        ... nodeSupportResourcesDetailPage
-      }
-    }
-  }
-`;
-module.exports = {
-  fragment: nodeSupportResourcesDetailPage,
-  GetNodeSupportResourcesDetailPage,
-};
+module.exports = fragment;

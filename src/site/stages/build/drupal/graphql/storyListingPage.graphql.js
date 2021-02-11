@@ -4,7 +4,7 @@
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-const storyListingPage = `
+module.exports = `
  fragment storyListingPage on NodeStoryListing {
     ${entityElementsFromPages}
     fieldIntroText
@@ -71,25 +71,3 @@ const storyListingPage = `
     }
  }
 `;
-
-const GetNodeStoryListingPages = `
-  ${storyListingPage}
-
-  query GetNodeStoryListingPages($onlyPublishedContent: Boolean!) {
-    nodeQuery(limit: 1000, filter: {
-      conditions: [
-        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
-        { field: "type", value: ["story_listing"] }
-      ]
-    }) {
-      entities {
-        ... storyListingPage
-      }
-    }
-  }
-`;
-
-module.exports = {
-  fragment: storyListingPage,
-  GetNodeStoryListingPages,
-};

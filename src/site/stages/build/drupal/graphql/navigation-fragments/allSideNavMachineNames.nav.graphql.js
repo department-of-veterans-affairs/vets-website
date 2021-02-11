@@ -2,17 +2,6 @@
  * A query to get all benefits hub sidebar machine names
  *
  */
-const partialQuery = `
+module.exports = `
     allSideNavMachineNamesQuery: siteMenus
 `;
-
-const GetAllSideNavMachineNames = `
-  query {
-    ${partialQuery}
-  }
-`;
-
-module.exports = {
-  partialQuery,
-  GetAllSideNavMachineNames,
-};

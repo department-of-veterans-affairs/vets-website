@@ -1,12 +1,9 @@
-const fragments = require('./fragments.graphql');
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 const socialMediaFields = require('./facilities-fragments/healthCareSocialMedia.fields.graphql');
 const serviceLocation = require('./paragraph-fragments/serviceLocation.paragraph.graphql');
 const appointmentItems = require('./file-fragments/appointmentItems.graphql');
 
-const { generatePaginatedQueries } = require('../individual-queries-helpers');
-
-const healthCareLocalFacilityPageFragment = `
+module.exports = `
   fragment healthCareLocalFacilityPage on NodeHealthCareLocalFacility {
     ${entityElementsFromPages}
     changed
@@ -122,46 +119,3 @@ const healthCareLocalFacilityPageFragment = `
     }
   }
 `;
-
-function getNodeHealthCareLocalFacilityPagesSlice(
-  operationName,
-  offset,
-  limit,
-) {
-  return `
-    ${fragments.listOfLinkTeasers}
-    ${fragments.linkTeaser}
-    ${healthCareLocalFacilityPageFragment}
-
-    query ${operationName}($onlyPublishedContent: Boolean!) {
-      nodeQuery(
-        limit: ${limit}
-        offset: ${offset}
-        sort: { field: "changed", direction:  ASC }
-        filter: {
-          conditions: [
-            { field: "status", value: ["1"], enabled: $onlyPublishedContent },
-            { field: "type", value: ["health_care_local_facility"] }
-          ]
-      }) {
-        entities {
-          ... healthCareLocalFacilityPage
-        }
-      }
-    }
-  `;
-}
-
-function getNodeHealthCareLocalFacilityPageQueries(entityCounts) {
-  return generatePaginatedQueries({
-    operationNamePrefix: 'GetNodeHealthCareLocalFacilityPages',
-    entitiesPerSlice: 50,
-    totalEntities: entityCounts.data.healthCareLocalFacility.count,
-    getSlice: getNodeHealthCareLocalFacilityPagesSlice,
-  });
-}
-
-module.exports = {
-  fragment: healthCareLocalFacilityPageFragment,
-  getNodeHealthCareLocalFacilityPageQueries,
-};

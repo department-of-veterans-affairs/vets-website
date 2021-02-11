@@ -159,7 +159,7 @@ async function getContentViaGraphQL(buildOptions) {
 
     console.time(drupalTimer);
 
-    drupalPages = await contentApi.getAllPagesViaIndividualGraphQlQueries();
+    drupalPages = await contentApi.getAllPages();
 
     console.timeEnd(drupalTimer);
 

@@ -4,7 +4,7 @@
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-const newsStoryPage = `
+module.exports = `
   fragment newsStoryPage on NodeNewsStory {
     ${entityElementsFromPages}
     promote
@@ -46,25 +46,3 @@ const newsStoryPage = `
     }
   }
 `;
-
-const GetNodeNewsStoryPages = `
-  ${newsStoryPage}
-
-  query GetNodeNewsStoryPages($onlyPublishedContent: Boolean!) {
-    nodeQuery(limit: 1000, filter: {
-      conditions: [
-        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
-        { field: "type", value: ["news_story"] }
-      ]
-    }) {
-      entities {
-        ... newsStoryPage
-      }
-    }
-  }
-`;
-
-module.exports = {
-  fragment: newsStoryPage,
-  GetNodeNewsStoryPages,
-};

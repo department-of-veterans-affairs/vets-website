@@ -4,7 +4,7 @@
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-const pressReleasePage = `
+module.exports = `
   fragment pressReleasePage on NodePressRelease {
     ${entityElementsFromPages}
     fieldReleaseDate {
@@ -74,26 +74,3 @@ const pressReleasePage = `
     }
   }
 `;
-
-const GetNodePressReleasePages = `
-
-  ${pressReleasePage}
-
-  query GetNodeVaForms($onlyPublishedContent: Boolean!) {
-    nodeQuery(limit: 1000, filter: {
-      conditions: [
-        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
-        { field: "type", value: ["press_release"] }
-      ]
-    }) {
-      entities {
-        ... pressReleasePage
-      }
-    }
-  }
-`;
-
-module.exports = {
-  fragment: pressReleasePage,
-  GetNodePressReleasePages,
-};

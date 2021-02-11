@@ -1,4 +1,4 @@
-const outreachAssets = `
+module.exports = `
   outreachAssets: nodeQuery(filter: {conditions: [{field: "type", value: "outreach_asset", field: "status", value: ["1"], enabled: $onlyPublishedContent}]}, limit: 10000) {
     entities {
       ... on NodeOutreachAsset {
@@ -48,14 +48,3 @@ const outreachAssets = `
     }
   }
 `;
-
-const GetOutreachAssets = `
-  query($onlyPublishedContent: Boolean!) {
-    ${outreachAssets}
-  }
-`;
-
-module.exports = {
-  partialQuery: outreachAssets,
-  GetOutreachAssets,
-};

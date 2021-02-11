@@ -1,11 +1,3 @@
-const fragments = require('./fragments.graphql');
-
-// String Helpers
-const {
-  updateQueryString,
-  queryParamToBeChanged,
-} = require('./../../../../utilities/stringHelpers');
-
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 const { FIELD_PROMO } = require('./block-fragments/promo.block.graphql');
 const {
@@ -19,7 +11,7 @@ const { FIELD_ALERT } = require('./block-fragments/alert.block.graphql');
  */
 const ADMIN = '...administration';
 
-const landingPageFragment = `
+module.exports = `
 
   fragment landingPage on NodeLandingPage {
     ${entityElementsFromPages}
@@ -66,43 +58,3 @@ const landingPageFragment = `
     ${ADMIN}
   }
 `;
-
-let regString = '';
-queryParamToBeChanged.forEach(param => {
-  regString += `${param}|`;
-});
-
-const regex = new RegExp(`${regString}`, 'g');
-const landingPageFragmentModified = landingPageFragment.replace(
-  regex,
-  updateQueryString,
-);
-
-const GetNodeLandingPages = `
-  ${fragments.administration}
-  ${fragments.alert}
-  ${fragments.promo}
-  ${fragments.listOfLinkTeasers}
-  ${fragments.linkTeaser}
-
-  ${landingPageFragmentModified}
-
-  query GetNodeLandingPages($onlyPublishedContent: Boolean!) {
-    nodeQuery(limit: 1000, filter: {
-      conditions: [
-        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
-        { field: "type", value: ["landing_page"] }
-      ]
-    }) {
-      entities {
-        ... landingPage
-      }
-    }
-  }
-`;
-
-module.exports = {
-  fragment: landingPageFragment,
-  modifiedFragment: landingPageFragmentModified,
-  GetNodeLandingPages,
-};
