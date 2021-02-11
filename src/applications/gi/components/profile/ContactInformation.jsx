@@ -18,10 +18,6 @@ export const ContactInformation = ({ institution }) => {
     SCO => SCO.priority.toUpperCase() === 'PRIMARY',
   );
 
-  const secondarySCOs = versionedSchoolCertifyingOfficials.filter(
-    SCO => SCO.priority.toUpperCase() === 'SECONDARY',
-  );
-
   const renderPhysicalAddress = () =>
     institution.physicalAddress1 && (
       <div className="vads-l-row vads-u-margin-top--2p5 vads-u-margin-bottom--4">
@@ -146,37 +142,11 @@ export const ContactInformation = ({ institution }) => {
       </div>
     );
 
-  const renderSecondarySCOs = () =>
-    secondarySCOs.length > 0 && (
-      <div className="vads-l-row vads-u-margin-y--2">
-        <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-          <h4
-            id="secondary-contact-header"
-            className="contact-heading vads-u-font-family--sans vads-u-margin--0"
-          >
-            Secondary
-          </h4>
-        </div>
-        <div className="vads-l-col--9">
-          <div className="vads-l-grid-container--full">
-            <ul
-              className="vads-l-row sco-list vads-u-margin--0 secondary-sco-list"
-              aria-labelledby="secondary-contact-header"
-            >
-              {secondarySCOs.map((sco, index) => ScoContact(sco, index))}
-            </ul>
-          </div>
-        </div>
-      </div>
-    );
-
   const renderSCOContactInfoSection = () =>
     versionedSchoolCertifyingOfficials.length > 0 && (
       <div>
         {renderSCOHeader()}
         {renderPrimarySCOs()}
-        {primarySCOs.length > 0 && secondarySCOs.length > 0 && <hr />}
-        {renderSecondarySCOs()}
       </div>
     );
 

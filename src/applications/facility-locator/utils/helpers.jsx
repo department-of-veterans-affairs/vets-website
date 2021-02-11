@@ -6,11 +6,12 @@ import { CLINIC_URGENTCARE_SERVICE, LocationType } from '../constants';
 import UrgentCareAlert from '../containers/UrgentCareAlert';
 import { recordMarkerEvents } from '../utils/analytics';
 
-export const setFocus = selector => {
+// https://stackoverflow.com/a/50171440/1000622
+export const setFocus = (selector, tabIndexInclude = true) => {
   const el =
     typeof selector === 'string' ? document.querySelector(selector) : selector;
   if (el) {
-    el.setAttribute('tabIndex', -1);
+    if (tabIndexInclude) el.setAttribute('tabIndex', -1);
     el.focus();
   }
 };
@@ -19,7 +20,9 @@ export const clearLocationMarkers = () => {
   const locationMarkers = window.document.getElementsByClassName(
     'mapboxgl-marker',
   );
-  Array.from(locationMarkers).forEach(marker => marker.remove());
+  Array.from(locationMarkers).forEach(marker =>
+    marker.parentNode.removeChild(marker),
+  );
 };
 
 export const buildMarker = (type, values) => {
@@ -78,7 +81,8 @@ export const setSearchAreaPosition = () => {
     .appendChild(searchAreaContainer);
   document
     .querySelectorAll('.mapboxgl-ctrl-top-right')
-    .forEach(el => el.remove());
+    // IE 11 doesn't support ChildNode.remove() and core-js doesn't polyfill DOM methods.
+    .forEach(el => el.parentNode.removeChild(el));
 };
 
 /**

@@ -7,11 +7,11 @@ import {
   useHistory,
   useLocation,
 } from 'react-router-dom';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import * as actions from '../appointment-list/redux/actions';
 import expressCareReducer from './redux/reducer';
 import { FETCH_STATUS } from '../utils/constants';
-import { selectExpressCare } from '../utils/selectors';
+import { selectExpressCareAvailability } from '../appointment-list/redux/selectors';
 import FormLayout from './components/FormLayout';
 import ExpressCareReasonPage from './components/ExpressCareReasonPage';
 import ExpressCareDetailsPage from './components/ExpressCareDetailsPage';
@@ -23,6 +23,7 @@ import ErrorMessage from '../components/ErrorMessage';
 function NewExpressCareRequestSection({
   windowsStatus,
   allowRequests,
+  useNewFlow,
   fetchExpressCareWindows,
 }) {
   const match = useRouteMatch();
@@ -50,11 +51,14 @@ function NewExpressCareRequestSection({
 
   useEffect(
     () => {
-      if (windowsStatus === FETCH_STATUS.succeeded && !allowRequests) {
+      if (
+        !useNewFlow ||
+        (windowsStatus === FETCH_STATUS.succeeded && !allowRequests)
+      ) {
         history.push('/');
       }
     },
-    [history, windowsStatus, allowRequests],
+    [history, windowsStatus, allowRequests, useNewFlow],
   );
 
   return (
@@ -95,7 +99,7 @@ const mapDispatchToProps = {
 };
 
 export const NewExpressCareRequest = connect(
-  selectExpressCare,
+  selectExpressCareAvailability,
   mapDispatchToProps,
 )(NewExpressCareRequestSection);
 

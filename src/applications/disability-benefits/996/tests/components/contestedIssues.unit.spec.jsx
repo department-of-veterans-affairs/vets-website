@@ -32,7 +32,7 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
     );
     const formDOM = getFormDOM(form);
     expect(
-      $$('.widget-outline input[type="checkbox"]', formDOM).length,
+      $$('.widget-wrapper input[type="checkbox"]', formDOM).length,
     ).to.equal(initialData.contestedIssues.length);
   });
 
@@ -51,7 +51,7 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
     const formDOM = getFormDOM(form);
     formDOM.setCheckbox('#root_contestedIssues_0', true);
     submitForm(form);
-    expect($$('.usa-input-error', formDOM).length).to.equal(0);
+    expect($$('.usa-alert-error', formDOM).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
 
@@ -67,7 +67,7 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
 
     const formDOM = getFormDOM(form);
     submitForm(form);
-    expect($$('.usa-input-error', formDOM).length).to.equal(1);
+    expect($$('.usa-alert-error', formDOM).length).to.equal(1);
   });
 
   it('renders the information about each disability', () => {
@@ -82,10 +82,12 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
     );
 
     const formDOM = getFormDOM(form);
-    $$('.widget-outline label', formDOM).forEach((label, index) => {
+    $$('.widget-wrapper', formDOM).forEach((wrap, index) => {
       const data = issues[index].attributes;
-      expect($('h3', label).textContent).to.equal(data.ratingIssueSubjectText);
-      const content = $('.widget-content', label).textContent;
+      expect($('label', wrap).textContent).to.contain(
+        data.ratingIssueSubjectText,
+      );
+      const content = $('.widget-content', wrap).textContent;
       expect(content).to.contain(data.description || '');
       expect(content).to.contain(
         `Current rating: ${data.ratingIssuePercentNumber}%`,
@@ -96,34 +98,5 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
         )}`,
       );
     });
-  });
-
-  // Office for review section
-  it('should render the same office checkbox', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={initialData}
-        uiSchema={uiSchema}
-      />,
-    );
-    const formDOM = getFormDOM(form);
-    expect($('#root_sameOffice', formDOM)).to.not.be.false;
-  });
-
-  // "No" should be selected by default
-  it('should show info alert when checked', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={initialData}
-        uiSchema={uiSchema}
-      />,
-    );
-    const formDOM = getFormDOM(form);
-    formDOM.setCheckbox('#root_sameOffice', true);
-    expect($('#root_sameOfficeAlert__title', formDOM)).to.not.be.false;
   });
 });

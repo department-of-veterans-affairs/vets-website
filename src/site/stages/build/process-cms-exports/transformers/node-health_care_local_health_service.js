@@ -1,4 +1,20 @@
+/* eslint-disable camelcase */
 const { getDrupalValue, getWysiwygString } = require('./helpers');
+
+const getFieldFacilityLocationObject = ({ title, entityUrl }) =>
+  typeof title === 'object'
+    ? {
+        entity: {
+          title: getDrupalValue(title),
+          entityUrl,
+        },
+      }
+    : {
+        entity: {
+          title,
+          entityUrl,
+        },
+      };
 
 const transform = entity => ({
   entity: {
@@ -8,12 +24,25 @@ const transform = entity => ({
     fieldBody: {
       processed: getWysiwygString(getDrupalValue(entity.fieldBody)),
     },
-    fieldRegionalHealthService: {
-      entity: entity.fieldRegionalHealthService[0],
-    },
+    fieldRegionalHealthService:
+      entity.fieldRegionalHealthService.length > 0
+        ? {
+            entity: {
+              entityUrl: entity.fieldRegionalHealthService[0].entityUrl,
+              fieldBody: entity.fieldRegionalHealthService[0].fieldBody,
+              fieldServiceNameAndDescripti:
+                entity.fieldRegionalHealthService[0]
+                  .fieldServiceNameAndDescripti,
+            },
+          }
+        : {},
     fieldServiceLocation: entity.fieldServiceLocation.map(locationData => ({
       entity: locationData,
     })),
+    fieldHserviceApptLeadin: getDrupalValue(entity.fieldHserviceApptLeadin),
+    fieldHserviceApptIntroSelect: getDrupalValue(
+      entity.fieldHserviceApptIntroSelect,
+    ),
     fieldOnlineSchedulingAvailabl: getDrupalValue(
       entity.fieldOnlineSchedulingAvailabl,
     ),
@@ -29,14 +58,20 @@ const transform = entity => ({
         },
       }),
     ),
+    fieldFacilityLocation: entity.fieldFacilityLocation[0]
+      ? getFieldFacilityLocationObject(entity.fieldFacilityLocation[0])
+      : null,
   },
 });
 module.exports = {
   filter: [
     'title',
+    'field_facility_location',
     'field_body',
     'field_regional_health_service',
     'field_service_location',
+    'field_hservice_appt_leadin',
+    'field_hservice_appt_intro_select',
     'field_online_scheduling_availabl',
     'field_referral_required',
     'field_walk_ins_accepted',

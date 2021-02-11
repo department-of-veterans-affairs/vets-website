@@ -1,8 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
 
-import { ConfirmationPage } from '../../../5495/containers/ConfirmationPage';
+import { ConfirmationPage } from '../../containers/ConfirmationPage';
+import { shallow } from 'enzyme';
+import { ConfirmationPageContent } from '../../../components/ConfirmationPageContent';
 
 const form = {
   submission: {
@@ -11,35 +12,20 @@ const form = {
     },
   },
   data: {
-    relativeFullName: {
+    veteranFullName: {
       first: 'Jane',
       last: 'Doe',
     },
-    benefit: 'chapter35',
+    benefit: 'chapter30',
   },
 };
 
-describe('Edu 5495 <ConfirmationPage>', () => {
+describe('<ConfirmationPage>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<ConfirmationPage form={form} />);
+    const tree = shallow(<ConfirmationPage form={form} />);
+    expect(tree).to.not.be.undefined;
+    expect(tree.find(ConfirmationPageContent)).to.not.be.undefined;
 
-    expect(tree.subTree('.confirmation-page-title').text()).to.equal(
-      'Claim received',
-    );
-    expect(
-      tree
-        .everySubTree('span')[1]
-        .text()
-        .trim(),
-    ).to.equal('for Jane Doe');
-    expect(tree.everySubTree('p')[0].text()).to.contain(
-      'We usually process claims within 30 days.',
-    );
-    expect(tree.everySubTree('p')[1].text()).to.contain(
-      'We may contact you for more information or documents.Please print this page for your records',
-    );
-    expect(
-      tree.everySubTree('.confirmation-guidance-message')[0].text(),
-    ).to.contain('Find out what happens after you apply');
+    tree.unmount();
   });
 });

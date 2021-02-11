@@ -1,33 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 export const autoSuggestTitle = (
-  <p>
-    If you know the name of your condition, you can type it here. You can write
-    whatever you want and we’ll make suggestions for possible disabilities.
-    (Shorter descriptions are better. For example, foot pain, back pain, or
-    hearing loss.)
-  </p>
-);
-
-export const descriptionInfo = (
-  <div>
-    <AdditionalInfo triggerText="What if I don’t know the name of my condition?">
-      <p>
-        If you don’t know the name of your condition or aren’t finding a match,
-        you can type in your symptoms and we’ll help you figure out the name of
-        your condition during the exam process.
-      </p>
-      <p>Shorter descriptions are better. For example:</p>
-      <ul>
-        <li>My knee hurts when I walk.</li>
-        <li>I have trouble hearing when other people talk.</li>
-        <li>My doctor says my cancer may be related to my service.</li>
-      </ul>
-    </AdditionalInfo>
-  </div>
+  <>
+    <p>
+      Enter the name of your condition below and we’ll suggest some possible
+      matches.{' '}
+      <strong>You don’t have to choose one of the suggested conditions.</strong>
+    </p>
+    <p className="new-condition-description">
+      If you don’t know the name of your condition or aren’t finding a match,
+      you can save the condition as you entered it. We’ll help you figure out
+      the name of your condition during the exam. (Shorter descriptions are
+      better. For example, foot pain, back pain or hearing loss.)
+    </p>
+  </>
 );
 
 export const newOnlyAlert = ({ formContext }) => {

@@ -1,35 +1,47 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
+import recordEvent from 'platform/monitoring/record-event';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { isEmptyAddress } from 'platform/forms/address/helpers';
+import { selectVAPContactInfoField } from '@@vap-svc/selectors';
+import { FIELD_NAMES } from '@@vap-svc/constants';
+
 import {
   getContestableIssues as getContestableIssuesAction,
   FETCH_CONTESTABLE_ISSUES_INIT,
 } from '../actions';
-
 import { higherLevelReviewFeature, scrollToTop } from '../helpers';
+import {
+  BASE_URL,
+  SAVED_CLAIM_TYPE,
+  SUPPLEMENTAL_CLAIM_URL,
+  FACILITY_LOCATOR_URL,
+  GET_HELP_REVIEW_REQUEST_URL,
+  WIZARD_STATUS,
+} from '../constants';
 import {
   noContestableIssuesFound,
   showContestableIssueError,
   showWorkInProgress,
+  showHasEmptyAddress,
 } from '../content/contestableIssueAlerts';
 import WizardContainer from '../wizard/WizardContainer';
 import {
-  WIZARD_STATUS,
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
-} from 'applications/static-pages/wizard';
-import { SAVED_CLAIM_TYPE } from '../constants';
+} from 'platform/site-wide/wizard';
 
 export class IntroductionPage extends React.Component {
   state = {
@@ -87,32 +99,50 @@ export class IntroductionPage extends React.Component {
   };
 
   getCallToActionContent = () => {
-    const { route, contestableIssues } = this.props;
+    const { route, contestableIssues, delay = 250 } = this.props;
 
     if (contestableIssues?.error) {
-      return showContestableIssueError(contestableIssues.error);
+      return showContestableIssueError(contestableIssues, delay);
     }
-    if (contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_INIT) {
+
+    if (
+      (contestableIssues?.status || '') === '' ||
+      contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_INIT
+    ) {
       return (
         <LoadingIndicator
           setFocus
-          message="Loading your contestable issues..."
+          message="Loading your previous decisions..."
         />
       );
     }
+
     const { formId, prefillEnabled, savedFormMessages } = route.formConfig;
-    return contestableIssues?.issues?.length > 0 ? (
-      <SaveInProgressIntro
-        formId={formId}
-        prefillEnabled={prefillEnabled}
-        messages={savedFormMessages}
-        pageList={route.pageList}
-        startText="Start the Request for a Higher-Level Review"
-        gaStartEventName="decision-reviews-va20-0996-start-form"
-      />
-    ) : (
-      noContestableIssuesFound
-    );
+
+    if (contestableIssues?.issues?.length > 0) {
+      return (
+        <SaveInProgressIntro
+          formId={formId}
+          prefillEnabled={prefillEnabled}
+          messages={savedFormMessages}
+          pageList={route.pageList}
+          startText="Start the Request for a Higher-Level Review"
+          gaStartEventName="decision-reviews-va20-0996-start-form"
+        />
+      );
+    }
+
+    recordEvent({
+      event: 'visible-alert-box',
+      'alert-box-type': 'warning',
+      'alert-box-heading':
+        'We don’t have any issues on file for you that are eligible for a Higher-Level Review',
+      'error-key': contestableIssues?.status || '',
+      'alert-box-full-width': false,
+      'alert-box-background-only': false,
+      'alert-box-closeable': false,
+    });
+    return noContestableIssuesFound;
   };
 
   setWizardStatus = value => {
@@ -121,9 +151,12 @@ export class IntroductionPage extends React.Component {
   };
 
   render() {
-    const { allowHlr } = this.props;
+    const { allowHlr, user, hasEmptyAddress } = this.props;
     const callToActionContent = this.getCallToActionContent();
     const showWizard = allowHlr && this.state.status !== WIZARD_STATUS_COMPLETE;
+
+    // Change page title once wizard has closed to provide a Veteran using a
+    // screenreader some indication that the content has changed
     const pageTitle = `Request a Higher-Level Review${
       showWizard ? '' : ' with VA Form 20-0996'
     }`;
@@ -134,7 +167,18 @@ export class IntroductionPage extends React.Component {
         <article className="schemaform-intro">
           <FormTitle title={pageTitle} />
           <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
-          <p>{showWorkInProgress}</p>
+          {showWorkInProgress}
+        </article>
+      );
+    }
+
+    // check if user has address
+    if (user?.login?.currentlyLoggedIn && hasEmptyAddress) {
+      return (
+        <article className="schemaform-intro">
+          <FormTitle title={pageTitle} />
+          <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
+          {showHasEmptyAddress}
         </article>
       );
     }
@@ -167,11 +211,8 @@ export class IntroductionPage extends React.Component {
             </h2>
             <p>
               The senior reviewer will only review the evidence you already
-              provided. If you have new and relevant evidence, you can file{' '}
-              <a href="/decision-reviews/supplemental-claim/">
-                a Supplemental Claim
-              </a>
-              .
+              provided. If you have new and relevant evidence, you can{' '}
+              <a href={SUPPLEMENTAL_CLAIM_URL}>file a Supplemental Claim</a>.
             </p>
             <div className="process schemaform-process">
               <h2 className="vads-u-font-size--h3">
@@ -179,15 +220,19 @@ export class IntroductionPage extends React.Component {
               </h2>
               <p className="vads-u-margin-top--2">
                 if you don’t think this is the right form for you,{' '}
-                <button
+                <a
+                  href={BASE_URL}
                   className="va-button-link"
-                  onClick={() => {
+                  onClick={event => {
+                    // prevent reload, but allow opening a new tab
+                    event.preventDefault();
                     this.setWizardStatus(WIZARD_STATUS_NOT_STARTED);
                     this.setPageFocus();
+                    recordEvent({ event: 'howToWizard-start-over' });
                   }}
                 >
                   go back and answer questions again
-                </button>
+                </a>
                 .
               </p>
               <ol>
@@ -211,7 +256,7 @@ export class IntroductionPage extends React.Component {
                     representative. To find the nearest regional office, please
                     call <Telephone contact={CONTACTS.VA_BENEFITS} />
                     {' or '}
-                    <a href="/find-locations">
+                    <a href={FACILITY_LOCATOR_URL}>
                       visit our facility locator tool
                     </a>
                     .
@@ -220,7 +265,7 @@ export class IntroductionPage extends React.Component {
                     A Veterans Service Organization or VA-accredited attorney or
                     agent can also help you request a decision review.
                   </p>
-                  <a href="/decision-reviews/get-help-with-review-request">
+                  <a href={GET_HELP_REVIEW_REQUEST_URL}>
                     Get help requesting a decision review
                   </a>
                   .
@@ -238,7 +283,7 @@ export class IntroductionPage extends React.Component {
                   <p>
                     Our goal for completing a Higher-Level Review is 125 days. A
                     review might take longer if we need to get records or
-                    schedule a new exam to correct the error.
+                    schedule a new exam to correct an error.
                   </p>
                 </li>
                 <li className="process-step list-four">
@@ -274,6 +319,9 @@ function mapStateToProps(state) {
     user,
     contestableIssues,
     allowHlr: higherLevelReviewFeature(state),
+    hasEmptyAddress: isEmptyAddress(
+      selectVAPContactInfoField(state, FIELD_NAMES.MAILING_ADDRESS),
+    ),
   };
 }
 

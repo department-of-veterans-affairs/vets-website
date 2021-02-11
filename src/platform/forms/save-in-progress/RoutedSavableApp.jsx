@@ -13,12 +13,14 @@ import {
   setFetchFormStatus,
   fetchInProgressForm,
 } from './actions';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import { isInProgressPath } from '../helpers';
 import { getSaveInProgressState } from './selectors';
 import environment from 'platform/utilities/environment';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
+
+import { restartShouldRedirect } from 'platform/site-wide/wizard';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -112,7 +114,20 @@ class RoutedSavableApp extends React.Component {
       newProps.prefillStatus !== this.props.prefillStatus &&
       newProps.prefillStatus === PREFILL_STATUSES.unfilled
     ) {
-      newProps.router.push(this.getFirstNonIntroPagePath(newProps));
+      let newRoute;
+      const { formConfig = {} } = newProps;
+      const { saveInProgress = {} } = formConfig;
+      if (
+        newProps.isStartingOver &&
+        typeof saveInProgress.restartFormCallback === 'function' &&
+        restartShouldRedirect(formConfig.wizardStorageKey)
+      ) {
+        // Restart callback returns a new route
+        newRoute = saveInProgress?.restartFormCallback();
+      }
+
+      // Form restart redirects to new route or the first page after the intro
+      newProps.router.push(newRoute || this.getFirstNonIntroPagePath(newProps));
     } else if (
       status !== LOAD_STATUSES.notAttempted &&
       status !== LOAD_STATUSES.pending &&

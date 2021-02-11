@@ -41,9 +41,7 @@ module.exports = `
     }
     fieldDatetimeRangeTimezone {
       value
-      startTime
       endValue
-      endTime
       timezone
     }    
     fieldAddress {

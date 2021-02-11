@@ -17,16 +17,17 @@ export default function AppointmentRequestCommunityCareLocation({
             {providers.map(provider => {
               const practiceName =
                 provider.practitionerRole?.[0].location?.[0].display;
+              const providerName = provider.name?.text;
 
               return (
                 <li key={provider.id}>
-                  {practiceName && (
+                  {!!practiceName && (
                     <>
                       {practiceName}
-                      <br />
+                      {!!providerName && <br />}
                     </>
                   )}
-                  {provider.name.text}
+                  {providerName}
                 </li>
               );
             })}

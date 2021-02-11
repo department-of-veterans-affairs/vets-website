@@ -25,17 +25,17 @@
             </div>
           </div>
 
-          <section id="table-of-contents">
+          <nav id="table-of-contents">
             <h2 class="vads-u-margin-bottom--2 vads-u-font-size--lg">On this page</h2>
             <ul class="usa-unstyled-list"></ul>
-          </section>
+          </nav>
 
-          {% if featuredContentHealthServices.length %}
+          {% if fieldFeaturedContentHealthser %}
           <section class="featured-services" id="featured-services">
-            <h3>In the spotlight at {{ regionNickname }}</h3>
+            <h3>In the spotlight at {{ facilitySidebar.name }}</h3>
             <ul
               class="usa-grid usa-grid-full vads-u-margin-top--3 vads-u-margin-bottom--4 vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
-              {% for featuredService in featuredContentHealthServices %}
+              {% for featuredService in fieldFeaturedContentHealthser %}
               {% include "src/site/paragraphs/link_teaser_featured_content.drupal.liquid" with linkTeaser = featuredService.entity %}
               {% endfor %}
             </ul>

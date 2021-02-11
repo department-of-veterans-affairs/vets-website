@@ -527,12 +527,13 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 }
 
+#search-area-control-container {
+  z-index: 1;
+}
 
 #search-area-control {
   background: $color-blue;
   border-radius: 5px;
-  width: 215px;
-  height: 37px;
   cursor: pointer;
   padding: 8px;
   margin-top: 15px;
@@ -560,4 +561,21 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   position: absolute;
   pointer-events: none;
   margin: 15px 0 0 15px;
+}
+
+button.mapboxgl-ctrl-zoom-in  {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: 0;
+}
+
+button.mapboxgl-ctrl-zoom-out  {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: 0;
+}
+
+canvas.mapboxgl-canvas:focus {
+  outline: 2px solid $color-gold-light;
+  outline-offset: 2px;
 }

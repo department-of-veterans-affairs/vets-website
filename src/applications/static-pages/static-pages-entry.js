@@ -29,10 +29,8 @@ import createHigherLevelReviewApplicationStatus from 'applications/disability-be
 import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
-import initScrollToTopButton from './scroll-top-button';
 
 import form686CTA from './view-modify-dependent/686-cta/form686CTA';
-import createCaregiverContentToggle from './caregiver-content-toggle/createCaregiverContentToggle';
 
 // Health Care | Manage Benefits widgets.
 import createGetMedicalRecordsPage from './health-care-manage-benefits/get-medical-records-page';
@@ -66,10 +64,12 @@ import {
   createScoAnnouncementsWidget,
 } from './school-resources/SchoolResources';
 import createCoronavirusChatbot from '../coronavirus-chatbot/createCoronavirusChatbot';
+import createCovidVaccineUpdatesWidget from './covid-vaccine-updates-cta/createCovidVaccineUpdatesWidget';
 
 import createThirdPartyApps, {
   thirdPartyAppsReducer,
 } from '../third-party-app-directory/createThirdPartyApps';
+import initTranslation from './translation';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -163,11 +163,10 @@ createPost911GiBillStatusWidget(
 );
 
 createCoronavirusChatbot(store, widgetTypes.CORONAVIRUS_CHATBOT);
+createCovidVaccineUpdatesWidget(store, widgetTypes.COVID_VACCINE_UPDATES_CTA);
 
 createViewDependentsCTA(store, widgetTypes.VIEW_DEPENDENTS_CTA);
 form686CTA(store, widgetTypes.FORM_686_CTA);
-
-createCaregiverContentToggle(store, widgetTypes.CAREGIVER_CONTENT_TOGGLE);
 
 // Create Health Care | Manage Benefits widgets.
 createGetMedicalRecordsPage(store, widgetTypes.GET_MEDICAL_RECORDS_PAGE);
@@ -194,8 +193,8 @@ if (location.pathname === '/') {
   createMyVALoginWidget(store);
 }
 
-// Up to top button for Article Pages
-initScrollToTopButton();
+// translation link
+initTranslation();
 
 /* eslint-disable no-unused-vars,camelcase */
 const lazyLoad = new LazyLoad({

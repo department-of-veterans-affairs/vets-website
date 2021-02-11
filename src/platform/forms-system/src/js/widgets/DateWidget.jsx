@@ -1,9 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 
 import { months, days } from '../utilities/date';
-import { formatISOPartialDate, parseISODate } from '../helpers';
+import {
+  formatISOPartialDate,
+  parseISODate,
+  minYear,
+  maxYear,
+} from '../helpers';
 
 function getEmptyState(value) {
   return {
@@ -72,7 +78,7 @@ export default class DateWidget extends React.Component {
   }
 
   render() {
-    const { id, options = {} } = this.props;
+    const { id, disabled, options = {} } = this.props;
     const { month, day, year } = this.state.value;
     let daysForSelectedMonth;
 
@@ -80,8 +86,9 @@ export default class DateWidget extends React.Component {
     if (month) {
       daysForSelectedMonth = days[month];
     }
+
     return (
-      <div className="usa-date-of-birth row">
+      <div className="usa-date-of-birth usa-datefields row">
         <div className="form-datefield-month">
           <label className="input-date-label" htmlFor={`${id}Month`}>
             Month
@@ -90,12 +97,13 @@ export default class DateWidget extends React.Component {
             name={`${id}Month`}
             id={`${id}Month`}
             value={month}
+            disabled={disabled}
             onChange={event => this.handleChange('month', event.target.value)}
           >
             <option value="" />
             {months.map(mnth => (
               <option key={mnth.value} value={mnth.value}>
-                {mnth.label}
+                {mnth.text}
               </option>
             ))}
           </select>
@@ -109,6 +117,7 @@ export default class DateWidget extends React.Component {
               name={`${id}Day`}
               id={`${id}Day`}
               value={day}
+              disabled={disabled}
               onChange={event => this.handleChange('day', event.target.value)}
             >
               <option value="" />
@@ -130,8 +139,9 @@ export default class DateWidget extends React.Component {
             autoComplete={options.autocomplete}
             name={`${id}Year`}
             id={`${id}Year`}
-            max="3000"
-            min="1900"
+            disabled={disabled}
+            max={maxYear}
+            min={minYear}
             pattern="[0-9]{4}"
             value={year}
             onBlur={() => this.handleBlur('year')}

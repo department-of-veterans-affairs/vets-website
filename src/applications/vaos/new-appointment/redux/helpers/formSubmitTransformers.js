@@ -11,6 +11,10 @@ import {
   LANGUAGES,
 } from '../../../utils/constants';
 import {
+  selectUseFlatFacilityPage,
+  selectUseProviderSelection,
+} from '../../../redux/selectors';
+import {
   getTypeOfCare,
   getFormData,
   getChosenClinicInfo,
@@ -18,9 +22,7 @@ import {
   getSiteIdForChosenFacility,
   getChosenCCSystemId,
   getChosenSlot,
-  selectUseFlatFacilityPage,
-  selectUseProviderSelection,
-} from '../../../utils/selectors';
+} from '../selectors';
 import {
   findCharacteristic,
   getClinicId,
@@ -52,11 +54,11 @@ function getTestFacilityName(id, name) {
 }
 
 function getRequestedDates(data) {
-  return data.calendarData.selectedDates.reduce(
-    (acc, { date, optionTime }, index) => ({
+  return data.selectedDates.reduce(
+    (acc, date, index) => ({
       ...acc,
       [`optionDate${index + 1}`]: moment(date).format('MM/DD/YYYY'),
-      [`optionTime${index + 1}`]: optionTime,
+      [`optionTime${index + 1}`]: moment(date).hour() >= 12 ? 'PM' : 'AM',
     }),
     {
       optionDate1: 'No Date Selected',

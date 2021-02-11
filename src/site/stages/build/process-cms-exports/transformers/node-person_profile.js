@@ -24,10 +24,7 @@ const transform = (entity, { ancestors }) => ({
   fieldMedia:
     entity.fieldMedia && entity.fieldMedia.length > 0
       ? {
-          entity: getImageCrop(
-            entity.fieldMedia[0],
-            '_1_1_SQUARE_MEDIUM_THUMBNAIL',
-          ),
+          entity: getImageCrop(entity.fieldMedia[0], '_23MEDIUMTHUMBNAIL'),
         }
       : null,
   fieldNameFirst: getDrupalValue(entity.fieldNameFirst),
@@ -41,6 +38,11 @@ const transform = (entity, { ancestors }) => ({
               entityLabel: getDrupalValue(entity.fieldOffice[0].title),
               entityType: entity.fieldOffice[0].entityType,
               entityUrl: entity.fieldOffice[0].entityUrl,
+              entityPublished: isPublished(
+                getDrupalValue(entity.fieldOffice[0].status),
+              ),
+              vid: getDrupalValue(entity.fieldOffice[0].vid),
+              title: getDrupalValue(entity.fieldOffice[0].title),
             },
       }
     : null,

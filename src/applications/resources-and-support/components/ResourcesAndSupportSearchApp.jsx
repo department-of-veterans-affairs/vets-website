@@ -1,8 +1,8 @@
 // Node modules.
 import React, { useEffect, useState, useCallback } from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import URLSearchParams from 'url-search-params';
 import { focusElement } from 'platform/utilities/ui';
 import searchSettings from 'applications/search/manifest.json';
@@ -98,7 +98,7 @@ const ResourcesAndSupportSearchApp = () => {
 
   return (
     <div className="usa-grid usa-grid-full">
-      <div className="usa-content vads-u-margin-bottom--3">
+      <div className="usa-content vads-u-margin-bottom--0 medium-screen:vads-u-margin-bottom--3">
         {errorMessage && (
           <AlertBox
             headline="Something went wrong"
@@ -122,6 +122,7 @@ const ResourcesAndSupportSearchApp = () => {
               query={query}
               results={currentPageOfResults}
               totalResults={results.length}
+              page={page}
             />
             <Pagination
               maxPageListLength={RESULTS_PER_PAGE}

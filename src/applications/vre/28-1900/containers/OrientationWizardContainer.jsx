@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import Wizard from 'applications/static-pages/wizard';
 import { WIZARD_STATUS_COMPLETE } from 'applications/vre/28-1900/constants';
 import pages from 'applications/vre/28-1900/wizard/pages';
+import recordEvent from 'platform/monitoring/record-event';
 import OrientationApp from 'applications/vre/28-1900/orientation/OrientationApp';
 
 const OrientationWizardContainer = props => {
   const [showOrientation, setShowOrientation] = useState(false);
   const [showFormStartButton, setShowFormStartButton] = useState(false);
-  const { handleWizardUpdate } = props;
+  const { wizardStateHandler } = props;
   // pass this down to wizard children so showOrientation can be updated once
   // a user makes it through a valid wizard flow
   const showOrientationHandler = status => {
@@ -43,7 +44,10 @@ const OrientationWizardContainer = props => {
           go directly to the online application without answering questions.{' '}
           <a
             onClick={() => {
-              handleWizardUpdate(WIZARD_STATUS_COMPLETE);
+              recordEvent({
+                event: 'howToWizard-skip',
+              });
+              wizardStateHandler(WIZARD_STATUS_COMPLETE);
             }}
           >
             Apply online with VA Form 28-1900
@@ -71,7 +75,7 @@ const OrientationWizardContainer = props => {
               <a
                 className="usa-button-primary va-button-primary"
                 onClick={() => {
-                  handleWizardUpdate(WIZARD_STATUS_COMPLETE);
+                  wizardStateHandler(WIZARD_STATUS_COMPLETE);
                 }}
               >
                 Apply for Veteran Readiness and Employment

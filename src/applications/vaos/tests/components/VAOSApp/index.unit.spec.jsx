@@ -19,8 +19,6 @@ const initialState = {
     vaOnlineScheduling: true,
     vaOnlineSchedulingPast: true,
     vaOnlineSchedulingCancel: true,
-    vaOnlineSchedulingExpressCare: false,
-    vaOnlineSchedulingFlatFacilityPage: true,
     // eslint-disable-next-line camelcase
     show_new_schedule_view_appointments_page: true,
   },
@@ -155,5 +153,30 @@ describe('VAOS <VAOSApp>', () => {
     await waitFor(
       () => expect(screen.queryByText(/unavailable soon/)).to.not.exist,
     );
+  });
+
+  it('should render can’t find any VA medical facility registrations message', async () => {
+    const myInitialState = {
+      ...initialState,
+      user: {
+        ...initialState.user,
+        profile: {
+          ...initialState.user.profile,
+          facilities: [],
+        },
+      },
+    };
+    const store = createTestStore(myInitialState);
+    const screen = renderWithStoreAndRouter(<VAOSApp>Child content</VAOSApp>, {
+      store,
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          /We’re sorry. We can’t find any VA medical facility registrations for you/,
+        ),
+      ).to.be.ok;
+    });
   });
 });

@@ -15,7 +15,7 @@ import createSchoolSelectionPage from '../../pages/schoolSelection';
 import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
 
-import fullNameUI from 'platform/forms/definitions/fullName';
+import sponsorFullNameUI from '../../definitions/sponsorFullName';
 
 import * as personId from 'platform/forms/definitions/personId';
 
@@ -78,7 +78,7 @@ const formConfig = {
   errorText: ErrorText,
   chapters: {
     applicantInformation: {
-      title: 'Applicant Information',
+      title: 'Applicant information',
       pages: {
         applicantInformation: applicantInformation(fullSchema5495, {
           required: ['relativeFullName', 'relativeDateOfBirth'],
@@ -95,7 +95,7 @@ const formConfig = {
       },
     },
     benefitSelection: {
-      title: 'Benefit Selection',
+      title: 'Benefit selection',
       pages: {
         benefitSelection: {
           path: 'benefits/selection', // other forms this is benefits/eligibility
@@ -120,18 +120,22 @@ const formConfig = {
       },
     },
     sponsorInformation: {
-      title: 'Sponsor Information',
+      title: 'Sponsor information',
       pages: {
         sponsorInformation: {
           path: 'sponsor/information',
           title: 'Sponsor information',
           uiSchema: {
-            veteranFullName: fullNameUI,
+            veteranFullName: sponsorFullNameUI,
             'view:veteranId': _.merge(personId.uiSchema(), {
               'view:noSSN': {
                 'ui:title': 'I don’t know my sponsor’s Social Security number',
               },
+              vaFileNumber: {
+                'ui:title': "Sponsor's VA file number",
+              },
               veteranSocialSecurityNumber: {
+                'ui:title': "Sponsor's Social Security number",
                 'ui:validations': [
                   (errors, fieldData, formData) => {
                     if (fieldData === formData.relativeSocialSecurityNumber) {
@@ -161,7 +165,7 @@ const formConfig = {
       },
     },
     schoolSelection: {
-      title: 'School Selection',
+      title: 'School selection',
       pages: {
         newSchool: createSchoolSelectionPage(fullSchema5495, {
           required: ['educationType', 'name'],
@@ -173,7 +177,7 @@ const formConfig = {
       },
     },
     personalInformation: {
-      title: 'Personal Information',
+      title: 'Personal information',
       pages: {
         contactInformation: contactInformationPage(
           fullSchema5495,

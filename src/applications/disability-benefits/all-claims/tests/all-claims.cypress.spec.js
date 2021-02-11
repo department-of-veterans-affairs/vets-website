@@ -4,10 +4,21 @@ import moment from 'moment';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
+import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
+import mockInProgress from './fixtures/mocks/in-progress-forms.json';
+import mockLocations from './fixtures/mocks/separation-locations.json';
+import mockPayment from './fixtures/mocks/payment-information.json';
+import mockSubmit from './fixtures/mocks/application-submit.json';
+import mockUpload from './fixtures/mocks/document-upload.json';
+
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 import { mockItf } from './all-claims.cypress.helpers';
-import { WIZARD_STATUS, SAVED_SEPARATION_DATE } from '../constants';
+import {
+  WIZARD_STATUS,
+  FORM_STATUS_BDD,
+  SAVED_SEPARATION_DATE,
+} from '../constants';
 
 const todayPlus120 = moment()
   .add(120, 'days')
@@ -43,7 +54,9 @@ const testConfig = createTestConfig(
               SAVED_SEPARATION_DATE,
               todayPlus120.join('-'),
             );
-            cy.get('[type="radio"][value="bdd"]').click();
+            cy.get('[type="radio"][value="bdd"]').check({
+              waitForAnimations: true,
+            });
             cy.get('select[name="discharge-dateMonth"]').select(
               todayPlus120[1],
             );
@@ -52,11 +65,15 @@ const testConfig = createTestConfig(
               .clear()
               .type(todayPlus120[0]);
           } else {
-            cy.get('[type="radio"][value="appeals"]').click();
-            cy.get('[type="radio"][value="file-claim"]').click();
+            cy.get('[type="radio"][value="appeals"]').check({
+              waitForAnimations: true,
+            });
+            cy.get('[type="radio"][value="file-claim"]').check({
+              waitForAnimations: true,
+            });
           }
           // close wizard & render intro page content
-          cy.get('.va-button-primary').click();
+          cy.get('.va-button-primary').click({ waitForAnimations: true });
           // Start form
           cy.findAllByText(/start/i, { selector: 'button' })
             .first()
@@ -120,40 +137,32 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cy.login();
 
-      cy.route('GET', '/v0/feature_toggles*', 'fx:mocks/feature-toggles');
+      cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
 
       // `mockItf` is not a fixture; it can't be loaded as a fixture
       // because fixtures don't evaluate JS.
-      cy.route('GET', '/v0/intent_to_file', mockItf);
+      cy.intercept('GET', '/v0/intent_to_file', mockItf);
 
-      cy.route('PUT', '/v0/in_progress_forms/*', 'fx:mocks/in-progress-forms');
+      cy.intercept('PUT', '/v0/in_progress_forms/*', mockInProgress);
 
-      cy.route(
+      cy.intercept(
         'GET',
         '/v0/disability_compensation_form/separation_locations',
-        'fx:mocks/separation-locations',
+        mockLocations,
       );
 
-      cy.route(
-        'GET',
-        '/v0/ppiu/payment_information',
-        'fx:mocks/payment-information',
-      );
+      cy.intercept('GET', '/v0/ppiu/payment_information', mockPayment);
 
-      cy.route(
-        'POST',
-        '/v0/upload_supporting_evidence',
-        'fx:mocks/document-upload',
-      );
+      cy.intercept('POST', '/v0/upload_supporting_evidence', mockUpload);
 
-      cy.route(
+      cy.intercept(
         'POST',
         '/v0/disability_compensation_form/submit_all_claim',
-        'fx:mocks/application-submit',
+        mockSubmit,
       );
 
       // Stub submission status for immediate transition to confirmation page.
-      cy.route(
+      cy.intercept(
         'GET',
         '/v0/disability_compensation_form/submission_status/*',
         '',
@@ -163,11 +172,12 @@ const testConfig = createTestConfig(
       // but without view:selected, since that's not pre-filled
       cy.get('@testData').then(data => {
         window.sessionStorage.removeItem(WIZARD_STATUS);
+        window.sessionStorage.removeItem(FORM_STATUS_BDD);
         const sanitizedRatedDisabilities = (data.ratedDisabilities || []).map(
           ({ 'view:selected': _, ...obj }) => obj,
         );
 
-        cy.route('GET', 'v0/in_progress_forms/21-526EZ', {
+        cy.intercept('GET', 'v0/in_progress_forms/21-526EZ', {
           formData: {
             veteran: {
               primaryPhone: '4445551212',

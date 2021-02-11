@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
-import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_COMPLETE,
@@ -181,7 +181,7 @@ export default class EducationWizard extends React.Component {
         </button>
         <div className={contentClasses} id="wizardOptions">
           <div className="wizard-content-inner">
-            <ErrorableRadioButtons
+            <RadioButtons
               additionalFieldsetClass="wizard-fieldset"
               name="newBenefit"
               id="newBenefit"
@@ -193,7 +193,7 @@ export default class EducationWizard extends React.Component {
               label="Are you applying for a benefit or updating your program or place of training?"
             />
             {newBenefit === 'yes' && (
-              <ErrorableRadioButtons
+              <RadioButtons
                 additionalFieldsetClass="wizard-fieldset"
                 name="serviceBenefitBasedOn"
                 id="serviceBenefitBasedOn"
@@ -209,7 +209,7 @@ export default class EducationWizard extends React.Component {
               />
             )}
             {newBenefit === 'no' && (
-              <ErrorableRadioButtons
+              <RadioButtons
                 additionalFieldsetClass="wizard-fieldset"
                 name="transferredEduBenefits"
                 id="transferredEduBenefits"
@@ -236,7 +236,7 @@ export default class EducationWizard extends React.Component {
               />
             )}
             {serviceBenefitBasedOn === 'own' && (
-              <ErrorableRadioButtons
+              <RadioButtons
                 additionalFieldsetClass="wizard-fieldset"
                 name="nationalCallToService"
                 id="nationalCallToService"
@@ -258,7 +258,7 @@ export default class EducationWizard extends React.Component {
             )}
             {serviceBenefitBasedOn === 'own' &&
               nationalCallToService === 'no' && (
-                <ErrorableRadioButtons
+                <RadioButtons
                   additionalFieldsetClass="wizard-fieldset"
                   name="vetTecBenefit"
                   id="vetTecBenefit"
@@ -279,7 +279,7 @@ export default class EducationWizard extends React.Component {
                 />
               )}
             {serviceBenefitBasedOn === 'other' && (
-              <ErrorableRadioButtons
+              <RadioButtons
                 additionalFieldsetClass="wizard-fieldset"
                 name="sponsorDeceasedDisabledMIA"
                 id="sponsorDeceasedDisabledMIA"
@@ -295,7 +295,7 @@ export default class EducationWizard extends React.Component {
               />
             )}
             {sponsorDeceasedDisabledMIA === 'no' && (
-              <ErrorableRadioButtons
+              <RadioButtons
                 name="sponsorTransferredBenefits"
                 id="sponsorTransferredBenefits"
                 options={[
@@ -432,7 +432,7 @@ export default class EducationWizard extends React.Component {
                   </ul>
                 </div>
 
-                <ErrorableRadioButtons
+                <RadioButtons
                   additionalFieldsetClass="wizard-fieldset"
                   name="applyForScholarship"
                   id="applyForScholarship"

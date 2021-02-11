@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { focusElement } from 'platform/utilities/ui';
 import { hasSession } from 'platform/user/profile/utilities';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -30,6 +32,7 @@ class IntroductionPage extends React.Component {
     const {
       vaFileNumber: { hasVaFileNumber, isLoading },
       user,
+      dependentsToggle,
     } = this.props;
     let ctaState;
     let content;
@@ -37,7 +40,35 @@ class IntroductionPage extends React.Component {
     // Case 1: User is logged in and we are checking for va file number.
     // Case 2: User is logged in and they have a valid va file number.
     // Case 3: User is logged in and they do not have a valid va file number.
-    if (user?.login?.currentlyLoggedIn && hasVaFileNumber?.errors) {
+    if (dependentsToggle === undefined) {
+      content = <LoadingIndicator message="Loading..." />;
+    } else if (!dependentsToggle) {
+      content = (
+        <>
+          <h1>Application to add or remove dependents</h1>
+          <AlertBox
+            status="info"
+            headline="We’re still working on this feature"
+            level="2"
+            content={
+              <>
+                <p>
+                  We’re rolling out the Form 21-686c (Application to add and/or
+                  remove dependents) in stages. It’s not quite ready yet. Please
+                  check back again soon.{' '}
+                </p>
+                <a
+                  href="/view-change-dependents/"
+                  className="u-vads-display--block u-vads-margin-top--2"
+                >
+                  Return to Dependents Benefits page
+                </a>
+              </>
+            }
+          />
+        </>
+      );
+    } else if (user?.login?.currentlyLoggedIn && hasVaFileNumber?.errors) {
       const errCode = hasVaFileNumber.errors[0].code;
       ctaState = isServerError(errCode) ? (
         <AlertBox
@@ -133,7 +164,11 @@ class IntroductionPage extends React.Component {
 
 const mapStateToProps = state => {
   const { form, user, vaFileNumber } = state;
+  const dependentsToggle = toggleValues(state)[
+    FEATURE_FLAG_NAMES.vaViewDependentsAccess
+  ];
   return {
+    dependentsToggle,
     form,
     user,
     vaFileNumber,

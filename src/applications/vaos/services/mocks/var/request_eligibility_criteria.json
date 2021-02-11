@@ -45,8 +45,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryRequired": "Yes",
-            "patientHistoryDuration": 730,
             "stopCodes": [{ "primary": "211" }],
             "submittedRequestLimit": 2,
             "enterpriseSubmittedRequestLimit": 2
@@ -166,8 +164,8 @@
               },
               {
                 "day": "FRIDAY",
-                "canSchedule": false,
-                "startTime": "08:58",
+                "canSchedule": true,
+                "startTime": "07:58",
                 "endTime": "23:59"
               },
               {
@@ -229,8 +227,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryRequired": "Yes",
-            "patientHistoryDuration": 365,
             "stopCodes": [{ "primary": "211" }],
             "submittedRequestLimit": 1,
             "enterpriseSubmittedRequestLimit": 2
@@ -384,8 +380,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryRequired": "Yes",
-            "patientHistoryDuration": 730,
             "stopCodes": [{ "primary": "211" }],
             "submittedRequestLimit": 2,
             "enterpriseSubmittedRequestLimit": 2
@@ -540,8 +534,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryRequired": "Yes",
-            "patientHistoryDuration": 730,
             "stopCodes": [{ "primary": "211" }],
             "submittedRequestLimit": 1,
             "enterpriseSubmittedRequestLimit": 2
@@ -705,7 +697,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryDuration": 0,
             "stopCodes": [{ "primary": "211" }],
             "canCancel": true,
             "submittedRequestLimit": 2,
@@ -861,7 +852,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryDuration": 0,
             "stopCodes": [{ "primary": "211" }],
             "canCancel": true,
             "submittedRequestLimit": 2,
@@ -1008,8 +998,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryRequired": "Yes",
-            "patientHistoryDuration": 730,
             "stopCodes": [{ "primary": "211" }],
             "submittedRequestLimit": 1,
             "enterpriseSubmittedRequestLimit": 2
@@ -1169,8 +1157,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryRequired": "Yes",
-            "patientHistoryDuration": 730,
             "stopCodes": [{ "primary": "211" }],
             "submittedRequestLimit": 1,
             "enterpriseSubmittedRequestLimit": 2
@@ -1325,8 +1311,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryRequired": "Yes",
-            "patientHistoryDuration": 730,
             "stopCodes": [{ "primary": "211" }],
             "submittedRequestLimit": 1,
             "enterpriseSubmittedRequestLimit": 2
@@ -1477,7 +1461,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryDuration": 730,
             "stopCodes": [{ "primary": "211" }],
             "submittedRequestLimit": 1,
             "enterpriseSubmittedRequestLimit": 2
@@ -1620,7 +1603,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryDuration": 365,
             "stopCodes": [{ "primary": "211" }],
             "submittedRequestLimit": 1,
             "enterpriseSubmittedRequestLimit": 2
@@ -1776,7 +1758,6 @@
           {
             "id": "211",
             "typeOfCare": "Amputation Services",
-            "patientHistoryDuration": 0,
             "stopCodes": [{ "primary": "211" }],
             "canCancel": true,
             "submittedRequestLimit": 2,

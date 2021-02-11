@@ -20,15 +20,7 @@ describe('VAOS data transformation', () => {
           visitType: 'office',
           reasonForAppointment: 'other',
           reasonAdditionalInfo: 'Testing',
-          calendarData: {
-            currentlySelectedDate: '2019-11-20',
-            selectedDates: [
-              {
-                date: '2019-11-20',
-                optionTime: 'PM',
-              },
-            ],
-          },
+          selectedDates: ['2019-11-20T12:00:00.000'],
           vaParent: 'var983A6',
           vaFacility: 'var983GB',
           facilityType: 'vamc',
@@ -49,7 +41,7 @@ describe('VAOS data transformation', () => {
           },
         ],
         facilities: {
-          '323_var983A6': [
+          '323': [
             {
               id: 'var983GB',
               identifier: [
@@ -58,7 +50,7 @@ describe('VAOS data transformation', () => {
                   value: '983GB',
                 },
               ],
-              name: 'CHYSHR-Cheyenne VA Medical Center',
+              name: 'Cheyenne VA Medical Center',
               address: {
                 city: 'Cheyenne',
                 state: 'WY',
@@ -120,15 +112,7 @@ describe('VAOS data transformation', () => {
           visitType: 'office',
           reasonForAppointment: 'routine-follow-up',
           reasonAdditionalInfo: 'Testing',
-          calendarData: {
-            currentlySelectedDate: '2019-11-20',
-            selectedDates: [
-              {
-                date: '2019-11-20',
-                optionTime: 'PM',
-              },
-            ],
-          },
+          selectedDates: ['2019-11-20T12:00:00.000'],
           vaParent: 'var983',
           vaFacility: 'var983GB',
           facilityType: 'vamc',
@@ -147,7 +131,7 @@ describe('VAOS data transformation', () => {
           },
         ],
         facilities: {
-          '349_var983': [
+          '349': [
             {
               id: 'var983GB',
               identifier: [
@@ -156,7 +140,7 @@ describe('VAOS data transformation', () => {
                   value: '983GB',
                 },
               ],
-              name: 'CHYSHR-Cheyenne VA Medical Center',
+              name: 'Cheyenne VA Medical Center',
               address: {
                 city: 'Cheyenne',
                 state: 'WY',
@@ -239,15 +223,7 @@ describe('VAOS data transformation', () => {
             },
             phone: '2342444444',
           },
-          calendarData: {
-            currentlySelectedDate: '2019-11-20',
-            selectedDates: [
-              {
-                date: '2019-11-20',
-                optionTime: 'PM',
-              },
-            ],
-          },
+          selectedDates: ['2019-11-20T12:00:00.000'],
           facilityType: 'communityCare',
           typeOfCareId: '323',
         },
@@ -380,15 +356,7 @@ describe('VAOS data transformation', () => {
             },
             phone: '2342444444',
           },
-          calendarData: {
-            currentlySelectedDate: '2019-11-20',
-            selectedDates: [
-              {
-                date: '2019-11-20',
-                optionTime: 'PM',
-              },
-            ],
-          },
+          selectedDates: ['2019-11-20T12:00:00.000'],
           facilityType: 'communityCare',
           typeOfCareId: '203',
           audiologyType: 'CCAUDHEAR',
@@ -506,15 +474,7 @@ describe('VAOS data transformation', () => {
           email: 'test@va.gov',
           reasonForAppointment: 'routine-follow-up',
           reasonAdditionalInfo: 'asdfasdf',
-          calendarData: {
-            currentlySelectedDate: '2019-11-22',
-            selectedDates: [
-              {
-                date: '2019-11-22',
-                datetime: '2019-11-22T09:30:00',
-              },
-            ],
-          },
+          selectedDates: ['2019-11-22T09:30:00'],
           preferredDate: '2019-12-02',
           clinicId: 'var983_308',
           vaParent: 'var983',
@@ -548,7 +508,7 @@ describe('VAOS data transformation', () => {
           },
         ],
         facilities: {
-          '323_var983': [
+          '323': [
             {
               id: 'var983',
               identifier: [
@@ -557,7 +517,7 @@ describe('VAOS data transformation', () => {
                   value: '983',
                 },
               ],
-              name: 'CHYSHR-Cheyenne VA Medical Center',
+              name: 'Cheyenne VA Medical Center',
               address: {
                 city: 'Cheyenne',
                 state: 'WY',
@@ -651,16 +611,7 @@ describe('VAOS data transformation', () => {
           visitType: 'office',
           reasonForAppointment: 'routine-follow-up',
           reasonAdditionalInfo: 'Testing',
-          calendarData: {
-            currentlySelectedDate: '2019-11-20',
-            selectedDates: [
-              {
-                date: '2019-11-20',
-                optionTime: 'PM',
-              },
-            ],
-            currentRowIndex: 3,
-          },
+          selectedDates: ['2019-11-20T12:00:00.000'],
           vaParent: 'var983',
           vaFacility: 'var983GB',
           facilityType: 'vamc',
@@ -679,7 +630,7 @@ describe('VAOS data transformation', () => {
           },
         ],
         facilities: {
-          '407_var983': [
+          '407': [
             {
               id: 'var983GB',
               identifier: [
@@ -688,7 +639,7 @@ describe('VAOS data transformation', () => {
                   value: '983GB',
                 },
               ],
-              name: 'CHYSHR-Cheyenne VA Medical Center',
+              name: 'Cheyenne VA Medical Center',
               address: {
                 city: 'Cheyenne',
                 state: 'WY',
@@ -779,15 +730,7 @@ describe('VAOS data transformation', () => {
               postalCode: '01050',
             },
           },
-          calendarData: {
-            currentlySelectedDate: '2019-11-20',
-            selectedDates: [
-              {
-                date: '2019-11-20',
-                optionTime: 'PM',
-              },
-            ],
-          },
+          selectedDates: ['2019-11-20T12:00:00.000'],
           facilityType: 'communityCare',
           typeOfCareId: '323',
         },

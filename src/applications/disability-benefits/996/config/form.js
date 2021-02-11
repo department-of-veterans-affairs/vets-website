@@ -20,8 +20,11 @@ import veteranInformation from '../pages/veteranInformation';
 import contactInfo from '../pages/contactInformation';
 import contestedIssuesPage from '../pages/contestedIssues';
 import informalConference from '../pages/informalConference';
+import informalConferenceRep from '../pages/informalConferenceRep';
+import informalConferenceTimes from '../pages/informalConferenceTimes';
+import sameOffice from '../pages/sameOffice';
 
-import { errorMessages } from '../constants';
+import { errorMessages, WIZARD_STATUS } from '../constants';
 // import initialData from '../tests/schema/initialData';
 
 import manifest from '../manifest.json';
@@ -43,6 +46,7 @@ const formConfig = {
   },
 
   formId: VA_FORM_IDS.FORM_20_0996,
+  wizardStorageKey: WIZARD_STATUS,
   saveInProgress: {
     messages: {
       inProgress:
@@ -51,6 +55,8 @@ const formConfig = {
         'Your saved Higher-Level Review application (20-0996) has expired. If you want to apply for Higher-Level Review, please start a new application.',
       saved: 'Your Higher-Level Review application has been saved.',
     },
+    // return restart destination url
+    restartFormCallback: () => '/', // introduction page
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -96,14 +102,25 @@ const formConfig = {
       },
     },
     contestedIssues: {
-      title: 'Contested issues',
+      title: 'Issues eligible for review',
       pages: {
         contestedIssues: {
           title: ' ',
-          path: 'contested-issues',
+          path: 'eligible-issues',
           uiSchema: contestedIssuesPage.uiSchema,
           schema: contestedIssuesPage.schema,
           // initialData,
+        },
+      },
+    },
+    sameOffice: {
+      title: 'Office of review',
+      pages: {
+        sameOffice: {
+          title: ' ',
+          path: 'office-of-review',
+          uiSchema: sameOffice.uiSchema,
+          schema: sameOffice.schema,
         },
       },
     },
@@ -111,10 +128,24 @@ const formConfig = {
       title: 'Request an informal conference',
       pages: {
         requestConference: {
-          path: 'request-informal-conference',
+          path: 'informal-conference',
           title: 'Request an informal conference',
           uiSchema: informalConference.uiSchema,
           schema: informalConference.schema,
+        },
+        representativeInfo: {
+          path: 'informal-conference/representative-information',
+          title: 'Representative’s information',
+          depends: formData => formData?.informalConference === 'rep',
+          uiSchema: informalConferenceRep.uiSchema,
+          schema: informalConferenceRep.schema,
+        },
+        availability: {
+          path: 'informal-conference/availability',
+          title: 'Scheduling availability',
+          depends: formData => formData?.informalConference !== 'no',
+          uiSchema: informalConferenceTimes.uiSchema,
+          schema: informalConferenceTimes.schema,
         },
       },
     },

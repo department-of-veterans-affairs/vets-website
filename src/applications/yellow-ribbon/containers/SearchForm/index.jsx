@@ -1,21 +1,28 @@
 // Dependencies.
 import React, { Component } from 'react';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import PropTypes from 'prop-types';
+import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import URLSearchParams from 'url-search-params';
 import classNames from 'classnames';
-import map from 'lodash/map';
 import { connect } from 'react-redux';
 // Relative imports.
-import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
+import recordEvent from 'platform/monitoring/record-event';
 import { states as STATES } from 'vets-json-schema/dist/constants.json';
+import { TOOL_TIP_CONTENT, TOOL_TIP_LABEL } from '../../constants';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { fetchResultsThunk } from '../../actions';
+import {
+  getYellowRibbonAppState,
+  selectShowYellowRibbonEnhancements,
+} from '../../helpers/selectors';
 
 export class SearchForm extends Component {
   static propTypes = {
     // From mapStateToProps.
     fetching: PropTypes.bool.isRequired,
     showMobileForm: PropTypes.bool.isRequired,
+    showYellowRibbonEnhancements: PropTypes.bool,
     // From mapDispatchToProps.
     fetchResultsThunk: PropTypes.func.isRequired,
   };
@@ -34,6 +41,7 @@ export class SearchForm extends Component {
     const state = queryParams.get('state') || '';
 
     this.state = {
+      isToolTipOpen: false,
       city,
       contributionAmount,
       name,
@@ -105,9 +113,30 @@ export class SearchForm extends Component {
     scrollToTop();
   };
 
+  onClickToolTipHandler = () => {
+    const nextStateOfToolTip = !this.state.isToolTipOpen;
+    return this.setState({ isToolTipOpen: nextStateOfToolTip }, () =>
+      recordEvent({
+        event: nextStateOfToolTip
+          ? 'int-additionalInfo-expand'
+          : 'int-additionalInfo-collapse',
+        'additionalInfo-click-label': TOOL_TIP_LABEL,
+      }),
+    );
+  };
+
   render() {
-    const { onCheckboxChange, onReactStateChange, onSubmitHandler } = this;
-    const { fetching, showMobileForm } = this.props;
+    const {
+      onCheckboxChange,
+      onReactStateChange,
+      onSubmitHandler,
+      onClickToolTipHandler,
+    } = this;
+    const {
+      fetching,
+      showMobileForm,
+      showYellowRibbonEnhancements,
+    } = this.props;
     const {
       city,
       contributionAmount,
@@ -149,7 +178,14 @@ export class SearchForm extends Component {
             value={name}
           />
         </div>
-
+        {showYellowRibbonEnhancements && (
+          <AdditionalInfo
+            triggerText={TOOL_TIP_LABEL}
+            onClick={onClickToolTipHandler}
+          >
+            <p>{TOOL_TIP_CONTENT}</p>
+          </AdditionalInfo>
+        )}
         {/* State Field */}
         <label htmlFor="yr-search-state" className="vads-u-margin-top--3">
           State or territory
@@ -163,7 +199,7 @@ export class SearchForm extends Component {
             value={state}
           >
             <option value="">- Select -</option>
-            {map(STATES.USA, provincialState => (
+            {STATES.USA.map(provincialState => (
               <option
                 key={provincialState?.value}
                 value={provincialState?.value}
@@ -195,7 +231,7 @@ export class SearchForm extends Component {
 
         <div>
           {/* Unlimited Contribution Amount */}
-          <ErrorableCheckbox
+          <Checkbox
             checked={contributionAmount === 'unlimited'}
             label="Only show schools that provide maximum funding (tuition that's left after your Post-9/11 GI Bill)"
             onValueChange={onCheckboxChange('contributionAmount')}
@@ -203,7 +239,7 @@ export class SearchForm extends Component {
           />
 
           {/* Unlimited Number of Students */}
-          <ErrorableCheckbox
+          <Checkbox
             checked={numberOfStudents === 'unlimited'}
             label="Only show schools that provide funding to all eligible students"
             onValueChange={onCheckboxChange('numberOfStudents')}
@@ -225,8 +261,9 @@ export class SearchForm extends Component {
 }
 
 const mapStateToProps = state => ({
-  fetching: state.yellowRibbonReducer.fetching,
-  showMobileForm: state.yellowRibbonReducer.showMobileForm,
+  fetching: getYellowRibbonAppState(state).fetching,
+  showMobileForm: getYellowRibbonAppState(state).showMobileForm,
+  showYellowRibbonEnhancements: selectShowYellowRibbonEnhancements(state),
 });
 
 const mapDispatchToProps = {

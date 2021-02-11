@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import MockDate from 'mockdate';
 import moment from 'moment';
 import { waitFor, fireEvent } from '@testing-library/dom';
 import React from 'react';
@@ -19,11 +20,20 @@ const initialState = {
       facilities: [{ facilityId: '983', isCerner: false }],
     },
   },
+  featureToggles: {
+    vaOnlineSchedulingExpressCareNew: true,
+  },
 };
 
 describe('VAOS integration: Express Care info page', () => {
-  beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
+  beforeEach(() => {
+    mockFetch();
+    MockDate.set(moment('2020-01-26T14:00:00'));
+  });
+  afterEach(() => {
+    resetFetch();
+    MockDate.reset();
+  });
 
   it('should render info page when there are active windows', async () => {
     const store = createTestStore({

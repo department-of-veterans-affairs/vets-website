@@ -20,7 +20,6 @@ module.exports = `
         entityType
         ...on NodeHealthCareRegionPage {
           ${entityElementsFromPages}
-          fieldNicknameForThisFacility
           title
         }
       }
@@ -33,7 +32,6 @@ module.exports = `
         image {
           alt
           title
-          url
           derivative(style: _23MEDIUMTHUMBNAIL) {
             url
             width

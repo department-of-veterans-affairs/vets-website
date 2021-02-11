@@ -1,7 +1,7 @@
 import React from 'react';
-import _ from 'lodash/fp';
+import { set, mapValues } from 'lodash/fp';
 import moment from 'moment';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import vaMedicalFacilities from 'vets-json-schema/dist/vaMedicalFacilities.json';
 
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
@@ -25,11 +25,67 @@ export {
   medicalCenterLabels,
 } from 'platform/utilities/medical-centers/medical-centers';
 
+// clean address so we only get address related properties then return the object
+const cleanAddressObject = address => {
+  // take the address data we want from profile
+  const {
+    addressLine1,
+    addressLine2,
+    addressLine3,
+    city,
+    zipCode,
+    stateCode,
+    countryCodeIso3,
+  } = address;
+
+  /* make the address data match the schema
+   fields expect undefined NOT null */
+  return {
+    street: addressLine1,
+    street2: addressLine2 || undefined,
+    street3: addressLine3 || undefined,
+    city,
+    postalCode: zipCode,
+    country: countryCodeIso3,
+    state: stateCode,
+  };
+};
+
 export function prefillTransformer(pages, formData, metadata, state) {
+  const {
+    residentialAddress,
+    mailingAddress,
+  } = state.user.profile?.vapContactInfo;
+
+  /* mailingAddress === veteranAddress 
+     residentialAddress === veteranHomeAddress */
+  const cleanedResidentialAddress = cleanAddressObject(residentialAddress);
+  const cleanedMailingAddress = cleanAddressObject(mailingAddress);
+  const doesAddressMatch =
+    JSON.stringify(cleanedResidentialAddress) ===
+    JSON.stringify(cleanedMailingAddress);
+
   let newData = formData;
 
   if (isInMPI(state)) {
     newData = { ...newData, 'view:isUserInMvi': true };
+  }
+
+  if (mailingAddress) {
+    // spread in permanentAddress (mailingAddress) from profile if it exist
+    newData = { ...newData, veteranAddress: cleanedMailingAddress };
+  }
+
+  /* auto-fill doesPermanentAddressMatchMailing yes/no field
+   does not get sent to api due to being a view do not need to guard */
+  newData = {
+    ...newData,
+    'view:doesMailingMatchHomeAddress': doesAddressMatch,
+  };
+
+  // if residentialAddress && addresses are not the same auto fill mailing address
+  if (residentialAddress && !doesAddressMatch) {
+    newData = { ...newData, veteranHomeAddress: cleanedResidentialAddress };
   }
 
   return {
@@ -68,15 +124,27 @@ export function transform(formConfig, form) {
     form,
   );
   let withoutViewFields = filterViewFields(withoutInactivePages);
+  const hasMultipleAddress = form.data['view:hasMultipleAddress'];
+  const addressesMatch = form.data['view:doesMailingMatchHomeAddress'];
 
   // add back dependents here, because it could have been removed in filterViewFields
   if (!withoutViewFields.dependents) {
-    withoutViewFields = _.set('dependents', [], withoutViewFields);
+    withoutViewFields = set('dependents', [], withoutViewFields);
   }
 
   // convert `attachmentId` values to a `dd214` boolean
   if (withoutViewFields.attachments) {
     withoutViewFields = transformAttachments(withoutViewFields);
+  }
+
+  // duplicate address before submit if they are the same
+  if (hasMultipleAddress && addressesMatch) {
+    withoutViewFields.veteranHomeAddress = withoutViewFields.veteranAddress;
+  }
+
+  // if feature flip is off remove second address and yes/no question
+  if (!hasMultipleAddress) {
+    delete withoutViewFields.veteranHomeAddress;
   }
 
   const formData =
@@ -183,7 +251,7 @@ export function fileHelp({ formContext }) {
 }
 
 // Turns the facility list for each state into an array of strings
-export const medicalCentersByState = _.mapValues(
+export const medicalCentersByState = mapValues(
   val => val.map(center => center.value),
   vaMedicalFacilities,
 );
@@ -270,7 +338,7 @@ export const financialDisclosureText = (
       <a
         target="_blank"
         rel="noopener noreferrer"
-        href="http://www.va.gov/healthbenefits/cost/income_thresholds.asp"
+        href="https://www.va.gov/healthbenefits/apps/explorer/AnnualIncomeLimits/HealthBenefits"
       >
         Learn more
       </a>{' '}

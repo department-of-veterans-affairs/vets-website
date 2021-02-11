@@ -4,7 +4,7 @@
 {% include "src/site/includes/breadcrumbs.drupal.liquid" with constructLcBreadcrumbs = true titleInclude = true %}
 
 
-<div id="content" class="interior">
+<div id="content" class="interior" data-template="node-support_resources_detail_page">
   <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
       <div class="usa-width-three-fourths">
@@ -44,10 +44,10 @@
 
             <!-- TOC -->
             {% if fieldTableOfContentsBoolean %}
-              <section id="table-of-contents">
+              <nav id="table-of-contents">
                 <h2 class="vads-u-margin-bottom--2 vads-u-font-size--lg">On this page</h2>
                 <ul class="usa-unstyled-list"></ul>
-              </section>
+              </nav>
             {% endif %}
 
             <!-- Content blocks -->
@@ -91,6 +91,7 @@
       </div>
     </div>
   </main>
+  {% include "src/site/components/up_to_top_button.html" %}
 </div>
 
 {% include "src/site/includes/footer.html" %}

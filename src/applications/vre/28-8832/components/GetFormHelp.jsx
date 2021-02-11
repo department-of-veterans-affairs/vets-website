@@ -2,15 +2,16 @@ import React from 'react';
 import Telephone, {
   CONTACTS,
   PATTERNS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 const GetFormHelp = () => (
   <p className="help-talk">
-    Need help filling out the form or have questions about eligibility? Please
-    call VA Benefits and Services at{' '}
-    <Telephone contact={CONTACTS.VA_BENEFITS} />.<br />
+    If you have questions or need help filling out this form, please call our
+    <span aria-label="my VA 4 1 1.">MYVA411</span> main information line at{' '}
+    <Telephone contact={CONTACTS.VA_311} /> and select 0. We’re here{' '}
+    <abbr title="24 hours a day, 7 days a week">24/7</abbr>.<br />
     If you have hearing loss, call TTY:{' '}
-    <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />.
+    <Telephone contact={CONTACTS['711']} pattern={PATTERNS['3_DIGIT']} />.
   </p>
 );
 

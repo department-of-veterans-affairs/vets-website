@@ -17,14 +17,28 @@
   white-space: nowrap;
 }
 
+.clearfix:after {
+  content: " ";
+  visibility: hidden;
+  display: block;
+  height: 0;
+  clear: both;
+}
+
 ul.original-disability-list {
   li {
     margin-bottom: 0;
   }
 }
 
+fieldset.schemaform-block,
 .wizard-content-inner .fieldset-input:first-child {
   margin-top: 0;
+}
+
+/* Hide duplicate required span; first one in legend */
+.new-condition-description + .schemaform-required-span {
+  display: none;
 }
 
 .row .usa-date-of-birth.row {
@@ -136,6 +150,12 @@ ul.original-disability-list {
   white-space: pre-wrap;
 }
 
+article[data-location="review-veteran-details/separation-location"] {
+  fieldset > .schemaform-field-container {
+    margin-top: 0;
+  }
+}
+
 // Style fix for "Private medical records"
 dl.review,
 div.review {
@@ -183,5 +203,28 @@ div.review {
       max-width: 60%;
       min-width: 40%;
     }
+  }
+}
+
+/* Confirmation page */
+article[data-location="confirmation"] {
+  h1[tabindex="-1"] {
+    outline: none;
+  }
+  @media print {
+    .confirmation-page-title, a {
+      text-align: left;
+      padding-left: 0;
+    }
+  }
+}
+
+@media print {
+  .usa-width-two-thirds {
+    width: 100%;
+  }
+  .schemaform-title,
+  .schemaform-subtitle {
+    display: none;
   }
 }

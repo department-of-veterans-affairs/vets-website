@@ -3,7 +3,7 @@ import { isEmpty } from 'lodash';
 import moment from 'moment';
 
 import PropTypes from 'prop-types';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 import { ConnectedAppDeleteModal } from './ConnectedAppDeleteModal';
 

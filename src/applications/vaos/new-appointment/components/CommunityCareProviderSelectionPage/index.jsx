@@ -3,24 +3,19 @@ import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../../components/FormButtons';
-import { LANGUAGES } from '../../../utils/constants';
+import { GA_PREFIX } from '../../../utils/constants';
 import * as actions from '../../redux/actions';
-import { getFormPageInfo } from '../../../utils/selectors';
+import { getFormPageInfo } from '../../redux/selectors';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import ProviderSelectionField from './ProviderSelectionField';
+import recordEvent from 'platform/monitoring/record-event';
 
 const initialSchema = {
   type: 'object',
-  required: ['preferredLanguage'],
   properties: {
     communityCareSystemId: {
       type: 'string',
       enum: [],
-    },
-    preferredLanguage: {
-      type: 'string',
-      enum: LANGUAGES.map(l => l.id),
-      enumNames: LANGUAGES.map(l => l.text),
     },
     communityCareProvider: {
       type: 'object',
@@ -34,16 +29,17 @@ const uiSchema = {
     'ui:title': 'What’s the closest city and state to you?',
     'ui:widget': 'radio',
   },
-  preferredLanguage: {
-    'ui:title':
-      'Do you prefer that your community care provider speak a certain language?',
-  },
   communityCareProvider: {
     'ui:options': {
       showFieldLabel: true,
     },
-    'ui:description':
-      'You can request a provider you’d prefer for this appointment. If they aren’t available, we’ll schedule your appointment with a provider close to your home.',
+    'ui:description': (
+      <p id="providerSelectionDescription">
+        You can request a provider you’d prefer for this appointment. If they
+        aren’t available, we’ll schedule your appointment with a provider close
+        to your home.
+      </p>
+    ),
     'ui:field': ProviderSelectionField,
   },
 };
@@ -68,6 +64,9 @@ function CommunityCareProviderSelectionPage({
       document.title = `${pageTitle} | Veterans Affairs`;
       scrollAndFocus();
       openCommunityCareProviderSelectionPage(pageKey, uiSchema, initialSchema);
+      recordEvent({
+        event: `${GA_PREFIX}-community-care-provider-selection-page`,
+      });
     }
   }, []);
 
@@ -80,8 +79,18 @@ function CommunityCareProviderSelectionPage({
           title="Community Care preferences"
           schema={schema}
           uiSchema={uiSchema}
-          onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
-          onChange={newData => updateFormData(pageKey, uiSchema, newData)}
+          onSubmit={() => {
+            recordEvent({
+              event:
+                Object.keys(data.communityCareProvider).length === 0
+                  ? `${GA_PREFIX}-continue-without-provider`
+                  : `${GA_PREFIX}-continue-with-provider`,
+            });
+            routeToNextAppointmentPage(history, pageKey);
+          }}
+          onChange={newData => {
+            updateFormData(pageKey, uiSchema, newData);
+          }}
           data={data}
         >
           <FormButtons

@@ -42,19 +42,20 @@
                     </tr>
                 </thead>
                 <tbody>
-            <!-- this elsif is here to prevent the caption from showing up as a row -->
-            {% elsif forloop.last == false %}
+            {% else %}
                     <tr class="vads-u-padding-top--5" role="row">
                         {% for column in value %}
                                 <td class="vads-u-padding-bottom--0 column-label vads-u-font-weight--bold medium-screen:vads-u-display--none" role="cell">
                                     <dfn> {{colLabels | getValueFromObjPath: forloop.index0}}      </dfn>
                                 </td>
                                 <td class="column-value"  role="cell">
-                                    <dfn> {{ column }}  </dfn>
+                                    <dfn class="vads-u-display--block"> {{ column }}  </dfn>
                                 </td>
                         {% endfor %}
                     </tr>
             {% endif %}
+            {% if forloop.last %}
                 </tbody>
+            {% endif %}
         {% endfor %}
 </table>

@@ -8,10 +8,8 @@ import { IntroductionPage } from '../../containers/IntroductionPage';
 import formConfig from '../../config/form';
 
 import { FETCH_CONTESTABLE_ISSUES_INIT } from '../../actions';
-import {
-  WIZARD_STATUS,
-  WIZARD_STATUS_COMPLETE,
-} from 'applications/static-pages/wizard';
+import { WIZARD_STATUS } from '../../constants';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 
 const defaultProps = {
   getContestableIssues: () => {},
@@ -52,10 +50,13 @@ const globalWin = {
 
 describe('IntroductionPage', () => {
   let oldWindow;
+  let gaData;
   beforeEach(() => {
     oldWindow = global.window;
     global.window = Object.create(global.window);
     Object.assign(global.window, globalWin);
+    global.window.dataLayer = [];
+    gaData = global.window.dataLayer;
   });
   afterEach(() => {
     global.window = oldWindow;
@@ -73,6 +74,25 @@ describe('IntroductionPage', () => {
     tree.unmount();
   });
 
+  it('should show has empty address message', () => {
+    const user = {
+      login: {
+        currentlyLoggedIn: true,
+      },
+    };
+
+    const tree = shallow(
+      <IntroductionPage {...defaultProps} user={user} hasEmptyAddress />,
+    );
+
+    const AlertBox = tree.find('AlertBox');
+    expect(AlertBox.length).to.equal(1);
+    expect(AlertBox.props().headline).to.contain(
+      'need to have an address on file',
+    );
+    tree.unmount();
+  });
+
   it('should render CallToActionWidget', () => {
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
     const tree = shallow(<IntroductionPage {...defaultProps} />);
@@ -87,40 +107,48 @@ describe('IntroductionPage', () => {
 
   it('should render alert showing a server error', () => {
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    const errorMessage = 'We can’t load your issues';
     const props = {
       ...defaultProps,
       contestableIssues: {
         issues: [],
         status: '',
         error: {
-          errors: [{ title: 'We can’t load your issues' }],
+          errors: [{ title: errorMessage }],
         },
       },
+      delay: 0,
     };
 
     const tree = shallow(<IntroductionPage {...props} />);
 
     const AlertBox = tree.find('AlertBox').first();
-    expect(AlertBox.render().text()).to.include('can’t load your issues');
+    expect(AlertBox.render().text()).to.include(errorMessage);
+    const recordedEvent = gaData[gaData.length - 1];
+    expect(recordedEvent.event).to.equal('visible-alert-box');
+    expect(recordedEvent['alert-box-heading']).to.include(errorMessage);
     tree.unmount();
   });
   it('should render alert showing no contestable issues', () => {
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    const errorMessage = 'don’t have any issues on file for you';
     const props = {
       ...defaultProps,
       contestableIssues: {
         issues: [],
-        status: '',
+        status: 'done',
         error: '',
       },
+      delay: 0,
     };
 
     const tree = shallow(<IntroductionPage {...props} />);
 
     const AlertBox = tree.find('AlertBox').first();
-    expect(AlertBox.render().text()).to.include(
-      'don’t have any issues on file for you',
-    );
+    expect(AlertBox.render().text()).to.include(errorMessage);
+    const recordedEvent = gaData[gaData.length - 1];
+    expect(recordedEvent.event).to.equal('visible-alert-box');
+    expect(recordedEvent['alert-box-heading']).to.include(errorMessage);
     tree.unmount();
   });
   it('should render start button', () => {
@@ -129,7 +157,7 @@ describe('IntroductionPage', () => {
       ...defaultProps,
       contestableIssues: {
         issues: [{}],
-        status: '',
+        status: 'done',
         error: '',
       },
     };
@@ -148,7 +176,7 @@ describe('IntroductionPage', () => {
       ...defaultProps,
       contestableIssues: {
         issues: [{}],
-        status: '',
+        status: 'done',
         error: '',
       },
     };
@@ -177,7 +205,7 @@ describe('IntroductionPage', () => {
 
     const Intro = tree.find('Connect(CallToActionWidget)').first();
     expect(Intro.props().children.props.message).to.contain(
-      'Loading your contestable issues',
+      'Loading your previous decisions',
     );
     tree.unmount();
   });
@@ -189,7 +217,7 @@ describe('IntroductionPage', () => {
       ...defaultProps,
       contestableIssues: {
         issues: [{}],
-        status: '',
+        status: 'done',
         error: '',
       },
     };

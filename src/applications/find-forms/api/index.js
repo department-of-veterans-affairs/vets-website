@@ -1,7 +1,6 @@
 // Dependencies.
 import * as Sentry from '@sentry/browser';
 import appendQuery from 'append-query';
-import sortBy from 'lodash/sortBy';
 import { apiRequest } from 'platform/utilities/api';
 // Relative imports.
 import STUBBED_RESPONSE from '../constants/stub.json';
@@ -26,11 +25,18 @@ export const fetchFormsApi = async (query, options = {}) => {
 
   const forms = response?.data;
   const onlyValidForms = forms?.filter(
-    form => form.attributes?.validPDF || form.attributes?.validPdf,
+    form =>
+      (form.attributes?.validPDF || form.attributes?.validPdf) &&
+      (form.attributes?.deletedAt === null ||
+        form.attributes?.deletedAt === undefined ||
+        form.attributes?.deletedAt.length === 0),
   );
 
+  // checks to see if all the forms in the results have been tombstone/ deleted.
+  const hasOnlyRetiredForms = forms?.length > 0 && onlyValidForms?.length === 0;
+
   const potentialServerIssue =
-    (query === '' || query === '10-10ez') && onlyValidForms.length === 0;
+    (query === '' || query === '10-10ez') && onlyValidForms?.length === 0;
 
   if (potentialServerIssue) {
     // A query-less search should always include hundreds of results, and a
@@ -44,5 +50,8 @@ export const fetchFormsApi = async (query, options = {}) => {
     });
   }
 
-  return sortBy(onlyValidForms, 'id');
+  return {
+    hasOnlyRetiredForms,
+    results: onlyValidForms,
+  };
 };

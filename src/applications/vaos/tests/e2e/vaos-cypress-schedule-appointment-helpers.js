@@ -9,6 +9,13 @@ export function chooseTypeOfCareTest(label) {
   cy.findByText(/Continue/).click();
 }
 
+export function chooseFacilityTypeTest(label) {
+  cy.url().should('include', '/choose-facility-type');
+  cy.axeCheck();
+  cy.findByLabelText(label).click();
+  cy.findByText(/Continue/).click();
+}
+
 export function chooseVAFacilityTest() {
   cy.url().should('include', '/va-facility');
   cy.axeCheck();
@@ -16,6 +23,13 @@ export function chooseVAFacilityTest() {
   cy.findByLabelText(
     'CHYSHR-Cheyenne VA Medical Center (Cheyenne, WY)',
   ).click();
+  cy.findByText(/Continue/).click();
+}
+
+export function chooseVAFacilityV2Test() {
+  cy.url().should('include', '/va-facility-2');
+  cy.axeCheck();
+  cy.findByLabelText(/cheyenne/i).click();
   cy.findByText(/Continue/).click();
 }
 
@@ -33,9 +47,13 @@ export function choosePreferredDateTest() {
   cy.url().should('include', '/preferred-date');
   cy.axeCheck();
 
-  const preferredDate = today.clone().add(4, 'days');
+  const preferredDate = today
+    .clone()
+    .add(1, 'month')
+    .startOf('month')
+    .add(4, 'days');
 
-  cy.findByLabelText('Month').select(preferredDate.format('MMM'));
+  cy.findByLabelText('Month').select(preferredDate.format('MMMM'));
   cy.findByLabelText('Day').select(preferredDate.format('D'));
   cy.findByLabelText('Year').type(preferredDate.format('YYYY'));
   cy.findByText(/Continue/).click();
@@ -43,7 +61,7 @@ export function choosePreferredDateTest() {
 
 export function selectTimeSlotTest() {
   cy.url().should('include', '/select-date');
-  cy.findByText(/Next/).click();
+  cy.findByText(/Finding appointment availability.../i).should('not.exist');
   cy.get(
     '.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])',
   ).click();
@@ -57,6 +75,9 @@ export function selectTimeSlotTest() {
 
 export function selectRequestSlotTest() {
   cy.url().should('include', '/request-date');
+  cy.contains('button', 'Next')
+    .focus()
+    .click();
   cy.get('.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])')
     .first()
     .click();

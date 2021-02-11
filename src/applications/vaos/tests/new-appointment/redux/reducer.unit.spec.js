@@ -27,6 +27,9 @@ import {
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
   FORM_CALENDAR_DATA_CHANGED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED,
+  FORM_REQUESTED_PROVIDERS,
+  FORM_REQUESTED_PROVIDERS_SUCCEEDED,
+  FORM_REQUESTED_PROVIDERS_FAILED,
   FORM_SUBMIT,
   FORM_SUBMIT_FAILED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
@@ -44,6 +47,7 @@ import {
 import parentFacilities from '../../../services/mocks/var/facilities.json';
 import facilities983 from '../../../services/mocks/var/facilities_983.json';
 import facilityData from '../../../services/mocks/var/facility_data.json';
+import ccProviderData from '../../../services/mocks/var/cc_providers.json';
 import {
   FETCH_STATUS,
   FLOW_TYPES,
@@ -57,6 +61,7 @@ import { transformParentFacilities } from '../../../services/organization/transf
 import {
   transformDSFacilities,
   transformFacilities,
+  transformCommunityProviders,
 } from '../../../services/location/transformers';
 import { getSiteIdFromOrganization } from '../../../services/organization';
 
@@ -85,6 +90,19 @@ const facilities983Parsed = transformDSFacilities(
 
 const facilityDataParsed = transformFacilities(
   facilityData.data.map(item => ({
+    ...item.attributes,
+    id: item.id,
+  })),
+).map(location => ({
+  ...location,
+  legacyVAR: {
+    directSchedulingSupported: { 323: true, 504: true },
+    requestSupported: { 323: true, 504: true },
+  },
+}));
+
+const ccProvidersParsed = transformCommunityProviders(
+  ccProviderData.data.map(item => ({
     ...item.attributes,
     id: item.id,
   })),
@@ -938,24 +956,15 @@ describe('VAOS reducer: newAppointment', () => {
     });
 
     it('should update calendar data on change', () => {
-      const calendarData = {
-        currentlySelectedDate: '2020-03-11',
-        selectedDates: [
-          {
-            date: '2020-03-11',
-            datetime: '2020-03-11T09:40:00',
-          },
-        ],
-        error: null,
-      };
+      const selectedDates = ['2020-03-11T09:40:00'];
 
       const action = {
         type: FORM_CALENDAR_DATA_CHANGED,
-        calendarData,
+        selectedDates,
       };
 
       const newState = newAppointmentReducer(defaultState, action);
-      expect(newState.data.calendarData).to.deep.equal(calendarData);
+      expect(newState.data.selectedDates).to.deep.equal(selectedDates);
     });
   });
 
@@ -1178,6 +1187,96 @@ describe('VAOS reducer: newAppointment', () => {
       });
     });
   });
+
+  describe('CC provider selection page', () => {
+    it('should set community care provider list loading', () => {
+      const action = {
+        type: FORM_REQUESTED_PROVIDERS,
+      };
+
+      const newState = newAppointmentReducer({}, action);
+      expect(newState.requestStatus).to.equal(FETCH_STATUS.loading);
+    });
+
+    it('should set community care providers if sorted by distance from residential', () => {
+      const action = {
+        type: FORM_REQUESTED_PROVIDERS_SUCCEEDED,
+        typeOfCareProviders: ccProvidersParsed,
+        address: {
+          addressLine1: '290 Ludlow Ave',
+          city: 'Cincinatti',
+          stateCode: 'OH',
+          zipCode: '45220',
+          latitude: 38.833571, // Alexandria, VA
+          longitude: -77.110408,
+        },
+      };
+
+      const sortMethod = FACILITY_SORT_METHODS.distanceFromResidential;
+
+      const newState = newAppointmentReducer(
+        {
+          data: {
+            typeOfCareId: '323',
+            vaFacility: 'var123',
+          },
+          communityCareProviders: {},
+          ccProviderPageSortMethod: sortMethod,
+        },
+        action,
+      );
+      const key = `${sortMethod}_CCPRMYRTNE`;
+      expect(key in newState.communityCareProviders).to.be.true;
+      expect(newState.communityCareProviders[key].length).to.be.above(0);
+      expect(newState.communityCareProviders[key][0].address.city).to.equal(
+        'Alexandria',
+      );
+      expect(newState.requestStatus).to.equal(FETCH_STATUS.succeeded);
+    });
+
+    it('should set community care providers if sorted by distance from current location', () => {
+      const action = {
+        type: FORM_REQUESTED_PROVIDERS_SUCCEEDED,
+        typeOfCareProviders: ccProvidersParsed,
+        address: {
+          latitude: 38.991034, // Greenbelt, MD
+          longitude: -76.880351,
+        },
+      };
+
+      const sortMethod = FACILITY_SORT_METHODS.distanceFromCurrentLocation;
+
+      const newState = newAppointmentReducer(
+        {
+          data: {
+            typeOfCareId: '323',
+            vaFacility: 'var123',
+          },
+          communityCareProviders: {},
+          ccProviderPageSortMethod: sortMethod,
+        },
+        action,
+      );
+
+      const key = `${sortMethod}_CCPRMYRTNE`;
+      expect(key in newState.communityCareProviders).to.be.true;
+      expect(newState.communityCareProviders[key].length).to.be.above(0);
+      expect(newState.communityCareProviders[key][0].address.city).to.equal(
+        'Greenbelt',
+      );
+      expect(newState.requestStatus).to.equal(FETCH_STATUS.succeeded);
+    });
+
+    it('should set community care provider list loading failed', () => {
+      const action = {
+        type: FORM_REQUESTED_PROVIDERS_FAILED,
+      };
+
+      const newState = newAppointmentReducer({}, action);
+      expect(newState.requestStatus).to.equal(FETCH_STATUS.failed);
+    });
+  });
+
   describe('submit request', () => {
     it('should set loading', () => {
       const action = {

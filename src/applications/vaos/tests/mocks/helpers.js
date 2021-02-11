@@ -13,22 +13,26 @@ import {
   getVAFacilityMock,
 } from '../mocks/v0';
 import sinon from 'sinon';
-import { vapAddressToString } from '../../utils/address';
 
 export function mockAppointmentInfo({
   va = [],
   vaError = false,
   cc = [],
   requests = [],
+  isHomepageRefresh = false,
 }) {
   mockFetch();
 
+  const startDate = isHomepageRefresh
+    ? moment().subtract(30, 'days')
+    : moment();
+
   const baseUrl = `${
     environment.API_URL
-  }/vaos/v0/appointments?start_date=${moment()
+  }/vaos/v0/appointments?start_date=${startDate
     .startOf('day')
     .toISOString()}&end_date=${moment()
-    .add(13, 'months')
+    .add(395, 'days')
     .startOf('day')
     .toISOString()}`;
 
@@ -46,14 +50,14 @@ export function mockAppointmentInfo({
   setFetchJSONResponse(
     global.fetch.withArgs(
       `${environment.API_URL}/vaos/v0/appointment_requests?start_date=${moment()
-        .add(-30, 'days')
+        .add(isHomepageRefresh ? -120 : -30, 'days')
         .format('YYYY-MM-DD')}&end_date=${moment().format('YYYY-MM-DD')}`,
     ),
     { data: requests },
   );
 }
 
-export function mockPastAppointmentInfo({ va = [], cc = [] }) {
+export function mockPastAppointmentInfo({ va = [], cc = [], requests = [] }) {
   mockFetch();
   const baseUrl = `${
     environment.API_URL
@@ -69,6 +73,16 @@ export function mockPastAppointmentInfo({ va = [], cc = [] }) {
 
   setFetchJSONResponse(global.fetch.withArgs(vaUrl), { data: va });
   setFetchJSONResponse(global.fetch.withArgs(ccUrl), { data: cc });
+
+  const requestsUrl = `${
+    environment.API_URL
+  }/vaos/v0/appointment_requests?start_date=${moment()
+    .startOf('day')
+    .add(-3, 'months')
+    .format('YYYY-MM-DD')}&end_date=${moment().format('YYYY-MM-DD')}`;
+  setFetchJSONResponse(global.fetch.withArgs(requestsUrl), {
+    data: requests,
+  });
 }
 
 export function mockPastAppointmentInfoOption1({ va = [], cc = [] }) {
@@ -128,26 +142,30 @@ export function mockCCProviderFetch(
   bbox,
   providers,
   vaError = false,
+  radius = 60,
 ) {
-  const addressString = vapAddressToString(address);
   const bboxQuery = bbox.map(c => `bbox[]=${c}`).join('&');
   const specialtiesQuery = specialties.map(s => `specialties[]=${s}`).join('&');
 
   if (vaError) {
     setFetchJSONFailure(
       global.fetch.withArgs(
-        `${
-          environment.API_URL
-        }/v1/facilities/ccp?address=${addressString}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&type=provider&trim=true`,
+        `${environment.API_URL}/v1/facilities/ccp?latitude=${
+          address.latitude
+        }&longitude=${
+          address.longitude
+        }&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&type=provider&trim=true`,
       ),
       { errors: [] },
     );
   } else {
     setFetchJSONResponse(
       global.fetch.withArgs(
-        `${
-          environment.API_URL
-        }/v1/facilities/ccp?address=${addressString}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&type=provider&trim=true`,
+        `${environment.API_URL}/v1/facilities/ccp?latitude=${
+          address.latitude
+        }&longitude=${
+          address.longitude
+        }&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&type=provider&trim=true`,
       ),
       { data: providers },
     );

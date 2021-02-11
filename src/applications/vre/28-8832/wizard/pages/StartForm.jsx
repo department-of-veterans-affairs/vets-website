@@ -1,18 +1,19 @@
 import React, { useEffect } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import {
-  WIZARD_STATUS,
-  WIZARD_STATUS_COMPLETE,
-  PCPG_ROOT_URL,
-} from '../../constants';
+import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
+import { PCPG_ROOT_URL } from '../../constants';
 
-const StartForm = () => {
+const StartForm = props => {
+  const { setWizardStatus } = props;
   useEffect(() => {
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    setWizardStatus(WIZARD_STATUS_COMPLETE);
+    recordEvent({
+      event: 'howToWizard-cta-displayed',
+    });
   });
   const handleClick = () => {
     recordEvent({
-      event: `cta-primary-button-click`,
+      event: 'cta-primary-button-click',
     });
   };
   return (

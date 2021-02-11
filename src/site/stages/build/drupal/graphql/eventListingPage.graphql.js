@@ -18,28 +18,11 @@ module.exports = `
               entityUrl {
                 path
               }
-              uid {
-                targetId
-                ... on FieldNodeUid {
-                  entity {
-                    name
-                    timezone
-                  }
-                }
-              }
               fieldFeatured
               fieldDatetimeRangeTimezone {
                 value
-                startTime
                 endValue
-                endTime
                 timezone
-              }              
-              fieldDate {
-                startDate
-                value
-                endDate
-                endValue
               }
               fieldDescription
               fieldLocationHumanreadable
@@ -61,28 +44,11 @@ module.exports = `
             entityUrl {
               path
             }
-            uid {
-              targetId
-              ... on FieldNodeUid {
-                entity {
-                  name
-                  timezone
-                }
-              }
-            }
             fieldFeatured
             fieldDatetimeRangeTimezone {
               value
-              startTime
               endValue
-              endTime
               timezone
-            }            
-            fieldDate {
-              startDate
-              value
-              endDate
-              endValue
             }
             fieldDescription
             fieldLocationHumanreadable
@@ -98,12 +64,9 @@ module.exports = `
       }
     }
     fieldOffice {
-      targetId
       entity {
         ...on NodeHealthCareRegionPage {
           entityLabel
-          title
-          fieldNicknameForThisFacility
         }
       }
     }

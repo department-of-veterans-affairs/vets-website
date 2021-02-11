@@ -1,35 +1,22 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
-
+import { renderWithStoreAndRouter } from '../mocks/setup';
 import Breadcrumbs from '../../components/Breadcrumbs';
 
 describe('VAOS <Breadcrumbs>', () => {
-  it('should render with no child items', () => {
-    const tree = shallow(<Breadcrumbs />);
+  it('should display the text within the breadcrumb', () => {
+    const initialState = {};
 
-    const items = tree.find('a');
-    expect(items.at(0).props().href).to.equal('/');
-    expect(items.at(1).props().href).to.equal('/health-care');
-
-    tree.unmount();
-  });
-  it('should render with child item', () => {
-    const tree = shallow(
+    const screen = renderWithStoreAndRouter(
       <Breadcrumbs>
-        <a href="#">Testing</a>
+        <a>test</a>
       </Breadcrumbs>,
+      { initialState },
     );
 
-    const items = tree.find('a');
-    expect(items.at(0).props().href).to.equal('/');
-    expect(items.at(1).props().href).to.equal('/health-care');
-    expect(items.at(2).props().href).to.equal(
-      '/health-care/schedule-view-va-appointments',
-    );
-    expect(items.at(3).props().href).to.equal('#');
-    expect(items.at(3).text()).to.equal('Testing');
-
-    tree.unmount();
+    expect(screen.getByText(/Health care/i)).to.be.ok;
+    expect(screen.getByText(/Schedule and view appointments/i)).to.be.ok;
+    expect(screen.getByText(/VA online scheduling/i)).to.be.ok;
+    expect(screen.getByText(/test/i)).to.be.ok;
   });
 });

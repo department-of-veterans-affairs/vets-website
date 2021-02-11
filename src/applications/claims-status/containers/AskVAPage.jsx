@@ -6,7 +6,7 @@ import { setUpPage } from '../utils/page';
 
 import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
-import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
+import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 class AskVAPage extends React.Component {
   constructor() {
@@ -80,7 +80,7 @@ class AskVAPage extends React.Component {
                 <li>The date benefits will begin if we approve your claim</li>
               </ul>
               <div className="usa-alert usa-alert-info background-color-only claims-alert">
-                <ErrorableCheckbox
+                <Checkbox
                   className="claims-alert-checkbox"
                   checked={this.state.submittedDocs}
                   onValueChange={update => this.setSubmittedDocs(update)}

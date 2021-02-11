@@ -1,0 +1,179 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+
+.questionnaire-list-tabs-container{
+  border-bottom: 1px solid $color-gray-light;
+  width: 100%;
+  @include media($medium-screen) {
+    width: 70%;
+  }
+  z-index: -1;
+}
+
+.questionnaire-list-tabs{
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  @include media($medium-screen) {
+    width: 50%;
+  }
+  li{
+    flex-basis: 50%;
+    padding: 0;
+    margin-bottom: -1px;
+  }
+}
+
+.questionnaire-list-tab {
+  padding: 0;
+  margin: 0;
+  height: 4rem;
+  font-size: 16px;
+  border-style: solid;
+  border-color: $color-gray-light;
+  border-width: 1px 1px 0px 1px ;
+  border-radius: 0 !important;
+  border-bottom: 1px solid $color-gray-light;
+  cursor: pointer;
+  background-color: $color-gray-light-alt;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+
+  &:hover, &:focus, &:active {
+    color: $color-gray-dark;
+    text-decoration: none;
+    background: $color-gray-lighter;
+  }
+
+  &.current {
+    border-bottom: solid 1px $color-white;
+    border-top: solid 3px $color-primary;
+    background: $color-white !important;
+    margin: 0;
+  }
+}
+.empty-message{
+  background-color: $color-gray-lightest;
+  font-family: Bitter;
+  font-size: 2rem;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.3;
+  letter-spacing: normal;
+  color: $color-gray-dark;
+  padding: 2rem 10rem 2.5rem 2.5rem;
+  margin-bottom: 5rem;
+  width: 60%;
+  p{
+    margin: 0;
+    padding: 0;
+  }
+
+}
+
+.questionnaire-unavailable{
+  margin-bottom: 5rem;
+  width: 75%;
+
+}
+
+ul.questionnaire-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 5rem;
+
+  .card{
+    background-color: $color-gray-lightest;
+    width: 100%;
+    .usa-label{
+      width: max-content;
+      font-size: 1.5rem;
+      font-weight: bold;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.71;
+      letter-spacing: 0.5px;
+    }
+    @include media($medium-screen) {
+      width: 60%;
+    }
+    header{
+      font-size: 2.25rem;
+      font-weight: bold;
+      line-height: 1.3;
+      font-family: "Bitter";
+      margin-top: 0.5rem;
+    }
+    .appointment-location{
+      margin: 0;
+    }
+    .view-and-print-button{
+      width: 100%;
+    }
+    .view-and-print-button, .answer-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      i {
+        display: none;
+        font-size: 1.5rem;
+      }
+      @include media($medium-screen) {
+        justify-content: space-between;
+        width: max-content;
+        align-items: flex-end;
+
+        i{
+          display: inherit;
+          margin-left: 1rem;
+        }
+      }
+    }
+
+    .completed-date, .due-date{
+      margin: 0;
+      margin-bottom: 1.25rem;
+      line-height: 1.5;
+    }
+    .completed-date{
+      margin-top: 1rem;
+    }
+    .due-date{
+      padding-top: 0.75rem;
+      p{
+        margin: 0;
+      }
+    }
+    .details{
+      margin-top: 0.75rem;
+      margin-bottom: 0.75rem;
+      *{
+        margin: 0;
+        line-height: 1.5;
+      }
+    }
+  }
+}
+
+h2.questionnaire-list-header{
+  margin-bottom: 5rem;
+}
+
+div.usa-alert.usa-alert-error.print-error-message{
+  background-color: $color-white;
+}
+
+.help-heading{
+  border-bottom: 3px solid $color-blue;
+  margin: 0.3em 0;
+  font-size: 1.35em;
+  line-height: 1.5;
+  font-weight: bold;
+}

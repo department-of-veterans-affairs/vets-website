@@ -102,7 +102,7 @@
 }
 
 .vaos-calendar__nav h2 {
-  min-width: 245px;
+  white-space: nowrap;
 }
 
 .vaos-calendar__nav-links-button {
@@ -162,7 +162,7 @@
 }
 
 .vaos-calendar__option-cell--last:after {
-  content: '';
+  content: "";
   background-color: $color-primary;
   width: 8px;
   height: 100%;

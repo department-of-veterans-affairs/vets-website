@@ -43,7 +43,11 @@ export default class ReviewCollapsibleChapter extends React.Component {
   handleEdit(key, editing, index = null) {
     this.props.onEdit(key, editing, index);
     this.scrollToPage(`${key}${index === null ? '' : index}`);
-    this.focusOnPage(`${key}${index === null ? '' : index}`);
+    if (editing) {
+      // pressing "Update page" will call handleSubmit, which moves focus from
+      // the edit button to the this target
+      this.focusOnPage(`${key}${index === null ? '' : index}`);
+    }
   }
 
   handleSubmit = (formData, key, path = null, index = null) => {
@@ -261,6 +265,14 @@ export default class ReviewCollapsibleChapter extends React.Component {
       'schemaform-review-chapter-warning': showUnviewedPageWarning,
     });
 
+    const headerClasses = classNames(
+      'accordion-header',
+      'clearfix',
+      'schemaform-chapter-accordion-header',
+      'vads-u-font-size--h4',
+      'vads-u-margin-top--0',
+    );
+
     return (
       <div
         id={`${this.id}-collapsiblePanel`}
@@ -270,7 +282,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
         <Element name={`chapter${this.props.chapterKey}ScrollElement`} />
         <ul className="usa-unstyled-list">
           <li>
-            <div className="accordion-header clearfix schemaform-chapter-accordion-header">
+            <h3 className={headerClasses}>
               <button
                 className="usa-button-unstyled"
                 aria-expanded={this.props.open ? 'true' : 'false'}
@@ -282,7 +294,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
               {showUnviewedPageWarning && (
                 <span className="schemaform-review-chapter-warning-icon" />
               )}
-            </div>
+            </h3>
             <div id={`collapsible-${this.id}`}>{pageContent}</div>
           </li>
         </ul>

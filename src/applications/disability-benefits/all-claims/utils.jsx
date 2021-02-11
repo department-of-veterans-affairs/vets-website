@@ -2,7 +2,7 @@
 import React from 'react';
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
-import appendQuery from 'append-query';
+// import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
 import { omit } from 'lodash';
 import merge from 'lodash/merge';
@@ -34,7 +34,8 @@ import {
   RESERVE_GUARD_TYPES,
   STATE_LABELS,
   STATE_VALUES,
-  FIFTY_MB,
+  MAX_FILE_SIZE_BYTES,
+  MAX_PDF_FILE_SIZE_BYTES,
   USA,
   TYPO_THRESHOLD,
   itfStatuses,
@@ -44,6 +45,7 @@ import {
   PAGE_TITLES,
   START_TEXT,
   FORM_STATUS_BDD,
+  PDF_SIZE_FEATURE,
 } from './constants';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
@@ -213,6 +215,11 @@ export function queryForFacilities(input = '') {
     return Promise.resolve([]);
   }
 
+  /**
+   * Facilities endpoint removed for now, but we may be able to use EVSS's
+   * endpoint /referencedata/v1/treatmentcenter
+   * See https://github.com/department-of-veterans-affairs/va.gov-team/issues/14028#issuecomment-765717797
+   * /
   const url = appendQuery('/facilities/suggested', {
     type: ['health', 'dod_health'],
     name_part: input, // eslint-disable-line camelcase
@@ -233,6 +240,8 @@ export function queryForFacilities(input = '') {
       });
       return [];
     });
+    /* */
+  return Promise.resolve([]);
 }
 
 export function getSeparationLocations() {
@@ -632,6 +641,9 @@ export const hasHospitalCare = formData =>
   needsToAnswerUnemployability(formData) &&
   _.get('unemployability.hospitalized', formData, false);
 
+export const getPdfSizeFeature = () =>
+  sessionStorage.getItem(PDF_SIZE_FEATURE) === 'true';
+
 export const ancillaryFormUploadUi = (
   label,
   itemDescription,
@@ -642,14 +654,18 @@ export const ancillaryFormUploadUi = (
     isDisabled = false,
     addAnotherLabel = 'Add Another',
   } = {},
-) =>
-  fileUploadUI(label, {
+) => {
+  const pdfSizeFeature = getPdfSizeFeature();
+  return fileUploadUI(label, {
     itemDescription,
     hideLabelText: !label,
     fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
     addAnotherLabel,
     fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'txt'],
-    maxSize: FIFTY_MB,
+    // not sure what to do here... we need to differentiate pdf vs everything
+    // else; the check is in the actions.js > uploadFile function
+    maxSize: MAX_FILE_SIZE_BYTES,
+    maxPdfSize: pdfSizeFeature ? MAX_PDF_FILE_SIZE_BYTES : MAX_FILE_SIZE_BYTES,
     minSize: 1,
     createPayload: (file, _formId, password) => {
       const payload = new FormData();
@@ -672,6 +688,7 @@ export const ancillaryFormUploadUi = (
     classNames: customClasses,
     attachmentName: false,
   });
+};
 
 export const isUploadingSupporting8940Documents = formData =>
   needsToAnswerUnemployability(formData) &&
@@ -876,10 +893,8 @@ export const isBDD = formData => {
     isActiveDuty &&
     mostRecentDate.isAfter(moment().add(89, 'days')) &&
     !mostRecentDate.isAfter(moment().add(180, 'days'));
-  if (result) {
-    // this flag helps maintain the correct form title within a session
-    window.sessionStorage.setItem(FORM_STATUS_BDD, 'true');
-  }
+  // this flag helps maintain the correct form title within a session
+  window.sessionStorage.setItem(FORM_STATUS_BDD, result ? 'true' : 'false');
   return Boolean(result);
 };
 
@@ -887,9 +902,7 @@ export const DISABILITY_SHARED_CONFIG = {
   orientation: {
     path: 'disabilities/orientation',
     // Only show the page if both (or potentially neither) options are chosen on the claim-type page
-    depends: formData =>
-      newAndIncrease(formData) ||
-      (noClaimTypeSelected(formData) && !isBDD(formData)),
+    depends: formData => newAndIncrease(formData) && !isBDD(formData),
   },
   ratedDisabilities: {
     path: 'disabilities/rated-disabilities',

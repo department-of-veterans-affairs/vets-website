@@ -8,6 +8,9 @@ export const topicLevelThreeTitle =
   'Which subtopic best describes your message?';
 export const vaMedicalCenterTitle = 'Medical Center List';
 export const routeToStateTitle = 'Route to State';
+export const stateOfSchool = 'State of school';
+export const stateOfResidence = 'State of residence';
+export const facilityCodeTitle = 'Facility Code (FAC)';
 export const inquiryTypeTitle = "Tell us the reason you're contacting us";
 export const queryTitle = 'Please enter your message below';
 /* --------------- Inquiry Errors--------------- */
@@ -16,6 +19,9 @@ export const topicLevelTwoError = 'Please enter your topic';
 export const topicLevelThreeError = 'Please enter your subtopic';
 export const medicalCenterError = 'Please enter your medical center';
 export const routeToStateError = 'Please enter your state';
+export const stateOfSchoolError = 'Please enter the state of your school';
+export const stateOfResidenceError = 'Please enter your state of residence';
+export const facilityCodeError = 'Please enter your 8 digit Facility Code';
 export const inquiryTypeError = "Please enter the reason you're contacting us";
 export const queryError = 'Please enter your message';
 

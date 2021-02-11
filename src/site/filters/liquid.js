@@ -12,6 +12,10 @@ function getPath(obj) {
 module.exports = function registerFilters() {
   const { cmsFeatureFlags } = global;
 
+  // Set timeout option to something higher (20mins)
+  // eslint-disable-next-line no-new
+  new liquid.Context({ timeout: 1200000 });
+
   // Custom liquid filter(s)
   liquid.filters.humanizeDate = dt =>
     moment(dt, 'YYYY-MM-DD').format('MMMM D, YYYY');
@@ -34,6 +38,37 @@ module.exports = function registerFilters() {
       return prettyTimeFormatted(timeZoneDate, format);
     }
     return dt;
+  };
+
+  liquid.filters.formatVaParagraphs = vaParagraphs => {
+    const FIRST_SECTION_HEADER = 'VA account and profile';
+    const LAST_SECTION_HEADER = 'Other topics and questions';
+
+    // Derive the first and last sections.
+    const firstSection = _.find(
+      vaParagraphs,
+      vaParagraph =>
+        vaParagraph.entity.fieldSectionHeader === FIRST_SECTION_HEADER,
+    );
+    const lastSection = _.find(
+      vaParagraphs,
+      vaParagraph =>
+        vaParagraph.entity.fieldSectionHeader === LAST_SECTION_HEADER,
+    );
+
+    const otherSections = _.filter(
+      vaParagraphs,
+      vaParagraph =>
+        vaParagraph.entity.fieldSectionHeader !== FIRST_SECTION_HEADER &&
+        vaParagraph.entity.fieldSectionHeader !== LAST_SECTION_HEADER,
+    );
+
+    return [
+      firstSection,
+      // Other sections is sorted alphabetically by `fieldSectionHeader`.
+      ..._.orderBy(otherSections, 'entity.fieldSectionHeader', 'asc'),
+      lastSection,
+    ];
   };
 
   // Convert a timezone string (e.g. 'America/Los_Angeles') to an abbreviation
@@ -166,6 +201,10 @@ module.exports = function registerFilters() {
 
     return data;
   };
+  //  liquid slice filter only works on strings
+  liquid.filters.sliceArrayFromStart = (arr, startIndex) => {
+    return _.slice(arr, startIndex);
+  };
 
   liquid.filters.breakTerms = data => {
     let output = '';
@@ -229,11 +268,6 @@ module.exports = function registerFilters() {
     return output;
   };
 
-  liquid.filters.locationUrlConvention = facility =>
-    facility.fieldNicknameForThisFacility
-      ? facility.fieldNicknameForThisFacility.replace(/\s+/g, '-').toLowerCase()
-      : facility.fieldFacilityLocatorApiId;
-
   liquid.filters.hashReference = str =>
     str
       .toLowerCase()
@@ -255,7 +289,6 @@ module.exports = function registerFilters() {
 
       facilityList[id] = f.fieldMedia ? f.fieldMedia.entity.image : {};
       facilityList[id].entityUrl = f.entityUrl;
-      facilityList[id].nickname = f.fieldNicknameForThisFacility;
     });
     return JSON.stringify(facilityList);
   };
@@ -445,12 +478,19 @@ module.exports = function registerFilters() {
     breadcrumbs,
     string,
     currentPath,
+    replaceLastItem = false,
   ) => {
     const last = {
       url: { path: currentPath, routed: true },
       text: string,
     };
-    breadcrumbs.push(last);
+
+    if (replaceLastItem) {
+      // replace last item in breadcrumbs with "last"
+      breadcrumbs.splice(breadcrumbs.length - 1, 1, last);
+    } else {
+      breadcrumbs.push(last);
+    }
 
     return breadcrumbs;
   };
@@ -510,6 +550,10 @@ module.exports = function registerFilters() {
       return true;
     }
     return false;
+  };
+
+  liquid.filters.detectLang = url => {
+    return url?.endsWith('-esp') ? 'es' : 'en';
   };
 
   // sort a list of objects by a certain property in the object

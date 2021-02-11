@@ -8,33 +8,23 @@ export const requireRatedDisability = (err, fieldData /* , formData */) => {
   }
 };
 
-const conferenceTimes = {
-  min: 1,
-  max: 2,
+export const isFirstConferenceTimeEmpty = formData =>
+  (formData?.informalConferenceTimes?.time1 || '') === '';
+
+export const checkConferenceTimes = (errors, values, formData) => {
+  if (
+    errors &&
+    formData?.informalConference !== 'no' &&
+    (values || '') === ''
+  ) {
+    errors.addError(errorMessages.informalConferenceTimes);
+  }
 };
 
-export const checkConferenceTimes = (errors, values = {}, formData) => {
-  let result = '';
-  const times =
-    Object.keys(values || {}).reduce((acc, time) => {
-      if (values[time]) {
-        acc.push(time);
-      }
-      return acc;
-    }, []) || [];
+const phoneRegexp = /[0-9]+/;
 
-  if (formData?.informalConference !== 'no' && errors) {
-    // validation
-    if (times.length < conferenceTimes.min) {
-      errors.addError(errorMessages.informalConferenceTimesMin);
-    } else if (times.length > conferenceTimes.max) {
-      errors.addError(errorMessages.informalConferenceTimesMax);
-    }
-  } else {
-    // visibility
-    result =
-      times.length >= conferenceTimes.min &&
-      times.length <= conferenceTimes.max;
+export const validatePhone = (errors, phone) => {
+  if (errors && phone && (!phoneRegexp.test(phone) || phone.length !== 10)) {
+    errors.addError(errorMessages.informalConferenceContactPhonePattern);
   }
-  return result;
 };

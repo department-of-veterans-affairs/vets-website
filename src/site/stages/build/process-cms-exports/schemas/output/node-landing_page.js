@@ -9,6 +9,12 @@ module.exports = {
     title: { type: 'string' },
     changed: { type: 'number' },
     entityUrl: { $ref: 'EntityUrl' },
+    path: {
+      type: 'object',
+      properties: {
+        alias: { type: 'string' },
+      },
+    },
     fieldAdministration: {
       $ref: 'output/taxonomy_term-administration',
     },
@@ -17,6 +23,7 @@ module.exports = {
     },
     fieldHomePageHubLabel: { type: 'string' },
     fieldIntroText: { type: 'string' },
+    fieldTeaserText: { type: 'string' },
     fieldLinks: {
       type: 'array',
       items: {

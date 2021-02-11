@@ -27,26 +27,38 @@ const SearchResultMessage = ({
     return (
       <div className="search-result-title" ref={resultRef}>
         We didn't find any facilities near you. <br />
-        <strong>To try again, please enter a different:</strong>
+        <strong>For better results:</strong>
+        <ul className="vads-u-margin-y--1p5">
+          <li>
+            <strong>Zoom out</strong> to view a larger area of the map,&nbsp;
+            <strong>or</strong>
+          </li>
+          <li>
+            <strong>Move the map</strong> to a different area
+          </li>
+        </ul>
+        Then click the <strong>“Search this area of map”</strong> button.
+        <p />
+        If we still haven't found any facilities near you,{' '}
+        <strong>please enter a different:</strong>
         <ul className="vads-u-margin-y--1p5">
           <li>
             <strong>Search term</strong> (street, city, state, or postal code),{' '}
             <strong>or</strong>
           </li>
           <li>
-            <strong>Service type</strong> (like “primary care”), and select the
-            option that best meets your needs
+            <strong>Service type</strong> (like “chiropractor or optometrist”),
+            and select the option that best meets your needs
           </li>
         </ul>
-        Then click <strong>Search</strong>.
       </div>
     );
   }
 
   return (
     <div className="search-result-title">
-      Please enter a location (street, city, state or postal code) and click
-      search above to find facilities.
+      Please enter a location (street, city, state, or postal code) and facility
+      type, then click search above to find facilities.
     </div>
   );
 };

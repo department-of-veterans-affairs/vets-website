@@ -1,20 +1,31 @@
 import React from 'react';
+import classNames from 'classnames';
 import FacilityDirectionsLink from '../components/FacilityDirectionsLink';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import FacilityPhone from './FacilityPhone';
+import State from './State';
 
 export default function FacilityAddress({
   name,
   facility,
   showDirectionsLink,
+  clinicName,
+  level = '4',
 }) {
   const address = facility?.address;
   const phone = facility?.telecom?.find(tele => tele.system === 'phone')?.value;
+  const extraInfoClasses = classNames({
+    'vads-u-margin-top--1p5': !!clinicName || !!phone,
+  });
+  const Heading = `h${level}`;
+  const HeadingSub = `h${parseInt(level, 10) + 1}`;
 
   return (
     <>
       {!!name && (
         <>
-          <strong>{name}</strong>
+          <Heading className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
+            {name}
+          </Heading>
           <br />
         </>
       )}
@@ -26,7 +37,7 @@ export default function FacilityAddress({
               <br />
             </React.Fragment>
           ))}
-          {address.city}, {address.state} {address.postalCode}
+          {address.city}, <State state={address.state} /> {address.postalCode}
           <br />
         </>
       )}
@@ -36,17 +47,25 @@ export default function FacilityAddress({
           <br />
         </>
       )}
-      {!!phone && (
-        <dl className="vads-u-margin-y--0">
-          <dt className="vads-u-display--inline">
-            <strong>Main phone:</strong>
-          </dt>{' '}
-          <dd className="vads-u-display--inline">
-            <br />
-            <Telephone contact={phone} />
-          </dd>
-        </dl>
-      )}
+      <div className={extraInfoClasses}>
+        {!!clinicName && (
+          <>
+            <HeadingSub className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
+              Clinic:
+            </HeadingSub>{' '}
+            {clinicName}
+          </>
+        )}
+        {!!phone && (
+          <>
+            {!!clinicName && <br />}
+            <Heading className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
+              Main phone:
+            </Heading>{' '}
+            <FacilityPhone contact={phone} />
+          </>
+        )}
+      </div>
     </>
   );
 }

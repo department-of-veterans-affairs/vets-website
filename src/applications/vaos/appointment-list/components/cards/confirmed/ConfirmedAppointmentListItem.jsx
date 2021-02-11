@@ -96,28 +96,26 @@ export default function ConfirmedAppointmentListItem({
 
   let header;
   let location;
-  let vvcHeader = '';
+  let subHeader = '';
 
   if (isAtlas) {
     header = 'VA Video Connect';
-    vvcHeader = ' at an ATLAS location';
-    const { address } = getATLASLocation(appointment);
-    if (address) {
-      location = `${address.streetAddress}, ${address.city}, ${address.state} ${
-        address.zipCode
-      }`;
+    subHeader = ' at an ATLAS location';
+    const atlasLocation = getATLASLocation(appointment);
+    if (atlasLocation?.address) {
+      location = formatFacilityAddress(atlasLocation);
     }
   } else if (videoKind === VIDEO_TYPES.clinic) {
     header = 'VA Video Connect';
-    vvcHeader = ' at a VA location';
+    subHeader = ' at a VA location';
     location = facility ? formatFacilityAddress(facility) : null;
   } else if (videoKind === VIDEO_TYPES.gfe) {
     header = 'VA Video Connect';
-    vvcHeader = ' using a VA device';
+    subHeader = ' using a VA device';
     location = 'Video conference';
   } else if (isVideo) {
     header = 'VA Video Connect';
-    vvcHeader = ' at home';
+    subHeader = ' at home';
     location = 'Video conference';
   } else if (isCommunityCare) {
     header = 'Community Care';
@@ -132,6 +130,10 @@ export default function ConfirmedAppointmentListItem({
   } else {
     header = 'VA Appointment';
     location = facility ? formatFacilityAddress(facility) : null;
+    if (appointment.vaos.isPhoneAppointment) {
+      subHeader = ' over the phone';
+      location = 'Phone call';
+    }
   }
 
   return (
@@ -146,7 +148,7 @@ export default function ConfirmedAppointmentListItem({
         className="vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans"
       >
         <span className="vaos-form__title">{header}</span>
-        <span>{vvcHeader}</span>
+        <span>{subHeader}</span>
       </div>
       <h3 className="vaos-appts__date-time vads-u-font-size--h3 vads-u-margin-x--0">
         <AppointmentDateTime
@@ -214,11 +216,11 @@ export default function ConfirmedAppointmentListItem({
               </AdditionalInfoRow>
             )}
             <AddToCalendar
-              summary={`${header}${vvcHeader}`}
+              summary={`${header}${subHeader}`}
               description={instructionText}
               location={location}
               duration={appointment.minutesDuration}
-              startDateTime={moment.parseZone(appointment.start)}
+              startDateTime={appointment.start}
             />
             {showCancelButton && (
               <button

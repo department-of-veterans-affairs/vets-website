@@ -6,9 +6,8 @@ export default {
     'email',
     'phone',
     'zipCode',
-    'birthDate',
     'vaccineInterest',
-    'contactPreference',
+    'locationDetails',
   ],
   properties: {
     isIdentityVerified: {
@@ -22,10 +21,10 @@ export default {
     },
     birthDate: {
       type: 'string',
+      pattern: '^\\d{4}-\\d{2}-\\d{2}$',
     },
     ssn: {
       type: 'string',
-      pattern: '^\\d{3}-?\\d{2}-?\\d{4}$',
     },
     email: {
       type: 'string',
@@ -39,22 +38,13 @@ export default {
       type: 'string',
       pattern: '^\\d{5}(-\\d{4})?$',
     },
-    contactPreference: {
-      type: 'boolean',
-    },
-    contactMethod: {
+    locationDetails: {
       type: 'string',
-      enum: ['phone', 'email'],
+      enum: ['Yes', 'No', 'Unsure'],
     },
     vaccineInterest: {
       type: 'string',
-      enum: ['INTERESTED', 'NOT_INTERESTED', 'UNDECIDED', 'ALREADY_VACCINATED'],
+      enum: ['INTERESTED', 'NOT_INTERESTED', 'UNDECIDED', 'PREFER_NO_ANSWER'],
     },
-    reasonUndecided: {
-      type: 'string',
-    },
-    // preferredFacility: {
-    //   type: 'string',
-    // },
   },
 };

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../components/FormButtons';
 import EligibilityCheckMessage from './VAFacilityPage/EligibilityCheckMessage';
@@ -9,7 +9,7 @@ import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { FETCH_STATUS } from '../../utils/constants';
 import * as actions from '../redux/actions';
 
-import { getClinicPageInfo } from '../../utils/selectors';
+import { getClinicPageInfo } from '../redux/selectors';
 import { useHistory } from 'react-router-dom';
 
 export function formatTypeOfCare(careLabel) {
@@ -103,6 +103,7 @@ export function ClinicChoicePage({
               <FacilityAddress
                 name={facilityDetails.name}
                 facility={facilityDetails}
+                level={2}
               />
             </p>
           )}
@@ -121,6 +122,7 @@ export function ClinicChoicePage({
               <FacilityAddress
                 name={facilityDetails.name}
                 facility={facilityDetails}
+                level={2}
               />
             </div>
           )}

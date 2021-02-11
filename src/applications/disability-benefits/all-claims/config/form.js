@@ -50,7 +50,6 @@ import { transform } from '../submit-transformer';
 
 import { disabilitiesOrientation } from '../content/disabilitiesOrientation';
 import { supportingEvidenceOrientation } from '../content/supportingEvidenceOrientation';
-import { supportingEvidenceOrientationBDD } from '../content/supportingEvidenceOrientationBDD';
 import {
   adaptiveBenefits,
   addDisabilities,
@@ -117,7 +116,11 @@ import { createFormConfig781, createFormConfig781a } from './781';
 
 import createformConfig8940 from './8940';
 
-import { PTSD_INCIDENT_ITERATION, NULL_CONDITION_STRING } from '../constants';
+import {
+  PTSD_INCIDENT_ITERATION,
+  NULL_CONDITION_STRING,
+  WIZARD_STATUS,
+} from '../constants';
 
 import migrations from '../migrations';
 
@@ -144,6 +147,7 @@ const formConfig = {
     ],
   },
   formId: VA_FORM_IDS.FORM_21_526EZ,
+  wizardStorageKey: WIZARD_STATUS,
   saveInProgress: {
     messages: {
       inProgress:
@@ -555,15 +559,10 @@ const formConfig = {
         orientation: {
           title: '',
           path: 'supporting-evidence/orientation',
-          depends: formData => !isBDD(formData),
-          uiSchema: { 'ui:description': supportingEvidenceOrientation },
-          schema: { type: 'object', properties: {} },
-        },
-        orientationBDD: {
-          title: '',
-          path: 'supporting-evidence/orientation-bdd',
-          depends: formData => isBDD(formData),
-          uiSchema: { 'ui:description': supportingEvidenceOrientationBDD },
+          uiSchema: {
+            'ui:description': formData =>
+              supportingEvidenceOrientation(formData),
+          },
           schema: { type: 'object', properties: {} },
         },
         serviceTreatmentRecords: {
