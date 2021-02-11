@@ -34,13 +34,18 @@ export function getVAAppointmentMock() {
   };
 }
 
-export function getVAFacilityMock() {
+export function getVAFacilityMock({
+  id = 'fake',
+  name = 'Fake name',
+  lat = null,
+  long = null,
+} = {}) {
   return {
-    id: 'vha_fake',
+    id: `vha_${id}`,
     type: 'va_facilities',
     attributes: {
-      uniqueId: 'fake',
-      name: 'Fake name',
+      uniqueId: id,
+      name,
       address: {
         physical: {
           zip: 'fake zip',
@@ -51,6 +56,8 @@ export function getVAFacilityMock() {
           address3: null,
         },
       },
+      lat,
+      long,
       phone: {
         main: 'Fake phone',
       },
@@ -108,6 +115,35 @@ export function getVideoAppointmentMock() {
           providers: [],
         },
       ],
+    },
+  };
+}
+
+export function getCCRequestMock() {
+  return {
+    id: '8a4886886e4c8e22016e6613216d001f',
+    attributes: {
+      dataIdentifier: {
+        uniqueId: '8a4886886e4c8e22016e6613216d001f',
+        systemId: 'var',
+      },
+      lastUpdatedDate: '11/13/2019 11:42:40',
+      optionDate1: 'No Date Selected',
+      optionTime1: 'No Time Selected',
+      optionDate2: 'No Date Selected',
+      optionTime2: 'No Time Selected',
+      optionDate3: 'No Date Selected',
+      optionTime3: 'No Time Selected',
+      status: 'fake',
+      appointmentType: 'fake',
+      visitType: 'fake',
+      email: 'fake',
+      patient: {},
+      bestTimetoCall: [],
+      typeOfCareId: 'fake',
+      ccAppointmentRequest: {
+        preferredProviders: [{}],
+      },
     },
   };
 }

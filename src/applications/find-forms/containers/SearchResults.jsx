@@ -192,6 +192,7 @@ export class SearchResults extends Component {
           {/* SORT WIDGET */}
           <Select
             additionalClass="find-forms-search--sort-select"
+            ariaLiveRegionText="Results sorted by "
             label="Sort By"
             includeBlankOption={false}
             name="findFormsSortBySelect"

@@ -1,18 +1,18 @@
 import moment from 'moment';
 
 export const months = [
-  { label: 'Jan', value: 1 },
-  { label: 'Feb', value: 2 },
-  { label: 'Mar', value: 3 },
-  { label: 'Apr', value: 4 },
-  { label: 'May', value: 5 },
-  { label: 'Jun', value: 6 },
-  { label: 'Jul', value: 7 },
-  { label: 'Aug', value: 8 },
-  { label: 'Sep', value: 9 },
-  { label: 'Oct', value: 10 },
-  { label: 'Nov', value: 11 },
-  { label: 'Dec', value: 12 },
+  { label: 'Jan', value: 1, text: 'January' },
+  { label: 'Feb', value: 2, text: 'February' },
+  { label: 'Mar', value: 3, text: 'March' },
+  { label: 'Apr', value: 4, text: 'April' },
+  { label: 'May', value: 5, text: 'May' },
+  { label: 'Jun', value: 6, text: 'June' },
+  { label: 'Jul', value: 7, text: 'July' },
+  { label: 'Aug', value: 8, text: 'August' },
+  { label: 'Sep', value: 9, text: 'September' },
+  { label: 'Oct', value: 10, text: 'October' },
+  { label: 'Nov', value: 11, text: 'November' },
+  { label: 'Dec', value: 12, text: 'December' },
 ];
 
 const twentyNineDays = [

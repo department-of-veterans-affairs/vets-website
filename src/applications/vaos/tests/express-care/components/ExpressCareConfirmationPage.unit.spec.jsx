@@ -1,4 +1,5 @@
 import React from 'react';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 
@@ -45,8 +46,14 @@ const initialState = {
 };
 
 describe('VAOS integration: Express Care form submission', () => {
-  beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
+  beforeEach(() => {
+    mockFetch();
+    MockDate.set(moment('2020-01-26T14:00:00'));
+  });
+  afterEach(() => {
+    resetFetch();
+    MockDate.reset();
+  });
 
   it('should not allow submission of an empty form', async () => {
     setupExpressCareMocks({ isWindowOpen: true, isUnderRequestLimit: true });

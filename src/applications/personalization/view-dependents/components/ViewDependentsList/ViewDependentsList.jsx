@@ -5,14 +5,18 @@ import ViewDependentsListItem from '../ViewDependentsList/ViewDependentsListItem
 
 function ViewDependentsList(props) {
   let mainContent;
-
+  const manageDependentsToggle = props?.manageDependentsToggle ?? null;
   if (props.loading) {
     mainContent = (
       <LoadingIndicator message="Loading your dependents" setFocus />
     );
   } else if (props.dependents && props.dependents.length > 0) {
     mainContent = props.dependents.map((dependent, index) => (
-      <ViewDependentsListItem key={index} {...dependent} />
+      <ViewDependentsListItem
+        key={index}
+        manageDependentsToggle={manageDependentsToggle}
+        {...dependent}
+      />
     ));
   } else {
     mainContent = <p>No dependents in this list.</p>;
@@ -37,6 +41,7 @@ ViewDependentsList.propTypes = {
   dependents: PropTypes.array,
   header: PropTypes.string,
   subHeader: PropTypes.object,
+  manageDependentsToggle: PropTypes.bool,
 };
 
 export default ViewDependentsList;

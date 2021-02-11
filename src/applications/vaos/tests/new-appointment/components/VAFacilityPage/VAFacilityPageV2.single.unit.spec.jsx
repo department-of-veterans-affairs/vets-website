@@ -29,7 +29,6 @@ const initialState = {
     vaOnlineSchedulingCommunityCare: false,
     vaOnlineSchedulingVSPAppointmentNew: false,
     vaOnlineSchedulingDirect: true,
-    vaOnlineSchedulingFlatFacilityPage: true,
   },
   user: {
     profile: {

@@ -13,15 +13,6 @@ module.exports = {
     },
     fieldAddress: { $ref: 'Address' },
     fieldBody: { $ref: 'ProcessedString' },
-    fieldDate: {
-      type: 'object',
-      properties: {
-        startDate: { type: 'string' }, // 2019-06-12 15:00:00 UTC
-        value: { type: 'string' }, //     2019-06-12T15:00:00
-        endDate: { type: 'string' }, //   2019-06-12 23:00:00 UTC
-        endValue: { type: 'string' }, //  2019-06-12T23:00:00
-      },
-    },
     fieldDatetimeRangeTimezone: {
       type: 'object',
       properties: {
@@ -48,6 +39,7 @@ module.exports = {
       },
       required: ['entity'],
     },
+    fieldFeatured: { type: 'boolean' },
     fieldLink: {
       type: ['object', 'null'],
       properties: {
@@ -65,7 +57,6 @@ module.exports = {
   },
   required: [
     'title',
-    // 'uid',
     'changed',
     'entityUrl',
     'entityMetatags',
@@ -73,13 +64,13 @@ module.exports = {
     'fieldAdditionalInformationAbo',
     'fieldAddress',
     'fieldBody',
-    'fieldDate',
     'fieldDatetimeRangeTimezone',
     'fieldDescription',
     'fieldEventCost',
     'fieldEventCta',
     'fieldEventRegistrationrequired',
     'fieldFacilityLocation',
+    'fieldFeatured',
     'fieldLink',
     'fieldLocationHumanreadable',
     'fieldMedia',

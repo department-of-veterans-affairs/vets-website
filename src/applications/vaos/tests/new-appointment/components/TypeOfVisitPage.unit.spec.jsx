@@ -34,59 +34,62 @@ describe('VAOS <TypeOfVisitPage> ', () => {
 
     expect(screen.getAllByRole('radio').length).to.equal(3);
   });
-});
 
-it('should not submit empty form', async () => {
-  const store = createTestStore(initialState);
-  const screen = renderWithStoreAndRouter(<TypeOfVisitPage />, {
-    store,
-  });
-  expect(await screen.findByText(/Continue/i)).to.exist;
-
-  fireEvent.click(screen.getByText(/Continue/));
-
-  expect(await screen.findByText('Please provide a response')).to.exist;
-  expect(screen.history.push.called).to.not.be.true;
-});
-
-it('should save type of visit choice on page change', async () => {
-  const store = createTestStore(initialState);
-  let screen = renderWithStoreAndRouter(<Route component={TypeOfVisitPage} />, {
-    store,
-  });
-
-  expect(await screen.findByLabelText(/Office visit/i)).to.exist;
-
-  fireEvent.click(await screen.findByLabelText(/Office visit/i));
-  await waitFor(() => {
-    expect(screen.getByLabelText(/Office visit/i).checked).to.be.true;
-  });
-  await cleanup();
-
-  screen = renderWithStoreAndRouter(<Route component={TypeOfVisitPage} />, {
-    store,
-  });
-
-  expect(await screen.findByLabelText(/Office visit/i)).to.have.attribute(
-    'checked',
-  );
-});
-
-it('should continue to the correct page once type is selected', async () => {
-  const store = createTestStore(initialState);
-  const screen = renderWithStoreAndRouter(
-    <Route component={TypeOfVisitPage} />,
-    {
+  it('should not submit empty form', async () => {
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<TypeOfVisitPage />, {
       store,
-    },
-  );
+    });
+    expect(await screen.findByText(/Continue/i)).to.exist;
 
-  fireEvent.click(await screen.findByLabelText(/Office visit/i));
-  fireEvent.click(screen.getByText(/Continue/));
+    fireEvent.click(screen.getByText(/Continue/));
 
-  await waitFor(() =>
-    expect(screen.history.push.lastCall?.args[0]).to.equal(
-      '/new-appointment/contact-info',
-    ),
-  );
+    expect(await screen.findByText('Please provide a response')).to.exist;
+    expect(screen.history.push.called).to.not.be.true;
+  });
+
+  it('should save type of visit choice on page change', async () => {
+    const store = createTestStore(initialState);
+    let screen = renderWithStoreAndRouter(
+      <Route component={TypeOfVisitPage} />,
+      {
+        store,
+      },
+    );
+
+    expect(await screen.findByLabelText(/Office visit/i)).to.exist;
+
+    fireEvent.click(await screen.findByLabelText(/Office visit/i));
+    await waitFor(() => {
+      expect(screen.getByLabelText(/Office visit/i).checked).to.be.true;
+    });
+    await cleanup();
+
+    screen = renderWithStoreAndRouter(<Route component={TypeOfVisitPage} />, {
+      store,
+    });
+
+    expect(await screen.findByLabelText(/Office visit/i)).to.have.attribute(
+      'checked',
+    );
+  });
+
+  it('should continue to the correct page once type is selected', async () => {
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(
+      <Route component={TypeOfVisitPage} />,
+      {
+        store,
+      },
+    );
+
+    fireEvent.click(await screen.findByLabelText(/Office visit/i));
+    fireEvent.click(screen.getByText(/Continue/));
+
+    await waitFor(() =>
+      expect(screen.history.push.lastCall?.args[0]).to.equal(
+        '/new-appointment/contact-info',
+      ),
+    );
+  });
 });
