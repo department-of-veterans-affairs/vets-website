@@ -1,8 +1,8 @@
 export const uiSchema = {
-  'ui:title': 'Your other income',
-  income: {
-    hasSocialSecurityPayments: {
-      'ui:title': 'Do you get Social Security payments?',
+  'ui:title': 'Your spouse information',
+  benefits: {
+    spouseHasBenefits: {
+      'ui:title': 'Does your spouse currently receive VA benefits?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
     },
@@ -12,10 +12,10 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    income: {
+    benefits: {
       type: 'object',
       properties: {
-        hasSocialSecurityPayments: {
+        spouseHasBenefits: {
           type: 'boolean',
         },
       },

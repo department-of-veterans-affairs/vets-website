@@ -1,8 +1,9 @@
 export const uiSchema = {
-  'ui:title': 'Your other income',
+  'ui:title': 'Your dependents',
   income: {
-    hasSocialSecurityPayments: {
-      'ui:title': 'Do you get Social Security payments?',
+    hasDependents: {
+      'ui:title':
+        'Do you have any dependents who rely on you for financial support?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
     },
@@ -15,7 +16,7 @@ export const schema = {
     income: {
       type: 'object',
       properties: {
-        hasSocialSecurityPayments: {
+        hasDependents: {
           type: 'boolean',
         },
       },

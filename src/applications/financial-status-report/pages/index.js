@@ -10,13 +10,19 @@ import * as socialSecurity from './income/socialSecurity';
 import * as socialSecurityRecords from './income/socialSecurity/records';
 import * as additionalIncome from './income/additionalIncome';
 import * as additionalIncomeRecords from './income/additionalIncome/records';
-import * as spouseAdditionalIncome from './income/spouse/additionalIncome';
-import * as spouseBenefits from './income/spouse/benefits';
-import * as spouseEmployment from './income/spouse/employment';
-import * as spousePreviousEmployment from './income/spouse/previousEmployment';
-import * as dependents from './income/dependents';
 import * as spouseInformation from './income/spouse/spouseInfo';
 import * as spouseSocialSecurity from './income/spouse/socialSecurity';
+import * as spouseSocialSecurityRecords from './income/spouse/socialSecurity/records';
+import * as spouseAdditionalIncome from './income/spouse/additionalIncome';
+import * as spouseAdditionalIncomeRecords from './income/spouse/additionalIncome/records';
+import * as spouseBenefits from './income/spouse/benefits';
+import * as spouseBenefitRecords from './income/spouse/benefits/records';
+import * as spouseEmployment from './income/spouse/employment';
+import * as spouseEmploymentRecords from './income/spouse/employment/records';
+import * as spousePreviousEmployment from './income/spouse/previousEmployment';
+import * as spousePreviousEmploymentRecords from './income/spouse/previousEmployment/records';
+import * as dependents from './income/dependents';
+import * as dependentRecords from './income/dependents/records';
 import * as monetary from './assets/monetary';
 import * as realEstate from './assets/realEstate';
 import * as recreationalVehicles from './assets/recreationalVehicles';
@@ -31,6 +37,7 @@ import * as resolutionComments from './resolution/comments';
 import * as bankruptcyHistory from './bankruptcy/history';
 
 export {
+  veteranInfo,
   availableDebts,
   employment,
   employmentRecords,
@@ -42,13 +49,18 @@ export {
   additionalIncome,
   additionalIncomeRecords,
   spouseAdditionalIncome,
-  veteranInfo,
+  spouseAdditionalIncomeRecords,
   spouseInformation,
   spouseBenefits,
+  spouseBenefitRecords,
   spouseEmployment,
+  spouseEmploymentRecords,
   spousePreviousEmployment,
+  spousePreviousEmploymentRecords,
   spouseSocialSecurity,
+  spouseSocialSecurityRecords,
   dependents,
+  dependentRecords,
   monetary,
   realEstate,
   recreationalVehicles,
