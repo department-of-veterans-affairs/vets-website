@@ -83,4 +83,13 @@ const query = `
   }
 `;
 
-module.exports = query;
+const GetHomepage = `
+  query {
+    ${query}
+  }
+`;
+
+module.exports = {
+  partialQuery: query,
+  GetHomepage,
+};

@@ -4,7 +4,9 @@
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-module.exports = `
+const { generatePaginatedQueries } = require('../individual-queries-helpers');
+
+const eventPage = `
  fragment eventPage on NodeEvent {
     ${entityElementsFromPages}
     changed
@@ -43,7 +45,7 @@ module.exports = `
       value
       endValue
       timezone
-    }    
+    }
     fieldAddress {
       addressLine1
       addressLine2
@@ -77,3 +79,40 @@ module.exports = `
     fieldAdditionalInformationAbo {processed}
  }
 `;
+
+function getNodeEventSlice(operationName, offset, limit = 100) {
+  return `
+    ${eventPage}
+
+    query ${operationName}($onlyPublishedContent: Boolean!) {
+      nodeQuery(
+        limit: ${limit}
+        offset: ${offset}
+        sort: { field: "field_datetime_range_timezone.end_value", direction:  ASC }
+        filter: {
+        conditions: [
+          { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+          { field: "type", value: ["event"] }
+        ]
+      }) {
+        entities {
+          ... eventPage
+        }
+      }
+    }
+  `;
+}
+
+function getNodeEventQueries(entityCounts) {
+  return generatePaginatedQueries({
+    operationNamePrefix: 'GetNodeEvents',
+    entitiesPerSlice: 50,
+    totalEntities: entityCounts.data.event.count,
+    getSlice: getNodeEventSlice,
+  });
+}
+
+module.exports = {
+  fragment: eventPage,
+  getNodeEventQueries,
+};

@@ -10,7 +10,7 @@ import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your spouse information',
-  income: {
+  additionalIncome: {
     spouse: {
       additionalIncomeRecords: {
         'ui:field': ItemLoop,
@@ -45,7 +45,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    income: {
+    additionalIncome: {
       type: 'object',
       properties: {
         spouse: {

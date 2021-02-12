@@ -1,6 +1,6 @@
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-module.exports = `
+const vamcOperatingStatusAndAlerts = `
   fragment vamcOperatingStatusAndAlerts on NodeVamcOperatingStatusAndAlerts {
     ${entityElementsFromPages}
     title
@@ -54,7 +54,7 @@ module.exports = `
                   endValue
                   endTime
                   timezone
-                }                
+                }
                 fieldWysiwyg {
                   processed
                 }
@@ -69,3 +69,26 @@ module.exports = `
     }
   }
 `;
+
+const GetNodeVamcOperatingStatusAndAlerts = `
+
+  ${vamcOperatingStatusAndAlerts}
+
+  query GetNodeVamcOperatingStatusAndAlerts($onlyPublishedContent: Boolean!) {
+    nodeQuery(limit: 500, filter: {
+      conditions: [
+        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+        { field: "type", value: ["vamc_operating_status_and_alerts"] }
+      ]
+    }) {
+      entities {
+        ... vamcOperatingStatusAndAlerts
+      }
+    }
+  }
+`;
+
+module.exports = {
+  fragment: vamcOperatingStatusAndAlerts,
+  GetNodeVamcOperatingStatusAndAlerts,
+};

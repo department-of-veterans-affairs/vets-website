@@ -259,7 +259,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       },
     );
 
-    screen.debug();
     expect(
       await screen.findByRole('heading', {
         level: 1,
