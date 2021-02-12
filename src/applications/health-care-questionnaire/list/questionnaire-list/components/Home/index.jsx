@@ -62,8 +62,8 @@ const Home = props => {
       verify={!environment.isLocalhost()}
     >
       <DowntimeNotification
-        appTitle="my app"
-        dependencies={[externalServices.hcq, externalServices.idme]}
+        appTitle="health questionnaire"
+        dependencies={[externalServices.hcq]}
       >
         <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
           <h1>Your health questionnaires</h1>
