@@ -128,12 +128,6 @@ const nodeCampaignLandingPage = `
             format
             processed
           }
-          fieldDate {
-            value
-            startDate
-            endValue
-            endDate
-          }
           fieldDatetimeRangeTimezone {
             value
             startTime

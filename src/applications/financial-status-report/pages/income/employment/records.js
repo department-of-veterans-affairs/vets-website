@@ -65,11 +65,13 @@ export const uiSchema = {
           itemName: 'payroll deduction',
         },
         items: {
+          'ui:options': {
+            classNames: 'horizonal-field-container',
+          },
           deductionType: {
-            'ui:title': 'Type of payroll deduction',
+            'ui:title': 'Type of deduction',
             'ui:field': Typeahead,
             'ui:options': {
-              classNames: 'input-size-5',
               getOptions: () => formatOptions(deductionTypes),
             },
           },

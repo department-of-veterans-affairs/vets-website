@@ -24,6 +24,9 @@ export const uiSchema = {
       itemName: 'asset',
     },
     items: {
+      'ui:options': {
+        classNames: 'horizonal-field-container',
+      },
       otherAssetType: {
         'ui:title': 'Type of asset',
         'ui:field': Typeahead,

@@ -44,10 +44,6 @@ const vamcOperatingStatusAndAlerts = `
             entity {
               entityId
               ... on ParagraphSituationUpdate {
-                fieldDateAndTime {
-                  date
-                  value
-                }
                 fieldDatetimeRangeTimezone {
                   value
                   startTime
