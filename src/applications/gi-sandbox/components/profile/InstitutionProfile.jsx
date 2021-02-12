@@ -62,7 +62,7 @@ export class InstitutionProfile extends React.Component {
               if (props.display) {
                 return (
                   <ProfileSection
-                    key={`${createId(name)}-profile-section`}
+                    key={`${createId(section)}-profile-section`}
                     name={section}
                   >
                     {props.component}
