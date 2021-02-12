@@ -26,6 +26,9 @@ export const uiSchema = {
         itemName: 'expense',
       },
       items: {
+        'ui:options': {
+          classNames: 'horizonal-field-container',
+        },
         expenseType: {
           'ui:title': 'Type of expense',
           'ui:field': Typeahead,
@@ -35,7 +38,7 @@ export const uiSchema = {
           },
           'ui:required': formData => formData.otherExpenses.hasExpenses,
         },
-        expenseAmount: _.merge(currencyUI('Monthly payment amount'), {
+        expenseAmount: _.merge(currencyUI('Monthly amount'), {
           'ui:options': {
             widgetClassNames: 'input-size-1',
           },
