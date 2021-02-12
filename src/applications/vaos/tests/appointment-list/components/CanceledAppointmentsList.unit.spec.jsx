@@ -1,8 +1,13 @@
 import React from 'react';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
-import { setFetchJSONFailure } from 'platform/testing/unit/helpers';
+import {
+  mockFetch,
+  resetFetch,
+  setFetchJSONFailure,
+} from 'platform/testing/unit/helpers';
 import reducers from '../../../redux/reducer';
 import {
   getVAAppointmentMock,
@@ -10,7 +15,10 @@ import {
   getVARequestMock,
 } from '../../mocks/v0';
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
-import { renderWithStoreAndRouter } from '../../mocks/setup';
+import {
+  renderWithStoreAndRouter,
+  getTimezoneTestDate,
+} from '../../mocks/setup';
 import CanceledAppointmentsList from '../../../appointment-list/components/CanceledAppointmentsList';
 
 const initialState = {
@@ -23,6 +31,14 @@ const initialState = {
 };
 
 describe('VAOS <CanceledAppointmentsList>', () => {
+  beforeEach(() => {
+    mockFetch();
+    MockDate.set(getTimezoneTestDate());
+  });
+  afterEach(() => {
+    resetFetch();
+    MockDate.reset();
+  });
   it('should show information without facility name', async () => {
     const startDate = moment.utc();
     const appointment = getVAAppointmentMock();
@@ -436,7 +452,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
     });
 
     await screen.findByText(
-      new RegExp(startDate.tz('America/New_York').format('dddd, MMMM D'), 'i'),
+      new RegExp(startDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
