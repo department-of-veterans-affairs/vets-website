@@ -6,7 +6,7 @@
 {% endcomment %}
 
 <div id="content" class="interior" data-template="node-campaign_landing_page">
-  <main class="va-l-detail-page va-c-main">
+  <main class="va-l-detail-page va-alternating-background-color">
 
     <!-- HERO-->
     <div class="va-u-background--image" style="background-image: url('{{ fieldHeroImage.entity.image.url }}">
@@ -114,16 +114,18 @@
 
             <!-- Video -->
             {% assign videoURL = fieldMedia.entity.fieldMediaVideoEmbedField | createEmbedYouTubeVideoURL %}
-            <iframe
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              class="va-c-video vads-u-margin-top--4"
-              frameBorder="0"
-              height="315"
-              src="{{ videoURL }}"
-              title="{{ fieldMedia.entity.name | default: 'A related YouTube video' }}"
-              width="100%"
-            ></iframe>
+            {% if videoURL %}
+              <iframe
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                class="va-c-video vads-u-margin-top--4"
+                frameBorder="0"
+                height="315"
+                src="{{ videoURL }}"
+                title="{{ fieldMedia.entity.name | default: 'A related YouTube video' }}"
+                width="100%"
+              ></iframe>
+            {% endif %}
 
             <!-- Video description -->
             {% if fieldMedia.entity.fieldDuration %}
@@ -285,7 +287,7 @@
                 <!-- Title -->
                 <h3 class="vads-u-margin-top--0">
                   <a href="{{ eventReference.entity.fieldLink.url }}">
-                    {{ eventReference.entity.fieldListing.entity.fieldDescription }}
+                    {{ eventReference.entity.title }}
                   </a>
                 </h3>
 
@@ -308,21 +310,29 @@
                 </div>
 
                 <!-- Where -->
-                {% if eventReference.entity.fieldFacilityLocation.entity.entityUrl.path || node.fieldLocationHumanreadable != empty %}
+                {% if eventReference.entity.fieldFacilityLocation.entity.entityUrl.path || eventReference.entity.fieldLocationHumanreadable != empty || eventReference.entity.fieldLink.uri %}
                   <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-margin-top--2">
                     <p class="vads-u-font-weight--bold vads-u-margin--0 vads-u-margin-right--2">Where</p>
 
                     <!-- Event link -->
-                    {% if eventReference.entity.fieldFacilityLocation.entity.entityUrl.path %}
-                      <a href="{{ eventReference.entity.fieldFacilityLocation.entity.entityUrl.path }}" rel="noreferrer noopener" target="_blank">
-                        {{ eventReference.entity.fieldFacilityLocation.entity.title }}
-                      </a>
-                    {% endif %}
+                    <div class="vads-u-display--flex vads-u-flex-direction--column">
+                      {% if eventReference.entity.fieldFacilityLocation.entity.entityUrl.path %}
+                        <a href="{{ eventReference.entity.fieldFacilityLocation.entity.entityUrl.path }}" rel="noreferrer noopener" target="_blank">
+                          {{ eventReference.entity.fieldFacilityLocation.entity.title }}
+                        </a>
+                      {% endif %}
 
-                    <!-- Event address -->
-                    {% if eventReference.entity.fieldLocationHumanreadable != empty %}
-                      <p>{{ eventReference.entity.fieldLocationHumanreadable }}</p>
-                    {% endif %}
+                      {% if eventReference.entity.fieldLink.uri %}
+                        <a href="{{ eventReference.entity.fieldLink.uri }}" rel="noreferrer noopener" target="_blank">
+                          {{ eventReference.entity.fieldEventCta }}
+                        </a>
+                      {% endif %}
+
+                      <!-- Event address -->
+                      {% if eventReference.entity.fieldLocationHumanreadable != empty %}
+                        <p class="vads-u-margin--0">{{ eventReference.entity.fieldLocationHumanreadable }}</p>
+                      {% endif %}
+                    </div>
                   </div>
                 {% endif %}
               </div>
