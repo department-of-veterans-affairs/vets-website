@@ -74,13 +74,13 @@ describe('VAOS selectors', () => {
             participant: [
               {
                 actor: {
-                  reference: 'HealthcareService/var123_456',
+                  reference: 'HealthcareService/123_456',
                   display: 'Test',
                 },
               },
               {
                 actor: {
-                  reference: 'Location/var123',
+                  reference: 'Location/123',
                   display: 'Facility name',
                 },
               },
@@ -132,7 +132,7 @@ describe('VAOS selectors', () => {
                   },
                 ],
                 providedBy: {
-                  reference: 'Organization/var123',
+                  reference: 'Organization/123',
                 },
               },
             ],

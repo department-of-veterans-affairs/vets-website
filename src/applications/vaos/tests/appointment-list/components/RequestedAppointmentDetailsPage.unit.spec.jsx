@@ -148,7 +148,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       {
         initialState,
         reducers,
-        path: '/requests/var1234',
+        path: '/requests/1234',
       },
     );
 
@@ -201,7 +201,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       {
         initialState,
         reducers,
-        path: '/requests/var1234',
+        path: '/requests/1234',
       },
     );
 
@@ -228,7 +228,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       {
         initialState,
         reducers,
-        path: '/requests/var1234',
+        path: '/requests/1234',
       },
     );
 
@@ -255,7 +255,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       {
         initialState,
         reducers,
-        path: '/requests/var1234',
+        path: '/requests/1234',
       },
     );
 

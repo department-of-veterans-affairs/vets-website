@@ -24,13 +24,6 @@ import {
 import { VHA_FHIR_ID } from '../../utils/constants';
 import { calculateBoundingBox } from '../../utils/address';
 
-/*
- * This is used to parse the fake FHIR ids we create for organizations
- */
-function parseId(id) {
-  return id.replace('var', '');
-}
-
 /**
  * Fetch facility information for the facilities in the given site, based on type of care
  *
@@ -49,7 +42,7 @@ export async function getSupportedLocationsByTypeOfCare({
   try {
     const parentFacilities = await getFacilitiesBySystemAndTypeOfCare(
       siteId,
-      parseId(parentId),
+      parentId,
       typeOfCareId,
     );
 
@@ -78,7 +71,7 @@ export async function getSupportedLocationsByTypeOfCare({
  */
 export async function getLocations({ facilityIds }) {
   try {
-    const facilities = await getFacilitiesInfo(facilityIds.map(parseId));
+    const facilities = await getFacilitiesInfo(facilityIds);
 
     return transformFacilities(facilities);
   } catch (e) {
@@ -100,7 +93,7 @@ export async function getLocations({ facilityIds }) {
  */
 export async function getLocation({ facilityId }) {
   try {
-    const facility = await getFacilityInfo(parseId(facilityId));
+    const facility = await getFacilityInfo(facilityId);
 
     return transformFacility(facility);
   } catch (e) {
@@ -197,7 +190,7 @@ export function getFacilityIdFromLocation(location) {
  * @param {String} id A location's fake FHIR id
  */
 export function getSiteIdFromFakeFHIRId(id) {
-  return id ? parseId(id).substr(0, 3) : null;
+  return id ? id.substr(0, 3) : null;
 }
 
 /**

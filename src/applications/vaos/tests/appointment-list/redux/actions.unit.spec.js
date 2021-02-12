@@ -220,7 +220,7 @@ describe('VAOS actions: appointments', () => {
             participant: [
               {
                 actor: {
-                  reference: 'HealthcareService/var983_455',
+                  reference: 'HealthcareService/983_455',
                   display: 'C&P BEV AUDIO FTC1',
                 },
               },
@@ -305,7 +305,7 @@ describe('VAOS actions: appointments', () => {
             participant: [
               {
                 actor: {
-                  reference: 'HealthcareService/var983_455',
+                  reference: 'HealthcareService/983_455',
                   display: 'C&P BEV AUDIO FTC1',
                 },
               },
@@ -408,7 +408,7 @@ describe('VAOS actions: appointments', () => {
             participant: [
               {
                 actor: {
-                  reference: 'HealthcareService/var983_455',
+                  reference: 'HealthcareService/983_455',
                   display: 'C&P BEV AUDIO FTC1',
                 },
               },
@@ -501,7 +501,7 @@ describe('VAOS actions: appointments', () => {
             participant: [
               {
                 actor: {
-                  reference: 'HealthcareService/var983_455',
+                  reference: 'HealthcareService/983_455',
                   display: 'C&P BEV AUDIO FTC1',
                 },
               },

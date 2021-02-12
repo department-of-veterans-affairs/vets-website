@@ -217,7 +217,7 @@ describe('VAOS reducer: appointments', () => {
       type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
       facilityData: [
         {
-          id: 'var442',
+          id: '442',
         },
       ],
       clinicInstitutionList: null,
@@ -232,7 +232,7 @@ describe('VAOS reducer: appointments', () => {
       type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
       facilityData: [
         {
-          id: 'var442GA',
+          id: '442GA',
         },
       ],
     };

@@ -81,12 +81,6 @@ import {
   FORM_SUBMIT_SUCCEEDED,
 } from '../../redux/sitewide';
 
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id.replace('var', '');
-}
-
 export const GA_FLOWS = {
   DIRECT: 'direct',
   VA_REQUEST: 'va-request',
@@ -433,7 +427,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
           recordEligibilityFailure(
             'supported-facilities',
             typeOfCare.name,
-            parseFakeFHIRId(parentFacilities[0].id),
+            parentFacilities[0].id,
           );
         }
 
@@ -608,9 +602,7 @@ export function openFacilityPage(page, uiSchema, schema) {
       }
 
       if (parentId) {
-        siteId = parseFakeFHIRId(
-          getIdOfRootOrganization(parentFacilities, parentId),
-        );
+        siteId = getIdOfRootOrganization(parentFacilities, parentId);
       }
 
       locations =
@@ -632,11 +624,7 @@ export function openFacilityPage(page, uiSchema, schema) {
       }
 
       if (parentId && !locations?.length) {
-        recordEligibilityFailure(
-          'supported-facilities',
-          typeOfCare,
-          parseFakeFHIRId(parentId),
-        );
+        recordEligibilityFailure('supported-facilities', typeOfCare, parentId);
       }
 
       const eligibilityChecks =
@@ -719,7 +707,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
           recordEligibilityFailure(
             'supported-facilities',
             typeOfCare,
-            parseFakeFHIRId(data.vaParent),
+            data.vaParent,
           );
         }
 
