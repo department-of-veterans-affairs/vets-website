@@ -50,6 +50,34 @@
     font-weight: inherit !important;
   }
 
+  .about-this-tool {
+    margin-top: 1em;
+
+    a {
+      // background-image: none;
+      text-align: center;
+      font-family: $font-sans;
+      font-size: 1.36rem;
+      line-height: 4rem;
+      margin-right: 2.5rem;
+      margin-bottom: 2rem;
+
+      @include media-maxwidth($small-screen) {
+        font-size: 1.2rem;
+        text-align: left;
+        margin: 0;
+        line-height: 1.2rem;
+      }
+
+      a.link {
+        @include media-maxwidth($small-screen) {
+          margin-left: 1rem;
+          padding: 0.5rem;
+        }
+      }
+    }
+  }
+
   .mobile-only {
     display: none;
   }
@@ -77,5 +105,11 @@
       display: block;
     }
 
+  }
+
+  @media (max-width: 481px) {
+    .about-this-tool-mobile {
+      padding-left: 20px;
+    }
   }
 }

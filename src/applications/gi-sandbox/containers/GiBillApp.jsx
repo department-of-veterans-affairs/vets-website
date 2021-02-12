@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import DowntimeNotification from 'platform/monitoring/DowntimeNotification';
 
@@ -15,7 +14,6 @@ import PreviewBanner from '../../gi/components/heading/PreviewBanner';
 import GiBillBreadcrumbs from '../../gi/components/heading/GiBillBreadcrumbs';
 import AboutThisTool from '../../gi/components/content/AboutThisTool';
 import ServiceError from '../../gi/components/ServiceError';
-import Covid19Banner from '../../gi/components/heading/Covid19Banner';
 import { useQueryParams } from '../../gi/utils/helpers';
 
 export function GiBillApp({
@@ -27,7 +25,6 @@ export function GiBillApp({
   preview,
   search,
 }) {
-  const location = useLocation();
   const queryParams = useQueryParams();
   const version = queryParams.get('version');
 
@@ -52,10 +49,6 @@ export function GiBillApp({
 
   return (
     <div className="gi-app">
-      {(location.pathname === '/' ||
-        location.pathname === '/gi-bill-comparison-tool-sandbox') && (
-        <Covid19Banner />
-      )}
       <div>
         <div>
           {preview.display && <PreviewBanner version={preview.version} />}
