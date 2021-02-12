@@ -20,7 +20,7 @@ ALL_VAGOV_BUILDTYPES = [
   'vagovdev',
   'vagovstaging',
   'vagovprod',
-  'vagovdev-cms-export'
+  'vagovdev-graphql'
 ]
 
 BUILD_TYPE_OVERRIDE = DRUPAL_MAPPING.get(params.cmsEnvBuildOverride, null)
@@ -217,8 +217,8 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
-        def useCMSExport = envName == 'vagovdev-cms-export' ? true : false
-        def setEnvName = envName == 'vagovdev-cms-export' ? 'vagovdev' : envName
+        def useCMSExport = envName == 'vagovdev' ? true : false
+        def setEnvName = envName == 'vagovdev' ? 'vagovdev' : envName
 
         builds[envName] = {
           try {
@@ -259,8 +259,8 @@ def prearchive(dockerContainer, envName) {
   def drupalAddress = DRUPAL_ADDRESSES.get('vagovprod')
   dockerContainer.inside(DOCKER_ARGS) {
     // Special condition to point dev cms export to vagovdev
-    if (envName == 'vagovdev-cms-export') {
-      sh "cd /application && NODE_ENV=production yarn build --buildtype vagovdev --setPublicPath --drupal-address ${drupalAddress} --use-cms-export --destination vagovdev-cms-export"
+    if (envName == 'vagovdev') {
+      sh "cd /application && NODE_ENV=production yarn build --buildtype vagovdev --setPublicPath --drupal-address ${drupalAddress} --use-cms-export"
     } else {
       sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath --drupal-address ${drupalAddress} "
     }
@@ -282,7 +282,7 @@ def prearchiveAll(dockerContainer) {
         try {
           prearchive(dockerContainer, envName)
         } catch (error) {
-          if (envName == 'vagovdev-cms-export') {
+          if (envName == 'vagovdev') {
             // Output error message but don't fail the build
             echo "CMS Export prearchive failed: ${error}"
           } else {
