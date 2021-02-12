@@ -48,3 +48,10 @@ const same = _.isEqual(
 )
 
 console.log(same)
+
+console.log(
+  _.isEqual(
+    _.sortBy(oldEntities.filter(old => JSON.stringify(old) !== '{}'), 'entityId'),
+    _.sortBy(newEntities, 'entityId'),
+  )
+)
