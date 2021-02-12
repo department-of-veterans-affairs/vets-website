@@ -6,7 +6,7 @@ const startsAt = new Date('2020-06-09T14:00:00.014Z');
 const expiresAt = addHours(startsAt, 24);
 
 // Derive the how long the downtime will be in hours.
-const hours = differenceInHours(startsAt, expiresAt);
+const hours = differenceInHours(expiresAt, startsAt);
 
 export default {
   id: '1',
