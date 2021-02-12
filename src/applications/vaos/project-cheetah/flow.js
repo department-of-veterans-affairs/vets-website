@@ -45,6 +45,10 @@ export default {
   },
   selectDate1: {
     url: '/new-project-cheetah-booking/select-date-1',
+    next: 'secondDosePage',
+  },
+  secondDosePage: {
+    url: '/new-project-cheetah-booking/second-dose-page',
     next: 'review',
   },
   review: {

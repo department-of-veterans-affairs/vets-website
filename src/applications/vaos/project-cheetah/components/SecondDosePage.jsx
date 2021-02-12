@@ -1,0 +1,119 @@
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as actions from '../redux/actions';
+import FormButtons from '../../components/FormButtons';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import moment from 'moment';
+import { getReviewPage } from '../redux/selectors';
+import AdditionalInfoRow from '../../appointment-list/components/cards/AdditionalInfoRow';
+
+const pageKey = 'secondDosePage';
+const pageTitle = 'Plan your second dose';
+
+function goBack({ routeToPreviousAppointmentPage, history }) {
+  return routeToPreviousAppointmentPage(history, pageKey);
+}
+
+function SecondDosePage({
+  data,
+  facility,
+  pageChangeInProgress,
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+}) {
+  const [showMoreOpen, setShowMoreOpen] = useState(false);
+  const history = useHistory();
+  const { date1, vaFacility } = data;
+
+  useEffect(() => {
+    if (history && !vaFacility) {
+      history.replace('/new-project-cheetah-booking');
+    }
+    document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
+  }, []);
+
+  return (
+    <div>
+      <h1>{pageTitle}</h1>
+      <div>
+        <p>
+          You'll need to return to the {facility.name} for your second dose.
+          Your team will schedule your second dose after you receive you first.
+        </p>
+        <p>
+          If you receive your first dose on{' '}
+          <strong>
+            {moment(date1, 'YYYY-MM-DDTHH:mm:ssZ').format(
+              'dddd, MMMM DD, YYYY ',
+            )}{' '}
+          </strong>
+          and receive:
+        </p>
+        <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+          Moderna
+        </h2>
+        <div className="vads-u-padding-bottom--1">
+          Return for your second dose after{' '}
+          {moment(date1, 'YYYY-MM-DDTHH:mm:ssZ')
+            .add(28, 'days')
+            .format('dddd, MMMM DD, YYYY')}
+        </div>
+        <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vaos-appts__block-label">
+          Pfizer
+        </h2>
+        <div>
+          Return for your second dose after{' '}
+          {moment(date1, 'YYYY-MM-DDTHH:mm:ssZ')
+            .add(21, 'days')
+            .format('dddd, MMMM DD, YYYY')}
+        </div>
+      </div>
+      <div className="vads-u-margin-y--4">
+        <AdditionalInfoRow
+          id="second-dose"
+          open={showMoreOpen}
+          triggerText="Can I choose which vaccine I will get?"
+          onClick={() => setShowMoreOpen(!showMoreOpen)}
+        >
+          <div>
+            <p>
+              Not at this time. For the next several months, we won't have
+              enough vaccines to allow you to choose which vaccine you'd like to
+              receive. We will reassess as more vaccines become available.
+            </p>
+            <p>
+              Both authorized vaccines require 2 doses to work. And you must get
+              the same vaccine for both doses. To help ensure this, each VA
+              health facility that offers COVID-19 vaccines will receive either
+              the Pfizer or the Moderna vaccine. You'll need to get both doses
+              at the same facility.
+            </p>
+          </div>
+        </AdditionalInfoRow>
+      </div>
+      <FormButtons
+        pageChangeInProgress={pageChangeInProgress}
+        onBack={() => goBack({ routeToPreviousAppointmentPage, history })}
+        onSubmit={() => {
+          routeToNextAppointmentPage(history, pageKey);
+        }}
+      />
+    </div>
+  );
+}
+
+function mapStateToProps(state) {
+  return getReviewPage(state);
+}
+
+const mapDispatchToProps = {
+  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SecondDosePage);

@@ -7,10 +7,10 @@ import InfoPage from './components/InfoPage';
 import VAFacilityPage from './components/VAFacilityPage';
 import ClinicChoicePage from './components/ClinicChoicePage';
 import SelectDate1Page from './components/SelectDate1Page';
-import SelectDate2Page from './components/SelectDate2Page';
 import ReviewPage from './components/ReviewPage';
 import ConfirmationPage from './components/ConfirmationPage';
 import { selectFeatureProjectCheetah } from '../redux/selectors';
+import SecondDosePage from './components/SecondDosePage';
 
 export function NewBookingSection({ featureProjectCheetah }) {
   const match = useRouteMatch();
@@ -51,8 +51,8 @@ export function NewBookingSection({ featureProjectCheetah }) {
           component={SelectDate1Page}
         />
         <Route
-          path={`${match.url}/select-date-2`}
-          component={SelectDate2Page}
+          path={`${match.url}/second-dose-page`}
+          component={SecondDosePage}
         />
         <Route path={`${match.url}/review`} component={ReviewPage} />
         <Route
