@@ -34,7 +34,7 @@ describe('<LocationHours>', () => {
 
   const { operationalHoursSpecialInstructions } = testFacility.attributes;
 
-  it('Should render LocationHours with operationalHoursSpecialInstructions field', () => {
+  it('Should render LocationHours with operationalHoursSpecialInstructions field with truthy values', () => {
     const wrapper = shallow(
       <LocationHours
         location={testFacility}
@@ -48,6 +48,41 @@ describe('<LocationHours>', () => {
         .find('#operational-special-p')
         .text(),
     ).to.equal(operationalHoursSpecialInstructions);
+    wrapper.unmount();
+  });
+
+  it('Should render LocationHours without operationalHoursSpecialInstructions field - showHoursSpecialInstructions false', () => {
+    const wrapper = shallow(
+      <LocationHours
+        location={testFacility}
+        showHoursSpecialInstructions={!operationalHoursSpecialInstructions}
+      />,
+    );
+    expect(wrapper.find('#operational-special-p').length).to.equal(0);
+    wrapper.unmount();
+  });
+
+  it('Should render LocationHours without operationalHoursSpecialInstructions field - operationalHoursSpecialInstructions null', () => {
+    testFacility.attributes.operationalHoursSpecialInstructions = null;
+    const wrapper = shallow(
+      <LocationHours
+        location={testFacility}
+        showHoursSpecialInstructions={!!operationalHoursSpecialInstructions}
+      />,
+    );
+    expect(wrapper.find('#operational-special-p').length).to.equal(0);
+    wrapper.unmount();
+  });
+
+  it('Should render LocationHours without operationalHoursSpecialInstructions field with no VA facilities', () => {
+    testFacility.attributes.facilityType = 'other_facility';
+    const wrapper = shallow(
+      <LocationHours
+        location={testFacility}
+        showHoursSpecialInstructions={!!operationalHoursSpecialInstructions}
+      />,
+    );
+    expect(wrapper.find('#operational-special-p').length).to.equal(0);
     wrapper.unmount();
   });
 });
