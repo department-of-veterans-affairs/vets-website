@@ -3,8 +3,10 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes/';
+import { downloadPDF } from '../actions';
 
 import { focusElement } from 'platform/utilities/ui';
+import { bindActionCreators } from 'redux';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -73,6 +75,18 @@ export class ConfirmationPage extends React.Component {
               <p className="vads-u-margin-y--0">Debt Management Center</p>
               <p className="vads-u-margin-y--0">P.O. Box 11930</p>
               <p className="vads-u-margin-y--0">St. Paul, MN 5111-0930</p>
+              <button
+                className="usa-button button"
+                onClick={() => this.props.downloadPDF()}
+              >
+                Download completed form
+              </button>
+              <button
+                className="usa-button-secondary button vads-u-background-color--white"
+                onClick={() => window.print()}
+              >
+                Print this page
+              </button>
             </>
           ) : null}
         </div>
@@ -81,43 +95,61 @@ export class ConfirmationPage extends React.Component {
           You can expect our decision within 45 days. We'll send you a letter by
           mail with our decision and any next steps to resolve your debt.
         </p>
-        <ol>
-          <li className="process-step list-one">
-            <h4>Sign in to VA.gov</h4>
-            <p>
-              You can sign in with your DS Logon, My HealtheVet, or ID.me
-              account.
-            </p>
-          </li>
-          <li className="process-step list-two">
-            <h4>
-              If you haven't yet verified your identity, complete this process
-              when prompted
-            </h4>
-            <p>
-              This helps keep your information safe, and prevents fraud and
-              identity theft. If you've already verified your identity with us,
-              you don't need to do this again.
-            </p>
-          </li>
-          <li className="process-step list-three">
-            <h4>Go to your debt management portal</h4>
-            <p>
-              Once you're signed in, you can go to{' '}
-              <a href="/manage-va-debt">Manage my VA debt</a> to check the
-              status of your current debts.
-            </p>
-          </li>
-        </ol>
+        <div className="process schemaform-process">
+          <ol>
+            <li className="process-step list-one">
+              <h4>Sign in to VA.gov</h4>
+              <p>
+                You can sign in with your DS Logon, My HealtheVet, or ID.me
+                account.
+              </p>
+            </li>
+            <li className="process-step list-two">
+              <h4>
+                If you haven't yet verified your identity, complete this process
+                when prompted
+              </h4>
+              <p>
+                This helps keep your information safe, and prevents fraud and
+                identity theft. If you've already verified your identity with
+                us, you don't need to do this again.
+              </p>
+            </li>
+            <li className="process-step list-three">
+              <h4>Go to your debt management portal</h4>
+              <p>
+                Once you're signed in, you can go to{' '}
+                <a href="/manage-va-debt">Manage my VA debt</a> to check the
+                status of your current debts.
+              </p>
+            </li>
+          </ol>
+          <h3 className="vads-u-margin-bottom--2">
+            What if I lose my job or have other changes that may affect my
+            finances?
+          </h3>
+          <p>
+            You'll need to submit a new request to report the changes to us.
+            We'll consider the changes when we make our decision on your
+            request.
+          </p>
+        </div>
       </div>
     );
   }
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
   return {
     form: state.form,
   };
-}
+};
 
-export default connect(mapStateToProps)(ConfirmationPage);
+const mapDispatchToProps = dispatch => ({
+  ...bindActionCreators({ downloadPDF }, dispatch),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ConfirmationPage);
