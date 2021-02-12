@@ -15,6 +15,7 @@ const testConfig = createTestConfig(
     dataSets: ['chapter31-maximal'],
     fixtures: { data: path.join(__dirname, 'formDataSets') },
     setupPerTest: () => {
+      window.sessionStorage.removeItem('wizardStatus31');
       cy.intercept('POST', '/v0/veteran_readiness_employment_claims', {
         formSubmissionId: '123fake-submission-id-567',
         timestamp: '2020-11-12',
@@ -44,7 +45,7 @@ const testConfig = createTestConfig(
         })
           .first()
           .click();
-
+        cy.injectAxe();
         afterHook(() => {
           cy.get('.va-button-link.schemaform-start-button:first').click();
         });

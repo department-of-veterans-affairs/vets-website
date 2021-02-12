@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Scroll from 'react-scroll';
 import { focusElement } from 'platform/utilities/ui';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import StepComponent from './StepComponent';
 import { orientationSteps } from './utils';
-import {
-  CHAPTER_31_ROOT_URL,
-  WIZARD_STATUS_COMPLETE,
-} from 'applications/vre/28-1900/constants';
+import { CHAPTER_31_ROOT_URL } from 'applications/vre/28-1900/constants';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {

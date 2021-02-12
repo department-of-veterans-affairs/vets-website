@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { serviceMemberPathPageNames } from '../pageList';
 import {
   CHAPTER_31_ROOT_URL,
   WIZARD_STATUS,
-  WIZARD_STATUS_COMPLETE,
 } from 'applications/vre/28-1900/constants';
 
 const YesIDES = props => {
