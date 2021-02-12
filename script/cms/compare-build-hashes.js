@@ -131,15 +131,14 @@ const compareBuilds = async (buildPaths = []) => {
 
       if (shouldLogDiff) {
         // domDiffCount++;
-        diffHashes[filePath] = {};
+        diffHashes[filePath] = {
+          deepDiff: jsonDiffList[`/${filePath}`].deepDiff,
+          arrayDiff: jsonDiffList[`/${filePath}`].arrayDiff,
+          hashes: {},
+        };
+
         hashes.forEach((hash, index) => {
-          diffHashes[filePath][buildPaths[index]] = hash || null;
-          if (index === hashes.length - 1) {
-            diffHashes[filePath].deepDiff =
-              jsonDiffList[`/${filePath}`].deepDiff;
-            diffHashes[filePath].arrayDiff =
-              jsonDiffList[`/${filePath}`].arrayDiff;
-          }
+          diffHashes[filePath].hashes[buildPaths[index]] = hash || null;
         });
       }
     }
