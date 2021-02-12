@@ -6,6 +6,7 @@ import { within } from '@testing-library/dom';
 import {
   getVAAppointmentMock,
   getVAFacilityMock,
+  getVARequestMock,
   getVideoAppointmentMock,
 } from '../../mocks/v0';
 import {
@@ -22,6 +23,7 @@ const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
     vaOnlineSchedulingPast: true,
+    vaOnlineSchedulingHomepageRefresh: true,
   },
 };
 
@@ -307,5 +309,108 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       expect(ranges[5].startDate).to.include('2019-01-01T00:00:00');
       expect(ranges[5].endDate).to.include('2019-12-31T23:59:59');
     });
+  });
+
+  it('should include fulfilled Express Care requests', async () => {
+    const startDate = moment();
+    const request = getVARequestMock();
+    request.attributes = {
+      ...request.attributes,
+      status: 'Resolved',
+      optionDate1: startDate.format('MM/DD/YYYY'),
+      optionTime1: 'AM',
+      date: startDate.format(),
+      createdDate: startDate.format('MM/DD/YYYY HH:mm:SS'),
+      typeOfCareId: 'CR1',
+    };
+    request.id = '1234';
+    mockPastAppointmentInfo({ va: [], requests: [request] });
+
+    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
+      initialState,
+    });
+
+    await screen.findAllByText(
+      new RegExp(startDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
+    );
+
+    const firstCard = screen.getAllByRole('listitem')[0];
+
+    expect(firstCard).to.contain.text('Express Care request');
+  });
+
+  it('should include cancelled and pending Express Care requests that are more than 2 days old', async () => {
+    const startDate = moment().subtract(3, 'days');
+    const pendingRequest = getVARequestMock();
+    pendingRequest.attributes = {
+      ...pendingRequest.attributes,
+      status: 'Submitted',
+      optionDate1: startDate.format('MM/DD/YYYY'),
+      optionTime1: 'AM',
+      date: startDate.format(),
+      createdDate: startDate.format('MM/DD/YYYY HH:mm:SS'),
+      typeOfCareId: 'CR1',
+    };
+    pendingRequest.id = '1234';
+    const cancelledRequest = { ...pendingRequest };
+    cancelledRequest.attributes = {
+      ...cancelledRequest.attributes,
+      status: 'Cancelled',
+    };
+    cancelledRequest.id = '12345';
+    mockPastAppointmentInfo({
+      va: [],
+      requests: [pendingRequest, cancelledRequest],
+    });
+
+    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
+      initialState,
+    });
+
+    await screen.findAllByText(
+      new RegExp(startDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
+    );
+
+    const cards = screen.getAllByRole('listitem');
+
+    expect(cards.length).to.equal(2);
+
+    expect(cards[0]).to.contain.text('Express Care request');
+    expect(cards[1]).to.contain.text('Canceled');
+  });
+
+  it('should not include cancelled and pending Express Care requests that are less than 2 days old', async () => {
+    const startDate = moment().subtract(1, 'days');
+    const pendingRequest = getVARequestMock();
+    pendingRequest.attributes = {
+      ...pendingRequest.attributes,
+      status: 'Submitted',
+      optionDate1: startDate.format('MM/DD/YYYY'),
+      optionTime1: 'AM',
+      date: startDate.format(),
+      createdDate: startDate.format('MM/DD/YYYY HH:mm:SS'),
+      typeOfCareId: 'CR1',
+    };
+    pendingRequest.id = '1234';
+    const cancelledRequest = { ...pendingRequest };
+    cancelledRequest.attributes = {
+      ...cancelledRequest.attributes,
+      status: 'Cancelled',
+    };
+    cancelledRequest.id = '12345';
+    mockPastAppointmentInfo({
+      va: [],
+      requests: [pendingRequest, cancelledRequest],
+    });
+
+    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
+      initialState,
+    });
+
+    await screen.findByText('You don’t have any appointments');
+
+    const cards = screen.queryAllByRole('listitem');
+
+    expect(cards.length).to.equal(0);
   });
 });
