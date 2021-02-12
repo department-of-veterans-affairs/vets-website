@@ -267,7 +267,7 @@ def prearchive(dockerContainer, envName) {
     if (envName == 'vagovdev') {
       sh "cd /application && NODE_ENV=production yarn build --buildtype vagovdev --setPublicPath --drupal-address ${drupalAddress} --use-cms-export"
     } else if (envName == 'vagovdev-graphql') {
-      sh "cd /application && NODE_ENV=production yarn build --buildtype vagovdev --setPublicPath --drupal-address ${drupalAddress}"
+      sh "cd /application && NODE_ENV=production yarn build --buildtype vagovdev --setPublicPath --drupal-address ${drupalAddress} --destination ${envName}"
     } else {
       sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath --drupal-address ${drupalAddress} "
     }
