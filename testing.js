@@ -10,14 +10,13 @@ const newEntities = newb.data.nodeQuery.entities;
 const diff = oldEntities.filter(old => {
 
   if (JSON.stringify(old) === '{}') {
-    console.log('empty object, who knows')
+    console.log('Skipping empty object...')
     return false;
   }
 
   const newbie = newEntities.find(n => n.entityBundle === old.entityBundle && n.entityId === old.entityId);
 
   if (newbie) {
-    console.log('a newbie was found')
     return !_.isEqual(old, newbie)
   }
 
@@ -30,7 +29,6 @@ const otherDiff = newEntities.filter(newbie => {
   const oldie = oldEntities.find(n => n.entityBundle === newbie.entityBundle && n.entityId === newbie.entityId);
 
   if (oldie) {
-    console.log('a oldie was found')
     return !_.isEqual(oldie, newbie)
   }
 
@@ -42,7 +40,11 @@ console.log(otherDiff)
 console.log(oldEntities.filter(old => JSON.stringify(old) !== '{}').length)
 console.log(newEntities.length)
 
-console.log(Object.keys(legacy.data))
-console.log(Object.keys(newb.data))
-
 console.log(_.difference(Object.keys(legacy.data), Object.keys(newb.data)))
+
+const same = _.isEqual(
+  _.omit(legacy.data, 'nodeQuery'),
+  _.omit(newb.data, 'nodeQuery'),
+)
+
+console.log(same)
