@@ -18,8 +18,8 @@ DRUPAL_CREDENTIALS = [
 
 ALL_VAGOV_BUILDTYPES = [
   'vagovdev',
-  'vagovstaging',
-  'vagovprod',
+  //'vagovstaging',
+  //'vagovprod',
   'vagovdev-graphql'
 ]
 
@@ -194,11 +194,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLogPath = "/application/${envName}-build.log"
 
-      if (envName == 'vagovdev-graphql') {
-        // No-op
-      } else {
-        sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose ${cmsExportFlag}"
-      }
+      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose ${cmsExportFlag} --destination ${envName}"
 
       if (envName == 'vagovprod') {
         // Find any broken links in the log
@@ -222,7 +218,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
         def useCMSExport = envName == 'vagovdev' ? true : false
-        def setEnvName = envName == 'vagovdev' ? 'vagovdev' : envName
+        def setEnvName = envName == 'vagovdev-graphql' ? 'vagovdev' : envName
 
         builds[envName] = {
           try {
@@ -266,7 +262,7 @@ def prearchive(dockerContainer, envName) {
     if (envName == 'vagovdev') {
       sh "cd /application && NODE_ENV=production yarn build --buildtype vagovdev --setPublicPath --drupal-address ${drupalAddress} --use-cms-export"
     } else if (envName == 'vagovdev-graphql') {
-      // No-op
+      sh "cd /application && NODE_ENV=production yarn build --buildtype vagovdev --setPublicPath --drupal-address ${drupalAddress}"
     } else {
       sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath --drupal-address ${drupalAddress} "
     }
