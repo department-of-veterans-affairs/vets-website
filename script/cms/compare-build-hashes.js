@@ -111,7 +111,7 @@ const compareBuilds = async (buildPaths = []) => {
     console.log(`Diffs will be based on existing hashes output.`);
   }
 
-  // let hashDiffCount = 0;
+  let hashDiffCount = 0;
   // let domDiffCount = 0;
 
   // Filter file hashes by pages that differ.
@@ -121,7 +121,7 @@ const compareBuilds = async (buildPaths = []) => {
     );
 
     if (!isContentEqual) {
-      // hashDiffCount++;
+      hashDiffCount++;
 
       // Confirm inequality by checking that the page isn't unique
       // to a single build and then comparing that page's DOMs between builds.
@@ -134,12 +134,18 @@ const compareBuilds = async (buildPaths = []) => {
         diffHashes[filePath] = {};
         hashes.forEach((hash, index) => {
           diffHashes[filePath][buildPaths[index]] = hash || null;
+          if (index === hashes.length - 1) {
+            diffHashes[filePath].deepDiff =
+              jsonDiffList[`/${filePath}`].deepDiff;
+            diffHashes[filePath].arrayDiff =
+              jsonDiffList[`/${filePath}`].arrayDiff;
+          }
         });
       }
     }
   }
 
-  // console.log('hashDiffCount');
+  console.log('Pages with hash diffs:', hashDiffCount);
   // console.log(hashDiffCount);
   // console.log('domDiffCount');
   // console.log(domDiffCount);
