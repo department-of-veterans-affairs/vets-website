@@ -19,16 +19,16 @@ export class ProfileNavBar extends React.Component {
     const bottomOffset = headingSummary.getBoundingClientRect().bottom <= 0;
 
     if (topOffset && bottomOffset) {
-      profileNavBar.className = 'profile-nav-bar-stuck';
+      profileNavBar.className = 'profile-nav-bar-stuck desktop-only';
     } else {
-      profileNavBar.className = 'profile-nav-bar-free';
+      profileNavBar.className = 'profile-nav-bar-free desktop-only';
     }
   };
 
   render() {
     return (
       <div id="profile-nav-container">
-        <div id="profile-nav-bar" className="profile-nav-bar-free">
+        <div id="profile-nav-bar" className="profile-nav-bar-free desktop-only">
           {this.props.profileSections.map(section => (
             <span
               className="vads-u-margin-right--2"

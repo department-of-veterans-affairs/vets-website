@@ -49,4 +49,19 @@
     background-image: none !important;
     font-weight: inherit !important;
   }
+
+  .mobile-only {
+    display: none;
+  }
+
+  @include media-maxwidth($medium-screen - 1) {
+    .desktop-only {
+      display: none;
+    }
+
+    .mobile-only {
+      display: block;
+    }
+  }
+
 }
