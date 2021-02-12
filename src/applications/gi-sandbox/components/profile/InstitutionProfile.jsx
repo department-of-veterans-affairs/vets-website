@@ -6,6 +6,7 @@ import HeadingSummary from './HeadingSummary';
 import { convertRatingToStars, createId } from '../../utils/helpers';
 import { MINIMUM_RATING_COUNT } from '../../constants';
 import ProfileNavBar from '../ProfileNavBar';
+// import _ from 'lodash';
 
 export class InstitutionProfile extends React.Component {
   static propTypes = {
@@ -27,36 +28,34 @@ export class InstitutionProfile extends React.Component {
     const profileSections = [
       {
         name: 'Estimate your benefits',
-        display: true,
         component: <div />,
       },
       {
         name: 'Institution Details',
-        display: true,
       },
       {
         name: 'Fields of Study',
-        display: true,
       },
       {
         name: 'School locations',
-        display: this.shouldShowSchoolLocations(profile.attributes.facilityMap),
+        hide: !this.shouldShowSchoolLocations(profile.attributes.facilityMap),
       },
       {
         name: 'Cautionary information',
-        display: true,
       },
       {
         name: 'Student ratings',
-        display: displayStars,
+        hide: !displayStars,
       },
       {
         name: 'Contact details',
-        display: true,
       },
     ];
 
-    const visibleSections = profileSections.filter(({ display }) => display);
+    // const visibleSections = profileSections.filter(
+    //   section => !_.get(section, 'hide', false),
+    // );
+    const visibleSections = profileSections; // just doing this until we want sections to hide/show for testing
     const sectionNames = visibleSections.map(({ name }) => name);
 
     return (
