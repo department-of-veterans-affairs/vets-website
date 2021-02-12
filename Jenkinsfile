@@ -21,7 +21,7 @@ node('vetsgov-general-purpose') {
   // setupStage
   dockerContainer = commonStages.setup()
 
-  stage('Lint|Security|Unit') {
+//  stage('Lint|Security|Unit') {
 //  if (params.cmsEnvBuildOverride != 'none') { return }
 
 //  try {
@@ -57,13 +57,13 @@ node('vetsgov-general-purpose') {
 //      step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
 //    }
 //  }
-  }
+//  }
 
   // Perform a build for each build type
   envsUsingDrupalCache = commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
 
   // Run E2E and accessibility tests
-  stage('Integration') {
+//  stage('Integration') {
 //  if (commonStages.shouldBail() || !commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) { return }
 //  dir("vets-website") {
 //    try {
@@ -90,7 +90,7 @@ node('vetsgov-general-purpose') {
 //      step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
 //    }
 //  }
-  }
+//  }
 
   commonStages.prearchiveAll(dockerContainer)
 
