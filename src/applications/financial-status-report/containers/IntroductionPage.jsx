@@ -16,10 +16,10 @@ const IntroductionPage = props => {
 
   return (
     <div className="fsr-introduction schemaform-intro">
-      <FormTitle title={'Request help with VA debt (VA Form 5655)'} />
-      <p className="subtitle">
-        Equal to VA Form 5655 (Financial Status Report)
-      </p>
+      <FormTitle
+        title={'Request help with VA debt (VA Form 5655)'}
+        subTitle={'Equal to VA Form 5655 (Financial Status Report)'}
+      />
       <SaveInProgressIntro
         startText="Start your request now"
         unauthStartText="Sign in or create an account"
