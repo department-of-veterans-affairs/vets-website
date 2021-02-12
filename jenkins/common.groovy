@@ -188,13 +188,17 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
   def cmsExportFlag = useCMSExport ? '--use-cms-export' : ''
 
   // Output CMS export builds to separate directories for comparison
-  def destination = useCMSExport ? "${envName}-cms-export" : envName;
+  // def destination = useCMSExport ? "${envName}-cms-export" : envName;
 
   withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLogPath = "/application/${envName}-build.log"
 
-      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose ${cmsExportFlag} --destination ${destination}"
+      if (envName == 'vagovdev-graphql') {
+        // No-op
+      } else {
+        sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose ${cmsExportFlag}"
+      }
 
       if (envName == 'vagovprod') {
         // Find any broken links in the log
@@ -261,6 +265,8 @@ def prearchive(dockerContainer, envName) {
     // Special condition to point dev cms export to vagovdev
     if (envName == 'vagovdev') {
       sh "cd /application && NODE_ENV=production yarn build --buildtype vagovdev --setPublicPath --drupal-address ${drupalAddress} --use-cms-export"
+    } else if (envName == 'vagovdev-graphql') {
+      // No-op
     } else {
       sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath --drupal-address ${drupalAddress} "
     }
@@ -324,7 +330,7 @@ def archiveAll(dockerContainer, String ref) {
         try {
           archive(dockerContainer, ref, envName)
         } catch (error) {
-          if (envName == 'vagovdev-cms-export') {
+          if (envName == 'vagovdev') {
             // Output error message but don't fail the build
             echo "CMS Export prearchive failed: ${error}"
           } else {
