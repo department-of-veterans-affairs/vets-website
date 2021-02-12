@@ -172,7 +172,7 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
         color: 'danger',
         failOnError: true,
         channel: 'cms-team'
-      
+
       throw new Exception('Broken links found')
     }
   } else {
@@ -194,7 +194,12 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLogPath = "/application/${envName}-build.log"
 
-      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose ${cmsExportFlag} --destination ${envName}"
+      if (envName == 'vagovdev-graphql') {
+       sh "cd /application && jenkins/build.sh --envName vagovdev --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose ${cmsExportFlag} --destination ${envName}"
+      } else {
+       sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose ${cmsExportFlag} --destination ${envName}"
+      }
+      
 
       if (envName == 'vagovprod') {
         // Find any broken links in the log
@@ -222,7 +227,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 
         builds[envName] = {
           try {
-            build(ref, dockerContainer, assetSource, setEnvName, false, contentOnlyBuild, useCMSExport)
+            build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild, useCMSExport)
             envUsedCache[envName] = false
           } catch (error) {
             if (useCMSExport) {
@@ -235,11 +240,11 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
                 dockerContainer.inside(DOCKER_ARGS) {
                   sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${setEnvName}"
                 }
-                build(ref, dockerContainer, assetSource, setEnvName, true, contentOnlyBuild, useCMSExport)
-                envUsedCache[setEnvName] = true
+                build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild, useCMSExport)
+                envUsedCache[envName] = true
               } else {
-                build(ref, dockerContainer, assetSource, setEnvName, false, contentOnlyBuild, useCMSExport)
-                envUsedCache[setEnvName] = false
+                build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild, useCMSExport)
+                envUsedCache[envName] = false
               }
             }
           }
@@ -266,7 +271,7 @@ def prearchive(dockerContainer, envName) {
     } else {
       sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath --drupal-address ${drupalAddress} "
     }
-    
+
     sh "cd /application && node --max-old-space-size=10240 script/prearchive.js --buildtype=${envName}"
   }
 }
@@ -290,7 +295,7 @@ def prearchiveAll(dockerContainer) {
           } else {
             slackNotify()
             throw error
-          } 
+          }
         }
       }
     }
