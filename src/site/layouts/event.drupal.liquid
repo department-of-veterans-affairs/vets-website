@@ -15,14 +15,6 @@
       {% endif %}
 
       <div class="usa-width-three-fourths">
-        {% if !entityPublished %}
-          <div class="usa-alert usa-alert-info">
-            <div class="usa-alert-body">
-              <p class="usa-alert-text">You are viewing a draft.</p>
-            </div>
-          </div>
-        {% endif %}
-
         <article aria-labelledby="article-heading" class="usa-content" role="region">
           <div class="usa-grid usa-grid-full">
             <h1 id="article-heading" class="{% if fieldMedia %}vads-u-margin-bottom--4{% else %}vads-u-margin-bottom--2{% endif %}">
