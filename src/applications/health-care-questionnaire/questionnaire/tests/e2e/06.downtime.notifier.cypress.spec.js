@@ -1,6 +1,6 @@
-import basicUser from './fixtures/users/user-basic.json';
+import basicUser from './fixtures/users/user-basic.js';
 
-import featureToggles from '../../../questionnaire/tests/e2e/fixtures/mocks/feature-toggles.enabled.json';
+import featureToggles from './fixtures/mocks/feature-toggles.enabled.json';
 
 describe('Health care questionnaire list -- ', () => {
   beforeEach(() => {
@@ -33,8 +33,12 @@ describe('Health care questionnaire list -- ', () => {
         },
       ],
     });
-    cy.visit('/health-care/health-questionnaires/questionnaires/');
-    cy.get('h1').contains('Your health questionnaires');
+    cy.visit(
+      '/health-care/health-questionnaires/questionnaires/answer-questions?id=1234',
+    );
+    cy.get('.schemaform-title>h1').contains(
+      'Answer primary care questionnaire',
+    );
 
     cy.get('.downtime-notification').then(el => {
       expect(el).to.exist;
@@ -66,7 +70,9 @@ describe('Health care questionnaire list -- ', () => {
         },
       ],
     });
-    cy.visit('/health-care/health-questionnaires/questionnaires/');
+    cy.visit(
+      '/health-care/health-questionnaires/questionnaires/answer-questions?id=1234',
+    );
     cy.get('.usa-alert-heading').contains('This tool is down for maintenance.');
   });
 });

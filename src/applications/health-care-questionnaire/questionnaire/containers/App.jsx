@@ -4,6 +4,11 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import {
+  externalServices,
+  DowntimeNotification,
+} from 'platform/monitoring/DowntimeNotification';
+
 import formConfig from '../config/form';
 
 import {
@@ -64,9 +69,14 @@ const App = props => {
   } else {
     return (
       <>
-        <RoutedSavableApp formConfig={form} currentLocation={location}>
-          {children}
-        </RoutedSavableApp>
+        <DowntimeNotification
+          appTitle="health questionnaire"
+          dependencies={[externalServices.hcq]}
+        >
+          <RoutedSavableApp formConfig={form} currentLocation={location}>
+            {children}
+          </RoutedSavableApp>
+        </DowntimeNotification>
       </>
     );
   }

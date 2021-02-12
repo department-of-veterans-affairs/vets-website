@@ -29,12 +29,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   downtime: {
-    dependencies: [
-      externalServices.hcq,
-      externalServices.mvi,
-      externalServices.idme,
-    ],
-    requiredForPrefill: true,
+    dependencies: [externalServices.hcq],
   },
   submit,
   transformForSubmit,
