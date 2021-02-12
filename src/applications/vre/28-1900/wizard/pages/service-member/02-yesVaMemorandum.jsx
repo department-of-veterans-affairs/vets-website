@@ -15,19 +15,11 @@ const YesVaMemorandum = props => {
     [setWizardStatus],
   );
   return (
-    <div
-      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-      tabIndex="0"
-      className="vads-u-margin-top--2 vads-u-padding--3 vads-u-background-color--gray-lightest"
-    >
+    <div className="vads-u-margin-top--2 vads-u-padding--3 vads-u-background-color--gray-lightest">
       <p className="vads-u-margin-top--0">
         Based on your answers, you probably qualify for VR&E benefits.
       </p>
-      <p
-        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-        tabIndex="0"
-        className="vads-u-margin--0"
-      >
+      <p className="vads-u-margin--0">
         <strong>Before you apply,</strong> please go through the VR&E
         orientation below. If you already know you want to apply for VR&E, you
         can go directly to the online application without going through the

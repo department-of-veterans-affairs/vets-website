@@ -11,7 +11,6 @@ export default function App({ location, children }) {
 
   const wizardStateHandler = status => {
     sessionStorage.setItem(WIZARD_STATUS, status);
-    setWizardState(status);
   };
 
   useEffect(

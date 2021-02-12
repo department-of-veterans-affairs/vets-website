@@ -1,25 +1,10 @@
-import React, { useEffect } from 'react';
-import Scroll from 'react-scroll';
-import { focusElement } from 'platform/utilities/ui';
+import React from 'react';
 import { orientationSteps } from './utils';
 
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
 const StepComponent = props => {
   const { step } = props;
   const data = orientationSteps[step];
   let content;
-
-  useEffect(() => {
-    focusElement('#StepTitle');
-    scrollToTop();
-  });
 
   if (data.isVideoStep) {
     content = (
