@@ -54,6 +54,10 @@
     display: none;
   }
 
+  .nav-bar-mobile-only {
+    display: none;
+  }
+
   @include media-maxwidth($medium-screen - 1) {
     .desktop-only {
       display: none;
@@ -64,4 +68,14 @@
     }
   }
 
+  @include media-maxwidth($nav-width - 1) {
+    .nav-bar-desktop-only {
+      display: none;
+    }
+
+    .nav-bar-mobile-only {
+      display: block;
+    }
+
+  }
 }

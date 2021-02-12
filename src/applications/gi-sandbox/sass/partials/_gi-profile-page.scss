@@ -1,12 +1,19 @@
 .gi-app .profile-page {
-  .profile-nav-bar-free {
-    padding: 1em;
+
+  .profile-nav-bar {
+    margin-left: -0.75em;
+    margin-right: 0.75em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-left: 0.75em;
     background-color: $color-gray-lightest;
+    width: 100%;
+    a {
+      font-family: $font-sans;
+    }
   }
 
   .profile-nav-bar-stuck {
-    padding: 1em;
-    background-color: $color-gray-lightest;
     position:fixed;
     top:0;
     z-index:100;
