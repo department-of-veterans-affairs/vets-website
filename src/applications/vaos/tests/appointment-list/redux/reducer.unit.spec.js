@@ -224,7 +224,7 @@ describe('VAOS reducer: appointments', () => {
     };
 
     const newState = appointmentsReducer(initialState, action);
-    expect(newState.facilityData.var442).to.equal(action.facilityData[0]);
+    expect(newState.facilityData['442']).to.equal(action.facilityData[0]);
   });
 
   it('should set facility data when fetch succeeds', () => {
@@ -238,7 +238,7 @@ describe('VAOS reducer: appointments', () => {
     };
 
     const newState = appointmentsReducer(initialState, action);
-    expect(newState.facilityData.var442GA).to.equal(action.facilityData[0]);
+    expect(newState.facilityData['442GA']).to.equal(action.facilityData[0]);
   });
 
   describe('cancel appointment', () => {

@@ -108,7 +108,7 @@ let initialState = {
     requestMessagesStatus: FETCH_STATUS.notStarted,
     pendingStatus: FETCH_STATUS.succeeded,
     facilityData: {
-      var983GC,
+      '983GC': var983GC,
     },
   },
 };

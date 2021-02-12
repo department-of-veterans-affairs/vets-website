@@ -44,7 +44,7 @@ describe('VAOS selectors', () => {
       const cancelInfo = getCancelInfo(state);
 
       expect(cancelInfo.facility).to.equal(
-        state.appointments.facilityData.var123,
+        state.appointments.facilityData['123'],
       );
     });
     it('should fetch facility from clinic map', () => {
@@ -95,7 +95,7 @@ describe('VAOS selectors', () => {
       const cancelInfo = getCancelInfo(state);
 
       expect(cancelInfo.facility).to.equal(
-        state.appointments.facilityData.var123,
+        state.appointments.facilityData['123'],
       );
     });
     it('should fetch facility from video appointment', () => {
@@ -146,7 +146,7 @@ describe('VAOS selectors', () => {
       const cancelInfo = getCancelInfo(state);
 
       expect(cancelInfo.facility).to.equal(
-        state.appointments.facilityData.var123,
+        state.appointments.facilityData['123'],
       );
     });
   });

@@ -765,7 +765,7 @@ describe('VAOS reducer: newAppointment', () => {
         ],
         clinics: {
           // eslint-disable-next-line camelcase
-          983_323: [
+          '983_323': [
             {
               id: '983_455',
               resourceType: 'HealthcareService',
@@ -839,7 +839,7 @@ describe('VAOS reducer: newAppointment', () => {
         ],
         clinics: {
           // eslint-disable-next-line camelcase
-          983_323: [
+          '983_323': [
             {
               id: '983_455',
               resourceType: 'HealthcareService',

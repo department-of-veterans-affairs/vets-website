@@ -529,8 +529,7 @@ describe('VAOS data transformation', () => {
           ],
         },
         clinics: {
-          // eslint-disable-next-line camelcase
-          983_323: [
+          '983_323': [
             {
               id: '983_308',
               resourceType: 'HealthcareService',
