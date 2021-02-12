@@ -4,11 +4,14 @@ import { expect } from 'chai';
 import LocationHours from '../../components/LocationHours';
 
 describe('<LocationHours>', () => {
-  const testFacility = {
+  const makeTestFacility = (
+    operationalHoursSpecialInstructions,
+    facilityType,
+  ) => ({
     id: 'vha_549',
     type: 'facility',
     attributes: {
-      facilityType: 'va_health_facility',
+      facilityType,
       activeStatus: 'A',
       mobile: false,
       name: 'Dallas VA Medical Center',
@@ -24,22 +27,25 @@ describe('<LocationHours>', () => {
         saturday: '24/7',
         sunday: '24/7',
       },
-      operationalHoursSpecialInstructions:
-        'Administrative hours are Monday-Friday 8:00 a.m. to 4:30 p.m. | Expanded or Nontraditional hours are available for some services on a routine and or requested basis. Please call our main phone number for details. |',
+      operationalHoursSpecialInstructions,
       uniqueId: '549',
       visn: '17',
       website: 'https://www.northtexas.va.gov/locations/directions.asp',
     },
-  };
+  });
 
-  const { operationalHoursSpecialInstructions } = testFacility.attributes;
+  const operationalHoursSpecialInstructions =
+    'Administrative hours are Monday-Friday 8:00 a.m. to 4:30 p.m. | Expanded or Nontraditional hours are available for some services on a ' +
+    'routine and or requested basis. Please call our main phone number for details. |';
 
   it('Should render LocationHours with operationalHoursSpecialInstructions field with truthy values', () => {
     const wrapper = shallow(
       <LocationHours
-        location={testFacility}
-        /* eslint-disable react/jsx-boolean-value */
-        showHoursSpecialInstructions={true}
+        location={makeTestFacility(
+          operationalHoursSpecialInstructions,
+          'va_health_facility',
+        )}
+        showHoursSpecialInstructions
       />,
     );
     expect(wrapper.type()).to.not.equal(null);
@@ -55,7 +61,10 @@ describe('<LocationHours>', () => {
   it('Should render LocationHours without operationalHoursSpecialInstructions field - showHoursSpecialInstructions false', () => {
     const wrapper = shallow(
       <LocationHours
-        location={testFacility}
+        location={makeTestFacility(
+          operationalHoursSpecialInstructions,
+          'va_health_facility',
+        )}
         showHoursSpecialInstructions={false}
       />,
     );
@@ -64,12 +73,10 @@ describe('<LocationHours>', () => {
   });
 
   it('Should render LocationHours without operationalHoursSpecialInstructions field - operationalHoursSpecialInstructions null', () => {
-    testFacility.attributes.operationalHoursSpecialInstructions = null;
     const wrapper = shallow(
       <LocationHours
-        location={testFacility}
-        /* eslint-disable react/jsx-boolean-value */
-        showHoursSpecialInstructions={true}
+        location={makeTestFacility(null, operationalHoursSpecialInstructions)}
+        showHoursSpecialInstructions
       />,
     );
     expect(wrapper.find('#operational-special-p').length).to.equal(0);
@@ -77,12 +84,13 @@ describe('<LocationHours>', () => {
   });
 
   it('Should render LocationHours without operationalHoursSpecialInstructions field with no VA facilities', () => {
-    testFacility.attributes.facilityType = 'other_facility';
     const wrapper = shallow(
       <LocationHours
-        location={testFacility}
-        /* eslint-disable react/jsx-boolean-value */
-        showHoursSpecialInstructions={true}
+        location={makeTestFacility(
+          operationalHoursSpecialInstructions,
+          'facility_other_type',
+        )}
+        showHoursSpecialInstructions
       />,
     );
     expect(wrapper.find('#operational-special-p').length).to.equal(0);
