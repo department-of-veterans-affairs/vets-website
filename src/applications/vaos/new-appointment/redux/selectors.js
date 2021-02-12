@@ -259,7 +259,7 @@ export function selectProviderSelectionInfo(state) {
     address: selectVAPResidentialAddress(state),
     typeOfCareName: typeOfCare.name,
     communityCareProviderList:
-      communityCareProviders[`${sortMethod}_${typeOfCare.ccId}`] || [],
+      communityCareProviders[`${sortMethod}_${typeOfCare.ccId}`],
     requestStatus,
     requestLocationStatus,
     currentLocation,
