@@ -13,8 +13,12 @@ export class ProfileNavBar extends React.Component {
 
   handleScroll = () => {
     const profileNavBar = document.getElementById('profile-nav-bar');
-    const topOffset = profileNavBar?.getBoundingClientRect().top < 0;
-    if (topOffset) {
+    const headingSummary = document.getElementById('heading-summary');
+
+    const topOffset = profileNavBar.getBoundingClientRect().top <= 0;
+    const bottomOffset = headingSummary.getBoundingClientRect().bottom <= 0;
+    
+    if (topOffset && bottomOffset) {
       profileNavBar.className = 'profile-nav-bar-stuck';
     } else {
       profileNavBar.className = 'profile-nav-bar-free';
