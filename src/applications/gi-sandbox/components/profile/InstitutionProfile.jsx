@@ -56,7 +56,7 @@ export class InstitutionProfile extends React.Component {
           onLearnMore={showModal.bind(this, 'gibillstudents')}
         />
         <ProfileNavBar profileSections={Object.keys(profileSections)} />
-        <div>
+        <div className="row">
           <ul>
             {Object.entries(profileSections).map(([section, props]) => {
               if (props.display) {

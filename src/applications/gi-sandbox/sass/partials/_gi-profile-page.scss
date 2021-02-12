@@ -1,13 +1,12 @@
 .gi-app .profile-page {
 
   .profile-nav-bar {
-    margin-left: -0.75em;
-    margin-right: 0.75em;
+    background-color: $color-gray-lightest;
     padding-top: 1em;
     padding-bottom: 1em;
-    padding-left: 0.75em;
-    background-color: $color-gray-lightest;
-    width: 100%;
+    padding-left: 1em;
+    width: 100vw;
+
     a {
       font-family: $font-sans;
     }

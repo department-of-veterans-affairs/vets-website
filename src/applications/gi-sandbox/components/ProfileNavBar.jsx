@@ -37,14 +37,16 @@ export class ProfileNavBar extends React.Component {
       <>
         <span id="profile-nav-placeholder" />
         <div id="profile-nav-bar-desktop" className={this.classes()}>
-          {this.props.profileSections.map(section => (
-            <span
-              className="vads-u-margin-right--1p5"
-              key={`${createId(section)}-nav-bar`}
-            >
-              <a href={`#${createId(section)}`}>{section}</a>
-            </span>
-          ))}
+          <div className="row">
+            {this.props.profileSections.map(section => (
+              <span
+                className="vads-u-margin-right--1p5"
+                key={`${createId(section)}-nav-bar`}
+              >
+                <a href={`#${createId(section)}`}>{section}</a>
+              </span>
+            ))}
+          </div>
         </div>
       </>
     );

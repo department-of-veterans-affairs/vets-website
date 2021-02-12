@@ -28,18 +28,20 @@ const InstitutionProfile = ({ institution, showModal }) => {
       }
       <HeadingSummary institution={institution} showModal={showModal} />
       <ProfileNavBar profileSections={Object.keys(profileSections)} />
-      <ul>
-        {Object.entries(profileSections).map(([section, element]) => {
-          return (
-            <ProfileSection
-              key={`${createId(name)}-profile-section`}
-              name={section}
-            >
-              {element}
-            </ProfileSection>
-          );
-        })}
-      </ul>
+      <div className="row">
+        <ul>
+          {Object.entries(profileSections).map(([section, element]) => {
+            return (
+              <ProfileSection
+                key={`${createId(name)}-profile-section`}
+                name={section}
+              >
+                {element}
+              </ProfileSection>
+            );
+          })}
+        </ul>
+      </div>
     </div>
   );
 };

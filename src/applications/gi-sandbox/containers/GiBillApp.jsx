@@ -56,8 +56,8 @@ export function GiBillApp({
         location.pathname === '/gi-bill-comparison-tool-sandbox') && (
         <Covid19Banner />
       )}
-      <div className="row">
-        <div className="columns small-12">
+      <div>
+        <div>
           {preview.display && <PreviewBanner version={preview.version} />}
           <GiBillBreadcrumbs searchQuery={search.query} />
           {constants.inProgress && <LoadingIndicator message="Loading..." />}
@@ -68,7 +68,7 @@ export function GiBillApp({
             </DowntimeNotification>
           )}
           <AboutThisTool />
-          <div className="row disclaimer">
+          <div className="disclaimer">
             <p>
               Please note: Content on this Web page is for informational
               purposes only. It is not intended to provide legal advice or to be
