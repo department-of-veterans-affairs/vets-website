@@ -1,6 +1,6 @@
 export const uiSchema = {
   'ui:title': 'Your spouse information',
-  income: {
+  socialSecurity: {
     spouse: {
       hasSocialSecurityPayments: {
         'ui:title': 'Does your spouse currently get Social Security payments?',
@@ -14,7 +14,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    income: {
+    socialSecurity: {
       type: 'object',
       properties: {
         spouse: {

@@ -10,7 +10,7 @@ import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your spouse information',
-  income: {
+  additionalIncome: {
     spouse: {
       additionalIncomeRecords: {
         'ui:field': ItemLoop,
@@ -24,6 +24,9 @@ export const uiSchema = {
           itemName: 'income',
         },
         items: {
+          'ui:options': {
+            classNames: 'horizonal-field-container',
+          },
           incomeType: {
             'ui:title': 'Type of income',
             'ui:field': Typeahead,
@@ -32,7 +35,7 @@ export const uiSchema = {
               getOptions: () => formatOptions(incomeTypes),
             },
           },
-          monthlyAmount: _.merge(currencyUI('Monthly income amount'), {
+          monthlyAmount: _.merge(currencyUI('Monthly amount'), {
             'ui:options': {
               widgetClassNames: 'input-size-2',
             },
@@ -45,7 +48,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    income: {
+    additionalIncome: {
       type: 'object',
       properties: {
         spouse: {
