@@ -36,18 +36,16 @@
   .item-loop {
     padding: 5px 15px 20px;
     background-color: $color-gray-lightest;
+    .horizonal-field-container .schemaform-field-container {
+      display: flex;
+    }
+    .schemaform-field-template {
+      margin-right: 15px;
+    }
     .schemaform-first-field {
       .schemaform-label,
       > .usa-input-error {
         margin-top: 30px;
-      }
-    }
-    .schemaform-field-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      .schemaform-block-header {
-        width: 100%;
       }
     }
     .autosuggest-list {
@@ -145,6 +143,14 @@
     label {
       margin-top: 16px;
     }
+  }
+}
+
+.usa-input-error {
+  position: relative;
+  right: 0;
+  input {
+    width: 100%;
   }
 }
 
