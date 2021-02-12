@@ -1,5 +1,5 @@
 // Force GraphQL in all builds when true
-FORCE_LEGACY_GRAPHQL = false;
+FORCE_LEGACY_GRAPHQL = true;
 
 DRUPAL_MAPPING = [
   'dev': 'vagovdev',
