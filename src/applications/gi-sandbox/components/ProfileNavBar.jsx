@@ -12,7 +12,7 @@ export class ProfileNavBar extends React.Component {
   }
 
   handleScroll = () => {
-    const profileNavBar = document.getElementById('profile-nav-bar');
+    const profileNavBar = document.getElementById('profile-nav-bar-desktop');
     const headingSummary = document.getElementById('profile-nav-container');
 
     const topOffset = profileNavBar.getBoundingClientRect().top <= 0;
@@ -28,7 +28,10 @@ export class ProfileNavBar extends React.Component {
   render() {
     return (
       <div id="profile-nav-container">
-        <div id="profile-nav-bar" className="profile-nav-bar-free desktop-only">
+        <div
+          id="profile-nav-bar-desktop"
+          className="profile-nav-bar-free desktop-only"
+        >
           {this.props.profileSections.map(section => (
             <span
               className="vads-u-margin-right--2"
