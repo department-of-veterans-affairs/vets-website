@@ -18,11 +18,12 @@ const officeFragment = `
          entityUrl {
             path
         }
-        fieldDate {
-            startDate
-            value
-            endDate
-            endValue
+        fieldDatetimeRangeTimezone {
+          value
+          startTime
+          endValue
+          endTime
+          timezone
         }
         fieldDescription
         fieldLocationHumanreadable

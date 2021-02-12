@@ -35,12 +35,6 @@ const eventPage = `
         }
       }
     }
-    fieldDate {
-        startDate
-        value
-        endDate
-        endValue
-    }
     fieldDatetimeRangeTimezone {
       value
       endValue
