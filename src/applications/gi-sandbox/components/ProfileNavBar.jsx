@@ -13,11 +13,11 @@ export class ProfileNavBar extends React.Component {
 
   handleScroll = () => {
     const profileNavBar = document.getElementById('profile-nav-bar');
-    const headingSummary = document.getElementById('heading-summary');
+    const headingSummary = document.getElementById('profile-nav-container');
 
     const topOffset = profileNavBar.getBoundingClientRect().top <= 0;
     const bottomOffset = headingSummary.getBoundingClientRect().bottom <= 0;
-    
+
     if (topOffset && bottomOffset) {
       profileNavBar.className = 'profile-nav-bar-stuck';
     } else {
@@ -27,15 +27,17 @@ export class ProfileNavBar extends React.Component {
 
   render() {
     return (
-      <div id="profile-nav-bar" className="profile-nav-bar-free">
-        {this.props.profileSections.map(section => (
-          <span
-            className="vads-u-margin-right--2"
-            key={`${createId(section)}-nav-bar`}
-          >
-            <a href={`#${createId(section)}`}>{section}</a>
-          </span>
-        ))}
+      <div id="profile-nav-container">
+        <div id="profile-nav-bar" className="profile-nav-bar-free">
+          {this.props.profileSections.map(section => (
+            <span
+              className="vads-u-margin-right--2"
+              key={`${createId(section)}-nav-bar`}
+            >
+              <a href={`#${createId(section)}`}>{section}</a>
+            </span>
+          ))}
+        </div>
       </div>
     );
   }
