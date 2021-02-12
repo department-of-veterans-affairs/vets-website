@@ -4,7 +4,9 @@
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-module.exports = `
+const { generatePaginatedQueries } = require('../individual-queries-helpers');
+
+const healthServicesListingPage = `
  fragment healthServicesListingPage on NodeHealthServicesListing {
     ${entityElementsFromPages}
     title
@@ -110,3 +112,39 @@ module.exports = `
     }
  }
 `;
+
+function getNodeHealthServicesListingPages(operationName, offset, limit) {
+  return `
+    ${healthServicesListingPage}
+    query ${operationName}($onlyPublishedContent: Boolean!) {
+      nodeQuery(
+        limit: ${limit}
+        offset: ${offset}
+        sort: { field: "title", direction:  ASC }
+        filter: {
+          conditions: [
+            { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+            { field: "type", value: ["health_services_listing"] }
+          ]
+      }) {
+        entities {
+          ... healthServicesListingPage
+        }
+      }
+    }
+`;
+}
+
+function getNodeHealthServicesListingPageQueries(entityCounts) {
+  return generatePaginatedQueries({
+    operationNamePrefix: 'GetNodeHealthServicesListingPage',
+    entitiesPerSlice: 5,
+    totalEntities: entityCounts.data.healthServicesListing.count,
+    getSlice: getNodeHealthServicesListingPages,
+  });
+}
+
+module.exports = {
+  fragment: healthServicesListingPage,
+  getNodeHealthServicesListingPageQueries,
+};

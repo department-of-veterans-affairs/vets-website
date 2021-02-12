@@ -15,7 +15,7 @@ import {
   updateSortByPropertyNameThunk,
   updatePaginationAction,
 } from '../actions';
-import { getFindFormsAppState, mvpEnhancements } from '../helpers/selectors';
+import { getFindFormsAppState } from '../helpers/selectors';
 import { SORT_OPTIONS } from '../constants';
 import SearchResult from '../components/SearchResult';
 
@@ -89,7 +89,6 @@ export class SearchResults extends Component {
       results,
       sortByPropertyName,
       hasOnlyRetiredForms,
-      showFindFormsResultsLinkToFormDetailPages,
       startIndex,
     } = this.props;
 
@@ -191,17 +190,16 @@ export class SearchResults extends Component {
           </h2>
 
           {/* SORT WIDGET */}
-          {showFindFormsResultsLinkToFormDetailPages && (
-            <Select
-              additionalClass="find-forms-search--sort-select"
-              label="Sort By"
-              includeBlankOption={false}
-              name="findFormsSortBySelect"
-              onValueChange={setSortByPropertyNameState(formMetaInfo)}
-              options={SORT_OPTIONS}
-              value={{ value: sortByPropertyName }}
-            />
-          )}
+          <Select
+            additionalClass="find-forms-search--sort-select"
+            ariaLiveRegionText="Results sorted by "
+            label="Sort By"
+            includeBlankOption={false}
+            name="findFormsSortBySelect"
+            onValueChange={setSortByPropertyNameState(formMetaInfo)}
+            options={SORT_OPTIONS}
+            value={{ value: sortByPropertyName }}
+          />
         </div>
 
         <dl className="vads-l-grid-container--full">{searchResults}</dl>
@@ -230,7 +228,6 @@ const mapStateToProps = state => ({
   page: getFindFormsAppState(state).page,
   query: getFindFormsAppState(state).query,
   results: getFindFormsAppState(state).results,
-  showFindFormsResultsLinkToFormDetailPages: mvpEnhancements(state),
   startIndex: getFindFormsAppState(state).startIndex,
 });
 

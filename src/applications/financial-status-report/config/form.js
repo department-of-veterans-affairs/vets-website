@@ -118,7 +118,7 @@ const formConfig = {
           title: 'Employment',
           uiSchema: pages.employmentRecords.uiSchema,
           schema: pages.employmentRecords.schema,
-          depends: formData => formData.employment.isEmployed === true,
+          depends: formData => formData.employment.isEmployed,
         },
         previousEmployment: {
           path: 'previous-employment',
@@ -131,7 +131,7 @@ const formConfig = {
           title: 'Previous employment',
           uiSchema: pages.previousEmploymentRecords.uiSchema,
           schema: pages.previousEmploymentRecords.schema,
-          depends: formData => formData.employment.previouslyEmployed === true,
+          depends: formData => formData.employment.previouslyEmployed,
         },
         benefits: {
           path: 'benefits',
@@ -148,6 +148,14 @@ const formConfig = {
           uiSchema: pages.socialSecurity.uiSchema,
           schema: pages.socialSecurity.schema,
         },
+        socialSecurityRecords: {
+          path: 'social-security-records',
+          title: 'Social security',
+          uiSchema: pages.socialSecurityRecords.uiSchema,
+          schema: pages.socialSecurityRecords.schema,
+          depends: formData =>
+            formData.socialSecurity.hasSocialSecurityPayments,
+        },
         additionalIncome: {
           path: 'additional-income',
           title: 'Additional income',
@@ -159,8 +167,7 @@ const formConfig = {
           title: 'Additional income',
           uiSchema: pages.additionalIncomeRecords.uiSchema,
           schema: pages.additionalIncomeRecords.schema,
-          depends: formData =>
-            formData.additionalIncome.hasAdditionalIncome === true,
+          depends: formData => formData.additionalIncome.hasAdditionalIncome,
         },
         spouseInformation: {
           path: 'spouse-information',
@@ -171,49 +178,97 @@ const formConfig = {
         spouseEmployment: {
           path: 'spouse-employment',
           title: 'Spouse employment',
-          depends: formData =>
-            formData.spouseInformation.maritalStatus === 'Married',
           uiSchema: pages.spouseEmployment.uiSchema,
           schema: pages.spouseEmployment.schema,
+          depends: formData =>
+            formData.spouseInformation.maritalStatus === 'Married',
+        },
+        spouseEmploymentRecords: {
+          path: 'spouse-employment-records',
+          title: 'Spouse employment',
+          uiSchema: pages.spouseEmploymentRecords.uiSchema,
+          schema: pages.spouseEmploymentRecords.schema,
+          depends: formData => formData.employment.spouse.isEmployed,
         },
         spousePreviousEmployment: {
           path: 'spouse-previous-employment',
           title: 'Spouse previous employment',
-          depends: formData =>
-            formData.spouseInformation.maritalStatus === 'Married' &&
-            formData.employment.spouseHasBeenEmployed,
           uiSchema: pages.spousePreviousEmployment.uiSchema,
           schema: pages.spousePreviousEmployment.schema,
+          depends: formData =>
+            formData.spouseInformation.maritalStatus === 'Married',
+        },
+        spousePreviousEmploymentRecords: {
+          path: 'spouse-previous-employment-records',
+          title: 'Spouse employment',
+          uiSchema: pages.spousePreviousEmploymentRecords.uiSchema,
+          schema: pages.spousePreviousEmploymentRecords.schema,
+          depends: formData =>
+            formData.spouseInformation.maritalStatus === 'Married' &&
+            formData.employment.spouse.previouslyEmployed,
         },
         spouseBenefits: {
           path: 'spouse-benefits',
           title: 'Spouse benefits',
-          depends: formData =>
-            formData.spouseInformation.maritalStatus === 'Married',
           uiSchema: pages.spouseBenefits.uiSchema,
           schema: pages.spouseBenefits.schema,
+          depends: formData =>
+            formData.spouseInformation.maritalStatus === 'Married',
+        },
+        spouseBenefitRecords: {
+          path: 'spouse-benefit-records',
+          title: 'Spouse benefits',
+          uiSchema: pages.spouseBenefitRecords.uiSchema,
+          schema: pages.spouseBenefitRecords.schema,
+          depends: formData =>
+            formData.spouseInformation.maritalStatus === 'Married' &&
+            formData.benefits.spouseHasBenefits,
         },
         spouseSocialSecurity: {
           path: 'spouse-social-security',
           title: 'Spouse social security',
-          depends: formData =>
-            formData.spouseInformation.maritalStatus === 'Married',
           uiSchema: pages.spouseSocialSecurity.uiSchema,
           schema: pages.spouseSocialSecurity.schema,
+          depends: formData =>
+            formData.spouseInformation.maritalStatus === 'Married',
+        },
+        spouseSocialSecurityRecords: {
+          path: 'spouse-social-security-records',
+          title: 'Spouse social security',
+          uiSchema: pages.spouseSocialSecurityRecords.uiSchema,
+          schema: pages.spouseSocialSecurityRecords.schema,
+          depends: formData =>
+            formData.spouseInformation.maritalStatus === 'Married' &&
+            formData.socialSecurity.spouse.hasSocialSecurityPayments,
         },
         spouseAdditionalIncome: {
           path: 'spouse-additional-income',
           title: 'Spouse additional income',
-          depends: formData =>
-            formData.spouseInformation.maritalStatus === 'Married',
           uiSchema: pages.spouseAdditionalIncome.uiSchema,
           schema: pages.spouseAdditionalIncome.schema,
+          depends: formData =>
+            formData.spouseInformation.maritalStatus === 'Married',
+        },
+        spouseAdditionalIncomeRecords: {
+          path: 'spouse-additional-income-records',
+          title: 'Spouse additional income',
+          uiSchema: pages.spouseAdditionalIncomeRecords.uiSchema,
+          schema: pages.spouseAdditionalIncomeRecords.schema,
+          depends: formData =>
+            formData.additionalIncome.spouse.hasAdditionalIncome,
         },
         dependents: {
           path: 'dependents',
           title: 'Dependents',
           uiSchema: pages.dependents.uiSchema,
           schema: pages.dependents.schema,
+        },
+        dependentRecords: {
+          path: 'dependent-records',
+          title: 'Dependents',
+          uiSchema: pages.dependentRecords.uiSchema,
+          schema: pages.dependentRecords.schema,
+          depends: formData => formData.dependents.hasDependents,
         },
       },
     },

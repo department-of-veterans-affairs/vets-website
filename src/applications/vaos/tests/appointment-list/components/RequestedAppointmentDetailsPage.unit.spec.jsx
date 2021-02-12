@@ -15,6 +15,7 @@ import { renderWithStoreAndRouter } from '../../mocks/setup';
 import {
   getVAFacilityMock,
   getVARequestMock,
+  getCCRequestMock,
   getMessageMock,
 } from '../../mocks/v0';
 import { FETCH_STATUS } from '../../../utils/constants';
@@ -51,7 +52,34 @@ const appointment = {
   friendlyLocationName: 'Some facility name',
 };
 
-const pending = transformPendingAppointments([appointment]);
+const ccAppointmentRequest = {
+  id: '1234',
+
+  ...getCCRequestMock().attributes,
+
+  appointmentType: 'Audiology (hearing aid support)',
+  bestTimetoCall: ['Morning'],
+
+  ccAppointmentRequest: {
+    preferredProviders: [
+      {
+        address: {
+          city: 'Orlando',
+          state: 'FL',
+          street: '123 Main Street',
+          zipCode: '32826',
+        },
+        practiceName: 'Atlantic Medical Care',
+      },
+    ],
+  },
+
+  email: 'joe.blow@va.gov',
+  optionDate1: '02/21/2020',
+  optionTime1: 'AM',
+  purposeOfVisit: 'routine-follow-up',
+  typeOfCareId: 'CCAUDHEAR',
+};
 
 const facility = {
   ...getVAFacilityMock().attributes,
@@ -72,14 +100,13 @@ const facility = {
 };
 const var983GC = transformFacility(facility);
 
-const initialState = {
+let initialState = {
   appointments: {
     appointmentDetails: {},
     appointmentDetailsStatus: FETCH_STATUS.notStarted,
     requestMessages: {},
     requestMessagesStatus: FETCH_STATUS.notStarted,
     pendingStatus: FETCH_STATUS.succeeded,
-    pending,
     facilityData: {
       var983GC,
     },
@@ -105,6 +132,15 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
   afterEach(() => resetFetch());
 
   it('should render VA request details', async () => {
+    const pending = transformPendingAppointments([appointment]);
+    initialState = {
+      ...initialState,
+      appointments: {
+        ...initialState.appointments,
+        pending,
+      },
+    };
+
     const screen = renderWithStoreAndRouter(
       <Route path="/requests/:id">
         <RequestedAppointmentDetailsPage />
@@ -149,6 +185,15 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
   });
 
   it('should go back to requests page when clicking top link', async () => {
+    const pending = transformPendingAppointments([appointment]);
+    initialState = {
+      ...initialState,
+      appointments: {
+        ...initialState.appointments,
+        pending,
+      },
+    };
+
     const screen = renderWithStoreAndRouter(
       <Route path="/requests/:id">
         <RequestedAppointmentDetailsPage />
@@ -167,6 +212,15 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
   });
 
   it('should go back to requests page when clicking go back to appointments button', async () => {
+    const pending = transformPendingAppointments([appointment]);
+    initialState = {
+      ...initialState,
+      appointments: {
+        ...initialState.appointments,
+        pending,
+      },
+    };
+
     const screen = renderWithStoreAndRouter(
       <Route path="/requests/:id">
         <RequestedAppointmentDetailsPage />
@@ -182,5 +236,71 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       .ok;
     fireEvent.click(await screen.findByText(/Go back to appointments/));
     expect(screen.history.push.lastCall.args[0]).to.equal('/requested');
+  });
+
+  it('should render CC request details', async () => {
+    const pending = transformPendingAppointments([ccAppointmentRequest]);
+    initialState = {
+      ...initialState,
+      appointments: {
+        ...initialState.appointments,
+        pending,
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <Route path="/requests/:id">
+        <RequestedAppointmentDetailsPage />
+      </Route>,
+      {
+        initialState,
+        reducers,
+        path: '/requests/var1234',
+      },
+    );
+
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: 'Pending audiology (hearing aid support) appointment',
+      }),
+    ).to.be.ok;
+
+    // Should be able to cancel appointment
+    expect(screen.getByRole('button', { name: /Cancel request/ })).to.be.ok;
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'Preferred community care provider',
+      }),
+    ).to.be.ok;
+    expect(screen.getByText('Atlantic Medical Care')).to.be.ok;
+
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'Preferred date and time',
+      }),
+    ).to.be.ok;
+    expect(screen.getByText('Fri, February 21, 2020 in the morning')).to.be.ok;
+
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'Follow-up/Routine',
+      }),
+    ).to.be.ok;
+
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'Your contact details',
+      }),
+    ).to.be.ok;
+    expect(screen.getByText('joe.blow@va.gov')).to.be.ok;
+    expect(screen.getByText('Call morning')).to.be.ok;
+
+    expect(screen.queryByText('Community Care')).not.to.exist;
+    expect(screen.queryByText('Reason for appointment')).not.to.exist;
   });
 });
