@@ -33,13 +33,13 @@ describe('<LocationHours>', () => {
   };
 
   const { operationalHoursSpecialInstructions } = testFacility.attributes;
-  const showHoursSpecialInstructionsFlagTrue = true;
 
   it('Should render LocationHours with operationalHoursSpecialInstructions field with truthy values', () => {
     const wrapper = shallow(
       <LocationHours
         location={testFacility}
-        showHoursSpecialInstructions={showHoursSpecialInstructionsFlagTrue}
+        /* eslint-disable react/jsx-boolean-value */
+        showHoursSpecialInstructions={true}
       />,
     );
     expect(wrapper.type()).to.not.equal(null);
@@ -68,7 +68,8 @@ describe('<LocationHours>', () => {
     const wrapper = shallow(
       <LocationHours
         location={testFacility}
-        showHoursSpecialInstructions={showHoursSpecialInstructionsFlagTrue}
+        /* eslint-disable react/jsx-boolean-value */
+        showHoursSpecialInstructions={true}
       />,
     );
     expect(wrapper.find('#operational-special-p').length).to.equal(0);
@@ -80,7 +81,8 @@ describe('<LocationHours>', () => {
     const wrapper = shallow(
       <LocationHours
         location={testFacility}
-        showHoursSpecialInstructions={showHoursSpecialInstructionsFlagTrue}
+        /* eslint-disable react/jsx-boolean-value */
+        showHoursSpecialInstructions={true}
       />,
     );
     expect(wrapper.find('#operational-special-p').length).to.equal(0);
