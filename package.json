@@ -178,7 +178,7 @@
     "cypress-axe": "^0.8.1",
     "cypress-multi-reporters": "^1.4.0",
     "cypress-plugin-tab": "^1.0.5",
-    "cypress-testrail-reporter": "^1.2.1",
+    "cypress-testrail-reporter": "^1.2.3",
     "decompress": "^4.2.1",
     "deep-diff": "^1.0.2",
     "enhanced-resolve": "^0.7.6",
