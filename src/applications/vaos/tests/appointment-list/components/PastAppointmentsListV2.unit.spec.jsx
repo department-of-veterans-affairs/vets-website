@@ -1,8 +1,10 @@
 import React from 'react';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
 import { within } from '@testing-library/dom';
+import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import {
   getVAAppointmentMock,
   getVAFacilityMock,
@@ -14,7 +16,10 @@ import {
   mockPastAppointmentInfo,
   mockPastAppointmentInfoOption1,
 } from '../../mocks/helpers';
-import { renderWithStoreAndRouter } from '../../mocks/setup';
+import {
+  renderWithStoreAndRouter,
+  getTimezoneTestDate,
+} from '../../mocks/setup';
 import PastAppointmentsListV2, {
   getPastAppointmentDateRangeOptions,
 } from '../../../appointment-list/components/PastAppointmentsListV2';
@@ -28,6 +33,14 @@ const initialState = {
 };
 
 describe('VAOS <PastAppointmentsListV2>', () => {
+  beforeEach(() => {
+    mockFetch();
+    MockDate.set(getTimezoneTestDate());
+  });
+  afterEach(() => {
+    resetFetch();
+    MockDate.reset();
+  });
   it('should show select date range dropdown', async () => {
     mockPastAppointmentInfo({ va: [] });
 
@@ -331,7 +344,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     });
 
     await screen.findAllByText(
-      new RegExp(startDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
+      new RegExp(startDate.format('dddd, MMMM D'), 'i'),
     );
 
     const firstCard = screen.getAllByRole('listitem')[0];
@@ -368,7 +381,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     });
 
     await screen.findAllByText(
-      new RegExp(startDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
+      new RegExp(startDate.format('dddd, MMMM D'), 'i'),
     );
 
     const cards = screen.getAllByRole('listitem');
