@@ -11,13 +11,30 @@ const profileLogo =
   'vads-u-display--block medium-screen:vads-u-display--none vettec-logo-container';
 
 const InstitutionProfile = ({ institution, showModal }) => {
-  const profileSections = {
-    'Estimate your benefits': <div />,
-    'Approved programs': <div />,
-    'Veteran programs': <div />,
-    'Application process': <div />,
-    'Contact details': <div />,
-  };
+  const profileSections = [
+    {
+      name: 'Estimate your benefits',
+      component: <div />,
+    },
+    {
+      name: 'Approved programs',
+      component: <div />,
+    },
+    {
+      name: 'Veteran programs',
+      component: <div />,
+    },
+    {
+      name: 'Application process',
+      component: <div />,
+    },
+    {
+      name: 'Contact details',
+      component: <div />,
+    },
+  ];
+
+  const sectionNames = profileSections.map(({ name }) => name);
 
   return (
     <div>
@@ -27,16 +44,16 @@ const InstitutionProfile = ({ institution, showModal }) => {
         </div>
       }
       <HeadingSummary institution={institution} showModal={showModal} />
-      <ProfileNavBar profileSections={Object.keys(profileSections)} />
+      <ProfileNavBar profileSections={sectionNames} />
       <div className="row">
         <ul>
-          {Object.entries(profileSections).map(([section, element]) => {
+          {profileSections.map(({ name, component }) => {
             return (
               <ProfileSection
                 key={`${createId(name)}-profile-section`}
-                name={section}
+                name={name}
               >
-                {element}
+                {component}
               </ProfileSection>
             );
           })}

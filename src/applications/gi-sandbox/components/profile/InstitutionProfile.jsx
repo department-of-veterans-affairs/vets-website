@@ -24,30 +24,40 @@ export class InstitutionProfile extends React.Component {
     const displayStars =
       stars && profile.attributes.ratingCount >= MINIMUM_RATING_COUNT;
 
-    const profileSections = {
-      'Estimate your benefits': {
+    const profileSections = [
+      {
+        name: 'Estimate your benefits',
         display: true,
         component: <div />,
       },
-      'Institution Details': {
+      {
+        name: 'Institution Details',
         display: true,
       },
-      'Fields of Study': {
+      {
+        name: 'Fields of Study',
         display: true,
       },
-      'School locations': {
+      {
+        name: 'School locations',
         display: this.shouldShowSchoolLocations(profile.attributes.facilityMap),
       },
-      'Cautionary information': {
+      {
+        name: 'Cautionary information',
         display: true,
       },
-      'Student ratings': {
+      {
+        name: 'Student ratings',
         display: displayStars,
       },
-      'Contact details': {
+      {
+        name: 'Contact details',
         display: true,
       },
-    };
+    ];
+
+    const visibleSections = profileSections.filter(({ display }) => display);
+    const sectionNames = visibleSections.map(({ name }) => name);
 
     return (
       <div className="institution-profile">
@@ -55,21 +65,18 @@ export class InstitutionProfile extends React.Component {
           institution={profile.attributes}
           onLearnMore={showModal.bind(this, 'gibillstudents')}
         />
-        <ProfileNavBar profileSections={Object.keys(profileSections)} />
+        <ProfileNavBar profileSections={sectionNames} />
         <div className="row">
           <ul>
-            {Object.entries(profileSections).map(([section, props]) => {
-              if (props.display) {
-                return (
-                  <ProfileSection
-                    key={`${createId(section)}-profile-section`}
-                    name={section}
-                  >
-                    {props.component}
-                  </ProfileSection>
-                );
-              }
-              return null;
+            {visibleSections.map(({ name, component }) => {
+              return (
+                <ProfileSection
+                  key={`${createId(name)}-profile-section`}
+                  name={name}
+                >
+                  {component}
+                </ProfileSection>
+              );
             })}
           </ul>
         </div>
