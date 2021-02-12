@@ -37,7 +37,7 @@ const BenefitsCard = () => {
           $1,100.00
         </div>
       </div>
-      <p className="vads-u-margin-right--4 vads-u-padding-right--4">
+      <p className="vads-u-margin-right--4">
         <strong>Note:</strong> If this information isn’t right, call our VA
         benefits hotline at <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
         <Telephone contact={CONTACTS[711]} pattern={PATTERNS['3_DIGIT']} />) ,

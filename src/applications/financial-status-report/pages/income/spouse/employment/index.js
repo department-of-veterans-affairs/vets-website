@@ -2,7 +2,7 @@ export const uiSchema = {
   'ui:title': 'Your spouse information',
   personalData: {
     spouseFullName: {
-      'ui:title': "What is your spouse's name?",
+      'ui:title': 'What’s your spouse’s name?',
       'ui:options': {
         widgetClassNames: 'input-size-3',
       },

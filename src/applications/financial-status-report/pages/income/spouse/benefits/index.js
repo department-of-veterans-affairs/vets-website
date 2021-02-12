@@ -2,7 +2,7 @@ export const uiSchema = {
   'ui:title': 'Your spouse information',
   benefits: {
     spouseHasBenefits: {
-      'ui:title': 'Does your spouse currently receive VA benefits?',
+      'ui:title': 'Does your spouse get VA benefits?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
     },

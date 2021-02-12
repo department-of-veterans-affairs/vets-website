@@ -109,6 +109,7 @@
 .formfield-subtitle {
   margin: 4px 0 8px;
   font-size: 15px;
+  max-width: 400px;
   color: $color-gray-medium;
 }
 
@@ -146,12 +147,25 @@
   }
 }
 
+//monetary assets
+.assets-note {
+  margin: 15px 0 20px;
+}
+
 .usa-input-error {
   position: relative;
   right: 0;
   input {
     width: 100%;
   }
+}
+
+.max-width-400 {
+  max-width: 400px;
+}
+
+.no-wrap {
+  white-space: nowrap;
 }
 
 // input fields

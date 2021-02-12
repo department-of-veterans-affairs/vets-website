@@ -18,6 +18,9 @@ export const uiSchema = {
         'Do you pay any utility bills, such as electricity, water, or gas?',
       'ui:required': () => true,
       'ui:widget': 'radio',
+      'ui:options': {
+        classNames: 'no-wrap',
+      },
     },
     utilityRecords: {
       'ui:field': ItemLoop,
