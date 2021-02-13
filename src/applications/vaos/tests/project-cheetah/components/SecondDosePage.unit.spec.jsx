@@ -108,7 +108,7 @@ describe('VAOS vaccine flow <SecondDosePage>', () => {
     userEvent.click(screen.getByRole('button', { name: /continue/i }));
 
     await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[1]).to.equal(
+      expect(screen.history.push.lastCall?.args[0]).to.equal(
         '/new-project-cheetah-booking/contact-info',
       ),
     );
