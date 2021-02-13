@@ -60,7 +60,7 @@ const {
   getNodeHealthCareRegionDetailPageQueries,
 } = require('./graphql/healthCareRegionDetailPage.graphql');
 
-const { GetNodeQa } = require('./graphql/nodeQa.graphql');
+const { getNodeQaQueries } = require('./graphql/nodeQa.graphql');
 const { GetNodeMultipleQaPages } = require('./graphql/faqMultipleQa.graphql');
 const { GetNodeStepByStep } = require('./graphql/nodeStepByStep.graphql');
 const {
@@ -104,7 +104,7 @@ function getNodeQueries(entityCounts) {
     GetNodeVamcOperatingStatusAndAlerts,
     GetNodePublicationListingPages,
     ...getNodeHealthCareRegionDetailPageQueries(entityCounts),
-    GetNodeQa,
+    ...getNodeQaQueries(entityCounts),
     GetNodeMultipleQaPages,
     GetNodeStepByStep,
     GetNodeMediaListImages,
