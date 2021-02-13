@@ -248,7 +248,7 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
       // Cap the amount of pending requests allowed out at once
       // And also stagger their execution so that at no point
       // are we totally overwhelming the CMS.
-      const maxParallelRequests = 8;
+      const maxParallelRequests = 15;
       const overallStartTime = moment();
       const staggeredRequests = new Array(maxParallelRequests)
         .fill(null)
