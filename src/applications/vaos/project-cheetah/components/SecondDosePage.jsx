@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../redux/actions';
@@ -6,14 +6,14 @@ import FormButtons from '../../components/FormButtons';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import moment from 'moment';
 import { getReviewPage } from '../redux/selectors';
-import AdditionalInfoRow from '../../appointment-list/components/cards/AdditionalInfoRow';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 const pageKey = 'secondDosePage';
 const pageTitle = 'Plan your second dose';
 
-function goBack({ routeToPreviousAppointmentPage, history }) {
-  return routeToPreviousAppointmentPage(history, pageKey);
-}
+// function goBack({ routeToPreviousAppointmentPage, history }) {
+//   return routeToPreviousAppointmentPage(history, pageKey);
+// }
 
 function SecondDosePage({
   data,
@@ -22,7 +22,6 @@ function SecondDosePage({
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 }) {
-  const [showMoreOpen, setShowMoreOpen] = useState(false);
   const history = useHistory();
   const { date1, vaFacility } = data;
 
@@ -39,7 +38,7 @@ function SecondDosePage({
       <h1>{pageTitle}</h1>
       <div>
         <p>
-          You'll need to return to the {facility.name} for your second dose.
+          You’ll need to return to the {facility.name} for your second dose.
           Your team will schedule your second dose after you receive you first.
         </p>
         <p>
@@ -71,31 +70,24 @@ function SecondDosePage({
         </div>
       </div>
       <div className="vads-u-margin-y--4">
-        <AdditionalInfoRow
-          id="second-dose"
-          open={showMoreOpen}
-          triggerText="Can I choose which vaccine I will get?"
-          onClick={() => setShowMoreOpen(!showMoreOpen)}
-        >
-          <div>
-            <p>
-              Not at this time. For the next several months, we won't have
-              enough vaccines to allow you to choose which vaccine you'd like to
-              receive. We will reassess as more vaccines become available.
-            </p>
-            <p>
-              Both authorized vaccines require 2 doses to work. And you must get
-              the same vaccine for both doses. To help ensure this, each VA
-              health facility that offers COVID-19 vaccines will receive either
-              the Pfizer or the Moderna vaccine. You'll need to get both doses
-              at the same facility.
-            </p>
-          </div>
-        </AdditionalInfoRow>
+        <AdditionalInfo triggerText="Can I choose which vaccine I will get?">
+          <p>
+            Not at this time. For the next several months, we won’t have enough
+            vaccines to allow you to choose which vaccine you’d like to receive.
+            We will reassess as more vaccines become available.
+          </p>
+          <p>
+            Both authorized vaccines require 2 doses to work. And you must get
+            the same vaccine for both doses. To help ensure this, each VA health
+            facility that offers COVID-19 vaccines will receive either the
+            Pfizer or the Moderna vaccine. You’ll need to get both doses at the
+            same facility.
+          </p>
+        </AdditionalInfo>
       </div>
       <FormButtons
         pageChangeInProgress={pageChangeInProgress}
-        onBack={() => goBack({ routeToPreviousAppointmentPage, history })}
+        onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
         onSubmit={() => {
           routeToNextAppointmentPage(history, pageKey);
         }}

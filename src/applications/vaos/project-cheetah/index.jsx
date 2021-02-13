@@ -62,7 +62,7 @@ export function NewBookingSection({ featureProjectCheetah }) {
           component={SelectDate1Page}
         />
         <Route
-          path={`${match.url}/second-dose-page`}
+          path={`${match.url}/plan-second-dose`}
           component={SecondDosePage}
         />
         <Route path={`${match.url}/contact-info`} component={ContactInfoPage} />

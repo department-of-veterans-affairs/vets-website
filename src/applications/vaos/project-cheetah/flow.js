@@ -69,7 +69,7 @@ export default {
     next: 'secondDosePage',
   },
   secondDosePage: {
-    url: '/new-project-cheetah-booking/second-dose-page',
+    url: '/new-project-cheetah-booking/plan-second-dose',
     next: 'contactInfo',
   },
   contactInfo: {

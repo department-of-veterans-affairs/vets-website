@@ -6,6 +6,7 @@ import userEvent from '@testing-library/user-event';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 
 import SecondDosePage from '../../../project-cheetah/components/SecondDosePage';
+import { waitFor } from '@testing-library/dom';
 
 const initialState = {
   featureToggles: {
@@ -55,7 +56,7 @@ describe('VAOS vaccine flow <SecondDosePage>', () => {
     );
     expect(
       screen.getByText(
-        /You'll need to return to the Cheyenne VA Medical Center/i,
+        /You’ll need to return to the Cheyenne VA Medical Center/i,
       ),
     ).to.be.ok;
     expect(screen.getByText('Moderna')).to.have.tagName('h2');
@@ -69,6 +70,7 @@ describe('VAOS vaccine flow <SecondDosePage>', () => {
       screen.getByText(
         new RegExp(
           `Return for your second dose after ${start
+            .clone()
             .add(21, 'days')
             .format('dddd, MMMM DD, YYYY')}`,
           'i',
@@ -78,7 +80,8 @@ describe('VAOS vaccine flow <SecondDosePage>', () => {
     expect(
       screen.getByText(
         new RegExp(
-          `Return for your second dose after ${moment()
+          `Return for your second dose after ${start
+            .clone()
             .add(28, 'days')
             .format('dddd, MMMM DD, YYYY')}`,
           'i',
@@ -93,5 +96,21 @@ describe('VAOS vaccine flow <SecondDosePage>', () => {
     });
     userEvent.click(screen.getByText(/Can I choose which vaccine I will get/i));
     expect(await screen.getByText(/Not at this time/i)).to.be.ok;
+  });
+
+  it.only('should continue to the correct page once continue to clicked', async () => {
+    const screen = renderWithStoreAndRouter(<SecondDosePage />, {
+      store,
+    });
+
+    expect(await screen.findByText(/continue/i)).to.exist;
+
+    userEvent.click(screen.getByRole('button', { name: /continue/i }));
+
+    await waitFor(() =>
+      expect(screen.history.push.lastCall?.args[1]).to.equal(
+        '/new-project-cheetah-booking/contact-info',
+      ),
+    );
   });
 });
