@@ -85,7 +85,7 @@ function getPageNodeSlice(operationName, offset, limit) {
       nodeQuery(
         limit: ${limit}
         offset: ${offset}
-        sort: { field: "changed", direction:  ASC }
+        sort: { field: "nid", direction:  ASC }
         filter: {
           conditions: [
             { field: "status", value: ["1"], enabled: $onlyPublishedContent },
