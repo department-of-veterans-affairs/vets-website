@@ -1,6 +1,3 @@
-// Force GraphQL in all builds when true
-FORCE_LEGACY_GRAPHQL = true;
-
 DRUPAL_MAPPING = [
   'dev': 'vagovdev',
   'staging': 'vagovstaging',
@@ -20,15 +17,18 @@ DRUPAL_CREDENTIALS = [
 ]
 
 ALL_VAGOV_BUILDTYPES = [
-    'vagovdev',
-    //'vagovstaging',
-    //'vagovprod',
-    'vagovdev-graphql'
-  ]
+  'vagovdev',
+  'vagovstaging',
+  'vagovprod',
+  'vagovdev-graphql'
+]
 
 BUILD_TYPE_OVERRIDE = DRUPAL_MAPPING.get(params.cmsEnvBuildOverride, null)
 
 VAGOV_BUILDTYPES = BUILD_TYPE_OVERRIDE ? [BUILD_TYPE_OVERRIDE] : ALL_VAGOV_BUILDTYPES
+
+// Force GraphQL in all builds when true
+FORCE_LEGACY_GRAPHQL = false;
 
 DEV_BRANCH = 'master'
 STAGING_BRANCH = 'master'
@@ -215,10 +215,6 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
   stage("Build") {
     if (shouldBail()) { return }
     
-    if (FORCE_LEGACY_GRAPHQL) {
-      echo "FORCE_LEGACY_GRAPHQL is enabled. Forcing GraphQL in all builds."
-    }
-
     try {
       def builds = [:]
       def envUsedCache = [:]
@@ -227,7 +223,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
         def useCMSExport = envName == 'vagovdev' && !FORCE_LEGACY_GRAPHQL;
-        def setEnvName = envName == 'vagovdev-graphql' ? 'vagovdev' : envName
+        def trimmedEnvName = envName == 'vagovdev-graphql' ? 'vagovdev' : envName
 
         builds[envName] = {
           try {
@@ -242,7 +238,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
               // a content only build is an attempt to refresh content from the current set
               if (!contentOnlyBuild) {
                 dockerContainer.inside(DOCKER_ARGS) {
-                  sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${setEnvName}"
+                  sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${trimmedEnvName}"
                 }
                 build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild, useCMSExport)
                 envUsedCache[envName] = true
