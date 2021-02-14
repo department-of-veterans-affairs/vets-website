@@ -10,15 +10,6 @@
     <div class="usa-grid usa-grid-full">
       <div class="usa-width-three-fourths">
         <div class="usa-content">
-          <!-- Draft status -->
-          {% if !entityPublished %}
-            <div class="usa-alert usa-alert-info">
-              <div class="usa-alert-body">
-                <p class="usa-alert-text">You are viewing a draft.</p>
-              </div>
-            </div>
-          {% endif %}
-
           <!-- Search bar -->
           <div id="resources-search-bar-wrapper" class="medium-screen:vads-u-border-bottom--2px vads-u-border-color--gray-light medium-screen:vads-u-margin-bottom--3">
             {% include "src/site/includes/support_resources_search_bar.drupal.liquid" %}
