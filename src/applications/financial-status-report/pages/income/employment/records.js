@@ -21,6 +21,7 @@ export const uiSchema = {
       employmentType: {
         'ui:title': 'Type of work',
         'ui:options': {
+          classNames: 'vads-u-margin-top--3',
           widgetClassNames: 'input-size-3',
         },
         'ui:required': formData => formData.employment?.isEmployed,
@@ -28,28 +29,27 @@ export const uiSchema = {
       employmentStart: {
         'ui:title': 'Date you started work at this job',
         'ui:widget': 'date',
-        'ui:options': {
-          classNames: 'employment-start',
-        },
         'ui:required': formData => formData.employment?.isEmployed,
+        'ui:options': {
+          widgetClassNames: 'vads-u-margin-top--3',
+        },
       },
       employerName: {
         'ui:title': 'Employer name',
         'ui:options': {
-          classNames: 'employer-name',
           widgetClassNames: 'input-size-6',
         },
       },
       grossMonthlyIncome: _.merge(currencyUI('Gross monthly income'), {
-        'ui:options': {
-          widgetClassNames: 'input-size-1',
-        },
         'ui:description': (
           <p className="formfield-subtitle">
             You’ll find this in your paycheck. It’s the amount of your pay
             before taxes and deductions.
           </p>
         ),
+        'ui:options': {
+          widgetClassNames: 'input-size-1 vads-u-margin-bottom--3',
+        },
         'ui:required': formData => formData.employment?.isEmployed,
       }),
       payrollDeductions: {
@@ -66,10 +66,10 @@ export const uiSchema = {
         },
         items: {
           'ui:options': {
-            classNames: 'horizonal-field-container',
+            classNames: 'horizonal-field-container no-wrap',
           },
           deductionType: {
-            'ui:title': 'Type of deduction',
+            'ui:title': 'Type of payroll deduction',
             'ui:field': Typeahead,
             'ui:options': {
               getOptions: () => formatOptions(deductionTypes),

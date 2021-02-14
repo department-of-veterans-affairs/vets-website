@@ -37,7 +37,7 @@ export const uiSchema = {
       },
       items: {
         'ui:options': {
-          classNames: 'horizonal-field-container',
+          classNames: 'horizonal-field-container no-wrap',
         },
         utilityType: {
           'ui:title': 'Type of utility',
@@ -46,13 +46,11 @@ export const uiSchema = {
             classNames: 'input-size-3',
             getOptions: () => formatOptions(utilityTypes),
           },
-          'ui:required': formData => formData.utilities.hasUtilities,
         },
         monthlyUtilityAmount: _.merge(currencyUI('Monthly amount'), {
           'ui:options': {
             widgetClassNames: 'input-size-1',
           },
-          'ui:required': formData => formData.utilities.hasUtilities,
         }),
       },
     },
