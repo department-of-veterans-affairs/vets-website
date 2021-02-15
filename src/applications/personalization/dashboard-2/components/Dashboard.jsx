@@ -11,7 +11,6 @@ import { focusElement } from '~/platform/utilities/ui';
 import {
   isLOA3 as isLOA3Selector,
   isLOA1 as isLOA1Selector,
-  isLoggedIn as isLoggedInSelector,
 } from '~/platform/user/selectors';
 import RequiredLoginView, {
   RequiredLoginLoader,
@@ -170,7 +169,7 @@ const Dashboard = ({
 };
 
 const mapStateToProps = state => {
-  const isLoggedIn = isLoggedInSelector(state);
+  const { isReady: hasLoadedScheduledDowntime } = state.scheduledDowntime;
   const isLOA3 = isLOA3Selector(state);
   const isLOA1 = isLOA1Selector(state);
   const hero = state.vaProfile?.hero;
@@ -186,7 +185,7 @@ const mapStateToProps = state => {
       hasLoadedFullName &&
       hasLoadedDisabilityRating);
 
-  const showLoader = !isLoggedIn || !hasLoadedAllData;
+  const showLoader = !hasLoadedScheduledDowntime || !hasLoadedAllData;
   const showValidateIdentityAlert = isLOA1;
   const showNameTag = isLOA3 && isEmpty(hero?.errors);
   // TODO: expand on these flags depending on the contents of the user object.
