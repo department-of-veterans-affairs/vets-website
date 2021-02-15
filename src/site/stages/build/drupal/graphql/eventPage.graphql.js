@@ -82,7 +82,7 @@ function getNodeEventSlice(operationName, offset, limit = 100) {
       nodeQuery(
         limit: ${limit}
         offset: ${offset}
-        sort: { field: "field_datetime_range_timezone.end_value", direction:  ASC }
+        sort: { field: "nid", direction:  ASC }
         filter: {
         conditions: [
           { field: "status", value: ["1"], enabled: $onlyPublishedContent },
