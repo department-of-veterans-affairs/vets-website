@@ -19,9 +19,18 @@ function VAPServicePendingTransactionCategory({
   if (!hasPendingCategoryTransaction) return <div>{children}</div>;
 
   let plural = 'email';
-  if (categoryType === TRANSACTION_CATEGORY_TYPES.PHONE) {
+  // TODO: After https://github.com/department-of-veterans-affairs/va.gov-team/issues/19858
+  // is completed and is live on prod, we can remove the `.VAP_` types used
+  // below:
+  if (
+    categoryType === TRANSACTION_CATEGORY_TYPES.PHONE ||
+    categoryType === TRANSACTION_CATEGORY_TYPES.VAP_PHONE
+  ) {
     plural = 'phone numbers';
-  } else if (categoryType === TRANSACTION_CATEGORY_TYPES.ADDRESS) {
+  } else if (
+    categoryType === TRANSACTION_CATEGORY_TYPES.ADDRESS ||
+    categoryType === TRANSACTION_CATEGORY_TYPES.VAP_ADDRESS
+  ) {
     plural = 'addresses';
   }
 
