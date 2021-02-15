@@ -2,12 +2,10 @@ import * as Sentry from '@sentry/browser';
 
 import recordEvent from '../../monitoring/record-event';
 import { logOut } from '../../user/authentication/actions';
-import environment from '../../utilities/environment';
 import { fetchAndUpdateSessionExpiration as fetch } from '../../utilities/api';
-// import { sanitizeForm } from '../helpers';
+import { inProgressApi } from '../helpers';
 import { removeFormApi, saveFormApi } from './api';
 import { REMOVING_SAVED_FORM_SUCCESS } from '../../user/profile/actions';
-import { VA_FORM_IDS_IN_PROGRESS_FORMS_API } from '../constants';
 
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
 export const SET_AUTO_SAVE_FORM_STATUS = 'SET_AUTO_SAVE_FORM_STATUS';
@@ -252,14 +250,13 @@ export function fetchInProgressForm(
   //  redux store, but form.migrations doesn’t exist (nor should it, really)
   return (dispatch, getState) => {
     const trackingPrefix = getState().form.trackingPrefix;
-    const apiUrl =
-      VA_FORM_IDS_IN_PROGRESS_FORMS_API[formId] || '/v0/in_progress_forms/';
+    const apiUrl = inProgressApi(formId);
 
     // Update UI while we’re waiting for the API
     dispatch(setFetchFormPending(prefill));
 
     // Query the api and return a promise (for navigation / error handling afterward)
-    return fetch(`${environment.API_URL}${apiUrl}${formId}`, {
+    return fetch(apiUrl, {
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
