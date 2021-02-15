@@ -160,7 +160,7 @@ function convertDrupalFilesToLocal(drupalData, files, options) {
       return doc.html();
     }
 
-    return data;
+    return '';
   });
 }
 
