@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 
 import '../sass/dashboard.scss';
 
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 import { focusElement } from '~/platform/utilities/ui';
 import {
@@ -20,7 +19,6 @@ import {
   DowntimeNotification,
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
-import externalServiceStatus from '~/platform/monitoring/DowntimeNotification/config/externalServiceStatus';
 
 import NameTag from '~/applications/personalization/components/NameTag';
 import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
@@ -30,6 +28,8 @@ import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
 } from '@@profile/actions';
+
+import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderMethod';
 
 import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
@@ -43,7 +43,8 @@ const Dashboard = ({
   showLoader,
   ...props
 }) => {
-  const [modalDismissed, setModalDismissed] = useState(false);
+  const downtimeApproachingRenderMethod = useDowntimeApproachingRenderMethod();
+
   // focus on the header when we are done loading
   useEffect(
     () => {
@@ -71,43 +72,6 @@ const Dashboard = ({
     ],
   );
 
-  const renderDowntimeModal = (downtime, children) => {
-    if (downtime.status === externalServiceStatus.downtimeApproaching) {
-      return (
-        <>
-          <Modal
-            id="downtime-approaching-modal"
-            title="Some parts of your dashboard will be down for maintenance soon"
-            status="info"
-            onClose={() => {
-              setModalDismissed(true);
-            }}
-            visible={!modalDismissed}
-          >
-            <p>
-              We’ll be making updates to some tools and features on{' '}
-              {downtime.startTime.format('MMMM Do')} between{' '}
-              {downtime.startTime.format('LT')} and{' '}
-              {downtime.endTime.format('LT')} If you have trouble using parts of
-              the dashboard during that time, please check back soon.
-            </p>
-            <button
-              type="button"
-              className="usa-button-secondary"
-              onClick={() => {
-                setModalDismissed(true);
-              }}
-            >
-              Continue
-            </button>
-          </Modal>
-          {children}
-        </>
-      );
-    }
-    return children;
-  };
-
   return (
     <RequiredLoginView
       serviceRequired={[backendServices.USER_PROFILE]}
@@ -121,7 +85,7 @@ const Dashboard = ({
           externalServices.mhv,
           externalServices.appeals,
         ]}
-        render={renderDowntimeModal}
+        render={downtimeApproachingRenderMethod}
       >
         {showLoader && <RequiredLoginLoader />}
         {!showLoader && (
