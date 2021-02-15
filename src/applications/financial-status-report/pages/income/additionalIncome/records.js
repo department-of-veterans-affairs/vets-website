@@ -24,7 +24,7 @@ export const uiSchema = {
       },
       items: {
         'ui:options': {
-          classNames: 'horizonal-field-container',
+          classNames: 'horizonal-field-container no-wrap',
         },
         incomeType: {
           'ui:title': 'Type of income',
@@ -34,7 +34,7 @@ export const uiSchema = {
             getOptions: () => formatOptions(incomeTypes),
           },
         },
-        monthlyAmount: _.merge(currencyUI('Monthly amount'), {
+        monthlyAmount: _.merge(currencyUI('Monthly income amount'), {
           'ui:options': {
             widgetClassNames: 'input-size-2',
           },

@@ -27,7 +27,7 @@ export const uiSchema = {
       },
       items: {
         'ui:options': {
-          classNames: 'horizonal-field-container',
+          classNames: 'horizonal-field-container no-wrap',
         },
         expenseType: {
           'ui:title': 'Type of expense',
