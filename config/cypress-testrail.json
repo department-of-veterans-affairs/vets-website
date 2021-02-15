@@ -9,7 +9,7 @@
   "waitForAnimations": false,
   "reporter": "cypress-testrail-reporter",
   "reporterOptions": {
-    "domain": "dsvavsp.testrail.io",
+    "host": "https://dsvavsp.testrail.io/",
     "username": "TR_USER",
     "password": "TR_API_KEY",
     "projectId": "TR_PROJECTID",
