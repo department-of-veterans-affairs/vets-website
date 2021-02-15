@@ -1274,12 +1274,14 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@^1.1.3":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-1.1.3.tgz#70794617cc80b01a8be502d8b8e7c1ebc1fd2b3f"
-  integrity sha512-LKfX4uGS9BxcDhy8kMwrX1kxv6TIu0rIanGy/YRSAI0j552kqT0u9KIupskzo9VFsM5YSenD1Y0HedSc1t2Jtw==
+"@department-of-veterans-affairs/component-library@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-2.0.0.tgz#4a8160d4dfa66ffcad234ccb5addb7857cb190dc"
+  integrity sha512-7EQmZ+MyDctwYmWF5XD1SXrSUo7Em7bHbzk6Q1WkvsWEy77FcP/JtkdSijSo8IH8oV4CHp7d+Il3xVUOv1X/og==
   dependencies:
     classnames "^2.2.6"
+    date-fns "^2.17.0"
+    date-fns-tz "^1.1.1"
     lodash "^4.17.15"
     moment "^2.23.0"
     prop-types "^15.6.2"
@@ -5518,6 +5520,11 @@ data-urls@^1.1.0:
     whatwg-mimetype "^2.2.0"
     whatwg-url "^7.0.0"
 
+date-fns-tz@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/date-fns-tz/-/date-fns-tz-1.1.1.tgz#2e0dfcc62cc5b7b5fa7ea620f11a5e7f63a7ed75"
+  integrity sha512-5PR604TlyvpiNXtvn+PZCcCazsI8fI1am3/aimNFN8CMqHQ0KRl+6hB46y4mDbB7bk3+caEx3qHhS7Ewac/FIg==
+
 date-fns@^1.27.2:
   version "1.30.1"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.30.1.tgz#2e71bf0b119153dbb4cc4e88d9ea5acfb50dc05c"
@@ -5527,6 +5534,11 @@ date-fns@^2.0.1:
   version "2.12.0"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.12.0.tgz#01754c8a2f3368fc1119cf4625c3dad8c1845ee6"
   integrity sha512-qJgn99xxKnFgB1qL4jpxU7Q2t0LOn1p8KMIveef3UZD7kqjT3tpFNNdXJelEHhE+rUgffriXriw/sOSU+cS1Hw==
+
+date-fns@^2.17.0:
+  version "2.17.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.17.0.tgz#afa55daea539239db0a64e236ce716ef3d681ba1"
+  integrity sha512-ZEhqxUtEZeGgg9eHNSOAJ8O9xqSgiJdrL0lzSSfMF54x6KXWJiOH/xntSJ9YomJPrYH/p08t6gWjGWq1SDJlSA==
 
 dateformat@^3.0.3:
   version "3.0.3"
