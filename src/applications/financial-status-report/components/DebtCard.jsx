@@ -90,7 +90,7 @@ class DebtCard extends Component {
             })}
             htmlFor={debtIdentifier}
           >
-            Request assistance for this debt
+            Request help with this debt
           </label>
         </div>
       </div>
@@ -110,19 +110,9 @@ DebtCard.propTypes = {
   }),
 };
 
-DebtCard.defaultProps = {
-  debt: {
-    currentAr: 0,
-    debtHistory: [{ date: '' }],
-    deductionCode: '',
-    originalAr: 0,
-  },
-  fsrDebts: [],
-};
-
-const mapStateToProps = state => ({
-  formData: state.form.data,
-  fsrDebts: state.form.data.fsrDebts,
+const mapStateToProps = ({ form }) => ({
+  formData: form.data,
+  fsrDebts: form.data.fsrDebts,
 });
 
 const mapDispatchToProps = {

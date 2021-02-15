@@ -9,6 +9,7 @@ const initialState = {
   loading: true, // app starts in loading state
   error: null,
   totalDisabilityRating: null,
+  disabilityDecisionTypeName: null,
 };
 
 describe('totalDisabilities reducer', () => {
@@ -41,12 +42,14 @@ describe('totalDisabilities reducer', () => {
     const state = totalRating(initialState, {
       type: FETCH_TOTAL_RATING_SUCCEEDED,
       response: {
+        disabilityDecisionTypeName: 'Service Connected',
         userPercentOfDisability: 80,
       },
     });
     expect(state.loading).to.equal(false);
     expect(state.error).to.equal(null);
     expect(state.totalDisabilityRating).to.equal(80);
+    expect(state.disabilityDecisionTypeName).to.equal('Service Connected');
   });
 
   it('should return the state if a type is not matched', () => {
@@ -57,5 +60,6 @@ describe('totalDisabilities reducer', () => {
     expect(state.loading).to.equal(true);
     expect(state.error).to.equal(null);
     expect(state.totalDisabilityRating).to.equal(null);
+    expect(state.disabilityDecisionTypeName).to.equal(null);
   });
 });

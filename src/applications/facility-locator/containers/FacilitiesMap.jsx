@@ -258,7 +258,7 @@ const FacilitiesMap = props => {
 
     if (searchAreaControl.style.display === 'none') {
       searchAreaControl.style.display = 'block';
-      setFocus('#search-area-control');
+      setFocus('#search-area-control', false);
     }
 
     if (searchAreaControl && !searchAreaSet) {
@@ -276,11 +276,11 @@ const FacilitiesMap = props => {
         screenreaderZoomElement.innerText.length === 0
       ) {
         if (lastZoom < currentZoom) {
-          screenreaderZoomElement.innerText = 'zooming in';
+          screenreaderZoomElement.innerText = `zooming in, level ${currentZoom}`;
         }
 
         if (lastZoom > currentZoom) {
-          screenreaderZoomElement.innerText = 'zooming out';
+          screenreaderZoomElement.innerText = `zooming out, level ${currentZoom}`;
         }
       }
     }
@@ -336,6 +336,10 @@ const FacilitiesMap = props => {
       'top-left',
     );
     setSearchAreaPosition();
+    const mapBoxLogo = document.querySelector(
+      'a.mapboxgl-ctrl-logo.mapboxgl-compact',
+    );
+    if (mapBoxLogo) mapBoxLogo.setAttribute('tabIndex', -1);
     mapInit.on('load', () => {
       // set up listeners on the zoom-in and zoom-out buttons:
       document.querySelectorAll('.mapboxgl-ctrl > button').forEach(button =>

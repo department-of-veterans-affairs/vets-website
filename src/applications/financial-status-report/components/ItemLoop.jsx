@@ -69,7 +69,6 @@ const InputSection = ({
   const showRemove = items.length > 1 && editing && editing[index] !== 'add';
   const showSave = uiSchema['ui:options'].showSave;
   const updateText = showSave ? 'Save' : 'Update';
-  const notLastOrMultipleRows = showSave || items.length > 1;
   const { SchemaField } = registry.fields;
   const itemIdPrefix = `${idSchema.$id}_${index}`;
 
@@ -88,71 +87,68 @@ const InputSection = ({
   );
 
   const titlePrefix = editing && editing[index] === true ? 'Edit' : 'Add';
-  const containerClassNames = classNames('item-loop', {
-    'vads-u-border-bottom--1px':
-      uiSchema['ui:options'].viewType === 'table' && items?.length > 1,
-  });
+  const containerClassNames = classNames(
+    'item-loop',
+    {
+      'vads-u-margin-top--2 vads-u-margin-bottom--2':
+        uiSchema['ui:options'].viewType === undefined,
+    },
+    {
+      'vads-u-border-bottom--1px vads-u-margin-top--0 vads-u-margin-bottom--0':
+        uiSchema['ui:options'].viewType === 'table' && items?.length > 1,
+    },
+  );
 
   return (
-    notLastOrMultipleRows && (
-      <div className={containerClassNames}>
-        <ScrollElement name={`table_${itemIdPrefix}`} />
-        <div className="row small-collapse">
-          <div className="small-12 columns">
-            {items?.length &&
-              uiSchema['ui:options'].itemName && (
-                <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--2">
-                  {titlePrefix} {uiSchema['ui:options'].itemName}
-                </h3>
-              )}
-            <SchemaField
-              schema={itemSchema}
-              uiSchema={uiSchema.items}
-              errorSchema={errorSchema ? errorSchema[index] : undefined}
-              idSchema={itemIdSchema}
-              formData={item}
-              onBlur={onBlur}
-              registry={registry}
-              disabled={disabled}
-              readonly={readonly}
-              onChange={value => handleChange(index, value)}
-              required={false}
-            />
-
-            {notLastOrMultipleRows && (
-              <div className="row small-collapse">
-                <div className="small-4 left columns button-group">
-                  {showSave && (
-                    <button
-                      className="float-left"
-                      onClick={e => handleSave(e, index)}
-                      aria-label={`${updateText} ${title}`}
-                    >
-                      {updateText}
-                    </button>
-                  )}
-
-                  {showCancel && (
-                    <a onClick={() => handleCancel(index)}>Cancel</a>
-                  )}
-                </div>
-                <div className="small-8 right columns">
-                  {showRemove && (
-                    <button
-                      className="usa-button-secondary float-right"
-                      type="button"
-                      onClick={() => handleRemove(index)}
-                    >
-                      Remove
-                    </button>
-                  )}
-                </div>
-              </div>
+    <div className={containerClassNames}>
+      <ScrollElement name={`table_${itemIdPrefix}`} />
+      <div className="row small-collapse">
+        <div className="small-12 columns">
+          {items?.length &&
+            uiSchema['ui:options'].itemName && (
+              <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0 vads-u-margin-top--2">
+                {titlePrefix} {uiSchema['ui:options'].itemName}
+              </h3>
             )}
+          <SchemaField
+            schema={itemSchema}
+            uiSchema={uiSchema.items}
+            errorSchema={errorSchema ? errorSchema[index] : undefined}
+            idSchema={itemIdSchema}
+            formData={item}
+            onBlur={onBlur}
+            registry={registry}
+            disabled={disabled}
+            readonly={readonly}
+            onChange={value => handleChange(index, value)}
+            required={false}
+          />
+          <div className="row small-collapse">
+            <div className="small-4 left columns button-group">
+              <button
+                className="float-left"
+                onClick={e => handleSave(e, index)}
+                aria-label={`${updateText} ${title}`}
+              >
+                {updateText}
+              </button>
+              {showCancel && <a onClick={() => handleCancel(index)}>Cancel</a>}
+            </div>
+            <div className="small-8 right columns">
+              {showRemove && (
+                <button
+                  className="usa-button-secondary float-right"
+                  type="button"
+                  onClick={() => handleRemove(index)}
+                >
+                  Remove
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    )
+    </div>
   );
 };
 
@@ -207,28 +203,35 @@ const ItemLoop = ({
     .map(item => item['ui:title']);
 
   const [cache, setCache] = useState(formData);
-  const [editing, setEditing] = useState(['add']);
+  const [editing, setEditing] = useState([]);
   const [showTable, setShowTable] = useState(false);
 
+  useEffect(
+    () => {
+      // Throw an error if there’s no viewField (should be React component)
+      if (typeof uiSchema['ui:options'].viewField !== 'function') {
+        throw new Error(`No viewField found in uiSchema for ${idSchema.$id}.`);
+      }
+    },
+    [idSchema.$id, uiSchema],
+  );
+
   useEffect(() => {
-    // Throw an error if there’s no viewField (should be React component)
-    if (typeof uiSchema['ui:options'].viewField !== 'function') {
-      throw new Error(
-        `No viewField found in uiSchema for ArrayField ${idSchema.$id}.`,
-      );
-    }
-    if (schema.minItems > 0 && formData.length === 0) {
-      onChange(
-        Array(schema.minItems).fill(
-          getDefaultFormState(
-            schema.additionalItems,
-            undefined,
-            registry.definitions,
-          ),
+    const editData = formData ? formData.map(() => false) : ['add'];
+    setEditing(editData);
+    setShowTable(editData.includes(false));
+
+    if (!formData) {
+      const initData = Array(schema.minItems).fill(
+        getDefaultFormState(
+          schema.additionalItems,
+          undefined,
+          registry.definitions,
         ),
       );
+      onChange(initData);
     }
-  });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // use formData otherwise use an array with a single default object
   const items = formData?.length
@@ -261,7 +264,6 @@ const ItemLoop = ({
   };
 
   const handleEdit = (e, index) => {
-    e.preventDefault();
     const editData = formatEditData(index, true);
 
     if (editing.length === 1) {
@@ -274,16 +276,10 @@ const ItemLoop = ({
   };
 
   const handleSave = (e, index) => {
-    e.preventDefault();
-
-    const { viewType } = uiOptions;
-    if (viewType === 'table') {
-      setShowTable(true);
-    }
-
     if (errorSchemaIsValid(errorSchema[index])) {
       const editData = formatEditData(index, false);
       setEditing(editData);
+      setShowTable(true);
       handleScroll(`table_${idSchema.$id}_${index}`, 0);
     } else {
       // Set all the fields for this item as touched, so we show errors
@@ -361,7 +357,6 @@ const ItemLoop = ({
       )}
       <div className="va-growable">
         <ScrollElement name={`topOfTable_${idSchema.$id}`} />
-
         {uiOptions.viewType === 'table' ? (
           <table className="vads-u-font-family--sans vads-u-margin-top--3 vads-u-margin-bottom--0">
             {showTable && (
@@ -439,9 +434,11 @@ const ItemLoop = ({
                 disabled={disabled}
                 readonly={readonly}
                 errorSchema={errorSchema}
+                editing={editing}
                 handleChange={handleChange}
                 handleSave={handleSave}
                 handleRemove={handleRemove}
+                handleCancel={handleCancel}
               />
             ) : (
               <ViewField

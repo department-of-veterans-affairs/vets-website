@@ -41,7 +41,7 @@ import WizardContainer from '../wizard/WizardContainer';
 import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
-} from 'applications/static-pages/wizard';
+} from 'platform/site-wide/wizard';
 
 export class IntroductionPage extends React.Component {
   state = {

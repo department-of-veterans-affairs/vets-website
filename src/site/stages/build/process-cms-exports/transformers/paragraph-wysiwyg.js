@@ -7,9 +7,11 @@ function wysiwygTransform(entity) {
     entity: {
       entityType: 'paragraph',
       entityBundle: 'wysiwyg',
-      fieldWysiwyg: {
-        processed: getWysiwygString(getDrupalValue(fieldWysiwyg)),
-      },
+      fieldWysiwyg: fieldWysiwyg.length
+        ? {
+            processed: getWysiwygString(getDrupalValue(fieldWysiwyg)),
+          }
+        : null,
     },
   };
 }

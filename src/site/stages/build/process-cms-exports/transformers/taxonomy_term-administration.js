@@ -4,6 +4,7 @@ const transform = entity => {
   const fsml = entity.fieldSocialMediaLinks[0];
 
   return {
+    targetId: getDrupalValue(entity.tid),
     entity: {
       entityType: 'taxonomy_term',
       entityBundle: 'administration',
@@ -27,6 +28,7 @@ const transform = entity => {
 };
 module.exports = {
   filter: [
+    'tid',
     'name',
     'field_acronym',
     'field_description',

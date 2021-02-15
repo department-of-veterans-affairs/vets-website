@@ -1,12 +1,20 @@
 import React from 'react';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
-import { setFetchJSONFailure } from 'platform/testing/unit/helpers';
+import {
+  mockFetch,
+  resetFetch,
+  setFetchJSONFailure,
+} from 'platform/testing/unit/helpers';
 import reducers from '../../../redux/reducer';
 import { getVAFacilityMock, getVARequestMock } from '../../mocks/v0';
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
-import { renderWithStoreAndRouter } from '../../mocks/setup';
+import {
+  renderWithStoreAndRouter,
+  getTimezoneTestDate,
+} from '../../mocks/setup';
 import RequestedAppointmentsList from '../../../appointment-list/components/RequestedAppointmentsList';
 
 const initialState = {
@@ -19,6 +27,14 @@ const initialState = {
 };
 
 describe('VAOS <RequestedAppointmentsList>', () => {
+  beforeEach(() => {
+    mockFetch();
+    MockDate.set(getTimezoneTestDate());
+  });
+  afterEach(() => {
+    resetFetch();
+    MockDate.reset();
+  });
   it('should show va request', async () => {
     const startDate = moment.utc();
     const appointment = getVARequestMock();
@@ -71,7 +87,7 @@ describe('VAOS <RequestedAppointmentsList>', () => {
     });
 
     expect(await screen.findByText('Primary care')).to.be.ok;
-    expect(screen.baseElement).to.contain.text(facility.attributes.name);
+    expect(await screen.findByText(facility.attributes.name)).to.be.ok;
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
   });
 

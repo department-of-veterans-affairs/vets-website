@@ -23,6 +23,8 @@ import {
   CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
   CANCEL_APPOINTMENT_CLOSED,
   FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+  FETCH_CONFIRMED_DETAILS,
+  FETCH_CONFIRMED_DETAILS_SUCCEEDED,
 } from './actions';
 
 import {
@@ -116,14 +118,24 @@ export default function appointmentsReducer(state = initialState, action) {
         pastSelectedIndex: action.selectedIndex,
       };
     case FETCH_PAST_APPOINTMENTS_SUCCEEDED: {
-      const { data, startDate, endDate } = action;
+      const { appointments, requests = [], startDate, endDate } = action;
 
-      const past = data?.filter(appt => {
-        const apptDateTime = moment(appt.start);
-        return (
-          apptDateTime.isValid() && apptDateTime.isBetween(startDate, endDate)
+      const past = appointments
+        ?.filter(appt => {
+          const apptDateTime = moment(appt.start);
+          return (
+            apptDateTime.isValid() && apptDateTime.isBetween(startDate, endDate)
+          );
+        })
+        .concat(
+          requests.filter(appt => {
+            const apptDateTime = moment(appt.created);
+            return (
+              apptDateTime.isValid() &&
+              apptDateTime.isBetween(startDate, endDate)
+            );
+          }),
         );
-      });
 
       return {
         ...state,
@@ -150,22 +162,20 @@ export default function appointmentsReducer(state = initialState, action) {
         facilityData,
       };
     }
-    case FETCH_REQUEST_DETAILS: {
+    case (FETCH_REQUEST_DETAILS, FETCH_CONFIRMED_DETAILS): {
       return {
         ...state,
         appointmentDetailsStatus: FETCH_STATUS.loading,
-        currentAppointment: null,
       };
     }
-    case FETCH_REQUEST_DETAILS_SUCCEEDED: {
-      const appointmentDetails = { ...state.appointmentDetails };
-
-      appointmentDetails[action.id] = action.request;
-
+    case (FETCH_REQUEST_DETAILS_SUCCEEDED, FETCH_CONFIRMED_DETAILS_SUCCEEDED): {
       return {
         ...state,
-        currentAppointment: action.request,
-        appointmentDetails,
+        ...state.appointmentDetails,
+        currentAppointment: action.appointment,
+        appointmentDetails: {
+          [action.id]: action.appointment,
+        },
         appointmentDetailsStatus: FETCH_STATUS.succeeded,
       };
     }

@@ -13,7 +13,10 @@ import {
   selectFeatureHomepageRefresh,
 } from '../../redux/selectors';
 
-import { selectPendingAppointments } from '../redux/selectors';
+import {
+  selectPendingAppointments,
+  selectFutureAppointments,
+} from '../redux/selectors';
 
 import {
   getCancelReasons,
@@ -66,6 +69,12 @@ export const FETCH_PAST_APPOINTMENTS_SUCCEEDED =
 export const FETCH_REQUEST_DETAILS = 'vaos/FETCH_REQUEST_DETAILS';
 export const FETCH_REQUEST_DETAILS_FAILED = 'vaos/FETCH_REQUEST_DETAILS_FAILED';
 export const FETCH_REQUEST_DETAILS_SUCCEEDED =
+  'vaos/FETCH_REQUEST_DETAILS_SUCCEEDED';
+
+export const FETCH_CONFIRMED_DETAILS = 'vaos/FETCH_CONFIRMED_DETAILS';
+export const FETCH_CONFIRMED_DETAILS_FAILED =
+  'vaos/FETCH_CONFIRMED_DETAILS_FAILED';
+export const FETCH_CONFIRMED_DETAILS_SUCCEEDED =
   'vaos/FETCH_REQUEST_DETAILS_SUCCEEDED';
 
 export const FETCH_REQUEST_MESSAGES = 'vaos/FETCH_REQUEST_MESSAGES';
@@ -178,11 +187,20 @@ export function fetchFutureAppointments() {
     });
 
     try {
+      /**
+       * Canceled list will use the same fetched appointments as the upcoming
+       * and requests lists, but needs confirmed to go back 30 days. Appointments
+       * will be filtered out by date accordingly in our selectors
+       */
       const data = await Promise.all([
         getBookedAppointments({
-          startDate: moment().format('YYYY-MM-DD'),
+          startDate: featureHomepageRefresh
+            ? moment()
+                .subtract(30, 'days')
+                .format('YYYY-MM-DD')
+            : moment().format('YYYY-MM-DD'),
           endDate: moment()
-            .add(13, 'months')
+            .add(395, 'days')
             .format('YYYY-MM-DD'),
         }),
         getAppointmentRequests({
@@ -341,6 +359,7 @@ export function fetchPendingAppointments() {
 
 export function fetchPastAppointments(startDate, endDate, selectedIndex) {
   return async (dispatch, getState) => {
+    const featureHomepageRefresh = selectFeatureHomepageRefresh(getState());
     dispatch({
       type: FETCH_PAST_APPOINTMENTS,
       selectedIndex,
@@ -351,14 +370,28 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
     });
 
     try {
-      const data = await getBookedAppointments({
-        startDate,
-        endDate,
-      });
+      const fetches = [
+        getBookedAppointments({
+          startDate,
+          endDate,
+        }),
+      ];
+
+      if (featureHomepageRefresh) {
+        fetches.push(
+          getAppointmentRequests({
+            startDate: moment(startDate).format('YYYY-MM-DD'),
+            endDate: moment(endDate).format('YYYY-MM-DD'),
+          }),
+        );
+      }
+
+      const [appointments, requests] = await Promise.all(fetches);
 
       dispatch({
         type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
-        data,
+        appointments,
+        requests,
         startDate,
         endDate,
       });
@@ -408,7 +441,11 @@ export function fetchRequestDetails(id) {
     });
 
     if (request) {
-      dispatch({ type: FETCH_REQUEST_DETAILS_SUCCEEDED, request, id });
+      dispatch({
+        type: FETCH_REQUEST_DETAILS_SUCCEEDED,
+        appointment: request,
+        id,
+      });
     } else {
       // TODO: fetch single appointment
     }
@@ -418,6 +455,27 @@ export function fetchRequestDetails(id) {
 
     if (!messages) {
       dispatch(fetchRequestMessages(parsedId));
+    }
+  };
+}
+
+export function fetchConfirmedAppointmentDetails(id) {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const { appointmentDetails } = state.appointments;
+    const futureAppointments = selectFutureAppointments(state);
+    const appointment =
+      appointmentDetails[id] ||
+      futureAppointments?.find(appt => appt.id === id);
+
+    dispatch({
+      type: FETCH_CONFIRMED_DETAILS,
+    });
+
+    if (appointment) {
+      dispatch({ type: FETCH_CONFIRMED_DETAILS_SUCCEEDED, appointment, id });
+    } else {
+      // TODO: fetch single appointment
     }
   };
 }

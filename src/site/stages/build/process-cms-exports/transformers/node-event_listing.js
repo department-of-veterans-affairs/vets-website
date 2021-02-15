@@ -2,7 +2,6 @@ const {
   getDrupalValue,
   utcToEpochTime,
   createMetaTagArray,
-  isPublished,
 } = require('./helpers');
 
 const reverseFields = reverseFieldListing => ({
@@ -17,8 +16,6 @@ const reverseFields = reverseFieldListing => ({
           title: reverseField.title,
           entityUrl: reverseField.entityUrl,
           entityBundle: reverseField.entityBundle,
-          entityPublished: reverseField.entityPublished,
-          uid: reverseField.uid,
           fieldFeatured: reverseField.fieldFeatured,
           fieldDatetimeRangeTimezone: reverseField.fieldDatetimeRangeTimezone,
           fieldDescription: reverseField.fieldDescription,
@@ -35,7 +32,6 @@ const transform = (entity, { ancestors }) => ({
   created: utcToEpochTime(getDrupalValue(entity.created)),
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
   entityMetatags: createMetaTagArray(entity.metatag.value),
-  entityPublished: isPublished(getDrupalValue(entity.status)),
   fieldAdministration: entity.fieldAdministration[0],
   fieldDescription: getDrupalValue(entity.fieldDescription),
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
@@ -61,7 +57,6 @@ module.exports = {
     'created',
     'changed',
     'metatag',
-    'status',
     'field_administration',
     'field_description',
     'field_intro_text',

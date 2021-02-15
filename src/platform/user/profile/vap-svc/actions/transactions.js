@@ -203,6 +203,18 @@ export function createTransaction(
         transaction,
       });
     } catch (error) {
+      const [firstError = {}] = error.errors ?? [];
+      const { code = 'code', title = 'title', detail = 'detail' } = firstError;
+      const profileSection = analyticsSectionName || 'unknown-profile-section';
+      recordEvent({
+        event: 'profile-edit-failure',
+        'profile-action': 'save-failure',
+        'profile-section': profileSection,
+        'error-key': `tx-creation-error-${profileSection}-${code}-${title}-${detail}`,
+      });
+      recordEvent({
+        'error-key': undefined,
+      });
       dispatch({
         type: VAP_SERVICE_TRANSACTION_REQUEST_FAILED,
         error,

@@ -259,7 +259,7 @@ export function selectProviderSelectionInfo(state) {
     address: selectVAPResidentialAddress(state),
     typeOfCareName: typeOfCare.name,
     communityCareProviderList:
-      communityCareProviders[`${sortMethod}_${typeOfCare.ccId}`] || [],
+      communityCareProviders[`${sortMethod}_${typeOfCare.ccId}`],
     requestStatus,
     requestLocationStatus,
     currentLocation,
@@ -312,8 +312,7 @@ export function getFacilityPageV2Info(state) {
     singleValidVALocation: validFacilities?.length === 1 && !!data.vaFacility,
     showEligibilityModal,
     sortMethod: facilityPageSortMethod,
-    typeOfCare: typeOfCare?.name,
-    typeOfCareId: typeOfCare?.id,
+    typeOfCare,
   };
 }
 
