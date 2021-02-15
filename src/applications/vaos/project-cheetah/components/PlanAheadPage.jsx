@@ -50,7 +50,7 @@ function PlanAheadPage({ routeToNextAppointmentPage }) {
         <div>Panel contents go here.</div>
       </CollapsiblePanel>
       <a
-        href="/health-care/covid-19-vaccine/"
+        href="/health-care/covid-19-vaccine"
         target="_blank"
         rel="noopener noreferrer"
         className="vads-u-display--block vads-u-margin-top--2"
