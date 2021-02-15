@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
+import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 import CollapsiblePanel from '@department-of-veterans-affairs/component-library/CollapsiblePanel';
+import recordEvent from 'platform/monitoring/record-event';
 import * as actions from '../redux/actions';
+import { GA_PREFIX } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 
 const pageKey = 'planAhead';
@@ -23,15 +26,16 @@ function PlanAheadPage({ routeToNextAppointmentPage }) {
         now.
       </p>
 
-      <Link
-        id="new-appointment"
-        className="usa-button vads-u-font-weight--bold vads-u-font-size--md vads-u-width--full small-screen:vads-u-width--auto"
-        onClick={() => {
+      <ProgressButton
+        buttonText="Start scheduling"
+        buttonClass="vads-u-font-weight--bold vads-u-font-size--md vads-u-width--full small-screen:vads-u-width--auto"
+        onButtonClick={() => {
+          recordEvent({
+            event: `${GA_PREFIX}-cheetah-start-scheduling-button-clicked`,
+          });
           routeToNextAppointmentPage(history, pageKey);
         }}
-      >
-        Start scheduling
-      </Link>
+      />
       <h2 className="vads-u-margin-top--2">Common questions</h2>
       <CollapsiblePanel panelName="Collapsible panel example">
         <div>Panel contents go here.</div>
