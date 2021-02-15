@@ -27,31 +27,32 @@ export const uiSchema = {
         'ui:title': 'Type of vehicle',
         'ui:field': Typeahead,
         'ui:options': {
-          classNames: 'input-size-7',
+          classNames:
+            'input-size-7 vads-u-margin-top--3 vads-u-margin-bottom--3',
           getOptions: () => formatOptions(vehicleTypes),
         },
       },
       vehicleMake: {
         'ui:title': 'Vehicle make',
         'ui:options': {
-          widgetClassNames: 'input-size-7',
+          widgetClassNames: 'input-size-7 vads-u-margin-bottom--3',
         },
       },
       vehicleModel: {
         'ui:title': 'Vehicle model',
         'ui:options': {
-          widgetClassNames: 'input-size-7',
+          widgetClassNames: 'input-size-7 vads-u-margin-bottom--3',
         },
       },
       vehicleYear: {
         'ui:title': 'Vehicle year',
         'ui:options': {
-          widgetClassNames: 'input-size-4',
+          widgetClassNames: 'input-size-4 vads-u-margin-bottom--3',
         },
       },
       vehicleAmount: _.merge(currencyUI('Estimated value'), {
         'ui:options': {
-          widgetClassNames: 'input-size-5',
+          widgetClassNames: 'input-size-5 vads-u-margin-bottom--3',
         },
       }),
     },

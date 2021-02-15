@@ -6,6 +6,9 @@ export const uiSchema = {
         'ui:title': 'Does your spouse currently get Social Security payments?',
         'ui:widget': 'yesNo',
         'ui:required': () => true,
+        'ui:options': {
+          classNames: 'no-wrap',
+        },
       },
     },
   },
