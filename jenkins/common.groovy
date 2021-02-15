@@ -17,8 +17,8 @@ DRUPAL_CREDENTIALS = [
 ]
 
 ALL_VAGOV_BUILDTYPES = [
-  'vagovdev',
-  'vagovstaging',
+  // 'vagovdev',
+  // 'vagovstaging',
   'vagovprod',
   'vagovdev-cms-export'
 ]
@@ -262,7 +262,7 @@ def prearchive(dockerContainer, envName) {
     if (envName == 'vagovdev-cms-export') {
       sh "cd /application && NODE_ENV=production yarn build --buildtype vagovdev --setPublicPath --drupal-address ${drupalAddress} --use-cms-export --destination vagovdev-cms-export"
     } else {
-      sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath --drupal-address ${drupalAddress} "
+      sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath --drupal-address ${drupalAddress} --use-cms-export"
     }
     
     sh "cd /application && node --max-old-space-size=10240 script/prearchive.js --buildtype=${envName}"
