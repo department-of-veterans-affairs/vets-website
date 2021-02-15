@@ -4,11 +4,16 @@ import environment from '../../utilities/environment';
 import localStorage from '../../utilities/storage/localStorage';
 import { fetchAndUpdateSessionExpiration as fetch } from '../../utilities/api';
 import { sanitizeForm } from '../helpers';
-import { VA_FORM_IDS_SKIP_INFLECTION } from '../constants';
+import {
+  VA_FORM_IDS_SKIP_INFLECTION,
+  VA_FORM_IDS_IN_PROGRESS_FORMS_API,
+} from '../constants';
 
 export function removeFormApi(formId) {
   const csrfTokenStored = localStorage.getItem('csrfToken');
-  return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
+  const apiUrl =
+    VA_FORM_IDS_IN_PROGRESS_FORMS_API[formId] || '/v0/in_progress_forms/';
+  return fetch(`${environment.API_URL}${apiUrl}${formId}`, {
     method: 'DELETE',
     credentials: 'include',
     headers: {
@@ -57,6 +62,8 @@ export function saveFormApi(
     formData,
   });
   const csrfTokenStored = localStorage.getItem('csrfToken');
+  const apiUrl =
+    VA_FORM_IDS_IN_PROGRESS_FORMS_API[formId] || '/v0/in_progress_forms/';
   const saveFormApiHeaders = {
     'Content-Type': 'application/json',
     'X-Key-Inflection': 'camel',
@@ -67,7 +74,7 @@ export function saveFormApi(
     delete saveFormApiHeaders['X-Key-Inflection'];
   }
 
-  return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
+  return fetch(`${environment.API_URL}${apiUrl}${formId}`, {
     method: 'PUT',
     credentials: 'include',
     headers: saveFormApiHeaders,
