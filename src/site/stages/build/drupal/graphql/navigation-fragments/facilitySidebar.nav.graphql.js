@@ -160,16 +160,28 @@ const FACILITY_SIDEBAR_QUERY = `
     }
 `;
 
+const VaFacilitySidebars = {};
 let compiledQuery = '';
 
 FACILITY_MENU_NAMES.forEach(facilityMenuName => {
-  compiledQuery += `
-         ${camelize(
-           facilityMenuName,
-         )}FacilitySidebarQuery: menuByName(name: "${facilityMenuName}") {
-            ${FACILITY_SIDEBAR_QUERY}
-         }
-        `;
+  const facilityMenuNameCamel = camelize(facilityMenuName);
+  const operationName = `${facilityMenuNameCamel}FacilitySidebarQuery`;
+  const nextSidebar = `
+      ${operationName}: menuByName(name: "${facilityMenuName}") {
+        ${FACILITY_SIDEBAR_QUERY}
+      }
+    `;
+
+  compiledQuery += nextSidebar;
+
+  VaFacilitySidebars[`GetFacilitySidebar__${operationName}`] = `
+      query {
+        ${nextSidebar}
+      }
+  `;
 });
 
-module.exports = compiledQuery;
+module.exports = {
+  partialQuery: compiledQuery,
+  VaFacilitySidebars,
+};

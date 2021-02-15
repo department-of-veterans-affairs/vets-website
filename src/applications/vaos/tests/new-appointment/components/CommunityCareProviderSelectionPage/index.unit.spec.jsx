@@ -113,6 +113,13 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     );
 
     expect((await screen.findAllByRole('radio')).length).to.equal(2);
+
+    expect(
+      global.window.dataLayer.some(
+        e => e === `${GA_PREFIX}-community-care-provider-selection-page`,
+      ),
+    );
+
     expect(screen.getByLabelText('Bozeman, MT')).to.exist;
     expect(screen.getByLabelText('Belgrade, MT')).to.exist;
     expect(screen.baseElement).to.contain.text(
@@ -549,5 +556,71 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     // the provider should no longer be set
     expect(await screen.findByText(/Choose a provider/i)).to.exist;
     expect(screen.queryByText(/OH, JANICE/i)).to.not.exist;
+  });
+
+  it('should allow user to retry fetching location when it is blocked', async () => {
+    const store = createTestStore(initialState);
+
+    mockGetCurrentPosition({ fail: true });
+
+    mockCCProviderFetch(
+      initialState.user.profile.vapContactInfo.residentialAddress,
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
+      calculateBoundingBox(
+        initialState.user.profile.vapContactInfo.residentialAddress.latitude,
+        initialState.user.profile.vapContactInfo.residentialAddress.longitude,
+        60,
+      ),
+      CC_PROVIDERS_DATA,
+    );
+
+    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfFacility(store, /Community Care/i);
+
+    const screen = renderWithStoreAndRouter(
+      <CommunityCareProviderSelectionPage />,
+      {
+        store,
+      },
+    );
+
+    // Choose Provider
+    userEvent.click(await screen.findByText(/Choose a provider/i));
+    userEvent.click(await screen.findByText(/use your current location/i));
+
+    expect(
+      await screen.findByText(
+        /Your browser is blocked from finding your current location. Make sure your browser’s location feature is turned on./i,
+      ),
+    ).to.be.ok;
+
+    const currentPosition = {
+      latitude: 37.5615,
+      longitude: 121.9988,
+      fail: false,
+    };
+
+    mockGetCurrentPosition(currentPosition);
+    mockCCProviderFetch(
+      currentPosition,
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
+      calculateBoundingBox(
+        currentPosition.latitude,
+        currentPosition.longitude,
+        60,
+      ),
+      // Only return one provider to distinguish from initial request
+      // by residential address
+      CC_PROVIDERS_DATA.slice(0, 1),
+    );
+
+    userEvent.click(
+      screen.getByText(/Retry searching based on current location/i),
+    );
+
+    // should eventually be one provder, plus the two site radio buttons
+    await waitFor(() =>
+      expect(screen.getAllByRole('radio').length).to.equal(3),
+    );
   });
 });

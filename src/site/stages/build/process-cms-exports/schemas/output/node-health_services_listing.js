@@ -11,7 +11,7 @@ module.exports = {
     promote: { type: 'boolean' },
     sticky: { type: 'boolean' },
     defaultLangcode: { type: 'boolean' },
-    revisionTranslationAffected: { type: 'boolean' },
+    revisionTranslationAffected: { type: ['boolean', 'null'] },
     moderationState: { type: 'string' },
     entityMetatags: { $ref: 'MetaTags' },
     fieldAdministration: { $ref: 'output/taxonomy_term-administration' },
@@ -23,7 +23,7 @@ module.exports = {
     fieldIntroText: { type: 'string' },
     fieldMetaTitle: { type: 'string' },
     fieldOffice: {
-      type: 'object',
+      type: ['object', 'null'],
       properties: {
         entity: partialSchema(healthCareRegionPageSchema, [
           'entityUrl',

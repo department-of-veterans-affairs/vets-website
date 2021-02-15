@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 import Date from '@department-of-veterans-affairs/component-library/Date';
 
 import recordEvent from 'platform/monitoring/record-event';
 
 import { pageNames } from './pageList';
-import unableToFileBDDProduction from './unable-to-file-bdd-production';
 import {
   FORM_STATUS_BDD,
   SAVED_SEPARATION_DATE,
 } from '../../all-claims/constants';
+
+const maxDate = moment().add(100, 'year');
 
 const saveDischargeDate = (date, isBDD) => {
   if (date) {
@@ -35,13 +36,21 @@ const findNextPage = state => {
   const differenceBetweenDatesInDays =
     dateDischarge.diff(dateToday, 'days') + 1;
 
+  if (differenceBetweenDatesInDays < 0) {
+    saveDischargeDate();
+    return null;
+  }
+
   if (differenceBetweenDatesInDays < 90) {
     saveDischargeDate(dateDischarge, false);
     return pageNames.fileClaimEarly;
-  } else if (differenceBetweenDatesInDays <= 180) {
+  }
+
+  if (differenceBetweenDatesInDays <= 180) {
     saveDischargeDate(dateDischarge, true);
     return pageNames.fileBDD;
   }
+
   saveDischargeDate();
   return pageNames.unableToFileBDD;
 };
@@ -74,21 +83,20 @@ const getDate = date =>
     year: date.year.value,
   });
 
-const isDateInFuture = date => date && date.diff(moment()) > 0;
+const isDateInFuture = date => date?.diff(moment()) > 0;
+const isDateLessThanMax = date => date?.isBefore(maxDate);
 
-const BDDPage = ({ setPageState, state = defaultState, allowBDD }) => {
-  if (!allowBDD) {
-    // BDD at 100%, this will need to be removed along with the
-    // form526_benefits_delivery_at_discharge feature flag
-    return <unableToFileBDDProduction.component />;
-  }
+const BDDPage = ({ setPageState, state = defaultState }) => {
+  const [isNotEligible, setIsNotEligible] = useState(false);
 
   const onChange = pageState => {
     saveDischargeDate();
     const date = isDateComplete(pageState) ? getDate(pageState) : null;
-    const value = isDateInFuture(date) ? findNextPage(pageState) : null;
-
-    if (value) {
+    const value =
+      isDateInFuture(date) && isDateLessThanMax(date)
+        ? findNextPage(pageState)
+        : null;
+    if (date && value) {
       recordEvent({
         event: 'howToWizard-formChange',
         // Date component wrapper class name
@@ -97,7 +105,9 @@ const BDDPage = ({ setPageState, state = defaultState, allowBDD }) => {
         'form-field-value': date.format('YYYY-MM-DD'),
       });
     }
-    setPageState(pageState, value);
+    // invalid date & page
+    setPageState(pageState, date && value === null ? 1 : value);
+    setIsNotEligible(value === pageNames.unableToFileBDD);
   };
 
   return (
@@ -111,6 +121,7 @@ const BDDPage = ({ setPageState, state = defaultState, allowBDD }) => {
           valid: isDateInFuture(getDate(state)),
           message: 'Your separation date must be in the future',
         }}
+        aria-describedby={isNotEligible ? 'not-eligible-for-bdd' : ''}
       />
     </div>
   );

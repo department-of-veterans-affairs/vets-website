@@ -25,9 +25,7 @@ describe('functionality of Find Forms', () => {
     if (Cypress.env('CIRCLECI')) this.skip();
   });
 
-  // NOTE: THIS IS SKIPPED DUE TO showFindFormsResultsLinkToFormDetailPages FLAG BEING OFF FOR VARIOUS ENVS
-  // it('search the form and expect dom to have elements', () => {
-  it.skip('search the form and expect dom to have elements', () => {
+  it('search the form and expect dom to have elements', () => {
     cy.server();
     cy.route({
       method: 'GET',

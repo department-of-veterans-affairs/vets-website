@@ -2,23 +2,14 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
-@import "../../../platform/forms/sass/m-schemaform";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
-@import "../../../platform/forms/sass/m-form-confirmation";
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "../../../platform/forms/sass/m-form-confirmation";
+@import "../../../platform/forms/sass/m-schemaform";
 
-.fsr-introduction {
-  .schemaform-title {
-    margin-bottom: 10px;
-  }
-  .subtitle {
-    margin: 0 0 40px;
-    font-size: 20px;
-  }
-  .alert-button {
-    margin: 25px 0 0;
-  }
+.schemaform-title > h1 {
+  max-width: 600px;
 }
 
 .debt-card {
@@ -42,27 +33,23 @@
 
 .item-loop-container {
   margin-top: 10px;
-  .item-loop-header legend {
-    margin-top: 30px;
-  }
   .item-loop {
     padding: 5px 15px 20px;
     background-color: $color-gray-lightest;
-    .schemaform-field-container {
+    .horizonal-field-container .schemaform-field-container {
       display: flex;
-      flex-wrap: wrap;
-      .schemaform-block-header {
-        width: 100%;
-      }
-      fieldset.schemaform-field-template {
-        margin-top: 5px;
-      }
-      .schemaform-label {
-        margin-top: 0;
-      }
+      align-items: center;
+      margin: 20px 0;
+    }
+    .schemaform-label {
+      margin-top: 0;
+    }
+    .schemaform-field-template {
+      margin-right: 15px;
     }
     .autosuggest-list {
       max-height: 140px;
+      overflow-x: hidden;
     }
     .usa-button-secondary {
       background: $color-white;
@@ -112,9 +99,12 @@
   }
 }
 
-// date-widget
-.usa-date-of-birth {
-  padding: 10px 0;
+// form field subtitle
+.formfield-subtitle {
+  margin: 4px 0 8px;
+  font-size: 15px;
+  max-width: 400px;
+  color: $color-gray-medium;
 }
 
 // bankruptcyHistory
@@ -122,10 +112,26 @@
   margin-top: 10px;
 }
 
-.docket-number-description {
-  margin: 4px 0 8px;
-  font-size: 15px;
-  color: $color-gray-medium;
+//monetary assets
+.assets-note {
+  margin: 15px 0 20px;
+}
+
+.usa-input-error {
+  position: relative;
+  right: 0;
+  margin-top: 0;
+  input {
+    width: 100%;
+  }
+}
+
+.max-width-400 {
+  max-width: 400px;
+}
+
+.no-wrap {
+  white-space: nowrap;
 }
 
 // input fields
@@ -133,7 +139,6 @@
   @include media($medium-screen) {
     width: 152px;
     max-width: 152px;
-    margin: 0 10px 20px 0;
   }
 }
 
@@ -141,7 +146,6 @@
   @include media($medium-screen) {
     width: 173px;
     max-width: 173px;
-    margin: 0 10px 20px 0;
   }
 }
 
@@ -149,7 +153,6 @@
   @include media($medium-screen) {
     width: 196px;
     max-width: 196px;
-    margin: 0 10px 20px 0;
   }
 }
 
@@ -157,7 +160,6 @@
   @include media($medium-screen) {
     width: 215px;
     max-width: 215px;
-    margin: 0 10px 20px 0;
   }
 }
 
@@ -165,7 +167,6 @@
   @include media($medium-screen) {
     width: 262px;
     max-width: 262px;
-    margin: 0 10px 20px 0;
   }
 }
 
@@ -173,7 +174,6 @@
   @include media($medium-screen) {
     width: 283px;
     max-width: 283px;
-    margin: 0 10px 20px 0;
   }
 }
 
@@ -181,6 +181,5 @@
   @include media($medium-screen) {
     width: 332px;
     max-width: 332px;
-    margin: 0 10px 20px 0;
   }
 }

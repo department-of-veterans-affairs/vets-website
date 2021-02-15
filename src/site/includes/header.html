@@ -86,6 +86,20 @@
 </head>
 
 <body class="{{ body_class }} merger">
+  <!-- Draft status -->
+  {% if entityUrl.path && isPreview && !entityPublished %}
+    <div class="vads-u-background-color--primary-alt-lightest vads-u-padding--1">
+      <div class="vads-l-grid-container medium-screen:vads-u-padding-x--0">
+        You are viewing a draft of "{{ entityUrl.path }}".
+        {% if drupalSite && entityId %}
+          <a data-same-tab href="{{ drupalSite }}/node/{{ entityId }}/edit">
+            Edit this page in the CMS.
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+
   {{ google_analytics_noscript }}
   <a class="show-on-focus" href="#content">Skip to Content</a>
 

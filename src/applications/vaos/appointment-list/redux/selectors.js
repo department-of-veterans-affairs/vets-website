@@ -14,8 +14,10 @@ import {
   sortUpcoming,
   getVARFacilityId,
   groupAppointmentsByMonth,
+  isCanceledConfirmedOrExpressCare,
   isUpcomingAppointmentOrExpressCare,
   sortByCreatedDateDescending,
+  isValidPastAppointmentOrExpressCare,
 } from '../../services/appointment';
 import { selectFeatureExpressCareNewRequest } from '../../redux/selectors';
 import {
@@ -154,6 +156,24 @@ export const selectPastAppointments = createSelector(
   },
 );
 
+export const selectCanceledAppointments = createSelector(
+  // Selecting pending here to pull in EC requests
+  state => state.appointments.pending,
+  state => state.appointments.confirmed,
+  (pending, confirmed) => {
+    if (!confirmed || !pending) {
+      return null;
+    }
+
+    const sortedAppointments = confirmed
+      .concat(pending)
+      .filter(isCanceledConfirmedOrExpressCare)
+      .sort(sortByDateDescending);
+
+    return groupAppointmentsByMonth(sortedAppointments);
+  },
+);
+
 export function selectFirstRequestMessage(state) {
   const { currentAppointment, requestMessages } = state.appointments;
 
@@ -178,7 +198,7 @@ export const selectPastAppointmentsV2 = createSelector(
     }
 
     const sortedAppointments = past
-      .filter(isValidPastAppointment)
+      .filter(isValidPastAppointmentOrExpressCare)
       .sort(sortByDateAscending);
 
     return groupAppointmentsByMonth(sortedAppointments);

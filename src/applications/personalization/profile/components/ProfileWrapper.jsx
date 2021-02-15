@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
+import { isEmpty } from 'lodash';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 
@@ -16,11 +17,10 @@ import {
   personalInformationLoadError,
 } from '@@profile/selectors';
 
-import NameTag from './NameTag';
+import NameTag from '~/applications/personalization/components/NameTag';
 import ProfileSubNav from './ProfileSubNav';
 import ProfileMobileSubNav from './ProfileMobileSubNav';
 import { PROFILE_PATHS } from '../constants';
-import { isEmpty } from 'lodash';
 
 const NotAllDataAvailableError = () => (
   <div data-testid="not-all-data-available-error">
@@ -43,8 +43,10 @@ const ProfileWrapper = ({
   routes,
   isLOA3,
   isInMVI,
-  hero,
   showNotAllDataAvailableError,
+  totalDisabilityRating,
+  showUpdatedNameTag,
+  showNameTag,
 }) => {
   const location = useLocation();
   const createBreadCrumbAttributes = () => {
@@ -66,6 +68,14 @@ const ProfileWrapper = ({
 
   return (
     <>
+      {showNameTag &&
+        showUpdatedNameTag && (
+          <NameTag
+            showUpdatedNameTag
+            totalDisabilityRating={totalDisabilityRating}
+          />
+        )}
+
       {/* Breadcrumbs */}
       <div data-testid="breadcrumbs">
         <Breadcrumbs className="vads-u-padding-x--1 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
@@ -84,7 +94,7 @@ const ProfileWrapper = ({
         </Breadcrumbs>
       </div>
 
-      {isEmpty(hero.errors) && isLOA3 && <NameTag />}
+      {showNameTag && !showUpdatedNameTag && <NameTag />}
 
       <div className="medium-screen:vads-u-display--none">
         <ProfileMobileSubNav
@@ -110,13 +120,16 @@ const ProfileWrapper = ({
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   const veteranStatus = selectProfile(state)?.veteranStatus;
   const invalidVeteranStatus =
     !veteranStatus || veteranStatus === 'NOT_AUTHORIZED';
+  const hero = state.vaProfile?.hero;
 
   return {
-    hero: state.vaProfile?.hero,
+    hero,
+    totalDisabilityRating: state.totalRating?.totalDisabilityRating,
+    showNameTag: ownProps.isLOA3 && isEmpty(hero?.errors),
     showNotAllDataAvailableError:
       !!cnpDirectDepositLoadError(state) ||
       !!eduDirectDepositLoadError(state) ||

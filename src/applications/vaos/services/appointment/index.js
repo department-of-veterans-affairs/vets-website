@@ -300,6 +300,30 @@ export function isValidPastAppointment(appt) {
 }
 
 /**
+ * Checks to see if the appointment is either an appointment that does
+ * not have one of the excluded statuses for past appointments or an
+ * Express Care request that is either resolved or old enough to show
+ *
+ * @param {Object} appt A FHIR appointment resource
+ * @returns Whether or not the appt should be shown
+ */
+export function isValidPastAppointmentOrExpressCare(appt) {
+  return (
+    // Show any fulfilled EC request
+    (appt.vaos.isExpressCare && appt.status === APPOINTMENT_STATUS.fulfilled) ||
+    // Only show non-fulfilled EC requests if they're more than 2 days old
+    (appt.vaos.isExpressCare &&
+      appt.status !== APPOINTMENT_STATUS.fulfilled &&
+      moment(appt.created).isBefore(moment().subtract(2, 'days'))) ||
+    // Show any VA appointment that doesn't have a status in our hidden list
+    (appt.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment &&
+      !PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description)) ||
+    // Show any booked community care appointment
+    appt.vaos.appointmentType === APPOINTMENT_TYPES.ccAppointment
+  );
+}
+
+/**
  * Returns true if the given Appointment is a confirmed appointment
  * or a request that still needs processing
  *
@@ -354,7 +378,12 @@ export function isUpcomingAppointmentOrExpressCare(appt) {
       !appt.vaos.isPastAppointment &&
       !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
       apptDateTime.isValid() &&
-      apptDateTime.isBefore(moment().add(395, 'days'))
+      apptDateTime.isAfter(moment().startOf('day')) &&
+      apptDateTime.isBefore(
+        moment()
+          .endOf('day')
+          .add(395, 'days'),
+      )
     );
   }
 
@@ -368,6 +397,45 @@ export function isUpcomingAppointmentOrExpressCare(appt) {
         .add(-1, 'day'),
     )
   );
+}
+
+/**
+ * Returns true if the given Appointment is a canceled confirmed appointment
+ * or a canceled Express Care request
+ *
+ * @export
+ * @param {Object} appt The FHIR Appointment to check
+ * @returns {Boolean} Whether or not the appointment is a canceled
+ *  appointment or Express Care request
+ */
+export function isCanceledConfirmedOrExpressCare(appt) {
+  const today = moment();
+
+  if (
+    CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType) ||
+    appt.vaos.isExpressCare
+  ) {
+    const apptDateTime = moment(appt.start);
+
+    return (
+      appt.status === APPOINTMENT_STATUS.cancelled &&
+      apptDateTime.isValid() &&
+      apptDateTime.isAfter(
+        today
+          .clone()
+          .startOf('day')
+          .subtract(30, 'days'),
+      ) &&
+      apptDateTime.isBefore(
+        today
+          .clone()
+          .endOf('day')
+          .add(395, 'days'),
+      )
+    );
+  }
+
+  return false;
 }
 
 /**

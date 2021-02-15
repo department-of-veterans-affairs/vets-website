@@ -8,7 +8,7 @@ const ContactInfoCard = ({
   city,
   stateCode,
   zipCode,
-  countryName,
+  country,
   edit,
 }) => {
   return (
@@ -22,7 +22,7 @@ const ContactInfoCard = ({
         <p className="vads-u-margin--1px">
           {city}, {stateCode} {zipCode}
         </p>
-        <p className="vads-u-margin--1px">{countryName}</p>
+        <p className="vads-u-margin--1px">{country}</p>
       </div>
       <div className="vads-u-margin-top--1">
         <a onClick={() => edit()}>Edit mailing address</a>
@@ -37,24 +37,16 @@ ContactInfoCard.propTypes = {
   city: PropTypes.string,
   stateCode: PropTypes.string,
   zipCode: PropTypes.string,
-  countryName: PropTypes.string,
+  country: PropTypes.string,
 };
 
-ContactInfoCard.defaultProps = {
-  addressLine1: '1234 W Nebraska St',
-  city: 'Tampa',
-  stateCode: 'FL',
-  zipCode: '33614',
-  countryName: 'United States',
-};
-
-const mapStateToProps = state => ({
-  addressLine1: state.form.data.mailingAddress?.addressLine1,
-  addressLine2: state.form.data.mailingAddress?.addressLine2,
-  city: state.form.data.mailingAddress?.city,
-  stateCode: state.form.data.mailingAddress?.stateCode,
-  zipCode: state.form.data.mailingAddress?.zipCode,
-  countryName: state.form.data.mailingAddress?.countryName,
+const mapStateToProps = ({ form }) => ({
+  addressLine1: form.data.mailingAddress?.addressLine1,
+  addressLine2: form.data.mailingAddress?.addressLine2,
+  city: form.data.mailingAddress?.city,
+  stateCode: form.data.mailingAddress?.stateCode,
+  zipCode: form.data.mailingAddress?.zipCode,
+  country: form.data.mailingAddress?.country,
 });
 
 export default connect(

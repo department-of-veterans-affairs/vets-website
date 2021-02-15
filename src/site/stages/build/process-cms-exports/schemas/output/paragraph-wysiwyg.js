@@ -5,7 +5,9 @@ module.exports = {
       type: 'object',
       required: ['fieldWysiwyg'],
       properties: {
-        fieldWysiwyg: { $ref: 'ProcessedString' },
+        fieldWysiwyg: {
+          oneOf: [{ $ref: 'ProcessedString' }, { type: 'null' }],
+        },
       },
     },
   },

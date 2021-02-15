@@ -140,7 +140,7 @@ describe('VAOS reducer: appointments', () => {
       startDate: '2018-01-01',
       endDate: moment().format(),
       selectedIndex: 1,
-      data: [
+      appointments: [
         {
           start: '2019-04-30T05:35:00',
           vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },

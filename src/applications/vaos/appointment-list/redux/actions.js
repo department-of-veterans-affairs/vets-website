@@ -187,9 +187,18 @@ export function fetchFutureAppointments() {
     });
 
     try {
+      /**
+       * Canceled list will use the same fetched appointments as the upcoming
+       * and requests lists, but needs confirmed to go back 30 days. Appointments
+       * will be filtered out by date accordingly in our selectors
+       */
       const data = await Promise.all([
         getBookedAppointments({
-          startDate: moment().format('YYYY-MM-DD'),
+          startDate: featureHomepageRefresh
+            ? moment()
+                .subtract(30, 'days')
+                .format('YYYY-MM-DD')
+            : moment().format('YYYY-MM-DD'),
           endDate: moment()
             .add(395, 'days')
             .format('YYYY-MM-DD'),
@@ -350,6 +359,7 @@ export function fetchPendingAppointments() {
 
 export function fetchPastAppointments(startDate, endDate, selectedIndex) {
   return async (dispatch, getState) => {
+    const featureHomepageRefresh = selectFeatureHomepageRefresh(getState());
     dispatch({
       type: FETCH_PAST_APPOINTMENTS,
       selectedIndex,
@@ -360,14 +370,28 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
     });
 
     try {
-      const data = await getBookedAppointments({
-        startDate,
-        endDate,
-      });
+      const fetches = [
+        getBookedAppointments({
+          startDate,
+          endDate,
+        }),
+      ];
+
+      if (featureHomepageRefresh) {
+        fetches.push(
+          getAppointmentRequests({
+            startDate: moment(startDate).format('YYYY-MM-DD'),
+            endDate: moment(endDate).format('YYYY-MM-DD'),
+          }),
+        );
+      }
+
+      const [appointments, requests] = await Promise.all(fetches);
 
       dispatch({
         type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
-        data,
+        appointments,
+        requests,
         startDate,
         endDate,
       });
