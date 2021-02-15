@@ -35,7 +35,6 @@ module.exports = {
     },
   },
   required: [
-    'fake_test_property_to_cause_error', // Temporary test, remove before merging
     'name',
     'thumbnail',
     'metatag',
