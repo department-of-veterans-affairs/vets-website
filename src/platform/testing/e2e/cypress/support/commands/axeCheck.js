@@ -34,8 +34,10 @@ Cypress.Commands.add('axeCheck', (context = 'main', tempOptions = {}) => {
 
   /**
    * Default required ruleset to meet Section 508 compliance.
-   * Do not remove the values[] entries. Only add new rulesets like 'best-practices'.
-   * https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#axe-core-tags
+   * Do not remove values[] entries. Only add new rulesets like 'best-practices'.
+   *
+   * See https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#axe-core-tags
+   * for available rulesets.
    */
   let axeBuilder = {
     runOnly: {
@@ -51,7 +53,6 @@ Cypress.Commands.add('axeCheck', (context = 'main', tempOptions = {}) => {
 
   /**
    * TODO: Confirm the build step won't break
-   * Update axeRuleBuilder with tempOptions - No IE11 support
    * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
    */
   axeBuilder = Object.assign(axeBuilder, tempOptions);
