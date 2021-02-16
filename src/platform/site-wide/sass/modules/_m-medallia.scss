@@ -65,3 +65,41 @@
 .ng-scope .panel-footer-web {
   padding-bottom: 1rem;
 }
+
+/* CSS Overrides for the 3-question survey on /find-locations */
+
+/* An excessively specific selector is needed to override !important and inline styles */
+/* The `ng-hide` class only seems to be used in mobile browsers/emulators, but not laptop browsers */
+#liveForm > div > div.row.neb-form-close-btn-container.ng-hide {
+  /* `display: block !important;` is necessary because the `ng-hide` class applies `display: block !important` */
+  display: block !important;
+  /* `margin-top: 0px !important;` is necessary because this element has an inline style of `margin-top: -50px;` */
+  margin-top: 0px !important;
+  /* `font-size: 14px !important;` is necessary because this element has an inline style of `font-size: 35px;` */
+  font-size: 14px !important;
+
+  /* Add `position: relative;` so `position: absolute;` can be applied to the child `button` element */
+  position: relative;
+}
+
+/* The `ng-hide` class only seems to be used in mobile browsers/emulators, but not laptop browsers */
+/* I tried `#liveForm > div > div.neb-show-button-as-link.neb-form-close-btn.pull-right`, but it didn't work */
+/* The intermediary child div selectors seem necessary to reach sufficient specificity */
+#liveForm
+  > div
+  > div.neb-form-close-btn-container.ng-hide
+  > div
+  > button.neb-show-button-as-link {
+  /* Position this button absolutely relative to the `div.row.neb-form-close-btn-container.ng-hide` element */
+  position: absolute;
+
+  /* Give some breathing room above the X-icon */
+  top: 8px;
+
+  /* Give some breathing room to the right of the X-icon */
+  right: calc(0px + 24px);
+
+  /* https://css-tricks.com/rational-z-index-values/ */
+  /* Add `z-index: 100;` to make sure the button is clickable */
+  z-index: 100;
+}
