@@ -41,7 +41,8 @@ import * as otherExpenses from './expenses/other';
 import * as otherExpenseRecords from './expenses/other/records';
 import * as resolutionOptions from './resolution/options';
 import * as resolutionComments from './resolution/comments';
-import * as bankruptcyHistory from './bankruptcy/history';
+import * as bankruptcyHistory from './bankruptcy';
+import * as bankruptcyHistoryRecords from './bankruptcy/records';
 
 export {
   veteranInfo,
@@ -87,5 +88,6 @@ export {
   resolutionOptions,
   resolutionComments,
   bankruptcyHistory,
+  bankruptcyHistoryRecords,
   contactInfo,
 };
