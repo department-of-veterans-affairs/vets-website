@@ -95,3 +95,12 @@
   /* Add `z-index: 100;` to make sure the button is clickable */
   z-index: 100;
 }
+
+/* https://github.com/department-of-veterans-affairs/va.gov-team/issues/18706#issuecomment-769341669 */
+.neb-component
+  .neb-content
+  .neb-native-radio
+  input[type="radio"].wcag-radio-border:focus {
+  border: 2px solid rgb(249, 198, 66) !important;
+  padding: 1px !important;
+}
