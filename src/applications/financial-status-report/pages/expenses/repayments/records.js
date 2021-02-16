@@ -60,6 +60,7 @@ export const uiSchema = {
       debtDate: monthYearUI('Date debt began'),
       amountOverdue: _.merge(currencyUI('Amount overdue'), {
         'ui:options': {
+          classNames: 'vads-u-margin-top--2',
           widgetClassNames: 'input-size-4 vads-u-margin-bottom--3',
         },
       }),
@@ -73,7 +74,12 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
-        required: ['debtType', 'monthlyPaymentAmount', 'debtDate'],
+        required: [
+          'debtType',
+          'monthlyPaymentAmount',
+          'debtDate',
+          'amountOverdue',
+        ],
         properties: {
           debtType: {
             type: 'string',

@@ -363,8 +363,7 @@ const formConfig = {
           title: 'Utilities',
           uiSchema: pages.utilityRecords.uiSchema,
           schema: pages.utilityRecords.schema,
-          depends: formData =>
-            formData.hasUtilities === 'Yes, I pay utility bills.',
+          depends: formData => formData.hasUtilities,
         },
         repayments: {
           path: 'repayments',

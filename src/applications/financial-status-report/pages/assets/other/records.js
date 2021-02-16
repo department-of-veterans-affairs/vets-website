@@ -4,9 +4,8 @@ import TableDetailsView from '../../../components/TableDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import Typeahead from '../../../components/Typeahead';
 import { formatOptions, assetTypes } from '../../../constants/typeaheadOptions';
-import _ from 'lodash/fp';
-
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import _ from 'lodash/fp';
 
 const AssetInfo = (
   <AdditionalInfo triggerText="What if I don’t know the estimated value of an asset?">

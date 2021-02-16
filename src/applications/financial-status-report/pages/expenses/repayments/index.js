@@ -2,7 +2,7 @@ export const uiSchema = {
   'ui:title': 'Your installment contracts and other debts',
   hasRepayments: {
     'ui:title':
-      'Do you pay monthly for any installment contracts or other debts, such as recurring payments for purchases or loan repayment plans?',
+      'Do you make monthly payments on any installments contracts or other debts (like loans, purchase payment agreements, or credit card debt)?',
     'ui:required': () => true,
     'ui:widget': 'yesNo',
     'ui:options': {

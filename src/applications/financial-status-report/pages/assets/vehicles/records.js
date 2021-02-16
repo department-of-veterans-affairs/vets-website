@@ -3,13 +3,12 @@ import ItemLoop from '../../../components/ItemLoop';
 import CardDetailsView from '../../../components/CardDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import Typeahead from '../../../components/Typeahead';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import {
   formatOptions,
   vehicleTypes,
 } from '../../../constants/typeaheadOptions';
 import _ from 'lodash/fp';
-
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 const VehicleInfo = (
   <AdditionalInfo triggerText="What if I don’t know the estimated value of my car or other vehicle?">
