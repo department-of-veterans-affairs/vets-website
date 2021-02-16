@@ -28,7 +28,7 @@ const initialState = {
   },
 };
 
-describe('VAOS integration: reason for appointment page with a single-site user', () => {
+describe('VAOS <ReasonForAppointmentPage>', () => {
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
 
