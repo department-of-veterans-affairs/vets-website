@@ -31,6 +31,7 @@ const PULL_DRUPAL_BUILD_ARG = 'pull-drupal';
 // should use the files in the cms-export directory
 const USE_CMS_EXPORT_BUILD_ARG = 'use-cms-export';
 const CMS_EXPORT_DIR_BUILD_ARG = 'cms-export-dir';
+const IS_REVIEW_INSTANCE_ARG = 'is-review-instance';
 const CMS_EXPORT_CACHE_FILENAME =
   '.cache/localhost/drupal/pagesTransformed.json';
 
@@ -40,9 +41,10 @@ const getDrupalCachePath = buildOptions =>
     : path.join(buildOptions.cacheDirectory, DRUPAL_CACHE_FILENAME);
 
 // We need to pull the Drupal content if we have --pull-drupal or --use-cms-export, OR if
-// the content is not available in the cache.
+// the content is not available in the cache. Skip this with --is-review-instance if you don't have SOCKS access
 const shouldPullDrupal = buildOptions =>
-  buildOptions[PULL_DRUPAL_BUILD_ARG] ||
+  (buildOptions[PULL_DRUPAL_BUILD_ARG] &&
+    !buildOptions[IS_REVIEW_INSTANCE_ARG]) ||
   !fs.existsSync(getDrupalCachePath(buildOptions));
 
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {

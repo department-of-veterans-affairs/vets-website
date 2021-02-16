@@ -1,0 +1,315 @@
+From d4156bd1fc34abc6d34dfbca52a042576dec0d14 Mon Sep 17 00:00:00 2001
+From: Nick Sullivan <nick.sullivan@adhocteam.us>
+Date: Mon, 15 Feb 2021 13:58:22 -0500
+Subject: [PATCH] [GraphQL] Sort by NID; up parallel requests back to 15;
+ paginate Node QA (#16046)
+
+* paginate node qa
+
+* up parallel requests back to 15
+
+* fix stagger behavior
+
+* sort by 'changed'
+
+* sort by entity ID
+---
+ src/site/stages/build/drupal/api.js           | 16 +++-
+ .../graphql/CountEntityTypes.graphql.js       | 10 +++
+ .../build/drupal/graphql/bioPage.graphql.js   |  2 +-
+ .../build/drupal/graphql/eventPage.graphql.js |  2 +-
+ .../healthCareLocalFacilityPage.graphql.js    |  2 +-
+ .../healthCareRegionDetailPage.graphql.js     |  2 +-
+ .../graphql/healthCareRegionPage.graphql.js   |  2 +-
+ .../healthServicesListingPage.graphql.js      |  2 +-
+ .../build/drupal/graphql/nodeQa.graphql.js    | 73 ++++++++++++-------
+ .../build/drupal/graphql/page.graphql.js      |  2 +-
+ .../drupal/graphql/vaFormPage.graphql.js      |  2 +-
+ .../stages/build/drupal/individual-queries.js |  4 +-
+ 12 files changed, 78 insertions(+), 41 deletions(-)
+
+diff --git a/src/site/stages/build/drupal/api.js b/src/site/stages/build/drupal/api.js
+index f7c10ebfb3..fc2daf45f6 100644
+--- a/src/site/stages/build/drupal/api.js
++++ b/src/site/stages/build/drupal/api.js
+@@ -198,6 +198,15 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
+       const totalQueries = individualQueries.length;
+ 
+       const parallelQuery = async () => {
++        if (individualQueries.length === 0) {
++          // The only time this condition should occur is if
++          // the parallelQueries executed before this
++          // finish the entire array of requests before this
++          // one has a chance to execute its first request.
++          // This can happen is the CMS's cache is very hot.
++          return true;
++        }
++
+         const [queryName, query] = individualQueries.pop();
+         const request = this.query({
+           query,
+@@ -248,13 +257,14 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
+       // Cap the amount of pending requests allowed out at once
+       // And also stagger their execution so that at no point
+       // are we totally overwhelming the CMS.
+-      const maxParallelRequests = 8;
++      const maxParallelRequests = 15;
+       const overallStartTime = moment();
+       const staggeredRequests = new Array(maxParallelRequests)
+         .fill(null)
+-        .map(() => {
++        .map((_, index) => {
+           return new Promise(resolve => {
+-            setTimeout(() => resolve(parallelQuery()), 1000);
++            const delay = index * 250;
++            setTimeout(() => resolve(parallelQuery()), delay);
+           });
+         });
+ 
+diff --git a/src/site/stages/build/drupal/graphql/CountEntityTypes.graphql.js b/src/site/stages/build/drupal/graphql/CountEntityTypes.graphql.js
+index 65221d8e58..d6b84493a9 100644
+--- a/src/site/stages/build/drupal/graphql/CountEntityTypes.graphql.js
++++ b/src/site/stages/build/drupal/graphql/CountEntityTypes.graphql.js
+@@ -80,6 +80,16 @@ const CountEntityTypes = `
+   	) {
+     count
+   }
++
++  nodeQa: nodeQuery(
++    filter: {
++      conditions: [
++        {field: "status", value: ["1"]},
++        {field: "type", value: ["q_a"]}
++      ]}
++  	) {
++    count
++  }
+ }
+ `;
+ 
+diff --git a/src/site/stages/build/drupal/graphql/bioPage.graphql.js b/src/site/stages/build/drupal/graphql/bioPage.graphql.js
+index e320c5938c..18d899721b 100644
+--- a/src/site/stages/build/drupal/graphql/bioPage.graphql.js
++++ b/src/site/stages/build/drupal/graphql/bioPage.graphql.js
+@@ -57,7 +57,7 @@ function getNodePersonProfilesSlice(operationName, offset, limit) {
+       nodeQuery(
+         limit: ${limit}
+         offset: ${offset}
+-        sort: { field: "changed", direction:  ASC }
++        sort: { field: "nid", direction:  ASC }
+         filter: {
+           conditions: [
+             { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+diff --git a/src/site/stages/build/drupal/graphql/eventPage.graphql.js b/src/site/stages/build/drupal/graphql/eventPage.graphql.js
+index ad002b654a..57917b7b1c 100644
+--- a/src/site/stages/build/drupal/graphql/eventPage.graphql.js
++++ b/src/site/stages/build/drupal/graphql/eventPage.graphql.js
+@@ -82,7 +82,7 @@ function getNodeEventSlice(operationName, offset, limit = 100) {
+       nodeQuery(
+         limit: ${limit}
+         offset: ${offset}
+-        sort: { field: "field_datetime_range_timezone.end_value", direction:  ASC }
++        sort: { field: "nid", direction:  ASC }
+         filter: {
+         conditions: [
+           { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+diff --git a/src/site/stages/build/drupal/graphql/healthCareLocalFacilityPage.graphql.js b/src/site/stages/build/drupal/graphql/healthCareLocalFacilityPage.graphql.js
+index 2f79f365ff..01ebec1fd1 100644
+--- a/src/site/stages/build/drupal/graphql/healthCareLocalFacilityPage.graphql.js
++++ b/src/site/stages/build/drupal/graphql/healthCareLocalFacilityPage.graphql.js
+@@ -137,7 +137,7 @@ function getNodeHealthCareLocalFacilityPagesSlice(
+       nodeQuery(
+         limit: ${limit}
+         offset: ${offset}
+-        sort: { field: "changed", direction:  ASC }
++        sort: { field: "nid", direction:  ASC }
+         filter: {
+           conditions: [
+             { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+diff --git a/src/site/stages/build/drupal/graphql/healthCareRegionDetailPage.graphql.js b/src/site/stages/build/drupal/graphql/healthCareRegionDetailPage.graphql.js
+index 0cc41f30ee..8283e8992e 100644
+--- a/src/site/stages/build/drupal/graphql/healthCareRegionDetailPage.graphql.js
++++ b/src/site/stages/build/drupal/graphql/healthCareRegionDetailPage.graphql.js
+@@ -99,7 +99,7 @@ function getNodeHealthCareRegionDetailPageSlice(operationName, offset, limit) {
+       nodeQuery(
+         limit: ${limit}
+         offset: ${offset}
+-        sort: { field: "changed", direction:  ASC }
++        sort: { field: "nid", direction:  ASC }
+         filter: {
+           conditions: [
+             { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+diff --git a/src/site/stages/build/drupal/graphql/healthCareRegionPage.graphql.js b/src/site/stages/build/drupal/graphql/healthCareRegionPage.graphql.js
+index 400278ba61..7fd113cadf 100644
+--- a/src/site/stages/build/drupal/graphql/healthCareRegionPage.graphql.js
++++ b/src/site/stages/build/drupal/graphql/healthCareRegionPage.graphql.js
+@@ -206,7 +206,7 @@ function getNodeHealthCareRegionPageSlice(operationName, offset, limit) {
+       nodeQuery(
+         limit: ${limit}
+         offset: ${offset}
+-        sort: { field: "title", direction:  ASC }
++        sort: { field: "nid", direction:  ASC }
+         filter: {
+           conditions: [
+             { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+diff --git a/src/site/stages/build/drupal/graphql/healthServicesListingPage.graphql.js b/src/site/stages/build/drupal/graphql/healthServicesListingPage.graphql.js
+index bcec9173f7..c11e356ea4 100644
+--- a/src/site/stages/build/drupal/graphql/healthServicesListingPage.graphql.js
++++ b/src/site/stages/build/drupal/graphql/healthServicesListingPage.graphql.js
+@@ -120,7 +120,7 @@ function getNodeHealthServicesListingPages(operationName, offset, limit) {
+       nodeQuery(
+         limit: ${limit}
+         offset: ${offset}
+-        sort: { field: "title", direction:  ASC }
++        sort: { field: "nid", direction:  ASC }
+         filter: {
+           conditions: [
+             { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+diff --git a/src/site/stages/build/drupal/graphql/nodeQa.graphql.js b/src/site/stages/build/drupal/graphql/nodeQa.graphql.js
+index 61e2e00fea..5fe830b590 100644
+--- a/src/site/stages/build/drupal/graphql/nodeQa.graphql.js
++++ b/src/site/stages/build/drupal/graphql/nodeQa.graphql.js
+@@ -1,6 +1,8 @@
+ const fragments = require('./fragments.graphql');
+ const entityElementsFromPages = require('./entityElementsForPages.graphql');
+ 
++const { generatePaginatedQueries } = require('../individual-queries-helpers');
++
+ const nodeQa = `
+ fragment nodeQa on NodeQA {
+   ${entityElementsFromPages}
+@@ -71,40 +73,55 @@ fragment nodeQa on NodeQA {
+ }
+ `;
+ 
+-const GetNodeQa = `
+-  ${fragments.richTextCharLimit1000}
+-  ${fragments.reactWidget}
+-  ${fragments.alertParagraph}
+-  ${fragments.alertParagraphSingle}
+-  ${fragments.button}
+-  ${fragments.contactInformation}
+-  ${fragments.supportService}
+-  ${fragments.linkTeaser}
+-  ${fragments.termLcCategory}
+-  ${fragments.audienceTopics}
+-  ${fragments.emailContact}
+-  ${fragments.phoneNumber}
+-  ${fragments.audienceBeneficiaries}
+-  ${fragments.audienceNonBeneficiaries}
+-  ${fragments.termTopics}
++function getNodeQaSlice(operationName, offset, limit) {
++  return `
++    ${fragments.richTextCharLimit1000}
++    ${fragments.reactWidget}
++    ${fragments.alertParagraph}
++    ${fragments.alertParagraphSingle}
++    ${fragments.button}
++    ${fragments.contactInformation}
++    ${fragments.supportService}
++    ${fragments.linkTeaser}
++    ${fragments.termLcCategory}
++    ${fragments.audienceTopics}
++    ${fragments.emailContact}
++    ${fragments.phoneNumber}
++    ${fragments.audienceBeneficiaries}
++    ${fragments.audienceNonBeneficiaries}
++    ${fragments.termTopics}
+ 
+-  ${nodeQa}
++    ${nodeQa}
+ 
+-  query GetNodeQa($onlyPublishedContent: Boolean!) {
+-    nodeQuery(limit: 1000, filter: {
+-      conditions: [
+-        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+-        { field: "type", value: ["q_a"] }
+-      ]
+-    }) {
+-      entities {
+-        ... nodeQa
++    query ${operationName}($onlyPublishedContent: Boolean!) {
++      nodeQuery(
++        limit: ${limit}
++        offset: ${offset}
++        sort: { field: "nid", direction:  ASC }
++        filter: {
++          conditions: [
++            { field: "status", value: ["1"], enabled: $onlyPublishedContent },
++            { field: "type", value: ["q_a"] }
++          ]
++      }) {
++        entities {
++          ... nodeQa
++        }
+       }
+     }
+-  }
+ `;
++}
++
++function getNodeQaQueries(entityCounts) {
++  return generatePaginatedQueries({
++    operationNamePrefix: 'GetNodeQa',
++    entitiesPerSlice: 25,
++    totalEntities: entityCounts.data.nodeQa.count,
++    getSlice: getNodeQaSlice,
++  });
++}
+ 
+ module.exports = {
+   fragment: nodeQa,
+-  GetNodeQa,
++  getNodeQaQueries,
+ };
+diff --git a/src/site/stages/build/drupal/graphql/page.graphql.js b/src/site/stages/build/drupal/graphql/page.graphql.js
+index 189999358e..32da8eecaa 100644
+--- a/src/site/stages/build/drupal/graphql/page.graphql.js
++++ b/src/site/stages/build/drupal/graphql/page.graphql.js
+@@ -85,7 +85,7 @@ function getPageNodeSlice(operationName, offset, limit) {
+       nodeQuery(
+         limit: ${limit}
+         offset: ${offset}
+-        sort: { field: "changed", direction:  ASC }
++        sort: { field: "nid", direction:  ASC }
+         filter: {
+           conditions: [
+             { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+diff --git a/src/site/stages/build/drupal/graphql/vaFormPage.graphql.js b/src/site/stages/build/drupal/graphql/vaFormPage.graphql.js
+index d56b5bad5f..7bffb04976 100644
+--- a/src/site/stages/build/drupal/graphql/vaFormPage.graphql.js
++++ b/src/site/stages/build/drupal/graphql/vaFormPage.graphql.js
+@@ -90,7 +90,7 @@ function getNodeVaFormSlice(operationName, offset, limit) {
+       nodeQuery(
+         limit: ${limit}
+         offset: ${offset}
+-        sort: { field: "changed", direction:  ASC }
++        sort: { field: "nid", direction:  ASC }
+         filter: {
+           conditions: [
+             { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+diff --git a/src/site/stages/build/drupal/individual-queries.js b/src/site/stages/build/drupal/individual-queries.js
+index 2a992c52f4..b7738810c0 100644
+--- a/src/site/stages/build/drupal/individual-queries.js
++++ b/src/site/stages/build/drupal/individual-queries.js
+@@ -60,7 +60,7 @@ const {
+   getNodeHealthCareRegionDetailPageQueries,
+ } = require('./graphql/healthCareRegionDetailPage.graphql');
+ 
+-const { GetNodeQa } = require('./graphql/nodeQa.graphql');
++const { getNodeQaQueries } = require('./graphql/nodeQa.graphql');
+ const { GetNodeMultipleQaPages } = require('./graphql/faqMultipleQa.graphql');
+ const { GetNodeStepByStep } = require('./graphql/nodeStepByStep.graphql');
+ const {
+@@ -104,7 +104,7 @@ function getNodeQueries(entityCounts) {
+     GetNodeVamcOperatingStatusAndAlerts,
+     GetNodePublicationListingPages,
+     ...getNodeHealthCareRegionDetailPageQueries(entityCounts),
+-    GetNodeQa,
++    ...getNodeQaQueries(entityCounts),
+     GetNodeMultipleQaPages,
+     GetNodeStepByStep,
+     GetNodeMediaListImages,
+-- 
+2.30.0
+
