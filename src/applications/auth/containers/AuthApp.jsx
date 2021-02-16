@@ -329,10 +329,10 @@ export class AuthApp extends React.Component {
               <li>
                 <strong>Call the My HealtheVet help desk</strong>
                 <p>
-                  Call us at <a href="tel:877-327-0022">877-327-0022</a>. We’re
-                  here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. If you
-                  have hearing loss, call TTY:{' '}
-                  <Telephone contact={CONTACTS.HELP_TTY} />.
+                  Call us at <Telephone contact={CONTACTS.MY_HEALTHEVET} />.
+                  We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+                  If you have hearing loss, call{' '}
+                  <Telephone contact="800-877-3399" />.
                 </p>
                 <p>
                   Tell the representative that you tried to sign in to VA.gov,
