@@ -51,10 +51,10 @@ function ViewDependentsListItem(props) {
         ) : null}
       </dl>
       {manageDependentsToggle && (
-        <div>
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-padding-x--2">
           <button
             onClick={handleClick}
-            className="usa-button-secondary vads-u-margin-x--2 vads-u-background-color--white"
+            className="usa-button-secondary vads-u-background-color--white"
           >
             Remove this dependent
           </button>
@@ -63,7 +63,7 @@ function ViewDependentsListItem(props) {
               open ? 'flex' : 'none'
             }`}
           >
-            <div className="vads-l-col--8">
+            <div className="vads-l-col--12">
               <p>
                 To remove this dependent from your VA benefits, please enter the
                 information below.

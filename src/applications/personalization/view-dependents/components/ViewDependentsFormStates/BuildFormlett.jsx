@@ -2,7 +2,7 @@ import React from 'react';
 import ViewDependentsChildForm from './ViewDependentsChildForm';
 import ViewDependentsSpouseForm from './ViewDependentsSpouseForm';
 
-function buildFormlett({ relationship }) {
+function buildFormlett(relationship) {
   let formlett = null;
   switch (relationship) {
     case 'Child':
