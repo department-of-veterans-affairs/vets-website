@@ -38,7 +38,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'cms-export-dir', type: String, defaultValue: null },
   { name: 'drupal-fail-fast', type: Boolean, defaultValue: false },
   { name: 'setPublicPath', type: Boolean, defaultValue: false },
-  // { name: 'is-review-instance', type: Boolean, defaultValue: false },
+  { name: 'is-review-instance', type: Boolean, defaultValue: false },
   {
     name: 'drupal-address',
     type: String,
