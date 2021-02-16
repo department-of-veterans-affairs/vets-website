@@ -25,6 +25,7 @@ import * as dependents from './income/dependents';
 import * as dependentRecords from './income/dependents/records';
 import * as monetary from './assets/monetary';
 import * as realEstate from './assets/realEstate';
+import * as realEstateRecords from './assets/realEstate/records';
 import * as recreationalVehicles from './assets/recreationalVehicles';
 import * as vehicles from './assets/vehicles';
 import * as otherAssets from './assets/otherAssets';
@@ -63,6 +64,7 @@ export {
   dependentRecords,
   monetary,
   realEstate,
+  realEstateRecords,
   recreationalVehicles,
   vehicles,
   otherAssets,

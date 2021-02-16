@@ -295,6 +295,13 @@ const formConfig = {
           uiSchema: pages.realEstate.uiSchema,
           schema: pages.realEstate.schema,
         },
+        realEstateRecords: {
+          path: 'real-estate-asset-records',
+          title: 'Real estate',
+          uiSchema: pages.realEstateRecords.uiSchema,
+          schema: pages.realEstateRecords.schema,
+          depends: formData => formData.hasRealEstate,
+        },
         recreationalVehicles: {
           path: 'recreational-vehicles',
           title: 'Recreational vehicles',
