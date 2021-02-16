@@ -101,7 +101,7 @@ export const searchCriteraFromCoords = async (longitude, latitude) => {
   const response = await mbxClient
     .reverseGeocode({
       query: [longitude, latitude],
-      types: ['place'],
+      types: ['address'],
     })
     .send();
   // TODO: display error message if geolocation fails?
