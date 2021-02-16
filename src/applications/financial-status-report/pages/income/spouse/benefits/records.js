@@ -17,10 +17,11 @@ export const uiSchema = {
       ),
       educationAmount: _.merge(
         currencyUI(
-          'How much does your spouse get each month for disability compensation and pension benefits?',
+          'How much does your spouse get each month for education benefits?',
         ),
         {
           'ui:options': {
+            classNames: 'max-width-400',
             widgetClassNames: 'input-size-3',
           },
         },

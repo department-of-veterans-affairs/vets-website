@@ -198,6 +198,15 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
       const totalQueries = individualQueries.length;
 
       const parallelQuery = async () => {
+        if (individualQueries.length === 0) {
+          // The only time this condition should occur is if
+          // the parallelQueries executed before this
+          // finish the entire array of requests before this
+          // one has a chance to execute its first request.
+          // This can happen is the CMS's cache is very hot.
+          return true;
+        }
+
         const [queryName, query] = individualQueries.pop();
         const request = this.query({
           query,
@@ -252,9 +261,10 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
       const overallStartTime = moment();
       const staggeredRequests = new Array(maxParallelRequests)
         .fill(null)
-        .map(() => {
+        .map((_, index) => {
           return new Promise(resolve => {
-            setTimeout(() => resolve(parallelQuery()), 1000);
+            const delay = index * 250;
+            setTimeout(() => resolve(parallelQuery()), delay);
           });
         });
 

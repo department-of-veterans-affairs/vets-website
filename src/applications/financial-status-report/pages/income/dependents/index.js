@@ -6,6 +6,9 @@ export const uiSchema = {
         'Do you have any dependents who rely on you for financial support?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
+      'ui:options': {
+        classNames: 'no-wrap',
+      },
     },
   },
 };

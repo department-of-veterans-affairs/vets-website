@@ -5,6 +5,9 @@ export const uiSchema = {
   'ui:title': 'Your spouse information',
   socialSecurity: {
     spouse: {
+      'ui:options': {
+        classNames: 'no-wrap',
+      },
       socialSecurityAmount: _.merge(
         currencyUI(
           'How much does your spouse get for Social Security each month?',

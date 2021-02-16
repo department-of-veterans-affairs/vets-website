@@ -305,8 +305,8 @@ module.exports = function registerFilters() {
   liquid.filters.eventSorter = item =>
     item &&
     item.sort((a, b) => {
-      const start1 = moment(a.fieldDate.startDate);
-      const start2 = moment(b.fieldDate.startDate);
+      const start1 = moment(a.fieldDatetimeRangeTimezone.startTime);
+      const start2 = moment(b.fieldDatetimeRangeTimezone.startTime);
       return start1.isAfter(start2);
     });
 
@@ -593,4 +593,47 @@ module.exports = function registerFilters() {
 
   liquid.filters.sortEntityMetatags = item =>
     item ? item.sort((a, b) => a.key.localeCompare(b.key)) : undefined;
+
+  liquid.filters.createEmbedYouTubeVideoURL = url => {
+    if (!url) {
+      return url;
+    }
+
+    if (!_.includes(url, 'youtu')) {
+      return url;
+    }
+
+    if (_.includes(url, 'embed')) {
+      return url;
+    }
+
+    return _.replace(url, 'youtu.be', 'youtube.com/embed');
+  };
+
+  liquid.filters.formatSeconds = rawSeconds => {
+    // Dates need milliseconds, so mulitply by 1000.
+    const date = new Date(rawSeconds * 1000);
+
+    // Derive digits.
+    const hours = date.getUTCHours() || '';
+    const minutes = date.getUTCMinutes() || '';
+    const seconds = date.getUTCSeconds() || '';
+
+    // Derive if we should say 'hours', 'minutes', or 'seconds' at the end.
+    let text = '';
+    if (seconds) {
+      text = ' seconds';
+    }
+    if (minutes) {
+      text = ' minutes';
+    }
+    if (hours) {
+      text = ' hours';
+    }
+
+    const digits = [hours, minutes, seconds].filter(item => item).join(':');
+
+    // Return a formatted timestamp string.
+    return `${digits}${text}`;
+  };
 };

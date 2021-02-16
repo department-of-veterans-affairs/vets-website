@@ -82,6 +82,10 @@ const nodeCampaignLandingPage = `
         entityBundle
         entityId
         ... on NodeEvent {
+          entityUrl {
+            path
+          }
+          title
           fieldAdditionalInformationAbo {
             value
             format
@@ -128,12 +132,6 @@ const nodeCampaignLandingPage = `
             format
             processed
           }
-          fieldDate {
-            value
-            startDate
-            endValue
-            endDate
-          }
           fieldDatetimeRangeTimezone {
             value
             startTime
@@ -153,6 +151,12 @@ const nodeCampaignLandingPage = `
               entityType
               entityBundle
               entityId
+              ... on NodeHealthCareLocalFacility {
+                entityUrl {
+                  path
+                }
+                title
+              }
             }
           }
           fieldFeatured
@@ -511,6 +515,10 @@ const nodeCampaignLandingPage = `
           fieldDescription
           fieldDuration
           fieldMediaVideoEmbedField
+          fieldPublicationDate {
+            date
+            value
+          }
         }
       }
     }

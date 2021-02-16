@@ -10,7 +10,7 @@ export default {
   home: {
     url: '/',
   },
-  info: {
+  planAhead: {
     url: '/new-project-cheetah-booking',
     next: 'receivedDoseScreener',
   },

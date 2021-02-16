@@ -18,6 +18,9 @@ export const uiSchema = {
         'Do you pay any utility bills, such as electricity, water, or gas?',
       'ui:required': () => true,
       'ui:widget': 'radio',
+      'ui:options': {
+        classNames: 'no-wrap',
+      },
     },
     utilityRecords: {
       'ui:field': ItemLoop,
@@ -33,6 +36,9 @@ export const uiSchema = {
         itemName: 'utility',
       },
       items: {
+        'ui:options': {
+          classNames: 'horizonal-field-container no-wrap',
+        },
         utilityType: {
           'ui:title': 'Type of utility',
           'ui:field': Typeahead,
@@ -40,13 +46,11 @@ export const uiSchema = {
             classNames: 'input-size-3',
             getOptions: () => formatOptions(utilityTypes),
           },
-          'ui:required': formData => formData.utilities.hasUtilities,
         },
-        monthlyUtilityAmount: _.merge(currencyUI('Monthly payment amount'), {
+        monthlyUtilityAmount: _.merge(currencyUI('Monthly amount'), {
           'ui:options': {
             widgetClassNames: 'input-size-1',
           },
-          'ui:required': formData => formData.utilities.hasUtilities,
         }),
       },
     },

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Switch, Route, useRouteMatch, useHistory } from 'react-router-dom';
 import projectCheetahReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
-import InfoPage from './components/InfoPage';
+import PlanAheadPage from './components/PlanAheadPage';
 import VAFacilityPage from './components/VAFacilityPage';
 import ClinicChoicePage from './components/ClinicChoicePage';
 import SelectDate1Page from './components/SelectDate1Page';
@@ -71,7 +71,7 @@ export function NewBookingSection({ featureProjectCheetah }) {
           path={`${match.url}/confirmation`}
           component={ConfirmationPage}
         />
-        <Route path="/" component={InfoPage} />
+        <Route path="/" component={PlanAheadPage} />
       </Switch>
     </FormLayout>
   );
