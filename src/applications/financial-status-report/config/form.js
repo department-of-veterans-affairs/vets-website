@@ -334,6 +334,13 @@ const formConfig = {
           uiSchema: pages.otherAssets.uiSchema,
           schema: pages.otherAssets.schema,
         },
+        otherAssetRecords: {
+          path: 'other-asset-records',
+          title: 'Other assets',
+          uiSchema: pages.otherAssetRecords.uiSchema,
+          schema: pages.otherAssetRecords.schema,
+          depends: formData => formData.hasOtherAssets,
+        },
       },
     },
     householdExpensesChapter: {
