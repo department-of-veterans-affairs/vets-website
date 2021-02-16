@@ -29,6 +29,7 @@ import * as realEstateRecords from './assets/realEstate/records';
 import * as recreationalVehicles from './assets/recreationalVehicles';
 import * as recreationalVehicleRecords from './assets/recreationalVehicles/records';
 import * as vehicles from './assets/vehicles';
+import * as vehicleRecords from './assets/vehicles/records';
 import * as otherAssets from './assets/otherAssets';
 import * as expenses from './expenses/household';
 import * as utilities from './expenses/utilities';
@@ -69,6 +70,7 @@ export {
   recreationalVehicles,
   recreationalVehicleRecords,
   vehicles,
+  vehicleRecords,
   otherAssets,
   expenses,
   utilities,

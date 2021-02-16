@@ -1,23 +1,20 @@
-import ItemLoop from '../../components/ItemLoop';
-import CardDetailsView from '../../components/CardDetailsView';
+import ItemLoop from '../../../components/ItemLoop';
+import CardDetailsView from '../../../components/CardDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import Typeahead from '../../components/Typeahead';
-import { formatOptions, vehicleTypes } from '../../constants/typeaheadOptions';
+import Typeahead from '../../../components/Typeahead';
+import {
+  formatOptions,
+  vehicleTypes,
+} from '../../../constants/typeaheadOptions';
 import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your vehicles',
-  hasVehicle: {
-    'ui:title': 'Do you currently own any vehicles?',
-    'ui:widget': 'yesNo',
-    'ui:required': () => true,
-  },
   vehicleRecords: {
     'ui:field': ItemLoop,
     'ui:description': 'Enter each of your vehicles separately below.',
     'ui:options': {
       viewField: CardDetailsView,
-      expandUnder: 'hasVehicle',
       doNotScroll: true,
       showSave: true,
       itemName: 'a vehicle',
@@ -62,9 +59,6 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    hasVehicle: {
-      type: 'boolean',
-    },
     vehicleRecords: {
       type: 'array',
       items: {
