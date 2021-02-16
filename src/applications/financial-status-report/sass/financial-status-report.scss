@@ -134,6 +134,10 @@
   white-space: nowrap;
 }
 
+.usa-datefields {
+  padding-top: 16px;
+}
+
 // input fields
 .input-size-1 {
   @include media($medium-screen) {
