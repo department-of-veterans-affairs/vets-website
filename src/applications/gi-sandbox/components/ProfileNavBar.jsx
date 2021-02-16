@@ -15,29 +15,47 @@ export class ProfileNavBar extends React.Component {
   classes = (stuck = false) => {
     return classNames('profile-nav-bar', 'nav-bar-desktop-only', {
       'profile-nav-bar-stuck': stuck,
+      row: !stuck,
     });
   };
 
   handleScroll = () => {
-    const profileNavBar = document.getElementById('profile-nav-bar-desktop');
-    const headingSummary = document.getElementById('profile-nav-placeholder');
+    const profileNavBarDesktop = document.getElementById(
+      'profile-nav-bar-desktop',
+    );
+    const placeholder = document.getElementById('profile-nav-placeholder');
+    const jumpLinks = document.getElementById('jump-links');
 
-    const topOffset = profileNavBar.getBoundingClientRect().top <= 0;
-    const bottomOffset = headingSummary.getBoundingClientRect().bottom <= 0;
+    const topOffset = profileNavBarDesktop.getBoundingClientRect().top <= 0;
+    const bottomOffset = placeholder.getBoundingClientRect().bottom <= 0;
 
     if (topOffset && bottomOffset) {
-      profileNavBar.className = this.classes(true);
+      profileNavBarDesktop.className = this.classes(true);
+      jumpLinks.className = 'row';
     } else {
-      profileNavBar.className = this.classes();
+      profileNavBarDesktop.className = this.classes();
+      jumpLinks.className = 'row vads-u-margin--0';
     }
   };
+
+  // jumpLinkClicked = e => {
+  //   e.preventDefault();
+  //   const section = document.getElementById(createId(e.target.text));
+  //   const profileNavBarDesktop = document.getElementById(
+  //     'profile-nav-bar-desktop',
+  //   );
+  //
+  //   section.scroll(0, profileNavBarDesktop.offsetHeight);
+  //   // section.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  //   // section.scrollIntoView();
+  // };
 
   render() {
     return (
       <>
         <span id="profile-nav-placeholder" />
         <div id="profile-nav-bar-desktop" className={this.classes()}>
-          <div className="row">
+          <div id="jump-links" className="row vads-u-margin--0">
             {this.props.profileSections.map(section => (
               <span
                 className="vads-u-margin-right--1p5"
@@ -47,6 +65,13 @@ export class ProfileNavBar extends React.Component {
               </span>
             ))}
           </div>
+        </div>
+        <div
+          id="profile-nav-bar-mobile"
+          className="nav-bar-mobile-only profile-nav-bar"
+        >
+          Coming soon in Story CT: Create mobile sticky nav custom component
+          #19721
         </div>
       </>
     );
