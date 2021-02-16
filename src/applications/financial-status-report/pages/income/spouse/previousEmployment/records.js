@@ -19,10 +19,12 @@ export const uiSchema = {
           itemName: 'a job',
         },
         items: {
+          'ui:options': {
+            classNames: 'vads-u-margin-top--3 vads-u-margin-bottom--3',
+          },
           previousEmploymentType: {
             'ui:title': 'Type of work',
             'ui:options': {
-              classNames: 'work-type',
               widgetClassNames: 'input-size-3',
             },
           },
@@ -37,7 +39,7 @@ export const uiSchema = {
           previousEmployerName: {
             'ui:title': 'Employer name',
             'ui:options': {
-              classNames: 'employer-name',
+              classNames: 'vads-u-margin-top--3',
               widgetClassNames: 'input-size-6',
             },
           },

@@ -80,6 +80,16 @@ const CountEntityTypes = `
   	) {
     count
   }
+
+  nodeQa: nodeQuery(
+    filter: {
+      conditions: [
+        {field: "status", value: ["1"]},
+        {field: "type", value: ["q_a"]}
+      ]}
+  	) {
+    count
+  }
 }
 `;
 

@@ -38,18 +38,18 @@
     background-color: $color-gray-lightest;
     .horizonal-field-container .schemaform-field-container {
       display: flex;
+      align-items: center;
+      margin: 20px 0;
+    }
+    .schemaform-label {
+      margin-top: 0;
     }
     .schemaform-field-template {
       margin-right: 15px;
     }
-    .schemaform-first-field {
-      .schemaform-label,
-      > .usa-input-error {
-        margin-top: 30px;
-      }
-    }
     .autosuggest-list {
       max-height: 140px;
+      overflow-x: hidden;
     }
     .usa-button-secondary {
       background: $color-white;
@@ -58,7 +58,6 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: 10px;
     }
   }
   .edit-item-container {
@@ -100,15 +99,11 @@
   }
 }
 
-// date-widget
-.usa-date-of-birth {
-  padding: 10px 0;
-}
-
 // form field subtitle
 .formfield-subtitle {
   margin: 4px 0 8px;
   font-size: 15px;
+  max-width: 400px;
   color: $color-gray-medium;
 }
 
@@ -117,41 +112,26 @@
   margin-top: 10px;
 }
 
-// current employment
-.current-employment-container {
-  .schemaform-block-header {
-    margin: 25px 0;
-  }
-  .employment-start {
-    margin-top: 16px;
-  }
-  .employer-name label {
-    margin-top: 16px;
-  }
-}
-
-//previous employment
-.previous-employment-container {
-  .work-type label {
-    margin-top: 0;
-  }
-  .schemaform-field-template {
-    margin-top: 16px;
-  }
-  .employer-name {
-    margin-bottom: 16px;
-    label {
-      margin-top: 16px;
-    }
-  }
+//monetary assets
+.assets-note {
+  margin: 15px 0 20px;
 }
 
 .usa-input-error {
   position: relative;
   right: 0;
+  margin-top: 0;
   input {
     width: 100%;
   }
+}
+
+.max-width-400 {
+  max-width: 400px;
+}
+
+.no-wrap {
+  white-space: nowrap;
 }
 
 // input fields

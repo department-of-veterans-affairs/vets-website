@@ -1,4 +1,5 @@
 import React from 'react';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { Route } from 'react-router-dom';
@@ -11,7 +12,10 @@ import {
 } from 'platform/testing/unit/helpers';
 
 import RequestedAppointmentDetailsPage from '../../../appointment-list/components/RequestedAppointmentDetailsPage';
-import { renderWithStoreAndRouter } from '../../mocks/setup';
+import {
+  getTimezoneTestDate,
+  renderWithStoreAndRouter,
+} from '../../mocks/setup';
 import {
   getVAFacilityMock,
   getVARequestMock,
@@ -128,8 +132,12 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       ),
       { data: [message] },
     );
+    MockDate.set(getTimezoneTestDate());
   });
-  afterEach(() => resetFetch());
+  afterEach(() => {
+    resetFetch();
+    MockDate.reset();
+  });
 
   it('should render VA request details', async () => {
     const pending = transformPendingAppointments([appointment]);
