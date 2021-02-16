@@ -4,6 +4,9 @@ import {
   QUESTIONNAIRE_LIST_LOADED_WITH_ERROR,
 } from '../actions';
 
+import formConfig from '../answer-questions/config/form';
+import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
+
 const initialState = {
   list: {
     status: {},
@@ -43,4 +46,5 @@ const questionnaireListReducer = (state = initialState, action) => {
 
 export default {
   questionnaireListData: questionnaireListReducer,
+  form: createSaveInProgressFormReducer(formConfig),
 };
