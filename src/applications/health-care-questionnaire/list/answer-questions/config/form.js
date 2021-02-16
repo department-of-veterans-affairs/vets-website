@@ -8,7 +8,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 // const { } = fullSchema.definitions;
 
 const formConfig = {
-  urlPrefix: '/',
+  urlPrefix: '/form/',
   submitUrl: '/v0/api',
   trackingPrefix: 'answer-questions-',
   introduction: IntroductionPage,
