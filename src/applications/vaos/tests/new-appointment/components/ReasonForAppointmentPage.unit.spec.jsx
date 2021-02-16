@@ -84,9 +84,9 @@ describe('VAOS integration: reason for appointment page with a single-site user'
 
     await screen.findByLabelText(/Routine or follow-up visit/i);
     fireEvent.click(screen.getByText(/Continue/));
-    expect(await screen.findByRole('alert')).to.contain.text(
-      'Please provide a response',
-    );
+
+    const alerts = await screen.findAllByRole('alert');
+    expect(alerts[0]).to.contain.text('Please provide a response');
   });
 
   it('should show error msg when enter all spaces for VA medical request', async () => {
@@ -103,9 +103,9 @@ describe('VAOS integration: reason for appointment page with a single-site user'
     expect(textBox.value).to.equal('   ');
     fireEvent.click(screen.getByText(/Continue/));
 
-    const alerts = await screen.findAllByRole('alert');
-    expect(alerts[0]).to.contain.text('Please provide a response');
-    expect(alerts[1]).to.contain.text('Please provide a response');
+    expect(await screen.findByRole('alert')).to.contain.text(
+      'Please provide a response',
+    );
   });
 
   it('should show alternate textbox char length if navigated via direct schedule flow', async () => {
