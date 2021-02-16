@@ -20,21 +20,28 @@ export const DescriptionText = () => (
 );
 
 export const AddChildTitle = (
-  <p>
-    Claim benefits for your child <strong>under 18 and unmarried</strong>
+  <p className="vads-u-margin-y--0">
+    Add a child or children <strong>under 18 and unmarried</strong>
   </p>
 );
 
 export const Student674Title = (
-  <p>
-    Claim benefits for your child <strong>18 to 23 years old</strong> who'll be
-    attending school (VA Form 21-674)
+  <p className="vads-u-margin-y--0">
+    Add a child <strong>18 to 23 years old</strong> who'll be attending school
+    (VA Form 21-674)
   </p>
 );
 
 export const StepchildTitle = (
-  <p>
-    Report that a stepchild <strong>under 18</strong> has left your household
+  <p className="vads-u-margin-y--0">
+    Remove a stepchild who has left your household
+  </p>
+);
+
+export const ChildAttendingSchool = (
+  <p className="vads-u-margin-y--0">
+    Remove a child <strong>18 to 23 years old</strong> who has stopped attending
+    school
   </p>
 );
 

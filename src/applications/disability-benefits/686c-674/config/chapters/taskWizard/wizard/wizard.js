@@ -5,6 +5,7 @@ import {
   Student674Title,
   StepchildTitle,
   OptionsReviewField,
+  ChildAttendingSchool,
 } from './helpers';
 import { optionSelection } from '../../../utilities';
 
@@ -30,7 +31,7 @@ export const uiSchema = {
     'ui:options': { showFieldLabel: true },
     'ui:validations': [validateAtLeastOneSelected],
     addSpouse: {
-      'ui:title': 'Claim benefits for a spouse',
+      'ui:title': 'Add your spouse',
       'ui:reviewField': OptionsReviewField,
     },
     addChild: {
@@ -42,7 +43,7 @@ export const uiSchema = {
       'ui:reviewField': OptionsReviewField,
     },
     reportDivorce: {
-      'ui:title': 'Report a divorce',
+      'ui:title': 'Remove a divorced spouse',
       'ui:reviewField': OptionsReviewField,
     },
     reportStepchildNotInHousehold: {
@@ -50,16 +51,15 @@ export const uiSchema = {
       'ui:reviewField': OptionsReviewField,
     },
     reportDeath: {
-      'ui:title': 'Report the death of a spouse, child or dependent parent',
+      'ui:title': 'Remove a spouse, child or dependent parent who has died',
       'ui:reviewField': OptionsReviewField,
     },
     reportMarriageOfChildUnder18: {
-      'ui:title': 'Report the marriage of a child under 18',
+      'ui:title': 'Remove a child under 18 who has married',
       'ui:reviewField': OptionsReviewField,
     },
     reportChild18OrOlderIsNotAttendingSchool: {
-      'ui:title':
-        'Report that a child 18 to 23 years old has stopped attending school',
+      'ui:title': ChildAttendingSchool,
       'ui:reviewField': OptionsReviewField,
     },
   },

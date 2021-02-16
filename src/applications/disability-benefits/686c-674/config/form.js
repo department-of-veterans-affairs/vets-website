@@ -99,7 +99,7 @@ const formConfig = {
   defaultDefinitions: { ...fullSchema.definitions },
   chapters: {
     optionSelection: {
-      title: 'What do you want to do?',
+      title: 'What do you want to do',
       pages: {
         wizard: {
           hideHeaderRow: true,
