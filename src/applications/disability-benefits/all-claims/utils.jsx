@@ -2,7 +2,7 @@
 import React from 'react';
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
-import appendQuery from 'append-query';
+// import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
 import { omit } from 'lodash';
 import merge from 'lodash/merge';
@@ -215,6 +215,11 @@ export function queryForFacilities(input = '') {
     return Promise.resolve([]);
   }
 
+  /**
+   * Facilities endpoint removed for now, but we may be able to use EVSS's
+   * endpoint /referencedata/v1/treatmentcenter
+   * See https://github.com/department-of-veterans-affairs/va.gov-team/issues/14028#issuecomment-765717797
+   * /
   const url = appendQuery('/facilities/suggested', {
     type: ['health', 'dod_health'],
     name_part: input, // eslint-disable-line camelcase
@@ -235,6 +240,8 @@ export function queryForFacilities(input = '') {
       });
       return [];
     });
+    /* */
+  return Promise.resolve([]);
 }
 
 export function getSeparationLocations() {

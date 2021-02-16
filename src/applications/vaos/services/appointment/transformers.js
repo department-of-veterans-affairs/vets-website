@@ -593,17 +593,18 @@ export function transformPendingAppointments(requests) {
     const unableToReachVeteran = appt.appointmentRequestDetailCode?.some(
       detail => detail.detailCode?.code === UNABLE_TO_REACH_VETERAN_DETCODE,
     );
+    const created = moment.parseZone(appt.date).format('YYYY-MM-DD');
 
     return {
       resourceType: 'Appointment',
       id: `var${appt.id}`,
       status: getRequestStatus(appt, isExpressCare),
-      created: moment(appt.createdDate, 'MM/DD/YYYY HH:mm:SS').format(),
+      created,
       cancelationReason: unableToReachVeteran
         ? { text: UNABLE_TO_REACH_VETERAN_DETCODE }
         : null,
       requestedPeriod,
-      start: isExpressCare ? appt.date : undefined,
+      start: isExpressCare ? created : undefined,
       minutesDuration: 60,
       type: {
         coding: [

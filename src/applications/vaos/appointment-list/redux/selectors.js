@@ -17,6 +17,7 @@ import {
   isCanceledConfirmedOrExpressCare,
   isUpcomingAppointmentOrExpressCare,
   sortByCreatedDateDescending,
+  isValidPastAppointmentOrExpressCare,
 } from '../../services/appointment';
 import { selectFeatureExpressCareNewRequest } from '../../redux/selectors';
 import {
@@ -197,7 +198,7 @@ export const selectPastAppointmentsV2 = createSelector(
     }
 
     const sortedAppointments = past
-      .filter(isValidPastAppointment)
+      .filter(isValidPastAppointmentOrExpressCare)
       .sort(sortByDateAscending);
 
     return groupAppointmentsByMonth(sortedAppointments);

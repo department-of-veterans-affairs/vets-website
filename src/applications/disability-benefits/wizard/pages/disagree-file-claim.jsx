@@ -12,7 +12,11 @@ const DisagreeFileClaimPage = () => {
     'reason-for-alert': 'disagree with VA decision, needs a decision review',
   });
   return (
-    <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
+    <div
+      className="usa-alert usa-alert-info background-color-onlys vads-u-padding--2 vads-u-margin-top--2"
+      aria-live="polite"
+    >
+      <span className="sr-only">Info: </span>
       <p className="vads-u-margin-top--0">
         If you disagree with a VA decision on your claim, you’ll need to request
         a decision review.

@@ -220,6 +220,17 @@ const ItemLoop = ({
     const editData = formData ? formData.map(() => false) : ['add'];
     setEditing(editData);
     setShowTable(editData.includes(false));
+
+    if (!formData) {
+      const initData = Array(schema.minItems).fill(
+        getDefaultFormState(
+          schema.additionalItems,
+          undefined,
+          registry.definitions,
+        ),
+      );
+      onChange(initData);
+    }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // use formData otherwise use an array with a single default object

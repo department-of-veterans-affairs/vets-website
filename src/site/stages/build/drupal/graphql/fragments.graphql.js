@@ -32,7 +32,7 @@ const {
 } = require('./paragraph-fragments/listOfLinkTeasers.paragraph.graphql');
 const { promo } = require('./block-fragments/promo.block.graphql');
 
-module.exports = `
+const ALL_FRAGMENTS = `
   ${administration}
   ${alertParagraphSingle}
   ${alertParagraph}
@@ -65,3 +65,38 @@ module.exports = `
   ${termTopics}
   ${wysiwyg}
 `;
+
+module.exports = {
+  ALL_FRAGMENTS,
+  administration,
+  alertParagraphSingle,
+  alertParagraph,
+  alert,
+  audienceBeneficiaries,
+  audienceNonBeneficiaries,
+  audienceTopics,
+  button,
+  collapsiblePanel,
+  contactInformation,
+  downloadableFile,
+  emailContact,
+  embeddedImage,
+  linkTeaser,
+  listOfLinkTeasers,
+  listsOfLinks,
+  numberCallout,
+  phoneNumber,
+  process,
+  promo,
+  qaSection,
+  qa,
+  reactWidget,
+  richTextCharLimit1000,
+  spanishSummary,
+  staffProfile,
+  supportService,
+  table,
+  termLcCategory,
+  termTopics,
+  wysiwyg,
+};

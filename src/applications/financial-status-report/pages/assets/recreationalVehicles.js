@@ -31,13 +31,14 @@ export const uiSchema = {
         'ui:title': 'Type of vehicle',
         'ui:field': Typeahead,
         'ui:options': {
-          classNames: 'input-size-6',
+          classNames:
+            'input-size-6 vads-u-margin-top--3 vads-u-margin-bottom--3',
           getOptions: () => formatOptions(recreationalVehicleTypes),
         },
       },
       recreationalVehicleAmount: _.merge(currencyUI('Estimated value'), {
         'ui:options': {
-          widgetClassNames: 'input-size-4',
+          widgetClassNames: 'input-size-4 vads-u-margin-bottom--3',
         },
       }),
     },

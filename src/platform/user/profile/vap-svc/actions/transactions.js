@@ -203,12 +203,14 @@ export function createTransaction(
         transaction,
       });
     } catch (error) {
+      const [firstError = {}] = error.errors ?? [];
+      const { code = 'code', title = 'title', detail = 'detail' } = firstError;
       const profileSection = analyticsSectionName || 'unknown-profile-section';
       recordEvent({
         event: 'profile-edit-failure',
         'profile-action': 'save-failure',
         'profile-section': profileSection,
-        'error-key': `transaction-creation-error-${profileSection}-save-failure`,
+        'error-key': `tx-creation-error-${profileSection}-${code}-${title}-${detail}`,
       });
       recordEvent({
         'error-key': undefined,

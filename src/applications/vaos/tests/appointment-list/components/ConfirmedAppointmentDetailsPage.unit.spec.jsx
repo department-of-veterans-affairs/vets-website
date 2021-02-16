@@ -1,10 +1,14 @@
 import React from 'react';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import { getVAAppointmentMock, getVAFacilityMock } from '../../mocks/v0';
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
-import { renderWithStoreAndRouter } from '../../mocks/setup';
+import {
+  renderWithStoreAndRouter,
+  getTimezoneTestDate,
+} from '../../mocks/setup';
 
 import userEvent from '@testing-library/user-event';
 import { AppointmentList } from '../../../appointment-list';
@@ -20,9 +24,15 @@ const initialState = {
   },
 };
 
-describe('VAOS <AppointmentsPageV2>', () => {
-  beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
+describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
+  beforeEach(() => {
+    mockFetch();
+    MockDate.set(getTimezoneTestDate());
+  });
+  afterEach(() => {
+    resetFetch();
+    MockDate.reset();
+  });
 
   it('should navigate to confirmed appointments detail page', async () => {
     // VA appointment id from confirmed_va.json
@@ -106,7 +116,12 @@ describe('VAOS <AppointmentsPageV2>', () => {
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: new RegExp(moment().format('dddd, MMMM D, YYYY'), 'i'),
+        name: new RegExp(
+          moment()
+            .tz('America/Denver')
+            .format('dddd, MMMM D, YYYY'),
+          'i',
+        ),
       }),
     ).to.be.ok;
 
@@ -120,7 +135,9 @@ describe('VAOS <AppointmentsPageV2>', () => {
     expect(
       screen.getByRole('link', {
         name: new RegExp(
-          moment().format('[Add] MMMM D, YYYY [appointment to your calendar]'),
+          moment()
+            .tz('America/Denver')
+            .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
           'i',
         ),
       }),
@@ -147,7 +164,12 @@ describe('VAOS <AppointmentsPageV2>', () => {
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: new RegExp(moment().format('dddd, MMMM D, YYYY'), 'i'),
+        name: new RegExp(
+          moment()
+            .tz('America/Denver')
+            .format('dddd, MMMM D, YYYY'),
+          'i',
+        ),
         // name: /Thursday, January 28, 2021/,
       }),
     ).to.be.ok;

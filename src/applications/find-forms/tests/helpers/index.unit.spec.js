@@ -12,8 +12,8 @@ describe('Find VA Forms helpers', () => {
       id: 'VA10192',
       attributes: {
         firstIssuedOn: '2014-10-17',
-        formName: 'VA10192',
-        title: 'Information for Pre-Complaint Processing',
+        formName: 'AA10192',
+        title: 'form 1',
         url: 'https://www.va.gov/vaforms/va/pdf/VA10192.pdf',
         lastRevisionOn: '2021-12-22',
       },
@@ -22,8 +22,8 @@ describe('Find VA Forms helpers', () => {
       id: 'VA10192',
       attributes: {
         firstIssuedOn: '1988-10-17',
-        formName: 'VA10192',
-        title: 'Information for Pre-Complaint Processing',
+        formName: 'BA10192',
+        title: 'form 2',
         url: 'https://www.va.gov/vaforms/va/pdf/VA10192.pdf',
         lastRevisionOn: '1999-05-20',
       },
@@ -32,8 +32,8 @@ describe('Find VA Forms helpers', () => {
       id: 'VA10192',
       attributes: {
         firstIssuedOn: '2005-10-17',
-        formName: 'VA10192',
-        title: 'Information for Pre-Complaint Processing',
+        formName: 'CA10192',
+        title: 'form 3',
         url: 'https://www.va.gov/vaforms/va/pdf/VA10192.pdf',
         lastRevisionOn: '2002-08-20',
       },
@@ -42,13 +42,31 @@ describe('Find VA Forms helpers', () => {
       id: 'VA10192',
       attributes: {
         firstIssuedOn: '2005-10-10',
-        formName: 'VA10192',
-        title: 'Information for Pre-Complaint Processing',
+        formName: 'DA10192',
+        title: 'form 4',
         url: 'https://www.va.gov/vaforms/va/pdf/VA10192.pdf',
         lastRevisionOn: '2010-06-15',
       },
     },
   ];
+
+  it('sorts helper sorts the results form title correctly', () => {
+    const sortedResultsNodeTextByTitleAscending = [
+      'AA10192 form 1',
+      'BA10192 form 2',
+      'CA10192 form 3',
+      'DA10192 form 4',
+    ];
+
+    const sortedResultsByAlphabet = results
+      .sort((a, b) => sortTheResults(INITIAL_SORT_STATE, a, b))
+      .map(form => `${form?.attributes?.formName} ${form?.attributes?.title}`);
+
+    // Sort By 'ALPHABET (A-Z) Ascending'
+    expect(sortedResultsByAlphabet).to.eql(
+      sortedResultsNodeTextByTitleAscending,
+    );
+  });
 
   it('sorts helper sorts the results by latest (newest) date correctly', () => {
     const sortedResultsNodesTextByLatestRevisionNewest = [
@@ -59,7 +77,7 @@ describe('Find VA Forms helpers', () => {
     ];
 
     const sortedResultsByNewestRevisionDate = results
-      .sort((a, b) => sortTheResults(INITIAL_SORT_STATE, a, b))
+      .sort((a, b) => sortTheResults(SORT_OPTIONS[2], a, b))
       .map(form =>
         deriveLatestIssue(
           form?.attributes?.firstIssuedOn,
@@ -67,7 +85,7 @@ describe('Find VA Forms helpers', () => {
         ),
       );
 
-    // DEFAULT SORT 'Last Updated (Newest)'
+    // Sort By 'Last Updated (Newest)'
     expect(sortedResultsByNewestRevisionDate).to.eql(
       sortedResultsNodesTextByLatestRevisionNewest,
     );
@@ -82,7 +100,7 @@ describe('Find VA Forms helpers', () => {
     ];
 
     const sortedResultsByOldestRevisionDate = results
-      .sort((a, b) => sortTheResults(SORT_OPTIONS[1], a, b))
+      .sort((a, b) => sortTheResults(SORT_OPTIONS[3], a, b))
       .map(form =>
         deriveLatestIssue(
           form?.attributes?.firstIssuedOn,
