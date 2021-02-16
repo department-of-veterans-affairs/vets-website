@@ -6,7 +6,7 @@ import HeadingSummary from './HeadingSummary';
 import { convertRatingToStars, createId } from '../../utils/helpers';
 import { MINIMUM_RATING_COUNT } from '../../constants';
 import ProfileNavBar from '../ProfileNavBar';
-// import _ from 'lodash';
+import _ from 'lodash';
 
 export class InstitutionProfile extends React.Component {
   static propTypes = {
@@ -70,10 +70,9 @@ export class InstitutionProfile extends React.Component {
       },
     ];
 
-    // const visibleSections = profileSections.filter(
-    //   section => !_.get(section, 'hide', false),
-    // );
-    const visibleSections = profileSections; // just doing this until we want sections to hide/show for testing
+    const visibleSections = profileSections.filter(
+      section => !_.get(section, 'hide', false),
+    );
     const sectionNames = visibleSections.map(({ name }) => name);
 
     return (
