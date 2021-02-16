@@ -11,7 +11,11 @@ function ViewDependentsChildForm() {
     },
   };
 
-  const uiSchema = {};
+  const uiSchema = {
+    firstName: {
+      'ui:title': 'First Name',
+    },
+  };
 
   function show() {}
 

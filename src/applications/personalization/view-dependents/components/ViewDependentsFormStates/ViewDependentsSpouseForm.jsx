@@ -5,13 +5,17 @@ function ViewDependentsSpouseForm() {
   const schema = {
     type: 'object',
     properties: {
-      firstName: {
+      ssn: {
         type: 'string',
       },
     },
   };
 
-  const uiSchema = {};
+  const uiSchema = {
+    ssn: {
+      'ui:title': 'Social Security Number',
+    },
+  };
 
   function show() {}
 
