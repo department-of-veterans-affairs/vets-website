@@ -42,7 +42,7 @@ import {
 } from '../../services/organization';
 import {
   getLocation,
-  getSiteIdFromFakeFHIRId,
+  getSiteIdFromFacilityId,
   getLocationsByTypeOfCareAndSiteIds,
   getCommunityProvidersByTypeOfCare,
 } from '../../services/location';
@@ -442,7 +442,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
           const location = supportedFacilities.find(f => f.id === facilityId);
 
           if (!siteId) {
-            siteId = getSiteIdFromFakeFHIRId(location.id);
+            siteId = getSiteIdFromFacilityId(location.id);
           }
 
           dispatch(checkEligibility({ location, siteId }));
@@ -684,7 +684,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
     const previousNewAppointmentState = state.newAppointment;
     const typeOfCare = getTypeOfCare(data)?.name;
     const typeOfCareId = getTypeOfCare(data)?.id;
-    const siteId = getSiteIdFromFakeFHIRId(data.vaParent);
+    const siteId = getSiteIdFromFacilityId(data.vaParent);
 
     let locations =
       previousNewAppointmentState.facilities[
@@ -829,7 +829,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
   return async (dispatch, getState) => {
     const state = getState();
     const useVSP = selectFeatureVSPAppointmentNew(state);
-    const siteId = getSiteIdFromFakeFHIRId(getFormData(state).vaFacility);
+    const siteId = getSiteIdFromFacilityId(getFormData(state).vaFacility);
     const newAppointment = getNewAppointment(state);
     const { data } = newAppointment;
 

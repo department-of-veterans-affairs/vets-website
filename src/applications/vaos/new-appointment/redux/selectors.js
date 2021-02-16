@@ -18,7 +18,7 @@ import {
 import { getSiteIdFromOrganization } from '../../services/organization';
 import {
   getParentOfLocation,
-  getSiteIdFromFakeFHIRId,
+  getSiteIdFromFacilityId,
 } from '../../services/location';
 import { isEligible } from './helpers/eligibility';
 import {
@@ -134,7 +134,7 @@ export function getChosenCCSystemId(state) {
 }
 
 export function getSiteIdForChosenFacility(state) {
-  return getSiteIdFromFakeFHIRId(getFormData(state).vaFacility);
+  return getSiteIdFromFacilityId(getFormData(state).vaFacility);
 }
 
 export function getParentOfChosenFacility(state) {
