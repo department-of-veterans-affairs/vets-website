@@ -308,6 +308,13 @@ const formConfig = {
           uiSchema: pages.recreationalVehicles.uiSchema,
           schema: pages.recreationalVehicles.schema,
         },
+        recreationalVehicleRecords: {
+          path: 'recreational-vehicle-records',
+          title: 'Recreational vehicles',
+          uiSchema: pages.recreationalVehicleRecords.uiSchema,
+          schema: pages.recreationalVehicleRecords.schema,
+          depends: formData => formData.hasRecreationalVehicle,
+        },
         vehicles: {
           path: 'vehicles',
           title: 'Vehicles',

@@ -1,27 +1,21 @@
-import ItemLoop from '../../components/ItemLoop';
-import CardDetailsView from '../../components/CardDetailsView';
+import ItemLoop from '../../../components/ItemLoop';
+import CardDetailsView from '../../../components/CardDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import Typeahead from '../../components/Typeahead';
+import Typeahead from '../../../components/Typeahead';
 import {
   formatOptions,
   recreationalVehicleTypes,
-} from '../../constants/typeaheadOptions';
+} from '../../../constants/typeaheadOptions';
 import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your trailers, campers, and boats',
-  hasRecreationalVehicle: {
-    'ui:title': 'Do you currently own any trailers, campers, or boats?',
-    'ui:widget': 'yesNo',
-    'ui:required': () => true,
-  },
   recreationalVehicleRecords: {
     'ui:field': ItemLoop,
     'ui:description':
       'Enter each of your trailers, campers, and boats separately below.',
     'ui:options': {
       viewField: CardDetailsView,
-      expandUnder: 'hasRecreationalVehicle',
       doNotScroll: true,
       showSave: true,
       itemName: 'trailer, camper, or boat',
@@ -48,9 +42,6 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    hasRecreationalVehicle: {
-      type: 'boolean',
-    },
     recreationalVehicleRecords: {
       type: 'array',
       items: {
