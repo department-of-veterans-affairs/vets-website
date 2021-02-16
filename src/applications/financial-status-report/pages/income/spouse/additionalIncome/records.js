@@ -25,7 +25,7 @@ export const uiSchema = {
         },
         items: {
           'ui:options': {
-            classNames: 'horizonal-field-container',
+            classNames: 'horizonal-field-container no-wrap',
           },
           incomeType: {
             'ui:title': 'Type of income',

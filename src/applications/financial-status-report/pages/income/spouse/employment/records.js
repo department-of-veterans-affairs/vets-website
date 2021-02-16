@@ -28,14 +28,10 @@ export const uiSchema = {
         employmentStart: {
           'ui:title': 'Date your spouse started work at this job',
           'ui:widget': 'date',
-          'ui:options': {
-            classNames: 'employment-start',
-          },
         },
         employerName: {
           'ui:title': 'Employer name',
           'ui:options': {
-            classNames: 'employer-name',
             widgetClassNames: 'input-size-6',
           },
         },
@@ -64,10 +60,10 @@ export const uiSchema = {
           },
           items: {
             'ui:options': {
-              classNames: 'horizonal-field-container',
+              classNames: 'horizonal-field-container no-wrap',
             },
             deductionType: {
-              'ui:title': 'Type of deduction',
+              'ui:title': 'Type of payroll deduction',
               'ui:field': Typeahead,
               'ui:options': {
                 getOptions: () => formatOptions(deductionTypes),

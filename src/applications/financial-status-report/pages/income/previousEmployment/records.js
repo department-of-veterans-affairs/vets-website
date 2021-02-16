@@ -17,25 +17,33 @@ export const uiSchema = {
         itemName: 'a job',
       },
       items: {
+        'ui:options': {
+          classNames: 'vads-u-margin-top--3 vads-u-margin-bottom--3',
+        },
         previousEmploymentType: {
           'ui:title': 'Type of work',
           'ui:options': {
-            classNames: 'work-type',
             widgetClassNames: 'input-size-3',
           },
         },
         previousEmploymentStart: {
           'ui:title': 'Date you started work at this job',
           'ui:widget': 'date',
+          'ui:options': {
+            widgetClassNames: 'vads-u-margin-bottom--2',
+          },
         },
         previousEmploymentEnd: {
           'ui:title': 'Date you stopped work at this job',
           'ui:widget': 'date',
+          'ui:options': {
+            widgetClassNames: 'vads-u-margin-bottom--2',
+          },
         },
         previousEmployerName: {
           'ui:title': 'Employer name',
           'ui:options': {
-            classNames: 'employer-name',
+            classNames: 'vads-u-margin-top--3',
             widgetClassNames: 'input-size-6',
           },
         },

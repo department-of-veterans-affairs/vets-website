@@ -1,10 +1,14 @@
 import React from 'react';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import { getVAAppointmentMock, getVAFacilityMock } from '../../mocks/v0';
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
-import { renderWithStoreAndRouter } from '../../mocks/setup';
+import {
+  renderWithStoreAndRouter,
+  getTimezoneTestDate,
+} from '../../mocks/setup';
 
 import userEvent from '@testing-library/user-event';
 import { AppointmentList } from '../../../appointment-list';
@@ -20,11 +24,17 @@ const initialState = {
   },
 };
 
-describe('VAOS <AppointmentsPageV2>', () => {
-  beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
+describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
+  beforeEach(() => {
+    mockFetch();
+    MockDate.set(getTimezoneTestDate());
+  });
+  afterEach(() => {
+    resetFetch();
+    MockDate.reset();
+  });
 
-  it.skip('should navigate to confirmed appointments detail page', async () => {
+  it('should navigate to confirmed appointments detail page', async () => {
     // VA appointment id from confirmed_va.json
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
 

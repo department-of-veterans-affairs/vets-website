@@ -324,7 +324,13 @@ export function transformFacilities(facilities) {
 export function transformCommunityProviders(providers) {
   return providers.map(provider => {
     return {
-      id: provider.uniqueId,
+      id: provider.id,
+      identifier: [
+        {
+          system: 'PPMS',
+          value: provider.uniqueId,
+        },
+      ],
       resourceType: 'Location',
       address: {
         line: [provider.address.street],

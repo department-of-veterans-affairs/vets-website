@@ -1,9 +1,13 @@
 import React from 'react';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import { getCCAppointmentMock } from '../../mocks/v0';
 import { mockAppointmentInfo } from '../../mocks/helpers';
-import { renderWithStoreAndRouter } from '../../mocks/setup';
+import {
+  renderWithStoreAndRouter,
+  getTimezoneTestDate,
+} from '../../mocks/setup';
 
 import userEvent from '@testing-library/user-event';
 import { AppointmentList } from '../../../appointment-list';
@@ -20,8 +24,14 @@ const initialState = {
 };
 
 describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
-  beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
+  beforeEach(() => {
+    mockFetch();
+    MockDate.set(getTimezoneTestDate());
+  });
+  afterEach(() => {
+    resetFetch();
+    MockDate.reset();
+  });
 
   it('should navigate to community care appointments detail page', async () => {
     // CC appointment id from confirmed_cc.json

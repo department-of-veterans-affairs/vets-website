@@ -297,7 +297,7 @@ describe('VAOS Location service', () => {
       const firstProvider = ccProviders.data[0];
       const firstLocation = data[0];
       expect(firstLocation.name).to.equal(firstProvider.attributes.name);
-      expect(firstLocation.id).to.equal(firstProvider.attributes.uniqueId);
+      expect(firstLocation.id).to.equal(firstProvider.id);
       expect(firstLocation.telecom[0].value).to.equal(
         firstProvider.attributes.caresitePhone,
       );
