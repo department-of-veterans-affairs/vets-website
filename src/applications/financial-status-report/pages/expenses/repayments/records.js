@@ -11,17 +11,18 @@ import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your installment contracts and other debts',
+  'ui:description':
+    'Enter information for each installment contract or debt separately below.',
   repayments: {
     'ui:field': ItemLoop,
     'ui:options': {
       viewField: CardDetailsView,
       doNotScroll: true,
       showSave: true,
-      itemName: 'installment or other debt',
     },
     items: {
       debtType: {
-        'ui:title': 'Purpose of debt',
+        'ui:title': 'Type of contract or debt',
         'ui:field': Typeahead,
         'ui:options': {
           classNames:
@@ -30,30 +31,36 @@ export const uiSchema = {
         },
       },
       creditorName: {
-        'ui:title': 'Name of creditor',
+        'ui:title': 'Name of creditor who holds the contract or debt',
         'ui:options': {
           widgetClassNames: 'input-size-7 vads-u-margin-bottom--3',
         },
       },
-      originalDebtAmount: _.merge(currencyUI('Original debt amount'), {
-        'ui:options': {
-          widgetClassNames: 'input-size-6 vads-u-margin-bottom--3',
+      originalDebtAmount: _.merge(
+        currencyUI('Original contract or debt amount'),
+        {
+          'ui:options': {
+            widgetClassNames: 'input-size-6 vads-u-margin-bottom--3',
+          },
         },
-      }),
+      ),
       unpaidBalance: _.merge(currencyUI('Unpaid balance'), {
         'ui:options': {
           widgetClassNames: 'input-size-6 vads-u-margin-bottom--3',
         },
       }),
-      monthlyPaymentAmount: _.merge(currencyUI('Monthly payment amount'), {
-        'ui:options': {
-          widgetClassNames: 'input-size-6',
+      monthlyPaymentAmount: _.merge(
+        currencyUI('Minimum monthly payment amount'),
+        {
+          'ui:options': {
+            widgetClassNames: 'input-size-6',
+          },
         },
-      }),
+      ),
       debtDate: monthYearUI('Date debt began'),
       amountOverdue: _.merge(currencyUI('Amount overdue'), {
         'ui:options': {
-          widgetClassNames: 'input-size-6 vads-u-margin-bottom--3',
+          widgetClassNames: 'input-size-4 vads-u-margin-bottom--3',
         },
       }),
     },

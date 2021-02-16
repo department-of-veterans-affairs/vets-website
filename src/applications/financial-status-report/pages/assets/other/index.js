@@ -1,9 +1,13 @@
 export const uiSchema = {
-  'ui:title': 'Your real estate assets',
+  'ui:title': 'Your other assets',
   hasOtherAssets: {
-    'ui:title': 'Do you currently own other assets?',
+    'ui:title':
+      'Do you own any other items of value, like jewelry or art (called assets)?',
     'ui:widget': 'yesNo',
     'ui:required': () => true,
+    'ui:options': {
+      classNames: 'no-wrap',
+    },
   },
 };
 export const schema = {
