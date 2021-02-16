@@ -52,7 +52,6 @@ Cypress.Commands.add('axeCheck', (context = 'main', tempOptions = {}) => {
   };
 
   /**
-   * TODO: Confirm the build step won't break
    * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
    */
   axeBuilder = Object.assign(axeBuilder, tempOptions);
