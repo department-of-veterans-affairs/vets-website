@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { scroller } from 'react-scroll';
 
 import { createId } from '../utils/helpers';
 import classNames from 'classnames';
+import { getScrollOptions } from 'platform/utilities/ui';
 
 export class ProfileNavBar extends React.Component {
   componentDidMount() {
@@ -19,17 +21,25 @@ export class ProfileNavBar extends React.Component {
     });
   };
 
-  handleScroll = () => {
+  shouldBeStuck = () => {
     const profileNavBarDesktop = document.getElementById(
       'profile-nav-bar-desktop',
     );
     const placeholder = document.getElementById('profile-nav-placeholder');
-    const jumpLinks = document.getElementById('jump-links');
 
     const topOffset = profileNavBarDesktop.getBoundingClientRect().top <= 0;
     const bottomOffset = placeholder.getBoundingClientRect().bottom <= 0;
 
-    if (topOffset && bottomOffset) {
+    return topOffset && bottomOffset;
+  };
+
+  handleScroll = () => {
+    const profileNavBarDesktop = document.getElementById(
+      'profile-nav-bar-desktop',
+    );
+    const jumpLinks = document.getElementById('jump-links');
+
+    if (this.shouldBeStuck()) {
       profileNavBarDesktop.className = this.classes(true);
       jumpLinks.className = 'row';
     } else {
@@ -38,17 +48,21 @@ export class ProfileNavBar extends React.Component {
     }
   };
 
-  // jumpLinkClicked = e => {
-  //   e.preventDefault();
-  //   const section = document.getElementById(createId(e.target.text));
-  //   const profileNavBarDesktop = document.getElementById(
-  //     'profile-nav-bar-desktop',
-  //   );
-  //
-  //   section.scroll(0, profileNavBarDesktop.offsetHeight);
-  //   // section.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  //   // section.scrollIntoView();
-  // };
+  jumpLinkClicked = e => {
+    e.preventDefault();
+    const section = e.target.text;
+    const profileNavBarDesktop = document.getElementById(
+      'profile-nav-bar-desktop',
+    );
+
+    let offset = -profileNavBarDesktop.offsetHeight;
+    if (!this.shouldBeStuck()) {
+      offset = -(profileNavBarDesktop.offsetHeight * 2);
+      // it's a magic number but it fixes the weird scrolling issue when navbar is unstuck
+    }
+
+    scroller.scrollTo(createId(section), getScrollOptions({ offset }));
+  };
 
   render() {
     return (
@@ -61,7 +75,12 @@ export class ProfileNavBar extends React.Component {
                 className="vads-u-margin-right--1p5"
                 key={`${createId(section)}-nav-bar`}
               >
-                <a href={`#${createId(section)}`}>{section}</a>
+                <a
+                  href={`#${createId(section)}`}
+                  onClick={this.jumpLinkClicked}
+                >
+                  {section}
+                </a>
               </span>
             ))}
           </div>

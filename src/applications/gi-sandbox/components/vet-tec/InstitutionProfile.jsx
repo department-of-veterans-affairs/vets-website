@@ -11,26 +11,37 @@ const profileLogo =
   'vads-u-display--block medium-screen:vads-u-display--none vettec-logo-container';
 
 const InstitutionProfile = ({ institution, showModal }) => {
+  const loremIpsum = (
+    <div>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+      est laborum.
+    </div>
+  );
   const profileSections = [
     {
       name: 'Estimate your benefits',
-      component: <div />,
+      component: loremIpsum,
     },
     {
       name: 'Approved programs',
-      component: <div />,
+      component: loremIpsum,
     },
     {
       name: 'Veteran programs',
-      component: <div />,
+      component: loremIpsum,
     },
     {
       name: 'Application process',
-      component: <div />,
+      component: loremIpsum,
     },
     {
       name: 'Contact details',
-      component: <div />,
+      component: loremIpsum,
     },
   ];
 
