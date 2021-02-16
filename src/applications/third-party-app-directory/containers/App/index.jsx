@@ -18,7 +18,7 @@ export const App = () => (
         name="keywords"
         content="app, directory, connect, third-party, applications"
       />
-      <meta property="article:published_time" content="2021-02-15" />
+      <meta property="article:published_time" content="2020-11-20" />
       <meta property="article:modified_time" content="2021-02-15" />
     </MetaTags>
     {/* Derive the Page */}
