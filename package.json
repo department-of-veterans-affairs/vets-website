@@ -16,6 +16,7 @@
     "build:webpack:dev": "yarn build:webpack --env.buildtype vagovdev",
     "build:webpack:local": "yarn build:webpack --env.buildtype localhost",
     "cms:compare": "./script/cms/compare.sh",
+    "cms:compare:html": "node script/cms/compare-build-hashes.js",
     "cms:diff": "./script/cms/diff.sh",
     "cms:diff:json": "node script/cms/compare-json.js",
     "cms:find-node": "./script/cms/find_node.sh",
