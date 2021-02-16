@@ -319,7 +319,7 @@ export class AuthApp extends React.Component {
         alertContent = (
           <p>
             We’re having trouble signing you in to VA.gov right now because we
-            found more than one MyHealtheVet account for you.
+            found more than one My HealtheVet account for you.
           </p>
         );
         troubleshootingContent = (
@@ -332,7 +332,7 @@ export class AuthApp extends React.Component {
                   Call us at <a href="tel:877-327-0022">877-327-0022</a>. We’re
                   here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. If you
                   have hearing loss, call TTY:{' '}
-                  <Telephone contact={CONTACTS.FEDERAL_RELAY_SERVICE} />.
+                  <Telephone contact={CONTACTS.HELP_TTY} />.
                 </p>
                 <p>
                   Tell the representative that you tried to sign in to VA.gov,
@@ -364,7 +364,7 @@ export class AuthApp extends React.Component {
                     Comments: Type, or copy and paste, the below message:
                     <br />
                     “When I tried to sign in to VA.gov, I got an error message
-                    saying that I have more than one MyHealtheVet account.”
+                    saying that I have more than one My HealtheVet account.”
                   </li>
                 </ul>
                 <p>Complete the rest of the form and then click Submit.</p>
