@@ -14,7 +14,7 @@ export class ProfileNavBar extends React.Component {
     window.removeEventListener('scroll', this.handleScroll, true);
   }
 
-  classes = (stuck = false) => {
+  navBarDesktopClasses = (stuck = false) => {
     return classNames('profile-nav-bar', 'nav-bar-desktop-only', {
       'profile-nav-bar-stuck': stuck,
       row: !stuck,
@@ -40,10 +40,10 @@ export class ProfileNavBar extends React.Component {
     const jumpLinks = document.getElementById('jump-links');
 
     if (this.shouldBeStuck()) {
-      profileNavBarDesktop.className = this.classes(true);
+      profileNavBarDesktop.className = this.navBarDesktopClasses(true);
       jumpLinks.className = 'row';
     } else {
-      profileNavBarDesktop.className = this.classes();
+      profileNavBarDesktop.className = this.navBarDesktopClasses();
       jumpLinks.className = 'row vads-u-margin--0';
     }
   };
@@ -68,7 +68,10 @@ export class ProfileNavBar extends React.Component {
     return (
       <>
         <span id="profile-nav-placeholder" />
-        <div id="profile-nav-bar-desktop" className={this.classes()}>
+        <div
+          id="profile-nav-bar-desktop"
+          className={this.navBarDesktopClasses()}
+        >
           <div id="jump-links" className="row vads-u-margin--0">
             {this.props.profileSections.map(section => (
               <span
