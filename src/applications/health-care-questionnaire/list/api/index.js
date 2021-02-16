@@ -17,7 +17,7 @@ const loadQuestionnaires = async () => {
       }, 1000);
     });
   } else {
-    const url = '/health_quest/v0/my/questionnaires';
+    const url = '/health_quest/v0/questionnaire_manager';
     promise = apiRequest(`${environment.API_URL}${url}`);
   }
   return promise;
