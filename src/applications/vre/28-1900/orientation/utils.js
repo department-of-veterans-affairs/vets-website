@@ -132,9 +132,9 @@ export const orientationSteps = [
         <p>
           <strong>VR&E Reemployment video</strong> |{' '}
           <span aria-label="Video duration 52 seconds">0:52</span>
-          <i className="vads-u-display--block">
+          <em className="vads-u-display--block">
             Return to the civilian job you held before you deployed.
-          </i>
+          </em>
         </p>
       </>
     ),
@@ -159,9 +159,9 @@ export const orientationSteps = [
         <p>
           <strong>VR&E Rapid Access video</strong> |{' '}
           <span aria-label="Video duration 1 minute 32 seconds">1:32</span>
-          <i className="vads-u-display--block">
+          <em className="vads-u-display--block">
             Find a job that matches your existing skills.
-          </i>
+          </em>
         </p>
       </>
     ),
@@ -190,9 +190,9 @@ export const orientationSteps = [
         <p>
           <strong>VR&E Self-Employment video</strong> |{' '}
           <span aria-label="Video duration 1 minute 12 seconds">1:12</span>
-          <i className="vads-u-display--block">
+          <em className="vads-u-display--block">
             Get help starting your own business.
-          </i>
+          </em>
         </p>
       </>
     ),
@@ -216,10 +216,10 @@ export const orientationSteps = [
         <p>
           <strong>VR&E Long-Term Services video</strong> |{' '}
           <span aria-label="Video duration 1 minute 9 seconds">1:09</span>
-          <i className="vads-u-display--block">
+          <em className="vads-u-display--block">
             Get professional or vocational training to help you develop new job.
             skills
-          </i>
+          </em>
         </p>
       </>
     ),
@@ -248,9 +248,9 @@ export const orientationSteps = [
         <p>
           <strong>VR&E Independent Living video</strong> |{' '}
           <span aria-label="Video duration 47 seconds">0:47</span>
-          <i className="vads-u-display--block">
+          <em className="vads-u-display--block">
             Live as independently as possible.
-          </i>
+          </em>
         </p>
       </>
     ),
