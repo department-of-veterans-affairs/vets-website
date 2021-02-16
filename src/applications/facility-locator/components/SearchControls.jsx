@@ -62,11 +62,16 @@ class SearchControls extends Component {
 
   renderLocationInputField = currentQuery => (
     <>
-      <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
-        City, state or postal code{' '}
-        <span className="vads-u-color--secondary-dark">(*Required)</span>
-      </label>
-      <div id="location-input-field">
+      <div
+        id="location-input-field"
+        className={
+          currentQuery.geocodeInProgress ? 'geolocation-in-progress' : ''
+        }
+      >
+        <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
+          City, state or postal code{' '}
+          <span className="vads-u-color--secondary-dark">(*Required)</span>
+        </label>
         <div>
           {currentQuery.geocodeInProgress ? (
             <div className="vads-u-margin-y--2">
@@ -94,17 +99,17 @@ class SearchControls extends Component {
             </>
           )}
         </div>
-        <input
-          id="street-city-state-zip"
-          name="street-city-state-zip"
-          style={{ fontWeight: 'bold' }}
-          type="text"
-          onChange={this.handleQueryChange}
-          value={currentQuery.searchString}
-          title="Your location: Street, City, State or Postal code"
-          required
-        />
       </div>
+      <input
+        id="street-city-state-zip"
+        name="street-city-state-zip"
+        style={{ fontWeight: 'bold' }}
+        type="text"
+        onChange={this.handleQueryChange}
+        value={currentQuery.searchString}
+        title="Your location: Street, City, State or Postal code"
+        required
+      />
     </>
   );
 
