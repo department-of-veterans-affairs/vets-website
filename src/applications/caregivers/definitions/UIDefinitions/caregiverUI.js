@@ -1,4 +1,3 @@
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import { shouldHideAlert } from 'applications/caregivers/helpers';
 import {
   AdditionalCaregiverInfo,
@@ -6,9 +5,8 @@ import {
 } from 'applications/caregivers/components/AdditionalInfo';
 
 export const primaryInputLabel = 'Primary Family Caregiver\u2019s';
-
-export const primaryPhoneNumberUI = label =>
-  phoneUI(`${label}  primary telephone number (including area code)`);
+export const secondaryOneInputLabel = 'Secondary Family Caregiver\u2019s';
+export const secondaryTwoInputLabel = 'Secondary Family Caregiver\u2019s (2)';
 
 export const hasHealthInsurance = {
   'ui:title':
@@ -16,8 +14,6 @@ export const hasHealthInsurance = {
   'ui:widget': 'yesNo',
 };
 
-export const secondaryOneInputLabel = 'Secondary Family Caregiver\u2019s';
-export const secondaryTwoInputLabel = 'Secondary Family Caregiver\u2019s (2)';
 export const secondaryTwoChapterTitle =
   'Secondary Family Caregiver\u2019s (2) applicant information';
 

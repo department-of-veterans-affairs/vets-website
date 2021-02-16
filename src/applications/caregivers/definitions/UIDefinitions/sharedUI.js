@@ -10,6 +10,28 @@ import { VeteranSSNInfo } from 'applications/caregivers/components/AdditionalInf
 
 const stateLabels = createUSAStateLabels(states);
 
+export const emailUI = label => email(`${label}  email address`);
+export const dateOfBirthUI = label =>
+  currentOrPastDateUI(`${label}  date of birth`);
+
+export const addressUI = address.uiSchema(' ', false);
+
+export const primaryPhoneNumberUI = label =>
+  phoneUI(`${label}  primary telephone number (including area code)`);
+
+export const alternativePhoneNumberUI = label =>
+  phoneUI(`${label}  alternate telephone number (including area code)`);
+
+export const vetRelationshipUI = label => ({
+  'ui:title': `What is the ${label}  relationship to the Veteran?`,
+});
+
+export const genderUI = label => ({
+  'ui:title': `${label}  sex`,
+  'ui:widget': 'radio',
+  'ui:options': { labels: { F: 'Female', M: 'Male' } },
+});
+
 export const fullNameUI = label => ({
   first: {
     'ui:title': `${label}  first name`,
@@ -27,17 +49,6 @@ export const fullNameUI = label => ({
     'ui:title': `${label}  middle name`,
   },
 });
-
-export const dateOfBirthUI = label =>
-  currentOrPastDateUI(`${label}  date of birth`);
-
-export const addressUI = address.uiSchema(' ', false);
-
-export const primaryPhoneNumberUI = label =>
-  phoneUI(`${label}  primary telephone number (including area code)`);
-
-export const alternativePhoneNumberUI = label =>
-  phoneUI(`${label}  alternate telephone number (including area code)`);
 
 export const ssnUI = label => ({
   ...platformSsnUI,
@@ -61,16 +72,24 @@ export const ssnUI = label => ({
   ],
 });
 
-export const emailUI = label => email(`${label}  email address`);
+export const confirmationEmailUI = (label, dataConstant) => ({
+  'ui:title': `Re-enter ${label}  email address`,
+  'ui:widget': 'email',
+  'ui:required': formData => !!formData[dataConstant],
+  'ui:validations': [
+    {
+      validator: (errors, fieldData, formData) => {
+        const doesEmailMatch = () =>
+          formData[dataConstant] === formData[`view:${dataConstant}`];
 
-export const genderUI = label => ({
-  'ui:title': `${label}  sex`,
-  'ui:widget': 'radio',
-  'ui:options': { labels: { F: 'Female', M: 'Male' } },
-});
-
-export const vetRelationshipUI = label => ({
-  'ui:title': `What is the ${label}  relationship to the Veteran?`,
+        if (!doesEmailMatch()) {
+          errors.addError(
+            'This email does not match your previously entered email',
+          );
+        }
+      },
+    },
+  ],
 });
 
 export const addressWithoutCountryUI = label => ({
@@ -101,24 +120,4 @@ export const addressWithoutCountryUI = label => ({
         'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
     },
   },
-});
-
-export const confirmationEmailUI = (label, dataConstant) => ({
-  'ui:title': `Re-enter ${label}  email address`,
-  'ui:widget': 'email',
-  'ui:required': formData => !!formData[dataConstant],
-  'ui:validations': [
-    {
-      validator: (errors, fieldData, formData) => {
-        const doesEmailMatch = () =>
-          formData[dataConstant] === formData[`view:${dataConstant}`];
-
-        if (!doesEmailMatch()) {
-          errors.addError(
-            'This email does not match your previously entered email',
-          );
-        }
-      },
-    },
-  ],
 });
