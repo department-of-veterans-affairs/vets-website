@@ -387,6 +387,13 @@ const formConfig = {
           uiSchema: pages.otherExpenses.uiSchema,
           schema: pages.otherExpenses.schema,
         },
+        otherExpenseRecords: {
+          path: 'other-expense-records',
+          title: 'Other expenses',
+          uiSchema: pages.otherExpenseRecords.uiSchema,
+          schema: pages.otherExpenseRecords.schema,
+          depends: formData => formData.hasOtherExpenses,
+        },
       },
     },
     resolutionOptionsChapter: {
