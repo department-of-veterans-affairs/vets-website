@@ -300,10 +300,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         top: 37px;
       }
 
-      .geocode-in-progress {
-        background-image: url("/img/location-arrow-spinning.gif") !important;
-      }
-
       #search-controls-bottom-row {
         @media(min-width: $small-desktop-screen) {
           display: flex;
