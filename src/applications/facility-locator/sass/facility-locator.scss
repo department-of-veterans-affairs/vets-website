@@ -281,16 +281,23 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
       #location-input-field {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
       }
 
       #facility-locate-user {
-        width: 33px;
-        height: 33px;
+        width: 18px;
+        height: 18px;
         background-image: url("/img/location-arrow-solid.svg");
         background-repeat: no-repeat;
         background-color: transparent;
-        margin-left: -60px;
+        margin: 1em 0 1em 0;
+        padding: 0 1.5em 0 0;
+      }
+
+      .use-my-location-link {
+        text-decoration: none;
+        position: absolute;
+        top: 37px;
       }
 
       .geocode-in-progress {

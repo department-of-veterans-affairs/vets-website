@@ -10,7 +10,6 @@ import {
   facilityTypesOptions,
 } from '../config';
 import { focusElement } from 'platform/utilities/ui';
-import environment from 'platform/utilities/environment';
 
 class SearchControls extends Component {
   handleQueryChange = e => {
@@ -68,6 +67,33 @@ class SearchControls extends Component {
         <span className="vads-u-color--secondary-dark">(*Required)</span>
       </label>
       <div id="location-input-field">
+        <div>
+          {currentQuery.geocodeInProgress ? (
+            <div className="vads-u-margin-y--2">
+              <i
+                className="fa fa-spinner fa-spin"
+                aria-hidden="true"
+                role="presentation"
+              />
+              <span>Finding your location...</span>
+            </div>
+          ) : (
+            <>
+              <button
+                id="facility-locate-user"
+                title="Use my location"
+                onClick={this.handleGeolocationButtonClick}
+              />
+              <a
+                href="#"
+                onClick={this.handleGeolocationButtonClick}
+                className="use-my-location-link"
+              >
+                Use my location
+              </a>
+            </>
+          )}
+        </div>
         <input
           id="street-city-state-zip"
           name="street-city-state-zip"
@@ -78,16 +104,6 @@ class SearchControls extends Component {
           title="Your location: Street, City, State or Postal code"
           required
         />
-        {!environment.isProduction() && (
-          <button
-            id="facility-locate-user"
-            title="Use my current location"
-            className={
-              currentQuery.geocodeInProgress ? 'geocode-in-progress' : ''
-            }
-            onClick={this.handleGeolocationButtonClick}
-          />
-        )}
       </div>
     </>
   );
