@@ -7,7 +7,7 @@ import {
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
 import get from 'platform/utilities/data/get';
-import { vetFields } from '../constants';
+import { veteranFields } from '../constants';
 import {
   medicalCenterLabels,
   medicalCentersByState,
@@ -73,8 +73,8 @@ export const preferredFacilityView = {
       labels: medicalCenterLabels,
       updateSchema: form => {
         const state = get(
-          `${[vetFields.preferredFacilityView]}.${[
-            vetFields.preferredFacilityStateView,
+          `${[veteranFields.preferredFacilityView]}.${[
+            veteranFields.preferredFacilityStateView,
           ]}`,
           form,
         );

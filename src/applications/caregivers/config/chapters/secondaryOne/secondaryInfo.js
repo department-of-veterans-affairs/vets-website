@@ -1,6 +1,6 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { SecondaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo';
-import { secondaryCaregiverFields } from 'applications/caregivers/definitions/constants';
+import { secondaryOneFields } from 'applications/caregivers/definitions/constants';
 import { secondaryOneInputLabel } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
 import {
   dateOfBirthUI,
@@ -16,33 +16,20 @@ const secondaryCaregiverInfoPage = {
   uiSchema: {
     'ui:description': SecondaryCaregiverInfo({ headerInfo: true }),
     // secondaryOne UI
-    [secondaryCaregiverFields.secondaryOne.fullName]: fullNameUI(
-      secondaryOneInputLabel,
-    ),
-    [secondaryCaregiverFields.secondaryOne.ssn]: ssnUI(secondaryOneInputLabel),
-    [secondaryCaregiverFields.secondaryOne.dateOfBirth]: dateOfBirthUI(
-      secondaryOneInputLabel,
-    ),
-    [secondaryCaregiverFields.secondaryOne.gender]: genderUI(
-      secondaryOneInputLabel,
-    ),
+    [secondaryOneFields.fullName]: fullNameUI(secondaryOneInputLabel),
+    [secondaryOneFields.ssn]: ssnUI(secondaryOneInputLabel),
+    [secondaryOneFields.dateOfBirth]: dateOfBirthUI(secondaryOneInputLabel),
+    [secondaryOneFields.gender]: genderUI(secondaryOneInputLabel),
   },
   schema: {
     type: 'object',
-    required: [
-      secondaryCaregiverFields.secondaryOne.fullName,
-      secondaryCaregiverFields.secondaryOne.dateOfBirth,
-    ],
+    required: [secondaryOneFields.fullName, secondaryOneFields.dateOfBirth],
     properties: {
       // secondaryOne properties
-      [secondaryCaregiverFields.secondaryOne.fullName]:
-        secondaryCaregiverOneProps.fullName,
-      [secondaryCaregiverFields.secondaryOne.ssn]:
-        secondaryCaregiverOneProps.ssnOrTin,
-      [secondaryCaregiverFields.secondaryOne.dateOfBirth]:
-        secondaryCaregiverOneProps.dateOfBirth,
-      [secondaryCaregiverFields.secondaryOne.gender]:
-        secondaryCaregiverOneProps.gender,
+      [secondaryOneFields.fullName]: secondaryCaregiverOneProps.fullName,
+      [secondaryOneFields.ssn]: secondaryCaregiverOneProps.ssnOrTin,
+      [secondaryOneFields.dateOfBirth]: secondaryCaregiverOneProps.dateOfBirth,
+      [secondaryOneFields.gender]: secondaryCaregiverOneProps.gender,
     },
   },
 };

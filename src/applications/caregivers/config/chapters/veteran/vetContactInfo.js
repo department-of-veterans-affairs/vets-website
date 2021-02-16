@@ -1,6 +1,6 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { VetInfo } from 'applications/caregivers/components/AdditionalInfo';
-import { vetFields } from 'applications/caregivers/definitions/constants';
+import { veteranFields } from 'applications/caregivers/definitions/constants';
 import { vetInputLabel } from 'applications/caregivers/definitions/UIDefinitions/veteranUI';
 
 import {
@@ -21,24 +21,26 @@ const vetContactInfoPage = {
       pageTitle: 'Contact information',
       headerInfo: true,
     }),
-    [vetFields.address]: addressWithoutCountryUI(vetInputLabel),
-    [vetFields.primaryPhoneNumber]: primaryPhoneNumberUI(vetInputLabel),
-    [vetFields.alternativePhoneNumber]: alternativePhoneNumberUI(vetInputLabel),
-    [vetFields.email]: emailUI(vetInputLabel),
-    [vetFields.verifyEmail]: confirmationEmailUI(
+    [veteranFields.address]: addressWithoutCountryUI(vetInputLabel),
+    [veteranFields.primaryPhoneNumber]: primaryPhoneNumberUI(vetInputLabel),
+    [veteranFields.alternativePhoneNumber]: alternativePhoneNumberUI(
       vetInputLabel,
-      vetFields.email,
+    ),
+    [veteranFields.email]: emailUI(vetInputLabel),
+    [veteranFields.verifyEmail]: confirmationEmailUI(
+      vetInputLabel,
+      veteranFields.email,
     ),
   },
   schema: {
     type: 'object',
-    required: [vetFields.address, vetFields.primaryPhoneNumber],
+    required: [veteranFields.address, veteranFields.primaryPhoneNumber],
     properties: {
-      [vetFields.address]: address,
-      [vetFields.primaryPhoneNumber]: phone,
-      [vetFields.alternativePhoneNumber]: phone,
-      [vetFields.email]: veteranProps.email,
-      [vetFields.verifyEmail]: veteranProps.email,
+      [veteranFields.address]: address,
+      [veteranFields.primaryPhoneNumber]: phone,
+      [veteranFields.alternativePhoneNumber]: phone,
+      [veteranFields.email]: veteranProps.email,
+      [veteranFields.verifyEmail]: veteranProps.email,
     },
   },
 };

@@ -1,7 +1,7 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { medicalCentersByState } from 'applications/caregivers/helpers';
 import { states } from 'platform/forms/address';
-import { vetFields } from 'applications/caregivers/definitions/constants';
+import { veteranFields } from 'applications/caregivers/definitions/constants';
 import {
   previousTreatmentFacilityUI,
   veteranPreferredFacility,
@@ -14,29 +14,29 @@ const lastTreatmentFacility =
 
 const vetMedicalCenterPage = {
   uiSchema: {
-    [vetFields.previousTreatmentFacility]: previousTreatmentFacilityUI,
-    [vetFields.preferredFacilityView]: { ...preferredFacilityView },
-    [vetFields.preferredFacilityInfoView]: veteranPreferredFacility,
+    [veteranFields.previousTreatmentFacility]: previousTreatmentFacilityUI,
+    [veteranFields.preferredFacilityView]: { ...preferredFacilityView },
+    [veteranFields.preferredFacilityInfoView]: veteranPreferredFacility,
   },
   schema: {
     type: 'object',
     properties: {
-      [vetFields.previousTreatmentFacility]: lastTreatmentFacility,
+      [veteranFields.previousTreatmentFacility]: lastTreatmentFacility,
       // dynamic properties for filtering facilities dropDown
-      [vetFields.preferredFacilityView]: {
+      [veteranFields.preferredFacilityView]: {
         type: 'object',
         required: [
-          vetFields.preferredFacilityStateView,
-          vetFields.plannedClinic,
+          veteranFields.preferredFacilityStateView,
+          veteranFields.plannedClinic,
         ],
         properties: {
-          [vetFields.preferredFacilityStateView]: {
+          [veteranFields.preferredFacilityStateView]: {
             type: 'string',
             enum: states.USA.map(state => state.value).filter(
               state => !!medicalCentersByState[state],
             ),
           },
-          [vetFields.plannedClinic]: Object.assign({}, plannedClinic, {
+          [veteranFields.plannedClinic]: Object.assign({}, plannedClinic, {
             enum: [],
           }),
         },

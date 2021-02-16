@@ -1,6 +1,6 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { VetInfo } from 'applications/caregivers/components/AdditionalInfo';
-import { vetFields } from 'applications/caregivers/definitions/constants';
+import { veteranFields } from 'applications/caregivers/definitions/constants';
 
 import { vetInputLabel } from 'applications/caregivers/definitions/UIDefinitions/veteranUI';
 import {
@@ -16,19 +16,23 @@ const veteranProps = veteran.properties;
 const vetInfoPage = {
   uiSchema: {
     'ui:description': VetInfo({ headerInfo: true }),
-    [vetFields.fullName]: fullNameUI(vetInputLabel),
-    [vetFields.ssn]: ssnUI(vetInputLabel),
-    [vetFields.dateOfBirth]: dateOfBirthUI(vetInputLabel),
-    [vetFields.gender]: genderUI(vetInputLabel),
+    [veteranFields.fullName]: fullNameUI(vetInputLabel),
+    [veteranFields.ssn]: ssnUI(vetInputLabel),
+    [veteranFields.dateOfBirth]: dateOfBirthUI(vetInputLabel),
+    [veteranFields.gender]: genderUI(vetInputLabel),
   },
   schema: {
     type: 'object',
-    required: [vetFields.dateOfBirth, vetFields.fullName, vetFields.ssn],
+    required: [
+      veteranFields.dateOfBirth,
+      veteranFields.fullName,
+      veteranFields.ssn,
+    ],
     properties: {
-      [vetFields.fullName]: veteranProps.fullName,
-      [vetFields.ssn]: veteranProps.ssnOrTin,
-      [vetFields.dateOfBirth]: veteranProps.dateOfBirth,
-      [vetFields.gender]: veteranProps.gender,
+      [veteranFields.fullName]: veteranProps.fullName,
+      [veteranFields.ssn]: veteranProps.ssnOrTin,
+      [veteranFields.dateOfBirth]: veteranProps.dateOfBirth,
+      [veteranFields.gender]: veteranProps.gender,
     },
   },
 };
