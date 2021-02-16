@@ -36,6 +36,7 @@ import * as expenses from './expenses/household';
 import * as utilities from './expenses/utilities';
 import * as utilityRecords from './expenses/utilities/records';
 import * as repayments from './expenses/repayments';
+import * as repaymentRecords from './expenses/repayments/records';
 import * as otherExpenses from './expenses/other';
 import * as resolutionOptions from './resolution/options';
 import * as resolutionComments from './resolution/comments';
@@ -79,6 +80,7 @@ export {
   utilities,
   utilityRecords,
   repayments,
+  repaymentRecords,
   otherExpenses,
   resolutionOptions,
   resolutionComments,

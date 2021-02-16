@@ -372,6 +372,15 @@ const formConfig = {
           uiSchema: pages.repayments.uiSchema,
           schema: pages.repayments.schema,
         },
+        repaymentRecords: {
+          path: 'repayment-records',
+          title: 'Repayments',
+          uiSchema: pages.repaymentRecords.uiSchema,
+          schema: pages.repaymentRecords.schema,
+          depends: formData =>
+            formData.hasRepayments ===
+            'Yes, I have installment contracts or other debts.',
+        },
         otherExpenses: {
           path: 'other-expenses',
           title: 'Other expenses',
