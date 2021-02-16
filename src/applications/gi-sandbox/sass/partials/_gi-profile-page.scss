@@ -18,6 +18,20 @@
     z-index:100;
   }
 
+  .profile-section-header {
+    border: 3px solid $color-gray-lightest;
+    padding: 0.5em;
+    margin-top: 1em;
+    margin-bottom: 0;
+  }
+
+  .profile-section-body {
+    border-left: 3px solid $color-gray-lightest;
+    border-right: 3px solid $color-gray-lightest;
+    border-bottom: 3px solid $color-gray-lightest;
+    padding: 0.5em;
+  }
+
   h3 {
     font-size: 1.35em;
     margin-top: 0;
