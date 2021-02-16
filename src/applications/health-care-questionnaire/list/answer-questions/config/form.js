@@ -32,7 +32,11 @@ const formConfig = {
           uiSchema: {},
           schema: {
             type: 'object',
-            properties: {},
+            properties: {
+              field1: {
+                type: 'string',
+              },
+            },
           },
         },
       },

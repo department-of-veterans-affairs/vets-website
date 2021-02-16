@@ -21,6 +21,7 @@ const createRoutesWithStore = () => {
             component={route.component}
             formConfig={route.formConfig}
             pageList={route.pageList}
+            pageConfig={route.pageConfig}
           />
         );
       })}
