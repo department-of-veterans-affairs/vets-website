@@ -52,14 +52,6 @@
   width: 50px;
 }
 
-/* Hide Powered By Medallia and/or footer containing Powered By Medallia */
-/* Intro page of Medallia survey visible on https://staging.va.gov/find-locations/facility/vha_691 */
-/* `.ng-scope .kpl-form-footer` is common to multiple Medallia forms and form pages */
-.ng-scope .kpl-form-footer,
-.ng-scope .footerCls {
-  display: none;
-}
-
 /* Add padding to the bottom of the Medallia form */
 /* `.ng-scope .panel-footer-web` is common to multiple Medallia forms and form pages */
 .ng-scope .panel-footer-web {
