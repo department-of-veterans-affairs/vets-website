@@ -58,7 +58,7 @@ describe('Profile', () => {
     defaultProps.showLoader = true;
     const wrapper = shallow(<Profile {...defaultProps} />);
     wrapper.setProps({ showLoader: true });
-    const loader = wrapper.find('LoadingIndicator');
+    const loader = wrapper.find('RequiredLoginLoader');
     expect(loader.length).to.equal(1);
     wrapper.unmount();
   });
