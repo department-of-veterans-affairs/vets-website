@@ -63,7 +63,7 @@
 /* An excessively specific selector is needed to override !important and inline styles */
 /* The `ng-hide` class only seems to be used in mobile browsers/emulators, but not laptop browsers */
 #liveForm > div > div.row.neb-form-close-btn-container.ng-hide {
-  /* `display: block !important;` is necessary because the `ng-hide` class applies `display: block !important` */
+  /* `display: block !important;` is necessary because the `ng-hide` class applies `display: none !important` */
   display: block !important;
   /* `margin-top: 0px !important;` is necessary because this element has an inline style of `margin-top: -50px;` */
   margin-top: 0px !important;
