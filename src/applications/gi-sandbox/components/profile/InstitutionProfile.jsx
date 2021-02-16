@@ -25,30 +25,48 @@ export class InstitutionProfile extends React.Component {
     const displayStars =
       stars && profile.attributes.ratingCount >= MINIMUM_RATING_COUNT;
 
+    const loremIpsum = (
+      <div>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+        mollit anim id est laborum.
+      </div>
+    );
+
     const profileSections = [
       {
         name: 'Estimate your benefits',
-        component: <div />,
+        component: loremIpsum,
       },
       {
         name: 'Institution Details',
+        component: loremIpsum,
       },
       {
         name: 'Fields of Study',
+        component: loremIpsum,
       },
       {
         name: 'School locations',
         hide: !this.shouldShowSchoolLocations(profile.attributes.facilityMap),
+        component: loremIpsum,
       },
       {
         name: 'Cautionary information',
+        component: loremIpsum,
       },
       {
         name: 'Student ratings',
         hide: !displayStars,
+        component: loremIpsum,
       },
       {
         name: 'Contact details',
+        component: loremIpsum,
       },
     ];
 
