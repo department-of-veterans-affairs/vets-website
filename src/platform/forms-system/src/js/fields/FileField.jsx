@@ -6,7 +6,7 @@ import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import classNames from 'classnames';
 
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import ProgressBar from '../components/ProgressBar';
+import ProgressBar from '@department-of-veterans-affairs/component-library/ProgressBar';
 import { focusElement } from '../utilities/ui';
 import {
   ShowPdfPassword,

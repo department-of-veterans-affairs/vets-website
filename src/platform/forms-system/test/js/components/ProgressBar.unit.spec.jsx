@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
 import { axeCheck } from '../../config/helpers';
-import ProgressBar from '../../../src/js/components/ProgressBar.jsx';
+import ProgressBar from '@department-of-veterans-affairs/component-library/ProgressBar';
 
 describe('<ProgressBar/>', () => {
   it('should render', () => {

@@ -20,6 +20,8 @@ describe('Google Analytics FL Events', () => {
       cy.get('#street-city-state-zip').type('Austin, TX');
       cy.get('#facility-type-dropdown').select('VA health');
       cy.get('#facility-search').click();
+      cy.injectAxe();
+      cy.axeCheck();
 
       cy.get('#mapbox-gl-container', { timeout: 10000 }).should(() => {
         assertDataLayerEvent(win, 'fl-search');
@@ -39,9 +41,6 @@ describe('Google Analytics FL Events', () => {
             'fl-facility-distance-from-search',
           ]);
         });
-
-      cy.injectAxe();
-      cy.axeCheck();
 
       [...Array(5)].forEach(_ =>
         cy.get('.mapboxgl-ctrl-zoom-in').click({ waitForAnimations: true }),
@@ -74,22 +73,16 @@ describe('Google Analytics FL Events', () => {
         .first()
         .click();
 
-      cy.get('#facility-detail-id', { timeout: 10000 }).should(
-        'be.visible',
-        () => {
-          assertEventAndAttributes(win, 'fl-results-click', [
-            'fl-facility-name',
-            'fl-facility-type',
-            'fl-facility-classification',
-            'fl-facility-id',
-            'fl-result-page-number',
-            'fl-result-position',
-          ]);
-        },
-      );
-
-      cy.injectAxe();
-      cy.axeCheck();
+      cy.get('#facility-detail-id', { timeout: 10000 }).should(() => {
+        assertEventAndAttributes(win, 'fl-results-click', [
+          'fl-facility-name',
+          'fl-facility-type',
+          'fl-facility-classification',
+          'fl-facility-id',
+          'fl-result-page-number',
+          'fl-result-position',
+        ]);
+      });
     });
   });
 });
