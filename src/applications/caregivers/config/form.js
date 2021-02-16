@@ -16,10 +16,9 @@ import {
   hasSecondaryCaregiverTwo,
 } from 'applications/caregivers/helpers';
 
-import {
-  addressWithoutCountryUI,
-  secondaryTwoChapterTitle,
-} from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
+import { secondaryTwoChapterTitle } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
+
+import { addressWithoutCountryUI } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 
 import manifest from '../manifest.json';
 
