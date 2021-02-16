@@ -1,30 +1,30 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { SecondaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo';
 import { secondaryCaregiverFields } from 'applications/caregivers/definitions/constants';
-import definitions from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
+import { secondaryOneInputLabel } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
+import {
+  dateOfBirthUI,
+  fullNameUI,
+  genderUI,
+  ssnUI,
+} from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 
 const { secondaryCaregiverOne } = fullSchema.properties;
 const secondaryCaregiverOneProps = secondaryCaregiverOne.properties;
-
-const { dateOfBirthUI, fullNameUI, genderUI, ssnUI } = definitions.sharedItems;
-
-const { secondaryCaregiversUI } = definitions;
 
 const secondaryCaregiverInfoPage = {
   uiSchema: {
     'ui:description': SecondaryCaregiverInfo({ headerInfo: true }),
     // secondaryOne UI
     [secondaryCaregiverFields.secondaryOne.fullName]: fullNameUI(
-      secondaryCaregiversUI.secondaryOneInputLabel,
+      secondaryOneInputLabel,
     ),
-    [secondaryCaregiverFields.secondaryOne.ssn]: ssnUI(
-      secondaryCaregiversUI.secondaryOneInputLabel,
-    ),
+    [secondaryCaregiverFields.secondaryOne.ssn]: ssnUI(secondaryOneInputLabel),
     [secondaryCaregiverFields.secondaryOne.dateOfBirth]: dateOfBirthUI(
-      secondaryCaregiversUI.secondaryOneInputLabel,
+      secondaryOneInputLabel,
     ),
     [secondaryCaregiverFields.secondaryOne.gender]: genderUI(
-      secondaryCaregiversUI.secondaryOneInputLabel,
+      secondaryOneInputLabel,
     ),
   },
   schema: {

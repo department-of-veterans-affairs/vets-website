@@ -1,160 +1,36 @@
-import * as address from 'platform/forms-system/src/js/definitions/address';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import email from 'platform/forms-system/src/js/definitions/email';
-import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
-import { states } from 'platform/forms/address';
-import {
-  validateSSNIsUnique,
-  shouldHideAlert,
-} from 'applications/caregivers/helpers';
+import { shouldHideAlert } from 'applications/caregivers/helpers';
 import {
   AdditionalCaregiverInfo,
-  VeteranSSNInfo,
   SecondaryRequiredAlert,
 } from 'applications/caregivers/components/AdditionalInfo';
 
-const stateLabels = createUSAStateLabels(states);
+export const primaryInputLabel = 'Primary Family Caregiver\u2019s';
 
-export default {
-  'ui:title': fullSchema.title,
-  'ui:options': {
-    hideTitle: false,
-  },
-  sharedItems: {
-    contactInfoTitle: 'Contact information',
-    fullNameUI: label => ({
-      first: {
-        'ui:title': `${label}  first name`,
-        'ui:errorMessages': {
-          required: `Please enter ${label}  first name`,
-        },
-      },
-      last: {
-        'ui:title': `${label}  last name`,
-        'ui:errorMessages': {
-          required: `Please enter ${label}  last name`,
-        },
-      },
-      middle: {
-        'ui:title': `${label}  middle name`,
-      },
-    }),
-    dateOfBirthUI: label => currentOrPastDateUI(`${label}  date of birth`),
-    addressUI: address.uiSchema(' ', false),
-    primaryPhoneNumberUI: label =>
-      phoneUI(`${label}  primary telephone number (including area code)`),
-    alternativePhoneNumberUI: label =>
-      phoneUI(`${label}  alternate telephone number (including area code)`),
-    ssnUI: label => ({
-      ...ssnUI,
-      'ui:title': `${label}  Social Security number or tax identification number`,
-      'ui:description': label === 'Veteran\u2019s' && VeteranSSNInfo(),
-      'ui:options': {
-        widgetClassNames: 'usa-input-medium',
-      },
-      'ui:errorMessages': {
-        pattern:
-          'Please enter a valid Social Security or tax identification number',
-        required: 'Please enter a Social Security or tax identification number',
-      },
-      'ui:validations': [
-        ...ssnUI['ui:validations'],
-        {
-          validator: (errors, fieldData, formData) => {
-            validateSSNIsUnique(errors, formData);
-          },
-        },
-      ],
-    }),
-    emailUI: label => email(`${label}  email address`),
-    genderUI: label => ({
-      'ui:title': `${label}  sex`,
-      'ui:widget': 'radio',
-      'ui:options': { labels: { F: 'Female', M: 'Male' } },
-    }),
-    vetRelationshipUI: label => ({
-      'ui:title': `What is the ${label}  relationship to the Veteran?`,
-    }),
-    secondaryRequiredAlert: {
-      'ui:title': ' ',
-      'ui:widget': SecondaryRequiredAlert,
-      'ui:options': {
-        hideIf: formData => shouldHideAlert(formData),
-      },
-    },
-    hasSecondaryCaregiverTwoUI: {
-      'ui:title': ' ',
-      'ui:description': AdditionalCaregiverInfo,
-      'ui:widget': 'yesNo',
-    },
-  },
-  primaryCaregiverUI: {
-    primaryInputLabel: 'Primary Family Caregiver\u2019s',
-    hasHealthInsurance: {
-      'ui:title':
-        'Does the Primary Family Caregiver applicant have health care coverage, such as Medicaid, Medicare, CHAMPVA, Tricare, or private insurance?',
-      'ui:widget': 'yesNo',
-    },
-  },
-  secondaryCaregiversUI: {
-    secondaryOneInputLabel: 'Secondary Family Caregiver\u2019s',
-    secondaryOneChapterTitle:
-      'Secondary Family Caregiver applicant information',
-    secondaryTwoInputLabel: 'Secondary Family Caregiver\u2019s (2)',
-    secondaryTwoChapterTitle:
-      'Secondary Family Caregiver\u2019s (2) applicant information',
-  },
+export const primaryPhoneNumberUI = label =>
+  phoneUI(`${label}  primary telephone number (including area code)`);
+
+export const hasHealthInsurance = {
+  'ui:title':
+    'Does the Primary Family Caregiver applicant have health care coverage, such as Medicaid, Medicare, CHAMPVA, Tricare, or private insurance?',
+  'ui:widget': 'yesNo',
 };
 
-export const confirmationEmailUI = (label, dataConstant) => ({
-  'ui:title': `Re-enter ${label}  email address`,
-  'ui:widget': 'email',
-  'ui:required': formData => !!formData[dataConstant],
-  'ui:validations': [
-    {
-      validator: (errors, fieldData, formData) => {
-        const doesEmailMatch = () =>
-          formData[dataConstant] === formData[`view:${dataConstant}`];
+export const secondaryOneInputLabel = 'Secondary Family Caregiver\u2019s';
+export const secondaryTwoInputLabel = 'Secondary Family Caregiver\u2019s (2)';
+export const secondaryTwoChapterTitle =
+  'Secondary Family Caregiver\u2019s (2) applicant information';
 
-        if (!doesEmailMatch()) {
-          errors.addError(
-            'This email does not match your previously entered email',
-          );
-        }
-      },
-    },
-  ],
-});
-
-export const addressWithoutCountryUI = label => ({
+export const hasSecondaryCaregiverTwoUI = {
   'ui:title': ' ',
-  'ui:order': ['street', 'street2', 'city', 'state', 'postalCode'],
-  street: {
-    'ui:title': `${label}  current street address`,
-    'ui:errorMessages': { required: 'Please enter a street address' },
+  'ui:description': AdditionalCaregiverInfo,
+  'ui:widget': 'yesNo',
+};
+
+export const secondaryRequiredAlert = {
+  'ui:title': ' ',
+  'ui:widget': SecondaryRequiredAlert,
+  'ui:options': {
+    hideIf: formData => shouldHideAlert(formData),
   },
-  street2: { 'ui:title': `Line 2` },
-  city: {
-    'ui:title': `City`,
-    'ui:errorMessages': { required: 'Please enter a city' },
-  },
-  state: {
-    'ui:title': `State`,
-    'ui:options': {
-      labels: stateLabels,
-    },
-    'ui:errorMessages': { required: 'Please enter a state' },
-  },
-  postalCode: {
-    'ui:title': `Postal code`,
-    'ui:options': { widgetClassNames: 'usa-input-medium' },
-    'ui:errorMessages': {
-      required: 'Please enter a postal code',
-      pattern:
-        'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
-    },
-  },
-});
+};

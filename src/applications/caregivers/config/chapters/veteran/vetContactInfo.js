@@ -2,25 +2,23 @@ import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { VetInfo } from 'applications/caregivers/components/AdditionalInfo';
 import { vetFields } from 'applications/caregivers/definitions/constants';
 import { vetInputLabel } from 'applications/caregivers/definitions/UIDefinitions/veteranUI';
-import definitions, {
-  addressWithoutCountryUI,
+
+import {
+  emailUI,
+  alternativePhoneNumberUI,
+  primaryPhoneNumberUI,
   confirmationEmailUI,
-} from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
+  addressWithoutCountryUI,
+} from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 
 const { veteran } = fullSchema.properties;
 const veteranProps = veteran.properties;
 const { address, phone } = fullSchema.definitions;
-const {
-  alternativePhoneNumberUI,
-  emailUI,
-  primaryPhoneNumberUI,
-  contactInfoTitle,
-} = definitions.sharedItems;
 
 const vetContactInfoPage = {
   uiSchema: {
     'ui:description': VetInfo({
-      pageTitle: contactInfoTitle,
+      pageTitle: 'Contact information',
       headerInfo: true,
     }),
     [vetFields.address]: addressWithoutCountryUI(vetInputLabel),

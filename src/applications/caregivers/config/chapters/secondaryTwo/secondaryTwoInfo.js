@@ -1,34 +1,34 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { SecondaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo';
 import { secondaryCaregiverFields } from 'applications/caregivers/definitions/constants';
-import definitions, {
+import { secondaryTwoInputLabel } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
+import {
+  ssnUI,
+  genderUI,
+  fullNameUI,
+  dateOfBirthUI,
   addressWithoutCountryUI,
-} from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
+} from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 
 const { secondaryCaregiverTwo } = fullSchema.properties;
 const secondaryCaregiverTwoProps = secondaryCaregiverTwo.properties;
-const { dateOfBirthUI, fullNameUI, genderUI, ssnUI } = definitions.sharedItems;
-
-const { secondaryCaregiversUI } = definitions;
 
 const secondaryTwoInfoPage = {
   uiSchema: {
     'ui:description': SecondaryCaregiverInfo,
     // secondaryTwo UI
     [secondaryCaregiverFields.secondaryTwo.fullName]: fullNameUI(
-      secondaryCaregiversUI.secondaryTwoInputLabel,
+      secondaryTwoInputLabel,
     ),
-    [secondaryCaregiverFields.secondaryTwo.ssn]: ssnUI(
-      secondaryCaregiversUI.secondaryTwoInputLabel,
-    ),
+    [secondaryCaregiverFields.secondaryTwo.ssn]: ssnUI(secondaryTwoInputLabel),
     [secondaryCaregiverFields.secondaryTwo.dateOfBirth]: dateOfBirthUI(
-      secondaryCaregiversUI.secondaryTwoInputLabel,
+      secondaryTwoInputLabel,
     ),
     [secondaryCaregiverFields.secondaryTwo.gender]: genderUI(
-      secondaryCaregiversUI.secondaryTwoInputLabel,
+      secondaryTwoInputLabel,
     ),
     [secondaryCaregiverFields.secondaryTwo.address]: addressWithoutCountryUI(
-      secondaryCaregiversUI.secondaryTwoInputLabel,
+      secondaryTwoInputLabel,
     ),
   },
   schema: {

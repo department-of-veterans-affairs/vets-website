@@ -16,8 +16,9 @@ import {
   hasSecondaryCaregiverTwo,
 } from 'applications/caregivers/helpers';
 
-import definitions, {
+import {
   addressWithoutCountryUI,
+  secondaryTwoChapterTitle,
 } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
 
 import manifest from '../manifest.json';
@@ -50,9 +51,6 @@ const {
   ssn,
   fullName,
 } = fullSchema.definitions;
-
-const { contactInfoTitle } = definitions.sharedItems;
-const { secondaryCaregiversUI } = definitions;
 
 /* Chapters
  * 1 - Vet/Service Member (required)
@@ -111,7 +109,7 @@ const formConfig = {
         },
         veteranInfoTwo: {
           path: 'vet-2',
-          title: contactInfoTitle,
+          title: 'Contact information',
           uiSchema: vetContactInfoPage.uiSchema,
           schema: vetContactInfoPage.schema,
         },
@@ -141,7 +139,7 @@ const formConfig = {
         },
         primaryCaregiverInfoThree: {
           path: 'primary-3',
-          title: contactInfoTitle,
+          title: 'Contact information',
           uiSchema: primaryContactInfoPage.uiSchema,
           schema: primaryContactInfoPage.schema,
           depends: formData => hasPrimaryCaregiver(formData),
@@ -181,7 +179,7 @@ const formConfig = {
       },
     },
     secondaryCaregiversTwoChapter: {
-      title: secondaryCaregiversUI.secondaryTwoChapterTitle,
+      title: secondaryTwoChapterTitle,
       depends: formData => hasSecondaryCaregiverTwo(formData),
       pages: {
         secondaryCaregiverTwo: {
@@ -193,7 +191,7 @@ const formConfig = {
         },
         secondaryCaregiverTwoTwo: {
           path: 'secondary-two-2',
-          title: secondaryCaregiversUI.secondaryTwoChapterTitle,
+          title: secondaryTwoChapterTitle,
           depends: formData => hasSecondaryCaregiverTwo(formData),
           uiSchema: secondaryTwoContactPage.uiSchema,
           schema: secondaryTwoContactPage.schema,

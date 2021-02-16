@@ -1,53 +1,48 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { SecondaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo';
 import { secondaryCaregiverFields } from 'applications/caregivers/definitions/constants';
-import definitions, {
+import {
+  secondaryOneInputLabel,
+  hasSecondaryCaregiverTwoUI,
+} from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
+import {
+  emailUI,
+  vetRelationshipUI,
+  alternativePhoneNumberUI,
+  primaryPhoneNumberUI,
   addressWithoutCountryUI,
   confirmationEmailUI,
-} from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
+} from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 
 const { secondaryCaregiverOne } = fullSchema.properties;
 const secondaryCaregiverOneProps = secondaryCaregiverOne.properties;
 
 const { address } = fullSchema.definitions;
 
-const {
-  alternativePhoneNumberUI,
-  emailUI,
-  hasSecondaryCaregiverTwoUI,
-  primaryPhoneNumberUI,
-  vetRelationshipUI,
-  contactInfoTitle,
-} = definitions.sharedItems;
-
-const { secondaryCaregiversUI } = definitions;
-
 const secondaryCaregiverContactPage = {
   uiSchema: {
     'ui:description': SecondaryCaregiverInfo({
-      pageTitle: contactInfoTitle,
+      pageTitle: 'Contact information',
     }),
     // secondaryOne UI
     [secondaryCaregiverFields.secondaryOne.address]: addressWithoutCountryUI(
-      secondaryCaregiversUI.secondaryOneInputLabel,
+      secondaryOneInputLabel,
     ),
     [secondaryCaregiverFields.secondaryOne
-      .primaryPhoneNumber]: primaryPhoneNumberUI(
-      secondaryCaregiversUI.secondaryOneInputLabel,
-    ),
+      .primaryPhoneNumber]: primaryPhoneNumberUI(secondaryOneInputLabel),
     [secondaryCaregiverFields.secondaryOne
       .alternativePhoneNumber]: alternativePhoneNumberUI(
-      secondaryCaregiversUI.secondaryOneInputLabel,
+      secondaryOneInputLabel,
     ),
     [secondaryCaregiverFields.secondaryOne.email]: emailUI(
-      secondaryCaregiversUI.secondaryOneInputLabel,
+      secondaryOneInputLabel,
     ),
     [secondaryCaregiverFields.secondaryOne.verifyEmail]: confirmationEmailUI(
-      secondaryCaregiversUI.secondaryOneInputLabel,
+      secondaryOneInputLabel,
       secondaryCaregiverFields.secondaryOne.email,
     ),
     [secondaryCaregiverFields.secondaryOne.vetRelationship]: vetRelationshipUI(
-      secondaryCaregiversUI.secondaryOneInputLabel,
+      secondaryOneInputLabel,
     ),
     [secondaryCaregiverFields.secondaryOne
       .hasSecondaryCaregiverTwo]: hasSecondaryCaregiverTwoUI,
