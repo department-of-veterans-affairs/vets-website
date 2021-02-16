@@ -34,6 +34,7 @@ import * as otherAssets from './assets/other';
 import * as otherAssetRecords from './assets/other/records';
 import * as expenses from './expenses/household';
 import * as utilities from './expenses/utilities';
+import * as utilityRecords from './expenses/utilities/records';
 import * as repayments from './expenses/repayments';
 import * as otherExpenses from './expenses/other';
 import * as resolutionOptions from './resolution/options';
@@ -76,6 +77,7 @@ export {
   otherAssetRecords,
   expenses,
   utilities,
+  utilityRecords,
   repayments,
   otherExpenses,
   resolutionOptions,
