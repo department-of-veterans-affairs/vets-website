@@ -22,6 +22,7 @@ import ExpressCareRequestLimitPage from './components/ExpressCareRequestLimitPag
 import ErrorMessage from '../components/ErrorMessage';
 import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
+import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
 
 function NewExpressCareRequestSection({
   windowsStatus,
@@ -52,6 +53,7 @@ function NewExpressCareRequestSection({
     },
     [history, windowsStatus, allowRequests, useNewFlow],
   );
+  useFormUnsavedDataWarning();
 
   const shouldRedirectToStart = useFormRedirectToStart({
     shouldRedirect: () =>
