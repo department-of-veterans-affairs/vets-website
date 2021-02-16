@@ -6,7 +6,11 @@ import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import * as actions from '../redux/actions';
-import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../utils/constants';
+import {
+  APPOINTMENT_STATUS,
+  APPOINTMENT_TYPES,
+  FETCH_STATUS,
+} from '../../utils/constants';
 import { lowerCase } from '../../utils/formatters';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import ListBestTimeToCall from './cards/pending/ListBestTimeToCall';
@@ -16,6 +20,7 @@ import {
   getPatientTelecom,
   isVideoAppointment,
   getVAAppointmentLocationId,
+  getPractitionerLocationDisplay,
 } from '../../services/appointment';
 import { selectFirstRequestMessage } from '../redux/selectors';
 
@@ -24,12 +29,6 @@ const TIME_TEXT = {
   PM: 'in the afternoon',
   'No Time Selected': '',
 };
-
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id ? id.replace('var', '') : id;
-}
 
 function RequestedAppointmentDetailsPage({
   appointment,
@@ -73,6 +72,9 @@ function RequestedAppointmentDetailsPage({
   const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
+  const isCCRequest =
+    appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;
+  const practitionerName = getPractitionerLocationDisplay(appointment);
 
   return (
     <div>
@@ -110,7 +112,7 @@ function RequestedAppointmentDetailsPage({
         )}
       </AlertBox>
       <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
-        {isCC && 'Community Care'}
+        {isCC && !isCCRequest && 'Community Care'}
         {!isCC && !!isVideoRequest && 'VA Video Connect'}
         {!isCC && !isVideoRequest && 'VA Appointment'}
         {isExpressCare && 'Express Care'}
@@ -123,9 +125,20 @@ function RequestedAppointmentDetailsPage({
           <VAFacilityLocation
             facility={facility}
             facilityName={facility?.name}
-            facilityId={parseFakeFHIRId(facilityId)}
+            facilityId={facilityId}
             isHomepageRefresh
           />
+        )}
+
+      {isCC &&
+        isCCRequest &&
+        practitionerName && (
+          <>
+            <h2 className="vaos-appts__block-label vads-u-margin-bottom--0 vads-u-margin-top--2">
+              Preferred community care provider
+            </h2>
+            <span>{practitionerName}</span>
+          </>
         )}
 
       {!isExpressCare && (

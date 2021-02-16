@@ -75,7 +75,7 @@ const testConfig = createTestConfig(
         afterHook,
       }) => {
         afterHook(() => {
-          cy.get('#root_dateMonth').select('Jan');
+          cy.get('#root_dateMonth').select('January');
           cy.get('#root_dateDay').select('1');
           cy.get('#root_dateYear').type('1991');
           cy.get('#root_location_state').select('Alabama');

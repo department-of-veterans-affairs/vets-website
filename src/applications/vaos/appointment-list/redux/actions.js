@@ -99,10 +99,6 @@ export const FETCH_EXPRESS_CARE_WINDOWS_FAILED =
 export const FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED =
   'vaos/FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED';
 
-function parseFakeFHIRId(id) {
-  return id ? id.replace('var', '') : id;
-}
-
 export function fetchRequestMessages(requestId) {
   return async dispatch => {
     try {
@@ -359,6 +355,7 @@ export function fetchPendingAppointments() {
 
 export function fetchPastAppointments(startDate, endDate, selectedIndex) {
   return async (dispatch, getState) => {
+    const featureHomepageRefresh = selectFeatureHomepageRefresh(getState());
     dispatch({
       type: FETCH_PAST_APPOINTMENTS,
       selectedIndex,
@@ -369,14 +366,28 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
     });
 
     try {
-      const data = await getBookedAppointments({
-        startDate,
-        endDate,
-      });
+      const fetches = [
+        getBookedAppointments({
+          startDate,
+          endDate,
+        }),
+      ];
+
+      if (featureHomepageRefresh) {
+        fetches.push(
+          getAppointmentRequests({
+            startDate: moment(startDate).format('YYYY-MM-DD'),
+            endDate: moment(endDate).format('YYYY-MM-DD'),
+          }),
+        );
+      }
+
+      const [appointments, requests] = await Promise.all(fetches);
 
       dispatch({
         type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
-        data,
+        appointments,
+        requests,
         startDate,
         endDate,
       });
@@ -435,11 +446,10 @@ export function fetchRequestDetails(id) {
       // TODO: fetch single appointment
     }
 
-    const parsedId = parseFakeFHIRId(id);
-    const messages = requestMessages?.[parsedId];
+    const messages = requestMessages?.[id];
 
     if (!messages) {
-      dispatch(fetchRequestMessages(parsedId));
+      dispatch(fetchRequestMessages(id));
     }
   };
 }

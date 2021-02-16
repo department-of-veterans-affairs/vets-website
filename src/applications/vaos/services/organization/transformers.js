@@ -16,13 +16,13 @@ export function transformParentFacilities(parentFacilities) {
     // it depends on how the FHIR calls work
     if (facility.rootStationCode !== facility.id) {
       partOf = {
-        reference: `Organization/var${facility.rootStationCode}`,
+        reference: `Organization/${facility.rootStationCode}`,
       };
     }
 
     return {
       resourceType: 'Organization',
-      id: `var${facility.id}`,
+      id: facility.id,
       identifier: [
         {
           system: VHA_FHIR_ID,

@@ -314,24 +314,25 @@ describe('526 helpers', () => {
       global.fetch = originalFetch;
     });
 
-    it('should not call the api if the input length is < 3', () => {
+    /* un-skip these once we get a new enpoint in place; see #14028 */
+    it.skip('should not call the api if the input length is < 3', () => {
       queryForFacilities('12');
       expect(global.fetch.called).to.be.false;
     });
 
-    it('should call the api if the input length is >= 3', () => {
+    it.skip('should call the api if the input length is >= 3', () => {
       queryForFacilities('123');
       expect(global.fetch.called).to.be.true;
     });
 
-    it('should call the api with the input', () => {
+    it.skip('should call the api with the input', () => {
       queryForFacilities('asdf');
       expect(global.fetch.firstCall.args[0]).to.contain(
         '/facilities/suggested?type%5B%5D=health&type%5B%5D=dod_health&name_part=asdf',
       );
     });
 
-    it('should return the mapped data for autosuggest if successful', () => {
+    it.skip('should return the mapped data for autosuggest if successful', () => {
       // Doesn't matter what we call this with since our stub will always return the same thing
       const requestPromise = queryForFacilities('asdf');
       return requestPromise.then(result => {

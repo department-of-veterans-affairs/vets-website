@@ -22,6 +22,10 @@ function loa1DashboardTest(mobile, stubs) {
     cy.viewport('iphone-4');
   }
 
+  // make sure that the "Verify" alert is shown
+  cy.findByText(/Verify your identity to access/i).should('exist');
+  cy.findByText(/we need to make sure you’re you/i).should('exist');
+
   // focus should be on the h1
   cy.focused()
     .should('have.attr', 'id', 'dashboard-title')
@@ -44,10 +48,6 @@ function loa1DashboardTest(mobile, stubs) {
 
   // make sure that the health care section is hidden
   cy.findByText('Health care').should('not.exist');
-
-  // make sure that the "Verify" alert is shown
-  cy.findByText(/Verify your identity to access/i).should('exist');
-  cy.findByText(/we need to make sure you’re you/i).should('exist');
 
   // make the a11y check
   cy.injectAxe();

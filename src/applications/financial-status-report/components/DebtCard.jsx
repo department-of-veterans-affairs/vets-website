@@ -90,7 +90,7 @@ class DebtCard extends Component {
             })}
             htmlFor={debtIdentifier}
           >
-            Request assistance for this debt
+            Request help with this debt
           </label>
         </div>
       </div>

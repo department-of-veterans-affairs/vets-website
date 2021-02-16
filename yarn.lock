@@ -1274,12 +1274,14 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-1.1.1.tgz#374854780cf29aec21096d73ba9ac398c62e3ad5"
-  integrity sha512-QwPV1SA13v8VZth1FXdJwGqhGJRHoBHWKCZw7hnQq7j9SKWBs+RlRWvUBTftr4eTul0CWr3SRp9plSGaMdhFBQ==
+"@department-of-veterans-affairs/component-library@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-2.0.0.tgz#4a8160d4dfa66ffcad234ccb5addb7857cb190dc"
+  integrity sha512-7EQmZ+MyDctwYmWF5XD1SXrSUo7Em7bHbzk6Q1WkvsWEy77FcP/JtkdSijSo8IH8oV4CHp7d+Il3xVUOv1X/og==
   dependencies:
     classnames "^2.2.6"
+    date-fns "^2.17.0"
+    date-fns-tz "^1.1.1"
     lodash "^4.17.15"
     moment "^2.23.0"
     prop-types "^15.6.2"
@@ -2981,7 +2983,7 @@ axe-core@^4.0.2:
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.1.0.tgz#93d395e6262ecdde5cb52a5d06533d0a0c7bb4cd"
   integrity sha512-9atDIOTDLsWL+1GbBec6omflaT5Cxh88J0GtJtGfCVIXpI02rXHkju59W5mMqWa7eiC5OR168v3TK3kUKBW98g==
 
-axios@^0.18.0, axios@^0.18.1, axios@^0.21.0, axios@^0.21.1:
+axios@^0.18.0, axios@^0.20.0, axios@^0.21.0, axios@^0.21.1:
   version "0.21.1"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
   integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
@@ -5405,12 +5407,12 @@ cypress-plugin-tab@^1.0.5:
   dependencies:
     ally.js "^1.4.1"
 
-cypress-testrail-reporter@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/cypress-testrail-reporter/-/cypress-testrail-reporter-1.2.1.tgz#8c6537a7ae935374fc7f09d4523f996d450e37c7"
-  integrity sha512-SxOKdWfskNlGx2kPleIyAG62iUPUu+0Jd60pIelqG1O23QZV9WKt41iivUZwCDII/tvSLD/5aE54OjBuMd4VMQ==
+cypress-testrail-reporter@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/cypress-testrail-reporter/-/cypress-testrail-reporter-1.2.3.tgz#801a2a994026b258d77d319d5a272404eabeeb1d"
+  integrity sha512-tXVfd5m6dgW7yCYc8Cfv4530QpgM8xFeAyvgxZsJREboSkYUrBWu6B8W9oA/vAY3lJV+IDYScVMPnK5ohRjE/A==
   dependencies:
-    axios "^0.18.1"
+    axios "^0.20.0"
     btoa "^1.1.2"
     chalk "^2.4.1"
     mocha "^2.2.5"
@@ -5518,6 +5520,11 @@ data-urls@^1.1.0:
     whatwg-mimetype "^2.2.0"
     whatwg-url "^7.0.0"
 
+date-fns-tz@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/date-fns-tz/-/date-fns-tz-1.1.1.tgz#2e0dfcc62cc5b7b5fa7ea620f11a5e7f63a7ed75"
+  integrity sha512-5PR604TlyvpiNXtvn+PZCcCazsI8fI1am3/aimNFN8CMqHQ0KRl+6hB46y4mDbB7bk3+caEx3qHhS7Ewac/FIg==
+
 date-fns@^1.27.2:
   version "1.30.1"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.30.1.tgz#2e71bf0b119153dbb4cc4e88d9ea5acfb50dc05c"
@@ -5527,6 +5534,11 @@ date-fns@^2.0.1:
   version "2.12.0"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.12.0.tgz#01754c8a2f3368fc1119cf4625c3dad8c1845ee6"
   integrity sha512-qJgn99xxKnFgB1qL4jpxU7Q2t0LOn1p8KMIveef3UZD7kqjT3tpFNNdXJelEHhE+rUgffriXriw/sOSU+cS1Hw==
+
+date-fns@^2.17.0:
+  version "2.17.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.17.0.tgz#afa55daea539239db0a64e236ce716ef3d681ba1"
+  integrity sha512-ZEhqxUtEZeGgg9eHNSOAJ8O9xqSgiJdrL0lzSSfMF54x6KXWJiOH/xntSJ9YomJPrYH/p08t6gWjGWq1SDJlSA==
 
 dateformat@^3.0.3:
   version "3.0.3"

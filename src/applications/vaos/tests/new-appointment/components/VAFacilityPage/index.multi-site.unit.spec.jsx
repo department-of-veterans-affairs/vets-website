@@ -97,11 +97,11 @@ describe('VAOS integration: VA facility page with a multi-site user', () => {
     await screen.findByText(/registered at the following VA/i);
     expect(screen.getByLabelText(/some other va facility/i)).to.have.attribute(
       'value',
-      'var984',
+      '984',
     );
     expect(screen.getByLabelText(/some va facility/i)).to.have.attribute(
       'value',
-      'var983',
+      '983',
     );
 
     fireEvent.click(screen.getByText(/Continue/));
@@ -160,12 +160,12 @@ describe('VAOS integration: VA facility page with a multi-site user', () => {
     await findByText(/registered at the following VA/i);
     expect(getByLabelText(/some va facility/i)).to.have.attribute(
       'value',
-      'var983',
+      '983',
     );
 
     expect(getByLabelText(/cerner facility/i)).to.have.attribute(
       'value',
-      'var668',
+      '668',
     );
     expect(getByLabelText(/cerner facility/i)).to.have.attribute('disabled');
 

@@ -155,3 +155,36 @@ describe('deriveLastBreadcrumbFromPath', () => {
     expect(last.text).to.eq(title);
   });
 });
+
+describe('formatSeconds', () => {
+  it('returns hours when needed', () => {
+    expect(liquid.filters.formatSeconds(65245)).to.eq('18:7:25 hours');
+  });
+
+  it('returns minutes when needed', () => {
+    expect(liquid.filters.formatSeconds(160)).to.eq('2:40 minutes');
+  });
+
+  it('returns seconds when needed', () => {
+    expect(liquid.filters.formatSeconds(23)).to.eq('23 seconds');
+  });
+});
+
+describe('createEmbedYouTubeVideoURL', () => {
+  it('returns back the raw url if the youtube link should not be changed', () => {
+    expect(liquid.filters.createEmbedYouTubeVideoURL('')).to.eq('');
+    expect(liquid.filters.createEmbedYouTubeVideoURL('asdf')).to.eq('asdf');
+    expect(
+      liquid.filters.createEmbedYouTubeVideoURL('youtube.com/embed/asdf'),
+    ).to.eq('youtube.com/embed/asdf');
+  });
+
+  it('returns the modified URL if it needs it', () => {
+    expect(
+      liquid.filters.createEmbedYouTubeVideoURL('https://youtu.be/asdf'),
+    ).to.eq('https://youtube.com/embed/asdf');
+    expect(
+      liquid.filters.createEmbedYouTubeVideoURL('https://www.youtu.be/asdf'),
+    ).to.eq('https://www.youtube.com/embed/asdf');
+  });
+});
