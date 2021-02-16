@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import classNames from 'classnames';
-import buildFormlett from '../ViewDependentsFormStates/BuildFormlett.jsx';
+import buildFormlett from '../ViewDependentsFormStates/BuildFormlett';
 
 function ViewDependentsListItem(props) {
   const [open, setOpen] = useState(false);

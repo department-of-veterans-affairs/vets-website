@@ -1,9 +1,9 @@
 import React from 'react';
-import ViewDependentsChildForm from './ViewDependentsChildForm.jsx';
-import ViewDependentsSpouseForm from './ViewDependentsSpouseForm.jsx';
+import ViewDependentsChildForm from './ViewDependentsChildForm';
+import ViewDependentsSpouseForm from './ViewDependentsSpouseForm';
 
-function buildFormlett(relationship) {
-  let formlett = '';
+function buildFormlett({ relationship }) {
+  let formlett = null;
   switch (relationship) {
     case 'Child':
       formlett = <ViewDependentsChildForm />;
@@ -14,7 +14,7 @@ function buildFormlett(relationship) {
     default:
   }
 
-  return formlett;
+  return <div>{formlett}</div>;
 }
 
 export default buildFormlett;
