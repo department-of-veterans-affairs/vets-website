@@ -96,7 +96,7 @@ export const addressWithoutCountryUI = label => ({
   'ui:title': ' ',
   'ui:order': ['street', 'street2', 'city', 'state', 'postalCode'],
   street: {
-    'ui:title': `${label}  current street address`,
+    'ui:title': `${label} current street address`,
     'ui:errorMessages': { required: 'Please enter a street address' },
   },
   street2: { 'ui:title': `Line 2` },
