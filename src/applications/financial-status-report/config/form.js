@@ -394,7 +394,7 @@ const formConfig = {
       },
     },
     resolutionOptionsChapter: {
-      title: 'Resolution options',
+      title: 'Repayment or relief options',
       pages: {
         resolutionOptions: {
           path: 'resolution-options/:index',
@@ -426,9 +426,7 @@ const formConfig = {
           title: 'Bankruptcy history',
           uiSchema: pages.bankruptcyHistoryRecords.uiSchema,
           schema: pages.bankruptcyHistoryRecords.schema,
-          depends: formData =>
-            formData.bankruptcyHistory.hasBeenAdjudicated ===
-            'Yes, I have been adjudicated as bankrupt.',
+          depends: formData => formData.bankruptcyHistory.hasBeenAdjudicated,
         },
       },
     },
