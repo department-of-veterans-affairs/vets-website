@@ -95,7 +95,16 @@ export class SearchMenu extends React.Component {
       );
 
       const suggestions = await response.json();
-      this.setState({ suggestions });
+      const sortedSuggestions = suggestions.sort(function(a, b) {
+        if (a.length < b.length) {
+          return -1;
+        }
+        if (a.length > b.length) {
+          return 1;
+        }
+        return 0;
+      });
+      this.setState({ suggestions: sortedSuggestions });
 
       // if we fail to fetch suggestions
     } catch (error) {
