@@ -2,7 +2,7 @@ export const uiSchema = {
   'ui:title': 'Your monthly utility bills',
   hasUtilities: {
     'ui:title':
-      'Do you pay any utility bills, such as electricity, water, or gas?',
+      'Do you pay any monthly utility bills (like water, electricity, or gas)?',
     'ui:required': () => true,
     'ui:widget': 'yesNo',
     'ui:options': {

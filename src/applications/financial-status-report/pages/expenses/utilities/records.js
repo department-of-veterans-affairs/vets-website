@@ -33,7 +33,7 @@ export const uiSchema = {
           getOptions: () => formatOptions(utilityTypes),
         },
       },
-      monthlyUtilityAmount: _.merge(currencyUI('Monthly amount'), {
+      monthlyUtilityAmount: _.merge(currencyUI('Monthly payment amount'), {
         'ui:options': {
           widgetClassNames: 'input-size-1',
         },

@@ -19,6 +19,7 @@ export const uiSchema = {
       viewField: CardDetailsView,
       doNotScroll: true,
       showSave: true,
+      itemName: 'installment or other debt',
     },
     items: {
       debtType: {

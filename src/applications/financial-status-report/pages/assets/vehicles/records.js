@@ -32,7 +32,7 @@ export const uiSchema = {
       viewField: CardDetailsView,
       doNotScroll: true,
       showSave: true,
-      itemName: 'a vehicle',
+      itemName: 'vehicle',
     },
     items: {
       vehicleType: {
