@@ -11,7 +11,7 @@ import {
 import { getAvailableHealthcareServices } from '../../services/healthcare-service';
 import {
   getLocationsByTypeOfCareAndSiteIds,
-  getSiteIdFromFakeFHIRId,
+  getSiteIdFromFacilityId,
 } from '../../services/location';
 import { getPreciseLocation } from '../../utils/address';
 import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../utils/constants';
@@ -113,7 +113,7 @@ export function getClinics({ facilityId, showModal = false }) {
       clinics = await getAvailableHealthcareServices({
         facilityId,
         typeOfCareId: TYPE_OF_CARE_ID,
-        systemId: getSiteIdFromFakeFHIRId(facilityId),
+        systemId: getSiteIdFromFacilityId(facilityId),
       });
       dispatch({
         type: FORM_FETCH_CLINICS_SUCCEEDED,
@@ -244,7 +244,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
   return async (dispatch, getState) => {
     const state = getState();
     const useVSP = selectFeatureVSPAppointmentNew(state);
-    const siteId = getSiteIdFromFakeFHIRId(
+    const siteId = getSiteIdFromFacilityId(
       selectProjectCheetahFormData(state).vaFacility,
     );
     const newBooking = selectProjectCheetahNewBooking(state);

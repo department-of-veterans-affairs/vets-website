@@ -28,9 +28,9 @@ describe('VAOS appointment list', () => {
 
   it('should show more info for appointments', () => {
     cy.get(
-      'li[data-request-id="var8a48912a6cab0202016cb4fcaa8b0038"] .additional-info-button.va-button-link',
+      'li[data-request-id="8a48912a6cab0202016cb4fcaa8b0038"] .additional-info-button.va-button-link',
     ).click();
-    cy.get('[id="var8a48912a6cab0202016cb4fcaa8b0038-vaos-info-content"]');
+    cy.get('[id="8a48912a6cab0202016cb4fcaa8b0038-vaos-info-content"]');
     cy.contains('Request 2 Message 1 Text');
   });
 
