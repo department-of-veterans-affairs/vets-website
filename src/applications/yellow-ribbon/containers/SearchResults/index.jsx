@@ -8,7 +8,10 @@ import recordEvent from 'platform/monitoring/record-event';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 // Relative imports.
-import SearchResult from '../../components/SearchResult';
+import SearchResult, {
+  deriveEligibleStudentsLabel,
+  deriveMaxAmountLabel,
+} from '../../components/SearchResult';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { fetchResultsThunk, toggleSearchResultsToolTip } from '../../actions';
 import { focusElement } from 'platform/utilities/ui';
@@ -121,8 +124,8 @@ export class SearchResults extends Component {
       'search-filters-list': {
         stateOrTerritory: school?.state || undefined,
         city: school?.city || undefined,
-        contributionAmount: school?.contributionAmount || undefined,
-        numberOfStudents: school?.numberOfStudents || undefined,
+        contributionAmount: deriveMaxAmountLabel(school) || undefined,
+        numberOfStudents: deriveEligibleStudentsLabel(school) || undefined,
       },
       'search-results-top-recommendation': undefined,
       'search-selection': 'Yellow Ribbon',
