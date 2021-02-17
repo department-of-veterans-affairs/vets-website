@@ -173,7 +173,7 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
         message: "${brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}".stripMargin(),
         color: 'danger',
         failOnError: true,
-        channel: 'cms-team'
+        channel: 'cms-team',
         attachments: brokenLinks
       )
       
