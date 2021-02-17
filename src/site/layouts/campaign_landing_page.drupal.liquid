@@ -69,7 +69,22 @@
                   </ul>
                 </div>
               {% endif %}
-              {% include "src/site/includes/social-share.drupal.liquid" %}
+
+              <div data-template="includes/social-share" id="va-c-social-share">
+                <ul class="usa-unstyled-list">
+                  <li class="vads-u-margin-bottom--2p5">
+                    <a class="va-js-share-link" href="https://www.facebook.com/sharer/sharer.php?href={{ hostUrl }}{{ entityUrl.path }}">
+                      <i class="va-c-social-icon fab fa-facebook vads-u-margin-right--0p5"></i>Share on Facebook
+                    </a>
+                  </li>
+
+                  <li>
+                    <a class="va-js-share-link" href="https://twitter.com/intent/tweet?text={{ title }}&url={{ hostUrl }}{{ entityUrl.path }}">
+                      <i class="va-c-social-icon fab fa-twitter vads-u-margin-right--0p5"></i>Share on Twitter
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div><!-- /This page is for -->
         </div>
