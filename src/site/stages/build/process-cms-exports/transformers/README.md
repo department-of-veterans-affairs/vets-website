@@ -11,6 +11,7 @@ The files in this directory are owned by the following teams:
 |               | node-health_care_region_detail_page
 |               | node-health_care_region_page
 |               | node-health_services_listing
+|               | node-leadership_listing
 |               | node-locations_listing
 |               | node-news_story
 |               | node-nca_facility
@@ -33,10 +34,13 @@ The files in this directory are owned by the following teams:
 |               | node-landing_page
 |               | node-media_list_images
 |               | node-media_list_videos
+|               | node-page
+|               | node-publication_listing
 |               | node-q_a
 |               | node-step_by_step
 |               | node-support_resources_detail_page
 |               | node-support_service
+|               | node-va_form
 |               | paragraph-alert_single
 |               | paragraph-audience_topics
 |               | paragraph-button
