@@ -295,18 +295,21 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         }
       }
 
-      #facility-locate-user {
+      .use-my-location-link {
+        text-decoration: none;
+
+        @media(max-width: $small-desktop-screen) {
+          margin: 1em 0 1em 0;
+        }
+      }
+
+      .use-my-location-button {
         width: 18px;
         height: 18px;
         background-image: url("/img/location-arrow-solid.svg");
         background-repeat: no-repeat;
         background-color: transparent;
-        margin: 1em 0 1em 0;
         padding: 0 1.5em 0 0;
-      }
-
-      .use-my-location-link {
-        text-decoration: none;
       }
 
       #search-controls-bottom-row {

@@ -75,33 +75,29 @@ class SearchControls extends Component {
           City, state or postal code{' '}
           <span className="vads-u-color--secondary-dark">(*Required)</span>
         </label>
-        <div>
-          {currentQuery.geocodeInProgress ? (
-            <div className="vads-u-margin-y--2">
-              <i
-                className="fa fa-spinner fa-spin"
-                aria-hidden="true"
-                role="presentation"
-              />
-              <span>Finding your location...</span>
-            </div>
-          ) : (
-            <>
-              <button
-                id="facility-locate-user"
-                title="Use my location"
-                onClick={this.handleGeolocationButtonClick}
-              />
-              <a
-                href="#"
-                onClick={this.handleGeolocationButtonClick}
-                className="use-my-location-link"
-              >
-                Use my location
-              </a>
-            </>
-          )}
-        </div>
+        {currentQuery.geocodeInProgress ? (
+          <>
+            <i
+              className="fa fa-spinner fa-spin"
+              aria-hidden="true"
+              role="presentation"
+            />
+            <span>Finding your location...</span>
+          </>
+        ) : (
+          <a
+            href="#"
+            onClick={this.handleGeolocationButtonClick}
+            className="use-my-location-link"
+          >
+            <i
+              className="use-my-location-button"
+              aria-hidden="true"
+              role="presentation"
+            />
+            Use my location
+          </a>
+        )}
       </div>
       <input
         id="street-city-state-zip"

@@ -32,7 +32,7 @@ describe('Facility geolocation', () => {
 
     cy.get('#street-city-state-zip').should('be.empty');
 
-    cy.get('#facility-locate-user')
+    cy.get('.use-my-location-link')
       .click()
       .then(() => {
         cy.get('#street-city-state-zip').contains('Los Angeles', {
