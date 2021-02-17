@@ -5,6 +5,7 @@ import { scroller } from 'react-scroll';
 import { createId } from '../utils/helpers';
 import classNames from 'classnames';
 import { getScrollOptions } from 'platform/utilities/ui';
+import { NAV_WIDTH } from '../constants';
 
 export class ProfileNavBar extends React.Component {
   componentDidMount() {
@@ -14,32 +15,36 @@ export class ProfileNavBar extends React.Component {
     window.removeEventListener('scroll', this.handleScroll, true);
   }
 
-  navBarDesktopClasses = (stuck = false) => {
-    return classNames('profile-nav-bar', 'nav-bar-desktop-only', {
-      'profile-nav-bar-stuck': stuck,
-      row: !stuck,
-    });
+  onDesktop = () => {
+    return window.innerWidth >= NAV_WIDTH;
   };
 
-  shouldBeStuck = () => {
-    const profileNavBarDesktop = document.getElementById(
-      'profile-nav-bar-desktop',
-    );
+  handleScroll = () => {
+    if (this.onDesktop()) {
+      this.handleDesktopScroll();
+    } else {
+      this.handleMobileScroll();
+    }
+  };
+
+  shouldBeStuck = profileNavBar => {
     const placeholder = document.getElementById('profile-nav-placeholder');
 
-    const topOffset = profileNavBarDesktop.getBoundingClientRect().top <= 0;
+    const topOffset = profileNavBar.getBoundingClientRect().top <= 0;
     const bottomOffset = placeholder.getBoundingClientRect().bottom <= 0;
 
     return topOffset && bottomOffset;
   };
 
-  handleScroll = () => {
+  // Desktop functions
+
+  handleDesktopScroll = () => {
     const profileNavBarDesktop = document.getElementById(
       'profile-nav-bar-desktop',
     );
     const jumpLinks = document.getElementById('jump-links');
 
-    if (this.shouldBeStuck()) {
+    if (this.shouldBeStuck(profileNavBarDesktop)) {
       profileNavBarDesktop.className = this.navBarDesktopClasses(true);
       jumpLinks.className = 'row';
     } else {
@@ -48,7 +53,14 @@ export class ProfileNavBar extends React.Component {
     }
   };
 
-  jumpLinkClicked = e => {
+  navBarDesktopClasses = (stuck = false) => {
+    return classNames('profile-nav-bar', 'nav-bar-desktop-only', {
+      'profile-nav-bar-stuck': stuck,
+      row: !stuck,
+    });
+  };
+
+  jumpLinkClickedDesktop = e => {
     e.preventDefault();
     const section = e.target.text;
     const profileNavBarDesktop = document.getElementById(
@@ -56,12 +68,39 @@ export class ProfileNavBar extends React.Component {
     );
 
     let offset = -profileNavBarDesktop.offsetHeight;
-    if (!this.shouldBeStuck()) {
+    if (!this.shouldBeStuck(profileNavBarDesktop)) {
       offset = -(profileNavBarDesktop.offsetHeight * 2);
       // it's a magic number but it fixes the weird scrolling issue when navbar is unstuck
     }
 
     scroller.scrollTo(createId(section), getScrollOptions({ offset }));
+  };
+
+  // Mobile functions
+
+  handleMobileScroll = () => {
+    const profileNavBarMobile = document.getElementById(
+      'profile-nav-bar-mobile',
+    );
+
+    if (this.shouldBeStuck(profileNavBarMobile)) {
+      profileNavBarMobile.className = this.navBarMobileClasses(true);
+    } else {
+      profileNavBarMobile.className = this.navBarMobileClasses();
+    }
+  };
+
+  navBarMobileClasses = (stuck = false) => {
+    return classNames('profile-nav-bar', 'nav-bar-mobile-only', {
+      'profile-nav-bar-stuck': stuck,
+    });
+  };
+
+  navigateMobile = _e => {
+    // const arrow = e.target.id;
+    // if (arrow === 'mobile-up-arrow') {
+    // } else {
+    // }
   };
 
   render() {
@@ -80,7 +119,7 @@ export class ProfileNavBar extends React.Component {
               >
                 <a
                   href={`#${createId(section)}`}
-                  onClick={this.jumpLinkClicked}
+                  onClick={this.jumpLinkClickedDesktop}
                 >
                   {section}
                 </a>
@@ -90,10 +129,30 @@ export class ProfileNavBar extends React.Component {
         </div>
         <div
           id="profile-nav-bar-mobile"
-          className="nav-bar-mobile-only profile-nav-bar"
+          className="nav-bar-mobile-only profile-nav-bar row"
         >
-          Coming soon in Story CT: Create mobile sticky nav custom component
-          #19721
+          <h2 className="vads-u-font-size--h3 vads-u-margin--0">
+            Navigate this page
+            <span
+              className="vads-u-margin-right--1p5"
+              style={{ float: 'right' }}
+            >
+              <i
+                id="mobile-up-arrow"
+                className={
+                  'far fa-arrow-alt-circle-up vads-u-margin-right--1p5 vads-u-margin-top--0p5'
+                }
+                onClick={this.navigateMobile}
+              />
+              <i
+                id="mobile-down-arrow"
+                className={
+                  'far fa-arrow-alt-circle-down vads-u-margin-right--1p5 vads-u-margin-top--0p5'
+                }
+                onClick={this.navigateMobile}
+              />
+            </span>
+          </h2>
         </div>
       </>
     );
