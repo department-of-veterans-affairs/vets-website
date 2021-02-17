@@ -63,6 +63,18 @@ const resolutionOptions = [
   },
 ];
 
+const isRequired = formData => {
+  let index = 0;
+  if (window.location.href.includes('resolution-options')) {
+    index = window.location.href.slice(-1);
+  }
+  const type = formData.fsrDebts[index].resolution?.resolutionType;
+
+  return Boolean(
+    type === resolutionOptions[1].type || type === resolutionOptions[2].type,
+  );
+};
+
 const renderLabels = () => {
   let labels = null;
   for (let i = 0; i < resolutionOptions.length; i++) {
@@ -105,7 +117,8 @@ export const uiSchema = {
         affordToPay: {
           'ui:options': {
             expandUnder: 'resolutionType',
-            expandUnderCondition: resolutionOptions[0].type,
+            expandUnderCondition: resolutionOptions[1].type,
+            classNames: 'no-wrap',
           },
           canAffordToPay: _.merge(
             currencyUI('How much can you afford to pay monthly on this debt?'),
@@ -113,9 +126,7 @@ export const uiSchema = {
               'ui:options': {
                 widgetClassNames: 'input-size-3',
               },
-              'ui:required': formData =>
-                formData.resolution?.resolutionType ===
-                resolutionOptions[0].type,
+              'ui:required': formData => isRequired(formData),
             },
           ),
         },
@@ -123,6 +134,7 @@ export const uiSchema = {
           'ui:options': {
             expandUnder: 'resolutionType',
             expandUnderCondition: resolutionOptions[2].type,
+            classNames: 'no-wrap',
           },
           canOfferToPay: _.merge(
             currencyUI(
@@ -132,9 +144,7 @@ export const uiSchema = {
               'ui:options': {
                 widgetClassNames: 'input-size-3',
               },
-              'ui:required': formData =>
-                formData.resolution?.resolutionType ===
-                resolutionOptions[2].type,
+              'ui:required': formData => isRequired(formData),
             },
           ),
         },
