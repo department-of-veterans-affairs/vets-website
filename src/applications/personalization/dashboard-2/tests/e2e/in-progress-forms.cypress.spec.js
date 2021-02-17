@@ -9,6 +9,9 @@ import manifest from 'applications/personalization/dashboard/manifest.json';
 import { mockFeatureToggles } from './helpers';
 
 describe('The My VA Dashboard', () => {
+  const oneDayInSeconds = 24 * 60 * 60;
+  const oneWeekInSeconds = 24 * 60 * 60 * 7;
+  const oneYearInSeconds = 24 * 60 * 60 * 365;
   beforeEach(() => {
     disableFTUXModals();
     cy.intercept('/v0/profile/service_history', serviceHistory);
@@ -23,9 +26,6 @@ describe('The My VA Dashboard', () => {
       // four forms, but one will fail the `isSIPEnabledForm()` check so only
       // three will be shown on the dashboard
       const now = Date.now() / 1000;
-      const oneDayInSeconds = 24 * 60 * 60;
-      const oneWeekInSeconds = 24 * 60 * 60 * 7;
-      const oneYearInSeconds = 24 * 60 * 60 * 365;
       const savedForms = [
         {
           form: '21P-527EZ',
@@ -107,10 +107,54 @@ describe('The My VA Dashboard', () => {
       cy.visit(manifest.rootUrl);
     });
     it('should show benefit applications that were saved in progress', () => {
+      cy.findByRole('heading', { name: /apply for benefits/i });
+      cy.findByRole('heading', { name: /applications in progress/i });
       cy.findAllByTestId('application-in-progress').should('have.length', 3);
       // make the a11y check
       cy.injectAxe();
       cy.axeCheck();
     });
+  });
+  describe('when there are no-progress forms', () => {
+    beforeEach(() => {
+      // a single form that fails the `isSIPEnabledForm()` check so none will be
+      // shown
+      const now = Date.now() / 1000;
+      const savedForms = [
+        // This form is unknown and will be filtered out of the list of applications
+        {
+          form: '28-1900',
+          metadata: {
+            version: 0,
+            returnUrl: '/communication-preferences',
+            savedAt: 1611946775267,
+            submission: {
+              status: false,
+              errorMessage: false,
+              id: false,
+              timestamp: false,
+              hasAttemptedSubmit: false,
+            },
+            expiresAt: now + oneDayInSeconds,
+            lastUpdated: 1611946775,
+            inProgressFormId: 9332,
+          },
+          lastUpdated: 1611946775,
+        },
+      ];
+      mockUser.data.attributes.inProgressForms = savedForms;
+      cy.login(mockUser);
+      mockFeatureToggles();
+      cy.visit(manifest.rootUrl);
+    });
+    it('should show fallback content when there are no benefit applications saved in progress', () => {
+      cy.findByRole('heading', { name: /apply for benefits/i });
+      cy.findByRole('heading', { name: /applications in progress/i });
+      cy.findAllByTestId('application-in-progress').should('have.length', 0);
+      cy.findByText(/you have no applications in/i);
+      cy.injectAxe();
+      cy.axeCheck();
+    });
+    // TODO: add task to properly handle in-progress forms that have expired
   });
 });
