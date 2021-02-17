@@ -22,7 +22,7 @@
                 <a
                   class="usa-button usa-button-secondary va-u-box-shadow--none vads-u-margin-top--2 vads-u-background-color--white vads-u-border--0 vads-u-font-size--sm"
                   href="{{ fieldPrimaryCallToAction.entity.fieldButtonLink.url.path }}"
-                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'hero', 'clp-section-title': '{{ title }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldPrimaryCallToAction.entity.fieldButtonLabel }}' });"
+                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'hero', 'clp-section-title': '{{ title | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldPrimaryCallToAction.entity.fieldButtonLabel | escape }}' });"
                 >
                   {{ fieldPrimaryCallToAction.entity.fieldButtonLabel }}
                 </a>
@@ -46,7 +46,7 @@
               <a
                 class="usa-button usa-button-secondary vads-u-font-size--sm"
                 href="{{ fieldSecondaryCallToAction.entity.fieldButtonLink.url.path }}"
-                onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Why this matters to you', 'clp-section-title': '{{ fieldClpWhyThisMatters }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldSecondaryCallToAction.entity.fieldButtonLabel }}' });"
+                onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Why this matters to you', 'clp-section-title': '{{ fieldClpWhyThisMatters | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldSecondaryCallToAction.entity.fieldButtonLabel | escape }}' });"
               >
                 {{ fieldSecondaryCallToAction.entity.fieldButtonLabel }}
               </a>
@@ -108,7 +108,10 @@
             <div class="vads-u-background-color--gray-light-alt vads-u-height--full medium-screen:vads-u-margin-x--1 medium-screen:vads-u-margin-y--0">
               <img alt="{{ promo.entity.fieldImage.entity.thumbnail.alt }}" src="{{ promo.entity.fieldImage.entity.thumbnail.url }}" />
               <h3 class="vads-u-padding-x--2">
-                <a onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'What you can do', 'clp-section-title': '{{ fieldClpWhatYouCanDoHeader }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ promo.entity.fieldPromoLink.entity.fieldLink.title }}' });" href="{{ promo.entity.fieldPromoLink.entity.fieldLink.uri }}">
+                <a
+                  href="{{ promo.entity.fieldPromoLink.entity.fieldLink.uri }}"
+                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'What you can do', 'clp-section-title': '{{ fieldClpWhatYouCanDoHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ promo.entity.fieldPromoLink.entity.fieldLink.title | escape }}' });"
+                >
                   {{ promo.entity.fieldPromoLink.entity.fieldLink.title }}
                 </a>
               </h3>
@@ -168,7 +171,7 @@
                 <a
                   class="vads-u-margin-top--4 usa-button usa-button-secondary vads-u-font-size--sm"
                   href="{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLink.url.path }}"
-                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Video', 'clp-section-title': '{{ fieldClpVideoPanelHeader }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel }}' });"
+                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Video', 'clp-section-title': '{{ fieldClpVideoPanelHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel | escape }}' });"
                 >
                   {{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel }}
                   <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
@@ -192,7 +195,7 @@
               {{ fieldClpSpotlightIntroText }}
               <a
                 href="{{ fieldClpSpotlightCta.entity.fieldButtonLink.url.path }}"
-                onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Spotlight', 'clp-section-title': '{{ fieldClpSpotlightHeader }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpSpotlightCta.entity.fieldButtonLabel }}'"
+                onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Spotlight', 'clp-section-title': '{{ fieldClpSpotlightHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpSpotlightCta.entity.fieldButtonLabel | escape }}'"
               >
                 {{ fieldClpSpotlightCta.entity.fieldButtonLabel }}
               </a>
@@ -207,7 +210,7 @@
                   <h3 class="vads-u-margin-top--0">
                     <a
                       href="{{ linkTeaser.entity.fieldLink.uri }}"
-                      onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Spotlight', 'clp-section-title': '{{ fieldClpSpotlightHeader }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ linkTeaser.entity.fieldLink.title }}'"
+                      onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Spotlight', 'clp-section-title': '{{ fieldClpSpotlightHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ linkTeaser.entity.fieldLink.title | escape }}'"
                     >
                       {{ linkTeaser.entity.fieldLink.title }}
                     </a>
@@ -250,7 +253,7 @@
                         <h3 class="vads-u-margin-top--0">
                           <a
                             href="{{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.uri }}"
-                            onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Stories', 'clp-section-title': '{{ fieldClpStoriesHeader }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.title }}' });"
+                            onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Stories', 'clp-section-title': '{{ fieldClpStoriesHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.title | escape }}' });"
                           >
                             {{ storyTeaser.entity.fieldLinkTeaser.entity.fieldLink.title }}
                           </a>
@@ -267,7 +270,7 @@
                 <a
                   class="usa-button usa-button-secondary vads-u-font-size--sm"
                   href="{{ fieldClpStoriesCta.entity.fieldButtonLink.url }}"
-                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Stories', 'clp-section-title': '{{ fieldClpStoriesHeader }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpStoriesCta.entity.fieldButtonLabel }}' });"
+                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Stories', 'clp-section-title': '{{ fieldClpStoriesHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpStoriesCta.entity.fieldButtonLabel | escape }}' });"
                   rel="noreferrer noopener"
                   target="_blank"
                 >
@@ -304,7 +307,7 @@
                   <a
                     download
                     href="{{ resource.entity.fieldMediaExternalFile.url }}"
-                    onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Downloadable resources', 'clp-section-title': '{{ fieldClpResourcesHeader }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '' });"
+                    onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Downloadable resources', 'clp-section-title': '{{ fieldClpResourcesHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': 'Download {{ resource.entity.name | escape }}' });"
                   >
                     Download (PDF)
                   </a>
@@ -320,7 +323,7 @@
               <a
                 class="usa-button usa-button-secondary vads-u-font-size--sm"
                 href="{{ fieldClpResourcesCta.entity.fieldButtonLink.url.path }}"
-                onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Downloadable resources', 'clp-section-title': '{{ fieldClpResourcesHeader }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpResourcesCta.entity.fieldButtonLabel }}' });"
+                onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Downloadable resources', 'clp-section-title': '{{ fieldClpResourcesHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpResourcesCta.entity.fieldButtonLabel | escape }}' });"
               >
                 {{ fieldClpResourcesCta.entity.fieldButtonLabel }}
                 <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
@@ -355,7 +358,7 @@
                   <h3 class="vads-u-margin-top--0">
                     <a
                       href="{{ eventReference.entity.fieldLink.url }}"
-                      onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Events', 'clp-section-title': '{{ fieldClpEventsHeader }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ eventReference.entity.title }}' });"
+                      onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Events', 'clp-section-title': '{{ fieldClpEventsHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ eventReference.entity.title | escape }}' });"
                     >
                       {{ eventReference.entity.title }}
                     </a>
@@ -389,7 +392,7 @@
                         {% if eventReference.entity.fieldFacilityLocation.entity.entityUrl.path %}
                           <a
                             href="{{ eventReference.entity.fieldFacilityLocation.entity.entityUrl.path }}"
-                            onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Events', 'clp-section-title': '{{ fieldClpEventsHeader }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ eventReference.entity.fieldFacilityLocation.entity.title }}' });"
+                            onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Events', 'clp-section-title': '{{ fieldClpEventsHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ eventReference.entity.fieldFacilityLocation.entity.title | escape }}' });"
                             rel="noreferrer noopener"
                             target="_blank"
                           >
@@ -400,7 +403,7 @@
                         {% if eventReference.entity.fieldLink.uri %}
                           <a
                             href="{{ eventReference.entity.fieldLink.uri }}"
-                            onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Events', 'clp-section-title': '{{ fieldClpEventsHeader }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ eventReference.entity.fieldEventCta }}' });"
+                            onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Events', 'clp-section-title': '{{ fieldClpEventsHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ eventReference.entity.fieldEventCta | escape }}' });"
                             rel="noreferrer noopener"
                             target="_blank"
                           >
@@ -460,7 +463,7 @@
               <a
                 class="usa-button usa-button-secondary vads-u-font-size--sm"
                 href="{{ fieldClpFaqCta.entity.fieldButtonLink.url.path }}"
-                onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'FAQ', 'clp-section-title': 'Frequently asked questions', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpFaqCta.entity.fieldButtonLabel }}' });"
+                onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'FAQ', 'clp-section-title': 'Frequently asked questions', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpFaqCta.entity.fieldButtonLabel | escape }}' });"
               >
                 {{ fieldClpFaqCta.entity.fieldButtonLabel }}
                 <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
@@ -492,7 +495,7 @@
                 <a
                   aria-label="{{ fieldClpConnectWithUs.entity.fieldEmailUpdatesLinkText }} (opens in a new window)"
                   href="{{ fieldClpConnectWithUs.entity.fieldEmailUpdatesUrl }}"
-                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Connect with us', 'clp-section-title': 'Get updates from {{ fieldClpConnectWithUs.entity.name }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpConnectWithUs.entity.fieldEmailUpdatesLinkText }}' });"
+                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Connect with us', 'clp-section-title': 'Get updates from {{ fieldClpConnectWithUs.entity.name | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpConnectWithUs.entity.fieldEmailUpdatesLinkText | escape }}' });"
                   rel="noreferrer noopener"
                   target="_blank"
                 >
@@ -509,7 +512,7 @@
                 <a
                   aria-label="{{ fieldClpConnectWithUs.entity.name }} Twitter (opens in a new window)"
                   href="https://twitter.com/{{ socialLinksObject.twitter.value }}"
-                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Connect with us', 'clp-section-title': 'Get updates from {{ fieldClpConnectWithUs.entity.name }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpConnectWithUs.entity.name }} Twitter' });"
+                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Connect with us', 'clp-section-title': 'Get updates from {{ fieldClpConnectWithUs.entity.name | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpConnectWithUs.entity.name | escape }} Twitter' });"
                   rel="noreferrer noopener"
                   target="_blank"
                 >
@@ -526,7 +529,7 @@
                 <a
                   aria-label="{{ fieldClpConnectWithUs.entity.name }} Facebook (opens in a new window)"
                   href="https://facebook.com/{{ socialLinksObject.facebook.value }}"
-                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Connect with us', 'clp-section-title': 'Get updates from {{ fieldClpConnectWithUs.entity.name }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpConnectWithUs.entity.name }} Facebook' });"
+                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Connect with us', 'clp-section-title': 'Get updates from {{ fieldClpConnectWithUs.entity.name | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpConnectWithUs.entity.name | escape }} Facebook' });"
                   rel="noreferrer noopener"
                   target="_blank"
                 >
@@ -543,7 +546,7 @@
                 <a
                   aria-label="{{ fieldClpConnectWithUs.entity.name }} YouTube (opens in a new window)"
                   href="https://youtube.com/channel/{{ socialLinksObject.youtube.value }}"
-                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Connect with us', 'clp-section-title': 'Get updates from {{ fieldClpConnectWithUs.entity.name }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpConnectWithUs.entity.name }} YouTube' });"
+                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Connect with us', 'clp-section-title': 'Get updates from {{ fieldClpConnectWithUs.entity.name | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpConnectWithUs.entity.name | escape }} YouTube' });"
                   rel="noreferrer noopener"
                   target="_blank"
                 >
@@ -560,7 +563,7 @@
                 <a
                   aria-label="{{ fieldClpConnectWithUs.entity.name }} Linkedin (opens in a new window)"
                   href="https://linkedin.com/{{ socialLinksObject.linkedin.value }}"
-                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Connect with us', 'clp-section-title': 'Get updates from {{ fieldClpConnectWithUs.entity.name }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpConnectWithUs.entity.name }} Linkedin' });"
+                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Connect with us', 'clp-section-title': 'Get updates from {{ fieldClpConnectWithUs.entity.name | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpConnectWithUs.entity.name | escape }} Linkedin' });"
                   rel="noreferrer noopener"
                   target="_blank"
                 >
@@ -577,7 +580,7 @@
                 <a
                   aria-label="{{ fieldClpConnectWithUs.entity.name }} Instagram (opens in a new window)"
                   href="https://instagram.com/{{ socialLinksObject.instagram.value }}"
-                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Connect with us', 'clp-section-title': 'Get updates from {{ fieldClpConnectWithUs.entity.name }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpConnectWithUs.entity.name }} Instagram' });"
+                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Connect with us', 'clp-section-title': 'Get updates from {{ fieldClpConnectWithUs.entity.name | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpConnectWithUs.entity.name | escape }} Instagram' });"
                   rel="noreferrer noopener"
                   target="_blank"
                 >
@@ -612,7 +615,7 @@
                     <i class="icon-large white hub-icon-{{ benefitCategory.entity.fieldTitleIcon }} hub-background-{{ benefitCategory.entity.fieldTitleIcon }}" role="presentation" aria-hidden="true"></i>
                   </div>
                   <a
-                    onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'VA Benefits', 'clp-section-title': 'Learn more about related VA benefits', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ benefitCategory.entity.title }}' });"
+                    onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'VA Benefits', 'clp-section-title': 'Learn more about related VA benefits', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ benefitCategory.entity.title | escape }}' });"
                     href="{{ benefitCategory.entity.entityUrl.path }}"
                   >
                     {{ benefitCategory.entity.title }}
