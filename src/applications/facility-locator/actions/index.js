@@ -409,18 +409,27 @@ export const getProviderSpecialties = () => async dispatch => {
 };
 
 export const geolocateUser = () => async dispatch => {
-  if (navigator.geolocation) {
+  if (navigator?.geolocation?.getCurrentPosition) {
     dispatch({ type: GEOCODE_STARTED });
-    navigator.geolocation.getCurrentPosition(async currentPosition => {
-      const query = await searchCriteraFromCoords(
-        currentPosition.coords.longitude,
-        currentPosition.coords.latitude,
-      );
-      dispatch({ type: GEOCODE_COMPLETE });
-      dispatch(updateSearchQuery(query));
-    });
+    navigator.geolocation.getCurrentPosition(
+      async currentPosition => {
+        const query = await searchCriteraFromCoords(
+          currentPosition.coords.longitude,
+          currentPosition.coords.latitude,
+        );
+        dispatch({ type: GEOCODE_COMPLETE });
+        dispatch(updateSearchQuery(query));
+      },
+      e => {
+        dispatch({ type: GEOCODE_FAILED });
+        if (e.code === 1) {
+          alert(
+            'Please enable location access in your browser to use this feature.',
+          );
+        }
+      },
+    );
   } else {
-    // eslint-disable-next-line no-console
-    console.warn('navigator.geolocation undefined; unable to geolocate user');
+    alert('Sorry, your browser does not support this feature.');
   }
 };
