@@ -1,7 +1,3 @@
-/**
- * @typedef { import("./types").Appointment } Appointment
- */
-
 import moment from '../../lib/moment-tz';
 
 import {
