@@ -100,17 +100,6 @@ describe('View payment history', () => {
   beforeEach(() => {
     disableFTUXModals();
     cy.login(mockUser);
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        type: 'feature_toggles',
-        features: [
-          {
-            name: 'view_payment_history',
-            value: true,
-          },
-        ],
-      },
-    });
   });
   it('should pass an aXe scan and paginate through payment data', () => {
     testPagination();

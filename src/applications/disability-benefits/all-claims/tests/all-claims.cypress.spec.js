@@ -143,7 +143,11 @@ const testConfig = createTestConfig(
       // because fixtures don't evaluate JS.
       cy.intercept('GET', '/v0/intent_to_file', mockItf);
 
-      cy.intercept('PUT', '/v0/in_progress_forms/*', mockInProgress);
+      cy.intercept(
+        'PUT',
+        '/v0/disability_compensation_in_progress_forms/*',
+        mockInProgress,
+      );
 
       cy.intercept(
         'GET',
@@ -177,20 +181,24 @@ const testConfig = createTestConfig(
           ({ 'view:selected': _, ...obj }) => obj,
         );
 
-        cy.intercept('GET', 'v0/in_progress_forms/21-526EZ', {
-          formData: {
-            veteran: {
-              primaryPhone: '4445551212',
-              emailAddress: 'test2@test1.net',
+        cy.intercept(
+          'GET',
+          'v0/disability_compensation_in_progress_forms/21-526EZ',
+          {
+            formData: {
+              veteran: {
+                primaryPhone: '4445551212',
+                emailAddress: 'test2@test1.net',
+              },
+              disabilities: sanitizedRatedDisabilities,
             },
-            disabilities: sanitizedRatedDisabilities,
+            metadata: {
+              version: 0,
+              prefill: true,
+              returnUrl: '/veteran-information',
+            },
           },
-          metadata: {
-            version: 0,
-            prefill: true,
-            returnUrl: '/veteran-information',
-          },
-        });
+        );
       });
     },
 

@@ -5,7 +5,7 @@ export const uiSchema = {
   'ui:title': 'Your work history',
   employment: {
     'ui:options': {
-      classNames: 'previous-employment-container',
+      classNames: 'vads-u-margin-top--2',
     },
     previousEmploymentRecords: {
       'ui:field': ItemLoop,
