@@ -5,7 +5,7 @@ import { render } from '@testing-library/react';
 import FacilityAddress from '../../components/FacilityAddress';
 
 const facility = {
-  id: 'var377c',
+  id: '377c',
   name: 'Marine Corp Air Station Miramar Pre-Discharge Claims Intake Site',
   position: {
     latitude: 32.88772959,

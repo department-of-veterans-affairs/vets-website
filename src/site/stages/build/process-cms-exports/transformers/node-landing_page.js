@@ -7,6 +7,7 @@ const {
 } = require('./helpers');
 
 const transform = entity => ({
+  targetId: getDrupalValue(entity.nid),
   entityType: 'node',
   entityBundle: 'landing_page',
   title: getDrupalValue(entity.title),
@@ -38,6 +39,7 @@ const transform = entity => ({
 
 module.exports = {
   filter: [
+    'nid',
     'title',
     'changed',
     'path',

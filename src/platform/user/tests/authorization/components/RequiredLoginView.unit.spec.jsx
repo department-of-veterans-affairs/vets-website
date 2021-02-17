@@ -131,7 +131,8 @@ describe('<RequiredLoginView>', () => {
     const { tree } = setup({
       user: { profile: { loading: true } },
     });
-    const loadingIndicatorElement = tree.dive(['LoadingIndicator']);
+    const loadingIndicator = tree.dive(['RequiredLoginLoader']);
+    const loadingIndicatorElement = loadingIndicator.dive(['LoadingIndicator']);
     expect(loadingIndicatorElement.text()).to.contain(
       'Loading your information',
     );

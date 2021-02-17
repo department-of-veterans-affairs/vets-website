@@ -1,5 +1,4 @@
 {% include "src/site/includes/header.html" with drupalTags = true %}
-
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
@@ -15,14 +14,6 @@
 
         {% if sidebar.links != empty %}
           {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
-        {% endif %}
-
-        {% if !entityPublished %}
-          <div class="usa-alert usa-alert-info" >
-            <div class="usa-alert-body">
-              <p class="usa-alert-text">You are viewing a draft.</p>
-            </div>
-          </div>
         {% endif %}
 
         <article class="usa-content">

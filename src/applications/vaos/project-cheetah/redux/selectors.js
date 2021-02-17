@@ -1,14 +1,10 @@
-import moment from 'moment';
-import {
-  selectProfile,
-  selectVAPResidentialAddress,
-} from 'platform/user/selectors';
+import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import { FETCH_STATUS } from '../../utils/constants';
 import {
   getTimezoneBySystemId,
   getTimezoneDescBySystemId,
 } from '../../utils/timezone';
-import { getSiteIdFromFakeFHIRId } from '../../services/location';
+import { getSiteIdFromFacilityId } from '../../services/location';
 
 export function selectProjectCheetah(state) {
   return state.projectCheetah;
@@ -32,7 +28,7 @@ export function getProjectCheetahFormPageInfo(state, pageKey) {
 }
 
 export function getSiteIdForChosenFacility(state) {
-  return getSiteIdFromFakeFHIRId(
+  return getSiteIdFromFacilityId(
     selectProjectCheetahFormData(state).vaFacility,
   );
 }
@@ -66,10 +62,6 @@ export function getDateTimeSelect(state, pageKey) {
     timezone,
     timezoneDescription,
   };
-}
-
-export function selectAllowProjectCheetahBookings(state) {
-  return moment().diff(moment(selectProfile(state).dob), 'years') >= 15;
 }
 
 export function getChosenFacilityInfo(state) {
@@ -156,5 +148,17 @@ export function selectConfirmationPage(state) {
     data: selectProjectCheetahFormData(state),
     facilityDetails: getChosenFacilityInfo(state),
     systemId: getSiteIdForChosenFacility(state),
+  };
+}
+
+export function selectContactFacilitiesPageInfo(state) {
+  const newBooking = selectProjectCheetahNewBooking(state);
+
+  const { facilities, facilitiesStatus } = newBooking;
+
+  return {
+    facilities,
+    facilitiesStatus,
+    sortMethod: newBooking.facilityPageSortMethod,
   };
 }

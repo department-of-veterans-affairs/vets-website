@@ -54,7 +54,11 @@ const transform = (entity, { ancestors }) => ({
   fieldFacilityLocatorApiId: getDrupalValue(entity.fieldFacilityLocatorApiId),
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldLocalHealthCareService: entity.fieldLocalHealthCareService.length
-    ? entity.fieldLocalHealthCareService.filter(n => Object.keys(n).length)
+    ? entity.fieldLocalHealthCareService.filter(
+        s =>
+          s.entity?.fieldRegionalHealthService?.entity
+            ?.fieldServiceNameAndDescripti?.entity?.name,
+      )
     : null,
   fieldLocationServices: entity.fieldLocationServices.length
     ? entity.fieldLocationServices

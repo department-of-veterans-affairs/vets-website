@@ -1,4 +1,9 @@
-import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import {
+  selectVAPResidentialAddress,
+  selectVAPEmailAddress,
+  selectVAPHomePhoneString,
+  selectVAPMobilePhoneString,
+} from 'platform/user/selectors';
 import {
   selectFeatureVSPAppointmentNew,
   selectSystemIds,
@@ -6,7 +11,7 @@ import {
 import { getAvailableHealthcareServices } from '../../services/healthcare-service';
 import {
   getLocationsByTypeOfCareAndSiteIds,
-  getSiteIdFromFakeFHIRId,
+  getSiteIdFromFacilityId,
 } from '../../services/location';
 import { getPreciseLocation } from '../../utils/address';
 import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../utils/constants';
@@ -69,6 +74,14 @@ export const FORM_SUBMIT_SUCCEEDED = 'projectCheetah/FORM_SUBMIT_SUCCEEDED';
 export const FORM_SUBMIT_FAILED = 'projectCheetah/FORM_SUBMIT_FAILED';
 export const FORM_CLINIC_PAGE_OPENED_SUCCEEDED =
   'projectCheetah/FORM_CLINIC_PAGE_OPENED_SUCCEEDED';
+export const FORM_PREFILL_CONTACT_INFO =
+  'projectCheetah/FORM_PREFILL_CONTACT_INFO';
+export const FORM_PAGE_CONTACT_FACILITIES_OPEN =
+  'projectCheetah/FORM_CONTACT_FACILITIES_OPEN';
+export const FORM_PAGE_CONTACT_FACILITIES_OPEN_SUCCEEDED =
+  'projectCheetah/FORM_CONTACT_FACILITIES_OPEN_SUCCEEDED';
+export const FORM_PAGE_CONTACT_FACILITIES_OPEN_FAILED =
+  'projectCheetah/FORM_CONTACT_FACILITIES_OPEN_FAILED';
 
 export const GA_FLOWS = {
   DIRECT: 'direct',
@@ -100,7 +113,7 @@ export function getClinics({ facilityId, showModal = false }) {
       clinics = await getAvailableHealthcareServices({
         facilityId,
         typeOfCareId: TYPE_OF_CARE_ID,
-        systemId: getSiteIdFromFakeFHIRId(facilityId),
+        systemId: getSiteIdFromFacilityId(facilityId),
       });
       dispatch({
         type: FORM_FETCH_CLINICS_SUCCEEDED,
@@ -231,7 +244,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
   return async (dispatch, getState) => {
     const state = getState();
     const useVSP = selectFeatureVSPAppointmentNew(state);
-    const siteId = getSiteIdFromFakeFHIRId(
+    const siteId = getSiteIdFromFacilityId(
       selectProjectCheetahFormData(state).vaFacility,
     );
     const newBooking = selectProjectCheetahNewBooking(state);
@@ -352,6 +365,21 @@ export function projectCheetahAppointmentDateChoice(history) {
   };
 }
 
+export function prefillContactInfo() {
+  return (dispatch, getState) => {
+    const state = getState();
+    const email = selectVAPEmailAddress(state);
+    const homePhone = selectVAPHomePhoneString(state);
+    const mobilePhone = selectVAPMobilePhoneString(state);
+
+    dispatch({
+      type: FORM_PREFILL_CONTACT_INFO,
+      email,
+      phoneNumber: mobilePhone || homePhone,
+    });
+  };
+}
+
 export function confirmAppointment(history) {
   return async (dispatch, getState) => {
     dispatch({
@@ -449,6 +477,41 @@ export function onCalendarChange(selectedDates, pageKey) {
   };
 }
 
+export function openContactFacilitiesPage() {
+  return async (dispatch, getState) => {
+    try {
+      const initialState = getState();
+      const newBooking = selectProjectCheetahNewBooking(initialState);
+      const siteIds = selectSystemIds(initialState);
+      let facilities = newBooking.facilities;
+
+      dispatch({
+        type: FORM_PAGE_CONTACT_FACILITIES_OPEN,
+      });
+
+      // Fetch facilities that support this type of care
+      if (!facilities) {
+        facilities = await getLocationsByTypeOfCareAndSiteIds({
+          siteIds,
+          directSchedulingEnabled: true,
+        });
+      }
+
+      recordItemsRetrieved('cheetah_available_facilities', facilities?.length);
+
+      dispatch({
+        type: FORM_PAGE_CONTACT_FACILITIES_OPEN_SUCCEEDED,
+        facilities: facilities || [],
+        address: selectVAPResidentialAddress(initialState),
+      });
+    } catch (e) {
+      captureError(e, false, 'cheetah facility page');
+      dispatch({
+        type: FORM_PAGE_CONTACT_FACILITIES_OPEN_FAILED,
+      });
+    }
+  };
+}
 export function routeToNextAppointmentPage(history, current) {
   return routeToPageInFlow(newBookingFlow, history, current, 'next');
 }

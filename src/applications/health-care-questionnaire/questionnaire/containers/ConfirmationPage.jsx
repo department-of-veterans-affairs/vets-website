@@ -31,7 +31,7 @@ const ConfirmationPage = props => {
         </h2>
         <AppointmentDisplay appointment={appointment} bold={false} />
         <p>We look forward to seeing you at your upcoming appointment.</p>
-        <PrintButton />
+        <PrintButton displayArrow={false} />
       </div>
       {appointment && <ConfirmationPageFooter appointment={appointment} />}
     </div>

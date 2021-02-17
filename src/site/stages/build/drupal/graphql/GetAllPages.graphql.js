@@ -14,7 +14,7 @@ const eventListingPage = require('./eventListingPage.graphql');
 const eventPage = require('./eventPage.graphql');
 const facilitySidebarQuery = require('./navigation-fragments/facilitySidebar.nav.graphql');
 const faqMultipleQaPage = require('./faqMultipleQa.graphql');
-const fragments = require('./fragments.graphql');
+const { ALL_FRAGMENTS } = require('./fragments.graphql');
 const healthCareLocalFacilityPage = require('./healthCareLocalFacilityPage.graphql');
 const healthCareRegionDetailPage = require('./healthCareRegionDetailPage.graphql');
 const healthServicesListingPage = require('./healthServicesListingPage.graphql');
@@ -61,35 +61,35 @@ const buildQuery = ({ useTomeSync }) => {
   const nodeContentFragments = useTomeSync
     ? ''
     : `
-  ${fragments}
-  ${landingPage}
-  ${page}
-  ${healthCareRegionPage}
-  ${healthCareLocalFacilityPage}
-  ${healthCareRegionDetailPage}
-  ${pressReleasePage}
-  ${vamcOperatingStatusAndAlerts}
-  ${newsStoryPage}
-  ${eventPage}
-  ${officePage}
-  ${bioPage}
-  ${vaFormPage}
-  ${benefitListingPage}
-  ${eventListingPage}
-  ${storyListingPage}
-  ${leadershipListingPage}
-  ${healthServicesListingPage}
-  ${pressReleasesListingPage}
-  ${locationListingPage}
-  ${qaPage}
-  ${faqMultipleQaPage}
-  ${stepByStepPage}
-  ${mediaListImages}
-  ${checklistPage}
-  ${mediaListVideos}
-  ${supportResourcesDetailPage}
-  ${basicLandingPage}
-  ${nodeCampaignLandingPage}
+  ${ALL_FRAGMENTS}
+  ${landingPage.fragment}
+  ${page.fragment}
+  ${healthCareRegionPage.fragment}
+  ${healthCareLocalFacilityPage.fragment}
+  ${healthCareRegionDetailPage.fragment}
+  ${pressReleasePage.fragment}
+  ${vamcOperatingStatusAndAlerts.fragment}
+  ${newsStoryPage.fragment}
+  ${eventPage.fragment}
+  ${officePage.fragment}
+  ${bioPage.fragment}
+  ${vaFormPage.fragment}
+  ${benefitListingPage.fragment}
+  ${eventListingPage.fragment}
+  ${storyListingPage.fragment}
+  ${leadershipListingPage.fragment}
+  ${healthServicesListingPage.fragment}
+  ${pressReleasesListingPage.fragment}
+  ${locationListingPage.fragment}
+  ${qaPage.fragment}
+  ${faqMultipleQaPage.fragment}
+  ${stepByStepPage.fragment}
+  ${mediaListImages.fragment}
+  ${checklistPage.fragment}
+  ${mediaListVideos.fragment}
+  ${supportResourcesDetailPage.fragment}
+  ${basicLandingPage.fragment}
+  ${nodeCampaignLandingPage.fragment}
 `;
 
   const todayQueryVar = useTomeSync ? '' : '$today: String!,';
@@ -144,21 +144,21 @@ const buildQuery = ({ useTomeSync }) => {
 
   query GetAllPages(${todayQueryVar} $onlyPublishedContent: Boolean!) {
     ${nodeQuery}
-    ${icsFileQuery}
-    ${sidebarQuery}
-    ${facilitySidebarQuery}
-    ${outreachSidebarQuery}
-    ${alertsQuery}
-    ${bannerAlertsQuery}
-    ${outreachAssetsQuery}
-    ${homePageQuery}
+    ${icsFileQuery.partialQuery}
+    ${sidebarQuery.partialQuery}
+    ${facilitySidebarQuery.partialQuery}
+    ${outreachSidebarQuery.partialQuery}
+    ${alertsQuery.partialQuery}
+    ${bannerAlertsQuery.partialQuery}
+    ${outreachAssetsQuery.partialQuery}
+    ${homePageQuery.partialQuery}
     ${
       cmsFeatureFlags.FEATURE_ALL_HUB_SIDE_NAVS
-        ? `${allSideNavMachineNamesQuery}`
+        ? `${allSideNavMachineNamesQuery.partialQuery}`
         : ''
     }
-    ${menuLinksQuery}
-    ${taxonomiesQuery}
+    ${menuLinksQuery.partialQuery}
+    ${taxonomiesQuery.partialQuery}
   }
 `;
 
