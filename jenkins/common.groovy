@@ -166,22 +166,16 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
       // slackUploadFile(filePath: csvFile, channel: 'dev_null', failOnError: true, initialComment: "Found broken links in the ${envName} build on `${env.BRANCH_NAME}`.")
 
       // Until slackUploadFile works...
-      // def brokenLinks = readFile(csvFile)
+      def brokenLinks = readFile(csvFile)
       def brokenLinksCount = sh(returnStdout: true, script: "wc -l /application/${csvFileName} | cut -d ' ' -f1") as Integer
 
-      // slackSend
-      //   message: "${brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}\n${brokenLinks}".stripMargin(),
-      //   color: 'danger',
-      //   failOnError: true,
-      //   channel: 'cms-team'
-      
-      slackUploadFile
-        filePath: csvFile.toString(),
-        channel: 'cms-team',
+      slackSend
+        message: "${brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}".stripMargin(),
+        color: 'danger',
         failOnError: true,
-        initialComment: "${brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}"
-
-
+        channel: 'cms-team'
+        attachments: brokenLinks
+      
       throw new Exception('Broken links found')
     }
   } else {
