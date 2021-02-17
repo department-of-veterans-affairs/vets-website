@@ -114,10 +114,31 @@ export const uiSchema = {
             labels: renderLabels(),
           },
         },
+        eduWaiver: {
+          'ui:options': {
+            expandUnder: 'resolutionType',
+            expandUnderCondition: 'Waiver',
+          },
+          'ui:title': (
+            <>
+              <p>
+                By checking this box, I’m agreeing that I understand how a debt
+                waiver may affect my VA education benefits. If VA grants me a
+                waiver, this will reduce any remaining education benefit
+                entitlement I may have.
+              </p>
+              <p className="eduWaiverNote">
+                Note: If you have questions about this, call us at 800-827-0648
+                (or 1-612-713-6415 from overseas). We’re here Monday through
+                Friday, 7:30 a.m. to 7:00 p.m. ET.
+              </p>
+            </>
+          ),
+        },
         affordToPay: {
           'ui:options': {
             expandUnder: 'resolutionType',
-            expandUnderCondition: resolutionOptions[1].type,
+            expandUnderCondition: 'Extended monthly payments',
             classNames: 'no-wrap',
           },
           canAffordToPay: _.merge(
@@ -133,7 +154,7 @@ export const uiSchema = {
         offerToPay: {
           'ui:options': {
             expandUnder: 'resolutionType',
-            expandUnderCondition: resolutionOptions[2].type,
+            expandUnderCondition: 'Compromise',
             classNames: 'no-wrap',
           },
           canOfferToPay: _.merge(
@@ -179,6 +200,9 @@ export const schema = {
               resolutionType: {
                 type: 'string',
                 enum: resolutionOptions.map(option => option.type),
+              },
+              eduWaiver: {
+                type: 'boolean',
               },
               affordToPay: {
                 type: 'object',
