@@ -179,7 +179,7 @@ const defaultData = {
 
 function initInProgressMock(token, data = defaultData) {
   mock(token, {
-    path: '/v0/disability_compensation_in_progress_forms/21-526EZ',
+    path: '/v0/in_progress_forms/21-526EZ',
     verb: 'get',
     value: {
       formData: {

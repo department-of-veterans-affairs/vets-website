@@ -1,23 +1,38 @@
+import React from 'react';
 import ItemLoop from '../../../components/ItemLoop';
 import CardDetailsView from '../../../components/CardDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import Typeahead from '../../../components/Typeahead';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import {
   formatOptions,
   vehicleTypes,
 } from '../../../constants/typeaheadOptions';
 import _ from 'lodash/fp';
 
+const VehicleInfo = (
+  <AdditionalInfo triggerText="What if I don’t know the estimated value of my car or other vehicle?">
+    Include the amount of money you think you would get if you sold the vehicle
+    in your local community. To get an idea of prices, you can check these
+    places:
+    <ul>
+      <li>Online forums for your community</li>
+      <li>Classified ads in local newspapers</li>
+      <li>Websites that appraise the value of vehicles</li>
+    </ul>
+  </AdditionalInfo>
+);
+
 export const uiSchema = {
-  'ui:title': 'Your vehicles',
+  'ui:title': 'Your cars or other vehicles',
   vehicleRecords: {
     'ui:field': ItemLoop,
-    'ui:description': 'Enter each of your vehicles separately below.',
+    'ui:description': 'Enter information for each vehicle separately below.',
     'ui:options': {
       viewField: CardDetailsView,
       doNotScroll: true,
       showSave: true,
-      itemName: 'a vehicle',
+      itemName: 'vehicle',
     },
     items: {
       vehicleType: {
@@ -54,6 +69,9 @@ export const uiSchema = {
       }),
     },
   },
+  'view:vehicleInfo': {
+    'ui:description': VehicleInfo,
+  },
 };
 
 export const schema = {
@@ -82,6 +100,10 @@ export const schema = {
           },
         },
       },
+    },
+    'view:vehicleInfo': {
+      type: 'object',
+      properties: {},
     },
   },
 };

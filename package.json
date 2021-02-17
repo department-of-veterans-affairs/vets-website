@@ -16,6 +16,7 @@
     "build:webpack:dev": "yarn build:webpack --env.buildtype vagovdev",
     "build:webpack:local": "yarn build:webpack --env.buildtype localhost",
     "cms:compare": "./script/cms/compare.sh",
+    "cms:compare:html": "node script/cms/compare-build-hashes.js",
     "cms:diff": "./script/cms/diff.sh",
     "cms:diff:json": "node script/cms/compare-json.js",
     "cms:find-node": "./script/cms/find_node.sh",
@@ -174,7 +175,7 @@
     "cors": "^2.7.1",
     "css-loader": "^1.0.0",
     "cssnano": "^4.1.10",
-    "cypress": "^6.4.0",
+    "cypress": "^6.5.0",
     "cypress-axe": "^0.8.1",
     "cypress-multi-reporters": "^1.4.0",
     "cypress-plugin-tab": "^1.0.5",
@@ -363,7 +364,7 @@
     "**/http-proxy": "^1.18.1",
     "**/node-forge": "^0.10.0",
     "**/axios": "^0.21.1",
-    "cypress": "^6.4.0",
+    "cypress": "^6.5.0",
     "tar-fs/tar-stream/bl": "^4.0.3",
     "nightwatch/**/lodash.defaultsdeep": "^4.6.1"
   }

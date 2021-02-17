@@ -2,20 +2,19 @@ export const uiSchema = {
   'ui:title': 'Your installment contracts and other debts',
   hasRepayments: {
     'ui:title':
-      'Do you pay monthly for any installment contracts or other debts, such as recurring payments for purchases or loan repayment plans?',
+      'Do you make monthly payments on any installments contracts or other debts (like loans, purchase payment agreements, or credit card debt)?',
     'ui:required': () => true,
-    'ui:widget': 'radio',
+    'ui:widget': 'yesNo',
+    'ui:options': {
+      classNames: 'max-width-400',
+    },
   },
 };
 export const schema = {
   type: 'object',
   properties: {
     hasRepayments: {
-      type: 'string',
-      enum: [
-        'Yes, I have installment contracts or other debts.',
-        "No, I don't have installment contracts or other debts.",
-      ],
+      type: 'boolean',
     },
   },
 };

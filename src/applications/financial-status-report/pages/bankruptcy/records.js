@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const uiSchema = {
-  'ui:title': 'Your bankruptcy history',
+  'ui:title': 'Your bankruptcy details',
   bankruptcyHistory: {
     bankruptcyDischargeDate: {
       'ui:title': 'Date a court granted you a bankruptcy discharge',
