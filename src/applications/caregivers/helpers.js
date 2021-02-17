@@ -138,13 +138,6 @@ const isSSNUnique = formData => {
     secondaryTwoSsnOrTin,
   } = formData;
 
-  /* there is a bug where if you remove a caregiver it will retain matching the SSNs
-     so I am trying to find a way to remove the SSN if party is removed from form
-     there are three functions that we already use to check if party is in formData above on lines 123, 127, and 130
-     the code I have here is working beautify but I want the func to update more for a Review Page edge case, if you remove a party then make another paries ssn match then turn the other one back on it wont trigger validation
-     so how might we always make this func update when one of those comparator functions change? useEffect?
-  */
-
   const checkIfPartyIsPresent = (comparator, data) => {
     if (comparator(formData)) {
       return data;
@@ -175,11 +168,7 @@ const isSSNUnique = formData => {
     presentSecondaryTwoSsn,
   ];
 
-  console.log('allSSNs: ', allSSNs);
-
   const allValidSSNs = allSSNs.filter(ssn => ssn !== undefined);
-
-  console.log('allValidSSNs: ', allValidSSNs);
 
   const checkIfArrayIsUnique = array => array.length === new Set(array).size;
 
