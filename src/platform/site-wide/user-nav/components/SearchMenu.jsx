@@ -95,7 +95,7 @@ export class SearchMenu extends React.Component {
       );
 
       const suggestions = await response.json();
-      if (suggestions !== undefined || suggestions.length !== 0) {
+      if (suggestions.length !== 0) {
         const sortedSuggestions = suggestions.sort(function(a, b) {
           if (a.length < b.length) {
             return -1;
