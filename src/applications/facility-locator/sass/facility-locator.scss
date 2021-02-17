@@ -589,6 +589,7 @@ canvas.mapboxgl-canvas:focus {
   }
 }
 .input-clear .fa-clear {
+  display: none;
   position: absolute;
   top: 14px;
   right: 10px;

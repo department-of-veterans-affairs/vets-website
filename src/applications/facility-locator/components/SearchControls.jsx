@@ -15,6 +15,7 @@ class SearchControls extends Component {
   constructor(props) {
     super(props);
     this.inputRef = React.createRef();
+    this.inputClearRef = React.createRef();
   }
 
   handleQueryChange = e => {
@@ -30,6 +31,12 @@ class SearchControls extends Component {
 
     const serviceType = option === 'All' ? null : option;
     this.props.onChange({ serviceType });
+  };
+
+  handleInputClear = () => {
+    if (this.inputRef.current.value !== '') {
+      this.inputClearRef.current.style.display = 'block';
+    }
   };
 
   handleSubmit = e => {
@@ -70,7 +77,9 @@ class SearchControls extends Component {
         <i
           aria-hidden="true"
           className="fas fa-times-circle fa-clear"
+          ref={this.inputClearRef}
           onClick={() => {
+            this.inputClearRef.current.style.display = 'none';
             this.inputRef.current.value = '';
           }}
         />
@@ -80,6 +89,7 @@ class SearchControls extends Component {
           type="text"
           ref={this.inputRef}
           onChange={this.handleQueryChange}
+          onKeyUp={this.handleInputClear}
           value={currentQuery.searchString}
           title="Your location: Street, City, State or Postal code"
           required
