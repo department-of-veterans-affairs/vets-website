@@ -95,17 +95,20 @@ export class SearchMenu extends React.Component {
       );
 
       const suggestions = await response.json();
-      const sortedSuggestions = suggestions.sort(function(a, b) {
-        if (a.length < b.length) {
-          return -1;
-        }
-        if (a.length > b.length) {
-          return 1;
-        }
-        return 0;
-      });
-      this.setState({ suggestions: sortedSuggestions });
-
+      if (suggestions !== undefined || suggestions.length !== 0) {
+        const sortedSuggestions = suggestions.sort(function(a, b) {
+          if (a.length < b.length) {
+            return -1;
+          }
+          if (a.length > b.length) {
+            return 1;
+          }
+          return 0;
+        });
+        this.setState({ suggestions: sortedSuggestions });
+        return;
+      }
+      this.setState({ suggestions });
       // if we fail to fetch suggestions
     } catch (error) {
       Sentry.captureException(error);
@@ -204,7 +207,6 @@ export class SearchMenu extends React.Component {
       handelDownshiftStateChange,
       handleInputChange,
       handleSearchEvent,
-      handleKeyUp,
       isUserInputValid,
     } = this;
 
