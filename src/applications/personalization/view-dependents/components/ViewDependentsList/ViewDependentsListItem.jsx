@@ -58,19 +58,17 @@ function ViewDependentsListItem(props) {
           >
             Remove this dependent
           </button>
-          <div
-            className={`vads-l-row vads-l-row vads-u-padding-x--2 vads-u-display--${
-              open ? 'flex' : 'none'
-            }`}
-          >
-            <div className="vads-l-col--12">
-              <p>
-                To remove this dependent from your VA benefits, please enter the
-                information below.
-              </p>
-              <ManageDependents relationship={relationship} />
+          {open && (
+            <div className={`vads-l-row vads-l-row vads-u-padding-x--2`}>
+              <div className="vads-l-col--12">
+                <p>
+                  To remove this dependent from your VA benefits, please enter
+                  the information below.
+                </p>
+                <ManageDependents relationship={relationship} />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       )}
     </div>
