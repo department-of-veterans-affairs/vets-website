@@ -36,6 +36,8 @@ class SearchControls extends Component {
   handleInputClear = () => {
     if (this.inputRef.current.value !== '') {
       this.inputClearRef.current.style.display = 'block';
+    } else {
+      this.inputClearRef.current.style.display = 'none';
     }
   };
 
