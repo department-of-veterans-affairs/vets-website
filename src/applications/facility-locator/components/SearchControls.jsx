@@ -57,6 +57,9 @@ class SearchControls extends Component {
 
   handleGeolocationButtonClick = e => {
     e.preventDefault();
+    recordEvent({
+      event: 'fl-search-geolocation',
+    });
     this.props.geolocateUser();
   };
 
