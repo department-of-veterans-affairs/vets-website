@@ -5,7 +5,6 @@ import {
   getVAAppointmentLocationId,
   isVideoHome,
   isVideoGFE,
-  isVideoVAFacility,
   getATLASLocation,
   isVideoAppointment,
 } from '../../../services/appointment';
@@ -17,11 +16,11 @@ import AlertBox from 'applications/gi/components/AlertBox';
 import { ALERT_TYPE } from '@department-of-veterans-affairs/component-library/AlertBox';
 import FacilityPhone from 'applications/vaos/components/FacilityPhone';
 import VideoVisitProvider from './VideoVisitProvider';
-import AdditionalInfoRow from './AdditionalInfoRow';
 import { VideoVisitInstructions } from './VideoInstructions';
 import AddToCalendar from 'applications/vaos/components/AddToCalendar';
 import moment from 'applications/vaos/lib/moment-tz';
 import { formatFacilityAddress } from 'applications/vaos/services/location';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 // Only use this when we need to pass data that comes back from one of our
 // services files to one of the older api functions
@@ -72,10 +71,10 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
   const isHome = isVideoHome(appointment);
   const isVideo = isVideoAppointment(appointment);
   const isGFE = isVideoGFE(appointment);
-  const isVA = isVideoVAFacility(appointment);
   const [showMoreOpen, setShowMoreOpen] = useState(false);
-  const phone = facility?.telecom?.find(tele => tele.system === 'phone').value;
-  const name = facility?.name || appointment.participant[0]?.actor.display;
+  const phone = facility?.telecom?.find(tele => tele.system === 'phone')?.value;
+  const name = facility?.name;
+
   const isCommunityCare = appointment.vaos.isCommunityCare;
   const location = getLocation(
     isAtlas,
@@ -109,16 +108,14 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
               <VideoVisitProvider participants={appointment.participant} />
             </div>
             <div className="vads-u-margin-top--2">
-              <AdditionalInfoRow
-                id={appointment.id}
-                open={showMoreOpen}
-                triggerText="Prepare for video visit"
+              <AdditionalInfo
                 onClick={() => setShowMoreOpen(!showMoreOpen)}
+                triggerText="Prepare for video visit"
               >
                 <VideoVisitInstructions
                   instructionsType={appointment.comment}
                 />
-              </AdditionalInfoRow>
+              </AdditionalInfo>
             </div>
           </>
         )}
@@ -173,8 +170,9 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
         >
           Contact this facility if you need to reschedule or cancel your
           appointment.
+          <br />
           {!isAtlas &&
-            !isVA && (
+            !!facility && (
               <span className="vads-u-display--block vads-u-margin-top--2">
                 {name}
                 {phone && (

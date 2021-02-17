@@ -54,7 +54,9 @@ export function VideoVisitInstructions({ instructionsType }) {
 
   return (
     <div>
-      <strong>Before your appointment:</strong>
+      <h4 className="vads-u-font-size--base vads-u-font-family--sans">
+        Before your appointment:
+      </h4>
       <ul>
         <li>
           If you’re using an iPad or iPhone for your appointment, you’ll need to
@@ -80,10 +82,9 @@ export function VideoVisitInstructions({ instructionsType }) {
         the "Join session" button on this page or the link that's in your
         confirmation email.
       </p>
-
-      <strong>
+      <h4 className="vads-u-font-size--base vads-u-font-family--sans">
         To have the best possible video experience, we recommend you:
-      </strong>
+      </h4>
       <ul>
         <li>
           Connect to your video appointment from a quiet, private, and

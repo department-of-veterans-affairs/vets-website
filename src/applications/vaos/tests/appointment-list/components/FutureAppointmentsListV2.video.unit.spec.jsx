@@ -38,6 +38,30 @@ describe('VAOS integration: upcoming video appointments', () => {
       bookingNotes: 'Some random note',
       appointmentKind: 'ADHOC',
       status: { description: 'F', code: 'FUTURE' },
+      providers: [
+        {
+          name: { firstName: 'Test T+90', lastName: 'Test' },
+          contactInformation: {
+            mobile: '8888888888',
+            preferredEmail: 'marcy.nadeau@va.gov',
+            timeZone: '10',
+          },
+          location: {
+            type: 'VA',
+            facility: {
+              name: 'CHEYENNE VAMC',
+              siteCode: '983',
+              timeZone: '10',
+            },
+          },
+          virtualMeetingRoom: {
+            conference: 'VVC8275247',
+            pin: '7172705#',
+            url:
+              'https://care2.evn.va.gov/vvc-app/?name=Test%2CTest+T%2B90&join=1&media=1&escalate=1&conference=VVC8275247@care2.evn.va.gov&pin=7172705#',
+          },
+        },
+      ],
     };
 
     mockAppointmentInfo({
@@ -100,7 +124,7 @@ describe('VAOS integration: upcoming video appointments', () => {
     expect(screen.baseElement).to.contain.text('Prepare for video visit');
 
     expect(screen.baseElement).to.contain.text(
-      'Contact this facility if you need to reschedule or cancel your appointment.Test T+90 Test',
+      'Contact this facility if you need to reschedule or cancel your appointment.',
     );
 
     expect(
@@ -129,6 +153,30 @@ describe('VAOS integration: upcoming video appointments', () => {
         {
           virtualMeetingRoom: {
             url: 'http://videourl.va.gov',
+          },
+        },
+      ],
+      providers: [
+        {
+          name: { firstName: 'Test T+90', lastName: 'Test' },
+          contactInformation: {
+            mobile: '8888888888',
+            preferredEmail: 'marcy.nadeau@va.gov',
+            timeZone: '10',
+          },
+          location: {
+            type: 'VA',
+            facility: {
+              name: 'CHEYENNE VAMC',
+              siteCode: '983',
+              timeZone: '10',
+            },
+          },
+          virtualMeetingRoom: {
+            conference: 'VVC8275247',
+            pin: '7172705#',
+            url:
+              'https://care2.evn.va.gov/vvc-app/?name=Test%2CTest+T%2B90&join=1&media=1&escalate=1&conference=VVC8275247@care2.evn.va.gov&pin=7172705#',
           },
         },
       ],
@@ -191,6 +239,30 @@ describe('VAOS integration: upcoming video appointments', () => {
         {
           virtualMeetingRoom: {
             url: 'http://videourl.va.gov',
+          },
+        },
+      ],
+      providers: [
+        {
+          name: { firstName: 'Test T+90', lastName: 'Test' },
+          contactInformation: {
+            mobile: '8888888888',
+            preferredEmail: 'marcy.nadeau@va.gov',
+            timeZone: '10',
+          },
+          location: {
+            type: 'VA',
+            facility: {
+              name: 'CHEYENNE VAMC',
+              siteCode: '983',
+              timeZone: '10',
+            },
+          },
+          virtualMeetingRoom: {
+            conference: 'VVC8275247',
+            pin: '7172705#',
+            url:
+              'https://care2.evn.va.gov/vvc-app/?name=Test%2CTest+T%2B90&join=1&media=1&escalate=1&conference=VVC8275247@care2.evn.va.gov&pin=7172705#',
           },
         },
       ],
@@ -257,6 +329,30 @@ describe('VAOS integration: upcoming video appointments', () => {
           },
         },
       ],
+      providers: [
+        {
+          name: { firstName: 'Test T+90', lastName: 'Test' },
+          contactInformation: {
+            mobile: '8888888888',
+            preferredEmail: 'marcy.nadeau@va.gov',
+            timeZone: '10',
+          },
+          location: {
+            type: 'VA',
+            facility: {
+              name: 'CHEYENNE VAMC',
+              siteCode: '983',
+              timeZone: '10',
+            },
+          },
+          virtualMeetingRoom: {
+            conference: 'VVC8275247',
+            pin: '7172705#',
+            url:
+              'https://care2.evn.va.gov/vvc-app/?name=Test%2CTest+T%2B90&join=1&media=1&escalate=1&conference=VVC8275247@care2.evn.va.gov&pin=7172705#',
+          },
+        },
+      ],
     };
     mockAppointmentInfo({
       va: [appointment],
@@ -312,6 +408,30 @@ describe('VAOS integration: upcoming video appointments', () => {
       dateTime: startDate.format(),
       appointmentKind: 'MOBILE_GFE',
       status: { description: 'F', code: 'FUTURE' },
+      providers: [
+        {
+          name: { firstName: 'Test T+90', lastName: 'Test' },
+          contactInformation: {
+            mobile: '8888888888',
+            preferredEmail: 'marcy.nadeau@va.gov',
+            timeZone: '10',
+          },
+          location: {
+            type: 'VA',
+            facility: {
+              name: 'CHEYENNE VAMC',
+              siteCode: '983',
+              timeZone: '10',
+            },
+          },
+          virtualMeetingRoom: {
+            conference: 'VVC8275247',
+            pin: '7172705#',
+            url:
+              'https://care2.evn.va.gov/vvc-app/?name=Test%2CTest+T%2B90&join=1&media=1&escalate=1&conference=VVC8275247@care2.evn.va.gov&pin=7172705#',
+          },
+        },
+      ],
     };
     mockAppointmentInfo({
       va: [appointment],
@@ -355,7 +475,7 @@ describe('VAOS integration: upcoming video appointments', () => {
     expect(screen.baseElement).to.contain.text('Test T+90 Test');
 
     expect(screen.baseElement).to.contain.text(
-      'Contact this facility if you need to reschedule or cancel your appointment.Test T+90 Test',
+      'Contact this facility if you need to reschedule or cancel your appointment.',
     );
   });
 
@@ -374,6 +494,30 @@ describe('VAOS integration: upcoming video appointments', () => {
       bookingNotes: 'Some random note',
       appointmentKind: 'ADHOC',
       status: { description: 'F', code: 'FUTURE' },
+      providers: [
+        {
+          name: { firstName: 'Test T+90', lastName: 'Test' },
+          contactInformation: {
+            mobile: '8888888888',
+            preferredEmail: 'marcy.nadeau@va.gov',
+            timeZone: '10',
+          },
+          location: {
+            type: 'VA',
+            facility: {
+              name: 'CHEYENNE VAMC',
+              siteCode: '983',
+              timeZone: '10',
+            },
+          },
+          virtualMeetingRoom: {
+            conference: 'VVC8275247',
+            pin: '7172705#',
+            url:
+              'https://care2.evn.va.gov/vvc-app/?name=Test%2CTest+T%2B90&join=1&media=1&escalate=1&conference=VVC8275247@care2.evn.va.gov&pin=7172705#',
+          },
+        },
+      ],
     };
     mockAppointmentInfo({
       va: [appointment],
@@ -501,8 +645,8 @@ describe('VAOS integration: upcoming video appointments', () => {
 
     expect(screen.baseElement).to.contain.text('Clinic: CHY PC VAR2');
     expect(screen.baseElement).to.contain.text('Main phone: 307-778-7550');
-    expect(screen.getByRole('link', { name: /3 0 7. 7 7 8. 7 5 5 0./ })).to.be
-      .ok;
+    expect(screen.getAllByRole('link', { name: /3 0 7. 7 7 8. 7 5 5 0./ })).to
+      .be.ok;
   });
 });
 

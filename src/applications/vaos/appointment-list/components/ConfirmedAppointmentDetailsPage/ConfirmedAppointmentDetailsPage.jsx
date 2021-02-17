@@ -9,6 +9,7 @@ import moment from '../../../lib/moment-tz';
 import {
   getVAAppointmentLocationId,
   getVARFacilityId,
+  getVideoAppointmentLocation,
   isAtlasLocation,
   isVideoAppointment,
   isVideoGFE,
@@ -52,7 +53,7 @@ function formatHeader(appointment) {
   }
 }
 
-function Index({
+function ConfirmedAppointmentDetailsPage({
   appointmentDetails,
   appointmentDetailsStatus,
   facilityData,
@@ -92,9 +93,9 @@ function Index({
   }
 
   const facilityId = getVAAppointmentLocationId(appointment);
-  const facility = facilityData?.[facilityId];
+  const locationId = getVideoAppointmentLocation(appointment);
+  const facility = facilityData?.[locationId];
 
-  const isExpressCare = appointment?.vaos.isExpressCare;
   const isVideo = isVideoAppointment(appointment);
   const isInPersonVAAppointment = !isVideo;
 
@@ -115,18 +116,15 @@ function Index({
       <h1>
         <AppointmentDateTime
           appointmentDate={moment.parseZone(appointment.start)}
-          timezone={appointment.vaos.timeZone}
           facilityId={getVARFacilityId(appointment)}
         />
       </h1>
 
       {isVideo && (
         <>
-          <div className="vads-u-font-size--sm vads-u-font-family--sans">
-            <span>
-              <strong>{header}</strong>
-            </span>
-          </div>
+          <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+            {header}
+          </h2>
           <VideoVisitSection
             header={header}
             facility={facility}
@@ -136,7 +134,6 @@ function Index({
       )}
 
       {!!facility &&
-        !isExpressCare &&
         !isVideo && (
           <>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
@@ -146,17 +143,13 @@ function Index({
               facility={facility}
               facilityName={facility?.name}
               facilityId={parseFakeFHIRId(facilityId)}
-              isHomepageRefresh
               clinicFriendlyName={appointment.participant[0].actor.display}
             />
 
             {showInstructions &&
               isInPersonVAAppointment && (
                 <div className="vads-u-margin-top--3 vaos-appts__block-label">
-                  <AppointmentInstructions
-                    instructions={appointment.comment}
-                    isHomepageRefresh
-                  />
+                  <AppointmentInstructions instructions={appointment.comment} />
                 </div>
               )}
 
@@ -250,4 +243,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Index);
+)(ConfirmedAppointmentDetailsPage);
