@@ -77,7 +77,6 @@ class SearchControls extends Component {
         <input
           id="street-city-state-zip"
           name="street-city-state-zip"
-          style={{ fontWeight: 'bold' }}
           type="text"
           ref={this.inputRef}
           onChange={this.handleQueryChange}

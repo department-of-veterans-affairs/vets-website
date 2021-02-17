@@ -586,15 +586,20 @@ canvas.mapboxgl-canvas:focus {
 
   @media only screen and (min-width: 980px) {
     display: inline-block;
-
   }
 }
 .input-clear .fa-clear {
   position: absolute;
-  top: 8px;
+  top: 14px;
   right: 10px;
 
   @media only screen and (min-width: 980px) {
     right: 26px;
+    top: 16px;
   }
+}
+
+#street-city-state-zip {
+  font-weight: bold;
+  padding-right: 28px;
 }
