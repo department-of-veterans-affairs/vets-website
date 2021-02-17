@@ -579,3 +579,23 @@ canvas.mapboxgl-canvas:focus {
   outline: 2px solid $color-gold-light;
   outline-offset: 2px;
 }
+
+.input-clear i {
+  position: absolute;
+}
+
+.input-clear {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.icon {
+  padding-right: 10%;
+  min-width: 40px;
+  cursor: pointer;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+}

@@ -12,6 +12,11 @@ import {
 import { focusElement } from 'platform/utilities/ui';
 
 class SearchControls extends Component {
+  constructor(props) {
+    super(props);
+    this.inputRef = React.createRef();
+  }
+
   handleQueryChange = e => {
     this.props.onChange({ searchString: e.target.value });
   };
@@ -61,16 +66,27 @@ class SearchControls extends Component {
         City, state or postal code{' '}
         <span className="vads-u-color--secondary-dark">(*Required)</span>
       </label>
-      <input
-        id="street-city-state-zip"
-        name="street-city-state-zip"
-        style={{ fontWeight: 'bold' }}
-        type="text"
-        onChange={this.handleQueryChange}
-        value={currentQuery.searchString}
-        title="Your location: Street, City, State or Postal code"
-        required
-      />
+      <div className="input-clear">
+        <i
+          aria-hidden="true"
+          className="fas fa-times-circle icon"
+          onClick={() => {
+            this.inputRef.current.value = '';
+          }}
+        />
+        <input
+          id="street-city-state-zip"
+          name="street-city-state-zip"
+          style={{ fontWeight: 'bold' }}
+          type="text"
+          className="input-field"
+          ref={this.inputRef}
+          onChange={this.handleQueryChange}
+          value={currentQuery.searchString}
+          title="Your location: Street, City, State or Postal code"
+          required
+        />
+      </div>
     </>
   );
 
