@@ -1,15 +1,10 @@
-const adjudicationOptions = [
-  'Yes, I have been adjudicated as bankrupt.',
-  'No, I haven’t been adjudicated as bankrupt.',
-];
-
 export const uiSchema = {
-  'ui:title': 'Your bankruptcy history',
+  'ui:title': 'Your bankruptcy details',
   bankruptcyHistory: {
     hasBeenAdjudicated: {
-      'ui:title': 'Have you ever been adjudicated as bankrupt?',
+      'ui:title': 'Have you ever declared bankruptcy?',
       'ui:required': () => true,
-      'ui:widget': 'radio',
+      'ui:widget': 'yesNo',
     },
   },
 };
@@ -21,8 +16,7 @@ export const schema = {
       type: 'object',
       properties: {
         hasBeenAdjudicated: {
-          type: 'string',
-          enum: adjudicationOptions,
+          type: 'boolean',
         },
       },
     },

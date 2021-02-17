@@ -13,7 +13,7 @@ export const uiSchema = {
   utilityRecords: {
     'ui:field': ItemLoop,
     'ui:description':
-      'Enter each type of monthly utility bill separately below.',
+      'Enter each type of utility separately below. For each, enter the amount you paid last month.',
     'ui:options': {
       viewType: 'table',
       viewField: TableDetailsView,
@@ -33,7 +33,7 @@ export const uiSchema = {
           getOptions: () => formatOptions(utilityTypes),
         },
       },
-      monthlyUtilityAmount: _.merge(currencyUI('Monthly amount'), {
+      monthlyUtilityAmount: _.merge(currencyUI('Monthly payment amount'), {
         'ui:options': {
           widgetClassNames: 'input-size-1',
         },

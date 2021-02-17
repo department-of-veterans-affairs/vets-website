@@ -5,7 +5,7 @@ export const uiSchema = {
   'ui:title': 'Your spouse information',
   employment: {
     'ui:options': {
-      classNames: 'previous-employment-container',
+      classNames: 'vads-u-margin-top--2',
     },
     spouse: {
       previousEmploymentRecords: {
