@@ -4,8 +4,7 @@ import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 import ValidatedServicePeriodView from '../components/ValidatedServicePeriodView';
 import ArrayField from '../components/ArrayField';
-import { isUndefined } from '../utils';
-import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
+import { isValidServicePeriod } from '../utils';
 
 const dateRangeUISchema = dateRangeUI(
   'Service start date',
@@ -63,14 +62,7 @@ export const uiSchema = {
         reviewMode: true,
         showSave: true,
         setEditState: formData =>
-          formData.map(
-            data =>
-              isUndefined(data?.serviceBranch) ||
-              isUndefined(data?.dateRange?.from) ||
-              isUndefined(data?.dateRange?.to) ||
-              !isValidYear(data?.dateRange?.from.year) ||
-              !isValidYear(data?.dateRange?.to.year),
-          ),
+          formData.map(data => isValidServicePeriod(data)),
       },
       items: {
         serviceBranch: {

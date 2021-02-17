@@ -21,6 +21,8 @@ import {
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
+import { isValidDateRange } from 'platform/forms/validations';
 
 import {
   DATA_PATHS,
@@ -94,9 +96,22 @@ export const formatDateRange = (dateRange = {}, format = DATE_FORMAT) =>
       )}`
     : 'Unknown';
 
+export const isValidDate = dateString => {
+  const date = moment(dateString);
+  return (date && date.isValid() && isValidYear(date.year)) || false;
+};
+
 // moment().isSameOrBefore() => true; so expirationDate can't be undefined
 export const isNotExpired = (expirationDate = '') =>
   moment().isSameOrBefore(expirationDate);
+
+export const isValidServicePeriod = data =>
+  isUndefined(data?.serviceBranch) ||
+  isUndefined(data?.dateRange?.from) ||
+  isUndefined(data?.dateRange?.to) ||
+  !isValidDate(data?.dateRange?.from) ||
+  !isValidDate(data?.dateRange?.to) ||
+  !isValidDateRange(data.dateRange.from, data.dateRange.to);
 
 export const isActiveITF = currentITF => {
   if (currentITF) {
