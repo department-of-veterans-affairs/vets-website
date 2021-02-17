@@ -58,6 +58,7 @@ export const uiSchema = {
       'ui:field': ArrayField,
       'ui:options': {
         itemName: 'Service Period',
+        itemKeyForAriaLabel: 'serviceBranch',
         viewField: ValidatedServicePeriodView,
         reviewMode: true,
         showSave: true,
