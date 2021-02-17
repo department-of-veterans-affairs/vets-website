@@ -18847,7 +18847,7 @@ wbuf@^1.1.0, wbuf@^1.7.3:
 
 "web-components@https://github.com/department-of-veterans-affairs/component-library.git#wc-accordion":
   version "0.0.1"
-  resolved "https://github.com/department-of-veterans-affairs/component-library.git#b544f9f7ad84ff20d10a405b44061ba97d8e95fb"
+  resolved "https://github.com/department-of-veterans-affairs/component-library.git#b17b9b29d830834573f3a56a230caba3629b32a9"
   dependencies:
     "@stencil/core" "^2.0.1"
 
