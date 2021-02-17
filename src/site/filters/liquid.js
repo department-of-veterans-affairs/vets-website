@@ -9,6 +9,10 @@ function getPath(obj) {
   return obj.path;
 }
 
+function isIE11() {
+  return !window.ActiveXObject && 'ActiveXObject' in window;
+}
+
 module.exports = function registerFilters() {
   const { cmsFeatureFlags } = global;
 
@@ -33,7 +37,7 @@ module.exports = function registerFilters() {
   liquid.filters.timeZone = (dt, tz, format) => {
     if (dt && tz) {
       const timeZoneDate = new Date(dt).toLocaleString('en-US', {
-        timeZone: tz,
+        timeZone: isIE11() ? undefined : tz,
       });
       return prettyTimeFormatted(timeZoneDate, format);
     }
