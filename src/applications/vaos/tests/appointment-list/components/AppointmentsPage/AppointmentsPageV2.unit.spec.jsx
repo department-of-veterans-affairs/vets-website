@@ -445,7 +445,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
     ).to.be.ok;
     expect(screen.getByRole('link', { name: 'Request appointment' }));
   });
-  it('should show COVID-19 appt schedule button', async () => {
+  it('should show COVID-19 vaccination button', async () => {
     const defaultState = {
       featureToggles: {
         ...initialState.featureToggles,
@@ -467,5 +467,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
     expect(
       screen.getByText(/You may be eligible to receive the COVID-19 vaccine/i),
     ).to.be.ok;
+
+    expect(screen.getByRole('link', { name: 'Learn more' }));
   });
 });

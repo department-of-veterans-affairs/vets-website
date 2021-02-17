@@ -32,7 +32,7 @@ export default function ScheduleNewProjectCheetah({
         to="/new-project-cheetah-booking"
         onClick={startNewAppointmentFlow}
       >
-        Schedule COVID-19 vaccination
+        Learn more
       </Link>
     </div>
   );
