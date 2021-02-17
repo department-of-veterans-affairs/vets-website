@@ -169,12 +169,13 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
       def brokenLinks = readFile(csvFile)
       def brokenLinksCount = sh(returnStdout: true, script: "wc -l /application/${csvFileName} | cut -d ' ' -f1") as Integer
 
-      slackSend
+      slackSend(
         message: "${brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}".stripMargin(),
         color: 'danger',
         failOnError: true,
         channel: 'cms-team'
         attachments: brokenLinks
+      )
       
       throw new Exception('Broken links found')
     }
