@@ -13,19 +13,15 @@ export const schema = {
   type: 'object',
   required: ['view:selectable686Options'],
   properties: {
+    'view:selectable686Options': optionSelection['view:selectable686Options'],
     'view:686Information': {
       type: 'object',
       properties: {},
     },
-    'view:selectable686Options': optionSelection['view:selectable686Options'],
   },
 };
 
 export const uiSchema = {
-  'view:686Information': {
-    'ui:options': { showFieldLabel: false },
-    'ui:description': DescriptionText,
-  },
   'view:selectable686Options': {
     'ui:title': 'What would you like to do? Check all that apply.',
     'ui:options': { showFieldLabel: true },
@@ -62,5 +58,9 @@ export const uiSchema = {
       'ui:title': ChildAttendingSchool,
       'ui:reviewField': OptionsReviewField,
     },
+  },
+  'view:686Information': {
+    'ui:options': { showFieldLabel: false },
+    'ui:description': DescriptionText,
   },
 };
