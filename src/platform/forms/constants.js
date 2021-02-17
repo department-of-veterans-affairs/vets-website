@@ -34,5 +34,6 @@ export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
 export const VA_FORM_IDS_IN_PROGRESS_FORMS_API = Object.freeze({
   // 526 endpoint updates the ratedDisabilities dynamically and includes a
   // `ratedDisabilitiesUpdated` as true in the metadata when the data changes
-  [VA_FORM_IDS.FORM_21_526EZ]: '/v0/disability_compensation_in_progress_forms/',
+  // '/v0/disability_compensation_in_progress_forms/'
+  [VA_FORM_IDS.FORM_21_526EZ]: '/v0/in_progress_forms/',
 });
