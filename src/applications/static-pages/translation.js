@@ -8,7 +8,7 @@ const faqI18Content = {
   es: {
     linkTitle: 'Leer esta página en Español',
     langToggleLink: '/coronavirus-veteran-frequently-asked-questions-esp',
-    onThisPage: 'Spanish Translation of on this page',
+    onThisPage: 'En esta página',
   },
 };
 const configureTranslationLink = (e, targetLang, currentLang) => {
