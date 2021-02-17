@@ -201,6 +201,7 @@ export class SearchMenu extends React.Component {
       handelDownshiftStateChange,
       handleInputChange,
       handleSearchEvent,
+      handleKeyUp,
       isUserInputValid,
     } = this;
 
