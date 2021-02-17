@@ -10,13 +10,14 @@ const resolutionOptions = [
     description: (
       <>
         <div>
-          If any monthly payment will create financial hardship for you or your
-          family, you can request that your debt be waived. This will reduce
-          your remaining education benefits entitlement.
+          If making even smaller monthly payments would cause you financial
+          hardship, you can ask us to stop collection on (or “waive”) the debt.
         </div>
         <p>
-          If your request for waiver is granted, some or all of your debt will
-          be forgiven and your balance reduced.
+          If we grant you a waiver for some or all of this debt, you won’t have
+          to pay the amount we waived. For education debts, we’ll reduce the
+          amount of your remaining education benefit entitlement as part of the
+          waiver.
         </p>
       </>
     ),
@@ -26,13 +27,21 @@ const resolutionOptions = [
     description: (
       <>
         <div>
-          If you are able to make smaller payments on your debt, your payment
-          plan can be extended to up to three years.
+          If you can’t pay back the total amount of your debt now, you can ask
+          to make smaller monthly payments for up to 3 years. You can make these
+          payments in 1 of 2 ways:
         </div>
-        <p>
-          If your request for extended monthly payments is granted, you will
-          make smaller payments monthly by offset or direct payments.
-        </p>
+        <ul>
+          <li>
+            <strong>Monthly offsets.</strong> This means we’ll keep part or all
+            of your VA benefit payments each month until you’ve paid the full
+            debt.
+          </li>
+          <li>
+            <strong>Monthly payment plan.</strong> This means you’ll pay us
+            directly each month. You can pay online, by phone, or by mail.
+          </li>
+        </ul>
       </>
     ),
   },
@@ -41,12 +50,13 @@ const resolutionOptions = [
     description: (
       <>
         <div>
-          If you need to resolve your debt now but can’t pay the full amount,
-          you can submit a compromise offer to resolve the debt.
+          If you don’t get a monthly VA benefit payment and can’t pay monthly,
+          you can propose a compromise offer. This means you ask us to accept
+          less money than you owe and consider it to be full payment.
         </div>
         <p>
-          If your request for a compromise is granted, you will need to pay the
-          compromise balance in full within 30 days.
+          If we accept your offer, you’ll have to pay the lesser amount within
+          30 days.
         </p>
       </>
     ),
@@ -95,7 +105,7 @@ export const uiSchema = {
         affordToPay: {
           'ui:options': {
             expandUnder: 'resolutionType',
-            expandUnderCondition: resolutionOptions[1].type,
+            expandUnderCondition: resolutionOptions[0].type,
           },
           canAffordToPay: _.merge(
             currencyUI('How much can you afford to pay monthly on this debt?'),
@@ -105,7 +115,7 @@ export const uiSchema = {
               },
               'ui:required': formData =>
                 formData.resolution?.resolutionType ===
-                resolutionOptions[1].type,
+                resolutionOptions[0].type,
             },
           ),
         },
