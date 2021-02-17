@@ -1,3 +1,5 @@
+import path from 'path';
+
 Cypress.Commands.add(
   'mockGeolocation',
   (latitude = 34.0522, longitude = -118.2437) => {
@@ -11,17 +13,31 @@ Cypress.Commands.add(
 
 // TODO - find a way to get this working
 
-it.skip('geolocatees the user', () => {
-  cy.mockGeolocation();
-
-  cy.visit('/find-locations');
-  cy.injectAxe();
-
-  cy.get('#street-city-state-zip').should('be.empty');
-
-  cy.get('#facility-locate-user')
-    .click()
-    .then(() => {
-      cy.get('#street-city-state-zip').contains('Los Angeles');
+describe('Facility geolocation', () => {
+  before(function() {
+    cy.syncFixtures({
+      constants: path.join(__dirname, '..', '..', 'constants'),
     });
+  });
+
+  it('geolocatees the user', () => {
+    // Mock the call to Mapbox
+    cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-la-location').as(
+      'caLocation',
+    );
+
+    cy.visit('/find-locations');
+
+    cy.mockGeolocation();
+
+    cy.get('#street-city-state-zip').should('be.empty');
+
+    cy.get('#facility-locate-user')
+      .click()
+      .then(() => {
+        cy.get('#street-city-state-zip').contains('Los Angeles', {
+          timeout: 20000,
+        });
+      });
+  });
 });
