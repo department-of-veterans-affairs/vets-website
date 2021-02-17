@@ -357,7 +357,7 @@ describe('VAOS newAppointment actions', () => {
     it('should fetch facilities if system was selected already', async () => {
       setFetchJSONResponse(global.fetch, facilities983);
       const dispatch = sinon.spy();
-      const state = set('newAppointment.data.vaParent', 'var983', defaultState);
+      const state = set('newAppointment.data.vaParent', '983', defaultState);
       const getState = () => state;
 
       const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
@@ -382,10 +382,10 @@ describe('VAOS newAppointment actions', () => {
           ...defaultState.newAppointment,
           data: {
             ...defaultState.newAppointment.data,
-            vaParent: 'var983',
+            vaParent: '983',
           },
           facilities: {
-            '323_var983': [],
+            '323_983': [],
           },
         },
       };
@@ -410,11 +410,11 @@ describe('VAOS newAppointment actions', () => {
           ...defaultState.newAppointment,
           data: {
             ...defaultState.newAppointment.data,
-            vaParent: 'var983',
-            vaFacility: 'var983',
+            vaParent: '983',
+            vaFacility: '983',
           },
           facilities: {
-            '323_var983': facilities983Parsed,
+            '323_983': facilities983Parsed,
           },
         },
       };
@@ -438,11 +438,11 @@ describe('VAOS newAppointment actions', () => {
           ...defaultState.newAppointment,
           data: {
             ...defaultState.newAppointment.data,
-            vaParent: 'var983',
+            vaParent: '983',
           },
           parentFacilities: [
             {
-              id: 'var983',
+              id: '983',
               identifier: [
                 {
                   system: VHA_FHIR_ID,
@@ -452,9 +452,9 @@ describe('VAOS newAppointment actions', () => {
             },
           ],
           facilities: {
-            '323_var983': [
+            '323_983': [
               {
-                id: 'var983GC',
+                id: '983GC',
                 identifier: [
                   {
                     system: VHA_FHIR_ID,
@@ -487,7 +487,7 @@ describe('VAOS newAppointment actions', () => {
         data: { id: '123', attributes: { uniqueId: '123' } },
       });
       const dispatch = sinon.spy();
-      const state = set('newAppointment.data.vaParent', 'var983', defaultState);
+      const state = set('newAppointment.data.vaParent', '983', defaultState);
       const getState = () => state;
 
       const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
@@ -538,11 +538,11 @@ describe('VAOS newAppointment actions', () => {
         newAppointment: {
           ...defaultState.newAppointment,
           facilities: {
-            '502_var983': facilities983Parsed,
+            '502_983': facilities983Parsed,
           },
           data: {
             ...defaultState.newAppointment.data,
-            vaParent: 'var983',
+            vaParent: '983',
           },
         },
       });
@@ -552,7 +552,7 @@ describe('VAOS newAppointment actions', () => {
         {},
         {
           ...defaultState.newAppointment.data,
-          vaParent: 'var983',
+          vaParent: '983',
         },
       );
       await thunk(dispatch, getState);
@@ -566,7 +566,7 @@ describe('VAOS newAppointment actions', () => {
         set(
           'newAppointment.facilities',
           {
-            '502_var983': facilities983Parsed,
+            '502_983': facilities983Parsed,
           },
           defaultState,
         );
@@ -576,7 +576,7 @@ describe('VAOS newAppointment actions', () => {
         {},
         {
           ...defaultState.newAppointment.data,
-          vaParent: 'var983',
+          vaParent: '983',
         },
       );
       await thunk(dispatch, getState);
@@ -595,7 +595,7 @@ describe('VAOS newAppointment actions', () => {
         {},
         {
           ...defaultState.newAppointment.data,
-          vaParent: 'var983',
+          vaParent: '983',
         },
       );
       await thunk(dispatch, getState);
@@ -627,7 +627,7 @@ describe('VAOS newAppointment actions', () => {
         {},
         {
           ...defaultState.newAppointment.data,
-          vaParent: 'var983',
+          vaParent: '983',
         },
       );
       await thunk(dispatch, getState);
@@ -663,7 +663,7 @@ describe('VAOS newAppointment actions', () => {
         {},
         {
           ...defaultState.newAppointment.data,
-          vaParent: 'var983',
+          vaParent: '983',
         },
       );
       await thunk(dispatch, getState);
@@ -715,10 +715,10 @@ describe('VAOS newAppointment actions', () => {
           ...defaultState.newAppointment,
           data: {
             ...defaultState.newAppointment.data,
-            vaParent: 'var983',
+            vaParent: '983',
           },
           facilities: {
-            '502_var983': facilities983Parsed,
+            '502_983': facilities983Parsed,
           },
         },
       };
@@ -730,7 +730,7 @@ describe('VAOS newAppointment actions', () => {
         {},
         {
           ...previousState.newAppointment.data,
-          vaFacility: 'var983',
+          vaFacility: '983',
         },
       );
       await thunk(dispatch, getState);
@@ -767,11 +767,11 @@ describe('VAOS newAppointment actions', () => {
           ...defaultState.newAppointment,
           data: {
             ...defaultState.newAppointment.data,
-            vaParent: 'var983',
+            vaParent: '983',
           },
           facilities: {
             // This is an unexpected data type that causes an error
-            '502_var983': {},
+            '502_983': {},
           },
         },
       };
@@ -783,7 +783,7 @@ describe('VAOS newAppointment actions', () => {
         {},
         {
           ...previousState.newAppointment.data,
-          vaFacility: 'var983',
+          vaFacility: '983',
         },
       );
       await thunk(dispatch, getState);
@@ -867,27 +867,27 @@ describe('VAOS newAppointment actions', () => {
         newAppointment: {
           data: {
             preferredDate: '2019-01-01',
-            vaFacility: 'var983GC',
-            vaParent: 'var983A6',
+            vaFacility: '983GC',
+            vaParent: '983A6',
             typeOfCareId: '323',
-            clinicId: 'var983_1234',
+            clinicId: '983_1234',
           },
           fetchedAppointmentSlotMonths: [],
           parentFacilities: [
             {
-              id: 'var983A6',
+              id: '983A6',
               partOf: {
-                reference: 'Organization/var983',
+                reference: 'Organization/983',
               },
             },
           ],
           facilities: {
-            '323_var983A6': [
+            '323_983A6': [
               {
                 identifier: [
                   {
                     system: VHA_FHIR_ID,
-                    value: 'var983GC',
+                    value: '983GC',
                   },
                 ],
               },
@@ -938,27 +938,27 @@ describe('VAOS newAppointment actions', () => {
         newAppointment: {
           data: {
             preferredDate: '2019-01-01',
-            vaFacility: 'var983GC',
-            vaParent: 'var983A6',
+            vaFacility: '983GC',
+            vaParent: '983A6',
             typeOfCareId: '323',
-            clinicId: 'var983_1234',
+            clinicId: '983_1234',
           },
           fetchedAppointmentSlotMonths: [],
           parentFacilities: [
             {
-              id: 'var983A6',
+              id: '983A6',
               partOf: {
-                reference: 'Organization/var983',
+                reference: 'Organization/983',
               },
             },
           ],
           facilities: {
-            '323_var983A6': [
+            '323_983A6': [
               {
                 identifier: [
                   {
                     system: VHA_FHIR_ID,
-                    value: 'var983GC',
+                    value: '983GC',
                   },
                 ],
               },

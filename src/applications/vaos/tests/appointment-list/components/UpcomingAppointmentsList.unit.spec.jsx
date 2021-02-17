@@ -1,8 +1,13 @@
 import React from 'react';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
-import { setFetchJSONFailure } from 'platform/testing/unit/helpers';
+import {
+  mockFetch,
+  resetFetch,
+  setFetchJSONFailure,
+} from 'platform/testing/unit/helpers';
 import reducers from '../../../redux/reducer';
 import {
   getCCAppointmentMock,
@@ -11,7 +16,10 @@ import {
   getVARequestMock,
 } from '../../mocks/v0';
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
-import { renderWithStoreAndRouter } from '../../mocks/setup';
+import {
+  getTimezoneTestDate,
+  renderWithStoreAndRouter,
+} from '../../mocks/setup';
 import UpcomingAppointmentsList from '../../../appointment-list/components/UpcomingAppointmentsList';
 
 const initialState = {
@@ -24,6 +32,14 @@ const initialState = {
 };
 
 describe('VAOS <UpcomingAppointmentsList>', () => {
+  beforeEach(() => {
+    mockFetch();
+    MockDate.set(getTimezoneTestDate());
+  });
+  afterEach(() => {
+    resetFetch();
+    MockDate.reset();
+  });
   it('should show information without facility name', async () => {
     const startDate = moment.utc();
     const appointment = getVAAppointmentMock();
@@ -156,7 +172,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
         ),
       ),
     ).to.exist;
-    expect(screen.baseElement).to.contain.text('Cancelled');
+    expect(screen.baseElement).to.contain.text('Canceled');
   });
 
   it('should not display when they have hidden statuses', () => {
@@ -535,9 +551,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       reducers,
     });
 
-    await screen.findByText(
-      new RegExp(startDate.tz('America/New_York').format('dddd, MMMM D'), 'i'),
-    );
+    await screen.findByText(new RegExp(startDate.format('dddd, MMMM D'), 'i'));
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
     expect(screen.baseElement).to.contain.text(
@@ -546,7 +560,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     expect(screen.baseElement).to.contain.text('Express Care request');
   });
 
-  it('should show cancelled express care appointment text', async () => {
+  it('should show canceled express care appointment text', async () => {
     const startDate = moment.utc();
     const appointment = getVARequestMock();
     appointment.attributes = {
@@ -597,20 +611,18 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       reducers,
     });
 
-    await screen.findByText(
-      new RegExp(startDate.tz('America/New_York').format('dddd, MMMM D'), 'i'),
-    );
+    await screen.findByText(new RegExp(startDate.format('dddd, MMMM D'), 'i'));
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(screen.baseElement).to.contain.text('Cancelled');
-    expect(screen.baseElement).to.contain.text(
+    expect(screen.baseElement).to.contain.text('Canceled');
+    expect(screen.baseElement).not.to.contain.text(
       'A VA health care provider will follow up with you today.',
     );
     expect(screen.baseElement).to.contain.text('Express Care request');
   });
 
   it('should show phone call appointment text', async () => {
-    const startDate = moment.utc();
+    const startDate = moment();
     const appointment = getVAAppointmentMock();
     appointment.attributes = {
       ...appointment.attributes,
@@ -628,7 +640,7 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     });
 
     await screen.findByText(
-      new RegExp(startDate.tz('America/New_York').format('dddd, MMMM D'), 'i'),
+      new RegExp(startDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;

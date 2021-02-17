@@ -6,13 +6,23 @@ import set from 'platform/utilities/data/set';
 import { connect } from 'react-redux';
 import { form526BDDFeature } from '../../disability-benefits/all-claims/config/selectors';
 
+import {
+  WIZARD_STATUS,
+  WIZARD_STATUS_NOT_STARTED,
+  WIZARD_STATUS_RESTARTING,
+  WIZARD_STATUS_RESTARTED,
+  WIZARD_STATUS_COMPLETE,
+} from 'platform/site-wide/wizard';
+
+export {
+  WIZARD_STATUS,
+  WIZARD_STATUS_NOT_STARTED,
+  WIZARD_STATUS_RESTARTING,
+  WIZARD_STATUS_RESTARTED,
+  WIZARD_STATUS_COMPLETE,
+};
+
 export const NO_BENEFIT_REFERRED = 'no benefit was referred';
-export const WIZARD_STATUS = 'wizardStatus';
-export const WIZARD_STATUS_NOT_STARTED = 'not started';
-export const WIZARD_STATUS_COMPLETE = 'complete';
-export const WIZARD_STATUS_APPLY_NOW = 'awaiting click on apply button';
-export const WIZARD_STATUS_IN_PROGRESS = 'in progress';
-export const WIZARD_STATUS_UPDATING = 'updating';
 export const formIdSuffixes = {
   FORM_ID_1990: '1990',
   FORM_ID_10203: '10203',
@@ -49,11 +59,37 @@ export class Wizard extends React.Component {
   getPageStateFromPageName = pageName =>
     this.state.pageHistory.find(page => page.name === pageName)?.state;
 
+  /**
+   * Wizard~pageObject
+   * @type {Object}
+   * @property {JSX} component - Wizard page component
+   * @property {String} name - Wizard page name
+   * @property {Object} state - Wizard state for the named page
+   */
+  /**
+   * Wizard~pageHistory
+   * @type {Object[]}
+   * @property {Wizard~pageObject} - Array of pages
+   */
+  /**
+   * Wizard page state (history) array manipulation
+   * @param {number} index - wizard step index from this.state.pageHistory map
+   *  in the render function
+   * @param {Wizard~pageHistory} newState - pageHistory state from Wizard page
+   * @param {null|number|string} nextPageName - manipulate the pageHistory
+   *  - null - do nothing
+   *  - number - history index to render, but prevent rendering subsequent pages
+   *  - string - update page history with the next page name
+   */
   setPageState = (index, newState, nextPageName) => {
     let newHistory = set(`[${index}].state`, newState, this.state.pageHistory);
-
-    // If the next page is new, rewrite the future history
-    if (nextPageName) {
+    if (nextPageName === index && newHistory.length - 1 > index) {
+      // Remove previous page (needed to not show messaging when an invalid
+      // value is provided; e.g. for an invalid date, we don't want to show an
+      // inappropriate alert message)
+      newHistory.pop();
+    } else if (typeof nextPageName === 'string') {
+      // If the next page is new, rewrite the future history
       const nextPageIndex = index + 1;
       const nextPage = this.props.pages.find(p => p.name === nextPageName);
       const { pageHistory } = this.state;
@@ -97,6 +133,7 @@ export class Wizard extends React.Component {
       <form onSubmit={e => e.preventDefault()}>
         {expander && (
           <button
+            type="button"
             aria-expanded={this.state.expanded ? 'true' : 'false'}
             aria-controls="wizardOptions"
             className={buttonClasses}

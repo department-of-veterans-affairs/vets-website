@@ -4,7 +4,7 @@
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-module.exports = `
+const leadershipListingPage = `
  fragment leadershipListingPage on NodeLeadershipListing {
     ${entityElementsFromPages}
     title
@@ -115,3 +115,26 @@ module.exports = `
     }
  }
 `;
+
+const GetNodeLeadershipListingPages = `
+
+  ${leadershipListingPage}
+
+  query GetNodeLeadershipListingPages($onlyPublishedContent: Boolean!) {
+    nodeQuery(limit: 500, filter: {
+      conditions: [
+        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+        { field: "type", value: ["leadership_listing"] }
+      ]
+    }) {
+      entities {
+        ... leadershipListingPage
+      }
+    }
+  }
+`;
+
+module.exports = {
+  fragment: leadershipListingPage,
+  GetNodeLeadershipListingPages,
+};

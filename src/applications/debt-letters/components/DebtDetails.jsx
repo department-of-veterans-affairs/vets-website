@@ -80,9 +80,9 @@ class DebtDetails extends Component {
                 <tr key={`${debtEntry.date}-${index}`}>
                   <td>{moment(debtEntry.date).format('MMMM D, YYYY')}</td>
                   <td>
-                    <p className="vads-u-margin-top--0">
+                    <div className="vads-u-margin-top--0">
                       {renderLetterHistory(debtEntry.letterCode)}
-                    </p>
+                    </div>
                   </td>
                 </tr>
               ))}

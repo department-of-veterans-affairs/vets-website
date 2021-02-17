@@ -31,12 +31,6 @@ import {
 } from './VideoInstructions';
 import VideoVisitProviderSection from './VideoVisitProvider';
 
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id ? id.replace('var', '') : id;
-}
-
 function formatAppointmentDate(date) {
   if (!date.isValid()) {
     return null;
@@ -101,11 +95,9 @@ export default function ConfirmedAppointmentListItem({
   if (isAtlas) {
     header = 'VA Video Connect';
     subHeader = ' at an ATLAS location';
-    const { address } = getATLASLocation(appointment);
-    if (address) {
-      location = `${address.streetAddress}, ${address.city}, ${address.state} ${
-        address.zipCode
-      }`;
+    const atlasLocation = getATLASLocation(appointment);
+    if (atlasLocation?.address) {
+      location = formatFacilityAddress(atlasLocation);
     }
   } else if (videoKind === VIDEO_TYPES.clinic) {
     header = 'VA Video Connect';
@@ -134,6 +126,7 @@ export default function ConfirmedAppointmentListItem({
     location = facility ? formatFacilityAddress(facility) : null;
     if (appointment.vaos.isPhoneAppointment) {
       subHeader = ' over the phone';
+      location = 'Phone call';
     }
   }
 
@@ -174,9 +167,7 @@ export default function ConfirmedAppointmentListItem({
           {isInPersonVAAppointment && (
             <VAFacilityLocation
               facility={facility}
-              facilityId={parseFakeFHIRId(
-                getVAAppointmentLocationId(appointment),
-              )}
+              facilityId={getVAAppointmentLocationId(appointment)}
               clinicName={appointment.participant[0].actor.display}
             />
           )}
@@ -221,7 +212,7 @@ export default function ConfirmedAppointmentListItem({
               description={instructionText}
               location={location}
               duration={appointment.minutesDuration}
-              startDateTime={moment.parseZone(appointment.start)}
+              startDateTime={appointment.start}
             />
             {showCancelButton && (
               <button

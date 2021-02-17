@@ -19,12 +19,6 @@ import AppointmentDateTime from './cards/confirmed/AppointmentDateTime';
 import AppointmentInstructions from './cards/confirmed/AppointmentInstructions';
 import { selectFeatureCancel } from '../../redux/selectors';
 
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id ? id.replace('var', '') : id;
-}
-
 function formatAppointmentDate(date) {
   if (!date.isValid()) {
     return null;
@@ -103,16 +97,14 @@ function ConfirmedAppointmentDetailsPage({
       {!!facility &&
         !isExpressCare && (
           <>
-            <div className="vads-u-font-size--sm vads-u-font-family--sans">
-              <span>
-                <strong>{header}</strong>
-              </span>
-            </div>
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+              {header}
+            </h2>
 
             <VAFacilityLocation
               facility={facility}
               facilityName={facility?.name}
-              facilityId={parseFakeFHIRId(facilityId)}
+              facilityId={facilityId}
               isHomepageRefresh
               clinicFriendlyName={appointment.participant[0].actor.display}
             />
@@ -137,7 +129,7 @@ function ConfirmedAppointmentDetailsPage({
                 description={`instructionText`}
                 location={location}
                 duration={appointment.minutesDuration}
-                startDateTime={moment.parseZone(appointment.start)}
+                startDateTime={appointment.start}
               />
             </div>
 

@@ -1,9 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 
 import { months, days } from '../utilities/date';
-import { formatISOPartialDate, parseISODate } from '../helpers';
+import {
+  formatISOPartialDate,
+  parseISODate,
+  minYear,
+  maxYear,
+} from '../helpers';
 
 function getEmptyState(value) {
   return {
@@ -80,8 +86,9 @@ export default class DateWidget extends React.Component {
     if (month) {
       daysForSelectedMonth = days[month];
     }
+
     return (
-      <div className="usa-date-of-birth row">
+      <div className="usa-date-of-birth usa-datefields row">
         <div className="form-datefield-month">
           <label className="input-date-label" htmlFor={`${id}Month`}>
             Month
@@ -96,7 +103,7 @@ export default class DateWidget extends React.Component {
             <option value="" />
             {months.map(mnth => (
               <option key={mnth.value} value={mnth.value}>
-                {mnth.label}
+                {mnth.text}
               </option>
             ))}
           </select>
@@ -133,8 +140,8 @@ export default class DateWidget extends React.Component {
             name={`${id}Year`}
             id={`${id}Year`}
             disabled={disabled}
-            max="3000"
-            min="1900"
+            max={maxYear}
+            min={minYear}
             pattern="[0-9]{4}"
             value={year}
             onBlur={() => this.handleBlur('year')}

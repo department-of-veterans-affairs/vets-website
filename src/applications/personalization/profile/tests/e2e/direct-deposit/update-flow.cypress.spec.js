@@ -20,12 +20,14 @@ const dd4eduEnabled = {
 };
 
 function fillInBankInfoForm() {
+  cy.axeCheck();
   cy.findByLabelText(/routing number/i).type('123123123');
   cy.findByLabelText(/account number/i).type('123123123');
   cy.findByLabelText(/type/i).select('Checking');
 }
 
 function dismissUnsavedChangesModal() {
+  cy.axeCheck();
   cy.findByText(/are you sure\?/i);
   cy.findByRole('button', { name: /close this modal/i }).click();
 }
@@ -43,6 +45,7 @@ function saveErrorExists() {
 }
 
 function saveSuccessAlertShown(contents) {
+  cy.axeCheck();
   cy.findByTestId('bankInfoUpdateSuccessAlert').contains(
     new RegExp(`we.*updated your.*account info.*${contents}`, 'i'),
   );
@@ -61,9 +64,11 @@ describe('Direct Deposit', () => {
     cy.route('GET', 'v0/ppiu/payment_information', mockDD4CNPNotEnrolled);
     cy.route('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUEnrolled);
     cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);
+    cy.injectAxe();
   });
   describe('for CNP', () => {
     it('should allow bank info updates, show WIP warning modals, show "update successful" banners, etc.', () => {
+      cy.axeCheck();
       cy.findByRole('button', { name: /add.*bank info/i }).click({
         // using force: true since there are times when the click does not
         // register and the bank info form does not open
@@ -83,10 +88,12 @@ describe('Direct Deposit', () => {
       cy.findByRole('button', { name: /add.*bank info/i }).should('not.exist');
       saveSuccessAlertShown('compensation and pension benefits');
       saveSuccessAlertRemoved();
+      cy.axeCheck();
     });
   });
   describe('for EDU', () => {
     it('should allow bank info updates, show WIP warning modals, show "update successful" banners, etc.', () => {
+      cy.axeCheck();
       cy.findByRole('button', {
         name: /edit.*education.*bank info/i,
       }).click({
@@ -107,6 +114,7 @@ describe('Direct Deposit', () => {
       }).should('exist');
       saveSuccessAlertShown('education benefits');
       saveSuccessAlertRemoved();
+      cy.axeCheck();
     });
   });
 });

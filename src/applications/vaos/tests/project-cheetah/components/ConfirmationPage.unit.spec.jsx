@@ -20,7 +20,7 @@ describe('VAOS vaccine flow <ConfirmationPage>', () => {
       projectCheetah: {
         newBooking: {
           data: {
-            vaFacility: 'var983',
+            vaFacility: '983',
             clinicId: '455',
             date1: [start.format()],
           },
@@ -36,7 +36,7 @@ describe('VAOS vaccine flow <ConfirmationPage>', () => {
           clinics: {},
           facilities: [
             {
-              id: 'var983',
+              id: '983',
               name: 'Cheyenne VA Medical Center',
               address: {
                 postalCode: '82001-5356',

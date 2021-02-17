@@ -63,7 +63,7 @@ const uiSchema = {
   },
   preferredLanguage: {
     'ui:title':
-      'Do you prefer that your community care provider speak a certain language?',
+      'Select the preferred language for your community care provider.',
   },
   hasCommunityCareProvider: {
     'ui:widget': 'yesNo',
@@ -163,6 +163,9 @@ export function CommunityCarePreferencesPage({
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
     openCommunityCarePreferencesPage(pageKey, uiSchema, initialSchema);
+    recordEvent({
+      event: `${GA_PREFIX}-community-care-legacy-provider-page`,
+    });
   }, []);
   const previousData = data;
 

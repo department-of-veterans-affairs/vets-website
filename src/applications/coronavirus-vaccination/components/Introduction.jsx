@@ -24,6 +24,9 @@ import {
   WhyContact,
 } from './VerbiageHelper';
 
+import FormFooter from 'platform/forms/components/FormFooter';
+import GetHelp from './GetHelp';
+
 function Introduction({
   authButtonDisabled = false,
   isLoggedIn,
@@ -147,7 +150,7 @@ function Introduction({
                 <a
                   href="/health-care/covid-19-vaccine/#who-will-get-a-covid-19-vaccin"
                   aria-label="Learn who will get a COVID-19 vaccine first based on CDC
-                  guidelines (Open in a new window)"
+                  guidelines"
                 >
                   Learn who can get a COVID-19 vaccine now based on CDC
                   guidelines
@@ -171,6 +174,9 @@ function Introduction({
         <CollapsiblePanel panelName="How will VA contact me when I can get a COVID-19 vaccine?">
           <ContactRules />
         </CollapsiblePanel>
+      </div>
+      <div className="vads-u-margin-top--1">
+        <FormFooter formConfig={{ getHelp: GetHelp }} />
       </div>
     </>
   );

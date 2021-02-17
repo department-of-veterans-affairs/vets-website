@@ -27,7 +27,7 @@ const uiSchema = {
     'ui:description': 'Please pick a date within the next 13 months.',
     'ui:validations': [
       (errors, preferredDate) => {
-        const maxDate = moment().add(13, 'months');
+        const maxDate = moment().add(395, 'days');
         if (moment(preferredDate).isBefore(moment(), 'day')) {
           errors.addError('Please enter a future date ');
         }

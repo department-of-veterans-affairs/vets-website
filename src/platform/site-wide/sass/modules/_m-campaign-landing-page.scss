@@ -1,36 +1,33 @@
-.va-c-story-teaser {
-  img {
-    max-height: 150px;
-  }
-}
-
-.va-c-white-box {
-  width: 220px;
-}
-
 .va-c-blue-line {
   width: 40px;
 }
 
-.va-c-li-box {
-  min-width: 280px;
-  width: 280px;
+.va-c-blue-line--large {
+  width: 50px;
 }
 
-.va-c-benefit-category {
-  min-width: 280px;
+.va-u-box-shadow--none {
+  box-shadow: none !important;
 }
 
-.va-c-custom-hero-button {
-  box-shadow: none;
-}
-
-.va-c-hero {
+.va-u-background--image {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
-.va-c-hero-content {
-  max-width: 400px;
+.va-u-background--gradiant-blue {
+  @include linear-gradient-background($color-old-browser-background-start, $color-old-browser-background-end);
+}
+
+.va-u-text-transform--uppercase {
+  text-transform: uppercase;
+}
+
+.va-c-video {
+  max-width: 560px;
+}
+
+.va-alternating-background-color > :nth-child(even) {
+  background: $color-primary-alt-lightest;
 }

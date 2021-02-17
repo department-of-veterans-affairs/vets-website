@@ -53,6 +53,7 @@ export function ClinicChoicePage({
           <FacilityAddress
             name={facilityDetails.name}
             facility={facilityDetails}
+            level={2}
           />
         </div>
       )}
