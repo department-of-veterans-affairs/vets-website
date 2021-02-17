@@ -205,7 +205,7 @@ const formConfig = {
       },
     },
     addChild: {
-      title: 'Information needed to add your child',
+      title: 'Information needed to add children',
       pages: {
         addChildInformation: {
           depends: formData =>
