@@ -620,38 +620,17 @@ module.exports = function registerFilters() {
     fieldClpFaqPanel,
     fieldBenefitCategories,
   ) => {
-    // Start total sections as max number.
-    let clpTotalSections = maxSections;
+    const removedSectionsCount = [
+      fieldClpVideoPanel,
+      fieldClpSpotlightPanel,
+      fieldClpStoriesPanel,
+      fieldClpResourcesPanel,
+      fieldClpEventsPanel,
+      fieldClpFaqPanel,
+      !_.isEmpty(fieldBenefitCategories),
+    ].filter(panel => !panel).length;
 
-    if (!fieldClpVideoPanel) {
-      clpTotalSections -= 1;
-    }
-
-    if (!fieldClpSpotlightPanel) {
-      clpTotalSections -= 1;
-    }
-
-    if (!fieldClpStoriesPanel) {
-      clpTotalSections -= 1;
-    }
-
-    if (!fieldClpResourcesPanel) {
-      clpTotalSections -= 1;
-    }
-
-    if (!fieldClpEventsPanel) {
-      clpTotalSections -= 1;
-    }
-
-    if (!fieldClpFaqPanel) {
-      clpTotalSections -= 1;
-    }
-
-    if (_.isEmpty(fieldBenefitCategories)) {
-      clpTotalSections -= 1;
-    }
-
-    return clpTotalSections;
+    return maxSections - removedSectionsCount;
   };
 
   liquid.filters.formatSeconds = rawSeconds => {
