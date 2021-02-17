@@ -15,6 +15,7 @@ const testConfig = createTestConfig(
     dataSets: ['chapter31-maximal'],
     fixtures: { data: path.join(__dirname, 'formDataSets') },
     setupPerTest: () => {
+      window.sessionStorage.removeItem('wizardStatus31');
       cy.intercept('POST', '/v0/veteran_readiness_employment_claims', {
         formSubmissionId: '123fake-submission-id-567',
         timestamp: '2020-11-12',
@@ -36,12 +37,15 @@ const testConfig = createTestConfig(
         cy.get('.usa-button-primary').click();
         cy.get('.usa-button-primary').click();
         cy.get('.usa-button-primary').click();
+        cy.get('.usa-button-primary').click();
+        cy.get('.usa-button-primary').click();
+        cy.get('.usa-button-primary').click();
         cy.findAllByText(/Apply online with VA Form 28-1900/i, {
           selector: 'a',
         })
           .first()
           .click();
-
+        cy.injectAxe();
         afterHook(() => {
           cy.get('.va-button-link.schemaform-start-button:first').click();
         });

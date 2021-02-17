@@ -204,7 +204,7 @@ export function getVARFacilityId(appointment) {
       ?.split('_')?.[0];
 
     if (id) {
-      return id.replace('var', '');
+      return id;
     }
 
     return null;

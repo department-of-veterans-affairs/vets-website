@@ -1,3 +1,5 @@
+import React from 'react';
+import _ from 'lodash/fp';
 import ItemLoop from '../../../components/ItemLoop';
 import TableDetailsView from '../../../components/TableDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
@@ -6,9 +8,6 @@ import {
   formatOptions,
   deductionTypes,
 } from '../../../constants/typeaheadOptions';
-import _ from 'lodash/fp';
-
-import React from 'react';
 
 export const uiSchema = {
   'ui:title': 'Your work history',
@@ -24,12 +23,10 @@ export const uiSchema = {
           classNames: 'vads-u-margin-top--3',
           widgetClassNames: 'input-size-3',
         },
-        'ui:required': formData => formData.employment?.isEmployed,
       },
       employmentStart: {
         'ui:title': 'Date you started work at this job',
         'ui:widget': 'date',
-        'ui:required': formData => formData.employment?.isEmployed,
         'ui:options': {
           widgetClassNames: 'vads-u-margin-top--3',
         },
@@ -50,7 +47,6 @@ export const uiSchema = {
         'ui:options': {
           widgetClassNames: 'input-size-1 vads-u-margin-bottom--3',
         },
-        'ui:required': formData => formData.employment?.isEmployed,
       }),
       payrollDeductions: {
         'ui:field': ItemLoop,
@@ -94,6 +90,7 @@ export const schema = {
       properties: {
         currentEmployment: {
           type: 'object',
+          required: ['employmentType', 'employmentStart', 'grossMonthlyIncome'],
           properties: {
             employmentType: {
               type: 'string',

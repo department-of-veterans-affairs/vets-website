@@ -44,7 +44,7 @@ describe('VAOS HealthcareService transformer', () => {
     const data = transformAvailableClinics(facilityId, typeOfCareId, clinics);
 
     it('should set id', () => {
-      expect(data[0].id).to.equal('var983_308');
+      expect(data[0].id).to.equal('983_308');
     });
 
     it('should set resourceType', () => {
@@ -66,7 +66,7 @@ describe('VAOS HealthcareService transformer', () => {
     });
 
     it('should set organization that provides this service', () => {
-      expect(data[0].providedBy).to.equal('Organization/var983');
+      expect(data[0].providedBy).to.equal('Organization/983');
     });
 
     describe('Specific service delivered or performed', () => {

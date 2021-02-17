@@ -112,7 +112,7 @@ let initialState = {
     requestMessagesStatus: FETCH_STATUS.notStarted,
     pendingStatus: FETCH_STATUS.succeeded,
     facilityData: {
-      var983GC,
+      '983GC': var983GC,
     },
   },
 };
@@ -156,7 +156,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       {
         initialState,
         reducers,
-        path: '/requests/var1234',
+        path: '/requests/1234',
       },
     );
 
@@ -209,7 +209,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       {
         initialState,
         reducers,
-        path: '/requests/var1234',
+        path: '/requests/1234',
       },
     );
 
@@ -236,7 +236,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       {
         initialState,
         reducers,
-        path: '/requests/var1234',
+        path: '/requests/1234',
       },
     );
 
@@ -263,7 +263,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       {
         initialState,
         reducers,
-        path: '/requests/var1234',
+        path: '/requests/1234',
       },
     );
 

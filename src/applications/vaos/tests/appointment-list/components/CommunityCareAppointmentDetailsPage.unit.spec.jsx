@@ -35,7 +35,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
 
   it('should navigate to community care appointments detail page', async () => {
     // CC appointment id from confirmed_cc.json
-    const url = '/cc/var8a4885896a22f88f016a2cb7f5de0062';
+    const url = '/cc/8a4885896a22f88f016a2cb7f5de0062';
 
     const appointment = getCCAppointmentMock();
     appointment.id = '8a4885896a22f88f016a2cb7f5de0062';
