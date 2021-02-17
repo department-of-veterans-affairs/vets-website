@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import classNames from 'classnames';
-import buildFormlett from '../ViewDependentsFormStates/BuildFormlett';
+import ManageDependents from '../../manage-dependents/containers/ManageDependentsApp';
 
 function ViewDependentsListItem(props) {
   const [open, setOpen] = useState(false);
@@ -68,7 +68,7 @@ function ViewDependentsListItem(props) {
                 To remove this dependent from your VA benefits, please enter the
                 information below.
               </p>
-              {buildFormlett(relationship)}
+              <ManageDependents relationship={relationship} />
             </div>
           </div>
         </div>

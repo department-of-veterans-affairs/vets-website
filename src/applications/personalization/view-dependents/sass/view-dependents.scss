@@ -1,3 +1,6 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "../../../../platform/forms/sass/m-schemaform";
+
 .usa-alert-info::before {
     content: none;
 }
