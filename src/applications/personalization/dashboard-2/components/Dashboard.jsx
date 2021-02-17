@@ -10,7 +10,6 @@ import { focusElement } from '~/platform/utilities/ui';
 import {
   isLOA3 as isLOA3Selector,
   isLOA1 as isLOA1Selector,
-  isLoggedIn as isLoggedInSelector,
   isVAPatient as isVAPatientSelector,
 } from '~/platform/user/selectors';
 import RequiredLoginView, {
