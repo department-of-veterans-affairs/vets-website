@@ -580,22 +580,21 @@ canvas.mapboxgl-canvas:focus {
   outline-offset: 2px;
 }
 
-.input-clear i {
-  position: absolute;
-}
-
 .input-clear {
-  width: 100%;
-  margin-bottom: 10px;
-}
+  position: relative;
+  font-size: 16px;
 
-.icon {
-  padding-right: 10%;
-  min-width: 40px;
-  cursor: pointer;
-}
+  @media only screen and (min-width: 980px) {
+    display: inline-block;
 
-.input-field {
-  width: 100%;
-  padding: 10px;
+  }
+}
+.input-clear .fa-clear {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+
+  @media only screen and (min-width: 980px) {
+    right: 26px;
+  }
 }

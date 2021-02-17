@@ -69,7 +69,7 @@ class SearchControls extends Component {
       <div className="input-clear">
         <i
           aria-hidden="true"
-          className="fas fa-times-circle icon"
+          className="fas fa-times-circle fa-clear"
           onClick={() => {
             this.inputRef.current.value = '';
           }}
@@ -79,7 +79,6 @@ class SearchControls extends Component {
           name="street-city-state-zip"
           style={{ fontWeight: 'bold' }}
           type="text"
-          className="input-field"
           ref={this.inputRef}
           onChange={this.handleQueryChange}
           value={currentQuery.searchString}
