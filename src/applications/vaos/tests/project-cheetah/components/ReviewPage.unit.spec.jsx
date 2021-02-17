@@ -37,15 +37,15 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
         newBooking: {
           pages: {},
           data: {
-            vaFacility: 'var983',
+            vaFacility: '983',
             clinicId: '455',
           },
           facilityDetails: {
-            var983: {},
+            983: {},
           },
           facilities: [
             {
-              id: 'var983',
+              id: '983',
               name: 'Cheyenne VA Medical Center',
               address: {
                 postalCode: '82001-5356',
@@ -65,7 +65,7 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
             },
           ],
           clinics: {
-            var983: [
+            983: [
               {
                 id: '455',
                 serviceName: 'Some VA clinic',

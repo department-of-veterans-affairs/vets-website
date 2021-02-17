@@ -78,7 +78,7 @@ export function transformFormToVARequest(state) {
   const siteId = getSiteIdForChosenFacility(state);
   const isFacilityV2Page = selectUseFlatFacilityPage(state);
   const facilityId = isFacilityV2Page
-    ? facility.id.replace('var', '')
+    ? facility.id
     : getFacilityIdFromLocation(facility);
   const facilityName = isFacilityV2Page
     ? getTestFacilityName(facilityId, facility.name)

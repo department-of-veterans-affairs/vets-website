@@ -63,7 +63,6 @@ describe('Find VA Forms <SearchResults>', () => {
         results={results}
         updateSortByPropertyName={sinon.stub()}
         sortByPropertyName={INITIAL_SORT_STATE}
-        showFindFormsResultsLinkToFormDetailPages
       />,
     );
 

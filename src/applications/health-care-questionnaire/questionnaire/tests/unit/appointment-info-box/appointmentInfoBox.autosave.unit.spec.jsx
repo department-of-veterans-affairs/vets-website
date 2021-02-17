@@ -24,7 +24,10 @@ describe('health care questionnaire - VeteranInformationDisplay', () => {
         setFormData={onChange}
       />,
     );
-    expect(onChange.called).to.be.true;
+    setTimeout(() => {
+      expect(onChange.called).to.be.true;
+    }, 0);
+
     appointmentDetails.unmount();
   });
 });

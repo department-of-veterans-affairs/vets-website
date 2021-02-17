@@ -275,9 +275,7 @@ function setParticipant(appt) {
       if (appt.clinicId) {
         participant.push({
           actor: {
-            reference: `HealthcareService/var${appt.facilityId}_${
-              appt.clinicId
-            }`,
+            reference: `HealthcareService/${appt.facilityId}_${appt.clinicId}`,
             display:
               appt.clinicFriendlyName ||
               appt.vdsAppointments?.[0]?.clinic?.name ||
@@ -289,7 +287,7 @@ function setParticipant(appt) {
       if (appt.sta6aid) {
         participant.push({
           actor: {
-            reference: `Location/var${appt.sta6aid}`,
+            reference: `Location/${appt.sta6aid}`,
           },
         });
       }
@@ -330,7 +328,7 @@ function setParticipant(appt) {
         return [
           {
             actor: {
-              reference: `Location/var${appt.facility.facilityCode}`,
+              reference: `Location/${appt.facility.facilityCode}`,
             },
           },
         ];
@@ -382,14 +380,14 @@ function setContained(appt) {
         const { tasInfo } = appt.vvsAppointments[0];
         const service = {
           resourceType: 'HealthcareService',
-          id: `HealthcareService/var${appt.vvsAppointments[0].id}`,
+          id: `HealthcareService/${appt.vvsAppointments[0].id}`,
           type: [
             {
               text: 'Patient Virtual Meeting Room',
             },
           ],
           providedBy: {
-            reference: `Organization/var${appt.facilityId}`,
+            reference: `Organization/${appt.facilityId}`,
           },
           characteristic: [
             {
@@ -427,7 +425,7 @@ function setContained(appt) {
           contained.push(transformATLASLocation(tasInfo));
         } else if (appt.sta6aid) {
           service.location = {
-            reference: `Location/var${appt.sta6aid}`,
+            reference: `Location/${appt.sta6aid}`,
           };
         }
         contained.push(service);
@@ -559,7 +557,7 @@ export function transformConfirmedAppointments(appointments) {
     const isCC = isCommunityCare(appt);
     return {
       resourceType: 'Appointment',
-      id: `var${appt.id}`,
+      id: appt.id,
       status: getConfirmedStatus(appt, isPast),
       description: getVistaStatus(appt),
       start,
@@ -597,17 +595,18 @@ export function transformPendingAppointments(requests) {
     const unableToReachVeteran = appt.appointmentRequestDetailCode?.some(
       detail => detail.detailCode?.code === UNABLE_TO_REACH_VETERAN_DETCODE,
     );
+    const created = moment.parseZone(appt.date).format('YYYY-MM-DD');
 
     return {
       resourceType: 'Appointment',
-      id: `var${appt.id}`,
+      id: appt.id,
       status: getRequestStatus(appt, isExpressCare),
-      created: moment(appt.createdDate, 'MM/DD/YYYY HH:mm:SS').format(),
+      created,
       cancelationReason: unableToReachVeteran
         ? { text: UNABLE_TO_REACH_VETERAN_DETCODE }
         : null,
       requestedPeriod,
-      start: isExpressCare ? appt.date : undefined,
+      start: isExpressCare ? created : undefined,
       minutesDuration: 60,
       type: {
         coding: [

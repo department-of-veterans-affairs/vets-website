@@ -11,13 +11,13 @@ const initialState = {
 
 describe('View Representative reducer', () => {
   it('should return initial state', () => {
-    const state = representative(initialState, {});
+    const state = representative.representative(initialState, {});
     expect(state.loading).to.be.true;
     expect(state.representative).to.equal(null);
   });
 
   it('should handle a successful call for fetching payments', () => {
-    const state = representative(initialState, {
+    const state = representative.representative(initialState, {
       type: 'FETCH_REPRESENTATIVE_SUCCESS',
       response: currentRepresentative,
     });
@@ -27,7 +27,7 @@ describe('View Representative reducer', () => {
 
   // TODO: this needs to be updated once the frontend is wired up to the backend.
   it('should handle an error response from the server', () => {
-    const state = representative(initialState, {
+    const state = representative.representative(initialState, {
       type: 'FETCH_REPRESENTATIVE_FAILED',
       response: [
         {

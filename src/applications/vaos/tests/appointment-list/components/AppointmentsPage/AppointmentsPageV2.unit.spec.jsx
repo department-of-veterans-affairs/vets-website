@@ -1,4 +1,5 @@
 import React from 'react';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent, waitFor } from '@testing-library/dom';
@@ -20,6 +21,7 @@ import {
 import {
   createTestStore,
   renderWithStoreAndRouter,
+  getTimezoneTestDate,
 } from '../../../mocks/setup';
 
 import reducers from '../../../../redux/reducer';
@@ -36,8 +38,14 @@ const initialState = {
 };
 
 describe('VAOS <AppointmentsPageV2>', () => {
-  beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
+  beforeEach(() => {
+    mockFetch();
+    MockDate.set(getTimezoneTestDate());
+  });
+  afterEach(() => {
+    resetFetch();
+    MockDate.reset();
+  });
 
   const userState = {
     profile: {

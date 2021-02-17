@@ -156,7 +156,7 @@ describe('VAOS reducer: newAppointment', () => {
     const currentState = {
       data: {
         typeOfCareId: '323',
-        vaFacility: 'var123',
+        vaFacility: '123',
       },
       pages: {
         test: {
@@ -174,7 +174,7 @@ describe('VAOS reducer: newAppointment', () => {
       page: 'test',
       data: {
         typeOfCareId: '504',
-        vaFacility: 'var123',
+        vaFacility: '123',
       },
       uiSchema: {},
     };
@@ -257,7 +257,7 @@ describe('VAOS reducer: newAppointment', () => {
         properties: {
           vaParent: {
             type: 'string',
-            enum: ['var983', 'var984', 'var983A6'],
+            enum: ['983', '984', '983A6'],
             enumNames: [
               'CHYSHR-Cheyenne VA Medical Center',
               'DAYTSHR -Dayton VA Medical Center',
@@ -287,7 +287,7 @@ describe('VAOS reducer: newAppointment', () => {
         properties: {
           vaFacility: {
             type: 'string',
-            enum: ['var983', 'var983GB', 'var983GC', 'var983GD', 'var983HK'],
+            enum: ['983', '983GB', '983GC', '983GD', '983HK'],
             enumNames: [
               'CHYSHR-Cheyenne VA Medical Center (Cheyenne, WY)',
               'CHYSHR-Sidney VA Clinic (Sidney, NE)',
@@ -321,7 +321,7 @@ describe('VAOS reducer: newAppointment', () => {
         type: 'object',
         properties: {},
       });
-      expect(newState.clinics.var983_323).to.equal(
+      expect(newState.clinics['983_323']).to.equal(
         action.eligibilityData.clinics,
       );
     });
@@ -398,11 +398,7 @@ describe('VAOS reducer: newAppointment', () => {
       const vaFacilitySchema =
         newState.pages.vaFacilityV2.properties.vaFacility;
 
-      expect(vaFacilitySchema.enum).to.deep.equal([
-        'var984',
-        'var983',
-        'var983GC',
-      ]);
+      expect(vaFacilitySchema.enum).to.deep.equal(['984', '983', '983GC']);
       expect(vaFacilitySchema.enumNames[0].name).to.equal(
         'Dayton VA Medical Center',
       );
@@ -433,7 +429,7 @@ describe('VAOS reducer: newAppointment', () => {
       const vaFacilitySchema =
         newState.pages.vaFacilityV2.properties.vaFacility;
 
-      expect(vaFacilitySchema.enum).to.deep.equal(['var983GC']);
+      expect(vaFacilitySchema.enum).to.deep.equal(['983GC']);
       expect(vaFacilitySchema.enumNames[0].name).to.equal(
         'Fort Collins VA Clinic',
       );
@@ -456,11 +452,7 @@ describe('VAOS reducer: newAppointment', () => {
       const vaFacilitySchema =
         newState.pages.vaFacilityV2.properties.vaFacility;
 
-      expect(vaFacilitySchema.enum).to.deep.equal([
-        'var983',
-        'var984',
-        'var983GC',
-      ]);
+      expect(vaFacilitySchema.enum).to.deep.equal(['983', '984', '983GC']);
       expect(vaFacilitySchema.enumNames[0].name).to.equal(
         'Cheyenne VA Medical Center',
       );
@@ -501,11 +493,7 @@ describe('VAOS reducer: newAppointment', () => {
       const vaFacilitySchema =
         newState2.pages.vaFacilityV2.properties.vaFacility;
 
-      expect(vaFacilitySchema.enum).to.deep.equal([
-        'var984',
-        'var983',
-        'var983GC',
-      ]);
+      expect(vaFacilitySchema.enum).to.deep.equal(['984', '983', '983GC']);
       expect(vaFacilitySchema.enumNames[0].name).to.equal(
         'Dayton VA Medical Center',
       );
@@ -530,7 +518,7 @@ describe('VAOS reducer: newAppointment', () => {
     const defaultFacilityState = {
       ...defaultState,
       data: {
-        vaParent: 'var983',
+        vaParent: '983',
         typeOfCareId: '323',
       },
       pages: {
@@ -576,7 +564,7 @@ describe('VAOS reducer: newAppointment', () => {
         .undefined;
       expect(newState.pages.vaFacility.properties.vaFacility).to.deep.equal({
         type: 'string',
-        enum: ['var983', 'var983GB', 'var983GC', 'var983GD', 'var983HK'],
+        enum: ['983', '983GB', '983GC', '983GD', '983HK'],
         enumNames: [
           'CHYSHR-Cheyenne VA Medical Center (Cheyenne, WY)',
           'CHYSHR-Sidney VA Clinic (Sidney, NE)',
@@ -585,7 +573,7 @@ describe('VAOS reducer: newAppointment', () => {
           'CHYSHR-Wheatland VA Mobile Clinic (Cheyenne, WY)',
         ],
       });
-      expect(newState.facilities['323_var983']).to.equal(facilities983Parsed);
+      expect(newState.facilities['323_983']).to.equal(facilities983Parsed);
     });
 
     it('should update facility choices if system changed and we have the list in state', () => {
@@ -596,10 +584,10 @@ describe('VAOS reducer: newAppointment', () => {
       const state = {
         ...defaultFacilityState,
         data: {
-          vaParent: 'var983',
+          vaParent: '983',
         },
         facilities: {
-          '323_var983': facilities983Parsed,
+          '323_983': facilities983Parsed,
         },
       };
 
@@ -607,7 +595,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       expect(newState.pages.vaFacility.properties.vaFacility).to.deep.equal({
         type: 'string',
-        enum: ['var983', 'var983GB', 'var983GC', 'var983GD', 'var983HK'],
+        enum: ['983', '983GB', '983GC', '983GD', '983HK'],
         enumNames: [
           'CHYSHR-Cheyenne VA Medical Center (Cheyenne, WY)',
           'CHYSHR-Sidney VA Clinic (Sidney, NE)',
@@ -627,18 +615,18 @@ describe('VAOS reducer: newAppointment', () => {
         ...defaultFacilityState,
         parentFacilities: [
           {
-            id: 'var983',
+            id: '983',
           },
         ],
         facilities: {
-          '323_var983': facilities983Parsed.slice(0, 1),
+          '323_983': facilities983Parsed.slice(0, 1),
         },
       };
 
       const newState = newAppointmentReducer(state, action);
 
       expect(newState.pages.vaFacility.properties.vaFacility).to.be.undefined;
-      expect(newState.data.vaFacility).to.equal('var983');
+      expect(newState.data.vaFacility).to.equal('983');
     });
     it('should set error when failed', () => {
       const currentState = {
@@ -667,7 +655,7 @@ describe('VAOS reducer: newAppointment', () => {
       const action = {
         type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
         typeOfCareId: '323',
-        facilityId: 'var983',
+        facilityId: '983',
         eligibilityData: {
           clinics: [],
           directPastVisit: {},
@@ -678,27 +666,27 @@ describe('VAOS reducer: newAppointment', () => {
       const state = {
         ...defaultState,
         facilities: {
-          '323_var983': facilities983Parsed,
+          '323_983': facilities983Parsed,
         },
         parentFacilities: parentFacilitiesParsed,
         data: {
           ...defaultState.data,
-          vaFacility: 'var983',
+          vaFacility: '983',
         },
       };
 
       const newState = newAppointmentReducer(state, action);
-      expect(newState.clinics.var983_323).to.equal(
+      expect(newState.clinics['983_323']).to.equal(
         action.eligibilityData.clinics,
       );
-      expect(newState.eligibility.var983_323).to.not.be.undefined;
+      expect(newState.eligibility['983_323']).to.not.be.undefined;
     });
 
     it('should not set clinic info if failed', () => {
       const action = {
         type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
         typeOfCareId: '323',
-        facilityId: 'var983',
+        facilityId: '983',
         eligibilityData: {
           clinics: { directFailed: true },
           directPastVisit: {},
@@ -709,12 +697,12 @@ describe('VAOS reducer: newAppointment', () => {
       const state = {
         ...defaultState,
         facilities: {
-          '323_var983': facilities983Parsed,
+          '323_983': facilities983Parsed,
         },
         parentFacilities: parentFacilitiesParsed,
         data: {
           ...defaultState.data,
-          vaFacility: 'var983',
+          vaFacility: '983',
         },
       };
 
@@ -777,9 +765,9 @@ describe('VAOS reducer: newAppointment', () => {
         ],
         clinics: {
           // eslint-disable-next-line camelcase
-          var983_323: [
+          '983_323': [
             {
-              id: 'var983_455',
+              id: '983_455',
               resourceType: 'HealthcareService',
               identifier: [
                 {
@@ -789,7 +777,7 @@ describe('VAOS reducer: newAppointment', () => {
               ],
             },
             {
-              id: 'var983_456',
+              id: '983_456',
               resourceType: 'HealthcareService',
               identifier: [
                 {
@@ -804,8 +792,8 @@ describe('VAOS reducer: newAppointment', () => {
         data: {
           ...defaultState.data,
           typeOfCareId: '323',
-          vaParent: 'var983',
-          vaFacility: 'var983',
+          vaParent: '983',
+          vaFacility: '983',
         },
       };
 
@@ -824,7 +812,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       expect(
         newState.pages.clinicChoice.properties.clinicId.enum,
-      ).to.deep.equal(['var983_455', 'NONE']);
+      ).to.deep.equal(['983_455', 'NONE']);
       expect(
         newState.pages.clinicChoice.properties.clinicId.enumNames,
       ).to.deep.equal([
@@ -851,9 +839,9 @@ describe('VAOS reducer: newAppointment', () => {
         ],
         clinics: {
           // eslint-disable-next-line camelcase
-          var983_323: [
+          '983_323': [
             {
-              id: 'var983_455',
+              id: '983_455',
               resourceType: 'HealthcareService',
               identifier: [
                 {
@@ -864,7 +852,7 @@ describe('VAOS reducer: newAppointment', () => {
               serviceName: 'Testing',
             },
             {
-              id: 'var983_456',
+              id: '983_456',
               resourceType: 'HealthcareService',
               identifier: [
                 {
@@ -880,8 +868,8 @@ describe('VAOS reducer: newAppointment', () => {
         data: {
           ...defaultState.data,
           typeOfCareId: '323',
-          vaParent: 'var983',
-          vaFacility: 'var983',
+          vaParent: '983',
+          vaFacility: '983',
         },
       };
 
@@ -900,7 +888,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       expect(
         newState.pages.clinicChoice.properties.clinicId.enum,
-      ).to.deep.equal(['var983_455', 'var983_456', 'NONE']);
+      ).to.deep.equal(['983_455', '983_456', 'NONE']);
       expect(
         newState.pages.clinicChoice.properties.clinicId.enumNames,
       ).to.deep.equal([
@@ -1120,7 +1108,7 @@ describe('VAOS reducer: newAppointment', () => {
         uiSchema: {},
         parentFacilities: [
           {
-            id: 'var983',
+            id: '983',
             identifier: [
               {
                 system: VHA_FHIR_ID,
@@ -1144,7 +1132,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       expect(newState.pages.ccPreferences.properties.communityCareSystemId).to
         .be.undefined;
-      expect(newState.data.communityCareSystemId).to.equal('var983');
+      expect(newState.data.communityCareSystemId).to.equal('983');
     });
 
     it('should fill in enum props if more than one cc system', () => {
@@ -1182,7 +1170,7 @@ describe('VAOS reducer: newAppointment', () => {
         newState.pages.ccPreferences.properties.communityCareSystemId,
       ).to.deep.equal({
         type: 'string',
-        enum: ['var983', 'var984'],
+        enum: ['983', '984'],
         enumNames: ['Cheyenne, WY', 'Dayton, OH'],
       });
     });
@@ -1218,7 +1206,7 @@ describe('VAOS reducer: newAppointment', () => {
         {
           data: {
             typeOfCareId: '323',
-            vaFacility: 'var123',
+            vaFacility: '123',
           },
           communityCareProviders: {},
           ccProviderPageSortMethod: sortMethod,
@@ -1250,7 +1238,7 @@ describe('VAOS reducer: newAppointment', () => {
         {
           data: {
             typeOfCareId: '323',
-            vaFacility: 'var123',
+            vaFacility: '123',
           },
           communityCareProviders: {},
           ccProviderPageSortMethod: sortMethod,

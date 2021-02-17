@@ -11,7 +11,7 @@
  */
 export function transformAvailableClinic(facilityId, typeOfCareId, clinic) {
   return {
-    id: `var${clinic.siteCode}_${clinic.clinicId}`,
+    id: `${clinic.siteCode}_${clinic.clinicId}`,
     resourceType: 'HealthcareService',
     // External identifiers for this item
     identifier: [
@@ -24,7 +24,7 @@ export function transformAvailableClinic(facilityId, typeOfCareId, clinic) {
     ],
 
     // Organization that provides this service
-    providedBy: `Organization/var${clinic.siteCode}`,
+    providedBy: `Organization/${clinic.siteCode}`,
 
     // Specific service delivered or performed
     serviceType: [
@@ -43,7 +43,7 @@ export function transformAvailableClinic(facilityId, typeOfCareId, clinic) {
 
     // Location where service may be provided
     location: {
-      reference: `Location/var${facilityId}`,
+      reference: `Location/${facilityId}`,
     },
 
     // Description of service as presented to a consumer while searching
