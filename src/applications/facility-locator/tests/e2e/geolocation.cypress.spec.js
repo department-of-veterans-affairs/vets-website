@@ -20,7 +20,7 @@ describe('Facility geolocation', () => {
     });
   });
 
-  it('geolocatees the user', () => {
+  it('geolocates the user', () => {
     // Mock the call to Mapbox
     cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-la-location').as(
       'caLocation',
@@ -32,12 +32,12 @@ describe('Facility geolocation', () => {
 
     cy.get('#street-city-state-zip').should('be.empty');
 
-    cy.get('.use-my-location-link')
-      .click()
-      .then(() => {
-        cy.get('#street-city-state-zip').contains('Los Angeles', {
-          timeout: 20000,
-        });
-      });
+    cy.get('.use-my-location-link').click();
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(500);
+    cy.get('#street-city-state-zip').then(elem => {
+      const searchFieldValue = Cypress.$(elem).val();
+      expect(searchFieldValue).to.include('Los Angeles');
+    });
   });
 });
