@@ -112,7 +112,7 @@ const formConfig = {
     },
 
     veteranInformation: {
-      title: "Veteran's Information",
+      title: "Veteran's information",
       pages: {
         veteranInformation: {
           path: 'veteran-information',
