@@ -67,9 +67,8 @@ const getSelectedAppointmentData = (window, id) => {
 
   const data = sessionStorage.getItem(key) ?? '{}';
   const parsed = JSON.parse(data);
-  const { appointment } = parsed;
-  if (appointment) {
-    return appointment;
+  if (parsed.appointment) {
+    return parsed;
   } else {
     return null;
   }

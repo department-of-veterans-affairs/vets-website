@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { clearCurrentSession } from '../../shared/utils';
+import {
+  clearCurrentSession,
+  clearSelectedAppointmentData,
+} from '../../shared/utils';
 import ConfirmationPageFooter from '../components/get-help/ConfirmationPageFooter';
 import AppointmentDisplay from '../components/appointment-display/AppointmentDisplay';
 
@@ -12,6 +15,7 @@ const ConfirmationPage = props => {
 
   useEffect(() => {
     clearCurrentSession(window);
+    clearSelectedAppointmentData(window, appointment.id);
   }, []);
 
   return (
