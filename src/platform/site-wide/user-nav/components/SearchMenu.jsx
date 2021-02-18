@@ -167,6 +167,7 @@ export class SearchMenu extends React.Component {
     // event logging, note suggestion will be undefined during a userInput search
     recordEvent({
       event: 'view_search_results',
+      'search-dropdown-used': suggestion !== undefined,
       'search-page-path': document.location.pathname,
       'search-query': userInput,
       'search-results-total-count': undefined,
@@ -291,7 +292,10 @@ export class SearchMenu extends React.Component {
                 disabled={!isUserInputValid()}
                 data-e2e-id="sitewide-search-submit-button"
                 className="vads-u-margin-left--0p5 vads-u-margin-y--1 vads-u-margin-right--1 vads-u-flex--1"
-                onClick={() => handleSearchEvent()}
+                onMouseDown={() => {
+                  event.preventDefault();
+                  handleSearchEvent();
+                }}
                 onFocus={() => this.setState({ suggestions: [] })}
               >
                 <IconSearch color="#fff" />

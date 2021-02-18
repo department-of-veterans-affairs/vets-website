@@ -94,6 +94,7 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
     if (trackSearch) {
       recordEvent({
         event: 'view_search_results',
+        'search-dropdown-used': false,
         'search-page-path': '/education/yellow-ribbon-participating-schools/',
         'search-query': name,
         'search-typeahead-enabled': false,
