@@ -35,7 +35,9 @@
         "city": "Washington",
         "stateCode": "DC",
         "zipCode": "20500"
-      }
+      },
+      "schoolType": "HighSch",
+      "trainingProgram": "Marine Biology"
     },
     "studentAddressMarriageTuition": {
       "address": {

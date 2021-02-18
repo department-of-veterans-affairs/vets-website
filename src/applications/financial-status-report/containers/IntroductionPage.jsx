@@ -1,16 +1,13 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import formConfig from '../config/form';
 import UnverifiedPrefillAlert from '../components/UnverifiedPrefillAlert';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 const IntroductionPage = props => {
   useEffect(() => {
@@ -19,12 +16,12 @@ const IntroductionPage = props => {
 
   return (
     <div className="fsr-introduction schemaform-intro">
-      <FormTitle title={'Request help for VA debt'} />
-      <p className="subtitle">
-        Equal to VA Form 5655 (Financial Status Report)
-      </p>
+      <FormTitle
+        title={'Request help with VA debt (VA Form 5655)'}
+        subTitle={'Equal to VA Form 5655 (Financial Status Report)'}
+      />
       <SaveInProgressIntro
-        startText="Submit a report to request help"
+        startText="Start your request now"
         unauthStartText="Sign in or create an account"
         messages={props.route.formConfig.savedFormMessages}
         pageList={props.route.pageList}
@@ -37,105 +34,108 @@ const IntroductionPage = props => {
         unverifiedPrefillAlert={<UnverifiedPrefillAlert />}
       />
       <h2 className="vads-u-font-size--h3">
-        Follow the steps below to request a waiver, compromise, or extended
-        monthly payments for a VA debt.
+        Follow these steps to request help with a VA debt payment
       </h2>
       <div className="process schemaform-process">
         <ol>
           <li className="process-step list-one">
             <h3 className="vads-u-font-size--h4">Prepare</h3>
-            <div>
-              To submit a request, you will need the following information for
-              you and your spouse, if applicable.
-            </div>
-            <ul>
-              <li>Employment history for the past two years</li>
-              <li>
-                Average monthly income, including gross salary, payroll
-                deductions, and other income
-              </li>
-              <li>
-                Average monthly household expenses, including rent, utilities,
-                and additional living expenses
-              </li>
-              <li>
-                Household assets, such as vehicles, savings bonds, real estate
-                owned, and other assets
-              </li>
-              <li>
-                Additional debts, including car payments, doctor bills, and
-                credit card payments
-              </li>
-              <li>Bankruptcy documentation, if applicable</li>
-            </ul>
-            <h4 className="vads-u-font-size--h6">
-              What if I need help with my application?
-            </h4>
             <p>
-              If you need help requesting help for your VA debt, you can contact
-              your local Veterans Service Organization (VSO).{' '}
-              <a href="https://www.va.gov/vso/">Learn about VSOs near you.</a>
+              You'll need this information for you (and your spouse if you’re
+              married):
             </p>
+            <ul>
+              <li>
+                <strong>Work history for the past 2 years. </strong>
+                You'll need the employer name, start and end dates, and monthly
+                income for each job.
+              </li>
+              <li>
+                <strong>Income. </strong>
+                This includes money you earn from a job, VA or Social Security
+                benefits, or other sources. You’ll find the details you’ll need
+                on a recent paycheck.
+              </li>
+              <li>
+                <strong>Assets. </strong>
+                These include cash, savings, stocks and bonds, real estate,
+                cars, jewelry, and other items of value.
+              </li>
+              <li>
+                <strong>Monthly living expenses. </strong>
+                These include housing, food, and utilities (like gas,
+                electricity, and water).
+              </li>
+              <li>
+                <strong>Installment contracts or other debts. </strong>
+                These include car loans, student loans, credit card debt, and
+                other debts or purchase payment plans.
+              </li>
+              <li>
+                <strong>Other living expenses. </strong>
+                These include expenses like clothing, transportation, child
+                care, or health care.
+              </li>
+              <li>
+                <strong>If you've ever declared bankruptcy, </strong>
+                you'll need any related documents.
+              </li>
+            </ul>
+            <p>
+              If you need help with your request,{' '}
+              <a href="https://www.va.gov/vso/">
+                contact a local Veterans Service Organization (VSO).
+              </a>
+            </p>
+            <AdditionalInfo
+              status="info"
+              triggerText="Why does VA need all this information?"
+            >
+              <span>
+                We want to make sure we fully understand your financial
+                situation. If you’re married, we also need to understand your
+                spouse’s financial situation. This helps us make the best
+                decision on your request.
+              </span>
+            </AdditionalInfo>
           </li>
           <li className="process-step list-two">
             <h3 className="vads-u-font-size--h4">Submit your request</h3>
-            <div>
-              These are the steps you can expect when submitting a request:
-            </div>
-            <ul>
-              <li>Confirm your personal information</li>
-              <li>
-                Confirm or edit your mailing address, phone number, and email
-                address
-              </li>
-              <li>Provide your average household income and expenses</li>
-              <li>Provide your household assets</li>
-              <li>Include additional debts and monthly bills</li>
-              <li>
-                Select a repayment option for each debt you need help with
-              </li>
-              <li>Identify whether you have adjudicated bankrupty</li>
-              <li>Review and submit your request</li>
-            </ul>
             <p>
-              After submitting the request, you’ll get a confirmation message.
+              We’ll take you through each step of the process. It should take
+              about 30 minutes.
+            </p>
+
+            <p>
+              When you submit your request, you’ll get a confirmation message.
               You can print this for your records.
             </p>
             <p>
-              Be sure to submit your report within 30 days of receiving a letter
-              from us about your overpayment or debt. This will help to avoid
-              late fees, interest, and other collection actions. If you’re
-              requesting a waiver to stop collection, you must submit your
-              request within 180 days for disability, education, or pension
-              benefits.
+              <strong>Note: </strong>
+              Submit your request within <strong>30 days</strong> of receiving a
+              debt collection letter from us. This will help you avoid late
+              fees, interest, and other collection actions.
             </p>
           </li>
           <li className="process-step list-three">
-            <h3 className="vads-u-font-size--h4">Receive your decision</h3>
+            <h3 className="vads-u-font-size--h4">
+              Take any needed next steps to resolve the debt
+            </h3>
             <p>
-              After we process your request, we’ll send you a letter with our
-              decision. We’ll also tell you what to do next to resolve your
-              debt.
+              Within 45 days of when you submit your request, we’ll send you
+              this information by mail:
             </p>
-            <p>You can expect our decision within 45 days.</p>
-            <h4 className="vads-u-font-size--h6">
-              What if I have questions about my application?
-            </h4>
-            <p>
-              If you have questions about payments, call us at{' '}
-              <Telephone contact={CONTACTS.DMC} /> (or{' '}
-              <Telephone
-                contact={CONTACTS.DMC_OVERSEAS || '1-612-713-6415'}
-                pattern={PATTERNS.OUTSIDE_US}
-              />{' '}
-              from overseas). We’re here Monday through Friday, 7:30 a.m. to
-              7:00 p.m. ET.
-            </p>
+            <ul>
+              <li>Our decision on your request</li>
+              <li>Any payments you may need to make, and how to make them</li>
+              <li>How to appeal our decision if you disagree</li>
+            </ul>
+            <p>If you need to make any payments, be sure to pay on time.</p>
           </li>
         </ol>
         <SaveInProgressIntro
           buttonOnly
-          startText="Submit a report to request help"
+          startText="Start your request now"
           unauthStartText="Sign in or create an account"
           pageList={props.route.pageList}
           messages={props.route.formConfig.savedFormMessages}

@@ -1,4 +1,5 @@
 import {
+  FETCH_TOTAL_RATING_STARTED,
   FETCH_TOTAL_RATING_SUCCEEDED,
   FETCH_TOTAL_RATING_FAILED,
 } from '../actions/index';
@@ -7,10 +8,15 @@ const initialState = {
   loading: true, // app starts in loading state
   error: null,
   totalDisabilityRating: null,
+  disabilityDecisionTypeName: null,
 };
 
 export function totalRating(state = initialState, action) {
   switch (action.type) {
+    case FETCH_TOTAL_RATING_STARTED:
+      return {
+        ...initialState,
+      };
     case FETCH_TOTAL_RATING_FAILED:
       return {
         ...state,
@@ -25,6 +31,7 @@ export function totalRating(state = initialState, action) {
         ...state,
         loading: false,
         totalDisabilityRating: action.response.userPercentOfDisability,
+        disabilityDecisionTypeName: action.response.disabilityDecisionTypeName,
       };
     default:
       return state;

@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
 import AlertBox, {
   ALERT_TYPE,
-} from '@department-of-veterans-affairs/formation-react/AlertBox';
-import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+} from '@department-of-veterans-affairs/component-library/AlertBox';
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { getEligiblePages } from 'platform/forms-system/src/js/routing';
-import { setData } from 'platform/forms-system/src/js/actions';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   CHAPTER_31_ROOT_URL,
@@ -18,35 +15,9 @@ import {
 
 const IntroductionPage = props => {
   // focus on element
-  const [pageList, setPageList] = useState(props.route.pageList);
   useEffect(() => {
     focusElement('h1');
   }, []);
-
-  // build pagelist
-  const { form, route, loa } = props;
-
-  useEffect(
-    () => {
-      const authCheckedFormData = {
-        ...form.data,
-        loa,
-      };
-      // Wait for action to finish then continue
-      const awaitedUpdate = async () => {
-        return props.setData(authCheckedFormData);
-      };
-      awaitedUpdate().then(formData => {
-        const filteredPageList = getEligiblePages(
-          route.pageList,
-          formData.data,
-          '/introduction',
-        );
-        setPageList(filteredPageList.pages);
-      });
-    },
-    [loa],
-  );
 
   return (
     <div className="schemaform-intro">
@@ -57,7 +28,7 @@ const IntroductionPage = props => {
       <SaveInProgressIntro
         prefillEnabled={props.route.formConfig.prefillEnabled}
         messages={props.route.formConfig.savedFormMessages}
-        pageList={pageList}
+        pageList={props.route.pageList}
         downtime={props.route.formConfig.downtime}
         startText="Apply for career planning and guidance"
       >
@@ -164,16 +135,4 @@ const IntroductionPage = props => {
   );
 };
 
-const mapStateToProps = state => ({
-  form: state?.form,
-  loa: state?.user?.profile?.loa?.current,
-});
-
-const mapDispatchToProps = {
-  setData,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IntroductionPage);
+export default IntroductionPage;

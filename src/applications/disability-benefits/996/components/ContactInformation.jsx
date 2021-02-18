@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { selectProfile } from 'platform/user/selectors';
 import { formatAddress } from 'platform/forms/address/helpers';
@@ -33,7 +33,7 @@ export const ContactInfoDescription = ({ profile }) => {
       <div className="blue-bar-block">
         <h4 className="vads-u-font-size--h4">Phone &amp; email</h4>
         <p>
-          <strong>Primary phone</strong>:{' '}
+          <strong>Home phone</strong>:{' '}
           <Telephone
             contact={phone}
             extension={homePhone?.extension}

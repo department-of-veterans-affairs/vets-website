@@ -1,6 +1,6 @@
 import React from 'react';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 export default function CancelCommunityCareAppointmentModal({
   onClose,
@@ -52,14 +52,12 @@ export default function CancelCommunityCareAppointmentModal({
         )}
         <strong>{location.name}</strong>
         {!!phone && (
-          <dl className="vads-u-margin-y--0">
-            <dt className="vads-u-display--inline">
-              <strong>Main phone:</strong>
-            </dt>{' '}
-            <dd className="vads-u-display--inline">
-              <Telephone contact={phone} />
-            </dd>
-          </dl>
+          <>
+            <h4 className="vaos-appts__block-label vads-u-display--inline">
+              Main phone:
+            </h4>{' '}
+            <Telephone contact={phone} />
+          </>
         )}
       </div>
       <button onClick={onClose}>OK</button>

@@ -10,13 +10,16 @@ import {
   isUpcomingAppointmentOrRequest,
   isValidPastAppointment,
   sortByDateDescending,
+  sortByDateAscending,
   sortUpcoming,
   getVARFacilityId,
+  groupAppointmentsByMonth,
+  isCanceledConfirmedOrExpressCare,
+  isUpcomingAppointmentOrExpressCare,
+  sortByCreatedDateDescending,
+  isValidPastAppointmentOrExpressCare,
 } from '../../services/appointment';
-import {
-  selectFeatureExpressCare,
-  selectFeatureExpressCareNewRequest,
-} from '../../redux/selectors';
+import { selectFeatureExpressCareNewRequest } from '../../redux/selectors';
 import {
   getTimezoneAbbrBySystemId,
   getTimezoneBySystemId,
@@ -42,7 +45,7 @@ export function getCancelInfo(state) {
     facility = facilityData[locationId];
   } else if (appointmentToCancel?.facility) {
     // Requests
-    facility = facilityData[`var${appointmentToCancel.facility.facilityCode}`];
+    facility = facilityData[appointmentToCancel.facility.facilityCode];
   } else if (isVideo) {
     // Video visits
     const locationId = getVideoAppointmentLocation(appointmentToCancel);
@@ -99,26 +102,101 @@ export function selectFutureStatus(state) {
 }
 
 export const selectFutureAppointments = createSelector(
-  selectFeatureExpressCare,
   state => state.appointments.pending,
   state => state.appointments.confirmed,
-  (showExpressCare, pending, confirmed) => {
+  (pending, confirmed) => {
     if (!confirmed || !pending) {
       return null;
     }
 
     return confirmed
       .concat(...pending)
-      .filter(appt => !showExpressCare || !appt.vaos.isExpressCare)
+      .filter(appt => !appt.vaos.isExpressCare)
       .filter(isUpcomingAppointmentOrRequest)
       .sort(sortUpcoming);
   },
+);
+
+export const selectUpcomingAppointments = createSelector(
+  // Selecting pending here to pull in EC requests
+  state => state.appointments.pending,
+  state => state.appointments.confirmed,
+  (pending, confirmed) => {
+    if (!confirmed || !pending) {
+      return null;
+    }
+
+    const sortedAppointments = confirmed
+      .concat(pending)
+      .filter(isUpcomingAppointmentOrExpressCare)
+      .sort(sortByDateAscending);
+
+    return groupAppointmentsByMonth(sortedAppointments);
+  },
+);
+
+export const selectPendingAppointments = createSelector(
+  state => state.appointments.pending,
+  pending =>
+    pending
+      ?.filter(a => !a.vaos.isExpressCare)
+      .sort(sortByCreatedDateDescending) || null,
 );
 
 export const selectPastAppointments = createSelector(
   state => state.appointments.past,
   past => {
     return past?.filter(isValidPastAppointment).sort(sortByDateDescending);
+  },
+);
+
+export const selectCanceledAppointments = createSelector(
+  // Selecting pending here to pull in EC requests
+  state => state.appointments.pending,
+  state => state.appointments.confirmed,
+  (pending, confirmed) => {
+    if (!confirmed || !pending) {
+      return null;
+    }
+
+    const sortedAppointments = confirmed
+      .concat(pending)
+      .filter(isCanceledConfirmedOrExpressCare)
+      .sort(sortByDateDescending);
+
+    return groupAppointmentsByMonth(sortedAppointments);
+  },
+);
+
+export function selectFirstRequestMessage(state) {
+  const { currentAppointment, requestMessages } = state.appointments;
+
+  if (!currentAppointment) {
+    return null;
+  }
+
+  return (
+    requestMessages?.[currentAppointment.id]?.[0]?.attributes?.messageText ||
+    null
+  );
+}
+
+/*
+ * V2 Past appointments state selectors
+ */
+
+export const selectPastAppointmentsV2 = createSelector(
+  state => state.appointments.past,
+  past => {
+    if (!past) {
+      return null;
+    }
+
+    const sortedAppointments = past
+      .filter(isValidPastAppointmentOrExpressCare)
+      .sort(sortByDateAscending);
+
+    return groupAppointmentsByMonth(sortedAppointments);
   },
 );
 
@@ -290,12 +368,11 @@ export function selectExpressCareAvailability(state) {
       moment(),
     ),
     allowRequests: !!activeWindows?.length,
-    enabled: selectFeatureExpressCare(state),
     useNewFlow: selectFeatureExpressCareNewRequest(state),
     hasWindow: !!selectExpressCareFacilities(state)?.length,
-    hasRequests:
-      selectFeatureExpressCare(state) &&
-      state.appointments.pending?.some(appt => appt.vaos.isExpressCare),
+    hasRequests: state.appointments.pending?.some(
+      appt => appt.vaos.isExpressCare,
+    ),
     windowsStatus: state.appointments.expressCareWindowsStatus,
   };
 }

@@ -2,7 +2,7 @@
 import React from 'react';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 // Relative imports.
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 

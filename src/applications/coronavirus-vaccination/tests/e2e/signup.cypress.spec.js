@@ -16,8 +16,32 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       // Intro page
       cy.axeCheck();
       cy.get('.vads-l-row').contains(
-        'COVID-19 vaccines: Stay informed and help us prepare',
+        'Stay informed about getting a COVID-19 vaccine at VA',
       );
+      // Expand all Accordions with keyboard and test for A11y
+      cy.get('[aria-controls="collapsible-1"]').type('{shift}');
+      cy.get('div').contains(
+        'Contacting Veterans who we know plan to get a vaccine helps us do the most good with our limited supply.',
+      );
+
+      cy.get('[aria-controls="collapsible-2"]').type('{shift}');
+      cy.get('div').contains(
+        'If you want to learn more before you decide your plans:',
+      );
+
+      cy.get('[aria-controls="collapsible-3"]').type('{shift}');
+      cy.get('div').contains(
+        'No. But when you provide this information, we can match your information to your Veteran records',
+      );
+
+      cy.get('[aria-controls="collapsible-4"]').type('{shift}');
+      cy.get('div').contains(
+        'Your local VA health facility may contact you by phone, email, or text message. If you’re eligible and want to get a vaccine, we encourage you to respond.',
+      );
+      cy.get('.help-talk').contains(
+        'If you have questions or need help filling out this form, call our MyVA411 main information line at 800-698-2411 (TTY: 711).',
+      );
+      cy.axeCheck();
 
       cy.get('.usa-button').contains('Sign in');
 
@@ -41,7 +65,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
         .clear()
         .type('Veteran');
 
-      cy.findByLabelText(/^Month/).select('Jun');
+      cy.findByLabelText(/^Month/).select('June');
 
       cy.findByLabelText(/^Day/).select('30');
 
@@ -71,6 +95,10 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       );
       cy.get('#root_vaccineInterest_0').check();
 
+      cy.get('.help-talk').contains(
+        'If you have questions or need help filling out this form, call our MyVA411 main information line at 800-698-2411 (TTY: 711).',
+      );
+
       cy.axeCheck();
       cy.route('POST', '**/covid_vaccine/v0/registration', {
         status: 200,
@@ -93,9 +121,14 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       cy.get('.vads-l-row').contains(
         'Thank you for signing up to stay informed about COVID-19 vaccines at VA',
       );
-
       cy.get('.vads-l-row').contains(
-        'Remember: This form doesn’t sign you up to get a vaccine',
+        'Your local VA health facility may also use the information you provided to determine when to contact you about getting a vaccine once your risk group becomes eligible',
+      );
+      cy.get('.vads-l-row').contains(
+        'Your local VA health facility may contact you by phone, email, or text message.',
+      );
+      cy.get('.vads-l-row').contains(
+        'By sharing your plans for getting a vaccine, you help us better plan our efforts',
       );
     });
   });

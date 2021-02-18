@@ -10,7 +10,6 @@ const reverseFieldSchema = {
         entity: partialSchema(eventSchema, [
           'title',
           'entityUrl',
-          'fieldDate',
           'fieldDatetimeRangeTimezone',
           'fieldDescription',
           'fieldLocationHumanreadable',
@@ -31,7 +30,6 @@ module.exports = {
     created: { type: 'number' },
     changed: { type: 'number' },
     entityMetatags: { $ref: 'MetaTags' },
-    entityPublished: { type: 'boolean' },
     fieldAdministration: { $ref: 'output/taxonomy_term-administration' },
     fieldDescription: { type: 'string' },
     fieldIntroText: { type: ['string', 'null'] },
@@ -61,7 +59,6 @@ module.exports = {
     'created',
     'changed',
     'entityMetatags',
-    'entityPublished',
     'fieldAdministration',
     'fieldDescription',
     'entityUrl',

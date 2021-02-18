@@ -54,7 +54,11 @@ const transform = (entity, { ancestors }) => ({
   fieldFacilityLocatorApiId: getDrupalValue(entity.fieldFacilityLocatorApiId),
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldLocalHealthCareService: entity.fieldLocalHealthCareService.length
-    ? entity.fieldLocalHealthCareService.filter(n => Object.keys(n).length)
+    ? entity.fieldLocalHealthCareService.filter(
+        s =>
+          s.entity?.fieldRegionalHealthService?.entity
+            ?.fieldServiceNameAndDescripti?.entity?.name,
+      )
     : null,
   fieldLocationServices: entity.fieldLocationServices.length
     ? entity.fieldLocationServices
@@ -65,9 +69,6 @@ const transform = (entity, { ancestors }) => ({
       ? { entity: getImageCrop(entity.fieldMedia[0], '_32MEDIUMTHUMBNAIL') }
       : null,
   fieldMentalHealthPhone: getDrupalValue(entity.fieldMentalHealthPhone),
-  fieldNicknameForThisFacility: getDrupalValue(
-    entity.fieldNicknameForThisFacility,
-  ),
   fieldOperatingStatusFacility: getDrupalValue(
     entity.fieldOperatingStatusFacility,
   ),
@@ -102,7 +103,6 @@ module.exports = {
     'field_main_location',
     'field_media',
     'field_mental_health_phone',
-    'field_nickname_for_this_facility',
     'field_operating_status_facility',
     'field_operating_status_more_info',
     'field_phone_number',

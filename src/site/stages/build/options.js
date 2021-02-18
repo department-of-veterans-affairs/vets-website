@@ -37,6 +37,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'use-cms-export', type: Boolean, defaultValue: false },
   { name: 'cms-export-dir', type: String, defaultValue: null },
   { name: 'drupal-fail-fast', type: Boolean, defaultValue: false },
+  { name: 'setPublicPath', type: Boolean, defaultValue: false },
   {
     name: 'drupal-address',
     type: String,
@@ -99,7 +100,11 @@ function applyDefaultOptions(options) {
       source: path.join(contentRoot, 'assets'),
       destination: './',
     },
-    destination: path.resolve(projectRoot, 'build', options.buildtype),
+    destination: path.resolve(
+      projectRoot,
+      'build',
+      options.destination || options.buildtype,
+    ),
     appAssets: {
       source: '../../assets',
       destination: './',

@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 
 const ContactInfoCard = ({
   addressLine1,
+  addressLine2,
   city,
-  state,
+  stateCode,
   zipCode,
   country,
   edit,
@@ -17,8 +18,9 @@ const ContactInfoCard = ({
       </h4>
       <div className="vads-u-padding-left--1 vads-u-border-left--7px vads-u-border-color--primary">
         <p className="vads-u-margin--1px">{addressLine1}</p>
+        <p className="vads-u-margin--1px">{addressLine2}</p>
         <p className="vads-u-margin--1px">
-          {city}, {state} {zipCode}
+          {city}, {stateCode} {zipCode}
         </p>
         <p className="vads-u-margin--1px">{country}</p>
       </div>
@@ -31,26 +33,20 @@ const ContactInfoCard = ({
 
 ContactInfoCard.propTypes = {
   addressLine1: PropTypes.string,
+  addressLine2: PropTypes.string,
   city: PropTypes.string,
-  state: PropTypes.string,
+  stateCode: PropTypes.string,
   zipCode: PropTypes.string,
   country: PropTypes.string,
 };
 
-ContactInfoCard.defaultProps = {
-  addressLine1: '1234 W Nebraska St',
-  city: 'Tampa',
-  state: 'FL',
-  zipCode: '33614',
-  country: 'United States',
-};
-
-const mapStateToProps = state => ({
-  addressLine1: state.form?.data?.mailingAddress.addressLine1,
-  city: state.form?.data?.mailingAddress.city,
-  state: state.form?.data?.mailingAddress.state,
-  zipCode: state.form?.data?.mailingAddress.zipCode,
-  country: state.form?.data?.mailingAddress.country,
+const mapStateToProps = ({ form }) => ({
+  addressLine1: form.data.mailingAddress?.addressLine1,
+  addressLine2: form.data.mailingAddress?.addressLine2,
+  city: form.data.mailingAddress?.city,
+  stateCode: form.data.mailingAddress?.stateCode,
+  zipCode: form.data.mailingAddress?.zipCode,
+  country: form.data.mailingAddress?.country,
 });
 
 export default connect(

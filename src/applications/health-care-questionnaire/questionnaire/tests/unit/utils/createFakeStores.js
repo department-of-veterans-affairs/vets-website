@@ -187,6 +187,24 @@ const createFakeReasonForVisitDescriptionStore = reason => {
   };
 };
 
+const createFakeExpiresAtStore = (appointmentTime = 'no a real date') => {
+  return {
+    getState: () => ({
+      questionnaireData: {
+        context: {
+          appointment: {
+            attributes: {
+              vdsAppointments: [{ appointmentTime }],
+            },
+          },
+        },
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  };
+};
+
 const createFakeReasonForVisitStore = ({ reason = '' }) => {
   return {
     getState: () => ({
@@ -194,6 +212,28 @@ const createFakeReasonForVisitStore = ({ reason = '' }) => {
         context: {
           appointment: {
             attributes: { vdsAppointments: [{ bookingNotes: reason }] },
+          },
+        },
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  };
+};
+
+const createFakeHiddenFieldStore = ({
+  appointmentId = '',
+  questionnaireId = '',
+}) => {
+  return {
+    getState: () => ({
+      questionnaireData: {
+        context: {
+          questionnaire: {
+            id: questionnaireId,
+          },
+          appointment: {
+            id: appointmentId,
           },
         },
       },
@@ -222,7 +262,10 @@ const createFakeConfirmationStore = ({ hasData }) => {
                   attributes: {
                     vdsAppointments: [
                       {
-                        clinic: { facility: { displayName: 'Magic Kingdom' } },
+                        clinic: {
+                          stopCode: '323',
+                          facility: { displayName: 'Magic Kingdom' },
+                        },
                       },
                     ],
                   },
@@ -287,6 +330,25 @@ const createFakeStopCodeStore = (stopCode = '323') => {
     }),
   };
 };
+
+const createFakeFooterStore = (clinic = {}, clinicFriendlyName = '') => {
+  return {
+    getState: () => ({
+      questionnaireData: {
+        context: {
+          appointment: {
+            attributes: {
+              clinicFriendlyName,
+              vdsAppointments: [{ clinic }],
+            },
+          },
+        },
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => ({}),
+  };
+};
 export {
   createFakeUserStore,
   createFakeReasonForVisitDescriptionStore,
@@ -294,4 +356,7 @@ export {
   createFakeConfirmationStore,
   createFakeIntroductionPageStore,
   createFakeStopCodeStore,
+  createFakeExpiresAtStore,
+  createFakeHiddenFieldStore,
+  createFakeFooterStore,
 };

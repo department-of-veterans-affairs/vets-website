@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import { pageNames } from './pageList';
 import recordEvent from 'platform/monitoring/record-event';
 import { formIdSuffixes } from 'applications/static-pages/wizard/';
@@ -69,7 +69,7 @@ const STEMScholarship = ({ setPageState, state = {}, setReferredBenefit }) => {
         </li>
       </ul>
 
-      <ErrorableRadioButtons
+      <RadioButtons
         additionalFieldsetClass="wizard-fieldset"
         name={`${pageNames.STEMScholarship}`}
         id={`${pageNames.STEMScholarship}`}

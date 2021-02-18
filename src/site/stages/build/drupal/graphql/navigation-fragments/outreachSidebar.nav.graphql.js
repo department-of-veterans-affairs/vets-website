@@ -5,7 +5,7 @@
 
 const MENU_NAME = 'outreach-and-events';
 
-module.exports = `
+const outreachSidebarQuery = `
   outreachSidebarQuery: menuByName(name: "${MENU_NAME}") {
     name
     description
@@ -59,3 +59,14 @@ module.exports = `
     }
   }
 `;
+
+const GetOutreachSidebar = `
+  query {
+    ${outreachSidebarQuery}
+  }
+`;
+
+module.exports = {
+  partialQuery: outreachSidebarQuery,
+  GetOutreachSidebar,
+};

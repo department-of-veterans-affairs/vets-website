@@ -8,37 +8,108 @@ Used to open or close the side bar navigation bar on mobile screens. Must be
 used in a template with navigation-sidebar.html
 
 {% endcomment %}
-<button type="button" class="va-btn-sidebarnav-trigger vads-u-width--full"
-  aria-controls="va-detailpage-sidebar" id="sidebar-nav-trigger">
-  <span>
-    <b>More in this section</b>
-    {% include "src/site/assets/img/arrow-right-white.svg" %}
-  </span>
-</button>
-
+<div class="va-btn-sidebarnav-trigger" id="sidebar-nav-trigger">
+  <!-- The button background is to hide any content that is behind the trigger -->
+  <div class="button-background"></div>
+  <div class="button-wrapper">
+    <button aria-controls="va-detailpage-sidebar">
+      <strong>In this section</strong>
+      {% include "src/site/assets/img/bars.svg" %}
+    </button>
+  </div>
+</div>
+<div class="trigger-placeholder"></div>
 
 <script nonce="**CSP_NONCE**" type="text/javascript">
-  var mobileMediaQuery = window.matchMedia('(max-width: 767px)');
-  var element = document.getElementsByClassName("va-btn-sidebarnav-trigger")[0];
-  var offset;
+  var mobileMediaQuery = window.matchMedia('(max-width: 767px)')
+  var navTrigger = document.getElementsByClassName('va-btn-sidebarnav-trigger')[0]
+  var buttonWrapper = document.querySelector(
+    '.va-btn-sidebarnav-trigger .button-wrapper',
+  )
+  var buttonBackground = document.querySelector(
+    '.va-btn-sidebarnav-trigger .button-background',
+  )
+  var navTriggerPlaceholder = document.querySelector('.trigger-placeholder')
+  var navTriggerPosition
 
-  if (mobileMediaQuery.matches) {
-    offset = element.offsetTop;
+  // Helper to get the height of the nav button, with or without the bottom
+  // padding. This is used to set the height of the button's placeholder and the
+  // height of the white button background
+  function getButtonHeight(withBottomPadding) {
+    // If the mobile nav button is hidden, just return 0
+    if (!mobileMediaQuery.matches) {
+      return 0
+    }
+
+    const style = window.getComputedStyle(buttonWrapper)
+    const { height, paddingBottom } = style
+
+    if (withBottomPadding) {
+      return parseFloat(height)
+    }
+
+    return parseFloat(height) - parseFloat(paddingBottom)
   }
 
-  window.addEventListener("resize", function () {
-    if (mobileMediaQuery.matches) {
-      offset = element.offsetTop;
-    }
-  }, false);
+  function setElementHeights() {
+    // In some edge cases when switching from desktop to mobile viewport (such
+    // as when you open the web inspector), getButtonHeight() was returning 0,
+    // likely due to `mobileMediaQuery.matches` failing. This simple hack
+    // ensures that the height is not computed until the next run of the event
+    // loop
+    setTimeout(() => {
+      navTriggerPlaceholder.style.height = getButtonHeight(true) + 'px'
+      buttonBackground.style.height = getButtonHeight(false) + 'px'
+    }, 0)
+  }
 
-  window.addEventListener("scroll", function () {
+  function setMenuTriggerPosition() {
+    navTriggerPosition = navTriggerPlaceholder.offsetTop
+  }
+
+  function pinTrigger() {
     if (mobileMediaQuery.matches) {
-      if (offset < window.pageYOffset) {
-        element.classList.add("fixed-trigger");
+      if (navTriggerPosition < window.pageYOffset) {
+        navTrigger.classList.add('fixed-trigger')
       } else {
-        element.classList.remove("fixed-trigger");
+        navTrigger.classList.remove('fixed-trigger')
       }
     }
-  }, false);
+  }
+
+  // As the document loads, make sure the height and trigger positions are
+  // updated
+  document.onreadystatechange = () => {
+    setElementHeights()
+    setMenuTriggerPosition()
+  }
+
+  window.addEventListener(
+    'resize',
+    () => {
+      // The height of the trigger can change at extreme browser widths
+      setElementHeights()
+      // The trigger can be pushed up/down as elements above it change height as
+      // the browser width changes
+      setMenuTriggerPosition()
+      // We might need to pin/unpin the trigger if we transitions from/to mobile
+      // browser widths
+      pinTrigger()
+    },
+    false,
+  )
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      // We are resetting the trigger button's position on scroll just in case any
+      // elements have been removed from above the menu trigger, such as a
+      // dismissible alert.
+      setMenuTriggerPosition()
+      // Primarily scrolling will pin/unpin the trigger from the top of the
+      // viewport
+      pinTrigger()
+    },
+    false,
+  )
 </script>

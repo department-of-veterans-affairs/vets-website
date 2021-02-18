@@ -17,6 +17,14 @@
   white-space: nowrap;
 }
 
+.clearfix:after {
+  content: " ";
+  visibility: hidden;
+  display: block;
+  height: 0;
+  clear: both;
+}
+
 ul.original-disability-list {
   li {
     margin-bottom: 0;
@@ -140,6 +148,12 @@ fieldset.schemaform-block,
   white-space: pre-wrap;
   height: auto;
   white-space: pre-wrap;
+}
+
+article[data-location="review-veteran-details/separation-location"] {
+  fieldset > .schemaform-field-container {
+    margin-top: 0;
+  }
 }
 
 // Style fix for "Private medical records"

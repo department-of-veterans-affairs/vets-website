@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import FormFooter from 'platform/forms/components/FormFooter';
+
+import {
+  WIZARD_STATUS_NOT_STARTED,
+  WIZARD_STATUS_RESTARTED,
+  WIZARD_STATUS_COMPLETE,
+  restartShouldRedirect,
+} from 'platform/site-wide/wizard';
 
 import WizardContainer from './WizardContainer';
 import { WIZARD_STATUS, CAREERS_EMPLOYMENT_ROOT_URL } from '../constants';
@@ -15,16 +22,32 @@ import formConfig from '../config/form';
 // Need to set status of whether or not the wizard is complete to local storage
 // Read from local storage to determine if we should render the wizard OR the intro page
 
-function App({ location, children, chapter36Feature }) {
-  const [wizardState, setWizardState] = useState(false);
+function App({ location, children, chapter36Feature, router }) {
+  const [wizardState, setWizardState] = useState(WIZARD_STATUS_NOT_STARTED);
+
+  // pass this to wizard pages so re-render doesn't happen on
+  // successful wizard entry
+  const setWizardStatusHandler = value => {
+    sessionStorage.setItem(WIZARD_STATUS, value);
+  };
+
+  const setWizardStatus = value => {
+    sessionStorage.setItem(WIZARD_STATUS, value);
+    setWizardState(value);
+  };
+
   let content;
-  useEffect(
-    () => {
-      const wizardStatus = sessionStorage.getItem(WIZARD_STATUS);
-      setWizardState(JSON.parse(wizardStatus));
-    },
-    [setWizardState],
-  );
+  useEffect(() => {
+    const shouldRestart = restartShouldRedirect(WIZARD_STATUS);
+    setWizardStatus(
+      shouldRestart
+        ? WIZARD_STATUS_RESTARTED
+        : sessionStorage.getItem(WIZARD_STATUS),
+    );
+    if (shouldRestart) {
+      router.push('/');
+    }
+  });
 
   if (chapter36Feature === undefined) {
     content = <LoadingIndicator message="Loading..." />;
@@ -61,8 +84,8 @@ function App({ location, children, chapter36Feature }) {
         </div>
       </div>
     );
-  } else if (!wizardState) {
-    content = <WizardContainer />;
+  } else if (wizardState !== WIZARD_STATUS_COMPLETE) {
+    content = <WizardContainer setWizardStatus={setWizardStatusHandler} />;
   } else {
     content = (
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>

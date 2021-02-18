@@ -1,78 +1,68 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { SecondaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo';
-import { secondaryCaregiverFields } from 'applications/caregivers/definitions/constants';
-import definitions, {
+import { secondaryOneFields } from 'applications/caregivers/definitions/constants';
+import {
+  secondaryOneInputLabel,
+  hasSecondaryCaregiverTwoUI,
+} from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
+import {
+  emailUI,
+  vetRelationshipUI,
+  alternativePhoneNumberUI,
+  primaryPhoneNumberUI,
   addressWithoutCountryUI,
   confirmationEmailUI,
-} from 'applications/caregivers/definitions/caregiverUI';
+} from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 
 const { secondaryCaregiverOne } = fullSchema.properties;
 const secondaryCaregiverOneProps = secondaryCaregiverOne.properties;
 
 const { address } = fullSchema.definitions;
 
-const {
-  alternativePhoneNumberUI,
-  emailUI,
-  hasSecondaryCaregiverTwoUI,
-  primaryPhoneNumberUI,
-  vetRelationshipUI,
-  contactInfoTitle,
-} = definitions.sharedItems;
-
-const { secondaryCaregiversUI } = definitions;
-
 const secondaryCaregiverContactPage = {
   uiSchema: {
     'ui:description': SecondaryCaregiverInfo({
-      pageTitle: contactInfoTitle,
+      pageTitle: 'Contact information',
     }),
     // secondaryOne UI
-    [secondaryCaregiverFields.secondaryOne.address]: addressWithoutCountryUI(
-      secondaryCaregiversUI.secondaryOneInputLabel,
+    [secondaryOneFields.address]: addressWithoutCountryUI(
+      secondaryOneInputLabel,
     ),
-    [secondaryCaregiverFields.secondaryOne
-      .primaryPhoneNumber]: primaryPhoneNumberUI(
-      secondaryCaregiversUI.secondaryOneInputLabel,
+    [secondaryOneFields.primaryPhoneNumber]: primaryPhoneNumberUI(
+      secondaryOneInputLabel,
     ),
-    [secondaryCaregiverFields.secondaryOne
-      .alternativePhoneNumber]: alternativePhoneNumberUI(
-      secondaryCaregiversUI.secondaryOneInputLabel,
+    [secondaryOneFields.alternativePhoneNumber]: alternativePhoneNumberUI(
+      secondaryOneInputLabel,
     ),
-    [secondaryCaregiverFields.secondaryOne.email]: emailUI(
-      secondaryCaregiversUI.secondaryOneInputLabel,
+    [secondaryOneFields.email]: emailUI(secondaryOneInputLabel),
+    [secondaryOneFields.verifyEmail]: confirmationEmailUI(
+      secondaryOneInputLabel,
+      secondaryOneFields.email,
     ),
-    [secondaryCaregiverFields.secondaryOne.verifyEmail]: confirmationEmailUI(
-      secondaryCaregiversUI.secondaryOneInputLabel,
-      secondaryCaregiverFields.secondaryOne.email,
+    [secondaryOneFields.vetRelationship]: vetRelationshipUI(
+      secondaryOneInputLabel,
     ),
-    [secondaryCaregiverFields.secondaryOne.vetRelationship]: vetRelationshipUI(
-      secondaryCaregiversUI.secondaryOneInputLabel,
-    ),
-    [secondaryCaregiverFields.secondaryOne
-      .hasSecondaryCaregiverTwo]: hasSecondaryCaregiverTwoUI,
+    [secondaryOneFields.hasSecondaryCaregiverTwo]: hasSecondaryCaregiverTwoUI,
   },
   schema: {
     type: 'object',
     required: [
-      secondaryCaregiverFields.secondaryOne.address,
-      secondaryCaregiverFields.secondaryOne.vetRelationship,
-      secondaryCaregiverFields.secondaryOne.primaryPhoneNumber,
+      secondaryOneFields.address,
+      secondaryOneFields.vetRelationship,
+      secondaryOneFields.primaryPhoneNumber,
     ],
     properties: {
       // secondaryOne properties
-      [secondaryCaregiverFields.secondaryOne.address]: address,
-      [secondaryCaregiverFields.secondaryOne.primaryPhoneNumber]:
+      [secondaryOneFields.address]: address,
+      [secondaryOneFields.primaryPhoneNumber]:
         secondaryCaregiverOneProps.primaryPhoneNumber,
-      [secondaryCaregiverFields.secondaryOne.alternativePhoneNumber]:
+      [secondaryOneFields.alternativePhoneNumber]:
         secondaryCaregiverOneProps.alternativePhoneNumber,
-      [secondaryCaregiverFields.secondaryOne.email]:
-        secondaryCaregiverOneProps.email,
-      [secondaryCaregiverFields.secondaryOne.verifyEmail]:
-        secondaryCaregiverOneProps.email,
-      [secondaryCaregiverFields.secondaryOne.vetRelationship]:
+      [secondaryOneFields.email]: secondaryCaregiverOneProps.email,
+      [secondaryOneFields.verifyEmail]: secondaryCaregiverOneProps.email,
+      [secondaryOneFields.vetRelationship]:
         secondaryCaregiverOneProps.vetRelationship,
-      [secondaryCaregiverFields.secondaryOne.hasSecondaryCaregiverTwo]: {
+      [secondaryOneFields.hasSecondaryCaregiverTwo]: {
         type: 'boolean',
       },
     },

@@ -1,20 +1,27 @@
 import React from 'react';
-import { formatAddress } from '~/platform/forms/address/helpers';
+import PropTypes from 'prop-types';
+import { formatAddress } from 'platform/forms/address/helpers';
 import ReceiveTextMessages from 'platform/user/profile/vap-svc/containers/ReceiveTextMessages';
 import { FIELD_NAMES } from '@@vap-svc/constants';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import * as VAP_SERVICE from '@@vap-svc/constants';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+
+import {
+  addresses,
+  phoneNumbers,
+} from '~/applications/personalization/profile/util/contact-information/getContactInfoFieldAttributes';
 
 const ContactInformationView = props => {
-  const { data, type, fieldName } = props;
+  const { data, fieldName } = props;
   if (!data) {
     return null;
   }
 
-  if (type === 'email') {
+  if (fieldName === FIELD_NAMES.EMAIL) {
     return <span>{data.emailAddress}</span>;
   }
 
-  if (type === 'phone') {
+  if (phoneNumbers.includes(fieldName)) {
     return (
       <div>
         <Telephone
@@ -30,7 +37,7 @@ const ContactInformationView = props => {
     );
   }
 
-  if (type === 'address') {
+  if (addresses.includes(fieldName)) {
     const { street, cityStateZip, country } = formatAddress(data);
 
     return (
@@ -50,6 +57,11 @@ const ContactInformationView = props => {
   }
 
   return null;
+};
+
+ContactInformationView.propTypes = {
+  data: PropTypes.object,
+  fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
 };
 
 export default ContactInformationView;

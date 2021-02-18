@@ -47,7 +47,10 @@ function fillOutForm(facilitySelection) {
 
   // Check form requestBody is as expected
   cy.wait('@appointmentRequests').should(xhr => {
-    let date = moment().add(5, 'days');
+    let date = moment()
+      .add(5, 'days')
+      .add(1, 'months')
+      .startOf('month');
 
     // Check for weekend and select following Monday if true
     if (date.weekday() === 0) {
@@ -107,8 +110,7 @@ describe('VAOS request flow', () => {
     initAppointmentListMock();
     initVARequestMock();
     fillOutForm(() => {
-      cy.findByLabelText(/CHYSHR/).click();
-      cy.findByLabelText('CHYSHR-Sidney VA Clinic (Sidney, NE)').click();
+      cy.findByLabelText(/Sidney/).click();
     });
   });
   it('should submit form successfully for a single system user', () => {
@@ -122,12 +124,12 @@ describe('VAOS request flow', () => {
       },
     });
     fillOutForm(() => {
-      cy.findByLabelText('CHYSHR-Sidney VA Clinic (Sidney, NE)').click();
+      cy.findByLabelText(/Sidney/).click();
     });
   });
-  it('should submit form successfully for a user with single system and enabled facility', () => {
+  it('should submit form successfully for a user with multi system including a Cerner facility', () => {
     initAppointmentListMock();
-    initVARequestMock();
+    initVARequestMock({ cernerUser: true });
     cy.route({
       method: 'GET',
       url: '/vaos/v0/facilities**',

@@ -17,9 +17,6 @@ const PURPOSE_TEXT = Object.freeze([
   },
 ]);
 
-// NOTE: There is a room for refactor here, but to make sure its the correct refactor,
-// The front end team is waiting until a third method is created to create a smart refactor
-
 const getBookingNoteFromAppointment = data => {
   const appointment = data?.attributes;
   if (!appointment) {
@@ -60,7 +57,47 @@ const getBookingNoteFromAppointment = data => {
   return display;
 };
 
-const getAppointTypeFromAppointment = data => {
+const getAppointmentTypeFromClinic = (clinic, options = {}) => {
+  if (!clinic) {
+    return null;
+  }
+  const { titleCase } = options;
+  const { stopCode } = clinic;
+  if (!stopCode) {
+    return null;
+  }
+  // Waiting till we expand our MVP to add more stop codes here
+  let appointmentType = null;
+  switch (stopCode.toString()) {
+    case '323':
+      appointmentType = 'primary care';
+      break;
+    case '502':
+      appointmentType = 'mental health';
+      break;
+    default:
+      return appointmentType;
+  }
+
+  return titleCase
+    ? appointmentType.charAt(0).toUpperCase() +
+        appointmentType.slice(1).toLowerCase()
+    : appointmentType;
+};
+
+const getAppointmentTimeFromAppointment = data => {
+  const appointment = data?.attributes;
+  if (!appointment) {
+    return null;
+  }
+  if (!appointment.vdsAppointments?.length) {
+    return null;
+  }
+  const { appointmentTime } = appointment.vdsAppointments[0];
+  return appointmentTime;
+};
+
+const getClinicFromAppointment = data => {
   const appointment = data?.attributes;
   if (!appointment) {
     return null;
@@ -69,23 +106,34 @@ const getAppointTypeFromAppointment = data => {
     return null;
   }
   const { clinic } = appointment.vdsAppointments[0];
+  if (clinic) {
+    return {
+      ...clinic,
+      friendlyName: appointment.clinicFriendlyName,
+    };
+  }
+  return clinic || null;
+};
 
+const getFacilityFromAppointment = data => {
+  const clinic = getClinicFromAppointment(data);
   if (!clinic) {
     return null;
   }
-  const { stopCode } = clinic;
-  if (!stopCode) {
-    return null;
-  }
-  // Waiting till we expand our MVP to add more stop codes here
-  switch (clinic.stopCode.toString()) {
-    case '323':
-      return 'primary care';
-    case '502':
-      return 'mental health';
-    default:
-      return null;
-  }
+  return clinic.facility;
 };
 
-export { getBookingNoteFromAppointment, getAppointTypeFromAppointment };
+const getAppointTypeFromAppointment = (data, options = {}) => {
+  const clinic = getClinicFromAppointment(data);
+
+  return getAppointmentTypeFromClinic(clinic, options);
+};
+
+export {
+  getBookingNoteFromAppointment,
+  getAppointTypeFromAppointment,
+  getAppointmentTimeFromAppointment,
+  getAppointmentTypeFromClinic,
+  getFacilityFromAppointment,
+  getClinicFromAppointment,
+};

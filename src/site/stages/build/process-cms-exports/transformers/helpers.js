@@ -1,6 +1,6 @@
 const fs = require('fs');
 const assert = require('assert');
-const { sortBy, unescape, pick, omit } = require('lodash');
+const { sortBy, pick, omit } = require('lodash');
 const moment = require('moment-timezone');
 const { readEntity } = require('../helpers');
 
@@ -107,15 +107,7 @@ function getImageCrop(obj, imageStyle = null) {
     const url = `/img/styles/${
       image.machine
     }/public${imageObj.image.derivative.url.replace('/img', '')}`;
-    imageObj.image.url = url;
-    // Derivative urls have a full path starting with
-    // 'https://{buildtype}.cms.va.gov/sites/default/files/', so add that here.
-    // It doesn't matter what the build type is since it gets stripped out in convertDrupalFilesToLocal
-    // so just use prod here
-    imageObj.image.derivative.url = `https://prod.cms.va.gov/sites/default/files/${url.replace(
-      '/img/',
-      '',
-    )}`;
+    imageObj.image.derivative.url = url;
     imageObj.image.derivative.width = image.width;
     imageObj.image.derivative.height = image.height;
     return imageObj;
@@ -166,13 +158,14 @@ module.exports = {
 
   /**
    * Takes a string and applies the following:
-   * - Transforms escaped unicode to characters
+   * Returns a blank string if the value is not defined,
+   * otherwise, returns the value
    *
    * @param {string}
    * @return {string}
    */
   getWysiwygString(value) {
-    return unescape(value);
+    return value || '';
   },
 
   /**
@@ -236,12 +229,18 @@ module.exports = {
       createMetaTag('MetaValue', 'keywords', metaTags.keywords),
       createMetaTag('MetaProperty', 'og:description', metaTags.og_description),
       createMetaTag('MetaValue', 'twitter:image', metaTags.twitter_cards_image),
+      createMetaTag(
+        'MetaValue',
+        'twitter:image:alt',
+        metaTags.twitter_cards_image_alt,
+      ),
       createMetaTag('MetaProperty', 'og:image', metaTags.og_image_0),
       createMetaTag(
         'MetaProperty',
         'og:image:height',
         metaTags.og_image_height,
       ),
+      createMetaTag('MetaProperty', 'og:image:alt', metaTags.og_image_alt),
     ].filter(t => t.value);
   },
 

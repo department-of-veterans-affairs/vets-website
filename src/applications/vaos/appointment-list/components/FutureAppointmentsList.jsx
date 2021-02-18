@@ -1,15 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import environment from 'platform/utilities/environment';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
 import * as actions from '../redux/actions';
 import {
   selectFeatureCancel,
   selectFeatureRequests,
-  selectFeaturePastAppointments,
   selectIsCernerOnlyPatient,
 } from '../../redux/selectors';
 import {
@@ -28,7 +26,6 @@ import AppointmentRequestListItem from './cards/pending/AppointmentRequestListIt
 import NoAppointments from './NoAppointments';
 
 function FutureAppointmentsList({
-  showPastAppointments,
   showCancelButton,
   showScheduleButton,
   isCernerOnlyPatient,
@@ -39,18 +36,8 @@ function FutureAppointmentsList({
   expressCare,
   cancelAppointment,
   fetchRequestMessages,
-  fetchFutureAppointments,
   startNewAppointmentFlow,
 }) {
-  useEffect(
-    () => {
-      if (!expressCare.enabled && futureStatus === FETCH_STATUS.notStarted) {
-        fetchFutureAppointments();
-      }
-    },
-    [expressCare.enabled, fetchFutureAppointments, futureStatus],
-  );
-
   let content;
 
   if (futureStatus === FETCH_STATUS.loading) {
@@ -61,68 +48,44 @@ function FutureAppointmentsList({
     );
   } else if (futureStatus === FETCH_STATUS.succeeded && future?.length > 0) {
     content = (
-      <>
-        {!showPastAppointments && (
-          <>
-            <p>
-              To view past appointments you’ve made,{' '}
-              <a
-                href={`https://${
-                  !environment.isProduction() ? 'mhv-syst' : 'www'
-                }.myhealth.va.gov/mhv-portal-web/appointments`}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() =>
-                  recordEvent({
-                    event: 'vaos-past-appointments-legacy-link-clicked',
-                  })
-                }
-              >
-                go to My HealtheVet
-              </a>
-              .
-            </p>
-          </>
-        )}
-        <ul className="usa-unstyled-list" id="appointments-list">
-          {future.map((appt, index) => {
-            const facilityId = getVAAppointmentLocationId(appt);
+      <ul className="usa-unstyled-list" id="appointments-list">
+        {future.map((appt, index) => {
+          const facilityId = getVAAppointmentLocationId(appt);
 
-            switch (appt.vaos?.appointmentType) {
-              case APPOINTMENT_TYPES.vaAppointment:
-              case APPOINTMENT_TYPES.ccAppointment:
-                return (
-                  <ConfirmedAppointmentListItem
-                    key={index}
-                    index={index}
-                    appointment={appt}
-                    facility={facilityData[facilityId]}
-                    showCancelButton={showCancelButton}
-                    cancelAppointment={cancelAppointment}
-                  />
-                );
-              case APPOINTMENT_TYPES.request:
-              case APPOINTMENT_TYPES.ccRequest: {
-                return (
-                  <AppointmentRequestListItem
-                    key={index}
-                    index={index}
-                    appointment={appt}
-                    facility={facilityData[facilityId]}
-                    facilityId={facilityId}
-                    showCancelButton={showCancelButton}
-                    cancelAppointment={cancelAppointment}
-                    fetchMessages={fetchRequestMessages}
-                    messages={requestMessages}
-                  />
-                );
-              }
-              default:
-                return null;
+          switch (appt.vaos?.appointmentType) {
+            case APPOINTMENT_TYPES.vaAppointment:
+            case APPOINTMENT_TYPES.ccAppointment:
+              return (
+                <ConfirmedAppointmentListItem
+                  key={index}
+                  index={index}
+                  appointment={appt}
+                  facility={facilityData[facilityId]}
+                  showCancelButton={showCancelButton}
+                  cancelAppointment={cancelAppointment}
+                />
+              );
+            case APPOINTMENT_TYPES.request:
+            case APPOINTMENT_TYPES.ccRequest: {
+              return (
+                <AppointmentRequestListItem
+                  key={index}
+                  index={index}
+                  appointment={appt}
+                  facility={facilityData[facilityId]}
+                  facilityId={facilityId}
+                  showCancelButton={showCancelButton}
+                  cancelAppointment={cancelAppointment}
+                  fetchMessages={fetchRequestMessages}
+                  messages={requestMessages}
+                />
+              );
             }
-          })}
-        </ul>
-      </>
+            default:
+              return null;
+          }
+        })}
+      </ul>
     );
   } else if (futureStatus === FETCH_STATUS.failed) {
     content = (
@@ -154,15 +117,6 @@ function FutureAppointmentsList({
     </h2>
   );
 
-  if (!showPastAppointments) {
-    return (
-      <>
-        {header}
-        {content}
-      </>
-    );
-  }
-
   return (
     <div role="tabpanel" aria-labelledby="tabupcoming" id="tabpanelupcoming">
       {header}
@@ -177,7 +131,6 @@ FutureAppointmentsList.propTypes = {
   fetchRequestMessages: PropTypes.func,
   fetchFutureAppointments: PropTypes.func,
   showCancelButton: PropTypes.bool,
-  showPastAppointments: PropTypes.bool,
   showScheduleButton: PropTypes.bool,
   showExpressCare: PropTypes.bool,
   startNewAppointmentFlow: PropTypes.func,
@@ -191,7 +144,6 @@ function mapStateToProps(state) {
     future: selectFutureAppointments(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showCancelButton: selectFeatureCancel(state),
-    showPastAppointments: selectFeaturePastAppointments(state),
     showScheduleButton: selectFeatureRequests(state),
     expressCare: selectExpressCareAvailability(state),
   };

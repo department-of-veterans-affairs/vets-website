@@ -1,5 +1,5 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 export const bankInfoDescriptionWithInfo =
   'This is the bank account information we have on file for you. We’ll pay your housing stipend to this account.';

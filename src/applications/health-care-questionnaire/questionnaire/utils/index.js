@@ -1,6 +1,10 @@
 import {
   getBookingNoteFromAppointment,
   getAppointTypeFromAppointment,
+  getAppointmentTimeFromAppointment,
+  getAppointmentTypeFromClinic,
+  getClinicFromAppointment,
+  getFacilityFromAppointment,
 } from './appointment.utils';
 
 import {
@@ -12,14 +16,20 @@ import {
 import {
   getCurrentAppointmentId,
   setCurrentAppointmentId,
+  clearCurrentSession,
 } from './session.utils';
 
 export {
-  getBookingNoteFromAppointment,
-  getAppointTypeFromAppointment,
-  getAppointmentIdFromUrl,
   addAppointmentIdToFormId,
-  onFormEnter,
+  clearCurrentSession,
+  getAppointTypeFromAppointment,
+  getAppointmentTimeFromAppointment,
+  getAppointmentIdFromUrl,
+  getAppointmentTypeFromClinic,
+  getBookingNoteFromAppointment,
+  getClinicFromAppointment,
   getCurrentAppointmentId,
+  getFacilityFromAppointment,
+  onFormEnter,
   setCurrentAppointmentId,
 };

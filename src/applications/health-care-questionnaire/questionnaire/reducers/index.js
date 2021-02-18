@@ -8,6 +8,7 @@ import {
 
 const initialState = {
   context: {
+    questionnaire: {},
     status: {},
     appointment: {},
   },
@@ -15,7 +16,6 @@ const initialState = {
 
 const questionnaireReducer = (state = initialState, action) => {
   const { context } = state;
-  // console.log('in my reducer', { state, context, action });
   switch (action.type) {
     case QUESTIONNAIRE_APPOINTMENT_LOADING:
       context.status = { ...context.status, isLoading: true };
@@ -23,7 +23,9 @@ const questionnaireReducer = (state = initialState, action) => {
     case QUESTIONNAIRE_APPOINTMENT_LOADED:
       context.status = { ...context.status, isLoading: false };
       context.appointment = { ...action.appointment };
+      context.questionnaire = { id: 'testing-id-123' };
       return { ...state, context };
+
     default:
       return state;
   }

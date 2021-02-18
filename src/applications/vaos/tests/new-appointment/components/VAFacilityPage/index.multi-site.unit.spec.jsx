@@ -34,7 +34,7 @@ const initialState = {
   user: {
     profile: {
       facilities: [
-        { facilityId: '983', isCerner: false },
+        { facilityId: '983', isCerner: true },
         { facilityId: '984', isCerner: false },
       ],
     },
@@ -97,11 +97,11 @@ describe('VAOS integration: VA facility page with a multi-site user', () => {
     await screen.findByText(/registered at the following VA/i);
     expect(screen.getByLabelText(/some other va facility/i)).to.have.attribute(
       'value',
-      'var984',
+      '984',
     );
     expect(screen.getByLabelText(/some va facility/i)).to.have.attribute(
       'value',
-      'var983',
+      '983',
     );
 
     fireEvent.click(screen.getByText(/Continue/));
@@ -160,12 +160,12 @@ describe('VAOS integration: VA facility page with a multi-site user', () => {
     await findByText(/registered at the following VA/i);
     expect(getByLabelText(/some va facility/i)).to.have.attribute(
       'value',
-      'var983',
+      '983',
     );
 
     expect(getByLabelText(/cerner facility/i)).to.have.attribute(
       'value',
-      'var668',
+      '668',
     );
     expect(getByLabelText(/cerner facility/i)).to.have.attribute('disabled');
 
@@ -612,7 +612,7 @@ describe('VAOS integration: VA facility page with a multi-site user', () => {
       /You’ve reached the limit for appointment requests at this location/i,
     );
 
-    await screen.findByText(/Cheyenne, WY/i);
+    await screen.findByText(/Cheyenne,/i);
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
     expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
     expect(screen.baseElement).to.contain.text('307-778-7550');
