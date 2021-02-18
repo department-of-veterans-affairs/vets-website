@@ -127,10 +127,7 @@ export class ProfileNavBar extends React.Component {
             ))}
           </div>
         </div>
-        <div
-          id="profile-nav-bar-mobile"
-          className="nav-bar-mobile-only profile-nav-bar row"
-        >
+        <div id="profile-nav-bar-mobile" className={this.navBarMobileClasses()}>
           <h2 className="vads-u-font-size--h3 vads-u-margin--0">
             Navigate this page
             <span
