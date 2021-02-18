@@ -292,7 +292,7 @@ export class SearchMenu extends React.Component {
                 disabled={!isUserInputValid()}
                 data-e2e-id="sitewide-search-submit-button"
                 className="vads-u-margin-left--0p5 vads-u-margin-y--1 vads-u-margin-right--1 vads-u-flex--1"
-                onMouseDown={() => {
+                onMouseDown={event => {
                   event.preventDefault();
                   handleSearchEvent();
                 }}
