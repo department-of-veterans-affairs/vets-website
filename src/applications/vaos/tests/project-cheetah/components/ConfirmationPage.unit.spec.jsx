@@ -78,7 +78,7 @@ describe('VAOS vaccine flow <ConfirmationPage>', () => {
 
     // Expect router to route to home page
     await waitFor(() => {
-      expect(screen.history.replace.firstCall.args[0]).to.equal('/');
+      expect(screen.history.location.pathname).to.equal('/');
     });
   });
 });
