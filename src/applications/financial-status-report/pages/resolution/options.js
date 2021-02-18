@@ -63,16 +63,13 @@ const resolutionOptions = [
   },
 ];
 
-const isRequired = formData => {
+const isRequired = (formData, selected) => {
   let index = 0;
   if (window.location.href.includes('resolution-options')) {
     index = window.location.href.slice(-1);
   }
   const type = formData.fsrDebts[index].resolution?.resolutionType;
-
-  return Boolean(
-    type === resolutionOptions[1].type || type === resolutionOptions[2].type,
-  );
+  return type === selected;
 };
 
 const renderLabels = () => {
@@ -147,7 +144,8 @@ export const uiSchema = {
               'ui:options': {
                 widgetClassNames: 'input-size-3',
               },
-              'ui:required': formData => isRequired(formData),
+              'ui:required': formData =>
+                isRequired(formData, resolutionOptions[1].type),
             },
           ),
         },
@@ -165,7 +163,8 @@ export const uiSchema = {
               'ui:options': {
                 widgetClassNames: 'input-size-3',
               },
-              'ui:required': formData => isRequired(formData),
+              'ui:required': formData =>
+                isRequired(formData, resolutionOptions[2].type),
             },
           ),
         },
