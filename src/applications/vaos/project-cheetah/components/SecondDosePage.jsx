@@ -11,10 +11,6 @@ import AdditionalInfo from '@department-of-veterans-affairs/component-library/Ad
 const pageKey = 'secondDosePage';
 const pageTitle = 'Plan your second dose';
 
-// function goBack({ routeToPreviousAppointmentPage, history }) {
-//   return routeToPreviousAppointmentPage(history, pageKey);
-// }
-
 function SecondDosePage({
   data,
   facility,
@@ -43,11 +39,7 @@ function SecondDosePage({
         </p>
         <p>
           If you receive your first dose on{' '}
-          <strong>
-            {moment(date1, 'YYYY-MM-DDTHH:mm:ssZ').format(
-              'dddd, MMMM DD, YYYY ',
-            )}{' '}
-          </strong>
+          <strong>{moment(date1[0]).format('dddd, MMMM DD, YYYY ')} </strong>
           and receive:
         </p>
         <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
@@ -55,7 +47,7 @@ function SecondDosePage({
         </h2>
         <div className="vads-u-padding-bottom--1">
           Return for your second dose after{' '}
-          {moment(date1, 'YYYY-MM-DDTHH:mm:ssZ')
+          {moment(date1[0])
             .add(28, 'days')
             .format('dddd, MMMM DD, YYYY')}
         </div>
@@ -64,7 +56,7 @@ function SecondDosePage({
         </h2>
         <div>
           Return for your second dose after{' '}
-          {moment(date1, 'YYYY-MM-DDTHH:mm:ssZ')
+          {moment(date1[0])
             .add(21, 'days')
             .format('dddd, MMMM DD, YYYY')}
         </div>

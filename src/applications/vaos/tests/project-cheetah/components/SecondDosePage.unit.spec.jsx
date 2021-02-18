@@ -11,7 +11,6 @@ import { waitFor } from '@testing-library/dom';
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    vaOnlineSchedulingProjectCheetah: true,
   },
 };
 
@@ -103,12 +102,14 @@ describe('VAOS vaccine flow <SecondDosePage>', () => {
       store,
     });
 
-    expect(await screen.findByText(/continue/i)).to.exist;
+    const button = await screen.findByText(/Continue/i);
 
-    userEvent.click(screen.getByRole('button', { name: /continue/i }));
+    userEvent.click(button);
+
+    expect(screen.history.push.called).to.be.true;
 
     await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
+      expect(screen.history.push.firstCall.args[0]).to.equal(
         '/new-project-cheetah-booking/contact-info',
       ),
     );
