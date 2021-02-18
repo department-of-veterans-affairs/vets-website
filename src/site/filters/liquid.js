@@ -610,6 +610,29 @@ module.exports = function registerFilters() {
     return _.replace(url, 'youtu.be', 'youtube.com/embed');
   };
 
+  liquid.filters.deriveCLPTotalSections = (
+    maxSections,
+    fieldClpVideoPanel,
+    fieldClpSpotlightPanel,
+    fieldClpStoriesPanel,
+    fieldClpResourcesPanel,
+    fieldClpEventsPanel,
+    fieldClpFaqPanel,
+    fieldBenefitCategories,
+  ) => {
+    const removedSectionsCount = [
+      fieldClpVideoPanel,
+      fieldClpSpotlightPanel,
+      fieldClpStoriesPanel,
+      fieldClpResourcesPanel,
+      fieldClpEventsPanel,
+      fieldClpFaqPanel,
+      !_.isEmpty(fieldBenefitCategories),
+    ].filter(panel => !panel).length;
+
+    return maxSections - removedSectionsCount;
+  };
+
   liquid.filters.formatSeconds = rawSeconds => {
     // Dates need milliseconds, so mulitply by 1000.
     const date = new Date(rawSeconds * 1000);

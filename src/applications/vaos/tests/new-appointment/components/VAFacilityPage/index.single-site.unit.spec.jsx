@@ -70,7 +70,7 @@ describe('VAOS integration: VA facility page with a single-site user', () => {
     await screen.findByText(/registered at the following VA/i);
     expect(screen.getByLabelText(/some va facility/i)).to.have.attribute(
       'value',
-      'var983',
+      '983',
     );
     expect(screen.getByLabelText(/some va facility/i)).to.have.attribute(
       'disabled',
