@@ -13,8 +13,8 @@ describe('health care questionnaire -- utils -- get selected appointment', () =>
         getItem: () => JSON.stringify({ appointment: { id: '67890' } }),
       },
     };
-    const appointment = getSelectedAppointmentData(window, '67890');
-    expect(appointment.id).to.equal('67890');
+    const data = getSelectedAppointmentData(window, '67890');
+    expect(data.appointment.id).to.equal('67890');
   });
 
   it('id is not found', () => {

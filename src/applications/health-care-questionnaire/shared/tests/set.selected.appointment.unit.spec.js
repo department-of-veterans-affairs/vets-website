@@ -11,7 +11,7 @@ describe('health care questionnaire -- utils -- set selected appointment session
         setItem,
       },
     };
-    setSelectedAppointmentData(window, { id: '12345' });
+    setSelectedAppointmentData(window, { appointment: { id: '12345' } });
     expect(setItem.called).to.be.true;
     expect(
       setItem.calledWith(
