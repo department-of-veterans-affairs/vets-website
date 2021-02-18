@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-const FinancialOverview = ({ formData: { fsrDebts } }) => {
+const FinancialOverview = ({ formData }) => {
+  const { fsrDebts } = formData;
   const index = window.location.href.slice(-1);
   const debt = fsrDebts[index];
   const formatter = new Intl.NumberFormat('en-US', {
