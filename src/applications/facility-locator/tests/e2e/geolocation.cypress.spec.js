@@ -34,7 +34,7 @@ describe('Facility geolocation', () => {
     cy.get('#location-input-field').contains('Finding your location...');
     cy.waitUntil(() =>
       cy
-        .get('.use-my-location-link')
+        .get('#location-input-field')
         .contains('Use my location')
         .then(() => {
           cy.get('#street-city-state-zip').then(elem => {
