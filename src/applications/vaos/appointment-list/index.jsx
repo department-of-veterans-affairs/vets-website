@@ -8,20 +8,19 @@ import AppointmentsPage from './components/AppointmentsPage/index';
 import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
 import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
 import CommunityCareAppointmentDetailsPage from './components/CommunityCareAppointmentDetailsPage';
+import ExpressCareDetailsPage from './components/ExpressCareDetailsPage';
 
 function AppointmentListSection({ featureHomepageRefresh }) {
   return (
     <Switch>
-      {featureHomepageRefresh && (
-        <Route
-          path="/cc/:id"
-          component={() => (
-            <PageLayout>
-              <CommunityCareAppointmentDetailsPage />
-            </PageLayout>
-          )}
-        />
-      )}
+      <Route
+        path="/cc/:id"
+        component={() => (
+          <PageLayout>
+            <CommunityCareAppointmentDetailsPage />
+          </PageLayout>
+        )}
+      />
       <Route
         path="/va/:id"
         component={() => (
@@ -30,17 +29,22 @@ function AppointmentListSection({ featureHomepageRefresh }) {
           </PageLayout>
         )}
       />
-      )}
-      {featureHomepageRefresh && (
-        <Route
-          path="/requests/:id"
-          component={() => (
-            <PageLayout>
-              <RequestedAppointmentDetailsPage />
-            </PageLayout>
-          )}
-        />
-      )}
+      <Route
+        path="/requests/:id"
+        component={() => (
+          <PageLayout>
+            <RequestedAppointmentDetailsPage />
+          </PageLayout>
+        )}
+      />
+      <Route
+        path="/express-care/:id"
+        component={() => (
+          <PageLayout>
+            <ExpressCareDetailsPage />
+          </PageLayout>
+        )}
+      />
       <Route
         path="/"
         render={() => {
