@@ -44,6 +44,8 @@ export const uiSchema = {
       'ui:widget': 'yesNo',
       'ui:title':
         'Is the student enrolled full-time in high school or college?',
+      'ui:description':
+        'Complete this section if the student is enrolled in an education/training program other than high school or college, or if the student will attend high school or college less than full-time.',
       'ui:errorMessages': { required: 'Please select an option' },
     },
     courseOfStudy: {

@@ -356,7 +356,7 @@ const formConfig = {
       },
     },
     deceasedDependents: {
-      title: 'Report the death of a dependent',
+      title: 'Information needed to remove a dependent who has died',
       pages: {
         dependentInformation: {
           depends: formData =>
