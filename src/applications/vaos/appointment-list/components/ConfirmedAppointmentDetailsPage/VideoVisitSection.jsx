@@ -43,24 +43,8 @@ function getLocation(
     }
   } else if (videoKind === VIDEO_TYPES.clinic) {
     return facility ? formatFacilityAddress(facility) : null;
-  } else if (videoKind === VIDEO_TYPES.gfe) {
+  } else if (videoKind === VIDEO_TYPES.gfe || isVideo) {
     return 'Video conference';
-  } else if (isVideo) {
-    return 'Video conference';
-  } else if (isCommunityCare) {
-    const address = appointment.contained.find(
-      res => res.resourceType === 'Location',
-    )?.address;
-    if (address) {
-      return `${address.line[0]}, ${address.city}, ${address.state} ${
-        address.postalCode
-      }`;
-    }
-  } else {
-    if (appointment.vaos.isPhoneAppointment) {
-      return 'Phone call';
-    }
-    return facility ? formatFacilityAddress(facility) : null;
   }
   return '';
 }
