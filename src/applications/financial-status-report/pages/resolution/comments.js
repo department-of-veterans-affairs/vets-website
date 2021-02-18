@@ -1,5 +1,4 @@
 import React from 'react';
-import FinancialOverview from '../../components/FinancialOverview';
 import FinancialHardshipExplanation from '../../components/FinancialHardshipExplanation';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
@@ -12,9 +11,7 @@ const ResolutionInfo = (
 );
 
 export const uiSchema = {
-  financialOverview: {
-    'ui:field': FinancialOverview,
-  },
+  'ui:title': 'Supporting personal statement',
   'view:financialHardshipExplanation': {
     'ui:field': FinancialHardshipExplanation,
   },
@@ -37,14 +34,6 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    financialOverview: {
-      type: 'object',
-      properties: {
-        income: {
-          type: 'string',
-        },
-      },
-    },
     'view:financialHardshipExplanation': {
       type: 'object',
       properties: {},

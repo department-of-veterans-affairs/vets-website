@@ -1,5 +1,6 @@
+import enrollmentStatusNotInESR from '@@profile/tests/fixtures/enrollment-system/not-in-esr.json';
+
 import {
-  enrollmentStatusNotEnrolled,
   makeUserObject,
   mockLocalStorage,
   getUserPreferencesEmpty,
@@ -23,7 +24,7 @@ describe('MyVA Dashboard', () => {
       cy.route(
         'GET',
         '/v0/health_care_applications/enrollment_status',
-        enrollmentStatusNotEnrolled,
+        enrollmentStatusNotInESR,
       );
     });
     it('should show the correct widgets', () => {
