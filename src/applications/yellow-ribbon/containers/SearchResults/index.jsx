@@ -123,7 +123,7 @@ export class SearchResults extends Component {
       event: 'onsite-search-results-click',
       'search-result-type': 'cta',
       'search-filters-list': {
-        stateOrTerritory: stateOrTerritory || undefined, // TODO: This needs to be from query
+        stateOrTerritory: stateOrTerritory || undefined,
         city: city || undefined,
         contributionAmount: contributionAmount || undefined,
         numberOfStudents: numberOfStudents || undefined,
