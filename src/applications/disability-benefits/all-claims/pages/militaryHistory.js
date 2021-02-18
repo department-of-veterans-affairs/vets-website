@@ -63,7 +63,7 @@ export const uiSchema = {
         reviewMode: true,
         showSave: true,
         setEditState: formData =>
-          formData.map(data => isValidServicePeriod(data)),
+          formData.map(data => !isValidServicePeriod(data)),
       },
       items: {
         serviceBranch: {

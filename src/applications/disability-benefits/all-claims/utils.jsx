@@ -22,7 +22,6 @@ import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardF
 import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
-import { isValidDateRange } from 'platform/forms/validations';
 
 import {
   DATA_PATHS,
@@ -96,22 +95,36 @@ export const formatDateRange = (dateRange = {}, format = DATE_FORMAT) =>
       )}`
     : 'Unknown';
 
-export const isValidDate = dateString => {
-  const date = moment(dateString);
-  return (date && date.isValid() && isValidYear(date.year)) || false;
-};
-
 // moment().isSameOrBefore() => true; so expirationDate can't be undefined
 export const isNotExpired = (expirationDate = '') =>
   moment().isSameOrBefore(expirationDate);
 
-export const isValidServicePeriod = data =>
-  isUndefined(data?.serviceBranch) ||
-  isUndefined(data?.dateRange?.from) ||
-  isUndefined(data?.dateRange?.to) ||
-  !isValidDate(data?.dateRange?.from) ||
-  !isValidDate(data?.dateRange?.to) ||
-  !isValidDateRange(data.dateRange.from, data.dateRange.to);
+export const isValidFullDate = dateString => {
+  // expecting dateString = 'YYYY-MM-DD'
+  const date = moment(dateString);
+  return (
+    (date?.isValid() &&
+      // moment('2021') => '2021-01-01'
+      // moment('XXXX-01-01') => '2001-01-01'
+      dateString === formatDate(date, 'YYYY-MM-DD') &&
+      // make sure we're within the min & max year range
+      isValidYear(date.year())) ||
+    false
+  );
+};
+
+export const isValidServicePeriod = data => {
+  const { serviceBranch, dateRange: { from = '', to = '' } = {} } = data || {};
+  return (
+    (!isUndefined(serviceBranch) &&
+      !isUndefined(from) &&
+      !isUndefined(to) &&
+      isValidFullDate(from) &&
+      isValidFullDate(to) &&
+      moment(from).isBefore(moment(to))) ||
+    false
+  );
+};
 
 export const isActiveITF = currentITF => {
   if (currentITF) {
