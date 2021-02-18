@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { clearCurrentSession } from '../utils';
+import { clearSelectedAppointmentData } from '../utils';
 
-describe('health care questionnaire -- utils -- clear current id in session storage', () => {
+describe('health care questionnaire -- utils -- clear selected appointment in session storage', () => {
   it('should called removeItem', () => {
     const removeItem = sinon.spy();
     const window = {
@@ -11,11 +11,11 @@ describe('health care questionnaire -- utils -- clear current id in session stor
         removeItem,
       },
     };
-    clearCurrentSession(window);
+    clearSelectedAppointmentData(window, '12345');
     expect(removeItem.called).to.be.true;
     expect(
       removeItem.calledWith(
-        'health.care.questionnaire.currentHealthQuestionnaire',
+        'health.care.questionnaire.selectedAppointmentData.12345',
       ),
     ).to.be.true;
   });

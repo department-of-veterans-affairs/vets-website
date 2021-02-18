@@ -15,7 +15,7 @@ describe('health care questionnaire -- utils -- set current id in session storag
     expect(setItem.called).to.be.true;
     expect(
       setItem.calledWith(
-        'currentHealthQuestionnaire',
+        'health.care.questionnaire.currentHealthQuestionnaire',
         JSON.stringify({ appointmentId: '12345' }),
       ),
     ).to.be.true;
