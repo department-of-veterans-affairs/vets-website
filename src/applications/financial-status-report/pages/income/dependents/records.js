@@ -19,7 +19,6 @@ export const uiSchema = {
           classNames: 'vads-u-margin-bottom--3 vads-u-margin-top--3',
           widgetClassNames: 'input-size-3',
         },
-        'ui:required': formData => formData.dependents,
       },
     },
   },

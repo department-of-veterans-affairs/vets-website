@@ -6,8 +6,6 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import WizardContainer from '../../wizard/containers/WizardContainer';
 import { connect } from 'react-redux';
 import { showEduBenefits1990Wizard } from 'applications/edu-benefits/selectors/educationWizard';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_NOT_STARTED,
@@ -30,7 +28,7 @@ export class IntroductionPage extends React.Component {
 
   render() {
     const { status } = this.state;
-    const { showWizard, eduFormOmbAndExpiration } = this.props;
+    const { showWizard } = this.props;
     const show = showWizard && status !== WIZARD_STATUS_COMPLETE;
 
     if (showWizard === undefined) return null;
@@ -139,19 +137,11 @@ export class IntroductionPage extends React.Component {
               startText="Start the education application"
             />
             <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-              {eduFormOmbAndExpiration ? (
-                <OMBInfo
-                  resBurden={15}
-                  ombNumber="2900-0154"
-                  expDate="02/28/2023"
-                />
-              ) : (
-                <OMBInfo
-                  resBurden={15}
-                  ombNumber="2900-0154"
-                  expDate="12/31/2019"
-                />
-              )}
+              <OMBInfo
+                resBurden={15}
+                ombNumber="2900-0154"
+                expDate="02/28/2023"
+              />
             </div>
           </div>
         )}
@@ -162,9 +152,6 @@ export class IntroductionPage extends React.Component {
 
 const mapStateToProps = state => ({
   showWizard: showEduBenefits1990Wizard(state),
-  eduFormOmbAndExpiration: toggleValues(state)[
-    FEATURE_FLAG_NAMES.eduFormOmbAndExpiration
-  ],
 });
 
 export default connect(mapStateToProps)(IntroductionPage);
