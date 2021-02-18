@@ -111,6 +111,7 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
         'type-ahead-option-keyword-selected': undefined,
         'type-ahead-option-position': undefined,
         'type-ahead-options-list': undefined,
+        'search-dropdown-used': !!state,
       });
     }
 

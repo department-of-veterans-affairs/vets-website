@@ -8,10 +8,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 // Relative imports.
-import SearchResult, {
-  deriveEligibleStudentsLabel,
-  deriveMaxAmountLabel,
-} from '../../components/SearchResult';
+import SearchResult from '../../components/SearchResult';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { fetchResultsThunk, toggleSearchResultsToolTip } from '../../actions';
 import { focusElement } from 'platform/utilities/ui';
@@ -115,6 +112,10 @@ export class SearchResults extends Component {
 
     // Derive the state values from our query params.
     const searchQuery = queryParams.get('name') || '';
+    const city = queryParams.get('city') || '';
+    const contributionAmount = queryParams.get('contributionAmount') || '';
+    const numberOfStudents = queryParams.get('numberOfStudents') || '';
+    const stateOrTerritory = queryParams.get('state') || '';
 
     const { page, perPage, totalResults } = this.props;
 
@@ -122,10 +123,10 @@ export class SearchResults extends Component {
       event: 'onsite-search-results-click',
       'search-result-type': 'cta',
       'search-filters-list': {
-        stateOrTerritory: school?.state || undefined,
-        city: school?.city || undefined,
-        contributionAmount: deriveMaxAmountLabel(school) || undefined,
-        numberOfStudents: deriveEligibleStudentsLabel(school) || undefined,
+        stateOrTerritory: stateOrTerritory || undefined, // TODO: This needs to be from query
+        city: city || undefined,
+        contributionAmount: contributionAmount || undefined,
+        numberOfStudents: numberOfStudents || undefined,
       },
       'search-results-top-recommendation': undefined,
       'search-selection': 'Yellow Ribbon',
@@ -136,6 +137,7 @@ export class SearchResults extends Component {
       'search-total-result-pages': Math.ceil(totalResults / perPage),
       'search-result-position': school?.positionInResults,
       'search-result-page': page,
+      'search-result-chosen-yellow-ribbon-school-attributes': school,
     });
   };
 
