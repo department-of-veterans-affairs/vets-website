@@ -158,7 +158,13 @@ function ProviderSelectionField({
               {formData.address?.postalCode}
             </span>
             <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold">
-              {formData[sortMethod]} miles
+              {formData[sortMethod]} miles{' '}
+              <span className="sr-only">
+                {sortMethod ===
+                FACILITY_SORT_METHODS.distanceFromCurrentLocation
+                  ? 'from your current location'
+                  : 'from your home address'}
+              </span>
             </span>
             <div className="vads-u-display--flex">
               <button
