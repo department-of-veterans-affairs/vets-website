@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import moment from '../../lib/moment-tz.js';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event.js';
@@ -13,14 +13,14 @@ import { selectConfirmationPage } from '../redux/selectors.js';
 const pageTitle = 'Your appointment has been scheduled';
 
 function ConfirmationPage({ data, systemId, facilityDetails }) {
-  const history = useHistory();
   useEffect(() => {
-    if (history && !data?.date1) {
-      history.replace('/');
-    }
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
   }, []);
+
+  if (!data?.date1) {
+    return <Redirect to="/" />;
+  }
 
   const { date1 } = data;
 
