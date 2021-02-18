@@ -83,6 +83,7 @@ class SearchControls extends Component {
           onClick={() => {
             this.inputClearRef.current.style.display = 'none';
             this.inputRef.current.value = '';
+            focusElement('#street-city-state-zip');
           }}
         />
         <input
