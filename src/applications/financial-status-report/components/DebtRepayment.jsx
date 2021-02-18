@@ -31,17 +31,19 @@ const DebtRepayment = ({ formData }) => {
       </h4>
       <div className="usa-alert background-color-only vads-u-margin-bottom--5">
         <div className="vads-u-margin-bottom--2">
-          <h4 className="vads-u-margin-bottom--1">{debtCardHeading}</h4>
+          <h4 className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+            {debtCardHeading}
+          </h4>
           <span>
             Updated on {moment(mostRecentHistory.date).format('MMMM D, YYYY')}
           </span>
         </div>
-        <div className="vads-u-margin-bottom--1">
+        <div>
           <strong>Amount owed: </strong>
           {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
         </div>
         <div className="vads-u-margin-bottom--1">{additionalInfo.status}</div>
-        <div className="vads-u-margin-bottom--1">
+        <div className="vads-u-margin-top--2 vads-u-margin-bottom--1">
           <strong>Date of first notice: </strong>
           {moment(firstNotice.date).format('MMMM D, YYYY')}
         </div>

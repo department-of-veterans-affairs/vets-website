@@ -122,6 +122,16 @@
   margin-left: -25px;
 }
 
+.resolution-inputs label {
+  margin-top: 0;
+}
+
+.overview-container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 400px;
+}
+
 .usa-input-error {
   position: relative;
   right: 0;

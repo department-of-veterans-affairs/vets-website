@@ -14,17 +14,23 @@ const FinancialOverview = ({ formData: { fsrDebts } }) => {
     <>
       <h4>Your financial overview</h4>
       <div className="usa-alert usa-alert-info background-color-only vads-u-margin-bottom--5">
-        <div className="vads-u-margin-bottom--1">
-          Total monthly income:{' '}
-          {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
+        <div className="vads-u-margin-bottom--1 overview-container">
+          <div>Total monthly income:</div>
+          <div>
+            {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
+          </div>
         </div>
-        <div className="vads-u-margin-bottom--1">
-          Total monthly expenses:{' '}
-          {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
+        <div className="vads-u-margin-bottom--1 overview-container">
+          <div>Total monthly expenses:</div>
+          <div>
+            {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
+          </div>
         </div>
-        <div className="vads-u-margin-bottom--1">
-          Monthly discretionary income:{' '}
-          {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
+        <div className="vads-u-margin-bottom--0 overview-container">
+          <div>Monthly discretionary income:</div>
+          <div>
+            {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
+          </div>
         </div>
       </div>
     </>

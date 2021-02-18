@@ -142,6 +142,7 @@ export const uiSchema = {
             currencyUI('How much can you afford to pay monthly on this debt?'),
             {
               'ui:options': {
+                classNames: 'resolution-inputs',
                 widgetClassNames: 'input-size-3',
               },
               'ui:required': formData =>
@@ -161,6 +162,7 @@ export const uiSchema = {
             ),
             {
               'ui:options': {
+                classNames: 'resolution-inputs',
                 widgetClassNames: 'input-size-3',
               },
               'ui:required': formData =>
