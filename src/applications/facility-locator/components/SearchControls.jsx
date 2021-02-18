@@ -10,6 +10,7 @@ import {
   facilityTypesOptions,
 } from '../config';
 import { focusElement } from 'platform/utilities/ui';
+import environment from 'platform/utilities/environment';
 
 class SearchControls extends Component {
   constructor(props) {
@@ -76,16 +77,18 @@ class SearchControls extends Component {
         <span className="vads-u-color--secondary-dark">(*Required)</span>
       </label>
       <div className="input-clear">
-        <i
-          aria-hidden="true"
-          className="fas fa-times-circle fa-clear"
-          ref={this.inputClearRef}
-          onClick={() => {
-            this.inputClearRef.current.style.display = 'none';
-            this.inputRef.current.value = '';
-            focusElement('#street-city-state-zip');
-          }}
-        />
+        {environment.isProduction() ? null : (
+          <i
+            aria-hidden="true"
+            className="fas fa-times-circle fa-clear"
+            ref={this.inputClearRef}
+            onClick={() => {
+              this.inputClearRef.current.style.display = 'none';
+              this.inputRef.current.value = '';
+              focusElement('#street-city-state-zip');
+            }}
+          />
+        )}
         <input
           id="street-city-state-zip"
           name="street-city-state-zip"
