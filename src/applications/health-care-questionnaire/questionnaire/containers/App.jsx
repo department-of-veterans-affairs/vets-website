@@ -15,6 +15,7 @@ import {
   getSelectedAppointmentData,
   getAppointTypeFromAppointment,
   getCurrentAppointmentId,
+  clearCurrentSession,
 } from '../../shared/utils';
 
 const App = props => {
@@ -34,6 +35,7 @@ const App = props => {
         const id = getCurrentAppointmentId(window);
         const data = getSelectedAppointmentData(window, id);
         if (!data) {
+          clearCurrentSession(window);
           // redirect
           window.location.replace(
             '/health-care/health-questionnaires/questionnaires',
