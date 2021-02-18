@@ -56,7 +56,7 @@ describe('VAOS vaccine flow <SecondDosePage>', () => {
     );
     expect(
       screen.getByText(
-        /You’ll need to return to the Cheyenne VA Medical Center/i,
+        /You may need to return to the Cheyenne VA Medical Center/i,
       ),
     ).to.be.ok;
     expect(screen.getByText('Moderna')).to.have.tagName('h2');

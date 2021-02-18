@@ -34,8 +34,8 @@ function SecondDosePage({
       <h1>{pageTitle}</h1>
       <div>
         <p>
-          You’ll need to return to the {facility.name} for your second dose.
-          Your team will schedule your second dose after you receive you first.
+          You may need to return to the {facility.name} for a second dose. Your
+          team will schedule your second dose after you receive your first.
         </p>
         <p>
           If you receive your first dose on{' '}
