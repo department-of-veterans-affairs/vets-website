@@ -937,7 +937,7 @@ describe('VAOS integration: appointment list', () => {
     expect(
       await screen.findAllByRole('heading', {
         level: 2,
-        name: /Schedule a COVID-19 vaccination/,
+        name: /Schedule your first COVID-19 vaccination/,
       }),
     );
 
