@@ -20,6 +20,7 @@ describe('VAOS vaccine flow <SecondDosePage>', () => {
     ...initialState,
     projectCheetah: {
       newBooking: {
+        previousPages: {},
         data: {
           vaFacility: 'var983',
           clinicId: '455',
@@ -97,7 +98,7 @@ describe('VAOS vaccine flow <SecondDosePage>', () => {
     expect(await screen.getByText(/Not at this time/i)).to.be.ok;
   });
 
-  it.only('should continue to the correct page once continue to clicked', async () => {
+  it('should continue to the correct page once continue to clicked', async () => {
     const screen = renderWithStoreAndRouter(<SecondDosePage />, {
       store,
     });
