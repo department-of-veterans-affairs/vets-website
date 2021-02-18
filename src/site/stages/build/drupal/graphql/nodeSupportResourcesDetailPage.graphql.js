@@ -109,7 +109,6 @@ const GetNodeSupportResourcesDetailPage = `
   ${fragments.listOfLinkTeasers}
   ${fragments.reactWidget}
   ${fragments.spanishSummary}
-  ${fragments.alertParagraph}
   ${fragments.table}
   ${fragments.downloadableFile}
   ${fragments.embeddedImage}
