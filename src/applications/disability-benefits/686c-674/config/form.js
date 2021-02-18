@@ -379,7 +379,7 @@ const formConfig = {
       },
     },
     reportChildMarriage: {
-      title: 'Information needed to report the marriage of a child under 18',
+      title: 'nformation to remove a child under 18 who has married',
       pages: {
         childInformation: {
           depends: formData =>
@@ -397,7 +397,7 @@ const formConfig = {
     },
     reportChildStoppedAttendingSchool: {
       title:
-        'Information needed to report a child 18-23 years old stopped attending school',
+        'Information to remove a child 18 to 23 years old who has stopped attending school',
       pages: {
         childNoLongerInSchool: {
           depends: formData =>
