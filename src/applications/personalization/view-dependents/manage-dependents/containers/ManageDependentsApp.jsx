@@ -79,6 +79,7 @@ const ManageDependents = props => {
             Remove dependent
           </LoadingButton>
           <button
+            type="button"
             onClick={handleFormClose}
             className="usa-button usa-button-secondary"
           >

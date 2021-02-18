@@ -7,6 +7,7 @@ const PATTERNS = {
 
 const locationSchema = {
   type: 'object',
+  required: ['state', 'city'],
   properties: {
     isOutsideUs: {
       type: 'boolean',
