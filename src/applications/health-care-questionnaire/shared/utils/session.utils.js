@@ -48,15 +48,12 @@ const clearCurrentSession = window => {
   sessionStorage.removeItem(CURRENT_HEALTH_QUESTIONNAIRE);
 };
 
-const setSelectedAppointmentData = (window, appointment) => {
+const setSelectedAppointmentData = (window, data) => {
   const { sessionStorage } = window;
   const { SELECTED_APPOINTMENT_DATA } = SESSION_STORAGE_KEYS;
   // store in session
-  const id = appointment.id;
+  const id = data.appointment.id;
   const key = `${SELECTED_APPOINTMENT_DATA}.${id}`;
-  const data = {
-    appointment,
-  };
   sessionStorage.setItem(key, JSON.stringify(data));
 };
 
