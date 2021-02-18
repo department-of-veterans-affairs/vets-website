@@ -240,6 +240,10 @@ class ArrayField extends React.Component {
               (!schema.minItems || items.length > schema.minItems);
             const itemSchema = this.getItemSchema(index);
             const itemTitle = itemSchema ? itemSchema.title : '';
+            const itemName =
+              item?.[uiOptions.itemKeyForAriaLabel] ||
+              uiOptions.itemName ||
+              'Item';
 
             const idSchema = toIdSchema(
               itemSchema,
@@ -263,7 +267,7 @@ class ArrayField extends React.Component {
                           tabIndex="-1"
                           ref={focusElement}
                         >
-                          New {uiOptions.itemName || 'Item'}
+                          New {itemName}
                         </h4>
                       ) : null}
                       <SchemaForm
@@ -284,13 +288,24 @@ class ArrayField extends React.Component {
                       >
                         <div className="row small-collapse">
                           <div className="small-6 left columns">
-                            <button className="float-left">Update</button>
+                            <button
+                              type="button"
+                              className="float-left"
+                              aria-label={`Update ${itemName}`}
+                            >
+                              Update
+                            </button>
                           </div>
                           <div className="small-6 right columns">
                             {showReviewButton && (
                               <button
                                 type="button"
                                 className="usa-button-secondary float-right"
+                                aria-label={`Remove ${
+                                  itemName === uiOptions.itemName
+                                    ? 'incomplete '
+                                    : ''
+                                }${itemName}`}
                                 onClick={() =>
                                   this.handleRemove(index, fieldName)
                                 }

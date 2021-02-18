@@ -223,7 +223,7 @@ export default class ArrayField extends React.Component {
       typeof description === 'string' ? description : null;
     const DescriptionField =
       typeof description === 'function' ? uiSchema['ui:description'] : null;
-    const isReviewMode = uiSchema['ui:options'].reviewMode;
+    const isReviewMode = uiOptions.reviewMode;
     const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
 
     // if we have form data, use that, otherwise use an array with a single default object
@@ -250,9 +250,7 @@ export default class ArrayField extends React.Component {
               />
             ) : null}
             {textDescription && <p>{textDescription}</p>}
-            {DescriptionField && (
-              <DescriptionField options={uiSchema['ui:options']} />
-            )}
+            {DescriptionField && <DescriptionField options={uiOptions} />}
             {!textDescription && !DescriptionField && description}
           </div>
         )}
@@ -267,10 +265,14 @@ export default class ArrayField extends React.Component {
               itemIdPrefix,
               definitions,
             );
-            const showSave = uiSchema['ui:options'].showSave;
+            const showSave = uiOptions.showSave;
             const updateText = showSave && index === 0 ? 'Save' : 'Update';
             const isLast = items.length === index + 1;
             const isEditing = this.state.editing[index];
+            const itemName =
+              item?.[uiOptions.itemKeyForAriaLabel] ||
+              uiOptions.itemName ||
+              'Item';
             const notLastOrMultipleRows =
               showSave || !isLast || items.length > 1;
 
@@ -285,12 +287,8 @@ export default class ArrayField extends React.Component {
                   <Element name={`table_${itemIdPrefix}`} />
                   <div className="row small-collapse">
                     <div className="small-12 columns va-growable-expanded">
-                      {isLast &&
-                      items.length > 1 &&
-                      uiSchema['ui:options'].itemName ? (
-                        <h3 className="vads-u-font-size--h5">
-                          New {uiSchema['ui:options'].itemName}
-                        </h3>
+                      {isLast && items.length > 1 ? (
+                        <h3 className="vads-u-font-size--h5">New {itemName}</h3>
                       ) : null}
                       <div className="input-section">
                         <SchemaField
@@ -315,9 +313,10 @@ export default class ArrayField extends React.Component {
                           <div className="small-6 left columns">
                             {(!isLast || showSave) && (
                               <button
+                                type="button"
                                 className="float-left"
+                                aria-label={`${updateText} ${itemName}`}
                                 onClick={() => this.handleUpdate(index)}
-                                aria-label={`${updateText} ${title}`}
                               >
                                 {updateText}
                               </button>
@@ -326,8 +325,13 @@ export default class ArrayField extends React.Component {
                           <div className="small-6 right columns">
                             {index !== 0 && (
                               <button
-                                className="usa-button-secondary float-right"
                                 type="button"
+                                className="usa-button-secondary float-right"
+                                aria-label={`Remove ${
+                                  itemName === uiOptions.itemName
+                                    ? 'incomplete '
+                                    : ''
+                                }${itemName}`}
                                 onClick={() => this.handleRemove(index)}
                               >
                                 Remove
@@ -351,9 +355,10 @@ export default class ArrayField extends React.Component {
                     />
                   </div>
                   <button
+                    type="button"
                     className="usa-button-secondary edit vads-u-flex--auto"
+                    aria-label={`Edit ${itemName}`}
                     onClick={() => this.handleEdit(index)}
-                    aria-label={`Edit ${title}`}
                   >
                     Edit
                   </button>
