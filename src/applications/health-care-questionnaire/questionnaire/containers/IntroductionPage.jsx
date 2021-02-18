@@ -11,7 +11,7 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import IntroductionPageHelpers from '../components/introduction-page';
 
-import { getAppointTypeFromAppointment } from '../utils';
+import { getAppointTypeFromAppointment } from '../../shared/utils';
 
 const IntroductionPage = props => {
   useEffect(() => {

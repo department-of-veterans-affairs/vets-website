@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { getAppointmentTimeFromAppointment } from '../../utils';
+import { getAppointmentTimeFromAppointment } from '../../../shared/utils';
 
 const ExpiresAt = props => {
   const { onChange, appointment } = props;

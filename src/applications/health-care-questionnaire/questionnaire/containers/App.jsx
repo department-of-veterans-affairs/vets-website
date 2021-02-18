@@ -15,7 +15,7 @@ import { loadAppointment } from '../api';
 import {
   getAppointTypeFromAppointment,
   getCurrentAppointmentId,
-} from '../utils';
+} from '../../shared/utils';
 
 const App = props => {
   const { location, children } = props;

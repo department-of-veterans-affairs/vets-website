@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
-import { getBookingNoteFromAppointment } from '../../utils';
+import { getBookingNoteFromAppointment } from '../../../shared/utils';
 import TextAreaWidget from '@department-of-veterans-affairs/react-jsonschema-form/lib/components/widgets/TextareaWidget';
 
 const ReasonForVisitDescriptionField = props => {

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { clearCurrentSession } from '../utils';
+import { clearCurrentSession } from '../../shared/utils';
 import ConfirmationPageFooter from '../components/get-help/ConfirmationPageFooter';
 import AppointmentDisplay from '../components/appointment-display/AppointmentDisplay';
 
