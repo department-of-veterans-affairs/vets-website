@@ -11,7 +11,9 @@ import * as pages from '../pages';
 import moment from 'moment';
 import SubmissionError from '../components/SubmissionError';
 
-const submit = () => {
+const submit = formData => {
+  // eslint-disable-next-line no-console
+  console.log(JSON.stringify(formData));
   return Promise.resolve(
     JSON.stringify({ submission: { response: { timestamp: moment() } } }),
   );
