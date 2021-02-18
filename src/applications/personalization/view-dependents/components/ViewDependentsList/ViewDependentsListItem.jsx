@@ -20,10 +20,10 @@ function ViewDependentsListItem(props) {
   } = props;
 
   return (
-    <div className="vads-l-row vads-u-background-color--gray-lightest vads-u-margin-top--0 vads-u-margin-bottom--2">
+    <div className="vads-l-row vads-u-background-color--gray-lightest vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-padding-x--2">
       <dl
         className={classNames({
-          'vads-l-row vads-u-padding-x--2': true,
+          'vads-l-row': true,
           'vads-u-margin-bottom--0': manageDependentsToggle === true,
           'vads-u-margin-bottom--2': manageDependentsToggle === false,
         })}
@@ -51,21 +51,27 @@ function ViewDependentsListItem(props) {
         ) : null}
       </dl>
       {manageDependentsToggle && (
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-padding-x--2">
-          <button
-            onClick={handleClick}
-            className="usa-button-secondary vads-u-background-color--white"
-          >
-            Remove this dependent
-          </button>
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+          {!open && (
+            <button
+              onClick={handleClick}
+              className="usa-button-secondary vads-u-background-color--white"
+            >
+              Remove this dependent
+            </button>
+          )}
           {open && (
-            <div className={`vads-l-row vads-l-row vads-u-padding-x--2`}>
+            <div className="vads-l-row">
               <div className="vads-l-col--12">
+                <p className="vads-u-font-size--h3">Equal to VA Form 21-686c</p>
                 <p>
                   To remove this dependent from your VA benefits, please enter
                   the information below.
                 </p>
-                <ManageDependents relationship={relationship} />
+                <ManageDependents
+                  relationship={relationship}
+                  closeFormHandler={handleClick}
+                />
               </div>
             </div>
           )}
