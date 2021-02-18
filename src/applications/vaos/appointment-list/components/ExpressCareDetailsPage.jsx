@@ -10,7 +10,6 @@ import {
 } from '../../utils/constants';
 import { sentenceCase } from '../../utils/formatters';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import ListBestTimeToCall from './cards/pending/ListBestTimeToCall';
 
 import { getPatientTelecom } from '../../services/appointment';
 import { selectExpressCareRequestById } from '../redux/selectors';
@@ -91,7 +90,7 @@ function ExpressCareDetailsPage({ appointment }) {
           {appointment.status === APPOINTMENT_STATUS.pending && (
             <span>A VA health care provider will contact you today.</span>
           )}
-          {appointment.status === APPOINTMENT_STATUS.booked && (
+          {appointment.status === APPOINTMENT_STATUS.fulfilled && (
             <span>
               We’ve completed your screening. Thank you for using Express Care.
             </span>
@@ -116,13 +115,8 @@ function ExpressCareDetailsPage({ appointment }) {
         {getPatientTelecom(appointment, 'email')}
         <br />
         {getPatientTelecom(appointment, 'phone')}
-        <br />
-        <span className="vads-u-font-style--italic">
-          <ListBestTimeToCall
-            timesToCall={appointment.legacyVAR?.bestTimeToCall}
-          />
-        </span>
       </div>
+
       {appointment.status === APPOINTMENT_STATUS.proposed && (
         <p>
           <button className="va-button-link">
