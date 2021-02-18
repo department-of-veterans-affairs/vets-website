@@ -1,63 +1,41 @@
 import React, { useEffect } from 'react';
-import { Link, useParams, Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
-import * as actions from '../redux/actions';
-import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../utils/constants';
+import {
+  APPOINTMENT_STATUS,
+  UNABLE_TO_REACH_VETERAN_DETCODE,
+} from '../../utils/constants';
 import { sentenceCase } from '../../utils/formatters';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import ListBestTimeToCall from './cards/pending/ListBestTimeToCall';
 
 import { getPatientTelecom } from '../../services/appointment';
+import { selectExpressCareRequestById } from '../redux/selectors';
+import PageLayout from './AppointmentsPage/PageLayout';
 
-function ExpressCareDetailsPage({
-  appointment,
-  appointmentDetailsStatus,
-  fetchExpressCareDetails,
-}) {
-  const { id } = useParams();
+function ExpressCareDetailsPage({ appointment }) {
+  const appointmentDate = moment.parseZone(appointment?.start);
+  const canceled = appointment?.status === APPOINTMENT_STATUS.cancelled;
 
   useEffect(() => {
-    if (!appointment || appointment.id !== id) {
-      fetchExpressCareDetails(id);
-    }
+    scrollAndFocus();
+    document.title = `Express Care request on ${appointmentDate.format(
+      'dddd, MMMM D, YYYY',
+    )}`;
   }, []);
-
-  useEffect(
-    () => {
-      if (appointmentDetailsStatus === FETCH_STATUS.succeeded) {
-        scrollAndFocus();
-      }
-    },
-    [appointmentDetailsStatus],
-  );
-
-  if (
-    appointmentDetailsStatus === FETCH_STATUS.notStarted ||
-    appointmentDetailsStatus === FETCH_STATUS.loading
-  ) {
-    return (
-      <div className="vads-u-margin-y--8">
-        <LoadingIndicator
-          setFocus
-          message="Loading your Express Care request..."
-        />
-      </div>
-    );
-  }
 
   if (!appointment) {
     return <Redirect to="/" />;
   }
 
-  const appointmentDate = moment.parseZone(appointment.start);
-  const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
+  const unableToReachVeteran =
+    appointment.cancelationReason?.text === UNABLE_TO_REACH_VETERAN_DETCODE;
 
   return (
-    <div>
+    <PageLayout>
       <div className="vads-u-display--block vads-u-padding-y--2p5">
         ‹ <Link to="/">Manage appointments</Link>
       </div>
@@ -72,8 +50,31 @@ function ExpressCareDetailsPage({
           status="error"
           className="vads-u-display--block vads-u-margin-bottom--2"
           backgroundOnly
-          headline="This screening has been canceled"
-        />
+        >
+          <h3 className="vaos-appts__block-label vads-u-margin-bottom--0">
+            This screening has been canceled.
+          </h3>
+          {unableToReachVeteran && (
+            <>
+              We tried to call you, but couldn’t reach you by phone. If you
+              still want to use Express Care, please submit another request
+              tomorrow.
+            </>
+          )}
+          {!unableToReachVeteran && (
+            <>
+              If you still want to use Express Care, please submit another
+              request tomorrow.
+            </>
+          )}
+          <p>
+            <strong>Note:</strong> If your symptoms get worse, contact a VA
+            urgent care clinic near you. If you need medical care right away,
+            call 911 or go to the nearest emergency room. Please contact us
+            first before going to any VA location. Contacting us first helps
+            keep you safe.
+          </p>
+        </AlertBox>
       )}
 
       {!canceled && (
@@ -122,30 +123,24 @@ function ExpressCareDetailsPage({
           />
         </span>
       </div>
+      {appointment.status === APPOINTMENT_STATUS.proposed && (
+        <p>
+          <button className="va-button-link">
+            Cancel Express Care request
+          </button>
+        </p>
+      )}
       <Link to="/">
         <button className="usa-button vads-u-margin-top--2">
           « Go back to appointments
         </button>
       </Link>
-    </div>
+    </PageLayout>
   );
 }
-function mapStateToProps(state) {
-  const {
-    currentAppointment,
-    appointmentDetailsStatus,
-    pendingStatus,
-  } = state.appointments;
+function mapStateToProps(state, ownProps) {
   return {
-    appointment: currentAppointment,
-    appointmentDetailsStatus,
-    pendingStatus,
+    appointment: selectExpressCareRequestById(state, ownProps.match.params.id),
   };
 }
-const mapDispatchToProps = {
-  fetchExpressCareDetails: actions.fetchExpressCareDetails,
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ExpressCareDetailsPage);
+export default connect(mapStateToProps)(ExpressCareDetailsPage);

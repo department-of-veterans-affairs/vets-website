@@ -16,7 +16,6 @@ import {
 import {
   selectPendingAppointments,
   selectFutureAppointments,
-  selectUpcomingAppointments,
 } from '../redux/selectors';
 
 import {
@@ -451,39 +450,6 @@ export function fetchRequestDetails(id) {
 
     if (!messages) {
       dispatch(fetchRequestMessages(id));
-    }
-  };
-}
-
-export function fetchExpressCareDetails(id) {
-  return async (dispatch, getState) => {
-    const state = getState();
-    const { appointmentDetails, pending, past, confirmed } = state.appointments;
-
-    const allAppointments = []
-      .concat(pending)
-      .concat(past)
-      .concat(confirmed)
-      .filter(item => !!item);
-    const request =
-      appointmentDetails[id] || allAppointments.find(p => p.id === id);
-
-    dispatch({
-      type: FETCH_REQUEST_DETAILS,
-    });
-
-    if (request) {
-      dispatch({
-        type: FETCH_REQUEST_DETAILS_SUCCEEDED,
-        appointment: request,
-        id,
-      });
-    } else {
-      // TODO: fetch single appointment
-      dispatch({
-        type: FETCH_REQUEST_DETAILS_SUCCEEDED,
-        id,
-      });
     }
   };
 }

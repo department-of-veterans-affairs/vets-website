@@ -9,8 +9,10 @@ import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDe
 import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
 import CommunityCareAppointmentDetailsPage from './components/CommunityCareAppointmentDetailsPage';
 import ExpressCareDetailsPage from './components/ExpressCareDetailsPage';
+import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 
 function AppointmentListSection({ featureHomepageRefresh }) {
+  useManualScrollRestoration();
   return (
     <Switch>
       <Route
@@ -37,14 +39,7 @@ function AppointmentListSection({ featureHomepageRefresh }) {
           </PageLayout>
         )}
       />
-      <Route
-        path="/express-care/:id"
-        component={() => (
-          <PageLayout>
-            <ExpressCareDetailsPage />
-          </PageLayout>
-        )}
-      />
+      <Route path="/express-care/:id" component={ExpressCareDetailsPage} />
       <Route
         path="/"
         render={() => {
