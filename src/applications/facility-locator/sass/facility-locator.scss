@@ -280,23 +280,17 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
       }
 
       #location-input-field {
-        width: 418px;
         display: flex;
         flex-direction: column;
 
         @media(min-width: $small-desktop-screen) {
           flex-direction: row;
-          justify-content: space-between;
-          align-items: baseline;
-        }
-
-        &.geolocation-in-progress {
-          width: 475px;
         }
       }
 
       .use-my-location-link {
         text-decoration: none;
+        margin: 0 0 0 20px;
 
         @media(max-width: $small-desktop-screen) {
           margin: 1em 0 1em 0;

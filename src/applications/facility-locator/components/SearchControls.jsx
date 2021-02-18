@@ -66,25 +66,20 @@ class SearchControls extends Component {
 
   renderLocationInputField = currentQuery => (
     <>
-      <div
-        id="location-input-field"
-        className={
-          currentQuery.geocodeInProgress ? 'geolocation-in-progress' : ''
-        }
-      >
+      <div id="location-input-field">
         <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
           City, state or postal code{' '}
           <span className="vads-u-color--secondary-dark">(*Required)</span>
         </label>
         {currentQuery.geocodeInProgress ? (
-          <>
+          <div className="use-my-location-link">
             <i
               className="fa fa-spinner fa-spin"
               aria-hidden="true"
               role="presentation"
             />
             <span>Finding your location...</span>
-          </>
+          </div>
         ) : (
           <a
             href="#"
