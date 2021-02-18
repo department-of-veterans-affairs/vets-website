@@ -1,4 +1,4 @@
-import { removeDependent } from '../manage-dependents/redux/reducers';
+import { removeDependents } from '../manage-dependents/redux/reducers';
 
 import { splitPersons } from '../util';
 
@@ -48,4 +48,4 @@ function allDependents(state = initialState, action) {
   }
 }
 
-export default { allDependents, removeDependent };
+export default { allDependents, removeDependents };

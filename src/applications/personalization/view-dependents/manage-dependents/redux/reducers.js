@@ -6,10 +6,11 @@ import {
 import { FORM_DATA_UPDATED, FORM_DATA_CLEANUP } from './actions';
 
 const initialState = {
-  formState: null,
+  dependentsState: null,
 };
 
-export function removeDependent(state = initialState, action) {
+export function removeDependents(state = initialState, action) {
+  // schema, uiSchema, and formData are already extracted based on index (stateKey) here.
   if (action.type === FORM_DATA_UPDATED) {
     const newUiSchema = updateUiSchema(action.uiSchema, action.formData);
     const { data: newFormData, schema: newFormSchema } = updateSchemaAndData(
@@ -21,18 +22,23 @@ export function removeDependent(state = initialState, action) {
 
     return {
       ...state,
-      formState: {
-        uiSchema: newUiSchema,
-        formSchema: newFormSchema,
-        formData: newFormData,
+      dependentsState: {
+        ...state.dependentsState,
+        [action.stateKey]: {
+          uiSchema: newUiSchema,
+          formSchema: newFormSchema,
+          formData: newFormData,
+        },
       },
     };
   }
 
   if (action.type === FORM_DATA_CLEANUP) {
+    const nextDependentsState = state.dependentsState;
+    delete nextDependentsState[action.stateKey];
     return {
       ...state,
-      formState: null,
+      dependentsState: nextDependentsState,
     };
   }
 

@@ -17,6 +17,7 @@ function ViewDependentsListItem(props) {
     relationship,
     ssn,
     dateOfBirth,
+    stateKey,
   } = props;
 
   return (
@@ -71,6 +72,7 @@ function ViewDependentsListItem(props) {
                 <ManageDependents
                   relationship={relationship}
                   closeFormHandler={handleClick}
+                  stateKey={stateKey}
                 />
               </div>
             </div>
@@ -87,6 +89,7 @@ ViewDependentsListItem.propTypes = {
   relationship: PropTypes.string,
   ssn: PropTypes.string,
   dateOfBirth: PropTypes.string,
+  stateKey: PropTypes.number,
 };
 
 export default ViewDependentsListItem;

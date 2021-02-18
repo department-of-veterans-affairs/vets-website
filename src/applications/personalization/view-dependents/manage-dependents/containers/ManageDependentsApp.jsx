@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import * as actions from '../redux/actions';
@@ -9,35 +10,53 @@ const ManageDependents = props => {
   const {
     relationship,
     updateFormData,
-    formState,
+    dependentsState,
     cleanupFormData,
     closeFormHandler,
+    stateKey,
   } = props;
   const [schema, setSchema] = useState(null);
   const [uiSchema, setUiSchema] = useState(null);
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
   const onSubmit = () => {};
 
   const onChange = nextFormData => {
-    updateFormData(formState.formSchema, formState.uiSchema, nextFormData);
+    updateFormData(
+      dependentsState[stateKey].formSchema,
+      dependentsState[stateKey].uiSchema,
+      nextFormData,
+      stateKey,
+    );
   };
 
   const handleFormClose = () => {
-    cleanupFormData();
+    cleanupFormData(stateKey);
     closeFormHandler();
   };
 
   useEffect(
     () => {
       // on first load, setup the things.
-      if (relationship && !formState) {
+      if (relationship && isFirstLoad) {
+        setIsFirstLoad(false);
+        // grab the schemas needed
         const initialSchema = SCHEMAS[relationship].schema;
         const initialUiSchema = SCHEMAS[relationship].uiSchema;
-        updateFormData(initialSchema, initialUiSchema, {});
+        // setup initial redux state
+        updateFormData(initialSchema, initialUiSchema, {}, stateKey);
+        // setup local app state
         setSchema(initialSchema);
         setUiSchema(initialUiSchema);
+        return;
+      }
+
+      // if dependentsState does exist, we want to use the most recent schemas and uiSchemas from it
+      if (dependentsState[stateKey]) {
+        setSchema(dependentsState[stateKey].formSchema);
+        setUiSchema(dependentsState[stateKey].uiSchema);
       }
     },
-    [relationship, formState],
+    [relationship, dependentsState],
   );
 
   return schema ? (
@@ -46,7 +65,7 @@ const ManageDependents = props => {
         name="Remove Dependent"
         title="Remove Dependent from award"
         schema={schema}
-        data={formState.formData}
+        data={dependentsState[stateKey].formData}
         uiSchema={uiSchema}
         onSubmit={onSubmit}
         onChange={onChange}
@@ -72,7 +91,7 @@ const ManageDependents = props => {
 };
 
 const mapStateToProps = state => ({
-  formState: state.removeDependent.formState,
+  dependentsState: state.removeDependents.dependentsState,
 });
 
 const mapDispatchToProps = {
@@ -85,3 +104,12 @@ export default connect(
   mapDispatchToProps,
 )(ManageDependents);
 export { ManageDependents };
+
+ManageDependents.propTypes = {
+  relationship: PropTypes.string,
+  updateFormData: PropTypes.func,
+  dependentsState: PropTypes.object,
+  cleanupFormData: PropTypes.func,
+  closeFormHandler: PropTypes.func,
+  stateKey: PropTypes.number,
+};
