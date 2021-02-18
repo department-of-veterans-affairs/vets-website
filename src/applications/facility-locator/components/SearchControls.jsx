@@ -81,6 +81,7 @@ class SearchControls extends Component {
           <i
             aria-hidden="true"
             className="fas fa-times-circle fa-clear"
+            id="clear-input"
             ref={this.inputClearRef}
             onClick={() => {
               this.inputClearRef.current.style.display = 'none';
