@@ -24,6 +24,7 @@ import AppointmentDateTime from './AppointmentDateTime';
 import AppointmentInstructions from './AppointmentInstructions';
 import { selectFeatureCancel } from '../../../redux/selectors';
 import VideoVisitSection from './VideoVisitSection';
+import { formatFacilityAddress } from 'applications/vaos/services/location';
 
 function formatAppointmentDate(date) {
   if (!date.isValid()) {
@@ -86,11 +87,11 @@ function ConfirmedAppointmentDetailsPage({
     return null;
   }
 
-  const facilityId = getVAAppointmentLocationId(appointment);
-  const locationId = getVideoAppointmentLocation(appointment);
-  const facility = facilityData?.[locationId];
-
   const isVideo = isVideoAppointment(appointment);
+  const facilityId = isVideo
+    ? getVideoAppointmentLocation(appointment)
+    : getVAAppointmentLocationId(appointment);
+  const facility = facilityData?.[facilityId];
   const isInPersonVAAppointment = !isVideo;
 
   const header = formatHeader(appointment);
@@ -156,7 +157,7 @@ function ConfirmedAppointmentDetailsPage({
               <AddToCalendar
                 summary={`${header}`}
                 description={`instructionText`}
-                location={location}
+                location={formatFacilityAddress(facility)}
                 duration={appointment.minutesDuration}
                 startDateTime={appointment.start}
               />
