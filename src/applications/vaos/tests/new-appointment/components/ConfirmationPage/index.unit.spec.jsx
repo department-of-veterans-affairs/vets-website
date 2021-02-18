@@ -314,6 +314,7 @@ describe('VAOS <ConfirmationPage>', () => {
   it('should format the best time to call correctly when 2 times are selected', async () => {
     const flowType = FLOW_TYPES.REQUEST;
     const data = {
+      typeOfCareId: '323',
       bestTimeToCall: {
         evening: true,
         morning: true,
@@ -347,6 +348,7 @@ describe('VAOS <ConfirmationPage>', () => {
   it('should format the best time to call correctly when 3 times are selected', async () => {
     const flowType = FLOW_TYPES.REQUEST;
     const data = {
+      typeOfCareId: '323',
       bestTimeToCall: {
         evening: true,
         morning: true,
@@ -445,9 +447,7 @@ describe('VAOS <ConfirmationPage>', () => {
 
     // Expect router to route to new appointment page
     await waitFor(() => {
-      expect(screen.history.replace.firstCall.args[0]).to.equal(
-        '/new-appointment',
-      );
+      expect(screen.history.location.pathname).to.equal('/new-appointment');
     });
   });
 });

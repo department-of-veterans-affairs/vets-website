@@ -1,7 +1,7 @@
 {
   "data": {
     "id": "1234",
-    "type": "disability_compensation_in_progress_forms",
+    "type": "in_progress_forms",
     "attributes": {
       "formId": "21-526EZ",
       "createdAt": "2020-06-16T00:00:00.000Z",

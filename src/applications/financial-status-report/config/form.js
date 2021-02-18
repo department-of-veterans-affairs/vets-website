@@ -302,19 +302,6 @@ const formConfig = {
           schema: pages.realEstateRecords.schema,
           depends: formData => formData.hasRealEstate,
         },
-        recreationalVehicles: {
-          path: 'recreational-vehicles',
-          title: 'Recreational vehicles',
-          uiSchema: pages.recreationalVehicles.uiSchema,
-          schema: pages.recreationalVehicles.schema,
-        },
-        recreationalVehicleRecords: {
-          path: 'recreational-vehicle-records',
-          title: 'Recreational vehicles',
-          uiSchema: pages.recreationalVehicleRecords.uiSchema,
-          schema: pages.recreationalVehicleRecords.schema,
-          depends: formData => formData.hasRecreationalVehicle,
-        },
         vehicles: {
           path: 'vehicles',
           title: 'Vehicles',
@@ -327,6 +314,19 @@ const formConfig = {
           uiSchema: pages.vehicleRecords.uiSchema,
           schema: pages.vehicleRecords.schema,
           depends: formData => formData.hasVehicle,
+        },
+        recreationalVehicles: {
+          path: 'recreational-vehicles',
+          title: 'Recreational vehicles',
+          uiSchema: pages.recreationalVehicles.uiSchema,
+          schema: pages.recreationalVehicles.schema,
+        },
+        recreationalVehicleRecords: {
+          path: 'recreational-vehicle-records',
+          title: 'Recreational vehicles',
+          uiSchema: pages.recreationalVehicleRecords.uiSchema,
+          schema: pages.recreationalVehicleRecords.schema,
+          depends: formData => formData.hasRecreationalVehicle,
         },
         otherAssets: {
           path: 'other-assets',
@@ -363,8 +363,7 @@ const formConfig = {
           title: 'Utilities',
           uiSchema: pages.utilityRecords.uiSchema,
           schema: pages.utilityRecords.schema,
-          depends: formData =>
-            formData.hasUtilities === 'Yes, I pay utility bills.',
+          depends: formData => formData.hasUtilities,
         },
         repayments: {
           path: 'repayments',
@@ -377,9 +376,7 @@ const formConfig = {
           title: 'Repayments',
           uiSchema: pages.repaymentRecords.uiSchema,
           schema: pages.repaymentRecords.schema,
-          depends: formData =>
-            formData.hasRepayments ===
-            'Yes, I have installment contracts or other debts.',
+          depends: formData => formData.hasRepayments,
         },
         otherExpenses: {
           path: 'other-expenses',
@@ -397,7 +394,7 @@ const formConfig = {
       },
     },
     resolutionOptionsChapter: {
-      title: 'Resolution options',
+      title: 'Repayment or relief options',
       pages: {
         resolutionOptions: {
           path: 'resolution-options/:index',
@@ -429,9 +426,7 @@ const formConfig = {
           title: 'Bankruptcy history',
           uiSchema: pages.bankruptcyHistoryRecords.uiSchema,
           schema: pages.bankruptcyHistoryRecords.schema,
-          depends: formData =>
-            formData.bankruptcyHistory.hasBeenAdjudicated ===
-            'Yes, I have been adjudicated as bankrupt.',
+          depends: formData => formData.bankruptcyHistory.hasBeenAdjudicated,
         },
       },
     },
