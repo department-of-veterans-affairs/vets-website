@@ -265,11 +265,11 @@ def prearchive(dockerContainer, envName) {
   dockerContainer.inside(DOCKER_ARGS) {
     // Special condition to point dev cms export to vagovdev
     if (envName == 'vagovdev' && !FORCE_LEGACY_GRAPHQL) {
-      sh "cd /application && NODE_ENV=production yarn build --buildtype vagovdev --setPublicPath --drupal-address ${drupalAddress} --use-cms-export"
+      sh "cd /application && NODE_ENV=production yarn build --buildtype=vagovdev --setPublicPath --drupal-address=${drupalAddress} --use-cms-export"
     } else if (envName == 'vagovdev-graphql') {
-      sh "cd /application && NODE_ENV=production yarn build --buildtype vagovdev --setPublicPath --drupal-address ${drupalAddress} --destination ${envName}"
+      sh "cd /application && NODE_ENV=production yarn build --buildtype=vagovdev --setPublicPath --drupal-address=${drupalAddress} --destination=${envName}"
     } else {
-      sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath --drupal-address ${drupalAddress} "
+      sh "cd /application && NODE_ENV=production yarn build --buildtype=${envName} --setPublicPath --drupal-address=${drupalAddress} "
     }
 
     sh "cd /application && node --max-old-space-size=10240 script/prearchive.js --buildtype=${envName}"
