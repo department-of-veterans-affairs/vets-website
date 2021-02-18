@@ -16,6 +16,7 @@ import {
   GEOCODE_STARTED,
   GEOCODE_COMPLETE,
   GEOCODE_FAILED,
+  GEOCODE_CLEAR_ERROR,
   MAP_MOVED,
 } from '../utils/actionTypes';
 import LocatorApi from '../api';
@@ -421,15 +422,14 @@ export const geolocateUser = () => async dispatch => {
         dispatch(updateSearchQuery(query));
       },
       e => {
-        dispatch({ type: GEOCODE_FAILED });
-        if (e.code === 1) {
-          alert(
-            'Please enable location access in your browser to use this feature.',
-          );
-        }
+        dispatch({ type: GEOCODE_FAILED, code: e.code });
       },
     );
   } else {
-    alert('Sorry, your browser does not support this feature.');
+    dispatch({ type: GEOCODE_FAILED, code: -1 });
   }
+};
+
+export const clearGeocodeError = () => async dispatch => {
+  dispatch({ type: GEOCODE_CLEAR_ERROR });
 };

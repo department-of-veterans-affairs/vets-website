@@ -10,6 +10,7 @@ import {
   facilityTypesOptions,
 } from '../config';
 import { focusElement } from 'platform/utilities/ui';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 class SearchControls extends Component {
   handleQueryChange = e => {
@@ -216,6 +217,20 @@ class SearchControls extends Component {
 
     return (
       <div className="search-controls-container clearfix">
+        <Modal
+          onClose={() => this.props.clearGeocodeError()}
+          visible={currentQuery.geocodeError}
+          contents={
+            <>
+              <div className="vads-u-margin-top--2">&nbsp;</div>
+              <span>
+                Please enable location access in your browser to use this
+                feature.
+              </span>
+              <div className="vads-u-margin-top--2">&nbsp;</div>
+            </>
+          }
+        />
         <form id="facility-search-controls" onSubmit={this.handleSubmit}>
           <div className={'columns'}>
             {this.renderLocationInputField(currentQuery)}

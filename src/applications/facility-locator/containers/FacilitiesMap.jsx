@@ -13,6 +13,7 @@ import {
   updateSearchQuery,
   mapMoved,
   geolocateUser,
+  clearGeocodeError,
 } from '../actions';
 import {
   facilitiesPpmsSuppressCommunityCare,
@@ -378,6 +379,7 @@ const FacilitiesMap = props => {
       <>
         <SearchControls
           geolocateUser={props.geolocateUser}
+          clearGeocodeError={props.clearGeocodeError}
           currentQuery={currentQuery}
           onChange={props.updateSearchQuery}
           onSubmit={handleSearch}
@@ -472,6 +474,7 @@ const FacilitiesMap = props => {
       <div className="desktop-container">
         <SearchControls
           geolocateUser={props.geolocateUser}
+          clearGeocodeError={props.clearGeocodeError}
           currentQuery={currentQuery}
           onChange={props.updateSearchQuery}
           onSubmit={handleSearch}
@@ -676,6 +679,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   geolocateUser,
+  clearGeocodeError,
   fetchVAFacility,
   updateSearchQuery,
   genBBoxFromAddress,
