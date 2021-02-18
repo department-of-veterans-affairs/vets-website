@@ -17,7 +17,7 @@ const initialState = {
 };
 
 // VA appointment id from confirmed_va.json
-const url = 'va/var05760f00c80ae60ce49879cf37a05fc8';
+const url = 'va/05760f00c80ae60ce49879cf37a05fc8';
 
 describe('VAOS integration: upcoming video appointments', () => {
   beforeEach(() => mockFetch());
