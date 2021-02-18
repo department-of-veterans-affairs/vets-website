@@ -311,7 +311,7 @@ const formConfig = {
       },
     },
     reportDivorce: {
-      title: 'Information needed to report a divorce',
+      title: 'Information needed to remove a divorced spouse',
       pages: {
         formerSpouseDetails: {
           depends: formData =>
