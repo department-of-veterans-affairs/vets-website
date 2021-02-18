@@ -101,52 +101,33 @@
  * @property {string} postalCode Address postal code, mapped from request.ccAppointmentRequest.preferredProviders[].address.zipCode
  */
 
-// type VideoContainedResources = [
-//   {
-//     resourceType: 'HealthcareService';
-//     // Mapped from appointment.vvsAppointments[0].id
-//     id: string;
-//     type: [
-//       {
-//         text: 'Patient Virtual Meeting Room';
-//       }
-//     ];
-//     providedBy: {
-//       // Mapped to Organization/${appointment.facilityId}
-//       reference: 'Organization/${string}';
-//     };
-//     // Only exists if appointment.sta6aid exists and appointment.vvsAppointments[0].tasInfo does not
-//     location?: {
-//       // Mapped to Location/${appointment.sta6aid}
-//       // Not sure this is every different from the facility used in providedBy above
-//       reference: 'Location/${string}';
-//     };
-//     telecom: [
-//       {
-//         system: 'url';
-//         // Mapped from appointment.vvsAppointments[0].patients[0].virtualMeetingRoom.url
-//         value: string;
-//         period: {
-//           // Mapped from appointment.vvsAppointments[0].dateTime
-//           start: string;
-//         };
-//       }
-//     ];
-//     characteristic: [
-//       {
-//         coding: [
-//           {
-//             system: 'VVS';
-//             // Mapped from appointment.vvsAppointments[0].appointmentKind
-//             code:
-//               | 'ADHOC'
-//               | 'MOBILE_GFE'
-//               | 'CLINIC_BASED'
-//               | 'STORE_FORWARD'
-//               | 'MOBILE_ANY';
-//           }
-//         ];
-//       },
+/**
+ * @typedef {Array<VideoHealthCareService|AtlasLocation>} VideoContainedResources
+ */
+
+/**
+ * @typedef {Object} VideoHealthCareService
+ *
+ * @property {string} id id value mapped from appointment.vvsAppointments[0].id
+ * @property {'HealthcareService'} resourceType Static resource type
+ * @property {Object} providedBy Reference to the site that owns the video appointment
+ * @property {string} providedBy.reference Mapped to Organization/${appointment.facilityId}
+ * @property {Object} ?location Only exists if appointmet.sta6aid exists and appointment.vvsAppointments[0].tasInfo does not
+ * @property {string} location.reference Mapped to Location/${appointment.sta6aid}
+ *     Not sure this is every different from the facility used in providedBy above
+ * @property {Array} telecom Contains the video link url
+ * @property {Object} telecom.0 First item in telecom array
+ * @property {'url'} telecom.0.system Always set to "url"
+ * @property {string} telecom.0.value Video appt url, mapped from appointment.vvsAppointments[0].patients[0].virtualMeetingRoom.url
+ * @property {Object} telecom.0.period
+ * @property {string} telecom.0.period.start Mapped from appointment.vvsAppointments[0].dateTime
+ * @property {Array} characteristic Array of characteristics, only one item
+ * @property {Object} characteristic.0 First item of array
+ * @property {Array} characteristic.0.coding Array of coding data, only one item
+ * @property {Object} characteristic.0.coding.0 First item of array
+ * @property {'VVS'} characteristic.0.coding.0.system Set to VVS
+ * @property {'ADHOC'|'MOBILE_GFE'|'CLINIC_BASED'|'STORE_FORWARD'|'MOBILE_ANY'} characteristic.0.coding.0.code Mapped from appointment.vvsAppointments[0].appointmentKind
+ */
 
 //       // Set if appointment.vvsAppointments[0].tasInfo exists
 
