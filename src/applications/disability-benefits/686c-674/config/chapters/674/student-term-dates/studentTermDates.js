@@ -53,7 +53,7 @@ export const uiSchema = {
         expandUnder: 'studentIsEnrolledFullTime',
         expandUnderCondition: false,
       },
-      'ui:title': 'Course of study or educational program',
+      'ui:title': 'Subject or educational/training program',
       'ui:errorMessages': { required: 'Please enter a course or program name' },
     },
     classesPerWeek: {
@@ -64,7 +64,7 @@ export const uiSchema = {
         expandUnderCondition: false,
         widgetClassNames: 'form-select-medium',
       },
-      'ui:title': 'Number of classes a week',
+      'ui:title': 'Number of session a week',
       'ui:errorMessages': { required: 'Please enter a number' },
     },
     hoursPerWeek: {

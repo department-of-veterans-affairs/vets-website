@@ -325,7 +325,7 @@ const formConfig = {
     },
     reportStepchildNotInHousehold: {
       title:
-        'Information needed to report a stepchild is no longer part of your household',
+        'Information needed to remove a stepchild who has left your household',
       pages: {
         stepchildren: {
           depends: formData =>
