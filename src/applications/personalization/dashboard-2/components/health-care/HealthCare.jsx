@@ -78,7 +78,7 @@ const HealthCare = ({
 const mapStateToProps = state => {
   const rxState = state.health.rx;
   const profileState = state.user.profile;
-  const canAccessRx = profileState.services.includes('rx');
+  const canAccessRx = true;
   const prescriptions = rxState.prescriptions?.items;
 
   return {

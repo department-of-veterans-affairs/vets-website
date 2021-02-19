@@ -9,7 +9,7 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 export const Prescriptions = ({ authenticatedWithSSOe, prescriptions }) => {
   let filteredPrescriptions;
   let latestPrescription;
-  let nrRefillsInProgress;
+  let refillsInProgress;
 
   if (prescriptions?.length) {
     const thirtyDaysAgo = moment()
@@ -28,20 +28,20 @@ export const Prescriptions = ({ authenticatedWithSSOe, prescriptions }) => {
     // GET LATEST DATE TO MAKE SURE LATEST PRESCRIPTION IS CORRECT
     // This SHOULD be OK since we're filtering in loadPrescriptions
     latestPrescription = filteredPrescriptions[0];
-    nrRefillsInProgress = filteredPrescriptions?.length;
+    refillsInProgress = filteredPrescriptions?.length;
   }
 
   const cardDetails = {
+    sectionTitle: 'Prescriptions',
     cardTitle: 'Prescription refills',
     line1: latestPrescription?.attributes?.prescriptionName,
-    sectionTitle: 'Prescriptions',
     line2: `Status: Submitted on ${moment(
       latestPrescription?.attributes?.refillSubmitDate,
     ).format('dddd, MMMM D, YYYY')}`,
     line3: '',
     ctaIcon: 'prescription-bottle',
-    ctaText: `${nrRefillsInProgress} prescription refill${
-      nrRefillsInProgress > 1 ? 's' : ''
+    ctaText: `${refillsInProgress} prescription refill${
+      refillsInProgress > 1 ? 's' : ''
     }`,
     ctaHref: mhvUrl(
       authenticatedWithSSOe,
@@ -51,9 +51,9 @@ export const Prescriptions = ({ authenticatedWithSSOe, prescriptions }) => {
     ctaOnClick: recordDashboardClick('view-all-prescriptions'),
   };
 
-  if (!nrRefillsInProgress) {
+  if (!refillsInProgress) {
+    cardDetails.cardTitle = '';
     cardDetails.line1 = 'You have no prescription refills in progress';
-    cardDetails.cartTitle = '';
     cardDetails.ctaText = 'Go to prescription updates';
   }
 
@@ -63,7 +63,7 @@ export const Prescriptions = ({ authenticatedWithSSOe, prescriptions }) => {
     <HealthCareCard
       type="prescriptions"
       cardProperties={cardDetails}
-      noActiveData={!nrRefillsInProgress}
+      noActiveData={!refillsInProgress}
     />
   );
 };

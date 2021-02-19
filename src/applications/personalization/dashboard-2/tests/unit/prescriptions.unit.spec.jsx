@@ -60,7 +60,7 @@ describe('Prescriptions', () => {
       });
 
       it('“You have [X] prescription updates.” should reflect the total number of prescriptions with a status of submitted or filled', () => {
-        expect(wrapper.text()).to.contain('5 prescription refills');
+        expect(wrapper.text()).to.contain('6 prescription refills');
       });
     });
 
