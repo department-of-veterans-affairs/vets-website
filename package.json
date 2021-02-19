@@ -292,7 +292,6 @@
     "core-js": "^3.8.1",
     "cy-mobile-commands": "^0.2.1",
     "date-fns": "^2.17.0",
-    "date-time-format-timezone": "^1.0.22",
     "downloadjs": "^1.4.7",
     "downshift": "^1.22.5",
     "express": "^4.17.1",
