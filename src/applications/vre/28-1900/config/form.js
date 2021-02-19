@@ -9,6 +9,7 @@ import { veteranInformation, veteranAddress } from './chapters/veteran';
 import StaticInformationReviewField from '../containers/StaticInformationReviewField';
 import GetFormHelp from 'applications/vre/components/GetFormHelp';
 import { transform } from './helpers';
+import { WIZARD_STATUS } from '../constants';
 
 import manifest from '../manifest.json';
 
@@ -22,6 +23,7 @@ const formConfig = {
   preSubmitInfo: PreSubmitInfo,
   transformForSubmit: transform,
   formId: '28-1900',
+  wizardStorageKey: WIZARD_STATUS,
   saveInProgress: {
     messages: {
       inProgress:

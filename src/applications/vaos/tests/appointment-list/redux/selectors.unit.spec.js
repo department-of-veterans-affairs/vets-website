@@ -44,7 +44,7 @@ describe('VAOS selectors', () => {
       const cancelInfo = getCancelInfo(state);
 
       expect(cancelInfo.facility).to.equal(
-        state.appointments.facilityData.var123,
+        state.appointments.facilityData['123'],
       );
     });
     it('should fetch facility from clinic map', () => {
@@ -74,13 +74,13 @@ describe('VAOS selectors', () => {
             participant: [
               {
                 actor: {
-                  reference: 'HealthcareService/var123_456',
+                  reference: 'HealthcareService/123_456',
                   display: 'Test',
                 },
               },
               {
                 actor: {
-                  reference: 'Location/var123',
+                  reference: 'Location/123',
                   display: 'Facility name',
                 },
               },
@@ -95,7 +95,7 @@ describe('VAOS selectors', () => {
       const cancelInfo = getCancelInfo(state);
 
       expect(cancelInfo.facility).to.equal(
-        state.appointments.facilityData.var123,
+        state.appointments.facilityData['123'],
       );
     });
     it('should fetch facility from video appointment', () => {
@@ -132,7 +132,7 @@ describe('VAOS selectors', () => {
                   },
                 ],
                 providedBy: {
-                  reference: 'Organization/var123',
+                  reference: 'Organization/123',
                 },
               },
             ],
@@ -146,7 +146,7 @@ describe('VAOS selectors', () => {
       const cancelInfo = getCancelInfo(state);
 
       expect(cancelInfo.facility).to.equal(
-        state.appointments.facilityData.var123,
+        state.appointments.facilityData['123'],
       );
     });
   });

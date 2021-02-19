@@ -3,27 +3,28 @@ import { connect } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-import AddToCalendar from '../../components/AddToCalendar';
-import VAFacilityLocation from '../../components/VAFacilityLocation';
-import moment from '../../lib/moment-tz';
+import AddToCalendar from '../../../components/AddToCalendar';
+import VAFacilityLocation from '../../../components/VAFacilityLocation';
+import moment from '../../../lib/moment-tz';
 import {
   getVAAppointmentLocationId,
   getVARFacilityId,
+  getVideoAppointmentLocation,
+  isAtlasLocation,
   isVideoAppointment,
-} from '../../services/appointment';
-import { FETCH_STATUS, PURPOSE_TEXT } from '../../utils/constants';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import * as actions from '../redux/actions';
-import { cancelAppointment } from '../redux/actions';
-import AppointmentDateTime from './cards/confirmed/AppointmentDateTime';
-import AppointmentInstructions from './cards/confirmed/AppointmentInstructions';
-import { selectFeatureCancel } from '../../redux/selectors';
-
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id ? id.replace('var', '') : id;
-}
+  isVideoGFE,
+  isVideoHome,
+  isVideoVAFacility,
+} from '../../../services/appointment';
+import { FETCH_STATUS, PURPOSE_TEXT } from '../../../utils/constants';
+import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import * as actions from '../../redux/actions';
+import { cancelAppointment } from '../../redux/actions';
+import AppointmentDateTime from './AppointmentDateTime';
+import AppointmentInstructions from './AppointmentInstructions';
+import { selectFeatureCancel } from '../../../redux/selectors';
+import VideoVisitSection from './VideoVisitSection';
+import { formatFacilityAddress } from 'applications/vaos/services/location';
 
 function formatAppointmentDate(date) {
   if (!date.isValid()) {
@@ -31,6 +32,20 @@ function formatAppointmentDate(date) {
   }
 
   return date.format('MMMM D, YYYY');
+}
+
+function formatHeader(appointment) {
+  if (isVideoGFE(appointment)) {
+    return 'VA Video Connect using VA device';
+  } else if (isVideoVAFacility(appointment)) {
+    return 'VA Video Connect at VA location';
+  } else if (isAtlasLocation(appointment)) {
+    return 'VA Video Connect at an ATLAS location';
+  } else if (isVideoHome(appointment)) {
+    return 'VA Video Connect at home';
+  } else {
+    return 'VA Appointment';
+  }
 }
 
 function ConfirmedAppointmentDetailsPage({
@@ -72,14 +87,15 @@ function ConfirmedAppointmentDetailsPage({
     return null;
   }
 
-  const facilityId = getVAAppointmentLocationId(appointment);
-  const facility = facilityData?.[facilityId];
-
-  const isExpressCare = appointment?.vaos.isExpressCare;
   const isVideo = isVideoAppointment(appointment);
+  const facilityId = isVideo
+    ? getVideoAppointmentLocation(appointment)
+    : getVAAppointmentLocationId(appointment);
+  const facility = facilityData?.[facilityId];
   const isInPersonVAAppointment = !isVideo;
 
-  const header = 'VA Appointment';
+  const header = formatHeader(appointment);
+
   const showInstructions =
     isInPersonVAAppointment &&
     PURPOSE_TEXT.some(purpose =>
@@ -95,22 +111,33 @@ function ConfirmedAppointmentDetailsPage({
       <h1>
         <AppointmentDateTime
           appointmentDate={moment.parseZone(appointment.start)}
-          timezone={appointment.vaos.timeZone}
           facilityId={getVARFacilityId(appointment)}
         />
       </h1>
 
+      {isVideo && (
+        <>
+          <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+            {header}
+          </h2>
+          <VideoVisitSection
+            header={header}
+            facility={facility}
+            appointment={appointment}
+          />
+        </>
+      )}
+
       {!!facility &&
-        !isExpressCare && (
+        !isVideo && (
           <>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
               {header}
             </h2>
-
             <VAFacilityLocation
               facility={facility}
               facilityName={facility?.name}
-              facilityId={parseFakeFHIRId(facilityId)}
+              facilityId={facilityId}
               isHomepageRefresh
               clinicFriendlyName={appointment.participant[0].actor.display}
             />
@@ -118,10 +145,7 @@ function ConfirmedAppointmentDetailsPage({
             {showInstructions &&
               isInPersonVAAppointment && (
                 <div className="vads-u-margin-top--3 vaos-appts__block-label">
-                  <AppointmentInstructions
-                    instructions={appointment.comment}
-                    isHomepageRefresh
-                  />
+                  <AppointmentInstructions instructions={appointment.comment} />
                 </div>
               )}
 
@@ -133,7 +157,7 @@ function ConfirmedAppointmentDetailsPage({
               <AddToCalendar
                 summary={`${header}`}
                 description={`instructionText`}
-                location={location}
+                location={formatFacilityAddress(facility)}
                 duration={appointment.minutesDuration}
                 startDateTime={appointment.start}
               />

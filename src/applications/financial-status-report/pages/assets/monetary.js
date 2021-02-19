@@ -15,7 +15,9 @@ export const uiSchema = {
       classNames: 'no-wrap',
     },
     checkingAndSavings: _.merge(
-      currencyUI('What is the amount in your checking and savings account?'),
+      currencyUI(
+        'How much money do you have in checking and savings accounts?',
+      ),
       {
         'ui:options': {
           widgetClassNames: 'input-size-3',
@@ -23,7 +25,7 @@ export const uiSchema = {
       },
     ),
     availableAssets: _.merge(
-      currencyUI('What is the amount of cash you have available?'),
+      currencyUI('How much other cash do you have access to at this time?'),
       {
         'ui:options': {
           widgetClassNames: 'input-size-3',
@@ -31,7 +33,7 @@ export const uiSchema = {
       },
     ),
     savingsBonds: _.merge(
-      currencyUI('What is the current value of your U.S. Savings Bonds?'),
+      currencyUI('What’s the current value of your U.S. Savings Bonds?'),
       {
         'ui:options': {
           widgetClassNames: 'input-size-3',
@@ -39,7 +41,7 @@ export const uiSchema = {
       },
     ),
     stocksAndOtherBonds: _.merge(
-      currencyUI('What is the current value of your stocks and other bonds?'),
+      currencyUI('What’s the current value of your stocks and other bonds?'),
       {
         'ui:options': {
           widgetClassNames: 'input-size-3',

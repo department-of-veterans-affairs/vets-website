@@ -117,6 +117,11 @@
   margin: 15px 0 20px;
 }
 
+//resolution options
+.eduWaiverNote {
+  margin-left: -25px;
+}
+
 .usa-input-error {
   position: relative;
   right: 0;
@@ -132,6 +137,10 @@
 
 .no-wrap {
   white-space: nowrap;
+}
+
+.usa-datefields {
+  padding-top: 16px;
 }
 
 // input fields

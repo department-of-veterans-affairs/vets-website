@@ -36,7 +36,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
   it('should navigate to confirmed appointments detail page', async () => {
     // VA appointment id from confirmed_va.json
-    const url = '/va/var21cdc6741c00ac67b6cbf6b972d084c1';
+    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
 
     const appointment = getVAAppointmentMock();
     appointment.attributes = {
@@ -130,7 +130,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     expect(screen.getByText(/Jennie's Lab/)).to.be.ok;
     expect(screen.getByRole('link', { name: /9 7 0. 2 2 4. 1 5 5 0./ })).to.be
       .ok;
-    expect(screen.getByRole('heading', { level: 2, name: /New issue/ })).to.be
+    expect(screen.getByRole('heading', { level: 5, name: /New issue/ })).to.be
       .ok;
     expect(
       screen.getByRole('link', {
