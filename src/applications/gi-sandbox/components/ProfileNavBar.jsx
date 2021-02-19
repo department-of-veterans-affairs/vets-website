@@ -27,6 +27,22 @@ export class ProfileNavBar extends React.Component {
   };
 
   handleScroll = () => {
+    const { profileSections } = this.props;
+    // i think this is a safe way to find section closest to top of screen since render order of sections
+    // is based on order of sections in the array
+    const topSection = profileSections.find(
+      section =>
+        document.getElementById(createId(section)).getBoundingClientRect()
+          .top >= 0,
+    );
+
+    const currentSection =
+      topSection !== undefined
+        ? topSection
+        : profileSections[profileSections.length - 1];
+
+    this.setState({ currentSection });
+
     if (this.onDesktop()) {
       this.handleDesktopScroll();
     } else {
