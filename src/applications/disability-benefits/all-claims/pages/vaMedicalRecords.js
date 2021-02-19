@@ -27,7 +27,7 @@ export const uiSchema = {
   vaTreatmentFacilities: {
     'ui:options': {
       itemName: 'Facility',
-      itemKeyForAriaLabel: 'treatmentCenterName',
+      itemAriaLabel: data => data.treatmentCenterName,
       viewField: treatmentView,
     },
     items: {
@@ -53,7 +53,7 @@ export const uiSchema = {
           'Please choose the conditions for which you received treatment at this facility.',
         'ui:options': {
           updateSchema: makeSchemaForAllDisabilities,
-          itemKeyForAriaLabel: 'treatmentCenterName',
+          itemAriaLabel: data => data.treatmentCenterName,
           showFieldLabel: true,
         },
         'ui:validations': [validateBooleanGroup],

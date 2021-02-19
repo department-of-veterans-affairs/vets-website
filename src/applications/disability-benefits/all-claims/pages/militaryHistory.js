@@ -58,7 +58,7 @@ export const uiSchema = {
       'ui:field': ArrayField,
       'ui:options': {
         itemName: 'Service Period',
-        itemKeyForAriaLabel: 'serviceBranch',
+        itemAriaLabel: data => data.serviceBranch,
         viewField: ValidatedServicePeriodView,
         reviewMode: true,
         showSave: true,
@@ -71,7 +71,7 @@ export const uiSchema = {
         },
         dateRange: dateRangeUISchema,
         'ui:options': {
-          itemKeyForAriaLabel: 'serviceBranch',
+          itemAriaLabel: data => data.serviceBranch,
           ariaLabelForEditButtonOnReview: 'Edit Military service history',
         },
       },

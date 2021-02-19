@@ -1,3 +1,4 @@
+import moment from 'moment';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import PeriodOfConfinement from '../components/PeriodOfConfinement';
@@ -11,6 +12,8 @@ const confinementUI = dateRangeUI(
   'Confinement start date must be before end date',
 );
 confinementUI['ui:validations'].push(isWithinServicePeriod);
+
+const formatDate = date => moment(date).format('LL');
 
 export const uiSchema = {
   'ui:title': 'Prisoner of War (POW)',
@@ -28,6 +31,8 @@ export const uiSchema = {
       'ui:options': {
         viewField: PeriodOfConfinement,
         reviewTitle: 'Periods of confinement',
+        itemAriaLabel: data =>
+          `period from ${formatDate(data.from)} to ${formatDate(data.to)}`,
         itemName: 'Period',
       },
       items: confinementUI,
