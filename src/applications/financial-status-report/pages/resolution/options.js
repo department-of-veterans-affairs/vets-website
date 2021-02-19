@@ -71,11 +71,11 @@ const isRequired = (formData, option) => {
   if (window.location.href.includes('resolution-options')) {
     index = window.location.href.slice(-1);
     selected = formData.fsrDebts[index].resolution.resolutionType;
-    type = formData.fsrDebts[index].benefitType;
+    type = formData.fsrDebts[index].deductionCode;
   }
 
   if (selected === option && option === 'Waiver') {
-    return type.includes('EDU');
+    return type !== '30';
   }
   return selected === option;
 };
@@ -126,8 +126,8 @@ export const uiSchema = {
             expandUnder: 'resolutionType',
             expandUnderCondition: (selectedOption, formData) => {
               const index = window.location.href.slice(-1);
-              const type = formData.fsrDebts[index]?.benefitType;
-              return selectedOption === 'Waiver' && type.includes('EDU');
+              const type = formData.fsrDebts[index]?.deductionCode;
+              return selectedOption === 'Waiver' && type !== '30';
             },
           },
           waiver: {
