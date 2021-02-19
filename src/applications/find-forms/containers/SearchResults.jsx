@@ -183,6 +183,8 @@ export class SearchResults extends Component {
           <h2
             className="vads-u-font-size--base vads-u-line-height--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--1p5"
             data-forms-focus
+            role="region"
+            aria-live="polite"
           >
             Showing <strong>{startLabel}</strong> &ndash;{' '}
             <strong>{lastLabel}</strong> of <strong>{results.length}</strong>{' '}
