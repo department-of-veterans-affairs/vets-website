@@ -21,6 +21,7 @@
       "state": "MA",
       "postalCode": "01060"
     },
+    "view:doesMailingMatchHomeAddress": true,
     "gender": "F",
     "maritalStatus": "Never Married",
     "view:demographicCategories": {},
