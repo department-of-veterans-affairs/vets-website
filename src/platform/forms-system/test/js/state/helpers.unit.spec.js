@@ -273,7 +273,7 @@ describe('Schemaform formState:', () => {
         },
       };
       const data = { field: '', field2: 'bleh' };
-
+      // condition is met so we expect this field to not be collapsed
       const newSchema = setHiddenFields(schema, uiSchema, data);
       expect(newSchema.properties.field['ui:collapsed']).to.be.undefined;
     });
@@ -290,12 +290,12 @@ describe('Schemaform formState:', () => {
           'ui:options': {
             expandUnder: 'field2',
             expandUnderCondition: (condition, formData) =>
-              formData.field2 !== 'bleh',
+              formData.field2 === 'foo',
           },
         },
       };
       const data = { field: '', field2: 'bleh' };
-
+      // condition is not met so we expect this field to be collapsed
       const newSchema = setHiddenFields(schema, uiSchema, data);
       expect(newSchema.properties.field['ui:collapsed']).not.to.be.undefined;
     });
