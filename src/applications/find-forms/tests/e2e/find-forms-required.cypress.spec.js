@@ -1,6 +1,5 @@
 // Dependencies.
 import chunk from 'lodash/chunk';
-import { expect } from 'chai';
 
 // Relative Imports
 import { INITIAL_SORT_STATE, SORT_OPTIONS } from '../../constants';
@@ -80,8 +79,6 @@ describe('functionality of Find Forms', () => {
     );
     cy.get(`${SELECTORS.SORT_SELECT_WIDGET} option:first`)
       .should('be.selected')
-      .then($option => {
-        expect($option.text()).to.have.contain(SORT_OPTIONS[0]);
-      });
+      .should('contain', SORT_OPTIONS[0]);
   });
 });
