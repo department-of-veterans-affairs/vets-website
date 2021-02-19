@@ -5,7 +5,9 @@ Cypress.Commands.add(
   (latitude = 34.0522, longitude = -118.2437) => {
     cy.window().then($window => {
       cy.stub($window.navigator.geolocation, 'getCurrentPosition', callback => {
-        return callback({ coords: { latitude, longitude } });
+        return setTimeout(() => {
+          callback({ coords: { latitude, longitude } });
+        }, 100);
       });
     });
   },
