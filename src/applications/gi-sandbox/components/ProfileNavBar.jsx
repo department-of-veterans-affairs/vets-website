@@ -7,11 +7,14 @@ import classNames from 'classnames';
 import { getScrollOptions } from 'platform/utilities/ui';
 import { NAV_WIDTH } from '../constants';
 
+const ABOVE_TOP_SECTION = 'ABOVE_TOP_SECTION';
+const BELOW_LAST_SECTION = 'BELOW_LAST_SECTION';
+
 export class ProfileNavBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentSection: null,
+      currentSection: ABOVE_TOP_SECTION,
     };
   }
 
@@ -27,6 +30,12 @@ export class ProfileNavBar extends React.Component {
   };
 
   handleScroll = () => {
+    if (this.onDesktop()) {
+      this.handleDesktopScroll();
+    } else {
+      this.handleMobileScroll();
+    }
+
     const { profileSections } = this.props;
     // i think this is a safe way to find section closest to top of screen since render order of sections
     // is based on order of sections in the array
@@ -36,25 +45,24 @@ export class ProfileNavBar extends React.Component {
           .top >= 0,
     );
 
-    const currentSection =
-      topSection !== undefined
-        ? topSection
-        : profileSections[profileSections.length - 1];
+    let currentSection =
+      topSection === undefined ? BELOW_LAST_SECTION : topSection;
+
+    // i tried to use placeholder element but because it is visible when scrolling to first section
+    // it was causing issues so instead relying on an element not rendered within this component
+    const headingSummary =
+      document.getElementById('heading-summary').getBoundingClientRect().top >=
+      0;
+    if (headingSummary) {
+      currentSection = ABOVE_TOP_SECTION;
+    }
 
     this.setState({ currentSection });
-
-    if (this.onDesktop()) {
-      this.handleDesktopScroll();
-    } else {
-      this.handleMobileScroll();
-    }
   };
 
   shouldBeStuck = profileNavBar => {
-    const placeholder = document.getElementById('profile-nav-placeholder');
-
     const topOffset = profileNavBar?.getBoundingClientRect().top <= 0;
-    const bottomOffset = placeholder?.getBoundingClientRect().bottom <= 0;
+    const bottomOffset = this.placeholderElementBottom() <= 0;
 
     return topOffset && bottomOffset;
   };
@@ -73,18 +81,22 @@ export class ProfileNavBar extends React.Component {
 
   currentSectionIndex = () => {
     const { currentSection } = this.state;
-    if (currentSection === null) {
+    const { profileSections } = this.props;
+    if (currentSection === ABOVE_TOP_SECTION) {
       return 0;
+    } else if (currentSection === BELOW_LAST_SECTION) {
+      return profileSections.length - 1;
     } else {
-      return this.props.profileSections.findIndex(
-        section => section === currentSection,
-      );
+      return profileSections.findIndex(section => section === currentSection);
     }
   };
 
   atTop = () => this.currentSectionIndex() === 0;
   atBottom = () =>
     this.currentSectionIndex() === this.props.profileSections.length - 1;
+  placeholderElementBottom = () =>
+    document.getElementById('profile-nav-placeholder')?.getBoundingClientRect()
+      .bottom;
 
   // Desktop functions
 
@@ -145,17 +157,24 @@ export class ProfileNavBar extends React.Component {
     const arrow = e.target.id;
     const { profileSections } = this.props;
     const { currentSection } = this.state;
+    const downArrow = arrow === 'mobile-down-arrow';
+    const upArrow = arrow === 'mobile-up-arrow';
 
-    if (currentSection === null && arrow === 'mobile-down-arrow') {
+    if (currentSection === ABOVE_TOP_SECTION && downArrow) {
       this.scrollToSection(profileSections[0], this.profileNavBarMobile());
-    } else if (currentSection !== null) {
+    } else if (currentSection !== ABOVE_TOP_SECTION) {
       let scrollIndex = this.currentSectionIndex();
 
-      if (arrow === 'mobile-down-arrow' && !this.atBottom()) {
+      if (downArrow && !this.atBottom()) {
         scrollIndex += 1;
-      } else if (arrow === 'mobile-up-arrow' && !this.atTop()) {
-        scrollIndex -= 1;
+      } else if (upArrow) {
+        if (!this.atTop() && currentSection !== BELOW_LAST_SECTION) {
+          scrollIndex -= 1;
+        } else {
+          scrollIndex = profileSections.length - 1;
+        }
       }
+
       this.scrollToSection(
         profileSections[scrollIndex],
         this.profileNavBarMobile(),
