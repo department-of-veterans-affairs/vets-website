@@ -8,6 +8,13 @@ import { getScrollOptions } from 'platform/utilities/ui';
 import { NAV_WIDTH } from '../constants';
 
 export class ProfileNavBar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentSection: null,
+    };
+  }
+
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll, true);
   }
@@ -36,19 +43,30 @@ export class ProfileNavBar extends React.Component {
     return topOffset && bottomOffset;
   };
 
+  scrollToSection = (section, navBar) => {
+    this.setState({ currentSection: section });
+
+    let offset = -navBar.offsetHeight;
+    if (!this.shouldBeStuck(navBar)) {
+      offset = -(navBar.offsetHeight * 2);
+      // it's a magic number but it fixes the weird scrolling issue when navbar is unstuck
+    }
+
+    scroller.scrollTo(createId(section), getScrollOptions({ offset }));
+  };
   // Desktop functions
 
+  profileNavBarDesktop = () =>
+    document.getElementById('profile-nav-bar-desktop');
+
   handleDesktopScroll = () => {
-    const profileNavBarDesktop = document.getElementById(
-      'profile-nav-bar-desktop',
-    );
     const jumpLinks = document.getElementById('jump-links');
 
-    if (this.shouldBeStuck(profileNavBarDesktop)) {
-      profileNavBarDesktop.className = this.navBarDesktopClasses(true);
+    if (this.shouldBeStuck(this.profileNavBarDesktop())) {
+      this.profileNavBarDesktop().className = this.navBarDesktopClasses(true);
       jumpLinks.className = 'row';
     } else {
-      profileNavBarDesktop.className = this.navBarDesktopClasses();
+      this.profileNavBarDesktop().className = this.navBarDesktopClasses();
       jumpLinks.className = 'row vads-u-margin--0';
     }
   };
@@ -63,30 +81,18 @@ export class ProfileNavBar extends React.Component {
   jumpLinkClickedDesktop = e => {
     e.preventDefault();
     const section = e.target.text;
-    const profileNavBarDesktop = document.getElementById(
-      'profile-nav-bar-desktop',
-    );
-
-    let offset = -profileNavBarDesktop.offsetHeight;
-    if (!this.shouldBeStuck(profileNavBarDesktop)) {
-      offset = -(profileNavBarDesktop.offsetHeight * 2);
-      // it's a magic number but it fixes the weird scrolling issue when navbar is unstuck
-    }
-
-    scroller.scrollTo(createId(section), getScrollOptions({ offset }));
+    this.scrollToSection(section, this.profileNavBarDesktop());
   };
 
   // Mobile functions
 
-  handleMobileScroll = () => {
-    const profileNavBarMobile = document.getElementById(
-      'profile-nav-bar-mobile',
-    );
+  profileNavBarMobile = () => document.getElementById('profile-nav-bar-mobile');
 
-    if (this.shouldBeStuck(profileNavBarMobile)) {
-      profileNavBarMobile.className = this.navBarMobileClasses(true);
+  handleMobileScroll = () => {
+    if (this.shouldBeStuck(this.profileNavBarMobile())) {
+      this.profileNavBarMobile().className = this.navBarMobileClasses(true);
     } else {
-      profileNavBarMobile.className = this.navBarMobileClasses();
+      this.profileNavBarMobile().className = this.navBarMobileClasses();
     }
   };
 
@@ -96,11 +102,32 @@ export class ProfileNavBar extends React.Component {
     });
   };
 
-  navigateMobile = _e => {
-    // const arrow = e.target.id;
-    // if (arrow === 'mobile-up-arrow') {
-    // } else {
-    // }
+  navigateMobile = e => {
+    const arrow = e.target.id;
+    const { profileSections } = this.props;
+    const { currentSection } = this.state;
+
+    if (currentSection === null && arrow === 'mobile-down-arrow') {
+      this.scrollToSection(profileSections[0], this.profileNavBarMobile());
+    } else if (currentSection !== null) {
+      const currentSectionIndex = profileSections.findIndex(
+        section => section === this.state.currentSection,
+      );
+
+      const atTop = currentSectionIndex === 0;
+      const atBottom = currentSectionIndex === profileSections.length - 1;
+
+      let scrollIndex = currentSectionIndex;
+      if (arrow === 'mobile-down-arrow' && !atBottom) {
+        scrollIndex += 1;
+      } else if (arrow === 'mobile-up-arrow' && !atTop) {
+        scrollIndex -= 1;
+      }
+      this.scrollToSection(
+        profileSections[scrollIndex],
+        this.profileNavBarMobile(),
+      );
+    }
   };
 
   render() {
