@@ -25,9 +25,13 @@ export class ProfileNavBar extends React.Component {
     window.removeEventListener('scroll', this.handleScroll, true);
   }
 
-  onDesktop = () => {
-    return window.innerWidth >= NAV_WIDTH;
-  };
+  onDesktop = () => window.innerWidth >= NAV_WIDTH;
+  atTop = () => this.currentSectionIndex() === 0;
+  atBottom = () =>
+    this.currentSectionIndex() === this.props.profileSections.length - 1;
+  placeholderElementBottom = () =>
+    document.getElementById('profile-nav-placeholder')?.getBoundingClientRect()
+      .bottom;
 
   handleScroll = () => {
     if (this.onDesktop()) {
@@ -50,10 +54,10 @@ export class ProfileNavBar extends React.Component {
 
     // i tried to use placeholder element but because it is visible when scrolling to first section
     // it was causing issues so instead relying on an element not rendered within this component
-    const headingSummary =
+    const topOfHeadingSummaryVisible =
       document.getElementById('heading-summary').getBoundingClientRect().top >=
       0;
-    if (headingSummary) {
+    if (topOfHeadingSummaryVisible) {
       currentSection = ABOVE_TOP_SECTION;
     }
 
@@ -90,13 +94,6 @@ export class ProfileNavBar extends React.Component {
       return profileSections.findIndex(section => section === currentSection);
     }
   };
-
-  atTop = () => this.currentSectionIndex() === 0;
-  atBottom = () =>
-    this.currentSectionIndex() === this.props.profileSections.length - 1;
-  placeholderElementBottom = () =>
-    document.getElementById('profile-nav-placeholder')?.getBoundingClientRect()
-      .bottom;
 
   // Desktop functions
 
