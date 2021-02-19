@@ -19,35 +19,35 @@ const ManageDependents = props => {
   const [uiSchema, setUiSchema] = useState(null);
   const onSubmit = () => {};
 
-  const onChange = nextFormData => {
-    updateFormData(
-      dependentsState[stateKey].formSchema,
-      dependentsState[stateKey].uiSchema,
-      nextFormData,
-      stateKey,
-    );
-  };
+  const onChange = useCallback(
+    nextFormData => {
+      updateFormData(
+        dependentsState[stateKey].formSchema,
+        dependentsState[stateKey].uiSchema,
+        nextFormData,
+        stateKey,
+      );
+    },
+    [dependentsState],
+  );
 
   const handleFormClose = () => {
     cleanupFormData(stateKey);
     closeFormHandler();
   };
 
-  const initialize = useCallback(
-    () => {
-      if (relationship) {
-        // grab the schemas needed
-        const initialSchema = SCHEMAS[relationship].schema;
-        const initialUiSchema = SCHEMAS[relationship].uiSchema;
-        // setup initial redux state
-        updateFormData(initialSchema, initialUiSchema, {}, stateKey);
-        // setup local app state
-        setSchema(initialSchema);
-        setUiSchema(initialUiSchema);
-      }
-    },
-    [relationship, dependentsState],
-  );
+  const initialize = () => {
+    if (relationship) {
+      // grab the schemas needed
+      const initialSchema = SCHEMAS[relationship].schema;
+      const initialUiSchema = SCHEMAS[relationship].uiSchema;
+      // setup initial redux state
+      updateFormData(initialSchema, initialUiSchema, {}, stateKey);
+      // setup local app state
+      setSchema(initialSchema);
+      setUiSchema(initialUiSchema);
+    }
+  };
 
   useEffect(() => {
     initialize();
