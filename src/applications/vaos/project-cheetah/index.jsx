@@ -104,7 +104,6 @@ export function NewBookingSection({
 }
 
 function mapStateToProps(state) {
-  // console.log(state);
   return {
     featureProjectCheetah: selectFeatureProjectCheetah(state),
     windowsStatus: state.projectCheetah.newBookingStatus,
