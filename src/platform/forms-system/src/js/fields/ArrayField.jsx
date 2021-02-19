@@ -327,11 +327,7 @@ export default class ArrayField extends React.Component {
                               <button
                                 type="button"
                                 className="usa-button-secondary float-right"
-                                aria-label={`Remove ${
-                                  itemName === uiOptions.itemName
-                                    ? 'incomplete '
-                                    : ''
-                                }${itemName}`}
+                                aria-label={`Remove ${itemName}`}
                                 onClick={() => this.handleRemove(index)}
                               >
                                 Remove

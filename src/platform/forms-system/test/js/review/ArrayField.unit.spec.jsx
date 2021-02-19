@@ -297,7 +297,7 @@ describe('Schemaform review <ArrayField>', () => {
     expect(buttons[0].props['aria-label']).to.equal('Update bar');
     expect(buttons[1].props['aria-label']).to.equal('Remove bar');
     expect(buttons[2].props['aria-label']).to.equal('Update Itemz');
-    expect(buttons[3].props['aria-label']).to.equal('Remove incomplete Itemz');
+    expect(buttons[3].props['aria-label']).to.equal('Remove Itemz');
     expect(buttons[4].text()).to.equal('Add another Itemz');
   });
 
