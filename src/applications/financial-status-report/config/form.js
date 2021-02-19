@@ -51,6 +51,9 @@ const formConfig = {
   subTitle: 'Form 5655',
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  customText: {
+    finishAppLaterMessage: 'Finish this request later',
+  },
   chapters: {
     veteranInformationChapter: {
       title: 'Veteran information',

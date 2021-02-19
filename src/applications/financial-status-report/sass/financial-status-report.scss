@@ -159,6 +159,10 @@
   padding-top: 16px;
 }
 
+.schemaform-sip-save-link {
+  margin: 20px 0;
+}
+
 // input fields
 .input-size-1 {
   @include media($medium-screen) {
