@@ -10,6 +10,7 @@ import {
   FETCH_SPECIALTIES_DONE,
   FETCH_SPECIALTIES_FAILED,
   CLEAR_SEARCH_RESULTS,
+  CLEAR_SEARCH_TEXT,
   GEOCODE_STARTED,
   GEOCODE_COMPLETE,
   GEOCODE_FAILED,
@@ -403,4 +404,8 @@ export const getProviderSpecialties = () => async dispatch => {
     dispatch({ type: FETCH_SPECIALTIES_FAILED, error });
     return ['Services Temporarily Unavailable'];
   }
+};
+
+export const clearSearchText = () => async dispatch => {
+  dispatch({ type: CLEAR_SEARCH_TEXT });
 };

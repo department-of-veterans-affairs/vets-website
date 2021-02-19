@@ -13,12 +13,6 @@ import { focusElement } from 'platform/utilities/ui';
 import environment from 'platform/utilities/environment';
 
 class SearchControls extends Component {
-  constructor(props) {
-    super(props);
-    this.inputRef = React.createRef();
-    this.inputClearRef = React.createRef();
-  }
-
   handleQueryChange = e => {
     this.props.onChange({ searchString: e.target.value });
   };
@@ -32,14 +26,6 @@ class SearchControls extends Component {
 
     const serviceType = option === 'All' ? null : option;
     this.props.onChange({ serviceType });
-  };
-
-  handleInputClear = () => {
-    if (this.inputRef.current.value !== '') {
-      this.inputClearRef.current.style.display = 'block';
-    } else {
-      this.inputClearRef.current.style.display = 'none';
-    }
   };
 
   handleSubmit = e => {
@@ -70,9 +56,8 @@ class SearchControls extends Component {
     this.props.onSubmit();
   };
 
-  hideClearInput = () => {
-    this.inputClearRef.current.style.display = 'none';
-    this.inputRef.current.value = '';
+  handleClearInput = () => {
+    this.props.clearSearchText();
     focusElement('#street-city-state-zip');
   };
 
@@ -81,15 +66,15 @@ class SearchControls extends Component {
       return (
         <i
           aria-hidden="true"
-          className="fas fa-times-circle fa-clear"
+          className="fas fa-times-circle clear-button"
           id="clear-input"
-          ref={this.inputClearRef}
-          onClick={this.hideClearInput}
+          onClick={this.handleClearInput}
         />
       );
     }
     return null;
   };
+
   renderLocationInputField = currentQuery => (
     <>
       <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
@@ -97,14 +82,12 @@ class SearchControls extends Component {
         <span className="vads-u-color--secondary-dark">(*Required)</span>
       </label>
       <div className="input-clear">
-        {this.renderClearInput()}
+        {currentQuery?.searchString?.length > 0 && this.renderClearInput()}
         <input
           id="street-city-state-zip"
           name="street-city-state-zip"
           type="text"
-          ref={this.inputRef}
           onChange={this.handleQueryChange}
-          onKeyUp={this.handleInputClear}
           value={currentQuery.searchString}
           title="Your location: Street, City, State or Postal code"
           required
