@@ -62,19 +62,17 @@ function ViewDependentsListItem(props) {
             </button>
           )}
           {open && (
-            <div className="vads-l-row">
-              <div className="vads-l-col--12">
-                <p className="vads-u-font-size--h3">Equal to VA Form 21-686c</p>
-                <p>
-                  To remove this dependent from your VA benefits, please enter
-                  the information below.
-                </p>
-                <ManageDependents
-                  relationship={relationship}
-                  closeFormHandler={handleClick}
-                  stateKey={stateKey}
-                />
-              </div>
+            <div className="vads-l-col--12">
+              <p className="vads-u-font-size--h3">Equal to VA Form 21-686c</p>
+              <p>
+                To remove this dependent from your VA benefits, please enter the
+                information below.
+              </p>
+              <ManageDependents
+                relationship={relationship}
+                closeFormHandler={handleClick}
+                stateKey={stateKey}
+              />
             </div>
           )}
         </div>

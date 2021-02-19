@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
@@ -17,7 +17,6 @@ const ManageDependents = props => {
   } = props;
   const [schema, setSchema] = useState(null);
   const [uiSchema, setUiSchema] = useState(null);
-  const [isFirstLoad, setIsFirstLoad] = useState(true);
   const onSubmit = () => {};
 
   const onChange = nextFormData => {
@@ -34,11 +33,9 @@ const ManageDependents = props => {
     closeFormHandler();
   };
 
-  useEffect(
+  const initialize = useCallback(
     () => {
-      // on first load, setup the things.
-      if (relationship && isFirstLoad) {
-        setIsFirstLoad(false);
+      if (relationship) {
         // grab the schemas needed
         const initialSchema = SCHEMAS[relationship].schema;
         const initialUiSchema = SCHEMAS[relationship].uiSchema;
@@ -47,16 +44,23 @@ const ManageDependents = props => {
         // setup local app state
         setSchema(initialSchema);
         setUiSchema(initialUiSchema);
-        return;
       }
+    },
+    [relationship, dependentsState],
+  );
 
-      // if dependentsState does exist, we want to use the most recent schemas and uiSchemas from it
-      if (dependentsState[stateKey]) {
+  useEffect(() => {
+    initialize();
+  }, []);
+
+  useEffect(
+    () => {
+      if (dependentsState?.[stateKey]) {
         setSchema(dependentsState[stateKey].formSchema);
         setUiSchema(dependentsState[stateKey].uiSchema);
       }
     },
-    [relationship, dependentsState],
+    [dependentsState],
   );
 
   return schema ? (
