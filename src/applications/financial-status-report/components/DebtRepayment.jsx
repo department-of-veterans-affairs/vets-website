@@ -6,8 +6,7 @@ import tail from 'lodash/tail';
 import { renderAdditionalInfo } from '../../debt-letters/const/diary-codes';
 import moment from 'moment';
 
-const DebtRepayment = ({ formData }) => {
-  const { fsrDebts } = formData;
+const DebtRepayment = ({ formData: { fsrDebts } }) => {
   let index = Number(window.location.href.slice(-1));
   const debt = fsrDebts[index];
   const mostRecentHistory = head(debt.debtHistory);
