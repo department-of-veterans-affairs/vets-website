@@ -87,6 +87,10 @@
     }
   }
 
+  .far.disabled, .fa.disabled {
+    opacity: 0.5;
+  }
+
   .mobile-only {
     display: none;
   }

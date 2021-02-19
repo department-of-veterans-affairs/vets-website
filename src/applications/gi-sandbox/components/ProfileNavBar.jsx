@@ -37,8 +37,8 @@ export class ProfileNavBar extends React.Component {
   shouldBeStuck = profileNavBar => {
     const placeholder = document.getElementById('profile-nav-placeholder');
 
-    const topOffset = profileNavBar.getBoundingClientRect().top <= 0;
-    const bottomOffset = placeholder.getBoundingClientRect().bottom <= 0;
+    const topOffset = profileNavBar?.getBoundingClientRect().top <= 0;
+    const bottomOffset = placeholder?.getBoundingClientRect().bottom <= 0;
 
     return topOffset && bottomOffset;
   };
