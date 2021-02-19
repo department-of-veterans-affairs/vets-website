@@ -2,23 +2,14 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
-@import "../../../platform/forms/sass/m-schemaform";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
-@import "../../../platform/forms/sass/m-form-confirmation";
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "../../../platform/forms/sass/m-form-confirmation";
+@import "../../../platform/forms/sass/m-schemaform";
 
-.fsr-introduction {
-  .schemaform-title {
-    margin-bottom: 10px;
-  }
-  .subtitle {
-    margin: 0 0 40px;
-    font-size: 20px;
-  }
-  .alert-button {
-    margin: 25px 0 0;
-  }
+.schemaform-title > h1 {
+  max-width: 600px;
 }
 
 .debt-card {
@@ -45,16 +36,20 @@
   .item-loop {
     padding: 5px 15px 20px;
     background-color: $color-gray-lightest;
-    .schemaform-field-container {
+    .horizonal-field-container .schemaform-field-container {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      .schemaform-block-header {
-        width: 100%;
-      }
+      align-items: center;
+      margin: 20px 0;
+    }
+    .schemaform-label {
+      margin-top: 0;
+    }
+    .schemaform-field-template {
+      margin-right: 15px;
     }
     .autosuggest-list {
       max-height: 140px;
+      overflow-x: hidden;
     }
     .usa-button-secondary {
       background: $color-white;
@@ -63,7 +58,6 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: 10px;
     }
   }
   .edit-item-container {
@@ -105,19 +99,11 @@
   }
 }
 
-.schemaform-first-field {
-  margin-top: 30px;
-}
-
-// date-widget
-.usa-date-of-birth {
-  padding: 10px 0;
-}
-
 // form field subtitle
 .formfield-subtitle {
   margin: 4px 0 8px;
   font-size: 15px;
+  max-width: 400px;
   color: $color-gray-medium;
 }
 
@@ -126,33 +112,51 @@
   margin-top: 10px;
 }
 
-// current employment
-.current-employment-container {
-  .schemaform-block-header {
-    margin: 25px 0;
+// monetary assets
+.assets-note {
+  margin: 15px 0 20px;
+}
+
+// resolution options
+.edu-waiver-checkbox {
+  .schemaform-field-template {
+    margin-top: 0;
   }
-  .employment-start {
-    margin-top: 16px;
-  }
-  .employer-name label {
-    margin-top: 16px;
+  legend {
+    display: none;
   }
 }
 
-//previous employment
-.previous-employment-container {
-  .work-type label {
-    margin-top: 0;
+.resolution-inputs label,
+.eduWaiverCheckbox label {
+  margin-top: 0;
+}
+
+.overview-container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 400px;
+}
+
+.usa-input-error {
+  position: relative;
+  right: 0;
+  margin-top: 0;
+  input {
+    width: 100%;
   }
-  .schemaform-field-template {
-    margin-top: 16px;
-  }
-  .employer-name {
-    margin-bottom: 16px;
-    label {
-      margin-top: 16px;
-    }
-  }
+}
+
+.max-width-400 {
+  max-width: 400px;
+}
+
+.no-wrap {
+  white-space: nowrap;
+}
+
+.usa-datefields {
+  padding-top: 16px;
 }
 
 // input fields

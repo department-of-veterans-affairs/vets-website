@@ -42,7 +42,7 @@ import {
 } from '../../services/organization';
 import {
   getLocation,
-  getSiteIdFromFakeFHIRId,
+  getSiteIdFromFacilityId,
   getLocationsByTypeOfCareAndSiteIds,
   getCommunityProvidersByTypeOfCare,
 } from '../../services/location';
@@ -80,12 +80,6 @@ import {
   STARTED_NEW_APPOINTMENT_FLOW,
   FORM_SUBMIT_SUCCEEDED,
 } from '../../redux/sitewide';
-
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id.replace('var', '');
-}
 
 export const GA_FLOWS = {
   DIRECT: 'direct',
@@ -433,7 +427,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
           recordEligibilityFailure(
             'supported-facilities',
             typeOfCare.name,
-            parseFakeFHIRId(parentFacilities[0].id),
+            parentFacilities[0].id,
           );
         }
 
@@ -448,7 +442,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
           const location = supportedFacilities.find(f => f.id === facilityId);
 
           if (!siteId) {
-            siteId = getSiteIdFromFakeFHIRId(location.id);
+            siteId = getSiteIdFromFacilityId(location.id);
           }
 
           dispatch(checkEligibility({ location, siteId }));
@@ -464,14 +458,18 @@ export function openFacilityPageV2(page, uiSchema, schema) {
 }
 
 export function updateCCProviderSortMethod(sortMethod) {
-  return async (dispatch, _getState) => {
+  return async (dispatch, getState) => {
     let location = null;
+    const { currentLocation } = getNewAppointment(getState());
     const action = {
       type: FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED,
       sortMethod,
     };
 
-    if (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation) {
+    if (
+      sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation &&
+      Object.keys(currentLocation).length === 0
+    ) {
       dispatch({
         type: FORM_REQUEST_CURRENT_LOCATION,
       });
@@ -608,9 +606,7 @@ export function openFacilityPage(page, uiSchema, schema) {
       }
 
       if (parentId) {
-        siteId = parseFakeFHIRId(
-          getIdOfRootOrganization(parentFacilities, parentId),
-        );
+        siteId = getIdOfRootOrganization(parentFacilities, parentId);
       }
 
       locations =
@@ -632,11 +628,7 @@ export function openFacilityPage(page, uiSchema, schema) {
       }
 
       if (parentId && !locations?.length) {
-        recordEligibilityFailure(
-          'supported-facilities',
-          typeOfCare,
-          parseFakeFHIRId(parentId),
-        );
+        recordEligibilityFailure('supported-facilities', typeOfCare, parentId);
       }
 
       const eligibilityChecks =
@@ -692,7 +684,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
     const previousNewAppointmentState = state.newAppointment;
     const typeOfCare = getTypeOfCare(data)?.name;
     const typeOfCareId = getTypeOfCare(data)?.id;
-    const siteId = getSiteIdFromFakeFHIRId(data.vaParent);
+    const siteId = getSiteIdFromFacilityId(data.vaParent);
 
     let locations =
       previousNewAppointmentState.facilities[
@@ -719,7 +711,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
           recordEligibilityFailure(
             'supported-facilities',
             typeOfCare,
-            parseFakeFHIRId(data.vaParent),
+            data.vaParent,
           );
         }
 
@@ -837,7 +829,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
   return async (dispatch, getState) => {
     const state = getState();
     const useVSP = selectFeatureVSPAppointmentNew(state);
-    const siteId = getSiteIdFromFakeFHIRId(getFormData(state).vaFacility);
+    const siteId = getSiteIdFromFacilityId(getFormData(state).vaFacility);
     const newAppointment = getNewAppointment(state);
     const { data } = newAppointment;
 

@@ -6,12 +6,6 @@ import { getAvailableSlots } from '../var';
 import { fhirSearch, mapToFHIRErrors } from '../utils';
 import { transformSlots } from './transformers';
 
-/*
- * This is used to parse the fake FHIR ids we create for organizations
- */
-function parseId(id) {
-  return id.replace('var', '');
-}
 /**
  * Fetch appointment slots based on start/end date times based on a VistA sites
  * availability for a particular type of care
@@ -39,7 +33,7 @@ export async function getSlots({
   } else {
     try {
       const data = await getAvailableSlots(
-        parseId(siteId),
+        siteId,
         typeOfCareId,
         clinicId.split('_')[1],
         startDate,

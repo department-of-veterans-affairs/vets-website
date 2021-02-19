@@ -23,6 +23,9 @@ export const uiSchema = {
         itemName: 'income',
       },
       items: {
+        'ui:options': {
+          classNames: 'horizonal-field-container no-wrap',
+        },
         incomeType: {
           'ui:title': 'Type of income',
           'ui:field': Typeahead,

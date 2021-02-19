@@ -3,13 +3,6 @@ import { transformAvailableClinics } from './transformers';
 import { fhirSearch, mapToFHIRErrors } from '../utils';
 import { getSupportedLocationsByTypeOfCare } from '../location';
 
-/*
- * This is used to parse the fake FHIR ids we create for organizations
- */
-function parseId(id) {
-  return id.replace('var', '');
-}
-
 /**
  * Method to get available HealthcareService objects.
  *
@@ -35,16 +28,12 @@ export async function getAvailableHealthcareServices({
   } else {
     try {
       const clinics = await getAvailableClinics(
-        parseId(facilityId),
+        facilityId,
         typeOfCareId,
         systemId,
       );
 
-      return transformAvailableClinics(
-        parseId(facilityId),
-        typeOfCareId,
-        clinics,
-      ).sort(
+      return transformAvailableClinics(facilityId, typeOfCareId, clinics).sort(
         (a, b) =>
           a.serviceName.toUpperCase() < b.serviceName.toUpperCase() ? -1 : 1,
       );

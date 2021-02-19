@@ -56,8 +56,8 @@ describe('VAOS <ReviewPage> VA request', () => {
           email: 'joeblow@gmail.com',
           reasonForAppointment: 'routine-follow-up',
           reasonAdditionalInfo: 'I need an appt',
-          vaParent: 'var983',
-          vaFacility: 'var983',
+          vaParent: '983',
+          vaFacility: '983',
           visitType: 'telehealth',
           bestTimeToCall: {
             morning: true,
@@ -68,7 +68,7 @@ describe('VAOS <ReviewPage> VA request', () => {
         clinics: {},
         parentFacilities: [
           {
-            id: 'var983',
+            id: '983',
             identifier: [
               { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
               {
@@ -81,7 +81,7 @@ describe('VAOS <ReviewPage> VA request', () => {
         facilities: {
           '323': [
             {
-              id: 'var983',
+              id: '983',
               name: 'Cheyenne VA Medical Center',
               identifier: [
                 { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },

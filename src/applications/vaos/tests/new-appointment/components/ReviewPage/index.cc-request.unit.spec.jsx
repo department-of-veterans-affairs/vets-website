@@ -57,7 +57,7 @@ describe('VAOS <ReviewPage> CC request', () => {
           phoneNumber: '1234567890',
           email: 'joeblow@gmail.com',
           reasonAdditionalInfo: 'I need an appt',
-          communityCareSystemId: 'var983',
+          communityCareSystemId: '983',
           preferredLanguage: 'english',
           hasCommunityCareProvider: true,
           communityCareProvider: {
@@ -80,7 +80,7 @@ describe('VAOS <ReviewPage> CC request', () => {
         clinics: {},
         ccEnabledSystems: [
           {
-            id: 'var983',
+            id: '983',
             identifier: [
               { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
               {
@@ -92,7 +92,7 @@ describe('VAOS <ReviewPage> CC request', () => {
         ],
         parentFacilities: [
           {
-            id: 'var983',
+            id: '983',
             identifier: [
               { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
               {
@@ -286,7 +286,7 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
           phoneNumber: '1234567890',
           email: 'joeblow@gmail.com',
           reasonAdditionalInfo: 'I need an appt',
-          communityCareSystemId: 'var983',
+          communityCareSystemId: '983',
           hasCommunityCareProvider: true,
           communityCareProvider: {
             resourceType: 'Location',
@@ -307,7 +307,7 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
         clinics: {},
         ccEnabledSystems: [
           {
-            id: 'var983',
+            id: '983',
             identifier: [
               { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
               {
@@ -319,7 +319,7 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
         ],
         parentFacilities: [
           {
-            id: 'var983',
+            id: '983',
             identifier: [
               { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
               {
@@ -330,8 +330,8 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
           },
         ],
         facilityDetails: {
-          var983: {
-            id: 'var983',
+          '983': {
+            id: '983',
             name: 'Cheyenne VA Medical Center',
             address: {
               postalCode: '82001-5356',
@@ -342,9 +342,9 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
           },
         },
         facilities: {
-          '323_var983': [
+          '323_983': [
             {
-              id: 'var983',
+              id: '983',
               name: 'Cheyenne VA Medical Center',
               identifier: [
                 { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
