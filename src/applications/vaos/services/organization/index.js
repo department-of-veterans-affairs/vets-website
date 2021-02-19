@@ -1,7 +1,7 @@
-/*
- * Functions in here should map a var-resources API request to a similar response from
- * a FHIR resource request
+/**
+ * @module services/Organization
  */
+
 import { getParentFacilities } from '../var';
 import { VHA_FHIR_ID } from '../../utils/constants';
 import { transformParentFacilities } from './transformers';

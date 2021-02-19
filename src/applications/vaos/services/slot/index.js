@@ -1,6 +1,5 @@
-/*
- * Functions in here should map a var-resources API request to a similar response from
- * a FHIR resource request
+/**
+ * @module services/Slot
  */
 import { getAvailableSlots } from '../var';
 import { fhirSearch, mapToFHIRErrors } from '../utils';

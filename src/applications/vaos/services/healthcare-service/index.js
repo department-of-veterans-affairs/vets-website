@@ -1,3 +1,6 @@
+/**
+ * @module services/HealthcareService
+ */
 import { getAvailableClinics } from '../var';
 import { transformAvailableClinics } from './transformers';
 import { fhirSearch, mapToFHIRErrors } from '../utils';

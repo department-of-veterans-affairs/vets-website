@@ -1,3 +1,7 @@
+/**
+ * @module services/utils
+ */
+
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 

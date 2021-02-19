@@ -1,3 +1,6 @@
+/**
+ * @module services/Appointment/transformers
+ */
 import moment from '../../lib/moment-tz';
 
 import {

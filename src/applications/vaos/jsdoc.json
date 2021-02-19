@@ -1,15 +1,10 @@
 {
   "plugins": ["plugins/markdown"],
   "opts": {
-    "template": "node_modules/jsdoc-fresh",
-    "recurdse": true
+    "template": "node_modules/ink-docstrap/template",
+    "recurse": true
   },
   "templates": {
-    "referenceTitle": "VAOS client app documentation",
-    "disableSort": false,
-    "collapse": true,
-    "resources": {
-      "staging": "https://staging.va.gov/health-care/schedule-view-va-appointments/appointments"
-    }
+    "systemName": "VAOS client app documentation"
   }
 }

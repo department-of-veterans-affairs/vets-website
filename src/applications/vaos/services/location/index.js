@@ -1,3 +1,6 @@
+/**
+ * @module services/Location
+ */
 import environment from 'platform/utilities/environment';
 
 /*

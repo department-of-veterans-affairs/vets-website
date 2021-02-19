@@ -69,7 +69,7 @@
  * @typedef {Object} RequestPatientResource
  * @property {'Patient'} resourceType
  * @property {Object} name Name object for patient
- * @property {string} [name.text] Mapped from request.patient.displayName or request.patient.firstName request.patient.lastName
+ * @property {string} ?name.text Mapped from request.patient.displayName or request.patient.firstName request.patient.lastName
  * @property {Array} telecom Patient phone and email, two item array
  * @property {Object} telecom.0 First item in telecom array
  * @property {'phone'} telecom.0.system Phone item in telecom array
@@ -83,7 +83,7 @@
  * @typedef {Object} CommunityCarePractitionerResource
  * @property {'Practitioner'} resourceType
  * @property {string} id Mapped to cc-practitioner-${request.id}-${request.ccAppointmentRequest.preferredProviders.index}
- * @property {Object} [name] Exists if request.ccAppointmentRequest.preferredProviders[].lastName is present
+ * @property {Object} ?name Exists if request.ccAppointmentRequest.preferredProviders[].lastName is present
  * @property {string} name.text Mapped to request.ccAppointmentRequest.preferredProviders[].firstName and request.ccAppointmentRequest.preferredProviders[].lastName
  * @property {string} name.family Mapped to request.ccAppointmentRequest.preferredProviders[].lastName
  * @property {string} name.given Mapped to request.ccAppointmentRequest.preferredProviders[].firstName
@@ -102,6 +102,10 @@
  */
 
 /**
+ * Array of resources for a video appointment. Generally just one item, but will have an AtlasLocation resource
+ * for ATLAS appointments. ATLAS appointments are indicated by a video appointment having an
+ * appointment.vvsAppointments[0].tasInfo object
+ *
  * @typedef {Array<VideoHealthCareService|AtlasLocation>} VideoContainedResources
  */
 
@@ -123,53 +127,42 @@
  * @property {string} telecom.0.period.start Mapped from appointment.vvsAppointments[0].dateTime
  * @property {Array} characteristic Array of characteristics, only one item
  * @property {Object} characteristic.0 First item of array
- * @property {Array} characteristic.0.coding Array of coding data, only one item
+ * @property {Array} characteristic.0.coding Array of coding data
  * @property {Object} characteristic.0.coding.0 First item of array
  * @property {'VVS'} characteristic.0.coding.0.system Set to VVS
  * @property {'ADHOC'|'MOBILE_GFE'|'CLINIC_BASED'|'STORE_FORWARD'|'MOBILE_ANY'} characteristic.0.coding.0.code Mapped from appointment.vvsAppointments[0].appointmentKind
+ * @property {Object} characteristic.1 Second item of array, only exists if it's an ATLAS appointment
+ * @property {Array} characteristic.1.coding Array of coding data, only one item
+ * @property {Object} characteristic.1.coding.0 First item of array
+ * @property {'ATLAS_CC'} characteristic.1.coding.0.system Static system indicator for ATLAS confirmation codes
+ * @property {string} characteristic.1.coding.0.code ATLAS confirmation code
+ * - Mapped from appointment.vvsAppointments[0].tasInfo.confirmationCode
  */
 
-//       // Set if appointment.vvsAppointments[0].tasInfo exists
-
-//         | {
-//             coding: [
-//               {
-//                 system: 'ATLAS_CC';
-//                 // Mapped from appointment.vvsAppointments[0].tasInfo.confirmationCode
-//                 code: string;
-//               }
-//             ];
-//           }
-//         | undefined
-//     ];
-//   },
-
-//   // This exists if the tasInfo object exists for a video appointment, marking
-//   // it as an ATLAS appointment
-
-//     | {
-//         resourceType: 'Location';
-//         // Mapped from appointments.vvsAppointments[0].tasInfo.siteCode
-//         id: string;
-//         address: {
-//           // Mapped from appointments.vvsAppointments[0].tasInfo.address.streetAddress
-//           line: [string];
-//           // Mapped from appointments.vvsAppointments[0].tasInfo.address.city
-//           city: string;
-//           // Mapped from appointments.vvsAppointments[0].tasInfo.address.state
-//           state: string;
-//           // Mapped from appointments.vvsAppointments[0].tasInfo.address.zipCode
-//           postalCode: string;
-//         };
-//         position: {
-//           // Mapped from appointments.vvsAppointments[0].tasInfo.address.longitude
-//           longitude: float;
-//           // Mapped from appointments.vvsAppointments[0].tasInfo.address.latitude
-//           latitude: float;
-//         };
-//       }
-//     | undefined
-// ];
+/**
+ * Location data for ATLAS appointments, mapped from appointment.tasInfo
+ *
+ * @typedef {Object} AtlasLocation
+ *
+ * @property {'Location'} resourceType Static Location resource type
+ * @property {string} id Identifier for the ATLAS site
+ * - Mapped from appointments.vvsAppointments[0].tasInfo.siteCode
+ * @property {Object} address Address of ATLAS site
+ * @property {string[]} address.line Street address lines for ATLAS site
+ * - Mapped from appointments.vvsAppointments[0].tasInfo.siteCode
+ * @property {string} address.city City for ATLAS site
+ * - Mapped from appointments.vvsAppointments[0].tasInfo.address.city
+ * @property {string} address.state State for ATLAS site
+ * - Mapped from appointments.vvsAppointments[0].tasInfo.address.state
+ * @property {string} address.postalCode Zip code for ATLAS site
+ * - Mapped from appointments.vvsAppointments[0].tasInfo.address.zipCode
+ * @property {Object} position Lat/long of ATLAS site
+ * @property {number} longitude Longitude of ATLAS site
+ * - Mapped from appointments.vvsAppointments[0].tasInfo.address.longitude
+ * @property {number} latitude Latitude of ATLAS site
+ * - Mapped from appointments.vvsAppointments[0].tasInfo.address.latitude
+ *
+ */
 
 /**
  * - booked: Used for all community care appointments and any non-cancelled VistA appointments
@@ -204,19 +197,19 @@
  * @typedef {Object} Appointment
  * @property {'Appointment'} resourceType Static resource type string
  * @property {string} id Mapped from appointment.id, request.id, or ccAppointment.id
- * @property {string} [created] Mapped from request.createdDate, timezone is unclear
- * @property {Object} [cancelationReason] Cancellation reason for a requestion, mapped from request.appointmentRequestDetailCode
+ * @property {string} ?created Mapped from request.createdDate, timezone is unclear
+ * @property {Object} ?cancelationReason Cancellation reason for a requestion, mapped from request.appointmentRequestDetailCode
  * @property {string} cancelationReason.text veteranMessage field mapped only for requests, used for Express Care only
  * @property {AppointmentStatus} status Status for an appointment, from first requested to completed
  * - Mapped from appointment.vdsAppointments[0].currentStatus or appointment.vvsAppointments[0].status.code for appointments.
  * - Mapped from request.status for requests
- * @property {string} [description] Description of an appointment, generally the status description from the downstream system
+ * @property {string} ?description Description of an appointment, generally the status description from the downstream system
  * - Mapped from appointment.vdsAppointments[0].currentStatus or appointment.vvsAppointments[0].status.code for appoinments
  * - Mapped from request.status for requests
  * - Mapped from appointment.vdsAppointments[0].currentStatus or appointment.vvsAppointments[0].status.code for appoinments
  * - Null for other types of appointments/requests
- * @property {RequestType} [type] Type of care information for requests, undefined for appointments
- * @property {string} [start] Start time for the appointment
+ * @property {RequestType} ?type Type of care information for requests, undefined for appointments
+ * @property {string} ?start Start time for the appointment
  * - Mapped from ccAppointment.appointmentTime for CC appointments
  * - Mapped from appointment.vvsAppointments[0].dateTime for video appointments
  * - Mapped from appointment.startDate for VistA appointments
@@ -224,12 +217,12 @@
  * @property {number} minutesDuration=60 The duration of the appointment or requested appointment
  * - Mapped from appointment.vdsAppointments[0].appointmentLength for VistA appointments
  * - Mapped from appointment.vvsAppointments[0].duration for video appointments.
- * @property {string} [comment] Veteran or staff comments about appointments
+ * @property {string} ?comment Veteran or staff comments about appointments
  * - Mapped from ccAppointment.instructionsToVeteran for community care appointments
  * - Mapped from appointment.vdsAppointments[0].bookingNotes for VistA appointments
  * - Mapped from appointment.vvsAppointments[0].instructionsTitle for video appointments,
  * - Mapped from request.additionalInformation, but that only has content for Express Care requests
- * @property {string} [reason] The reason given by patient for an appointment
+ * @property {string} ?reason The reason given by patient for an appointment
  * - Mapped from request.reasonForVisit for Express Care requests
  * - Mapped from request.purposeForVisit for regular requests
  * - Empty for other appointment types
@@ -239,8 +232,8 @@
  *   Array of fully defined resources for this appointment
  * @property {Object} legacyVAR Object containing untransformed data that we don't have a place for
  * @property {Object} legacyVAR.apiData This is the full appointment/request object. Generally, we shouldn't be pulling data from here
- * @property {Object} [legacyVAR.bestTimeToCall] Array of best times to call (Morning, Afternoon, Eventing), mapped from request.bestTimetoCall
- * @property {RequestedPeriod[]} [requestedPeriods] Mapped from request.optionDate and request.optionTime fields 1 through 3
+ * @property {Object} ?legacyVAR.bestTimeToCall Array of best times to call (Morning, Afternoon, Eventing), mapped from request.bestTimetoCall
+ * @property {RequestedPeriod[]} ?requestedPeriods Mapped from request.optionDate and request.optionTime fields 1 through 3
  * @property {DerivedAppointmentData} vaos This object contains derived data or information we need that doesn't fit in the FHIR format
  */
 
@@ -261,8 +254,8 @@
  * - **request**: Chosen for any item with a request.typeOfCareId field that doesn't start with CC
  * - **vaAppointment**: Chosen for any item with an appointment.vvsAppointments[0] array or a clinicId and a falsy appointment.communityCare flag
  * @property {boolean} isCommunityCare Set to true if request.appointmentType above is either ccRequest or ccAppointment
- * @property {boolean} [isPastAppointment] Set to true if the appointment is in the past, undefined for requests
- * @property {string} [timeZone] Mapped to request.timeZone for community care requests, null or undefined otherwise
- * @property {boolean} [isPhoneAppointment] Mapped from appointment.phoneOnly field for VistA appointments, undefined otherwise
- * @property {boolean} [isExpressCare] Set to true if request.typeOfCareId is CR1
+ * @property {boolean} ?isPastAppointment Set to true if the appointment is in the past, undefined for requests
+ * @property {string} ?timeZone Mapped to request.timeZone for community care requests, null or undefined otherwise
+ * @property {boolean} ?isPhoneAppointment Mapped from appointment.phoneOnly field for VistA appointments, undefined otherwise
+ * @property {boolean} ?isExpressCare Set to true if request.typeOfCareId is CR1
  */
