@@ -67,4 +67,22 @@ describe('SearchControls', () => {
     );
     wrapper.unmount();
   });
+
+  it('Shows modal error message if geocodeError is truthy', () => {
+    const query = {
+      geocodeError: 1,
+    };
+    const wrapper = shallow(<SearchControls currentQuery={query} />);
+    expect(wrapper.find('Modal').prop('visible')).to.equal(1);
+    wrapper.unmount();
+  });
+
+  it('Does not show modal error message if geocodeError is falsy', () => {
+    const query = {
+      geocodeError: 0,
+    };
+    const wrapper = shallow(<SearchControls currentQuery={query} />);
+    expect(wrapper.find('Modal').prop('visible')).to.equal(0);
+    wrapper.unmount();
+  });
 });
