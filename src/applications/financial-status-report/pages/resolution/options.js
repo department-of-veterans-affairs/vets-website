@@ -1,6 +1,5 @@
 import React from 'react';
 import FinancialOverview from '../../components/FinancialOverview';
-import WaiverConfirmation from '../../components/WaiverConfirmation';
 import ResolutionOptionsTitle from '../../components/ResolutionOptionsTitle';
 import DebtRepayment from '../../components/DebtRepayment';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
@@ -122,16 +121,31 @@ export const uiSchema = {
           },
         },
         eduWaiver: {
-          'ui:field': WaiverConfirmation,
           'ui:options': {
+            classNames: 'edu-waiver-checkbox',
             expandUnder: 'resolutionType',
             expandUnderCondition: (selectedOption, formData) => {
               const index = window.location.href.slice(-1);
               const type = formData.fsrDebts[index]?.benefitType;
-              return (
-                selectedOption === 'Waiver' && !type.includes('Comp & Pen')
-              );
+              return selectedOption === 'Waiver' && type.includes('EDU');
             },
+          },
+          waiver: {
+            'ui:title':
+              'By checking this box, I’m agreeing that I understand how a debt  waiver may affect my VA education benefits. If VA grants me a waiver,  this will reduce any remaining education benefit entitlement I may have.',
+            'ui:required': formData => isRequired(formData, 'Waiver'),
+            'ui:options': {
+              showFieldLabel: true,
+            },
+          },
+          'view:waiverNote': {
+            'ui:description': (
+              <p>
+                Note: If you have questions about this, call us at 800-827-0648
+                (or 1-612-713-6415 from overseas). We’re here Monday through
+                Friday, 7:30 a.m. to 7:00 p.m. ET.
+              </p>
+            ),
           },
         },
         affordToPay: _.merge(
@@ -201,7 +215,15 @@ export const schema = {
               },
               eduWaiver: {
                 type: 'object',
-                properties: {},
+                properties: {
+                  waiver: {
+                    type: 'boolean',
+                  },
+                  'view:waiverNote': {
+                    type: 'object',
+                    properties: {},
+                  },
+                },
               },
               affordToPay: {
                 type: 'number',
