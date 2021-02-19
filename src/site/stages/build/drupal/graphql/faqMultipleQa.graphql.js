@@ -97,7 +97,6 @@ fragment faqMultipleQA on NodeFaqMultipleQA {
 const GetNodeMultipleQaPages = `
   ${fragments.richTextCharLimit1000}
   ${fragments.reactWidget}
-  ${fragments.alertParagraph}
   ${fragments.alertParagraphSingle}
   ${fragments.button}
   ${fragments.contactInformation}

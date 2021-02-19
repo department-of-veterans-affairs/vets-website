@@ -85,7 +85,6 @@ fragment nodeMediaListVideos on NodeMediaListVideos {
 `;
 
 const GetNodeMediaListVideos = `
-  ${fragments.alertParagraph}
   ${fragments.alertParagraphSingle}
   ${fragments.button}
   ${fragments.contactInformation}

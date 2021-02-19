@@ -90,7 +90,6 @@ fragment nodeMediaListImages on NodeMediaListImages {
 `;
 
 const GetNodeMediaListImages = `
-  ${fragments.alertParagraph}
   ${fragments.alertParagraphSingle}
   ${fragments.button}
   ${fragments.contactInformation}
