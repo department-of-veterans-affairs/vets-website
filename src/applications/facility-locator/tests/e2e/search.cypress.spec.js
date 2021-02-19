@@ -30,6 +30,7 @@ Cypress.Commands.add('verifyOptions', () => {
 
 describe('Facility search', () => {
   before(function() {
+    // This test crashes in Jenkins about 5% of the time.
     if (!Cypress.env('CIRCLECI')) this.skip();
     cy.syncFixtures({
       constants: path.join(__dirname, '..', '..', 'constants'),

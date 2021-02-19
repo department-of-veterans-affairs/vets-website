@@ -11,6 +11,7 @@ import {
   GEOCODE_STARTED,
   GEOCODE_FAILED,
   GEOCODE_COMPLETE,
+  GEOCODE_CLEAR_ERROR,
   MAP_MOVED,
 } from '../utils/actionTypes';
 
@@ -124,6 +125,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         error: true,
+        geocodeError: action.code,
         geocodeInProgress: false,
       };
     case GEOCODE_COMPLETE:
@@ -131,6 +133,13 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         ...state,
         geocodeResults: action.payload,
         error: false,
+        geocodeInProgress: false,
+      };
+    case GEOCODE_CLEAR_ERROR:
+      return {
+        ...state,
+        error: false,
+        geocodeError: 0,
         geocodeInProgress: false,
       };
     default:
