@@ -218,6 +218,7 @@
     "jest": "^23.6.0",
     "jest-image-snapshot": "^4.0.2",
     "jsdoc": "^3.6.6",
+    "jsdoc-fresh": "^1.0.5",
     "jsdom": "^15.2.1",
     "json2csv": "^4.2.1",
     "jsonschema": "^1.1.1",

@@ -10698,6 +10698,13 @@ jsbn@~0.1.0:
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
   integrity sha1-peZUwuWi3rXyAdls77yoDA7y9RM=
 
+jsdoc-fresh@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/jsdoc-fresh/-/jsdoc-fresh-1.0.5.tgz#94367b9319636701eb4199684b4cb8d3736154ee"
+  integrity sha512-gikURZcof6vHeWJLDjula45EdulOsWYeysXcNlstxeromE/Qr/3YIErT7sluswNIrNzFQY+/czbBMAwQM9CyWQ==
+  dependencies:
+    taffydb "^2.7.3"
+
 jsdoc@^3.6.6:
   version "3.6.6"
   resolved "https://registry.yarnpkg.com/jsdoc/-/jsdoc-3.6.6.tgz#9fe162bbdb13ee7988bf74352b5147565bcfd8e1"
@@ -17703,6 +17710,11 @@ taffydb@2.6.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/taffydb/-/taffydb-2.6.2.tgz#7cbcb64b5a141b6a2efc2c5d2c67b4e150b2a268"
   integrity sha1-fLy2S1oUG2ou/CxdLGe04VCyomg=
+
+taffydb@^2.7.3:
+  version "2.7.3"
+  resolved "https://registry.yarnpkg.com/taffydb/-/taffydb-2.7.3.tgz#2ad37169629498fca5bc84243096d3cde0ec3a34"
+  integrity sha1-KtNxaWKUmPylvIQkMJbTzeDsOjQ=
 
 taketalk@^1.0.0:
   version "1.0.0"
