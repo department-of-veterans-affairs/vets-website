@@ -263,12 +263,12 @@ describe('Schemaform review <ArrayField>', () => {
           type: 'string',
         },
         'ui:options': {
-          itemKeyForAriaLabel: 'field',
+          itemAriaLabel: data => data.field,
         },
       },
       'ui:options': {
         viewField: f => f,
-        itemKeyForAriaLabel: 'field',
+        itemAriaLabel: data => data.field,
         itemName: 'Itemz',
       },
     };

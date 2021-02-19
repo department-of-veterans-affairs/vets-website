@@ -541,7 +541,7 @@ describe('Schemaform review: ObjectField', () => {
       <ObjectField
         uiSchema={{
           'ui:options': {
-            itemKeyForAriaLabel: 'testKey',
+            itemAriaLabel: data => data.testKey,
             ariaLabelForEditButtonOnReview: 'Custom label',
           },
         }}

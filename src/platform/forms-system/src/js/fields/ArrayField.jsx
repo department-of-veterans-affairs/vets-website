@@ -269,8 +269,9 @@ export default class ArrayField extends React.Component {
             const updateText = showSave && index === 0 ? 'Save' : 'Update';
             const isLast = items.length === index + 1;
             const isEditing = this.state.editing[index];
+            const ariaLabel = uiOptions.itemAriaLabel;
             const itemName =
-              item?.[uiOptions.itemKeyForAriaLabel] ||
+              (typeof ariaLabel === 'function' && ariaLabel(item || {})) ||
               uiOptions.itemName ||
               'Item';
             const notLastOrMultipleRows =

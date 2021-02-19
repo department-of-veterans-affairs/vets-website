@@ -240,8 +240,9 @@ class ArrayField extends React.Component {
               (!schema.minItems || items.length > schema.minItems);
             const itemSchema = this.getItemSchema(index);
             const itemTitle = itemSchema ? itemSchema.title : '';
+            const ariaLabel = uiOptions.itemAriaLabel;
             const itemName =
-              item?.[uiOptions.itemKeyForAriaLabel] ||
+              (typeof ariaLabel === 'function' && ariaLabel(item || {})) ||
               uiOptions.itemName ||
               'Item';
 

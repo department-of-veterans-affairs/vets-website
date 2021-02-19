@@ -231,13 +231,13 @@ describe('Schemaform <ArrayField>', () => {
           type: 'string',
         },
         'ui:options': {
-          itemKeyForAriaLabel: 'field',
+          itemAriaLabel: data => data.field,
         },
       },
       'ui:options': {
         viewField: f => f,
         showSave: true,
-        itemKeyForAriaLabel: 'field',
+        itemAriaLabel: data => data.field,
         itemName: 'Itemz',
       },
     };
