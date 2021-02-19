@@ -99,7 +99,6 @@ fragment nodeStepByStep on NodeStepByStep {
 `;
 
 const GetNodeStepByStep = `
-  ${fragments.alertParagraph}
   ${fragments.alertParagraphSingle}
   ${fragments.button}
   ${fragments.contactInformation}

@@ -1,26 +1,25 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { PrimaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo';
 import { primaryCaregiverFields } from 'applications/caregivers/definitions/constants';
-import definitions from 'applications/caregivers/definitions/caregiverUI';
+import { primaryInputLabel } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
+
+import {
+  dateOfBirthUI,
+  fullNameUI,
+  genderUI,
+  ssnUI,
+} from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 
 const { primaryCaregiver } = fullSchema.properties;
 const primaryCaregiverProps = primaryCaregiver.properties;
-const { dateOfBirthUI, fullNameUI, genderUI, ssnUI } = definitions.sharedItems;
-const { primaryCaregiverUI } = definitions;
 
 const primaryInfoPage = {
   uiSchema: {
     'ui:description': () => PrimaryCaregiverInfo({ headerInfo: true }),
-    [primaryCaregiverFields.fullName]: fullNameUI(
-      primaryCaregiverUI.primaryInputLabel,
-    ),
-    [primaryCaregiverFields.ssn]: ssnUI(primaryCaregiverUI.primaryInputLabel),
-    [primaryCaregiverFields.dateOfBirth]: dateOfBirthUI(
-      primaryCaregiverUI.primaryInputLabel,
-    ),
-    [primaryCaregiverFields.gender]: genderUI(
-      primaryCaregiverUI.primaryInputLabel,
-    ),
+    [primaryCaregiverFields.fullName]: fullNameUI(primaryInputLabel),
+    [primaryCaregiverFields.ssn]: ssnUI(primaryInputLabel),
+    [primaryCaregiverFields.dateOfBirth]: dateOfBirthUI(primaryInputLabel),
+    [primaryCaregiverFields.gender]: genderUI(primaryInputLabel),
   },
   schema: {
     type: 'object',

@@ -6,6 +6,7 @@ import {
   useRouteMatch,
   useHistory,
   useLocation,
+  Redirect,
 } from 'react-router-dom';
 import * as actions from './redux/actions';
 import projectCheetahReducer from './redux/reducer';
@@ -23,6 +24,9 @@ import ReceivedDoseScreenerPage from './components/ReceivedDoseScreenerPage';
 import ContactFacilitiesPage from './components/ContactFacilitiesPage';
 import { FETCH_STATUS } from '../utils/constants';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
+import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
+import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
 
 export function NewBookingSection({
   windowsStatus,
@@ -50,21 +54,22 @@ export function NewBookingSection({
     [featureProjectCheetah, history],
   );
 
-  useEffect(() => {
-    if (window.History) {
-      window.History.scrollRestoration = 'manual';
-    }
+  useManualScrollRestoration();
 
-    // We don't want people to start in the middle of the form, so redirect them when they jump
-    // in the middle. We make an exception for the confirmation page in case someone is going back
-    // after submitting.
-    if (
+  useFormUnsavedDataWarning({
+    // We don't want to warn a user about leaving the flow when they're shown the page
+    // that says they can't make an appointment online
+    disabled: location.pathname.includes('contact-facilities'),
+  });
+
+  const shouldRedirectToStart = useFormRedirectToStart({
+    shouldRedirect: () =>
       !location.pathname.endsWith('new-project-cheetah-booking') &&
-      !location.pathname.endsWith('confirmation')
-    ) {
-      history.replace('/new-project-cheetah-booking');
-    }
-  }, []);
+      !location.pathname.endsWith('confirmation'),
+  });
+  if (shouldRedirectToStart) {
+    return <Redirect to="/new-project-cheetah-booking" />;
+  }
 
   return (
     <FormLayout>

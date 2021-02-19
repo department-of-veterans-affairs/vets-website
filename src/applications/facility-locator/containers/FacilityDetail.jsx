@@ -15,6 +15,7 @@ import ServicesAtFacility from '../components/ServicesAtFacility';
 import AppointmentInfo from '../components/AppointmentInfo';
 import { OperatingStatus, FacilityType } from '../constants';
 import VABenefitsCall from '../components/VABenefitsCall';
+import { facilityLocatorShowOperationalHoursSpecialInstructions } from '../utils/selectors';
 
 class FacilityDetail extends Component {
   // eslint-disable-next-line camelcase
@@ -144,7 +145,7 @@ class FacilityDetail extends Component {
   }
 
   render() {
-    const { facility, currentQuery } = this.props;
+    const { facility, currentQuery, showHoursSpecialInstructions } = this.props;
 
     if (!facility) {
       return null;
@@ -177,7 +178,10 @@ class FacilityDetail extends Component {
           <div>
             <LocationMap info={facility} />
             <div className="vads-u-margin-bottom--4">
-              <LocationHours location={facility} />
+              <LocationHours
+                location={facility}
+                showHoursSpecialInstructions={showHoursSpecialInstructions}
+              />
             </div>
           </div>
         </div>
@@ -194,6 +198,9 @@ function mapStateToProps(state) {
   return {
     facility: state.searchResult.selectedResult,
     currentQuery: state.searchQuery,
+    showHoursSpecialInstructions: facilityLocatorShowOperationalHoursSpecialInstructions(
+      state,
+    ),
   };
 }
 

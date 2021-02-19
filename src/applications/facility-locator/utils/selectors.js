@@ -16,3 +16,8 @@ export const facilityLocatorLighthouseCovidVaccineQuery = state =>
   toggleValues(state)[
     FEATURE_FLAG_NAMES.facilityLocatorLighthouseCovidVaccineQuery
   ];
+
+export const facilityLocatorShowOperationalHoursSpecialInstructions = state =>
+  toggleValues(state)[
+    FEATURE_FLAG_NAMES.facilityLocatorShowOperationalHoursSpecialInstructions
+  ];
