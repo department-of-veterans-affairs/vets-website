@@ -32,6 +32,7 @@ export class ProfileNavBar extends React.Component {
   placeholderElementBottom = () =>
     document.getElementById('profile-nav-placeholder')?.getBoundingClientRect()
       .bottom;
+  shouldBeStuck = () => this.placeholderElementBottom() <= 0;
 
   handleScroll = () => {
     if (this.onDesktop()) {
@@ -64,18 +65,11 @@ export class ProfileNavBar extends React.Component {
     this.setState({ currentSection });
   };
 
-  shouldBeStuck = profileNavBar => {
-    const topOffset = profileNavBar?.getBoundingClientRect().top <= 0;
-    const bottomOffset = this.placeholderElementBottom() <= 0;
-
-    return topOffset && bottomOffset;
-  };
-
   scrollToSection = (section, navBar) => {
     this.setState({ currentSection: section });
 
-    let offset = -navBar.offsetHeight;
-    if (!this.shouldBeStuck(navBar)) {
+    let offset = -navBar.offsetHeight - 2;
+    if (!this.shouldBeStuck()) {
       offset = -(navBar.offsetHeight * 2);
       // it's a magic number but it fixes the weird scrolling issue when navbar is unstuck
     }
@@ -102,7 +96,7 @@ export class ProfileNavBar extends React.Component {
 
   handleDesktopScroll = () => {
     const jumpLinks = document.getElementById('jump-links');
-    const desktopStuck = this.shouldBeStuck(this.profileNavBarDesktop());
+    const desktopStuck = this.shouldBeStuck();
 
     this.profileNavBarDesktop().className = this.navBarDesktopClasses(
       desktopStuck,
@@ -130,7 +124,7 @@ export class ProfileNavBar extends React.Component {
   profileNavBarMobile = () => document.getElementById('profile-nav-bar-mobile');
 
   handleMobileScroll = () => {
-    const mobileStuck = this.shouldBeStuck(this.profileNavBarMobile());
+    const mobileStuck = this.shouldBeStuck();
     this.profileNavBarMobile().className = this.navBarMobileClasses(
       mobileStuck,
     );
@@ -180,17 +174,16 @@ export class ProfileNavBar extends React.Component {
   };
 
   render() {
-    const desktopStuck = this.shouldBeStuck(this.profileNavBarDesktop());
-    const mobileStuck = this.shouldBeStuck(this.profileNavBarMobile());
+    const stuck = this.shouldBeStuck();
 
     return (
       <>
         <span id="profile-nav-placeholder" />
         <div
           id="profile-nav-bar-desktop"
-          className={this.navBarDesktopClasses(desktopStuck)}
+          className={this.navBarDesktopClasses(stuck)}
         >
-          <div id="jump-links" className={this.jumpLinkClasses(desktopStuck)}>
+          <div id="jump-links" className={this.jumpLinkClasses(stuck)}>
             {this.props.profileSections.map(section => (
               <span
                 className="vads-u-margin-right--1p5"
@@ -208,7 +201,7 @@ export class ProfileNavBar extends React.Component {
         </div>
         <div
           id="profile-nav-bar-mobile"
-          className={this.navBarMobileClasses(mobileStuck)}
+          className={this.navBarMobileClasses(stuck)}
         >
           <h2 className="vads-u-font-size--h3 vads-u-margin--0">
             Navigate this page
