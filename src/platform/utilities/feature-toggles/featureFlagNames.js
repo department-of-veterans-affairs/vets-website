@@ -9,6 +9,8 @@ export default Object.freeze({
     'facilityLocatorPredictiveLocationSearch',
   facilityLocatorLighthouseCovidVaccineQuery:
     'facilityLocatorLighthouseCovidVaccineQuery',
+  facilityLocatorShowOperationalHoursSpecialInstructions:
+    'facilityLocatorShowOperationalHoursSpecialInstructions',
   vaOnlineScheduling: 'vaOnlineScheduling',
   vaOnlineSchedulingCancel: 'vaOnlineSchedulingCancel',
   vaOnlineSchedulingRequests: 'vaOnlineSchedulingRequests',

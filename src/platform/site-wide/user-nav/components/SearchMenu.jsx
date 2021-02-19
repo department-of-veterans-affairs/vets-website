@@ -7,7 +7,6 @@ import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import debounce from 'platform/utilities/data/debounce';
 import Downshift from 'downshift';
-import { escape } from 'lodash';
 import * as Sentry from '@sentry/browser';
 
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
@@ -95,8 +94,14 @@ export class SearchMenu extends React.Component {
       );
 
       const suggestions = await response.json();
+      if (suggestions.length !== 0) {
+        const sortedSuggestions = suggestions.sort(function(a, b) {
+          return a.length - b.length;
+        });
+        this.setState({ suggestions: sortedSuggestions });
+        return;
+      }
       this.setState({ suggestions });
-
       // if we fail to fetch suggestions
     } catch (error) {
       Sentry.captureException(error);
@@ -200,10 +205,10 @@ export class SearchMenu extends React.Component {
     } = this;
 
     const highlightedSuggestion =
-      'suggestion-highlighted vads-u-background-color--primary-alt-light vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0  vads-u-padding--1 vads-u-width--full';
+      'suggestion-highlighted vads-u-background-color--primary-alt-light vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0  vads-u-padding--1 vads-u-width--full vads-u-padding-left--2';
 
     const regularSuggestion =
-      'suggestion vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-padding--1 vads-u-width--full';
+      'suggestion vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-padding--1 vads-u-width--full vads-u-padding-left--2';
 
     // default search experience
     if (!searchTypeaheadEnabled) {
@@ -269,7 +274,7 @@ export class SearchMenu extends React.Component {
               </label>
               <input
                 autoComplete="off"
-                className="usagov-search-autocomplete  vads-u-flex--4 vads-u-margin-left--1 vads-u-margin-right--0p5 vads-u-margin-y--1  vads-u-width--full"
+                className="usagov-search-autocomplete  vads-u-flex--4 vads-u-margin-left--1 vads-u-margin-right--0p5 vads-u-margin-y--1 vads-u-padding-left--1 vads-u-width--full"
                 name="query"
                 aria-controls={isOpen ? 'suggestions-list' : undefined}
                 onFocus={getSuggestions}
@@ -301,10 +306,7 @@ export class SearchMenu extends React.Component {
                 aria-label="suggestions-list"
               >
                 {suggestions?.map((suggestion, index) => {
-                  const formattedSuggestion = suggestion.replace(
-                    userInput,
-                    `<strong>${escape(userInput)}</strong>`,
-                  );
+                  const formattedSuggestion = suggestion.replace(userInput, '');
                   return (
                     <li
                       key={suggestion}
@@ -321,12 +323,10 @@ export class SearchMenu extends React.Component {
                       {...getItemProps({
                         item: suggestion,
                       })}
-                      // this line is used to show the suggestion with the user's input in BOLD
-                      // eslint-disable-next-line react/no-danger
-                      dangerouslySetInnerHTML={{
-                        __html: formattedSuggestion,
-                      }}
-                    />
+                    >
+                      {userInput}
+                      <strong>{formattedSuggestion}</strong>
+                    </li>
                   );
                 })}
               </ul>

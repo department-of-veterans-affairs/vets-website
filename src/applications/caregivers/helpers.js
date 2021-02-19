@@ -3,7 +3,7 @@ import caregiverFacilities from 'vets-json-schema/dist/caregiverProgramFacilitie
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import {
   primaryCaregiverFields,
-  secondaryCaregiverFields,
+  secondaryOneFields,
 } from 'applications/caregivers/definitions/constants';
 
 // Merges all the state facilities into one object with values as keys
@@ -128,8 +128,7 @@ export const hasSecondaryCaregiverOne = formData =>
   formData[primaryCaregiverFields.hasSecondaryCaregiverOne] === true;
 
 export const hasSecondaryCaregiverTwo = formData =>
-  formData[secondaryCaregiverFields.secondaryOne.hasSecondaryCaregiverTwo] ===
-  true;
+  formData[secondaryOneFields.hasSecondaryCaregiverTwo] === true;
 
 const isSSNUnique = formData => {
   const {

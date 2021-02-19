@@ -1,7 +1,8 @@
 export const uiSchema = {
   'ui:title': 'Other living expenses',
   hasOtherExpenses: {
-    'ui:title': 'Do you have any additional living expenses to include?',
+    'ui:title':
+      'Do you have any other living expenses (like clothing, transportation, child care, or health care costs)?',
     'ui:widget': 'yesNo',
     'ui:required': () => true,
   },

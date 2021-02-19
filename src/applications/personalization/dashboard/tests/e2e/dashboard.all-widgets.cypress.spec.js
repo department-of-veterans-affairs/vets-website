@@ -1,5 +1,6 @@
+import enrollmentStatusEnrolled from '@@profile/tests/fixtures/enrollment-system/enrolled.json';
+
 import {
-  enrollmentStatusEnrolled,
   makeUserObject,
   mockLocalStorage,
   getUserPreferencesOneSelected,
