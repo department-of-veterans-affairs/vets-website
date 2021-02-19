@@ -20,7 +20,8 @@ describe('Facility geolocation', () => {
     });
   });
 
-  it('geolocates the user(', () => {
+  // TODO - re-enable once we remove the environment check
+  it.skip('geolocates the user(', () => {
     // Mock the call to Mapbox
     cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-la-location').as(
       'caLocation',
