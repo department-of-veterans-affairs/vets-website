@@ -19,12 +19,9 @@ function SecondDosePage({
   routeToPreviousAppointmentPage,
 }) {
   const history = useHistory();
-  const { date1, vaFacility } = data;
+  const { date1 } = data;
 
   useEffect(() => {
-    if (history && !vaFacility) {
-      history.replace('/new-project-cheetah-booking');
-    }
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
   }, []);
