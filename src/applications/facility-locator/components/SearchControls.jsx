@@ -70,6 +70,26 @@ class SearchControls extends Component {
     this.props.onSubmit();
   };
 
+  hideClearInput = () => {
+    this.inputClearRef.current.style.display = 'none';
+    this.inputRef.current.value = '';
+    focusElement('#street-city-state-zip');
+  };
+
+  renderClearInput = () => {
+    if (window.Cypress || !environment.isProduction()) {
+      return (
+        <i
+          aria-hidden="true"
+          className="fas fa-times-circle fa-clear"
+          id="clear-input"
+          ref={this.inputClearRef}
+          onClick={this.hideClearInput}
+        />
+      );
+    }
+    return null;
+  };
   renderLocationInputField = currentQuery => (
     <>
       <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
@@ -77,19 +97,7 @@ class SearchControls extends Component {
         <span className="vads-u-color--secondary-dark">(*Required)</span>
       </label>
       <div className="input-clear">
-        {environment.isProduction() ? null : (
-          <i
-            aria-hidden="true"
-            className="fas fa-times-circle fa-clear"
-            id="clear-input"
-            ref={this.inputClearRef}
-            onClick={() => {
-              this.inputClearRef.current.style.display = 'none';
-              this.inputRef.current.value = '';
-              focusElement('#street-city-state-zip');
-            }}
-          />
-        )}
+        {this.renderClearInput()}
         <input
           id="street-city-state-zip"
           name="street-city-state-zip"
