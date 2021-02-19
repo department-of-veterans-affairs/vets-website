@@ -16,12 +16,14 @@ const HealthCare = ({
 }) => {
   useEffect(
     () => {
-      loadPrescriptions({
-        active: true,
-        sort: '-refill_submit_date',
-      });
+      if (canAccessRx) {
+        loadPrescriptions({
+          active: true,
+          sort: '-refill_submit_date',
+        });
+      }
     },
-    [loadPrescriptions],
+    [canAccessRx, loadPrescriptions],
   );
 
   return (
