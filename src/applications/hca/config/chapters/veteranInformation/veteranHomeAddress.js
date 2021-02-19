@@ -27,8 +27,8 @@ export default {
         },
       },
       'ui:options': {
+        // TODO: is this being used?
         'ui:title': 'Street',
-        hideIf: formData => !formData['view:hasMultipleAddress'],
       },
     }),
   },

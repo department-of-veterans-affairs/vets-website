@@ -112,14 +112,30 @@
   margin-top: 10px;
 }
 
-//monetary assets
+// monetary assets
 .assets-note {
   margin: 15px 0 20px;
 }
 
-//resolution options
-.eduWaiverNote {
-  margin-left: -25px;
+// resolution options
+.edu-waiver-checkbox {
+  .schemaform-field-template {
+    margin-top: 0;
+  }
+  legend {
+    display: none;
+  }
+}
+
+.resolution-inputs label,
+.eduWaiverCheckbox label {
+  margin-top: 0;
+}
+
+.overview-container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 400px;
 }
 
 .usa-input-error {
