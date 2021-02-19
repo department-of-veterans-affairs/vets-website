@@ -159,7 +159,7 @@ const mapStateToProps = state => {
   // available. And we will need to show the health care section if they are a
   // patient and/or have rx or msg services available
   const showClaimsAndAppeals = isLOA3;
-  const showHealthCare = true;
+  const showHealthCare = isLOA3 && isVAPatient;
 
   return {
     isLOA3,
