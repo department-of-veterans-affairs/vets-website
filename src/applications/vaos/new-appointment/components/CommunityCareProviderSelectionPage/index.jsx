@@ -58,16 +58,12 @@ function CommunityCareProviderSelectionPage({
 }) {
   const history = useHistory();
   useEffect(() => {
-    if (history && !data?.typeOfCareId) {
-      history.replace('/new-appointment');
-    } else {
-      document.title = `${pageTitle} | Veterans Affairs`;
-      scrollAndFocus();
-      openCommunityCareProviderSelectionPage(pageKey, uiSchema, initialSchema);
-      recordEvent({
-        event: `${GA_PREFIX}-community-care-provider-selection-page`,
-      });
-    }
+    document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
+    openCommunityCareProviderSelectionPage(pageKey, uiSchema, initialSchema);
+    recordEvent({
+      event: `${GA_PREFIX}-community-care-provider-selection-page`,
+    });
   }, []);
 
   return (

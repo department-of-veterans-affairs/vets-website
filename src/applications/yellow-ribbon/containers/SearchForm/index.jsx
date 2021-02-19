@@ -12,17 +12,13 @@ import { states as STATES } from 'vets-json-schema/dist/constants.json';
 import { TOOL_TIP_CONTENT, TOOL_TIP_LABEL } from '../../constants';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { fetchResultsThunk } from '../../actions';
-import {
-  getYellowRibbonAppState,
-  selectShowYellowRibbonEnhancements,
-} from '../../helpers/selectors';
+import { getYellowRibbonAppState } from '../../helpers/selectors';
 
 export class SearchForm extends Component {
   static propTypes = {
     // From mapStateToProps.
     fetching: PropTypes.bool.isRequired,
     showMobileForm: PropTypes.bool.isRequired,
-    showYellowRibbonEnhancements: PropTypes.bool,
     // From mapDispatchToProps.
     fetchResultsThunk: PropTypes.func.isRequired,
   };
@@ -132,11 +128,7 @@ export class SearchForm extends Component {
       onSubmitHandler,
       onClickToolTipHandler,
     } = this;
-    const {
-      fetching,
-      showMobileForm,
-      showYellowRibbonEnhancements,
-    } = this.props;
+    const { fetching, showMobileForm } = this.props;
     const {
       city,
       contributionAmount,
@@ -178,14 +170,12 @@ export class SearchForm extends Component {
             value={name}
           />
         </div>
-        {showYellowRibbonEnhancements && (
-          <AdditionalInfo
-            triggerText={TOOL_TIP_LABEL}
-            onClick={onClickToolTipHandler}
-          >
-            <p>{TOOL_TIP_CONTENT}</p>
-          </AdditionalInfo>
-        )}
+        <AdditionalInfo
+          triggerText={TOOL_TIP_LABEL}
+          onClick={onClickToolTipHandler}
+        >
+          <p>{TOOL_TIP_CONTENT}</p>
+        </AdditionalInfo>
         {/* State Field */}
         <label htmlFor="yr-search-state" className="vads-u-margin-top--3">
           State or territory
@@ -263,7 +253,6 @@ export class SearchForm extends Component {
 const mapStateToProps = state => ({
   fetching: getYellowRibbonAppState(state).fetching,
   showMobileForm: getYellowRibbonAppState(state).showMobileForm,
-  showYellowRibbonEnhancements: selectShowYellowRibbonEnhancements(state),
 });
 
 const mapDispatchToProps = {

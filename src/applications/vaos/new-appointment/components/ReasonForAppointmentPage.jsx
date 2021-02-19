@@ -50,8 +50,6 @@ const uiSchema = {
       'ui:widget': TextareaWidget,
       'ui:options': {
         rows: 5,
-        expandUnder: 'reasonForAppointment',
-        expandUnderCondition: reasonForAppointment => !!reasonForAppointment,
       },
       'ui:validations': [validateWhiteSpace],
     },

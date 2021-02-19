@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Redirect, useHistory } from 'react-router-dom';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { selectUseProviderSelection } from '../../../redux/selectors';
 import {
@@ -30,20 +31,21 @@ export function ReviewPage({
   clinic,
   vaCityState,
   flowType,
-  history,
   submitStatus,
   submitStatusVaos400,
   systemId,
   submitAppointmentOrRequest,
   useProviderSelection,
 }) {
+  const history = useHistory();
   useEffect(() => {
-    if (history && !data?.typeOfCareId) {
-      history.replace('/new-appointment');
-    }
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
   }, []);
+
+  if (!data?.typeOfCareId) {
+    return <Redirect to="/new-appointment" />;
+  }
 
   const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
 
