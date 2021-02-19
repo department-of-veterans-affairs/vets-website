@@ -3,10 +3,7 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 
-import BankInfoForm, {
-  schema,
-  uiSchema,
-} from '@@profile/components/direct-deposit/BankInfoForm';
+import BankInfoForm from '@@profile/components/direct-deposit/BankInfoForm';
 
 describe('<BankInfoForm/>', () => {
   let wrapper;
@@ -35,10 +32,6 @@ describe('<BankInfoForm/>', () => {
 
   it('should render a SchemaForm', () => {
     expect(schemaForm.exists()).to.be.true;
-  });
-  it("should set the SchemaForm's schema  and uiSchema correctly", () => {
-    expect(schemaForm.props().schema).to.deep.equal(schema);
-    expect(schemaForm.props().uiSchema).to.deep.equal(uiSchema);
   });
   it('should pass the formData prop to the SchemaForm', () => {
     expect(schemaForm.props().data).to.equal(defaultProps.formData);
