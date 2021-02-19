@@ -72,7 +72,7 @@ class SearchControls extends Component {
           City, state or postal code{' '}
           <span className="vads-u-color--secondary-dark">(*Required)</span>
         </label>
-        {!environment.isProduction() &&
+        {(window.Cypress || !environment.isProduction()) &&
           (currentQuery.geocodeInProgress ? (
             <div className="use-my-location-link">
               <i
