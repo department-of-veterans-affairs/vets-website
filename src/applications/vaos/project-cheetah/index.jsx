@@ -1,6 +1,13 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Switch, Route, useRouteMatch, useHistory } from 'react-router-dom';
+import {
+  Switch,
+  Route,
+  useRouteMatch,
+  useHistory,
+  useLocation,
+} from 'react-router-dom';
+import * as actions from './redux/actions';
 import projectCheetahReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
 import PlanAheadPage from './components/PlanAheadPage';
@@ -14,10 +21,25 @@ import ConfirmationPage from './components/ConfirmationPage';
 import { selectFeatureProjectCheetah } from '../redux/selectors';
 import ReceivedDoseScreenerPage from './components/ReceivedDoseScreenerPage';
 import ContactFacilitiesPage from './components/ContactFacilitiesPage';
+import { FETCH_STATUS } from '../utils/constants';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-export function NewBookingSection({ featureProjectCheetah }) {
+export function NewBookingSection({
+  windowsStatus,
+  featureProjectCheetah,
+  openNewBookingPage,
+  pageChangeInProgress,
+}) {
   const match = useRouteMatch();
   const history = useHistory();
+  const location = useLocation();
+
+  useEffect(
+    () => {
+      openNewBookingPage(history);
+    },
+    [pageChangeInProgress],
+  );
 
   useEffect(
     () => {
@@ -46,6 +68,10 @@ export function NewBookingSection({ featureProjectCheetah }) {
 
   return (
     <FormLayout>
+      {(windowsStatus === FETCH_STATUS.loading ||
+        windowsStatus === FETCH_STATUS.notStarted) && (
+        <LoadingIndicator message="Checking COVID-19 vaccine availability" />
+      )}
       <Switch>
         <Route
           path={`${match.url}/received-dose`}
@@ -78,11 +104,20 @@ export function NewBookingSection({ featureProjectCheetah }) {
 }
 
 function mapStateToProps(state) {
+  // console.log(state);
   return {
     featureProjectCheetah: selectFeatureProjectCheetah(state),
+    windowsStatus: state.projectCheetah.newBookingStatus,
+    pageChangeInProgress: state.projectCheetah.newBooking.pageChangeInProgress,
   };
 }
+const mapDispatchToProps = {
+  openNewBookingPage: actions.openNewBookingPage,
+};
 
-export const NewBooking = connect(mapStateToProps)(NewBookingSection);
+export const NewBooking = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(NewBookingSection);
 
 export const reducer = projectCheetahReducer;
