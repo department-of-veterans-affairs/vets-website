@@ -54,6 +54,22 @@ export class ProfileNavBar extends React.Component {
 
     scroller.scrollTo(createId(section), getScrollOptions({ offset }));
   };
+
+  currentSectionIndex = () => {
+    const { currentSection } = this.state;
+    if (currentSection === null) {
+      return 0;
+    } else {
+      return this.props.profileSections.findIndex(
+        section => section === currentSection,
+      );
+    }
+  };
+
+  atTop = () => this.currentSectionIndex() === 0;
+  atBottom = () =>
+    this.currentSectionIndex() === this.props.profileSections.length - 1;
+
   // Desktop functions
 
   profileNavBarDesktop = () =>
@@ -61,22 +77,22 @@ export class ProfileNavBar extends React.Component {
 
   handleDesktopScroll = () => {
     const jumpLinks = document.getElementById('jump-links');
+    const desktopStuck = this.shouldBeStuck(this.profileNavBarDesktop());
 
-    if (this.shouldBeStuck(this.profileNavBarDesktop())) {
-      this.profileNavBarDesktop().className = this.navBarDesktopClasses(true);
-      jumpLinks.className = 'row';
-    } else {
-      this.profileNavBarDesktop().className = this.navBarDesktopClasses();
-      jumpLinks.className = 'row vads-u-margin--0';
-    }
+    this.profileNavBarDesktop().className = this.navBarDesktopClasses(
+      desktopStuck,
+    );
+    jumpLinks.className = this.jumpLinkClasses(desktopStuck);
   };
 
-  navBarDesktopClasses = (stuck = false) => {
-    return classNames('profile-nav-bar', 'nav-bar-desktop-only', {
+  navBarDesktopClasses = (stuck = false) =>
+    classNames('profile-nav-bar', 'nav-bar-desktop-only', {
       'profile-nav-bar-stuck': stuck,
       row: !stuck,
     });
-  };
+
+  jumpLinkClasses = (stuck = false) =>
+    classNames('row', { 'vads-u-margin--0': !stuck });
 
   jumpLinkClickedDesktop = e => {
     e.preventDefault();
@@ -89,18 +105,25 @@ export class ProfileNavBar extends React.Component {
   profileNavBarMobile = () => document.getElementById('profile-nav-bar-mobile');
 
   handleMobileScroll = () => {
-    if (this.shouldBeStuck(this.profileNavBarMobile())) {
-      this.profileNavBarMobile().className = this.navBarMobileClasses(true);
-    } else {
-      this.profileNavBarMobile().className = this.navBarMobileClasses();
-    }
+    const mobileStuck = this.shouldBeStuck(this.profileNavBarMobile());
+    this.profileNavBarMobile().className = this.navBarMobileClasses(
+      mobileStuck,
+    );
   };
 
-  navBarMobileClasses = (stuck = false) => {
-    return classNames('profile-nav-bar', 'nav-bar-mobile-only', {
+  navBarMobileClasses = (stuck = false) =>
+    classNames('profile-nav-bar', 'nav-bar-mobile-only', {
       'profile-nav-bar-stuck': stuck,
     });
-  };
+
+  navBarMobileArrowClasses = (direction, disabled = false) =>
+    classNames(
+      'far',
+      `fa-arrow-alt-circle-${direction}`,
+      'vads-u-margin-right--1p5',
+      'vads-u-margin-top--0p5',
+      { disabled },
+    );
 
   navigateMobile = e => {
     const arrow = e.target.id;
@@ -110,17 +133,11 @@ export class ProfileNavBar extends React.Component {
     if (currentSection === null && arrow === 'mobile-down-arrow') {
       this.scrollToSection(profileSections[0], this.profileNavBarMobile());
     } else if (currentSection !== null) {
-      const currentSectionIndex = profileSections.findIndex(
-        section => section === this.state.currentSection,
-      );
+      let scrollIndex = this.currentSectionIndex();
 
-      const atTop = currentSectionIndex === 0;
-      const atBottom = currentSectionIndex === profileSections.length - 1;
-
-      let scrollIndex = currentSectionIndex;
-      if (arrow === 'mobile-down-arrow' && !atBottom) {
+      if (arrow === 'mobile-down-arrow' && !this.atBottom()) {
         scrollIndex += 1;
-      } else if (arrow === 'mobile-up-arrow' && !atTop) {
+      } else if (arrow === 'mobile-up-arrow' && !this.atTop()) {
         scrollIndex -= 1;
       }
       this.scrollToSection(
@@ -131,14 +148,17 @@ export class ProfileNavBar extends React.Component {
   };
 
   render() {
+    const desktopStuck = this.shouldBeStuck(this.profileNavBarDesktop());
+    const mobileStuck = this.shouldBeStuck(this.profileNavBarMobile());
+
     return (
       <>
         <span id="profile-nav-placeholder" />
         <div
           id="profile-nav-bar-desktop"
-          className={this.navBarDesktopClasses()}
+          className={this.navBarDesktopClasses(desktopStuck)}
         >
-          <div id="jump-links" className="row vads-u-margin--0">
+          <div id="jump-links" className={this.jumpLinkClasses(desktopStuck)}>
             {this.props.profileSections.map(section => (
               <span
                 className="vads-u-margin-right--1p5"
@@ -154,7 +174,10 @@ export class ProfileNavBar extends React.Component {
             ))}
           </div>
         </div>
-        <div id="profile-nav-bar-mobile" className={this.navBarMobileClasses()}>
+        <div
+          id="profile-nav-bar-mobile"
+          className={this.navBarMobileClasses(mobileStuck)}
+        >
           <h2 className="vads-u-font-size--h3 vads-u-margin--0">
             Navigate this page
             <span
@@ -163,16 +186,15 @@ export class ProfileNavBar extends React.Component {
             >
               <i
                 id="mobile-up-arrow"
-                className={
-                  'far fa-arrow-alt-circle-up vads-u-margin-right--1p5 vads-u-margin-top--0p5'
-                }
+                className={this.navBarMobileArrowClasses('up', this.atTop())}
                 onClick={this.navigateMobile}
               />
               <i
                 id="mobile-down-arrow"
-                className={
-                  'far fa-arrow-alt-circle-down vads-u-margin-right--1p5 vads-u-margin-top--0p5'
-                }
+                className={this.navBarMobileArrowClasses(
+                  'down',
+                  this.atBottom(),
+                )}
                 onClick={this.navigateMobile}
               />
             </span>

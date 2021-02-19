@@ -79,6 +79,14 @@
     }
   }
 
+  .disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    select:disabled {
+      background-color: $color-gray-lightest;
+    }
+  }
+
   .mobile-only {
     display: none;
   }
