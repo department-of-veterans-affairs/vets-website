@@ -71,6 +71,7 @@ export const uiSchema = {
         },
         dateRange: dateRangeUISchema,
         'ui:options': {
+          itemKeyForAriaLabel: 'serviceBranch',
           ariaLabelForEditButtonOnReview: 'Edit Military service history',
         },
       },
