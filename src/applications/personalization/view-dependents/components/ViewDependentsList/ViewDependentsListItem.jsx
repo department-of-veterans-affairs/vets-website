@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import classNames from 'classnames';
-import buildFormlett from '../ViewDependentsFormStates/BuildFormlett';
+import ManageDependents from '../../manage-dependents/containers/ManageDependentsApp';
 
 function ViewDependentsListItem(props) {
   const [open, setOpen] = useState(false);
@@ -17,13 +17,14 @@ function ViewDependentsListItem(props) {
     relationship,
     ssn,
     dateOfBirth,
+    stateKey,
   } = props;
 
   return (
-    <div className="vads-l-row vads-u-background-color--gray-lightest vads-u-margin-top--0 vads-u-margin-bottom--2">
+    <div className="vads-l-row vads-u-background-color--gray-lightest vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-padding-x--2">
       <dl
         className={classNames({
-          'vads-l-row vads-u-padding-x--2': true,
+          'vads-l-row': true,
           'vads-u-margin-bottom--0': manageDependentsToggle === true,
           'vads-u-margin-bottom--2': manageDependentsToggle === false,
         })}
@@ -51,26 +52,29 @@ function ViewDependentsListItem(props) {
         ) : null}
       </dl>
       {manageDependentsToggle && (
-        <div>
-          <button
-            onClick={handleClick}
-            className="usa-button-secondary vads-u-margin-x--2 vads-u-background-color--white"
-          >
-            Remove this dependent
-          </button>
-          <div
-            className={`vads-l-row vads-l-row vads-u-padding-x--2 vads-u-display--${
-              open ? 'flex' : 'none'
-            }`}
-          >
-            <div className="vads-l-col--8">
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+          {!open && (
+            <button
+              onClick={handleClick}
+              className="usa-button-secondary vads-u-background-color--white"
+            >
+              Remove this dependent
+            </button>
+          )}
+          {open && (
+            <div className="vads-l-col--12">
+              <p className="vads-u-font-size--h3">Equal to VA Form 21-686c</p>
               <p>
                 To remove this dependent from your VA benefits, please enter the
                 information below.
               </p>
-              {buildFormlett(relationship)}
+              <ManageDependents
+                relationship={relationship}
+                closeFormHandler={handleClick}
+                stateKey={stateKey}
+              />
             </div>
-          </div>
+          )}
         </div>
       )}
     </div>
@@ -83,6 +87,7 @@ ViewDependentsListItem.propTypes = {
   relationship: PropTypes.string,
   ssn: PropTypes.string,
   dateOfBirth: PropTypes.string,
+  stateKey: PropTypes.number,
 };
 
 export default ViewDependentsListItem;

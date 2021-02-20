@@ -14,6 +14,7 @@ function ViewDependentsList(props) {
     mainContent = props.dependents.map((dependent, index) => (
       <ViewDependentsListItem
         key={index}
+        stateKey={index}
         manageDependentsToggle={manageDependentsToggle}
         {...dependent}
       />

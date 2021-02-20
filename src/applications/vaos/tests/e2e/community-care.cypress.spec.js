@@ -31,7 +31,7 @@ describe('VAOS community care flow', () => {
     // Click continue button
     cy.get('.usa-button').click();
 
-    // Choose a day and time for your appointment step
+    // Choose an appointment day and time step
     cy.url().should(
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/request-date',
@@ -269,7 +269,7 @@ describe('VAOS community care flow', () => {
     // Click continue button
     cy.get('.usa-button').click();
 
-    // Choose a day and time for your appointment step
+    // Choose an appointment day and time step
     cy.url().should(
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/request-date',

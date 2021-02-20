@@ -108,6 +108,10 @@ export class SearchResults extends Component {
 
     // Derive the state values from our query params.
     const searchQuery = queryParams.get('name') || '';
+    const city = queryParams.get('city') || '';
+    const contributionAmount = queryParams.get('contributionAmount') || '';
+    const numberOfStudents = queryParams.get('numberOfStudents') || '';
+    const stateOrTerritory = queryParams.get('state') || '';
 
     const { page, perPage, totalResults } = this.props;
 
@@ -115,10 +119,10 @@ export class SearchResults extends Component {
       event: 'onsite-search-results-click',
       'search-result-type': 'cta',
       'search-filters-list': {
-        stateOrTerritory: school?.state || undefined,
-        city: school?.city || undefined,
-        contributionAmount: school?.contributionAmount || undefined,
-        numberOfStudents: school?.numberOfStudents || undefined,
+        stateOrTerritory: stateOrTerritory || undefined,
+        city: city || undefined,
+        contributionAmount: contributionAmount || undefined,
+        numberOfStudents: numberOfStudents || undefined,
       },
       'search-results-top-recommendation': undefined,
       'search-selection': 'Yellow Ribbon',
@@ -129,6 +133,7 @@ export class SearchResults extends Component {
       'search-total-result-pages': Math.ceil(totalResults / perPage),
       'search-result-position': school?.positionInResults,
       'search-result-page': page,
+      'search-result-chosen-yellow-ribbon-school-attributes': school,
     });
   };
 
