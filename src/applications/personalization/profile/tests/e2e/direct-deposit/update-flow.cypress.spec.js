@@ -6,6 +6,12 @@ import mockDD4CNPNotEnrolled from '@@profile/tests/fixtures/dd4cnp/dd4cnp-is-not
 import mockDD4CNPEnrolled from '@@profile/tests/fixtures/dd4cnp/dd4cnp-is-set-up.json';
 import mockDD4EDUEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-enrolled.json';
 
+const TEST_ACCOUNT = {
+  NUMBER: '123123123',
+  ROUTING: '321321321',
+  TYPE: 'Checking',
+};
+
 // TODO: remove this when we are no longer gating DD4EDU with a feature flag
 const dd4eduEnabled = {
   data: {
@@ -23,13 +29,13 @@ function fillInBankInfoForm(id) {
   cy.axeCheck();
   cy.findByTestId(`${id}-bank-info-form`)
     .findByLabelText(/routing number/i)
-    .type('123123123');
+    .type(TEST_ACCOUNT.ROUTING);
   cy.findByTestId(`${id}-bank-info-form`)
     .findByLabelText(/account number/i)
-    .type('123123123');
+    .type(TEST_ACCOUNT.NUMBER);
   cy.findByTestId(`${id}-bank-info-form`)
     .findByLabelText(/type/i)
-    .select('Checking');
+    .select(TEST_ACCOUNT.TYPE);
 }
 
 function dismissUnsavedChangesModal() {
@@ -96,7 +102,23 @@ describe('Direct Deposit', () => {
       // and I can confirm that the correct data is sent to it? We really just
       // need to make sure that the routingNumber, accountNumber, and
       // accountType are not null
-      cy.intercept('PUT', 'v0/ppiu/payment_information', mockDD4CNPEnrolled);
+      cy.intercept('PUT', 'v0/ppiu/payment_information', req => {
+        // only return a successful response if the API payload includes data
+        // that was entered into the edit form
+        const {
+          accountNumber,
+          financialInstitutionRoutingNumber,
+          accountType,
+        } = req.body;
+        const { NUMBER, ROUTING, TYPE } = TEST_ACCOUNT;
+        if (
+          accountNumber === NUMBER &&
+          financialInstitutionRoutingNumber === ROUTING &&
+          accountType === TYPE
+        ) {
+          req.reply(mockDD4CNPEnrolled);
+        }
+      });
       saveNewBankInfo();
       cy.findByRole('button', {
         name: /edit.*disability.*pension.*bank info/i,
@@ -123,7 +145,23 @@ describe('Direct Deposit', () => {
       saveNewBankInfo();
       // the save will fail since we didn't mock the update endpoint yet
       saveErrorExists();
-      cy.intercept('PUT', 'v0/profile/ch33_bank_accounts', mockDD4EDUEnrolled);
+      cy.intercept('PUT', 'v0/profile/ch33_bank_accounts', req => {
+        // only return a successful response if the API payload includes data
+        // that was entered into the edit form
+        const {
+          accountNumber,
+          financialInstitutionRoutingNumber,
+          accountType,
+        } = req.body;
+        const { NUMBER, ROUTING, TYPE } = TEST_ACCOUNT;
+        if (
+          accountNumber === NUMBER &&
+          financialInstitutionRoutingNumber === ROUTING &&
+          accountType === TYPE
+        ) {
+          req.reply(mockDD4EDUEnrolled);
+        }
+      });
       saveNewBankInfo();
       cy.findByRole('button', {
         name: /edit.*education.*bank info/i,
