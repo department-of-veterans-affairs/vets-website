@@ -1,29 +1,54 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
+import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 
 const PreSubmitSignature = ({ formData, showError }) => {
   const [checked, setChecked] = useState(false);
-  const [error, setError] = useState(false);
-  const [veteranName, setVeteranName] = useState('');
+  const [signatureError, setSignatureError] = useState(false);
+  const [checkboxError, setCheckboxError] = useState(false);
+  const [veteranName, setVeteranName] = useState({
+    value: '',
+  });
 
-  useEffect(
+  const getName = useCallback(
     () => {
-      if (!formData.personalData) return;
       const { fullName } = formData.personalData;
-      const name = Object.values(fullName)
+      return Object.values(fullName)
         .filter(value => Boolean(value))
         .join(' ');
-      setVeteranName(name);
     },
     [formData.personalData],
   );
 
   useEffect(
     () => {
-      if (showError && !checked) {
-        setError(true);
+      if (!formData.personalData) return;
+      const nameOnFile = getName();
+      setVeteranName({
+        value: nameOnFile,
+      });
+    },
+    [getName, formData.personalData],
+  );
+
+  useEffect(
+    () => {
+      const nameOnFile = getName();
+      if (veteranName.value !== nameOnFile) {
+        setSignatureError(true);
       } else {
-        setError(false);
+        setSignatureError(false);
+      }
+    },
+    [getName, veteranName],
+  );
+
+  useEffect(
+    () => {
+      if (showError && !checked) {
+        setCheckboxError(true);
+      } else {
+        setCheckboxError(false);
       }
     },
     [checked, showError],
@@ -48,18 +73,21 @@ const PreSubmitSignature = ({ formData, showError }) => {
           <li>My household assets and expenses</li>
           <li>My bankruptcy history</li>
         </ul>
-        <label htmlFor="signatureInput">Veteran's full name</label>
-        <input
-          name="signatureInput"
-          type="text"
-          value={veteranName}
-          onChange={e => setVeteranName(e.target.value)}
+
+        <TextInput
+          additionalClass="signature-input"
+          label={"Veteran's full name"}
+          required
+          onValueChange={value => setVeteranName(value)}
+          field={{ value: veteranName.value }}
+          errorMessage={signatureError && 'Your signature must match.'}
         />
+
         <Checkbox
           checked={checked}
           onValueChange={value => setChecked(value)}
           label="By checking this box, I certify that the information in this request is true and correct to the best of my knowledge and belief."
-          errorMessage={error && 'Must certify by checking box'}
+          errorMessage={checkboxError && 'Must certify by checking box'}
           required
         />
       </article>
