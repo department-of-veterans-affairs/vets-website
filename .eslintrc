@@ -48,6 +48,8 @@
       { "args": "after-used", "argsIgnorePattern": "^_", "vars": "local" }
     ],
     "no-restricted-imports": ["error", "raven"],
+    // Override airbnb rule to prevent fix-on-save from deleting unreachable code
+    "no-unreachable": 1,
     "prefer-rest-params": 2,
 
     /* || va custom plugin || */
