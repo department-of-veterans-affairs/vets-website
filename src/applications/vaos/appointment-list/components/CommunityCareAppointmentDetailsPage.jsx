@@ -69,7 +69,7 @@ function CommunityCareAppointmentDetailsPage({
 
   return (
     <div>
-      <div className="vads-u-display--block vads-u-padding-y--2p5">
+      <div className="vads-u-display--block vads-u-padding-y--2p5 vaos-hide-for-print">
         ‹ <Link to="/">Manage appointments</Link>
       </div>
 
@@ -122,7 +122,7 @@ function CommunityCareAppointmentDetailsPage({
 
       <div className="vads-u-margin-top--2 vaos-appts__block-label">
         <i aria-hidden="true" className="fas fa-print vads-u-margin-right--1" />
-        <a href="#">Print</a>
+        <span onClick={() => window.print()}>Print</span>
       </div>
 
       <div className="vads-u-margin-top--2 vaos-appts__block-label vads-u-background-color--primary-alt-lightest vads-u-padding--2p5">
@@ -130,7 +130,7 @@ function CommunityCareAppointmentDetailsPage({
         appointment.
       </div>
 
-      <div className="vads-u-margin-top--3 vaos-appts__block-label">
+      <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
         <Link to="/" className="usa-button vads-u-margin-top--2" role="button">
           « Go back to appointments
         </Link>
