@@ -178,11 +178,11 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
       //   color: 'danger',
       //   failOnError: true,
       //   channel: 'cms-team',
-      //   attachments: brokenLinks
+      //   attachments: """ [ { \"text\": \"${brokenLinks}\" } ] """
       // )
 
       slackUploadFile(
-        filePath: csvFileName,
+        filePath: "application/${csvFileName}",
         channel: 'cms-team',
         initialComment: "${brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}".stripMargin()
       )
