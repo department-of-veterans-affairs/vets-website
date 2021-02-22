@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import VeteranInformationDisplay from '../../../components/veteran-info/VeteranInformationDisplay';
 
 describe('health care questionnaire - VeteranInformationDisplay', () => {
-  it('Appointment Info Box -- saving stuff', () => {
+  it.skip('Appointment Info Box -- saving stuff', () => {
     const onChange = sinon.spy();
     const veteranInfo = {
       gender: 'M',
@@ -27,7 +27,6 @@ describe('health care questionnaire - VeteranInformationDisplay', () => {
     setTimeout(() => {
       expect(onChange.called).to.be.true;
     }, 0);
-
     appointmentDetails.unmount();
   });
 });
