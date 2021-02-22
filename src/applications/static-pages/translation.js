@@ -28,6 +28,42 @@ const configureTranslationLink = (e, targetLang, currentLang) => {
     });
   };
 };
+
+const configureSharableLink = () => {
+  const shareLinks = document.getElementsByClassName('share-link');
+  // eslint-disable-next-line no-console
+  console.log('SHARE LINKS', shareLinks);
+
+  if (!shareLinks.length) return;
+
+  for (const shareLink of shareLinks) {
+    shareLink.onclick = () => {
+      // copy link to users clipboard
+      const input = document.createElement('input');
+      const dataEntityId = shareLink?.closest('[data-entity-id]')?.attributes[
+        'data-entity-id'
+      ]?.value;
+      const shareLinkText = shareLink.nextElementSibling;
+
+      input.setAttribute(
+        'value',
+        `${document.location.pathname}/#${dataEntityId}`,
+      );
+      document.body.appendChild(input);
+      input.select();
+      const result = document.execCommand('copy');
+      document.body.removeChild(input);
+      // eslint-disable-next-line no-console
+      console.log('COPIED THIS TO CLIPBOARD: ', result);
+      if (shareLinkText.classList.contains('vads-u-display--none')) {
+        shareLinkText.classList.remove('vads-u-display--none');
+      }
+      setTimeout(() => {
+        shareLinkText.classList.add('vads-u-display--none');
+      }, 2500);
+    };
+  }
+};
 const displayTranslationLink = () => {
   const i18LinkWrapper = document.getElementById('i18-link-wrapper');
   if (!i18LinkWrapper) return;
@@ -54,5 +90,7 @@ const displayTranslationLink = () => {
 };
 
 window.addEventListener('popstate', displayTranslationLink);
-export default () =>
+export default () => {
   document.addEventListener('DOMContentLoaded', displayTranslationLink);
+  document.addEventListener('DOMContentLoaded', configureSharableLink);
+};
