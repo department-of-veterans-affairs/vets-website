@@ -6,7 +6,7 @@ import FacilityPhone from '../../../components/FacilityPhone';
 import { GA_PREFIX } from '../../../utils/constants';
 import State from '../../../components/State';
 
-const UNSUPPORTED_FACILITY_RANGE = 1000;
+const UNSUPPORTED_FACILITY_RANGE = 100;
 
 export default function FacilitiesNotShown({
   facilities,
