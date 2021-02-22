@@ -1,52 +1,39 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { SecondaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo';
-import { secondaryCaregiverFields } from 'applications/caregivers/definitions/constants';
-import definitions, {
+import { secondaryTwoFields } from 'applications/caregivers/definitions/constants';
+import { secondaryTwoInputLabel } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
+import {
+  ssnUI,
+  genderUI,
+  fullNameUI,
+  dateOfBirthUI,
   addressWithoutCountryUI,
-} from 'applications/caregivers/definitions/caregiverUI';
+} from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 
 const { secondaryCaregiverTwo } = fullSchema.properties;
 const secondaryCaregiverTwoProps = secondaryCaregiverTwo.properties;
-const { dateOfBirthUI, fullNameUI, genderUI, ssnUI } = definitions.sharedItems;
-
-const { secondaryCaregiversUI } = definitions;
 
 const secondaryTwoInfoPage = {
   uiSchema: {
     'ui:description': SecondaryCaregiverInfo,
     // secondaryTwo UI
-    [secondaryCaregiverFields.secondaryTwo.fullName]: fullNameUI(
-      secondaryCaregiversUI.secondaryTwoInputLabel,
-    ),
-    [secondaryCaregiverFields.secondaryTwo.ssn]: ssnUI(
-      secondaryCaregiversUI.secondaryTwoInputLabel,
-    ),
-    [secondaryCaregiverFields.secondaryTwo.dateOfBirth]: dateOfBirthUI(
-      secondaryCaregiversUI.secondaryTwoInputLabel,
-    ),
-    [secondaryCaregiverFields.secondaryTwo.gender]: genderUI(
-      secondaryCaregiversUI.secondaryTwoInputLabel,
-    ),
-    [secondaryCaregiverFields.secondaryTwo.address]: addressWithoutCountryUI(
-      secondaryCaregiversUI.secondaryTwoInputLabel,
+    [secondaryTwoFields.fullName]: fullNameUI(secondaryTwoInputLabel),
+    [secondaryTwoFields.ssn]: ssnUI(secondaryTwoInputLabel),
+    [secondaryTwoFields.dateOfBirth]: dateOfBirthUI(secondaryTwoInputLabel),
+    [secondaryTwoFields.gender]: genderUI(secondaryTwoInputLabel),
+    [secondaryTwoFields.address]: addressWithoutCountryUI(
+      secondaryTwoInputLabel,
     ),
   },
   schema: {
     type: 'object',
-    required: [
-      secondaryCaregiverFields.secondaryTwo.fullName,
-      secondaryCaregiverFields.secondaryTwo.dateOfBirth,
-    ],
+    required: [secondaryTwoFields.fullName, secondaryTwoFields.dateOfBirth],
     properties: {
       // secondaryTwo properties
-      [secondaryCaregiverFields.secondaryTwo.fullName]:
-        secondaryCaregiverTwoProps.fullName,
-      [secondaryCaregiverFields.secondaryTwo.ssn]:
-        secondaryCaregiverTwoProps.ssnOrTin,
-      [secondaryCaregiverFields.secondaryTwo.dateOfBirth]:
-        secondaryCaregiverTwoProps.dateOfBirth,
-      [secondaryCaregiverFields.secondaryTwo.gender]:
-        secondaryCaregiverTwoProps.gender,
+      [secondaryTwoFields.fullName]: secondaryCaregiverTwoProps.fullName,
+      [secondaryTwoFields.ssn]: secondaryCaregiverTwoProps.ssnOrTin,
+      [secondaryTwoFields.dateOfBirth]: secondaryCaregiverTwoProps.dateOfBirth,
+      [secondaryTwoFields.gender]: secondaryCaregiverTwoProps.gender,
     },
   },
 };

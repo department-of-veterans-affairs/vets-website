@@ -31,12 +31,6 @@ import {
 } from './VideoInstructions';
 import VideoVisitProviderSection from './VideoVisitProvider';
 
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id ? id.replace('var', '') : id;
-}
-
 function formatAppointmentDate(date) {
   if (!date.isValid()) {
     return null;
@@ -173,9 +167,7 @@ export default function ConfirmedAppointmentListItem({
           {isInPersonVAAppointment && (
             <VAFacilityLocation
               facility={facility}
-              facilityId={parseFakeFHIRId(
-                getVAAppointmentLocationId(appointment),
-              )}
+              facilityId={getVAAppointmentLocationId(appointment)}
               clinicName={appointment.participant[0].actor.display}
             />
           )}

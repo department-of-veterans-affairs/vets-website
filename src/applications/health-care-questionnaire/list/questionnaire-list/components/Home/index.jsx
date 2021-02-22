@@ -7,6 +7,10 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import environment from 'platform/utilities/environment';
+import {
+  externalServices,
+  DowntimeNotification,
+} from 'platform/monitoring/DowntimeNotification';
 
 import TabNav from './TabNav';
 import ToDoQuestionnaires from '../ToDoQuestionnaires';
@@ -57,34 +61,39 @@ const Home = props => {
       user={user}
       verify={!environment.isLocalhost()}
     >
-      <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
-        <h1>Your health questionnaires</h1>
-        <p className="va-introtext">
-          Review and keep track of your completed health care questionnaires and
-          any you need to fill out before your upcoming appointment. You can
-          also print a copy of questionnaires you've completed.
-        </p>
-        {isLoading ? (
-          <>
-            <LoadingIndicator message="Loading your questionnaires." />
-          </>
-        ) : (
-          <ShowErrorStatus hasError={apiDidError}>
-            <Router>
-              <TabNav />
-              <Switch>
-                <Route path={todoPath} component={ToDoQuestionnaires} />
-                <Route
-                  path={completedPath}
-                  component={CompletedQuestionnaires}
-                />
-                <Route path={path} component={ToDoQuestionnaires} />
-              </Switch>
-            </Router>
-          </ShowErrorStatus>
-        )}
-        <GetHelpFooter />
-      </div>
+      <DowntimeNotification
+        appTitle="health questionnaire"
+        dependencies={[externalServices.hcq]}
+      >
+        <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
+          <h1>Your health questionnaires</h1>
+          <p className="va-introtext">
+            Review and keep track of your completed health care questionnaires
+            and any you need to fill out before your upcoming appointment. You
+            can also print a copy of questionnaires you've completed.
+          </p>
+          {isLoading ? (
+            <>
+              <LoadingIndicator message="Loading your questionnaires." />
+            </>
+          ) : (
+            <ShowErrorStatus hasError={apiDidError}>
+              <Router>
+                <TabNav />
+                <Switch>
+                  <Route path={todoPath} component={ToDoQuestionnaires} />
+                  <Route
+                    path={completedPath}
+                    component={CompletedQuestionnaires}
+                  />
+                  <Route path={path} component={ToDoQuestionnaires} />
+                </Switch>
+              </Router>
+            </ShowErrorStatus>
+          )}
+          <GetHelpFooter />
+        </div>
+      </DowntimeNotification>
     </RequiredLoginView>
   );
 };

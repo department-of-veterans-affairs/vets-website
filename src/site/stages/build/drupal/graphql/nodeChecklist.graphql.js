@@ -1,6 +1,7 @@
+const fragments = require('./fragments.graphql');
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-const fragment = `
+const nodeChecklist = `
 fragment nodeChecklist on NodeChecklist {
   ${entityElementsFromPages}
   entityBundle
@@ -82,4 +83,37 @@ fragment nodeChecklist on NodeChecklist {
 }
 `;
 
-module.exports = fragment;
+const GetNodeChecklist = `
+  ${fragments.alertParagraphSingle}
+  ${fragments.button}
+  ${fragments.contactInformation}
+  ${fragments.supportService}
+  ${fragments.linkTeaser}
+  ${fragments.termLcCategory}
+  ${fragments.audienceTopics}
+  ${fragments.emailContact}
+  ${fragments.phoneNumber}
+  ${fragments.audienceBeneficiaries}
+  ${fragments.audienceNonBeneficiaries}
+  ${fragments.termTopics}
+
+  ${nodeChecklist}
+
+  query GetNodeChecklist($onlyPublishedContent: Boolean!) {
+    nodeQuery(limit: 1000, filter: {
+      conditions: [
+        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+        { field: "type", value: ["checklist"] }
+      ]
+    }) {
+      entities {
+        ... nodeChecklist
+      }
+    }
+  }
+`;
+
+module.exports = {
+  fragment: nodeChecklist,
+  GetNodeChecklist,
+};

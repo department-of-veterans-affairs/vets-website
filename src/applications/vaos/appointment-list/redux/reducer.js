@@ -118,14 +118,24 @@ export default function appointmentsReducer(state = initialState, action) {
         pastSelectedIndex: action.selectedIndex,
       };
     case FETCH_PAST_APPOINTMENTS_SUCCEEDED: {
-      const { data, startDate, endDate } = action;
+      const { appointments, requests = [], startDate, endDate } = action;
 
-      const past = data?.filter(appt => {
-        const apptDateTime = moment(appt.start);
-        return (
-          apptDateTime.isValid() && apptDateTime.isBetween(startDate, endDate)
+      const past = appointments
+        ?.filter(appt => {
+          const apptDateTime = moment(appt.start);
+          return (
+            apptDateTime.isValid() && apptDateTime.isBetween(startDate, endDate)
+          );
+        })
+        .concat(
+          requests.filter(appt => {
+            const apptDateTime = moment(appt.created);
+            return (
+              apptDateTime.isValid() &&
+              apptDateTime.isBetween(startDate, endDate)
+            );
+          }),
         );
-      });
 
       return {
         ...state,

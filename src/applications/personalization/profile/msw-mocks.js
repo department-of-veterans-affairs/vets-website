@@ -81,11 +81,11 @@ export const updateDD4CNPFailure = [
 // for _all_ transaction creation requests.
 const createTransactionRequestSuccessBody = {
   id: '',
-  type: 'async_transaction_vet360_email_transactions',
+  type: 'async_transaction_va_profile_email_transactions',
   attributes: {
     transactionId,
     transactionStatus: 'RECEIVED',
-    type: 'AsyncTransaction::Vet360::EmailTransaction',
+    type: 'AsyncTransaction::VAProfile::EmailTransaction',
     metadata: [],
   },
 };
@@ -146,11 +146,11 @@ export const transactionPending = [
       ctx.json({
         data: {
           id: '',
-          type: 'async_transaction_vet360_email_transactions',
+          type: 'async_transaction_va_profile_email_transactions',
           attributes: {
             transactionId,
             transactionStatus: 'RECEIVED',
-            type: 'AsyncTransaction::Vet360::EmailTransaction',
+            type: 'AsyncTransaction::VAProfile::EmailTransaction',
             metadata: [],
           },
         },
@@ -168,11 +168,11 @@ export const transactionFailed = [
       ctx.json({
         data: {
           id: '',
-          type: 'async_transaction_vet360_email_transactions',
+          type: 'async_transaction_va_profile_email_transactions',
           attributes: {
             transactionId,
             transactionStatus: 'COMPLETED_FAILURE',
-            type: 'AsyncTransaction::Vet360::EmailTransaction',
+            type: 'AsyncTransaction::VAProfile::EmailTransaction',
             // this metadata is from a failed address update, _not_ a failed
             // email address update, but the metadata does not matter in the
             // case of a failed email address update
@@ -202,11 +202,11 @@ export const transactionSucceeded = [
       ctx.json({
         data: {
           id: '',
-          type: 'async_transaction_vet360_email_transactions',
+          type: 'async_transaction_va_profile_email_transactions',
           attributes: {
             transactionId,
             transactionStatus: 'COMPLETED_SUCCESS',
-            type: 'AsyncTransaction::Vet360::EmailTransaction',
+            type: 'AsyncTransaction::VAProfile::EmailTransaction',
             metadata: [],
           },
         },

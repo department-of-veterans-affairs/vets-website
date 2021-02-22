@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
-import reducer from '~/applications/personalization/dashboard/reducers';
+import reducers from '~/applications/personalization/dashboard/reducers';
 import ApplyForBenefits from './ApplyForBenefits';
 
 const oneDayInMS = 24 * 60 * 60 * 1000;
@@ -38,13 +38,14 @@ describe('ApplyForBenefits component', () => {
     };
     view = renderInReduxProvider(<ApplyForBenefits />, {
       initialState,
-      reducer,
+      reducers,
     });
     expect(view.findByText(/you have no applications in progress/)).to.exist;
   });
 
   it('does not render unknown applications that are in progress', () => {
     const initialState = {
+      hcaEnrollmentStatus: { enrollmentStatus: null, hasServerError: false },
       user: {
         profile: {
           savedForms: [
@@ -62,7 +63,7 @@ describe('ApplyForBenefits component', () => {
     };
     view = renderInReduxProvider(<ApplyForBenefits />, {
       initialState,
-      reducer,
+      reducers,
     });
     expect(view.findByText(/you have no applications in progress/)).to.exist;
   });
@@ -135,7 +136,7 @@ describe('ApplyForBenefits component', () => {
     };
     view = renderInReduxProvider(<ApplyForBenefits />, {
       initialState,
-      reducer,
+      reducers,
     });
     expect(view.queryByText(/you have no applications in progress/)).not.to
       .exist;

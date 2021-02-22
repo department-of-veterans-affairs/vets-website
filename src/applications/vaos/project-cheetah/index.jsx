@@ -1,19 +1,28 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Switch, Route, useRouteMatch, useHistory } from 'react-router-dom';
+import {
+  Switch,
+  Route,
+  useRouteMatch,
+  useHistory,
+  Redirect,
+} from 'react-router-dom';
 import projectCheetahReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
-import InfoPage from './components/InfoPage';
+import PlanAheadPage from './components/PlanAheadPage';
 import VAFacilityPage from './components/VAFacilityPage';
 import ClinicChoicePage from './components/ClinicChoicePage';
 import SelectDate1Page from './components/SelectDate1Page';
-import SelectDate2Page from './components/SelectDate2Page';
-import ContactInfoPage from './components/ContactInfoPage';
 import ReviewPage from './components/ReviewPage';
 import ConfirmationPage from './components/ConfirmationPage';
 import { selectFeatureProjectCheetah } from '../redux/selectors';
+import SecondDosePage from './components/SecondDosePage';
+import ContactInfoPage from './components/ContactInfoPage';
 import ReceivedDoseScreenerPage from './components/ReceivedDoseScreenerPage';
 import ContactFacilitiesPage from './components/ContactFacilitiesPage';
+import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
+import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
+import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
 
 export function NewBookingSection({ featureProjectCheetah }) {
   const match = useRouteMatch();
@@ -28,21 +37,22 @@ export function NewBookingSection({ featureProjectCheetah }) {
     [featureProjectCheetah, history],
   );
 
-  useEffect(() => {
-    if (window.History) {
-      window.History.scrollRestoration = 'manual';
-    }
+  useManualScrollRestoration();
 
-    // We don't want people to start in the middle of the form, so redirect them when they jump
-    // in the middle. We make an exception for the confirmation page in case someone is going back
-    // after submitting.
-    if (
+  useFormUnsavedDataWarning({
+    // We don't want to warn a user about leaving the flow when they're shown the page
+    // that says they can't make an appointment online
+    disabled: location.pathname.includes('contact-facilities'),
+  });
+
+  const shouldRedirectToStart = useFormRedirectToStart({
+    shouldRedirect: () =>
       !location.pathname.endsWith('new-project-cheetah-booking') &&
-      !location.pathname.endsWith('confirmation')
-    ) {
-      history.replace('/new-project-cheetah-booking');
-    }
-  }, []);
+      !location.pathname.endsWith('confirmation'),
+  });
+  if (shouldRedirectToStart) {
+    return <Redirect to="/new-project-cheetah-booking" />;
+  }
 
   return (
     <FormLayout>
@@ -62,8 +72,8 @@ export function NewBookingSection({ featureProjectCheetah }) {
           component={SelectDate1Page}
         />
         <Route
-          path={`${match.url}/select-date-2`}
-          component={SelectDate2Page}
+          path={`${match.url}/plan-second-dose`}
+          component={SecondDosePage}
         />
         <Route path={`${match.url}/contact-info`} component={ContactInfoPage} />
         <Route path={`${match.url}/review`} component={ReviewPage} />
@@ -71,7 +81,7 @@ export function NewBookingSection({ featureProjectCheetah }) {
           path={`${match.url}/confirmation`}
           component={ConfirmationPage}
         />
-        <Route path="/" component={InfoPage} />
+        <Route path="/" component={PlanAheadPage} />
       </Switch>
     </FormLayout>
   );

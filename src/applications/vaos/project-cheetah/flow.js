@@ -10,7 +10,7 @@ export default {
   home: {
     url: '/',
   },
-  info: {
+  planAhead: {
     url: '/new-project-cheetah-booking',
     next: 'receivedDoseScreener',
   },
@@ -66,6 +66,10 @@ export default {
   },
   selectDate1: {
     url: '/new-project-cheetah-booking/select-date-1',
+    next: 'secondDosePage',
+  },
+  secondDosePage: {
+    url: '/new-project-cheetah-booking/plan-second-dose',
     next: 'contactInfo',
   },
   contactInfo: {

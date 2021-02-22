@@ -43,9 +43,7 @@ describe('Yellow Ribbon container <SearchResults>', () => {
   });
 
   it('renders alert tip component with no results found', () => {
-    const tree = mount(
-      <SearchResults results={[]} showYellowRibbonEnhancements />,
-    );
+    const tree = mount(<SearchResults results={[]} />);
 
     expect(tree.html()).to.include(TOOL_TIP_CONTENT);
     expect(tree.html()).to.include(TOOL_TIP_LABEL);

@@ -3,6 +3,7 @@ import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import { rootUrl as hearingAidSuppliesFormUrl } from 'applications/disability-benefits/2346/manifest.json';
 import { rootUrl as viewDependentsAppUrl } from 'applications/personalization/view-dependents/manifest.json';
 import { rootUrl as form686FormUrl } from 'applications/disability-benefits/686c-674/manifest.json';
+import { rootUrl as viewPaymentUrl } from 'applications/disability-benefits/view-payments/manifest.json';
 
 /**
  * These are the valid values for the Widget Type field in the Drupal CMS when
@@ -28,6 +29,7 @@ export const widgetTypes = {
   VIEW_DEPENDENTS: 'view-dependents',
   ADD_REMOVE_DEPENDENTS: 'add-remove-dependents',
   CHANGE_ADDRESS: 'change-address',
+  VIEW_PAYMENT_HISTORY: 'view-payment-history',
 };
 
 const HEALTH_TOOLS = [
@@ -199,6 +201,12 @@ export const toolUrl = (appId, authenticatedWithSSOe = false) => {
         redirect: false,
       };
 
+    case widgetTypes.VIEW_PAYMENT_HISTORY:
+      return {
+        url: viewPaymentUrl,
+        redirect: false,
+      };
+
     default:
       return {};
   }
@@ -302,6 +310,9 @@ export const serviceDescription = appId => {
 
     case widgetTypes.CHANGE_ADDRESS:
       return 'change your address';
+
+    case widgetTypes.VIEW_PAYMENT_HISTORY:
+      return 'view your VA payment history';
 
     default:
       return 'use this service';

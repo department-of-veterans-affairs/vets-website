@@ -1,4 +1,5 @@
 import React from 'react';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent, waitFor } from '@testing-library/dom';
@@ -20,6 +21,7 @@ import {
 import {
   createTestStore,
   renderWithStoreAndRouter,
+  getTimezoneTestDate,
 } from '../../../mocks/setup';
 
 import reducers from '../../../../redux/reducer';
@@ -36,8 +38,14 @@ const initialState = {
 };
 
 describe('VAOS <AppointmentsPageV2>', () => {
-  beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
+  beforeEach(() => {
+    mockFetch();
+    MockDate.set(getTimezoneTestDate());
+  });
+  afterEach(() => {
+    resetFetch();
+    MockDate.reset();
+  });
 
   const userState = {
     profile: {
@@ -437,7 +445,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
     ).to.be.ok;
     expect(screen.getByRole('link', { name: 'Request appointment' }));
   });
-  it('should show COVID-19 appt schedule button', async () => {
+  it('should show COVID-19 vaccination button', async () => {
     const defaultState = {
       featureToggles: {
         ...initialState.featureToggles,
@@ -452,12 +460,14 @@ describe('VAOS <AppointmentsPageV2>', () => {
     expect(
       await screen.findAllByRole('heading', {
         level: 2,
-        name: /Schedule a COVID-19 vaccination/,
+        name: /Schedule your first COVID-19 vaccination/,
       }),
     );
 
     expect(
       screen.getByText(/You may be eligible to receive the COVID-19 vaccine/i),
     ).to.be.ok;
+
+    expect(screen.getByRole('link', { name: 'Learn more' }));
   });
 });
