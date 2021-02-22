@@ -15,10 +15,11 @@ import FormButtons from '../../../components/FormButtons';
 import NoValidVAFacilities from './NoValidVAFacilitiesV2';
 import NoVASystems from './NoVASystems';
 import SingleFacilityEligibilityCheckMessage from './SingleFacilityEligibilityCheckMessage';
-import VAFacilityInfoMessage from './VAFacilityInfoMessage';
 import ResidentialAddress from './ResidentialAddress';
 import LoadingOverlay from '../../../components/LoadingOverlay';
 import FacilitiesNotShown from './FacilitiesNotShown';
+import SingleFacilityAvailable from './SingleFacilityAvailable';
+import { lowerCase } from '../../../utils/formatters';
 
 const initialSchema = {
   type: 'object',
@@ -90,7 +91,7 @@ function VAFacilityPageV2({
 
   const title = (
     <h1 className="vads-u-font-size--h2">
-      Choose a VA location for your {typeOfCare?.name} appointment
+      Choose a VA location for your {lowerCase(typeOfCare?.name)} appointment
     </h1>
   );
 
@@ -180,7 +181,16 @@ function VAFacilityPageV2({
     return (
       <div>
         {title}
-        <VAFacilityInfoMessage facility={selectedFacility} />
+        <SingleFacilityAvailable
+          facility={selectedFacility}
+          sortMethod={sortMethod}
+          typeOfCareName={typeOfCare.name}
+        />
+        <FacilitiesNotShown
+          facilities={facilities}
+          sortMethod={sortMethod}
+          typeOfCareId={typeOfCare?.id}
+        />
         <div className="vads-u-margin-top--2">
           <FormButtons
             onBack={goBack}
