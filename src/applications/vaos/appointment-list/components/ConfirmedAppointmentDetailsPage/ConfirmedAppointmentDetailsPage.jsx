@@ -168,7 +168,9 @@ function ConfirmedAppointmentDetailsPage({
                 aria-hidden="true"
                 className="fas fa-print vads-u-margin-right--1"
               />
-              <span onClick={() => window.print()}>Print</span>
+              <button className="va-button-link" onClick={() => window.print()}>
+                Print
+              </button>
             </div>
 
             <div className="vads-u-margin-top--2 vaos-appts__block-label">

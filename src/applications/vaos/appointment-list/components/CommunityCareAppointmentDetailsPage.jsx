@@ -122,7 +122,9 @@ function CommunityCareAppointmentDetailsPage({
 
       <div className="vads-u-margin-top--2 vaos-appts__block-label">
         <i aria-hidden="true" className="fas fa-print vads-u-margin-right--1" />
-        <span onClick={() => window.print()}>Print</span>
+        <button className="va-button-link" onClick={() => window.print()}>
+          Print
+        </button>
       </div>
 
       <div className="vads-u-margin-top--2 vaos-appts__block-label vads-u-background-color--primary-alt-lightest vads-u-padding--2p5">
