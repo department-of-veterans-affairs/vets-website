@@ -23,16 +23,17 @@ export default function subscribeComponentAnalyticsEvents() {
       c => c.componentName === e.detail.componentName,
     );
 
-    if (component) {
-      // Is it an action we are tracking?
-      const dataLayer = {};
+    // Is it an action we are tracking?
+    if (component && component.actions) {
+      const action = component.actions.find(
+        ev => ev.action === e.detail.action,
+      );
 
-      if (component.actions) {
-        const action = component.actions.find(
-          ev => ev.action === e.detail.action,
-        );
+      if (action) {
+        const dataLayer = { event: action.name };
 
-        if (action && e.detail.details) {
+        // If the event included additional details / context...
+        if (e.detail.details) {
           for (const key of Object.keys(e.detail.details)) {
             const newKey = component.prefix
               ? `${component.prefix}-${key}`
@@ -41,9 +42,6 @@ export default function subscribeComponentAnalyticsEvents() {
             dataLayer[newKey] = e.detail.details[key];
           }
         }
-
-        // Add the event name
-        dataLayer.event = action.name;
 
         recordEvent(dataLayer);
       }
