@@ -191,14 +191,12 @@ function VAFacilityPageV2({
           sortMethod={sortMethod}
           typeOfCareId={typeOfCare?.id}
         />
-        <div className="vads-u-margin-top--2">
-          <FormButtons
-            onBack={goBack}
-            onSubmit={goForward}
-            pageChangeInProgress={pageChangeInProgress}
-            loadingText="Page change in progress"
-          />
-        </div>
+        <FormButtons
+          onBack={goBack}
+          onSubmit={goForward}
+          pageChangeInProgress={pageChangeInProgress}
+          loadingText="Page change in progress"
+        />
       </div>
     );
   }
