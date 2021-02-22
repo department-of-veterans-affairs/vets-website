@@ -25,6 +25,7 @@ import {
 import GetHelpFooter from '../../../../questionnaire/components/get-help/GetHelpFooter';
 
 import { sortQuestionnairesByStatus } from '../../../utils';
+import { clearAllSelectedAppointments } from '../../../../shared/utils';
 
 import { path, todoPath, completedPath } from './routes';
 import ShowErrorStatus from '../Messages/ShowErrorStatus';
@@ -40,6 +41,7 @@ const Home = props => {
   const [apiDidError, setApiDidError] = useState(false);
   useEffect(
     () => {
+      clearAllSelectedAppointments(window);
       // call the API
       setLoading();
       loadQuestionnaires()
