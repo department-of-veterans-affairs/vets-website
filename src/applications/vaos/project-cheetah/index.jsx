@@ -13,11 +13,11 @@ import PlanAheadPage from './components/PlanAheadPage';
 import VAFacilityPage from './components/VAFacilityPage';
 import ClinicChoicePage from './components/ClinicChoicePage';
 import SelectDate1Page from './components/SelectDate1Page';
-import SelectDate2Page from './components/SelectDate2Page';
-import ContactInfoPage from './components/ContactInfoPage';
 import ReviewPage from './components/ReviewPage';
 import ConfirmationPage from './components/ConfirmationPage';
 import { selectFeatureProjectCheetah } from '../redux/selectors';
+import SecondDosePage from './components/SecondDosePage';
+import ContactInfoPage from './components/ContactInfoPage';
 import ReceivedDoseScreenerPage from './components/ReceivedDoseScreenerPage';
 import ContactFacilitiesPage from './components/ContactFacilitiesPage';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
@@ -72,8 +72,8 @@ export function NewBookingSection({ featureProjectCheetah }) {
           component={SelectDate1Page}
         />
         <Route
-          path={`${match.url}/select-date-2`}
-          component={SelectDate2Page}
+          path={`${match.url}/plan-second-dose`}
+          component={SecondDosePage}
         />
         <Route path={`${match.url}/contact-info`} component={ContactInfoPage} />
         <Route path={`${match.url}/review`} component={ReviewPage} />

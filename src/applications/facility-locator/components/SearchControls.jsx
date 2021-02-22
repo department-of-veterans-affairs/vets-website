@@ -10,6 +10,7 @@ import {
   facilityTypesOptions,
 } from '../config';
 import { focusElement } from 'platform/utilities/ui';
+import environment from 'platform/utilities/environment';
 
 class SearchControls extends Component {
   handleQueryChange = e => {
@@ -55,12 +56,46 @@ class SearchControls extends Component {
     this.props.onSubmit();
   };
 
+  handleGeolocationButtonClick = e => {
+    e.preventDefault();
+    recordEvent({
+      event: 'fl-search-geolocation',
+    });
+    this.props.geolocateUser();
+  };
+
   renderLocationInputField = currentQuery => (
     <>
-      <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
-        City, state or postal code{' '}
-        <span className="vads-u-color--secondary-dark">(*Required)</span>
-      </label>
+      <div id="location-input-field">
+        <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
+          City, state or postal code{' '}
+          <span className="vads-u-color--secondary-dark">(*Required)</span>
+        </label>
+        {(window.Cypress || !environment.isProduction()) &&
+          (currentQuery.geocodeInProgress ? (
+            <div className="use-my-location-link">
+              <i
+                className="fa fa-spinner fa-spin"
+                aria-hidden="true"
+                role="presentation"
+              />
+              <span>Finding your location...</span>
+            </div>
+          ) : (
+            <a
+              href="#"
+              onClick={this.handleGeolocationButtonClick}
+              className="use-my-location-link"
+            >
+              <i
+                className="use-my-location-button"
+                aria-hidden="true"
+                role="presentation"
+              />
+              Use my location
+            </a>
+          ))}
+      </div>
       <input
         id="street-city-state-zip"
         name="street-city-state-zip"

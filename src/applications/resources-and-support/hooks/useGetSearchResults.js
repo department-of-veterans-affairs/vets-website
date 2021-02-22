@@ -87,6 +87,7 @@ export default function useGetSearchResults(articles, query, page) {
       // Track R&S search results.
       recordEvent({
         event: 'view_search_results',
+        'search-dropdown-used': false,
         'search-page-path': document.location.pathname,
         'search-query': query,
         'search-results-total-count': orderedResults.length,
