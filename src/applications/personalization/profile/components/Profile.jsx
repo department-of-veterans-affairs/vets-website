@@ -3,20 +3,21 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { LastLocationProvider } from 'react-router-last-location';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import DowntimeNotification, {
   externalServices,
   externalServiceStatus,
-} from 'platform/monitoring/DowntimeNotification';
-import DowntimeApproaching from 'platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
+} from '~/platform/monitoring/DowntimeNotification';
+import DowntimeApproaching from '~/platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
 import {
   initializeDowntimeWarnings,
   dismissDowntimeWarning,
-} from 'platform/monitoring/DowntimeNotification/actions';
+} from '~/platform/monitoring/DowntimeNotification/actions';
 
-import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
-import backendServices from 'platform/user/profile/constants/backendServices';
+import RequiredLoginView, {
+  RequiredLoginLoader,
+} from '~/platform/user/authorization/components/RequiredLoginView';
+import backendServices from '~/platform/user/profile/constants/backendServices';
 import {
   createIsServiceAvailableSelector,
   isMultifactorEnabled,
@@ -25,8 +26,8 @@ import {
   isLOA3 as isLOA3Selector,
   isInMPI as isInMVISelector,
   isLoggedIn,
-} from 'platform/user/selectors';
-import { fetchMHVAccount as fetchMHVAccountAction } from 'platform/user/profile/actions';
+} from '~/platform/user/selectors';
+import { fetchMHVAccount as fetchMHVAccountAction } from '~/platform/user/profile/actions';
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
@@ -130,16 +131,6 @@ class Profile extends Component {
     return children;
   };
 
-  // content to show if the component is waiting for data to load. This loader
-  // matches the loader shown by the RequiredLoginView component, so when the
-  // RequiredLoginView is done with its loading and this function takes over, it
-  // appears seamless to the user.
-  loadingContent = () => (
-    <div className="vads-u-margin-y--5">
-      <LoadingIndicator setFocus message="Loading your information..." />
-    </div>
-  );
-
   // content to show after data has loaded
   mainContent = () => {
     const routesOptions = {
@@ -209,7 +200,7 @@ class Profile extends Component {
 
   renderContent = () => {
     if (this.props.showLoader) {
-      return this.loadingContent();
+      return <RequiredLoginLoader />;
     }
     return this.mainContent();
   };
@@ -223,7 +214,7 @@ class Profile extends Component {
         <DowntimeNotification
           appTitle="profile"
           render={this.handleDowntimeApproaching}
-          loadingIndicator={this.loadingContent()}
+          loadingIndicator={<RequiredLoginLoader />}
           dependencies={[
             externalServices.emis,
             externalServices.evss,
@@ -305,7 +296,7 @@ const mapStateToProps = state => {
   const hasLoadedEDUPaymentInformation = eduDirectDepositInformation(state);
 
   const hasLoadedTotalDisabilityRating =
-    state.totalRating?.totalDisabilityRating || state.totalRating?.error;
+    state.totalRating && !state.totalRating.loading;
 
   const hasLoadedAllData =
     hasLoadedFullName &&

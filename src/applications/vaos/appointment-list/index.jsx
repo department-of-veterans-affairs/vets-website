@@ -6,7 +6,7 @@ import PageLayout from './components/AppointmentsPage/PageLayout';
 import AppointmentsPageV2 from './components/AppointmentsPage/AppointmentsPageV2';
 import AppointmentsPage from './components/AppointmentsPage/index';
 import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
-import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
+import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage/ConfirmedAppointmentDetailsPage';
 import CommunityCareAppointmentDetailsPage from './components/CommunityCareAppointmentDetailsPage';
 
 function AppointmentListSection({ featureHomepageRefresh }) {

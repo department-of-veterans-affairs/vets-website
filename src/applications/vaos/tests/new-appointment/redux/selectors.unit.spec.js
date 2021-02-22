@@ -157,13 +157,13 @@ describe('VAOS selectors', () => {
           data: {
             typeOfCareId: '323',
             clinicId: '124',
-            vaParent: 'var123',
-            vaFacility: 'var983',
+            vaParent: '123',
+            vaFacility: '983',
           },
           facilities: {
             '323': [
               {
-                id: 'var983',
+                id: '983',
               },
             ],
           },
@@ -203,15 +203,15 @@ describe('VAOS selectors', () => {
           data: {
             typeOfCareId: '323',
             vaFacility: '688GB',
-            clinicId: 'var688GB_124',
+            clinicId: '688GB_124',
           },
           clinics: {
             '688GB_323': [
               {
-                id: 'var688GB_123',
+                id: '688GB_123',
               },
               {
-                id: 'var688GB_124',
+                id: '688GB_124',
               },
             ],
           },
@@ -346,18 +346,18 @@ describe('VAOS selectors', () => {
           },
           data: {
             typeOfCareId: '323',
-            vaParent: 'var983',
-            vaFacility: 'var983',
+            vaParent: '983',
+            vaFacility: '983',
           },
           eligibility: {
             // eslint-disable-next-line camelcase
-            var983_323: {
+            983_323: {
               request: true,
             },
           },
           parentFacilities: [
             {
-              id: 'var983',
+              id: '983',
               identifier: [
                 {
                   system: VHA_FHIR_ID,
@@ -369,7 +369,7 @@ describe('VAOS selectors', () => {
           facilities: {
             '323': [
               {
-                id: 'var983',
+                id: '983',
               },
             ],
           },

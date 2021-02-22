@@ -95,7 +95,7 @@ module.exports = {
     title: { type: 'string' },
     entityUrl: { $ref: 'EntityUrl' },
     fieldIntroText: { type: ['string', 'null'] },
-    fieldGovdeliveryIdEmerg: { type: 'string' },
+    fieldGovdeliveryIdEmerg: { type: ['string', 'null'] },
     fieldGovdeliveryIdNews: { type: 'string' },
     fieldOperatingStatus: socialMediaSchema,
     fieldOtherVaLocations: { type: 'array' },

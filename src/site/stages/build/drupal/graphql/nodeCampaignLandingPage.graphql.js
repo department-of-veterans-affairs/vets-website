@@ -1,6 +1,10 @@
+const fragments = require('./fragments.graphql');
+const {
+  modifiedFragment: landingPageFragment,
+} = require('./landingPage.graphql');
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-module.exports = `
+const nodeCampaignLandingPage = `
   fragment nodeCampaignLandingPage on NodeCampaignLandingPage {
     ${entityElementsFromPages}
     changed
@@ -78,6 +82,10 @@ module.exports = `
         entityBundle
         entityId
         ... on NodeEvent {
+          entityUrl {
+            path
+          }
+          title
           fieldAdditionalInformationAbo {
             value
             format
@@ -124,12 +132,6 @@ module.exports = `
             format
             processed
           }
-          fieldDate {
-            value
-            startDate
-            endValue
-            endDate
-          }
           fieldDatetimeRangeTimezone {
             value
             startTime
@@ -149,6 +151,12 @@ module.exports = `
               entityType
               entityBundle
               entityId
+              ... on NodeHealthCareLocalFacility {
+                entityUrl {
+                  path
+                }
+                title
+              }
             }
           }
           fieldFeatured
@@ -507,6 +515,10 @@ module.exports = `
           fieldDescription
           fieldDuration
           fieldMediaVideoEmbedField
+          fieldPublicationDate {
+            date
+            value
+          }
         }
       }
     }
@@ -528,3 +540,31 @@ module.exports = `
     }
   }
 `;
+
+const GetCampaignLandingPages = `
+  ${fragments.button}
+  ${fragments.promo}
+  ${fragments.listOfLinkTeasers}
+  ${fragments.linkTeaser}
+  ${fragments.alert}
+  ${fragments.administration}
+  ${landingPageFragment}
+  ${nodeCampaignLandingPage}
+
+  query GetCampaignLandingPages($onlyPublishedContent: Boolean!) {
+    nodeQuery(limit: 100, filter: {
+      conditions: [
+        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+        { field: "type", value: ["campaign_landing_page"] }
+      ]
+    }) {
+      entities {
+        ... nodeCampaignLandingPage
+      }
+    }
+  }
+`;
+module.exports = {
+  fragment: nodeCampaignLandingPage,
+  GetCampaignLandingPages,
+};

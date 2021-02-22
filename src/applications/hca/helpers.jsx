@@ -124,7 +124,6 @@ export function transform(formConfig, form) {
     form,
   );
   let withoutViewFields = filterViewFields(withoutInactivePages);
-  const hasMultipleAddress = form.data['view:hasMultipleAddress'];
   const addressesMatch = form.data['view:doesMailingMatchHomeAddress'];
 
   // add back dependents here, because it could have been removed in filterViewFields
@@ -138,13 +137,8 @@ export function transform(formConfig, form) {
   }
 
   // duplicate address before submit if they are the same
-  if (hasMultipleAddress && addressesMatch) {
+  if (addressesMatch) {
     withoutViewFields.veteranHomeAddress = withoutViewFields.veteranAddress;
-  }
-
-  // if feature flip is off remove second address and yes/no question
-  if (!hasMultipleAddress) {
-    delete withoutViewFields.veteranHomeAddress;
   }
 
   const formData =

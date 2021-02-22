@@ -3,33 +3,26 @@ import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your other income',
-  income: {
-    socialSecurity: {
-      socialSecurityAmount: _.merge(
-        currencyUI('How much do you get for Social Security each month?'),
-        {
-          'ui:options': {
-            widgetClassNames: 'input-size-3',
-          },
-          'ui:required': formData => formData.income.hasSocialSecurityPayments,
+  socialSecurity: {
+    socialSecurityAmount: _.merge(
+      currencyUI('How much do you get for Social Security each month?'),
+      {
+        'ui:options': {
+          widgetClassNames: 'input-size-3',
         },
-      ),
-    },
+      },
+    ),
   },
 };
 export const schema = {
   type: 'object',
   properties: {
-    income: {
+    socialSecurity: {
       type: 'object',
+      required: ['socialSecurityAmount'],
       properties: {
-        socialSecurity: {
-          type: 'object',
-          properties: {
-            socialSecurityAmount: {
-              type: 'number',
-            },
-          },
+        socialSecurityAmount: {
+          type: 'number',
         },
       },
     },

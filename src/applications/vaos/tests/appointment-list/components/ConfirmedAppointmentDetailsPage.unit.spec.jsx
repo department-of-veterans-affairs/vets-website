@@ -1,10 +1,14 @@
 import React from 'react';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import { getVAAppointmentMock, getVAFacilityMock } from '../../mocks/v0';
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
-import { renderWithStoreAndRouter } from '../../mocks/setup';
+import {
+  renderWithStoreAndRouter,
+  getTimezoneTestDate,
+} from '../../mocks/setup';
 
 import userEvent from '@testing-library/user-event';
 import { AppointmentList } from '../../../appointment-list';
@@ -20,13 +24,19 @@ const initialState = {
   },
 };
 
-describe('VAOS <AppointmentsPageV2>', () => {
-  beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
+describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
+  beforeEach(() => {
+    mockFetch();
+    MockDate.set(getTimezoneTestDate());
+  });
+  afterEach(() => {
+    resetFetch();
+    MockDate.reset();
+  });
 
   it('should navigate to confirmed appointments detail page', async () => {
     // VA appointment id from confirmed_va.json
-    const url = '/va/var21cdc6741c00ac67b6cbf6b972d084c1';
+    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
 
     const appointment = getVAAppointmentMock();
     appointment.attributes = {
@@ -106,7 +116,12 @@ describe('VAOS <AppointmentsPageV2>', () => {
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: new RegExp(moment().format('dddd, MMMM D, YYYY'), 'i'),
+        name: new RegExp(
+          moment()
+            .tz('America/Denver')
+            .format('dddd, MMMM D, YYYY'),
+          'i',
+        ),
       }),
     ).to.be.ok;
 
@@ -115,12 +130,14 @@ describe('VAOS <AppointmentsPageV2>', () => {
     expect(screen.getByText(/Jennie's Lab/)).to.be.ok;
     expect(screen.getByRole('link', { name: /9 7 0. 2 2 4. 1 5 5 0./ })).to.be
       .ok;
-    expect(screen.getByRole('heading', { level: 2, name: /New issue/ })).to.be
+    expect(screen.getByRole('heading', { level: 5, name: /New issue/ })).to.be
       .ok;
     expect(
       screen.getByRole('link', {
         name: new RegExp(
-          moment().format('[Add] MMMM D, YYYY [appointment to your calendar]'),
+          moment()
+            .tz('America/Denver')
+            .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
           'i',
         ),
       }),
@@ -147,7 +164,12 @@ describe('VAOS <AppointmentsPageV2>', () => {
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: new RegExp(moment().format('dddd, MMMM D, YYYY'), 'i'),
+        name: new RegExp(
+          moment()
+            .tz('America/Denver')
+            .format('dddd, MMMM D, YYYY'),
+          'i',
+        ),
         // name: /Thursday, January 28, 2021/,
       }),
     ).to.be.ok;

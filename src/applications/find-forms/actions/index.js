@@ -108,6 +108,7 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
 
     recordEvent({
       event: 'view_search_results', // remains consistent, push this event with each search
+      'search-dropdown-used': false,
       'search-page-path': '/find-forms', // populate with '/find-forms', remains consistent for all searches from find-forms page
       'search-query': query, // populate with full query user used to execute search
       'search-results-total-count': resultsDetails?.results?.length, // populate with total number of search results returned

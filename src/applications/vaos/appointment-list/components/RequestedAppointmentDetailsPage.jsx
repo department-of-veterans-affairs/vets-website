@@ -30,12 +30,6 @@ const TIME_TEXT = {
   'No Time Selected': '',
 };
 
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id ? id.replace('var', '') : id;
-}
-
 function RequestedAppointmentDetailsPage({
   appointment,
   appointmentDetailsStatus,
@@ -131,7 +125,7 @@ function RequestedAppointmentDetailsPage({
           <VAFacilityLocation
             facility={facility}
             facilityName={facility?.name}
-            facilityId={parseFakeFHIRId(facilityId)}
+            facilityId={facilityId}
             isHomepageRefresh
           />
         )}

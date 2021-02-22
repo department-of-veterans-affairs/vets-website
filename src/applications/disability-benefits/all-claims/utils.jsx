@@ -2,7 +2,7 @@
 import React from 'react';
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
-import appendQuery from 'append-query';
+// import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
 import { omit } from 'lodash';
 import merge from 'lodash/merge';
@@ -21,6 +21,7 @@ import {
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
 
 import {
   DATA_PATHS,
@@ -97,6 +98,33 @@ export const formatDateRange = (dateRange = {}, format = DATE_FORMAT) =>
 // moment().isSameOrBefore() => true; so expirationDate can't be undefined
 export const isNotExpired = (expirationDate = '') =>
   moment().isSameOrBefore(expirationDate);
+
+export const isValidFullDate = dateString => {
+  // expecting dateString = 'YYYY-MM-DD'
+  const date = moment(dateString);
+  return (
+    (date?.isValid() &&
+      // moment('2021') => '2021-01-01'
+      // moment('XXXX-01-01') => '2001-01-01'
+      dateString === formatDate(date, 'YYYY-MM-DD') &&
+      // make sure we're within the min & max year range
+      isValidYear(date.year())) ||
+    false
+  );
+};
+
+export const isValidServicePeriod = data => {
+  const { serviceBranch, dateRange: { from = '', to = '' } = {} } = data || {};
+  return (
+    (!isUndefined(serviceBranch) &&
+      !isUndefined(from) &&
+      !isUndefined(to) &&
+      isValidFullDate(from) &&
+      isValidFullDate(to) &&
+      moment(from).isBefore(moment(to))) ||
+    false
+  );
+};
 
 export const isActiveITF = currentITF => {
   if (currentITF) {
@@ -215,6 +243,11 @@ export function queryForFacilities(input = '') {
     return Promise.resolve([]);
   }
 
+  /**
+   * Facilities endpoint removed for now, but we may be able to use EVSS's
+   * endpoint /referencedata/v1/treatmentcenter
+   * See https://github.com/department-of-veterans-affairs/va.gov-team/issues/14028#issuecomment-765717797
+   * /
   const url = appendQuery('/facilities/suggested', {
     type: ['health', 'dod_health'],
     name_part: input, // eslint-disable-line camelcase
@@ -235,6 +268,8 @@ export function queryForFacilities(input = '') {
       });
       return [];
     });
+    /* */
+  return Promise.resolve([]);
 }
 
 export function getSeparationLocations() {

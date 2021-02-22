@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import {
   Switch,
   Route,
   useRouteMatch,
-  useHistory,
   useLocation,
+  Redirect,
 } from 'react-router-dom';
 import {
   selectUseFlatFacilityPage,
@@ -33,19 +33,9 @@ import ReasonForAppointmentPage from './components/ReasonForAppointmentPage';
 import ReviewPage from './components/ReviewPage';
 import ConfirmationPage from './components/ConfirmationPage';
 import TypeOfFacilityPage from './components/TypeOfFacilityPage';
-
-function onBeforeUnload(e) {
-  const expirationDate = localStorage.getItem('sessionExpiration');
-  const expirationDateSSO = localStorage.getItem('sessionExpirationSSO');
-
-  // If there's no expiration date, then the session has already expired
-  // and keeping a person on the form won't save their data
-  if (expirationDate || expirationDateSSO) {
-    e.preventDefault();
-    e.returnValue =
-      'Are you sure you wish to leave this application? All progress will be lost.';
-  }
-}
+import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
+import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
+import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 
 function NewAppointmentSection({
   flatFacilityPageEnabled,
@@ -53,51 +43,26 @@ function NewAppointmentSection({
   providerSelectionEnabled,
 }) {
   const match = useRouteMatch();
-  const history = useHistory();
   const location = useLocation();
 
-  useEffect(
-    () => {
-      if (location.pathname.endsWith('confirmation')) {
-        window.removeEventListener('beforeunload', onBeforeUnload);
-      }
-    },
-    [location],
-  );
+  useManualScrollRestoration();
 
-  useEffect(() => {
-    if (window.History) {
-      window.History.scrollRestoration = 'manual';
-    }
+  useFormUnsavedDataWarning({
+    // If we're on the facility page for a Cerner only patient, there's a link to send the user to
+    // the Cerner portal, and it would be annoying to show the "You may have unsaved changes" message
+    // when a user clicks on that link
+    disabled: location.pathname.includes('va-facility') && isCernerOnlyPatient,
+  });
 
-    // We don't want people to start in the middle of the form, so redirect them when they jump
-    // in the middle. We make an exception for the confirmation page in case someone is going back
-    // after submitting.
-    if (
+  const shouldRedirectToStart = useFormRedirectToStart({
+    shouldRedirect: () =>
       !location.pathname.endsWith('new-appointment') &&
-      !location.pathname.endsWith('confirmation')
-    ) {
-      history.replace('/new-appointment');
-    }
-  }, []);
+      !location.pathname.endsWith('confirmation'),
+  });
 
-  useEffect(
-    () => {
-      // If we're on the facility page for a Cerner only patient, there's a link to send the user to
-      // the Cerner portal, and it would be annoying to show the "You may have unsaved changes" message
-      // when a user clicks on that link
-      if (location.pathname.includes('va-facility') && isCernerOnlyPatient) {
-        window.removeEventListener('beforeunload', onBeforeUnload);
-      } else {
-        window.addEventListener('beforeunload', onBeforeUnload);
-      }
-
-      return () => {
-        window.removeEventListener('beforeunload', onBeforeUnload);
-      };
-    },
-    [location.pathname, isCernerOnlyPatient],
-  );
+  if (shouldRedirectToStart) {
+    return <Redirect to="/new-appointment" />;
+  }
 
   return (
     <FormLayout isReviewPage={location.pathname.includes('review')}>

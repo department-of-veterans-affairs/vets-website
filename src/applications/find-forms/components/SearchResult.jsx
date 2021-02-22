@@ -3,7 +3,10 @@ import React from 'react';
 import moment from 'moment';
 // Relative imports.
 import * as customPropTypes from '../prop-types';
-import { FORM_MOMENT_DATE_FORMAT } from '../constants';
+import {
+  FORM_MOMENT_PRESENTATION_DATE_FORMAT,
+  FORM_MOMENT_CONSTRUCTOR_DATE_FORMAT,
+} from '../constants';
 import FormTitle from './FormTitle';
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -29,15 +32,16 @@ const deriveLinkPropsFromFormURL = url => {
 
 export const deriveLatestIssue = (d1, d2) => {
   if (!d1 && !d2) return 'N/A';
-  if (!d1) return moment(d2).format(FORM_MOMENT_DATE_FORMAT); // null scenarios
-  if (!d2) return moment(d1).format(FORM_MOMENT_DATE_FORMAT);
+  if (!d1) return moment(d2).format(FORM_MOMENT_PRESENTATION_DATE_FORMAT); // null scenarios
+  if (!d2) return moment(d1).format(FORM_MOMENT_PRESENTATION_DATE_FORMAT);
 
-  const date1Formatted = moment(d1).format(FORM_MOMENT_DATE_FORMAT);
-  const date2Formatted = moment(d2).format(FORM_MOMENT_DATE_FORMAT);
+  const date1Formatted = moment(d1).format(FORM_MOMENT_CONSTRUCTOR_DATE_FORMAT);
+  const date2Formatted = moment(d2).format(FORM_MOMENT_CONSTRUCTOR_DATE_FORMAT);
 
-  if (moment(date1Formatted).isAfter(date2Formatted)) return date1Formatted;
+  if (moment(date1Formatted).isAfter(date2Formatted))
+    return moment(date1Formatted).format(FORM_MOMENT_PRESENTATION_DATE_FORMAT);
 
-  return date2Formatted;
+  return moment(date2Formatted).format(FORM_MOMENT_PRESENTATION_DATE_FORMAT);
 };
 
 const recordGAEventHelper = ({

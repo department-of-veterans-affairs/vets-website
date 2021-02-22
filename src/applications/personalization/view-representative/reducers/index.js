@@ -30,4 +30,4 @@ function representative(state = initialState, action) {
   }
 }
 
-export default representative;
+export default { representative };

@@ -17,18 +17,13 @@ import {
   isCanceledConfirmedOrExpressCare,
   isUpcomingAppointmentOrExpressCare,
   sortByCreatedDateDescending,
+  isValidPastAppointmentOrExpressCare,
 } from '../../services/appointment';
 import { selectFeatureExpressCareNewRequest } from '../../redux/selectors';
 import {
   getTimezoneAbbrBySystemId,
   getTimezoneBySystemId,
 } from '../../utils/timezone';
-
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id ? id.replace('var', '') : id;
-}
 
 export function getCancelInfo(state) {
   const {
@@ -50,7 +45,7 @@ export function getCancelInfo(state) {
     facility = facilityData[locationId];
   } else if (appointmentToCancel?.facility) {
     // Requests
-    facility = facilityData[`var${appointmentToCancel.facility.facilityCode}`];
+    facility = facilityData[appointmentToCancel.facility.facilityCode];
   } else if (isVideo) {
     // Video visits
     const locationId = getVideoAppointmentLocation(appointmentToCancel);
@@ -180,9 +175,10 @@ export function selectFirstRequestMessage(state) {
     return null;
   }
 
-  const parsedId = parseFakeFHIRId(currentAppointment.id);
-
-  return requestMessages?.[parsedId]?.[0]?.attributes?.messageText || null;
+  return (
+    requestMessages?.[currentAppointment.id]?.[0]?.attributes?.messageText ||
+    null
+  );
 }
 
 /*
@@ -197,7 +193,7 @@ export const selectPastAppointmentsV2 = createSelector(
     }
 
     const sortedAppointments = past
-      .filter(isValidPastAppointment)
+      .filter(isValidPastAppointmentOrExpressCare)
       .sort(sortByDateAscending);
 
     return groupAppointmentsByMonth(sortedAppointments);

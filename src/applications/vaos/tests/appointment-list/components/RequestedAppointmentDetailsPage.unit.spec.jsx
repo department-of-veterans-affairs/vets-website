@@ -1,4 +1,5 @@
 import React from 'react';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { Route } from 'react-router-dom';
@@ -11,7 +12,10 @@ import {
 } from 'platform/testing/unit/helpers';
 
 import RequestedAppointmentDetailsPage from '../../../appointment-list/components/RequestedAppointmentDetailsPage';
-import { renderWithStoreAndRouter } from '../../mocks/setup';
+import {
+  getTimezoneTestDate,
+  renderWithStoreAndRouter,
+} from '../../mocks/setup';
 import {
   getVAFacilityMock,
   getVARequestMock,
@@ -108,7 +112,7 @@ let initialState = {
     requestMessagesStatus: FETCH_STATUS.notStarted,
     pendingStatus: FETCH_STATUS.succeeded,
     facilityData: {
-      var983GC,
+      '983GC': var983GC,
     },
   },
 };
@@ -128,8 +132,12 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       ),
       { data: [message] },
     );
+    MockDate.set(getTimezoneTestDate());
   });
-  afterEach(() => resetFetch());
+  afterEach(() => {
+    resetFetch();
+    MockDate.reset();
+  });
 
   it('should render VA request details', async () => {
     const pending = transformPendingAppointments([appointment]);
@@ -148,7 +156,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       {
         initialState,
         reducers,
-        path: '/requests/var1234',
+        path: '/requests/1234',
       },
     );
 
@@ -201,7 +209,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       {
         initialState,
         reducers,
-        path: '/requests/var1234',
+        path: '/requests/1234',
       },
     );
 
@@ -228,7 +236,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       {
         initialState,
         reducers,
-        path: '/requests/var1234',
+        path: '/requests/1234',
       },
     );
 
@@ -255,11 +263,10 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       {
         initialState,
         reducers,
-        path: '/requests/var1234',
+        path: '/requests/1234',
       },
     );
 
-    screen.debug();
     expect(
       await screen.findByRole('heading', {
         level: 1,

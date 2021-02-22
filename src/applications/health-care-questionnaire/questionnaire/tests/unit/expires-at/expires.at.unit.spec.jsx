@@ -15,7 +15,9 @@ describe('health care questionnaire -- expires at ', () => {
     const onChange = sinon.spy();
     const wrapper = mount(<ExpiresAt store={fakeStore} onChange={onChange} />);
 
-    expect(onChange.called).to.be.true;
+    setTimeout(() => {
+      expect(onChange.called).to.be.true;
+    }, 0);
     wrapper.unmount();
   });
   it('does call the onChange with correct values', () => {
@@ -23,9 +25,11 @@ describe('health care questionnaire -- expires at ', () => {
     const fakeStore = createFakeExpiresAtStore(testDate);
     const onChange = sinon.spy();
     const wrapper = mount(<ExpiresAt store={fakeStore} onChange={onChange} />);
+    setTimeout(() => {
+      expect(onChange.called).to.be.true;
+      expect(onChange.calledWith(10)).to.be.true;
+    }, 0);
 
-    expect(onChange.called).to.be.true;
-    expect(onChange.calledWith(10)).to.be.true;
     wrapper.unmount();
   });
 });

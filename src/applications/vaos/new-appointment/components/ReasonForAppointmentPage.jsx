@@ -13,6 +13,7 @@ import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { PURPOSE_TEXT, FACILITY_TYPES } from '../../utils/constants';
 import TextareaWidget from '../../components/TextareaWidget';
 import { useHistory } from 'react-router-dom';
+import PostFormFieldContent from '../../components/PostFormFieldContent';
 
 const initialSchema = {
   default: {
@@ -49,8 +50,6 @@ const uiSchema = {
       'ui:widget': TextareaWidget,
       'ui:options': {
         rows: 5,
-        expandUnder: 'reasonForAppointment',
-        expandUnderCondition: reasonForAppointment => !!reasonForAppointment,
       },
       'ui:validations': [validateWhiteSpace],
     },
@@ -109,35 +108,37 @@ function ReasonForAppointmentPage({
           }
           data={data}
         >
-          <AlertBox
-            status="warning"
-            headline="If you have an urgent medical need, please:"
-            className="vads-u-margin-y--3"
-            level="2"
-            content={
-              <ul>
-                <li>
-                  Call <Telephone contact={CONTACTS['911']} />,{' '}
-                  <span className="vads-u-font-weight--bold">or</span>
-                </li>
-                <li>
-                  Call the Veterans Crisis hotline at{' '}
-                  <Telephone contact={CONTACTS.CRISIS_LINE} /> and press 1,{' '}
-                  <span className="vads-u-font-weight--bold">or</span>
-                </li>
-                <li>
-                  Go to your nearest emergency room or VA medical center.{' '}
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="/find-locations"
-                  >
-                    Find your nearest VA medical center
-                  </a>
-                </li>
-              </ul>
-            }
-          />
+          <PostFormFieldContent>
+            <AlertBox
+              status="warning"
+              headline="If you have an urgent medical need, please:"
+              className="vads-u-margin-y--3"
+              level="2"
+              content={
+                <ul>
+                  <li>
+                    Call <Telephone contact={CONTACTS['911']} />,{' '}
+                    <span className="vads-u-font-weight--bold">or</span>
+                  </li>
+                  <li>
+                    Call the Veterans Crisis hotline at{' '}
+                    <Telephone contact={CONTACTS.CRISIS_LINE} /> and press 1,{' '}
+                    <span className="vads-u-font-weight--bold">or</span>
+                  </li>
+                  <li>
+                    Go to your nearest emergency room or VA medical center.{' '}
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href="/find-locations"
+                    >
+                      Find your nearest VA medical center
+                    </a>
+                  </li>
+                </ul>
+              }
+            />
+          </PostFormFieldContent>
           <FormButtons
             onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
             pageChangeInProgress={pageChangeInProgress}

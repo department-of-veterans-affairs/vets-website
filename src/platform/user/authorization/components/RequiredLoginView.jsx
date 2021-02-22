@@ -14,6 +14,14 @@ const nextQuery = { next: window.location.pathname };
 const signInUrl = appendQuery('/', nextQuery);
 const verifyUrl = appendQuery('/verify', nextQuery);
 
+const RequiredLoginLoader = () => {
+  return (
+    <div className="vads-u-margin-y--5">
+      <LoadingIndicator setFocus message="Loading your information..." />
+    </div>
+  );
+};
+
 class RequiredLoginView extends React.Component {
   componentDidMount() {
     this.redirectIfNeeded();
@@ -122,11 +130,7 @@ class RequiredLoginView extends React.Component {
     const { user, verify } = this.props;
 
     if (user.profile.loading) {
-      return (
-        <div className="vads-u-margin-y--5">
-          <LoadingIndicator setFocus message="Loading your information..." />
-        </div>
-      );
+      return <RequiredLoginLoader />;
     }
 
     if (this.shouldSignIn()) {
@@ -145,7 +149,7 @@ class RequiredLoginView extends React.Component {
   };
 
   render() {
-    return <div>{this.renderWrappedContent()}</div>;
+    return <>{this.renderWrappedContent()}</>;
   }
 }
 
@@ -161,3 +165,5 @@ RequiredLoginView.propTypes = {
 };
 
 export default RequiredLoginView;
+
+export { RequiredLoginLoader };
