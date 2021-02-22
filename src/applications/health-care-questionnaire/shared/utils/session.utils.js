@@ -82,6 +82,8 @@ const clearSelectedAppointmentData = (window, id) => {
   sessionStorage.removeItem(key);
 };
 
+const clearAllSelectedAppointments = _window => {};
+
 export {
   clearCurrentSession,
   getCurrentAppointmentId,
@@ -89,4 +91,5 @@ export {
   setSelectedAppointmentData,
   getSelectedAppointmentData,
   clearSelectedAppointmentData,
+  clearAllSelectedAppointments,
 };
