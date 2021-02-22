@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { clearCurrentSession } from '../../../utils';
+import { clearCurrentSession } from '../utils';
 
 describe('health care questionnaire -- utils -- clear current id in session storage', () => {
   it('should called removeItem', () => {
@@ -13,6 +13,10 @@ describe('health care questionnaire -- utils -- clear current id in session stor
     };
     clearCurrentSession(window);
     expect(removeItem.called).to.be.true;
-    expect(removeItem.calledWith('currentHealthQuestionnaire')).to.be.true;
+    expect(
+      removeItem.calledWith(
+        'health.care.questionnaire.currentHealthQuestionnaire',
+      ),
+    ).to.be.true;
   });
 });

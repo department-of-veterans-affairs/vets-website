@@ -1,58 +1,101 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
+import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 
-const PreSubmitSignature = ({ formData }) => {
-  const [isChecked, setIsChecked] = useState(false);
-  const [veteranName, setVeteranName] = useState('');
+const PreSubmitSignature = ({ formData, showError }) => {
+  const [checked, setChecked] = useState(false);
+  const [signatureError, setSignatureError] = useState(false);
+  const [checkboxError, setCheckboxError] = useState(false);
+  const [veteranName, setVeteranName] = useState({
+    value: '',
+  });
+
+  const getName = useCallback(
+    () => {
+      const { fullName } = formData.personalData;
+      return Object.values(fullName)
+        .filter(value => Boolean(value))
+        .join(' ');
+    },
+    [formData.personalData],
+  );
 
   useEffect(
     () => {
       if (!formData.personalData) return;
-      const { fullName } = formData.personalData;
-      const name = Object.values(fullName)
-        .filter(value => Boolean(value))
-        .join(' ');
-      setVeteranName(name);
+      const nameOnFile = getName();
+      setVeteranName({
+        value: nameOnFile,
+      });
     },
-    [formData.personalData],
+    [getName, formData.personalData],
+  );
+
+  useEffect(
+    () => {
+      const nameOnFile = getName();
+      if (veteranName.value !== nameOnFile) {
+        setSignatureError(true);
+      } else {
+        setSignatureError(false);
+      }
+    },
+    [getName, veteranName],
+  );
+
+  useEffect(
+    () => {
+      if (showError && !checked) {
+        setCheckboxError(true);
+      } else {
+        setCheckboxError(false);
+      }
+    },
+    [checked, showError],
   );
 
   return (
     <>
       <p>
-        Please review information entered into this request and sign the
-        statement below. Your entries provided below will serve as your
-        electronic signature for the form.
+        Please click on each of the sections above to review the information you
+        entered for this request. Then read and sign the Veteran’s statement of
+        truth. The name you enter will serve as your electronic signature for
+        this request.
       </p>
-      <article className="vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--3 vads-u-padding-top--1px vads-u-margin-bottom--7">
+      <article className="vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--3 vads-u-padding-top--1px">
         <h3>Veteran's statement of truth</h3>
         <p>
-          I certify that the income, assets, and expenses I provided on this
-          form are correct to the best of my knowledge.
+          I’ve reviewed the information I provided in this request, including:
         </p>
-        <p>
-          I certify that my marital and household compensation has been
-          correctly represented.
-        </p>
-        <label htmlFor="signatureInput">Veteran's full name</label>
-        <input
-          name="signatureInput"
-          type="text"
-          value={veteranName}
-          onChange={event => setVeteranName(event.target.value)}
+        <ul>
+          <li>My marital status and number of dependents</li>
+          <li>My income (and my spouse’s income if included)</li>
+          <li>My household assets and expenses</li>
+          <li>My bankruptcy history</li>
+        </ul>
+
+        <TextInput
+          additionalClass="signature-input"
+          label={"Veteran's full name"}
+          required
+          onValueChange={value => setVeteranName(value)}
+          field={{ value: veteranName.value }}
+          errorMessage={signatureError && 'Your signature must match.'}
         />
+
         <Checkbox
-          checked={isChecked}
-          onValueChange={value => setIsChecked(value)}
-          label="I certify the information above is correct and true to the best of my knowledge and belief."
-          errorMessage={'Must certify by checking box'}
+          checked={checked}
+          onValueChange={value => setChecked(value)}
+          label="By checking this box, I certify that the information in this request is true and correct to the best of my knowledge and belief."
+          errorMessage={checkboxError && 'Must certify by checking box'}
           required
         />
       </article>
       <p>
-        <strong>Note: </strong> The law provides severe penalties which include
-        fine or imprisonment, or both, for the willful submission of any
-        statement or evidence of a material fact, knowing it to be false.
+        <strong>Note: </strong>
+        It is a crime to knowingly submit false statements or information that
+        could affect our decision on this request. Penalties may include a fine,
+        imprisonment, or both.
       </p>
     </>
   );

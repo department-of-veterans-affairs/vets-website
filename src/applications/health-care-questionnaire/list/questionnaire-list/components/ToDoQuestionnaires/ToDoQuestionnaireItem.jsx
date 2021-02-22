@@ -25,6 +25,7 @@ export default function ToDoQuestionnaireItem({ data }) {
           <PrintButton />
         ) : (
           <AnswerQuestions
+            fullData={data}
             id={appointment.id}
             facilityName={
               appointment.attributes.vdsAppointments[0].clinic.facility

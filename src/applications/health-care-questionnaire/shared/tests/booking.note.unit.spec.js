@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { getBookingNoteFromAppointment } from '../../../utils';
+import { getBookingNoteFromAppointment } from '../utils';
 
 describe('health care questionnaire -- utils -- appointment parser -- getBookingNoteFromAppointment', () => {
   it('appointment is undefined', () => {

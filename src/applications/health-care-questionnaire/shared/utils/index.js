@@ -14,14 +14,18 @@ import {
 } from './url.utils';
 
 import {
+  clearCurrentSession,
   getCurrentAppointmentId,
   setCurrentAppointmentId,
-  clearCurrentSession,
+  setSelectedAppointmentData,
+  getSelectedAppointmentData,
+  clearSelectedAppointmentData,
 } from './session.utils';
 
 export {
   addAppointmentIdToFormId,
   clearCurrentSession,
+  clearSelectedAppointmentData,
   getAppointTypeFromAppointment,
   getAppointmentTimeFromAppointment,
   getAppointmentIdFromUrl,
@@ -30,6 +34,8 @@ export {
   getClinicFromAppointment,
   getCurrentAppointmentId,
   getFacilityFromAppointment,
+  getSelectedAppointmentData,
   onFormEnter,
   setCurrentAppointmentId,
+  setSelectedAppointmentData,
 };
