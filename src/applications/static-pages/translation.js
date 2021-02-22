@@ -43,12 +43,10 @@ const configureSharableLink = () => {
       const dataEntityId = shareLink?.closest('[data-entity-id]')?.attributes[
         'data-entity-id'
       ]?.value;
+      shareLink.setAttribute('id', dataEntityId);
       const shareLinkText = shareLink.nextElementSibling;
-
-      input.setAttribute(
-        'value',
-        `${document.location.pathname}/#${dataEntityId}`,
-      );
+      const copyUrl = window.location.href.replace(window.location.hash, '');
+      input.setAttribute('value', `${copyUrl}#${dataEntityId}`);
       document.body.appendChild(input);
       input.select();
       const result = document.execCommand('copy');
