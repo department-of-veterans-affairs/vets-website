@@ -10,7 +10,7 @@ describe('Health care questionnaire list -- ', () => {
       win.sessionStorage.removeItem('DISMISSED_DOWNTIME_WARNINGS');
     });
   });
-  it('upcoming maintenance', () => {
+  it.skip('upcoming maintenance', () => {
     // start time is one minute from now
     const startTime = new Date(Date.now() + 60 * 1000);
     // end time is one hour from now
