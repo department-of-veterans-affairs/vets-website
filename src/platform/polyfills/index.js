@@ -5,7 +5,6 @@
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import 'date-time-format-timezone';
 
 import './download-attribute';
 import './canvas-toBlob';
