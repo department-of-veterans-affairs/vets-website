@@ -66,6 +66,10 @@ export default {
   },
   selectDate1: {
     url: '/new-project-cheetah-booking/select-date-1',
+    next: 'secondDosePage',
+  },
+  secondDosePage: {
+    url: '/new-project-cheetah-booking/plan-second-dose',
     next: 'contactInfo',
   },
   contactInfo: {

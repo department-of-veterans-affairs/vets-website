@@ -39,7 +39,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: /Choose a day and time for your appointment/i,
+        name: /Choose an appointment day and time/i,
       }),
     ).to.be.ok;
 

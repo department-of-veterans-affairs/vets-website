@@ -94,6 +94,7 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
     if (trackSearch) {
       recordEvent({
         event: 'view_search_results',
+        'search-dropdown-used': false,
         'search-page-path': '/education/yellow-ribbon-participating-schools/',
         'search-query': name,
         'search-typeahead-enabled': false,
@@ -104,9 +105,14 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
           contributionAmount: contributionAmount || undefined,
           numberOfStudents: numberOfStudents || undefined,
         },
+        'search-total-results': response.results.length,
+        'search-total-result-pages': Math.ceil(
+          response.results.length / perPage,
+        ),
         'type-ahead-option-keyword-selected': undefined,
         'type-ahead-option-position': undefined,
         'type-ahead-options-list': undefined,
+        'search-dropdown-used': !!state,
       });
     }
 
