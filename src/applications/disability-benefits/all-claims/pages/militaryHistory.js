@@ -58,10 +58,13 @@ export const uiSchema = {
       'ui:field': ArrayField,
       'ui:options': {
         itemName: 'Service Period',
-        itemAriaLabel: data =>
-          `${data.serviceBranch} ranging from ${formatDate(
-            data.dateRange.from,
-          )} to ${formatDate(data.dateRange.to)}`,
+        itemAriaLabel: data => {
+          const hasDate =
+            data.serviceBranch && data.dateRange?.from
+              ? ` started on ${formatDate(data.dateRange.from)}`
+              : '';
+          return `${data.serviceBranch || ''}${hasDate}`;
+        },
         viewField: ValidatedServicePeriodView,
         reviewMode: true,
         showSave: true,
