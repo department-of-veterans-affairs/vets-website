@@ -19,7 +19,6 @@ import {
 import { FETCH_STATUS, PURPOSE_TEXT } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import * as actions from '../../redux/actions';
-import { cancelAppointment } from '../../redux/actions';
 import AppointmentDateTime from './AppointmentDateTime';
 import AppointmentInstructions from './AppointmentInstructions';
 import { selectFeatureCancel } from '../../../redux/selectors';
@@ -51,6 +50,7 @@ function formatHeader(appointment) {
 function ConfirmedAppointmentDetailsPage({
   appointmentDetails,
   appointmentDetailsStatus,
+  cancelAppointment,
   facilityData,
   fetchConfirmedAppointmentDetails,
   confirmedStatus,
@@ -233,6 +233,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
+  cancelAppointment: actions.cancelAppointment,
   fetchConfirmedAppointmentDetails: actions.fetchConfirmedAppointmentDetails,
 };
 

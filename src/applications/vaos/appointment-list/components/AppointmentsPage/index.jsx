@@ -7,9 +7,7 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import ScheduleNewAppointment from './ScheduleNewAppointment';
 import * as actions from '../../redux/actions';
-import CancelAppointmentModal from '../cancel/CancelAppointmentModal';
 import {
-  getCancelInfo,
   selectFutureStatus,
   selectExpressCareAvailability,
 } from '../../redux/selectors';
@@ -37,9 +35,6 @@ import ScheduleNewProjectCheetah from './ScheduleNewProjectCheetah';
 const pageTitle = 'VA appointments';
 
 function AppointmentsPage({
-  cancelInfo,
-  closeCancelAppointment,
-  confirmCancelAppointment,
   expressCare,
   fetchFutureAppointments,
   fetchExpressCareWindows,
@@ -73,18 +68,6 @@ function AppointmentsPage({
       }
     },
     [isWelcomeModalDismissed],
-  );
-
-  useEffect(
-    () => {
-      if (
-        !cancelInfo.showCancelModal &&
-        cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded
-      ) {
-        scrollAndFocus();
-      }
-    },
-    [cancelInfo.showCancelModal, cancelInfo.cancelAppointmentStatus],
   );
 
   const isLoading =
@@ -163,19 +146,11 @@ function AppointmentsPage({
           {routes}
         </>
       )}
-      <CancelAppointmentModal
-        {...cancelInfo}
-        onConfirm={confirmCancelAppointment}
-        onClose={closeCancelAppointment}
-      />
     </>
   );
 }
 
 AppointmentsPage.propTypes = {
-  cancelInfo: PropTypes.object,
-  closeCancelAppointment: PropTypes.func.isRequired,
-  confirmCancelAppointment: PropTypes.func.isRequired,
   isCernerOnlyPatient: PropTypes.bool.isRequired,
   isWelcomeModalDismissed: PropTypes.bool.isRequired,
   showCommunityCare: PropTypes.bool.isRequired,
@@ -188,7 +163,6 @@ function mapStateToProps(state) {
   return {
     pendingStatus: state.appointments.pendingStatus,
     futureStatus: selectFutureStatus(state),
-    cancelInfo: getCancelInfo(state),
     showScheduleButton: selectFeatureRequests(state),
     showCommunityCare: selectFeatureCommunityCare(state),
     showDirectScheduling: selectFeatureDirectScheduling(state),
@@ -201,8 +175,6 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   fetchExpressCareWindows: actions.fetchExpressCareWindows,
-  closeCancelAppointment: actions.closeCancelAppointment,
-  confirmCancelAppointment: actions.confirmCancelAppointment,
   startNewAppointmentFlow: actions.startNewAppointmentFlow,
   startNewExpressCareFlow: actions.startNewExpressCareFlow,
   fetchFutureAppointments: actions.fetchFutureAppointments,

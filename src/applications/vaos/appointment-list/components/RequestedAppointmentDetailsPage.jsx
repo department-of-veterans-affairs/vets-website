@@ -33,6 +33,7 @@ const TIME_TEXT = {
 function RequestedAppointmentDetailsPage({
   appointment,
   appointmentDetailsStatus,
+  cancelAppointment,
   facilityData,
   fetchRequestDetails,
   pendingStatus,
@@ -104,6 +105,7 @@ function RequestedAppointmentDetailsPage({
               <button
                 aria-label="Cancel request"
                 className="vaos-appts__cancel-btn va-button-link vads-u-flex--0"
+                onClick={() => cancelAppointment(appointment)}
               >
                 Cancel Request
               </button>
@@ -212,6 +214,7 @@ function mapStateToProps(state) {
   };
 }
 const mapDispatchToProps = {
+  cancelAppointment: actions.cancelAppointment,
   fetchRequestDetails: actions.fetchRequestDetails,
 };
 export default connect(
