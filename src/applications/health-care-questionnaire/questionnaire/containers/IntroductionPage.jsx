@@ -59,6 +59,7 @@ const IntroductionPage = props => {
           formConfig={props.route?.formConfig}
           resumeOnly={props.route?.formConfig.saveInProgress.resumeOnly}
           renderSignInMessage={UnAuthedWelcomeMessage}
+          downtime={props.route.formConfig.downtime}
         />
       );
     } else if (isLoggedIn) {
