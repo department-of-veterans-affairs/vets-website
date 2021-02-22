@@ -45,7 +45,7 @@ export const HeadingSummary = ({ institution, showModal }) => {
   const icons = 'column vads-u-margin-top--neg3 vads-u-padding-bottom--2';
 
   return (
-    <div className="heading">
+    <div id="heading-summary" className="heading">
       <div className="row">
         <div className={header}>
           <h1 className="vads-u-margin-bottom--0" tabIndex={-1}>
