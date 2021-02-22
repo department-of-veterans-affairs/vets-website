@@ -6,7 +6,6 @@ import { isEmpty } from 'lodash';
 // Relative imports.
 import AuthContent from '../AuthContent';
 import UnauthContent from '../UnauthContent';
-import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { selectPatientFacilities } from 'platform/user/selectors';
 
