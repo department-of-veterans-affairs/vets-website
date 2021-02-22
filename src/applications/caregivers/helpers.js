@@ -130,7 +130,7 @@ export const hasSecondaryCaregiverOne = formData =>
 export const hasSecondaryCaregiverTwo = formData =>
   formData[secondaryOneFields.hasSecondaryCaregiverTwo] === true;
 
-const isSSNUnique = formData => {
+export const isSSNUnique = formData => {
   const {
     veteranSsnOrTin,
     primarySsnOrTin,
