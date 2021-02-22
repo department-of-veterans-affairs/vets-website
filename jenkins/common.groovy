@@ -172,20 +172,23 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
       // Until slackUploadFile works...
       def brokenLinks = readFile(csvFile)
       def brokenLinksCount = sh(returnStdout: true, script: "wc -l /application/${csvFileName} | cut -d ' ' -f1") as Integer
+      def brokenLinksMessage = "${brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}".stripMargin()
 
-      // slackSend(
-      //   message: "${brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}".stripMargin(),
-      //   color: 'danger',
-      //   failOnError: true,
-      //   channel: 'cms-team',
-      //   attachments: """ [ { \"text\": \"${brokenLinks}\" } ] """
-      // )
-
-      slackUploadFile(
-        filePath: "application/${csvFileName}",
+      slackSend(
+        message: brokenLinksMessage,
+        color: 'danger',
+        failOnError: true,
         channel: 'cms-team',
-        initialComment: "${brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}".stripMargin()
+        attachments: """ [ { \"text\": \"${brokenLinks}\" } ] """
       )
+
+      // // TODO: determine correct file path 
+      // // relative to agent's workspace https://github.com/jenkinsci/slack-plugin/issues/667#issuecomment-585982716
+      // slackUploadFile(
+      //   filePath: csvFile,
+      //   channel: 'cms-team',
+      //   initialComment: brokenLinksMessage
+      // )
 
 
       throw new Exception('Broken links found')
