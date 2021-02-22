@@ -5,6 +5,7 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { mapboxToken } from '../utils/mapboxToken';
 import {
+  clearSearchText,
   clearSearchResults,
   fetchVAFacility,
   searchWithBounds,
@@ -391,6 +392,7 @@ const FacilitiesMap = props => {
           suppressCCP={props.suppressCCP}
           suppressPharmacies={props.suppressPharmacies}
           searchCovid19Vaccine={props.searchCovid19Vaccine}
+          clearSearchText={props.clearSearchText}
         />
         <div id="search-results-title" ref={searchResultTitleRef}>
           <SearchResultsHeader
@@ -486,6 +488,7 @@ const FacilitiesMap = props => {
           suppressCCP={props.suppressCCP}
           suppressPharmacies={props.suppressPharmacies}
           searchCovid19Vaccine={props.searchCovid19Vaccine}
+          clearSearchText={props.clearSearchText}
         />
         <div id="search-results-title" ref={searchResultTitleRef}>
           <SearchResultsHeader
@@ -727,6 +730,7 @@ const mapDispatchToProps = {
   genSearchAreaFromCenter,
   searchWithBounds,
   clearSearchResults,
+  clearSearchText,
   mapMoved,
 };
 export default connect(
