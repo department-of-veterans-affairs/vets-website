@@ -166,24 +166,28 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
     // if (IS_PROD_BRANCH || contentOnlyBuild) {
     if (true || contentOnlyBuild) { // TODO: TESTING
       echo "Notifying Slack channel."
-      // TODO: Move this slackUploadFile to cacheDrupalContent and update the echo statement above
+      
       // slackUploadFile(filePath: csvFile, channel: 'dev_null', failOnError: true, initialComment: "Found broken links in the ${envName} build on `${env.BRANCH_NAME}`.")
 
       // Until slackUploadFile works...
       def brokenLinks = readFile(csvFile)
       def brokenLinksCount = sh(returnStdout: true, script: "wc -l /application/${csvFileName} | cut -d ' ' -f1") as Integer
-      def brokenLinksMessage = "${brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}".stripMargin()
+      def brokenLinksMessage = "${brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}\n${brokenLinks}".stripMargin()
 
       slackSend(
         message: brokenLinksMessage,
         color: 'danger',
         failOnError: true,
-        channel: 'cms-team',
-        attachments: """ [ { \"text\": \"${brokenLinks}\" } ] """
+        channel: 'cms-team'
+        // attachments: brokenLinks
+        // TODO: errors out with ERROR: Slack notification failed with exception: net.sf.json.JSONException: Invalid JSON String
+        // needs to be formatted into JSON
+        // see also: https://stackoverflow.com/a/51556653/2043808
       )
 
-      // // TODO: determine correct file path 
-      // // relative to agent's workspace https://github.com/jenkinsci/slack-plugin/issues/667#issuecomment-585982716
+      // TODO: Move this slackUploadFile to cacheDrupalContent and update the echo statement above
+      // TODO: determine correct file path relative to agent's workspace
+      // see also: https://github.com/jenkinsci/slack-plugin/issues/667#issuecomment-585982716
       // slackUploadFile(
       //   filePath: csvFile,
       //   channel: 'cms-team',
