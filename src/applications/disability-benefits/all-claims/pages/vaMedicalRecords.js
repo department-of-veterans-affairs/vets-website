@@ -37,6 +37,9 @@ export const uiSchema = {
         'treatmentDateRange',
         'treatmentCenterAddress',
       ],
+      'ui:options': {
+        itemAriaLabel: data => data.treatmentCenterName,
+      },
       treatmentCenterName: autoSuggestUiSchema(
         'Name of VA medical facility',
         queryForFacilities,
