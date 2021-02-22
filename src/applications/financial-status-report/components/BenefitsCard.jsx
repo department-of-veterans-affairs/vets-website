@@ -1,12 +1,43 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { fetchDebts } from '../actions';
 import Telephone, {
   CONTACTS,
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
-const BenefitsCard = () => {
+const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 2,
+});
+
+const Benefits = ({ income, getDebts }) => {
+  useEffect(() => {
+    getDebts();
+  }, []);
+
+  // const currentDebt = debts.reduce((a, b) => a + Number(b.currentAr), 0);
+  // console.log('currentDebt: ', currentDebt);
+
+  // console.log('debts: ', debts);
+
+  // const eduDebts = debts.filter(item => {
+  //   return item.deductionCode === '30';
+  // });
+
+  // console.log('eduDebts: ', eduDebts);
+
+  // const compDebts = debts.filter(item => {
+  //   return item.deductionCode !== '30';
+  // });
+
+  // console.log('compDebts: ', compDebts);
+
+  const comp = income.reduce((a, b) => a + Number(b.compensationAndPension), 0);
+  const edu = income.reduce((a, b) => a + Number(b.education), 0);
+
   return (
     <>
       <div className="usa-alert background-color-only">
@@ -17,26 +48,30 @@ const BenefitsCard = () => {
         </div>
         <div className="vads-u-margin-bottom--1">
           <strong>Total amount: </strong>
-          $2,100.00
+          {income &&
+            formatter.format(parseFloat(income[0].compensationAndPension))}
         </div>
         <div className="vads-u-margin-bottom--1">
           <strong>Amount received last month: </strong>
-          $1,800.00
+          {income && formatter.format(parseFloat(comp))}
         </div>
       </div>
+
       <div className="usa-alert background-color-only">
         <div className="vads-u-margin-bottom--1">
           <h4 className="vads-u-margin--0">Education benefits</h4>
         </div>
         <div className="vads-u-margin-bottom--1">
           <strong>Total amount: </strong>
-          $1,100.00
+          {income &&
+            formatter.format(parseFloat(income[1].compensationAndPension))}
         </div>
         <div className="vads-u-margin-bottom--1">
           <strong>Amount received last month: </strong>
-          $1,100.00
+          {income && formatter.format(parseFloat(edu))}
         </div>
       </div>
+
       <p>
         <strong>Note:</strong> If this information isn’t right, call our VA
         benefits hotline at <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
@@ -47,15 +82,20 @@ const BenefitsCard = () => {
   );
 };
 
-BenefitsCard.propTypes = {
-  benefits: PropTypes.object,
+Benefits.propTypes = {
+  income: PropTypes.array,
 };
 
-const mapStateToProps = ({ form }) => ({
-  benefits: form?.data,
+const mapStateToProps = ({ form, fsr }) => ({
+  income: form.data.income,
+  debts: fsr.debts,
 });
+
+const mapDispatchToProps = {
+  getDebts: fetchDebts,
+};
 
 export default connect(
   mapStateToProps,
-  null,
-)(BenefitsCard);
+  mapDispatchToProps,
+)(Benefits);
