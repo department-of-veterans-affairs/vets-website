@@ -163,8 +163,7 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
     echo "Found broken links."
 
     // Only break the build if broken links are found in master
-    // if (IS_PROD_BRANCH || contentOnlyBuild) {
-    if (true || contentOnlyBuild) { // TODO: TESTING
+    if (IS_PROD_BRANCH || contentOnlyBuild) {
       echo "Notifying Slack channel."
       
       // slackUploadFile(filePath: csvFile, channel: 'dev_null', failOnError: true, initialComment: "Found broken links in the ${envName} build on `${env.BRANCH_NAME}`.")
