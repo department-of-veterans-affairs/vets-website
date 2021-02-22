@@ -4,7 +4,7 @@ import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 import ValidatedServicePeriodView from '../components/ValidatedServicePeriodView';
 import ArrayField from '../components/ArrayField';
-import { isValidServicePeriod } from '../utils';
+import { isValidServicePeriod, formatDate } from '../utils';
 
 const dateRangeUISchema = dateRangeUI(
   'Service start date',
@@ -58,7 +58,10 @@ export const uiSchema = {
       'ui:field': ArrayField,
       'ui:options': {
         itemName: 'Service Period',
-        itemAriaLabel: data => data.serviceBranch,
+        itemAriaLabel: data =>
+          `${data.serviceBranch} ranging from ${formatDate(
+            data.dateRange.from,
+          )} to ${formatDate(data.dateRange.to)}`,
         viewField: ValidatedServicePeriodView,
         reviewMode: true,
         showSave: true,
