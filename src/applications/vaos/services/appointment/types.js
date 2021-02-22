@@ -25,6 +25,7 @@
 // };
 
 /**
+ * @summary
  * Participant array contents when appointment is a VistA based appointment
  *
  * @typedef {Array<ClinicReference|FacilityReference>} VistaAppointmentParticipants
@@ -38,6 +39,7 @@
  * Clinics are uniquely identified by a combination of the VistA site/instance id and the clinic id
  * @property {string} actor.display Clinic name, mapped from appointment.clinicFriendlyName or appointment.vdsAppointments[0].clinic.name
  */
+
 /**
  * @typedef {Object} FacilityReference
  * @property {Object} actor
@@ -45,6 +47,7 @@
  *
  * It is intentionally not mapped to appointment.facilityId, because that is the VistA site/instance id.
  */
+
 /**
  * @typedef {Object} RequestFacilityReference
  * @property {Object} actor
@@ -54,12 +57,14 @@
  */
 
 /**
+ * @summary
  * Participant array contents when appointment is a VA appointment request
  *
  * @typedef {Array<RequestFacilityReference>} VARequestParticipants
  */
 
 /**
+ * @summary
  * Contained array contents when appointment is a community care appointment request
  *
  * @typedef {Array<RequestPatientResource|CommunityCarePractitionerResource>} CommunityCareRequestContainedResources
@@ -79,7 +84,9 @@
  * @property {string} telecom.1.value Email address, mapped from request.email
  */
 /**
+ * @summary
  * Each preferred provider will have a Practioner resource, currently will just be one provider
+ *
  * @typedef {Object} CommunityCarePractitionerResource
  * @property {'Practitioner'} resourceType
  * @property {string} id Mapped to cc-practitioner-${request.id}-${request.ccAppointmentRequest.preferredProviders.index}
@@ -102,6 +109,7 @@
  */
 
 /**
+ * @summary
  * Array of resources for a video appointment. Generally just one item, but will have an AtlasLocation resource
  * for ATLAS appointments. ATLAS appointments are indicated by a video appointment having an
  * appointment.vvsAppointments[0].tasInfo object
@@ -140,6 +148,7 @@
  */
 
 /**
+ * @summary
  * Location data for ATLAS appointments, mapped from appointment.tasInfo
  *
  * @typedef {Object} AtlasLocation
@@ -165,6 +174,7 @@
  */
 
 /**
+ * @summary
  * - booked: Used for all community care appointments and any non-cancelled VistA appointments
  * - cancelled: Mapped from cancelled for requests, or the set of cancelled statuses for appointments
  * - proposed: Mapped from the Submitted status for requests
@@ -175,6 +185,7 @@
  */
 
 /**
+ * @summary
  * Holds type of care information for requests
  *
  * @typedef {Object} RequestType
@@ -185,6 +196,7 @@
 
 /**
  *
+ * @summary
  * Appointments resources are created from several different data sources:
  *
  * - VistA and Video appointments from mobile appointment service (MAS)
@@ -226,9 +238,9 @@
  * - Mapped from request.reasonForVisit for Express Care requests
  * - Mapped from request.purposeForVisit for regular requests
  * - Empty for other appointment types
- * @property {VistaAppointmentParticipants|VARequestParticipants|VideoParticipants|CommunityCareParticipants} participant
+ * @property {VistaAppointmentParticipants | VARequestParticipants | VideoParticipants | CommunityCareParticipants} participant
  *   Array of resources participating in this appointment, used to store information like clinic and location
- * @property {VideoContainedResources|VARequestContainedResources|CommunityCareRequestContainedResources|CommunityCareContainedResources} contained
+ * @property {VideoContainedResources | VARequestContainedResources | CommunityCareRequestContainedResources | CommunityCareContainedResources} contained
  *   Array of fully defined resources for this appointment
  * @property {Object} legacyVAR Object containing untransformed data that we don't have a place for
  * @property {Object} legacyVAR.apiData This is the full appointment/request object. Generally, we shouldn't be pulling data from here
@@ -238,6 +250,7 @@
  */
 
 /**
+ * @summary
  * These dates will either have a midnight to Noon start and end time, or a Noon to midnight timeframe,
  * dependening on if the user chose AM or PM
  *

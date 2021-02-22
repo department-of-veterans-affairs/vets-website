@@ -1,10 +1,12 @@
 {
   "plugins": ["plugins/markdown"],
   "opts": {
-    "template": "node_modules/ink-docstrap/template",
+    "template": "node_modules/docdash",
     "recurse": true
   },
-  "templates": {
-    "systemName": "VAOS client app documentation"
+  "docdash": {
+    "sort": true,
+    "collapse": true,
+    "typedefs": true
   }
 }
