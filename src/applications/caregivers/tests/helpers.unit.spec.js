@@ -194,7 +194,7 @@ describe('Caregivers helpers', () => {
       [primaryCaregiverFields.hasPrimaryCaregiver]: true,
       [primaryCaregiverFields.ssn]: '111332356',
       [primaryCaregiverFields.hasSecondaryCaregiverOne]: false,
-      [secondaryOneFields.ssn]: '444332111',
+      [secondaryOneFields.ssn]: '222332222',
       [secondaryOneFields.hasSecondaryCaregiverTwo]: true,
       [secondaryTwoFields.ssn]: '222332221',
     };
