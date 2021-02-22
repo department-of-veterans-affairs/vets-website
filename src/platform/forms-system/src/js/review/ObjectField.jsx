@@ -145,7 +145,8 @@ class ObjectField extends React.Component {
       const ariaLabel = uiOptions.itemAriaLabel;
       const itemName =
         (typeof ariaLabel === 'function' && ariaLabel(formData || {})) ||
-        formData[uiOptions.itemName];
+        formData[uiOptions.itemName] ||
+        'Item';
       const editLabel =
         (itemName && `Edit ${itemName}`) ||
         uiOptions.ariaLabelForEditButtonOnReview ||
