@@ -22,6 +22,7 @@ export default function SearchBar({
     if (isGlobalSearch) {
       recordEvent({
         event: 'view_search_results',
+        'search-dropdown-used': false,
         'search-page-path': document.location.pathname,
         'search-query': userInput,
         'search-results-total-count': undefined,
