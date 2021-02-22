@@ -13,65 +13,58 @@ const formatter = new Intl.NumberFormat('en-US', {
   minimumFractionDigits: 2,
 });
 
-const Benefits = ({ income, getDebts }) => {
-  useEffect(() => {
-    getDebts();
-  }, []);
+const BenefitCard = ({ received, total, title }) => {
+  return (
+    <div className="usa-alert background-color-only">
+      <div className="vads-u-margin-bottom--1">
+        <h4 className="vads-u-margin--0">{title}</h4>
+      </div>
+      <div className="vads-u-margin-bottom--1">
+        <strong>Total amount: </strong>
+        {formatter.format(parseFloat(total))}
+      </div>
+      <div className="vads-u-margin-bottom--1">
+        <strong>Amount received last month: </strong>
+        {formatter.format(parseFloat(received))}
+      </div>
+    </div>
+  );
+};
 
-  // const currentDebt = debts.reduce((a, b) => a + Number(b.currentAr), 0);
-  // console.log('currentDebt: ', currentDebt);
+const Benefits = ({ income, debts, getDebts }) => {
+  useEffect(
+    () => {
+      getDebts();
+    },
+    [getDebts],
+  );
 
-  // console.log('debts: ', debts);
+  const eduDebtsTotal = debts
+    .filter(item => item.deductionCode !== '30')
+    .reduce((a, b) => a + Number(b.currentAr), 0);
 
-  // const eduDebts = debts.filter(item => {
-  //   return item.deductionCode === '30';
-  // });
+  const compDebtsTotal = debts
+    .filter(item => item.deductionCode === '30')
+    .reduce((a, b) => a + Number(b.currentAr), 0);
 
-  // console.log('eduDebts: ', eduDebts);
-
-  // const compDebts = debts.filter(item => {
-  //   return item.deductionCode !== '30';
-  // });
-
-  // console.log('compDebts: ', compDebts);
-
-  const comp = income.reduce((a, b) => a + Number(b.compensationAndPension), 0);
-  const edu = income.reduce((a, b) => a + Number(b.education), 0);
+  const eduReceived = income.reduce((a, b) => a + Number(b.education), 0);
+  const compReceived = income.reduce(
+    (a, b) => a + Number(b.compensationAndPension),
+    0,
+  );
 
   return (
     <>
-      <div className="usa-alert background-color-only">
-        <div className="vads-u-margin-bottom--1">
-          <h4 className="vads-u-margin--0">
-            Disability compensation and pension benefits
-          </h4>
-        </div>
-        <div className="vads-u-margin-bottom--1">
-          <strong>Total amount: </strong>
-          {income &&
-            formatter.format(parseFloat(income[0].compensationAndPension))}
-        </div>
-        <div className="vads-u-margin-bottom--1">
-          <strong>Amount received last month: </strong>
-          {income && formatter.format(parseFloat(comp))}
-        </div>
-      </div>
-
-      <div className="usa-alert background-color-only">
-        <div className="vads-u-margin-bottom--1">
-          <h4 className="vads-u-margin--0">Education benefits</h4>
-        </div>
-        <div className="vads-u-margin-bottom--1">
-          <strong>Total amount: </strong>
-          {income &&
-            formatter.format(parseFloat(income[1].compensationAndPension))}
-        </div>
-        <div className="vads-u-margin-bottom--1">
-          <strong>Amount received last month: </strong>
-          {income && formatter.format(parseFloat(edu))}
-        </div>
-      </div>
-
+      <BenefitCard
+        total={compDebtsTotal}
+        received={compReceived}
+        title={'Disability compensation and pension benefits'}
+      />
+      <BenefitCard
+        total={eduDebtsTotal}
+        received={eduReceived}
+        title={'Education benefits'}
+      />
       <p>
         <strong>Note:</strong> If this information isn’t right, call our VA
         benefits hotline at <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
@@ -84,6 +77,7 @@ const Benefits = ({ income, getDebts }) => {
 
 Benefits.propTypes = {
   income: PropTypes.array,
+  debts: PropTypes.array,
 };
 
 const mapStateToProps = ({ form, fsr }) => ({
