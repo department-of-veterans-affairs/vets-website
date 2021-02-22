@@ -32,7 +32,7 @@ export function loadPrescriptions(options) {
       type: options.active ? 'LOADING_ACTIVE' : 'LOADING_HISTORY',
     });
 
-    if (environment.isLocalhost() || window.Cypress) {
+    if (environment.isLocalhost()) {
       dispatch({
         type: 'LOAD_PRESCRIPTIONS_SUCCESS',
         active: options.active,
