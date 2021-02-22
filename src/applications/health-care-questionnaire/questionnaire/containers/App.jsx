@@ -15,12 +15,13 @@ import {
   questionnaireAppointmentLoading,
   questionnaireAppointmentLoaded,
 } from '../actions';
-import { loadAppointment } from '../api';
 
 import {
+  getSelectedAppointmentData,
   getAppointTypeFromAppointment,
   getCurrentAppointmentId,
-} from '../utils';
+  clearCurrentSession,
+} from '../../shared/utils';
 
 const App = props => {
   const { location, children } = props;
@@ -37,21 +38,27 @@ const App = props => {
       if (isLoggedIn) {
         setLoading();
         const id = getCurrentAppointmentId(window);
-        loadAppointment(id).then(response => {
-          const data = response;
+        const data = getSelectedAppointmentData(window, id);
+        if (!data) {
+          clearCurrentSession(window);
+          // redirect
+          window.location.replace(
+            '/health-care/health-questionnaires/questionnaires',
+          );
+        }
+        const { appointment } = data;
 
-          setLoadedAppointment(data);
-          setIsLoading(false);
-          const apptType = getAppointTypeFromAppointment(data);
-          setForm(f => {
-            return {
-              ...f,
-              title: `Answer ${apptType} questionnaire`,
-              subTitle:
-                data?.attributes?.vdsAppointments[0]?.clinic?.facility
-                  ?.displayName,
-            };
-          });
+        setLoadedAppointment(appointment);
+        setIsLoading(false);
+        const apptType = getAppointTypeFromAppointment(appointment);
+        setForm(f => {
+          return {
+            ...f,
+            title: `Answer ${apptType} questionnaire`,
+            subTitle:
+              appointment?.attributes?.vdsAppointments[0]?.clinic?.facility
+                ?.displayName,
+          };
         });
       } else {
         setIsLoading(false);

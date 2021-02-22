@@ -4,6 +4,7 @@ import moment from 'moment';
 
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -11,7 +12,7 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import IntroductionPageHelpers from '../components/introduction-page';
 
-import { getAppointTypeFromAppointment } from '../utils';
+import { getAppointTypeFromAppointment } from '../../shared/utils';
 
 const IntroductionPage = props => {
   useEffect(() => {
@@ -20,7 +21,11 @@ const IntroductionPage = props => {
 
   const { appointment } = props?.questionnaire?.context;
   if (!appointment?.attributes) {
-    return <></>;
+    return (
+      <>
+        <LoadingIndicator message="Please wait while we load your appointment details..." />
+      </>
+    );
   }
   const appointmentData = appointment?.attributes?.vdsAppointments
     ? appointment?.attributes?.vdsAppointments[0]
