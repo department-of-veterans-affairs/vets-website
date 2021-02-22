@@ -184,7 +184,6 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
       slackUploadFile(
         filePath: csvFile,
         channel: 'cms-team',
-        failOnError: true,
         initialComment: "${brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}".stripMargin()
       )
 
