@@ -1,12 +1,19 @@
 import { api } from '../config';
 
 export const DISPLAY_MODAL = 'DISPLAY_MODAL';
+export const ELIGIBILITY_CHANGED = 'ELIGIBILITY_CHANGED';
 export const ENTER_PREVIEW_MODE = 'ENTER_PREVIEW_MODE';
-export const FETCH_PROFILE_STARTED = 'FETCH_PROFILE_STARTED';
+export const EXIT_PREVIEW_MODE = 'EXIT_PREVIEW_MODE';
+export const FETCH_CONSTANTS_FAILED = 'FETCH_CONSTANTS_FAILED';
+export const FETCH_CONSTANTS_STARTED = 'FETCH_CONSTANTS_STARTED';
+export const FETCH_CONSTANTS_SUCCEEDED = 'FETCH_CONSTANTS_SUCCEEDED';
 export const FETCH_PROFILE_FAILED = 'FETCH_PROFILE_FAILED';
+export const FETCH_PROFILE_STARTED = 'FETCH_PROFILE_STARTED';
 export const FETCH_PROFILE_SUCCEEDED = 'FETCH_PROFILE_SUCCEEDED';
+export const INSTITUTION_FILTERS_CHANGED = 'INSTITUTION_FILTERS_CHANGED';
 export const SET_PAGE_TITLE = 'SET_PAGE_TITLE';
 export const SET_VERSION = 'SET_VERSION';
+export const UPDATE_ROUTE = 'UPDATE_ROUTE';
 
 export function setPageTitle(title) {
   return {
@@ -24,6 +31,19 @@ export function showModal(modal) {
 
 export function hideModal() {
   return showModal(null);
+}
+
+export function enterPreviewMode(version) {
+  return {
+    type: ENTER_PREVIEW_MODE,
+    version,
+  };
+}
+
+export function exitPreviewMode() {
+  return {
+    type: EXIT_PREVIEW_MODE,
+  };
 }
 
 function withPreview(dispatch, action) {
@@ -75,4 +95,36 @@ export function fetchProfile(facilityCode, version) {
         });
       });
   };
+}
+
+export function fetchConstants(version) {
+  const queryString = version ? `?version=${version}` : '';
+  const url = `${api.url}/calculator_constants${queryString}`;
+  return dispatch => {
+    dispatch({ type: FETCH_CONSTANTS_STARTED });
+    return fetch(url, api.settings)
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+        throw new Error(res.statusText);
+      })
+      .then(payload => {
+        withPreview(dispatch, { type: FETCH_CONSTANTS_SUCCEEDED, payload });
+      })
+      .catch(err => {
+        dispatch({
+          type: FETCH_CONSTANTS_FAILED,
+          payload: err.message,
+        });
+      });
+  };
+}
+
+export function eligibilityChange(eligibility) {
+  return { type: ELIGIBILITY_CHANGED, payload: eligibility };
+}
+
+export function institutionFilterChange(filters) {
+  return { type: INSTITUTION_FILTERS_CHANGED, payload: filters };
 }

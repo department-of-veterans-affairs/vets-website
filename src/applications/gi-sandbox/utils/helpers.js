@@ -1,6 +1,7 @@
 import { snakeCase } from 'lodash';
 import URLSearchParams from 'url-search-params';
 import { useLocation } from 'react-router-dom';
+import { isMobileView } from '../../gi/utils/helpers';
 
 /**
  * Snake-cases field names
@@ -80,3 +81,10 @@ export function convertRatingToStars(rating) {
 
   return { full, half, display: rounded };
 }
+
+export const handleScrollOnInputFocus = fieldId => {
+  const field = document.getElementById(fieldId);
+  if (field && isMobileView()) {
+    field.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+};
