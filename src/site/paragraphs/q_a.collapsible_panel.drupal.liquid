@@ -32,11 +32,12 @@
           <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
             <button class="usa-accordion-button usa-button-unstyled" aria-controls="{{ item.entityBundle }}-{{ item.entityId }}">
               <span itemprop="name">{{ item.fieldQuestion }}</span>
-              <i class="fas fa-link vads-u-color--primary vads-u-margin-left--1 share-link"></i>
-              <span class="vads-u-display--none vads-u-margin-left--1 vads-u-color--primary"> Link Copied </span>
+              
             </button>
             <div id="{{ item.entityBundle }}-{{ item.entityId }}" class="usa-accordion-content">
               <div itemprop="acceptedAnswer" itemscope="" itemtype="http://schema.org/Answer">
+                <i class="fas fa-link vads-u-color--primary vads-u-margin-left--1 share-link"></i>
+                <span class="vads-u-display--none vads-u-margin-left--1 vads-u-color--primary"> Link Copied </span>
                 {% for answer in item.fieldAnswer %}
                   {%  assign bundleComponent = "src/site/paragraphs/" | append: answer.entity.entityBundle | append: ".drupal.liquid" %}
                   {% include {{ bundleComponent }} with entity = answer.entity %}

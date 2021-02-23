@@ -43,6 +43,8 @@ const configureSharableLink = () => {
       const dataEntityId = shareLink?.closest('[data-entity-id]')?.attributes[
         'data-entity-id'
       ]?.value;
+      // change size of text
+      // remove margin Top
       shareLink.setAttribute('id', dataEntityId);
       const shareLinkText = shareLink.nextElementSibling;
       const copyUrl = window.location.href.replace(window.location.hash, '');
@@ -60,7 +62,7 @@ const configureSharableLink = () => {
       setTimeout(() => {
         // eslint-disable-next-line no-unused-expressions
         shareLinkText?.classList.add('vads-u-display--none');
-      }, 2500);
+      }, 5000);
     };
   }
 };
