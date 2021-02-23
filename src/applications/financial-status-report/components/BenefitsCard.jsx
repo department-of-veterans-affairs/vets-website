@@ -40,11 +40,11 @@ const Benefits = ({ income, debts, getDebts }) => {
   );
 
   const eduDebtsTotal = debts
-    .filter(item => item.deductionCode !== '30')
+    .filter(debt => debt.deductionCode !== '30')
     .reduce((a, b) => a + Number(b.currentAr), 0);
 
   const compDebtsTotal = debts
-    .filter(item => item.deductionCode === '30')
+    .filter(debt => debt.deductionCode === '30')
     .reduce((a, b) => a + Number(b.currentAr), 0);
 
   const eduReceived = income.reduce((a, b) => a + Number(b.education), 0);
