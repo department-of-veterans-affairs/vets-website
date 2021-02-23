@@ -25,7 +25,7 @@ const uiSchema = {
 };
 
 const pageKey = 'receivedDoseScreener';
-const pageTitle = 'Have you received a COVID vaccination?';
+const pageTitle = 'Have you received a COVID-19 vaccine?';
 
 function ReceivedDoseScreenerPage({
   schema,
