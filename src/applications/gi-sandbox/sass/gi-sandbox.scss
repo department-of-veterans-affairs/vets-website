@@ -1,7 +1,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
-@import "partials/gi-vet-tec";
 @import "partials/gi-modal";
 @import "partials/gi-profile-page";
 
@@ -77,6 +76,18 @@
         }
       }
     }
+  }
+
+  .disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    select:disabled {
+      background-color: $color-gray-lightest;
+    }
+  }
+
+  .far.disabled, .fa.disabled {
+    opacity: 0.5;
   }
 
   .mobile-only {
