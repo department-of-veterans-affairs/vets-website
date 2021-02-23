@@ -53,11 +53,13 @@ const configureSharableLink = () => {
       document.body.removeChild(input);
       // eslint-disable-next-line no-console
       console.log('COPIED THIS TO CLIPBOARD: ', result);
-      if (shareLinkText.classList.contains('vads-u-display--none')) {
-        shareLinkText.classList.remove('vads-u-display--none');
+      if (shareLinkText?.classList.contains('vads-u-display--none')) {
+        // eslint-disable-next-line no-unused-expressions
+        shareLinkText?.classList.remove('vads-u-display--none');
       }
       setTimeout(() => {
-        shareLinkText.classList.add('vads-u-display--none');
+        // eslint-disable-next-line no-unused-expressions
+        shareLinkText?.classList.add('vads-u-display--none');
       }, 2500);
     };
   }
