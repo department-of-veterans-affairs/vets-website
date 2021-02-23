@@ -50,7 +50,7 @@ function ViewDependentsListItem(props) {
       >
         <dt
           // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-          tabIndex="0"
+          tabIndex="-1"
           className="vads-l-col--12 vads-u-margin--0 vads-u-font-size--lg vads-u-font-weight--bold mng-dependents-name"
         >
           {firstName} {lastName}
