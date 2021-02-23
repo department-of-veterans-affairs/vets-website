@@ -356,12 +356,16 @@
                 <div class="medium-screen:vads-u-margin-x--6">
                   <!-- Title -->
                   <h3 class="vads-u-margin-top--0">
-                    <a
-                      href="{{ eventReference.entity.fieldLink.url }}"
-                      onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Events', 'clp-section-title': '{{ fieldClpEventsHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ eventReference.entity.title | escape }}' });"
-                    >
+                    {% if eventReference.entity.entityUrl.path %}
+                      <a
+                        href="{{ eventReference.entity.entityUrl.path }}"
+                        onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Events', 'clp-section-title': '{{ fieldClpEventsHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ eventReference.entity.title | escape }}' });"
+                      >
+                        {{ eventReference.entity.title }}
+                      </a>
+                    {% elsif %}
                       {{ eventReference.entity.title }}
-                    </a>
+                    {% endif %}
                   </h3>
 
                   <!-- Description -->
@@ -545,7 +549,7 @@
               <div class="vads-u-margin-y--1 medium-screen:vads-u-margin-x--1">
                 <a
                   aria-label="{{ fieldClpConnectWithUs.entity.name }} YouTube (opens in a new window)"
-                  href="https://youtube.com/channel/{{ socialLinksObject.youtube.value }}"
+                  href="https://youtube.com/{{ socialLinksObject.youtube.value }}"
                   onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Connect with us', 'clp-section-title': 'Get updates from {{ fieldClpConnectWithUs.entity.name | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpConnectWithUs.entity.name | escape }} YouTube' });"
                   rel="noreferrer noopener"
                   target="_blank"
