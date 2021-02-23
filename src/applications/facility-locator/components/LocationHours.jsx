@@ -2,13 +2,13 @@
 import React from 'react';
 import { get } from 'lodash';
 // Relative
-import { LocationType } from '../constants';
+import { LocationType, FacilityType } from '../constants';
 import { formatOperatingHours } from '../utils/helpers';
 
 /**
  * VA Facility Known Operational Hours
  */
-const LocationHours = ({ location }) => {
+const LocationHours = ({ location, showHoursSpecialInstructions }) => {
   // Derive the formatted hours info.
   const hoursInfo = get(location, 'attributes.hours');
 
@@ -24,6 +24,8 @@ const LocationHours = ({ location }) => {
   // Derive if the facility is a vet center.
   const facilityType = get(location, 'attributes.facilityType');
   const isVetCenter = facilityType === LocationType.VET_CENTER;
+  const isVaHealth = facilityType === FacilityType.VA_HEALTH_FACILITY;
+  const { operationalHoursSpecialInstructions } = location.attributes;
 
   return (
     <div id="hours-op">
@@ -93,6 +95,14 @@ const LocationHours = ({ location }) => {
           Please contact your Vet Center to obtain the current schedule.
         </p>
       )}
+
+      {isVaHealth &&
+        showHoursSpecialInstructions &&
+        operationalHoursSpecialInstructions && (
+          <p id="operational-special-p">
+            {operationalHoursSpecialInstructions}
+          </p>
+        )}
     </div>
   );
 };

@@ -10,6 +10,7 @@ import Telephone, {
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
 import recordEvent from '~/platform/monitoring/record-event';
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
 import { isLOA3 as isLOA3Selector } from '~/platform/user/selectors';
 import { usePrevious } from '~/platform/utilities/react-hooks';
@@ -27,7 +28,7 @@ import {
 
 import DirectDepositConnectionError from '../alerts/DirectDepositConnectionError';
 
-import BankInfoForm from './BankInfoForm';
+import BankInfoForm, { makeFormProperties } from './BankInfoForm';
 
 import PaymentInformationEditError from './PaymentInformationEditError';
 import ProfileInfoTable from '../ProfileInfoTable';
@@ -44,6 +45,7 @@ export const DirectDepositEDU = ({
   saveBankInformation,
   toggleEditState,
 }) => {
+  const formPrefix = 'EDU';
   const editBankInfoButton = useRef();
   const [formData, setFormData] = useState({});
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
@@ -52,8 +54,17 @@ export const DirectDepositEDU = ({
   const isEditingBankInfo = directDepositUiState.isEditing;
   const saveError = directDepositUiState.responseError;
 
-  const { accountNumber, accountType, routingNumber } = formData;
-  const isEmptyForm = !accountNumber && !accountType && !routingNumber;
+  const { accountNumber, accountType, routingNumber } = makeFormProperties(
+    formPrefix,
+  );
+
+  const {
+    [accountNumber]: formAccountNumber,
+    [accountType]: formAccountType,
+    [routingNumber]: formRoutingNumber,
+  } = formData;
+  const isEmptyForm =
+    !formAccountNumber && !formAccountType && !formRoutingNumber;
 
   // when we enter and exit edit mode...
   useEffect(
@@ -84,9 +95,9 @@ export const DirectDepositEDU = ({
 
   const saveBankInfo = () => {
     const payload = {
-      financialInstitutionRoutingNumber: formData.routingNumber,
-      accountNumber: formData.accountNumber,
-      accountType: formData.accountType,
+      financialInstitutionRoutingNumber: formData[routingNumber],
+      accountNumber: formData[accountNumber],
+      accountType: formData[accountType],
     };
     saveBankInformation(payload);
   };
@@ -169,6 +180,13 @@ export const DirectDepositEDU = ({
           target="_blank"
           rel="noopener noreferrer"
           href="https://www.va.gov/education/eligibility/"
+          onClick={() => {
+            recordEvent({
+              event: 'profile-navigation',
+              'profile-action': 'view-link',
+              'profile-section': 'education-benefits',
+            });
+          }}
         >
           Find out if you’re eligible for VA education benefits
         </a>
@@ -180,11 +198,12 @@ export const DirectDepositEDU = ({
   // information
   const editingBankInfoContent = (
     <>
-      <div id="errors" role="alert" aria-atomic="true">
+      <div id="edu-bank-save-errors" role="alert" aria-atomic="true">
         {!!saveError && (
           <PaymentInformationEditError
-            responseError={saveError}
             className="vads-u-margin-top--0 vads-u-margin-bottom--2"
+            level={4}
+            responseError={saveError}
           />
         )}
       </div>
@@ -200,14 +219,34 @@ export const DirectDepositEDU = ({
           />
         </AdditionalInfo>
       </div>
-      <BankInfoForm
-        formChange={data => setFormData(data)}
-        formData={formData}
-        formSubmit={saveBankInfo}
-        isSaving={directDepositUiState.isSaving}
-        onClose={closeDDForm}
-        cancelButtonClasses={['va-button-link', 'vads-u-margin-left--1']}
-      />
+      <div data-testid={`${formPrefix}-bank-info-form`}>
+        <BankInfoForm
+          formChange={data => setFormData(data)}
+          formData={formData}
+          formPrefix={formPrefix}
+          formSubmit={saveBankInfo}
+        >
+          <LoadingButton
+            aria-label="update your bank information for education benefits"
+            type="submit"
+            loadingText="saving bank information"
+            className="usa-button-primary vads-u-margin-top--0 vads-u-width--full small-screen:vads-u-width--auto"
+            isLoading={directDepositUiState.isSaving}
+          >
+            Update
+          </LoadingButton>
+          <button
+            aria-label="cancel updating your bank information for education benefits"
+            type="button"
+            disabled={directDepositUiState.isSaving}
+            className="va-button-link vads-u-margin-left--1"
+            onClick={closeDDForm}
+            data-qa="cancel-button"
+          >
+            Cancel
+          </button>
+        </BankInfoForm>
+      </div>
     </>
   );
 

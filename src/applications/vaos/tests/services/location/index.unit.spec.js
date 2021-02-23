@@ -30,7 +30,7 @@ describe('VAOS Location service', () => {
       setFetchJSONResponse(global.fetch, facilities983);
       data = await getSupportedLocationsByTypeOfCare({
         siteId: '983',
-        parentId: 'var983A6',
+        parentId: '983A6',
         typeOfCareId: '123',
       });
 
@@ -45,7 +45,7 @@ describe('VAOS Location service', () => {
       setFetchJSONResponse(global.fetch, facilities983);
       data = await getSupportedLocationsByTypeOfCare({
         siteId: '983',
-        parentId: 'var983A6',
+        parentId: '983A6',
         typeOfCareId: '123',
       });
 
@@ -66,7 +66,7 @@ describe('VAOS Location service', () => {
       try {
         data = await getSupportedLocationsByTypeOfCare({
           siteId: '983',
-          parentId: 'var983A6',
+          parentId: '983A6',
           typeOfCareId: '123',
         });
       } catch (e) {
@@ -87,7 +87,7 @@ describe('VAOS Location service', () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, facilityDetails);
       data = await getLocations({
-        facilityIds: ['var983A6'],
+        facilityIds: ['983A6'],
       });
 
       expect(global.fetch.firstCall.args[0]).to.contain(
@@ -104,7 +104,7 @@ describe('VAOS Location service', () => {
       let error;
       try {
         data = await getLocations({
-          facilityIds: ['var983'],
+          facilityIds: ['983'],
         });
       } catch (e) {
         error = e;
@@ -124,7 +124,7 @@ describe('VAOS Location service', () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, { data: facilityDetails.data[0] });
       data = await getLocation({
-        facilityId: 'var983A6',
+        facilityId: '983A6',
       });
 
       expect(global.fetch.firstCall.args[0]).to.contain(
@@ -142,7 +142,7 @@ describe('VAOS Location service', () => {
       let error;
       try {
         data = await getLocation({
-          facilityId: 'var983',
+          facilityId: '983',
         });
       } catch (e) {
         error = e;
@@ -297,7 +297,7 @@ describe('VAOS Location service', () => {
       const firstProvider = ccProviders.data[0];
       const firstLocation = data[0];
       expect(firstLocation.name).to.equal(firstProvider.attributes.name);
-      expect(firstLocation.id).to.equal(firstProvider.attributes.uniqueId);
+      expect(firstLocation.id).to.equal(firstProvider.id);
       expect(firstLocation.telecom[0].value).to.equal(
         firstProvider.attributes.caresitePhone,
       );

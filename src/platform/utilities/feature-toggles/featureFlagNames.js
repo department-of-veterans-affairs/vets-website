@@ -9,6 +9,8 @@ export default Object.freeze({
     'facilityLocatorPredictiveLocationSearch',
   facilityLocatorLighthouseCovidVaccineQuery:
     'facilityLocatorLighthouseCovidVaccineQuery',
+  facilityLocatorShowOperationalHoursSpecialInstructions:
+    'facilityLocatorShowOperationalHoursSpecialInstructions',
   vaOnlineScheduling: 'vaOnlineScheduling',
   vaOnlineSchedulingCancel: 'vaOnlineSchedulingCancel',
   vaOnlineSchedulingRequests: 'vaOnlineSchedulingRequests',
@@ -60,7 +62,6 @@ export default Object.freeze({
   show526Wizard: 'show526Wizard',
   showChapter36: 'show_chapter_36',
   showChapter31: 'show_chapter_31',
-  viewPaymentHistory: 'view_payment_history',
   requestLockedPdfPassword: 'request_locked_pdf_password',
   form526ConfirmationEmail: 'form526_confirmation_email',
   form526ConfirmationEmailShowCopy: 'form526_confirmation_email_show_copy',
@@ -70,7 +71,7 @@ export default Object.freeze({
   covidVaccineUpdatesDisableAuth:
     'covid_vaccine_registration_frontend_hide_auth',
   showFindFormsResultsLinkToFormDetailPages: 'find_forms_mvp_enhancement',
-  multipleAddress1010ez: 'multiple_address_10_10ez',
+  yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
   evssUploadLimit150Mb: 'evss_upload_limit_150mb',
   searchRepresentative: 'search_representative',
   gibctStateSearch: 'gibct_state_search',

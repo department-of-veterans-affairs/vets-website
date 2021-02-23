@@ -32,7 +32,7 @@ export const PROFILE_PATHS = Object.freeze({
 });
 
 export const PROFILE_PATH_NAMES = Object.freeze({
-  DIRECT_DEPOSIT: 'Direct deposit',
+  DIRECT_DEPOSIT: 'Direct deposit information',
   PERSONAL_INFORMATION: 'Personal and contact information',
   MILITARY_INFORMATION: 'Military information',
   CONNECTED_APPLICATIONS: 'Connected apps',

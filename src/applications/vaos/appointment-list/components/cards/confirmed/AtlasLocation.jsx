@@ -19,9 +19,9 @@ export default function AtlasLocation({ appointment }) {
   return (
     <div>
       <FacilityAddress facility={facility} showDirectionsLink />
-      <div className="vads-u-font-weight--bold vads-u-margin-top--2">
+      <h4 className="vaos-appts__block-label vads-u-margin-top--2">
         Appointment code: {confirmationCode}
-      </div>
+      </h4>
       <span>
         You will use this code to find your appointment using the computer
         provided at the site.

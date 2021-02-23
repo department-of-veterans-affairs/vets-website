@@ -921,4 +921,30 @@ describe('VAOS integration: appointment list', () => {
     ).to.be.ok;
     expect(screen.getByRole('link', { name: 'Request an appointment' }));
   });
+
+  it('should show COVID-19 vaccination button', async () => {
+    const defaultState = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingCheetah: true,
+      },
+      user: userState,
+    };
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState: defaultState,
+    });
+
+    expect(
+      await screen.findAllByRole('heading', {
+        level: 2,
+        name: /Schedule your first COVID-19 vaccination/,
+      }),
+    );
+
+    expect(
+      screen.getByText(/You may be eligible to receive the COVID-19 vaccine/i),
+    ).to.be.ok;
+
+    expect(screen.getByRole('link', { name: 'Learn more' }));
+  });
 });

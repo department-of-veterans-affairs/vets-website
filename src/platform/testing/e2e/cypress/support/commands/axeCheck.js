@@ -25,23 +25,41 @@ const processAxeCheckResults = violations => {
 };
 
 /**
- * Checks the current page for aXe violations.
- * @param {string} [context] - Selector for the container element to aXe check.
+ * Checks the passed selector and children for axe violations.
+ * @param {string} [context=main] - CSS/HTML selector for the container element to check with aXe.
+ * @param {Object} [tempOptions={}] - Rules object to enable _13647 exception or modify aXe config.
  */
 Cypress.Commands.add('axeCheck', (context = 'main', tempOptions = {}) => {
   const { _13647Exception } = tempOptions;
+
+  /**
+   * Default required ruleset to meet Section 508 compliance.
+   * Do not remove values[] entries. Only add new rulesets like 'best-practices'.
+   *
+   * See https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#axe-core-tags
+   * for available rulesets.
+   */
+  let axeBuilder = {
+    runOnly: {
+      type: 'tag',
+      values: ['section508', 'wcag2a', 'wcag2aa'],
+    },
+    rules: {
+      'color-contrast': {
+        enabled: false,
+      },
+    },
+  };
+
+  /**
+   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+   */
+  axeBuilder = Object.assign(axeBuilder, tempOptions);
+
+  const axeConfig = _13647Exception
+    ? { includedImpacts: ['critical'] }
+    : axeBuilder;
+
   Cypress.log();
-
-  const options = _13647Exception
-    ? {
-        includedImpacts: ['critical'],
-      }
-    : {
-        runOnly: {
-          type: 'tag',
-          values: ['wcag2a', 'wcag2aa'],
-        },
-      };
-
-  cy.checkA11y(context, options, processAxeCheckResults);
+  cy.checkA11y(context, axeConfig, processAxeCheckResults);
 });

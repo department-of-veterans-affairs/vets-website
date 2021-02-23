@@ -359,7 +359,8 @@ export default class ArrayField extends React.Component {
             );
             const isLast = items.length === index + 1;
             const isEditing = this.state.editing[index];
-            const itemName = uiOptions.itemName;
+            const itemName =
+              item?.[uiOptions.itemKeyForAriaLabel] || uiOptions.itemName;
             const legendText = `${
               isLast && items.length > 1 ? 'New' : 'Editing'
             } ${itemName || ''} ${
@@ -402,7 +403,9 @@ export default class ArrayField extends React.Component {
                         <div className="small-6 left columns">
                           {!isLast && (
                             <button
+                              type="button"
                               className="float-left"
+                              aria-label={`Update ${itemName}`}
                               onClick={() => this.handleUpdate(index)}
                             >
                               Update
@@ -412,6 +415,7 @@ export default class ArrayField extends React.Component {
                             <button
                               type="button"
                               className="float-left"
+                              aria-label={`Save ${itemName}`}
                               disabled={!this.props.formData}
                               onClick={this.handleSave}
                             >
@@ -421,8 +425,9 @@ export default class ArrayField extends React.Component {
                           <div className="float-left row columns">
                             {!isLast && (
                               <button
-                                className="usa-button-secondary float-left"
                                 type="button"
+                                className="usa-button-secondary float-left"
+                                aria-label={`Cancel editing ${itemName}`}
                                 onClick={() => this.handleCancelEdit(index)}
                               >
                                 Cancel
@@ -433,8 +438,13 @@ export default class ArrayField extends React.Component {
                         <div className="small-6 right columns">
                           {!isOnlyItem && (
                             <button
-                              className="usa-button-secondary float-right"
                               type="button"
+                              className="usa-button-secondary float-right"
+                              aria-label={`Remove ${
+                                itemName === uiOptions.itemName
+                                  ? 'incomplete '
+                                  : ''
+                              }${itemName}`}
                               onClick={() => this.handleRemove(index)}
                             >
                               Remove
@@ -455,7 +465,9 @@ export default class ArrayField extends React.Component {
                     onEdit={() => this.handleEdit(index)}
                   />
                   <button
+                    type="button"
                     className="edit usa-button-secondary vads-u-flex--auto"
+                    aria-label={`Edit ${itemName}`}
                     onClick={() => this.handleEdit(index)}
                   >
                     Edit
