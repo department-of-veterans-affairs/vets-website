@@ -81,14 +81,12 @@ function ExpressCareDetailsPage({ appointment }) {
           <h3 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vaos-appts__block-label">
             Express Care request
           </h3>
-          {appointment.status === APPOINTMENT_STATUS.proposed && (
+          {(appointment.status === APPOINTMENT_STATUS.proposed ||
+            appointment.status === APPOINTMENT_STATUS.pending) && (
             <span>
               A VA health care provider will contact you today about your
               request.
             </span>
-          )}
-          {appointment.status === APPOINTMENT_STATUS.pending && (
-            <span>A VA health care provider will contact you today.</span>
           )}
           {appointment.status === APPOINTMENT_STATUS.fulfilled && (
             <span>

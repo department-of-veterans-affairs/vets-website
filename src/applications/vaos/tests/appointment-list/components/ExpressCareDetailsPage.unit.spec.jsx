@@ -103,7 +103,7 @@ describe('VAOS <ExpressCareDetailsPage>', () => {
     );
     expect(screen.baseElement).to.contain.text('Express Care request');
     expect(screen.baseElement).to.contain.text(
-      'A VA health care provider will contact you today.',
+      'A VA health care provider will contact you today about your request.',
     );
     expect(screen.baseElement).to.contain.text('Need help ASAP');
 
