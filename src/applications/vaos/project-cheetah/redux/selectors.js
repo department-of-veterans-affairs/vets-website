@@ -160,5 +160,7 @@ export function selectContactFacilitiesPageInfo(state) {
     facilities,
     facilitiesStatus,
     sortMethod: newBooking.facilityPageSortMethod,
+    isEligible: state.projectCheetah.isEligible,
+    newBookingStatus: state.projectCheetah.newBookingStatus,
   };
 }

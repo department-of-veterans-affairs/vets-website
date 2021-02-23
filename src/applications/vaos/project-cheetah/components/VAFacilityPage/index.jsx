@@ -37,7 +37,7 @@ const uiSchema = {
 };
 
 const pageKey = 'vaFacility';
-const pageTitle = 'Choose a VA location for your appointment';
+const pageTitle = 'Choose a location';
 
 function VAFacilityPage({
   address,
@@ -80,11 +80,7 @@ function VAFacilityPage({
 
   const goForward = () => routeToNextAppointmentPage(history, pageKey);
 
-  const title = (
-    <h1 className="vads-u-font-size--h2">
-      Choose a VA location for your project cheetah booking
-    </h1>
-  );
+  const title = <h1 className="vads-u-font-size--h2">{pageTitle}</h1>;
 
   if (hasDataFetchingError) {
     return (
@@ -175,7 +171,7 @@ function VAFacilityPage({
       {title}
       <p>
         Below is a list of VA locations where you’re registered that offer{' '}
-        project cheetah appointments.
+        COVID-19 vaccine appointments.
         {(sortByDistanceFromResidential || sortByDistanceFromCurrentLocation) &&
           ' Locations closest to you are at the top of the list.'}
       </p>

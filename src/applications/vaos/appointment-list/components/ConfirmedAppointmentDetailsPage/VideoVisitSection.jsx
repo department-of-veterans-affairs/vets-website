@@ -145,7 +145,9 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
             aria-hidden="true"
             className="fas fa-print vads-u-margin-right--1"
           />
-          <a href="#">Print</a>
+          <button className="va-button-link" onClick={() => window.print()}>
+            Print
+          </button>
         </div>
         <AlertBox
           status={ALERT_TYPE.INFO}

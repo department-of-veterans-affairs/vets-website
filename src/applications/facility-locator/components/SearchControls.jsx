@@ -64,6 +64,25 @@ class SearchControls extends Component {
     this.props.geolocateUser();
   };
 
+  handleClearInput = () => {
+    this.props.clearSearchText();
+    focusElement('#street-city-state-zip');
+  };
+
+  renderClearInput = () => {
+    if (window.Cypress || !environment.isProduction()) {
+      return (
+        <i
+          aria-hidden="true"
+          className="fas fa-times-circle clear-button"
+          id="clear-input"
+          onClick={this.handleClearInput}
+        />
+      );
+    }
+    return null;
+  };
+
   renderLocationInputField = currentQuery => (
     <>
       <div id="location-input-field">
@@ -96,16 +115,18 @@ class SearchControls extends Component {
             </a>
           ))}
       </div>
-      <input
-        id="street-city-state-zip"
-        name="street-city-state-zip"
-        style={{ fontWeight: 'bold' }}
-        type="text"
-        onChange={this.handleQueryChange}
-        value={currentQuery.searchString}
-        title="Your location: Street, City, State or Postal code"
-        required
-      />
+      <div className="input-clear">
+        {currentQuery?.searchString?.length > 0 && this.renderClearInput()}
+        <input
+          id="street-city-state-zip"
+          name="street-city-state-zip"
+          type="text"
+          onChange={this.handleQueryChange}
+          value={currentQuery.searchString}
+          title="Your location: Street, City, State or Postal code"
+          required
+        />
+      </div>
     </>
   );
 
