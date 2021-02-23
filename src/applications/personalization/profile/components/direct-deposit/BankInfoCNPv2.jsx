@@ -233,8 +233,9 @@ export const BankInfoCNP = ({
       <div id="cnp-bank-save-errors" role="alert" aria-atomic="true">
         {!!saveError && (
           <PaymentInformationEditError
-            responseError={saveError}
             className="vads-u-margin-top--0 vads-u-margin-bottom--2"
+            level={4}
+            responseError={saveError}
           />
         )}
       </div>
