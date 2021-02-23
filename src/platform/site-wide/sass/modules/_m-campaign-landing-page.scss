@@ -31,3 +31,7 @@
 .va-alternating-background-color > :nth-child(even) {
   background: $color-primary-alt-lightest;
 }
+
+.va-alternating-background-color > :last-child {
+  background: $color-white;
+}
