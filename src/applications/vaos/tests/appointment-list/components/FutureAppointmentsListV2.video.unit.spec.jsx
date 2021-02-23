@@ -1,10 +1,14 @@
 import React from 'react';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
 import { getVAFacilityMock, getVideoAppointmentMock } from '../../mocks/v0';
-import { renderWithStoreAndRouter } from '../../mocks/setup';
+import {
+  renderWithStoreAndRouter,
+  getTimezoneTestDate,
+} from '../../mocks/setup';
 import { waitFor } from '@testing-library/dom';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import { AppointmentList } from '../../../appointment-list';
@@ -20,8 +24,14 @@ const initialState = {
 const url = 'va/05760f00c80ae60ce49879cf37a05fc8';
 
 describe('VAOS integration: upcoming video appointments', () => {
-  beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
+  beforeEach(() => {
+    mockFetch();
+    MockDate.set(getTimezoneTestDate());
+  });
+  afterEach(() => {
+    resetFetch();
+    MockDate.reset();
+  });
 
   it('should show info and disabled link when ad hoc', async () => {
     const appointment = getVideoAppointmentMock();
@@ -308,7 +318,14 @@ describe('VAOS integration: upcoming video appointments', () => {
   });
 
   it('should show active link if less than 4 hours in the past', async () => {
-    const startDate = moment.utc().add(-239, 'minutes');
+    // Need to make sure the appointment is still on the same day
+    // Reset happens in afterEach
+    MockDate.set(
+      moment()
+        .add(330, 'minutes')
+        .format(),
+    );
+    const startDate = moment().add(-239, 'minutes');
     const appointment = getVideoAppointmentMock();
     appointment.attributes = {
       ...appointment.attributes,
@@ -648,13 +665,8 @@ describe('VAOS integration: upcoming video appointments', () => {
     expect(screen.getAllByRole('link', { name: /3 0 7. 7 7 8. 7 5 5 0./ })).to
       .be.ok;
   });
-});
 
-describe('VAOS integration: upcoming ATLAS video appointments', () => {
-  beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
-
-  it('should display ATLAS title', async () => {
+  it('ATLAS appointment should display title', async () => {
     const appointment = getVideoAppointmentMock();
     const startDate = moment.utc().add(3, 'days');
     appointment.attributes = {
@@ -721,14 +733,14 @@ describe('VAOS integration: upcoming ATLAS video appointments', () => {
       expect(screen.history.push.lastCall.args[0]).to.equal(url),
     );
 
-    expect(screen.getByRole('link', { name: /Manage appointments/ })).to.be.ok;
-
     await screen.findByText(
       new RegExp(
         startDate.tz('America/Denver').format('dddd, MMMM D, YYYY [at] h:mm a'),
         'i',
       ),
     );
+
+    expect(screen.getByRole('link', { name: /Manage appointments/ })).to.be.ok;
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
 
