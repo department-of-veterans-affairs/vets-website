@@ -118,11 +118,13 @@ def setup() {
       sh "mkdir -p coverage"
       sh "mkdir -p temp"
 
-      dockerImage = docker.build(DOCKER_TAG)
-      retry(5) {
-        dockerImage.inside(DOCKER_ARGS) {
-          sh "cd /application && yarn install --production=false"
-        }
+      docker.withRegistry('https://hub.docker.com', 'vavfsbot') {
+        dockerImage = docker.build(DOCKER_TAG)
+            retry(5) {
+              dockerImage.inside(DOCKER_ARGS) {
+                sh "cd /application && yarn install --production=false"
+              }
+            }
       }
       return dockerImage
     }
