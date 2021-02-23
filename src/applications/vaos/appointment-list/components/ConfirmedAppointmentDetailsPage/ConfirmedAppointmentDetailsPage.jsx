@@ -103,7 +103,7 @@ function ConfirmedAppointmentDetailsPage({
     );
   }
 
-  if (!appointment) {
+  if (!appointment || appointment.id !== id) {
     return null;
   }
 
