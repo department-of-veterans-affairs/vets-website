@@ -167,8 +167,7 @@ export function openNewBookingPage(history) {
       if (!isEligible) {
         history.push('/new-project-cheetah-booking/contact-facilities');
       }
-      // TODO: Remove!!!
-      // history.push('/new-project-cheetah-booking/contact-facilities');
+
       dispatch({
         type: FETCH_NEW_BOOKING_WINDOW_SUCCEEDED,
         isEligible,

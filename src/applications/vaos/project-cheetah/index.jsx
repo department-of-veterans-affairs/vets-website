@@ -29,10 +29,10 @@ import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
 import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
 
 export function NewBookingSection({
-  windowsStatus,
+  isEligible,
+  newBookingStatus,
   featureProjectCheetah,
   openNewBookingPage,
-  pageChangeInProgress,
 }) {
   const match = useRouteMatch();
   const history = useHistory();
@@ -42,7 +42,7 @@ export function NewBookingSection({
     () => {
       openNewBookingPage(history);
     },
-    [pageChangeInProgress],
+    [isEligible],
   );
 
   useEffect(
@@ -71,47 +71,71 @@ export function NewBookingSection({
     return <Redirect to="/new-project-cheetah-booking" />;
   }
 
-  return (
-    <FormLayout>
-      {(windowsStatus === FETCH_STATUS.loading ||
-        windowsStatus === FETCH_STATUS.notStarted) && (
-        <LoadingIndicator message="Checking COVID-19 vaccine availability" />
-      )}
-      <Switch>
-        <Route
-          path={`${match.url}/received-dose`}
-          component={ReceivedDoseScreenerPage}
-        />
-        <Route
-          path={`${match.url}/contact-facilities`}
-          component={ContactFacilitiesPage}
-        />
-        <Route path={`${match.url}/facility`} component={VAFacilityPage} />
-        <Route path={`${match.url}/clinic`} component={ClinicChoicePage} />
-        <Route
-          path={`${match.url}/select-date-1`}
-          component={SelectDate1Page}
-        />
-        <Route
-          path={`${match.url}/select-date-2`}
-          component={SelectDate2Page}
-        />
-        <Route path={`${match.url}/contact-info`} component={ContactInfoPage} />
-        <Route path={`${match.url}/review`} component={ReviewPage} />
-        <Route
-          path={`${match.url}/confirmation`}
-          component={ConfirmationPage}
-        />
-        <Route path="/" component={PlanAheadPage} />
-      </Switch>
-    </FormLayout>
-  );
+  let content;
+  if (
+    newBookingStatus === FETCH_STATUS.loading ||
+    newBookingStatus === FETCH_STATUS.notStarted
+  ) {
+    content = (
+      <div className="vads-u-margin-y--8">
+        <LoadingIndicator message="Checking for online appointment availability" />
+      </div>
+    );
+  } else if (newBookingStatus === FETCH_STATUS.succeeded) {
+    content = (
+      <FormLayout>
+        <Switch>
+          <Route
+            path={`${match.url}/received-dose`}
+            component={ReceivedDoseScreenerPage}
+          />
+          <Route
+            path={`${match.url}/contact-facilities`}
+            component={ContactFacilitiesPage}
+          />
+          <Route path={`${match.url}/facility`} component={VAFacilityPage} />
+          <Route path={`${match.url}/clinic`} component={ClinicChoicePage} />
+          <Route
+            path={`${match.url}/select-date-1`}
+            component={SelectDate1Page}
+          />
+          <Route
+            path={`${match.url}/select-date-2`}
+            component={SelectDate2Page}
+          />
+          <Route
+            path={`${match.url}/contact-info`}
+            component={ContactInfoPage}
+          />
+          <Route path={`${match.url}/review`} component={ReviewPage} />
+          <Route
+            path={`${match.url}/confirmation`}
+            component={ConfirmationPage}
+          />
+          <Route path="/" component={PlanAheadPage} />
+        </Switch>
+      </FormLayout>
+    );
+  }
+
+  if (
+    !isEligible &&
+    newBookingStatus === FETCH_STATUS.succeeded &&
+    !location.pathname.includes(
+      '/new-project-cheetah-booking/contact-facilities',
+    )
+  ) {
+    return <Redirect to="/new-project-cheetah-booking/contact-facilities" />;
+  }
+
+  return <>{content}</>;
 }
 
 function mapStateToProps(state) {
   return {
     featureProjectCheetah: selectFeatureProjectCheetah(state),
-    windowsStatus: state.projectCheetah.newBookingStatus,
+    isEligible: state.projectCheetah.isEligible,
+    newBookingStatus: state.projectCheetah.newBookingStatus,
     pageChangeInProgress: state.projectCheetah.newBooking.pageChangeInProgress,
   };
 }
