@@ -13,7 +13,25 @@ export const schema = {
   properties: {
     vaBenefitsOnFile: {
       type: 'object',
-      properties: {},
+      properties: {
+        income: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              veteranOrSpouse: {
+                type: 'string',
+              },
+              compensationAndPension: {
+                type: 'string',
+              },
+              education: {
+                type: 'string',
+              },
+            },
+          },
+        },
+      },
     },
   },
 };

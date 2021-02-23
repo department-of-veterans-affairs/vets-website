@@ -22,7 +22,7 @@ export default function ScheduleNewProjectCheetah({
 
   return (
     <div className={classNames}>
-      <h2 className={headerClass}>Schedule your first COVID-19 vaccination</h2>
+      <h2 className={headerClass}>Schedule your first COVID-19 vaccine</h2>
       <p className="vads-u-margin-top--1">
         You may be eligible to receive the COVID-19 vaccine at a VA Location.
       </p>
