@@ -308,7 +308,6 @@ export default function appointmentsReducer(state = initialState, action) {
             ...appt.legacyVAR,
             apiData: action.apiData,
           },
-          apiData: action.apiData,
         };
 
         return { ...newAppt, status: APPOINTMENT_STATUS.cancelled };
