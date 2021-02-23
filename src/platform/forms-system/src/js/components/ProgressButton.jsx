@@ -33,6 +33,7 @@ class ProgressButton extends React.Component {
         }`}
         id={`${this.id}-continueButton`}
         onClick={this.props.onButtonClick}
+        aria-label={this.props['aria-label'] || null}
       >
         {beforeText}
         {this.props.buttonText}
