@@ -250,10 +250,10 @@ const FacilitiesMap = props => {
       return;
     }
 
+    // TODO: hide after new search
     if (
       calculateSearchArea() > MAX_SEARCH_AREA ||
-      !props.currentQuery.isValid ||
-      !props.currentQuery.mapMoved
+      !props.currentQuery.isValid
     ) {
       searchAreaControl.style.display = 'none';
       return;
@@ -293,6 +293,7 @@ const FacilitiesMap = props => {
     map.on('dragend', () => {
       props.mapMoved();
       recordPanEvent(map.getCenter(), props.currentQuery);
+      activateSearchAreaControl();
     });
     map.on('zoom', () => {
       const currentZoom = parseInt(map.getZoom(), 10);
@@ -310,6 +311,7 @@ const FacilitiesMap = props => {
       }
 
       lastZoom = currentZoom;
+      activateSearchAreaControl();
     });
   };
 
@@ -548,15 +550,6 @@ const FacilitiesMap = props => {
       })
       .catch(error => error);
   };
-
-  useEffect(
-    () => {
-      if (map) {
-        activateSearchAreaControl();
-      }
-    },
-    [props.currentQuery],
-  );
 
   useEffect(
     () => {

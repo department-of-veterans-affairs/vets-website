@@ -44,10 +44,13 @@ function loa1DashboardTest(mobile, stubs) {
   cy.findByTestId('name-tag').should('not.exist');
 
   // make sure the claims and appeals section is hidden
-  cy.findByText('Claims & appeals').should('not.exist');
+  cy.findByRole('heading', { name: 'Claims & appeals' }).should('not.exist');
 
   // make sure that the health care section is hidden
-  cy.findByText('Health care').should('not.exist');
+  cy.findByRole('heading', { name: 'Health care' }).should('not.exist');
+
+  // make sure that the apply for benefits section is visible
+  cy.findByRole('heading', { name: /apply for benefits/i }).should('exist');
 
   // make the a11y check
   cy.injectAxe();

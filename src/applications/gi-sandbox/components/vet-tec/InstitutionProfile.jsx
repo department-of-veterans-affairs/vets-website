@@ -1,14 +1,9 @@
 import React from 'react';
 
 import HeadingSummary from './HeadingSummary';
-import { renderVetTecLogo } from '../../utils/render';
-import classNames from 'classnames';
 import ProfileSection from '../ProfileSection';
 import ProfileNavBar from '../ProfileNavBar';
 import { createId } from '../../utils/helpers';
-
-const profileLogo =
-  'vads-u-display--block medium-screen:vads-u-display--none vettec-logo-container';
 
 const InstitutionProfile = ({ institution, showModal }) => {
   const loremIpsum = (
@@ -49,11 +44,6 @@ const InstitutionProfile = ({ institution, showModal }) => {
 
   return (
     <div>
-      {
-        <div className={profileLogo}>
-          {renderVetTecLogo(classNames('vettec-logo-profile'))}
-        </div>
-      }
       <HeadingSummary institution={institution} showModal={showModal} />
       <ProfileNavBar profileSections={sectionNames} />
       <div className="row">
