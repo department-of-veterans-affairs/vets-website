@@ -28,6 +28,7 @@ import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
 import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
 import { SelectDate2Page } from './components/SelectDate2Page';
+import ErrorMessage from '../components/ErrorMessage';
 
 export function NewBookingSection({
   isEligible,
@@ -72,57 +73,29 @@ export function NewBookingSection({
     return <Redirect to="/new-project-cheetah-booking" />;
   }
 
-  let content;
+  const title = <h1 className="vads-u-font-size--h2">{'New Booking'}</h1>;
+  if (newBookingStatus === FETCH_STATUS.failed) {
+    return (
+      <div>
+        {title}
+        <ErrorMessage level="2" />
+      </div>
+    );
+  }
+
   if (
     newBookingStatus === FETCH_STATUS.loading ||
     newBookingStatus === FETCH_STATUS.notStarted
   ) {
-    content = (
+    return (
       <div className="vads-u-margin-y--8">
         <LoadingIndicator message="Checking for online appointment availability" />
       </div>
     );
-  } else if (newBookingStatus === FETCH_STATUS.succeeded) {
-    content = (
-      <FormLayout>
-        <Switch>
-          <Route
-            path={`${match.url}/received-dose`}
-            component={ReceivedDoseScreenerPage}
-          />
-          <Route
-            path={`${match.url}/contact-facilities`}
-            component={ContactFacilitiesPage}
-          />
-          <Route path={`${match.url}/facility`} component={VAFacilityPage} />
-          <Route path={`${match.url}/clinic`} component={ClinicChoicePage} />
-          <Route
-            path={`${match.url}/select-date-1`}
-            component={SelectDate1Page}
-          />
-          <Route
-            path={`${match.url}/select-date-2`}
-            component={SelectDate2Page}
-          />
-          <Route
-            path={`${match.url}/plan-second-dose`}
-            component={SecondDosePage}
-          />
-          <Route
-            path={`${match.url}/contact-info`}
-            component={ContactInfoPage}
-          />
-          <Route path={`${match.url}/review`} component={ReviewPage} />
-          <Route
-            path={`${match.url}/confirmation`}
-            component={ConfirmationPage}
-          />
-          <Route path="/" component={PlanAheadPage} />
-        </Switch>
-      </FormLayout>
-    );
   }
 
+  // Redirect the user to the Contact Facilities page when there are no facilities that
+  // support scheduling an appointment for the vaccine.
   if (
     !isEligible &&
     newBookingStatus === FETCH_STATUS.succeeded &&
@@ -133,7 +106,41 @@ export function NewBookingSection({
     return <Redirect to="/new-project-cheetah-booking/contact-facilities" />;
   }
 
-  return <>{content}</>;
+  return (
+    <FormLayout>
+      <Switch>
+        <Route
+          path={`${match.url}/received-dose`}
+          component={ReceivedDoseScreenerPage}
+        />
+        <Route
+          path={`${match.url}/contact-facilities`}
+          component={ContactFacilitiesPage}
+        />
+        <Route path={`${match.url}/facility`} component={VAFacilityPage} />
+        <Route path={`${match.url}/clinic`} component={ClinicChoicePage} />
+        <Route
+          path={`${match.url}/select-date-1`}
+          component={SelectDate1Page}
+        />
+        <Route
+          path={`${match.url}/select-date-2`}
+          component={SelectDate2Page}
+        />
+        <Route
+          path={`${match.url}/plan-second-dose`}
+          component={SecondDosePage}
+        />
+        <Route path={`${match.url}/contact-info`} component={ContactInfoPage} />
+        <Route path={`${match.url}/review`} component={ReviewPage} />
+        <Route
+          path={`${match.url}/confirmation`}
+          component={ConfirmationPage}
+        />
+        <Route path="/" component={PlanAheadPage} />
+      </Switch>
+    </FormLayout>
+  );
 }
 
 function mapStateToProps(state) {

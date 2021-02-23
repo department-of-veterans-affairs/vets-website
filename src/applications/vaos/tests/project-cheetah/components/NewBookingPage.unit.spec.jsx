@@ -5,6 +5,7 @@ import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import { NewBooking } from '../../../project-cheetah';
 import { getDirectBookingEligibilityCriteriaMock } from '../../../tests/mocks/v0';
 import { mockDirectBookingEligibilityCriteria } from '../../../tests/mocks/helpers';
+import { waitFor } from '@testing-library/dom';
 
 const initialState = {
   featureToggles: {
@@ -34,9 +35,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       ...initialState,
     });
 
-    const response = getDirectBookingEligibilityCriteriaMock();
-    response.attributes.coreSettings[0].id = '301';
-    response.attributes.coreSettings[0].typeOfCare = 'Vaccine';
+    const response = getDirectBookingEligibilityCriteriaMock({
+      typeOfCareId: '301',
+    });
+    // response.attributes.coreSettings[0].id = '301';
+    // response.attributes.coreSettings[0].typeOfCare = 'Vaccine';
 
     mockDirectBookingEligibilityCriteria(
       ['983', '984'],
@@ -77,10 +80,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       store,
     });
 
-    await screen.findByRole('heading', { level: 1, name: 'Plan ahead' });
-
-    expect(screen.history.push.lastCall.args[0]).to.equal(
-      '/new-project-cheetah-booking/contact-facilities',
+    // Wait for the redirect.
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0]).to.equal(
+        '/new-project-cheetah-booking/contact-facilities',
+      ),
     );
   });
 });
