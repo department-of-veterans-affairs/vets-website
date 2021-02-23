@@ -105,8 +105,9 @@ function UpdatePhoneNumberError({ phoneNumberType = 'home' }) {
 }
 
 export default function PaymentInformationEditError({
-  responseError,
   className,
+  level,
+  responseError,
 }) {
   let content = <GenericError error={responseError} />;
   let headline = 'We couldn’t update your bank information';
@@ -139,6 +140,7 @@ export default function PaymentInformationEditError({
       headline={headline}
       isVisible
       className={className}
+      level={level || 3}
       scrollOnShow
     >
       {content}

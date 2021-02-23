@@ -13,6 +13,7 @@ import {
   FETCH_SPECIALTIES_DONE,
   FETCH_SPECIALTIES_FAILED,
   CLEAR_SEARCH_RESULTS,
+  CLEAR_SEARCH_TEXT,
   GEOCODE_STARTED,
   GEOCODE_COMPLETE,
   GEOCODE_FAILED,
@@ -432,4 +433,8 @@ export const geolocateUser = () => async dispatch => {
 
 export const clearGeocodeError = () => async dispatch => {
   dispatch({ type: GEOCODE_CLEAR_ERROR });
+};
+
+export const clearSearchText = () => async dispatch => {
+  dispatch({ type: CLEAR_SEARCH_TEXT });
 };

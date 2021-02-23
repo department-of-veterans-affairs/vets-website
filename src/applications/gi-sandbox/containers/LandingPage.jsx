@@ -10,7 +10,7 @@ export function LandingPage({ dispatchSetPageTitle }) {
   }, []);
   return (
     <span className="landing-page">
-      <div className="row vads-u-margin--0">
+      <div className="row">
         <div className="small-12 usa-width-two-thirds medium-8 columns">
           <h1>GI Bill® CT Redesign Sandbox</h1>
           <p className="vads-u-font-family--sans vads-u-font-size--h3 vads-u-color--gray-dark">

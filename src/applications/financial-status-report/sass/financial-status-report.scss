@@ -59,6 +59,14 @@
       align-items: center;
       justify-content: space-between;
     }
+    .usa-input-error {
+      position: relative;
+      right: 0;
+      margin-top: 0;
+      input {
+        width: 100%;
+      }
+    }
   }
   .edit-item-container {
     margin: 5px 0;
@@ -138,15 +146,6 @@
   max-width: 400px;
 }
 
-.usa-input-error {
-  position: relative;
-  right: 0;
-  margin-top: 0;
-  input {
-    width: 100%;
-  }
-}
-
 .max-width-400 {
   max-width: 400px;
 }
@@ -157,6 +156,10 @@
 
 .usa-datefields {
   padding-top: 16px;
+}
+
+.schemaform-sip-save-link {
+  margin: 20px 0;
 }
 
 // input fields
