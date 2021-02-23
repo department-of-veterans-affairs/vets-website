@@ -162,13 +162,15 @@ export default function appointmentsReducer(state = initialState, action) {
         facilityData,
       };
     }
-    case (FETCH_REQUEST_DETAILS, FETCH_CONFIRMED_DETAILS): {
+    case FETCH_CONFIRMED_DETAILS:
+    case FETCH_REQUEST_DETAILS: {
       return {
         ...state,
         appointmentDetailsStatus: FETCH_STATUS.loading,
       };
     }
-    case (FETCH_REQUEST_DETAILS_SUCCEEDED, FETCH_CONFIRMED_DETAILS_SUCCEEDED): {
+    case FETCH_CONFIRMED_DETAILS_SUCCEEDED:
+    case FETCH_REQUEST_DETAILS_SUCCEEDED: {
       return {
         ...state,
         ...state.appointmentDetails,
@@ -278,8 +280,10 @@ export default function appointmentsReducer(state = initialState, action) {
         cancelAppointmentStatus: FETCH_STATUS.loading,
       };
     case CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED: {
+      const { appointmentToCancel } = state;
+
       const confirmed = state.confirmed?.map(appt => {
-        if (appt !== state.appointmentToCancel) {
+        if (appt !== appointmentToCancel) {
           return appt;
         }
 
@@ -292,24 +296,43 @@ export default function appointmentsReducer(state = initialState, action) {
 
         return { ...newAppt, status: APPOINTMENT_STATUS.cancelled };
       });
+
       const pending = state.pending?.map(appt => {
-        if (appt !== state.appointmentToCancel) {
+        if (appt !== appointmentToCancel) {
           return appt;
         }
 
         const newAppt = {
           ...appt,
+          legacyVAR: {
+            ...appt.legacyVAR,
+            apiData: action.apiData,
+          },
           apiData: action.apiData,
         };
 
         return { ...newAppt, status: APPOINTMENT_STATUS.cancelled };
       });
 
+      let currentAppointment = state.currentAppointment;
+
+      if (currentAppointment) {
+        currentAppointment = {
+          ...currentAppointment,
+          status: APPOINTMENT_STATUS.cancelled,
+          legacyVAR: {
+            ...currentAppointment.legacyVAR,
+            apiData: action.apiData,
+          },
+        };
+      }
+
       return {
         ...state,
         showCancelModal: true,
         confirmed,
         pending,
+        currentAppointment,
         cancelAppointmentStatus: FETCH_STATUS.succeeded,
         cancelAppointmentStatusVaos400: false,
       };
