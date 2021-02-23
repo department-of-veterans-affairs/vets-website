@@ -90,7 +90,6 @@ const FacilitiesMap = props => {
 
   const updateUrlParams = params => {
     const { location, currentQuery } = props;
-    const bounds = props.currentQuery.bounds.map(c => `bbox[]=${c}`);
     const queryParams = {
       ...location.query,
       page: currentQuery.currentPage,
@@ -100,7 +99,7 @@ const FacilitiesMap = props => {
       latitude: props.currentQuery.position?.latitude,
       longitude: props.currentQuery.position?.longitude,
       radius: props.currentQuery.radius && props.currentQuery.radius.toFixed(),
-      bounds,
+      bounds: props.currentQuery.bounds,
       ...params,
     };
 
