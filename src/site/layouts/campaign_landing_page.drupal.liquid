@@ -93,34 +93,36 @@
     <!-- /Why This Matters -->
 
     <!-- What You Can Do -->
-    <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
-      <div class="vads-l-row">
-        <div class="vads-l-col--12 medium-screen:vads-l-col--9">
-          <!-- Title -->
-          <p class="va-u-text-transform--uppercase vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">What you can do</p>
-          <h2 class="vads-u-margin--0">{{ fieldClpWhatYouCanDoHeader }}</h2>
-          <p class="va-introtext vads-u-margin-top--1 vads-u-margin-bottom--4">{{ fieldClpWhatYouCanDoIntro }}</p>
-        </div>
-      </div>
-      <div class="vads-l-row vads-u-margin-bottom--2 medium-screen:vads-u-margin-x--neg1">
-        {% for promo in fieldClpWhatYouCanDoPromos %}
-          <div class="vads-l-col--12 medium-screen:vads-l-col--4 vads-u-align-content--stretch vads-u-margin-y--1 ">
-            <div class="vads-u-background-color--gray-light-alt vads-u-height--full medium-screen:vads-u-margin-x--1 medium-screen:vads-u-margin-y--0">
-              <img alt="{{ promo.entity.fieldImage.entity.thumbnail.alt }}" src="{{ promo.entity.fieldImage.entity.thumbnail.url }}" />
-              <h3 class="vads-u-padding-x--2">
-                <a
-                  href="{{ promo.entity.fieldPromoLink.entity.fieldLink.uri }}"
-                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'What you can do', 'clp-section-title': '{{ fieldClpWhatYouCanDoHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ promo.entity.fieldPromoLink.entity.fieldLink.title | escape }}' });"
-                >
-                  {{ promo.entity.fieldPromoLink.entity.fieldLink.title }}
-                </a>
-              </h3>
-              <p class="vads-u-margin-bottom--2 vads-u-margin-top--1 vads-u-padding-x--2">
-                {{ promo.entity.fieldPromoLink.entity.fieldLinkSummary }}
-              </p>
-            </div>
+    <div>
+      <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
+        <div class="vads-l-row">
+          <div class="vads-l-col--12 medium-screen:vads-l-col--9">
+            <!-- Title -->
+            <p class="va-u-text-transform--uppercase vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">What you can do</p>
+            <h2 class="vads-u-margin--0">{{ fieldClpWhatYouCanDoHeader }}</h2>
+            <p class="va-introtext vads-u-margin-top--1 vads-u-margin-bottom--4">{{ fieldClpWhatYouCanDoIntro }}</p>
           </div>
-        {% endfor %}
+        </div>
+        <div class="vads-l-row vads-u-margin-bottom--2 medium-screen:vads-u-margin-x--neg1">
+          {% for promo in fieldClpWhatYouCanDoPromos %}
+            <div class="vads-l-col--12 medium-screen:vads-l-col--4 vads-u-align-content--stretch vads-u-margin-y--1 ">
+              <div class="vads-u-background-color--gray-light-alt vads-u-height--full medium-screen:vads-u-margin-x--1 medium-screen:vads-u-margin-y--0">
+                <img alt="{{ promo.entity.fieldImage.entity.thumbnail.alt }}" src="{{ promo.entity.fieldImage.entity.thumbnail.url }}" />
+                <h3 class="vads-u-padding-x--2">
+                  <a
+                    href="{{ promo.entity.fieldPromoLink.entity.fieldLink.uri }}"
+                    onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'What you can do', 'clp-section-title': '{{ fieldClpWhatYouCanDoHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ promo.entity.fieldPromoLink.entity.fieldLink.title | escape }}' });"
+                  >
+                    {{ promo.entity.fieldPromoLink.entity.fieldLink.title }}
+                  </a>
+                </h3>
+                <p class="vads-u-margin-bottom--2 vads-u-margin-top--1 vads-u-padding-x--2">
+                  {{ promo.entity.fieldPromoLink.entity.fieldLinkSummary }}
+                </p>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
       </div>
     </div>
     <!--/ What You Can Do -->
@@ -186,40 +188,42 @@
 
     <!-- Spotlight -->
     {% if fieldClpSpotlightPanel %}
-      <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
-        <div class="vads-l-row">
-          <div class="vads-l-col--12 medium-screen:vads-l-col--9">
-            <p class="va-u-text-transform--uppercase vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">Spotlight</p>
-            <h2 class="vads-u-margin-top--0">{{ fieldClpSpotlightHeader }}</h2>
-            <p class="va-introtext vads-u-margin-top--1 vads-u-margin-bottom--4">
-              {{ fieldClpSpotlightIntroText }}
-              <a
-                href="{{ fieldClpSpotlightCta.entity.fieldButtonLink.url.path }}"
-                onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Spotlight', 'clp-section-title': '{{ fieldClpSpotlightHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpSpotlightCta.entity.fieldButtonLabel | escape }}'"
-              >
-                {{ fieldClpSpotlightCta.entity.fieldButtonLabel }}
-              </a>
-            </p>
+      <div>
+        <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
+          <div class="vads-l-row">
+            <div class="vads-l-col--12 medium-screen:vads-l-col--9">
+              <p class="va-u-text-transform--uppercase vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">Spotlight</p>
+              <h2 class="vads-u-margin-top--0">{{ fieldClpSpotlightHeader }}</h2>
+              <p class="va-introtext vads-u-margin-top--1 vads-u-margin-bottom--4">
+                {{ fieldClpSpotlightIntroText }}
+                <a
+                  href="{{ fieldClpSpotlightCta.entity.fieldButtonLink.url.path }}"
+                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Spotlight', 'clp-section-title': '{{ fieldClpSpotlightHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpSpotlightCta.entity.fieldButtonLabel | escape }}'"
+                >
+                  {{ fieldClpSpotlightCta.entity.fieldButtonLabel }}
+                </a>
+              </p>
+            </div>
           </div>
-        </div>
-        <div class="vads-l-row vads-u-margin-bottom--2 medium-screen:vads-u-margin-x--neg1">
-          {% for linkTeaser in fieldClpSpotlightLinkTeasers %}
-            <div class="vads-l-col--12 medium-screen:vads-l-col--4 vads-u-align-content--stretch vads-u-margin-y--1 ">
-              <div class="vads-u-background-color--gray-light-alt vads-u-height--full medium-screen:vads-u-margin-x--1 medium-screen:vads-u-margin-y--0">
-                <div class="vads-u-padding--2">
-                  <h3 class="vads-u-margin-top--0">
-                    <a
-                      href="{{ linkTeaser.entity.fieldLink.uri }}"
-                      onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Spotlight', 'clp-section-title': '{{ fieldClpSpotlightHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ linkTeaser.entity.fieldLink.title | escape }}'"
-                    >
-                      {{ linkTeaser.entity.fieldLink.title }}
-                    </a>
-                  </h3>
-                  <p class="vads-u-margin-top--1">{{ linkTeaser.entity.fieldLinkSummary }}</p>
+          <div class="vads-l-row vads-u-margin-bottom--2 medium-screen:vads-u-margin-x--neg1">
+            {% for linkTeaser in fieldClpSpotlightLinkTeasers %}
+              <div class="vads-l-col--12 medium-screen:vads-l-col--4 vads-u-align-content--stretch vads-u-margin-y--1 ">
+                <div class="vads-u-background-color--gray-light-alt vads-u-height--full medium-screen:vads-u-margin-x--1 medium-screen:vads-u-margin-y--0">
+                  <div class="vads-u-padding--2">
+                    <h3 class="vads-u-margin-top--0">
+                      <a
+                        href="{{ linkTeaser.entity.fieldLink.uri }}"
+                        onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Spotlight', 'clp-section-title': '{{ fieldClpSpotlightHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ linkTeaser.entity.fieldLink.title | escape }}'"
+                      >
+                        {{ linkTeaser.entity.fieldLink.title }}
+                      </a>
+                    </h3>
+                    <p class="vads-u-margin-top--1">{{ linkTeaser.entity.fieldLinkSummary }}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          {% endfor %}
+            {% endfor %}
+          </div>
         </div>
       </div>
     {% endif %}
@@ -287,50 +291,52 @@
 
     <!-- Downloadable Resources -->
     {% if fieldClpResourcesPanel %}
-      <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
-        <div class="vads-l-row">
-          <div class="vads-l-col--12 medium-screen:vads-l-col--9">
-            <!-- Title -->
-            <p class="va-u-text-transform--uppercase vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">Downloadable resources</p>
-            <h2 class="vads-u-margin-top--0">{{ fieldClpResourcesHeader }}</h2>
-            <p class="va-introtext vads-u-margin-top--1 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--4">{{ fieldClpResourcesIntroText }}</p>
+      <div>
+        <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
+          <div class="vads-l-row">
+            <div class="vads-l-col--12 medium-screen:vads-l-col--9">
+              <!-- Title -->
+              <p class="va-u-text-transform--uppercase vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">Downloadable resources</p>
+              <h2 class="vads-u-margin-top--0">{{ fieldClpResourcesHeader }}</h2>
+              <p class="va-introtext vads-u-margin-top--1 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--4">{{ fieldClpResourcesIntroText }}</p>
+            </div>
           </div>
-        </div>
 
-        <div class="vads-l-row vads-u-margin-bottom--2 medium-screen:vads-u-margin-x--neg1">
-          {% for resource in fieldClpResources %}
-            <div class="vads-l-col--12 medium-screen:vads-l-col--4 vads-u-align-content--stretch vads-u-margin-y--1 ">
-              <div class="vads-u-background-color--gray-light-alt vads-u-height--full medium-screen:vads-u-margin-x--1 medium-screen:vads-u-margin-y--0">
-                <div class="vads-u-padding--2">
-                  <h3 class="vads-u-margin--0">{{ resource.entity.name }}</h3>
-                  <p>{{ resource.entity.fieldDescription }}</p>
-                  <a
-                    download
-                    href="{{ resource.entity.fieldMediaExternalFile.uri }}"
-                    onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Downloadable resources', 'clp-section-title': '{{ fieldClpResourcesHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': 'Download {{ resource.entity.name | escape }}' });"
-                  >
-                    Download (PDF)
-                  </a>
+          <div class="vads-l-row vads-u-margin-bottom--2 medium-screen:vads-u-margin-x--neg1">
+            {% for resource in fieldClpResources %}
+              <div class="vads-l-col--12 medium-screen:vads-l-col--4 vads-u-align-content--stretch vads-u-margin-y--1 ">
+                <div class="vads-u-background-color--gray-light-alt vads-u-height--full medium-screen:vads-u-margin-x--1 medium-screen:vads-u-margin-y--0">
+                  <div class="vads-u-padding--2">
+                    <h3 class="vads-u-margin--0">{{ resource.entity.name }}</h3>
+                    <p>{{ resource.entity.fieldDescription }}</p>
+                    <a
+                      download
+                      href="{{ resource.entity.fieldMediaExternalFile.uri }}"
+                      onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Downloadable resources', 'clp-section-title': '{{ fieldClpResourcesHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': 'Download {{ resource.entity.name | escape }}' });"
+                    >
+                      Download (PDF)
+                    </a>
+                  </div>
                 </div>
               </div>
-            </div>
-          {% endfor %}
-        </div>
-
-        {% if fieldClpResourcesCta %}
-          <div class="vads-l-row">
-            <div class="vads-u-col--12">
-              <a
-                class="usa-button usa-button-secondary vads-u-font-size--sm"
-                href="{{ fieldClpResourcesCta.entity.fieldButtonLink.url.path }}"
-                onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Downloadable resources', 'clp-section-title': '{{ fieldClpResourcesHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpResourcesCta.entity.fieldButtonLabel | escape }}' });"
-              >
-                {{ fieldClpResourcesCta.entity.fieldButtonLabel }}
-                <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
-              </a>
-            </div>
+            {% endfor %}
           </div>
-        {% endif %}
+
+          {% if fieldClpResourcesCta %}
+            <div class="vads-l-row">
+              <div class="vads-u-col--12">
+                <a
+                  class="usa-button usa-button-secondary vads-u-font-size--sm"
+                  href="{{ fieldClpResourcesCta.entity.fieldButtonLink.url.path }}"
+                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Downloadable resources', 'clp-section-title': '{{ fieldClpResourcesHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpResourcesCta.entity.fieldButtonLabel | escape }}' });"
+                >
+                  {{ fieldClpResourcesCta.entity.fieldButtonLabel }}
+                  <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+          {% endif %}
+        </div>
       </div>
     {% endif %}
     <!--/  Downloadable Resources -->
@@ -433,48 +439,50 @@
 
     <!-- FAQs -->
     {% if fieldClpFaqPanel %}
-      <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
-        <div class="vads-l-row">
-          <div class="vads-l-col--12 medium-screen:vads-l-col--9">
-            <!-- Title -->
-            <p class="va-u-text-transform--uppercase vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">FAQ</p>
-            <h2 class="vads-u-margin-top--0">Frequently asked questions</h2>
-
-            <!-- Questions/Answers -->
-            <div class="usa-accordion-bordered vads-u-margin-y--2">
-              <ul class="usa-unstyled-list">
-                {% for faqParagraph in fieldClpFaqParagraphs %}
-                  {% if faqParagraph.entity %}
-                    <li data-faq-entity-id="{{ faqParagraph.entity.entityId }}">
-                      <button aria-controls="{{ faqParagraph.entity.entityBundle }}-{{ faqParagraph.entity.entityId }}" class="usa-accordion-button usa-button-unstyled" aria-expanded="false" type="button">{{ faqParagraph.entity.fieldQuestion }}</button>
-                      <div id="{{ faqParagraph.entity.entityBundle }}-{{ faqParagraph.entity.entityId }}" class="usa-accordion-content" aria-hidden="true">
-                        {% assign fieldAnswer = faqParagraph.entity.fieldAnswer | first %}
-                        {% assign bundleComponent = "src/site/paragraphs/" | append: fieldAnswer.entity.entityBundle %}
-                        {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
-                        {% include {{ bundleComponentWithExtension }} with entity = fieldAnswer.entity %}
-                      </div>
-                    </li>
-                  {% endif %}
-                {% endfor %}
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        {% if fieldClpFaqCta %}
+      <div>
+        <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
           <div class="vads-l-row">
-            <div class="vads-u-col--12">
-              <a
-                class="usa-button usa-button-secondary vads-u-font-size--sm"
-                href="{{ fieldClpFaqCta.entity.fieldButtonLink.url.path }}"
-                onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'FAQ', 'clp-section-title': 'Frequently asked questions', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpFaqCta.entity.fieldButtonLabel | escape }}' });"
-              >
-                {{ fieldClpFaqCta.entity.fieldButtonLabel }}
-                <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
-              </a>
+            <div class="vads-l-col--12 medium-screen:vads-l-col--9">
+              <!-- Title -->
+              <p class="va-u-text-transform--uppercase vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">FAQ</p>
+              <h2 class="vads-u-margin-top--0">Frequently asked questions</h2>
+
+              <!-- Questions/Answers -->
+              <div class="usa-accordion-bordered vads-u-margin-y--2">
+                <ul class="usa-unstyled-list">
+                  {% for faqParagraph in fieldClpFaqParagraphs %}
+                    {% if faqParagraph.entity %}
+                      <li data-faq-entity-id="{{ faqParagraph.entity.entityId }}">
+                        <button aria-controls="{{ faqParagraph.entity.entityBundle }}-{{ faqParagraph.entity.entityId }}" class="usa-accordion-button usa-button-unstyled" aria-expanded="false" type="button">{{ faqParagraph.entity.fieldQuestion }}</button>
+                        <div id="{{ faqParagraph.entity.entityBundle }}-{{ faqParagraph.entity.entityId }}" class="usa-accordion-content" aria-hidden="true">
+                          {% assign fieldAnswer = faqParagraph.entity.fieldAnswer | first %}
+                          {% assign bundleComponent = "src/site/paragraphs/" | append: fieldAnswer.entity.entityBundle %}
+                          {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
+                          {% include {{ bundleComponentWithExtension }} with entity = fieldAnswer.entity %}
+                        </div>
+                      </li>
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+              </div>
             </div>
           </div>
-        {% endif %}
+
+          {% if fieldClpFaqCta %}
+            <div class="vads-l-row">
+              <div class="vads-u-col--12">
+                <a
+                  class="usa-button usa-button-secondary vads-u-font-size--sm"
+                  href="{{ fieldClpFaqCta.entity.fieldButtonLink.url.path }}"
+                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'FAQ', 'clp-section-title': 'Frequently asked questions', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpFaqCta.entity.fieldButtonLabel | escape }}' });"
+                >
+                  {{ fieldClpFaqCta.entity.fieldButtonLabel }}
+                  <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+          {% endif %}
+        </div>
       </div>
     {% endif %}
     <!--/  FAQs -->
@@ -601,46 +609,50 @@
 
     <!-- VA Benefits -->
     {% if fieldBenefitCategories != empty %}
-      <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
-        <div class="vads-l-row">
-          <div class="vads-l-col--12 medium-screen:vads-l-col--9">
-            <!-- Title -->
-            <p class="va-u-text-transform--uppercase vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">VA Benefits</p>
-            <h2 class="vads-u-margin-top--0 vads-u-margin-bottom--3">Learn more about related VA benefits</h2>
-          </div>
-        </div>
-
-        <div class="vads-l-row medium-screen:vads-u-margin-x--neg6">
-          {% for benefitCategory in fieldBenefitCategories %}
-            <div class="vads-l-col--12 medium-screen:vads-l-col--6 {% if !forloop.first %}vads-u-margin-top--2 medium-screen:vads-u-margin-top--0{% endif %}">
-              <div class="medium-screen:vads-u-margin-x--6">
-                <div class="vads-u-display--flex vads-u-align-items--center">
-                  <div class="inline hub-main-icon vads-u-margin-right--2">
-                    <i class="icon-large white hub-icon-{{ benefitCategory.entity.fieldTitleIcon }} hub-background-{{ benefitCategory.entity.fieldTitleIcon }}" role="presentation" aria-hidden="true"></i>
-                  </div>
-                  <a
-                    onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'VA Benefits', 'clp-section-title': 'Learn more about related VA benefits', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ benefitCategory.entity.title | escape }}' });"
-                    href="{{ benefitCategory.entity.entityUrl.path }}"
-                  >
-                    {{ benefitCategory.entity.title }}
-                  </a>
-                </div>
-                <p class="vads-u-margin-top--0">{{ benefitCategory.entity.fieldTeaserText }}</p>
-              </div>
+      <div>
+        <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
+          <div class="vads-l-row">
+            <div class="vads-l-col--12 medium-screen:vads-l-col--9">
+              <!-- Title -->
+              <p class="va-u-text-transform--uppercase vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">VA Benefits</p>
+              <h2 class="vads-u-margin-top--0 vads-u-margin-bottom--3">Learn more about related VA benefits</h2>
             </div>
-          {% endfor %}
+          </div>
+
+          <div class="vads-l-row medium-screen:vads-u-margin-x--neg6">
+            {% for benefitCategory in fieldBenefitCategories %}
+              <div class="vads-l-col--12 medium-screen:vads-l-col--6 {% if !forloop.first %}vads-u-margin-top--2 medium-screen:vads-u-margin-top--0{% endif %}">
+                <div class="medium-screen:vads-u-margin-x--6">
+                  <div class="vads-u-display--flex vads-u-align-items--center">
+                    <div class="inline hub-main-icon vads-u-margin-right--2">
+                      <i class="icon-large white hub-icon-{{ benefitCategory.entity.fieldTitleIcon }} hub-background-{{ benefitCategory.entity.fieldTitleIcon }}" role="presentation" aria-hidden="true"></i>
+                    </div>
+                    <a
+                      onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'VA Benefits', 'clp-section-title': 'Learn more about related VA benefits', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ benefitCategory.entity.title | escape }}' });"
+                      href="{{ benefitCategory.entity.entityUrl.path }}"
+                    >
+                      {{ benefitCategory.entity.title }}
+                    </a>
+                  </div>
+                  <p class="vads-u-margin-top--0">{{ benefitCategory.entity.fieldTeaserText }}</p>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
         </div>
       </div>
     {% endif %}
     <!--/  VA Benefits -->
 
     <!-- Last Updated -->
-    <div class="vads-l-grid-container vads-u-background-color--white vads-u-padding-y--6 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
-      <div class="vads-l-row">
-        <div class="vads-l-col--12 medium-screen:vads-l-col--9">
-          <div class="last-updated">
-            Last updated: <time
-              datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+    <div>
+      <div class="vads-l-grid-container vads-u-background-color--white vads-u-padding-y--6 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
+        <div class="vads-l-row">
+          <div class="vads-l-col--12 medium-screen:vads-l-col--9">
+            <div class="last-updated">
+              Last updated: <time
+                datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+            </div>
           </div>
         </div>
       </div>
