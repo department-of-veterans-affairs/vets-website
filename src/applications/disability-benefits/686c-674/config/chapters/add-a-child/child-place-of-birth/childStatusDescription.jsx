@@ -18,7 +18,9 @@ export const childStatusDescription = (
       </p>
       <p className="vads-u-margin-bottom--4">
         To add a <strong>stepchild,</strong> you’ll need to provide a copy of
-        their birth certificate, showing the names of both parents
+        their birth certificate, showing the names of both parents if your
+        stepchild is not the biological child of your spouse (adopted, for
+        example)
       </p>
       <p className="vads-u-margin-bottom--2">
         To add an <strong>adopted child,</strong> you’ll need to provide a copy
