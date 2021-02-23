@@ -90,13 +90,17 @@ const FacilitiesMap = props => {
 
   const updateUrlParams = params => {
     const { location, currentQuery } = props;
-
+    const bounds = props.currentQuery.bounds.map(c => `bbox[]=${c}`);
     const queryParams = {
       ...location.query,
       page: currentQuery.currentPage,
       address: currentQuery.searchString,
       facilityType: currentQuery.facilityType,
       serviceType: currentQuery.serviceType,
+      latitude: props.currentQuery.position?.latitude,
+      longitude: props.currentQuery.position?.longitude,
+      radius: props.currentQuery.radius && props.currentQuery.radius.toFixed(),
+      bounds,
       ...params,
     };
 
@@ -567,16 +571,13 @@ const FacilitiesMap = props => {
   useEffect(
     () => {
       const { currentQuery } = props;
-      const { searchArea, position, context, searchString } = currentQuery;
+      const { searchArea, context, searchString } = currentQuery;
       const coords = currentQuery.position;
       const radius = currentQuery.radius;
       const center = [coords.latitude, coords.longitude];
       // Search current area
       if (searchArea) {
         updateUrlParams({
-          location: `${position.latitude.toFixed(
-            2,
-          )},${position.longitude.toFixed(2)}`,
           context,
           searchString,
         });
@@ -626,9 +627,6 @@ const FacilitiesMap = props => {
     () => {
       if (isSearching) {
         updateUrlParams({
-          location: `${props.currentQuery.position.latitude},${
-            props.currentQuery.position.longitude
-          }`,
           context: props.currentQuery.context,
           address: props.currentQuery.searchString,
         });
