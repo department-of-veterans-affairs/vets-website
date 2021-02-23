@@ -114,3 +114,8 @@
   border: 2px solid rgb(249, 198, 66) !important;
   padding: 1px !important;
 }
+
+// add padding between 1-5 rating labels
+.neb-rating-value {
+  margin-right: 4px;
+}
