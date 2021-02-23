@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
+import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 export default function PrivacyAgreement({ onChange, checked, showError }) {
   return (
     <div>
-      <ErrorableCheckbox
+      <Checkbox
         required
         checked={checked}
         onValueChange={onChange}

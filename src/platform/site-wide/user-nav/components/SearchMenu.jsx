@@ -7,12 +7,11 @@ import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import debounce from 'platform/utilities/data/debounce';
 import Downshift from 'downshift';
-import { escape } from 'lodash';
 import * as Sentry from '@sentry/browser';
 
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
-import IconSearch from '@department-of-veterans-affairs/formation-react/IconSearch';
-import DropDownPanel from '@department-of-veterans-affairs/formation-react/DropDownPanel';
+import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
+import DropDownPanel from '@department-of-veterans-affairs/component-library/DropDownPanel';
 
 export const searchGovSuggestionEndpoint = 'https://search.usa.gov/sayt';
 
@@ -47,10 +46,16 @@ export class SearchMenu extends React.Component {
       !prevProps.searchTypeaheadEnabled &&
       this.props.searchTypeaheadEnabled
     ) {
-      recordEvent({
-        event: 'phased-roll-out-enabled',
-        'product-description': 'Type Ahead',
-      });
+      const searchTypeaheadLogged = JSON.parse(
+        sessionStorage.getItem('searchTypeaheadLogged'),
+      );
+      if (!searchTypeaheadLogged) {
+        recordEvent({
+          event: 'phased-roll-out-enabled',
+          'product-description': 'Type Ahead',
+        });
+        sessionStorage.setItem('searchTypeaheadLogged', JSON.stringify(true));
+      }
     }
   }
 
@@ -89,8 +94,14 @@ export class SearchMenu extends React.Component {
       );
 
       const suggestions = await response.json();
+      if (suggestions.length !== 0) {
+        const sortedSuggestions = suggestions.sort(function(a, b) {
+          return a.length - b.length;
+        });
+        this.setState({ suggestions: sortedSuggestions });
+        return;
+      }
       this.setState({ suggestions });
-
       // if we fail to fetch suggestions
     } catch (error) {
       Sentry.captureException(error);
@@ -156,6 +167,7 @@ export class SearchMenu extends React.Component {
     // event logging, note suggestion will be undefined during a userInput search
     recordEvent({
       event: 'view_search_results',
+      'search-dropdown-used': suggestion !== undefined,
       'search-page-path': document.location.pathname,
       'search-query': userInput,
       'search-results-total-count': undefined,
@@ -194,10 +206,10 @@ export class SearchMenu extends React.Component {
     } = this;
 
     const highlightedSuggestion =
-      'suggestion-highlighted vads-u-background-color--primary-alt-light vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0  vads-u-padding--1 vads-u-width--full';
+      'suggestion-highlighted vads-u-background-color--primary-alt-light vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0  vads-u-padding--1 vads-u-width--full vads-u-padding-left--2';
 
     const regularSuggestion =
-      'suggestion vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-padding--1 vads-u-width--full';
+      'suggestion vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-padding--1 vads-u-width--full vads-u-padding-left--2';
 
     // default search experience
     if (!searchTypeaheadEnabled) {
@@ -263,7 +275,7 @@ export class SearchMenu extends React.Component {
               </label>
               <input
                 autoComplete="off"
-                className="usagov-search-autocomplete  vads-u-flex--4 vads-u-margin-left--1 vads-u-margin-right--0p5 vads-u-margin-y--1  vads-u-width--full"
+                className="usagov-search-autocomplete  vads-u-flex--4 vads-u-margin-left--1 vads-u-margin-right--0p5 vads-u-margin-y--1 vads-u-padding-left--1 vads-u-width--full"
                 name="query"
                 aria-controls={isOpen ? 'suggestions-list' : undefined}
                 onFocus={getSuggestions}
@@ -280,7 +292,10 @@ export class SearchMenu extends React.Component {
                 disabled={!isUserInputValid()}
                 data-e2e-id="sitewide-search-submit-button"
                 className="vads-u-margin-left--0p5 vads-u-margin-y--1 vads-u-margin-right--1 vads-u-flex--1"
-                onClick={() => handleSearchEvent()}
+                onMouseDown={event => {
+                  event.preventDefault();
+                  handleSearchEvent();
+                }}
                 onFocus={() => this.setState({ suggestions: [] })}
               >
                 <IconSearch color="#fff" />
@@ -295,10 +310,7 @@ export class SearchMenu extends React.Component {
                 aria-label="suggestions-list"
               >
                 {suggestions?.map((suggestion, index) => {
-                  const formattedSuggestion = suggestion.replace(
-                    userInput,
-                    `<strong>${escape(userInput)}</strong>`,
-                  );
+                  const formattedSuggestion = suggestion.replace(userInput, '');
                   return (
                     <li
                       key={suggestion}
@@ -315,12 +327,10 @@ export class SearchMenu extends React.Component {
                       {...getItemProps({
                         item: suggestion,
                       })}
-                      // this line is used to show the suggestion with the user's input in BOLD
-                      // eslint-disable-next-line react/no-danger
-                      dangerouslySetInnerHTML={{
-                        __html: formattedSuggestion,
-                      }}
-                    />
+                    >
+                      {userInput}
+                      <strong>{formattedSuggestion}</strong>
+                    </li>
                   );
                 })}
               </ul>

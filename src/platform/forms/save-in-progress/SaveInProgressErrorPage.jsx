@@ -12,7 +12,7 @@ import {
 } from './actions';
 
 import SignInLink from '../components/SignInLink';
-import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
+import ProgressButton from '@department-of-veterans-affairs/component-library/ProgressButton';
 
 import { toggleLoginModal } from '../../site-wide/user-nav/actions';
 import {

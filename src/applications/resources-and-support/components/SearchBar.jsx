@@ -22,6 +22,7 @@ export default function SearchBar({
     if (isGlobalSearch) {
       recordEvent({
         event: 'view_search_results',
+        'search-dropdown-used': false,
         'search-page-path': document.location.pathname,
         'search-query': userInput,
         'search-results-total-count': undefined,
@@ -47,7 +48,7 @@ export default function SearchBar({
   };
 
   return (
-    <div className="vads-u-border-bottom--0 medium-screen:vads-u-border-top--2px vads-u-border-color--gray-light vads-u-padding-y--3 vads-u-padding-x--1">
+    <div className="vads-u-border-bottom--0 medium-screen:vads-u-border-top--2px vads-u-border-color--gray-light vads-u-padding-top--3 vads-u-padding-bottom--0 medium-screen:vads-u-padding-bottom--3 vads-u-padding-x--1">
       {/* Mobile expand/collapse */}
       <button
         className={`${

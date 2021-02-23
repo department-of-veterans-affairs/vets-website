@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import { FETCH_STATUS, EXPRESS_CARE_ERROR_REASON } from '../../utils/constants';
 import FormButtons from '../../components/FormButtons';
@@ -109,11 +109,7 @@ function ExpressCareDetailsPage({
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
 
-    if (!data.reason) {
-      history.replace('/new-express-care-request');
-    } else {
-      openAdditionalDetailsPage(pageKey, uiSchema, initialSchema, history);
-    }
+    openAdditionalDetailsPage(pageKey, uiSchema, initialSchema, history);
   }, []);
 
   return (

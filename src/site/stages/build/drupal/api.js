@@ -8,6 +8,10 @@ const SocksProxyAgent = require('socks-proxy-agent');
 
 const DRUPALS = require('../../../constants/drupals');
 const { queries, getQuery } = require('./queries');
+const {
+  getIndividualizedQueries,
+  CountEntityTypes,
+} = require('./individual-queries');
 
 const syswidecas = require('syswide-cas');
 
@@ -172,6 +176,116 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
       } else {
         throw new Error('Failed to fetch the CMS export tarball');
       }
+    },
+
+    async getAllPagesViaIndividualGraphQlQueries(onlyPublishedContent = true) {
+      /* eslint-disable no-console, no-await-in-loop */
+
+      say('Pulling from Drupal via GraphQL...');
+
+      const entityCounts = await this.query({
+        query: CountEntityTypes,
+      });
+
+      say('Received node counts...');
+      console.table(entityCounts.data);
+
+      const result = {
+        data: {
+          nodeQuery: {
+            entities: [],
+          },
+        },
+      };
+
+      const individualQueries = Object.entries(
+        getIndividualizedQueries(entityCounts),
+      );
+
+      const totalQueries = individualQueries.length;
+
+      const parallelQuery = async () => {
+        if (individualQueries.length === 0) {
+          // The only time this condition should occur is if
+          // the parallelQueries executed before this
+          // finish the entire array of requests before this
+          // one has a chance to execute its first request.
+          // This can happen is the CMS's cache is very hot.
+          return true;
+        }
+
+        const [queryName, query] = individualQueries.pop();
+        const request = this.query({
+          query,
+          variables: {
+            today: moment().format('YYYY-MM-DD'),
+            onlyPublishedContent,
+          },
+        });
+
+        const startTime = moment();
+        const json = await request;
+
+        if (json.errors) {
+          console.log(json.errors);
+          throw new Error(`${queryName} resulted in errors`);
+        }
+
+        if (json.data?.nodeQuery) {
+          result.data.nodeQuery.entities.push(...json.data.nodeQuery.entities);
+        } else {
+          Object.assign(result.data, json.data);
+        }
+
+        let timeElapsed = moment().diff(startTime, 'seconds');
+        let pageCount = json.data.nodeQuery
+          ? json.data.nodeQuery.entities.length
+          : '[n/a]';
+
+        if (timeElapsed > 60) {
+          timeElapsed = chalk.red(timeElapsed);
+        }
+
+        if (pageCount > 100) {
+          pageCount = chalk.red(pageCount);
+        }
+
+        say(
+          `| ${chalk.blue(queryName)} | ${timeElapsed}s | ${pageCount} pages |`,
+        );
+
+        if (individualQueries.length > 0) {
+          return parallelQuery();
+        }
+
+        return true;
+      };
+
+      // Cap the amount of pending requests allowed out at once
+      // And also stagger their execution so that at no point
+      // are we totally overwhelming the CMS.
+      const maxParallelRequests = 15;
+      const overallStartTime = moment();
+      const staggeredRequests = new Array(maxParallelRequests)
+        .fill(null)
+        .map((_, index) => {
+          return new Promise(resolve => {
+            const delay = index * 250;
+            setTimeout(() => resolve(parallelQuery()), delay);
+          });
+        });
+
+      await Promise.all(staggeredRequests);
+
+      const overallTimeElapsed = moment().diff(overallStartTime, 'seconds');
+
+      console.log(
+        `Finished ${totalQueries} queries in ${overallTimeElapsed}s with ${
+          result.data.nodeQuery.entities.length
+        } pages`,
+      );
+
+      return result;
     },
 
     getAllPages(onlyPublishedContent = true) {

@@ -1,0 +1,64 @@
+.gi-app .profile-page {
+
+  .profile-nav-bar {
+    background-color: $color-gray-lightest;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-left: 1em;
+    width: 100vw;
+
+    a {
+      font-family: $font-sans;
+    }
+
+    .far, .fa {
+      cursor: pointer;
+    }
+  }
+
+  .profile-nav-bar-stuck {
+    position:fixed;
+    top:0;
+    z-index:100;
+  }
+
+  .profile-section-header {
+    border: 3px solid $color-gray-lightest;
+    padding: 0.5em;
+    margin-top: 1em;
+    margin-bottom: 0;
+  }
+
+  .profile-section-body {
+    border-left: 3px solid $color-gray-lightest;
+    border-right: 3px solid $color-gray-lightest;
+    border-bottom: 3px solid $color-gray-lightest;
+    padding: 0.5em;
+  }
+
+  h3 {
+    font-size: 1.35em;
+    margin-top: 0;
+  }
+
+  .info-flag {
+    color: $color-gray-dark;
+    background-color: $color-gray-lighter;
+    font-size: 0.9em;
+    display: inline-block;
+    padding: 0.1em 0.5em;
+    margin-right: 0.5em;
+    margin-top: 0.5em;
+  }
+
+  .icon-with-info {
+    .text-column {
+      overflow-wrap: break-word;
+    }
+  }
+
+  .overlay {
+    display: flex;
+    flex-direction: column;
+  }
+}

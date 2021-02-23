@@ -8,10 +8,8 @@ import { IntroductionPage } from '../../containers/IntroductionPage';
 import formConfig from '../../config/form';
 
 import { FETCH_CONTESTABLE_ISSUES_INIT } from '../../actions';
-import {
-  WIZARD_STATUS,
-  WIZARD_STATUS_COMPLETE,
-} from 'applications/static-pages/wizard';
+import { WIZARD_STATUS } from '../../constants';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 
 const defaultProps = {
   getContestableIssues: () => {},
@@ -207,7 +205,7 @@ describe('IntroductionPage', () => {
 
     const Intro = tree.find('Connect(CallToActionWidget)').first();
     expect(Intro.props().children.props.message).to.contain(
-      'Loading your contestable issues',
+      'Loading your previous decisions',
     );
     tree.unmount();
   });

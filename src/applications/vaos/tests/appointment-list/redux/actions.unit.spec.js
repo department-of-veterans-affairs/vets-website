@@ -10,6 +10,7 @@ import {
 
 import {
   fetchFutureAppointments,
+  fetchPendingAppointments,
   fetchPastAppointments,
   fetchRequestMessages,
   cancelAppointment,
@@ -18,6 +19,7 @@ import {
   startNewAppointmentFlow,
   FETCH_FUTURE_APPOINTMENTS,
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
+  FETCH_PENDING_APPOINTMENTS,
   FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS,
   FETCH_PAST_APPOINTMENTS_SUCCEEDED,
@@ -52,10 +54,6 @@ describe('VAOS actions: appointments', () => {
     resetFetch();
   });
 
-  const featureToggles = {
-    vaOnlineSchedulingExpressCare: true,
-  };
-
   it('should fetch past appointments', async () => {
     const data = {
       data: [],
@@ -65,7 +63,7 @@ describe('VAOS actions: appointments', () => {
     const thunk = fetchPastAppointments('2019-02-02', '2029-12-31', 1);
     const dispatchSpy = sinon.spy();
     const getState = () => ({
-      featureToggles,
+      featureToggles: {},
       appointments: {
         pastStatus: 'notStarted',
         past: [{ facilityId: '442' }],
@@ -129,7 +127,7 @@ describe('VAOS actions: appointments', () => {
     setFetchJSONFailure(global.fetch.onCall(3), {});
     const thunk = fetchFutureAppointments();
     const dispatchSpy = sinon.spy();
-    await thunk(dispatchSpy, () => ({ featureToggles }));
+    await thunk(dispatchSpy, () => ({}));
     expect(dispatchSpy.firstCall.args[0].type).to.eql(
       FETCH_FUTURE_APPOINTMENTS,
     );
@@ -141,6 +139,22 @@ describe('VAOS actions: appointments', () => {
     );
     expect(dispatchSpy.callCount).to.equal(3);
     expect(global.fetch.callCount).to.equal(4);
+  });
+
+  it('should fetch pending appointments', async () => {
+    setFetchJSONResponse(global.fetch, { data: [getVAAppointmentMock()] });
+    setFetchJSONResponse(global.fetch.onCall(2), facilityData);
+    const thunk = fetchPendingAppointments();
+    const dispatchSpy = sinon.spy();
+    await thunk(dispatchSpy, () => ({}));
+    expect(dispatchSpy.firstCall.args[0].type).to.eql(
+      FETCH_PENDING_APPOINTMENTS,
+    );
+    expect(dispatchSpy.secondCall.args[0].type).to.eql(
+      FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
+    );
+    expect(dispatchSpy.callCount).to.equal(2);
+    expect(global.fetch.callCount).to.equal(2);
   });
 
   it('should fetch request messages', async () => {
@@ -206,7 +220,7 @@ describe('VAOS actions: appointments', () => {
             participant: [
               {
                 actor: {
-                  reference: 'HealthcareService/var983_455',
+                  reference: 'HealthcareService/983_455',
                   display: 'C&P BEV AUDIO FTC1',
                 },
               },
@@ -291,7 +305,7 @@ describe('VAOS actions: appointments', () => {
             participant: [
               {
                 actor: {
-                  reference: 'HealthcareService/var983_455',
+                  reference: 'HealthcareService/983_455',
                   display: 'C&P BEV AUDIO FTC1',
                 },
               },
@@ -394,7 +408,7 @@ describe('VAOS actions: appointments', () => {
             participant: [
               {
                 actor: {
-                  reference: 'HealthcareService/var983_455',
+                  reference: 'HealthcareService/983_455',
                   display: 'C&P BEV AUDIO FTC1',
                 },
               },
@@ -487,7 +501,7 @@ describe('VAOS actions: appointments', () => {
             participant: [
               {
                 actor: {
-                  reference: 'HealthcareService/var983_455',
+                  reference: 'HealthcareService/983_455',
                   display: 'C&P BEV AUDIO FTC1',
                 },
               },

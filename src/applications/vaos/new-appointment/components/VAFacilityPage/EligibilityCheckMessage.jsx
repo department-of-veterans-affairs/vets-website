@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FacilityAddress from '../../../components/FacilityAddress';
 

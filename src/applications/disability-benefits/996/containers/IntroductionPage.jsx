@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 import recordEvent from 'platform/monitoring/record-event';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -29,6 +29,7 @@ import {
   SUPPLEMENTAL_CLAIM_URL,
   FACILITY_LOCATOR_URL,
   GET_HELP_REVIEW_REQUEST_URL,
+  WIZARD_STATUS,
 } from '../constants';
 import {
   noContestableIssuesFound,
@@ -38,10 +39,9 @@ import {
 } from '../content/contestableIssueAlerts';
 import WizardContainer from '../wizard/WizardContainer';
 import {
-  WIZARD_STATUS,
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
-} from 'applications/static-pages/wizard';
+} from 'platform/site-wide/wizard';
 
 export class IntroductionPage extends React.Component {
   state = {
@@ -112,7 +112,7 @@ export class IntroductionPage extends React.Component {
       return (
         <LoadingIndicator
           setFocus
-          message="Loading your contestable issues..."
+          message="Loading your previous decisions..."
         />
       );
     }
@@ -283,7 +283,7 @@ export class IntroductionPage extends React.Component {
                   <p>
                     Our goal for completing a Higher-Level Review is 125 days. A
                     review might take longer if we need to get records or
-                    schedule a new exam to correct the error.
+                    schedule a new exam to correct an error.
                   </p>
                 </li>
                 <li className="process-step list-four">

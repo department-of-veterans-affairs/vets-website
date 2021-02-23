@@ -1,6 +1,8 @@
-// import fullSchema from 'vets-json-schema/dist/HC-QSTNR-schema.json';
-
 import React from 'react';
+
+import environment from 'platform/utilities/environment';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -9,11 +11,15 @@ import ReasonForVisit from '../components/reason-for-visit';
 import ReasonForVisitDescription from '../components/reason-for-visit-description';
 import GetHelp from '../components/get-help';
 import ExpiresAt from '../components/expires-at';
+import HiddenFields from '../components/hidden-fields';
+import Messages from '../components/messages';
 
-import environment from 'platform/utilities/environment';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+import { TITLES, createPathFromTitle } from './utils';
 
 import manifest from '../manifest.json';
+import { submit, transformForSubmit } from '../api';
+
+import { updateUrls } from './migrations';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -22,12 +28,12 @@ const formConfig = {
   trackingPrefix: 'health-care-questionnaire',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  submit: form => {
-    // just for MVP until we have an API set up
-    return new Promise((resolve, _reject) => {
-      resolve(form.data);
-    });
+  downtime: {
+    dependencies: [externalServices.hcq],
   },
+  submit,
+  transformForSubmit,
+  submissionError: Messages.ServiceDown,
   formId: VA_FORM_IDS.FORM_HC_QSTNR,
   saveInProgress: {
     resumeOnly: true,
@@ -38,7 +44,8 @@ const formConfig = {
       saved: 'Your questionnaire has been saved.',
     },
   },
-  version: 0,
+  version: 1,
+  migrations: [updateUrls],
   prefillEnabled: true,
   footerContent: GetHelp.footer,
   preSubmitInfo: {
@@ -62,13 +69,13 @@ const formConfig = {
   },
   chapters: {
     chapter1: {
-      title: 'Veteran Information',
+      title: TITLES.demographics,
       reviewDescription: VeteranInfoPage.review,
       pages: {
         demographicsPage: {
-          path: 'demographics',
+          path: createPathFromTitle(TITLES.demographics),
           hideHeaderRow: true,
-          title: 'Veteran Information',
+          title: TITLES.demographics,
           uiSchema: {
             veteranInfo: {
               'ui:field': VeteranInfoPage.field,
@@ -100,12 +107,19 @@ const formConfig = {
       },
     },
     chapter2: {
-      title: 'Prepare for Your Appointment',
+      title: TITLES.reasonForVisit,
       pages: {
         reasonForVisit: {
-          path: 'reason-for-visit',
-          title: 'Prepare for Your Appointment',
+          path: createPathFromTitle(TITLES.reasonForVisit),
+          title: TITLES.reasonForVisit,
           uiSchema: {
+            'hidden:fields': {
+              'ui:field': HiddenFields.fields,
+              'ui:options': {
+                hideLabelText: true,
+                hideOnReview: true,
+              },
+            },
             reasonForVisit: {
               'ui:field': ReasonForVisit.field,
               'ui:title': ' ',
@@ -126,8 +140,8 @@ const formConfig = {
                 <span>
                   Are there any other concerns or changes in your life that are
                   affecting you or your health? (For example, a marriage,
-                  divorce, new baby, change in your job, or other medical
-                  conditions)
+                  divorce, new baby, change in your job, retirement, or other
+                  medical conditions)
                 </span>
               ),
             },
@@ -153,6 +167,14 @@ const formConfig = {
             type: 'object',
             required: ['reasonForVisitDescription'],
             properties: {
+              'hidden:fields': {
+                type: 'object',
+                properties: {
+                  appointmentId: { type: 'string' },
+                  questionnaireId: { type: 'string' },
+                },
+              },
+
               reasonForVisit: {
                 type: 'string',
               },

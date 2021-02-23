@@ -1,49 +1,70 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import moment from '../../lib/moment-tz.js';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import * as actions from '../redux/actions';
-import FormButtons from '../../components/FormButtons';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import recordEvent from 'platform/monitoring/record-event.js';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { getTimezoneAbbrBySystemId } from '../../utils/timezone.js';
+import { GA_PREFIX } from '../../utils/constants.js';
+import FacilityAddress from '../../components/FacilityAddress.jsx';
+import { selectConfirmationPage } from '../redux/selectors.js';
 
-const pageKey = 'confirmation';
-const pageTitle = 'Confirmation';
+const pageTitle = 'Your appointment has been scheduled';
 
-function ConfirmationPage({
-  pageChangeInProgress,
-  routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage,
-}) {
-  const history = useHistory();
+function ConfirmationPage({ data, systemId, facilityDetails }) {
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
   }, []);
 
+  if (!data?.date1) {
+    return <Redirect to="/" />;
+  }
+
+  const { date1 } = data;
+
   return (
     <div>
       <h1>{pageTitle}</h1>
-      <FormButtons
-        backBeforeText=""
-        backButtonText="Cancel"
-        nextButtonText="Continue with request"
-        pageChangeInProgress={pageChangeInProgress}
-        onBack={() => {
-          routeToPreviousAppointmentPage(history, pageKey);
-        }}
-        onSubmit={() => {
-          routeToNextAppointmentPage(history, pageKey);
-        }}
-      />
+      <AlertBox status="success">
+        <strong>Your appointment is confirmed</strong>
+        <br />
+        Please see your appointment details below.
+      </AlertBox>
+      <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
+        <h2 className="vads-u-margin-y--0 vads-u-font-size--h3">
+          COVID-19 vaccination
+        </h2>
+        First dose
+        <br />
+        {moment(date1, 'YYYY-MM-DDTHH:mm:ssZ').format(
+          'dddd, MMMM D, YYYY [at] h:mm a ',
+        ) + getTimezoneAbbrBySystemId(systemId)}
+        <br />
+        <br />
+        {facilityDetails && (
+          <FacilityAddress
+            name={facilityDetails.name}
+            facility={facilityDetails}
+          />
+        )}
+      </div>
+      <div className="vads-u-margin-y--2">
+        <Link
+          to="/"
+          className="usa-button vads-u-padding-right--2"
+          onClick={() => {
+            recordEvent({
+              event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
+            });
+          }}
+        >
+          View your appointments
+        </Link>
+      </div>
     </div>
   );
 }
 
-const mapDispatchToProps = {
-  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
-};
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(ConfirmationPage);
+export default connect(selectConfirmationPage)(ConfirmationPage);

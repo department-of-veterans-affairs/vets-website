@@ -1,6 +1,4 @@
-export const WIZARD_STATUS = 'chp31WizardStatus';
-export const WIZARD_STATUS_COMPLETE = true;
-export const WIZARD_STATUS_INELIGIBLE = false;
+export const WIZARD_STATUS = 'wizardStatus31';
 export const CHAPTER_31_ROOT_URL =
   '/careers-employment/vocational-rehabilitation/apply';
 export const VRE_ROOT_URL =

@@ -79,7 +79,7 @@ import {
 
 import { getTypeOfCare } from './selectors';
 import { distanceBetween } from '../../utils/address';
-import { getSiteIdFromFakeFHIRId } from '../../services/location';
+import { getSiteIdFromFacilityId } from '../../services/location';
 import { getClinicId } from '../../services/healthcare-service/transformers';
 
 export const REASON_ADDITIONAL_INFO_TITLES = {
@@ -794,7 +794,7 @@ export default function formReducer(state = initialState, action) {
         ...state,
         data: {
           ...state.data,
-          calendarData: {},
+          selectedDates: [],
         },
         flowType: FLOW_TYPES.DIRECT,
       };
@@ -803,7 +803,7 @@ export default function formReducer(state = initialState, action) {
         ...state,
         data: {
           ...state.data,
-          calendarData: {},
+          selectedDates: [],
         },
         flowType: FLOW_TYPES.REQUEST,
       };
@@ -846,7 +846,7 @@ export default function formReducer(state = initialState, action) {
         ...state,
         data: {
           ...state.data,
-          calendarData: action.calendarData,
+          selectedDates: action.selectedDates,
         },
       };
     }
@@ -936,7 +936,7 @@ export default function formReducer(state = initialState, action) {
 
       if (state.pastAppointments) {
         const pastAppointmentDateMap = new Map();
-        const siteId = getSiteIdFromFakeFHIRId(state.data.vaFacility);
+        const siteId = getSiteIdFromFacilityId(state.data.vaFacility);
 
         state.pastAppointments.forEach(appt => {
           const apptTime = appt.startDate;
@@ -1001,7 +1001,7 @@ export default function formReducer(state = initialState, action) {
         ...state,
         data: {
           ...data,
-          calendarData: {},
+          selectedDates: [],
         },
         pages: {
           ...state.pages,

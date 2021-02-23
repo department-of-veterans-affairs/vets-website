@@ -3,20 +3,21 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { LastLocationProvider } from 'react-router-last-location';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import DowntimeNotification, {
   externalServices,
   externalServiceStatus,
-} from 'platform/monitoring/DowntimeNotification';
-import DowntimeApproaching from 'platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
+} from '~/platform/monitoring/DowntimeNotification';
+import DowntimeApproaching from '~/platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
 import {
   initializeDowntimeWarnings,
   dismissDowntimeWarning,
-} from 'platform/monitoring/DowntimeNotification/actions';
+} from '~/platform/monitoring/DowntimeNotification/actions';
 
-import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
-import backendServices from 'platform/user/profile/constants/backendServices';
+import RequiredLoginView, {
+  RequiredLoginLoader,
+} from '~/platform/user/authorization/components/RequiredLoginView';
+import backendServices from '~/platform/user/profile/constants/backendServices';
 import {
   createIsServiceAvailableSelector,
   isMultifactorEnabled,
@@ -25,8 +26,8 @@ import {
   isLOA3 as isLOA3Selector,
   isInMPI as isInMVISelector,
   isLoggedIn,
-} from 'platform/user/selectors';
-import { fetchMHVAccount as fetchMHVAccountAction } from 'platform/user/profile/actions';
+} from '~/platform/user/selectors';
+import { fetchMHVAccount as fetchMHVAccountAction } from '~/platform/user/profile/actions';
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
@@ -45,6 +46,10 @@ import {
   fetchCNPPaymentInformation as fetchCNPPaymentInformationAction,
   fetchEDUPaymentInformation as fetchEDUPaymentInformationAction,
 } from '@@profile/actions/paymentInformation';
+
+import { selectShowDashboard2 } from '~/applications/personalization/dashboard-2/selectors';
+import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
+
 import getRoutes from '../routes';
 import { PROFILE_PATHS } from '../constants';
 
@@ -53,13 +58,15 @@ import ProfileWrapper from './ProfileWrapper';
 class Profile extends Component {
   componentDidMount() {
     const {
+      fetchCNPPaymentInformation,
+      fetchEDUPaymentInformation,
       fetchFullName,
       fetchMHVAccount,
       fetchMilitaryInformation,
       fetchPersonalInformation,
-      fetchCNPPaymentInformation,
-      fetchEDUPaymentInformation,
+      fetchTotalDisabilityRating,
       shouldFetchCNPDirectDepositInformation,
+      shouldFetchTotalDisabilityRating,
       shouldFetchEDUDirectDepositInformation,
     } = this.props;
     fetchMHVAccount();
@@ -69,12 +76,21 @@ class Profile extends Component {
     if (shouldFetchCNPDirectDepositInformation) {
       fetchCNPPaymentInformation();
     }
+    if (shouldFetchTotalDisabilityRating) {
+      fetchTotalDisabilityRating();
+    }
     if (shouldFetchEDUDirectDepositInformation) {
       fetchEDUPaymentInformation();
     }
   }
 
   componentDidUpdate(prevProps) {
+    if (
+      this.props.shouldFetchTotalDisabilityRating &&
+      !prevProps.shouldFetchTotalDisabilityRating
+    ) {
+      this.props.fetchTotalDisabilityRating();
+    }
     if (
       this.props.shouldFetchCNPDirectDepositInformation &&
       !prevProps.shouldFetchCNPDirectDepositInformation
@@ -115,16 +131,6 @@ class Profile extends Component {
     return children;
   };
 
-  // content to show if the component is waiting for data to load. This loader
-  // matches the loader shown by the RequiredLoginView component, so when the
-  // RequiredLoginView is done with its loading and this function takes over, it
-  // appears seamless to the user.
-  loadingContent = () => (
-    <div className="vads-u-margin-y--5">
-      <LoadingIndicator setFocus message="Loading your information..." />
-    </div>
-  );
-
   // content to show after data has loaded
   mainContent = () => {
     const routesOptions = {
@@ -139,8 +145,9 @@ class Profile extends Component {
         <LastLocationProvider>
           <ProfileWrapper
             routes={routes}
-            isLOA3={this.props.isLOA3}
             isInMVI={this.props.isInMVI}
+            isLOA3={this.props.isLOA3}
+            showUpdatedNameTag={this.props.shouldFetchTotalDisabilityRating}
           >
             <Switch>
               {/* Redirect users to Account Security to upgrade their account if they need to */}
@@ -193,7 +200,7 @@ class Profile extends Component {
 
   renderContent = () => {
     if (this.props.showLoader) {
-      return this.loadingContent();
+      return <RequiredLoginLoader />;
     }
     return this.mainContent();
   };
@@ -207,7 +214,7 @@ class Profile extends Component {
         <DowntimeNotification
           appTitle="profile"
           render={this.handleDowntimeApproaching}
-          loadingIndicator={this.loadingContent()}
+          loadingIndicator={<RequiredLoginLoader />}
           dependencies={[
             externalServices.emis,
             externalServices.evss,
@@ -247,6 +254,12 @@ const mapStateToProps = state => {
   const isCNPDirectDepositBlocked = cnpDirectDepositIsBlocked(state);
   const isEligibleToSetUpCNP = cnpDirectDepositAddressIsSetUp(state);
   const is2faEnabled = isMultifactorEnabled(state);
+
+  const LSDashboardVersion = localStorage.getItem('DASHBOARD_VERSION');
+  const LSDashboard1 = LSDashboardVersion === '1';
+  const LSDashboard2 = LSDashboardVersion === '2';
+  const FFDashboard2 = selectShowDashboard2(state);
+
   const shouldFetchCNPDirectDepositInformation =
     isEvssAvailable && is2faEnabled;
   const shouldFetchEDUDirectDepositInformation =
@@ -254,6 +267,9 @@ const mapStateToProps = state => {
   const currentlyLoggedIn = isLoggedIn(state);
   const isLOA1 = isLOA1Selector(state);
   const isLOA3 = isLOA3Selector(state);
+
+  const shouldFetchTotalDisabilityRating =
+    isLOA3 && (LSDashboard2 || (FFDashboard2 && !LSDashboard1));
 
   // this piece of state will be set if the call to load military info succeeds
   // or fails:
@@ -279,11 +295,17 @@ const mapStateToProps = state => {
 
   const hasLoadedEDUPaymentInformation = eduDirectDepositInformation(state);
 
+  const hasLoadedTotalDisabilityRating =
+    state.totalRating && !state.totalRating.loading;
+
   const hasLoadedAllData =
     hasLoadedFullName &&
     hasLoadedMHVInformation &&
     hasLoadedPersonalInformation &&
     hasLoadedMilitaryInformation &&
+    (shouldFetchTotalDisabilityRating
+      ? hasLoadedTotalDisabilityRating
+      : true) &&
     (shouldFetchCNPDirectDepositInformation
       ? hasLoadedCNPPaymentInformation
       : true) &&
@@ -312,6 +334,7 @@ const mapStateToProps = state => {
     isLOA3,
     shouldFetchCNPDirectDepositInformation,
     shouldFetchEDUDirectDepositInformation,
+    shouldFetchTotalDisabilityRating,
     shouldShowDirectDeposit: shouldShowDirectDeposit(),
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',
@@ -326,6 +349,7 @@ const mapDispatchToProps = {
   fetchPersonalInformation: fetchPersonalInformationAction,
   fetchCNPPaymentInformation: fetchCNPPaymentInformationAction,
   fetchEDUPaymentInformation: fetchEDUPaymentInformationAction,
+  fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,
   initializeDowntimeWarnings,
   dismissDowntimeWarning,
 };

@@ -6,11 +6,10 @@ import moment from 'moment';
 
 // Relative imports.
 import SearchResult, { deriveLatestIssue } from '../../components/SearchResult';
-import { FORM_MOMENT_DATE_FORMAT } from '../../constants';
+import { FORM_MOMENT_PRESENTATION_DATE_FORMAT } from '../../constants';
 import FormTitle from '../../components/FormTitle';
 
 describe('Find VA Forms <SearchResult />', () => {
-  const showFindFormsResultsLinkToFormDetailPages = true; //  TODO: 12/17/20 remove prop once feature is deployed to prod in Jan 12 2020 https://github.com/department-of-veterans-affairs/va.gov-team/issues/16930
   const formMetaInfo = {
     query: '10-10CG',
     currentPage: 1,
@@ -48,13 +47,7 @@ describe('Find VA Forms <SearchResult />', () => {
 
   it('should render child component', () => {
     const tree = mount(
-      <SearchResult
-        form={form}
-        formMetaInfo={formMetaInfo}
-        showFindFormsResultsLinkToFormDetailPages={
-          showFindFormsResultsLinkToFormDetailPages
-        }
-      />,
+      <SearchResult form={form} formMetaInfo={formMetaInfo} />,
     );
     // does parent contain child?
     expect(tree.contains(FormTitle));
@@ -63,13 +56,7 @@ describe('Find VA Forms <SearchResult />', () => {
 
   it('should have download or redirect attribute for form PDF dependant on CORS', () => {
     const tree = mount(
-      <SearchResult
-        formMetaInfo={formMetaInfo}
-        form={form}
-        showFindFormsResultsLinkToFormDetailPages={
-          showFindFormsResultsLinkToFormDetailPages
-        }
-      />,
+      <SearchResult formMetaInfo={formMetaInfo} form={form} />,
     );
     const isSameOrigin = form.attributes.url.startsWith(window.location.origin);
 
@@ -81,13 +68,7 @@ describe('Find VA Forms <SearchResult />', () => {
 
   it('should have a button', () => {
     const tree = mount(
-      <SearchResult
-        formMetaInfo={formMetaInfo}
-        form={form}
-        showFindFormsResultsLinkToFormDetailPages={
-          showFindFormsResultsLinkToFormDetailPages
-        }
-      />,
+      <SearchResult formMetaInfo={formMetaInfo} form={form} />,
     );
     expect(tree.exists('.usa-button')).to.equal(true);
     tree.unmount();
@@ -95,30 +76,30 @@ describe('Find VA Forms <SearchResult />', () => {
 
   it('should discern latest date', () => {
     const tree = shallow(
-      <SearchResult
-        formMetaInfo={formMetaInfo}
-        form={form}
-        showFindFormsResultsLinkToFormDetailPages={
-          showFindFormsResultsLinkToFormDetailPages
-        }
-      />,
+      <SearchResult formMetaInfo={formMetaInfo} form={form} />,
     );
-    const date1 = '205-01-01';
+    const date1 = '2050-01-01';
     const date2 = '2020-01-01';
     const nullDate = null;
     const emptyStringDate = '';
 
     const latestDate1 = deriveLatestIssue(date1, date2);
-    expect(latestDate1).to.equal(moment(date2).format(FORM_MOMENT_DATE_FORMAT));
+    expect(latestDate1).to.equal(
+      moment(date1).format(FORM_MOMENT_PRESENTATION_DATE_FORMAT),
+    );
 
     const latestDate2 = deriveLatestIssue(date1, nullDate);
-    expect(latestDate2).to.equal(moment(date1).format(FORM_MOMENT_DATE_FORMAT));
+    expect(latestDate2).to.equal(
+      moment(date1).format(FORM_MOMENT_PRESENTATION_DATE_FORMAT),
+    );
 
     const latestDate3 = deriveLatestIssue(emptyStringDate, nullDate);
     expect(latestDate3).to.equal('N/A');
 
     const latestDate4 = deriveLatestIssue(emptyStringDate, date2);
-    expect(latestDate4).to.equal(moment(date2).format(FORM_MOMENT_DATE_FORMAT));
+    expect(latestDate4).to.equal(
+      moment(date2).format(FORM_MOMENT_PRESENTATION_DATE_FORMAT),
+    );
 
     tree.unmount();
   });

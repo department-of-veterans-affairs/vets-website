@@ -6,12 +6,8 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 
-import toggleOn from './fixtures/toggle-on-multiple-address-1010ez.json';
-import toggleOff from './fixtures/toggle-off-multiple-address-1010ez.json';
-
 const testConfig = createTestConfig(
   {
-    _13647Exception: true,
     dataPrefix: 'data',
     dataSets: ['maximal-test', 'minimal-test', 'foreign-address-test'],
     fixtures: { data: path.join(__dirname, 'schema') },
@@ -45,14 +41,6 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
-      cy.get('@testKey').then(testKey => {
-        if (testKey === 'maximal-test') {
-          cy.route('GET', '/v0/feature_toggles*', toggleOn);
-        } else {
-          cy.route('GET', '/v0/feature_toggles*', toggleOff);
-        }
-      });
-
       cy.route({
         method: 'GET',
         url: '/v0/health_care_applications/enrollment_status*',

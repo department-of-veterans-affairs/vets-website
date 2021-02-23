@@ -336,7 +336,7 @@ describe('VAOS Appointment service', () => {
             setRequestedPeriod(
               now
                 .clone()
-                .add(13, 'months')
+                .add(395, 'days')
                 .add(-1, 'days'),
               'AM',
             ),

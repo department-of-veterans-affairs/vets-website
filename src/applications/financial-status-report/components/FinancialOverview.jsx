@@ -1,33 +1,44 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-const FinancialOverview = () => {
+const FinancialOverview = ({ formData: { fsrDebts } }) => {
+  const index = window.location.href.slice(-1);
+  const debt = fsrDebts[index];
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+  });
+
   return (
     <>
       <h4>Your financial overview</h4>
       <div className="usa-alert usa-alert-info background-color-only vads-u-margin-bottom--5">
-        <div>Total income: $3,000.00</div>
-        <div>Total expenses: $2,800.00</div>
-        <div>Discretionary income: $200.00</div>
+        <div className="vads-u-margin-bottom--1 overview-container">
+          <div>Total monthly income:</div>
+          <div>
+            {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
+          </div>
+        </div>
+        <div className="vads-u-margin-bottom--1 overview-container">
+          <div>Total monthly expenses:</div>
+          <div>
+            {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
+          </div>
+        </div>
+        <div className="vads-u-margin-bottom--0 overview-container">
+          <div>Monthly discretionary income:</div>
+          <div>
+            {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
+          </div>
+        </div>
       </div>
     </>
   );
 };
 
-FinancialOverview.propTypes = {
-  income: PropTypes.object,
-};
-
-FinancialOverview.defaultProps = {
-  income: {},
-};
-
 const mapStateToProps = state => ({
-  income: state.form?.data,
+  formData: state?.form?.data,
 });
 
-export default connect(
-  mapStateToProps,
-  null,
-)(FinancialOverview);
+export default connect(mapStateToProps)(FinancialOverview);

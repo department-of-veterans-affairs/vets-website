@@ -1,0 +1,157 @@
+<h3 data-template="paragraphs/service_location">Contact information</h3>
+{% for singleLocation in locations %}
+  {% assign single = singleLocation.entity %}
+  {% if single.fieldServiceLocationAddress.entity.fieldClinicName %}
+    {% assign haveLocationName = true %}
+  {% else %}
+    {% assign haveLocationName = false %}
+  {% endif %}
+  {% include "src/site/facilities/service_address.drupal.liquid" %}
+
+  {% comment %}
+      single.fieldHours values:
+      - 0 = Use facility hours
+      - 1 = Do not specify hours
+      - 2 = Display specific hours
+  {% endcomment %}
+
+  {% if single.fieldHours != "1" %}
+    {% if haveLocationName %}
+      <h5 data-template="paragraphs/service_location">Hours</h5>
+    {% else %}
+      <h4 class="force-small-header" data-template="paragraphs/service_location">Hours</h4>
+    {% endif %}
+  {% endif %}
+
+  {% case single.fieldHours %}
+    {% when '2' %}
+      {% if single.fieldFacilityServiceHours.value %}
+        {% include "src/site/paragraphs/service_hours.drupal.liquid" with serviceHours = single.fieldFacilityServiceHours.value %}
+      {% endif %}
+    {% when '0' %}
+      {% if fieldFacilityHours.value %}
+        {% include "src/site/paragraphs/service_hours.drupal.liquid" with serviceHours = fieldFacilityHours.value %}
+      {% endif %}
+  {% endcase %}
+
+
+  {% if single.fieldAdditionalHoursInfo %}
+    <span data-template="paragraphs/service_location"><i>{{ single.fieldAdditionalHoursInfo }}</i></span>
+  {% endif %}
+
+  {% include "src/site/components/phone.drupal.liquid" with numbers = single.fieldPhone haveLocationName = haveLocationName %}
+
+  {% if single.fieldEmailContacts %}
+    {% for email in single.fieldEmailContacts %}
+      <p class="vads-u-margin-y--1" data-template="paragraphs/service_location">
+      {% if email.entity.fieldEmailLabel %}
+        {% if haveLocationName %}
+          <h5>{{ email.entity.fieldEmailLabel }} </h5>
+        {% else %}
+          <h4 class="force-small-header">{{ email.entity.fieldEmailLabel }} </h4>
+        {% endif %}
+      {% endif %}
+      <a aria-label="{{ email.entity.fieldEmailAddress }}"
+         data-template="paragraphs/service_location"
+         href="mailto:{{ email.entity.fieldEmailAddress }}">{{ email.entity.fieldEmailAddress }}
+      </a>
+    {% endfor %}
+  {% endif %}
+{% endfor %}
+
+{% if locationEntity.fieldReferralRequired or locationEntity.fieldWalkInsAccepted or locationEntity.fieldOnlineSchedulingAvailabl %}
+  <h3 data-template="paragraphs/service_location">Appointments</h3>
+
+  {% assign introText = 'Contact us to schedule, reschedule, or
+            cancel your appointment. If a referral is required, you’ll need to contact your
+            primary care provider first.'
+  %}
+
+  {% case locationEntity.fieldHserviceApptIntroSelect %}
+    {% when 'custom_intro_text' %}
+      {% if locationEntity.fieldHserviceApptLeadin != empty %}
+        {% assign introText = locationEntity.fieldHserviceApptLeadin %}
+      {% endif %}
+    {% when 'no_intro_text' %}
+      {% assign introText = '' %}
+  {% endcase %}
+
+  {% if introText != empty %}
+    <p class="vads-u-margin--0" data-template="paragraphs/service_location">
+      {{  introText }}
+    </p>
+  {% endif %}
+
+
+  {% comment %}
+    if fieldPhoneNumbersParagraph has values
+    use phone numbers from entities
+  {% endcomment %}
+  {% if locationEntity.fieldPhoneNumbersParagraph.length > 0 %}
+    <div class="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1" data-template="paragraphs/service_location">
+      {% if haveLocationName %}
+        <h4 class="force-small-header">Phone</h4>
+      {% else %}
+        <h5>Phone</h5>
+      {% endif %}
+      {% if locationEntity.fieldPhoneNumbersParagraph %}
+        {% for number in locationEntity.fieldPhoneNumbersParagraph %}
+          <a aria-label="{{ number.entity.fieldPhoneNumber | accessibleNumber }}"
+             href="tel:{{ number.entity.fieldPhoneNumber }}{% if number.entity.fieldPhoneExtension %}p{{ number.entity.fieldPhoneExtension }}{% endif %}">
+            {{ number.entity.fieldPhoneNumber }}
+            {% if number.entity.fieldPhoneExtension %}
+              x {{ number.entity.fieldPhoneExtension }}
+            {% endif %}
+          </a>
+        {% endfor %}
+      {% endif %}
+    </div>
+  {% else %}
+    {% comment %}
+      if fieldPhoneNumbersParagraph is empty and
+      fieldUseMainFacilityPhone is true use fieldPhoneNumber
+    {% endcomment %}
+      <div class="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1" data-template="paragraphs/service_location">
+        {% if haveLocationName %}
+          <h4 class="force-small-header">Phone</h4>
+        {% else %}
+          <h5>Phone</h5>
+          <a aria-label="{{ fieldPhoneNumber | accessibleNumber }}"
+             href="tel:{{ fieldPhoneNumber }}">
+            {{ fieldPhoneNumber }}
+          </a>
+        {% endif %}
+      </div>
+  {% endif %}
+
+  {% assign OMIT_REFERRAL_OR_WALKIN = "not_applicable, unknown" %}
+
+  {% if locationEntity.fieldReferralRequired %}
+    {% unless OMIT_REFERRAL_OR_WALKIN contains locationEntity.fieldReferralRequired %}
+      <p class="vads-u-margin-bottom--1" data-template="paragraphs/service_location">
+        <strong>Referral required?</strong>
+        {% if locationEntity.fieldReferralRequired == '1' %}Yes{% else %}No{% endif %}
+      </p>
+    {% endunless %}
+  {% endif %}
+
+  {% if locationEntity.fieldWalkInsAccepted %}
+    {% unless OMIT_REFERRAL_OR_WALKIN contains locationEntity.fieldWalkInsAccepted %}
+      <p class="vads-u-margin-bottom--1" data-template="paragraphs/service_location">
+        <strong>Walk-ins accepted?</strong>
+        {% if locationEntity.fieldWalkInsAccepted == '1' %}Yes{% else %}No{% endif %}
+      </p>
+    {% endunless %}
+  {% endif %}
+
+  {% if locationEntity.fieldOnlineSchedulingAvailabl == '1' %}
+    <a class="usa-button vads-u-margin-bottom--0"
+       data-entity-substitution="canonical"
+       data-entity-type="node"
+       data-template="paragraphs/service_location"
+       href="/health-care/schedule-view-va-appointments"
+       title="Schedule and view VA appointments online">
+      Schedule an appointment online
+    </a>
+  {% endif %}
+{% endif %}

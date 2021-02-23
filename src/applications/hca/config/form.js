@@ -1,144 +1,56 @@
-import _ from 'lodash/fp';
+import { set } from 'lodash/fp';
 
+// platform imports
+import environment from 'platform/utilities/environment';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { validateMatch } from 'platform/forms-system/src/js/validation';
-import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import emailUI from 'platform/forms-system/src/js/definitions/email';
-import {
-  schema as addressSchema,
-  uiSchema as addressUI,
-} from 'platform/forms/definitions/address';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import dateUI from 'platform/forms-system/src/js/definitions/date';
-import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-
-import { maritalStatuses } from 'platform/static-data/options-for-select';
-import { states } from 'platform/forms/address';
-import fullNameUI from 'platform/forms/definitions/fullName';
-import { genderLabels } from 'platform/static-data/labels';
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { hasSession } from 'platform/user/profile/utilities';
-import environment from 'platform/utilities/environment';
-import applicantDescription from 'platform/forms/components/ApplicantDescription';
-import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
-import MilitaryPrefillMessage from 'platform/forms/save-in-progress/MilitaryPrefillMessage';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
-import DowntimeMessage from '../components/DowntimeMessage';
+// HCA internal app imports
+import migrations from './migrations';
+import manifest from '../manifest.json';
+import IDPage from '../containers/IDPage';
 import ErrorText from '../components/ErrorText';
 import FormFooter from '../components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
-import IDPage from '../containers/IDPage';
-
-import {
-  deductibleExpensesDescription,
-  dischargeTypeLabels,
-  disclosureWarning,
-  expensesGreaterThanIncomeWarning,
-  expensesLessThanIncome,
-  facilityHelp,
-  fileHelp,
-  financialDisclosureText,
-  incomeDescription,
-  isEssentialAcaCoverageDescription,
-  lastServiceBranchLabels,
-  medicaidDescription,
-  medicalCenterLabels,
-  medicalCentersByState,
-  medicarePartADescription,
-  prefillTransformer,
-  transform,
-} from '../helpers';
-
-import migrations from './migrations';
-
-import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorMessage from '../components/ErrorMessage';
-import InsuranceProviderView from '../components/InsuranceProviderView';
-import DependentView from '../components/DependentView';
-import DemographicField from '../components/DemographicField';
+import DowntimeMessage from '../components/DowntimeMessage';
+import IntroductionPage from '../containers/IntroductionPage';
+import { prefillTransformer, transform } from '../helpers';
+import ConfirmationPage from '../containers/ConfirmationPage';
+import { createDependentSchema } from '../definitions/dependent';
 
-import {
-  createDependentSchema,
-  uiSchema as dependentUI,
-  createDependentIncomeSchema,
-  dependentIncomeUiSchema,
-} from '../definitions/dependent';
+// chapter 1 Veteran Information
+import birthInformation from './chapters/veteranInformation/birthInformation';
+import veteranInformation from './chapters/veteranInformation/personalnformation';
+import demographicInformation from './chapters/veteranInformation/demographicInformation';
+import veteranAddress from './chapters/veteranInformation/veteranAddress';
+import veteranHomeAddress from './chapters/veteranInformation/veteranHomeAddress';
+import contactInformation from './chapters/veteranInformation/contactInformation';
 
-import {
-  validateServiceDates,
-  validateMarriageDate,
-  validateCurrency,
-} from '../validation';
+// chapter 2 Military Service
+import serviceInformation from './chapters/militaryService/serviceInformation';
+import additionalInformation from './chapters/militaryService/additionalInformation';
+import documentUpload from './chapters/militaryService/documentUpload';
 
-import manifest from '../manifest.json';
+// chapter 3 VA Benefits
+import basicInformation from './chapters/vaBenefits/basicInformation';
+
+// chapter 4 Household Information
+import financialDisclosure from './chapters/householdInformation/financialDisclosure';
+import spouseInformation from './chapters/householdInformation/spouseInformation';
+import dependentInformation from './chapters/householdInformation/dependentInformation';
+import annualIncome from './chapters/householdInformation/annualIncome';
+import deductibleExpenses from './chapters/householdInformation/deductibleExpenses';
+
+// chapter 5 Insurance Information
+import medicare from './chapters/insuranceInformation/medicare';
+import general from './chapters/insuranceInformation/general';
+import vaFacility from './chapters/insuranceInformation/vaFacility';
 
 const dependentSchema = createDependentSchema(fullSchemaHca);
-const dependentIncomeSchema = createDependentIncomeSchema(fullSchemaHca);
-const emptyFacilityList = [];
-const emptyObjectSchema = {
-  type: 'object',
-  properties: {},
-};
-
-const {
-  campLejeune,
-  cityOfBirth,
-  cohabitedLastYear,
-  dateOfMarriage,
-  deductibleEducationExpenses,
-  deductibleFuneralExpenses,
-  deductibleMedicalExpenses,
-  dependents,
-  disabledInLineOfDuty,
-  dischargeType,
-  discloseFinancialInformation,
-  email,
-  exposedToRadiation,
-  gender,
-  isAmericanIndianOrAlaskanNative,
-  isAsian,
-  isBlackOrAfricanAmerican,
-  isCoveredByHealthInsurance,
-  isEnrolledMedicarePartA,
-  isEssentialAcaCoverage,
-  isFormerPow,
-  isMedicaidEligible,
-  isNativeHawaiianOrOtherPacificIslander,
-  isSpanishHispanicLatino,
-  isWhite,
-  lastDischargeDate,
-  lastEntryDate,
-  lastServiceBranch,
-  medicarePartAEffectiveDate,
-  mothersMaidenName,
-  postNov111998Combat,
-  provideSupportLastYear,
-  purpleHeartRecipient,
-  radiumTreatments,
-  sameAddress,
-  spouseDateOfBirth,
-  spouseFullName,
-  spouseGrossIncome,
-  spouseNetIncome,
-  spouseOtherIncome,
-  spousePhone,
-  spouseSocialSecurityNumber,
-  swAsiaCombat,
-  vaCompensationType,
-  vaMedicalFacility,
-  veteranFullName,
-  veteranGrossIncome,
-  veteranNetIncome,
-  veteranOtherIncome,
-  vietnamService,
-  wantsInitialVaContact,
-} = fullSchemaHca.properties;
 
 const {
   date,
@@ -148,41 +60,6 @@ const {
   provider,
   ssn,
 } = fullSchemaHca.definitions;
-
-const stateLabels = createUSAStateLabels(states);
-
-const attachmentsSchema = {
-  type: 'array',
-  minItems: 1,
-  items: {
-    type: 'object',
-    required: ['attachmentId', 'name'],
-    properties: {
-      name: {
-        type: 'string',
-      },
-      size: {
-        type: 'integer',
-      },
-      confirmationCode: {
-        type: 'string',
-      },
-      attachmentId: {
-        type: 'string',
-        enum: ['1', '2', '3', '4', '5', '6', '7'],
-        enumNames: [
-          'DD214',
-          'DD215 (used to correct or make additions to the DD214)',
-          'WD AGO 53-55 (report of separation used prior to 1950)',
-          'Other discharge papers (like your DD256, DD257, or NGB22)',
-          'Official documentation of a military award (like a Purple Heart, Medal of Honor, or Silver Star)',
-          'Disability rating letter from the Veterans Benefit Administration (VBA)',
-          'Other official military document',
-        ],
-      },
-    },
-  },
-};
 
 // For which page needs prefill-message, check
 // vets-api/config/form_profile_mappings/1010ez.yml
@@ -234,7 +111,7 @@ const formConfig = {
   defaultDefinitions: {
     date,
     provider,
-    fullName: _.set('properties.middle.maxLength', 30, fullName),
+    fullName: set('properties.middle.maxLength', 30, fullName),
     ssn: ssn.oneOf[0], // Mmm...not a fan.
     phone,
     dependent: dependentSchema,
@@ -248,77 +125,15 @@ const formConfig = {
           path: 'veteran-information/personal-information',
           title: 'Veteran information',
           initialData: {},
-          uiSchema: {
-            'ui:description': applicantDescription,
-            veteranFullName: _.merge(fullNameUI, {
-              first: {
-                'ui:errorMessages': {
-                  minLength:
-                    'Please provide a valid name. Must be at least 1 character.',
-                  pattern:
-                    'Please provide a valid name. Must be at least 1 character.',
-                },
-              },
-              last: {
-                'ui:errorMessages': {
-                  minLength:
-                    'Please provide a valid name. Must be at least 2 characters.',
-                  pattern:
-                    'Please provide a valid name. Must be at least 2 characters.',
-                },
-              },
-            }),
-            mothersMaidenName: {
-              'ui:title': 'Mother’s maiden name',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              veteranFullName,
-              mothersMaidenName: _.set('maxLength', 35, mothersMaidenName),
-            },
-          },
+          uiSchema: veteranInformation.uiSchema,
+          schema: veteranInformation.schema,
         },
         birthInformation: {
           path: 'veteran-information/birth-information',
           title: 'Veteran information',
           initialData: {},
-          uiSchema: {
-            'ui:description': PrefillMessage,
-            veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
-            veteranSocialSecurityNumber: ssnUI,
-            'view:placeOfBirth': {
-              'ui:title': 'Place of birth',
-              cityOfBirth: {
-                'ui:title': 'City',
-              },
-              stateOfBirth: {
-                'ui:title': 'State',
-                'ui:options': {
-                  labels: stateLabels,
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['veteranDateOfBirth', 'veteranSocialSecurityNumber'],
-            properties: {
-              veteranDateOfBirth: date,
-              veteranSocialSecurityNumber: ssn.oneOf[0],
-              'view:placeOfBirth': {
-                type: 'object',
-                properties: {
-                  cityOfBirth,
-                  stateOfBirth: {
-                    type: 'string',
-                    enum: states.USA.map(state => state.value),
-                  },
-                },
-              },
-            },
-          },
+          uiSchema: birthInformation.uiSchema,
+          schema: birthInformation.schema,
         },
         demographicInformation: {
           path: 'veteran-information/demographic-information',
@@ -328,204 +143,30 @@ const formConfig = {
               isSpanishHispanicLatino: false,
             },
           },
-          uiSchema: {
-            'ui:description': PrefillMessage,
-            gender: {
-              'ui:title': 'Gender',
-              'ui:options': {
-                labels: genderLabels,
-              },
-            },
-            maritalStatus: {
-              'ui:title': 'Marital status',
-            },
-            'view:demographicCategories': {
-              'ui:field': DemographicField,
-              'ui:title': 'Which categories best describe you?',
-              'ui:description': 'You may check more than one.',
-              isSpanishHispanicLatino: {
-                'ui:title': 'Spanish, Hispanic, or Latino',
-              },
-              isAmericanIndianOrAlaskanNative: {
-                'ui:title': 'American Indian or Alaskan Native',
-              },
-              isBlackOrAfricanAmerican: {
-                'ui:title': 'Black or African American',
-              },
-              isNativeHawaiianOrOtherPacificIslander: {
-                'ui:title': 'Native Hawaiian or Other Pacific Islander',
-              },
-              isAsian: {
-                'ui:title': 'Asian',
-              },
-              isWhite: {
-                'ui:title': 'White',
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['gender', 'maritalStatus'],
-            properties: {
-              gender,
-              maritalStatus: {
-                type: 'string',
-                enum: maritalStatuses,
-              },
-              'view:demographicCategories': {
-                type: 'object',
-                properties: {
-                  isSpanishHispanicLatino,
-                  isAmericanIndianOrAlaskanNative,
-                  isBlackOrAfricanAmerican,
-                  isNativeHawaiianOrOtherPacificIslander,
-                  isAsian,
-                  isWhite,
-                },
-              },
-            },
-          },
+          uiSchema: demographicInformation.uiSchema,
+          schema: demographicInformation.schema,
         },
         veteranAddress: {
           path: 'veteran-information/veteran-address',
-          title: 'Permanent address',
-          initialData: {},
-          uiSchema: {
-            'ui:description': PrefillMessage,
-            veteranAddress: _.merge(addressUI('Permanent address', true), {
-              street: {
-                'ui:errorMessages': {
-                  pattern:
-                    'Please provide a valid street. Must be at least 1 character.',
-                },
-              },
-              city: {
-                'ui:errorMessages': {
-                  pattern:
-                    'Please provide a valid city. Must be at least 1 character.',
-                },
-              },
-            }),
-            'view:doesPermanentAddressMatchMailing': {
-              'ui:title':
-                'Is your home address the same as your mailing address?',
-              'ui:widget': 'yesNo',
-              'ui:required': formData => formData['view:hasMultipleAddress'],
-              'ui:options': {
-                hideIf: formData => !formData['view:hasMultipleAddress'],
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              veteranAddress: _.merge(addressSchema(fullSchemaHca, true), {
-                properties: {
-                  street: {
-                    minLength: 1,
-                    maxLength: 30,
-                  },
-                  street2: {
-                    minLength: 1,
-                    maxLength: 30,
-                  },
-                  street3: {
-                    type: 'string',
-                    minLength: 1,
-                    maxLength: 30,
-                  },
-                  city: {
-                    minLength: 1,
-                    maxLength: 30,
-                  },
-                },
-              }),
-              'view:doesPermanentAddressMatchMailing': {
-                type: 'boolean',
-              },
-            },
-          },
-        },
-        mailingAddress: {
-          path: 'veteran-information/mailing-address',
           title: 'Mailing address',
           initialData: {},
-          depends: formData =>
-            formData['view:hasMultipleAddress'] &&
-            !formData['view:doesPermanentAddressMatchMailing'],
-          uiSchema: {
-            'ui:description': PrefillMessage,
-            veteranMailingAddress: _.merge(
-              addressUI('Permanent address', true),
-              {
-                street: {
-                  'ui:errorMessages': {
-                    pattern:
-                      'Please provide a valid street. Must be at least 1 character.',
-                  },
-                },
-                city: {
-                  'ui:errorMessages': {
-                    pattern:
-                      'Please provide a valid city. Must be at least 1 character.',
-                  },
-                },
-              },
-            ),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              veteranMailingAddress: _.merge(
-                addressSchema(fullSchemaHca, true),
-                {
-                  properties: {
-                    street: {
-                      minLength: 1,
-                      maxLength: 30,
-                    },
-                    street2: {
-                      minLength: 1,
-                      maxLength: 30,
-                    },
-                    street3: {
-                      type: 'string',
-                      minLength: 1,
-                      maxLength: 30,
-                    },
-                    city: {
-                      minLength: 1,
-                      maxLength: 30,
-                    },
-                  },
-                },
-              ),
-            },
-          },
+          uiSchema: veteranAddress.uiSchema,
+          schema: veteranAddress.schema,
+        },
+        veteranHomeAddress: {
+          path: 'veteran-information/veteran-home-address',
+          title: 'Home address',
+          initialData: {},
+          depends: formData => !formData['view:doesMailingMatchHomeAddress'],
+          uiSchema: veteranHomeAddress.uiSchema,
+          schema: veteranHomeAddress.schema,
         },
         contactInformation: {
           path: 'veteran-information/contact-information',
           title: 'Contact information',
           initialData: {},
-          uiSchema: {
-            'ui:description': PrefillMessage,
-            'ui:validations': [
-              validateMatch('email', 'view:emailConfirmation'),
-            ],
-            email: emailUI(),
-            'view:emailConfirmation': emailUI('Re-enter email address'),
-            homePhone: phoneUI('Home telephone number'),
-            mobilePhone: phoneUI('Mobile telephone number'),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              email,
-              'view:emailConfirmation': email,
-              homePhone: phone,
-              mobilePhone: phone,
-            },
-          },
+          uiSchema: contactInformation.uiSchema,
+          schema: contactInformation.schema,
         },
       },
     },
@@ -535,143 +176,22 @@ const formConfig = {
         serviceInformation: {
           path: 'military-service/service-information',
           title: 'Service periods',
-          uiSchema: {
-            'ui:description': MilitaryPrefillMessage,
-            lastServiceBranch: {
-              'ui:title': 'Last branch of service',
-              'ui:options': {
-                labels: lastServiceBranchLabels,
-              },
-            },
-            // TODO: this should really be a dateRange, but that requires a backend schema change. For now
-            // leaving them as dates, but should change these to get the proper dateRange validation
-            lastEntryDate: currentOrPastDateUI('Service start date'),
-            lastDischargeDate: dateUI('Service end date'),
-            dischargeType: {
-              'ui:title': 'Character of service',
-              'ui:options': {
-                labels: dischargeTypeLabels,
-              },
-            },
-            'ui:validations': [validateServiceDates],
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              lastServiceBranch,
-              lastEntryDate,
-              lastDischargeDate,
-              dischargeType,
-            },
-            required: [
-              'lastServiceBranch',
-              'lastEntryDate',
-              'lastDischargeDate',
-              'dischargeType',
-            ],
-          },
+          uiSchema: serviceInformation.uiSchema,
+          schema: serviceInformation.schema,
         },
         additionalInformation: {
           path: 'military-service/additional-information',
           title: 'Service history',
-          uiSchema: {
-            'ui:title': 'Service history',
-            'ui:description': MilitaryPrefillMessage,
-            'view:textObject': {
-              'ui:description': 'Check all that apply to you.',
-            },
-            purpleHeartRecipient: {
-              'ui:title': 'Purple Heart award recipient',
-            },
-            isFormerPow: {
-              'ui:title': 'Former Prisoner of War',
-            },
-            postNov111998Combat: {
-              'ui:title':
-                'Served in combat theater of operations after November 11, 1998',
-            },
-            disabledInLineOfDuty: {
-              'ui:title':
-                'Discharged or retired from the military for a disability incurred in the line of duty',
-            },
-            swAsiaCombat: {
-              'ui:title':
-                'Served in Southwest Asia during the Gulf War between August 2, 1990, and Nov 11, 1998',
-            },
-            vietnamService: {
-              'ui:title':
-                'Served in Vietnam between January 9, 1962, and May 7, 1975',
-            },
-            exposedToRadiation: {
-              'ui:title': 'Exposed to radiation while in the military',
-            },
-            radiumTreatments: {
-              'ui:title':
-                'Received nose/throat radium treatments while in the military',
-            },
-            campLejeune: {
-              'ui:title':
-                'Served on active duty at least 30 days at Camp Lejeune from January 1, 1953, through December 31, 1987',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:textObject': {
-                type: 'object',
-                properties: {},
-              },
-              purpleHeartRecipient,
-              isFormerPow,
-              postNov111998Combat,
-              disabledInLineOfDuty,
-              swAsiaCombat,
-              vietnamService,
-              exposedToRadiation,
-              radiumTreatments,
-              campLejeune,
-            },
-          },
+          uiSchema: additionalInformation.uiSchema,
+          schema: additionalInformation.schema,
         },
         documentUpload: {
           title: 'Upload your discharge papers',
           path: 'military-service/documents',
           depends: formData => !formData['view:isUserInMvi'],
           editModeOnReviewPage: true,
-          uiSchema: {
-            'ui:title': 'Upload your discharge papers',
-            'ui:description': fileHelp,
-            attachments: fileUploadUI('', {
-              buttonText: 'Upload a document',
-              addAnotherLabel: 'Upload another document',
-              fileUploadUrl: `${environment.API_URL}/v0/hca_attachments`,
-              fileTypes: ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'rtf', 'png'],
-              maxSize: 1024 * 1024 * 10,
-              hideLabelText: true,
-              createPayload: file => {
-                const payload = new FormData();
-                payload.append('hca_attachment[file_data]', file);
-                return payload;
-              },
-              parseResponse: (response, file) => ({
-                name: file.name,
-                confirmationCode: response.data.attributes.guid,
-                size: file.size,
-              }),
-              attachmentSchema: {
-                'ui:title': 'Document type',
-              },
-              attachmentName: {
-                'ui:title': 'Document name',
-              },
-            }),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              attachments: attachmentsSchema,
-            },
-          },
+          uiSchema: documentUpload.uiSchema,
+          schema: documentUpload.schema,
         },
       },
     },
@@ -681,32 +201,8 @@ const formConfig = {
         vaBenefits: {
           path: 'va-benefits/basic-information',
           title: 'VA benefits',
-          uiSchema: {
-            'ui:title': 'Current compensation',
-            'ui:description': PrefillMessage,
-            vaCompensationType: {
-              'ui:title':
-                'Which type of VA compensation do you currently receive?',
-              'ui:widget': 'radio',
-              'ui:options': {
-                labels: {
-                  lowDisability:
-                    'Service-connected disability pay for a 10%, 20%, 30%, or 40% disability rating',
-                  highDisability:
-                    'Service-connected disability pay for a 50% or higher disability rating',
-                  pension: 'VA pension',
-                  none: 'I don’t receive any VA pay',
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['vaCompensationType'],
-            properties: {
-              vaCompensationType,
-            },
-          },
+          uiSchema: basicInformation.uiSchema,
+          schema: basicInformation.schema,
         },
       },
     },
@@ -716,302 +212,42 @@ const formConfig = {
         financialDisclosure: {
           path: 'household-information/financial-disclosure',
           title: 'Financial disclosure',
-          uiSchema: {
-            'ui:title': 'Financial disclosure',
-            'ui:description': financialDisclosureText,
-            discloseFinancialInformation: {
-              'ui:title': 'Do you want to provide your financial information?',
-              'ui:widget': 'yesNo',
-            },
-            'view:noDiscloseWarning': {
-              'ui:description': disclosureWarning,
-              'ui:options': {
-                hideIf: form => form.discloseFinancialInformation !== false,
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['discloseFinancialInformation'],
-            properties: {
-              discloseFinancialInformation,
-              'view:noDiscloseWarning': emptyObjectSchema,
-            },
-          },
+          uiSchema: financialDisclosure.uiSchema,
+          schema: financialDisclosure.schema,
         },
         spouseInformation: {
           path: 'household-information/spouse-information',
-          title: 'Spouse’s information',
+          title: 'Spouse\u2019s information',
           initialData: {},
           depends: formData =>
             formData.discloseFinancialInformation &&
             formData.maritalStatus &&
             (formData.maritalStatus.toLowerCase() === 'married' ||
               formData.maritalStatus.toLowerCase() === 'separated'),
-          uiSchema: {
-            'ui:title': 'Spouse’s information',
-            'ui:description':
-              'Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.',
-            spouseFullName: fullNameUI,
-            spouseSocialSecurityNumber: _.merge(ssnUI, {
-              'ui:title': 'Spouse’s Social Security number',
-            }),
-            spouseDateOfBirth: currentOrPastDateUI('Date of birth'),
-            dateOfMarriage: _.assign(currentOrPastDateUI('Date of marriage'), {
-              'ui:validations': [validateMarriageDate],
-            }),
-            cohabitedLastYear: {
-              'ui:title': 'Did your spouse live with you last year?',
-              'ui:widget': 'yesNo',
-            },
-            provideSupportLastYear: {
-              'ui:title':
-                'If your spouse did not live with you last year, did you provide financial support?',
-              'ui:widget': 'yesNo',
-              'ui:options': {
-                expandUnder: 'cohabitedLastYear',
-                expandUnderCondition: false,
-              },
-            },
-            sameAddress: {
-              'ui:title': 'Do you have the same address as your spouse?',
-              'ui:widget': 'yesNo',
-            },
-            'view:spouseContactInformation': {
-              'ui:title': 'Spouse’s address and telephone number',
-              'ui:options': {
-                expandUnder: 'sameAddress',
-                expandUnderCondition: false,
-              },
-              spouseAddress: addressUI(
-                '',
-                true,
-                formData => formData.sameAddress === false,
-              ),
-              spousePhone: phoneUI(),
-            },
-          },
-          schema: {
-            type: 'object',
-            required: [
-              'spouseSocialSecurityNumber',
-              'spouseDateOfBirth',
-              'dateOfMarriage',
-              'sameAddress',
-            ],
-            properties: {
-              spouseFullName,
-              spouseSocialSecurityNumber,
-              spouseDateOfBirth,
-              dateOfMarriage,
-              cohabitedLastYear,
-              provideSupportLastYear,
-              sameAddress,
-              'view:spouseContactInformation': {
-                type: 'object',
-                properties: {
-                  spouseAddress: addressSchema(fullSchemaHca),
-                  spousePhone,
-                },
-              },
-            },
-          },
+          uiSchema: spouseInformation.uiSchema,
+          schema: spouseInformation.schema,
         },
         dependentInformation: {
           path: 'household-information/dependent-information',
           title: 'Dependent information',
           depends: data => data.discloseFinancialInformation,
-          uiSchema: {
-            'view:reportDependents': {
-              'ui:title': 'Do you have any dependents to report?',
-              'ui:widget': 'yesNo',
-            },
-            dependents: {
-              items: dependentUI,
-              'ui:options': {
-                expandUnder: 'view:reportDependents',
-                itemName: 'Dependent',
-                hideTitle: true,
-                viewField: DependentView,
-              },
-              'ui:errorMessages': {
-                minItems: 'You must add at least one dependent.',
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['view:reportDependents'],
-            properties: {
-              'view:reportDependents': { type: 'boolean' },
-              dependents: _.assign(dependents, {
-                minItems: 1,
-              }),
-            },
-          },
+          uiSchema: dependentInformation.uiSchema,
+          schema: dependentInformation.schema,
         },
         annualIncome: {
           path: 'household-information/annual-income',
           title: 'Annual income',
           initialData: {},
           depends: data => data.discloseFinancialInformation,
-          uiSchema: {
-            'ui:title': 'Annual income',
-            'ui:description': incomeDescription,
-            veteranGrossIncome: _.set(
-              'ui:validations',
-              [validateCurrency],
-              currencyUI('Veteran gross annual income from employment'),
-            ),
-            veteranNetIncome: _.set(
-              'ui:validations',
-              [validateCurrency],
-              currencyUI(
-                'Veteran net income from your farm, ranch, property or business',
-              ),
-            ),
-            veteranOtherIncome: _.set(
-              'ui:validations',
-              [validateCurrency],
-              currencyUI('Veteran other income amount'),
-            ),
-            'view:spouseIncome': {
-              'ui:title': 'Spouse income',
-              'ui:options': {
-                hideIf: formData =>
-                  !formData.maritalStatus ||
-                  (formData.maritalStatus.toLowerCase() !== 'married' &&
-                    formData.maritalStatus.toLowerCase() !== 'separated'),
-              },
-              spouseGrossIncome: _.merge(
-                currencyUI('Spouse gross annual income from employment'),
-                {
-                  'ui:required': formData =>
-                    formData.maritalStatus &&
-                    (formData.maritalStatus.toLowerCase() === 'married' ||
-                      formData.maritalStatus.toLowerCase() === 'separated'),
-                  'ui:validations': [validateCurrency],
-                },
-              ),
-              spouseNetIncome: _.merge(
-                currencyUI(
-                  'Spouse net income from your farm, ranch, property or business',
-                ),
-                {
-                  'ui:required': formData =>
-                    formData.maritalStatus &&
-                    (formData.maritalStatus.toLowerCase() === 'married' ||
-                      formData.maritalStatus.toLowerCase() === 'separated'),
-                  'ui:validations': [validateCurrency],
-                },
-              ),
-              spouseOtherIncome: _.merge(
-                currencyUI('Spouse other income amount'),
-                {
-                  'ui:required': formData =>
-                    formData.maritalStatus &&
-                    (formData.maritalStatus.toLowerCase() === 'married' ||
-                      formData.maritalStatus.toLowerCase() === 'separated'),
-                  'ui:validations': [validateCurrency],
-                },
-              ),
-            },
-            dependents: {
-              'ui:field': 'BasicArrayField',
-              items: dependentIncomeUiSchema,
-              'ui:options': {
-                hideIf: formData => !_.get('view:reportDependents', formData),
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: [
-              'veteranGrossIncome',
-              'veteranNetIncome',
-              'veteranOtherIncome',
-            ],
-            definitions: {
-              // Override the default schema and use only the income fields
-              dependent: dependentIncomeSchema,
-            },
-            properties: {
-              veteranGrossIncome,
-              veteranNetIncome,
-              veteranOtherIncome,
-              'view:spouseIncome': {
-                type: 'object',
-                properties: {
-                  spouseGrossIncome,
-                  spouseNetIncome,
-                  spouseOtherIncome,
-                },
-              },
-              dependents: _.merge(dependents, {
-                minItems: 1,
-              }),
-            },
-          },
+          uiSchema: annualIncome.uiSchema,
+          schema: annualIncome.schema,
         },
         deductibleExpenses: {
           path: 'household-information/deductible-expenses',
           title: 'Deductible expenses',
           depends: data => data.discloseFinancialInformation,
-          uiSchema: {
-            'ui:title': 'Previous Calendar Year’s Deductible Expenses',
-            'ui:description': deductibleExpensesDescription,
-            deductibleMedicalExpenses: _.set(
-              'ui:validations',
-              [validateCurrency],
-              currencyUI(
-                'Amount you or your spouse paid in non-reimbursable medical expenses this past year.',
-              ),
-            ),
-            'view:expensesIncomeWarning1': {
-              'ui:description': expensesGreaterThanIncomeWarning,
-              'ui:options': {
-                hideIf: expensesLessThanIncome('deductibleMedicalExpenses'),
-              },
-            },
-            deductibleFuneralExpenses: _.set(
-              'ui:validations',
-              [validateCurrency],
-              currencyUI(
-                'Amount you paid in funeral or burial expenses for a deceased spouse or child this past year.',
-              ),
-            ),
-            'view:expensesIncomeWarning2': {
-              'ui:description': expensesGreaterThanIncomeWarning,
-              'ui:options': {
-                hideIf: expensesLessThanIncome('deductibleFuneralExpenses'),
-              },
-            },
-            deductibleEducationExpenses: currencyUI(
-              'Amount you paid for anything related to your own education (college or vocational) this past year. Do not list your dependents’ educational expenses.',
-            ),
-            'view:expensesIncomeWarning3': {
-              'ui:description': expensesGreaterThanIncomeWarning,
-              'ui:options': {
-                hideIf: expensesLessThanIncome('deductibleEducationExpenses'),
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: [
-              'deductibleMedicalExpenses',
-              'deductibleFuneralExpenses',
-              'deductibleEducationExpenses',
-            ],
-            properties: {
-              deductibleMedicalExpenses,
-              'view:expensesIncomeWarning1': emptyObjectSchema,
-              deductibleFuneralExpenses,
-              'view:expensesIncomeWarning2': emptyObjectSchema,
-              deductibleEducationExpenses,
-              'view:expensesIncomeWarning3': emptyObjectSchema,
-            },
-          },
+          uiSchema: deductibleExpenses.uiSchema,
+          schema: deductibleExpenses.schema,
         },
       },
     },
@@ -1022,109 +258,14 @@ const formConfig = {
           path: 'insurance-information/medicare',
           title: 'Medicaid or Medicare coverage',
           initialData: {},
-          uiSchema: {
-            isMedicaidEligible: {
-              'ui:title': 'Are you eligible for Medicaid?',
-              'ui:description': medicaidDescription,
-              'ui:widget': 'yesNo',
-            },
-            isEnrolledMedicarePartA: {
-              'ui:title':
-                'Are you enrolled in Medicare Part A (hospital insurance)?',
-              'ui:description': medicarePartADescription,
-              'ui:widget': 'yesNo',
-            },
-            medicarePartAEffectiveDate: _.merge(
-              currentOrPastDateUI(
-                'What is your Medicare Part A effective date?',
-              ),
-              {
-                'ui:required': formData => formData.isEnrolledMedicarePartA,
-                'ui:options': {
-                  expandUnder: 'isEnrolledMedicarePartA',
-                },
-              },
-            ),
-          },
-          schema: {
-            type: 'object',
-            required: ['isMedicaidEligible', 'isEnrolledMedicarePartA'],
-            properties: {
-              isMedicaidEligible,
-              isEnrolledMedicarePartA,
-              medicarePartAEffectiveDate,
-            },
-          },
+          uiSchema: medicare.uiSchema,
+          schema: medicare.schema,
         },
         general: {
           path: 'insurance-information/general',
           title: 'Other coverage',
-          uiSchema: {
-            'ui:title': 'Other coverage',
-            isCoveredByHealthInsurance: {
-              'ui:title':
-                'Are you covered by health insurance? (Including coverage through a spouse or another person)',
-              'ui:widget': 'yesNo',
-            },
-            providers: {
-              'ui:options': {
-                itemName: 'Insurance Policy',
-                expandUnder: 'isCoveredByHealthInsurance',
-                viewField: InsuranceProviderView,
-              },
-              'ui:errorMessages': {
-                minItems: 'You need to at least one provider.',
-              },
-              items: {
-                insuranceName: {
-                  'ui:title': 'Name of provider',
-                },
-                insurancePolicyHolderName: {
-                  'ui:title': 'Name of policyholder',
-                },
-                insurancePolicyNumber: {
-                  'ui:title':
-                    'Policy number (either this or the group code is required)',
-                  'ui:required': (formData, index) =>
-                    !_.get(`providers[${index}].insuranceGroupCode`, formData),
-                  'ui:errorMessages': {
-                    pattern: 'Please provide a valid policy number.',
-                  },
-                },
-                insuranceGroupCode: {
-                  'ui:title':
-                    'Group code (either this or policy number is required)',
-                  'ui:required': (formData, index) =>
-                    !_.get(
-                      `providers[${index}].insurancePolicyNumber`,
-                      formData,
-                    ),
-                  'ui:errorMessages': {
-                    pattern: 'Please provide a valid group code.',
-                  },
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['isCoveredByHealthInsurance'],
-            properties: {
-              isCoveredByHealthInsurance,
-              providers: {
-                type: 'array',
-                minItems: 1,
-                items: _.merge(provider, {
-                  required: [
-                    'insuranceName',
-                    'insurancePolicyHolderName',
-                    'insurancePolicyNumber',
-                    'insuranceGroupCode',
-                  ],
-                }),
-              },
-            },
-          },
+          uiSchema: general.uiSchema,
+          schema: general.schema,
         },
         vaFacility: {
           path: 'insurance-information/va-facility',
@@ -1132,73 +273,8 @@ const formConfig = {
           initialData: {
             isEssentialAcaCoverage: false,
           },
-          uiSchema: {
-            'ui:title': 'VA Facility',
-            isEssentialAcaCoverage: {
-              'ui:title': isEssentialAcaCoverageDescription,
-            },
-            'view:preferredFacility': {
-              'ui:title': 'Select your preferred VA medical facility',
-              'view:facilityState': {
-                'ui:title': 'State',
-                'ui:options': {
-                  labels: stateLabels,
-                },
-              },
-              vaMedicalFacility: {
-                'ui:title': 'Center or clinic',
-                'ui:options': {
-                  labels: medicalCenterLabels,
-                  updateSchema: form => {
-                    const state = _.get(
-                      'view:preferredFacility.view:facilityState',
-                      form,
-                    );
-                    if (state) {
-                      return {
-                        enum: medicalCentersByState[state] || emptyFacilityList,
-                      };
-                    }
-
-                    return {
-                      enum: emptyFacilityList,
-                    };
-                  },
-                },
-              },
-            },
-            'view:locator': {
-              'ui:description': facilityHelp,
-            },
-            wantsInitialVaContact: {
-              'ui:title':
-                'Do you want VA to contact you to schedule your first appointment?',
-              'ui:widget': 'yesNo',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              isEssentialAcaCoverage,
-              'view:preferredFacility': {
-                type: 'object',
-                required: ['view:facilityState', 'vaMedicalFacility'],
-                properties: {
-                  'view:facilityState': {
-                    type: 'string',
-                    enum: states.USA.map(state => state.value).filter(
-                      state => !!medicalCentersByState[state],
-                    ),
-                  },
-                  vaMedicalFacility: _.assign(vaMedicalFacility, {
-                    enum: emptyFacilityList,
-                  }),
-                },
-              },
-              'view:locator': emptyObjectSchema,
-              wantsInitialVaContact,
-            },
-          },
+          uiSchema: vaFacility.uiSchema,
+          schema: vaFacility.schema,
         },
       },
     },

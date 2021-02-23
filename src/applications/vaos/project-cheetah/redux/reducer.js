@@ -14,6 +14,9 @@ import {
   FORM_PAGE_FACILITY_OPEN,
   FORM_PAGE_FACILITY_OPEN_FAILED,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+  FORM_PAGE_CONTACT_FACILITIES_OPEN,
+  FORM_PAGE_CONTACT_FACILITIES_OPEN_SUCCEEDED,
+  FORM_PAGE_CONTACT_FACILITIES_OPEN_FAILED,
   FORM_FETCH_CLINICS,
   FORM_FETCH_CLINICS_FAILED,
   FORM_FETCH_CLINICS_SUCCEEDED,
@@ -24,6 +27,11 @@ import {
   FORM_REQUEST_CURRENT_LOCATION_FAILED,
   FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
   FORM_REQUEST_CURRENT_LOCATION,
+  FORM_CALENDAR_DATA_CHANGED,
+  FORM_CALENDAR_FETCH_SLOTS,
+  FORM_CALENDAR_FETCH_SLOTS_FAILED,
+  FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
+  FORM_PREFILL_CONTACT_INFO,
 } from './actions';
 
 import { FACILITY_SORT_METHODS, FETCH_STATUS } from '../../utils/constants';
@@ -40,6 +48,9 @@ const initialState = {
     facilitiesStatus: FETCH_STATUS.notStarted,
     clinics: {},
     clinicsStatus: FETCH_STATUS.notStarted,
+    appointmentSlotsStatus: FETCH_STATUS.notStarted,
+    availableSlots: null,
+    fetchedAppointmentSlotMonths: [],
   },
   submitStatus: FETCH_STATUS.notStarted,
   submitErrorReason: null,
@@ -140,6 +151,7 @@ export default function projectCheetahReducer(state = initialState, action) {
         },
       };
     }
+    case FORM_PAGE_CONTACT_FACILITIES_OPEN:
     case FORM_PAGE_FACILITY_OPEN: {
       return {
         ...state,
@@ -225,6 +237,7 @@ export default function projectCheetahReducer(state = initialState, action) {
         },
       };
     }
+    case FORM_PAGE_CONTACT_FACILITIES_OPEN_FAILED:
     case FORM_PAGE_FACILITY_OPEN_FAILED: {
       return {
         ...state,
@@ -409,11 +422,25 @@ export default function projectCheetahReducer(state = initialState, action) {
           ...state.newBooking,
           data: {
             ...data,
-            calendarData: {},
+            selectedDates: [],
           },
           pages: {
             ...state.newBooking.pages,
             [action.page]: schema,
+          },
+        },
+      };
+    }
+    case FORM_PREFILL_CONTACT_INFO: {
+      const data = state.newBooking.data;
+      return {
+        ...state,
+        newBooking: {
+          ...state.newBooking,
+          data: {
+            ...data,
+            phoneNumber: data.phoneNumber || action.phoneNumber,
+            email: data.email || action.email,
           },
         },
       };
@@ -429,6 +456,87 @@ export default function projectCheetahReducer(state = initialState, action) {
         submitStatus: FETCH_STATUS.failed,
         submitErrorReason: action.errorReason,
       };
+    case FORM_CALENDAR_FETCH_SLOTS: {
+      return {
+        ...state,
+        newBooking: {
+          ...state.newBooking,
+          appointmentSlotsStatus: FETCH_STATUS.loading,
+        },
+      };
+    }
+    case FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED: {
+      return {
+        ...state,
+        newBooking: {
+          ...state.newBooking,
+          appointmentSlotsStatus: FETCH_STATUS.succeeded,
+          availableSlots: action.availableSlots,
+          fetchedAppointmentSlotMonths: action.fetchedAppointmentSlotMonths,
+        },
+      };
+    }
+    case FORM_CALENDAR_FETCH_SLOTS_FAILED: {
+      return {
+        ...state,
+        newBooking: {
+          ...state.newBooking,
+          appointmentSlotsStatus: FETCH_STATUS.failed,
+        },
+      };
+    }
+    case FORM_CALENDAR_DATA_CHANGED: {
+      return {
+        ...state,
+        newBooking: {
+          ...state.newBooking,
+          data: {
+            ...state.newBooking.data,
+            date1: action.selectedDates,
+          },
+        },
+      };
+    }
+    case FORM_PAGE_CONTACT_FACILITIES_OPEN_SUCCEEDED: {
+      let facilities = action.facilities;
+      const address = action.address;
+      const hasResidentialCoordinates =
+        !!action.address?.latitude && !!action.address?.longitude;
+      const sortMethod = hasResidentialCoordinates
+        ? FACILITY_SORT_METHODS.distanceFromResidential
+        : FACILITY_SORT_METHODS.alphabetical;
+
+      if (hasResidentialCoordinates && facilities.length) {
+        facilities = facilities
+          .map(facility => {
+            const distanceFromResidentialAddress = distanceBetween(
+              address.latitude,
+              address.longitude,
+              facility.position.latitude,
+              facility.position.longitude,
+            );
+
+            return {
+              ...facility,
+              legacyVAR: {
+                ...facility.legacyVAR,
+                distanceFromResidentialAddress,
+              },
+            };
+          })
+          .sort((a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod]);
+      }
+
+      return {
+        ...state,
+        newBooking: {
+          ...state.newBooking,
+          facilities,
+          facilitiesStatus: FETCH_STATUS.succeeded,
+          facilityPageSortMethod: sortMethod,
+        },
+      };
+    }
     default:
       return state;
   }

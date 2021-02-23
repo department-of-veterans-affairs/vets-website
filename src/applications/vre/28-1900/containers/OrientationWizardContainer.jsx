@@ -1,23 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Scroll from 'react-scroll';
+import { focusElement } from 'platform/utilities/ui';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import Wizard from 'applications/static-pages/wizard';
-import { WIZARD_STATUS_COMPLETE } from 'applications/vre/28-1900/constants';
+import { CHAPTER_31_ROOT_URL } from 'applications/vre/28-1900/constants';
 import pages from 'applications/vre/28-1900/wizard/pages';
 import recordEvent from 'platform/monitoring/record-event';
 import OrientationApp from 'applications/vre/28-1900/orientation/OrientationApp';
 
+const scroller = Scroll.scroller;
+const scrollToTop = () => {
+  scroller.scrollTo('topScrollElement', {
+    duration: 500,
+    delay: 0,
+    smooth: true,
+  });
+};
+
 const OrientationWizardContainer = props => {
   const [showOrientation, setShowOrientation] = useState(false);
-  const [showFormStartButton, setShowFormStartButton] = useState(false);
-  const { handleWizardUpdate } = props;
+  const { wizardStateHandler } = props;
   // pass this down to wizard children so showOrientation can be updated once
   // a user makes it through a valid wizard flow
   const showOrientationHandler = status => {
     setShowOrientation(status);
   };
 
-  const showChapter31FormStartButton = status => {
-    setShowFormStartButton(status);
-  };
+  // Focus on the header on first load
+  useEffect(() => {
+    focusElement('h1');
+    scrollToTop();
+  }, []);
 
   return (
     <div className="row vads-u-margin-bottom--1">
@@ -43,11 +56,12 @@ const OrientationWizardContainer = props => {
           <strong>If you already know this is the correct form,</strong> you can
           go directly to the online application without answering questions.{' '}
           <a
+            href={CHAPTER_31_ROOT_URL}
             onClick={() => {
               recordEvent({
                 event: 'howToWizard-skip',
               });
-              handleWizardUpdate(WIZARD_STATUS_COMPLETE);
+              wizardStateHandler(WIZARD_STATUS_COMPLETE);
             }}
           >
             Apply online with VA Form 28-1900
@@ -59,29 +73,8 @@ const OrientationWizardContainer = props => {
           setWizardStatus={showOrientationHandler}
         />
         {showOrientation && (
-          <OrientationApp
-            formControlStatus={showFormStartButton}
-            formStartHandler={showChapter31FormStartButton}
-          />
+          <OrientationApp wizardStateHandler={wizardStateHandler} />
         )}
-        {showFormStartButton &&
-          showOrientation && (
-            <div className="vads-u-padding--3 vads-u-background-color--gray-lightest">
-              <p>
-                <strong>Thank you for viewing the VR&E orientation.</strong> To
-                apply for Veteran Readiness & Employment benefits now, click the
-                button below.
-              </p>
-              <a
-                className="usa-button-primary va-button-primary"
-                onClick={() => {
-                  handleWizardUpdate(WIZARD_STATUS_COMPLETE);
-                }}
-              >
-                Apply for Veteran Readiness and Employment
-              </a>
-            </div>
-          )}
       </div>
     </div>
   );

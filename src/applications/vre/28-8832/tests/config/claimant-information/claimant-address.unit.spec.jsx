@@ -46,7 +46,7 @@ describe('Chapter 36 Claimant Address', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(6);
+    expect(form.find('.usa-input-error').length).to.equal(7);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -68,8 +68,8 @@ describe('Chapter 36 Claimant Address', () => {
     fillData(form, 'input#root_claimantAddress_city', 'Someplace');
     changeDropdown(form, 'select#root_claimantAddress_state', 'DC');
     fillData(form, 'input#root_claimantAddress_postalCode', '12345');
+    fillData(form, 'input#root_claimantPhoneNumber', '1234561234');
     fillData(form, 'input#root_claimantEmailAddress', 'someEmail@email.com');
-
     // inccorect confirmation email address should fail
     fillData(form, 'input#root_claimantConfirmEmailAddress', 'derp@email.com');
 
@@ -96,6 +96,7 @@ describe('Chapter 36 Claimant Address', () => {
     fillData(form, 'input#root_claimantAddress_city', 'Someplace');
     changeDropdown(form, 'select#root_claimantAddress_state', 'DC');
     fillData(form, 'input#root_claimantAddress_postalCode', '12345');
+    fillData(form, 'input#root_claimantPhoneNumber', '1234561234');
     fillData(form, 'input#root_claimantEmailAddress', 'someEmail@email.com');
     fillData(
       form,

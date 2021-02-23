@@ -20,6 +20,8 @@ export function fetchSearchResults(query, page, analyticsMetaInfo) {
         if (analyticsMetaInfo) {
           recordEvent({
             event: 'view_search_results',
+            'search-dropdown-used':
+              analyticsMetaInfo?.keywordSelected !== undefined,
             'search-page-path': analyticsMetaInfo?.path,
             'search-query': analyticsMetaInfo?.userInput,
             'search-results-total-count':

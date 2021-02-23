@@ -3,6 +3,8 @@
  * Example: /pittsburgh_health_care_system
  */
 
+const fragments = require('./fragments.graphql');
+
 const {
   FIELD_RELATED_LINKS,
 } = require('./paragraph-fragments/listOfLinkTeasers.paragraph.graphql');
@@ -23,7 +25,9 @@ const DOWNLOADABLE_FILE_PARAGRAPH = '... downloadableFile';
 const MEDIA_PARAGRAPH = '... embeddedImage';
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-module.exports = `
+const { generatePaginatedQueries } = require('../individual-queries-helpers');
+
+const healthCareRegionDetailPage = `
   fragment healthCareRegionDetailPage on NodeHealthCareRegionDetailPage {
     title
     ${entityElementsFromPages}
@@ -65,9 +69,61 @@ module.exports = `
         ...on NodeHealthCareRegionPage {
           entityLabel
           title
-          fieldNicknameForThisFacility
         }
       }
     }
   }
 `;
+
+function getNodeHealthCareRegionDetailPageSlice(operationName, offset, limit) {
+  return `
+    ${fragments.wysiwyg}
+    ${fragments.staffProfile}
+    ${fragments.collapsiblePanel}
+    ${fragments.process}
+    ${fragments.qaSection}
+    ${fragments.qa}
+    ${fragments.listOfLinkTeasers}
+    ${fragments.reactWidget}
+    ${fragments.numberCallout}
+    ${fragments.table}
+    ${fragments.alertParagraph}
+    ${fragments.downloadableFile}
+    ${fragments.embeddedImage}
+    ${fragments.linkTeaser}
+    ${fragments.alert}
+
+    ${healthCareRegionDetailPage}
+
+    query ${operationName}($onlyPublishedContent: Boolean!) {
+      nodeQuery(
+        limit: ${limit}
+        offset: ${offset}
+        sort: { field: "nid", direction:  ASC }
+        filter: {
+          conditions: [
+            { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+            { field: "type", value: ["health_care_region_detail_page"] }
+          ]
+      }) {
+        entities {
+          ... healthCareRegionDetailPage
+        }
+      }
+    }
+  `;
+}
+
+function getNodeHealthCareRegionDetailPageQueries(entityCounts) {
+  return generatePaginatedQueries({
+    operationNamePrefix: 'GetNodeHealthCareRegionDetailPage',
+    entitiesPerSlice: 50,
+    totalEntities: entityCounts.data.healthCareRegionDetailPage.count,
+    getSlice: getNodeHealthCareRegionDetailPageSlice,
+  });
+}
+
+module.exports = {
+  fragment: healthCareRegionDetailPage,
+  getNodeHealthCareRegionDetailPageQueries,
+};

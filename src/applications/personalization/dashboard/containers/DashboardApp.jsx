@@ -3,21 +3,21 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import { withRouter } from 'react-router';
 
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
-import backendServices from 'platform/user/profile/constants/backendServices';
+import backendServices from '~/platform/user/profile/constants/backendServices';
 import {
   isVAPatient,
   selectProfile,
   selectPatientFacilities,
-} from 'platform/user/selectors';
-import recordEvent from 'platform/monitoring/record-event';
-import localStorage from 'platform/utilities/storage/localStorage';
-import { focusElement } from 'platform/utilities/ui';
+} from '~/platform/user/selectors';
+import recordEvent from '~/platform/monitoring/record-event';
+import localStorage from '~/platform/utilities/storage/localStorage';
+import { focusElement } from '~/platform/utilities/ui';
 
 import { removeSavedForm as removeSavedFormAction } from '../actions';
-import { getEnrollmentStatus as getEnrollmentStatusAction } from 'applications/hca/actions';
-import { hasServerError as hasESRServerError } from 'applications/hca/selectors';
+import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/applications/hca/actions';
+import { hasServerError as hasESRServerError } from '~/applications/hca/selectors';
 
 import { recordDashboardClick } from '../helpers';
 import { COVID19Alert, eligibleHealthSystems } from '../covid-19';
@@ -26,11 +26,11 @@ import YourApplications from './YourApplications';
 import ManageYourVAHealthCare from '../components/ManageYourVAHealthCare';
 import ESRError, { ESR_ERROR_TYPES } from '../components/ESRError';
 import ClaimsAppealsWidget from './ClaimsAppealsWidget';
-import PreferencesWidget from 'applications/personalization/preferences/containers/PreferencesWidget';
+import PreferencesWidget from '~/applications/personalization/preferences/containers/PreferencesWidget';
 
 import profileManifest from '@@profile/manifest.json';
-import lettersManifest from 'applications/letters/manifest.json';
-import facilityLocator from 'applications/facility-locator/manifest.json';
+import lettersManifest from '~/applications/letters/manifest.json';
+import facilityLocator from '~/applications/facility-locator/manifest.json';
 
 const scroller = Scroll.animateScroll;
 const scrollToTop = () => {

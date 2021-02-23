@@ -5,10 +5,11 @@ import { errorMessages } from '../constants';
 
 import {
   ContactRepresentativeTitle,
-  ContactRepresentativeDescription,
   RepresentativeNameTitle,
   RepresentativePhoneTitle,
 } from '../content/InformalConference';
+
+import { validatePhone } from '../validations';
 
 export default {
   uiSchema: {
@@ -18,7 +19,6 @@ export default {
     },
     informalConferenceRep: {
       'ui:title': ContactRepresentativeTitle,
-      'ui:description': ContactRepresentativeDescription,
       name: {
         'ui:title': RepresentativeNameTitle,
         'ui:required': formData => formData?.informalConference === 'rep',
@@ -35,6 +35,7 @@ export default {
           pattern: errorMessages.informalConferenceContactPhonePattern,
           required: errorMessages.informalConferenceContactPhone,
         },
+        'ui:validations': [validatePhone],
       },
     },
   },
@@ -54,6 +55,7 @@ export default {
           },
           phone: {
             type: 'string',
+            pattern: '[0-9]+',
           },
         },
       },

@@ -1,13 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { FETCH_STATUS } from '../../../utils/constants';
 import FacilityAddress from '../../../components/FacilityAddress';
+import { aOrAn, lowerCase } from '../../../utils/formatters';
 
 export default function EligibilityModal({
   onClose,
   eligibility,
   facilityDetails,
+  typeOfCare,
 }) {
   let title;
   let content;
@@ -16,59 +18,53 @@ export default function EligibilityModal({
     title = 'We’re sorry. We’ve run into a problem';
     content = 'Something went wrong on our end. Please try again later.';
   } else if (!eligibility.requestSupported) {
-    title =
-      'This facility does not allow online requests for this type of care';
+    title = 'This facility doesn’t accept online scheduling for this care';
     content = (
       <div aria-atomic="true" aria-live="assertive">
-        This facility does not allow scheduling requests for this type of care
-        to be made online. Not all facilities support online scheduling for all
-        types of care.
+        You’ll need to call your VA health facility to schedule this
+        appointment. Not all VA facilities offer online scheduling for all types
+        of care
       </div>
     );
   } else if (!eligibility.requestPastVisit) {
-    title = 'We couldn’t find a recent appointment at this location';
+    title = 'We can’t find a recent appointment for you';
     content = (
       <>
         <p>
-          You need to have visited this facility within the past{' '}
+          You need to have had {aOrAn(typeOfCare)} {lowerCase(typeOfCare)}{' '}
+          appointment at this facility within the last{' '}
           {eligibility.requestPastVisitValue} months to request an appointment
-          online for the type of care you selected.
+          online for this care.
         </p>
         <p>
-          If you haven’t visited this location within the past{' '}
-          {eligibility.requestPastVisitValue} months, please call this facility
-          to schedule your appointment or search for another facility.
+          You’ll need to call the facility to schedule this appointment. Or{' '}
+          <a href="/find-locations" target="_blank" rel="noopener noreferrer">
+            search for another VA facility
+          </a>
+          .
         </p>
       </>
     );
   } else if (!eligibility.requestLimit) {
-    title =
-      'You’ve reached the limit for appointment requests at this location';
+    title = 'You’ve reached the limit for appointment requests';
     content = (
       <>
         <p>
           Our records show that you have an open appointment request at this
-          location. We can’t schedule any more appointments at this facility
-          until your open requests are scheduled or canceled. To schedule or
-          cancel your open appointments:
+          location. You can’t request another appointment until you schedule or
+          cancel your open requests.
         </p>
-        <ul>
-          <li>
-            Go to <Link to="/">your appointment list</Link> and cancel open
-            requests, or
-          </li>
-          {facilityDetails && (
-            <li>
-              Call your medical facility:
-              <br />
-              <FacilityAddress
-                name={facilityDetails.name}
-                facility={facilityDetails}
-              />
-            </li>
-          )}
-          {!facilityDetails && <li>Call your medical facility</li>}
-        </ul>
+        <p>
+          Call this facility to schedule or cancel an open appointment request.
+          You can also cancel a request from{' '}
+          <Link to="/">your appointment list</Link>.
+        </p>
+        {facilityDetails && (
+          <FacilityAddress
+            name={facilityDetails.name}
+            facility={facilityDetails}
+          />
+        )}
       </>
     );
   }

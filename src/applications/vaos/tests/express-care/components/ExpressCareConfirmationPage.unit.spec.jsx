@@ -1,4 +1,5 @@
 import React from 'react';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 
@@ -45,8 +46,14 @@ const initialState = {
 };
 
 describe('VAOS integration: Express Care form submission', () => {
-  beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
+  beforeEach(() => {
+    mockFetch();
+    MockDate.set(moment('2020-01-26T14:00:00'));
+  });
+  afterEach(() => {
+    resetFetch();
+    MockDate.reset();
+  });
 
   it('should not allow submission of an empty form', async () => {
     setupExpressCareMocks({ isWindowOpen: true, isUnderRequestLimit: true });
@@ -182,10 +189,10 @@ describe('VAOS integration: Express Care form submission', () => {
       store,
     });
 
-    await waitFor(() => expect(screen.history.replace.called).to.be.true);
-    expect(screen.baseElement.textContent).to.not.be.ok;
-    expect(screen.history.replace.firstCall.args[0]).to.equal(
-      '/new-express-care-request',
+    await waitFor(() =>
+      expect(screen.history.location.pathname).to.equal(
+        '/new-express-care-request',
+      ),
     );
   });
 

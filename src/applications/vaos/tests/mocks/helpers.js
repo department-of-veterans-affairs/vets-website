@@ -19,15 +19,20 @@ export function mockAppointmentInfo({
   vaError = false,
   cc = [],
   requests = [],
+  isHomepageRefresh = false,
 }) {
   mockFetch();
 
+  const startDate = isHomepageRefresh
+    ? moment().subtract(30, 'days')
+    : moment();
+
   const baseUrl = `${
     environment.API_URL
-  }/vaos/v0/appointments?start_date=${moment()
+  }/vaos/v0/appointments?start_date=${startDate
     .startOf('day')
     .toISOString()}&end_date=${moment()
-    .add(13, 'months')
+    .add(395, 'days')
     .startOf('day')
     .toISOString()}`;
 
@@ -45,14 +50,14 @@ export function mockAppointmentInfo({
   setFetchJSONResponse(
     global.fetch.withArgs(
       `${environment.API_URL}/vaos/v0/appointment_requests?start_date=${moment()
-        .add(-30, 'days')
+        .add(isHomepageRefresh ? -120 : -30, 'days')
         .format('YYYY-MM-DD')}&end_date=${moment().format('YYYY-MM-DD')}`,
     ),
     { data: requests },
   );
 }
 
-export function mockPastAppointmentInfo({ va = [], cc = [] }) {
+export function mockPastAppointmentInfo({ va = [], cc = [], requests = [] }) {
   mockFetch();
   const baseUrl = `${
     environment.API_URL
@@ -68,6 +73,16 @@ export function mockPastAppointmentInfo({ va = [], cc = [] }) {
 
   setFetchJSONResponse(global.fetch.withArgs(vaUrl), { data: va });
   setFetchJSONResponse(global.fetch.withArgs(ccUrl), { data: cc });
+
+  const requestsUrl = `${
+    environment.API_URL
+  }/vaos/v0/appointment_requests?start_date=${moment()
+    .startOf('day')
+    .add(-3, 'months')
+    .format('YYYY-MM-DD')}&end_date=${moment().format('YYYY-MM-DD')}`;
+  setFetchJSONResponse(global.fetch.withArgs(requestsUrl), {
+    data: requests,
+  });
 }
 
 export function mockPastAppointmentInfoOption1({ va = [], cc = [] }) {

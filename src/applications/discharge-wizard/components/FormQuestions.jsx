@@ -5,8 +5,8 @@ import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 
 import recordEvent from 'platform/monitoring/record-event';
-import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
-import ErrorableSelect from '@department-of-veterans-affairs/formation-react/ErrorableSelect';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+import Select from '@department-of-veterans-affairs/component-library/Select';
 import { months } from 'platform/static-data/options-for-select.js';
 import { focusElement } from 'platform/utilities/ui';
 import {
@@ -118,7 +118,7 @@ class FormQuestions extends React.Component {
         }}
       >
         <Element name={name} />
-        <ErrorableRadioButtons {...radioButtonProps} />
+        <RadioButtons {...radioButtonProps} />
       </div>
     );
   }
@@ -229,7 +229,7 @@ class FormQuestions extends React.Component {
         }}
       >
         <Element name={key} />
-        <ErrorableSelect
+        <Select
           autocomplete="false"
           label={label}
           name={key}
@@ -266,7 +266,7 @@ class FormQuestions extends React.Component {
         }}
       >
         <Element name={key} />
-        <ErrorableSelect
+        <Select
           autocomplete="false"
           label={monthLabel}
           name={key}

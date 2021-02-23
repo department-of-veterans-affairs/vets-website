@@ -4,7 +4,7 @@
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-module.exports = `
+const eventListingPage = `
  fragment eventListingPage on NodeEventListing {
     ${entityElementsFromPages}
     changed
@@ -18,28 +18,11 @@ module.exports = `
               entityUrl {
                 path
               }
-              uid {
-                targetId
-                ... on FieldNodeUid {
-                  entity {
-                    name
-                    timezone
-                  }
-                }
-              }
               fieldFeatured
               fieldDatetimeRangeTimezone {
                 value
-                startTime
                 endValue
-                endTime
                 timezone
-              }              
-              fieldDate {
-                startDate
-                value
-                endDate
-                endValue
               }
               fieldDescription
               fieldLocationHumanreadable
@@ -61,28 +44,11 @@ module.exports = `
             entityUrl {
               path
             }
-            uid {
-              targetId
-              ... on FieldNodeUid {
-                entity {
-                  name
-                  timezone
-                }
-              }
-            }
             fieldFeatured
             fieldDatetimeRangeTimezone {
               value
-              startTime
               endValue
-              endTime
               timezone
-            }            
-            fieldDate {
-              startDate
-              value
-              endDate
-              endValue
             }
             fieldDescription
             fieldLocationHumanreadable
@@ -98,14 +64,34 @@ module.exports = `
       }
     }
     fieldOffice {
-      targetId
       entity {
         ...on NodeHealthCareRegionPage {
           entityLabel
-          title
-          fieldNicknameForThisFacility
         }
       }
     }
  }
 `;
+
+const GetNodeEventListingPage = `
+
+  ${eventListingPage}
+
+  query GetNodeEventListingPage($onlyPublishedContent: Boolean!) {
+    nodeQuery(limit: 500, filter: {
+      conditions: [
+        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+        { field: "type", value: ["event_listing"] }
+      ]
+    }) {
+      entities {
+        ... eventListingPage
+      }
+    }
+  }
+`;
+
+module.exports = {
+  fragment: eventListingPage,
+  GetNodeEventListingPage,
+};

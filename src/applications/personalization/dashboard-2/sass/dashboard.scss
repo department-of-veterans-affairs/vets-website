@@ -1,0 +1,18 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+[tabindex="-1"]:focus {
+  outline: 0;
+}
+
+.dashboard {
+  .health-care {
+    hr {
+      height: 3px;
+      width: 100%;
+
+      @media (min-width: $medium-screen) {
+        width: 60%;
+      }
+    }
+  }
+}

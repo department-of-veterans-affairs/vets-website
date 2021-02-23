@@ -6,21 +6,12 @@
 {% assign listchecklistItemIndex = 0 %}
 
 <div id="content" class="interior" data-template="node-checklist">
-  <main class="va-l-detail-page">
+  <main class="va-l-detail-page va-l-detail-page--checklist">
     <div class="usa-grid usa-grid-full">
       <div class="usa-width-three-fourths">
         <div class="usa-content">
-          <!-- Draft status -->
-          {% if !entityPublished %}
-            <div class="usa-alert usa-alert-info">
-              <div class="usa-alert-body">
-                <p class="usa-alert-text">You are viewing a draft.</p>
-              </div>
-            </div>
-          {% endif %}
-
           <!-- Search bar -->
-          <div class="medium-screen:vads-u-border-bottom--2px vads-u-border-color--gray-light medium-screen:vads-u-margin-bottom--3">
+          <div id="resources-search-bar-wrapper" class="medium-screen:vads-u-border-bottom--2px vads-u-border-color--gray-light medium-screen:vads-u-margin-bottom--3">
             {% include "src/site/includes/support_resources_search_bar.drupal.liquid" %}
           </div>
 
@@ -49,7 +40,7 @@
 
               <!-- Checklist section header -->
               {% if checklistSection.entity.fieldSectionHeader %}
-                <h2 class="vads-u-font-size--h3">{{ checklistSection.entity.fieldSectionHeader }}</h2>
+                <h2>{{ checklistSection.entity.fieldSectionHeader }}</h2>
               {% endif %}
 
               <!-- Checklist section intro -->
@@ -66,7 +57,7 @@
                   {% assign checkboxId = "checkbox-" | append: listchecklistItemIndex %}
 
                   <!-- Checklist item -->
-                  <li>
+                  <li class="form-checkbox">
                     <input type="checkbox" id="{{ checkboxId }}" name="{{ checkboxId }}">
                     <label for="{{ checkboxId }}">{{ checklistItem }}</label>
                   </li>

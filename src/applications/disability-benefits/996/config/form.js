@@ -24,7 +24,7 @@ import informalConferenceRep from '../pages/informalConferenceRep';
 import informalConferenceTimes from '../pages/informalConferenceTimes';
 import sameOffice from '../pages/sameOffice';
 
-import { errorMessages } from '../constants';
+import { errorMessages, WIZARD_STATUS } from '../constants';
 // import initialData from '../tests/schema/initialData';
 
 import manifest from '../manifest.json';
@@ -46,6 +46,7 @@ const formConfig = {
   },
 
   formId: VA_FORM_IDS.FORM_20_0996,
+  wizardStorageKey: WIZARD_STATUS,
   saveInProgress: {
     messages: {
       inProgress:
@@ -54,6 +55,8 @@ const formConfig = {
         'Your saved Higher-Level Review application (20-0996) has expired. If you want to apply for Higher-Level Review, please start a new application.',
       saved: 'Your Higher-Level Review application has been saved.',
     },
+    // return restart destination url
+    restartFormCallback: () => '/', // introduction page
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -118,9 +121,6 @@ const formConfig = {
           path: 'office-of-review',
           uiSchema: sameOffice.uiSchema,
           schema: sameOffice.schema,
-          initialData: {
-            sameOffice: false,
-          },
         },
       },
     },

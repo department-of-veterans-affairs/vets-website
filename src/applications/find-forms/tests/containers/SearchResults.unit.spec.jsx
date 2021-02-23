@@ -1,9 +1,11 @@
 // Dependencies.
 import React from 'react';
+import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import times from 'lodash/times';
 // Relative imports.
+import { INITIAL_SORT_STATE } from '../../constants';
 import {
   SearchResults,
   MAX_PAGE_LIST_LENGTH,
@@ -55,7 +57,14 @@ describe('Find VA Forms <SearchResults>', () => {
       },
     }));
 
-    const tree = shallow(<SearchResults startIndex={0} results={results} />);
+    const tree = shallow(
+      <SearchResults
+        startIndex={0}
+        results={results}
+        updateSortByPropertyName={sinon.stub()}
+        sortByPropertyName={INITIAL_SORT_STATE}
+      />,
+    );
 
     expect(tree.find('SearchResult')).to.have.lengthOf(MAX_PAGE_LIST_LENGTH);
     expect(tree.find('Pagination')).to.have.lengthOf(1);

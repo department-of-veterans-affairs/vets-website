@@ -1,3 +1,4 @@
+const path = require('path');
 const setupLocalProxyRewrite = require('../src/applications/proxy-rewrite/local-proxy-rewrite');
 const manifestHelpers = require('./manifest-helpers');
 const BUCKETS = require('../src/site/constants/buckets');
@@ -13,13 +14,18 @@ function generateWebpackDevConfig(buildOptions) {
 
   // This buildType likely always be 'localhost', but adding in to match patterns elsewhere and just incase we ever need it
   const publicAssetPath =
-    buildOptions.buildtype === 'vagovdev' // just for dev  so we can test it, will add staging in the next merge after testing
+    buildOptions.setPublicPath && buildOptions.buildtype !== 'localhost'
       ? `${BUCKETS[buildOptions.buildtype]}/generated/`
       : '/generated/';
 
   // If in watch mode, assume hot reloading for JS and use webpack devserver.
   return {
-    contentBase: buildOptions.destination,
+    contentBase: path.resolve(
+      __dirname,
+      '../',
+      'build',
+      buildOptions.destination,
+    ),
     historyApiFallback: {
       rewrites: [
         ...appRewrites,

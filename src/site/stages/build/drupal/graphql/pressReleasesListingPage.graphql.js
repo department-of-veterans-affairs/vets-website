@@ -4,7 +4,7 @@
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-module.exports = `
+const pressReleasesListingPage = `
  fragment pressReleasesListingPage on NodePressReleasesListing {
     ${entityElementsFromPages}
     fieldIntroText
@@ -40,9 +40,31 @@ module.exports = `
         ... on NodeHealthCareRegionPage {
           entityLabel
           title
-          fieldNicknameForThisFacility
         }
       }
     }
  }
 `;
+
+const GetNodePressReleaseListingPages = `
+
+  ${pressReleasesListingPage}
+
+  query GetNodePressReleaseListingPages($onlyPublishedContent: Boolean!) {
+    nodeQuery(limit: 500, filter: {
+      conditions: [
+        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+        { field: "type", value: ["press_releases_listing"] }
+      ]
+    }) {
+      entities {
+        ... pressReleasesListingPage
+      }
+    }
+  }
+`;
+
+module.exports = {
+  fragment: pressReleasesListingPage,
+  GetNodePressReleaseListingPages,
+};

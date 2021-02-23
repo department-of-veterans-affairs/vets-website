@@ -3,21 +3,16 @@ import PropTypes from 'prop-types';
 import { Prompt } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 import recordEvent from '~/platform/monitoring/record-event';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
-import { mfa } from '~/platform/user/authentication/utilities';
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
-import {
-  isLOA3 as isLOA3Selector,
-  isMultifactorEnabled,
-} from '~/platform/user/selectors';
+import { isLOA3 as isLOA3Selector } from '~/platform/user/selectors';
 import { usePrevious } from '~/platform/utilities/react-hooks';
 import {
   editCNPPaymentInformationToggled,
@@ -28,13 +23,17 @@ import {
   cnpDirectDepositAddressIsSetUp,
   cnpDirectDepositInformation,
   cnpDirectDepositIsSetUp,
+  cnpDirectDepositLoadError,
   cnpDirectDepositUiState as directDepositUiStateSelector,
 } from '@@profile/selectors';
 
-import BankInfoForm from './BankInfoForm';
+import DirectDepositConnectionError from '../alerts/DirectDepositConnectionError';
+
+import BankInfoForm, { makeFormProperties } from './BankInfoForm';
 
 import PaymentInformationEditError from './PaymentInformationEditError';
 import ProfileInfoTable from '../ProfileInfoTable';
+import { benefitTypes } from './DirectDepositV2';
 
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 
@@ -42,12 +41,13 @@ export const BankInfoCNP = ({
   isLOA3,
   isDirectDepositSetUp,
   isEligibleToSetUpDirectDeposit,
-  is2faEnabled,
   directDepositAccountInfo,
+  directDepositServerError,
   directDepositUiState,
   saveBankInformation,
   toggleEditState,
 }) => {
+  const formPrefix = 'CNP';
   const editBankInfoButton = useRef();
   const [formData, setFormData] = useState({});
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
@@ -56,10 +56,20 @@ export const BankInfoCNP = ({
   const isEditingBankInfo = directDepositUiState.isEditing;
   const saveError = directDepositUiState.responseError;
 
-  const { accountNumber, accountType, routingNumber } = formData;
-  const isEmptyForm = !accountNumber && !accountType && !routingNumber;
+  const { accountNumber, accountType, routingNumber } = makeFormProperties(
+    formPrefix,
+  );
 
-  const showSetup2FactorAuthentication = isLOA3 && !is2faEnabled;
+  // Using computed properties that I got from the `makeFormProperties` call to
+  // destructure the form data object. I learned that this was even possible
+  // here: https://stackoverflow.com/a/37040344/585275
+  const {
+    [accountNumber]: formAccountNumber,
+    [accountType]: formAccountType,
+    [routingNumber]: formRoutingNumber,
+  } = formData;
+  const isEmptyForm =
+    !formAccountNumber && !formAccountType && !formRoutingNumber;
 
   // when we enter and exit edit mode...
   useEffect(
@@ -92,9 +102,9 @@ export const BankInfoCNP = ({
     // NOTE: You can trigger a save error by sending undefined values in the payload
     const payload = {
       financialInstitutionName: 'Hidden form field',
-      financialInstitutionRoutingNumber: formData.routingNumber,
-      accountNumber: formData.accountNumber,
-      accountType: formData.accountType,
+      financialInstitutionRoutingNumber: formData[routingNumber],
+      accountNumber: formData[accountNumber],
+      accountType: formData[accountType],
     };
     saveBankInformation(payload, isDirectDepositSetUp);
   };
@@ -154,7 +164,7 @@ export const BankInfoCNP = ({
           recordEvent({
             event: 'profile-navigation',
             'profile-action': 'edit-link',
-            'profile-section': 'direct-deposit-information',
+            'profile-section': 'cnp-direct-deposit-information',
           });
           toggleEditState();
         }}
@@ -173,7 +183,7 @@ export const BankInfoCNP = ({
         recordEvent({
           event: 'profile-navigation',
           'profile-action': 'add-link',
-          'profile-section': 'direct-deposit-information',
+          'profile-section': 'cnp-direct-deposit-information',
         });
         toggleEditState();
       }}
@@ -186,7 +196,7 @@ export const BankInfoCNP = ({
   const notEligibleContent = (
     <>
       <p className="vads-u-margin-top--0">
-        Our records show that you‘re not receiving disability compensation or
+        Our records show that you’re not receiving disability compensation or
         pension payments. If you think this is an error, please call us at{' '}
         <Telephone contact={CONTACTS.VA_BENEFITS} />.
       </p>
@@ -195,8 +205,15 @@ export const BankInfoCNP = ({
           target="_blank"
           rel="noopener noreferrer"
           href="https://www.va.gov/disability/eligibility/"
+          onClick={() => {
+            recordEvent({
+              event: 'profile-navigation',
+              'profile-action': 'view-link',
+              'profile-section': 'disability-benefits',
+            });
+          }}
         >
-          Find out if you‘re eligible for VA disability benefits
+          Find out if you’re eligible for VA disability benefits
         </a>
       </p>
       <p className="vads-u-margin-bottom--0">
@@ -205,7 +222,7 @@ export const BankInfoCNP = ({
           rel="noopener noreferrer"
           href="https://www.va.gov/pension/eligibility/"
         >
-          Find out if you‘re eligible for VA pension benefits
+          Find out if you’re eligible for VA pension benefits
         </a>
       </p>
     </>
@@ -215,11 +232,12 @@ export const BankInfoCNP = ({
   // account information
   const editingBankInfoContent = (
     <>
-      <div id="errors" role="alert" aria-atomic="true">
+      <div id="cnp-bank-save-errors" role="alert" aria-atomic="true">
         {!!saveError && (
           <PaymentInformationEditError
-            responseError={saveError}
             className="vads-u-margin-top--0 vads-u-margin-bottom--2"
+            level={4}
+            responseError={saveError}
           />
         )}
       </div>
@@ -235,14 +253,34 @@ export const BankInfoCNP = ({
           />
         </AdditionalInfo>
       </div>
-      <BankInfoForm
-        formChange={data => setFormData(data)}
-        formData={formData}
-        formSubmit={saveBankInfo}
-        isSaving={directDepositUiState.isSaving}
-        onClose={closeDDForm}
-        cancelButtonClasses={['va-button-link', 'vads-u-margin-left--1']}
-      />
+      <div data-testid={`${formPrefix}-bank-info-form`}>
+        <BankInfoForm
+          formChange={data => setFormData(data)}
+          formData={formData}
+          formPrefix={formPrefix}
+          formSubmit={saveBankInfo}
+        >
+          <LoadingButton
+            aria-label="update your bank information for compensation and pension benefits"
+            type="submit"
+            loadingText="saving bank information"
+            className="usa-button-primary vads-u-margin-top--0 vads-u-width--full small-screen:vads-u-width--auto"
+            isLoading={directDepositUiState.isSaving}
+          >
+            Update
+          </LoadingButton>
+          <button
+            aria-label="cancel updating your bank information for compensation and pension benefits"
+            type="button"
+            disabled={directDepositUiState.isSaving}
+            className="va-button-link vads-u-margin-left--1"
+            onClick={closeDDForm}
+            data-qa="cancel-button"
+          >
+            Cancel
+          </button>
+        </BankInfoForm>
+      </div>
     </>
   );
 
@@ -260,18 +298,16 @@ export const BankInfoCNP = ({
     return notEligibleContent;
   };
 
-  const directDepositData = [
-    // the table can show multiple states so we set its value with the
-    // getBankInfo() helper
-    {
-      title: 'Account',
+  const directDepositData = () => {
+    const data = {
+      // the table can show multiple states so we set its value with the
+      // getBankInfo() helper
       value: getBankInfo(),
-    },
-  ];
-
-  const mfaHandler = isAuthenticatedWithSSO => {
-    recordEvent({ event: 'multifactor-link-clicked' });
-    mfa(isAuthenticatedWithSSO ? 'v1' : 'v0');
+    };
+    if (isEligibleToSetUpDirectDeposit || isDirectDepositSetUp) {
+      data.title = 'Account';
+    }
+    return [data];
   };
 
   // Render nothing if the user is not LOA3.
@@ -281,86 +317,56 @@ export const BankInfoCNP = ({
     return null;
   }
 
-  if (showSetup2FactorAuthentication) {
-    return (
-      <AlertBox
-        className="vads-u-margin-bottom--2"
-        headline="You’ll need to set up 2-factor authentication before you can edit your direct deposit information."
-        content={
-          <>
-            <p>
-              We require this to help protect your bank account information and
-              prevent fraud.
-            </p>
-            <p>
-              Authentication gives you an extra layer of security by letting you
-              into your account only after you've signed in with a password and
-              a 6-digit code sent directly to your mobile or home phone. This
-              helps to make sure that no one but you can access your account -
-              even if they get your password.
-            </p>
-            <button
-              type="button"
-              className="usa-button-primary va-button-primary"
-              onClick={() => mfaHandler(isAuthenticatedWithSSOe)}
-            >
-              Set up 2-factor authentication
-            </button>
-          </>
-        }
-        status="continue"
-        isVisible
-      />
-    );
-  } else {
-    return (
-      <>
-        <Modal
-          title={'Are you sure?'}
-          status="warning"
-          visible={showConfirmCancelModal}
-          onClose={() => {
+  if (directDepositServerError) {
+    return <DirectDepositConnectionError benefitType={benefitTypes.CNP} />;
+  }
+
+  return (
+    <>
+      <Modal
+        title={'Are you sure?'}
+        status="warning"
+        visible={showConfirmCancelModal}
+        onClose={() => {
+          setShowConfirmCancelModal(false);
+        }}
+      >
+        <p>
+          {' '}
+          {`You haven’t finished editing your direct deposit information. If you cancel, your in-progress work won’t be saved.`}
+        </p>
+        <button
+          className="usa-button-secondary"
+          onClick={() => {
             setShowConfirmCancelModal(false);
           }}
         >
-          <p>
-            {' '}
-            {`You haven’t finished editing your direct deposit information. If you cancel, your in-progress work won’t be saved.`}
-          </p>
-          <button
-            className="usa-button-secondary"
-            onClick={() => {
-              setShowConfirmCancelModal(false);
-            }}
-          >
-            Continue Editing
-          </button>
-          <button
-            onClick={() => {
-              setShowConfirmCancelModal(false);
-              toggleEditState();
-            }}
-          >
-            Cancel
-          </button>
-        </Modal>
-        <Prompt
-          message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
-          when={!isEmptyForm}
-        />
-        <ProfileInfoTable
-          className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
-          title="Disability compensation and pension benefits"
-          data={directDepositData}
-        />
-      </>
-    );
-  }
+          Continue Editing
+        </button>
+        <button
+          onClick={() => {
+            setShowConfirmCancelModal(false);
+            toggleEditState();
+          }}
+        >
+          Cancel
+        </button>
+      </Modal>
+      <Prompt
+        message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
+        when={!isEmptyForm}
+      />
+      <ProfileInfoTable
+        className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
+        title="Disability compensation and pension benefits"
+        data={directDepositData()}
+      />
+    </>
+  );
 };
 
 BankInfoCNP.propTypes = {
   isLOA3: PropTypes.bool.isRequired,
-  is2faEnabled: PropTypes.bool.isRequired,
   directDepositAccountInfo: PropTypes.shape({
     accountNumber: PropTypes.string.isRequired,
     accountType: PropTypes.string.isRequired,
@@ -368,6 +374,7 @@ BankInfoCNP.propTypes = {
     financialInstitutionRoutingNumber: PropTypes.string.isRequired,
   }),
   isDirectDepositSetUp: PropTypes.bool.isRequired,
+  directDepositServerError: PropTypes.bool.isRequired,
   isEligibleToSetUpDirectDeposit: PropTypes.bool.isRequired,
   directDepositUiState: PropTypes.shape({
     isEditing: PropTypes.bool.isRequired,
@@ -383,10 +390,9 @@ export const mapStateToProps = state => ({
   directDepositAccountInfo: cnpDirectDepositAccountInformation(state),
   directDepositInfo: cnpDirectDepositInformation(state),
   isDirectDepositSetUp: cnpDirectDepositIsSetUp(state),
+  directDepositServerError: !!cnpDirectDepositLoadError(state),
   isEligibleToSetUpDirectDeposit: cnpDirectDepositAddressIsSetUp(state),
   directDepositUiState: directDepositUiStateSelector(state),
-  is2faEnabled: isMultifactorEnabled(state),
-  isAuthenticatedWithSSOe: isAuthenticatedWithSSOe(state),
 });
 
 const mapDispatchToProps = {

@@ -1,9 +1,10 @@
-import moment from 'moment';
-import {
-  selectProfile,
-  selectVAPResidentialAddress,
-} from 'platform/user/selectors';
+import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import { FETCH_STATUS } from '../../utils/constants';
+import {
+  getTimezoneBySystemId,
+  getTimezoneDescBySystemId,
+} from '../../utils/timezone';
+import { getSiteIdFromFacilityId } from '../../services/location';
 
 export function selectProjectCheetah(state) {
   return state.projectCheetah;
@@ -26,8 +27,41 @@ export function getProjectCheetahFormPageInfo(state, pageKey) {
   };
 }
 
-export function selectAllowProjectCheetahBookings(state) {
-  return moment().diff(moment(selectProfile(state).dob), 'years') >= 15;
+export function getSiteIdForChosenFacility(state) {
+  return getSiteIdFromFacilityId(
+    selectProjectCheetahFormData(state).vaFacility,
+  );
+}
+
+export function getChosenSlot(state) {
+  const availableSlots = selectProjectCheetahNewBooking(state).availableSlots;
+  const selectedTime = selectProjectCheetahFormData(state).date1[0];
+
+  return availableSlots?.find(slot => slot.start === selectedTime);
+}
+
+export function getDateTimeSelect(state, pageKey) {
+  const newBooking = selectProjectCheetahNewBooking(state);
+  const appointmentSlotsStatus = newBooking.appointmentSlotsStatus;
+  const data = selectProjectCheetahFormData(state);
+  const formInfo = getProjectCheetahFormPageInfo(state, pageKey);
+  const availableSlots = newBooking.availableSlots;
+  const systemId = getSiteIdForChosenFacility(state);
+
+  const timezoneDescription = systemId
+    ? getTimezoneDescBySystemId(systemId)
+    : null;
+  const { timezone = null } = systemId ? getTimezoneBySystemId(systemId) : {};
+
+  return {
+    ...formInfo,
+    availableSlots,
+    facilityId: data.vaFacility,
+    appointmentSlotsStatus,
+    preferredDate: data.preferredDate,
+    timezone,
+    timezoneDescription,
+  };
 }
 
 export function getChosenFacilityInfo(state) {
@@ -42,7 +76,7 @@ export function getChosenFacilityInfo(state) {
 export function getFacilityPageInfo(state) {
   const formInfo = getProjectCheetahFormPageInfo(state, 'vaFacility');
   const data = selectProjectCheetahFormData(state);
-  const newAppointment = selectProjectCheetahNewBooking(state);
+  const newBooking = selectProjectCheetahNewBooking(state);
 
   const {
     facilitiesStatus,
@@ -51,7 +85,7 @@ export function getFacilityPageInfo(state) {
     showEligibilityModal,
     clinics,
     clinicsStatus,
-  } = newAppointment;
+  } = newBooking;
 
   const validFacilities = formInfo.schema?.properties.vaFacility.enum;
 
@@ -81,8 +115,50 @@ export function getClinicPageInfo(state, pageKey) {
 
   return {
     ...formPageInfo,
-    facilityDetails: facilities.find(
+    facilityDetails: facilities?.find(
       facility => facility.id === formPageInfo.data.vaFacility,
     ),
+  };
+}
+
+export function getChosenClinicInfo(state) {
+  const data = selectProjectCheetahFormData(state);
+  const clinics = selectProjectCheetahNewBooking(state).clinics;
+
+  return (
+    clinics[data.vaFacility]?.find(clinic => clinic.id === data.clinicId) ||
+    null
+  );
+}
+
+export function getReviewPage(state) {
+  return {
+    data: selectProjectCheetahFormData(state),
+    facility: getChosenFacilityInfo(state),
+    facilityDetails: getChosenFacilityInfo(state),
+    clinic: getChosenClinicInfo(state),
+    submitStatus: selectProjectCheetah(state).submitStatus,
+    submitStatusVaos400: selectProjectCheetah(state).submitStatusVaos400,
+    systemId: getSiteIdForChosenFacility(state),
+  };
+}
+
+export function selectConfirmationPage(state) {
+  return {
+    data: selectProjectCheetahFormData(state),
+    facilityDetails: getChosenFacilityInfo(state),
+    systemId: getSiteIdForChosenFacility(state),
+  };
+}
+
+export function selectContactFacilitiesPageInfo(state) {
+  const newBooking = selectProjectCheetahNewBooking(state);
+
+  const { facilities, facilitiesStatus } = newBooking;
+
+  return {
+    facilities,
+    facilitiesStatus,
+    sortMethod: newBooking.facilityPageSortMethod,
   };
 }

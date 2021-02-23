@@ -5,7 +5,7 @@ describe('health care questionnaire list -- tabs ', () => {
     cy.fixture(
       '../../src/applications/health-care-questionnaire/questionnaire/tests/e2e/fixtures/mocks/feature-toggles.enabled.json',
     ).then(features => {
-      cy.route('GET', '/v0/feature_toggles*', features);
+      cy.intercept('GET', '/v0/feature_toggles*', features);
       cy.login(basicUser);
       cy.visit('/health-care/health-questionnaires/questionnaires/');
       cy.get('#tabpanel_toDo').then(el => {
@@ -36,6 +36,7 @@ describe('health care questionnaire list -- tabs ', () => {
       cy.get('#tab_toDo').click();
       cy.get('#tabpanel_toDo').then(el => {
         expect(el).to.exist;
+        cy.url().should('match', /to-do/);
       });
     });
   });

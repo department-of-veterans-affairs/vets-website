@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 
 import * as Sentry from '@sentry/browser';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
@@ -319,7 +319,7 @@ export class AuthApp extends React.Component {
         alertContent = (
           <p>
             We’re having trouble signing you in to VA.gov right now because we
-            found more than one MyHealtheVet account for you.
+            found more than one My HealtheVet account for you.
           </p>
         );
         troubleshootingContent = (
@@ -329,9 +329,9 @@ export class AuthApp extends React.Component {
               <li>
                 <strong>Call the My HealtheVet help desk</strong>
                 <p>
-                  Call us at <a href="tel:877-327-0022">877-327-0022</a>. We’re
-                  here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. If you
-                  have hearing loss, call TTY:{' '}
+                  Call us at <Telephone contact={CONTACTS.MY_HEALTHEVET} />.
+                  We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+                  If you have hearing loss, call TTY:{' '}
                   <Telephone contact={CONTACTS.FEDERAL_RELAY_SERVICE} />.
                 </p>
                 <p>
@@ -343,13 +343,13 @@ export class AuthApp extends React.Component {
               <li>
                 <strong>Submit a request for online help</strong>
                 <p>
-                  Fill out a
+                  Fill out a{' '}
                   <a
                     href="https://www.myhealth.va.gov/mhv-portal-web/contact-us"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    MyHealtheVet online help form
+                    My HealtheVet online help form
                   </a>{' '}
                   to get help signing in. Enter the following information in the
                   form fields.
@@ -364,7 +364,7 @@ export class AuthApp extends React.Component {
                     Comments: Type, or copy and paste, the below message:
                     <br />
                     “When I tried to sign in to VA.gov, I got an error message
-                    saying that I have more than one MyHealtheVet account.”
+                    saying that I have more than one My HealtheVet account.”
                   </li>
                 </ul>
                 <p>Complete the rest of the form and then click Submit.</p>

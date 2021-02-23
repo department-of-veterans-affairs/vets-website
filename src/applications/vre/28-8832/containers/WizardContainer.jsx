@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
-import Wizard from 'applications/static-pages/wizard';
-import {
-  WIZARD_STATUS,
+import Wizard, {
   WIZARD_STATUS_COMPLETE,
-  PCPG_ROOT_URL,
-} from '../constants';
+} from 'applications/static-pages/wizard';
+
+import { WIZARD_STATUS, PCPG_ROOT_URL } from '../constants';
 import pages from '../wizard/pages';
 
-const WizardContainer = () => {
+const WizardContainer = props => {
+  const { setWizardStatus } = props;
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
@@ -49,7 +49,11 @@ const WizardContainer = () => {
             Apply online with VA Form 28-8832
           </a>
         </p>
-        <Wizard pages={pages} expander={false} />
+        <Wizard
+          pages={pages}
+          expander={false}
+          setWizardStatus={setWizardStatus}
+        />
       </div>
     </div>
   );
