@@ -290,7 +290,7 @@ class ArrayField extends React.Component {
                         <div className="row small-collapse">
                           <div className="small-6 left columns">
                             <button
-                              type="button"
+                              type="submit"
                               className="float-left"
                               aria-label={`Update ${itemName}`}
                             >
