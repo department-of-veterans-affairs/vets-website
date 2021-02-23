@@ -27,7 +27,7 @@ import {
 
 import DirectDepositConnectionError from '../alerts/DirectDepositConnectionError';
 
-import BankInfoForm from './BankInfoForm';
+import BankInfoForm, { makeFormProperties } from './BankInfoForm';
 
 import PaymentInformationEditError from './PaymentInformationEditError';
 import ProfileInfoTable from '../ProfileInfoTable';
@@ -45,6 +45,7 @@ export const BankInfoCNP = ({
   saveBankInformation,
   toggleEditState,
 }) => {
+  const formPrefix = 'CNP';
   const editBankInfoButton = useRef();
   const [formData, setFormData] = useState({});
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
@@ -53,8 +54,20 @@ export const BankInfoCNP = ({
   const isEditingBankInfo = directDepositUiState.isEditing;
   const saveError = directDepositUiState.responseError;
 
-  const { accountNumber, accountType, routingNumber } = formData;
-  const isEmptyForm = !accountNumber && !accountType && !routingNumber;
+  const { accountNumber, accountType, routingNumber } = makeFormProperties(
+    formPrefix,
+  );
+
+  // Using computed properties that I got from the `makeFormProperties` call to
+  // destructure the form data object. I learned that this was even possible
+  // here: https://stackoverflow.com/a/37040344/585275
+  const {
+    [accountNumber]: formAccountNumber,
+    [accountType]: formAccountType,
+    [routingNumber]: formRoutingNumber,
+  } = formData;
+  const isEmptyForm =
+    !formAccountNumber && !formAccountType && !formRoutingNumber;
 
   // when we enter and exit edit mode...
   useEffect(
@@ -87,9 +100,9 @@ export const BankInfoCNP = ({
     // NOTE: You can trigger a save error by sending undefined values in the payload
     const payload = {
       financialInstitutionName: 'Hidden form field',
-      financialInstitutionRoutingNumber: formData.routingNumber,
-      accountNumber: formData.accountNumber,
-      accountType: formData.accountType,
+      financialInstitutionRoutingNumber: formData[routingNumber],
+      accountNumber: formData[accountNumber],
+      accountType: formData[accountType],
     };
     saveBankInformation(payload, isDirectDepositSetUp);
   };
@@ -217,11 +230,12 @@ export const BankInfoCNP = ({
   // account information
   const editingBankInfoContent = (
     <>
-      <div id="errors" role="alert" aria-atomic="true">
+      <div id="cnp-bank-save-errors" role="alert" aria-atomic="true">
         {!!saveError && (
           <PaymentInformationEditError
-            responseError={saveError}
             className="vads-u-margin-top--0 vads-u-margin-bottom--2"
+            level={4}
+            responseError={saveError}
           />
         )}
       </div>
@@ -237,14 +251,17 @@ export const BankInfoCNP = ({
           />
         </AdditionalInfo>
       </div>
-      <BankInfoForm
-        formChange={data => setFormData(data)}
-        formData={formData}
-        formSubmit={saveBankInfo}
-        isSaving={directDepositUiState.isSaving}
-        onClose={closeDDForm}
-        cancelButtonClasses={['va-button-link', 'vads-u-margin-left--1']}
-      />
+      <div data-testid={`${formPrefix}-bank-info-form`}>
+        <BankInfoForm
+          formChange={data => setFormData(data)}
+          formData={formData}
+          formPrefix={formPrefix}
+          formSubmit={saveBankInfo}
+          isSaving={directDepositUiState.isSaving}
+          onClose={closeDDForm}
+          cancelButtonClasses={['va-button-link', 'vads-u-margin-left--1']}
+        />
+      </div>
     </>
   );
 

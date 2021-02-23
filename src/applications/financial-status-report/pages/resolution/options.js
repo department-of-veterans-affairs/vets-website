@@ -1,5 +1,6 @@
 import React from 'react';
 import FinancialOverview from '../../components/FinancialOverview';
+import ResolutionOptionsTitle from '../../components/ResolutionOptionsTitle';
 import DebtRepayment from '../../components/DebtRepayment';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import _ from 'lodash/fp';
@@ -63,16 +64,20 @@ const resolutionOptions = [
   },
 ];
 
-const isRequired = formData => {
+const isRequired = (formData, option) => {
   let index = 0;
+  let selected = '';
+  let type = '';
   if (window.location.href.includes('resolution-options')) {
     index = window.location.href.slice(-1);
+    selected = formData.fsrDebts[index].resolution.resolutionType;
+    type = formData.fsrDebts[index].deductionCode;
   }
-  const type = formData.fsrDebts[index].resolution?.resolutionType;
 
-  return Boolean(
-    type === resolutionOptions[1].type || type === resolutionOptions[2].type,
-  );
+  if (selected === option && option === 'Waiver') {
+    return type !== '30';
+  }
+  return selected === option;
 };
 
 const renderLabels = () => {
@@ -105,10 +110,11 @@ export const uiSchema = {
         'ui:field': DebtRepayment,
       },
       resolution: {
+        'view:resolutionOptionsTitle': {
+          'ui:field': ResolutionOptionsTitle,
+        },
         resolutionType: {
-          'ui:title':
-            'What type of help do you want for your Post-9/11 GI Bill debt for tuition and fees?',
-          'ui:required': () => true,
+          'ui:title': ' ',
           'ui:widget': 'radio',
           'ui:options': {
             labels: renderLabels(),
@@ -116,59 +122,60 @@ export const uiSchema = {
         },
         eduWaiver: {
           'ui:options': {
+            classNames: 'edu-waiver-checkbox',
             expandUnder: 'resolutionType',
-            expandUnderCondition: 'Waiver',
+            expandUnderCondition: (selectedOption, formData) => {
+              const index = window.location.href.slice(-1);
+              const type = formData.fsrDebts[index]?.deductionCode;
+              return selectedOption === 'Waiver' && type !== '30';
+            },
           },
-          'ui:title': (
-            <>
+          waiver: {
+            'ui:title':
+              'By checking this box, I’m agreeing that I understand how a debt  waiver may affect my VA education benefits. If VA grants me a waiver,  this will reduce any remaining education benefit entitlement I may have.',
+            'ui:required': formData => isRequired(formData, 'Waiver'),
+            'ui:options': {
+              showFieldLabel: true,
+            },
+          },
+          'view:waiverNote': {
+            'ui:description': (
               <p>
-                By checking this box, I’m agreeing that I understand how a debt
-                waiver may affect my VA education benefits. If VA grants me a
-                waiver, this will reduce any remaining education benefit
-                entitlement I may have.
-              </p>
-              <p className="eduWaiverNote">
                 Note: If you have questions about this, call us at 800-827-0648
                 (or 1-612-713-6415 from overseas). We’re here Monday through
                 Friday, 7:30 a.m. to 7:00 p.m. ET.
               </p>
-            </>
-          ),
-        },
-        affordToPay: {
-          'ui:options': {
-            expandUnder: 'resolutionType',
-            expandUnderCondition: 'Extended monthly payments',
-            classNames: 'no-wrap',
-          },
-          canAffordToPay: _.merge(
-            currencyUI('How much can you afford to pay monthly on this debt?'),
-            {
-              'ui:options': {
-                widgetClassNames: 'input-size-3',
-              },
-              'ui:required': formData => isRequired(formData),
-            },
-          ),
-        },
-        offerToPay: {
-          'ui:options': {
-            expandUnder: 'resolutionType',
-            expandUnderCondition: 'Compromise',
-            classNames: 'no-wrap',
-          },
-          canOfferToPay: _.merge(
-            currencyUI(
-              'How much do you offer to pay for this debt with a single payment?',
             ),
-            {
-              'ui:options': {
-                widgetClassNames: 'input-size-3',
-              },
-              'ui:required': formData => isRequired(formData),
-            },
-          ),
+          },
         },
+        affordToPay: _.merge(
+          currencyUI('How much can you afford to pay monthly on this debt?'),
+          {
+            'ui:options': {
+              expandUnder: 'resolutionType',
+              expandUnderCondition: 'Extended monthly payments',
+              classNames: 'resolution-inputs no-wrap',
+              widgetClassNames: 'input-size-3',
+            },
+            'ui:required': formData =>
+              isRequired(formData, 'Extended monthly payments'),
+          },
+        ),
+
+        offerToPay: _.merge(
+          currencyUI(
+            'How much do you offer to pay for this debt with a single payment?',
+          ),
+          {
+            'ui:options': {
+              expandUnder: 'resolutionType',
+              expandUnderCondition: 'Compromise',
+              classNames: 'resolution-inputs no-wrap',
+              widgetClassNames: 'input-size-3',
+            },
+            'ui:required': formData => isRequired(formData, 'Compromise'),
+          },
+        ),
       },
     },
   },
@@ -196,29 +203,33 @@ export const schema = {
           },
           resolution: {
             type: 'object',
+            required: ['resolutionType'],
             properties: {
+              'view:resolutionOptionsTitle': {
+                type: 'object',
+                properties: {},
+              },
               resolutionType: {
                 type: 'string',
                 enum: resolutionOptions.map(option => option.type),
               },
               eduWaiver: {
-                type: 'boolean',
+                type: 'object',
+                properties: {
+                  waiver: {
+                    type: 'boolean',
+                  },
+                  'view:waiverNote': {
+                    type: 'object',
+                    properties: {},
+                  },
+                },
               },
               affordToPay: {
-                type: 'object',
-                properties: {
-                  canAffordToPay: {
-                    type: 'number',
-                  },
-                },
+                type: 'number',
               },
               offerToPay: {
-                type: 'object',
-                properties: {
-                  canOfferToPay: {
-                    type: 'number',
-                  },
-                },
+                type: 'number',
               },
             },
           },

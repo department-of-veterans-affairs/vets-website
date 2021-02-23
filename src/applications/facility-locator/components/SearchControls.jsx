@@ -10,7 +10,6 @@ import {
   facilityTypesOptions,
 } from '../config';
 import { focusElement } from 'platform/utilities/ui';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import environment from 'platform/utilities/environment';
 
 class SearchControls extends Component {
@@ -65,6 +64,25 @@ class SearchControls extends Component {
     this.props.geolocateUser();
   };
 
+  handleClearInput = () => {
+    this.props.clearSearchText();
+    focusElement('#street-city-state-zip');
+  };
+
+  renderClearInput = () => {
+    if (window.Cypress || !environment.isProduction()) {
+      return (
+        <i
+          aria-hidden="true"
+          className="fas fa-times-circle clear-button"
+          id="clear-input"
+          onClick={this.handleClearInput}
+        />
+      );
+    }
+    return null;
+  };
+
   renderLocationInputField = currentQuery => (
     <>
       <div id="location-input-field">
@@ -97,16 +115,18 @@ class SearchControls extends Component {
             </a>
           ))}
       </div>
-      <input
-        id="street-city-state-zip"
-        name="street-city-state-zip"
-        style={{ fontWeight: 'bold' }}
-        type="text"
-        onChange={this.handleQueryChange}
-        value={currentQuery.searchString}
-        title="Your location: Street, City, State or Postal code"
-        required
-      />
+      <div className="input-clear">
+        {currentQuery?.searchString?.length > 0 && this.renderClearInput()}
+        <input
+          id="street-city-state-zip"
+          name="street-city-state-zip"
+          type="text"
+          onChange={this.handleQueryChange}
+          value={currentQuery.searchString}
+          title="Your location: Street, City, State or Postal code"
+          required
+        />
+      </div>
     </>
   );
 
@@ -214,20 +234,6 @@ class SearchControls extends Component {
 
     return (
       <div className="search-controls-container clearfix">
-        <Modal
-          onClose={() => this.props.clearGeocodeError()}
-          visible={currentQuery.geocodeError}
-          contents={
-            <>
-              <div className="vads-u-margin-top--2">&nbsp;</div>
-              <span>
-                Please enable location access in your browser to use this
-                feature.
-              </span>
-              <div className="vads-u-margin-top--2">&nbsp;</div>
-            </>
-          }
-        />
         <form id="facility-search-controls" onSubmit={this.handleSubmit}>
           <div className={'columns'}>
             {this.renderLocationInputField(currentQuery)}

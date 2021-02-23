@@ -25,7 +25,7 @@ import {
   cnpDirectDepositUiState as directDepositUiStateSelector,
 } from '@@profile/selectors';
 
-import BankInfoForm from './BankInfoForm';
+import BankInfoForm, { makeFormProperties } from './BankInfoForm';
 
 import PaymentInformationEditError from './PaymentInformationEditError';
 import ProfileInfoTable from '../ProfileInfoTable';
@@ -40,6 +40,7 @@ export const BankInfoCNP = ({
   saveBankInformation,
   toggleEditState,
 }) => {
+  const formPrefix = 'CNP';
   const editBankInfoButton = useRef();
   const [formData, setFormData] = useState({});
   const [showSaveSucceededAlert, setShowSaveSucceededAlert] = useState(false);
@@ -51,9 +52,31 @@ export const BankInfoCNP = ({
   const isSavingBankInfo = directDepositUiState.isSaving;
   const saveError = directDepositUiState.responseError;
 
-  const { accountNumber, accountType, routingNumber } = formData;
-  const isEmptyForm = !accountNumber && !accountType && !routingNumber;
+  const bankInfoUpdatedAlertSettings = {
+    FADE_SPEED: window.Cypress ? 1 : 500,
+    TIMEOUT: window.Cypress ? 500 : 6000,
+  };
 
+  const { accountNumber, accountType, routingNumber } = makeFormProperties(
+    formPrefix,
+  );
+
+  const {
+    [accountNumber]: formAccountNumber,
+    [accountType]: formAccountType,
+    [routingNumber]: formRoutingNumber,
+  } = formData;
+  const isEmptyForm =
+    !formAccountNumber && !formAccountType && !formRoutingNumber;
+
+  const removeBankInfoUpdatedAlert = React.useCallback(
+    () => {
+      setTimeout(() => {
+        setShowSaveSucceededAlert(false);
+      }, bankInfoUpdatedAlertSettings.TIMEOUT);
+    },
+    [bankInfoUpdatedAlertSettings],
+  );
   // when we enter and exit edit mode...
   useEffect(
     () => {
@@ -86,21 +109,24 @@ export const BankInfoCNP = ({
     () => {
       if (wasSavingBankInfo && !isSavingBankInfo && !saveError) {
         setShowSaveSucceededAlert(true);
-        setTimeout(() => {
-          setShowSaveSucceededAlert(false);
-        }, 6000);
+        removeBankInfoUpdatedAlert();
       }
     },
-    [wasSavingBankInfo, isSavingBankInfo, saveError],
+    [
+      wasSavingBankInfo,
+      isSavingBankInfo,
+      saveError,
+      removeBankInfoUpdatedAlert,
+    ],
   );
 
   const saveBankInfo = () => {
     // NOTE: You can trigger a save error by sending undefined values in the payload
     const payload = {
       financialInstitutionName: 'Hidden form field',
-      financialInstitutionRoutingNumber: formData.routingNumber,
-      accountNumber: formData.accountNumber,
-      accountType: formData.accountType,
+      financialInstitutionRoutingNumber: formData[routingNumber],
+      accountNumber: formData[accountNumber],
+      accountType: formData[accountType],
     };
     saveBankInformation(payload, isDirectDepositSetUp);
   };
@@ -195,8 +221,9 @@ export const BankInfoCNP = ({
       <div id="errors" role="alert" aria-atomic="true">
         {!!saveError && (
           <PaymentInformationEditError
-            responseError={saveError}
             className="vads-u-margin-top--0 vads-u-margin-bottom--2"
+            level={4}
+            responseError={saveError}
           />
         )}
       </div>
@@ -215,6 +242,7 @@ export const BankInfoCNP = ({
       <BankInfoForm
         formChange={data => setFormData(data)}
         formData={formData}
+        formPrefix={formPrefix}
         formSubmit={saveBankInfo}
         isSaving={directDepositUiState.isSaving}
         onClose={closeDDForm}
@@ -311,20 +339,22 @@ export const BankInfoCNP = ({
         <ReactCSSTransitionGroup
           transitionName="form-expanding-group-inner"
           transitionAppear
-          transitionAppearTimeout={500}
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={500}
+          transitionAppearTimeout={bankInfoUpdatedAlertSettings.FADE_SPEED}
+          transitionEnterTimeout={bankInfoUpdatedAlertSettings.FADE_SPEED}
+          transitionLeaveTimeout={bankInfoUpdatedAlertSettings.FADE_SPEED}
         >
           {showSaveSucceededAlert && (
-            <AlertBox
-              status="success"
-              backgroundOnly
-              className="vads-u-margin-top--0 vads-u-margin-bottom--2"
-              scrollOnShow
-            >
-              We’ve updated your bank account information for your{' '}
-              <strong>compensation and pension benefits</strong>
-            </AlertBox>
+            <div data-testid="bankInfoUpdateSuccessAlert">
+              <AlertBox
+                status="success"
+                backgroundOnly
+                className="vads-u-margin-top--0 vads-u-margin-bottom--2"
+                scrollOnShow
+              >
+                We’ve updated your bank account information for your{' '}
+                <strong>compensation and pension benefits</strong>
+              </AlertBox>
+            </div>
           )}
         </ReactCSSTransitionGroup>
       </div>

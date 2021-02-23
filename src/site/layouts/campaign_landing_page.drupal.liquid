@@ -274,7 +274,7 @@
                   rel="noreferrer noopener"
                   target="_blank"
                 >
-                  {{ fieldClpStoriesCta.entity.fieldButtonLabel }}
+                  See more stories
                   <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
                 </a>
               {% endif %}
@@ -306,7 +306,7 @@
                   <p>{{ resource.entity.fieldDescription }}</p>
                   <a
                     download
-                    href="{{ resource.entity.fieldMediaExternalFile.url }}"
+                    href="{{ resource.entity.fieldMediaExternalFile.uri }}"
                     onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Downloadable resources', 'clp-section-title': '{{ fieldClpResourcesHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': 'Download {{ resource.entity.name | escape }}' });"
                   >
                     Download (PDF)
@@ -365,7 +365,7 @@
                   </h3>
 
                   <!-- Description -->
-                  {{ eventReference.entity.fieldBody.processed }}
+                  <p>{{ eventReference.entity.fieldDescription }}</p>
 
                   <!-- When -->
                   <div class="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
@@ -621,7 +621,7 @@
                     {{ benefitCategory.entity.title }}
                   </a>
                 </div>
-                <p class="vads-u-margin-top--0">{{ benefitCategory.entity.fieldIntroText }}</p>
+                <p class="vads-u-margin-top--0">{{ benefitCategory.entity.fieldTeaserText }}</p>
               </div>
             </div>
           {% endfor %}

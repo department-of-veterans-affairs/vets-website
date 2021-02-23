@@ -329,8 +329,8 @@ export class AuthApp extends React.Component {
               <li>
                 <strong>Call the My HealtheVet help desk</strong>
                 <p>
-                  Call us at <Telephone contact={CONTACTS.MY_HEALTHEVET} />
-                  .We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+                  Call us at <Telephone contact={CONTACTS.MY_HEALTHEVET} />.
+                  We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
                   If you have hearing loss, call TTY:{' '}
                   <Telephone contact={CONTACTS.FEDERAL_RELAY_SERVICE} />.
                 </p>

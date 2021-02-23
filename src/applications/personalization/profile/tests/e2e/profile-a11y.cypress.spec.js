@@ -1,5 +1,5 @@
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
-import { PROFILE_PATHS } from '../../constants';
+import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 
 import mockUser from '../fixtures/users/user-36.json';
 import mockPaymentInfo from '../fixtures/dd4cnp/dd4cnp-is-set-up.json';
@@ -63,7 +63,7 @@ function checkAllPages(mobile = false) {
   cy.axeCheck();
 
   // make the a11y and focus management check on the Military Info section
-  clickSubNavButton('Military information', mobile);
+  clickSubNavButton(PROFILE_PATH_NAMES.MILITARY_INFORMATION, mobile);
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.MILITARY_INFORMATION}`,
@@ -72,12 +72,12 @@ function checkAllPages(mobile = false) {
   cy.axeCheck();
   // focus should be on the section's h2
   cy.focused()
-    .contains(/military information/i)
+    .contains(PROFILE_PATH_NAMES.MILITARY_INFORMATION)
     .and('have.prop', 'tagName')
     .should('eq', 'H2');
 
   // make the a11y and focus management check on the Direct Deposit section
-  clickSubNavButton('Direct deposit', mobile);
+  clickSubNavButton(PROFILE_PATH_NAMES.DIRECT_DEPOSIT, mobile);
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.DIRECT_DEPOSIT}`,
@@ -86,12 +86,12 @@ function checkAllPages(mobile = false) {
   cy.axeCheck();
   // focus should be on the section's h2
   cy.focused()
-    .contains(/direct deposit/i)
+    .contains(PROFILE_PATH_NAMES.DIRECT_DEPOSIT)
     .and('have.prop', 'tagName')
     .should('eq', 'H2');
 
   // make the a11y and focus management check on the Account Security section
-  clickSubNavButton('Account security', mobile);
+  clickSubNavButton(PROFILE_PATH_NAMES.ACCOUNT_SECURITY, mobile);
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.ACCOUNT_SECURITY}`,
@@ -100,12 +100,12 @@ function checkAllPages(mobile = false) {
   cy.axeCheck();
   // focus should be on the section's h2
   cy.focused()
-    .contains(/account security/i)
+    .contains(PROFILE_PATH_NAMES.ACCOUNT_SECURITY)
     .and('have.prop', 'tagName')
     .should('eq', 'H2');
 
   // make the a11y and focus management check on the Connected Apps section
-  clickSubNavButton('Connected apps', mobile);
+  clickSubNavButton(PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS, mobile);
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.CONNECTED_APPLICATIONS}`,
@@ -116,18 +116,18 @@ function checkAllPages(mobile = false) {
   cy.axeCheck();
   // focus should be on the section's h2
   cy.focused()
-    .contains(/connected apps/i)
+    .contains(PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS)
     .and('have.prop', 'tagName')
     .should('eq', 'H2');
 
   // navigate directly to the Personal and Contact Info section via the sub-nav to confirm focus is managed correctly
-  clickSubNavButton(/Personal and contact info/i, mobile);
+  clickSubNavButton(PROFILE_PATH_NAMES.PERSONAL_INFORMATION, mobile);
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.PERSONAL_INFORMATION}`,
   );
   cy.focused()
-    .contains(/personal and contact info/i)
+    .contains(PROFILE_PATH_NAMES.PERSONAL_INFORMATION)
     .and('have.prop', 'tagName')
     .should('eq', 'H2');
 }
