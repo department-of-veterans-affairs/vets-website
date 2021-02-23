@@ -10,6 +10,9 @@
   z-index: -1;
 }
 
+
+
+
 .questionnaire-list-tabs{
   display: flex;
   list-style: none;
@@ -115,6 +118,9 @@ ul.questionnaire-list {
     }
     .view-and-print-button{
       width: 100%;
+    }
+    .answer-button{
+      width: inherit;
     }
     .view-and-print-button, .answer-button {
       display: flex;
