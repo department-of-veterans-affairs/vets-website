@@ -311,4 +311,76 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(screen.queryByText('Community Care')).not.to.exist;
     expect(screen.queryByText('Reason for appointment')).not.to.exist;
   });
+
+  it('should allow cancellation', async () => {
+    const pending = transformPendingAppointments([appointment]);
+    setFetchJSONResponse(
+      global.fetch.withArgs(
+        `${environment.API_URL}/vaos/v0/appointment_requests/1234`,
+      ),
+      {
+        data: {
+          ...appointment,
+          attributes: {
+            ...appointment.attributes,
+            status: 'Cancelled',
+          },
+        },
+      },
+    );
+
+    initialState = {
+      ...initialState,
+      appointments: {
+        ...initialState.appointments,
+        pending,
+      },
+    };
+
+    const {
+      findByText,
+      baseElement,
+      getByText,
+      findByRole,
+      queryByRole,
+    } = renderWithStoreAndRouter(
+      <Route path="/requests/:id">
+        <RequestedAppointmentDetailsPage />
+      </Route>,
+      {
+        initialState,
+        reducers,
+        path: '/requests/1234',
+      },
+    );
+
+    expect(baseElement).not.to.contain.text('canceled');
+
+    fireEvent.click(getByText(/cancel request/i));
+
+    await findByRole('alertdialog');
+
+    fireEvent.click(getByText(/yes, cancel this request/i));
+
+    await findByText(/your request has been canceled/i);
+
+    const cancelData = JSON.parse(
+      global.fetch
+        .getCalls()
+        .find(call => call.args[0].endsWith('appointment_requests/1234'))
+        .args[1].body,
+    );
+
+    expect(cancelData).to.deep.equal({
+      ...appointment,
+      id: '1234',
+      appointmentRequestDetailCode: ['DETCODE8'],
+      status: 'Cancelled',
+    });
+
+    fireEvent.click(getByText(/continue/i));
+
+    expect(queryByRole('alertdialog')).to.not.be.ok;
+    expect(baseElement).to.contain.text('canceled');
+  });
 });
