@@ -12,6 +12,8 @@ import {
 
 import userEvent from '@testing-library/user-event';
 import { AppointmentList } from '../../../appointment-list';
+import sinon from 'sinon';
+import { fireEvent } from '@testing-library/react';
 
 const initialState = {
   featureToggles: {
@@ -142,7 +144,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         ),
       }),
     ).to.be.ok;
-    expect(screen.getByRole('link', { name: /Print/ })).to.be.ok;
+    expect(screen.getByText(/Print/)).to.be.ok;
     expect(screen.getByRole('link', { name: /Reschedule/ })).to.be.ok;
 
     const button = screen.getByRole('button', {
@@ -180,5 +182,108 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     });
     userEvent.click(manageAppointmentLink);
     expect(await screen.findAllByText(/Detail/)).to.be.ok;
+  });
+
+  it('should fire a print request when print button clicked', async () => {
+    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
+
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      startDate: moment().format(),
+      clinicId: '308',
+      clinicFriendlyName: "Jennie's Lab",
+      facilityId: '983',
+      sta6aid: '983GC',
+      communityCare: false,
+      vdsAppointments: [
+        {
+          bookingNote: 'New issue: ASAP',
+          appointmentLength: '60',
+          appointmentTime: '2021-12-07T16:00:00Z',
+          clinic: {
+            name: 'CHY OPT VAR1',
+            askForCheckIn: false,
+            facilityCode: '983',
+          },
+          type: 'REGULAR',
+          currentStatus: 'NO ACTION TAKEN/TODAY',
+        },
+      ],
+      vvsAppointments: [],
+    };
+
+    mockAppointmentInfo({
+      va: [appointment],
+      cc: [],
+      requests: [],
+      isHomepageRefresh: true,
+    });
+
+    const facility = {
+      id: 'vha_442GC',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        type: 'facility',
+        address: {
+          mailing: {},
+          physical: {
+            zip: '80526-8108',
+            city: 'Fort Collins',
+            state: 'CO',
+            address1: '2509 Research Boulevard',
+            address2: null,
+            address3: null,
+          },
+        },
+        id: 'vha_442GC',
+        name: 'Fort Collins VA Clinic',
+        phone: {
+          main: '970-224-1550',
+        },
+        uniqueId: '442GC',
+      },
+    };
+    mockFacilitiesFetch('vha_442GC', [facility]);
+
+    const screen = renderWithStoreAndRouter(
+      <AppointmentList featureHomepageRefresh />,
+      {
+        initialState,
+      },
+    );
+
+    const oldPrint = global.window.print;
+    const printSpy = sinon.spy();
+    global.window.print = printSpy;
+
+    const detailLinks = await screen.findAllByRole('link', {
+      name: /Detail/i,
+    });
+
+    // Select an appointment details link...
+    const detailLink = detailLinks.find(l => l.getAttribute('href') === url);
+    userEvent.click(detailLink);
+
+    // Verify page content...
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          moment()
+            .tz('America/Denver')
+            .format('dddd, MMMM D, YYYY'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
+    expect(await screen.findByText(/Fort Collins VA Clinic/)).to.be.ok;
+
+    expect(printSpy.notCalled).to.be.true;
+    fireEvent.click(await screen.findByText(/Print/i));
+    expect(printSpy.calledOnce).to.be.true;
+    global.window.print = oldPrint;
   });
 });
