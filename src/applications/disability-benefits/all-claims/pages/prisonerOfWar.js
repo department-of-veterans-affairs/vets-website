@@ -16,6 +16,9 @@ const confinementUI = dateRangeUI(
 );
 confinementUI['ui:validations'].push(isWithinServicePeriod);
 
+const itemAriaLabel = data =>
+  data.from ? `period starting on ${formatDate(data.from)}` : 'period';
+
 export const uiSchema = {
   'ui:title': 'Prisoner of War (POW)',
   'view:powStatus': {
@@ -32,11 +35,15 @@ export const uiSchema = {
       'ui:options': {
         viewField: PeriodOfConfinement,
         reviewTitle: 'Periods of confinement',
-        itemAriaLabel: data =>
-          `period from ${formatDate(data.from)} to ${formatDate(data.to)}`,
+        itemAriaLabel,
         itemName: 'Period',
       },
-      items: confinementUI,
+      items: {
+        ...confinementUI,
+        'ui:options': {
+          itemAriaLabel,
+        },
+      },
     },
     powDisabilities: {
       'ui:title': ' ',

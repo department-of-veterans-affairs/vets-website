@@ -508,7 +508,7 @@ describe('Schemaform review: ObjectField', () => {
       <ObjectField
         uiSchema={{
           'ui:options': {
-            ariaLabelForEditButtonOnReview: 'Custom label',
+            itemName: 'Custom label',
           },
         }}
         schema={schema}
@@ -521,7 +521,7 @@ describe('Schemaform review: ObjectField', () => {
       />,
     );
 
-    expect(tree.getByLabelText('Custom label')).to.exist;
+    expect(tree.getByLabelText('Edit Custom label')).to.exist;
   });
 
   it('should render aria-label on edit button using value from config', () => {
@@ -542,7 +542,7 @@ describe('Schemaform review: ObjectField', () => {
         uiSchema={{
           'ui:options': {
             itemAriaLabel: data => data.testKey,
-            ariaLabelForEditButtonOnReview: 'Custom label',
+            itemName: 'Custom label',
           },
         }}
         schema={schema}

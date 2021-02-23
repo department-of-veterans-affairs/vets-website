@@ -145,11 +145,9 @@ class ObjectField extends React.Component {
       const ariaLabel = uiOptions.itemAriaLabel;
       const itemName =
         (typeof ariaLabel === 'function' && ariaLabel(formData || {})) ||
-        formData[uiOptions.itemName];
-      const editLabel =
-        (itemName && `Edit ${itemName}`) ||
-        uiOptions.ariaLabelForEditButtonOnReview ||
-        `Edit ${title}`;
+        formData[uiOptions.itemName] ||
+        uiOptions.itemName;
+      const editLabel = (itemName && `Edit ${itemName}`) || `Edit ${title}`;
 
       const Tag = divWrapper ? 'div' : 'dl';
       const objectViewField = uiSchema?.['ui:objectViewField'];

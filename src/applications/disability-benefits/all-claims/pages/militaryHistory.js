@@ -49,6 +49,14 @@ const validateSeparationDate = (
 dateRangeUISchema.from['ui:validations'].push(validateAge);
 dateRangeUISchema.to['ui:validations'].push(validateSeparationDate);
 
+const itemAriaLabel = data => {
+  const hasDate =
+    data.serviceBranch && data.dateRange?.from
+      ? ` started on ${formatDate(data.dateRange.from)}`
+      : '';
+  return `${data.serviceBranch || ''}${hasDate}`;
+};
+
 export const uiSchema = {
   serviceInformation: {
     servicePeriods: {
@@ -58,13 +66,7 @@ export const uiSchema = {
       'ui:field': ArrayField,
       'ui:options': {
         itemName: 'Service Period',
-        itemAriaLabel: data => {
-          const hasDate =
-            data.serviceBranch && data.dateRange?.from
-              ? ` started on ${formatDate(data.dateRange.from)}`
-              : '';
-          return `${data.serviceBranch || ''}${hasDate}`;
-        },
+        itemAriaLabel,
         viewField: ValidatedServicePeriodView,
         reviewMode: true,
         showSave: true,
@@ -77,8 +79,8 @@ export const uiSchema = {
         },
         dateRange: dateRangeUISchema,
         'ui:options': {
-          itemAriaLabel: data => data.serviceBranch,
-          ariaLabelForEditButtonOnReview: 'Edit Military service history',
+          itemAriaLabel,
+          itemName: 'Military service history',
         },
       },
     },

@@ -87,7 +87,7 @@ export const uiSchema = {
       'ui:objectViewField': ConditionReviewField,
       'ui:options': {
         itemAriaLabel: data => data.condition,
-        ariaLabelForEditButtonOnReview: 'Edit New condition',
+        itemName: 'New condition',
       },
     },
   },
