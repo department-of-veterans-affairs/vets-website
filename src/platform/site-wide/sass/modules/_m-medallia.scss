@@ -119,3 +119,12 @@
 .neb-rating-value {
   margin-right: 4px;
 }
+
+/* 
+  Any on-screen element that someone can click, touch, or otherwise interact with should be large enough for reliable interaction. 
+  Consider making sure these elements have a width and height of at least 48dp (48px). 
+  Source: https://support.google.com/accessibility/android/answer/7101858?hl=en
+*/
+.panel-footer-web .btn {
+  height: 48px;
+}
