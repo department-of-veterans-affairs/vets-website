@@ -22,14 +22,15 @@ function AppointmentListSection({ featureHomepageRefresh }) {
           )}
         />
       )}
-      <Route
-        path="/va/:id"
-        component={() => (
-          <PageLayout>
-            <ConfirmedAppointmentDetailsPage />
-          </PageLayout>
-        )}
-      />
+      {featureHomepageRefresh && (
+        <Route
+          path="/va/:id"
+          component={() => (
+            <PageLayout>
+              <ConfirmedAppointmentDetailsPage />
+            </PageLayout>
+          )}
+        />
       )}
       {featureHomepageRefresh && (
         <Route
