@@ -128,3 +128,12 @@
 .panel-footer-web .btn {
   height: 48px;
 }
+
+// adjust the ‘X’ close button position
+.neb-form-close-btn {
+  position: relative;
+  top: 40px !important;
+  right: 12px !important;
+  z-index: 9999999;
+  color: #9f9fa4 !important;
+}
