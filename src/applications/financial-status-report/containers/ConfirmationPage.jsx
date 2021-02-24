@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes/';
 import { downloadPDF } from '../actions';
-
 import { focusElement } from 'platform/utilities/ui';
 import { bindActionCreators } from 'redux';
+import GetFormHelp from '../components/GetFormHelp';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -41,8 +41,7 @@ export class ConfirmationPage extends React.Component {
         </p>
         <div className="inset">
           <h4 className="vads-u-margin-top--0">
-            Request help for VA debt{' '}
-            <span className="additional">(Form 5655)</span>
+            Request help for VA debt <span>(Form 5655)</span>
           </h4>
           {name ? (
             <span>
@@ -133,6 +132,10 @@ export class ConfirmationPage extends React.Component {
             We'll consider the changes when we make our decision on your
             request.
           </p>
+        </div>
+        <div className="help-container">
+          <h2 className="help-heading">Need help?</h2>
+          <GetFormHelp />
         </div>
       </div>
     );
