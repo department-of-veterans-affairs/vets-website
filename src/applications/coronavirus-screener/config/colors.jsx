@@ -1,6 +1,6 @@
 export const passFormResultsColorOptions = {
-  purple: { background: 'purple', font: 'white', name: 'Purple' },
-  red: { background: 'red', font: 'white', name: 'Red' },
-  yellow: { background: 'yellow', font: '#112e51', name: 'Yellow' },
-  green: { background: 'green', font: 'white', name: 'Green' },
+  purple: { background: '#5800AB', font: 'white', name: 'Purple' },
+  red: { background: '#981B1E', font: 'white', name: 'Red' },
+  yellow: { background: '#FAC922', font: '#112e51', name: 'Yellow' },
+  green: { background: '#2E8540', font: 'white', name: 'Green' },
 };
