@@ -5,7 +5,7 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 
 const SubmitLoadingIndicator = ({ submission }) => {
   const [isLoading, setLoading] = useState(false);
-  const [timer, setTimer] = useState(115);
+  const [timer, setTimer] = useState(0);
   const [loadingMessage, setLoadingMessage] = useState(null);
   // eslint-disable-next-line no-console
   console.log('submission: ', submission);
@@ -80,7 +80,13 @@ const SubmitLoadingIndicator = ({ submission }) => {
             status="warning"
           />
 
-          <LoadingIndicator message={loadingMessage} />
+          <div className="vads-u-margin-y--4">
+            <LoadingIndicator message={loadingMessage} />
+
+            <p className="vads-u-text-align--center">
+              {timer} seconds have passed
+            </p>
+          </div>
         </div>
       ) : null}
     </>
