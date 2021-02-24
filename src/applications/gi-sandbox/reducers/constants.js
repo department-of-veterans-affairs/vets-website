@@ -1,4 +1,3 @@
-/* eslint-disable no-case-declarations */
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 import {
   FETCH_CONSTANTS_STARTED,
