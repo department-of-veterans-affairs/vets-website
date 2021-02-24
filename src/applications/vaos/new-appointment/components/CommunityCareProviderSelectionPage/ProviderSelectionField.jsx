@@ -408,7 +408,7 @@ function ProviderSelectionField({
                   </button>
                 </>
               )}
-              {communityCareProviderList.length > 0 && (
+              {communityCareProviderList?.length > 0 && (
                 <button
                   type="button"
                   className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"

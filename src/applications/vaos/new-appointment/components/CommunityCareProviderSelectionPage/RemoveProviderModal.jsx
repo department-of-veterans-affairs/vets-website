@@ -6,16 +6,6 @@ export default function RemoveProviderModal({ onClose, provider, address }) {
   const title = 'Are you sure you want to remove this provider?';
   const content = (
     <>
-      <button
-        className="va-modal-close va-overlay-close"
-        type="button"
-        aria-label="Close this modal"
-        onClick={() => onClose(true)}
-      >
-        <i className="fas fa-times-circle va-overlay-close" aria-hidden="true">
-          {' '}
-        </i>
-      </button>
       <span className="vads-u-display--block vads-u-font-weight--bold">
         {provider.name}
       </span>
@@ -48,13 +38,7 @@ export default function RemoveProviderModal({ onClose, provider, address }) {
   );
 
   return (
-    <Modal
-      id="removeProviderModal"
-      visible
-      onClose={onClose}
-      title={title}
-      hideCloseButton
-    >
+    <Modal id="removeProviderModal" visible onClose={onClose} title={title}>
       {content}
     </Modal>
   );
