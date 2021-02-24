@@ -10,6 +10,10 @@
     a {
       font-family: $font-sans;
     }
+
+    .far, .fa {
+      cursor: pointer;
+    }
   }
 
   .profile-nav-bar-stuck {

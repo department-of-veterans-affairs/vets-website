@@ -125,7 +125,7 @@ function ConfirmedAppointmentDetailsPage({
 
   return (
     <div>
-      <div className="vads-u-display--block vads-u-padding-y--2p5">
+      <div className="vads-u-display--block vads-u-padding-y--2p5 vaos-hide-for-print">
         ‹ <Link to="/">Manage appointments</Link>
       </div>
 
@@ -201,7 +201,12 @@ function ConfirmedAppointmentDetailsPage({
                     aria-hidden="true"
                     className="fas fa-print vads-u-margin-right--1"
                   />
-                  <a href="#">Print</a>
+                  <button
+                    className="va-button-link"
+                    onClick={() => window.print()}
+                  >
+                    Print
+                  </button>
                 </div>
 
                 <div className="vads-u-margin-top--2 vaos-appts__block-label">
@@ -241,7 +246,7 @@ function ConfirmedAppointmentDetailsPage({
           </>
         )}
 
-      <div className="vads-u-margin-top--3 vaos-appts__block-label">
+      <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
         <Link to="/" className="usa-button vads-u-margin-top--2" role="button">
           « Go back to appointments
         </Link>

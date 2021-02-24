@@ -8,6 +8,7 @@ import { renderWithStoreAndRouter } from '../../mocks/setup';
 import { waitFor } from '@testing-library/dom';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import { AppointmentList } from '../../../appointment-list';
+import sinon from 'sinon';
 
 const initialState = {
   featureToggles: {
@@ -118,7 +119,7 @@ describe('VAOS integration: upcoming video appointments', () => {
         ),
       }),
     ).to.be.ok;
-    expect(screen.getByRole('link', { name: /Print/ })).to.be.ok;
+    expect(screen.getByText(/Print/)).to.be.ok;
     expect(screen.baseElement).to.not.contain.text('Reschedule');
 
     expect(screen.baseElement).to.contain.text('Prepare for video visit');
@@ -648,6 +649,91 @@ describe('VAOS integration: upcoming video appointments', () => {
     expect(screen.getAllByRole('link', { name: /3 0 7. 7 7 8. 7 5 5 0./ })).to
       .be.ok;
   });
+
+  it('should fire a print request when print button clicked', async () => {
+    const startDate = moment.utc().add(20, 'minutes');
+    const appointment = getVideoAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      facilityId: '983',
+      clinicId: null,
+      startDate: startDate.format(),
+    };
+    appointment.attributes.vvsAppointments[0] = {
+      ...appointment.attributes.vvsAppointments[0],
+      dateTime: startDate.format(),
+      appointmentKind: 'ADHOC',
+      status: { description: 'F', code: 'FUTURE' },
+      patients: [
+        {
+          virtualMeetingRoom: {
+            url: 'http://videourl.va.gov',
+          },
+        },
+      ],
+      providers: [
+        {
+          name: { firstName: 'Test T+90', lastName: 'Test' },
+          contactInformation: {
+            mobile: '8888888888',
+            preferredEmail: 'marcy.nadeau@va.gov',
+            timeZone: '10',
+          },
+          location: {
+            type: 'VA',
+            facility: {
+              name: 'CHEYENNE VAMC',
+              siteCode: '983',
+              timeZone: '10',
+            },
+          },
+          virtualMeetingRoom: {
+            conference: 'VVC8275247',
+            pin: '7172705#',
+            url:
+              'https://care2.evn.va.gov/vvc-app/?name=Test%2CTest+T%2B90&join=1&media=1&escalate=1&conference=VVC8275247@care2.evn.va.gov&pin=7172705#',
+          },
+        },
+      ],
+    };
+    mockAppointmentInfo({
+      va: [appointment],
+      cc: [],
+      requests: [],
+      isHomepageRefresh: true,
+    });
+
+    const screen = renderWithStoreAndRouter(
+      <AppointmentList featureHomepageRefresh />,
+      {
+        initialState,
+      },
+    );
+
+    const oldPrint = global.window.print;
+    const printSpy = sinon.spy();
+    global.window.print = printSpy;
+
+    fireEvent.click(await screen.findByText(/Details/));
+
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0]).to.equal(url),
+    );
+
+    expect(screen.getByRole('link', { name: /Manage appointments/ })).to.be.ok;
+
+    await screen.findByText(
+      new RegExp(
+        startDate.tz('America/Denver').format('dddd, MMMM D, YYYY [at] h:mm a'),
+        'i',
+      ),
+    );
+
+    expect(printSpy.notCalled).to.be.true;
+    fireEvent.click(await screen.findByText(/Print/i));
+    expect(printSpy.calledOnce).to.be.true;
+    global.window.print = oldPrint;
+  });
 });
 
 describe('VAOS integration: upcoming ATLAS video appointments', () => {
@@ -758,7 +844,7 @@ describe('VAOS integration: upcoming ATLAS video appointments', () => {
         ),
       }),
     ).to.be.ok;
-    expect(screen.getByRole('link', { name: /Print/ })).to.be.ok;
+    expect(screen.getByText(/Print/)).to.be.ok;
 
     expect(
       screen.findByText(

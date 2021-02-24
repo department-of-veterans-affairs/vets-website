@@ -84,7 +84,6 @@ function RequestedAppointmentDetailsPage({
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isCC = appointment.vaos.isCommunityCare;
-  const isExpressCare = appointment.vaos.isExpressCare;
   const isVideoRequest = isVideoAppointment(appointment);
   const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
   const facilityId = getVAAppointmentLocationId(appointment);
@@ -133,13 +132,10 @@ function RequestedAppointmentDetailsPage({
         {isCC && !isCCRequest && 'Community Care'}
         {!isCC && !!isVideoRequest && 'VA Video Connect'}
         {!isCC && !isVideoRequest && 'VA Appointment'}
-        {isExpressCare && 'Express Care'}
-        {isExpressCare && facility?.name}
       </h2>
 
       {!!facility &&
-        !isCC &&
-        !isExpressCare && (
+        !isCC && (
           <VAFacilityLocation
             facility={facility}
             facilityName={facility?.name}
@@ -159,39 +155,23 @@ function RequestedAppointmentDetailsPage({
           </>
         )}
 
-      {!isExpressCare && (
-        <>
-          <h2 className="vaos-appts__block-label vads-u-margin-bottom--0 vads-u-margin-top--2">
-            Preferred date and time
-          </h2>
-          <ul className="usa-unstyled-list">
-            {appointment.requestedPeriod.map((option, optionIndex) => (
-              <li key={`${appointment.id}-option-${optionIndex}`}>
-                {moment(option.start).format('ddd, MMMM D, YYYY')}{' '}
-                {option.start.includes('00:00:00')
-                  ? TIME_TEXT.AM
-                  : TIME_TEXT.PM}
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
-      {isExpressCare && (
-        <>
-          <h2 className="vads-u-margin-top--2 vaos-appts__block-label">
-            Reason for appointment
-          </h2>
-          <div>{appointment.reason}</div>
-        </>
-      )}
-      {!isExpressCare && (
-        <>
-          <h2 className="vads-u-margin-top--2 vaos-appts__block-label">
-            {appointment.reason}
-          </h2>
-          <div>{message}</div>
-        </>
-      )}
+      <h2 className="vaos-appts__block-label vads-u-margin-bottom--0 vads-u-margin-top--2">
+        Preferred date and time
+      </h2>
+      <ul className="usa-unstyled-list">
+        {appointment.requestedPeriod.map((option, optionIndex) => (
+          <li key={`${appointment.id}-option-${optionIndex}`}>
+            {moment(option.start).format('ddd, MMMM D, YYYY')}{' '}
+            {option.start.includes('00:00:00') ? TIME_TEXT.AM : TIME_TEXT.PM}
+          </li>
+        ))}
+      </ul>
+      <>
+        <h2 className="vads-u-margin-top--2 vaos-appts__block-label">
+          {appointment.reason}
+        </h2>
+        <div>{message}</div>
+      </>
       <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vaos-appts__block-label">
         Your contact details
       </h2>
