@@ -45,7 +45,7 @@ const SubmitLoadingIndicator = ({ submission }) => {
 
   useEffect(
     () => {
-      if (hasAttemptedSubmit === true) {
+      if (hasAttemptedSubmit) {
         setLoading(true);
       }
     },
@@ -55,6 +55,7 @@ const SubmitLoadingIndicator = ({ submission }) => {
   useEffect(
     () => {
       let interval = null;
+
       if (isLoading) {
         interval = setInterval(() => {
           setTimer(seconds => seconds + 1);
@@ -63,7 +64,10 @@ const SubmitLoadingIndicator = ({ submission }) => {
         getLoadingMessage();
       }
 
-      if (timer >= 120) clearInterval(interval);
+      if (timer >= 120) {
+        clearInterval(interval);
+        setLoading(false);
+      }
 
       return () => clearInterval(interval);
     },
@@ -72,7 +76,7 @@ const SubmitLoadingIndicator = ({ submission }) => {
 
   return (
     <>
-      {isLoading && timer < 120 ? (
+      {isLoading ? (
         <div className="loading-container">
           <AlertBox
             content="This may take 15 second up to 2 minutes please do not refresh the browser"
