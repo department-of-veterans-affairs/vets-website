@@ -229,7 +229,7 @@ export const hasMonthYear = (err, fieldData) => {
 export const isWithinServicePeriod = (
   errors,
   fieldData,
-  formData,
+  _formData,
   _schema,
   _uiSchema,
   _index,
