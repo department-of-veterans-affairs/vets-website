@@ -98,7 +98,7 @@ const ResourcesAndSupportSearchApp = () => {
 
   return (
     <div className="usa-grid usa-grid-full">
-      <div className="usa-content vads-u-margin-bottom--0 medium-screen:vads-u-margin-bottom--3">
+      <div className="usa-content vads-u-margin-bottom--0 large-screen:vads-u-margin-bottom--3">
         {errorMessage && (
           <AlertBox
             headline="Something went wrong"
@@ -109,10 +109,10 @@ const ResourcesAndSupportSearchApp = () => {
 
         {articles && (
           <>
-            <h1 className="vads-u-padding-x--1 medium-screen:vads-u-padding-x--0 vads-u-margin-y--0">
+            <h1 className="vads-u-padding-x--1 large-screen:vads-u-padding-x--0 vads-u-margin-y--0">
               Search results
             </h1>
-            <div className="vads-u-padding-x--1 medium-screen:vads-u-padding-x--0">
+            <div className="vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
               <SearchBar
                 onSearch={onSearch}
                 userInput={userInput}
@@ -120,7 +120,7 @@ const ResourcesAndSupportSearchApp = () => {
               />
             </div>
             <p
-              className="vads-u-padding-x--1 medium-screen:vads-u-padding-x--0"
+              className="vads-u-padding-x--1 large-screen:vads-u-padding-x--0"
               id="pagination-summary"
             >
               {paginationSummary}

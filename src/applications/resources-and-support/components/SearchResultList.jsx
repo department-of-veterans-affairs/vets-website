@@ -12,7 +12,7 @@ export default function SearchResultList({
   page,
 }) {
   return (
-    <ul className="usa-unstyled-list vads-u-padding-x--1 medium-screen:vads-u-padding-x--0">
+    <ul className="usa-unstyled-list vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
       {results.map((article, articleIndex) => {
         return (
           <li key={`article-${articleIndex}`}>
