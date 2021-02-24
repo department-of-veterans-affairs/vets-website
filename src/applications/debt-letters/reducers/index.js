@@ -20,6 +20,7 @@ const initialState = {
   debts: [],
   selectedDebt: {},
   debtLinks: [],
+  errors: [],
 };
 
 export const debtsReducer = (state = initialState, action) => {
@@ -42,6 +43,7 @@ export const debtsReducer = (state = initialState, action) => {
         ...state,
         isPending: false,
         isError: true,
+        errors: action.errors,
       };
     case DEBTS_SET_ACTIVE_DEBT:
       return {
