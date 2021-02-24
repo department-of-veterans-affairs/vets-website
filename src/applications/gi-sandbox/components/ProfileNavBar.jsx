@@ -29,10 +29,22 @@ export class ProfileNavBar extends React.Component {
   atTop = () => this.currentSectionIndex() === 0;
   atBottom = () =>
     this.currentSectionIndex() === this.props.profileSections.length - 1;
-  placeholderElementBottom = () =>
-    document.getElementById('profile-nav-placeholder')?.getBoundingClientRect()
-      .bottom;
-  shouldBeStuck = () => this.placeholderElementBottom() <= 0;
+
+  /**
+   * Checking when the bottom of the placeholder is past the height of relevant nav bar fixes issues
+   * with scrolling to the top section
+   * @returns {boolean}
+   */
+  shouldBeStuck = () => {
+    const navBar = this.onDesktop()
+      ? this.profileNavBarDesktop()
+      : this.profileNavBarMobile();
+    return (
+      document
+        .getElementById('profile-nav-placeholder')
+        ?.getBoundingClientRect().bottom <= navBar?.offsetHeight
+    );
+  };
 
   handleScroll = () => {
     if (this.onDesktop()) {
@@ -68,13 +80,20 @@ export class ProfileNavBar extends React.Component {
   scrollToSection = (section, navBar) => {
     this.setState({ currentSection: section });
 
-    let offset = -navBar.offsetHeight - 2;
-    if (!this.shouldBeStuck()) {
+    let offset = -navBar.offsetHeight;
+
+    // this offset calculation should only occur for top section as other sections do not cause the issue
+    // this fixes
+    if (section === this.props.profileSections[0] && !this.shouldBeStuck()) {
       offset = -(navBar.offsetHeight * 2);
       // it's a magic number but it fixes the weird scrolling issue when navbar is unstuck
     }
 
-    scroller.scrollTo(createId(section), getScrollOptions({ offset }));
+    // - 2 magic number to account for borders around the sections
+    scroller.scrollTo(
+      createId(section),
+      getScrollOptions({ offset: offset - 2 }),
+    );
   };
 
   currentSectionIndex = () => {
@@ -95,13 +114,9 @@ export class ProfileNavBar extends React.Component {
     document.getElementById('profile-nav-bar-desktop');
 
   handleDesktopScroll = () => {
-    const jumpLinks = document.getElementById('jump-links');
-    const desktopStuck = this.shouldBeStuck();
-
     this.profileNavBarDesktop().className = this.navBarDesktopClasses(
-      desktopStuck,
+      this.shouldBeStuck(),
     );
-    jumpLinks.className = this.jumpLinkClasses(desktopStuck);
   };
 
   navBarDesktopClasses = (stuck = false) =>
@@ -120,9 +135,8 @@ export class ProfileNavBar extends React.Component {
   profileNavBarMobile = () => document.getElementById('profile-nav-bar-mobile');
 
   handleMobileScroll = () => {
-    const mobileStuck = this.shouldBeStuck();
     this.profileNavBarMobile().className = this.navBarMobileClasses(
-      mobileStuck,
+      this.shouldBeStuck(),
     );
   };
 
