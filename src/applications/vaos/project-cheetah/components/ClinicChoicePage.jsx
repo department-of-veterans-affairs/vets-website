@@ -25,6 +25,7 @@ const uiSchema = {
   },
 };
 const pageKey = 'clinicChoice';
+const pageTitle = 'Choose a clinic';
 export function ClinicChoicePage({
   schema,
   data,
@@ -39,14 +40,12 @@ export function ClinicChoicePage({
   useEffect(() => {
     openClinicPage(pageKey, uiSchema, initialSchema);
     scrollAndFocus();
-    document.title = `Choose a clinic for your Project Cheetah appointment | Veterans Affairs`;
+    document.title = `${pageTitle} | Veterans Affairs`;
   }, []);
 
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">
-        Choose a clinic for your Project Cheetah appointment
-      </h1>
+      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
       Choose a clinic located at:
       {facilityDetails && (
         <div className="vads-u-margin-y--2p5">

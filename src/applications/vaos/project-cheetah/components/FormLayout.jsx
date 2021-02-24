@@ -12,7 +12,7 @@ export default function FormLayout({ children }) {
   return (
     <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--8">
       <Breadcrumbs>
-        <Link to="new-project-cheetah-booking">COVID-19 Vaccination</Link>
+        <Link to="new-project-cheetah-booking">COVID-19 vaccine</Link>
       </Breadcrumbs>
       {location.pathname.endsWith('new-project-cheetah-booking') && (
         <DowntimeNotification
@@ -27,7 +27,7 @@ export default function FormLayout({ children }) {
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           <span className="vaos-form__title vaos-u-margin-bottom--1 vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
-            COVID-19 vaccination
+            COVID-19 vaccine
           </span>
           <ErrorBoundary>{children}</ErrorBoundary>
         </div>

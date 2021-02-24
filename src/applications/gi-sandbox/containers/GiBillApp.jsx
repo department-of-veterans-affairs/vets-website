@@ -4,17 +4,13 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import DowntimeNotification from 'platform/monitoring/DowntimeNotification';
 
-import {
-  enterPreviewMode,
-  exitPreviewMode,
-  fetchConstants,
-} from '../../gi/actions';
+import { enterPreviewMode, exitPreviewMode, fetchConstants } from '../actions';
 import Modals from '../../gi/containers/Modals';
 import PreviewBanner from '../../gi/components/heading/PreviewBanner';
 import GiBillBreadcrumbs from '../../gi/components/heading/GiBillBreadcrumbs';
 import AboutThisTool from '../../gi/components/content/AboutThisTool';
 import ServiceError from '../../gi/components/ServiceError';
-import { useQueryParams } from '../../gi/utils/helpers';
+import { useQueryParams } from '../utils/helpers';
 
 export function GiBillApp({
   children,

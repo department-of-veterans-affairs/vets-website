@@ -34,7 +34,7 @@ function ConfirmationPage({ data, systemId, facilityDetails }) {
       </AlertBox>
       <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
         <h2 className="vads-u-margin-y--0 vads-u-font-size--h3">
-          COVID-19 vaccination
+          COVID-19 vaccine
         </h2>
         First dose
         <br />

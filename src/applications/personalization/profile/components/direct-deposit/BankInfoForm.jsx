@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 import { ACCOUNT_TYPES_OPTIONS } from '../../constants';
 
@@ -67,13 +66,11 @@ function makeSchemas(prefix) {
 }
 
 const BankInfoForm = ({
-  cancelButtonClasses,
+  children,
   formChange,
   formData,
   formPrefix,
   formSubmit,
-  isSaving,
-  onClose,
 }) => {
   const { schema, uiSchema } = makeSchemas(formPrefix);
 
@@ -89,37 +86,17 @@ const BankInfoForm = ({
       onChange={formChange}
       onSubmit={formSubmit}
     >
-      <LoadingButton
-        type="submit"
-        loadingText="saving bank information"
-        className="usa-button-primary vads-u-margin-top--0 vads-u-width--full small-screen:vads-u-width--auto"
-        isLoading={isSaving}
-      >
-        Update
-      </LoadingButton>
-      <button
-        type="button"
-        disabled={isSaving}
-        className={cancelButtonClasses.join(' ')}
-        onClick={onClose}
-        data-qa="cancel-button"
-      >
-        Cancel
-      </button>
+      {children}
     </SchemaForm>
   );
 };
 
 BankInfoForm.propTypes = {
-  // Classes to apply to the form's "cancel" button. Defaults to ['usa-button-secondary']
-  cancelButtonClasses: PropTypes.arrayOf(PropTypes.string).isRequired,
   formChange: PropTypes.func.isRequired,
   formData: PropTypes.object.isRequired,
   // Prefix to apply to all the form's schema fields
   formPrefix: PropTypes.string.isRequired,
   formSubmit: PropTypes.func.isRequired,
-  isSaving: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
 };
 
 BankInfoForm.defaultProps = {
