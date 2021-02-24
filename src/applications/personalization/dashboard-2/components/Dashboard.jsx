@@ -96,8 +96,8 @@ const Dashboard = ({
                 totalDisabilityRating={props.totalDisabilityRating}
               />
             )}
-            <div className="vads-l-grid-container medium-screen:vads-u-padding--2 small-desktop-screen:vads-u-padding--0">
-              <Breadcrumbs>
+            <div className="vads-l-grid-container vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4 small-desktop-screen:vads-u-padding-x--0">
+              <Breadcrumbs className="vads-u-padding-x--0 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
                 <a href="/" key="home">
                   Home
                 </a>
