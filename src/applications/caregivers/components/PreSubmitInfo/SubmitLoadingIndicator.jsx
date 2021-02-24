@@ -5,7 +5,7 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 
 const SubmitLoadingIndicator = ({ submission }) => {
   const [isLoading, setLoading] = useState(false);
-  const [timer, setTimer] = useState(115);
+  const [timer, setTimer] = useState(0);
   const [loadingMessage, setLoadingMessage] = useState(null);
   const hasAttemptedSubmit = submission.hasAttemptedSubmit;
 
