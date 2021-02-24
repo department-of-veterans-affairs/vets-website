@@ -228,7 +228,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                         }}
                         buttonText="Update page"
                         buttonClass="usa-button-primary"
-                        aria-label={ariaLabel}
+                        ariaLabel={ariaLabel}
                       />
                     )}
                   </SchemaForm>
