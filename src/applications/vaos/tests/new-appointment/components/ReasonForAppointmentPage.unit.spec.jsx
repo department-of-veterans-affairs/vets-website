@@ -28,7 +28,7 @@ const initialState = {
   },
 };
 
-describe('VAOS integration: reason for appointment page with a single-site user', () => {
+describe('VAOS <ReasonForAppointmentPage>', () => {
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
 
@@ -63,7 +63,7 @@ describe('VAOS integration: reason for appointment page with a single-site user'
     expect(textBox).to.exist;
     expect(textBox)
       .to.have.attribute('maxlength')
-      .to.equal('100');
+      .to.equal('250');
 
     expect(screen.baseElement).to.contain.text(
       'Tell us the reason for this appointment',
@@ -84,9 +84,9 @@ describe('VAOS integration: reason for appointment page with a single-site user'
 
     await screen.findByLabelText(/Routine or follow-up visit/i);
     fireEvent.click(screen.getByText(/Continue/));
-    expect(await screen.findByRole('alert')).to.contain.text(
-      'Please provide a response',
-    );
+
+    const alerts = await screen.findAllByRole('alert');
+    expect(alerts[0]).to.contain.text('Please provide a response');
   });
 
   it('should show error msg when enter all spaces for VA medical request', async () => {

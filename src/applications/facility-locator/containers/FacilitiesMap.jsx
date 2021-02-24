@@ -5,6 +5,7 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { mapboxToken } from '../utils/mapboxToken';
 import {
+  clearSearchText,
   clearSearchResults,
   fetchVAFacility,
   searchWithBounds,
@@ -12,6 +13,8 @@ import {
   genSearchAreaFromCenter,
   updateSearchQuery,
   mapMoved,
+  geolocateUser,
+  clearGeocodeError,
 } from '../actions';
 import {
   facilitiesPpmsSuppressCommunityCare,
@@ -247,10 +250,10 @@ const FacilitiesMap = props => {
       return;
     }
 
+    // TODO: hide after new search
     if (
       calculateSearchArea() > MAX_SEARCH_AREA ||
-      !props.currentQuery.isValid ||
-      !props.currentQuery.mapMoved
+      !props.currentQuery.isValid
     ) {
       searchAreaControl.style.display = 'none';
       return;
@@ -290,6 +293,7 @@ const FacilitiesMap = props => {
     map.on('dragend', () => {
       props.mapMoved();
       recordPanEvent(map.getCenter(), props.currentQuery);
+      activateSearchAreaControl();
     });
     map.on('zoom', () => {
       const currentZoom = parseInt(map.getZoom(), 10);
@@ -307,6 +311,7 @@ const FacilitiesMap = props => {
       }
 
       lastZoom = currentZoom;
+      activateSearchAreaControl();
     });
   };
 
@@ -381,12 +386,15 @@ const FacilitiesMap = props => {
     return (
       <>
         <SearchControls
+          geolocateUser={props.geolocateUser}
+          clearGeocodeError={props.clearGeocodeError}
           currentQuery={currentQuery}
           onChange={props.updateSearchQuery}
           onSubmit={handleSearch}
           suppressCCP={props.suppressCCP}
           suppressPharmacies={props.suppressPharmacies}
           searchCovid19Vaccine={props.searchCovid19Vaccine}
+          clearSearchText={props.clearSearchText}
         />
         <div id="search-results-title" ref={searchResultTitleRef}>
           <SearchResultsHeader
@@ -474,12 +482,15 @@ const FacilitiesMap = props => {
     return (
       <div className="desktop-container">
         <SearchControls
+          geolocateUser={props.geolocateUser}
+          clearGeocodeError={props.clearGeocodeError}
           currentQuery={currentQuery}
           onChange={props.updateSearchQuery}
           onSubmit={handleSearch}
           suppressCCP={props.suppressCCP}
           suppressPharmacies={props.suppressPharmacies}
           searchCovid19Vaccine={props.searchCovid19Vaccine}
+          clearSearchText={props.clearSearchText}
         />
         <div id="search-results-title" ref={searchResultTitleRef}>
           <SearchResultsHeader
@@ -543,15 +554,6 @@ const FacilitiesMap = props => {
   useEffect(
     () => {
       if (map) {
-        activateSearchAreaControl();
-      }
-    },
-    [props.currentQuery],
-  );
-
-  useEffect(
-    () => {
-      if (map) {
         setMapEventHandlers();
       }
     },
@@ -596,9 +598,8 @@ const FacilitiesMap = props => {
 
     searchWithUrl();
 
-    // TODO - improve the geolocation feature with a more react approach
-    // https://github.com/department-of-veterans-affairs/vets-website/pull/14963
-    if (navigator.geolocation) {
+    // TODO - remove environment flag once the Use My Location link has been approved on staging
+    if (environment.isProduction() && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(currentPosition => {
         const input = document.getElementById('street-city-state-zip');
         if (input && !input.value) {
@@ -714,12 +715,15 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  geolocateUser,
+  clearGeocodeError,
   fetchVAFacility,
   updateSearchQuery,
   genBBoxFromAddress,
   genSearchAreaFromCenter,
   searchWithBounds,
   clearSearchResults,
+  clearSearchText,
   mapMoved,
 };
 export default connect(

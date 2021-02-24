@@ -180,7 +180,11 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     // Trigger provider list loading
     userEvent.click(await screen.findByText(/Choose a provider/i));
-    expect(await screen.findByText(/your address on file:/i)).to.exist;
+    expect(
+      await screen.findByText(
+        /You can choose a provider based on your address on file. Or you can/i,
+      ),
+    ).to.exist;
 
     // Verify provider list count and get load more button
     expect(screen.baseElement).to.contain.text(
@@ -353,7 +357,11 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     // Trigger provider list loading
     userEvent.click(await screen.findByText(/Choose a provider/i));
-    expect(await screen.findByText(/your address on file:/i)).to.exist;
+    expect(
+      await screen.findByText(
+        /You can choose a provider based on your address on file. Or you can/i,
+      ),
+    ).to.exist;
     expect(
       await screen.findByRole('heading', {
         name: /We can’t find any Primary care providers close to you/i,

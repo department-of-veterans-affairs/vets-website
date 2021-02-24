@@ -104,12 +104,12 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
       store,
     });
 
-    await screen.findByText(/COVID-19 vaccination/i);
+    await screen.findByText(/COVID-19 vaccine/i);
     const [pageHeading, descHeading, clinicHeading] = screen.getAllByRole(
       'heading',
     );
     expect(pageHeading).to.contain.text('Review your appointment details');
-    expect(descHeading).to.contain.text('COVID-19 vaccination');
+    expect(descHeading).to.contain.text('COVID-19 vaccine');
     expect(descHeading).to.have.tagName('h2');
 
     expect(screen.baseElement).to.contain.text(
@@ -140,7 +140,7 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
       store,
     });
 
-    await screen.findByText(/COVID-19 vaccination/i);
+    await screen.findByText(/COVID-19 vaccine/i);
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
     await waitFor(() => {
@@ -190,7 +190,7 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
       store,
     });
 
-    await screen.findByText(/COVID-19 vaccination/i);
+    await screen.findByText(/COVID-19 vaccine/i);
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
 

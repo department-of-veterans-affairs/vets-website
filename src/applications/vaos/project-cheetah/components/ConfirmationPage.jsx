@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import moment from '../../lib/moment-tz.js';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event.js';
@@ -13,14 +13,14 @@ import { selectConfirmationPage } from '../redux/selectors.js';
 const pageTitle = 'Your appointment has been scheduled';
 
 function ConfirmationPage({ data, systemId, facilityDetails }) {
-  const history = useHistory();
   useEffect(() => {
-    if (history && !data?.date1) {
-      history.replace('/');
-    }
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
   }, []);
+
+  if (!data?.date1) {
+    return <Redirect to="/" />;
+  }
 
   const { date1 } = data;
 
@@ -34,7 +34,7 @@ function ConfirmationPage({ data, systemId, facilityDetails }) {
       </AlertBox>
       <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
         <h2 className="vads-u-margin-y--0 vads-u-font-size--h3">
-          COVID-19 vaccination
+          COVID-19 vaccine
         </h2>
         First dose
         <br />

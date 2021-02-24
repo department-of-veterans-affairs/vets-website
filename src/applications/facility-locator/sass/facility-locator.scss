@@ -279,6 +279,33 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         }
       }
 
+      #location-input-field {
+        display: flex;
+        flex-direction: column;
+
+        @media(min-width: $small-desktop-screen) {
+          flex-direction: row;
+        }
+      }
+
+      .use-my-location-link {
+        text-decoration: none;
+        margin: 0 0 0 20px;
+
+        @media(max-width: $small-desktop-screen) {
+          margin: 1em 0 1em 0;
+        }
+      }
+
+      .use-my-location-button {
+        width: 18px;
+        height: 18px;
+        background-image: url("/img/location-arrow-solid.svg");
+        background-repeat: no-repeat;
+        background-color: transparent;
+        padding: 0 1.5em 0 0;
+      }
+
       #search-controls-bottom-row {
         @media(min-width: $small-desktop-screen) {
           display: flex;
@@ -578,4 +605,30 @@ button.mapboxgl-ctrl-zoom-out  {
 canvas.mapboxgl-canvas:focus {
   outline: 2px solid $color-gold-light;
   outline-offset: 2px;
+}
+
+.input-clear {
+  position: relative;
+  font-size: 16px;
+
+  @media only screen and (min-width: 980px) {
+    display: inline-block;
+  }
+
+  .clear-button {
+    position: absolute;
+    top: 14px;
+    right: 10px;
+
+    @media only screen and (min-width: 980px) {
+      right: 26px;
+      top: 16px;
+    }
+  }
+
+}
+
+#street-city-state-zip {
+  font-weight: bold;
+  padding-right: 28px;
 }

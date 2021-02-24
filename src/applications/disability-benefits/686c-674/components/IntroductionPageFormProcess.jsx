@@ -2,7 +2,7 @@ import React from 'react';
 
 export const IntroductionPageFormProcess = () => (
   <>
-    <h4>Follow the steps below to apply to add or remove a dependent.</h4>
+    <h4>Follow the steps below to apply to add or remove a dependent</h4>
     <div className="process schemaform-process">
       <ol>
         <li className="process-step list-one">
@@ -48,8 +48,8 @@ export const IntroductionPageFormProcess = () => (
               well as where the student attended last term
             </li>
             <li>
-              Details about what the student will be studying, for example their
-              major
+              Details about what the student will be studying, for example;
+              their major
             </li>
             <li>
               Important term start, and end dates, and expected graduation date
@@ -79,10 +79,11 @@ export const IntroductionPageFormProcess = () => (
             <strong>What if I need help filling out my application?</strong> An
             accredited representative, with a Veterans Service Organization
             (VSO), can help you fill out your application.{' '}
+          </p>
+          <p>
             <a href="/disability-benefits/apply/help/index.html">
               Get help filing your claim
             </a>
-            .
           </p>
         </li>
         <li className="process-step list-two">

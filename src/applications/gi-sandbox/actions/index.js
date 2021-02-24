@@ -20,6 +20,19 @@ export const SET_PAGE_TITLE = 'SET_PAGE_TITLE';
 export const SET_VERSION = 'SET_VERSION';
 export const UPDATE_ROUTE = 'UPDATE_ROUTE';
 
+export function enterPreviewMode(version) {
+  return {
+    type: ENTER_PREVIEW_MODE,
+    version,
+  };
+}
+
+export function exitPreviewMode() {
+  return {
+    type: EXIT_PREVIEW_MODE,
+  };
+}
+
 export function setPageTitle(title) {
   return {
     type: SET_PAGE_TITLE,
@@ -36,19 +49,6 @@ export function showModal(modal) {
 
 export function hideModal() {
   return showModal(null);
-}
-
-export function enterPreviewMode(version) {
-  return {
-    type: ENTER_PREVIEW_MODE,
-    version,
-  };
-}
-
-export function exitPreviewMode() {
-  return {
-    type: EXIT_PREVIEW_MODE,
-  };
 }
 
 function withPreview(dispatch, action) {

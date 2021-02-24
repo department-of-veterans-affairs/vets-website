@@ -4,7 +4,7 @@ import Telephone from '@department-of-veterans-affairs/component-library/Telepho
 import {
   getClinicFromAppointment,
   getFacilityFromAppointment,
-} from '../../utils';
+} from '../../../shared/utils';
 
 export default function ConfirmationPageFooter(props) {
   const { appointment } = props;

@@ -12,10 +12,7 @@ import SearchResult from '../../components/SearchResult';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { fetchResultsThunk, toggleSearchResultsToolTip } from '../../actions';
 import { focusElement } from 'platform/utilities/ui';
-import {
-  getYellowRibbonAppState,
-  selectShowYellowRibbonEnhancements,
-} from '../../helpers/selectors';
+import { getYellowRibbonAppState } from '../../helpers/selectors';
 import { TOOL_TIP_CONTENT, TOOL_TIP_LABEL } from '../../constants';
 
 export class SearchResults extends Component {
@@ -37,7 +34,6 @@ export class SearchResults extends Component {
     ),
     page: PropTypes.number.isRequired,
     perPage: PropTypes.number.isRequired,
-    showYellowRibbonEnhancements: PropTypes.bool,
     totalResults: PropTypes.number,
     // mapDispatchToProps
     toggleAlertToolTip: PropTypes.func,
@@ -112,6 +108,10 @@ export class SearchResults extends Component {
 
     // Derive the state values from our query params.
     const searchQuery = queryParams.get('name') || '';
+    const city = queryParams.get('city') || '';
+    const contributionAmount = queryParams.get('contributionAmount') || '';
+    const numberOfStudents = queryParams.get('numberOfStudents') || '';
+    const stateOrTerritory = queryParams.get('state') || '';
 
     const { page, perPage, totalResults } = this.props;
 
@@ -119,10 +119,10 @@ export class SearchResults extends Component {
       event: 'onsite-search-results-click',
       'search-result-type': 'cta',
       'search-filters-list': {
-        stateOrTerritory: school?.state || undefined,
-        city: school?.city || undefined,
-        contributionAmount: school?.contributionAmount || undefined,
-        numberOfStudents: school?.numberOfStudents || undefined,
+        stateOrTerritory: stateOrTerritory || undefined,
+        city: city || undefined,
+        contributionAmount: contributionAmount || undefined,
+        numberOfStudents: numberOfStudents || undefined,
       },
       'search-results-top-recommendation': undefined,
       'search-selection': 'Yellow Ribbon',
@@ -133,6 +133,7 @@ export class SearchResults extends Component {
       'search-total-result-pages': Math.ceil(totalResults / perPage),
       'search-result-position': school?.positionInResults,
       'search-result-page': page,
+      'search-result-chosen-yellow-ribbon-school-attributes': school,
     });
   };
 
@@ -150,7 +151,6 @@ export class SearchResults extends Component {
       page,
       perPage,
       results,
-      showYellowRibbonEnhancements,
       totalResults,
       toggleAlertToolTip,
     } = this.props;
@@ -186,25 +186,13 @@ export class SearchResults extends Component {
           >
             No schools found for your search criteria.
           </h2>
-
-          {showYellowRibbonEnhancements ? (
-            <AlertBox
-              content={TOOL_TIP_CONTENT}
-              headline={TOOL_TIP_LABEL}
-              onCloseAlert={toggleAlertToolTip}
-              isVisible={isToolTipOpen}
-              status="info"
-            />
-          ) : (
-            <>
-              <p>To find participating schools:</p>
-              <ul>
-                <li>Double-check your spelling.</li>
-                <li>Try fewer search terms.</li>
-                <li>Try more general search terms.</li>
-              </ul>
-            </>
-          )}
+          <AlertBox
+            content={TOOL_TIP_CONTENT}
+            headline={TOOL_TIP_LABEL}
+            onCloseAlert={toggleAlertToolTip}
+            isVisible={isToolTipOpen}
+            status="info"
+          />
         </>
       );
     }
@@ -226,15 +214,13 @@ export class SearchResults extends Component {
           </span>
           {resultsEndNumber} of {totalResults} results
         </h2>
-        {showYellowRibbonEnhancements && (
-          <AlertBox
-            content={TOOL_TIP_CONTENT}
-            headline={TOOL_TIP_LABEL}
-            isVisible={isToolTipOpen}
-            onCloseAlert={toggleAlertToolTip}
-            status="info"
-          />
-        )}
+        <AlertBox
+          content={TOOL_TIP_CONTENT}
+          headline={TOOL_TIP_LABEL}
+          isVisible={isToolTipOpen}
+          onCloseAlert={toggleAlertToolTip}
+          status="info"
+        />
 
         {/* Table of Results */}
         <ul
@@ -271,7 +257,6 @@ const mapStateToProps = state => ({
   results: getYellowRibbonAppState(state).results,
   page: getYellowRibbonAppState(state).page,
   perPage: getYellowRibbonAppState(state).perPage,
-  showYellowRibbonEnhancements: selectShowYellowRibbonEnhancements(state),
   totalResults: getYellowRibbonAppState(state).totalResults,
 });
 

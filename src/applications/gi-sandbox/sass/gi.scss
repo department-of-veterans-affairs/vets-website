@@ -10,6 +10,13 @@
 @import "partials/gi-profile-page";
 
 .gi-app {
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+
   div.military-status-info {
     font-size: 0.9em;
     padding: 1em;
@@ -97,12 +104,6 @@
 
   nav {
     margin-left: 0.5rem;
-  }
-
-  @media (max-width: 481px) {
-    .about-this-tool-mobile {
-      padding-left: 20px;
-    }
   }
 
   .gibct-legend {
@@ -321,5 +322,44 @@
 
   .position--relative {
     position: relative;
+  }
+
+
+  .far.disabled, .fa.disabled {
+    opacity: 0.5;
+  }
+
+  .mobile-only {
+     display: none;
+   }
+
+  .nav-bar-mobile-only {
+    display: none;
+  }
+
+  @include media-maxwidth($medium-screen - 1) {
+    .desktop-only {
+      display: none;
+    }
+
+    .mobile-only {
+      display: block;
+    }
+  }
+  @include media-maxwidth($nav-width - 1) {
+    .nav-bar-desktop-only {
+      display: none;
+    }
+
+    .nav-bar-mobile-only {
+      display: block;
+    }
+
+  }
+
+  @media (max-width: 481px) {
+    .about-this-tool-mobile {
+      padding-left: 20px;
+    }
   }
 }

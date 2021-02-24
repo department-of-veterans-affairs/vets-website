@@ -8,6 +8,8 @@ export const QUERY_LIFESPAN = 3600000;
 
 export const PAGE_TITLE = 'GI Bill® CT Redesign Sandbox';
 
+export const NAV_WIDTH = 951;
+
 export const ariaLabels = Object.freeze({
   learnMore: {
     preferredProvider: 'Learn more about Preferred providers',

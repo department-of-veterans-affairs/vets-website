@@ -157,9 +157,7 @@ const formConfig = {
           path: 'veteran-information/veteran-home-address',
           title: 'Home address',
           initialData: {},
-          depends: formData =>
-            formData['view:hasMultipleAddress'] &&
-            !formData['view:doesMailingMatchHomeAddress'],
+          depends: formData => !formData['view:doesMailingMatchHomeAddress'],
           uiSchema: veteranHomeAddress.uiSchema,
           schema: veteranHomeAddress.schema,
         },

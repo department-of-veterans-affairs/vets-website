@@ -12,7 +12,7 @@ import { CALENDAR_INDICATOR_TYPES } from '../../utils/constants';
 import DateTimeRequestOptions from './DateTimeRequestOptions';
 
 const pageKey = 'requestDateTime';
-const pageTitle = 'Choose a day and time for your appointment';
+const pageTitle = 'Choose an appointment day and time';
 
 const maxSelections = 3;
 
@@ -121,8 +121,9 @@ export function DateTimeRequestPage({
     <div className="vaos-form__detailed-radio">
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
       <p>
-        You can choose up to 3 dates. A scheduling coordinator will call you to
-        schedule the best time for your appointment.
+        Choose your preferred date and time for this appointment. You can
+        request up to 3 dates. A scheduling coordinator will call you to
+        schedule your appointment.
       </p>
       <CalendarWidget
         multiSelect

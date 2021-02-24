@@ -7,7 +7,7 @@ import { renderAdditionalInfo } from '../../debt-letters/const/diary-codes';
 import moment from 'moment';
 
 const DebtRepayment = ({ formData: { fsrDebts } }) => {
-  const index = window.location.href.slice(-1);
+  let index = Number(window.location.href.slice(-1));
   const debt = fsrDebts[index];
   const mostRecentHistory = head(debt.debtHistory);
   const firstNotice = tail(debt.debtHistory);
@@ -25,20 +25,24 @@ const DebtRepayment = ({ formData: { fsrDebts } }) => {
   );
   return (
     <>
-      <h4>Debt repayment options (1 of 3)</h4>
+      <h4>
+        Debt repayment or relief options ({++index} of {fsrDebts.length})
+      </h4>
       <div className="usa-alert background-color-only vads-u-margin-bottom--5">
         <div className="vads-u-margin-bottom--2">
-          <h4 className="vads-u-margin--0">{debtCardHeading}</h4>
+          <h4 className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+            {debtCardHeading}
+          </h4>
           <span>
             Updated on {moment(mostRecentHistory.date).format('MMMM D, YYYY')}
           </span>
         </div>
-        <div className="vads-u-margin-bottom--1">
+        <div>
           <strong>Amount owed: </strong>
           {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
         </div>
         <div className="vads-u-margin-bottom--1">{additionalInfo.status}</div>
-        <div className="vads-u-margin-bottom--1">
+        <div className="vads-u-margin-top--2 vads-u-margin-bottom--1">
           <strong>Date of first notice: </strong>
           {moment(firstNotice.date).format('MMMM D, YYYY')}
         </div>
