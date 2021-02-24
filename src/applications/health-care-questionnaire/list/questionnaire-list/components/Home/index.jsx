@@ -29,7 +29,7 @@ import { sortQuestionnairesByStatus } from '../../../utils';
 import { path, todoPath, completedPath } from './routes';
 import ShowErrorStatus from '../Messages/ShowErrorStatus';
 
-const USE_MOCK_DATA = window.Cypress || environment.isLocalhost(); // || environment.isStaging();
+const USE_MOCK_DATA = window.Cypress; // || environment.isLocalhost(); // || environment.isStaging();
 
 const Home = props => {
   const {
