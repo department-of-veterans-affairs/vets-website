@@ -131,7 +131,7 @@ export const routeOptions = [
   },
   {
     route: '/526/es/purple',
-    expectedText: `${expectTextbyLanguage.en}`,
+    expectedText: `${expectTextbyLanguage.es}`,
     title: 'Route /526/es/purple (expect Spanish)',
   },
 ];
