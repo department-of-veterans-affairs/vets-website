@@ -5,7 +5,7 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 
 const SubmitLoadingIndicator = ({ submission }) => {
   const [isLoading, setLoading] = useState(false);
-  const [timer, setTimer] = useState(0);
+  const [timer, setTimer] = useState(115);
   const [loadingMessage, setLoadingMessage] = useState(null);
   // eslint-disable-next-line no-console
   console.log('submission: ', submission);
@@ -76,7 +76,7 @@ const SubmitLoadingIndicator = ({ submission }) => {
 
   return (
     <>
-      {isLoading ? (
+      {isLoading && (
         <div className="loading-container">
           <AlertBox
             content="This may take 15 second up to 2 minutes please do not refresh the browser"
@@ -92,7 +92,7 @@ const SubmitLoadingIndicator = ({ submission }) => {
             </p>
           </div>
         </div>
-      ) : null}
+      )}
     </>
   );
 };
