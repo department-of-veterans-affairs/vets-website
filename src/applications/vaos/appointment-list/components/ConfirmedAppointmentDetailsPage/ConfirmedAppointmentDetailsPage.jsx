@@ -149,7 +149,7 @@ function ConfirmedAppointmentDetailsPage({
                 </div>
               )}
 
-            <div className="vads-u-margin-top--3 vaos-appts__block-label">
+            <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
               <i
                 aria-hidden="true"
                 className="far fa-calendar vads-u-margin-right--1"
@@ -163,7 +163,7 @@ function ConfirmedAppointmentDetailsPage({
               />
             </div>
 
-            <div className="vads-u-margin-top--2 vaos-appts__block-label">
+            <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
               <i
                 aria-hidden="true"
                 className="fas fa-print vads-u-margin-right--1"
@@ -173,7 +173,7 @@ function ConfirmedAppointmentDetailsPage({
               </button>
             </div>
 
-            <div className="vads-u-margin-top--2 vaos-appts__block-label">
+            <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
               <i
                 aria-hidden="true"
                 className="fas fa-clock vads-u-margin-right--1"
@@ -182,7 +182,7 @@ function ConfirmedAppointmentDetailsPage({
             </div>
 
             {showCancelButton && (
-              <div className="vads-u-margin-top--2 vaos-appts__block-label">
+              <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
                 <i
                   aria-hidden="true"
                   className="fas fa-times vads-u-margin-right--1 vads-u-font-size--lg"
