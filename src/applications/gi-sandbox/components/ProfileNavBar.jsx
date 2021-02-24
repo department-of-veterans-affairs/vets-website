@@ -107,11 +107,7 @@ export class ProfileNavBar extends React.Component {
   navBarDesktopClasses = (stuck = false) =>
     classNames('profile-nav-bar', 'nav-bar-desktop-only', {
       'profile-nav-bar-stuck': stuck,
-      row: !stuck,
     });
-
-  jumpLinkClasses = (stuck = false) =>
-    classNames('row', { 'vads-u-margin--0': !stuck });
 
   jumpLinkClickedDesktop = e => {
     e.preventDefault();
@@ -183,7 +179,7 @@ export class ProfileNavBar extends React.Component {
           id="profile-nav-bar-desktop"
           className={this.navBarDesktopClasses(stuck)}
         >
-          <div id="jump-links" className={this.jumpLinkClasses(stuck)}>
+          <div id="jump-links" className="row">
             {this.props.profileSections.map(section => (
               <span
                 className="vads-u-margin-right--1p5"
