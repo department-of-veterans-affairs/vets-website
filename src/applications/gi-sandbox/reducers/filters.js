@@ -12,6 +12,7 @@ const INITIAL_STATE = Object.freeze({
     fourYear: true,
     twoYear: true,
   },
+  major: '',
 });
 
 export default function(state = INITIAL_STATE, action) {

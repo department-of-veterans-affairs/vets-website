@@ -31,34 +31,36 @@ const Dropdown = ({
 
   return (
     <div className={[className, disabledClass]} id={dropdownId}>
-      {labelElement}
-      <select
-        className={hideArrowsClass}
-        id={name}
-        name={name}
-        alt={alt}
-        value={value}
-        onChange={onChange}
-        disabled={disabled}
-        onFocus={() => onFocus(dropdownId)}
-      >
-        {options.map(
-          ({ optionValue, optionLabel }) =>
-            optionLabel && (
-              <option
-                key={optionValue}
-                value={optionValue}
-                className={
-                  optionValue === value
-                    ? 'vads-u-font-weight--bold'
-                    : 'vads-u-font-weight--normal'
-                }
-              >
-                {optionLabel}
-              </option>
-            ),
-        )}
-      </select>
+      {label && labelElement}
+      <label className="wrap vads-u-margin--0">
+        <select
+          className={hideArrowsClass}
+          id={name}
+          name={name}
+          alt={alt}
+          value={value}
+          onChange={onChange}
+          disabled={disabled}
+          onFocus={() => onFocus(dropdownId)}
+        >
+          {options.map(
+            ({ optionValue, optionLabel }) =>
+              optionLabel && (
+                <option
+                  key={optionValue}
+                  value={optionValue}
+                  className={
+                    optionValue === value
+                      ? 'vads-u-font-weight--bold'
+                      : 'vads-u-font-weight--normal'
+                  }
+                >
+                  {optionLabel}
+                </option>
+              ),
+          )}
+        </select>
+      </label>
     </div>
   );
 };
@@ -66,7 +68,7 @@ const Dropdown = ({
 Dropdown.propTypes = {
   visible: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   options: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string,

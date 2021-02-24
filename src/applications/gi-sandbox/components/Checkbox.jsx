@@ -22,10 +22,9 @@ const Checkbox = ({
 
   return (
     <div
-      className={classNames(
-        className,
-        `form-checkbox${hasErrors ? ' usa-input-error' : ''}`,
-      )}
+      className={classNames(className, 'form-checkbox', {
+        'usa-input-error': hasErrors,
+      })}
     >
       <input
         aria-describedby={errorSpanId}

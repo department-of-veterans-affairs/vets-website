@@ -6,28 +6,47 @@ const AccordionDropdown = ({
   buttonOnClick,
   displayCancel,
   label,
+  name,
+  onOpen,
+  openName,
 }) => {
   const [expanded, setExpanded] = useState(false);
+  const wrongOpenName = openName !== name && onOpen && name;
+  const displayButton = buttonLabel && buttonOnClick;
+  const isOpen = expanded && !wrongOpenName;
 
-  const toggleExpanded = () => setExpanded(!expanded);
+  if (wrongOpenName && expanded) {
+    setExpanded(false);
+  }
+
+  const toggleExpanded = () => {
+    setExpanded(!expanded);
+
+    if (!expanded && onOpen) {
+      onOpen(name);
+    }
+  };
 
   return (
-    <div className="vads-u-background-color--white">
-      <div onClick={toggleExpanded} className="vads-u-background-color--white">
-        {label} V
+    <div className="accordion-dropdown">
+      <div
+        className="vads-u-padding-x--1p5 vads-u-padding-y--1"
+        onClick={toggleExpanded}
+      >
+        <div className="opener">
+          <label>{label}</label>
+        </div>
       </div>
-      {expanded && (
-        <div
-          style={{ position: 'absolute', zIndex: 100 }}
-          className="vads-u-border--1px vads-u-background-color--white"
-        >
+
+      {isOpen && (
+        <div className="accordion-dropdown-out">
           <form>
             {children}
 
-            {displayCancel && <span onClick={toggleExpanded}>Cancel</span>}
+            <div className="footer-controls">
+              {displayCancel && <span onClick={toggleExpanded}>Cancel</span>}
 
-            {buttonLabel &&
-              buttonOnClick && (
+              {displayButton && (
                 <button
                   type="button"
                   id="update-benefits-button"
@@ -37,6 +56,7 @@ const AccordionDropdown = ({
                   {buttonLabel}
                 </button>
               )}
+            </div>
           </form>
         </div>
       )}

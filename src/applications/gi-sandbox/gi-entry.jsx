@@ -1,5 +1,5 @@
 import 'platform/polyfills';
-import './sass/gi-sandbox.scss';
+import './sass/gi.scss';
 
 import startApp from 'platform/startup/router';
 import { buildRoutes } from './routes';
