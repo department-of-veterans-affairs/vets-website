@@ -195,9 +195,9 @@ export class SearchMenu extends React.Component {
 
   formatSuggestion = suggestion => {
     if (!suggestion || !this.state.userInput) {
-      return '';
+      return suggestion;
     }
-    const lowerSuggestion = suggestion.toLowerCase();
+    const lowerSuggestion = suggestion?.toLowerCase();
     const lowerQuery = this.state.userInput?.toLowerCase();
     if (lowerSuggestion.includes(lowerQuery)) {
       return (
