@@ -81,3 +81,9 @@
     position: static;
   }
 }
+
+@media print {
+  .vaos-hide-for-print {
+    display: none !important;
+  }
+}

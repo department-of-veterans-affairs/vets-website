@@ -19,13 +19,25 @@ export function captureError(
       if (extraData) {
         scope.setExtra('extraData', extraData);
       }
-      const errorTitle =
-        customTitle ||
-        err?.errors?.[0]?.title ||
-        err?.issue?.[0]?.diagnostics ||
-        err?.errors?.[0]?.code ||
-        err?.issue?.[0]?.code ||
-        err;
+
+      let errorTitle;
+
+      // If error is a 401, force that into its own bucket
+      if (err?.errors?.[0]?.code === '401' || err?.issue?.[0]?.code === '401') {
+        errorTitle =
+          err?.errors?.[0]?.title ||
+          err?.issue?.[0]?.diagnostics ||
+          'Not authorized';
+      } else {
+        errorTitle =
+          customTitle ||
+          err?.errors?.[0]?.title ||
+          err?.issue?.[0]?.diagnostics ||
+          err?.errors?.[0]?.code ||
+          err?.issue?.[0]?.code ||
+          err;
+      }
+
       const message = `vaos_server_error${errorTitle ? `: ${errorTitle}` : ''}`;
       eventErrorKey = message;
       // the apiRequest helper returns the errors array, instead of an exception
