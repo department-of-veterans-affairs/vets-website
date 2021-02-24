@@ -16,9 +16,7 @@ export const ErrorMessage = () => (
         You can't view information about your current debts because something
         went wrong on our end.
       </p>
-      <p className="vads-u-margin-bottom--1">
-        <strong>What you can do</strong>
-      </p>
+      <h4>What you can do</h4>
       <p className="vads-u-font-family--sans vads-u-margin-y--0">
         You're still able to download your debt letters from the list below. If
         you need help resolving a debt, or you would like to get information
