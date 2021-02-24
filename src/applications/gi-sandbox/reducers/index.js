@@ -4,7 +4,6 @@ import FilterReducer from './filters';
 import ModalDisplayReducer from './modals';
 import PreviewModeReducer from './preview';
 import ProfileReducer from './profile';
-import SearchReducer from './search';
 
 const rootReducer = {
   constants: CalculatorConstantsReducer,
@@ -13,7 +12,6 @@ const rootReducer = {
   modals: ModalDisplayReducer,
   preview: PreviewModeReducer,
   profile: ProfileReducer,
-  search: SearchReducer,
 };
 
 export default rootReducer;

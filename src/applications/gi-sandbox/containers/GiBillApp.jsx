@@ -13,7 +13,6 @@ export function GiBillApp({
   dispatchExitPreviewMode,
   dispatchFetchConstants,
   preview,
-  search,
 }) {
   const queryParams = useQueryParams();
   const version = queryParams.get('version');
@@ -41,7 +40,7 @@ export function GiBillApp({
     <div className="gi-app">
       <div className="row">
         <div className="columns small-12">
-          <GiBillBreadcrumbs searchQuery={search.Query} />
+          <GiBillBreadcrumbs />
           {children}
           <Modals />
         </div>
@@ -55,11 +54,10 @@ GiBillApp.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const { constants, preview, search } = state;
+  const { constants, preview } = state;
   return {
     constants,
     preview,
-    search,
   };
 };
 
