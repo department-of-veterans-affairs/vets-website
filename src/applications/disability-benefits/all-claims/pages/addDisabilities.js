@@ -36,7 +36,7 @@ export const uiSchema = {
       viewField: NewDisability,
       reviewTitle: 'New Conditions',
       itemName: 'Condition',
-      includeIndexInTitle: true,
+      itemAriaLabel: data => data.condition,
       includeRequiredLabelInTitle: true,
     },
     // Ideally, this would show the validation on the array itself (or the name
@@ -86,7 +86,8 @@ export const uiSchema = {
       // disabled until design changes have been approved
       'ui:objectViewField': ConditionReviewField,
       'ui:options': {
-        ariaLabelForEditButtonOnReview: 'Edit New condition',
+        itemAriaLabel: data => data.condition,
+        itemName: 'New condition',
       },
     },
   },
