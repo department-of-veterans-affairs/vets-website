@@ -224,7 +224,7 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
           const pluralizedErrors =
             json.errors.length > 1 ? 'errors' : 'an error';
           throw new Error(
-            `${queryName} has ${pluralizedErrors} in its query.\nThis is likely happening in the file ${queryName}.graphql.js.\nThis is the query that has ${pluralizedErrors}:${query}`,
+            `${queryName} has ${pluralizedErrors} in its query.\nThis is likely happening in the file ${queryName}.graphql.js.\nThis is the query that has ${pluralizedErrors}:\n${query}`,
           );
         }
 
