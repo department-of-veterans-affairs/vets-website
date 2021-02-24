@@ -6,6 +6,12 @@ import { scrollerTo } from '../lib';
 import { resultText } from '../config/text';
 
 function Complete({ children, selectedLanguage, selectedColors }) {
+  // If a color other than default is specified, include the name on the results screen.
+  let groupName = '';
+  if (selectedColors.name !== '') {
+    groupName = `Group: ${selectedColors.name}`;
+  }
+
   return (
     <div
       style={{
@@ -13,8 +19,8 @@ function Complete({ children, selectedLanguage, selectedColors }) {
         color: `${selectedColors.font}`,
       }}
     >
-      <div className="vads-u-font-size--xl vads-u-font-weight--bold">
-        {selectedColors.name}
+      <div className="vads-u-font-size--lg vads-u-font-weight--bold">
+        {groupName}
       </div>
       {children}
       <div className="covid-screener-date vads-u-font-weight--bold">
@@ -26,8 +32,8 @@ function Complete({ children, selectedLanguage, selectedColors }) {
         <div className="vads-u-font-size--xl">{moment().format('h:mm a')}</div>
       </div>
       {resultText.completeText[selectedLanguage]}
-      <div className="vads-u-font-size--xl vads-u-font-weight--bold">
-        {selectedColors.name}
+      <div className="vads-u-font-size--lg vads-u-font-weight--bold">
+        {groupName}
       </div>
     </div>
   );
