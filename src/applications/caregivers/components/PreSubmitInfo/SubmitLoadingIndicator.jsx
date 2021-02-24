@@ -7,15 +7,10 @@ const SubmitLoadingIndicator = ({ submission }) => {
   const [isLoading, setLoading] = useState(false);
   const [timer, setTimer] = useState(115);
   const [loadingMessage, setLoadingMessage] = useState(null);
-  // eslint-disable-next-line no-console
-  console.log('submission: ', submission);
   const hasAttemptedSubmit = submission.hasAttemptedSubmit;
 
   const getLoadingMessage = useCallback(
     () => {
-      // eslint-disable-next-line no-console
-      console.log('timer: ', timer);
-
       switch (true) {
         case timer >= 0 && timer < 15:
           setLoadingMessage('Still loading your application... 👋🏼');
