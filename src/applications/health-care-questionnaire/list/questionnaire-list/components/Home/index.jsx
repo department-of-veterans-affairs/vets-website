@@ -29,6 +29,8 @@ import { sortQuestionnairesByStatus } from '../../../utils';
 import { path, todoPath, completedPath } from './routes';
 import ShowErrorStatus from '../Messages/ShowErrorStatus';
 
+const USE_MOCK_DATA = window.Cypress || environment.isLocalhost(); // || environment.isStaging();
+
 const Home = props => {
   const {
     user,
@@ -38,11 +40,12 @@ const Home = props => {
     setApiError,
   } = props;
   const [apiDidError, setApiDidError] = useState(false);
+  const [useMockData, setUseMockData] = useState(USE_MOCK_DATA);
   useEffect(
     () => {
       // call the API
       setLoading();
-      loadQuestionnaires()
+      loadQuestionnaires({ useMockData })
         .then(response => {
           const { data } = response;
           // load data in to redux
@@ -53,7 +56,7 @@ const Home = props => {
           setApiError();
         });
     },
-    [setLoading, setQuestionnaireData, setApiError],
+    [setLoading, setQuestionnaireData, setApiError, useMockData],
   );
   return (
     <RequiredLoginView
@@ -72,6 +75,7 @@ const Home = props => {
             and any you need to fill out before your upcoming appointment. You
             can also print a copy of questionnaires you've completed.
           </p>
+
           {isLoading ? (
             <>
               <LoadingIndicator message="Loading your questionnaires." />
@@ -92,6 +96,13 @@ const Home = props => {
             </ShowErrorStatus>
           )}
           <GetHelpFooter />
+          {!environment.isProduction() && (
+            <>
+              <button onClick={() => setUseMockData(d => !d)}>
+                Toggle Mock Data
+              </button>
+            </>
+          )}
         </div>
       </DowntimeNotification>
     </RequiredLoginView>
