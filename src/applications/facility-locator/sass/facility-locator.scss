@@ -630,3 +630,10 @@ canvas.mapboxgl-canvas:focus {
   font-weight: bold;
   padding-right: 28px;
 }
+
+// Make focus styles on the Medallia 'Feedback' button consistent with focus styles in the survey
+.nebula_image_button.wcagOutline:focus {
+  outline: 2px solid rgb(249, 198, 66) !important;
+  outline-offset: 2px !important;
+  transition: none !important;
+}
