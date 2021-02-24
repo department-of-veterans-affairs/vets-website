@@ -8,20 +8,6 @@ const {
   getImageCrop,
 } = require('./helpers');
 const { mapKeys, camelCase } = require('lodash');
-const assert = require('assert');
-const moment = require('moment');
-
-function toUtc(timeString, withExplicitUtc = true) {
-  const time = moment.utc(timeString);
-  assert(
-    time.isValid(),
-    `Expected timeString to be a moment-parsable string. Found ${timeString}`,
-  );
-  const formatString = withExplicitUtc
-    ? 'YYYY-MM-DD HH:mm:ss [UTC]'
-    : 'YYYY-MM-DD[T]HH:mm:ss';
-  return time.format(formatString);
-}
 
 const transform = entity => ({
   entityType: 'node',
@@ -46,15 +32,6 @@ const transform = entity => ({
     : null,
   fieldBody: {
     processed: getWysiwygString(getDrupalValue(entity.fieldBody)),
-  },
-  // This field is deprecated and can probably be removed
-  fieldDate: {
-    startDate: toUtc(entity.fieldDate[0]?.value),
-    value: toUtc(entity.fieldDate[0]?.value, false),
-    // eslint-disable-next-line camelcase
-    endDate: toUtc(entity.fieldDate[0]?.end_value),
-    // eslint-disable-next-line camelcase
-    endValue: toUtc(entity.fieldDate[0]?.end_value, false),
   },
   // The templates expect timestamps, like we get from graphql,
   // but the cms-export gives us UTC dates.
@@ -101,13 +78,11 @@ const transform = entity => ({
 module.exports = {
   filter: [
     'title',
-    // 'uid',
     'changed',
     'path',
     'field_additional_information_abo',
     'field_address',
     'field_body',
-    'field_date',
     'field_datetime_range_timezone',
     'field_description',
     'field_event_cost',

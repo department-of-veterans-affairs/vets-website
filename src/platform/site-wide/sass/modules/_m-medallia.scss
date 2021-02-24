@@ -16,23 +16,6 @@
   background-color: $color-blue !important;
 }
 
-/* Update rating button shape */
-.neb-rating-html-implementation
-  neb-rating
-  .neb-rating.numbers
-  label.rating-label,
-.neb-rating-html-implementation
-  neb-rating
-  .neb-rating.numbersCircle
-  label.rating-label,
-.neb-rating-html-implementation
-  neb-rating
-  .neb-rating.numbersSquare
-  .neb-rating-value
-  label.rating-label {
-  border-radius: 10px !important;
-}
-
 /* 150px-wide container div for "Very Dissatisfied" and "Very Satisfied" spans */
 .ng-scope .edge-labels {
   display: flex;
@@ -52,16 +35,105 @@
   width: 50px;
 }
 
-/* Hide Powered By Medallia and/or footer containing Powered By Medallia */
-/* Intro page of Medallia survey visible on https://staging.va.gov/find-locations/facility/vha_691 */
-/* `.ng-scope .kpl-form-footer` is common to multiple Medallia forms and form pages */
-.ng-scope .kpl-form-footer,
-.ng-scope .footerCls {
-  display: none;
-}
-
 /* Add padding to the bottom of the Medallia form */
 /* `.ng-scope .panel-footer-web` is common to multiple Medallia forms and form pages */
 .ng-scope .panel-footer-web {
   padding-bottom: 1rem;
+}
+
+/* CSS Overrides for the 3-question survey on /find-locations */
+
+/* An excessively specific selector is needed to override !important and inline styles */
+/* The `ng-hide` class only seems to be used in mobile browsers/emulators, but not laptop browsers */
+#liveForm > div > div.row.neb-form-close-btn-container.ng-hide {
+  /* `display: block !important;` is necessary because the `ng-hide` class applies `display: none !important` */
+  display: block !important;
+  /* `margin-top: 0px !important;` is necessary because this element has an inline style of `margin-top: -50px;` */
+  margin-top: 0px !important;
+  /* `font-size: 14px !important;` is necessary because this element has an inline style of `font-size: 35px;` */
+  font-size: 14px !important;
+
+  /* Add `position: relative;` so `position: absolute;` can be applied to the child `button` element */
+  position: relative;
+}
+
+/* The `ng-hide` class only seems to be used in mobile browsers/emulators, but not laptop browsers */
+/* I tried `#liveForm > div > div.neb-show-button-as-link.neb-form-close-btn.pull-right`, but it didn't work */
+/* The intermediary child div selectors seem necessary to reach sufficient specificity */
+#liveForm
+  > div
+  > div.neb-form-close-btn-container.ng-hide
+  > div
+  > button.neb-show-button-as-link {
+  /* Position this button absolutely relative to the `div.row.neb-form-close-btn-container.ng-hide` element */
+  position: absolute;
+
+  /* Give some breathing room above the X-icon */
+  top: 8px;
+
+  /* Give some breathing room to the right of the X-icon */
+  right: calc(0px + 24px);
+
+  /* https://css-tricks.com/rational-z-index-values/ */
+  /* Add `z-index: 100;` to make sure the button is clickable */
+  z-index: 100;
+}
+
+/* https://github.com/department-of-veterans-affairs/va.gov-team/issues/18706#issuecomment-769341669 */
+/* style the focus-circles on radio buttons for the survey page */
+.neb-component
+  .neb-content
+  .neb-native-radio
+  input[type="radio"].wcag-radio-border:focus {
+  border: 2px solid rgb(249, 198, 66) !important;
+  padding: 1px !important;
+}
+
+/* style the focus-box on the invitation page */
+.neb-wcag:focus {
+  outline: 2px solid rgb(249, 198, 66) !important;
+  outline-offset: 2px !important;
+  transition: none !important;
+}
+
+/* style the focus-box on the survey & thank you page */
+.form-outline-wcag,
+#liveForm .kpl_builder.neb-form-wcag *:focus,
+#liveForm .kpl_builder.neb-form-wcag * md-checkbox:focus ._md-container,
+#liveForm .kpl_builder.neb-form-wcag:focus {
+  outline: 2px solid rgb(249, 198, 66) !important;
+  outline-offset: 2px !important;
+  transition: none !important;
+}
+
+/* style the focus-circles on the survey page */
+.neb-form-wcag neb-rating .neb-rating.numbersCircle .neb-rating-value.on-focus,
+.neb-form-wcag neb-rating .neb-rating.numbers .neb-rating-value.on-focus,
+.neb-form-wcag neb-rating .neb-rating.emoticons .neb-rating-value.on-focus,
+.neb-form-wcag neb-rating .neb-rating.smilies .neb-rating-value.on-focus {
+  border: 2px solid rgb(249, 198, 66) !important;
+  padding: 1px !important;
+}
+
+// add padding between 1-5 rating labels
+.neb-rating-value {
+  margin-right: 4px;
+}
+
+/* 
+  Any on-screen element that someone can click, touch, or otherwise interact with should be large enough for reliable interaction. 
+  Consider making sure these elements have a width and height of at least 48dp (48px). 
+  Source: https://support.google.com/accessibility/android/answer/7101858?hl=en
+*/
+.panel-footer-web .btn {
+  height: 48px;
+}
+
+// adjust the ‘X’ close button position
+.neb-form-close-btn {
+  position: relative;
+  top: 40px !important;
+  right: 12px !important;
+  z-index: 9999999;
+  color: #9f9fa4 !important;
 }

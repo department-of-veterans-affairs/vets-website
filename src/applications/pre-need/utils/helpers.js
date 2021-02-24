@@ -393,7 +393,7 @@ export const serviceRecordsUI = {
   items: {
     'ui:order': ['serviceBranch', '*'],
     'ui:options': {
-      ariaLabelForEditButtonOnReview: 'Service Period',
+      itemName: 'Service Period',
     },
     serviceBranch: autosuggest.uiSchema('Branch of service', null, {
       'ui:options': {

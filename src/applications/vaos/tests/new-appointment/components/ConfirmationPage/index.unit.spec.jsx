@@ -35,8 +35,8 @@ describe('VAOS <ConfirmationPage>', () => {
           email: 'joeblow@gmail.com',
           reasonForAppointment: 'routine-follow-up',
           reasonAdditionalInfo: 'Additional info',
-          vaParent: 'var983',
-          vaFacility: 'var983',
+          vaParent: '983',
+          vaFacility: '983',
           clinicId: '455',
           selectedDates: [start.format()],
         },
@@ -51,7 +51,7 @@ describe('VAOS <ConfirmationPage>', () => {
         ],
         parentFacilities: [
           {
-            id: 'var983',
+            id: '983',
             identifier: [
               { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
               {
@@ -62,8 +62,7 @@ describe('VAOS <ConfirmationPage>', () => {
           },
         ],
         clinics: {
-          // eslint-disable-next-line camelcase
-          var983_323: [
+          '983_323': [
             {
               id: '455',
             },
@@ -72,7 +71,7 @@ describe('VAOS <ConfirmationPage>', () => {
         facilities: {
           '323': [
             {
-              id: 'var983',
+              id: '983',
               name: 'Cheyenne VA Medical Center',
               identifier: [
                 { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
@@ -127,7 +126,7 @@ describe('VAOS <ConfirmationPage>', () => {
     };
     const facilityDetails = {
       name: 'CHYSHR-Sidney VA Clinic',
-      id: 'var983',
+      id: '983',
       address: {
         postalCode: '82001-5356',
         city: 'Cheyenne',
@@ -184,7 +183,7 @@ describe('VAOS <ConfirmationPage>', () => {
     };
     const facilityDetails = {
       name: 'CHYSHR-Sidney VA Clinic',
-      id: 'var983',
+      id: '983',
       address: {
         postalCode: '82001-5356',
         city: 'Cheyenne',
@@ -232,7 +231,7 @@ describe('VAOS <ConfirmationPage>', () => {
     };
     const facilityDetails = {
       name: 'CHYSHR-Sidney VA Clinic',
-      id: 'var983',
+      id: '983',
       address: {
         postalCode: '82001-5356',
         city: 'Cheyenne',
@@ -277,7 +276,7 @@ describe('VAOS <ConfirmationPage>', () => {
     };
     const facilityDetails = {
       name: 'CHYSHR-Sidney VA Clinic',
-      id: 'var983',
+      id: '983',
       address: {
         postalCode: '82001-5356',
         city: 'Cheyenne',
@@ -315,6 +314,7 @@ describe('VAOS <ConfirmationPage>', () => {
   it('should format the best time to call correctly when 2 times are selected', async () => {
     const flowType = FLOW_TYPES.REQUEST;
     const data = {
+      typeOfCareId: '323',
       bestTimeToCall: {
         evening: true,
         morning: true,
@@ -348,6 +348,7 @@ describe('VAOS <ConfirmationPage>', () => {
   it('should format the best time to call correctly when 3 times are selected', async () => {
     const flowType = FLOW_TYPES.REQUEST;
     const data = {
+      typeOfCareId: '323',
       bestTimeToCall: {
         evening: true,
         morning: true,
@@ -446,9 +447,7 @@ describe('VAOS <ConfirmationPage>', () => {
 
     // Expect router to route to new appointment page
     await waitFor(() => {
-      expect(screen.history.replace.firstCall.args[0]).to.equal(
-        '/new-appointment',
-      );
+      expect(screen.history.location.pathname).to.equal('/new-appointment');
     });
   });
 });

@@ -255,6 +255,50 @@ describe('Schemaform formState:', () => {
       expect(newSchema.properties.field['ui:collapsed']).to.be.true;
       expect(newSchema).not.to.equal(schema);
     });
+    it('should not set collapsed on expandUnder field with function condition based on formData', () => {
+      const schema = {
+        type: 'object',
+        properties: {
+          field: {},
+          field2: {},
+        },
+      };
+      const uiSchema = {
+        field: {
+          'ui:options': {
+            expandUnder: 'field2',
+            expandUnderCondition: (condition, formData) =>
+              formData.field2 === 'bleh',
+          },
+        },
+      };
+      const data = { field: '', field2: 'bleh' };
+      // condition is met so we expect this field to not be collapsed
+      const newSchema = setHiddenFields(schema, uiSchema, data);
+      expect(newSchema.properties.field['ui:collapsed']).to.be.undefined;
+    });
+    it('should set collapsed on expandUnder field with function condition based on formData', () => {
+      const schema = {
+        type: 'object',
+        properties: {
+          field: {},
+          field2: {},
+        },
+      };
+      const uiSchema = {
+        field: {
+          'ui:options': {
+            expandUnder: 'field2',
+            expandUnderCondition: (condition, formData) =>
+              formData.field2 === 'foo',
+          },
+        },
+      };
+      const data = { field: '', field2: 'bleh' };
+      // condition is not met so we expect this field to be collapsed
+      const newSchema = setHiddenFields(schema, uiSchema, data);
+      expect(newSchema.properties.field['ui:collapsed']).not.to.be.undefined;
+    });
     it('should set collapsed on nested expandUnder field', () => {
       const schema = {
         type: 'object',

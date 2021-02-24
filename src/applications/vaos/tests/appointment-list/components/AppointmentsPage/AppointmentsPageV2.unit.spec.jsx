@@ -1,4 +1,5 @@
 import React from 'react';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent, waitFor } from '@testing-library/dom';
@@ -20,6 +21,7 @@ import {
 import {
   createTestStore,
   renderWithStoreAndRouter,
+  getTimezoneTestDate,
 } from '../../../mocks/setup';
 
 import reducers from '../../../../redux/reducer';
@@ -36,8 +38,14 @@ const initialState = {
 };
 
 describe('VAOS <AppointmentsPageV2>', () => {
-  beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
+  beforeEach(() => {
+    mockFetch();
+    MockDate.set(getTimezoneTestDate());
+  });
+  afterEach(() => {
+    resetFetch();
+    MockDate.reset();
+  });
 
   const userState = {
     profile: {
@@ -140,10 +148,10 @@ describe('VAOS <AppointmentsPageV2>', () => {
       expect(screen.history.push.lastCall.args[0]).to.equal('/past'),
     );
 
-    fireEvent.change(dropdown, { target: { value: 'cancelled' } });
+    fireEvent.change(dropdown, { target: { value: 'canceled' } });
 
     await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0]).to.equal('/cancelled'),
+      expect(screen.history.push.lastCall.args[0]).to.equal('/canceled'),
     );
 
     fireEvent.change(dropdown, { target: { value: 'upcoming' } });
@@ -436,5 +444,30 @@ describe('VAOS <AppointmentsPageV2>', () => {
       ),
     ).to.be.ok;
     expect(screen.getByRole('link', { name: 'Request appointment' }));
+  });
+  it('should show COVID-19 vaccine button', async () => {
+    const defaultState = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingCheetah: true,
+      },
+      user: userState,
+    };
+    const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
+      initialState: defaultState,
+    });
+
+    expect(
+      await screen.findAllByRole('heading', {
+        level: 2,
+        name: /Schedule your first COVID-19 vaccine/,
+      }),
+    );
+
+    expect(
+      screen.getByText(/You may be eligible to receive the COVID-19 vaccine/i),
+    ).to.be.ok;
+
+    expect(screen.getByRole('link', { name: 'Learn more' }));
   });
 });

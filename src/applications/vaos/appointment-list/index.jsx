@@ -6,31 +6,40 @@ import PageLayout from './components/AppointmentsPage/PageLayout';
 import AppointmentsPageV2 from './components/AppointmentsPage/AppointmentsPageV2';
 import AppointmentsPage from './components/AppointmentsPage/index';
 import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
-import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
+import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage/ConfirmedAppointmentDetailsPage';
+import CommunityCareAppointmentDetailsPage from './components/CommunityCareAppointmentDetailsPage';
+import ExpressCareDetailsPage from './components/ExpressCareDetailsPage';
+import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 
 function AppointmentListSection({ featureHomepageRefresh }) {
+  useManualScrollRestoration();
   return (
     <Switch>
-      {featureHomepageRefresh && (
-        <Route
-          path="/va/:id"
-          component={() => (
-            <PageLayout>
-              <ConfirmedAppointmentDetailsPage />
-            </PageLayout>
-          )}
-        />
-      )}
-      {featureHomepageRefresh && (
-        <Route
-          path="/requests/:id"
-          component={() => (
-            <PageLayout>
-              <RequestedAppointmentDetailsPage />
-            </PageLayout>
-          )}
-        />
-      )}
+      <Route
+        path="/cc/:id"
+        component={() => (
+          <PageLayout>
+            <CommunityCareAppointmentDetailsPage />
+          </PageLayout>
+        )}
+      />
+      <Route
+        path="/va/:id"
+        component={() => (
+          <PageLayout>
+            <ConfirmedAppointmentDetailsPage />
+          </PageLayout>
+        )}
+      />
+      <Route
+        path="/requests/:id"
+        component={() => (
+          <PageLayout>
+            <RequestedAppointmentDetailsPage />
+          </PageLayout>
+        )}
+      />
+      <Route path="/express-care/:id" component={ExpressCareDetailsPage} />
       <Route
         path="/"
         render={() => {

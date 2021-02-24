@@ -1,5 +1,8 @@
 import mapboxClient from '../components/MapboxClient';
-import { reverseGeocodeBox } from '../utils/mapHelpers';
+import {
+  reverseGeocodeBox,
+  searchCriteraFromCoords,
+} from '../utils/mapHelpers';
 import {
   SEARCH_STARTED,
   SEARCH_QUERY_UPDATED,
@@ -10,9 +13,11 @@ import {
   FETCH_SPECIALTIES_DONE,
   FETCH_SPECIALTIES_FAILED,
   CLEAR_SEARCH_RESULTS,
+  CLEAR_SEARCH_TEXT,
   GEOCODE_STARTED,
   GEOCODE_COMPLETE,
   GEOCODE_FAILED,
+  GEOCODE_CLEAR_ERROR,
   MAP_MOVED,
 } from '../utils/actionTypes';
 import LocatorApi from '../api';
@@ -403,4 +408,33 @@ export const getProviderSpecialties = () => async dispatch => {
     dispatch({ type: FETCH_SPECIALTIES_FAILED, error });
     return ['Services Temporarily Unavailable'];
   }
+};
+
+export const geolocateUser = () => async dispatch => {
+  if (navigator?.geolocation?.getCurrentPosition) {
+    dispatch({ type: GEOCODE_STARTED });
+    navigator.geolocation.getCurrentPosition(
+      async currentPosition => {
+        const query = await searchCriteraFromCoords(
+          currentPosition.coords.longitude,
+          currentPosition.coords.latitude,
+        );
+        dispatch({ type: GEOCODE_COMPLETE });
+        dispatch(updateSearchQuery(query));
+      },
+      e => {
+        dispatch({ type: GEOCODE_FAILED, code: e.code });
+      },
+    );
+  } else {
+    dispatch({ type: GEOCODE_FAILED, code: -1 });
+  }
+};
+
+export const clearGeocodeError = () => async dispatch => {
+  dispatch({ type: GEOCODE_CLEAR_ERROR });
+};
+
+export const clearSearchText = () => async dispatch => {
+  dispatch({ type: CLEAR_SEARCH_TEXT });
 };

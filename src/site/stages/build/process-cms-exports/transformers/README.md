@@ -11,6 +11,7 @@ The files in this directory are owned by the following teams:
 |               | node-health_care_region_detail_page
 |               | node-health_care_region_page
 |               | node-health_services_listing
+|               | node-leadership_listing
 |               | node-locations_listing
 |               | node-news_story
 |               | node-nca_facility
@@ -26,16 +27,20 @@ The files in this directory are owned by the following teams:
 |               |
 | Public Web    | block_content-promo
 |               | node-basic_landing_page
+|               | node-campaign_landing_page
 |               | node-checklist
 |               | node-faq_multiple_q_a
 |               | node-full_width_banner_alert
 |               | node-landing_page
 |               | node-media_list_images
 |               | node-media_list_videos
+|               | node-page
+|               | node-publication_listing
 |               | node-q_a
 |               | node-step_by_step
 |               | node-support_resources_detail_page
 |               | node-support_service
+|               | node-va_form
 |               | paragraph-alert_single
 |               | paragraph-audience_topics
 |               | paragraph-button
@@ -59,6 +64,7 @@ The files in this directory are owned by the following teams:
 |               | paragraph-wysiwyg
 |               | taxonomy_term-administration
 |               | taxonomy_term-audience_beneficiaries
+|               | taxonomy_term-audience_tags
 |               | taxonomy_term-lc_categories
 |               | taxonomy_term-products
 |               | taxonomy_term-topics

@@ -119,6 +119,35 @@ export function getVideoAppointmentMock() {
   };
 }
 
+export function getCCRequestMock() {
+  return {
+    id: '8a4886886e4c8e22016e6613216d001f',
+    attributes: {
+      dataIdentifier: {
+        uniqueId: '8a4886886e4c8e22016e6613216d001f',
+        systemId: 'var',
+      },
+      lastUpdatedDate: '11/13/2019 11:42:40',
+      optionDate1: 'No Date Selected',
+      optionTime1: 'No Time Selected',
+      optionDate2: 'No Date Selected',
+      optionTime2: 'No Time Selected',
+      optionDate3: 'No Date Selected',
+      optionTime3: 'No Time Selected',
+      status: 'fake',
+      appointmentType: 'fake',
+      visitType: 'fake',
+      email: 'fake',
+      patient: {},
+      bestTimetoCall: [],
+      typeOfCareId: 'fake',
+      ccAppointmentRequest: {
+        preferredProviders: [{}],
+      },
+    },
+  };
+}
+
 export function getVARequestMock() {
   return {
     id: '8a4886886e4c8e22016e6613216d001g',
@@ -256,7 +285,7 @@ export function getDirectBookingEligibilityCriteriaMock({
 } = {}) {
   return {
     id,
-    type: 'request_eligibility_criteria',
+    type: 'direct_booking_eligibility_criteria',
     attributes: {
       id,
       coreSettings: [

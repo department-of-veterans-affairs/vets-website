@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, Redirect } from 'react-router-dom';
 import * as actions from '../redux/actions';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
@@ -30,12 +30,13 @@ function ReviewPage({
   const { date1, vaFacility } = data;
 
   useEffect(() => {
-    if (history && !vaFacility) {
-      history.replace('/new-project-cheetah-booking');
-    }
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
   }, []);
+
+  if (!vaFacility) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div>
@@ -44,7 +45,7 @@ function ReviewPage({
         Please review the information before confirming your appointments.
       </p>
       <h2 className="vads-u-margin-bottom--0 vads-u-margin-top--3 vads-u-font-size--h3">
-        COVID-19 vaccination
+        COVID-19 vaccine
       </h2>
       First dose
       <hr aria-hidden="true" className="vads-u-margin-y--2" />

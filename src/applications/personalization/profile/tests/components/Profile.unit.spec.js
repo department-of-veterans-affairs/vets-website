@@ -18,6 +18,7 @@ describe('Profile', () => {
   let fetchMHVAccountSpy;
   let fetchCNPPaymentInfoSpy;
   let fetchPersonalInfoSpy;
+  let fetchTotalDisabilityRatingSpy;
 
   beforeEach(() => {
     fetchFullNameSpy = sinon.spy();
@@ -25,6 +26,7 @@ describe('Profile', () => {
     fetchMHVAccountSpy = sinon.spy();
     fetchCNPPaymentInfoSpy = sinon.spy();
     fetchPersonalInfoSpy = sinon.spy();
+    fetchTotalDisabilityRatingSpy = sinon.spy();
 
     defaultProps = {
       fetchFullName: fetchFullNameSpy,
@@ -32,7 +34,9 @@ describe('Profile', () => {
       fetchMilitaryInformation: fetchMilitaryInfoSpy,
       fetchCNPPaymentInformation: fetchCNPPaymentInfoSpy,
       fetchPersonalInformation: fetchPersonalInfoSpy,
+      fetchTotalDisabilityRating: fetchTotalDisabilityRatingSpy,
       shouldFetchCNPDirectDepositInformation: true,
+      shouldFetchTotalDisabilityRating: true,
       showLoader: false,
       user: {},
       location: {
@@ -54,7 +58,7 @@ describe('Profile', () => {
     defaultProps.showLoader = true;
     const wrapper = shallow(<Profile {...defaultProps} />);
     wrapper.setProps({ showLoader: true });
-    const loader = wrapper.find('LoadingIndicator');
+    const loader = wrapper.find('RequiredLoginLoader');
     expect(loader.length).to.equal(1);
     wrapper.unmount();
   });
@@ -97,6 +101,24 @@ describe('Profile', () => {
         defaultProps.shouldFetchCNPDirectDepositInformation = false;
         const wrapper = shallow(<Profile {...defaultProps} />);
         expect(fetchCNPPaymentInfoSpy.called).to.be.false;
+        wrapper.unmount();
+      });
+    });
+
+    describe('when `shouldFetchTotalDisabilityRating` is `true`', () => {
+      it('should fetch the total disability rating', () => {
+        defaultProps.shouldFetchTotalDisabilityRating = true;
+        const wrapper = shallow(<Profile {...defaultProps} />);
+        expect(fetchTotalDisabilityRatingSpy.called).to.be.true;
+        wrapper.unmount();
+      });
+    });
+
+    describe('when `shouldFetchTotalDisabilityRating` is `false`', () => {
+      it('should not fetch the total disability rating', () => {
+        defaultProps.shouldFetchTotalDisabilityRating = false;
+        const wrapper = shallow(<Profile {...defaultProps} />);
+        expect(fetchTotalDisabilityRatingSpy.called).to.be.false;
         wrapper.unmount();
       });
     });
@@ -204,6 +226,9 @@ describe('mapStateToProps', () => {
       },
     },
     vaProfile: makeDefaultVaProfileState(),
+    totalRating: {
+      totalDisabilityRating: null,
+    },
   });
 
   it('returns an object with the correct keys', () => {
@@ -216,6 +241,7 @@ describe('mapStateToProps', () => {
       'isLOA3',
       'shouldFetchCNPDirectDepositInformation',
       'shouldFetchEDUDirectDepositInformation',
+      'shouldFetchTotalDisabilityRating',
       'shouldShowDirectDeposit',
       'isDowntimeWarningDismissed',
     ];
@@ -345,6 +371,7 @@ describe('mapStateToProps', () => {
         state.vaProfile.userFullName = { error: {} };
         state.vaProfile.personalInformation = { error: {} };
         state.vaProfile.militaryInformation = { error: {} };
+        state.totalRating.totalDisabilityRating = { error: {} };
         state.user.profile.mhvAccount = { errors: [] };
         const props = mapStateToProps(state);
         expect(props.showLoader).to.be.false;

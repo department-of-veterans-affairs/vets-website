@@ -1,5 +1,10 @@
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
-import { BASE_URL, WIZARD_STATUS, SAVED_CLAIM_TYPE } from '../constants';
+import {
+  BASE_URL,
+  WIZARD_STATUS,
+  SAVED_CLAIM_TYPE,
+  CONTESTABLE_ISSUES_API,
+} from '../constants';
 
 Cypress.Commands.add('checkStorage', (key, expectedValue) => {
   cy.window()
@@ -34,7 +39,8 @@ const checkOpt = {
 describe('HLR wizard', () => {
   beforeEach(() => {
     window.dataLayer = [];
-    cy.route('GET', '/v0/feature_toggles?*', mockFeatureToggles);
+    cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
+    cy.intercept('GET', `/v0${CONTESTABLE_ISSUES_API}*`, []);
     sessionStorage.removeItem(WIZARD_STATUS);
     cy.visit(BASE_URL);
     cy.injectAxe();

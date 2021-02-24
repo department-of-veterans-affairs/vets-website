@@ -7,25 +7,24 @@ export default function ScheduleNewProjectCheetah({
   showHomePageRefresh,
 }) {
   const classNames = classnames({
-    'vads-u-margin-bottom--1p5': showHomePageRefresh,
-    'vads-u-padding--2p5': showHomePageRefresh,
-    'vads-u-background-color--gray-lightest': showHomePageRefresh,
     'vads-u-padding-y--3': !showHomePageRefresh,
     'vads-u-border-top--1px': !showHomePageRefresh,
     'vads-u-border-bottom--1px': !showHomePageRefresh,
     'vads-u-border-color--gray-lighter': !showHomePageRefresh,
+    'vaos-appts__card': showHomePageRefresh,
+  });
+
+  const headerClass = classnames('vads-u-margin-y--0', {
+    'vads-u-font-size--h3': !showHomePageRefresh,
+    'vads-u-font-size--base': showHomePageRefresh,
+    'vads-u-font-family--sans': showHomePageRefresh,
   });
 
   return (
-    <div
-      className={classNames}
-      style={showHomePageRefresh ? { borderRadius: '15px' } : {}}
-    >
-      <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
-        Schedule a COVID-19 vaccination
-      </h2>
+    <div className={classNames}>
+      <h2 className={headerClass}>Schedule your first COVID-19 vaccine</h2>
       <p className="vads-u-margin-top--1">
-        You are eligible to receive the COVID-19 vaccine at a VA Location.
+        You may be eligible to receive the COVID-19 vaccine at a VA Location.
       </p>
       <Link
         id="new-project-cheetah"
@@ -33,7 +32,7 @@ export default function ScheduleNewProjectCheetah({
         to="/new-project-cheetah-booking"
         onClick={startNewAppointmentFlow}
       >
-        Schedule COVID-19 vaccination
+        Learn more
       </Link>
     </div>
   );

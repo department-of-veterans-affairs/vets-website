@@ -21,7 +21,7 @@ const testAxe = () => {
 };
 
 const testPagination = () => {
-  cy.route('GET', PAYMENTS_API_ENDPOINT, mockPayments).as('mockPayments');
+  cy.intercept('GET', PAYMENTS_API_ENDPOINT, mockPayments).as('mockPayments');
   testLoadingState();
   cy.wait('@mockPayments');
   cy.findByText(/Payments you received/i).should('exist');
@@ -33,7 +33,7 @@ const testPagination = () => {
 };
 
 const testNoPayments = () => {
-  cy.route('GET', PAYMENTS_API_ENDPOINT, mockEmptyPayments).as(
+  cy.intercept('GET', PAYMENTS_API_ENDPOINT, mockEmptyPayments).as(
     'mockEmptyPayments',
   );
   cy.visit(PAYMENTS_PATH);
@@ -46,7 +46,7 @@ const testNoPayments = () => {
 
 const testEmptyPaymentsArray = (category = 'payments') => {
   if (category === 'returnPayments') {
-    cy.route('GET', PAYMENTS_API_ENDPOINT, mockEmptyPaymentsReturned).as(
+    cy.intercept('GET', PAYMENTS_API_ENDPOINT, mockEmptyPaymentsReturned).as(
       'mockEmptyReturnedPayments',
     );
     testLoadingState();
@@ -57,7 +57,7 @@ const testEmptyPaymentsArray = (category = 'payments') => {
       'exist',
     );
   } else {
-    cy.route('GET', PAYMENTS_API_ENDPOINT, mockEmptyPaymentsReceived).as(
+    cy.intercept('GET', PAYMENTS_API_ENDPOINT, mockEmptyPaymentsReceived).as(
       'mockEmptyReceivedPayments',
     );
     testLoadingState();
@@ -72,11 +72,9 @@ const testEmptyPaymentsArray = (category = 'payments') => {
 
 const testApiError = (errCode = '500') => {
   if (errCode === '400') {
-    cy.route({
-      method: 'GET',
-      url: PAYMENTS_API_ENDPOINT,
-      status: 404,
-      response: mockClientError,
+    cy.intercept(PAYMENTS_API_ENDPOINT, {
+      body: mockClientError,
+      statusCode: 404,
     }).as('clientError');
     testLoadingState();
     cy.wait('@clientError');
@@ -84,11 +82,9 @@ const testApiError = (errCode = '500') => {
       selector: 'h2',
     });
   } else {
-    cy.route({
-      method: 'GET',
-      url: PAYMENTS_API_ENDPOINT,
-      status: 500,
-      response: mockServerError,
+    cy.intercept(PAYMENTS_API_ENDPOINT, {
+      body: mockServerError,
+      statusCode: 500,
     }).as('serverError');
     testLoadingState();
     cy.wait('@serverError');

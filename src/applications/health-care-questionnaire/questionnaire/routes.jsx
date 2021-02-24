@@ -6,7 +6,7 @@ import {
   getCurrentAppointmentId,
   addAppointmentIdToFormId,
   onFormEnter,
-} from './utils';
+} from '../shared/utils';
 
 const id = getCurrentAppointmentId(window);
 formConfig.formId = addAppointmentIdToFormId(id, formConfig.formId);

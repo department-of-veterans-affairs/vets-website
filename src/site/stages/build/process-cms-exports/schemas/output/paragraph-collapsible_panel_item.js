@@ -12,7 +12,9 @@ module.exports = {
           type: 'array',
           items: { $ref: 'Paragraph' },
         },
-        fieldWysiwyg: { $ref: 'ProcessedString' },
+        fieldWysiwyg: {
+          oneOf: [{ $ref: 'ProcessedString' }, { type: 'null' }],
+        },
       },
       required: ['fieldTitle', 'fieldVaParagraphs', 'fieldWysiwyg'],
     },

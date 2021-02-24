@@ -106,7 +106,7 @@ const InputSection = ({
         <div className="small-12 columns">
           {items?.length &&
             uiSchema['ui:options'].itemName && (
-              <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--2">
+              <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0 vads-u-margin-top--2">
                 {titlePrefix} {uiSchema['ui:options'].itemName}
               </h3>
             )}
@@ -125,15 +125,13 @@ const InputSection = ({
           />
           <div className="row small-collapse">
             <div className="small-4 left columns button-group">
-              {showSave && (
-                <button
-                  className="float-left"
-                  onClick={e => handleSave(e, index)}
-                  aria-label={`${updateText} ${title}`}
-                >
-                  {updateText}
-                </button>
-              )}
+              <button
+                className="float-left"
+                onClick={e => handleSave(e, index)}
+                aria-label={`${updateText} ${title}`}
+              >
+                {updateText}
+              </button>
               {showCancel && <a onClick={() => handleCancel(index)}>Cancel</a>}
             </div>
             <div className="small-8 right columns">
@@ -222,6 +220,17 @@ const ItemLoop = ({
     const editData = formData ? formData.map(() => false) : ['add'];
     setEditing(editData);
     setShowTable(editData.includes(false));
+
+    if (!formData) {
+      const initData = Array(schema.minItems).fill(
+        getDefaultFormState(
+          schema.additionalItems,
+          undefined,
+          registry.definitions,
+        ),
+      );
+      onChange(initData);
+    }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // use formData otherwise use an array with a single default object
