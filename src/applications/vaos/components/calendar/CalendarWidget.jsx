@@ -149,7 +149,7 @@ export default function CalendarWidget({
   onClickNext,
   onClickPrev,
   renderOptions,
-  selectedIndicatorType,
+  renderIndicator,
   startMonth,
   timezone,
   validationError,
@@ -271,7 +271,7 @@ export default function CalendarWidget({
                         minDate={minDate}
                         rowNumber={weekIndex}
                         selectedDates={value}
-                        selectedIndicatorType={selectedIndicatorType}
+                        renderIndicator={renderIndicator}
                         renderOptions={renderOptions}
                       />
                     ))}
@@ -302,6 +302,7 @@ CalendarWidget.propTypes = {
   onClickNext: PropTypes.func,
   onClickPrev: PropTypes.func,
   validationError: PropTypes.string,
+  renderIndicator: PropTypes.func,
   renderOptions: PropTypes.func,
   id: PropTypes.string.isRequired,
   timezone: PropTypes.string, // America/Denver
