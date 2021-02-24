@@ -16,7 +16,7 @@ import {
   CLEAR_SEARCH_TEXT,
 } from '../utils/actionTypes';
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
   searchString: '',
   serviceType: null,
   facilityType: null,
@@ -34,6 +34,7 @@ const INITIAL_STATE = {
   geocodeInProgress: false,
   geocodeResults: [],
   mapMoved: false,
+  isValid: true,
 };
 
 export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
@@ -67,6 +68,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         error: false,
+        isValid: true,
         inProgress: false,
         mapMoved: false,
       };
@@ -98,6 +100,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         error: true,
+        isValid: false,
         inProgress: false,
         searchBoundsInProgress: false,
       };

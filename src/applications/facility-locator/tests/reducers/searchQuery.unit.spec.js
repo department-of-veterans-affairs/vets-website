@@ -9,24 +9,7 @@ import {
   FETCH_SPECIALTIES_DONE,
   FETCH_SPECIALTIES_FAILED,
 } from '../../utils/actionTypes';
-import { SearchQueryReducer } from '../../reducers/searchQuery';
-
-const INITIAL_STATE = {
-  searchString: '',
-  serviceType: null,
-  facilityType: 'all', // default to All Facilities
-  position: {
-    latitude: 40.17887331434698,
-    longitude: -99.27246093750001,
-  },
-  bounds: [-77.53653, 38.3976763, -76.53653, 39.3976763],
-  context: '20004',
-  currentPage: 1,
-  zoomLevel: 4,
-  inProgress: false,
-  searchBoundsInProgress: false,
-  fetchSvcsInProgress: false,
-};
+import { SearchQueryReducer, INITIAL_STATE } from '../../reducers/searchQuery';
 
 describe('search query reducer', () => {
   it('should handle search started', () => {
@@ -82,6 +65,7 @@ describe('search query reducer', () => {
     );
 
     expect(state.error).to.eql(true);
+    expect(state.isValid).to.eql(false);
     expect(state.inProgress).to.eql(false);
     expect(state.searchBoundsInProgress).to.eql(false);
   });

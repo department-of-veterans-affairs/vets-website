@@ -260,6 +260,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
       select {
         max-width: none;
         margin-bottom: 24px;
+        padding: 0 0.7em;
 
         @media (min-width: $small-desktop-screen) {
           max-width: 418px;

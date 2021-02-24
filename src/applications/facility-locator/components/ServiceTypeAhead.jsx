@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { func, string } from 'prop-types';
 import { connect } from 'react-redux';
 import Downshift from 'downshift';
-import classNames from 'classnames';
 import { getProviderSpecialties } from '../actions';
+import classNames from 'classnames';
 
 /**
  * CC Providers' Service Types Typeahead
@@ -93,36 +93,44 @@ class ServiceTypeAhead extends Component {
               Service type{' '}
               <span className="vads-u-color--secondary-dark">(*Required)</span>
             </label>
-            <span id="service-typeahead">
-              <input
-                {...getInputProps({
-                  placeholder: 'like Chiropractor or Optometrist',
-                })}
-                id="service-type-ahead-input"
-                required
-              />
-              {isOpen && inputValue.length >= 2 ? (
-                <div className="dropdown" role="listbox">
-                  {services
-                    .filter(specialty => this.shouldShow(inputValue, specialty))
-                    .map((specialty, index) => (
-                      <div
-                        key={this.getSpecialtyName(specialty)}
-                        {...getItemProps({
-                          item: specialty,
-                          className: this.optionClasses(
-                            index === highlightedIndex,
-                          ),
-                          role: 'option',
-                          'aria-selected': index === highlightedIndex,
-                        })}
-                      >
-                        {this.getSpecialtyName(specialty)}
-                      </div>
-                    ))}
-                </div>
-              ) : null}
-            </span>
+            <div
+              className={classNames('input-clear', 'vads-u-margin--0', {
+                'usa-input-error': this.props.error,
+              })}
+            >
+              <span id="service-typeahead">
+                <input
+                  {...getInputProps({
+                    placeholder: 'like Chiropractor or Optometrist',
+                  })}
+                  id="service-type-ahead-input"
+                  required
+                />
+                {isOpen && inputValue.length >= 2 ? (
+                  <div className="dropdown" role="listbox">
+                    {services
+                      .filter(specialty =>
+                        this.shouldShow(inputValue, specialty),
+                      )
+                      .map((specialty, index) => (
+                        <div
+                          key={this.getSpecialtyName(specialty)}
+                          {...getItemProps({
+                            item: specialty,
+                            className: this.optionClasses(
+                              index === highlightedIndex,
+                            ),
+                            role: 'option',
+                            'aria-selected': index === highlightedIndex,
+                          })}
+                        >
+                          {this.getSpecialtyName(specialty)}
+                        </div>
+                      ))}
+                  </div>
+                ) : null}
+              </span>
+            </div>
           </div>
         )}
       </Downshift>
