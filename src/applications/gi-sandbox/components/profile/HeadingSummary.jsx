@@ -51,7 +51,7 @@ class HeadingSummary extends React.Component {
     };
 
     return (
-      <div className="heading row">
+      <div id="heading-summary" className="heading row">
         <div className="column">
           <h1 tabIndex={-1} className="vads-u-margin-bottom--0">
             {it.name}

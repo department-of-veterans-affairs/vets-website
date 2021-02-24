@@ -5,6 +5,7 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { mapboxToken } from '../utils/mapboxToken';
 import {
+  clearSearchText,
   clearSearchResults,
   fetchVAFacility,
   searchWithBounds,
@@ -253,10 +254,10 @@ const FacilitiesMap = props => {
       return;
     }
 
+    // TODO: hide after new search
     if (
       calculateSearchArea() > MAX_SEARCH_AREA ||
-      !props.currentQuery.isValid ||
-      !props.currentQuery.mapMoved
+      !props.currentQuery.isValid
     ) {
       searchAreaControl.style.display = 'none';
       return;
@@ -296,6 +297,7 @@ const FacilitiesMap = props => {
     map.on('dragend', () => {
       props.mapMoved();
       recordPanEvent(map.getCenter(), props.currentQuery);
+      activateSearchAreaControl();
     });
     map.on('zoom', () => {
       const currentZoom = parseInt(map.getZoom(), 10);
@@ -313,6 +315,7 @@ const FacilitiesMap = props => {
       }
 
       lastZoom = currentZoom;
+      activateSearchAreaControl();
     });
   };
 
@@ -395,6 +398,7 @@ const FacilitiesMap = props => {
           suppressCCP={props.suppressCCP}
           suppressPharmacies={props.suppressPharmacies}
           searchCovid19Vaccine={props.searchCovid19Vaccine}
+          clearSearchText={props.clearSearchText}
         />
         <div id="search-results-title" ref={searchResultTitleRef}>
           <SearchResultsHeader
@@ -490,6 +494,7 @@ const FacilitiesMap = props => {
           suppressCCP={props.suppressCCP}
           suppressPharmacies={props.suppressPharmacies}
           searchCovid19Vaccine={props.searchCovid19Vaccine}
+          clearSearchText={props.clearSearchText}
         />
         <div id="search-results-title" ref={searchResultTitleRef}>
           <SearchResultsHeader
@@ -549,15 +554,6 @@ const FacilitiesMap = props => {
       })
       .catch(error => error);
   };
-
-  useEffect(
-    () => {
-      if (map) {
-        activateSearchAreaControl();
-      }
-    },
-    [props.currentQuery],
-  );
 
   useEffect(
     () => {
@@ -725,6 +721,7 @@ const mapDispatchToProps = {
   genSearchAreaFromCenter,
   searchWithBounds,
   clearSearchResults,
+  clearSearchText,
   mapMoved,
 };
 export default connect(

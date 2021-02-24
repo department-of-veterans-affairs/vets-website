@@ -31,6 +31,9 @@ describe('VAOS FHIR utils', () => {
             severity: 'error',
             code: 'VAOS_400',
             diagnostics: 'Bad Request',
+            source: {
+              loadError: null,
+            },
             details: {
               code: '400',
               text: 'Error detail',

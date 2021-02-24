@@ -24,11 +24,11 @@ function healthCareInfoExists(exists) {
     .should(assertion);
 }
 
-// Helper to make sure that the "file a claim" info does or doesn't exist
-function fileClaimExists(exists) {
+// Helper to make sure that the "disability compensation" info does or doesn't exist
+function disabilityCompensationExists(exists) {
   const assertion = exists ? 'exist' : 'not.exist';
   cy.findByTestId('benefits-of-interest')
-    .findByRole('heading', { name: /^file a claim$/i })
+    .findByRole('heading', { name: /^disability compensation$/i })
     .should(assertion);
 }
 
@@ -55,13 +55,13 @@ describe('The My VA Dashboard', () => {
       mockFeatureToggles();
       cy.visit(manifest.rootUrl);
     });
-    it('should show info about file a claim, health care, and education benefits', () => {
+    it('should show info about disability benefits, health care, and education benefits', () => {
       sectionHeadingsExist();
 
       cy.findAllByTestId('benefit-of-interest').should('have.length', 3);
 
       healthCareInfoExists(true);
-      fileClaimExists(true);
+      disabilityCompensationExists(true);
       educationBenefitExists(true);
 
       cy.injectAxe();
@@ -82,13 +82,13 @@ describe('The My VA Dashboard', () => {
       mockFeatureToggles();
       cy.visit(manifest.rootUrl);
     });
-    it('should show info about file a claim and education benefits, but not health care', () => {
+    it('should show info about disability benefits and education benefits, but not health care', () => {
       sectionHeadingsExist();
 
       cy.findAllByTestId('benefit-of-interest').should('have.length', 2);
 
       healthCareInfoExists(false);
-      fileClaimExists(true);
+      disabilityCompensationExists(true);
       educationBenefitExists(true);
 
       cy.injectAxe();
@@ -102,13 +102,13 @@ describe('The My VA Dashboard', () => {
       mockFeatureToggles();
       cy.visit(manifest.rootUrl);
     });
-    it('should show info about file a claim and education benefits, but not health care', () => {
+    it('should show info about disability benefits and education benefits, but not health care', () => {
       sectionHeadingsExist();
 
       cy.findAllByTestId('benefit-of-interest').should('have.length', 2);
 
       healthCareInfoExists(false);
-      fileClaimExists(true);
+      disabilityCompensationExists(true);
       educationBenefitExists(true);
 
       cy.injectAxe();
@@ -122,13 +122,13 @@ describe('The My VA Dashboard', () => {
       mockFeatureToggles();
       cy.visit(manifest.rootUrl);
     });
-    it('should show info about file a claim benefits, but not health care or education benefits', () => {
+    it('should show info about disability benefits benefits, but not health care or education benefits', () => {
       sectionHeadingsExist();
 
       cy.findAllByTestId('benefit-of-interest').should('have.length', 1);
 
       healthCareInfoExists(false);
-      fileClaimExists(true);
+      disabilityCompensationExists(true);
       educationBenefitExists(false);
 
       cy.injectAxe();

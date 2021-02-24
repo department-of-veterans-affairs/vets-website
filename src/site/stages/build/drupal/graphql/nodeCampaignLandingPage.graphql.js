@@ -449,7 +449,6 @@ const nodeCampaignLandingPage = `
               }
             }
           }
-          fieldInstructions
           fieldOwner {
             entity {
               ... on TaxonomyTermAdministration {

@@ -922,7 +922,7 @@ describe('VAOS integration: appointment list', () => {
     expect(screen.getByRole('link', { name: 'Request an appointment' }));
   });
 
-  it('should show COVID-19 vaccination button', async () => {
+  it('should show COVID-19 vaccine button', async () => {
     const defaultState = {
       featureToggles: {
         ...initialState.featureToggles,
@@ -937,7 +937,7 @@ describe('VAOS integration: appointment list', () => {
     expect(
       await screen.findAllByRole('heading', {
         level: 2,
-        name: /Schedule your first COVID-19 vaccination/,
+        name: /Schedule your first COVID-19 vaccine/,
       }),
     );
 

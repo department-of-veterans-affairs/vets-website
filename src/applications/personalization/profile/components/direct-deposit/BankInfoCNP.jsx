@@ -10,6 +10,7 @@ import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import recordEvent from '~/platform/monitoring/record-event';
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
 import { isLOA3 as isLOA3Selector } from '~/platform/user/selectors';
 import { usePrevious } from '~/platform/utilities/react-hooks';
@@ -221,8 +222,9 @@ export const BankInfoCNP = ({
       <div id="errors" role="alert" aria-atomic="true">
         {!!saveError && (
           <PaymentInformationEditError
-            responseError={saveError}
             className="vads-u-margin-top--0 vads-u-margin-bottom--2"
+            level={4}
+            responseError={saveError}
           />
         )}
       </div>
@@ -243,10 +245,27 @@ export const BankInfoCNP = ({
         formData={formData}
         formPrefix={formPrefix}
         formSubmit={saveBankInfo}
-        isSaving={directDepositUiState.isSaving}
-        onClose={closeDDForm}
-        cancelButtonClasses={['va-button-link', 'vads-u-margin-left--1']}
-      />
+      >
+        <LoadingButton
+          aria-label="update your bank information for compensation and pension benefits"
+          type="submit"
+          loadingText="saving bank information"
+          className="usa-button-primary vads-u-margin-top--0 vads-u-width--full small-screen:vads-u-width--auto"
+          isLoading={directDepositUiState.isSaving}
+        >
+          Update
+        </LoadingButton>
+        <button
+          aria-label="cancel updating your bank information for compensation and pension benefits"
+          type="button"
+          disabled={directDepositUiState.isSaving}
+          className="va-button-link vads-u-margin-left--1"
+          onClick={closeDDForm}
+          data-qa="cancel-button"
+        >
+          Cancel
+        </button>
+      </BankInfoForm>
     </>
   );
 

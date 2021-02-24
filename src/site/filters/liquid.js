@@ -607,6 +607,10 @@ module.exports = function registerFilters() {
       return url;
     }
 
+    if (_.includes(url, 'youtube.com/watch?v=')) {
+      return _.replace(url, '/watch?v=', '/embed/');
+    }
+
     return _.replace(url, 'youtu.be', 'youtube.com/embed');
   };
 

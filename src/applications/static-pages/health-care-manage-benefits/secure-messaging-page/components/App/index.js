@@ -5,21 +5,11 @@ import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 // Relative imports.
 import AuthContent from '../AuthContent';
-import LegacyContent from '../LegacyContent';
 import UnauthContent from '../UnauthContent';
-import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 import { selectPatientFacilities } from 'platform/user/selectors';
 import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 
-export const App = ({
-  facilities,
-  showNewSecureMessagingPage,
-  authenticatedWithSSOe,
-}) => {
-  if (!showNewSecureMessagingPage) {
-    return <LegacyContent />;
-  }
-
+export const App = ({ authenticatedWithSSOe, facilities }) => {
   const cernerFacilities = facilities?.filter(f => f.usesCernerMessaging);
   const otherFacilities = facilities?.filter(f => !f.usesCernerMessaging);
   if (!isEmpty(cernerFacilities)) {
@@ -49,14 +39,11 @@ App.propTypes = {
       usesCernerTestResults: PropTypes.bool,
     }).isRequired,
   ),
-  showNewSecureMessagingPage: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
-  facilities: selectPatientFacilities(state),
   authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
-  showNewSecureMessagingPage:
-    state?.featureToggles?.[featureFlagNames.showNewSecureMessagingPage],
+  facilities: selectPatientFacilities(state),
 });
 
 export default connect(

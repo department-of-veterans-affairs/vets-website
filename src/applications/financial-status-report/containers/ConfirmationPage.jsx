@@ -35,9 +35,9 @@ export class ConfirmationPage extends React.Component {
         </p>
         <h3 className="confirmation-page-title">We've received your request</h3>
         <p>
-          We'll send you a letter with our decision and any next steps within 45
+          We’ll send you a letter with our decision and any next steps within 45
           days. If you experience changes that may affect our decision (like a
-          job loss or new job), you'll need to submit a new request.
+          job loss or a new job), you’ll need to submit a new request.
         </p>
         <div className="inset">
           <h4 className="vads-u-margin-top--0">
