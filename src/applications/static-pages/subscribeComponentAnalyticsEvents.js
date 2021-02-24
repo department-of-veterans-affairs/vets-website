@@ -24,7 +24,7 @@ export default function subscribeComponentAnalyticsEvents() {
     );
 
     // Is it an action we are tracking?
-    if (component && component.actions) {
+    if (component?.actions) {
       const action = component.actions.find(
         ev => ev.action === e.detail.action,
       );
