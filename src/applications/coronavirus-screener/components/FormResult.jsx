@@ -5,9 +5,17 @@ import classnames from 'classnames';
 import { scrollerTo } from '../lib';
 import { resultText } from '../config/text';
 
-function Complete({ children, selectedLanguage }) {
+function Complete({ children, selectedLanguage, selectedColors }) {
   return (
-    <div>
+    <div
+      style={{
+        backgroundColor: `${selectedColors.background}`,
+        color: `${selectedColors.font}`,
+      }}
+    >
+      <div className="vads-u-font-size--xl vads-u-font-weight--bold">
+        {selectedColors.name}
+      </div>
       {children}
       <div className="covid-screener-date vads-u-font-weight--bold">
         <div className="vads-u-font-size--xl">
@@ -18,11 +26,18 @@ function Complete({ children, selectedLanguage }) {
         <div className="vads-u-font-size--xl">{moment().format('h:mm a')}</div>
       </div>
       {resultText.completeText[selectedLanguage]}
+      <div className="vads-u-font-size--xl vads-u-font-weight--bold">
+        {selectedColors.name}
+      </div>
     </div>
   );
 }
 
-export default function FormResult({ formState, selectedLanguage }) {
+export default function FormResult({
+  formState,
+  selectedLanguage,
+  passFormResultsColors,
+}) {
   const scrollElementName = 'multi-question-form-result-scroll-element';
 
   const Incomplete = () => (
@@ -30,7 +45,10 @@ export default function FormResult({ formState, selectedLanguage }) {
   );
 
   const Pass = () => (
-    <Complete selectedLanguage={selectedLanguage}>
+    <Complete
+      selectedLanguage={selectedLanguage}
+      selectedColors={passFormResultsColors}
+    >
       <i aria-hidden="true" role="presentation" className="fas fa-check" />
       <h2 className="vads-u-font-size--2xl">
         {resultText.passText[selectedLanguage]}
@@ -39,7 +57,10 @@ export default function FormResult({ formState, selectedLanguage }) {
   );
 
   const MoreScreening = () => (
-    <Complete selectedLanguage={selectedLanguage}>
+    <Complete
+      selectedLanguage={selectedLanguage}
+      selectedColors={{ background: '#112e51', font: 'white' }}
+    >
       <h2 className="vads-u-font-size--2xl">
         {resultText.moreScreeningText[selectedLanguage]}
       </h2>
