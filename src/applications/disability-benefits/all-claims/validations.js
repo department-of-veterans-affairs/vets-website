@@ -226,12 +226,18 @@ export const hasMonthYear = (err, fieldData) => {
   }
 };
 
-export const isWithinServicePeriod = (errors, fieldData, formData) => {
-  const servicePeriods = _.get(
-    'serviceInformation.servicePeriods',
-    formData,
-    [],
-  );
+export const isWithinServicePeriod = (
+  errors,
+  fieldData,
+  formData,
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData,
+) => {
+  // formData === fieldData on review & submit, so we're only using appStateData
+  // here - see #20301
+  const servicePeriods = appStateData?.serviceInformation?.servicePeriods || [];
   const inServicePeriod = servicePeriods.some(pos =>
     isWithinRange(fieldData, pos.dateRange),
   );
