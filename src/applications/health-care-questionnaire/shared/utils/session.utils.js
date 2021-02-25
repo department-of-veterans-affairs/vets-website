@@ -103,7 +103,7 @@ const getCurrentQuestionnaire = (window, id) => {
   const data = sessionStorage.getItem(key) ?? '{}';
   const parsed = JSON.parse(data);
   if (parsed.questionnaire) {
-    return parsed.questionnaire;
+    return parsed.questionnaire[0];
   } else {
     return null;
   }
