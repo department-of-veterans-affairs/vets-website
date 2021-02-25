@@ -35,10 +35,8 @@ const initialState = {
 };
 
 const appointment = getVAAppointmentMock();
-const appointmentTime = moment();
 appointment.attributes = {
   ...appointment.attributes,
-  startDate: appointmentTime.format(),
   clinicId: '308',
   clinicFriendlyName: "Jennie's Lab",
   facilityId: '983',
@@ -90,7 +88,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());
-
+    appointment.attributes.startDate = moment();
     mockAppointmentInfo({
       va: [appointment],
       cc: [],
@@ -250,7 +248,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     );
 
     expect(cancelData).to.deep.equal({
-      appointmentTime: appointmentTime
+      appointmentTime: moment()
         .tz('America/Denver')
         .format('MM/DD/YYYY HH:mm:ss'),
       cancelReason: '5',
