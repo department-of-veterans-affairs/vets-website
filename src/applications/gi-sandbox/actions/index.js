@@ -133,3 +133,10 @@ export function eligibilityChange(eligibility) {
 export function institutionFilterChange(filters) {
   return { type: INSTITUTION_FILTERS_CHANGED, payload: filters };
 }
+
+export function updateEligibilityAndFilters(eligibility, filters) {
+  return dispatch => {
+    dispatch({ type: ELIGIBILITY_CHANGED, payload: eligibility });
+    dispatch({ type: INSTITUTION_FILTERS_CHANGED, payload: filters });
+  };
+}

@@ -188,6 +188,19 @@
       pointer-events: none;
     }
 
+    .location-wrap2:before {
+      color: $color-primary;
+      content:"All Locations";
+      position: absolute;
+      font-style:normal;
+      left: 30px;
+      top: 10px;
+      width: 120px;
+      height: 100%;
+      font-weight: 900;
+      pointer-events: none;
+    }
+
     input.location-input {
       width:345px;
       padding-left:30px;

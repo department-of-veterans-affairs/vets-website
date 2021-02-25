@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import {
-  eligibilityChange,
-  institutionFilterChange,
-  showModal,
-} from '../actions';
+import { updateEligibilityAndFilters, showModal } from '../actions';
 import AccordionDropdown from '../components/AccordionDropdown';
 import Checkbox from '../components/Checkbox';
 import CheckboxGroup from '../components/CheckboxGroup';
@@ -15,8 +11,7 @@ import RadioButtons from '../components/RadioButtons';
 
 export const SearchSchools = ({
   eligibility,
-  dispatchEligibilityChange,
-  dispatchInstitutionFilterChange,
+  dispatchUpdateEligibilityAndFilters,
   dispatchShowModal,
   filters,
 }) => {
@@ -69,28 +64,26 @@ export const SearchSchools = ({
     setExcludeWarningsAndCautionFlags,
   ] = useState(filters.excludeWarningsAndCautionFlags);
 
-  const updateEligibility = () => {
-    dispatchEligibilityChange({
-      militaryStatus,
-      spouseActiveDuty,
-      giBillChapter,
-      cumulativeService,
-      enlistmentService,
-      eligForPostGiBill,
-      numberOfDependents,
-    });
-  };
-
-  const updateFilters = () => {
-    dispatchInstitutionFilterChange({
-      institutionType,
-      levelOfInstitution,
-      excludeWarningsAndCautionFlags,
-      levelOfDegree,
-      major,
-      schoolName,
-      inPersonClasses,
-    });
+  const updateStore = () => {
+    dispatchUpdateEligibilityAndFilters(
+      {
+        militaryStatus,
+        spouseActiveDuty,
+        giBillChapter,
+        cumulativeService,
+        enlistmentService,
+        eligForPostGiBill,
+        numberOfDependents,
+      },
+      {
+        institutionType,
+        levelOfInstitution,
+        excludeWarningsAndCautionFlags,
+        levelOfDegree,
+        major,
+        inPersonClasses,
+      },
+    );
   };
 
   const handleLevelOfInstitutionChange = e => {
@@ -129,7 +122,7 @@ export const SearchSchools = ({
                 type="text"
                 name="location"
                 className="input-box-margin location-input"
-                placeholder="location"
+                placeholder="city, state, postal code"
                 value={location}
                 onChange={e => setLocation(e.target.value)}
               />
@@ -173,7 +166,7 @@ export const SearchSchools = ({
           <AccordionDropdown
             label="Your Benefit Estimates"
             buttonLabel="Update estimates"
-            buttonOnClick={updateEligibility}
+            buttonOnClick={updateStore}
             name="benefitEstimates"
             openName={openName}
             onOpen={handleAccordionDropdownOpen}
@@ -212,7 +205,9 @@ export const SearchSchools = ({
                 { value: 'yes', label: 'No' },
               ]}
               value={inPersonClasses}
-              onChange={e => setInPersonClasses(e.target.value)}
+              onChange={e => {
+                setInPersonClasses(e.target.value);
+              }}
             />
           </AccordionDropdown>
         </div>
@@ -223,7 +218,7 @@ export const SearchSchools = ({
             <AccordionDropdown
               label="School preferences"
               buttonLabel="Apply"
-              buttonOnClick={updateFilters}
+              buttonOnClick={updateStore}
               name="schoolPreferences"
               openName={openName}
               onOpen={handleAccordionDropdownOpen}
@@ -290,7 +285,7 @@ export const SearchSchools = ({
             <AccordionDropdown
               label="Degrees / Majors"
               buttonLabel="Apply"
-              buttonOnClick={updateFilters}
+              buttonOnClick={updateStore}
               name="degreesMajors"
               openName={openName}
               onOpen={handleAccordionDropdownOpen}
@@ -336,9 +331,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  dispatchEligibilityChange: eligibilityChange,
-  dispatchInstitutionFilterChange: institutionFilterChange,
   dispatchShowModal: showModal,
+  dispatchUpdateEligibilityAndFilters: updateEligibilityAndFilters,
 };
 
 export default connect(
