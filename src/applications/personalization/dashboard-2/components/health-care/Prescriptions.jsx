@@ -25,8 +25,6 @@ export const Prescriptions = ({ authenticatedWithSSOe, prescriptions }) => {
           moment(p.attributes?.refillDate).isAfter(thirtyDaysAgo),
       );
 
-    // GET LATEST DATE TO MAKE SURE LATEST PRESCRIPTION IS CORRECT
-    // This SHOULD be OK since we're filtering in loadPrescriptions
     latestPrescription = filteredPrescriptions[0];
     refillsInProgress = filteredPrescriptions?.length;
   }
