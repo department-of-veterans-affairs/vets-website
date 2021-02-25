@@ -38,8 +38,8 @@ export function GiBillApp({
 
   return (
     <div className="gi-app">
-      <div className="row">
-        <div className="columns small-12">
+      <div>
+        <div>
           <GiBillBreadcrumbs />
           {children}
           <Modals />

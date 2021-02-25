@@ -11,8 +11,8 @@ export function LandingPage({ dispatchSetPageTitle }) {
   }, []);
   return (
     <span className="landing-page">
-      <div className="vads-u-width--full vads-u-margin--0 vads-u-min-height--viewport">
-        <div className="vads-u-width--full">
+      <div className="vads-u-min-height--viewport row">
+        <div className="column">
           <h1>GI Bill® CT Redesign Sandbox</h1>
           <p className="vads-u-font-family--sans vads-u-font-size--h3 vads-u-color--gray-dark">
             Learn about education programs and compare benefits by school.
