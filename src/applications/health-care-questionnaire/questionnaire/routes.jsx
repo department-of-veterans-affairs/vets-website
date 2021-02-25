@@ -11,17 +11,18 @@ import {
 
 const id = getCurrentAppointmentId(window);
 const questionnaire = getCurrentQuestionnaire(window, id);
+const questionnaireId = questionnaire?.id;
 formConfig.formId = addAppointmentIdToFormId(
   formConfig.formId,
   id,
-  questionnaire?.id,
+  questionnaireId,
 );
 
 const route = {
   path: '/',
   component: QuestionnaireWrapper,
   indexRoute: {
-    onEnter: onFormEnter(id),
+    onEnter: onFormEnter(id, questionnaireId),
   },
 
   childRoutes: createRoutesWithSaveInProgress(formConfig),
