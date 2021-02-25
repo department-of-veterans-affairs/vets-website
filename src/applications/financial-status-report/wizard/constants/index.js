@@ -5,4 +5,5 @@ export const pageNames = {
   submit: 'submit',
   appeals: 'appeals',
   copays: 'copays',
+  separation: 'separation',
 };

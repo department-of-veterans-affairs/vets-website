@@ -13,7 +13,7 @@ const options = [
     label: 'VA health care copays',
   },
   {
-    value: pageNames.appeals,
+    value: pageNames.separation,
     label: 'Separation pay',
   },
   {

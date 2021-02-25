@@ -167,11 +167,15 @@
   padding-bottom: 40px;
 }
 
+// wizard
 .fsr-wizard {
   .wizard-content {
     margin: 30px 0;
     .fieldset-input:first-child {
       margin-top: 0;
+    }
+    .separation-pay {
+      color: #2e8540;
     }
   }
 }
