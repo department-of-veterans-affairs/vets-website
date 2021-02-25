@@ -270,65 +270,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
   it('should fire a print request when print button clicked', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
 
-    // const appointment = getVAAppointmentMock();
-    // appointment.attributes = {
-    //   ...appointment.attributes,
-    //   startDate: moment().format(),
-    //   clinicId: '308',
-    //   clinicFriendlyName: "Jennie's Lab",
-    //   facilityId: '983',
-    //   sta6aid: '983GC',
-    //   communityCare: false,
-    //   vdsAppointments: [
-    //     {
-    //       bookingNote: 'New issue: ASAP',
-    //       appointmentLength: '60',
-    //       appointmentTime: '2021-12-07T16:00:00Z',
-    //       clinic: {
-    //         name: 'CHY OPT VAR1',
-    //         askForCheckIn: false,
-    //         facilityCode: '983',
-    //       },
-    //       type: 'REGULAR',
-    //       currentStatus: 'NO ACTION TAKEN/TODAY',
-    //     },
-    //   ],
-    //   vvsAppointments: [],
-    // };
-
-    // mockAppointmentInfo({
-    //   va: [appointment],
-    //   cc: [],
-    //   requests: [],
-    //   isHomepageRefresh: true,
-    // });
-
-    // const facility = {
-    //   id: 'vha_442GC',
-    //   attributes: {
-    //     ...getVAFacilityMock().attributes,
-    //     type: 'facility',
-    //     address: {
-    //       mailing: {},
-    //       physical: {
-    //         zip: '80526-8108',
-    //         city: 'Fort Collins',
-    //         state: 'CO',
-    //         address1: '2509 Research Boulevard',
-    //         address2: null,
-    //         address3: null,
-    //       },
-    //     },
-    //     id: 'vha_442GC',
-    //     name: 'Fort Collins VA Clinic',
-    //     phone: {
-    //       main: '970-224-1550',
-    //     },
-    //     uniqueId: '442GC',
-    //   },
-    // };
-    // mockFacilitiesFetch('vha_442GC', [facility]);
-
     const screen = renderWithStoreAndRouter(
       <AppointmentList featureHomepageRefresh />,
       {
