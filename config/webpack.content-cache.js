@@ -13,6 +13,6 @@ module.exports = {
   node: { __dirname: true },
   plugins: [
     new webpack.IgnorePlugin(/process-cms-exports$/),
-    new webpack.DefinePlugin({ __CONTENT_CACHE_FUNCTION__: true }),
+    new webpack.DefinePlugin({ 'process.env.CONTENT_CACHE_FUNCTION': true }),
   ],
 };

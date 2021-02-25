@@ -18,7 +18,7 @@ const syswidecas = require('syswide-cas');
 // Using a global variable from the Webpack config, skip unnecessary requires
 // for CMS transformers code when building the content cache function.
 // eslint-disable-next-line no-undef
-const CONTENT_CACHE_FUNCTION = __CONTENT_CACHE_FUNCTION__;
+const CONTENT_CACHE_FUNCTION = process.env.CONTENT_CACHE_FUNCTION;
 
 const { readAllNodeNames, readEntity } = CONTENT_CACHE_FUNCTION
   ? {}
