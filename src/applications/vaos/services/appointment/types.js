@@ -1,29 +1,3 @@
-// type TypeOfCareId = 'CR1' | '323';
-
-// type ClinicPartipant = {
-//   actor: {
-//     reference: HealthcareServiceReference;
-//     display: string;
-//   };
-// };
-
-// type VALocationPartipant = {
-//   actor: {
-//     reference: LocationReference;
-//   };
-// };
-// type VideoPractitionerParticipant = {
-//   actor: {
-//     reference: PractitionerReference;
-//   };
-// };
-// type CommunityCarePractitionerParticipant = {
-//   actor: {
-//     reference: 'Practitioner/PRACTITIONER_ID';
-//     display: string;
-//   };
-// };
-
 /**
  * @summary
  * Participant array contents when appointment is a VistA based appointment
