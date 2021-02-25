@@ -142,7 +142,7 @@ describe('VAOS integration: VA flat facility page - single facility', () => {
     );
 
     await findByText(
-      /We found one facility that accepts online scheduling for this care/i,
+      /We found one VA facility for your primary care appointment./i,
     );
 
     expect(baseElement).to.contain.text('San Diego VA Medical Center');

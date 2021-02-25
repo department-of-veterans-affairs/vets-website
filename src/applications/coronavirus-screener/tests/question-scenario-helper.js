@@ -122,11 +122,16 @@ export const routeOptions = [
   {
     route: '/459gh/es',
     expectedText: `${expectTextbyLanguage.es}`,
-    title: 'Route /fr (expect Spanish)',
+    title: 'Route /459gh/es (expect Spanish)',
   },
   {
     route: '/459gh/en',
     expectedText: `${expectTextbyLanguage.en}`,
-    title: 'Route /fr (expect English)',
+    title: 'Route /459gh/en (expect English)',
+  },
+  {
+    route: '/526/es/purple',
+    expectedText: `${expectTextbyLanguage.es}`,
+    title: 'Route /526/es/purple (expect Spanish)',
   },
 ];
