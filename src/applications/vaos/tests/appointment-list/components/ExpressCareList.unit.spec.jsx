@@ -2,11 +2,7 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
 import environment from 'platform/utilities/environment';
-import {
-  mockFetch,
-  setFetchJSONFailure,
-  setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
+import { mockFetch, setFetchJSONFailure } from 'platform/testing/unit/helpers';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { getVARequestMock } from '../../mocks/v0';
 import {
