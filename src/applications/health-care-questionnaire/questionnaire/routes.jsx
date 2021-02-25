@@ -14,7 +14,7 @@ const questionnaire = getCurrentQuestionnaire(window, id);
 formConfig.formId = addAppointmentIdToFormId(
   formConfig.formId,
   id,
-  questionnaire.id,
+  questionnaire?.id,
 );
 
 const route = {
