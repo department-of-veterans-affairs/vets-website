@@ -1,8 +1,10 @@
 import { countries, states50AndDC } from 'vets-json-schema/dist/constants.json';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import { addressUiSchema } from 'applications/vre/definitions/profileAddress';
 
 const PATTERNS = {
   date: '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$',
+  STREET_PATTERN: '^.*\\S.*',
 };
 
 const locationSchema = {
@@ -25,38 +27,56 @@ const locationSchema = {
   },
 };
 
-const locationUiSchema = {
-  isOutsideUs: {
-    'ui:title': 'This happened outside of the U.S.',
-  },
-  state: {
-    'ui:options': {
-      replaceSchema: formData => {
-        if (formData?.location?.isOutsideUs) {
+const locationUiSchema = uiRequiredCallback => {
+  return {
+    isOutsideUs: {
+      'ui:title': 'This happened outside of the U.S.',
+    },
+    state: {
+      'ui:options': {
+        'ui:required': uiRequiredCallback,
+        replaceSchema: formData => {
+          if (formData?.location?.isOutsideUs) {
+            return {
+              type: 'string',
+              title: 'Country where this happened',
+              enum: countries
+                .filter(country => country.value !== 'USA')
+                .map(country => country.value),
+              enumNames: countries
+                .filter(country => country.label !== 'United States')
+                .map(country => country.label),
+            };
+          }
           return {
             type: 'string',
-            title: 'Country where this happened',
-            enum: countries
-              .filter(country => country.value !== 'USA')
-              .map(country => country.value),
-            enumNames: countries
-              .filter(country => country.label !== 'United States')
-              .map(country => country.label),
+            title: 'State where this happened',
+            enum: states50AndDC.map(state => state.value),
+            enumNames: states50AndDC.map(state => state.label),
           };
-        }
-        return {
-          type: 'string',
-          title: 'State where this happened',
-          enum: states50AndDC.map(state => state.value),
-          enumNames: states50AndDC.map(state => state.label),
-        };
+        },
       },
     },
-  },
-  city: {
-    'ui:title': 'City where this happened',
-  },
+    city: {
+      'ui:title': 'City where this happened',
+      'ui:options': {
+        'ui:required': uiRequiredCallback,
+      },
+    },
+  };
 };
+
+const isNotRemovingStepchild = value => {
+  const removalReasonArray = [
+    'reportDeath',
+    'reportMarriageOfChildUnder18',
+    'reportChild18OrOlderIsNotAttendingSchool',
+  ];
+  return value && removalReasonArray.indexOf(value) > -1;
+};
+
+const checkBoxTitle =
+  'This is on a United States military base outside of the U.S.';
 
 export const SCHEMAS = {
   Spouse: {
@@ -83,14 +103,43 @@ export const SCHEMAS = {
     },
     uiSchema: {
       reasonMarriageEnded: {
-        'ui:title': 'Reason marraged ended:',
+        'ui:title': 'Reason marriage ended:',
         'ui:widget': 'radio',
         'ui:errorMessages': {
           required: 'Please select an option',
         },
       },
       date: currentOrPastDateUI('Date marriage ended'),
-      location: locationUiSchema,
+      location: locationUiSchema(() => true),
+    },
+  },
+  Parent: {
+    schema: {
+      type: 'object',
+      required: ['reasonForRemoval', 'date'],
+      properties: {
+        reasonForRemoval: {
+          type: 'string',
+          enum: ['LEFTHOUSEHOLD', 'DEATH'],
+          enumNames: ['Dependent has left household', 'Dependent’s death'],
+        },
+        date: {
+          type: 'string',
+          pattern: PATTERNS.date,
+        },
+        location: locationSchema,
+      },
+    },
+    uiSchema: {
+      reasonForRemoval: {
+        'ui:title': 'Reason for removing dependent:',
+        'ui:widget': 'radio',
+        'ui:errorMessages': {
+          required: 'Please select an option',
+        },
+      },
+      date: currentOrPastDateUI('Date this happened'),
+      location: locationUiSchema(() => true),
     },
   },
   Child: {
@@ -100,24 +149,147 @@ export const SCHEMAS = {
       properties: {
         reasonForRemoval: {
           type: 'string',
-          enum: ['LEFTHOUSEHOLD', 'DEATH'],
-          enumNames: ['No longer part of household', 'Death'],
+          enum: [
+            'reportStepchildNotInHousehold',
+            'reportDeath',
+            'reportMarriageOfChildUnder18',
+            'reportChild18OrOlderIsNotAttendingSchool',
+          ],
+          enumNames: [
+            'Dependent stepchild has left household',
+            'Dependent under 18 has married',
+            'Dependent 18 or older has stopped attending school',
+            'Dependents’s death',
+          ],
         },
         date: {
           type: 'string',
           pattern: PATTERNS.date,
         },
+        location: locationSchema,
+        livingExpensesPaid: {
+          type: 'string',
+          enum: ['None', 'More than half', 'Half', 'Less than half'],
+        },
+        whoDoesTheStepchildLiveWith: {
+          type: 'object',
+          properties: {
+            first: {
+              type: 'string',
+              minLength: 1,
+              maxLength: 30,
+            },
+            last: {
+              type: 'string',
+              minLength: 1,
+              maxLength: 30,
+            },
+          },
+        },
+        address: {
+          type: 'object',
+          properties: {
+            isMilitary: {
+              type: 'boolean',
+            },
+            country: {
+              type: 'string',
+              enum: countries.map(country => country.value),
+              enumNames: countries.map(country => country.label),
+            },
+            'view:militaryBaseDescription': {
+              type: 'object',
+              properties: {},
+            },
+            street: {
+              type: 'string',
+              minLength: 1,
+              maxLength: 100,
+              pattern: PATTERNS.STREET_PATTERN,
+            },
+            street2: {
+              type: 'string',
+              minLength: 1,
+              maxLength: 100,
+              pattern: PATTERNS.STREET_PATTERN,
+            },
+            street3: {
+              type: 'string',
+              minLength: 1,
+              maxLength: 100,
+              pattern: PATTERNS.STREET_PATTERN,
+            },
+            city: {
+              type: 'string',
+            },
+            state: {
+              type: 'string',
+            },
+            postalCode: {
+              type: 'string',
+            },
+          },
+        },
       },
     },
     uiSchema: {
       reasonForRemoval: {
-        'ui:title': 'Reason for removal',
+        'ui:title': 'Reason for removing this dependent',
         'ui:widget': 'radio',
         'ui:errorMessages': {
           required: 'Please select an option',
         },
       },
-      date: currentOrPastDateUI('Date this occurred'),
+      date: currentOrPastDateUI('Date this happened'),
+      location: {
+        'ui:options': {
+          hideIf: formData =>
+            !isNotRemovingStepchild(formData.reasonForRemoval),
+        },
+        ...locationUiSchema(formData =>
+          isNotRemovingStepchild(formData.reasonForRemoval),
+        ),
+      },
+      livingExpensesPaid: {
+        'ui:title': 'How much of this stepchild’s living expenses do you pay?',
+        'ui:widget': 'radio',
+        'ui:required': formData =>
+          formData.reasonForRemoval === 'reportStepchildNotInHousehold',
+        'ui:options': {
+          hideIf: formData =>
+            formData.reasonForRemoval !== 'reportStepchildNotInHousehold',
+        },
+      },
+      whoDoesTheStepchildLiveWith: {
+        'ui:title': 'Who does this stepchild live with now?',
+        'ui:options': {
+          hideIf: formData =>
+            formData.reasonForRemoval !== 'reportStepchildNotInHousehold',
+        },
+        first: {
+          'ui:title': 'First name',
+          'ui:required': formData =>
+            formData.reasonForRemoval === 'reportStepchildNotInHousehold',
+        },
+        last: {
+          'ui:title': 'Last name',
+          'ui:required': formData =>
+            formData.reasonForRemoval === 'reportStepchildNotInHousehold',
+        },
+      },
+      address: {
+        'ui:title': 'Stepchild’s new address',
+        'ui:options': {
+          hideIf: formData =>
+            formData.reasonForRemoval !== 'reportStepchildNotInHousehold',
+        },
+        ...addressUiSchema(
+          'address',
+          checkBoxTitle,
+          formData =>
+            formData.reasonForRemoval === 'reportStepchildNotInHousehold',
+        ),
+      },
     },
   },
 };

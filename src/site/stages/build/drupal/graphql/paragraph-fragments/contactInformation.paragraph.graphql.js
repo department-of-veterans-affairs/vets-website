@@ -16,6 +16,7 @@ module.exports = `
         }
       }
     }
+    fieldContactInfoSwitch
     fieldContactDefault {
       entity {
         ... supportService

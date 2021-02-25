@@ -130,7 +130,7 @@ export const hasSecondaryCaregiverOne = formData =>
 export const hasSecondaryCaregiverTwo = formData =>
   formData[secondaryOneFields.hasSecondaryCaregiverTwo] === true;
 
-const isSSNUnique = formData => {
+export const isSSNUnique = formData => {
   const {
     veteranSsnOrTin,
     primarySsnOrTin,
@@ -138,11 +138,34 @@ const isSSNUnique = formData => {
     secondaryTwoSsnOrTin,
   } = formData;
 
+  const checkIfPartyIsPresent = (comparator, data) => {
+    if (comparator(formData)) {
+      return data;
+    } else {
+      return undefined;
+    }
+  };
+
+  const presentPrimarySsn = checkIfPartyIsPresent(
+    hasPrimaryCaregiver,
+    primarySsnOrTin,
+  );
+
+  const presentSecondaryOneSsn = checkIfPartyIsPresent(
+    hasSecondaryCaregiverOne,
+    secondaryOneSsnOrTin,
+  );
+
+  const presentSecondaryTwoSsn = checkIfPartyIsPresent(
+    hasSecondaryCaregiverTwo,
+    secondaryTwoSsnOrTin,
+  );
+
   const allSSNs = [
     veteranSsnOrTin,
-    primarySsnOrTin,
-    secondaryOneSsnOrTin,
-    secondaryTwoSsnOrTin,
+    presentPrimarySsn,
+    presentSecondaryOneSsn,
+    presentSecondaryTwoSsn,
   ];
 
   const allValidSSNs = allSSNs.filter(ssn => ssn !== undefined);

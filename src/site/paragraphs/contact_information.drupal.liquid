@@ -4,7 +4,7 @@
 
     <ul class="usa-unstyled-list vads-u-display--flex vads-u-flex-direction--column">
       <!-- Default contact -->
-      {% if entity.fieldBenefitHubContacts == empty and entity.fieldContactDefault != empty %}
+      {% if entity.fieldContactInfoSwitch == 'DC' and entity.fieldContactDefault != empty %}
         <li class="vads-u-margin-top--1">
           <strong>{{ entity.fieldContactDefault.entity.title }} </strong>
           {% if entity.fieldContactDefault.entity.fieldLink %}
@@ -47,7 +47,7 @@
       {% endif %}
 
       <!-- Benefit hub contacts -->
-      {% if entity.fieldBenefitHubContacts != empty %}
+      {% if entity.fieldContactInfoSwitch == 'BHC' and entity.fieldBenefitHubContacts != empty %}
         {% for supportService in entity.fieldBenefitHubContacts.entity.fieldSupportServices %}
           <li class="vads-u-margin-top--1">
             <strong>{{ supportService.entity.title }} </strong>

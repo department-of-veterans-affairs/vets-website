@@ -285,7 +285,7 @@ export function getDirectBookingEligibilityCriteriaMock({
 } = {}) {
   return {
     id,
-    type: 'request_eligibility_criteria',
+    type: 'direct_booking_eligibility_criteria',
     attributes: {
       id,
       coreSettings: [

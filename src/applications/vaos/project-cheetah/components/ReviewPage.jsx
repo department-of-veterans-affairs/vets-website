@@ -45,7 +45,7 @@ function ReviewPage({
         Please review the information before confirming your appointments.
       </p>
       <h2 className="vads-u-margin-bottom--0 vads-u-margin-top--3 vads-u-font-size--h3">
-        COVID-19 vaccination
+        COVID-19 vaccine
       </h2>
       First dose
       <hr aria-hidden="true" className="vads-u-margin-y--2" />

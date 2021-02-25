@@ -114,3 +114,26 @@
   border: 2px solid rgb(249, 198, 66) !important;
   padding: 1px !important;
 }
+
+// add padding between 1-5 rating labels
+.neb-rating-value {
+  margin-right: 4px;
+}
+
+/* 
+  Any on-screen element that someone can click, touch, or otherwise interact with should be large enough for reliable interaction. 
+  Consider making sure these elements have a width and height of at least 48dp (48px). 
+  Source: https://support.google.com/accessibility/android/answer/7101858?hl=en
+*/
+.panel-footer-web .btn {
+  height: 48px;
+}
+
+// adjust the ‘X’ close button position
+.neb-form-close-btn {
+  position: relative;
+  top: 40px !important;
+  right: 12px !important;
+  z-index: 9999999;
+  color: #9f9fa4 !important;
+}
