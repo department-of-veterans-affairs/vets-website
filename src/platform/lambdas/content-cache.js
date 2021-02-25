@@ -27,7 +27,7 @@ exports.handler = async function(event, context) {
   try {
     const contentApi = getDrupalClient(options);
     console.log('Fetching Drupal content...');
-    drupalPages = await contentApi.getAllPages();
+    drupalPages = await contentApi.getAllPagesViaIndividualGraphQlQueries();
     console.log('Successfully fetched Drupal content!');
   } catch (error) {
     console.error('Failed to fetch Drupal content.');
