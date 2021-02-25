@@ -12,27 +12,17 @@ const SubmitLoadingIndicator = ({ submission }) => {
   const getLoadingMessage = useCallback(
     () => {
       switch (true) {
+        // leaving this case in here so it does not trigger ESLint and will be easy to add extra cases for the future
         case timer >= 0 && timer < 15:
-          setLoadingMessage('Still loading your application... 👋🏼');
+          setLoadingMessage('Please wait while we process your application.');
           break;
-        case timer >= 15 && timer < 30:
-          setLoadingMessage('Still loading your application... 👋🏼');
-          break;
-        case timer >= 30 && timer < 60:
+        case timer >= 30:
           setLoadingMessage(
-            'This is taking a little longer that we would like ⏲️',
+            'We’re processing your application. This may take up to 2 minutes. Please don’t refresh your browser.',
           );
-          break;
-        case timer >= 60 && timer < 90:
-          setLoadingMessage(
-            'We are super close to submitting your application 🙏🏼',
-          );
-          break;
-        case timer >= 90 && timer < 120:
-          setLoadingMessage('Almost done I promise 😬');
           break;
         default:
-          setLoadingMessage('Loading your application...');
+          setLoadingMessage('Please wait while we process your application.');
       }
     },
     [timer],
