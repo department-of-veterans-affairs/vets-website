@@ -156,6 +156,38 @@ describe('deriveLastBreadcrumbFromPath', () => {
   });
 });
 
+describe('deriveCLPTotalSections', () => {
+  it('returns back max sections when everything is rendered', () => {
+    expect(
+      liquid.filters.deriveCLPTotalSections(
+        11,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        ['category'],
+      ),
+    ).to.eq(11);
+  });
+
+  it('returns back the correct section count when sections are not rendered', () => {
+    expect(
+      liquid.filters.deriveCLPTotalSections(
+        11,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        [],
+      ),
+    ).to.eq(4);
+  });
+});
+
 describe('formatSeconds', () => {
   it('returns hours when needed', () => {
     expect(liquid.filters.formatSeconds(65245)).to.eq('18:7:25 hours');

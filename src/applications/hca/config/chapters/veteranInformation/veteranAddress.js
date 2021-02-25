@@ -30,10 +30,7 @@ export default {
     'view:doesMailingMatchHomeAddress': {
       'ui:title': 'Is your home address the same as your mailing address?',
       'ui:widget': 'yesNo',
-      'ui:required': formData => formData['view:hasMultipleAddress'],
-      'ui:options': {
-        hideIf: formData => !formData['view:hasMultipleAddress'],
-      },
+      'ui:required': () => true,
     },
   },
   schema: {

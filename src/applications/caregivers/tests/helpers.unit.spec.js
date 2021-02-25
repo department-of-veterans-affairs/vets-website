@@ -1,6 +1,12 @@
-import { submitTransform } from '../helpers';
+import { submitTransform, isSSNUnique } from '../helpers';
 import { expect } from 'chai';
 import formConfig from 'applications/caregivers/config/form';
+import {
+  veteranFields,
+  primaryCaregiverFields,
+  secondaryOneFields,
+  secondaryTwoFields,
+} from 'applications/caregivers/definitions/constants';
 
 // data
 import requiredOnly from './e2e/fixtures/data/requiredOnly.json';
@@ -180,5 +186,69 @@ describe('Caregivers helpers', () => {
       'dateOfBirth',
       'gender',
     ]);
+  });
+
+  it('isSSNUnique should not count a party that is not present', () => {
+    const formData = {
+      [veteranFields.ssn]: '222332222',
+      [primaryCaregiverFields.hasPrimaryCaregiver]: true,
+      [primaryCaregiverFields.ssn]: '111332356',
+      [primaryCaregiverFields.hasSecondaryCaregiverOne]: false,
+      [secondaryOneFields.ssn]: '222332222',
+      [secondaryOneFields.hasSecondaryCaregiverTwo]: true,
+      [secondaryTwoFields.ssn]: '222332221',
+    };
+
+    const areSSNsUnique = isSSNUnique(formData);
+
+    expect(areSSNsUnique).to.be.true;
+  });
+
+  it('isSSNUnique should return false if a SSN is the same and both are present', () => {
+    const formData = {
+      [veteranFields.ssn]: '222332222',
+      [primaryCaregiverFields.hasPrimaryCaregiver]: true,
+      [primaryCaregiverFields.ssn]: '111332356',
+      [primaryCaregiverFields.hasSecondaryCaregiverOne]: true,
+      [secondaryOneFields.ssn]: '444332111',
+      [secondaryOneFields.hasSecondaryCaregiverTwo]: true,
+      [secondaryTwoFields.ssn]: '222332222',
+    };
+
+    const areSSNsUnique = isSSNUnique(formData);
+
+    expect(areSSNsUnique).to.be.false;
+  });
+
+  it('isSSNUnique should return true if all SSNs are different', () => {
+    const formData = {
+      [veteranFields.ssn]: '222332222',
+      [primaryCaregiverFields.hasPrimaryCaregiver]: true,
+      [primaryCaregiverFields.ssn]: '111332356',
+      [primaryCaregiverFields.hasSecondaryCaregiverOne]: true,
+      [secondaryOneFields.ssn]: '444332111',
+      [secondaryOneFields.hasSecondaryCaregiverTwo]: true,
+      [secondaryTwoFields.ssn]: '222332245',
+    };
+
+    const areSSNsUnique = isSSNUnique(formData);
+
+    expect(areSSNsUnique).to.be.true;
+  });
+
+  it('isSSNUnique should return true and not count SSNs if they are undefined', () => {
+    const formData = {
+      [veteranFields.ssn]: '222332222',
+      [primaryCaregiverFields.hasPrimaryCaregiver]: true,
+      [primaryCaregiverFields.ssn]: '111332356',
+      [primaryCaregiverFields.hasSecondaryCaregiverOne]: true,
+      [secondaryOneFields.ssn]: undefined,
+      [secondaryOneFields.hasSecondaryCaregiverTwo]: true,
+      [secondaryTwoFields.ssn]: undefined,
+    };
+
+    const areSSNsUnique = isSSNUnique(formData);
+
+    expect(areSSNsUnique).to.be.true;
   });
 });

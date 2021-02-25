@@ -189,10 +189,10 @@ describe('VAOS integration: Express Care form submission', () => {
       store,
     });
 
-    await waitFor(() => expect(screen.history.replace.called).to.be.true);
-    expect(screen.baseElement.textContent).to.not.be.ok;
-    expect(screen.history.replace.firstCall.args[0]).to.equal(
-      '/new-express-care-request',
+    await waitFor(() =>
+      expect(screen.history.location.pathname).to.equal(
+        '/new-express-care-request',
+      ),
     );
   });
 

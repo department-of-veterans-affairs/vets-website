@@ -4,7 +4,7 @@ import moment from 'moment-timezone';
 import {
   getClinicFromAppointment,
   getAppointmentTimeFromAppointment,
-} from '../../utils';
+} from '../../../shared/utils';
 
 export default function AppointmentDisplay({ appointment, bold }) {
   const appointmentTime = getAppointmentTimeFromAppointment(appointment);

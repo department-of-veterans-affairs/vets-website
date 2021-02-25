@@ -19,7 +19,7 @@ describe('VAOS <PlanAheadPage>', () => {
 
     expect(
       screen.getByRole('link', {
-        name: /learn more about COVID-19 vaccinations at the VA./i,
+        name: /learn more about COVID-19 vaccines at the VA./i,
       }),
     ).to.have.attribute('href', '/health-care/covid-19-vaccine');
 

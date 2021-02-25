@@ -157,6 +157,22 @@ describe('VAOS integration: Express Care info page', () => {
   });
 
   it('should render warning message', async () => {
+    const today = moment();
+    const startTime = today
+      .clone()
+      .subtract(5, 'minutes')
+      .tz('America/Denver');
+    const endTime = today
+      .clone()
+      .add(3, 'minutes')
+      .tz('America/Denver');
+
+    setupExpressCareMocks({
+      startTime,
+      endTime,
+      isUnderRequestLimit: true,
+      isWindowOpen: true,
+    });
     setFetchJSONResponse(
       global.fetch.withArgs(`${environment.API_URL}/v0/maintenance_windows/`),
       {

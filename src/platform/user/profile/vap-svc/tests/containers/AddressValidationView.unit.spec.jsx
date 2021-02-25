@@ -448,7 +448,7 @@ describe('<AddressValidationView/>', () => {
 
     expect(
       component
-        .find('h3')
+        .find('h4')
         .at(0)
         .text(),
     ).to.equal('Please confirm your address');

@@ -166,7 +166,7 @@ describe('Schemaform save / load actions:', () => {
           done(err);
         });
     });
-    it('calls the Form 526-specific api to save the form', done => {
+    it.skip('calls the Form 526-specific api to save the form', done => {
       const thunk = saveAndRedirectToReturnUrl(VA_FORM_IDS.FORM_21_526EZ, {});
       const dispatch = sinon.spy();
 
@@ -335,7 +335,7 @@ describe('Schemaform save / load actions:', () => {
         );
       });
     });
-    it('dispatches a success from the form 526-specific api on form load', () => {
+    it.skip('dispatches a success from the form 526-specific api on form load', () => {
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_21_526EZ, {});
       const dispatch = sinon.spy();
       global.fetch.returns(

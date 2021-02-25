@@ -3,7 +3,7 @@ import React from 'react';
 import {
   getAppointTypeFromAppointment,
   getClinicFromAppointment,
-} from '../../../../questionnaire/utils';
+} from '../../../../shared/utils';
 import { getAppointmentStatus, isAppointmentCancelled } from '../../../utils';
 
 import Status from '../Shared/Labels/Status';

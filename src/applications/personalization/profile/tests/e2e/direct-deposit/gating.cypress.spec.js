@@ -1,5 +1,5 @@
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
-import { PROFILE_PATHS } from '@@profile/constants';
+import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '@@profile/constants';
 
 import mockUserNotInEVSS from '@@profile/tests/fixtures/users/user-non-vet.json';
 import mockUserInEVSS from '@@profile/tests/fixtures/users/user-36.json';
@@ -45,7 +45,9 @@ function confirmDDBlockedAlertIsShown() {
 function confirmDirectDepositIsAvailable() {
   // the DD item should exist in the sub nav
   cy.findByRole('navigation', { name: /secondary/i }).within(() => {
-    cy.findByRole('link', { name: /direct deposit/i }).should('exist');
+    cy.findByRole('link', { name: PROFILE_PATH_NAMES.DIRECT_DEPOSIT }).should(
+      'exist',
+    );
   });
 
   // going directly to DD should work
@@ -62,7 +64,9 @@ function confirmDirectDepositIsBlocked() {
     // Just a test to make sure we can access items in the sub nav to ensure
     // the following test isn't a false negative
     cy.findByRole('link', { name: /personal.*info/i }).should('exist');
-    cy.findByRole('link', { name: /direct deposit/i }).should('not.exist');
+    cy.findByRole('link', { name: PROFILE_PATH_NAMES.DIRECT_DEPOSIT }).should(
+      'not.exist',
+    );
   });
 
   // going directly to DD should redirect to the personal info page

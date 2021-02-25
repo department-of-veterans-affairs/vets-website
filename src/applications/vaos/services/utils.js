@@ -42,6 +42,7 @@ export function mapToFHIRErrors(errors) {
       severity: 'error',
       code: error.code,
       diagnostics: error.title,
+      source: error.source,
       details: {
         code: error.status,
         text: error.detail,

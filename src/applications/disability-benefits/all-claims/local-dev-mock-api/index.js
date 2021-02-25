@@ -123,7 +123,7 @@ const responses = {
     },
   },
 
-  'GET /v0/disability_compensation_in_progress_forms/21-526EZ': {
+  'GET /v0/in_progress_forms/21-526EZ': {
     formData: {
       veteran: {
         primaryPhone: '4445551212',

@@ -30,6 +30,12 @@ const helpSections = [
           'Specify a different host. Use with --env.public to serve the website to your local network.\nE.g. {bold 0.0.0.0}',
       },
       {
+        name: 'env.omitdebug',
+        type: Boolean,
+        description:
+          'Prevent debug output from reaching the DOM, this is useful when needing to compare HTML output versions',
+      },
+      {
         name: 'env.port',
         typeLabel: '{underline number}',
         description: 'Run on a specific port. Defaults to {bold 3001}.',
