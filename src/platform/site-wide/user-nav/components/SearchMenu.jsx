@@ -167,13 +167,13 @@ export class SearchMenu extends React.Component {
     // event logging, note suggestion will be undefined during a userInput search
     recordEvent({
       event: 'view_search_results',
-      'search-dropdown-used': suggestion !== undefined,
       'search-page-path': document.location.pathname,
       'search-query': userInput,
       'search-results-total-count': undefined,
       'search-results-total-pages': undefined,
       'search-selection': 'All VA.gov',
       'search-typeahead-enabled': this.props.searchTypeaheadEnabled,
+      'sitewide-search-app-used': true,
       'type-ahead-option-keyword-selected': suggestion,
       'type-ahead-option-position': suggestion
         ? suggestions.indexOf(suggestion) + 1
