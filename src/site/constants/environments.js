@@ -10,9 +10,6 @@ module.exports = {
   /** The VA.gov dev environment */
   VAGOVDEV: 'vagovdev',
 
-  /** The TEMP VA.gov dev environment for GraphQL */
-  VAGOVDEVGRAPHQL: 'vagovdev-graphql',
-
   /** The VA.gov staging environment. */
   VAGOVSTAGING: 'vagovstaging',
 

@@ -17,6 +17,10 @@
   white-space: nowrap;
 }
 
+.word-break {
+  word-break: break-all;
+}
+
 .clearfix:after {
   content: " ";
   visibility: hidden;
