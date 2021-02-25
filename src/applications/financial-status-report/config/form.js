@@ -9,6 +9,7 @@ import PreSubmitSignature from '../components/PreSubmitSignature';
 import { prefillTransformer } from '../utils/prefillTransformer';
 import * as pages from '../pages';
 import moment from 'moment';
+import SubmissionError from '../components/SubmissionError';
 
 const submit = () => {
   return Promise.resolve(
@@ -26,7 +27,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: PreSubmitSignature,
-  submissionError: '',
+  submissionError: SubmissionError,
   formId: VA_FORM_IDS.FORM_5655,
   version: 0,
   prefillEnabled: true,
