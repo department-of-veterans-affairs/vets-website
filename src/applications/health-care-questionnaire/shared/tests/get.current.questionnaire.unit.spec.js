@@ -11,7 +11,7 @@ describe('health care questionnaire -- utils -- get current questionnaire', () =
     const window = {
       sessionStorage: {
         getItem: () =>
-          JSON.stringify({ questionnaire: { id: 'questionnaire-id-1234' } }),
+          JSON.stringify({ questionnaire: [{ id: 'questionnaire-id-1234' }] }),
       },
     };
     const questionnaire = getCurrentQuestionnaire(window, '67890');
