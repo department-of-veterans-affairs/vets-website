@@ -2,15 +2,19 @@ import React from 'react';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import { pageNames } from '../constants';
 
-const label = 'Who was the recipient of this debt?';
+const label = 'Which of these best describes the person who has this debt?';
 const options = [
   {
     value: pageNames.disagreeFileClaim,
     label: 'Active duty service member',
   },
   {
-    value: pageNames.fileClaim,
+    value: pageNames.submit,
     label: 'Veteran',
+  },
+  {
+    value: pageNames.disagreeFileClaim,
+    label: 'Member of the National Guard or Reserve',
   },
   {
     value: pageNames.disagreeFileClaim,

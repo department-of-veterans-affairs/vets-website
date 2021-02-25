@@ -1,10 +1,10 @@
 export const pageNames = {
-  start: 'start',
+  startPage: 'startPage',
   appeals: 'appeals',
-  todo: 'todo',
+  requestType: 'requestType',
   fileBDD: 'file-bdd',
   unableToFileBDD: 'unable-to-file-bdd',
-  fileClaim: 'file-claim',
+  submit: 'submit-application',
   fileClaimEarly: 'file-claim-early',
   disagreeFileClaim: 'disagree-file-claim',
   recipient: 'recipient',

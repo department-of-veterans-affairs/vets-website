@@ -5,7 +5,7 @@ import { pageNames } from '../constants';
 
 const UnableToFileBDDPage = ({ getPageStateFromPageName }) => {
   const linkText = 'Learn more about the BDD program';
-  const stateBDD = getPageStateFromPageName('todo');
+  const stateBDD = getPageStateFromPageName('requestType');
 
   const dateDischarge = moment({
     day: stateBDD.day.value,

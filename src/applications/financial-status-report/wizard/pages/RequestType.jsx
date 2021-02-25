@@ -2,31 +2,31 @@ import React from 'react';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import { pageNames } from '../constants';
 
-const label = 'What do you need to do?';
+const label = 'What do you want to do for this debt?';
 const options = [
   {
-    value: pageNames.fileClaim,
+    value: pageNames.unableToFileBDD,
     label: 'Make a payment on a debt',
   },
   {
+    value: pageNames.submit,
+    label: 'Report an error or a disagreement with a VA decision',
+  },
+  {
     value: pageNames.fileClaimEarly,
-    label: 'Report a problem with a debt',
-  },
-  {
-    value: pageNames.recipient,
-    label: 'Request a compromise or waiver',
-  },
-  {
-    value: pageNames.unableToFileBDD,
     label: 'Request an extended monthly payment plan',
   },
   {
+    value: pageNames.recipient,
+    label: 'Request debt relief (a waiver or compromise offer)',
+  },
+  {
     value: pageNames.appeals,
-    label: 'Have a waiver decision reconsidered',
+    label: 'Ask VA to reconsider the decision on my waiver request',
   },
 ];
 
-const Todo = ({ setPageState, state = {} }) => (
+const RequestType = ({ setPageState, state = {} }) => (
   <RadioButtons
     name={`${pageNames.appeals}-option`}
     label={label}
@@ -40,6 +40,6 @@ const Todo = ({ setPageState, state = {} }) => (
 );
 
 export default {
-  name: pageNames.todo,
-  component: Todo,
+  name: pageNames.requestType,
+  component: RequestType,
 };

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FormFooter from 'platform/forms/components/FormFooter';
-import formConfig from '../config/form';
+import GetFormHelp from '../components/GetFormHelp';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import pages from '../wizard/pages';
 import Wizard, {
@@ -22,42 +21,39 @@ const WizardContainer = ({ setWizardStatus }) => {
         <div className="wizard-container">
           <h2>Is this the form I need?</h2>
           <p>
-            Answer a few questions to find out if VA Form 5655 is the right form
-            for you. If you’re a dependent or family member, you might need to
-            request repayment assistance using a different version of the
-            Financial Status Report.
+            This form is for Veterans or service members who need help with debt
+            related to VA disability compensation, education, or pension
+            benefits. Answer a few questions to find out if this is the form you
+            need. If not, we’ll guide you to the best way to get help.
           </p>
           <p>
-            If you already know this is the correct form, you can go directly to
-            the online form without answering questions.{' '}
-            <a href="#">
-              Request financial assistance for VA repayments with the Financial
-              Status Report.
-            </a>
+            If you already know this is the form you need, you can go to the
+            form now.
+            <button
+              type="button"
+              className="va-button-link vads-u-display--inline-block skip-wizard-link"
+              onClick={e => {
+                e.preventDefault();
+                setWizardStatus(WIZARD_STATUS_COMPLETE);
+              }}
+            >
+              Request help with VA Form 5655
+            </button>
+          </p>
+          <p>
+            If you need help with a VA copay debt,{' '}
+            <a href="#">learn how to request financial hardship assistance.</a>
           </p>
           <Wizard
             pages={pages}
             expander={false}
             setWizardStatus={setWizardStatus}
           />
-          <h2>Already know this is the right form?</h2>
-          <p>
-            If you know VA Form 21-526EZ is correct, or if you were directed to
-            complete this application, you can go straight to the application
-            without answering the questions above.
-          </p>
-          <button
-            type="button"
-            className="va-button-link vads-u-display--inline-block vads-u-margin-bottom--3 skip-wizard-link"
-            onClick={e => {
-              e.preventDefault();
-              setWizardStatus(WIZARD_STATUS_COMPLETE);
-            }}
-          >
-            If you know VA Form 21-526EZ is right, apply now
-          </button>
         </div>
-        <FormFooter formConfig={formConfig} />
+        <div className="help-container">
+          <h2 className="help-heading">Need help?</h2>
+          <GetFormHelp />
+        </div>
       </div>
     </div>
   );

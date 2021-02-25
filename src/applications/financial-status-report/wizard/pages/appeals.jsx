@@ -5,7 +5,7 @@ import { pageNames } from '../constants';
 const label = 'Are you filing a new claim?';
 const options = [
   {
-    value: pageNames.fileClaim,
+    value: pageNames.submit,
     label: 'I’m filing a claim for a new condition for a condition',
   },
   {

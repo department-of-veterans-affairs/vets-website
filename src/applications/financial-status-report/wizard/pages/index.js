@@ -1,19 +1,19 @@
-import start from './start';
+import startPage from './StartPage';
 import appeals from './appeals';
-import todo from './todo';
+import requestType from './RequestType';
 import fileBDD from './file-bdd';
 import unableToFileBDD from './unable-to-file-bdd';
-import fileClaim from './file-claim';
+import submit from './SubmitApplication';
 import disagreeFileClaim from './disagree-file-claim';
-import recipient from './recipient';
+import recipient from './RecipientPage';
 
 export default [
-  start,
+  startPage,
   appeals,
-  todo,
+  requestType,
   fileBDD,
   unableToFileBDD,
-  fileClaim,
+  submit,
   disagreeFileClaim,
   recipient,
 ];
