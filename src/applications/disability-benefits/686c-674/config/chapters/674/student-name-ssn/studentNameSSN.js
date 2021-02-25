@@ -1,6 +1,9 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import { isChapterFieldRequired } from '../../../helpers';
+import {
+  isChapterFieldRequired,
+  PensionIncomeRemovalQuestionTitle,
+} from '../../../helpers';
 import { validateName, report674 } from '../../../utilities';
 import { NotificationText } from './helpers';
 
@@ -54,6 +57,10 @@ export const uiSchema = {
         'ui:required': formData =>
           isChapterFieldRequired(formData, 'report674'),
       },
+    },
+    dependentIncome: {
+      'ui:title': PensionIncomeRemovalQuestionTitle,
+      'ui:widget': 'yesNo',
     },
   },
 };
