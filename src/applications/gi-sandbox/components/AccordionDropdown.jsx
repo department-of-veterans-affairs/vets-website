@@ -44,7 +44,11 @@ const AccordionDropdown = ({
             {children}
 
             <div className="footer-controls">
-              {displayCancel && <span onClick={toggleExpanded}>Cancel</span>}
+              {displayCancel && (
+                <span className="cancel" onClick={toggleExpanded}>
+                  Cancel
+                </span>
+              )}
 
               {displayButton && (
                 <button
