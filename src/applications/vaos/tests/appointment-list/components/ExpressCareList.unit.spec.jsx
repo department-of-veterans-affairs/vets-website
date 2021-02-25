@@ -9,7 +9,10 @@ import {
 } from 'platform/testing/unit/helpers';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { getVARequestMock } from '../../mocks/v0';
-import { mockAppointmentInfo } from '../../mocks/helpers';
+import {
+  mockAppointmentInfo,
+  mockRequestCancelFetch,
+} from '../../mocks/helpers';
 import { renderFromRoutes } from '../../mocks/setup';
 
 describe('VAOS integration: express care requests', () => {
@@ -325,20 +328,7 @@ describe('VAOS integration: express care requests', () => {
         reasonForVisit: 'Back pain',
       };
       mockAppointmentInfo({ requests: [appointment] });
-      setFetchJSONResponse(
-        global.fetch.withArgs(
-          `${environment.API_URL}/vaos/v0/appointment_requests/test_id`,
-        ),
-        {
-          data: {
-            ...appointment,
-            attributes: {
-              ...appointment.attributes,
-              status: 'Cancelled',
-            },
-          },
-        },
-      );
+      mockRequestCancelFetch(appointment);
 
       const {
         getByText,
