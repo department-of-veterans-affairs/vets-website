@@ -10,21 +10,22 @@ describe('health care questionnaire -- utils -- create form id from appointment 
 
   it('no appointment id -- should still return a form id', () => {
     const formId = 'my-cool-form';
-    const id = addAppointmentIdToFormId(undefined, formId);
+    const id = addAppointmentIdToFormId(formId, undefined);
     expect(id).to.equal(formId);
   });
 
   it('appointment is defined -- should the the whole id', () => {
     const formId = 'my-cool-form';
     const appointmentId = '123';
-    const id = addAppointmentIdToFormId(appointmentId, formId);
-    expect(id).to.equal('my-cool-form_123');
+    const questionnaireId = '789';
+    const id = addAppointmentIdToFormId(formId, appointmentId, questionnaireId);
+    expect(id).to.equal('my-cool-form_123_789');
   });
 
   it('no duplication of appointment id', () => {
     const formId = 'my-cool-form_123';
     const appointmentId = '123';
-    const id = addAppointmentIdToFormId(appointmentId, formId);
+    const id = addAppointmentIdToFormId(formId, appointmentId);
     expect(id).to.equal('my-cool-form_123');
   });
 });

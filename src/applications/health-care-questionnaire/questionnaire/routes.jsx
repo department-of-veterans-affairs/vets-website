@@ -10,9 +10,12 @@ import {
 } from '../shared/utils';
 
 const id = getCurrentAppointmentId(window);
-// eslint-disable-next-line no-unused-vars
 const questionnaire = getCurrentQuestionnaire(window, id);
-formConfig.formId = addAppointmentIdToFormId(id, formConfig.formId);
+formConfig.formId = addAppointmentIdToFormId(
+  formConfig.formId,
+  id,
+  questionnaire.id,
+);
 
 const route = {
   path: '/',
