@@ -4,6 +4,7 @@ node_modules/
 logs/
 tmp/
 out/
+src/applications/vaos/docs/
 
 # Files to ignore
 ._*

@@ -1,8 +1,13 @@
 {
   "plugins": ["plugins/markdown"],
+  "source": {
+    "include": "./src/applications/vaos",
+    "includePattern": ".+.js(doc|x)?$"
+  },
   "opts": {
     "template": "node_modules/docdash",
-    "recurse": true
+    "recurse": true,
+    "destination": "./src/applications/vaos/docs/"
   },
   "docdash": {
     "sort": true,
