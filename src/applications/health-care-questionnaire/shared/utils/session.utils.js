@@ -82,6 +82,17 @@ const clearSelectedAppointmentData = (window, id) => {
   sessionStorage.removeItem(key);
 };
 
+const clearAllSelectedAppointments = window => {
+  const { sessionStorage } = window;
+  const { SELECTED_APPOINTMENT_DATA } = SESSION_STORAGE_KEYS;
+
+  const keyToClear = SELECTED_APPOINTMENT_DATA;
+  Object.keys(sessionStorage)
+    .map(key => key)
+    .filter(key => key.startsWith(keyToClear))
+    .forEach(key => sessionStorage.removeItem(key));
+};
+
 export {
   clearCurrentSession,
   getCurrentAppointmentId,
@@ -89,4 +100,5 @@ export {
   setSelectedAppointmentData,
   getSelectedAppointmentData,
   clearSelectedAppointmentData,
+  clearAllSelectedAppointments,
 };
