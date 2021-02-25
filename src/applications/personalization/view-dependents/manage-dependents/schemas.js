@@ -103,13 +103,42 @@ export const SCHEMAS = {
     },
     uiSchema: {
       reasonMarriageEnded: {
-        'ui:title': 'Reason marraged ended:',
+        'ui:title': 'Reason marriage ended:',
         'ui:widget': 'radio',
         'ui:errorMessages': {
           required: 'Please select an option',
         },
       },
       date: currentOrPastDateUI('Date marriage ended'),
+      location: locationUiSchema(() => true),
+    },
+  },
+  Parent: {
+    schema: {
+      type: 'object',
+      required: ['reasonForRemoval', 'date'],
+      properties: {
+        reasonForRemoval: {
+          type: 'string',
+          enum: ['LEFTHOUSEHOLD', 'DEATH'],
+          enumNames: ['Dependent has left household', 'Dependent’s death'],
+        },
+        date: {
+          type: 'string',
+          pattern: PATTERNS.date,
+        },
+        location: locationSchema,
+      },
+    },
+    uiSchema: {
+      reasonForRemoval: {
+        'ui:title': 'Reason for removing dependent:',
+        'ui:widget': 'radio',
+        'ui:errorMessages': {
+          required: 'Please select an option',
+        },
+      },
+      date: currentOrPastDateUI('Date this happened'),
       location: locationUiSchema(() => true),
     },
   },
