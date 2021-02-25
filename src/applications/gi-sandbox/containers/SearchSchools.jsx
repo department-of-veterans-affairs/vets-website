@@ -11,6 +11,7 @@ import CheckboxGroup from '../components/CheckboxGroup';
 import Dropdown from '../components/Dropdown';
 import LearnMoreLabel from '../components/LearnMoreLabel';
 import SearchBenefits from '../components/SearchBenefits';
+import RadioButtons from '../components/RadioButtons';
 
 export const SearchSchools = ({
   eligibility,
@@ -59,6 +60,10 @@ export const SearchSchools = ({
     filters.levelOfInstitution,
   );
 
+  const [inPersonClasses, setInPersonClasses] = useState(
+    filters.inPersonClasses,
+  );
+
   const [
     excludeWarningsAndCautionFlags,
     setExcludeWarningsAndCautionFlags,
@@ -84,6 +89,7 @@ export const SearchSchools = ({
       levelOfDegree,
       major,
       schoolName,
+      inPersonClasses,
     });
   };
 
@@ -189,6 +195,24 @@ export const SearchSchools = ({
               setGiBillChapter={setGiBillChapter}
               setMilitaryStatus={setMilitaryStatus}
               setSpouseActiveDuty={setSpouseActiveDuty}
+            />
+            <RadioButtons
+              label={
+                <LearnMoreLabel
+                  text="Will you be taking any classes in person?"
+                  onClick={() =>
+                    dispatchShowModal('onlineOnlyDistanceLearning')
+                  }
+                  ariaLabel="Learn more about how we calculate your housing allowance based on where you take classes"
+                />
+              }
+              name="inPersonClasses"
+              options={[
+                { value: 'no', label: 'Yes' },
+                { value: 'yes', label: 'No' },
+              ]}
+              value={inPersonClasses}
+              onChange={e => setInPersonClasses(e.target.value)}
             />
           </AccordionDropdown>
         </div>

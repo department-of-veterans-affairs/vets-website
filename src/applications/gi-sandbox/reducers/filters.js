@@ -13,6 +13,7 @@ const INITIAL_STATE = Object.freeze({
     twoYear: true,
   },
   major: '',
+  inPersonClasses: 'yes',
 });
 
 export default function(state = INITIAL_STATE, action) {
