@@ -9,7 +9,7 @@ const options = [
     label: 'VA disability compensation, education, or pension benefits',
   },
   {
-    value: pageNames.appeals,
+    value: pageNames.copays,
     label: 'VA health care copays',
   },
   {
