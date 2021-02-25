@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
@@ -34,7 +34,12 @@ import {
 import ApplicationInProgress from './ApplicationInProgress';
 import BenefitOfInterest from './BenefitOfInterest';
 
-const ApplicationsInProgress = ({ verifiedSavedForms }) => {
+const ApplicationsInProgress = ({ savedForms }) => {
+  const verifiedSavedForms = useMemo(
+    () => savedForms.filter(isSIPEnabledForm).sort(sipFormSorter),
+    [savedForms],
+  );
+
   return (
     <>
       <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--2p5">
@@ -152,9 +157,9 @@ const ApplyForBenefits = ({
   hasLoadedAllData,
   isInESR,
   isPatient,
+  savedForms,
   shouldGetDD4EDUStatus,
   shouldGetESRStatus,
-  verifiedSavedForms,
 }) => {
   useEffect(
     () => {
@@ -180,7 +185,7 @@ const ApplyForBenefits = ({
   return (
     <>
       <h2>Apply for benefits</h2>
-      <ApplicationsInProgress verifiedSavedForms={verifiedSavedForms} />
+      <ApplicationsInProgress savedForms={savedForms} />
       <BenefitsOfInterest showChildren={hasLoadedAllData}>
         <>
           {showHealthCare && (
@@ -229,9 +234,6 @@ const ApplyForBenefits = ({
 const mapStateToProps = state => {
   const isPatient = isVAPatient(state);
   const savedForms = selectProfile(state).savedForms || [];
-  const verifiedSavedForms = savedForms
-    .filter(isSIPEnabledForm)
-    .sort(sipFormSorter);
   const esrEnrollmentStatus = selectESRStatus(state).enrollmentStatus;
 
   const shouldGetESRStatus = !isPatient;
@@ -252,9 +254,9 @@ const mapStateToProps = state => {
       !!esrEnrollmentStatus &&
       esrEnrollmentStatus !== HCA_ENROLLMENT_STATUSES.noneOfTheAbove,
     isPatient,
+    savedForms,
     shouldGetDD4EDUStatus,
     shouldGetESRStatus,
-    verifiedSavedForms,
   };
 };
 
