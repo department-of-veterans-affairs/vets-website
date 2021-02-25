@@ -33,11 +33,7 @@ const App = props => {
   } = props;
   const [isLoading, setIsLoading] = useState(true);
   const [form, setForm] = useState(formConfig);
-  const redirect = () => {
-    window.location.replace(
-      '/health-care/health-questionnaires/questionnaires',
-    );
-  };
+
   useEffect(
     () => {
       const id = getCurrentAppointmentId(window);
@@ -46,7 +42,9 @@ const App = props => {
         const data = getSelectedAppointmentData(window, id);
         if (!data) {
           clearCurrentSession(window);
-          redirect();
+          window.location.replace(
+            '/health-care/health-questionnaires/questionnaires',
+          );
         }
         const { appointment } = data;
 
@@ -64,7 +62,6 @@ const App = props => {
         });
       } else {
         setIsLoading(false);
-        redirect();
       }
     },
     [setLoading, setLoadedAppointment, isLoggedIn],
