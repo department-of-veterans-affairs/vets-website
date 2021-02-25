@@ -46,7 +46,7 @@ const HealthCareCard = ({ type, cardProperties, noActiveData }) => {
     : `vads-u-background-color--gray-lightest ${standardClass}`;
 
   return (
-    <div className="vads-u-display--flex vads-u-flex-direction--column vads-l-col--12 medium-screen:vads-l-col--6 large-screen:vads-l-col--4 medium-screen:vads-u-padding-right--3">
+    <div className="vads-u-display--flex vads-u-flex-direction--column vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--4 medium-screen:vads-u-padding-right--3">
       {/* Title */}
       <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--2p5">
         {sectionTitle}
@@ -58,8 +58,12 @@ const HealthCareCard = ({ type, cardProperties, noActiveData }) => {
           {cardTitle}
         </h4>
         <p>{line1}</p>
-        {!noActiveData && <p>{line2}</p>}
-        <p className="vads-u-margin-bottom--0">{line3}</p>
+        {!noActiveData && (
+          <>
+            <p>{line2}</p>
+            <p className="vads-u-margin-bottom--0">{line3}</p>
+          </>
+        )}
       </div>
 
       {/* CTA */}
