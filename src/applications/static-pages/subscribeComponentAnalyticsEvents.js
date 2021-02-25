@@ -10,21 +10,23 @@ export default function subscribeComponentAnalyticsEvents() {
     // Is it a component we are tracking?
     const component = analyticsEvents[e.detail.componentName];
 
-    const action = component.find(ev => ev.action === e.detail.action);
+    if (component) {
+      const action = component.find(ev => ev.action === e.detail.action);
 
-    if (action) {
-      const dataLayer = { event: action.event };
+      if (action) {
+        const dataLayer = { event: action.event };
 
-      // If the event included additional details / context...
-      if (e.detail.details) {
-        for (const key of Object.keys(e.detail.details)) {
-          const newKey = `${kebabCase(e.detail.componentName)}-${key}`;
+        // If the event included additional details / context...
+        if (e.detail.details) {
+          for (const key of Object.keys(e.detail.details)) {
+            const newKey = `${kebabCase(e.detail.componentName)}-${key}`;
 
-          dataLayer[newKey] = e.detail.details[key];
+            dataLayer[newKey] = e.detail.details[key];
+          }
         }
-      }
 
-      recordEvent(dataLayer);
+        recordEvent(dataLayer);
+      }
     }
   });
 }
