@@ -359,8 +359,11 @@ export default class ArrayField extends React.Component {
             );
             const isLast = items.length === index + 1;
             const isEditing = this.state.editing[index];
+            const ariaLabel = uiOptions.itemAriaLabel;
             const itemName =
-              item?.[uiOptions.itemKeyForAriaLabel] || uiOptions.itemName;
+              (typeof ariaLabel === 'function' && ariaLabel(item || {})) ||
+              uiOptions.itemName ||
+              'Item';
             const legendText = `${
               isLast && items.length > 1 ? 'New' : 'Editing'
             } ${itemName || ''} ${

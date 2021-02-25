@@ -66,6 +66,7 @@ class SearchApp extends React.Component {
         keywordSelected: undefined,
         keywordPosition: undefined,
         suggestionsList: undefined,
+        sitewideSearch: false,
       });
     }
   }
@@ -111,6 +112,7 @@ class SearchApp extends React.Component {
       keywordSelected: undefined,
       keywordPosition: undefined,
       suggestionsList: undefined,
+      sitewideSearch: false,
     });
 
     // Update query is necessary

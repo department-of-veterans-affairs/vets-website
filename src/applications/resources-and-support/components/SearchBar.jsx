@@ -22,13 +22,13 @@ export default function SearchBar({
     if (isGlobalSearch) {
       recordEvent({
         event: 'view_search_results',
-        'search-dropdown-used': false,
         'search-page-path': document.location.pathname,
         'search-query': userInput,
         'search-results-total-count': undefined,
         'search-results-total-pages': undefined,
         'search-selection': 'All VA.gov',
         'search-typeahead-enabled': false,
+        'sitewide-search-app-used': false, // this is not the sitewide search app
         'type-ahead-option-keyword-selected': undefined,
         'type-ahead-option-position': undefined,
         'type-ahead-options-list': undefined,
