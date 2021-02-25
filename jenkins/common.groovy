@@ -19,16 +19,12 @@ DRUPAL_CREDENTIALS = [
 ALL_VAGOV_BUILDTYPES = [
   'vagovdev',
   'vagovstaging',
-  'vagovprod',
-  'vagovdev-graphql'
+  'vagovprod'
 ]
 
 BUILD_TYPE_OVERRIDE = DRUPAL_MAPPING.get(params.cmsEnvBuildOverride, null)
 
 VAGOV_BUILDTYPES = BUILD_TYPE_OVERRIDE ? [BUILD_TYPE_OVERRIDE] : ALL_VAGOV_BUILDTYPES
-
-// Force GraphQL in all builds when true
-FORCE_LEGACY_GRAPHQL = false;
 
 DEV_BRANCH = 'master'
 STAGING_BRANCH = 'master'
@@ -201,23 +197,17 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
   }
 }
 
-def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache, Boolean contentOnlyBuild, Boolean useCMSExport) {
+def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache, Boolean contentOnlyBuild) {
   // Use Drupal prod for all environments
   def drupalAddress = DRUPAL_ADDRESSES.get('vagovprod')
   def drupalCred = DRUPAL_CREDENTIALS.get('vagovprod')
   def drupalMode = useCache ? '' : '--pull-drupal'
-  def cmsExportFlag = useCMSExport ? '--use-cms-export' : ''
 
   withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLogPath = "/application/${envName}-build.log"
 
-      if (envName == 'vagovdev-graphql') {
-       sh "cd /application && jenkins/build.sh --envName vagovdev --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose ${cmsExportFlag} --destination ${envName}"
-      } else {
-       sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose ${cmsExportFlag} --destination ${envName}"
-      }
-      
+      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose"
 
       if (envName == 'vagovprod') {
         // Find any broken links in the log
@@ -232,7 +222,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
 def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
   stage("Build") {
     if (shouldBail()) { return }
-    
+
     try {
       def builds = [:]
       def envUsedCache = [:]
@@ -240,30 +230,22 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
-        def useCMSExport = envName == 'vagovdev' && !FORCE_LEGACY_GRAPHQL;
-        def trimmedEnvName = envName == 'vagovdev-graphql' ? 'vagovdev' : envName
-
         builds[envName] = {
           try {
-            build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild, useCMSExport)
+            build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
             envUsedCache[envName] = false
           } catch (error) {
-            if (useCMSExport) {
-              // Output error message but don't fail the build
-              echo "CMS Export build failed: ${error}"
-            } else {
-              // We're not using the cache for content only builds, because requesting
-              // a content only build is an attempt to refresh content from the current set
-              if (!contentOnlyBuild) {
-                dockerContainer.inside(DOCKER_ARGS) {
-                  sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${trimmedEnvName}"
-                }
-                build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild, useCMSExport)
-                envUsedCache[envName] = true
-              } else {
-                build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild, useCMSExport)
-                envUsedCache[envName] = false
+            // We're not using the cache for content only builds, because requesting
+            // a content only build is an attempt to refresh content from the current set
+            if (!contentOnlyBuild) {
+              dockerContainer.inside(DOCKER_ARGS) {
+                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
               }
+              build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
+              envUsedCache[envName] = true
+            } else {
+              build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+              envUsedCache[envName] = false
             }
           }
         }
@@ -279,17 +261,8 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 }
 
 def prearchive(dockerContainer, envName) {
-  def drupalAddress = DRUPAL_ADDRESSES.get('vagovprod')
   dockerContainer.inside(DOCKER_ARGS) {
-    // Special condition to point dev cms export to vagovdev
-    if (envName == 'vagovdev' && !FORCE_LEGACY_GRAPHQL) {
-      sh "cd /application && NODE_ENV=production yarn build --buildtype vagovdev --setPublicPath --drupal-address ${drupalAddress} --use-cms-export"
-    } else if (envName == 'vagovdev-graphql') {
-      sh "cd /application && NODE_ENV=production yarn build --buildtype vagovdev --setPublicPath --drupal-address ${drupalAddress} --destination ${envName}"
-    } else {
-      sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath --drupal-address ${drupalAddress} "
-    }
-
+    sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath"
     sh "cd /application && node --max-old-space-size=10240 script/prearchive.js --buildtype=${envName}"
   }
 }
@@ -298,27 +271,22 @@ def prearchiveAll(dockerContainer) {
   stage("Prearchive Optimizations") {
     if (shouldBail()) { return }
 
-    def builds = [:]
+    try {
+      def builds = [:]
 
-    for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
-      def envName = VAGOV_BUILDTYPES.get(i)
+      for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
+        def envName = VAGOV_BUILDTYPES.get(i)
 
-      builds[envName] = {
-        try {
+        builds[envName] = {
           prearchive(dockerContainer, envName)
-        } catch (error) {
-          if (envName == 'vagovdev' && !FORCE_LEGACY_GRAPHQL) {
-            // Output error message but don't fail the build
-            echo "CMS Export prearchive failed: ${error}"
-          } else {
-            slackNotify()
-            throw error
-          }
         }
       }
-    }
 
-    parallel builds
+      parallel builds
+    } catch (error) {
+      slackNotify()
+      throw error
+    }
   }
 }
 
@@ -340,27 +308,23 @@ def archiveAll(dockerContainer, String ref) {
   stage("Archive") {
     if (shouldBail()) { return }
 
-    def archives = [:]
+    try {
+      def archives = [:]
 
-    for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
-      def envName = VAGOV_BUILDTYPES.get(i)
+      for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
+        def envName = VAGOV_BUILDTYPES.get(i)
 
-      archives[envName] = {
-        try {
+        archives[envName] = {
           archive(dockerContainer, ref, envName)
-        } catch (error) {
-          if (envName == 'vagovdev' && !FORCE_LEGACY_GRAPHQL) {
-            // Output error message but don't fail the build
-            echo "CMS Export prearchive failed: ${error}"
-          } else {
-            slackNotify()
-            throw error
-          }
         }
       }
-    }
 
-    parallel archives
+      parallel archives
+
+    } catch (error) {
+      slackNotify()
+      throw error
+    }
   }
 }
 
