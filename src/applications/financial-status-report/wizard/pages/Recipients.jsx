@@ -5,7 +5,7 @@ import { pageNames } from '../constants';
 const label = 'Which of these best describes the person who has this debt?';
 const options = [
   {
-    value: pageNames.disagreeFileClaim,
+    value: pageNames.copays,
     label: 'Active duty service member',
   },
   {
@@ -13,24 +13,24 @@ const options = [
     label: 'Veteran',
   },
   {
-    value: pageNames.disagreeFileClaim,
+    value: pageNames.copays,
     label: 'Member of the National Guard or Reserve',
   },
   {
-    value: pageNames.disagreeFileClaim,
+    value: pageNames.copays,
     label: 'Spouse',
   },
   {
-    value: pageNames.disagreeFileClaim,
+    value: pageNames.copays,
     label: 'Dependent',
   },
 ];
 
-const RecipientPage = ({ setPageState, state = {} }) => (
+const Recipients = ({ setPageState, state = {} }) => (
   <RadioButtons
-    name={`${pageNames.recipient}-option`}
+    name={`${pageNames.recipients}-option`}
     label={label}
-    id={`${pageNames.recipient}-option`}
+    id={`${pageNames.recipients}-option`}
     options={options}
     onValueChange={({ value }) => {
       setPageState({ selected: value }, value);
@@ -40,6 +40,6 @@ const RecipientPage = ({ setPageState, state = {} }) => (
 );
 
 export default {
-  name: pageNames.recipient,
-  component: RecipientPage,
+  name: pageNames.recipients,
+  component: Recipients,
 };

@@ -5,7 +5,7 @@ import { pageNames } from '../constants';
 const label = 'What’s this debt related to?';
 const options = [
   {
-    value: pageNames.requestType,
+    value: pageNames.request,
     label: 'VA disability compensation, education, or pension benefits',
   },
   {
@@ -30,10 +30,10 @@ const options = [
   },
 ];
 
-const StartPage = ({ setPageState, state = {} }) => (
+const Start = ({ setPageState, state = {} }) => (
   <RadioButtons
-    id={`${pageNames.startPage}-option`}
-    name={`${pageNames.startPage}-option`}
+    id={`${pageNames.start}-option`}
+    name={`${pageNames.start}-option`}
     label={label}
     options={options}
     value={{ value: state.selected }}
@@ -44,6 +44,6 @@ const StartPage = ({ setPageState, state = {} }) => (
 );
 
 export default {
-  name: pageNames.startPage,
-  component: StartPage,
+  name: pageNames.start,
+  component: Start,
 };

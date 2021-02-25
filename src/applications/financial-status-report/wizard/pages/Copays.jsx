@@ -1,7 +1,7 @@
 import React from 'react';
 import { pageNames } from '../constants';
 
-const DisagreeFileClaimPage = () => {
+const Copays = () => {
   const linkText = 'Learn about the decision review process';
 
   return (
@@ -18,6 +18,6 @@ const DisagreeFileClaimPage = () => {
 };
 
 export default {
-  name: pageNames.disagreeFileClaim,
-  component: DisagreeFileClaimPage,
+  name: pageNames.copays,
+  component: Copays,
 };

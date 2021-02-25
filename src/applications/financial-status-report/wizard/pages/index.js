@@ -1,19 +1,8 @@
-import startPage from './StartPage';
+import start from './Start';
 import appeals from './appeals';
-import requestType from './RequestType';
-import fileBDD from './file-bdd';
-import unableToFileBDD from './unable-to-file-bdd';
-import submit from './SubmitApplication';
-import disagreeFileClaim from './disagree-file-claim';
-import recipient from './RecipientPage';
+import request from './Request';
+import submit from './Submit';
+import copays from './Copays';
+import recipients from './Recipients';
 
-export default [
-  startPage,
-  appeals,
-  requestType,
-  fileBDD,
-  unableToFileBDD,
-  submit,
-  disagreeFileClaim,
-  recipient,
-];
+export default [start, appeals, request, submit, copays, recipients];

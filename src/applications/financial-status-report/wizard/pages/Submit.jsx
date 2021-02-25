@@ -6,7 +6,7 @@ import Telephone, {
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
-const SubmitApplication = ({ setWizardStatus }) => {
+const Submit = ({ setWizardStatus }) => {
   const label = 'Submit a Financial Status Report';
 
   return (
@@ -37,5 +37,5 @@ const SubmitApplication = ({ setWizardStatus }) => {
 
 export default {
   name: pageNames.submit,
-  component: SubmitApplication,
+  component: Submit,
 };

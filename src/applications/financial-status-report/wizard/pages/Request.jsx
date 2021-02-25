@@ -5,7 +5,7 @@ import { pageNames } from '../constants';
 const label = 'What do you want to do for this debt?';
 const options = [
   {
-    value: pageNames.unableToFileBDD,
+    value: pageNames.appeals,
     label: 'Make a payment on a debt',
   },
   {
@@ -13,11 +13,11 @@ const options = [
     label: 'Report an error or a disagreement with a VA decision',
   },
   {
-    value: pageNames.fileClaimEarly,
+    value: pageNames.appeals,
     label: 'Request an extended monthly payment plan',
   },
   {
-    value: pageNames.recipient,
+    value: pageNames.recipients,
     label: 'Request debt relief (a waiver or compromise offer)',
   },
   {
@@ -26,7 +26,7 @@ const options = [
   },
 ];
 
-const RequestType = ({ setPageState, state = {} }) => (
+const Request = ({ setPageState, state = {} }) => (
   <RadioButtons
     name={`${pageNames.appeals}-option`}
     label={label}
@@ -40,6 +40,6 @@ const RequestType = ({ setPageState, state = {} }) => (
 );
 
 export default {
-  name: pageNames.requestType,
-  component: RequestType,
+  name: pageNames.request,
+  component: Request,
 };

@@ -7,17 +7,17 @@ import Wizard, {
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
 
-const FORM_STATUS_BDD = 'formStatusBdd';
+const FSR_FORM_STATUS = 'fsrFormStatus';
 
 const WizardContainer = ({ setWizardStatus }) => {
-  sessionStorage.removeItem(FORM_STATUS_BDD);
+  sessionStorage.removeItem(FSR_FORM_STATUS);
   return (
     <div className="fsr-wizard row">
       <div className="usa-width-two-thirds medium-8 columns">
-        <FormTitle title={'Request help with VA debt with VA Form 5655'} />
-        <p className="subtitle">
-          Equal to VA Form 5655 (Financial Status Report)
-        </p>
+        <FormTitle
+          title={'Request help with VA debt (VA Form 5655)'}
+          subTitle={'Equal to VA Form 5655 (Financial Status Report)'}
+        />
         <div className="wizard-container">
           <h2>Is this the form I need?</h2>
           <p>
