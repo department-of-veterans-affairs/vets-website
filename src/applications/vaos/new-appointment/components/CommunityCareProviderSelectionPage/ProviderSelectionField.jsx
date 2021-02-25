@@ -408,17 +408,19 @@ function ProviderSelectionField({
                   </button>
                 </>
               )}
-              <button
-                type="button"
-                className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
-                onClick={() => {
-                  setProvidersListLength(INITIAL_PROVIDER_DISPLAY_COUNT);
-                  setShowProvidersList(false);
-                }}
-                aria-label="Cancel choosing a provider"
-              >
-                Cancel
-              </button>
+              {communityCareProviderList?.length > 0 && (
+                <button
+                  type="button"
+                  className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
+                  onClick={() => {
+                    setProvidersListLength(INITIAL_PROVIDER_DISPLAY_COUNT);
+                    setShowProvidersList(false);
+                  }}
+                  aria-label="Cancel choosing a provider"
+                >
+                  Cancel
+                </button>
+              )}
             </div>
           </>
         )}
