@@ -6,7 +6,6 @@
 
 <div id="content" class="interior" data-template="node-campaign_landing_page">
   <main>
-
     <!-- Hero-->
     <div class="va-u-background--image" style="background-image: url('{{ fieldHeroImage.entity.image.url }}">
       <!-- Hero Content -->
@@ -36,7 +35,7 @@
 
     <!-- Why This Matters -->
     <div class="vads-u-background-color--primary-alt-lightest">
-      <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
+      <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-bottom--3 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
         <div class="vads-l-row">
           <!-- Content -->
           <div class="vads-l-col--12 medium-screen:vads-l-col--9">
@@ -93,7 +92,7 @@
     <!-- /Why This Matters -->
 
     <!-- What You Can Do -->
-    <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
+    <div class="vads-l-grid-container vads-u-padding-y--3 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
       <div class="vads-l-row">
         <div class="vads-l-col--12 medium-screen:vads-l-col--9">
           <!-- Title -->
@@ -127,7 +126,7 @@
 
     <!-- Video -->
     {% if fieldClpVideoPanel %}
-      <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
+      <div class="vads-l-grid-container vads-u-padding-y--3 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
         <div class="vads-l-row">
           <!-- CONTENT -->
           <div class="vads-l-col--12 medium-screen:vads-l-col--9">
@@ -184,7 +183,7 @@
 
     <!-- Spotlight -->
     {% if fieldClpSpotlightPanel %}
-      <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
+      <div class="vads-l-grid-container vads-u-padding-y--3 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
         <div class="vads-l-row">
           <div class="vads-l-col--12 medium-screen:vads-l-col--9">
             <p class="va-u-text-transform--uppercase vads-u-color--gray-medium vads-u-font-size--sm vads-u-margin-bottom--0">Spotlight</p>
@@ -225,7 +224,7 @@
 
     <!-- Stories -->
     {% if fieldClpStoriesPanel %}
-      <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
+      <div class="vads-l-grid-container vads-u-padding-y--3 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
         <div class="vads-l-row">
           <!-- CONTENT -->
           <div class="vads-l-col--12 medium-screen:vads-l-col--9">
@@ -283,7 +282,7 @@
 
     <!-- Downloadable Resources -->
     {% if fieldClpResourcesPanel %}
-      <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
+      <div class="vads-l-grid-container vads-u-padding-y--3 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
         <div class="vads-l-row">
           <div class="vads-l-col--12 medium-screen:vads-l-col--9">
             <!-- Title -->
@@ -333,7 +332,7 @@
 
     <!-- Events -->
     {% if fieldClpEventsPanel %}
-      <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
+      <div class="vads-l-grid-container vads-u-padding-y--3 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
 
         <!-- Content -->
         <div class="vads-l-row">
@@ -427,7 +426,7 @@
 
     <!-- FAQs -->
     {% if fieldClpFaqPanel %}
-      <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
+      <div class="vads-l-grid-container vads-u-padding-y--3 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
         <div class="vads-l-row">
           <div class="vads-l-col--12 medium-screen:vads-l-col--9">
             <!-- Title -->
@@ -475,7 +474,7 @@
 
     <!-- Connect with us -->
     {% assign socialLinksObject = fieldClpConnectWithUs.entity.fieldSocialMediaLinks.platformValues | jsonToObj %}
-      <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
+      <div class="vads-l-grid-container vads-u-padding-y--3 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
         <div class="vads-l-row">
           <!-- CONTENT -->
           <div class="vads-l-col--12 medium-screen:vads-l-col--9">
@@ -593,7 +592,7 @@
 
     <!-- VA Benefits -->
     {% if fieldBenefitCategories != empty %}
-      <div class="vads-l-grid-container vads-u-padding-y--6 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
+      <div class="vads-l-grid-container vads-u-padding-y--3 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
         <div class="vads-l-row">
           <div class="vads-l-col--12 medium-screen:vads-l-col--9">
             <!-- Title -->
@@ -627,7 +626,7 @@
     <!--/  VA Benefits -->
 
     <!-- Last Updated -->
-    <div class="vads-l-grid-container vads-u-background-color--white vads-u-padding-y--6 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
+    <div class="vads-l-grid-container vads-u-background-color--white vads-u-padding-y--6 vads-u-padding-top--3 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
       <div class="vads-l-row">
         <div class="vads-l-col--12 medium-screen:vads-l-col--9">
           <div class="last-updated">
@@ -637,6 +636,7 @@
         </div>
       </div>
     </div>
+    {% include "src/site/components/up_to_top_button.html" %}
   </main>
 </div>
 
