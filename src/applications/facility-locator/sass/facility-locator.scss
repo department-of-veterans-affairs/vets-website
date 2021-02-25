@@ -379,6 +379,13 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 }
 
+// Prevent error message div from colliding with facility-type
+#service-error {
+  @media (min-width: $small-desktop-screen) {
+    right: 0px;
+  }
+}
+
 #service-typeahead {
   border-radius: 0;
   box-sizing: border-box;
@@ -617,12 +624,12 @@ canvas.mapboxgl-canvas:focus {
 
   .clear-button {
     position: absolute;
-    top: 14px;
+    top: 95px;
     right: 10px;
 
     @media only screen and (min-width: 980px) {
       right: 26px;
-      top: 16px;
+      top: 38px;
     }
   }
 }

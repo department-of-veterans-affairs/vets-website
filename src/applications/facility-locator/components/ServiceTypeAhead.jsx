@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { func, string } from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Downshift from 'downshift';
 import { getProviderSpecialties } from '../actions';
@@ -64,6 +64,7 @@ class ServiceTypeAhead extends Component {
 
   render() {
     const { defaultSelectedItem, services } = this.state;
+    const { showError } = this.props;
 
     return (
       <Downshift
@@ -88,49 +89,51 @@ class ServiceTypeAhead extends Component {
           inputValue,
           highlightedIndex,
         }) => (
-          <div>
+          <div
+            id="service-error"
+            className={classNames('vads-u-margin--0', {
+              'usa-input-error': showError,
+            })}
+          >
             <label {...getLabelProps()} htmlFor="service-type-ahead-input">
               Service type{' '}
               <span className="vads-u-color--secondary-dark">(*Required)</span>
             </label>
-            <div
-              className={classNames('input-clear', 'vads-u-margin--0', {
-                'usa-input-error': this.props.error,
-              })}
-            >
-              <span id="service-typeahead">
-                <input
-                  {...getInputProps({
-                    placeholder: 'like Chiropractor or Optometrist',
-                  })}
-                  id="service-type-ahead-input"
-                  required
-                />
-                {isOpen && inputValue.length >= 2 ? (
-                  <div className="dropdown" role="listbox">
-                    {services
-                      .filter(specialty =>
-                        this.shouldShow(inputValue, specialty),
-                      )
-                      .map((specialty, index) => (
-                        <div
-                          key={this.getSpecialtyName(specialty)}
-                          {...getItemProps({
-                            item: specialty,
-                            className: this.optionClasses(
-                              index === highlightedIndex,
-                            ),
-                            role: 'option',
-                            'aria-selected': index === highlightedIndex,
-                          })}
-                        >
-                          {this.getSpecialtyName(specialty)}
-                        </div>
-                      ))}
-                  </div>
-                ) : null}
+            {showError && (
+              <span className="usa-input-error-message">
+                Please choose a service type.
               </span>
-            </div>
+            )}
+            <span id="service-typeahead">
+              <input
+                {...getInputProps({
+                  placeholder: 'like Chiropractor or Optometrist',
+                })}
+                id="service-type-ahead-input"
+                required
+              />
+              {isOpen && inputValue.length >= 2 ? (
+                <div className="dropdown" role="listbox">
+                  {services
+                    .filter(specialty => this.shouldShow(inputValue, specialty))
+                    .map((specialty, index) => (
+                      <div
+                        key={this.getSpecialtyName(specialty)}
+                        {...getItemProps({
+                          item: specialty,
+                          className: this.optionClasses(
+                            index === highlightedIndex,
+                          ),
+                          role: 'option',
+                          'aria-selected': index === highlightedIndex,
+                        })}
+                      >
+                        {this.getSpecialtyName(specialty)}
+                      </div>
+                    ))}
+                </div>
+              ) : null}
+            </span>
           </div>
         )}
       </Downshift>
@@ -139,9 +142,10 @@ class ServiceTypeAhead extends Component {
 }
 
 ServiceTypeAhead.propTypes = {
-  getProviderSpecialties: func.isRequired,
-  initialSelectedServiceType: string,
-  onSelect: func.isRequired,
+  getProviderSpecialties: PropTypes.func.isRequired,
+  initialSelectedServiceType: PropTypes.string,
+  onSelect: PropTypes.func.isRequired,
+  showError: PropTypes.bool,
 };
 
 const mapDispatch = { getProviderSpecialties };

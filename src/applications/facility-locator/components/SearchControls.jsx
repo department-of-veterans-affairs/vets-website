@@ -88,7 +88,11 @@ class SearchControls extends Component {
     const showError =
       !currentQuery.isValid && currentQuery.searchString?.length === 0;
     return (
-      <>
+      <div
+        className={classNames('input-clear', 'vads-u-margin--0', {
+          'usa-input-error': showError,
+        })}
+      >
         <div id="location-input-field">
           <label
             htmlFor="street-city-state-zip"
@@ -122,27 +126,21 @@ class SearchControls extends Component {
               </a>
             ))}
         </div>
-        <div
-          className={classNames('input-clear', 'vads-u-margin--0', {
-            'usa-input-error': showError,
-          })}
-        >
-          {showError && (
-            <span className="usa-input-error-message">
-              Please fill in a city, state, or postal code.
-            </span>
-          )}
-          {currentQuery?.searchString?.length > 0 && this.renderClearInput()}
-          <input
-            id="street-city-state-zip"
-            name="street-city-state-zip"
-            type="text"
-            onChange={this.handleQueryChange}
-            value={currentQuery.searchString}
-            title="Your location: Street, City, State or Postal code"
-          />
-        </div>
-      </>
+        {showError && (
+          <span className="usa-input-error-message">
+            Please fill in a city, state, or postal code.
+          </span>
+        )}
+        {currentQuery?.searchString?.length > 0 && this.renderClearInput()}
+        <input
+          id="street-city-state-zip"
+          name="street-city-state-zip"
+          type="text"
+          onChange={this.handleQueryChange}
+          value={currentQuery.searchString}
+          title="Your location: Street, City, State or Postal code"
+        />
+      </div>
     );
   };
 
@@ -167,7 +165,11 @@ class SearchControls extends Component {
     ));
 
     return (
-      <span>
+      <div
+        className={classNames('input-clear', 'vads-u-margin--0', {
+          'usa-input-error': showError,
+        })}
+      >
         <label htmlFor="facility-type-dropdown">
           Facility type{' '}
           <span className="vads-u-color--secondary-dark">(*Required)</span>
@@ -177,35 +179,31 @@ class SearchControls extends Component {
             Please choose a facility type.
           </span>
         )}
-        <div
-          className={classNames('input-clear', 'vads-u-margin--0', {
-            'usa-input-error': showError,
-          })}
+        <select
+          id="facility-type-dropdown"
+          aria-label="Choose a facility type"
+          value={facilityType || ''}
+          className="bor-rad"
+          onChange={this.handleFacilityTypeChange}
+          style={{ fontWeight: 'bold' }}
         >
-          <select
-            id="facility-type-dropdown"
-            aria-label="Choose a facility type"
-            value={facilityType || ''}
-            className="bor-rad"
-            onChange={this.handleFacilityTypeChange}
-            style={{ fontWeight: 'bold' }}
-          >
-            {options}
-          </select>
-        </div>
-      </span>
+          {options}
+        </select>
+      </div>
     );
   };
 
   renderServiceTypeDropdown = () => {
     const { searchCovid19Vaccine } = this.props;
-    const { facilityType, serviceType } = this.props.currentQuery;
+    const { facilityType, serviceType, isValid } = this.props.currentQuery;
     const disabled = ![
       LocationType.HEALTH,
       LocationType.URGENT_CARE,
       LocationType.BENEFITS,
       LocationType.CC_PROVIDER,
     ].includes(facilityType);
+
+    const showError = !isValid && !disabled && !serviceType;
 
     let filteredHealthServices = healthServices;
 
@@ -230,7 +228,7 @@ class SearchControls extends Component {
           <ServiceTypeAhead
             onSelect={this.handleServiceTypeChange}
             initialSelectedServiceType={serviceType}
-            error={this.props.currentQuery.error}
+            showError={showError}
           />
         );
       default:
