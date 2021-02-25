@@ -224,7 +224,9 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
           const pluralizedErrors =
             json.errors.length > 1 ? 'errors' : 'an error';
           throw new Error(
-            `Error with ${queryName}:\n\n${formattedErrors}\n\nGraphQL query that has ${pluralizedErrors}:\n${query}`,
+            `GraphQL query ${queryName} had ${pluralizedErrors}:\n${query}\n\n${chalk.red(
+              `Error with ${queryName}. Scroll up for the GraphQL query that has ${pluralizedErrors}:\n\n${formattedErrors}`,
+            )}`,
           );
         }
 
