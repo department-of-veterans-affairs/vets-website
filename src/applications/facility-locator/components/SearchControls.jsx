@@ -99,7 +99,7 @@ class SearchControls extends Component {
             id="street-city-state-zip-label"
           >
             City, state or postal code{' '}
-            <span className="vads-u-color--secondary-dark">(*Required)</span>
+            <span className="form-required-span">(*Required)</span>
           </label>
           {(window.Cypress || !environment.isProduction()) &&
             (currentQuery.geocodeInProgress ? (
@@ -171,8 +171,7 @@ class SearchControls extends Component {
         })}
       >
         <label htmlFor="facility-type-dropdown">
-          Facility type{' '}
-          <span className="vads-u-color--secondary-dark">(*Required)</span>
+          Facility type <span className="form-required-span">(*Required)</span>
         </label>
         {showError && (
           <span className="usa-input-error-message">

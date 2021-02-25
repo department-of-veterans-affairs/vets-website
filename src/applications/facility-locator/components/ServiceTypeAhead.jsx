@@ -97,7 +97,7 @@ class ServiceTypeAhead extends Component {
           >
             <label {...getLabelProps()} htmlFor="service-type-ahead-input">
               Service type{' '}
-              <span className="vads-u-color--secondary-dark">(*Required)</span>
+              <span className="form-required-span">(*Required)</span>
             </label>
             {showError && (
               <span className="usa-input-error-message">
@@ -110,7 +110,6 @@ class ServiceTypeAhead extends Component {
                   placeholder: 'like Chiropractor or Optometrist',
                 })}
                 id="service-type-ahead-input"
-                required
               />
               {isOpen && inputValue.length >= 2 ? (
                 <div className="dropdown" role="listbox">
