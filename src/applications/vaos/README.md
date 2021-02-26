@@ -4,6 +4,20 @@ This is the front end source for the VAOS application. Veterans can schedule, re
 
 It is a React/Redux application that makes heavy use of MomentJS. Tests are written with React Testing Library and Cypress.
 
+Generate the docs:
+
+```
+yarn jsdoc -c src/applications/vaos/jsdoc.json
+```
+
+Docs are generated at `src/applications/vaos/docs/index.html`
+
+Watch the docs for changes and rebuild:
+
+```
+npx nodemon --exec "yarn jsdoc -c src/applications/vaos/jsdoc.json" --watch src/applications/vaos --ignore 'docs/*' -e js,jsx,md,json
+```
+
 ## Organization
 
 The application has four major sections
