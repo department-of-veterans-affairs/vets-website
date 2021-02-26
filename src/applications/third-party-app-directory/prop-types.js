@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 import PropTypes from 'prop-types';
 
 export const SearchResultPropTypes = PropTypes.shape({

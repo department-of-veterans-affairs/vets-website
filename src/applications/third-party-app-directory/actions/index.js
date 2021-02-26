@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 // Node modules.
 import each from 'lodash/each';
 import reduce from 'lodash/reduce';

@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 // Node modules.
 import React, { Component } from 'react';
 import isEmpty from 'lodash/isEmpty';
