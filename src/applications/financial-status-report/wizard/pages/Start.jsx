@@ -22,7 +22,7 @@ const options = [
   },
   {
     label: 'Rogers STEM program',
-    value: pageNames.appeals,
+    value: pageNames.stem,
   },
   {
     label: 'VET TEC program',

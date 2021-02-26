@@ -7,4 +7,5 @@ export const pageNames = {
   copays: 'copays',
   separation: 'separation',
   attorney: 'attorney',
+  stem: 'stem',
 };

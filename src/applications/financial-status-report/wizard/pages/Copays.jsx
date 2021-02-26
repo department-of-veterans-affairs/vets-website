@@ -11,7 +11,9 @@ const Copays = () => {
       <p className="vads-u-margin-top--0">
         Based on the information you provided, this isn’t the form you need.
       </p>
-      <h5>Here’s how to pay or get help with your VA copay bill:</h5>
+      <p>
+        <strong>Here’s how to pay or get help with your VA copay bill:</strong>
+      </p>
       <p>
         <a href="/health-care/pay-copay-bill/">
           Find out how to pay your VA copay bill
