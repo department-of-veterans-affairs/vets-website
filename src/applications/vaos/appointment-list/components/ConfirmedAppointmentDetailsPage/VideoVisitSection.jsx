@@ -126,7 +126,7 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
             </div>
           )}
 
-        <div className="vads-u-margin-top--3 vaos-appts__block-label">
+        <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
           <i
             aria-hidden="true"
             className="far fa-calendar vads-u-margin-right--1"
@@ -140,7 +140,7 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
           />
         </div>
 
-        <div className="vads-u-margin-top--2 vaos-appts__block-label">
+        <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
           <i
             aria-hidden="true"
             className="fas fa-print vads-u-margin-right--1"

@@ -185,6 +185,23 @@ export function mockVACancelFetches(id, reasons) {
   );
 }
 
+export function mockRequestCancelFetch(appointment) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/appointment_requests/${appointment.id}`,
+    ),
+    {
+      data: {
+        ...appointment,
+        attributes: {
+          ...appointment.attributes,
+          status: 'Cancelled',
+        },
+      },
+    },
+  );
+}
+
 export function setRequestedPeriod(date, amOrPm) {
   const isAM = amOrPm.toUpperCase() === 'AM';
   return {

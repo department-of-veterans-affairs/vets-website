@@ -20,10 +20,12 @@ import {
   setSelectedAppointmentData,
   getSelectedAppointmentData,
   clearSelectedAppointmentData,
+  clearAllSelectedAppointments,
 } from './session.utils';
 
 export {
   addAppointmentIdToFormId,
+  clearAllSelectedAppointments,
   clearCurrentSession,
   clearSelectedAppointmentData,
   getAppointTypeFromAppointment,

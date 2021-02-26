@@ -158,7 +158,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
 
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        'Choose a VA location for your appointment | Veterans Affairs',
+        'Choose a VA location for your primary care appointment | Veterans Affairs',
       );
     });
 

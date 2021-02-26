@@ -80,7 +80,7 @@ function ProviderSelectionField({
       } else if (mounted && !providerSelected) {
         scrollAndFocus('.va-button-link');
       } else if (mounted) {
-        scrollAndFocus('#selectedProvider');
+        scrollAndFocus('#providerPostSelectionHeader');
       }
     },
     [showProvidersList],
@@ -147,9 +147,13 @@ function ProviderSelectionField({
         )}
         {providerSelected && (
           <section id="selectedProvider" aria-label="Selected provider">
-            <span className="vads-u-display--block vads-u-font-weight--bold">
-              {formData.name}
-            </span>
+            <h2
+              id="providerPostSelectionHeader"
+              className="vads-u-font-size--h3 vads-u-margin-top--0"
+            >
+              Selected Provider
+            </h2>
+            <span className="vads-u-display--block">{formData.name}</span>
             <span className="vads-u-display--block">
               {formData.address?.line}
             </span>
@@ -157,7 +161,7 @@ function ProviderSelectionField({
               {formData.address?.city}, {formData.address?.state}{' '}
               {formData.address?.postalCode}
             </span>
-            <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold">
+            <span className="vads-u-display--block vads-u-font-size--sm">
               {formData[sortMethod]} miles{' '}
               <span className="sr-only">
                 {sortMethod ===
@@ -166,7 +170,7 @@ function ProviderSelectionField({
                   : 'from your home address'}
               </span>
             </span>
-            <div className="vads-u-display--flex">
+            <div className="vads-u-display--flex vads-u-margin-top--1">
               <button
                 type="button"
                 className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0 vads-u-margin-right--2"
@@ -408,17 +412,19 @@ function ProviderSelectionField({
                   </button>
                 </>
               )}
-              <button
-                type="button"
-                className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
-                onClick={() => {
-                  setProvidersListLength(INITIAL_PROVIDER_DISPLAY_COUNT);
-                  setShowProvidersList(false);
-                }}
-                aria-label="Cancel choosing a provider"
-              >
-                Cancel
-              </button>
+              {communityCareProviderList?.length > 0 && (
+                <button
+                  type="button"
+                  className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
+                  onClick={() => {
+                    setProvidersListLength(INITIAL_PROVIDER_DISPLAY_COUNT);
+                    setShowProvidersList(false);
+                  }}
+                  aria-label="Cancel choosing a provider"
+                >
+                  Cancel
+                </button>
+              )}
             </div>
           </>
         )}

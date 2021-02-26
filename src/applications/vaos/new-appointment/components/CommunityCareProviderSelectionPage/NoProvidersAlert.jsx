@@ -1,5 +1,5 @@
-import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import React from 'react';
 
 export default function NoProvidersAlert({ sortMethod, typeOfCareName }) {
   const headline = `We can’t find any ${typeOfCareName} providers close to you`;
@@ -8,11 +8,12 @@ export default function NoProvidersAlert({ sortMethod, typeOfCareName }) {
       status="info"
       headline={headline}
       className="vads-u-margin-top--3"
+      backgroundOnly
       content={
         <>
           <p>
-            We can’t find providers within 60 miles from your{' '}
-            {sortMethod ? 'current location' : 'home'}. To request this
+            We can’t find any {typeOfCareName} providers within 60 miles from
+            your {sortMethod ? 'current location' : 'home'}. To request this
             appointment, you can: <br />
           </p>
           <ul>
