@@ -14,6 +14,7 @@ import { AppointmentList } from '../../../appointment-list';
 import {
   mockAppointmentInfo,
   mockPastAppointmentInfo,
+  mockRequestCancelFetch,
 } from '../../mocks/helpers';
 
 const initialState = {
@@ -246,5 +247,67 @@ describe('VAOS <ExpressCareDetailsPage>', () => {
     expect(
       screen.queryByRole('button', { name: 'Cancel Express Care request' }),
     ).not.to.be.ok;
+  });
+
+  it('should allow cancellation', async () => {
+    const appointment = getVARequestMock();
+    const startDate = moment();
+    appointment.attributes = {
+      ...appointment.attributes,
+      typeOfCareId: 'CR1',
+      status: 'Submitted',
+      email: 'patient.test@va.gov',
+      phoneNumber: '5555555566',
+      reasonForVisit: 'Back pain',
+      additionalInformation: 'Need help ASAP',
+      date: startDate.format(),
+    };
+    appointment.id = '1234';
+    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
+
+    mockRequestCancelFetch(appointment);
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+    });
+
+    const detailLinks = await screen.findAllByRole('link', {
+      name: /Detail/i,
+    });
+
+    userEvent.click(detailLinks[0]);
+
+    expect(await screen.findByText('Back pain')).to.be.ok;
+
+    expect(screen.baseElement).not.to.contain.text('canceled');
+
+    userEvent.click(screen.getByText(/cancel express care request/i));
+
+    await screen.findByRole('alertdialog');
+
+    userEvent.click(screen.getByText(/yes, cancel this request/i));
+
+    await screen.findByText(/your request has been canceled/i);
+
+    const cancelData = JSON.parse(
+      global.fetch
+        .getCalls()
+        .find(call => call.args[0].endsWith('appointment_requests/1234'))
+        .args[1].body,
+    );
+
+    expect(cancelData).to.deep.equal({
+      ...appointment.attributes,
+      id: '1234',
+      appointmentRequestDetailCode: ['DETCODE8'],
+      status: 'Cancelled',
+    });
+
+    userEvent.click(screen.getByText(/continue/i));
+
+    expect(screen.queryByRole('alertdialog')).to.not.be.ok;
+    expect(screen.baseElement).to.contain.text(
+      'This screening has been canceled.',
+    );
   });
 });

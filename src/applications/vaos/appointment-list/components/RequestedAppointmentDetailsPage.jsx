@@ -15,6 +15,7 @@ import { lowerCase } from '../../utils/formatters';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import ListBestTimeToCall from './cards/pending/ListBestTimeToCall';
 import VAFacilityLocation from '../../components/VAFacilityLocation';
+import CancelAppointmentModal from './cancel/CancelAppointmentModal';
 
 import {
   getPatientTelecom,
@@ -22,7 +23,7 @@ import {
   getVAAppointmentLocationId,
   getPractitionerLocationDisplay,
 } from '../../services/appointment';
-import { selectFirstRequestMessage } from '../redux/selectors';
+import { selectFirstRequestMessage, getCancelInfo } from '../redux/selectors';
 
 const TIME_TEXT = {
   AM: 'in the morning',
@@ -33,6 +34,10 @@ const TIME_TEXT = {
 function RequestedAppointmentDetailsPage({
   appointment,
   appointmentDetailsStatus,
+  cancelAppointment,
+  cancelInfo,
+  closeCancelAppointment,
+  confirmCancelAppointment,
   facilityData,
   fetchRequestDetails,
   pendingStatus,
@@ -53,6 +58,18 @@ function RequestedAppointmentDetailsPage({
     scrollAndFocus();
   }, []);
 
+  useEffect(
+    () => {
+      if (
+        !cancelInfo.showCancelModal &&
+        cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded
+      ) {
+        scrollAndFocus();
+      }
+    },
+    [cancelInfo.showCancelModal, cancelInfo.cancelAppointmentStatus],
+  );
+
   if (appointmentDetailsStatus === FETCH_STATUS.loading) {
     return (
       <div className="vads-u-margin-y--8">
@@ -61,7 +78,7 @@ function RequestedAppointmentDetailsPage({
     );
   }
 
-  if (!appointment) {
+  if (!appointment || appointment.id !== id) {
     return null;
   }
 
@@ -103,6 +120,7 @@ function RequestedAppointmentDetailsPage({
               <button
                 aria-label="Cancel request"
                 className="vaos-appts__cancel-btn va-button-link vads-u-flex--0"
+                onClick={() => cancelAppointment(appointment)}
               >
                 Cancel Request
               </button>
@@ -173,6 +191,11 @@ function RequestedAppointmentDetailsPage({
           « Go back to appointments
         </button>
       </Link>
+      <CancelAppointmentModal
+        {...cancelInfo}
+        onConfirm={confirmCancelAppointment}
+        onClose={closeCancelAppointment}
+      />
     </div>
   );
 }
@@ -183,15 +206,20 @@ function mapStateToProps(state) {
     facilityData,
     pendingStatus,
   } = state.appointments;
+
   return {
     appointment: currentAppointment,
     appointmentDetailsStatus,
     facilityData,
     message: selectFirstRequestMessage(state),
     pendingStatus,
+    cancelInfo: getCancelInfo(state),
   };
 }
 const mapDispatchToProps = {
+  cancelAppointment: actions.cancelAppointment,
+  closeCancelAppointment: actions.closeCancelAppointment,
+  confirmCancelAppointment: actions.confirmCancelAppointment,
   fetchRequestDetails: actions.fetchRequestDetails,
 };
 export default connect(
