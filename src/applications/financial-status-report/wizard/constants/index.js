@@ -9,4 +9,5 @@ export const pageNames = {
   attorney: 'attorney',
   stem: 'stem',
   vettec: 'vettec',
+  payment: 'payment',
 };

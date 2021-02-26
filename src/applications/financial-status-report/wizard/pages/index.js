@@ -8,6 +8,7 @@ import separation from './Separation';
 import attorney from './Attorney';
 import stem from './RogersStem';
 import vettec from './VetTec';
+import payment from './MakePayment';
 
 export default [
   start,
@@ -20,4 +21,5 @@ export default [
   attorney,
   stem,
   vettec,
+  payment,
 ];

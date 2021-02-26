@@ -5,7 +5,7 @@ import { pageNames } from '../constants';
 const label = 'What do you want to do for this debt?';
 const options = [
   {
-    value: pageNames.appeals,
+    value: pageNames.payment,
     label: 'Make a payment on a debt',
   },
   {
