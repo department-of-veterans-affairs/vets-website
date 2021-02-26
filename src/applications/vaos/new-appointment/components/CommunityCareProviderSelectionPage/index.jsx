@@ -35,9 +35,8 @@ const uiSchema = {
     },
     'ui:description': (
       <p id="providerSelectionDescription">
-        You can request a provider you’d prefer for this appointment. If they
-        aren’t available, we’ll schedule your appointment with a provider close
-        to your home.
+        You can request a provider for this care. If they aren’t available,
+        we’ll schedule your appointment with a provider close to your home.
       </p>
     ),
     'ui:field': ProviderSelectionField,

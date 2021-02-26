@@ -375,7 +375,7 @@ export default class ArrayField extends React.Component {
                 <div key={index} className="va-growable-background">
                   <Element name={`table_${itemIdPrefix}`} />
                   <div className="row small-collapse">
-                    <fieldset className="small-12 columns va-growable-expanded">
+                    <fieldset className="small-12 columns va-growable-expanded word-break">
                       <legend className="vads-u-font-size--base">
                         {legendText}
                         {uiOptions.includeRequiredLabelInTitle && (
