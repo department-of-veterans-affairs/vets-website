@@ -12,6 +12,7 @@ import payment from './MakePayment';
 import descision from './Descision';
 import disagree from './Disagree';
 import error from './Error';
+import wrong from './Wrong';
 
 export default [
   start,
@@ -28,4 +29,5 @@ export default [
   descision,
   disagree,
   error,
+  wrong,
 ];

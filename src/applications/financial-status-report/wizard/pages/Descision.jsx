@@ -13,7 +13,7 @@ const options = [
     label: 'I this this debt is due to an error.',
   },
   {
-    value: pageNames.copays,
+    value: pageNames.wrong,
     label: 'I think the amout of this debt is wrong.',
   },
 ];

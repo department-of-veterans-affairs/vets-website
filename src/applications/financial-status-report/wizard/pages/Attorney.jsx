@@ -1,8 +1,8 @@
 import React from 'react';
 import { pageNames } from '../constants';
-import SeparationAttorney from '../components/SeparationAttorney';
+import ContactBenefits from '../components/ContactBenefits';
 
-const Attorney = () => <SeparationAttorney />;
+const Attorney = () => <ContactBenefits />;
 
 export default {
   name: pageNames.attorney,
