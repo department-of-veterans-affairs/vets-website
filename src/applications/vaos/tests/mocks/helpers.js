@@ -251,6 +251,23 @@ export function mockVACancelFetches(id, reasons) {
   );
 }
 
+export function mockRequestCancelFetch(appointment) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/appointment_requests/${appointment.id}`,
+    ),
+    {
+      data: {
+        ...appointment,
+        attributes: {
+          ...appointment.attributes,
+          status: 'Cancelled',
+        },
+      },
+    },
+  );
+}
+
 /**
  * Returns a mocked requested period object. Should probably not be in here
  *
