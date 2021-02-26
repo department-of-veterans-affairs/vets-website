@@ -11,6 +11,7 @@ import {
   getVARFacilityId,
   getVideoAppointmentLocation,
   isAtlasLocation,
+  isVAPhoneAppointment,
   isVideoAppointment,
   isVideoGFE,
   isVideoHome,
@@ -87,6 +88,7 @@ function ConfirmedAppointmentDetailsPage({
     return null;
   }
 
+  const isPhone = isVAPhoneAppointment(appointment);
   const isVideo = isVideoAppointment(appointment);
   const facilityId = isVideo
     ? getVideoAppointmentLocation(appointment)
@@ -157,7 +159,9 @@ function ConfirmedAppointmentDetailsPage({
               <AddToCalendar
                 summary={`${header}`}
                 description={`instructionText`}
-                location={formatFacilityAddress(facility)}
+                location={
+                  isPhone ? 'Phone call' : formatFacilityAddress(facility)
+                }
                 duration={appointment.minutesDuration}
                 startDateTime={appointment.start}
               />
