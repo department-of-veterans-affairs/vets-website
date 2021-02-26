@@ -1,9 +1,6 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import {
-  isChapterFieldRequired,
-  PensionIncomeRemovalQuestionTitle,
-} from '../../../helpers';
+import { isChapterFieldRequired } from '../../../helpers';
 import { validateName, report674 } from '../../../utilities';
 import { NotificationText } from './helpers';
 
@@ -59,7 +56,7 @@ export const uiSchema = {
       },
     },
     dependentIncome: {
-      'ui:title': PensionIncomeRemovalQuestionTitle,
+      'ui:title': 'Did this dependent earn an income in the last 365 days?',
       'ui:widget': 'yesNo',
     },
   },
