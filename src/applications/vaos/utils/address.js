@@ -52,7 +52,14 @@ export function calculateBoundingBox(lat, long, radius) {
   ];
 }
 
-export function getPreciseLocation() {
+/**
+ * Returns the current position of the device.
+ *
+ * @param enableHighAccuracy Indicates the application would like to receive the best possible results.
+ * @param maximumAge Indicates that the application is willing to accept a cached position whose age is no greater than the specified time in milliseconds.
+ * @returns {Object}
+ */
+export function getPreciseLocation(enableHighAccuracy = true, maximumAge = 0) {
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(
       position => resolve(position),
@@ -60,6 +67,8 @@ export function getPreciseLocation() {
         reject(new Error(`Geolocation error ${error.code}: ${error.message}`)),
       {
         timeout: 10000,
+        enableHighAccuracy,
+        maximumAge,
       },
     );
   });

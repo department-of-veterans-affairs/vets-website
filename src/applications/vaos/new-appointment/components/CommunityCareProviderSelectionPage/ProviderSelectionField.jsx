@@ -222,8 +222,7 @@ function ProviderSelectionField({
               <>
                 <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
                   You can choose a provider based on your address on file. Or
-                  you can
-                  {''}
+                  you can{' '}
                   <button
                     type="button"
                     className="va-button-link"

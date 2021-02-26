@@ -477,7 +477,7 @@ export function updateCCProviderSortMethod(sortMethod) {
         event: `${GA_PREFIX}-request-current-location-clicked`,
       });
       try {
-        location = await getPreciseLocation();
+        location = await getPreciseLocation(false, 10);
         recordEvent({
           event: `${GA_PREFIX}-request-current-location-allowed`,
         });
