@@ -8,7 +8,6 @@ describe('health care questionnaire -- un-authenticated', () => {
     cy.visit(
       '/health-care/health-questionnaires/questionnaires/answer-questions?id=195bc02c0518870fc6b1e302cfc326b61',
     );
-    cy.get('.columns > h1').contains('Sign in');
 
     cy.url().should(
       'match',
