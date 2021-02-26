@@ -73,6 +73,7 @@ class SubmitController extends Component {
       recordEvent({
         event: `${trackingPrefix}-validation-failed`,
       });
+      Sentry.setUser({ id: user.profile.accountUuid });
       Sentry.withScope(scope => {
         scope.setExtra('errors', errors);
         scope.setExtra('prefix', trackingPrefix);
