@@ -55,6 +55,7 @@ export async function getAvailableHealthcareServices({
  * Fetch facility information for the facilities in the given site, based on type of care
  *
  * @export
+ * @async
  * @param {Object} locationParams Parameters needed for fetching locations
  * @param {string} locationParams.siteId The VistA site id of the services being pulled
  * @param {string} locationParams.parentId An id for the parent organization of the facilities being pulled

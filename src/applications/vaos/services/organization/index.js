@@ -12,6 +12,7 @@ import { fhirSearch, mapToFHIRErrors } from '../utils';
  * where a user is registered
  *
  * @export
+ * @async
  * @param {Array} params.siteIds A list of three digit site ids
  * @param {Boolean} params.useVSP A flag that determines whether we go to the new VSP apis
  * @returns {Array} A FHIR searchset of Organization resources

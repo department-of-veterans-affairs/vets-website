@@ -196,6 +196,7 @@ export function getTimezoneTestDate(zone = 'America/Denver') {
  * Renders the type of facility page and chooses the option indicated by the label param
  *
  * @export
+ * @async
  * @param {ReduxStore} store The Redux store to use to render the page
  * @param {string|RegExp} label The string or regex to pass to *ByText query to get
  *   a radio button to click on
@@ -220,6 +221,7 @@ export async function setTypeOfFacility(store, label) {
  * Renders the type of care page and chooses the option indicated by the label param
  *
  * @export
+ * @async
  * @param {ReduxStore} store The Redux store to use to render the page
  * @param {string|RegExp} label The string or regex to pass to *ByText query to get
  *   a radio button to click on
@@ -244,6 +246,7 @@ export async function setTypeOfCare(store, label) {
  * Renders the type of eye care page and chooses the option indicated by the label param
  *
  * @export
+ * @async
  * @param {ReduxStore} store The Redux store to use to render the page
  * @param {string|RegExp} label The string or regex to pass to *ByText query to get
  *   a radio button to click on
@@ -268,6 +271,7 @@ export async function setTypeOfEyeCare(store, label) {
  * Renders the facility page and chooses the option indicated by the facility id param
  *
  * @export
+ * @async
  * @param {ReduxStore} store The Redux store to use to render the page
  * @param {string} facilityId The facility id of the facility to be selected
  * @returns {string} The url path that was routed to after clicking Continue
@@ -327,6 +331,7 @@ export async function setVAFacility(store, facilityId) {
  * Renders the clinic page and chooses the option indicated by the label param
  *
  * @export
+ * @async
  * @param {ReduxStore} store The Redux store to use to render the page
  * @param {string|RegExp} label The string or regex to pass to *ByText query to get
  *   a radio button to click on
@@ -352,6 +357,7 @@ export async function setClinic(store, label) {
  * Renders the preferred date page and enters the preferredDate
  *
  * @export
+ * @async
  * @param {ReduxStore} store The Redux store to use to render the page
  * @param {MomentDate} preferredDate A Moment date object with the preferred date
  * @returns {string} The url path that was routed to after clicking Continue
@@ -385,6 +391,7 @@ export async function setPreferredDate(store, preferredDate) {
  * Renders the Express Care info page and continues on
  *
  * @export
+ * @async
  * @param {Object} params The Redux store to use to render the page
  * @param {ReduxStore} params.store The Redux store to use to render the page
  */
@@ -405,6 +412,7 @@ export async function setExpressCareFacility({ store }) {
  * Renders the Express Care reason page and selects a reason
  *
  * @export
+ * @async
  * @param {Object} params The Redux store to use to render the page
  * @param {ReduxStore} params.store The Redux store to use to render the page
  * @param {string|RegExp} params.label The label of the reason option to choose

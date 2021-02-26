@@ -62,6 +62,7 @@ const PAST_APPOINTMENTS_HIDDEN_SET = new Set([
  * Fetch the logged in user's confirmed appointments that fall between a startDate and endDate
  *
  * @export
+ * @async
  * @param {String} startDate Date in YYYY-MM-DD format
  * @param {String} endDate Date in YYYY-MM-DD format
  * @returns {Appointment[]} A FHIR searchset of booked Appointment resources
@@ -98,6 +99,7 @@ export async function getBookedAppointments({ startDate, endDate }) {
  * Fetch the logged in user's pending appointments that fall between a startDate and endDate
  *
  * @export
+ * @async
  * @param {String} startDate Date in YYYY-MM-DD format
  * @param {String} endDate Date in YYYY-MM-DD format
  * @returns {Appointment[]} A FHIR searchset of pending Appointment resources
