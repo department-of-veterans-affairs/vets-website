@@ -272,7 +272,7 @@ export const validateDisabilityName = (err, fieldData, formData) => {
 
   // Alert Veteran to duplicates
   const currentList =
-    formData?.newDisabilities.map(disability =>
+    formData?.newDisabilities?.map(disability =>
       disability.condition?.toLowerCase(),
     ) || [];
   const itemLowerCased = fieldData?.toLowerCase() || '';

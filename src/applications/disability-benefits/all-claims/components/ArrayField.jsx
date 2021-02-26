@@ -73,11 +73,11 @@ export default class ArrayField extends React.Component {
   setInitialState = () => {
     const { formData, uiSchema } = this.props;
     if (formData) {
-      const key = uiSchema['ui:options']?.errorKey || '';
+      const key = uiSchema?.['ui:options']?.errorKey || '';
       // errorSchema is not populated on init, so we need to use the form data to
       // find duplicates and put the entry into edit mode
       const duplicates = key ? findDuplicates(formData, key) : [];
-      return uiSchema['ui:options']?.setEditState
+      return uiSchema?.['ui:options']?.setEditState
         ? uiSchema['ui:options']?.setEditState(formData)
         : formData.map((__, index) => duplicates.includes(index));
     }
