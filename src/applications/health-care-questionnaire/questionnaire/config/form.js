@@ -17,7 +17,7 @@ import Messages from '../components/messages';
 import { TITLES, createPathFromTitle } from './utils';
 
 import manifest from '../manifest.json';
-import { submit, transformForSubmit } from '../api';
+import { submit, transformForSubmit } from '../../shared/api';
 
 import { updateUrls } from './migrations';
 

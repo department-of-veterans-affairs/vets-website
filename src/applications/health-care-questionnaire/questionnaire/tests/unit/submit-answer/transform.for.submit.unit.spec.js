@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { transformForSubmit } from '../../../api/submit-questionnaire';
+import { transformForSubmit } from '../../../../shared/api/submit-questionnaire';
 
 describe('health care questionnaire -- utils -- transform for submit --', () => {
   it('creates appropriate structure with  all data', () => {
