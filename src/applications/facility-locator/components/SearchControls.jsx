@@ -32,7 +32,12 @@ class SearchControls extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    const { facilityType, serviceType, zoomLevel } = this.props.currentQuery;
+    const {
+      facilityType,
+      serviceType,
+      zoomLevel,
+      isValid,
+    } = this.props.currentQuery;
 
     let analyticsServiceType = serviceType;
 
@@ -44,6 +49,10 @@ class SearchControls extends Component {
       }
 
       analyticsServiceType = this.props.currentQuery.specialties[serviceType];
+    }
+
+    if (!isValid) {
+      return;
     }
 
     // Report event here to only send analytics event when a user clicks on the button
@@ -127,7 +136,7 @@ class SearchControls extends Component {
             ))}
         </div>
         {showError && (
-          <span className="usa-input-error-message">
+          <span className="usa-input-error-message" role="alert">
             Please fill in a city, state, or postal code.
           </span>
         )}
@@ -174,7 +183,7 @@ class SearchControls extends Component {
           Facility type <span className="form-required-span">(*Required)</span>
         </label>
         {showError && (
-          <span className="usa-input-error-message">
+          <span className="usa-input-error-message" role="alert">
             Please choose a facility type.
           </span>
         )}

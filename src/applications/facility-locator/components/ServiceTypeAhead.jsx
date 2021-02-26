@@ -100,7 +100,7 @@ class ServiceTypeAhead extends Component {
               <span className="form-required-span">(*Required)</span>
             </label>
             {showError && (
-              <span className="usa-input-error-message">
+              <span className="usa-input-error-message" role="alert">
                 Please choose a service type.
               </span>
             )}
