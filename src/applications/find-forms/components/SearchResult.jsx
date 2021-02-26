@@ -136,7 +136,7 @@ const SearchResult = ({ form, formMetaInfo }) => {
       {formToolUrl ? (
         <dd>
           <a
-            className="usa-button va-button-primary vads-u-margin-bottom--3"
+            className="usa-button usa-button-secondary vads-u-margin-bottom--3"
             href={formToolUrl}
             onClick={() =>
               recordGAEvent(`Go to online tool`, formToolUrl, 'cta')

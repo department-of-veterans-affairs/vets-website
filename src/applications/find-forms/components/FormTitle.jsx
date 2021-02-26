@@ -7,7 +7,11 @@ const FormTitle = ({ id, formUrl, title, recordGAEvent }) => (
     data-e2e-id="result-title"
   >
     {formUrl ? (
-      <a href={formUrl} onClick={() => recordGAEvent(title, formUrl, 'title')}>
+      <a
+        href={formUrl}
+        className="vads-u-text-decoration--none"
+        onClick={() => recordGAEvent(title, formUrl, 'title')}
+      >
         <dfn>
           <span className="vads-u-visibility--screen-reader">
             Visit the landing page for Form number
