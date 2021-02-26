@@ -362,8 +362,9 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       ),
     ).to.exist;
     expect(
-      await screen.findByRole('heading', {
-        name: /We can’t find any Primary care providers close to you/i,
+      screen.findByRole('heading', {
+        level: 3,
+        name: /We .* find any Primary care providers close to you/i,
       }),
     );
     expect(
