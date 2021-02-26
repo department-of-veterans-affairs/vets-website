@@ -6,4 +6,5 @@ export const pageNames = {
   appeals: 'appeals',
   copays: 'copays',
   separation: 'separation',
+  attorney: 'attorney',
 };

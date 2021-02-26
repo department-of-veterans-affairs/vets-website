@@ -5,28 +5,28 @@ import { pageNames } from '../constants';
 const label = 'What’s this debt related to?';
 const options = [
   {
-    value: pageNames.request,
     label: 'VA disability compensation, education, or pension benefits',
+    value: pageNames.request,
   },
   {
-    value: pageNames.copays,
     label: 'VA health care copays',
+    value: pageNames.copays,
   },
   {
-    value: pageNames.separation,
     label: 'Separation pay',
+    value: pageNames.separation,
   },
   {
-    value: pageNames.appeals,
     label: 'Attorney fees',
+    value: pageNames.attorney,
   },
   {
-    value: pageNames.appeals,
     label: 'Rogers STEM program',
+    value: pageNames.appeals,
   },
   {
-    value: pageNames.appeals,
     label: 'VET TEC program',
+    value: pageNames.appeals,
   },
 ];
 

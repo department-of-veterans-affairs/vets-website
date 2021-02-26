@@ -2,9 +2,9 @@ import React from 'react';
 import { pageNames } from '../constants';
 import SeparationAttorney from '../components/SeparationAttorney';
 
-const Separation = () => <SeparationAttorney />;
+const Attorney = () => <SeparationAttorney />;
 
 export default {
-  name: pageNames.separation,
-  component: Separation,
+  name: pageNames.attorney,
+  component: Attorney,
 };

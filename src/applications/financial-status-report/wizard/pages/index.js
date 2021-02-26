@@ -5,6 +5,7 @@ import submit from './Submit';
 import copays from './Copays';
 import recipients from './Recipients';
 import separation from './Separation';
+import attorney from './Attorney';
 
 export default [
   start,
@@ -14,4 +15,5 @@ export default [
   copays,
   recipients,
   separation,
+  attorney,
 ];
