@@ -26,7 +26,7 @@ const options = [
   },
   {
     label: 'VET TEC program',
-    value: pageNames.appeals,
+    value: pageNames.vettec,
   },
 ];
 

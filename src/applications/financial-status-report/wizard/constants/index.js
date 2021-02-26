@@ -8,4 +8,5 @@ export const pageNames = {
   separation: 'separation',
   attorney: 'attorney',
   stem: 'stem',
+  vettec: 'vettec',
 };

@@ -7,6 +7,7 @@ import recipients from './Recipients';
 import separation from './Separation';
 import attorney from './Attorney';
 import stem from './RogersStem';
+import vettec from './VetTec';
 
 export default [
   start,
@@ -18,4 +19,5 @@ export default [
   separation,
   attorney,
   stem,
+  vettec,
 ];

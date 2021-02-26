@@ -14,12 +14,12 @@ const RogersStem = () => {
       <ul>
         <li>
           <strong>Email: </strong>
-          <a href="mailto:research@va.gov">STEM.VBAUF@va.gov</a>.
+          <a href="mailto:stem.vbauf@va.gov">STEM.VBAUF@va.gov</a>.
         </li>
         <li>
           <strong>Mail: </strong>
-          <div>VA Regional Processing Office</div>
-          <div>307 P.O. Box 4616</div>
+          <div>VA Regional Processing Office 307</div>
+          <div>P.O. Box 4616</div>
           <div>Buffalo, NY 14240-4616</div>
         </li>
       </ul>
