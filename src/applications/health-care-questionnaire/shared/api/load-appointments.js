@@ -9,7 +9,7 @@ const loadAppointment = async id => {
   if (USE_MOCK_DATA) {
     promise = new Promise(resolve => {
       setTimeout(() => {
-        import(/* webpackChunkName: "appointment-data" */ './data.json').then(
+        import(/* webpackChunkName: "appointment-data" */ './mock-data/data.json').then(
           module => {
             const questionnaire = module.default.data.filter(
               f => f.appointment.id === id,
