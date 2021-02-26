@@ -15,7 +15,7 @@ import {
 import TabNav from './TabNav';
 import ToDoQuestionnaires from '../ToDoQuestionnaires';
 import CompletedQuestionnaires from '../CompletedQuestionnaires';
-import { loadQuestionnaires } from '../../../api';
+import { loadQuestionnaires } from '../../../../shared/api';
 import {
   questionnaireListLoading,
   questionnaireListLoaded,
