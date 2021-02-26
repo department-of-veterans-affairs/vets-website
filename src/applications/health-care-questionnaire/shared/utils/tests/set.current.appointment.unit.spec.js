@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { setCurrentAppointmentId } from '../utils';
+import { setCurrentAppointmentId } from '../index';
 
 describe('health care questionnaire -- utils -- set current id in session storage', () => {
   it('window is undefined', () => {

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { onFormEnter } from '../utils';
+import { onFormEnter } from '../index';
 
 describe('health care questionnaire -- utils -- form enter routing based on id', () => {
   // set to null since we do not use nextState

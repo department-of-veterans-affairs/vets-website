@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { clearCurrentSession } from '../utils';
+import { clearCurrentSession } from '../index';
 
 describe('health care questionnaire -- utils -- clear current id in session storage', () => {
   it('should called removeItem', () => {

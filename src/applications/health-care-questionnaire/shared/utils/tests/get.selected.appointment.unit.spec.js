@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { getSelectedAppointmentData } from '../utils';
+import { getSelectedAppointmentData } from '../index';
 
 describe('health care questionnaire -- utils -- get selected appointment', () => {
   it('window is undefined', () => {

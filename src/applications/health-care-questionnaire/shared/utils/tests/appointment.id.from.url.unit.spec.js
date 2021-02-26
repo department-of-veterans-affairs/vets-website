@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { getAppointmentIdFromUrl } from '../utils';
+import { getAppointmentIdFromUrl } from '../index';
 
 describe('health care questionnaire -- utils -- get id from url in window', () => {
   it('window is undefined', () => {
