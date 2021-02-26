@@ -216,7 +216,7 @@ export const SearchSchools = ({
 
           <div className="vads-u-display--inline-block ">
             <AccordionDropdown
-              label="School preferences"
+              label="School Preferences"
               buttonLabel="Apply"
               buttonOnClick={updateStore}
               name="schoolPreferences"
