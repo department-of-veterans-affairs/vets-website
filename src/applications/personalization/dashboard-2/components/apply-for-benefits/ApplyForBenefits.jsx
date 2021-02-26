@@ -4,11 +4,7 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
-import {
-  isMultifactorEnabled,
-  isVAPatient,
-  selectProfile,
-} from '~/platform/user/selectors';
+import { isMultifactorEnabled, isVAPatient } from '~/platform/user/selectors';
 
 import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/applications/hca/actions';
 import { HCA_ENROLLMENT_STATUSES } from '~/applications/hca/constants';
@@ -101,7 +97,6 @@ const ApplyForBenefits = ({
   hasLoadedAllData,
   isInESR,
   isPatient,
-  savedForms,
   shouldGetDD4EDUStatus,
   shouldGetESRStatus,
 }) => {
@@ -129,7 +124,7 @@ const ApplyForBenefits = ({
   return (
     <>
       <h2>Apply for benefits</h2>
-      <ApplicationsInProgress savedForms={savedForms} />
+      <ApplicationsInProgress />
       <BenefitsOfInterest showChildren={hasLoadedAllData}>
         <>
           {showHealthCare && (
@@ -177,7 +172,6 @@ const ApplyForBenefits = ({
 
 const mapStateToProps = state => {
   const isPatient = isVAPatient(state);
-  const savedForms = selectProfile(state).savedForms || [];
   const esrEnrollmentStatus = selectESRStatus(state).enrollmentStatus;
 
   const shouldGetESRStatus = !isPatient;
@@ -198,7 +192,6 @@ const mapStateToProps = state => {
       !!esrEnrollmentStatus &&
       esrEnrollmentStatus !== HCA_ENROLLMENT_STATUSES.noneOfTheAbove,
     isPatient,
-    savedForms,
     shouldGetDD4EDUStatus,
     shouldGetESRStatus,
   };

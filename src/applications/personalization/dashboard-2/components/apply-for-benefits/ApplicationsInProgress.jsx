@@ -1,5 +1,8 @@
 import React, { useMemo } from 'react';
+import { connect } from 'react-redux';
 import moment from 'moment';
+
+import { selectProfile } from '~/platform/user/selectors';
 
 import {
   formLinks,
@@ -59,4 +62,8 @@ const ApplicationsInProgress = ({ savedForms }) => {
   );
 };
 
-export default ApplicationsInProgress;
+const mapStateToProps = state => ({
+  savedForms: selectProfile(state).savedForms || [],
+});
+
+export default connect(mapStateToProps)(ApplicationsInProgress);
