@@ -103,7 +103,7 @@ export const SearchSchools = ({
     <div className="search-controls vads-u-border--2px vads-u-border-color--gray-light vads-u-padding-top--1">
       <div className="vads-u-border-bottom--2px vads-u-border-color--gray-light vads-l-row">
         <div className="cells vads-l-col--4">
-          <div className="search-section-label">Looking For</div>
+          <div className="search-section-label">Looking for</div>
 
           <input
             type="text"
@@ -228,11 +228,11 @@ export const SearchSchools = ({
                 label="Institution Type"
                 name="institutionType"
                 options={[
-                  { optionValue: 'ALL', optionLabel: 'ALL' },
-                  { optionValue: 'FLIGHT', optionLabel: 'FLIGHT' },
-                  { optionValue: 'FOR_PROFIT', optionLabel: 'FOR PROFIT' },
-                  { optionValue: 'PRIVATE', optionLabel: 'PRIVATE' },
-                  { optionValue: 'PUBLIC', optionLabel: 'PUBLIC' },
+                  { optionValue: 'ALL', optionLabel: 'All' },
+                  { optionValue: 'FLIGHT', optionLabel: 'Flight' },
+                  { optionValue: 'FOR_PROFIT', optionLabel: 'For Profit' },
+                  { optionValue: 'PRIVATE', optionLabel: 'Private' },
+                  { optionValue: 'PUBLIC', optionLabel: 'Public' },
                 ]}
                 value={institutionType}
                 visible
@@ -295,11 +295,11 @@ export const SearchSchools = ({
                 label="Level of Degree"
                 name="institutionType"
                 options={[
-                  { optionValue: 'ALL', optionLabel: 'ALL' },
-                  { optionValue: 'BACHELORS', optionLabel: "BACHELOR'S" },
-                  { optionValue: 'ASSOCIATE', optionLabel: 'ASSOCIATE' },
-                  { optionValue: 'MASTERS', optionLabel: "MASTER'S" },
-                  { optionValue: 'DOCTORAL', optionLabel: 'DOCTORAL' },
+                  { optionValue: 'ALL', optionLabel: 'All' },
+                  { optionValue: 'BACHELORS', optionLabel: "Bachelor's" },
+                  { optionValue: 'ASSOCIATE', optionLabel: 'Associate' },
+                  { optionValue: 'MASTERS', optionLabel: "Master's" },
+                  { optionValue: 'DOCTORAL', optionLabel: 'Doctoral' },
                 ]}
                 value={levelOfDegree}
                 visible
