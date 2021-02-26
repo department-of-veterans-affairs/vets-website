@@ -30,7 +30,7 @@ describe('686 report the marriage of a child', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(6);
+    expect(form.find('input').length).to.equal(8);
     form.unmount();
   });
 

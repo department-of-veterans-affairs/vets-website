@@ -280,11 +280,6 @@ export const DISTANCES = [
   },
 ];
 
-export const CALENDAR_INDICATOR_TYPES = {
-  CHECK: 'check',
-  BUBBLES: 'bubbles',
-};
-
 export const MENTAL_HEALTH = '502';
 export const EXPRESS_CARE = 'CR1';
 

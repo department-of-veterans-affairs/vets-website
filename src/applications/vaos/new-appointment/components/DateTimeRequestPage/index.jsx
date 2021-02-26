@@ -3,13 +3,13 @@ import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import * as actions from '../redux/actions';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import FormButtons from '../../components/FormButtons';
-import CalendarWidget from '../../components/calendar/CalendarWidget';
-import { getFormPageInfo } from '../redux/selectors';
-import { CALENDAR_INDICATOR_TYPES } from '../../utils/constants';
+import * as actions from '../../redux/actions';
+import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import FormButtons from '../../../components/FormButtons';
+import CalendarWidget from '../../../components/calendar/CalendarWidget';
+import { getFormPageInfo } from '../../redux/selectors';
 import DateTimeRequestOptions from './DateTimeRequestOptions';
+import SelectedIndicator from './SelectedIndicator';
 
 const pageKey = 'requestDateTime';
 const pageTitle = 'Choose an appointment day and time';
@@ -139,9 +139,9 @@ export function DateTimeRequestPage({
           .add(120, 'days')
           .format('YYYY-MM-DD')}
         value={selectedDates}
-        selectedIndicatorType={CALENDAR_INDICATOR_TYPES.BUBBLES}
         additionalOptions={additionalOptions}
         id="optionTime"
+        renderIndicator={props => <SelectedIndicator {...props} />}
         renderOptions={props => <DateTimeRequestOptions {...props} />}
         validationError={
           submitted || isMaxSelectionsError(validationError)
