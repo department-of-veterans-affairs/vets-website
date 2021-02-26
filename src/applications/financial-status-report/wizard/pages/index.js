@@ -11,6 +11,7 @@ import vettec from './VetTec';
 import payment from './MakePayment';
 import descision from './Descision';
 import disagree from './Disagree';
+import error from './Error';
 
 export default [
   start,
@@ -26,4 +27,5 @@ export default [
   payment,
   descision,
   disagree,
+  error,
 ];

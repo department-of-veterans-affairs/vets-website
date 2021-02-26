@@ -9,7 +9,7 @@ const options = [
     label: 'I disagree with the VA descision that resulted in this debt.',
   },
   {
-    value: pageNames.copays,
+    value: pageNames.error,
     label: 'I this this debt is due to an error.',
   },
   {

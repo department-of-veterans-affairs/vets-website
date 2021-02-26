@@ -12,4 +12,5 @@ export const pageNames = {
   payment: 'payment',
   descision: 'descision',
   disagree: 'disagree',
+  error: 'error',
 };
