@@ -15,4 +15,9 @@ module.exports = {
     new webpack.IgnorePlugin(/process-cms-exports$/),
     new webpack.DefinePlugin({ 'process.env.CONTENT_CACHE_FUNCTION': true }),
   ],
+  optimization: {
+    // Disabling minimization to avoid errors from parsing optional chaining,
+    // which our current versions of Terser + Webpack don't support.
+    minimize: false,
+  },
 };
