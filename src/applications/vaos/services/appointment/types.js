@@ -1,4 +1,104 @@
 /**
+ *
+ * @summary
+ * Appointments resources are created from several different data sources:
+ *
+ * - VistA and Video appointments from mobile appointment service (MAS)
+ * - Community care appointments fetched from var-resources service
+ * - VA and CC requests stored fetched from var-resources service
+ *
+ * Records from each of those sources are called appointments, ccAppointments,
+ * and requests, respectively
+ *
+ * @typedef {Object} Appointment
+ * @property {'Appointment'} resourceType Static resource type string
+ * @property {string} id Mapped from appointment.id, request.id, or ccAppointment.id
+ * @property {string} ?created Mapped from request.createdDate, timezone is unclear
+ * @property {Object} ?cancelationReason Cancellation reason for a requestion, mapped from request.appointmentRequestDetailCode
+ * @property {string} cancelationReason.text veteranMessage field mapped only for requests, used for Express Care only
+ * @property {AppointmentStatus} status Status for an appointment, from first requested to completed
+ * - Mapped from appointment.vdsAppointments[0].currentStatus or appointment.vvsAppointments[0].status.code for appointments.
+ * - Mapped from request.status for requests
+ * @property {string} ?description Description of an appointment, generally the status description from the downstream system
+ * - Mapped from appointment.vdsAppointments[0].currentStatus or appointment.vvsAppointments[0].status.code for appoinments
+ * - Mapped from request.status for requests
+ * - Mapped from appointment.vdsAppointments[0].currentStatus or appointment.vvsAppointments[0].status.code for appoinments
+ * - Null for other types of appointments/requests
+ * @property {RequestType} ?type Type of care information for requests, undefined for appointments
+ * @property {string} ?start Start time for the appointment
+ * - Mapped from ccAppointment.appointmentTime for CC appointments
+ * - Mapped from appointment.vvsAppointments[0].dateTime for video appointments
+ * - Mapped from appointment.startDate for VistA appointments
+ * - Mapped from request.date for Express Care requests
+ * @property {number} minutesDuration=60 The duration of the appointment or requested appointment
+ * - Mapped from appointment.vdsAppointments[0].appointmentLength for VistA appointments
+ * - Mapped from appointment.vvsAppointments[0].duration for video appointments.
+ * @property {string} ?comment Veteran or staff comments about appointments
+ * - Mapped from ccAppointment.instructionsToVeteran for community care appointments
+ * - Mapped from appointment.vdsAppointments[0].bookingNotes for VistA appointments
+ * - Mapped from appointment.vvsAppointments[0].instructionsTitle for video appointments,
+ * - Mapped from request.additionalInformation, but that only has content for Express Care requests
+ * @property {string} ?reason The reason given by patient for an appointment
+ * - Mapped from request.reasonForVisit for Express Care requests
+ * - Mapped from request.purposeForVisit for regular requests
+ * - Empty for other appointment types
+ * @property {VistaAppointmentParticipants | VARequestParticipants | VideoParticipants | CommunityCareParticipants} participant
+ *   Array of resources participating in this appointment, used to store information like clinic and location
+ * @property {VideoContainedResources | VARequestContainedResources | CommunityCareRequestContainedResources | CommunityCareContainedResources} contained
+ *   Array of fully defined resources for this appointment
+ * @property {Object} legacyVAR Object containing untransformed data that we don't have a place for
+ * @property {Object} legacyVAR.apiData This is the full appointment/request object. Generally, we shouldn't be pulling data from here
+ * @property {Object} ?legacyVAR.bestTimeToCall Array of best times to call (Morning, Afternoon, Eventing), mapped from request.bestTimetoCall
+ * @property {Array<RequestedPeriod>} ?requestedPeriods Mapped from request.optionDate and request.optionTime fields 1 through 3
+ * @property {DerivedAppointmentData} vaos This object contains derived data or information we need that doesn't fit in the FHIR format
+ */
+
+/**
+ * @summary
+ * - booked: Used for all community care appointments and any non-cancelled VistA appointments
+ * - cancelled: Mapped from cancelled for requests, or the set of cancelled statuses for appointments
+ * - proposed: Mapped from the Submitted status for requests
+ * - pending:  Mapped from the Escalated status on Express Care requests
+ * - fulfilled: Mapped from the Resolved status for Express Care requests
+ *
+ * @typedef {'booked'|'cancelled'|'proposed'|'pending'|'fulfilled'} AppointmentStatus
+ */
+
+/**
+ * @typedef {Object} DerivedAppointmentData
+ * @property {string} appointmentType The type of appointment or request this is
+ * - **ccRequest**: Chosen for any item that has a request.typeOfCareId starting with CC
+ * - **ccAppointment**: Chosen for any item with an ccAppointment.appointmentTime field or a communityCare flag set to true
+ * - **request**: Chosen for any item with a request.typeOfCareId field that doesn't start with CC
+ * - **vaAppointment**: Chosen for any item with an appointment.vvsAppointments[0] array or a clinicId and a falsy appointment.communityCare flag
+ * @property {boolean} isCommunityCare Set to true if request.appointmentType above is either ccRequest or ccAppointment
+ * @property {boolean} ?isPastAppointment Set to true if the appointment is in the past, undefined for requests
+ * @property {string} ?timeZone Mapped to request.timeZone for community care requests, null or undefined otherwise
+ * @property {boolean} ?isPhoneAppointment Mapped from appointment.phoneOnly field for VistA appointments, undefined otherwise
+ * @property {boolean} ?isExpressCare Set to true if request.typeOfCareId is CR1
+ */
+
+/**
+ * @summary
+ * These dates will either have a midnight to Noon start and end time, or a Noon to midnight timeframe,
+ * dependening on if the user chose AM or PM
+ *
+ * @typedef {Object} RequestedPeriod
+ * @property {string} start Date in ISO format
+ * @property {string} end Date in ISO format
+ */
+
+/**
+ * @summary
+ * Holds type of care information for requests
+ *
+ * @typedef {Object} RequestType
+ * @property {Array} coding Single item array
+ * @property {string} coding[].code Mapped from request.typeOfCareId
+ * @property {string} coding[].display Mapped from request.appointmentType
+ */
+
+/**
  * @summary
  * Participant array contents when appointment is a VistA based appointment
  *
@@ -145,104 +245,4 @@
  * @property {number} latitude Latitude of ATLAS site
  * - Mapped from appointments.vvsAppointments[0].tasInfo.address.latitude
  *
- */
-
-/**
- * @summary
- * - booked: Used for all community care appointments and any non-cancelled VistA appointments
- * - cancelled: Mapped from cancelled for requests, or the set of cancelled statuses for appointments
- * - proposed: Mapped from the Submitted status for requests
- * - pending:  Mapped from the Escalated status on Express Care requests
- * - fulfilled: Mapped from the Resolved status for Express Care requests
- *
- * @typedef {'booked'|'cancelled'|'proposed'|'pending'|'fulfilled'} AppointmentStatus
- */
-
-/**
- * @summary
- * Holds type of care information for requests
- *
- * @typedef {Object} RequestType
- * @property {Array} coding Single item array
- * @property {string} coding[].code Mapped from request.typeOfCareId
- * @property {string} coding[].display Mapped from request.appointmentType
- */
-
-/**
- *
- * @summary
- * Appointments resources are created from several different data sources:
- *
- * - VistA and Video appointments from mobile appointment service (MAS)
- * - Community care appointments fetched from var-resources service
- * - VA and CC requests stored fetched from var-resources service
- *
- * Records from each of those sources are called appointments, ccAppointments,
- * and requests, respectively
- *
- * @typedef {Object} Appointment
- * @property {'Appointment'} resourceType Static resource type string
- * @property {string} id Mapped from appointment.id, request.id, or ccAppointment.id
- * @property {string} ?created Mapped from request.createdDate, timezone is unclear
- * @property {Object} ?cancelationReason Cancellation reason for a requestion, mapped from request.appointmentRequestDetailCode
- * @property {string} cancelationReason.text veteranMessage field mapped only for requests, used for Express Care only
- * @property {AppointmentStatus} status Status for an appointment, from first requested to completed
- * - Mapped from appointment.vdsAppointments[0].currentStatus or appointment.vvsAppointments[0].status.code for appointments.
- * - Mapped from request.status for requests
- * @property {string} ?description Description of an appointment, generally the status description from the downstream system
- * - Mapped from appointment.vdsAppointments[0].currentStatus or appointment.vvsAppointments[0].status.code for appoinments
- * - Mapped from request.status for requests
- * - Mapped from appointment.vdsAppointments[0].currentStatus or appointment.vvsAppointments[0].status.code for appoinments
- * - Null for other types of appointments/requests
- * @property {RequestType} ?type Type of care information for requests, undefined for appointments
- * @property {string} ?start Start time for the appointment
- * - Mapped from ccAppointment.appointmentTime for CC appointments
- * - Mapped from appointment.vvsAppointments[0].dateTime for video appointments
- * - Mapped from appointment.startDate for VistA appointments
- * - Mapped from request.date for Express Care requests
- * @property {number} minutesDuration=60 The duration of the appointment or requested appointment
- * - Mapped from appointment.vdsAppointments[0].appointmentLength for VistA appointments
- * - Mapped from appointment.vvsAppointments[0].duration for video appointments.
- * @property {string} ?comment Veteran or staff comments about appointments
- * - Mapped from ccAppointment.instructionsToVeteran for community care appointments
- * - Mapped from appointment.vdsAppointments[0].bookingNotes for VistA appointments
- * - Mapped from appointment.vvsAppointments[0].instructionsTitle for video appointments,
- * - Mapped from request.additionalInformation, but that only has content for Express Care requests
- * @property {string} ?reason The reason given by patient for an appointment
- * - Mapped from request.reasonForVisit for Express Care requests
- * - Mapped from request.purposeForVisit for regular requests
- * - Empty for other appointment types
- * @property {VistaAppointmentParticipants | VARequestParticipants | VideoParticipants | CommunityCareParticipants} participant
- *   Array of resources participating in this appointment, used to store information like clinic and location
- * @property {VideoContainedResources | VARequestContainedResources | CommunityCareRequestContainedResources | CommunityCareContainedResources} contained
- *   Array of fully defined resources for this appointment
- * @property {Object} legacyVAR Object containing untransformed data that we don't have a place for
- * @property {Object} legacyVAR.apiData This is the full appointment/request object. Generally, we shouldn't be pulling data from here
- * @property {Object} ?legacyVAR.bestTimeToCall Array of best times to call (Morning, Afternoon, Eventing), mapped from request.bestTimetoCall
- * @property {RequestedPeriod[]} ?requestedPeriods Mapped from request.optionDate and request.optionTime fields 1 through 3
- * @property {DerivedAppointmentData} vaos This object contains derived data or information we need that doesn't fit in the FHIR format
- */
-
-/**
- * @summary
- * These dates will either have a midnight to Noon start and end time, or a Noon to midnight timeframe,
- * dependening on if the user chose AM or PM
- *
- * @typedef {Object} RequestedPeriod
- * @property {string} start Date in ISO format
- * @property {string} end Date in ISO format
- */
-
-/**
- * @typedef {Object} DerivedAppointmentData
- * @property {string} appointmentType The type of appointment or request this is
- * - **ccRequest**: Chosen for any item that has a request.typeOfCareId starting with CC
- * - **ccAppointment**: Chosen for any item with an ccAppointment.appointmentTime field or a communityCare flag set to true
- * - **request**: Chosen for any item with a request.typeOfCareId field that doesn't start with CC
- * - **vaAppointment**: Chosen for any item with an appointment.vvsAppointments[0] array or a clinicId and a falsy appointment.communityCare flag
- * @property {boolean} isCommunityCare Set to true if request.appointmentType above is either ccRequest or ccAppointment
- * @property {boolean} ?isPastAppointment Set to true if the appointment is in the past, undefined for requests
- * @property {string} ?timeZone Mapped to request.timeZone for community care requests, null or undefined otherwise
- * @property {boolean} ?isPhoneAppointment Mapped from appointment.phoneOnly field for VistA appointments, undefined otherwise
- * @property {boolean} ?isExpressCare Set to true if request.typeOfCareId is CR1
  */
