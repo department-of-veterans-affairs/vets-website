@@ -72,7 +72,7 @@ export const fetchResultsThunk = () => async dispatch => {
       reduce(
         response.data,
         (scopes, app) => {
-          return [...scopes, ...app.service_categories];
+          return [...scopes, ...app.serviceCategories];
         },
         [],
       ),

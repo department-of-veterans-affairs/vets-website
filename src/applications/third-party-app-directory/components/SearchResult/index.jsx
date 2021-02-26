@@ -28,10 +28,10 @@ export class SearchResult extends Component {
   setShow = (show, item) => {
     if (show) {
       this.setState({ learnIcon: 'up' });
-      recordInfoToggle('expand', item.name, item.service_categories);
+      recordInfoToggle('expand', item.name, item.serviceCategories);
     } else {
       this.setState({ learnIcon: 'down' });
-      recordInfoToggle('collapse', item.name, item.service_categories);
+      recordInfoToggle('collapse', item.name, item.serviceCategories);
     }
     this.setState({ show });
   };
@@ -52,7 +52,7 @@ export class SearchResult extends Component {
       <li className="third-party-app vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2 vads-u-padding--3 vads-u-border-color--gray-lightest vads-u-border--2px">
         <div className="vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between">
           {/* App Icon */}
-          <img alt={`${item?.name} icon`} src={item?.logo_url} />
+          <img alt={`${item?.name} icon`} src={item?.logoUrl} />
 
           <div className="vads-u-flex--1 vads-u-display--flex vads-u-flex-direction--column vads-u-margin-left--2">
             {/* App Name */}
@@ -66,7 +66,7 @@ export class SearchResult extends Component {
 
             {/* Category and Platform */}
             <p className="vads-u-margin--0">
-              {join(item?.service_categories, ', ') || 'Unknown category'} app
+              {join(item?.serviceCategories, ', ') || 'Unknown category'} app
               available for{' '}
               {convertPlatform(item?.platforms) || 'unknown platforms'}
             </p>
@@ -76,7 +76,7 @@ export class SearchResult extends Component {
           <a
             aria-label={`Find app ${item.name}`}
             className="usa-button usa-button-secondary vads-u-width--auto"
-            href={item?.app_url}
+            href={item?.appUrl}
             onClick={e =>
               recordFindAppClick(e, item.name, item.service_categories)
             }
@@ -118,7 +118,7 @@ export class SearchResult extends Component {
             {/* Legal Links */}
             <a
               className="vads-u-margin-top--3 vads-u-display--block"
-              href={item?.privacy_url}
+              href={item?.privacyUrl}
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -126,7 +126,7 @@ export class SearchResult extends Component {
             </a>
             <a
               className="vads-u-margin-top--1 vads-u-display--block"
-              href={item?.tos_url}
+              href={item?.tosUrl}
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -153,7 +153,7 @@ export class SearchResult extends Component {
                   className="vads-u-margin--0 vads-u-margin-top--2 vads-u-padding-left--2p5"
                 >
                   {reduce(
-                    item?.service_categories,
+                    item?.serviceCategories,
                     (allPermissions, scope) => {
                       const currentPermissions = map(
                         scopes[scope],
