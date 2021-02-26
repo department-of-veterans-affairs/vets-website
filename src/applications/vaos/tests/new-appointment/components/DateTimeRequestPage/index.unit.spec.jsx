@@ -2,11 +2,14 @@ import React from 'react';
 import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
-import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
+import {
+  createTestStore,
+  renderWithStoreAndRouter,
+} from '../../../mocks/setup';
 import userEvent from '@testing-library/user-event';
 
-import DateTimeRequestPage from '../../../new-appointment/components/DateTimeRequestPage';
-import { FETCH_STATUS } from '../../../utils/constants';
+import DateTimeRequestPage from '../../../../new-appointment/components/DateTimeRequestPage';
+import { FETCH_STATUS } from '../../../../utils/constants';
 import { waitFor } from '@testing-library/dom';
 import { Route } from 'react-router-dom';
 

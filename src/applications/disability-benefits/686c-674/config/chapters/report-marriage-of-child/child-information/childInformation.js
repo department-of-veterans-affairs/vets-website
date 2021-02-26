@@ -3,7 +3,10 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import { TASK_KEYS } from '../../../constants';
 import { validateName, reportChildMarriage } from '../../../utilities';
-import { isChapterFieldRequired } from '../../../helpers';
+import {
+  isChapterFieldRequired,
+  PensionIncomeRemovalQuestionTitle,
+} from '../../../helpers';
 
 export const schema = {
   type: 'object',
@@ -64,5 +67,9 @@ export const uiSchema = {
           TASK_KEYS.reportMarriageOfChildUnder18,
         ),
     }),
+    dependentIncome: {
+      'ui:title': PensionIncomeRemovalQuestionTitle,
+      'ui:widget': 'yesNo',
+    },
   },
 };

@@ -359,8 +359,11 @@ export default class ArrayField extends React.Component {
             );
             const isLast = items.length === index + 1;
             const isEditing = this.state.editing[index];
+            const ariaLabel = uiOptions.itemAriaLabel;
             const itemName =
-              item?.[uiOptions.itemKeyForAriaLabel] || uiOptions.itemName;
+              (typeof ariaLabel === 'function' && ariaLabel(item || {})) ||
+              uiOptions.itemName ||
+              'Item';
             const legendText = `${
               isLast && items.length > 1 ? 'New' : 'Editing'
             } ${itemName || ''} ${
@@ -372,7 +375,7 @@ export default class ArrayField extends React.Component {
                 <div key={index} className="va-growable-background">
                   <Element name={`table_${itemIdPrefix}`} />
                   <div className="row small-collapse">
-                    <fieldset className="small-12 columns va-growable-expanded">
+                    <fieldset className="small-12 columns va-growable-expanded word-break">
                       <legend className="vads-u-font-size--base">
                         {legendText}
                         {uiOptions.includeRequiredLabelInTitle && (

@@ -94,7 +94,9 @@ const BenefitsOfInterest = ({ children, showChildren }) => {
         )}
         {showChildren && <div className="vads-l-row">{children}</div>}
         <AdditionalInfo triggerText="What benefits does the VA offer?">
-          <p>Explore VA.gov to learn about the benefits we offer</p>
+          <p className="vads-u-font-weight--bold">
+            Explore VA.gov to learn about the benefits we offer.
+          </p>
           <ul>
             <li>
               <a href="https://www.va.gov/careers-employment/">
@@ -126,6 +128,15 @@ const BenefitsOfInterest = ({ children, showChildren }) => {
               <a href="https://www.va.gov/family-member-benefits/">
                 Family member benefits
               </a>
+            </li>
+            <li>
+              <a href="https://www.va.gov/health-care/">Health care benefits</a>
+            </li>
+            <li>
+              <a href="https://www.va.gov/education/">Education benefits</a>
+            </li>
+            <li>
+              <a href="https://www.va.gov/disability/">Disability benefits</a>
             </li>
           </ul>
         </AdditionalInfo>

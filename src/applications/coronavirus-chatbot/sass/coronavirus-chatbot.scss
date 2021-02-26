@@ -111,12 +111,12 @@ div.ac-container.ac-adaptiveCard {
 
 /* additional padding around answer chat bubbles
 (3px + webchat__row 5px + css-1qyo5rb 8px = 16px from design specs) */
-.webchat__stackedLayout--fromUser {
+.webchat__stacked-layout--from-user {
   padding: 3px 0 !important;
 }
 
 /* "just now/5 mins ago" time indicator for each message */
-.css-1kceze8{
+.webchat__stacked-layout__status {
   visibility: hidden;
 }
 

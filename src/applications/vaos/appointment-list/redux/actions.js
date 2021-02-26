@@ -13,10 +13,7 @@ import {
   selectFeatureHomepageRefresh,
 } from '../../redux/selectors';
 
-import {
-  selectPendingAppointments,
-  selectFutureAppointments,
-} from '../redux/selectors';
+import { selectFutureAppointments } from '../redux/selectors';
 
 import {
   getCancelReasons,
@@ -75,7 +72,7 @@ export const FETCH_CONFIRMED_DETAILS = 'vaos/FETCH_CONFIRMED_DETAILS';
 export const FETCH_CONFIRMED_DETAILS_FAILED =
   'vaos/FETCH_CONFIRMED_DETAILS_FAILED';
 export const FETCH_CONFIRMED_DETAILS_SUCCEEDED =
-  'vaos/FETCH_REQUEST_DETAILS_SUCCEEDED';
+  'vaos/FETCH_CONFIRMED_DETAILS_SUCCEEDED';
 
 export const FETCH_REQUEST_MESSAGES = 'vaos/FETCH_REQUEST_MESSAGES';
 export const FETCH_REQUEST_MESSAGES_FAILED =
@@ -427,10 +424,8 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
 export function fetchRequestDetails(id) {
   return async (dispatch, getState) => {
     const state = getState();
-    const { appointmentDetails, requestMessages } = state.appointments;
-    const pendingAppointments = selectPendingAppointments(state);
-    const request =
-      appointmentDetails[id] || pendingAppointments?.find(p => p.id === id);
+    const { appointmentDetails, requestMessages, pending } = state.appointments;
+    const request = appointmentDetails[id] || pending?.find(p => p.id === id);
 
     dispatch({
       type: FETCH_REQUEST_DETAILS,

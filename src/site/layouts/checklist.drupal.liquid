@@ -15,7 +15,7 @@
             {% include "src/site/includes/support_resources_search_bar.drupal.liquid" %}
           </div>
 
-          <article>
+          <article class="vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
             <!-- Title -->
             <h1>{{ title }}</h1>
 
@@ -97,7 +97,7 @@
           {% include "src/site/paragraphs/contact_information.drupal.liquid" with entity = fieldContactInformation.entity %}
 
           <!-- Last Updated -->
-          <div class="last-updated usa-content">
+          <div class="last-updated usa-content vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
             Last updated: <time
               datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
           </div>
