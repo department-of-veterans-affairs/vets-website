@@ -9,7 +9,7 @@ const options = [
     label: 'Make a payment on a debt',
   },
   {
-    value: pageNames.submit,
+    value: pageNames.descision,
     label: 'Report an error or a disagreement with a VA decision',
   },
   {

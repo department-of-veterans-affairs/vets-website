@@ -9,6 +9,8 @@ import attorney from './Attorney';
 import stem from './RogersStem';
 import vettec from './VetTec';
 import payment from './MakePayment';
+import descision from './Descision';
+import disagree from './Disagree';
 
 export default [
   start,
@@ -22,4 +24,6 @@ export default [
   stem,
   vettec,
   payment,
+  descision,
+  disagree,
 ];

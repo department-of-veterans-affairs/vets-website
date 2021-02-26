@@ -10,4 +10,6 @@ export const pageNames = {
   stem: 'stem',
   vettec: 'vettec',
   payment: 'payment',
+  descision: 'descision',
+  disagree: 'disagree',
 };
