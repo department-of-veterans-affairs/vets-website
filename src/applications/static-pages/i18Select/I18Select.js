@@ -33,7 +33,6 @@ const I18Select = () => {
     // TODO: remove inline styles, with a hook if possible
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <Select
-        // TODO: update label based on props, the span below
         label={
           <div>
             <i
