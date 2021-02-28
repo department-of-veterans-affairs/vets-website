@@ -6,9 +6,29 @@ const langsToLinkSuffixes = {
   Tagalog: '-tagalog',
 };
 
+const langAttributesToLangs = {
+  es: 'Spanish',
+  tg: 'Tagalog',
+  en: 'English',
+};
+
+const faqI18Content = {
+  en: {
+    dropDownLabel: 'Read this page in: ',
+  },
+  es: {
+    dropDownLabel: 'Leer esta página en: ',
+    onThisPage: 'En esta página',
+  },
+};
+
 const I18Select = () => {
-  const [selectedValue, setSelectedValue] = useState('Tagalog');
-  // TODO: set the default value based on the html lang attribute
+  const [selectedValue, setSelectedValue] = useState('');
+  const langAttribute = document
+    ?.getElementById('content')
+    ?.getAttribute('lang');
+  const currentLang = langAttributesToLangs[langAttribute];
+
   return (
     // TODO: remove inline styles, with a hook if possible
     <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -20,14 +40,14 @@ const I18Select = () => {
               aria-hidden="true"
               className="fas fa-globe vads-u-color--primary vads-u-margin-right--0p5"
             />
-            <span>Read this page in: </span>
+            <span>{faqI18Content[langAttribute].dropDownLabel} </span>
           </div>
         }
         name="branch"
         onKeyDown={function noRefCheck() {}}
         onValueChange={event => {
           setSelectedValue(event.value);
-          // oh man, I made a class mistake from Edward Said's Orientalism, I made something
+          // oh man, I made a classic mistake from Edward Said's Orientalism, I made something
           // different into an "other" lol
           // i hope that would have been caught in a code review: https://www.jstor.org/stable/42981698?seq=1
           const otherLanguage = Object.values(langsToLinkSuffixes).filter(
@@ -57,7 +77,7 @@ const I18Select = () => {
         options={['Spanish', 'Tagalog']}
         value={{
           dirty: false,
-          value: selectedValue,
+          value: currentLang || selectedValue,
         }}
       />
     </div>
