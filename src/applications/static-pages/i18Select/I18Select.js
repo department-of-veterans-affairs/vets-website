@@ -31,6 +31,7 @@ const I18Select = () => {
 
   return (
     // TODO: remove inline styles, with a hook if possible
+
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <Select
         label={

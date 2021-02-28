@@ -33,6 +33,7 @@ function Introduction({
   toggleLoginModal,
 }) {
   return (
+    // TODO: use a copy file for this content
     <>
       <h1>Stay informed about getting a COVID-19 vaccine at VA</h1>
       <div className="va-introtext">
