@@ -5,13 +5,14 @@ import { Provider } from 'react-redux';
 
 export default function createI18Select(store, widgetType) {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
+  // we can get the current lang here and pass it as a prop
   if (root) {
-    import(/* webpackChunkName: "view-payment-history-cta" */ './ViewPaymentHistoryCTA').then(
+    import(/* webpackChunkName: "view-payment-history-cta" */ './I18Select').then(
       module => {
-        const ViewPaymentHistoryCTA = module.default;
+        const I18Select = module.default;
         ReactDOM.render(
           <Provider store={store}>
-            <ViewPaymentHistoryCTA />
+            <I18Select />
           </Provider>,
           root,
         );
