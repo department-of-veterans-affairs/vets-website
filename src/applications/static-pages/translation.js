@@ -1,5 +1,5 @@
 import recordEvent from 'platform/monitoring/record-event';
-
+// THIS FILE WILL GO AWAY
 const faqI18Content = {
   en: {
     linkTitle: 'Read this page in English',
