@@ -14,4 +14,6 @@ export const pageNames = {
   disagree: 'disagree',
   error: 'error',
   wrong: 'wrong',
+  repayment: 'repayment',
+  lessThan: 'lessThan',
 };

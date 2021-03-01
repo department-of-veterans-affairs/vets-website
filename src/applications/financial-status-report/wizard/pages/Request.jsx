@@ -13,12 +13,12 @@ const options = [
     label: 'Report an error or a disagreement with a VA decision',
   },
   {
-    value: pageNames.appeals,
-    label: 'Request an extended monthly payment plan',
-  },
-  {
     value: pageNames.recipients,
     label: 'Request debt relief (a waiver or compromise offer)',
+  },
+  {
+    value: pageNames.repayment,
+    label: 'Request an extended monthly payment plan',
   },
   {
     value: pageNames.appeals,

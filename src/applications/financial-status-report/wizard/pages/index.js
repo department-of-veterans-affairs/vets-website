@@ -13,6 +13,8 @@ import descision from './Descision';
 import disagree from './Disagree';
 import error from './Error';
 import wrong from './Wrong';
+import repayment from './Repayment';
+import lessThan from './LessThanFive';
 
 export default [
   start,
@@ -30,4 +32,6 @@ export default [
   disagree,
   error,
   wrong,
+  repayment,
+  lessThan,
 ];
