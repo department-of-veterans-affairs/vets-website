@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import DependencyVerificationHeader from './dependencyVerificationHeader';
+import DependencyVerificationList from './dependencyVerificationList';
+import DependencyVerificationFooter from './dependencyVerificationFooter';
 
 const DependencyVerificationModal = () => {
   const [isModalShowing, setIsModalShowing] = useState(false);
@@ -17,7 +20,13 @@ const DependencyVerificationModal = () => {
         visible={isModalShowing}
         cssClass=""
         id="dependency-verification"
-        contents={'hey there'}
+        contents={
+          <>
+            <DependencyVerificationHeader />
+            <DependencyVerificationList />
+            <DependencyVerificationFooter />
+          </>
+        }
       />
     </>
   );
