@@ -246,6 +246,7 @@ As of writing, there is a module located at `src/site/stages/build/drupal/graphq
 
 <details>
 <summary>5. Create the new layout file</summary>
+
 Create the layout file at `src/site/layouts/${YOUR_UNIQUE_ENTITY_BUNDLE}.drupal.liquid`. Add the standard website components by copying the various `includes` from another layout file into yours. Specifically, make sure to include `src/site/includes/debug.drupal.liquid`, which is very useful when writing and debugging templates.
 
 </details>
