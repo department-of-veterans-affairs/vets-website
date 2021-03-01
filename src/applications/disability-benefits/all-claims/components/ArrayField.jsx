@@ -17,7 +17,7 @@ import {
 import { setArrayRecordTouched } from 'platform/forms-system/src/js/helpers';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 
-import { findDuplicateIndexes } from 'platform/forms-system/src/js/utilities/data/findDuplicateIndexes';
+import findDuplicateIndexes from 'platform/forms-system/src/js/utilities/data/findDuplicateIndexes';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
