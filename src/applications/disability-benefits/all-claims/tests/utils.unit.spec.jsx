@@ -44,7 +44,6 @@ import {
   isUndefined,
   isDisabilityPtsd,
   confirmationEmailFeature,
-  findDuplicates,
 } from '../utils';
 
 describe('526 helpers', () => {
@@ -1162,29 +1161,6 @@ describe('526 v2 depends functions', () => {
       expect(check('a', '2020-01-31', '2020-XX-14')).to.be.false;
       expect(check('a', '2020-01-31', '2020-02-XX')).to.be.false;
       expect(check('a', '2020-02-14', '2020-01-31')).to.be.false;
-    });
-  });
-
-  describe('duplicateIndexes', () => {
-    const base = [{ x: 'one' }, { x: 'two' }, { x: 'three' }];
-    it('should not find duplicates', () => {
-      expect(findDuplicates(base, 'x')).to.have.lengthOf(0);
-    });
-    it('should find one duplicate', () => {
-      const array = [...base, { x: 'one' }];
-      expect(findDuplicates(array, 'x')).to.deep.equal([3]);
-    });
-    it('should find two duplicates', () => {
-      const array = [...base, { x: 'one' }, { x: 'one' }];
-      expect(findDuplicates(array, 'x')).to.deep.equal([3, 4]);
-    });
-    it('should find two separate duplicates', () => {
-      const array = [...base, { x: 'one' }, { x: 'two' }];
-      expect(findDuplicates(array, 'x')).to.deep.equal([3, 4]);
-    });
-    it('should find three separate duplicates', () => {
-      const array = [...base, { x: 'one' }, { x: 'two' }, { x: 'three' }];
-      expect(findDuplicates(array, 'x')).to.deep.equal([3, 4, 5]);
     });
   });
 });

@@ -300,6 +300,11 @@ const formConfig = {
           uiSchema: addDisabilities.uiSchema,
           schema: addDisabilities.schema,
           updateFormData: addDisabilities.updateFormData,
+          appStateSelector: state => ({
+            // needed for validateDisabilityName to work properly on the review
+            // & submit page
+            newDisabilities: state.form?.data?.newDisabilities || [],
+          }),
         },
         followUpDesc: {
           title: 'Follow-up questions',
