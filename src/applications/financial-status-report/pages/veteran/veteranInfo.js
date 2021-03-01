@@ -12,7 +12,7 @@ export const schema = {
     veteranInfo: {
       type: 'object',
       properties: {
-        fullName: {
+        veteranFullName: {
           type: 'string',
         },
         ssnLastFour: {
