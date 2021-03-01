@@ -1,16 +1,21 @@
-# The content build
+# Guide to templates
+
+## The content build
 The _content build_ refers to the process used to generate VA.gov as a static website. From the root of the project, a terminal command is issued that will execute a script file in this project. After a series of steps - some steps longer than others - that process will output into the `project-root/build` directory a new directory containing all of the VA.gov static assets, including HTML pages, JavaScript, CSS, images, etc. During a front-end _deployment_, this new directory is compressed into an "archive" and then uploaded onto our host to become VA.gov.
 
-## Introduction to templates
-_Templates_ are used to generate HTML files using data structures that represent page content.
+One of the steps during the content build process is to process each set of page data through a corresponding template in order to produce HTML from structured content.
 
+## Introduction to templates
+_Templates_ are files composed of HTML and some programming directives used to process a data structure representing structured content into a final HTML page.
+
+### How templating works with Markdown files
 After setting up the project, the `vagov-content` repo should be a sibling repo to `vets-website`. `vagov-content` contains static content files in the form of Markdown (`.md`) in the `vagov-content/pages` directory. At the top of each Markdown file, there are declarations of key-value pairs referred to as "frontmatter", which are often used to define metadata about the page or to describe how the page should be processed during the HTML compilation.
 
 The most common key in frontmatter is a `layout` property, which refers to a file in `vets-website/src/site/layouts`. For example, this [`layout`](https://github.com/department-of-veterans-affairs/vagov-content/blame/68a9ca3d87214bee2e14a95f54044cd5c7d19f5a/pages/coronavirus-chatbot.md#L3) property refers to this [layout file](https://github.com/department-of-veterans-affairs/vets-website/blob/6c61531163be7b52345b6096dc6a76fc38e7776e/src/site/layouts/page-breadcrumbs.html) in `vets-website`. The frontmatter of the `.md` file are passed to the layout file as the global scope.
 
 <details>
 
-<summary>Example of a Markdown processed throughout a layout file</summary>
+<summary>Example of a Markdown file processed throughout a layout file</summary>
 
 For example, pretend this is a `.md` file in `vagov-content.`
 
@@ -139,7 +144,8 @@ The implementation of the Liquid templating language used by our project is [Tin
 ## Setting up a new template
 If you are tasked with writing a new template, you will more than likely be working with a new type of page from the CMS. At a high level, you will first write the GraphQL query for the new type of page, register it into the build, then begin the process of templating. Here's an in-depth list of steps recommended to help make this easier.
 
-<details><summary>1. Determine the value of the `entityBundle` belonging to the new type of page</summary>
+<details><summary>1. Determine the value of the "entityBundle" belonging to the new type of page
+</summary>
 
 This new type of page will have a unique value for its top-level `entityBundle`. As described in previous sections, this value will be used to form the relationship between the CMS data structure and the template. Thus, determining this value and using it to learn about your data structure is the first part of getting started.
 
