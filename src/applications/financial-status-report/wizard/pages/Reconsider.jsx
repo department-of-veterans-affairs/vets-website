@@ -2,19 +2,21 @@ import React from 'react';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import { pageNames } from '../constants';
 
-const label = 'How much time do you need to repay the debt?';
+const label = 'How do you want us to reconsider the decision?';
 const options = [
   {
-    value: pageNames.lessThan,
-    label: '5 years or less',
+    value: pageNames.error,
+    label:
+      'I want to ask the Committee of Waivers and Compromises to reconsider my waiver.',
   },
   {
-    value: pageNames.recipients,
-    label: 'More than 5 years',
+    value: pageNames.copays,
+    label: 'I want appeal the decision with the board of Veterans Appeals.',
+    // https://www.va.gov/decision-reviews/board-appeal/
   },
 ];
 
-const Repayment = ({ setPageState, state = {} }) => (
+const Reconsider = ({ setPageState, state = {} }) => (
   <RadioButtons
     name={`${pageNames.decision}-option`}
     label={label}
@@ -28,6 +30,6 @@ const Repayment = ({ setPageState, state = {} }) => (
 );
 
 export default {
-  name: pageNames.repayment,
-  component: Repayment,
+  name: pageNames.reconsider,
+  component: Reconsider,
 };

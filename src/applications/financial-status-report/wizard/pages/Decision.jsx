@@ -6,7 +6,7 @@ const label = 'Which of these issues do you want to report?';
 const options = [
   {
     value: pageNames.disagree,
-    label: 'I disagree with the VA descision that resulted in this debt.',
+    label: 'I disagree with the VA decision that resulted in this debt.',
   },
   {
     value: pageNames.error,
@@ -18,11 +18,11 @@ const options = [
   },
 ];
 
-const Descision = ({ setPageState, state = {} }) => (
+const Decision = ({ setPageState, state = {} }) => (
   <RadioButtons
-    name={`${pageNames.descision}-option`}
+    name={`${pageNames.decision}-option`}
     label={label}
-    id={`${pageNames.descision}-option`}
+    id={`${pageNames.decision}-option`}
     options={options}
     onValueChange={({ value }) => {
       setPageState({ selected: value }, value);
@@ -32,6 +32,6 @@ const Descision = ({ setPageState, state = {} }) => (
 );
 
 export default {
-  name: pageNames.descision,
-  component: Descision,
+  name: pageNames.decision,
+  component: Decision,
 };

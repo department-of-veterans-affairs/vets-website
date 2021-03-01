@@ -1,5 +1,5 @@
 import start from './Start';
-import appeals from './appeals';
+import reconsider from './Reconsider';
 import request from './Request';
 import submit from './Submit';
 import copays from './Copays';
@@ -9,7 +9,7 @@ import attorney from './Attorney';
 import stem from './RogersStem';
 import vettec from './VetTec';
 import payment from './MakePayment';
-import descision from './Descision';
+import decision from './Decision';
 import disagree from './Disagree';
 import error from './Error';
 import wrong from './Wrong';
@@ -18,7 +18,7 @@ import lessThan from './LessThanFive';
 
 export default [
   start,
-  appeals,
+  reconsider,
   request,
   submit,
   copays,
@@ -28,7 +28,7 @@ export default [
   stem,
   vettec,
   payment,
-  descision,
+  decision,
   disagree,
   error,
   wrong,

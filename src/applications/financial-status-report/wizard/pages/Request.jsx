@@ -9,7 +9,7 @@ const options = [
     label: 'Make a payment on a debt',
   },
   {
-    value: pageNames.descision,
+    value: pageNames.decision,
     label: 'Report an error or a disagreement with a VA decision',
   },
   {
@@ -21,16 +21,16 @@ const options = [
     label: 'Request an extended monthly payment plan',
   },
   {
-    value: pageNames.appeals,
+    value: pageNames.reconsider,
     label: 'Ask VA to reconsider the decision on my waiver request',
   },
 ];
 
 const Request = ({ setPageState, state = {} }) => (
   <RadioButtons
-    name={`${pageNames.appeals}-option`}
+    name={`${pageNames.reconsider}-option`}
     label={label}
-    id={`${pageNames.appeals}-option`}
+    id={`${pageNames.reconsider}-option`}
     options={options}
     onValueChange={({ value }) => {
       setPageState({ selected: value }, value);

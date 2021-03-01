@@ -5,7 +5,7 @@ import { pageNames } from '../constants';
 const label = 'Which of these best describes the person who has this debt?';
 const options = [
   {
-    value: pageNames.copays,
+    value: pageNames.submit,
     label: 'Active duty service member',
   },
   {
@@ -13,7 +13,7 @@ const options = [
     label: 'Veteran',
   },
   {
-    value: pageNames.copays,
+    value: pageNames.submit,
     label: 'Member of the National Guard or Reserve',
   },
   {
