@@ -4,7 +4,7 @@ import request from './Request';
 import submit from './Submit';
 import copays from './Copays';
 import recipients from './Recipients';
-import separation from './Separation';
+import benefits from './Benefits';
 import stem from './RogersStem';
 import vettec from './VetTec';
 import payment from './MakePayment';
@@ -22,7 +22,7 @@ export default [
   submit,
   copays,
   recipients,
-  separation,
+  benefits,
   stem,
   vettec,
   payment,

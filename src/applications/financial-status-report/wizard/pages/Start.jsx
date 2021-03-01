@@ -38,7 +38,7 @@ const Start = ({ setPageState, state = {} }) => {
         break;
       case 'separation':
       case 'attorney':
-        setPageState({ selected: value }, pageNames.separation);
+        setPageState({ selected: value }, pageNames.benefits);
         break;
       case 'rogers-stem':
         setPageState({ selected: value }, pageNames.stem);

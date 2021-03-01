@@ -5,7 +5,7 @@ export const pageNames = {
   submit: 'submit',
   reconsider: 'reconsider',
   copays: 'copays',
-  separation: 'separation',
+  benefits: 'benefits',
   stem: 'stem',
   vettec: 'vettec',
   payment: 'payment',

@@ -1,10 +1,11 @@
 import React from 'react';
+import { pageNames } from '../constants';
 import Telephone, {
   CONTACTS,
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
-const SeparationAttorney = () => {
+const ContactBenefits = () => {
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
       <p className="vads-u-margin-top--0">
@@ -24,4 +25,7 @@ const SeparationAttorney = () => {
   );
 };
 
-export default SeparationAttorney;
+export default {
+  name: pageNames.benefits,
+  component: ContactBenefits,
+};
