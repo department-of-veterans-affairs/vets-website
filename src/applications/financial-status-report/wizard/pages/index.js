@@ -13,6 +13,7 @@ import disagree from './Disagree';
 import error from './Error';
 import repayment from './Repayment';
 import lessThan from './LessThanFive';
+import dependents from './Dependents';
 
 export default [
   start,
@@ -30,4 +31,5 @@ export default [
   error,
   repayment,
   lessThan,
+  dependents,
 ];

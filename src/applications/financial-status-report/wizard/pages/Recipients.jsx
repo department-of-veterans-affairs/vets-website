@@ -31,7 +31,7 @@ const Recipients = ({ setPageState, state = {} }) => {
     switch (value) {
       case 'spouse':
       case 'dependent':
-        setPageState({ selected: value }, pageNames.copays);
+        setPageState({ selected: value }, pageNames.dependents);
         break;
       default:
         setPageState({ selected: value }, pageNames.submit);
