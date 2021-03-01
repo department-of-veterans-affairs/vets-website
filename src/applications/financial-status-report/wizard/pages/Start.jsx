@@ -6,42 +6,62 @@ const label = 'What’s this debt related to?';
 const options = [
   {
     label: 'VA disability compensation, education, or pension benefits',
-    value: pageNames.request,
+    value: 'request',
   },
   {
     label: 'VA health care copays',
-    value: pageNames.copays,
+    value: 'copays',
   },
   {
     label: 'Separation pay',
-    value: pageNames.separation,
+    value: 'separation',
   },
   {
     label: 'Attorney fees',
-    value: pageNames.attorney,
+    value: 'attorney',
   },
   {
     label: 'Rogers STEM program',
-    value: pageNames.stem,
+    value: 'rogers-stem',
   },
   {
     label: 'VET TEC program',
-    value: pageNames.vettec,
+    value: 'vettec',
   },
 ];
 
-const Start = ({ setPageState, state = {} }) => (
-  <RadioButtons
-    id={`${pageNames.start}-option`}
-    name={`${pageNames.start}-option`}
-    label={label}
-    options={options}
-    value={{ value: state.selected }}
-    onValueChange={({ value }) => {
-      setPageState({ selected: value }, value);
-    }}
-  />
-);
+const Start = ({ setPageState, state = {} }) => {
+  const setState = ({ value }) => {
+    switch (value) {
+      case 'copays':
+        setPageState({ selected: value }, pageNames.copays);
+        break;
+      case 'separation':
+      case 'attorney':
+        setPageState({ selected: value }, pageNames.separation);
+        break;
+      case 'rogers-stem':
+        setPageState({ selected: value }, pageNames.stem);
+        break;
+      case 'vettec':
+        setPageState({ selected: value }, pageNames.vettec);
+        break;
+      default:
+        setPageState({ selected: value }, pageNames.request);
+    }
+  };
+
+  return (
+    <RadioButtons
+      id={`${pageNames.start}-option`}
+      name={`${pageNames.start}-option`}
+      label={label}
+      options={options}
+      onValueChange={setState}
+      value={{ value: state.selected }}
+    />
+  );
+};
 
 export default {
   name: pageNames.start,
