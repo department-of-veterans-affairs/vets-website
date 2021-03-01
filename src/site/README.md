@@ -12,7 +12,7 @@ The most common key in frontmatter is a `layout` property, which refers to a fil
 
 <summary>Example of a Markdown processed throughout a layout file</summary>
 
-For example, pretend this is a `.md` in `vagov-content.`
+For example, pretend this is a `.md` file in `vagov-content.`
 
 ```markdown
 ---
@@ -136,8 +136,8 @@ There is also an HTML comment at the top of the file to help describe the curren
 
 The implementation of the Liquid templating language used by our project is [TinyLiquid](https://github.com/leizongmin/tinyliquid). We highly recommend using [TinyLiquid's README](https://github.com/leizongmin/tinyliquid/blob/cebcb26c3839e725cf0469dccc0073799902a020/README_en.md) as your resource while writing a template, as there are small [differences from Shopify's language spec](https://github.com/leizongmin/tinyliquid#the-difference-with-liquid-language).
 
-## Writing new templates
-If you are tasked with writing a new template, you will likely be working with a new type of page from the CMS. At a high level, you will first write the GraphQL query for the new type of page, register it into the build, then begin the process of templating. Here's an in-depth list of steps recommended to help make this easier.
+## Setting up a new template
+If you are tasked with writing a new template, you will more than likely be working with a new type of page from the CMS. At a high level, you will first write the GraphQL query for the new type of page, register it into the build, then begin the process of templating. Here's an in-depth list of steps recommended to help make this easier.
 
 <details><summary>1. Determine the value of the `entityBundle` belonging to the new type of page</summary>
 
@@ -189,7 +189,7 @@ The response JSON for this GraphQL query will contain a single instance of the p
 }
 ```
 
-Your complete query will be restructured so that your JS module exports a GraphQL fragment for use in the preview server as well as as a standalone `nodeQuery` for use in the content build. It should also contain an additional `filter` - a boolean field called `status` that is used to toggle only draft vs. published content. Here is a complete example of what your module may look like.
+Your complete query will be restructured so that your JS module exports a GraphQL fragment for use in the preview server as well as as a standalone `nodeQuery` for use in the content build. It should also contain an additional `filter` - a boolean field called `status` that is used to toggle only draft vs. published content. Here is a complete example of what your module may look like. _Note - Hopefully, soon the preview server will be updated to use the same query as the content build. This doc wil be updated once that happens._
 
 ```js
 const examplePageFragment = `
@@ -228,7 +228,7 @@ module.exports = {
 
 <details><summary>3. Register your GraphQL query into the content build</summary>
 
-As of writing, the module located at `src/site/stages/build/drupal/individual-queries.js` contains a list of node queries that each executed during a content build. Follow the pattern in that file to add your module's GraphQL query into that list. Once done, a `yarn build:content --pull-drupal` should include your GraphQL query. If you try this now, your project will likely run into a build error. This is to be expected, because the layout file is required and we haven't added that yet.
+As of writing, the module located at `src/site/stages/build/drupal/individual-queries.js` contains a list of node queries that each executed during a content build. Follow the pattern in that file to add your module's GraphQL query into that list. Once done, a `yarn build:content --pull-drupal` should include your GraphQL query. If you try this now it will probably have no effect because there are probably no published pages of the new page-type.
 
 </details>
 
@@ -239,8 +239,64 @@ As of writing, there is a module located at `src/site/stages/build/drupal/graphq
 </details>
 
 <details>
-<summary>5. Create a new layout file</summary>
+<summary>5. Create the new layout file</summary>
+Create the layout file at `src/site/layouts/${YOUR_UNIQUE_ENTITY_BUNDLE}.drupal.liquid`. Add the standard website components by copying the various `includes` from another layout file into yours. Specifically, make sure to include `src/site/includes/debug.drupal.liquid`, which is very useful when writing and debugging templates.
 
 </details>
 
+<details><summary>6. Follow steps below for editing templates</summary>
+At this point, you are all done setting up the new template - the relationship between the page-type in the CMS and the layout file in this project should be complete. Now you should be able to write your template the same way you would edit a pre-existing one using the preview server.
 
+</details>
+
+## Editing templates
+When editing a template, you can choose between two workflows - via the application server or the preview server. The application server is preferred when you are making changes to the application code that powers static content, whereas the preview server is preferred when you are making heavy template changes.
+
+<details><summary>Edit using the application server</summary>
+
+This approach is recommended when you are more interested in making changes to application code (almost certainly the JavaScript and CSS files of the `static-pages` application, which will be presumed going forward) so you are already running a server via Webpack but occasionally you need to rebuild the HTML files. This way, your edits to the `static-pages` JavaScript and CSS will have the benefits of hot reload. Template edits will be reflected in HTML pages via occasional content builds.
+
+_Note: This is probably not an option at all if you are working a new template, because it is unlikely that there are any instances of the page that are actually published, and a content build only includes published pages._
+
+Here is an example workflow -
+
+1. Refresh your local CMS data by first doing a `yarn build:content --pull-drupal`. Only use the `--pull-drupal` flag when you first begin, because after that point you will likely already have the CMS page data you are interested in.
+1. Start your application server via `yarn watch --env.entry=static-pages`
+    - _Note: the `static-pages` application contains the JavaScript and CSS code that powers plain content (AKA "static pages", which includes all of the HTML pages generated by the templates.) This means that if you need to edit the CSS for a template, you will do so via the `static-pages` application._
+1. Edits to the `static-pages` application code will refresh via hot reload
+1. After editing a template, issue a `yarn build:content` in a separate terminal so as not to disrupt your application server
+
+_Note: you may have noticed that the project also has a `yarn watch:content` task available. At the time of writing, this task has appeared to be unstable. For example, if you make multiple edits to a template file and save after edit before the former content builds have a chance to complete, your watch task may crash._
+
+</details>
+
+<details><summary>Edit using the preview server (preferred)</summary>
+
+This approach is recommended if you are making heavy changes to a template or are writing a template for a page-type without any published instances. The preview server will load data fresh from the CMS on each page request and processes it through the template at that time, meaning you don't need to wait for a content build to run to see your changes.
+
+1. Run `yarn build:webpack --env.entry=static-pages` to generate the JS/CSS files required by templates. If you make changes to the `static-pages` application code, you will need to run this command again.
+1. Determine the `entityId` of a page that uses the template you are editing.
+    - If you are interested in templating against a page already published, you can find its `entityId` by navigating to the page on the website (dev, staging, or prod will all work) and inspecting its DOM. At the top of the DOM should be a comment containing its `entityId`.
+    - If you are interested in templating against a page that has not been published, you can look up an `entityId` of that page-type using the [GraphQL Explorer](https://prod.cms.va.gov/graphql/explorer). See the section below for an example.
+1. Start the preview server via `yarn preview`. Your SOCKS proxy must be running.
+1. Navigated to `http://localhost:3001/preview?nodeId=${YOUR_ENTITY_ID}`
+1. After making a change to the template, stop your preview server and start it again. There is no hot reload for the preview server. Fortunately, it is lightweight enough to be quick to stop and start.
+
+### How to look look up an entityId
+The following query looks up the `entityId` for one page of the `entityBundle` (page-type) with value `landing_page`. This would be useful if you are interested in making changes to the `landing_page.drupal.liquid` template but are are unsure what pages on the website are instances of that page-type. Run this query using the [GraphQL Explorer](https://prod.cms.va.gov/graphql/explorer).
+
+```graphql
+{
+  nodeQuery(
+    limit: 1,
+    filter: {
+      conditions: [{field: "type", value: ["landing_page"]}]
+    }) {
+    entities {
+      entityId
+    }
+  }
+}
+```
+
+</details>
