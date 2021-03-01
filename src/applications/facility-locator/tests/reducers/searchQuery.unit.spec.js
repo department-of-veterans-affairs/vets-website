@@ -8,6 +8,8 @@ import {
   FETCH_SPECIALTIES,
   FETCH_SPECIALTIES_DONE,
   FETCH_SPECIALTIES_FAILED,
+  CLEAR_SEARCH_TEXT,
+  MAP_MOVED,
 } from '../../utils/actionTypes';
 import { SearchQueryReducer, INITIAL_STATE } from '../../reducers/searchQuery';
 
@@ -24,6 +26,8 @@ describe('search query reducer', () => {
   it('should handle fetching list of facilities', () => {
     const state = SearchQueryReducer(
       {
+        searchString: 'test',
+        facilityType: 'test',
         inProgress: true,
         error: true,
         searchBoundsInProgress: true,
@@ -34,6 +38,7 @@ describe('search query reducer', () => {
     );
 
     expect(state.error).to.eql(false);
+    expect(state.isValid).to.eql(true);
     expect(state.inProgress).to.eql(false);
     expect(state.searchBoundsInProgress).to.eql(false);
   });
@@ -169,6 +174,15 @@ describe('search query reducer', () => {
     });
   });
 
+  it('should handle moving the map', () => {
+    const state = SearchQueryReducer(INITIAL_STATE, {
+      type: MAP_MOVED,
+    });
+
+    expect(state.mapMoved).to.eql(true);
+    expect(state.isValid).to.eql(false);
+  });
+
   it('should handle fetching services', () => {
     const state = SearchQueryReducer(INITIAL_STATE, {
       type: FETCH_SPECIALTIES,
@@ -196,5 +210,17 @@ describe('search query reducer', () => {
 
     expect(state.error).to.eql(true);
     expect(state.fetchSvcsInProgress).to.eql(false);
+  });
+
+  it('should invalidate form when clearing search text', () => {
+    const state = SearchQueryReducer(
+      { ...INITIAL_STATE, searchString: 'Austin' },
+      {
+        type: CLEAR_SEARCH_TEXT,
+      },
+    );
+
+    expect(state.isValid).to.eql(false);
+    expect(state.searchString).to.eql('');
   });
 });
