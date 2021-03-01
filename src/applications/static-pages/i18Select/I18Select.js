@@ -30,9 +30,7 @@ const I18Select = () => {
   const currentLang = langAttributesToLangs[langAttribute];
 
   return (
-    // TODO: remove inline styles, with a hook if possible
-
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <div className="vads-u-display--flex vads-u-flex-direction--column">
       <Select
         label={
           <div>
@@ -77,7 +75,7 @@ const I18Select = () => {
         options={['Spanish', 'Tagalog']}
         value={{
           dirty: false,
-          value: currentLang || selectedValue,
+          value: selectedValue || currentLang,
         }}
       />
     </div>
