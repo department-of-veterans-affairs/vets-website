@@ -20,6 +20,7 @@ import {
   getVARFacilityId,
   getVAAppointmentLocationId,
   isVideoAppointment,
+  isVAPhoneAppointment,
   isAtlasLocation,
   getVideoKind,
   hasPractitioner,
@@ -51,10 +52,10 @@ export default function ConfirmedAppointmentListItem({
   const isPastAppointment = appointment.vaos.isPastAppointment;
   const isCommunityCare = appointment.vaos.isCommunityCare;
   const isVideo = isVideoAppointment(appointment);
+  const isPhone = isVAPhoneAppointment(appointment);
   const isInPersonVAAppointment = !isVideo && !isCommunityCare;
   const isAtlas = isAtlasLocation(appointment);
   const videoKind = getVideoKind(appointment);
-
   const showInstructions =
     isCommunityCare ||
     (isInPersonVAAppointment &&
@@ -124,12 +125,11 @@ export default function ConfirmedAppointmentListItem({
   } else {
     header = 'VA Appointment';
     location = facility ? formatFacilityAddress(facility) : null;
-    if (appointment.vaos.isPhoneAppointment) {
+    if (isPhone) {
       subHeader = ' over the phone';
       location = 'Phone call';
     }
   }
-
   return (
     <li
       aria-labelledby={`card-${index}-type card-${index}-status`}

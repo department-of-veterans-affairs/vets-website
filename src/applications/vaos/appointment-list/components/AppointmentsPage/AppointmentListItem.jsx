@@ -6,6 +6,7 @@ import {
   getVideoKind,
   isAtlasLocation,
   isVideoAppointment,
+  isVAPhoneAppointment,
 } from '../../../services/appointment';
 import {
   getTimezoneAbbrBySystemId,
@@ -75,8 +76,8 @@ export default function AppointmentListItem({ appointment, facility }) {
   const facilityId = getVARFacilityId(appointment);
   const isCommunityCare = appointment.vaos.isCommunityCare;
   const isVideo = isVideoAppointment(appointment);
-  const isInPersonVAAppointment =
-    !isVideo && !isCommunityCare && !appointment.vaos.isPhoneAppointment;
+  const isPhone = isVAPhoneAppointment(appointment);
+  const isInPersonVAAppointment = !isVideo && !isCommunityCare && !isPhone;
 
   return (
     <li
@@ -110,7 +111,7 @@ export default function AppointmentListItem({ appointment, facility }) {
         {isVideo && <VideoAppointmentDescription appointment={appointment} />}
         {isCommunityCare && <CommunityCareProvider appointment={appointment} />}
         {isInPersonVAAppointment && <VAFacilityName facility={facility} />}
-        {appointment.vaos.isPhoneAppointment && (
+        {isPhone && (
           <>
             <i
               aria-hidden="true"
