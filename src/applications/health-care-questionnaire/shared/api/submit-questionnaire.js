@@ -32,9 +32,9 @@ const createAnswerArray = value => (value ? [createAnAnswer(value)] : []);
 
 const transformForSubmit = (_formConfig, form) => {
   // console.log({ formConfig, form });
-  const { questionnaireId, appointmentId } = form.data['hidden:fields'] || {};
-  // const _questionnaire = form.data['hidden:questionnaire'];
-  // const _appointment = form.data['hidden:appointment'];
+  // const { questionnaireId, appointmentId } = form.data['hidden:fields'] || {};
+  const questionnaire = form.data['hidden:questionnaire'];
+  const appointment = form.data['hidden:appointment'];
 
   const {
     reasonForVisit,
@@ -44,8 +44,8 @@ const transformForSubmit = (_formConfig, form) => {
   } = form.data;
   const additionalQuestions = questions || [];
   return {
-    appointmentId,
-    questionnaireId,
+    appointment,
+    questionnaire,
     item: [
       {
         linkId: '01',
