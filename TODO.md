@@ -3,7 +3,7 @@
 - [x] refactor API calls to shared
 - [x] Add new data
 - [x] remove hidden fields
-- [ ] Add `questionnaire_response` key
-- [ ] Add title to questionnaire
+- [x] Add `questionnaire_response` key
+- [x] Add title to questionnaire
 - [ ] POST data to endpoint successfully
 - [ ] remove this file

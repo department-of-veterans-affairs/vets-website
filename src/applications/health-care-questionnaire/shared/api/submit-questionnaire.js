@@ -1,29 +1,35 @@
-// import { submitToUrl } from 'platform/forms-system/src/js/actions';
+import { submitToUrl } from 'platform/forms-system/src/js/actions';
+import { getAppointTypeFromAppointment } from '../utils';
+// import environment from 'platform/utilities/environment';
+
+const USE_MOCK_DATA = window.Cypress; // || environment.isLocalhost || environment.isStaging;
 
 const submit = (form, formConfig) => {
   const body = {
     questionnaireResponse: formConfig.transformForSubmit(formConfig, form),
   };
+  if (USE_MOCK_DATA) {
+    return new Promise((resolve, _reject) => {
+      resolve(body);
+      // reject(body);
+    });
+  } else {
+    // Commented out till API is working.
+    const eventData = {};
+    // console.log('calling to api', {
+    //   body,
+    //   url: formConfig.submitUrl,
+    //   trackingPrefix: formConfig.trackingPrefix,
+    //   eventData,
+    // });
 
-  // Commented out till API is working.
-  // const eventData = {};
-  // console.log('calling to api', {
-  //   body,
-  //   url: formConfig.submitUrl,
-  //   trackingPrefix: formConfig.trackingPrefix,
-  //   eventData,
-  // });
-
-  // return submitToUrl(
-  //   JSON.stringify(body),
-  //   formConfig.submitUrl,
-  //   formConfig.trackingPrefix,
-  //   // eventData,
-  // );
-  return new Promise((resolve, _reject) => {
-    resolve(body);
-    // reject(body);
-  });
+    return submitToUrl(
+      JSON.stringify(body),
+      formConfig.submitUrl,
+      formConfig.trackingPrefix,
+      eventData,
+    );
+  }
 };
 
 const createAnAnswer = valueString => ({ valueString });
@@ -33,9 +39,10 @@ const createAnswerArray = value => (value ? [createAnAnswer(value)] : []);
 const transformForSubmit = (_formConfig, form) => {
   // console.log({ formConfig, form });
   // const { questionnaireId, appointmentId } = form.data['hidden:fields'] || {};
-  const questionnaire = form.data['hidden:questionnaire'];
+  const questionnaire = form.data['hidden:questionnaire'][0];
   const appointment = form.data['hidden:appointment'];
-
+  const type = getAppointTypeFromAppointment(appointment, { titleCase: true });
+  const title = `${type} questionnaire`;
   const {
     reasonForVisit,
     reasonForVisitDescription,
@@ -45,7 +52,7 @@ const transformForSubmit = (_formConfig, form) => {
   const additionalQuestions = questions || [];
   return {
     appointment,
-    questionnaire,
+    questionnaire: { ...questionnaire, title },
     item: [
       {
         linkId: '01',
