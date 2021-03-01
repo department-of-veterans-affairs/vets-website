@@ -189,7 +189,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
         </SignatureCheckbox>
       )}
 
-      <p className="vads-u-margin-bottom--6">
+      <p className="vads-u-margin-bottom--2">
         <strong>Note:</strong> {signatureBoxNoteContent}
       </p>
 
