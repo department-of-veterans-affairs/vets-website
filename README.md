@@ -389,7 +389,7 @@ for doing very specific things.
 
 | I want to... | Then you should... |
 | :--- | :--- |
-| build the production site (dev features disabled). | `NODE_ENV=production yarn build --buildtype vagovprod` |
+| build the production site (dev features disabled). | `NODE_ENV=production yarn build --env.buildtype vagovprod --env.scaffold` |
 | fetch the latest content cache from S3 | `yarn fetch-drupal-cache` (does not require SOCKS proxy access) |
 | reset local environment (clean out node modules, Babel cache, and runs `npm install`) | `yarn reset:env` |
 | run only the app pages on the site for local development without building content. | `yarn watch --env.scaffold` |

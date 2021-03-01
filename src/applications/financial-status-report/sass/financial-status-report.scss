@@ -59,6 +59,14 @@
       align-items: center;
       justify-content: space-between;
     }
+    .usa-input-error {
+      position: relative;
+      right: 0;
+      margin-top: 0;
+      input {
+        width: 100%;
+      }
+    }
   }
   .edit-item-container {
     margin: 5px 0;
@@ -112,18 +120,30 @@
   margin-top: 10px;
 }
 
-//monetary assets
+// monetary assets
 .assets-note {
   margin: 15px 0 20px;
 }
 
-.usa-input-error {
-  position: relative;
-  right: 0;
-  margin-top: 0;
-  input {
-    width: 100%;
+// resolution options
+.edu-waiver-checkbox {
+  .schemaform-field-template {
+    margin-top: 0;
   }
+  legend {
+    display: none;
+  }
+}
+
+.resolution-inputs label,
+.eduWaiverCheckbox label {
+  margin-top: 0;
+}
+
+.overview-container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 400px;
 }
 
 .max-width-400 {
@@ -132,6 +152,19 @@
 
 .no-wrap {
   white-space: nowrap;
+}
+
+.usa-datefields {
+  padding-top: 16px;
+}
+
+.schemaform-sip-save-link {
+  margin: 20px 0;
+}
+
+// confirmation page
+.help-container {
+  padding-bottom: 40px;
 }
 
 // input fields

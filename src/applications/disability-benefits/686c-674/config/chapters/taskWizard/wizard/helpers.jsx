@@ -3,38 +3,47 @@ import React from 'react';
 export const DescriptionText = () => (
   <div>
     <p>
-      If you’re claiming a dependent child 18 to 23 years old who’ll be
-      attending school, <span className="vads-u-font-weight--bold">and</span> if
-      you never received benefits for this child,{' '}
-      <span className="vads-u-font-weight--bold">
-        you must also select the “Claim benefits for your child under 18”
-      </span>{' '}
-      checkbox below.
+      <strong>If you’re adding children,</strong> they must be under 18,{' '}
+      <strong>or</strong> under 24 and attending school. They must also be
+      unmarried in order to be considered a dependent child for VA purposes.
     </p>
     <p>
-      <span className="vads-u-font-weight--bold">Note:</span> To claim a
-      dependent child under 18, they must be unmarried. A person must be
-      unmarried to be considered a child for VA purposes.
+      Children automatically are removed when they turn 18. You may need to add
+      them again if they are attending school.
+    </p>
+    <p>
+      <strong>If you’re adding a child 18 to 23</strong> years old who’ll be
+      attending school, <strong>and</strong> If you never received benefits for
+      this child, you must <strong>also</strong> select the “Add a child or
+      children under 18 and unmarried” checkbox so they can be added to the
+      system. You <strong>will</strong> enter this child twice.
     </p>
   </div>
 );
 
 export const AddChildTitle = (
-  <p>
-    Claim benefits for your child <strong>under 18 and unmarried</strong>
+  <p className="vads-u-margin-y--0">
+    Add a child or children <strong>under 18 and unmarried</strong>
   </p>
 );
 
 export const Student674Title = (
-  <p>
-    Claim benefits for your child <strong>18 to 23 years old</strong> who'll be
-    attending school (VA Form 21-674)
+  <p className="vads-u-margin-y--0">
+    Add a child <strong>18 to 23 years old</strong> who'll be attending school
+    (VA Form 21-674)
   </p>
 );
 
 export const StepchildTitle = (
-  <p>
-    Report that a stepchild <strong>under 18</strong> has left your household
+  <p className="vads-u-margin-y--0">
+    Remove a stepchild who has left your household
+  </p>
+);
+
+export const ChildAttendingSchool = (
+  <p className="vads-u-margin-y--0">
+    Remove a child <strong>18 to 23 years old</strong> who has stopped attending
+    school
   </p>
 );
 

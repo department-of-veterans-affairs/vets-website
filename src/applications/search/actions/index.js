@@ -28,6 +28,7 @@ export function fetchSearchResults(query, page, analyticsMetaInfo) {
               response?.meta?.pagination?.totalPages,
             'search-selection': 'All VA.gov',
             'search-typeahead-enabled': analyticsMetaInfo?.typeaheadEnabled,
+            'sitewide-search-app-used': analyticsMetaInfo?.sitewideSearch,
             'type-ahead-option-keyword-selected':
               analyticsMetaInfo?.keywordSelected,
             'type-ahead-option-position': analyticsMetaInfo?.keywordPosition,

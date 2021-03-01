@@ -113,6 +113,17 @@ export async function getAppointmentRequests({ startDate, endDate }) {
 }
 
 /**
+ * Returns whether or not the appointment is VA phone appointment
+ *
+ * @export
+ * @param {Object} appointment A FHIR appointment resource
+ * @returns {Boolean} Whether or not the appointment is by phone
+ */
+export function isVAPhoneAppointment(appointment) {
+  return appointment.vaos.isPhoneAppointment;
+}
+
+/**
  * Returns whether or not the appointment/request is video
  *
  * @export
@@ -204,7 +215,7 @@ export function getVARFacilityId(appointment) {
       ?.split('_')?.[0];
 
     if (id) {
-      return id.replace('var', '');
+      return id;
     }
 
     return null;

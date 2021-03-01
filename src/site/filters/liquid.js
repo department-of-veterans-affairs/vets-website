@@ -607,7 +607,34 @@ module.exports = function registerFilters() {
       return url;
     }
 
+    if (_.includes(url, 'youtube.com/watch?v=')) {
+      return _.replace(url, '/watch?v=', '/embed/');
+    }
+
     return _.replace(url, 'youtu.be', 'youtube.com/embed');
+  };
+
+  liquid.filters.deriveCLPTotalSections = (
+    maxSections,
+    fieldClpVideoPanel,
+    fieldClpSpotlightPanel,
+    fieldClpStoriesPanel,
+    fieldClpResourcesPanel,
+    fieldClpEventsPanel,
+    fieldClpFaqPanel,
+    fieldBenefitCategories,
+  ) => {
+    const removedSectionsCount = [
+      fieldClpVideoPanel,
+      fieldClpSpotlightPanel,
+      fieldClpStoriesPanel,
+      fieldClpResourcesPanel,
+      fieldClpEventsPanel,
+      fieldClpFaqPanel,
+      !_.isEmpty(fieldBenefitCategories),
+    ].filter(panel => !panel).length;
+
+    return maxSections - removedSectionsCount;
   };
 
   liquid.filters.formatSeconds = rawSeconds => {

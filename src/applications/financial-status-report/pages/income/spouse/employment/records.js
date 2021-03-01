@@ -22,6 +22,7 @@ export const uiSchema = {
         employmentType: {
           'ui:title': 'Type of work',
           'ui:options': {
+            classNames: 'vads-u-margin-top--3',
             widgetClassNames: 'input-size-3',
           },
         },
@@ -37,7 +38,7 @@ export const uiSchema = {
         },
         grossMonthlyIncome: _.merge(currencyUI('Gross monthly income'), {
           'ui:options': {
-            widgetClassNames: 'input-size-1',
+            widgetClassNames: 'input-size-1 vads-u-margin-bottom--3',
           },
           'ui:description': (
             <p className="formfield-subtitle">
@@ -50,7 +51,7 @@ export const uiSchema = {
           'ui:field': ItemLoop,
           'ui:title': 'Payroll deductions',
           'ui:description':
-            'You’ll find your payroll deductions in a recent paycheck. Deductions include money withheld from your pay for things like taxes and benefits.',
+            'You’ll find your spouse’s payroll deductions in a recent paycheck. Deductions include money withheld from their pay for things like taxes and benefits.',
           'ui:options': {
             viewType: 'table',
             viewField: TableDetailsView,

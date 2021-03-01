@@ -104,6 +104,11 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
           contributionAmount: contributionAmount || undefined,
           numberOfStudents: numberOfStudents || undefined,
         },
+        'search-total-results': response.results.length,
+        'search-total-result-pages': Math.ceil(
+          response.results.length / perPage,
+        ),
+        'sitewide-search-app-used': false,
         'type-ahead-option-keyword-selected': undefined,
         'type-ahead-option-position': undefined,
         'type-ahead-options-list': undefined,

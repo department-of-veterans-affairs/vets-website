@@ -22,7 +22,7 @@ function PlanAheadPage({ routeToNextAppointmentPage }) {
     <div>
       <h1>{pageTitle}</h1>
       <p>
-        If you haven’t received a COVID vaccination yet, you can schedule one
+        If you haven’t received a COVID-19 vaccine yet, you can schedule one
         now.
       </p>
 
@@ -55,7 +55,7 @@ function PlanAheadPage({ routeToNextAppointmentPage }) {
         rel="noopener noreferrer"
         className="vads-u-display--block vads-u-margin-top--2"
       >
-        Learn more about COVID-19 vaccinations at the VA.
+        Learn more about COVID-19 vaccines at the VA.
       </a>
     </div>
   );

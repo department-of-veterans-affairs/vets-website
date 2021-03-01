@@ -109,11 +109,7 @@ function ExpressCareDetailsPage({
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
 
-    if (!data.reason) {
-      history.replace('/new-express-care-request');
-    } else {
-      openAdditionalDetailsPage(pageKey, uiSchema, initialSchema, history);
-    }
+    openAdditionalDetailsPage(pageKey, uiSchema, initialSchema, history);
   }, []);
 
   return (

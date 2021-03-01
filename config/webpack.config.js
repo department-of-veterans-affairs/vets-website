@@ -265,11 +265,9 @@ module.exports = (env = {}) => {
       new MiniCssExtractPlugin({
         moduleFilename: chunk => {
           const { name } = chunk;
+
           const isMedalliaStyleFile = name === vaMedalliaStylesFilename;
-
-          const isStaging = buildtype === VAGOVSTAGING;
-
-          if (isMedalliaStyleFile && isStaging) return `[name].css`;
+          if (isMedalliaStyleFile) return `[name].css`;
 
           return useHashFilenames
             ? `[name].[contenthash]-${timestamp}.css`

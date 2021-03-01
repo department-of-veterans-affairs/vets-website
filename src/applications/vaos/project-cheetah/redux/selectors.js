@@ -4,7 +4,7 @@ import {
   getTimezoneBySystemId,
   getTimezoneDescBySystemId,
 } from '../../utils/timezone';
-import { getSiteIdFromFakeFHIRId } from '../../services/location';
+import { getSiteIdFromFacilityId } from '../../services/location';
 
 export function selectProjectCheetah(state) {
   return state.projectCheetah;
@@ -28,7 +28,7 @@ export function getProjectCheetahFormPageInfo(state, pageKey) {
 }
 
 export function getSiteIdForChosenFacility(state) {
-  return getSiteIdFromFakeFHIRId(
+  return getSiteIdFromFacilityId(
     selectProjectCheetahFormData(state).vaFacility,
   );
 }
@@ -160,5 +160,7 @@ export function selectContactFacilitiesPageInfo(state) {
     facilities,
     facilitiesStatus,
     sortMethod: newBooking.facilityPageSortMethod,
+    isEligible: state.projectCheetah.isEligible,
+    newBookingStatus: state.projectCheetah.newBookingStatus,
   };
 }

@@ -11,6 +11,8 @@ import {
 
 import userEvent from '@testing-library/user-event';
 import { AppointmentList } from '../../../appointment-list';
+import sinon from 'sinon';
+import { fireEvent } from '@testing-library/react';
 
 const initialState = {
   featureToggles: {
@@ -35,7 +37,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
 
   it('should navigate to community care appointments detail page', async () => {
     // CC appointment id from confirmed_cc.json
-    const url = '/cc/var8a4885896a22f88f016a2cb7f5de0062';
+    const url = '/cc/8a4885896a22f88f016a2cb7f5de0062';
 
     const appointment = getCCAppointmentMock();
     appointment.id = '8a4885896a22f88f016a2cb7f5de0062';
@@ -101,7 +103,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
         name: /^Add May 20, 2021 appointment to your calendar/,
       }),
     ).to.be.ok;
-    expect(screen.getByRole('link', { name: /Print/ })).to.be.ok;
+    expect(screen.getByText(/Print/)).to.be.ok;
 
     const button = screen.getByRole('button', {
       name: /Go back to appointments/,
@@ -132,5 +134,71 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     });
     userEvent.click(manageAppointmentLink);
     expect(await screen.findAllByText(/Detail/)).to.be.ok;
+  });
+
+  it('should fire a print request when print button clicked', async () => {
+    // CC appointment id from confirmed_cc.json
+    const url = '/cc/8a4885896a22f88f016a2cb7f5de0062';
+
+    const appointment = getCCAppointmentMock();
+    appointment.id = '8a4885896a22f88f016a2cb7f5de0062';
+    appointment.attributes = {
+      ...appointment.attributes,
+      appointmentRequestId: '8a4885896a22f88f016a2cb7f5de0062',
+      distanceEligibleConfirmed: true,
+      name: { firstName: 'Rick', lastName: 'Katz' },
+      providerPractice: 'My Eye Dr',
+      providerPhone: '(703) 555-1264',
+      address: {
+        street: '123',
+        city: 'Burke',
+        state: 'VA',
+        zipCode: '20151',
+      },
+      instructionsToVeteran: 'Bring your glasses',
+      appointmentTime: '05/20/2021 14:15:00',
+      timeZone: 'UTC',
+    };
+
+    mockAppointmentInfo({
+      va: [],
+      cc: [appointment],
+      requests: [],
+      isHomepageRefresh: true,
+    });
+
+    const screen = renderWithStoreAndRouter(
+      <AppointmentList featureHomepageRefresh />,
+      {
+        initialState,
+      },
+    );
+
+    const oldPrint = global.window.print;
+    const printSpy = sinon.spy();
+    global.window.print = printSpy;
+
+    const detailLinks = await screen.findAllByRole('link', {
+      name: /Detail/i,
+    });
+
+    // Select an appointment details link...
+    const detailLink = detailLinks.find(l => l.getAttribute('href') === url);
+    userEvent.click(detailLink);
+
+    // Verify page content...
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: /^Thursday, May 20, 2021/,
+      }),
+    ).to.be.ok;
+
+    expect(screen.getByText(/Community care/)).to.be.ok;
+
+    expect(printSpy.notCalled).to.be.true;
+    fireEvent.click(await screen.findByText(/Print/i));
+    expect(printSpy.calledOnce).to.be.true;
+    global.window.print = oldPrint;
   });
 });

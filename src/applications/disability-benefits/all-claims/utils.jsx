@@ -21,6 +21,7 @@ import {
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
 
 import {
   DATA_PATHS,
@@ -97,6 +98,33 @@ export const formatDateRange = (dateRange = {}, format = DATE_FORMAT) =>
 // moment().isSameOrBefore() => true; so expirationDate can't be undefined
 export const isNotExpired = (expirationDate = '') =>
   moment().isSameOrBefore(expirationDate);
+
+export const isValidFullDate = dateString => {
+  // expecting dateString = 'YYYY-MM-DD'
+  const date = moment(dateString);
+  return (
+    (date?.isValid() &&
+      // moment('2021') => '2021-01-01'
+      // moment('XXXX-01-01') => '2001-01-01'
+      dateString === formatDate(date, 'YYYY-MM-DD') &&
+      // make sure we're within the min & max year range
+      isValidYear(date.year())) ||
+    false
+  );
+};
+
+export const isValidServicePeriod = data => {
+  const { serviceBranch, dateRange: { from = '', to = '' } = {} } = data || {};
+  return (
+    (!isUndefined(serviceBranch) &&
+      !isUndefined(from) &&
+      !isUndefined(to) &&
+      isValidFullDate(from) &&
+      isValidFullDate(to) &&
+      moment(from).isBefore(moment(to))) ||
+    false
+  );
+};
 
 export const isActiveITF = currentITF => {
   if (currentITF) {
@@ -969,4 +997,27 @@ export const confirmationEmailFeature = state => {
   ].includes(undefined)
     ? false
     : isForm526ConfirmationEmailOn && isForm526ConfirmationEmailShowCopyOn;
+};
+
+/**
+ * Find duplicates in an array of objects and return an array of indexes for the
+ *  duplicates only
+ * @param {Object} formData - Data array (ArrayField data)
+ * @param {String} dataKey - key of data of interest to find duplicates
+ * @return {Array} - Array of indexes of the duplicates only, not the first
+ *  entry
+ * @example
+ * findDuplicates([{x:'one'},{x:'two'},{x:'one'},{x:'two'}], 'x')
+ * // => [2, 3]
+ */
+export const findDuplicates = (formData, dataKey) => {
+  const list = formData.map(item => item[dataKey]?.toLowerCase() || '');
+  return list.reduce((duplicateIndexes, item, index) => {
+    // look for duplicates of the first, but don't include the first
+    const foundIndex = list.indexOf(item, index + 1);
+    if (foundIndex > -1) {
+      duplicateIndexes.push(foundIndex);
+    }
+    return duplicateIndexes;
+  }, []);
 };

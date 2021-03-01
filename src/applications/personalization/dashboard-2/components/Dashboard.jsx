@@ -5,14 +5,21 @@ import isEmpty from 'lodash/isEmpty';
 import '../sass/dashboard.scss';
 
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import { focusElement } from '~/platform/utilities/ui';
 import {
   isLOA3 as isLOA3Selector,
   isLOA1 as isLOA1Selector,
-  isLoggedIn as isLoggedInSelector,
+  isVAPatient as isVAPatientSelector,
 } from '~/platform/user/selectors';
+import RequiredLoginView, {
+  RequiredLoginLoader,
+} from '~/platform/user/authorization/components/RequiredLoginView';
+import backendServices from '~/platform/user/profile/constants/backendServices';
+import {
+  DowntimeNotification,
+  externalServices,
+} from '~/platform/monitoring/DowntimeNotification';
 
 import NameTag from '~/applications/personalization/components/NameTag';
 import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
@@ -23,19 +30,11 @@ import {
   fetchHero as fetchHeroAction,
 } from '@@profile/actions';
 
+import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderMethod';
+
 import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import HealthCare from './health-care/HealthCare';
-
-// content to show if the component is waiting for data to load. This loader
-// matches the loader shown by the RequiredLoginView component, so when the
-// RequiredLoginView is done with its loading and this component takes over, it
-// appears seamless to the user.
-const Loader = () => (
-  <div className="vads-u-margin-y--5">
-    <LoadingIndicator setFocus message="Loading your information..." />
-  </div>
-);
 
 const Dashboard = ({
   fetchFullName,
@@ -45,6 +44,8 @@ const Dashboard = ({
   showLoader,
   ...props
 }) => {
+  const downtimeApproachingRenderMethod = useDowntimeApproachingRenderMethod();
+
   // focus on the header when we are done loading
   useEffect(
     () => {
@@ -72,51 +73,71 @@ const Dashboard = ({
     ],
   );
 
-  if (showLoader) {
-    return <Loader />;
-  } else {
-    return (
-      <div className="dashboard">
-        {props.showNameTag && (
-          <NameTag
-            showUpdatedNameTag
-            totalDisabilityRating={props.totalDisabilityRating}
-          />
-        )}
-        <div className="vads-l-grid-container medium-screen:vads-u-padding--2 small-desktop-screen:vads-u-padding--0">
-          <Breadcrumbs>
-            <a href="/" key="home">
-              Home
-            </a>
-            <span className="vads-u-color--black" key="dashboard">
-              <strong>My VA</strong>
-            </span>
-          </Breadcrumbs>
+  return (
+    <RequiredLoginView
+      serviceRequired={[backendServices.USER_PROFILE]}
+      user={props.user}
+    >
+      <DowntimeNotification
+        appTitle="user dashboard"
+        loadingIndicator={<RequiredLoginLoader />}
+        dependencies={[
+          externalServices.mvi,
+          externalServices.mhv,
+          externalServices.appeals,
+        ]}
+        render={downtimeApproachingRenderMethod}
+      >
+        {showLoader && <RequiredLoginLoader />}
+        {!showLoader && (
+          <div className="dashboard">
+            {props.showNameTag && (
+              <NameTag
+                showUpdatedNameTag
+                totalDisabilityRating={props.totalDisabilityRating}
+              />
+            )}
+            <div className="vads-l-grid-container vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4 small-desktop-screen:vads-u-padding-x--0">
+              <Breadcrumbs className="vads-u-padding-x--0 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
+                <a href="/" key="home">
+                  Home
+                </a>
+                <span className="vads-u-color--black" key="dashboard">
+                  <strong>My VA</strong>
+                </span>
+              </Breadcrumbs>
 
-          <h1 id="dashboard-title" data-testid="dashboard-title" tabIndex="-1">
-            My VA
-          </h1>
+              <h1
+                id="dashboard-title"
+                data-testid="dashboard-title"
+                tabIndex="-1"
+              >
+                My VA
+              </h1>
 
-          {props.showValidateIdentityAlert && (
-            <div className="vads-l-row">
-              <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-                <IdentityNotVerified alertHeadline="Verify your identity to access more VA.gov tools and features" />
-              </div>
+              {props.showValidateIdentityAlert && (
+                <div className="vads-l-row">
+                  <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+                    <IdentityNotVerified alertHeadline="Verify your identity to access more VA.gov tools and features" />
+                  </div>
+                </div>
+              )}
+              {props.showClaimsAndAppeals && <ClaimsAndAppeals />}
+              {props.showHealthCare && <HealthCare />}
+              <ApplyForBenefits />
             </div>
-          )}
-          {props.showClaimsAndAppeals && <ClaimsAndAppeals />}
-          {props.showHealthCare && <HealthCare />}
-          <ApplyForBenefits />
-        </div>
-      </div>
-    );
-  }
+          </div>
+        )}
+      </DowntimeNotification>
+    </RequiredLoginView>
+  );
 };
 
 const mapStateToProps = state => {
-  const isLoggedIn = isLoggedInSelector(state);
+  const { isReady: hasLoadedScheduledDowntime } = state.scheduledDowntime;
   const isLOA3 = isLOA3Selector(state);
   const isLOA1 = isLOA1Selector(state);
+  const isVAPatient = isVAPatientSelector(state);
   const hero = state.vaProfile?.hero;
   const hasLoadedMilitaryInformation = state.vaProfile?.militaryInformation;
   const hasLoadedFullName = !!hero;
@@ -130,7 +151,7 @@ const mapStateToProps = state => {
       hasLoadedFullName &&
       hasLoadedDisabilityRating);
 
-  const showLoader = !isLoggedIn || !hasLoadedAllData;
+  const showLoader = !hasLoadedScheduledDowntime || !hasLoadedAllData;
   const showValidateIdentityAlert = isLOA1;
   const showNameTag = isLOA3 && isEmpty(hero?.errors);
   // TODO: expand on these flags depending on the contents of the user object.
@@ -138,7 +159,7 @@ const mapStateToProps = state => {
   // available. And we will need to show the health care section if they are a
   // patient and/or have rx or msg services available
   const showClaimsAndAppeals = isLOA3;
-  const showHealthCare = isLOA3;
+  const showHealthCare = isLOA3 && isVAPatient;
 
   return {
     isLOA3,
@@ -149,6 +170,7 @@ const mapStateToProps = state => {
     showNameTag,
     hero,
     totalDisabilityRating: state.totalRating?.totalDisabilityRating,
+    user: state.user,
   };
 };
 

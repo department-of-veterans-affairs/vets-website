@@ -11,7 +11,7 @@ import {
 import { getAvailableHealthcareServices } from '../../services/healthcare-service';
 import {
   getLocationsByTypeOfCareAndSiteIds,
-  getSiteIdFromFakeFHIRId,
+  getSiteIdFromFacilityId,
 } from '../../services/location';
 import { getPreciseLocation } from '../../utils/address';
 import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../utils/constants';
@@ -31,7 +31,10 @@ import moment from 'moment';
 import { getSlots } from '../../services/slot';
 import recordEvent from 'platform/monitoring/record-event';
 import { transformFormToAppointment } from './helpers/formSubmitTransformers';
-import { submitAppointment } from '../../services/var';
+import {
+  getDirectBookingEligibilityCriteria,
+  submitAppointment,
+} from '../../services/var';
 
 export const FORM_PAGE_OPENED = 'projectCheetah/FORM_PAGE_OPENED';
 export const FORM_DATA_UPDATED = 'projectCheetah/FORM_DATA_UPDATED';
@@ -83,6 +86,12 @@ export const FORM_PAGE_CONTACT_FACILITIES_OPEN_SUCCEEDED =
 export const FORM_PAGE_CONTACT_FACILITIES_OPEN_FAILED =
   'projectCheetah/FORM_CONTACT_FACILITIES_OPEN_FAILED';
 
+export const FETCH_NEW_BOOKING_WINDOW = 'vaos/FETCH_NEW_BOOKING_WINDOW';
+export const FETCH_NEW_BOOKING_WINDOW_FAILED =
+  'vaos/FETCH_NEW_BOOKING_WINDOW_FAILED';
+export const FETCH_NEW_BOOKING_WINDOW_SUCCEEDED =
+  'vaos/FETCH_NEW_BOOKING_WINDOW_SUCCEEDED';
+
 export const GA_FLOWS = {
   DIRECT: 'direct',
 };
@@ -113,7 +122,7 @@ export function getClinics({ facilityId, showModal = false }) {
       clinics = await getAvailableHealthcareServices({
         facilityId,
         typeOfCareId: TYPE_OF_CARE_ID,
-        systemId: getSiteIdFromFakeFHIRId(facilityId),
+        systemId: getSiteIdFromFacilityId(facilityId),
       });
       dispatch({
         type: FORM_FETCH_CLINICS_SUCCEEDED,
@@ -129,6 +138,50 @@ export function getClinics({ facilityId, showModal = false }) {
     }
 
     return clinics;
+  };
+}
+
+export function openNewBookingPage(history) {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: FETCH_NEW_BOOKING_WINDOW,
+    });
+
+    let isEligible = false;
+    try {
+      const initialState = getState();
+      const siteIds = selectSystemIds(initialState);
+
+      // Get sites that support vaccines
+      const criteria = await getDirectBookingEligibilityCriteria(siteIds);
+      isEligible = criteria.some(setting =>
+        setting.coreSettings.some(
+          coreSetting =>
+            coreSetting.id === TYPE_OF_CARE_ID &&
+            !!coreSetting.patientHistoryRequired,
+        ),
+      );
+
+      // Redirect the user to the 'Contact facility' page if the appointment can't be
+      // scheduled at the user's registered facilities.
+      if (!isEligible) {
+        history.push('/new-project-cheetah-booking/contact-facilities');
+      }
+
+      dispatch({
+        type: FETCH_NEW_BOOKING_WINDOW_SUCCEEDED,
+        isEligible,
+      });
+    } catch (e) {
+      dispatch({
+        type: FETCH_NEW_BOOKING_WINDOW_FAILED,
+        isEligible,
+      });
+
+      // Just capture the error for now.
+      // TODO: Figure out where to redirect the user.
+      captureError(e, false);
+    }
   };
 }
 
@@ -244,7 +297,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
   return async (dispatch, getState) => {
     const state = getState();
     const useVSP = selectFeatureVSPAppointmentNew(state);
-    const siteId = getSiteIdFromFakeFHIRId(
+    const siteId = getSiteIdFromFacilityId(
       selectProjectCheetahFormData(state).vaFacility,
     );
     const newBooking = selectProjectCheetahNewBooking(state);

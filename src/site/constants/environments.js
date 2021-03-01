@@ -10,9 +10,6 @@ module.exports = {
   /** The VA.gov dev environment */
   VAGOVDEV: 'vagovdev',
 
-  /** The TEMP VA.gov dev environment for CMS Export */
-  VAGOVDEVCMSEXPORT: 'vagovdev-cms-export',
-
   /** The VA.gov staging environment. */
   VAGOVSTAGING: 'vagovstaging',
 

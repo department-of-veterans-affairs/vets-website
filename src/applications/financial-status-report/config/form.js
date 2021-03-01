@@ -5,10 +5,11 @@ import environment from 'platform/utilities/environment';
 import manifest from '../manifest.json';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
-// import PreSubmitSignature from '../components/PreSubmitSignature';
+import PreSubmitSignature from '../components/PreSubmitSignature';
 import { prefillTransformer } from '../utils/prefillTransformer';
 import * as pages from '../pages';
 import moment from 'moment';
+import SubmissionError from '../components/SubmissionError';
 
 const submit = () => {
   return Promise.resolve(
@@ -25,7 +26,8 @@ const formConfig = {
   verifyRequiredPrefill: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  // preSubmitInfo: PreSubmitSignature,
+  preSubmitInfo: PreSubmitSignature,
+  submissionError: SubmissionError,
   formId: VA_FORM_IDS.FORM_5655,
   version: 0,
   prefillEnabled: true,
@@ -51,6 +53,10 @@ const formConfig = {
   subTitle: 'Form 5655',
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  customText: {
+    finishAppLaterMessage: 'Finish this request later',
+    reviewPageTitle: 'Review your request',
+  },
   chapters: {
     veteranInformationChapter: {
       title: 'Veteran information',
@@ -147,7 +153,18 @@ const formConfig = {
           uiSchema: pages.benefits.uiSchema,
           schema: pages.benefits.schema,
           initialData: {
-            benefits: {},
+            income: [
+              {
+                veteranOrSpouse: 'VETERAN',
+                compensationAndPension: '3000',
+                education: '1000',
+              },
+              {
+                veteranOrSpouse: 'SPOUSE',
+                compensationAndPension: '7000',
+                education: '4000',
+              },
+            ],
           },
         },
         socialSecurity: {
@@ -295,11 +312,12 @@ const formConfig = {
           uiSchema: pages.realEstate.uiSchema,
           schema: pages.realEstate.schema,
         },
-        recreationalVehicles: {
-          path: 'recreational-vehicles',
-          title: 'Recreational vehicles',
-          uiSchema: pages.recreationalVehicles.uiSchema,
-          schema: pages.recreationalVehicles.schema,
+        realEstateRecords: {
+          path: 'real-estate-asset-records',
+          title: 'Real estate',
+          uiSchema: pages.realEstateRecords.uiSchema,
+          schema: pages.realEstateRecords.schema,
+          depends: formData => formData.hasRealEstate,
         },
         vehicles: {
           path: 'vehicles',
@@ -307,11 +325,38 @@ const formConfig = {
           uiSchema: pages.vehicles.uiSchema,
           schema: pages.vehicles.schema,
         },
+        vehicleRecords: {
+          path: 'vehicle-records',
+          title: 'Vehicles',
+          uiSchema: pages.vehicleRecords.uiSchema,
+          schema: pages.vehicleRecords.schema,
+          depends: formData => formData.hasVehicle,
+        },
+        recreationalVehicles: {
+          path: 'recreational-vehicles',
+          title: 'Recreational vehicles',
+          uiSchema: pages.recreationalVehicles.uiSchema,
+          schema: pages.recreationalVehicles.schema,
+        },
+        recreationalVehicleRecords: {
+          path: 'recreational-vehicle-records',
+          title: 'Recreational vehicles',
+          uiSchema: pages.recreationalVehicleRecords.uiSchema,
+          schema: pages.recreationalVehicleRecords.schema,
+          depends: formData => formData.hasRecreationalVehicle,
+        },
         otherAssets: {
           path: 'other-assets',
           title: 'Other assets',
           uiSchema: pages.otherAssets.uiSchema,
           schema: pages.otherAssets.schema,
+        },
+        otherAssetRecords: {
+          path: 'other-asset-records',
+          title: 'Other assets',
+          uiSchema: pages.otherAssetRecords.uiSchema,
+          schema: pages.otherAssetRecords.schema,
+          depends: formData => formData.hasOtherAssets,
         },
       },
     },
@@ -330,11 +375,25 @@ const formConfig = {
           uiSchema: pages.utilities.uiSchema,
           schema: pages.utilities.schema,
         },
+        utilityRecords: {
+          path: 'utility-records',
+          title: 'Utilities',
+          uiSchema: pages.utilityRecords.uiSchema,
+          schema: pages.utilityRecords.schema,
+          depends: formData => formData.hasUtilities,
+        },
         repayments: {
           path: 'repayments',
           title: 'Repayments',
           uiSchema: pages.repayments.uiSchema,
           schema: pages.repayments.schema,
+        },
+        repaymentRecords: {
+          path: 'repayment-records',
+          title: 'Repayments',
+          uiSchema: pages.repaymentRecords.uiSchema,
+          schema: pages.repaymentRecords.schema,
+          depends: formData => formData.hasRepayments,
         },
         otherExpenses: {
           path: 'other-expenses',
@@ -342,10 +401,17 @@ const formConfig = {
           uiSchema: pages.otherExpenses.uiSchema,
           schema: pages.otherExpenses.schema,
         },
+        otherExpenseRecords: {
+          path: 'other-expense-records',
+          title: 'Other expenses',
+          uiSchema: pages.otherExpenseRecords.uiSchema,
+          schema: pages.otherExpenseRecords.schema,
+          depends: formData => formData.hasOtherExpenses,
+        },
       },
     },
     resolutionOptionsChapter: {
-      title: 'Resolution options',
+      title: 'Repayment or relief options',
       pages: {
         resolutionOptions: {
           path: 'resolution-options/:index',
@@ -371,6 +437,13 @@ const formConfig = {
           title: 'Bankruptcy history',
           uiSchema: pages.bankruptcyHistory.uiSchema,
           schema: pages.bankruptcyHistory.schema,
+        },
+        bankruptcyHistoryRecords: {
+          path: 'bankruptcy-history-records',
+          title: 'Bankruptcy history',
+          uiSchema: pages.bankruptcyHistoryRecords.uiSchema,
+          schema: pages.bankruptcyHistoryRecords.schema,
+          depends: formData => formData.bankruptcyHistory.hasBeenAdjudicated,
         },
       },
     },

@@ -508,7 +508,7 @@ describe('Schemaform review: ObjectField', () => {
       <ObjectField
         uiSchema={{
           'ui:options': {
-            ariaLabelForEditButtonOnReview: 'Custom label',
+            itemName: 'Custom label',
           },
         }}
         schema={schema}
@@ -521,7 +521,43 @@ describe('Schemaform review: ObjectField', () => {
       />,
     );
 
-    expect(tree.getByLabelText('Custom label')).to.exist;
+    expect(tree.getByLabelText('Edit Custom label')).to.exist;
+  });
+
+  it('should render aria-label on edit button using value from config', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+
+    const schema = {
+      type: 'object',
+      properties: {
+        testKey: {
+          type: 'string',
+        },
+      },
+    };
+
+    const tree = render(
+      <ObjectField
+        uiSchema={{
+          'ui:options': {
+            itemAriaLabel: data => data.testKey,
+            itemName: 'Custom label',
+          },
+        }}
+        schema={schema}
+        formContext={{ pageTitle: 'Blah' }}
+        requiredSchema={{}}
+        idSchema={{ $id: 'root' }}
+        formData={{
+          testKey: 'Happy',
+        }}
+        onChange={onChange}
+        onBlur={onBlur}
+      />,
+    );
+
+    expect(tree.getByLabelText('Edit Happy')).to.exist;
   });
 
   it('should render a div when rendering a ReviewCardField content with volatileData', () => {

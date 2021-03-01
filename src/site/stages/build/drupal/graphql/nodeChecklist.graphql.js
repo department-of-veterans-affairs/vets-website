@@ -84,7 +84,6 @@ fragment nodeChecklist on NodeChecklist {
 `;
 
 const GetNodeChecklist = `
-  ${fragments.alertParagraph}
   ${fragments.alertParagraphSingle}
   ${fragments.button}
   ${fragments.contactInformation}

@@ -54,7 +54,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     expect(await findByText(/Past 3 months/i)).to.exist;
   });
 
-  it('should update range on dropdown change', async () => {
+  it.skip('should update range on dropdown change', async () => {
     const pastDate = moment().subtract(3, 'months');
     const rangeLabel = `${moment()
       .subtract(3, 'months')

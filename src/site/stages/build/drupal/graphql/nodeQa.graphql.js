@@ -77,7 +77,6 @@ function getNodeQaSlice(operationName, offset, limit) {
   return `
     ${fragments.richTextCharLimit1000}
     ${fragments.reactWidget}
-    ${fragments.alertParagraph}
     ${fragments.alertParagraphSingle}
     ${fragments.button}
     ${fragments.contactInformation}

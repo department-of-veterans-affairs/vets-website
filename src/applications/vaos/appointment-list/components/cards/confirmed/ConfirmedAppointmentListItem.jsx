@@ -20,6 +20,7 @@ import {
   getVARFacilityId,
   getVAAppointmentLocationId,
   isVideoAppointment,
+  isVAPhoneAppointment,
   isAtlasLocation,
   getVideoKind,
   hasPractitioner,
@@ -30,12 +31,6 @@ import {
   VideoVisitInstructions,
 } from './VideoInstructions';
 import VideoVisitProviderSection from './VideoVisitProvider';
-
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id ? id.replace('var', '') : id;
-}
 
 function formatAppointmentDate(date) {
   if (!date.isValid()) {
@@ -57,10 +52,10 @@ export default function ConfirmedAppointmentListItem({
   const isPastAppointment = appointment.vaos.isPastAppointment;
   const isCommunityCare = appointment.vaos.isCommunityCare;
   const isVideo = isVideoAppointment(appointment);
+  const isPhone = isVAPhoneAppointment(appointment);
   const isInPersonVAAppointment = !isVideo && !isCommunityCare;
   const isAtlas = isAtlasLocation(appointment);
   const videoKind = getVideoKind(appointment);
-
   const showInstructions =
     isCommunityCare ||
     (isInPersonVAAppointment &&
@@ -130,12 +125,11 @@ export default function ConfirmedAppointmentListItem({
   } else {
     header = 'VA Appointment';
     location = facility ? formatFacilityAddress(facility) : null;
-    if (appointment.vaos.isPhoneAppointment) {
+    if (isPhone) {
       subHeader = ' over the phone';
       location = 'Phone call';
     }
   }
-
   return (
     <li
       aria-labelledby={`card-${index}-type card-${index}-status`}
@@ -173,9 +167,7 @@ export default function ConfirmedAppointmentListItem({
           {isInPersonVAAppointment && (
             <VAFacilityLocation
               facility={facility}
-              facilityId={parseFakeFHIRId(
-                getVAAppointmentLocationId(appointment),
-              )}
+              facilityId={getVAAppointmentLocationId(appointment)}
               clinicName={appointment.participant[0].actor.display}
             />
           )}
