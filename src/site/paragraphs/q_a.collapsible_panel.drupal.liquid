@@ -16,7 +16,6 @@
   }
 {% endcomment %}
 
-{% comment %}
 <div data-template="paragraphs/q_a.collapsible_panel">
   <div class="usa-accordion">
     <ul class="usa-unstyled-list">
@@ -48,18 +47,3 @@
     </ul>
   </div>
 </div>
-{% endcomment %}
-
-<va-accordion>
-  {% assign questions = entity.fieldQuestions %}
-  {% assign sectionHeader = entity.fieldSectionHeader %}
-  {% for accordionItem in questions %}
-    {% assign item = accordionItem.entity %}
-    <va-accordion-item header="{{ item.fieldQuestion }}">
-      {% for answer in item.fieldAnswer %}
-        {%  assign bundleComponent = "src/site/paragraphs/" | append: answer.entity.entityBundle | append: ".drupal.liquid" %}
-        {% include {{ bundleComponent }} with entity = answer.entity %}
-      {% endfor %}
-    </va-accordion-item>
-  {% endfor %}
-</va-accordion>
