@@ -6,15 +6,45 @@
  */
 
 /* eslint-disable no-continue */
+/* eslint-disable no-console */
 
 const fs = require('fs');
 const jsdom = require('jsdom');
 const path = require('path');
+const cheerio = require('cheerio');
 const buckets = require('../../constants/buckets');
 
 const TEAMSITE_ASSETS = 'va_files';
 
+function getAssetLinkElements(doc) {
+  const elementTags = 'script, img, link, picture > source';
+  return doc(elementTags);
+}
+
+function invalidAssetSrcCheck(assetSrc) {
+  return (
+    !assetSrc ||
+    assetSrc.startsWith('http') ||
+    assetSrc.startsWith('data:') ||
+    assetSrc.includes(TEAMSITE_ASSETS)
+  );
+}
+
+function updateSrcPaths(doc, element) {
+  const item = doc(element);
+  const possibleSrcProps = ['src', 'href', 'data-src', 'srcset'];
+  possibleSrcProps.forEach(prop => {
+    const assetSrc = item.attr(prop);
+    const isInvalidAssetSrc = invalidAssetSrcCheck(assetSrc);
+    if (!isInvalidAssetSrc) {
+      console.log(assetSrc);
+    }
+  });
+}
+
 function linkAssetsToBucket(options, fileNames) {
+  console.log('---------------linkAssetsToBucket------------------');
+  console.time('linkAssets');
   const bucketPath = buckets[options.buildtype];
 
   // Heroku deployments (review instances) won't have a bucket.
@@ -27,6 +57,16 @@ function linkAssetsToBucket(options, fileNames) {
   for (const htmlFileName of htmlFileNames) {
     const htmlFile = fs.readFileSync(htmlFileName);
     const dom = new jsdom.JSDOM(htmlFile.toString());
+
+    const doc = cheerio.load(htmlFile);
+
+    const assetLinkElements2 = getAssetLinkElements(doc);
+
+    assetLinkElements2.each((i, element) => {
+      updateSrcPaths(doc, element);
+    });
+
+    // console.log('assetLinkElements:', assetLinkElements2.length);
 
     const assetLinkElements = Array.from(
       dom.window.document.querySelectorAll(
@@ -55,6 +95,8 @@ function linkAssetsToBucket(options, fileNames) {
           continue;
 
         let assetBucketLocation;
+        console.log('made it past the continue');
+        console.log(assetSrc);
 
         if (prop === 'srcset') {
           const sources = assetSrc.split(',');
@@ -98,6 +140,7 @@ function linkAssetsToBucket(options, fileNames) {
     .replace(/https:\/\/www\.va\.gov\/img/g, `${bucketPath}/img`);
 
   fs.writeFileSync(proxyRewriteFileName, newProxyRewriteContents);
+  console.timeEnd('linkAssets');
 }
 
 module.exports = linkAssetsToBucket;
