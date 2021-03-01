@@ -224,6 +224,68 @@ describe('Schemaform review <ArrayField>', () => {
     expect(tree.everySubTree('.schemaform-review-array-warning')).to.not.be
       .empty;
   });
+  it('should render start in edit mode for duplicate items', () => {
+    const idSchema = {};
+    const schema = {
+      type: 'array',
+      items: [
+        {
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string',
+            },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string',
+            },
+          },
+        },
+      ],
+      additionalItems: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string',
+          },
+        },
+      },
+    };
+    const uiSchema = {
+      'ui:title': 'List of things',
+      items: {},
+      'ui:options': {
+        viewField: f => f,
+        itemName: 'Item name',
+        duplicateKey: 'field',
+      },
+    };
+    const arrayData = [{ field: 'a' }, { field: 'b' }, { field: 'a' }];
+    const tree = SkinDeep.shallowRender(
+      <ArrayField
+        pageKey="page1"
+        arrayData={arrayData}
+        path={['thingList']}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        registry={registry}
+        formContext={formContext}
+        pageTitle=""
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    expect(tree.getMountedInstance().state.editing).to.deep.equal([
+      false,
+      false,
+      true,
+    ]);
+  });
 
   it('should render unique aria-labels on buttons from ui option key in item', () => {
     const idSchema = {};
@@ -259,9 +321,7 @@ describe('Schemaform review <ArrayField>', () => {
     const uiSchema = {
       'ui:title': 'List of things',
       items: {
-        test: {
-          type: 'string',
-        },
+        test: {},
         'ui:options': {
           itemAriaLabel: data => data.field,
         },
