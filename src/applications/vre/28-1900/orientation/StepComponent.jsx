@@ -10,6 +10,7 @@ const StepComponent = props => {
     content = (
       <>
         {data.subTitle()}
+
         <iframe
           width="325px"
           height="185px"
@@ -17,6 +18,7 @@ const StepComponent = props => {
           title={data.title}
           frameBorder="0"
           allowFullScreen
+          key={data.path}
         />
         <p>{data.desc}</p>
         <ul>
