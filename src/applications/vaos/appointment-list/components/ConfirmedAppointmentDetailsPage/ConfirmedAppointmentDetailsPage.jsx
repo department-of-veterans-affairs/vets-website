@@ -176,90 +176,91 @@ function ConfirmedAppointmentDetailsPage({
         </>
       )}
 
-      {!isVideo && (
-        <>
-          <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
-            {header}
-          </h2>
-          <VAFacilityLocation
-            facility={facility}
-            facilityName={facility?.name}
-            facilityId={facilityId}
-            isHomepageRefresh
-            clinicFriendlyName={appointment.participant[0].actor.display}
-          />
+      {!!facility &&
+        !isVideo && (
+          <>
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+              {header}
+            </h2>
+            <VAFacilityLocation
+              facility={facility}
+              facilityName={facility?.name}
+              facilityId={facilityId}
+              isHomepageRefresh
+              clinicFriendlyName={appointment.participant[0].actor.display}
+            />
 
-          {showInstructions &&
-            isInPersonVAAppointment && (
-              <div className="vads-u-margin-top--3 vaos-appts__block-label">
-                <AppointmentInstructions instructions={appointment.comment} />
-              </div>
-            )}
-          {!canceled && (
-            <>
-              <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
-                <i
-                  aria-hidden="true"
-                  className="far fa-calendar vads-u-margin-right--1"
-                />
-                <AddToCalendar
-                  summary={`${header}`}
-                  description={`instructionText`}
-                  location={formatCalendarLocation(isPhone, facility)}
-                  duration={appointment.minutesDuration}
-                  startDateTime={appointment.start}
-                />
-              </div>
+            {showInstructions &&
+              isInPersonVAAppointment && (
+                <div className="vads-u-margin-top--3 vaos-appts__block-label">
+                  <AppointmentInstructions instructions={appointment.comment} />
+                </div>
+              )}
+            {!canceled && (
+              <>
+                <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
+                  <i
+                    aria-hidden="true"
+                    className="far fa-calendar vads-u-margin-right--1"
+                  />
+                  <AddToCalendar
+                    summary={`${header}`}
+                    description={`instructionText`}
+                    location={formatCalendarLocation(isPhone, facility)}
+                    duration={appointment.minutesDuration}
+                    startDateTime={appointment.start}
+                  />
+                </div>
 
-              <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
-                <i
-                  aria-hidden="true"
-                  className="fas fa-print vads-u-margin-right--1"
-                />
-                <button
-                  className="va-button-link"
-                  onClick={() => window.print()}
-                >
-                  Print
-                </button>
-              </div>
-
-              <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
-                <i
-                  aria-hidden="true"
-                  className="fas fa-clock vads-u-margin-right--1"
-                />
-                <a href="#">Reschedule</a>
-              </div>
-
-              {showCancelButton && (
                 <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
                   <i
                     aria-hidden="true"
-                    className="fas fa-times vads-u-margin-right--1 vads-u-font-size--lg"
+                    className="fas fa-print vads-u-margin-right--1"
                   />
                   <button
-                    onClick={() => cancelAppointment(appointment)}
-                    aria-label={`Cancel appointment on ${formatAppointmentDate(
-                      moment.parseZone(appointment.start),
-                    )}`}
-                    className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
+                    className="va-button-link"
+                    onClick={() => window.print()}
                   >
-                    Cancel appointment
-                    <span className="sr-only">
-                      {' '}
-                      on{' '}
-                      {formatAppointmentDate(
-                        moment.parseZone(appointment.start),
-                      )}
-                    </span>
+                    Print
                   </button>
                 </div>
-              )}
-            </>
-          )}
-        </>
-      )}
+
+                <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
+                  <i
+                    aria-hidden="true"
+                    className="fas fa-clock vads-u-margin-right--1"
+                  />
+                  <a href="#">Reschedule</a>
+                </div>
+
+                {showCancelButton && (
+                  <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
+                    <i
+                      aria-hidden="true"
+                      className="fas fa-times vads-u-margin-right--1 vads-u-font-size--lg"
+                    />
+                    <button
+                      onClick={() => cancelAppointment(appointment)}
+                      aria-label={`Cancel appointment on ${formatAppointmentDate(
+                        moment.parseZone(appointment.start),
+                      )}`}
+                      className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
+                    >
+                      Cancel appointment
+                      <span className="sr-only">
+                        {' '}
+                        on{' '}
+                        {formatAppointmentDate(
+                          moment.parseZone(appointment.start),
+                        )}
+                      </span>
+                    </button>
+                  </div>
+                )}
+              </>
+            )}
+          </>
+        )}
 
       <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
         <Link to="/" className="usa-button vads-u-margin-top--2" role="button">
