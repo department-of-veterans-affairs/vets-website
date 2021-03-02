@@ -104,7 +104,10 @@ const ApplicationInProgress = ({
                   recordDashboardClick(formId, 'delete-link');
                 }}
               >
-                <i className="fa fa-times vads-u-margin-right--1 vads-u-margin-top--0p5" />
+                <i
+                  className="fa fa-times vads-u-margin-right--1 vads-u-margin-top--0p5"
+                  aria-hidden="true"
+                />
                 <span className="remove-notification-label">
                   Remove this notification
                 </span>
