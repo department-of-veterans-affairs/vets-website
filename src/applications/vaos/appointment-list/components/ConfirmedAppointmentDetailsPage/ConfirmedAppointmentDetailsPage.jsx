@@ -61,16 +61,6 @@ function formatHeader(appointment) {
   }
 }
 
-function formatCalendarLocation(isPhone, facility) {
-  if (isPhone) {
-    return 'Phone call';
-  } else if (facility) {
-    return formatFacilityAddress(facility);
-  }
-
-  return 'VA facility';
-}
-
 function ConfirmedAppointmentDetailsPage({
   appointment,
   appointmentDetailsStatus,
@@ -204,7 +194,9 @@ function ConfirmedAppointmentDetailsPage({
                   <AddToCalendar
                     summary={`${header}`}
                     description={`instructionText`}
-                    location={formatCalendarLocation(isPhone, facility)}
+                    location={
+                      isPhone ? 'Phone call' : formatFacilityAddress(facility)
+                    }
                     duration={appointment.minutesDuration}
                     startDateTime={appointment.start}
                   />
