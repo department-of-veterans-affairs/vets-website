@@ -263,7 +263,6 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 def prearchive(dockerContainer, envName, Boolean contentOnlyBuild) {
   dockerContainer.inside(DOCKER_ARGS) {
     if (!contentOnlyBuild) {
-      sh "echo this not a content build"
       sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath"
     }
     sh "cd /application && node --max-old-space-size=10240 script/prearchive.js --buildtype=${envName}"
