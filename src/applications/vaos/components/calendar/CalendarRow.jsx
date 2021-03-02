@@ -42,6 +42,7 @@ export default function CalendarRow({
   availableSlots,
   cells,
   currentlySelectedDate,
+  disabled,
   handleSelectDate,
   handleSelectOption,
   hasError,
@@ -67,12 +68,15 @@ export default function CalendarRow({
             availableSlots={availableSlots}
             currentlySelectedDate={currentlySelectedDate}
             date={date}
-            disabled={isCellDisabled({
-              date,
-              availableSlots,
-              minDate,
-              maxDate,
-            })}
+            disabled={
+              disabled ||
+              isCellDisabled({
+                date,
+                availableSlots,
+                minDate,
+                maxDate,
+              })
+            }
             handleSelectOption={handleSelectOption}
             hasError={hasError}
             index={index}

@@ -178,8 +178,9 @@ export default function CalendarWidget({
     .format('YYYY-MM');
 
   const prevDisabled =
-    months[0].format('YYYY-MM') <= currentDate.format('YYYY-MM');
-  const nextDisabled = nextMonthToDisplay > maxMonth;
+    disabled || months[0].format('YYYY-MM') <= currentDate.format('YYYY-MM');
+  const nextDisabled = disabled || nextMonthToDisplay > maxMonth;
+
   return (
     <div className="vaos-calendar vads-u-margin-top--4 vads-u-display--flex">
       {disabled && (
@@ -264,6 +265,7 @@ export default function CalendarWidget({
                         selectedDates={value}
                         selectedIndicatorType={selectedIndicatorType}
                         renderOptions={renderOptions}
+                        disabled={disabled}
                       />
                     ))}
                   </div>
