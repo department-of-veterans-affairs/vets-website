@@ -98,7 +98,7 @@ const ApplicationInProgress = ({
               </a>
               <button
                 className="va-button-link"
-                aria-label={`Remove this notification about my `}
+                aria-label={`Remove this notification about my expired ${formTitle}`}
                 onClick={() => {
                   removeForm(formId);
                   recordDashboardClick(formId, 'delete-link');
