@@ -3,6 +3,7 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 import State from '../../../components/State';
 import FacilityPhone from '../../../components/FacilityPhone';
 import { lowerCase } from '../../../utils/formatters';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export default function NoValidVAFacilities({
   facilities,
@@ -72,13 +73,10 @@ export default function NoValidVAFacilities({
                 </li>
               )}
               <li>
-                <a
+                <NewTabAnchor
                   href="/find-locations"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Or, find a different VA location
-                </a>
+                  anchorText="Or, find a different VA location"
+                />
               </li>
             </ul>
           </>

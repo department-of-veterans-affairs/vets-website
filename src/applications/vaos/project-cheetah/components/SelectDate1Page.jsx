@@ -10,6 +10,7 @@ import { FETCH_STATUS } from '../../utils/constants';
 import { getDateTimeSelect } from '../redux/selectors';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { getRealFacilityId } from '../../utils/appointment';
+import NewTabAnchor from '../../components/NewTabAnchor';
 
 const pageKey = 'selectDate1';
 const pageTitle = 'Select first date';
@@ -25,13 +26,10 @@ function ErrorMessage({ facilityId }) {
         headline="We’ve run into a problem when trying to find available appointment times"
       >
         To schedule this appointment, you can{' '}
-        <a
+        <NewTabAnchor
           href={`/find-locations/facility/vha_${getRealFacilityId(facilityId)}`}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          call your local VA medical center
-        </a>
+          anchorText="call your local VA medical center"
+        />
         .
       </AlertBox>
     </div>

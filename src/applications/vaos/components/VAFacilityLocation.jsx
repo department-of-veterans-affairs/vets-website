@@ -1,6 +1,7 @@
 import React from 'react';
 import { getRealFacilityId } from '../utils/appointment';
 import FacilityAddress from './FacilityAddress';
+import NewTabAnchor from './NewTabAnchor';
 
 export default function VAFacilityLocation({
   clinicName,
@@ -14,19 +15,17 @@ export default function VAFacilityLocation({
 
   if (!facility && !facilityId) {
     content = (
-      <a href="/find-locations" rel="noopener noreferrer" target="_blank">
-        Find facility information
-      </a>
+      <NewTabAnchor
+        href="/find-locations"
+        anchorText="Find facility information"
+      />
     );
   } else if (!facility) {
     content = (
-      <a
+      <NewTabAnchor
         href={`/find-locations/facility/vha_${getRealFacilityId(facilityId)}`}
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        View facility information
-      </a>
+        anchorText="View facility information"
+      />
     );
   } else if (facility) {
     content = (

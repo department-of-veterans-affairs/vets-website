@@ -4,6 +4,7 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 import ErrorMessage from '../../../components/ErrorMessage';
 import { aOrAn, lowerCase } from '../../../utils/formatters';
 import State from '../../../components/State';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export default function SingleFacilityEligibilityCheckMessage({
   facility,
@@ -28,9 +29,10 @@ export default function SingleFacilityEligibilityCheckMessage({
         </p>
         <p>
           You’ll need to call the facility to schedule this appointment. Or{' '}
-          <a href="/find-locations" target="_blank" rel="noopener noreferrer">
-            search for another VA facility
-          </a>
+          <NewTabAnchor
+            href="/find-locations"
+            anchorText="search for another VA facility"
+          />
           .
         </p>
       </>
@@ -46,9 +48,10 @@ export default function SingleFacilityEligibilityCheckMessage({
         </p>
         <p>
           If this isn’t the facility you’re looking for, you can{' '}
-          <a href="/find-locations" target="_blank" rel="noopener noreferrer">
-            search for another VA facility
-          </a>
+          <NewTabAnchor
+            href="/find-locations"
+            anchorText="search for another VA facility"
+          />
         </p>
       </>
     );

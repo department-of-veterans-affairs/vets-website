@@ -13,6 +13,7 @@ import State from '../../components/State';
 import FacilityPhone from '../../components/FacilityPhone';
 import { getFacilityIdFromLocation } from '../../services/location/index';
 import { getRealFacilityId } from '../../utils/appointment';
+import NewTabAnchor from '../../components/NewTabAnchor';
 
 const pageKey = 'contactFacilities';
 const pageTitle = 'Contact a facility';
@@ -76,15 +77,12 @@ function ContactFacilitiesPage({
         {facilities.slice(0, facilitiesToShow).map(facility => (
           <li key={facility.id} className="vads-u-margin-top--2">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
-              <a
+              <NewTabAnchor
                 href={`/find-locations/facility/vha_${getRealFacilityId(
                   getFacilityIdFromLocation(facility),
                 )}`}
-                target="_blank"
-                rel="noreferrer nofollow"
-              >
-                {facility.name}
-              </a>
+                anchorText={facility.name}
+              />
             </h2>
             {facility.address?.city}, <State state={facility.address?.state} />
             <br />
@@ -104,9 +102,10 @@ function ContactFacilitiesPage({
         ))}
       </ul>
       <p className="vads-u-margin-y--3">
-        <a href="/find-locations" target="_blank" rel="noreferrer nofollow">
-          Search for more facilities
-        </a>
+        <NewTabAnchor
+          href="/find-locations"
+          anchorText="Search for more facilities"
+        />
       </p>
       <ProgressButton
         onButtonClick={goBack}

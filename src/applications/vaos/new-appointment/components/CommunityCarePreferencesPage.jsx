@@ -11,6 +11,7 @@ import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { addressSchema, getAddressUISchema } from '../fields/addressFields';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
+import NewTabAnchor from '../../components/NewTabAnchor';
 
 const initialSchema = {
   type: 'object',
@@ -81,13 +82,10 @@ const uiSchema = {
     'ui:description': (
       <p className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-top--1">
         Use the{' '}
-        <a
+        <NewTabAnchor
           href="/find-locations/?facilityType=cc_provider"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          facility locator
-        </a>{' '}
+          anchorText="facility locator"
+        />
         to find your preferred community care provider. Copy and paste their
         name and address below.
       </p>

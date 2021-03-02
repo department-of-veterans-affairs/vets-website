@@ -1,4 +1,5 @@
 import React from 'react';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 const VIDEO_VISIT_PREPARATION = 'Video Visit Preparation';
 const MEDICATION_REVIEW = 'Medication Review';
@@ -61,13 +62,10 @@ export function VideoVisitInstructions({ instructionsType }) {
         <li>
           If you’re using an iPad or iPhone for your appointment, you’ll need to
           download the{' '}
-          <a
-            target="_blank"
-            rel="noreferrer nofollow"
-            href="https://itunes.apple.com/us/app/va-video-connect/id1224250949?mt=8"
-          >
-            VA Video Connect iOS app
-          </a>{' '}
+          <NewTabAnchor
+            href="/https://itunes.apple.com/us/app/va-video-connect/id1224250949?mt=8"
+            anchorText="VA Video Connect iOS app"
+          />{' '}
           beforehand. If you’re using any other device, you don’t need to
           download any software or app before your appointment.
         </li>

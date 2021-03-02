@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 import FacilityAddress from '../../../components/FacilityAddress';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export default function CancelAppointmentFailedModal({
   facility,
@@ -40,9 +41,10 @@ export default function CancelAppointmentFailedModal({
         {!!facility && <FacilityAddress facility={facility} />}
         {!facility && (
           <>
-            <a target="_blank" rel="noopener noreferrer" href="/find-locations">
-              Find facility contact information
-            </a>
+            <NewTabAnchor
+              href="/find-locations"
+              anchorText="Find facility contact information"
+            />
           </>
         )}
       </p>

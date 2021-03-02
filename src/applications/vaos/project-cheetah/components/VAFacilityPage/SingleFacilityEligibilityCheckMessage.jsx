@@ -3,6 +3,7 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 import ErrorMessage from '../../../components/ErrorMessage';
 import { FETCH_STATUS } from '../../../utils/constants';
 import State from '../../../components/State';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export default function SingleFacilityEligibilityCheckMessage({
   facility,
@@ -25,9 +26,10 @@ export default function SingleFacilityEligibilityCheckMessage({
         {message}
         <p>
           If this location wasn’t what you were looking for, you can{' '}
-          <a href="/find-locations" target="_blank" rel="noopener noreferrer">
-            search for a nearby location
-          </a>{' '}
+          <NewTabAnchor
+            href="/find-locations"
+            anchorText="search for a nearby location"
+          />
           and call to schedule an appointment.
         </p>
       </AlertBox>

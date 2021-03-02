@@ -29,6 +29,9 @@ export default function createRoutesWithStore(store) {
   return (
     <ErrorBoundary fullWidth>
       <VAOSApp>
+        <div hidden>
+          <span id="new-tab-msg-1">Link opens in a new tab</span>
+        </div>
         <Switch>
           <Route
             path="/new-appointment"

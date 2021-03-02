@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import NewTabAnchor from '../../components/NewTabAnchor';
 
 export default function NoAppointments({
   showScheduleButton,
@@ -14,9 +15,10 @@ export default function NoAppointments({
         <>
           <p>
             You can schedule an appointment now, or you can call your{' '}
-            <a href="/find-locations" target="_blank" rel="noopener noreferrer">
-              VA medical center
-            </a>{' '}
+            <NewTabAnchor
+              href="/find-locations"
+              anchorText="VA medical center"
+            />{' '}
             to schedule an appointment.
           </p>
           <Link
@@ -32,9 +34,10 @@ export default function NoAppointments({
         <>
           <p>
             To schedule an appointment, you can call your{' '}
-            <a href="/find-locations" target="_blank" rel="noopener noreferrer">
-              VA Medical center
-            </a>
+            <NewTabAnchor
+              href="/find-locations"
+              anchorText="VA Medical center"
+            />
             .
           </p>
         </>
