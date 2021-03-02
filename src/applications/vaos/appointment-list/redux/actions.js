@@ -13,10 +13,7 @@ import {
   selectFeatureHomepageRefresh,
 } from '../../redux/selectors';
 
-import {
-  selectPendingAppointments,
-  selectFutureAppointments,
-} from '../redux/selectors';
+import { selectFutureAppointments } from '../redux/selectors';
 
 import {
   getCancelReasons,
@@ -75,7 +72,7 @@ export const FETCH_CONFIRMED_DETAILS = 'vaos/FETCH_CONFIRMED_DETAILS';
 export const FETCH_CONFIRMED_DETAILS_FAILED =
   'vaos/FETCH_CONFIRMED_DETAILS_FAILED';
 export const FETCH_CONFIRMED_DETAILS_SUCCEEDED =
-  'vaos/FETCH_REQUEST_DETAILS_SUCCEEDED';
+  'vaos/FETCH_CONFIRMED_DETAILS_SUCCEEDED';
 
 export const FETCH_REQUEST_MESSAGES = 'vaos/FETCH_REQUEST_MESSAGES';
 export const FETCH_REQUEST_MESSAGES_FAILED =
@@ -98,10 +95,6 @@ export const FETCH_EXPRESS_CARE_WINDOWS_FAILED =
   'vaos/FETCH_EXPRESS_CARE_WINDOWS_FAILED';
 export const FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED =
   'vaos/FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED';
-
-function parseFakeFHIRId(id) {
-  return id ? id.replace('var', '') : id;
-}
 
 export function fetchRequestMessages(requestId) {
   return async dispatch => {
@@ -359,6 +352,7 @@ export function fetchPendingAppointments() {
 
 export function fetchPastAppointments(startDate, endDate, selectedIndex) {
   return async (dispatch, getState) => {
+    const featureHomepageRefresh = selectFeatureHomepageRefresh(getState());
     dispatch({
       type: FETCH_PAST_APPOINTMENTS,
       selectedIndex,
@@ -369,14 +363,28 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
     });
 
     try {
-      const data = await getBookedAppointments({
-        startDate,
-        endDate,
-      });
+      const fetches = [
+        getBookedAppointments({
+          startDate,
+          endDate,
+        }),
+      ];
+
+      if (featureHomepageRefresh) {
+        fetches.push(
+          getAppointmentRequests({
+            startDate: moment(startDate).format('YYYY-MM-DD'),
+            endDate: moment(endDate).format('YYYY-MM-DD'),
+          }),
+        );
+      }
+
+      const [appointments, requests] = await Promise.all(fetches);
 
       dispatch({
         type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
-        data,
+        appointments,
+        requests,
         startDate,
         endDate,
       });
@@ -416,10 +424,8 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
 export function fetchRequestDetails(id) {
   return async (dispatch, getState) => {
     const state = getState();
-    const { appointmentDetails, requestMessages } = state.appointments;
-    const pendingAppointments = selectPendingAppointments(state);
-    const request =
-      appointmentDetails[id] || pendingAppointments?.find(p => p.id === id);
+    const { appointmentDetails, requestMessages, pending } = state.appointments;
+    const request = appointmentDetails[id] || pending?.find(p => p.id === id);
 
     dispatch({
       type: FETCH_REQUEST_DETAILS,
@@ -435,11 +441,10 @@ export function fetchRequestDetails(id) {
       // TODO: fetch single appointment
     }
 
-    const parsedId = parseFakeFHIRId(id);
-    const messages = requestMessages?.[parsedId];
+    const messages = requestMessages?.[id];
 
     if (!messages) {
-      dispatch(fetchRequestMessages(parsedId));
+      dispatch(fetchRequestMessages(id));
     }
   };
 }

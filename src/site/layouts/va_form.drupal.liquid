@@ -2,21 +2,13 @@
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" with deriveBreadcrumbsFromUrl = true %}
+
 <div id="content" class="interior">
   <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
 
     {% include 'src/site/navigation/sidebar_nav.drupal.liquid' with sidebar %}
-
     <div class="usa-width-three-fourths">
-
-      {% if !entityPublished %}
-        <div class="usa-alert usa-alert-info vads-u-margin-bottom--4">
-          <div class="usa-alert-body">
-            <p class="usa-alert-text">You are viewing a draft.</p>
-          </div>
-        </div>
-      {% endif %}
 
       <article class="usa-content">
         <h1 class="vads-u-margin-bottom--0">
@@ -108,7 +100,7 @@
           <h3>Online tool</h3>
           <p>{{ fieldVaFormToolIntro }}</p>
           <a
-            href="{{ fieldVaFormToolUrl.uri }}" class="usa-button-primary va-button-primary"
+            href="{{ fieldVaFormToolUrl.uri }}" class="usa-button va-button-primary"
             onclick="recordEvent({ event: 'cta-primary-button-click' });">
             Go to the online tool <i role="presentation" aria-hidden="true" class="fa fa-chevron-right vads-u-margin-left--1"> </i>
           </a>

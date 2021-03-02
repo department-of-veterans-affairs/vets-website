@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getBookingNoteFromAppointment } from '../../utils';
+import { getBookingNoteFromAppointment } from '../../../shared/utils';
 
 const ReasonForVisitField = ({ appointment, onChange }) => {
   const bookingNote = getBookingNoteFromAppointment(appointment);

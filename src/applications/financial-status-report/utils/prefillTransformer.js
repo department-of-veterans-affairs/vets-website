@@ -17,7 +17,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
       ...newData,
       contactInfo: {
         ...newData.contactInfo,
-        phoneNumber: areaCode + phoneNumber,
+        telephoneNumber: areaCode + phoneNumber,
       },
     };
   }

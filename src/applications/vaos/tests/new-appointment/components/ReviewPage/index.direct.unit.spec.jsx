@@ -53,13 +53,13 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
           email: 'joeblow@gmail.com',
           reasonForAppointment: 'routine-follow-up',
           reasonAdditionalInfo: 'I need an appt',
-          vaParent: 'var983',
-          vaFacility: 'var983',
+          vaParent: '983',
+          vaFacility: '983',
           clinicId: '455',
         },
         parentFacilities: [
           {
-            id: 'var983',
+            id: '983',
             identifier: [
               { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
               {
@@ -70,8 +70,8 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
           },
         ],
         facilityDetails: {
-          var983: {
-            id: 'var983',
+          '983': {
+            id: '983',
             name: 'Cheyenne VA Medical Center',
             address: {
               postalCode: '82001-5356',
@@ -84,7 +84,7 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
         facilities: {
           '323': [
             {
-              id: 'var983',
+              id: '983',
               name: 'Cheyenne VA Medical Center',
               identifier: [
                 { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
@@ -109,8 +109,7 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
           },
         ],
         clinics: {
-          // eslint-disable-next-line camelcase
-          var983_323: [
+          '983_323': [
             {
               id: '455',
               serviceName: 'Some VA clinic',

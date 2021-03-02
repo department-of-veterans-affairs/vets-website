@@ -181,6 +181,7 @@ AppointmentsPage.propTypes = {
   showCommunityCare: PropTypes.bool.isRequired,
   showDirectScheduling: PropTypes.bool.isRequired,
   startNewAppointmentFlow: PropTypes.func.isRequired,
+  showCheetahScheduleButton: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {

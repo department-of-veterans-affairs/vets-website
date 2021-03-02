@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment-timezone';
 
 import AnswerQuestions from '../Shared/Buttons/AnswerQuestions';
-import ViewAndPrint from '../Shared/Buttons/ViewAndPrint';
+import PrintButton from '../Shared/Print/PrintButton';
 import { getAppointmentStatus, isAppointmentCancelled } from '../../../utils';
 
 import QuestionnaireItem from '../QuestionnaireItem';
@@ -22,9 +22,10 @@ export default function ToDoQuestionnaireItem({ data }) {
       }
       Actions={() =>
         isCancelled ? (
-          <ViewAndPrint />
+          <PrintButton />
         ) : (
           <AnswerQuestions
+            fullData={data}
             id={appointment.id}
             facilityName={
               appointment.attributes.vdsAppointments[0].clinic.facility

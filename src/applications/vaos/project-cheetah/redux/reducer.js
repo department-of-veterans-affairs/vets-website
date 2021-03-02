@@ -14,6 +14,9 @@ import {
   FORM_PAGE_FACILITY_OPEN,
   FORM_PAGE_FACILITY_OPEN_FAILED,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+  FORM_PAGE_CONTACT_FACILITIES_OPEN,
+  FORM_PAGE_CONTACT_FACILITIES_OPEN_SUCCEEDED,
+  FORM_PAGE_CONTACT_FACILITIES_OPEN_FAILED,
   FORM_FETCH_CLINICS,
   FORM_FETCH_CLINICS_FAILED,
   FORM_FETCH_CLINICS_SUCCEEDED,
@@ -28,6 +31,10 @@ import {
   FORM_CALENDAR_FETCH_SLOTS,
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
+  FORM_PREFILL_CONTACT_INFO,
+  FETCH_NEW_BOOKING_WINDOW,
+  FETCH_NEW_BOOKING_WINDOW_FAILED,
+  FETCH_NEW_BOOKING_WINDOW_SUCCEEDED,
 } from './actions';
 
 import { FACILITY_SORT_METHODS, FETCH_STATUS } from '../../utils/constants';
@@ -51,6 +58,8 @@ const initialState = {
   submitStatus: FETCH_STATUS.notStarted,
   submitErrorReason: null,
   successfulRequest: null,
+  newBookingStatus: FETCH_STATUS.notStarted,
+  isEligible: false,
 };
 
 function setupFormData(data, schema, uiSchema) {
@@ -147,6 +156,7 @@ export default function projectCheetahReducer(state = initialState, action) {
         },
       };
     }
+    case FORM_PAGE_CONTACT_FACILITIES_OPEN:
     case FORM_PAGE_FACILITY_OPEN: {
       return {
         ...state,
@@ -232,6 +242,7 @@ export default function projectCheetahReducer(state = initialState, action) {
         },
       };
     }
+    case FORM_PAGE_CONTACT_FACILITIES_OPEN_FAILED:
     case FORM_PAGE_FACILITY_OPEN_FAILED: {
       return {
         ...state,
@@ -425,6 +436,20 @@ export default function projectCheetahReducer(state = initialState, action) {
         },
       };
     }
+    case FORM_PREFILL_CONTACT_INFO: {
+      const data = state.newBooking.data;
+      return {
+        ...state,
+        newBooking: {
+          ...state.newBooking,
+          data: {
+            ...data,
+            phoneNumber: data.phoneNumber || action.phoneNumber,
+            email: data.email || action.email,
+          },
+        },
+      };
+    }
     case FORM_SUBMIT:
       return {
         ...state,
@@ -477,6 +502,67 @@ export default function projectCheetahReducer(state = initialState, action) {
         },
       };
     }
+    case FORM_PAGE_CONTACT_FACILITIES_OPEN_SUCCEEDED: {
+      let facilities = action.facilities;
+      const address = action.address;
+      const hasResidentialCoordinates =
+        !!action.address?.latitude && !!action.address?.longitude;
+      const sortMethod = hasResidentialCoordinates
+        ? FACILITY_SORT_METHODS.distanceFromResidential
+        : FACILITY_SORT_METHODS.alphabetical;
+
+      if (hasResidentialCoordinates && facilities.length) {
+        facilities = facilities
+          .map(facility => {
+            const distanceFromResidentialAddress = distanceBetween(
+              address.latitude,
+              address.longitude,
+              facility.position.latitude,
+              facility.position.longitude,
+            );
+
+            return {
+              ...facility,
+              legacyVAR: {
+                ...facility.legacyVAR,
+                distanceFromResidentialAddress,
+              },
+            };
+          })
+          .sort((a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod]);
+      }
+
+      return {
+        ...state,
+        newBooking: {
+          ...state.newBooking,
+          facilities,
+          facilitiesStatus: FETCH_STATUS.succeeded,
+          facilityPageSortMethod: sortMethod,
+        },
+      };
+    }
+    case FETCH_NEW_BOOKING_WINDOW: {
+      return {
+        ...state,
+        newBookingStatus: FETCH_STATUS.loading,
+      };
+    }
+    case FETCH_NEW_BOOKING_WINDOW_FAILED: {
+      return {
+        ...state,
+        newBookingStatus: FETCH_STATUS.failed,
+        isEligible: action.isEligible,
+      };
+    }
+    case FETCH_NEW_BOOKING_WINDOW_SUCCEEDED: {
+      return {
+        ...state,
+        newBookingStatus: FETCH_STATUS.succeeded,
+        isEligible: action.isEligible,
+      };
+    }
+
     default:
       return state;
   }

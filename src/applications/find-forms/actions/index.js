@@ -114,6 +114,7 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
       'search-results-total-pages': totalPages, // populate with total number of search result pages returned
       'search-selection': 'Find forms', // populate with 'Find forms' for all searches from /find-forms page
       'search-typeahead-enabled': false, // populate with boolean false, remains consistent since type ahead won't feature here
+      'sitewide-search-app-used': false, // this is not the sitewide search app
       'type-ahead-option-keyword-selected': undefined, // populate with undefined since type ahead won't feature here
       'type-ahead-option-position': undefined, // populate with undefined since type ahead won't feature here
       'type-ahead-options-list': undefined, // populate with undefined since type ahead won't feature here

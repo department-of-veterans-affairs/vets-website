@@ -69,6 +69,8 @@ function queryFilter(menuName) {
     `;
 }
 
+let partialQuery = null;
+
 if (cmsFeatureFlags.FEATURE_ALL_HUB_SIDE_NAVS && hubNavNames !== null) {
   let compiledQuery = '';
   hubNavNames.forEach(navName => {
@@ -78,9 +80,9 @@ if (cmsFeatureFlags.FEATURE_ALL_HUB_SIDE_NAVS && hubNavNames !== null) {
          }
         `;
   });
-  module.exports = compiledQuery;
+  partialQuery = compiledQuery;
 } else {
-  module.exports = `
+  partialQuery = `
     burialsAndMemorialsBenefQuery: ${queryFilter(
       'burials-and-memorials-benef',
     )} {
@@ -126,3 +128,14 @@ if (cmsFeatureFlags.FEATURE_ALL_HUB_SIDE_NAVS && hubNavNames !== null) {
     }
 `;
 }
+
+const GetSidebars = `
+  query {
+    ${partialQuery}
+  }
+`;
+
+module.exports = {
+  partialQuery,
+  GetSidebars,
+};

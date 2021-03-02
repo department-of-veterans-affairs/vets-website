@@ -57,7 +57,7 @@ export function mockAppointmentInfo({
   );
 }
 
-export function mockPastAppointmentInfo({ va = [], cc = [] }) {
+export function mockPastAppointmentInfo({ va = [], cc = [], requests = [] }) {
   mockFetch();
   const baseUrl = `${
     environment.API_URL
@@ -73,6 +73,16 @@ export function mockPastAppointmentInfo({ va = [], cc = [] }) {
 
   setFetchJSONResponse(global.fetch.withArgs(vaUrl), { data: va });
   setFetchJSONResponse(global.fetch.withArgs(ccUrl), { data: cc });
+
+  const requestsUrl = `${
+    environment.API_URL
+  }/vaos/v0/appointment_requests?start_date=${moment()
+    .startOf('day')
+    .add(-3, 'months')
+    .format('YYYY-MM-DD')}&end_date=${moment().format('YYYY-MM-DD')}`;
+  setFetchJSONResponse(global.fetch.withArgs(requestsUrl), {
+    data: requests,
+  });
 }
 
 export function mockPastAppointmentInfoOption1({ va = [], cc = [] }) {
@@ -172,6 +182,23 @@ export function mockVACancelFetches(id, reasons) {
   setFetchJSONResponse(
     global.fetch.withArgs(`${environment.API_URL}/vaos/v0/appointments/cancel`),
     { data: {} },
+  );
+}
+
+export function mockRequestCancelFetch(appointment) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/appointment_requests/${appointment.id}`,
+    ),
+    {
+      data: {
+        ...appointment,
+        attributes: {
+          ...appointment.attributes,
+          status: 'Cancelled',
+        },
+      },
+    },
   );
 }
 

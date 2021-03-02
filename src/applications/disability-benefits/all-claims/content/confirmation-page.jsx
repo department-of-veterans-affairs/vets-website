@@ -206,8 +206,12 @@ export const successfulSubmitContent = props =>
     'success',
   );
 
-export const submitErrorContent = props =>
-  template(
+export const submitErrorContent = props => {
+  const submissionIdContent = props.submissionId
+    ? ` and provide this refernce number ${props.submissionId}`
+    : '';
+
+  return template(
     props,
     'We’re sorry. Something went wrong when we tried to submit your claim.',
     <div>
@@ -216,8 +220,8 @@ export const submitErrorContent = props =>
         <li>
           Please call Veterans Benefits Assistance at{' '}
           <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
-          8:00 a.m. to 9:00 p.m. ET and provide this reference number{' '}
-          {props.submissionId}, <strong>or</strong>
+          8:00 a.m. to 9:00 p.m. ET
+          {submissionIdContent}, <strong>or</strong>
         </li>
         <li>
           Get in touch with your nearest Veterans Service Officer (VSO).{' '}
@@ -230,3 +234,4 @@ export const submitErrorContent = props =>
     errorMessage(),
     'error',
   );
+};

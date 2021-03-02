@@ -99,3 +99,21 @@ export const fetchDebts = () => async (dispatch, getState) => {
     return null;
   }
 };
+
+export const downloadPDF = () => {
+  const options = {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Key-Inflection': 'camel',
+      'Source-App-Name': window.appName,
+    },
+  };
+  return fetch(
+    `${environment.API_URL}/v0/financial_status_reports/download_pdf`,
+    options,
+  ).catch(err => {
+    throw new Error(err);
+  });
+};

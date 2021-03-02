@@ -3,6 +3,7 @@ import { expect } from 'chai';
 
 import {
   isValidYear,
+  isWithinServicePeriod,
   startedAfterServicePeriod,
   oneDisabilityRequired,
   hasMonthYear,
@@ -12,6 +13,7 @@ import {
 
 import disabilityLabels from '../content/disabilityLabels';
 import { capitalizeEachWord } from '../utils';
+import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
 
 describe('526 All Claims validations', () => {
   describe('isValidYear', () => {
@@ -31,23 +33,23 @@ describe('526 All Claims validations', () => {
       expect(err.addError.called).to.be.true;
     });
 
-    it('should add an error if the year is less than 1900', () => {
+    it(`should add an error if the year is less than ${minYear}`, () => {
       const err = {
         addError: sinon.spy(),
       };
-      isValidYear(err, '1899');
+      isValidYear(err, minYear - 1);
       expect(err.addError.called).to.be.true;
     });
 
-    it('should add an error if the year is more than 3000', () => {
+    it(`should add an error if the year is more than ${maxYear}`, () => {
       const err = {
         addError: sinon.spy(),
       };
-      isValidYear(err, '3001');
+      isValidYear(err, maxYear + 1);
       expect(err.addError.called).to.be.true;
     });
 
-    it('should not add an error if the year is between 1900 and 3000', () => {
+    it(`should not add an error if the year is between ${minYear} and ${maxYear}`, () => {
       const err = {
         addError: sinon.spy(),
       };
@@ -59,7 +61,7 @@ describe('526 All Claims validations', () => {
       const err = {
         addError: sinon.spy(),
       };
-      isValidYear(err, '2999');
+      isValidYear(err, maxYear - 1);
       expect(err.addError.called).to.be.true;
     });
     describe('oneDisabilityRequired', () => {
@@ -213,6 +215,86 @@ describe('526 All Claims validations', () => {
       };
       hasMonthYear(err, '1980-12-XX');
       expect(err.addError.called).to.be.false;
+    });
+  });
+
+  describe('isWithinServicePeriod', () => {
+    const appStateData = {
+      serviceInformation: {
+        servicePeriods: [
+          { dateRange: { from: '2001-03-21', to: '2014-07-21' } },
+          { dateRange: { from: '2015-01-01', to: '2017-05-13' } },
+        ],
+      },
+    };
+
+    it('should not add an error when date range is within a service period', () => {
+      const err = {
+        from: { addError: sinon.spy() },
+        to: { addError: sinon.spy() },
+      };
+      isWithinServicePeriod(
+        err,
+        { from: '2014-07-01', to: '2014-07-20' },
+        null,
+        null,
+        null,
+        null,
+        appStateData,
+      );
+      expect(err.from.addError.called).to.be.false;
+      expect(err.to.addError.called).to.be.false;
+    });
+    it('should not add an error when with incomplete date ranges', () => {
+      const err = {
+        from: { addError: sinon.spy() },
+        to: { addError: sinon.spy() },
+      };
+      isWithinServicePeriod(
+        err,
+        { from: '2014-07-01', to: '2014-07-XX' },
+        null,
+        null,
+        null,
+        null,
+        appStateData,
+      );
+      expect(err.from.addError.called).to.be.false;
+      expect(err.to.addError.called).to.be.false;
+    });
+    it('should add an error when date range is within a service period', () => {
+      const err = {
+        from: { addError: sinon.spy() },
+        to: { addError: sinon.spy() },
+      };
+      isWithinServicePeriod(
+        err,
+        { from: '2014-07-01', to: '2014-07-30' },
+        null,
+        null,
+        null,
+        null,
+        appStateData,
+      );
+      expect(err.from.addError.called).to.be.true;
+      expect(err.to.addError.called).to.be.true;
+    });
+    it('should add an error when date range is within a service period', () => {
+      const err = {
+        from: { addError: sinon.spy() },
+        to: { addError: sinon.spy() },
+      };
+      isWithinServicePeriod(
+        err,
+        { from: '2014-08-01', to: '2014-08-10' },
+        null,
+        null,
+        null,
+        null,
+        appStateData,
+      );
+      expect(err.from.addError.called).to.be.true;
+      expect(err.to.addError.called).to.be.true;
     });
   });
 

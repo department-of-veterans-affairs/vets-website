@@ -116,6 +116,9 @@ ul.questionnaire-list {
     .view-and-print-button{
       width: 100%;
     }
+    .answer-button{
+      width: inherit;
+    }
     .view-and-print-button, .answer-button {
       display: flex;
       align-items: center;
@@ -168,4 +171,12 @@ h2.questionnaire-list-header{
 
 div.usa-alert.usa-alert-error.print-error-message{
   background-color: $color-white;
+}
+
+.help-heading{
+  border-bottom: 3px solid $color-blue;
+  margin: 0.3em 0;
+  font-size: 1.35em;
+  line-height: 1.5;
+  font-weight: bold;
 }

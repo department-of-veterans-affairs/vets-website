@@ -6,6 +6,7 @@ import {
   getVideoKind,
   isAtlasLocation,
   isVideoAppointment,
+  isVAPhoneAppointment,
 } from '../../../services/appointment';
 import {
   getTimezoneAbbrBySystemId,
@@ -75,8 +76,8 @@ export default function AppointmentListItem({ appointment, facility }) {
   const facilityId = getVARFacilityId(appointment);
   const isCommunityCare = appointment.vaos.isCommunityCare;
   const isVideo = isVideoAppointment(appointment);
-  const isInPersonVAAppointment =
-    !isVideo && !isCommunityCare && !appointment.vaos.isPhoneAppointment;
+  const isPhone = isVAPhoneAppointment(appointment);
+  const isInPersonVAAppointment = !isVideo && !isCommunityCare && !isPhone;
 
   return (
     <li
@@ -110,7 +111,7 @@ export default function AppointmentListItem({ appointment, facility }) {
         {isVideo && <VideoAppointmentDescription appointment={appointment} />}
         {isCommunityCare && <CommunityCareProvider appointment={appointment} />}
         {isInPersonVAAppointment && <VAFacilityName facility={facility} />}
-        {appointment.vaos.isPhoneAppointment && (
+        {isPhone && (
           <>
             <i
               aria-hidden="true"
@@ -123,13 +124,13 @@ export default function AppointmentListItem({ appointment, facility }) {
       <div>
         <Link
           aria-hidden="true"
-          to={`va/${appointment.id}`}
+          to={isCommunityCare ? `cc/${appointment.id}` : `va/${appointment.id}`}
           className="vads-u-display--none medium-screen:vads-u-display--inline"
         >
           Details
         </Link>
         <Link
-          to={`va/${appointment.id}`}
+          to={isCommunityCare ? `cc/${appointment.id}` : `va/${appointment.id}`}
           className="vaos-appts__card-link"
           aria-label={`Details for appointment on ${appointmentDate.format(
             'dddd, MMMM D h:mm a',

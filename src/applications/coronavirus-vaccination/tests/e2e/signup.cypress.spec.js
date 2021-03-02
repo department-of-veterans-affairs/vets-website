@@ -65,7 +65,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
         .clear()
         .type('Veteran');
 
-      cy.findByLabelText(/^Month/).select('Jun');
+      cy.findByLabelText(/^Month/).select('June');
 
       cy.findByLabelText(/^Day/).select('30');
 

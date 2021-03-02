@@ -3,7 +3,7 @@ import caregiverFacilities from 'vets-json-schema/dist/caregiverProgramFacilitie
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import {
   primaryCaregiverFields,
-  secondaryCaregiverFields,
+  secondaryOneFields,
 } from 'applications/caregivers/definitions/constants';
 
 // Merges all the state facilities into one object with values as keys
@@ -128,10 +128,9 @@ export const hasSecondaryCaregiverOne = formData =>
   formData[primaryCaregiverFields.hasSecondaryCaregiverOne] === true;
 
 export const hasSecondaryCaregiverTwo = formData =>
-  formData[secondaryCaregiverFields.secondaryOne.hasSecondaryCaregiverTwo] ===
-  true;
+  formData[secondaryOneFields.hasSecondaryCaregiverTwo] === true;
 
-const isSSNUnique = formData => {
+export const isSSNUnique = formData => {
   const {
     veteranSsnOrTin,
     primarySsnOrTin,
@@ -139,11 +138,34 @@ const isSSNUnique = formData => {
     secondaryTwoSsnOrTin,
   } = formData;
 
+  const checkIfPartyIsPresent = (comparator, data) => {
+    if (comparator(formData)) {
+      return data;
+    } else {
+      return undefined;
+    }
+  };
+
+  const presentPrimarySsn = checkIfPartyIsPresent(
+    hasPrimaryCaregiver,
+    primarySsnOrTin,
+  );
+
+  const presentSecondaryOneSsn = checkIfPartyIsPresent(
+    hasSecondaryCaregiverOne,
+    secondaryOneSsnOrTin,
+  );
+
+  const presentSecondaryTwoSsn = checkIfPartyIsPresent(
+    hasSecondaryCaregiverTwo,
+    secondaryTwoSsnOrTin,
+  );
+
   const allSSNs = [
     veteranSsnOrTin,
-    primarySsnOrTin,
-    secondaryOneSsnOrTin,
-    secondaryTwoSsnOrTin,
+    presentPrimarySsn,
+    presentSecondaryOneSsn,
+    presentSecondaryTwoSsn,
   ];
 
   const allValidSSNs = allSSNs.filter(ssn => ssn !== undefined);

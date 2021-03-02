@@ -163,6 +163,9 @@ class ReviewCollapsibleChapter extends React.Component {
                 !pageSchema && arrayFields.length === 0,
             });
             const title = page.reviewTitle || page.title || '';
+            const ariaLabel = `Update ${(typeof title === 'function'
+              ? title(pageData)
+              : title) || 'page'}`;
 
             const noVisibleFields =
               pageSchema &&
@@ -243,6 +246,7 @@ class ReviewCollapsibleChapter extends React.Component {
                         }}
                         buttonText="Update page"
                         buttonClass="usa-button-primary"
+                        ariaLabel={ariaLabel}
                       />
                     )}
                   </SchemaForm>
