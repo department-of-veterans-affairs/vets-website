@@ -7,7 +7,7 @@ import { getCernerURL } from 'platform/utilities/cerner';
 // Returns an AlertBox to present the user with info about working with the
 // Cerner facility they are enrolled at. Props allow you to edit a small amount
 // of the content that is rendered in the AlertBox.
-const CernerAlertBox = ({
+export const CernerAlertBox = ({
   primaryCtaText,
   primaryCtaButtonUrl,
   secondaryCtaButtonText,

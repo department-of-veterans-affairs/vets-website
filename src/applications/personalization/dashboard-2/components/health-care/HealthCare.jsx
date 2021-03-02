@@ -2,8 +2,15 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { loadPrescriptions as loadPrescriptionsAction } from '~/applications/personalization/dashboard/actions/prescriptions';
-
+import { getMedicalCenterNameByID } from '~/platform/utilities/medical-centers/medical-centers';
+import { CernerAlertBox } from '~/applications/personalization/dashboard/components/cerner-widgets';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import {
+  selectCernerAppointmentsFacilities,
+  selectCernerMessagingFacilities,
+  selectCernerRxFacilities,
+  selectIsCernerPatient,
+} from '~/platform/user/selectors';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import Prescriptions from './Prescriptions';
 import HealthCareCard from './HealthCareCard';
@@ -13,18 +20,24 @@ const HealthCare = ({
   prescriptions,
   authenticatedWithSSOe,
   canAccessRx,
+  isCernerPatient,
+  facilityNames,
 }) => {
   useEffect(
     () => {
-      if (canAccessRx) {
+      if (canAccessRx && !isCernerPatient) {
         loadPrescriptions({
           active: true,
           sort: '-refill_submit_date',
         });
       }
     },
-    [canAccessRx, loadPrescriptions],
+    [canAccessRx, loadPrescriptions, isCernerPatient],
   );
+
+  if (isCernerPatient) {
+    return <CernerAlertBox facilityNames={facilityNames} />;
+  }
 
   return (
     <div className="health-care vads-u-margin-y--6">
@@ -83,7 +96,27 @@ const mapStateToProps = state => {
   const canAccessRx = profileState.services.includes('rx');
   const prescriptions = rxState.prescriptions?.items;
 
+  const cernerAppointmentFacilities = selectCernerAppointmentsFacilities(state);
+  const cernerMessagingFacilities = selectCernerMessagingFacilities(state);
+  const cernerPrescriptionFacilities = selectCernerRxFacilities(state);
+
+  const appointmentFacilityNames = cernerAppointmentFacilities?.map(facility =>
+    getMedicalCenterNameByID(facility.facilityId),
+  );
+  const messagingFacilityNames = cernerMessagingFacilities?.map(facility =>
+    getMedicalCenterNameByID(facility.facilityId),
+  );
+  const prescriptionFacilityNames = cernerPrescriptionFacilities?.map(
+    facility => getMedicalCenterNameByID(facility.facilityId),
+  );
+
+  const facilityNames = appointmentFacilityNames
+    .concat(messagingFacilityNames)
+    .concat(prescriptionFacilityNames);
+
   return {
+    isCernerPatient: selectIsCernerPatient(state),
+    facilityNames,
     prescriptions,
     canAccessRx,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
