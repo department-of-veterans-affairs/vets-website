@@ -172,17 +172,10 @@ export const selectCanceledAppointments = createSelector(
   },
 );
 
-export function selectFirstRequestMessage(state) {
-  const { currentAppointment, requestMessages } = state.appointments;
+export function selectFirstRequestMessage(state, id) {
+  const { requestMessages } = state.appointments;
 
-  if (!currentAppointment) {
-    return null;
-  }
-
-  return (
-    requestMessages?.[currentAppointment.id]?.[0]?.attributes?.messageText ||
-    null
-  );
+  return requestMessages?.[id]?.[0]?.attributes?.messageText || null;
 }
 
 /*

@@ -85,9 +85,7 @@ function ConfirmedAppointmentDetailsPage({
   const { id } = useParams();
 
   useEffect(() => {
-    if (!appointment) {
-      fetchConfirmedAppointmentDetails(id, 'va');
-    }
+    fetchConfirmedAppointmentDetails(id, 'va');
 
     scrollAndFocus();
   }, []);

@@ -183,7 +183,7 @@ export function isVAPhoneAppointment(appointment) {
  */
 export function isVideoAppointment(appointment) {
   return (
-    appointment.contained
+    appointment?.contained
       ?.find(contained => contained.resourceType === 'HealthcareService')
       ?.characteristic?.some(c =>
         c.coding?.some(code => code.system === 'VVS'),
@@ -301,7 +301,7 @@ export function getVARClinicId(appointment) {
  * @returns {String} The location id where the video appointment is located
  */
 export function getVideoAppointmentLocation(appointment) {
-  const serviceResource = appointment.contained.find(
+  const serviceResource = appointment?.contained.find(
     res => res.resourceType === 'HealthcareService',
   );
   const locationReference =
@@ -323,7 +323,7 @@ export function getVideoAppointmentLocation(appointment) {
  * @returns The location id where the VA appointment is located
  */
 export function getVAAppointmentLocationId(appointment) {
-  const locationReference = appointment.participant?.find(p =>
+  const locationReference = appointment?.participant?.find(p =>
     p.actor.reference?.startsWith('Location'),
   )?.actor?.reference;
 

@@ -52,9 +52,7 @@ function RequestedAppointmentDetailsPage({
   const { id } = useParams();
 
   useEffect(() => {
-    if (!appointment) {
-      fetchRequestDetails(id);
-    }
+    fetchRequestDetails(id);
 
     scrollAndFocus();
   }, []);
@@ -214,7 +212,7 @@ function mapStateToProps(state, ownProps) {
     appointment: selectRequestById(state, ownProps.match.params.id),
     appointmentDetailsStatus,
     facilityData,
-    message: selectFirstRequestMessage(state),
+    message: selectFirstRequestMessage(state, ownProps.match.params.id),
     cancelInfo: getCancelInfo(state),
   };
 }

@@ -61,7 +61,6 @@ const initialState = {
   pastSelectedIndex: 0,
   showCancelModal: false,
   cancelAppointmentStatus: FETCH_STATUS.notStarted,
-  currentAppointment: null,
   appointmentDetails: {},
   appointmentDetailsStatus: FETCH_STATUS.notStarted,
   appointmentToCancel: null,
@@ -181,7 +180,7 @@ export default function appointmentsReducer(state = initialState, action) {
       };
 
       if (action.facility) {
-        newState.facilityIdata = {
+        newState.facilityData = {
           ...state.facilityData,
           [action.facility.id]: action.facility,
         };
@@ -321,15 +320,18 @@ export default function appointmentsReducer(state = initialState, action) {
         return { ...newAppt, status: APPOINTMENT_STATUS.cancelled };
       });
 
-      let currentAppointment = state.currentAppointment;
+      let appointmentDetails = state.appointmentDetails;
 
-      if (currentAppointment) {
-        currentAppointment = {
-          ...currentAppointment,
-          status: APPOINTMENT_STATUS.cancelled,
-          legacyVAR: {
-            ...currentAppointment.legacyVAR,
-            apiData: action.apiData,
+      if (appointmentDetails?.[appointmentToCancel.id]) {
+        appointmentDetails = {
+          ...appointmentDetails,
+          [appointmentToCancel.id]: {
+            ...appointmentDetails[appointmentToCancel.id],
+            status: APPOINTMENT_STATUS.cancelled,
+            legacyVAR: {
+              ...appointmentDetails[appointmentToCancel.id].legacyVAR,
+              apiData: action.apiData,
+            },
           },
         };
       }
@@ -339,7 +341,7 @@ export default function appointmentsReducer(state = initialState, action) {
         showCancelModal: true,
         confirmed,
         pending,
-        currentAppointment,
+        appointmentDetails,
         cancelAppointmentStatus: FETCH_STATUS.succeeded,
         cancelAppointmentStatusVaos400: false,
       };

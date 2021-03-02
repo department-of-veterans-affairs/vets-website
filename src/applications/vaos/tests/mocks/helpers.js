@@ -704,3 +704,35 @@ export function mockGetCurrentPosition({
     ),
   };
 }
+
+export function mockSingleRequestFetch({ request, error = null }) {
+  mockFetch();
+
+  const baseUrl = `${environment.API_URL}/vaos/v0/appointment_requests/${
+    request.id
+  }`;
+
+  if (error) {
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
+  } else {
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data: request });
+  }
+}
+
+export function mockSingleAppointmentFetch({
+  appointment,
+  type = 'va',
+  error = null,
+}) {
+  mockFetch();
+
+  const baseUrl = `${environment.API_URL}/vaos/v0/appointments/${
+    appointment.id
+  }?type=${type}`;
+
+  if (error) {
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
+  } else {
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data: appointment });
+  }
+}

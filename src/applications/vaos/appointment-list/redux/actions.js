@@ -45,6 +45,7 @@ import {
   STARTED_NEW_APPOINTMENT_FLOW,
   STARTED_NEW_EXPRESS_CARE_FLOW,
 } from '../../redux/sitewide';
+import { selectConfirmedAppointmentById, selectRequestById } from './selectors';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
 export const FETCH_PENDING_APPOINTMENTS = 'vaos/FETCH_PENDING_APPOINTMENTS';
@@ -425,18 +426,28 @@ export function fetchRequestDetails(id) {
   return async (dispatch, getState) => {
     try {
       const state = getState();
-
-      dispatch({
-        type: FETCH_REQUEST_DETAILS,
-      });
-
-      const request = await fetchRequestById(id);
-
-      const facilityId = getVAAppointmentLocationId(request);
+      let request = selectRequestById(state, id);
+      let facilityId = getVAAppointmentLocationId(request);
       let facility = state.appointments.facilityData?.[facilityId];
 
+      if (!request || (facilityId && !facility)) {
+        dispatch({
+          type: FETCH_REQUEST_DETAILS,
+        });
+      }
+
+      if (!request) {
+        request = await fetchRequestById(id);
+        facilityId = getVAAppointmentLocationId(request);
+        facility = state.appointments.facilityData?.[facilityId];
+      }
+
       if (facilityId && !facility) {
-        facility = await getLocation({ facilityId });
+        try {
+          facility = await getLocation({ facilityId });
+        } catch (e) {
+          captureError(e);
+        }
       }
 
       dispatch({
@@ -465,21 +476,35 @@ export function fetchConfirmedAppointmentDetails(id, type) {
   return async (dispatch, getState) => {
     try {
       const state = getState();
-
-      dispatch({
-        type: FETCH_CONFIRMED_DETAILS,
-      });
-
-      const appointment = await fetchBookedAppointment(id, type);
-
-      const isVideo = isVideoAppointment(appointment);
-      const facilityId = isVideo
+      let appointment = selectConfirmedAppointmentById(state, id);
+      let isVideo = isVideoAppointment(appointment);
+      let facilityId = isVideo
         ? getVideoAppointmentLocation(appointment)
         : getVAAppointmentLocationId(appointment);
       let facility = state.appointments.facilityData?.[facilityId];
 
+      if (!appointment || (facilityId && !facility)) {
+        dispatch({
+          type: FETCH_CONFIRMED_DETAILS,
+        });
+      }
+
+      if (!appointment) {
+        appointment = await fetchBookedAppointment(id, type);
+      }
+
+      isVideo = isVideoAppointment(appointment);
+      facilityId = isVideo
+        ? getVideoAppointmentLocation(appointment)
+        : getVAAppointmentLocationId(appointment);
+      facility = state.appointments.facilityData?.[facilityId];
+
       if (facilityId && !facility) {
-        facility = await getLocation({ facilityId });
+        try {
+          facility = await getLocation({ facilityId });
+        } catch (e) {
+          captureError(e);
+        }
       }
 
       dispatch({
