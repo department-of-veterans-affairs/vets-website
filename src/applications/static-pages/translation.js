@@ -11,6 +11,7 @@ const faqI18Content = {
     onThisPage: 'En esta página',
   },
 };
+
 const configureTranslationLink = (e, targetLang, currentLang) => {
   e.dataset.lang = targetLang;
   e.lang = targetLang;

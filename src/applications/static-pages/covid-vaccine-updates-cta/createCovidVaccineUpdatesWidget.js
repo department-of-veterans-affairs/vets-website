@@ -13,7 +13,8 @@ export default function createCovidVaccineUpdatesWidget(store, _widgetType) {
   const introText = document.querySelector('.va-introtext')?.nextElementSibling;
   const wrapper = introText.parentNode;
   const reactRoot = document.createElement('div');
-
+  const content = document.getElementById('content');
+  const lang = content?.getAttribute('lang');
   wrapper.insertBefore(reactRoot, introText);
 
   if (reactRoot) {
@@ -22,7 +23,7 @@ export default function createCovidVaccineUpdatesWidget(store, _widgetType) {
       const CovidVaccineUpdatesCTA = module.default;
       ReactDOM.render(
         <Provider store={store}>
-          <CovidVaccineUpdatesCTA />
+          <CovidVaccineUpdatesCTA lang={lang} />
         </Provider>,
         reactRoot,
       );
