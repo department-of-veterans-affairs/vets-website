@@ -695,6 +695,7 @@ const formConfig = {
           path: 'fully-developed-claim',
           uiSchema: fullyDevelopedClaim.uiSchema,
           schema: fullyDevelopedClaim.schema,
+          depends: formData => !isBDD(formData),
         },
       },
     },

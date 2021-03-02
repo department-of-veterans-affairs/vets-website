@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { focusElement, focusOnChange } from '../../../src/js/utilities/ui';
-import ReviewCollapsibleChapter from '../../../src/js/review/ReviewCollapsibleChapter';
+import { ReviewCollapsibleChapter } from '../../../src/js/review/ReviewCollapsibleChapter';
 
 describe('focus on element', () => {
   it('should focus on element based on selector string', () => {

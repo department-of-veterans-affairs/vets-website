@@ -1,3 +1,7 @@
+/**
+ * Functions related to fetching Apppointment data and pulling information from that data
+ * @module services/Appointment
+ */
 import moment from 'moment';
 import { getConfirmedAppointments, getPendingAppointments } from '../var';
 import {
@@ -58,9 +62,10 @@ const PAST_APPOINTMENTS_HIDDEN_SET = new Set([
  * Fetch the logged in user's confirmed appointments that fall between a startDate and endDate
  *
  * @export
+ * @async
  * @param {String} startDate Date in YYYY-MM-DD format
  * @param {String} endDate Date in YYYY-MM-DD format
- * @returns {Object} A FHIR searchset of booked Appointment resources
+ * @returns {Appointment[]} A FHIR searchset of booked Appointment resources
  */
 export async function getBookedAppointments({ startDate, endDate }) {
   try {
@@ -94,9 +99,10 @@ export async function getBookedAppointments({ startDate, endDate }) {
  * Fetch the logged in user's pending appointments that fall between a startDate and endDate
  *
  * @export
+ * @async
  * @param {String} startDate Date in YYYY-MM-DD format
  * @param {String} endDate Date in YYYY-MM-DD format
- * @returns {Object} A FHIR searchset of pending Appointment resources
+ * @returns {Appointment[]} A FHIR searchset of pending Appointment resources
  */
 export async function getAppointmentRequests({ startDate, endDate }) {
   try {
@@ -127,8 +133,8 @@ export function isVAPhoneAppointment(appointment) {
  * Returns whether or not the appointment/request is video
  *
  * @export
- * @param {Object} appointment A FHIR appointment resource
- * @returns {Boolean} Whether or not the appointment/request is video
+ * @param {Appointment} appointment A FHIR appointment resource
+ * @returns {boolean} Whether or not the appointment/request is video
  */
 export function isVideoAppointment(appointment) {
   return (
@@ -144,8 +150,8 @@ export function isVideoAppointment(appointment) {
  * Returns the VVS appointment kind
  *
  * @export
- * @param {Object} appointment A FHIR appointment resource
- * @returns {String} The VVS appointment kind
+ * @param {Appointment} appointment A FHIR appointment resource
+ * @returns {string} The VVS appointment kind
  */
 export function getVideoKind(appointment) {
   const characteristic = appointment.contained
@@ -159,8 +165,8 @@ export function getVideoKind(appointment) {
  * Returns whether or not the appointment/request is a GFE video appointment
  *
  * @export
- * @param {Object} appointment A FHIR appointment resource
- * @returns {Boolean} Whether or not the appointment is a GFE video appointment
+ * @param {Appointment} appointment A FHIR appointment resource
+ * @returns {boolean} Whether or not the appointment is a GFE video appointment
  */
 export function isVideoGFE(appointment) {
   return (
@@ -175,8 +181,8 @@ export function isVideoGFE(appointment) {
 /**
  * Gets legacy VAR ATLAS location from HealthcareService reference
  *
- * @param {Object} appointment VAR Appointment in FHIR schema
- * @returns {Object} the address from legacy VAR tasInfo.address
+ * @param {Appointment} appointment VAR Appointment in FHIR schema
+ * @returns {AtlasLocation} the address from legacy VAR tasInfo.address
  */
 export function getATLASLocation(appointment) {
   return appointment?.contained.find(res => res.resourceType === 'Location');
@@ -185,8 +191,8 @@ export function getATLASLocation(appointment) {
 /**
  * Gets legacy VAR ATLAS confirmation code from HealthcareService reference
  *
- * @param {Object} appointment VAR Appointment in FHIR schema
- * @returns {Object} the confirmation code from legacy VAR tasInfo.confirmationCode
+ * @param {Appointment} appointment VAR Appointment in FHIR schema
+ * @returns {string} the confirmation code from legacy VAR tasInfo.confirmationCode
  */
 export function getATLASConfirmationCode(appointment) {
   const characteristic = appointment.contained
@@ -201,8 +207,8 @@ export function getATLASConfirmationCode(appointment) {
 /**
  * Gets legacy VAR facility id from HealthcareService reference
  *
- * @param {Object} appointment VAR Appointment in FHIR schema
- * @returns {String} Legacy VAR facility id
+ * @param {Appointment} appointment VAR Appointment in FHIR schema
+ * @returns {string} Legacy VAR facility id
  */
 export function getVARFacilityId(appointment) {
   if (appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
@@ -227,8 +233,8 @@ export function getVARFacilityId(appointment) {
 /**
  * Gets legacy var clinic id from HealthcareService reference
  *
- * @param {Object} appointment VAR Appointment in FHIR schema
- * @returns {String} Legacy VAR clinic id
+ * @param {Appointment} appointment VAR Appointment in FHIR schema
+ * @returns {string} Legacy VAR clinic id
  */
 export function getVARClinicId(appointment) {
   if (appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
@@ -246,8 +252,8 @@ export function getVARClinicId(appointment) {
  * Returns the location of a video appointment
  *
  * @export
- * @param {Object} appointment A FHIR appointment resource
- * @returns {String} The location id where the video appointment is located
+ * @param {Appointment} appointment A FHIR appointment resource
+ * @returns {string} The location id where the video appointment is located
  */
 export function getVideoAppointmentLocation(appointment) {
   const serviceResource = appointment.contained.find(
@@ -268,8 +274,8 @@ export function getVideoAppointmentLocation(appointment) {
  * Returns the location ID of a VA appointment
  *
  * @export
- * @param {Object} appointment A FHIR appointment resource
- * @returns The location id where the VA appointment is located
+ * @param {Appointment} appointment A FHIR appointment resource
+ * @returns {string} The location id where the VA appointment is located
  */
 export function getVAAppointmentLocationId(appointment) {
   const locationReference = appointment.participant?.find(p =>
@@ -287,9 +293,9 @@ export function getVAAppointmentLocationId(appointment) {
  * Returns the patient telecom info in a VA appointment
  *
  * @export
- * @param {Object} appointment A FHIR appointment resource
- * @param {String} system A FHIR telecom system id
- * @returns The patient telecome value
+ * @param {Appointment} appointment A FHIR appointment resource
+ * @param {string} system A FHIR telecom system id
+ * @returns {string} The patient telecome value
  */
 export function getPatientTelecom(appointment, system) {
   return appointment?.contained
@@ -300,8 +306,8 @@ export function getPatientTelecom(appointment, system) {
 /**
  * Checks to see if a past appointment has a valid status
  *
- * @param {Object} appt A FHIR appointment resource
- * @returns Whether or not the appt should be shown
+ * @param {Appointment} appt A FHIR appointment resource
+ * @returns {boolean} Whether or not the appt should be shown
  */
 export function isValidPastAppointment(appt) {
   return (
@@ -315,8 +321,8 @@ export function isValidPastAppointment(appt) {
  * not have one of the excluded statuses for past appointments or an
  * Express Care request that is either resolved or old enough to show
  *
- * @param {Object} appt A FHIR appointment resource
- * @returns Whether or not the appt should be shown
+ * @param {Appointment} appt A FHIR appointment resource
+ * @returns {boolean} Whether or not the appt should be shown
  */
 export function isValidPastAppointmentOrExpressCare(appt) {
   return (
@@ -339,8 +345,8 @@ export function isValidPastAppointmentOrExpressCare(appt) {
  * or a request that still needs processing
  *
  * @export
- * @param {Object} appt The FHIR Appointment to check
- * @returns {Boolean} Whether or not the appointment is a valid upcoming
+ * @param {Appointment} appt The FHIR Appointment to check
+ * @returns {boolean} Whether or not the appointment is a valid upcoming
  *  appointment or request
  */
 export function isUpcomingAppointmentOrRequest(appt) {
@@ -377,8 +383,8 @@ export function isUpcomingAppointmentOrRequest(appt) {
  * or an Express Care request
  *
  * @export
- * @param {Object} appt The FHIR Appointment to check
- * @returns {Boolean} Whether or not the appointment is a valid upcoming
+ * @param {Appointment} appt The FHIR Appointment to check
+ * @returns {boolean} Whether or not the appointment is a valid upcoming
  *  appointment or Express Care request
  */
 export function isUpcomingAppointmentOrExpressCare(appt) {
@@ -415,8 +421,8 @@ export function isUpcomingAppointmentOrExpressCare(appt) {
  * or a canceled Express Care request
  *
  * @export
- * @param {Object} appt The FHIR Appointment to check
- * @returns {Boolean} Whether or not the appointment is a canceled
+ * @param {Appointment} appt The FHIR Appointment to check
+ * @returns {boolean} Whether or not the appointment is a canceled
  *  appointment or Express Care request
  */
 export function isCanceledConfirmedOrExpressCare(appt) {
@@ -451,8 +457,8 @@ export function isCanceledConfirmedOrExpressCare(appt) {
 
 /**
  * Sort method for past appointments
- * @param {Object} a A FHIR appointment resource
- * @param {Object} b A FHIR appointment resource
+ * @param {Appointment} a A FHIR appointment resource
+ * @param {Appointment} b A FHIR appointment resource
  */
 export function sortByDateDescending(a, b) {
   return moment(a.start).isAfter(moment(b.start)) ? -1 : 1;
@@ -460,8 +466,8 @@ export function sortByDateDescending(a, b) {
 
 /**
  * Sort method for upcoming appointments
- * @param {Object} a A FHIR appointment resource
- * @param {Object} b A FHIR appointment resource
+ * @param {Appointment} a A FHIR appointment resource
+ * @param {Appointment} b A FHIR appointment resource
  */
 export function sortByDateAscending(a, b) {
   return moment(a.start).isBefore(moment(b.start)) ? -1 : 1;
@@ -469,8 +475,8 @@ export function sortByDateAscending(a, b) {
 
 /**
  * Sort method for appointments requests
- * @param {Object} a A FHIR appointment resource
- * @param {Object} b A FHIR appointment resource
+ * @param {Appointment} a A FHIR appointment resource
+ * @param {Appointment} b A FHIR appointment resource
  */
 export function sortByCreatedDateDescending(a, b) {
   return moment(a.created).isAfter(moment(b.created)) ? -1 : 1;
@@ -478,8 +484,8 @@ export function sortByCreatedDateDescending(a, b) {
 
 /**
  * Sort method for future appointment requests
- * @param {Object} a A FHIR appointment resource
- * @param {Object} b A FHIR appointment resource
+ * @param {Appointment} a A FHIR appointment resource
+ * @param {Appointment} b A FHIR appointment resource
  */
 export function sortUpcoming(a, b) {
   if (
@@ -511,8 +517,8 @@ export function sortUpcoming(a, b) {
 
 /**
  * Sort method for appointment messages
- * @param {Object} a A FHIR appointment resource
- * @param {Object} b A FHIR appointment resource
+ * @param {Object} a Message object
+ * @param {Object} b Message object
  */
 export function sortMessages(a, b) {
   return moment(a.attributes.date).isBefore(b.attributes.date) ? -1 : 1;
@@ -520,8 +526,8 @@ export function sortMessages(a, b) {
 
 /**
  * Method to check for ATLAS appointment
- * @param {*} appointment  A FHIR appointment resource
- * @return (Boolean} Returns whether or not the appointment is an ATLAS appointment.
+ * @param {Appointment} appointment  A FHIR appointment resource
+ * @return {boolean} Returns whether or not the appointment is an ATLAS appointment.
  */
 export function isAtlasLocation(appointment) {
   return appointment.legacyVAR.apiData.vvsAppointments?.some(
@@ -531,8 +537,8 @@ export function isAtlasLocation(appointment) {
 
 /**
  * Method to check for home video appointment
- * @param {*} appointment A FHIR appointment resource
- * @return (Boolean} Returns whether or not the appointment is a home video appointment.
+ * @param {Appointment} appointment A FHIR appointment resource
+ * @return {boolean} Returns whether or not the appointment is a home video appointment.
  */
 export function isVideoHome(appointment) {
   const videoKind = getVideoKind(appointment);
@@ -545,8 +551,8 @@ export function isVideoHome(appointment) {
 
 /**
  * Method to check for VA facility video appointment
- * @param {} appointment A FHIR appointment resource
- * @return (Boolean} Returns whether or not the appointment is a VA facility video appointment.
+ * @param {Appointment} appointment A FHIR appointment resource
+ * @return {boolean} Returns whether or not the appointment is a VA facility video appointment.
  */
 export function isVideoVAFacility(appointment) {
   return VIDEO_TYPES.clinic === getVideoKind(appointment);
@@ -554,8 +560,8 @@ export function isVideoVAFacility(appointment) {
 
 /**
  * Method to check for store forward video appointment
- * @param {*} appointment A FHIR appointment resource
- * @return (Boolean} Returns whether or not the appointment is a store forward video appointment.
+ * @param {Appointment} appointment A FHIR appointment resource
+ * @return {boolean} Returns whether or not the appointment is a store forward video appointment.
  */
 export function isVideoStoreForward(appointment) {
   return VIDEO_TYPES.storeForward === getVideoKind(appointment);
@@ -563,8 +569,8 @@ export function isVideoStoreForward(appointment) {
 
 /**
  * Method to check for the existence of a practitioner
- * @param {Object} appointment An appointment resource
- * @return {Boolean} Returns whether or not the appointment has a practitioner.
+ * @param {Appointment} appointment An appointment resource
+ * @return {boolean} Returns whether or not the appointment has a practitioner.
  */
 export function hasPractitioner(appointment) {
   return !!appointment?.participant?.some(item =>
@@ -575,7 +581,7 @@ export function hasPractitioner(appointment) {
 /**
  * Method to parse out the appointment practitioner of participants array
  * @param {Array} participants An array of appointment participants
- * @return {Object} Returns the appointment practitioner object.
+ * @return {string} Returns the appointment practitioner display value.
  */
 export function getPractitionerDisplay(participants) {
   return participants?.find(p => p.actor.reference.includes('Practitioner'))
@@ -598,7 +604,7 @@ export function getPractitionerLocationDisplay(appointment) {
  * Assumes appointments are already sorted
  *
  * @export
- * @param {Array} appointments List of FHIR appointments
+ * @param {Appointment[]} appointments List of FHIR appointments
  * @returns {Array} An array of arrays by month
  */
 export function groupAppointmentsByMonth(appointments) {

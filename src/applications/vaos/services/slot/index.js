@@ -1,6 +1,5 @@
-/*
- * Functions in here should map a var-resources API request to a similar response from
- * a FHIR resource request
+/**
+ * @module services/Slot
  */
 import { getAvailableSlots } from '../var';
 import { fhirSearch, mapToFHIRErrors } from '../utils';
@@ -10,6 +9,8 @@ import { transformSlots } from './transformers';
  * Fetch appointment slots based on start/end date times based on a VistA sites
  * availability for a particular type of care
  *
+ * @export
+ * @async
  * @param {Object} slotsRequest - An object containing the parameters necessary to retrive appointment slots
  * @param {string} slotsRequest.siteId 3 digit facility ID
  * @param {string} slotsRequest.typeOfCareId 3 digit type of care id
