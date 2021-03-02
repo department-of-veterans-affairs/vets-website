@@ -15,4 +15,5 @@ export const pageNames = {
   repayment: 'repayment',
   lessThan: 'lessThan',
   dependents: 'dependents',
+  waivers: 'waivers',
 };

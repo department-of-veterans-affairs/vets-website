@@ -5,7 +5,7 @@ import { pageNames } from '../constants';
 const label = 'How do you want us to reconsider the decision?';
 const options = [
   {
-    value: pageNames.error,
+    value: pageNames.waivers,
     label:
       'I want to ask the Committee of Waivers and Compromises to reconsider my waiver.',
   },

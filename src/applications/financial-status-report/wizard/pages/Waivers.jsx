@@ -5,22 +5,19 @@ import Telephone, {
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
-const LessThanFive = () => (
+const Waivers = () => (
   <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
     <p className="vads-u-margin-top--0">
       Based on the information you provided, this isn’t the form you need.
     </p>
     <p>
       <strong>
-        We’ve changed our process for extended monthly payment plans as part of
-        COVID-19 debt relief.
+        To ask our Committee of Waivers and Compromises to reconsider your
+        waiver,{' '}
       </strong>
+      you’ll need to tell us why you think we should reconsider.
     </p>
-    <p>
-      You don't need to submit a Financial Status Report (VA Form 5655) to
-      request an extended monthly payment plan of up to 5 years. During this
-      time, you can request a plan online, by phone, or by mail.
-    </p>
+    <p>You can submit your request online, by phone, or by mail.</p>
     <ul>
       <li>
         <strong>Online: </strong>
@@ -28,9 +25,9 @@ const LessThanFive = () => (
           Go to our online question form (called IRIS)
         </a>
         . On the IRIS page, select <strong>Debt Management Center</strong>, your
-        debt type, and <strong>Payment Plan</strong> within the Topic dropdown.
-        For Inquiry Type, select <strong>Question</strong>. Write your request
-        within the <strong>Question</strong> section.
+        debt type, and <strong>Waiver</strong> within the Topic dropdown. For
+        Inquiry Type, select <strong>Question</strong>. Write your request in
+        the <strong>Question</strong> section.
       </li>
       <li>
         <strong>Phone: </strong>
@@ -51,6 +48,6 @@ const LessThanFive = () => (
 );
 
 export default {
-  name: pageNames.lessThan,
-  component: LessThanFive,
+  name: pageNames.waivers,
+  component: Waivers,
 };

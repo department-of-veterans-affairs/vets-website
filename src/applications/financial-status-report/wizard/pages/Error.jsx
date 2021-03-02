@@ -18,10 +18,12 @@ const DebtError = () => {
       <ul>
         <li>
           <strong>Online: </strong>
-          <a href="#">Go to our online question form (called IRIS)</a>. On the
-          IRIS page, select <strong>Debt Management Center</strong>, your debt
-          type, and <strong>Dispute</strong> within the Topic dropdown. For
-          Inquiry Type, select <strong>Question</strong>.
+          <a href="https://iris.custhelp.va.gov/app/ask">
+            Go to our online question form (called IRIS)
+          </a>
+          . On the IRIS page, select <strong>Debt Management Center</strong>,
+          your debt type, and <strong>Dispute</strong> within the Topic
+          dropdown. For Inquiry Type, select <strong>Question</strong>.
         </li>
         <li>
           <strong>Mail: </strong>
