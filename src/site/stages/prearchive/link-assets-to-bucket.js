@@ -9,7 +9,7 @@
 /* eslint-disable no-console */
 
 const fs = require('fs');
-const jsdom = require('jsdom');
+// const jsdom = require('jsdom');
 const path = require('path');
 const cheerio = require('cheerio');
 const buckets = require('../../constants/buckets');
@@ -30,14 +30,27 @@ function invalidAssetSrcCheck(assetSrc) {
   );
 }
 
-function updateSrcPaths(doc, element) {
+function updateAssetBucketLocation(prop, assetSrc, item, bucketPath) {
+  let assetBucketLocation;
+  if (prop === 'srcset') {
+    const sources = assetSrc.split(',');
+    assetBucketLocation = sources
+      .map(src => `${bucketPath}${src.trim()}`)
+      .join(', ');
+  } else {
+    assetBucketLocation = `${bucketPath}${assetSrc}`;
+  }
+  item.attr(prop, assetBucketLocation);
+}
+
+function updateSrcPaths(doc, element, bucketPath) {
   const item = doc(element);
   const possibleSrcProps = ['src', 'href', 'data-src', 'srcset'];
   possibleSrcProps.forEach(prop => {
     const assetSrc = item.attr(prop);
     const isInvalidAssetSrc = invalidAssetSrcCheck(assetSrc);
     if (!isInvalidAssetSrc) {
-      console.log(assetSrc);
+      updateAssetBucketLocation(prop, assetSrc, item, bucketPath);
     }
   });
 }
@@ -56,65 +69,62 @@ function linkAssetsToBucket(options, fileNames) {
 
   for (const htmlFileName of htmlFileNames) {
     const htmlFile = fs.readFileSync(htmlFileName);
-    const dom = new jsdom.JSDOM(htmlFile.toString());
+    // const dom = new jsdom.JSDOM(htmlFile.toString());
 
     const doc = cheerio.load(htmlFile);
 
     const assetLinkElements2 = getAssetLinkElements(doc);
 
     assetLinkElements2.each((i, element) => {
-      updateSrcPaths(doc, element);
+      updateSrcPaths(doc, element, bucketPath);
     });
 
-    // console.log('assetLinkElements:', assetLinkElements2.length);
+    // const assetLinkElements = Array.from(
+    //   dom.window.document.querySelectorAll(
+    //     'script, img, link, picture > source',
+    //   ),
+    // );
 
-    const assetLinkElements = Array.from(
-      dom.window.document.querySelectorAll(
-        'script, img, link, picture > source',
-      ),
-    );
+    // const possibleSrcProps = ['src', 'href', 'data-src', 'srcset'];
 
-    const possibleSrcProps = ['src', 'href', 'data-src', 'srcset'];
+    // for (const element of assetLinkElements) {
+    //   for (const prop of possibleSrcProps) {
+    //     let assetSrcProp = null;
+    //     let assetSrc = null;
 
-    for (const element of assetLinkElements) {
-      for (const prop of possibleSrcProps) {
-        let assetSrcProp = null;
-        let assetSrc = null;
+    //     assetSrcProp = prop;
+    //     assetSrc = element.getAttribute(assetSrcProp);
 
-        assetSrcProp = prop;
-        assetSrc = element.getAttribute(assetSrcProp);
+    //     // Making an assumption here that we don't use srcset
+    //     // to point to both external and internal images
+    //     if (
+    //       !assetSrc ||
+    //       assetSrc.startsWith('http') ||
+    //       assetSrc.startsWith('data:') ||
+    //       assetSrc.includes(TEAMSITE_ASSETS)
+    //     )
+    //       continue;
 
-        // Making an assumption here that we don't use srcset
-        // to point to both external and internal images
-        if (
-          !assetSrc ||
-          assetSrc.startsWith('http') ||
-          assetSrc.startsWith('data:') ||
-          assetSrc.includes(TEAMSITE_ASSETS)
-        )
-          continue;
+    //     let assetBucketLocation;
 
-        let assetBucketLocation;
-        console.log('made it past the continue');
-        console.log(assetSrc);
+    //     if (prop === 'srcset') {
+    //       const sources = assetSrc.split(',');
+    //       assetBucketLocation = sources
+    //         .map(src => `${bucketPath}${src.trim()}`)
+    //         .join(', ');
+    //     } else {
+    //       assetBucketLocation = `${bucketPath}${assetSrc}`;
+    //     }
 
-        if (prop === 'srcset') {
-          const sources = assetSrc.split(',');
-          assetBucketLocation = sources
-            .map(src => `${bucketPath}${src.trim()}`)
-            .join(', ');
-        } else {
-          assetBucketLocation = `${bucketPath}${assetSrc}`;
-        }
+    //     element.setAttribute(assetSrcProp, assetBucketLocation);
+    //   }
+    // }
 
-        element.setAttribute(assetSrcProp, assetBucketLocation);
-      }
-    }
-
-    const newContents = new Buffer(dom.serialize());
-
-    fs.writeFileSync(htmlFileName, newContents);
-    dom.window.close();
+    const newContents2 = new Buffer(doc.html());
+    fs.writeFileSync(htmlFileName, newContents2);
+    // const newContents = new Buffer(dom.serialize());
+    // fs.writeFileSync(htmlFileName, newContents);
+    // dom.window.close();
   }
 
   const cssFileNames = fileNames.filter(file => path.extname(file) === '.css');
