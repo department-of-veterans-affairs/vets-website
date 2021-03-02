@@ -16,12 +16,6 @@ const submit = (form, formConfig) => {
   } else {
     // Commented out till API is working.
     const eventData = {};
-    // console.log('calling to api', {
-    //   body,
-    //   url: formConfig.submitUrl,
-    //   trackingPrefix: formConfig.trackingPrefix,
-    //   eventData,
-    // });
 
     return submitToUrl(
       JSON.stringify(body),
@@ -39,7 +33,9 @@ const createAnswerArray = value => (value ? [createAnAnswer(value)] : []);
 const transformForSubmit = (_formConfig, form) => {
   // console.log({ formConfig, form });
   // const { questionnaireId, appointmentId } = form.data['hidden:fields'] || {};
-  const questionnaire = form.data['hidden:questionnaire'][0];
+  const questionnaire = form.data['hidden:questionnaire']
+    ? form.data['hidden:questionnaire'][0]
+    : {};
   const appointment = form.data['hidden:appointment'];
   const type = getAppointTypeFromAppointment(appointment, { titleCase: true });
   const title = `${type} questionnaire`;

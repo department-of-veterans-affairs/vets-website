@@ -60,7 +60,7 @@ describe('health care questionnaire -- utils -- transform for submit --', () => 
     expect(json).to.have.property('appointment');
     expect(json.appointment.id).to.equal('appointment-123');
     expect(json).to.have.property('questionnaire');
-    expect(json.questionnaire[0].id).to.equal('questionnaire-123');
+    expect(json.questionnaire.id).to.equal('questionnaire-123');
 
     expect(json).to.have.property('item');
     expect(json.item).to.be.an('array');
@@ -204,7 +204,7 @@ describe('health care questionnaire -- utils -- transform for submit --', () => 
     expect(json).to.have.property('appointment');
     expect(json.appointment.id).to.equal('appointment-123');
     expect(json).to.have.property('questionnaire');
-    expect(json.questionnaire[0].id).to.equal('questionnaire-123');
+    expect(json.questionnaire.id).to.equal('questionnaire-123');
 
     expect(json).to.have.property('item');
     expect(json.item).to.be.an('array');
