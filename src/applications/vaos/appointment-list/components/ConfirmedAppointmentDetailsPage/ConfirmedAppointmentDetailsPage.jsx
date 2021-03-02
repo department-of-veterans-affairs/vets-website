@@ -13,6 +13,7 @@ import {
   getVARFacilityId,
   getVideoAppointmentLocation,
   isAtlasLocation,
+  isVAPhoneAppointment,
   isVideoAppointment,
   isVideoGFE,
   isVideoHome,
@@ -58,6 +59,16 @@ function formatHeader(appointment) {
   } else {
     return 'VA Appointment';
   }
+}
+
+function formatCalendarLocation(isPhone, facility) {
+  if (isPhone) {
+    return 'Phone call';
+  } else if (facility) {
+    return formatFacilityAddress(facility);
+  }
+
+  return 'VA facility';
 }
 
 function ConfirmedAppointmentDetailsPage({
@@ -114,6 +125,7 @@ function ConfirmedAppointmentDetailsPage({
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isVideo = isVideoAppointment(appointment);
+  const isPhone = isVAPhoneAppointment(appointment);
   const facilityId = isVideo
     ? getVideoAppointmentLocation(appointment)
     : getVAAppointmentLocationId(appointment);
@@ -193,9 +205,7 @@ function ConfirmedAppointmentDetailsPage({
                 <AddToCalendar
                   summary={`${header}`}
                   description={`instructionText`}
-                  location={
-                    facility ? formatFacilityAddress(facility) : 'VA facility'
-                  }
+                  location={formatCalendarLocation(isPhone, facility)}
                   duration={appointment.minutesDuration}
                   startDateTime={appointment.start}
                 />

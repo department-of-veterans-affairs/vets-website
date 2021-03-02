@@ -143,11 +143,13 @@
                   {% for accordionItem in fieldLocationServices %}
                     {% assign item = accordionItem.entity %}
                     <li class="vads-u-margin-bottom--1">
-                      <button class="usa-accordion-button usa-button-unstyled vads-u-padding-y--2 vads-u-padding-left--2p5 vads-u-line-height--4
+                      <h3 class="vads-u-margin--0">
+                        <button class="usa-accordion-button usa-button-unstyled vads-u-padding-y--2 vads-u-padding-left--2p5 vads-u-line-height--4
 " aria-expanded="false"
-                              aria-controls="{{ item.entityBundle }}-{{ item.entityId }}">
-                        {{ item.fieldTitle }}
-                      </button>
+                                aria-controls="{{ item.entityBundle }}-{{ item.entityId }}">
+                          {{ item.fieldTitle }}
+                        </button>
+                      </h3>
                       <div id="{{ item.entityBundle }}-{{ item.entityId }}"
                            class="usa-accordion-content" aria-hidden="true">
                         {% include "src/site/paragraphs/wysiwyg.drupal.liquid" entity = item %}

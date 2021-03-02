@@ -164,6 +164,17 @@ export async function fetchBookedAppointment(id, type) {
 }
 
 /**
+ * Returns whether or not the appointment is VA phone appointment
+ *
+ * @export
+ * @param {Object} appointment A FHIR appointment resource
+ * @returns {Boolean} Whether or not the appointment is by phone
+ */
+export function isVAPhoneAppointment(appointment) {
+  return appointment.vaos.isPhoneAppointment;
+}
+
+/**
  * Returns whether or not the appointment/request is video
  *
  * @export

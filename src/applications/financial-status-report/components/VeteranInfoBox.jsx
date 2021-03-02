@@ -15,7 +15,7 @@ const VeteranInfoBox = ({
   ssnLastFour,
   vaFileNumber,
 }) => {
-  const fullName = [first, middle, last]
+  const veteranFullName = [first, middle, last]
     .filter(name => !!name)
     .join(' ')
     .toUpperCase();
@@ -26,7 +26,7 @@ const VeteranInfoBox = ({
       <div className="vads-u-border-left--7px vads-u-border-color--primary">
         <div className="vads-u-padding-left--1">
           <p className="vads-u-margin--1px">
-            <strong>{fullName}</strong>
+            <strong>{veteranFullName}</strong>
           </p>
           <p className="vads-u-margin--1px">
             Last 4 of Social Security number: {ssnLastFour}
@@ -58,9 +58,9 @@ VeteranInfoBox.propTypes = {
 };
 
 const mapStateToProps = ({ form }) => ({
-  first: form?.data?.personalData?.fullName?.first,
-  middle: form?.data?.personalData?.fullName?.middle,
-  last: form?.data?.personalData?.fullName?.last,
+  first: form?.data?.personalData?.veteranFullName?.first,
+  middle: form?.data?.personalData?.veteranFullName?.middle,
+  last: form?.data?.personalData?.veteranFullName?.last,
   dateOfBirth: form?.data?.personalData?.dateOfBirth,
   ssnLastFour: form?.data?.personalIdentification?.sSn,
   vaFileNumber: form?.data?.personalIdentification?.vaFileNumber,
