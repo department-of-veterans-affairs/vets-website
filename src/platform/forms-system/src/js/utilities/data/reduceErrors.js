@@ -38,7 +38,7 @@ const ignoreKeys = [
  * @param {string} instance - path inside the page object within the uiSchema,
  *   but we can't specify that since this is a recursive search function
  * @return {object} - single page from the matching pageList object, or an empty
- *   object if the name is not found on any page
+ *   page object if the name is not found on any page
  */
 export const getPropertyInfo = (pageList = [], name, instance = '') => {
   const findPageIndex = (obj, insideInstance = instance === '') => {
@@ -140,7 +140,7 @@ export const getPropertyInfo = (pageList = [], name, instance = '') => {
 export const reduceErrors = (errors, pageList) =>
   errors.reduce((processedErrors, error) => {
     const findErrors = (name, err) => {
-      if (typeof err === 'object') {
+      if (err && typeof err === 'object') {
         // process the last type of error message which provides an `__errors`
         // message array. If there are multiple errors, we'll join them into
         // one message.
