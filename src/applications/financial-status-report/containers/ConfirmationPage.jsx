@@ -18,7 +18,7 @@ const scrollToTop = () => {
 };
 
 const RequestDetailsCard = ({ data, response, download }) => {
-  const name = data.personalData?.fullName;
+  const name = data.personalData?.veteranFullName;
 
   return (
     <div className="inset">
