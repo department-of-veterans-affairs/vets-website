@@ -1,7 +1,14 @@
 import moment from 'moment';
-import { getConfirmedAppointments, getPendingAppointments } from '../var';
 import {
+  getConfirmedAppointment,
+  getConfirmedAppointments,
+  getPendingAppointment,
+  getPendingAppointments,
+} from '../var';
+import {
+  transformConfirmedAppointment,
   transformConfirmedAppointments,
+  transformPendingAppointment,
   transformPendingAppointments,
 } from './transformers';
 import { mapToFHIRErrors } from '../utils';
@@ -103,6 +110,50 @@ export async function getAppointmentRequests({ startDate, endDate }) {
     const appointments = await getPendingAppointments(startDate, endDate);
 
     return transformPendingAppointments(appointments);
+  } catch (e) {
+    if (e.errors) {
+      throw mapToFHIRErrors(e.errors);
+    }
+
+    throw e;
+  }
+}
+
+/**
+ * Fetches a single appointment request and transforms it into our Appointment type
+ *
+ * @export
+ * @async
+ * @param {string} id Appointment request id
+ * @returns {Appointment} An Appointment object for the given request id
+ */
+export async function fetchRequestById(id) {
+  try {
+    const appointment = await getPendingAppointment(id);
+
+    return transformPendingAppointment(appointment);
+  } catch (e) {
+    if (e.errors) {
+      throw mapToFHIRErrors(e.errors);
+    }
+
+    throw e;
+  }
+}
+/**
+ * Fetches a booked appointment based on the id and type provided
+ *
+ * @export
+ * @async
+ * @param {string} id MAS or community care booked appointment id
+ * @param {'cc'|'va'} type Type of appointment that is being fetched
+ * @returns {Appointment} A transformed appointment with the given id
+ */
+export async function fetchBookedAppointment(id, type) {
+  try {
+    const appointment = await getConfirmedAppointment(id, type);
+
+    return transformConfirmedAppointment(appointment);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);

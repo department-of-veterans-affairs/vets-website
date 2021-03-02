@@ -13,8 +13,6 @@ import {
   selectFeatureHomepageRefresh,
 } from '../../redux/selectors';
 
-import { selectFutureAppointments } from '../redux/selectors';
-
 import {
   getCancelReasons,
   getRequestEligibilityCriteria,
@@ -23,7 +21,7 @@ import {
   updateRequest,
 } from '../../services/var';
 
-import { getLocations } from '../../services/location';
+import { getLocation, getLocations } from '../../services/location';
 
 import {
   getBookedAppointments,
@@ -38,6 +36,8 @@ import {
   isVideoGFE,
   isVideoVAFacility,
   isVideoStoreForward,
+  fetchRequestById,
+  fetchBookedAppointment,
 } from '../../services/appointment';
 
 import { captureError, has400LevelError } from '../../utils/error';
@@ -423,49 +423,76 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
 
 export function fetchRequestDetails(id) {
   return async (dispatch, getState) => {
-    const state = getState();
-    const { appointmentDetails, requestMessages, pending } = state.appointments;
-    const request = appointmentDetails[id] || pending?.find(p => p.id === id);
+    try {
+      const state = getState();
 
-    dispatch({
-      type: FETCH_REQUEST_DETAILS,
-    });
+      dispatch({
+        type: FETCH_REQUEST_DETAILS,
+      });
 
-    if (request) {
+      const request = await fetchRequestById(id);
+
+      const facilityId = getVAAppointmentLocationId(request);
+      let facility = state.appointments.facilityData?.[facilityId];
+
+      if (facilityId && !facility) {
+        facility = await getLocation({ facilityId });
+      }
+
       dispatch({
         type: FETCH_REQUEST_DETAILS_SUCCEEDED,
         appointment: request,
         id,
+        facility,
       });
-    } else {
-      // TODO: fetch single appointment
-    }
 
-    const messages = requestMessages?.[id];
+      const requestMessages = state.appointments.requestMessages;
+      const messages = requestMessages?.[id];
 
-    if (!messages) {
-      dispatch(fetchRequestMessages(id));
+      if (!messages) {
+        dispatch(fetchRequestMessages(id));
+      }
+    } catch (e) {
+      captureError(e);
+      dispatch({
+        type: FETCH_REQUEST_DETAILS_FAILED,
+      });
     }
   };
 }
 
-export function fetchConfirmedAppointmentDetails(id) {
+export function fetchConfirmedAppointmentDetails(id, type) {
   return async (dispatch, getState) => {
-    const state = getState();
-    const { appointmentDetails } = state.appointments;
-    const futureAppointments = selectFutureAppointments(state);
-    const appointment =
-      appointmentDetails[id] ||
-      futureAppointments?.find(appt => appt.id === id);
+    try {
+      const state = getState();
 
-    dispatch({
-      type: FETCH_CONFIRMED_DETAILS,
-    });
+      dispatch({
+        type: FETCH_CONFIRMED_DETAILS,
+      });
 
-    if (appointment) {
-      dispatch({ type: FETCH_CONFIRMED_DETAILS_SUCCEEDED, appointment, id });
-    } else {
-      // TODO: fetch single appointment
+      const appointment = await fetchBookedAppointment(id, type);
+
+      const isVideo = isVideoAppointment(appointment);
+      const facilityId = isVideo
+        ? getVideoAppointmentLocation(appointment)
+        : getVAAppointmentLocationId(appointment);
+      let facility = state.appointments.facilityData?.[facilityId];
+
+      if (!facility) {
+        facility = await getLocation({ facilityId });
+      }
+
+      dispatch({
+        type: FETCH_CONFIRMED_DETAILS_SUCCEEDED,
+        appointment,
+        id,
+        facility,
+      });
+    } catch (e) {
+      captureError(e);
+      dispatch({
+        type: FETCH_CONFIRMED_DETAILS_FAILED,
+      });
     }
   };
 }
