@@ -17,8 +17,10 @@ const Dependents = () => (
     </p>
     <p>
       To request help with VA education, disability compensation, or pension
-      benefit debt, fill out the PDF version of our Financial Status Report (VA
-      Form 5655).
+      benefit debt, fill out the PDF version of our{' '}
+      <a href="https://www.va.gov/debtman/Financial_Status_Report.asp">
+        Financial Status Report (VA Form 5655).
+      </a>
     </p>
     <p>
       You can use this form to request a debt waiver, compromise offer, or

@@ -27,9 +27,9 @@ const DebtError = () => {
         </li>
         <li>
           <strong>Mail: </strong>
-          <div>VA Regional Processing Office 307</div>
-          <div>P.O. Box 4616</div>
-          <div>Buffalo, NY 14240-4616</div>
+          <div>Debt Management Center</div>
+          <div>P.O. Box 11930</div>
+          <div>St. Paul, MN 55111-0930</div>
         </li>
       </ul>
       <p>

@@ -13,15 +13,15 @@ const Disagree = () => {
         </strong>
         you can submit a supplemental claim or request a higher level review or
         board appeal.
-        <a className="wizard-links" href="#">
+        <a className="wizard-links" href="/decision-reviews/">
           Learn more about the VA appeals process
         </a>
       </p>
       <p>
         <strong>If you need more help, </strong>
         call your VA benefit office.
-        <a className="wizard-links" href="#">
-          Learn more about the VA appeals process
+        <a className="wizard-links" href="/resources/helpful-va-phone-numbers/">
+          Find helpful VA phone numbers
         </a>
       </p>
       <h3>What to know about debt waivers</h3>
@@ -34,7 +34,10 @@ const Disagree = () => {
         If you’re worried that we won’t complete your appeal before the 180-day
         limit, you can request a waiver with our online Financial Status Report
         (VA Form 5655).
-        <a className="wizard-links" href="#">
+        <a
+          className="wizard-links"
+          href="https://www.va.gov/debtman/Financial_Status_Report.asp"
+        >
           Request help with VA Form 5655
         </a>
       </p>
