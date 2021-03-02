@@ -1,0 +1,28 @@
+From aa4689d2862b206f793c952e22db92e6b8aebba5 Mon Sep 17 00:00:00 2001
+From: Zachary Morel <zacharyjmorel@gmail.com>
+Date: Mon, 1 Mar 2021 09:24:00 -0500
+Subject: [PATCH] Refactored according to product needs (#16204)
+
+* Refactored according to product needs
+
+* Reverting back
+---
+ src/site/layouts/va_form.drupal.liquid | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/site/layouts/va_form.drupal.liquid b/src/site/layouts/va_form.drupal.liquid
+index 3cfceafb3..84e253a73 100644
+--- a/src/site/layouts/va_form.drupal.liquid
++++ b/src/site/layouts/va_form.drupal.liquid
+@@ -100,7 +100,7 @@
+           <h3>Online tool</h3>
+           <p>{{ fieldVaFormToolIntro }}</p>
+           <a
+-            href="{{ fieldVaFormToolUrl.uri }}" class="usa-button"
++            href="{{ fieldVaFormToolUrl.uri }}" class="usa-button va-button-primary"
+             onclick="recordEvent({ event: 'cta-primary-button-click' });">
+             Go to the online tool <i role="presentation" aria-hidden="true" class="fa fa-chevron-right vads-u-margin-left--1"> </i>
+           </a>
+-- 
+2.30.0
+
