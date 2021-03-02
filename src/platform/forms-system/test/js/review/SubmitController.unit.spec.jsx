@@ -96,6 +96,9 @@ const createUserLogIn = (status = true) => ({
   login: {
     currentlyLoggedIn: status,
   },
+  profile: {
+    accountUuid: 'user-1234',
+  },
 });
 
 const createStore = (options = {}) => {
@@ -397,6 +400,7 @@ describe('Schemaform review: SubmitController', () => {
 
     const sentryReports = testkit.reports();
     expect(sentryReports.length).to.equal(1);
+    expect(sentryReports[0].user.id).to.equal(user.profile.accountUuid);
     expect(sentryReports[0].extra.inProgressFormId).to.equal('123');
     expect(sentryReports[0].extra.prefix).to.equal('test-');
     expect(sentryReports[0].extra.errors)
