@@ -16,4 +16,5 @@ export const pageNames = {
   lessThan: 'lessThan',
   dependents: 'dependents',
   waivers: 'waivers',
+  appeals: 'appeals',
 };

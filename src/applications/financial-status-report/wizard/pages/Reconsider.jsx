@@ -10,9 +10,8 @@ const options = [
       'I want to ask the Committee of Waivers and Compromises to reconsider my waiver.',
   },
   {
-    value: pageNames.copays,
+    value: pageNames.appeals,
     label: 'I want appeal the decision with the board of Veterans Appeals.',
-    // https://www.va.gov/decision-reviews/board-appeal/
   },
 ];
 

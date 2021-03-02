@@ -15,6 +15,7 @@ import repayment from './Repayment';
 import lessThan from './LessThanFive';
 import dependents from './Dependents';
 import waivers from './Waivers';
+import appeals from './Appeals';
 
 export default [
   start,
@@ -34,4 +35,5 @@ export default [
   lessThan,
   dependents,
   waivers,
+  appeals,
 ];
