@@ -478,7 +478,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
         : getVAAppointmentLocationId(appointment);
       let facility = state.appointments.facilityData?.[facilityId];
 
-      if (!facility) {
+      if (facilityId && !facility) {
         facility = await getLocation({ facilityId });
       }
 

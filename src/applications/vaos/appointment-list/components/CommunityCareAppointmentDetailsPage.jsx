@@ -17,6 +17,7 @@ import { formatFacilityAddress } from '../../services/location';
 import PageLayout from './AppointmentsPage/PageLayout';
 import ErrorMessage from '../../components/ErrorMessage';
 import { selectConfirmedAppointmentById } from '../redux/selectors';
+import FullWidthLayout from '../../components/FullWidthLayout';
 
 function CommunityCareAppointmentDetailsPage({
   appointment,
@@ -27,29 +28,28 @@ function CommunityCareAppointmentDetailsPage({
 
   useEffect(() => {
     if (!appointment) {
-      fetchConfirmedAppointmentDetails(id);
+      fetchConfirmedAppointmentDetails(id, 'cc');
     }
 
     scrollAndFocus();
   }, []);
 
-  if (appointmentDetailsStatus === FETCH_STATUS.failed) {
+  if (
+    appointmentDetailsStatus === FETCH_STATUS.failed ||
+    (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+  ) {
     return (
-      <PageLayout>
-        <div className="vads-u-margin-y--8">
-          <ErrorMessage />
-        </div>
-      </PageLayout>
+      <FullWidthLayout>
+        <ErrorMessage />
+      </FullWidthLayout>
     );
   }
 
   if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
     return (
-      <PageLayout>
-        <div className="vads-u-margin-y--8">
-          <LoadingIndicator message="Loading your appointment request..." />
-        </div>
-      </PageLayout>
+      <FullWidthLayout>
+        <LoadingIndicator message="Loading your appointment..." />
+      </FullWidthLayout>
     );
   }
 
@@ -68,7 +68,7 @@ function CommunityCareAppointmentDetailsPage({
   )?.actor.display;
 
   return (
-    <div>
+    <PageLayout>
       <div className="vads-u-display--block vads-u-padding-y--2p5 vaos-hide-for-print">
         ‹ <Link to="/">Manage appointments</Link>
       </div>
@@ -137,7 +137,7 @@ function CommunityCareAppointmentDetailsPage({
           « Go back to appointments
         </Link>
       </div>
-    </div>
+    </PageLayout>
   );
 }
 

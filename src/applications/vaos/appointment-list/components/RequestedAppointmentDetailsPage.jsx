@@ -30,6 +30,7 @@ import {
 } from '../redux/selectors';
 import ErrorMessage from '../../components/ErrorMessage';
 import PageLayout from './AppointmentsPage/PageLayout';
+import FullWidthLayout from '../../components/FullWidthLayout';
 
 const TIME_TEXT = {
   AM: 'in the morning',
@@ -70,23 +71,22 @@ function RequestedAppointmentDetailsPage({
     [cancelInfo.showCancelModal, cancelInfo.cancelAppointmentStatus],
   );
 
-  if (appointmentDetailsStatus === FETCH_STATUS.failed) {
+  if (
+    appointmentDetailsStatus === FETCH_STATUS.failed ||
+    (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+  ) {
     return (
-      <PageLayout>
-        <div className="vads-u-margin-y--8">
-          <ErrorMessage />
-        </div>
-      </PageLayout>
+      <FullWidthLayout>
+        <ErrorMessage />
+      </FullWidthLayout>
     );
   }
 
   if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
     return (
-      <PageLayout>
-        <div className="vads-u-margin-y--8">
-          <LoadingIndicator message="Loading your appointment request..." />
-        </div>
-      </PageLayout>
+      <FullWidthLayout>
+        <LoadingIndicator message="Loading your appointment request..." />
+      </FullWidthLayout>
     );
   }
 

@@ -36,6 +36,7 @@ import VideoVisitSection from './VideoVisitSection';
 import { formatFacilityAddress } from 'applications/vaos/services/location';
 import PageLayout from '../AppointmentsPage/PageLayout';
 import ErrorMessage from '../../../components/ErrorMessage';
+import FullWidthLayout from '../../../components/FullWidthLayout';
 
 function formatAppointmentDate(date) {
   if (!date.isValid()) {
@@ -92,25 +93,25 @@ function ConfirmedAppointmentDetailsPage({
     [cancelInfo.showCancelModal, cancelInfo.cancelAppointmentStatus],
   );
 
-  if (appointmentDetailsStatus === FETCH_STATUS.failed) {
+  if (
+    appointmentDetailsStatus === FETCH_STATUS.failed ||
+    (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+  ) {
     return (
-      <PageLayout>
-        <div className="vads-u-margin-y--8">
-          <ErrorMessage />
-        </div>
-      </PageLayout>
+      <FullWidthLayout>
+        <ErrorMessage />
+      </FullWidthLayout>
     );
   }
 
   if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
     return (
-      <PageLayout>
-        <div className="vads-u-margin-y--8">
-          <LoadingIndicator message="Loading your appointment..." />
-        </div>
-      </PageLayout>
+      <FullWidthLayout>
+        <LoadingIndicator message="Loading your appointment..." />
+      </FullWidthLayout>
     );
   }
+
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isVideo = isVideoAppointment(appointment);
   const facilityId = isVideo
