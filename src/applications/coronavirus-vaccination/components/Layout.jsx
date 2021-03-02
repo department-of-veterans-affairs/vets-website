@@ -7,22 +7,28 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 
 import * as userSelectors from 'platform/user/selectors';
 
-function Layout({ isProfileLoading, children }) {
-  // if (formIsEnabled) {
-  return (
-    <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
-      <div className="vads-l-row">
-        {isProfileLoading ? (
-          <LoadingIndicator message="Loading your profile..." />
-        ) : (
-          <div className="vads-l-col--12 large-screen:vads-l-col--8">
-            {children}
-          </div>
-        )}
+function Layout({ formIsEnabled, isProfileLoading, children }) {
+  if (formIsEnabled) {
+    return (
+      <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
+        <div className="vads-l-row">
+          {isProfileLoading ? (
+            <LoadingIndicator message="Loading your profile..." />
+          ) : (
+            <div className="vads-l-col--12 large-screen:vads-l-col--8">
+              {children}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  );
-  // }
+    );
+  }
+
+  if (formIsEnabled === false) {
+    window.location.replace('/health-care/covid-19-vaccine/');
+  }
+
+  return <LoadingIndicator message="Loading the application..." />;
 }
 
 const mapStateToProps = state => {
