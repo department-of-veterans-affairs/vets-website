@@ -43,8 +43,10 @@ export const uiSchema = {
         },
       },
       'ui:errorMessages': {
-        pattern: 'Please enter a 10-digit phone number without dashes',
-        minLength: 'Please enter a 10-digit phone number without dashes',
+        pattern:
+          'Please enter a 10-digit phone number without dashes or spaces',
+        minLength:
+          'Please enter a 10-digit phone number without dashes or spaces',
         required: 'Please enter a phone number',
       },
     },
