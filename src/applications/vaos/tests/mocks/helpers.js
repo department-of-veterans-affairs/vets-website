@@ -706,8 +706,6 @@ export function mockGetCurrentPosition({
 }
 
 export function mockSingleRequestFetch({ request, error = null }) {
-  mockFetch();
-
   const baseUrl = `${environment.API_URL}/vaos/v0/appointment_requests/${
     request.id
   }`;
@@ -724,8 +722,6 @@ export function mockSingleAppointmentFetch({
   type = 'va',
   error = null,
 }) {
-  mockFetch();
-
   const baseUrl = `${environment.API_URL}/vaos/v0/appointments/${
     appointment.id
   }?type=${type}`;
