@@ -137,12 +137,12 @@ class SubmitController extends Component {
 
 function mapStateToProps(state, ownProps) {
   const { formConfig, pageList } = ownProps;
-  const router = ownProps.router;
+  const { form, user } = state;
 
-  const form = state.form;
+  const router = ownProps.router;
   const pagesByChapter = createPageListByChapter(formConfig);
   const trackingPrefix = formConfig.trackingPrefix;
-  const { submission, user } = form;
+  const { submission } = form;
   const showPreSubmitError = submission.hasAttemptedSubmit;
 
   return {
