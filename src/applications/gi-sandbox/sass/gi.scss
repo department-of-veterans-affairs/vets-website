@@ -1,0 +1,274 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
+@import "partials/gi-modal";
+@import "partials/gi-profile-page";
+
+.gi-app {
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .disclaimer {
+    margin: 1em 0;
+    padding: 0;
+    border-top: 1px solid $color-gray-light;
+    z-index: 500;
+    color: $color-gray-dark;
+    background: $color-white;
+  }
+
+  select.hide-arrows {
+    background-image: none;
+  }
+
+  .disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    select:disabled {
+      background-color: $color-gray-lightest;
+    }
+  }
+
+  h1:focus,
+  h2:focus,
+  h3:focus {
+    outline: none;
+  }
+
+  nav {
+    margin-left: 0.5rem;
+  }
+
+  /*
+   * These styles override our overly broad accordion styles
+   */
+  .learn-more-button {
+    background-image: none !important;
+    font-weight: inherit !important;
+  }
+
+  .about-this-tool {
+    margin-top: 1em;
+
+    a {
+      // background-image: none;
+      text-align: center;
+      font-family: $font-sans;
+      font-size: 1.36rem;
+      line-height: 4rem;
+      margin-right: 2.5rem;
+      margin-bottom: 2rem;
+
+      @include media-maxwidth($small-screen) {
+        font-size: 1.2rem;
+        text-align: left;
+        margin: 0;
+        line-height: 1.2rem;
+      }
+
+      a.link {
+        @include media-maxwidth($small-screen) {
+          margin-left: 1rem;
+          padding: 0.5rem;
+        }
+      }
+    }
+  }
+
+  .disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    select:disabled {
+      background-color: $color-gray-lightest;
+    }
+  }
+
+  .far.disabled, .fa.disabled {
+    opacity: 0.5;
+  }
+
+  .mobile-only {
+    display: none;
+  }
+
+  .nav-bar-mobile-only {
+    display: none;
+  }
+
+  @include media-maxwidth($medium-screen - 1) {
+    .desktop-only {
+      display: none;
+    }
+
+    .mobile-only {
+      display: block;
+    }
+  }
+
+  @include media-maxwidth($nav-width - 1) {
+    .nav-bar-desktop-only {
+      display: none;
+    }
+
+    .nav-bar-mobile-only {
+      display: block;
+    }
+
+  }
+
+  @media (max-width: 481px) {
+    .about-this-tool-mobile {
+      padding-left: 20px;
+    }
+  }
+
+  .search-controls {
+
+    .cells {
+      padding: 16px 20px 20px 20px;
+    }
+
+    .location-wrap {
+      position: relative;
+    }
+
+    .location-wrap:before {
+      color: $color-primary;
+      content: "\f3c5";
+      font-family: "Font Awesome 5 Free";
+      position: absolute;
+      font-style: normal;
+      left: 10px;
+      top: 10px;
+      width: 20px;
+      height: 100%;
+      font-weight: 900;
+      pointer-events: none;
+    }
+
+    input.location-input {
+      width: 355px;
+      padding-left: 30px;
+    }
+
+    #distance-dropdown {
+      label.wrap{
+        position: relative;
+      }
+
+      label.wrap:after {
+        color: $color-primary;
+        content: "\F107";
+        font-family: "Font Awesome 5 Free";
+        position: absolute;
+        font-style: normal;
+        right: 8px;
+        top: 5px;
+        width: 20px;
+        height: 100%;
+        font-weight: 900;
+        font-size: 150%;
+        pointer-events: none;
+      }
+
+      #distance {
+        color: $color-gray;
+        font-style: italic;
+        width: 110px;
+        background-image: none;
+      }
+    }
+
+    #school-search-button {
+      margin-right: 0px;
+    }
+
+    border-radius: 0px 0px 6px 6px;
+
+    ::placeholder {
+      font-style: italic;
+    }
+
+    .search-section-label {
+      font-weight: bold;
+      color: $color-gray-medium;
+    }
+  }
+
+  .accordion-dropdown {
+    border: 1px solid $color-gray;
+    position: relative;
+    min-width: 230px;
+    margin: 0.2em 0;
+
+    .opener {
+      label {
+        margin: 0px;
+        display: inline-block;
+      }
+
+      label:after{
+        color: $color-primary;
+        content: "\F107";
+        font-family: "Font Awesome 5 Free";
+        position: absolute;
+        font-style: normal;
+        right: 8px;
+        top: 5px;
+        width: 20px;
+        height: 100%;
+        font-weight: 900;
+        font-size: 150%;
+        pointer-events: none;
+      }
+
+      i {
+        font-size: 150% !important;
+        position: absolute;
+        right: 8px;
+        top: 5px;
+      }
+    }
+  }
+
+  .accordion-dropdown-out {
+    padding: 14px;
+    border: 1px solid $color-gray-light;
+    background-color: $color-white;
+    box-shadow: 0px 2px 4px 0px $color-gray-medium;
+    width: calc(100% + 2px);
+    position: absolute;
+    z-index: 50;
+    left: -1px;
+    top: 40px;
+
+    span.gibct-legend,
+    label {
+      margin-top: 2px;
+      cursor: initial;
+    }
+
+    .dropdown-divider {
+      border-bottom: 2px solid $color-gray-light;
+      margin: 14px -14px 14px -14px;
+    }
+
+    .footer-controls {
+      float: right;
+      padding: 12px 0px 8px 0px;
+
+      button {
+        margin-left: 28px;
+        margin-right: 0px;
+      }
+
+      .cancel {
+        cursor: pointer;
+      }
+    }
+  }
+
+}

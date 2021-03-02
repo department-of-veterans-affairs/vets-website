@@ -12,10 +12,21 @@ import { sentenceCase } from '../../utils/formatters';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 
 import { getPatientTelecom } from '../../services/appointment';
-import { selectExpressCareRequestById } from '../redux/selectors';
+import {
+  selectExpressCareRequestById,
+  getCancelInfo,
+} from '../redux/selectors';
 import PageLayout from './AppointmentsPage/PageLayout';
+import * as actions from '../redux/actions';
+import CancelAppointmentModal from './cancel/CancelAppointmentModal';
 
-function ExpressCareDetailsPage({ appointment }) {
+function ExpressCareDetailsPage({
+  appointment,
+  cancelAppointment,
+  cancelInfo,
+  closeCancelAppointment,
+  confirmCancelAppointment,
+}) {
   const appointmentDate = moment.parseZone(appointment?.start);
   const canceled = appointment?.status === APPOINTMENT_STATUS.cancelled;
 
@@ -117,7 +128,10 @@ function ExpressCareDetailsPage({ appointment }) {
 
       {appointment.status === APPOINTMENT_STATUS.proposed && (
         <p>
-          <button className="va-button-link">
+          <button
+            className="va-button-link"
+            onClick={() => cancelAppointment(appointment)}
+          >
             Cancel Express Care request
           </button>
         </p>
@@ -127,12 +141,28 @@ function ExpressCareDetailsPage({ appointment }) {
           « Go back to appointments
         </button>
       </Link>
+      <CancelAppointmentModal
+        {...cancelInfo}
+        onConfirm={confirmCancelAppointment}
+        onClose={closeCancelAppointment}
+      />
     </PageLayout>
   );
 }
 function mapStateToProps(state, ownProps) {
   return {
     appointment: selectExpressCareRequestById(state, ownProps.match.params.id),
+    cancelInfo: getCancelInfo(state),
   };
 }
-export default connect(mapStateToProps)(ExpressCareDetailsPage);
+
+const mapDispatchToProps = {
+  cancelAppointment: actions.cancelAppointment,
+  closeCancelAppointment: actions.closeCancelAppointment,
+  confirmCancelAppointment: actions.confirmCancelAppointment,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ExpressCareDetailsPage);

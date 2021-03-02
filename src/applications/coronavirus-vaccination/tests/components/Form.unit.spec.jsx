@@ -46,7 +46,7 @@ describe('<Form/>', () => {
     });
 
     screen.getByText('Fill out the form below');
-    screen.getByLabelText('Social Security number (SSN)');
+    await screen.findByLabelText('Social Security number (SSN)');
     screen.getByLabelText('Last name', { exact: false });
     screen.getByLabelText('First name', { exact: false });
     screen.getByText('Date of birth');
