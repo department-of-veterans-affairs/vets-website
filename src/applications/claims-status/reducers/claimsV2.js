@@ -15,11 +15,18 @@ import {
   CHANGE_INDEX_PAGE,
 } from '../utils/appeals-v2-helpers';
 
+import {
+  FETCH_STEM_CLAIMS_ERROR,
+  FETCH_STEM_CLAIMS_PENDING,
+  FETCH_STEM_CLAIMS_SUCCESS,
+} from '../actions';
+
 // NOTE: Pagination is controlled by reducers in ./claims-list.js
 
 const initialState = {
   claims: [],
   appeals: [],
+  stemClaims: [],
   claimsLoading: false,
   appealsLoading: false,
   page: 1,
@@ -80,6 +87,19 @@ export default function claimsV2Reducer(state = initialState, action) {
 
     case CHANGE_INDEX_PAGE:
       return _.set('page', action.page, state);
+
+    case FETCH_STEM_CLAIMS_ERROR:
+    case FETCH_STEM_CLAIMS_PENDING:
+      return {
+        ...state,
+        stemClaims: [],
+      };
+
+    case FETCH_STEM_CLAIMS_SUCCESS:
+      return {
+        ...state,
+        stemClaims: action.stemClaims,
+      };
     default:
       return state;
   }

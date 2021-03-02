@@ -11,6 +11,7 @@ import {
   hide30DayNotice,
   showConsolidatedMessage,
   sortClaims,
+  getStemClaims,
 } from '../actions/index.jsx';
 import {
   APPEAL_TYPES,
@@ -33,6 +34,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
+import StemClaimListItem from '../components/StemClaimListItem';
 
 const appealTypes = Object.values(APPEAL_TYPES);
 
@@ -51,6 +53,8 @@ class YourClaimsPageV2 extends React.Component {
     if (this.props.canAccessAppeals) {
       this.props.getAppealsV2();
     }
+
+    this.props.getStemClaims();
 
     if (this.props.claimsLoading && this.props.appealsLoading) {
       scrollToTop();
@@ -81,6 +85,10 @@ class YourClaimsPageV2 extends React.Component {
           name={this.props.fullName}
         />
       );
+    }
+
+    if (claim.type === 'education_benefits_claims') {
+      return <StemClaimListItem claim={claim} key={claim.id} />;
     }
 
     return <ClaimsListItem claim={claim} key={claim.id} />;
@@ -250,9 +258,11 @@ function mapStateToProps(state) {
     backendServices.EVSS_CLAIMS,
   );
   // TO-DO: Implement with reselect to save cycles
-  const sortedList = claimsV2Root.appeals
-    .concat(claimsV2Root.claims)
-    .sort(sortByLastUpdated);
+  const sortedList = [
+    ...claimsV2Root.appeals,
+    ...claimsV2Root.claims,
+    ...claimsV2Root.stemClaims,
+  ].sort(sortByLastUpdated);
   const list = getVisibleRows(sortedList, claimsV2Root.page);
 
   return {
@@ -281,6 +291,7 @@ const mapDispatchToProps = {
   sortClaims,
   showConsolidatedMessage,
   hide30DayNotice,
+  getStemClaims,
 };
 
 export default connect(
