@@ -11,10 +11,8 @@ import { autoSaveForm } from 'platform/forms/save-in-progress/actions';
 // TODO: Safety checks for `selected` callback and `label` element
 
 class SelectArrayItemsWidget extends React.Component {
-  state = {
-    hasUpdatedRatedDisabilities: this.props.loadedData?.metadata
-      ?.ratedDisabilitiesUpdated,
-  };
+  // flag set after rated disability updates have been processed
+  hasProcessedUpdates = false;
 
   onChange = (index, checked) => {
     const items = set(
@@ -40,7 +38,7 @@ class SelectArrayItemsWidget extends React.Component {
 
     const keyValue = 'ratedDisabilities';
     const keyConstants = ['ratingDecisionId', 'diagnosticCode'];
-    const newValues = loadedData?.formData?.[keyValue];
+    const newValues = loadedData?.formData?.[keyValue] || [];
 
     // Whenever the rated disabilities are updated, the
     // ratedDisabilitiesUpdated is set in the metadata. This bit of code
@@ -71,6 +69,7 @@ class SelectArrayItemsWidget extends React.Component {
       setFormData(data);
       const { version, returnUrl, submission } = loadedData.metadata;
       saveForm(formId, data, version, returnUrl, submission);
+      this.hasProcessedUpdates = true;
     }
   };
 
@@ -84,10 +83,10 @@ class SelectArrayItemsWidget extends React.Component {
       loadedData,
     } = this.props;
 
+    const { ratedDisabilitiesUpdated = false } = loadedData?.metadata || {};
     // rated disabilities updated on the backend
-    if (loadedData?.metadata?.ratedDisabilitiesUpdated) {
+    if (!this.hasProcessedUpdates && ratedDisabilitiesUpdated) {
       this.processRatedDisabilityUpdates();
-      return null;
     }
 
     // Need customTitle to set error message above title.
@@ -195,7 +194,7 @@ class SelectArrayItemsWidget extends React.Component {
       );
 
     // Let the user know we changed stuff
-    const updateMessage = !this.state.hasUpdatedRatedDisabilities ? (
+    const updateMessage = ratedDisabilitiesUpdated ? (
       <div className="usa-alert usa-alert-info background-color-only vads-u-margin-top--0">
         <div className="usa-alert-body">
           <strong>We’ve updated your list of rated disabilities</strong>
