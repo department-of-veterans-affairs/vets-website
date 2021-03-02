@@ -911,9 +911,10 @@ export const isBDD = formData => {
     : servicePeriods
         .filter(({ dateRange }) => dateRange?.to)
         .map(({ dateRange }) => moment(dateRange?.to))
-        .sort((dateA, dateB) => dateB - dateA)[0];
+        .sort((dateA, dateB) => (dateB.isBefore(dateA) ? -1 : 1))[0];
 
   if (!mostRecentDate) {
+    window.sessionStorage.setItem(FORM_STATUS_BDD, 'false');
     return false;
   }
 
@@ -921,6 +922,7 @@ export const isBDD = formData => {
     isActiveDuty &&
     mostRecentDate.isAfter(moment().add(89, 'days')) &&
     !mostRecentDate.isAfter(moment().add(180, 'days'));
+
   // this flag helps maintain the correct form title within a session
   window.sessionStorage.setItem(FORM_STATUS_BDD, result ? 'true' : 'false');
   return Boolean(result);

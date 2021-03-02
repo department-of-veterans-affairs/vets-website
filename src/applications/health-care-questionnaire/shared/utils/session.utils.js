@@ -93,6 +93,22 @@ const clearAllSelectedAppointments = window => {
     .forEach(key => sessionStorage.removeItem(key));
 };
 
+const getCurrentQuestionnaire = (window, id) => {
+  if (!window) return null;
+  const { sessionStorage } = window;
+  const { SELECTED_APPOINTMENT_DATA } = SESSION_STORAGE_KEYS;
+
+  const key = `${SELECTED_APPOINTMENT_DATA}.${id}`;
+
+  const data = sessionStorage.getItem(key) ?? '{}';
+  const parsed = JSON.parse(data);
+  if (parsed.questionnaire) {
+    return parsed.questionnaire[0];
+  } else {
+    return null;
+  }
+};
+
 export {
   clearCurrentSession,
   getCurrentAppointmentId,
@@ -101,4 +117,5 @@ export {
   getSelectedAppointmentData,
   clearSelectedAppointmentData,
   clearAllSelectedAppointments,
+  getCurrentQuestionnaire,
 };

@@ -77,7 +77,7 @@ YourApplications.propTypes = {
   }),
   savedForms: PropTypes.arrayOf(
     PropTypes.shape({
-      form: PropTypes.string.required,
+      form: PropTypes.string.isRequired,
       metadata: PropTypes.shape({
         lastUpdated: PropTypes.number,
         expiresAt: PropTypes.number,
