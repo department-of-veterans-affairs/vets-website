@@ -1,3 +1,5 @@
+/** @module testing/mocks/helpers */
+
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import {
@@ -14,6 +16,18 @@ import {
 } from '../mocks/v0';
 import sinon from 'sinon';
 
+/**
+ * Mocks appointment-related api calls for the upcoming appointments page
+ *
+ * @export
+ * @param {Object} params
+ * @param {Array<MASAppointment>} [params.va=[]] VA appointments to return from mock
+ * @param {boolean} [params.vaError=false] Set to true if mock should return an error
+ * @param {Array<VARCommunityCareAppointment>} [params.cc=[]] CC appointments to return from mock
+ * @param {Array<VARRequest>} [params.requests=[]] Requests to return from mock
+ * @param {boolean} [params.isHomepageRefresh=false] Set to true if mock for upcoming page on homepage refresh, which
+ *   has different date ranges
+ */
 export function mockAppointmentInfo({
   va = [],
   vaError = false,
@@ -57,6 +71,15 @@ export function mockAppointmentInfo({
   );
 }
 
+/**
+ * Mocks appointment-related api calls for the past appointments page
+ *
+ * @export
+ * @param {Object} params
+ * @param {Array<MASAppointment>} [params.va=[]] VA appointments to return from mock
+ * @param {Array<VARCommunityCareAppointment>} [params.cc=[]] CC appointments to return from mock
+ * @param {Array<VARRequest>} [params.requests=[]] Requests to return from mock
+ */
 export function mockPastAppointmentInfo({ va = [], cc = [], requests = [] }) {
   mockFetch();
   const baseUrl = `${
@@ -85,6 +108,15 @@ export function mockPastAppointmentInfo({ va = [], cc = [], requests = [] }) {
   });
 }
 
+/**
+ * Mocks appointment-related api calls for the past appointments page when choosing first
+ * date range option after default
+ *
+ * @export
+ * @param {Object} params
+ * @param {Array<MASAppointment>} [params.va=[]] VA appointments to return from mock
+ * @param {Array<VARCommunityCareAppointment>} [params.cc=[]] CC appointments to return from mock
+ */
 export function mockPastAppointmentInfoOption1({ va = [], cc = [] }) {
   mockFetch();
   setFetchJSONResponse(global.fetch, { data: [] });
@@ -118,6 +150,14 @@ export function mockPastAppointmentInfoOption1({ va = [], cc = [] }) {
   );
 }
 
+/**
+ * Mocks batch request for facility data from the VA facilities api
+ *
+ * @export
+ * @param {Object} params
+ * @param {Array<string>} ids List of facility ids to use in query param
+ * @param {Array<VAFacility>} facilities Array of facilities to return from mock
+ */
 export function mockFacilitiesFetch(ids, facilities) {
   setFetchJSONResponse(
     global.fetch.withArgs(
@@ -129,6 +169,14 @@ export function mockFacilitiesFetch(ids, facilities) {
   );
 }
 
+/**
+ * Mocks single facility request for facility data from the VA facilities api
+ *
+ * @export
+ * @param {Object} params
+ * @param {string} id Facility id to use in query param
+ * @param {VAFacility} facility Facility data to return from mock
+ */
 export function mockFacilityFetch(id, facility) {
   setFetchJSONResponse(
     global.fetch.withArgs(`${environment.API_URL}/v1/facilities/va/${id}`),
@@ -136,6 +184,17 @@ export function mockFacilityFetch(id, facility) {
   );
 }
 
+/**
+ * Mocks request to VA community care providers api, used in community care request flow
+ *
+ * @export
+ * @param {Object} address Facility address object with latitude and longitude properties
+ * @param {Array<string>} specialties Array of specialty codes used for a type of care
+ * @param {Array<string>} bbox Array of bounding box coordinates to search in
+ * @param {Array<PPMSProvider>} providers Array of providers to return from mock
+ * @param {boolean} [vaError=false] If true mock will return an error response
+ * @param {number} [radius=60] Miles radius to search within for the mock, used in query param
+ */
 export function mockCCProviderFetch(
   address,
   specialties,
@@ -172,6 +231,13 @@ export function mockCCProviderFetch(
   }
 }
 
+/**
+ * Mocks api calls used when cancelling an appointment
+ *
+ * @export
+ * @param {string} id Facility id wheren appointment is being cancelled
+ * @param {Array<VACancelReason>} reasons Array of cancel reasons to return from mock
+ */
 export function mockVACancelFetches(id, reasons) {
   setFetchJSONResponse(
     global.fetch.withArgs(
@@ -202,6 +268,14 @@ export function mockRequestCancelFetch(appointment) {
   );
 }
 
+/**
+ * Returns a mocked requested period object. Should probably not be in here
+ *
+ * @export
+ * @param {MomentDate} date Moment date for the date of the request
+ * @param {am|pm} amOrPm Set the requested period to be AM or PM
+ * @returns {RequestedPeriod} Requested period object
+ */
 export function setRequestedPeriod(date, amOrPm) {
   const isAM = amOrPm.toUpperCase() === 'AM';
   return {

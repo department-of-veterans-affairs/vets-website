@@ -295,7 +295,7 @@ function getWindowString(window, timezoneAbbreviation, isToday) {
   )} to ${getFormattedTime(window.endTime)} ${timezoneAbbreviation}`;
 }
 
-/**
+/*
  * Returns next schedulable window.  If today is schedulable and current time is before window,
  * return today's window.  Otherwise, return the next schedulable day's window
  */

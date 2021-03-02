@@ -18,7 +18,12 @@ const IntroductionPage = props => {
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
-
+  const { isLoggedIn, route, savedForms, formId } = props;
+  if (!isLoggedIn) {
+    window.location.replace(
+      '/health-care/health-questionnaires/questionnaires',
+    );
+  }
   const { appointment } = props?.questionnaire?.context;
   if (!appointment?.attributes) {
     return (
@@ -37,8 +42,6 @@ const IntroductionPage = props => {
   if (expirationTime) {
     expirationTime = moment(expirationTime).format('MM/DD/YYYY');
   }
-
-  const { isLoggedIn, route, savedForms, formId } = props;
 
   const savedForm = savedForms.find(f => f.form === formId);
   const showLoginModel = () => props.toggleLoginModal(true, 'cta-form');
