@@ -56,7 +56,11 @@ class YourClaimsPageV2 extends React.Component {
 
     this.props.getStemClaims();
 
-    if (this.props.claimsLoading && this.props.appealsLoading) {
+    if (
+      this.props.claimsLoading &&
+      this.props.appealsLoading &&
+      this.props.stemClaimsLoading
+    ) {
       scrollToTop();
     } else {
       setUpPage();
@@ -98,6 +102,7 @@ class YourClaimsPageV2 extends React.Component {
     const {
       claimsLoading,
       appealsLoading,
+      stemClaimsLoading,
       appealsAvailable,
       canAccessAppeals,
       canAccessClaims,
@@ -105,7 +110,7 @@ class YourClaimsPageV2 extends React.Component {
       // claimsAuthorized
     } = this.props;
 
-    if (claimsLoading || appealsLoading) {
+    if (claimsLoading || appealsLoading || stemClaimsLoading) {
       return null;
     }
 
@@ -139,15 +144,19 @@ class YourClaimsPageV2 extends React.Component {
       page,
       claimsLoading,
       appealsLoading,
+      stemClaimsLoading,
       show30DayNotice,
     } = this.props;
 
     let content;
-    const bothRequestsLoaded = !claimsLoading && !appealsLoading;
-    const bothRequestsLoading = claimsLoading && appealsLoading;
-    const atLeastOneRequestLoading = claimsLoading || appealsLoading;
+    const allRequestsLoaded =
+      !claimsLoading && !appealsLoading && !stemClaimsLoading;
+    const allRequestsLoading =
+      claimsLoading && appealsLoading && stemClaimsLoading;
+    const atLeastOneRequestLoading =
+      claimsLoading || appealsLoading || stemClaimsLoading;
     const emptyList = !(list && list.length);
-    if (bothRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
+    if (allRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
       content = (
         <LoadingIndicator
           message="Loading your claims and appeals..."
@@ -177,7 +186,7 @@ class YourClaimsPageV2 extends React.Component {
             </div>
           </div>
         );
-      } else if (bothRequestsLoaded) {
+      } else if (allRequestsLoaded) {
         content = <NoClaims />;
       }
       content = <div className="va-tab-content">{content}</div>;
@@ -271,6 +280,7 @@ function mapStateToProps(state) {
     // claimsAuthorized: claimsState.claimSync.authorized,
     claimsLoading: claimsV2Root.claimsLoading,
     appealsLoading: claimsV2Root.appealsLoading,
+    stemClaimsLoading: claimsV2Root.stemClaimsLoading,
     list,
     page: claimsV2Root.page,
     pages: claimsV2Root.pages,

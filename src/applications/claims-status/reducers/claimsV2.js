@@ -29,6 +29,7 @@ const initialState = {
   stemClaims: [],
   claimsLoading: false,
   appealsLoading: false,
+  stemClaimsLoading: false,
   page: 1,
   pages: 1,
 };
@@ -88,16 +89,22 @@ export default function claimsV2Reducer(state = initialState, action) {
     case CHANGE_INDEX_PAGE:
       return _.set('page', action.page, state);
 
-    case FETCH_STEM_CLAIMS_ERROR:
     case FETCH_STEM_CLAIMS_PENDING:
       return {
         ...state,
-        stemClaims: [],
+        stemClaimsLoading: true,
+      };
+
+    case FETCH_STEM_CLAIMS_ERROR:
+      return {
+        ...state,
+        stemClaimsLoading: false,
       };
 
     case FETCH_STEM_CLAIMS_SUCCESS:
       return {
         ...state,
+        stemClaimsLoading: false,
         stemClaims: action.stemClaims,
       };
     default:
