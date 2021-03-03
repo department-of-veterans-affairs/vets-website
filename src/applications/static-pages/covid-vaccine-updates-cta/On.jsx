@@ -34,7 +34,7 @@ function OnState({ copy }) {
             </p>
             <DowntimeNotification
               dependencies={[externalServices.vetextVaccine]}
-              render={function renderDowntime(downtime, children) {
+              render={(downtime, children) => {
                 if (downtime.status === 'down') {
                   return <button disabled>{copy.buttonText}</button>;
                 }
