@@ -257,14 +257,25 @@ describe('Schemaform review <ArrayField>', () => {
     };
     const uiSchema = {
       'ui:title': 'List of things',
-      items: {},
+      items: {
+        test: {
+          type: 'string',
+        },
+      },
       'ui:options': {
         viewField: f => f,
         itemName: 'Item name',
         duplicateKey: 'field',
       },
     };
-    const arrayData = [{ field: 'a' }, { field: 'b' }, { field: 'a' }];
+    // Duplicates are case insensitive
+    const arrayData = [
+      { field: 'a' },
+      { field: 'b' },
+      { field: 'A' },
+      { field: 'a' },
+      { field: 'B' },
+    ];
     const tree = SkinDeep.shallowRender(
       <ArrayField
         pageKey="page1"
@@ -283,6 +294,8 @@ describe('Schemaform review <ArrayField>', () => {
     expect(tree.getMountedInstance().state.editing).to.deep.equal([
       false,
       false,
+      true,
+      true,
       true,
     ]);
   });

@@ -23,4 +23,8 @@ describe('duplicateIndexes', () => {
     const array = [...base, { x: 'one' }, { x: 'two' }, { x: 'three' }];
     expect(findDuplicateIndexes(array, 'x')).to.deep.equal([3, 4, 5]);
   });
+  it('should find three separate case-insensitive duplicates', () => {
+    const array = [...base, { x: 'One' }, { x: 'tWo' }, { x: 'thREe' }];
+    expect(findDuplicateIndexes(array, 'x')).to.deep.equal([3, 4, 5]);
+  });
 });

@@ -30,7 +30,7 @@ class ArrayField extends React.Component {
     // and always show at least one item on the review page
     const arrayData = (Array.isArray(props.arrayData) && props.arrayData) || [];
 
-    // Including an `duplicateKey` is what causes this unique entry validation to
+    // Including a `duplicateKey` is what causes this unique entry validation to
     // open the array card in edit mode
     const key = props.uiSchema?.['ui:options']?.duplicateKey || '';
     const duplicates = key
@@ -191,7 +191,8 @@ class ArrayField extends React.Component {
    */
   handleSave(index, fieldName) {
     const { uiSchema, arrayData } = this.props;
-    // Prevent save if the `duplicateKey` option is set and there are duplicates
+    // Prevent card from closing (stay in edit mode) if the `duplicateKey`
+    // option is set and the field is a duplicate
     const key = uiSchema?.['ui:options']?.duplicateKey;
     const duplicates = key ? findDuplicateIndexes(arrayData, key) : [];
     const editing = arrayData.map((__, indx) => duplicates.includes(indx));
