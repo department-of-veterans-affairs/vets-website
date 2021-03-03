@@ -4,6 +4,8 @@ import backendServices from 'platform/user/profile/constants/backendServices';
 import recordEvent from 'platform/monitoring/record-event';
 
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import {
   changePageV2,
   getAppealsV2,
@@ -54,7 +56,9 @@ class YourClaimsPageV2 extends React.Component {
       this.props.getAppealsV2();
     }
 
-    this.props.getStemClaims();
+    if (this.props.stemAutomatedDecision) {
+      this.props.getStemClaims();
+    }
 
     if (
       this.props.claimsLoading &&
@@ -274,6 +278,10 @@ function mapStateToProps(state) {
   ].sort(sortByLastUpdated);
   const list = getVisibleRows(sortedList, claimsV2Root.page);
 
+  const stemAutomatedDecision = toggleValues(state)[
+    FEATURE_FLAG_NAMES.stemAutomatedDecision
+  ];
+
   return {
     appealsAvailable: claimsV2Root.v2Availability,
     claimsAvailable: claimsV2Root.claimsAvailability,
@@ -291,6 +299,7 @@ function mapStateToProps(state) {
     canAccessAppeals,
     canAccessClaims,
     fullName: state.user.profile.userFullName,
+    stemAutomatedDecision,
   };
 }
 
