@@ -49,10 +49,11 @@ export default function FacilityDirectionsLink({ location }) {
     <span>
       <NewTabAnchor
         href={`https://maps.google.com?saddr=Current+Location&daddr=${address}`}
-        anchorText="Directions"
         aria-label={`Directions to ${location.name ||
           location.providerPractice}`}
-      />
+      >
+        Directions
+      </NewTabAnchor>
     </span>
   );
 }

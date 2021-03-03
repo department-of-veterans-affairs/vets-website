@@ -52,9 +52,10 @@ function PlanAheadPage({ routeToNextAppointmentPage }) {
       </CollapsiblePanel>
       <NewTabAnchor
         href="/health-care/covid-19-vaccine"
-        anchorText="Learn more about COVID-19 vaccines at the VA."
         className="vads-u-display--block vads-u-margin-top--2"
-      />
+      >
+        Learn more about COVID-19 vaccines at the VA.
+      </NewTabAnchor>
     </div>
   );
 }

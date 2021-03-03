@@ -107,8 +107,9 @@ export const WaitTimeAlert = ({
                   href={`/find-locations/facility/vha_${getRealFacilityId(
                     facilityId,
                   )}`}
-                  anchorText="Contact your local VA medical center"
-                />
+                >
+                  Contact your local VA medical center
+                </NewTabAnchor>
               </div>
             </>
           }

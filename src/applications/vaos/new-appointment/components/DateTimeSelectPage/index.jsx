@@ -38,8 +38,9 @@ function ErrorMessage({ facilityId, requestAppointmentDateChoice }) {
         or{' '}
         <NewTabAnchor
           href={`/find-locations/facility/vha_${getRealFacilityId(facilityId)}`}
-          anchorText="call your local VA medical center"
-        />
+        >
+          call your local VA medical center
+        </NewTabAnchor>
         .
       </AlertBox>
     </div>

@@ -14,10 +14,9 @@ export default function VAFacilityInfoMessage({ facility }) {
       Not all VA locations offer all types of care or support online scheduling.
       <p>
         If this location wasn't what you were looking for, you can{' '}
-        <NewTabAnchor
-          href="/find-locations"
-          anchorText="search for a nearby location"
-        />{' '}
+        <NewTabAnchor href="/find-locations">
+          search for a nearby location
+        </NewTabAnchor>{' '}
         and call to schedule an appointment.
       </p>
     </AlertBox>

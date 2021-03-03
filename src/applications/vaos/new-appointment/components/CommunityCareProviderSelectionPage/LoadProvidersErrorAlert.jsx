@@ -18,10 +18,9 @@ export default function LoadProvidersErrorAlert() {
           <ul>
             <li>
               Call your VA or community care facility.{' '}
-              <NewTabAnchor
-                href="/find-locations"
-                anchorText="Find your health facility’s phone number"
-              />
+              <NewTabAnchor href="/find-locations">
+                Find your health facility’s phone number
+              </NewTabAnchor>
               , <strong>or</strong>
             </li>
             <li>

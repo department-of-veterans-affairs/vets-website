@@ -10,7 +10,7 @@ describe('VAOS <NewTabAnchor>', () => {
     const url = 'http://va.gov';
 
     const screen = render(
-      <NewTabAnchor href={url} anchorText="Join appointment" />,
+      <NewTabAnchor href={url}>Join appointment</NewTabAnchor>,
     );
 
     const anchor = screen.getByRole('link', {
@@ -36,16 +36,19 @@ describe('VAOS <NewTabAnchor>', () => {
     const screen = render(
       <NewTabAnchor
         href={url}
-        anchorText="Join appointment"
         className={linkClasses}
+        // Use case for anchors that have existing descriptions.
         aria-describedby={
           disableVideoLink
             ? `description-join-link-${appointment.id}`
             : undefined
         }
         aria-disabled={!!disableVideoLink}
+        // Use case for links styled as buttons
         onClick={callback}
-      />,
+      >
+        Join appointment
+      </NewTabAnchor>,
     );
 
     const anchor = screen.getByRole('link', {

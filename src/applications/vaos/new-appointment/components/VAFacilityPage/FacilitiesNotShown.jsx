@@ -115,13 +115,14 @@ export default function FacilitiesNotShown({
             <strong>or </strong>
             <NewTabAnchor
               href="/find-locations"
-              anchorText="search for a different VA location"
               onClick={() =>
                 recordEvent({
                   event: `${GA_PREFIX}-facilities-not-listed-locator-click`,
                 })
               }
-            />
+            >
+              search for a different VA location
+            </NewTabAnchor>
             .
           </p>
         </div>

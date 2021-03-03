@@ -29,10 +29,9 @@ export default function SingleFacilityEligibilityCheckMessage({
         </p>
         <p>
           You’ll need to call the facility to schedule this appointment. Or{' '}
-          <NewTabAnchor
-            href="/find-locations"
-            anchorText="search for another VA facility"
-          />
+          <NewTabAnchor href="/find-locations">
+            search for another VA facility
+          </NewTabAnchor>
           .
         </p>
       </>
@@ -48,10 +47,9 @@ export default function SingleFacilityEligibilityCheckMessage({
         </p>
         <p>
           If this isn’t the facility you’re looking for, you can{' '}
-          <NewTabAnchor
-            href="/find-locations"
-            anchorText="search for another VA facility"
-          />
+          <NewTabAnchor href="/find-locations">
+            search for another VA facility
+          </NewTabAnchor>
         </p>
       </>
     );

@@ -52,7 +52,7 @@ const uiSchema = {
       <p className="vads-u-margin-y--2">
         If you want to update your contact information for all your VA accounts,
         please{' '}
-        <NewTabAnchor href="/profile" anchorText="go to your profile page" />.
+        <NewTabAnchor href="/profile">go to your profile page</NewTabAnchor>.
       </p>
     </>
   ),

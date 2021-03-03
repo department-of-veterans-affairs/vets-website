@@ -12,7 +12,7 @@ export default function NoVASystems() {
       >
         If you haven’t had an appointment at your local VA health facility,
         you’ll need to call the facility to schedule an appointment.{' '}
-        <NewTabAnchor href="/find-locations" anchorText="Find a VA location" />
+        <NewTabAnchor href="/find-locations">Find a VA location</NewTabAnchor>
         <p>
           <Link to="/">Go back to VA Online Scheduling home.</Link>
         </p>

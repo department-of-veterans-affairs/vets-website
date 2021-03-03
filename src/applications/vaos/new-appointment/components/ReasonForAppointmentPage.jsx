@@ -128,10 +128,9 @@ function ReasonForAppointmentPage({
                   </li>
                   <li>
                     Go to your nearest emergency room or VA medical center.{' '}
-                    <NewTabAnchor
-                      href="/find-locations"
-                      anchorText="Find your nearest VA medical center"
-                    />
+                    <NewTabAnchor href="/find-locations">
+                      Find your nearest VA medical center
+                    </NewTabAnchor>
                   </li>
                 </ul>
               }

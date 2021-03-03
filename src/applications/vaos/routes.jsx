@@ -8,6 +8,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import ErrorMessage from './components/ErrorMessage';
 import FullWidthLayout from './components/FullWidthLayout';
 import { AppointmentList } from './appointment-list';
+import GlobalMessages from './components/GlobalMessages';
 
 // Handles errors loading components by doing one page reload and showing
 // an error message otherwise
@@ -29,9 +30,7 @@ export default function createRoutesWithStore(store) {
   return (
     <ErrorBoundary fullWidth>
       <VAOSApp>
-        <div hidden>
-          <span id="new-tab-msg-1">Link opens in a new tab</span>
-        </div>
+        <GlobalMessages />
         <Switch>
           <Route
             path="/new-appointment"

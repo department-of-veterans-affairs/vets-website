@@ -81,8 +81,9 @@ function ContactFacilitiesPage({
                 href={`/find-locations/facility/vha_${getRealFacilityId(
                   getFacilityIdFromLocation(facility),
                 )}`}
-                anchorText={facility.name}
-              />
+              >
+                {facility.name}
+              </NewTabAnchor>
             </h2>
             {facility.address?.city}, <State state={facility.address?.state} />
             <br />
@@ -102,10 +103,9 @@ function ContactFacilitiesPage({
         ))}
       </ul>
       <p className="vads-u-margin-y--3">
-        <NewTabAnchor
-          href="/find-locations"
-          anchorText="Search for more facilities"
-        />
+        <NewTabAnchor href="/find-locations">
+          Search for more facilities
+        </NewTabAnchor>
       </p>
       <ProgressButton
         onButtonClick={goBack}

@@ -21,10 +21,9 @@ const PodiatryAppointmentUnavailableModal = ({ onClose, showModal }) => {
       online at this time. Please call your local VA medical center to schedule
       this appointment.
       <br />
-      <NewTabAnchor
-        href="/find-locations"
-        anchorText="Find your VA health facility’s phone number"
-      />
+      <NewTabAnchor href="/find-locations">
+        Find your VA health facility’s phone number
+      </NewTabAnchor>
       <button
         onClick={onClose}
         className="vads-u-display--block vads-u-margin-top--2p5"

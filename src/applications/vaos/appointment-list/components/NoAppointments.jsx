@@ -15,10 +15,9 @@ export default function NoAppointments({
         <>
           <p>
             You can schedule an appointment now, or you can call your{' '}
-            <NewTabAnchor
-              href="/find-locations"
-              anchorText="VA medical center"
-            />{' '}
+            <NewTabAnchor href="/find-locations">
+              VA medical center
+            </NewTabAnchor>{' '}
             to schedule an appointment.
           </p>
           <Link
@@ -34,10 +33,9 @@ export default function NoAppointments({
         <>
           <p>
             To schedule an appointment, you can call your{' '}
-            <NewTabAnchor
-              href="/find-locations"
-              anchorText="VA Medical center"
-            />
+            <NewTabAnchor href="/find-locations">
+              VA Medical center
+            </NewTabAnchor>
             .
           </p>
         </>

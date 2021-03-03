@@ -60,7 +60,6 @@ export default function VideoLink({ appointment }) {
         )}
         <NewTabAnchor
           href={url}
-          anchorText="Join appointment"
           className={linkClasses}
           aria-describedby={
             disableVideoLink
@@ -69,7 +68,9 @@ export default function VideoLink({ appointment }) {
           }
           aria-disabled={disableVideoLink ? 'true' : 'false'}
           onClick={disableVideoLink ? e => e.preventDefault() : undefined}
-        />
+        >
+          Join appointment
+        </NewTabAnchor>
       </div>
     );
   }

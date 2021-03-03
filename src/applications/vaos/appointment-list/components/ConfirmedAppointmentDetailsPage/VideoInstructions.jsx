@@ -62,10 +62,9 @@ export function VideoVisitInstructions({ instructionsType }) {
         <li>
           If you’re using an iPad or iPhone for your appointment, you’ll need to
           download the{' '}
-          <NewTabAnchor
-            href="/https://itunes.apple.com/us/app/va-video-connect/id1224250949?mt=8"
-            anchorText="VA Video Connect iOS app"
-          />{' '}
+          <NewTabAnchor href="/https://itunes.apple.com/us/app/va-video-connect/id1224250949?mt=8">
+            VA Video Connect iOS app
+          </NewTabAnchor>{' '}
           beforehand. If you’re using any other device, you don’t need to
           download any software or app before your appointment.
         </li>

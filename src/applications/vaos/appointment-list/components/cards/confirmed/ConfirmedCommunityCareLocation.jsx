@@ -21,7 +21,7 @@ export default function ConfirmedCommunityCareLocation({ appointment }) {
           This appointment is scheduled with a community care provider. Please
           do not report to your local VA facility. If you have questions, please
           contact your facility community care staff at{' '}
-          <NewTabAnchor href="/find-locations" anchorText="your local VA." />
+          <NewTabAnchor href="/find-locations">your local VA.</NewTabAnchor>
           <br />
         </div>
       </>

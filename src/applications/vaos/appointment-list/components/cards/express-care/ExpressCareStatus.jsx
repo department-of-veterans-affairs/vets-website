@@ -76,7 +76,7 @@ export default function ExpressCareStatus({ appointment }) {
               urgent care clinic near you. If you need medical care right away,
               call 911 or go to the nearest emergency room. Please contact us
               first before going to any{' '}
-              <NewTabAnchor href="/find-locations" anchorText="VA location" />
+              <NewTabAnchor href="/find-locations">VA location</NewTabAnchor>
               {'. '}
               Contacting us first helps keep you safe.
             </p>

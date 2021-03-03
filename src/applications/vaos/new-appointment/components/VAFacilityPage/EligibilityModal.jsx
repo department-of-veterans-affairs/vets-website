@@ -39,10 +39,9 @@ export default function EligibilityModal({
         </p>
         <p>
           You’ll need to call the facility to schedule this appointment. Or{' '}
-          <NewTabAnchor
-            href="/find-locations"
-            anchorText="search for another VA facility"
-          />
+          <NewTabAnchor href="/find-locations">
+            search for another VA facility
+          </NewTabAnchor>
           .
         </p>
       </>

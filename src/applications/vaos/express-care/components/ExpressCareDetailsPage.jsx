@@ -80,7 +80,7 @@ const uiSchema = {
           care staff can contact you. This contact information will be used just
           for Express Care and won’t be updated in your VA profile. If you want
           to update your contact information for all your accounts, please{' '}
-          <NewTabAnchor href="/profile" anchorText="go to your profile page" />.
+          <NewTabAnchor href="/profile">go to your profile page</NewTabAnchor>.
         </p>
       </div>
     ),

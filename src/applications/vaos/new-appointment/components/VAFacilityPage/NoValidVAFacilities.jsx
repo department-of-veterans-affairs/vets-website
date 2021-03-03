@@ -56,8 +56,9 @@ export default function NoValidVAFacilities({ formContext }) {
                   href={`/find-locations/facility/vha_${getRealFacilityId(
                     siteId,
                   )}`}
-                  anchorText="our facility locator tool"
-                />
+                >
+                  our facility locator tool
+                </NewTabAnchor>
                 .
               </p>
             )}

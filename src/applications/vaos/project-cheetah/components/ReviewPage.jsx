@@ -121,12 +121,11 @@ function ReviewPage({
                     href={`/find-locations/facility/vha_${getRealFacilityId(
                       data.vaFacility,
                     )}`}
-                    anchorText={
-                      submitStatusVaos400
-                        ? 'Find facility contact information'
-                        : 'Contact your local VA medical center'
-                    }
-                  />
+                  >
+                    {submitStatusVaos400
+                      ? 'Find facility contact information'
+                      : 'Contact your local VA medical center'}
+                  </NewTabAnchor>
                 )}
                 {!!facilityDetails && (
                   <FacilityAddress

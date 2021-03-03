@@ -42,8 +42,9 @@ export default function SystemsRadioWidget({
                     To schedule a VA appointment at this location, go to{' '}
                     <NewTabAnchor
                       href={getCernerURL('/pages/scheduling/upcoming')}
-                      anchorText="My VA Health"
-                    />
+                    >
+                      My VA Health
+                    </NewTabAnchor>
                   </strong>
                   .
                 </>

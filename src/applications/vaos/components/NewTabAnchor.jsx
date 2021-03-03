@@ -1,29 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function NewTabAnchor({
-  href,
-  anchorText,
-  className,
-  'aria-label': label,
-  'aria-disabled': isDisabled,
-  'aria-describedby': describedBy,
-  onClick,
-}) {
+function NewTabAnchor({ href, 'aria-describedby': describedBy, ...props }) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={className}
-      aria-label={label}
       aria-describedby={
         describedBy ? `${describedBy} ${'new-tab-msg-1'}` : 'new-tab-msg-1'
       }
-      aria-disabled={isDisabled}
-      onClick={onClick}
+      {...props}
     >
-      {anchorText}
+      {props.children}
       <img
         src="/img/icons/SVG/link.svg"
         className="vaos__external-link"
@@ -36,7 +25,7 @@ function NewTabAnchor({
 
 NewTabAnchor.propTypes = {
   href: PropTypes.string.isRequired,
-  anchorText: PropTypes.string.isRequired,
+  children: PropTypes.element.isRequired,
 };
 
 export default NewTabAnchor;

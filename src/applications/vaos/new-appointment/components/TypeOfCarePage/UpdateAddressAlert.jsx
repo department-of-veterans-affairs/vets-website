@@ -17,10 +17,11 @@ export default function UpdateAddressAlert({ onClickUpdateAddress }) {
           time for your address update to process through our system. <br />
           <NewTabAnchor
             href="/change-address/#how-do-i-change-my-address-in-"
-            anchorText="Update your address"
             className="usa-button usa-button-primary vads-u-margin-top--4"
             onClick={() => onClickUpdateAddress(headline)}
-          />
+          >
+            Update your address
+          </NewTabAnchor>
         </p>
       }
     />

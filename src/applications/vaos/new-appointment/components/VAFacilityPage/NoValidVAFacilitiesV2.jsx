@@ -73,10 +73,9 @@ export default function NoValidVAFacilities({
                 </li>
               )}
               <li>
-                <NewTabAnchor
-                  href="/find-locations"
-                  anchorText="Or, find a different VA location"
-                />
+                <NewTabAnchor href="/find-locations">
+                  Or, find a different VA location
+                </NewTabAnchor>
               </li>
             </ul>
           </>

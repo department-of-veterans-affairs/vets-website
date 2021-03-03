@@ -28,8 +28,9 @@ function ErrorMessage({ facilityId }) {
         To schedule this appointment, you can{' '}
         <NewTabAnchor
           href={`/find-locations/facility/vha_${getRealFacilityId(facilityId)}`}
-          anchorText="call your local VA medical center"
-        />
+        >
+          call your local VA medical center
+        </NewTabAnchor>
         .
       </AlertBox>
     </div>

@@ -13,10 +13,9 @@ export default function NoValidVAFacilities() {
             <p>
               You’ll need to call your local VA medical center to schedule this
               appointment.{' '}
-              <NewTabAnchor
-                href="/find-locations"
-                anchorText="Find a VA location"
-              />
+              <NewTabAnchor href="/find-locations">
+                Find a VA location
+              </NewTabAnchor>
             </p>
             <p>
               To request another online appointment, please go back and choose a

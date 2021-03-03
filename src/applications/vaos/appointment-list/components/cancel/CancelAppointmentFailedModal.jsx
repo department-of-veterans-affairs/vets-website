@@ -41,10 +41,9 @@ export default function CancelAppointmentFailedModal({
         {!!facility && <FacilityAddress facility={facility} />}
         {!facility && (
           <>
-            <NewTabAnchor
-              href="/find-locations"
-              anchorText="Find facility contact information"
-            />
+            <NewTabAnchor href="/find-locations">
+              Find facility contact information
+            </NewTabAnchor>
           </>
         )}
       </p>

@@ -15,17 +15,17 @@ export default function VAFacilityLocation({
 
   if (!facility && !facilityId) {
     content = (
-      <NewTabAnchor
-        href="/find-locations"
-        anchorText="Find facility information"
-      />
+      <NewTabAnchor href="/find-locations">
+        Find facility information
+      </NewTabAnchor>
     );
   } else if (!facility) {
     content = (
       <NewTabAnchor
         href={`/find-locations/facility/vha_${getRealFacilityId(facilityId)}`}
-        anchorText="View facility information"
-      />
+      >
+        View facility information
+      </NewTabAnchor>
     );
   } else if (facility) {
     content = (

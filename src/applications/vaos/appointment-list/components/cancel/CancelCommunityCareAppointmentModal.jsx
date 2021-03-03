@@ -32,7 +32,7 @@ export default function CancelCommunityCareAppointmentModal({
       {!address && (
         <>
           Please contact your facility community care staff at{' '}
-          <NewTabAnchor href="/find-locations" anchorText="your local VA." />
+          <NewTabAnchor href="/find-locations">your local VA.</NewTabAnchor>
           <br />
         </>
       )}

@@ -19,7 +19,6 @@ export default function TypeOfCareAlert() {
             appointment. <br />
             <NewTabAnchor
               href="/find-locations"
-              anchorText="Find a VA location"
               onClick={() =>
                 recordEvent({
                   event: 'nav-alert-box-link-click',
@@ -29,7 +28,9 @@ export default function TypeOfCareAlert() {
                   'alert-box-click-label': 'Find a VA location',
                 })
               }
-            />
+            >
+              Find a VA location
+            </NewTabAnchor>
           </p>
         }
       />
