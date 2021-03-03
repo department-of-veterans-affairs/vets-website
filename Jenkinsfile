@@ -92,7 +92,7 @@ node('vetsgov-general-purpose') {
     }
   }
 
-  commonStages.prearchiveAll(dockerContainer)
+  commonStages.prearchiveAll(dockerContainer, params.cmsEnvBuildOverride != 'none')
 
   commonStages.archiveAll(dockerContainer, ref);
   commonStages.cacheDrupalContent(dockerContainer, envsUsingDrupalCache);
