@@ -23,9 +23,8 @@ const VetTec = () => {
         <li>
           <strong>Phone: </strong>
           Call us at <Telephone contact={'716-857-5061'} /> (TTY:{' '}
-          <Telephone contact={CONTACTS[711]} pattern={PATTERNS['3_DIGIT']} />
-          ). We’re here Monday through Friday, ? a.m. to ? p.m. ET.{' '}
-          <a href="mailto:vettec.vbauf@va.gov">VETTEC.VBAUF@va.gov</a>
+          <Telephone contact={CONTACTS[711]} pattern={PATTERNS['3_DIGIT']} />)
+          and leave a detailed message. We'll call you back as soon as possible.
         </li>
         <li>
           <strong>Mail: </strong>

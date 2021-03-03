@@ -37,7 +37,7 @@ const Dependents = () => (
       </li>
       <li>
         <strong>Fax: </strong>
-        <Telephone contact={'1-800-000-0000'} />
+        <Telephone contact={'1-612-970-5688'} />
       </li>
     </ul>
     <p>
