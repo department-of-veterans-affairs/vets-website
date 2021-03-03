@@ -202,7 +202,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
   def drupalAddress = DRUPAL_ADDRESSES.get('vagovprod')
   def drupalCred = DRUPAL_CREDENTIALS.get('vagovprod')
   def drupalMode = useCache ? '' : '--pull-drupal'
-  def setPublicPath = !contentOnlyBuild ? '--setPublicPath' : ''
+  def setPublicPath = contentOnlyBuild ? '--setPublicPath' : ''
 
   withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
     dockerContainer.inside(DOCKER_ARGS) {
