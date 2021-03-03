@@ -849,7 +849,7 @@ export const directToCorrectForm = ({
   router,
 }) => {
   // If we can find the form in the savedForms array, it's not pre-filled
-  const isPrefill = !savedForms.find(form => form.form === formConfig.formId);
+  const isPrefill = !savedForms.find(form => form.form === formConfig().formId);
   const baseUrl = getFormUrl(formData, isPrefill);
   if (!isPrefill && !window.location.pathname.includes(baseUrl)) {
     // Redirect to the other app
@@ -984,6 +984,9 @@ export const showSeparationLocation = formData => {
 };
 
 export const show526Wizard = state => toggleValues(state).show526Wizard;
+
+export const showSubform8940And4192 = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.subform89404192];
 
 export const confirmationEmailFeature = state => {
   const isForm526ConfirmationEmailOn = toggleValues(state)[

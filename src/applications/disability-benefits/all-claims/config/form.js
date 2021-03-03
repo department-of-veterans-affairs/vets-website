@@ -128,7 +128,7 @@ import manifest from '../manifest.json';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-const formConfig = {
+const formConfig = ({ showSubforms = false } = {}) => ({
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
@@ -540,7 +540,7 @@ const formConfig = {
           uiSchema: individualUnemployability.uiSchema,
           schema: individualUnemployability.schema,
         },
-        ...createformConfig8940(),
+        ...createformConfig8940(showSubforms),
         ancillaryFormsWizardSummary: {
           title: 'Summary of additional benefits',
           path: 'additional-disability-benefits-summary',
@@ -701,6 +701,6 @@ const formConfig = {
       },
     },
   },
-};
+});
 
 export default formConfig;

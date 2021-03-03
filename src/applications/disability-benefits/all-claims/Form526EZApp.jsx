@@ -20,7 +20,12 @@ import { MissingServices, MissingId } from './containers/MissingServices';
 import { MVI_ADD_SUCCEEDED } from './actions';
 import WizardContainer from './containers/WizardContainer';
 import { WIZARD_STATUS, PDF_SIZE_FEATURE } from './constants';
-import { show526Wizard, isBDD, getPageTitle } from './utils';
+import {
+  show526Wizard,
+  isBDD,
+  getPageTitle,
+  showSubform8940And4192,
+} from './utils';
 import { uploadPdfLimitFeature } from './config/selectors';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
@@ -66,6 +71,7 @@ export const Form526Entry = ({
   children,
   mvi,
   showWizard,
+  showSubforms,
   isBDDForm,
   pdfLimit,
   router,
@@ -110,7 +116,10 @@ export const Form526Entry = ({
 
   // wraps the app and redirects user if they are not enrolled
   const content = (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+    <RoutedSavableApp
+      formConfig={formConfig({ showSubforms })}
+      currentLocation={location}
+    >
       {children}
     </RoutedSavableApp>
   );
@@ -163,6 +172,7 @@ const mapStateToProps = state => ({
   user: state.user,
   mvi: state.mvi,
   showWizard: show526Wizard(state),
+  showSubforms: showSubform8940And4192(state),
   isBDDForm: isBDD(state?.form?.data),
   pdfLimit: uploadPdfLimitFeature(state),
   isStartingOver: state.form?.isStartingOver,
