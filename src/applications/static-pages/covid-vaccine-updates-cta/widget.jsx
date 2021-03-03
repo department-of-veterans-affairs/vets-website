@@ -48,7 +48,7 @@ const copy = {
 };
 function CovidVaccineUpdatesCTA({ lang, showLinkToOnlineForm }) {
   if (showLinkToOnlineForm) {
-    return <OnState copy={copy.tag} />;
+    return <OnState copy={copy[lang]} />;
   }
 
   if (showLinkToOnlineForm === false) {
