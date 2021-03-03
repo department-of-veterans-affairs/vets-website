@@ -202,12 +202,13 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
   def drupalAddress = DRUPAL_ADDRESSES.get('vagovprod')
   def drupalCred = DRUPAL_CREDENTIALS.get('vagovprod')
   def drupalMode = useCache ? '' : '--pull-drupal'
+  def setPublicPath = contentOnlyBuild ? '--setPublicPath' : ''
 
   withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLogPath = "/application/${envName}-build.log"
 
-      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose"
+      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} ${setPublicPath} --verbose"
 
       if (envName == 'vagovprod') {
         // Find any broken links in the log
@@ -260,14 +261,16 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
   }
 }
 
-def prearchive(dockerContainer, envName) {
+def prearchive(dockerContainer, envName, Boolean contentOnlyBuild) {
   dockerContainer.inside(DOCKER_ARGS) {
-    sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath"
+    if (!contentOnlyBuild) {
+      sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath"
+    }
     sh "cd /application && node --max-old-space-size=10240 script/prearchive.js --buildtype=${envName}"
   }
 }
 
-def prearchiveAll(dockerContainer) {
+def prearchiveAll(dockerContainer, Boolean contentOnlyBuild) {
   stage("Prearchive Optimizations") {
     if (shouldBail()) { return }
 
@@ -278,7 +281,7 @@ def prearchiveAll(dockerContainer) {
         def envName = VAGOV_BUILDTYPES.get(i)
 
         builds[envName] = {
-          prearchive(dockerContainer, envName)
+          prearchive(dockerContainer, envName, contentOnlyBuild)
         }
       }
 
