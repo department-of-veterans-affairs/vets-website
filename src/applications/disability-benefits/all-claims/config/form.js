@@ -302,7 +302,9 @@ const formConfig = {
           updateFormData: addDisabilities.updateFormData,
           appStateSelector: state => ({
             // needed for validateDisabilityName to work properly on the review
-            // & submit page
+            // & submit page. Validation functions are provided the pageData and
+            // not the formData on the review & submit page. For more details
+            // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
             newDisabilities: state.form?.data?.newDisabilities || [],
           }),
         },
