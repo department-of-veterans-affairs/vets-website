@@ -16,9 +16,9 @@ const addAppointmentIdToFormId = (formId, appointmentId, questionnaireId) => {
     : `${formId}_${appointmentId}_${questionnaireId}`;
 };
 
-const onFormEnter = (appointmentId, questionnaireId) => {
+const onFormEnter = appointmentId => {
   return (nextState, replace) => {
-    if (appointmentId && questionnaireId) {
+    if (appointmentId) {
       replace(`/introduction?id=${appointmentId}`);
     } else {
       // replace('/error');
