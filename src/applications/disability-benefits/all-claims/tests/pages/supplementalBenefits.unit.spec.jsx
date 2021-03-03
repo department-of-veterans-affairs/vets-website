@@ -8,15 +8,16 @@ import formConfig from '../../config/form';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('Supplmental Benefits 8940', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.disabilities.pages.supplementalBenefits;
+  const opts = { showSubforms: true };
+  const { schema, uiSchema } = formConfig(
+    opts,
+  ).chapters.disabilities.pages.supplementalBenefits;
+  const defaultDefinitions = formConfig(opts).defaultDefinitions;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -33,7 +34,7 @@ describe('Supplmental Benefits 8940', () => {
 
     const form = mount(
       <DefinitionTester
-        definitions={formConfig}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}

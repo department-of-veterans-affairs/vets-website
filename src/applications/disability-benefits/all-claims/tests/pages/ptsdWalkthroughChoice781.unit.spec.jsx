@@ -8,14 +8,15 @@ import formConfig from '../../config/form.js';
 import initialData from '../schema/initialData.js';
 
 describe('781 choice screen', () => {
-  const page = formConfig.chapters.disabilities.pages.ptsdWalkthroughChoice781;
+  const page = formConfig().chapters.disabilities.pages
+    .ptsdWalkthroughChoice781;
   const { schema, uiSchema } = page;
 
   it('should submit without validation errors', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfig().defaultDefinitions}
         schema={schema}
         formData={{ initialData }}
         data={{

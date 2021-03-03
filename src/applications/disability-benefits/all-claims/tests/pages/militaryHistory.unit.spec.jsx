@@ -13,7 +13,8 @@ describe('Military history', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.veteranDetails.pages.militaryHistory;
+  } = formConfig().chapters.veteranDetails.pages.militaryHistory;
+  const defaultDefinitions = formConfig().defaultDefinitions;
 
   const appStateData = {
     dob: '1990-01-01',
@@ -23,7 +24,7 @@ describe('Military history', () => {
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -41,7 +42,7 @@ describe('Military history', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -61,7 +62,7 @@ describe('Military history', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -105,7 +106,7 @@ describe('Military history', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -146,7 +147,7 @@ describe('Military history', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}

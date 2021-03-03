@@ -21,6 +21,10 @@
       {
         "name": "form526_confirmation_email_show_copy",
         "value": true
+      },
+      {
+        "name": "subform_8940_4192",
+        "value": true
       }
     ]
   }

@@ -9,7 +9,7 @@ describe('Social Behavior Changes 781a', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.socialBehaviorChanges;
+  } = formConfig().chapters.disabilities.pages.socialBehaviorChanges;
 
   it('should render', () => {
     const form = mount(

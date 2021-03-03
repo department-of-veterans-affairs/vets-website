@@ -14,12 +14,13 @@ describe('Federal orders info', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.veteranDetails.pages.federalOrders;
+  } = formConfig().chapters.veteranDetails.pages.federalOrders;
+  const defaultDefinitions = formConfig().defaultDefinitions;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -34,7 +35,7 @@ describe('Federal orders info', () => {
   it('should render activation fields', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -57,7 +58,7 @@ describe('Federal orders info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -76,7 +77,7 @@ describe('Federal orders info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}

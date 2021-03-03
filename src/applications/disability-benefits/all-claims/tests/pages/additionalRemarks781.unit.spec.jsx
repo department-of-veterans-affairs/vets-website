@@ -9,12 +9,13 @@ describe('Additional Remarks 781', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.additionalRemarks781;
+  } = formConfig().chapters.disabilities.pages.additionalRemarks781;
+  const defaultDefinitions = formConfig().defaultDefinitions;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -31,7 +32,7 @@ describe('Additional Remarks 781', () => {
 
     const form = mount(
       <DefinitionTester
-        definitions={formConfig}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}

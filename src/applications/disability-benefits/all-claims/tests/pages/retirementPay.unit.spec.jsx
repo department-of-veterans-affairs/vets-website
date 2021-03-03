@@ -9,12 +9,13 @@ describe('Retirement Pay', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.veteranDetails.pages.retirementPay;
+  } = formConfig().chapters.veteranDetails.pages.retirementPay;
+  const defaultDefinitions = formConfig().defaultDefinitions;
 
   it('should render two radio options by default', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -30,7 +31,7 @@ describe('Retirement Pay', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{ 'view:hasMilitaryRetiredPay': false }}
@@ -49,7 +50,7 @@ describe('Retirement Pay', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{ 'view:hasMilitaryRetiredPay': true }}
@@ -68,7 +69,7 @@ describe('Retirement Pay', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{

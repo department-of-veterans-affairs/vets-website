@@ -13,14 +13,15 @@ import {
 import formConfig from '../../config/form';
 
 describe('781 Unit Assignment Details', () => {
-  const page =
-    formConfig.chapters.disabilities.pages.secondaryIncidentUnitAssignment0;
+  const page = formConfig().chapters.disabilities.pages
+    .secondaryIncidentUnitAssignment0;
+  const defaultDefinitions = formConfig().defaultDefinitions;
   const { schema, uiSchema } = page;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
       />,
@@ -34,7 +35,7 @@ describe('781 Unit Assignment Details', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         onSubmit={onSubmit}
         schema={schema}
         uiSchema={uiSchema}
@@ -67,7 +68,7 @@ describe('781 Unit Assignment Details', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         onSubmit={onSubmit}
         schema={schema}
         uiSchema={uiSchema}

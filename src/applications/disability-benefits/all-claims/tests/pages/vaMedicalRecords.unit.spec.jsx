@@ -9,7 +9,8 @@ describe('VA Medical Records', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.supportingEvidence.pages.vaMedicalRecords;
+  } = formConfig().chapters.supportingEvidence.pages.vaMedicalRecords;
+  const defaultDefinitions = formConfig().defaultDefinitions;
 
   const ratedDisabilities = [
     {
@@ -29,7 +30,7 @@ describe('VA Medical Records', () => {
   it('should render ', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -47,7 +48,7 @@ describe('VA Medical Records', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -69,7 +70,7 @@ describe('VA Medical Records', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -112,7 +113,7 @@ describe('VA Medical Records', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -155,7 +156,7 @@ describe('VA Medical Records', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -192,7 +193,7 @@ describe('VA Medical Records', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -229,7 +230,7 @@ describe('VA Medical Records', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{

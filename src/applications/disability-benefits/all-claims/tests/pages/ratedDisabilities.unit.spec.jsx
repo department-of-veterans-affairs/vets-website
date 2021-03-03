@@ -10,12 +10,13 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.ratedDisabilities;
+  } = formConfig().chapters.disabilities.pages.ratedDisabilities;
+  const defaultDefinitions = formConfig().defaultDefinitions;
 
   it('renders the rated disabilities selection field', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         data={initialData}
         uiSchema={uiSchema}
@@ -31,7 +32,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
   it('successfully submits when at least one condition is selected', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         data={initialData}
         uiSchema={uiSchema}
@@ -51,7 +52,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
   it('successfully submits when no conditions selected', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         data={initialData}
         uiSchema={uiSchema}
@@ -66,7 +67,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
   it('renders the information about each disability', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         data={initialData}
         uiSchema={uiSchema}

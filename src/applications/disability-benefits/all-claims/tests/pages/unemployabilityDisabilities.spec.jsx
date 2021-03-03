@@ -13,14 +13,15 @@ describe('Select related disabilities for unemployability', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.unemployabilityDisabilities;
+  } = formConfig().chapters.disabilities.pages.unemployabilityDisabilities;
+  const defaultDefinitions = formConfig().defaultDefinitions;
 
   it('renders the rated disabilities selection field', () => {
     const disabilitiesLength =
       initialData.ratedDisabilities.length + initialData.newDisabilities.length;
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         data={initialData}
         uiSchema={uiSchema}
@@ -38,7 +39,7 @@ describe('Select related disabilities for unemployability', () => {
     const form = mount(
       <DefinitionTester
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         data={initialData}
         uiSchema={uiSchema}
@@ -60,7 +61,7 @@ describe('Select related disabilities for unemployability', () => {
     const form = mount(
       <DefinitionTester
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         data={initialData}
         uiSchema={uiSchema}
@@ -76,7 +77,7 @@ describe('Select related disabilities for unemployability', () => {
   it('renders the information about each disability', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         data={initialData}
         uiSchema={uiSchema}

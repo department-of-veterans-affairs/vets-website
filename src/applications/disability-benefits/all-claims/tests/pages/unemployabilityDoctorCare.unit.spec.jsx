@@ -13,15 +13,16 @@ import initialData from '../initialData.js';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe("Doctor's care unemployability", () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.disabilities.pages.unemployabilityDoctorCare;
+  const opts = { showSubforms: true };
+  const { schema, uiSchema } = formConfig(
+    opts,
+  ).chapters.disabilities.pages.unemployabilityDoctorCare;
+  const defaultDefinitions = formConfig(opts).defaultDefinitions;
 
   it("renders the add doctor's care", () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         data={initialData}
         uiSchema={uiSchema}
@@ -40,7 +41,7 @@ describe("Doctor's care unemployability", () => {
     const form = mount(
       <DefinitionTester
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         data={initialData}
         uiSchema={uiSchema}
@@ -107,7 +108,7 @@ describe("Doctor's care unemployability", () => {
     const form = mount(
       <DefinitionTester
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
       />,

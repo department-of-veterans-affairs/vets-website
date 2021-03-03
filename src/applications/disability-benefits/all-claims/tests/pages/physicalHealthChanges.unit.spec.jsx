@@ -9,12 +9,13 @@ describe('Physical Changes 781a', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.physicalHealthChanges;
+  } = formConfig().chapters.disabilities.pages.physicalHealthChanges;
+  const defaultDefinitions = formConfig().defaultDefinitions;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -35,7 +36,7 @@ describe('Physical Changes 781a', () => {
 
     const form = mount(
       <DefinitionTester
-        definitions={formConfig}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{

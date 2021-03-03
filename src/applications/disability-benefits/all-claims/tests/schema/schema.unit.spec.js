@@ -21,7 +21,10 @@ describe('526 all claims schema tests', () => {
           '2020-01-01';
       }
       const submitData = JSON.parse(
-        formConfig.transformForSubmit(formConfig, contents),
+        formConfig().transformForSubmit(
+          formConfig({ showSubforms: true }),
+          contents,
+        ),
       );
       const result = v.validate(submitData.form526, fullSchema);
 

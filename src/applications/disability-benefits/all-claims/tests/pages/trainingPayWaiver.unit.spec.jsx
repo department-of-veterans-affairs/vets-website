@@ -10,7 +10,7 @@ describe('trainingPayWaiver', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.additionalInformation.pages.trainingPayWaiver;
+  } = formConfig().chapters.additionalInformation.pages.trainingPayWaiver;
   const { defaultDefinitions } = formConfig;
   it('should render', () => {
     const form = mount(

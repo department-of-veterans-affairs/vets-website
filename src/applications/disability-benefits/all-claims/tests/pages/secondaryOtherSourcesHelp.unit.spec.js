@@ -9,7 +9,7 @@ describe('Add secondary other sources of information help ', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.secondaryOtherSourcesHelp0;
+  } = formConfig().chapters.disabilities.pages.secondaryOtherSourcesHelp0;
 
   it('should render', () => {
     const form = mount(

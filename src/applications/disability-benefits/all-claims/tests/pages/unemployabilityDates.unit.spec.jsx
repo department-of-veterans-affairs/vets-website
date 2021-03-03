@@ -11,15 +11,16 @@ import formConfig from '../../config/form';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('Unemployability affective Dates', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.disabilities.pages.unemployabilityDates;
+  const opts = { showSubforms: true };
+  const { schema, uiSchema } = formConfig(
+    opts,
+  ).chapters.disabilities.pages.unemployabilityDates;
+  const defaultDefinitions = formConfig(opts).defaultDefinitions;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -38,7 +39,7 @@ describe('Unemployability affective Dates', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -59,7 +60,7 @@ describe('Unemployability affective Dates', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{

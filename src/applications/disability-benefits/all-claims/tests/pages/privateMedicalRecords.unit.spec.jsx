@@ -10,15 +10,16 @@ import formConfig from '../../config/form.js';
 
 describe('526 All Claims Private medical records', () => {
   const errorClass = '.usa-input-error-message';
-  const page =
-    formConfig.chapters.supportingEvidence.pages.privateMedicalRecords;
+  const page = formConfig().chapters.supportingEvidence.pages
+    .privateMedicalRecords;
+  const defaultDefinitions = formConfig().defaultDefinitions;
   const { schema, uiSchema } = page;
 
   it('should render', () => {
     const form = mount(
       <Provider store={uploadStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           uiSchema={uiSchema}
           data={{}}
@@ -35,7 +36,7 @@ describe('526 All Claims Private medical records', () => {
     const form = mount(
       <Provider store={uploadStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           uiSchema={uiSchema}
           data={{}}
@@ -54,7 +55,7 @@ describe('526 All Claims Private medical records', () => {
     const form = mount(
       <Provider store={uploadStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           uiSchema={uiSchema}
           data={{
@@ -79,7 +80,7 @@ describe('526 All Claims Private medical records', () => {
     const form = mount(
       <Provider store={uploadStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           uiSchema={uiSchema}
           data={{
@@ -104,7 +105,7 @@ describe('526 All Claims Private medical records', () => {
     const form = mount(
       <Provider store={uploadStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           uiSchema={uiSchema}
           data={{
@@ -129,7 +130,7 @@ describe('526 All Claims Private medical records', () => {
     const form = mount(
       <Provider store={uploadStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           uiSchema={uiSchema}
           data={{
@@ -157,7 +158,7 @@ describe('526 All Claims Private medical records', () => {
     const form = mount(
       <Provider store={uploadStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           uiSchema={uiSchema}
           data={{

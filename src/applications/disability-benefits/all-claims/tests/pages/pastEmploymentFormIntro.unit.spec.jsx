@@ -8,11 +8,11 @@ import formConfig from '../../config/form.js';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('Disability benefits 4192', () => {
-  const {
-    schema,
-    uiSchema,
-    arrayPath,
-  } = formConfig.chapters.disabilities.pages.pastEmploymentFormIntro;
+  const opts = { showSubforms: true };
+  const { schema, uiSchema, arrayPath } = formConfig(
+    opts,
+  ).chapters.disabilities.pages.pastEmploymentFormIntro;
+  const defaultDefinitions = formConfig(opts).defaultDefinitions;
 
   it('renders 4192 form intro choices', () => {
     const onSubmit = sinon.spy();
@@ -21,7 +21,7 @@ describe('Disability benefits 4192', () => {
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         data={{}}
         formData={{}}
@@ -39,7 +39,7 @@ describe('Disability benefits 4192', () => {
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         data={{}}
         formData={{}}

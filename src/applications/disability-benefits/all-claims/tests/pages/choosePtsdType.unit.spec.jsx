@@ -15,7 +15,8 @@ describe('Disability benefits 718 PTSD type', () => {
     schema,
     uiSchema,
     arrayPath,
-  } = formConfig.chapters.disabilities.pages.choosePtsdType;
+  } = formConfig().chapters.disabilities.pages.choosePtsdType;
+  const defaultDefinitions = formConfig().defaultDefinitions;
 
   it('renders ptsd type form', () => {
     const onSubmit = sinon.spy();
@@ -24,7 +25,7 @@ describe('Disability benefits 718 PTSD type', () => {
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         data={{
           newDisabilities: [
@@ -49,7 +50,7 @@ describe('Disability benefits 718 PTSD type', () => {
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         data={{
           newDisabilities: [
@@ -97,7 +98,7 @@ describe('Disability benefits 718 PTSD type', () => {
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         data={{
           newDisabilities: [

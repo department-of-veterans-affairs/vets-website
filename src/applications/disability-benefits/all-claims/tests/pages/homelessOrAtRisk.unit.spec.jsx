@@ -16,12 +16,13 @@ describe('Homeless or At Risk Info', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.additionalInformation.pages.homelessOrAtRisk;
+  } = formConfig().chapters.additionalInformation.pages.homelessOrAtRisk;
+  const defaultDefinitions = formConfig().defaultDefinitions;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -38,7 +39,7 @@ describe('Homeless or At Risk Info', () => {
 
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -60,7 +61,7 @@ describe('Homeless or At Risk Info', () => {
 
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -82,7 +83,7 @@ describe('Homeless or At Risk Info', () => {
 
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -104,7 +105,7 @@ describe('Homeless or At Risk Info', () => {
 
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -134,7 +135,7 @@ describe('Homeless or At Risk Info', () => {
 
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -164,7 +165,7 @@ describe('Homeless or At Risk Info', () => {
 
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{

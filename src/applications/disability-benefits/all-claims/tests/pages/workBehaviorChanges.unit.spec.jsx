@@ -9,7 +9,7 @@ describe('Work Behavior Changes 781a', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.workBehaviorChanges;
+  } = formConfig().chapters.disabilities.pages.workBehaviorChanges;
 
   it('should render', () => {
     const form = mount(

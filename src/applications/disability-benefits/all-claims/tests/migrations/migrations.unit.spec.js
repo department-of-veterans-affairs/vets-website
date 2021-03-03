@@ -38,9 +38,9 @@ describe('526 v2 migrations', () => {
     });
     // Sanity check
     it('/claim-type should be a valid url', () => {
-      expect(formConfig.chapters.veteranDetails.pages.claimType.path).to.equal(
-        'claim-type',
-      );
+      expect(
+        formConfig().chapters.veteranDetails.pages.claimType.path,
+      ).to.equal('claim-type');
     });
   });
   describe('02-upgrade-separationPay', () => {

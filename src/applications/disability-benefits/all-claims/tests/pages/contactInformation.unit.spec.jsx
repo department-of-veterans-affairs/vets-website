@@ -42,13 +42,14 @@ describe('Disability benefits 526EZ contact information', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.additionalInformation.pages.contactInformation;
+  } = formConfig().chapters.additionalInformation.pages.contactInformation;
+  const defaultDefinitions = formConfig().defaultDefinitions;
 
   it('renders contact information form', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           data={{
             mailingAddress: {},
@@ -71,7 +72,7 @@ describe('Disability benefits 526EZ contact information', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           data={{
             mailingAddress: {
@@ -96,7 +97,7 @@ describe('Disability benefits 526EZ contact information', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           data={{
             mailingAddress: {
@@ -121,7 +122,7 @@ describe('Disability benefits 526EZ contact information', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           data={{
             mailingAddress: {
@@ -150,7 +151,7 @@ describe('Disability benefits 526EZ contact information', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           data={{
             mailingAddress: {
@@ -178,7 +179,7 @@ describe('Disability benefits 526EZ contact information', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           data={{
             phoneAndEmail: {
@@ -211,7 +212,7 @@ describe('Disability benefits 526EZ contact information', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           data={{
             phoneAndEmail: {
@@ -243,7 +244,7 @@ describe('Disability benefits 526EZ contact information', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           data={{
             mailingAddress: {
@@ -271,7 +272,7 @@ describe('Disability benefits 526EZ contact information', () => {
   // it('expands forwarding address fields when forwarding address checked', () => {
   //   const form = mount(
   //     <DefinitionTester
-  //       definitions={formConfig.defaultDefinitions}
+  //       definitions={defaultDefinitions}
   //       schema={schema}
   //       data={{
   //         'view:hasForwardingAddress': true,
@@ -301,7 +302,7 @@ describe('Disability benefits 526EZ contact information', () => {
   //   const onSubmit = sinon.spy();
   //   const form = mount(
   //     <DefinitionTester
-  //       definitions={formConfig.defaultDefinitions}
+  //       definitions={defaultDefinitions}
   //       schema={schema}
   //       data={{
   //         phoneAndEmail: {
@@ -343,7 +344,7 @@ describe('Disability benefits 526EZ contact information', () => {
   //   const onSubmit = sinon.spy();
   //   const form = mount(
   //     <DefinitionTester
-  //       definitions={formConfig.defaultDefinitions}
+  //       definitions={defaultDefinitions}
   //       schema={schema}
   //       data={{
   //         phoneAndEmail: {
@@ -385,7 +386,7 @@ describe('Disability benefits 526EZ contact information', () => {
   //   const onSubmit = sinon.spy();
   //   const form = mount(
   //     <DefinitionTester
-  //       definitions={formConfig.defaultDefinitions}
+  //       definitions={defaultDefinitions}
   //       schema={schema}
   //       data={{
   //         phoneAndEmail: {
@@ -427,7 +428,7 @@ describe('Disability benefits 526EZ contact information', () => {
   //   const onSubmit = sinon.spy();
   //   const form = mount(
   //     <DefinitionTester
-  //       definitions={formConfig.defaultDefinitions}
+  //       definitions={defaultDefinitions}
   //       schema={schema}
   //       data={{
   //         phoneAndEmail: {
@@ -471,7 +472,7 @@ describe('Disability benefits 526EZ contact information', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           data={{
             phoneAndEmail: {
@@ -511,7 +512,7 @@ describe('Disability benefits 526EZ contact information', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           data={{
             phoneAndEmail: {
@@ -561,7 +562,7 @@ describe('Disability benefits 526EZ contact information', () => {
       mount(
         <Provider store={togglesStore}>
           <DefinitionTester
-            definitions={formConfig.defaultDefinitions}
+            definitions={defaultDefinitions}
             schema={schema}
             data={{
               mailingAddress: {},

@@ -12,8 +12,9 @@ import {
 import formConfig from '../../config/form';
 
 describe('PTSD Secondary Incident location', () => {
-  const page =
-    formConfig.chapters.disabilities.pages.secondaryIncidentLocation0;
+  const page = formConfig().chapters.disabilities.pages
+    .secondaryIncidentLocation0;
+  const defaultDefinitions = formConfig().defaultDefinitions;
   const { schema, uiSchema } = page;
 
   it('should render', () => {
@@ -21,7 +22,7 @@ describe('PTSD Secondary Incident location', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
       />,
     );
 
@@ -36,7 +37,7 @@ describe('PTSD Secondary Incident location', () => {
         onSubmit={onSubmit}
         schema={schema}
         uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
       />,
     );
     fillData(
@@ -73,7 +74,7 @@ describe('PTSD Secondary Incident location', () => {
         schema={schema}
         uiSchema={uiSchema}
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
       />,
     );
 

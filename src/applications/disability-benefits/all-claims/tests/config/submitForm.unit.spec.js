@@ -28,7 +28,7 @@ describe('Form 526 submit reject timer', () => {
       },
     };
 
-    return formConfig
+    return formConfig()
       .submit(form, blankFormConfig, { mode: 'testing' })
       .catch(error => {
         expect(error.message).to.eql('client_error: Request taking too long');

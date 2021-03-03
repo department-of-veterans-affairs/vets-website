@@ -9,12 +9,13 @@ describe('Retirement Pay Waiver', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.additionalInformation.pages.retirementPayWaiver;
+  } = formConfig().chapters.additionalInformation.pages.retirementPayWaiver;
+  const defaultDefinitions = formConfig().defaultDefinitions;
 
   it('should render two radio options by default', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -30,7 +31,7 @@ describe('Retirement Pay Waiver', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{ waiveRetirementPay: false }}
@@ -49,7 +50,7 @@ describe('Retirement Pay Waiver', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}

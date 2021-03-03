@@ -30,8 +30,10 @@ const validDocumentData = {
 };
 
 describe('526EZ document upload', () => {
-  const page = formConfig.chapters.supportingEvidence.pages.additionalDocuments;
+  const page = formConfig().chapters.supportingEvidence.pages
+    .additionalDocuments;
   const { schema, uiSchema, arrayPath } = page;
+  const defaultDefinitions = formConfig().defaultDefinitions;
 
   it('should render', () => {
     const form = mount(
@@ -39,7 +41,7 @@ describe('526EZ document upload', () => {
         <DefinitionTester
           arrayPath={arrayPath}
           pagePerItemIndex={0}
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           data={{}}
           uiSchema={uiSchema}
@@ -59,7 +61,7 @@ describe('526EZ document upload', () => {
           arrayPath={arrayPath}
           pagePerItemIndex={0}
           onSubmit={onSubmit}
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           data={{}}
           uiSchema={uiSchema}
@@ -82,7 +84,7 @@ describe('526EZ document upload', () => {
           arrayPath={arrayPath}
           onSubmit={onSubmit}
           pagePerItemIndex={0}
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           data={invalidDocumentData}
           uiSchema={uiSchema}
@@ -105,7 +107,7 @@ describe('526EZ document upload', () => {
           arrayPath={arrayPath}
           onSubmit={onSubmit}
           pagePerItemIndex={0}
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           data={validDocumentData}
           uiSchema={uiSchema}

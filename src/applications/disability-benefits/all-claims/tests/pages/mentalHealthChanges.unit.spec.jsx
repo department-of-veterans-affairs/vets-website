@@ -9,12 +9,13 @@ describe('Mental Changes 781a', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.mentalHealthChanges;
+  } = formConfig().chapters.disabilities.pages.mentalHealthChanges;
+  const defaultDefinitions = formConfig().defaultDefinitions;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -36,7 +37,7 @@ describe('Mental Changes 781a', () => {
 
     const form = mount(
       <DefinitionTester
-        definitions={formConfig}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{

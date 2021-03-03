@@ -14,7 +14,8 @@ describe('Prisoner of war info', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.prisonerOfWar;
+  } = formConfig().chapters.disabilities.pages.prisonerOfWar;
+  const defaultDefinitions = formConfig().defaultDefinitions;
 
   const formData = {
     serviceInformation: {
@@ -25,7 +26,7 @@ describe('Prisoner of war info', () => {
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={formData}
@@ -39,7 +40,7 @@ describe('Prisoner of war info', () => {
   it('should render confinement fields', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={formData}
@@ -57,7 +58,7 @@ describe('Prisoner of war info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={formData}
@@ -74,7 +75,7 @@ describe('Prisoner of war info', () => {
   it('should add another period', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={formData}
@@ -100,7 +101,7 @@ describe('Prisoner of war info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={formData}
@@ -121,7 +122,7 @@ describe('Prisoner of war info', () => {
   it('should show new disabilities', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={Object.assign({}, formData, {
@@ -141,7 +142,7 @@ describe('Prisoner of war info', () => {
   it('should not show new disabilities section when none entered', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={formData}
@@ -161,7 +162,7 @@ describe('Prisoner of war info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={formData}

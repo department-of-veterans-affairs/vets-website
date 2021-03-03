@@ -8,12 +8,12 @@ describe('526 vaEmployee', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.additionalInformation.pages.vaEmployee;
+  } = formConfig().chapters.additionalInformation.pages.vaEmployee;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfig().defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}

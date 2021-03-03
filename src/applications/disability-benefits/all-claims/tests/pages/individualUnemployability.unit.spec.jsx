@@ -8,12 +8,12 @@ describe('526 individual unemployability page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.individualUnemployability;
+  } = formConfig().chapters.disabilities.pages.individualUnemployability;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfig().defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}

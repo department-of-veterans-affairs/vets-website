@@ -16,14 +16,15 @@ describe('Disability benefits 4142 provider medical records facility information
     schema,
     uiSchema,
     arrayPath,
-  } = formConfig.chapters.supportingEvidence.pages.privateMedicalRecordsRelease;
+  } = formConfig().chapters.supportingEvidence.pages.privateMedicalRecordsRelease;
+  const defaultDefinitions = formConfig().defaultDefinitions;
 
   it('should render 4142 form', () => {
     const form = mount(
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         data={initialData}
         uiSchema={uiSchema}
@@ -43,7 +44,7 @@ describe('Disability benefits 4142 provider medical records facility information
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         data={initialData}
         formData={initialData}
@@ -102,7 +103,7 @@ describe('Disability benefits 4142 provider medical records facility information
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         data={initialData}
         formData={initialData}
@@ -127,7 +128,7 @@ describe('Disability benefits 4142 provider medical records facility information
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         data={{
           'view:limitedConsent': true,

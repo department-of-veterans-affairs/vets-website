@@ -12,7 +12,8 @@ import {
 import formConfig from '../../config/form';
 
 describe('PTSD Incident location', () => {
-  const page = formConfig.chapters.disabilities.pages.incidentLocation0;
+  const page = formConfig().chapters.disabilities.pages.incidentLocation0;
+  const defaultDefinitions = formConfig().defaultDefinitions;
   const { schema, uiSchema } = page;
 
   it('should render', () => {
@@ -20,7 +21,7 @@ describe('PTSD Incident location', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
       />,
     );
 
@@ -35,7 +36,7 @@ describe('PTSD Incident location', () => {
         onSubmit={onSubmit}
         schema={schema}
         uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
       />,
     );
     fillData(form, 'select#root_incident0_incidentLocation_country', 'USA');
@@ -60,7 +61,7 @@ describe('PTSD Incident location', () => {
         schema={schema}
         uiSchema={uiSchema}
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
       />,
     );
 

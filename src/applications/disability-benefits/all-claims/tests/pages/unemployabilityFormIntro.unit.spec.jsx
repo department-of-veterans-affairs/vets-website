@@ -9,15 +9,16 @@ import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
 describe('Unemployability 8940 Walkthrough', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.disabilities.pages.unemployabilityFormIntro;
+  const opts = { showSubforms: true };
+  const { schema, uiSchema } = formConfig(
+    opts,
+  ).chapters.disabilities.pages.unemployabilityFormIntro;
+  const defaultDefinitions = formConfig(opts).defaultDefinitions;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -35,7 +36,7 @@ describe('Unemployability 8940 Walkthrough', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -56,7 +57,7 @@ describe('Unemployability 8940 Walkthrough', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{

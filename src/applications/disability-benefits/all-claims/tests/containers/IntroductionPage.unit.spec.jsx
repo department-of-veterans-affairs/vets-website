@@ -13,7 +13,7 @@ import {
 } from '../../constants';
 
 describe('<IntroductionPage/>', () => {
-  const { formId, prefillEnabled } = formConfig;
+  const { formId, prefillEnabled } = formConfig();
   const defaultProps = {
     formId,
     route: {

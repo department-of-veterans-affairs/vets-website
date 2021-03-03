@@ -7,11 +7,10 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 
 describe('Disability benefits 4192 Download', () => {
-  const {
-    schema,
-    uiSchema,
-    arrayPath,
-  } = formConfig.chapters.disabilities.pages.pastEmploymentFormDownload;
+  const opts = { showSubforms: true };
+  const { schema, uiSchema, arrayPath } = formConfig(
+    opts,
+  ).chapters.disabilities.pages.pastEmploymentFormDownload;
 
   it('renders 4192 form download', () => {
     const onSubmit = sinon.spy();
@@ -20,7 +19,7 @@ describe('Disability benefits 4192 Download', () => {
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfig(opts).defaultDefinitions}
         schema={schema}
         data={{}}
         formData={{}}

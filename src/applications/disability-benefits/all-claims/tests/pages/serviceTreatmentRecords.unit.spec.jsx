@@ -13,13 +13,14 @@ describe('serviceTreatmentRecords', () => {
   const {
     uiSchema,
     schema,
-  } = formConfig.chapters.supportingEvidence.pages.serviceTreatmentRecords;
+  } = formConfig().chapters.supportingEvidence.pages.serviceTreatmentRecords;
+  const defaultDefinitions = formConfig().defaultDefinitions;
 
   it('should render', () => {
     const form = mount(
       <Provider store={uploadStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           uiSchema={uiSchema}
           schema={schema}
           data={{}}
@@ -36,7 +37,7 @@ describe('serviceTreatmentRecords', () => {
     const form = mount(
       <Provider store={uploadStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           uiSchema={uiSchema}
           schema={schema}
           data={{}}
@@ -55,7 +56,7 @@ describe('serviceTreatmentRecords', () => {
     const form = mount(
       <Provider store={uploadStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           uiSchema={uiSchema}
           schema={schema}
           data={{
@@ -79,7 +80,7 @@ describe('serviceTreatmentRecords', () => {
     const form = mount(
       <Provider store={uploadStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           uiSchema={uiSchema}
           schema={schema}
           data={{
@@ -104,7 +105,7 @@ describe('serviceTreatmentRecords', () => {
     const form = mount(
       <Provider store={uploadStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           uiSchema={uiSchema}
           schema={schema}
           data={{
@@ -129,7 +130,7 @@ describe('serviceTreatmentRecords', () => {
     const form = mount(
       <Provider store={uploadStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           uiSchema={uiSchema}
           schema={schema}
           data={{
@@ -155,7 +156,7 @@ describe('serviceTreatmentRecords', () => {
     const form = mount(
       <Provider store={uploadStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           uiSchema={uiSchema}
           schema={schema}
           data={{

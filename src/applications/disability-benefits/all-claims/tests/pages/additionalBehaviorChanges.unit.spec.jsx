@@ -9,12 +9,13 @@ describe('Additional Changes 781a', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.additionalBehaviorChanges;
+  } = formConfig().chapters.disabilities.pages.additionalBehaviorChanges;
+  const defaultDefinitions = formConfig().defaultDefinitions;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -31,7 +32,7 @@ describe('Additional Changes 781a', () => {
 
     const form = mount(
       <DefinitionTester
-        definitions={formConfig}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}

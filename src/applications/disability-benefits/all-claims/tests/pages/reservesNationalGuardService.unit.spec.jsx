@@ -13,12 +13,13 @@ describe('Reserve information', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.veteranDetails.pages.reservesNationalGuardService;
+  } = formConfig().chapters.veteranDetails.pages.reservesNationalGuardService;
+  const defaultDefinitions = formConfig().defaultDefinitions;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -35,7 +36,7 @@ describe('Reserve information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -54,7 +55,7 @@ describe('Reserve information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}

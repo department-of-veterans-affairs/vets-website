@@ -10,11 +10,13 @@ describe('Fully Developed Claim', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.additionalInformation.pages.fullyDevelopedClaim;
+  } = formConfig().chapters.additionalInformation.pages.fullyDevelopedClaim;
+  const defaultDefinitions = formConfig().defaultDefinitions;
+
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         uiSchema={uiSchema}
         schema={schema}
         data={{}}
@@ -31,7 +33,7 @@ describe('Fully Developed Claim', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         uiSchema={uiSchema}
         schema={schema}
         data={{}}

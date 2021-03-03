@@ -13,12 +13,13 @@ describe('servedInCombatZone', () => {
   const {
     uiSchema,
     schema,
-  } = formConfig.chapters.veteranDetails.pages.servedInCombatZone;
+  } = formConfig().chapters.veteranDetails.pages.servedInCombatZone;
+  const defaultDefinitions = formConfig().defaultDefinitions;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         uiSchema={uiSchema}
         schema={schema}
         data={{}}
@@ -34,7 +35,7 @@ describe('servedInCombatZone', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         uiSchema={uiSchema}
         schema={schema}
         data={{}}
@@ -53,7 +54,7 @@ describe('servedInCombatZone', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         uiSchema={uiSchema}
         schema={schema}
         data={{}}

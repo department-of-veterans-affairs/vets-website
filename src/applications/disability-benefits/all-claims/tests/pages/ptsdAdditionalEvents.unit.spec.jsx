@@ -11,7 +11,8 @@ import {
 import formConfig from '../../config/form';
 
 describe('781 additonal events yes/no', () => {
-  const page = formConfig.chapters.disabilities.pages.ptsdAdditionalEvents0;
+  const page = formConfig().chapters.disabilities.pages.ptsdAdditionalEvents0;
+  const defaultDefinitions = formConfig().defaultDefinitions;
   const { schema, uiSchema, arrayPath } = page;
 
   it('should render', () => {
@@ -19,7 +20,7 @@ describe('781 additonal events yes/no', () => {
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         data={{
           'view:selectablePtsdTypes': {
@@ -37,7 +38,7 @@ describe('781 additonal events yes/no', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -60,7 +61,7 @@ describe('781 additonal events yes/no', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{

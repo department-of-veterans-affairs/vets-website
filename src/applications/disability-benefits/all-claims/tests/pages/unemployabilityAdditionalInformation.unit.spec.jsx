@@ -6,15 +6,16 @@ import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
 describe('Unemployability Additional Information form', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.disabilities.pages.unemployabilityAdditionalInformation;
+  const opts = { showSubforms: true };
+  const { schema, uiSchema } = formConfig(
+    opts,
+  ).chapters.disabilities.pages.unemployabilityAdditionalInformation;
+  const defaultDefinitions = formConfig(opts).defaultDefinitions;
 
   it('should render textarea', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -31,7 +32,7 @@ describe('Unemployability Additional Information form', () => {
 
     const form = mount(
       <DefinitionTester
-        definitions={formConfig}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}

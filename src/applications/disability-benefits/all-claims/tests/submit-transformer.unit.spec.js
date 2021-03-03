@@ -44,6 +44,7 @@ describe('transform', () => {
   fs.readdirSync(dataDir)
     .filter(fileName => fileName.endsWith('.json'))
     .forEach(fileName => {
+      const opts = { showSubforms: true };
       // Loop through them
       it(`should transform ${fileName} correctly`, () => {
         const rawData = JSON.parse(
@@ -60,7 +61,7 @@ describe('transform', () => {
           // eslint-disable-next-line no-console
           console.error(
             `Transformed ${fileName}:`,
-            transform(formConfig, rawData),
+            transform(formConfig(opts), rawData),
           );
           throw new Error(`Could not find transformed data for ${fileName}`);
         }
@@ -71,7 +72,7 @@ describe('transform', () => {
           transformedData.form526.serviceInformation.servicePeriods = servicePeriodsBDD;
         }
 
-        expect(JSON.parse(transform(formConfig, rawData))).to.deep.equal(
+        expect(JSON.parse(transform(formConfig(opts), rawData))).to.deep.equal(
           transformedData,
         );
       });
@@ -184,7 +185,7 @@ describe('getPtsdChangeText', () => {
   const ignoredFields = ['other', 'otherExplanation', 'noneApply'];
   it('should have mappings for all workBehaviorChanges schema fields', () => {
     Object.keys(
-      formConfig.chapters.disabilities.pages.workBehaviorChanges.schema
+      formConfig().chapters.disabilities.pages.workBehaviorChanges.schema
         .properties.workBehaviorChanges.properties,
     )
       .filter(key => !ignoredFields.includes(key))
@@ -195,7 +196,7 @@ describe('getPtsdChangeText', () => {
 
   it('should have mappings for all mentalHealthChanges schema fields', () => {
     Object.keys(
-      formConfig.chapters.disabilities.pages.mentalHealthChanges.schema
+      formConfig().chapters.disabilities.pages.mentalHealthChanges.schema
         .properties.mentalChanges.properties,
     )
       .filter(key => !ignoredFields.includes(key))
@@ -206,7 +207,7 @@ describe('getPtsdChangeText', () => {
 
   it('should have mappings for all physicalHealthChanges schema fields', () => {
     Object.keys(
-      formConfig.chapters.disabilities.pages.physicalHealthChanges.schema
+      formConfig().chapters.disabilities.pages.physicalHealthChanges.schema
         .properties.physicalChanges.properties,
     )
       .filter(key => !ignoredFields.includes(key))
@@ -217,7 +218,7 @@ describe('getPtsdChangeText', () => {
 
   it('should have mappings for all socialBehaviorChanges schema fields', () => {
     Object.keys(
-      formConfig.chapters.disabilities.pages.socialBehaviorChanges.schema
+      formConfig().chapters.disabilities.pages.socialBehaviorChanges.schema
         .properties.socialBehaviorChanges.properties,
     )
       .filter(key => !ignoredFields.includes(key))

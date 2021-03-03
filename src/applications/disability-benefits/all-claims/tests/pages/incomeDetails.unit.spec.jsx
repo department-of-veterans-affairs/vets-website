@@ -11,18 +11,18 @@ import formConfig from '../../config/form.js';
 import initialData from '../initialData.js';
 
 describe('Income Details Questions', () => {
-  const {
-    schema,
-    uiSchema,
-    arrayPath,
-  } = formConfig.chapters.disabilities.pages.incomeDetails;
+  const opts = { showSubforms: true };
+  const { schema, uiSchema, arrayPath } = formConfig(
+    opts,
+  ).chapters.disabilities.pages.incomeDetails;
+  const defaultDefinitions = formConfig(opts).defaultDefinitions;
 
   it('should render income details form', () => {
     const form = mount(
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         data={initialData}
         uiSchema={uiSchema}
@@ -41,7 +41,7 @@ describe('Income Details Questions', () => {
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         data={initialData}
         uiSchema={uiSchema}
@@ -64,7 +64,7 @@ describe('Income Details Questions', () => {
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         data={initialData}
         uiSchema={uiSchema}
@@ -86,7 +86,7 @@ describe('Income Details Questions', () => {
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         data={initialData}
         uiSchema={uiSchema}

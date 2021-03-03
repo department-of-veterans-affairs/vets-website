@@ -8,12 +8,12 @@ describe('526 aid and attendance page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.aidAndAttendance;
+  } = formConfig().chapters.disabilities.pages.aidAndAttendance;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfig().defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}

@@ -11,14 +11,15 @@ import formConfig from '../../config/form';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('PTSD Assault permission notice', () => {
-  const page =
-    formConfig.chapters.disabilities.pages.secondaryIncidentAuthorities0;
+  const page = formConfig().chapters.disabilities.pages
+    .secondaryIncidentAuthorities0;
+  const defaultDefinitions = formConfig().defaultDefinitions;
   const { schema, uiSchema } = page;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
       />,
@@ -36,7 +37,7 @@ describe('PTSD Assault permission notice', () => {
     const form = mount(
       <DefinitionTester
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
       />,
@@ -89,7 +90,7 @@ describe('PTSD Assault permission notice', () => {
     const form = mount(
       <DefinitionTester
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         formData={{}}
         uiSchema={uiSchema}

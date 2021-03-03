@@ -9,7 +9,7 @@ describe('Training Pay', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.veteranDetails.pages.trainingPay;
+  } = formConfig().chapters.veteranDetails.pages.trainingPay;
   const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {

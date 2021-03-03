@@ -9,7 +9,7 @@ describe('Terminally Ill', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.additionalInformation.pages.terminallyIll;
+  } = formConfig().chapters.additionalInformation.pages.terminallyIll;
   const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {

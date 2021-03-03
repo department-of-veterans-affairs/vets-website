@@ -18,12 +18,13 @@ describe('New disabilities follow up info', () => {
     schema,
     uiSchema,
     arrayPath,
-  } = formConfig.chapters.disabilities.pages.newDisabilityFollowUp;
+  } = formConfig().chapters.disabilities.pages.newDisabilityFollowUp;
+  const defaultDefinitions = formConfig().defaultDefinitions;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         schema={schema}
@@ -51,7 +52,7 @@ describe('New disabilities follow up info', () => {
   it('should render NEW disability follow up questions', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         schema={schema}
@@ -82,7 +83,7 @@ describe('New disabilities follow up info', () => {
   it('should render SECONDARY disability follow up questions', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         schema={schema}
@@ -114,7 +115,7 @@ describe('New disabilities follow up info', () => {
   it('should render WORSENED disability followup questions', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         schema={schema}
@@ -145,7 +146,7 @@ describe('New disabilities follow up info', () => {
   it('should render VA mistreatment disability followup questions', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         schema={schema}
@@ -177,7 +178,7 @@ describe('New disabilities follow up info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         schema={schema}
@@ -204,7 +205,7 @@ describe('New disabilities follow up info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         schema={schema}
@@ -234,7 +235,7 @@ describe('New disabilities follow up info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         schema={schema}
@@ -264,7 +265,7 @@ describe('New disabilities follow up info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         schema={schema}
@@ -303,7 +304,7 @@ describe('New disabilities follow up info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         schema={schema}
@@ -343,7 +344,7 @@ describe('New disabilities follow up info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         schema={schema}

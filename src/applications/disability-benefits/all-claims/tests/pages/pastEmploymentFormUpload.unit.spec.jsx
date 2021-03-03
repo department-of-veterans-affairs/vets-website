@@ -12,7 +12,10 @@ import formConfig from '../../config/form.js';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('4192 form upload', () => {
-  const page = formConfig.chapters.disabilities.pages.pastEmploymentFormUpload;
+  const opts = { showSubforms: true };
+  const page = formConfig(opts).chapters.disabilities.pages
+    .pastEmploymentFormUpload;
+  const defaultDefinitions = formConfig(opts).defaultDefinitions;
   const { schema, uiSchema, arrayPath } = page;
 
   it('should render', () => {
@@ -21,7 +24,7 @@ describe('4192 form upload', () => {
         <DefinitionTester
           arrayPath={arrayPath}
           pagePerItemIndex={0}
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           data={{
             'view:unemployabilityUploadChoice': 'answerQuestions',
@@ -44,7 +47,7 @@ describe('4192 form upload', () => {
           arrayPath={arrayPath}
           pagePerItemIndex={0}
           onSubmit={onSubmit}
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           data={{
             'view:uploadUnemployabilitySupportingDocumentsChoice': true,
@@ -68,7 +71,7 @@ describe('4192 form upload', () => {
           arrayPath={arrayPath}
           pagePerItemIndex={0}
           onSubmit={onSubmit}
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           data={{
             form4192Upload: [

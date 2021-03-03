@@ -11,13 +11,15 @@ import formConfig from '../../config/form';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('Recent Job Applications', () => {
-  const page = formConfig.chapters.disabilities.pages.militaryDutyImpact;
+  const opts = { showSubforms: true };
+  const page = formConfig(opts).chapters.disabilities.pages.militaryDutyImpact;
+  const defaultDefinitions = formConfig(opts).defaultDefinitions;
   const { schema, uiSchema } = page;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
       />,
@@ -32,7 +34,7 @@ describe('Recent Job Applications', () => {
     const form = mount(
       <DefinitionTester
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
       />,
@@ -56,7 +58,7 @@ describe('Recent Job Applications', () => {
     const form = mount(
       <DefinitionTester
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
       />,

@@ -12,7 +12,8 @@ import formConfig from '../../config/form.js';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('781 record upload', () => {
-  const page = formConfig.chapters.disabilities.pages.uploadPtsdDocuments781;
+  const page = formConfig().chapters.disabilities.pages.uploadPtsdDocuments781;
+  const defaultDefinitions = formConfig().defaultDefinitions;
   const { schema, uiSchema, arrayPath } = page;
 
   it('should render', () => {
@@ -21,7 +22,7 @@ describe('781 record upload', () => {
         <DefinitionTester
           arrayPath={arrayPath}
           pagePerItemIndex={0}
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           data={{
             'view:selectablePtsdTypes': {
@@ -45,7 +46,7 @@ describe('781 record upload', () => {
           arrayPath={arrayPath}
           pagePerItemIndex={0}
           onSubmit={onSubmit}
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           data={{
             'view:selectablePtsdTypes': {
@@ -71,7 +72,7 @@ describe('781 record upload', () => {
           arrayPath={arrayPath}
           pagePerItemIndex={0}
           onSubmit={onSubmit}
-          definitions={formConfig.defaultDefinitions}
+          definitions={defaultDefinitions}
           schema={schema}
           data={{
             form781Upload: [
