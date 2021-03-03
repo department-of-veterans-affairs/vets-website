@@ -21,7 +21,7 @@ export default function createCovidVaccineUpdatesWidget(store, _widgetType) {
   const reactRoot = document.createElement('div');
   // TODO: this lang attribute will be set by the i18Select component
   const content = document.getElementById('content');
-  const lang = content?.getAttribute('lang');
+  const lang = content?.getAttribute('lang') || 'en';
   wrapper.insertBefore(reactRoot, introText);
 
   if (reactRoot) {
