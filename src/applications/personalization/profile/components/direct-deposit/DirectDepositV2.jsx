@@ -99,7 +99,7 @@ const DirectDeposit = ({
 
   React.useEffect(() => {
     focusElement('[data-focus-target]');
-    document.title = `Direct Deposit | Veterans Affairs`;
+    document.title = `Direct Deposit Information | Veterans Affairs`;
   }, []);
 
   // show the user a success alert after their CNP bank info has saved

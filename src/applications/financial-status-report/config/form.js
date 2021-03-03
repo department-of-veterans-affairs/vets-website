@@ -5,10 +5,11 @@ import environment from 'platform/utilities/environment';
 import manifest from '../manifest.json';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
-// import PreSubmitSignature from '../components/PreSubmitSignature';
+import PreSubmitSignature from '../components/PreSubmitSignature';
 import { prefillTransformer } from '../utils/prefillTransformer';
 import * as pages from '../pages';
 import moment from 'moment';
+import SubmissionError from '../components/SubmissionError';
 
 const submit = () => {
   return Promise.resolve(
@@ -25,7 +26,8 @@ const formConfig = {
   verifyRequiredPrefill: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  // preSubmitInfo: PreSubmitSignature,
+  preSubmitInfo: PreSubmitSignature,
+  submissionError: SubmissionError,
   formId: VA_FORM_IDS.FORM_5655,
   version: 0,
   prefillEnabled: true,
@@ -51,6 +53,10 @@ const formConfig = {
   subTitle: 'Form 5655',
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  customText: {
+    finishAppLaterMessage: 'Finish this request later',
+    reviewPageTitle: 'Review your request',
+  },
   chapters: {
     veteranInformationChapter: {
       title: 'Veteran information',
@@ -62,7 +68,7 @@ const formConfig = {
           schema: pages.veteranInfo.schema,
           initialData: {
             personalData: {
-              fullName: {
+              veteranFullName: {
                 first: 'Hector',
                 last: 'Smith',
                 middle: 'R',
@@ -95,7 +101,7 @@ const formConfig = {
             contactInfo: {
               primaryEmail: 'hector.smith@email.com',
               confirmationEmail: 'hector.smith@email.com',
-              phoneNumber: '5551234567',
+              telephoneNumber: '5551234567',
             },
             mailingAddress: {
               country: 'United States',
@@ -147,7 +153,18 @@ const formConfig = {
           uiSchema: pages.benefits.uiSchema,
           schema: pages.benefits.schema,
           initialData: {
-            benefits: {},
+            income: [
+              {
+                veteranOrSpouse: 'VETERAN',
+                compensationAndPension: '3000',
+                education: '1000',
+              },
+              {
+                veteranOrSpouse: 'SPOUSE',
+                compensationAndPension: '7000',
+                education: '4000',
+              },
+            ],
           },
         },
         socialSecurity: {

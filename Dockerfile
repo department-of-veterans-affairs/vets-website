@@ -1,6 +1,6 @@
 # based on https://github.com/nodejs/docker-node/blob/master/4.7/slim/Dockerfile
 
-FROM node:14.15.0
+FROM public.ecr.aws/bitnami/node:14.15.5
 
 # default case is Jenkins, but we want to be able to overwrite this
 ARG userid=504
@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends gconf-service l
                                                 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates \
                                                 fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils \
                                                 x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable \
-                                                xfonts-cyrillic x11-apps xvfb xauth netcat dumb-init
+                                                xfonts-cyrillic x11-apps xvfb xauth netcat dumb-init libgbm-dev
 
 RUN curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /cc-test-reporter
 RUN chmod +x /cc-test-reporter
@@ -30,7 +30,7 @@ RUN ./aws/install
 RUN aws --version # Verify AWS CLI installation.
 
 # Explicitly set CA cert to resolve SSL issues with AWS.
-ENV AWS_CA_BUNDLE /aws/dist/botocore/cacert.pem
+ENV AWS_CA_BUNDLE /etc/ssl/certs/ca-certificates.crt
 
 RUN mkdir -p /application
 

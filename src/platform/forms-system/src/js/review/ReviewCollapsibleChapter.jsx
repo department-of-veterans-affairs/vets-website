@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import classNames from 'classnames';
@@ -10,13 +11,17 @@ import SchemaForm from '../components/SchemaForm';
 import { getArrayFields, getNonArraySchema, showReviewField } from '../helpers';
 import ArrayField from './ArrayField';
 
+import { isValidForm } from '../validation';
+import { reduceErrors } from '../utilities/data/reduceErrors';
+import { setFormErrors } from '../actions';
+
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
 /*
  * Displays all the pages in a chapter on the review page
  */
-export default class ReviewCollapsibleChapter extends React.Component {
+class ReviewCollapsibleChapter extends React.Component {
   constructor() {
     super();
     this.handleEdit = this.handleEdit.bind(this);
@@ -69,6 +74,15 @@ export default class ReviewCollapsibleChapter extends React.Component {
     expandedPages.length === 1 &&
     (chapterTitle || '').toLowerCase() === pageTitle.toLowerCase();
 
+  checkValidation = () => {
+    const { form, pageList } = this.props;
+    const { errors } = isValidForm(form, pageList);
+    this.props.setFormErrors({
+      rawErrors: errors,
+      errors: reduceErrors(errors, pageList),
+    });
+  };
+
   render() {
     let pageContent = null;
 
@@ -78,7 +92,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
       form,
       formContext,
       pageKeys,
-      showUnviewedPageWarning,
+      hasUnviewedPages,
       viewedPages,
     } = this.props;
 
@@ -149,6 +163,9 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 !pageSchema && arrayFields.length === 0,
             });
             const title = page.reviewTitle || page.title || '';
+            const ariaLabel = `Update ${(typeof title === 'function'
+              ? title(pageData)
+              : title) || 'page'}`;
 
             const noVisibleFields =
               pageSchema &&
@@ -217,6 +234,10 @@ export default class ReviewCollapsibleChapter extends React.Component {
                       <ProgressButton
                         submitButton
                         onButtonClick={() => {
+                          // recheck _all_ validations after the user clicks the
+                          // update page button - needed to dynamically update
+                          // accordion headers
+                          this.checkValidation();
                           focusOnChange(
                             `${page.pageKey}${
                               typeof page.index === 'number' ? page.index : ''
@@ -225,6 +246,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                         }}
                         buttonText="Update page"
                         buttonClass="usa-button-primary"
+                        ariaLabel={ariaLabel}
                       />
                     )}
                   </SchemaForm>
@@ -262,7 +284,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
     }
 
     const classes = classNames('usa-accordion-bordered', 'form-review-panel', {
-      'schemaform-review-chapter-warning': showUnviewedPageWarning,
+      'schemaform-review-chapter-warning': hasUnviewedPages,
     });
 
     const headerClasses = classNames(
@@ -291,8 +313,12 @@ export default class ReviewCollapsibleChapter extends React.Component {
               >
                 {chapterTitle || ''}
               </button>
-              {showUnviewedPageWarning && (
-                <span className="schemaform-review-chapter-warning-icon" />
+              {hasUnviewedPages && (
+                <span
+                  role="presentation"
+                  aria-hidden="true"
+                  className="schemaform-review-chapter-warning-icon"
+                />
               )}
             </h3>
             <div id={`collapsible-${this.id}`}>{pageContent}</div>
@@ -303,9 +329,25 @@ export default class ReviewCollapsibleChapter extends React.Component {
   }
 }
 
+const mapStateToProps = state => state;
+
+const mapDispatchToProps = {
+  setFormErrors,
+};
+
 // TODO: refactor to pass form.data instead of the entire form object
 ReviewCollapsibleChapter.propTypes = {
   chapterFormConfig: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   onEdit: PropTypes.func.isRequired,
+  pageList: PropTypes.array.isRequired,
+  setFormErrors: PropTypes.func.isRequired,
 };
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ReviewCollapsibleChapter);
+
+// for tests
+export { ReviewCollapsibleChapter };

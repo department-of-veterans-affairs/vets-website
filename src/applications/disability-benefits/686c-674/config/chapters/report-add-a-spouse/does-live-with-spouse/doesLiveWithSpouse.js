@@ -47,6 +47,8 @@ export const uiSchema = {
     },
     spouseIncome: {
       'ui:title': 'Did your spouse have income in the last 365 days?',
+      'ui:description':
+        'Answer this question only if you are adding this dependent to your pension.',
       'ui:widget': 'yesNo',
     },
   },

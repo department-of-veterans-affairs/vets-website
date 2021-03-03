@@ -42,16 +42,17 @@ export default function CalendarRow({
   availableSlots,
   cells,
   currentlySelectedDate,
+  disabled,
   handleSelectDate,
   handleSelectOption,
   hasError,
   maxDate,
   maxSelections,
   minDate,
+  renderIndicator,
   renderOptions,
   rowNumber,
   selectedDates,
-  selectedIndicatorType,
   id,
   timezone,
 }) {
@@ -67,12 +68,15 @@ export default function CalendarRow({
             availableSlots={availableSlots}
             currentlySelectedDate={currentlySelectedDate}
             date={date}
-            disabled={isCellDisabled({
-              date,
-              availableSlots,
-              minDate,
-              maxDate,
-            })}
+            disabled={
+              disabled ||
+              isCellDisabled({
+                date,
+                availableSlots,
+                minDate,
+                maxDate,
+              })
+            }
             handleSelectOption={handleSelectOption}
             hasError={hasError}
             index={index}
@@ -80,7 +84,7 @@ export default function CalendarRow({
             maxSelections={maxSelections}
             onClick={() => handleSelectDate(date, rowNumber)}
             selectedDates={selectedDates}
-            selectedIndicatorType={selectedIndicatorType}
+            renderIndicator={renderIndicator}
             renderOptions={renderOptions}
             id={id}
             timezone={timezone}

@@ -173,6 +173,7 @@ export class SearchMenu extends React.Component {
       'search-results-total-pages': undefined,
       'search-selection': 'All VA.gov',
       'search-typeahead-enabled': this.props.searchTypeaheadEnabled,
+      'sitewide-search-app-used': true,
       'type-ahead-option-keyword-selected': suggestion,
       'type-ahead-option-position': suggestion
         ? suggestions.indexOf(suggestion) + 1
@@ -192,6 +193,23 @@ export class SearchMenu extends React.Component {
     window.location.assign(searchUrl);
   };
 
+  formatSuggestion = suggestion => {
+    if (!suggestion || !this.state.userInput) {
+      return suggestion;
+    }
+    const lowerSuggestion = suggestion?.toLowerCase();
+    const lowerQuery = this.state.userInput?.toLowerCase();
+    if (lowerSuggestion.includes(lowerQuery)) {
+      return (
+        <>
+          {this.state.userInput}
+          <strong>{lowerSuggestion.replace(lowerQuery, '')}</strong>
+        </>
+      );
+    }
+    return <strong>{lowerSuggestion}</strong>;
+  };
+
   makeForm = () => {
     const { suggestions, userInput } = this.state;
     const { searchTypeaheadEnabled } = this.props;
@@ -202,6 +220,7 @@ export class SearchMenu extends React.Component {
       handleSearchEvent,
       handleKeyUp,
       isUserInputValid,
+      formatSuggestion,
     } = this;
 
     const highlightedSuggestion =
@@ -291,7 +310,10 @@ export class SearchMenu extends React.Component {
                 disabled={!isUserInputValid()}
                 data-e2e-id="sitewide-search-submit-button"
                 className="vads-u-margin-left--0p5 vads-u-margin-y--1 vads-u-margin-right--1 vads-u-flex--1"
-                onClick={() => handleSearchEvent()}
+                onMouseDown={event => {
+                  event.preventDefault();
+                  handleSearchEvent();
+                }}
                 onFocus={() => this.setState({ suggestions: [] })}
               >
                 <IconSearch color="#fff" />
@@ -306,7 +328,7 @@ export class SearchMenu extends React.Component {
                 aria-label="suggestions-list"
               >
                 {suggestions?.map((suggestion, index) => {
-                  const formattedSuggestion = suggestion.replace(userInput, '');
+                  const formattedSuggestion = formatSuggestion(suggestion);
                   return (
                     <li
                       key={suggestion}
@@ -324,8 +346,7 @@ export class SearchMenu extends React.Component {
                         item: suggestion,
                       })}
                     >
-                      {userInput}
-                      <strong>{formattedSuggestion}</strong>
+                      {formattedSuggestion}
                     </li>
                   );
                 })}

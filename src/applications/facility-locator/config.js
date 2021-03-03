@@ -95,7 +95,6 @@ export const resolveParamsWithUrl = (
       `page=${page}`,
       `per_page=${perPage}`,
       facility === LocationType.VET_CENTER ? `exclude_mobile=true` : null,
-      url === api.ccUrl ? `trim=true` : null,
       roundRadius ? `radius=${roundRadius}` : null,
       center && center.length > 0 ? `latitude=${center[0]}` : null,
       center && center.length > 0 ? `longitude=${center[1]}` : null,

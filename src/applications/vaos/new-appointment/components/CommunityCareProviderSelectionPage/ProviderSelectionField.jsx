@@ -80,7 +80,7 @@ function ProviderSelectionField({
       } else if (mounted && !providerSelected) {
         scrollAndFocus('.va-button-link');
       } else if (mounted) {
-        scrollAndFocus('#selectedProvider');
+        scrollAndFocus('#providerPostSelectionHeader');
       }
     },
     [showProvidersList],
@@ -147,9 +147,13 @@ function ProviderSelectionField({
         )}
         {providerSelected && (
           <section id="selectedProvider" aria-label="Selected provider">
-            <span className="vads-u-display--block vads-u-font-weight--bold">
-              {formData.name}
-            </span>
+            <h2
+              id="providerPostSelectionHeader"
+              className="vads-u-font-size--h3 vads-u-margin-top--0"
+            >
+              Selected Provider
+            </h2>
+            <span className="vads-u-display--block">{formData.name}</span>
             <span className="vads-u-display--block">
               {formData.address?.line}
             </span>
@@ -157,7 +161,7 @@ function ProviderSelectionField({
               {formData.address?.city}, {formData.address?.state}{' '}
               {formData.address?.postalCode}
             </span>
-            <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold">
+            <span className="vads-u-display--block vads-u-font-size--sm">
               {formData[sortMethod]} miles{' '}
               <span className="sr-only">
                 {sortMethod ===
@@ -166,7 +170,7 @@ function ProviderSelectionField({
                   : 'from your home address'}
               </span>
             </span>
-            <div className="vads-u-display--flex">
+            <div className="vads-u-display--flex vads-u-margin-top--1">
               <button
                 type="button"
                 className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0 vads-u-margin-right--2"
@@ -215,57 +219,58 @@ function ProviderSelectionField({
       >
         Choose a provider
       </h2>
-      {!loadingProviders &&
-        requestLocationStatus === FETCH_STATUS.succeeded &&
-        !!currentlyShownProvidersList &&
-        sortByDistanceFromCurrentLocation && (
-          <p className="vads-u-margin-top--0">
-            Providers based on your location
-          </p>
-        )}
       {!loadingLocations &&
         sortByDistanceFromResidential && (
           <>
-            <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-              Your address on file:
-            </p>
-            <ResidentialAddress address={address} />
             {requestLocationStatus !== FETCH_STATUS.failed && (
-              <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
-                Or,{' '}
-                <button
-                  type="button"
-                  className="va-button-link"
-                  onClick={() => {
-                    updateCCProviderSortMethod(
-                      FACILITY_SORT_METHODS.distanceFromCurrentLocation,
-                    );
-                  }}
-                >
-                  use your current location
-                </button>
-              </p>
-            )}
-            {requestLocationStatus === FETCH_STATUS.failed && (
-              <div
-                id="providerSelectionBlockedLocation"
-                className="vads-u-padding--2 vads-u-background-color--primary-alt-lightest"
-              >
-                <div className="usa-alert-body">
-                  Your browser is blocked from finding your current location.
-                  Make sure your browser’s location feature is turned on. <br />
+              <>
+                <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+                  You can choose a provider based on your address on file. Or
+                  you can
+                  {''}
                   <button
+                    type="button"
                     className="va-button-link"
-                    onClick={() =>
+                    onClick={() => {
                       updateCCProviderSortMethod(
                         FACILITY_SORT_METHODS.distanceFromCurrentLocation,
-                      )
-                    }
+                      );
+                    }}
                   >
-                    Retry searching based on current location
+                    use your current location
                   </button>
+                  .
+                </p>
+                <ResidentialAddress address={address} />
+              </>
+            )}
+            {requestLocationStatus === FETCH_STATUS.failed && (
+              <>
+                <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+                  You can choose a provider based on your address on file.
+                </p>
+                <ResidentialAddress address={address} />
+                <div
+                  id="providerSelectionBlockedLocation"
+                  className="vads-u-padding--2 vads-u-background-color--primary-alt-lightest"
+                >
+                  <div className="usa-alert-body">
+                    Your browser is blocked from finding your current location.
+                    Make sure your browser’s location feature is turned on.{' '}
+                    <br />
+                    <button
+                      className="va-button-link"
+                      onClick={() =>
+                        updateCCProviderSortMethod(
+                          FACILITY_SORT_METHODS.distanceFromCurrentLocation,
+                        )
+                      }
+                    >
+                      Retry searching based on current location
+                    </button>
+                  </div>
                 </div>
-              </div>
+              </>
             )}
           </>
         )}
@@ -290,7 +295,8 @@ function ProviderSelectionField({
           <>
             {sortByDistanceFromCurrentLocation && (
               <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
-                Or,{' '}
+                You can choose a provider based on your current location. Or you
+                can{' '}
                 <button
                   type="button"
                   className="va-button-link"
@@ -300,8 +306,9 @@ function ProviderSelectionField({
                     );
                   }}
                 >
-                  use your home address on file
+                  use your address on file
                 </button>
+                .
               </p>
             )}
             {currentlyShownProvidersList.length === 0 && (
@@ -405,17 +412,19 @@ function ProviderSelectionField({
                   </button>
                 </>
               )}
-              <button
-                type="button"
-                className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
-                onClick={() => {
-                  setProvidersListLength(INITIAL_PROVIDER_DISPLAY_COUNT);
-                  setShowProvidersList(false);
-                }}
-                aria-label="Cancel choosing a provider"
-              >
-                Cancel
-              </button>
+              {communityCareProviderList?.length > 0 && (
+                <button
+                  type="button"
+                  className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
+                  onClick={() => {
+                    setProvidersListLength(INITIAL_PROVIDER_DISPLAY_COUNT);
+                    setShowProvidersList(false);
+                  }}
+                  aria-label="Cancel choosing a provider"
+                >
+                  Cancel
+                </button>
+              )}
             </div>
           </>
         )}

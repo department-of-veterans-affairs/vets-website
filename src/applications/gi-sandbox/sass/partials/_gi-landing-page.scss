@@ -1,0 +1,34 @@
+.gi-app .landing-page {
+  .eligibility-form h2 {
+    display: none;
+    visibility: hidden;
+  }
+
+  .video-sidebar h5 {
+    margin-top: 0.5em;
+    padding: 0;
+  }
+
+  .learnMoreLabel {
+    @include media-maxwidth($small-screen) {
+      padding-left: 1.5em;
+      padding-top: 0 !important;
+      display: block;
+      margin-top: -0.5em !important;
+    }
+  }
+
+  .vettec-logo {
+    height: 70px;
+    width: 146px;
+    @include media($medium-screen) {
+      height: 85px;
+      width: 179px;
+    }
+  }
+
+  .type-of-institution-filter .form-expanding-group-open {
+    padding-left: 2rem;
+    border-left: none;
+  }
+}

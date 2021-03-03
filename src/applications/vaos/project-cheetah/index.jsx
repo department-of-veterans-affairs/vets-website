@@ -5,28 +5,47 @@ import {
   Route,
   useRouteMatch,
   useHistory,
+  useLocation,
   Redirect,
 } from 'react-router-dom';
+import * as actions from './redux/actions';
 import projectCheetahReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
 import PlanAheadPage from './components/PlanAheadPage';
 import VAFacilityPage from './components/VAFacilityPage';
 import ClinicChoicePage from './components/ClinicChoicePage';
 import SelectDate1Page from './components/SelectDate1Page';
-import SelectDate2Page from './components/SelectDate2Page';
-import ContactInfoPage from './components/ContactInfoPage';
 import ReviewPage from './components/ReviewPage';
 import ConfirmationPage from './components/ConfirmationPage';
 import { selectFeatureProjectCheetah } from '../redux/selectors';
+import SecondDosePage from './components/SecondDosePage';
+import ContactInfoPage from './components/ContactInfoPage';
 import ReceivedDoseScreenerPage from './components/ReceivedDoseScreenerPage';
 import ContactFacilitiesPage from './components/ContactFacilitiesPage';
+import { FETCH_STATUS } from '../utils/constants';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
 import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
+import { SelectDate2Page } from './components/SelectDate2Page';
+import ErrorMessage from '../components/ErrorMessage';
 
-export function NewBookingSection({ featureProjectCheetah }) {
+export function NewBookingSection({
+  isEligible,
+  newBookingStatus,
+  featureProjectCheetah,
+  openNewBookingPage,
+}) {
   const match = useRouteMatch();
   const history = useHistory();
+  const location = useLocation();
+
+  useEffect(
+    () => {
+      openNewBookingPage(history);
+    },
+    [isEligible],
+  );
 
   useEffect(
     () => {
@@ -54,6 +73,39 @@ export function NewBookingSection({ featureProjectCheetah }) {
     return <Redirect to="/new-project-cheetah-booking" />;
   }
 
+  const title = <h1 className="vads-u-font-size--h2">{'New Booking'}</h1>;
+  if (newBookingStatus === FETCH_STATUS.failed) {
+    return (
+      <div>
+        {title}
+        <ErrorMessage level="2" />
+      </div>
+    );
+  }
+
+  if (
+    newBookingStatus === FETCH_STATUS.loading ||
+    newBookingStatus === FETCH_STATUS.notStarted
+  ) {
+    return (
+      <div className="vads-u-margin-y--8">
+        <LoadingIndicator message="Checking for online appointment availability" />
+      </div>
+    );
+  }
+
+  // Redirect the user to the Contact Facilities page when there are no facilities that
+  // support scheduling an appointment for the vaccine.
+  if (
+    !isEligible &&
+    newBookingStatus === FETCH_STATUS.succeeded &&
+    !location.pathname.includes(
+      '/new-project-cheetah-booking/contact-facilities',
+    )
+  ) {
+    return <Redirect to="/new-project-cheetah-booking/contact-facilities" />;
+  }
+
   return (
     <FormLayout>
       <Switch>
@@ -75,6 +127,10 @@ export function NewBookingSection({ featureProjectCheetah }) {
           path={`${match.url}/select-date-2`}
           component={SelectDate2Page}
         />
+        <Route
+          path={`${match.url}/plan-second-dose`}
+          component={SecondDosePage}
+        />
         <Route path={`${match.url}/contact-info`} component={ContactInfoPage} />
         <Route path={`${match.url}/review`} component={ReviewPage} />
         <Route
@@ -90,9 +146,18 @@ export function NewBookingSection({ featureProjectCheetah }) {
 function mapStateToProps(state) {
   return {
     featureProjectCheetah: selectFeatureProjectCheetah(state),
+    isEligible: state.projectCheetah.isEligible,
+    newBookingStatus: state.projectCheetah.newBookingStatus,
+    pageChangeInProgress: state.projectCheetah.newBooking.pageChangeInProgress,
   };
 }
+const mapDispatchToProps = {
+  openNewBookingPage: actions.openNewBookingPage,
+};
 
-export const NewBooking = connect(mapStateToProps)(NewBookingSection);
+export const NewBooking = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(NewBookingSection);
 
 export const reducer = projectCheetahReducer;

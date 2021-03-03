@@ -206,7 +206,8 @@ const formConfig = {
           onContinue: captureEvents.militaryHistory,
           appStateSelector: state => ({
             dob: state.user.profile.dob,
-            allowBDD: form526BDDFeature(state),
+            allowBDD:
+              form526BDDFeature(state) && state.form.data?.['view:isBddData'],
           }),
         },
         separationLocation: {
@@ -488,6 +489,9 @@ const formConfig = {
           depends: formData => !increaseOnly(formData) && !isBDD(formData),
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema,
+          appStateSelector: state => ({
+            serviceInformation: state.form?.data?.serviceInformation,
+          }),
         },
         // Ancillary forms wizard
         ancillaryFormsWizardIntro: {
@@ -692,6 +696,7 @@ const formConfig = {
           path: 'fully-developed-claim',
           uiSchema: fullyDevelopedClaim.uiSchema,
           schema: fullyDevelopedClaim.schema,
+          depends: formData => !isBDD(formData),
         },
       },
     },

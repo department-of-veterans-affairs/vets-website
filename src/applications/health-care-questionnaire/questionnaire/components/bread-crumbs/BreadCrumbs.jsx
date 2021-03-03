@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getAppointTypeFromAppointment } from '../../utils';
+import { getAppointTypeFromAppointment } from '../../../shared/utils';
 
 const BreadCrumbs = props => {
   const { appointment } = props;

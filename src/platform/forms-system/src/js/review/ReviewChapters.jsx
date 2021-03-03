@@ -65,7 +65,14 @@ class ReviewChapters extends React.Component {
   };
 
   render() {
-    const { chapters, form, formContext, setValid, viewedPages } = this.props;
+    const {
+      chapters,
+      form,
+      formContext,
+      setValid,
+      viewedPages,
+      pageList,
+    } = this.props;
 
     return (
       <div className="input-section">
@@ -81,9 +88,10 @@ class ReviewChapters extends React.Component {
               onEdit={this.handleEdit}
               open={chapter.open}
               pageKeys={chapter.pageKeys}
+              pageList={pageList}
               setData={(...args) => this.handleSetData(...args)}
               setValid={setValid}
-              showUnviewedPageWarning={chapter.showUnviewedPageWarning}
+              hasUnviewedPages={chapter.hasUnviewedPages}
               toggleButtonClicked={() => this.handleToggleChapter(chapter)}
               uploadFile={this.props.uploadFile}
               viewedPages={viewedPages}
@@ -114,7 +122,12 @@ export function mapStateToProps(state, ownProps) {
     const chapterFormConfig = formConfig.chapters[chapterName];
     const open = openChapters.includes(chapterName);
     const pageKeys = getPageKeys(pages, formData);
-    const showUnviewedPageWarning = pageKeys.some(key => !viewedPages.has(key));
+
+    const hasErrors = state.form.formErrors?.errors?.some(err =>
+      pageKeys.includes(err.pageKey),
+    );
+    const hasUnviewedPages =
+      hasErrors || pageKeys.some(key => !viewedPages.has(key));
 
     return {
       expandedPages: expandedPages.map(
@@ -127,7 +140,7 @@ export function mapStateToProps(state, ownProps) {
       name: chapterName,
       open,
       pageKeys,
-      showUnviewedPageWarning,
+      hasUnviewedPages,
     };
   });
 

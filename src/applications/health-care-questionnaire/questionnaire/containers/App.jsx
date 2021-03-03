@@ -4,18 +4,24 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import {
+  externalServices,
+  DowntimeNotification,
+} from 'platform/monitoring/DowntimeNotification';
+
 import formConfig from '../config/form';
 
 import {
   questionnaireAppointmentLoading,
   questionnaireAppointmentLoaded,
 } from '../actions';
-import { loadAppointment } from '../api';
 
 import {
+  getSelectedAppointmentData,
   getAppointTypeFromAppointment,
   getCurrentAppointmentId,
-} from '../utils';
+  clearCurrentSession,
+} from '../../shared/utils';
 
 const App = props => {
   const { location, children } = props;
@@ -27,26 +33,32 @@ const App = props => {
   } = props;
   const [isLoading, setIsLoading] = useState(true);
   const [form, setForm] = useState(formConfig);
+
   useEffect(
     () => {
+      const id = getCurrentAppointmentId(window);
       if (isLoggedIn) {
         setLoading();
-        const id = getCurrentAppointmentId(window);
-        loadAppointment(id).then(response => {
-          const data = response;
+        const data = getSelectedAppointmentData(window, id);
+        if (!data) {
+          clearCurrentSession(window);
+          window.location.replace(
+            '/health-care/health-questionnaires/questionnaires',
+          );
+        }
+        const { appointment } = data;
 
-          setLoadedAppointment(data);
-          setIsLoading(false);
-          const apptType = getAppointTypeFromAppointment(data);
-          setForm(f => {
-            return {
-              ...f,
-              title: `Answer ${apptType} questionnaire`,
-              subTitle:
-                data?.attributes?.vdsAppointments[0]?.clinic?.facility
-                  ?.displayName,
-            };
-          });
+        setLoadedAppointment(appointment);
+        setIsLoading(false);
+        const apptType = getAppointTypeFromAppointment(appointment);
+        setForm(f => {
+          return {
+            ...f,
+            title: `Answer ${apptType} questionnaire`,
+            subTitle:
+              appointment?.attributes?.vdsAppointments[0]?.clinic?.facility
+                ?.displayName,
+          };
         });
       } else {
         setIsLoading(false);
@@ -54,7 +66,6 @@ const App = props => {
     },
     [setLoading, setLoadedAppointment, isLoggedIn],
   );
-
   if (isLoading || isLoadingAppointmentDetails) {
     return (
       <>
@@ -64,9 +75,14 @@ const App = props => {
   } else {
     return (
       <>
-        <RoutedSavableApp formConfig={form} currentLocation={location}>
-          {children}
-        </RoutedSavableApp>
+        <DowntimeNotification
+          appTitle="health questionnaire"
+          dependencies={[externalServices.hcq]}
+        >
+          <RoutedSavableApp formConfig={form} currentLocation={location}>
+            {children}
+          </RoutedSavableApp>
+        </DowntimeNotification>
       </>
     );
   }

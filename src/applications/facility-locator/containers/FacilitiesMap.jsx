@@ -5,6 +5,7 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { mapboxToken } from '../utils/mapboxToken';
 import {
+  clearSearchText,
   clearSearchResults,
   fetchVAFacility,
   searchWithBounds,
@@ -90,13 +91,16 @@ const FacilitiesMap = props => {
 
   const updateUrlParams = params => {
     const { location, currentQuery } = props;
-
     const queryParams = {
       ...location.query,
       page: currentQuery.currentPage,
       address: currentQuery.searchString,
       facilityType: currentQuery.facilityType,
       serviceType: currentQuery.serviceType,
+      latitude: props.currentQuery.position?.latitude,
+      longitude: props.currentQuery.position?.longitude,
+      radius: props.currentQuery.radius && props.currentQuery.radius.toFixed(),
+      bounds: props.currentQuery.bounds,
       ...params,
     };
 
@@ -195,6 +199,10 @@ const FacilitiesMap = props => {
   };
 
   const handleSearchArea = () => {
+    if (!props.currentQuery.isValid) {
+      return;
+    }
+
     resetMapElements();
     const { currentQuery } = props;
     lastZoom = null;
@@ -249,11 +257,8 @@ const FacilitiesMap = props => {
       return;
     }
 
-    if (
-      calculateSearchArea() > MAX_SEARCH_AREA ||
-      !props.currentQuery.isValid ||
-      !props.currentQuery.mapMoved
-    ) {
+    // TODO: hide after new search
+    if (calculateSearchArea() > MAX_SEARCH_AREA) {
       searchAreaControl.style.display = 'none';
       return;
     }
@@ -292,6 +297,7 @@ const FacilitiesMap = props => {
     map.on('dragend', () => {
       props.mapMoved();
       recordPanEvent(map.getCenter(), props.currentQuery);
+      activateSearchAreaControl();
     });
     map.on('zoom', () => {
       const currentZoom = parseInt(map.getZoom(), 10);
@@ -309,6 +315,7 @@ const FacilitiesMap = props => {
       }
 
       lastZoom = currentZoom;
+      activateSearchAreaControl();
     });
   };
 
@@ -391,6 +398,7 @@ const FacilitiesMap = props => {
           suppressCCP={props.suppressCCP}
           suppressPharmacies={props.suppressPharmacies}
           searchCovid19Vaccine={props.searchCovid19Vaccine}
+          clearSearchText={props.clearSearchText}
         />
         <div id="search-results-title" ref={searchResultTitleRef}>
           <SearchResultsHeader
@@ -486,6 +494,7 @@ const FacilitiesMap = props => {
           suppressCCP={props.suppressCCP}
           suppressPharmacies={props.suppressPharmacies}
           searchCovid19Vaccine={props.searchCovid19Vaccine}
+          clearSearchText={props.clearSearchText}
         />
         <div id="search-results-title" ref={searchResultTitleRef}>
           <SearchResultsHeader
@@ -549,15 +558,6 @@ const FacilitiesMap = props => {
   useEffect(
     () => {
       if (map) {
-        activateSearchAreaControl();
-      }
-    },
-    [props.currentQuery],
-  );
-
-  useEffect(
-    () => {
-      if (map) {
         setMapEventHandlers();
       }
     },
@@ -567,16 +567,13 @@ const FacilitiesMap = props => {
   useEffect(
     () => {
       const { currentQuery } = props;
-      const { searchArea, position, context, searchString } = currentQuery;
+      const { searchArea, context, searchString } = currentQuery;
       const coords = currentQuery.position;
       const radius = currentQuery.radius;
       const center = [coords.latitude, coords.longitude];
       // Search current area
       if (searchArea) {
         updateUrlParams({
-          location: `${position.latitude.toFixed(
-            2,
-          )},${position.longitude.toFixed(2)}`,
           context,
           searchString,
         });
@@ -626,9 +623,6 @@ const FacilitiesMap = props => {
     () => {
       if (isSearching) {
         updateUrlParams({
-          location: `${props.currentQuery.position.latitude},${
-            props.currentQuery.position.longitude
-          }`,
           context: props.currentQuery.context,
           address: props.currentQuery.searchString,
         });
@@ -727,6 +721,7 @@ const mapDispatchToProps = {
   genSearchAreaFromCenter,
   searchWithBounds,
   clearSearchResults,
+  clearSearchText,
   mapMoved,
 };
 export default connect(

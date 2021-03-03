@@ -33,7 +33,8 @@ function createDrupalDebugPage(buildOptions) {
   // a debug page should never be built there.
   if (
     !ENABLED_ENVIRONMENTS.has(buildOptions.buildtype) ||
-    buildOptions.buildtype === ENVIRONMENTS.VAGOVPROD
+    buildOptions.buildtype === ENVIRONMENTS.VAGOVPROD ||
+    buildOptions.omitdebug === true
   ) {
     return () => {};
   }

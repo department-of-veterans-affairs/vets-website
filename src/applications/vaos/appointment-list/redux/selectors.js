@@ -298,7 +298,7 @@ function getWindowString(window, timezoneAbbreviation, isToday) {
   )} to ${getFormattedTime(window.endTime)} ${timezoneAbbreviation}`;
 }
 
-/**
+/*
  * Returns next schedulable window.  If today is schedulable and current time is before window,
  * return today's window.  Otherwise, return the next schedulable day's window
  */
@@ -375,4 +375,20 @@ export function selectExpressCareAvailability(state) {
     ),
     windowsStatus: state.appointments.expressCareWindowsStatus,
   };
+}
+
+export function selectExpressCareRequestById(state, id) {
+  const { appointmentDetails, pending, past, confirmed } = state.appointments;
+
+  if (appointmentDetails[id]) {
+    return appointmentDetails[id];
+  }
+
+  const allAppointments = []
+    .concat(pending)
+    .concat(past)
+    .concat(confirmed)
+    .filter(item => !!item);
+
+  return allAppointments.find(p => p.id === id);
 }

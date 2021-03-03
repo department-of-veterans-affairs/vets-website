@@ -17,7 +17,7 @@ describe('Locator url and parameters builder', () => {
     );
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
-      'https://dev-api.va.gov/v1/facilities/ccp?address=14713%20Calaveras%20Drive,%20Austin,%20Texas%2078717,%20United%20States&bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24&type=urgent_care&page=1&per_page=20&trim=true',
+      'https://dev-api.va.gov/v1/facilities/ccp?address=14713%20Calaveras%20Drive,%20Austin,%20Texas%2078717,%20United%20States&bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24&type=urgent_care&page=1&per_page=20',
     );
   });
 
@@ -34,7 +34,7 @@ describe('Locator url and parameters builder', () => {
     );
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
-      'https://dev-api.va.gov/v1/facilities/ccp?address=I%2035%20Frontage%20Road,%20Austin,%20Texas%2078753,%20United%20States&bbox[]=-98.45&bbox[]=29.59&bbox[]=-96.95&bbox[]=31.09&type=pharmacy&page=1&per_page=10&trim=true',
+      'https://dev-api.va.gov/v1/facilities/ccp?address=I%2035%20Frontage%20Road,%20Austin,%20Texas%2078753,%20United%20States&bbox[]=-98.45&bbox[]=29.59&bbox[]=-96.95&bbox[]=31.09&type=pharmacy&page=1&per_page=10',
     );
   });
 
@@ -173,7 +173,7 @@ describe('Locator url and parameters builder', () => {
     );
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
-      'https://dev-api.va.gov/v1/facilities/ccp?address=I%2035%20Frontage%20Road,%20Austin,%20Texas%2078753,%20United%20States&bbox[]=-98.45&bbox[]=29.59&bbox[]=-96.95&bbox[]=31.09&type=provider&specialties[]=122300000X&page=1&per_page=10&trim=true',
+      'https://dev-api.va.gov/v1/facilities/ccp?address=I%2035%20Frontage%20Road,%20Austin,%20Texas%2078753,%20United%20States&bbox[]=-98.45&bbox[]=29.59&bbox[]=-96.95&bbox[]=31.09&type=provider&specialties[]=122300000X&page=1&per_page=10',
     );
   });
 
@@ -207,7 +207,7 @@ describe('Locator url and parameters builder', () => {
     );
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
-      'https://dev-api.va.gov/v1/facilities/ccp?address=I%2035%20Frontage%20Road,%20Austin,%20Texas%2078753,%20United%20States&bbox[]=-98.45&bbox[]=29.59&bbox[]=-96.95&bbox[]=31.09&type=provider&specialties[]=122300000X&page=1&per_page=10&trim=true&radius=40&latitude=33.32464&longitude=-97.18077',
+      'https://dev-api.va.gov/v1/facilities/ccp?address=I%2035%20Frontage%20Road,%20Austin,%20Texas%2078753,%20United%20States&bbox[]=-98.45&bbox[]=29.59&bbox[]=-96.95&bbox[]=31.09&type=provider&specialties[]=122300000X&page=1&per_page=10&radius=40&latitude=33.32464&longitude=-97.18077',
     );
   });
 

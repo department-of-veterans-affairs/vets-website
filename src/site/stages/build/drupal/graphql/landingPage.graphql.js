@@ -20,7 +20,6 @@ const { FIELD_ALERT } = require('./block-fragments/alert.block.graphql');
 const ADMIN = '...administration';
 
 const landingPageFragment = `
-
   fragment landingPage on NodeLandingPage {
     ${entityElementsFromPages}
     fieldIntroText
@@ -62,6 +61,7 @@ const landingPageFragment = `
     fieldPageLastBuilt {
       date
     }
+    fieldTeaserText
     changed
     ${ADMIN}
   }

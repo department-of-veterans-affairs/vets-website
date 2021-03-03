@@ -3,7 +3,10 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import { validateName, reportDivorce } from '../../../utilities';
 import { TASK_KEYS } from '../../../constants';
-import { isChapterFieldRequired } from '../../../helpers';
+import {
+  isChapterFieldRequired,
+  PensionIncomeRemovalQuestionTitle,
+} from '../../../helpers';
 import { locationUISchema } from '../../../location-schema';
 
 export const schema = {
@@ -83,7 +86,7 @@ export const uiSchema = {
       },
     },
     spouseIncome: {
-      'ui:title': 'Did this person have an income in the last 365 days?',
+      'ui:title': PensionIncomeRemovalQuestionTitle,
       'ui:widget': 'yesNo',
     },
   },
