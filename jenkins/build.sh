@@ -34,7 +34,7 @@ do
       shift
       ;;
     --setPublicPath)
-      omitdebug="${1}"
+      setPublicPath="${1}"
       shift
       ;;
     *)    # unknown option
