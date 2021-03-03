@@ -241,7 +241,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
 
     expect(
       screen.getByRole('heading', {
-        level: 3,
+        level: 2,
         name: 'We’ve run into a problem trying to find an appointment time',
       }),
     ).to.be.ok;
