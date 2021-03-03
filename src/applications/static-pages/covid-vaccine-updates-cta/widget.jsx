@@ -35,11 +35,8 @@ const copy = {
       'Intentaremos contactar a todos los Veteranos elegibles en cada grupo de riesgo. No es necesario que se inscriba para recibir la vacuna.',
   },
   tag: {
-    headline: `Manatiling nakikibalita tungkol sa pagpapabakuna para sa COVID-19
-    `,
-    cta: `Mag-sign up para sa madaling paraan ng pakikibalita tungkol sa pagpapabakuna para sa COVID-19 sa VA.
-
-    `,
+    headline: `Manatiling nakikibalita tungkol sa pagpapabakuna para sa COVID-19`,
+    cta: `Mag-sign up para sa madaling paraan ng pakikibalita tungkol sa pagpapabakuna para sa COVID-19 sa VA.`,
     body: `Kapag nag-sign-up kayo, magtatanong din kami tungkol sa inyong mga plano sa bakuna. Maaaring gamitin ng inyong lokal na pasilidad-pangkalusugan ng VA ang impormasyong ito para matukoy kung kailan makikipag-ugnayan sa inyo kapag naging kwalipikado na ang inyong pangkat ng panganib (risk group). Pakitandaan na ang mga update na ito ay nasa English lang sa ngayon.`,
     boldedNote: 'Paalala:',
     note: `Susubukan naming makipag-ugnayan sa bawat-isang kwalipikadong Beterano sa bawat pangkat ng panganib. Hindi ninyo kailangang mag-sign up para makapagpabakuna.`,
