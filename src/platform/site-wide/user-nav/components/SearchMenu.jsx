@@ -59,8 +59,9 @@ export class SearchMenu extends React.Component {
     }
 
     // focus the query input when the search menu is opened
-    if (isOpen && !prevProps.isOpen) {
-      document.getElementById('query').focus();
+    const inputField = document.getElementById('query');
+    if (isOpen && !prevProps.isOpen && inputField) {
+      inputField.focus();
     }
   }
 
