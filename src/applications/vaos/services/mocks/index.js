@@ -253,7 +253,7 @@ export default [
   },
   {
     path: /vaos\/v0\/facilities\/.*\/available_appointments/,
-    delay: 5000,
+    delay: 2000,
     response: () => {
       return set(
         'data[0].attributes.appointmentTimeSlot',
