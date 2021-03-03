@@ -1,5 +1,7 @@
-{% if isPreview or buildtype != 'vagovprod' and omitdebug = false %}
-  {% assign showDebug = true %}
+{% if isPreview or buildtype != 'vagovprod' %}
+  {% if omitdebug = false %}
+    {% assign showDebug = true %}
+  {% endif %}
 {% endif %}
 
 {% if showDebug %}
