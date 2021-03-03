@@ -1,4 +1,4 @@
-export const pageNames = {
+export const PAGE_NAMES = {
   start: 'start',
   request: 'request',
   recipients: 'recipients',

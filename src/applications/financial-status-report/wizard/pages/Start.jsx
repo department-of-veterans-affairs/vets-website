@@ -1,6 +1,6 @@
 import React from 'react';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
-import { pageNames } from '../constants';
+import { PAGE_NAMES } from '../constants';
 
 const label = 'What’s this debt related to?';
 const options = [
@@ -34,27 +34,27 @@ const Start = ({ setPageState, state = {} }) => {
   const setState = ({ value }) => {
     switch (value) {
       case 'copays':
-        setPageState({ selected: value }, pageNames.copays);
+        setPageState({ selected: value }, PAGE_NAMES.copays);
         break;
       case 'separation':
       case 'attorney':
-        setPageState({ selected: value }, pageNames.benefits);
+        setPageState({ selected: value }, PAGE_NAMES.benefits);
         break;
       case 'rogers-stem':
-        setPageState({ selected: value }, pageNames.stem);
+        setPageState({ selected: value }, PAGE_NAMES.stem);
         break;
       case 'vettec':
-        setPageState({ selected: value }, pageNames.vettec);
+        setPageState({ selected: value }, PAGE_NAMES.vettec);
         break;
       default:
-        setPageState({ selected: value }, pageNames.request);
+        setPageState({ selected: value }, PAGE_NAMES.request);
     }
   };
 
   return (
     <RadioButtons
-      id={`${pageNames.start}-option`}
-      name={`${pageNames.start}-option`}
+      id={`${PAGE_NAMES.start}-option`}
+      name={`${PAGE_NAMES.start}-option`}
       label={label}
       options={options}
       onValueChange={setState}
@@ -64,6 +64,6 @@ const Start = ({ setPageState, state = {} }) => {
 };
 
 export default {
-  name: pageNames.start,
+  name: PAGE_NAMES.start,
   component: Start,
 };

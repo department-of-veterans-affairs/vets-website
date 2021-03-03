@@ -1,5 +1,5 @@
 import React from 'react';
-import { pageNames } from '../constants';
+import { PAGE_NAMES } from '../constants';
 import Telephone, {
   CONTACTS,
   PATTERNS,
@@ -48,6 +48,6 @@ const Waivers = () => (
 );
 
 export default {
-  name: pageNames.waivers,
+  name: PAGE_NAMES.waivers,
   component: Waivers,
 };

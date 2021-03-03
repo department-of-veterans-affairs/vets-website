@@ -1,5 +1,5 @@
 import React from 'react';
-import { pageNames } from '../constants';
+import { PAGE_NAMES } from '../constants';
 import StartFormButton from '../components/StartFormButton';
 import Telephone, {
   CONTACTS,
@@ -36,6 +36,6 @@ const Submit = ({ setWizardStatus }) => {
 };
 
 export default {
-  name: pageNames.submit,
+  name: PAGE_NAMES.submit,
   component: Submit,
 };

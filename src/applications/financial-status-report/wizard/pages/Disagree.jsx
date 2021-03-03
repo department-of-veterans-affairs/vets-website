@@ -1,5 +1,5 @@
 import React from 'react';
-import { pageNames } from '../constants';
+import { PAGE_NAMES } from '../constants';
 
 const Disagree = () => {
   return (
@@ -51,6 +51,6 @@ const Disagree = () => {
 };
 
 export default {
-  name: pageNames.disagree,
+  name: PAGE_NAMES.disagree,
   component: Disagree,
 };

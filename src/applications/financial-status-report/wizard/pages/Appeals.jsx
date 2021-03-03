@@ -1,5 +1,5 @@
 import React from 'react';
-import { pageNames } from '../constants';
+import { PAGE_NAMES } from '../constants';
 
 const Appeals = () => {
   return (
@@ -33,6 +33,6 @@ const Appeals = () => {
 };
 
 export default {
-  name: pageNames.appeals,
+  name: PAGE_NAMES.appeals,
   component: Appeals,
 };

@@ -1,36 +1,36 @@
 import React from 'react';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
-import { pageNames } from '../constants';
+import { PAGE_NAMES } from '../constants';
 
 const label = 'What do you want to do for this debt?';
 const options = [
   {
-    value: pageNames.payment,
+    value: PAGE_NAMES.payment,
     label: 'Make a payment on a debt',
   },
   {
-    value: pageNames.decision,
+    value: PAGE_NAMES.decision,
     label: 'Report an error or a disagreement with a VA decision',
   },
   {
-    value: pageNames.recipients,
+    value: PAGE_NAMES.recipients,
     label: 'Request debt relief (a waiver or compromise offer)',
   },
   {
-    value: pageNames.repayment,
+    value: PAGE_NAMES.repayment,
     label: 'Request an extended monthly payment plan',
   },
   {
-    value: pageNames.reconsider,
+    value: PAGE_NAMES.reconsider,
     label: 'Ask VA to reconsider the decision on my waiver request',
   },
 ];
 
 const Request = ({ setPageState, state = {} }) => (
   <RadioButtons
-    name={`${pageNames.reconsider}-option`}
+    name={`${PAGE_NAMES.reconsider}-option`}
     label={label}
-    id={`${pageNames.reconsider}-option`}
+    id={`${PAGE_NAMES.reconsider}-option`}
     options={options}
     onValueChange={({ value }) => {
       setPageState({ selected: value }, value);
@@ -40,6 +40,6 @@ const Request = ({ setPageState, state = {} }) => (
 );
 
 export default {
-  name: pageNames.request,
+  name: PAGE_NAMES.request,
   component: Request,
 };

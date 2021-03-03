@@ -1,5 +1,5 @@
 import React from 'react';
-import { pageNames } from '../constants';
+import { PAGE_NAMES } from '../constants';
 
 const DebtError = () => {
   return (
@@ -49,6 +49,6 @@ const DebtError = () => {
 };
 
 export default {
-  name: pageNames.error,
+  name: PAGE_NAMES.error,
   component: DebtError,
 };

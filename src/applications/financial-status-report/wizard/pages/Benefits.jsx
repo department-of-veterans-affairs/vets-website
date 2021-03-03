@@ -1,5 +1,5 @@
 import React from 'react';
-import { pageNames } from '../constants';
+import { PAGE_NAMES } from '../constants';
 import Telephone, {
   CONTACTS,
   PATTERNS,
@@ -26,6 +26,6 @@ const ContactBenefits = () => {
 };
 
 export default {
-  name: pageNames.benefits,
+  name: PAGE_NAMES.benefits,
   component: ContactBenefits,
 };

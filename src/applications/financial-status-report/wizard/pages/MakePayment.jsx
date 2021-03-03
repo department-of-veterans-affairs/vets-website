@@ -1,5 +1,5 @@
 import React from 'react';
-import { pageNames } from '../constants';
+import { PAGE_NAMES } from '../constants';
 
 const MakePayment = () => {
   return (
@@ -27,6 +27,6 @@ const MakePayment = () => {
 };
 
 export default {
-  name: pageNames.payment,
+  name: PAGE_NAMES.payment,
   component: MakePayment,
 };

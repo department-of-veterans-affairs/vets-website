@@ -1,6 +1,6 @@
 import React from 'react';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
-import { pageNames } from '../constants';
+import { PAGE_NAMES } from '../constants';
 
 const label = 'Which of these issues do you want to report?';
 const options = [
@@ -23,18 +23,18 @@ const Decision = ({ setPageState, state = {} }) => {
     switch (value) {
       case 'error':
       case 'wrong':
-        setPageState({ selected: value }, pageNames.error);
+        setPageState({ selected: value }, PAGE_NAMES.error);
         break;
       default:
-        setPageState({ selected: value }, pageNames.disagree);
+        setPageState({ selected: value }, PAGE_NAMES.disagree);
     }
   };
 
   return (
     <RadioButtons
-      name={`${pageNames.decision}-option`}
+      name={`${PAGE_NAMES.decision}-option`}
       label={label}
-      id={`${pageNames.decision}-option`}
+      id={`${PAGE_NAMES.decision}-option`}
       options={options}
       onValueChange={setState}
       value={{ value: state.selected }}
@@ -42,6 +42,6 @@ const Decision = ({ setPageState, state = {} }) => {
   );
 };
 export default {
-  name: pageNames.decision,
+  name: PAGE_NAMES.decision,
   component: Decision,
 };

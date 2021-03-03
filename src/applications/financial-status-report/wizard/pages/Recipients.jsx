@@ -1,6 +1,6 @@
 import React from 'react';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
-import { pageNames } from '../constants';
+import { PAGE_NAMES } from '../constants';
 
 const label = 'Which of these best describes the person who has this debt?';
 const options = [
@@ -31,18 +31,18 @@ const Recipients = ({ setPageState, state = {} }) => {
     switch (value) {
       case 'spouse':
       case 'dependent':
-        setPageState({ selected: value }, pageNames.dependents);
+        setPageState({ selected: value }, PAGE_NAMES.dependents);
         break;
       default:
-        setPageState({ selected: value }, pageNames.submit);
+        setPageState({ selected: value }, PAGE_NAMES.submit);
     }
   };
 
   return (
     <RadioButtons
-      name={`${pageNames.recipients}-option`}
+      name={`${PAGE_NAMES.recipients}-option`}
       label={label}
-      id={`${pageNames.recipients}-option`}
+      id={`${PAGE_NAMES.recipients}-option`}
       options={options}
       onValueChange={setState}
       value={{ value: state.selected }}
@@ -51,6 +51,6 @@ const Recipients = ({ setPageState, state = {} }) => {
 };
 
 export default {
-  name: pageNames.recipients,
+  name: PAGE_NAMES.recipients,
   component: Recipients,
 };

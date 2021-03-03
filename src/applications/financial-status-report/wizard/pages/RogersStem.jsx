@@ -1,5 +1,5 @@
 import React from 'react';
-import { pageNames } from '../constants';
+import { PAGE_NAMES } from '../constants';
 
 const RogersStem = () => {
   return (
@@ -28,6 +28,6 @@ const RogersStem = () => {
 };
 
 export default {
-  name: pageNames.stem,
+  name: PAGE_NAMES.stem,
   component: RogersStem,
 };
