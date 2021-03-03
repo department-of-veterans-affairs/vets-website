@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
 import {
@@ -39,7 +39,7 @@ describe('Schemaform review: ReviewChapters', () => {
     const setEditMode = sinon.spy();
     const setViewedPages = sinon.spy();
 
-    const tree = mount(
+    const tree = shallow(
       <ReviewChapters
         chapters={chapters}
         pageList={pageList}
@@ -99,7 +99,7 @@ describe('Schemaform review: ReviewChapters', () => {
     const openReviewChapter = sinon.spy();
     const closeReviewChapter = sinon.spy();
 
-    const tree = mount(
+    const tree = shallow(
       <ReviewChapters
         chapters={chapters}
         closeReviewChapter={closeReviewChapter}
