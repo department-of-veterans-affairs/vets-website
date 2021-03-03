@@ -20,7 +20,7 @@ const App = ({
   isLoggedIn,
   getFormStatus,
 }) => {
-  const showMainContent = !pending && !isError;
+  const renderContent = !pending && !isError;
   const [wizardState, setWizardState] = useState(
     sessionStorage.getItem(WIZARD_STATUS) || WIZARD_STATUS_NOT_STARTED,
   );
@@ -46,15 +46,11 @@ const App = ({
   }
 
   if (isLoggedIn && !pending && isError) {
-    return (
-      <div className="row vads-u-margin-bottom--3">
-        <ErrorMessage />
-      </div>
-    );
+    return <ErrorMessage />;
   }
 
   return (
-    showMainContent && (
+    renderContent && (
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
       </RoutedSavableApp>

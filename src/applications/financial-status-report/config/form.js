@@ -10,7 +10,7 @@ import { prefillTransformer } from '../utils/prefillTransformer';
 import * as pages from '../pages';
 import moment from 'moment';
 import SubmissionError from '../components/SubmissionError';
-import { WIZARD_STATUS } from '../constants';
+import { WIZARD_STATUS } from '../wizard/constants';
 
 const submit = () => {
   return Promise.resolve(
