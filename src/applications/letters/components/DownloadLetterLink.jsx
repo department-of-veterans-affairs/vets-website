@@ -115,8 +115,8 @@ function mapStateToProps(state, ownProps) {
 }
 
 DownloadLetterLink.propTypes = {
-  letterType: PropTypes.string.required,
-  letterName: PropTypes.string.required,
+  letterType: PropTypes.string.isRequired,
+  letterName: PropTypes.string.isRequired,
   downloadStatus: PropTypes.string,
 };
 
