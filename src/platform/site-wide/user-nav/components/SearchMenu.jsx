@@ -95,9 +95,8 @@ export class SearchMenu extends React.Component {
     // fetch suggestions
     try {
       const response = await fetch(
-        `${searchGovSuggestionEndpoint}?=&name=va&q=${encodedInput}`,
+        `${searchGovSuggestionEndpoint}?name=va&q=${encodedInput}`,
       );
-
       const suggestions = await response.json();
       if (suggestions.length !== 0) {
         const sortedSuggestions = suggestions.sort(function(a, b) {
