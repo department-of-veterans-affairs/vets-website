@@ -28,4 +28,5 @@ export default {
   SECURE_MESSAGING_PAGE: 'secure-messaging-page',
   VIEW_TEST_AND_LAB_RESULTS_PAGE: 'view-test-and-lab-results-page',
   VIEW_PAYMENT_HISTORY: 'view-payment-history',
+  DEPENDENCY_VERIFICATION: 'dependency-verification',
 };

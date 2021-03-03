@@ -56,13 +56,6 @@ const healthServicesListingPage = `
                         ... on NodeHealthCareLocalFacility {
                           entityUrl {
                             ... on EntityCanonicalUrl {
-                              breadcrumb {
-                                url {
-                                  path
-                                  routed
-                                }
-                                text
-                              }
                               path
                             }
                           }
