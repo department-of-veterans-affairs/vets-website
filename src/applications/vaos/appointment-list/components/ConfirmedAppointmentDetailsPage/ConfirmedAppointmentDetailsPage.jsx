@@ -32,6 +32,7 @@ import { getCancelInfo } from '../../redux/selectors';
 import { selectFeatureCancel } from '../../../redux/selectors';
 import VideoVisitSection from './VideoVisitSection';
 import { formatFacilityAddress } from 'applications/vaos/services/location';
+import Breadcrumbs from '../../../components/Breadcrumbs';
 
 function formatAppointmentDate(date) {
   if (!date.isValid()) {
@@ -127,10 +128,9 @@ function ConfirmedAppointmentDetailsPage({
 
   return (
     <div>
-      <div className="vads-u-display--block vads-u-padding-y--2p5 vaos-hide-for-print">
-        ‹ <Link to="/">Manage appointments</Link>
-      </div>
-
+      <Breadcrumbs>
+        <Link to="/">Details Page</Link>
+      </Breadcrumbs>
       <h1>
         <AppointmentDateTime
           appointmentDate={moment.parseZone(appointment.start)}

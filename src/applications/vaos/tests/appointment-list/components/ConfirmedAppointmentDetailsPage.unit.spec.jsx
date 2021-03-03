@@ -183,11 +183,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       }),
     ).to.be.ok;
 
-    // Verify 'Manage appointments' link works...
-    const manageAppointmentLink = await screen.findByRole('link', {
-      name: /Manage appointments/,
+    // Verify breadcrumb links works...
+    const VAOSHomepageLink = await screen.findByRole('link', {
+      name: /VA online scheduling/,
     });
-    userEvent.click(manageAppointmentLink);
+    userEvent.click(VAOSHomepageLink);
     expect(await screen.findAllByText(/Detail/)).to.be.ok;
   });
 

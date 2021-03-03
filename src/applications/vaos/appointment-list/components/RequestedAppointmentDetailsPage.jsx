@@ -16,7 +16,7 @@ import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import ListBestTimeToCall from './cards/pending/ListBestTimeToCall';
 import VAFacilityLocation from '../../components/VAFacilityLocation';
 import CancelAppointmentModal from './cancel/CancelAppointmentModal';
-
+import Breadcrumbs from '../../components/Breadcrumbs';
 import {
   getPatientTelecom,
   isVideoAppointment,
@@ -94,9 +94,9 @@ function RequestedAppointmentDetailsPage({
 
   return (
     <div>
-      <div className="vads-u-display--block vads-u-padding-y--2p5">
-        ‹ <Link to="/requested">Manage appointments</Link>
-      </div>
+      <Breadcrumbs>
+        <Link to="/">Details Page</Link>
+      </Breadcrumbs>
 
       <h1>
         {canceled ? 'Canceled' : 'Pending'} {typeOfCareText} appointment

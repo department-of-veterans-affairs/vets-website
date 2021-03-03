@@ -15,6 +15,7 @@ import AddToCalendar from '../../components/AddToCalendar';
 import { selectFeatureCancel } from '../../redux/selectors';
 import FacilityAddress from '../../components/FacilityAddress';
 import { formatFacilityAddress } from '../../services/location';
+import Breadcrumbs from '../../components/Breadcrumbs';
 
 function CommunityCareAppointmentDetailsPage({
   appointmentDetails,
@@ -69,9 +70,9 @@ function CommunityCareAppointmentDetailsPage({
 
   return (
     <div>
-      <div className="vads-u-display--block vads-u-padding-y--2p5 vaos-hide-for-print">
-        ‹ <Link to="/">Manage appointments</Link>
-      </div>
+      <Breadcrumbs>
+        <Link to="/">Details Page</Link>
+      </Breadcrumbs>
 
       <h1>
         <AppointmentDateTime

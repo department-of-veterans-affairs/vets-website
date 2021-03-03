@@ -98,7 +98,7 @@ describe('<ConfirmedAppointmentDetailsPage>', () => {
         expect(screen.history.push.lastCall.args[0]).to.equal(url),
       );
 
-      expect(screen.getByRole('link', { name: /Manage appointments/ })).to.be
+      expect(screen.getByRole('link', { name: /VA online scheduling/ })).to.be
         .ok;
 
       await screen.findByText(
@@ -678,7 +678,7 @@ describe('<ConfirmedAppointmentDetailsPage>', () => {
         expect(screen.history.push.lastCall.args[0]).to.equal(url),
       );
 
-      expect(screen.getByRole('link', { name: /Manage appointments/ })).to.be
+      expect(screen.getByRole('link', { name: /VA online scheduling/ })).to.be
         .ok;
 
       await screen.findByText(
@@ -772,7 +772,7 @@ describe('<ConfirmedAppointmentDetailsPage>', () => {
         ),
       );
 
-      expect(screen.getByRole('link', { name: /Manage appointments/ })).to.be
+      expect(screen.getByRole('link', { name: /VA online scheduling/ })).to.be
         .ok;
 
       expect(screen.queryByText(/You don’t have any appointments/i)).not.to
