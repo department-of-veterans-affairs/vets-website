@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
@@ -11,26 +11,40 @@ import {
   presentableFormIDs,
   sipFormSorter,
 } from '~/applications/personalization/dashboard/helpers';
+import { removeSavedForm as removeSavedFormAction } from '~/applications/personalization/dashboard/actions';
 
 import ApplicationInProgress from './ApplicationInProgress';
 
-const ApplicationsInProgress = ({ savedForms }) => {
+const ApplicationsInProgress = ({ savedForms, removeSavedForm }) => {
+  const [deletedForms, setDeletedForms] = useState([]);
+  // Filter out non-SIP-enabled applications and expired applications the user
+  // has deleted
   const verifiedSavedForms = useMemo(
-    () => savedForms.filter(isSIPEnabledForm).sort(sipFormSorter),
-    [savedForms],
+    () =>
+      savedForms
+        .filter(isSIPEnabledForm)
+        .filter(form => !deletedForms.includes(form.form))
+        .sort(sipFormSorter),
+    [savedForms, deletedForms],
   );
+
+  const removeForm = formId => {
+    setDeletedForms([...deletedForms, formId]);
+    removeSavedForm(formId, false);
+  };
 
   return (
     <>
       <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--2p5">
         Applications in progress
       </h3>
+
       {verifiedSavedForms.length > 0 && (
         <div className="vads-l-grid-container vads-u-padding--0">
           <div className="vads-l-row">
             {verifiedSavedForms.map(form => {
               const formId = form.form;
-              const formTitle = `Application for ${formTitles[formId]}`;
+              const formTitle = `application for ${formTitles[formId]}`;
               const presentableFormId = presentableFormIDs[formId];
               const { lastUpdated, expiresAt } = form.metadata || {};
               const lastOpenedDate = moment
@@ -39,6 +53,7 @@ const ApplicationsInProgress = ({ savedForms }) => {
               const expirationDate = moment
                 .unix(expiresAt)
                 .format('MMMM D, YYYY');
+              const startNewApplicationUrl = formLinks[formId];
               const continueUrl = `${formLinks[formId]}resume`;
               return (
                 <ApplicationInProgress
@@ -49,6 +64,8 @@ const ApplicationsInProgress = ({ savedForms }) => {
                   formTitle={formTitle}
                   lastOpenedDate={lastOpenedDate}
                   presentableFormId={presentableFormId}
+                  removeForm={removeForm}
+                  startNewApplicationUrl={startNewApplicationUrl}
                 />
               );
             })}
@@ -66,4 +83,11 @@ const mapStateToProps = state => ({
   savedForms: selectProfile(state).savedForms || [],
 });
 
-export default connect(mapStateToProps)(ApplicationsInProgress);
+const mapDispatchToProps = {
+  removeSavedForm: removeSavedFormAction,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ApplicationsInProgress);
