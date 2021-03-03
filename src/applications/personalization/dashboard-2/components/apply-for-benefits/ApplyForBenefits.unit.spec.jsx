@@ -166,7 +166,7 @@ describe('ApplyForBenefits component', () => {
       afterEach(() => {
         global.fetch.restore();
       });
-      it('✨ ✨ should fetch ESR and DD4EDU data and show a loading spinner ✨ ✨', async () => {
+      it('should fetch ESR and DD4EDU data and show a loading spinner', async () => {
         const initialState = {
           user: {
             profile: {
@@ -208,7 +208,7 @@ describe('ApplyForBenefits component', () => {
       });
     });
 
-    context('when user is a VA patient does not have 2FA set up', () => {
+    context('when user is a VA patient and does not have 2FA set up', () => {
       beforeEach(() => {
         fetchSpy = sinon.spy(global, 'fetch');
       });
