@@ -34,14 +34,6 @@ function CommunityCareAppointmentDetailsPage({
     scrollAndFocus();
   }, []);
 
-  useEffect(() => {
-    if (!appointment) {
-      fetchConfirmedAppointmentDetails(id, 'cc');
-    }
-
-    scrollAndFocus();
-  }, []);
-
   if (
     appointmentDetailsStatus === FETCH_STATUS.failed ||
     (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
