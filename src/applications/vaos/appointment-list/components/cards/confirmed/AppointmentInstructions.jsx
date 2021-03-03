@@ -1,9 +1,6 @@
 import React from 'react';
 
-export default function AppointmentInstructions({
-  instructions,
-  isHomepageRefresh,
-}) {
+export default function AppointmentInstructions({ instructions }) {
   if (!instructions) {
     return null;
   }
@@ -12,14 +9,7 @@ export default function AppointmentInstructions({
 
   return (
     <div className="vads-u-flex--1 vads-u-margin-bottom--2 vaos-u-word-break--break-word">
-      {isHomepageRefresh && (
-        <h2 className="vaos-appts__block-label vads-u-font-size--h5">
-          {header}
-        </h2>
-      )}
-      {!isHomepageRefresh && (
-        <h4 className="vaos-appts__block-label">{header}</h4>
-      )}
+      <h4 className="vaos-appts__block-label">{header}</h4>
       <div>{body}</div>
     </div>
   );
