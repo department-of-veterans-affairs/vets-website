@@ -31,7 +31,7 @@ Cypress.Commands.add('verifyOptions', () => {
 describe('Facility search', () => {
   before(function() {
     // This test crashes in Jenkins about 5% of the time.
-    if (!Cypress.env('CIRCLECI')) this.skip();
+    // /if (!Cypress.env('CIRCLECI')) this.skip();
     cy.syncFixtures({
       constants: path.join(__dirname, '..', '..', 'constants'),
     });
@@ -74,7 +74,7 @@ describe('Facility search', () => {
     cy.get('#other-tools').should('exist');
   });
 
-  it.skip('should render breadcrumbs ', () => {
+  it('should render breadcrumbs ', () => {
     cy.visit('/find-locations');
 
     cy.get('#street-city-state-zip').type('Austin, TX');
