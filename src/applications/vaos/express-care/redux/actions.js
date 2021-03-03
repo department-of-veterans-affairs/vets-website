@@ -87,7 +87,7 @@ export function openAdditionalDetailsPage(page, uiSchema, schema) {
   };
 }
 
-/**
+/*
  * Fetches request limits for all active windows and selects the first one
  * where the user has not reached their request limit
  */
