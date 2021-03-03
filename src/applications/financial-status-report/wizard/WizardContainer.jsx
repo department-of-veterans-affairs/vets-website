@@ -7,10 +7,7 @@ import Wizard, {
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
 
-const FSR_FORM_STATUS = 'fsrFormStatus';
-
 const WizardContainer = ({ setWizardStatus }) => {
-  sessionStorage.removeItem(FSR_FORM_STATUS);
   return (
     <div className="fsr-wizard row">
       <div className="usa-width-two-thirds medium-8 columns">

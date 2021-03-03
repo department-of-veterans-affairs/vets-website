@@ -5,13 +5,12 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import ErrorMessage from '../components/ErrorMessage';
 import { fetchFormStatus } from '../actions/index';
-
 import WizardContainer from '../wizard/WizardContainer';
+import { WIZARD_STATUS } from '../wizard/constants';
 import {
-  WIZARD_STATUS,
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
-} from 'applications/static-pages/wizard';
+} from 'platform/site-wide/wizard';
 
 const App = ({
   location,
@@ -22,11 +21,9 @@ const App = ({
   getFormStatus,
 }) => {
   const showMainContent = !pending && !isError;
-  const showWizard = true;
-  const defaultWizardState =
-    sessionStorage.getItem(WIZARD_STATUS) || WIZARD_STATUS_NOT_STARTED;
-
-  const [wizardState, setWizardState] = useState(defaultWizardState);
+  const [wizardState, setWizardState] = useState(
+    sessionStorage.getItem(WIZARD_STATUS) || WIZARD_STATUS_NOT_STARTED,
+  );
 
   const setWizardStatus = value => {
     sessionStorage.setItem(WIZARD_STATUS, value);
@@ -40,28 +37,28 @@ const App = ({
     [getFormStatus],
   );
 
-  if (showWizard && wizardState !== WIZARD_STATUS_COMPLETE) {
+  if (wizardState !== WIZARD_STATUS_COMPLETE) {
     return <WizardContainer setWizardStatus={setWizardStatus} />;
   }
 
+  if (pending) {
+    return <LoadingIndicator setFocus message="Loading your information..." />;
+  }
+
+  if (isLoggedIn && !pending && isError) {
+    return (
+      <div className="row vads-u-margin-bottom--3">
+        <ErrorMessage />
+      </div>
+    );
+  }
+
   return (
-    <>
-      {pending && (
-        <LoadingIndicator setFocus message="Loading your information..." />
-      )}
-      {isError &&
-        !pending &&
-        isLoggedIn && (
-          <div className="row vads-u-margin-bottom--3">
-            <ErrorMessage />
-          </div>
-        )}
-      {showMainContent && (
-        <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-          {children}
-        </RoutedSavableApp>
-      )}
-    </>
+    showMainContent && (
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        {children}
+      </RoutedSavableApp>
+    )
   );
 };
 
