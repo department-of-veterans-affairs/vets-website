@@ -1068,5 +1068,10 @@
     "domain": "www.benefits.va.gov",
     "src": "/PENSION/rates_veteran_pen17.asp",
     "dest": "/pension/veterans-pension-rates/past-rates-2018/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/vocrehab/vre_process.asp",
+    "dest": "/careers-employment/vocational-rehabilitation/"
   }
 ]
