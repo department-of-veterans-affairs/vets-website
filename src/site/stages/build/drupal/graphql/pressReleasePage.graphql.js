@@ -79,7 +79,7 @@ const GetNodePressReleasePages = `
 
   ${pressReleasePage}
 
-  query GetNodeVaForms($onlyPublishedContent: Boolean!) {
+  query GetNodePressRelease($onlyPublishedContent: Boolean!) {
     nodeQuery(limit: 1000, filter: {
       conditions: [
         { field: "status", value: ["1"], enabled: $onlyPublishedContent },
