@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 export default function createCovidVaccineUpdatesWidget(store, _widgetType) {
-  const isCovidVaccineUpdatesPage =
-    document.location.pathname === '/health-care/covid-19-vaccine/';
+  const isCovidVaccineUpdatesPage = document.location.pathname.includes(
+    '/health-care/covid-19-vaccine',
+  );
 
   if (!isCovidVaccineUpdatesPage) {
     return;
