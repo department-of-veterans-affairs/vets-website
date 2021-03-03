@@ -75,7 +75,7 @@ function RequestedAppointmentDetailsPage({
   ) {
     return (
       <FullWidthLayout>
-        <ErrorMessage />
+        <ErrorMessage level={1} />
       </FullWidthLayout>
     );
   }

@@ -305,4 +305,25 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     expect(printSpy.calledOnce).to.be.true;
     global.window.print = oldPrint;
   });
+
+  it('should show error message when single fetch errors', async () => {
+    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
+    mockSingleAppointmentFetch({
+      appointment,
+      type: 'va',
+      error: true,
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: url,
+    });
+
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: 'We’re sorry. We’ve run into a problem',
+      }),
+    ).to.be.ok;
+  });
 });

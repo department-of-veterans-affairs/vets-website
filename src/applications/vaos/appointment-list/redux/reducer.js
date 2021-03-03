@@ -25,6 +25,8 @@ import {
   FETCH_FACILITY_LIST_DATA_SUCCEEDED,
   FETCH_CONFIRMED_DETAILS,
   FETCH_CONFIRMED_DETAILS_SUCCEEDED,
+  FETCH_CONFIRMED_DETAILS_FAILED,
+  FETCH_REQUEST_DETAILS_FAILED,
 } from './actions';
 
 import {
@@ -166,6 +168,13 @@ export default function appointmentsReducer(state = initialState, action) {
       return {
         ...state,
         appointmentDetailsStatus: FETCH_STATUS.loading,
+      };
+    }
+    case FETCH_CONFIRMED_DETAILS_FAILED:
+    case FETCH_REQUEST_DETAILS_FAILED: {
+      return {
+        ...state,
+        appointmentDetailsStatus: FETCH_STATUS.failed,
       };
     }
     case FETCH_CONFIRMED_DETAILS_SUCCEEDED:

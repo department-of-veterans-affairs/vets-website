@@ -318,4 +318,24 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(screen.queryByRole('alertdialog')).to.not.be.ok;
     expect(screen.baseElement).to.contain.text('canceled');
   });
+
+  it('should show error message when single fetch errors', async () => {
+    mockSingleRequestFetch({
+      request: appointment,
+      type: 'va',
+      error: true,
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: `/requests/${appointment.id}`,
+    });
+
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: 'We’re sorry. We’ve run into a problem',
+      }),
+    ).to.be.ok;
+  });
 });
