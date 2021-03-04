@@ -48,14 +48,8 @@ class ClaimStatusPage extends React.Component {
       ? 'Status - Your Claim'
       : `Status - Your ${getClaimType(this.props.claim)} Claim`;
   }
-
-  getClaimById(stemClaims) {
-    return stemClaims.find(claim => claim.id === this.props.params.id);
-  }
-
   render() {
-    const { claim, loading, message, synced, stemClaims } = this.props;
-    const stemClaim = this.getClaimById(stemClaims);
+    const { claim, loading, message, synced } = this.props;
 
     let content = null;
     // claim can be null
@@ -95,6 +89,7 @@ class ClaimStatusPage extends React.Component {
         </div>
       );
     }
+
     return (
       <ClaimDetailLayout
         id={this.props.params.id}
@@ -104,7 +99,6 @@ class ClaimStatusPage extends React.Component {
         currentTab="Status"
         message={message}
         synced={synced}
-        stemClaim={stemClaim}
       >
         {content}
       </ClaimDetailLayout>
@@ -120,7 +114,6 @@ function mapStateToProps(state) {
     message: claimsState.notifications.message,
     lastPage: claimsState.routing.lastPage,
     synced: claimsState.claimSync.synced,
-    stemClaims: claimsState.claimsV2.stemClaims,
   };
 }
 

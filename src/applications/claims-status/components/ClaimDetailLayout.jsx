@@ -11,8 +11,6 @@ import Notification from '../components/Notification';
 import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import { isPopulatedClaim, getClaimType } from '../utils/helpers';
-import DeniedDetails from './appeals-v2/DeniedDetails';
-import StemAskVAQuestions from './StemAskVAQuestions';
 
 const MAX_CONTENTIONS = 3;
 
@@ -25,7 +23,6 @@ export default function ClaimDetailLayout(props) {
     currentTab,
     synced,
     id,
-    stemClaim,
   } = props;
   const tabs = ['Status', 'Files', 'Details'];
   const claimsPath = `your-claims/${id}`;
@@ -36,8 +33,6 @@ export default function ClaimDetailLayout(props) {
     bodyContent = (
       <LoadingIndicator setFocus message="Loading your claim information..." />
     );
-  } else if (stemClaim !== null) {
-    bodyContent = <DeniedDetails stemClaim={stemClaim} />;
   } else if (claim !== null) {
     headingContent = (
       <>
@@ -117,11 +112,7 @@ export default function ClaimDetailLayout(props) {
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
             <ClaimsBreadcrumbs>
-              <Link to={claimsPath}>
-                {stemClaim !== null
-                  ? 'Your Edith Nourse Rogers STEM Scholarship Application'
-                  : 'Status details'}
-              </Link>
+              <Link to={claimsPath}>Status details</Link>
             </ClaimsBreadcrumbs>
           </div>
         </div>
@@ -137,7 +128,7 @@ export default function ClaimDetailLayout(props) {
             {bodyContent}
           </div>
           <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4 help-sidebar">
-            {stemClaim !== null ? <AskVAQuestions /> : <StemAskVAQuestions />}
+            <AskVAQuestions />
           </div>
         </div>
       </div>

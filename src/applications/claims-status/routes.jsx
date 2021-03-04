@@ -69,19 +69,6 @@ const routes = [
   >
     <IndexRedirect to="status" />
     <Route component={StemClaimStatusPage} path="status" />,
-    {/* <Route component={FilesPage} path="files" />, */}
-    <Route component={DetailsPage} path="details" />,
-    <Route component={AskVAPage} path="ask-va-to-decide" />,
-    {/* <Route
-      component={DocumentRequestPage}
-      path="document-request/:trackedItemId"
-    /> */}
-    {/* <Route
-      component={ClaimEstimationPage}
-      key="claim-estimate"
-      path="claim-estimate"
-    />
-    , */}
   </Route>,
 ];
 
