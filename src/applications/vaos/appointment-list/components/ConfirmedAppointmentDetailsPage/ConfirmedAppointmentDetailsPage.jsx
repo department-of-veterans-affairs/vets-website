@@ -59,16 +59,16 @@ function formatInstructions(instructions) {
     return null;
   }
 
-  return instructions.split('\n').reduce((obj, str) => {
-    const strParts = str.split(': ');
-    if (strParts[0] && strParts[1]) {
-      return {
-        header: strParts[0],
-        body: strParts[1],
-      };
-    }
-    return null;
-  }, {});
+  const strParts = instructions.split(': ');
+
+  if (strParts[0] && strParts[1]) {
+    return {
+      header: strParts[0],
+      body: strParts[1],
+    };
+  }
+
+  return null;
 }
 
 function ConfirmedAppointmentDetailsPage({
