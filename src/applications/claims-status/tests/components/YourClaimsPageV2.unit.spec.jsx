@@ -12,6 +12,7 @@ describe('<YourClaimsPageV2>', () => {
     canAccessAppeals: true,
     claimsLoading: false,
     appealsLoading: false,
+    stemClaimsLoading: false,
     loading: false,
     appealsAvailable: 'AVAILABLE',
     claimsAvailable: 'AVAILABLE',
@@ -33,18 +34,20 @@ describe('<YourClaimsPageV2>', () => {
     consolidatedModal: false,
     getClaimsV2: sinon.spy(),
     getAppealsV2: sinon.spy(),
+    getStemClaims: sinon.spy(),
   };
 
   it('should render', () => {
-    const wrapper = shallow(<YourClaimsPageV2 />);
+    const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
     expect(wrapper.type()).to.equal('div');
     wrapper.unmount();
   });
 
-  it('should render a loading indicator if both requests loading', () => {
+  it('should render a loading indicator if all requests loading', () => {
     const props = _.cloneDeep(defaultProps);
     props.appealsLoading = true;
     props.claimsLoading = true;
+    props.stemClaimsLoading = true;
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('LoadingIndicator').length).to.equal(1);
     wrapper.unmount();
@@ -52,7 +55,7 @@ describe('<YourClaimsPageV2>', () => {
 
   it('should render a loading indicator if one list empty and other loading', () => {
     const props = _.cloneDeep(defaultProps);
-    props.appealsLoading = true;
+    props.stemClaimsLoading = true;
     props.list = [];
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('LoadingIndicator').length).to.equal(1);
