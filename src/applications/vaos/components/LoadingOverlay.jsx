@@ -17,7 +17,7 @@ export default function LoadingOverlay({ show, message }) {
     return (
       <div className="vaos__loading-overlay">
         <div className="vaos__loading-overlay-inner">
-          <LoadingIndicator message={message} />
+          <LoadingIndicator setFocus message={message} />
         </div>
       </div>
     );
