@@ -15,6 +15,7 @@ import {
   mockAppointmentInfo,
   mockPastAppointmentInfo,
   mockRequestCancelFetch,
+  mockSingleRequestFetch,
 } from '../../mocks/helpers';
 
 const initialState = {
@@ -34,10 +35,10 @@ describe('VAOS <ExpressCareDetailsPage>', () => {
   });
 
   it('should render submitted Express Care request details', async () => {
-    const appointment = getVARequestMock();
+    const request = getVARequestMock();
     const startDate = moment();
-    appointment.attributes = {
-      ...appointment.attributes,
+    request.attributes = {
+      ...request.attributes,
       typeOfCareId: 'CR1',
       status: 'Submitted',
       email: 'patient.test@va.gov',
@@ -46,16 +47,12 @@ describe('VAOS <ExpressCareDetailsPage>', () => {
       additionalInformation: 'Need help ASAP',
       date: startDate.format(),
     };
-    appointment.id = '1234';
-    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
+    request.id = '1234';
+    mockSingleRequestFetch({ request });
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
+      path: `/express-care/${request.id}`,
     });
-    const detailLinks = await screen.findAllByRole('link', {
-      name: /Detail/i,
-    });
-
-    userEvent.click(detailLinks[0]);
 
     expect(await screen.findByText('Back pain')).to.be.ok;
     expect(screen.baseElement).to.contain.text(
@@ -309,5 +306,27 @@ describe('VAOS <ExpressCareDetailsPage>', () => {
     expect(screen.baseElement).to.contain.text(
       'This screening has been canceled.',
     );
+  });
+
+  it('should render error message if fetch fails', async () => {
+    const request = getVARequestMock();
+    request.attributes = {
+      ...request.attributes,
+      typeOfCareId: 'CR1',
+      status: 'Submitted',
+    };
+    request.id = '1234';
+    mockSingleRequestFetch({ request, error: true });
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: `/express-care/${request.id}`,
+    });
+
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: 'We’re sorry. We’ve run into a problem',
+      }),
+    ).to.be.ok;
   });
 });

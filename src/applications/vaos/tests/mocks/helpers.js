@@ -779,6 +779,16 @@ export function mockGetCurrentPosition({
   };
 }
 
+/**
+ * Mocks the fetch request made when retrieving a single request
+ * for the details page
+ *
+ * @export
+ * @param {Object} params
+ * @param {VARRequest} appointment Request to be returned from the mock
+ * @param {boolean} [error=null] Whether or not to return an error from the mock
+ * }
+ */
 export function mockSingleRequestFetch({ request, error = null }) {
   const baseUrl = `${environment.API_URL}/vaos/v0/appointment_requests/${
     request.id
@@ -791,18 +801,57 @@ export function mockSingleRequestFetch({ request, error = null }) {
   }
 }
 
-export function mockSingleAppointmentFetch({
-  appointment,
-  type = 'va',
-  error = null,
-}) {
+/**
+ * Mocks the fetch request made when retrieving a single VA appointment
+ * for the details page
+ *
+ * @export
+ * @param {Object} params
+ * @param {MASAppointment} appointment VA appointment to be returned from the mock
+ * @param {boolean} [error=null] Whether or not to return an error from the mock
+ * }
+ */
+export function mockSingleAppointmentFetch({ appointment, error = null }) {
   const baseUrl = `${environment.API_URL}/vaos/v0/appointments/${
     appointment.id
-  }?type=${type}`;
+  }?type=va`;
 
   if (error) {
     setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
   } else {
     setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data: appointment });
+  }
+}
+
+/**
+ * Mocks the fetch request made when retrieving a single CC appointment
+ * for the details page
+ *
+ * @export
+ * @param {Object} params
+ * @param {VARCommunityCareAppointment} appointment CC appointment to be returned from the mock
+ * @param {boolean} [error=null] Whether or not to return an error from the mock
+ * }
+ */
+export function mockSingleCommunityCareAppointmentFetch({
+  appointment,
+  error = null,
+}) {
+  const baseUrl = `${
+    environment.API_URL
+  }/vaos/v0/appointments?start_date=${moment()
+    .subtract(395, 'days')
+    .startOf('day')
+    .toISOString()}&end_date=${moment()
+    .add(395, 'days')
+    .startOf('day')
+    .toISOString()}&type=cc`;
+
+  if (error) {
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
+  } else {
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
+      data: [appointment],
+    });
   }
 }
