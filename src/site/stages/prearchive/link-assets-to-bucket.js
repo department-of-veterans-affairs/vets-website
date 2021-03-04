@@ -8,11 +8,29 @@
 /* eslint-disable no-continue */
 
 const fs = require('fs');
-const jsdom = require('jsdom');
 const path = require('path');
 const buckets = require('../../constants/buckets');
+const updateAssetLinkElements = require('./helpers');
 
-const TEAMSITE_ASSETS = 'va_files';
+function linkAssetsToBucketHTML(options, fileNames, bucketPath) {
+  const teamsiteAssets = 'va_files';
+  const assetLinkTags = 'script, img, link, picture > source';
+
+  const htmlFileNames = fileNames.filter(
+    file => path.extname(file) === '.html',
+  );
+
+  htmlFileNames.forEach(fileName => {
+    const htmlFile = fs.readFileSync(fileName);
+    const updatedFile = updateAssetLinkElements(
+      htmlFile,
+      assetLinkTags,
+      teamsiteAssets,
+      bucketPath,
+    );
+    fs.writeFileSync(fileName, updatedFile);
+  });
+}
 
 function linkAssetsToBucket(options, fileNames) {
   const bucketPath = buckets[options.buildtype];
@@ -20,60 +38,7 @@ function linkAssetsToBucket(options, fileNames) {
   // Heroku deployments (review instances) won't have a bucket.
   if (!bucketPath) return;
 
-  const htmlFileNames = fileNames.filter(
-    file => path.extname(file) === '.html',
-  );
-
-  for (const htmlFileName of htmlFileNames) {
-    const htmlFile = fs.readFileSync(htmlFileName);
-    const dom = new jsdom.JSDOM(htmlFile.toString());
-
-    const assetLinkElements = Array.from(
-      dom.window.document.querySelectorAll(
-        'script, img, link, picture > source',
-      ),
-    );
-
-    const possibleSrcProps = ['src', 'href', 'data-src', 'srcset'];
-
-    for (const element of assetLinkElements) {
-      for (const prop of possibleSrcProps) {
-        let assetSrcProp = null;
-        let assetSrc = null;
-
-        assetSrcProp = prop;
-        assetSrc = element.getAttribute(assetSrcProp);
-
-        // Making an assumption here that we don't use srcset
-        // to point to both external and internal images
-        if (
-          !assetSrc ||
-          assetSrc.startsWith('http') ||
-          assetSrc.startsWith('data:') ||
-          assetSrc.includes(TEAMSITE_ASSETS)
-        )
-          continue;
-
-        let assetBucketLocation;
-
-        if (prop === 'srcset') {
-          const sources = assetSrc.split(',');
-          assetBucketLocation = sources
-            .map(src => `${bucketPath}${src.trim()}`)
-            .join(', ');
-        } else {
-          assetBucketLocation = `${bucketPath}${assetSrc}`;
-        }
-
-        element.setAttribute(assetSrcProp, assetBucketLocation);
-      }
-    }
-
-    const newContents = new Buffer(dom.serialize());
-
-    fs.writeFileSync(htmlFileName, newContents);
-    dom.window.close();
-  }
+  linkAssetsToBucketHTML(options, fileNames, bucketPath);
 
   const cssFileNames = fileNames.filter(file => path.extname(file) === '.css');
   const cssUrlRegex = new RegExp(/url\(\/(?!(va_files))/, 'g');
