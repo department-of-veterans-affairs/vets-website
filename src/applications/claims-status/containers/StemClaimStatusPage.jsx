@@ -7,7 +7,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import StemAskVAQuestions from '../components/StemAskVAQuestions';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
-import DeniedDetails from '../components/DeniedDetails';
+import StemDeniedDetails from '../components/StemDeniedDetails';
 
 class StemClaimStatusPage extends React.Component {
   componentDidMount() {
@@ -32,7 +32,7 @@ class StemClaimStatusPage extends React.Component {
         />
       );
     } else if (claim) {
-      content = <DeniedDetails claim={claim} />;
+      content = <StemDeniedDetails claim={claim} />;
     } else {
       content = (
         <>

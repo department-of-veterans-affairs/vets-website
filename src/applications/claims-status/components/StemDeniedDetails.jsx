@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
-const DeniedDetails = props => {
+const StemDeniedDetails = props => {
   const { deniedAt, remainingEntitlement } = props.claim.attributes;
   const date = moment(deniedAt).format('MM/DD/YYYY');
 
@@ -178,4 +178,4 @@ const DeniedDetails = props => {
   );
 };
 
-export default DeniedDetails;
+export default StemDeniedDetails;
