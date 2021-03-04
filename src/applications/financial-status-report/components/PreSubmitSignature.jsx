@@ -101,6 +101,6 @@ const PreSubmitSignature = ({ formData, showError }) => {
   );
 };
 export default {
-  required: true,
+  required: false,
   CustomComponent: PreSubmitSignature,
 };

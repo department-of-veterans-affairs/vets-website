@@ -33,7 +33,7 @@ export class SearchMenu extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { userInput } = this.state;
-    const { searchTypeaheadEnabled } = this.props;
+    const { searchTypeaheadEnabled, isOpen } = this.props;
 
     // if userInput has changed, fetch suggestions for the typeahead experience
     const inputChanged = prevState.userInput !== userInput;
@@ -56,6 +56,12 @@ export class SearchMenu extends React.Component {
         });
         sessionStorage.setItem('searchTypeaheadLogged', JSON.stringify(true));
       }
+    }
+
+    // focus the query input when the search menu is opened
+    const inputField = document.getElementById('query');
+    if (isOpen && !prevProps.isOpen && inputField) {
+      inputField.focus();
     }
   }
 
@@ -90,9 +96,8 @@ export class SearchMenu extends React.Component {
     // fetch suggestions
     try {
       const response = await fetch(
-        `${searchGovSuggestionEndpoint}?=&name=va&q=${encodedInput}`,
+        `${searchGovSuggestionEndpoint}?name=va&q=${encodedInput}`,
       );
-
       const suggestions = await response.json();
       if (suggestions.length !== 0) {
         const sortedSuggestions = suggestions.sort(function(a, b) {

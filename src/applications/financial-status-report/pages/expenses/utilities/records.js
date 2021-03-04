@@ -41,6 +41,7 @@ export const uiSchema = {
     },
   },
 };
+
 export const schema = {
   type: 'object',
   properties: {
@@ -48,6 +49,7 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
+        title: 'Utility',
         required: ['utilityType', 'monthlyUtilityAmount'],
         properties: {
           utilityType: {

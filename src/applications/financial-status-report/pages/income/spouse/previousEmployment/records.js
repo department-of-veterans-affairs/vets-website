@@ -20,7 +20,7 @@ export const uiSchema = {
         },
         items: {
           'ui:options': {
-            classNames: 'vads-u-margin-top--3 vads-u-margin-bottom--3',
+            classNames: 'vads-u-margin-bottom--3',
           },
           previousEmploymentType: {
             'ui:title': 'Type of work',
@@ -61,6 +61,7 @@ export const schema = {
               type: 'array',
               items: {
                 type: 'object',
+                title: 'Previous employment',
                 required: [
                   'previousEmploymentType',
                   'previousEmploymentStart',

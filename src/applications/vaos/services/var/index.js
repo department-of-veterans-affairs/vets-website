@@ -26,6 +26,18 @@ export function getPendingAppointments(startDate, endDate) {
   ).then(parseApiList);
 }
 
+export function getPendingAppointment(id) {
+  return apiRequestWithMocks(`/vaos/v0/appointment_requests/${id}`).then(
+    parseApiObject,
+  );
+}
+
+export function getConfirmedAppointment(id, type) {
+  return apiRequestWithMocks(`/vaos/v0/appointments/${type}/${id}`).then(
+    parseApiObject,
+  );
+}
+
 export function getRequestMessages(requestId) {
   return apiRequestWithMocks(
     `/vaos/v0/appointment_requests/${requestId}/messages`,
