@@ -70,10 +70,6 @@ function TypeOfCarePage({
     }
   }, []);
 
-  if (!schema) {
-    return null;
-  }
-
   return (
     <div>
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
@@ -90,32 +86,34 @@ function TypeOfCarePage({
         />
       )}
 
-      <SchemaForm
-        name="Type of care"
-        title="Type of care"
-        schema={schema}
-        uiSchema={uiSchema}
-        onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
-        onChange={newData => {
-          // When someone chooses a type of care that can be direct scheduled,
-          // kick off the past appointments fetch, which takes a while
-          // This could get called multiple times, but the function is memoized
-          // and returns the previous promise if it eixsts
-          if (showDirectScheduling) {
-            getLongTermAppointmentHistory();
-          }
+      {!!schema && (
+        <SchemaForm
+          name="Type of care"
+          title="Type of care"
+          schema={schema}
+          uiSchema={uiSchema}
+          onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
+          onChange={newData => {
+            // When someone chooses a type of care that can be direct scheduled,
+            // kick off the past appointments fetch, which takes a while
+            // This could get called multiple times, but the function is memoized
+            // and returns the previous promise if it eixsts
+            if (showDirectScheduling) {
+              getLongTermAppointmentHistory();
+            }
 
-          updateFormData(pageKey, uiSchema, newData);
-        }}
-        data={data}
-      >
-        <TypeOfCareAlert />
-        <FormButtons
-          onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
-          pageChangeInProgress={pageChangeInProgress}
-          loadingText="Page change in progress"
-        />
-      </SchemaForm>
+            updateFormData(pageKey, uiSchema, newData);
+          }}
+          data={data}
+        >
+          <TypeOfCareAlert />
+          <FormButtons
+            onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+            pageChangeInProgress={pageChangeInProgress}
+            loadingText="Page change in progress"
+          />
+        </SchemaForm>
+      )}
       <PodiatryAppointmentUnavailableModal
         showModal={showPodiatryApptUnavailableModal}
         onClose={hidePodiatryAppointmentUnavailableModal}
