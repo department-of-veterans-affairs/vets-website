@@ -41,6 +41,11 @@
       align-items: center;
       margin: 20px 0;
     }
+    .schemaform-block-header {
+      // title prop required in items schema but should be
+      // hidden in item loop component
+      display: none;
+    }
     .schemaform-label {
       margin-top: 0;
     }
