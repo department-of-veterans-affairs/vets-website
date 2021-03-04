@@ -71,7 +71,7 @@ const I18Select = ({ baseUrls }) => {
                 // For "off-state" use standard blue and underline text
                 className={`vads-u-font-size--base vads-u-font-family--sans vads-u-padding-bottom-0p5 ${
                   k === lang
-                    ? 'vads-u-font-weight--bold vads-u-color--base'
+                    ? 'vads-u-font-weight--bold vads-u-color--base vads-u-text-decoration--none'
                     : ''
                 }`}
                 onClick={e => {
