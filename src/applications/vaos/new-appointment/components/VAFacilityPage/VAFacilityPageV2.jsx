@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import { usePrevious } from 'platform/utilities/react-hooks';
 
 import * as actions from '../../redux/actions';
 import { getFacilityPageV2Info } from '../../redux/selectors';
@@ -97,6 +98,16 @@ function VAFacilityPageV2({
       scrollAndFocus();
     },
     [isLoading],
+  );
+
+  const previouslyShowingModal = usePrevious(showEligibilityModal);
+  useEffect(
+    () => {
+      if (!showEligibilityModal && previouslyShowingModal) {
+        scrollAndFocus('.usa-button-primary');
+      }
+    },
+    [showEligibilityModal, previouslyShowingModal],
   );
 
   const goBack = () => routeToPreviousAppointmentPage(history, pageKey);

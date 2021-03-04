@@ -188,6 +188,7 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
+        title: 'Resolution',
         properties: {
           financialOverview: {
             type: 'object',
