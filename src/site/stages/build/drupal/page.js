@@ -254,20 +254,16 @@ function getFacilitySidebar(page, contentData) {
       );
 
       const sidebarNames = Object.values(contentData.data)
-        .filter(queryData => {
-          return queryData?.name;
-        })
-        .map(q => `- ${q.name}`);
+        .filter(queryData => queryData?.name)
+        .map(queryData => `- ${queryData.name}`);
 
       console.log(chalk.red(sidebarNames.join('\n')));
 
+      const stringifiedPage = JSON.stringify(page, null, 2);
+
       console.log(
         chalk.red(
-          `Here is the entity evaluated when this error was triggered: \n${JSON.stringify(
-            page,
-            null,
-            2,
-          )}`,
+          `Here is the entity evaluated when this error was triggered: \n${stringifiedPage}`,
         ),
       );
 
