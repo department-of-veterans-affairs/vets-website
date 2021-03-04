@@ -19,7 +19,14 @@ function ViewDependentsLayout(props) {
   if (props.loading) {
     mainContent = <LoadingIndicator message="Loading your information..." />;
   } else if (props.error && isServerError(props.error.code)) {
-    mainContent = <AlertBox content={errorFragment} status="error" />;
+    mainContent = (
+      <AlertBox
+        content={errorFragment}
+        status="error"
+        headline="We're sorry. Something went wrong on our end"
+        level="2"
+      />
+    );
   } else if (props.error && isClientError(props.error.code)) {
     mainContent = <AlertBox content={infoFragment} status="info" />;
   } else if (
