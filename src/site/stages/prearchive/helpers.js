@@ -1,6 +1,8 @@
 const cheerio = require('cheerio');
 
 function updateNotNeededCheck(assetSrc, teamsiteAssets) {
+  // Making an assumption here that we don't use srcset
+  // to point to both external and internal images
   return (
     !assetSrc ||
     assetSrc.startsWith('http') ||

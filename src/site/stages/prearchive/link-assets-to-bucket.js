@@ -28,7 +28,8 @@ function linkAssetsToBucketHTML(options, fileNames, bucketPath) {
       teamsiteAssets,
       bucketPath,
     );
-    fs.writeFileSync(fileName, updatedFile);
+    const updatedFileBuffer = Buffer.from(updatedFile.html());
+    fs.writeFileSync(fileName, updatedFileBuffer);
   });
 }
 
