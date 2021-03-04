@@ -3,11 +3,9 @@ import { Link } from 'react-router';
 import moment from 'moment';
 import { orderBy } from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
-import { APPEAL_TYPES } from '../utils/appeals-v2-helpers';
+import { appealTypes } from '../utils/appeals-v2-helpers';
 
 import { getClaimType } from '../utils/helpers';
-
-const appealTypes = Object.values(APPEAL_TYPES);
 
 export default function ClosedClaimMessage({ claims, onClose }) {
   const closedClaims = claims
