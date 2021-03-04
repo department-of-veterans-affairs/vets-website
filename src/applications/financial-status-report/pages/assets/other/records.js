@@ -66,6 +66,7 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
+        title: 'Record',
         required: ['otherAssetType', 'otherAssetAmount'],
         properties: {
           otherAssetType: {
