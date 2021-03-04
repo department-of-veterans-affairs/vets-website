@@ -49,7 +49,7 @@ const testEmptyResponse = () => {
 
 const testServerError = () => {
   testAxe();
-  cy.intercept('GET', DEPENDENTS_ENDPOINT, {
+  cy.intercept(DEPENDENTS_ENDPOINT, {
     body: {
       errors: [
         {
@@ -68,7 +68,6 @@ const testServerError = () => {
 describe('View VA dependents', () => {
   beforeEach(() => {
     disableFTUXModals();
-    cy.login();
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
         type: 'feature_toggles',
@@ -80,6 +79,7 @@ describe('View VA dependents', () => {
         ],
       },
     });
+    cy.login();
     cy.visit(rootUrl);
   });
 
