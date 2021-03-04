@@ -16,7 +16,7 @@ import {
   getStemClaims,
 } from '../actions/index.jsx';
 import {
-  APPEAL_TYPES,
+  appealTypes,
   claimsAvailability,
   appealsAvailability,
   sortByLastUpdated,
@@ -37,8 +37,6 @@ import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import StemClaimListItem from '../components/StemClaimListItem';
-
-const appealTypes = Object.values(APPEAL_TYPES);
 
 class YourClaimsPageV2 extends React.Component {
   constructor(props) {
