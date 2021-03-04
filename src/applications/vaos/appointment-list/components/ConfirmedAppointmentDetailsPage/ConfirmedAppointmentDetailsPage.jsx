@@ -197,9 +197,9 @@ function ConfirmedAppointmentDetailsPage({
               instructions && (
                 <div className="vads-u-margin-top--3 vaos-appts__block-label">
                   <div className="vads-u-flex--1 vads-u-margin-bottom--2 vaos-u-word-break--break-word">
-                    <h5 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+                    <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
                       {instructions.header}
-                    </h5>
+                    </h2>
                     <div>{instructions.body}</div>
                   </div>
                 </div>

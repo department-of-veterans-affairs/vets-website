@@ -10,11 +10,25 @@ import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import * as actions from '../redux/actions';
 import AppointmentDateTime from './cards/confirmed/AppointmentDateTime';
 import { getVARFacilityId } from '../../services/appointment';
-import AppointmentInstructions from './cards/confirmed/AppointmentInstructions';
 import AddToCalendar from '../../components/AddToCalendar';
 import { selectFeatureCancel } from '../../redux/selectors';
 import FacilityAddress from '../../components/FacilityAddress';
 import { formatFacilityAddress } from '../../services/location';
+
+function formatInstructions(instructions) {
+  // NOTE: A header can be added to a comment by prepending the comment with header text ending with a colon.
+  const prefix = 'Special instructions: ';
+
+  if (!instructions) {
+    return {};
+  }
+
+  const [header, body] = instructions.split(': ', 2);
+  return {
+    header: prefix.concat(header),
+    body,
+  };
+}
 
 function CommunityCareAppointmentDetailsPage({
   appointmentDetails,
@@ -57,12 +71,7 @@ function CommunityCareAppointmentDetailsPage({
   const location = appointment.contained.find(
     res => res.resourceType === 'Location',
   );
-
-  // NOTE: A header can be added to a comment by prepending the comment with header text ending with a colon.
-  const prefix = 'Special instructions: ';
-  const instructions = appointment.comment
-    ? prefix.concat(appointment.comment)
-    : prefix;
+  const instructions = formatInstructions(appointment.comment);
   const practitionerName = appointment.participant?.find(res =>
     res.actor.reference.startsWith('Practitioner'),
   )?.actor.display;
@@ -100,10 +109,12 @@ function CommunityCareAppointmentDetailsPage({
       />
 
       <div className="vads-u-margin-top--3 vaos-appts__block-label">
-        <AppointmentInstructions
-          instructions={instructions}
-          isHomepageRefresh
-        />
+        <div className="vads-u-flex--1 vads-u-margin-bottom--2 vaos-u-word-break--break-word">
+          <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+            {instructions.header}
+          </h2>
+          <div>{instructions.body}</div>
+        </div>
       </div>
 
       <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
