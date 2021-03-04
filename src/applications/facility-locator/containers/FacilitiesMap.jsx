@@ -612,6 +612,7 @@ const FacilitiesMap = props => {
     const debouncedResize = vaDebounce(250, setMobile);
     window.addEventListener('resize', debouncedResize);
     return () => {
+      if (map) map.remove();
       window.removeEventListener('resize', debouncedResize);
       window.removeEventListener('click', handleSearchArea);
       searchAreaSet = false;
