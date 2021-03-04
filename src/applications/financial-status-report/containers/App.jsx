@@ -20,7 +20,6 @@ const App = ({
   isLoggedIn,
   getFormStatus,
 }) => {
-  const renderContent = !pending && !isError;
   const [wizardState, setWizardState] = useState(
     sessionStorage.getItem(WIZARD_STATUS) || WIZARD_STATUS_NOT_STARTED,
   );
@@ -45,16 +44,14 @@ const App = ({
     return <LoadingIndicator setFocus message="Loading your information..." />;
   }
 
-  if (isLoggedIn && !pending && isError) {
+  if (isLoggedIn && isError) {
     return <ErrorMessage />;
   }
 
   return (
-    renderContent && (
-      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-        {children}
-      </RoutedSavableApp>
-    )
+    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+      {children}
+    </RoutedSavableApp>
   );
 };
 
