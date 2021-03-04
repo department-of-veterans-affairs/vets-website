@@ -1,7 +1,8 @@
 import React from 'react';
 import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
+import manifest from '../../manifest.json';
 
-const ROOT_URL = '/manage-va-debt/request-debt-help-5655';
+const ROOT_URL = manifest.rootUrl;
 
 const StartFormButton = ({ setWizardStatus, label, ariaId }) => {
   return (

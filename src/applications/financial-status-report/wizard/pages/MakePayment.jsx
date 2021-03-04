@@ -7,13 +7,13 @@ const MakePayment = () => {
       <p className="vads-u-margin-top--0">
         Based on the information you provided, this isn’t the form you need.
       </p>
-      <p>
+      <p className="vads-u-margin-bottom--0">
         <strong>
           You can make payments on VA disability compensation, pension, or
           education debts online, by phone, or by mail.
         </strong>
       </p>
-      <p>
+      <p className="vads-u-margin-top--1">
         <a href="/manage-va-debt">Find out how to manage your debt</a>
       </p>
       <p>

@@ -17,8 +17,10 @@ const Submit = ({ setWizardStatus }) => {
         label={label}
         ariaId={'other_ways_to_file_526'}
       />
-      <p>
-        <h5>If you submitted VA Form 5655 in the past 6 months</h5>
+      <p className="vads-u-margin-bottom--1">
+        <strong>If you submitted VA Form 5655 in the past 6 months</strong>
+      </p>
+      <p className="vads-u-margin-top--0">
         You don’t need to submit a new request unless you have changes to
         report. <ContactDMC />
       </p>

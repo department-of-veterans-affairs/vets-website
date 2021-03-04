@@ -7,7 +7,7 @@ const Appeals = () => {
       <p className="vads-u-margin-top--0">
         Based on the information you provided, this isn’t the form you need.
       </p>
-      <p>
+      <p className="vads-u-margin-bottom--0">
         <strong>
           If you disagree with our decision on your waiver request,
         </strong>{' '}
@@ -17,7 +17,7 @@ const Appeals = () => {
         Board of Veterans' Appeals in Washington, D.C. A judge who’s an expert
         in Veterans law will review your case.
       </p>
-      <p>
+      <p className="vads-u-margin-top--1">
         <a href="/decision-reviews/board-appeal/">
           Find out how to request a Board Appeal
         </a>

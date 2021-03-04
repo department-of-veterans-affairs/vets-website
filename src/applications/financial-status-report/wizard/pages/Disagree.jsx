@@ -7,21 +7,21 @@ const Disagree = () => {
       <p className="vads-u-margin-top--0">
         Based on the information you provided, this isn’t the form you need.
       </p>
-      <p>
+      <p className="vads-u-margin-bottom--0">
         <strong>
           If you disagree with the VA decision that resulted in this debt,
         </strong>{' '}
         you can submit a supplemental claim or request a higher level review or
         board appeal.
       </p>
-      <p>
+      <p className="vads-u-margin-top--1">
         <a href="/decision-reviews/">Learn more about the VA appeals process</a>
       </p>
-      <p>
+      <p className="vads-u-margin-bottom--0">
         <strong>If you need more help, </strong>
         call your VA benefit office.
       </p>
-      <p>
+      <p className="vads-u-margin-top--1">
         <a href="/resources/helpful-va-phone-numbers/">
           Find helpful VA phone numbers
         </a>
@@ -32,12 +32,12 @@ const Disagree = () => {
         debt letter to request a debt waiver. A waiver is a request to ask us to
         stop collection on your debt.
       </p>
-      <p>
+      <p className="vads-u-margin-bottom--0">
         If you’re worried that we won’t complete your appeal before the 180-day
         limit, you can request a waiver with our online Financial Status Report
         (VA Form 5655).
       </p>
-      <p>
+      <p className="vads-u-margin-top--1">
         <a href="https://www.va.gov/debtman/Financial_Status_Report.asp">
           Request help with VA Form 5655
         </a>
