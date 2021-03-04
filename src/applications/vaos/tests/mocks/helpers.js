@@ -796,9 +796,9 @@ export function mockSingleAppointmentFetch({
   type = 'va',
   error = null,
 }) {
-  const baseUrl = `${environment.API_URL}/vaos/v0/appointments/${
+  const baseUrl = `${environment.API_URL}/vaos/v0/appointments/${type}/${
     appointment.id
-  }?type=${type}`;
+  }`;
 
   if (error) {
     setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
