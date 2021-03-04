@@ -19,11 +19,6 @@ const IntroductionPage = props => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
   const { isLoggedIn, route, savedForms, formId } = props;
-  // if (!isLoggedIn) {
-  //   window.location.replace(
-  //     '/health-care/health-questionnaires/questionnaires',
-  //   );
-  // }
   const { appointment } = props?.questionnaire?.context;
   if (!appointment?.attributes) {
     return (
