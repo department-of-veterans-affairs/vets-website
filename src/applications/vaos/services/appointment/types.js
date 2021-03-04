@@ -13,19 +13,19 @@
  * @typedef {Object} Appointment
  * @property {'Appointment'} resourceType Static resource type string
  * @property {string} id Mapped from appointment.id, request.id, or ccAppointment.id
- * @property {string} ?created Mapped from request.createdDate, timezone is unclear
- * @property {Object} ?cancelationReason Cancellation reason for a requestion, mapped from request.appointmentRequestDetailCode
+ * @property {?string} created Mapped from request.createdDate, timezone is unclear
+ * @property {?Object} cancelationReason Cancellation reason for a requestion, mapped from request.appointmentRequestDetailCode
  * @property {string} cancelationReason.text veteranMessage field mapped only for requests, used for Express Care only
  * @property {AppointmentStatus} status Status for an appointment, from first requested to completed
  * - Mapped from appointment.vdsAppointments[0].currentStatus or appointment.vvsAppointments[0].status.code for appointments.
  * - Mapped from request.status for requests
- * @property {string} ?description Description of an appointment, generally the status description from the downstream system
+ * @property {?string} description Description of an appointment, generally the status description from the downstream system
  * - Mapped from appointment.vdsAppointments[0].currentStatus or appointment.vvsAppointments[0].status.code for appoinments
  * - Mapped from request.status for requests
  * - Mapped from appointment.vdsAppointments[0].currentStatus or appointment.vvsAppointments[0].status.code for appoinments
  * - Null for other types of appointments/requests
- * @property {RequestType} ?type Type of care information for requests, undefined for appointments
- * @property {string} ?start Start time for the appointment
+ * @property {?RequestType} type Type of care information for requests, undefined for appointments
+ * @property {?string} start Start time for the appointment
  * - Mapped from ccAppointment.appointmentTime for CC appointments
  * - Mapped from appointment.vvsAppointments[0].dateTime for video appointments
  * - Mapped from appointment.startDate for VistA appointments
@@ -33,12 +33,12 @@
  * @property {number} minutesDuration=60 The duration of the appointment or requested appointment
  * - Mapped from appointment.vdsAppointments[0].appointmentLength for VistA appointments
  * - Mapped from appointment.vvsAppointments[0].duration for video appointments.
- * @property {string} ?comment Veteran or staff comments about appointments
+ * @property {?string} comment Veteran or staff comments about appointments
  * - Mapped from ccAppointment.instructionsToVeteran for community care appointments
  * - Mapped from appointment.vdsAppointments[0].bookingNotes for VistA appointments
  * - Mapped from appointment.vvsAppointments[0].instructionsTitle for video appointments,
  * - Mapped from request.additionalInformation, but that only has content for Express Care requests
- * @property {string} ?reason The reason given by patient for an appointment
+ * @property {?string} reason The reason given by patient for an appointment
  * - Mapped from request.reasonForVisit for Express Care requests
  * - Mapped from request.purposeForVisit for regular requests
  * - Empty for other appointment types
@@ -48,8 +48,8 @@
  *   Array of fully defined resources for this appointment
  * @property {Object} legacyVAR Object containing untransformed data that we don't have a place for
  * @property {Object} legacyVAR.apiData This is the full appointment/request object. Generally, we shouldn't be pulling data from here
- * @property {Object} ?legacyVAR.bestTimeToCall Array of best times to call (Morning, Afternoon, Eventing), mapped from request.bestTimetoCall
- * @property {Array<RequestedPeriod>} ?requestedPeriods Mapped from request.optionDate and request.optionTime fields 1 through 3
+ * @property {?Object} legacyVAR.bestTimeToCall Array of best times to call (Morning, Afternoon, Eventing), mapped from request.bestTimetoCall
+ * @property {?Array<RequestedPeriod>} requestedPeriods Mapped from request.optionDate and request.optionTime fields 1 through 3
  * @property {DerivedAppointmentData} vaos This object contains derived data or information we need that doesn't fit in the FHIR format
  */
 
@@ -72,10 +72,10 @@
  * - **request**: Chosen for any item with a request.typeOfCareId field that doesn't start with CC
  * - **vaAppointment**: Chosen for any item with an appointment.vvsAppointments[0] array or a clinicId and a falsy appointment.communityCare flag
  * @property {boolean} isCommunityCare Set to true if request.appointmentType above is either ccRequest or ccAppointment
- * @property {boolean} ?isPastAppointment Set to true if the appointment is in the past, undefined for requests
- * @property {string} ?timeZone Mapped to request.timeZone for community care requests, null or undefined otherwise
- * @property {boolean} ?isPhoneAppointment Mapped from appointment.phoneOnly field for VistA appointments, undefined otherwise
- * @property {boolean} ?isExpressCare Set to true if request.typeOfCareId is CR1
+ * @property {?boolean} isPastAppointment Set to true if the appointment is in the past, undefined for requests
+ * @property {?string} timeZone Mapped to request.timeZone for community care requests, null or undefined otherwise
+ * @property {?boolean} isPhoneAppointment Mapped from appointment.phoneOnly field for VistA appointments, undefined otherwise
+ * @property {?boolean} isExpressCare Set to true if request.typeOfCareId is CR1
  */
 
 /**
@@ -148,7 +148,7 @@
  * @typedef {Object} RequestPatientResource
  * @property {'Patient'} resourceType
  * @property {Object} name Name object for patient
- * @property {string} ?name.text Mapped from request.patient.displayName or request.patient.firstName request.patient.lastName
+ * @property {?string} name.text Mapped from request.patient.displayName or request.patient.firstName request.patient.lastName
  * @property {Array} telecom Patient phone and email, two item array
  * @property {Object} telecom.0 First item in telecom array
  * @property {'phone'} telecom.0.system Phone item in telecom array
@@ -164,7 +164,7 @@
  * @typedef {Object} CommunityCarePractitionerResource
  * @property {'Practitioner'} resourceType
  * @property {string} id Mapped to cc-practitioner-${request.id}-${request.ccAppointmentRequest.preferredProviders.index}
- * @property {Object} ?name Exists if request.ccAppointmentRequest.preferredProviders[].lastName is present
+ * @property {?Object} name Exists if request.ccAppointmentRequest.preferredProviders[].lastName is present
  * @property {string} name.text Mapped to request.ccAppointmentRequest.preferredProviders[].firstName and request.ccAppointmentRequest.preferredProviders[].lastName
  * @property {string} name.family Mapped to request.ccAppointmentRequest.preferredProviders[].lastName
  * @property {string} name.given Mapped to request.ccAppointmentRequest.preferredProviders[].firstName
@@ -198,7 +198,7 @@
  * @property {'HealthcareService'} resourceType Static resource type
  * @property {Object} providedBy Reference to the site that owns the video appointment
  * @property {string} providedBy.reference Mapped to Organization/${appointment.facilityId}
- * @property {Object} ?location Only exists if appointmet.sta6aid exists and appointment.vvsAppointments[0].tasInfo does not
+ * @property {?Object} location Only exists if appointmet.sta6aid exists and appointment.vvsAppointments[0].tasInfo does not
  * @property {string} location.reference Mapped to Location/${appointment.sta6aid}
  *     Not sure this is every different from the facility used in providedBy above
  * @property {Array} telecom Contains the video link url

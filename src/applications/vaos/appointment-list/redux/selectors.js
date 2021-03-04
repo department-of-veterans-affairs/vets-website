@@ -2,11 +2,7 @@ import moment from 'moment';
 import { createSelector } from 'reselect';
 import { selectCernerAppointmentsFacilities } from 'platform/user/selectors';
 import { titleCase } from '../../utils/formatters';
-import {
-  FETCH_STATUS,
-  APPOINTMENT_STATUS,
-  APPOINTMENT_TYPES,
-} from '../../utils/constants';
+import { FETCH_STATUS, APPOINTMENT_STATUS } from '../../utils/constants';
 import {
   getVideoAppointmentLocation,
   getVAAppointmentLocationId,
@@ -374,51 +370,19 @@ export function selectExpressCareAvailability(state) {
   };
 }
 
-export function selectExpressCareRequestById(state, id) {
-  const { appointmentDetails, pending, past, confirmed } = state.appointments;
+export function selectAppointmentById(state, id, types = null) {
+  const { appointmentDetails, past, confirmed, pending } = state.appointments;
 
-  if (appointmentDetails[id]) {
+  if (
+    appointmentDetails[id] &&
+    (types === null ||
+      types.includes(appointmentDetails[id].vaos.appointmentType))
+  ) {
     return appointmentDetails[id];
   }
 
   const allAppointments = []
     .concat(pending)
-    .concat(past)
-    .concat(confirmed)
-    .filter(item => !!item);
-
-  return allAppointments.find(p => p.id === id);
-}
-
-export function selectRequestById(state, id) {
-  const { appointmentDetails, pending } = state.appointments;
-
-  if (
-    appointmentDetails[id] &&
-    (appointmentDetails[id].vaos.appointmentType ===
-      APPOINTMENT_TYPES.ccRequest ||
-      appointmentDetails[id].vaos.appointmentType === APPOINTMENT_TYPES.request)
-  ) {
-    return appointmentDetails[id];
-  }
-
-  return pending?.find(p => p.id === id);
-}
-
-export function selectConfirmedAppointmentById(state, id) {
-  const { appointmentDetails, past, confirmed } = state.appointments;
-
-  if (
-    appointmentDetails[id] &&
-    (appointmentDetails[id].vaos.appointmentType ===
-      APPOINTMENT_TYPES.vaAppointment ||
-      appointmentDetails[id].vaos.appointmentType ===
-        APPOINTMENT_TYPES.ccAppointment)
-  ) {
-    return appointmentDetails[id];
-  }
-
-  const allAppointments = []
     .concat(past)
     .concat(confirmed)
     .filter(item => !!item);
