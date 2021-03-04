@@ -78,6 +78,7 @@ const I18Select = ({ baseUrls }) => {
                   handleLinkClick(k);
                 }}
                 key={i}
+                style={{ cursor: 'pointer' }}
               >
                 {v.label}{' '}
                 {i !== Object.entries(i18Content).length - 2 && (
