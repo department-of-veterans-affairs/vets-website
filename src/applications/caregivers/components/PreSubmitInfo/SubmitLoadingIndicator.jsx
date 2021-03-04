@@ -17,7 +17,7 @@ const SubmitLoadingIndicator = ({ submission }) => {
 
       if (timer >= 30) {
         setLoadingMessage(
-          'We’re processing your application. This may take up to 1 minutes. Please don’t refresh your browser.',
+          'We’re processing your application. This may take up to 1 minute. Please don’t refresh your browser.',
         );
       }
     },
