@@ -1,10 +1,7 @@
 import React from 'react';
 import { PAGE_NAMES } from '../constants';
 import StartFormButton from '../components/StartFormButton';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import ContactDMC from '../components/Contacts';
 
 const Submit = ({ setWizardStatus }) => {
   const label = 'Submit a Financial Status Report';
@@ -21,15 +18,9 @@ const Submit = ({ setWizardStatus }) => {
         ariaId={'other_ways_to_file_526'}
       />
       <p>
-        <strong>If you submitted VA Form 5655 in the past 6 months</strong>
-      </p>
-      <p>
+        <h5>If you submitted VA Form 5655 in the past 6 months</h5>
         You don’t need to submit a new request unless you have changes to
-        report. Call us at <Telephone contact={'800-827-0648'} /> (or{' '}
-        <Telephone contact={'1-612-713-6415'} /> from overseas). We’re here
-        Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If you have hearing
-        loss, call TTY:{' '}
-        <Telephone contact={CONTACTS[711]} pattern={PATTERNS['3_DIGIT']} />.
+        report. <ContactDMC />
       </p>
     </div>
   );
