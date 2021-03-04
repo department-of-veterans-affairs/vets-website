@@ -99,7 +99,7 @@ class ClaimStatusPage extends React.Component {
       <ClaimDetailLayout
         id={this.props.params.id}
         claim={claim}
-        loading={false}
+        loading={loading}
         clearNotification={this.props.clearNotification}
         currentTab="Status"
         message={message}
