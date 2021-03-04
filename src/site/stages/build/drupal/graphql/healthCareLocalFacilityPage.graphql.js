@@ -155,7 +155,7 @@ function getNodeHealthCareLocalFacilityPagesSlice(
 function getNodeHealthCareLocalFacilityPageQueries(entityCounts) {
   return generatePaginatedQueries({
     operationNamePrefix: 'GetNodeHealthCareLocalFacilityPages',
-    entitiesPerSlice: 50,
+    entitiesPerSlice: 25,
     totalEntities: entityCounts.data.healthCareLocalFacility.count,
     getSlice: getNodeHealthCareLocalFacilityPagesSlice,
   });
