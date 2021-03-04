@@ -8,7 +8,14 @@ import SubmitButtons from './SubmitButtons';
 import { isValidForm } from '../validation';
 import { createPageListByChapter, getActiveExpandedPages } from '../helpers';
 import recordEvent from 'platform/monitoring/record-event';
-import { setPreSubmit, setSubmission, submitForm } from '../actions';
+import { reduceErrors } from '../utilities/data/reduceErrors';
+
+import {
+  setPreSubmit,
+  setSubmission,
+  submitForm,
+  setFormErrors,
+} from '../actions';
 import { autoSaveForm } from 'platform/forms/save-in-progress/actions';
 
 class SubmitController extends Component {
@@ -52,6 +59,7 @@ class SubmitController extends Component {
 
     // If a pre-submit agreement is required, make sure it was accepted
     const preSubmit = this.getPreSubmit(formConfig);
+
     if (preSubmit.required && !form.data[preSubmit.field]) {
       this.props.setSubmission('hasAttemptedSubmit', true);
       this.props.setSubmission('timestamp', now);
@@ -70,11 +78,18 @@ class SubmitController extends Component {
     };
 
     if (!isValid) {
+      const processedErrors = reduceErrors(errors, pageList);
+      this.props.setFormErrors({
+        rawErrors: errors,
+        errors: processedErrors,
+      });
       recordEvent({
         event: `${trackingPrefix}-validation-failed`,
       });
+      Sentry.setUser({ id: user.profile.accountUuid });
       Sentry.withScope(scope => {
-        scope.setExtra('errors', errors);
+        scope.setExtra('rawErrors', errors);
+        scope.setExtra('errors', processedErrors);
         scope.setExtra('prefix', trackingPrefix);
         scope.setExtra('inProgressFormId', inProgressFormId);
         Sentry.captureMessage('Validation issue not displayed');
@@ -122,12 +137,12 @@ class SubmitController extends Component {
 
 function mapStateToProps(state, ownProps) {
   const { formConfig, pageList } = ownProps;
-  const router = ownProps.router;
+  const { form, user } = state;
 
-  const form = state.form;
+  const router = ownProps.router;
   const pagesByChapter = createPageListByChapter(formConfig);
   const trackingPrefix = formConfig.trackingPrefix;
-  const { submission, user } = form;
+  const { submission } = form;
   const showPreSubmitError = submission.hasAttemptedSubmit;
 
   return {
@@ -147,6 +162,7 @@ const mapDispatchToProps = {
   setPreSubmit,
   setSubmission,
   submitForm,
+  setFormErrors,
   autoSaveForm,
 };
 
@@ -157,6 +173,7 @@ SubmitController.propTypes = {
   pagesByChapter: PropTypes.object.isRequired,
   pageList: PropTypes.array.isRequired,
   router: PropTypes.object.isRequired,
+  setFormErrors: PropTypes.func.isRequired,
   setPreSubmit: PropTypes.func.isRequired,
   setSubmission: PropTypes.func.isRequired,
   submitForm: PropTypes.func.isRequired,

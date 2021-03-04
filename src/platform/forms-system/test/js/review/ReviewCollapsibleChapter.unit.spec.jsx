@@ -4,7 +4,7 @@ import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import ReviewCollapsibleChapter from '../../../src/js/review/ReviewCollapsibleChapter';
+import { ReviewCollapsibleChapter } from '../../../src/js/review/ReviewCollapsibleChapter';
 
 describe('<ReviewCollapsibleChapter>', () => {
   it('should add a data-attribute with the chapterKey', () => {
@@ -398,7 +398,7 @@ describe('<ReviewCollapsibleChapter>', () => {
         expandedPages={pages}
         chapterKey={chapterKey}
         chapterFormConfig={chapter}
-        showUnviewedPageWarning
+        hasUnviewedPages
         form={form}
       />,
     );
@@ -754,6 +754,62 @@ describe('<ReviewCollapsibleChapter>', () => {
         foo: 'asdf',
         bar: 'baz',
       });
+
+      tree.unmount();
+    });
+  });
+
+  describe('update page', () => {
+    it('should validate page upon updating', () => {
+      const setFormErrors = sinon.spy();
+      const pages = [
+        {
+          title: '',
+          pageKey: 'test',
+        },
+      ];
+      const chapterKey = 'test';
+      const chapter = {
+        title: '',
+      };
+      const form = {
+        pages: {
+          test: {
+            title: '',
+            schema: {
+              type: 'object',
+              properties: {
+                foo: { type: 'string' },
+              },
+            },
+            uiSchema: {},
+            editMode: true,
+          },
+        },
+        data: {},
+      };
+
+      const tree = shallow(
+        <ReviewCollapsibleChapter
+          viewedPages={new Set()}
+          pageList={pages}
+          onEdit={() => {}}
+          setFormErrors={setFormErrors}
+          expandedPages={pages}
+          chapterKey={chapterKey}
+          chapterFormConfig={chapter}
+          form={form}
+          open
+        />,
+      );
+
+      // clicking the "Update page" button; does not call handleSubmit function
+      // directly
+      tree
+        .find('ProgressButton')
+        .props()
+        .onButtonClick();
+      expect(setFormErrors.called).to.be.true;
 
       tree.unmount();
     });

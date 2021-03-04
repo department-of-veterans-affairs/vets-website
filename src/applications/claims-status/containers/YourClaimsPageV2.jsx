@@ -4,6 +4,8 @@ import backendServices from 'platform/user/profile/constants/backendServices';
 import recordEvent from 'platform/monitoring/record-event';
 
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import {
   changePageV2,
   getAppealsV2,
@@ -11,6 +13,7 @@ import {
   hide30DayNotice,
   showConsolidatedMessage,
   sortClaims,
+  getStemClaims,
 } from '../actions/index.jsx';
 import {
   APPEAL_TYPES,
@@ -33,6 +36,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
+import StemClaimListItem from '../components/StemClaimListItem';
 
 const appealTypes = Object.values(APPEAL_TYPES);
 
@@ -52,7 +56,15 @@ class YourClaimsPageV2 extends React.Component {
       this.props.getAppealsV2();
     }
 
-    if (this.props.claimsLoading && this.props.appealsLoading) {
+    if (this.props.stemAutomatedDecision) {
+      this.props.getStemClaims();
+    }
+
+    if (
+      this.props.claimsLoading &&
+      this.props.appealsLoading &&
+      this.props.stemClaimsLoading
+    ) {
       scrollToTop();
     } else {
       setUpPage();
@@ -83,6 +95,10 @@ class YourClaimsPageV2 extends React.Component {
       );
     }
 
+    if (claim.type === 'education_benefits_claims') {
+      return <StemClaimListItem claim={claim} key={claim.id} />;
+    }
+
     return <ClaimsListItem claim={claim} key={claim.id} />;
   }
 
@@ -90,6 +106,7 @@ class YourClaimsPageV2 extends React.Component {
     const {
       claimsLoading,
       appealsLoading,
+      stemClaimsLoading,
       appealsAvailable,
       canAccessAppeals,
       canAccessClaims,
@@ -97,7 +114,7 @@ class YourClaimsPageV2 extends React.Component {
       // claimsAuthorized
     } = this.props;
 
-    if (claimsLoading || appealsLoading) {
+    if (claimsLoading || appealsLoading || stemClaimsLoading) {
       return null;
     }
 
@@ -131,15 +148,19 @@ class YourClaimsPageV2 extends React.Component {
       page,
       claimsLoading,
       appealsLoading,
+      stemClaimsLoading,
       show30DayNotice,
     } = this.props;
 
     let content;
-    const bothRequestsLoaded = !claimsLoading && !appealsLoading;
-    const bothRequestsLoading = claimsLoading && appealsLoading;
-    const atLeastOneRequestLoading = claimsLoading || appealsLoading;
+    const allRequestsLoaded =
+      !claimsLoading && !appealsLoading && !stemClaimsLoading;
+    const allRequestsLoading =
+      claimsLoading && appealsLoading && stemClaimsLoading;
+    const atLeastOneRequestLoading =
+      claimsLoading || appealsLoading || stemClaimsLoading;
     const emptyList = !(list && list.length);
-    if (bothRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
+    if (allRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
       content = (
         <LoadingIndicator
           message="Loading your claims and appeals..."
@@ -169,7 +190,7 @@ class YourClaimsPageV2 extends React.Component {
             </div>
           </div>
         );
-      } else if (bothRequestsLoaded) {
+      } else if (allRequestsLoaded) {
         content = <NoClaims />;
       }
       content = <div className="va-tab-content">{content}</div>;
@@ -250,10 +271,16 @@ function mapStateToProps(state) {
     backendServices.EVSS_CLAIMS,
   );
   // TO-DO: Implement with reselect to save cycles
-  const sortedList = claimsV2Root.appeals
-    .concat(claimsV2Root.claims)
-    .sort(sortByLastUpdated);
+  const sortedList = [
+    ...claimsV2Root.appeals,
+    ...claimsV2Root.claims,
+    ...claimsV2Root.stemClaims,
+  ].sort(sortByLastUpdated);
   const list = getVisibleRows(sortedList, claimsV2Root.page);
+
+  const stemAutomatedDecision = toggleValues(state)[
+    FEATURE_FLAG_NAMES.stemAutomatedDecision
+  ];
 
   return {
     appealsAvailable: claimsV2Root.v2Availability,
@@ -261,6 +288,7 @@ function mapStateToProps(state) {
     // claimsAuthorized: claimsState.claimSync.authorized,
     claimsLoading: claimsV2Root.claimsLoading,
     appealsLoading: claimsV2Root.appealsLoading,
+    stemClaimsLoading: claimsV2Root.stemClaimsLoading,
     list,
     page: claimsV2Root.page,
     pages: claimsV2Root.pages,
@@ -271,6 +299,7 @@ function mapStateToProps(state) {
     canAccessAppeals,
     canAccessClaims,
     fullName: state.user.profile.userFullName,
+    stemAutomatedDecision,
   };
 }
 
@@ -281,6 +310,7 @@ const mapDispatchToProps = {
   sortClaims,
   showConsolidatedMessage,
   hide30DayNotice,
+  getStemClaims,
 };
 
 export default connect(

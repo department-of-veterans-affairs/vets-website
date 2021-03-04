@@ -191,7 +191,7 @@ export const uiSchema = {
     },
   },
   contactInfo: {
-    phoneNumber: {
+    telephoneNumber: {
       ...phoneUI('Phone number'),
       'ui:options': {
         classNames: 'input-size-7',
@@ -258,9 +258,9 @@ export const schema = {
     contactInfo: {
       type: 'object',
       properties: {
-        phoneNumber: SCHEMA_DEFINITIONS.phone,
-        primaryEmail: SCHEMA_DEFINITIONS.email,
-        confirmationEmail: SCHEMA_DEFINITIONS.email,
+        telephoneNumber: SCHEMA_DEFINITIONS.telephoneNumber,
+        primaryEmail: SCHEMA_DEFINITIONS.emailAddress,
+        confirmationEmail: SCHEMA_DEFINITIONS.emailAddress,
       },
     },
   },
