@@ -811,12 +811,8 @@ export function mockSingleRequestFetch({ request, error = null }) {
  * @param {boolean} [params.error=null] Whether or not to return an error from the mock
  * }
  */
-export function mockSingleAppointmentFetch({
-  appointment,
-  type = 'va',
-  error = null,
-}) {
-  const baseUrl = `${environment.API_URL}/vaos/v0/appointments/${type}/${
+export function mockSingleAppointmentFetch({ appointment, error = null }) {
+  const baseUrl = `${environment.API_URL}/vaos/v0/appointments/va/${
     appointment.id
   }`;
 
