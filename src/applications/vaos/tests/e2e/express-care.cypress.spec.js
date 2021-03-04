@@ -25,7 +25,7 @@ describe('VAOS Express Care flow', () => {
     cy.findByLabelText('Cough').click();
     cy.findByText('Continue').click();
 
-    // Additional details page
+    // Additional Appointment detail
     cy.findByText('Express Care request details');
     cy.url().should('include', '/new-express-care-request/additional-details');
     cy.axeCheck();

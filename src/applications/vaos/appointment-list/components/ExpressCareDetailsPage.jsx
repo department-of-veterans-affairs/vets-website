@@ -48,7 +48,7 @@ function ExpressCareDetailsPage({
   return (
     <PageLayout>
       <Breadcrumbs>
-        <Link to="/">Details Page</Link>
+        <Link to="/">Appointment detail</Link>
       </Breadcrumbs>
 
       <h1>{appointmentDate.format('dddd, MMMM D, YYYY')}</h1>

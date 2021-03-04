@@ -71,7 +71,7 @@ function CommunityCareAppointmentDetailsPage({
   return (
     <div>
       <Breadcrumbs>
-        <Link to="/">Details Page</Link>
+        <Link to="/">Appointment detail</Link>
       </Breadcrumbs>
 
       <h1>
