@@ -71,7 +71,6 @@ import createCovidVaccineUpdatesWidget from './covid-vaccine-updates-cta/createC
 import createThirdPartyApps, {
   thirdPartyAppsReducer,
 } from '../third-party-app-directory/createThirdPartyApps';
-import initTranslation from './translation';
 
 import createDependencyVerification from './dependency-verification/createDependencyVerification';
 
@@ -201,9 +200,6 @@ createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
 if (location.pathname === '/') {
   createMyVALoginWidget(store);
 }
-
-// translation link
-initTranslation();
 
 /* eslint-disable no-unused-vars,camelcase */
 const lazyLoad = new LazyLoad({

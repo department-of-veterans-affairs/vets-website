@@ -1,83 +1,87 @@
 import React, { useState } from 'react';
-import Select from '@department-of-veterans-affairs/component-library/Select';
+import recordEvent from 'platform/monitoring/record-event';
 
-const langsToLinkSuffixes = {
-  Spanish: '-esp',
-  Tagalog: '-tagalog',
-};
-
-const langAttributesToLangs = {
-  es: 'Spanish',
-  tg: 'Tagalog',
-  en: 'English',
-};
-
-const faqI18Content = {
+const i18Content = {
   en: {
-    dropDownLabel: 'Read this page in: ',
+    label: 'English',
+    suffix: null,
   },
   es: {
-    dropDownLabel: 'Leer esta página en: ',
+    // TODO
     onThisPage: 'En esta página',
+    label: 'Español',
+    suffix: '-esp/',
+  },
+  tag: {
+    suffix: '-tag/',
+    label: 'Tagalog',
+    onThisPage: 'Tagalog On this page',
   },
 };
 
 const I18Select = () => {
-  const [selectedValue, setSelectedValue] = useState('');
-  const langAttribute = document
-    ?.getElementById('content')
-    ?.getAttribute('lang');
-  const currentLang = langAttributesToLangs[langAttribute];
+  // TODO: feature toggle
+  const [lang, setLang] = useState('en');
+
+  for (const [key, value] of Object.entries(i18Content)) {
+    if (document?.location.href.endsWith(value.suffix)) {
+      setLang(key);
+    }
+  }
+
+  const contentDiv = document?.getElementById('content');
+  if (contentDiv) {
+    contentDiv.setAttribute('lang', lang);
+  }
 
   return (
-    <div className="vads-u-display--flex vads-u-flex-direction--column">
-      <Select
-        label={
-          <div>
-            <i
-              aria-hidden="true"
-              className="fas fa-globe vads-u-color--primary vads-u-margin-right--0p5"
-            />
-            <span>{faqI18Content[langAttribute].dropDownLabel} </span>
-          </div>
-        }
-        name="branch"
-        onKeyDown={function noRefCheck() {}}
-        onValueChange={event => {
-          setSelectedValue(event.value);
-          // oh man, I made a classic mistake from Edward Said's Orientalism, I made something
-          // different into an "other" lol
-          // i hope that would have been caught in a code review: https://www.jstor.org/stable/42981698?seq=1
-          const otherLanguage = Object.values(langsToLinkSuffixes).filter(
-            lang => {
-              if (window.location.href.includes(lang)) {
-                return lang;
-              }
-              return null;
-            },
-          )[0];
-          const url = window.location.href;
-          if (otherLanguage) {
-            const newUrl = url.replace(
-              otherLanguage,
-              langsToLinkSuffixes[event.value],
+    <div className="vads-u-display--flex">
+      <span>
+        {Object.entries(i18Content)
+          .filter(([k, _]) => {
+            return k !== lang;
+          })
+          .map(([_, v], i) => {
+            return (
+              <a
+                // For "on-state" use standard dark grey color
+                // For "off-state" use standard blue and underline text
+                className="vads-u-font-size--base vads-u-font-family--sans vads-u-padding-bottom-0p5 vads-u-border-bottom--2px"
+                onClick={e => {
+                  e.preventDefault();
+                  // eslint-disable-next-line no-console
+                  console.log(lang, 'the current lang');
+                  // eslint-disable-next-line no-console
+                  console.log(v, 'THE AVANLUE');
+                  recordEvent({
+                    event: 'nav-covid-link-click',
+                    faqText: undefined,
+                    faqSection: undefined,
+                  });
+                  if (v.suffix) {
+                    const currentUrl = window.location.href;
+                    const indexToReplace = window.location.href.lastIndexOf(
+                      '/',
+                    );
+                    const newUrl =
+                      currentUrl.substring(0, indexToReplace) + v.suffix;
+                    // eslint-disable-next-line no-debugger
+                    // debugger;
+                    window.location.href = newUrl;
+                  }
+                }}
+                key={i}
+              >
+                {v.label}{' '}
+                {i !== Object.entries(i18Content).length - 2 && (
+                  <span className=" vads-u-margin-left--0p5 vads-u-margin-right--0p5">
+                    |
+                  </span>
+                )}
+              </a>
             );
-            window.location.href = newUrl;
-          } else {
-            const currentUrl = window.location.href;
-            const indexToReplace = window.location.href.lastIndexOf('/');
-            const newUrl =
-              currentUrl.substring(0, indexToReplace) +
-              langsToLinkSuffixes[event.value];
-            window.location.href = newUrl;
-          }
-        }}
-        options={['Spanish', 'Tagalog']}
-        value={{
-          dirty: false,
-          value: selectedValue || currentLang,
-        }}
-      />
+          })}
+      </span>
     </div>
   );
 };
