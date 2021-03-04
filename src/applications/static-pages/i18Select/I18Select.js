@@ -63,32 +63,35 @@ const I18Select = ({ baseUrls }) => {
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column">
       <span>
-        {Object.entries(i18Content)
-          .filter(([k, _]) => {
-            return k !== lang;
-          })
-          .map(([k, v], i) => {
-            return (
-              <span
+        {Object.entries(i18Content).map(([k, v], i) => {
+          return (
+            <span key={i}>
+              <a
                 // For "on-state" use standard dark grey color
                 // For "off-state" use standard blue and underline text
-                className="vads-u-font-size--base vads-u-font-family--sans vads-u-padding-bottom-0p5 "
+                className={`vads-u-font-size--base vads-u-font-family--sans vads-u-padding-bottom-0p5 ${
+                  k === lang
+                    ? 'vads-u-font-weight--bold vads-u-color--base'
+                    : ''
+                }`}
                 onClick={e => {
                   e.preventDefault();
                   handleLinkClick(k);
                 }}
-                key={i}
+                hrefLang={lang}
+                lang={lang}
                 style={{ cursor: 'pointer' }}
               >
                 {v.label}{' '}
-                {i !== Object.entries(i18Content).length - 2 && (
-                  <span className=" vads-u-margin-left--0p5 vads-u-margin-right--0p5">
-                    |
-                  </span>
-                )}
-              </span>
-            );
-          })}
+              </a>
+              {i !== Object.entries(i18Content).length - 1 && (
+                <span className=" vads-u-margin-left--0p5 vads-u-margin-right--0p5">
+                  |
+                </span>
+              )}
+            </span>
+          );
+        })}
       </span>
       <hr
         style={{
