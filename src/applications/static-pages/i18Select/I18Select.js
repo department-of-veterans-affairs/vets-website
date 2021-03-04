@@ -96,7 +96,7 @@ const I18Select = ({ baseUrls }) => {
       <hr
         style={{
           borderTop: '1px solid #bbb',
-          width: '25%',
+          width: '33%',
           marginBottom: '8px',
           marginTop: '4px',
         }}
