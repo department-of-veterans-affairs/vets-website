@@ -14,7 +14,7 @@ import {
 
 import { clearNotification } from '../actions/index.jsx';
 
-class ClaimStatusPage extends React.Component {
+class StemClaimStatusPage extends React.Component {
   componentDidMount() {
     this.setTitle();
 
@@ -115,7 +115,7 @@ class ClaimStatusPage extends React.Component {
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
   return {
-    loading: claimsState.claimDetail.loading,
+    loading: claimsState.claimsV2.stemClaimsLoading,
     claim: claimsState.claimDetail.detail,
     message: claimsState.notifications.message,
     lastPage: claimsState.routing.lastPage,
@@ -131,6 +131,6 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ClaimStatusPage);
+)(StemClaimStatusPage);
 
-export { ClaimStatusPage };
+export { StemClaimStatusPage };

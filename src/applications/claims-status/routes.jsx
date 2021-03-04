@@ -3,7 +3,9 @@ import { Route, IndexRedirect, Redirect } from 'react-router';
 
 import YourClaimsPageV2 from './containers/YourClaimsPageV2';
 import ClaimPage from './containers/ClaimPage';
+import StemClaimPage from './containers/StemClaimPage';
 import ClaimStatusPage from './containers/ClaimStatusPage';
+import StemClaimStatusPage from './containers/StemClaimsStatusPage';
 // import AppealStatusPage from './containers/AppealStatusPage';
 import FilesPage from './containers/FilesPage';
 import DetailsPage from './containers/DetailsPage';
@@ -54,6 +56,32 @@ const routes = [
       path="claim-estimate"
     />
     ,
+  </Route>,
+  <Route component={AppealInfo} key="/appeals/:id" path="/appeals/:id">
+    <IndexRedirect to="status" />
+    <Route component={AppealsV2StatusPage} key="status" path="status" />
+    <Route component={AppealsV2DetailPage} key="detail" path="detail" />
+  </Route>,
+  <Route
+    component={StemClaimPage}
+    key="/your-stem-claims/:id"
+    path="/your-stem-claims/:id"
+  >
+    <IndexRedirect to="status" />
+    <Route component={StemClaimStatusPage} path="status" />,
+    {/* <Route component={FilesPage} path="files" />, */}
+    <Route component={DetailsPage} path="details" />,
+    <Route component={AskVAPage} path="ask-va-to-decide" />,
+    {/* <Route
+      component={DocumentRequestPage}
+      path="document-request/:trackedItemId"
+    /> */}
+    {/* <Route
+      component={ClaimEstimationPage}
+      key="claim-estimate"
+      path="claim-estimate"
+    />
+    , */}
   </Route>,
 ];
 
