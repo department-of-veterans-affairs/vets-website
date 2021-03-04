@@ -19,7 +19,7 @@ export default function ClaimDetailLayout(props) {
     bodyContent = (
       <LoadingIndicator setFocus message="Loading your claim information..." />
     );
-  } else if (claim !== null) {
+  } else if (claim) {
     bodyContent = <DeniedDetails claim={claim} />;
   } else {
     bodyContent = (

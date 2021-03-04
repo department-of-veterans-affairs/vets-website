@@ -3,7 +3,6 @@ import { Route, IndexRedirect, Redirect } from 'react-router';
 
 import YourClaimsPageV2 from './containers/YourClaimsPageV2';
 import ClaimPage from './containers/ClaimPage';
-import StemClaimPage from './containers/StemClaimPage';
 import ClaimStatusPage from './containers/ClaimStatusPage';
 import StemClaimStatusPage from './containers/StemClaimStatusPage';
 // import AppealStatusPage from './containers/AppealStatusPage';
@@ -57,19 +56,11 @@ const routes = [
     />
     ,
   </Route>,
-  <Route component={AppealInfo} key="/appeals/:id" path="/appeals/:id">
-    <IndexRedirect to="status" />
-    <Route component={AppealsV2StatusPage} key="status" path="status" />
-    <Route component={AppealsV2DetailPage} key="detail" path="detail" />
-  </Route>,
   <Route
-    component={StemClaimPage}
-    key="/your-stem-claims/:id"
-    path="/your-stem-claims/:id"
-  >
-    <IndexRedirect to="status" />
-    <Route component={StemClaimStatusPage} path="status" />,
-  </Route>,
+    component={StemClaimStatusPage}
+    key="/your-stem-claims/:id/status"
+    path="/your-stem-claims/:id/status"
+  />,
 ];
 
 export default routes;
