@@ -32,14 +32,7 @@ function linkAssetsToBucketHTML(options, fileNames, bucketPath) {
   });
 }
 
-function linkAssetsToBucket(options, fileNames) {
-  const bucketPath = buckets[options.buildtype];
-
-  // Heroku deployments (review instances) won't have a bucket.
-  if (!bucketPath) return;
-
-  linkAssetsToBucketHTML(options, fileNames, bucketPath);
-
+function linkAssetsToBucketCSS(fileNames, bucketPath) {
   const cssFileNames = fileNames.filter(file => path.extname(file) === '.css');
   const cssUrlRegex = new RegExp(/url\(\/(?!(va_files))/, 'g');
   const cssUrlBucket = `url(${bucketPath}/`;
@@ -52,7 +45,9 @@ function linkAssetsToBucket(options, fileNames) {
 
     fs.writeFileSync(cssFileName, newCss);
   }
+}
 
+function linkAssetsToBucketProxyRewrite(fileNames, bucketPath) {
   // The proxy-rewrite is a special case.
   const proxyRewriteFileName = fileNames.find(file =>
     file.endsWith('proxy-rewrite.entry.js'),
@@ -63,6 +58,17 @@ function linkAssetsToBucket(options, fileNames) {
     .replace(/https:\/\/www\.va\.gov\/img/g, `${bucketPath}/img`);
 
   fs.writeFileSync(proxyRewriteFileName, newProxyRewriteContents);
+}
+
+function linkAssetsToBucket(options, fileNames) {
+  const bucketPath = buckets[options.buildtype];
+
+  // Heroku deployments (review instances) won't have a bucket.
+  if (!bucketPath) return;
+
+  linkAssetsToBucketHTML(options, fileNames, bucketPath);
+  linkAssetsToBucketCSS(fileNames, bucketPath);
+  linkAssetsToBucketProxyRewrite(fileNames, bucketPath);
 }
 
 module.exports = linkAssetsToBucket;
