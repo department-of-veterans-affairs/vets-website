@@ -13,8 +13,7 @@ const ContactBenefits = () => {
       </p>
       <p>
         <strong>
-          For help with debt related to{' '}
-          <span className="separation-pay">[separation pay/attorney fees]</span>
+          For help with debt related to separation pay/attorney fees
         </strong>
         , call us at <Telephone contact={'800-827-1000'} />. We're here Monday
         through Friday, 8:00 a.m. to 8:00 p.m. ET. If you have hearing loss,
