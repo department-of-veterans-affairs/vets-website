@@ -5,6 +5,7 @@ import featureToggles from './fixtures/mocks/feature-toggles.enabled.json';
 describe('health care questionnaire -- appointment id is required --', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
+    cy.window().then(win => win.sessionStorage.clear());
     cy.login(basicUser);
     disableFTUXModals();
   });
