@@ -785,8 +785,8 @@ export function mockGetCurrentPosition({
  *
  * @export
  * @param {Object} params
- * @param {VARRequest} appointment Request to be returned from the mock
- * @param {boolean} [error=null] Whether or not to return an error from the mock
+ * @param {VARRequest} params.appointment Request to be returned from the mock
+ * @param {boolean} [params.error=null] Whether or not to return an error from the mock
  * }
  */
 export function mockSingleRequestFetch({ request, error = null }) {
@@ -807,14 +807,18 @@ export function mockSingleRequestFetch({ request, error = null }) {
  *
  * @export
  * @param {Object} params
- * @param {MASAppointment} appointment VA appointment to be returned from the mock
- * @param {boolean} [error=null] Whether or not to return an error from the mock
+ * @param {MASAppointment} params.appointment VA appointment to be returned from the mock
+ * @param {boolean} [params.error=null] Whether or not to return an error from the mock
  * }
  */
-export function mockSingleAppointmentFetch({ appointment, error = null }) {
-  const baseUrl = `${environment.API_URL}/vaos/v0/appointments/${
+export function mockSingleAppointmentFetch({
+  appointment,
+  type = 'va',
+  error = null,
+}) {
+  const baseUrl = `${environment.API_URL}/vaos/v0/appointments/${type}/${
     appointment.id
-  }?type=va`;
+  }`;
 
   if (error) {
     setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
@@ -829,8 +833,8 @@ export function mockSingleAppointmentFetch({ appointment, error = null }) {
  *
  * @export
  * @param {Object} params
- * @param {VARCommunityCareAppointment} appointment CC appointment to be returned from the mock
- * @param {boolean} [error=null] Whether or not to return an error from the mock
+ * @param {VARCommunityCareAppointment} params.appointment CC appointment to be returned from the mock
+ * @param {boolean} [params.error=null] Whether or not to return an error from the mock
  * }
  */
 export function mockSingleCommunityCareAppointmentFetch({

@@ -33,7 +33,7 @@ export function getPendingAppointment(id) {
 }
 
 export function getConfirmedAppointment(id, type) {
-  return apiRequestWithMocks(`/vaos/v0/appointments/${id}?type=${type}`).then(
+  return apiRequestWithMocks(`/vaos/v0/appointments/${type}/${id}`).then(
     parseApiObject,
   );
 }

@@ -122,10 +122,10 @@ export default [
     response: confirmedVA,
   },
   {
-    path: /vaos\/v0\/appointments\/.*\?type=va.*/,
+    path: /vaos\/v0\/appointments\/va\/.*/,
     response: url => {
-      const segments = url.split(/[/?]/);
-      const id = segments[segments.length - 2];
+      const segments = url.split(/[/]/);
+      const id = segments[segments.length - 1];
       return {
         data: confirmedVA.data.find(appt => appt.id === id),
       };
