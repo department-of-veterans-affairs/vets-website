@@ -26,20 +26,25 @@ function encodeCredentials({ user, password }) {
   return Buffer.from(credentials).toString('base64');
 }
 
-const defaultClientOptions = { verbose: true };
+const defaultClientOptions = { verbose: true, maxParallelRequests: 15 };
 
 function getDrupalClient(buildOptions, clientOptionsArg) {
   const buildArgs = {
     address: buildOptions['drupal-address'],
     user: buildOptions['drupal-user'],
     password: buildOptions['drupal-password'],
+    maxParallelRequests: buildOptions['drupal-max-parallel-requests'],
   };
+
+  const maxParallelRequests =
+    buildArgs.maxParallelRequests ?? defaultClientOptions.maxParallelRequests;
 
   Object.keys(buildArgs).forEach(key => {
     if (!buildArgs[key]) delete buildArgs[key];
   });
 
   const clientOptions = { ...defaultClientOptions, ...clientOptionsArg };
+
   // Set up debug logging
   // eslint-disable-next-line no-console
   const say = clientOptions.verbose ? console.log : () => {};
@@ -260,10 +265,12 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
         return true;
       };
 
-      // Cap the amount of pending requests allowed out at once
-      // And also stagger their execution so that at no point
-      // are we totally overwhelming the CMS.
-      const maxParallelRequests = 15;
+      say(
+        chalk.blue(
+          `Beginning GraphQL queries with parallelization at ${maxParallelRequests} requests...`,
+        ),
+      );
+
       const overallStartTime = moment();
       const staggeredRequests = new Array(maxParallelRequests)
         .fill(null)

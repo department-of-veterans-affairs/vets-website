@@ -109,6 +109,7 @@ export const schema = {
               type: 'array',
               items: {
                 type: 'object',
+                title: 'Deduction',
                 required: ['deductionType', 'deductionAmount'],
                 properties: {
                   deductionType: {
