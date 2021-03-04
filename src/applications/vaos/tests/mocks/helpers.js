@@ -778,3 +778,31 @@ export function mockGetCurrentPosition({
     ),
   };
 }
+
+export function mockSingleRequestFetch({ request, error = null }) {
+  const baseUrl = `${environment.API_URL}/vaos/v0/appointment_requests/${
+    request.id
+  }`;
+
+  if (error) {
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
+  } else {
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data: request });
+  }
+}
+
+export function mockSingleAppointmentFetch({
+  appointment,
+  type = 'va',
+  error = null,
+}) {
+  const baseUrl = `${environment.API_URL}/vaos/v0/appointments/${type}/${
+    appointment.id
+  }`;
+
+  if (error) {
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
+  } else {
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data: appointment });
+  }
+}
