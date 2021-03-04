@@ -17,7 +17,7 @@ const SubmitLoadingIndicator = ({ submission }) => {
 
       if (timer >= 30) {
         setLoadingMessage(
-          'We’re processing your application. This may take up to 2 minutes. Please don’t refresh your browser.',
+          'We’re processing your application. This may take up to 1 minutes. Please don’t refresh your browser.',
         );
       }
     },
@@ -58,10 +58,6 @@ const SubmitLoadingIndicator = ({ submission }) => {
         <div className="loading-container">
           <div className="vads-u-margin-y--4">
             <LoadingIndicator message={loadingMessage} />
-
-            <p className="vads-u-text-align--center">
-              {timer} seconds have passed
-            </p>
           </div>
         </div>
       )}
