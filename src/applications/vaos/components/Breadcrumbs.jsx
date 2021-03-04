@@ -4,7 +4,7 @@ import Breadcrumbs from '@department-of-veterans-affairs/component-library/Bread
 
 export default function VAOSBreadcrumbs({ children }) {
   return (
-    <Breadcrumbs className="medium-screen:vads-u-padding-x--0">
+    <Breadcrumbs className="medium-screen:vads-u-padding-x--0 vaos-appts__breadcrumbs">
       <a href="/" key="home">
         Home
       </a>
