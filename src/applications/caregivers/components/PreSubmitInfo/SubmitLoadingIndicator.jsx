@@ -55,10 +55,8 @@ const SubmitLoadingIndicator = ({ submission }) => {
   return (
     <>
       {isLoading && (
-        <div className="loading-container">
-          <div className="vads-u-margin-y--4">
-            <LoadingIndicator message={loadingMessage} />
-          </div>
+        <div className="vads-u-margin-y--4">
+          <LoadingIndicator message={loadingMessage} />
         </div>
       )}
     </>
