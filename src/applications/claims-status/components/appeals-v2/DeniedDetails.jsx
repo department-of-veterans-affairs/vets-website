@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 
 const DeniedDetails = props => {
-  const { deniedAt, remainingEntitlement } = props.stemClaim.attributes;
+  const { deniedAt, remainingEntitlement } = props.claim.attributes;
   const date = moment(deniedAt).format('MM/DD/YYYY');
 
   return (

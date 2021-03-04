@@ -5,7 +5,7 @@ import YourClaimsPageV2 from './containers/YourClaimsPageV2';
 import ClaimPage from './containers/ClaimPage';
 import StemClaimPage from './containers/StemClaimPage';
 import ClaimStatusPage from './containers/ClaimStatusPage';
-import StemClaimStatusPage from './containers/StemClaimsStatusPage';
+import StemClaimStatusPage from './containers/StemClaimStatusPage';
 // import AppealStatusPage from './containers/AppealStatusPage';
 import FilesPage from './containers/FilesPage';
 import DetailsPage from './containers/DetailsPage';
