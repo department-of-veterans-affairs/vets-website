@@ -25,7 +25,7 @@ export const schema = {
       minItems: 0,
       items: {
         type: 'object',
-        title: 'Available Debts',
+        title: 'Debt',
         properties: {
           fileNumber: {
             type: 'string',
