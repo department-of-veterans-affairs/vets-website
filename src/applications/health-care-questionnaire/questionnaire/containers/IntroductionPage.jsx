@@ -87,9 +87,9 @@ const IntroductionPage = props => {
     <div className="schemaform-intro healthcare-experience">
       <FormTitle title={title} subTitle={subTitle} />
       <h2 className="better-prepare-yours">
-        Please try to fill out this questionnaire at least [X] days before your
-        appointment. When you tell us about your symptoms and concerns, we can
-        better prepare to meet your needs.
+        Please try to fill out this questionnaire before your appointment. When
+        you tell us about your symptoms and concerns, we can better prepare to
+        meet your needs.
       </h2>
       <section className="after-details">
         <h3>What happens after I answer the questions?</h3>
