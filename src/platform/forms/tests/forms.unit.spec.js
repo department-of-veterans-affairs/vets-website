@@ -263,7 +263,9 @@ describe('form:', () => {
       // This return is needed in order for failing expects within the promise to actually trigger a failure of the test
       return expect(
         // Dynamically import the module and perform tests on its default export
-        import(configFilePath).then(({ default: formConfig }) => {
+        import(configFilePath).then(({ default: config }) => {
+          // Account for formConfig functions
+          const formConfig = typeof config === 'function' ? config() : config;
           validFormConfigKeys(formConfig);
           validFormId(formConfig);
           validStringProperty(formConfig, 'rootUrl', true);
