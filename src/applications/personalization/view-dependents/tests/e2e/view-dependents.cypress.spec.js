@@ -11,26 +11,29 @@ const testAxe = () => {
 };
 
 const testHappyPath = () => {
-  testAxe();
   cy.intercept('GET', DEPENDENTS_ENDPOINT, mockDependents).as('mockDependents');
+  cy.visit(rootUrl);
+  testAxe();
   cy.findByText(/Your VA Dependents/).should('exist');
-  cy.findAllByText(/Date of birth/).should('have.length', 4);
+  cy.findAllByText(/Relationship/i, { selector: 'dfn' }).should(
+    'have.length',
+    4,
+  );
   testAxe();
 };
 
 const testNoDependentsOnAward = () => {
-  testAxe();
   cy.intercept('GET', DEPENDENTS_ENDPOINT, mockNoAwardDependents).as(
     'mockNoAwardDependents',
   );
-  cy.findByText(
-    /There are no dependents associated with your VA benefits/,
-  ).should('exist');
+  cy.visit(rootUrl);
+  cy.findByText(/There are no dependents associated with your VA benefits/i, {
+    selector: 'p',
+  }).should('exist');
   testAxe();
 };
 
 const testEmptyResponse = () => {
-  testAxe();
   cy.intercept('GET', DEPENDENTS_ENDPOINT, {
     body: {
       data: {
@@ -41,14 +44,14 @@ const testEmptyResponse = () => {
       },
     },
   }).as('emptyResponse');
-  cy.findByText(/We don't have dependents information on file for you/).should(
-    'exist',
-  );
+  cy.visit(rootUrl);
+  cy.findByText(/We don't have dependents information on file for you/i, {
+    selector: 'h2',
+  }).should('exist');
   testAxe();
 };
 
 const testServerError = () => {
-  testAxe();
   cy.intercept(DEPENDENTS_ENDPOINT, {
     body: {
       errors: [
@@ -61,6 +64,7 @@ const testServerError = () => {
     },
     statusCode: 500,
   }).as('serverError');
+  cy.visit(rootUrl);
   cy.findByText(/We're sorry. Something went wrong on our end/).should('exist');
   testAxe();
 };
@@ -80,7 +84,6 @@ describe('View VA dependents', () => {
       },
     });
     cy.login();
-    cy.visit(rootUrl);
   });
 
   it('should display a list of dependents on award and not on award', () => {
