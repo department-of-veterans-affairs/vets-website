@@ -384,7 +384,7 @@ export default ArrayField;
 ArrayField.propTypes = {
   schema: PropTypes.object.isRequired,
   uiSchema: PropTypes.object,
-  trackingPrefix: PropTypes.string.required,
+  trackingPrefix: PropTypes.string.isRequired,
   pageKey: PropTypes.string.isRequired,
   path: PropTypes.array.isRequired,
   formData: PropTypes.object,

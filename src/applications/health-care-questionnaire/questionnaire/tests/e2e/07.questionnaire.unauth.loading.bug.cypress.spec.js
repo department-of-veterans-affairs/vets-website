@@ -4,7 +4,7 @@ describe('health care questionnaire -- un-authenticated', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
   });
-  it.skip('-- redirects to log in', () => {
+  it('-- redirects to log in', () => {
     cy.visit(
       '/health-care/health-questionnaires/questionnaires/answer-questions?id=195bc02c0518870fc6b1e302cfc326b61',
     );
