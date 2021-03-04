@@ -68,7 +68,7 @@ const formConfig = {
           schema: pages.veteranInfo.schema,
           initialData: {
             personalData: {
-              fullName: {
+              veteranFullName: {
                 first: 'Hector',
                 last: 'Smith',
                 middle: 'R',
@@ -101,7 +101,7 @@ const formConfig = {
             contactInfo: {
               primaryEmail: 'hector.smith@email.com',
               confirmationEmail: 'hector.smith@email.com',
-              phoneNumber: '5551234567',
+              telephoneNumber: '5551234567',
             },
             mailingAddress: {
               country: 'United States',

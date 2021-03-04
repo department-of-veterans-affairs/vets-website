@@ -1,4 +1,8 @@
 /**
+ * @module services/HealthcareService/transformers
+ */
+
+/**
  * Transforms
  * /vaos/v0/facilities/{facilityId}/clinics
  * to

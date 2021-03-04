@@ -29,4 +29,5 @@ export default {
   VIEW_TEST_AND_LAB_RESULTS_PAGE: 'view-test-and-lab-results-page',
   VIEW_PAYMENT_HISTORY: 'view-payment-history',
   I_18_SELECT: 'i18-select',
+  DEPENDENCY_VERIFICATION: 'dependency-verification',
 };

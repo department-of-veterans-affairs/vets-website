@@ -12,8 +12,8 @@ const PreSubmitSignature = ({ formData, showError }) => {
 
   const getName = useCallback(
     () => {
-      const { fullName } = formData.personalData;
-      return Object.values(fullName)
+      const { veteranFullName } = formData.personalData;
+      return Object.values(veteranFullName)
         .filter(value => Boolean(value))
         .join(' ');
     },
