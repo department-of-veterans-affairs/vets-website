@@ -11,7 +11,6 @@ import moment from '../../../lib/moment-tz';
 import {
   getVAAppointmentLocationId,
   getVARFacilityId,
-  getVideoAppointmentLocation,
   isAtlasLocation,
   isVAPhoneAppointment,
   isVideoAppointment,
@@ -112,9 +111,7 @@ function ConfirmedAppointmentDetailsPage({
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isVideo = isVideoAppointment(appointment);
   const isPhone = isVAPhoneAppointment(appointment);
-  const facilityId = isVideo
-    ? getVideoAppointmentLocation(appointment)
-    : getVAAppointmentLocationId(appointment);
+  const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
   const isInPersonVAAppointment = !isVideo;
 
