@@ -849,7 +849,7 @@ export const directToCorrectForm = ({
   router,
 }) => {
   // If we can find the form in the savedForms array, it's not pre-filled
-  const isPrefill = !savedForms.find(form => form.form === formConfig().formId);
+  const isPrefill = !savedForms.find(form => form.form === formConfig.formId);
   const baseUrl = getFormUrl(formData, isPrefill);
   if (!isPrefill && !window.location.pathname.includes(baseUrl)) {
     // Redirect to the other app

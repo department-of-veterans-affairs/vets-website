@@ -196,7 +196,7 @@ const testConfig = createTestConfig(
     // skip: [],
   },
   manifest,
-  formConfig,
+  formConfig(),
 );
 
 testForm(testConfig);
