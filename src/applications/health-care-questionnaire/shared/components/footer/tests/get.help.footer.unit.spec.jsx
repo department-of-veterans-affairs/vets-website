@@ -2,9 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import GetHelpFooter from '../../../components/get-help/GetHelpFooter';
+import GetHelpFooter from '../GetHelpFooter';
 
-import { createFakeFooterStore } from '../utils/createFakeStores';
+import { createFakeFooterStore } from './utils';
 
 describe('health care questionnaire - confirmation page  -', () => {
   it('displays clinic information', () => {

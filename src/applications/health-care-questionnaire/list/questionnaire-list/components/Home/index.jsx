@@ -22,7 +22,7 @@ import {
   questionnaireListLoadedWithError,
 } from '../../../actions';
 
-import GetHelpFooter from '../../../../questionnaire/components/get-help/GetHelpFooter';
+import { GetHelpFooter } from '../../../../shared/components/footer';
 
 import { sortQuestionnairesByStatus } from '../../../utils';
 

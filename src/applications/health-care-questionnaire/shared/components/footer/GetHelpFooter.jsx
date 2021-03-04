@@ -6,7 +6,7 @@ import Telephone from '@department-of-veterans-affairs/component-library/Telepho
 import {
   getClinicFromAppointment,
   getFacilityFromAppointment,
-} from '../../../shared/utils';
+} from '../../utils';
 
 const GetHelpFooter = props => {
   const { currentLocation, appointment } = props;
