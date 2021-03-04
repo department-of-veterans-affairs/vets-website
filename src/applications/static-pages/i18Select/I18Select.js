@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 
 const i18Content = {
   en: {
     label: 'English',
-    suffix: null,
+    suffix: '/',
   },
   es: {
     // TODO
@@ -18,21 +18,40 @@ const i18Content = {
     onThisPage: 'Tagalog On this page',
   },
 };
-
-const I18Select = () => {
+const langsToLinkSuffixes = {
+  es: '-esp/',
+  tag: '-tag/',
+};
+const I18Select = ({ baseUrls }) => {
   // TODO: feature toggle
   const [lang, setLang] = useState('en');
+  // TODO: move this into a reusable hook
+  useEffect(() => {
+    const contentDiv = document?.getElementById('content');
 
-  for (const [key, value] of Object.entries(i18Content)) {
-    if (document?.location.href.endsWith(value.suffix)) {
-      setLang(key);
+    setLang('en');
+    if (contentDiv) {
+      contentDiv.setAttribute('lang', 'en');
     }
-  }
+    for (const [key, value] of Object.entries(langsToLinkSuffixes)) {
+      if (document?.location.href.endsWith(value)) {
+        setLang(key);
+        if (contentDiv) {
+          contentDiv.setAttribute('lang', key);
+        }
+      }
+    }
+  }, []);
 
-  const contentDiv = document?.getElementById('content');
-  if (contentDiv) {
-    contentDiv.setAttribute('lang', lang);
-  }
+  const handleLinkClick = keyValue => {
+    recordEvent({
+      event: 'nav-covid-link-click',
+      faqText: undefined,
+      faqSection: undefined,
+    });
+
+    document.location.pathname = baseUrls[keyValue];
+  };
 
   return (
     <div className="vads-u-display--flex">
@@ -41,7 +60,7 @@ const I18Select = () => {
           .filter(([k, _]) => {
             return k !== lang;
           })
-          .map(([_, v], i) => {
+          .map(([k, v], i) => {
             return (
               <a
                 // For "on-state" use standard dark grey color
@@ -50,25 +69,8 @@ const I18Select = () => {
                 onClick={e => {
                   e.preventDefault();
                   // eslint-disable-next-line no-console
-                  console.log(lang, 'the current lang');
-                  // eslint-disable-next-line no-console
-                  console.log(v, 'THE AVANLUE');
-                  recordEvent({
-                    event: 'nav-covid-link-click',
-                    faqText: undefined,
-                    faqSection: undefined,
-                  });
-                  if (v.suffix) {
-                    const currentUrl = window.location.href;
-                    const indexToReplace = window.location.href.lastIndexOf(
-                      '/',
-                    );
-                    const newUrl =
-                      currentUrl.substring(0, indexToReplace) + v.suffix;
-                    // eslint-disable-next-line no-debugger
-                    // debugger;
-                    window.location.href = newUrl;
-                  }
+                  // setLang(k);
+                  handleLinkClick(k);
                 }}
                 key={i}
               >

@@ -16,13 +16,28 @@ export default function createI18Select(store, widgetType) {
   ]);
   const isTranslatable = translatableLinks.has(document.location.pathname);
   if (!isTranslatable) return;
+  const baseUrls = {
+    faq: {
+      en: '/coronavirus-veteran-frequently-asked-questions/',
+      es: '/coronavirus-veteran-frequently-asked-questions-esp/',
+      tag: '/coronavirus-veteran-frequently-asked-questions-tag/',
+    },
+    vaccine: {
+      en: '/health-care/covid-19-vaccine/',
+      es: '/health-care/covid-19-vaccine-esp/',
+      tag: '/health-care/covid-19-vaccine-tag/',
+    },
+  };
+  const isFaq = document.location.pathname.includes(
+    `/coronavirus-veteran-frequently-asked-questions`,
+  );
 
   if (root) {
     import('./I18Select').then(module => {
       const I18Select = module.default;
       ReactDOM.render(
         <Provider store={store}>
-          <I18Select />
+          <I18Select baseUrls={isFaq ? baseUrls.faq : baseUrls.vaccine} />
         </Provider>,
         root,
       );
