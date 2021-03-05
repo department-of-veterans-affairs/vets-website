@@ -101,7 +101,7 @@ function RequestedAppointmentDetailsPage({
   return (
     <PageLayout>
       <Breadcrumbs>
-        <Link to="/">Request detail</Link>
+        <Link to={`/requests/${id}`}>Request detail</Link>
       </Breadcrumbs>
 
       <h1>

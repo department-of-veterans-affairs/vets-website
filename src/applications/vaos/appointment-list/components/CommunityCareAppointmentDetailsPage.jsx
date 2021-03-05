@@ -71,7 +71,7 @@ function CommunityCareAppointmentDetailsPage({
   return (
     <PageLayout>
       <Breadcrumbs>
-        <Link to="/">Appointment detail</Link>
+        <Link to={`/cc/${id}`}>Appointment detail</Link>
       </Breadcrumbs>
 
       <h1>

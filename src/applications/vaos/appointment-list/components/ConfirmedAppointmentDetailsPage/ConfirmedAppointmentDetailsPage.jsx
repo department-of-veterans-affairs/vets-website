@@ -132,7 +132,7 @@ function ConfirmedAppointmentDetailsPage({
   return (
     <PageLayout>
       <Breadcrumbs>
-        <Link to="/">Appointment detail</Link>
+        <Link to={`/va/${id}`}>Appointment detail</Link>
       </Breadcrumbs>
 
       <h1>
