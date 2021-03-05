@@ -74,7 +74,10 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
   const location = options?.location || window.location;
   const history = options?.history || window.history;
   const mockRequest = options?.mockRequest || false;
-  const q = transformSearchTerm(query);
+  let q = query;
+  if (options?.useSearchTransform) {
+    q = transformSearchTerm(query);
+  }
 
   // Change the `fetching` state in our store.
   dispatch(fetchFormsAction(query));
