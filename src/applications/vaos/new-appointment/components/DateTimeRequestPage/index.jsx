@@ -62,20 +62,19 @@ function goForward({
   data,
   history,
   routeToNextAppointmentPage,
-  submitted,
   setSubmitted,
   setValidationError,
 }) {
+  setSubmitted(true);
   validate({ dates: data.selectedDates, setValidationError });
+
   if (
     userSelectedSlot(data.selectedDates) &&
     !exceededMaxSelections(data.selectedDates)
   ) {
     routeToNextAppointmentPage(history, pageKey);
-  } else if (submitted) {
-    scrollAndFocus('.usa-input-error-message');
   } else {
-    setSubmitted(true);
+    scrollAndFocus('.usa-input-error-message');
   }
 }
 
@@ -143,10 +142,11 @@ export function DateTimeRequestPage({
         id="optionTime"
         renderIndicator={props => <SelectedIndicator {...props} />}
         renderOptions={props => <DateTimeRequestOptions {...props} />}
-        validationError={
-          submitted || isMaxSelectionsError(validationError)
-            ? validationError
-            : null
+        required
+        requiredMessage={validationError}
+        showValidation={
+          (submitted && !!validationError) ||
+          exceededMaxSelections(data.selectedDates)
         }
       />
       <FormButtons

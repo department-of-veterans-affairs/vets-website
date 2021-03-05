@@ -135,7 +135,6 @@ function handleNext(onClickNext, months, setMonths) {
 }
 
 export default function CalendarWidget({
-  additionalOptions,
   availableSlots,
   id,
   disabled,
@@ -148,6 +147,9 @@ export default function CalendarWidget({
   onClickPrev,
   renderOptions,
   renderIndicator,
+  required,
+  requiredMessage = 'Please select a date',
+  showValidation,
   startMonth,
   timezone,
   validationError,
@@ -164,7 +166,7 @@ export default function CalendarWidget({
   const maxMonth = getMaxMonth(maxDate, startMonth);
   const [months, setMonths] = useState([moment(startMonth || minDate)]);
 
-  const showError = validationError?.length > 0;
+  const showError = required && showValidation;
 
   const calendarCss = classNames('vaos-calendar__calendars vads-u-flex--1', {
     'vaos-calendar__disabled': disabled,
@@ -192,7 +194,7 @@ export default function CalendarWidget({
             className="vaos-calendar__validation-msg usa-input-error-message"
             role="alert"
           >
-            {validationError}
+            {requiredMessage}
           </span>
         )}
         {months.map(
@@ -223,7 +225,6 @@ export default function CalendarWidget({
                   <div role="rowgroup">
                     {getCalendarWeeks(month).map((week, weekIndex) => (
                       <CalendarRow
-                        additionalOptions={additionalOptions}
                         availableSlots={availableSlots}
                         cells={week}
                         id={id}
@@ -279,7 +280,6 @@ export default function CalendarWidget({
 }
 
 CalendarWidget.propTypes = {
-  additionalOptions: PropTypes.object,
   availableSlots: PropTypes.arrayOf(
     PropTypes.shape({
       start: PropTypes.string.isRequired,
@@ -295,9 +295,11 @@ CalendarWidget.propTypes = {
   onChange: PropTypes.func,
   onClickNext: PropTypes.func,
   onClickPrev: PropTypes.func,
-  validationError: PropTypes.string,
   renderIndicator: PropTypes.func,
   renderOptions: PropTypes.func,
+  required: PropTypes.bool,
+  requiredMessage: PropTypes.string,
+  showValidation: PropTypes.bool,
   id: PropTypes.string.isRequired,
   timezone: PropTypes.string, // America/Denver
 };
