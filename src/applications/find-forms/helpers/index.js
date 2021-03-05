@@ -85,7 +85,7 @@ export const regexpDashAdder = (match, index) => {
  * @param {string} string
  * @return {string} returns a new string ready for search.
  */
-export const removeCharacters = string => {
+export const transformSearchTerm = string => {
   const possibleStrings = Object.keys(STRINGS_TO_REPLACE_MATRIX);
   let stringToStrip = string.toUpperCase();
 

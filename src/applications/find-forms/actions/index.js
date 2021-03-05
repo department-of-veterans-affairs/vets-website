@@ -2,7 +2,7 @@
 import URLSearchParams from 'url-search-params';
 // Relative imports.
 import { fetchFormsApi } from '../api';
-import { removeCharacters } from '../helpers';
+import { transformSearchTerm } from '../helpers';
 import {
   FETCH_FORMS,
   FETCH_FORMS_FAILURE,
@@ -72,7 +72,7 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
   const location = options?.location || window.location;
   const history = options?.history || window.history;
   const mockRequest = options?.mockRequest || false;
-  const q = removeCharacters(query);
+  const q = transformSearchTerm(query);
 
   // Change the `fetching` state in our store.
   dispatch(fetchFormsAction(query));

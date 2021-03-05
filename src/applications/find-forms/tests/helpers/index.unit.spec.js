@@ -2,7 +2,11 @@
 import { expect } from 'chai';
 
 // Relative imports
-import { sortTheResults } from '../../helpers';
+import {
+  sortTheResults,
+  regexpDashAdder,
+  transformSearchTerm,
+} from '../../helpers';
 import { deriveLatestIssue } from '../../components/SearchResult';
 import { INITIAL_SORT_STATE, SORT_OPTIONS } from '../../constants';
 
@@ -112,5 +116,15 @@ describe('Find VA Forms helpers', () => {
     expect(sortedResultsByOldestRevisionDate).to.eql(
       sortedResultsNodesTextByLatestRevisionOldest,
     );
+  });
+
+  it('regexpDashAdder adds the dash where it should', () => {
+    const transformString = regexpDashAdder('20213', 2);
+    expect(transformString).to.eql('20-213');
+  });
+
+  it('transformSearchTerm adjusts the term to allow for faulty searches', () => {
+    const transformString = transformSearchTerm('1010');
+    expect(transformString).to.eql('10-10');
   });
 });
