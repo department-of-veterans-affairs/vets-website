@@ -1,8 +1,68 @@
-import { submitToUrl } from 'platform/forms-system/src/js/actions';
 import { getAppointTypeFromAppointment } from '../utils';
-// import environment from 'platform/utilities/environment';
+import recordEvent from 'platform/monitoring/record-event';
 
-const USE_MOCK_DATA = window.Cypress; // || environment.isLocalhost || environment.isStaging;
+const USE_MOCK_DATA = false;
+
+// pull from src/platform/forms-system/src/js/actions.js
+// so we can have our own custom error handling,  messages and headers
+const submitToUrl = (body, submitUrl, trackingPrefix, eventData) => {
+  // This item should have been set in any previous API calls
+  const csrfTokenStored = localStorage.getItem('csrfToken');
+  return new Promise((resolve, reject) => {
+    const req = new XMLHttpRequest();
+    req.open('POST', submitUrl);
+    req.addEventListener('load', () => {
+      if (req.status >= 200 && req.status < 300) {
+        recordEvent({
+          event: `${trackingPrefix}-submission-successful`,
+          ...eventData,
+        });
+        // got this from the fetch polyfill, keeping it to be safe
+        const responseBody =
+          'response' in req ? req.response : req.responseText;
+        const results = JSON.parse(responseBody);
+        resolve(results);
+      } else {
+        let error;
+        if (req.status === 429) {
+          error = new Error(`vets_throttled_error: ${req.statusText}`);
+          error.extra = parseInt(
+            req.getResponseHeader('x-ratelimit-reset'),
+            10,
+          );
+        } else {
+          error = new Error(`vets_server_error: ${req.statusText}`);
+        }
+        error.statusText = req.statusText;
+        reject(error);
+      }
+    });
+
+    req.addEventListener('error', () => {
+      const error = new Error('vets_client_error: Network request failed');
+      error.statusText = req.statusText;
+      reject(error);
+    });
+
+    req.addEventListener('abort', () => {
+      const error = new Error('vets_client_error: Request aborted');
+      error.statusText = req.statusText;
+      reject(error);
+    });
+
+    req.addEventListener('timeout', () => {
+      const error = new Error('vets_client_error: Request timed out');
+      error.statusText = req.statusText;
+      reject(error);
+    });
+
+    req.setRequestHeader('Content-Type', 'application/json');
+    req.setRequestHeader('X-CSRF-Token', csrfTokenStored);
+    req.withCredentials = true;
+
+    req.send(body);
+  });
+};
 
 const submit = (form, formConfig) => {
   const body = {

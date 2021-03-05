@@ -140,7 +140,7 @@ export function submitToUrl(body, submitUrl, trackingPrefix, eventData) {
       reject(error);
     });
 
-    // req.setRequestHeader('X-Key-Inflection', 'camel');
+    req.setRequestHeader('X-Key-Inflection', 'camel');
     req.setRequestHeader('Content-Type', 'application/json');
     req.setRequestHeader('X-CSRF-Token', csrfTokenStored);
     req.withCredentials = true;
