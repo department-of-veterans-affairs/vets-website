@@ -27,7 +27,6 @@ import {
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import * as actions from '../../redux/actions';
 import AppointmentDateTime from './AppointmentDateTime';
-import AppointmentInstructions from './AppointmentInstructions';
 import {
   getCancelInfo,
   selectConfirmedAppointmentById,
