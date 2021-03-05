@@ -1,8 +1,9 @@
 import React from 'react';
-import moment from 'moment';
+
+import { formatDate } from '../utils/helpers';
 
 const StemDeniedDetails = ({ deniedAt }) => {
-  const date = moment(deniedAt).format('MMM D, YYYY');
+  const date = formatDate(deniedAt);
 
   return (
     <>
