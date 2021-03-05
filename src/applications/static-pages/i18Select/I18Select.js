@@ -56,8 +56,10 @@ const I18Select = ({ baseUrls }) => {
       faqText: undefined,
       faqSection: undefined,
     });
-
-    document.location.pathname = baseUrls[keyValue];
+    const translatedPage = baseUrls[keyValue];
+    if (translatedPage) {
+      document.location.pathname = translatedPage;
+    }
   };
 
   return (

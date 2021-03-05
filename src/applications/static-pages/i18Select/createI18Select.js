@@ -20,7 +20,8 @@ export default function createI18Select(store, widgetType) {
     faq: {
       en: '/coronavirus-veteran-frequently-asked-questions/',
       es: '/coronavirus-veteran-frequently-asked-questions-esp/',
-      tag: '/coronavirus-veteran-frequently-asked-questions-tag/',
+      // uncomment when this is ready
+      // tag: '/coronavirus-veteran-frequently-asked-questions-tag/',
     },
     vaccine: {
       en: '/health-care/covid-19-vaccine/',
