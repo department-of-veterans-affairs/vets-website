@@ -82,6 +82,12 @@ const helpSections = [
         description: 'Specify the password for the --drupal-user.',
       },
       {
+        name: 'drupal-max-parallel-requests',
+        type: String,
+        description:
+          'Specify the max number of individual HTTP GraphQL requests allowed sent to Drupal in parallel.',
+      },
+      {
         name: 'no-drupal-proxy',
         type: Boolean,
         description:

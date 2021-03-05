@@ -347,12 +347,9 @@ export const genSearchAreaFromCenter = query => {
             features[0].context.find(v => v.id.includes('postcode')) || {};
           const location = zip.text || features[0].place_name;
 
-          const radius = distBetween(
-            currentBounds[1],
-            currentBounds[0],
-            currentBounds[3],
-            currentBounds[2],
-          );
+          // Radius is computed as the distance from the center point
+          // to the western edge of the bounding box
+          const radius = distBetween(lat, lng, lat, currentBounds[0]);
 
           dispatch({
             type: SEARCH_QUERY_UPDATED,

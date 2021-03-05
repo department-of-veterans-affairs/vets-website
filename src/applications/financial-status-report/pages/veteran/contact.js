@@ -177,7 +177,7 @@ export const uiSchema = {
         required: 'Please enter a state',
       },
     },
-    zipCode: {
+    postalCode: {
       'ui:title': 'Zip code',
       'ui:validations': [validateZIP],
       'ui:errorMessages': {
@@ -191,7 +191,7 @@ export const uiSchema = {
     },
   },
   contactInfo: {
-    phoneNumber: {
+    telephoneNumber: {
       ...phoneUI('Phone number'),
       'ui:options': {
         classNames: 'input-size-7',
@@ -234,7 +234,7 @@ export const schema = {
   properties: {
     mailingAddress: {
       type: 'object',
-      required: ['country', 'addressLine1', 'city', 'state', 'zipCode'],
+      required: ['country', 'addressLine1', 'city', 'state', 'postalCode'],
       properties: {
         livesOutsideUS: {
           type: 'boolean',
@@ -252,15 +252,15 @@ export const schema = {
         state: {
           type: 'string',
         },
-        zipCode: SCHEMA_DEFINITIONS.zipCode,
+        postalCode: SCHEMA_DEFINITIONS.postalCode,
       },
     },
     contactInfo: {
       type: 'object',
       properties: {
-        phoneNumber: SCHEMA_DEFINITIONS.phone,
-        primaryEmail: SCHEMA_DEFINITIONS.email,
-        confirmationEmail: SCHEMA_DEFINITIONS.email,
+        telephoneNumber: SCHEMA_DEFINITIONS.telephoneNumber,
+        primaryEmail: SCHEMA_DEFINITIONS.emailAddress,
+        confirmationEmail: SCHEMA_DEFINITIONS.emailAddress,
       },
     },
   },

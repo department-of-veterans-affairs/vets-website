@@ -11,6 +11,7 @@ import {
 } from '../config';
 import { focusElement } from 'platform/utilities/ui';
 import environment from 'platform/utilities/environment';
+import classNames from 'classnames';
 
 class SearchControls extends Component {
   handleQueryChange = e => {
@@ -31,7 +32,12 @@ class SearchControls extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    const { facilityType, serviceType, zoomLevel } = this.props.currentQuery;
+    const {
+      facilityType,
+      serviceType,
+      zoomLevel,
+      isValid,
+    } = this.props.currentQuery;
 
     let analyticsServiceType = serviceType;
 
@@ -43,6 +49,10 @@ class SearchControls extends Component {
       }
 
       analyticsServiceType = this.props.currentQuery.specialties[serviceType];
+    }
+
+    if (!isValid) {
+      return;
     }
 
     // Report event here to only send analytics event when a user clicks on the button
@@ -83,39 +93,53 @@ class SearchControls extends Component {
     return null;
   };
 
-  renderLocationInputField = currentQuery => (
-    <>
-      <div id="location-input-field">
-        <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
-          City, state or postal code{' '}
-          <span className="vads-u-color--secondary-dark">(*Required)</span>
-        </label>
-        {(window.Cypress || !environment.isProduction()) &&
-          (currentQuery.geocodeInProgress ? (
-            <div className="use-my-location-link">
-              <i
-                className="fa fa-spinner fa-spin"
-                aria-hidden="true"
-                role="presentation"
-              />
-              <span>Finding your location...</span>
-            </div>
-          ) : (
-            <a
-              href="#"
-              onClick={this.handleGeolocationButtonClick}
-              className="use-my-location-link"
-            >
-              <i
-                className="use-my-location-button"
-                aria-hidden="true"
-                role="presentation"
-              />
-              Use my location
-            </a>
-          ))}
-      </div>
-      <div className="input-clear">
+  renderLocationInputField = currentQuery => {
+    const showError =
+      !currentQuery.isValid && currentQuery.searchString?.length === 0;
+    return (
+      <div
+        className={classNames('input-clear', 'vads-u-margin--0', {
+          'usa-input-error': showError,
+        })}
+      >
+        <div id="location-input-field">
+          <label
+            htmlFor="street-city-state-zip"
+            id="street-city-state-zip-label"
+          >
+            City, state or postal code{' '}
+            <span className="form-required-span">(*Required)</span>
+          </label>
+          {(window.Cypress || !environment.isProduction()) &&
+            (currentQuery.geocodeInProgress ? (
+              <div className="use-my-location-link">
+                <i
+                  className="fa fa-spinner fa-spin"
+                  aria-hidden="true"
+                  role="presentation"
+                />
+                <span>Finding your location...</span>
+              </div>
+            ) : (
+              <a
+                href="#"
+                onClick={this.handleGeolocationButtonClick}
+                className="use-my-location-link"
+              >
+                <i
+                  className="use-my-location-button"
+                  aria-hidden="true"
+                  role="presentation"
+                />
+                Use my location
+              </a>
+            ))}
+        </div>
+        {showError && (
+          <span className="usa-input-error-message" role="alert">
+            Please fill in a city, state, or postal code.
+          </span>
+        )}
         {currentQuery?.searchString?.length > 0 && this.renderClearInput()}
         <input
           id="street-city-state-zip"
@@ -124,33 +148,45 @@ class SearchControls extends Component {
           onChange={this.handleQueryChange}
           value={currentQuery.searchString}
           title="Your location: Street, City, State or Postal code"
-          required
         />
       </div>
-    </>
-  );
+    );
+  };
 
   renderFacilityTypeDropdown = () => {
     const { suppressCCP, suppressPharmacies } = this.props;
-    const { facilityType } = this.props.currentQuery;
+    const { facilityType, isValid } = this.props.currentQuery;
     const locationOptions = facilityTypesOptions;
+    const showError = !isValid && !facilityType;
+
     if (suppressPharmacies) {
       delete locationOptions.pharmacy;
     }
+
     if (suppressCCP) {
       delete locationOptions.provider;
     }
+
     const options = Object.keys(locationOptions).map(facility => (
       <option key={facility} value={facility}>
         {locationOptions[facility]}
       </option>
     ));
+
     return (
-      <span>
+      <div
+        className={classNames('input-clear', 'vads-u-margin--0', {
+          'usa-input-error': showError,
+        })}
+      >
         <label htmlFor="facility-type-dropdown">
-          Facility type{' '}
-          <span className="vads-u-color--secondary-dark">(*Required)</span>
+          Facility type <span className="form-required-span">(*Required)</span>
         </label>
+        {showError && (
+          <span className="usa-input-error-message" role="alert">
+            Please choose a facility type.
+          </span>
+        )}
         <select
           id="facility-type-dropdown"
           aria-label="Choose a facility type"
@@ -158,23 +194,24 @@ class SearchControls extends Component {
           className="bor-rad"
           onChange={this.handleFacilityTypeChange}
           style={{ fontWeight: 'bold' }}
-          required
         >
           {options}
         </select>
-      </span>
+      </div>
     );
   };
 
   renderServiceTypeDropdown = () => {
     const { searchCovid19Vaccine } = this.props;
-    const { facilityType, serviceType } = this.props.currentQuery;
+    const { facilityType, serviceType, isValid } = this.props.currentQuery;
     const disabled = ![
       LocationType.HEALTH,
       LocationType.URGENT_CARE,
       LocationType.BENEFITS,
       LocationType.CC_PROVIDER,
     ].includes(facilityType);
+
+    const showError = !isValid && !disabled && !serviceType;
 
     let filteredHealthServices = healthServices;
 
@@ -199,6 +236,7 @@ class SearchControls extends Component {
           <ServiceTypeAhead
             onSelect={this.handleServiceTypeChange}
             initialSelectedServiceType={serviceType}
+            showError={showError}
           />
         );
       default:

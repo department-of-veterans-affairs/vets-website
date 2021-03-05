@@ -75,6 +75,7 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
+        title: 'Repayment',
         required: [
           'debtType',
           'monthlyPaymentAmount',

@@ -1,3 +1,7 @@
+/**
+ * @module services/utils
+ */
+
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 
@@ -15,6 +19,7 @@ function vaosFHIRRequest(url, ...options) {
  * resources
  *
  * @export
+ * @param {Object} params
  * @param {String} params.query The FHIR resource and query string to fetch
  * @returns {Array} An array of FHIR resources (not necessarily all the same type as the resource in the query)
  */
@@ -47,8 +52,14 @@ export function mapToFHIRErrors(errors) {
   };
 }
 
-/*
- * Makes an api request using the standard helpers, but runs through the vaos mock handlers first
+/**
+ * Makes an api request using the standard vets-website fetch helpers, but runs through the vaos mock handlers first
+ *
+ * @export
+ * @param {string} url The url of the api request
+ * @param {Object} options The options object passed to the fetch call
+ * @param {...*} rest Remaining parameters passed through to apiRequest helper
+ * @returns {Promise} Either the promise returned by apiRequest, or a promise with mock data as the result
  */
 export async function apiRequestWithMocks(url, options, ...rest) {
   /* istanbul ignore if  */
@@ -94,11 +105,25 @@ export async function apiRequestWithMocks(url, options, ...rest) {
 
   return apiRequest(`${environment.API_URL}${url}`, options, ...rest);
 }
-
+/**
+ * Parses our standard list of data response structure into an array
+ *
+ * @export
+ * @param {Object} resp Response object with a data array property
+ * @returns {Array} An array of the attributes object of each item in data, combined with the id
+ */
 export function parseApiList(resp) {
   return resp.data.map(item => ({ ...item.attributes, id: item.id }));
 }
 
+/**
+ * Parses a single item response and returns the attributes object that contains
+ * the actual data
+ *
+ * @export
+ * @param {Object} resp Response object with a single object data property
+ * @returns {Object} The data.attributes object from resp, but with the id included
+ */
 export function parseApiObject(resp) {
   return {
     ...resp.data.attributes,

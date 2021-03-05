@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { func, string } from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Downshift from 'downshift';
-import classNames from 'classnames';
 import { getProviderSpecialties } from '../actions';
+import classNames from 'classnames';
 
 /**
  * CC Providers' Service Types Typeahead
@@ -64,6 +64,7 @@ class ServiceTypeAhead extends Component {
 
   render() {
     const { defaultSelectedItem, services } = this.state;
+    const { showError } = this.props;
 
     return (
       <Downshift
@@ -88,18 +89,27 @@ class ServiceTypeAhead extends Component {
           inputValue,
           highlightedIndex,
         }) => (
-          <div>
+          <div
+            id="service-error"
+            className={classNames('vads-u-margin--0', {
+              'usa-input-error': showError,
+            })}
+          >
             <label {...getLabelProps()} htmlFor="service-type-ahead-input">
               Service type{' '}
-              <span className="vads-u-color--secondary-dark">(*Required)</span>
+              <span className="form-required-span">(*Required)</span>
             </label>
+            {showError && (
+              <span className="usa-input-error-message" role="alert">
+                Please choose a service type.
+              </span>
+            )}
             <span id="service-typeahead">
               <input
                 {...getInputProps({
                   placeholder: 'like Chiropractor or Optometrist',
                 })}
                 id="service-type-ahead-input"
-                required
               />
               {isOpen && inputValue.length >= 2 ? (
                 <div className="dropdown" role="listbox">
@@ -131,9 +141,10 @@ class ServiceTypeAhead extends Component {
 }
 
 ServiceTypeAhead.propTypes = {
-  getProviderSpecialties: func.isRequired,
-  initialSelectedServiceType: string,
-  onSelect: func.isRequired,
+  getProviderSpecialties: PropTypes.func.isRequired,
+  initialSelectedServiceType: PropTypes.string,
+  onSelect: PropTypes.func.isRequired,
+  showError: PropTypes.bool,
 };
 
 const mapDispatch = { getProviderSpecialties };

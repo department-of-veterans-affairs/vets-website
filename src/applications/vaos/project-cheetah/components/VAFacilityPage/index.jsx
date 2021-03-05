@@ -17,6 +17,7 @@ import SingleFacilityEligibilityCheckMessage from './SingleFacilityEligibilityCh
 import VAFacilityInfoMessage from './VAFacilityInfoMessage';
 import ResidentialAddress from './ResidentialAddress';
 import LoadingOverlay from '../../../components/LoadingOverlay';
+import { usePrevious } from 'platform/utilities/react-hooks';
 
 const initialSchema = {
   type: 'object',
@@ -74,6 +75,23 @@ function VAFacilityPage({
       openFacilityPage(uiSchema, initialSchema);
     },
     [openFacilityPage],
+  );
+
+  useEffect(
+    () => {
+      scrollAndFocus();
+    },
+    [loadingFacilities],
+  );
+
+  const previouslyShowingModal = usePrevious(showEligibilityModal);
+  useEffect(
+    () => {
+      if (!showEligibilityModal && previouslyShowingModal) {
+        scrollAndFocus('.usa-button-primary');
+      }
+    },
+    [showEligibilityModal, previouslyShowingModal],
   );
 
   const goBack = () => routeToPreviousAppointmentPage(history, pageKey);

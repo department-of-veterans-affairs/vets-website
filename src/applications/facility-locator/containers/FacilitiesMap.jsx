@@ -199,6 +199,10 @@ const FacilitiesMap = props => {
   };
 
   const handleSearchArea = () => {
+    if (!props.currentQuery.isValid) {
+      return;
+    }
+
     resetMapElements();
     const { currentQuery } = props;
     lastZoom = null;
@@ -254,10 +258,7 @@ const FacilitiesMap = props => {
     }
 
     // TODO: hide after new search
-    if (
-      calculateSearchArea() > MAX_SEARCH_AREA ||
-      !props.currentQuery.isValid
-    ) {
+    if (calculateSearchArea() > MAX_SEARCH_AREA) {
       searchAreaControl.style.display = 'none';
       return;
     }

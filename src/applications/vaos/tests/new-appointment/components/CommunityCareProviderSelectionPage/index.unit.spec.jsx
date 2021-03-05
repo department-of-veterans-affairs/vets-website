@@ -217,6 +217,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     userEvent.click(
       await screen.getByRole('button', { name: /choose provider/i }),
     );
+    expect(screen.baseElement).to.contain.text('Selected Provider');
     expect(screen.baseElement).to.contain.text(
       'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-6599',
     );

@@ -256,7 +256,7 @@ export const isWithinServicePeriod = (
   }
 };
 
-export const validateDisabilityName = (err, fieldData) => {
+export const validateDisabilityName = (err, fieldData, formData) => {
   // We're using a validator for length instead of adding a maxLength schema
   // property because the validator is only applied conditionally - when a user
   // chooses a disability from the list supplied to autosuggest, we don't care
@@ -268,6 +268,17 @@ export const validateDisabilityName = (err, fieldData) => {
     fieldData.length > 255
   ) {
     err.addError('Condition names should be less than 256 characters');
+  }
+
+  // Alert Veteran to duplicates
+  const currentList =
+    formData?.newDisabilities?.map(disability =>
+      disability.condition?.toLowerCase(),
+    ) || [];
+  const itemLowerCased = fieldData?.toLowerCase() || '';
+  const itemCount = currentList.filter(item => item === itemLowerCased);
+  if (itemCount.length > 1) {
+    err.addError('Please enter a unique condition name');
   }
 };
 

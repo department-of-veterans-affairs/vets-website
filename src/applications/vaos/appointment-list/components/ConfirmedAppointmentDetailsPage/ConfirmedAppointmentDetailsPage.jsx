@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
@@ -13,6 +13,7 @@ import {
   getVARFacilityId,
   getVideoAppointmentLocation,
   isAtlasLocation,
+  isVAPhoneAppointment,
   isVideoAppointment,
   isVideoGFE,
   isVideoHome,
@@ -27,10 +28,16 @@ import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import * as actions from '../../redux/actions';
 import AppointmentDateTime from './AppointmentDateTime';
 import AppointmentInstructions from './AppointmentInstructions';
-import { getCancelInfo } from '../../redux/selectors';
+import {
+  getCancelInfo,
+  selectConfirmedAppointmentById,
+} from '../../redux/selectors';
 import { selectFeatureCancel } from '../../../redux/selectors';
 import VideoVisitSection from './VideoVisitSection';
 import { formatFacilityAddress } from 'applications/vaos/services/location';
+import PageLayout from '../AppointmentsPage/PageLayout';
+import ErrorMessage from '../../../components/ErrorMessage';
+import FullWidthLayout from '../../../components/FullWidthLayout';
 
 function formatAppointmentDate(date) {
   if (!date.isValid()) {
@@ -63,22 +70,12 @@ function ConfirmedAppointmentDetailsPage({
   confirmCancelAppointment,
   facilityData,
   fetchConfirmedAppointmentDetails,
-  confirmedStatus,
   showCancelButton,
 }) {
   const { id } = useParams();
-  const history = useHistory();
 
   useEffect(() => {
-    const status = confirmedStatus === FETCH_STATUS.succeeded;
-
-    if (!status) {
-      history.push('/');
-    }
-
-    if (!appointment || appointment.id !== id) {
-      fetchConfirmedAppointmentDetails(id);
-    }
+    fetchConfirmedAppointmentDetails(id, 'va');
 
     scrollAndFocus();
   }, []);
@@ -95,20 +92,28 @@ function ConfirmedAppointmentDetailsPage({
     [cancelInfo.showCancelModal, cancelInfo.cancelAppointmentStatus],
   );
 
-  if (appointmentDetailsStatus === FETCH_STATUS.loading) {
+  if (
+    appointmentDetailsStatus === FETCH_STATUS.failed ||
+    (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+  ) {
     return (
-      <div className="vads-u-margin-y--8">
-        <LoadingIndicator message="Loading your appointment..." />
-      </div>
+      <FullWidthLayout>
+        <ErrorMessage level={1} />
+      </FullWidthLayout>
     );
   }
 
-  if (!appointment || appointment.id !== id) {
-    return null;
+  if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
+    return (
+      <FullWidthLayout>
+        <LoadingIndicator message="Loading your appointment..." />
+      </FullWidthLayout>
+    );
   }
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isVideo = isVideoAppointment(appointment);
+  const isPhone = isVAPhoneAppointment(appointment);
   const facilityId = isVideo
     ? getVideoAppointmentLocation(appointment)
     : getVAAppointmentLocationId(appointment);
@@ -124,7 +129,7 @@ function ConfirmedAppointmentDetailsPage({
     );
 
   return (
-    <div>
+    <PageLayout>
       <div className="vads-u-display--block vads-u-padding-y--2p5 vaos-hide-for-print">
         ‹ <Link to="/">Manage appointments</Link>
       </div>
@@ -189,7 +194,9 @@ function ConfirmedAppointmentDetailsPage({
                   <AddToCalendar
                     summary={`${header}`}
                     description={`instructionText`}
-                    location={formatFacilityAddress(facility)}
+                    location={
+                      isPhone ? 'Phone call' : formatFacilityAddress(facility)
+                    }
                     duration={appointment.minutesDuration}
                     startDateTime={appointment.start}
                   />
@@ -255,26 +262,21 @@ function ConfirmedAppointmentDetailsPage({
         onConfirm={confirmCancelAppointment}
         onClose={closeCancelAppointment}
       />
-    </div>
+    </PageLayout>
   );
 }
 
-function mapStateToProps(state) {
-  const {
-    currentAppointment,
-    appointmentDetailsStatus,
-    facilityData,
-    confirmedStatus,
-    requestMessages,
-  } = state.appointments;
+function mapStateToProps(state, ownProps) {
+  const { appointmentDetailsStatus, facilityData } = state.appointments;
 
   return {
-    appointment: currentAppointment,
+    appointment: selectConfirmedAppointmentById(
+      state,
+      ownProps.match.params.id,
+    ),
     appointmentDetailsStatus,
     cancelInfo: getCancelInfo(state),
-    confirmedStatus,
     facilityData,
-    requestMessages,
     showCancelButton: selectFeatureCancel(state),
   };
 }
