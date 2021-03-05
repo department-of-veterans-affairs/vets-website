@@ -161,7 +161,11 @@ const FacilitiesMap = props => {
       locationBounds.extend(
         new mapboxgl.LngLat(searchCoords.lng, searchCoords.lat),
       );
-      map.fitBounds(locationBounds, { padding: 20, animation: false });
+      map.fitBounds(locationBounds, {
+        padding: 20,
+        animation: false,
+        duration: 0,
+      });
     }
 
     if (props.currentQuery.searchArea) {
@@ -673,7 +677,11 @@ const FacilitiesMap = props => {
         locationBounds.extend(
           new mapboxgl.LngLat(searchCoords.lng, searchCoords.lat),
         );
-        map.fitBounds(locationBounds, { maxZoom: 12 });
+        map.fitBounds(locationBounds, {
+          maxZoom: 12,
+          animation: false,
+          duration: 0,
+        });
       }
     },
     [props.currentQuery.searchCoords, props.results],
