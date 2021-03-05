@@ -61,14 +61,12 @@ const I18Select = ({ baseUrls }) => {
   };
 
   return (
-    <div className="vads-u-display--flex vads-u-flex-direction--column">
+    <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-top--4 vads-u-margin-bottom--3">
       <span>
         {Object.entries(i18Content).map(([k, v], i) => {
           return (
             <span key={i}>
               <a
-                // For "on-state" use standard dark grey color
-                // For "off-state" use standard blue and underline text
                 className={`vads-u-font-size--base vads-u-font-family--sans vads-u-padding-bottom-0p5 ${
                   k === lang
                     ? 'vads-u-font-weight--bold vads-u-color--base vads-u-text-decoration--none'
@@ -85,7 +83,11 @@ const I18Select = ({ baseUrls }) => {
                 {v.label}{' '}
               </a>
               {i !== Object.entries(i18Content).length - 1 && (
-                <span className=" vads-u-margin-left--0p5 vads-u-margin-right--0p5">
+                <span
+                  className=" vads-u-margin-left--0p5 vads-u-margin-right--0p5 vads-u-color--gray
+                  vads-u-height--20
+                "
+                >
                   |
                 </span>
               )}
@@ -95,8 +97,8 @@ const I18Select = ({ baseUrls }) => {
       </span>
       <hr
         style={{
-          borderTop: '1px solid #bbb',
-          width: '33%',
+          borderTop: '1px solid #5B616B',
+          width: '270px',
           marginBottom: '8px',
           marginTop: '4px',
         }}
