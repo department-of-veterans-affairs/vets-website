@@ -256,7 +256,15 @@ export const isWithinServicePeriod = (
   }
 };
 
-export const validateDisabilityName = (err, fieldData, formData) => {
+export const validateDisabilityName = (
+  err,
+  fieldData,
+  formData,
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData,
+) => {
   // We're using a validator for length instead of adding a maxLength schema
   // property because the validator is only applied conditionally - when a user
   // chooses a disability from the list supplied to autosuggest, we don't care
@@ -272,7 +280,7 @@ export const validateDisabilityName = (err, fieldData, formData) => {
 
   // Alert Veteran to duplicates
   const currentList =
-    formData?.newDisabilities?.map(disability =>
+    appStateData?.newDisabilities?.map(disability =>
       disability.condition?.toLowerCase(),
     ) || [];
   const itemLowerCased = fieldData?.toLowerCase() || '';

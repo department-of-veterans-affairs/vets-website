@@ -92,7 +92,7 @@ const DebtCardsList = ({ debts, errors }) => {
 DebtCardsList.propTypes = {
   debts: PropTypes.arrayOf(
     PropTypes.shape({
-      fileNumber: PropTypes.string,
+      fileNumber: PropTypes.number,
     }),
   ),
   errors: PropTypes.array.isRequired,
