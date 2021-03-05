@@ -250,7 +250,13 @@ export function mockVACancelFetches(id, reasons) {
     { data: {} },
   );
 }
-
+/**
+ * Mocks the api call made to cancel a request.
+ *
+ * @export
+ * @param {VARRequest} appointment Request object from var-resources that will be returned back
+ *    from the mock with the status set to Cancelled
+ */
 export function mockRequestCancelFetch(appointment) {
   setFetchJSONResponse(
     global.fetch.withArgs(
@@ -288,6 +294,14 @@ export function setRequestedPeriod(date, amOrPm) {
   };
 }
 
+/**
+ * Mocks the api call to get parent sites from var-resources. Really only used
+ * on the old two step facility page.
+ *
+ * @export
+ * @param {Array<string>} ids A list of VistA site ids to mock the request for
+ * @param {Array<VARParentSite>} data The list of parent site data returned from the mock call
+ */
 export function mockParentSites(ids, data) {
   setFetchJSONResponse(
     global.fetch.withArgs(
@@ -299,6 +313,14 @@ export function mockParentSites(ids, data) {
   );
 }
 
+/**
+ * Mocks the api call to check if the given sites allow community care requests
+ *
+ * @export
+ * @param {Array<string>} ids List of VistA parent site ids to check for CC support
+ * @param {Array<VARSupportedSite>} data List of community care enabled VA parent site data to return
+ *   from mock call
+ */
 export function mockSupportedCCSites(ids, data) {
   setFetchJSONResponse(
     global.fetch.withArgs(
@@ -310,17 +332,18 @@ export function mockSupportedCCSites(ids, data) {
   );
 }
 
-export function mockCCEligibility(typeOfCare, data) {
-  setFetchJSONResponse(
-    global.fetch.withArgs(
-      `${environment.API_URL}/vaos/v0/community_care/eligibility/${typeOfCare}`,
-    ),
-    {
-      data,
-    },
-  );
-}
-
+/**
+ * Mock the api call to get supported facilities for a parent site through var-resources.
+ * Used on old two step facility page.
+ *
+ * @export
+ * @param {Object} params
+ * @param {string} params.siteId The 3 digit VistA site id that the facilities are associated with
+ * @param {string} params.parentId The VA parent facility id that the facilities are associated with
+ * @param {string} params.typeOfCareId The type of care id the facilities should support
+ * @param {Array<VARFacility>} params.data The array of var-resouces facilities to return from the mock
+ * }
+ */
 export function mockSupportedFacilities({
   siteId,
   parentId,
@@ -337,6 +360,24 @@ export function mockSupportedFacilities({
   );
 }
 
+/**
+ * Mocks the api calls for the various eligibility related fetches VAOS does in the new appointment flow
+ *
+ * @export
+ * @param {Object} params
+ * @param {string} params.siteId The VistA site id the facility is associated with
+ * @param {string} params.facilityId The VA facility id to check for eligibility at
+ * @param {string} params.typeOfCareId The type of care id to check for eligibility for
+ * @param {boolean} [params.limit=false] Whether the mock should set the user as passing the request limit check
+ * @param {boolean} [params.requestPastVisits=false] Whether the mock should set the user as passing the past visits check
+ *    for requests
+ * @param {boolean} [params.directPastVisits=false] Whether the mock should set the user as passing the past visits check
+ *    for direct scheduling
+ * @param {Array<VARClinic>} [params.clinics=[]] The clinics returned during the eligibility checks
+ * @param {boolean} [params.pastClinics=false] Whether or not the mock should also mock an appointments fetch with an
+ *    past appointment with a clinic matching one passed in the clinics param, so that the user passes the past clinics check
+ * }
+ */
 export function mockEligibilityFetches({
   siteId,
   facilityId,
@@ -466,6 +507,21 @@ export function mockEligibilityFetches({
   );
 }
 
+/**
+ * Mocks the api call that fetches a list of appointment slots for direct scheduling
+ *
+ * @export
+ * @param {Object} params
+ * @param {string} siteId The VistA site id where slots are from
+ * @param {string} typeOfCareId The type of care id of the slots being requested
+ * @param {string} preferredDate The preferred date chosen by the user, which determines the date range fetched,
+ *    if startDate and endDate are not provided
+ * @param {MomentDate} startDate The start date for the apppointment slots
+ * @param {MomentDate} endDate The end date for the apppointment slots
+ * @param {string} [length=20] The length of the appointment slots
+ * @param {string} clinicId The VistA clinic id the slots are in
+ * @param {Array<VARSlot>} slots The list of slots to return from the mock
+ */
 export function mockAppointmentSlotFetch({
   siteId,
   typeOfCareId,
@@ -519,6 +575,13 @@ export function mockAppointmentSlotFetch({
   );
 }
 
+/**
+ * Mocks the api call that submits an appointment request
+ *
+ * @export
+ * @param {'cc'|'va'} type The type of request being made, VA or community care
+ * @param {VARRequest} data The request data to return from the mock
+ */
 export function mockRequestSubmit(type, data) {
   setFetchJSONResponse(
     global.fetch.withArgs(
@@ -528,6 +591,13 @@ export function mockRequestSubmit(type, data) {
   );
 }
 
+/**
+ * Mocks the api call that fetches messages for a given request
+ *
+ * @export
+ * @param {string} id The request id to pull messages for
+ * @param {Array<VARRequestMessage>} data The list of message objects to return from the mock
+ */
 export function mockMessagesFetch(id, data) {
   setFetchJSONResponse(
     global.fetch.withArgs(
@@ -537,6 +607,12 @@ export function mockMessagesFetch(id, data) {
   );
 }
 
+/**
+ * Mocks the api call that submits an appointment
+ *
+ * @export
+ * @param {MASAppointment} data The appointment data to return from the mock
+ */
 export function mockAppointmentSubmit(data) {
   setFetchJSONResponse(
     global.fetch.withArgs(`${environment.API_URL}/vaos/v0/appointments`),
@@ -544,6 +620,13 @@ export function mockAppointmentSubmit(data) {
   );
 }
 
+/**
+ * Mocks the api call that gets the request settings from VATS
+ *
+ * @export
+ * @param {Array<string>} parentSites The VistA site ids to pull settings for
+ * @param {Array<VATSRequestCriteria>} data The list of facilities with their settings to return from the mock
+ */
 export function mockRequestEligibilityCriteria(parentSites, data) {
   setFetchJSONResponse(
     global.fetch.withArgs(
@@ -557,6 +640,13 @@ export function mockRequestEligibilityCriteria(parentSites, data) {
   );
 }
 
+/**
+ * Mocks the api call that gets the direct scheduling settings from VATS
+ *
+ * @export
+ * @param {Array<string>} parentSites The VistA site ids to pull settings for
+ * @param {Array<VATSDirectCriteria>} data The list of facilities with their settings to return from the mock
+ */
 export function mockDirectBookingEligibilityCriteria(siteIds, data) {
   setFetchJSONResponse(
     global.fetch.withArgs(
@@ -570,6 +660,16 @@ export function mockDirectBookingEligibilityCriteria(siteIds, data) {
   );
 }
 
+/**
+ * Mocks the api calls used on the flat facilities page
+ *
+ * @export
+ * @param {Array<string>} parentSiteIds The VistA site ids to request facilities for
+ * @param {Array<string>} facilityIds The VA facility ids of facilities to return from the mocks
+ * @param {string} typeOfCareId The type of care id the facilities should support
+ * @param {Object} typeOfCare The settings object for the given type of care
+ * @returns {Object} An object with the results of the three mock calls
+ */
 export function mockFacilitiesPageFetches(
   parentSiteIds,
   facilityIds,
@@ -638,6 +738,17 @@ export function mockFacilitiesPageFetches(
   return { requestFacilities, directFacilities, facilities };
 }
 
+/**
+ * Mocks the api call used to check if a user is over the request limit for a facility
+ * and type of care.
+ *
+ * @export
+ * @param {Object} params
+ * @param {string} params.facilityId The id of the facility to check for requests
+ * @param {number} [params.requestLimit=1] The request limit to use for the facility
+ * @param {number} [params.numberOfRequests=0] The request count to return from the mock. Set this at least equal
+ *    to requestLimit to have this check fail
+ */
 export function mockRequestLimit({
   facilityId,
   requestLimit = 1,
@@ -661,6 +772,12 @@ export function mockRequestLimit({
   );
 }
 
+/**
+ * Mocks the api call that sets or retrieves preferences in var-resources
+ *
+ * @export
+ * @param {string} emailAddress The email address to return in the mock
+ */
 export function mockPreferences(emailAddress) {
   setFetchJSONResponse(
     global.fetch.withArgs(`${environment.API_URL}/vaos/v0/preferences`),
@@ -679,6 +796,17 @@ export function mockPreferences(emailAddress) {
   );
 }
 
+/**
+ * Mock the api calls used to set up Express Care windows
+ *
+ * @export
+ * @param {Object} [params]
+ * @param {string} [params.facilityId=983] The facility id for the EC window
+ * @param {boolean} [params.isWindowOpen=false] Is an EC window open currently for the given facility
+ * @param {boolean} [params.isUnderRequestLimit=false] Is this user under the limit for EC requests
+ * @param {MomentDate} [params.startTime=null] The start time for the window
+ * @param {MomentDate} [params.endTime=null] The end time for the window
+ */
 export function setupExpressCareMocks({
   facilityId = '983',
   isWindowOpen = false,
@@ -718,6 +846,17 @@ export function setupExpressCareMocks({
   });
 }
 
+/**
+ * Mock the api calls that checks if a user is eligible for community care for
+ *   a given type of care and if the facility supports CC
+ *
+ * @export
+ * @param {Object} params
+ * @param {Array<string>} params.parentSites The VA parent sites to check for CC support
+ * @param {Array<string>} params.supportedSites The VA parent sites that support CC
+ * @param {string} params.careType Community care type of care string
+ * @param {boolean} [eligible=true] Is the user eligible for CC
+ */
 export function mockCommunityCareEligibility({
   parentSites,
   supportedSites,
@@ -757,6 +896,15 @@ export function mockCommunityCareEligibility({
   );
 }
 
+/**
+ * Mock the browser geolocation api with a given position
+ *
+ * @export
+ * @param {Object} [params]
+ * @param {number} [latitude=53.2734] Latitude value (defaulted to San Diego)
+ * @param {number} [longitude=-7.77832031] Longitude value (defaulted to San Diego)
+ * @param {boolean} [fail=false] Should the geolocation request fail
+ */
 export function mockGetCurrentPosition({
   latitude = 53.2734, // San Diego, CA
   longitude = -7.77832031,
@@ -777,4 +925,32 @@ export function mockGetCurrentPosition({
             ),
     ),
   };
+}
+
+export function mockSingleRequestFetch({ request, error = null }) {
+  const baseUrl = `${environment.API_URL}/vaos/v0/appointment_requests/${
+    request.id
+  }`;
+
+  if (error) {
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
+  } else {
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data: request });
+  }
+}
+
+export function mockSingleAppointmentFetch({
+  appointment,
+  type = 'va',
+  error = null,
+}) {
+  const baseUrl = `${environment.API_URL}/vaos/v0/appointments/${type}/${
+    appointment.id
+  }`;
+
+  if (error) {
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
+  } else {
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data: appointment });
+  }
 }
