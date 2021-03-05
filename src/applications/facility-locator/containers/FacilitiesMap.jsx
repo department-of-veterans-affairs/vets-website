@@ -161,7 +161,7 @@ const FacilitiesMap = props => {
       locationBounds.extend(
         new mapboxgl.LngLat(searchCoords.lng, searchCoords.lat),
       );
-      map.fitBounds(locationBounds, { padding: 20 });
+      map.fitBounds(locationBounds, { padding: 20, duration: 0 });
     }
 
     if (props.currentQuery.searchArea) {
