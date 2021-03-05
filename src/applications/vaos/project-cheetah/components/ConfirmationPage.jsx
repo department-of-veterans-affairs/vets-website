@@ -24,7 +24,7 @@ function ConfirmationPage({ data, systemId, facilityDetails }) {
     return <Redirect to="/" />;
   }
 
-  const appointmentType = 'COVID-19 Vaccination';
+  const appointmentType = 'COVID-19 Vaccine';
   const appointmentDateString =
     moment(data.date1, 'YYYY-MM-DDTHH:mm:ssZ').format(
       'dddd, MMMM D, YYYY [at] h:mm a ',
@@ -68,7 +68,7 @@ function ConfirmationPage({ data, systemId, facilityDetails }) {
           <AddToCalendar
             summary={appointmentType.concat(' Appointment')}
             location={formatFacilityAddress(facilityDetails)}
-            startDateTime={data.date1}
+            startDateTime={data.date1[0]}
           />
         </div>
       </div>
