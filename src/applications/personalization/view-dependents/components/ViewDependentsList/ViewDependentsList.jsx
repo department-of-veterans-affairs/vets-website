@@ -21,11 +21,11 @@ function ViewDependentsList(props) {
     ));
   } else {
     mainContent = (
-      <p>
+      <h2 className="vads-u-font-size--h3">
         {props?.isAward
           ? `There are no dependents associated with your VA benefits`
           : `There are no dependents in this list`}
-      </p>
+      </h2>
     );
   }
 

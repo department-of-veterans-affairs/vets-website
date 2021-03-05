@@ -14,11 +14,8 @@ const testHappyPath = () => {
   cy.intercept('GET', DEPENDENTS_ENDPOINT, mockDependents).as('mockDependents');
   cy.visit(rootUrl);
   testAxe();
-  cy.findByText(/Your VA Dependents/).should('exist');
-  cy.findAllByText(/Relationship/i, { selector: 'dfn' }).should(
-    'have.length',
-    4,
-  );
+  cy.findByRole('heading', { name: /Your VA Dependents/i }).should('exist');
+  cy.findAllByRole('term', { name: /relationship/ }).should('have.length', 4);
   testAxe();
 };
 
@@ -27,8 +24,8 @@ const testNoDependentsOnAward = () => {
     'mockNoAwardDependents',
   );
   cy.visit(rootUrl);
-  cy.findByText(/There are no dependents associated with your VA benefits/i, {
-    selector: 'p',
+  cy.findByRole('heading', {
+    name: /There are no dependents associated with your VA benefits/i,
   }).should('exist');
   testAxe();
 };
@@ -45,8 +42,8 @@ const testEmptyResponse = () => {
     },
   }).as('emptyResponse');
   cy.visit(rootUrl);
-  cy.findByText(/We don't have dependents information on file for you/i, {
-    selector: 'h2',
+  cy.findByRole('heading', {
+    name: /We don't have dependents information on file for you/i,
   }).should('exist');
   testAxe();
 };
@@ -65,7 +62,9 @@ const testServerError = () => {
     statusCode: 500,
   }).as('serverError');
   cy.visit(rootUrl);
-  cy.findByText(/We're sorry. Something went wrong on our end/).should('exist');
+  cy.findByRole('heading', {
+    name: /We're sorry. Something went wrong on our end/i,
+  }).should('exist');
   testAxe();
 };
 
