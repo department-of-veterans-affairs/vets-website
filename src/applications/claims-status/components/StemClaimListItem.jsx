@@ -34,7 +34,7 @@ export default function StemClaimListItem({ claim }) {
         to={`your-stem-claims/${claim.id}/status`}
       >
         View details
-        <i className="fa fa-chevron-right" />
+        <i className="fa fa-chevron-right" aria-hidden="true"/>
       </Link>
     </div>
   );
