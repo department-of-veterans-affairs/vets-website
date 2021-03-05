@@ -1,8 +1,10 @@
 // Dependencies.
 import URLSearchParams from 'url-search-params';
 // Relative imports.
+import recordEvent from 'platform/monitoring/record-event';
 import { fetchFormsApi } from '../api';
 import { transformSearchTerm } from '../helpers';
+import { MAX_PAGE_LIST_LENGTH } from '../containers/SearchResults';
 import {
   FETCH_FORMS,
   FETCH_FORMS_FAILURE,
@@ -92,6 +94,25 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
   try {
     // Attempt to make the API request to retreive forms.
     const resultsDetails = await fetchFormsApi(q, { mockRequest });
+
+    // Derive the total number of pages.
+    const totalPages = Math.ceil(
+      resultsDetails.results?.length / MAX_PAGE_LIST_LENGTH,
+    );
+
+    recordEvent({
+      event: 'view_search_results', // remains consistent, push this event with each search
+      'search-page-path': '/find-forms', // populate with '/find-forms', remains consistent for all searches from find-forms page
+      'search-query': query, // populate with full query user used to execute search
+      'search-results-total-count': resultsDetails?.results?.length, // populate with total number of search results returned
+      'search-results-total-pages': totalPages, // populate with total number of search result pages returned
+      'search-selection': 'Find forms', // populate with 'Find forms' for all searches from /find-forms page
+      'search-typeahead-enabled': false, // populate with boolean false, remains consistent since type ahead won't feature here
+      'sitewide-search-app-used': false, // this is not the sitewide search app
+      'type-ahead-option-keyword-selected': undefined, // populate with undefined since type ahead won't feature here
+      'type-ahead-option-position': undefined, // populate with undefined since type ahead won't feature here
+      'type-ahead-options-list': undefined, // populate with undefined since type ahead won't feature here
+    });
 
     // If we are here, the API request succeeded.
     dispatch(
