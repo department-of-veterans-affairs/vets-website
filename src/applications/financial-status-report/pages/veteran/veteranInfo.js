@@ -21,7 +21,7 @@ export const schema = {
         dob: {
           type: 'string',
         },
-        vaFileNumber: {
+        fileNumber: {
           type: 'number',
         },
       },

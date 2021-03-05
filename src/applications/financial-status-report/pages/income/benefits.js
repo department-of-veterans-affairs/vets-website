@@ -18,6 +18,7 @@ export const schema = {
           type: 'array',
           items: {
             type: 'object',
+            title: 'Benefit',
             properties: {
               veteranOrSpouse: {
                 type: 'string',

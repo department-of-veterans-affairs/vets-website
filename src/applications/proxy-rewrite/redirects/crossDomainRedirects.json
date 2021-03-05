@@ -1071,6 +1071,11 @@
   },
   {
     "domain": "www.benefits.va.gov",
+    "src": "/vocrehab/vre_process.asp",
+    "dest": "/careers-employment/vocational-rehabilitation/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
     "src": "/INSURANCE/introCalc.asp",
     "dest": "/resources/deciding-how-much-life-insurance-to-get/"
   },

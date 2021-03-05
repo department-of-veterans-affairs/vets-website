@@ -41,6 +41,11 @@
       align-items: center;
       margin: 20px 0;
     }
+    .schemaform-block-header {
+      // title prop required in items schema but should be
+      // hidden in item loop component
+      display: none;
+    }
     .schemaform-label {
       margin-top: 0;
     }
@@ -165,6 +170,16 @@
 // confirmation page
 .help-container {
   padding-bottom: 40px;
+}
+
+// wizard
+.fsr-wizard {
+  .wizard-content {
+    margin: 30px 0;
+    .fieldset-input:first-child {
+      margin-top: 0;
+    }
+  }
 }
 
 // input fields

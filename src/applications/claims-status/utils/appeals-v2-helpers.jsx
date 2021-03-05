@@ -25,7 +25,7 @@ export const APPEAL_TYPES = {
   appeal: 'appeal',
 };
 
-const appealTypes = Object.values(APPEAL_TYPES);
+export const appealTypes = Object.values(APPEAL_TYPES);
 
 /**
  * Returns a string with the formatted name of the type of appeal.

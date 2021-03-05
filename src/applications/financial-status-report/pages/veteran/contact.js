@@ -177,7 +177,7 @@ export const uiSchema = {
         required: 'Please enter a state',
       },
     },
-    zipCode: {
+    postalCode: {
       'ui:title': 'Zip code',
       'ui:validations': [validateZIP],
       'ui:errorMessages': {
@@ -234,7 +234,7 @@ export const schema = {
   properties: {
     mailingAddress: {
       type: 'object',
-      required: ['country', 'addressLine1', 'city', 'state', 'zipCode'],
+      required: ['country', 'addressLine1', 'city', 'state', 'postalCode'],
       properties: {
         livesOutsideUS: {
           type: 'boolean',
@@ -252,7 +252,7 @@ export const schema = {
         state: {
           type: 'string',
         },
-        zipCode: SCHEMA_DEFINITIONS.zipCode,
+        postalCode: SCHEMA_DEFINITIONS.postalCode,
       },
     },
     contactInfo: {
