@@ -118,12 +118,32 @@ export default [
     response: confirmedCC,
   },
   {
-    path: /vaos\/v0\/appointments.*type=va.*/,
+    path: /vaos\/v0\/appointments\?.*type=va.*/,
     response: confirmedVA,
   },
   {
-    path: /vaos\/v0\/appointment_requests/,
+    path: /vaos\/v0\/appointments\/va\/.*/,
+    response: url => {
+      const segments = url.split(/[/]/);
+      const id = segments[segments.length - 1];
+      return {
+        data: confirmedVA.data.find(appt => appt.id === id),
+      };
+    },
+  },
+  {
+    path: /vaos\/v0\/appointment_requests\?/,
     response: requests,
+  },
+  {
+    path: /vaos\/v0\/appointment_requests\//,
+    response: url => {
+      const segments = url.split('/');
+      const id = segments[segments.length - 1];
+      return {
+        data: requests.data.find(req => req.id === id),
+      };
+    },
   },
   {
     path: /vaos\/v0\/appointment_requests\/.*\/messages/,

@@ -11,6 +11,8 @@ import {
 import {
   mockAppointmentInfo,
   mockFacilitiesFetch,
+  mockFacilityFetch,
+  mockSingleAppointmentFetch,
   mockVACancelFetches,
 } from '../../mocks/helpers';
 import {
@@ -103,23 +105,18 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     MockDate.reset();
   });
 
-  it('should navigate to confirmed appointments detail page', async () => {
-    // VA appointment id from confirmed_va.json
+  it('should show confirmed appointments detail page', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-    const screen = renderWithStoreAndRouter(
-      <AppointmentList featureHomepageRefresh />,
-      {
-        initialState,
-      },
-    );
-
-    let detailLinks = await screen.findAllByRole('link', {
-      name: /Detail/i,
+    mockSingleAppointmentFetch({
+      appointment,
+      type: 'va',
     });
 
-    // Select an appointment details link...
-    let detailLink = detailLinks.find(l => l.getAttribute('href') === url);
-    userEvent.click(detailLink);
+    mockFacilityFetch('vha_442GC', facility);
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: url,
+    });
 
     // Verify page content...
     expect(
@@ -161,10 +158,10 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     // Verify back button works...
     userEvent.click(button);
-    detailLinks = await screen.findAllByRole('link', {
+    const detailLinks = await screen.findAllByRole('link', {
       name: /Detail/i,
     });
-    detailLink = detailLinks.find(a => a.getAttribute('href') === url);
+    const detailLink = detailLinks.find(a => a.getAttribute('href') === url);
 
     // Go back to details page...
     userEvent.click(detailLink);
@@ -307,5 +304,26 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     fireEvent.click(await screen.findByText(/Print/i));
     expect(printSpy.calledOnce).to.be.true;
     global.window.print = oldPrint;
+  });
+
+  it('should show error message when single fetch errors', async () => {
+    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
+    mockSingleAppointmentFetch({
+      appointment,
+      type: 'va',
+      error: true,
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: url,
+    });
+
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: 'We’re sorry. We’ve run into a problem',
+      }),
+    ).to.be.ok;
   });
 });
