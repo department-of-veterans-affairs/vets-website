@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 
 const StemDeniedDetails = ({ deniedAt }) => {
-  const date = moment(deniedAt).format('MMMM D, YYYY');
+  const date = moment(deniedAt).format('MMM D, YYYY');
 
   return (
     <>
