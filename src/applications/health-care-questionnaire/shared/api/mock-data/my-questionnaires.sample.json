@@ -222,7 +222,7 @@
           "bookingNotes": "Follow-up/Routine: testing reason for visit field availability",
           "appointmentLength": "20",
           "id": "848;20200826.090000",
-          "appointmentTime": "2021-03-14T15:00:00Z",
+          "appointmentTime": "2021-05-14T15:00:00Z",
           "clinic": {
             "name": "CHY PC VAR2",
             "askForCheckIn": false,
