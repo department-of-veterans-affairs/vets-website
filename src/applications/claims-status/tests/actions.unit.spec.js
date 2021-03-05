@@ -17,6 +17,7 @@ import {
   getAppeals,
   getClaimDetail,
   getClaimsV2,
+  getStemClaims,
   pollRequest,
   REMOVE_FILE,
   removeFile,
@@ -45,6 +46,9 @@ import {
   submitRequest,
   UPDATE_FIELD,
   updateField,
+  FETCH_STEM_CLAIMS_ERROR,
+  FETCH_STEM_CLAIMS_SUCCESS,
+  FETCH_STEM_CLAIMS_PENDING,
 } from '../actions';
 
 let fetchMock;
@@ -555,6 +559,63 @@ describe('Actions', () => {
           });
           expect(dispatchSpy.secondCall.args[0].type).to.eql(
             SET_DECISION_REQUEST_ERROR,
+          );
+          done();
+        }
+      };
+
+      thunk(dispatch);
+    });
+    afterEach(unMockFetch);
+  });
+
+  describe('getStemClaims', () => {
+    beforeEach(mockFetch);
+    it('should fetch stem claims', done => {
+      const response = { data: [] };
+      fetchMock.returns({
+        catch: () => ({
+          then: fn => fn({ ok: true, json: () => Promise.resolve(response) }),
+        }),
+      });
+      const thunk = getStemClaims();
+      const dispatchSpy = sinon.spy();
+      const dispatch = action => {
+        dispatchSpy(action);
+        if (dispatchSpy.callCount === 2) {
+          expect(dispatchSpy.firstCall.args[0].type).to.eql(
+            FETCH_STEM_CLAIMS_PENDING,
+          );
+          expect(dispatchSpy.secondCall.args[0].type).to.eql(
+            FETCH_STEM_CLAIMS_SUCCESS,
+          );
+          done();
+        }
+      };
+
+      thunk(dispatch);
+    });
+    it('should fail on error', done => {
+      fetchMock.returns({
+        catch: () => ({
+          then: fn =>
+            fn({
+              ok: false,
+              status: 500,
+              json: () => Promise.resolve([]),
+            }),
+        }),
+      });
+      const thunk = getStemClaims();
+      const dispatchSpy = sinon.spy();
+      const dispatch = action => {
+        dispatchSpy(action);
+        if (dispatchSpy.callCount === 2) {
+          expect(dispatchSpy.firstCall.args[0].type).to.eql(
+            FETCH_STEM_CLAIMS_PENDING,
+          );
+          expect(dispatchSpy.secondCall.args[0].type).to.eql(
+            FETCH_STEM_CLAIMS_ERROR,
           );
           done();
         }

@@ -73,7 +73,7 @@ node('vetsgov-general-purpose') {
   }
 
   stage("Prearchive") {
-    commonStages.prearchive(dockerContainer, params.env, true)
+    commonStages.prearchive(dockerContainer, params.env)
   }
 
   stage("Archive") {

@@ -202,13 +202,12 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
   def drupalAddress = DRUPAL_ADDRESSES.get('vagovprod')
   def drupalCred = DRUPAL_CREDENTIALS.get('vagovprod')
   def drupalMode = useCache ? '' : '--pull-drupal'
-  def setPublicPath = contentOnlyBuild ? '--setPublicPath' : ''
 
   withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLogPath = "/application/${envName}-build.log"
 
-      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} ${setPublicPath} --verbose"
+      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose"
 
       if (envName == 'vagovprod') {
         // Find any broken links in the log
@@ -261,16 +260,14 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
   }
 }
 
-def prearchive(dockerContainer, envName, Boolean contentOnlyBuild) {
+def prearchive(dockerContainer, envName) {
   dockerContainer.inside(DOCKER_ARGS) {
-    if (!contentOnlyBuild) {
-      sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath"
-    }
+    sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath"
     sh "cd /application && node --max-old-space-size=10240 script/prearchive.js --buildtype=${envName}"
   }
 }
 
-def prearchiveAll(dockerContainer, Boolean contentOnlyBuild) {
+def prearchiveAll(dockerContainer) {
   stage("Prearchive Optimizations") {
     if (shouldBail()) { return }
 
@@ -281,7 +278,7 @@ def prearchiveAll(dockerContainer, Boolean contentOnlyBuild) {
         def envName = VAGOV_BUILDTYPES.get(i)
 
         builds[envName] = {
-          prearchive(dockerContainer, envName, contentOnlyBuild)
+          prearchive(dockerContainer, envName)
         }
       }
 
@@ -301,6 +298,10 @@ def archive(dockerContainer, String ref, String envName) {
     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
                      usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
       sh "echo \"${buildDetails}\" > /application/build/${envName}/BUILD.txt"
+      if(envName == 'vagovdev') {
+        sh "tar -C /application/build/${envName}/generated -cf /application/build/apps.${envName}.tar.bz2 ."
+        sh "aws s3 cp /application/build/apps.${envName}.tar.bz2 s3://vetsgov-website-builds-s3-upload/application-build/${ref}/${envName}.tar.bz2 --acl public-read --region us-gov-west-1 --quiet"
+      }
       sh "tar -C /application/build/${envName} -cf /application/build/${envName}.tar.bz2 ."
       sh "aws s3 cp /application/build/${envName}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${ref}/${envName}.tar.bz2 --acl public-read --region us-gov-west-1 --quiet"
     }

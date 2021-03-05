@@ -1,0 +1,144 @@
+{
+  "personalData": {
+    "veteranFullName": {
+      "first": "Greg",
+      "middle": "A",
+      "last": "Anderson"
+    },
+    "address": {
+      "street": "123 Fake Street",
+      "city": "Fakerville",
+      "state": "CO",
+      "country": "USA",
+      "postalCode": "11111"
+    },
+    "telephoneNumber": "5555555555",
+    "dateOfBirth": "1970-01-01",
+    "married": true,
+    "spouseFullName": {
+      "first": "Carol",
+      "middle": "B",
+      "last": "Anderson"
+    },
+    "agesOfOtherDependents": [15, 17],
+    "employmentHistory": {
+      "veteran": [
+        {
+          "occupationName": "welder",
+          "from": "1995-01",
+          "to": null,
+          "present": true,
+          "employerName": "Faker Metal Fabrications Inc.",
+          "employerAddress": {
+            "street": "321 Notreal Avenue",
+            "city": "Fakerville",
+            "state": "CO",
+            "country": "USA",
+            "postalCode": "11111"
+          }
+        }
+      ],
+      "spouse": []
+    }
+  },
+  "income": {
+    "veteran": {
+      "monthlyGrossSalary": 450000,
+      "deductions": {
+        "taxes": 67500,
+        "retirement": 67500,
+        "socialSecurity": 67500,
+        "other": [
+          {
+            "deductionName": "health savings account",
+            "deductionAmount": 50000
+          }
+        ]
+      },
+      "totalDeductions": 252500,
+      "netTakeHomePay": 197500,
+      "otherIncome": [
+        {
+          "name": "VA Disability Compensation",
+          "amount": 150000
+        }
+      ],
+      "totalMonthlyNetIncome": 347500
+    },
+    "spouse": {
+      "monthlyGrossSalary": null,
+      "deductions": {
+        "taxes": null,
+        "retirement": null,
+        "socialSecurity": null,
+        "other": []
+      },
+      "totalDeductions": null,
+      "netTakeHomePay": null,
+      "otherIncome": [],
+      "totalMonthlyNetIncome": null
+    }
+  },
+  "expenses": {
+    "rentOrMortgage": 100000,
+    "food": 60000,
+    "utilities": 30000,
+    "other": null,
+    "installmentContractsAndOtherDebts": 50000,
+    "totalMonthlyExpenses": 240000
+  },
+  "discretionaryIncome": {
+    "netMonthlyIncomeLessExpenses": 107500,
+    "amountCanBePaidTowardDebt": 107500
+  },
+  "assets": {
+    "cashInBank": 1000000,
+    "cashOnHand": 300000,
+    "automobiles": [
+      {
+        "make": "Pontiac",
+        "model": "Grand AM",
+        "year": 1999,
+        "resaleValue": 200000
+      }
+    ],
+    "trailersBoatsCampers": null,
+    "usSavingsBonds": null,
+    "stocksAndOtherBonds": 10000000,
+    "realEstateOwned": 25000000,
+    "otherAssets": [
+      {
+        "assetName": "gold",
+        "assetValue": 2500000
+      }
+    ],
+    "totalAssets": 39000000
+  },
+  "installmentContractsAndOtherDebts": [
+    {
+      "creditorName": "Faker Bank",
+      "creditorAddress": {
+        "street": "555 Bogus Street",
+        "city": "Fakerville",
+        "state": "CO",
+        "country": "USA",
+        "postalCode": "11111"
+      },
+      "dateStarted": "2017-05-01",
+      "purpose": "debt consolidation loan",
+      "originalAmount": 1500000,
+      "unpaidBalance": 100000,
+      "amountDueMonthly": 50000,
+      "amountPastDue": 0
+    }
+  ],
+  "additionalData": {
+    "bankruptcy": {
+      "hasBeenAdjucatedBankrupt": false,
+      "dateDischarged": null,
+      "courtLocation": null,
+      "docketNumber": null
+    },
+    "additionalComments": null
+  }
+}

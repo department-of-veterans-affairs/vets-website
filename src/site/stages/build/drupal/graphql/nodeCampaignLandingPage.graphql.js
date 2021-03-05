@@ -9,6 +9,7 @@ const nodeCampaignLandingPage = `
     ${entityElementsFromPages}
     changed
     entityId
+    entityBundle
     title
     fieldAdministration {
       entity {
