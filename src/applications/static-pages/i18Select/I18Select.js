@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-// TODO: feature toggle, styling
+
 const i18Content = {
   en: {
     label: 'English',
