@@ -32,7 +32,7 @@ class StemClaimStatusPage extends React.Component {
         />
       );
     } else if (claim) {
-      content = <StemDeniedDetails claim={claim} />;
+      content = <StemDeniedDetails deniedAt={claim.attributes.deniedAt} />;
     } else {
       content = (
         <>

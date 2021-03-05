@@ -13,17 +13,13 @@ class StemClaimPage extends React.Component {
   }
 }
 
-function mapStateToProps() {
-  return {};
-}
-
 const mapDispatchToProps = {
   getStemClaims,
 };
 
 export default withRouter(
   connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps,
   )(StemClaimPage),
 );

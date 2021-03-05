@@ -1,9 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 
-const StemDeniedDetails = props => {
-  const { deniedAt, remainingEntitlement } = props.claim.attributes;
-  const date = moment(deniedAt).format('MM/DD/YYYY');
+const StemDeniedDetails = ({ deniedAt }) => {
+  const date = moment(deniedAt).format('MMMM D, YYYY');
 
   return (
     <>
@@ -24,65 +23,59 @@ const StemDeniedDetails = props => {
         You did not meet these criteria for the Rogers STEM Scholarship:
       </h3>
       <ul className="stem-ad-list">
-        {remainingEntitlement > 180 && (
-          <li className="stem-ad-list-item">
-            You don’t meet the benefit requirements for the Rogers STEM
-            Scholarship
-            <ul className="stem-ad-list-secondary">
-              <li className="stem-ad-list-item">
-                By law, all Rogers STEM Scholarship recipients must have 6
-                months or less of Post 9/11 GI Bill (Chapter 33) benefits left
-                (38 U.S. Code § 3320).
-              </li>
-              <li className="stem-ad-list-item">
-                We reviewed your service and school data records currently on
-                file. As of [{date}
-                ], you have more than 6 months of Post 9/11 GI Bill (Chapter 33)
-                benefits remaining.
-              </li>
-            </ul>
-          </li>
-        )}
+        <li className="stem-ad-list-item">
+          You don’t meet the benefit requirements for the Rogers STEM
+          Scholarship
+          <ul className="stem-ad-list-secondary">
+            <li className="stem-ad-list-item">
+              By law, all Rogers STEM Scholarship recipients must have 6 months
+              or less of Post 9/11 GI Bill (Chapter 33) benefits left (38 U.S.
+              Code § 3320).
+            </li>
+            <li className="stem-ad-list-item">
+              We reviewed your service and school data records currently on
+              file. As of [{date}
+              ], you have more than 6 months of Post 9/11 GI Bill (Chapter 33)
+              benefits remaining.
+            </li>
+          </ul>
+        </li>
       </ul>
       <h3 className="vads-u-font-family--sans vads-u-margin-bottom--0">
         You met these criteria for the Rogers STEM Scholarship:
       </h3>
       <ul className="stem-ad-list">
-        {remainingEntitlement && (
-          <li className="stem-ad-list-item">
-            You are eligible for Post 9/11 GI Bill benefits
-            <ul className="stem-ad-list-secondary">
-              <li className="stem-ad-list-item">
-                By law, all Rogers STEM scholarship recipients must be eligible
-                for Post 9/11 GI Bill (Chapter 33) benefits. (38 U.S. Code §
-                3320).
-              </li>
-              <li className="stem-ad-list-item">
-                We reviewed your service and school data records currently on
-                file. As of [{date}
-                ], you are eligible for Post 9/11 GI Bill benefits.
-              </li>
-            </ul>
-          </li>
-        )}
-        {remainingEntitlement <= 180 && (
-          <li className="stem-ad-list-item">
-            You meet the benefit requirements for the Rogers STEM Scholarship
-            <ul className="stem-ad-list-secondary">
-              <li className="stem-ad-list-item">
-                By law, all Rogers STEM Scholarship recipients must have 6
-                months or less of Post 9/11 GI Bill (Chapter 33) benefits left
-                (38 U.S. Code § 3320).
-              </li>
-              <li className="stem-ad-list-item">
-                We reviewed your service and school data records currently on
-                file. As of [{date}
-                ], you have less than 6 months of Post 9/11 GI Bill (Chapter 33)
-                benefits remaining.
-              </li>
-            </ul>
-          </li>
-        )}
+        <li className="stem-ad-list-item">
+          You are eligible for Post 9/11 GI Bill benefits
+          <ul className="stem-ad-list-secondary">
+            <li className="stem-ad-list-item">
+              By law, all Rogers STEM scholarship recipients must be eligible
+              for Post 9/11 GI Bill (Chapter 33) benefits. (38 U.S. Code §
+              3320).
+            </li>
+            <li className="stem-ad-list-item">
+              We reviewed your service and school data records currently on
+              file. As of [{date}
+              ], you are eligible for Post 9/11 GI Bill benefits.
+            </li>
+          </ul>
+        </li>
+        <li className="stem-ad-list-item">
+          You meet the benefit requirements for the Rogers STEM Scholarship
+          <ul className="stem-ad-list-secondary">
+            <li className="stem-ad-list-item">
+              By law, all Rogers STEM Scholarship recipients must have 6 months
+              or less of Post 9/11 GI Bill (Chapter 33) benefits left (38 U.S.
+              Code § 3320).
+            </li>
+            <li className="stem-ad-list-item">
+              We reviewed your service and school data records currently on
+              file. As of [{date}
+              ], you have less than 6 months of Post 9/11 GI Bill (Chapter 33)
+              benefits remaining.
+            </li>
+          </ul>
+        </li>
       </ul>
       <h3 className="vads-u-font-family--sans">
         What you should do if you disagree with our decision
