@@ -202,7 +202,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
   def drupalAddress = DRUPAL_ADDRESSES.get('vagovprod')
   def drupalCred = DRUPAL_CREDENTIALS.get('vagovprod')
   def drupalMode = useCache ? '' : '--pull-drupal'
-  def drupalMaxParallelRequests = 10;
+  def drupalMaxParallelRequests = 5;
 
   if (contentOnlyBuild) {
     drupalMaxParallelRequests = 15
