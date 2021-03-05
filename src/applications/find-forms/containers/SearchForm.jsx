@@ -4,13 +4,17 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 // Relative imports.
+import recordEvent from 'platform/monitoring/record-event';
+import { MAX_PAGE_LIST_LENGTH } from '../containers/SearchResults';
 import { getFindFormsAppState } from '../helpers/selectors';
 import { fetchFormsThunk } from '../actions';
+import * as customPropTypes from '../prop-types';
 
 export class SearchForm extends Component {
   static propTypes = {
     // From mapStateToProps.
     fetching: PropTypes.bool.isRequired,
+    results: PropTypes.arrayOf(customPropTypes.Form.isRequired),
     // From mapDispatchToProps.
     fetchFormsThunk: PropTypes.func.isRequired,
   };
@@ -35,6 +39,28 @@ export class SearchForm extends Component {
     if (query) this.props.fetchFormsThunk(query);
   }
 
+  componentDidUpdate(prevProps) {
+    const { query } = this.state;
+    const { fetching, results } = this.props;
+    if (!fetching && results && prevProps.results !== results) {
+      // Derive the total number of pages.
+      const totalPages = Math.ceil(results.length / MAX_PAGE_LIST_LENGTH);
+      recordEvent({
+        event: 'view_search_results', // remains consistent, push this event with each search
+        'search-page-path': '/find-forms', // populate with '/find-forms', remains consistent for all searches from find-forms page
+        'search-query': query, // populate with full query user used to execute search
+        'search-results-total-count': results.length, // populate with total number of search results returned
+        'search-results-total-pages': totalPages, // populate with total number of search result pages returned
+        'search-selection': 'Find forms', // populate with 'Find forms' for all searches from /find-forms page
+        'search-typeahead-enabled': false, // populate with boolean false, remains consistent since type ahead won't feature here
+        'sitewide-search-app-used': false, // this is not the sitewide search app
+        'type-ahead-option-keyword-selected': undefined, // populate with undefined since type ahead won't feature here
+        'type-ahead-option-position': undefined, // populate with undefined since type ahead won't feature here
+        'type-ahead-options-list': undefined, // populate with undefined since type ahead won't feature here
+      });
+    }
+  }
+
   onQueryChange = event => {
     // Derive the new query value.
     const query = event.target.value;
@@ -43,7 +69,7 @@ export class SearchForm extends Component {
     this.setState({ query });
   };
 
-  onSubmitHandler = event => {
+  onSubmitHandler = async event => {
     event.preventDefault();
     this.props.fetchFormsThunk(this.state.query);
   };
@@ -90,6 +116,7 @@ export class SearchForm extends Component {
 
 const mapStateToProps = state => ({
   fetching: getFindFormsAppState(state).fetching,
+  results: getFindFormsAppState(state).results,
 });
 
 const mapDispatchToProps = {

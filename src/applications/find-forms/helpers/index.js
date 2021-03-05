@@ -3,7 +3,7 @@ import moment from 'moment';
 
 // relative imports
 import { deriveLatestIssue } from '../components/SearchResult';
-import { SORT_OPTIONS } from '../constants';
+import { SORT_OPTIONS, STRINGS_TO_REPLACE_MATRIX } from '../constants';
 /**
  * This function sorts the results of Find Forms search.
  * @param {string} sortByPropertyName Is the state property in the SearchResults Controller
@@ -67,4 +67,42 @@ export const sortTheResults = (sortByPropertyName, indexA, indexB) => {
   }
 
   return indexRemainsInPlace;
+};
+
+/**
+ * This function helps inserts a "-" within at the index we need.
+ * @param {string} match string matched from string.replace function
+ * @param {string|number} index index where we need to add the dash
+ * @return {string} new substring with dash
+ */
+export const regexpDashAdder = (match, index) => {
+  const regex = new RegExp(`(?<=^.{${index}})`);
+  return match.replace(regex, '-');
+};
+
+/**
+ * This function takes a string and runs through the STRINGS_TO_REPLACE_MATRIX to remove/ replace of any of those properties listed.
+ * @param {string} string
+ * @return {string} returns a new string ready for search.
+ */
+export const removeCharacters = string => {
+  const possibleStrings = Object.keys(STRINGS_TO_REPLACE_MATRIX);
+  let stringToStrip = string.toUpperCase();
+
+  possibleStrings.forEach(str => {
+    const stringToReplace = new RegExp(str, 'g');
+    const isSkippableCondition =
+      (str.startsWith('10') && stringToStrip.includes('10-10EZ')) ||
+      stringToStrip.includes('21P-');
+
+    if (isSkippableCondition) {
+      return;
+    }
+
+    stringToStrip = stringToStrip.replace(
+      stringToReplace,
+      STRINGS_TO_REPLACE_MATRIX[str],
+    );
+  });
+  return stringToStrip.trim();
 };
