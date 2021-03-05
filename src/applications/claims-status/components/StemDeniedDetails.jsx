@@ -60,22 +60,6 @@ const StemDeniedDetails = ({ deniedAt }) => {
             </li>
           </ul>
         </li>
-        <li className="stem-ad-list-item">
-          You meet the benefit requirements for the Rogers STEM Scholarship
-          <ul className="stem-ad-list-secondary">
-            <li className="stem-ad-list-item">
-              By law, all Rogers STEM Scholarship recipients must have 6 months
-              or less of Post 9/11 GI Bill (Chapter 33) benefits left (38 U.S.
-              Code § 3320).
-            </li>
-            <li className="stem-ad-list-item">
-              We reviewed your service and school data records currently on
-              file. As of [{date}
-              ], you have less than 6 months of Post 9/11 GI Bill (Chapter 33)
-              benefits remaining.
-            </li>
-          </ul>
-        </li>
       </ul>
       <h3 className="vads-u-font-family--sans">
         What you should do if you disagree with our decision
