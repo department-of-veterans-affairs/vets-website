@@ -98,9 +98,6 @@ describe('<ConfirmedAppointmentDetailsPage>', () => {
         expect(screen.history.push.lastCall.args[0]).to.equal(url),
       );
 
-      expect(screen.getByRole('link', { name: /Manage appointments/ })).to.be
-        .ok;
-
       await screen.findByText(
         new RegExp(
           startDate
@@ -109,6 +106,9 @@ describe('<ConfirmedAppointmentDetailsPage>', () => {
           'i',
         ),
       );
+
+      expect(screen.getByRole('link', { name: /Manage appointments/ })).to.be
+        .ok;
 
       expect(screen.baseElement).to.contain.text('VA Video Connect at home');
 
@@ -678,9 +678,6 @@ describe('<ConfirmedAppointmentDetailsPage>', () => {
         expect(screen.history.push.lastCall.args[0]).to.equal(url),
       );
 
-      expect(screen.getByRole('link', { name: /Manage appointments/ })).to.be
-        .ok;
-
       await screen.findByText(
         new RegExp(
           startDate
@@ -689,6 +686,9 @@ describe('<ConfirmedAppointmentDetailsPage>', () => {
           'i',
         ),
       );
+
+      expect(screen.getByRole('link', { name: /Manage appointments/ })).to.be
+        .ok;
 
       expect(printSpy.notCalled).to.be.true;
       fireEvent.click(await screen.findByText(/Print/i));
