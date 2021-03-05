@@ -16,6 +16,7 @@ describe('health care questionnaire -- ', () => {
       disableFTUXModals();
     });
   });
+  // skipped due to CI losing logged in user.
   it.skip('happy path', () => {
     cy.visit('/health-care/health-questionnaires/questionnaires/');
     cy.get('h1').contains('Your health questionnaires');
