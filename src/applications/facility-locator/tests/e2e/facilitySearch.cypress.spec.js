@@ -32,9 +32,11 @@ for (let i = 0; i < 30; i += 1) {
   describe('Facility VA search', () => {
     before(function() {
       // This test crashes in Jenkins about 5% of the time.
-      cy.syncFixtures({
-        constants: path.join(__dirname, '..', '..', 'constants'),
-      });
+      if (i === 0) {
+        cy.syncFixtures({
+          constants: path.join(__dirname, '..', '..', 'constants'),
+        });
+      }
     });
 
     beforeEach(() => {
