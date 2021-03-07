@@ -28,7 +28,7 @@ Cypress.Commands.add('verifyOptions', () => {
   cy.get('#service-typeahead').should('not.have', 'disabled');
 });
 
-for (let i = 0; i < 30; i += 1) {
+for (let i = 0; i < 60; i += 1) {
   describe('Facility VA search', () => {
     before(function() {
       // This test crashes in Jenkins about 5% of the time.
@@ -62,7 +62,7 @@ for (let i = 0; i < 30; i += 1) {
       cy.get('#street-city-state-zip').type('Austin, TX');
       cy.get('#facility-type-dropdown').select('VA health');
       cy.get('#service-type-dropdown').select('Primary care');
-      cy.get('#facility-search').click();
+      cy.get('#facility-search').click({ waitForAnimations: true });
       cy.get('#search-results-subheader').contains(
         'Results for "VA health", "Primary care" near "Austin, Texas"',
       );
@@ -76,13 +76,13 @@ for (let i = 0; i < 30; i += 1) {
       cy.get('#other-tools').should('exist');
     });
 
-    it.skip('should render breadcrumbs ', () => {
+    it('should render breadcrumbs ', () => {
       cy.visit('/find-locations');
 
       cy.get('#street-city-state-zip').type('Austin, TX');
       cy.get('#facility-type-dropdown').select('VA health');
       cy.get('#facility-search')
-        .click()
+        .click({ waitForAnimations: true })
         .then(() => {
           cy.injectAxe();
           cy.axeCheck();
@@ -96,7 +96,7 @@ for (let i = 0; i < 30; i += 1) {
 
           cy.findByText(/austin va clinic/i, { selector: 'a' })
             .first()
-            .click()
+            .click({ waitForAnimations: true })
             .then(() => {
               cy.axeCheck();
 
@@ -112,7 +112,9 @@ for (let i = 0; i < 30; i += 1) {
                 '.va-nav-breadcrumbs-list li:nth-of-type(3) a[aria-current="page"]',
               ).contains('Facility Details');
 
-              cy.get('.va-nav-breadcrumbs-list li:nth-of-type(2) a').click();
+              cy.get('.va-nav-breadcrumbs-list li:nth-of-type(2) a').click({
+                waitForAnimations: true,
+              });
 
               // Mobile View
               cy.viewport(375, 667);
@@ -147,7 +149,7 @@ for (let i = 0; i < 30; i += 1) {
 
       cy.get('#street-city-state-zip').type('Los Angeles');
       cy.get('#facility-type-dropdown').select('VA benefits');
-      cy.get('#facility-search').click();
+      cy.get('#facility-search').click({ waitForAnimations: true });
       cy.get('#search-results-subheader').contains(
         'Results for "VA benefits", "All VA benefit services" near "Los Angeles, California"',
       );
@@ -160,7 +162,7 @@ for (let i = 0; i < 30; i += 1) {
       );
       cy.findByText(/Los Angeles Ambulatory Care Center/i, { selector: 'a' })
         .first()
-        .click();
+        .click({ waitForAnimations: true });
       cy.get('h1').contains('Los Angeles Ambulatory Care Center');
       cy.get('.p1')
         .first()

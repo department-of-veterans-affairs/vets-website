@@ -1,6 +1,6 @@
 import path from 'path';
 
-for (let i = 0; i < 30; i += 1) {
+for (let i = 0; i < 60; i += 1) {
   describe('Provider search', () => {
     before(function() {
       // This test crashes in Jenkins about 5% of the time.
@@ -32,9 +32,9 @@ for (let i = 0; i < 30; i += 1) {
         'Community providers (in VA’s network)',
       );
       cy.get('#service-type-ahead-input').type('Dentist');
-      cy.get('#downshift-1-item-0').click();
+      cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
 
-      cy.get('#facility-search').click();
+      cy.get('#facility-search').click({ waitForAnimations: true });
       cy.get('#search-results-subheader').contains(
         'Results for "Community providers (in VA’s network)", "Dentist - Orofacial Pain " near "Austin, Texas"',
       );
@@ -56,9 +56,9 @@ for (let i = 0; i < 30; i += 1) {
         'Community providers (in VA’s network)',
       );
       cy.get('#service-type-ahead-input').type('Clinic/Center - Urgent Care');
-      cy.get('#downshift-1-item-0').click();
+      cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
 
-      cy.get('#facility-search').click();
+      cy.get('#facility-search').click({ waitForAnimations: true });
       cy.get('#search-results-subheader').contains(
         'Results for "Community providers (in VA’s network)", "Clinic/Center - Urgent Care" near "Austin, Texas"',
       );
@@ -78,7 +78,7 @@ for (let i = 0; i < 30; i += 1) {
       cy.get('#service-type-dropdown').select(
         'Community urgent care providers (in VA’s network)',
       );
-      cy.get('#facility-search').click();
+      cy.get('#facility-search').click({ waitForAnimations: true });
       cy.get('#search-results-subheader').contains(
         'Results for "Urgent care", "Community urgent care providers (in VA’s network)" near "Austin, Texas"',
       );
