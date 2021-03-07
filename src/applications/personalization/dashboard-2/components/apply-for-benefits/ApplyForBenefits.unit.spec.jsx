@@ -5,6 +5,7 @@ import { mockFetch, resetFetch } from '~/platform/testing/unit/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import reducers from '~/applications/personalization/dashboard/reducers';
+import { wait } from '@@profile/tests/unit-test-helpers';
 import ApplyForBenefits from './ApplyForBenefits';
 
 const oneDayInMS = 24 * 60 * 60 * 1000;
@@ -25,12 +26,6 @@ function oneWeekFromNow() {
 
 function oneYearFromNow() {
   return Date.now() + oneYearInMS;
-}
-
-function wait(timeout) {
-  return new Promise(resolve => {
-    setTimeout(resolve, timeout);
-  });
 }
 
 describe('ApplyForBenefits component', () => {
@@ -241,7 +236,7 @@ describe('ApplyForBenefits component', () => {
             );
           }),
         ).to.be.false;
-        // make sure the loading spinner is shown
+        // make sure the loading spinner is not shown
         expect(
           view.queryByRole('progressbar', {
             value: /benefits you might be interested in/i,
