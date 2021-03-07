@@ -22,7 +22,7 @@ const route = {
   path: '/',
   component: QuestionnaireWrapper,
   indexRoute: {
-    onEnter: onFormEnter(id, questionnaireId),
+    onEnter: onFormEnter(id),
   },
 
   childRoutes: createRoutesWithSaveInProgress(formConfig),

@@ -35,7 +35,7 @@ export const uiSchema = {
     'ui:options': {
       viewField: NewDisability,
       reviewTitle: 'New Conditions',
-      errorKey: 'condition',
+      duplicateKey: 'condition',
       itemName: 'Condition',
       itemAriaLabel: data => data.condition,
       includeRequiredLabelInTitle: true,

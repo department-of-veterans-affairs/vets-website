@@ -14,7 +14,7 @@ describe('health care questionnaire -- ', () => {
       '[data-request-id="195bc02c0518870fc6b1e302cfc326b61"] > .usa-button',
     ).click();
     cy.get('h1').contains('Answer primary care questionnaire');
-    cy.get('.va-button').click();
+    cy.get('.va-button').click({ waitForAnimations: true });
     cy.get('[data-testid=fullName]').contains('Calvin C Fletcher');
     cy.get('#2-continueButton').click();
     cy.get('.reason-for-visit').contains('Routine or follow-up visit');
