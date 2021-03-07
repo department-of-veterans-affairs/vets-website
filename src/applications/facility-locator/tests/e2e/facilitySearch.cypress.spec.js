@@ -76,7 +76,7 @@ for (let i = 0; i < 60; i += 1) {
       cy.get('#other-tools').should('exist');
     });
 
-    it('should render breadcrumbs ', () => {
+    it.skip('should render breadcrumbs ', () => {
       cy.visit('/find-locations');
 
       cy.get('#street-city-state-zip').type('Austin, TX');
