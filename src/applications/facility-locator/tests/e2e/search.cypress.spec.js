@@ -33,6 +33,7 @@ for (let i = 0; i < 100; i += 1) {
     'Facility search',
     {
       waitForAnimations: true,
+      numTestsKeptInMemory: 2,
     },
     () => {
       before(function() {
