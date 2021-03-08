@@ -1,3 +1,4 @@
+/* commit */
 require('core-js/stable');
 require('regenerator-runtime/runtime');
 const fs = require('fs');
