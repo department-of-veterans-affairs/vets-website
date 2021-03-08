@@ -21,8 +21,8 @@ export function prefillTransformer(pages, formData, metadata, state) {
   if (areaCode && phoneNumber) {
     newData = {
       ...newData,
-      contactInfo: {
-        ...newData.contactInfo,
+      personalData: {
+        ...newData.personalData,
         telephoneNumber: areaCode + phoneNumber,
       },
     };
@@ -31,8 +31,8 @@ export function prefillTransformer(pages, formData, metadata, state) {
   if (emailAddress) {
     newData = {
       ...newData,
-      contactInfo: {
-        ...newData.contactInfo,
+      personalData: {
+        ...newData.personalData,
         primaryEmail: emailAddress,
         confirmationEmail: emailAddress,
       },

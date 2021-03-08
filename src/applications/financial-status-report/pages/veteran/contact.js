@@ -192,8 +192,6 @@ export const uiSchema = {
         },
       },
     },
-  },
-  contactInfo: {
     telephoneNumber: {
       ...phoneUI('Phone number'),
       'ui:options': {
@@ -221,7 +219,7 @@ export const uiSchema = {
       'ui:validations': [
         {
           validator: (errors, fieldData, formData) => {
-            const { primaryEmail, confirmationEmail } = formData.contactInfo;
+            const { primaryEmail, confirmationEmail } = formData.personalData;
             if (primaryEmail !== confirmationEmail) {
               errors.addError('Email does not match');
             }
@@ -261,11 +259,6 @@ export const schema = {
             postalCode: SCHEMA_DEFINITIONS.postalCode,
           },
         },
-      },
-    },
-    contactInfo: {
-      type: 'object',
-      properties: {
         telephoneNumber: SCHEMA_DEFINITIONS.telephoneNumber,
         primaryEmail: SCHEMA_DEFINITIONS.emailAddress,
         confirmationEmail: SCHEMA_DEFINITIONS.emailAddress,

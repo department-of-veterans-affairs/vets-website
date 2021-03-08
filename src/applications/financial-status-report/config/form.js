@@ -98,11 +98,6 @@ const formConfig = {
         },
         contactInfo: {
           initialData: {
-            contactInfo: {
-              primaryEmail: 'hector.smith@email.com',
-              confirmationEmail: 'hector.smith@email.com',
-              telephoneNumber: '5551234567',
-            },
             personalData: {
               address: {
                 country: 'United States',
@@ -111,6 +106,9 @@ const formConfig = {
                 postalCode: '33614',
                 addressLine1: '1234 W Nebraska St',
               },
+              primaryEmail: 'hector.smith@email.com',
+              confirmationEmail: 'hector.smith@email.com',
+              telephoneNumber: '5551234567',
             },
           },
           path: 'contact-information',
