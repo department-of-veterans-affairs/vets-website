@@ -9,13 +9,11 @@ import {
   applySearchQueryTransform,
 } from '../helpers/selectors';
 import { fetchFormsThunk } from '../actions';
-import * as customPropTypes from '../prop-types';
 
 export class SearchForm extends Component {
   static propTypes = {
     // From mapStateToProps.
     fetching: PropTypes.bool.isRequired,
-    results: PropTypes.arrayOf(customPropTypes.Form.isRequired),
     applySearchQueryTransform: PropTypes.bool.isRequired,
     // From mapDispatchToProps.
     fetchFormsThunk: PropTypes.func.isRequired,
@@ -100,7 +98,6 @@ export class SearchForm extends Component {
 
 const mapStateToProps = state => ({
   fetching: getFindFormsAppState(state).fetching,
-  results: getFindFormsAppState(state).results,
   useSearchTransform: applySearchQueryTransform(state),
 });
 
