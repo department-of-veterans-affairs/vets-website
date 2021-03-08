@@ -24,8 +24,8 @@ describe('health care questionnaire -- reason for visit --', () => {
     cy.get('.schemaform-title>h1').contains(
       'Answer primary care questionnaire',
     );
-    cy.get('.va-button').click();
-    cy.get('#2-continueButton').click();
+    cy.get('.va-button').click({ waitForAnimations: true });
+    cy.get('#2-continueButton').click({ waitForAnimations: true });
     cy.get('#root_reasonForVisitDescription').clear();
     cy.get('#root_reasonForVisitDescription').should('be.empty');
   });

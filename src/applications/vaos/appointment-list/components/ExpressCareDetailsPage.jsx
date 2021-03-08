@@ -19,6 +19,7 @@ import {
 import PageLayout from './AppointmentsPage/PageLayout';
 import * as actions from '../redux/actions';
 import CancelAppointmentModal from './cancel/CancelAppointmentModal';
+import Breadcrumbs from '../../components/Breadcrumbs';
 
 function ExpressCareDetailsPage({
   appointment,
@@ -46,9 +47,9 @@ function ExpressCareDetailsPage({
 
   return (
     <PageLayout>
-      <div className="vads-u-display--block vads-u-padding-y--2p5">
-        ‹ <Link to="/">Manage appointments</Link>
-      </div>
+      <Breadcrumbs>
+        <Link to={`/express-care/${appointment.id}`}>Request detail</Link>
+      </Breadcrumbs>
 
       <h1>{appointmentDate.format('dddd, MMMM D, YYYY')}</h1>
       <h2 className="vads-u-font-size--lg">

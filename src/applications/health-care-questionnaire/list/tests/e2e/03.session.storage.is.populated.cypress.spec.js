@@ -12,7 +12,7 @@ describe('health care questionnaire list -- ', () => {
     cy.get('h1').contains('Your health questionnaires');
     cy.get(
       '[data-request-id="195bc02c0518870fc6b1e302cfc326b61"] > .usa-button',
-    ).click();
+    ).click({ waitForAnimations: true });
     cy.window().then(window => {
       const data = window.sessionStorage.getItem(
         'health.care.questionnaire.selectedAppointmentData.195bc02c0518870fc6b1e302cfc326b61',

@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
+import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import backendServices from 'platform/user/profile/constants/backendServices';
+import environment from 'platform/utilities/environment';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import {
   externalServices,
@@ -34,6 +37,7 @@ const App = props => {
     isLoggedIn,
     setFormData,
     formData,
+    user,
   } = props;
   const [isLoading, setIsLoading] = useState(true);
   const [form, setForm] = useState(formConfig);
@@ -92,14 +96,20 @@ const App = props => {
   } else {
     return (
       <>
-        <DowntimeNotification
-          appTitle="health questionnaire"
-          dependencies={[externalServices.hcq]}
+        <RequiredLoginView
+          serviceRequired={[backendServices.USER_PROFILE]}
+          user={user}
+          verify={!environment.isLocalhost()}
         >
-          <RoutedSavableApp formConfig={form} currentLocation={location}>
-            {children}
-          </RoutedSavableApp>
-        </DowntimeNotification>
+          <DowntimeNotification
+            appTitle="health questionnaire"
+            dependencies={[externalServices.hcq]}
+          >
+            <RoutedSavableApp formConfig={form} currentLocation={location}>
+              {children}
+            </RoutedSavableApp>
+          </DowntimeNotification>
+        </RequiredLoginView>
       </>
     );
   }
@@ -107,11 +117,12 @@ const App = props => {
 
 const mapStateToProps = state => ({
   showApplication: true,
-  questionnaire: state?.questionnaireData,
+  questionnaire: state.questionnaireData,
   isLoadingAppointmentDetails:
     state?.questionnaireData.context?.status.isLoading,
   isLoggedIn: state?.user?.login?.currentlyLoggedIn,
   formData: state.form?.data,
+  user: state.user,
 });
 
 const mapDispatchToProps = dispatch => {

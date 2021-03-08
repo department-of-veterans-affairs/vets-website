@@ -117,7 +117,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     });
     detailLink = detailLinks.find(a => a.getAttribute('href') === url);
 
-    // Go back to details page...
+    // Go back to Appointment detail...
     userEvent.click(detailLink);
 
     // Verify page content...
@@ -128,11 +128,11 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
       }),
     ).to.be.ok;
 
-    // Verify 'Manage appointments' link works...
-    const manageAppointmentLink = await screen.findByRole('link', {
-      name: /Manage appointments/,
+    // Verify breadcrumb links works...
+    const VAOSHomepageLink = await screen.findByRole('link', {
+      name: /VA online scheduling/,
     });
-    userEvent.click(manageAppointmentLink);
+    userEvent.click(VAOSHomepageLink);
     expect(await screen.findAllByText(/Detail/)).to.be.ok;
   });
 
