@@ -28,7 +28,7 @@ Cypress.Commands.add('verifyOptions', () => {
   cy.get('#service-typeahead').should('not.have', 'disabled');
 });
 
-for (let i = 0; i < 60; i += 1) {
+for (let i = 0; i < 100; i += 1) {
   describe('Facility VA search', () => {
     before(function() {
       // This test crashes in Jenkins about 5% of the time.

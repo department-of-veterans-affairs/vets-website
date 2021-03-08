@@ -1,6 +1,6 @@
 import path from 'path';
 
-for (let i = 0; i < 60; i += 1) {
+for (let i = 0; i < 100; i += 1) {
   describe('Detail Page', () => {
     before(function() {
       // This test crashes in Jenkins about 5% of the time.
