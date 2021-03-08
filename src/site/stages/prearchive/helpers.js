@@ -42,7 +42,9 @@ function updateAssetLinkElements(
   teamsiteAssets,
   bucketPath,
 ) {
-  const doc = cheerio.load(htmlFile);
+  const doc = cheerio.load(htmlFile, {
+    decodeEntities: false,
+  });
   const assetLinkElements = doc(assetLinkTags);
   assetLinkElements.each((i, element) => {
     updateSrcPaths(doc, element, bucketPath, teamsiteAssets);
