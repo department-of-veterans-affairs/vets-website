@@ -19,6 +19,8 @@ import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 
 import findDuplicateIndexes from 'platform/forms-system/src/js/utilities/data/findDuplicateIndexes';
 
+import { NULL_CONDITION_STRING } from '../constants';
+
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
@@ -79,7 +81,12 @@ export default class ArrayField extends React.Component {
       const duplicates = key ? findDuplicateIndexes(formData, key) : [];
       return uiSchema?.['ui:options']?.setEditState
         ? uiSchema['ui:options']?.setEditState(formData)
-        : formData.map((__, index) => duplicates.includes(index));
+        : formData.map(
+            (obj, index) =>
+              !obj[key] ||
+              obj[key].toLowerCase() === NULL_CONDITION_STRING.toLowerCase() ||
+              duplicates.includes(index),
+          );
     }
     return [true];
   };
