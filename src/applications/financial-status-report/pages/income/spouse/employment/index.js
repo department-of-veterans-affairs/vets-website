@@ -7,13 +7,11 @@ export const uiSchema = {
         widgetClassNames: 'input-size-3',
       },
     },
-    employmentHistory: {
-      spouse: {
-        isEmployed: {
-          'ui:title': 'Does your spouse currently have a job?',
-          'ui:widget': 'yesNo',
-          'ui:required': () => true,
-        },
+    questions: {
+      spouseIsEmployed: {
+        'ui:title': 'Does your spouse currently have a job?',
+        'ui:widget': 'yesNo',
+        'ui:required': () => true,
       },
     },
   },
@@ -28,16 +26,11 @@ export const schema = {
         spouseFullName: {
           type: 'string',
         },
-        employmentHistory: {
+        questions: {
           type: 'object',
           properties: {
-            spouse: {
-              type: 'object',
-              properties: {
-                isEmployed: {
-                  type: 'boolean',
-                },
-              },
+            spouseIsEmployed: {
+              type: 'boolean',
             },
           },
         },

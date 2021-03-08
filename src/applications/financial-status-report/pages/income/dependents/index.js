@@ -1,6 +1,6 @@
 export const uiSchema = {
   'ui:title': 'Your dependents',
-  personalData: {
+  questions: {
     hasDependents: {
       'ui:title':
         'Do you have any dependents who rely on you for financial support?',
@@ -16,7 +16,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    personalData: {
+    questions: {
       type: 'object',
       properties: {
         hasDependents: {
