@@ -283,7 +283,7 @@
   "private": true,
   "dependencies": {
     "@department-of-veterans-affairs/component-library": "^2.0.0",
-    "@department-of-veterans-affairs/formation": "6.13.2",
+    "@department-of-veterans-affairs/formation": "6.14.0",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@formatjs/intl-datetimeformat": "^3.2.7",
     "@formatjs/intl-getcanonicallocales": "^1.5.3",

@@ -27,6 +27,7 @@ function ViewDependentsLists(props) {
         link="/disability/add-remove-dependent/"
         linkText="Learn more about adding or removing a dependent from your VA benefits."
         dependents={props.onAwardDependents}
+        isAward
         manageDependentsToggle={props.manageDependentsToggle}
       />
       <ViewDependentsList

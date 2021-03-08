@@ -188,8 +188,8 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(await screen.findByText('Pending primary care appointment')).to.be
       .ok;
 
-    fireEvent.click(screen.getByText('Manage appointments'));
-    expect(screen.history.push.lastCall.args[0]).to.equal('/requested');
+    fireEvent.click(screen.getByText('VA online scheduling'));
+    expect(screen.history.push.lastCall.args[0]).to.equal('/');
   });
 
   it('should go back to requests page when clicking go back to appointments button', async () => {
