@@ -52,7 +52,7 @@ export class SearchForm extends Component {
     this.setState({ query });
   };
 
-  onSubmitHandler = async event => {
+  onSubmitHandler = event => {
     event.preventDefault();
     const { useSearchTransform } = this.props;
     this.props.fetchFormsThunk(this.state.query, { useSearchTransform });
