@@ -59,7 +59,7 @@ const GetHelpFooter = props => {
         </p>
         <p>
           <span className={'vads-u-font-weight--bold'}>
-            Can't find an appointment that you think should be on this list?
+            Can't find an appointment that you think should be listed?
           </span>{' '}
           You may not have a questionnaire for that appointment.{' '}
           <a href="/health-care/schedule-view-va-appointments/appointments/">
