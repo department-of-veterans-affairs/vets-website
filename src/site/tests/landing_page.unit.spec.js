@@ -4,11 +4,13 @@ import { parseFixture, renderHTML } from './support';
 import { readFileSync } from 'fs';
 import path from 'path';
 
-const layoutPath = path.resolve(
-  __dirname,
-  './temp_layouts/landing_page.drupal.liquid',
-);
-const layout = readFileSync(layoutPath, 'utf8').toString();
+const layout = (() => {
+  const layoutPath = path.resolve(
+    __dirname,
+    './temp_layouts/landing_page.drupal.liquid',
+  );
+  return readFileSync(layoutPath, 'utf8').toString();
+})();
 
 describe('intro', () => {
   describe('no fieldTitleIcon', () => {
