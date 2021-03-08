@@ -11,8 +11,15 @@ import { autoSaveForm } from 'platform/forms/save-in-progress/actions';
 // TODO: Safety checks for `selected` callback and `label` element
 
 class SelectArrayItemsWidget extends React.Component {
-  // flag set after rated disability updates have been processed
-  hasProcessedUpdates = false;
+  // flag used to render a message to inform Veterans that their rated
+  // disabilities list has changed
+  hasUpdatedDisabilities = false;
+
+  defaultSelectedPropName = 'view:selected';
+
+  keyValue = 'ratedDisabilities';
+  updatedKeyValue = 'updatedRatedDisabilities';
+  keyConstants = ['ratingDecisionId', 'diagnosticCode'];
 
   onChange = (index, checked) => {
     const items = set(
@@ -24,53 +31,38 @@ class SelectArrayItemsWidget extends React.Component {
     this.props.onChange(items);
   };
 
-  defaultSelectedPropName = 'view:selected';
-
   processRatedDisabilityUpdates = () => {
-    const {
-      formId,
-      value,
-      setFormData,
-      formData,
-      saveForm,
-      loadedData,
-    } = this.props;
+    const { formId, value, formData, metadata } = this.props;
 
-    const keyValue = 'ratedDisabilities';
-    const keyConstants = ['ratingDecisionId', 'diagnosticCode'];
-    const newValues = loadedData?.formData?.[keyValue] || [];
-
-    // Whenever the rated disabilities are updated, the
-    // ratedDisabilitiesUpdated is set in the metadata. This bit of code
-    // ensures that exactly matching previously selected entries are still
-    // selected
-    const updatedItems = newValues.map(newValue => {
+    // Whenever the rated disabilities are updated, `updatedRatedDisabilities`
+    // is added to the data. This bit of code ensures that exactly matching
+    // previously selected entries are still selected
+    const updatedItems = formData[this.updatedKeyValue].map(newValue => {
       const isExistingIssue = (value || []).find(oldValue =>
-        keyConstants.every(key => oldValue?.[key] === newValue?.[key]),
+        this.keyConstants.every(key => oldValue?.[key] === newValue?.[key]),
       );
       return isExistingIssue?.[this.defaultSelectedPropName]
         ? { ...newValue, [this.defaultSelectedPropName]: true }
         : newValue;
     });
 
-    const hasUnchangedRatedDisabilities = (value || []).every(
-      (issue, index) =>
-        [keyValue][index]?.[keyConstants[0]] === issue?.[keyConstants[0]],
-    );
+    const newData = {
+      ...formData,
+      // Adding updatedRatedDisabilities (from API) values to the form replacing
+      // ratedDisabilities; it's added here instead of the intro page because
+      // the separate save-in-progress endpoint will change the returnUrl to the
+      // ratedDisabilities page
+      [this.keyValue]: updatedItems,
+    };
+    // remove updatedRatedDisabilities
+    delete newData[this.updatedKeyValue];
+    this.props.setData(newData);
 
-    if (!hasUnchangedRatedDisabilities) {
-      const data = {
-        ...formData,
-        // Add ratedDisabilities (from API) values to the form; it's added
-        // here instead of the intro page because at that point the prefill
-        // or save-in-progress data would overwrite it
-        [keyValue]: updatedItems,
-      };
-      setFormData(data);
-      const { version, returnUrl, submission } = loadedData.metadata;
-      saveForm(formId, data, version, returnUrl, submission);
-      this.hasProcessedUpdates = true;
-    }
+    // Update save-in-progress data
+    const { version, returnUrl, submission } = metadata;
+    this.props.autoSaveForm(formId, newData, version, returnUrl, submission);
+
+    this.hasUpdatedDisabilities = true;
   };
 
   render() {
@@ -80,12 +72,11 @@ class SelectArrayItemsWidget extends React.Component {
       options,
       required,
       formContext,
-      loadedData,
+      formData,
     } = this.props;
 
-    const { ratedDisabilitiesUpdated = false } = loadedData?.metadata || {};
     // rated disabilities updated on the backend
-    if (!this.hasProcessedUpdates && ratedDisabilitiesUpdated) {
+    if (Array.isArray(formData[this.updatedKeyValue])) {
       this.processRatedDisabilityUpdates();
     }
 
@@ -194,7 +185,7 @@ class SelectArrayItemsWidget extends React.Component {
       );
 
     // Let the user know we changed stuff
-    const updateMessage = ratedDisabilitiesUpdated ? (
+    const updateMessage = this.hasUpdatedDisabilities ? (
       <div className="usa-alert usa-alert-info background-color-only vads-u-margin-top--0">
         <div className="usa-alert-body">
           <strong>We’ve updated your list of rated disabilities</strong>
@@ -233,6 +224,14 @@ SelectArrayItemsWidget.propTypes = {
       decisionText: PropTypes.string.isRequired,
     }),
   ).isRequired,
+  updatedRatedDisabilities: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      ratingPercentage: PropTypes.number.isRequired,
+      decisionCode: PropTypes.string.isRequired,
+      decisionText: PropTypes.string.isRequired,
+    }),
+  ),
   id: PropTypes.string.isRequired,
   options: PropTypes.shape({
     title: PropTypes.string,
@@ -244,17 +243,40 @@ SelectArrayItemsWidget.propTypes = {
   }).isRequired,
   required: PropTypes.bool,
   formContext: PropTypes.object.isRequired,
+  formId: PropTypes.string.isRequired,
+  formData: PropTypes.shape({}),
+  metadata: PropTypes.shape({
+    version: PropTypes.number,
+    returnUrl: PropTypes.string,
+    submission: PropTypes.shape({}),
+  }),
+  setData: PropTypes.func,
+  autoSaveForm: PropTypes.func,
 };
 
-const mapDispatchToProps = () => ({
-  setFormData: setData,
-  saveForm: autoSaveForm,
-});
+SelectArrayItemsWidget.defaultProps = {
+  value: [],
+  formData: {},
+  loadedData: {
+    metadata: {},
+  },
+  setData: () => {},
+  autoSaveForm: () => {},
+};
 
-const mapStateToProps = state => ({
-  loadedData: state.form.loadedData,
-  formId: state.form.formId,
-});
+const mapDispatchToProps = {
+  setData,
+  autoSaveForm,
+};
+
+const mapStateToProps = state => {
+  const { form } = state;
+  return {
+    formId: form.formId,
+    formData: form.data,
+    metadata: form.loadedData?.metadata || {},
+  };
+};
 
 export default connect(
   mapStateToProps,

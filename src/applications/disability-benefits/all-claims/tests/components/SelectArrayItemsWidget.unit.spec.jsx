@@ -137,9 +137,9 @@ describe('<SelectArrayItemsWidget>', () => {
     wrapper.unmount();
   });
 
-  it('should show an empty list of rated disabilities after updating', () => {
-    const saveFormSpy = sinon.spy();
-    const setFormDataSpy = sinon.spy();
+  it('should update to an empty list of rated disabilities', () => {
+    const autoSaveFormSpy = sinon.spy();
+    const setDataSpy = sinon.spy();
     const initialProps = {
       value: [
         {
@@ -149,6 +149,9 @@ describe('<SelectArrayItemsWidget>', () => {
           ratingPercentage: 20,
         },
       ],
+      formData: {
+        updatedRatedDisabilities: [],
+      },
       formId: '526',
       id: 'id',
       onChange: onChangeSpy,
@@ -161,33 +164,27 @@ describe('<SelectArrayItemsWidget>', () => {
         onReviewPage: true,
         reviewMode: false,
       },
-      saveForm: saveFormSpy,
-      setFormData: setFormDataSpy,
-      loadedData: {
-        formData: {
-          ratedDisabilities: [],
-        },
-        metadata: {
-          version: 99,
-          returnUrl: '/test',
-          submission: { test: 123 },
-          ratedDisabilitiesUpdated: true, // new rated disabilities flag
-        },
+      autoSaveForm: autoSaveFormSpy,
+      setData: setDataSpy,
+      metadata: {
+        version: 99,
+        returnUrl: '/test',
+        submission: { test: 123 },
       },
     };
     const wrapper = shallow(<SelectArrayItemsWidget {...initialProps} />);
-    expect(saveFormSpy.firstCall.args[0]).to.eql('526');
-    expect(saveFormSpy.firstCall.args[1]).to.deep.equal({
+    expect(autoSaveFormSpy.firstCall.args[0]).to.eql('526');
+    expect(autoSaveFormSpy.firstCall.args[1]).to.deep.equal({
       ratedDisabilities: [],
     });
-    expect(saveFormSpy.firstCall.args[2]).to.eql(99);
-    expect(saveFormSpy.firstCall.args[3]).to.eql('/test');
-    expect(saveFormSpy.firstCall.args[4]).to.deep.equal({ test: 123 });
+    expect(autoSaveFormSpy.firstCall.args[2]).to.eql(99);
+    expect(autoSaveFormSpy.firstCall.args[3]).to.eql('/test');
+    expect(autoSaveFormSpy.firstCall.args[4]).to.deep.equal({ test: 123 });
     wrapper.unmount();
   });
   it('should update the selected disabilites with new info', () => {
-    const saveFormSpy = sinon.spy();
-    const setFormDataSpy = sinon.spy();
+    const autoSaveFormSpy = sinon.spy();
+    const setDataSpy = sinon.spy();
     const initialProps = {
       value: [
         {
@@ -211,6 +208,28 @@ describe('<SelectArrayItemsWidget>', () => {
           'view:selected': true,
         },
       ],
+      formData: {
+        updatedRatedDisabilities: [
+          {
+            name: 'item 2',
+            ratingDecisionId: '345',
+            diagnosticCode: 765,
+            ratingPercentage: 32,
+          },
+          {
+            name: 'item 3',
+            ratingDecisionId: '567',
+            diagnosticCode: 543,
+            ratingPercentage: 22,
+          },
+          {
+            name: 'item 4',
+            ratingDecisionId: '789',
+            diagnosticCode: 321,
+            ratingPercentage: 5,
+          },
+        ],
+      },
       formId: '526',
       id: 'id',
       onChange: onChangeSpy,
@@ -223,42 +242,17 @@ describe('<SelectArrayItemsWidget>', () => {
         onReviewPage: true,
         reviewMode: false,
       },
-      saveForm: saveFormSpy,
-      setFormData: setFormDataSpy,
-      loadedData: {
-        formData: {
-          ratedDisabilities: [
-            {
-              name: 'item 2',
-              ratingDecisionId: '345',
-              diagnosticCode: 765,
-              ratingPercentage: 32,
-            },
-            {
-              name: 'item 3',
-              ratingDecisionId: '567',
-              diagnosticCode: 543,
-              ratingPercentage: 22,
-            },
-            {
-              name: 'item 4',
-              ratingDecisionId: '789',
-              diagnosticCode: 321,
-              ratingPercentage: 5,
-            },
-          ],
-        },
-        metadata: {
-          version: 99,
-          returnUrl: '/test',
-          submission: { test: 123 },
-          ratedDisabilitiesUpdated: true, // new rated disabilities flag
-        },
+      autoSaveForm: autoSaveFormSpy,
+      setData: setDataSpy,
+      metadata: {
+        version: 99,
+        returnUrl: '/test',
+        submission: { test: 123 },
       },
     };
     const wrapper = shallow(<SelectArrayItemsWidget {...initialProps} />);
-    expect(saveFormSpy.firstCall.args[0]).to.eql('526');
-    expect(saveFormSpy.firstCall.args[1]).to.deep.equal({
+    expect(autoSaveFormSpy.firstCall.args[0]).to.eql('526');
+    expect(autoSaveFormSpy.firstCall.args[1]).to.deep.equal({
       ratedDisabilities: [
         {
           name: 'item 2',
@@ -282,9 +276,68 @@ describe('<SelectArrayItemsWidget>', () => {
         },
       ],
     });
-    expect(saveFormSpy.firstCall.args[2]).to.eql(99);
-    expect(saveFormSpy.firstCall.args[3]).to.eql('/test');
-    expect(saveFormSpy.firstCall.args[4]).to.deep.equal({ test: 123 });
+    expect(autoSaveFormSpy.firstCall.args[2]).to.eql(99);
+    expect(autoSaveFormSpy.firstCall.args[3]).to.eql('/test');
+    expect(autoSaveFormSpy.firstCall.args[4]).to.deep.equal({ test: 123 });
+    wrapper.unmount();
+  });
+  it('should update from an empty list of rated disabilites to new info', () => {
+    const autoSaveFormSpy = sinon.spy();
+    const setDataSpy = sinon.spy();
+    const initialProps = {
+      value: [],
+      formData: {
+        updatedRatedDisabilities: [
+          {
+            name: 'item one',
+            ratingDecisionId: '123',
+            diagnosticCode: 987,
+            ratingPercentage: 20,
+          },
+          {
+            name: 'item two',
+            ratingDecisionId: '345',
+            diagnosticCode: 765,
+            ratingPercentage: 30,
+            'view:selected': true,
+          },
+          {
+            name: 'item three',
+            ratingDecisionId: '567',
+            diagnosticCode: 543,
+            ratingPercentage: 10,
+            'view:selected': true,
+          },
+        ],
+      },
+      formId: '526',
+      id: 'id',
+      onChange: onChangeSpy,
+      options: {
+        label: labelElement,
+        selectedPropName,
+        customTitle: 'Custom title',
+      },
+      formContext: {
+        onReviewPage: true,
+        reviewMode: false,
+      },
+      autoSaveForm: autoSaveFormSpy,
+      setData: setDataSpy,
+      metadata: {
+        version: 99,
+        returnUrl: '/test',
+        submission: { test: 123 },
+      },
+    };
+    const wrapper = shallow(<SelectArrayItemsWidget {...initialProps} />);
+    expect(autoSaveFormSpy.firstCall.args[0]).to.eql('526');
+    expect(autoSaveFormSpy.firstCall.args[1]).to.deep.equal({
+      ratedDisabilities: initialProps.formData.updatedRatedDisabilities,
+    });
+    expect(autoSaveFormSpy.firstCall.args[2]).to.eql(99);
+    expect(autoSaveFormSpy.firstCall.args[3]).to.eql('/test');
+    expect(autoSaveFormSpy.firstCall.args[4]).to.deep.equal({ test: 123 });
     wrapper.unmount();
   });
 });
