@@ -130,3 +130,16 @@ export const CernerPrescriptionsWidget = ({
     />
   </div>
 );
+
+export const GeneralCernerWidget = ({
+  authenticatedWithSSOe,
+  facilityNames,
+}) => (
+  <div data-testid="cerner-widget">
+    <CernerAlertBox
+      facilityNames={facilityNames}
+      secondaryCtaButtonText="Go to My HealtheVet"
+      secondaryCtaButtonUrl={mhvUrl(authenticatedWithSSOe, 'to be determined')}
+    />
+  </div>
+);

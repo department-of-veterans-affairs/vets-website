@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import uniq from 'lodash/uniq';
+
 import { loadPrescriptions as loadPrescriptionsAction } from '~/applications/personalization/dashboard/actions/prescriptions';
 import { getMedicalCenterNameByID } from '~/platform/utilities/medical-centers/medical-centers';
-import { CernerAlertBox } from '~/applications/personalization/dashboard/components/cerner-widgets';
+import { GeneralCernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import {
   selectCernerAppointmentsFacilities,
@@ -35,8 +37,13 @@ const HealthCare = ({
     [canAccessRx, loadPrescriptions, isCernerPatient],
   );
 
-  if (isCernerPatient) {
-    return <CernerAlertBox facilityNames={facilityNames} />;
+  if (isCernerPatient && facilityNames?.length) {
+    return (
+      <GeneralCernerWidget
+        facilityNames={facilityNames}
+        authenticatedWithSSOe={authenticatedWithSSOe}
+      />
+    );
   }
 
   return (
@@ -100,19 +107,24 @@ const mapStateToProps = state => {
   const cernerMessagingFacilities = selectCernerMessagingFacilities(state);
   const cernerPrescriptionFacilities = selectCernerRxFacilities(state);
 
-  const appointmentFacilityNames = cernerAppointmentFacilities?.map(facility =>
-    getMedicalCenterNameByID(facility.facilityId),
-  );
-  const messagingFacilityNames = cernerMessagingFacilities?.map(facility =>
-    getMedicalCenterNameByID(facility.facilityId),
-  );
-  const prescriptionFacilityNames = cernerPrescriptionFacilities?.map(
-    facility => getMedicalCenterNameByID(facility.facilityId),
-  );
+  const appointmentFacilityNames =
+    cernerAppointmentFacilities?.map(facility =>
+      getMedicalCenterNameByID(facility.facilityId),
+    ) || [];
+  const messagingFacilityNames =
+    cernerMessagingFacilities?.map(facility =>
+      getMedicalCenterNameByID(facility.facilityId),
+    ) || [];
+  const prescriptionFacilityNames =
+    cernerPrescriptionFacilities?.map(facility =>
+      getMedicalCenterNameByID(facility.facilityId),
+    ) || [];
 
-  const facilityNames = appointmentFacilityNames
-    .concat(messagingFacilityNames)
-    .concat(prescriptionFacilityNames);
+  const facilityNames = uniq([
+    ...appointmentFacilityNames,
+    ...messagingFacilityNames,
+    ...prescriptionFacilityNames,
+  ]);
 
   return {
     isCernerPatient: selectIsCernerPatient(state),
