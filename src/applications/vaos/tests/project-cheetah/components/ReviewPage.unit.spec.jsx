@@ -142,7 +142,7 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
 
     await screen.findByText(/COVID-19 vaccine/i);
 
-    userEvent.click(screen.getByText(/Confirm appointment/i));
+    userEvent.click(screen.getByText(/Schedule appointment/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
         '/new-project-cheetah-booking/confirmation',
@@ -192,7 +192,7 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
 
     await screen.findByText(/COVID-19 vaccine/i);
 
-    userEvent.click(screen.getByText(/Confirm appointment/i));
+    userEvent.click(screen.getByText(/Schedule appointment/i));
 
     await screen.findByText('We couldn’t schedule this appointment');
 
