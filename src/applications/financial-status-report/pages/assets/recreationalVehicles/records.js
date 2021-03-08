@@ -25,31 +25,33 @@ const RecVehicleInfo = (
 
 export const uiSchema = {
   'ui:title': 'Your trailers, campers, and boats',
-  recreationalVehicleRecords: {
-    'ui:field': ItemLoop,
-    'ui:description':
-      'Enter each of your trailers, campers, and boats separately below.',
-    'ui:options': {
-      viewField: CardDetailsView,
-      doNotScroll: true,
-      showSave: true,
-      itemName: 'trailer, camper, or boat',
-    },
-    items: {
-      recreationalVehicleType: {
-        'ui:title': 'Type of vehicle',
-        'ui:field': Typeahead,
-        'ui:options': {
-          classNames:
-            'input-size-6 vads-u-margin-top--3 vads-u-margin-bottom--3',
-          getOptions: () => formatOptions(recreationalVehicleTypes),
-        },
+  assets: {
+    trailersBoatsCampers: {
+      'ui:field': ItemLoop,
+      'ui:description':
+        'Enter each of your trailers, campers, and boats separately below.',
+      'ui:options': {
+        viewField: CardDetailsView,
+        doNotScroll: true,
+        showSave: true,
+        itemName: 'trailer, camper, or boat',
       },
-      recreationalVehicleAmount: _.merge(currencyUI('Estimated value'), {
-        'ui:options': {
-          widgetClassNames: 'input-size-4 vads-u-margin-bottom--3',
+      items: {
+        recreationalVehicleType: {
+          'ui:title': 'Type of vehicle',
+          'ui:field': Typeahead,
+          'ui:options': {
+            classNames:
+              'input-size-6 vads-u-margin-top--3 vads-u-margin-bottom--3',
+            getOptions: () => formatOptions(recreationalVehicleTypes),
+          },
         },
-      }),
+        recreationalVehicleAmount: _.merge(currencyUI('Estimated value'), {
+          'ui:options': {
+            widgetClassNames: 'input-size-4 vads-u-margin-bottom--3',
+          },
+        }),
+      },
     },
   },
   'view:recVehicleInfo': {
@@ -60,18 +62,23 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    recreationalVehicleRecords: {
-      type: 'array',
-      items: {
-        type: 'object',
-        title: 'Recreational vehicle',
-        required: ['recreationalVehicleType', 'recreationalVehicleAmount'],
-        properties: {
-          recreationalVehicleType: {
-            type: 'string',
-          },
-          recreationalVehicleAmount: {
-            type: 'number',
+    assets: {
+      type: 'object',
+      properties: {
+        trailersBoatsCampers: {
+          type: 'array',
+          items: {
+            type: 'object',
+            title: 'Recreational vehicle',
+            required: ['recreationalVehicleType', 'recreationalVehicleAmount'],
+            properties: {
+              recreationalVehicleType: {
+                type: 'string',
+              },
+              recreationalVehicleAmount: {
+                type: 'number',
+              },
+            },
           },
         },
       },

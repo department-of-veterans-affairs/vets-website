@@ -18,16 +18,18 @@ export const uiSchema = {
   'view:resolutionOptionsInfo': {
     'ui:description': ResolutionInfo,
   },
-  resolutionComments: {
-    'ui:title': ' ',
-    'ui:widget': 'textarea',
-    'ui:required': formData =>
-      formData.fsrDebts.some(
-        debt => debt.resolution?.resolutionType === 'Waiver',
-      ),
-    'ui:options': {
-      rows: 5,
-      maxLength: 32000,
+  additionalData: {
+    additionalComments: {
+      'ui:title': ' ',
+      'ui:widget': 'textarea',
+      'ui:required': formData =>
+        formData.fsrDebts.some(
+          debt => debt.resolution?.resolutionType === 'Waiver',
+        ),
+      'ui:options': {
+        rows: 5,
+        maxLength: 32000,
+      },
     },
   },
 };
@@ -42,8 +44,13 @@ export const schema = {
       type: 'object',
       properties: {},
     },
-    resolutionComments: {
-      type: 'string',
+    additionalData: {
+      type: 'object',
+      properties: {
+        additionalComments: {
+          type: 'string',
+        },
+      },
     },
   },
 };
