@@ -296,7 +296,7 @@ const formConfig = {
           title: 'Dependents',
           uiSchema: pages.dependentRecords.uiSchema,
           schema: pages.dependentRecords.schema,
-          depends: formData => formData.dependents?.hasDependents,
+          depends: formData => formData.personalData.hasDependents,
         },
       },
     },
@@ -446,7 +446,8 @@ const formConfig = {
           title: 'Bankruptcy history',
           uiSchema: pages.bankruptcyHistoryRecords.uiSchema,
           schema: pages.bankruptcyHistoryRecords.schema,
-          depends: formData => formData.bankruptcyHistory.hasBeenAdjudicated,
+          depends: formData =>
+            formData.additionalData.bankruptcy.hasBeenAdjucatedBankrupt,
         },
       },
     },
