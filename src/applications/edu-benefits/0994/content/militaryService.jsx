@@ -1,4 +1,5 @@
 import React from 'react';
+import environment from 'platform/utilities/environment';
 
 // background & foreground class names added to indicate this paragraphs needs
 // an axeCheck color contrast exception
@@ -10,7 +11,14 @@ export const activeDutyNotice = (
   </p>
 );
 
-export const benefitNotice = (
+export const benefitNotice = environment.isProduction() ? (
+  <p>
+    <strong>Note: </strong>
+    Your eligibility for VET TEC may be affected if you're called to active
+    duty. Please let us know as soon as possible if there's a change in your
+    military status.
+  </p>
+) : (
   <p>
     <strong>Note: </strong>
     Your eligibility for monthly housing allowance may be affected if you're
@@ -21,8 +29,8 @@ export const benefitNotice = (
 
 export const selectedReserveNationalGuardExpectedDutyTitle = (
   <p>
-    Do you expect to be called to active duty while enrolled in a VET TEC
-    program?
+    Are you in the Selected Reserve or National Guard <strong>and</strong> do
+    you expect to be called to duty for 30 days or more?
   </p>
 );
 

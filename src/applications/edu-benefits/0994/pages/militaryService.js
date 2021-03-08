@@ -1,6 +1,8 @@
 import moment from 'moment';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
+import environment from 'platform/utilities/environment';
 import {
+  activeDutyNotice,
   benefitNotice,
   remainingDaysGreaterThan180Notice,
   remainingDaysNotGreaterThan180Notice,
@@ -20,7 +22,9 @@ export const uiSchema = {
     'ui:widget': 'yesNo',
   },
   'view:activeDutyNotice': {
+    'ui:description': activeDutyNotice,
     'ui:options': {
+      hideIf: () => !environment.isProduction(),
       expandUnder: 'activeDuty',
       expandUnderCondition: true,
     },
@@ -30,6 +34,7 @@ export const uiSchema = {
     'ui:widget': 'date',
     'ui:required': formData => formData.activeDuty,
     'ui:options': {
+      hideIf: () => environment.isProduction(),
       expandUnder: 'activeDuty',
       expandUnderCondition: true,
     },
@@ -38,6 +43,7 @@ export const uiSchema = {
     'ui:title': '',
     'ui:description': remainingDaysGreaterThan180Notice,
     'ui:options': {
+      hideIf: () => environment.isProduction(),
       expandUnder: 'activeDuty',
       expandUnderCondition: (value, formData) => {
         return (
@@ -53,6 +59,7 @@ export const uiSchema = {
     'ui:description': remainingDaysNotGreaterThan180Notice,
     expandUnder: 'activeDuty',
     'ui:options': {
+      hideIf: () => environment.isProduction(),
       expandUnder: 'activeDuty',
       expandUnderCondition: (value, formData) => {
         return (
@@ -63,12 +70,21 @@ export const uiSchema = {
       },
     },
   },
+  expectedActiveDutyStatusChange: {
+    'ui:title':
+      'Do you expect to be called to active duty while enrolled in a VET TEC program?',
+    'ui:widget': 'yesNo',
+    'ui:options': {
+      hideIf: () => environment.isProduction(),
+      expandUnder: 'activeDuty',
+      expandUnderCondition: false,
+    },
+  },
   activeDutyDuringVetTec: {
     'ui:title': selectedReserveNationalGuardExpectedDutyTitle,
     'ui:widget': 'yesNo',
     'ui:options': {
-      expandUnder: 'activeDuty',
-      expandUnderCondition: false,
+      hideIf: () => !environment.isProduction(),
     },
   },
   'view:benefitNotice': {
@@ -87,6 +103,9 @@ export const schema = {
       pattern:
         '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$',
       type: 'string',
+    },
+    expectedActiveDutyStatusChange: {
+      type: 'boolean',
     },
     'view:activeDutyNotice': {
       type: 'object',
