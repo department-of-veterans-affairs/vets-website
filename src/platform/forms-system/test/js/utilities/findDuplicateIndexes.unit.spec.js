@@ -7,6 +7,10 @@ describe('duplicateIndexes', () => {
   it('should not find duplicates', () => {
     expect(findDuplicateIndexes(base, 'x')).to.have.lengthOf(0);
   });
+  it('should not throw up when a field is empty', () => {
+    const array = [...base, {}];
+    expect(findDuplicateIndexes(array, 'x')).to.have.lengthOf(0);
+  });
   it('should find one duplicate', () => {
     const array = [...base, { x: 'one' }];
     expect(findDuplicateIndexes(array, 'x')).to.deep.equal([3]);
