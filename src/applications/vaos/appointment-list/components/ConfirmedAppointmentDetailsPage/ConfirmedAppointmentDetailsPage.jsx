@@ -38,6 +38,7 @@ import { formatFacilityAddress } from 'applications/vaos/services/location';
 import PageLayout from '../AppointmentsPage/PageLayout';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
+import Breadcrumbs from '../../../components/Breadcrumbs';
 
 function formatAppointmentDate(date) {
   if (!date.isValid()) {
@@ -130,9 +131,9 @@ function ConfirmedAppointmentDetailsPage({
 
   return (
     <PageLayout>
-      <div className="vads-u-display--block vads-u-padding-y--2p5 vaos-hide-for-print">
-        ‹ <Link to="/">Manage appointments</Link>
-      </div>
+      <Breadcrumbs>
+        <Link to={`/va/${id}`}>Appointment detail</Link>
+      </Breadcrumbs>
 
       <h1>
         <AppointmentDateTime
