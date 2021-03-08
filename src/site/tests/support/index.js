@@ -9,12 +9,7 @@ const parseFixture = file => {
   return JSON.parse(json);
 };
 
-const renderHTML = data => {
-  const layoutPath = path.resolve(
-    __dirname,
-    '../temp_layouts/landing_page.drupal.liquid',
-  );
-  const layout = readFileSync(layoutPath, 'utf8').toString();
+const renderHTML = (layout, data) => {
   const context = tinyliquid.newContext({ locals: data });
   const render = tinyliquid.compile(layout);
 
