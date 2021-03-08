@@ -15,7 +15,7 @@ import HiddenFields from '../components/hidden-fields';
 import Messages from '../components/messages';
 
 import { TITLES, createPathFromTitle } from './utils';
-
+import { preventLargeFields } from './validators';
 import manifest from '../manifest.json';
 import { submit, transformForSubmit } from '../api';
 
@@ -122,11 +122,14 @@ const formConfig = {
             },
             reasonForVisit: {
               'ui:field': ReasonForVisit.field,
-              'ui:title': ' ',
+              'ui:options': {
+                hideLabelText: true,
+              },
               'ui:reviewField': ReasonForVisit.review,
             },
             reasonForVisitDescription: {
               'ui:widget': ReasonForVisitDescription.field,
+              'ui:validations': [preventLargeFields],
               'ui:title': (
                 <span>
                   Are there any additional details you’d like to share with your
@@ -144,10 +147,12 @@ const formConfig = {
                   medical conditions)
                 </span>
               ),
+              'ui:validations': [preventLargeFields],
             },
             questions: {
               items: {
                 additionalQuestions: {
+                  'ui:validations': [preventLargeFields],
                   'ui:title':
                     'Do you have a question you want to ask your provider? Please enter your most important question first.',
                 },
