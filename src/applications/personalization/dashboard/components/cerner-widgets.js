@@ -3,6 +3,7 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import { getCernerURL } from 'platform/utilities/cerner';
+import { externalRedirects } from 'platform/user/authentication/utilities';
 
 // Returns an AlertBox to present the user with info about working with the
 // Cerner facility they are enrolled at. Props allow you to edit a small amount
@@ -138,6 +139,7 @@ export const GeneralCernerWidget = ({
   <div data-testid="cerner-widget">
     <CernerAlertBox
       facilityNames={facilityNames}
+      primaryCtaButtonUrl={externalRedirects.myvahealth}
       primaryCtaText="Manage health care at:"
       secondaryCtaButtonText="Go to My HealtheVet"
       secondaryCtaButtonUrl={mhvUrl(authenticatedWithSSOe, 'to be determined')}
