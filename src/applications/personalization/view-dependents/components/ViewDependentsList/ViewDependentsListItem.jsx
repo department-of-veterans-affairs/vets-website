@@ -57,19 +57,26 @@ function ViewDependentsListItem(props) {
         </dt>
 
         <dd className="vads-l-col--12 vads-u-margin--0">
-          <dfn className="vads-u-font-weight--bold">Relationship:</dfn>{' '}
+          <dfn title="relationship" className="vads-u-font-weight--bold">
+            Relationship:
+          </dfn>{' '}
           {relationship}
         </dd>
 
         {ssn ? (
           <dd className="vads-l-col--12 vads-u-margin--0">
-            <dfn className="vads-u-font-weight--bold">SSN:</dfn> {ssn}
+            <dfn title="ssn" className="vads-u-font-weight--bold">
+              SSN:
+            </dfn>{' '}
+            {ssn}
           </dd>
         ) : null}
 
         {dateOfBirth ? (
           <dd className="vads-l-col--12 vads-u-margin--0">
-            <dfn className="vads-u-font-weight--bold">Date of birth: </dfn>
+            <dfn title="birthdate" className="vads-u-font-weight--bold">
+              Date of birth:{' '}
+            </dfn>
             {moment(dateOfBirth).format('MMMM D, YYYY')}
           </dd>
         ) : null}

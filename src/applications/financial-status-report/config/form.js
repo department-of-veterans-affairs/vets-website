@@ -79,7 +79,7 @@ const formConfig = {
             },
             personalIdentification: {
               ssn: '1234',
-              fileNumber: '5678',
+              fileNumber: 5678,
             },
           },
         },

@@ -9,7 +9,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import VeteranInfoPage from '../components/veteran-info';
 import ReasonForVisit from '../components/reason-for-visit';
 import ReasonForVisitDescription from '../components/reason-for-visit-description';
-import GetHelp from '../components/get-help';
+import { GetHelpFooter, NeedHelpSmall } from '../../shared/components/footer';
 import ExpiresAt from '../components/expires-at';
 import HiddenFields from '../components/hidden-fields';
 import Messages from '../components/messages';
@@ -47,9 +47,9 @@ const formConfig = {
   version: 1,
   migrations: [updateUrls],
   prefillEnabled: true,
-  footerContent: GetHelp.footer,
+  footerContent: GetHelpFooter,
   preSubmitInfo: {
-    CustomComponent: GetHelp.review,
+    CustomComponent: NeedHelpSmall,
   },
   savedFormMessages: {
     notFound: 'Please start over to apply for Upcoming Visit questionnaire.',

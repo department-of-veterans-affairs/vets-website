@@ -27,28 +27,28 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.findAllByText(/start/i, { selector: 'button' })
             .first()
-            .click();
+            .click({ waitForAnimations: true });
         });
       },
       demographics: ({ afterHook }) => {
         afterHook(() => {
           cy.findAllByText(/continue/i, { selector: 'button' })
             .first()
-            .click();
+            .click({ waitForAnimations: true });
         });
       },
       'reason-for-visit': ({ afterHook }) => {
         afterHook(() => {
           cy.findAllByText(/continue/i, { selector: 'button' })
             .first()
-            .click();
+            .click({ waitForAnimations: true });
           cy.get('#root_chiefComplaint-error-message').contains(
             'Please provide a response',
           );
           cy.get('#root_chiefComplaint').type('This is my reason...');
           cy.findAllByText(/continue/i, { selector: 'button' })
             .first()
-            .click();
+            .click({ waitForAnimations: true });
         });
       },
       'review-and-submit': () => {

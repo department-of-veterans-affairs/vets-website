@@ -5,7 +5,7 @@ import {
   clearCurrentSession,
   clearSelectedAppointmentData,
 } from '../../shared/utils';
-import ConfirmationPageFooter from '../components/get-help/ConfirmationPageFooter';
+import ConfirmationPageFooter from '../components/confirmation-page-footer/ConfirmationPageFooter';
 import AppointmentDisplay from '../components/appointment-display/AppointmentDisplay';
 
 import PrintButton from '../../list/questionnaire-list/components/Shared/Print/PrintButton';

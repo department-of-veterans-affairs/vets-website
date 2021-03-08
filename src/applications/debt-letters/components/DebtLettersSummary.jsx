@@ -117,7 +117,7 @@ DebtLettersSummary.propTypes = {
   ),
   debts: PropTypes.arrayOf(
     PropTypes.shape({
-      fileNumber: PropTypes.string,
+      fileNumber: PropTypes.number,
     }),
   ),
 };

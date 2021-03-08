@@ -82,6 +82,13 @@
   }
 }
 
+.vaos-appts__breadcrumbs{
+  padding: 2em 0;
+}
+.vaos-appts__breadcrumbs li {
+  padding: 0em !important;
+}
+
 @media print {
   .vaos-hide-for-print {
     display: none !important;

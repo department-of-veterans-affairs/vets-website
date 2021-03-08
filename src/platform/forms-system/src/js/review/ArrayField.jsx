@@ -11,6 +11,8 @@ import {
 import SchemaForm from '../components/SchemaForm';
 import { focusElement } from '../utilities/ui';
 
+import findDuplicateIndexes from '../utilities/data/findDuplicateIndexes';
+
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
@@ -26,10 +28,17 @@ class ArrayField extends React.Component {
     super(props);
     // In contrast to the normal array field, we don’t want to add an empty item
     // and always show at least one item on the review page
-    const arrayData = Array.isArray(props.arrayData) ? props.arrayData : null;
+    const arrayData = (Array.isArray(props.arrayData) && props.arrayData) || [];
+
+    // Including a `duplicateKey` is what causes this unique entry validation to
+    // open the array card in edit mode
+    const key = props.uiSchema?.['ui:options']?.duplicateKey || '';
+    const duplicates = key
+      ? findDuplicateIndexes(props?.arrayData || [], key)
+      : [];
     this.state = {
-      items: arrayData || [],
-      editing: (this.props.arrayData || []).map(() => false),
+      items: arrayData,
+      editing: arrayData.map((__, index) => duplicates.includes(index)),
     };
     this.handleAdd = this.handleAdd.bind(this);
     this.handleSave = this.handleSave.bind(this);
@@ -181,8 +190,14 @@ class ArrayField extends React.Component {
    *   determined from path
    */
   handleSave(index, fieldName) {
-    const newEditingArray = _.set(index, false, this.state.editing);
-    this.setState({ editing: newEditingArray }, () => {
+    const { uiSchema, arrayData } = this.props;
+    // Prevent card from closing (stay in edit mode) if the `duplicateKey`
+    // option is set and the field is a duplicate
+    const key = uiSchema?.['ui:options']?.duplicateKey;
+    const duplicates = key ? findDuplicateIndexes(arrayData, key) : [];
+    const editing = arrayData.map((__, indx) => duplicates.includes(indx));
+
+    this.setState({ editing }, () => {
       // Return focus to button that toggled edit mode
       this.scrollToAndFocus(`${fieldName}-${index}`, '.edit-btn');
     });
