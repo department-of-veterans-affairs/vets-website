@@ -27,7 +27,6 @@ import {
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import * as actions from '../../redux/actions';
 import AppointmentDateTime from './AppointmentDateTime';
-import AppointmentInstructions from './AppointmentInstructions';
 import { getCancelInfo, selectAppointmentById } from '../../redux/selectors';
 import { selectFeatureCancel } from '../../../redux/selectors';
 import VideoVisitSection from './VideoVisitSection';
@@ -57,6 +56,23 @@ function formatHeader(appointment) {
   } else {
     return 'VA Appointment';
   }
+}
+
+function formatInstructions(instructions) {
+  if (!instructions) {
+    return null;
+  }
+
+  const strParts = instructions.split(': ');
+
+  if (strParts[0] && strParts[1]) {
+    return {
+      header: strParts[0],
+      body: strParts[1],
+    };
+  }
+
+  return null;
 }
 
 function ConfirmedAppointmentDetailsPage({
@@ -117,6 +133,7 @@ function ConfirmedAppointmentDetailsPage({
   const isInPersonVAAppointment = !isVideo;
 
   const header = formatHeader(appointment);
+  const instructions = formatInstructions(appointment.comment);
 
   const showInstructions =
     isInPersonVAAppointment &&
@@ -175,9 +192,15 @@ function ConfirmedAppointmentDetailsPage({
             />
 
             {showInstructions &&
-              isInPersonVAAppointment && (
+              isInPersonVAAppointment &&
+              instructions && (
                 <div className="vads-u-margin-top--3 vaos-appts__block-label">
-                  <AppointmentInstructions instructions={appointment.comment} />
+                  <div className="vads-u-flex--1 vads-u-margin-bottom--2 vaos-u-word-break--break-word">
+                    <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+                      {instructions.header}
+                    </h2>
+                    <div>{instructions.body}</div>
+                  </div>
                 </div>
               )}
             {!canceled && (
