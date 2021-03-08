@@ -101,7 +101,7 @@ module.exports = (env = {}) => {
   const entryFiles = Object.assign({}, apps, globalEntryFiles);
   const isOptimizedBuild = [VAGOVSTAGING, VAGOVPROD].includes(buildtype);
 
-  const useHashFilenames = [VAGOVSTAGING, VAGOVPROD].includes(buildtype);
+  const useHashFilenames = [VAGOVPROD].includes(buildtype);
 
   // enable css sourcemaps for all non-localhost builds
   // or if build options include local-css-sourcemaps or entry

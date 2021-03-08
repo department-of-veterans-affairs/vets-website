@@ -105,14 +105,23 @@ export const uiSchema = {
     items: {
       financialOverview: {
         'ui:field': FinancialOverview,
+        'ui:options': {
+          hideOnReview: true,
+        },
       },
       debtRepaymentOptions: {
         'ui:field': DebtRepayment,
+        'ui:options': {
+          hideOnReview: true,
+        },
+      },
+      resolutionOptionsTitle: {
+        'ui:field': ResolutionOptionsTitle,
+        'ui:options': {
+          hideOnReview: true,
+        },
       },
       resolution: {
-        'view:resolutionOptionsTitle': {
-          'ui:field': ResolutionOptionsTitle,
-        },
         resolutionType: {
           'ui:title': ' ',
           'ui:widget': 'radio',
@@ -188,17 +197,16 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
-        title: 'Resolution',
         properties: {
           financialOverview: {
             type: 'object',
-            properties: {
-              income: {
-                type: 'string',
-              },
-            },
+            properties: {},
           },
           debtRepaymentOptions: {
+            type: 'object',
+            properties: {},
+          },
+          resolutionOptionsTitle: {
             type: 'object',
             properties: {},
           },
@@ -206,10 +214,6 @@ export const schema = {
             type: 'object',
             required: ['resolutionType'],
             properties: {
-              'view:resolutionOptionsTitle': {
-                type: 'object',
-                properties: {},
-              },
               resolutionType: {
                 type: 'string',
                 enum: resolutionOptions.map(option => option.type),
