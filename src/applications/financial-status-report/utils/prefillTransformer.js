@@ -9,7 +9,13 @@ export function prefillTransformer(pages, formData, metadata, state) {
   let newData = formData;
 
   if (mailingAddress) {
-    newData = { ...newData, mailingAddress };
+    newData = {
+      ...newData,
+      personalData: {
+        ...newData.personalData,
+        address: mailingAddress,
+      },
+    };
   }
 
   if (areaCode && phoneNumber) {

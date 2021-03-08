@@ -6,7 +6,6 @@ import manifest from '../manifest.json';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
 import PreSubmitSignature from '../components/PreSubmitSignature';
-import { prefillTransformer } from '../utils/prefillTransformer';
 import * as pages from '../pages';
 import moment from 'moment';
 import SubmissionError from '../components/SubmissionError';
@@ -33,7 +32,6 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_5655,
   version: 0,
   prefillEnabled: true,
-  prefillTransformer,
   defaultDefinitions: {},
   savedFormMessages: {
     notFound:
@@ -105,12 +103,14 @@ const formConfig = {
               confirmationEmail: 'hector.smith@email.com',
               telephoneNumber: '5551234567',
             },
-            mailingAddress: {
-              country: 'United States',
-              city: 'Tampa',
-              state: 'FL',
-              postalCode: '33614',
-              addressLine1: '1234 W Nebraska St',
+            personalData: {
+              address: {
+                country: 'United States',
+                city: 'Tampa',
+                state: 'FL',
+                postalCode: '33614',
+                addressLine1: '1234 W Nebraska St',
+              },
             },
           },
           path: 'contact-information',
