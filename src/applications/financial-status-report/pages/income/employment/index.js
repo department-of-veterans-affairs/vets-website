@@ -1,10 +1,14 @@
 export const uiSchema = {
   'ui:title': 'Your work history',
-  employment: {
-    isEmployed: {
-      'ui:title': 'Do you currently have a job?',
-      'ui:widget': 'yesNo',
-      'ui:required': () => true,
+  personalData: {
+    employmentHistory: {
+      veteran: {
+        isEmployed: {
+          'ui:title': 'Do you currently have a job?',
+          'ui:widget': 'yesNo',
+          'ui:required': () => true,
+        },
+      },
     },
   },
 };
@@ -12,11 +16,21 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    employment: {
+    personalData: {
       type: 'object',
       properties: {
-        isEmployed: {
-          type: 'boolean',
+        employmentHistory: {
+          type: 'object',
+          properties: {
+            veteran: {
+              type: 'object',
+              properties: {
+                isEmployed: {
+                  type: 'boolean',
+                },
+              },
+            },
+          },
         },
       },
     },

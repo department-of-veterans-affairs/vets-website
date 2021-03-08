@@ -1,11 +1,13 @@
 export const uiSchema = {
   'ui:title': 'Your spouse information',
-  employment: {
-    spouse: {
-      previouslyEmployed: {
-        'ui:title': 'Has your spouse had any other jobs in the past 2 years?',
-        'ui:widget': 'yesNo',
-        'ui:required': () => true,
+  personalData: {
+    employmentHistory: {
+      spouse: {
+        previouslyEmployed: {
+          'ui:title': 'Has your spouse had any other jobs in the past 2 years?',
+          'ui:widget': 'yesNo',
+          'ui:required': () => true,
+        },
       },
     },
   },
@@ -13,14 +15,19 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    employment: {
+    personalData: {
       type: 'object',
       properties: {
-        spouse: {
+        employmentHistory: {
           type: 'object',
           properties: {
-            previouslyEmployed: {
-              type: 'boolean',
+            spouse: {
+              type: 'object',
+              properties: {
+                previouslyEmployed: {
+                  type: 'boolean',
+                },
+              },
             },
           },
         },

@@ -132,7 +132,8 @@ const formConfig = {
           title: 'Employment',
           uiSchema: pages.employmentRecords.uiSchema,
           schema: pages.employmentRecords.schema,
-          depends: formData => formData.employment?.isEmployed,
+          depends: formData =>
+            formData.personalData.employmentHistory.veteran.isEmployed,
         },
         previousEmployment: {
           path: 'previous-employment',
@@ -145,7 +146,8 @@ const formConfig = {
           title: 'Previous employment',
           uiSchema: pages.previousEmploymentRecords.uiSchema,
           schema: pages.previousEmploymentRecords.schema,
-          depends: formData => formData.employment?.previouslyEmployed,
+          depends: formData =>
+            formData.personalData.employmentHistory.veteran.previouslyEmployed,
         },
         benefits: {
           path: 'benefits',
@@ -213,7 +215,8 @@ const formConfig = {
           title: 'Spouse employment',
           uiSchema: pages.spouseEmploymentRecords.uiSchema,
           schema: pages.spouseEmploymentRecords.schema,
-          depends: formData => formData.employment?.spouse?.isEmployed,
+          depends: formData =>
+            formData.personalData.employmentHistory.spouse.isEmployed,
         },
         spousePreviousEmployment: {
           path: 'spouse-previous-employment',
@@ -230,7 +233,7 @@ const formConfig = {
           schema: pages.spousePreviousEmploymentRecords.schema,
           depends: formData =>
             formData.personalData?.maritalStatus === 'Married' &&
-            formData.employment?.spouse?.previouslyEmployed,
+            formData.personalData.employmentHistory.spouse.previouslyEmployed,
         },
         spouseBenefits: {
           path: 'spouse-benefits',
