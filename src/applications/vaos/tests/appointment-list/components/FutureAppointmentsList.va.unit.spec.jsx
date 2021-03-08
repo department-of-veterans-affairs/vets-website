@@ -258,4 +258,24 @@ describe('VAOS integration: upcoming VA appointments', () => {
       ),
     ).to.be.ok;
   });
+  it('should show error message when partial errors are returned', async () => {
+    mockAppointmentInfo({
+      va: [],
+      partialError: {
+        code: '983',
+        source: 'VIA',
+        summary: 'something',
+      },
+    });
+
+    const { findByText } = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState,
+    });
+
+    expect(
+      await findByText(
+        /We’re having trouble getting your upcoming appointments/i,
+      ),
+    ).to.be.ok;
+  });
 });
