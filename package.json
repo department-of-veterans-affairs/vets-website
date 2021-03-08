@@ -373,6 +373,8 @@
     "**/axios": "^0.21.1",
     "cypress": "^6.6.0",
     "tar-fs/tar-stream/bl": "^4.0.3",
-    "nightwatch/**/lodash.defaultsdeep": "^4.6.1"
+    "nightwatch/**/lodash.defaultsdeep": "^4.6.1",
+    "browserify-sign/elliptic": "^6.5.4",
+    "create-ecdh/elliptic": "^6.5.4"
   }
 }
