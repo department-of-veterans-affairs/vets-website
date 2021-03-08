@@ -17,6 +17,7 @@ import {
   MILITARY_CITIES,
   MILITARY_STATE_VALUES,
   LOWERED_DISABILITY_DESCRIPTIONS,
+  NULL_CONDITION_STRING,
 } from './constants';
 
 export const hasMilitaryRetiredPay = data =>
@@ -256,6 +257,9 @@ export const isWithinServicePeriod = (
   }
 };
 
+export const missingConditionMessage =
+  'Please enter a condition or select one from the suggested list';
+
 export const validateDisabilityName = (
   err,
   fieldData,
@@ -276,6 +280,13 @@ export const validateDisabilityName = (
     fieldData.length > 255
   ) {
     err.addError('Condition names should be less than 256 characters');
+  }
+
+  if (
+    !fieldData ||
+    fieldData.toLowerCase() === NULL_CONDITION_STRING.toLowerCase()
+  ) {
+    err.addError(missingConditionMessage);
   }
 
   // Alert Veteran to duplicates
