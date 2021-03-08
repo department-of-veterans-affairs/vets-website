@@ -32,7 +32,7 @@ const initialState = {
   },
 };
 
-describe('VAOS integration: Express Care form - Additional Details Page', () => {
+describe('VAOS integration: Express Care form - Additional Appointment detail', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(moment('2020-01-26T14:00:00'));
@@ -88,7 +88,7 @@ describe('VAOS integration: Express Care form - Additional Details Page', () => 
     screen.getByText(/submit express care request/i);
   });
 
-  it('should redirect to info page when starting on details page', async () => {
+  it('should redirect to info page when starting on Appointment detail', async () => {
     const store = createTestStore({
       ...initialState,
       expressCare: {
