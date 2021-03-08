@@ -138,6 +138,7 @@ export const GeneralCernerWidget = ({
   <div data-testid="cerner-widget">
     <CernerAlertBox
       facilityNames={facilityNames}
+      primaryCtaText="Manage health care at:"
       secondaryCtaButtonText="Go to My HealtheVet"
       secondaryCtaButtonUrl={mhvUrl(authenticatedWithSSOe, 'to be determined')}
     />
