@@ -10,6 +10,7 @@ import { prefillTransformer } from '../utils/prefillTransformer';
 import * as pages from '../pages';
 import moment from 'moment';
 import SubmissionError from '../components/SubmissionError';
+import { WIZARD_STATUS } from '../wizard/constants';
 
 const submit = () => {
   return Promise.resolve(
@@ -23,6 +24,7 @@ const formConfig = {
   submit,
   submitUrl: `${environment.API_URL}/v0/api`,
   trackingPrefix: 'fsr-5655-',
+  wizardStorageKey: WIZARD_STATUS,
   verifyRequiredPrefill: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -76,8 +78,8 @@ const formConfig = {
               dateOfBirth: '01/01/1970',
             },
             personalIdentification: {
-              sSn: '1234',
-              vaFileNumber: '5678',
+              ssn: '1234',
+              fileNumber: 5678,
             },
           },
         },
@@ -107,7 +109,7 @@ const formConfig = {
               country: 'United States',
               city: 'Tampa',
               state: 'FL',
-              zipCode: '33614',
+              postalCode: '33614',
               addressLine1: '1234 W Nebraska St',
             },
           },

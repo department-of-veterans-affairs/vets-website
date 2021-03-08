@@ -20,7 +20,13 @@ function ViewDependentsList(props) {
       />
     ));
   } else {
-    mainContent = <p>No dependents in this list.</p>;
+    mainContent = (
+      <h2 className="vads-u-font-size--h3">
+        {props?.isAward
+          ? `There are no dependents associated with your VA benefits`
+          : `There are no dependents in this list`}
+      </h2>
+    );
   }
 
   return (

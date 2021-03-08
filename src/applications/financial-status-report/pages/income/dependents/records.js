@@ -31,6 +31,7 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
+        title: 'Dependent',
         required: ['dependentAge'],
         properties: {
           dependentAge: {

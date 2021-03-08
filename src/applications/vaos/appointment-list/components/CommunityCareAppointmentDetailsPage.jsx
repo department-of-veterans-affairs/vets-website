@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import moment from '../../lib/moment-tz';
@@ -12,45 +12,46 @@ import AppointmentDateTime from './cards/confirmed/AppointmentDateTime';
 import { getVARFacilityId } from '../../services/appointment';
 import AppointmentInstructions from './cards/confirmed/AppointmentInstructions';
 import AddToCalendar from '../../components/AddToCalendar';
-import { selectFeatureCancel } from '../../redux/selectors';
 import FacilityAddress from '../../components/FacilityAddress';
 import { formatFacilityAddress } from '../../services/location';
+import PageLayout from './AppointmentsPage/PageLayout';
+import ErrorMessage from '../../components/ErrorMessage';
+import { selectConfirmedAppointmentById } from '../redux/selectors';
+import FullWidthLayout from '../../components/FullWidthLayout';
+import Breadcrumbs from '../../components/Breadcrumbs';
 
 function CommunityCareAppointmentDetailsPage({
-  appointmentDetails,
+  appointment,
   appointmentDetailsStatus,
   fetchConfirmedAppointmentDetails,
-  confirmedStatus,
 }) {
   const { id } = useParams();
-  const history = useHistory();
-
-  const appointment = appointmentDetails?.[id];
 
   useEffect(() => {
-    const status = confirmedStatus === FETCH_STATUS.succeeded;
-
-    if (!status) {
-      history.push('/');
-    }
-
     if (!appointment) {
-      fetchConfirmedAppointmentDetails(id);
+      fetchConfirmedAppointmentDetails(id, 'cc');
     }
 
     scrollAndFocus();
   }, []);
 
-  if (appointmentDetailsStatus === FETCH_STATUS.loading) {
+  if (
+    appointmentDetailsStatus === FETCH_STATUS.failed ||
+    (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+  ) {
     return (
-      <div className="vads-u-margin-y--8">
-        <LoadingIndicator message="Loading your confirmed appointments..." />
-      </div>
+      <FullWidthLayout>
+        <ErrorMessage />
+      </FullWidthLayout>
     );
   }
 
-  if (!appointment) {
-    return null;
+  if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
+    return (
+      <FullWidthLayout>
+        <LoadingIndicator message="Loading your appointment..." />
+      </FullWidthLayout>
+    );
   }
 
   const header = 'Community care';
@@ -68,10 +69,10 @@ function CommunityCareAppointmentDetailsPage({
   )?.actor.display;
 
   return (
-    <div>
-      <div className="vads-u-display--block vads-u-padding-y--2p5 vaos-hide-for-print">
-        ‹ <Link to="/">Manage appointments</Link>
-      </div>
+    <PageLayout>
+      <Breadcrumbs>
+        <Link to={`/cc/${id}`}>Appointment detail</Link>
+      </Breadcrumbs>
 
       <h1>
         <AppointmentDateTime
@@ -137,25 +138,19 @@ function CommunityCareAppointmentDetailsPage({
           « Go back to appointments
         </Link>
       </div>
-    </div>
+    </PageLayout>
   );
 }
 
-function mapStateToProps(state) {
-  const {
-    appointmentDetails,
-    appointmentDetailsStatus,
-    facilityData,
-    confirmedStatus,
-    requestMessages,
-  } = state.appointments;
+function mapStateToProps(state, ownProps) {
+  const { appointmentDetailsStatus, facilityData } = state.appointments;
   return {
-    appointmentDetails,
+    appointment: selectConfirmedAppointmentById(
+      state,
+      ownProps.match.params.id,
+    ),
     appointmentDetailsStatus,
     facilityData,
-    confirmedStatus,
-    requestMessages,
-    showCancelButton: selectFeatureCancel(state),
   };
 }
 

@@ -10,6 +10,8 @@ import { FETCH_STATUS } from '../../utils/constants';
 import { getDateTimeSelect } from '../redux/selectors';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { getRealFacilityId } from '../../utils/appointment';
+import useIsInitialLoad from '../../hooks/useIsInitialLoad';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 const pageKey = 'selectDate1';
 const pageTitle = 'Select first date';
@@ -19,9 +21,14 @@ const missingDateError =
 
 function ErrorMessage({ facilityId }) {
   return (
-    <div aria-atomic="true" aria-live="assertive">
+    <div
+      aria-atomic="true"
+      aria-live="assertive"
+      className="vads-u-margin-bottom--2"
+    >
       <AlertBox
         status="error"
+        level="2"
         headline="We’ve run into a problem when trying to find available appointment times"
       >
         To schedule this appointment, you can{' '}
@@ -86,6 +93,10 @@ export function SelectDate1Page({
   const [submitted, setSubmitted] = useState(false);
   const [validationError, setValidationError] = useState(null);
   const selectedDates = data.date1;
+  const loadingSlots =
+    appointmentSlotsStatus === FETCH_STATUS.loading ||
+    appointmentSlotsStatus === FETCH_STATUS.notStarted;
+  const isInitialLoad = useIsInitialLoad(loadingSlots);
 
   useEffect(() => {
     getAppointmentSlots(
@@ -99,8 +110,25 @@ export function SelectDate1Page({
       true,
     );
     document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
   }, []);
+
+  useEffect(
+    () => {
+      if (
+        !isInitialLoad &&
+        !loadingSlots &&
+        appointmentSlotsStatus !== FETCH_STATUS.failed
+      ) {
+        scrollAndFocus('h2');
+      } else if (
+        (!loadingSlots && isInitialLoad) ||
+        appointmentSlotsStatus === FETCH_STATUS.failed
+      ) {
+        scrollAndFocus();
+      }
+    },
+    [isInitialLoad, loadingSlots, appointmentSlotsStatus],
+  );
 
   useEffect(
     () => {
@@ -114,44 +142,52 @@ export function SelectDate1Page({
   return (
     <div>
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-      {appointmentSlotsStatus !== FETCH_STATUS.failed && (
-        <p>
-          Please select a desired date and time for your appointment.
-          {timezone &&
-            ` Appointment times are displayed in ${timezoneDescription}.`}
-        </p>
+      {appointmentSlotsStatus === FETCH_STATUS.failed && (
+        <ErrorMessage
+          facilityId={facilityId}
+          requestAppointmentDateChoice={requestAppointmentDateChoice}
+        />
       )}
-      <CalendarWidget
-        maxSelections={1}
-        availableSlots={availableSlots}
-        value={selectedDates}
-        additionalOptions={{
-          fieldName: 'datetime',
-          required: true,
-        }}
-        id="dateTime"
-        timezone={timezoneDescription}
-        loadingStatus={appointmentSlotsStatus}
-        loadingErrorMessage={
-          <ErrorMessage
-            facilityId={facilityId}
-            requestAppointmentDateChoice={requestAppointmentDateChoice}
+      {appointmentSlotsStatus !== FETCH_STATUS.failed && (
+        <>
+          <p>
+            Please select a desired date and time for your appointment.
+            {timezone &&
+              ` Appointment times are displayed in ${timezoneDescription}.`}
+          </p>
+          <CalendarWidget
+            maxSelections={1}
+            availableSlots={availableSlots}
+            value={selectedDates}
+            additionalOptions={{
+              fieldName: 'datetime',
+              required: true,
+            }}
+            id="dateTime"
+            timezone={timezoneDescription}
+            disabled={loadingSlots}
+            disabledMessage={
+              <LoadingIndicator
+                setFocus
+                message="Finding appointment availability..."
+              />
+            }
+            onChange={dates => {
+              validate({ dates, setValidationError });
+              onCalendarChange(dates, pageKey);
+            }}
+            onClickNext={getAppointmentSlots}
+            onClickPrev={getAppointmentSlots}
+            minDate={moment()
+              .add(1, 'days')
+              .format('YYYY-MM-DD')}
+            maxDate={moment()
+              .add(395, 'days')
+              .format('YYYY-MM-DD')}
+            validationError={submitted ? validationError : null}
           />
-        }
-        onChange={dates => {
-          validate({ dates, setValidationError });
-          onCalendarChange(dates, pageKey);
-        }}
-        onClickNext={getAppointmentSlots}
-        onClickPrev={getAppointmentSlots}
-        minDate={moment()
-          .add(1, 'days')
-          .format('YYYY-MM-DD')}
-        maxDate={moment()
-          .add(395, 'days')
-          .format('YYYY-MM-DD')}
-        validationError={submitted ? validationError : null}
-      />
+        </>
+      )}
       <FormButtons
         onBack={() => goBack({ routeToPreviousAppointmentPage, history })}
         onSubmit={() =>

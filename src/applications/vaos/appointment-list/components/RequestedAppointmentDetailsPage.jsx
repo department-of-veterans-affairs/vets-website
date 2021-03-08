@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link, useParams, useHistory } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import moment from 'moment';
@@ -16,14 +16,21 @@ import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import ListBestTimeToCall from './cards/pending/ListBestTimeToCall';
 import VAFacilityLocation from '../../components/VAFacilityLocation';
 import CancelAppointmentModal from './cancel/CancelAppointmentModal';
-
+import Breadcrumbs from '../../components/Breadcrumbs';
 import {
   getPatientTelecom,
   isVideoAppointment,
   getVAAppointmentLocationId,
   getPractitionerLocationDisplay,
 } from '../../services/appointment';
-import { selectFirstRequestMessage, getCancelInfo } from '../redux/selectors';
+import {
+  selectFirstRequestMessage,
+  getCancelInfo,
+  selectRequestById,
+} from '../redux/selectors';
+import ErrorMessage from '../../components/ErrorMessage';
+import PageLayout from './AppointmentsPage/PageLayout';
+import FullWidthLayout from '../../components/FullWidthLayout';
 
 const TIME_TEXT = {
   AM: 'in the morning',
@@ -40,20 +47,12 @@ function RequestedAppointmentDetailsPage({
   confirmCancelAppointment,
   facilityData,
   fetchRequestDetails,
-  pendingStatus,
   message,
 }) {
   const { id } = useParams();
-  const history = useHistory();
 
   useEffect(() => {
-    if (pendingStatus !== FETCH_STATUS.succeeded) {
-      history.push('/requested');
-    }
-
-    if (!appointment || appointment.id !== id) {
-      fetchRequestDetails(id);
-    }
+    fetchRequestDetails(id);
 
     scrollAndFocus();
   }, []);
@@ -70,16 +69,23 @@ function RequestedAppointmentDetailsPage({
     [cancelInfo.showCancelModal, cancelInfo.cancelAppointmentStatus],
   );
 
-  if (appointmentDetailsStatus === FETCH_STATUS.loading) {
+  if (
+    appointmentDetailsStatus === FETCH_STATUS.failed ||
+    (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+  ) {
     return (
-      <div className="vads-u-margin-y--8">
-        <LoadingIndicator message="Loading your appointment request..." />
-      </div>
+      <FullWidthLayout>
+        <ErrorMessage level={1} />
+      </FullWidthLayout>
     );
   }
 
-  if (!appointment || appointment.id !== id) {
-    return null;
+  if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
+    return (
+      <FullWidthLayout>
+        <LoadingIndicator message="Loading your appointment request..." />
+      </FullWidthLayout>
+    );
   }
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
@@ -93,10 +99,10 @@ function RequestedAppointmentDetailsPage({
   const practitionerName = getPractitionerLocationDisplay(appointment);
 
   return (
-    <div>
-      <div className="vads-u-display--block vads-u-padding-y--2p5">
-        ‹ <Link to="/requested">Manage appointments</Link>
-      </div>
+    <PageLayout>
+      <Breadcrumbs>
+        <Link to={`/requests/${id}`}>Request detail</Link>
+      </Breadcrumbs>
 
       <h1>
         {canceled ? 'Canceled' : 'Pending'} {typeOfCareText} appointment
@@ -145,13 +151,13 @@ function RequestedAppointmentDetailsPage({
         )}
 
       {isCC &&
-        isCCRequest &&
-        practitionerName && (
+        isCCRequest && (
           <>
             <h2 className="vaos-appts__block-label vads-u-margin-bottom--0 vads-u-margin-top--2">
               Preferred community care provider
             </h2>
-            <span>{practitionerName}</span>
+            {!!practitionerName && <span>{practitionerName}</span>}
+            {!practitionerName && <span>No provider selected</span>}
           </>
         )}
 
@@ -196,23 +202,17 @@ function RequestedAppointmentDetailsPage({
         onConfirm={confirmCancelAppointment}
         onClose={closeCancelAppointment}
       />
-    </div>
+    </PageLayout>
   );
 }
-function mapStateToProps(state) {
-  const {
-    currentAppointment,
-    appointmentDetailsStatus,
-    facilityData,
-    pendingStatus,
-  } = state.appointments;
+function mapStateToProps(state, ownProps) {
+  const { appointmentDetailsStatus, facilityData } = state.appointments;
 
   return {
-    appointment: currentAppointment,
+    appointment: selectRequestById(state, ownProps.match.params.id),
     appointmentDetailsStatus,
     facilityData,
-    message: selectFirstRequestMessage(state),
-    pendingStatus,
+    message: selectFirstRequestMessage(state, ownProps.match.params.id),
     cancelInfo: getCancelInfo(state),
   };
 }
