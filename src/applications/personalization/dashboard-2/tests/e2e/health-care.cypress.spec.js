@@ -33,7 +33,10 @@ describe('MyVA Dashboard - Health Care Widgets', () => {
         isCerner: true,
         messaging: true,
         rx: true,
-        facilities: [{ facilityId: '668', isCerner: true }],
+        facilities: [
+          { facilityId: '668', isCerner: true },
+          { facilityId: '757', isCerner: true },
+        ],
         isPatient: true,
       });
       cy.login(mockUser);
