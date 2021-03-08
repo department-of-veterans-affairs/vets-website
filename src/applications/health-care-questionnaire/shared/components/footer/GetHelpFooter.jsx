@@ -6,7 +6,7 @@ import Telephone from '@department-of-veterans-affairs/component-library/Telepho
 import {
   getClinicFromAppointment,
   getFacilityFromAppointment,
-} from '../../../shared/utils';
+} from '../../utils';
 
 const GetHelpFooter = props => {
   const { currentLocation, appointment } = props;
@@ -51,14 +51,28 @@ const GetHelpFooter = props => {
       <div className="usa-width-two-thirds medium-8 columns">
         <h2 className="help-heading">Need help?</h2>
         <p>
-          For questions about your appointment or if you have a health-related
-          concern, call your VA provider. <WhoToContact />
+          <span className={'vads-u-font-weight--bold'}>
+            For questions about your appointment or if you have a health-related
+            concern,
+          </span>{' '}
+          call your VA provider. <WhoToContact />
         </p>
         <p>
-          For questions about how to fill out your health care questionnaire or
-          if you need help with the form, please call our MyVA411 main
-          information line at <Telephone contact={HELP_NUMBER} /> and select 0.
-          We're here 24/7.
+          <span className={'vads-u-font-weight--bold'}>
+            Can't find an appointment that you think should be on this list?
+          </span>{' '}
+          You may not have a questionnaire for that appointment.{' '}
+          <a href="/health-care/schedule-view-va-appointments/appointments/">
+            Go to the list of all your VA health appointments.
+          </a>
+        </p>
+        <p>
+          <span className={'vads-u-font-weight--bold'}>
+            For questions about how to fill out your health care questionnaire
+            or if you need help with the form,
+          </span>{' '}
+          please call our MyVA411 main information line at{' '}
+          <Telephone contact={HELP_NUMBER} /> and select 0. We're here 24/7.
         </p>
         <p>
           If you have hearing loss, call{' '}
