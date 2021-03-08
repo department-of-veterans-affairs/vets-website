@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs';
 import path from 'path';
-import tinyliquid from 'tinyliquid';
+import liquid from 'tinyliquid';
 import { JSDOM } from 'jsdom';
 
 const parseFixture = file => {
@@ -10,8 +10,8 @@ const parseFixture = file => {
 };
 
 const renderHTML = (layout, data) => {
-  const context = tinyliquid.newContext({ locals: data });
-  const render = tinyliquid.compile(layout);
+  const context = liquid.newContext({ locals: data });
+  const render = liquid.compile(layout);
 
   return new Promise((resolve, reject) =>
     render(context, err => {
