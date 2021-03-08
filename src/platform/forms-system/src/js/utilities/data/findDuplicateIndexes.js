@@ -13,7 +13,7 @@ export default function(arrayFieldData = [], dataKey) {
   if (!dataKey || arrayFieldData.length === 0) {
     return [];
   }
-  const list = arrayFieldData.map(item => item[dataKey].toLowerCase() || '');
+  const list = arrayFieldData.map(item => (item[dataKey] || '').toLowerCase());
   // This reduce funtion will cycle through the list and look for a _single_
   // duplicate of the currently indexed item, so even if there is more than one
   // duplicate of a single item, or multiple duplicates of multiple items, it
