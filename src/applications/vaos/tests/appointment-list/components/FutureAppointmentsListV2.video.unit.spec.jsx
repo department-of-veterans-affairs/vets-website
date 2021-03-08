@@ -107,7 +107,7 @@ describe('<ConfirmedAppointmentDetailsPage>', () => {
         ),
       );
 
-      expect(screen.getByRole('link', { name: /Manage appointments/ })).to.be
+      expect(screen.getByRole('link', { name: /VA online scheduling/ })).to.be
         .ok;
 
       expect(screen.baseElement).to.contain.text('VA Video Connect at home');
@@ -687,7 +687,7 @@ describe('<ConfirmedAppointmentDetailsPage>', () => {
         ),
       );
 
-      expect(screen.getByRole('link', { name: /Manage appointments/ })).to.be
+      expect(screen.getByRole('link', { name: /VA online scheduling/ })).to.be
         .ok;
 
       expect(printSpy.notCalled).to.be.true;
@@ -772,7 +772,7 @@ describe('<ConfirmedAppointmentDetailsPage>', () => {
         ),
       );
 
-      expect(screen.getByRole('link', { name: /Manage appointments/ })).to.be
+      expect(screen.getByRole('link', { name: /VA online scheduling/ })).to.be
         .ok;
 
       expect(screen.queryByText(/You don’t have any appointments/i)).not.to

@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import ConfirmationPageFooter from '../../../components/get-help/ConfirmationPageFooter';
+import ConfirmationPageFooter from '../ConfirmationPageFooter';
 
 describe('health care questionnaire - confirmation page footer -- phone numbers -- ', () => {
   it('has appointment - show both clinic and facility', () => {
