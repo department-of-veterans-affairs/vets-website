@@ -139,6 +139,62 @@ describe('Add new disabilities', () => {
     form.unmount();
   });
 
+  it('should not submit when an empty field is submitted', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          newDisabilities: [
+            {
+              condition: '',
+            },
+          ],
+        }}
+        formData={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    const error = form.find('.usa-input-error-message');
+    expect(error.length).to.equal(1);
+    expect(error.text()).to.include('enter a condition or select one');
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+  it('should not submit when "unknown condition" is submitted', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          newDisabilities: [
+            {
+              // case in-sensitive; specifically preventing this because it was
+              // previously the default text used when the user submitted an
+              // empty string
+              condition: 'UNKnowN COnDitioN',
+            },
+          ],
+        }}
+        formData={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    const error = form.find('.usa-input-error-message');
+    expect(error.length).to.equal(1);
+    expect(error.text()).to.include('enter a condition or select one');
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+
   describe('updateFormData', () => {
     // It's a function just to make sure we're not mutating it anywhere along the way
     const oldData = () => ({
