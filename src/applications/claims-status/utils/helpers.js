@@ -1,7 +1,6 @@
 import _ from 'lodash/fp';
 import * as Sentry from '@sentry/browser';
 
-import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import localStorage from 'platform/utilities/storage/localStorage';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
@@ -892,14 +891,3 @@ export const mockData = {
     },
   ],
 };
-
-// Use an abbreviated date for all months
-// except for April, May, June, and July
-export function formatDate(incomingDate) {
-  const date = moment(incomingDate);
-  if (date.month() === 2) {
-    return `Mar. ${date.format('D, YYYY')}`;
-  } else {
-    return date.format('MMM D, YYYY');
-  }
-}
