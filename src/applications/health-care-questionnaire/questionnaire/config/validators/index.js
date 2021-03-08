@@ -1,8 +1,8 @@
 const maxLength = (max, errors, fieldData) => {
-  if (fieldData.length > max) {
+  if (errors && fieldData && fieldData.length > max) {
     const lettersToRemove = (fieldData.length - max).toLocaleString();
     errors.addError(
-      `You only have ${max.toLocaleString()} letters, you have to remove ${lettersToRemove} letters`,
+      `This field should be less than ${max.toLocaleString()} characters. Please remove ${lettersToRemove} characters`,
     );
   }
 };
@@ -17,7 +17,3 @@ const preventLargeFields = (
 ) => maxLength(500_000, errors, fieldData);
 
 export { preventLargeFields, maxLength };
-
-// function() {
-
-// },
