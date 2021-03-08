@@ -111,7 +111,7 @@ describe('VAOS vaccine flow <SecondDosePage>', () => {
 
     await waitFor(() =>
       expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/new-project-cheetah-booking/contact-info',
+        '/new-covid-19-booking/contact-info',
       ),
     );
   });
