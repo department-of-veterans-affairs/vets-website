@@ -27,8 +27,8 @@ const renderHTML = data => {
         const dom = new JSDOM(html, { runScripts: 'dangerously' });
         resolve(dom.window.document.body);
       }
-    })
+    }),
   );
-}
+};
 
 export { parseFixture, renderHTML };
