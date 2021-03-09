@@ -18952,9 +18952,9 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   dependencies:
     minimalistic-assert "^1.0.0"
 
-"web-components@https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.2.0":
-  version "0.2.0"
-  resolved "https://github.com/department-of-veterans-affairs/component-library.git#cf7a0b052041d423e934873e8be506c2d755f892"
+"web-components@https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.2.1":
+  version "0.2.1"
+  resolved "https://github.com/department-of-veterans-affairs/component-library.git#400c2541ed8dc5e1e433ceecc07ccaf9c6135a3a"
   dependencies:
     "@stencil/core" "^2.0.1"
     "@stencil/postcss" "^2.0.0"
