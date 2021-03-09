@@ -89,9 +89,17 @@ export async function getBookedAppointments({ startDate, endDate }) {
       ),
     ]);
 
+    // We might get partial results back from MAS, so throw an error if we do
+    if (appointments[0].errors?.length) {
+      throw mapToFHIRErrors(
+        appointments[0].errors,
+        'MAS returned partial results',
+      );
+    }
+
     return transformConfirmedAppointments([
-      ...appointments[0],
-      ...appointments[1],
+      ...appointments[0].data,
+      ...appointments[1].data,
     ]);
   } catch (e) {
     if (e.errors) {

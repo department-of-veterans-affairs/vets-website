@@ -23,6 +23,7 @@ import sinon from 'sinon';
  * @param {Object} params
  * @param {Array<MASAppointment>} [params.va=[]] VA appointments to return from mock
  * @param {boolean} [params.vaError=false] Set to true if mock should return an error
+ * @param {boolean} [params.partialError=false] Set to true if mock should return a MAS partial error
  * @param {Array<VARCommunityCareAppointment>} [params.cc=[]] CC appointments to return from mock
  * @param {Array<VARRequest>} [params.requests=[]] Requests to return from mock
  * @param {boolean} [params.isHomepageRefresh=false] Set to true if mock for upcoming page on homepage refresh, which
@@ -33,6 +34,7 @@ export function mockAppointmentInfo({
   vaError = false,
   cc = [],
   requests = [],
+  partialError = null,
   isHomepageRefresh = false,
 }) {
   mockFetch();
@@ -56,7 +58,12 @@ export function mockAppointmentInfo({
   if (vaError) {
     setFetchJSONFailure(global.fetch.withArgs(vaUrl), { errors: [] });
   } else {
-    setFetchJSONResponse(global.fetch.withArgs(vaUrl), { data: va });
+    setFetchJSONResponse(global.fetch.withArgs(vaUrl), {
+      data: va,
+      meta: {
+        errors: partialError ? [partialError] : [],
+      },
+    });
   }
 
   setFetchJSONResponse(global.fetch.withArgs(ccUrl), { data: cc });
@@ -462,7 +469,7 @@ export function mockEligibilityFetches({
     global.fetch.withArgs(
       `${environment.API_URL}/vaos/v0/appointments?start_date=${moment()
         .startOf('day')
-        .subtract(6, 'months')
+        .subtract(12, 'months')
         .toISOString()}&end_date=${moment()
         .startOf('day')
         .toISOString()}&type=va`,
@@ -473,34 +480,10 @@ export function mockEligibilityFetches({
     global.fetch.withArgs(
       `${environment.API_URL}/vaos/v0/appointments?start_date=${moment()
         .startOf('day')
-        .subtract(12, 'months')
-        .toISOString()}&end_date=${moment()
-        .startOf('day')
-        .subtract(6, 'months')
-        .toISOString()}&type=va`,
-    ),
-    { data: [] },
-  );
-  setFetchJSONResponse(
-    global.fetch.withArgs(
-      `${environment.API_URL}/vaos/v0/appointments?start_date=${moment()
-        .startOf('day')
-        .subtract(18, 'months')
-        .toISOString()}&end_date=${moment()
-        .startOf('day')
-        .subtract(12, 'months')
-        .toISOString()}&type=va`,
-    ),
-    { data: [] },
-  );
-  setFetchJSONResponse(
-    global.fetch.withArgs(
-      `${environment.API_URL}/vaos/v0/appointments?start_date=${moment()
-        .startOf('day')
         .subtract(24, 'months')
         .toISOString()}&end_date=${moment()
         .startOf('day')
-        .subtract(18, 'months')
+        .subtract(12, 'months')
         .toISOString()}&type=va`,
     ),
     { data: [] },
