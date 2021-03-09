@@ -76,7 +76,7 @@ describe('VAOS <ReceivedDoseScreenerPage> ', () => {
 
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-covid-19-booking/facility',
+        '/new-covid-19-vaccine-booking/facility',
       ),
     );
 
@@ -85,7 +85,7 @@ describe('VAOS <ReceivedDoseScreenerPage> ', () => {
 
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-covid-19-booking/contact-facilities',
+        '/new-covid-19-vaccine-booking/contact-facilities',
       ),
     );
   });

@@ -66,11 +66,11 @@ export function NewBookingSection({
 
   const shouldRedirectToStart = useFormRedirectToStart({
     shouldRedirect: () =>
-      !location.pathname.endsWith('new-covid-19-booking') &&
+      !location.pathname.endsWith('new-covid-19-vaccine-booking') &&
       !location.pathname.endsWith('confirmation'),
   });
   if (shouldRedirectToStart) {
-    return <Redirect to="/new-covid-19-booking" />;
+    return <Redirect to="/new-covid-19-vaccine-booking" />;
   }
 
   const title = <h1 className="vads-u-font-size--h2">{'New Booking'}</h1>;
@@ -99,9 +99,11 @@ export function NewBookingSection({
   if (
     !isEligible &&
     newBookingStatus === FETCH_STATUS.succeeded &&
-    !location.pathname.includes('/new-covid-19-booking/contact-facilities')
+    !location.pathname.includes(
+      '/new-covid-19-vaccine-booking/contact-facilities',
+    )
   ) {
-    return <Redirect to="/new-covid-19-booking/contact-facilities" />;
+    return <Redirect to="/new-covid-19-vaccine-booking/contact-facilities" />;
   }
 
   return (

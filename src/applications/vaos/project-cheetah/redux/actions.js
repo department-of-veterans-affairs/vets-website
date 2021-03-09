@@ -165,7 +165,7 @@ export function openNewBookingPage(history) {
       // Redirect the user to the 'Contact facility' page if the appointment can't be
       // scheduled at the user's registered facilities.
       if (!isEligible) {
-        history.push('/new-covid-19-booking/contact-facilities');
+        history.push('/new-covid-19-vaccine-booking/contact-facilities');
       }
 
       dispatch({
@@ -414,7 +414,7 @@ export function startAppointmentFlow() {
 export function projectCheetahAppointmentDateChoice(history) {
   return dispatch => {
     dispatch(startAppointmentFlow());
-    history.replace('/new-covid-19-booking');
+    history.replace('/new-covid-19-vaccine-booking');
   };
 }
 
@@ -463,7 +463,7 @@ export function confirmAppointment(history) {
         ...additionalEventData,
       });
       resetDataLayer();
-      history.push('/new-covid-19-booking/confirmation');
+      history.push('/new-covid-19-vaccine-booking/confirmation');
     } catch (error) {
       captureError(error, true);
       dispatch({
