@@ -139,7 +139,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     expect(await screen.findAllByText(/Detail/)).to.be.ok;
   });
 
-  it('should show cc info when directly opening page', async () => {
+  it.skip('should show cc info when directly opening page', async () => {
     const url = '/cc/8a4885896a22f88f016a2cb7f5de0062';
 
     const appointment = getCCAppointmentMock();
