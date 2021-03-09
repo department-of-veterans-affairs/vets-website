@@ -77,6 +77,7 @@ const I18Select = ({ baseUrls }) => {
                 onClick={_ => {
                   handleLinkClick(languageCode);
                 }}
+                href={baseUrls ? baseUrls[languageCode] : ''}
                 hrefLang={lang}
               >
                 {languageConfig.label}{' '}
