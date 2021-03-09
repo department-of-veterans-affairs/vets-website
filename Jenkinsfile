@@ -79,7 +79,9 @@ node('vetsgov-general-purpose') {
           },
 
           cypress: {
-            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress up -d && docker-compose -p cypress run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 vets-website --no-color run cy:test:docker"
+            retry(3) {
+              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress up -d && docker-compose -p cypress run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 vets-website --no-color run cy:test:docker"
+            }
           }
         )
       } catch (error) {
