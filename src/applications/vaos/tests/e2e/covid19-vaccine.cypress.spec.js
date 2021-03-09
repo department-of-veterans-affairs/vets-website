@@ -18,22 +18,12 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
 
     // Plan ahead page
     cy.url().should('include', '/new-covid-19-vaccine-booking');
-    cy.axeCheck('main', {
-      runOnly: {
-        type: 'tag',
-        values: ['section508', 'wcag2a', 'wcag2aa', 'best-practice'],
-      },
-    });
+    cy.axeCheckBestPractice();
     cy.findByText('Start scheduling').click();
 
     // Screener page
     cy.url().should('include', '/received-dose');
-    cy.axeCheck('main', {
-      runOnly: {
-        type: 'tag',
-        values: ['section508', 'wcag2a', 'wcag2aa', 'best-practice'],
-      },
-    });
+    cy.axeCheckBestPractice();
     cy.get('#root_hasReceivedDoseNo')
       .focus()
       .click();
@@ -41,23 +31,13 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
 
     // Choose VA Flat Facility
     cy.url().should('include', '/facility');
-    cy.axeCheck('main', {
-      runOnly: {
-        type: 'tag',
-        values: ['section508', 'wcag2a', 'wcag2aa', 'best-practice'],
-      },
-    });
+    cy.axeCheckBestPractice();
     cy.findByLabelText(/cheyenne/i).click();
     cy.findByText(/Continue/).click();
 
     // Choose Clinic
     cy.url().should('include', '/clinic');
-    cy.axeCheck('main', {
-      runOnly: {
-        type: 'tag',
-        values: ['section508', 'wcag2a', 'wcag2aa', 'best-practice'],
-      },
-    });
+    cy.axeCheckBestPractice();
     cy.findByText(/Choose a clinic located at/);
     cy.get('#root_clinicId_0')
       .focus()
@@ -76,41 +56,22 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     cy.get(
       '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
     ).click();
-    cy.axeCheck('main', {
-      runOnly: {
-        type: 'tag',
-        values: ['section508', 'wcag2a', 'wcag2aa', 'best-practice'],
-      },
-    });
+    cy.axeCheckBestPractice();
     cy.findByText(/Continue/).click();
 
     // Second dose page
-    cy.axeCheck('main', {
-      runOnly: {
-        type: 'tag',
-        values: ['section508', 'wcag2a', 'wcag2aa', 'best-practice'],
-      },
-    });
+    cy.url().should('include', '/plan-second-dose');
+    cy.axeCheckBestPractice();
     cy.findByText(/Continue/).click();
 
     // Contact info
     cy.url().should('include', '/contact-info');
-    cy.axeCheck('main', {
-      runOnly: {
-        type: 'tag',
-        values: ['section508', 'wcag2a', 'wcag2aa', 'best-practice'],
-      },
-    });
+    cy.axeCheckBestPractice();
     cy.findByText(/Continue/).click();
 
     // Review
     cy.url().should('include', '/review');
-    cy.axeCheck('main', {
-      runOnly: {
-        type: 'tag',
-        values: ['section508', 'wcag2a', 'wcag2aa', 'best-practice'],
-      },
-    });
+    cy.axeCheckBestPractice();
     cy.findByText('Confirm appointment').click();
 
     // Check form requestBody is as expected
@@ -136,11 +97,6 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     // Confirmation page
     cy.findByText('Your appointment has been scheduled');
     cy.findByText('COVID-19 Vaccine');
-    cy.axeCheck('main', {
-      runOnly: {
-        type: 'tag',
-        values: ['section508', 'wcag2a', 'wcag2aa', 'best-practice'],
-      },
-    });
+    cy.axeCheckBestPractice();
   });
 });

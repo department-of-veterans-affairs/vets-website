@@ -354,6 +354,14 @@ function mockSubmitVAAppointment() {
 }
 
 function setupSchedulingMocks({ cernerUser = false } = {}) {
+  Cypress.Commands.add('axeCheckBestPractice', (context = 'main') =>
+    cy.axeCheck(context, {
+      runOnly: {
+        type: 'tag',
+        values: ['section508', 'wcag2a', 'wcag2aa', 'best-practice'],
+      },
+    }),
+  );
   cy.server();
   mockFeatureToggles();
 
