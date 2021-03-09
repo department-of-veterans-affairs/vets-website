@@ -86,8 +86,7 @@ const I18Select = ({ baseUrls }) => {
               {i !== Object.entries(i18Content).length - 1 && (
                 <span
                   className=" vads-u-margin-left--0p5 vads-u-margin-right--0p5 vads-u-color--gray
-                  vads-u-height--20
-                "
+                  vads-u-height--20"
                 >
                   |
                 </span>
