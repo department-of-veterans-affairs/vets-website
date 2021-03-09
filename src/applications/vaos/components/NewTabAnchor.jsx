@@ -1,31 +1,38 @@
+/**
+ * Shared components used by the VAOS application.
+ * @module components/NewTabAnchor
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function NewTabAnchor({ href, 'aria-describedby': describedBy, ...props }) {
+/**
+ * Component wrapper for the anchor tag used to add an accessibility
+ * message to announce that the link opens in a new window.
+ *
+ * @export
+ * @param {String} href The URL that the hyperlink points to.
+ * @param {String} children Text describing the link destination.
+ * @returns Wrapped anchor tag
+ */
+function NewTabAnchor({ href, 'aria-label': label, ...props }) {
+  const msg = 'Link opens in a new tab.';
+
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      aria-describedby={
-        describedBy ? `${describedBy} ${'new-tab-msg-1'}` : 'new-tab-msg-1'
-      }
+      aria-label={label ? `${label} ${msg}` : `${props.children} ${msg}`}
       {...props}
     >
       {props.children}
-      <img
-        src="/img/icons/SVG/link.svg"
-        className="vaos__external-link"
-        alt="Link"
-        aria-hidden="true"
-      />
     </a>
   );
 }
 
 NewTabAnchor.propTypes = {
   href: PropTypes.string.isRequired,
-  children: PropTypes.element.isRequired,
+  children: PropTypes.string.isRequired,
 };
 
 export default NewTabAnchor;
