@@ -4,7 +4,7 @@ import _ from 'lodash/fp';
 export const uiSchema = {
   'ui:title': 'Your monthly household expenses',
   expenses: {
-    housingExpense: _.merge(
+    rentOrMortgage: _.merge(
       currencyUI(
         'How much do you spend on housing each month? Please include expenses such as rent, mortgage, taxes, and HOA fees.',
       ),
@@ -14,14 +14,11 @@ export const uiSchema = {
         },
       },
     ),
-    foodExpense: _.merge(
-      currencyUI('How much do you pay for food each month?'),
-      {
-        'ui:options': {
-          widgetClassNames: 'input-size-3',
-        },
+    food: _.merge(currencyUI('How much do you pay for food each month?'), {
+      'ui:options': {
+        widgetClassNames: 'input-size-3',
       },
-    ),
+    }),
   },
 };
 
@@ -30,12 +27,12 @@ export const schema = {
   properties: {
     expenses: {
       type: 'object',
-      required: ['housingExpense', 'foodExpense'],
+      required: ['rentOrMortgage', 'food'],
       properties: {
-        housingExpense: {
+        rentOrMortgage: {
           type: 'number',
         },
-        foodExpense: {
+        food: {
           type: 'number',
         },
       },
