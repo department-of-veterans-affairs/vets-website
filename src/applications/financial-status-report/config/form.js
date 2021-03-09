@@ -83,7 +83,7 @@ const formConfig = {
         },
         availableDebts: {
           initialData: {
-            fsrDebts: [],
+            selectedDebts: [],
             debt: {
               currentAr: 0,
               debtHistory: [{ date: '' }],
@@ -410,7 +410,7 @@ const formConfig = {
           path: 'resolution-options/:index',
           title: 'Resolution options',
           showPagePerItem: true,
-          arrayPath: 'fsrDebts',
+          arrayPath: 'selectedDebts',
           uiSchema: pages.resolutionOptions.uiSchema,
           schema: pages.resolutionOptions.schema,
         },

@@ -70,8 +70,8 @@ const isRequired = (formData, option) => {
   let type = '';
   if (window.location.href.includes('resolution-options')) {
     index = window.location.href.slice(-1);
-    selected = formData.fsrDebts[index].resolution.resolutionType;
-    type = formData.fsrDebts[index].deductionCode;
+    selected = formData.selectedDebts[index].resolution.resolutionType;
+    type = formData.selectedDebts[index].deductionCode;
   }
 
   if (selected === option && option === 'Waiver') {
@@ -101,7 +101,7 @@ const renderLabels = () => {
 };
 
 export const uiSchema = {
-  fsrDebts: {
+  selectedDebts: {
     items: {
       financialOverview: {
         'ui:field': FinancialOverview,
@@ -135,7 +135,7 @@ export const uiSchema = {
             expandUnder: 'resolutionType',
             expandUnderCondition: (selectedOption, formData) => {
               const index = window.location.href.slice(-1);
-              const type = formData.fsrDebts[index]?.deductionCode;
+              const type = formData.selectedDebts[index]?.deductionCode;
               return selectedOption === 'Waiver' && type !== '30';
             },
           },
@@ -195,7 +195,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    fsrDebts: {
+    selectedDebts: {
       type: 'array',
       items: {
         type: 'object',
