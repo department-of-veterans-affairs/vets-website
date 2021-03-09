@@ -7,7 +7,7 @@
     <!-- Links -->
     <ul class="usa-unstyled-list">
       {% for fieldRelatedInformationLink in fieldRelatedInformation %}
-      <li class="vads-u-margin-y--1">
+      <li class="vads-u-margin-y--2">
         <p class="vads-u-margin--0">
           <strong>
             <a onclick="recordEvent({ 'event': 'nav-linkslist', 'links-list-header': '{{ fieldRelatedInformationLink.entity.fieldLink.title | escape }}', 'links-list-section-header': 'Related information' })" href="{{ fieldRelatedInformationLink.entity.fieldLink.url.path }}">
