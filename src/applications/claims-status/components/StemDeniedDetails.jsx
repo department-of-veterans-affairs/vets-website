@@ -64,41 +64,38 @@ const StemDeniedDetails = ({
             </li>
           </ul>
         </li>
-        {isEnrolledStem !== false &&
-          isPursuingTeachingCert !== false && (
-            <li>
-              You meet the degree requirements for the Rogers STEM Scholarship
-              <ul className="stem-ad-list-secondary">
-                <li className="stem-ad-list-item">
-                  By law, all Rogers STEM Scholarship recipients must either be:
-                  <ol>
-                    <li>
-                      Enrolled in an eligible STEM undergraduate degree or
-                    </li>
-                    <li>
-                      Have an eligible STEM undergraduate degree and be pursuing
-                      a teaching degree
-                    </li>
-                  </ol>
-                </li>
-                <li className="stem-ad-list-item">
-                  You meet the degree requirements because you answered "Yes" to
-                  one of these questions on the Rogers STEM Scholarship
-                  application.
-                  <ul className="stem-ad-list-secondary">
-                    <li className="stem-ad-list-item">
-                      "Are you enrolled in a science, technology, engineering,
-                      or math (STEM) degree program?" or
-                    </li>
-                    <li className="stem-ad-list-item">
-                      "Do you have a STEM undergraduate degree and are now
-                      pursuing a teaching certification?"
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-          )}
+        {(isEnrolledStem || isPursuingTeachingCert) && (
+          <li>
+            You meet the degree requirements for the Rogers STEM Scholarship
+            <ul className="stem-ad-list-secondary">
+              <li className="stem-ad-list-item">
+                By law, all Rogers STEM Scholarship recipients must either be:
+                <ol>
+                  <li>Enrolled in an eligible STEM undergraduate degree or</li>
+                  <li>
+                    Have an eligible STEM undergraduate degree and be pursuing a
+                    teaching degree
+                  </li>
+                </ol>
+              </li>
+              <li className="stem-ad-list-item">
+                You meet the degree requirements because you answered "Yes" to
+                one of these questions on the Rogers STEM Scholarship
+                application.
+                <ul className="stem-ad-list-secondary">
+                  <li className="stem-ad-list-item">
+                    "Are you enrolled in a science, technology, engineering, or
+                    math (STEM) degree program?" or
+                  </li>
+                  <li className="stem-ad-list-item">
+                    "Do you have a STEM undergraduate degree and are now
+                    pursuing a teaching certification?"
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        )}
       </ul>
       <h3 className="vads-u-font-family--sans">
         What you should do if you disagree with our decision
