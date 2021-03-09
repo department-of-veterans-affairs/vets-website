@@ -9,7 +9,7 @@
 @import "../../../platform/forms/sass/m-schemaform";
 
 .schemaform-title > h1 {
-  @include media($large) {
+  @include media($small-desktop-screen) {
     white-space: nowrap;
   }
 }
