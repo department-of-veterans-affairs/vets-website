@@ -27,7 +27,7 @@ const copy = {
     headline:
       'Manténgase informado sobre cómo recibir la vacuna contra COVID-19',
     cta:
-      'Inscríbase para una manera fácil de mantenerse informado sobre cómo recibir la vacuna contra COVID-19 en el VA.',
+      'Inscríbase para una manera fácil de mantenerse informado sobre cómo recibir la vacuna contra COVID-19 en él VA.',
     body:
       'Cuando se inscriba, también le preguntaremos acerca de sus planes de vacunas. Su centro de salud del VA local puede usar esta información para determinar cuándo nos podemos comunicarnos una vez que su grupo de riesgo sea elegible. Por favor, tenga nota que estas actualizaciones solo están disponibles en inglés en este momento.',
     boldedNote: 'Nota: ',
