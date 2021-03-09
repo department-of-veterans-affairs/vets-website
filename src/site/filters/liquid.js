@@ -683,12 +683,10 @@ module.exports = function registerFilters() {
       fieldNonBeneficiares?.entity,
     ]
       .filter(tag => !!tag)
-      .map(audience => {
-        return {
-          ...audience,
-          categoryLabel: 'Audience',
-        };
-      });
+      .map(audience => ({
+        ...audience,
+        categoryLabel: 'Audience',
+      }));
 
     const tagList = [...topics, ...audiences];
 
