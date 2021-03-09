@@ -29,7 +29,7 @@ const copy = {
     cta:
       'Inscríbase para una manera fácil de mantenerse informado sobre cómo recibir la vacuna contra COVID-19 en el VA.',
     body:
-      'Cuando se inscriba, también le preguntaremos acerca de sus planes de vacunas. Su centro de salud del VA local puede usar esta información para determinar cuándo contactarle una vez que su grupo de riesgo sea elegible. Por favor, tenga presente que estas actualizaciones solo están disponibles en inglés en este momento.',
+      'Cuando se inscriba, también le preguntaremos acerca de sus planes de vacunas. Su centro de salud del VA local puede usar esta información para determinar cuándo nos podemos comunicamos una vez que su grupo de riesgo sea elegible. Por favor, tenga nota que estas actualizaciones solo están disponibles en inglés en este momento.',
     boldedNote: 'Nota: ',
     note:
       'Intentaremos contactar a todos los Veteranos elegibles en cada grupo de riesgo. No es necesario que se inscriba para recibir la vacuna.',
