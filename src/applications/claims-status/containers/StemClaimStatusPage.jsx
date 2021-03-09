@@ -17,7 +17,7 @@ class StemClaimStatusPage extends React.Component {
 
   setTitle() {
     document.title =
-      'Status - Your Your Edith Nourse Rogers STEM Scholarship Application Claim';
+      'Status - Your Edith Nourse Rogers STEM Scholarship Application Claim';
   }
 
   render() {

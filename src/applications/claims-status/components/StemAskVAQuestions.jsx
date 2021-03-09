@@ -4,12 +4,12 @@ function StemAskVAQuestions() {
   return (
     <div>
       <h2 className="help-heading">Need help?</h2>
-      <h4>Ask Questions</h4>
+      <h3 className="vads-u-font-size--h4">Ask Questions</h3>
       <p>
         <a href="https://gibill.custhelp.va.gov/app/">Ask a question online</a>{' '}
         (Include your full name and VA file number)
       </p>
-      <h4>Call us</h4>
+      <h3 className="vads-u-font-size--h4">Call us</h3>
       <p>Veterans Crisis Line: </p>
       <p>
         <a href="tel:+1-800-273-8255">1-800-273-8255 </a>
@@ -34,7 +34,7 @@ function StemAskVAQuestions() {
       <p>
         TTY, Federal Relay: <a href="tel:+711">711</a>
       </p>
-      <h4>Send us mail</h4>
+      <h3 className="vads-u-font-size--h4">Send us mail</h3>
       <p>
         (Include your full name and VA file number on the inside of mailed
         correspondence, not on envelope.)

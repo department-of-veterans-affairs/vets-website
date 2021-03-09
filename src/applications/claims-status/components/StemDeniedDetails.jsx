@@ -12,9 +12,9 @@ const StemDeniedDetails = ({
     <>
       <h1>Your Edith Nourse Rogers STEM Scholarship Application</h1>
       <div className="vads-u-background-color--primary-alt-lightest vads-u-padding--2 vads-u-margin-bottom--3">
-        <h3 className="claims-alert-header vads-u-font-size--h4">
+        <h2 className="claims-alert-header vads-u-font-size--h4">
           Your application was denied on {date}.
-        </h3>
+        </h2>
       </div>
       <h2 className="vads-u-font-family--sans vads-u-margin-y--0">
         Why we denied your claim
