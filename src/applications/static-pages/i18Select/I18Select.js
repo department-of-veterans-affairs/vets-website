@@ -30,11 +30,11 @@ const I18Select = ({ baseUrls }) => {
     if (contentDiv) {
       contentDiv.setAttribute('lang', 'en');
     }
-    for (const [key, value] of Object.entries(langsToLinkSuffixes)) {
-      if (document?.location.href.endsWith(value)) {
-        setLang(key);
+    for (const [langCode, suffix] of Object.entries(langsToLinkSuffixes)) {
+      if (document?.location.href.endsWith(suffix)) {
+        setLang(langCode);
         if (contentDiv) {
-          contentDiv.setAttribute('lang', key);
+          contentDiv.setAttribute('lang', langCode);
         }
       }
     }
