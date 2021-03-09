@@ -673,12 +673,10 @@ module.exports = function registerFilters() {
       },
     } = fieldTags;
 
-    const topics = fieldTopics.map(topic => {
-      return {
-        ...topic.entity,
-        categoryLabel: 'Topics',
-      };
-    });
+    const topics = fieldTopics.map(topic => ({
+      ...topic.entity,
+      categoryLabel: 'Topics',
+    }));
 
     const audiences = [
       fieldAudienceBeneficiares?.entity,
