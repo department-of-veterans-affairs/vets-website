@@ -331,24 +331,6 @@ const createFakeStopCodeStore = (stopCode = '323') => {
   };
 };
 
-const createFakeFooterStore = (clinic = {}, clinicFriendlyName = '') => {
-  return {
-    getState: () => ({
-      questionnaireData: {
-        context: {
-          appointment: {
-            attributes: {
-              clinicFriendlyName,
-              vdsAppointments: [{ clinic }],
-            },
-          },
-        },
-      },
-    }),
-    subscribe: () => {},
-    dispatch: () => ({}),
-  };
-};
 export {
   createFakeUserStore,
   createFakeReasonForVisitDescriptionStore,
@@ -358,5 +340,4 @@ export {
   createFakeStopCodeStore,
   createFakeExpiresAtStore,
   createFakeHiddenFieldStore,
-  createFakeFooterStore,
 };
