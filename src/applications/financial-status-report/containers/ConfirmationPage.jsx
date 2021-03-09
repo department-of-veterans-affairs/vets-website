@@ -18,7 +18,7 @@ const scrollToTop = () => {
 };
 
 const RequestDetailsCard = ({ data, response, download }) => {
-  const name = data.personalData?.fullName;
+  const name = data.personalData?.veteranFullName;
 
   return (
     <div className="inset">
@@ -35,7 +35,7 @@ const RequestDetailsCard = ({ data, response, download }) => {
           <strong>Requested repayment or relief options</strong>
         </p>
         <ul>
-          {data.fsrDebts.map((debt, index) => (
+          {data.fsrDebts?.map((debt, index) => (
             <li key={index}>
               {debt.resolution.resolutionType} for{' '}
               {deductionCodes[debt.deductionCode]}{' '}

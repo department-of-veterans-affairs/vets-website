@@ -13,6 +13,7 @@ export const SET_SUBMISSION = 'SET_SUBMISSION';
 export const SET_SUBMITTED = 'SET_SUBMITTED';
 export const OPEN_REVIEW_CHAPTER = 'OPEN_REVIEW_CHAPTER';
 export const CLOSE_REVIEW_CHAPTER = 'CLOSE_REVIEW_CHAPTER';
+export const SET_FORM_ERRORS = 'SET_FORM_ERRORS';
 
 export function closeReviewChapter(closedChapter, pageKeys = []) {
   return {
@@ -76,6 +77,15 @@ export function setViewedPages(pageKeys) {
   return {
     type: SET_VIEWED_PAGES,
     pageKeys,
+  };
+}
+
+export function setFormErrors(errors) {
+  // See platform/forms-system/src/js/utilities/data/reduceErrors.js for
+  // data structure
+  return {
+    type: SET_FORM_ERRORS,
+    data: errors,
   };
 }
 

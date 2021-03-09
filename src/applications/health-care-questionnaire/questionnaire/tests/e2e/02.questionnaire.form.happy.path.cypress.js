@@ -27,7 +27,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.findAllByText(/start/i, { selector: 'button' })
             .first()
-            .click();
+            .click({ waitForAnimations: true });
         });
       },
       demographics: ({ afterHook }) => {
@@ -37,7 +37,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.findAllByText(/continue/i, { selector: 'button' })
             .first()
-            .click();
+            .click({ waitForAnimations: true });
         });
       },
       // 'reason-for-visit': ({afterHook}) => {  },

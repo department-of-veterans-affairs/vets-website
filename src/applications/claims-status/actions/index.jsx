@@ -29,6 +29,9 @@ export const SET_CLAIMS = 'SET_CLAIMS';
 export const SET_APPEALS = 'SET_APPEALS';
 export const FETCH_CLAIMS = 'FETCH_CLAIMS';
 export const FETCH_APPEALS = 'FETCH_APPEALS';
+export const FETCH_STEM_CLAIMS_PENDING = 'FETCH_STEM_CLAIMS_PENDING';
+export const FETCH_STEM_CLAIMS_SUCCESS = 'FETCH_STEM_CLAIMS_SUCCESS';
+export const FETCH_STEM_CLAIMS_ERROR = 'FETCH_STEM_CLAIMS_ERROR';
 export const FILTER_CLAIMS = 'FILTER_CLAIMS';
 export const SORT_CLAIMS = 'SORT_CLAIMS';
 export const CHANGE_CLAIMS_PAGE = 'CHANGE_CLAIMS_PAGE';
@@ -561,5 +564,35 @@ export function setLastPage(page) {
 export function hide30DayNotice() {
   return {
     type: HIDE_30_DAY_NOTICE,
+  };
+}
+
+export function getStemClaims() {
+  return dispatch => {
+    dispatch({ type: FETCH_STEM_CLAIMS_PENDING });
+
+    makeAuthRequest(
+      '/v0/education_benefits_claims/stem_claim_status',
+      null,
+      dispatch,
+      response => {
+        const stemClaims = response.data.map(claim => {
+          return {
+            ...claim,
+            attributes: {
+              ...claim.attributes,
+              claimType: 'STEM',
+              phaseChangeDate: claim.attributes.submittedAt,
+            },
+          };
+        });
+
+        dispatch({
+          type: FETCH_STEM_CLAIMS_SUCCESS,
+          stemClaims,
+        });
+      },
+      () => dispatch({ type: FETCH_STEM_CLAIMS_ERROR }),
+    );
   };
 }

@@ -7,6 +7,9 @@ import { VA_FORM_IDS } from '~/platform/forms/constants';
 function createDefaultData() {
   return {
     attributes: {
+      account: {
+        accountUuid: 'user-1234',
+      },
       profile: {
         sign_in: {
           service_name: 'idme',
@@ -85,6 +88,20 @@ describe('Profile utilities', () => {
       });
 
       expect(mappedData.status).to.equal(data.attributes.va_profile.status);
+    });
+
+    it('should map account UUID', () => {
+      const data = createDefaultData();
+      const mappedData = mapRawUserDataToState({
+        data,
+        meta: {
+          errors: null,
+        },
+      });
+
+      expect(mappedData.accountUuid).to.deep.equal(
+        data.attributes.account.accountUuid,
+      );
     });
 
     it('should map veteran status', () => {

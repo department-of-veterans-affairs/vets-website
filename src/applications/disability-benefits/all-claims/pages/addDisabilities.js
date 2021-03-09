@@ -15,6 +15,7 @@ import {
   validateDisabilityName,
   requireDisability,
   limitNewDisabilities,
+  missingConditionMessage,
 } from '../validations';
 import {
   newConditionsOnly,
@@ -35,7 +36,7 @@ export const uiSchema = {
     'ui:options': {
       viewField: NewDisability,
       reviewTitle: 'New Conditions',
-      errorKey: 'condition',
+      duplicateKey: 'condition',
       itemName: 'Condition',
       itemAriaLabel: data => data.condition,
       includeRequiredLabelInTitle: true,
@@ -78,8 +79,7 @@ export const uiSchema = {
           'ui:validations': [validateDisabilityName, limitNewDisabilities],
           'ui:required': () => true,
           'ui:errorMessages': {
-            required:
-              'Please enter a condition or select one from the suggested list',
+            required: missingConditionMessage,
           },
         },
       ),

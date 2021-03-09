@@ -1,3 +1,7 @@
+/**
+ * @module services/Location/transformers
+ */
+
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import { VHA_FHIR_ID } from '../../utils/constants';

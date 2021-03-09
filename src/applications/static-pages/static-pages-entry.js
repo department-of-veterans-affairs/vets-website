@@ -72,6 +72,9 @@ import createThirdPartyApps, {
 } from '../third-party-app-directory/createThirdPartyApps';
 import initTranslation from './translation';
 
+import createDependencyVerification from './dependency-verification/createDependencyVerification';
+import dependencyVerificationReducer from './dependency-verification/reducers/index';
+
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
 
@@ -83,6 +86,7 @@ const store = createCommonStore({
   ...findVaFormsWidgetReducer,
   ...post911GIBillStatusReducer,
   ...thirdPartyAppsReducer,
+  ...dependencyVerificationReducer,
 });
 
 Sentry.withScope(scope => {
@@ -190,6 +194,8 @@ createViewTestAndLabResultsPage(
 createChapter36CTA(store, widgetTypes.CHAPTER_36_CTA);
 createChapter31CTA(store, widgetTypes.CHAPTER_31_CTA);
 createViewPaymentHistoryCTA(store, widgetTypes.VIEW_PAYMENT_HISTORY);
+
+createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
 
 // homepage widgets
 if (location.pathname === '/') {

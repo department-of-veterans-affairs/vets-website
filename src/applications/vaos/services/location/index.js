@@ -1,3 +1,6 @@
+/**
+ * @module services/Location
+ */
 import environment from 'platform/utilities/environment';
 
 /*
@@ -28,6 +31,7 @@ import { calculateBoundingBox } from '../../utils/address';
  * Fetch facility information for the facilities in the given site, based on type of care
  *
  * @export
+ * @async
  * @param {Object} locationsParams Parameters needed for fetching locations
  * @param {String} locationParams.siteId A VistA site id for the locations being pulled
  * @param {String} locationParams.parentId An id for the parent organization of the facilities being pulled
@@ -65,6 +69,7 @@ export async function getSupportedLocationsByTypeOfCare({
  * Fetch list of facilities
  *
  * @export
+ * @async
  * @param {Object} locationsParams Parameters needed for fetching locations
  * @param {Array} locationParams.facilityIds A list of va facility ids to fetch
  * @returns {Object} A FHIR searchset of Location resources
@@ -87,6 +92,7 @@ export async function getLocations({ facilityIds }) {
  * Fetch facility information for the given site
  *
  * @export
+ * @async
  * @param {Object} locationsParams Parameters needed for fetching locations
  * @param {Array} locationParams.facilityId An id for the facility to fetch info for
  * @returns {Object} A FHIR Location resource
@@ -104,7 +110,17 @@ export async function getLocation({ facilityId }) {
     throw e;
   }
 }
-
+/**
+ * Returns facilities with current settings for both direct scheduling
+ * and requests for all types of care
+ *
+ * @export
+ * @async
+ * @param {Object} params
+ * @param {Array<string>} siteIds A list of 3 digit site ids to retrieve the settings for
+ * @param {boolean} directSchedulingEnabled If we need to fetch direct scheduling settings as well
+ * @returns {Array<Location>} An array of Locations with settings included
+ */
 export async function getLocationsByTypeOfCareAndSiteIds({
   siteIds,
   directSchedulingEnabled,
@@ -224,6 +240,7 @@ export function formatFacilityAddress(facility) {
  * Fetch community care providers by location and type of care
  *
  * @export
+ * @async
  * @param {Object} locationsParams Parameters needed for fetching providers
  * @param {Object} locationParams.address The address in VA Profile format to search nearby
  * @param {Object} locationParams.typeOfCare Type of care data to use when searching for providers

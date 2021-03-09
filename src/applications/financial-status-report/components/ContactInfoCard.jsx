@@ -7,7 +7,7 @@ const ContactInfoCard = ({
   addressLine2,
   city,
   stateCode,
-  zipCode,
+  postalCode,
   country,
   edit,
 }) => {
@@ -20,7 +20,7 @@ const ContactInfoCard = ({
         <p className="vads-u-margin--1px">{addressLine1}</p>
         <p className="vads-u-margin--1px">{addressLine2}</p>
         <p className="vads-u-margin--1px">
-          {city}, {stateCode} {zipCode}
+          {city}, {stateCode} {postalCode}
         </p>
         <p className="vads-u-margin--1px">{country}</p>
       </div>
@@ -36,7 +36,7 @@ ContactInfoCard.propTypes = {
   addressLine2: PropTypes.string,
   city: PropTypes.string,
   stateCode: PropTypes.string,
-  zipCode: PropTypes.string,
+  postalCode: PropTypes.string,
   country: PropTypes.string,
 };
 
@@ -45,7 +45,7 @@ const mapStateToProps = ({ form }) => ({
   addressLine2: form.data.mailingAddress?.addressLine2,
   city: form.data.mailingAddress?.city,
   stateCode: form.data.mailingAddress?.stateCode,
-  zipCode: form.data.mailingAddress?.zipCode,
+  postalCode: form.data.mailingAddress?.postalCode,
   country: form.data.mailingAddress?.country,
 });
 

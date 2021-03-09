@@ -81,6 +81,7 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
+        title: 'Vehicle',
         required: ['vehicleType', 'vehicleAmount'],
         properties: {
           vehicleType: {
