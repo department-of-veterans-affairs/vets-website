@@ -109,13 +109,18 @@ const ResourcesAndSupportSearchApp = () => {
 
         {articles && (
           <>
-            <h1>Search results</h1>
+            <h1 className="vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
+              Search results
+            </h1>
             <SearchBar
               onSearch={onSearch}
               userInput={userInput}
               onInputChange={setUserInput}
             />
-            <p className="vads-u-padding-x--1p5" id="pagination-summary">
+            <p
+              className="vads-u-padding-x--1 large-screen:vads-u-padding-x--0"
+              id="pagination-summary"
+            >
               {paginationSummary}
             </p>
             <SearchResultList

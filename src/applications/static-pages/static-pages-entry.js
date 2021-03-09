@@ -14,6 +14,7 @@ import createFacilityPage from './facilities/createFacilityPage';
 import widgetTypes from './widgetTypes';
 import subscribeAdditionalInfoEvents from './subscribeAdditionalInfoEvents';
 import subscribeAccordionEvents from './subscribeAccordionEvents';
+import subscribeComponentAnalyticsEvents from './subscribeComponentAnalyticsEvents';
 import createApplicationStatus from './createApplicationStatus';
 import createCallToActionWidget from './createCallToActionWidget';
 import createMyVALoginWidget from './createMyVALoginWidget';
@@ -71,6 +72,9 @@ import createThirdPartyApps, {
 } from '../third-party-app-directory/createThirdPartyApps';
 import initTranslation from './translation';
 
+import createDependencyVerification from './dependency-verification/createDependencyVerification';
+import dependencyVerificationReducer from './dependency-verification/reducers/index';
+
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
 
@@ -82,6 +86,7 @@ const store = createCommonStore({
   ...findVaFormsWidgetReducer,
   ...post911GIBillStatusReducer,
   ...thirdPartyAppsReducer,
+  ...dependencyVerificationReducer,
 });
 
 Sentry.withScope(scope => {
@@ -92,6 +97,8 @@ Sentry.withScope(scope => {
 subscribeAdditionalInfoEvents();
 
 subscribeAccordionEvents();
+
+subscribeComponentAnalyticsEvents();
 
 createApplicationStatus(store, {
   formId: VA_FORM_IDS.FORM_21P_527EZ,
@@ -187,6 +194,8 @@ createViewTestAndLabResultsPage(
 createChapter36CTA(store, widgetTypes.CHAPTER_36_CTA);
 createChapter31CTA(store, widgetTypes.CHAPTER_31_CTA);
 createViewPaymentHistoryCTA(store, widgetTypes.VIEW_PAYMENT_HISTORY);
+
+createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
 
 // homepage widgets
 if (location.pathname === '/') {

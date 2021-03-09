@@ -10,6 +10,7 @@ import { focusElement } from '~/platform/utilities/ui';
 import {
   isLOA3 as isLOA3Selector,
   isLOA1 as isLOA1Selector,
+  isVAPatient as isVAPatientSelector,
 } from '~/platform/user/selectors';
 import RequiredLoginView, {
   RequiredLoginLoader,
@@ -96,8 +97,8 @@ const Dashboard = ({
                 totalDisabilityRating={props.totalDisabilityRating}
               />
             )}
-            <div className="vads-l-grid-container medium-screen:vads-u-padding--2 small-desktop-screen:vads-u-padding--0">
-              <Breadcrumbs>
+            <div className="vads-l-grid-container vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4 small-desktop-screen:vads-u-padding-x--0">
+              <Breadcrumbs className="vads-u-padding-x--0 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
                 <a href="/" key="home">
                   Home
                 </a>
@@ -136,6 +137,7 @@ const mapStateToProps = state => {
   const { isReady: hasLoadedScheduledDowntime } = state.scheduledDowntime;
   const isLOA3 = isLOA3Selector(state);
   const isLOA1 = isLOA1Selector(state);
+  const isVAPatient = isVAPatientSelector(state);
   const hero = state.vaProfile?.hero;
   const hasLoadedMilitaryInformation = state.vaProfile?.militaryInformation;
   const hasLoadedFullName = !!hero;
@@ -157,7 +159,7 @@ const mapStateToProps = state => {
   // available. And we will need to show the health care section if they are a
   // patient and/or have rx or msg services available
   const showClaimsAndAppeals = isLOA3;
-  const showHealthCare = isLOA3;
+  const showHealthCare = isLOA3 && isVAPatient;
 
   return {
     isLOA3,

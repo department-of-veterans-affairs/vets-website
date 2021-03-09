@@ -9,6 +9,8 @@ import PreSubmitSignature from '../components/PreSubmitSignature';
 import { prefillTransformer } from '../utils/prefillTransformer';
 import * as pages from '../pages';
 import moment from 'moment';
+import SubmissionError from '../components/SubmissionError';
+import { WIZARD_STATUS } from '../wizard/constants';
 
 const submit = () => {
   return Promise.resolve(
@@ -22,11 +24,12 @@ const formConfig = {
   submit,
   submitUrl: `${environment.API_URL}/v0/api`,
   trackingPrefix: 'fsr-5655-',
+  wizardStorageKey: WIZARD_STATUS,
   verifyRequiredPrefill: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: PreSubmitSignature,
-  submissionError: '',
+  submissionError: SubmissionError,
   formId: VA_FORM_IDS.FORM_5655,
   version: 0,
   prefillEnabled: true,
@@ -67,7 +70,7 @@ const formConfig = {
           schema: pages.veteranInfo.schema,
           initialData: {
             personalData: {
-              fullName: {
+              veteranFullName: {
                 first: 'Hector',
                 last: 'Smith',
                 middle: 'R',
@@ -75,8 +78,8 @@ const formConfig = {
               dateOfBirth: '01/01/1970',
             },
             personalIdentification: {
-              sSn: '1234',
-              vaFileNumber: '5678',
+              ssn: '1234',
+              fileNumber: 5678,
             },
           },
         },
@@ -100,13 +103,13 @@ const formConfig = {
             contactInfo: {
               primaryEmail: 'hector.smith@email.com',
               confirmationEmail: 'hector.smith@email.com',
-              phoneNumber: '5551234567',
+              telephoneNumber: '5551234567',
             },
             mailingAddress: {
               country: 'United States',
               city: 'Tampa',
               state: 'FL',
-              zipCode: '33614',
+              postalCode: '33614',
               addressLine1: '1234 W Nebraska St',
             },
           },

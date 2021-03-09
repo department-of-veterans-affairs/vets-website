@@ -20,10 +20,13 @@ import {
   setSelectedAppointmentData,
   getSelectedAppointmentData,
   clearSelectedAppointmentData,
+  clearAllSelectedAppointments,
+  getCurrentQuestionnaire,
 } from './session.utils';
 
 export {
   addAppointmentIdToFormId,
+  clearAllSelectedAppointments,
   clearCurrentSession,
   clearSelectedAppointmentData,
   getAppointTypeFromAppointment,
@@ -33,6 +36,7 @@ export {
   getBookingNoteFromAppointment,
   getClinicFromAppointment,
   getCurrentAppointmentId,
+  getCurrentQuestionnaire,
   getFacilityFromAppointment,
   getSelectedAppointmentData,
   onFormEnter,

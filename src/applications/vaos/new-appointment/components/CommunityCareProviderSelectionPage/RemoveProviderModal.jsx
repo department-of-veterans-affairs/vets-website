@@ -38,13 +38,7 @@ export default function RemoveProviderModal({ onClose, provider, address }) {
   );
 
   return (
-    <Modal
-      id="removeProviderModal"
-      visible
-      onClose={onClose}
-      title={title}
-      hideCloseButton
-    >
+    <Modal id="removeProviderModal" visible onClose={onClose} title={title}>
       {content}
     </Modal>
   );

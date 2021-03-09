@@ -44,7 +44,7 @@ import {
   isUndefined,
   isDisabilityPtsd,
   confirmationEmailFeature,
-} from '../utils.jsx';
+} from '../utils';
 
 describe('526 helpers', () => {
   describe('hasGuardOrReservePeriod', () => {
@@ -1152,7 +1152,7 @@ describe('526 v2 depends functions', () => {
       expect(check('a', '2020-01-31', '2020-02-14')).to.be.true;
       expect(check('a', `${minYear}-01-31`, `${maxYear}-02-14`)).to.be.true;
     });
-    it.skip('should return false when a service period data is invalid', () => {
+    it('should return false when a service period data is invalid', () => {
       expect(check('', '2020-01-31', '2020-02-14')).to.be.false;
       expect(check('a', 'XXXX-01-31', '2020-02-14')).to.be.false;
       expect(check('a', '2020-XX-31', '2020-02-14')).to.be.false;

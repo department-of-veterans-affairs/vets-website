@@ -1,3 +1,7 @@
+/**
+ * @module services/Slot/transformers
+ */
+
 import moment from 'moment';
 import { FREE_BUSY_TYPES } from '../../utils/constants';
 

@@ -108,13 +108,13 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
 
     recordEvent({
       event: 'view_search_results', // remains consistent, push this event with each search
-      'search-dropdown-used': false,
       'search-page-path': '/find-forms', // populate with '/find-forms', remains consistent for all searches from find-forms page
       'search-query': query, // populate with full query user used to execute search
       'search-results-total-count': resultsDetails?.results?.length, // populate with total number of search results returned
       'search-results-total-pages': totalPages, // populate with total number of search result pages returned
       'search-selection': 'Find forms', // populate with 'Find forms' for all searches from /find-forms page
       'search-typeahead-enabled': false, // populate with boolean false, remains consistent since type ahead won't feature here
+      'sitewide-search-app-used': false, // this is not the sitewide search app
       'type-ahead-option-keyword-selected': undefined, // populate with undefined since type ahead won't feature here
       'type-ahead-option-position': undefined, // populate with undefined since type ahead won't feature here
       'type-ahead-options-list': undefined, // populate with undefined since type ahead won't feature here

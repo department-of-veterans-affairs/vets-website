@@ -380,7 +380,6 @@
           {
             "id": "502",
             "typeOfCare": "Outpatient Mental Health",
-            "patientHistoryRequired": "No",
             "patientHistoryDuration": 0,
             "stopCodes": [
               {
@@ -842,7 +841,6 @@
           {
             "id": "502",
             "typeOfCare": "Outpatient Mental Health",
-            "patientHistoryRequired": "No",
             "patientHistoryDuration": 0,
             "stopCodes": [
               {

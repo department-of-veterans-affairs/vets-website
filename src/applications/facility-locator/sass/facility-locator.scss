@@ -11,12 +11,11 @@ $facility-locator-color-gray: #ccc;
 $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
 .facility-locator {
-
-  @media(max-width: $large-screen) {
+  @media (max-width: $large-screen) {
     margin: 0 12px;
   }
 
-  @media(max-width: $small-screen) {
+  @media (max-width: $small-screen) {
     margin: 0;
   }
 
@@ -74,7 +73,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
   .facility-result {
     padding: 22px 4px 34px;
-    background: $color-white ;
+    background: $color-white;
     border-top: solid 2px $color-gray-lighter;
     border-bottom: none;
 
@@ -115,7 +114,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 
   @media screen and (max-width: $small-screen) {
-    .facility-result+.facility-result {
+    .facility-result + .facility-result {
       border-top: solid 1px $color-gray-light;
     }
   }
@@ -162,7 +161,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     }
   }
 
-  .react-tabs [role=tab][aria-selected=true] {
+  .react-tabs [role="tab"][aria-selected="true"] {
     border-left-color: $color-black;
     border-right-color: $color-black;
   }
@@ -171,7 +170,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     padding: 0;
   }
 
-  .react-tabs__tab+.react-tabs__tab {
+  .react-tabs__tab + .react-tabs__tab {
     border-left: none;
   }
 
@@ -256,23 +255,26 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
       display: flex;
       flex-direction: column;
 
-      input, textarea, select {
+      input,
+      textarea,
+      select {
         max-width: none;
         margin-bottom: 24px;
+        padding: 0 0.7em;
 
-        @media(min-width: $small-desktop-screen) {
+        @media (min-width: $small-desktop-screen) {
           max-width: 418px;
           width: 418px;
           margin-right: 18px;
         }
       }
 
-      input[type=submit] {
+      input[type="submit"] {
         width: 100%;
         padding: 0 1rem;
         margin-top: 0;
 
-        @media(min-width: $small-desktop-screen) {
+        @media (min-width: $small-desktop-screen) {
           margin-top: 27px;
           min-width: 67px;
           width: auto;
@@ -283,7 +285,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         display: flex;
         flex-direction: column;
 
-        @media(min-width: $small-desktop-screen) {
+        @media (min-width: $small-desktop-screen) {
           flex-direction: row;
         }
       }
@@ -292,7 +294,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         text-decoration: none;
         margin: 0 0 0 20px;
 
-        @media(max-width: $small-desktop-screen) {
+        @media (max-width: $small-desktop-screen) {
           margin: 1em 0 1em 0;
         }
       }
@@ -307,13 +309,12 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
       }
 
       #search-controls-bottom-row {
-        @media(min-width: $small-desktop-screen) {
+        @media (min-width: $small-desktop-screen) {
           display: flex;
           flex-direction: row;
         }
       }
     }
-
   }
 
   .facility-detail {
@@ -378,6 +379,13 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 }
 
+// Prevent error message div from colliding with facility-type
+#service-error {
+  @media (min-width: $small-desktop-screen) {
+    right: 0px;
+  }
+}
+
 #service-typeahead {
   border-radius: 0;
   box-sizing: border-box;
@@ -411,7 +419,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     width: 100%;
     z-index: 1010;
 
-    @media(min-width: $small-desktop-screen) {
+    @media (min-width: $small-desktop-screen) {
       width: 418px;
     }
 
@@ -481,7 +489,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     color: $facility-locator-color-info-bubble-text;
   }
 
-
   h6 {
     font-size: 1.6rem !important;
     line-height: 1.9rem;
@@ -523,7 +530,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   padding-top: 1px;
   width: 24px;
   height: 24px;
- }
+}
 
 .notice-marg-pad {
   padding: 0.5rem !important;
@@ -548,7 +555,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   margin: 22px auto;
   clear: both;
 
-  @media(max-width: $small-screen) {
+  @media (max-width: $small-screen) {
     width: 260px;
     white-space: pre-line;
   }
@@ -569,7 +576,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   color: $color-white;
   font-family: $font-sans;
 
-  @media(max-width: $small-screen) {
+  @media (max-width: $small-screen) {
     width: 235px;
     height: 43px;
   }
@@ -590,13 +597,13 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   margin: 15px 0 0 15px;
 }
 
-button.mapboxgl-ctrl-zoom-in  {
+button.mapboxgl-ctrl-zoom-in {
   margin-top: 0;
   margin-bottom: 0;
   margin-right: 0;
 }
 
-button.mapboxgl-ctrl-zoom-out  {
+button.mapboxgl-ctrl-zoom-out {
   margin-top: 0;
   margin-bottom: 0;
   margin-right: 0;
@@ -617,18 +624,24 @@ canvas.mapboxgl-canvas:focus {
 
   .clear-button {
     position: absolute;
-    top: 14px;
+    top: 95px;
     right: 10px;
 
     @media only screen and (min-width: 980px) {
       right: 26px;
-      top: 16px;
+      top: 38px;
     }
   }
-
 }
 
 #street-city-state-zip {
   font-weight: bold;
   padding-right: 28px;
+}
+
+// Make focus styles on the Medallia 'Feedback' button consistent with focus styles in the survey
+.nebula_image_button.wcagOutline:focus {
+  outline: 2px solid rgb(249, 198, 66) !important;
+  outline-offset: 2px !important;
+  transition: none !important;
 }

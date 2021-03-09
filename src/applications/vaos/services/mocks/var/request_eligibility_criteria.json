@@ -90,7 +90,6 @@
           {
             "id": "502",
             "typeOfCare": "Outpatient Mental Health",
-            "patientHistoryRequired": "No",
             "patientHistoryDuration": 730,
             "stopCodes": [
               { "primary": "502", "secondary": "125" },
@@ -273,7 +272,6 @@
           {
             "id": "502",
             "typeOfCare": "Outpatient Mental Health",
-            "patientHistoryRequired": "No",
             "patientHistoryDuration": 365,
             "stopCodes": [
               { "primary": "502", "secondary": "125" },
@@ -427,7 +425,6 @@
           {
             "id": "502",
             "typeOfCare": "Outpatient Mental Health",
-            "patientHistoryRequired": "No",
             "patientHistoryDuration": 730,
             "stopCodes": [
               { "primary": "502", "secondary": "125" },
@@ -581,7 +578,6 @@
           {
             "id": "502",
             "typeOfCare": "Outpatient Mental Health",
-            "patientHistoryRequired": "No",
             "patientHistoryDuration": 730,
             "stopCodes": [
               { "primary": "502", "secondary": "125" },
@@ -918,6 +914,7 @@
           {
             "id": "502",
             "typeOfCare": "Outpatient Mental Health",
+            "patientHistoryRequired": "Yes",
             "patientHistoryDuration": 0,
             "stopCodes": [
               { "primary": "502", "secondary": "125" },
@@ -1044,7 +1041,6 @@
           {
             "id": "502",
             "typeOfCare": "Outpatient Mental Health",
-            "patientHistoryRequired": "Yes",
             "patientHistoryDuration": 730,
             "stopCodes": [
               { "primary": "502", "secondary": "125" },
@@ -1204,7 +1200,6 @@
           {
             "id": "502",
             "typeOfCare": "Outpatient Mental Health",
-            "patientHistoryRequired": "Yes",
             "patientHistoryDuration": 730,
             "stopCodes": [
               { "primary": "502", "secondary": "125" },
@@ -1358,7 +1353,6 @@
           {
             "id": "502",
             "typeOfCare": "Outpatient Mental Health",
-            "patientHistoryRequired": "Yes",
             "patientHistoryDuration": 730,
             "stopCodes": [
               { "primary": "502", "secondary": "125" },

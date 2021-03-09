@@ -108,10 +108,10 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
         'search-total-result-pages': Math.ceil(
           response.results.length / perPage,
         ),
+        'sitewide-search-app-used': false,
         'type-ahead-option-keyword-selected': undefined,
         'type-ahead-option-position': undefined,
         'type-ahead-options-list': undefined,
-        'search-dropdown-used': !!state,
       });
     }
 

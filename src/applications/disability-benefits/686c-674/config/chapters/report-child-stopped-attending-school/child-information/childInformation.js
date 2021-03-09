@@ -2,7 +2,10 @@ import merge from 'lodash/merge';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import { TASK_KEYS } from '../../../constants';
-import { isChapterFieldRequired } from '../../../helpers';
+import {
+  isChapterFieldRequired,
+  PensionIncomeRemovalQuestionTitle,
+} from '../../../helpers';
 import {
   validateName,
   reportChildStoppedAttendingSchool,
@@ -68,6 +71,10 @@ export const uiSchema = {
             TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
           ),
       },
+    },
+    dependentIncome: {
+      'ui:title': PensionIncomeRemovalQuestionTitle,
+      'ui:widget': 'yesNo',
     },
   },
 };

@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import classNames from 'classnames';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import CalendarRow from './CalendarRow';
 import CalendarNavigation from './CalendarNavigation';
 import CalendarWeekdayHeader from './CalendarWeekdayHeader';
-import { FETCH_STATUS } from '../../utils/constants';
 
 const DEFAULT_MAX_DAYS_AHEAD = 90;
 
@@ -140,8 +138,8 @@ export default function CalendarWidget({
   additionalOptions,
   availableSlots,
   id,
-  loadingErrorMessage,
-  loadingStatus,
+  disabled,
+  disabledMessage,
   maxDate,
   maxSelections = 1,
   minDate,
@@ -149,7 +147,7 @@ export default function CalendarWidget({
   onClickNext,
   onClickPrev,
   renderOptions,
-  selectedIndicatorType,
+  renderIndicator,
   startMonth,
   timezone,
   validationError,
@@ -169,13 +167,10 @@ export default function CalendarWidget({
   const showError = validationError?.length > 0;
 
   const calendarCss = classNames('vaos-calendar__calendars vads-u-flex--1', {
-    'vaos-calendar__loading': loadingStatus === FETCH_STATUS.loading,
+    'vaos-calendar__disabled': disabled,
     'usa-input-error': showError,
   });
 
-  if (loadingStatus === FETCH_STATUS.failed) {
-    return loadingErrorMessage;
-  }
   // declare const from renderMonth here
   const nextMonthToDisplay = months[months.length - 1]
     ?.clone()
@@ -183,15 +178,13 @@ export default function CalendarWidget({
     .format('YYYY-MM');
 
   const prevDisabled =
-    months[0].format('YYYY-MM') <= currentDate.format('YYYY-MM');
-  const nextDisabled = nextMonthToDisplay > maxMonth;
+    disabled || months[0].format('YYYY-MM') <= currentDate.format('YYYY-MM');
+  const nextDisabled = disabled || nextMonthToDisplay > maxMonth;
+
   return (
     <div className="vaos-calendar vads-u-margin-top--4 vads-u-display--flex">
-      {(loadingStatus === FETCH_STATUS.loading ||
-        loadingStatus === FETCH_STATUS.notStarted) && (
-        <div className="vaos-calendar__loading-overlay">
-          <LoadingIndicator message="Finding appointment availability..." />
-        </div>
+      {disabled && (
+        <div className="vaos-calendar__disabled-overlay">{disabledMessage}</div>
       )}
       <div className={calendarCss}>
         {showError && (
@@ -228,7 +221,6 @@ export default function CalendarWidget({
                   <hr aria-hidden="true" className="vads-u-margin-y--1" />
                   <CalendarWeekdayHeader />
                   <div role="rowgroup">
-                    {/* replace renderWeeks function here */}
                     {getCalendarWeeks(month).map((week, weekIndex) => (
                       <CalendarRow
                         additionalOptions={additionalOptions}
@@ -271,8 +263,9 @@ export default function CalendarWidget({
                         minDate={minDate}
                         rowNumber={weekIndex}
                         selectedDates={value}
-                        selectedIndicatorType={selectedIndicatorType}
+                        renderIndicator={renderIndicator}
                         renderOptions={renderOptions}
+                        disabled={disabled}
                       />
                     ))}
                   </div>
@@ -293,7 +286,8 @@ CalendarWidget.propTypes = {
       end: PropTypes.string,
     }),
   ),
-  loadingStatus: PropTypes.string,
+  disabled: PropTypes.bool,
+  disabledMessage: PropTypes.object,
   minDate: PropTypes.string, // YYYY-MM-DD
   maxDate: PropTypes.string, // YYYY-MM-DD
   maxSelections: PropTypes.number,
@@ -302,6 +296,7 @@ CalendarWidget.propTypes = {
   onClickNext: PropTypes.func,
   onClickPrev: PropTypes.func,
   validationError: PropTypes.string,
+  renderIndicator: PropTypes.func,
   renderOptions: PropTypes.func,
   id: PropTypes.string.isRequired,
   timezone: PropTypes.string, // America/Denver

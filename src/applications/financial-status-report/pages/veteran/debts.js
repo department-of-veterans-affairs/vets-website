@@ -1,11 +1,19 @@
 import AvailableDebts from '../../components/AvailableDebts';
 
 export const uiSchema = {
-  'ui:title': 'Available Debts',
-  'ui:description': '',
   'ui:field': AvailableDebts,
   fsrDebts: {
-    'ui:title': ' ',
+    items: {
+      fileNumber: {
+        'ui:title': 'File number',
+      },
+      benefitType: {
+        'ui:title': 'Benefit type',
+      },
+      diaryCodeDescription: {
+        'ui:title': 'Description',
+      },
+    },
   },
 };
 
@@ -14,11 +22,21 @@ export const schema = {
   properties: {
     fsrDebts: {
       type: 'array',
-      title: ' ',
       minItems: 0,
       items: {
         type: 'object',
-        properties: {},
+        title: 'Debt',
+        properties: {
+          fileNumber: {
+            type: 'number',
+          },
+          benefitType: {
+            type: 'string',
+          },
+          diaryCodeDescription: {
+            type: 'string',
+          },
+        },
       },
     },
   },

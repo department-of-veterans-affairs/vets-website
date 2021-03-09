@@ -285,7 +285,7 @@ class ContactInformationField extends React.Component {
               fieldName,
               data: this.props.data,
               showSMSCheckbox: this.props.showSMSCheckbox,
-              editViewData: this.props.editViewData,
+              modalData: this.props.editViewData,
             })
           }
           hasValidationError={this.props.hasValidationError}

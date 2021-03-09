@@ -25,6 +25,8 @@ import {
   FETCH_FACILITY_LIST_DATA_SUCCEEDED,
   FETCH_CONFIRMED_DETAILS,
   FETCH_CONFIRMED_DETAILS_SUCCEEDED,
+  FETCH_CONFIRMED_DETAILS_FAILED,
+  FETCH_REQUEST_DETAILS_FAILED,
 } from './actions';
 
 import {
@@ -61,7 +63,6 @@ const initialState = {
   pastSelectedIndex: 0,
   showCancelModal: false,
   cancelAppointmentStatus: FETCH_STATUS.notStarted,
-  currentAppointment: null,
   appointmentDetails: {},
   appointmentDetailsStatus: FETCH_STATUS.notStarted,
   appointmentToCancel: null,
@@ -162,28 +163,45 @@ export default function appointmentsReducer(state = initialState, action) {
         facilityData,
       };
     }
-    case (FETCH_REQUEST_DETAILS, FETCH_CONFIRMED_DETAILS): {
+    case FETCH_CONFIRMED_DETAILS:
+    case FETCH_REQUEST_DETAILS: {
       return {
         ...state,
         appointmentDetailsStatus: FETCH_STATUS.loading,
       };
     }
-    case (FETCH_REQUEST_DETAILS_SUCCEEDED, FETCH_CONFIRMED_DETAILS_SUCCEEDED): {
+    case FETCH_CONFIRMED_DETAILS_FAILED:
+    case FETCH_REQUEST_DETAILS_FAILED: {
       return {
         ...state,
-        ...state.appointmentDetails,
-        currentAppointment: action.appointment,
+        appointmentDetailsStatus: FETCH_STATUS.failed,
+      };
+    }
+    case FETCH_CONFIRMED_DETAILS_SUCCEEDED:
+    case FETCH_REQUEST_DETAILS_SUCCEEDED: {
+      const newState = {
+        ...state,
         appointmentDetails: {
+          ...state.appointmentDetails,
           [action.id]: action.appointment,
         },
         appointmentDetailsStatus: FETCH_STATUS.succeeded,
       };
+
+      if (action.facility) {
+        newState.facilityData = {
+          ...state.facilityData,
+          [action.facility.id]: action.facility,
+        };
+      }
+
+      return newState;
     }
     case FETCH_REQUEST_MESSAGES_SUCCEEDED: {
       const requestMessages = { ...state.requestMessages };
       const messages = action.messages;
 
-      if (messages.length)
+      if (messages?.length)
         requestMessages[action.requestId] = messages.sort(sortMessages);
 
       return {
@@ -278,8 +296,10 @@ export default function appointmentsReducer(state = initialState, action) {
         cancelAppointmentStatus: FETCH_STATUS.loading,
       };
     case CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED: {
+      const { appointmentToCancel } = state;
+
       const confirmed = state.confirmed?.map(appt => {
-        if (appt !== state.appointmentToCancel) {
+        if (appt !== appointmentToCancel) {
           return appt;
         }
 
@@ -292,24 +312,45 @@ export default function appointmentsReducer(state = initialState, action) {
 
         return { ...newAppt, status: APPOINTMENT_STATUS.cancelled };
       });
+
       const pending = state.pending?.map(appt => {
-        if (appt !== state.appointmentToCancel) {
+        if (appt !== appointmentToCancel) {
           return appt;
         }
 
         const newAppt = {
           ...appt,
-          apiData: action.apiData,
+          legacyVAR: {
+            ...appt.legacyVAR,
+            apiData: action.apiData,
+          },
         };
 
         return { ...newAppt, status: APPOINTMENT_STATUS.cancelled };
       });
+
+      let appointmentDetails = state.appointmentDetails;
+
+      if (appointmentDetails?.[appointmentToCancel.id]) {
+        appointmentDetails = {
+          ...appointmentDetails,
+          [appointmentToCancel.id]: {
+            ...appointmentDetails[appointmentToCancel.id],
+            status: APPOINTMENT_STATUS.cancelled,
+            legacyVAR: {
+              ...appointmentDetails[appointmentToCancel.id].legacyVAR,
+              apiData: action.apiData,
+            },
+          },
+        };
+      }
 
       return {
         ...state,
         showCancelModal: true,
         confirmed,
         pending,
+        appointmentDetails,
         cancelAppointmentStatus: FETCH_STATUS.succeeded,
         cancelAppointmentStatusVaos400: false,
       };

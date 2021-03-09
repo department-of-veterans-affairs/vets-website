@@ -41,6 +41,7 @@ export default function VideoLink({ appointment }) {
       'vads-u-margin-left--0',
       'vads-u-margin-right--1p5',
       { 'usa-button-disabled': disableVideoLink },
+      'vaos-link-for-print',
     );
 
     return (

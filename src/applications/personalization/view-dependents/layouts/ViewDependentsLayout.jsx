@@ -1,4 +1,5 @@
 import React from 'react';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import ViewDependentsLists from './ViewDependentsLists';
 import ViewDependentsSidebar from '../components/ViewDependentsSidebar/ViewDependentsSidebar';
 import ViewDependentsHeader from '../components/ViewDependentsHeader/ViewDependentsHeader';
@@ -15,8 +16,17 @@ import { errorFragment, infoFragment } from './helpers';
 function ViewDependentsLayout(props) {
   let mainContent;
 
-  if (props.error && isServerError(props.error.code)) {
-    mainContent = <AlertBox content={errorFragment} status="error" />;
+  if (props.loading) {
+    mainContent = <LoadingIndicator message="Loading your information..." />;
+  } else if (props.error && isServerError(props.error.code)) {
+    mainContent = (
+      <AlertBox
+        content={errorFragment}
+        status="error"
+        headline="We're sorry. Something went wrong on our end"
+        level="2"
+      />
+    );
   } else if (props.error && isClientError(props.error.code)) {
     mainContent = <AlertBox content={infoFragment} status="info" />;
   } else if (

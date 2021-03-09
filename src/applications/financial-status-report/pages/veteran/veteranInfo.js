@@ -12,7 +12,7 @@ export const schema = {
     veteranInfo: {
       type: 'object',
       properties: {
-        fullName: {
+        veteranFullName: {
           type: 'string',
         },
         ssnLastFour: {
@@ -21,7 +21,7 @@ export const schema = {
         dob: {
           type: 'string',
         },
-        vaFileNumber: {
+        fileNumber: {
           type: 'number',
         },
       },
