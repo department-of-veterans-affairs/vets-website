@@ -663,4 +663,27 @@ module.exports = function registerFilters() {
     // Return a formatted timestamp string.
     return `${digits}${text}`;
   };
+
+  liquid.filters.getTagsList = fieldTags => {
+    const {
+      entity: {
+        fieldTopics = [],
+        fieldAudienceBeneficiares,
+        fieldNonBeneficiares,
+      },
+    } = fieldTags;
+
+    const tagList = [
+      fieldTopics.map(topic => {
+        return {
+          ...topic.entity,
+          categoryLabel: 'Topics',
+        };
+      }),
+      fieldAudienceBeneficiares?.entity,
+      fieldNonBeneficiares?.entity,
+    ];
+
+    return _.sortBy(tagList, 'name');
+  };
 };
