@@ -11,17 +11,12 @@
     <div class="vads-u-display--flex vads-u-flex-wrap--wrap">
       {% assign tags = fieldTags | getTagsList %}
 
-      {% for tag in tags %}
-        {% assign categoryLabel = 'Topics' | default: 'Audience' %}
-
-        <a href="{{ tag.entity.entityUrl.path }}"
+      {% for entity in tags %}
+        <a href="{{ entity.entityUrl.path }}"
           class="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0 usa-button-secondary vads-u-font-size--sm vads-u-border--1px vads-u-border-color--primary vads-u-padding--0p25 vads-u-padding-x--0p5 vads-u-margin-left--1 vads-u-text-decoration--none vads-u-color--base"
           style="border-radius: 3px;"
-          onclick="recordEvent({
-            'event': 'nav-page-tag-click',
-            'page-tag-click-label': '{{ tag.entity.name }}',
-            'page-tag-category-label': '{{ categoryLabel }}' });">
-          {{ tag.entity.name }}
+          onclick="recordEvent({ 'event': 'nav-page-tag-click', 'page-tag-click-label': '{{ entity.name }}', 'page-tag-category-label': '{{  entity.categoryLabel  }}' });">
+          {{ entity.name }}
         </a>
       {% endfor %}
     </div>
