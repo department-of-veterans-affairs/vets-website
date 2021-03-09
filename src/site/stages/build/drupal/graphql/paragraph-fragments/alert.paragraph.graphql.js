@@ -31,6 +31,7 @@ module.exports = `
         entity {
           ... on BlockContentAlert {
             entityId
+            entityPublished
             fieldAlertTitle
             fieldAlertType
             fieldReusability
