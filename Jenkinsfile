@@ -14,6 +14,7 @@ node('vetsgov-general-purpose') {
   dir("vets-website") {
     checkout scm
     ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+    sh(returnStdout: true, script: "git --no-pager diff origin/$CHANGE_TARGET --name-only")
   }
 
   def commonStages = load "vets-website/jenkins/common.groovy"
@@ -23,7 +24,6 @@ node('vetsgov-general-purpose') {
 
   stage('Lint|Security|Unit') {
     if (params.cmsEnvBuildOverride != 'none') { return }
-    commonStages.getChangeLogSets()
     try {
       parallel (
         lint: {
