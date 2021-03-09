@@ -45,7 +45,7 @@ import {
   STARTED_NEW_APPOINTMENT_FLOW,
   STARTED_NEW_EXPRESS_CARE_FLOW,
 } from '../../redux/sitewide';
-import { selectConfirmedAppointmentById, selectRequestById } from './selectors';
+import { selectAppointmentById } from './selectors';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
 export const FETCH_PENDING_APPOINTMENTS = 'vaos/FETCH_PENDING_APPOINTMENTS';
@@ -426,7 +426,10 @@ export function fetchRequestDetails(id) {
   return async (dispatch, getState) => {
     try {
       const state = getState();
-      let request = selectRequestById(state, id);
+      let request = selectAppointmentById(state, id, [
+        APPOINTMENT_TYPES.ccRequest,
+        APPOINTMENT_TYPES.request,
+      ]);
       let facilityId = getVAAppointmentLocationId(request);
       let facility = state.appointments.facilityData?.[facilityId];
 
@@ -476,11 +479,12 @@ export function fetchConfirmedAppointmentDetails(id, type) {
   return async (dispatch, getState) => {
     try {
       const state = getState();
-      let appointment = selectConfirmedAppointmentById(state, id);
-      let isVideo = isVideoAppointment(appointment);
-      let facilityId = isVideo
-        ? getVideoAppointmentLocation(appointment)
-        : getVAAppointmentLocationId(appointment);
+      let appointment = selectAppointmentById(state, id, [
+        type === 'cc'
+          ? APPOINTMENT_TYPES.ccAppointment
+          : APPOINTMENT_TYPES.vaAppointment,
+      ]);
+      let facilityId = getVAAppointmentLocationId(appointment);
       let facility = state.appointments.facilityData?.[facilityId];
 
       if (!appointment || (facilityId && !facility)) {
@@ -493,10 +497,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
         appointment = await fetchBookedAppointment(id, type);
       }
 
-      isVideo = isVideoAppointment(appointment);
-      facilityId = isVideo
-        ? getVideoAppointmentLocation(appointment)
-        : getVAAppointmentLocationId(appointment);
+      facilityId = getVAAppointmentLocationId(appointment);
       facility = state.appointments.facilityData?.[facilityId];
 
       if (facilityId && !facility) {

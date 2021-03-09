@@ -26,7 +26,7 @@ import {
 import {
   selectFirstRequestMessage,
   getCancelInfo,
-  selectRequestById,
+  selectAppointmentById,
 } from '../redux/selectors';
 import ErrorMessage from '../../components/ErrorMessage';
 import PageLayout from './AppointmentsPage/PageLayout';
@@ -209,7 +209,10 @@ function mapStateToProps(state, ownProps) {
   const { appointmentDetailsStatus, facilityData } = state.appointments;
 
   return {
-    appointment: selectRequestById(state, ownProps.match.params.id),
+    appointment: selectAppointmentById(state, ownProps.match.params.id, [
+      APPOINTMENT_TYPES.request,
+      APPOINTMENT_TYPES.ccRequest,
+    ]),
     appointmentDetailsStatus,
     facilityData,
     message: selectFirstRequestMessage(state, ownProps.match.params.id),
