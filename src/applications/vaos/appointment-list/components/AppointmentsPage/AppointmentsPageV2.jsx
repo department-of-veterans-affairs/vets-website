@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
+import { Switch, Route, useHistory, useLocation, Link } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 
-import ScheduleNewAppointment from './ScheduleNewAppointmentV2';
 import * as actions from '../../redux/actions';
 import { selectExpressCareAvailability } from '../../redux/selectors';
 import {
@@ -28,7 +27,7 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import WarningNotification from '../../../components/WarningNotification';
 import Select from '../../../components/Select';
-import ScheduleNewProjectCheetah from './ScheduleNewProjectCheetah';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 
 const pageTitle = 'VA appointments';
 
@@ -64,14 +63,13 @@ function AppointmentsPageV2({
   isCernerOnlyPatient,
   isWelcomeModalDismissed,
   showCheetahScheduleButton,
-  showCommunityCare,
-  showDirectScheduling,
   showScheduleButton,
   startNewAppointmentFlow,
   startNewExpressCareFlow,
-  showHomePageRefresh,
 }) {
   const location = useLocation();
+  const [radioSelection, setRadioSelection] = useState();
+  const [radioSelectionEvent, setRadioSelectionEvent] = useState();
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -103,6 +101,23 @@ function AppointmentsPageV2({
     </Switch>
   );
 
+  function radioOptions() {
+    const optionsArray = [
+      {
+        value: 'new-appointment',
+        label: 'Primary or specialty care',
+      },
+    ];
+
+    if (showCheetahScheduleButton) {
+      optionsArray.push({
+        value: 'new-covid-19-vaccine-booking',
+        label: 'COVID-19 vaccine',
+      });
+    }
+    return optionsArray;
+  }
+
   function onDropdownChange(e) {
     const value = e.target.value;
     if (value === DROPDOWN_VALUES.upcoming) {
@@ -127,29 +142,51 @@ function AppointmentsPageV2({
           <WarningNotification {...props}>{childContent}</WarningNotification>
         )}
       />
+
       {showScheduleButton && (
-        <ScheduleNewAppointment
-          isCernerOnlyPatient={isCernerOnlyPatient}
-          showCommunityCare={showCommunityCare}
-          showDirectScheduling={showDirectScheduling}
-          startNewAppointmentFlow={() => {
-            recordEvent({
-              event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
-            });
-            startNewAppointmentFlow();
-          }}
-        />
-      )}
-      {showCheetahScheduleButton && (
-        <ScheduleNewProjectCheetah
-          startNewAppointmentFlow={() => {
-            recordEvent({
-              event: `${GA_PREFIX}-schedule-project-cheetah-button-clicked`,
-            });
-            startNewAppointmentFlow();
-          }}
-          showHomePageRefresh={showHomePageRefresh}
-        />
+        <div className="vads-u-margin-bottom--4">
+          <h2 className="vads-u-padding-bottom--0">
+            Schedule a new appointment
+          </h2>
+          <RadioButtons
+            name={'schedule-new-appointment'}
+            id={'schedule-new-appointment'}
+            options={radioOptions()}
+            additionalFieldsetClass="vads-u-margin-top--0"
+            onValueChange={({ value }) => {
+              setRadioSelection(value);
+              setRadioSelectionEvent(
+                value === 'new-appointment'
+                  ? 'schedule-appointment-button-clicked'
+                  : 'schedule-project-cheetah-button-clicked',
+              );
+            }}
+            value={{ value: radioSelection }}
+            errorMessage=""
+          />
+
+          {!radioSelection && (
+            <span className="vads-u-padding--0 va-action-link--disabled">
+              Choose an appointment type
+            </span>
+          )}
+
+          {radioSelection && (
+            <Link
+              id="new-appointment-radio-link"
+              className="vads-u-padding--0 va-action-link--green"
+              to={`/${radioSelection}`}
+              onClick={() => {
+                recordEvent({
+                  event: `${GA_PREFIX}-${radioSelectionEvent}`,
+                });
+                startNewAppointmentFlow();
+              }}
+            >
+              Start scheduling
+            </Link>
+          )}
+        </div>
       )}
 
       {expressCare.useNewFlow &&
