@@ -6,7 +6,7 @@ import mockPaymentInfo from '../fixtures/dd4cnp/dd4cnp-is-set-up.json';
 
 function clickSubNavButton(buttonLabel, mobile) {
   if (mobile) {
-    cy.findByRole('button', { name: /your profile menu/i }).click();
+    cy.findByRole('button', { name: /profile menu/i }).click();
   }
   cy.findByRole('link', { name: buttonLabel }).click();
 }
@@ -54,7 +54,7 @@ function checkAllPages(mobile = false) {
 
   // focus should be on the sub-nav's h1 when redirected from /profile/
   cy.focused()
-    .contains(/your profile/i)
+    .contains(/profile/i)
     .and('have.prop', 'tagName')
     .should('eq', 'H1');
 
