@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
@@ -14,7 +15,7 @@ describe('VET TEC military service', () => {
     const form = mount(
       <DefinitionTester schema={schema} uiSchema={uiSchema} />,
     );
-    expect(form.find('input').length).to.equal(4);
+    expect(form.find('input').length).to.equal(2);
     form.unmount();
   });
 
@@ -35,6 +36,7 @@ describe('VET TEC military service', () => {
   });
 
   it('should submit when active duty selected', () => {
+    const twoDaysLater = moment().add(2, 'days');
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -47,6 +49,21 @@ describe('VET TEC military service', () => {
     form.find(`input[name="root_activeDuty"][value="Y"]`).simulate('change', {
       target: { Y: 'Y' },
     });
+
+    form
+      .find(`select[name="root_expectedReleaseDateMonth"]`)
+      .simulate('change', {
+        target: { value: twoDaysLater.month() + 1 },
+      });
+
+    form.find(`select[name="root_expectedReleaseDateDay"]`).simulate('change', {
+      target: { value: twoDaysLater.date() + 1 },
+    });
+
+    form.find(`input[name="root_expectedReleaseDateYear"]`).simulate('change', {
+      target: { value: twoDaysLater.year() },
+    });
+
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
