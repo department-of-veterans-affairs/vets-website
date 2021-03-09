@@ -14,7 +14,7 @@ node('vetsgov-general-purpose') {
   dir("vets-website") {
     checkout scm
     ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-    sh(returnStdout: true, script: "env|sort")
+    echo sh(returnStdout: true, script: "env")
     sh(returnStdout: true, script: "git --no-pager diff master --name-only")
   }
 
