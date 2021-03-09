@@ -50,49 +50,44 @@ const I18Select = ({ baseUrls }) => {
     [lang],
   );
 
-  const handleLinkClick = keyValue => {
-    recordEvent({
-      event: 'nav-covid-link-click',
-      faqText: undefined,
-      faqSection: undefined,
-    });
-    const translatedPage = baseUrls[keyValue];
-    if (translatedPage) {
-      document.location.pathname = translatedPage;
-    }
-  };
-
   return (
     <div className="vads-u-display--inline-block vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-border--0 vads-u-border-bottom--1px vads-u-border-style--solid vads-u-border-color--gray">
       <span>
         {Object.entries(i18Content).map(([languageCode, languageConfig], i) => {
-          return (
-            <span key={i}>
-              <a
-                className={`vads-u-font-size--base vads-u-font-family--sans vads-u-padding-bottom-0p5 ${
-                  languageCode === lang
-                    ? 'vads-u-font-weight--bold vads-u-color--base vads-u-text-decoration--none'
-                    : ''
-                }`}
-                onClick={_ => {
-                  handleLinkClick(languageCode);
-                }}
-                href={(baseUrls && baseUrls[languageCode]) || ''}
-                hrefLang={lang}
-                lang={lang}
-              >
-                {languageConfig.label}{' '}
-              </a>
-              {i !== Object.entries(i18Content).length - 1 && (
-                <span
-                  className=" vads-u-margin-left--0p5 vads-u-margin-right--0p5 vads-u-color--gray
-                  vads-u-height--20"
+          if (baseUrls?.languageCode) {
+            return (
+              <span key={i}>
+                <a
+                  className={`vads-u-font-size--base vads-u-font-family--sans vads-u-padding-bottom-0p5 ${
+                    languageCode === lang
+                      ? 'vads-u-font-weight--bold vads-u-color--base vads-u-text-decoration--none'
+                      : ''
+                  }`}
+                  onClick={_ => {
+                    recordEvent({
+                      event: 'nav-covid-link-click',
+                      faqText: undefined,
+                      faqSection: undefined,
+                    });
+                  }}
+                  href={baseUrls[languageCode]}
+                  hrefLang={lang}
+                  lang={lang}
                 >
-                  |
-                </span>
-              )}
-            </span>
-          );
+                  {languageConfig.label}{' '}
+                </a>
+                {i !== Object.entries(i18Content).length - 1 && (
+                  <span
+                    className=" vads-u-margin-left--0p5 vads-u-margin-right--0p5 vads-u-color--gray
+                    vads-u-height--20"
+                  >
+                    |
+                  </span>
+                )}
+              </span>
+            );
+          }
+          return null;
         })}
       </span>
     </div>
