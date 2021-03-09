@@ -372,6 +372,7 @@ def cacheDrupalContent(dockerContainer, envUsedCache) {
 
 def getChangeLogSets () {
   def changeLogSets = currentBuild.changeSets
+  echo "listing changes in commit"
   for (int i = 0; i < changeLogSets.size(); i++) {
     def entries = changeLogSets[i].items
     for (int j = 0; j < entries.length; j++) {

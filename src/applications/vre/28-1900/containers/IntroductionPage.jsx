@@ -39,7 +39,10 @@ const IntroductionPage = props => {
         <ol>
           <li className="process-step list-one">
             <h5>Prepare (A random change)</h5>
-            <h6>To fill out this application, you’ll need your:</h6>
+            <h6>
+              To fill out this application, you’ll need your: (another random
+              change)
+            </h6>
             <ul>
               <li>Social Security number (required)</li>
               <li>Your VA file number (if you know it)</li>
