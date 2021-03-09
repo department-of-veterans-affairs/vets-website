@@ -232,6 +232,10 @@ export function mockFeatureToggles({ providerSelectionEnabled = false } = {}) {
             value: true,
           },
           {
+            name: 'vaOnlineSchedulingCheetah',
+            value: true,
+          },
+          {
             name: `cerner_override_668`,
             value: false,
           },
@@ -589,6 +593,23 @@ export function initVAAppointmentMock({ cernerUser = false } = {}) {
   mockPrimaryCareClinics();
   mockRequestLimits();
   mockVisits();
+  mockDirectScheduleSlots();
+  mockSubmitVAAppointment();
+}
+
+export function initVaccineAppointmentMock() {
+  setupSchedulingMocks();
+  cy.route({
+    method: 'GET',
+    url: '/v1/facilities/va/vha_442',
+    response: { data: facilityData.data[0] },
+  });
+  cy.route({
+    method: 'GET',
+    url: '/v1/facilities/va?ids=*',
+    response: facilityData,
+  });
+  mockPrimaryCareClinics();
   mockDirectScheduleSlots();
   mockSubmitVAAppointment();
 }
