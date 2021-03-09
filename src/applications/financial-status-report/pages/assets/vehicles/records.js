@@ -25,86 +25,100 @@ const VehicleInfo = (
 
 export const uiSchema = {
   'ui:title': 'Your cars or other vehicles',
-  vehicleRecords: {
-    'ui:field': ItemLoop,
-    'ui:description': 'Enter information for each vehicle separately below.',
-    'ui:options': {
-      viewField: CardDetailsView,
-      doNotScroll: true,
-      showSave: true,
-      itemName: 'vehicle',
-    },
-    items: {
-      vehicleType: {
-        'ui:title': 'Type of vehicle',
-        'ui:field': Typeahead,
-        'ui:options': {
-          classNames:
-            'input-size-7 vads-u-margin-top--3 vads-u-margin-bottom--3',
-          getOptions: () => formatOptions(vehicleTypes),
-        },
+  assets: {
+    automobiles: {
+      'ui:field': ItemLoop,
+      'ui:description': 'Enter information for each vehicle separately below.',
+      'ui:options': {
+        viewField: CardDetailsView,
+        doNotScroll: true,
+        showSave: true,
+        itemName: 'vehicle',
       },
-      vehicleMake: {
-        'ui:title': 'Vehicle make',
-        'ui:options': {
-          widgetClassNames: 'input-size-7 vads-u-margin-bottom--3',
+      items: {
+        type: {
+          'ui:title': 'Type of vehicle',
+          'ui:field': Typeahead,
+          'ui:options': {
+            classNames:
+              'input-size-7 vads-u-margin-top--3 vads-u-margin-bottom--3',
+            getOptions: () => formatOptions(vehicleTypes),
+          },
         },
+        make: {
+          'ui:title': 'Vehicle make',
+          'ui:options': {
+            widgetClassNames: 'input-size-7 vads-u-margin-bottom--3',
+          },
+        },
+        model: {
+          'ui:title': 'Vehicle model',
+          'ui:options': {
+            widgetClassNames: 'input-size-7 vads-u-margin-bottom--3',
+          },
+        },
+        year: {
+          'ui:title': 'Vehicle year',
+          'ui:options': {
+            widgetClassNames: 'input-size-4 vads-u-margin-bottom--3',
+          },
+        },
+        resaleValue: _.merge(currencyUI('Estimated value'), {
+          'ui:options': {
+            widgetClassNames: 'input-size-5 vads-u-margin-bottom--3',
+          },
+        }),
       },
-      vehicleModel: {
-        'ui:title': 'Vehicle model',
-        'ui:options': {
-          widgetClassNames: 'input-size-7 vads-u-margin-bottom--3',
-        },
-      },
-      vehicleYear: {
-        'ui:title': 'Vehicle year',
-        'ui:options': {
-          widgetClassNames: 'input-size-4 vads-u-margin-bottom--3',
-        },
-      },
-      vehicleAmount: _.merge(currencyUI('Estimated value'), {
-        'ui:options': {
-          widgetClassNames: 'input-size-5 vads-u-margin-bottom--3',
-        },
-      }),
     },
   },
-  'view:vehicleInfo': {
-    'ui:description': VehicleInfo,
+  'view:components': {
+    'view:vehicleInfo': {
+      'ui:description': VehicleInfo,
+    },
   },
 };
 
 export const schema = {
   type: 'object',
   properties: {
-    vehicleRecords: {
-      type: 'array',
-      items: {
-        type: 'object',
-        title: 'Vehicle',
-        required: ['vehicleType', 'vehicleAmount'],
-        properties: {
-          vehicleType: {
-            type: 'string',
-          },
-          vehicleMake: {
-            type: 'string',
-          },
-          vehicleModel: {
-            type: 'string',
-          },
-          vehicleYear: {
-            type: 'string',
-          },
-          vehicleAmount: {
-            type: 'number',
+    assets: {
+      type: 'object',
+      properties: {
+        automobiles: {
+          type: 'array',
+          items: {
+            type: 'object',
+            title: 'Vehicle',
+            required: ['type', 'resaleValue'],
+            properties: {
+              type: {
+                type: 'string',
+              },
+              make: {
+                type: 'string',
+              },
+              model: {
+                type: 'string',
+              },
+              year: {
+                type: 'string',
+              },
+              resaleValue: {
+                type: 'number',
+              },
+            },
           },
         },
       },
     },
-    'view:vehicleInfo': {
+    'view:components': {
       type: 'object',
-      properties: {},
+      properties: {
+        'view:vehicleInfo': {
+          type: 'object',
+          properties: {},
+        },
+      },
     },
   },
 };
