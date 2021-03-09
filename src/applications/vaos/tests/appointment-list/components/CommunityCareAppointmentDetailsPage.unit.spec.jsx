@@ -3,7 +3,10 @@ import MockDate from 'mockdate';
 import { expect } from 'chai';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import { getCCAppointmentMock } from '../../mocks/v0';
-import { mockAppointmentInfo } from '../../mocks/helpers';
+import {
+  mockAppointmentInfo,
+  mockSingleCommunityCareAppointmentFetch,
+} from '../../mocks/helpers';
 import {
   renderWithStoreAndRouter,
   getTimezoneTestDate,
@@ -136,6 +139,52 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     expect(await screen.findAllByText(/Detail/)).to.be.ok;
   });
 
+  it.skip('should show cc info when directly opening page', async () => {
+    const url = '/cc/8a4885896a22f88f016a2cb7f5de0062';
+
+    const appointment = getCCAppointmentMock();
+    appointment.id = '8a4885896a22f88f016a2cb7f5de0062';
+    appointment.attributes = {
+      ...appointment.attributes,
+      appointmentRequestId: '8a4885896a22f88f016a2cb7f5de0062',
+      distanceEligibleConfirmed: true,
+      name: { firstName: 'Rick', lastName: 'Katz' },
+      providerPractice: 'My Eye Dr',
+      providerPhone: '(703) 555-1264',
+      address: {
+        street: '123',
+        city: 'Burke',
+        state: 'VA',
+        zipCode: '20151',
+      },
+      appointmentTime: '05/20/2021 14:15:00',
+      timeZone: 'UTC',
+    };
+
+    mockSingleCommunityCareAppointmentFetch({
+      appointment,
+    });
+
+    const screen = renderWithStoreAndRouter(
+      <AppointmentList featureHomepageRefresh />,
+      {
+        initialState,
+        path: url,
+      },
+    );
+
+    // Verify page content...
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: /^Thursday, May 20, 2021/,
+      }),
+    ).to.be.ok;
+
+    expect(screen.getByText(/Community care/)).to.be.ok;
+    expect(screen.getByText(/Rick Katz/)).to.be.ok;
+  });
+
   it('should fire a print request when print button clicked', async () => {
     // CC appointment id from confirmed_cc.json
     const url = '/cc/8a4885896a22f88f016a2cb7f5de0062';
@@ -200,5 +249,54 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     fireEvent.click(await screen.findByText(/Print/i));
     expect(printSpy.calledOnce).to.be.true;
     global.window.print = oldPrint;
+  });
+
+  it('should show an error when cc data fetch fails', async () => {
+    mockSingleCommunityCareAppointmentFetch({
+      error: true,
+    });
+
+    const screen = renderWithStoreAndRouter(
+      <AppointmentList featureHomepageRefresh />,
+      {
+        initialState,
+        path: '/cc/8a4885896a22f88f016a2cb7f5de0062',
+      },
+    );
+
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: 'We’re sorry. We’ve run into a problem',
+      }),
+    ).to.be.ok;
+  });
+
+  it('should show an error when CC appointment not found in list', async () => {
+    const appointment = getCCAppointmentMock();
+    appointment.id = '1234';
+    appointment.attributes = {
+      ...appointment.attributes,
+      appointmentRequestId: '1234',
+    };
+
+    mockSingleCommunityCareAppointmentFetch({
+      appointment,
+    });
+
+    const screen = renderWithStoreAndRouter(
+      <AppointmentList featureHomepageRefresh />,
+      {
+        initialState,
+        path: '/cc/8a4885896a22f88f016a2cb7f5de0062',
+      },
+    );
+
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: 'We’re sorry. We’ve run into a problem',
+      }),
+    ).to.be.ok;
   });
 });

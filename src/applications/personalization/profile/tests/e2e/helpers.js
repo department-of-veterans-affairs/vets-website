@@ -2,7 +2,7 @@ import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 
 export function subNavOnlyContainsAccountSecurity(mobile) {
   if (mobile) {
-    cy.findByRole('button', { name: /your profile menu/i }).click();
+    cy.findByRole('button', { name: /profile menu/i }).click();
   }
   cy.findByRole('navigation', { name: /secondary/i }).within(() => {
     cy.findAllByRole('link').should('have.length', 1);

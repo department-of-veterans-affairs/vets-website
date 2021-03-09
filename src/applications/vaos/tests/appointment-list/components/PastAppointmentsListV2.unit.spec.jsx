@@ -54,7 +54,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     expect(await findByText(/Past 3 months/i)).to.exist;
   });
 
-  it.skip('should update range on dropdown change', async () => {
+  it('should update range on dropdown change', async () => {
     const pastDate = moment().subtract(3, 'months');
     const rangeLabel = `${moment()
       .subtract(3, 'months')
@@ -85,9 +85,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
 
     fireEvent.click(screen.queryByText('Update'));
 
-    await screen.findByText(
-      new RegExp(pastDate.tz('America/Denver').format('MMMM YYYY'), 'i'),
-    );
+    await screen.findByText(new RegExp(pastDate.format('MMMM YYYY'), 'i'));
 
     expect(screen.baseElement).to.contain.text(`Appointments in ${rangeLabel}`);
     expect(screen.baseElement).to.contain.text('VA appointment');

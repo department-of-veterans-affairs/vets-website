@@ -11,13 +11,12 @@ import ReasonForVisit from '../components/reason-for-visit';
 import ReasonForVisitDescription from '../components/reason-for-visit-description';
 import { GetHelpFooter, NeedHelpSmall } from '../../shared/components/footer';
 import ExpiresAt from '../components/expires-at';
-import HiddenFields from '../components/hidden-fields';
 import Messages from '../components/messages';
 
 import { TITLES, createPathFromTitle } from './utils';
 
 import manifest from '../manifest.json';
-import { submit, transformForSubmit } from '../api';
+import { submit, transformForSubmit } from '../../shared/api';
 
 import { updateUrls } from './migrations';
 
@@ -39,8 +38,7 @@ const formConfig = {
     resumeOnly: true,
     messages: {
       inProgress: '',
-      expired:
-        'Your saved upcoming appointment questionnaire has expired. If you want to apply for appointment questionnaire, please start a new application.',
+      expired: 'Your saved upcoming appointment questionnaire has expired.',
       saved: 'Your questionnaire has been saved.',
     },
   },
@@ -83,6 +81,7 @@ const formConfig = {
                 hideLabelText: true,
               },
             },
+
             daysTillExpires: {
               'ui:field': ExpiresAt.field,
               'ui:options': {
@@ -113,13 +112,6 @@ const formConfig = {
           path: createPathFromTitle(TITLES.reasonForVisit),
           title: TITLES.reasonForVisit,
           uiSchema: {
-            'hidden:fields': {
-              'ui:field': HiddenFields.fields,
-              'ui:options': {
-                hideLabelText: true,
-                hideOnReview: true,
-              },
-            },
             reasonForVisit: {
               'ui:field': ReasonForVisit.field,
               'ui:title': ' ',
@@ -167,14 +159,6 @@ const formConfig = {
             type: 'object',
             required: ['reasonForVisitDescription'],
             properties: {
-              'hidden:fields': {
-                type: 'object',
-                properties: {
-                  appointmentId: { type: 'string' },
-                  questionnaireId: { type: 'string' },
-                },
-              },
-
               reasonForVisit: {
                 type: 'string',
               },

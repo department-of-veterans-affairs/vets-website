@@ -7,7 +7,7 @@ import Home from '../../questionnaire-list/components/Home';
 import {
   selectShowQuestionnaire,
   selectLoadingFeatureFlags,
-} from '../../selectors';
+} from '../../../shared/selectors';
 
 const QuestionnaireApp = props => {
   const { isLoadingFeatureFlags, isQuestionnaireEnabled } = props;
