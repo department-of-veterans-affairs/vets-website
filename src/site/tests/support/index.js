@@ -1,7 +1,10 @@
 import { readFileSync } from 'fs';
 import path from 'path';
-import liquid from 'tinyliquid';
 import { JSDOM } from 'jsdom';
+import liquid from 'tinyliquid';
+import registerFilters from '../../filters/liquid.js';
+
+registerFilters();
 
 const parseFixture = file => {
   const jsonPath = path.resolve(__dirname, `../fixtures/${file}.json`);
