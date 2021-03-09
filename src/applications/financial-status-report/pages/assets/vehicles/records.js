@@ -71,8 +71,10 @@ export const uiSchema = {
       },
     },
   },
-  'view:vehicleInfo': {
-    'ui:description': VehicleInfo,
+  'view:components': {
+    'view:vehicleInfo': {
+      'ui:description': VehicleInfo,
+    },
   },
 };
 
@@ -109,9 +111,14 @@ export const schema = {
         },
       },
     },
-    'view:vehicleInfo': {
+    'view:components': {
       type: 'object',
-      properties: {},
+      properties: {
+        'view:vehicleInfo': {
+          type: 'object',
+          properties: {},
+        },
+      },
     },
   },
 };

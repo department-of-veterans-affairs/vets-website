@@ -54,8 +54,10 @@ export const uiSchema = {
       },
     },
   },
-  'view:recVehicleInfo': {
-    'ui:description': RecVehicleInfo,
+  'view:components': {
+    'view:recVehicleInfo': {
+      'ui:description': RecVehicleInfo,
+    },
   },
 };
 
@@ -83,9 +85,14 @@ export const schema = {
         },
       },
     },
-    'view:recVehicleInfo': {
+    'view:components': {
       type: 'object',
-      properties: {},
+      properties: {
+        'view:recVehicleInfo': {
+          type: 'object',
+          properties: {},
+        },
+      },
     },
   },
 };

@@ -12,11 +12,13 @@ const ResolutionInfo = (
 
 export const uiSchema = {
   'ui:title': 'Supporting personal statement',
-  'view:financialHardshipExplanation': {
-    'ui:field': FinancialHardshipExplanation,
-  },
-  'view:resolutionOptionsInfo': {
-    'ui:description': ResolutionInfo,
+  'view:components': {
+    'view:financialHardshipExplanation': {
+      'ui:field': FinancialHardshipExplanation,
+    },
+    'view:resolutionOptionsInfo': {
+      'ui:description': ResolutionInfo,
+    },
   },
   additionalData: {
     additionalComments: {
@@ -33,16 +35,22 @@ export const uiSchema = {
     },
   },
 };
+
 export const schema = {
   type: 'object',
   properties: {
-    'view:financialHardshipExplanation': {
+    'view:components': {
       type: 'object',
-      properties: {},
-    },
-    'view:resolutionOptionsInfo': {
-      type: 'object',
-      properties: {},
+      properties: {
+        'view:financialHardshipExplanation': {
+          type: 'object',
+          properties: {},
+        },
+        'view:resolutionOptionsInfo': {
+          type: 'object',
+          properties: {},
+        },
+      },
     },
     additionalData: {
       type: 'object',
