@@ -63,7 +63,7 @@ const I18Select = ({ baseUrls }) => {
   };
 
   return (
-    <div className="vads-u-display--inline-block vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-border-bottom--1px vads-u-border-style--solid vads-u-border-color--gray">
+    <div className="vads-u-display--inline-block vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-border--0 vads-u-border-bottom--1px vads-u-border-style--solid vads-u-border-color--gray">
       <span>
         {Object.entries(i18Content).map(([languageCode, languageConfig], i) => {
           return (
