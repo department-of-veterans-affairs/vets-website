@@ -18,6 +18,7 @@ fieldAlert {
 const alert = `
 fragment alert on BlockContentAlert {
   entityId
+  entityPublished
   fieldAlertDismissable
   fieldAlertType
   fieldAlertTitle
