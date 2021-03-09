@@ -78,8 +78,6 @@ const I18Select = ({ baseUrls }) => {
                   handleLinkClick(languageCode);
                 }}
                 hrefLang={lang}
-                lang={lang}
-                style={{ cursor: 'pointer' }}
               >
                 {languageConfig.label}{' '}
               </a>
