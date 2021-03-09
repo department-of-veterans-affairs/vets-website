@@ -673,16 +673,26 @@ module.exports = function registerFilters() {
       },
     } = fieldTags;
 
-    const tagList = [
-      fieldTopics.map(topic => {
-        return {
-          ...topic.entity,
-          categoryLabel: 'Topics',
-        };
-      }),
+    const topics = fieldTopics.map(topic => {
+      return {
+        ...topic.entity,
+        categoryLabel: 'Topics',
+      };
+    });
+
+    const audiences = [
       fieldAudienceBeneficiares?.entity,
       fieldNonBeneficiares?.entity,
-    ];
+    ]
+      .filter(tag => !!tag)
+      .map(audience => {
+        return {
+          ...audience,
+          categoryLabel: 'Audience',
+        };
+      });
+
+    const tagList = [...topics, ...audiences];
 
     return _.sortBy(tagList, 'name');
   };
