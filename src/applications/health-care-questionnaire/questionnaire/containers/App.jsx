@@ -3,11 +3,16 @@ import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
+import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import backendServices from 'platform/user/profile/constants/backendServices';
+import environment from 'platform/utilities/environment';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import {
   externalServices,
   DowntimeNotification,
 } from 'platform/monitoring/DowntimeNotification';
+
+import { setData } from 'platform/forms-system/src/js/actions';
 
 import formConfig from '../config/form';
 
@@ -30,10 +35,14 @@ const App = props => {
     setLoadedAppointment,
     isLoadingAppointmentDetails,
     isLoggedIn,
+    setFormData,
+    formData,
+    user,
   } = props;
   const [isLoading, setIsLoading] = useState(true);
   const [form, setForm] = useState(formConfig);
-
+  const appointmentFormData = formData['hidden:appointment'];
+  const questionnaireFormData = formData['hidden:questionnaire'];
   useEffect(
     () => {
       const id = getCurrentAppointmentId(window);
@@ -46,8 +55,13 @@ const App = props => {
             '/health-care/health-questionnaires/questionnaires',
           );
         }
-        const { appointment } = data;
-
+        const { appointment, questionnaire } = data;
+        if (!appointmentFormData || !questionnaireFormData) {
+          setFormData({
+            'hidden:appointment': appointment,
+            'hidden:questionnaire': questionnaire,
+          });
+        }
         setLoadedAppointment(appointment);
         setIsLoading(false);
         const apptType = getAppointTypeFromAppointment(appointment);
@@ -64,7 +78,14 @@ const App = props => {
         setIsLoading(false);
       }
     },
-    [setLoading, setLoadedAppointment, isLoggedIn],
+    [
+      setLoading,
+      setLoadedAppointment,
+      isLoggedIn,
+      setFormData,
+      appointmentFormData,
+      questionnaireFormData,
+    ],
   );
   if (isLoading || isLoadingAppointmentDetails) {
     return (
@@ -75,14 +96,20 @@ const App = props => {
   } else {
     return (
       <>
-        <DowntimeNotification
-          appTitle="health questionnaire"
-          dependencies={[externalServices.hcq]}
+        <RequiredLoginView
+          serviceRequired={[backendServices.USER_PROFILE]}
+          user={user}
+          verify={!environment.isLocalhost()}
         >
-          <RoutedSavableApp formConfig={form} currentLocation={location}>
-            {children}
-          </RoutedSavableApp>
-        </DowntimeNotification>
+          <DowntimeNotification
+            appTitle="health questionnaire"
+            dependencies={[externalServices.hcq]}
+          >
+            <RoutedSavableApp formConfig={form} currentLocation={location}>
+              {children}
+            </RoutedSavableApp>
+          </DowntimeNotification>
+        </RequiredLoginView>
       </>
     );
   }
@@ -90,14 +117,17 @@ const App = props => {
 
 const mapStateToProps = state => ({
   showApplication: true,
-  questionnaire: state?.questionnaireData,
+  questionnaire: state.questionnaireData,
   isLoadingAppointmentDetails:
     state?.questionnaireData.context?.status.isLoading,
   isLoggedIn: state?.user?.login?.currentlyLoggedIn,
+  formData: state.form?.data,
+  user: state.user,
 });
 
 const mapDispatchToProps = dispatch => {
   return {
+    setFormData: data => dispatch(setData(data)),
     setLoading: () => dispatch(questionnaireAppointmentLoading()),
     setLoadedAppointment: value =>
       dispatch(questionnaireAppointmentLoaded(value)),

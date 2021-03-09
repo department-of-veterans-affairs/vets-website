@@ -136,7 +136,7 @@ export const normalizeSideNavData = data => {
   const items = data?.links;
 
   // Derive only nav items that are relevant for the current page.
-  const relevantNavItems = items.filter(item =>
+  const relevantNavItems = items?.filter(item =>
     window.location.pathname.includes(item?.url?.path),
   );
 

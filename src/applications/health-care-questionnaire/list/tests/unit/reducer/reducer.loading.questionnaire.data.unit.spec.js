@@ -10,7 +10,7 @@ import {
 
 import { sortQuestionnairesByStatus } from '../../../utils';
 
-import testData from '../../../api/my-questionnaires.sample.json';
+import testData from '../../../../shared/api/mock-data/my-questionnaires.sample.json';
 
 describe('health care-questionnaire -- questionnaire reducer --', () => {
   it('should set loading to true', () => {
