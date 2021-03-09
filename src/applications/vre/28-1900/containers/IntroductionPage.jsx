@@ -38,7 +38,7 @@ const IntroductionPage = props => {
       <div className="process schemaform-process">
         <ol>
           <li className="process-step list-one">
-            <h5>Prepare</h5>
+            <h5>Prepare (A random change)</h5>
             <h6>To fill out this application, you’ll need your:</h6>
             <ul>
               <li>Social Security number (required)</li>

@@ -66,6 +66,7 @@ node('vetsgov-general-purpose') {
   stage('Integration') {
     if (commonStages.shouldBail() || !commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) { return }
     dir("vets-website") {
+      commonStages.getChangeLogSets()
       try {
         parallel (
           'nightwatch-e2e': {
