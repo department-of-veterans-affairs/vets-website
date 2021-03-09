@@ -14,7 +14,7 @@ node('vetsgov-general-purpose') {
   dir("vets-website") {
     checkout scm
     ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-    sh(returnStdout: true, script: 'git config --add remote.origin.fetch +refs/head/master:refs/remotes/origin/master')
+    sh(returnStdout: true, script: 'git config --add remote.origin.fetch +refs/heads/master:refs/remotes/origin/master')
     sh(returnStdout: true, script: 'git fetch --no-tags')
     sh(returnStdout: true, script: "git --no-pager diff $BRANCH_NAME origin/master --name-only")
   }
