@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { addAppointmentIdToFormId } from '../utils';
+import { addAppointmentIdToFormId } from '../index';
 
 describe('health care questionnaire -- utils -- create form id from appointment id', () => {
   it('no form id', () => {
