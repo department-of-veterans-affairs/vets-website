@@ -79,6 +79,7 @@ const I18Select = ({ baseUrls }) => {
                 }}
                 href={(baseUrls && baseUrls[languageCode]) || ''}
                 hrefLang={lang}
+                lang={lang}
               >
                 {languageConfig.label}{' '}
               </a>
