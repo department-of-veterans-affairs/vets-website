@@ -60,7 +60,7 @@ const IntroductionPage = props => {
             </p>
           </li>
           <li className="process-step list-two">
-            <h5>Apply</h5>
+            <h5>Apply (another random change)</h5>
             <p>Complete this Veteran Readiness and Employment form.</p>
             <p>
               After submitting your application, you’ll get a confirmation

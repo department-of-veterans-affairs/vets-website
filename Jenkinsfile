@@ -17,7 +17,7 @@ node('vetsgov-general-purpose') {
     sh(returnStdout: true, script: 'git config --add remote.origin.fetch +refs/heads/master:refs/remotes/origin/master')
     sh(returnStdout: true, script: "git config --add remote.origin.fetch +refs/heads/$BRANCH_NAME:refs/remotes/origin/$BRANCH_NAME")
     sh(returnStdout: true, script: 'git fetch --no-tags')
-    sh(returnStdout: true, script: "git --no-pager diff --name-only origin/$BRANCH_NAME origin/master --")
+    sh(returnStdout: true, script: "git --no-pager diff --name-only origin/$BRANCH_NAME origin/master")
   }
 
   def commonStages = load "vets-website/jenkins/common.groovy"
