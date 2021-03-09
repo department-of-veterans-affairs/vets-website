@@ -88,7 +88,7 @@ export const uiSchema = {
             const uiSchemaDisabled = uiSchemaCountry;
 
             if (formData.personalData.address.livesOutsideUS) {
-              const formDataMailingAddress = formData.address;
+              const formDataMailingAddress = formData.personalData.address;
               formDataMailingAddress.country = 'United States';
               uiSchemaDisabled['ui:disabled'] = true;
 
