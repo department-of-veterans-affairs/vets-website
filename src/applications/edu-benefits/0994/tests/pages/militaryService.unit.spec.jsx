@@ -11,6 +11,23 @@ describe('VET TEC military service', () => {
   const page = formConfig.chapters.militaryService.pages.militaryService;
   const { schema, uiSchema } = page;
 
+  const setDate = (form, momentObj) => {
+    const month = form.find(`select[name="root_expectedReleaseDateMonth"]`);
+    const day = form.find(`select[name="root_expectedReleaseDateDay"]`);
+    const year = form.find(`input[name="root_expectedReleaseDateYear"]`);
+
+    month.simulate('change', {
+      target: { value: momentObj.month() + 1 },
+    });
+
+    day.simulate('change', {
+      target: { value: momentObj.date() },
+    });
+    year.simulate('change', {
+      target: { value: momentObj.year() },
+    });
+  };
+
   it('should render', () => {
     const form = mount(
       <DefinitionTester schema={schema} uiSchema={uiSchema} />,
@@ -36,7 +53,6 @@ describe('VET TEC military service', () => {
   });
 
   it('should submit when active duty selected', () => {
-    const twoDaysLater = moment().add(2, 'days');
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -50,19 +66,7 @@ describe('VET TEC military service', () => {
       target: { Y: 'Y' },
     });
 
-    form
-      .find(`select[name="root_expectedReleaseDateMonth"]`)
-      .simulate('change', {
-        target: { value: twoDaysLater.month() + 1 },
-      });
-
-    form.find(`select[name="root_expectedReleaseDateDay"]`).simulate('change', {
-      target: { value: twoDaysLater.date() + 1 },
-    });
-
-    form.find(`input[name="root_expectedReleaseDateYear"]`).simulate('change', {
-      target: { value: twoDaysLater.year() },
-    });
+    setDate(form, moment().add(2, 'days'));
 
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
