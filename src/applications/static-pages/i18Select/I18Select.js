@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 
-const i18Content = {
+const I18_CONTENT = {
   en: {
     label: 'English',
     suffix: '/',
@@ -17,7 +17,7 @@ const i18Content = {
     onThisPage: 'Tagalog On this page',
   },
 };
-const langsToLinkSuffixes = {
+const LANGS_TO_LINK_SUFFIXES = {
   es: '-esp/',
   tag: '-tag/',
 };
@@ -30,7 +30,7 @@ const I18Select = ({ baseUrls }) => {
     if (contentDiv) {
       contentDiv.setAttribute('lang', 'en');
     }
-    for (const [langCode, suffix] of Object.entries(langsToLinkSuffixes)) {
+    for (const [langCode, suffix] of Object.entries(LANGS_TO_LINK_SUFFIXES)) {
       if (document?.location.href.endsWith(suffix)) {
         setLang(langCode);
         if (contentDiv) {
@@ -44,7 +44,7 @@ const I18Select = ({ baseUrls }) => {
     () => {
       if (lang && lang !== 'en') {
         const onThisPageEl = document?.getElementById('on-this-page');
-        onThisPageEl.innerText = i18Content[lang].onThisPage;
+        onThisPageEl.innerText = I18_CONTENT[lang].onThisPage;
       }
     },
     [lang],
@@ -53,8 +53,11 @@ const I18Select = ({ baseUrls }) => {
   return (
     <div className="vads-u-display--inline-block vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-border--0 vads-u-border-bottom--1px vads-u-border-style--solid vads-u-border-color--gray">
       <span>
-        {Object.entries(i18Content).map(([languageCode, languageConfig], i) => {
-          if (baseUrls?.languageCode) {
+        {Object.entries(I18_CONTENT).map(
+          ([languageCode, languageConfig], i) => {
+            if (!baseUrls[languageCode]) {
+              return null;
+            }
             return (
               <span key={i}>
                 <a
@@ -76,7 +79,7 @@ const I18Select = ({ baseUrls }) => {
                 >
                   {languageConfig.label}{' '}
                 </a>
-                {i !== Object.entries(i18Content).length - 1 && (
+                {i !== Object.entries(I18_CONTENT).length - 1 && (
                   <span
                     className=" vads-u-margin-left--0p5 vads-u-margin-right--0p5 vads-u-color--gray
                     vads-u-height--20"
@@ -86,9 +89,8 @@ const I18Select = ({ baseUrls }) => {
                 )}
               </span>
             );
-          }
-          return null;
-        })}
+          },
+        )}
       </span>
     </div>
   );
