@@ -63,26 +63,25 @@ const I18Select = ({ baseUrls }) => {
   };
 
   return (
-    <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-top--4 vads-u-margin-bottom--3">
+    <div className="vads-u-display--inline-block vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-border-bottom--1px vads-u-border-style--solid vads-u-border-color--gray">
       <span>
-        {Object.entries(i18Content).map(([k, v], i) => {
+        {Object.entries(i18Content).map(([languageCode, languageConfig], i) => {
           return (
             <span key={i}>
               <a
                 className={`vads-u-font-size--base vads-u-font-family--sans vads-u-padding-bottom-0p5 ${
-                  k === lang
+                  languageCode === lang
                     ? 'vads-u-font-weight--bold vads-u-color--base vads-u-text-decoration--none'
                     : ''
                 }`}
-                onClick={e => {
-                  e.preventDefault();
-                  handleLinkClick(k);
+                onClick={_ => {
+                  handleLinkClick(languageCode);
                 }}
                 hrefLang={lang}
                 lang={lang}
                 style={{ cursor: 'pointer' }}
               >
-                {v.label}{' '}
+                {languageConfig.label}{' '}
               </a>
               {i !== Object.entries(i18Content).length - 1 && (
                 <span
@@ -97,14 +96,6 @@ const I18Select = ({ baseUrls }) => {
           );
         })}
       </span>
-      <hr
-        style={{
-          borderTop: '1px solid #5B616B',
-          width: '270px',
-          marginBottom: '8px',
-          marginTop: '4px',
-        }}
-      />
     </div>
   );
 };
