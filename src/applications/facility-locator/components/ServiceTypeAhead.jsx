@@ -111,7 +111,7 @@ class ServiceTypeAhead extends Component {
                 })}
                 id="service-type-ahead-input"
               />
-              {isOpen && inputValue.length >= 2 ? (
+              {isOpen && inputValue && inputValue.length >= 2 ? (
                 <div className="dropdown" role="listbox">
                   {services
                     .filter(specialty => this.shouldShow(inputValue, specialty))

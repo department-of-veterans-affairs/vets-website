@@ -407,7 +407,6 @@ const FacilitiesMap = props => {
             serviceType={serviceType}
             context={queryContext}
             specialtyMap={props.specialties}
-            currentQuery={currentQuery}
             inProgress={currentQuery.inProgress}
           />
         </div>
@@ -505,8 +504,7 @@ const FacilitiesMap = props => {
             facilityType={facilityType}
             serviceType={serviceType}
             context={queryContext}
-            currentQuery={props.currentQuery}
-            specialties={props.specialties}
+            specialtyMap={props.specialties}
             inProgress={currentQuery.inProgress}
           />
         </div>
