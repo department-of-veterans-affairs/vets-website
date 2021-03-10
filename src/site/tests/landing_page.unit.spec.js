@@ -1,15 +1,9 @@
-// import { getByText } from '@testing-library/dom';
 import { expect } from 'chai';
-import { parseFixture, renderHTML } from './support';
-import { readFileSync } from 'fs';
-import path from 'path';
+import { getLayout, parseFixture, renderHTML } from './support';
 
 const layout = (() => {
-  const layoutPath = path.resolve(
-    __dirname,
-    './temp_layouts/landing_page.drupal.liquid',
-  );
-  return readFileSync(layoutPath, 'utf8').toString();
+  const layoutPath = 'src/site/tests/temp_layouts/landing_page.drupal.liquid';
+  return getLayout(layoutPath);
 })();
 
 describe('intro', () => {
