@@ -814,34 +814,7 @@ describe('VAOS integration: appointment list', () => {
     ).to.exist;
   });
 
-  it('should render schedule button with direct schedule text', async () => {
-    const defaultState = {
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingDirect: true,
-        vaOnlineSchedulingCommunityCare: false,
-      },
-      user: userState,
-    };
-    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
-      initialState: defaultState,
-    });
-
-    expect(
-      await screen.findByRole('heading', {
-        level: 2,
-        name: /Create a new appointment/,
-      }),
-    );
-    expect(
-      screen.getByText(
-        /Schedule an appointment at a VA medical center or clinic./,
-      ),
-    ).to.be.ok;
-    expect(screen.getByRole('link', { name: 'Schedule an appointment' }));
-  });
-
-  it('should render schedule button with direct schedule text for community care', async () => {
+  it('should render schedule radio list with primary care option', async () => {
     const defaultState = {
       featureToggles: {
         ...initialState.featureToggles,
@@ -857,72 +830,22 @@ describe('VAOS integration: appointment list', () => {
     expect(
       await screen.findByRole('heading', {
         level: 2,
-        name: /Create a new appointment/,
+        name: /Schedule a new appointment/,
       }),
     );
-    expect(
-      screen.getByText(
-        /Schedule an appointment at a VA medical center, clinic, or community care facility./,
-      ),
-    ).to.be.ok;
-    expect(screen.getByRole('link', { name: 'Schedule an appointment' }));
-  });
 
-  it('should render schedule button with request appointment text', async () => {
-    const defaultState = {
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingDirect: false,
-        vaOnlineSchedulingCommunityCare: false,
-      },
-      user: userState,
-    };
-    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
-      initialState: defaultState,
-    });
+    expect(await screen.findAllByRole('radio')).to.have.length(1);
 
-    expect(
-      await screen.findByRole('heading', {
-        level: 2,
-        name: /Request an appointment/,
-      }),
+    expect(screen.getByText(/Choose an appointment type/)).to.be.ok;
+
+    userEvent.click(
+      await screen.findByRole('radio', { name: 'Primary or specialty care' }),
     );
-    expect(
-      screen.getByText(
-        /You can submit a request for an appointment at a VA medical center or clinic./,
-      ),
-    ).to.be.ok;
-    expect(screen.getByRole('link', { name: 'Request an appointment' }));
+
+    expect(await screen.findByRole('link', { name: /Start scheduling/ }));
   });
 
-  it('should render schedule button with request appointment text for communty care', async () => {
-    const defaultState = {
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingDirect: false,
-        vaOnlineSchedulingCommunityCare: true,
-      },
-      user: userState,
-    };
-    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
-      initialState: defaultState,
-    });
-
-    expect(
-      await screen.findByRole('heading', {
-        level: 2,
-        name: /Request an appointment/,
-      }),
-    );
-    expect(
-      screen.getByText(
-        /You can submit a request for an appointment at a VA medical center, clinic, or approved Community Care facility./,
-      ),
-    ).to.be.ok;
-    expect(screen.getByRole('link', { name: 'Request an appointment' }));
-  });
-
-  it('should show COVID-19 vaccine button', async () => {
+  it('should render schedule radio list with COVID-19 vaccine option', async () => {
     const defaultState = {
       featureToggles: {
         ...initialState.featureToggles,
@@ -935,16 +858,20 @@ describe('VAOS integration: appointment list', () => {
     });
 
     expect(
-      await screen.findAllByRole('heading', {
+      await screen.findByRole('heading', {
         level: 2,
-        name: /Schedule your first COVID-19 vaccine/,
+        name: /Schedule a new appointment/,
       }),
     );
 
-    expect(
-      screen.getByText(/You may be eligible to receive the COVID-19 vaccine/i),
-    ).to.be.ok;
+    expect(await screen.findAllByRole('radio')).to.have.length(2);
 
-    expect(screen.getByRole('link', { name: 'Learn more' }));
+    expect(screen.getByText(/Choose an appointment type/)).to.be.ok;
+
+    userEvent.click(
+      await screen.findByRole('radio', { name: 'COVID-19 vaccine' }),
+    );
+
+    expect(await screen.findByRole('link', { name: /Start scheduling/ }));
   });
 });
