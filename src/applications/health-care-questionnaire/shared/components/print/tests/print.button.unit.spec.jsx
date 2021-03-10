@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import PrintButton from '../../../questionnaire-list/components/Shared/Print/PrintButton';
+import PrintButton from '../PrintButton';
 
 describe('health care questionnaire list - shows view and print button', () => {
   it('renders, no error message', () => {
