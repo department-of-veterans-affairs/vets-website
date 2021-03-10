@@ -22,8 +22,8 @@ const ClaimsAndAppeals = ({
   appealsData,
   claimsData,
   // for some unit testing purposes, we want to prevent this component from
-  // making off API calls which kicks off a chain of events that results in the
-  // component always showing a loading spinner
+  // making API calls which kicks off a chain of events that results in the
+  // component always showing a loading spinner. I do not like this approach.
   dataLoadingDisabled = false,
   loadAppeals,
   loadClaims,

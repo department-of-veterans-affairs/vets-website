@@ -363,8 +363,6 @@ describe('ClaimsAndAppeals component', () => {
         it('shows details about the most recently updated claim or appeal', () => {
           expect(view.getByRole('link', { name: /^view claim received/i })).to
             .exist;
-          // TODO: uncomment when the component is updated
-          // expect(view.getByText(/received.*dec.*17, 2020/i)).to.exist;
         });
       },
     );
@@ -416,8 +414,6 @@ describe('ClaimsAndAppeals component', () => {
         it('shows details about the most recently updated claim or appeal', () => {
           expect(view.getByRole('link', { name: /^view details of/i })).to
             .exist;
-          // TODO: uncomment when the component is updated to render claim details
-          // expect(view.getByText(/received.*dec.*17, 2020/i)).to.exist;
         });
       },
     );
@@ -469,8 +465,6 @@ describe('ClaimsAndAppeals component', () => {
         it('shows details for the most recently updated claim', () => {
           expect(view.getByRole('link', { name: /^view claim received/i })).to
             .exist;
-          // TODO: determine what text to show for a recently closed claims
-          // expect(view.getByText('')).to.exist;
         });
       },
     );
