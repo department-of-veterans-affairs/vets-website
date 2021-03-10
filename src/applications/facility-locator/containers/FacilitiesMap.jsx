@@ -406,6 +406,7 @@ const FacilitiesMap = props => {
             facilityType={facilityType}
             serviceType={serviceType}
             context={queryContext}
+            specialties={props.specialties}
             currentQuery={currentQuery}
             inProgress={currentQuery.inProgress}
           />
@@ -484,6 +485,7 @@ const FacilitiesMap = props => {
     const facilityType = currentQuery.facilityType;
     const serviceType = currentQuery.serviceType;
     const queryContext = currentQuery.context;
+
     return (
       <div className="desktop-container">
         <SearchControls
@@ -504,6 +506,7 @@ const FacilitiesMap = props => {
             serviceType={serviceType}
             context={queryContext}
             currentQuery={props.currentQuery}
+            specialties={props.specialties}
             inProgress={currentQuery.inProgress}
           />
         </div>
@@ -712,6 +715,7 @@ const mapStateToProps = state => ({
   results: state.searchResult.results,
   pagination: state.searchResult.pagination,
   selectedResult: state.searchResult.selectedResult,
+  specialties: state.searchQuery.specialties,
 });
 
 const mapDispatchToProps = {

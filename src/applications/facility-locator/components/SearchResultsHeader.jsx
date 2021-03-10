@@ -10,20 +10,14 @@ import { LocationType } from '../constants';
 import { connect } from 'react-redux';
 
 export const SearchResultsHeader = ({
+  specialties,
   results,
   facilityType,
   serviceType,
   context,
   inProgress,
-  specialtyMap,
-  currentQuery,
 }) => {
-  if (
-    inProgress ||
-    !results ||
-    !results.length ||
-    currentQuery?.fetchSvcsInProgress
-  ) {
+  if (inProgress || !results || !results.length) {
     return <div style={{ height: '38px' }} />;
   }
 
@@ -45,7 +39,7 @@ export const SearchResultsHeader = ({
     }
 
     if (facilityType === LocationType.CC_PROVIDER) {
-      return specialtyMap[rawServiceType];
+      return specialties && specialties[rawServiceType];
     }
 
     if (facilityType === LocationType.BENEFITS) {
@@ -92,7 +86,6 @@ SearchResultsHeader.propTypes = {
   facilityType: PropTypes.string,
   serviceType: PropTypes.string,
   context: PropTypes.string,
-  specialtyMap: PropTypes.object,
 };
 
 // Only re-render if results or inProgress props have changed
@@ -104,7 +97,7 @@ const areEqual = (prevProps, nextProps) => {
 };
 
 const mapStateToProps = state => ({
-  specialtyMap: state.searchQuery.specialties,
+  specialties: state.searchQuery.specialties,
 });
 
 export default React.memo(
