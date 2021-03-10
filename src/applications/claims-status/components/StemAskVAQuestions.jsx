@@ -1,5 +1,10 @@
 import React from 'react';
 
+import Telephone, {
+  CONTACTS,
+  PATTERNS,
+} from '@department-of-veterans-affairs/component-library/Telephone';
+
 function StemAskVAQuestions() {
   return (
     <div>
@@ -12,17 +17,19 @@ function StemAskVAQuestions() {
       <h3 className="vads-u-font-size--h4">Call us</h3>
       <p>Veterans Crisis Line: </p>
       <p>
-        <a href="tel:+1-800-273-8255">1-800-273-8255 </a>
-        and press 1
+        <Telephone contact={CONTACTS.CRISIS_LINE} /> and press 1
       </p>
       <br />
       <p>Education Call Center:</p>
       <p>
-        <a href="tel:+1-888-442-4551">1-888-GI-BILL-1 (1-888-442-4551)</a>{' '}
+        <Telephone contact={CONTACTS.GI_BILL}>
+          1-888-GI-BILL-1 (1-888-442-4551)
+        </Telephone>{' '}
         (inside the U.S.)
       </p>
       <p>
-        <a href="tel:+001-918-781-5678">001-918-781-5678</a> (outside the U.S.)
+        <Telephone contact={'19187815678'} pattern={PATTERNS.OUTSIDE_US} />{' '}
+        (outside the U.S.)
       </p>
       <br />
       <p>
@@ -32,7 +39,8 @@ function StemAskVAQuestions() {
       </p>
       <br />
       <p>
-        TTY, Federal Relay: <a href="tel:+711">711</a>
+        TTY, Federal Relay:{' '}
+        <Telephone contact={CONTACTS[711]} pattern={PATTERNS['3_DIGIT']} />
       </p>
       <h3 className="vads-u-font-size--h4">Send us mail</h3>
       <p>
