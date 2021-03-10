@@ -10,6 +10,7 @@ import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
 import { appointmentsToolLink } from 'platform/utilities/cerner';
+import { getButtonType } from 'applications/static-pages/analytics/addButtonLinkListeners';
 
 export class CernerCallToAction extends Component {
   static defaultProps = {
@@ -85,13 +86,14 @@ export class CernerCallToAction extends Component {
     }
   };
 
-  onCTALinkClick = (buttonLabel, buttonType = 'default') => () => {
+  onCTALinkClick = event => {
+    const style = window.getComputedStyle(event.target);
+
     recordEvent({
       event: 'cta-button-click',
-      'button-type': buttonType,
-      'button-click-label': buttonLabel,
-      'button-background-color':
-        buttonType === 'secondary' ? '#ffffff' : '#0071bb',
+      'button-type': getButtonType(event.target.classList),
+      'button-click-label': event.target.text,
+      'button-background-color': style.getPropertyValue('background-color'),
     });
   };
 
@@ -207,7 +209,7 @@ export class CernerCallToAction extends Component {
                 <a
                   className="usa-button vads-u-color--white vads-u-margin-top--0 vads-u-margin-bottom--4"
                   href={isCerner ? myVAHealthLink : myHealtheVetLink}
-                  onClick={onCTALinkClick(linkText, 'default')}
+                  onClick={onCTALinkClick}
                   rel="noreferrer noopener"
                   target="_blank"
                 >
@@ -224,7 +226,7 @@ export class CernerCallToAction extends Component {
             <a
               className="usa-button usa-button-secondary vads-u-color--primary vads-u-margin-top--0 vads-u-margin-bottom--2"
               href={myHealtheVetLink}
-              onClick={onCTALinkClick(myHealtheVetLinkText, 'secondary')}
+              onClick={onCTALinkClick}
               rel="noreferrer noopener"
               target="_blank"
             >

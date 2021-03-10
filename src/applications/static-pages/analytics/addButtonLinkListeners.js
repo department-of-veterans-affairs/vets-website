@@ -1,6 +1,6 @@
 import recordEvent from 'platform/monitoring/record-event';
 
-function getButtonType(classList) {
+export function getButtonType(classList) {
   if (classList.contains('usa-button-primary')) {
     return 'primary';
   } else if (classList.contains('usa-button-secondary')) {
