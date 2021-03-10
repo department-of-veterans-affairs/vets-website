@@ -3,7 +3,7 @@ import { getLayout, parseFixture, renderHTML } from './support';
 
 const layout = (() => {
   const layoutPath = 'src/site/tests/temp_layouts/landing_page.drupal.liquid';
-  return getLayout(layoutPath);
+  return getLayout(layoutPath).toString();
 })();
 
 describe('intro', () => {
