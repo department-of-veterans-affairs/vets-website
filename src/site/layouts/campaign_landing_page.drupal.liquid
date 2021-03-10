@@ -385,6 +385,7 @@
 
                     <!-- Event link -->
                     <div class="vads-u-display--flex vads-u-flex-direction--column">
+                      <!-- Facility link -->
                       {% if eventReference.entity.fieldFacilityLocation.entity.entityUrl.path %}
                         <a
                           href="{{ eventReference.entity.fieldFacilityLocation.entity.entityUrl.path }}"
@@ -396,6 +397,7 @@
                         </a>
                       {% endif %}
 
+                      <!-- Event link -->
                       {% if eventReference.entity.fieldLink.uri %}
                         <a
                           href="{{ eventReference.entity.fieldLink.uri }}"
@@ -404,6 +406,18 @@
                           target="_blank"
                         >
                           {{ eventReference.entity.fieldEventCta }}
+                        </a>
+                      {% endif %}
+
+                      <!-- Online event link -->
+                      {% if eventReference.entity.fieldUrlOfAnOnlineEvent.uri %}
+                        <a
+                          href="{{ eventReference.entity.fieldUrlOfAnOnlineEvent.uri }}"
+                          onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Events', 'clp-section-title': '{{ fieldClpEventsHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ eventReference.entity.fieldUrlOfAnOnlineEvent.uri | escape }}' });"
+                          rel="noreferrer noopener"
+                          target="_blank"
+                        >
+                          {{ eventReference.entity.fieldUrlOfAnOnlineEvent.uri }}
                         </a>
                       {% endif %}
 
