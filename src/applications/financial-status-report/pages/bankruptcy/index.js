@@ -1,7 +1,7 @@
 export const uiSchema = {
   'ui:title': 'Your bankruptcy details',
-  bankruptcyHistory: {
-    hasBeenAdjudicated: {
+  questions: {
+    hasBeenAdjucatedBankrupt: {
       'ui:title': 'Have you ever declared bankruptcy?',
       'ui:required': () => true,
       'ui:widget': 'yesNo',
@@ -12,10 +12,10 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    bankruptcyHistory: {
+    questions: {
       type: 'object',
       properties: {
-        hasBeenAdjudicated: {
+        hasBeenAdjucatedBankrupt: {
           type: 'boolean',
         },
       },

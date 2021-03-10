@@ -854,11 +854,6 @@ describe('VAOS Appointment transformer', () => {
       );
     });
 
-    // TODO: Verify no start date for appointment request
-    xit('should set start date', () => {
-      expect(data.start).to.equal('2020-02-05T10:30:00-09:00');
-    });
-
     it('should set minutesDuration', () => {
       expect(data.minutesDuration).to.equal(60);
     });

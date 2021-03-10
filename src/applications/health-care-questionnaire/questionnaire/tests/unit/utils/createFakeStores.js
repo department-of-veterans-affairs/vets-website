@@ -221,28 +221,6 @@ const createFakeReasonForVisitStore = ({ reason = '' }) => {
   };
 };
 
-const createFakeHiddenFieldStore = ({
-  appointmentId = '',
-  questionnaireId = '',
-}) => {
-  return {
-    getState: () => ({
-      questionnaireData: {
-        context: {
-          questionnaire: {
-            id: questionnaireId,
-          },
-          appointment: {
-            id: appointmentId,
-          },
-        },
-      },
-    }),
-    subscribe: () => {},
-    dispatch: () => {},
-  };
-};
-
 const createFakeConfirmationStore = ({ hasData }) => {
   return {
     getState: () => {
@@ -331,24 +309,6 @@ const createFakeStopCodeStore = (stopCode = '323') => {
   };
 };
 
-const createFakeFooterStore = (clinic = {}, clinicFriendlyName = '') => {
-  return {
-    getState: () => ({
-      questionnaireData: {
-        context: {
-          appointment: {
-            attributes: {
-              clinicFriendlyName,
-              vdsAppointments: [{ clinic }],
-            },
-          },
-        },
-      },
-    }),
-    subscribe: () => {},
-    dispatch: () => ({}),
-  };
-};
 export {
   createFakeUserStore,
   createFakeReasonForVisitDescriptionStore,
@@ -357,6 +317,4 @@ export {
   createFakeIntroductionPageStore,
   createFakeStopCodeStore,
   createFakeExpiresAtStore,
-  createFakeHiddenFieldStore,
-  createFakeFooterStore,
 };

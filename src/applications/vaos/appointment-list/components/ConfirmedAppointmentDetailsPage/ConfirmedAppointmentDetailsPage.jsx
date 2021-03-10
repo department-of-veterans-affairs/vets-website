@@ -11,7 +11,6 @@ import moment from '../../../lib/moment-tz';
 import {
   getVAAppointmentLocationId,
   getVARFacilityId,
-  getVideoAppointmentLocation,
   isAtlasLocation,
   isVAPhoneAppointment,
   isVideoAppointment,
@@ -21,23 +20,21 @@ import {
 } from '../../../services/appointment';
 import {
   APPOINTMENT_STATUS,
+  APPOINTMENT_TYPES,
   FETCH_STATUS,
   PURPOSE_TEXT,
 } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import * as actions from '../../redux/actions';
 import AppointmentDateTime from './AppointmentDateTime';
-import AppointmentInstructions from './AppointmentInstructions';
-import {
-  getCancelInfo,
-  selectConfirmedAppointmentById,
-} from '../../redux/selectors';
+import { getCancelInfo, selectAppointmentById } from '../../redux/selectors';
 import { selectFeatureCancel } from '../../../redux/selectors';
 import VideoVisitSection from './VideoVisitSection';
 import { formatFacilityAddress } from 'applications/vaos/services/location';
 import PageLayout from '../AppointmentsPage/PageLayout';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
+import Breadcrumbs from '../../../components/Breadcrumbs';
 
 function formatAppointmentDate(date) {
   if (!date.isValid()) {
@@ -59,6 +56,23 @@ function formatHeader(appointment) {
   } else {
     return 'VA Appointment';
   }
+}
+
+function formatInstructions(instructions) {
+  if (!instructions) {
+    return null;
+  }
+
+  const strParts = instructions.split(': ');
+
+  if (strParts[0] && strParts[1]) {
+    return {
+      header: strParts[0],
+      body: strParts[1],
+    };
+  }
+
+  return null;
 }
 
 function ConfirmedAppointmentDetailsPage({
@@ -114,13 +128,12 @@ function ConfirmedAppointmentDetailsPage({
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isVideo = isVideoAppointment(appointment);
   const isPhone = isVAPhoneAppointment(appointment);
-  const facilityId = isVideo
-    ? getVideoAppointmentLocation(appointment)
-    : getVAAppointmentLocationId(appointment);
+  const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
   const isInPersonVAAppointment = !isVideo;
 
   const header = formatHeader(appointment);
+  const instructions = formatInstructions(appointment.comment);
 
   const showInstructions =
     isInPersonVAAppointment &&
@@ -130,9 +143,9 @@ function ConfirmedAppointmentDetailsPage({
 
   return (
     <PageLayout>
-      <div className="vads-u-display--block vads-u-padding-y--2p5 vaos-hide-for-print">
-        ‹ <Link to="/">Manage appointments</Link>
-      </div>
+      <Breadcrumbs>
+        <Link to={`/va/${id}`}>Appointment detail</Link>
+      </Breadcrumbs>
 
       <h1>
         <AppointmentDateTime
@@ -179,9 +192,15 @@ function ConfirmedAppointmentDetailsPage({
             />
 
             {showInstructions &&
-              isInPersonVAAppointment && (
+              isInPersonVAAppointment &&
+              instructions && (
                 <div className="vads-u-margin-top--3 vaos-appts__block-label">
-                  <AppointmentInstructions instructions={appointment.comment} />
+                  <div className="vads-u-flex--1 vads-u-margin-bottom--2 vaos-u-word-break--break-word">
+                    <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+                      {instructions.header}
+                    </h2>
+                    <div>{instructions.body}</div>
+                  </div>
                 </div>
               )}
             {!canceled && (
@@ -270,10 +289,9 @@ function mapStateToProps(state, ownProps) {
   const { appointmentDetailsStatus, facilityData } = state.appointments;
 
   return {
-    appointment: selectConfirmedAppointmentById(
-      state,
-      ownProps.match.params.id,
-    ),
+    appointment: selectAppointmentById(state, ownProps.match.params.id, [
+      APPOINTMENT_TYPES.vaAppointment,
+    ]),
     appointmentDetailsStatus,
     cancelInfo: getCancelInfo(state),
     facilityData,
