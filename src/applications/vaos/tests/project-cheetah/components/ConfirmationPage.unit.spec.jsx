@@ -44,6 +44,12 @@ describe('VAOS vaccine flow <ConfirmationPage>', () => {
                 state: 'WY',
                 line: ['2360 East Pershing Boulevard'],
               },
+              telecom: [
+                {
+                  system: 'phone',
+                  value: '307-778-7550',
+                },
+              ],
             },
           ],
         },
@@ -60,10 +66,16 @@ describe('VAOS vaccine flow <ConfirmationPage>', () => {
         new RegExp(start.format('MMMM D, YYYY [at] h:mm a'), 'i'),
       ),
     ).to.be.ok;
-
+    expect(screen.baseElement).to.contain.text('Confirmed');
     expect(screen.getByText(/Cheyenne VA Medical Center/i)).to.be.ok;
     expect(screen.getByText(/2360 East Pershing Boulevard/i)).to.be.ok;
     expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
+    expect(screen.getByText(/directions/i)).to.have.attribute(
+      'href',
+      'https://maps.google.com?saddr=Current+Location&daddr=2360 East Pershing Boulevard, Cheyenne, WY 82001-5356',
+    );
+    expect(screen.baseElement).to.contain.text('Main phone: 307-778-7550');
+    expect(screen.getByText(/add to calendar/i)).to.have.tagName('a');
 
     userEvent.click(screen.getByText(/View your appointments/i));
     expect(screen.history.push.called).to.be.true;

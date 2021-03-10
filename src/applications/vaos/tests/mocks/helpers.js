@@ -23,6 +23,7 @@ import sinon from 'sinon';
  * @param {Object} params
  * @param {Array<MASAppointment>} [params.va=[]] VA appointments to return from mock
  * @param {boolean} [params.vaError=false] Set to true if mock should return an error
+ * @param {boolean} [params.partialError=false] Set to true if mock should return a MAS partial error
  * @param {Array<VARCommunityCareAppointment>} [params.cc=[]] CC appointments to return from mock
  * @param {Array<VARRequest>} [params.requests=[]] Requests to return from mock
  * @param {boolean} [params.isHomepageRefresh=false] Set to true if mock for upcoming page on homepage refresh, which
@@ -33,6 +34,7 @@ export function mockAppointmentInfo({
   vaError = false,
   cc = [],
   requests = [],
+  partialError = null,
   isHomepageRefresh = false,
 }) {
   mockFetch();
@@ -56,7 +58,12 @@ export function mockAppointmentInfo({
   if (vaError) {
     setFetchJSONFailure(global.fetch.withArgs(vaUrl), { errors: [] });
   } else {
-    setFetchJSONResponse(global.fetch.withArgs(vaUrl), { data: va });
+    setFetchJSONResponse(global.fetch.withArgs(vaUrl), {
+      data: va,
+      meta: {
+        errors: partialError ? [partialError] : [],
+      },
+    });
   }
 
   setFetchJSONResponse(global.fetch.withArgs(ccUrl), { data: cc });
@@ -462,7 +469,7 @@ export function mockEligibilityFetches({
     global.fetch.withArgs(
       `${environment.API_URL}/vaos/v0/appointments?start_date=${moment()
         .startOf('day')
-        .subtract(6, 'months')
+        .subtract(12, 'months')
         .toISOString()}&end_date=${moment()
         .startOf('day')
         .toISOString()}&type=va`,
@@ -473,34 +480,10 @@ export function mockEligibilityFetches({
     global.fetch.withArgs(
       `${environment.API_URL}/vaos/v0/appointments?start_date=${moment()
         .startOf('day')
-        .subtract(12, 'months')
-        .toISOString()}&end_date=${moment()
-        .startOf('day')
-        .subtract(6, 'months')
-        .toISOString()}&type=va`,
-    ),
-    { data: [] },
-  );
-  setFetchJSONResponse(
-    global.fetch.withArgs(
-      `${environment.API_URL}/vaos/v0/appointments?start_date=${moment()
-        .startOf('day')
-        .subtract(18, 'months')
-        .toISOString()}&end_date=${moment()
-        .startOf('day')
-        .subtract(12, 'months')
-        .toISOString()}&type=va`,
-    ),
-    { data: [] },
-  );
-  setFetchJSONResponse(
-    global.fetch.withArgs(
-      `${environment.API_URL}/vaos/v0/appointments?start_date=${moment()
-        .startOf('day')
         .subtract(24, 'months')
         .toISOString()}&end_date=${moment()
         .startOf('day')
-        .subtract(18, 'months')
+        .subtract(12, 'months')
         .toISOString()}&type=va`,
     ),
     { data: [] },
@@ -927,6 +910,16 @@ export function mockGetCurrentPosition({
   };
 }
 
+/**
+ * Mocks the fetch request made when retrieving a single request
+ * for the details page
+ *
+ * @export
+ * @param {Object} params
+ * @param {VARRequest} params.appointment Request to be returned from the mock
+ * @param {boolean} [params.error=null] Whether or not to return an error from the mock
+ * }
+ */
 export function mockSingleRequestFetch({ request, error = null }) {
   const baseUrl = `${environment.API_URL}/vaos/v0/appointment_requests/${
     request.id
@@ -939,12 +932,18 @@ export function mockSingleRequestFetch({ request, error = null }) {
   }
 }
 
-export function mockSingleAppointmentFetch({
-  appointment,
-  type = 'va',
-  error = null,
-}) {
-  const baseUrl = `${environment.API_URL}/vaos/v0/appointments/${type}/${
+/**
+ * Mocks the fetch request made when retrieving a single VA appointment
+ * for the details page
+ *
+ * @export
+ * @param {Object} params
+ * @param {MASAppointment} params.appointment VA appointment to be returned from the mock
+ * @param {boolean} [params.error=null] Whether or not to return an error from the mock
+ * }
+ */
+export function mockSingleAppointmentFetch({ appointment, error = null }) {
+  const baseUrl = `${environment.API_URL}/vaos/v0/appointments/va/${
     appointment.id
   }`;
 
@@ -952,5 +951,38 @@ export function mockSingleAppointmentFetch({
     setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
   } else {
     setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data: appointment });
+  }
+}
+
+/**
+ * Mocks the fetch request made when retrieving a single CC appointment
+ * for the details page
+ *
+ * @export
+ * @param {Object} params
+ * @param {VARCommunityCareAppointment} params.appointment CC appointment to be returned from the mock
+ * @param {boolean} [params.error=null] Whether or not to return an error from the mock
+ * }
+ */
+export function mockSingleCommunityCareAppointmentFetch({
+  appointment,
+  error = null,
+}) {
+  const baseUrl = `${
+    environment.API_URL
+  }/vaos/v0/appointments?start_date=${moment()
+    .subtract(395, 'days')
+    .startOf('day')
+    .toISOString()}&end_date=${moment()
+    .add(395, 'days')
+    .startOf('day')
+    .toISOString()}&type=cc`;
+
+  if (error) {
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
+  } else {
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
+      data: [appointment],
+    });
   }
 }

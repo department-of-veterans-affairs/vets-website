@@ -12,9 +12,9 @@ export default function FormLayout({ children }) {
   return (
     <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--8">
       <Breadcrumbs>
-        <Link to="new-project-cheetah-booking">COVID-19 vaccine</Link>
+        <Link to="new-covid-19-vaccine-booking">COVID-19 vaccine</Link>
       </Breadcrumbs>
-      {location.pathname.endsWith('new-project-cheetah-booking') && (
+      {location.pathname.endsWith('new-covid-19-vaccine-booking') && (
         <DowntimeNotification
           appTitle="VA online scheduling tool"
           isReady

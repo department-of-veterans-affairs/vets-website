@@ -280,6 +280,8 @@ export const WIZARD_STATUS = 'wizardStatus526';
 // sessionStorage key used to determine if the form title should be set to BDD
 export const FORM_STATUS_BDD = 'formStatusBdd';
 
+export const SHOW_8940_4192 = 'showSubforms';
+
 // sessionStorage key used for the user entered separation date in the wizard
 // used by the first page of the form to populate the form data
 export const SAVED_SEPARATION_DATE = 'savedSeparationDate';

@@ -19,8 +19,13 @@ import { MissingServices, MissingId } from './containers/MissingServices';
 
 import { MVI_ADD_SUCCEEDED } from './actions';
 import WizardContainer from './containers/WizardContainer';
-import { WIZARD_STATUS, PDF_SIZE_FEATURE } from './constants';
-import { show526Wizard, isBDD, getPageTitle } from './utils';
+import { WIZARD_STATUS, PDF_SIZE_FEATURE, SHOW_8940_4192 } from './constants';
+import {
+  show526Wizard,
+  isBDD,
+  getPageTitle,
+  showSubform8940And4192,
+} from './utils';
 import { uploadPdfLimitFeature } from './config/selectors';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
@@ -69,6 +74,7 @@ export const Form526Entry = ({
   isBDDForm,
   pdfLimit,
   router,
+  showSubforms,
 }) => {
   const defaultWizardState = getWizardStatus();
   const [wizardState, setWizardState] = useState(defaultWizardState);
@@ -97,6 +103,8 @@ export const Form526Entry = ({
     ) {
       setPageFocus('h1');
       setWizardStatus(WIZARD_STATUS_COMPLETE);
+      // save feature flag for 8940/4192
+      sessionStorage.setItem(SHOW_8940_4192, showSubforms);
     } else if (defaultWizardState === WIZARD_STATUS_NOT_STARTED) {
       setPageFocus('.va-nav-breadcrumbs-list');
     }
@@ -163,6 +171,7 @@ const mapStateToProps = state => ({
   user: state.user,
   mvi: state.mvi,
   showWizard: show526Wizard(state),
+  showSubforms: showSubform8940And4192(state),
   isBDDForm: isBDD(state?.form?.data),
   pdfLimit: uploadPdfLimitFeature(state),
   isStartingOver: state.form?.isStartingOver,
