@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
+import { Provider } from 'react-redux';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
@@ -12,14 +13,33 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
     uiSchema,
   } = formConfig.chapters.disabilities.pages.ratedDisabilities;
 
+  const store = {
+    getState: () => ({
+      form: {
+        loadedData: {
+          formData: {},
+          metadata: {
+            version: 99,
+            returnUrl: '/',
+            submission: {},
+          },
+        },
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  };
+
   it('renders the rated disabilities selection field', () => {
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={initialData}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={store}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={initialData}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     expect(form.find('input[type="checkbox"]').length).to.equal(
@@ -30,12 +50,14 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
 
   it('successfully submits when at least one condition is selected', () => {
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={initialData}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={store}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={initialData}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     // Simulating a click event doesn't trigger onChange, so we have to call it explicitly
@@ -50,12 +72,14 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
 
   it('successfully submits when no conditions selected', () => {
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={initialData}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={store}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={initialData}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     form.find('form').simulate('submit');
@@ -65,12 +89,14 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
 
   it('renders the information about each disability', () => {
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={initialData}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={store}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={initialData}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     const labels = form.find('input[type="checkbox"] + label');
