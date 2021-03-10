@@ -30,6 +30,7 @@ const vaFormPage = require('./vaFormPage.graphql');
 const vamcOperatingStatusAndAlerts = require('./vamcOperatingStatusAndAlerts.graphql');
 const vetCenters = require('./vetCenter.graphql');
 const vetCenterLocations = require('./vetCenterLocations.graphql');
+const vamcPolicyPages = require('./vamcPoliciesPage.graphql');
 
 // Get current feature flags
 const { cmsFeatureFlags } = global;
@@ -113,6 +114,11 @@ module.exports = `
     }
     ${menuLinksQuery.partialQuery}
     ${taxonomiesQuery.partialQuery}
+    ${
+      cmsFeatureFlags.FEATURE_VAMC_SYSTEM_POLICIES_PAGE
+        ? `${vamcPolicyPages}`
+        : ''
+    }    
   }
 `;
 

@@ -168,6 +168,9 @@ A GraphQL query for retrieving pages will consist of a `nodeQuery` with a `filte
       ... on NodeLandingPage {
         entityId
       	entityBundle
+      	entityUrl {
+          path
+        }    
         title
         fieldIntroText
       }
@@ -186,6 +189,9 @@ The response JSON for this GraphQL query will contain a single instance of the p
         {
           "entityId": "79",
           "entityBundle": "landing_page",
+           "entityUrl": {
+              "path": "/records"
+           },           
           "title": "VA records",
           "fieldIntroText": "Access your VA records and documents online to more easily manage your benefits."
         }
@@ -195,13 +201,22 @@ The response JSON for this GraphQL query will contain a single instance of the p
 }
 ```
 
-Your complete query will be restructured so that your JS module exports a GraphQL fragment for use in the preview server as well as as a standalone `nodeQuery` for use in the content build. It should also contain an additional `filter` - a boolean field called `status` that is used to toggle only draft vs. published content. Here is a complete example of what your module may look like. _Note - Hopefully, soon the preview server will be updated to use the same query as the content build. This doc wil be updated once that happens._
+Every page-level query _must_ include the following fields:
+
+- **entityId**: used for troubleshooting and, in some cases, connecting to React components on the page
+- **entityBundle**: used by the build system to determine which template to use when rendering the page
+- **entityUrl**: used by the build system to determine the path of generated static HTML file
+
+Your complete query will be restructured so that your JS module exports a GraphQL fragment for use in the preview server as well as a standalone `nodeQuery` for use in the content build. It should also contain an additional `filter` - a boolean field called `status` that is used to toggle only draft vs. published content. Here is a complete example of what your module may look like. _Note - Hopefully, soon the preview server will be updated to use the same query as the content build. This doc wil be updated once that happens._
 
 ```js
 const examplePageFragment = `
   fragment examplePageFragment on NodeLandingPage {
     entityId
     entityBundle
+    entityUrl {
+      path
+    }     
     title
     fieldIntroText
   }

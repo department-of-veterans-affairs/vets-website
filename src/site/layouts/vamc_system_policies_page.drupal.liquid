@@ -1,0 +1,30 @@
+{% include "src/site/includes/header.html" with drupalTags = true %}
+{% include "src/site/includes/alerts.drupal.liquid" %}
+{% include "src/site/includes/preview-edit.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" with hideHomeBreadcrumb = true %}
+<div class="interior" id="content">
+  <main class="va-l-detail-page va-facility-page">
+    <div class="usa-grid usa-grid-full">
+      <article aria-labelledby="article-heading" role="region" class="usa-content">
+        <h1 id="article-heading">{{ title }}</h1>
+        <div class="va-introtext">
+          <p>{{ fieldIntroText }}</p>
+        </div>
+
+        <nav id="table-of-contents">
+          <h2 class="vads-u-margin-bottom--2 vads-u-font-size--lg">On this page</h2>
+          <ul class="usa-unstyled-list"></ul>
+        </nav>
+
+        <h2 id="visitation-policy">Visitation policy</h2>
+        <p>{{ fieldVamcVisitationPolicy.processed }}</p>
+
+        <div class="last-updated usa-content">
+          Last updated:
+          <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD' }}">{{ changed | humanizeTimestamp }}</time>
+        </div>
+    </div>
+  </main>
+</div>
+{% include "src/site/includes/footer.html" %}
+{% include "src/site/includes/debug.drupal.liquid" %}
