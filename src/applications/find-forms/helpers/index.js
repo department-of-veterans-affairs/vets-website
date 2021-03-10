@@ -3,7 +3,7 @@ import moment from 'moment';
 
 // relative imports
 import { deriveLatestIssue } from '../components/SearchResult';
-import { SORT_OPTIONS, STRINGS_TO_REPLACE_MATRIX } from '../constants';
+import { SORT_OPTIONS, SEARCH_QUERY_AUTO_CORRECT_MAP } from '../constants';
 /**
  * This function sorts the results of Find Forms search.
  * @param {string} sortByPropertyName Is the state property in the SearchResults Controller
@@ -81,28 +81,24 @@ export const regexpDashAdder = (match, index) => {
 };
 
 /**
- * This function takes a string and runs through the STRINGS_TO_REPLACE_MATRIX to remove/ replace of any of those properties listed.
+ * This function takes a string and runs through the SEARCH_QUERY_AUTO_CORRECT_MAP to remove/ replace of any of those properties listed.
  * @param {string} string
  * @return {string} returns a new string ready for search.
  */
-export const transformSearchTerm = string => {
-  const possibleStrings = Object.keys(STRINGS_TO_REPLACE_MATRIX);
+export const correctSearchTerm = string => {
   let stringToStrip = string.toUpperCase();
 
-  possibleStrings.forEach(str => {
-    const stringToReplace = new RegExp(str, 'g');
+  SEARCH_QUERY_AUTO_CORRECT_MAP.forEach((value, key) => {
+    const stringToReplace = new RegExp(key, 'g');
     const isSkippableCondition =
-      (str.startsWith('10') && stringToStrip.includes('10-10EZ')) ||
+      (key.startsWith('10') && stringToStrip.includes('10-10EZ')) ||
       stringToStrip.includes('21P-');
 
     if (isSkippableCondition) {
       return;
     }
 
-    stringToStrip = stringToStrip.replace(
-      stringToReplace,
-      STRINGS_TO_REPLACE_MATRIX[str],
-    );
+    stringToStrip = stringToStrip.replace(stringToReplace, value);
   });
   return stringToStrip.trim();
 };

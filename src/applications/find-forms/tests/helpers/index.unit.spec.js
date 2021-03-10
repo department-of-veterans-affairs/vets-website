@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import {
   sortTheResults,
   regexpDashAdder,
-  transformSearchTerm,
+  correctSearchTerm,
 } from '../../helpers';
 import { deriveLatestIssue } from '../../components/SearchResult';
 import { INITIAL_SORT_STATE, SORT_OPTIONS } from '../../constants';
@@ -123,8 +123,27 @@ describe('Find VA Forms helpers', () => {
     expect(transformString).to.eql('20-213');
   });
 
-  it('transformSearchTerm adjusts the term to allow for faulty searches', () => {
-    const transformString = transformSearchTerm('1010');
-    expect(transformString).to.eql('10-10');
+  const searchQueryAutoCorrectResults = new Map([
+    ['va 10-10ez', '10-10EZ'],
+    ['form 10-10ez', '10-10EZ'],
+    ['10-013L espanol', '10-013L spanish'],
+    ['2010207', '20-10207'],
+    ['2122a', '21-22A'],
+    ['228597', '22-8597'],
+    ['266807a', '26-6807A'],
+    ['29380', '29-380'],
+    ['401330', '40-1330'],
+    ['21P', '21P-'],
+    ['1010', '10-10'],
+    ['1010EZ', '10-10EZ'],
+    ['1010 EZ', '10-10EZ'],
+    ['10-10 EZ', '10-10EZ'],
+  ]);
+
+  searchQueryAutoCorrectResults.forEach((value, key) => {
+    it('correctSearchTerm adjusts the term to allow for faulty searches', () => {
+      const transformString = correctSearchTerm(key);
+      expect(transformString).to.eql(value);
+    });
   });
 });

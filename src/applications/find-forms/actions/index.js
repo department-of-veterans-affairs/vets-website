@@ -3,7 +3,7 @@ import URLSearchParams from 'url-search-params';
 // Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
 import { fetchFormsApi } from '../api';
-import { transformSearchTerm } from '../helpers';
+import { correctSearchTerm } from '../helpers';
 import { MAX_PAGE_LIST_LENGTH } from '../containers/SearchResults';
 import {
   FETCH_FORMS,
@@ -75,8 +75,8 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
   const history = options?.history || window.history;
   const mockRequest = options?.mockRequest || false;
   let q = query;
-  if (options?.useSearchTransform) {
-    q = transformSearchTerm(query);
+  if (options?.useSearchQueryAutoCorrect) {
+    q = correctSearchTerm(query);
   }
 
   // Change the `fetching` state in our store.
