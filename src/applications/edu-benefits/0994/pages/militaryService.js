@@ -1,6 +1,7 @@
 import moment from 'moment';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import environment from 'platform/utilities/environment';
+import { validateDate } from 'platform/forms-system/src/js/validation';
 import {
   activeDutyNotice,
   benefitNotice,
@@ -9,7 +10,12 @@ import {
   selectedReserveNationalGuardExpectedDutyTitle,
 } from '../content/militaryService';
 
-const { activeDuty, activeDutyDuringVetTec } = fullSchema.properties;
+const {
+  activeDuty,
+  activeDutyDuringVetTec,
+  expectedActiveDutyStatusChange,
+  expectedReleaseDate,
+} = fullSchema.properties;
 
 const daysRemaining = formData => {
   return moment(formData.expectedReleaseDate).diff(moment(), 'days');
@@ -37,6 +43,11 @@ export const uiSchema = {
       hideIf: () => environment.isProduction(),
       expandUnder: 'activeDuty',
       expandUnderCondition: true,
+    },
+    'ui:validations': [validateDate],
+    'ui:errorMessages': {
+      pattern: 'Please enter a valid date',
+      required: 'Please enter a date',
     },
   },
   'view:remainingDaysGreaterThan180Notice': {
@@ -99,14 +110,8 @@ export const schema = {
   properties: {
     activeDuty,
     activeDutyDuringVetTec,
-    expectedReleaseDate: {
-      pattern:
-        '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$',
-      type: 'string',
-    },
-    expectedActiveDutyStatusChange: {
-      type: 'boolean',
-    },
+    expectedReleaseDate,
+    expectedActiveDutyStatusChange,
     'view:activeDutyNotice': {
       type: 'object',
       properties: {},
