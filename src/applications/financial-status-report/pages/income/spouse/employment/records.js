@@ -48,7 +48,7 @@ export const uiSchema = {
               </p>
             ),
           }),
-          payrollDeductions: {
+          deductions: {
             'ui:field': ItemLoop,
             'ui:title': 'Payroll deductions',
             'ui:description':
@@ -64,7 +64,7 @@ export const uiSchema = {
               'ui:options': {
                 classNames: 'horizonal-field-container no-wrap',
               },
-              deductionType: {
+              deductionName: {
                 'ui:title': 'Type of payroll deduction',
                 'ui:field': Typeahead,
                 'ui:options': {
@@ -113,14 +113,14 @@ export const schema = {
                     grossMonthlyIncome: {
                       type: 'number',
                     },
-                    payrollDeductions: {
+                    deductions: {
                       type: 'array',
                       items: {
                         type: 'object',
                         title: 'Deduction',
-                        required: ['deductionType', 'deductionAmount'],
+                        required: ['deductionName', 'deductionAmount'],
                         properties: {
-                          deductionType: {
+                          deductionName: {
                             type: 'string',
                           },
                           deductionAmount: {

@@ -1,7 +1,6 @@
 export const transform = ({ data }) => {
-  // console.log('incoming transform data: ', data);
-
   const {
+    questions,
     personalData,
     expenses,
     assets,
@@ -9,20 +8,22 @@ export const transform = ({ data }) => {
     additionalData,
   } = data;
 
+  const { agesOfOtherDependents, address, employmentHistory } = personalData;
+
   const formObj = {
     personalData: {
       ...personalData,
-      agesOfOtherDependents: data.personalData.agesOfOtherDependents.map(
+      agesOfOtherDependents: agesOfOtherDependents.map(
         item => item.dependentAge,
       ),
       address: {
-        street: personalData.address.addressLine1,
-        city: personalData.address.city,
-        state: personalData.address.state,
-        country: personalData.address.country,
-        postalCode: personalData.address.postalCode,
+        street: address.addressLine1,
+        city: address.city,
+        state: address.state,
+        country: address.country,
+        postalCode: address.postalCode,
       },
-      married: data.questions.maritalStatus === 'Married',
+      married: questions.maritalStatus === 'Married',
       spouseFullName: {
         first: '',
         middle: '',
@@ -30,12 +31,12 @@ export const transform = ({ data }) => {
       },
       employmentHistory: {
         veteran: [
-          personalData.employmentHistory.veteran.currentEmployment,
-          ...personalData.employmentHistory.veteran.previousEmployment,
+          employmentHistory.veteran.currentEmployment,
+          ...employmentHistory.veteran.previousEmployment,
         ],
         spouse: [
-          personalData.employmentHistory.spouse.currentEmployment,
-          ...personalData.employmentHistory.spouse.previousEmployment,
+          employmentHistory.spouse.currentEmployment,
+          ...employmentHistory.spouse.previousEmployment,
         ],
       },
     },
@@ -46,12 +47,7 @@ export const transform = ({ data }) => {
           taxes: null,
           retirement: null,
           socialSecurity: null,
-          other: [
-            {
-              deductionName: null,
-              deductionAmount: null,
-            },
-          ],
+          other: [...employmentHistory.veteran.currentEmployment.deductions],
         },
         totalDeductions: null,
         netTakeHomePay: null,
@@ -63,7 +59,24 @@ export const transform = ({ data }) => {
         ],
         totalMonthlyNetIncome: null,
       },
-      spouse: {},
+      spouse: {
+        monthlyGrossSalary: null,
+        deductions: {
+          taxes: null,
+          retirement: null,
+          socialSecurity: null,
+          other: [...employmentHistory.spouse.currentEmployment.deductions],
+        },
+        totalDeductions: null,
+        netTakeHomePay: null,
+        otherIncome: [
+          {
+            name: null,
+            amount: null,
+          },
+        ],
+        totalMonthlyNetIncome: null,
+      },
     },
     expenses: {
       ...expenses,
@@ -81,7 +94,8 @@ export const transform = ({ data }) => {
     },
   };
 
-  // console.log('formObj: ', formObj);
+  // console.log('incoming data: ', data);
+  // console.log('transformed data: ', formObj);
 
   return Promise.resolve(JSON.stringify(formObj));
 };

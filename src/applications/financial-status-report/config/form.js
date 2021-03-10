@@ -101,7 +101,7 @@ const formConfig = {
                 addressLine1: '1234 W Nebraska St',
               },
               primaryEmail: 'hector.smith@email.com',
-              confirmationEmail: 'hector.smith@email.com',
+              confirmationEmail: '',
               telephoneNumber: '5551234567',
             },
           },
@@ -162,13 +162,13 @@ const formConfig = {
             income: [
               {
                 veteranOrSpouse: 'VETERAN',
-                compensationAndPension: '3000',
-                education: '1000',
+                compensationAndPension: '75',
+                education: '1400.40',
               },
               {
                 veteranOrSpouse: 'SPOUSE',
-                compensationAndPension: '7000',
-                education: '4000',
+                compensationAndPension: '0',
+                education: '0',
               },
             ],
           },
