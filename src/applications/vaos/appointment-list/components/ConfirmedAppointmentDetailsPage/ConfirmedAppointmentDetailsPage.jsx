@@ -11,7 +11,6 @@ import moment from '../../../lib/moment-tz';
 import {
   getVAAppointmentLocationId,
   getVARFacilityId,
-  getVideoAppointmentLocation,
   isAtlasLocation,
   isVAPhoneAppointment,
   isVideoAppointment,
@@ -21,16 +20,14 @@ import {
 } from '../../../services/appointment';
 import {
   APPOINTMENT_STATUS,
+  APPOINTMENT_TYPES,
   FETCH_STATUS,
   PURPOSE_TEXT,
 } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import * as actions from '../../redux/actions';
 import AppointmentDateTime from './AppointmentDateTime';
-import {
-  getCancelInfo,
-  selectConfirmedAppointmentById,
-} from '../../redux/selectors';
+import { getCancelInfo, selectAppointmentById } from '../../redux/selectors';
 import { selectFeatureCancel } from '../../../redux/selectors';
 import VideoVisitSection from './VideoVisitSection';
 import { formatFacilityAddress } from 'applications/vaos/services/location';
@@ -131,9 +128,7 @@ function ConfirmedAppointmentDetailsPage({
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isVideo = isVideoAppointment(appointment);
   const isPhone = isVAPhoneAppointment(appointment);
-  const facilityId = isVideo
-    ? getVideoAppointmentLocation(appointment)
-    : getVAAppointmentLocationId(appointment);
+  const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
   const isInPersonVAAppointment = !isVideo;
 
@@ -294,10 +289,9 @@ function mapStateToProps(state, ownProps) {
   const { appointmentDetailsStatus, facilityData } = state.appointments;
 
   return {
-    appointment: selectConfirmedAppointmentById(
-      state,
-      ownProps.match.params.id,
-    ),
+    appointment: selectAppointmentById(state, ownProps.match.params.id, [
+      APPOINTMENT_TYPES.vaAppointment,
+    ]),
     appointmentDetailsStatus,
     cancelInfo: getCancelInfo(state),
     facilityData,

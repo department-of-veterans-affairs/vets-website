@@ -1,6 +1,6 @@
 export const uiSchema = {
   'ui:title': 'Your other income',
-  additionalIncome: {
+  questions: {
     hasAdditionalIncome: {
       'ui:title':
         'Do you get income from any other sources (like a retirement pension or alimony support)?',
@@ -12,7 +12,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    additionalIncome: {
+    questions: {
       type: 'object',
       properties: {
         hasAdditionalIncome: {
