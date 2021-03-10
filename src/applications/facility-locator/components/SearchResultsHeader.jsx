@@ -16,8 +16,14 @@ export const SearchResultsHeader = ({
   context,
   inProgress,
   specialtyMap,
+  currentQuery,
 }) => {
-  if (inProgress || !results || !results.length) {
+  if (
+    inProgress ||
+    !results ||
+    !results.length ||
+    currentQuery?.fetchSvcsInProgress
+  ) {
     return <div style={{ height: '38px' }} />;
   }
 
