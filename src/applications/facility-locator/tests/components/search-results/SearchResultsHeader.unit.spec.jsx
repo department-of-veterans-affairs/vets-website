@@ -103,7 +103,7 @@ describe('SearchResultsHeader', () => {
         facilityType={LocationType.CC_PROVIDER}
         serviceType="foo"
         context="new york"
-        specialtyMap={{ foo: 'test' }}
+        specialties={{ foo: 'test' }}
       />,
     );
 
