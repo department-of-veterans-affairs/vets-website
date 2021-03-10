@@ -1,6 +1,6 @@
 export const uiSchema = {
   'ui:title': 'Your spouse information',
-  spouseInformation: {
+  questions: {
     maritalStatus: {
       'ui:title': 'What is your marital status?',
       'ui:widget': 'radio',
@@ -11,7 +11,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    spouseInformation: {
+    questions: {
       type: 'object',
       properties: {
         maritalStatus: {

@@ -41,12 +41,12 @@ ContactInfoCard.propTypes = {
 };
 
 const mapStateToProps = ({ form }) => ({
-  addressLine1: form.data.mailingAddress?.addressLine1,
-  addressLine2: form.data.mailingAddress?.addressLine2,
-  city: form.data.mailingAddress?.city,
-  stateCode: form.data.mailingAddress?.stateCode,
-  postalCode: form.data.mailingAddress?.postalCode,
-  country: form.data.mailingAddress?.country,
+  addressLine1: form.data.personalData.address?.addressLine1,
+  addressLine2: form.data.personalData.address?.addressLine2,
+  city: form.data.personalData.address?.city,
+  stateCode: form.data.personalData.address?.stateCode,
+  postalCode: form.data.personalData.address?.postalCode,
+  country: form.data.personalData.address?.country,
 });
 
 export default connect(

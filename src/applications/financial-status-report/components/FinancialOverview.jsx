@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-const FinancialOverview = ({ formData: { fsrDebts } }) => {
+const FinancialOverview = ({ formData: { selectedDebts } }) => {
   const index = window.location.href.slice(-1);
-  const debt = fsrDebts[index];
+  const debt = selectedDebts[index];
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
