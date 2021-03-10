@@ -409,6 +409,7 @@
                         </a>
                       {% endif %}
 
+
                       <!-- Online event link -->
                       {% if eventReference.entity.fieldUrlOfAnOnlineEvent.uri %}
                         <a
@@ -417,13 +418,13 @@
                           rel="noreferrer noopener"
                           target="_blank"
                         >
-                          {{ eventReference.entity.fieldUrlOfAnOnlineEvent.uri }}
-                        </a>
                       {% endif %}
-
-                      <!-- Event address -->
-                      {% if eventReference.entity.fieldLocationHumanreadable != empty %}
-                        <p class="vads-u-margin--0">{{ eventReference.entity.fieldLocationHumanreadable }}</p>
+                        <!-- Event address -->
+                        {% if eventReference.entity.fieldLocationHumanreadable != empty %}
+                          <p class="vads-u-margin--0">{{ eventReference.entity.fieldLocationHumanreadable }}</p>
+                        {% endif %}
+                      {% if eventReference.entity.fieldUrlOfAnOnlineEvent.uri %}
+                        </a>
                       {% endif %}
                     </div>
                   </div>
