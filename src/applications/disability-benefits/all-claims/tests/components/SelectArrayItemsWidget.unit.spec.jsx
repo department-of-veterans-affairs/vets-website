@@ -207,7 +207,6 @@ describe('<SelectArrayItemsWidget>', () => {
           ratingDecisionId: '567',
           diagnosticCode: 543,
           ratingPercentage: 10,
-          disabilityActionType: 'NONE',
           'view:selected': true,
         },
       ],
@@ -270,7 +269,7 @@ describe('<SelectArrayItemsWidget>', () => {
           ratingDecisionId: '567',
           diagnosticCode: 543,
           ratingPercentage: 22,
-          disabilityActionType: 'NONE',
+          disabilityActionType: 'INCREASE',
           'view:selected': true,
         },
         {

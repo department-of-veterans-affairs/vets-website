@@ -43,12 +43,13 @@ class SelectArrayItemsWidget extends React.Component {
       const hasItem = (value || []).find(oldValue =>
         this.keyConstants.every(key => oldValue?.[key] === newValue?.[key]),
       );
+      const isSelected = hasItem?.[this.defaultSelectedPropName] || false;
       return {
         ...newValue,
         disabilityActionType:
-          hasItem?.disabilityActionType || disabilityActionTypes.NONE,
-        [this.defaultSelectedPropName]:
-          hasItem?.[this.defaultSelectedPropName] || false,
+          hasItem?.disabilityActionType ||
+          disabilityActionTypes[isSelected ? 'INCREASE' : 'NONE'],
+        [this.defaultSelectedPropName]: isSelected,
       };
     });
 
