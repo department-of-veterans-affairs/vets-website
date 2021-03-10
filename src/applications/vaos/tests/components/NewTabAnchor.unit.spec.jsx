@@ -14,7 +14,7 @@ describe('VAOS <NewTabAnchor>', () => {
     );
 
     const anchor = screen.getByRole('link', {
-      name: 'Join appointment',
+      name: 'Join appointment Link opens in a new tab.',
     });
 
     // Default attributes...
@@ -22,10 +22,9 @@ describe('VAOS <NewTabAnchor>', () => {
     expect(anchor.getAttribute('target')).to.equal('_blank');
 
     expect(anchor.getAttribute('href')).to.equal('http://va.gov');
-    expect(anchor.getAttribute('aria-describedby')).to.equal('new-tab-msg-1');
   });
 
-  it('should create anchor tag with expected attributes', () => {
+  it('should create anchor tag with expected additional attributes', () => {
     const url = 'http://va.gov';
     const linkClasses = 'class1, class2, class3';
     const disableVideoLink = true;
@@ -52,7 +51,7 @@ describe('VAOS <NewTabAnchor>', () => {
     );
 
     const anchor = screen.getByRole('link', {
-      name: 'Join appointment',
+      name: 'Join appointment Link opens in a new tab.',
     });
 
     expect(anchor).to.be.ok;
@@ -61,10 +60,11 @@ describe('VAOS <NewTabAnchor>', () => {
     expect(anchor.getAttribute('rel')).to.equal('noopener noreferrer');
     expect(anchor.getAttribute('target')).to.equal('_blank');
 
+    // Make sure component properties are added to the anchor
     expect(anchor.getAttribute('href')).to.equal('http://va.gov');
     expect(anchor.getAttribute('class')).to.equal('class1, class2, class3');
     expect(anchor.getAttribute('aria-describedby')).to.equal(
-      'description-join-link-1 new-tab-msg-1',
+      'description-join-link-1',
     );
     expect(anchor.getAttribute('aria-disabled')).to.equal('true');
 
