@@ -34,6 +34,7 @@ fragment alertSingle on ParagraphAlertSingle {
     entity {
       ... on BlockContentAlert {
         entityId
+        entityPublished
         fieldAlertTitle
         fieldAlertType
         fieldReusability

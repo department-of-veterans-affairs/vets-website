@@ -12,6 +12,8 @@ import {
   DowntimeNotification,
 } from 'platform/monitoring/DowntimeNotification';
 
+import { setData } from 'platform/forms-system/src/js/actions';
+
 import formConfig from '../config/form';
 
 import {
@@ -33,11 +35,14 @@ const App = props => {
     setLoadedAppointment,
     isLoadingAppointmentDetails,
     isLoggedIn,
+    setFormData,
+    formData,
     user,
   } = props;
   const [isLoading, setIsLoading] = useState(true);
   const [form, setForm] = useState(formConfig);
-
+  const appointmentFormData = formData['hidden:appointment'];
+  const questionnaireFormData = formData['hidden:questionnaire'];
   useEffect(
     () => {
       const id = getCurrentAppointmentId(window);
@@ -50,8 +55,13 @@ const App = props => {
             '/health-care/health-questionnaires/questionnaires',
           );
         }
-        const { appointment } = data;
-
+        const { appointment, questionnaire } = data;
+        if (!appointmentFormData || !questionnaireFormData) {
+          setFormData({
+            'hidden:appointment': appointment,
+            'hidden:questionnaire': questionnaire,
+          });
+        }
         setLoadedAppointment(appointment);
         setIsLoading(false);
         const apptType = getAppointTypeFromAppointment(appointment);
@@ -68,7 +78,14 @@ const App = props => {
         setIsLoading(false);
       }
     },
-    [setLoading, setLoadedAppointment, isLoggedIn],
+    [
+      setLoading,
+      setLoadedAppointment,
+      isLoggedIn,
+      setFormData,
+      appointmentFormData,
+      questionnaireFormData,
+    ],
   );
   if (isLoading || isLoadingAppointmentDetails) {
     return (
@@ -102,13 +119,15 @@ const mapStateToProps = state => ({
   showApplication: true,
   questionnaire: state.questionnaireData,
   isLoadingAppointmentDetails:
-    state.questionnaireData.context?.status.isLoading,
-  isLoggedIn: state.user?.login?.currentlyLoggedIn,
+    state?.questionnaireData.context?.status.isLoading,
+  isLoggedIn: state?.user?.login?.currentlyLoggedIn,
+  formData: state.form?.data,
   user: state.user,
 });
 
 const mapDispatchToProps = dispatch => {
   return {
+    setFormData: data => dispatch(setData(data)),
     setLoading: () => dispatch(questionnaireAppointmentLoading()),
     setLoadedAppointment: value =>
       dispatch(questionnaireAppointmentLoaded(value)),

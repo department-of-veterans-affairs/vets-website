@@ -25,62 +25,76 @@ const AssetInfo = (
 
 export const uiSchema = {
   'ui:title': 'Your other assets',
-  otherAssetRecords: {
-    'ui:field': ItemLoop,
-    'ui:description':
-      'Enter each type of asset separately below. For each, include an estimated value.',
-    'ui:options': {
-      viewType: 'table',
-      viewField: TableDetailsView,
-      doNotScroll: true,
-      showSave: true,
-      itemName: 'asset',
-    },
-    items: {
+  assets: {
+    otherAssets: {
+      'ui:field': ItemLoop,
+      'ui:description':
+        'Enter each type of asset separately below. For each, include an estimated value.',
       'ui:options': {
-        classNames: 'horizonal-field-container no-wrap',
+        viewType: 'table',
+        viewField: TableDetailsView,
+        doNotScroll: true,
+        showSave: true,
+        itemName: 'asset',
       },
-      otherAssetType: {
-        'ui:title': 'Type of asset',
-        'ui:field': Typeahead,
+      items: {
         'ui:options': {
-          classNames: 'input-size-3',
-          getOptions: () => formatOptions(assetTypes),
+          classNames: 'horizonal-field-container no-wrap',
         },
+        assetName: {
+          'ui:title': 'Type of asset',
+          'ui:field': Typeahead,
+          'ui:options': {
+            classNames: 'input-size-3',
+            getOptions: () => formatOptions(assetTypes),
+          },
+        },
+        assetValue: _.merge(currencyUI('Estimated value'), {
+          'ui:options': {
+            widgetClassNames: 'input-size-1',
+          },
+        }),
       },
-      otherAssetAmount: _.merge(currencyUI('Estimated value'), {
-        'ui:options': {
-          widgetClassNames: 'input-size-1',
-        },
-      }),
     },
   },
-  'view:assetInfo': {
-    'ui:description': AssetInfo,
+  'view:components': {
+    'view:assetInfo': {
+      'ui:description': AssetInfo,
+    },
   },
 };
 export const schema = {
   type: 'object',
   properties: {
-    otherAssetRecords: {
-      type: 'array',
-      items: {
-        type: 'object',
-        title: 'Record',
-        required: ['otherAssetType', 'otherAssetAmount'],
-        properties: {
-          otherAssetType: {
-            type: 'string',
-          },
-          otherAssetAmount: {
-            type: 'number',
+    assets: {
+      type: 'object',
+      properties: {
+        otherAssets: {
+          type: 'array',
+          items: {
+            type: 'object',
+            title: 'Record',
+            required: ['assetName', 'assetValue'],
+            properties: {
+              assetName: {
+                type: 'string',
+              },
+              assetValue: {
+                type: 'number',
+              },
+            },
           },
         },
       },
     },
-    'view:assetInfo': {
+    'view:components': {
       type: 'object',
-      properties: {},
+      properties: {
+        'view:assetInfo': {
+          type: 'object',
+          properties: {},
+        },
+      },
     },
   },
 };
