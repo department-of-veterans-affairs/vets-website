@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { setSelectedAppointmentData } from '../utils';
+import { setSelectedAppointmentData } from '../index';
 
 describe('health care questionnaire -- utils -- set selected appointment session storage', () => {
   it('window is defined', () => {

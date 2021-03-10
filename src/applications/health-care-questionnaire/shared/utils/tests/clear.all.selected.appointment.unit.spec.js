@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { clearAllSelectedAppointments } from '../utils';
+import { clearAllSelectedAppointments } from '../index';
 
 describe('health care questionnaire -- utils -- clear all selected appointment in session storage', () => {
   it('should remove keys that match the pattern', () => {

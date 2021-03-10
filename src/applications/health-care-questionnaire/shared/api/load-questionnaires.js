@@ -9,7 +9,7 @@ const loadQuestionnaires = async () => {
   if (USE_MOCK_DATA) {
     promise = new Promise(resolve => {
       setTimeout(() => {
-        import(/* webpackChunkName: "my-questionnaires-sample-json" */ './my-questionnaires.sample.json').then(
+        import(/* webpackChunkName: "my-questionnaires-sample-json" */ './mock-data/my-questionnaires.sample.json').then(
           module => {
             resolve(module.default);
           },
@@ -17,7 +17,7 @@ const loadQuestionnaires = async () => {
       }, 1000);
     });
   } else {
-    const url = '/health_quest/v0/my/questionnaires';
+    const url = '/health_quest/v0/questionnaire_manager';
     promise = apiRequest(`${environment.API_URL}${url}`);
   }
   return promise;

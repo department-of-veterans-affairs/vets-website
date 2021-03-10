@@ -32,8 +32,6 @@ const generateWebpackDevConfig = require('./webpack.dev.config.js');
 const getAbsolutePath = relativePath =>
   path.join(__dirname, '../', relativePath);
 
-const timestamp = new Date().getTime();
-
 const sharedModules = [
   getAbsolutePath('src/platform/polyfills'),
   'react',
@@ -101,8 +99,6 @@ module.exports = (env = {}) => {
   const entryFiles = Object.assign({}, apps, globalEntryFiles);
   const isOptimizedBuild = [VAGOVSTAGING, VAGOVPROD].includes(buildtype);
 
-  const useHashFilenames = [VAGOVPROD].includes(buildtype);
-
   // enable css sourcemaps for all non-localhost builds
   // or if build options include local-css-sourcemaps or entry
   const enableCSSSourcemaps =
@@ -130,12 +126,8 @@ module.exports = (env = {}) => {
     output: {
       path: outputPath,
       publicPath: publicAssetPath,
-      filename: !useHashFilenames
-        ? '[name].entry.js'
-        : `[name].entry.[chunkhash]-${timestamp}.js`,
-      chunkFilename: !useHashFilenames
-        ? '[name].entry.js'
-        : `[name].entry.[chunkhash]-${timestamp}.js`,
+      filename: '[name].entry.js',
+      chunkFilename: '[name].entry.js',
     },
     module: {
       rules: [
@@ -268,9 +260,7 @@ module.exports = (env = {}) => {
           const isMedalliaStyleFile = name === vaMedalliaStylesFilename;
           if (isMedalliaStyleFile) return `[name].css`;
 
-          return useHashFilenames
-            ? `[name].[contenthash]-${timestamp}.css`
-            : `[name].css`;
+          return `[name].css`;
         },
       }),
 

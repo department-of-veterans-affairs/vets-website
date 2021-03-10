@@ -1,15 +1,51 @@
 import { expect } from 'chai';
 
-import { transformForSubmit } from '../../../api/submit-questionnaire';
+import { transformForSubmit } from '../../../../shared/api/submit-questionnaire';
 
 describe('health care questionnaire -- utils -- transform for submit --', () => {
   it('creates appropriate structure with  all data', () => {
     const formConfig = {};
     const form = {
       data: {
-        'hidden:fields': {
-          appointmentId: 'appointment-123',
-          questionnaireId: 'questionnaire-123',
+        'hidden:questionnaire': [
+          {
+            id: 'questionnaire-123',
+            questionnaireResponse: {},
+          },
+        ],
+        'hidden:appointment': {
+          id: 'appointment-123',
+          type: 'va_appointments',
+          attributes: {
+            startDate: '2020-08-26T15:00:00Z',
+            sta6aid: '983',
+            clinicId: '848',
+            clinicFriendlyName: 'CHY PC VAR2',
+            facilityId: '983',
+            communityCare: false,
+            patientIcn: '1013124304V115761',
+            vdsAppointments: [
+              {
+                bookingNotes:
+                  'Follow-up/Routine: testing reason for visit field availability',
+                appointmentLength: '20',
+                id: '848;20200826.090000',
+                appointmentTime: '2021-03-26T15:00:00Z',
+                clinic: {
+                  name: 'CHY PC VAR2',
+                  askForCheckIn: false,
+                  facilityCode: '983',
+                  facility: {
+                    displayName: 'Awesome Facility',
+                  },
+                  stopCode: '502',
+                },
+                type: 'REGULAR',
+                currentStatus: 'FUTURE',
+              },
+            ],
+            vvsAppointments: [],
+          },
         },
         reasonForVisit: 'reasoning for visit',
         reasonForVisitDescription: 'reasoning for visit description',
@@ -21,10 +57,10 @@ describe('health care questionnaire -- utils -- transform for submit --', () => 
       },
     };
     const json = transformForSubmit(formConfig, form);
-    expect(json).to.have.property('appointmentId');
-    expect(json.appointmentId).to.equal('appointment-123');
-    expect(json).to.have.property('questionnaireId');
-    expect(json.questionnaireId).to.equal('questionnaire-123');
+    expect(json).to.have.property('appointment');
+    expect(json.appointment.id).to.equal('appointment-123');
+    expect(json).to.have.property('questionnaire');
+    expect(json.questionnaire.id).to.equal('questionnaire-123');
 
     expect(json).to.have.property('item');
     expect(json.item).to.be.an('array');
@@ -118,9 +154,45 @@ describe('health care questionnaire -- utils -- transform for submit --', () => 
     const formConfig = {};
     const form = {
       data: {
-        'hidden:fields': {
-          appointmentId: 'appointment-123',
-          questionnaireId: 'questionnaire-123',
+        'hidden:questionnaire': [
+          {
+            id: 'questionnaire-123',
+            questionnaireResponse: {},
+          },
+        ],
+        'hidden:appointment': {
+          id: 'appointment-123',
+          type: 'va_appointments',
+          attributes: {
+            startDate: '2020-08-26T15:00:00Z',
+            sta6aid: '983',
+            clinicId: '848',
+            clinicFriendlyName: 'CHY PC VAR2',
+            facilityId: '983',
+            communityCare: false,
+            patientIcn: '1013124304V115761',
+            vdsAppointments: [
+              {
+                bookingNotes:
+                  'Follow-up/Routine: testing reason for visit field availability',
+                appointmentLength: '20',
+                id: '848;20200826.090000',
+                appointmentTime: '2021-03-26T15:00:00Z',
+                clinic: {
+                  name: 'CHY PC VAR2',
+                  askForCheckIn: false,
+                  facilityCode: '983',
+                  facility: {
+                    displayName: 'Awesome Facility',
+                  },
+                  stopCode: '502',
+                },
+                type: 'REGULAR',
+                currentStatus: 'FUTURE',
+              },
+            ],
+            vvsAppointments: [],
+          },
         },
         reasonForVisit: 'reasoning for visit',
         reasonForVisitDescription: 'reasoning for visit description',
@@ -129,10 +201,10 @@ describe('health care questionnaire -- utils -- transform for submit --', () => 
       },
     };
     const json = transformForSubmit(formConfig, form);
-    expect(json).to.have.property('appointmentId');
-    expect(json.appointmentId).to.equal('appointment-123');
-    expect(json).to.have.property('questionnaireId');
-    expect(json.questionnaireId).to.equal('questionnaire-123');
+    expect(json).to.have.property('appointment');
+    expect(json.appointment.id).to.equal('appointment-123');
+    expect(json).to.have.property('questionnaire');
+    expect(json.questionnaire.id).to.equal('questionnaire-123');
 
     expect(json).to.have.property('item');
     expect(json.item).to.be.an('array');
@@ -168,8 +240,8 @@ describe('health care questionnaire -- utils -- transform for submit --', () => 
       data: {},
     };
     const json = transformForSubmit(formConfig, form);
-    expect(json).to.have.property('appointmentId');
-    expect(json).to.have.property('questionnaireId');
+    expect(json).to.have.property('appointment');
+    expect(json).to.have.property('questionnaire');
 
     expect(json).to.have.property('item');
     expect(json.item).to.be.an('array');

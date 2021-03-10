@@ -28,6 +28,7 @@ export default Object.freeze({
   vaOnlineSchedulingCheetah: 'vaOnlineSchedulingCheetah',
   vaGlobalDowntimeNotification: 'vaGlobalDowntimeNotification',
   vaOnlineSchedulingHomepageRefresh: 'vaOnlineSchedulingHomepageRefresh',
+  vaOnlineFacilitySelectionV22: 'vaOnlineFacilitySelectionV22',
   ssoe: 'ssoe',
   ssoeInbound: 'ssoeInbound',
   ssoeEbenefitsLinks: 'ssoeEbenefitsLinks',
