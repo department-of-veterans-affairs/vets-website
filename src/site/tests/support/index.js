@@ -6,21 +6,17 @@ import registerFilters from '../../filters/liquid.js';
 
 registerFilters();
 
-const getLayout = layoutPath => {
+const getLayout = givenPath => {
+  // the following 'gaTemplate code' is temporary, just to get
+  // the example 'health_care_region_page.drupal.liquid'
+  // liquid template to render properly
+  const gaLayout = 'src/site/includes/google-analytics';
+  const layoutPath = givenPath === gaLayout ? `${givenPath}.liquid` : givenPath;
+
   return readFileSync(
     path.resolve(__dirname, '../../../../', layoutPath),
     'utf8',
-  ).toString();
-};
-
-const makeOptions = layoutPaths => {
-  const files = {};
-
-  layoutPaths.forEach(layoutPath => {
-    files[layoutPath] = getLayout(layoutPath);
-  });
-
-  return { files: { ...files } };
+  );
 };
 
 const parseFixture = file => {
@@ -29,9 +25,15 @@ const parseFixture = file => {
   return JSON.parse(json);
 };
 
-const renderHTML = (layout, data, options) => {
+const renderHTML = (layout, data) => {
   const context = liquid.newContext({ locals: data });
-  const render = liquid.compile(layout, options);
+
+  context.onInclude((includeName, callback) => {
+    const includeLayout = getLayout(includeName);
+    callback(null, liquid.parse(includeLayout));
+  });
+
+  const render = liquid.compile(layout);
 
   return new Promise((resolve, reject) =>
     render(context, err => {
@@ -46,4 +48,4 @@ const renderHTML = (layout, data, options) => {
   );
 };
 
-export { getLayout, makeOptions, parseFixture, renderHTML };
+export { getLayout, parseFixture, renderHTML };
