@@ -56,6 +56,8 @@ const I18Select = ({ baseUrls }) => {
         {Object.entries(I18_CONTENT).map(
           ([languageCode, languageConfig], i) => {
             if (!baseUrls[languageCode]) {
+              // temporary
+              delete I18_CONTENT[languageCode];
               return null;
             }
             return (
