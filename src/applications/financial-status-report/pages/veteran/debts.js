@@ -2,7 +2,7 @@ import AvailableDebts from '../../components/AvailableDebts';
 
 export const uiSchema = {
   'ui:field': AvailableDebts,
-  fsrDebts: {
+  selectedDebts: {
     items: {
       fileNumber: {
         'ui:title': 'File number',
@@ -20,7 +20,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    fsrDebts: {
+    selectedDebts: {
       type: 'array',
       minItems: 0,
       items: {

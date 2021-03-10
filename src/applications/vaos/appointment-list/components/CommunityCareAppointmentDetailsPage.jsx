@@ -5,7 +5,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 
 import moment from '../../lib/moment-tz';
 
-import { FETCH_STATUS } from '../../utils/constants';
+import { APPOINTMENT_TYPES, FETCH_STATUS } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import * as actions from '../redux/actions';
 import AppointmentDateTime from './cards/confirmed/AppointmentDateTime';
@@ -15,7 +15,7 @@ import FacilityAddress from '../../components/FacilityAddress';
 import { formatFacilityAddress } from '../../services/location';
 import PageLayout from './AppointmentsPage/PageLayout';
 import ErrorMessage from '../../components/ErrorMessage';
-import { selectConfirmedAppointmentById } from '../redux/selectors';
+import { selectAppointmentById } from '../redux/selectors';
 import FullWidthLayout from '../../components/FullWidthLayout';
 import Breadcrumbs from '../../components/Breadcrumbs';
 
@@ -25,14 +25,23 @@ function CommunityCareAppointmentDetailsPage({
   fetchConfirmedAppointmentDetails,
 }) {
   const { id } = useParams();
+  const appointmentDate = moment.parseZone(appointment?.start);
 
   useEffect(() => {
-    if (!appointment) {
-      fetchConfirmedAppointmentDetails(id, 'cc');
-    }
-
-    scrollAndFocus();
+    fetchConfirmedAppointmentDetails(id, 'cc');
   }, []);
+
+  useEffect(
+    () => {
+      if (appointment && appointmentDate) {
+        document.title = `Community care appointment on ${appointmentDate.format(
+          'dddd, MMMM D, YYYY',
+        )}`;
+        scrollAndFocus();
+      }
+    },
+    [appointment, appointmentDate],
+  );
 
   if (
     appointmentDetailsStatus === FETCH_STATUS.failed ||
@@ -40,7 +49,7 @@ function CommunityCareAppointmentDetailsPage({
   ) {
     return (
       <FullWidthLayout>
-        <ErrorMessage />
+        <ErrorMessage level={1} />
       </FullWidthLayout>
     );
   }
@@ -48,7 +57,7 @@ function CommunityCareAppointmentDetailsPage({
   if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
     return (
       <FullWidthLayout>
-        <LoadingIndicator message="Loading your appointment..." />
+        <LoadingIndicator setFocus message="Loading your appointment..." />
       </FullWidthLayout>
     );
   }
@@ -142,10 +151,9 @@ function CommunityCareAppointmentDetailsPage({
 function mapStateToProps(state, ownProps) {
   const { appointmentDetailsStatus, facilityData } = state.appointments;
   return {
-    appointment: selectConfirmedAppointmentById(
-      state,
-      ownProps.match.params.id,
-    ),
+    appointment: selectAppointmentById(state, ownProps.match.params.id, [
+      APPOINTMENT_TYPES.ccAppointment,
+    ]),
     appointmentDetailsStatus,
     facilityData,
   };

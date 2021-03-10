@@ -191,7 +191,7 @@ const ProfileMobileSubNav = ({ isLOA3, isInMVI, routes }) => {
             >
               <strong>
                 <h1 id="mobile-subnav-header" className={menuButtonClasses}>
-                  Your profile
+                  Profile
                 </h1>{' '}
                 menu
               </strong>
@@ -202,7 +202,7 @@ const ProfileMobileSubNav = ({ isLOA3, isInMVI, routes }) => {
             <>
               <div className="menu-header vads-u-display--flex">
                 <strong className="vads-u-flex--auto">
-                  <h1 className={menuButtonClasses}>Your profile</h1> menu
+                  <h1 className={menuButtonClasses}>Profile</h1> menu
                 </strong>
                 <button
                   ref={closeMenuButton}

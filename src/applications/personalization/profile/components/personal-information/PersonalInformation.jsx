@@ -32,7 +32,7 @@ const PersonalInformation = ({
     () => {
       // Do not manage the focus if the user just came to this route via the
       // root profile route. If a user got to the Profile via a link to /profile
-      // or /profile/ we want to focus on the "Your Profile" sub-nav H1, not the
+      // or /profile/ we want to focus on the "Profile" sub-nav H1, not the
       // H2 on this page
       const pathRegExp = new RegExp(`${PROFILE_PATHS.PROFILE_ROOT}/?$`);
       if (lastLocation?.pathname.match(new RegExp(pathRegExp))) {
