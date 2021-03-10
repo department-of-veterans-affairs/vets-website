@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 const FinancialHardshipExplanation = props => {
-  const isWaiverSelected = props.formData.fsrDebts.some(
+  const isWaiverSelected = props.formData.selectedDebts.some(
     debt => debt.resolution.resolutionType === 'Waiver',
   );
   if (isWaiverSelected) {

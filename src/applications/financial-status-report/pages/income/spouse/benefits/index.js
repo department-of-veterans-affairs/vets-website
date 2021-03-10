@@ -1,6 +1,6 @@
 export const uiSchema = {
   'ui:title': 'Your spouse information',
-  benefits: {
+  questions: {
     spouseHasBenefits: {
       'ui:title': 'Does your spouse get VA benefits?',
       'ui:widget': 'yesNo',
@@ -12,7 +12,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    benefits: {
+    questions: {
       type: 'object',
       properties: {
         spouseHasBenefits: {
