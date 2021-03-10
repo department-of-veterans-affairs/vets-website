@@ -14,7 +14,7 @@ const initialState = {
 };
 
 describe('VAOS integration: upcoming CC appointments', () => {
-  it('should show information', async () => {
+  it.skip('should show information', async () => {
     const appointmentTime = moment().add(1, 'days');
     const appointment = getCCAppointmentMock();
     appointment.attributes = {
