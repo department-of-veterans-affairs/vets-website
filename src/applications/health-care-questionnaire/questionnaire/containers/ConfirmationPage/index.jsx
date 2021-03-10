@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import {
   clearCurrentSession,
   clearSelectedAppointmentData,
-} from '../../shared/utils';
-import ConfirmationPageFooter from '../components/confirmation-page-footer/ConfirmationPageFooter';
-import AppointmentDisplay from '../components/appointment-display/AppointmentDisplay';
+} from '../../../shared/utils';
+import ConfirmationPageFooter from '../../components/confirmation-page-footer/ConfirmationPageFooter';
+import AppointmentDisplay from '../../components/appointment-display/AppointmentDisplay';
 
-import PrintButton from '../../list/questionnaire-list/components/Shared/Print/PrintButton';
+import PrintButton from '../../../list/questionnaire-list/components/Shared/Print/PrintButton';
 
 const ConfirmationPage = props => {
   const { appointment } = props;
