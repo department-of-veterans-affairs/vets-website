@@ -5,7 +5,6 @@ import { Switch, Route } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 
-import ScheduleNewAppointment from './ScheduleNewAppointment';
 import * as actions from '../../redux/actions';
 import CancelAppointmentModal from '../cancel/CancelAppointmentModal';
 import {
@@ -32,7 +31,7 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import WarningNotification from '../../../components/WarningNotification';
-import ScheduleNewProjectCheetah from './ScheduleNewProjectCheetah';
+import ScheduleNewAppointmentRadioButtons from './ScheduleNewAppointmentRadioButtons';
 
 const pageTitle = 'VA appointments';
 
@@ -47,8 +46,6 @@ function AppointmentsPage({
   isCernerOnlyPatient,
   isWelcomeModalDismissed,
   pendingStatus,
-  showCommunityCare,
-  showDirectScheduling,
   showScheduleButton,
   showCheetahScheduleButton,
   startNewAppointmentFlow,
@@ -114,28 +111,12 @@ function AppointmentsPage({
       />
 
       {showScheduleButton && (
-        <ScheduleNewAppointment
-          isCernerOnlyPatient={isCernerOnlyPatient}
-          showCommunityCare={showCommunityCare}
-          showDirectScheduling={showDirectScheduling}
-          startNewAppointmentFlow={() => {
-            recordEvent({
-              event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
-            });
-            startNewAppointmentFlow();
-          }}
-        />
-      )}
-
-      {showCheetahScheduleButton && (
-        <ScheduleNewProjectCheetah
-          startNewAppointmentFlow={() => {
-            recordEvent({
-              event: `${GA_PREFIX}-schedule-project-cheetah-button-clicked`,
-            });
-            startNewAppointmentFlow();
-          }}
-        />
+        <div className="vads-u-margin-bottom--4">
+          <ScheduleNewAppointmentRadioButtons
+            showCheetahScheduleButton={showCheetahScheduleButton}
+            startNewAppointmentFlow={startNewAppointmentFlow}
+          />
+        </div>
       )}
 
       {isLoading && (
