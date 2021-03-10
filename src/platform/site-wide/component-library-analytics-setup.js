@@ -2,14 +2,17 @@
  * Attaches CustomEvent 'component-library-analytics' listener to document.body
  * to translate component library actions into analytics dataLayer events.
  */
-import recordEvent from 'platform/monitoring/record-event';
+import _recordEvent from 'platform/monitoring/record-event';
 import { kebabCase } from 'lodash';
 
 const analyticsEvents = {
   Modal: [{ action: 'show', event: 'int-modal-click' }],
 };
 
-function subscribeComponentAnalyticsEvents(e) {
+export function subscribeComponentAnalyticsEvents(
+  e,
+  recordEvent = _recordEvent,
+) {
   // Is it a component we are tracking?
   const component = analyticsEvents[e.detail.componentName];
 
