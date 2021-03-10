@@ -300,6 +300,7 @@
                 <h3 class="vads-u-margin--0">{{ resource.entity.name }}</h3>
                 <p class="vads-u-flex--1">{{ resource.entity.fieldDescription }}</p>
                 <a
+                  alt="Download {{ resource.entity.name }} PDF"
                   download
                   href="{{ resource.entity.fieldMediaExternalFile.uri }}"
                   onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Downloadable resources', 'clp-section-title': '{{ fieldClpResourcesHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': 'Download {{ resource.entity.name | escape }}' });"
