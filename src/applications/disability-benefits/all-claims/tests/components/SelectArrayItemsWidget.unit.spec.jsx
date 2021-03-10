@@ -192,12 +192,14 @@ describe('<SelectArrayItemsWidget>', () => {
           ratingDecisionId: '123',
           diagnosticCode: 987,
           ratingPercentage: 20,
+          disabilityActionType: 'NONE',
         },
         {
           name: 'item two',
           ratingDecisionId: '345',
           diagnosticCode: 765,
           ratingPercentage: 30,
+          disabilityActionType: 'WORSENED',
           'view:selected': true,
         },
         {
@@ -205,6 +207,7 @@ describe('<SelectArrayItemsWidget>', () => {
           ratingDecisionId: '567',
           diagnosticCode: 543,
           ratingPercentage: 10,
+          disabilityActionType: 'NONE',
           'view:selected': true,
         },
       ],
@@ -259,6 +262,7 @@ describe('<SelectArrayItemsWidget>', () => {
           ratingDecisionId: '345',
           diagnosticCode: 765,
           ratingPercentage: 32,
+          disabilityActionType: 'WORSENED',
           'view:selected': true,
         },
         {
@@ -266,13 +270,16 @@ describe('<SelectArrayItemsWidget>', () => {
           ratingDecisionId: '567',
           diagnosticCode: 543,
           ratingPercentage: 22,
+          disabilityActionType: 'NONE',
           'view:selected': true,
         },
         {
           name: 'item 4',
           ratingDecisionId: '789',
           diagnosticCode: 321,
+          disabilityActionType: 'NONE',
           ratingPercentage: 5,
+          'view:selected': false,
         },
       ],
     });
@@ -299,14 +306,12 @@ describe('<SelectArrayItemsWidget>', () => {
             ratingDecisionId: '345',
             diagnosticCode: 765,
             ratingPercentage: 30,
-            'view:selected': true,
           },
           {
             name: 'item three',
             ratingDecisionId: '567',
             diagnosticCode: 543,
             ratingPercentage: 10,
-            'view:selected': true,
           },
         ],
       },
@@ -333,7 +338,32 @@ describe('<SelectArrayItemsWidget>', () => {
     const wrapper = shallow(<SelectArrayItemsWidget {...initialProps} />);
     expect(autoSaveFormSpy.firstCall.args[0]).to.eql('526');
     expect(autoSaveFormSpy.firstCall.args[1]).to.deep.equal({
-      ratedDisabilities: initialProps.formData.updatedRatedDisabilities,
+      ratedDisabilities: [
+        {
+          name: 'item one',
+          ratingDecisionId: '123',
+          diagnosticCode: 987,
+          ratingPercentage: 20,
+          disabilityActionType: 'NONE',
+          'view:selected': false,
+        },
+        {
+          name: 'item two',
+          ratingDecisionId: '345',
+          diagnosticCode: 765,
+          ratingPercentage: 30,
+          disabilityActionType: 'NONE',
+          'view:selected': false,
+        },
+        {
+          name: 'item three',
+          ratingDecisionId: '567',
+          diagnosticCode: 543,
+          ratingPercentage: 10,
+          disabilityActionType: 'NONE',
+          'view:selected': false,
+        },
+      ],
     });
     expect(autoSaveFormSpy.firstCall.args[2]).to.eql(99);
     expect(autoSaveFormSpy.firstCall.args[3]).to.eql('/test');

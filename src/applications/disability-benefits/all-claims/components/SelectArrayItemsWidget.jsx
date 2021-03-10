@@ -8,6 +8,8 @@ import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { autoSaveForm } from 'platform/forms/save-in-progress/actions';
 
+import { disabilityActionTypes } from '../constants';
+
 // TODO: Safety checks for `selected` callback and `label` element
 
 class SelectArrayItemsWidget extends React.Component {
@@ -38,12 +40,16 @@ class SelectArrayItemsWidget extends React.Component {
     // is added to the data. This bit of code ensures that exactly matching
     // previously selected entries are still selected
     const updatedItems = formData[this.updatedKeyValue].map(newValue => {
-      const isExistingIssue = (value || []).find(oldValue =>
+      const hasItem = (value || []).find(oldValue =>
         this.keyConstants.every(key => oldValue?.[key] === newValue?.[key]),
       );
-      return isExistingIssue?.[this.defaultSelectedPropName]
-        ? { ...newValue, [this.defaultSelectedPropName]: true }
-        : newValue;
+      return {
+        ...newValue,
+        disabilityActionType:
+          hasItem?.disabilityActionType || disabilityActionTypes.NONE,
+        [this.defaultSelectedPropName]:
+          hasItem?.[this.defaultSelectedPropName] || false,
+      };
     });
 
     const newData = {
