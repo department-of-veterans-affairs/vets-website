@@ -7,7 +7,7 @@ import {
   questionnaireAppointmentLoading,
 } from '../../../actions';
 
-import testData from '../../../api/appointment-data.json';
+import testData from '../../../../shared/api/mock-data/appointment-data.json';
 
 describe('health care questionnaire -- questionnaire reducer --', () => {
   it('should set loading to true', () => {

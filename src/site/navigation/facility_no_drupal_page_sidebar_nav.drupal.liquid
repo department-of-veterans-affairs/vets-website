@@ -6,113 +6,108 @@
     For an example of how to make a string look like this, look at in `src/site/layouts/person_profile.drupal.liquid` where sidebarData is being assigned.
 {% endcomment %}
 
-{% if buildtype != 'vagovprod' %}
-    <script nonce="**CSP_NONCE**" type="text/javascript">
-      window.sideNav = {{ sidebarData | json }};
-    </script>
+<nav data-template="navigation/facility_no_drupal_page_sidebar_nav" id="va-detailpage-sidebar" data-drupal-sidebar
+     class="va-c-facility-sidebar usa-width-one-fourth va-sidebarnav">
+  <div>
+    <button class="va-btn-close-icon va-sidebarnav-close" type="button" aria-label="Close this menu"></button>
 
-    {% comment %} React Widget located in `src/platform/site-wide/side-nav` {% endcomment %}
-    <div data-template="navigation/facility_no_drupal_page_sidebar_nav" data-widget-type="side-nav"></div>
-{% else %}
-    <nav data-template="navigation/facility_no_drupal_page_sidebar_nav" id="va-detailpage-sidebar" data-drupal-sidebar class="va-c-facility-sidebar usa-width-one-fourth va-sidebarnav">
-        <div>
-            <button class="va-btn-close-icon va-sidebarnav-close" type="button" aria-label="Close this menu"></button>
+    {% assign deepLinksObj = sidebarData | jsonToObj %}
+    <div class="left-side-nav-title">
+      <h4>{{ deepLinksObj.link.label }}</h4>
+    </div>
 
-            {% assign deepLinksObj = sidebarData | jsonToObj %}
-            <div class="left-side-nav-title">
-                <h4>{{ deepLinksObj.link.label }}</h4>
-            </div>
+    {% assign depth = deepLinksObj.depth %}
+    {% assign deepLinks = deepLinksObj.link.links %}
 
-            {% assign depth = deepLinksObj.depth  %}
-            {% assign deepLinks = deepLinksObj.link.links %}
+    {% if depth <= 2 %}
+      <ul class="usa-accordion">
+        {% for link in deepLinksObj.link.links %}
+          <li>
 
-            {% if depth <= 2 %}
-                <ul class="usa-accordion">
-                    {% for link in deepLinksObj.link.links %}
-                        <li>
+            {% assign isRoot = entityUrl.path | isRootPage %}
+            {% assign expanded = false %}
+            {% assign activeItem = path | prepend: "/" %}
 
-                            {% assign isRoot = entityUrl.path | isRootPage %}
-                            {% assign expanded = false %}
-                            {% assign activeItem = path | prepend: "/" %}
-
-                            {% if forloop.first == true and isRoot == true and isInAbout == false %}
-                                {% assign expanded = true %}
-                            {% endif %}
-
-                            <button class="usa-accordion-button"
-                                    aria-expanded="{{ expanded }}"
-                                    aria-controls="a{{ forloop.index }}">
-                                {{ link.label }}
-                            </button>
-                            <div id="a{{ forloop.index }}" class="usa-accordion-content" aria-hidden="false">
-                                {% assign listSize = link.links | size %}
-                                {% if listSize > 0 %}
-                                    <ul class="usa-sidenav-list">
-                                        {% for link in link.links %}
-                                            <li {% if entityUrl.path contains link.url.path %} class="active-level" {% endif %}>
-                                                <a {% if entityUrl.path contains link.url.path %} class="usa-current" {% endif %}
-                                                        href="{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
-                                                {% assign subListSize = link.links | size %}
-                                                {% if subListSize > 0 %}
-                                                    <ul class="usa-sidenav-sub_list">
-                                                        {% for link in link.links %}
-                                                            {% assign subSubListSize = link.links | size %}
-                                                            {% if subSubListSize > 0 %}
-                                                                <li {% if entityUrl.path contains link.url.path %} class="active-level" {% endif %}>
-                                                                    <a {% if entityUrl.path == link.url.path %} class="usa-current" {% endif %}
-                                                                            href="{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
-                                                                    <ul class="usa-sidenav-sub_list">
-                                                                        {% for link in link.links %}
-                                                                            <li>
-                                                                                <a {% if entityUrl.path == link.url.path %} class="usa-current" {% endif %}
-                                                                                        href="{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
-                                                                            </li>
-                                                                        {% endfor %}
-                                                                    </ul>
-                                                                </li>
-                                                            {% else %}
-                                                                <li>
-                                                                    <a {% if entityUrl.path contains link.url.path %} class="usa-current" {% endif %}
-                                                                            href="{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
-                                                                </li>
-                                                            {% endif %}
-                                                        {% endfor %}
-                                                    </ul>
-                                                {% endif %}
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                {% endif %}
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <div class="sidenav-previous-page">
-                    <a href="{{ deepLinksObj.parent.url.path }}">{{ deepLinksObj.parent.label }}</a>
-                </div>
-
-                <ul class="usa-sidenav-list">
-                    {% for link in deepLinks %}
-                    <li {% if entityUrl.path == link.url.path %} class="active-level" {% endif %}>
-                        <a {% if entityUrl.path == link.url.path %} class="usa-current" {% endif %}
-                                href="{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
-                        {% if link.links.length %}
-                            <ul class="usa-sidenav-sub_list">
-                                {% for link in link.links %}
-                                    <li>
-                                        <a {% if entityUrl.path == link.url.path %} class="usa-current" {% endif %}
-                                                href="{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                            </li>
-                        {% else %}
-                            </li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
+            {% if forloop.first == true and isRoot == true and isInAbout == false %}
+              {% assign expanded = true %}
             {% endif %}
-        </div>
-    </nav>
-{% endif %}
+
+            <button class="usa-accordion-button"
+                    aria-expanded="{{ expanded }}"
+                    aria-controls="a{{ forloop.index }}">
+              {{ link.label }}
+            </button>
+            <div id="a{{ forloop.index }}" class="usa-accordion-content" aria-hidden="false">
+              {% assign listSize = link.links | size %}
+              {% if listSize > 0 %}
+                <ul class="usa-sidenav-list">
+                  {% for link in link.links %}
+                    <li {% if entityUrl.path contains link.url.path %} class="active-level" {% endif %}>
+                      <a {% if entityUrl.path contains link.url.path %} class="usa-current" {% endif %}
+                        href="{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
+                      {% assign subListSize = link.links | size %}
+                      {% if subListSize > 0 %}
+                        <ul class="usa-sidenav-sub_list">
+                          {% for link in link.links %}
+                            {% assign subSubListSize = link.links | size %}
+                            {% if subSubListSize > 0 %}
+                              <li {% if entityUrl.path contains link.url.path %} class="active-level" {% endif %}>
+                                <a {% if entityUrl.path == link.url.path %} class="usa-current" {% endif %}
+                                  href="{{ link.url.path }}"
+                                  onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
+                                <ul class="usa-sidenav-sub_list">
+                                  {% for link in link.links %}
+                                    <li>
+                                      <a {% if entityUrl.path == link.url.path %} class="usa-current" {% endif %}
+                                        href="{{ link.url.path }}"
+                                        onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
+                                    </li>
+                                  {% endfor %}
+                                </ul>
+                              </li>
+                            {% else %}
+                              <li>
+                                <a {% if entityUrl.path contains link.url.path %} class="usa-current" {% endif %}
+                                  href="{{ link.url.path }}"
+                                  onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
+                              </li>
+                            {% endif %}
+                          {% endfor %}
+                        </ul>
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <div class="sidenav-previous-page">
+        <a href="{{ deepLinksObj.parent.url.path }}">{{ deepLinksObj.parent.label }}</a>
+      </div>
+
+      <ul class="usa-sidenav-list">
+        {% for link in deepLinks %}
+        <li {% if entityUrl.path == link.url.path %} class="active-level" {% endif %}>
+          <a {% if entityUrl.path == link.url.path %} class="usa-current" {% endif %}
+            href="{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
+          {% if link.links.length %}
+            <ul class="usa-sidenav-sub_list">
+              {% for link in link.links %}
+                <li>
+                  <a {% if entityUrl.path == link.url.path %} class="usa-current" {% endif %}
+                    href="{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+            </li>
+          {% else %}
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+</nav>

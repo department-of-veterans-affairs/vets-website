@@ -1,7 +1,7 @@
 export const uiSchema = {
   'ui:title': 'Your work history',
-  employment: {
-    isEmployed: {
+  questions: {
+    vetIsEmployed: {
       'ui:title': 'Do you currently have a job?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
@@ -12,10 +12,10 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    employment: {
+    questions: {
       type: 'object',
       properties: {
-        isEmployed: {
+        vetIsEmployed: {
           type: 'boolean',
         },
       },

@@ -11,22 +11,22 @@ import { renderAdditionalInfo } from '../../debt-letters/const/diary-codes';
 
 class DebtCard extends Component {
   onChange(debt) {
-    const alreadyIncluded = this.props.fsrDebts.some(
+    const alreadyIncluded = this.props.selectedDebts.some(
       currentDebt => currentDebt.id === debt.id,
     );
 
     if (alreadyIncluded) {
-      const fsrDebts = this.props?.fsrDebts?.filter(
+      const selectedDebts = this.props?.selectedDebts?.filter(
         debtEntry => debtEntry.id !== debt.id,
       );
-      return this.props.setData({ ...this.props.formData, fsrDebts });
+      return this.props.setData({ ...this.props.formData, selectedDebts });
     } else {
-      const newFsrDebts = this.props.fsrDebts.length
-        ? [...this.props.fsrDebts, debt]
+      const newFsrDebts = this.props.selectedDebts.length
+        ? [...this.props.selectedDebts, debt]
         : [debt];
       return this.props.setData({
         ...this.props.formData,
-        fsrDebts: newFsrDebts,
+        selectedDebts: newFsrDebts,
       });
     }
   }
@@ -50,7 +50,7 @@ class DebtCard extends Component {
       mostRecentHistory.date,
       debt.benefitType,
     );
-    const isChecked = this.props.fsrDebts.some(
+    const isChecked = this.props.selectedDebts.some(
       currentDebt => currentDebt.id === debt.id,
     );
     return (
@@ -112,7 +112,7 @@ DebtCard.propTypes = {
 
 const mapStateToProps = ({ form }) => ({
   formData: form.data,
-  fsrDebts: form.data.fsrDebts,
+  selectedDebts: form.data.selectedDebts,
 });
 
 const mapDispatchToProps = {
