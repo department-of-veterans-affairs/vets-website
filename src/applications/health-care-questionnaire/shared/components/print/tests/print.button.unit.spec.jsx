@@ -22,7 +22,7 @@ describe('health care questionnaire list - shows view and print button', () => {
 
     expect(component.exists('[data-testid="service-down-message"]')).to.be.true;
     expect(
-      component.get('[data-testid="call-to-action-container"]').text,
+      component.find('[data-testid="call-to-action-container"]').text(),
     ).to.contain('Please refresh this page or try again later.');
     component.unmount();
   });
