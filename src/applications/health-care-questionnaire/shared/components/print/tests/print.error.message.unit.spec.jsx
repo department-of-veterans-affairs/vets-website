@@ -4,7 +4,7 @@ import { mount } from 'enzyme';
 
 import PrintErrorMessage from '../PrintErrorMessage';
 
-describe('health care questionnaire list - shows view and print button', () => {
+describe('health care questionnaire list - error with pdf download message', () => {
   it('renders', () => {
     const component = mount(<PrintErrorMessage CallToAction={() => <></>} />);
     expect(component.exists('[data-testid="service-down-message"]')).to.be.true;
