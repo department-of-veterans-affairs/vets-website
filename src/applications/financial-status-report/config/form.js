@@ -7,20 +7,14 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
 import PreSubmitSignature from '../components/PreSubmitSignature';
 import * as pages from '../pages';
-import moment from 'moment';
+import { transform } from '../utils/transform';
 import SubmissionError from '../components/SubmissionError';
 import { WIZARD_STATUS } from '../wizard/constants';
-
-const submit = () => {
-  return Promise.resolve(
-    JSON.stringify({ submission: { response: { timestamp: moment() } } }),
-  );
-};
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submit,
+  submit: transform,
   submitUrl: `${environment.API_URL}/v0/api`,
   trackingPrefix: 'fsr-5655-',
   wizardStorageKey: WIZARD_STATUS,

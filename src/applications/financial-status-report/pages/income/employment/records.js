@@ -19,14 +19,14 @@ export const uiSchema = {
       veteran: {
         currentEmployment: {
           'ui:description': 'Tell us about your current job.',
-          employmentType: {
+          type: {
             'ui:title': 'Type of work',
             'ui:options': {
               classNames: 'vads-u-margin-top--3',
               widgetClassNames: 'input-size-3',
             },
           },
-          employmentStart: {
+          from: {
             'ui:title': 'Date you started work at this job',
             'ui:widget': 'date',
             'ui:options': {
@@ -100,17 +100,13 @@ export const schema = {
               properties: {
                 currentEmployment: {
                   type: 'object',
-                  required: [
-                    'employmentType',
-                    'employmentStart',
-                    'grossMonthlyIncome',
-                  ],
+                  required: ['type', 'from', 'grossMonthlyIncome'],
                   properties: {
-                    employmentType: {
+                    type: {
                       type: 'string',
                       enum: ['Full time', 'Part time', 'Seasonal', 'Temporary'],
                     },
-                    employmentStart: {
+                    from: {
                       type: 'string',
                     },
                     employerName: {

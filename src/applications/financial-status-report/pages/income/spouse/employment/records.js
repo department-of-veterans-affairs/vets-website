@@ -20,14 +20,14 @@ export const uiSchema = {
       spouse: {
         currentEmployment: {
           'ui:description': "Tell us about your spouse's current job.",
-          employmentType: {
+          type: {
             'ui:title': 'Type of work',
             'ui:options': {
               classNames: 'vads-u-margin-top--3',
               widgetClassNames: 'input-size-3',
             },
           },
-          employmentStart: {
+          from: {
             'ui:title': 'Date your spouse started work at this job',
             'ui:widget': 'date',
           },
@@ -98,17 +98,13 @@ export const schema = {
               properties: {
                 currentEmployment: {
                   type: 'object',
-                  required: [
-                    'employmentType',
-                    'employmentStart',
-                    'grossMonthlyIncome',
-                  ],
+                  required: ['type', 'from', 'grossMonthlyIncome'],
                   properties: {
-                    employmentType: {
+                    type: {
                       type: 'string',
                       enum: ['Full time', 'Part time', 'Seasonal', 'Temporary'],
                     },
-                    employmentStart: {
+                    from: {
                       type: 'string',
                     },
                     employerName: {
