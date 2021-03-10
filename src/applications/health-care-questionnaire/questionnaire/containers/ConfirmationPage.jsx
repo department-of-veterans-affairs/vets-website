@@ -35,7 +35,23 @@ const ConfirmationPage = props => {
         </h2>
         <AppointmentDisplay appointment={appointment} bold={false} />
         <p>We look forward to seeing you at your upcoming appointment.</p>
-        <PrintButton displayArrow={false} />
+        <PrintButton
+          displayArrow={false}
+          ErrorCallToAction={() => {
+            return (
+              <>
+                Please try again from your{' '}
+                <a
+                  href={
+                    '/health-care/health-questionnaires/questionnaires/completed'
+                  }
+                >
+                  list of completed questionnaires.
+                </a>
+              </>
+            );
+          }}
+        />
       </div>
       {appointment && <ConfirmationPageFooter appointment={appointment} />}
     </div>

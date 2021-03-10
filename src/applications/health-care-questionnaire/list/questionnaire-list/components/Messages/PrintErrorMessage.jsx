@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function PrintErrorMessage() {
+export default function PrintErrorMessage({ CallToAction }) {
   return (
     <div
       data-testid="service-down-message"
@@ -11,8 +11,7 @@ export default function PrintErrorMessage() {
           We’ve run into a problem viewing and printing your questionnaire
         </h3>
         <p className="usa-alert-text">
-          We're sorry. Something went wrong on our end. Please refresh this page
-          or try again later.
+          We're sorry. Something went wrong on our end. <CallToAction />
         </p>
       </div>
     </div>
