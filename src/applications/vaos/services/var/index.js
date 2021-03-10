@@ -260,12 +260,9 @@ export function getRequestEligibilityCriteria(sites) {
 }
 
 export function getDirectBookingEligibilityCriteria(sites) {
-  if (sites) {
-    return apiRequestWithMocks(
-      `/vaos/v0/direct_booking_eligibility_criteria?${sites
-        .map(site => `parent_sites[]=${site}`)
-        .join('&')}`,
-    ).then(parseApiList);
-  }
-  return null;
+  return apiRequestWithMocks(
+    `/vaos/v0/direct_booking_eligibility_criteria?${sites
+      .map(site => `parent_sites[]=${site}`)
+      .join('&')}`,
+  ).then(parseApiList);
 }
