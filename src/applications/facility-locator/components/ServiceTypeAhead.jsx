@@ -69,7 +69,7 @@ class ServiceTypeAhead extends Component {
     return (
       <Downshift
         onChange={this.handleOnSelect}
-        defaultSelectedItem={defaultSelectedItem}
+        selectedItem={defaultSelectedItem}
         itemToString={this.getSpecialtyName}
         onInputValueChange={(inputValue, stateAndHelpers) => {
           const { selectedItem, clearSelection } = stateAndHelpers;
