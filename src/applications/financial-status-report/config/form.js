@@ -122,6 +122,18 @@ const formConfig = {
           schema: pages.employment.schema,
         },
         employmentRecords: {
+          initialData: {
+            personalData: {
+              employmentHistory: {
+                veteran: {
+                  currentEmployment: {
+                    present: true,
+                    to: null,
+                  },
+                },
+              },
+            },
+          },
           path: 'employment-records',
           title: 'Employment',
           uiSchema: pages.employmentRecords.uiSchema,
@@ -199,6 +211,18 @@ const formConfig = {
           uiSchema: pages.spouseEmployment.uiSchema,
           schema: pages.spouseEmployment.schema,
           depends: formData => formData.questions.maritalStatus === 'Married',
+          initialData: {
+            personalData: {
+              employmentHistory: {
+                spouse: {
+                  currentEmployment: {
+                    present: true,
+                    to: null,
+                  },
+                },
+              },
+            },
+          },
         },
         spouseEmploymentRecords: {
           path: 'spouse-employment-records',
