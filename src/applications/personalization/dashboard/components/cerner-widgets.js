@@ -8,7 +8,7 @@ import { externalRedirects } from 'platform/user/authentication/utilities';
 // Returns an AlertBox to present the user with info about working with the
 // Cerner facility they are enrolled at. Props allow you to edit a small amount
 // of the content that is rendered in the AlertBox.
-export const CernerAlertBox = ({
+const CernerAlertBox = ({
   primaryCtaText,
   primaryCtaButtonUrl,
   secondaryCtaButtonText,

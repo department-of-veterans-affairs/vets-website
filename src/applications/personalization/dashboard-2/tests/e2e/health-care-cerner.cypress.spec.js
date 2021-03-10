@@ -25,7 +25,7 @@ function mockFeatureFlags() {
 }
 
 //
-describe('MyVA Dashboard - Health Care Widgets', () => {
+describe('MyVA Dashboard - Cerner Widget', () => {
   describe('when user is enrolled at Cerner facility', () => {
     beforeEach(() => {
       mockLocalStorage();
@@ -39,9 +39,10 @@ describe('MyVA Dashboard - Health Care Widgets', () => {
         ],
         isPatient: true,
       });
+
       cy.login(mockUser);
       // login() calls cy.server() so we can now mock routes
-      cy.route(
+      cy.intercept(
         'GET',
         '/v0/health_care_applications/enrollment_status',
         enrollmentStatusEnrolled,
@@ -66,7 +67,7 @@ describe('MyVA Dashboard - Health Care Widgets', () => {
       });
       cy.login(mockUser);
       // login() calls cy.server() so we can now mock routes
-      cy.route(
+      cy.intercept(
         'GET',
         '/v0/health_care_applications/enrollment_status',
         enrollmentStatusEnrolled,

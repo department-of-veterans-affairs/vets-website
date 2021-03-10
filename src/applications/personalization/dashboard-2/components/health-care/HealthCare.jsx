@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import uniq from 'lodash/uniq';
 
 import { loadPrescriptions as loadPrescriptionsAction } from '~/applications/personalization/dashboard/actions/prescriptions';
 import { getMedicalCenterNameByID } from '~/platform/utilities/medical-centers/medical-centers';
@@ -120,11 +119,13 @@ const mapStateToProps = state => {
       getMedicalCenterNameByID(facility.facilityId),
     ) || [];
 
-  const facilityNames = uniq([
-    ...appointmentFacilityNames,
-    ...messagingFacilityNames,
-    ...prescriptionFacilityNames,
-  ]);
+  const facilityNames = [
+    ...new Set([
+      ...appointmentFacilityNames,
+      ...messagingFacilityNames,
+      ...prescriptionFacilityNames,
+    ]),
+  ];
 
   return {
     isCernerPatient: selectIsCernerPatient(state),
