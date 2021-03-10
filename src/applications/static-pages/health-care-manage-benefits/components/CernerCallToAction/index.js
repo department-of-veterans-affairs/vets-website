@@ -7,6 +7,7 @@ import * as Sentry from '@sentry/browser';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import environment from 'platform/utilities/environment';
+import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
 import { appointmentsToolLink } from 'platform/utilities/cerner';
 
@@ -84,7 +85,18 @@ export class CernerCallToAction extends Component {
     }
   };
 
+  onCTALinkClick = (buttonLabel, buttonType = 'default') => () => {
+    recordEvent({
+      event: 'cta-button-click',
+      'button-type': buttonType,
+      'button-click-label': buttonLabel,
+      'button-background-color':
+        buttonType === 'secondary' ? '#ffffff' : '#0071bb',
+    });
+  };
+
   render() {
+    const { onCTALinkClick } = this;
     const {
       cernerFacilities,
       linksHeaderText,
@@ -195,6 +207,7 @@ export class CernerCallToAction extends Component {
                 <a
                   className="usa-button vads-u-color--white vads-u-margin-top--0 vads-u-margin-bottom--4"
                   href={isCerner ? myVAHealthLink : myHealtheVetLink}
+                  onClick={onCTALinkClick(linkText, 'default')}
                   rel="noreferrer noopener"
                   target="_blank"
                 >
@@ -211,6 +224,7 @@ export class CernerCallToAction extends Component {
             <a
               className="usa-button usa-button-secondary vads-u-color--primary vads-u-margin-top--0 vads-u-margin-bottom--2"
               href={myHealtheVetLink}
+              onClick={onCTALinkClick(myHealtheVetLinkText, 'secondary')}
               rel="noreferrer noopener"
               target="_blank"
             >
