@@ -43,7 +43,7 @@ export default function createI18Select(store, widgetType) {
       suffix: '-esp/',
     },
   };
-  //  temporary
+  //  temporary, will remove this once the tagalog FAQ page is ready
   if (!isFaq) {
     I18_CONTENT.tag = {
       suffix: '-tag/',
