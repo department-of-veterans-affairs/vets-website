@@ -4,6 +4,15 @@ const PageHelpers = require('./preneed-helpers');
 const testData = require('./schema/maximal-test.json');
 const FormsTestHelpers = require('../../../platform/testing/e2e/form-helpers');
 
+/* 
+This test is failing because the `/v0/preneeds/cemeteries` endpoint calls a SOAP service that is down in dev/staging.
+
+Slack Thread: https://dsva.slack.com/archives/CBU0KDSB1/p1614886088135500?thread_ts=1614787206.037100&cid=CBU0KDSB1
+GitHub Issue: https://github.com/department-of-veterans-affairs/va.gov-team/issues/20755
+TODO: Once the endpoint is is available in dev/staging, update the filename suffix of this file to re-enable this test.
+Command: git mv src/applications/pre-need/tests/00-all-fields.e2e.skip.spec.js src/applications/pre-need/tests/00-all-fields.e2e.spec.js
+*/
+
 const runTest = E2eHelpers.createE2eTest(client => {
   PageHelpers.initApplicationSubmitMock();
   PageHelpers.initDocumentUploadMock();
