@@ -665,4 +665,33 @@ module.exports = function registerFilters() {
     // Return a formatted timestamp string.
     return `${digits}${text}`;
   };
+
+  liquid.filters.getTagsList = fieldTags => {
+    const {
+      entity: {
+        fieldTopics = [],
+        fieldAudienceBeneficiares,
+        fieldNonBeneficiares,
+      },
+    } = fieldTags;
+
+    const topics = fieldTopics.map(topic => ({
+      ...topic.entity,
+      categoryLabel: 'Topics',
+    }));
+
+    const audiences = [
+      fieldAudienceBeneficiares?.entity,
+      fieldNonBeneficiares?.entity,
+    ]
+      .filter(tag => !!tag)
+      .map(audience => ({
+        ...audience,
+        categoryLabel: 'Audience',
+      }));
+
+    const tagList = [...topics, ...audiences];
+
+    return _.sortBy(tagList, 'name');
+  };
 };
