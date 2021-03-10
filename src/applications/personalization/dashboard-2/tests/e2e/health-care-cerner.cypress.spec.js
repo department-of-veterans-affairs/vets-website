@@ -1,30 +1,12 @@
 import enrollmentStatusEnrolled from '@@profile/tests/fixtures/enrollment-system/enrolled.json';
 
+import { mockFeatureToggles } from './helpers';
+
 import {
   makeUserObject,
   mockLocalStorage,
 } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
 
-function mockFeatureFlags() {
-  cy.route('GET', '/v0/feature_toggles*', {
-    data: {
-      type: 'feature_toggles',
-      features: [
-        {
-          // This feature flag is required to enable Cerner alerts
-          name: 'show_new_schedule_view_appointments_page',
-          value: true,
-        },
-        {
-          name: 'dashboard_show_dashboard_2',
-          value: true,
-        },
-      ],
-    },
-  });
-}
-
-//
 describe('MyVA Dashboard - Cerner Widget', () => {
   describe('when user is enrolled at Cerner facility', () => {
     beforeEach(() => {
@@ -47,7 +29,7 @@ describe('MyVA Dashboard - Cerner Widget', () => {
         '/v0/health_care_applications/enrollment_status',
         enrollmentStatusEnrolled,
       );
-      mockFeatureFlags();
+      mockFeatureToggles();
     });
     it('should show the Cerner alert', () => {
       cy.visit('my-va/');
@@ -72,7 +54,7 @@ describe('MyVA Dashboard - Cerner Widget', () => {
         '/v0/health_care_applications/enrollment_status',
         enrollmentStatusEnrolled,
       );
-      mockFeatureFlags();
+      mockFeatureToggles();
     });
     it('should not show the Cerner alert', () => {
       cy.visit('my-va/');
