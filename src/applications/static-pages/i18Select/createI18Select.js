@@ -32,14 +32,35 @@ export default function createI18Select(store, widgetType) {
   const isFaq = document.location.pathname.includes(
     `/coronavirus-veteran-frequently-asked-questions`,
   );
-
+  const I18_CONTENT = {
+    en: {
+      label: 'English',
+      suffix: '/',
+    },
+    es: {
+      onThisPage: 'En esta página',
+      label: 'Español',
+      suffix: '-esp/',
+    },
+  };
+  //  temporary
+  if (!isFaq) {
+    I18_CONTENT.tag = {
+      suffix: '-tag/',
+      label: 'Tagalog',
+      onThisPage: 'Tagalog On this page',
+    };
+  }
   if (root) {
     import(/* webpackChunkName: "i18Select" */
     './I18Select').then(module => {
       const I18Select = module.default;
       ReactDOM.render(
         <Provider store={store}>
-          <I18Select baseUrls={isFaq ? baseUrls.faq : baseUrls.vaccine} />
+          <I18Select
+            baseUrls={isFaq ? baseUrls.faq : baseUrls.vaccine}
+            content={I18_CONTENT}
+          />
         </Provider>,
         root,
       );
