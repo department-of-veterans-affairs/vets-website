@@ -6,7 +6,6 @@ import Telephone, {
 
 export const errorFragment = (
   <>
-    <h2>We're sorry. Something went wrong on our end</h2>
     <p>
       Please refresh this page or check back later. You can also sign out of
       VA.gov and try signing back into this page.

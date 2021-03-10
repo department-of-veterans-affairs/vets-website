@@ -65,7 +65,7 @@ export default function FormResult({
   const MoreScreening = () => (
     <Complete
       selectedLanguage={selectedLanguage}
-      selectedColors={{ background: '#112e51', font: 'white' }}
+      selectedColors={{ background: 'white', font: '#112e51', name: '' }}
     >
       <h2 className="vads-u-font-size--2xl">
         {resultText.moreScreeningText[selectedLanguage]}

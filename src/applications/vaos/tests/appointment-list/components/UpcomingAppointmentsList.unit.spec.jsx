@@ -646,4 +646,26 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
     expect(screen.baseElement).to.contain.text('Phone call');
   });
+
+  it('should show error message when MAS returns partial results', async () => {
+    mockAppointmentInfo({
+      va: [],
+      isHomepageRefresh: true,
+      partialError: {
+        code: '983',
+        source: 'VIA',
+        summary: 'something',
+      },
+    });
+
+    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
+      initialState,
+    });
+
+    expect(
+      await screen.findByText(
+        /We’re having trouble getting your upcoming appointments/i,
+      ),
+    ).to.be.ok;
+  });
 });

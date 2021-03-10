@@ -4,8 +4,8 @@ import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 
 const ResolutionOptionsTitle = ({ formData }) => {
   const index = window.location.href.slice(-1);
-  const { fsrDebts } = formData;
-  const debt = fsrDebts[index];
+  const { selectedDebts } = formData;
+  const debt = selectedDebts[index];
   const type = deductionCodes[debt.deductionCode] || debt.benefitType;
 
   return (

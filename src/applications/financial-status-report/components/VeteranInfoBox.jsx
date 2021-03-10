@@ -13,7 +13,7 @@ const VeteranInfoBox = ({
   last,
   dateOfBirth,
   ssnLastFour,
-  vaFileNumber,
+  fileNumber,
 }) => {
   const veteranFullName = [first, middle, last]
     .filter(name => !!name)
@@ -31,7 +31,7 @@ const VeteranInfoBox = ({
           <p className="vads-u-margin--1px">
             Last 4 of Social Security number: {ssnLastFour}
           </p>
-          <p className="vads-u-margin--1px">VA File number: {vaFileNumber}</p>
+          <p className="vads-u-margin--1px">VA File number: {fileNumber}</p>
           <p className="vads-u-margin--1px">
             Date of birth: {moment(dateOfBirth).format('DD/MM/YYYY')}
           </p>
@@ -54,7 +54,7 @@ VeteranInfoBox.propTypes = {
   middle: PropTypes.string,
   dateOfBirth: PropTypes.string,
   ssnLastFour: PropTypes.string,
-  vaFileNumber: PropTypes.string,
+  fileNumber: PropTypes.number,
 };
 
 const mapStateToProps = ({ form }) => ({
@@ -62,8 +62,8 @@ const mapStateToProps = ({ form }) => ({
   middle: form?.data?.personalData?.veteranFullName?.middle,
   last: form?.data?.personalData?.veteranFullName?.last,
   dateOfBirth: form?.data?.personalData?.dateOfBirth,
-  ssnLastFour: form?.data?.personalIdentification?.sSn,
-  vaFileNumber: form?.data?.personalIdentification?.vaFileNumber,
+  ssnLastFour: form?.data?.personalIdentification?.ssn,
+  fileNumber: form?.data?.personalIdentification?.fileNumber,
 });
 
 export default connect(

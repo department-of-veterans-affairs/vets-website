@@ -3,9 +3,16 @@
  * @module services/Appointment
  */
 import moment from 'moment';
-import { getConfirmedAppointments, getPendingAppointments } from '../var';
 import {
+  getConfirmedAppointment,
+  getConfirmedAppointments,
+  getPendingAppointment,
+  getPendingAppointments,
+} from '../var';
+import {
+  transformConfirmedAppointment,
   transformConfirmedAppointments,
+  transformPendingAppointment,
   transformPendingAppointments,
 } from './transformers';
 import { mapToFHIRErrors } from '../utils';
@@ -82,9 +89,17 @@ export async function getBookedAppointments({ startDate, endDate }) {
       ),
     ]);
 
+    // We might get partial results back from MAS, so throw an error if we do
+    if (appointments[0].errors?.length) {
+      throw mapToFHIRErrors(
+        appointments[0].errors,
+        'MAS returned partial results',
+      );
+    }
+
     return transformConfirmedAppointments([
-      ...appointments[0],
-      ...appointments[1],
+      ...appointments[0].data,
+      ...appointments[1].data,
     ]);
   } catch (e) {
     if (e.errors) {
@@ -119,6 +134,72 @@ export async function getAppointmentRequests({ startDate, endDate }) {
 }
 
 /**
+ * Fetches a single appointment request and transforms it into our Appointment type
+ *
+ * @export
+ * @async
+ * @param {string} id Appointment request id
+ * @returns {Appointment} An Appointment object for the given request id
+ */
+export async function fetchRequestById(id) {
+  try {
+    const appointment = await getPendingAppointment(id);
+
+    return transformPendingAppointment(appointment);
+  } catch (e) {
+    if (e.errors) {
+      throw mapToFHIRErrors(e.errors);
+    }
+
+    throw e;
+  }
+}
+/**
+ * Fetches a booked appointment based on the id and type provided
+ *
+ * @export
+ * @async
+ * @param {string} id MAS or community care booked appointment id
+ * @param {'cc'|'va'} type Type of appointment that is being fetched
+ * @returns {Appointment} A transformed appointment with the given id
+ */
+export async function fetchBookedAppointment(id, type) {
+  try {
+    let appointment;
+    if (type === 'va') {
+      appointment = await getConfirmedAppointment(id, type);
+    } else if (type === 'cc') {
+      // We don't have a fetch by id service for cc, so hopefully
+      // the appointment is 13 months in either direction
+      const ccAppointments = await getConfirmedAppointments(
+        type,
+        moment()
+          .add(-395, 'days')
+          .startOf('day')
+          .toISOString(),
+        moment()
+          .add(395, 'days')
+          .startOf('day')
+          .toISOString(),
+      );
+      appointment = ccAppointments.find(appt => appt.id === id);
+    }
+
+    if (!appointment) {
+      throw new Error(`Couldn't find ${type} appointment`);
+    }
+
+    return transformConfirmedAppointment(appointment);
+  } catch (e) {
+    if (e.errors) {
+      throw mapToFHIRErrors(e.errors);
+    }
+
+    throw e;
+  }
+}
+
+/**
  * Returns whether or not the appointment is VA phone appointment
  *
  * @export
@@ -138,7 +219,7 @@ export function isVAPhoneAppointment(appointment) {
  */
 export function isVideoAppointment(appointment) {
   return (
-    appointment.contained
+    appointment?.contained
       ?.find(contained => contained.resourceType === 'HealthcareService')
       ?.characteristic?.some(c =>
         c.coding?.some(code => code.system === 'VVS'),
@@ -256,7 +337,7 @@ export function getVARClinicId(appointment) {
  * @returns {string} The location id where the video appointment is located
  */
 export function getVideoAppointmentLocation(appointment) {
-  const serviceResource = appointment.contained.find(
+  const serviceResource = appointment?.contained.find(
     res => res.resourceType === 'HealthcareService',
   );
   const locationReference =
@@ -271,14 +352,21 @@ export function getVideoAppointmentLocation(appointment) {
 }
 
 /**
- * Returns the location ID of a VA appointment
+ * Returns the location ID of a VA appointment (in person or video)
  *
  * @export
  * @param {Appointment} appointment A FHIR appointment resource
  * @returns {string} The location id where the VA appointment is located
  */
 export function getVAAppointmentLocationId(appointment) {
-  const locationReference = appointment.participant?.find(p =>
+  if (
+    isVideoAppointment(appointment) &&
+    appointment.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment
+  ) {
+    return getVideoAppointmentLocation(appointment);
+  }
+
+  const locationReference = appointment?.participant?.find(p =>
     p.actor.reference?.startsWith('Location'),
   )?.actor?.reference;
 
@@ -288,7 +376,6 @@ export function getVAAppointmentLocationId(appointment) {
 
   return null;
 }
-
 /**
  * Returns the patient telecom info in a VA appointment
  *

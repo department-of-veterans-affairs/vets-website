@@ -55,7 +55,7 @@ export default function createRoutesWithStore(store) {
             )}
           />
           <Route
-            path="/new-project-cheetah-booking"
+            path="/new-covid-19-vaccine-booking"
             component={asyncLoader(() =>
               import(/* webpackChunkName: "project-cheetah" */ './project-cheetah')
                 .then(({ NewBooking, reducer }) => {

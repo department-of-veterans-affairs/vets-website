@@ -10,11 +10,11 @@ export const uiSchema = {
       for you and your spouse. If you don’t have any of these items, answer “0”.
     </div>
   ),
-  householdAssets: {
+  assets: {
     'ui:options': {
       classNames: 'no-wrap',
     },
-    checkingAndSavings: _.merge(
+    cashInBank: _.merge(
       currencyUI(
         'How much money do you have in checking and savings accounts?',
       ),
@@ -24,7 +24,7 @@ export const uiSchema = {
         },
       },
     ),
-    availableAssets: _.merge(
+    cashOnHand: _.merge(
       currencyUI('How much other cash do you have access to at this time?'),
       {
         'ui:options': {
@@ -32,7 +32,7 @@ export const uiSchema = {
         },
       },
     ),
-    savingsBonds: _.merge(
+    usSavingsBonds: _.merge(
       currencyUI('What’s the current value of your U.S. Savings Bonds?'),
       {
         'ui:options': {
@@ -54,22 +54,22 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    householdAssets: {
+    assets: {
       type: 'object',
       required: [
-        'checkingAndSavings',
-        'availableAssets',
-        'savingsBonds',
+        'cashInBank',
+        'cashOnHand',
+        'usSavingsBonds',
         'stocksAndOtherBonds',
       ],
       properties: {
-        checkingAndSavings: {
+        cashInBank: {
           type: 'number',
         },
-        availableAssets: {
+        cashOnHand: {
           type: 'number',
         },
-        savingsBonds: {
+        usSavingsBonds: {
           type: 'number',
         },
         stocksAndOtherBonds: {
