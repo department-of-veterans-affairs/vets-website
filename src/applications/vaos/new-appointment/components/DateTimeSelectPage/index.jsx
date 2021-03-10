@@ -189,7 +189,6 @@ export function DateTimeSelectPage({
               .format('YYYY-MM-DD')}
             required
             requiredMessage="Please choose your preferred date and time for your appointment"
-            selectedDates={selectedDates}
             startMonth={startMonth}
             showValidation={submitted && !selectedDates?.length}
           />

@@ -150,7 +150,6 @@ export default function CalendarWidget({
   renderIndicator,
   required,
   requiredMessage = 'Please select a date',
-  selectedDates,
   showValidation,
   startMonth,
   timezone,
@@ -166,7 +165,7 @@ export default function CalendarWidget({
   const currentDate = moment();
   const maxMonth = getMaxMonth(maxDate, startMonth);
   const [months, setMonths] = useState([moment(startMonth || minDate)]);
-  const exceededMaximumSelections = selectedDates?.length > maxSelections;
+  const exceededMaximumSelections = value.length > maxSelections;
   const hasError = (required && showValidation) || exceededMaximumSelections;
 
   const calendarCss = classNames('vaos-calendar__calendars vads-u-flex--1', {
@@ -302,8 +301,8 @@ CalendarWidget.propTypes = {
   renderOptions: PropTypes.func,
   required: PropTypes.bool,
   requiredMessage: PropTypes.string,
-  selectedDates: PropTypes.array,
   showValidation: PropTypes.bool,
   id: PropTypes.string.isRequired,
   timezone: PropTypes.string, // America/Denver
+  value: PropTypes.array,
 };

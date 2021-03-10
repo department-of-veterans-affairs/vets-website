@@ -84,7 +84,6 @@ export function DateTimeRequestPage({
         renderOptions={props => <DateTimeRequestOptions {...props} />}
         required
         requiredMessage="Please select at least one preferred date for your appointment. You can select up to three dates."
-        selectedDates={selectedDates}
         showValidation={submitted && !userSelectedSlot(selectedDates)}
       />
       <FormButtons
