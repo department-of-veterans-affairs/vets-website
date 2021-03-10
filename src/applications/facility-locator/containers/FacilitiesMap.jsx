@@ -406,7 +406,7 @@ const FacilitiesMap = props => {
             facilityType={facilityType}
             serviceType={serviceType}
             context={queryContext}
-            specialties={props.specialties}
+            specialtyMap={props.specialties}
             currentQuery={currentQuery}
             inProgress={currentQuery.inProgress}
           />
