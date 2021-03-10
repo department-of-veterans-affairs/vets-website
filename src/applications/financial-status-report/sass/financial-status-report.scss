@@ -9,7 +9,9 @@
 @import "../../../platform/forms/sass/m-schemaform";
 
 .schemaform-title > h1 {
-  max-width: 600px;
+  @include media($small-desktop-screen) {
+    white-space: nowrap;
+  }
 }
 
 .debt-card {

@@ -29,7 +29,7 @@ export default function ScheduleNewProjectCheetah({
       <Link
         id="new-project-cheetah"
         className="usa-button vads-u-font-weight--bold vads-u-font-size--md"
-        to="/new-project-cheetah-booking"
+        to="/new-covid-19-vaccine-booking"
         onClick={startNewAppointmentFlow}
       >
         Learn more

@@ -8,13 +8,11 @@ export const uiSchema = {
       },
     },
   },
-  employment: {
-    spouse: {
-      isEmployed: {
-        'ui:title': 'Does your spouse currently have a job?',
-        'ui:widget': 'yesNo',
-        'ui:required': () => true,
-      },
+  questions: {
+    spouseIsEmployed: {
+      'ui:title': 'Does your spouse currently have a job?',
+      'ui:widget': 'yesNo',
+      'ui:required': () => true,
     },
   },
 };
@@ -30,16 +28,11 @@ export const schema = {
         },
       },
     },
-    employment: {
+    questions: {
       type: 'object',
       properties: {
-        spouse: {
-          type: 'object',
-          properties: {
-            isEmployed: {
-              type: 'boolean',
-            },
-          },
+        spouseIsEmployed: {
+          type: 'boolean',
         },
       },
     },
