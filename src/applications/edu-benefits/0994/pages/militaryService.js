@@ -1,7 +1,7 @@
 import moment from 'moment';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import environment from 'platform/utilities/environment';
-import { validateDate } from 'platform/forms-system/src/js/validation';
+import { validateCurrentOrFutureDate } from 'platform/forms-system/src/js/validation';
 import {
   activeDutyNotice,
   benefitNotice,
@@ -44,7 +44,7 @@ export const uiSchema = {
       expandUnder: 'activeDuty',
       expandUnderCondition: true,
     },
-    'ui:validations': [validateDate],
+    'ui:validations': [validateCurrentOrFutureDate],
     'ui:errorMessages': {
       pattern: 'Please enter a valid date',
       required: 'Please enter a date',
