@@ -19,7 +19,11 @@ describe('health care questionnaire list - shows view and print button', () => {
       .at(0)
       .simulate('click');
     expect(component.exists('.va-button')).to.be.false;
+
     expect(component.exists('[data-testid="service-down-message"]')).to.be.true;
+    expect(
+      component.get('[data-testid="call-to-action-container"]').text,
+    ).to.contain('Please refresh this page or try again later.');
     component.unmount();
   });
 

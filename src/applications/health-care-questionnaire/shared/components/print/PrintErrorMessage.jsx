@@ -10,7 +10,7 @@ export default function PrintErrorMessage({ CallToAction }) {
         <h3 className="claims-alert-header">
           We’ve run into a problem viewing and printing your questionnaire
         </h3>
-        <p className="usa-alert-text">
+        <p className="usa-alert-text" data-testid="call-to-action-container">
           We're sorry. Something went wrong on our end. <CallToAction />
         </p>
       </div>
