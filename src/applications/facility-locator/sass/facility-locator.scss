@@ -627,6 +627,21 @@ canvas.mapboxgl-canvas:focus {
     top: 95px;
     right: 10px;
 
+    background-color: transparent;
+    color: black;
+    padding: 0;
+    margin: 0;
+    font-size: inherit;
+    font-family: 'Font Awesome 5 Free';
+
+    &:active {
+      background-color: transparent;
+    }
+
+    &:hover {
+      background: transparent;
+    }
+
     @media only screen and (min-width: 980px) {
       right: 26px;
       top: 38px;
