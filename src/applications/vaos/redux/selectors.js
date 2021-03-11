@@ -53,3 +53,6 @@ export const selectSystemIds = state =>
 
 export const selectFeatureHomepageRefresh = state =>
   toggleValues(state).vaOnlineSchedulingHomepageRefresh;
+
+export const selectFeatureFacilitySelectionV22 = state =>
+  toggleValues(state).vaOnlineFacilitySelectionV22;

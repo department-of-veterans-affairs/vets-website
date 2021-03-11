@@ -27,7 +27,6 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
 import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
-import { SelectDate2Page } from './components/SelectDate2Page';
 import ErrorMessage from '../components/ErrorMessage';
 
 export function NewBookingSection({
@@ -122,10 +121,6 @@ export function NewBookingSection({
         <Route
           path={`${match.url}/select-date-1`}
           component={SelectDate1Page}
-        />
-        <Route
-          path={`${match.url}/select-date-2`}
-          component={SelectDate2Page}
         />
         <Route
           path={`${match.url}/plan-second-dose`}

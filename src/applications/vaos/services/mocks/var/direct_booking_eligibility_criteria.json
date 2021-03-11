@@ -1149,7 +1149,7 @@
             "enterpriseSubmittedRequestLimit": 2
           },
           {
-            "id": "301",
+            "id": "covid",
             "typeOfCare": "Vaccines",
             "patientHistoryRequired": "No",
             "stopCodes": [
@@ -1388,7 +1388,7 @@
             "enterpriseSubmittedRequestLimit": 2
           },
           {
-            "id": "301",
+            "id": "covid",
             "typeOfCare": "Vaccines",
             "patientHistoryRequired": "No",
             "stopCodes": [
