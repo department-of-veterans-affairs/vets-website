@@ -69,7 +69,8 @@ class ServiceTypeAhead extends Component {
     return (
       <Downshift
         onChange={this.handleOnSelect}
-        selectedItem={defaultSelectedItem}
+        selectedItem={!window.Cypress ? defaultSelectedItem : undefined}
+        defaultSelectedItem={window.Cypress ? defaultSelectedItem : undefined}
         itemToString={this.getSpecialtyName}
         onInputValueChange={(inputValue, stateAndHelpers) => {
           const { selectedItem, clearSelection } = stateAndHelpers;
