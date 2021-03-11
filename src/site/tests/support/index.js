@@ -1,4 +1,5 @@
 import { readFileSync } from 'fs';
+import { mkdir, writeFile } from 'fs/promises';
 import path from 'path';
 import { JSDOM } from 'jsdom';
 import liquid from 'tinyliquid';
@@ -13,6 +14,26 @@ const getFile = filePath =>
   readFileSync(path.resolve(__dirname, `../../../../`, filePath), 'utf8');
 const getLayout = filePath => getFile(filePath);
 const parseFixture = filePath => JSON.parse(getFile(filePath));
+
+const makeHTMLFileName = name => {
+  const liquidFileName = name.match(/(\w|\d|\.)+$/g)[0];
+  return `${liquidFileName.split('.')[0]}.html`;
+};
+
+const createDirectory = async () => {
+  const directoryPath = path.resolve(__dirname, '../', 'html');
+  await mkdir(directoryPath);
+};
+
+const saveFile = async (name, html) => {
+  const filePath = path.resolve(__dirname, '../html/', name);
+  await writeFile(filePath, html);
+};
+
+const saveHTML = (name, html) => {
+  createDirectory();
+  saveFile(name, html);
+};
 
 const updateHTML = files => {
   const options = {
@@ -41,12 +62,7 @@ const updateHTML = files => {
   modifyDom(options)(files, null, done);
 };
 
-const makeHTMLFileName = name => {
-  const liquidFileName = name.match(/(\w|\d|\.)+$/g)[0];
-  return `${liquidFileName.split('.')[0]}.html`;
-};
-
-const renderHTML = (name, layout, data) => {
+const renderHTML = (name, layout, data, options) => {
   const context = liquid.newContext({ locals: data });
 
   context.onInclude((includeName, callback) => {
@@ -68,10 +84,15 @@ const renderHTML = (name, layout, data) => {
           'generated/file-manifest.json': { contents: JSON.stringify({}) },
         };
         updateHTML(files);
+
+        if (options && options.save) {
+          saveHTML(htmlFileName, files[htmlFileName].contents);
+        }
+
         const dom = new JSDOM(files[htmlFileName].contents, {
           runScripts: 'dangerously',
         });
-        resolve(dom.window.document.body);
+        resolve(dom.window.document);
       }
     }),
   );
