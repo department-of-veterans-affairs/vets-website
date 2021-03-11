@@ -21,19 +21,6 @@ const SubmitLoadingIndicator = ({ submission }) => {
     [hasAttemptedSubmit, isSubmitPending],
   );
 
-  // after 15 seconds set the longWaitMessage in spinner
-  useEffect(
-    () => {
-      const longWaitMessage =
-        'We’re processing your application. This may take up to 1 minute. Please don’t refresh your browser.';
-
-      if (timer >= 15) {
-        setLoadingMessage(longWaitMessage);
-      }
-    },
-    [timer],
-  );
-
   // count the seconds so we know how long the user has waited
   useEffect(
     () => {
@@ -43,6 +30,14 @@ const SubmitLoadingIndicator = ({ submission }) => {
         interval = setInterval(() => {
           setTimer(seconds => seconds + 1);
         }, 1000);
+      }
+
+      const longWaitMessage =
+        'We’re processing your application. This may take up to 1 minute. Please don’t refresh your browser.';
+
+      // after 15 seconds set the longWaitMessage in spinner
+      if (timer >= 15) {
+        setLoadingMessage(longWaitMessage);
       }
 
       return () => {
