@@ -8,7 +8,6 @@ import {
   primaryCaregiverContent,
   secondaryCaregiverContent,
   signatureBoxNoteContent,
-  preLoaderNoteContent,
 } from 'applications/caregivers/definitions/content';
 import SubmitLoadingIndicator from './SubmitLoadingIndicator';
 
@@ -191,10 +190,6 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
 
       <p className="vads-u-margin-bottom--2">
         <strong>Note:</strong> {signatureBoxNoteContent}
-      </p>
-
-      <p className="vads-u-margin-bottom--6">
-        <strong>Note:</strong> {preLoaderNoteContent}
       </p>
 
       <SubmitLoadingIndicator className="vads-u-margin-y--3" />
