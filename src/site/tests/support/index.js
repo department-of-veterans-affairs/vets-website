@@ -19,6 +19,7 @@ const updateHTML = files => {
     host: 'defaultHost',
     port: 3001,
     protocol: 'http',
+    entry: true,
   };
 
   options.hostUrl = `${options.protocol}://${options.host}${
@@ -29,8 +30,7 @@ const updateHTML = files => {
     { from: 'https://www\\.va\\.gov', to: options.hostUrl },
   ];
 
-  // the the functions that are returned and called after calling
-  // the following functions expect a 'done' callback.
+  // the following chained function calls expect a 'done' callback.
   // we don't need 'done' to do anything so we're passing
   // in an empty function.
   const done = () => {};
@@ -104,10 +104,10 @@ const renderHTML = (name, layout, data) => {
         const html = context.getBuffer();
         const files = {
           [name]: { contents: html, isDrupalPage: true },
+          'generated/file-manifest.json': { contents: JSON.stringify({}) },
         };
         updateHTML(files);
-        // if (options.save) saveHTML(name, html);
-        const dom = new JSDOM(files[name].content, {
+        const dom = new JSDOM(files[name].contents, {
           runScripts: 'dangerously',
         });
         resolve(dom.window.document.body);
