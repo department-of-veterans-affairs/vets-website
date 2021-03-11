@@ -27,6 +27,7 @@ export {
 
 // clean address so we only get address related properties then return the object
 const cleanAddressObject = address => {
+  if (!address) return null;
   // take the address data we want from profile
   const {
     addressLine1,
@@ -71,12 +72,25 @@ export function prefillTransformer(pages, formData, metadata, state) {
     newData = { ...newData, 'view:isUserInMvi': true };
   }
 
+  if (mailingAddress) {
+    // spread in permanentAddress (mailingAddress) from profile if it exist
+    newData = { ...newData, veteranAddress: cleanedMailingAddress };
+  }
+
   /* auto-fill doesPermanentAddressMatchMailing yes/no field
    does not get sent to api due to being a view do not need to guard */
   newData = {
     ...newData,
     'view:doesMailingMatchHomeAddress': doesAddressMatch,
   };
+
+  // if either of the addresses are not present we should not fill the yes/no comparison since it will always be false
+  if (!cleanedMailingAddress || !cleanedResidentialAddress) {
+    newData = {
+      ...newData,
+      'view:doesMailingMatchHomeAddress': undefined,
+    };
+  }
 
   // if residentialAddress && addresses are not the same auto fill mailing address
   if (residentialAddress && !doesAddressMatch) {
