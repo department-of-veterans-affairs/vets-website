@@ -26,10 +26,16 @@ const CardDetailsView = ({ formData, onEdit, index, title }) => {
   let age;
 
   keys.forEach(item => {
-    if (item.toLowerCase().includes('type')) {
+    if (
+      item.toLowerCase().includes('purpose') ||
+      item.toLowerCase().includes('type')
+    ) {
       type = capitalize(formData[item]);
     }
-    if (item.toLowerCase().includes('amount')) {
+    if (
+      item.toLowerCase().includes('amount') ||
+      item.toLowerCase().includes('value')
+    ) {
       amount = formatter.format(formData[item]);
     }
     if (item.toLowerCase().includes('make')) {
@@ -44,10 +50,10 @@ const CardDetailsView = ({ formData, onEdit, index, title }) => {
     if (item.toLowerCase().includes('employer')) {
       employer = formData[item];
     }
-    if (item.toLowerCase().includes('employmentstart')) {
+    if (item.toLowerCase().includes('from')) {
       startDate = moment(formData[item]).format('MMMM Do, YYYY');
     }
-    if (item.toLowerCase().includes('employmentend')) {
+    if (item.toLowerCase().includes('to')) {
       endDate = moment(formData[item]).format('MMMM Do, YYYY');
     }
     if (item.toLowerCase().includes('age')) {

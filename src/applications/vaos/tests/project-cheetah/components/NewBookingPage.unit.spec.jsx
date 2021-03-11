@@ -36,7 +36,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     });
 
     const response = getDirectBookingEligibilityCriteriaMock({
-      typeOfCareId: '301',
+      typeOfCareId: 'covid',
     });
     // response.attributes.coreSettings[0].id = '301';
     // response.attributes.coreSettings[0].typeOfCare = 'Vaccine';
