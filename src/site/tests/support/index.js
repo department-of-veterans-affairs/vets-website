@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFile } from 'fs';
 import path from 'path';
 import { JSDOM } from 'jsdom';
 import liquid from 'tinyliquid';
@@ -62,7 +62,7 @@ const makeHTMLFileName = name => {
 const saveHTML = (name, html) => {
   // saved html files are gitignored
   const filePath = path.resolve(__dirname, '../html/', makeHTMLFileName(name));
-  writeFileSync(filePath, html);
+  writeFile(filePath, html);
 };
 
 const renderHTML = (name, layout, data, options) => {
