@@ -8,6 +8,7 @@ DRUPAL_ADDRESSES = [
   'vagovdev'    : 'http://internal-dsva-vagov-dev-cms-812329399.us-gov-west-1.elb.amazonaws.com',
   'vagovstaging': 'http://internal-dsva-vagov-staging-cms-1188006.us-gov-west-1.elb.amazonaws.com',
   'vagovprod'   : 'http://internal-dsva-vagov-prod-cms-2000800896.us-gov-west-1.elb.amazonaws.com',
+  'sandbox'     : 'https://cms-vets-website-branch-builds-lo9uhqj18nwixunsjadvjsynuni7kk1u.tugboat.vfs.va.gov',
 ]
 
 DRUPAL_CREDENTIALS = [
@@ -198,14 +199,16 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
 }
 
 def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache, Boolean contentOnlyBuild) {
-  // Use Drupal prod for all environments
-  def drupalAddress = DRUPAL_ADDRESSES.get('vagovprod')
+  // Use the CMS's Sandbox (Tugboat) environment for all branches that
+  // are not configured to deploy to dev/staging/prod. Currently, this
+  // means to use the CMS Sandbox for any branch that is NOT master.
+  def drupalAddress = DRUPAL_ADDRESSES.get('sandbox')
   def drupalCred = DRUPAL_CREDENTIALS.get('vagovprod')
   def drupalMode = useCache ? '' : '--pull-drupal'
-  def drupalMaxParallelRequests = 5;
+  def drupalMaxParallelRequests = 15;
 
-  if (contentOnlyBuild) {
-    drupalMaxParallelRequests = 15
+  if (IS_DEV_BRANCH || IS_STAGING_BRANCH || IS_PROD_BRANCH) {
+    drupalAddress = DRUPAL_ADDRESSES.get('vagovprod')
   }
 
   withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
