@@ -16,7 +16,7 @@ jobs:
     - name: Get bot token from Parameter Store 
       uses: marvinpinto/action-inject-ssm-secrets@latest 
       with: 
-        ssm_parameter: /path/to/parameter/AWS_FRONTEND_NONPROD_ROLE 
+        ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
         env_variable_name: AWS_FRONTEND_NONPROD_ROLE  
 
     - name: Configure AWS Credentials
