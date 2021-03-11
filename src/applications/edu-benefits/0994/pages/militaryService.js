@@ -21,6 +21,13 @@ const daysRemaining = formData => {
   return moment(formData.expectedReleaseDate).diff(moment(), 'days');
 };
 
+const validYear = formData => {
+  return (
+    formData.expectedReleaseDate &&
+    formData.expectedReleaseDate.split('-')[0].length === 4
+  );
+};
+
 export const uiSchema = {
   activeDuty: {
     'ui:title':
@@ -58,9 +65,7 @@ export const uiSchema = {
       expandUnder: 'activeDuty',
       expandUnderCondition: (value, formData) => {
         return (
-          value === true &&
-          formData.expectedReleaseDate &&
-          daysRemaining(formData) > 180
+          value === true && validYear(formData) && daysRemaining(formData) > 180
         );
       },
     },
@@ -75,7 +80,7 @@ export const uiSchema = {
       expandUnderCondition: (value, formData) => {
         return (
           value === true &&
-          formData.expectedReleaseDate &&
+          validYear(formData) &&
           daysRemaining(formData) <= 180
         );
       },
