@@ -9,7 +9,7 @@ function StemAskVAQuestions() {
   return (
     <div>
       <h2 className="help-heading">Need help?</h2>
-      <h3 className="vads-u-font-size--h4">Ask Questions</h3>
+      <h3 className="vads-u-font-size--h4">Ask a question</h3>
       <p>
         <a href="https://gibill.custhelp.va.gov/app/">Ask a question online</a>{' '}
         (Include your full name and VA file number)
@@ -22,10 +22,7 @@ function StemAskVAQuestions() {
       <br />
       <p>Education Call Center:</p>
       <p>
-        <Telephone contact={CONTACTS.GI_BILL}>
-          1-888-GI-BILL-1 (1-888-442-4551)
-        </Telephone>{' '}
-        (inside the U.S.)
+        <Telephone contact={CONTACTS.GI_BILL} /> (inside the U.S.)
       </p>
       <p>
         <Telephone contact={'19187815678'} pattern={PATTERNS.OUTSIDE_US} />{' '}
@@ -44,8 +41,8 @@ function StemAskVAQuestions() {
       </p>
       <h3 className="vads-u-font-size--h4">Send us mail</h3>
       <p>
-        (Include your full name and VA file number on the inside of mailed
-        correspondence, not on envelope.)
+        Include your full name and VA file number on the inside of mailed
+        correspondence, not on envelope.
       </p>
       <br />
       <p>Mailing Address:</p>
