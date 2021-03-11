@@ -1,3 +1,3 @@
-const prearchive = require('../src/site/stages/prearchive');
+// const prearchive = require('../src/site/stages/prearchive');
 
-prearchive();
+// prearchive();
