@@ -1,6 +1,7 @@
 // fix fs imports later! this is sloppy and
 // and saveHTML() isn't tested yet!
-import fs, { readFileSync, writeFile } from 'fs';
+// import fs, { readFileSync, writeFile } from 'fs';
+import { readFileSync } from 'fs';
 import path from 'path';
 import { JSDOM } from 'jsdom';
 import liquid from 'tinyliquid';
@@ -28,9 +29,11 @@ const updateHTML = files => {
     { from: 'https://www\\.va\\.gov', to: options.hostUrl },
   ];
 
-  const done = () => {
-    // to-do: recreate the done function
-  };
+  // the the functions that are returned and called after calling
+  // the following functions expect a 'done' callback.
+  // we don't need 'done' to do anything so we're passing
+  // in an empty function.
+  const done = () => {};
 
   createRedirects(options)(files, null, done);
   rewriteAWSUrls(options)(files, null, done);
@@ -56,33 +59,34 @@ const parseFixture = file => {
   return JSON.parse(json);
 };
 
-const makeHTMLFileName = name => {
-  const liquidFileName = name.match(/(\w|\d|\.)+$/g)[0];
-  return `${liquidFileName.split('.')[0]}.html`;
-};
+// const makeHTMLFileName = name => {
+//   const liquidFileName = name.match(/(\w|\d|\.)+$/g)[0];
+//   return `${liquidFileName.split('.')[0]}.html`;
+// };
 
 // not tested yet!
 // haven't coded in node for a long time
 // and my async/await is rust :-)
-const saveHTML = async (name, html) => {
-  // saved html files are gitignored
-  const directoryPath = path.resolve(__dirname, '../', 'html');
-  const filePath = path.resolve(__dirname, '../html/', makeHTMLFileName(name));
+// const saveHTML = async (name, html) => {
+//   // saved html files are gitignored
+//   const directoryPath = path.resolve(__dirname, '../', 'html');
+//   const filePath = path.resolve(__dirname, '../html/', makeHTMLFileName(name));
 
-  try {
-    await fs.promises.mkdir(directoryPath);
-    await writeFile(filePath, html);
-    /* eslint-disable no-console */
-    console.log(`HTML File Saved.\nFile: ${filePath}\n----`);
-    /* eslint-enable no-console */
-  } catch (err) {
-    /* eslint-disable no-console */
-    console.log(`Error: HTML File Not Saved.\nFile: ${filePath}\n----`);
-    /* eslint-enable no-console */
-  }
-};
+//   try {
+//     await fs.promises.mkdir(directoryPath);
+//     await writeFile(filePath, html);
+//     /* eslint-disable no-console */
+//     console.log(`HTML File Saved.\nFile: ${filePath}\n----`);
+//     /* eslint-enable no-console */
+//   } catch (err) {
+//     /* eslint-disable no-console */
+//     console.log(`Error: HTML File Not Saved.\nFile: ${filePath}\n----`);
+//     /* eslint-enable no-console */
+//   }
+// };
 
-const renderHTML = (name, layout, data, options) => {
+// const renderHTML = (name, layout, data, options) => {
+const renderHTML = (name, layout, data) => {
   const context = liquid.newContext({ locals: data });
 
   context.onInclude((includeName, callback) => {
@@ -102,7 +106,7 @@ const renderHTML = (name, layout, data, options) => {
           [name]: { contents: html, isDrupalPage: true },
         };
         updateHTML(files);
-        if (options.save) saveHTML(name, html);
+        // if (options.save) saveHTML(name, html);
         const dom = new JSDOM(files[name].content, {
           runScripts: 'dangerously',
         });
