@@ -4,12 +4,17 @@ import { Link } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 import { GA_PREFIX } from 'applications/vaos/utils/constants';
 
+/**
+ * React component used to conditionally render radio call-to-action buttons and start applicable workflow.
+ * @property {boolean} [showCheetahScheduleButton=false] - A boolean value to determine Whether or not to show COVID-19 vaccine option.
+ * @property {function} startNewAppointmentFlow - A function that’s called when the user starts the new appointment flow.
+ * @module appointment-list/components/ScheduleNewAppointmentRadioButtons
+ */
 export default function ScheduleNewAppointmentRadioButtons({
-  showCheetahScheduleButton,
+  showCheetahScheduleButton = false,
   startNewAppointmentFlow,
 }) {
   const [radioSelection, setRadioSelection] = useState();
-  const [radioSelectionEvent, setRadioSelectionEvent] = useState();
 
   function radioOptions() {
     const optionsArray = [
@@ -30,7 +35,9 @@ export default function ScheduleNewAppointmentRadioButtons({
 
   return (
     <>
-      <h2 className="vads-u-padding-bottom--0">Schedule a new appointment</h2>
+      <h2 className="vads-u-font-size--h3 vads-u-padding-bottom--0">
+        Schedule a new appointment
+      </h2>
       <RadioButtons
         name={'schedule-new-appointment'}
         id={'schedule-new-appointment'}
@@ -38,11 +45,6 @@ export default function ScheduleNewAppointmentRadioButtons({
         additionalFieldsetClass="vads-u-margin-top--0"
         onValueChange={({ value }) => {
           setRadioSelection(value);
-          setRadioSelectionEvent(
-            value === 'new-appointment'
-              ? 'schedule-appointment-button-clicked'
-              : 'schedule-project-cheetah-button-clicked',
-          );
         }}
         value={{ value: radioSelection }}
         errorMessage=""
@@ -61,7 +63,11 @@ export default function ScheduleNewAppointmentRadioButtons({
           to={`/${radioSelection}`}
           onClick={() => {
             recordEvent({
-              event: `${GA_PREFIX}-${radioSelectionEvent}`,
+              event: `${GA_PREFIX}-${
+                radioSelection === 'new-appointment'
+                  ? 'schedule-appointment-button-clicked'
+                  : 'schedule-project-cheetah-button-clicked'
+              }`,
             });
             startNewAppointmentFlow();
           }}
