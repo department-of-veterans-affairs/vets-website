@@ -18,6 +18,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
           role-to-assume: ${{ secrets.AWS_FRONTEND_NONPROD_ROLE }}
+          role-duration-seconds: 1200
+          role-session-name: vsp-frontendteam-githubaction
       - run: yarn install --frozen-lockfile
       - run: yarn webpack --config config/webpack.content-cache.js
       - run: mkdir -p ./tmp
