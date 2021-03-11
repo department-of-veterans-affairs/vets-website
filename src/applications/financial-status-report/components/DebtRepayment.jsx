@@ -6,9 +6,9 @@ import tail from 'lodash/tail';
 import { renderAdditionalInfo } from '../../debt-letters/const/diary-codes';
 import moment from 'moment';
 
-const DebtRepayment = ({ formData: { fsrDebts } }) => {
+const DebtRepayment = ({ formData: { selectedDebts } }) => {
   let index = Number(window.location.href.slice(-1));
-  const debt = fsrDebts[index];
+  const debt = selectedDebts[index];
   const mostRecentHistory = head(debt.debtHistory);
   const firstNotice = tail(debt.debtHistory);
   const debtCardHeading =
@@ -26,7 +26,7 @@ const DebtRepayment = ({ formData: { fsrDebts } }) => {
   return (
     <>
       <h4>
-        Debt repayment or relief options ({++index} of {fsrDebts.length})
+        Debt repayment or relief options ({++index} of {selectedDebts.length})
       </h4>
       <div className="usa-alert background-color-only vads-u-margin-bottom--5">
         <div className="vads-u-margin-bottom--2">

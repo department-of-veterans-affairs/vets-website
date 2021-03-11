@@ -908,8 +908,6 @@ describe('VAOS <DateTimeSelectPage>', () => {
       await waitForElementToBeRemoved(overlay);
     }
 
-    expect(screen.getByText('Your appointment time')).to.be.ok;
-
     expect(
       screen.getByRole('heading', {
         level: 2,

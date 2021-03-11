@@ -16,7 +16,7 @@ import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import ListBestTimeToCall from './cards/pending/ListBestTimeToCall';
 import VAFacilityLocation from '../../components/VAFacilityLocation';
 import CancelAppointmentModal from './cancel/CancelAppointmentModal';
-
+import Breadcrumbs from '../../components/Breadcrumbs';
 import {
   getPatientTelecom,
   isVideoAppointment,
@@ -26,7 +26,7 @@ import {
 import {
   selectFirstRequestMessage,
   getCancelInfo,
-  selectRequestById,
+  selectAppointmentById,
 } from '../redux/selectors';
 import ErrorMessage from '../../components/ErrorMessage';
 import PageLayout from './AppointmentsPage/PageLayout';
@@ -100,9 +100,9 @@ function RequestedAppointmentDetailsPage({
 
   return (
     <PageLayout>
-      <div className="vads-u-display--block vads-u-padding-y--2p5">
-        ‹ <Link to="/requested">Manage appointments</Link>
-      </div>
+      <Breadcrumbs>
+        <Link to={`/requests/${id}`}>Request detail</Link>
+      </Breadcrumbs>
 
       <h1>
         {canceled ? 'Canceled' : 'Pending'} {typeOfCareText} appointment
@@ -209,7 +209,10 @@ function mapStateToProps(state, ownProps) {
   const { appointmentDetailsStatus, facilityData } = state.appointments;
 
   return {
-    appointment: selectRequestById(state, ownProps.match.params.id),
+    appointment: selectAppointmentById(state, ownProps.match.params.id, [
+      APPOINTMENT_TYPES.request,
+      APPOINTMENT_TYPES.ccRequest,
+    ]),
     appointmentDetailsStatus,
     facilityData,
     message: selectFirstRequestMessage(state, ownProps.match.params.id),

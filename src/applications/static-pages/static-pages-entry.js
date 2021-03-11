@@ -58,6 +58,7 @@ import createChapter36CTA from './vre-chapter36/createChapter36CTA';
 import createChapter31CTA from './vre-chapter31/createChapter31CTA';
 import createViewDependentsCTA from './view-modify-dependents/view-dependents-cta/createViewDependentsCTA';
 import createViewPaymentHistoryCTA from './view-payment-history/createViewPaymentHistoryCTA';
+import createI18Select from './i18Select/createI18Select';
 
 // School resources widgets
 import {
@@ -70,9 +71,9 @@ import createCovidVaccineUpdatesWidget from './covid-vaccine-updates-cta/createC
 import createThirdPartyApps, {
   thirdPartyAppsReducer,
 } from '../third-party-app-directory/createThirdPartyApps';
-import initTranslation from './translation';
 
 import createDependencyVerification from './dependency-verification/createDependencyVerification';
+import dependencyVerificationReducer from './dependency-verification/reducers/index';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -85,6 +86,7 @@ const store = createCommonStore({
   ...findVaFormsWidgetReducer,
   ...post911GIBillStatusReducer,
   ...thirdPartyAppsReducer,
+  ...dependencyVerificationReducer,
 });
 
 Sentry.withScope(scope => {
@@ -192,6 +194,7 @@ createViewTestAndLabResultsPage(
 createChapter36CTA(store, widgetTypes.CHAPTER_36_CTA);
 createChapter31CTA(store, widgetTypes.CHAPTER_31_CTA);
 createViewPaymentHistoryCTA(store, widgetTypes.VIEW_PAYMENT_HISTORY);
+createI18Select(store, widgetTypes.I_18_SELECT);
 
 createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
 
@@ -199,9 +202,6 @@ createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
 if (location.pathname === '/') {
   createMyVALoginWidget(store);
 }
-
-// translation link
-initTranslation();
 
 /* eslint-disable no-unused-vars,camelcase */
 const lazyLoad = new LazyLoad({

@@ -6,22 +6,15 @@ import manifest from '../manifest.json';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
 import PreSubmitSignature from '../components/PreSubmitSignature';
-import { prefillTransformer } from '../utils/prefillTransformer';
 import * as pages from '../pages';
-import moment from 'moment';
+import { transform } from '../utils/transform';
 import SubmissionError from '../components/SubmissionError';
 import { WIZARD_STATUS } from '../wizard/constants';
-
-const submit = () => {
-  return Promise.resolve(
-    JSON.stringify({ submission: { response: { timestamp: moment() } } }),
-  );
-};
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submit,
+  submit: transform,
   submitUrl: `${environment.API_URL}/v0/api`,
   trackingPrefix: 'fsr-5655-',
   wizardStorageKey: WIZARD_STATUS,
@@ -33,7 +26,6 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_5655,
   version: 0,
   prefillEnabled: true,
-  prefillTransformer,
   defaultDefinitions: {},
   savedFormMessages: {
     notFound:
@@ -79,13 +71,13 @@ const formConfig = {
             },
             personalIdentification: {
               ssn: '1234',
-              fileNumber: '5678',
+              fileNumber: 5678,
             },
           },
         },
         availableDebts: {
           initialData: {
-            fsrDebts: [],
+            selectedDebts: [],
             debt: {
               currentAr: 0,
               debtHistory: [{ date: '' }],
@@ -100,17 +92,17 @@ const formConfig = {
         },
         contactInfo: {
           initialData: {
-            contactInfo: {
+            personalData: {
+              address: {
+                country: 'United States',
+                city: 'Tampa',
+                state: 'FL',
+                postalCode: '33614',
+                addressLine1: '1234 W Nebraska St',
+              },
               primaryEmail: 'hector.smith@email.com',
-              confirmationEmail: 'hector.smith@email.com',
+              confirmationEmail: '',
               telephoneNumber: '5551234567',
-            },
-            mailingAddress: {
-              country: 'United States',
-              city: 'Tampa',
-              state: 'FL',
-              postalCode: '33614',
-              addressLine1: '1234 W Nebraska St',
             },
           },
           path: 'contact-information',
@@ -130,11 +122,23 @@ const formConfig = {
           schema: pages.employment.schema,
         },
         employmentRecords: {
+          initialData: {
+            personalData: {
+              employmentHistory: {
+                veteran: {
+                  currentEmployment: {
+                    present: true,
+                    to: null,
+                  },
+                },
+              },
+            },
+          },
           path: 'employment-records',
           title: 'Employment',
           uiSchema: pages.employmentRecords.uiSchema,
           schema: pages.employmentRecords.schema,
-          depends: formData => formData.employment?.isEmployed,
+          depends: formData => formData.questions.vetIsEmployed,
         },
         previousEmployment: {
           path: 'previous-employment',
@@ -147,7 +151,7 @@ const formConfig = {
           title: 'Previous employment',
           uiSchema: pages.previousEmploymentRecords.uiSchema,
           schema: pages.previousEmploymentRecords.schema,
-          depends: formData => formData.employment?.previouslyEmployed,
+          depends: formData => formData.questions.vetPreviouslyEmployed,
         },
         benefits: {
           path: 'benefits',
@@ -158,13 +162,13 @@ const formConfig = {
             income: [
               {
                 veteranOrSpouse: 'VETERAN',
-                compensationAndPension: '3000',
-                education: '1000',
+                compensationAndPension: '75',
+                education: '1400.40',
               },
               {
                 veteranOrSpouse: 'SPOUSE',
-                compensationAndPension: '7000',
-                education: '4000',
+                compensationAndPension: '0',
+                education: '0',
               },
             ],
           },
@@ -180,8 +184,7 @@ const formConfig = {
           title: 'Social security',
           uiSchema: pages.socialSecurityRecords.uiSchema,
           schema: pages.socialSecurityRecords.schema,
-          depends: formData =>
-            formData.socialSecurity?.hasSocialSecurityPayments,
+          depends: formData => formData.questions.hasSocialSecurity,
         },
         additionalIncome: {
           path: 'additional-income',
@@ -194,7 +197,7 @@ const formConfig = {
           title: 'Additional income',
           uiSchema: pages.additionalIncomeRecords.uiSchema,
           schema: pages.additionalIncomeRecords.schema,
-          depends: formData => formData.additionalIncome?.hasAdditionalIncome,
+          depends: formData => formData.questions.hasAdditionalIncome,
         },
         spouseInformation: {
           path: 'spouse-information',
@@ -207,23 +210,33 @@ const formConfig = {
           title: 'Spouse employment',
           uiSchema: pages.spouseEmployment.uiSchema,
           schema: pages.spouseEmployment.schema,
-          depends: formData =>
-            formData.spouseInformation?.maritalStatus === 'Married',
+          depends: formData => formData.questions.maritalStatus === 'Married',
+          initialData: {
+            personalData: {
+              employmentHistory: {
+                spouse: {
+                  currentEmployment: {
+                    present: true,
+                    to: null,
+                  },
+                },
+              },
+            },
+          },
         },
         spouseEmploymentRecords: {
           path: 'spouse-employment-records',
           title: 'Spouse employment',
           uiSchema: pages.spouseEmploymentRecords.uiSchema,
           schema: pages.spouseEmploymentRecords.schema,
-          depends: formData => formData.employment?.spouse?.isEmployed,
+          depends: formData => formData.questions.spouseIsEmployed,
         },
         spousePreviousEmployment: {
           path: 'spouse-previous-employment',
           title: 'Spouse previous employment',
           uiSchema: pages.spousePreviousEmployment.uiSchema,
           schema: pages.spousePreviousEmployment.schema,
-          depends: formData =>
-            formData.spouseInformation?.maritalStatus === 'Married',
+          depends: formData => formData.questions.maritalStatus === 'Married',
         },
         spousePreviousEmploymentRecords: {
           path: 'spouse-previous-employment-records',
@@ -231,16 +244,15 @@ const formConfig = {
           uiSchema: pages.spousePreviousEmploymentRecords.uiSchema,
           schema: pages.spousePreviousEmploymentRecords.schema,
           depends: formData =>
-            formData.spouseInformation?.maritalStatus === 'Married' &&
-            formData.employment?.spouse?.previouslyEmployed,
+            formData.questions.maritalStatus === 'Married' &&
+            formData.questions.spousePreviouslyEmployed,
         },
         spouseBenefits: {
           path: 'spouse-benefits',
           title: 'Spouse benefits',
           uiSchema: pages.spouseBenefits.uiSchema,
           schema: pages.spouseBenefits.schema,
-          depends: formData =>
-            formData.spouseInformation?.maritalStatus === 'Married',
+          depends: formData => formData.questions.maritalStatus === 'Married',
         },
         spouseBenefitRecords: {
           path: 'spouse-benefit-records',
@@ -248,16 +260,15 @@ const formConfig = {
           uiSchema: pages.spouseBenefitRecords.uiSchema,
           schema: pages.spouseBenefitRecords.schema,
           depends: formData =>
-            formData.spouseInformation?.maritalStatus === 'Married' &&
-            formData.benefits?.spouseHasBenefits,
+            formData.questions.maritalStatus === 'Married' &&
+            formData.questions.spouseHasBenefits,
         },
         spouseSocialSecurity: {
           path: 'spouse-social-security',
           title: 'Spouse social security',
           uiSchema: pages.spouseSocialSecurity.uiSchema,
           schema: pages.spouseSocialSecurity.schema,
-          depends: formData =>
-            formData.spouseInformation?.maritalStatus === 'Married',
+          depends: formData => formData.questions.maritalStatus === 'Married',
         },
         spouseSocialSecurityRecords: {
           path: 'spouse-social-security-records',
@@ -265,24 +276,22 @@ const formConfig = {
           uiSchema: pages.spouseSocialSecurityRecords.uiSchema,
           schema: pages.spouseSocialSecurityRecords.schema,
           depends: formData =>
-            formData.spouseInformation?.maritalStatus === 'Married' &&
-            formData.socialSecurity?.spouse?.hasSocialSecurityPayments,
+            formData.questions.maritalStatus === 'Married' &&
+            formData.questions.spouseHasSocialSecurity,
         },
         spouseAdditionalIncome: {
           path: 'spouse-additional-income',
           title: 'Spouse additional income',
           uiSchema: pages.spouseAdditionalIncome.uiSchema,
           schema: pages.spouseAdditionalIncome.schema,
-          depends: formData =>
-            formData.spouseInformation?.maritalStatus === 'Married',
+          depends: formData => formData.questions.maritalStatus === 'Married',
         },
         spouseAdditionalIncomeRecords: {
           path: 'spouse-additional-income-records',
           title: 'Spouse additional income',
           uiSchema: pages.spouseAdditionalIncomeRecords.uiSchema,
           schema: pages.spouseAdditionalIncomeRecords.schema,
-          depends: formData =>
-            formData.additionalIncome?.spouse?.hasAdditionalIncome,
+          depends: formData => formData.questions.spouseHasAdditionalIncome,
         },
         dependents: {
           path: 'dependents',
@@ -295,7 +304,7 @@ const formConfig = {
           title: 'Dependents',
           uiSchema: pages.dependentRecords.uiSchema,
           schema: pages.dependentRecords.schema,
-          depends: formData => formData.dependents?.hasDependents,
+          depends: formData => formData.questions.hasDependents,
         },
       },
     },
@@ -319,7 +328,7 @@ const formConfig = {
           title: 'Real estate',
           uiSchema: pages.realEstateRecords.uiSchema,
           schema: pages.realEstateRecords.schema,
-          depends: formData => formData.hasRealEstate,
+          depends: formData => formData.questions.hasRealEstate,
         },
         vehicles: {
           path: 'vehicles',
@@ -332,7 +341,7 @@ const formConfig = {
           title: 'Vehicles',
           uiSchema: pages.vehicleRecords.uiSchema,
           schema: pages.vehicleRecords.schema,
-          depends: formData => formData.hasVehicle,
+          depends: formData => formData.questions.hasVehicle,
         },
         recreationalVehicles: {
           path: 'recreational-vehicles',
@@ -345,7 +354,7 @@ const formConfig = {
           title: 'Recreational vehicles',
           uiSchema: pages.recreationalVehicleRecords.uiSchema,
           schema: pages.recreationalVehicleRecords.schema,
-          depends: formData => formData.hasRecreationalVehicle,
+          depends: formData => formData.questions.hasRecreationalVehicle,
         },
         otherAssets: {
           path: 'other-assets',
@@ -358,7 +367,7 @@ const formConfig = {
           title: 'Other assets',
           uiSchema: pages.otherAssetRecords.uiSchema,
           schema: pages.otherAssetRecords.schema,
-          depends: formData => formData.hasOtherAssets,
+          depends: formData => formData.questions.hasOtherAssets,
         },
       },
     },
@@ -382,7 +391,7 @@ const formConfig = {
           title: 'Utilities',
           uiSchema: pages.utilityRecords.uiSchema,
           schema: pages.utilityRecords.schema,
-          depends: formData => formData.hasUtilities,
+          depends: formData => formData.questions.hasUtilities,
         },
         repayments: {
           path: 'repayments',
@@ -395,7 +404,7 @@ const formConfig = {
           title: 'Repayments',
           uiSchema: pages.repaymentRecords.uiSchema,
           schema: pages.repaymentRecords.schema,
-          depends: formData => formData.hasRepayments,
+          depends: formData => formData.questions.hasRepayments,
         },
         otherExpenses: {
           path: 'other-expenses',
@@ -408,7 +417,7 @@ const formConfig = {
           title: 'Other expenses',
           uiSchema: pages.otherExpenseRecords.uiSchema,
           schema: pages.otherExpenseRecords.schema,
-          depends: formData => formData.hasOtherExpenses,
+          depends: formData => formData.questions.hasOtherExpenses,
         },
       },
     },
@@ -419,7 +428,7 @@ const formConfig = {
           path: 'resolution-options/:index',
           title: 'Resolution options',
           showPagePerItem: true,
-          arrayPath: 'fsrDebts',
+          arrayPath: 'selectedDebts',
           uiSchema: pages.resolutionOptions.uiSchema,
           schema: pages.resolutionOptions.schema,
         },
@@ -445,7 +454,7 @@ const formConfig = {
           title: 'Bankruptcy history',
           uiSchema: pages.bankruptcyHistoryRecords.uiSchema,
           schema: pages.bankruptcyHistoryRecords.schema,
-          depends: formData => formData.bankruptcyHistory.hasBeenAdjudicated,
+          depends: formData => formData.questions.hasBeenAdjucatedBankrupt,
         },
       },
     },

@@ -1,7 +1,7 @@
 import React from 'react';
-import sinon from 'sinon';
 import { expect } from 'chai';
 
+import { mockFetch, resetFetch } from '~/platform/testing/unit/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import reducers from '~/applications/personalization/dashboard/reducers';
@@ -158,13 +158,12 @@ describe('ApplyForBenefits component', () => {
     });
   });
   describe('Benefits you might be interested in', () => {
-    let fetchSpy;
     context('when user is not a VA patient and has 2FA set up', () => {
       beforeEach(() => {
-        fetchSpy = sinon.spy(global, 'fetch');
+        mockFetch();
       });
       afterEach(() => {
-        global.fetch.restore();
+        resetFetch();
       });
       it('should fetch ESR and DD4EDU data and show a loading spinner', async () => {
         const initialState = {
@@ -179,14 +178,10 @@ describe('ApplyForBenefits component', () => {
           initialState,
           reducers,
         });
-        // Without this timeout, the test is flaky. For some reason the fetch
-        // spy does not always record calls. This is despite the fact that the
-        // application code does get to the point that it calls fetch (based on
-        // some console logs I inserted). But including the simple 1ms timeout
-        // fixes things. Oddly enough this timeout is not needed when running
-        // the test in isolation
+        // Because fetch is called as part of an async Redux thunk, we need to
+        // wait here before confirming that fetch was called
         await wait(1);
-        const fetchCalls = fetchSpy.getCalls();
+        const fetchCalls = global.fetch.getCalls();
         // make sure we are fetching DD4EDU info
         expect(
           fetchCalls.some(call => {
@@ -210,10 +205,10 @@ describe('ApplyForBenefits component', () => {
 
     context('when user is a VA patient and does not have 2FA set up', () => {
       beforeEach(() => {
-        fetchSpy = sinon.spy(global, 'fetch');
+        mockFetch();
       });
       afterEach(() => {
-        global.fetch.restore();
+        resetFetch();
       });
       it('should not fetch data from ESR and DD4EDU and not show a loading spinner', async () => {
         const initialState = {
@@ -228,11 +223,10 @@ describe('ApplyForBenefits component', () => {
           initialState,
           reducers,
         });
-        // Adding a timeout to ensure the fetch spy records calls correctly. See
-        // the above comment about how sometimes the spy does not report being
-        // called when this timeout is not used.
+        // Because fetch is called as part of an async Redux thunk, we need to
+        // wait here before confirming that fetch was called or not called.
         await wait(1);
-        const fetchCalls = fetchSpy.getCalls();
+        const fetchCalls = global.fetch.getCalls();
         // make sure we are not fetching DD4EDU info
         expect(
           fetchCalls.some(call => {

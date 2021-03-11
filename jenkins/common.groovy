@@ -161,7 +161,7 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
     // Only break the build if broken links are found in master
     if (IS_PROD_BRANCH || contentOnlyBuild) {
       echo "Notifying Slack channel."
-      
+
       // slackUploadFile(filePath: csvFile, channel: 'dev_null', failOnError: true, initialComment: "Found broken links in the ${envName} build on `${env.BRANCH_NAME}`.")
 
       // Until slackUploadFile works...
@@ -202,12 +202,17 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
   def drupalAddress = DRUPAL_ADDRESSES.get('vagovprod')
   def drupalCred = DRUPAL_CREDENTIALS.get('vagovprod')
   def drupalMode = useCache ? '' : '--pull-drupal'
+  def drupalMaxParallelRequests = 5;
+
+  if (contentOnlyBuild) {
+    drupalMaxParallelRequests = 15
+  }
 
   withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLogPath = "/application/${envName}-build.log"
 
-      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath} --verbose"
+      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} --drupalMaxParallelRequests ${drupalMaxParallelRequests} ${drupalMode} --buildLog ${buildLogPath} --verbose"
 
       if (envName == 'vagovprod') {
         // Find any broken links in the log
@@ -263,7 +268,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 def prearchive(dockerContainer, envName) {
   dockerContainer.inside(DOCKER_ARGS) {
     sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath"
-    sh "cd /application && node --max-old-space-size=10240 script/prearchive.js --buildtype=${envName}"
+    sh "cd /application && node script/prearchive.js --buildtype=${envName}"
   }
 }
 

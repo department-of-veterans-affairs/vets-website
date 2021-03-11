@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 
 import AppointmentDisplay from '../../../components/appointment-display/AppointmentDisplay';
-import testData from '../../../api/appointment-data.json';
+import testData from '../../../../shared/api/mock-data/appointment-data.json';
 
 describe('health care questionnaire - display an appointment -- ', () => {
   it('has appointment data', () => {
