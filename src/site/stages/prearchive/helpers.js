@@ -44,6 +44,7 @@ function updateAssetLinkElements(
 ) {
   const doc = cheerio.load(htmlFile, {
     decodeEntities: false,
+    _useHtmlParser2: true,
   });
   const assetLinkElements = doc(assetLinkTags);
   assetLinkElements.each((i, element) => {
