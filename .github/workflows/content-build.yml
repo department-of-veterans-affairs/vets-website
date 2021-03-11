@@ -1,0 +1,30 @@
+name: Content Build
+
+on: [push]
+
+jobs:
+  content-cache:
+    name: Content Cache
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v2
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          role-to-assume: ${{ secrets.AWS_FRONTEND_NONPROD_ROLE }}
+      - run: yarn install --frozen-lockfile
+      - run: yarn webpack --config config/webpack.content-cache.js
+      - run: mkdir -p ./tmp
+      - run: zip -j ./tmp/function.zip build/content-cache/index.js
+      - run: aws s3 cp ./tmp/function.zip s3://vetsgov-website-builds-s3-upload/content-cache/master/function.zip --acl public-read
+      - run: aws lambda update-function-code \
+          --function-name cacheDrupalContent \
+          --s3-bucket vetsgov-website-builds-s3-upload \
+          --s3-key content-cache/master/function.zip
+      - run: aws lambda invoke --function-name cacheDrupalContent
