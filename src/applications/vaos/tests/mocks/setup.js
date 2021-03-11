@@ -25,6 +25,7 @@ import ExpressCareInfoPage from '../../express-care/components/ExpressCareInfoPa
 import ExpressCareReasonPage from '../../express-care/components/ExpressCareReasonPage';
 import { cleanup } from '@testing-library/react';
 import ClinicChoicePage from '../../new-appointment/components/ClinicChoicePage';
+import VaccineClinicChoicePage from '../../project-cheetah/components/ClinicChoicePage';
 import PreferredDatePage from '../../new-appointment/components/PreferredDatePage';
 import {
   getDirectBookingEligibilityCriteriaMock,
@@ -396,6 +397,29 @@ export async function setClinic(store, label) {
       store,
     },
   );
+
+  fireEvent.click(await screen.findByLabelText(label));
+  fireEvent.click(await screen.findByText(/Continue/));
+  await waitFor(() => expect(screen.history.push.called).to.be.true);
+  await cleanup();
+
+  return screen.history.push.firstCall.args[0];
+}
+
+/**
+ * Renders the vaccine flow clinic page and chooses the option indicated by the label param
+ *
+ * @export
+ * @async
+ * @param {ReduxStore} store The Redux store to use to render the page
+ * @param {string|RegExp} label The string or regex to pass to *ByText query to get
+ *   a radio button to click on
+ * @returns {string} The url path that was routed to after clicking Continue
+ */
+export async function setVaccineClinic(store, label) {
+  const screen = renderWithStoreAndRouter(<VaccineClinicChoicePage />, {
+    store,
+  });
 
   fireEvent.click(await screen.findByLabelText(label));
   fireEvent.click(await screen.findByText(/Continue/));
