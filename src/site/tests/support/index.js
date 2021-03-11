@@ -56,10 +56,11 @@ const parseFixture = file => {
 
 const makeHTMLFileName = name => {
   const liquidFileName = name.match(/(\w|\d|\.)+$/g)[0];
-  return liquidFileName.split('.')[0];
+  return `${liquidFileName.split('.')[0]}.html`;
 };
 
 const saveHTML = (name, html) => {
+  // saved html files are gitignored
   const filePath = path.resolve(__dirname, '../html/', makeHTMLFileName(name));
   writeFileSync(filePath, html);
 };
