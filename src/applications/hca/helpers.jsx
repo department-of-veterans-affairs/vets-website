@@ -71,11 +71,6 @@ export function prefillTransformer(pages, formData, metadata, state) {
     newData = { ...newData, 'view:isUserInMvi': true };
   }
 
-  if (mailingAddress) {
-    // spread in permanentAddress (mailingAddress) from profile if it exist
-    newData = { ...newData, veteranAddress: cleanedMailingAddress };
-  }
-
   /* auto-fill doesPermanentAddressMatchMailing yes/no field
    does not get sent to api due to being a view do not need to guard */
   newData = {
