@@ -84,3 +84,15 @@ export function scrollAndFocus(errorEl) {
 export function displayPercent(decimalNumber, places = 0) {
   return `${(decimalNumber * 100).toFixed(places)}%`;
 }
+
+/**
+ * Accepts a string of numbers as an argument
+ * and returns a formatted SSN with dashes.
+ */
+export function formatSSN(ssnString = '') {
+  let val = ssnString;
+  val = val.replace(/^(\d{3})(\d{1,2})/, '$1-$2');
+  // The below line only works for a full SSN, not partials
+  val = val.replace(/^(\d{3})-(\d{2})(\d{4})$/, '$1-$2-$3');
+  return val;
+}
