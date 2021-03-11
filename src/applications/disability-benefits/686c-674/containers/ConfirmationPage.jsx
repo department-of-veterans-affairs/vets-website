@@ -40,9 +40,14 @@ export class ConfirmationPage extends React.Component {
             <p className="vads-u-font-size--lg vads-u-font-family--serif vads-u-font-weight--bold">
               Thank you for submitting your application
             </p>
-            <p className="vads-u-font-size--base vads-u-font-family--serif vads-u-font-weight--bold">
+            <p className="vads-u-font-size--base vads-u-font-family--serif vads-u-font-weight--bold vads-u-margin--0">
               Application for Declaration of Status of Dependents (Form 21-686c)
+            </p>
+            <p className="vads-u-font-size--base vads-u-font-family--serif vads-u-font-weight--bold vads-u-margin--0">
               and/or Request for Approval of School Attendance (Form 21-674)
+            </p>
+            <p className="vads-u-font-size--base vads-u-font-family--serif vads-u-font-weight--bold vads-u-margin--0">
+              and/or Application for Veterans Pension (Form 21P-527EZ)
             </p>
             {response && (
               <div>
