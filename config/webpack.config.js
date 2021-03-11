@@ -123,6 +123,7 @@ module.exports = (env = {}) => {
   const baseConfig = {
     mode: 'development',
     entry: entryFiles,
+    stats: 'errors-only',
     output: {
       path: outputPath,
       publicPath: publicAssetPath,
@@ -291,7 +292,9 @@ module.exports = (env = {}) => {
     ].reduce(
       (scripts, filename) => ({
         ...scripts,
-        [filename]: fs.readFileSync(path.join('src/site/assets/js', filename)),
+        [filename]: fs.readFileSync(
+          path.join('../content-build/src/site/assets/js', filename),
+        ),
       }),
       {},
     );
@@ -329,7 +332,7 @@ module.exports = (env = {}) => {
         }, [])
         .join('');
 
-    const appRegistryPath = 'src/applications/registry.json';
+    const appRegistryPath = '../content-build/src/applications/registry.json';
     let appRegistry;
 
     if (fs.existsSync(appRegistryPath)) {
@@ -387,7 +390,7 @@ module.exports = (env = {}) => {
       new CopyPlugin({
         patterns: [
           {
-            from: 'src/site/assets/img',
+            from: '../content-build/src/site/assets/img',
             to: path.join(outputPath, '..', 'img'),
           },
         ],

@@ -5,6 +5,7 @@ logs/
 tmp/
 out/
 src/applications/vaos/docs/
+src/_site/
 
 # Files to ignore
 ._*
@@ -56,4 +57,3 @@ graphql-data.json
 /content-object-diffs
 content-object-diff.json
 comparison-output/
-

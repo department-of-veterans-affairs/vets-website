@@ -1,7 +1,7 @@
 /**
  * Represents the possible values for the "entityBundle" field
  * of Drupal (or generated) nodes. These values should align with
- * with the names of the files in the "src/site/layouts directory.
+ * with the names of the files in the "../content-build/src/site/layouts directory.
  */
 const ENTITY_BUNDLES = {
   BASIC_LANDING_PAGE: 'basic_landing_page',
