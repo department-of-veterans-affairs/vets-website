@@ -55,7 +55,7 @@ const parseFixture = file => {
 };
 
 const makeHTMLFileName = name => {
-  const liquidFileName = name.match(/(\w|\.)+$/g)[0];
+  const liquidFileName = name.match(/(\w|\d|\.)+$/g)[0];
   return liquidFileName.split('.')[0];
 };
 
