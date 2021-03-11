@@ -31,7 +31,7 @@ describe('686 report a child has stopped attending school', () => {
         definitions={formConfig.defaultDefinitions}
       />,
     );
-    expect(form.find('input').length).to.equal(6);
+    expect(form.find('input').length).to.equal(8);
     form.unmount();
   });
 

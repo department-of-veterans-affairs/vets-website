@@ -14,11 +14,14 @@ import IntroductionPageHelpers from '../components/introduction-page';
 
 import { getAppointTypeFromAppointment } from '../../shared/utils';
 
+import environment from 'platform/utilities/environment';
+import { removeFormApi } from 'platform/forms/save-in-progress/api';
+
 const IntroductionPage = props => {
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
-
+  const { isLoggedIn, route, savedForms, formId } = props;
   const { appointment } = props?.questionnaire?.context;
   if (!appointment?.attributes) {
     return (
@@ -37,8 +40,6 @@ const IntroductionPage = props => {
   if (expirationTime) {
     expirationTime = moment(expirationTime).format('MM/DD/YYYY');
   }
-
-  const { isLoggedIn, route, savedForms, formId } = props;
 
   const savedForm = savedForms.find(f => f.form === formId);
   const showLoginModel = () => props.toggleLoginModal(true, 'cta-form');
@@ -84,9 +85,9 @@ const IntroductionPage = props => {
     <div className="schemaform-intro healthcare-experience">
       <FormTitle title={title} subTitle={subTitle} />
       <h2 className="better-prepare-yours">
-        Please try to fill out this questionnaire at least [X] days before your
-        appointment. When you tell us about your symptoms and concerns, we can
-        better prepare to meet your needs.
+        Please try to fill out this questionnaire before your appointment. When
+        you tell us about your symptoms and concerns, we can better prepare to
+        meet your needs.
       </h2>
       <section className="after-details">
         <h3>What happens after I answer the questions?</h3>
@@ -158,6 +159,17 @@ const IntroductionPage = props => {
       <div className="omb-info--container">
         <OMBInfo expDate={expirationTime} />
       </div>
+      {!environment.isProduction() && (
+        <>
+          <button
+            onClick={() => {
+              removeFormApi(formId);
+            }}
+          >
+            Clear SiP Data
+          </button>
+        </>
+      )}
     </div>
   );
 };

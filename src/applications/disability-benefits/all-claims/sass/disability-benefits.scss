@@ -17,6 +17,10 @@
   white-space: nowrap;
 }
 
+.word-break {
+  word-break: break-all;
+}
+
 .clearfix:after {
   content: " ";
   visibility: hidden;
@@ -32,6 +36,7 @@ ul.original-disability-list {
 }
 
 fieldset.schemaform-block,
+.schemaform-field-template.usa-input-error,
 .wizard-content-inner .fieldset-input:first-child {
   margin-top: 0;
 }

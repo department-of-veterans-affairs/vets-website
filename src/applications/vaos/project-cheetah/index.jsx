@@ -27,7 +27,6 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
 import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
-import { SelectDate2Page } from './components/SelectDate2Page';
 import ErrorMessage from '../components/ErrorMessage';
 
 export function NewBookingSection({
@@ -66,11 +65,11 @@ export function NewBookingSection({
 
   const shouldRedirectToStart = useFormRedirectToStart({
     shouldRedirect: () =>
-      !location.pathname.endsWith('new-project-cheetah-booking') &&
+      !location.pathname.endsWith('new-covid-19-vaccine-booking') &&
       !location.pathname.endsWith('confirmation'),
   });
   if (shouldRedirectToStart) {
-    return <Redirect to="/new-project-cheetah-booking" />;
+    return <Redirect to="/new-covid-19-vaccine-booking" />;
   }
 
   const title = <h1 className="vads-u-font-size--h2">{'New Booking'}</h1>;
@@ -100,10 +99,10 @@ export function NewBookingSection({
     !isEligible &&
     newBookingStatus === FETCH_STATUS.succeeded &&
     !location.pathname.includes(
-      '/new-project-cheetah-booking/contact-facilities',
+      '/new-covid-19-vaccine-booking/contact-facilities',
     )
   ) {
-    return <Redirect to="/new-project-cheetah-booking/contact-facilities" />;
+    return <Redirect to="/new-covid-19-vaccine-booking/contact-facilities" />;
   }
 
   return (
@@ -122,10 +121,6 @@ export function NewBookingSection({
         <Route
           path={`${match.url}/select-date-1`}
           component={SelectDate1Page}
-        />
-        <Route
-          path={`${match.url}/select-date-2`}
-          component={SelectDate2Page}
         />
         <Route
           path={`${match.url}/plan-second-dose`}

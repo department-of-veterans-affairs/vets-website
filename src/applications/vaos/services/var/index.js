@@ -1,6 +1,11 @@
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
-import { apiRequestWithMocks, parseApiList, parseApiObject } from '../utils';
+import {
+  apiRequestWithMocks,
+  parseApiList,
+  parseApiListWithErrors,
+  parseApiObject,
+} from '../utils';
 
 function getStagingId(facilityId) {
   if (!environment.isProduction() && facilityId.startsWith('983')) {
@@ -17,13 +22,25 @@ function getStagingId(facilityId) {
 export function getConfirmedAppointments(type, startDate, endDate) {
   return apiRequestWithMocks(
     `/vaos/v0/appointments?start_date=${startDate}&end_date=${endDate}&type=${type}`,
-  ).then(parseApiList);
+  ).then(parseApiListWithErrors);
 }
 
 export function getPendingAppointments(startDate, endDate) {
   return apiRequestWithMocks(
     `/vaos/v0/appointment_requests?start_date=${startDate}&end_date=${endDate}`,
   ).then(parseApiList);
+}
+
+export function getPendingAppointment(id) {
+  return apiRequestWithMocks(`/vaos/v0/appointment_requests/${id}`).then(
+    parseApiObject,
+  );
+}
+
+export function getConfirmedAppointment(id, type) {
+  return apiRequestWithMocks(`/vaos/v0/appointments/${type}/${id}`).then(
+    parseApiObject,
+  );
 }
 
 export function getRequestMessages(requestId) {
@@ -37,7 +54,7 @@ export function getRequestMessages(requestId) {
 // So this memoizes the promise and returns it to the caller
 export const getLongTermAppointmentHistory = (() => {
   const MAX_HISTORY = 24;
-  const MONTH_CHUNK = 6;
+  const MONTH_CHUNK = 12;
   let promise = null;
 
   return () => {
@@ -61,18 +78,14 @@ export const getLongTermAppointmentHistory = (() => {
         currentMonths += MONTH_CHUNK;
       }
 
-      // This is weird, but hopefully clear. There are four chunks with date
+      // This is weird, but hopefully clear. There are two chunks with date
       // ranges from the array created above. We're trying to run them serially,
       // because we want to be careful about overloading the upstream service,
       // so Promise.all doesn't fit here
       promise = getConfirmedAppointments('va', ranges[0][0], ranges[0][1])
-        .then(newAppts => appointments.push(...newAppts))
+        .then(({ data }) => appointments.push(...data))
         .then(() => getConfirmedAppointments('va', ranges[1][0], ranges[1][1]))
-        .then(newAppts => appointments.push(...newAppts))
-        .then(() => getConfirmedAppointments('va', ranges[2][0], ranges[2][1]))
-        .then(newAppts => appointments.push(...newAppts))
-        .then(() => getConfirmedAppointments('va', ranges[3][0], ranges[3][1]))
-        .then(newAppts => appointments.push(...newAppts))
+        .then(({ data }) => appointments.push(...data))
         .then(() => appointments);
     }
     return promise;

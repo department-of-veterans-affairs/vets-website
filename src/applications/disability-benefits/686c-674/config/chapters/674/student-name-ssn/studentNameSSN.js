@@ -55,5 +55,9 @@ export const uiSchema = {
           isChapterFieldRequired(formData, 'report674'),
       },
     },
+    dependentIncome: {
+      'ui:title': 'Did this dependent earn an income in the last 365 days?',
+      'ui:widget': 'yesNo',
+    },
   },
 };

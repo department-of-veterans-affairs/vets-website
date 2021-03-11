@@ -1,0 +1,278 @@
+.gi-app .search-page {
+  .filters-sidebar {
+    h2 {
+      font-size: 1.15em;
+    }
+
+    label,
+    legend {
+      margin-top: 1em;
+    }
+
+    .institution-filter-form,
+    .eligibility-form {
+      margin-top: 1.5em;
+    }
+
+    .filter-additional-info {
+      margin: 15px 0px 15px 0px;
+    }
+
+    @include media-maxwidth($small-screen) {
+      background: $color-white;
+      display: none;
+      height: 100%;
+      left: 0;
+      overflow: scroll;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 200;
+
+      &.opened {
+        display: block;
+      }
+    }
+  }
+
+  .filters-sidebar-inner {
+    @include media-maxwidth($small-screen) {
+      padding-bottom: 8rem;
+    }
+    h2 {
+      margin-top: 0;
+    }
+  }
+
+  .filter-button,
+  .results-button {
+    display: none;
+    width: 100%;
+    @include media-maxwidth($small-screen) {
+      display: block;
+    }
+  }
+
+  .results-button {
+    background: $color-gray-lightest;
+    bottom: 0;
+    left: 0;
+    padding: 1rem 2rem;
+    position: fixed;
+    width: 100%;
+    z-index: 2;
+
+    @include media-maxwidth($small-screen) {
+      display: block;
+    }
+  }
+
+  .search-results {
+    @include media-maxwidth($small-screen) {
+      display: none;
+
+      &.opened {
+        display: block;
+      }
+    }
+  }
+
+  .search-result {
+    background-color: $color-gray-lightest;
+    padding: 0;
+    margin: 0 0 1em 0;
+
+    .inner {
+      padding: 0.5em 1em 1em 1em;
+    }
+
+    .view-details {
+      display: block;
+
+      @include media-maxwidth($small-screen) {
+        margin-top: 1.6rem;
+      }
+    }
+
+    h2 {
+      font-size: 1.35em;
+      margin-bottom: 0.8rem;
+      padding-bottom: 0;
+      margin-top: 0;
+      a {
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    }
+
+    p {
+      margin: 0;
+    }
+
+    p.locality {
+      font-weight: bold;
+    }
+
+    p.count {
+      margin-bottom: 1rem;
+    }
+
+    .estimated-benefits {
+      h3,
+      h4 {
+        margin-top: 0;
+        font-size: 1em;
+        font-family: $font-sans;
+      }
+      h4 {
+        padding-bottom: 0;
+      }
+      h4 > span {
+        font-weight: normal;
+      }
+      h4 > div {
+        float: right;
+        text-align: right;
+      }
+      i.fa {
+        margin-right: 0.5em;
+      }
+    }
+
+    .info-flag {
+      color: $color-gray-dark;
+      background-color: $color-white;
+      font-size: 0.9em;
+      display: inline-block;
+      padding: 0.1em 0.5em;
+      margin-right: 1em;
+      margin-top: -1em !important;
+    }
+    @media (max-width: 640px) {
+      .info-flag {
+        margin-top: 0.5em !important;
+      }
+    }
+
+    .caution-flag {
+      color: $color-gray-dark;
+      background-color: $color-gold;
+      border-radius: 3px 3px 3px 3px;
+      font-size: 0.9em;
+      font-weight: bold;
+      display: inline-block;
+      padding: 0.1em 0.5em;
+      margin: 1em 0 0 1em;
+
+      i.fa {
+        margin-right: 0.4em;
+      }
+    }
+
+    .preferred-flag {
+      font-size: 0.9em;
+      font-weight: bold;
+      border-radius: 3px 3px 3px 3px;
+
+      i.fa {
+        margin-right: 0.4em;
+      }
+    }
+  }
+
+  .tag-container {
+    margin-top: -34px;
+    padding: 4px 0px;
+    @include media-maxwidth($medium-screen) {
+      margin-top: 10px;
+    }
+  }
+
+  .search-result-tag {
+    background-color: $color-white;
+    color: $color-gray-dark;
+    display: inline-block;
+    margin: 0px 8px 8px 0px;
+    padding: 0px 4px;
+    font-size: 14px;
+  }
+  .search-button-mobile {
+    margin-top: 1em;
+    margin-bottom: 6em !important;
+    @include media-maxwidth($small-screen) {
+      margin-top: 1em;
+      width: 100%;
+    }
+  }
+  .input-box-margin {
+    margin: 6px 0px;
+  }
+  .search-button {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    margin-top: 0.5em;
+    margin-right: -1px;
+    margin-bottom: 0.5em;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: $color-blue;
+    border: 0;
+    border-radius: 5px;
+    color: $color-white;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
+      "Arial", sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1;
+    padding: 1rem 2rem;
+    text-align: center;
+    text-decoration: none;
+    width: 100%;
+  }
+
+  .search-filter-text {
+    @media (min-width: $small-screen) {
+      display: none;
+    }
+  }
+  .vettec-logo-container {
+    @include media($medium-screen) {
+      margin-top: -2.667em;
+      margin-bottom: 1.333em;
+    }
+  }
+  .gi-checkbox-label:before {
+    box-shadow: 0 0 0 2px $color-white, 0 0 0 3px $color-gray-medium;
+  }
+
+  .usa-alert {
+    background-color: $color-white;
+    padding: 0.5em 1em;
+    margin-top: 1em;
+  }
+
+  .usa-alert-text {
+    margin-top: 0.25em;
+  }
+
+  .alert-row {
+    margin-bottom: 1em;
+  }
+
+  .usa-alert-warning:before {
+    font-size: 1em;
+  }
+
+  .usa-alert-heading {
+    font-size: 1em;
+  }
+}
+
+.exclude-warnings-closings-checkbox {
+  padding-left: 0.2em;
+}

@@ -13,11 +13,10 @@ export const DescriptionText = () => (
     </p>
     <p>
       <strong>If you’re adding a child 18 to 23</strong> years old who’ll be
-      attending school,
-      <strong>and</strong> If you never received benefits for this child, you
-      must <strong>also</strong> select the “Add a child or children under 18
-      and unmarried” checkbox so they can be added to the system. You{' '}
-      <strong>will</strong> enter this child twice.
+      attending school, <strong>and</strong> If you never received benefits for
+      this child, you must <strong>also</strong> select the “Add a child or
+      children under 18 and unmarried” checkbox so they can be added to the
+      system. You <strong>will</strong> enter this child twice.
     </p>
   </div>
 );

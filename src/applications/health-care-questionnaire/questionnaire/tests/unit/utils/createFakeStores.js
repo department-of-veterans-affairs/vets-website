@@ -221,65 +221,6 @@ const createFakeReasonForVisitStore = ({ reason = '' }) => {
   };
 };
 
-const createFakeHiddenFieldStore = ({
-  appointmentId = '',
-  questionnaireId = '',
-}) => {
-  return {
-    getState: () => ({
-      questionnaireData: {
-        context: {
-          questionnaire: {
-            id: questionnaireId,
-          },
-          appointment: {
-            id: appointmentId,
-          },
-        },
-      },
-    }),
-    subscribe: () => {},
-    dispatch: () => {},
-  };
-};
-
-const createFakeConfirmationStore = ({ hasData }) => {
-  return {
-    getState: () => {
-      return hasData
-        ? {
-            form: {
-              submission: {
-                response: {
-                  veteranInfo: { fullName: 'Mickey Mouse' },
-                  timestamp: new Date(),
-                },
-              },
-            },
-            questionnaireData: {
-              context: {
-                appointment: {
-                  attributes: {
-                    vdsAppointments: [
-                      {
-                        clinic: {
-                          stopCode: '323',
-                          facility: { displayName: 'Magic Kingdom' },
-                        },
-                      },
-                    ],
-                  },
-                },
-              },
-            },
-          }
-        : { form: {}, questionnaireData: {} };
-    },
-    subscribe: () => {},
-    dispatch: () => {},
-  };
-};
-
 const createFakeIntroductionPageStore = (formId, savedForms) => {
   return {
     getState: () => ({
@@ -331,32 +272,11 @@ const createFakeStopCodeStore = (stopCode = '323') => {
   };
 };
 
-const createFakeFooterStore = (clinic = {}, clinicFriendlyName = '') => {
-  return {
-    getState: () => ({
-      questionnaireData: {
-        context: {
-          appointment: {
-            attributes: {
-              clinicFriendlyName,
-              vdsAppointments: [{ clinic }],
-            },
-          },
-        },
-      },
-    }),
-    subscribe: () => {},
-    dispatch: () => ({}),
-  };
-};
 export {
   createFakeUserStore,
   createFakeReasonForVisitDescriptionStore,
   createFakeReasonForVisitStore,
-  createFakeConfirmationStore,
   createFakeIntroductionPageStore,
   createFakeStopCodeStore,
   createFakeExpiresAtStore,
-  createFakeHiddenFieldStore,
-  createFakeFooterStore,
 };

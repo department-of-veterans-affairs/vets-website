@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import * as actions from '../../redux/actions';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -12,6 +13,7 @@ import CalendarWidget from '../../../components/calendar/CalendarWidget';
 import WaitTimeAlert from './WaitTimeAlert';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { getRealFacilityId } from '../../../utils/appointment';
+import useIsInitialLoad from '../../../hooks/useIsInitialLoad';
 
 const pageKey = 'selectDateTime';
 const pageTitle = 'Tell us the date and time you’d like your appointment';
@@ -19,11 +21,16 @@ const pageTitle = 'Tell us the date and time you’d like your appointment';
 const missingDateError =
   'Please choose your preferred date and time for your appointment.';
 
-function ErrorMessage({ facilityId, requestAppointmentDateChoice }) {
+function ErrorMessage({ facilityId, requestAppointmentDateChoice, history }) {
   return (
-    <div aria-atomic="true" aria-live="assertive">
+    <div
+      aria-atomic="true"
+      aria-live="assertive"
+      className="vads-u-margin-bottom--2"
+    >
       <AlertBox
         status="error"
+        level="2"
         headline="We’ve run into a problem trying to find an appointment time"
       >
         To schedule this appointment, you can{' '}
@@ -98,6 +105,12 @@ export function DateTimeSelectPage({
   const history = useHistory();
   const [submitted, setSubmitted] = useState(false);
   const [validationError, setValidationError] = useState(null);
+  const fetchFailed = appointmentSlotsStatus === FETCH_STATUS.failed;
+  const loadingSlots =
+    appointmentSlotsStatus === FETCH_STATUS.loading ||
+    appointmentSlotsStatus === FETCH_STATUS.notStarted;
+
+  const isInitialLoad = useIsInitialLoad(loadingSlots);
 
   useEffect(() => {
     getAppointmentSlots(
@@ -111,8 +124,25 @@ export function DateTimeSelectPage({
       true,
     );
     document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
   }, []);
+
+  useEffect(
+    () => {
+      if (
+        !isInitialLoad &&
+        !loadingSlots &&
+        appointmentSlotsStatus !== FETCH_STATUS.failed
+      ) {
+        scrollAndFocus('h2');
+      } else if (
+        (!loadingSlots && isInitialLoad) ||
+        appointmentSlotsStatus === FETCH_STATUS.failed
+      ) {
+        scrollAndFocus();
+      }
+    },
+    [isInitialLoad, loadingSlots, appointmentSlotsStatus],
+  );
 
   useEffect(
     () => {
@@ -131,7 +161,7 @@ export function DateTimeSelectPage({
   return (
     <div>
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-      {appointmentSlotsStatus !== FETCH_STATUS.loading && (
+      {!loadingSlots && (
         <WaitTimeAlert
           eligibleForRequests={eligibleForRequests}
           facilityId={facilityId}
@@ -142,44 +172,53 @@ export function DateTimeSelectPage({
           typeOfCareId={typeOfCareId}
         />
       )}
-      {appointmentSlotsStatus !== FETCH_STATUS.failed && (
-        <p>
-          Please select a desired date and time for your appointment.
-          {timezone &&
-            ` Appointment times are displayed in ${timezoneDescription}.`}
-        </p>
+      {fetchFailed && (
+        <ErrorMessage
+          history={history}
+          facilityId={facilityId}
+          requestAppointmentDateChoice={requestAppointmentDateChoice}
+        />
       )}
-      <CalendarWidget
-        maxSelections={1}
-        availableSlots={availableSlots}
-        value={selectedDates}
-        id="dateTime"
-        timezone={timezoneDescription}
-        additionalOptions={{
-          required: true,
-        }}
-        loadingStatus={appointmentSlotsStatus}
-        loadingErrorMessage={
-          <ErrorMessage
-            facilityId={facilityId}
-            requestAppointmentDateChoice={requestAppointmentDateChoice}
+      {!fetchFailed && (
+        <>
+          <p>
+            Please select a desired date and time for your appointment.
+            {timezone &&
+              ` Appointment times are displayed in ${timezoneDescription}.`}
+          </p>
+          <CalendarWidget
+            maxSelections={1}
+            availableSlots={availableSlots}
+            value={selectedDates}
+            id="dateTime"
+            timezone={timezoneDescription}
+            additionalOptions={{
+              required: true,
+            }}
+            disabled={loadingSlots}
+            disabledMessage={
+              <LoadingIndicator
+                setFocus
+                message="Finding appointment availability..."
+              />
+            }
+            onChange={dates => {
+              validate({ dates, setValidationError });
+              onCalendarChange(dates);
+            }}
+            onClickNext={getAppointmentSlots}
+            onClickPrev={getAppointmentSlots}
+            minDate={moment()
+              .add(1, 'days')
+              .format('YYYY-MM-DD')}
+            maxDate={moment()
+              .add(395, 'days')
+              .format('YYYY-MM-DD')}
+            startMonth={startMonth}
+            validationError={submitted ? validationError : null}
           />
-        }
-        onChange={dates => {
-          validate({ dates, setValidationError });
-          onCalendarChange(dates);
-        }}
-        onClickNext={getAppointmentSlots}
-        onClickPrev={getAppointmentSlots}
-        minDate={moment()
-          .add(1, 'days')
-          .format('YYYY-MM-DD')}
-        maxDate={moment()
-          .add(395, 'days')
-          .format('YYYY-MM-DD')}
-        startMonth={startMonth}
-        validationError={submitted ? validationError : null}
-      />
+        </>
+      )}
       <FormButtons
         onBack={() => goBack({ routeToPreviousAppointmentPage, history })}
         onSubmit={() =>
@@ -192,7 +231,7 @@ export function DateTimeSelectPage({
             setValidationError,
           })
         }
-        disabled={appointmentSlotsStatus === FETCH_STATUS.failed}
+        disabled={loadingSlots || fetchFailed}
         pageChangeInProgress={pageChangeInProgress}
         loadingText="Page change in progress"
       />

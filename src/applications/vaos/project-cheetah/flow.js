@@ -11,11 +11,11 @@ export default {
     url: '/',
   },
   planAhead: {
-    url: '/new-project-cheetah-booking',
+    url: '/new-covid-19-vaccine-booking',
     next: 'receivedDoseScreener',
   },
   receivedDoseScreener: {
-    url: '/new-project-cheetah-booking/received-dose',
+    url: '/new-covid-19-vaccine-booking/received-dose',
     next(state) {
       const formData = selectProjectCheetahFormData(state);
       if (formData.hasReceivedDose) {
@@ -31,10 +31,10 @@ export default {
     },
   },
   contactFacilities: {
-    url: '/new-project-cheetah-booking/contact-facilities',
+    url: '/new-covid-19-vaccine-booking/contact-facilities',
   },
   vaFacility: {
-    url: '/new-project-cheetah-booking/facility',
+    url: '/new-covid-19-vaccine-booking/facility',
     async next(state, dispatch) {
       const formData = selectProjectCheetahFormData(state);
       let clinics = selectProjectCheetahNewBooking(state).clinics?.[
@@ -61,23 +61,23 @@ export default {
     },
   },
   clinicChoice: {
-    url: '/new-project-cheetah-booking/clinic',
+    url: '/new-covid-19-vaccine-booking/clinic',
     next: 'selectDate1',
   },
   selectDate1: {
-    url: '/new-project-cheetah-booking/select-date-1',
+    url: '/new-covid-19-vaccine-booking/select-date-1',
     next: 'secondDosePage',
   },
   secondDosePage: {
-    url: '/new-project-cheetah-booking/plan-second-dose',
+    url: '/new-covid-19-vaccine-booking/plan-second-dose',
     next: 'contactInfo',
   },
   contactInfo: {
-    url: '/new-project-cheetah-booking/contact-info',
+    url: '/new-covid-19-vaccine-booking/contact-info',
     next: 'review',
   },
   review: {
-    url: '/new-project-cheetah-booking/review',
+    url: '/new-covid-19-vaccine-booking/review',
     next: '',
   },
 };

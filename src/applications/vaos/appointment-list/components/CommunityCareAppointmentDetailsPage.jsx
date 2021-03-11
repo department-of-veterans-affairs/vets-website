@@ -1,77 +1,80 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import moment from '../../lib/moment-tz';
 
-import { FETCH_STATUS } from '../../utils/constants';
+import { APPOINTMENT_TYPES, FETCH_STATUS } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import * as actions from '../redux/actions';
 import AppointmentDateTime from './cards/confirmed/AppointmentDateTime';
 import { getVARFacilityId } from '../../services/appointment';
-import AppointmentInstructions from './cards/confirmed/AppointmentInstructions';
 import AddToCalendar from '../../components/AddToCalendar';
-import { selectFeatureCancel } from '../../redux/selectors';
 import FacilityAddress from '../../components/FacilityAddress';
 import { formatFacilityAddress } from '../../services/location';
+import PageLayout from './AppointmentsPage/PageLayout';
+import ErrorMessage from '../../components/ErrorMessage';
+import { selectAppointmentById } from '../redux/selectors';
+import FullWidthLayout from '../../components/FullWidthLayout';
+import Breadcrumbs from '../../components/Breadcrumbs';
 
 function CommunityCareAppointmentDetailsPage({
-  appointmentDetails,
+  appointment,
   appointmentDetailsStatus,
   fetchConfirmedAppointmentDetails,
-  confirmedStatus,
 }) {
   const { id } = useParams();
-  const history = useHistory();
-
-  const appointment = appointmentDetails?.[id];
+  const appointmentDate = moment.parseZone(appointment?.start);
 
   useEffect(() => {
-    const status = confirmedStatus === FETCH_STATUS.succeeded;
-
-    if (!status) {
-      history.push('/');
-    }
-
-    if (!appointment) {
-      fetchConfirmedAppointmentDetails(id);
-    }
-
-    scrollAndFocus();
+    fetchConfirmedAppointmentDetails(id, 'cc');
   }, []);
 
-  if (appointmentDetailsStatus === FETCH_STATUS.loading) {
+  useEffect(
+    () => {
+      if (appointment && appointmentDate) {
+        document.title = `Community care appointment on ${appointmentDate.format(
+          'dddd, MMMM D, YYYY',
+        )}`;
+        scrollAndFocus();
+      }
+    },
+    [appointment, appointmentDate],
+  );
+
+  if (
+    appointmentDetailsStatus === FETCH_STATUS.failed ||
+    (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+  ) {
     return (
-      <div className="vads-u-margin-y--8">
-        <LoadingIndicator message="Loading your confirmed appointments..." />
-      </div>
+      <FullWidthLayout>
+        <ErrorMessage level={1} />
+      </FullWidthLayout>
     );
   }
 
-  if (!appointment) {
-    return null;
+  if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
+    return (
+      <FullWidthLayout>
+        <LoadingIndicator setFocus message="Loading your appointment..." />
+      </FullWidthLayout>
+    );
   }
 
   const header = 'Community care';
   const location = appointment.contained.find(
     res => res.resourceType === 'Location',
   );
-
-  // NOTE: A header can be added to a comment by prepending the comment with header text ending with a colon.
-  const prefix = 'Special instructions: ';
-  const instructions = appointment.comment
-    ? prefix.concat(appointment.comment)
-    : prefix;
   const practitionerName = appointment.participant?.find(res =>
     res.actor.reference.startsWith('Practitioner'),
   )?.actor.display;
 
   return (
-    <div>
-      <div className="vads-u-display--block vads-u-padding-y--2p5 vaos-hide-for-print">
-        ‹ <Link to="/">Manage appointments</Link>
-      </div>
+    <PageLayout>
+      <Breadcrumbs>
+        <Link to={`/cc/${id}`}>Appointment detail</Link>
+      </Breadcrumbs>
 
       <h1>
         <AppointmentDateTime
@@ -100,10 +103,14 @@ function CommunityCareAppointmentDetailsPage({
       />
 
       <div className="vads-u-margin-top--3 vaos-appts__block-label">
-        <AppointmentInstructions
-          instructions={instructions}
-          isHomepageRefresh
-        />
+        {!!appointment.comment && (
+          <div className="vads-u-flex--1 vads-u-margin-bottom--2 vaos-u-word-break--break-word">
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+              Special instructions
+            </h2>
+            <div>{appointment.comment}</div>
+          </div>
+        )}
       </div>
 
       <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
@@ -137,25 +144,18 @@ function CommunityCareAppointmentDetailsPage({
           « Go back to appointments
         </Link>
       </div>
-    </div>
+    </PageLayout>
   );
 }
 
-function mapStateToProps(state) {
-  const {
-    appointmentDetails,
-    appointmentDetailsStatus,
-    facilityData,
-    confirmedStatus,
-    requestMessages,
-  } = state.appointments;
+function mapStateToProps(state, ownProps) {
+  const { appointmentDetailsStatus, facilityData } = state.appointments;
   return {
-    appointmentDetails,
+    appointment: selectAppointmentById(state, ownProps.match.params.id, [
+      APPOINTMENT_TYPES.ccAppointment,
+    ]),
     appointmentDetailsStatus,
     facilityData,
-    confirmedStatus,
-    requestMessages,
-    showCancelButton: selectFeatureCancel(state),
   };
 }
 

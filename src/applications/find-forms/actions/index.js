@@ -2,8 +2,9 @@
 import URLSearchParams from 'url-search-params';
 // Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
-import { MAX_PAGE_LIST_LENGTH } from '../containers/SearchResults';
 import { fetchFormsApi } from '../api';
+import { correctSearchTerm } from '../helpers';
+import { MAX_PAGE_LIST_LENGTH } from '../containers/SearchResults';
 import {
   FETCH_FORMS,
   FETCH_FORMS_FAILURE,
@@ -73,6 +74,10 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
   const location = options?.location || window.location;
   const history = options?.history || window.history;
   const mockRequest = options?.mockRequest || false;
+  let q = query;
+  if (options?.useSearchQueryAutoCorrect) {
+    q = correctSearchTerm(query);
+  }
 
   // Change the `fetching` state in our store.
   dispatch(fetchFormsAction(query));
@@ -91,19 +96,11 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
 
   try {
     // Attempt to make the API request to retreive forms.
-    const resultsDetails = await fetchFormsApi(query, { mockRequest });
-
-    // If we are here, the API request succeeded.
-    dispatch(
-      fetchFormsSuccess(
-        resultsDetails.results,
-        resultsDetails.hasOnlyRetiredForms,
-      ),
-    );
+    const resultsDetails = await fetchFormsApi(q, { mockRequest });
 
     // Derive the total number of pages.
     const totalPages = Math.ceil(
-      resultsDetails.results.length / MAX_PAGE_LIST_LENGTH,
+      resultsDetails.results?.length / MAX_PAGE_LIST_LENGTH,
     );
 
     recordEvent({
@@ -119,6 +116,14 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
       'type-ahead-option-position': undefined, // populate with undefined since type ahead won't feature here
       'type-ahead-options-list': undefined, // populate with undefined since type ahead won't feature here
     });
+
+    // If we are here, the API request succeeded.
+    dispatch(
+      fetchFormsSuccess(
+        resultsDetails.results,
+        resultsDetails.hasOnlyRetiredForms,
+      ),
+    );
   } catch (error) {
     // If we are here, the API request failed.
     dispatch(

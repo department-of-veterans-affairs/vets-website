@@ -199,6 +199,10 @@ const FacilitiesMap = props => {
   };
 
   const handleSearchArea = () => {
+    if (!props.currentQuery.isValid) {
+      return;
+    }
+
     resetMapElements();
     const { currentQuery } = props;
     lastZoom = null;
@@ -254,10 +258,7 @@ const FacilitiesMap = props => {
     }
 
     // TODO: hide after new search
-    if (
-      calculateSearchArea() > MAX_SEARCH_AREA ||
-      !props.currentQuery.isValid
-    ) {
+    if (calculateSearchArea() > MAX_SEARCH_AREA) {
       searchAreaControl.style.display = 'none';
       return;
     }
@@ -405,6 +406,7 @@ const FacilitiesMap = props => {
             facilityType={facilityType}
             serviceType={serviceType}
             context={queryContext}
+            specialtyMap={props.specialties}
             inProgress={currentQuery.inProgress}
           />
         </div>
@@ -482,6 +484,7 @@ const FacilitiesMap = props => {
     const facilityType = currentQuery.facilityType;
     const serviceType = currentQuery.serviceType;
     const queryContext = currentQuery.context;
+
     return (
       <div className="desktop-container">
         <SearchControls
@@ -501,6 +504,7 @@ const FacilitiesMap = props => {
             facilityType={facilityType}
             serviceType={serviceType}
             context={queryContext}
+            specialtyMap={props.specialties}
             inProgress={currentQuery.inProgress}
           />
         </div>
@@ -709,6 +713,7 @@ const mapStateToProps = state => ({
   results: state.searchResult.results,
   pagination: state.searchResult.pagination,
   selectedResult: state.searchResult.selectedResult,
+  specialties: state.searchQuery.specialties,
 });
 
 const mapDispatchToProps = {

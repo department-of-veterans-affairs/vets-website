@@ -6,7 +6,7 @@ import React from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import {
-  APPEAL_TYPES,
+  appealTypes,
   claimsAvailability,
   appealsAvailability,
 } from 'applications/claims-status/utils/appeals-v2-helpers';
@@ -28,8 +28,6 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 
 import { recordDashboardClick } from '../helpers';
 import ClaimsListItem from '../components/ClaimsListItem';
-
-const appealTypes = Object.values(APPEAL_TYPES);
 
 class ClaimsAppealsWidget extends React.Component {
   componentDidMount() {
@@ -196,7 +194,6 @@ class ClaimsAppealsWidget extends React.Component {
 
 const mapStateToProps = state => {
   const claimsState = state.disability.status;
-  const claimsRoot = claimsState.claims;
   const claimsV2Root = claimsState.claimsV2;
   const profileState = state.user.profile;
   const canAccessAppeals = profileState.services.includes(
@@ -246,8 +243,6 @@ const mapStateToProps = state => {
     appealsLoading: claimsV2Root.appealsLoading,
     claimsAppealsCount,
     claimsAppealsList,
-    consolidatedModal: claimsRoot.consolidatedModal,
-    show30DayNotice: claimsRoot.show30DayNotice,
     synced: claimsState.claimSync.synced,
     canAccessAppeals,
     canAccessClaims,
