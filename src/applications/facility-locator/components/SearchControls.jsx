@@ -85,12 +85,12 @@ class SearchControls extends Component {
         <button
           aria-label="Clear your city, state or postal code"
           type="button"
+          onClick={this.handleClearInput}
         >
           <i
             aria-hidden="true"
             className="fas fa-times-circle clear-button"
             id="clear-input"
-            onClick={this.handleClearInput}
           />
         </button>
       );
