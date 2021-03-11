@@ -8,8 +8,10 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../../0994/config/form';
 
 describe('VET TEC military service', () => {
-  const page = formConfig.chapters.militaryService.pages.militaryService;
-  const { schema, uiSchema } = page;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.militaryService.pages.militaryService;
 
   const setDate = (form, momentObj) => {
     const month = form.find(`select[name="root_expectedReleaseDateMonth"]`);
@@ -17,20 +19,25 @@ describe('VET TEC military service', () => {
     const year = form.find(`input[name="root_expectedReleaseDateYear"]`);
 
     month.simulate('change', {
-      target: { value: momentObj.month() + 1 },
+      target: { value: (momentObj.month() + 1).toString() },
     });
 
     day.simulate('change', {
-      target: { value: momentObj.date() },
+      target: { value: momentObj.date().toString() },
     });
+
     year.simulate('change', {
-      target: { value: momentObj.year() },
+      target: { value: momentObj.year().toString() },
     });
   };
 
   it('should render', () => {
     const form = mount(
-      <DefinitionTester schema={schema} uiSchema={uiSchema} />,
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+      />,
     );
     expect(form.find('input').length).to.equal(2);
     form.unmount();
@@ -42,6 +49,7 @@ describe('VET TEC military service', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
       />,
     );
@@ -58,6 +66,7 @@ describe('VET TEC military service', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
       />,
     );
