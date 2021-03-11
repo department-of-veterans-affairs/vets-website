@@ -144,8 +144,6 @@ describe('VAOS scheduling eligibility logic', () => {
       };
       setFetchJSONResponse(global.fetch.onCall(4), nonMatchingAppointment);
       setFetchJSONResponse(global.fetch.onCall(5), nonMatchingAppointment);
-      setFetchJSONResponse(global.fetch.onCall(6), nonMatchingAppointment);
-      setFetchJSONResponse(global.fetch.onCall(7), nonMatchingAppointment);
       const eligibilityData = await getEligibilityData(
         {
           identifier: [
@@ -165,7 +163,7 @@ describe('VAOS scheduling eligibility logic', () => {
       );
 
       expect(eligibilityData.hasMatchingClinics).to.be.false;
-      expect(eligibilityData.pastAppointments.length).to.equal(4);
+      expect(eligibilityData.pastAppointments.length).to.equal(2);
     });
 
     it('should finish all calls even if one fails', async () => {

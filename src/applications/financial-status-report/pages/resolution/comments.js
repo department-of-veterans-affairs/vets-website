@@ -12,38 +12,53 @@ const ResolutionInfo = (
 
 export const uiSchema = {
   'ui:title': 'Supporting personal statement',
-  'view:financialHardshipExplanation': {
-    'ui:field': FinancialHardshipExplanation,
+  'view:components': {
+    'view:financialHardshipExplanation': {
+      'ui:field': FinancialHardshipExplanation,
+    },
+    'view:resolutionOptionsInfo': {
+      'ui:description': ResolutionInfo,
+    },
   },
-  'view:resolutionOptionsInfo': {
-    'ui:description': ResolutionInfo,
-  },
-  resolutionComments: {
-    'ui:title': ' ',
-    'ui:widget': 'textarea',
-    'ui:required': formData =>
-      formData.fsrDebts.some(
-        debt => debt.resolution?.resolutionType === 'Waiver',
-      ),
-    'ui:options': {
-      rows: 5,
-      maxLength: 32000,
+  additionalData: {
+    additionalComments: {
+      'ui:title': ' ',
+      'ui:widget': 'textarea',
+      'ui:required': formData =>
+        formData.selectedDebts.some(
+          debt => debt.resolution?.resolutionType === 'Waiver',
+        ),
+      'ui:options': {
+        rows: 5,
+        maxLength: 32000,
+      },
     },
   },
 };
+
 export const schema = {
   type: 'object',
   properties: {
-    'view:financialHardshipExplanation': {
+    'view:components': {
       type: 'object',
-      properties: {},
+      properties: {
+        'view:financialHardshipExplanation': {
+          type: 'object',
+          properties: {},
+        },
+        'view:resolutionOptionsInfo': {
+          type: 'object',
+          properties: {},
+        },
+      },
     },
-    'view:resolutionOptionsInfo': {
+    additionalData: {
       type: 'object',
-      properties: {},
-    },
-    resolutionComments: {
-      type: 'string',
+      properties: {
+        additionalComments: {
+          type: 'string',
+        },
+      },
     },
   },
 };

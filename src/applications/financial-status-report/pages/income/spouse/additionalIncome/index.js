@@ -1,29 +1,22 @@
 export const uiSchema = {
-  'ui:title': 'Your spouse information',
-  additionalIncome: {
-    spouse: {
-      hasAdditionalIncome: {
-        'ui:title':
-          'Does your spouse get income from any other sources (like a retirement pension or alimony support)?',
-        'ui:widget': 'yesNo',
-        'ui:required': () => true,
-      },
+  'ui:title': 'Your questions information',
+  questions: {
+    spouseHasAdditionalIncome: {
+      'ui:title':
+        'Does your questions get income from any other sources (like a retirement pension or alimony support)?',
+      'ui:widget': 'yesNo',
+      'ui:required': () => true,
     },
   },
 };
 export const schema = {
   type: 'object',
   properties: {
-    additionalIncome: {
+    questions: {
       type: 'object',
       properties: {
-        spouse: {
-          type: 'object',
-          properties: {
-            hasAdditionalIncome: {
-              type: 'boolean',
-            },
-          },
+        spouseHasAdditionalIncome: {
+          type: 'boolean',
         },
       },
     },

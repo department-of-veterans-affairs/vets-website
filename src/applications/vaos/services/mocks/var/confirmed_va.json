@@ -988,6 +988,7 @@
     }
   ],
   "meta": {
+    "errors": [],
     "pagination": {
       "currentPage": 0,
       "perPage": 0,

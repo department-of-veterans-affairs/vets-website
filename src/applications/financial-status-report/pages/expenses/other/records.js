@@ -50,8 +50,10 @@ export const uiSchema = {
       }),
     },
   },
-  'view:assetInfo': {
-    'ui:description': AssetInfo,
+  'view:components': {
+    'view:assetInfo': {
+      'ui:description': AssetInfo,
+    },
   },
 };
 export const schema = {
@@ -61,6 +63,7 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
+        title: 'Expense',
         required: ['expenseType', 'expenseAmount'],
         properties: {
           expenseType: {
@@ -72,9 +75,14 @@ export const schema = {
         },
       },
     },
-    'view:assetInfo': {
+    'view:components': {
       type: 'object',
-      properties: {},
+      properties: {
+        'view:assetInfo': {
+          type: 'object',
+          properties: {},
+        },
+      },
     },
   },
 };

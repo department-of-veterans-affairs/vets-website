@@ -14,7 +14,7 @@ describe('fetchDebtLetters', () => {
       expect(dispatch.secondCall.args[0].type).to.equal(DEBTS_FETCH_SUCCESS);
       expect(dispatch.secondCall.args[0].debts).to.deep.equal([
         {
-          fileNumber: '796121200',
+          fileNumber: 796121200,
           payeeNumber: '00',
           personEntitled: 'AJHONS',
           deductionCode: '30',
@@ -45,7 +45,7 @@ describe('fetchDebtLetters', () => {
           ],
         },
         {
-          fileNumber: '796121200',
+          fileNumber: 796121200,
           payeeNumber: '00',
           personEntitled: 'STUB_M',
           deductionCode: '44',
@@ -93,7 +93,7 @@ describe('fetchDebtLetters', () => {
           ],
         },
         {
-          fileNumber: '796121200',
+          fileNumber: 796121200,
           payeeNumber: '00',
           personEntitled: 'AJOHNS',
           deductionCode: '71',
@@ -114,7 +114,7 @@ describe('fetchDebtLetters', () => {
           ],
         },
         {
-          fileNumber: '796121200',
+          fileNumber: 796121200,
           payeeNumber: '00',
           personEntitled: 'AJOHNS',
           deductionCode: '74',
@@ -150,7 +150,7 @@ describe('fetchDebtLetters', () => {
           ],
         },
         {
-          fileNumber: '796121200',
+          fileNumber: 796121200,
           payeeNumber: '00',
           personEntitled: 'AJHONS',
           deductionCode: '72',

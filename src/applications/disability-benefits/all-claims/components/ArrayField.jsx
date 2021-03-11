@@ -17,7 +17,9 @@ import {
 import { setArrayRecordTouched } from 'platform/forms-system/src/js/helpers';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 
-import { findDuplicates } from '../utils';
+import findDuplicateIndexes from 'platform/forms-system/src/js/utilities/data/findDuplicateIndexes';
+
+import { NULL_CONDITION_STRING } from '../constants';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -73,13 +75,18 @@ export default class ArrayField extends React.Component {
   setInitialState = () => {
     const { formData, uiSchema } = this.props;
     if (formData) {
-      const key = uiSchema?.['ui:options']?.errorKey || '';
+      const key = uiSchema?.['ui:options']?.duplicateKey || '';
       // errorSchema is not populated on init, so we need to use the form data to
       // find duplicates and put the entry into edit mode
-      const duplicates = key ? findDuplicates(formData, key) : [];
+      const duplicates = key ? findDuplicateIndexes(formData, key) : [];
       return uiSchema?.['ui:options']?.setEditState
         ? uiSchema['ui:options']?.setEditState(formData)
-        : formData.map((__, index) => duplicates.includes(index));
+        : formData.map(
+            (obj, index) =>
+              !obj[key] ||
+              obj[key].toLowerCase() === NULL_CONDITION_STRING.toLowerCase() ||
+              duplicates.includes(index),
+          );
     }
     return [true];
   };

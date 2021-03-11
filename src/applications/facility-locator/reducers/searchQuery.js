@@ -16,7 +16,7 @@ import {
   CLEAR_SEARCH_TEXT,
 } from '../utils/actionTypes';
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
   searchString: '',
   serviceType: null,
   facilityType: null,
@@ -34,11 +34,21 @@ const INITIAL_STATE = {
   geocodeInProgress: false,
   geocodeResults: [],
   mapMoved: false,
+  isValid: true,
+};
+
+const validateForm = state => {
+  const needServiceType = state.facilityType === 'provider';
+
+  return (
+    state.searchString?.length > 0 &&
+    state.facilityType?.length > 0 &&
+    (needServiceType ? state.serviceType?.length > 0 : true)
+  );
 };
 
 export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
   let newState = {};
-  let needServiceType = false;
 
   switch (action.type) {
     case SEARCH_STARTED:
@@ -56,17 +66,20 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         inProgress: false,
         searchBoundsInProgress: false,
         mapMoved: false,
+        isValid: validateForm(state),
       };
     case MAP_MOVED:
       return {
         ...state,
         mapMoved: true,
+        isValid: validateForm(state),
       };
     case FETCH_LOCATION_DETAIL:
     case SEARCH_COMPLETE:
       return {
         ...state,
         error: false,
+        isValid: validateForm(state),
         inProgress: false,
         mapMoved: false,
       };
@@ -98,6 +111,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         error: true,
+        isValid: validateForm(state),
         inProgress: false,
         searchBoundsInProgress: false,
       };
@@ -108,12 +122,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         error: false,
       };
 
-      needServiceType = newState.facilityType === 'provider';
-
-      newState.isValid =
-        newState.searchString?.length > 0 &&
-        newState.facilityType?.length > 0 &&
-        (needServiceType ? newState.serviceType?.length > 0 : true);
+      newState.isValid = validateForm(newState);
 
       return newState;
     case GEOCODE_STARTED:
@@ -147,6 +156,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         searchString: '',
+        isValid: false,
       };
     default:
       return state;

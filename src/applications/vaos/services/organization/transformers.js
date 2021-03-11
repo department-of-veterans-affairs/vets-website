@@ -1,3 +1,7 @@
+/**
+ * @module services/Organization/transformers
+ */
+
 import { VHA_FHIR_ID } from '../../utils/constants';
 
 /**

@@ -37,6 +37,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'content-directory', type: String, defaultValue: defaultContentDir },
   { name: 'accessibility', type: Boolean, defaultValue: true },
   { name: 'lint-plain-language', type: Boolean, defaultValue: false },
+  { name: 'omitdebug', type: Boolean, defaultValue: false },
   {
     name: 'drupal-address',
     type: String,

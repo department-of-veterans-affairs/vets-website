@@ -17,6 +17,7 @@ import {
   MILITARY_CITIES,
   MILITARY_STATE_VALUES,
   LOWERED_DISABILITY_DESCRIPTIONS,
+  NULL_CONDITION_STRING,
 } from './constants';
 
 export const hasMilitaryRetiredPay = data =>
@@ -256,7 +257,18 @@ export const isWithinServicePeriod = (
   }
 };
 
-export const validateDisabilityName = (err, fieldData, formData) => {
+export const missingConditionMessage =
+  'Please enter a condition or select one from the suggested list';
+
+export const validateDisabilityName = (
+  err,
+  fieldData,
+  formData,
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData,
+) => {
   // We're using a validator for length instead of adding a maxLength schema
   // property because the validator is only applied conditionally - when a user
   // chooses a disability from the list supplied to autosuggest, we don't care
@@ -270,9 +282,16 @@ export const validateDisabilityName = (err, fieldData, formData) => {
     err.addError('Condition names should be less than 256 characters');
   }
 
+  if (
+    !fieldData ||
+    fieldData.toLowerCase() === NULL_CONDITION_STRING.toLowerCase()
+  ) {
+    err.addError(missingConditionMessage);
+  }
+
   // Alert Veteran to duplicates
   const currentList =
-    formData?.newDisabilities?.map(disability =>
+    appStateData?.newDisabilities?.map(disability =>
       disability.condition?.toLowerCase(),
     ) || [];
   const itemLowerCased = fieldData?.toLowerCase() || '';

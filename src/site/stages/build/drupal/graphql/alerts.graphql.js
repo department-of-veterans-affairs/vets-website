@@ -9,6 +9,7 @@ const partialQuery = `
     entities {
       ... on BlockContentAlert {
         id
+        entityPublished
         fieldAlertDismissable
         fieldAlertFrequency
         fieldNodeReference {

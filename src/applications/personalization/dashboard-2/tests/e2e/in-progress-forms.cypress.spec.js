@@ -22,6 +22,7 @@ describe('The My VA Dashboard', () => {
     );
   });
   describe('when there are in-progress forms', () => {
+    let deleteApplicationStub;
     beforeEach(() => {
       // four forms, but one will fail the `isSIPEnabledForm()` check so only
       // three will be shown on the dashboard
@@ -93,8 +94,8 @@ describe('The My VA Dashboard', () => {
               timestamp: false,
               hasAttemptedSubmit: false,
             },
-            // one week from now
-            expiresAt: now + oneWeekInSeconds,
+            // expired one week ago
+            expiresAt: now - oneWeekInSeconds,
             lastUpdated: 1612535290,
             inProgressFormId: 9374,
           },
@@ -104,9 +105,13 @@ describe('The My VA Dashboard', () => {
       mockUser.data.attributes.inProgressForms = savedForms;
       cy.login(mockUser);
       mockFeatureToggles();
+      deleteApplicationStub = cy.stub();
+      cy.intercept('DELETE', '/v0/in_progress_forms/21-526EZ', () => {
+        deleteApplicationStub();
+      });
       cy.visit(manifest.rootUrl);
     });
-    it('should show benefit applications that were saved in progress', () => {
+    it('should show benefit applications that were saved in progress and allow removing expired applications', () => {
       cy.findByRole('heading', { name: /apply for benefits/i }).should('exist');
       cy.findByRole('heading', { name: /applications in progress/i }).should(
         'exist',
@@ -116,6 +121,13 @@ describe('The My VA Dashboard', () => {
       // make the a11y check
       cy.injectAxe();
       cy.axeCheck();
+
+      cy.findByRole('button', { name: /^remove/i }).click();
+      cy.findAllByTestId('application-in-progress').should('have.length', 2);
+      // make sure we called the DELETE endpoint
+      cy.should(() => {
+        expect(deleteApplicationStub).to.be.called;
+      });
     });
   });
   describe('when there are no-progress forms', () => {

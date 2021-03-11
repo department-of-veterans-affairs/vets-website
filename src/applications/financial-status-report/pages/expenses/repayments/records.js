@@ -13,7 +13,7 @@ export const uiSchema = {
   'ui:title': 'Your installment contracts and other debts',
   'ui:description':
     'Enter information for each installment contract or debt separately below.',
-  repayments: {
+  installmentContractsAndOtherDebts: {
     'ui:field': ItemLoop,
     'ui:options': {
       viewField: CardDetailsView,
@@ -22,7 +22,7 @@ export const uiSchema = {
       itemName: 'installment or other debt',
     },
     items: {
-      debtType: {
+      purpose: {
         'ui:title': 'Type of contract or debt',
         'ui:field': Typeahead,
         'ui:options': {
@@ -37,29 +37,23 @@ export const uiSchema = {
           widgetClassNames: 'input-size-7 vads-u-margin-bottom--3',
         },
       },
-      originalDebtAmount: _.merge(
-        currencyUI('Original contract or debt amount'),
-        {
-          'ui:options': {
-            widgetClassNames: 'input-size-6 vads-u-margin-bottom--3',
-          },
+      originalAmount: _.merge(currencyUI('Original contract or debt amount'), {
+        'ui:options': {
+          widgetClassNames: 'input-size-6 vads-u-margin-bottom--3',
         },
-      ),
+      }),
       unpaidBalance: _.merge(currencyUI('Unpaid balance'), {
         'ui:options': {
           widgetClassNames: 'input-size-6 vads-u-margin-bottom--3',
         },
       }),
-      monthlyPaymentAmount: _.merge(
-        currencyUI('Minimum monthly payment amount'),
-        {
-          'ui:options': {
-            widgetClassNames: 'input-size-6',
-          },
+      amountDueMonthly: _.merge(currencyUI('Minimum monthly payment amount'), {
+        'ui:options': {
+          widgetClassNames: 'input-size-6',
         },
-      ),
-      debtDate: monthYearUI('Date debt began'),
-      amountOverdue: _.merge(currencyUI('Amount overdue'), {
+      }),
+      dateStarted: monthYearUI('Date debt began'),
+      amountPastDue: _.merge(currencyUI('Amount overdue'), {
         'ui:options': {
           classNames: 'vads-u-margin-top--2',
           widgetClassNames: 'input-size-4 vads-u-margin-bottom--3',
@@ -71,36 +65,37 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    repayments: {
+    installmentContractsAndOtherDebts: {
       type: 'array',
       items: {
         type: 'object',
+        title: 'Repayment',
         required: [
-          'debtType',
-          'monthlyPaymentAmount',
-          'debtDate',
-          'amountOverdue',
+          'purpose',
+          'amountDueMonthly',
+          'dateStarted',
+          'amountPastDue',
         ],
         properties: {
-          debtType: {
+          purpose: {
             type: 'string',
           },
           creditorName: {
             type: 'string',
           },
-          originalDebtAmount: {
+          originalAmount: {
             type: 'number',
           },
           unpaidBalance: {
             type: 'number',
           },
-          monthlyPaymentAmount: {
+          amountDueMonthly: {
             type: 'number',
           },
-          debtDate: {
+          dateStarted: {
             type: 'string',
           },
-          amountOverdue: {
+          amountPastDue: {
             type: 'number',
           },
         },

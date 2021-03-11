@@ -220,3 +220,90 @@ describe('createEmbedYouTubeVideoURL', () => {
     ).to.eq('https://www.youtube.com/embed/asdf');
   });
 });
+
+describe('getTagsList', () => {
+  const fieldTags = {
+    entity: {
+      fieldTopics: [
+        {
+          entity: {
+            name: 'A. Example',
+          },
+        },
+        {
+          entity: {
+            name: 'B. Example',
+          },
+        },
+        {
+          entity: {
+            name: 'E. Example',
+          },
+        },
+      ],
+      fieldAudienceBeneficiares: {
+        entity: {
+          name: 'C. Example',
+        },
+      },
+      fieldNonBeneficiares: {
+        entity: {
+          name: 'D. Example',
+        },
+      },
+    },
+  };
+
+  it('forms a sorted list from properties "fieldTopics", "fieldAudienceBeneficiares", and "fieldNonBeneficiares"', () => {
+    const result = liquid.filters.getTagsList(fieldTags);
+
+    expect(result).to.be.deep.equal([
+      {
+        name: 'A. Example',
+        categoryLabel: 'Topics',
+      },
+      {
+        name: 'B. Example',
+        categoryLabel: 'Topics',
+      },
+      {
+        name: 'C. Example',
+        categoryLabel: 'Audience',
+      },
+      {
+        name: 'D. Example',
+        categoryLabel: 'Audience',
+      },
+      {
+        name: 'E. Example',
+        categoryLabel: 'Topics',
+      },
+    ]);
+  });
+
+  it('omits null poperties', () => {
+    const fieldTags2 = { entity: { ...fieldTags.entity } };
+    fieldTags2.entity.fieldAudienceBeneficiares = null;
+
+    const result = liquid.filters.getTagsList(fieldTags2);
+
+    expect(result).to.be.deep.equal([
+      {
+        name: 'A. Example',
+        categoryLabel: 'Topics',
+      },
+      {
+        name: 'B. Example',
+        categoryLabel: 'Topics',
+      },
+      {
+        name: 'D. Example',
+        categoryLabel: 'Audience',
+      },
+      {
+        name: 'E. Example',
+        categoryLabel: 'Topics',
+      },
+    ]);
+  });
+});

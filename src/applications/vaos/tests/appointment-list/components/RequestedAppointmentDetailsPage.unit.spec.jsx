@@ -8,8 +8,9 @@ import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import {
   mockMessagesFetch,
   mockAppointmentInfo,
-  mockFacilitiesFetch,
   mockRequestCancelFetch,
+  mockSingleRequestFetch,
+  mockFacilityFetch,
 } from '../../mocks/helpers';
 
 import { AppointmentList } from '../../../appointment-list';
@@ -123,8 +124,8 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
   });
 
   it('should render VA request details', async () => {
-    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
-    mockFacilitiesFetch('vha_442GC', [facility]);
+    mockSingleRequestFetch({ request: appointment });
+    mockFacilityFetch('vha_442GC', facility);
     const message = getMessageMock();
     message.attributes = {
       ...message.attributes,
@@ -134,17 +135,13 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
-      path: '/requested',
+      path: `/requests/${appointment.id}`,
     });
 
-    const detailLinks = await screen.findAllByRole('link', {
-      name: /Detail/i,
-    });
-
-    fireEvent.click(detailLinks[0]);
-
-    expect(await screen.findByText('Pending primary care appointment')).to.be
-      .ok;
+    expect(await screen.findByText('Cheyenne VA Medical Center')).to.be.ok;
+    expect(screen.baseElement).to.contain.text(
+      'Pending primary care appointment',
+    );
     expect(screen.baseElement).to.contain.text('VA Appointment');
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
     expect(screen.baseElement).to.contain.text('2360 East Pershing Boulevard');
@@ -191,8 +188,8 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(await screen.findByText('Pending primary care appointment')).to.be
       .ok;
 
-    fireEvent.click(screen.getByText('Manage appointments'));
-    expect(screen.history.push.lastCall.args[0]).to.equal('/requested');
+    fireEvent.click(screen.getByText('VA online scheduling'));
+    expect(screen.history.push.lastCall.args[0]).to.equal('/');
   });
 
   it('should go back to requests page when clicking go back to appointments button', async () => {
@@ -320,5 +317,25 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     expect(screen.queryByRole('alertdialog')).to.not.be.ok;
     expect(screen.baseElement).to.contain.text('canceled');
+  });
+
+  it('should show error message when single fetch errors', async () => {
+    mockSingleRequestFetch({
+      request: appointment,
+      type: 'va',
+      error: true,
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: `/requests/${appointment.id}`,
+    });
+
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: 'We’re sorry. We’ve run into a problem',
+      }),
+    ).to.be.ok;
   });
 });
