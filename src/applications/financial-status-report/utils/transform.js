@@ -13,9 +13,9 @@ export const transform = ({ data }) => {
   const formObj = {
     personalData: {
       ...personalData,
-      agesOfOtherDependents: agesOfOtherDependents.map(
-        item => item.dependentAge,
-      ),
+      agesOfOtherDependents: agesOfOtherDependents
+        ? agesOfOtherDependents.map(item => item.dependentAge)
+        : null,
       address: {
         street: address.addressLine1,
         city: address.city,
@@ -32,11 +32,11 @@ export const transform = ({ data }) => {
       employmentHistory: {
         veteran: [
           employmentHistory.veteran.currentEmployment,
-          ...employmentHistory.veteran.previousEmployment,
+          ...(employmentHistory.veteran.previousEmployment || []),
         ],
         spouse: [
           employmentHistory.spouse.currentEmployment,
-          ...employmentHistory.spouse.previousEmployment,
+          ...(employmentHistory.spouse.previousEmployment || []),
         ],
       },
     },
@@ -47,7 +47,9 @@ export const transform = ({ data }) => {
           taxes: null,
           retirement: null,
           socialSecurity: null,
-          other: [...employmentHistory.veteran.currentEmployment.deductions],
+          other: [
+            ...(employmentHistory.veteran.currentEmployment.deductions || []),
+          ],
         },
         totalDeductions: null,
         netTakeHomePay: null,
@@ -65,7 +67,9 @@ export const transform = ({ data }) => {
           taxes: null,
           retirement: null,
           socialSecurity: null,
-          other: [...employmentHistory.spouse.currentEmployment.deductions],
+          other: [
+            ...(employmentHistory.spouse.currentEmployment.deductions || []),
+          ],
         },
         totalDeductions: null,
         netTakeHomePay: null,
@@ -88,7 +92,9 @@ export const transform = ({ data }) => {
     assets: {
       ...assets,
     },
-    installmentContractsAndOtherDebts: [...installmentContractsAndOtherDebts],
+    installmentContractsAndOtherDebts: [
+      ...(installmentContractsAndOtherDebts || []),
+    ],
     additionalData: {
       ...additionalData,
     },
