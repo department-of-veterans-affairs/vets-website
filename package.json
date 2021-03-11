@@ -237,7 +237,6 @@
     "msw": "^0.19.4",
     "nightwatch": "^0.9.21",
     "node-fetch": "^2.6.1",
-    "node-loader": "^1.0.2",
     "node-resemble-js": "^0.2.0",
     "node-sass": "^4.14.1",
     "null-loader": "^0.1.1",
