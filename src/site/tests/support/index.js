@@ -8,7 +8,7 @@ import liquid from 'tinyliquid';
 import registerFilters from '../../filters/liquid.js';
 import createRedirects from '../../stages/build/plugins/rewrite-va-domains.js';
 import rewriteAWSUrls from '../../stages/build/plugins/rewrite-cms-aws-urls.js';
-import modifyDom from '../../stages/build/plugins/modify-dom';
+// import modifyDom from '../../stages/build/plugins/modify-dom';
 
 registerFilters();
 
@@ -31,13 +31,12 @@ const updateHTML = files => {
   ];
 
   // the following chained function calls expect a 'done' callback.
-  // we don't need 'done' to do anything so we're passing
-  // in an empty function.
+  // we don't need 'done' to do anything so we're passing in an empty function.
   const done = () => {};
 
   createRedirects(options)(files, null, done);
   rewriteAWSUrls(options)(files, null, done);
-  modifyDom(options)(files, null, done);
+  // modifyDom(options)(files, null, done);
 };
 
 const getLayout = givenPath => {
@@ -59,10 +58,10 @@ const parseFixture = file => {
   return JSON.parse(json);
 };
 
-// const makeHTMLFileName = name => {
-//   const liquidFileName = name.match(/(\w|\d|\.)+$/g)[0];
-//   return `${liquidFileName.split('.')[0]}.html`;
-// };
+const makeHTMLFileName = name => {
+  const liquidFileName = name.match(/(\w|\d|\.)+$/g)[0];
+  return `${liquidFileName.split('.')[0]}.html`;
+};
 
 // not tested yet!
 // haven't coded in node for a long time
@@ -102,12 +101,13 @@ const renderHTML = (name, layout, data) => {
         reject(err);
       } else {
         const html = context.getBuffer();
+        const htmlFileName = makeHTMLFileName(name);
         const files = {
-          [name]: { contents: html, isDrupalPage: true },
+          [htmlFileName]: { contents: html, isDrupalPage: true },
           'generated/file-manifest.json': { contents: JSON.stringify({}) },
         };
         updateHTML(files);
-        const dom = new JSDOM(files[name].contents, {
+        const dom = new JSDOM(files[htmlFileName].contents, {
           runScripts: 'dangerously',
         });
         resolve(dom.window.document.body);
