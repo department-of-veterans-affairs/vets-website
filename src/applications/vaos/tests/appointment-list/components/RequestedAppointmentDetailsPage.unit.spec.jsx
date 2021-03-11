@@ -2,7 +2,7 @@ import React from 'react';
 import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 
 import {
@@ -138,7 +138,25 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       path: `/requests/${appointment.id}`,
     });
 
-    expect(await screen.findByText('Cheyenne VA Medical Center')).to.be.ok;
+    // Verify document title and content...
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `Request appointment on ${moment(
+          appointment.attributes.optionDate1,
+        ).format('dddd, MMMM D, YYYY')}`,
+      );
+    });
+
+    expect(
+      screen.getByRole('heading', {
+        level: 1,
+        name: 'Pending primary care appointment',
+      }),
+    );
+
+    expect(document.activeElement).to.have.tagName('h1');
+
+    expect(screen.getByText('Cheyenne VA Medical Center')).to.be.ok;
     expect(screen.baseElement).to.contain.text(
       'Pending primary care appointment',
     );
@@ -227,12 +245,23 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     fireEvent.click(detailLinks[0]);
 
+    // Verify document title and content...
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `Request appointment on ${moment(
+          ccAppointmentRequest.attributes.optionDate1,
+        ).format('dddd, MMMM D, YYYY')}`,
+      );
+    });
+
     expect(
-      await screen.findByRole('heading', {
+      screen.getByRole('heading', {
         level: 1,
         name: 'Pending audiology (hearing aid support) appointment',
       }),
     ).to.be.ok;
+
+    expect(document.activeElement).to.have.tagName('h1');
 
     // Should be able to cancel appointment
     expect(screen.getByRole('button', { name: /Cancel request/ })).to.be.ok;
@@ -337,5 +366,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
         name: 'We’re sorry. We’ve run into a problem',
       }),
     ).to.be.ok;
+
+    expect(document.activeElement).to.have.tagName('h1');
   });
 });

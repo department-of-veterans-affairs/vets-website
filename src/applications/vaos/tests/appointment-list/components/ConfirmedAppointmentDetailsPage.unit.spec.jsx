@@ -23,7 +23,7 @@ import {
 import userEvent from '@testing-library/user-event';
 import { AppointmentList } from '../../../appointment-list';
 import sinon from 'sinon';
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 
 const initialState = {
   featureToggles: {
@@ -118,9 +118,17 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       path: url,
     });
 
-    // Verify page content...
+    // Verify document title and content...
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `VA appointment on ${moment()
+          .tz('America/Denver')
+          .format('dddd, MMMM D, YYYY')}`,
+      );
+    });
+
     expect(
-      await screen.findByRole('heading', {
+      screen.getByRole('heading', {
         level: 1,
         name: new RegExp(
           moment()
@@ -130,6 +138,8 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         ),
       }),
     ).to.be.ok;
+
+    expect(document.activeElement).to.have.tagName('h1');
 
     // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
     expect(await screen.findByText(/Fort Collins VA Clinic/)).to.be.ok;
@@ -325,5 +335,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         name: 'We’re sorry. We’ve run into a problem',
       }),
     ).to.be.ok;
+
+    expect(document.activeElement).to.have.tagName('h1');
   });
 });

@@ -53,9 +53,23 @@ function RequestedAppointmentDetailsPage({
 
   useEffect(() => {
     fetchRequestDetails(id);
-
-    scrollAndFocus();
   }, []);
+
+  useEffect(
+    () => {
+      fetchRequestDetails(id);
+      if (appointment) {
+        const requestDate = moment.parseZone(
+          appointment.requestedPeriod[0].start,
+        );
+        document.title = `Request appointment on ${requestDate.format(
+          'dddd, MMMM D, YYYY',
+        )}`;
+      }
+      scrollAndFocus();
+    },
+    [appointment],
+  );
 
   useEffect(
     () => {
@@ -67,6 +81,18 @@ function RequestedAppointmentDetailsPage({
       }
     },
     [cancelInfo.showCancelModal, cancelInfo.cancelAppointmentStatus],
+  );
+
+  useEffect(
+    () => {
+      if (
+        appointmentDetailsStatus === FETCH_STATUS.failed ||
+        (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+      ) {
+        scrollAndFocus();
+      }
+    },
+    [appointmentDetailsStatus],
   );
 
   if (
@@ -83,7 +109,10 @@ function RequestedAppointmentDetailsPage({
   if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
     return (
       <FullWidthLayout>
-        <LoadingIndicator message="Loading your appointment request..." />
+        <LoadingIndicator
+          setFocus
+          message="Loading your appointment request..."
+        />
       </FullWidthLayout>
     );
   }

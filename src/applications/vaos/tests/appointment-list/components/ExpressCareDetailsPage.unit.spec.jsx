@@ -17,6 +17,7 @@ import {
   mockRequestCancelFetch,
   mockSingleRequestFetch,
 } from '../../mocks/helpers';
+import { waitFor } from '@testing-library/dom';
 
 const initialState = {
   featureToggles: {
@@ -54,6 +55,27 @@ describe('VAOS <ExpressCareDetailsPage>', () => {
       path: `/express-care/${request.id}`,
     });
 
+    // Verify document title
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `Express Care request on ${moment(request.attributes.date).format(
+          'dddd, MMMM D, YYYY',
+        )}`,
+      );
+    });
+
+    // verify h1 heading exists
+    expect(
+      screen.getByRole('heading', {
+        level: 1,
+        name: moment(request.attributes.date).format('dddd, MMMM D, YYYY'),
+      }),
+    );
+
+    // verify focus is on h1
+    expect(document.activeElement).to.have.tagName('h1');
+
+    // verify page content...
     expect(await screen.findByText('Back pain')).to.be.ok;
     expect(screen.baseElement).to.contain.text(
       startDate.format('dddd, MMMM D, YYYY'),
@@ -328,5 +350,7 @@ describe('VAOS <ExpressCareDetailsPage>', () => {
         name: 'We’re sorry. We’ve run into a problem',
       }),
     ).to.be.ok;
+
+    expect(document.activeElement).to.have.tagName('h1');
   });
 });
