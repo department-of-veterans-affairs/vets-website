@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getLayout, parseFixture, renderHTML } from './support';
+import { getLayout, parseFixture, renderHTML } from '~/site/tests/support';
 
 const layoutPath = 'src/site/layouts/health_care_region_page.drupal.liquid';
 const layout = getLayout(layoutPath).toString();
