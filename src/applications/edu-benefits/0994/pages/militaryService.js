@@ -17,11 +17,11 @@ const {
   expectedReleaseDate,
 } = fullSchema.properties;
 
-const daysRemaining = formData => {
+const expectedReleaseDateDaysRemaining = formData => {
   return moment(formData.expectedReleaseDate).diff(moment(), 'days');
 };
 
-const validYear = formData => {
+const expectedReleaseDateValidYear = formData => {
   return (
     formData.expectedReleaseDate &&
     formData.expectedReleaseDate.split('-')[0].length === 4
@@ -65,7 +65,9 @@ export const uiSchema = {
       expandUnder: 'activeDuty',
       expandUnderCondition: (value, formData) => {
         return (
-          value === true && validYear(formData) && daysRemaining(formData) > 180
+          value === true &&
+          expectedReleaseDateValidYear(formData) &&
+          expectedReleaseDateDaysRemaining(formData) > 180
         );
       },
     },
@@ -80,8 +82,8 @@ export const uiSchema = {
       expandUnderCondition: (value, formData) => {
         return (
           value === true &&
-          validYear(formData) &&
-          daysRemaining(formData) <= 180
+          expectedReleaseDateValidYear(formData) &&
+          expectedReleaseDateDaysRemaining(formData) <= 180
         );
       },
     },
