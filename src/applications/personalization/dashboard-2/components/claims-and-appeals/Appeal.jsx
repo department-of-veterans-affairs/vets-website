@@ -35,7 +35,7 @@ const Appeal = ({ appeal, name }) => {
       requestEventType = EVENT_TYPES.amaNod;
       isAppeal = true;
       break;
-    default:
+    // no default
   }
 
   const requestEvent = appeal.attributes.events.find(
