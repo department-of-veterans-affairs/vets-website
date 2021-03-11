@@ -1,4 +1,5 @@
 import Scroll from 'react-scroll';
+import * as ReactIs from 'react-is';
 
 export function displayFileSize(size) {
   if (size < 1024) {
@@ -83,4 +84,13 @@ export function scrollAndFocus(errorEl) {
 */
 export function displayPercent(decimalNumber, places = 0) {
   return `${(decimalNumber * 100).toFixed(places)}%`;
+}
+
+export function isReactComponent(value) {
+  return (
+    typeof value !== 'string' &&
+    !ReactIs.isElement(value) &&
+    !ReactIs.isFragment(value) &&
+    ReactIs.isValidElementType(value)
+  );
 }
