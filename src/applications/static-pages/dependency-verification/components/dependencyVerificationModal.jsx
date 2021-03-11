@@ -8,13 +8,13 @@ import DependencyVerificationFooter from './dependencyVerificationFooter';
 
 const DependencyVerificationModal = props => {
   const [isModalShowing, setIsModalShowing] = useState(false);
-  const handleClick = e => {
+  const handleClick = () => {
     setIsModalShowing(prevState => !prevState);
-    return e;
   };
   useEffect(() => {
     props.dependencyVerificationCall();
   }, []);
+
   useEffect(
     () => {
       if (props?.data?.verifiableDependents?.length > 0) {
@@ -26,7 +26,7 @@ const DependencyVerificationModal = props => {
   return (
     <>
       <Modal
-        onClose={e => handleClick(e)}
+        onClose={handleClick}
         visible={isModalShowing}
         cssClass=""
         id="dependency-verification"
