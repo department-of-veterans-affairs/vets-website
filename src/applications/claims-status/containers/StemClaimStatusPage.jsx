@@ -34,7 +34,6 @@ class StemClaimStatusPage extends React.Component {
       const claimAttributes = claim.attributes;
       content = (
         <StemDeniedDetails
-          remainingEntitlement={claimAttributes.remainingEntitlement}
           deniedAt={claimAttributes.deniedAt}
           isEnrolledStem={claimAttributes.isEnrolledStem}
           isPursuingTeachingCert={claimAttributes.isPursuingTeachingCert}
