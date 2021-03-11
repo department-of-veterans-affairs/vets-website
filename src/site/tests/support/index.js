@@ -9,6 +9,11 @@ import modifyDom from '../../stages/build/plugins/modify-dom';
 
 registerFilters();
 
+const getFile = filePath =>
+  readFileSync(path.resolve(__dirname, `../../../../`, filePath), 'utf8');
+const getLayout = filePath => getFile(filePath);
+const parseFixture = filePath => JSON.parse(getFile(filePath));
+
 const updateHTML = files => {
   const options = {
     buildtype: process.env.BUILDTYPE, // what should i set this to?
@@ -34,25 +39,6 @@ const updateHTML = files => {
   createRedirects(options)(files, null, done);
   rewriteAWSUrls(options)(files, null, done);
   modifyDom(options)(files, null, done);
-};
-
-const getLayout = givenPath => {
-  // the following 'gaTemplate code' is temporary, just to get
-  // the example 'health_care_region_page.drupal.liquid'
-  // liquid template to render properly
-  const gaLayout = 'src/site/includes/google-analytics';
-  const layoutPath = givenPath === gaLayout ? `${givenPath}.liquid` : givenPath;
-
-  return readFileSync(
-    path.resolve(__dirname, '../../../../', layoutPath),
-    'utf8',
-  );
-};
-
-const parseFixture = file => {
-  const jsonPath = path.resolve(__dirname, `../fixtures/${file}.json`);
-  const json = readFileSync(jsonPath, 'utf8');
-  return JSON.parse(json);
 };
 
 const makeHTMLFileName = name => {
