@@ -308,7 +308,7 @@ def archive(dockerContainer, String ref, String envName) {
                      usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
       sh "echo \"${buildDetails}\" > /application/build/${envName}/BUILD.txt"
       if(envName == 'vagovdev') {
-        sh "tar -C /application/build/${envName}/generated -cf /application/build/apps.${envName}.tar.bz2 ."
+        sh "tar -C /application/build/${envName} -cf /application/build/apps.${envName}.tar.bz2 ."
         sh "aws s3 cp /application/build/apps.${envName}.tar.bz2 s3://vetsgov-website-builds-s3-upload/application-build/${ref}/${envName}.tar.bz2 --acl public-read --region us-gov-west-1 --quiet"
       }
       sh "tar -C /application/build/${envName} -cf /application/build/${envName}.tar.bz2 ."
