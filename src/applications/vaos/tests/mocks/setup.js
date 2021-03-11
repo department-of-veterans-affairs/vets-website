@@ -43,6 +43,8 @@ import createRoutesWithStore from '../../routes';
 import TypeOfEyeCarePage from '../../new-appointment/components/TypeOfEyeCarePage';
 import TypeOfFacilityPage from '../../new-appointment/components/TypeOfFacilityPage';
 import VAFacilityPageV2 from '../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
+import VaccineFacilityPage from '../../project-cheetah/components/VAFacilityPage';
+import { TYPE_OF_CARE_ID } from '../../project-cheetah/utils';
 
 /**
  * Creates a Redux store when the VAOS reducers loaded and the thunk middleware applied
@@ -327,6 +329,56 @@ export async function setVAFacility(store, facilityId) {
   return history.push.firstCall.args[0];
 }
 
+/**
+ * Renders the vaccine flow facility page and chooses the option indicated by the facility id param
+ *
+ * @export
+ * @async
+ * @param {ReduxStore} store The Redux store to use to render the page
+ * @param {string} facilityId The facility id of the facility to be selected
+ * @returns {string} The url path that was routed to after clicking Continue
+ */
+export async function setVaccineFacility(store, facilityId, facilityData = {}) {
+  const siteCode = facilityId.substring(0, 3);
+
+  const directFacilities = [
+    getDirectBookingEligibilityCriteriaMock({
+      id: facilityId,
+      typeOfCareId: TYPE_OF_CARE_ID,
+    }),
+  ];
+
+  const realFacilityID = facilityId.replace('983', '442').replace('984', '552');
+
+  const facilities = [
+    {
+      id: `vha_${realFacilityID}`,
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: realFacilityID,
+        ...facilityData,
+      },
+    },
+  ];
+
+  mockDirectBookingEligibilityCriteria([siteCode], directFacilities);
+  mockRequestEligibilityCriteria([siteCode], []);
+  mockFacilitiesFetch(`vha_${realFacilityID}`, facilities);
+
+  const { findByText, history } = renderWithStoreAndRouter(
+    <VaccineFacilityPage />,
+    {
+      store,
+    },
+  );
+
+  const continueButton = await findByText(/Continue/);
+  fireEvent.click(continueButton);
+  await waitFor(() => expect(history.push.called).to.be.true);
+  await cleanup();
+
+  return history.push.firstCall.args[0];
+}
 /**
  * Renders the clinic page and chooses the option indicated by the label param
  *
