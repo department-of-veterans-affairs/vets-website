@@ -3,8 +3,37 @@ import path from 'path';
 import { JSDOM } from 'jsdom';
 import liquid from 'tinyliquid';
 import registerFilters from '../../filters/liquid.js';
+import createRedirects from '../../stages/build/plugins/rewrite-va-domains.js';
+import rewriteAWSUrls from '../../stages/build/plugins/rewrite-cms-aws-urls.js';
+import modifyDom from '../../stages/build/plugins/modify-dom';
 
 registerFilters();
+
+const updateHTML = files => {
+  const options = {
+    buildtype: process.env.BUILDTYPE, // what should i set this to?
+    // what should the following values be?
+    host: 'defaultHost',
+    port: 3001,
+    protocol: 'http',
+  };
+
+  options.hostUrl = `${options.protocol}://${options.host}${
+    options.port && options.port !== 80 ? `:${options.port}` : ''
+  }`;
+
+  options.domainReplacements = [
+    { from: 'https://www\\.va\\.gov', to: options.hostUrl },
+  ];
+
+  const done = () => {
+    // to-do: recreate the done function
+  };
+
+  createRedirects(options)(files, null, done);
+  rewriteAWSUrls(options)(files, null, done);
+  modifyDom(options)(files, null, done);
+};
 
 const getLayout = givenPath => {
   // the following 'gaTemplate code' is temporary, just to get
@@ -25,7 +54,7 @@ const parseFixture = file => {
   return JSON.parse(json);
 };
 
-const renderHTML = (layout, data) => {
+const renderHTML = (name, layout, data) => {
   const context = liquid.newContext({ locals: data });
 
   context.onInclude((includeName, callback) => {
@@ -41,7 +70,13 @@ const renderHTML = (layout, data) => {
         reject(err);
       } else {
         const html = context.getBuffer();
-        const dom = new JSDOM(html, { runScripts: 'dangerously' });
+        const files = {
+          [name]: { contents: html, isDrupalPage: true },
+        };
+        updateHTML(files);
+        const dom = new JSDOM(files[name].content, {
+          runScripts: 'dangerously',
+        });
         resolve(dom.window.document.body);
       }
     }),
