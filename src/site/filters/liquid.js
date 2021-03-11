@@ -553,7 +553,9 @@ module.exports = function registerFilters() {
   };
 
   liquid.filters.detectLang = url => {
-    return url?.endsWith('-esp') ? 'es' : 'en';
+    if (url?.endsWith('-esp')) return 'es';
+    if (url?.endsWith('-tag')) return 'tag';
+    return 'en';
   };
 
   // sort a list of objects by a certain property in the object
@@ -662,5 +664,34 @@ module.exports = function registerFilters() {
 
     // Return a formatted timestamp string.
     return `${digits}${text}`;
+  };
+
+  liquid.filters.getTagsList = fieldTags => {
+    const {
+      entity: {
+        fieldTopics = [],
+        fieldAudienceBeneficiares,
+        fieldNonBeneficiares,
+      },
+    } = fieldTags;
+
+    const topics = fieldTopics.map(topic => ({
+      ...topic.entity,
+      categoryLabel: 'Topics',
+    }));
+
+    const audiences = [
+      fieldAudienceBeneficiares?.entity,
+      fieldNonBeneficiares?.entity,
+    ]
+      .filter(tag => !!tag)
+      .map(audience => ({
+        ...audience,
+        categoryLabel: 'Audience',
+      }));
+
+    const tagList = [...topics, ...audiences];
+
+    return _.sortBy(tagList, 'name');
   };
 };

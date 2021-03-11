@@ -7,20 +7,14 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
 import PreSubmitSignature from '../components/PreSubmitSignature';
 import * as pages from '../pages';
-import moment from 'moment';
+import { transform } from '../utils/transform';
 import SubmissionError from '../components/SubmissionError';
 import { WIZARD_STATUS } from '../wizard/constants';
-
-const submit = () => {
-  return Promise.resolve(
-    JSON.stringify({ submission: { response: { timestamp: moment() } } }),
-  );
-};
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submit,
+  submit: transform,
   submitUrl: `${environment.API_URL}/v0/api`,
   trackingPrefix: 'fsr-5655-',
   wizardStorageKey: WIZARD_STATUS,
@@ -107,7 +101,7 @@ const formConfig = {
                 addressLine1: '1234 W Nebraska St',
               },
               primaryEmail: 'hector.smith@email.com',
-              confirmationEmail: 'hector.smith@email.com',
+              confirmationEmail: '',
               telephoneNumber: '5551234567',
             },
           },
@@ -128,6 +122,18 @@ const formConfig = {
           schema: pages.employment.schema,
         },
         employmentRecords: {
+          initialData: {
+            personalData: {
+              employmentHistory: {
+                veteran: {
+                  currentEmployment: {
+                    present: true,
+                    to: null,
+                  },
+                },
+              },
+            },
+          },
           path: 'employment-records',
           title: 'Employment',
           uiSchema: pages.employmentRecords.uiSchema,
@@ -156,13 +162,13 @@ const formConfig = {
             income: [
               {
                 veteranOrSpouse: 'VETERAN',
-                compensationAndPension: '3000',
-                education: '1000',
+                compensationAndPension: '75',
+                education: '1400.40',
               },
               {
                 veteranOrSpouse: 'SPOUSE',
-                compensationAndPension: '7000',
-                education: '4000',
+                compensationAndPension: '0',
+                education: '0',
               },
             ],
           },
@@ -205,6 +211,18 @@ const formConfig = {
           uiSchema: pages.spouseEmployment.uiSchema,
           schema: pages.spouseEmployment.schema,
           depends: formData => formData.questions.maritalStatus === 'Married',
+          initialData: {
+            personalData: {
+              employmentHistory: {
+                spouse: {
+                  currentEmployment: {
+                    present: true,
+                    to: null,
+                  },
+                },
+              },
+            },
+          },
         },
         spouseEmploymentRecords: {
           path: 'spouse-employment-records',

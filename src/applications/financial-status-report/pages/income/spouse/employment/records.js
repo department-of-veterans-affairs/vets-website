@@ -20,14 +20,14 @@ export const uiSchema = {
       spouse: {
         currentEmployment: {
           'ui:description': "Tell us about your spouse's current job.",
-          employmentType: {
+          type: {
             'ui:title': 'Type of work',
             'ui:options': {
               classNames: 'vads-u-margin-top--3',
               widgetClassNames: 'input-size-3',
             },
           },
-          employmentStart: {
+          from: {
             'ui:title': 'Date your spouse started work at this job',
             'ui:widget': 'date',
           },
@@ -48,7 +48,7 @@ export const uiSchema = {
               </p>
             ),
           }),
-          payrollDeductions: {
+          deductions: {
             'ui:field': ItemLoop,
             'ui:title': 'Payroll deductions',
             'ui:description':
@@ -64,7 +64,7 @@ export const uiSchema = {
               'ui:options': {
                 classNames: 'horizonal-field-container no-wrap',
               },
-              deductionType: {
+              deductionName: {
                 'ui:title': 'Type of payroll deduction',
                 'ui:field': Typeahead,
                 'ui:options': {
@@ -98,17 +98,13 @@ export const schema = {
               properties: {
                 currentEmployment: {
                   type: 'object',
-                  required: [
-                    'employmentType',
-                    'employmentStart',
-                    'grossMonthlyIncome',
-                  ],
+                  required: ['type', 'from', 'grossMonthlyIncome'],
                   properties: {
-                    employmentType: {
+                    type: {
                       type: 'string',
                       enum: ['Full time', 'Part time', 'Seasonal', 'Temporary'],
                     },
-                    employmentStart: {
+                    from: {
                       type: 'string',
                     },
                     employerName: {
@@ -117,14 +113,14 @@ export const schema = {
                     grossMonthlyIncome: {
                       type: 'number',
                     },
-                    payrollDeductions: {
+                    deductions: {
                       type: 'array',
                       items: {
                         type: 'object',
                         title: 'Deduction',
-                        required: ['deductionType', 'deductionAmount'],
+                        required: ['deductionName', 'deductionAmount'],
                         properties: {
-                          deductionType: {
+                          deductionName: {
                             type: 'string',
                           },
                           deductionAmount: {

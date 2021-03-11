@@ -1,7 +1,7 @@
 import { getAppointTypeFromAppointment } from '../utils';
 import recordEvent from 'platform/monitoring/record-event';
 
-const USE_MOCK_DATA = false;
+const USE_MOCK_DATA = true;
 
 // pull from src/platform/forms-system/src/js/actions.js
 // so we can have our own custom error handling,  messages and headers
