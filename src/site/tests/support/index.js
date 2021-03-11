@@ -1,4 +1,4 @@
-import { readFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 import path from 'path';
 import { JSDOM } from 'jsdom';
 import liquid from 'tinyliquid';
@@ -54,7 +54,17 @@ const parseFixture = file => {
   return JSON.parse(json);
 };
 
-const renderHTML = (name, layout, data) => {
+const makeHTMLFileName = name => {
+  const liquidFileName = name.match(/(\w|\.)+$/g)[0];
+  return liquidFileName.split('.')[0];
+};
+
+const saveHTML = (name, html) => {
+  const filePath = path.resolve(__dirname, '../html/', makeHTMLFileName(name));
+  writeFileSync(filePath, html);
+};
+
+const renderHTML = (name, layout, data, options) => {
   const context = liquid.newContext({ locals: data });
 
   context.onInclude((includeName, callback) => {
@@ -74,6 +84,7 @@ const renderHTML = (name, layout, data) => {
           [name]: { contents: html, isDrupalPage: true },
         };
         updateHTML(files);
+        if (options.save) saveHTML(name, html);
         const dom = new JSDOM(files[name].content, {
           runScripts: 'dangerously',
         });
