@@ -8,9 +8,6 @@ executors:
     docker:
       - image: cypress/base:14.15.0
 
-orbs:
-  aws-cli: circleci/aws-cli@1.3.1
-
 commands:
   yarn-install-cache:
     description: "Install packages with yarn using saved cache"
@@ -58,19 +55,6 @@ jobs:
           path: ./test-results
       - store_artifacts:
           path: ./test-results
-
-  content-cache:
-    executor: aws-cli/default
-    environment:
-      AWS_DEFAULT_REGION: us-gov-west-1
-    steps:
-      - checkout
-      - aws-cli/setup
-      - yarn-install-cache
-      - run: yarn webpack --config config/webpack.content-cache.js --mode production
-      - run: mkdir -p ./tmp
-      - run: zip -j ./tmp/function.zip build/content-cache/index.js
-      - run: aws s3 cp ./tmp/function.zip s3://vetsgov-website-builds-s3-upload/content-cache/master/function.zip --acl public-read
 
   contract-test:
     executor: circleci-node
@@ -294,8 +278,6 @@ workflows:
       - drupal-cache-test
       - security-audit
       - build-e2e
-      - content-cache:
-          context: Platform
       - build:
           requires:
             - lint
