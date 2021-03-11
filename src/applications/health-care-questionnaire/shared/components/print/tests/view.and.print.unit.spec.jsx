@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 
-import ViewAndPrint from '../../../questionnaire-list/components/Shared/Buttons/ViewAndPrint';
+import ViewAndPrint from '../ViewAndPrint';
 
 describe('health care questionnaire list - shows view and print button', () => {
   it('renders', () => {

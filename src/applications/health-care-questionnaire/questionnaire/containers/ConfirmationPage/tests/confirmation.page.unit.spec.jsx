@@ -2,9 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import ConfirmationPage from '../../../containers/ConfirmationPage';
+import ConfirmationPage from '../index';
 
-import { createFakeConfirmationStore } from '../utils/createFakeStores';
+import { createFakeConfirmationStore } from './utils';
 
 describe('health care questionnaire - confirmation page  -', () => {
   it('displays information -- has data', () => {

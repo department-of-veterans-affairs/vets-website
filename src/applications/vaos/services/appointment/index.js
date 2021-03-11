@@ -171,7 +171,7 @@ export async function fetchBookedAppointment(id, type) {
     } else if (type === 'cc') {
       // We don't have a fetch by id service for cc, so hopefully
       // the appointment is 13 months in either direction
-      const ccAppointments = await getConfirmedAppointments(
+      const { data } = await getConfirmedAppointments(
         type,
         moment()
           .add(-395, 'days')
@@ -182,7 +182,7 @@ export async function fetchBookedAppointment(id, type) {
           .startOf('day')
           .toISOString(),
       );
-      appointment = ccAppointments.find(appt => appt.id === id);
+      appointment = data.find(appt => appt.id === id);
     }
 
     if (!appointment) {
