@@ -59,10 +59,20 @@ const makeHTMLFileName = name => {
   return `${liquidFileName.split('.')[0]}.html`;
 };
 
-const saveHTML = (name, html) => {
+const saveHTML = async (name, html) => {
   // saved html files are gitignored
   const filePath = path.resolve(__dirname, '../html/', makeHTMLFileName(name));
-  writeFile(filePath, html);
+
+  try {
+    await writeFile(filePath, html);
+    /* eslint-disable no-console */
+    console.log(`HTML File Saved.\nFile: ${filePath}\n----`);
+    /* eslint-enable no-console */
+  } catch (err) {
+    /* eslint-disable no-console */
+    console.log(`Error: HTML File Not Saved.\nFile: ${filePath}\n----`);
+    /* eslint-enable no-console */
+  }
 };
 
 const renderHTML = (name, layout, data, options) => {
