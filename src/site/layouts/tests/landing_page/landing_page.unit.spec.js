@@ -1,12 +1,14 @@
 import { expect } from 'chai';
-import { getLayout, parseFixture, renderHTML } from '~/site/tests/support';
+import { getLayout, parseFixture, renderHTML } from '../../../tests/support';
 
 const layoutPath = 'src/site/layouts/landing_page.drupal.liquid';
 const layout = getLayout(layoutPath).toString();
 
 describe('intro', () => {
   describe('no fieldTitleIcon', () => {
-    const data = parseFixture('landing_page');
+    const data = parseFixture(
+      'src/site/layouts/tests/landing_page/fixtures/landing_page.json',
+    );
 
     it('renders elements with expected values', async () => {
       const container = await renderHTML(layoutPath, layout, data);
@@ -21,7 +23,9 @@ describe('intro', () => {
   });
 
   describe('with fieldTitleIcon', () => {
-    const data = parseFixture('landing_page_with_icon');
+    const data = parseFixture(
+      'src/site/layouts/tests/landing_page/fixtures/landing_page_with_icon.json',
+    );
 
     it('renders fieldTitleIcon', async () => {
       const container = await renderHTML(layoutPath, layout, data);

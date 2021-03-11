@@ -1,12 +1,14 @@
 import { expect } from 'chai';
-import { getLayout, parseFixture, renderHTML } from '~/site/tests/support';
+import { getLayout, parseFixture, renderHTML } from '../../../tests/support';
 
 const layoutPath = 'src/site/layouts/health_care_region_page.drupal.liquid';
 const layout = getLayout(layoutPath).toString();
 
 describe('intro', () => {
   describe('no fieldTitleIcon', () => {
-    const data = parseFixture('health_care_region_page');
+    const data = parseFixture(
+      'src/site/layouts/tests/vamc/fixtures/health_care_region_page.json',
+    );
 
     it('renders elements with expected values', async () => {
       const container = await renderHTML(layoutPath, layout, data);
