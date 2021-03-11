@@ -4,13 +4,17 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 // Relative imports.
-import { getFindFormsAppState } from '../helpers/selectors';
+import {
+  getFindFormsAppState,
+  applySearchQueryCorrections,
+} from '../helpers/selectors';
 import { fetchFormsThunk } from '../actions';
 
 export class SearchForm extends Component {
   static propTypes = {
     // From mapStateToProps.
     fetching: PropTypes.bool.isRequired,
+    useSearchQueryAutoCorrect: PropTypes.bool,
     // From mapDispatchToProps.
     fetchFormsThunk: PropTypes.func.isRequired,
   };
@@ -32,7 +36,10 @@ export class SearchForm extends Component {
   componentDidMount() {
     const { query } = this.state;
     // Fetch the forms with their query if it's on the URL.
-    if (query) this.props.fetchFormsThunk(query);
+    if (query) {
+      const { useSearchQueryAutoCorrect } = this.props;
+      this.props.fetchFormsThunk(query, { useSearchQueryAutoCorrect });
+    }
   }
 
   onQueryChange = event => {
@@ -45,7 +52,8 @@ export class SearchForm extends Component {
 
   onSubmitHandler = event => {
     event.preventDefault();
-    this.props.fetchFormsThunk(this.state.query);
+    const { useSearchQueryAutoCorrect } = this.props;
+    this.props.fetchFormsThunk(this.state.query, { useSearchQueryAutoCorrect });
   };
 
   render() {
@@ -90,6 +98,7 @@ export class SearchForm extends Component {
 
 const mapStateToProps = state => ({
   fetching: getFindFormsAppState(state).fetching,
+  useSearchQueryAutoCorrect: applySearchQueryCorrections(state),
 });
 
 const mapDispatchToProps = {
