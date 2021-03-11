@@ -8,7 +8,7 @@ import liquid from 'tinyliquid';
 import registerFilters from '../../filters/liquid.js';
 import createRedirects from '../../stages/build/plugins/rewrite-va-domains.js';
 import rewriteAWSUrls from '../../stages/build/plugins/rewrite-cms-aws-urls.js';
-// import modifyDom from '../../stages/build/plugins/modify-dom';
+import modifyDom from '../../stages/build/plugins/modify-dom';
 
 registerFilters();
 
@@ -36,7 +36,7 @@ const updateHTML = files => {
 
   createRedirects(options)(files, null, done);
   rewriteAWSUrls(options)(files, null, done);
-  // modifyDom(options)(files, null, done);
+  modifyDom(options)(files, null, done);
 };
 
 const getLayout = givenPath => {
