@@ -1,25 +1,18 @@
 import React from 'react';
 import MockDate from 'mockdate';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import moment from 'moment';
-import { Route } from 'react-router-dom';
 import { waitFor, waitForElementToBeRemoved } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import {
   createTestStore,
   renderWithStoreAndRouter,
-  setTypeOfCare,
-  setVAFacility,
-  setClinic,
-  setPreferredDate,
   setVaccineFacility,
   setVaccineClinic,
 } from '../../mocks/setup';
 import userEvent from '@testing-library/user-event';
 
 import SelectDate1Page from '../../../project-cheetah/components/SelectDate1Page';
-import { FETCH_STATUS } from '../../../utils/constants';
 import {
   mockEligibilityFetches,
   mockAppointmentSlotFetch,
@@ -40,7 +33,7 @@ const initialState = {
   },
 };
 
-describe.only('VAOS vaccine flow <SelectDate1Page>', () => {
+describe('VAOS vaccine flow <SelectDate1Page>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(moment('2020-01-26T14:00:00'));
@@ -426,7 +419,7 @@ describe.only('VAOS vaccine flow <SelectDate1Page>', () => {
     expect(screen.history.push.called).not.to.be.true;
   });
 
-  it.only('should fetch slots when moving between months', async () => {
+  it('should fetch slots when moving between months', async () => {
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
