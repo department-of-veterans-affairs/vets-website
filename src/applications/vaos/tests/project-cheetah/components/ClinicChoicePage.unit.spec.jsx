@@ -88,8 +88,8 @@ describe('VAOS vaccine flow <ClinicChoicePage>', () => {
     expect(screen.baseElement).to.contain.text('307-778-7550');
 
     expect(screen.getAllByRole('radio').length).to.equal(2);
-    expect(screen.getByLabelText('Green team clinic')).to.have.tagName('input');
-    expect(screen.getByLabelText('Red team clinic')).to.have.tagName('input');
+    expect(screen.getByRole('radio', { name: /Green team clinic/ })).to.be.ok;
+    expect(screen.getByRole('radio', { name: /Red team clinic/ })).to.be.ok;
 
     userEvent.click(screen.getByText(/continue/i));
 
