@@ -12,9 +12,14 @@ const langSuffixes = ['-esp/', '-tag/'];
 const filterByLanguageSuffix = url => {
   return langSuffixes.some(substring => url.endsWith(substring));
 };
-// with the old implementation, full word `espanol` in url
+// with the old implementation, full word `espanol` in url.
+// do these urls need to be converted to use the suffix?
 const filterByLanguage = url => {
   return langs.some(substring => url.includes(substring));
+};
+
+const getUrlsFromXMLDoc = doc => {
+  return doc.find('//xmlns:loc', SITEMAP_LOC_NS).map(n => n.text());
 };
 
 const parseNonEnglishContent = () => {
@@ -28,14 +33,8 @@ const parseNonEnglishContent = () => {
 
     .then(doc => {
       return [
-        ...doc
-          .find('//xmlns:loc', SITEMAP_LOC_NS)
-          .map(n => n.text())
-          .filter(filterByLanguage),
-        ...doc
-          .find('//xmlns:loc', SITEMAP_LOC_NS)
-          .map(n => n.text())
-          .filter(filterByLanguageSuffix),
+        ...getUrlsFromXMLDoc(doc).filter(filterByLanguage),
+        ...getUrlsFromXMLDoc(doc).filter(filterByLanguageSuffix),
       ];
     })
     .then(urls => {
