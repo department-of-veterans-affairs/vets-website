@@ -45,7 +45,6 @@ function VAFacilityPage({
   canScheduleAtChosenFacility,
   facilitiesStatus,
   data,
-  hasDataFetchingError,
   hideEligibilityModal,
   clinicsStatus,
   noValidVAFacilities,
@@ -100,7 +99,10 @@ function VAFacilityPage({
 
   const title = <h1 className="vads-u-font-size--h2">{pageTitle}</h1>;
 
-  if (hasDataFetchingError) {
+  if (
+    facilitiesStatus === FETCH_STATUS.failed ||
+    (clinicsStatus === FETCH_STATUS.failed && singleValidVALocation)
+  ) {
     return (
       <div>
         {title}

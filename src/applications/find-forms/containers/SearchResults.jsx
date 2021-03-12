@@ -116,20 +116,20 @@ export class SearchResults extends Component {
     // Show UX friendly message if all forms are tombstone/ deleted in the results returned.
     if (hasOnlyRetiredForms)
       return (
-        <h2
+        <p
           className="vads-u-font-size--base vads-u-line-height--3 vads-u-font-family--sans
     vads-u-margin-top--1p5 vads-u-font-weight--normal"
           data-forms-focus
         >
           The form you're looking for has been retired or is no longer valid,
           and has been removed from the VA forms database.
-        </h2>
+        </p>
       );
 
     // Show no results found message.
     if (!results.length) {
       return (
-        <h2
+        <p
           className="vads-u-font-size--base vads-u-line-height--3 vads-u-font-family--sans
         vads-u-margin-top--1p5 vads-u-font-weight--normal"
           data-forms-focus
@@ -145,7 +145,7 @@ export class SearchResults extends Component {
             GSA Forms Library
           </a>
           .
-        </h2>
+        </p>
       );
     }
 
