@@ -14,7 +14,6 @@ import createFacilityPage from './facilities/createFacilityPage';
 import widgetTypes from './widgetTypes';
 import subscribeAdditionalInfoEvents from './subscribeAdditionalInfoEvents';
 import subscribeAccordionEvents from './subscribeAccordionEvents';
-import subscribeComponentAnalyticsEvents from './subscribeComponentAnalyticsEvents';
 import createApplicationStatus from './createApplicationStatus';
 import createCallToActionWidget from './createCallToActionWidget';
 import createMyVALoginWidget from './createMyVALoginWidget';
@@ -97,8 +96,6 @@ Sentry.withScope(scope => {
 subscribeAdditionalInfoEvents();
 
 subscribeAccordionEvents();
-
-subscribeComponentAnalyticsEvents();
 
 createApplicationStatus(store, {
   formId: VA_FORM_IDS.FORM_21P_527EZ,

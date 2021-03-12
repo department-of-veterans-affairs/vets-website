@@ -48,7 +48,7 @@ export default function createI18Select(store, widgetType) {
     I18_CONTENT.tag = {
       suffix: '-tag/',
       label: 'Tagalog',
-      onThisPage: 'Tagalog On this page',
+      onThisPage: 'Sa pahinang ito',
     };
   }
   if (root) {

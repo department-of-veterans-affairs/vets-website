@@ -95,9 +95,6 @@ export function getFacilityPageInfo(state) {
     canScheduleAtChosenFacility: !!clinics[data.vaFacility]?.length,
     facilitiesStatus,
     clinicsStatus,
-    hasDataFetchingError:
-      facilitiesStatus === FETCH_STATUS.failed ||
-      clinicsStatus === FETCH_STATUS.failed,
     noValidVAFacilities:
       facilitiesStatus === FETCH_STATUS.succeeded && !validFacilities?.length,
     requestLocationStatus,
