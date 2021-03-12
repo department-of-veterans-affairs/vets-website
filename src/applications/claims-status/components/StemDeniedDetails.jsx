@@ -137,7 +137,7 @@ const StemDeniedDetails = ({
         For more information about these options, please read "Your Rights to
         Seek Further Review of Our Decisions" (VA Form 20-0998).{' '}
         <a href="https://www.va.gov/find-forms/about-form-20-0998/">
-          Download VA Form 20-0998
+          Download VA Form 20-0998.
         </a>
       </p>
       <p>
