@@ -14,11 +14,7 @@ function maskSSN(ssnString = '') {
   let prefix = '';
   let rest = '';
 
-  // If the SSN already has '-' or ' ' in it, assume the user has done the formatting already
-  const formattedSSN =
-    ssnString.includes('-') || ssnString.includes(' ')
-      ? ssnString
-      : formatSSN(ssnString);
+  const formattedSSN = formatSSN(ssnString);
 
   if (formattedSSN.length > MASKED_LENGTH) {
     // The number is long enough for us to have unmasked digits
