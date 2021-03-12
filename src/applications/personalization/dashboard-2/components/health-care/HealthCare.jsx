@@ -1,30 +1,61 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import { loadPrescriptions as loadPrescriptionsAction } from '~/applications/personalization/dashboard/actions/prescriptions';
+import { getMedicalCenterNameByID } from '~/platform/utilities/medical-centers/medical-centers';
+import { GeneralCernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
+import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction } from '~/applications/personalization/appointments/actions';
 
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import {
+  selectCernerAppointmentsFacilities,
+  selectCernerMessagingFacilities,
+  selectCernerRxFacilities,
+  selectIsCernerPatient,
+} from '~/platform/user/selectors';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import Prescriptions from './Prescriptions';
+import Appointments from './Appointments';
 import HealthCareCard from './HealthCareCard';
 
 const HealthCare = ({
   loadPrescriptions,
   prescriptions,
+  appointments,
   authenticatedWithSSOe,
   canAccessRx,
+  fetchConfirmedFutureAppointments,
+  isCernerPatient,
+  facilityNames,
 }) => {
   useEffect(
     () => {
-      if (canAccessRx) {
+      if (canAccessRx && !isCernerPatient) {
         loadPrescriptions({
           active: true,
           sort: '-refill_submit_date',
         });
       }
     },
-    [canAccessRx, loadPrescriptions],
+    [canAccessRx, loadPrescriptions, isCernerPatient],
   );
+
+  useEffect(
+    () => {
+      fetchConfirmedFutureAppointments();
+    },
+    [fetchConfirmedFutureAppointments],
+  );
+
+  if (isCernerPatient && facilityNames?.length) {
+    return (
+      <GeneralCernerWidget
+        facilityNames={facilityNames}
+        authenticatedWithSSOe={authenticatedWithSSOe}
+      />
+    );
+  }
 
   return (
     <div className="health-care vads-u-margin-y--6">
@@ -33,8 +64,12 @@ const HealthCare = ({
       <div className="vads-u-display--flex vads-u-flex-wrap--wrap">
         {/* Messages */}
         <HealthCareCard type="messages" />
+
         {/* Appointments */}
-        <HealthCareCard type="appointments" />
+        <Appointments
+          appointments={appointments}
+          authenticatedWithSSOe={authenticatedWithSSOe}
+        />
 
         {/* Prescriptions */}
         {canAccessRx && (
@@ -83,7 +118,35 @@ const mapStateToProps = state => {
   const canAccessRx = profileState.services.includes('rx');
   const prescriptions = rxState.prescriptions?.items;
 
+  const cernerAppointmentFacilities = selectCernerAppointmentsFacilities(state);
+  const cernerMessagingFacilities = selectCernerMessagingFacilities(state);
+  const cernerPrescriptionFacilities = selectCernerRxFacilities(state);
+
+  const appointmentFacilityNames =
+    cernerAppointmentFacilities?.map(facility =>
+      getMedicalCenterNameByID(facility.facilityId),
+    ) || [];
+  const messagingFacilityNames =
+    cernerMessagingFacilities?.map(facility =>
+      getMedicalCenterNameByID(facility.facilityId),
+    ) || [];
+  const prescriptionFacilityNames =
+    cernerPrescriptionFacilities?.map(facility =>
+      getMedicalCenterNameByID(facility.facilityId),
+    ) || [];
+
+  const facilityNames = [
+    ...new Set([
+      ...appointmentFacilityNames,
+      ...messagingFacilityNames,
+      ...prescriptionFacilityNames,
+    ]),
+  ];
+
   return {
+    appointments: state.health?.appointments?.data,
+    isCernerPatient: selectIsCernerPatient(state),
+    facilityNames,
     prescriptions,
     canAccessRx,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
@@ -92,10 +155,13 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   loadPrescriptions: loadPrescriptionsAction,
+  fetchConfirmedFutureAppointments: fetchConfirmedFutureAppointmentsAction,
 };
 
 HealthCare.propTypes = {
   authenticatedWithSSOe: PropTypes.bool.isRequired,
+  isCernerPatient: PropTypes.bool.isRequired,
+  facilityNames: PropTypes.array.isRequired,
   canAccessRx: PropTypes.bool.isRequired,
   prescriptions: PropTypes.arrayOf(
     PropTypes.shape({

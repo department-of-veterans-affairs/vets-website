@@ -69,7 +69,8 @@ class ServiceTypeAhead extends Component {
     return (
       <Downshift
         onChange={this.handleOnSelect}
-        defaultSelectedItem={defaultSelectedItem}
+        selectedItem={!window.Cypress ? defaultSelectedItem : undefined}
+        defaultSelectedItem={window.Cypress ? defaultSelectedItem : undefined}
         itemToString={this.getSpecialtyName}
         onInputValueChange={(inputValue, stateAndHelpers) => {
           const { selectedItem, clearSelection } = stateAndHelpers;
@@ -111,7 +112,7 @@ class ServiceTypeAhead extends Component {
                 })}
                 id="service-type-ahead-input"
               />
-              {isOpen && inputValue.length >= 2 ? (
+              {isOpen && inputValue && inputValue.length >= 2 ? (
                 <div className="dropdown" role="listbox">
                   {services
                     .filter(specialty => this.shouldShow(inputValue, specialty))

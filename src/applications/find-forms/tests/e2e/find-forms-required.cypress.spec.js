@@ -25,13 +25,18 @@ describe('functionality of Find Forms', () => {
   });
 
   it('search the form and expect dom to have elements', () => {
-    cy.server();
-    cy.route({
-      method: 'GET',
-      response: stub,
-      status: 200,
-      url: '/v0/forms?query=health',
-    }).as('getFindAForm');
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          {
+            name: 'find_forms_mvp_enhancement',
+            value: true,
+          },
+        ],
+      },
+    });
+    cy.intercept('GET', '/v0/forms?query=HEALTH', stub).as('getFindAForm');
 
     // navigate to find-forms and make axe check on browser
     cy.visit('/find-forms/');

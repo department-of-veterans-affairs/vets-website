@@ -36,7 +36,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     });
 
     const response = getDirectBookingEligibilityCriteriaMock({
-      typeOfCareId: '301',
+      typeOfCareId: 'covid',
     });
     // response.attributes.coreSettings[0].id = '301';
     // response.attributes.coreSettings[0].typeOfCare = 'Vaccine';
@@ -83,7 +83,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     // Wait for the redirect.
     await waitFor(() =>
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/new-project-cheetah-booking/contact-facilities',
+        '/new-covid-19-vaccine-booking/contact-facilities',
       ),
     );
   });

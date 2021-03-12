@@ -38,7 +38,6 @@ function isCellDisabled({ date, availableSlots, minDate, maxDate }) {
 }
 
 export default function CalendarRow({
-  additionalOptions,
   availableSlots,
   cells,
   currentlySelectedDate,
@@ -64,7 +63,6 @@ export default function CalendarRow({
       >
         {cells.map((date, index) => (
           <CalendarCell
-            additionalOptions={additionalOptions}
             availableSlots={availableSlots}
             currentlySelectedDate={currentlySelectedDate}
             date={date}

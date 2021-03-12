@@ -3,48 +3,53 @@ import CardDetailsView from '../../../components/CardDetailsView';
 
 export const uiSchema = {
   'ui:title': 'Your work history',
-  employment: {
-    'ui:options': {
-      classNames: 'vads-u-margin-top--2',
-    },
-    previousEmploymentRecords: {
-      'ui:field': ItemLoop,
-      'ui:description': 'Tell us about your other jobs in the past 2 years.',
+  personalData: {
+    employmentHistory: {
       'ui:options': {
-        viewField: CardDetailsView,
-        doNotScroll: true,
-        showSave: true,
-        itemName: 'a job',
+        classNames: 'vads-u-margin-top--2',
       },
-      items: {
-        'ui:options': {
-          classNames: 'vads-u-margin-bottom--3',
-        },
-        previousEmploymentType: {
-          'ui:title': 'Type of work',
+      veteran: {
+        previousEmployment: {
+          'ui:field': ItemLoop,
+          'ui:description':
+            'Tell us about your other jobs in the past 2 years.',
           'ui:options': {
-            widgetClassNames: 'input-size-3',
+            viewField: CardDetailsView,
+            doNotScroll: true,
+            showSave: true,
+            itemName: 'a job',
           },
-        },
-        previousEmploymentStart: {
-          'ui:title': 'Date you started work at this job',
-          'ui:widget': 'date',
-          'ui:options': {
-            widgetClassNames: 'vads-u-margin-bottom--2',
-          },
-        },
-        previousEmploymentEnd: {
-          'ui:title': 'Date you stopped work at this job',
-          'ui:widget': 'date',
-          'ui:options': {
-            widgetClassNames: 'vads-u-margin-bottom--2',
-          },
-        },
-        previousEmployerName: {
-          'ui:title': 'Employer name',
-          'ui:options': {
-            classNames: 'vads-u-margin-top--3',
-            widgetClassNames: 'input-size-6',
+          items: {
+            'ui:options': {
+              classNames: 'vads-u-margin-bottom--3',
+            },
+            type: {
+              'ui:title': 'Type of work',
+              'ui:options': {
+                widgetClassNames: 'input-size-3',
+              },
+            },
+            from: {
+              'ui:title': 'Date you started work at this job',
+              'ui:widget': 'date',
+              'ui:options': {
+                widgetClassNames: 'vads-u-margin-bottom--2',
+              },
+            },
+            to: {
+              'ui:title': 'Date you stopped work at this job',
+              'ui:widget': 'date',
+              'ui:options': {
+                widgetClassNames: 'vads-u-margin-bottom--2',
+              },
+            },
+            employerName: {
+              'ui:title': 'Employer name',
+              'ui:options': {
+                classNames: 'vads-u-margin-top--3',
+                widgetClassNames: 'input-size-6',
+              },
+            },
           },
         },
       },
@@ -54,32 +59,43 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    employment: {
+    personalData: {
       type: 'object',
       properties: {
-        previousEmploymentRecords: {
-          type: 'array',
-          items: {
-            type: 'object',
-            title: 'Previous employment',
-            required: [
-              'previousEmploymentType',
-              'previousEmploymentStart',
-              'previousEmploymentEnd',
-            ],
-            properties: {
-              previousEmploymentType: {
-                type: 'string',
-                enum: ['Full time', 'Part time', 'Seasonal', 'Temporary'],
-              },
-              previousEmploymentStart: {
-                type: 'string',
-              },
-              previousEmploymentEnd: {
-                type: 'string',
-              },
-              previousEmployerName: {
-                type: 'string',
+        employmentHistory: {
+          type: 'object',
+          properties: {
+            veteran: {
+              type: 'object',
+              properties: {
+                previousEmployment: {
+                  type: 'array',
+                  items: {
+                    type: 'object',
+                    title: 'Previous employment',
+                    required: ['type', 'from', 'to'],
+                    properties: {
+                      type: {
+                        type: 'string',
+                        enum: [
+                          'Full time',
+                          'Part time',
+                          'Seasonal',
+                          'Temporary',
+                        ],
+                      },
+                      from: {
+                        type: 'string',
+                      },
+                      to: {
+                        type: 'string',
+                      },
+                      employerName: {
+                        type: 'string',
+                      },
+                    },
+                  },
+                },
               },
             },
           },

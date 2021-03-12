@@ -36,17 +36,17 @@ export function fhirSearch({ query }) {
  * @param {Array} errors A list of errors in JSON API format
  * @returns {Object} A FHIR OperationOutcome
  */
-export function mapToFHIRErrors(errors) {
+export function mapToFHIRErrors(errors, title = null) {
   return {
     resourceType: 'OperationOutcome',
     issue: errors.map(error => ({
       severity: 'error',
       code: error.code,
-      diagnostics: error.title,
+      diagnostics: error.title || title,
       source: error.source,
       details: {
-        code: error.status,
-        text: error.detail,
+        code: error.status || error.code,
+        text: error.detail || error.summary,
       },
     })),
   };
@@ -105,6 +105,7 @@ export async function apiRequestWithMocks(url, options, ...rest) {
 
   return apiRequest(`${environment.API_URL}${url}`, options, ...rest);
 }
+
 /**
  * Parses our standard list of data response structure into an array
  *
@@ -114,6 +115,22 @@ export async function apiRequestWithMocks(url, options, ...rest) {
  */
 export function parseApiList(resp) {
   return resp.data.map(item => ({ ...item.attributes, id: item.id }));
+}
+
+/**
+ * Parses our standard list of data response structure into an array while
+ * also including any errors included
+ *
+ * @export
+ * @param {Object} resp Response object with a data array property
+ * @returns {Object} An object with a data array of the attributes object of each item in data,
+ *    combined with the id and an errors array of the errors returned
+ */
+export function parseApiListWithErrors(resp) {
+  return {
+    data: resp.data.map(item => ({ ...item.attributes, id: item.id })),
+    errors: resp.meta?.errors,
+  };
 }
 
 /**
