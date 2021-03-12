@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { loadPrescriptions as loadPrescriptionsAction } from '~/applications/personalization/dashboard/actions/prescriptions';
-import { getMedicalCenterNameByID } from '~/platform/utilities/medical-centers/medical-centers';
+import backendServices from '~/platform/user/profile/constants/backendServices';
 import { GeneralCernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
 import { fetchFolder as fetchFolderAction } from '~/applications/personalization/dashboard/actions/messaging';
 import { selectUnreadMessagesCount } from '~/applications/personalization/dashboard-2/selectors';
 import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction } from '~/applications/personalization/appointments/actions';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { getMedicalCenterNameByID } from '~/platform/utilities/medical-centers/medical-centers';
 import {
   selectCernerAppointmentsFacilities,
   selectCernerMessagingFacilities,
@@ -174,11 +175,10 @@ const mapStateToProps = state => {
     prescriptions,
     canAccessRx,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
-    // canAccessMessaging: profileState.services.includes(
-    //   backendServices.MESSAGING,
-    // ),
+    canAccessMessaging: profileState.services.includes(
+      backendServices.MESSAGING,
+    ),
     unreadMessagesCount: selectUnreadMessagesCount(state),
-    canAccessMessaging: true,
   };
 };
 
