@@ -54,7 +54,7 @@ const updateHTML = files => {
   ];
 
   // the following chained function calls expect a 'done' callback.
-  // we don't need 'done' to do anything so we're passing in an empty function.
+  // we don't need 'done' to do anything so it's an empty function.
   const done = () => {};
 
   createRedirects(options)(files, null, done);
@@ -83,6 +83,7 @@ const renderHTML = (name, layout, data, options) => {
           [htmlFileName]: { contents: html, isDrupalPage: true },
           'generated/file-manifest.json': { contents: JSON.stringify({}) },
         };
+
         updateHTML(files);
 
         if (options && options.save) {
@@ -92,6 +93,7 @@ const renderHTML = (name, layout, data, options) => {
         const dom = new JSDOM(files[htmlFileName].contents, {
           runScripts: 'dangerously',
         });
+
         resolve(dom.window.document);
       }
     }),
