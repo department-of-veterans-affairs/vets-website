@@ -102,8 +102,12 @@ const HealthCare = ({
       </div>
 
       {/* Messages */}
-      <h3>Messages</h3>
-      {canAccessMessaging && <NotificationCTA CTA={ViewMessages} />}
+      {canAccessMessaging && (
+        <>
+          <h3>Messages</h3>
+          <NotificationCTA CTA={ViewMessages} />
+        </>
+      )}
 
       <div className="vads-u-margin-top--4">
         <h3>Manage your health care benefits</h3>
