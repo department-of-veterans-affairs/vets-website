@@ -310,14 +310,14 @@ The following query looks up the `entityId` for one page of the `entityBundle` (
 
 ## Testing
 
-To test a template, you can use the `renderHTML` function in `~/src/site/support`.
+To test a template, you can use the `renderHTML` function in `~/src/site/tests/support/`.
 
 `renderHTML` takes a liquid template path and a JSON fixture, and renders an HTML document
-by populating the liquid template with the JSON provided. We can then run the usual mocha assertions on the result.
-This function uses the same code as our build process, so all of our custom liquid filters can be used. 
+by populating the liquid template with the JSON provided. We can then run the usual mocha assertions on the result. This function uses the same code as our build process, so all of our custom liquid filters can be used.
 
-This technique can be used to generate tests of varying complexity, ranging from simple rendering sanity checks
-to complex logic. Since we control the JSON test data, we can easily test different scenarios.
+This technique can be used to generate tests of varying complexity, ranging from simple rendering sanity checks to complex logic. Since we control the JSON test data, we can easily test different scenarios.
+
+The `html` rendered from each `liquid` template is automatically saved to `src/site/tests/html` when tests are executed locally. These files are gitignored.
 
 Here is a sample test:
 
@@ -336,3 +336,7 @@ Here is a sample test:
       ).to.equal(null);
     });
 ```
+
+Here are several example spec files:
+- [src/site/layouts/tests/landing_page/landing_page.unit.spec.js](#)
+- [src/site/layouts/tests/vamc/health_care_region_page.unit.spec.js](#)
