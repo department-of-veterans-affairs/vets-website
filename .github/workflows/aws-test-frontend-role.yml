@@ -33,6 +33,5 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-gov-west-1
         role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-        # role-external-id: ${{ secrets.AWS_ROLE_EXTERNAL_ID }}
         role-duration-seconds: 1200
         role-session-name: vsp-frontendteam-githubaction
