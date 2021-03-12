@@ -102,6 +102,7 @@ class ServiceTypeAhead extends Component {
             </label>
             {showError && (
               <span className="usa-input-error-message" role="alert">
+                <span className="sr-only">Error</span>
                 Please choose a service type.
               </span>
             )}
