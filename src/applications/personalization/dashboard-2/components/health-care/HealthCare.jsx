@@ -6,6 +6,7 @@ import { loadPrescriptions as loadPrescriptionsAction } from '~/applications/per
 import { getMedicalCenterNameByID } from '~/platform/utilities/medical-centers/medical-centers';
 import { GeneralCernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
 import { fetchFolder as fetchFolderAction } from '~/applications/personalization/dashboard/actions/messaging';
+import { selectUnreadMessagesCount } from '~/applications/personalization/dashboard-2/selectors';
 import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction } from '~/applications/personalization/appointments/actions';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import {
@@ -14,6 +15,7 @@ import {
   selectCernerRxFacilities,
   selectIsCernerPatient,
 } from '~/platform/user/selectors';
+
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import Prescriptions from './Prescriptions';
 import Appointments from './Appointments';
@@ -30,6 +32,7 @@ const HealthCare = ({
   facilityNames,
   canAccessMessaging,
   fetchFolder,
+  unreadMessagesCount,
 }) => {
   useEffect(
     () => {
@@ -74,7 +77,12 @@ const HealthCare = ({
 
       <div className="vads-u-display--flex vads-u-flex-wrap--wrap">
         {/* Messages */}
-        <HealthCareCard type="messages" />
+        {canAccessMessaging &&
+          unreadMessagesCount && (
+            <p>You have {unreadMessagesCount} new messages</p>
+          )}
+
+        {canAccessMessaging && !unreadMessagesCount && <p>View all messages</p>}
 
         {/* Appointments */}
         <Appointments
@@ -164,6 +172,7 @@ const mapStateToProps = state => {
     // canAccessMessaging: profileState.services.includes(
     //   backendServices.MESSAGING,
     // ),
+    unreadMessagesCount: selectUnreadMessagesCount(state),
     canAccessMessaging: true,
   };
 };
@@ -176,7 +185,7 @@ const mapDispatchToProps = {
 
 HealthCare.propTypes = {
   authenticatedWithSSOe: PropTypes.bool.isRequired,
-  isCernerPatient: PropTypes.bool.isRequired,
+  isCernerPatient: PropTypes.bool,
   facilityNames: PropTypes.array.isRequired,
   canAccessRx: PropTypes.bool.isRequired,
   prescriptions: PropTypes.arrayOf(
