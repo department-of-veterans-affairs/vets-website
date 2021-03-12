@@ -1,8 +1,7 @@
 import { expect } from 'chai';
-import { getLayout, parseFixture, renderHTML } from '../../../tests/support';
+import { parseFixture, renderHTML } from '~/site/tests/support';
 
 const layoutPath = 'src/site/layouts/landing_page.drupal.liquid';
-const layout = getLayout(layoutPath);
 
 describe('intro', () => {
   describe('no fieldTitleIcon', () => {
@@ -11,7 +10,7 @@ describe('intro', () => {
     );
 
     it('renders elements with expected values', async () => {
-      const container = await renderHTML(layoutPath, layout, data);
+      const container = await renderHTML(layoutPath, data);
       expect(container.querySelector('h1').innerHTML).to.equal(data.title);
       expect(container.querySelector('.va-introtext p').innerHTML).to.equal(
         data.fieldIntroText,
@@ -28,7 +27,7 @@ describe('intro', () => {
     );
 
     it('renders fieldTitleIcon', async () => {
-      const container = await renderHTML(layoutPath, layout, data);
+      const container = await renderHTML(layoutPath, data);
       expect(container.querySelector('h1').innerHTML).to.equal(data.title);
       expect(container.querySelector('.va-introtext p').innerHTML).to.equal(
         data.fieldIntroText,

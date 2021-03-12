@@ -64,7 +64,8 @@ const updateHTML = files => {
   modifyDom(options)(files, null, done);
 };
 
-const renderHTML = (name, layout, data) => {
+const renderHTML = (layoutPath, data) => {
+  const layout = getLayout(layoutPath);
   const context = liquid.newContext({ locals: data });
 
   context.onInclude((includeName, callback) => {
@@ -80,7 +81,7 @@ const renderHTML = (name, layout, data) => {
         reject(err);
       } else {
         const html = context.getBuffer();
-        const htmlFileName = makeHTMLFileName(name);
+        const htmlFileName = makeHTMLFileName(layoutPath);
         const files = {
           [htmlFileName]: { contents: html, isDrupalPage: true },
           'generated/file-manifest.json': { contents: JSON.stringify({}) },
@@ -102,4 +103,4 @@ const renderHTML = (name, layout, data) => {
   );
 };
 
-export { getLayout, parseFixture, renderHTML };
+export { renderHTML, parseFixture };
