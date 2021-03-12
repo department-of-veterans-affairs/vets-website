@@ -108,7 +108,7 @@ export function createTestHistory(path = '/') {
  */
 export function renderWithStoreAndRouter(
   ui,
-  { initialState, store = null, path = '/', history = null, basename = '/' },
+  { initialState, store = null, path = '/', history = null },
 ) {
   const testStore =
     store ||
@@ -120,9 +120,7 @@ export function renderWithStoreAndRouter(
 
   const historyObject = history || createTestHistory(path);
   const screen = renderInReduxProvider(
-    <Router history={historyObject} basename={basename}>
-      {ui}
-    </Router>,
+    <Router history={historyObject}>{ui}</Router>,
     {
       store: testStore,
       initialState,
