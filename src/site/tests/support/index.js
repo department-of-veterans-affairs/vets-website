@@ -37,7 +37,7 @@ const saveHTML = (name, html) => {
 
 const updateHTML = files => {
   const options = {
-    buildtype: process.env.BUILDTYPE, // what should i set this to?
+    buildtype: 'vagovdev',
     // what should the following values be?
     host: 'defaultHost',
     port: 3001,
