@@ -1,6 +1,8 @@
 import { createUrlWithQuery } from '../utils/helpers';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
+import { folder } from '~/applications/personalization/dashboard-2/utils/mocks/messaging/folder';
+import { messages } from '~/applications/personalization/dashboard-2/utils/mocks/messaging/messages';
 
 import {
   FETCH_FOLDER_FAILURE,
@@ -25,6 +27,16 @@ export function fetchFolder(id, query = {}) {
     if (id !== null) {
       const folderUrl = `/folders/${id}`;
       const messagesUrl = createUrlWithQuery(`${folderUrl}/messages`, query);
+
+      if (environment.isLocalhost && !window.Cypress) {
+        dispatch({
+          type: FETCH_FOLDER_SUCCESS,
+          folder,
+          messages,
+        });
+
+        return;
+      }
 
       Promise.all(
         [folderUrl, messagesUrl].map(url =>

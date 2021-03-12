@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import { loadPrescriptions as loadPrescriptionsAction } from '~/applications/personalization/dashboard/actions/prescriptions';
 import { getMedicalCenterNameByID } from '~/platform/utilities/medical-centers/medical-centers';
 import { GeneralCernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
+import { fetchFolder as fetchFolderAction } from '~/applications/personalization/dashboard/actions/messaging';
 import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction } from '~/applications/personalization/appointments/actions';
-
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import {
   selectCernerAppointmentsFacilities,
@@ -28,6 +28,8 @@ const HealthCare = ({
   fetchConfirmedFutureAppointments,
   isCernerPatient,
   facilityNames,
+  canAccessMessaging,
+  fetchFolder,
 }) => {
   useEffect(
     () => {
@@ -46,6 +48,15 @@ const HealthCare = ({
       fetchConfirmedFutureAppointments();
     },
     [fetchConfirmedFutureAppointments],
+  );
+
+  useEffect(
+    () => {
+      if (canAccessMessaging) {
+        fetchFolder(0, { page: 1, sort: '-sent_date' });
+      }
+    },
+    [canAccessMessaging, fetchFolder],
   );
 
   if (isCernerPatient && facilityNames?.length) {
@@ -150,10 +161,15 @@ const mapStateToProps = state => {
     prescriptions,
     canAccessRx,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
+    // canAccessMessaging: profileState.services.includes(
+    //   backendServices.MESSAGING,
+    // ),
+    canAccessMessaging: true,
   };
 };
 
 const mapDispatchToProps = {
+  fetchFolder: fetchFolderAction,
   loadPrescriptions: loadPrescriptionsAction,
   fetchConfirmedFutureAppointments: fetchConfirmedFutureAppointmentsAction,
 };
