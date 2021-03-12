@@ -129,6 +129,17 @@
     }
   },
   {
+    "appName": "Find Forms",
+    "entryName": "static-pages",
+    "rootUrl": "/find-forms",
+    "template": {
+      "title": "Find VA FOrms",
+      "layout": "page-react.html",
+      "description": "TBD",
+      "keywords": "TBD"
+    }
+  },
+  {
     "appName": "My Health Account Validation",
     "entryName": "my-health-account-validation",
     "rootUrl": "/health-care/my-health-account-validation",

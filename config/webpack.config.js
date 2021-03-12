@@ -333,7 +333,7 @@ module.exports = (env = {}) => {
         }, [])
         .join('');
 
-    const appRegistryPath = '../content-build/src/applications/registry.json';
+    const appRegistryPath = '../src/applications/registry.json';
     let appRegistry;
 
     if (fs.existsSync(appRegistryPath)) {
@@ -384,26 +384,26 @@ module.exports = (env = {}) => {
         inject: false,
         title: 'VA.gov',
       }),
-      new HtmlPlugin({
-        chunks: ['polyfills', 'vendor', 'style', 'static-pages'],
-        filename: path.join(outputPath, '..', 'find-forms/index.html'),
-        inject: false,
-        scriptLoading: 'defer',
-        template: 'src/platform/landing-pages/dev-template.ejs',
-        templateParameters: {
-          entryName: 'static-pages',
-          inlineScripts,
-          headerFooterData,
-          modifyScriptTags,
-          modifyStyleTags,
+      // new HtmlPlugin({
+      //   chunks: ['polyfills', 'vendor', 'style', 'static-pages'],
+      //   filename: path.join(outputPath, '..', 'find-forms/index.html'),
+      //   inject: false,
+      //   scriptLoading: 'defer',
+      //   template: 'src/platform/landing-pages/dev-template.ejs',
+      //   templateParameters: {
+      //     entryName: 'static-pages',
+      //     inlineScripts,
+      //     headerFooterData,
+      //     modifyScriptTags,
+      //     modifyStyleTags,
 
-          // Default template metadata.
-          breadcrumbs_override: [], // eslint-disable-line camelcase
-          includeBreadcrumbs: false,
-          loadingMessage: 'Please wait while we load the application for you.',
-        },
-        title: 'Find A VA Form | VA.gov',
-      }),
+      //     // Default template metadata.
+      //     breadcrumbs_override: [], // eslint-disable-line camelcase
+      //     includeBreadcrumbs: false,
+      //     loadingMessage: 'Please wait while we load the application for you.',
+      //   },
+      //   title: 'Find A VA Form | VA.gov',
+      // }),
     );
 
     // Copy over image assets to fill in the header and other content.

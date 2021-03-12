@@ -1,0 +1,7 @@
+{
+    "appName": "Find Forms",
+    "entryFile": "../static-pages/static-pages-entry.js",
+    "entryName": "static-pages",
+    "rootUrl": "/find-forms"
+  }
+  
