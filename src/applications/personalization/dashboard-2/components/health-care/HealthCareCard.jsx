@@ -1,12 +1,12 @@
 import React from 'react';
 import NotificationCTA from '../NotificationCTA';
 
-const HealthCareCard = ({ type, cardProperties, noActiveData }) => {
-  let cardTitle = cardProperties?.cardTitle;
-  let line1 = cardProperties?.line1;
-  let line2 = cardProperties?.line2;
-  let line3 = cardProperties?.line3;
-  let sectionTitle = cardProperties?.sectionTitle;
+const HealthCareCard = ({ cardProperties, noActiveData }) => {
+  const cardTitle = cardProperties?.cardTitle;
+  const line1 = cardProperties?.line1;
+  const line2 = cardProperties?.line2;
+  const line3 = cardProperties?.line3;
+  const sectionTitle = cardProperties?.sectionTitle;
 
   const CTA = {
     text: cardProperties?.ctaText,
@@ -14,18 +14,6 @@ const HealthCareCard = ({ type, cardProperties, noActiveData }) => {
     href: cardProperties?.ctaHref,
     ariaLabel: cardProperties?.ctaAriaLabel,
   };
-
-  if (type === 'messages') {
-    cardTitle = 'Latest Message';
-    line1 = 'From: Dr. Susan Smith';
-    line2 = 'Date: January 22nd, 2021';
-    line3 = 'Subject: We received your most recent lab results ...';
-    sectionTitle = 'Messages';
-    CTA.icon = 'envelope';
-    CTA.text = 'You have 2 unread messages';
-    CTA.href = '';
-    CTA.ariaLabel = 'View your unread messages';
-  }
 
   const standardClass =
     'vads-u-padding-y--2p5 vads-u-padding-x--2p5 vads-u-flex--fill';
