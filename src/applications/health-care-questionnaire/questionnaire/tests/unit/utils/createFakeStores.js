@@ -222,6 +222,9 @@ const createFakeReasonForVisitStore = ({ reason = '' }) => {
 };
 
 const createFakeIntroductionPageStore = (formId, savedForms) => {
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
   return {
     getState: () => ({
       form: {
@@ -238,7 +241,10 @@ const createFakeIntroductionPageStore = (formId, savedForms) => {
           appointment: {
             attributes: {
               vdsAppointments: [
-                { clinic: { facility: { displayName: 'Magic Kingdom' } } },
+                {
+                  appointmentTime: tomorrow,
+                  clinic: { facility: { displayName: 'Magic Kingdom' } },
+                },
               ],
             },
           },
