@@ -8,8 +8,13 @@ import DependencyVerificationFooter from './dependencyVerificationFooter';
 
 const DependencyVerificationModal = props => {
   const [isModalShowing, setIsModalShowing] = useState(false);
-  const handleClick = () => {
-    setIsModalShowing(prevState => !prevState);
+  const handleClose = () => {
+    setIsModalShowing(false);
+  };
+
+  // Wire this up to api call when it's ready
+  const handleCloseAndUpdateDiaries = () => {
+    setIsModalShowing(false);
   };
   useEffect(() => {
     props.dependencyVerificationCall();
@@ -21,25 +26,30 @@ const DependencyVerificationModal = props => {
         setIsModalShowing(true);
       }
     },
-    [props.data],
+    [props],
   );
-  return (
+  return props?.data?.verifiableDependents?.length > 0 ? (
     <>
       <Modal
-        onClose={handleClick}
+        onClose={handleClose}
         visible={isModalShowing}
-        cssClass=""
+        cssClass="va-modal-large vads-u-padding--1"
         id="dependency-verification"
         contents={
           <>
             <DependencyVerificationHeader />
-            <DependencyVerificationList />
-            <DependencyVerificationFooter />
+            <DependencyVerificationList
+              dependents={props?.data?.verifiableDependents}
+            />
+            <DependencyVerificationFooter
+              handleClose={handleClose}
+              handleCloseAndUpdateDiaries={handleCloseAndUpdateDiaries}
+            />
           </>
         }
       />
     </>
-  );
+  ) : null;
 };
 
 const mapStateToProps = state => ({
