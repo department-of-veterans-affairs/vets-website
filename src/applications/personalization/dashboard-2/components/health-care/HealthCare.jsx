@@ -68,7 +68,7 @@ const HealthCare = ({
     text: unreadMessagesCount
       ? `You have ${unreadMessagesCount} new messages`
       : 'View your new messages',
-    href: '',
+    href: mhvUrl(authenticatedWithSSOe, 'secure-messaging'),
     ariaLabel: 'View your unread messages',
   };
 
