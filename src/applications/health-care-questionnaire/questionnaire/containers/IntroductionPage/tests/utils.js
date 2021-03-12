@@ -2,6 +2,7 @@ const createFakeIntroductionPageStore = ({
   formId,
   savedForms,
   appointmentInThePast,
+  isLoggedIn,
 }) => {
   const today = new Date();
   const appointmentTime = new Date(today);
@@ -10,6 +11,7 @@ const createFakeIntroductionPageStore = ({
   } else {
     appointmentTime.setDate(appointmentTime.getDate() + 1);
   }
+  // state?.user?.login?.currentlyLoggedIn,
   return {
     getState: () => ({
       form: {
@@ -19,6 +21,9 @@ const createFakeIntroductionPageStore = ({
       user: {
         profile: {
           savedForms: [...savedForms],
+        },
+        login: {
+          currentlyLoggedIn: !!isLoggedIn,
         },
       },
       questionnaireData: {
