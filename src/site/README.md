@@ -307,3 +307,32 @@ The following query looks up the `entityId` for one page of the `entityBundle` (
 ```
 
 </details>
+
+## Testing
+
+To test a template, you can use the `renderHTML` function in `~/src/site/support`.
+
+`renderHTML` takes a liquid template path and a JSON fixture, and renders an HTML document
+by populating the liquid template with the JSON provided. We can then run the usual mocha assertions on the result.
+This function uses the same code as our build process, so all of our custom liquid filters can be used. 
+
+This technique can be used to generate tests of varying complexity, ranging from simple rendering sanity checks
+to complex logic. Since we control the JSON test data, we can easily test different scenarios.
+
+Here is a sample test:
+
+```js
+    it('renders elements with expected values', async () => {
+      const data = parseFixture(
+        'src/site/layouts/tests/landing_page/fixtures/landing_page.json',
+      );      
+      const container = await renderHTML(layoutPath, data);
+      expect(container.querySelector('h1').innerHTML).to.equal(data.title);
+      expect(container.querySelector('.va-introtext p').innerHTML).to.equal(
+        data.fieldIntroText,
+      );
+      expect(
+        container.querySelector('i.icon-large.white.hub-icon-foo'),
+      ).to.equal(null);
+    });
+```
