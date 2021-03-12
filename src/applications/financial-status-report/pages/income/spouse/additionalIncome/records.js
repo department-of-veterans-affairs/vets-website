@@ -35,7 +35,7 @@ export const uiSchema = {
               getOptions: () => formatOptions(incomeTypes),
             },
           },
-          monthlyAmount: _.merge(currencyUI('Monthly amount'), {
+          monthlyIncome: _.merge(currencyUI('Monthly amount'), {
             'ui:options': {
               widgetClassNames: 'input-size-2',
             },
@@ -59,12 +59,12 @@ export const schema = {
               items: {
                 type: 'object',
                 title: 'Additional income',
-                required: ['incomeType', 'monthlyAmount'],
+                required: ['incomeType', 'monthlyIncome'],
                 properties: {
                   incomeType: {
                     type: 'string',
                   },
-                  monthlyAmount: {
+                  monthlyIncome: {
                     type: 'number',
                   },
                 },
