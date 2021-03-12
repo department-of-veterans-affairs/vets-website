@@ -445,21 +445,15 @@ describe.only('VAOS vaccine flow <SelectDate1Page>', () => {
       ],
     });
 
-    const preferredDate = moment()
-      .add(1, 'day')
-      .add(1, 'month');
+    const preferredDate = moment();
     const slot308Date = moment()
       .add(1, 'day')
-      .add(1, 'month')
-      .startOf('month')
-      .day(9)
       .hour(9)
       .minute(0)
       .second(0);
     const secondSlotDate = slot308Date
       .clone()
       .add(2, 'month')
-      .day(9)
       .hour(10)
       .minute(0)
       .second(0);

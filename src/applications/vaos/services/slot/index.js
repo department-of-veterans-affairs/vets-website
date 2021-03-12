@@ -33,6 +33,7 @@ export async function getSlots({
     });
   } else {
     try {
+      console.log({ siteId, typeOfCareId, clinicId, startDate, endDate });
       const data = await getAvailableSlots(
         siteId,
         typeOfCareId,

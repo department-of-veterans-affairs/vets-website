@@ -523,6 +523,9 @@ export function mockAppointmentSlotFetch({
       .add(1, 'month')
       .endOf('month');
 
+  console.log(preferredDate?.format());
+  console.log(start.format('YYYY-MM-DD'));
+  console.log(end.format('YYYY-MM-DD'));
   setFetchJSONResponse(
     global.fetch.withArgs(
       `${
