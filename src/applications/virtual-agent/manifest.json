@@ -1,0 +1,6 @@
+{
+  "appName": "VA Virtual Assistant",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "virtual-agent",
+  "rootUrl": "/virtual-agent"
+}
