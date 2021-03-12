@@ -85,9 +85,6 @@ module.exports = {
       const attribute = $el.is('script') ? 'src' : 'href';
 
       // Derive the hashed entry name.
-      // These comments will be removed:
-      // The following line was updated becuase you can't call split on an array
-      // const hashedEntryName = this.entryNamesDictionary.get(entryName) || [];
       const hashedEntryName = this.entryNamesDictionary.get(entryName) || '';
 
       // Assemble the filename so we can match it in the generated files array.
