@@ -38,8 +38,7 @@ const saveHTML = (name, html) => {
 const updateHTML = files => {
   const options = {
     buildtype: process.env.BUILDTYPE || 'vagovdev',
-    // what should the following values be?
-    host: 'defaultHost',
+    host: 'liquidUnitTestingFramework',
     port: 3001,
     protocol: 'http',
     entry: true,
