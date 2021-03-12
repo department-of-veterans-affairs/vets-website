@@ -86,7 +86,7 @@ module.exports = {
 
       // Derive the hashed entry name.
       // These comments will be removed:
-      // The following line was updated becuase you can't call split in on an array
+      // The following line was updated becuase you can't call split on an array
       // const hashedEntryName = this.entryNamesDictionary.get(entryName) || [];
       const hashedEntryName = this.entryNamesDictionary.get(entryName) || '';
 
