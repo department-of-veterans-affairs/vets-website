@@ -992,5 +992,14 @@
       "vagovprod": false,
       "layout": "page-react.html"
     }
+  },
+  {
+    "appName": "VA Virtual Assistant",
+    "entryName": "virtual-agent",
+    "rootUrl": "/virtual-agent",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
+    }
   }
 ]
