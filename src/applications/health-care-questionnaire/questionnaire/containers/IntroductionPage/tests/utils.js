@@ -11,7 +11,6 @@ const createFakeIntroductionPageStore = ({
   } else {
     appointmentTime.setDate(appointmentTime.getDate() + 1);
   }
-  // state?.user?.login?.currentlyLoggedIn,
   return {
     getState: () => ({
       form: {
