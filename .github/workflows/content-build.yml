@@ -35,6 +35,7 @@ jobs:
       - run: yarn webpack --config config/webpack.content-cache.js
       - run: mkdir -p ./tmp
       - run: zip -j ./tmp/function.zip build/content-cache/index.js
+      - run: aws iam get-caller-identity
       - run: aws s3 cp ./tmp/function.zip s3://vetsgov-website-builds-s3-upload/content-cache/master/function.zip --acl public-read
       - run: aws lambda update-function-code \
           --function-name cacheDrupalContent \
