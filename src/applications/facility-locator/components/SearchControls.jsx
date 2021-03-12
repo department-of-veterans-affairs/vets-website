@@ -82,10 +82,11 @@ class SearchControls extends Component {
   renderClearInput = () => {
     if (window.Cypress || !environment.isProduction()) {
       return (
-        <i
-          aria-hidden="true"
-          className="fas fa-times-circle clear-button"
+        <button
+          aria-label="Clear your city, state or postal code"
+          type="button"
           id="clear-input"
+          className="fas fa-times-circle clear-button"
           onClick={this.handleClearInput}
         />
       );
@@ -140,7 +141,6 @@ class SearchControls extends Component {
             Please fill in a city, state, or postal code.
           </span>
         )}
-        {currentQuery?.searchString?.length > 0 && this.renderClearInput()}
         <input
           id="street-city-state-zip"
           name="street-city-state-zip"
@@ -149,6 +149,7 @@ class SearchControls extends Component {
           value={currentQuery.searchString}
           title="Your location: Street, City, State or Postal code"
         />
+        {currentQuery?.searchString?.length > 0 && this.renderClearInput()}
       </div>
     );
   };
