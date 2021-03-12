@@ -11,9 +11,7 @@ describe('intro', () => {
     );
 
     it('renders elements with expected values', async () => {
-      const container = await renderHTML(layoutPath, layout, data, {
-        save: true,
-      });
+      const container = await renderHTML(layoutPath, layout, data);
       expect(container.querySelector('h1').innerHTML).to.equal(data.title);
       expect(container.querySelector('p').innerHTML).to.equal(
         'An official website of the United States government',

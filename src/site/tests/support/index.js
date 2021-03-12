@@ -7,6 +7,9 @@ import registerFilters from '../../filters/liquid.js';
 import createRedirects from '../../stages/build/plugins/rewrite-va-domains.js';
 import rewriteAWSUrls from '../../stages/build/plugins/rewrite-cms-aws-urls.js';
 import modifyDom from '../../stages/build/plugins/modify-dom';
+import ENVIRONMENT_CONFIGURATIONS from 'site/constants/environments-configs';
+
+const BUILDTYPE = ENVIRONMENT_CONFIGURATIONS[__BUILDTYPE__].BUILDTYPE;
 
 registerFilters();
 
@@ -37,7 +40,7 @@ const saveHTML = (name, html) => {
 
 const updateHTML = files => {
   const options = {
-    buildtype: process.env.BUILDTYPE || 'vagovdev',
+    buildtype: BUILDTYPE || 'vagovdev',
     host: 'liquidUnitTestingFramework',
     port: 3001,
     protocol: 'http',
@@ -61,7 +64,7 @@ const updateHTML = files => {
   modifyDom(options)(files, null, done);
 };
 
-const renderHTML = (name, layout, data, options) => {
+const renderHTML = (name, layout, data) => {
   const context = liquid.newContext({ locals: data });
 
   context.onInclude((includeName, callback) => {
@@ -85,7 +88,7 @@ const renderHTML = (name, layout, data, options) => {
 
         updateHTML(files);
 
-        if (options && options.save) {
+        if (BUILDTYPE === 'vagovdev') {
           saveHTML(htmlFileName, files[htmlFileName].contents);
         }
 
