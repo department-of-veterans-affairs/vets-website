@@ -54,7 +54,27 @@ const IntroductionPage = props => {
       props.router.push(firstPage.path);
     };
 
-    if (savedForm) {
+    const appointmentInPast = moment(
+      appointmentData.appointmentTime,
+    ).isSameOrBefore(moment(new Date()));
+
+    if (appointmentInPast) {
+      return (
+        <div>
+          <div className="usa-alert usa-alert-warning background-color-only schemaform-sip-alert">
+            <div className="schemaform-sip-alert-title">
+              <strong>Your questionnaire has expired</strong>
+            </div>
+            <div className="saved-form-metadata-container">
+              <span className="saved-form-metadata">
+                {props.route?.formConfig.saveInProgress.messages.expired}
+              </span>
+            </div>
+          </div>
+          <br />
+        </div>
+      );
+    } else if (savedForm) {
       return (
         <SaveInProgressIntro
           hideUnauthedStartLink
