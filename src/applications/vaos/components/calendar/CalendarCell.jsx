@@ -5,7 +5,6 @@ import debounce from 'platform/utilities/data/debounce';
 import CalendarOptions from './CalendarOptions';
 
 const CalendarCell = ({
-  additionalOptions,
   availableSlots,
   currentlySelectedDate,
   date,
@@ -119,7 +118,6 @@ const CalendarCell = ({
       </button>
       {isCurrentlySelected && (
         <CalendarOptions
-          additionalOptions={additionalOptions}
           availableSlots={availableSlots}
           currentlySelectedDate={date}
           handleSelectOption={handleSelectOption}
