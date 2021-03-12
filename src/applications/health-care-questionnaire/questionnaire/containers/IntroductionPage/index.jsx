@@ -10,9 +10,9 @@ import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import IntroductionPageHelpers from '../components/introduction-page';
+import IntroductionPageHelpers from '../../components/introduction-page';
 
-import { getAppointTypeFromAppointment } from '../../shared/utils';
+import { getAppointTypeFromAppointment } from '../../../shared/utils';
 
 import environment from 'platform/utilities/environment';
 import { removeFormApi } from 'platform/forms/save-in-progress/api';
