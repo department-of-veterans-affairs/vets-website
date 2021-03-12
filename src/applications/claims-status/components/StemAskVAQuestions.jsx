@@ -17,7 +17,7 @@ function StemAskVAQuestions() {
       <h3 className="vads-u-font-size--h4">Call us</h3>
       <p>Veterans Crisis Line: </p>
       <p>
-        <Telephone contact={CONTACTS.CRISIS_LINE} /> and press 1
+        <Telephone contact={CONTACTS.CRISIS_LINE} /> and select 1
       </p>
       <br />
       <p>Education Call Center:</p>
