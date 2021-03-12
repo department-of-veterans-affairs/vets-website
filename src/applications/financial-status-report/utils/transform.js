@@ -19,9 +19,9 @@ export const transform = ({ data }) => {
       address: {
         street: address.addressLine1,
         city: address.city,
-        state: address.state,
-        country: address.country,
-        postalCode: address.postalCode,
+        stateCode: address.stateCode,
+        countryName: address.countryName,
+        zipCode: address.zipCode,
       },
       married: questions.maritalStatus === 'Married',
       spouseFullName: {
