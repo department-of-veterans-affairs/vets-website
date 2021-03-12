@@ -19,7 +19,7 @@ import {
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import Prescriptions from './Prescriptions';
 import Appointments from './Appointments';
-import HealthCareCard from './HealthCareCard';
+import NotificationCTA from '../NotificationCTA';
 
 const HealthCare = ({
   loadPrescriptions,
@@ -62,6 +62,15 @@ const HealthCare = ({
     [canAccessMessaging, fetchFolder],
   );
 
+  const ViewMessages = {
+    icon: 'envelope',
+    text: unreadMessagesCount
+      ? `You have ${unreadMessagesCount} new messages`
+      : 'View your new messages',
+    href: '',
+    ariaLabel: 'View your unread messages',
+  };
+
   if (isCernerPatient && facilityNames?.length) {
     return (
       <GeneralCernerWidget
@@ -76,14 +85,6 @@ const HealthCare = ({
       <h2 className="vads-u-margin-y--0">Health care</h2>
 
       <div className="vads-u-display--flex vads-u-flex-wrap--wrap">
-        {/* Messages */}
-        {canAccessMessaging &&
-          unreadMessagesCount && (
-            <p>You have {unreadMessagesCount} new messages</p>
-          )}
-
-        {canAccessMessaging && !unreadMessagesCount && <p>View all messages</p>}
-
         {/* Appointments */}
         <Appointments
           appointments={appointments}
@@ -98,6 +99,10 @@ const HealthCare = ({
           />
         )}
       </div>
+
+      {/* Messages */}
+      <h3>Messages</h3>
+      {canAccessMessaging && <NotificationCTA CTA={ViewMessages} />}
 
       <div className="vads-u-margin-top--4">
         <h3>Manage your health care benefits</h3>
