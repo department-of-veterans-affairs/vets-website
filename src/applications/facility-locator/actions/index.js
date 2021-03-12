@@ -30,6 +30,7 @@ import {
 
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import { distBetween, radiusFromBoundingBox } from '../utils/facilityDistance';
+import { urgentCareServices } from '../config';
 
 const mbxClient = mbxGeo(mapboxClient);
 /**
@@ -106,6 +107,14 @@ export const fetchProviderDetail = id => async dispatch => {
 };
 
 /**
+ * Handles all urgent care request (mashup)
+ * @param {Function} dispatch Redux's dispatch method
+ */
+const requestAllUrgentCare = dispatch => {
+  dispatch({ type: SEARCH_FAILED, error: 'error' });
+};
+
+/**
  * Handles the actual API call to get the type of locations closest to `address`
  * and/or within the given `bounds`.
  *
@@ -127,17 +136,39 @@ export const fetchLocations = async (
   center,
   radius,
 ) => {
+  /*
+  console.log({ address });
+  console.log({ bounds });
+  console.log({ locationType });
+  console.log({ serviceType });
+  console.log({ page });
+  console.log({ center });
+  console.log({ radius });
+   */
+
   try {
-    const data = await LocatorApi.searchWithBounds(
-      address,
-      bounds,
-      locationType,
-      serviceType,
-      page,
-      center,
-      radius,
-    );
+    let data;
+    if (!serviceType || serviceType === Object.keys(urgentCareServices)[0]) {
+      requestAllUrgentCare(dispatch);
+      data = [];
+    } else {
+      data = await LocatorApi.searchWithBounds(
+        address,
+        bounds,
+        locationType,
+        serviceType,
+        page,
+        center,
+        radius,
+      );
+    }
+
     // Record event as soon as API return results
+    /*
+    console.log('-------------------------+++++++++++-------------');
+    console.log({ data });
+     */
+
     if (data.errors) {
       dispatch({ type: SEARCH_FAILED, error: data.errors });
     } else {
