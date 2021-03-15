@@ -8,12 +8,21 @@ import { GA_PREFIX } from 'applications/vaos/utils/constants';
  * React component used to conditionally render radio call-to-action buttons and start applicable workflow.
  * @property {boolean} [showCheetahScheduleButton=false] - A boolean value to determine Whether or not to show COVID-19 vaccine option.
  * @property {function} startNewAppointmentFlow - A function that’s called when the user starts the new appointment flow.
+ * @component
+ * @example
+ * <ScheduleNewAppointmentRadioButtons
+ *  showCheetahScheduleButton={valueFromProp}
+ *  startNewAppointmentFlow={givenFlowFromProp()}
+ * />
  * @module appointment-list/components/ScheduleNewAppointmentRadioButtons
  */
 export default function ScheduleNewAppointmentRadioButtons({
   showCheetahScheduleButton = false,
   startNewAppointmentFlow,
 }) {
+  /**
+   * Radio selection
+   */
   const [radioSelection, setRadioSelection] = useState();
 
   function radioOptions() {

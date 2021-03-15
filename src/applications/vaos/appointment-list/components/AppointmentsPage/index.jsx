@@ -5,6 +5,7 @@ import { Switch, Route } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 
+import ScheduleNewAppointment from './ScheduleNewAppointment';
 import * as actions from '../../redux/actions';
 import CancelAppointmentModal from '../cancel/CancelAppointmentModal';
 import {
@@ -45,6 +46,8 @@ function AppointmentsPage({
   futureStatus,
   isCernerOnlyPatient,
   isWelcomeModalDismissed,
+  showCommunityCare,
+  showDirectScheduling,
   pendingStatus,
   showScheduleButton,
   showCheetahScheduleButton,
@@ -111,12 +114,29 @@ function AppointmentsPage({
       />
 
       {showScheduleButton && (
-        <div className="vads-u-margin-bottom--4">
-          <ScheduleNewAppointmentRadioButtons
-            showCheetahScheduleButton={showCheetahScheduleButton}
-            startNewAppointmentFlow={startNewAppointmentFlow}
-          />
-        </div>
+        <>
+          {!showCheetahScheduleButton && (
+            <ScheduleNewAppointment
+              isCernerOnlyPatient={isCernerOnlyPatient}
+              showCommunityCare={showCommunityCare}
+              showDirectScheduling={showDirectScheduling}
+              startNewAppointmentFlow={() => {
+                recordEvent({
+                  event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
+                });
+                startNewAppointmentFlow();
+              }}
+            />
+          )}
+          {showCheetahScheduleButton && (
+            <div className="vads-u-margin-bottom--4">
+              <ScheduleNewAppointmentRadioButtons
+                showCheetahScheduleButton={showCheetahScheduleButton}
+                startNewAppointmentFlow={startNewAppointmentFlow}
+              />
+            </div>
+          )}
+        </>
       )}
 
       {isLoading && (
