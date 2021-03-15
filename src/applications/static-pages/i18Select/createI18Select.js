@@ -41,7 +41,13 @@ export default function createI18Select(store, widgetType) {
       label: 'Español',
       suffix: '-esp/',
     },
+    tag: {
+      suffix: '-tag/',
+      label: 'Tagalog',
+      onThisPage: 'Sa pahinang ito',
+    },
   };
+
   if (root) {
     import(/* webpackChunkName: "i18Select" */
     './I18Select').then(module => {
