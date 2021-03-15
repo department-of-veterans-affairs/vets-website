@@ -4,7 +4,8 @@ import {
   getAppointTypeFromAppointment,
   getClinicFromAppointment,
 } from '../../../../shared/utils';
-import { getAppointmentStatus, isAppointmentCancelled } from '../../../utils';
+import { isAppointmentCancelled } from '../../../utils';
+import { appointment as appointmentSelector } from '../../../../shared/utils/selectors';
 
 import Status from '../Shared/Labels/Status';
 
@@ -14,7 +15,7 @@ const index = props => {
   const appointmentType = getAppointTypeFromAppointment(appointment, {
     titleCase: true,
   });
-  const appointmentStatus = getAppointmentStatus(appointment);
+  const appointmentStatus = appointmentSelector.getStatus(appointment);
   const isCancelled = isAppointmentCancelled(appointmentStatus);
 
   const clinic = getClinicFromAppointment(appointment);

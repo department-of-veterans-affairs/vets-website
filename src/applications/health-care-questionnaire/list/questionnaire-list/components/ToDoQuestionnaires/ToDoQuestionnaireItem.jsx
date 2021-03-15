@@ -3,13 +3,14 @@ import moment from 'moment-timezone';
 
 import AnswerQuestions from '../Shared/Buttons/AnswerQuestions';
 import PrintButton from '../../../../shared/components/print/PrintButton';
-import { getAppointmentStatus, isAppointmentCancelled } from '../../../utils';
+import { isAppointmentCancelled } from '../../../utils';
+import { appointment as appointmentSelectors } from '../../../../shared/utils/selectors';
 
 import QuestionnaireItem from '../QuestionnaireItem';
 
 export default function ToDoQuestionnaireItem({ data }) {
   const { appointment, questionnaire } = data;
-  const appointmentStatus = getAppointmentStatus(appointment);
+  const appointmentStatus = appointmentSelectors.getStatus(appointment);
   const isCancelled = isAppointmentCancelled(appointmentStatus);
 
   return (
