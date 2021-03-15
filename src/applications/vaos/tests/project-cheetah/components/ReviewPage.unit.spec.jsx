@@ -105,7 +105,7 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
     });
 
     await screen.findByText(/COVID-19 vaccine/i);
-    const [pageHeading, descHeading, clinicHeading] = screen.getAllByRole(
+    const [pageHeading, descHeading, facilityHeading] = screen.getAllByRole(
       'heading',
     );
     expect(pageHeading).to.contain.text('Review your appointment details');
@@ -116,8 +116,8 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
       start.format('dddd, MMMM DD, YYYY [at] h:mm a'),
     );
 
-    expect(clinicHeading).to.contain.text('Some VA clinic');
-    expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
+    expect(facilityHeading).to.contain.text('Cheyenne VA Medical Center');
+    expect(screen.baseElement).to.contain.text('Some VA clinic');
 
     // expect(contactHeading).to.contain.text('Your contact details');
     // expect(screen.baseElement).to.contain.text('joeblow@gmail.com');
@@ -142,7 +142,7 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
 
     await screen.findByText(/COVID-19 vaccine/i);
 
-    userEvent.click(screen.getByText(/Schedule appointment/i));
+    userEvent.click(screen.getByText(/Confirm appointment/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
         '/new-covid-19-vaccine-booking/confirmation',
