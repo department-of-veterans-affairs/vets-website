@@ -265,6 +265,29 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
   }
 }
 
+def accessibilityTests(dockerContainer, ref) {
+  stage("Accessibility") {
+    if (shouldBail()) { return }
+
+    dir("content-build") {
+      try {
+        parallel (
+          'nightwatch-accessibility': {
+            sh "export IMAGE_TAG=${IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod content-build --no-color run nightwatch:docker -- --env=accessibility"
+          },
+        )
+      } catch (error) {
+        // commonStages.slackIntegrationNotify()
+        throw error
+      } finally {
+        sh "docker-compose -p accessibility down --remove-orphans"
+        step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
+      }
+    }
+
+  }
+}
+
 def prearchive(dockerContainer, envName) {
   dockerContainer.inside(DOCKER_ARGS) {
     sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath"

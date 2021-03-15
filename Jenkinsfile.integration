@@ -1,33 +1,19 @@
 node('vetsgov-general-purpose') {
-  // Checkout vets-website code
+  // Checkout content-build code
   dir("vets-website") {
     checkout scm
     ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
   }
 
-  def commonStages = load "vets-website/jenkins/common.groovy"
+  def commonStages = load "content-build/jenkins/common.groovy"
 
   // Setup stage
   dockerContainer = commonStages.setup()
 
-  stage('Integration') {
-    dir("vets-website") {
-      try {
-        parallel (
-          nightwatch: {
-            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p e2e up -d && docker-compose -p e2e run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod -e WEB_HOST=staging.va.gov -e WEB_PORT=80 vets-website --no-color run nightwatch:docker -- --tag integration"
-          },
-          // jest: {
-          //   sh "docker-compose -p e2e run --rm --entrypoint npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run test:integration:jest"
-          // }
-        )
-      } catch (error) {
-        commonStages.slackIntegrationNotify()
-        throw error
-      } finally {
-        sh "docker-compose -p e2e down --remove-orphans"
-        step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
-      }
-    }
-  }
+  // Perform a build for each build type
+  commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
+
+  // Run accessibility tests
+  commonStages.accessibilityTests(dockerContainer, ref);
+
 }

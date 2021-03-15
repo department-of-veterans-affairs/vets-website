@@ -62,7 +62,10 @@ node('vetsgov-general-purpose') {
   // Perform a build for each build type
   envsUsingDrupalCache = commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
 
-  // Run E2E and accessibility tests
+  // Run accessibility tests
+  commonStages.accessibilityTests(dockerContainer, ref);
+
+  // Run E2E tests
   stage('Integration') {
     if (commonStages.shouldBail() || !commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) { return }
     dir("vets-website") {
@@ -70,10 +73,6 @@ node('vetsgov-general-purpose') {
         parallel (
           'nightwatch-e2e': {
             sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p nightwatch up -d && docker-compose -p nightwatch run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
-          },
-
-          'nightwatch-accessibility': {
-            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
           },
 
           cypress: {
