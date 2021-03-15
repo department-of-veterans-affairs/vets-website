@@ -192,7 +192,9 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
         <strong>Note:</strong> {signatureBoxNoteContent}
       </p>
 
-      <SubmitLoadingIndicator />
+      <div aria-live="polite">
+        <SubmitLoadingIndicator />
+      </div>
     </section>
   );
 };

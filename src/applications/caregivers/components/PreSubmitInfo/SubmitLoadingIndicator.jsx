@@ -26,7 +26,7 @@ const SubmitLoadingIndicator = ({ submission }) => {
     <>
       {isLoading && (
         <div className="loading-container">
-          <div aria-live="polite" className="vads-u-margin-y--4">
+          <div className="vads-u-margin-y--4">
             <LoadingIndicator />
             <p>
               We’re processing your application. This may take up to 1 minute.
