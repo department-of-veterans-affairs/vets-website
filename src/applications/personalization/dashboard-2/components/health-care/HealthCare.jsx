@@ -104,7 +104,9 @@ const HealthCare = ({
       {/* Messages */}
       {canAccessMessaging && (
         <>
-          <h3>Messages</h3>
+          <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--2p5">
+            Messages
+          </h3>
           <NotificationCTA CTA={ViewMessages} />
         </>
       )}
