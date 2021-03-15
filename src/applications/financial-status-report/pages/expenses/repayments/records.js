@@ -53,7 +53,7 @@ export const uiSchema = {
         },
       }),
       dateStarted: monthYearUI('Date debt began'),
-      amountPastDue: _.merge(currencyUI('Amount overdue'), {
+      amountPastDue: _.merge(currencyUI('Amount amountPastDue'), {
         'ui:options': {
           classNames: 'vads-u-margin-top--2',
           widgetClassNames: 'input-size-4 vads-u-margin-bottom--3',
