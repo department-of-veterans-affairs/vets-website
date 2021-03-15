@@ -192,7 +192,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
         <strong>Note:</strong> {signatureBoxNoteContent}
       </p>
 
-      <SubmitLoadingIndicator className="vads-u-margin-y--3" />
+      <SubmitLoadingIndicator />
     </section>
   );
 };
