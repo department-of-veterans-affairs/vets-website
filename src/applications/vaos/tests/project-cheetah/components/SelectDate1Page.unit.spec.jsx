@@ -302,7 +302,7 @@ describe('VAOS vaccine flow <SelectDate1Page>', () => {
       await waitForElementToBeRemoved(overlay);
     }
 
-    expect(await screen.findByText('Select first date')).to.be.ok;
+    expect(await screen.findByText(/Choose a date/i)).to.be.ok;
 
     // 2. Simulate user selecting a date
     let button = screen.queryByLabelText(
@@ -408,9 +408,7 @@ describe('VAOS vaccine flow <SelectDate1Page>', () => {
       store,
     });
 
-    await screen.findByText(
-      /Please select a desired date and time for your appointment/i,
-    );
+    await screen.findByText(/When choosing a date, make sure/i);
 
     userEvent.click(screen.getByText(/continue/i));
     expect(await screen.findByRole('alert')).to.contain.text(
