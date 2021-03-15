@@ -1,7 +1,12 @@
-import { getStatus } from './appointment.selectors';
+import { getStatus, getStartTime } from './appointment.selectors';
 
 const appointment = {
   getStatus,
+  getStartTime,
 };
 
-export { appointment };
+const questionnaireResponse = {
+  getStatus,
+};
+
+export { appointment, questionnaireResponse };

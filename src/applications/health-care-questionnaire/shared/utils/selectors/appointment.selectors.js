@@ -2,4 +2,8 @@ const getStatus = appointment => {
   return appointment?.status;
 };
 
-export { getStatus };
+const getStartTime = appointment => {
+  return appointment?.start;
+};
+
+export { getStatus, getStartTime };
