@@ -14,7 +14,7 @@ import useIsInitialLoad from '../../hooks/useIsInitialLoad';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 const pageKey = 'selectDate1';
-const pageTitle = 'Select first date';
+const pageTitle = 'Choose a date';
 
 const missingDateError =
   'Please choose your preferred date and time for your appointment.';
@@ -86,6 +86,7 @@ export function SelectDate1Page({
   routeToPreviousAppointmentPage,
   requestAppointmentDateChoice,
   routeToNextAppointmentPage,
+  selectedFacility,
   timezone,
   timezoneDescription,
 }) {
@@ -151,9 +152,21 @@ export function SelectDate1Page({
       {appointmentSlotsStatus !== FETCH_STATUS.failed && (
         <>
           <p>
-            Please select a desired date and time for your appointment.
             {timezone &&
               ` Appointment times are displayed in ${timezoneDescription}.`}
+          </p>
+          <p>
+            When choosing a date, make sure:
+            <ul>
+              <li>
+                You won’t have had a flu shot or any other vaccine in the past{' '}
+                <strong>2 weeks</strong>.
+              </li>
+              <li>
+                You can return to {selectedFacility.name} for your second dose{' '}
+                <strong>3 to 4 weeks after the date you select</strong>.
+              </li>
+            </ul>
           </p>
           <CalendarWidget
             maxSelections={1}
