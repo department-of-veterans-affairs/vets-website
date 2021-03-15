@@ -3,29 +3,16 @@ import TextWidget from './TextWidget';
 
 import { formatSSN } from 'platform/utilities/ui';
 
-// We only want to mask the first 5 digits of a formatted SSN
-// Anything longer than that should remain unmasked
-const MASKED_LENGTH = 6;
-
 /**
  * Mask a SSN, but leave the final sequence of digits visible (up to 4)
  */
 function maskSSN(ssnString = '') {
-  let prefix = '';
-  let rest = '';
+  const strippedSSN = ssnString.replace(/[- ]/g, '');
+  const maskedSSN = strippedSSN.replace(/^\d{1,5}/, digit =>
+    digit.replace(/\d/g, '●'),
+  );
 
-  const formattedSSN = formatSSN(ssnString);
-
-  if (formattedSSN.length > MASKED_LENGTH) {
-    // The number is long enough for us to have unmasked digits
-    prefix = formattedSSN.slice(0, MASKED_LENGTH);
-    rest = formattedSSN.slice(MASKED_LENGTH);
-  } else {
-    prefix = formattedSSN;
-  }
-
-  const masked = prefix.replace(/[0-9]/g, '●');
-  return `${masked}${rest}`;
+  return formatSSN(maskedSSN);
 }
 
 /*
