@@ -1,7 +1,16 @@
-import { appointment } from '../../shared/utils/selectors';
+import {
+  appointment,
+  questionnaireResponse,
+} from '../../shared/utils/selectors';
+
+import { cancelled, booked } from '../../shared/constants/appointment.status';
+import {
+  completed as completedQuestionnaireResponseStatus,
+  inProgress,
+} from '../../shared/constants/questionnaire.response.status';
 
 const isAppointmentCancelled = appointmentStatus =>
-  appointmentStatus?.toLowerCase().includes('cancelled');
+  appointmentStatus?.toLowerCase().includes(cancelled);
 
 const sortQuestionnairesByStatus = questionnaires => {
   let data = questionnaires;
@@ -12,34 +21,38 @@ const sortQuestionnairesByStatus = questionnaires => {
   data = data.filter(
     f =>
       !(
-        !f.questionnaire[0]?.questionnaireResponse[0].status &&
-        isAppointmentCancelled(appointment.getStatus(f.appointment))
+        !questionnaireResponse.getStatus(
+          f.questionnaire[0]?.questionnaireResponse,
+        ) && isAppointmentCancelled(appointment.getStatus(f.appointment))
       ),
   );
 
   // sort the items based on appointment time
   data.sort((first, second) => {
-    const f = first.appointment.attributes.vdsAppointments[0].appointmentTime;
-    const s = second.appointment.attributes.vdsAppointments[0].appointmentTime;
+    const f = appointment.getStartTime(first);
+    const s = appointment.getStartTime(second);
     return new Date(f) - new Date(s);
   });
 
   // find appointments that are completed based on questionnaire status
   const completed = data.filter(
-    f => f.questionnaire[0]?.questionnaireResponse.status === 'completed',
+    f =>
+      questionnaireResponse.getStatus(
+        f.questionnaire[0]?.questionnaireResponse,
+      ) === completedQuestionnaireResponseStatus,
   );
 
   // find appointments that have questionnaires
   const toDo = data.filter(f => {
-    const questionnaireStatus =
-      f.questionnaire[0]?.questionnaireResponse.status;
+    const questionnaireStatus = questionnaireResponse.getStatus(
+      f.questionnaire[0]?.questionnaireResponse,
+    );
     const appointmentStatus = appointment.getStatus(f.appointment);
     return (
-      (appointmentStatus === 'FUTURE' && !questionnaireStatus) ||
-      (appointmentStatus === 'FUTURE' &&
-        questionnaireStatus === 'in-progress') ||
+      (appointmentStatus === booked && !questionnaireStatus) ||
+      (appointmentStatus === booked && questionnaireStatus === inProgress) ||
       (isAppointmentCancelled(appointmentStatus) &&
-        questionnaireStatus === 'in-progress')
+        questionnaireStatus === inProgress)
     );
   });
 
