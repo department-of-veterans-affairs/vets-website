@@ -58,6 +58,7 @@ const CautionFlagHeading = ({ cautionFlags, onViewWarnings }) => {
         }
         isVisible={validFlags.length > 0}
         status="warning"
+        disableAnalytics
       />
     );
   }

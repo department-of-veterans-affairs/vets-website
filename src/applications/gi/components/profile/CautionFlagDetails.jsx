@@ -44,6 +44,7 @@ const CautionFlagDetails = ({ cautionFlags }) => {
                     )}
                 </div>
               }
+              disableAnalytics
             />
           ))}
       </div>
