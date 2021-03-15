@@ -1,4 +1,5 @@
 import React from 'react';
+import recordEvent from 'platform/monitoring/record-event';
 import AlertBox from '../AlertBox';
 
 const CautionFlagHeading = ({ cautionFlags, onViewWarnings }) => {
@@ -37,6 +38,11 @@ const CautionFlagHeading = ({ cautionFlags, onViewWarnings }) => {
               <a
                 href="#viewWarnings"
                 onClick={() => {
+                  recordEvent({
+                    event: 'nav-warning-alert-box-content-link-click',
+                    alertBoxHeading:
+                      'Jumplink - This school has a cautionary warning',
+                  });
                   if (onViewWarnings) {
                     onViewWarnings();
                   }
