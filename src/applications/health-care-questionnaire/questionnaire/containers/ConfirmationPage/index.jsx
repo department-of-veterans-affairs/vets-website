@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import {
   clearCurrentSession,
   clearSelectedAppointmentData,
-} from '../../shared/utils';
-import ConfirmationPageFooter from '../components/confirmation-page-footer/ConfirmationPageFooter';
-import AppointmentDisplay from '../components/appointment-display/AppointmentDisplay';
+} from '../../../shared/utils';
+import ConfirmationPageFooter from '../../components/confirmation-page-footer/ConfirmationPageFooter';
+import AppointmentDisplay from '../../components/appointment-display/AppointmentDisplay';
 
-import PrintButton from '../../list/questionnaire-list/components/Shared/Print/PrintButton';
+import PrintButton from '../../../shared/components/print/PrintButton';
 
 const ConfirmationPage = props => {
   const { appointment } = props;
@@ -35,7 +35,23 @@ const ConfirmationPage = props => {
         </h2>
         <AppointmentDisplay appointment={appointment} bold={false} />
         <p>We look forward to seeing you at your upcoming appointment.</p>
-        <PrintButton displayArrow={false} />
+        <PrintButton
+          displayArrow={false}
+          ErrorCallToAction={() => {
+            return (
+              <>
+                Please try again from your{' '}
+                <a
+                  href={
+                    '/health-care/health-questionnaires/questionnaires/completed'
+                  }
+                >
+                  list of completed questionnaires.
+                </a>
+              </>
+            );
+          }}
+        />
       </div>
       {appointment && <ConfirmationPageFooter appointment={appointment} />}
     </div>

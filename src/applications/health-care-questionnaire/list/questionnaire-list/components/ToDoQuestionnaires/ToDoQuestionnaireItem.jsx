@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment-timezone';
 
 import AnswerQuestions from '../Shared/Buttons/AnswerQuestions';
-import PrintButton from '../Shared/Print/PrintButton';
+import PrintButton from '../../../../shared/components/print/PrintButton';
 import { getAppointmentStatus, isAppointmentCancelled } from '../../../utils';
 
 import QuestionnaireItem from '../QuestionnaireItem';

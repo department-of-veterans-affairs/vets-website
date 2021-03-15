@@ -27,18 +27,6 @@ const HealthCareCard = ({ type, cardProperties, noActiveData }) => {
     CTA.ariaLabel = 'View your unread messages';
   }
 
-  if (type === 'appointments') {
-    cardTitle = 'Next Appointment';
-    line1 = 'Monday, November 12th, 2020';
-    line2 = 'Time: 9:00 a.m. ET';
-    line3 = 'VA Video Connect';
-    sectionTitle = 'Appointments';
-    CTA.icon = 'calendar';
-    CTA.text = '6 upcoming appointments';
-    CTA.href = '';
-    CTA.ariaLabel = 'View upcoming appointments';
-  }
-
   const standardClass =
     'vads-u-padding-y--2p5 vads-u-padding-x--2p5 vads-u-flex--fill';
   const backgroundClasses = noActiveData
