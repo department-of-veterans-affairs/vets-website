@@ -80,7 +80,7 @@ export const uiSchema = {
           </div>
         ),
       },
-      country: {
+      countryName: {
         'ui:title': 'Country',
         'ui:options': {
           classNames: 'input-size-7',
@@ -89,7 +89,7 @@ export const uiSchema = {
 
             if (formData.personalData.address.livesOutsideUS) {
               const formDataMailingAddress = formData.personalData.address;
-              formDataMailingAddress.country = 'United States';
+              formDataMailingAddress.countryName = 'United States';
               uiSchemaDisabled['ui:disabled'] = true;
 
               return {
@@ -148,7 +148,7 @@ export const uiSchema = {
           },
         ],
       },
-      state: {
+      stateCode: {
         'ui:title': 'State',
         'ui:options': {
           classNames: 'input-size-7',
@@ -179,7 +179,7 @@ export const uiSchema = {
           required: 'Please enter a state',
         },
       },
-      postalCode: {
+      zipCode: {
         'ui:title': 'Zip code',
         'ui:validations': [validateZIP],
         'ui:errorMessages': {
@@ -238,7 +238,13 @@ export const schema = {
       properties: {
         address: {
           type: 'object',
-          required: ['country', 'addressLine1', 'city', 'state', 'postalCode'],
+          required: [
+            'countryName',
+            'addressLine1',
+            'city',
+            'stateCode',
+            'zipCode',
+          ],
           properties: {
             livesOutsideUS: {
               type: 'boolean',
@@ -247,16 +253,16 @@ export const schema = {
               type: 'object',
               properties: {},
             },
-            country: {
+            countryName: {
               type: 'string',
             },
             addressLine1: SCHEMA_DEFINITIONS.address,
             addressLine2: SCHEMA_DEFINITIONS.address,
             city: SCHEMA_DEFINITIONS.city,
-            state: {
+            stateCode: {
               type: 'string',
             },
-            postalCode: SCHEMA_DEFINITIONS.postalCode,
+            zipCode: SCHEMA_DEFINITIONS.zipCode,
           },
         },
         telephoneNumber: SCHEMA_DEFINITIONS.telephoneNumber,

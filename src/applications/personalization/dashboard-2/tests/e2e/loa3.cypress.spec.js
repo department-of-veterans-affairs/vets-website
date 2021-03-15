@@ -3,6 +3,8 @@ import { mockUser } from '@@profile/tests/fixtures/users/user.js';
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
+import claimsSuccess from '@@profile/tests/fixtures/claims-success';
+import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
 
 import manifest from 'applications/personalization/dashboard/manifest.json';
 
@@ -56,6 +58,8 @@ describe('The My VA Dashboard', () => {
     cy.login(mockUser);
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
+    cy.intercept('/v0/evss_claims_async', claimsSuccess());
+    cy.intercept('/v0/appeals', appealsSuccess());
     cy.intercept(
       '/v0/disability_compensation_form/rating_info',
       disabilityRating,

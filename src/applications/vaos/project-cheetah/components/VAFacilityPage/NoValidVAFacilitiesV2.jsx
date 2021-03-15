@@ -6,7 +6,7 @@ export default function NoValidVAFacilities() {
     <div aria-atomic="true" aria-live="assertive">
       <AlertBox
         status="warning"
-        headline={`We can’t find a VA facility where you receive care that accepts online appointments for project cheetah`}
+        headline={`We couldn’t find a VA facility where you receive care that accepts online appointments for COVID-19 vaccines`}
         content={
           <>
             <p>
@@ -19,10 +19,6 @@ export default function NoValidVAFacilities() {
               >
                 Find a VA location
               </a>
-            </p>
-            <p>
-              To request another online appointment, please go back and choose a
-              different type of care.
             </p>
           </>
         }

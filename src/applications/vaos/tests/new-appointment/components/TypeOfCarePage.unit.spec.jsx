@@ -245,8 +245,10 @@ describe('VAOS <TypeOfCarePage>', () => {
         /To use some of the tool’s features, you need a home address on file/i,
       ),
     ).to.exist;
-    expect(global.window.dataLayer[0].event).to.equal(
-      'vaos-update-address-alert-displayed',
+    await waitFor(() =>
+      expect(global.window.dataLayer[0].event).to.equal(
+        'vaos-update-address-alert-displayed',
+      ),
     );
     fireEvent.click(screen.getByText('Update your address'));
     await waitFor(

@@ -3,7 +3,7 @@ import moment from 'moment';
 
 // relative imports
 import { deriveLatestIssue } from '../components/SearchResult';
-import { SORT_OPTIONS } from '../constants';
+import { SORT_OPTIONS, SEARCH_QUERY_AUTO_CORRECT_MAP } from '../constants';
 /**
  * This function sorts the results of Find Forms search.
  * @param {string} sortByPropertyName Is the state property in the SearchResults Controller
@@ -67,4 +67,38 @@ export const sortTheResults = (sortByPropertyName, indexA, indexB) => {
   }
 
   return indexRemainsInPlace;
+};
+
+/**
+ * This function helps inserts a "-" within at the index we need.
+ * @param {string} match string matched from string.replace function
+ * @param {string|number} index index where we need to add the dash
+ * @return {string} new substring with dash
+ */
+export const regexpDashAdder = (match, index) => {
+  const regex = new RegExp(`(?<=^.{${index}})`);
+  return match.replace(regex, '-');
+};
+
+/**
+ * This function takes a string and runs through the SEARCH_QUERY_AUTO_CORRECT_MAP to remove/ replace of any of those properties listed.
+ * @param {string} string
+ * @return {string} returns a new string ready for search.
+ */
+export const correctSearchTerm = string => {
+  let stringToStrip = string.toUpperCase();
+
+  SEARCH_QUERY_AUTO_CORRECT_MAP.forEach((value, key) => {
+    const stringToReplace = new RegExp(key, 'g');
+    const isSkippableCondition =
+      (key.startsWith('10') && stringToStrip.includes('10-10EZ')) ||
+      stringToStrip.includes('21P-');
+
+    if (isSkippableCondition) {
+      return;
+    }
+
+    stringToStrip = stringToStrip.replace(stringToReplace, value);
+  });
+  return stringToStrip.trim();
 };

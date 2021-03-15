@@ -5,14 +5,12 @@ import { expect } from 'chai';
 import { HealthCare } from '~/applications/personalization/dashboard-2/components/health-care/HealthCare';
 
 describe('HealthCare', () => {
-  describe('Prescriptions', () => {
+  describe('Manage all your prescriptions', () => {
     const defaultProps = {
+      appointments: [],
       authenticatedWithSSOe: true,
-      prescriptions: {
-        data: null,
-      },
       canAccessRx: false,
-      loadPrescriptions: () => {},
+      fetchConfirmedFutureAppointments: () => {},
     };
 
     it('when enrolled in VA health care, should not render when they have never had any prescriptions managed by the VA', () => {
