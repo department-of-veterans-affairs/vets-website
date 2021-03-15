@@ -91,8 +91,12 @@ export function displayPercent(decimalNumber, places = 0) {
  */
 export function formatSSN(ssnString = '') {
   let val = ssnString;
+
+  // Strips any dashes or spaces out of the string if they are included
+  if (val.includes('-') || val.includes(' ')) {
+    val = val.replace(/[- ]/g, '');
+  }
   val = val.replace(/^(.{3})(.{1,2})/, '$1-$2');
-  // The below line only works for a full SSN, not partials
   val = val.replace(/^(.{3})-(.{2})(.{1,4})$/, '$1-$2-$3');
   return val;
 }
