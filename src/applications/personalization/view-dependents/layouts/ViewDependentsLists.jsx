@@ -19,7 +19,7 @@ function ViewDependentsLists(props) {
     </>
   );
 
-  const { dependencyVerification } = props;
+  const { dependencyVerificationToggle } = props;
 
   return (
     <div>
@@ -41,7 +41,7 @@ function ViewDependentsLists(props) {
         linkText="Learn more about adding or removing a dependent from your VA benefits."
         dependents={props.notOnAwardDependents}
       />
-      {dependencyVerification && <DependencyVerificationModal />}
+      {dependencyVerificationToggle && <DependencyVerificationModal />}
     </div>
   );
 }
