@@ -3,6 +3,7 @@ import Telephone, {
   CONTACTS,
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
+import NewTabAnchor from './NewTabAnchor';
 
 export default function NeedHelp() {
   return (
@@ -17,9 +18,9 @@ export default function NeedHelp() {
       <p className="vads-u-margin-top--0">
         If you need help scheduling an appointment, please call your VA or
         community care health facility.{' '}
-        <a href="/find-locations" target="_blank" rel="noopener noreferrer">
+        <NewTabAnchor href="/find-locations">
           Find your health facility’s phone number.
-        </a>
+        </NewTabAnchor>
       </p>
       <p className="vads-u-margin-top--0">
         To report a technical issue with the VA appointments tool, or if you
@@ -35,13 +36,9 @@ export default function NeedHelp() {
         ). We’re here 24/7.
       </p>
       <p className="vads-u-margin-top--0">
-        <a
-          href="https://veteran.apps.va.gov/feedback-web/v1/?appId=85870ADC-CC55-405E-9AC3-976A92BBBBEE"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <NewTabAnchor href="https://veteran.apps.va.gov/feedback-web/v1/?appId=85870ADC-CC55-405E-9AC3-976A92BBBBEE">
           Leave feedback about this application
-        </a>
+        </NewTabAnchor>
       </p>
     </div>
   );
