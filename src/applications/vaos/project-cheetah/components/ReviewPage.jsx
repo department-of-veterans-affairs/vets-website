@@ -42,7 +42,7 @@ function ReviewPage({
     <div>
       <h1>{pageTitle}</h1>
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--4">
-        Please review the information before confirming your appointments.
+        Please review the information before confirming your appointment.
       </p>
       <h2 className="vads-u-margin-bottom--0 vads-u-margin-top--3 vads-u-font-size--h3">
         COVID-19 vaccine
@@ -63,9 +63,15 @@ function ReviewPage({
       <div className="vads-l-grid-container vads-u-padding--0">
         <div className="vads-l-row vads-u-justify-content--space-between">
           <div className="vads-u-flex--1 vads-u-padding-right--1">
-            <h3 className="vaos-appts__block-label">{clinic.serviceName}</h3>
-            {facility.name}
+            <h3 className="vaos-appts__block-label">{facility.name}</h3>
+            {clinic.serviceName}
             <br />
+            {facility.address?.line?.map(line => (
+              <React.Fragment key={line}>
+                {line}
+                <br />
+              </React.Fragment>
+            ))}
             {facility.address?.city}, <State state={facility.address?.state} />
           </div>
         </div>
@@ -98,7 +104,7 @@ function ReviewPage({
           className="usa-button usa-button-primary"
           onClick={() => confirmAppointment(history)}
         >
-          Schedule appointment
+          Confirm appointment
         </LoadingButton>
       </div>
       {submitStatus === FETCH_STATUS.failed && (
