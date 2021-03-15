@@ -269,7 +269,7 @@ def accessibilityTests(dockerContainer, ref) {
   stage("Accessibility") {
     if (shouldBail()) { return }
 
-    dir("content-build") {
+    dir("vets-website") {
       try {
         parallel (
           'nightwatch-accessibility': {
