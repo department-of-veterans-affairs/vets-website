@@ -43,7 +43,7 @@ const updateHTML = files => {
     buildtype: BUILDTYPE,
     entry: true,
     liquidUnitTestingFramework: true,
-    // the following options are expected but the values don't matter
+    // the following options are needed but the values don't matter
     host: 'host',
     port: 3001,
     protocol: 'http',
