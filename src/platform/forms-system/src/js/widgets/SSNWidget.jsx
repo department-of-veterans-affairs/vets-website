@@ -37,6 +37,7 @@ export default function SSNWidget(props) {
 
   const handleBlur = () => {
     setDisplayVal(maskSSN(val));
+    props.onBlur(props.id);
   };
 
   const handleFocus = () => {
