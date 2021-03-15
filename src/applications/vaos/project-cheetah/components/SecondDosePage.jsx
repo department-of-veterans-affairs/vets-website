@@ -29,7 +29,7 @@ function SecondDosePage({
   return (
     <div>
       <h1>{pageTitle}</h1>
-      <div>
+      <div className="vads-u-margin-bottom--4">
         <p>
           You may need to return to the {facility.name} for a second dose. Your
           team will schedule your second dose after you receive your first.
@@ -71,22 +71,6 @@ function SecondDosePage({
           Johnson & Johnson
         </h2>
         <div>1 dose only</div>
-      </div>
-      <div className="vads-u-margin-y--4">
-        <AdditionalInfo triggerText="Can I choose which vaccine I will get?">
-          <p>
-            Not at this time. For the next several months, we won’t have enough
-            vaccines to allow you to choose which vaccine you’d like to receive.
-            We will reassess as more vaccines become available.
-          </p>
-          <p>
-            Both authorized vaccines require 2 doses to work. And you must get
-            the same vaccine for both doses. To help ensure this, each VA health
-            facility that offers COVID-19 vaccines will receive either the
-            Pfizer or the Moderna vaccine. You’ll need to get both doses at the
-            same facility.
-          </p>
-        </AdditionalInfo>
       </div>
       <FormButtons
         pageChangeInProgress={pageChangeInProgress}
