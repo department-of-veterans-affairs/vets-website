@@ -108,10 +108,36 @@ export const fetchProviderDetail = id => async dispatch => {
 
 /**
  * Handles all urgent care request (mashup)
- * @param {Function} dispatch Redux's dispatch method
+ * @param {Function} parameters from the search request
+ * @returns {[]} A List of locations/providers
  */
-const requestAllUrgentCare = dispatch => {
+const requestAllUrgentCare = async (dispatch, params) => {
+  const { address, bounds, locationType, page, center, radius } = params;
+  const urgentCareVaData = await LocatorApi.searchWithBounds(
+    address,
+    bounds,
+    locationType,
+    Object.keys(urgentCareServices)[1], // VA UrgentCare
+    page,
+    center,
+    radius,
+    true,
+  );
+
+  const urgentCareNonVaData = await LocatorApi.searchWithBounds(
+    address,
+    bounds,
+    locationType,
+    Object.keys(urgentCareServices)[2], // NonVAUrgentCare
+    page,
+    center,
+    radius,
+    true,
+  );
   dispatch({ type: SEARCH_FAILED, error: 'error' });
+
+  // console.log([...urgentCareNonVaData.data, urgentCareVaData.data])
+  return [...urgentCareNonVaData.data, urgentCareVaData.data];
 };
 
 /**
@@ -144,12 +170,20 @@ export const fetchLocations = async (
   console.log({ page });
   console.log({ center });
   console.log({ radius });
+
    */
 
   try {
     let data;
     if (!serviceType || serviceType === Object.keys(urgentCareServices)[0]) {
-      requestAllUrgentCare(dispatch);
+      requestAllUrgentCare(dispatch, {
+        address,
+        bounds,
+        locationType,
+        page,
+        center,
+        radius,
+      });
       data = [];
     } else {
       data = await LocatorApi.searchWithBounds(
@@ -163,7 +197,6 @@ export const fetchLocations = async (
       );
     }
 
-    // Record event as soon as API return results
     /*
     console.log('-------------------------+++++++++++-------------');
     console.log({ data });

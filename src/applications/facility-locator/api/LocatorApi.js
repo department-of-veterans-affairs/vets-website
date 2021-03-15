@@ -24,6 +24,7 @@ class LocatorApi {
     page,
     center,
     radius,
+    allUrgentCare,
   ) {
     const { params, url } = resolveParamsWithUrl(
       address,
@@ -33,7 +34,14 @@ class LocatorApi {
       bounds,
       center,
       radius,
+      allUrgentCare,
     );
+
+    /*
+    console.log({ params });
+    console.log({ url });
+     */
+
     const startTime = new Date().getTime();
     return new Promise((resolve, reject) => {
       fetch(`${url}?${params}`, api.settings)

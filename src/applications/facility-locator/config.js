@@ -34,25 +34,28 @@ export const resolveParamsWithUrl = (
   bounds,
   center,
   radius,
+  allUrgentCare = false,
 ) => {
   const filterableLocations = ['health', 'benefits', 'provider'];
   let facility;
   let service;
   let url = api.url;
-  let perPage = 20;
   let roundRadius;
+  let perPage = 20;
 
   switch (locationType) {
     case 'urgent_care':
       if (serviceType === 'UrgentCare') {
         facility = 'health';
         service = 'UrgentCare';
-      } else if (serviceType === 'NonVAUrgentCare') {
+      } else if (serviceType === 'NonVAUrgentCare' && allUrgentCare) {
         facility = 'urgent_care';
         url = api.ccUrl;
-      } else {
-        // MashUp coming up
-        url = api.allUrgentCareUrl;
+        perPage = 40;
+      } else if (serviceType === 'NonVAUrgentCare' && !allUrgentCare) {
+        facility = 'urgent_care';
+        url = api.ccUrl;
+        perPage = 20;
       }
       break;
     case 'pharmacy':
@@ -60,28 +63,13 @@ export const resolveParamsWithUrl = (
       facility = locationType;
       service = serviceType;
       url = api.ccUrl;
-      perPage = 10; // because the PPMS back end requires a separate request for each facility
       break;
     default:
       facility = locationType;
       service = serviceType;
   }
-  if (radius) roundRadius = radius.toFixed();
 
-  if (url === api.allUrgentCareUrl) {
-    return {
-      url,
-      params: compact([
-        address ? `address=${address}` : null,
-        ...bounds.map(c => `bbox[]=${c}`),
-        `page=${page}`,
-        `per_page=${perPage}`,
-        roundRadius ? `radius=${roundRadius}` : null,
-        center && center.length > 0 ? `latitude=${center[0]}` : null,
-        center && center.length > 0 ? `longitude=${center[1]}` : null,
-      ]).join('&'),
-    };
-  }
+  if (radius) roundRadius = radius.toFixed();
 
   return {
     url,
