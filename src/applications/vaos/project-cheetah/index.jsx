@@ -8,7 +8,7 @@ import {
   useLocation,
   Redirect,
 } from 'react-router-dom';
-import * as actions from './redux/actions';
+import * as listActions from '../appointment-list/redux/actions';
 import projectCheetahReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
 import PlanAheadPage from './components/PlanAheadPage';
@@ -28,23 +28,27 @@ import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
 import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
 import ErrorMessage from '../components/ErrorMessage';
+import {
+  selectCanUseVaccineFlow,
+  selectDirectScheduleSettingsStatus,
+} from '../appointment-list/redux/selectors';
 
 export function NewBookingSection({
-  isEligible,
+  canUseVaccineFlow,
   newBookingStatus,
   featureProjectCheetah,
-  openNewBookingPage,
+  directScheduleSettingsStatus,
+  fetchDirectScheduleSettings,
 }) {
   const match = useRouteMatch();
   const history = useHistory();
   const location = useLocation();
 
-  useEffect(
-    () => {
-      openNewBookingPage(history);
-    },
-    [isEligible],
-  );
+  useEffect(() => {
+    if (directScheduleSettingsStatus === FETCH_STATUS.notStarted) {
+      fetchDirectScheduleSettings();
+    }
+  }, []);
 
   useEffect(
     () => {
@@ -96,7 +100,7 @@ export function NewBookingSection({
   // Redirect the user to the Contact Facilities page when there are no facilities that
   // support scheduling an appointment for the vaccine.
   if (
-    !isEligible &&
+    !canUseVaccineFlow &&
     newBookingStatus === FETCH_STATUS.succeeded &&
     !location.pathname.includes(
       '/new-covid-19-vaccine-booking/contact-facilities',
@@ -141,13 +145,13 @@ export function NewBookingSection({
 function mapStateToProps(state) {
   return {
     featureProjectCheetah: selectFeatureProjectCheetah(state),
-    isEligible: state.projectCheetah.isEligible,
-    newBookingStatus: state.projectCheetah.newBookingStatus,
+    directScheduleSettingsStatus: selectDirectScheduleSettingsStatus(state),
+    canUseVaccineFlow: selectCanUseVaccineFlow(state),
     pageChangeInProgress: state.projectCheetah.newBooking.pageChangeInProgress,
   };
 }
 const mapDispatchToProps = {
-  openNewBookingPage: actions.openNewBookingPage,
+  fetchDirectScheduleSettings: listActions.fetchDirectScheduleSettings,
 };
 
 export const NewBooking = connect(

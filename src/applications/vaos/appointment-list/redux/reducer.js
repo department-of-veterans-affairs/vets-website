@@ -27,6 +27,9 @@ import {
   FETCH_CONFIRMED_DETAILS_SUCCEEDED,
   FETCH_CONFIRMED_DETAILS_FAILED,
   FETCH_REQUEST_DETAILS_FAILED,
+  FETCH_DIRECT_SCHEDULE_SETTINGS_FAILED,
+  FETCH_DIRECT_SCHEDULE_SETTINGS_SUCCEEDED,
+  FETCH_DIRECT_SCHEDULE_SETTINGS,
 } from './actions';
 
 import {
@@ -71,6 +74,8 @@ const initialState = {
   systemClinicToFacilityMap: {},
   expressCareWindowsStatus: FETCH_STATUS.notStarted,
   expressCareFacilities: null,
+  directScheduleSettingsStatus: FETCH_STATUS.notStarted,
+  directScheduleSettings: null,
 };
 
 export default function appointmentsReducer(state = initialState, action) {
@@ -381,6 +386,22 @@ export default function appointmentsReducer(state = initialState, action) {
         pendingStatus: FETCH_STATUS.notStarted,
         confirmed: null,
         confirmedStatus: FETCH_STATUS.notStarted,
+      };
+    case FETCH_DIRECT_SCHEDULE_SETTINGS:
+      return {
+        ...state,
+        directScheduleSettingsStatus: FETCH_STATUS.loading,
+      };
+    case FETCH_DIRECT_SCHEDULE_SETTINGS_SUCCEEDED:
+      return {
+        ...state,
+        directScheduleSettingsStatus: FETCH_STATUS.succeeded,
+        directScheduleSettings: action.settings,
+      };
+    case FETCH_DIRECT_SCHEDULE_SETTINGS_FAILED:
+      return {
+        ...state,
+        directScheduleSettingsStatus: FETCH_STATUS.failed,
       };
     default:
       return state;

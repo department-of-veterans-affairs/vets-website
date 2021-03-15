@@ -15,6 +15,7 @@ import {
 
 import {
   getCancelReasons,
+  getDirectBookingEligibilityCriteria,
   getRequestEligibilityCriteria,
   getRequestMessages,
   updateAppointment,
@@ -96,6 +97,12 @@ export const FETCH_EXPRESS_CARE_WINDOWS_FAILED =
   'vaos/FETCH_EXPRESS_CARE_WINDOWS_FAILED';
 export const FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED =
   'vaos/FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED';
+export const FETCH_DIRECT_SCHEDULE_SETTINGS =
+  'vaos/FETCH_DIRECT_SCHEDULE_SETTINGS';
+export const FETCH_DIRECT_SCHEDULE_SETTINGS_FAILED =
+  'vaos/FETCH_DIRECT_SCHEDULE_SETTINGS_FAILED';
+export const FETCH_DIRECT_SCHEDULE_SETTINGS_SUCCEEDED =
+  'vaos/FETCH_DIRECT_SCHEDULE_SETTINGS_SUCCEEDED';
 
 export function fetchRequestMessages(requestId) {
   return async dispatch => {
@@ -708,6 +715,32 @@ export function fetchExpressCareWindows() {
       dispatch({
         type: FETCH_EXPRESS_CARE_WINDOWS_FAILED,
       });
+    }
+  };
+}
+
+export function fetchDirectScheduleSettings() {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: FETCH_DIRECT_SCHEDULE_SETTINGS,
+    });
+
+    try {
+      const initialState = getState();
+      const siteIds = selectSystemIds(initialState);
+
+      const settings = await getDirectBookingEligibilityCriteria(siteIds);
+
+      dispatch({
+        type: FETCH_DIRECT_SCHEDULE_SETTINGS_SUCCEEDED,
+        settings,
+      });
+    } catch (e) {
+      dispatch({
+        type: FETCH_DIRECT_SCHEDULE_SETTINGS_FAILED,
+      });
+
+      captureError(e, false);
     }
   };
 }

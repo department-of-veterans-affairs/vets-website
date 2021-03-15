@@ -12,6 +12,7 @@ import {
   getCancelInfo,
   selectFutureStatus,
   selectExpressCareAvailability,
+  selectCanUseVaccineFlow,
 } from '../../redux/selectors';
 import {
   selectFeatureRequests,
@@ -38,9 +39,12 @@ const pageTitle = 'VA appointments';
 
 function AppointmentsPage({
   cancelInfo,
+  canUseVaccineFlow,
   closeCancelAppointment,
   confirmCancelAppointment,
+  directScheduleSettingsStatus,
   expressCare,
+  fetchDirectScheduleSettings,
   fetchFutureAppointments,
   fetchExpressCareWindows,
   futureStatus,
@@ -63,6 +67,10 @@ function AppointmentsPage({
 
     if (expressCare.windowsStatus === FETCH_STATUS.notStarted) {
       fetchExpressCareWindows();
+    }
+
+    if (directScheduleSettingsStatus === FETCH_STATUS.notStarted) {
+      fetchDirectScheduleSettings();
     }
   }, []);
 
@@ -131,7 +139,7 @@ function AppointmentsPage({
           {showCheetahScheduleButton && (
             <div className="vads-u-margin-bottom--4">
               <ScheduleNewAppointmentRadioButtons
-                showCheetahScheduleButton={showCheetahScheduleButton}
+                showCheetahScheduleButton={canUseVaccineFlow}
                 startNewAppointmentFlow={startNewAppointmentFlow}
               />
             </div>
@@ -190,6 +198,10 @@ function mapStateToProps(state) {
     pendingStatus: state.appointments.pendingStatus,
     futureStatus: selectFutureStatus(state),
     cancelInfo: getCancelInfo(state),
+    canUseVaccineFlow: selectCanUseVaccineFlow(state),
+    directScheduleSettings: state.appointments.directScheduleSettings,
+    directScheduleSettingsStatus:
+      state.appointments.directScheduleSettingsStatus,
     showScheduleButton: selectFeatureRequests(state),
     showCommunityCare: selectFeatureCommunityCare(state),
     showDirectScheduling: selectFeatureDirectScheduling(state),
@@ -202,6 +214,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   fetchExpressCareWindows: actions.fetchExpressCareWindows,
+  fetchDirectScheduleSettings: actions.fetchDirectScheduleSettings,
   closeCancelAppointment: actions.closeCancelAppointment,
   confirmCancelAppointment: actions.confirmCancelAppointment,
   startNewAppointmentFlow: actions.startNewAppointmentFlow,
