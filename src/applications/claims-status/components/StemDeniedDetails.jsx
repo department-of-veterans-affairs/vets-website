@@ -30,7 +30,7 @@ const StemDeniedDetails = ({
       <ul className="stem-ad-list">
         <li className="stem-ad-list-item">
           You didn’t meet the benefit requirements for the Rogers STEM
-          Scholarship
+          Scholarship.
           <ul className="stem-ad-list-secondary">
             <li className="stem-ad-list-item">
               According to your service and school data records on file, as of{' '}
