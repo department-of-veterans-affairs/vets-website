@@ -336,7 +336,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       }),
     ).to.be.ok;
 
-    waitFor(() => {
+    await waitFor(() => {
       expect(document.activeElement).to.have.tagName('h1');
     });
   });
