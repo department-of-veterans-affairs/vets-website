@@ -43,14 +43,6 @@ export default function createI18Select(store, widgetType) {
       suffix: '-esp/',
     },
   };
-  //  temporary, will remove this once the tagalog FAQ page is ready
-  if (!isFaq) {
-    I18_CONTENT.tag = {
-      suffix: '-tag/',
-      label: 'Tagalog',
-      onThisPage: 'Tagalog On this page',
-    };
-  }
   if (root) {
     import(/* webpackChunkName: "i18Select" */
     './I18Select').then(module => {
