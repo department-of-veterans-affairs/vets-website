@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-const FinancialHardshipExplanation = props => {
-  const isWaiverSelected = props.formData.selectedDebts.some(
-    debt => debt.resolution.resolutionType === 'Waiver',
-  );
-  if (isWaiverSelected) {
+const ResolutionComments = ({ formData }) => {
+  const index = window.location.href.slice(-1);
+  const debt = formData.selectedDebts[index];
+  const type = debt?.resolution?.resolutionType;
+
+  if (type === 'Waiver') {
     return <p>Please tell us more about why you need a debt waiver.</p>;
   }
   return (
@@ -17,4 +18,4 @@ const mapStateToProps = state => ({
   formData: state.form?.data,
 });
 
-export default connect(mapStateToProps)(FinancialHardshipExplanation);
+export default connect(mapStateToProps)(ResolutionComments);

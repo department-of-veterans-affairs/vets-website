@@ -435,8 +435,10 @@ const formConfig = {
           schema: pages.resolutionOptions.schema,
         },
         resolutionComments: {
-          path: 'resolution-comments',
+          path: 'resolution-comments/:index',
           title: 'Resolution comments',
+          showPagePerItem: true,
+          arrayPath: 'selectedDebts',
           uiSchema: pages.resolutionComments.uiSchema,
           schema: pages.resolutionComments.schema,
         },
