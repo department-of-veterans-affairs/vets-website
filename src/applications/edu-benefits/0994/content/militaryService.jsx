@@ -44,10 +44,14 @@ export const remainingDaysGreaterThan180Notice = (
 );
 
 export const remainingDaysNotGreaterThan180Notice = (
-  <p>
-    We may contact you to verify that your expected release from active duty is
-    within 180 days from this application's date. If we contact you, we may ask
-    for a copy of your DD214 or a certification of your expected release date.
-    You can request that certification from your Military Personnel Office.
-  </p>
+  <div>
+    <p>
+      We may contact you to verify that your expected release from active duty
+      is within 180 days from this application's date. If we contact you, we may
+      ask for a copy of your DD214 or a certification of your expected release
+      date. You can request that certification from your Military Personnel
+      Office.
+    </p>
+    <p>You'll need an honorable discharge to be eligible for VET TEC.</p>
+  </div>
 );
