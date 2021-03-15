@@ -142,7 +142,12 @@ export function SelectDate1Page({
 
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+      <h1 className="vads-u-font-size--h2">
+        {pageTitle}
+        <span className="schemaform-required-span vaos-calendar__page_header vads-u-font-size--base vads-u-font-family--sans vads-u-font-weight--normal">
+          (*Required)
+        </span>
+      </h1>
       {appointmentSlotsStatus === FETCH_STATUS.failed && (
         <ErrorMessage
           facilityId={facilityId}
