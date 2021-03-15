@@ -6,9 +6,12 @@ import DependencyVerificationHeader from './dependencyVerificationHeader';
 import DependencyVerificationList from './dependencyVerificationList';
 import DependencyVerificationFooter from './dependencyVerificationFooter';
 
+const RETRIEVE_DIARIES = 'retrieveDiaries';
+
 const DependencyVerificationModal = props => {
   const [isModalShowing, setIsModalShowing] = useState(false);
   const handleClose = () => {
+    sessionStorage.setItem(RETRIEVE_DIARIES, 'false');
     setIsModalShowing(false);
   };
 
@@ -17,6 +20,10 @@ const DependencyVerificationModal = props => {
     setIsModalShowing(false);
   };
   useEffect(() => {
+    // user has clicked 'skip for now' or 'make changes' button
+    if (sessionStorage.getItem(RETRIEVE_DIARIES) === 'false') {
+      return;
+    }
     props.dependencyVerificationCall();
   }, []);
 
