@@ -1316,13 +1316,14 @@
     yosay "^2.0.1"
 
 "@department-of-veterans-affairs/react-jsonschema-form@^1.0.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-jsonschema-form/-/react-jsonschema-form-1.1.0.tgz#07a276235563676111a291364bc18516b5c7c061"
-  integrity sha512-+QfWGltnlwmcHC/rBZv6A1gC2BJ2nCxSmLISitd/mEGMOPvk+AKUKm4ZRbu/LyHnFRho3LXueaB9MycjO1YboQ==
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-jsonschema-form/-/react-jsonschema-form-1.2.0.tgz#9080236759e920e30f10727055a9dc04f4a711a8"
+  integrity sha512-SuwcYn59fv3nWxmbfh43KUdrKmn4vcd7aMQuKlu0vcOjcArsl9n5YWPgUwBtLOoztSZl9D8sRlxBAPqmoXCsQA==
   dependencies:
     jsonschema "^1.0.2"
     lodash.topath "^4.5.2"
     prop-types "^15.6.1"
+    react-is "^17.0.1"
     setimmediate "^1.0.5"
 
 "@formatjs/ecma402-abstract@1.5.2":
@@ -11023,9 +11024,9 @@ jsonpointer@^4.0.0:
   integrity sha1-T9kss04OnbPInIYi7PUfm5eMbLk=
 
 jsonschema@^1.0.2:
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/jsonschema/-/jsonschema-1.2.6.tgz#52b0a8e9dc06bbae7295249d03e4b9faee8a0c0b"
-  integrity sha512-SqhURKZG07JyKKeo/ir24QnS4/BV7a6gQy93bUSe4lUdNp0QNpIz2c9elWJQ9dpc5cQYY6cvCzgRwy0MQCLyqA==
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/jsonschema/-/jsonschema-1.4.0.tgz#1afa34c4bc22190d8e42271ec17ac8b3404f87b2"
+  integrity sha512-/YgW6pRMr6M7C+4o8kS+B/2myEpHCrxO4PEWnqJNBFMjn7EWXqlQ4tGwL6xTHeRplwuZmcAncdvfOad1nT2yMw==
 
 jsonschema@^1.1.1:
   version "1.1.1"
