@@ -104,8 +104,8 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
           contributionAmount: contributionAmount || undefined,
           numberOfStudents: numberOfStudents || undefined,
         },
-        'search-total-results': response.results.length,
-        'search-total-result-pages': Math.ceil(
+        'search-results-total-count': response.results.length,
+        'search-results-total-page': Math.ceil(
           response.results.length / perPage,
         ),
         'sitewide-search-app-used': false,
