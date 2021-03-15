@@ -197,6 +197,7 @@ HealthCare.propTypes = {
   isCernerPatient: PropTypes.bool,
   facilityNames: PropTypes.array.isRequired,
   canAccessRx: PropTypes.bool.isRequired,
+  unreadMessagesCount: PropTypes.number,
   prescriptions: PropTypes.arrayOf(
     PropTypes.shape({
       type: PropTypes.string.isRequired,
