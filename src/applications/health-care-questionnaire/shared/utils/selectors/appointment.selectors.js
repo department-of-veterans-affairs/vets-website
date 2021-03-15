@@ -1,9 +1,9 @@
 const getStatus = appointment => {
-  return appointment?.status;
+  return appointment ? appointment.status : null;
 };
 
 const getStartTime = appointment => {
-  return appointment?.start;
+  return appointment ? appointment.start : null;
 };
 
 export { getStatus, getStartTime };
