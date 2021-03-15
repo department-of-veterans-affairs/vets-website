@@ -8,7 +8,7 @@ import moment from 'moment';
 import { getReviewPage } from '../redux/selectors';
 
 const pageKey = 'secondDosePage';
-const pageTitle = 'Plan your second dose';
+const pageTitle = 'When to expect a second dose';
 
 function SecondDosePage({
   data,
@@ -30,8 +30,9 @@ function SecondDosePage({
       <h1>{pageTitle}</h1>
       <div className="vads-u-margin-bottom--4">
         <p>
-          You may need to return to the {facility.name} for a second dose. Your
-          team will schedule your second dose after you receive your first.
+          If you need a second dose, you may need to return to the{' '}
+          {facility.name} after the dates below, depending on which vaccine you
+          receive:
         </p>
         <p>
           If you receive your first dose on{' '}
