@@ -87,4 +87,18 @@ describe('Schemaform <SSNWidget>', () => {
     fireEvent.focus(input);
     expect(input.value).to.equal('456 43 1098');
   });
+
+  it('should mask all digits of the SSN onBlur when fewer than 6 digits are entered', () => {
+    const { container } = render(<SSNWidget value="4564" {...props} />);
+    const input = container.querySelector('input');
+    fireEvent.blur(input);
+    expect(input.value).to.equal('●●●-●');
+  });
+
+  it('should mask all but the last two digits of the SSN onBlur when 7 digits are entered', () => {
+    const { container } = render(<SSNWidget value="4564210" {...props} />);
+    const input = container.querySelector('input');
+    fireEvent.blur(input);
+    expect(input.value).to.equal('●●●-●●-10');
+  });
 });
