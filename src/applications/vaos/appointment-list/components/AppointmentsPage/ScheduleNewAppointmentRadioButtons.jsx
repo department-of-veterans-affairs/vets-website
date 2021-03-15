@@ -14,15 +14,12 @@ import { GA_PREFIX } from 'applications/vaos/utils/constants';
  *  showCheetahScheduleButton={valueFromProp}
  *  startNewAppointmentFlow={givenFlowFromProp()}
  * />
- * @module appointment-list/components/ScheduleNewAppointmentRadioButtons
+ * @module appointment-list/components
  */
 export default function ScheduleNewAppointmentRadioButtons({
   showCheetahScheduleButton = false,
   startNewAppointmentFlow,
 }) {
-  /**
-   * Radio selection
-   */
   const [radioSelection, setRadioSelection] = useState();
 
   function radioOptions() {
