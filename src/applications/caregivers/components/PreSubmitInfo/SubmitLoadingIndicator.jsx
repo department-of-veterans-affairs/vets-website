@@ -4,10 +4,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 
 const SubmitLoadingIndicator = ({ submission }) => {
   const [isLoading, setLoading] = useState(false);
-  const [timer, setTimer] = useState(0);
-  const [loadingMessage, setLoadingMessage] = useState(
-    'Please wait while we process your application.',
-  );
+
   const hasAttemptedSubmit = submission.hasAttemptedSubmit;
   const isSubmitPending = submission.status === 'submitPending';
 
@@ -17,34 +14,12 @@ const SubmitLoadingIndicator = ({ submission }) => {
       if (hasAttemptedSubmit && isSubmitPending) {
         setLoading(true);
       }
-    },
-    [hasAttemptedSubmit, isSubmitPending],
-  );
-
-  // count the seconds so we know how long the user has waited
-  useEffect(
-    () => {
-      let interval = null;
-
-      if (isLoading) {
-        interval = setInterval(() => {
-          setTimer(seconds => seconds + 1);
-        }, 1000);
-      }
-
-      const longWaitMessage =
-        'We’re processing your application. This may take up to 1 minute. Please don’t refresh your browser.';
-
-      // after 15 seconds set the longWaitMessage in spinner
-      if (timer >= 15) {
-        setLoadingMessage(longWaitMessage);
-      }
 
       return () => {
-        clearInterval(interval);
+        setLoading(false);
       };
     },
-    [timer, isLoading],
+    [hasAttemptedSubmit, isSubmitPending],
   );
 
   return (
@@ -53,7 +28,10 @@ const SubmitLoadingIndicator = ({ submission }) => {
         <div className="loading-container">
           <div aria-live="polite" className="vads-u-margin-y--4">
             <LoadingIndicator />
-            <p>{loadingMessage}</p>
+            <p>
+              We’re processing your application. This may take up to 1 minute.
+              Please don’t refresh your browser.
+            </p>
           </div>
         </div>
       )}
