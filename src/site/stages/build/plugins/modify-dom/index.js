@@ -9,7 +9,7 @@ const checkBrokenLinks = require('./check-broken-links');
 const injectAxeCore = require('./inject-axe-core');
 
 const getDomModifiers = BUILD_OPTIONS => {
-  if (BUILD_OPTIONS.buildtype === 'vagovdev') {
+  if (BUILD_OPTIONS.liquidUnitTestingFramework) {
     return [
       processEntryNames,
       updateExternalLinks,

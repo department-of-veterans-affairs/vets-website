@@ -40,11 +40,13 @@ const saveHTML = (name, html) => {
 
 const updateHTML = files => {
   const options = {
-    buildtype: BUILDTYPE || 'vagovdev',
-    host: 'liquidUnitTestingFramework',
+    buildtype: BUILDTYPE,
+    entry: true,
+    liquidUnitTestingFramework: true,
+    // the following options are expected but the values don't matter
+    host: 'host',
     port: 3001,
     protocol: 'http',
-    entry: true,
   };
 
   options.hostUrl = `${options.protocol}://${options.host}${
