@@ -33,7 +33,7 @@ const uiSchema = {
     'ui:options': {
       showFieldLabel: true,
     },
-    'ui:description': () => (
+    'ui:description': (
       <p id="providerSelectionDescription">
         You can request a provider for this care. If they aren’t available,
         we’ll schedule your appointment with a provider close to your home.
