@@ -14,6 +14,18 @@ import { formatFacilityAddress } from 'applications/vaos/services/location';
 
 const pageTitle = 'Your appointment has been scheduled';
 
+/**
+ * Component for showing COVID-19 vaccine confirmation information.
+ *
+ * @component
+ *
+ *  @example
+ * const data = 21
+ * const name = 'Jitendra Nirnejak'
+ * return (
+ *   <User age={age} name={name} />
+ * )
+ */
 function ConfirmationPage({ data, systemId, facilityDetails }) {
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;

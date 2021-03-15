@@ -1,11 +1,22 @@
 {
-  "plugins": ["plugins/markdown"],
+  "tags": {
+    "allowUnknownTags": [
+      "component",
+      "category",
+      "subcategory"
+    ]
+  },
+  "plugins": [
+    "plugins/markdown",
+    "node_modules/better-docs/component",
+    "node_modules/better-docs/category"
+  ],
   "source": {
     "include": "./src/applications/vaos",
     "includePattern": ".+.js(doc|x)?$"
   },
   "opts": {
-    "template": "node_modules/docdash",
+    "template": "node_modules/better-docs",
     "recurse": true,
     "destination": "./src/applications/vaos/docs/",
     "readme": "./src/applications/vaos/README.md"
