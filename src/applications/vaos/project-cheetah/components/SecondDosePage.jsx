@@ -39,24 +39,38 @@ function SecondDosePage({
           <strong>{moment(date1[0]).format('dddd, MMMM DD, YYYY ')} </strong>
           and receive:
         </p>
-        <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+        <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-font-weight--normal">
           Moderna
         </h2>
-        <div className="vads-u-padding-bottom--1">
-          Return for your second dose after{' '}
-          {moment(date1[0])
-            .add(28, 'days')
-            .format('dddd, MMMM DD, YYYY')}
+        <div>
+          Requires 2 doses
+          <br />
+          <strong>
+            Plan to return after{' '}
+            {moment(date1[0])
+              .add(28, 'days')
+              .format('dddd, MMMM DD, YYYY')}
+          </strong>
         </div>
-        <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vaos-appts__block-label">
+        <hr aria-hidden="true" className="vads-u-margin-y--2" />
+        <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vaos-appts__block-label  vads-u-font-weight--normal">
           Pfizer
         </h2>
         <div>
-          Return for your second dose after{' '}
-          {moment(date1[0])
-            .add(21, 'days')
-            .format('dddd, MMMM DD, YYYY')}
+          Requires 2 doses
+          <br />
+          <strong>
+            Plan to return after{' '}
+            {moment(date1[0])
+              .add(21, 'days')
+              .format('dddd, MMMM DD, YYYY')}
+          </strong>
         </div>
+        <hr aria-hidden="true" className="vads-u-margin-y--2" />
+        <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vaos-appts__block-label  vads-u-font-weight--normal">
+          Johnson & Johnson
+        </h2>
+        <div>1 dose only</div>
       </div>
       <div className="vads-u-margin-y--4">
         <AdditionalInfo triggerText="Can I choose which vaccine I will get?">
