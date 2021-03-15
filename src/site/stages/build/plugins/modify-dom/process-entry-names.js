@@ -83,9 +83,10 @@ module.exports = {
       const $el = dom(el);
       const entryName = $el.data('entryName');
       const attribute = $el.is('script') ? 'src' : 'href';
+      const timestamp = new Date().getTime();
 
       // Derive the hashed entry name.
-      const hashedEntryName = this.entryNamesDictionary.get(entryName) || [];
+      const hashedEntryName = this.entryNamesDictionary.get(entryName) || '';
 
       // Assemble the filename so we can match it in the generated files array.
       const fileSearch = `generated/${hashedEntryName.split('/generated/')[1]}`;
@@ -103,7 +104,7 @@ module.exports = {
       }
 
       // Link the element to the hashed entry name w/o the S3 bucket
-      $el.attr(attribute, `/${fileSearch}`);
+      $el.attr(attribute, `/${fileSearch}?t=${timestamp}`);
       file.modified = true;
     });
   },

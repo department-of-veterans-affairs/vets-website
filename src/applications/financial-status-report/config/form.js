@@ -73,7 +73,7 @@ const formConfig = {
             },
             personalIdentification: {
               ssn: '1234',
-              fileNumber: 5678,
+              fileNumber: '5678',
             },
           },
         },
@@ -435,8 +435,10 @@ const formConfig = {
           schema: pages.resolutionOptions.schema,
         },
         resolutionComments: {
-          path: 'resolution-comments',
+          path: 'resolution-comments/:index',
           title: 'Resolution comments',
+          showPagePerItem: true,
+          arrayPath: 'selectedDebts',
           uiSchema: pages.resolutionComments.uiSchema,
           schema: pages.resolutionComments.schema,
         },

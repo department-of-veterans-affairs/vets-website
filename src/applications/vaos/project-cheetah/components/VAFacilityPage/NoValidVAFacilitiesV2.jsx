@@ -1,5 +1,6 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export default function NoValidVAFacilities() {
   return (
@@ -12,13 +13,9 @@ export default function NoValidVAFacilities() {
             <p>
               You’ll need to call your local VA medical center to schedule this
               appointment.{' '}
-              <a
-                href="/find-locations"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <NewTabAnchor href="/find-locations">
                 Find a VA location
-              </a>
+              </NewTabAnchor>
             </p>
           </>
         }

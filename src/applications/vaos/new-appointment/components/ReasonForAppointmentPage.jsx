@@ -14,6 +14,7 @@ import { PURPOSE_TEXT, FACILITY_TYPES } from '../../utils/constants';
 import TextareaWidget from '../../components/TextareaWidget';
 import { useHistory } from 'react-router-dom';
 import PostFormFieldContent from '../../components/PostFormFieldContent';
+import NewTabAnchor from '../../components/NewTabAnchor';
 
 const initialSchema = {
   default: {
@@ -127,13 +128,9 @@ function ReasonForAppointmentPage({
                   </li>
                   <li>
                     Go to your nearest emergency room or VA medical center.{' '}
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href="/find-locations"
-                    >
+                    <NewTabAnchor href="/find-locations">
                       Find your nearest VA medical center
-                    </a>
+                    </NewTabAnchor>
                   </li>
                 </ul>
               }

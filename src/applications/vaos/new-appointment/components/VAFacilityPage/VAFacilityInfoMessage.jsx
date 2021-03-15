@@ -1,6 +1,7 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import State from '../../../components/State';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export default function VAFacilityInfoMessage({ facility }) {
   return (
@@ -16,9 +17,9 @@ export default function VAFacilityInfoMessage({ facility }) {
       <p>
         Not all VA facilities offer online scheduling for all types of care. If
         this isn’t the facility you’re looking for, you can{' '}
-        <a href="/find-locations" target="_blank" rel="noopener noreferrer">
+        <NewTabAnchor href="/find-locations">
           search for another VA facility
-        </a>
+        </NewTabAnchor>
         .
       </p>
     </AlertBox>
