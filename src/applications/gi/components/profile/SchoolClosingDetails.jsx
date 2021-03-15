@@ -43,7 +43,6 @@ const SchoolClosingDetails = ({
         headline={headline}
         isVisible={!!schoolClosing}
         status="warning"
-        disableAnalytics
       />
     );
   }
