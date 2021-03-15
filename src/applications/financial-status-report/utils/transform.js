@@ -1,3 +1,5 @@
+import { omit } from 'lodash/fp';
+
 export const transform = ({ data }) => {
   const {
     questions,
@@ -31,11 +33,11 @@ export const transform = ({ data }) => {
       },
       employmentHistory: {
         veteran: [
-          employmentHistory.veteran.currentEmployment,
+          omit('deductions', employmentHistory.veteran.currentEmployment),
           ...(employmentHistory.veteran.previousEmployment || []),
         ],
         spouse: [
-          employmentHistory.spouse.currentEmployment,
+          omit('deductions', employmentHistory.spouse.currentEmployment),
           ...(employmentHistory.spouse.previousEmployment || []),
         ],
       },
