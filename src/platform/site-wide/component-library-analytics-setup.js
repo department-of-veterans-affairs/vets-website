@@ -7,6 +7,7 @@ import { kebabCase } from 'lodash';
 
 const analyticsEvents = {
   Modal: [{ action: 'show', event: 'int-modal-click' }],
+  PromoBanner: [{ action: 'linkClick', event: 'nav-promo-banner-link-click' }],
 };
 
 export function subscribeComponentAnalyticsEvents(
