@@ -1,6 +1,5 @@
 import React from 'react';
 import moment from 'moment';
-import recordEvent from 'platform/monitoring/record-event';
 import AlertBox from '../AlertBox';
 
 const SchoolClosingDetails = ({
@@ -23,17 +22,7 @@ const SchoolClosingDetails = ({
           <div>
             <p>{content}</p>
             {schoolWebsite && (
-              <a
-                href={schoolWebsite}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => {
-                  recordEvent({
-                    event: 'nav-warning-alert-box-content-link-click',
-                    alertBoxHeading: headline,
-                  });
-                }}
-              >
+              <a href={schoolWebsite} target="_blank" rel="noopener noreferrer">
                 Visit the school's website to learn more
               </a>
             )}

@@ -15,8 +15,6 @@ import {
   selectIsCernerOnlyPatient,
 } from '../../../redux/selectors';
 import { getFormPageInfo, getNewAppointment } from '../../redux/selectors';
-import { resetDataLayer } from '../../../utils/events';
-
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
 const initialSchema = {
@@ -75,13 +73,8 @@ function TypeOfCarePage({
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
       {showUpdateAddressAlert && (
         <UpdateAddressAlert
-          onClickUpdateAddress={heading => {
+          onClickUpdateAddress={() => {
             clickUpdateAddressButton();
-            recordEvent({
-              event: 'nav-warning-alert-box-content-link-click',
-              alertBoxHeading: heading,
-            });
-            resetDataLayer();
           }}
         />
       )}

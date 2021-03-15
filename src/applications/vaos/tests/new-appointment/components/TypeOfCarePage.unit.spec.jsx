@@ -65,14 +65,6 @@ describe('VAOS <TypeOfCarePage>', () => {
     expect(screen.getByRole('link', { name: /find a va location/i })).to.exist;
     fireEvent.click(screen.getByText(/Find a VA location/i));
 
-    expect(global.window.dataLayer[0]).to.eql({
-      'alert-box-click-label': 'Find a VA location',
-      'alert-box-heading': 'Not seeing the type of care you need',
-      'alert-box-subheading': undefined,
-      'alert-box-type': 'informational',
-      event: 'nav-alert-box-link-click',
-    });
-
     expect(
       screen.queryByText(
         /To use some of the tool’s features, you need a home address on file/i,
@@ -258,9 +250,6 @@ describe('VAOS <TypeOfCarePage>', () => {
             /To use some of the tool’s features, you need a home address on file/i,
           ),
         ).to.not.exist,
-    );
-    expect(global.window.dataLayer[1].event).to.equal(
-      'nav-warning-alert-box-content-link-click',
     );
     expect(global.window.dataLayer[1].alertBoxHeading).to.equal(
       'To use some of the tool’s features, you need a home address on file',
