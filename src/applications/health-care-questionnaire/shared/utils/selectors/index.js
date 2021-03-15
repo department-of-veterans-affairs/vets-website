@@ -1,4 +1,5 @@
 import { getStatus, getStartTime } from './appointment.selectors';
+import { getStatus as getQRStatus } from './questionnaire.response.selectors';
 
 const appointment = {
   getStatus,
@@ -6,7 +7,7 @@ const appointment = {
 };
 
 const questionnaireResponse = {
-  getStatus,
+  getStatus: getQRStatus,
 };
 
 export { appointment, questionnaireResponse };

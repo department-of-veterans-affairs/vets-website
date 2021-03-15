@@ -18,14 +18,13 @@ const sortQuestionnairesByStatus = questionnaires => {
     data = [];
   }
   // NEED TEST CASE FOR: remove items where the appointment is cancelled, and there is not questionnaire status
-  data = data.filter(
-    f =>
-      !(
-        !questionnaireResponse.getStatus(
-          f.questionnaire[0]?.questionnaireResponse,
-        ) && isAppointmentCancelled(appointment.getStatus(f.appointment))
-      ),
-  );
+  data = data.filter(f => {
+    return !(
+      !questionnaireResponse.getStatus(
+        f.questionnaire[0]?.questionnaireResponse,
+      ) && isAppointmentCancelled(appointment.getStatus(f.appointment))
+    );
+  });
 
   // sort the items based on appointment time
   data.sort((first, second) => {
@@ -35,12 +34,13 @@ const sortQuestionnairesByStatus = questionnaires => {
   });
 
   // find appointments that are completed based on questionnaire status
-  const completed = data.filter(
-    f =>
+  const completed = data.filter(f => {
+    return (
       questionnaireResponse.getStatus(
         f.questionnaire[0]?.questionnaireResponse,
-      ) === completedQuestionnaireResponseStatus,
-  );
+      ) === completedQuestionnaireResponseStatus
+    );
+  });
 
   // find appointments that have questionnaires
   const toDo = data.filter(f => {
