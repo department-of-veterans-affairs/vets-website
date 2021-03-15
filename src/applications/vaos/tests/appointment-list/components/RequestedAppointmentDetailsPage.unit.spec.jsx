@@ -139,15 +139,16 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     });
 
     // Verify page content...
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
 
     expect(
-      await screen.findByRole('heading', {
+      screen.getByRole('heading', {
         level: 1,
         name: 'Pending primary care appointment',
       }),
     );
-
-    expect(document.activeElement).to.have.tagName('h1');
 
     expect(screen.getByText('Cheyenne VA Medical Center')).to.be.ok;
     expect(screen.baseElement).to.contain.text(
@@ -239,15 +240,16 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     fireEvent.click(detailLinks[0]);
 
     // Verify page content...
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
 
     expect(
-      await screen.findByRole('heading', {
+      screen.getByRole('heading', {
         level: 1,
         name: 'Pending audiology (hearing aid support) appointment',
       }),
     ).to.be.ok;
-
-    expect(document.activeElement).to.have.tagName('h1');
 
     // Should be able to cancel appointment
     expect(screen.getByRole('button', { name: /Cancel request/ })).to.be.ok;
@@ -346,14 +348,16 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       path: `/requests/${appointment.id}`,
     });
 
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
+
     expect(
-      await screen.findByRole('heading', {
+      screen.getByRole('heading', {
         level: 1,
         name: 'We’re sorry. We’ve run into a problem',
       }),
     ).to.be.ok;
-
-    expect(document.activeElement).to.have.tagName('h1');
   });
 
   it('should display pending document title', async () => {

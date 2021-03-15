@@ -73,10 +73,12 @@ describe('VAOS <ExpressCareDetailsPage>', () => {
     );
 
     // verify focus is on h1
-    expect(document.activeElement).to.have.tagName('h1');
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
 
     // verify page content...
-    expect(await screen.findByText('Back pain')).to.be.ok;
+    expect(screen.getByText('Back pain')).to.be.ok;
     expect(screen.baseElement).to.contain.text(
       startDate.format('dddd, MMMM D, YYYY'),
     );
@@ -344,13 +346,15 @@ describe('VAOS <ExpressCareDetailsPage>', () => {
       path: `/express-care/${request.id}`,
     });
 
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
+
     expect(
-      await screen.findByRole('heading', {
+      screen.getByRole('heading', {
         level: 1,
         name: 'We’re sorry. We’ve run into a problem',
       }),
     ).to.be.ok;
-
-    expect(document.activeElement).to.have.tagName('h1');
   });
 });

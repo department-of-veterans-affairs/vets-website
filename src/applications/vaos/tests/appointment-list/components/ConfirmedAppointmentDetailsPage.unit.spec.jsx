@@ -139,7 +139,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       }),
     ).to.be.ok;
 
-    expect(document.activeElement).to.have.tagName('h1');
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
 
     // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
     expect(await screen.findByText(/Fort Collins VA Clinic/)).to.be.ok;
@@ -329,15 +331,15 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       path: url,
     });
 
-    expect(
-      await screen.findByRole('heading', {
-        level: 1,
-        name: 'We’re sorry. We’ve run into a problem',
-      }),
-    ).to.be.ok;
-
     await waitFor(() => {
       expect(document.activeElement).to.have.tagName('h1');
+
+      expect(
+        screen.getByRole('heading', {
+          level: 1,
+          name: 'We’re sorry. We’ve run into a problem',
+        }),
+      ).to.be.ok;
     });
   });
 });
