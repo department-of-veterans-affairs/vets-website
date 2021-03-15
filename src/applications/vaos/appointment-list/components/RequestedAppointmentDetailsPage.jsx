@@ -57,7 +57,6 @@ function RequestedAppointmentDetailsPage({
 
   useEffect(
     () => {
-      fetchRequestDetails(id);
       if (appointment) {
         const isCanceled = appointment.status === APPOINTMENT_STATUS.cancelled;
         const isCC = appointment.vaos.isCommunityCare;

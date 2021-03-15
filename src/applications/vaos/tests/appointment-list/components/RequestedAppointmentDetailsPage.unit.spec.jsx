@@ -393,15 +393,16 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
   });
 
   it('should display cancel document title', async () => {
-    mockSingleRequestFetch({
-      request: appointment,
-      type: 'va',
-    });
     // Verify cancel VA appt
-    appointment.attributes = {
-      ...appointment.attributes,
+    const canceledAppointment = { ...appointment };
+    canceledAppointment.attributes = {
+      ...canceledAppointment.attributes,
       status: 'Cancelled',
     };
+    mockSingleRequestFetch({
+      request: canceledAppointment,
+      type: 'va',
+    });
     renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
       path: `/requests/${appointment.id}`,

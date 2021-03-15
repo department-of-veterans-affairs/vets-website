@@ -336,6 +336,8 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       }),
     ).to.be.ok;
 
-    expect(document.activeElement).to.have.tagName('h1');
+    waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
   });
 });
