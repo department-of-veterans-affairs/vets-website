@@ -57,7 +57,7 @@ const HealthCare = ({
   useEffect(
     () => {
       if (canAccessMessaging) {
-        fetchFolder(0, { page: 1, sort: '-sent_date' });
+        fetchFolder(0);
       }
     },
     [canAccessMessaging, fetchFolder],
