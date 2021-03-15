@@ -85,7 +85,7 @@ module.exports = {
       const attribute = $el.is('script') ? 'src' : 'href';
 
       // Derive the hashed entry name.
-      const hashedEntryName = this.entryNamesDictionary.get(entryName) || [];
+      const hashedEntryName = this.entryNamesDictionary.get(entryName) || '';
 
       // Assemble the filename so we can match it in the generated files array.
       const fileSearch = `generated/${hashedEntryName.split('/generated/')[1]}`;
