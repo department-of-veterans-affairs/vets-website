@@ -59,12 +59,17 @@ function RequestedAppointmentDetailsPage({
     () => {
       fetchRequestDetails(id);
       if (appointment) {
-        const requestDate = moment.parseZone(
-          appointment.requestedPeriod[0].start,
+        const isCanceled = appointment.status === APPOINTMENT_STATUS.cancelled;
+        const isCC = appointment.vaos.isCommunityCare;
+        const typeOfCareText = lowerCase(
+          appointment?.type?.coding?.[0]?.display,
         );
-        document.title = `Request appointment on ${requestDate.format(
-          'dddd, MMMM D, YYYY',
-        )}`;
+
+        const title = `${isCanceled ? 'Canceled' : 'Pending'} ${
+          isCC ? 'Community care' : 'VA'
+        } ${typeOfCareText} appointment`;
+
+        document.title = title;
       }
       scrollAndFocus();
     },
