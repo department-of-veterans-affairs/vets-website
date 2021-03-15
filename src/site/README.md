@@ -308,12 +308,15 @@ The following query looks up the `entityId` for one page of the `entityBundle` (
 
 </details>
 
-## Testing
+## Liquid Template Unit Testing Framework
 
-To test a template, you can use the `renderHTML` function in `~/src/site/tests/support/`.
+The Liquid Template Unit Testing Framework was created to replace Cypress, which is a slow and heavy framework and is overkill for testing logic in `liquid` templates.
 
-`renderHTML` takes a liquid template path and a JSON fixture, and renders an HTML document
-by populating the liquid template with the JSON provided. We can then run the usual mocha assertions on the result. This function uses the same code as our build process, so all of our custom liquid filters can be used.
+To test a `liquid` template, use the `parseFixture` and `renderHTML` functions in `~/src/site/tests/support/`.
+
+`parseFixture` takes a json fixtures path and returns a `JavaScript` object.
+
+`renderHTML` takes a liquid template path and the `JavaScript` object returned by `parseFixture`, and renders an HTML document by populating the liquid template with the JSON provided. We can then run the usual mocha assertions on the result. This function uses the same code as our build process, so all of our custom liquid filters can be used.
 
 This technique can be used to generate tests of varying complexity, ranging from simple rendering sanity checks to complex logic. Since we control the JSON test data, we can easily test different scenarios.
 
@@ -340,3 +343,6 @@ Here is a sample test:
 Here are several example spec files:
 - [src/site/layouts/tests/landing_page/landing_page.unit.spec.js](#)
 - [src/site/layouts/tests/vamc/health_care_region_page.unit.spec.js](#)
+
+### Why Not Use Cypress?
+Cypress can't directly test `liquid` templates and 
