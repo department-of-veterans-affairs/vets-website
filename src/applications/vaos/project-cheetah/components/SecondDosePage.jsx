@@ -6,7 +6,6 @@ import FormButtons from '../../components/FormButtons';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import moment from 'moment';
 import { getReviewPage } from '../redux/selectors';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 const pageKey = 'secondDosePage';
 const pageTitle = 'Plan your second dose';
