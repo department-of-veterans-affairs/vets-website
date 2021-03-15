@@ -55,15 +55,25 @@ const getMonthlyIncome = ({
 
 const getMonthlyExpenses = ({
   questions,
+  personalData,
   expenses,
   otherExpenses,
   utilityRecords,
   installmentContractsAndOtherDebts,
 }) => {
+  const { employmentHistory } = personalData;
   let totalArr = [];
 
   const householdExpenses = Object.values(expenses);
   totalArr = [...totalArr, ...householdExpenses];
+
+  if (questions.vetIsEmployed) {
+    const { deductions } = employmentHistory.veteran.currentEmployment;
+    const payrollDeductions = deductions.map(
+      deduction => deduction.deductionAmount,
+    );
+    totalArr = [...totalArr, ...payrollDeductions];
+  }
 
   if (questions.hasUtilities) {
     const utilities = utilityRecords.map(
