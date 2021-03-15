@@ -75,10 +75,8 @@ const submit = async (form, formConfig) => {
       // reject(body);
     });
   } else {
-    // Commented out till API is working.
     const eventData = {};
 
-    // returns an empty promise for the forms system
     return Promise.all([
       await submitToUrl(
         JSON.stringify(body),
