@@ -80,7 +80,6 @@ export default function folders(state = initialState, action) {
             visible: false,
           },
           lastRequestedFolder: action.request,
-          loading: true,
         },
         newState,
       );

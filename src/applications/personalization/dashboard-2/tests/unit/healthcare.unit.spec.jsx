@@ -15,10 +15,12 @@ describe('HealthCare', () => {
   };
 
   describe('Prescriptions', () => {
-    it('when enrolled in VA health care, should not render when they have never had any prescriptions managed by the VA', () => {
-      const wrapper = mount(<HealthCare {...defaultProps} />);
-      expect(wrapper.find('Prescriptions').exists()).to.be.false;
-      wrapper.unmount();
+    describe('when enrolled in VA Health Care', () => {
+      it('should not render when they have never had any prescriptions managed by the VA', () => {
+        const wrapper = mount(<HealthCare {...defaultProps} />);
+        expect(wrapper.find('Prescriptions').exists()).to.be.false;
+        wrapper.unmount();
+      });
     });
   });
 
