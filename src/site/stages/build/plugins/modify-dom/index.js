@@ -8,16 +8,29 @@ const addSubheadingsIds = require('./add-id-to-subheadings');
 const checkBrokenLinks = require('./check-broken-links');
 const injectAxeCore = require('./inject-axe-core');
 
-const domModifiers = [
-  addNonceToScripts,
-  processEntryNames,
-  updateExternalLinks,
-  addSubheadingsIds,
-  checkBrokenLinks,
-  injectAxeCore,
-];
+const getDomModifiers = BUILD_OPTIONS => {
+  if (BUILD_OPTIONS.liquidUnitTestingFramework) {
+    return [
+      processEntryNames,
+      updateExternalLinks,
+      addSubheadingsIds,
+      injectAxeCore,
+    ];
+  }
+
+  return [
+    addNonceToScripts,
+    processEntryNames,
+    updateExternalLinks,
+    addSubheadingsIds,
+    checkBrokenLinks,
+    injectAxeCore,
+  ];
+};
 
 const modifyDom = BUILD_OPTIONS => files => {
+  const domModifiers = getDomModifiers(BUILD_OPTIONS);
+
   for (const modifier of domModifiers) {
     if (modifier.initialize) {
       modifier.initialize(BUILD_OPTIONS, files);

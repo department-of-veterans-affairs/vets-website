@@ -185,6 +185,9 @@ export function SelectDate1Page({
               .add(395, 'days')
               .format('YYYY-MM-DD')}
             validationError={submitted ? validationError : null}
+            required
+            requiredMessage="Please choose your preferred date and time for your appointment"
+            showValidation={submitted && !selectedDates?.length}
           />
         </>
       )}

@@ -131,7 +131,9 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
 
     // Should show 6th facility
     expect(screen.baseElement).to.contain.text('Fake facility name 6');
-    expect(document.activeElement.id).to.equal('root_vaFacility_6');
+    await waitFor(() =>
+      expect(document.activeElement.id).to.equal('root_vaFacility_6'),
+    );
 
     // Should verify that all radio buttons have the same name (508 accessibility)
     buttons.forEach(button => {

@@ -34,7 +34,6 @@ export function prefillTransformer(pages, formData, metadata, state) {
       personalData: {
         ...newData.personalData,
         primaryEmail: emailAddress,
-        confirmationEmail: emailAddress,
       },
     };
   }

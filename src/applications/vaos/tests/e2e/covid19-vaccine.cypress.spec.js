@@ -19,7 +19,9 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     // Plan ahead page
     cy.url().should('include', '/new-covid-19-vaccine-booking');
     cy.axeCheckBestPractice();
-    cy.findByText('Start scheduling').click();
+    cy.contains('button', 'Start scheduling')
+      .focus()
+      .click();
 
     // Screener page
     cy.url().should('include', '/received-dose');
