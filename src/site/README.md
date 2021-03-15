@@ -310,7 +310,7 @@ The following query looks up the `entityId` for one page of the `entityBundle` (
 
 ## Liquid Template Unit Testing Framework
 
-The Liquid Template Unit Testing Framework was created to replace Cypress, which is a slow and heavy framework and is overkill for testing logic in `liquid` templates.
+The Liquid Template Unit Testing Framework was created to replace Cypress for unit testing the logic in `liquid` templates because Cypress is slow and heavy and is overkill for this purpose. Please note: End-to-end (e2e) tests on VA.gov use Cypress; Cypress has not been replaced by this tool.
 
 To test a `liquid` template, use the `parseFixture` and `renderHTML` functions in `~/src/site/tests/support/`.
 
