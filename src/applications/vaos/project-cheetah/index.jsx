@@ -28,6 +28,7 @@ import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
 import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
 import ErrorMessage from '../components/ErrorMessage';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 
 export function NewBookingSection({
   isEligible,
@@ -39,12 +40,9 @@ export function NewBookingSection({
   const history = useHistory();
   const location = useLocation();
 
-  useEffect(
-    () => {
-      openNewBookingPage(history);
-    },
-    [isEligible],
-  );
+  useEffect(() => {
+    openNewBookingPage(history);
+  }, []);
 
   useEffect(
     () => {
@@ -53,6 +51,15 @@ export function NewBookingSection({
       }
     },
     [featureProjectCheetah, history],
+  );
+
+  useEffect(
+    () => {
+      if (newBookingStatus === FETCH_STATUS.failed) {
+        scrollAndFocus();
+      }
+    },
+    [newBookingStatus],
   );
 
   useManualScrollRestoration();
@@ -65,21 +72,15 @@ export function NewBookingSection({
 
   const shouldRedirectToStart = useFormRedirectToStart({
     shouldRedirect: () =>
-      !location.pathname.endsWith('new-covid-19-vaccine-booking') &&
+      !location.pathname.endsWith(match.url) &&
       !location.pathname.endsWith('confirmation'),
   });
   if (shouldRedirectToStart) {
-    return <Redirect to="/new-covid-19-vaccine-booking" />;
+    return <Redirect to={match.url} />;
   }
 
-  const title = <h1 className="vads-u-font-size--h2">{'New Booking'}</h1>;
   if (newBookingStatus === FETCH_STATUS.failed) {
-    return (
-      <div>
-        {title}
-        <ErrorMessage level="2" />
-      </div>
-    );
+    return <ErrorMessage level="1" />;
   }
 
   if (
@@ -88,7 +89,10 @@ export function NewBookingSection({
   ) {
     return (
       <div className="vads-u-margin-y--8">
-        <LoadingIndicator message="Checking for online appointment availability" />
+        <LoadingIndicator
+          setFocus
+          message="Checking for online appointment availability"
+        />
       </div>
     );
   }
@@ -98,11 +102,9 @@ export function NewBookingSection({
   if (
     !isEligible &&
     newBookingStatus === FETCH_STATUS.succeeded &&
-    !location.pathname.includes(
-      '/new-covid-19-vaccine-booking/contact-facilities',
-    )
+    !location.pathname.includes(`${match.url}/contact-facilities`)
   ) {
-    return <Redirect to="/new-covid-19-vaccine-booking/contact-facilities" />;
+    return <Redirect to={`${match.url}/contact-facilities`} />;
   }
 
   return (

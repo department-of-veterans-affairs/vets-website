@@ -29,7 +29,9 @@ export function chooseVAFacilityTest() {
 export function chooseVAFacilityV2Test() {
   cy.url().should('include', '/va-facility-2');
   cy.axeCheck();
-  cy.findByLabelText(/cheyenne/i).click();
+  cy.get('#root_vaFacility_3')
+    .focus()
+    .click();
   cy.findByText(/Continue/).click();
 }
 
@@ -62,12 +64,17 @@ export function choosePreferredDateTest() {
 export function selectTimeSlotTest() {
   cy.url().should('include', '/select-date');
   cy.findByText(/Finding appointment availability.../i).should('not.exist');
-  cy.get(
-    '.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])',
-  ).click();
-  cy.get(
-    '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
-  ).click();
+  cy.waitUntil(() =>
+    cy
+      .get('.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])')
+      .focus()
+      .click()
+      .get(
+        '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
+      ),
+  )
+    .focus()
+    .click();
 
   cy.axeCheck();
   cy.findByText(/Continue/).click();

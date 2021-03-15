@@ -138,6 +138,7 @@ class SearchControls extends Component {
         </div>
         {showError && (
           <span className="usa-input-error-message" role="alert">
+            <span className="sr-only">Error</span>
             Please fill in a city, state, or postal code.
           </span>
         )}
@@ -185,6 +186,7 @@ class SearchControls extends Component {
         </label>
         {showError && (
           <span className="usa-input-error-message" role="alert">
+            <span className="sr-only">Error</span>
             Please choose a facility type.
           </span>
         )}
