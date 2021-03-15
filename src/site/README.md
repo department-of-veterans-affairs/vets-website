@@ -343,6 +343,3 @@ Here is a sample test:
 Here are several example spec files:
 - [src/site/layouts/tests/landing_page/landing_page.unit.spec.js](#)
 - [src/site/layouts/tests/vamc/health_care_region_page.unit.spec.js](#)
-
-### Why Not Use Cypress?
-Cypress can't directly test `liquid` templates and 
