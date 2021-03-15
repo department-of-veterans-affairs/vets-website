@@ -10,6 +10,7 @@ import * as pages from '../pages';
 import { transform } from '../utils/transform';
 import SubmissionError from '../components/SubmissionError';
 import { WIZARD_STATUS } from '../wizard/constants';
+import { prefillTransformer } from '../utils/prefillTransformer';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -19,6 +20,7 @@ const formConfig = {
   trackingPrefix: 'fsr-5655-',
   wizardStorageKey: WIZARD_STATUS,
   verifyRequiredPrefill: true,
+  prefillTransformer,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: PreSubmitSignature,
@@ -94,15 +96,15 @@ const formConfig = {
           initialData: {
             personalData: {
               address: {
-                country: 'United States',
-                city: 'Tampa',
-                state: 'FL',
-                postalCode: '33614',
+                countryName: 'United States',
                 addressLine1: '1234 W Nebraska St',
+                city: 'Tampa',
+                stateCode: 'FL',
+                zipCode: '33614',
               },
+              telephoneNumber: '5551234567',
               primaryEmail: 'hector.smith@email.com',
               confirmationEmail: '',
-              telephoneNumber: '5551234567',
             },
           },
           path: 'contact-information',
