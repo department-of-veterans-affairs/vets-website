@@ -37,8 +37,9 @@ jobs:
       - run: zip -j ./tmp/function.zip build/content-cache/index.js
       - run: aws sts get-caller-identity
       - run: aws s3 cp ./tmp/function.zip s3://vetsgov-website-builds-s3-upload/content-cache/master/function.zip --acl public-read
-      - run: aws lambda update-function-code \
-          --function-name cacheDrupalContent \
-          --s3-bucket vetsgov-website-builds-s3-upload \
+      - run: >
+          aws lambda update-function-code
+          --function-name cacheDrupalContent
+          --s3-bucket vetsgov-website-builds-s3-upload
           --s3-key content-cache/master/function.zip
       - run: aws lambda invoke --function-name cacheDrupalContent
