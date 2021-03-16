@@ -5,7 +5,7 @@ const NotificationCTA = ({ CTA }) => {
 
   return (
     <a
-      aria-label={`${ariaLabel} (opens in new tab)`}
+      aria-label={ariaLabel ? `${ariaLabel} (opens in new tab)` : ''}
       className="vads-u-font-weight--bold vads-u-background-color--primary-alt-lightest vads-u-padding--1 vads-u-margin-top--2"
       href={href}
       rel="noreferrer noopener"

@@ -30,11 +30,16 @@
   {% include "src/site/includes/metatags.liquid" %}
   {% endif %}
 
+  <script nonce="**CSP_NONCE**" nomodule data-entry-name="polyfills.js"></script>
+
   <script nonce="**CSP_NONCE**">
     {% include "src/site/assets/js/record-event.js" %}
   </script>
 
-  {% include 'src/site/includes/google-analytics' %}
+  <link rel="stylesheet" data-entry-name="web-components.css">
+  <script nonce="**CSP_NONCE**" data-entry-name="web-components.js"></script>
+
+  {% include 'src/site/includes/google-analytics.liquid' %}
 
   <!-- Icons -->
   <link href="/img/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />
@@ -67,7 +72,6 @@
     <script nonce="**CSP_NONCE**" src="{{ botframework_cdn }}"></script>
   {% endif %}
 
-  <script nonce="**CSP_NONCE**" defer nomodule data-entry-name="polyfills.js"></script>
   <script nonce="**CSP_NONCE**" defer data-entry-name="vendor.js"></script>
   <script nonce="**CSP_NONCE**" defer data-entry-name="{{ entryname | default: 'static-pages' }}.js"></script>
 

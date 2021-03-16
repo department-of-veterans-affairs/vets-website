@@ -1,1 +1,1 @@
-export const TYPE_OF_CARE_ID = '301';
+export const TYPE_OF_CARE_ID = 'covid';

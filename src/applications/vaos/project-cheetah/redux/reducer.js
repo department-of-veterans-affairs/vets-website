@@ -54,6 +54,7 @@ const initialState = {
     appointmentSlotsStatus: FETCH_STATUS.notStarted,
     availableSlots: null,
     fetchedAppointmentSlotMonths: [],
+    requestLocationStatus: FETCH_STATUS.notStarted,
   },
   submitStatus: FETCH_STATUS.notStarted,
   submitErrorReason: null,
@@ -395,7 +396,10 @@ export default function projectCheetahReducer(state = initialState, action) {
     case FORM_REQUEST_CURRENT_LOCATION_FAILED: {
       return {
         ...state,
-        requestLocationStatus: FETCH_STATUS.failed,
+        newBooking: {
+          ...state.newBooking,
+          requestLocationStatus: FETCH_STATUS.failed,
+        },
       };
     }
     case FORM_CLINIC_PAGE_OPENED_SUCCEEDED: {

@@ -13,6 +13,7 @@ import { getRealFacilityId } from '../../utils/appointment';
 import { getReviewPage } from '../redux/selectors';
 import flow from '../flow';
 import State from '../../components/State';
+import NewTabAnchor from '../../components/NewTabAnchor';
 
 const pageTitle = 'Review your appointment details';
 
@@ -47,19 +48,15 @@ function ReviewPage({
       <h2 className="vads-u-margin-bottom--0 vads-u-margin-top--3 vads-u-font-size--h3">
         COVID-19 vaccine
       </h2>
-      First dose
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <div className="vads-l-grid-container vads-u-padding--0">
         <div className="vads-l-row vads-u-justify-content--space-between">
           <div className="vads-u-flex--1 vads-u-padding-right--1">
-            {moment(date1, 'YYYY-MM-DDTHH:mm:ssZ').format(
-              'dddd, MMMM DD, YYYY [at] h:mm a ',
-            ) + getTimezoneAbbrBySystemId(systemId)}
-          </div>
-          <div>
-            <Link to={flow.selectDate1.url} aria-label="Edit appointment time">
-              Edit
-            </Link>
+            <strong>
+              {moment(date1, 'YYYY-MM-DDTHH:mm:ssZ').format(
+                'dddd, MMMM DD, YYYY [at] h:mm a ',
+              ) + getTimezoneAbbrBySystemId(systemId)}
+            </strong>
           </div>
         </div>
       </div>
@@ -72,11 +69,22 @@ function ReviewPage({
             <br />
             {facility.address?.city}, <State state={facility.address?.state} />
           </div>
-          <div>
-            <Link to={flow.vaFacility.url} aria-label="Edit facility">
-              Edit
-            </Link>
+        </div>
+      </div>
+      <hr aria-hidden="true" className="vads-u-margin-y--2" />
+      <div className="vads-l-grid-container vads-u-padding--0">
+        <div className="vads-l-row vads-u-justify-content--space-between">
+          <div className="vads-u-flex--1 vads-u-padding-right--1">
+            <h3 className="vaos-appts__block-label">Your contact details</h3>
+            <div>
+              {data.email}
+              <br />
+              {data.phoneNumber}
+            </div>
           </div>
+          <Link to={flow.contactInfo.url} aria-label="Edit contact information">
+            Edit
+          </Link>
         </div>
       </div>
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
@@ -91,7 +99,7 @@ function ReviewPage({
           className="usa-button usa-button-primary"
           onClick={() => confirmAppointment(history)}
         >
-          Confirm appointment
+          Schedule appointment
         </LoadingButton>
       </div>
       {submitStatus === FETCH_STATUS.failed && (
@@ -116,9 +124,7 @@ function ReviewPage({
               )}
               <p>
                 {!facilityDetails && (
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <NewTabAnchor
                     href={`/find-locations/facility/vha_${getRealFacilityId(
                       data.vaFacility,
                     )}`}
@@ -126,7 +132,7 @@ function ReviewPage({
                     {submitStatusVaos400
                       ? 'Find facility contact information'
                       : 'Contact your local VA medical center'}
-                  </a>
+                  </NewTabAnchor>
                 )}
                 {!!facilityDetails && (
                   <FacilityAddress

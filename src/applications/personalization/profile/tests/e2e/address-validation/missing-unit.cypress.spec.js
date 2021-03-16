@@ -5,11 +5,11 @@ describe('Personal and contact information', () => {
     it('should successfully update on Desktop', () => {
       setUp('missing-unit');
 
-      cy.get('#root_addressLine1')
+      cy.findByLabelText(/^street address/i)
         .clear()
         .type('225 irving st');
-      cy.get('#root_addressLine2').clear();
-      cy.get('#root_addressLine3').clear();
+      cy.findByLabelText(/^line 2/i).clear();
+      cy.findByLabelText(/^line 3/i).clear();
 
       cy.findByLabelText(/City/i)
         .clear()
