@@ -72,7 +72,7 @@ export default function ScheduleNewAppointmentRadioButtons({
               event: `${GA_PREFIX}-${
                 radioSelection === 'new-appointment'
                   ? 'schedule-appointment-button-clicked'
-                  : 'schedule-project-cheetah-button-clicked'
+                  : 'schedule-covid19-button-clicked'
               }`,
             });
             startNewAppointmentFlow();

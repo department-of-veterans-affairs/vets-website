@@ -32,7 +32,7 @@ function PlanAheadPage({ routeToNextAppointmentPage }) {
         buttonClass="vads-u-font-weight--bold vads-u-font-size--md vads-u-width--full small-screen:vads-u-width--auto"
         onButtonClick={() => {
           recordEvent({
-            event: `${GA_PREFIX}-cheetah-start-scheduling-button-clicked`,
+            event: `${GA_PREFIX}-covid19-start-scheduling-button-clicked`,
           });
           routeToNextAppointmentPage(history, pageKey);
         }}
