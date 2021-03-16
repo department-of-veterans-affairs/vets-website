@@ -31,10 +31,7 @@ import moment from 'moment';
 import { getSlots } from '../../services/slot';
 import recordEvent from 'platform/monitoring/record-event';
 import { transformFormToAppointment } from './helpers/formSubmitTransformers';
-import {
-  getDirectBookingEligibilityCriteria,
-  submitAppointment,
-} from '../../services/var';
+import { submitAppointment } from '../../services/var';
 import { VACCINE_FORM_SUBMIT_SUCCEEDED } from '../../redux/sitewide';
 
 export const FORM_PAGE_OPENED = 'projectCheetah/FORM_PAGE_OPENED';
@@ -86,12 +83,6 @@ export const FORM_PAGE_CONTACT_FACILITIES_OPEN_SUCCEEDED =
 export const FORM_PAGE_CONTACT_FACILITIES_OPEN_FAILED =
   'projectCheetah/FORM_CONTACT_FACILITIES_OPEN_FAILED';
 
-export const FETCH_NEW_BOOKING_WINDOW = 'vaos/FETCH_NEW_BOOKING_WINDOW';
-export const FETCH_NEW_BOOKING_WINDOW_FAILED =
-  'vaos/FETCH_NEW_BOOKING_WINDOW_FAILED';
-export const FETCH_NEW_BOOKING_WINDOW_SUCCEEDED =
-  'vaos/FETCH_NEW_BOOKING_WINDOW_SUCCEEDED';
-
 export const GA_FLOWS = {
   DIRECT: 'direct',
 };
@@ -138,50 +129,6 @@ export function getClinics({ facilityId, showModal = false }) {
     }
 
     return clinics;
-  };
-}
-
-export function openNewBookingPage(history) {
-  return async (dispatch, getState) => {
-    dispatch({
-      type: FETCH_NEW_BOOKING_WINDOW,
-    });
-
-    let isEligible = false;
-    try {
-      const initialState = getState();
-      const siteIds = selectSystemIds(initialState);
-
-      // Get sites that support vaccines
-      const criteria = await getDirectBookingEligibilityCriteria(siteIds);
-      isEligible = criteria.some(setting =>
-        setting.coreSettings.some(
-          coreSetting =>
-            coreSetting.id === TYPE_OF_CARE_ID &&
-            !!coreSetting.patientHistoryRequired,
-        ),
-      );
-
-      // Redirect the user to the 'Contact facility' page if the appointment can't be
-      // scheduled at the user's registered facilities.
-      if (!isEligible) {
-        history.push('/new-covid-19-vaccine-booking/contact-facilities');
-      }
-
-      dispatch({
-        type: FETCH_NEW_BOOKING_WINDOW_SUCCEEDED,
-        isEligible,
-      });
-    } catch (e) {
-      dispatch({
-        type: FETCH_NEW_BOOKING_WINDOW_FAILED,
-        isEligible,
-      });
-
-      // Just capture the error for now.
-      // TODO: Figure out where to redirect the user.
-      captureError(e, false);
-    }
   };
 }
 
