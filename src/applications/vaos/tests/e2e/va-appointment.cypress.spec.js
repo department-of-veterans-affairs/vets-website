@@ -14,8 +14,11 @@ describe('VAOS direct schedule flow', () => {
     cy.get('.va-modal-body button').click();
     cy.findAllByRole('tab').should('exist');
 
+    // Select primary care appointment type
+    cy.get('#schedule-new-appointment-0').click();
+
     // Start flow
-    cy.findByText('Schedule an appointment').click();
+    cy.findByText('Start scheduling').click();
 
     // Choose Type of Care
     newApptTests.chooseTypeOfCareTest('Primary care');
@@ -84,8 +87,11 @@ describe('VAOS direct schedule flow', () => {
     cy.get('.va-modal-body button').click();
     cy.findAllByRole('tab').should('exist');
 
+    // Select primary care appointment type
+    cy.get('#schedule-new-appointment-0').click();
+
     // Start flow
-    cy.findByText('Schedule an appointment').click();
+    cy.findByText('Start scheduling').click();
 
     // Choose Type of Care
     newApptTests.chooseTypeOfCareTest('Eye care');
@@ -153,8 +159,11 @@ describe('VAOS direct schedule flow', () => {
     cy.get('.va-modal-body button').click();
     cy.findAllByRole('tab').should('exist');
 
+    // Select primary care appointment type
+    cy.get('#schedule-new-appointment-0').click();
+
     // Start flow
-    cy.findByText('Schedule an appointment').click();
+    cy.findByText('Start scheduling').click();
 
     // Choose Type of Care
     newApptTests.chooseTypeOfCareTest('Sleep medicine');
@@ -223,8 +232,11 @@ describe('VAOS direct schedule flow with a Cerner site', () => {
     cy.get('.va-modal-body button').click();
     cy.findAllByRole('tab').should('exist');
 
+    // Select primary care appointment type
+    cy.get('#schedule-new-appointment-0').click();
+
     // Start flow
-    cy.findByText('Schedule an appointment').click();
+    cy.findByText('Start scheduling').click();
 
     // Choose Type of Care
     newApptTests.chooseTypeOfCareTest('Primary care');
@@ -293,8 +305,11 @@ describe('VAOS direct schedule flow with a Cerner site', () => {
     cy.get('.va-modal-body button').click();
     cy.findAllByRole('tab').should('exist');
 
+    // Select primary care appointment type
+    cy.get('#schedule-new-appointment-0').click();
+
     // Start flow
-    cy.findByText('Schedule an appointment').click();
+    cy.findByText('Start scheduling').click();
 
     // Choose Type of Care
     newApptTests.chooseTypeOfCareTest('Eye care');
@@ -362,8 +377,11 @@ describe('VAOS direct schedule flow with a Cerner site', () => {
     cy.get('.va-modal-body button').click();
     cy.findAllByRole('tab').should('exist');
 
+    // Select primary care appointment type
+    cy.get('#schedule-new-appointment-0').click();
+
     // Start flow
-    cy.findByText('Schedule an appointment').click();
+    cy.findByText('Start scheduling').click();
 
     // Choose Type of Care
     newApptTests.chooseTypeOfCareTest('Sleep medicine');

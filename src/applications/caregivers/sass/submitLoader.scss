@@ -1,0 +1,19 @@
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+
+  .loading-indicator {
+    margin-bottom: 1.75em;
+  }
+
+  p {
+    text-align: center;
+    line-height: 40px;
+  }
+
+  @include media($medium-screen) {
+    max-width: 75%;
+  }
+}

@@ -2,7 +2,7 @@ import React from 'react';
 import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 
 import {
@@ -138,7 +138,19 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       path: `/requests/${appointment.id}`,
     });
 
-    expect(await screen.findByText('Cheyenne VA Medical Center')).to.be.ok;
+    // Verify page content...
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
+
+    expect(
+      screen.getByRole('heading', {
+        level: 1,
+        name: 'Pending primary care appointment',
+      }),
+    );
+
+    expect(screen.getByText('Cheyenne VA Medical Center')).to.be.ok;
     expect(screen.baseElement).to.contain.text(
       'Pending primary care appointment',
     );
@@ -227,8 +239,13 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     fireEvent.click(detailLinks[0]);
 
+    // Verify page content...
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
+
     expect(
-      await screen.findByRole('heading', {
+      screen.getByRole('heading', {
         level: 1,
         name: 'Pending audiology (hearing aid support) appointment',
       }),
@@ -331,11 +348,74 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       path: `/requests/${appointment.id}`,
     });
 
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
+
     expect(
-      await screen.findByRole('heading', {
+      screen.getByRole('heading', {
         level: 1,
         name: 'We’re sorry. We’ve run into a problem',
       }),
     ).to.be.ok;
+  });
+
+  it('should display pending document title', async () => {
+    // Verify VA pending
+    mockSingleRequestFetch({
+      request: appointment,
+      type: 'va',
+    });
+
+    renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: `/requests/${appointment.id}`,
+    });
+
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `Pending VA primary care appointment`,
+      );
+    });
+
+    // Verify CC pending appointment
+    mockSingleRequestFetch({
+      request: ccAppointmentRequest,
+      type: 'cc',
+    });
+
+    renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: `/requests/${appointment.id}`,
+    });
+
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `Pending Community care audiology (hearing aid support) appointment`,
+      );
+    });
+  });
+
+  it('should display cancel document title', async () => {
+    // Verify cancel VA appt
+    const canceledAppointment = { ...appointment };
+    canceledAppointment.attributes = {
+      ...canceledAppointment.attributes,
+      status: 'Cancelled',
+    };
+    mockSingleRequestFetch({
+      request: canceledAppointment,
+      type: 'va',
+    });
+    renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: `/requests/${appointment.id}`,
+    });
+
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `Canceled VA primary care appointment`,
+      );
+    });
   });
 });
