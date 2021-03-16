@@ -2,6 +2,10 @@ const getStatus = questionnaireResponses => {
   if (!questionnaireResponses) {
     return null;
   }
+
+  if (!questionnaireResponses.length) {
+    return null;
+  }
   questionnaireResponses.sort((first, second) => {
     const f = first.submittedOn;
     const s = second.submittedOn;
