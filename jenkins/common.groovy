@@ -268,7 +268,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 def accessibilityTests(dockerContainer, ref, String buildLogPath, String envName) {
 
   if (shouldBail() || !VAGOV_BUILDTYPES.contains('vagovprod')) { return }
-
+  slackNotify();
   stage("Accessibility") {
 
     dir("vets-website") {
