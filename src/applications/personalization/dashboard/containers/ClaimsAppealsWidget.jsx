@@ -214,6 +214,8 @@ const mapStateToProps = state => {
         const evssPhaseChangeDate = c.attributes.phaseChangeDate;
         const evssDateFiled = c.attributes.dateFiled;
         if (evssPhaseChangeDate && evssDateFiled) {
+          // updateDate should be the _more recent_ of either the file date or
+          // phase change date
           updateDate = moment(evssPhaseChangeDate).isAfter(
             moment(evssDateFiled),
           )
@@ -223,6 +225,8 @@ const mapStateToProps = state => {
           updateDate = evssPhaseChangeDate || evssDateFiled;
         }
       } else {
+        // TODO: I believe this is incorrect and the date we actually care about
+        // is the most recent date in the array of attributes.event objects
         updateDate = c.attributes.updated;
       }
 

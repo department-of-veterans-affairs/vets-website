@@ -23,9 +23,6 @@ export default function ScheduleNewAppointmentRadioButtons({
   startNewAppointmentFlow,
   startNewVaccineFlow,
 }) {
-  /**
-   * Radio selection
-   */
   const [radioSelection, setRadioSelection] = useState();
 
   function radioOptions() {

@@ -8,9 +8,9 @@
     "address": {
       "street": "123 Fake Street",
       "city": "Fakerville",
-      "state": "CO",
-      "country": "USA",
-      "postalCode": "11111"
+      "stateCode": "CO",
+      "countryName": "USA",
+      "zipCode": "11111"
     },
     "telephoneNumber": "5555555555",
     "dateOfBirth": "1970-01-01",
@@ -32,9 +32,9 @@
           "employerAddress": {
             "street": "321 Notreal Avenue",
             "city": "Fakerville",
-            "state": "CO",
-            "country": "USA",
-            "postalCode": "11111"
+            "stateCode": "CO",
+            "countryName": "USA",
+            "zipCode": "11111"
           }
         }
       ],
@@ -120,9 +120,9 @@
       "creditorAddress": {
         "street": "555 Bogus Street",
         "city": "Fakerville",
-        "state": "CO",
-        "country": "USA",
-        "postalCode": "11111"
+        "stateCode": "CO",
+        "countryName": "USA",
+        "zipCode": "11111"
       },
       "dateStarted": "2017-05-01",
       "purpose": "debt consolidation loan",

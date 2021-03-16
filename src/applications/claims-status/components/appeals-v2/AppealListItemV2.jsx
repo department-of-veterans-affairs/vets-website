@@ -8,19 +8,8 @@ import {
   EVENT_TYPES,
   getTypeName,
   getStatusContents,
+  programAreaMap,
 } from '../../utils/appeals-v2-helpers';
-
-const programAreaMap = {
-  compensation: 'disability compensation',
-  pension: 'pension',
-  insurance: 'insurance',
-  loan_guaranty: 'loan guaranty', // eslint-disable-line camelcase
-  education: 'education',
-  vre: 'vocational rehabilitation and employment',
-  medical: 'health care',
-  burial: 'burial benefits',
-  fiduciary: 'fiduciary',
-};
 
 const capitalizeWord = word => {
   const capFirstLetter = word[0].toUpperCase();

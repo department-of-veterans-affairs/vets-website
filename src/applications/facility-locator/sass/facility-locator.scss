@@ -627,6 +627,26 @@ canvas.mapboxgl-canvas:focus {
     top: 95px;
     right: 10px;
 
+    @media (max-width: $small-screen) {
+      width: 18px;
+      height: 18px;
+    }
+
+    background-color: transparent;
+    color: black;
+    padding: 0;
+    margin: 0;
+    font-size: inherit;
+    font-family: 'Font Awesome 5 Free';
+
+    &:active {
+      background-color: transparent;
+    }
+
+    &:hover {
+      background: transparent;
+    }
+
     @media only screen and (min-width: 980px) {
       right: 26px;
       top: 38px;
@@ -636,8 +656,10 @@ canvas.mapboxgl-canvas:focus {
 
 #street-city-state-zip {
   font-weight: bold;
-  padding-right: 28px;
+  padding-right: 28px !important;
 }
+
+
 
 // Make focus styles on the Medallia 'Feedback' button consistent with focus styles in the survey
 .nebula_image_button.wcagOutline:focus {
