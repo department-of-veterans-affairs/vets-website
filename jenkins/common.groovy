@@ -165,7 +165,7 @@ def accessibilityTests() {
         )
 
         slackSend(
-          message: 'Daily accessibility scan has completed successfully.'
+          message: 'Daily accessibility scan has completed successfully.',
           color: 'good',
           failOnError: true,
           channel: '-daily-accessibility-scan'
