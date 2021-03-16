@@ -7,6 +7,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import * as actions from '../redux/actions';
 import { GA_PREFIX } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import NewTabAnchor from '../../components/NewTabAnchor';
 
 const pageKey = 'planAhead';
 const pageTitle = 'Plan ahead';
@@ -49,14 +50,12 @@ function PlanAheadPage({ routeToNextAppointmentPage }) {
       <CollapsiblePanel panelName="Collapsible panel example">
         <div>Panel contents go here.</div>
       </CollapsiblePanel>
-      <a
+      <NewTabAnchor
         href="/health-care/covid-19-vaccine"
-        target="_blank"
-        rel="noopener noreferrer"
         className="vads-u-display--block vads-u-margin-top--2"
       >
         Learn more about COVID-19 vaccines at the VA.
-      </a>
+      </NewTabAnchor>
     </div>
   );
 }

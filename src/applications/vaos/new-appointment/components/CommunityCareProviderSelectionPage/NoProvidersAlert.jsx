@@ -1,5 +1,6 @@
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import React from 'react';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export default function NoProvidersAlert({ sortMethod, typeOfCareName }) {
   const headline = `We can’t find any ${typeOfCareName} providers close to you`;
@@ -19,13 +20,9 @@ export default function NoProvidersAlert({ sortMethod, typeOfCareName }) {
           <ul>
             <li>
               Call your VA or community care facility.{' '}
-              <a
-                href="/find-locations"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <NewTabAnchor href="/find-locations">
                 Find your health facility’s phone number
-              </a>
+              </NewTabAnchor>
               , <strong>or</strong>
             </li>
             <li>

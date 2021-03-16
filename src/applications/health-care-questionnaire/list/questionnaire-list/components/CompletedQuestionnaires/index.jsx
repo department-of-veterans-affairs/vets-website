@@ -5,7 +5,7 @@ import moment from 'moment';
 import QuestionnaireItem from '../QuestionnaireItem';
 import EmptyMessage from '../Messages/EmptyMessage';
 import ServiceDown from '../Messages/ServiceDown';
-import PrintButton from '../Shared/Print/PrintButton';
+import PrintButton from '../../../../shared/components/print/PrintButton';
 
 const index = props => {
   const { questionnaires } = props;

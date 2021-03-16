@@ -39,7 +39,7 @@ export const SearchResultsHeader = ({
     }
 
     if (facilityType === LocationType.CC_PROVIDER) {
-      return specialtyMap[rawServiceType];
+      return specialtyMap && specialtyMap[rawServiceType];
     }
 
     if (facilityType === LocationType.BENEFITS) {
