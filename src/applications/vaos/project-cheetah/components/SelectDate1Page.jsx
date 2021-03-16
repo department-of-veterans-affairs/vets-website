@@ -10,6 +10,7 @@ import { FETCH_STATUS } from '../../utils/constants';
 import { getDateTimeSelect } from '../redux/selectors';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { getRealFacilityId } from '../../utils/appointment';
+import NewTabAnchor from '../../components/NewTabAnchor';
 import useIsInitialLoad from '../../hooks/useIsInitialLoad';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
@@ -32,13 +33,11 @@ function ErrorMessage({ facilityId }) {
         headline="We’ve run into a problem when trying to find available appointment times"
       >
         To schedule this appointment, you can{' '}
-        <a
+        <NewTabAnchor
           href={`/find-locations/facility/vha_${getRealFacilityId(facilityId)}`}
-          rel="noopener noreferrer"
-          target="_blank"
         >
           call your local VA medical center
-        </a>
+        </NewTabAnchor>
         .
       </AlertBox>
     </div>
@@ -185,6 +184,9 @@ export function SelectDate1Page({
               .add(395, 'days')
               .format('YYYY-MM-DD')}
             validationError={submitted ? validationError : null}
+            required
+            requiredMessage="Please choose your preferred date and time for your appointment"
+            showValidation={submitted && !selectedDates?.length}
           />
         </>
       )}

@@ -23,21 +23,21 @@ export const uiSchema = {
             'ui:options': {
               classNames: 'vads-u-margin-bottom--3',
             },
-            previousEmploymentType: {
+            type: {
               'ui:title': 'Type of work',
               'ui:options': {
                 widgetClassNames: 'input-size-3',
               },
             },
-            previousEmploymentStart: {
+            from: {
               'ui:title': 'Date your spouse started work at this job',
               'ui:widget': 'date',
             },
-            previousEmploymentEnd: {
+            to: {
               'ui:title': 'Date your spouse stopped work at this job',
               'ui:widget': 'date',
             },
-            previousEmployerName: {
+            employerName: {
               'ui:title': 'Employer name',
               'ui:options': {
                 classNames: 'vads-u-margin-top--3',
@@ -67,13 +67,9 @@ export const schema = {
                   items: {
                     type: 'object',
                     title: 'Previous employment',
-                    required: [
-                      'previousEmploymentType',
-                      'previousEmploymentStart',
-                      'previousEmploymentEnd',
-                    ],
+                    required: ['type', 'from', 'to'],
                     properties: {
-                      previousEmploymentType: {
+                      type: {
                         type: 'string',
                         enum: [
                           'Full time',
@@ -82,13 +78,13 @@ export const schema = {
                           'Temporary',
                         ],
                       },
-                      previousEmploymentStart: {
+                      from: {
                         type: 'string',
                       },
-                      previousEmploymentEnd: {
+                      to: {
                         type: 'string',
                       },
-                      previousEmployerName: {
+                      employerName: {
                         type: 'string',
                       },
                     },

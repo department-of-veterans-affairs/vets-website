@@ -13,7 +13,7 @@ export default function StemClaimListItem({ claim }) {
   return (
     <div className="claim-list-item-container">
       <h2 className="claim-list-item-header-v2 vads-u-font-size--h3">
-        Your Edith Nourse Rogers STEM Scholarship Application
+        Edith Nourse Rogers STEM Scholarship application
         <br />
         updated on {moment(claim.attributes.deniedAt).format('MMMM D, YYYY')}
       </h2>
@@ -31,7 +31,7 @@ export default function StemClaimListItem({ claim }) {
       <Link
         aria-label={`View details of claim received ${formattedReceiptDate}`}
         className="usa-button usa-button-primary"
-        to={`your-claims/${claim.id}/status`}
+        to={`your-stem-claims/${claim.id}/status`}
       >
         View details
         <i className="fa fa-chevron-right" aria-hidden="true" />

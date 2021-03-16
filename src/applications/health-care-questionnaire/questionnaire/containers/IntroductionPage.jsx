@@ -14,6 +14,9 @@ import IntroductionPageHelpers from '../components/introduction-page';
 
 import { getAppointTypeFromAppointment } from '../../shared/utils';
 
+import environment from 'platform/utilities/environment';
+import { removeFormApi } from 'platform/forms/save-in-progress/api';
+
 const IntroductionPage = props => {
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
@@ -156,6 +159,17 @@ const IntroductionPage = props => {
       <div className="omb-info--container">
         <OMBInfo expDate={expirationTime} />
       </div>
+      {!environment.isProduction() && (
+        <>
+          <button
+            onClick={() => {
+              removeFormApi(formId);
+            }}
+          >
+            Clear SiP Data
+          </button>
+        </>
+      )}
     </div>
   );
 };

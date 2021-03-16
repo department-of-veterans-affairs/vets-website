@@ -1,32 +1,27 @@
 import {
-  FETCH_APPOINTMENTS,
-  FETCH_APPOINTMENTS_SUCCESS,
-  FETCH_APPOINTMENTS_FAILURE,
-} from '../actions';
+  FETCH_CONFIRMED_FUTURE_APPOINTMENTS,
+  FETCH_CONFIRMED_FUTURE_APPOINTMENTS_FAILED,
+  FETCH_CONFIRMED_FUTURE_APPOINTMENTS_SUCCEEDED,
+} from '~/applications/personalization/dashboard-2/constants';
 
 const initialState = {
-  loading: false,
   data: [],
+  fetching: false,
 };
 
-export default function appointments(state = initialState, action) {
+export default (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_APPOINTMENTS:
-      return {
-        ...state,
-        loading: true,
-      };
-    case FETCH_APPOINTMENTS_SUCCESS:
-      return Object.assign({}, state, {
-        data: action.data,
-        loading: false,
-      });
-    case FETCH_APPOINTMENTS_FAILURE:
-      return Object.assign({}, state, {
-        error: action.error,
-        loading: false,
-      });
-    default:
-      return state;
+    case FETCH_CONFIRMED_FUTURE_APPOINTMENTS: {
+      return { ...state, fetching: true };
+    }
+    case FETCH_CONFIRMED_FUTURE_APPOINTMENTS_SUCCEEDED: {
+      return { ...state, fetching: false, data: action.appointments };
+    }
+    case FETCH_CONFIRMED_FUTURE_APPOINTMENTS_FAILED: {
+      return { ...state, fetching: false };
+    }
+    default: {
+      return { ...state };
+    }
   }
-}
+};

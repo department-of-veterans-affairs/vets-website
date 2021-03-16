@@ -1,0 +1,27 @@
+{
+  "entityBundle": "landing_page",
+  "entityId": "79",
+  "entityPublished": true,
+  "title": "VA records",
+  "entityUrl": {
+    "breadcrumb": [
+      {
+        "url": {
+          "path": "/",
+          "routed": true
+        },
+        "text": "Home"
+      },
+      {
+        "url": {
+          "path": "",
+          "routed": true
+        },
+        "text": "Records"
+      }
+    ],
+    "path": "/records"
+  },
+  "fieldIntroText": "Access your VA records and documents online to more easily manage your benefits.",
+  "fieldTitleIcon": "foo"
+}
