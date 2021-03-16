@@ -273,11 +273,26 @@ def accessibilityTests(dockerContainer, ref) {
       try {
         parallel (
           'nightwatch-accessibility': {
-            sh "export IMAGE_TAG=${IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod content-build --no-color run nightwatch:docker -- --env=accessibility"
+            sh "export IMAGE_TAG=${IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
           },
         )
+
+      slackSend(
+        message: '(Testing): integration tests failed. |${env.RUN_DISPLAY_URL}'.stripMargin()
+        color: 'danger',
+        failOnError: true,
+        channel: '-daily-accessibility-scan'
+      )
+
       } catch (error) {
-        // commonStages.slackIntegrationNotify()
+
+      slackSend(
+        message: '(Testing): integration tests failed. |${env.RUN_DISPLAY_URL}'.stripMargin()
+        color: 'danger',
+        failOnError: true,
+        channel: '-daily-accessibility-scan'
+      )
+
         throw error
       } finally {
         sh "docker-compose -p accessibility down --remove-orphans"
