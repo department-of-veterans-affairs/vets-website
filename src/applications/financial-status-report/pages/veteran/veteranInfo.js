@@ -27,7 +27,7 @@ export const schema = {
               type: 'string',
             },
             fileNumber: {
-              type: 'number',
+              type: 'string',
             },
           },
         },

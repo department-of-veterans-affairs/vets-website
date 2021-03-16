@@ -13,6 +13,7 @@ import CalendarWidget from '../../../components/calendar/CalendarWidget';
 import WaitTimeAlert from './WaitTimeAlert';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { getRealFacilityId } from '../../../utils/appointment';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 import useIsInitialLoad from '../../../hooks/useIsInitialLoad';
 
 const pageKey = 'selectDateTime';
@@ -38,13 +39,11 @@ function ErrorMessage({ facilityId, requestAppointmentDateChoice, history }) {
           submit a request for a VA appointment
         </button>{' '}
         or{' '}
-        <a
+        <NewTabAnchor
           href={`/find-locations/facility/vha_${getRealFacilityId(facilityId)}`}
-          rel="noopener noreferrer"
-          target="_blank"
         >
           call your local VA medical center
-        </a>
+        </NewTabAnchor>
         .
       </AlertBox>
     </div>
