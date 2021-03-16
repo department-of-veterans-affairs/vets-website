@@ -207,7 +207,7 @@ describe('VAOS vaccine flow <SelectDate1Page>', () => {
     // it should display link to contact the local VA medical center
     expect(
       screen.getByRole('link', {
-        name: 'call your local VA medical center',
+        name: 'call your local VA medical center Link opens in a new tab.',
       }),
     ).to.be.ok;
   });

@@ -1,6 +1,6 @@
 /**
  * Shared components used by the VAOS application.
- * @module components/NewTabAnchor
+ * @module components
  */
 import React from 'react';
 import PropTypes from 'prop-types';
