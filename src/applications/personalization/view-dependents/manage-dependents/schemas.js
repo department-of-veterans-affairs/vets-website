@@ -151,9 +151,9 @@ export const SCHEMAS = {
           type: 'string',
           enum: [
             'reportStepchildNotInHousehold',
-            'reportDeath',
             'reportMarriageOfChildUnder18',
             'reportChild18OrOlderIsNotAttendingSchool',
+            'reportDeath',
           ],
           enumNames: [
             'Dependent stepchild has left household',
