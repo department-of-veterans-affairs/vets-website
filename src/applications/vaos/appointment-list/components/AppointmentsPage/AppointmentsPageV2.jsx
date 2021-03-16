@@ -66,6 +66,7 @@ function AppointmentsPageV2({
   showScheduleButton,
   startNewAppointmentFlow,
   startNewExpressCareFlow,
+  startNewVaccineFlow,
 }) {
   const location = useLocation();
 
@@ -129,6 +130,7 @@ function AppointmentsPageV2({
           <ScheduleNewAppointmentRadioButtons
             showCheetahScheduleButton={showCheetahScheduleButton}
             startNewAppointmentFlow={startNewAppointmentFlow}
+            startNewVaccineFlow={startNewVaccineFlow}
           />
         </div>
       )}
@@ -189,6 +191,7 @@ const mapDispatchToProps = {
   fetchExpressCareWindows: actions.fetchExpressCareWindows,
   startNewAppointmentFlow: actions.startNewAppointmentFlow,
   startNewExpressCareFlow: actions.startNewExpressCareFlow,
+  startNewVaccineFlow: actions.startNewVaccineFlow,
 };
 
 export default connect(

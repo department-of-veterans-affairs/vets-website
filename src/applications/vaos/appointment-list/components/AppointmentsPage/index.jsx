@@ -57,6 +57,7 @@ function AppointmentsPage({
   showCheetahScheduleButton,
   startNewAppointmentFlow,
   startNewExpressCareFlow,
+  startNewVaccineFlow,
 }) {
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -141,6 +142,7 @@ function AppointmentsPage({
               <ScheduleNewAppointmentRadioButtons
                 showCheetahScheduleButton={canUseVaccineFlow}
                 startNewAppointmentFlow={startNewAppointmentFlow}
+                startNewVaccineFlow={startNewVaccineFlow}
               />
             </div>
           )}
@@ -219,6 +221,7 @@ const mapDispatchToProps = {
   confirmCancelAppointment: actions.confirmCancelAppointment,
   startNewAppointmentFlow: actions.startNewAppointmentFlow,
   startNewExpressCareFlow: actions.startNewExpressCareFlow,
+  startNewVaccineFlow: actions.startNewVaccineFlow,
   fetchFutureAppointments: actions.fetchFutureAppointments,
 };
 

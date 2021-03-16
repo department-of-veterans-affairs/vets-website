@@ -45,6 +45,7 @@ import { captureError, has400LevelError } from '../../utils/error';
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
   STARTED_NEW_EXPRESS_CARE_FLOW,
+  STARTED_NEW_VACCINE_FLOW,
 } from '../../redux/sitewide';
 import { selectAppointmentById } from './selectors';
 
@@ -667,6 +668,12 @@ export function startNewAppointmentFlow() {
 export function startNewExpressCareFlow() {
   return {
     type: STARTED_NEW_EXPRESS_CARE_FLOW,
+  };
+}
+
+export function startNewVaccineFlow() {
+  return {
+    type: STARTED_NEW_VACCINE_FLOW,
   };
 }
 

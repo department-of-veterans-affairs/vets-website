@@ -8,17 +8,20 @@ import { GA_PREFIX } from 'applications/vaos/utils/constants';
  * React component used to conditionally render radio call-to-action buttons and start applicable workflow.
  * @property {boolean} [showCheetahScheduleButton=false] - A boolean value to determine Whether or not to show COVID-19 vaccine option.
  * @property {function} startNewAppointmentFlow - A function that’s called when the user starts the new appointment flow.
+ * @property {function} startNewVaccineFlow - A function that’s called when the user starts the vaccine flow.
  * @component
  * @example
  * <ScheduleNewAppointmentRadioButtons
  *  showCheetahScheduleButton={valueFromProp}
- *  startNewAppointmentFlow={givenFlowFromProp()}
+ *  startNewAppointmentFlow={givenFlowFromProp}
+ *  startNewVaccineFlow={givenFlowFromProp}
  * />
- * @module appointment-list/components/ScheduleNewAppointmentRadioButtons
+ * @module appointment-list/components
  */
 export default function ScheduleNewAppointmentRadioButtons({
   showCheetahScheduleButton = false,
   startNewAppointmentFlow,
+  startNewVaccineFlow,
 }) {
   /**
    * Radio selection
@@ -71,14 +74,17 @@ export default function ScheduleNewAppointmentRadioButtons({
           className="vads-u-padding--0 va-action-link--green"
           to={`/${radioSelection}`}
           onClick={() => {
-            recordEvent({
-              event: `${GA_PREFIX}-${
-                radioSelection === 'new-appointment'
-                  ? 'schedule-appointment-button-clicked'
-                  : 'schedule-project-cheetah-button-clicked'
-              }`,
-            });
-            startNewAppointmentFlow();
+            if (radioSelection === 'new-appointment') {
+              recordEvent({
+                event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
+              });
+              startNewAppointmentFlow();
+            } else {
+              recordEvent({
+                event: `${GA_PREFIX}-schedule-project-cheetah-button-clicked`,
+              });
+              startNewVaccineFlow();
+            }
           }}
         >
           Start scheduling

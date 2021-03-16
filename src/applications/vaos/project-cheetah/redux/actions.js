@@ -35,6 +35,7 @@ import {
   getDirectBookingEligibilityCriteria,
   submitAppointment,
 } from '../../services/var';
+import { VACCINE_FORM_SUBMIT_SUCCEEDED } from '../../redux/sitewide';
 
 export const FORM_PAGE_OPENED = 'projectCheetah/FORM_PAGE_OPENED';
 export const FORM_DATA_UPDATED = 'projectCheetah/FORM_DATA_UPDATED';
@@ -73,7 +74,6 @@ export const FORM_REQUEST_CURRENT_LOCATION_FAILED =
   'projectCheetah/FORM_REQUEST_CURRENT_LOCATION_FAILED';
 export const FORM_PAGE_FACILITY_SORT_METHOD_UPDATED =
   'projectCheetah/FORM_PAGE_FACILITY_SORT_METHOD_UPDATED';
-export const FORM_SUBMIT_SUCCEEDED = 'projectCheetah/FORM_SUBMIT_SUCCEEDED';
 export const FORM_SUBMIT_FAILED = 'projectCheetah/FORM_SUBMIT_FAILED';
 export const FORM_CLINIC_PAGE_OPENED_SUCCEEDED =
   'projectCheetah/FORM_CLINIC_PAGE_OPENED_SUCCEEDED';
@@ -454,7 +454,7 @@ export function confirmAppointment(history) {
       await submitAppointment(appointmentBody);
 
       dispatch({
-        type: FORM_SUBMIT_SUCCEEDED,
+        type: VACCINE_FORM_SUBMIT_SUCCEEDED,
       });
 
       recordEvent({

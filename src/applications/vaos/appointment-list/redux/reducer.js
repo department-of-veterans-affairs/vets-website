@@ -35,6 +35,7 @@ import {
 import {
   FORM_SUBMIT_SUCCEEDED,
   EXPRESS_CARE_FORM_SUBMIT_SUCCEEDED,
+  VACCINE_FORM_SUBMIT_SUCCEEDED,
 } from '../../redux/sitewide';
 
 import { sortMessages } from '../../services/appointment';
@@ -384,6 +385,12 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         pending: null,
         pendingStatus: FETCH_STATUS.notStarted,
+        confirmed: null,
+        confirmedStatus: FETCH_STATUS.notStarted,
+      };
+    case VACCINE_FORM_SUBMIT_SUCCEEDED:
+      return {
+        ...state,
         confirmed: null,
         confirmedStatus: FETCH_STATUS.notStarted,
       };
