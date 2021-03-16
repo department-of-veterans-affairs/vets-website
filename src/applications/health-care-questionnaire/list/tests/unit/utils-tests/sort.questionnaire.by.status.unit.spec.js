@@ -34,7 +34,7 @@ describe('health care questionnaire -- utils -- questionnaire list -- sorting by
         appointment: new AppointmentData().withStatus(booked),
         questionnaire: [
           {
-            questionnaireResponse: new QuestionnaireResponseData(),
+            questionnaireResponse: [new QuestionnaireResponseData()],
           },
         ],
       },
@@ -42,9 +42,9 @@ describe('health care questionnaire -- utils -- questionnaire list -- sorting by
         appointment: new AppointmentData().withStatus(booked),
         questionnaire: [
           {
-            questionnaireResponse: new QuestionnaireResponseData().withStatus(
-              inProgress,
-            ),
+            questionnaireResponse: [
+              new QuestionnaireResponseData().withStatus(inProgress),
+            ],
           },
         ],
       },
@@ -52,9 +52,9 @@ describe('health care questionnaire -- utils -- questionnaire list -- sorting by
         appointment: new AppointmentData().withStatus(booked),
         questionnaire: [
           {
-            questionnaireResponse: new QuestionnaireResponseData().withStatus(
-              completed,
-            ),
+            questionnaireResponse: [
+              new QuestionnaireResponseData().withStatus(completed),
+            ],
           },
         ],
       },
@@ -62,7 +62,7 @@ describe('health care questionnaire -- utils -- questionnaire list -- sorting by
         appointment: new AppointmentData().withStatus(cancelled),
         questionnaire: [
           {
-            questionnaireResponse: new QuestionnaireResponseData(),
+            questionnaireResponse: [new QuestionnaireResponseData()],
           },
         ],
       },
@@ -70,9 +70,9 @@ describe('health care questionnaire -- utils -- questionnaire list -- sorting by
         appointment: new AppointmentData().withStatus(cancelled),
         questionnaire: [
           {
-            questionnaireResponse: new QuestionnaireResponseData().withStatus(
-              inProgress,
-            ),
+            questionnaireResponse: [
+              new QuestionnaireResponseData().withStatus(inProgress),
+            ],
           },
         ],
       },
@@ -80,9 +80,9 @@ describe('health care questionnaire -- utils -- questionnaire list -- sorting by
         appointment: new AppointmentData().withStatus(cancelled),
         questionnaire: [
           {
-            questionnaireResponse: new QuestionnaireResponseData().withStatus(
-              completed,
-            ),
+            questionnaireResponse: [
+              new QuestionnaireResponseData().withStatus(completed),
+            ],
           },
         ],
       },
@@ -101,7 +101,7 @@ describe('health care questionnaire -- utils -- questionnaire list -- sorting by
           appointment: new AppointmentData().withStatus(cancelled),
           questionnaire: [
             {
-              questionnaireResponse: new QuestionnaireResponseData(),
+              questionnaireResponse: [new QuestionnaireResponseData()],
             },
           ],
         },
@@ -118,9 +118,9 @@ describe('health care questionnaire -- utils -- questionnaire list -- sorting by
           appointment: new AppointmentData().withStatus(cancelled),
           questionnaire: [
             {
-              questionnaireResponse: new QuestionnaireResponseData().withStatus(
-                inProgress,
-              ),
+              questionnaireResponse: [
+                new QuestionnaireResponseData().withStatus(inProgress),
+              ],
             },
           ],
         },
@@ -138,9 +138,9 @@ describe('health care questionnaire -- utils -- questionnaire list -- sorting by
           appointment: new AppointmentData().withStatus(cancelled),
           questionnaire: [
             {
-              questionnaireResponse: new QuestionnaireResponseData().withStatus(
-                completed,
-              ),
+              questionnaireResponse: [
+                new QuestionnaireResponseData().withStatus(completed),
+              ],
             },
           ],
         },
@@ -158,7 +158,7 @@ describe('health care questionnaire -- utils -- questionnaire list -- sorting by
           appointment: new AppointmentData().withStatus(booked),
           questionnaire: [
             {
-              questionnaireResponse: new QuestionnaireResponseData(),
+              questionnaireResponse: [new QuestionnaireResponseData()],
             },
           ],
         },
@@ -176,9 +176,9 @@ describe('health care questionnaire -- utils -- questionnaire list -- sorting by
           appointment: new AppointmentData().withStatus(booked),
           questionnaire: [
             {
-              questionnaireResponse: new QuestionnaireResponseData().withStatus(
-                inProgress,
-              ),
+              questionnaireResponse: [
+                new QuestionnaireResponseData().withStatus(inProgress),
+              ],
             },
           ],
         },
@@ -195,9 +195,9 @@ describe('health care questionnaire -- utils -- questionnaire list -- sorting by
           appointment: new AppointmentData().withStatus(booked),
           questionnaire: [
             {
-              questionnaireResponse: new QuestionnaireResponseData().withStatus(
-                completed,
-              ),
+              questionnaireResponse: [
+                new QuestionnaireResponseData().withStatus(completed),
+              ],
             },
           ],
         },
