@@ -5,7 +5,7 @@ const DependencyVerificationFooter = ({
   handleCloseAndUpdateDiaries,
 }) => {
   return (
-    <div className="medium-screen:vads-u-display--flex">
+    <div>
       <button
         className="usa-button-secondary"
         onClick={handleCloseAndUpdateDiaries}
@@ -13,11 +13,6 @@ const DependencyVerificationFooter = ({
         This is correct
       </button>
       <button onClick={handleClose}>Make changes</button>
-      <div className="vads-u-display--flex vads-u-flex--1 medium-screen:vads-u-justify-content--flex-end vads-u-align-items--center">
-        <a tabIndex="0" role="button" onClick={handleClose}>
-          Skip this for now
-        </a>
-      </div>
     </div>
   );
 };
