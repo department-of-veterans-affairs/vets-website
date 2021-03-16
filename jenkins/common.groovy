@@ -143,6 +143,51 @@ def findMissingQueryFlags(String buildLogPath, String envName) {
   }
 }
 
+def accessibilityTests() {
+
+  if (shouldBail() || !VAGOV_BUILDTYPES.contains('vagovprod')) { return }
+  
+  stage("Accessibility") {
+
+     slackSend(
+        message: "Starting the daily accessibility scan of vets-website... ${env.RUN_DISPLAY_URL}".stripMargin(),
+        color: 'good',
+        channel: '-daily-accessibility-scan'
+      )
+
+    dir("vets-website") {
+      try {
+        parallel (
+          'nightwatch-accessibility': {
+            sh "export IMAGE_TAG=${IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
+          },
+        )
+
+        slackSend(
+          message: 'The daily accessibility scan has completed successfully.',
+          color: 'good',
+          channel: '-daily-accessibility-scan'
+        )
+
+      } catch (error) {
+
+        slackSend(
+            message: "@here Daily accessibility tests have failed. ${env.RUN_DISPLAY_URL}".stripMargin(),
+            color: 'danger',
+            failOnError: true,
+            channel: '-daily-accessibility-scan'
+          )
+
+        throw error
+      } finally {
+        sh "docker-compose -p accessibility down --remove-orphans"
+        step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
+      }
+    }
+
+  }
+}
+
 def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnlyBuild) {
   // Look for broken links
   def csvFileName = "${envName}-broken-links.csv" // For use within the docker container
