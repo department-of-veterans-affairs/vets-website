@@ -1,6 +1,5 @@
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
-import { json } from './mock-data/fhir/full.example.data';
 
 const USE_MOCK_DATA =
   window.Cypress || environment.isLocalhost || environment.isStaging;
@@ -10,7 +9,11 @@ const loadQuestionnaires = async () => {
   if (USE_MOCK_DATA) {
     promise = new Promise(resolve => {
       setTimeout(() => {
-        resolve(json);
+        import(/* webpackChunkName: "my-questionnaires-sample" */ './mock-data/fhir/full.example.data').then(
+          module => {
+            resolve(module.json);
+          },
+        );
       }, 1000);
     });
   } else {
