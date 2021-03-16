@@ -63,6 +63,7 @@ export const resolveParamsWithUrl = (
       facility = locationType;
       service = serviceType;
       url = api.ccUrl;
+      perPage = 10;
       break;
     default:
       facility = locationType;

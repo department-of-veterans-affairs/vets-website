@@ -187,16 +187,6 @@ export const fetchLocations = async (
   center,
   radius,
 ) => {
-  /*
-  console.log({ address });
-  console.log({ bounds });
-  console.log({ locationType });
-  console.log({ serviceType });
-  console.log({ page });
-  console.log({ center });
-  console.log({ radius });
-
-   */
   let data = {};
 
   try {

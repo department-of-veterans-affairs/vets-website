@@ -86,23 +86,6 @@ describe('Locator url and parameters builder', () => {
   });
 
   /**
-   * Urgent care - All urgent care
-   */
-  it('With facilityType urgent_care and service type all urgentcare Should build a mashup endpoint', () => {
-    const result = resolveParamsWithUrl(
-      encodeURI('I 35 Frontage Road, Austin, Texas 78753, United States'),
-      'urgent_care',
-      null,
-      page,
-      [-98.45, 29.59, -96.95, 31.09],
-    );
-    const test = `${result.url}?${result.params}`;
-    expect(test).to.eql(
-      'https://dev-api.va.gov/v1/facilities/va_ccp/urgent_care?address=I%2035%20Frontage%20Road,%20Austin,%20Texas%2078753,%20United%20States&bbox[]=-98.45&bbox[]=29.59&bbox[]=-96.95&bbox[]=31.09&page=1&per_page=20',
-    );
-  });
-
-  /**
    * VA benefits - All - ApplyingForBenefits - VA Home Loan help
    */
   it('With facilityType benefits and serviceType All, ApplyingForBenefits and VAHomeLoanAssistance  Should build a va request', () => {
@@ -208,22 +191,6 @@ describe('Locator url and parameters builder', () => {
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
       'https://dev-api.va.gov/v1/facilities/ccp?address=I%2035%20Frontage%20Road,%20Austin,%20Texas%2078753,%20United%20States&bbox[]=-98.45&bbox[]=29.59&bbox[]=-96.95&bbox[]=31.09&type=provider&specialties[]=122300000X&page=1&per_page=10&radius=40&latitude=33.32464&longitude=-97.18077',
-    );
-  });
-
-  it('With facilityType urgent_care Should build mashup urgent care with longitude, latitude and radius params', () => {
-    const result = resolveParamsWithUrl(
-      encodeURI('I 35 Frontage Road, Austin, Texas 78753, United States'),
-      'urgent_care',
-      null,
-      page,
-      [-98.45, 29.59, -96.95, 31.09],
-      [33.32464, -97.18077],
-      40,
-    );
-    const test = `${result.url}?${result.params}`;
-    expect(test).to.eql(
-      'https://dev-api.va.gov/v1/facilities/va_ccp/urgent_care?address=I%2035%20Frontage%20Road,%20Austin,%20Texas%2078753,%20United%20States&bbox[]=-98.45&bbox[]=29.59&bbox[]=-96.95&bbox[]=31.09&page=1&per_page=20&radius=40&latitude=33.32464&longitude=-97.18077',
     );
   });
 });
