@@ -2,13 +2,13 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import CompletedQuestionnaires from '../../../questionnaire-list/components/CompletedQuestionnaires';
+import CompletedQuestionnaires from '../index';
 
 import {
   createFakeListStore,
   createFakeListStoreEmptyList,
   createFakeListStoreForServiceDown,
-} from '../utils/createFakeStores';
+} from './utils';
 
 describe('health care questionnaire list - todo list', () => {
   it('No questionnaires -- service down message', () => {
