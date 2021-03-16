@@ -275,7 +275,6 @@
     "yeoman-generator": "^4.2.0",
     "yo": "^3.1.1"
   },
-  "optionalDependencies": {},
   "engines": {
     "node": ">=14.15.0",
     "yarn": ">=1.21.1"

@@ -432,8 +432,9 @@ module.exports = (env = {}) => {
   if (buildOptions.analyzer) {
     baseConfig.plugins.push(
       new BundleAnalyzerPlugin({
-        analyzerMode: 'disabled',
+        analyzerMode: 'server',
         generateStatsFile: true,
+        excludeAssets: 'js',
       }),
     );
   }
