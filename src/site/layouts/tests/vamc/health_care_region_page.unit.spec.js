@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { parseFixture, renderHTML } from '~/site/tests/support';
+import axeCheck from '~/site/tests/support/axe';
 
 const layoutPath = 'src/site/layouts/health_care_region_page.drupal.liquid';
 
@@ -14,7 +15,12 @@ describe('intro', () => {
       container = await renderHTML(layoutPath, data);
     });
 
-    it('renders elements with expected values', async () => {
+    it('reports no axe violations', async () => {
+      const result = await axeCheck(container);
+      expect(result.violations.length).to.equal(0);
+    });
+
+    it('renders elements with expected values', () => {
       expect(container.querySelector('h1').innerHTML).to.equal(data.title);
       expect(container.querySelector('p').innerHTML).to.equal(
         'An official website of the United States government',
