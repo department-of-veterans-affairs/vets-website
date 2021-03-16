@@ -143,22 +143,15 @@ def findMissingQueryFlags(String buildLogPath, String envName) {
   }
 }
 
-def accessibilityTests(dockerContainer, ref, String buildLogPath, String envName) {
+def accessibilityTests() {
 
   if (shouldBail() || !VAGOV_BUILDTYPES.contains('vagovprod')) { return }
   
   stage("Accessibility") {
 
      slackSend(
-        message: 'Starting daily accessibility scan of vets-website...',
+        message: "Starting daily accessibility scan of vets-website.... ${env.RUN_DISPLAY_URL}".stripMargin(),
         color: 'good',
-        failOnError: true,
-        channel: '-daily-accessibility-scan'
-      )
-
-     slackSend(
-        message: "@here Daily accessibility tests failed. ${env.RUN_DISPLAY_URL}".stripMargin(),
-        color: 'danger',
         failOnError: true,
         channel: '-daily-accessibility-scan'
       )
@@ -172,12 +165,12 @@ def accessibilityTests(dockerContainer, ref, String buildLogPath, String envName
         )
       } catch (error) {
 
-      // slackSend(
-      //   message: '(Testing): integration tests failed. |${env.RUN_DISPLAY_URL}'.stripMargin()
-      //   color: 'danger',
-      //   failOnError: true,
-      //   channel: '-daily-accessibility-scan'
-      // )
+        slackSend(
+            message: "@here Daily accessibility tests have failed. ${env.RUN_DISPLAY_URL}".stripMargin(),
+            color: 'danger',
+            failOnError: true,
+            channel: '-daily-accessibility-scan'
+          )
 
         throw error
       } finally {

@@ -14,6 +14,6 @@ node('vetsgov-general-purpose') {
   commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
 
   // Run accessibility tests
-  commonStages.accessibilityTests(dockerContainer, ref);
+  commonStages.accessibilityTests();
 
 }
