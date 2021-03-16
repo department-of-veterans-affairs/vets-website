@@ -199,7 +199,14 @@ const FacilitiesMap = props => {
   };
 
   const handleSearchArea = () => {
-    if (!props.currentQuery.isValid) {
+    // Since this function is bound using an event listener,
+    // the normal react stuff doesn't work as it should,
+    // so we have to check for errors old-school.
+    // TODO: revisit this when we convert the Search This Area button to a React component.
+
+    const errors = document.querySelectorAll('.usa-input-error-message');
+
+    if (errors.length) {
       return;
     }
 

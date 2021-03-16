@@ -81,7 +81,6 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         mapMoved: true,
-        ...validateForm(state, action.payload),
       };
     case FETCH_LOCATION_DETAIL:
     case SEARCH_COMPLETE:

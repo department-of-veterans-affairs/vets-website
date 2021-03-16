@@ -173,10 +173,6 @@ describe('search query reducer', () => {
     });
 
     expect(state.mapMoved).to.eql(true);
-    expect(state.isValid).to.eql(false);
-    expect(state.locationChanged).to.eql(false);
-    expect(state.facilityTypeChanged).to.eql(false);
-    expect(state.serviceTypeChanged).to.eql(false);
   });
 
   it('should handle fetching services', () => {
