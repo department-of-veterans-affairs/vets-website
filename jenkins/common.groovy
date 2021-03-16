@@ -150,9 +150,8 @@ def accessibilityTests() {
   stage("Accessibility") {
 
      slackSend(
-        message: "Starting daily accessibility scan of vets-website... ${env.RUN_DISPLAY_URL}".stripMargin(),
+        message: "Starting the daily accessibility scan of vets-website... ${env.RUN_DISPLAY_URL}".stripMargin(),
         color: 'good',
-        failOnError: true,
         channel: '-daily-accessibility-scan'
       )
 
@@ -165,9 +164,8 @@ def accessibilityTests() {
         )
 
         slackSend(
-          message: 'Daily accessibility scan has completed successfully.',
+          message: 'The daily accessibility scan has completed successfully.',
           color: 'good',
-          failOnError: true,
           channel: '-daily-accessibility-scan'
         )
 
