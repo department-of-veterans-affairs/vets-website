@@ -70,7 +70,10 @@ function AppointmentsPage({
       fetchExpressCareWindows();
     }
 
-    if (directScheduleSettingsStatus === FETCH_STATUS.notStarted) {
+    if (
+      showCheetahScheduleButton &&
+      directScheduleSettingsStatus === FETCH_STATUS.notStarted
+    ) {
       fetchDirectScheduleSettings();
     }
   }, []);
