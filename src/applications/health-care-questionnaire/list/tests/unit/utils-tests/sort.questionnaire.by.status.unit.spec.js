@@ -14,6 +14,8 @@ import {
   completed,
 } from '../../../../shared/constants/questionnaire.response.status';
 
+import { json } from '../../../../shared/api/mock-data/fhir/full.example.data';
+
 describe('health care questionnaire -- utils -- questionnaire list -- sorting by status --', () => {
   it('undefined data', () => {
     const data = undefined;
@@ -93,6 +95,16 @@ describe('health care questionnaire -- utils -- questionnaire list -- sorting by
     expect(result.completed.length).to.equal(2);
     expect(result.toDo).to.exist;
     expect(result.toDo.length).to.equal(3);
+  });
+
+  it('mock data', () => {
+    // tests the 6 use cases to be sorted into todo(4), completed(2) and not in the list (1)
+    const { data } = json;
+    const result = sortQuestionnairesByStatus(data);
+    expect(result.completed).to.exist;
+    expect(result.completed.length).to.equal(2);
+    expect(result.toDo).to.exist;
+    expect(result.toDo.length).to.equal(4);
   });
   describe('appointment status use cases --', () => {
     it('appointment is CANCELLED and questionnaire is NOT STARTED -- should not be in the list', () => {
