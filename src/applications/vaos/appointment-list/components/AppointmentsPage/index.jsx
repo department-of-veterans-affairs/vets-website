@@ -13,6 +13,7 @@ import {
   selectFutureStatus,
   selectExpressCareAvailability,
   selectCanUseVaccineFlow,
+  selectDirectScheduleSettingsStatus,
 } from '../../redux/selectors';
 import {
   selectFeatureRequests,
@@ -204,9 +205,7 @@ function mapStateToProps(state) {
     futureStatus: selectFutureStatus(state),
     cancelInfo: getCancelInfo(state),
     canUseVaccineFlow: selectCanUseVaccineFlow(state),
-    directScheduleSettings: state.appointments.directScheduleSettings,
-    directScheduleSettingsStatus:
-      state.appointments.directScheduleSettingsStatus,
+    directScheduleSettingsStatus: selectDirectScheduleSettingsStatus(state),
     showScheduleButton: selectFeatureRequests(state),
     showCommunityCare: selectFeatureCommunityCare(state),
     showDirectScheduling: selectFeatureDirectScheduling(state),

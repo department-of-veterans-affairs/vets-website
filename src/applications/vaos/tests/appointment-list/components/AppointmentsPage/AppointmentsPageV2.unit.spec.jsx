@@ -10,11 +10,13 @@ import {
   setFetchJSONResponse,
 } from 'platform/testing/unit/helpers';
 import {
+  getDirectBookingEligibilityCriteriaMock,
   getExpressCareRequestCriteriaMock,
   getVAFacilityMock,
 } from '../../../mocks/v0';
 import {
   mockAppointmentInfo,
+  mockDirectBookingEligibilityCriteria,
   mockFacilitiesFetch,
   mockRequestEligibilityCriteria,
 } from '../../../mocks/helpers';
@@ -385,10 +387,19 @@ describe('VAOS <AppointmentsPageV2>', () => {
       },
       user: userState,
     };
+    mockDirectBookingEligibilityCriteria(
+      ['983'],
+      [
+        getDirectBookingEligibilityCriteriaMock({
+          id: '983',
+          typeOfCareId: 'covid',
+        }),
+      ],
+    );
+
     const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
       initialState: defaultState,
     });
-
     expect(
       await screen.findByRole('heading', {
         level: 2,
@@ -404,6 +415,52 @@ describe('VAOS <AppointmentsPageV2>', () => {
       await screen.findByRole('radio', { name: 'COVID-19 vaccine' }),
     );
 
-    expect(await screen.findByRole('link', { name: /Start scheduling/ }));
+    userEvent.click(
+      await screen.findByRole('link', { name: /Start scheduling/ }),
+    );
+
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0]).to.equal(
+        '/new-covid-19-vaccine-booking',
+      ),
+    );
+  });
+
+  it('should render schedule radio list without COVID-19 vaccine option when call fails', async () => {
+    const defaultState = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingCheetah: true,
+      },
+      user: userState,
+    };
+
+    const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
+      initialState: defaultState,
+    });
+    expect(
+      await screen.findByRole('heading', {
+        level: 2,
+        name: /Schedule a new appointment/,
+      }),
+    );
+
+    expect(await screen.findAllByRole('radio')).to.have.length(1);
+
+    expect(screen.getByText(/Choose an appointment type/)).to.be.ok;
+
+    expect(screen.queryByRole('radio', { name: 'COVID-19 vaccine' })).not.to
+      .exist;
+
+    userEvent.click(
+      await screen.findByRole('radio', { name: /primary or specialty/i }),
+    );
+    userEvent.click(
+      await screen.findByRole('link', { name: /Start scheduling/ }),
+    );
+
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0]).to.equal('/new-appointment'),
+    );
   });
 });
