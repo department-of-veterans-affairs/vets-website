@@ -74,7 +74,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     // Review
     cy.url().should('include', '/review');
     cy.axeCheckBestPractice();
-    cy.findByText('Schedule appointment').click();
+    cy.findByText('Confirm appointment').click();
 
     // Check form requestBody is as expected
     cy.wait('@appointmentSubmission').should(xhr => {
