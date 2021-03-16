@@ -184,17 +184,9 @@ module.exports = (env = {}) => {
         },
         {
           test: /\.svg/,
-          use: [
-            {
-              loader: 'file-loader',
-            },
-            {
-              loader: 'svgo-loader',
-              options: {
-                multipass: true,
-              },
-            },
-          ],
+          use: {
+            loader: 'svg-url-loader?limit=1024',
+          },
         },
         {
           test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
