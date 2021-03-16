@@ -14,17 +14,13 @@ describe('Personal and contact information', () => {
         'disabled',
       );
 
-      cy.findAllByLabelText(/street address/i)
-        .first()
+      cy.findByLabelText(/^Street address/i)
         .clear()
         .type(addressLine1);
-      cy.findAllByLabelText(/street address/i)
-        .its('1')
+      cy.findAllByLabelText(/^Line 2/i)
         .clear()
         .type(addressLine2);
-      cy.findAllByLabelText(/street address/i)
-        .its('2')
-        .clear();
+      cy.findAllByLabelText(/^Line 3/i).clear();
 
       cy.findByLabelText(/City/i)
         .clear()
@@ -53,12 +49,8 @@ describe('Personal and contact information', () => {
       cy.findByRole('button', { name: /edit your address/i }).click();
 
       // confirm the address we just entered is in the form
-      cy.findAllByLabelText(/street address/i)
-        .first()
-        .should('have.value', addressLine1);
-      cy.findAllByLabelText(/street address/i)
-        .its('1')
-        .should('have.value', addressLine2);
+      cy.findByLabelText(/^street address/i).should('have.value', addressLine1);
+      cy.findAllByLabelText(/^Line 2/i).should('have.value', addressLine2);
 
       // The following steps have been commented out due to a bug that
       // disables the SAVE button if the current form data matches the
