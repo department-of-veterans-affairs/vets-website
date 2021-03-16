@@ -5,10 +5,12 @@ const transform = entity => ({
     entityType: 'paragraph',
     entityBundle: 'collapsible_panel_item',
     fieldTitle: getDrupalValue(entity.fieldTitle),
-    fieldVaParagraphs: entity.fieldVaParagraphs,
-    fieldWysiwyg: {
-      processed: getWysiwygString(getDrupalValue(entity.fieldWysiwyg)),
-    },
+    fieldVaParagraphs: entity.fieldVaParagraphs || [],
+    fieldWysiwyg: entity.fieldWysiwyg.length
+      ? {
+          processed: getWysiwygString(getDrupalValue(entity.fieldWysiwyg)),
+        }
+      : null,
   },
 });
 module.exports = {

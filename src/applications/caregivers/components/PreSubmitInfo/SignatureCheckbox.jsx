@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
+import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 import SignatureInput from './SignatureInput';
 
@@ -56,7 +56,7 @@ const SignatureCheckbox = ({
         hasSubmit={hasSubmit}
       />
 
-      <ErrorableCheckbox
+      <Checkbox
         onValueChange={value => setIsChecked(value)}
         label="I certify the information above is correct and true to the best of my knowledge and belief."
         errorMessage={hasError && 'Must certify by checking box'}

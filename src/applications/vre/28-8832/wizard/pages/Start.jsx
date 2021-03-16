@@ -1,6 +1,6 @@
 import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import { pageNames } from './pageList';
 
 const options = [
@@ -45,7 +45,7 @@ const StartPage = ({ setPageState, state = {} }) => {
   };
 
   return (
-    <ErrorableRadioButtons
+    <RadioButtons
       additionalFieldsetClass="vads-u-margin-top--1"
       name="claimant-relationship"
       label="Which of these best describes you?"

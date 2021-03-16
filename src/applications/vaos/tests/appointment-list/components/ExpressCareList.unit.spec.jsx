@@ -2,170 +2,23 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
 import environment from 'platform/utilities/environment';
-import {
-  mockFetch,
-  setFetchJSONFailure,
-  setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
+import { mockFetch, setFetchJSONFailure } from 'platform/testing/unit/helpers';
 import backendServices from 'platform/user/profile/constants/backendServices';
-import { getVAFacilityMock, getVARequestMock } from '../../mocks/v0';
-import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
+import { getVARequestMock } from '../../mocks/v0';
+import {
+  mockAppointmentInfo,
+  mockRequestCancelFetch,
+} from '../../mocks/helpers';
 import { renderFromRoutes } from '../../mocks/setup';
 
 describe('VAOS integration: express care requests', () => {
-  describe('when shown in upcoming appointments tab', () => {
-    const initialState = {
-      featureToggles: {
-        vaOnlineScheduling: true,
-        vaOnlineSchedulingPast: true,
-        vaOnlineSchedulingCancel: true,
-        vaOnlineSchedulingExpressCare: false,
-      },
-      user: {
-        login: {
-          currentlyLoggedIn: true,
-        },
-        profile: {
-          loading: false,
-          verified: true,
-          services: [backendServices.USER_PROFILE, backendServices.FACILITIES],
-          facilities: [{ facilityId: '983', isCerner: false }],
-        },
-      },
-    };
-
-    it('should show appropriate information for a submitted request', async () => {
-      const appointment = getVARequestMock();
-      appointment.attributes = {
-        ...appointment.attributes,
-        status: 'Submitted',
-        optionDate1: moment()
-          .add(3, 'days')
-          .format('MM/DD/YYYY'),
-        optionTime1: 'AM',
-        purposeOfVisit: 'New Issue',
-        bestTimetoCall: ['Morning'],
-        email: 'patient.test@va.gov',
-        phoneNumber: '5555555566',
-        typeOfCareId: 'CR1',
-        reasonForVisit: 'Back pain',
-        friendlyLocationName: 'Some VA medical center',
-        appointmentType: 'Express Care',
-        comment: 'loss of smell',
-        facility: {
-          ...appointment.attributes.facility,
-          facilityCode: '983GC',
-        },
-      };
-      appointment.id = '1234';
-      mockAppointmentInfo({ requests: [appointment] });
-
-      const facility = {
-        id: 'vha_442GC',
-        attributes: {
-          ...getVAFacilityMock().attributes,
-          uniqueId: '442GC',
-          name: 'Cheyenne VA Medical Center',
-          address: {
-            physical: {
-              zip: '82001-5356',
-              city: 'Cheyenne',
-              state: 'WY',
-              address1: '2360 East Pershing Boulevard',
-            },
-          },
-          phone: {
-            main: '307-778-7550',
-          },
-        },
-      };
-      mockFacilitiesFetch('vha_442GC', [facility]);
-
-      const { baseElement, findByText, getByText } = renderFromRoutes({
-        initialState,
-      });
-      await findByText(/Cheyenne VA Medical Center/i);
-      expect(baseElement).to.contain.text('Express care appointment');
-      expect(baseElement).not.to.contain.text('Preferred date and time');
-      expect(baseElement).not.to.contain.text('in the morning');
-      expect(baseElement).not.to.contain.text('Back pain');
-      expect(getByText(/cancel request/i)).to.have.tagName('button');
-
-      fireEvent.click(getByText('Show more'));
-      await findByText(/Reason for appointment/i);
-
-      expect(baseElement).to.contain.text('Call morning');
-      expect(baseElement).to.contain.text('Back pain');
-      expect(baseElement).to.contain.text('Your contact details');
-      expect(await findByText('Your contact details')).to.have.tagName('h4');
-      expect(baseElement).to.contain.text('patient.test@va.gov');
-      expect(baseElement).to.contain.text('5555555566');
-      expect(baseElement).to.contain('h4');
-    });
-
-    it('should show appropriate information for an escalated request', async () => {
-      const appointment = getVARequestMock();
-      appointment.attributes = {
-        ...appointment.attributes,
-        status: 'Escalated to Tele/Urgent Care - Phone',
-        typeOfCareId: 'CR1',
-        reasonForVisit: 'Back pain',
-        friendlyLocationName: 'Some VA medical center',
-        facility: {
-          ...appointment.attributes.facility,
-          facilityCode: '983GC',
-        },
-      };
-      appointment.id = '1234';
-      mockAppointmentInfo({ requests: [appointment] });
-
-      const facility = {
-        id: 'vha_442GC',
-        attributes: {
-          ...getVAFacilityMock().attributes,
-          uniqueId: '442GC',
-          name: 'Cheyenne VA Medical Center',
-          address: {
-            physical: {
-              zip: '82001-5356',
-              city: 'Cheyenne',
-              state: 'WY',
-              address1: '2360 East Pershing Boulevard',
-            },
-          },
-          phone: {
-            main: '307-778-7550',
-          },
-        },
-      };
-      mockFacilitiesFetch('vha_442GC', [facility]);
-
-      const {
-        baseElement,
-        findByText,
-        getByText,
-        queryByText,
-      } = renderFromRoutes({
-        initialState,
-      });
-
-      await findByText(/Cheyenne VA Medical Center/i);
-      expect(baseElement).not.to.contain.text('Back pain');
-      expect(queryByText(/cancel express care request/i)).to.not.be.ok;
-
-      fireEvent.click(getByText('Show more'));
-      await findByText(/Reason for appointment/i);
-
-      expect(baseElement).to.contain.text('Back pain');
-    });
-  });
   describe('when shown in separate tab', () => {
     const initialState = {
       featureToggles: {
         vaOnlineScheduling: true,
         vaOnlineSchedulingPast: true,
         vaOnlineSchedulingCancel: true,
-        vaOnlineSchedulingExpressCare: true,
+        vaOnlineSchedulingExpressCareNew: true,
       },
       user: {
         login: {
@@ -471,20 +324,7 @@ describe('VAOS integration: express care requests', () => {
         reasonForVisit: 'Back pain',
       };
       mockAppointmentInfo({ requests: [appointment] });
-      setFetchJSONResponse(
-        global.fetch.withArgs(
-          `${environment.API_URL}/vaos/v0/appointment_requests/test_id`,
-        ),
-        {
-          data: {
-            ...appointment,
-            attributes: {
-              ...appointment.attributes,
-              status: 'Cancelled',
-            },
-          },
-        },
-      );
+      mockRequestCancelFetch(appointment);
 
       const {
         getByText,

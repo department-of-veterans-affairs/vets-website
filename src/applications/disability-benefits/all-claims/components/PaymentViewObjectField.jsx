@@ -29,9 +29,9 @@ const PaymentViewObjectField = (props = {}) => {
   return (
     <>
       <div className="form-review-panel-page-header-row">
-        <h3 className="form-review-panel-page-header vads-u-font-size--h5">
+        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
           {title}
-        </h3>
+        </h4>
         {defaultEditButton()}
       </div>
       <dl className="review">{Object.keys(paymentRows).map(buildRow)}</dl>

@@ -16,26 +16,30 @@ const getSocialMediaObject = ({ uri, title }) =>
 
 const currentTimeInSeconds = new Date().getTime() / 1000;
 
-const transform = ({
-  title,
-  status,
-  metatag: { value: metaTags },
-  fieldGovdeliveryIdEmerg,
-  fieldGovdeliveryIdNews,
-  fieldOperatingStatus,
-  fieldOtherVaLocations,
-  fieldNicknameForThisFacility,
-  fieldRelatedLinks,
-  fieldLinkFacilityEmergList,
-  reverseFieldRegionPage,
-  reverseFieldOffice,
-  fieldMedia,
-}) => ({
+const transform = (
+  {
+    title,
+    status,
+    metatag: { value: metaTags },
+    fieldIntroText,
+    fieldGovdeliveryIdEmerg,
+    fieldGovdeliveryIdNews,
+    fieldOperatingStatus,
+    fieldOtherVaLocations,
+    fieldRelatedLinks,
+    fieldLinkFacilityEmergList,
+    reverseFieldRegionPage,
+    reverseFieldOffice,
+    fieldMedia,
+  },
+  { ancestors },
+) => ({
   entityType: 'node',
   entityBundle: 'health_care_region_page',
   entityPublished: isPublished(getDrupalValue(status)),
   entityLabel: getDrupalValue(title),
   title: getDrupalValue(title),
+  fieldIntroText: getDrupalValue(fieldIntroText),
   fieldGovdeliveryIdEmerg: getDrupalValue(fieldGovdeliveryIdEmerg),
   fieldGovdeliveryIdNews: getDrupalValue(fieldGovdeliveryIdNews),
   fieldOperatingStatus: fieldOperatingStatus[0]
@@ -45,7 +49,6 @@ const transform = ({
     fieldMedia && fieldMedia.length
       ? { entity: getImageCrop(fieldMedia[0], '_72MEDIUMTHUMBNAIL') }
       : null,
-  fieldNicknameForThisFacility: getDrupalValue(fieldNicknameForThisFacility),
   fieldLinkFacilityEmergList:
     fieldLinkFacilityEmergList && fieldLinkFacilityEmergList[0]
       ? {
@@ -58,7 +61,11 @@ const transform = ({
   fieldRelatedLinks: fieldRelatedLinks[0],
   entityMetatags: createMetaTagArray(metaTags),
   reverseFieldRegionPageNode: {
-    entities: reverseFieldRegionPage || [],
+    entities: reverseFieldRegionPage
+      ? reverseFieldRegionPage.filter(p => {
+          return !ancestors.find(r => r.entity.uuid === p.uuid);
+        })
+      : [],
   },
   newsStoryTeasers: {
     entities: reverseFieldOffice
@@ -119,7 +126,6 @@ const transform = ({
           .map(r => ({
             title: r.title,
             uid: r.uid,
-            fieldDate: r.fieldDate,
             fieldDatetimeRangeTimezone: r.fieldDatetimeRangeTimezone,
             fieldDescription: r.fieldDescription,
             fieldLocationHumanreadable: r.fieldLocationHumanreadable,
@@ -175,11 +181,6 @@ const transform = ({
             reverseField =>
               reverseField.fieldMainLocation && reverseField.entityPublished,
           )
-          .sort((a, b) =>
-            a.fieldNicknameForThisFacility.localeCompare(
-              b.fieldNicknameForThisFacility,
-            ),
-          )
           .map(r => ({
             entityUrl: r.entityUrl,
             entityBundle: r.entityBundle,
@@ -188,7 +189,6 @@ const transform = ({
             changed: r.changed,
             fieldOperatingStatusFacility: r.fieldOperatingStatusFacility,
             fieldFacilityLocatorApiId: r.fieldFacilityLocatorApiId,
-            fieldNicknameForThisFacility: r.fieldNicknameForThisFacility,
             fieldIntroText: r.fieldIntroText,
             fieldLocationServices: r.fieldLocationServices,
             fieldAddress: r.fieldAddress,
@@ -208,11 +208,6 @@ const transform = ({
             reverseField =>
               !reverseField.fieldMainLocation && reverseField.entityPublished,
           )
-          .sort((a, b) =>
-            a.fieldNicknameForThisFacility.localeCompare(
-              b.fieldNicknameForThisFacility,
-            ),
-          )
           .map(r => ({
             entityUrl: r.entityUrl,
             entityBundle: r.entityBundle,
@@ -221,7 +216,6 @@ const transform = ({
             changed: r.changed,
             fieldOperatingStatusFacility: r.fieldOperatingStatusFacility,
             fieldFacilityLocatorApiId: r.fieldFacilityLocatorApiId,
-            fieldNicknameForThisFacility: r.fieldNicknameForThisFacility,
             fieldIntroText: r.fieldIntroText,
             fieldLocationServices: r.fieldLocationServices,
             fieldAddress: r.fieldAddress,
@@ -252,7 +246,6 @@ const transform = ({
                     .slice(0, 1000)
                     .map(e => ({
                       title: e.title,
-                      fieldDate: e.fieldDate,
                       fieldDatetimeRangeTimezone: e.fieldDatetimeRangeTimezone,
                       fieldDescription: e.fieldDescription,
                       fieldLocationHumanreadable: e.fieldLocationHumanreadable,
@@ -284,7 +277,6 @@ const transform = ({
                     )
                     .map(e => ({
                       title: e.title,
-                      fieldDate: e.fieldDate,
                       fieldDatetimeRangeTimezone: e.fieldDatetimeRangeTimezone,
                       fieldDescription: e.fieldDescription,
                       fieldLocationHumanreadable: e.fieldLocationHumanreadable,
@@ -330,11 +322,11 @@ module.exports = {
     'title',
     'status',
     'path',
+    'field_intro_text',
     'field_govdelivery_id_emerg',
     'field_govdelivery_id_news',
     'field_link_facility_emerg_list',
     'field_media',
-    'field_nickname_for_this_facility',
     'field_operating_status',
     'field_other_va_locations',
     'field_press_release_blurb',

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import {
   beneficiaryZIPCodeChanged,
   calculatorInputChange,

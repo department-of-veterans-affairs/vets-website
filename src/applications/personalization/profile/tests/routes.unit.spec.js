@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import getRoutes from 'applications/personalization/profile/routes.js';
-import { PROFILE_PATH_NAMES } from 'applications/personalization/profile/constants.js';
+import getRoutes from '@@profile/routes.js';
+import { PROFILE_PATH_NAMES } from '@@profile/constants.js';
 
 describe('getRoutes', () => {
   describe('when options.removeDirectDeposit is false', () => {

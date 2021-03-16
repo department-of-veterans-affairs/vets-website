@@ -1,4 +1,4 @@
-import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
+import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { LocationType } from '../constants';

@@ -19,7 +19,6 @@
   }
 }
 
-
 /* Global */
 .nowrap {
   white-space: nowrap;
@@ -45,19 +44,6 @@
   p {
     margin: 0.5em 0;
   }
-
-  .masked-number {
-    position: relative;
-    display: inline-block;
-    width: 0.6em;
-
-    &:after {
-      content: "\2022";
-      font-size: 2em;
-      position: absolute;
-      top: -0.95em;
-    }
-  }
 }
 
 /* Step 2 */
@@ -72,60 +58,86 @@
 /* Contested issue cards (contested issue page & review/submit page)
  * This could go in the schemaform css, it's used in form 526 & HLR
  */
- dl.review {
-   .widget-wrapper {
-     position: relative;
+dl.review {
+  .widget-wrapper {
+    position: relative;
 
-     .widget-outline {
-       border: solid 4px $color-primary-alt-light;
-       border-radius: 7px;
-       position: absolute;
-       top: 0;
-       left: 0;
-       width: 100%;
-       height: 100%;
-       max-width: unset;
+    h4 {
+      margin-top: 0;
+    }
+  }
 
-       &.selected {
-         border-color: $color-primary;
-       }
+  .widget-outline {
+    background: transparent;
+    border: solid 4px $color-primary-alt-light;
+    border-radius: 7px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    max-width: auto; /* IE11 */
+    max-width: unset;
 
-       &::before {
-        margin-left: 1em;
-        margin-top: 1em;
-      }
-     }
+    &.selected {
+      border-color: $color-primary;
+    }
 
-     dt.widget-checkbox {
-       margin-top: 2em;
-       width: 3em;
-       min-width: unset;
+    &::before {
+      position: absolute;
+      margin-left: 1.5rem;
+      margin-top: 1.5rem;
+    }
+  }
 
-       &.checkbox-hidden {
-         width: 0;
-       }
+  dt.widget-checkbox-wrap {
+    margin: 0;
+    width: 0;
+    min-width: auto; /* IE11 */
+    min-width: unset;
 
-       [type="checkbox"] {
-        width: 1.8rem;
-        height: 1.8rem;
-        margin: 0;
-       }
-     }
+    [type="checkbox"] {
+      width: 1.8rem;
+      height: 1.8rem;
+      margin: 0;
+    }
+  }
 
+  .widget-title {
+    margin: 1.5rem 2rem 0 5rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: calc(100% - 7rem);
+  }
 
-     dd.widget-content {
-       text-align: unset;
-     }
+  dd.widget-content {
+    margin-inline-start: 0; /* override user agent */
+    text-align: left;
+    margin: 3rem 3.5rem 0 5rem;
+  }
 
-     h4 {
-       margin-top: 0;
-     }
-   }
- }
+  .checkbox-hidden {
+    dt.widget-checkbox-wrap {
+      width: 0;
+    }
 
- .eligible-issues-error h3 {
+    .widget-title {
+      margin-left: 0;
+      width: 100%;
+      overflow: visible;
+      white-space: normal;
+    }
+
+    .widget-content {
+      margin: 2rem 0 0 2rem;
+    }
+  }
+}
+
+.eligible-issues-error h3 {
   font-size: 1.7rem /* vads-u-font-size--md */
- }
+}
 
 /* Contested issue page specific definitions */
 article[data-location="contested-issues"] {
@@ -134,10 +146,6 @@ article[data-location="contested-issues"] {
    */
   #root_contestedIssues-error-message {
     display: none;
-  }
-
-  #root_sameOfficeAlert__title {
-    width: 100%;
   }
 
   .usa-input-error {
@@ -157,52 +165,35 @@ article[data-location="contested-issues"] {
   p {
     margin-top: 0;
   }
+
   .schemaform-required-span {
     display: none;
   }
 }
+
 .schemaform-block-header > p + p {
-  margin-top: 1em;
+  margin-top: 1rem;
 }
+
 /* page specific */
 article[data-contact-choice] .contact-choice {
   display: none;
 }
+
 article[data-contact-choice="rep"] .contact-choice.selected-rep,
 article[data-contact-choice="me"] .contact-choice.selected-me {
   display: inline-block;
 }
 
-article[data-location="request-informal-conference"] {
-  .schemaform-block-header {
-    margin-bottom: 1.5em;
+article[data-location="informal-conference/representative-information"] {
+  .schemaform-field-container {
+    margin-top: 0;
   }
+}
 
-  .form-expanding-group-open {
-    .schemaform-field-template,
-    .schemaform-field-container {
-      margin-top: 1em;
-    }
-  }
-
-  /* Remove extra spacing between form elements */
-  .form-expanding-group {
-    .schemaform-first-field,
-    .usa-input-error {
-      margin-top: 0;
-    }
-
-    .schemaform-block-header {
-      margin-bottom: 0;
-    }
-  }
-
-  .schemaform-label.usa-input-error-label {
-    font-weight: bold;
-  }
-
-  .form-checkbox label {
-    margin-top: 1em;
+article[data-location="informal-conference/availability"] {
+  #root_informalConferenceTimes_time2-label {
+    margin-top: 2rem;
   }
 }
 
@@ -219,16 +210,27 @@ article[data-location="review-and-submit"] {
     .review-row {
       display: flex;
       flex-direction: column;
-      padding: 1.5rem;
-      padding-left: 0;
+      padding: 1rem;
     }
+
     .review-row > dd {
       padding-left: 0;
       text-align: left;
     }
+
     .review-row > dt > p {
       margin-top: 0;
       margin-bottom: 0;
+    }
+
+    dd.widget-content {
+      margin: 2.5rem 0 0 1rem;
+    }
+
+    .checkbox-hidden {
+      .widget-content {
+        margin: 0 0 0 1rem;
+      }
     }
   }
 }
@@ -238,8 +240,10 @@ article[data-location="confirmation"] {
   h1[tabindex="-1"] {
     outline: none;
   }
+
   @media print {
-    .confirmation-page-title, a {
+    .confirmation-page-title,
+    a {
       text-align: left;
       padding-left: 0;
     }
@@ -250,6 +254,7 @@ article[data-location="confirmation"] {
   .usa-width-two-thirds {
     width: 100%;
   }
+
   .schemaform-title,
   .schemaform-subtitle {
     display: none;

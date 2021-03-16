@@ -78,12 +78,21 @@ export const uiSchema = {
     },
     morning: {
       'ui:title': 'Mornings 6:00 to 10:00 a.m.',
+      'ui:options': {
+        hideEmptyValueInReview: true,
+      },
     },
     midDay: {
       'ui:title': 'Midday 10:00 a.m. to 2:00 p.m.',
+      'ui:options': {
+        hideEmptyValueInReview: true,
+      },
     },
     afternoon: {
       'ui:title': 'Afternoons 2:00 to 6:00 p.m.',
+      'ui:options': {
+        hideEmptyValueInReview: true,
+      },
     },
   },
 };

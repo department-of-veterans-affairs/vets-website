@@ -9,13 +9,6 @@
     <div class="usa-grid usa-grid-full">
       {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = outreachSidebar %}
       <div class="usa-width-three-fourths">
-        {% if !entityPublished %}
-        <div class="usa-alert usa-alert-info">
-          <div class="usa-alert-body">
-            <p class="usa-alert-text">You are viewing a draft.</p>
-          </div>
-        </div>
-        {% endif %}
 
         <article aria-labelledby="article-heading" role="region" class="usa-content vads-l-grid-container--full">
           <div class="vads-l-grid-container--full">

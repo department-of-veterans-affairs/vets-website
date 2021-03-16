@@ -2,7 +2,6 @@ module.exports = {
   type: 'object',
   properties: {
     contentModelType: { enum: ['node-health_care_region_detail_page'] },
-    entityType: { enum: ['node'] },
     entityBundle: { enum: ['health_care_region_detail_page'] },
     title: { type: 'string' },
     changed: { type: 'number' },

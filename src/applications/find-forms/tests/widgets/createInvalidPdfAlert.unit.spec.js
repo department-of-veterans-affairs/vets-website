@@ -17,12 +17,18 @@ describe('createInvalidPdfAlert', () => {
         {
           id: '10-10EZ',
           type: 'va_form',
-          attributes: { validPdf: true },
+          attributes: {
+            deletedAt: null,
+            validPdf: true,
+          },
         },
         {
           id: 'VA0927b',
           type: 'va_form',
-          attributes: { validPdf: false },
+          attributes: {
+            deletedAt: '2020-08-18T00:00:00.000Z',
+            validPdf: false,
+          },
         },
       ],
     });
@@ -35,12 +41,12 @@ describe('createInvalidPdfAlert', () => {
   it('shows an alert banner for invalid forms', async () => {
     const link = {
       click: sinon.stub(),
-      href: 'https://www.va.gov/vaforms/medical/pdf/10-10EZ-fillable.pdf',
+      href: 'https://www.va.gov/vaforms/va/pdf/VA0927b.pdf',
       dataset: {
         formNumber: 'VA0927b',
       },
-      remove: sinon.stub(),
       parentNode: {
+        removeChild: sinon.stub(),
         insertBefore: sinon.stub(),
       },
     };
@@ -59,10 +65,10 @@ describe('createInvalidPdfAlert', () => {
 
     expect(alertBox).to.be.instanceOf(HTMLDivElement);
     expect(alertBox.innerHTML).to.include('We’re sorry');
-    expect(link.remove.called).to.be.true;
+    expect(link.parentNode.removeChild.called).to.be.true;
   });
 
-  it('shows an alert banner for invalid forms', async () => {
+  it('does not show an alert banner for valid forms', async () => {
     const link = {
       click: sinon.stub(),
       removeEventListener: sinon.stub(),
@@ -70,7 +76,9 @@ describe('createInvalidPdfAlert', () => {
       dataset: {
         formNumber: '10-10EZ',
       },
-      remove: sinon.stub(),
+      parentNode: {
+        removeChild: sinon.stub(),
+      },
     };
 
     const event = {
@@ -80,7 +88,7 @@ describe('createInvalidPdfAlert', () => {
 
     await onDownloadLinkClick(event);
 
-    expect(link.remove.called).to.be.false;
+    expect(link.parentNode.removeChild.called).to.be.false;
     expect(link.removeEventListener.called).to.be.true;
     expect(link.click.called).to.be.true;
   });

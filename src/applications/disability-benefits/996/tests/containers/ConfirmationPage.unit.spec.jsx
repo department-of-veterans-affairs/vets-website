@@ -7,8 +7,7 @@ import formConfig from '../../config/form';
 import initialData from '../schema/initialData';
 
 import ConfirmationPage from '../../containers/ConfirmationPage';
-import { SELECTED, SAVED_CLAIM_TYPE } from '../../constants';
-import { WIZARD_STATUS } from 'applications/static-pages/wizard';
+import { WIZARD_STATUS, SELECTED, SAVED_CLAIM_TYPE } from '../../constants';
 
 const data = {
   user: {
@@ -63,7 +62,7 @@ describe('Confirmation page', () => {
     tree.unmount();
   });
   it('should render the submit date', () => {
-    const date = moment(data.form.submission.response).format('MMM D, YYYY');
+    const date = moment(data.form.submission.response).format('MMMM D, YYYY');
     const tree = mount(<ConfirmationPage store={fakeStore} />);
     expect(tree.text()).to.contain(date);
     tree.unmount();

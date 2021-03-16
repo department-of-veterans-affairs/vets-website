@@ -1,9 +1,11 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Telephone, {
   CONTACTS,
   PATTERNS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
+
+import recordEvent from 'platform/monitoring/record-event';
 
 import { getPageTitle } from '../utils';
 
@@ -33,6 +35,15 @@ export const MissingServices = ({ title }) => {
       </p>
     </>
   );
+  recordEvent({
+    event: 'visible-alert-box',
+    'alert-box-type': 'warning',
+    'alert-box-heading': title,
+    'error-key': 'missing_526_or_original_claims_service',
+    'alert-box-full-width': false,
+    'alert-box-background-only': false,
+    'alert-box-closeable': false,
+  });
   return <Alert content={content} />;
 };
 
@@ -64,5 +75,14 @@ export const MissingId = ({ title }) => {
       </p>
     </>
   );
+  recordEvent({
+    event: 'visible-alert-box',
+    'alert-box-type': 'warning',
+    'alert-box-heading': title,
+    'error-key': 'missing_edipi_or_birls_id',
+    'alert-box-full-width': false,
+    'alert-box-background-only': false,
+    'alert-box-closeable': false,
+  });
   return <Alert content={content} />;
 };

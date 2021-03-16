@@ -13,6 +13,7 @@ module.exports = {
         { $ref: 'output/paragraph-collapsible_panel' },
         { $ref: 'output/paragraph-downloadable_file' },
         { $ref: 'output/paragraph-list_of_link_teasers' },
+        { $ref: 'output/paragraph-lists_of_links' },
         { $ref: 'output/paragraph-media' },
         { $ref: 'output/paragraph-number_callout' },
         { $ref: 'output/paragraph-process' },

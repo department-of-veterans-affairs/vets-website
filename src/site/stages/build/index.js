@@ -1,4 +1,5 @@
 // Builds the site using Metalsmith as the top-level build runner.
+/* eslint-disable no-console */
 const fs = require('fs-extra');
 const path = require('path');
 
@@ -19,14 +20,10 @@ const assetSources = require('../../constants/assetSources');
 const registerLiquidFilters = require('../../filters/liquid');
 const { getDrupalContent } = require('./drupal/metalsmith-drupal');
 const addDrupalPrefix = require('./plugins/add-drupal-prefix');
-const addNonceToScripts = require('./plugins/add-nonce-to-scripts');
-const addSubheadingsIds = require('./plugins/add-id-to-subheadings');
-const checkBrokenLinks = require('./plugins/check-broken-links');
 const checkCollections = require('./plugins/check-collections');
 const checkForCMSUrls = require('./plugins/check-cms-urls');
 const downloadAssets = require('./plugins/download-assets');
 const readAssetsFromDisk = require('./plugins/read-assets-from-disk');
-const processEntryNames = require('./plugins/process-entry-names');
 const createDrupalDebugPage = require('./plugins/create-drupal-debug');
 const createEnvironmentFilter = require('./plugins/create-environment-filter');
 const createHeaderFooter = require('./plugins/create-header-footer');
@@ -36,12 +33,9 @@ const createResourcesAndSupportWebsiteSection = require('./plugins/create-resour
 const createSitemaps = require('./plugins/create-sitemaps');
 const downloadDrupalAssets = require('./plugins/download-drupal-assets');
 const leftRailNavResetLevels = require('./plugins/left-rail-nav-reset-levels');
-const parseHtml = require('./plugins/parse-html');
-const replaceContentsWithDom = require('./plugins/replace-contents-with-dom');
-const injectAxeCore = require('./plugins/inject-axe-core');
+const modifyDom = require('./plugins/modify-dom');
 const rewriteDrupalPages = require('./plugins/rewrite-drupal-pages');
 const rewriteVaDomains = require('./plugins/rewrite-va-domains');
-const updateExternalLinks = require('./plugins/update-external-links');
 const updateRobots = require('./plugins/update-robots');
 
 /**
@@ -57,12 +51,13 @@ const updateRobots = require('./plugins/update-robots');
  * This can be removed when we move the content build to a new repository and
  * this script no longer interacts with the Webpack output at all.
  */
-function preserveWebpackOutput(metalsmithDestination, buildType) {
+function preserveWebpackOutput(metalsmithDestination) {
+  const destinationDirName = path.basename(metalsmithDestination);
   const webpackBuildDirName = 'generated';
   const tempDir = path.join(
     __dirname,
     '../../../../tmp/',
-    buildType,
+    destinationDirName,
     webpackBuildDirName,
   );
   const webpackDir = path.join(metalsmithDestination, webpackBuildDirName);
@@ -71,7 +66,6 @@ function preserveWebpackOutput(metalsmithDestination, buildType) {
 
   // Immediately move the Webpack output to a new directory
   if (webpackDirExists) {
-    // eslint-disable-next-line no-console
     console.log(`Found Webpack directory at ${webpackDir}`);
     fs.moveSync(webpackDir, tempDir, { overwrite: true });
   }
@@ -85,7 +79,6 @@ function preserveWebpackOutput(metalsmithDestination, buildType) {
         fs.rmdirSync(path.resolve(tempDir, '..'));
       }
     } else {
-      // eslint-disable-next-line no-console
       console.log(
         'No Webpack output found. Skipping the asset preservation step.',
       );
@@ -93,7 +86,39 @@ function preserveWebpackOutput(metalsmithDestination, buildType) {
   };
 }
 
+const pagesJSONPath = '.cache/localhost/drupal/pages.json';
+const backupPath = '/tmp/pages.json';
+
+function backupPagesJSON() {
+  try {
+    if (fs.existsSync(pagesJSONPath)) {
+      console.log('Backing up pages.json');
+      fs.renameSync(pagesJSONPath, backupPath);
+      console.log(`${pagesJSONPath} moved to ${backupPath}`);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+function restorePagesJSON() {
+  try {
+    if (fs.existsSync(backupPath)) {
+      console.log('Restoring pages.json');
+      fs.renameSync(backupPath, pagesJSONPath);
+      console.log(`pages.json restored to ${pagesJSONPath}`);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 function build(BUILD_OPTIONS) {
+  const usingCMSExport = BUILD_OPTIONS['use-cms-export'];
+  if (usingCMSExport) {
+    backupPagesJSON();
+  }
+
   const smith = silverSmith();
 
   registerLiquidFilters();
@@ -109,10 +134,11 @@ function build(BUILD_OPTIONS) {
     buildtype: BUILD_OPTIONS.buildtype,
     hostUrl: BUILD_OPTIONS.hostUrl,
     enabledFeatureFlags: BUILD_OPTIONS.cmsFeatureFlags,
+    omitdebug: BUILD_OPTIONS.omitdebug,
   });
 
   smith.use(
-    preserveWebpackOutput(BUILD_OPTIONS.destination, BUILD_OPTIONS.buildtype),
+    preserveWebpackOutput(BUILD_OPTIONS.destination),
     'Preserving Webpack build output',
   );
 
@@ -249,30 +275,10 @@ function build(BUILD_OPTIONS) {
   smith.use(createSitemaps(BUILD_OPTIONS), 'Create sitemap');
   smith.use(updateRobots(BUILD_OPTIONS), 'Update robots.txt');
   smith.use(checkForCMSUrls(BUILD_OPTIONS), 'Check for CMS URLs');
-
-  /**
-   * Parse the HTML into a JS data structure for use in later plugins.
-   * Important: Only plugins that use the parsedContent to modify the
-   * content can go between the parseHtml and outputHtml plugins. If
-   * the content is modified directly between those two plugins, any
-   * changes will be overwritten during the outputHtml step.
-   */
-  smith.use(parseHtml, 'Parse HTML files');
-
-  /**
-   * Add nonce attribute with substitution string to all inline script tags
-   * Convert onclick event handles into nonced script tags
-   */
-  smith.use(addNonceToScripts, 'Add nonce to script tags');
   smith.use(
-    processEntryNames(BUILD_OPTIONS),
-    'Process [data-entry-name] attributes into Webpack asset paths',
+    modifyDom(BUILD_OPTIONS),
+    'Parse a virtual DOM from every .html file and perform a variety of DOM sub-operations on each file',
   );
-  smith.use(updateExternalLinks(BUILD_OPTIONS), 'Update external links');
-  smith.use(addSubheadingsIds(BUILD_OPTIONS), 'Add IDs to subheadings');
-  smith.use(checkBrokenLinks(BUILD_OPTIONS), 'Check for broken links');
-  smith.use(injectAxeCore(BUILD_OPTIONS), 'Inject axe-core for accessibility');
-  smith.use(replaceContentsWithDom, 'Save the changes from the modified DOM');
 
   /* eslint-disable no-console */
   smith.build(err => {
@@ -284,6 +290,9 @@ function build(BUILD_OPTIONS) {
         smith.printSummary();
       }
       console.log('Build finished!');
+      if (usingCMSExport) {
+        restorePagesJSON();
+      }
     }
   });
 }

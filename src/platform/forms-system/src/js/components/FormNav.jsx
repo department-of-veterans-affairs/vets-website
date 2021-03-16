@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 
-import SegmentedProgressBar from './SegmentedProgressBar';
+import SegmentedProgressBar from '@department-of-veterans-affairs/component-library/SegmentedProgressBar';
 
 import {
   createFormPageList,

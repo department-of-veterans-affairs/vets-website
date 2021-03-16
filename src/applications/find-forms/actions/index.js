@@ -1,12 +1,17 @@
 // Dependencies.
 import URLSearchParams from 'url-search-params';
 // Relative imports.
+import recordEvent from 'platform/monitoring/record-event';
 import { fetchFormsApi } from '../api';
+import { correctSearchTerm } from '../helpers';
+import { MAX_PAGE_LIST_LENGTH } from '../containers/SearchResults';
 import {
   FETCH_FORMS,
   FETCH_FORMS_FAILURE,
   FETCH_FORMS_SUCCESS,
+  UPDATE_HOW_TO_SORT,
   UPDATE_PAGINATION,
+  UPDATE_RESULTS,
 } from '../constants';
 
 // ============
@@ -22,10 +27,35 @@ export const fetchFormsFailure = error => ({
   type: FETCH_FORMS_FAILURE,
 });
 
-export const fetchFormsSuccess = results => ({
+export const fetchFormsSuccess = (results, hasOnlyRetiredForms) => ({
   results,
+  hasOnlyRetiredForms,
   type: FETCH_FORMS_SUCCESS,
 });
+
+// =============
+// Update Results after forms is sorted
+// =============
+export const updateResults = results => ({
+  results,
+  type: UPDATE_RESULTS,
+});
+
+// =============
+// Update How To Sort
+// =============
+export const updateSortByPropertyName = sortByPropertyName => ({
+  sortByPropertyName,
+  type: UPDATE_HOW_TO_SORT,
+});
+
+export const updateSortByPropertyNameThunk = (
+  sortByPropertyName,
+  results,
+) => dispatch => {
+  dispatch(updateSortByPropertyName(sortByPropertyName));
+  dispatch(updateResults(results));
+};
 
 // ============
 // Pagination Actions
@@ -44,6 +74,10 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
   const location = options?.location || window.location;
   const history = options?.history || window.history;
   const mockRequest = options?.mockRequest || false;
+  let q = query;
+  if (options?.useSearchQueryAutoCorrect) {
+    q = correctSearchTerm(query);
+  }
 
   // Change the `fetching` state in our store.
   dispatch(fetchFormsAction(query));
@@ -62,10 +96,34 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
 
   try {
     // Attempt to make the API request to retreive forms.
-    const results = await fetchFormsApi(query, { mockRequest });
+    const resultsDetails = await fetchFormsApi(q, { mockRequest });
+
+    // Derive the total number of pages.
+    const totalPages = Math.ceil(
+      resultsDetails.results?.length / MAX_PAGE_LIST_LENGTH,
+    );
+
+    recordEvent({
+      event: 'view_search_results', // remains consistent, push this event with each search
+      'search-page-path': '/find-forms', // populate with '/find-forms', remains consistent for all searches from find-forms page
+      'search-query': query, // populate with full query user used to execute search
+      'search-results-total-count': resultsDetails?.results?.length, // populate with total number of search results returned
+      'search-results-total-pages': totalPages, // populate with total number of search result pages returned
+      'search-selection': 'Find forms', // populate with 'Find forms' for all searches from /find-forms page
+      'search-typeahead-enabled': false, // populate with boolean false, remains consistent since type ahead won't feature here
+      'sitewide-search-app-used': false, // this is not the sitewide search app
+      'type-ahead-option-keyword-selected': undefined, // populate with undefined since type ahead won't feature here
+      'type-ahead-option-position': undefined, // populate with undefined since type ahead won't feature here
+      'type-ahead-options-list': undefined, // populate with undefined since type ahead won't feature here
+    });
 
     // If we are here, the API request succeeded.
-    dispatch(fetchFormsSuccess(results));
+    dispatch(
+      fetchFormsSuccess(
+        resultsDetails.results,
+        resultsDetails.hasOnlyRetiredForms,
+      ),
+    );
   } catch (error) {
     // If we are here, the API request failed.
     dispatch(

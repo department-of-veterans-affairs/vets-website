@@ -1,21 +1,16 @@
-/*
- * Functions in here should map a var-resources API request to a similar response from
- * a FHIR resource request
+/**
+ * @module services/Slot
  */
 import { getAvailableSlots } from '../var';
 import { fhirSearch, mapToFHIRErrors } from '../utils';
 import { transformSlots } from './transformers';
 
-/*
- * This is used to parse the fake FHIR ids we create for organizations
- */
-function parseId(id) {
-  return id.replace('var', '');
-}
 /**
  * Fetch appointment slots based on start/end date times based on a VistA sites
  * availability for a particular type of care
  *
+ * @export
+ * @async
  * @param {Object} slotsRequest - An object containing the parameters necessary to retrive appointment slots
  * @param {string} slotsRequest.siteId 3 digit facility ID
  * @param {string} slotsRequest.typeOfCareId 3 digit type of care id
@@ -39,7 +34,7 @@ export async function getSlots({
   } else {
     try {
       const data = await getAvailableSlots(
-        parseId(siteId),
+        siteId,
         typeOfCareId,
         clinicId.split('_')[1],
         startDate,

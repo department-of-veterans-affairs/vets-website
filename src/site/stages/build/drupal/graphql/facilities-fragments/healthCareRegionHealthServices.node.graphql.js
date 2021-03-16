@@ -18,17 +18,9 @@ const HEALTH_SERVICES_RESULTS = `
                 ... on NodeHealthCareLocalFacility {
                   entityUrl {
                     ... on EntityCanonicalUrl {
-                      breadcrumb {
-                        url {
-                          path
-                          routed
-                        }
-                        text
-                      }
                       path
                     }
                   }
-                  fieldNicknameForThisFacility
                   title
                 }
               }

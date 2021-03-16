@@ -181,7 +181,7 @@ describe('VAOS Location transformer', () => {
 
       const location = {
         resourceType: 'Location',
-        id: `var${tasInfo.siteCode}`,
+        id: tasInfo.siteCode,
         address: {
           line: [streetAddress],
           city,

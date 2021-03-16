@@ -57,7 +57,7 @@ describe('<SetPreferences>', () => {
 
     const component = mount(<SetPreferences {...props} />);
     component
-      .find('ErrorableCheckbox')
+      .find('Checkbox')
       .first()
       .simulate('click'); // TODO: update test
     // expect(setPreference.args[0][0]).to.equal('healthcare');

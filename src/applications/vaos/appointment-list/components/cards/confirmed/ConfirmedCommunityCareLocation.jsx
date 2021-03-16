@@ -1,5 +1,6 @@
 import React from 'react';
 import FacilityAddress from '../../../../components/FacilityAddress';
+import NewTabAnchor from '../../../../components/NewTabAnchor';
 
 export default function ConfirmedCommunityCareLocation({ appointment }) {
   const location = appointment.contained.find(
@@ -13,14 +14,14 @@ export default function ConfirmedCommunityCareLocation({ appointment }) {
   if (!location.address) {
     return (
       <>
-        <h4 className="vaos-appts__block-label">{location.name}</h4>
+        {!!location.name && (
+          <h4 className="vaos-appts__block-label">{location.name}</h4>
+        )}
         <div>
           This appointment is scheduled with a community care provider. Please
           do not report to your local VA facility. If you have questions, please
           contact your facility community care staff at{' '}
-          <a href="/find-locations" target="_blank" rel="noopener noreferrer">
-            your local VA.
-          </a>
+          <NewTabAnchor href="/find-locations">your local VA.</NewTabAnchor>
           <br />
         </div>
       </>

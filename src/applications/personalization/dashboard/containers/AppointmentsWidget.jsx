@@ -6,7 +6,7 @@ import { startCase } from 'lodash';
 
 import { fetchAppointments } from '../../appointments/actions';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 const IS_PRODUCTION = document.location.hostname === 'www.vets.gov';
 const IS_STAGING = document.location.hostname === 'staging.vets.gov';

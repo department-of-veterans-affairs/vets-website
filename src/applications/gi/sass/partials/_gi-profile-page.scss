@@ -447,6 +447,10 @@
         margin-bottom: 0;
         margin-top: 0;
         font-weight: bold;
+        @include media-maxwidth($small-screen) {
+          margin-bottom: 0.8em;
+          margin-top: 0.8em;
+        }
       }
     }
 
@@ -454,6 +458,10 @@
       padding-left: 16px;
       .extension-cell-label {
         padding-left: 0.5em;
+        @include media-maxwidth($small-screen) {
+          margin-bottom: 0.8em;
+          margin-top: 0.8em;
+        }
       }
     }
 
@@ -496,6 +504,11 @@
       .estimated-housing-cell dfn {
         padding-right: 0.2em;
         white-space: nowrap;
+      }
+      .zipcode-margin {
+        @include media-maxwidth($small-screen) {
+          margin-left: 4.8em;
+        }
       }
 
       .extension-row {

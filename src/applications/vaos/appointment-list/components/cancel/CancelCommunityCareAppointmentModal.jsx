@@ -1,6 +1,7 @@
 import React from 'react';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export default function CancelCommunityCareAppointmentModal({
   onClose,
@@ -31,9 +32,7 @@ export default function CancelCommunityCareAppointmentModal({
       {!address && (
         <>
           Please contact your facility community care staff at{' '}
-          <a href="/find-locations" target="_blank" rel="noopener noreferrer">
-            your local VA.
-          </a>
+          <NewTabAnchor href="/find-locations">your local VA.</NewTabAnchor>
           <br />
         </>
       )}
@@ -52,14 +51,12 @@ export default function CancelCommunityCareAppointmentModal({
         )}
         <strong>{location.name}</strong>
         {!!phone && (
-          <dl className="vads-u-margin-y--0">
-            <dt className="vads-u-display--inline">
-              <strong>Main phone:</strong>
-            </dt>{' '}
-            <dd className="vads-u-display--inline">
-              <Telephone contact={phone} />
-            </dd>
-          </dl>
+          <>
+            <h4 className="vaos-appts__block-label vads-u-display--inline">
+              Main phone:
+            </h4>{' '}
+            <Telephone contact={phone} />
+          </>
         )}
       </div>
       <button onClick={onClose}>OK</button>

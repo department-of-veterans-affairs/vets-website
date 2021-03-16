@@ -3,12 +3,14 @@ import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
-import { WIZARD_STATUS } from 'applications/static-pages/wizard';
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 import { mockContestableIssues } from './hlr.cypress.helpers';
+import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
+import mockInProgress from './fixtures/mocks/in-progress-forms.json';
+import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockUser from './fixtures/mocks/user.json';
-import { CONTESTABLE_ISSUES_API } from '../constants';
+import { CONTESTABLE_ISSUES_API, WIZARD_STATUS } from '../constants';
 
 const testConfig = createTestConfig(
   {
@@ -41,24 +43,21 @@ const testConfig = createTestConfig(
 
       cy.login(mockUser);
 
-      cy.route('GET', '/v0/feature_toggles*', 'fx:mocks/feature-toggles');
+      cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
 
-      cy.route(
+      cy.intercept(
         'GET',
         `/v0${CONTESTABLE_ISSUES_API}compensation`,
         mockContestableIssues,
       );
 
-      cy.route('PUT', '/v0/in_progress_forms/*', 'fx:mocks/in-progress-forms');
+      cy.intercept('PUT', 'v0/in_progress_forms/20-0996', mockInProgress);
 
-      cy.route(
-        'POST',
-        '/v0/higher_level_reviews',
-        'fx:mocks/application-submit',
-      );
+      cy.intercept('POST', '/v0/higher_level_reviews', mockSubmit);
 
       cy.get('@testData').then(testData => {
-        cy.route('GET', '/v0/in_progress_forms/20-0996', testData);
+        cy.intercept('GET', '/v0/in_progress_forms/20-0996', testData);
+        cy.intercept('PUT', 'v0/in_progress_forms/20-0996', testData);
       });
     },
   },

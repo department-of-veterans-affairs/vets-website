@@ -2,7 +2,8 @@ import React from 'react';
 import Telephone, {
   CONTACTS,
   PATTERNS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
+import NewTabAnchor from './NewTabAnchor';
 
 export default function NeedHelp() {
   return (
@@ -15,32 +16,29 @@ export default function NeedHelp() {
         className="vads-u-margin-y--1p5 vads-u-border-color--primary"
       />
       <p className="vads-u-margin-top--0">
-        If you have questions about using the VA appointments tool, or if the
-        tool isn’t working right, please call <Telephone contact="8774705947" />{' '}
-        (TTY: <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
-        ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+        If you need help scheduling an appointment, please call your VA or
+        community care health facility.{' '}
+        <NewTabAnchor href="/find-locations">
+          Find your health facility’s phone number.
+        </NewTabAnchor>
       </p>
       <p className="vads-u-margin-top--0">
-        If you need help scheduling a VA or community care appointment, please
-        call your VA or community care facility.{' '}
-        <a href="/find-locations" target="_blank" rel="noopener noreferrer">
-          Find your health facility’s phone number.
-        </a>
+        To report a technical issue with the VA appointments tool, or if you
+        have a question about using the tool, please call{' '}
+        <Telephone contact="8774705947" /> (TTY:{' '}
+        <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+        ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
       </p>
       <p className="vads-u-margin-top--0">
         For questions about joining a VA Video Connect appointment, please call{' '}
         <Telephone contact="8666513180" /> (TTY:{' '}
         <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
-        ). We’re here Monday through Saturday, 7:00 a.m. to 11:00 p.m. ET.
+        ). We’re here 24/7.
       </p>
       <p className="vads-u-margin-top--0">
-        <a
-          href="https://veteran.apps.va.gov/feedback-web/v1/?appId=85870ADC-CC55-405E-9AC3-976A92BBBBEE"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <NewTabAnchor href="https://veteran.apps.va.gov/feedback-web/v1/?appId=85870ADC-CC55-405E-9AC3-976A92BBBBEE">
           Leave feedback about this application
-        </a>
+        </NewTabAnchor>
       </p>
     </div>
   );

@@ -77,7 +77,7 @@ node('vetsgov-general-purpose') {
           },
 
           cypress: {
-            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress up -d && docker-compose -p cypress run --rm --entrypoint=npm -e CI=true vets-website --no-color run cy:test:docker"
+            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress up -d && docker-compose -p cypress run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 vets-website --no-color run cy:test:docker"
           }
         )
       } catch (error) {
@@ -124,6 +124,7 @@ node('vetsgov-general-purpose') {
       if (!commonStages.isDeployable()) { return }
 
       if (commonStages.IS_DEV_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovdev')) {
+        commonStages.runDeploy('deploys/application-build-vagovdev', ref, false)
         commonStages.runDeploy('deploys/vets-website-vagovdev', ref, false)
       }
 

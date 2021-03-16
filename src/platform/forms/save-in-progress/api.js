@@ -1,13 +1,14 @@
 import * as Sentry from '@sentry/browser';
 import recordEvent from '../../monitoring/record-event';
-import environment from '../../utilities/environment';
 import localStorage from '../../utilities/storage/localStorage';
 import { fetchAndUpdateSessionExpiration as fetch } from '../../utilities/api';
-import { sanitizeForm } from '../helpers';
+import { sanitizeForm, inProgressApi } from '../helpers';
+import { VA_FORM_IDS_SKIP_INFLECTION } from '../constants';
 
 export function removeFormApi(formId) {
   const csrfTokenStored = localStorage.getItem('csrfToken');
-  return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
+  const apiUrl = inProgressApi(formId);
+  return fetch(apiUrl, {
     method: 'DELETE',
     credentials: 'include',
     headers: {
@@ -56,16 +57,21 @@ export function saveFormApi(
     formData,
   });
   const csrfTokenStored = localStorage.getItem('csrfToken');
+  const apiUrl = inProgressApi(formId);
+  const saveFormApiHeaders = {
+    'Content-Type': 'application/json',
+    'X-Key-Inflection': 'camel',
+    'Source-App-Name': window.appName,
+    'X-CSRF-Token': csrfTokenStored,
+  };
+  if (VA_FORM_IDS_SKIP_INFLECTION.includes(formId)) {
+    delete saveFormApiHeaders['X-Key-Inflection'];
+  }
 
-  return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
+  return fetch(apiUrl, {
     method: 'PUT',
     credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Key-Inflection': 'camel',
-      'Source-App-Name': window.appName,
-      'X-CSRF-Token': csrfTokenStored,
-    },
+    headers: saveFormApiHeaders,
     body,
   })
     .then(res => {

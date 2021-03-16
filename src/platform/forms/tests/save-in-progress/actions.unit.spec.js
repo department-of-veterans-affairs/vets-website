@@ -166,6 +166,21 @@ describe('Schemaform save / load actions:', () => {
           done(err);
         });
     });
+    it.skip('calls the Form 526-specific api to save the form', done => {
+      const thunk = saveAndRedirectToReturnUrl(VA_FORM_IDS.FORM_21_526EZ, {});
+      const dispatch = sinon.spy();
+
+      thunk(dispatch, getState)
+        .then(() => {
+          expect(global.fetch.args[0][0]).to.contain(
+            '/v0/disability_compensation_in_progress_forms/21-526EZ',
+          );
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
+    });
     it('dispatches a success if the form is saved', done => {
       const thunk = saveAndRedirectToReturnUrl(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
@@ -306,7 +321,7 @@ describe('Schemaform save / load actions:', () => {
         Promise.resolve({
           ok: true,
           json: () => ({
-            formData: { field: 'foo' }, // eslint-disable-line camelcase
+            formData: { field: 'foo' },
             metadata: {
               version: 0,
             },
@@ -317,6 +332,27 @@ describe('Schemaform save / load actions:', () => {
       return thunk(dispatch, getState).then(() => {
         expect(global.fetch.args[0][0]).to.contain(
           '/v0/in_progress_forms/1010ez',
+        );
+      });
+    });
+    it.skip('dispatches a success from the form 526-specific api on form load', () => {
+      const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_21_526EZ, {});
+      const dispatch = sinon.spy();
+      global.fetch.returns(
+        Promise.resolve({
+          ok: true,
+          json: () => ({
+            formData: { field: 'foo' },
+            metadata: {
+              version: 0,
+            },
+          }),
+        }),
+      );
+
+      return thunk(dispatch, getState).then(() => {
+        expect(global.fetch.args[0][0]).to.contain(
+          '/v0/disability_compensation_in_progress_forms/21-526EZ',
         );
       });
     });

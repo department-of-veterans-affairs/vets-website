@@ -15,14 +15,15 @@ export default (store, widgetType) => {
     return;
   }
 
-  // webpackChunkName: "third-party-app-directory"
-  import('./third-party-apps-entry').then(module => {
-    const { App } = module.default;
-    ReactDOM.render(
-      <Provider store={store}>
-        <App />
-      </Provider>,
-      root,
-    );
-  });
+  import(/* webpackChunkName: "third-party-app-directory" */ './third-party-apps-entry').then(
+    module => {
+      const { App } = module.default;
+      ReactDOM.render(
+        <Provider store={store}>
+          <App />
+        </Provider>,
+        root,
+      );
+    },
+  );
 };

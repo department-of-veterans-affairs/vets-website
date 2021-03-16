@@ -2,9 +2,8 @@ import * as Sentry from '@sentry/browser';
 
 import recordEvent from '../../monitoring/record-event';
 import { logOut } from '../../user/authentication/actions';
-import environment from '../../utilities/environment';
 import { fetchAndUpdateSessionExpiration as fetch } from '../../utilities/api';
-// import { sanitizeForm } from '../helpers';
+import { inProgressApi } from '../helpers';
 import { removeFormApi, saveFormApi } from './api';
 import { REMOVING_SAVED_FORM_SUCCESS } from '../../user/profile/actions';
 
@@ -251,12 +250,13 @@ export function fetchInProgressForm(
   //  redux store, but form.migrations doesn’t exist (nor should it, really)
   return (dispatch, getState) => {
     const trackingPrefix = getState().form.trackingPrefix;
+    const apiUrl = inProgressApi(formId);
 
     // Update UI while we’re waiting for the API
     dispatch(setFetchFormPending(prefill));
 
     // Query the api and return a promise (for navigation / error handling afterward)
-    return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
+    return fetch(apiUrl, {
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',

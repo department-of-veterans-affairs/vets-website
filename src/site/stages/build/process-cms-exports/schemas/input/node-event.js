@@ -34,17 +34,6 @@ module.exports = {
     field_additional_information_abo: { $ref: 'GenericNestedString' },
     field_address: { $ref: 'RawAddress' },
     field_body: { $ref: 'GenericNestedString' },
-    field_date: {
-      type: 'array',
-      items: {
-        properties: {
-          // These are actually timestamps like: 2019-05-30T21:00:00-04:00
-          value: { type: 'string' },
-          end_value: { type: 'string' },
-        },
-        required: ['value', 'end_value'],
-      },
-    },
     field_datetime_range_timezone: {
       type: 'array',
       items: {
@@ -61,6 +50,7 @@ module.exports = {
     field_event_cta: { $ref: 'GenericNestedString' },
     field_event_registrationrequired: { $ref: 'GenericNestedBoolean' },
     field_facility_location: { $ref: 'EntityReferenceArray' },
+    field_featured: { $ref: 'GenericNestedBoolean' },
     field_link: {
       // Might be worth pulling this out into a common schema
       type: 'array',
@@ -88,12 +78,12 @@ module.exports = {
     'field_additional_information_abo',
     'field_address',
     'field_body',
-    'field_date',
     'field_datetime_range_timezone',
     'field_description',
     'field_event_cost',
     'field_event_cta',
     'field_event_registrationrequired',
+    'field_featured',
     'field_facility_location',
     'field_link',
     'field_location_humanreadable',

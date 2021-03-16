@@ -30,7 +30,7 @@ describe('Report 674 student personal information', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(5);
+    expect(form.find('input').length).to.equal(7);
     expect(form.find('select').length).to.equal(3);
     form.unmount();
   });

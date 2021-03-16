@@ -10,7 +10,6 @@ module.exports = {
     // },
     title: { type: 'string' },
     created: { type: 'number' },
-    changed: { type: 'number' },
     promote: { type: 'boolean' },
     entityMetatags: {
       type: 'array',
@@ -67,7 +66,6 @@ module.exports = {
     // 'uid',
     'title',
     'created',
-    'changed',
     'promote',
     'entityPublished',
     'entityUrl',

@@ -3,7 +3,7 @@ module.exports = {
   properties: {
     entity: {
       type: 'object',
-      required: ['fieldLink', 'fieldLinkSummary'],
+      required: ['fieldLink', 'fieldLinkSummary', 'parentFieldName'],
       properties: {
         fieldLink: {
           type: ['object', 'null'],
@@ -22,6 +22,7 @@ module.exports = {
         fieldLinkSummary: {
           type: ['string', 'null'],
         },
+        parentFieldName: { type: 'string' },
       },
     },
   },

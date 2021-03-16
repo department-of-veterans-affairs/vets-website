@@ -12,7 +12,7 @@ describe('profile utils', () => {
     const createEventDataObjectWithError = error => ({
       event: 'profile-edit-failure',
       'profile-action': 'save-failure',
-      'profile-section': 'direct-deposit-information',
+      'profile-section': 'cnp-direct-deposit-information',
       'error-key': error,
     });
     const defaultDataObject = createEventDataObjectWithError(

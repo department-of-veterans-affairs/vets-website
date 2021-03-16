@@ -1038,5 +1038,60 @@
     "domain": "www.benefits.va.gov",
     "src": "/compensation/agentorange-c123.asp",
     "dest": "/disability/eligibility/hazardous-materials-exposure/agent-orange/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/PENSION/rates_survivor_pen18.asp",
+    "dest": "/pension/survivors-pension-rates/past-rates-2019/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/PENSION/rates_survivor_pen17.asp",
+    "dest": "/pension/survivors-pension-rates/past-rates-2018/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/PENSION/protected_pension_rate_tables_pen18.asp",
+    "dest": "/pension/protected-pension-rates/past-rates-2019/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/PENSION/protected_pension_rate_tables_pen17.asp",
+    "dest": "/pension/protected-pension-rates/past-rates-2018/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/PENSION/rates_veteran_pen18.asp",
+    "dest": "/pension/veterans-pension-rates/past-rates-2019/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/PENSION/rates_veteran_pen17.asp",
+    "dest": "/pension/veterans-pension-rates/past-rates-2018/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/vocrehab/vre_process.asp",
+    "dest": "/careers-employment/vocational-rehabilitation/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/INSURANCE/introCalc.asp",
+    "dest": "/resources/deciding-how-much-life-insurance-to-get/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/lifeins101.asp",
+    "dest": "/resources/deciding-how-much-life-insurance-to-get/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/INSURANCE/uninsurable.asp",
+    "dest": "/resources/life-insurance-if-you-have-preexisting-conditions/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/dividends_options.asp",
+    "dest": "/resources/life-insurance-dividend-payment-options/"
   }
 ]

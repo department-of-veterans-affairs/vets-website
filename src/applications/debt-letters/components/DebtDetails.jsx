@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import {
   deductionCodes,
   renderWhyMightIHaveThisDebt,
@@ -17,7 +17,7 @@ import last from 'lodash/last';
 import first from 'lodash/first';
 import { Link } from 'react-router';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import {
   renderAdditionalInfo,
   renderLetterHistory,
@@ -80,9 +80,9 @@ class DebtDetails extends Component {
                 <tr key={`${debtEntry.date}-${index}`}>
                   <td>{moment(debtEntry.date).format('MMMM D, YYYY')}</td>
                   <td>
-                    <p className="vads-u-margin-top--0">
+                    <div className="vads-u-margin-top--0">
                       {renderLetterHistory(debtEntry.letterCode)}
-                    </p>
+                    </div>
                   </td>
                 </tr>
               ))}

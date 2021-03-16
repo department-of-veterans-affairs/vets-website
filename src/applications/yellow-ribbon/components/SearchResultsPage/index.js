@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import SearchForm from '../../containers/SearchForm';
 import SearchResults from '../../containers/SearchResults';
 import { toggleShowMobileFormAction } from '../../actions';
+import { getYellowRibbonAppState } from '../../helpers/selectors';
 
 export const SearchResultsPage = ({
   hasFetchedOnce,
@@ -100,9 +101,9 @@ SearchResultsPage.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  hasFetchedOnce: state.yellowRibbonReducer.hasFetchedOnce,
-  showMobileForm: state.yellowRibbonReducer.showMobileForm,
-  totalResults: state.yellowRibbonReducer.totalResults,
+  hasFetchedOnce: getYellowRibbonAppState(state).hasFetchedOnce,
+  showMobileForm: getYellowRibbonAppState(state).showMobileForm,
+  totalResults: getYellowRibbonAppState(state).totalResults,
 });
 
 const mapDispatchToProps = dispatch => ({

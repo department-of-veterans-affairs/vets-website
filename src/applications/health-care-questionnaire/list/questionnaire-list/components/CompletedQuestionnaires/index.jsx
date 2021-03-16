@@ -5,39 +5,42 @@ import moment from 'moment';
 import QuestionnaireItem from '../QuestionnaireItem';
 import EmptyMessage from '../Messages/EmptyMessage';
 import ServiceDown from '../Messages/ServiceDown';
+import PrintButton from '../../../../shared/components/print/PrintButton';
 
 const index = props => {
   const { questionnaires } = props;
-
   return (
     <div id="tabpanel_completed">
       <h2 className="questionnaire-list-header">Completed questionnaires</h2>
       {questionnaires ? (
         <>
           {questionnaires.length === 0 ? (
-            <EmptyMessage />
+            <EmptyMessage
+              message={
+                "We don't have any completed health questionnaires for you in our system."
+              }
+            />
           ) : (
             <ul
               data-testid="questionnaire-list"
               className="questionnaire-list completed"
             >
-              {questionnaires.map(questionnaire => {
-                const { questionnaireResponse } = questionnaire;
+              {questionnaires.map(data => {
+                const { questionnaire, appointment } = data;
                 return (
                   <QuestionnaireItem
-                    key={questionnaire.appointment.id}
-                    data={questionnaire}
-                    Actions={() => (
-                      <button className="va-button">
-                        View and print questions
-                      </button>
-                    )}
+                    key={appointment.id}
+                    data={data}
+                    Actions={() => <PrintButton displayArrow={false} />}
                     DueDate={() => (
                       <p className="completed-date">
-                        Submitted on{' '}
-                        {moment(questionnaireResponse.submittedOn).format(
-                          'MMMM D, YYYY',
-                        )}
+                        Submitted on
+                        <br />
+                        <span className={`vads-u-font-weight--bold`}>
+                          {moment(
+                            questionnaire[0].questionnaireResponse.submittedOn,
+                          ).format('dddd, MMMM D, YYYY')}
+                        </span>
                       </p>
                     )}
                   />

@@ -10,7 +10,7 @@ import {
   getTypeOfCare,
 } from './redux/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from '../utils/constants';
-import { getSiteIdFromFakeFHIRId } from '../services/location';
+import { getSiteIdFromFacilityId } from '../services/location';
 import {
   checkEligibility,
   showEligibilityModal,
@@ -71,7 +71,7 @@ async function vaFacilityNext(state, dispatch) {
     // Fetch eligibility if we haven't already
     if (eligibility.direct === null && eligibility.request === null) {
       const location = getChosenFacilityInfo(state);
-      const siteId = getSiteIdFromFakeFHIRId(location.id);
+      const siteId = getSiteIdFromFacilityId(location.id);
 
       eligibility = await dispatch(
         checkEligibility({

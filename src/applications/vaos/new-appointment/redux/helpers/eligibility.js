@@ -230,7 +230,7 @@ export function getEligibilityChecks(eligibilityData) {
   return eligibilityChecks;
 }
 
-/**
+/*
  * Record Google Analytics events based on results of eligibility checks.
  * Error keys ending with 'error' represent a failure in fetching info for the check,
  * while keys ending with 'failure' signify that the user didn't meet the condition
@@ -288,10 +288,7 @@ export function logEligibilityExplanation(
     /* eslint-disable no-console */
     console.log('----');
     console.log(
-      `%cEligibility checks for location ${locationId.replace(
-        'var',
-        '',
-      )} and type of care ${typeOfCareId}`,
+      `%cEligibility checks for location ${locationId} and type of care ${typeOfCareId}`,
       'font-weight: bold',
     );
     const requestMessages = [];

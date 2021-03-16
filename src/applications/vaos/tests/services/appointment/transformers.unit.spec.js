@@ -313,7 +313,7 @@ describe('VAOS Appointment transformer', () => {
       });
 
       it('should set id', () => {
-        expect(data.id).to.equal('var22cdc6741c00ac67b6cbf6b972d084c0');
+        expect(data.id).to.equal('22cdc6741c00ac67b6cbf6b972d084c0');
       });
 
       it('should set status to "booked"', () => {
@@ -343,7 +343,7 @@ describe('VAOS Appointment transformer', () => {
 
       it('should set clinic as HealthcareService', () => {
         expect(data.participant[0].actor.reference).to.contain(
-          'HealthcareService/var',
+          'HealthcareService/',
         );
         expect(data.participant[0].actor.display).to.equal('CHY OPT VAR1');
       });
@@ -367,7 +367,7 @@ describe('VAOS Appointment transformer', () => {
       });
 
       it('should set id', () => {
-        expect(data.id).to.equal('var8a4888116a45cbe3016a45f482fb0002');
+        expect(data.id).to.equal('8a4888116a45cbe3016a45f482fb0002');
       });
 
       it('should set status to "booked"', () => {
@@ -428,7 +428,7 @@ describe('VAOS Appointment transformer', () => {
       });
 
       it('should set id', () => {
-        expect(data.id).to.equal('var05760f00c80ae60ce49879cf37a05fc8');
+        expect(data.id).to.equal('05760f00c80ae60ce49879cf37a05fc8');
       });
 
       it('should set status to "booked"', () => {
@@ -468,7 +468,7 @@ describe('VAOS Appointment transformer', () => {
         expect('contained' in data).to.equal(true);
         expect(data.contained[1].resourceType).to.equal('HealthcareService');
         expect(data.contained[1].id).to.contain(
-          `var${videoAppt.vvsAppointments[0].id}`,
+          videoAppt.vvsAppointments[0].id,
         );
         expect(data.contained[1].telecom[0].value).to.equal(
           'https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VVC8275247@care2.evn.va.gov&pin=3242949390#',
@@ -538,7 +538,7 @@ describe('VAOS Appointment transformer', () => {
       });
 
       it('should set id', () => {
-        expect(data.id).to.equal('var8a4829dc7281184e017285000ab700cf');
+        expect(data.id).to.equal('8a4829dc7281184e017285000ab700cf');
       });
 
       it('should set status to "proposed"', () => {
@@ -557,7 +557,7 @@ describe('VAOS Appointment transformer', () => {
         const locationActor = data.participant.filter(p =>
           p.actor.reference.includes('Location'),
         )[0];
-        expect(locationActor.actor.reference).to.equal('Location/var983');
+        expect(locationActor.actor.reference).to.equal('Location/983');
       });
 
       it('should set patient info in participants', () => {
@@ -822,7 +822,7 @@ describe('VAOS Appointment transformer', () => {
     });
 
     it('should set id', () => {
-      expect(data.id).to.equal('var8a4886886e4c8e22016e6613216d001f');
+      expect(data.id).to.equal('8a4886886e4c8e22016e6613216d001f');
     });
 
     it('should set status to "proposed"', () => {
@@ -852,11 +852,6 @@ describe('VAOS Appointment transformer', () => {
       expect(data.requestedPeriod[1].end).to.equal(
         `${tomorrow.format('YYYY-MM-DD')}T11:59:59.999`,
       );
-    });
-
-    // TODO: Verify no start date for appointment request
-    xit('should set start date', () => {
-      expect(data.start).to.equal('2020-02-05T10:30:00-09:00');
     });
 
     it('should set minutesDuration', () => {

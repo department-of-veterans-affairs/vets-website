@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
@@ -34,16 +34,11 @@ export function ConfirmationPage({
   fetchFacilityDetails,
   useProviderSelection,
 }) {
-  const history = useHistory();
   const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
   const pageTitle = isDirectSchedule
     ? 'Your appointment has been scheduled'
     : 'Your appointment request has been submitted';
   useEffect(() => {
-    if (history && !data?.typeOfCareId) {
-      history.replace('/new-appointment');
-    }
-
     if (
       !facilityDetails &&
       data?.vaFacility &&
@@ -56,6 +51,10 @@ export function ConfirmationPage({
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
   }, []);
+
+  if (!data?.typeOfCareId) {
+    return <Redirect to="/new-appointment" />;
+  }
 
   return (
     <div>

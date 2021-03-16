@@ -116,7 +116,11 @@ import { createFormConfig781, createFormConfig781a } from './781';
 
 import createformConfig8940 from './8940';
 
-import { PTSD_INCIDENT_ITERATION, NULL_CONDITION_STRING } from '../constants';
+import {
+  PTSD_INCIDENT_ITERATION,
+  NULL_CONDITION_STRING,
+  WIZARD_STATUS,
+} from '../constants';
 
 import migrations from '../migrations';
 
@@ -143,6 +147,7 @@ const formConfig = {
     ],
   },
   formId: VA_FORM_IDS.FORM_21_526EZ,
+  wizardStorageKey: WIZARD_STATUS,
   saveInProgress: {
     messages: {
       inProgress:
@@ -201,7 +206,8 @@ const formConfig = {
           onContinue: captureEvents.militaryHistory,
           appStateSelector: state => ({
             dob: state.user.profile.dob,
-            allowBDD: form526BDDFeature(state),
+            allowBDD:
+              form526BDDFeature(state) && state.form.data?.['view:isBddData'],
           }),
         },
         separationLocation: {
@@ -295,6 +301,13 @@ const formConfig = {
           uiSchema: addDisabilities.uiSchema,
           schema: addDisabilities.schema,
           updateFormData: addDisabilities.updateFormData,
+          appStateSelector: state => ({
+            // needed for validateDisabilityName to work properly on the review
+            // & submit page. Validation functions are provided the pageData and
+            // not the formData on the review & submit page. For more details
+            // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
+            newDisabilities: state.form?.data?.newDisabilities || [],
+          }),
         },
         followUpDesc: {
           title: 'Follow-up questions',
@@ -483,6 +496,9 @@ const formConfig = {
           depends: formData => !increaseOnly(formData) && !isBDD(formData),
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema,
+          appStateSelector: state => ({
+            serviceInformation: state.form?.data?.serviceInformation,
+          }),
         },
         // Ancillary forms wizard
         ancillaryFormsWizardIntro: {
@@ -687,6 +703,7 @@ const formConfig = {
           path: 'fully-developed-claim',
           uiSchema: fullyDevelopedClaim.uiSchema,
           schema: fullyDevelopedClaim.schema,
+          depends: formData => !isBDD(formData),
         },
       },
     },

@@ -9,15 +9,14 @@ describe('GI Bill Comparison Tool mobile view', () => {
 
     initApplicationMock(institutionProfile, searchResults);
 
-    cy.visit('/gi-bill-comparison-tool').injectAxe();
-    cy.axeCheck();
+    cy.visit('/gi-bill-comparison-tool');
+    cy.injectAxeThenAxeCheck();
   });
 
   it('Default GIBCT mobile view profile flow with giBillChapter chapter 33', () => {
     cy.viewport(481, 750);
 
     // Landing Page
-
     const selector = `input[name="category"][value="school"]`;
     cy.get(selector).check({ force: true });
     cy.axeCheck();
@@ -26,13 +25,12 @@ describe('GI Bill Comparison Tool mobile view', () => {
       searchResults.data[0].attributes.name,
     );
     cy.get('#search-button').click();
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
 
     // Search Page
     cy.get('[data-cy=filter-button').should('be.visible');
     cy.get('[data-cy=filter-button').click({ force: true });
-
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
 
     cy.get('[data-cy=see-results]').click({ force: true });
     cy.axeCheck();
@@ -49,7 +47,6 @@ describe('GI Bill Comparison Tool mobile view', () => {
     cy.wait(`@profile${facilityCode}`);
     cy.url().should('include', `/profile/${facilityCode}`);
     cy.get('.profile-page').should('be.visible');
-
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 });

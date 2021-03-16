@@ -176,3 +176,19 @@ import 'core-js/modules/es.typed-array.uint8-clamped-array'; // {"ie":"11","ios"
 import 'core-js/modules/es.weak-map'; // { "edge":"14", "ie":"11", "ios":"9" }
 import 'core-js/modules/es.weak-set'; // { "edge":"14", "ie":"11", "ios":"9" }
 import 'core-js/modules/web.dom-collections.for-each'; // { "edge":"14", "ie":"11", "ios":"9" }
+
+/**
+ * This section is for Intl.DateTimeFormat polyfills. Needed for date-fns-tz to
+ * function on IE11.
+ *
+ * The first two are pre-requisites for polyfilling Intl.DateTimeFormat, which
+ * is the one that's actually needed for date-fns-tz.
+ */
+import '@formatjs/intl-getcanonicallocales/polyfill';
+import '@formatjs/intl-locale/polyfill';
+import '@formatjs/intl-datetimeformat/polyfill';
+// Rather than adding all the timezone data (which is a LOT)...
+//     import '@formatjs/intl-datetimeformat/locale-data/en'; // locale-data for en
+//     import '@formatjs/intl-datetimeformat/add-all-tz';
+// ...only add the minimum required data for EST/EDT
+import './polyfill-timezone-data';

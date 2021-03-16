@@ -1,6 +1,7 @@
+const fragments = require('./fragments.graphql');
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-const fragment = `
+const nodeMediaListImages = `
 fragment nodeMediaListImages on NodeMediaListImages {
   ${entityElementsFromPages}
   entityBundle
@@ -88,4 +89,37 @@ fragment nodeMediaListImages on NodeMediaListImages {
 }
 `;
 
-module.exports = fragment;
+const GetNodeMediaListImages = `
+  ${fragments.alertParagraphSingle}
+  ${fragments.button}
+  ${fragments.contactInformation}
+  ${fragments.supportService}
+  ${fragments.linkTeaser}
+  ${fragments.termLcCategory}
+  ${fragments.audienceTopics}
+  ${fragments.emailContact}
+  ${fragments.phoneNumber}
+  ${fragments.audienceBeneficiaries}
+  ${fragments.audienceNonBeneficiaries}
+  ${fragments.termTopics}
+
+  ${nodeMediaListImages}
+
+  query GetNodeMediaListImages($onlyPublishedContent: Boolean!) {
+    nodeQuery(limit: 1000, filter: {
+      conditions: [
+        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+        { field: "type", value: ["media_list_images"] }
+      ]
+    }) {
+      entities {
+        ... nodeMediaListImages
+      }
+    }
+  }
+`;
+
+module.exports = {
+  fragment: nodeMediaListImages,
+  GetNodeMediaListImages,
+};

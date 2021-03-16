@@ -127,7 +127,7 @@ export const createCNPDirectDepositAnalyticsDataObject = (
   return {
     event: 'profile-edit-failure',
     'profile-action': 'save-failure',
-    'profile-section': 'direct-deposit-information',
+    'profile-section': `cnp-direct-deposit-information`,
     [key]: errorCode,
   };
 };

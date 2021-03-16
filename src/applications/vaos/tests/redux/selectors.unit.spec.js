@@ -73,36 +73,20 @@ describe('VAOS selectors', () => {
   });
 
   describe('selectUseFlatFacilityPage', () => {
-    it('should return true if feature toggle is on and user is not cerner patient', () => {
+    it('should return true if user is not cerner patient', () => {
       const state = {
-        featureToggles: {
-          vaOnlineSchedulingFlatFacilityPage: true,
+        user: {
+          profile: {
+            isCernerPatient: false,
+          },
         },
       };
 
       expect(selectUseFlatFacilityPage(state)).to.be.true;
     });
 
-    it('should return false if feature toggle is off', () => {
+    it('should return false if user has cerner facilities', () => {
       const state = {
-        featureToggles: {
-          vaOnlineSchedulingFlatFacilityPage: false,
-        },
-        user: {
-          profile: {
-            facilities: [{ facilityId: '124', isCerner: false }],
-          },
-        },
-      };
-
-      expect(selectUseFlatFacilityPage(state)).to.be.false;
-    });
-
-    it('should return false if feature toggle is on and user has cerner facilities', () => {
-      const state = {
-        featureToggles: {
-          vaOnlineSchedulingFlatFacilityPage: true,
-        },
         user: {
           profile: {
             facilities: [
@@ -120,12 +104,8 @@ describe('VAOS selectors', () => {
       expect(selectUseFlatFacilityPage(state)).to.be.false;
     });
 
-    it('should return false if feature toggle is on and user is registered to Sacramento VA', () => {
+    it('should return true if user is registered to Sacramento VA', () => {
       const state = {
-        featureToggles: {
-          vaOnlineSchedulingFlatFacilityPage: true,
-          vaOnlineSchedulingFlatFacilityPageSacramento: false,
-        },
         user: {
           profile: {
             facilities: [
@@ -136,16 +116,12 @@ describe('VAOS selectors', () => {
         },
       };
 
-      expect(selectUseFlatFacilityPage(state)).to.be.false;
+      expect(selectUseFlatFacilityPage(state)).to.be.true;
     });
   });
 
-  it('should return false if feature toggle is on and user is registered to Sacramento VA and has cerner facilities', () => {
+  it('should return false user is registered to Sacramento VA and has cerner facilities', () => {
     const state = {
-      featureToggles: {
-        vaOnlineSchedulingFlatFacilityPage: true,
-        vaOnlineSchedulingFlatFacilityPageSacramento: false,
-      },
       user: {
         profile: {
           facilities: [
@@ -161,21 +137,5 @@ describe('VAOS selectors', () => {
     };
 
     expect(selectUseFlatFacilityPage(state)).to.be.false;
-  });
-
-  it('should return true if feature toggle is on and user is registered to Sacramento VA and flat page is enabled for Sacramento', () => {
-    const state = {
-      featureToggles: {
-        vaOnlineSchedulingFlatFacilityPage: true,
-        vaOnlineSchedulingFlatFacilityPageSacramento: true,
-      },
-      user: {
-        profile: {
-          facilities: [{ facilityId: '612', isCerner: false }],
-        },
-      },
-    };
-
-    expect(selectUseFlatFacilityPage(state)).to.be.true;
   });
 });

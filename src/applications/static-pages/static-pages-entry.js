@@ -29,10 +29,8 @@ import createHigherLevelReviewApplicationStatus from 'applications/disability-be
 import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
-import initScrollToTopButton from './scroll-top-button';
 
 import form686CTA from './view-modify-dependent/686-cta/form686CTA';
-import createCaregiverContentToggle from './caregiver-content-toggle/createCaregiverContentToggle';
 
 // Health Care | Manage Benefits widgets.
 import createGetMedicalRecordsPage from './health-care-manage-benefits/get-medical-records-page';
@@ -59,6 +57,7 @@ import createChapter36CTA from './vre-chapter36/createChapter36CTA';
 import createChapter31CTA from './vre-chapter31/createChapter31CTA';
 import createViewDependentsCTA from './view-modify-dependents/view-dependents-cta/createViewDependentsCTA';
 import createViewPaymentHistoryCTA from './view-payment-history/createViewPaymentHistoryCTA';
+import createI18Select from './i18Select/createI18Select';
 
 // School resources widgets
 import {
@@ -72,6 +71,9 @@ import createThirdPartyApps, {
   thirdPartyAppsReducer,
 } from '../third-party-app-directory/createThirdPartyApps';
 
+import createDependencyVerification from './dependency-verification/createDependencyVerification';
+import dependencyVerificationReducer from './dependency-verification/reducers/index';
+
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
 
@@ -83,6 +85,7 @@ const store = createCommonStore({
   ...findVaFormsWidgetReducer,
   ...post911GIBillStatusReducer,
   ...thirdPartyAppsReducer,
+  ...dependencyVerificationReducer,
 });
 
 Sentry.withScope(scope => {
@@ -169,8 +172,6 @@ createCovidVaccineUpdatesWidget(store, widgetTypes.COVID_VACCINE_UPDATES_CTA);
 createViewDependentsCTA(store, widgetTypes.VIEW_DEPENDENTS_CTA);
 form686CTA(store, widgetTypes.FORM_686_CTA);
 
-createCaregiverContentToggle(store, widgetTypes.CAREGIVER_CONTENT_TOGGLE);
-
 // Create Health Care | Manage Benefits widgets.
 createGetMedicalRecordsPage(store, widgetTypes.GET_MEDICAL_RECORDS_PAGE);
 createRefillTrackPrescriptionsPage(
@@ -190,14 +191,14 @@ createViewTestAndLabResultsPage(
 createChapter36CTA(store, widgetTypes.CHAPTER_36_CTA);
 createChapter31CTA(store, widgetTypes.CHAPTER_31_CTA);
 createViewPaymentHistoryCTA(store, widgetTypes.VIEW_PAYMENT_HISTORY);
+createI18Select(store, widgetTypes.I_18_SELECT);
+
+createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
 
 // homepage widgets
 if (location.pathname === '/') {
   createMyVALoginWidget(store);
 }
-
-// Up to top button for Article Pages
-initScrollToTopButton();
 
 /* eslint-disable no-unused-vars,camelcase */
 const lazyLoad = new LazyLoad({

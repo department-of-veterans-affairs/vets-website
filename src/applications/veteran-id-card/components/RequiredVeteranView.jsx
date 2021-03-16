@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import SystemDownView from '@department-of-veterans-affairs/formation-react/SystemDownView';
+import SystemDownView from '@department-of-veterans-affairs/component-library/SystemDownView';
 
 import EmailVICHelp from 'platform/static-data/EmailVICHelp';
 

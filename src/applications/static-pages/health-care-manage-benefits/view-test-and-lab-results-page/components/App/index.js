@@ -5,16 +5,11 @@ import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 // Relative imports.
 import AuthContent from '../AuthContent';
-import LegacyContent from '../LegacyContent';
 import UnauthContent from '../UnauthContent';
-import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 import { selectPatientFacilities } from 'platform/user/selectors';
+import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 
-export const App = ({ facilities, showNewViewTestLabResultsPage }) => {
-  if (!showNewViewTestLabResultsPage) {
-    return <LegacyContent />;
-  }
-
+export const App = ({ authenticatedWithSSOe, facilities }) => {
   const cernerFacilities = facilities?.filter(f => f.usesCernerTestResults);
   const otherFacilities = facilities?.filter(f => !f.usesCernerTestResults);
   if (!isEmpty(cernerFacilities)) {
@@ -22,6 +17,7 @@ export const App = ({ facilities, showNewViewTestLabResultsPage }) => {
       <AuthContent
         cernerFacilities={cernerFacilities}
         otherFacilities={otherFacilities}
+        authenticatedWithSSOe={authenticatedWithSSOe}
       />
     );
   }
@@ -31,6 +27,7 @@ export const App = ({ facilities, showNewViewTestLabResultsPage }) => {
 
 App.propTypes = {
   // From mapStateToProps.
+  authenticatedWithSSOe: PropTypes.bool,
   facilities: PropTypes.arrayOf(
     PropTypes.shape({
       facilityId: PropTypes.string.isRequired,
@@ -42,13 +39,11 @@ App.propTypes = {
       usesCernerTestResults: PropTypes.bool,
     }).isRequired,
   ),
-  showNewViewTestLabResultsPage: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
+  authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
   facilities: selectPatientFacilities(state),
-  showNewViewTestLabResultsPage:
-    state?.featureToggles?.[featureFlagNames.showNewViewTestLabResultsPage],
 });
 
 export default connect(

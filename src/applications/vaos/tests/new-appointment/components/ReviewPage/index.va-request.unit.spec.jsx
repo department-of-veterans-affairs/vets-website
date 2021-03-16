@@ -25,12 +25,10 @@ import {
   startRequestAppointmentFlow,
 } from '../../../../new-appointment/redux/actions';
 import {
-  mockFacilityFetch,
   mockMessagesFetch,
   mockPreferences,
   mockRequestSubmit,
 } from '../../../mocks/helpers';
-import { getVAFacilityMock } from '../../../mocks/v0';
 
 const initialState = {
   featureToggles: {
@@ -58,8 +56,8 @@ describe('VAOS <ReviewPage> VA request', () => {
           email: 'joeblow@gmail.com',
           reasonForAppointment: 'routine-follow-up',
           reasonAdditionalInfo: 'I need an appt',
-          vaParent: 'var983',
-          vaFacility: 'var983',
+          vaParent: '983',
+          vaFacility: '983',
           visitType: 'telehealth',
           bestTimeToCall: {
             morning: true,
@@ -70,7 +68,7 @@ describe('VAOS <ReviewPage> VA request', () => {
         clinics: {},
         parentFacilities: [
           {
-            id: 'var983',
+            id: '983',
             identifier: [
               { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
               {
@@ -80,26 +78,21 @@ describe('VAOS <ReviewPage> VA request', () => {
             ],
           },
         ],
-        facilityDetails: {
-          var983: {
-            id: 'var983',
-            name: 'Cheyenne VA Medical Center',
-            address: {
-              postalCode: '82001-5356',
-              city: 'Cheyenne',
-              state: 'WY',
-              line: ['2360 East Pershing Boulevard'],
-            },
-          },
-        },
         facilities: {
-          '323_var983': [
+          '323': [
             {
-              id: 'var983',
+              id: '983',
               name: 'Cheyenne VA Medical Center',
               identifier: [
                 { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
               ],
+              address: {
+                postalCode: '82001-5356',
+                city: 'Cheyenne',
+                state: 'WY',
+                line: ['2360 East Pershing Boulevard'],
+              },
+              telecom: [{ system: 'phone', value: '307-778-7550' }],
             },
           ],
         },
@@ -107,15 +100,7 @@ describe('VAOS <ReviewPage> VA request', () => {
     });
     store.dispatch(startRequestAppointmentFlow());
     store.dispatch(
-      onCalendarChange({
-        currentlySelectedDate: start.format('YYYY-MM-DD'),
-        selectedDates: [
-          {
-            date: start.format('YYYY-MM-DD'),
-            optionTime: 'AM',
-          },
-        ],
-      }),
+      onCalendarChange([start.format('YYYY-MM-DD[T00:00:00.000]')]),
     );
   });
   afterEach(() => resetFetch());
@@ -237,25 +222,6 @@ describe('VAOS <ReviewPage> VA request', () => {
   });
 
   it('should show error message on failure', async () => {
-    mockFacilityFetch('vha_442', {
-      id: 'vha_442',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '442',
-        name: 'Cheyenne VA Medical Center',
-        address: {
-          physical: {
-            zip: '82001-5356',
-            city: 'Cheyenne',
-            state: 'WY',
-            address1: '2360 East Pershing Boulevard',
-          },
-        },
-        phone: {
-          main: '307-778-7550',
-        },
-      },
-    });
     setFetchJSONFailure(
       global.fetch.withArgs(
         `${environment.API_URL}/vaos/v0/appointment_requests?type=va`,

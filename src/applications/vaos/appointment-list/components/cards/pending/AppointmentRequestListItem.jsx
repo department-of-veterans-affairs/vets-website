@@ -20,12 +20,6 @@ const TIME_TEXT = {
   'No Time Selected': '',
 };
 
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id ? id.replace('var', '') : id;
-}
-
 export default function AppointmentRequestListItem({
   appointment,
   cancelAppointment,
@@ -39,10 +33,12 @@ export default function AppointmentRequestListItem({
   const [showMore, setShowMore] = useState(false);
 
   const toggleShowMore = () => {
-    const id = parseFakeFHIRId(appointment.id);
-
-    if (!showMore && !messages[id] && !appointment.vaos.isExpressCare) {
-      fetchMessages(id);
+    if (
+      !showMore &&
+      !messages[appointment.id] &&
+      !appointment.vaos.isExpressCare
+    ) {
+      fetchMessages(appointment.id);
     }
 
     setShowMore(!showMore);
@@ -52,8 +48,7 @@ export default function AppointmentRequestListItem({
   const isExpressCare = appointment.vaos.isExpressCare;
   const isVideoRequest = isVideoAppointment(appointment);
   const cancelled = appointment.status === APPOINTMENT_STATUS.cancelled;
-  const firstMessage =
-    messages?.[parseFakeFHIRId(appointment.id)]?.[0]?.attributes?.messageText;
+  const firstMessage = messages?.[appointment.id]?.[0]?.attributes?.messageText;
 
   const itemClasses = classNames(
     'vaos-appts__list-item vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3',
@@ -97,7 +92,7 @@ export default function AppointmentRequestListItem({
               <VAFacilityLocation
                 facility={facility}
                 facilityName={facility?.name}
-                facilityId={parseFakeFHIRId(facilityId)}
+                facilityId={facilityId}
               />
             )}
         </div>

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import FormButtons from '../../components/FormButtons';
@@ -11,6 +11,7 @@ import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { addressSchema, getAddressUISchema } from '../fields/addressFields';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
+import NewTabAnchor from '../../components/NewTabAnchor';
 
 const initialSchema = {
   type: 'object',
@@ -63,7 +64,7 @@ const uiSchema = {
   },
   preferredLanguage: {
     'ui:title':
-      'Do you prefer that your community care provider speak a certain language?',
+      'Select the preferred language for your community care provider.',
   },
   hasCommunityCareProvider: {
     'ui:widget': 'yesNo',
@@ -81,13 +82,9 @@ const uiSchema = {
     'ui:description': (
       <p className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-top--1">
         Use the{' '}
-        <a
-          href="/find-locations/?facilityType=cc_provider"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <NewTabAnchor href="/find-locations/?facilityType=cc_provider">
           facility locator
-        </a>{' '}
+        </NewTabAnchor>{' '}
         to find your preferred community care provider. Copy and paste their
         name and address below.
       </p>
@@ -135,11 +132,10 @@ const uiSchema = {
       'ui:description': (
         <AlertBox
           status="info"
-          headline="We’ll try to schedule your appointment with your preferred community provider"
+          headline="We’ll try to schedule your appointment with your preferred provider"
         >
-          If we aren’t able to schedule this appointment with your preferred
-          provider, we’ll make every effort to schedule your appointment with
-          another community provider closest to your home.
+          If we can’t schedule this appointment with them, we’ll schedule it
+          with another provider close to your home.
         </AlertBox>
       ),
     },
@@ -164,6 +160,9 @@ export function CommunityCarePreferencesPage({
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
     openCommunityCarePreferencesPage(pageKey, uiSchema, initialSchema);
+    recordEvent({
+      event: `${GA_PREFIX}-community-care-legacy-provider-page`,
+    });
   }, []);
   const previousData = data;
 

@@ -11,10 +11,13 @@ const transform = entity => ({
     fieldCtaWidget: getDrupalValue(entity.fieldCtaWidget),
     fieldDefaultLink: createLink(entity.fieldDefaultLink, ['url', 'title']),
     fieldErrorMessage: entity.fieldErrorMessage[0]
-      ? omit(['format'], entity.fieldErrorMessage[0])
+      ? omit(['format', 'processed'], entity.fieldErrorMessage[0])
       : null,
     fieldLoadingMessage: getDrupalValue(entity.fieldLoadingMessage),
-    fieldTimeout: getDrupalValue(entity.fieldTimeout) || 0,
+    fieldTimeout:
+      entity.fieldTimeout.length === 0
+        ? null
+        : getDrupalValue(entity.fieldTimeout),
     fieldWidgetType: getDrupalValue(entity.fieldWidgetType),
   },
 });

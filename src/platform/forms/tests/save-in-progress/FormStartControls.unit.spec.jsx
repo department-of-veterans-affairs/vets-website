@@ -7,9 +7,12 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import { getFormDOM } from '../../../testing/unit/schemaform-utils';
 import { FormStartControls } from '../../save-in-progress/FormStartControls';
+import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
 
 describe('Schemaform <FormStartControls>', () => {
   const startPage = 'testing';
+  const wizardStorageKey = 'testKey';
+  const restartDestination = '/test-page';
   const oldDataLayer = global.window.dataLayer;
   let defaultRoutes;
 
@@ -18,6 +21,7 @@ describe('Schemaform <FormStartControls>', () => {
       'dummyProp',
       {
         formConfig: {
+          wizardStorageKey,
           customText: {
             startNewAppButtonText: '',
             continueAppButtonText: '',
@@ -29,6 +33,7 @@ describe('Schemaform <FormStartControls>', () => {
 
   afterEach(() => {
     global.window.dataLayer = oldDataLayer;
+    global.window.sessionStorage.removeItem(wizardStorageKey);
   });
 
   it('should render 1 button when not logged in', () => {
@@ -189,7 +194,7 @@ describe('Schemaform <FormStartControls>', () => {
         router={routerSpy}
         fetchInProgressForm={fetchSpy}
         prefillAvailable
-        routes={defaultRoutes}
+        routes={[{}, { formConfig: { wizardStorageKey } }]}
       />,
     );
     const formDOM = getFormDOM(tree);
@@ -224,6 +229,47 @@ describe('Schemaform <FormStartControls>', () => {
 
     expect(fetchSpy.called).to.be.true;
     expect(formDOM.querySelector('.va-modal-body')).to.be.null;
+  });
+
+  it('should show modal and remove form when starting over', () => {
+    const routerSpy = {
+      push: sinon.spy(),
+    };
+    const fetchSpy = sinon.spy();
+    const tree = ReactTestUtils.renderIntoDocument(
+      <FormStartControls
+        formId="1010ez"
+        migrations={[]}
+        router={routerSpy}
+        formSaved
+        removeInProgressForm={fetchSpy}
+        prefillAvailable
+        routes={[
+          {},
+          {
+            formConfig: {
+              wizardStorageKey,
+              saveInProgress: {
+                restartFormCallback: () => restartDestination,
+              },
+            },
+          },
+        ]}
+      />,
+    );
+    const formDOM = getFormDOM(tree);
+    document.body.appendChild(formDOM);
+    formDOM.click('.usa-button-secondary');
+
+    expect(formDOM.querySelector('.va-modal-body')).to.not.be.null;
+
+    formDOM.click('.va-modal-body .usa-button-primary');
+
+    expect(fetchSpy.called).to.be.true;
+    expect(formDOM.querySelector('.va-modal-body')).to.be.null;
+    expect(global.window.sessionStorage.getItem(wizardStorageKey)).to.equal(
+      WIZARD_STATUS_RESTARTING,
+    );
   });
 
   it('should not capture analytics events when starting the form if the `gaStartEventName` prop is explicitly removed', () => {

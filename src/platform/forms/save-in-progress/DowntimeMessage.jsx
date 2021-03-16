@@ -1,5 +1,5 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import classNames from 'classnames';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
 

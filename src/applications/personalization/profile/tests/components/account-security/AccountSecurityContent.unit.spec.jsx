@@ -2,14 +2,14 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import {
   AccountSecurityContent,
   mapStateToProps,
 } from '@@profile/components/account-security/AccountSecurityContent';
 import ProfileInfoTable from '@@profile/components/ProfileInfoTable';
-import IdentityNotVerified from '@@profile/components/account-security/IdentityNotVerified';
+import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
 import TwoFactorAuthorizationStatus from '@@profile/components/account-security/TwoFactorAuthorizationStatus';
 import MHVTermsAndConditionsStatus from '@@profile/components/account-security/MHVTermsAndConditionsStatus';
 import EmailAddressNotification from '@@profile/components/personal-information/email-addresses/EmailAddressNotification';

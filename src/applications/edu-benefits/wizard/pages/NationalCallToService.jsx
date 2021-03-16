@@ -1,5 +1,5 @@
 import React from 'react';
-import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import { pageNames } from './pageList';
 
 const nationalCallToServiceOptions = [
@@ -12,7 +12,7 @@ const NationalCallToService = ({
   getPageStateFromPageName,
   state = {},
 }) => (
-  <ErrorableRadioButtons
+  <RadioButtons
     name={`${pageNames.nationalCallToService}`}
     label={
       <span>

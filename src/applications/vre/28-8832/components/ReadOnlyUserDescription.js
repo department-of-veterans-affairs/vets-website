@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import { LOA_LEVEL_REQUIRED } from '../constants';
 
 const ReadOnlyUserDescription = props => {
   const [isLoggedIn, setIsLoggedIn] = useState();
@@ -22,12 +23,13 @@ const ReadOnlyUserDescription = props => {
 
   return (
     <>
-      {!isLoggedIn ? null : (
+      {!isLoggedIn ||
+      props.profile.loa.current !== LOA_LEVEL_REQUIRED ? null : (
         <>
           <div className="form-review-panel-page-header-row">
-            <h3 className="vads-u-font-size--h5 vads-u-margin--0">
+            <h4 className="vads-u-font-size--h5 vads-u-margin--0">
               Claimant Information
-            </h3>
+            </h4>
           </div>
           <dl className="review vads-u-border-bottom--0">
             {Object.entries(display).map(([label, value]) => {

@@ -19,6 +19,11 @@ table.responsive {
   }
 }
 
+.all-lower {
+  display: inline-block;
+  text-transform: lowercase;
+}
+
 @media screen and (max-width: $medium-screen) {
 
   table.responsive {

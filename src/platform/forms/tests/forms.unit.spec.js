@@ -53,6 +53,7 @@ const formConfigKeys = [
   'customText',
   'submissionError',
   'saveInProgress',
+  'wizardStorageKey',
 ];
 
 const validProperty = (

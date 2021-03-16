@@ -1,4 +1,4 @@
-import { setUp } from 'applications/personalization/profile/tests/e2e/address-validation/setup';
+import { setUp } from '@@profile/tests/e2e/address-validation/setup';
 
 describe('Personal and contact information', () => {
   describe('should successfully update on Desktop', () => {

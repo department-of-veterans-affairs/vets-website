@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import externalServiceStatus from 'platform/monitoring/DowntimeNotification/config/externalServiceStatus';
 import * as actions from 'platform/monitoring/DowntimeNotification/actions';
 import FullWidthLayout from '../FullWidthLayout';

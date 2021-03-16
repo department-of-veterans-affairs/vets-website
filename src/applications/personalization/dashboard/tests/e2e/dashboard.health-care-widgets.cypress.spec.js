@@ -1,8 +1,6 @@
-import {
-  enrollmentStatusEnrolled,
-  makeUserObject,
-  mockLocalStorage,
-} from './dashboard-e2e-helpers';
+import enrollmentStatusEnrolled from '@@profile/tests/fixtures/enrollment-system/enrolled.json';
+
+import { makeUserObject, mockLocalStorage } from './dashboard-e2e-helpers';
 
 function mockFeatureFlags() {
   cy.route('GET', '/v0/feature_toggles*', {

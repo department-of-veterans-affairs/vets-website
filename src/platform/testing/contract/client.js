@@ -246,7 +246,7 @@ module.exports = class PactBrokerClient {
    * @return {Object} Verification result for the consumer.
    */
   getVerificationStatus = async ({ consumer, version, tag, url }) => {
-    const response = await fetch(url);
+    const response = await fetch(url, { headers: this.authHeader });
 
     if (!response.ok) {
       throw new Error(

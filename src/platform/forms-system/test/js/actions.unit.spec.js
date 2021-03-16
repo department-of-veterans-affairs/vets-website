@@ -15,6 +15,8 @@ import {
   SET_SUBMITTED,
   submitForm,
   uploadFile,
+  setFormErrors,
+  SET_FORM_ERRORS,
 } from '../../src/js/actions';
 
 describe('Schemaform actions:', () => {
@@ -312,12 +314,45 @@ describe('Schemaform actions:', () => {
         {
           fileTypes: ['jpg'],
           maxSize: 5,
+          maxPdfSize: 20,
         },
         f => f,
         onChange,
         () => {
           expect(onChange.firstCall.args[0]).to.eql({
             name: 'jpg',
+            errorMessage: 'File is too large to be uploaded',
+          });
+          done();
+        },
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: {
+          data: {},
+        },
+      });
+
+      thunk(dispatch, getState);
+    });
+
+    it('should reject if PDF file is too big', done => {
+      const onChange = sinon.spy();
+      const thunk = uploadFile(
+        {
+          name: 'pdf',
+          size: 10,
+        },
+        {
+          fileTypes: ['pdf'],
+          maxSize: 20,
+          maxPdfSize: 5,
+        },
+        f => f,
+        onChange,
+        () => {
+          expect(onChange.firstCall.args[0]).to.eql({
+            name: 'pdf',
             errorMessage: 'File is too large to be uploaded',
           });
           done();
@@ -447,6 +482,58 @@ describe('Schemaform actions:', () => {
       });
     });
 
+    it('should successfully upload large PDF', () => {
+      const onChange = sinon.spy();
+      const thunk = uploadFile(
+        {
+          name: 'pdf',
+          size: 10,
+        },
+        {
+          endpoint: '/v0/endpoint',
+          fileTypes: ['PDF'],
+          maxSize: 5,
+          maxPdfSize: 15,
+          createPayload: f => f,
+          parseResponse: f => f.data.attributes,
+        },
+        f => f,
+        onChange,
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: {
+          data: {},
+        },
+      });
+
+      thunk(dispatch, getState);
+      requests[0].respond(
+        200,
+        null,
+        JSON.stringify({
+          data: {
+            attributes: {
+              name: 'Test name',
+              size: 1234,
+              confirmationCode: 'Test code',
+            },
+          },
+        }),
+      );
+
+      expect(onChange.firstCall.args[0]).to.eql({
+        name: 'pdf',
+        uploading: true,
+      });
+      expect(onChange.secondCall.args[0]).to.eql({
+        name: 'Test name',
+        size: 1234,
+        confirmationCode: 'Test code',
+        isEncrypted: false,
+      });
+    });
+
     it('should set error on failure', () => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
@@ -557,6 +644,14 @@ describe('Schemaform actions:', () => {
         name: 'jpg',
         errorMessage: 'Internal Server Error',
       });
+    });
+  });
+  describe('setFormErrors', () => {
+    it('should return action', () => {
+      const data = { test: 'foo' };
+      const action = setFormErrors(data);
+      expect(action.data).to.equal(data);
+      expect(action.type).to.equal(SET_FORM_ERRORS);
     });
   });
 });

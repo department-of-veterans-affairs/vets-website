@@ -6,19 +6,19 @@
 <div data-template="includes/social-share" id="va-c-social-share">
   <ul class="usa-unstyled-list">
     <li class="vads-u-margin-bottom--2p5">
-      <a href="{{ entityUrl.path }}" id="add-to-calendar-link" data-start="{{fieldDate.value }}" data-end="{{fieldDate.endValue}}" data-location="{{fieldAddress.addressLine1}} {{fieldAddress.locality}}, {{fieldAddress.administrativeArea}}" data-subject="{{ title }}" data-description="{{fieldDescription}}">
-        <i class="va-c-social-icon fas fa-calendar-check vads-u-margin-right--0p5"></i>Add to Calendar</a>
+      <a href="{{ entityUrl.path }}" id="add-to-calendar-link" data-start="{{fieldDatetimeRangeTimezone.value }}" data-end="{{fieldDatetimeRangeTimezone.endTime}}" data-location="{{fieldAddress.addressLine1}} {{fieldAddress.locality}}, {{fieldAddress.administrativeArea}}" data-subject="{{ title }}" data-description="{{fieldDescription}}">
+        <i class="va-c-social-icon fas fa-calendar-check vads-u-margin-right--0p5" aria-hidden="true" role="presentation" aria-hidden="true"></i>Add to Calendar</a>
     </li>
 
     <li class="vads-u-margin-bottom--2p5">
       <a class="va-js-share-link" href="https://www.facebook.com/sharer/sharer.php?href={{ hostUrl }}{{ entityUrl.path }}">
-        <i class="va-c-social-icon fab fa-facebook vads-u-margin-right--0p5"></i>Share on Facebook
+        <i class="va-c-social-icon fab fa-facebook vads-u-margin-right--0p5" role="presentation" aria-hidden="true"></i>Share on Facebook
       </a>
     </li>
 
     <li>
       <a class="va-js-share-link" href="https://twitter.com/intent/tweet?text={{ title }}&url={{ hostUrl }}{{ entityUrl.path }}">
-        <i class="va-c-social-icon fab fa-twitter vads-u-margin-right--0p5"></i>Share on Twitter
+        <i class="va-c-social-icon fab fa-twitter vads-u-margin-right--0p5" role="presentation" aria-hidden="true"></i>Share on Twitter
       </a>
     </li>
   </ul>

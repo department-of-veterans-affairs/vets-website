@@ -1,25 +1,18 @@
 import React from 'react';
-import environment from 'platform/utilities/environment';
 import { Link } from 'react-router-dom';
 import { FETCH_STATUS } from '../../../utils/constants';
 
 export default function RequestExpressCare({
   windowsStatus,
-  enabled,
   hasWindow,
   allowRequests,
   localWindowString,
   localNextAvailableString,
-  useNewFlow,
   startNewExpressCareFlow,
 }) {
-  const legacyLink = `https://veteran.apps${
-    environment.isProduction() ? '' : '-staging'
-  }.va.gov/var/v4/#new-express-request`;
-
   const buttonText = 'Request Express Care';
 
-  if (!enabled || windowsStatus !== FETCH_STATUS.succeeded || !hasWindow) {
+  if (windowsStatus !== FETCH_STATUS.succeeded || !hasWindow) {
     return null;
   }
 
@@ -34,24 +27,13 @@ export default function RequestExpressCare({
           not urgent and doesn’t need emergency care. This new Express Care
           option is available today from {localWindowString}.
         </p>
-        {useNewFlow ? (
-          <Link
-            className="usa-button"
-            onClick={startNewExpressCareFlow}
-            to="/new-express-care-request"
-          >
-            {buttonText}
-          </Link>
-        ) : (
-          <a
-            className="usa-button"
-            href={legacyLink}
-            target="_blank"
-            rel="noreferrer nofollow"
-          >
-            {buttonText}
-          </a>
-        )}
+        <Link
+          className="usa-button"
+          onClick={startNewExpressCareFlow}
+          to="/new-express-care-request"
+        >
+          {buttonText}
+        </Link>
       </div>
     );
   }

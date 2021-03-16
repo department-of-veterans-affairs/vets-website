@@ -288,7 +288,7 @@
           "path": "decision-reviews"
         },
         {
-          "name": "Higher-Level Review",
+          "name": "Higher-Level Reviews",
           "path": "decision-reviews/higher-level-review/"
         },
         {
@@ -665,7 +665,7 @@
     "template": {
       "title": "Apply for education benefits",
       "layout": "page-react.html",
-      "description": "Vet Tec.",
+      "description": "VET TEC",
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
         {
@@ -769,7 +769,7 @@
     "entryName": "your-debt",
     "rootUrl": "/manage-va-debt/your-debt",
     "template": {
-      "vagovprod": false,
+      "vagovprod": true,
       "title": "Your VA Debt",
       "layout": "page-react.html"
     }
@@ -892,12 +892,22 @@
   },
   {
     "appName": "Financial Status Report",
-    "entryName": "financial-status-report",
-    "rootUrl": "/financial-status-report",
+    "entryName": "request-debt-help-5655",
+    "rootUrl": "/manage-va-debt/request-debt-help-5655",
     "template": {
-      "title:": "Financial Status Report",
-      "layout": "page-react.html",
-      "vagovprod": false
+      "title:": "Request help with VA debt with VA Form 5655",
+      "vagovprod": false,
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "manage-va-debt",
+          "name": "Manage your VA debt"
+        },
+        {
+          "path": "manage-va-debt/request-debt-help-5655",
+          "name": "Request help with VA debt with VA Form 5655"
+        }
+      ]
     }
   },
   {
@@ -950,13 +960,14 @@
     }
   },
   {
-    "appName": "coronavirus-vaccination",
+    "appName": "Coronavirus Vaccination",
     "entryName": "coronavirus-vaccination",
     "rootUrl": "/health-care/covid-19-vaccine/stay-informed",
     "template": {
-      "title": "COVID-19 vaccines — Stay informed and help us prepare",
+      "title": "COVID-19 vaccines: Stay informed and help us prepare",
       "layout": "page-react.html",
       "includeBreadcrumbs": true,
+      "description": "We’re working to get COVID-19 vaccines to Veterans as quickly and safely as possible based on CDC guidelines and available supply. Stay informed and help us prepare.",
       "breadcrumbs_override": [
         {
           "path": "health-care/",

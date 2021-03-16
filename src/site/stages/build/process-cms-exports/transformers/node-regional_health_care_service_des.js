@@ -15,9 +15,6 @@ const getFieldFacilityLocationObject = ({
             entity: {
               title: getDrupalValue(field_facility_location[0].title),
               entityUrl: field_facility_location[0].entityUrl,
-              fieldNicknameForThisFacility: getDrupalValue(
-                field_facility_location[0].field_nickname_for_this_facility,
-              ),
             },
           },
           entityUrl,

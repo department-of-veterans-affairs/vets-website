@@ -17,6 +17,8 @@ const headerFooterData = require('../src/platform/landing-pages/header-footer-da
 const BUCKETS = require('../src/site/constants/buckets');
 const ENVIRONMENTS = require('../src/site/constants/environments');
 
+const { VAGOVSTAGING, VAGOVPROD, LOCALHOST } = ENVIRONMENTS;
+
 const {
   getAppManifests,
   getWebpackEntryPoints,
@@ -29,8 +31,6 @@ const generateWebpackDevConfig = require('./webpack.dev.config.js');
 
 const getAbsolutePath = relativePath =>
   path.join(__dirname, '../', relativePath);
-
-const timestamp = new Date().getTime();
 
 const sharedModules = [
   getAbsolutePath('src/platform/polyfills'),
@@ -54,6 +54,7 @@ const globalEntryFiles = {
   vendor: sharedModules,
   // This is to solve the issue of the vendor file being cached
   'shared-modules': sharedModules,
+  'web-components': getAbsolutePath('src/platform/site-wide/wc-loader.js'),
 };
 
 function getEntryManifests(entry) {
@@ -81,54 +82,53 @@ function getEntryPoints(entry) {
   return getWebpackEntryPoints(manifestsToBuild);
 }
 
-module.exports = env => {
+module.exports = (env = {}) => {
+  const { buildtype = LOCALHOST } = env;
   const buildOptions = {
     api: '',
-    buildtype: 'localhost',
-    host: 'localhost',
+    buildtype,
+    host: LOCALHOST,
     port: 3001,
     scaffold: false,
     watch: false,
+    setPublicPath: false,
+    destination: buildtype,
     ...env,
-    // Using a getter so we can reference the buildtype
-    get destination() {
-      return path.resolve(__dirname, '../', 'build', this.buildtype);
-    },
   };
 
   const apps = getEntryPoints(buildOptions.entry);
   const entryFiles = Object.assign({}, apps, globalEntryFiles);
-  const isOptimizedBuild = [
-    ENVIRONMENTS.VAGOVSTAGING,
-    ENVIRONMENTS.VAGOVPROD,
-  ].includes(buildOptions.buildtype);
-
-  const useHashFilenames = [
-    ENVIRONMENTS.VAGOVSTAGING,
-    ENVIRONMENTS.VAGOVPROD,
-  ].includes(buildOptions.buildtype);
+  const isOptimizedBuild = [VAGOVSTAGING, VAGOVPROD].includes(buildtype);
 
   // enable css sourcemaps for all non-localhost builds
   // or if build options include local-css-sourcemaps or entry
   const enableCSSSourcemaps =
-    buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST ||
+    buildtype !== LOCALHOST ||
     buildOptions['local-css-sourcemaps'] ||
     !!buildOptions.entry;
 
-  const outputPath = `${buildOptions.destination}/generated`;
+  const outputPath = path.resolve(
+    __dirname,
+    '../',
+    'build',
+    buildOptions.destination,
+    'generated',
+  );
+
+  // Set the publicPath conditional so we can get dynamic modules loading from S3
+  const publicAssetPath =
+    buildOptions.setPublicPath && buildtype !== LOCALHOST
+      ? `${BUCKETS[buildtype]}/generated/`
+      : '/generated/';
 
   const baseConfig = {
     mode: 'development',
     entry: entryFiles,
     output: {
       path: outputPath,
-      publicPath: '/generated/',
-      filename: !useHashFilenames
-        ? '[name].entry.js'
-        : `[name].entry.[chunkhash]-${timestamp}.js`,
-      chunkFilename: !useHashFilenames
-        ? '[name].entry.js'
-        : `[name].entry.[chunkhash]-${timestamp}.js`,
+      publicPath: publicAssetPath,
+      filename: '[name].entry.js',
+      chunkFilename: '[name].entry.js',
     },
     module: {
       rules: [
@@ -250,23 +250,18 @@ module.exports = env => {
     },
     plugins: [
       new webpack.DefinePlugin({
-        __BUILDTYPE__: JSON.stringify(buildOptions.buildtype),
+        __BUILDTYPE__: JSON.stringify(buildtype),
         __API__: JSON.stringify(buildOptions.api),
       }),
 
       new MiniCssExtractPlugin({
         moduleFilename: chunk => {
           const { name } = chunk;
+
           const isMedalliaStyleFile = name === vaMedalliaStylesFilename;
+          if (isMedalliaStyleFile) return `[name].css`;
 
-          const isStaging =
-            buildOptions.buildtype === ENVIRONMENTS.VAGOVSTAGING;
-
-          if (isMedalliaStyleFile && isStaging) return `[name].css`;
-
-          return useHashFilenames
-            ? `[name].[contenthash]-${timestamp}.css`
-            : `[name].css`;
+          return `[name].css`;
         },
       }),
 
@@ -411,7 +406,7 @@ module.exports = env => {
   }
 
   if (isOptimizedBuild) {
-    const bucket = BUCKETS[buildOptions.buildtype];
+    const bucket = BUCKETS[buildtype];
 
     baseConfig.plugins.push(
       new webpack.SourceMapDevToolPlugin({

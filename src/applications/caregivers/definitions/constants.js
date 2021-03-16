@@ -1,4 +1,4 @@
-export const vetFields = {
+export const veteranFields = {
   address: 'veteranAddress',
   alternativePhoneNumber: 'veteranAlternativePhoneNumber',
   dateOfBirth: 'veteranDateOfBirth',
@@ -32,30 +32,29 @@ export const primaryCaregiverFields = {
   hasPrimaryCaregiver: 'view:hasPrimaryCaregiver',
 };
 
-export const secondaryCaregiverFields = {
-  secondaryOne: {
-    address: 'secondaryOneAddress',
-    alternativePhoneNumber: 'secondaryOneAlternativePhoneNumber',
-    dateOfBirth: 'secondaryOneDateOfBirth',
-    email: 'secondaryOneEmail',
-    fullName: 'secondaryOneFullName',
-    gender: 'secondaryOneGender',
-    hasSecondaryCaregiverTwo: 'view:hasSecondaryCaregiverTwo',
-    primaryPhoneNumber: 'secondaryOnePrimaryPhoneNumber',
-    ssn: 'secondaryOneSsnOrTin',
-    verifyEmail: 'view:secondaryOneEmail',
-    vetRelationship: 'secondaryOneVetRelationship',
-  },
-  secondaryTwo: {
-    address: 'secondaryTwoAddress',
-    alternativePhoneNumber: 'secondaryTwoAlternativePhoneNumber',
-    dateOfBirth: 'secondaryTwoDateOfBirth',
-    email: 'secondaryTwoEmail',
-    fullName: 'secondaryTwoFullName',
-    gender: 'secondaryTwoGender',
-    primaryPhoneNumber: 'secondaryTwoPrimaryPhoneNumber',
-    ssn: 'secondaryTwoSsnOrTin',
-    verifyEmail: 'view:secondaryTwoEmail',
-    vetRelationship: 'secondaryTwoVetRelationship',
-  },
+export const secondaryOneFields = {
+  address: 'secondaryOneAddress',
+  alternativePhoneNumber: 'secondaryOneAlternativePhoneNumber',
+  dateOfBirth: 'secondaryOneDateOfBirth',
+  email: 'secondaryOneEmail',
+  fullName: 'secondaryOneFullName',
+  gender: 'secondaryOneGender',
+  hasSecondaryCaregiverTwo: 'view:hasSecondaryCaregiverTwo',
+  primaryPhoneNumber: 'secondaryOnePrimaryPhoneNumber',
+  ssn: 'secondaryOneSsnOrTin',
+  verifyEmail: 'view:secondaryOneEmail',
+  vetRelationship: 'secondaryOneVetRelationship',
+};
+
+export const secondaryTwoFields = {
+  address: 'secondaryTwoAddress',
+  alternativePhoneNumber: 'secondaryTwoAlternativePhoneNumber',
+  dateOfBirth: 'secondaryTwoDateOfBirth',
+  email: 'secondaryTwoEmail',
+  fullName: 'secondaryTwoFullName',
+  gender: 'secondaryTwoGender',
+  primaryPhoneNumber: 'secondaryTwoPrimaryPhoneNumber',
+  ssn: 'secondaryTwoSsnOrTin',
+  verifyEmail: 'view:secondaryTwoEmail',
+  vetRelationship: 'secondaryTwoVetRelationship',
 };

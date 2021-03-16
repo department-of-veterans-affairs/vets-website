@@ -61,6 +61,13 @@ describe('View Payments Lists', () => {
       isLoading: false,
       payments: null,
       error: false,
+      user: {
+        profile: {
+          loa: {
+            current: 3,
+          },
+        },
+      },
     };
 
     const screen = renderInReduxProvider(<ViewPaymentsLists />, {
@@ -77,6 +84,13 @@ describe('View Payments Lists', () => {
       isLoading: false,
       payments: null,
       error: false,
+      user: {
+        profile: {
+          loa: {
+            current: 3,
+          },
+        },
+      },
     };
 
     const screen = renderInReduxProvider(<ViewPaymentsLists />, {
@@ -96,6 +110,13 @@ describe('View Payments Lists', () => {
       isLoading: false,
       payments: null,
       error: false,
+      user: {
+        profile: {
+          loa: {
+            current: 3,
+          },
+        },
+      },
     };
 
     const screen = renderInReduxProvider(<ViewPaymentsLists />, {
@@ -117,6 +138,13 @@ describe('View Payments Lists', () => {
       isLoading: false,
       payments: null,
       error: false,
+      user: {
+        profile: {
+          loa: {
+            current: 3,
+          },
+        },
+      },
     };
 
     const screen = renderInReduxProvider(<ViewPaymentsLists />, {

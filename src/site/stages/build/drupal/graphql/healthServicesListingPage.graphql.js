@@ -4,7 +4,9 @@
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-module.exports = `
+const { generatePaginatedQueries } = require('../individual-queries-helpers');
+
+const healthServicesListingPage = `
  fragment healthServicesListingPage on NodeHealthServicesListing {
     ${entityElementsFromPages}
     title
@@ -54,17 +56,9 @@ module.exports = `
                         ... on NodeHealthCareLocalFacility {
                           entityUrl {
                             ... on EntityCanonicalUrl {
-                              breadcrumb {
-                                url {
-                                  path
-                                  routed
-                                }
-                                text
-                              }
                               path
                             }
                           }
-                          fieldNicknameForThisFacility
                           title
                         }
                       }
@@ -106,9 +100,44 @@ module.exports = `
         ... on NodeHealthCareRegionPage {
           entityLabel
           title
-          fieldNicknameForThisFacility
         }
       }
     }
  }
 `;
+
+function getNodeHealthServicesListingPages(operationName, offset, limit) {
+  return `
+    ${healthServicesListingPage}
+    query ${operationName}($onlyPublishedContent: Boolean!) {
+      nodeQuery(
+        limit: ${limit}
+        offset: ${offset}
+        sort: { field: "nid", direction:  ASC }
+        filter: {
+          conditions: [
+            { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+            { field: "type", value: ["health_services_listing"] }
+          ]
+      }) {
+        entities {
+          ... healthServicesListingPage
+        }
+      }
+    }
+`;
+}
+
+function getNodeHealthServicesListingPageQueries(entityCounts) {
+  return generatePaginatedQueries({
+    operationNamePrefix: 'GetNodeHealthServicesListingPage',
+    entitiesPerSlice: 5,
+    totalEntities: entityCounts.data.healthServicesListing.count,
+    getSlice: getNodeHealthServicesListingPages,
+  });
+}
+
+module.exports = {
+  fragment: healthServicesListingPage,
+  getNodeHealthServicesListingPageQueries,
+};

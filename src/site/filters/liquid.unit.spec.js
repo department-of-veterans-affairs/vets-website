@@ -155,3 +155,155 @@ describe('deriveLastBreadcrumbFromPath', () => {
     expect(last.text).to.eq(title);
   });
 });
+
+describe('deriveCLPTotalSections', () => {
+  it('returns back max sections when everything is rendered', () => {
+    expect(
+      liquid.filters.deriveCLPTotalSections(
+        11,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        ['category'],
+      ),
+    ).to.eq(11);
+  });
+
+  it('returns back the correct section count when sections are not rendered', () => {
+    expect(
+      liquid.filters.deriveCLPTotalSections(
+        11,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        [],
+      ),
+    ).to.eq(4);
+  });
+});
+
+describe('formatSeconds', () => {
+  it('returns hours when needed', () => {
+    expect(liquid.filters.formatSeconds(65245)).to.eq('18:7:25 hours');
+  });
+
+  it('returns minutes when needed', () => {
+    expect(liquid.filters.formatSeconds(160)).to.eq('2:40 minutes');
+  });
+
+  it('returns seconds when needed', () => {
+    expect(liquid.filters.formatSeconds(23)).to.eq('23 seconds');
+  });
+});
+
+describe('createEmbedYouTubeVideoURL', () => {
+  it('returns back the raw url if the youtube link should not be changed', () => {
+    expect(liquid.filters.createEmbedYouTubeVideoURL('')).to.eq('');
+    expect(liquid.filters.createEmbedYouTubeVideoURL('asdf')).to.eq('asdf');
+    expect(
+      liquid.filters.createEmbedYouTubeVideoURL('youtube.com/embed/asdf'),
+    ).to.eq('youtube.com/embed/asdf');
+  });
+
+  it('returns the modified URL if it needs it', () => {
+    expect(
+      liquid.filters.createEmbedYouTubeVideoURL('https://youtu.be/asdf'),
+    ).to.eq('https://youtube.com/embed/asdf');
+    expect(
+      liquid.filters.createEmbedYouTubeVideoURL('https://www.youtu.be/asdf'),
+    ).to.eq('https://www.youtube.com/embed/asdf');
+  });
+});
+
+describe('getTagsList', () => {
+  const fieldTags = {
+    entity: {
+      fieldTopics: [
+        {
+          entity: {
+            name: 'A. Example',
+          },
+        },
+        {
+          entity: {
+            name: 'B. Example',
+          },
+        },
+        {
+          entity: {
+            name: 'E. Example',
+          },
+        },
+      ],
+      fieldAudienceBeneficiares: {
+        entity: {
+          name: 'C. Example',
+        },
+      },
+      fieldNonBeneficiares: {
+        entity: {
+          name: 'D. Example',
+        },
+      },
+    },
+  };
+
+  it('forms a sorted list from properties "fieldTopics", "fieldAudienceBeneficiares", and "fieldNonBeneficiares"', () => {
+    const result = liquid.filters.getTagsList(fieldTags);
+
+    expect(result).to.be.deep.equal([
+      {
+        name: 'A. Example',
+        categoryLabel: 'Topics',
+      },
+      {
+        name: 'B. Example',
+        categoryLabel: 'Topics',
+      },
+      {
+        name: 'C. Example',
+        categoryLabel: 'Audience',
+      },
+      {
+        name: 'D. Example',
+        categoryLabel: 'Audience',
+      },
+      {
+        name: 'E. Example',
+        categoryLabel: 'Topics',
+      },
+    ]);
+  });
+
+  it('omits null poperties', () => {
+    const fieldTags2 = { entity: { ...fieldTags.entity } };
+    fieldTags2.entity.fieldAudienceBeneficiares = null;
+
+    const result = liquid.filters.getTagsList(fieldTags2);
+
+    expect(result).to.be.deep.equal([
+      {
+        name: 'A. Example',
+        categoryLabel: 'Topics',
+      },
+      {
+        name: 'B. Example',
+        categoryLabel: 'Topics',
+      },
+      {
+        name: 'D. Example',
+        categoryLabel: 'Audience',
+      },
+      {
+        name: 'E. Example',
+        categoryLabel: 'Topics',
+      },
+    ]);
+  });
+});

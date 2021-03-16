@@ -45,7 +45,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // -- Go to letters list -- //
 
   client
-    .click('div.step-content > p:nth-child(3) > a') // link to go back to confirm-address
+    .click('div.step-content > p:nth-child(4) > a') // link to go back to confirm-address
     .click('.view-letters-button')
     .assert.urlContains('/letters/letter-list')
     .waitForElementVisible('.step-content', Timeouts.normal)
@@ -87,7 +87,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // poke the back button
   client
-    .click('.step-content p:nth-of-type(3) a')
+    .click('.step-content p:nth-of-type(4) a')
     .assert.urlContains('/letters/confirm-address');
 
   client.end();

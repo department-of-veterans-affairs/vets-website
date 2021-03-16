@@ -17,6 +17,7 @@ import {
   MILITARY_CITIES,
   MILITARY_STATE_VALUES,
   LOWERED_DISABILITY_DESCRIPTIONS,
+  NULL_CONDITION_STRING,
 } from './constants';
 
 export const hasMilitaryRetiredPay = data =>
@@ -226,12 +227,20 @@ export const hasMonthYear = (err, fieldData) => {
   }
 };
 
-export const isWithinServicePeriod = (errors, fieldData, formData) => {
-  const servicePeriods = _.get(
-    'serviceInformation.servicePeriods',
-    formData,
-    [],
-  );
+export const isWithinServicePeriod = (
+  errors,
+  fieldData,
+  formData,
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData,
+) => {
+  // formData === fieldData on review & submit - see #20301
+  const servicePeriods =
+    formData?.serviceInformation?.servicePeriods ||
+    appStateData?.serviceInformation?.servicePeriods ||
+    [];
   const inServicePeriod = servicePeriods.some(pos =>
     isWithinRange(fieldData, pos.dateRange),
   );
@@ -248,7 +257,18 @@ export const isWithinServicePeriod = (errors, fieldData, formData) => {
   }
 };
 
-export const validateDisabilityName = (err, fieldData) => {
+export const missingConditionMessage =
+  'Please enter a condition or select one from the suggested list';
+
+export const validateDisabilityName = (
+  err,
+  fieldData,
+  formData,
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData,
+) => {
   // We're using a validator for length instead of adding a maxLength schema
   // property because the validator is only applied conditionally - when a user
   // chooses a disability from the list supplied to autosuggest, we don't care
@@ -260,6 +280,24 @@ export const validateDisabilityName = (err, fieldData) => {
     fieldData.length > 255
   ) {
     err.addError('Condition names should be less than 256 characters');
+  }
+
+  if (
+    !fieldData ||
+    fieldData.toLowerCase() === NULL_CONDITION_STRING.toLowerCase()
+  ) {
+    err.addError(missingConditionMessage);
+  }
+
+  // Alert Veteran to duplicates
+  const currentList =
+    appStateData?.newDisabilities?.map(disability =>
+      disability.condition?.toLowerCase(),
+    ) || [];
+  const itemLowerCased = fieldData?.toLowerCase() || '';
+  const itemCount = currentList.filter(item => item === itemLowerCased);
+  if (itemCount.length > 1) {
+    err.addError('Please enter a unique condition name');
   }
 };
 

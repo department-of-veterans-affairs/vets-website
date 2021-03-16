@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import { loadPrescriptions } from '../actions/prescriptions';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { recordDashboardClick } from '../helpers';
 import PrescriptionCard from '../components/PrescriptionCard';
 import CallVBACenter from 'platform/static-data/CallVBACenter';

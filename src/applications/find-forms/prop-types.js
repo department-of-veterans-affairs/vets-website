@@ -24,4 +24,12 @@ const Form = PropTypes.shape({
   }).isRequired,
 });
 
-export { Form };
+const FormMetaInfo = PropTypes.shape({
+  query: PropTypes.string,
+  currentPage: PropTypes.number,
+  totalResultsCount: PropTypes.number,
+  totalResultsPages: PropTypes.number,
+  currentPositionOnPage: PropTypes.number,
+}).isRequired;
+
+export { Form, FormMetaInfo };

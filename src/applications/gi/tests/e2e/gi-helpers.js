@@ -19,6 +19,7 @@ const createAccordionButtonId = name => `#${createId(name)}-accordion-button`;
  * Expand or collapse an AccordionItem and perform axe check
  * @param name button property of the AccordionItem
  */
+
 export const clickAccordion = name => {
   const accordionButtonId = createAccordionButtonId(name);
   cy.get(accordionButtonId)
@@ -145,10 +146,10 @@ export const checkSectionAccordion = (
 export const verifySearchResults = (results = searchResults) => {
   cy.url().should('include', `/search`);
   cy.get('.search-page').should('be.visible');
+
   results.data.forEach(({ attributes: profile }) => {
     cy.get(`#search-result-${profile.facility_code}`).should('be.visible');
   });
-  cy.axeCheck();
 };
 
 export const verifyVetTecSearchResults = (results = vetTecSearchResults) => {

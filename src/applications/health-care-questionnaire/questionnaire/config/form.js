@@ -1,18 +1,24 @@
-// import fullSchema from 'vets-json-schema/dist/HC-QSTNR-schema.json';
-
 import React from 'react';
+
+import environment from 'platform/utilities/environment';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import VeteranInfoPage from '../components/veteran-info';
 import ReasonForVisit from '../components/reason-for-visit';
 import ReasonForVisitDescription from '../components/reason-for-visit-description';
-import GetHelp from '../components/get-help';
+import { GetHelpFooter, NeedHelpSmall } from '../../shared/components/footer';
+import ExpiresAt from '../components/expires-at';
+import Messages from '../components/messages';
 
-import environment from 'platform/utilities/environment';
-import { VA_FORM_IDS } from 'platform/forms/constants';
-
+import { TITLES, createPathFromTitle } from './utils';
+import { preventLargeFields } from './validators';
 import manifest from '../manifest.json';
+import { submit, transformForSubmit } from '../../shared/api';
+
+import { updateUrls } from './migrations';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -21,27 +27,27 @@ const formConfig = {
   trackingPrefix: 'health-care-questionnaire',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  submit: form => {
-    // just for MVP until we have an API set up
-    return new Promise((resolve, _reject) => {
-      resolve(form.data);
-    });
+  downtime: {
+    dependencies: [externalServices.hcq],
   },
+  submit,
+  transformForSubmit,
+  submissionError: Messages.ServiceDown,
   formId: VA_FORM_IDS.FORM_HC_QSTNR,
   saveInProgress: {
     resumeOnly: true,
     messages: {
       inProgress: '',
-      expired:
-        'Your saved upcoming appointment questionnaire has expired. If you want to apply for appointment questionnaire, please start a new application.',
+      expired: 'Your saved upcoming appointment questionnaire has expired.',
       saved: 'Your questionnaire has been saved.',
     },
   },
-  version: 0,
+  version: 1,
+  migrations: [updateUrls],
   prefillEnabled: true,
-  footerContent: GetHelp.footer,
+  footerContent: GetHelpFooter,
   preSubmitInfo: {
-    CustomComponent: GetHelp.review,
+    CustomComponent: NeedHelpSmall,
   },
   savedFormMessages: {
     notFound: 'Please start over to apply for Upcoming Visit questionnaire.',
@@ -61,16 +67,27 @@ const formConfig = {
   },
   chapters: {
     chapter1: {
-      title: 'Veteran Information',
+      title: TITLES.demographics,
       reviewDescription: VeteranInfoPage.review,
       pages: {
         demographicsPage: {
-          path: 'demographics',
+          path: createPathFromTitle(TITLES.demographics),
           hideHeaderRow: true,
-          title: 'Veteran Information',
+          title: TITLES.demographics,
           uiSchema: {
             veteranInfo: {
-              'ui:description': VeteranInfoPage.field,
+              'ui:field': VeteranInfoPage.field,
+              'ui:options': {
+                hideLabelText: true,
+              },
+            },
+
+            daysTillExpires: {
+              'ui:field': ExpiresAt.field,
+              'ui:options': {
+                hideLabelText: true,
+                hideOnReview: true,
+              },
             },
           },
           schema: {
@@ -80,25 +97,31 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
+              daysTillExpires: {
+                type: 'number',
+              },
             },
           },
         },
       },
     },
     chapter2: {
-      title: 'Prepare for Your Appointment',
+      title: TITLES.reasonForVisit,
       pages: {
         reasonForVisit: {
-          path: 'reason-for-visit',
-          title: 'Prepare for Your Appointment',
+          path: createPathFromTitle(TITLES.reasonForVisit),
+          title: TITLES.reasonForVisit,
           uiSchema: {
             reasonForVisit: {
               'ui:field': ReasonForVisit.field,
-              'ui:title': ' ',
+              'ui:options': {
+                hideLabelText: true,
+              },
               'ui:reviewField': ReasonForVisit.review,
             },
             reasonForVisitDescription: {
               'ui:widget': ReasonForVisitDescription.field,
+              'ui:validations': [preventLargeFields],
               'ui:title': (
                 <span>
                   Are there any additional details you’d like to share with your
@@ -112,14 +135,16 @@ const formConfig = {
                 <span>
                   Are there any other concerns or changes in your life that are
                   affecting you or your health? (For example, a marriage,
-                  divorce, new baby, change in your job, or other medical
-                  conditions)
+                  divorce, new baby, change in your job, retirement, or other
+                  medical conditions)
                 </span>
               ),
+              'ui:validations': [preventLargeFields],
             },
             questions: {
               items: {
                 additionalQuestions: {
+                  'ui:validations': [preventLargeFields],
                   'ui:title':
                     'Do you have a question you want to ask your provider? Please enter your most important question first.',
                 },

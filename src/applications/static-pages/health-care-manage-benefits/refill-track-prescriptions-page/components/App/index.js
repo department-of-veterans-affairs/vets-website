@@ -5,16 +5,11 @@ import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 // Relative imports.
 import AuthContent from '../AuthContent';
-import LegacyContent from '../LegacyContent';
 import UnauthContent from '../UnauthContent';
-import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
+import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { selectPatientFacilities } from 'platform/user/selectors';
 
-export const App = ({ facilities, showNewRefillTrackPrescriptionsPage }) => {
-  if (!showNewRefillTrackPrescriptionsPage) {
-    return <LegacyContent />;
-  }
-
+export const App = ({ facilities, authenticatedWithSSOe }) => {
   const cernerFacilities = facilities?.filter(f => f.usesCernerRx);
   const otherFacilities = facilities?.filter(f => !f.usesCernerRx);
   if (!isEmpty(cernerFacilities)) {
@@ -22,6 +17,7 @@ export const App = ({ facilities, showNewRefillTrackPrescriptionsPage }) => {
       <AuthContent
         cernerFacilities={cernerFacilities}
         otherFacilities={otherFacilities}
+        authenticatedWithSSOe={authenticatedWithSSOe}
       />
     );
   }
@@ -31,6 +27,7 @@ export const App = ({ facilities, showNewRefillTrackPrescriptionsPage }) => {
 
 App.propTypes = {
   // From mapStateToProps.
+  authenticatedWithSSOe: PropTypes.bool,
   facilities: PropTypes.arrayOf(
     PropTypes.shape({
       facilityId: PropTypes.string.isRequired,
@@ -42,15 +39,11 @@ App.propTypes = {
       usesCernerTestResults: PropTypes.bool,
     }).isRequired,
   ),
-  showNewRefillTrackPrescriptionsPage: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
+  authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
   facilities: selectPatientFacilities(state),
-  showNewRefillTrackPrescriptionsPage:
-    state?.featureToggles?.[
-      featureFlagNames.showNewRefillTrackPrescriptionsPage
-    ],
 });
 
 export default connect(

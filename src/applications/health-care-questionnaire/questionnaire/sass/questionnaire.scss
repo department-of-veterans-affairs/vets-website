@@ -78,7 +78,23 @@
   }
 }
 
+.appointment-details>div{
+ display: flex;
+ dt{
+   margin-right: 0.5rem;
+ }
+}
 
 #root_questions__title{
   color: $color-gray-dark;
+}
+
+
+.upcoming-header{
+  margin-top: 0;
+  font-size: 2.5rem;
+}
+
+.questionnaire-api-unavailable{
+  margin-bottom: 2rem;
 }

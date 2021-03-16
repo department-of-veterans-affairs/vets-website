@@ -10,9 +10,9 @@ import { renderWithProfileReducers as render } from '../unit-test-helpers';
 
 describe('ProfileWrapper', () => {
   const config = {};
-  const ui = (
+  const uiLOA3 = (
     <MemoryRouter initialEntries={[PROFILE_PATHS.PERSONAL_INFORMATION]}>
-      <ProfileWrapper routes={getRoutes(config)} />
+      <ProfileWrapper routes={getRoutes(config)} isLOA3 />
     </MemoryRouter>
   );
 
@@ -27,13 +27,13 @@ describe('ProfileWrapper', () => {
         },
       },
     };
-    const { getByTestId } = render(ui, { initialState });
+    const { getByTestId } = render(uiLOA3, { initialState });
     const breadcrumbs = getByTestId('breadcrumbs');
     expect(breadcrumbs.textContent.match(/Personal and contact information/i))
       .not.to.be.null;
   });
 
-  it('should render ProfileHeader when the full name of the user was fetched)', () => {
+  it('should render NameTag when the full name of the user was fetched)', () => {
     const initialState = {
       vaProfile: {
         hero: {
@@ -44,12 +44,13 @@ describe('ProfileWrapper', () => {
         },
       },
     };
-    const { getByTestId } = render(ui, { initialState });
-    const profileHeader = getByTestId('profile-header');
-    expect(profileHeader.textContent.match(/Test Test/i)).not.to.be.null;
+    const { getByTestId } = render(uiLOA3, { initialState });
+
+    const NameTag = getByTestId('name-tag');
+    expect(NameTag.textContent.match(/Test Test/i)).not.to.be.null;
   });
 
-  it('should not render ProfileHeader when the full name of the user could not be fetched)', () => {
+  it('should not render NameTag when the full name of the user could not be fetched)', () => {
     const initialState = {
       vaProfile: {
         hero: {
@@ -57,8 +58,27 @@ describe('ProfileWrapper', () => {
         },
       },
     };
-    const { queryByTestId } = render(ui, { initialState });
-    const profileHeader = queryByTestId('profile-header');
-    expect(profileHeader).to.be.null;
+    const { queryByTestId } = render(uiLOA3, { initialState });
+    const NameTag = queryByTestId('name-tag');
+    expect(NameTag).to.be.null;
+  });
+
+  it('should not render NameTag when the user is LOA1)', () => {
+    const uiLOA1 = (
+      <MemoryRouter initialEntries={[PROFILE_PATHS.PERSONAL_INFORMATION]}>
+        <ProfileWrapper routes={getRoutes(config)} />
+      </MemoryRouter>
+    );
+
+    const initialState = {
+      vaProfile: {
+        hero: {
+          errors: ['This is an error'],
+        },
+      },
+    };
+    const { queryByTestId } = render(uiLOA1, { initialState });
+    const NameTag = queryByTestId('name-tag');
+    expect(NameTag).to.not.exist;
   });
 });

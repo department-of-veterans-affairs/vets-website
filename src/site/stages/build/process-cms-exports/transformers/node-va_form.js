@@ -5,7 +5,15 @@ const {
   utcToEpochTime,
 } = require('./helpers');
 
+const moment = require('moment');
+
+function toUtc(dateString) {
+  const date = moment.utc(dateString);
+  return date.format('YYYY-MM-DD 12:00:00 [UTC]');
+}
+
 const transform = (entity, { ancestors }) => ({
+  targetId: getDrupalValue(entity.nid),
   entityType: 'node',
   entityBundle: 'va_form',
   title: getDrupalValue(entity.title),
@@ -16,17 +24,32 @@ const transform = (entity, { ancestors }) => ({
   fieldAdministration: entity.fieldAdministration[0],
   fieldAlert: entity.fieldAlert.length ? entity.fieldAlert[0] : null,
   fieldBenefitCategories: entity.fieldBenefitCategories.map(
-    ({ fieldHomePageHubLabel }) => ({
+    ({ fieldHomePageHubLabel, targetId }) => ({
+      targetId,
       entity: { fieldHomePageHubLabel },
     }),
   ),
   fieldVaFormAdministration: entity.fieldVaFormAdministration[0],
-  fieldVaFormIssueDate: entity.fieldVaFormIssueDate[0] || null,
-  fieldVaFormLinkTeasers: entity.fieldVaFormLinkTeasers,
+  fieldVaFormIssueDate: entity.fieldVaFormIssueDate.length
+    ? {
+        ...entity.fieldVaFormIssueDate[0],
+        date: toUtc(getDrupalValue(entity.fieldVaFormIssueDate)),
+      }
+    : null,
+  fieldVaFormLinkTeasers: entity.fieldVaFormLinkTeasers.map(teaser => ({
+    entity: {
+      fieldLink: teaser.entity.fieldLink,
+      fieldLinkSummary: teaser.entity.fieldLinkSummary,
+      entityLabel: `${getDrupalValue(entity.title)} > Helpful links`,
+      entityId: teaser.entityId,
+      parentFieldName: teaser.entity.parentFieldName,
+    },
+  })),
   fieldVaFormName: getDrupalValue(entity.fieldVaFormName),
   fieldVaFormNumber: getDrupalValue(entity.fieldVaFormNumber),
   fieldVaFormNumPages: getDrupalValue(entity.fieldVaFormNumPages),
   fieldVaFormRelatedForms: entity.fieldVaFormRelatedForms.map(e => ({
+    targetId: e.targetId || getDrupalValue(e.nid),
     entity: !ancestors.find(r => r.entity.uuid === e.uuid)
       ? {
           fieldVaFormName: e.fieldVaFormName,
@@ -41,7 +64,12 @@ const transform = (entity, { ancestors }) => ({
           fieldVaFormUrl: e.field_va_form_url[0] || null,
         },
   })),
-  fieldVaFormRevisionDate: entity.fieldVaFormRevisionDate[0] || null,
+  fieldVaFormRevisionDate: entity.fieldVaFormRevisionDate.length
+    ? {
+        ...entity.fieldVaFormRevisionDate[0],
+        date: toUtc(getDrupalValue(entity.fieldVaFormRevisionDate)),
+      }
+    : null,
   fieldVaFormTitle: getDrupalValue(entity.fieldVaFormTitle),
   fieldVaFormToolIntro: getDrupalValue(entity.fieldVaFormToolIntro),
   fieldVaFormToolUrl: entity.fieldVaFormToolUrl[0] || null,
@@ -52,6 +80,7 @@ const transform = (entity, { ancestors }) => ({
 
 module.exports = {
   filter: [
+    'nid',
     'title',
     'created',
     'changed',

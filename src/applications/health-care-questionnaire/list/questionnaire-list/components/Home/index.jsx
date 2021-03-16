@@ -1,40 +1,66 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import environment from 'platform/utilities/environment';
+import {
+  externalServices,
+  DowntimeNotification,
+} from 'platform/monitoring/DowntimeNotification';
 
 import TabNav from './TabNav';
 import ToDoQuestionnaires from '../ToDoQuestionnaires';
 import CompletedQuestionnaires from '../CompletedQuestionnaires';
-import { loadQuestionnaires } from '../../../api';
+import { loadQuestionnaires } from '../../../../shared/api';
 import {
   questionnaireListLoading,
   questionnaireListLoaded,
+  questionnaireListLoadedWithError,
 } from '../../../actions';
+
+import { GetHelpFooter } from '../../../../shared/components/footer';
 
 import { sortQuestionnairesByStatus } from '../../../utils';
 
+import {
+  clearAllSelectedAppointments,
+  clearCurrentSession,
+} from '../../../../shared/utils';
+
 import { path, todoPath, completedPath } from './routes';
+import ShowErrorStatus from '../Messages/ShowErrorStatus';
 
 const Home = props => {
-  const { user, isLoading, setLoading, setQuestionnaireData } = props;
-
+  const {
+    user,
+    isLoading,
+    setLoading,
+    setQuestionnaireData,
+    setApiError,
+  } = props;
+  const [apiDidError, setApiDidError] = useState(false);
   useEffect(
     () => {
+      clearAllSelectedAppointments(window);
+      clearCurrentSession(window);
       // call the API
       setLoading();
-      loadQuestionnaires().then(response => {
-        const { data } = response;
-        // load data in to redux
-        setQuestionnaireData(sortQuestionnairesByStatus(data));
-      });
+      loadQuestionnaires()
+        .then(response => {
+          const { data } = response;
+          // load data in to redux
+          setQuestionnaireData(sortQuestionnairesByStatus(data));
+        })
+        .catch(() => {
+          setApiDidError(true);
+          setApiError();
+        });
     },
-    [setLoading, setQuestionnaireData],
+    [setLoading, setQuestionnaireData, setApiError],
   );
   return (
     <RequiredLoginView
@@ -42,28 +68,39 @@ const Home = props => {
       user={user}
       verify={!environment.isLocalhost()}
     >
-      <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
-        <h1>Your health questionnaires</h1>
-        <p className="va-introtext">
-          Review and keep track of your completed health care questionnaires and
-          any you need to fill out before your upcoming appointment. You can
-          also print a copy of questionnaires you've completed.
-        </p>
-        {isLoading ? (
-          <>
-            <LoadingIndicator message="Loading your questionnaires." />
-          </>
-        ) : (
-          <Router>
-            <TabNav />
-            <Switch>
-              <Route path={todoPath} component={ToDoQuestionnaires} />
-              <Route path={completedPath} component={CompletedQuestionnaires} />
-              <Route path={path} component={ToDoQuestionnaires} />
-            </Switch>
-          </Router>
-        )}
-      </div>
+      <DowntimeNotification
+        appTitle="health questionnaire"
+        dependencies={[externalServices.hcq]}
+      >
+        <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
+          <h1>Your health questionnaires</h1>
+          <p className="va-introtext">
+            Review and keep track of your completed health care questionnaires
+            and any you need to fill out before your upcoming appointment. You
+            can also print a copy of questionnaires you've completed.
+          </p>
+          {isLoading ? (
+            <>
+              <LoadingIndicator message="Loading your questionnaires." />
+            </>
+          ) : (
+            <ShowErrorStatus hasError={apiDidError}>
+              <Router>
+                <TabNav />
+                <Switch>
+                  <Route path={todoPath} component={ToDoQuestionnaires} />
+                  <Route
+                    path={completedPath}
+                    component={CompletedQuestionnaires}
+                  />
+                  <Route path={path} component={ToDoQuestionnaires} />
+                </Switch>
+              </Router>
+            </ShowErrorStatus>
+          )}
+          <GetHelpFooter />
+        </div>
+      </DowntimeNotification>
     </RequiredLoginView>
   );
 };
@@ -78,6 +115,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = dispatch => {
   return {
     setLoading: () => dispatch(questionnaireListLoading()),
+    setApiError: () => dispatch(questionnaireListLoadedWithError()),
     setQuestionnaireData: value => dispatch(questionnaireListLoaded(value)),
   };
 };

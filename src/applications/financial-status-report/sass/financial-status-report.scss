@@ -2,17 +2,26 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
-@import "../../../platform/forms/sass/m-schemaform";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "../../../platform/forms/sass/m-form-confirmation";
+@import "../../../platform/forms/sass/m-schemaform";
 
-[type="checkbox"]:checked + label::before {
-  background-color: $color-white;
-  color: $color-primary;
-  content: "\f00c";
-  font-family: "Font Awesome 5 Free";
-  padding-right: 2px;
+.schemaform-title > h1 {
+  @include media($small-desktop-screen) {
+    white-space: nowrap;
+  }
+}
+
+.debt-card {
+  [type="checkbox"]:checked + label::before {
+    background-color: $color-white;
+    color: $color-primary;
+    content: "\f00c";
+    font-family: "Font Awesome 5 Free";
+    padding-right: 2px;
+  }
 }
 
 .schemaform-subtitle {
@@ -26,44 +35,61 @@
 
 .item-loop-container {
   margin-top: 10px;
-  .item-loop-header legend {
-    margin-top: 30px;
-  }
   .item-loop {
-    padding: 5px 20px 20px;
-    background-color: #f1f1f1;
-    .schemaform-field-container {
+    padding: 5px 15px 20px;
+    background-color: $color-gray-lightest;
+    .horizonal-field-container .schemaform-field-container {
       display: flex;
-      flex-wrap: wrap;
-      .schemaform-block-header {
-        width: 100%;
-      }
-      fieldset.schemaform-field-template {
-        margin-top: 5px;
-      }
-      .schemaform-label {
-        margin-top: 0;
-      }
+      align-items: center;
+      margin: 20px 0;
+    }
+    .schemaform-block-header {
+      // title prop required in items schema but should be
+      // hidden in item loop component
+      display: none;
+    }
+    .schemaform-label {
+      margin-top: 0;
+    }
+    .schemaform-field-template {
+      margin-right: 15px;
+    }
+    .autosuggest-list {
+      max-height: 140px;
+      overflow-x: hidden;
     }
     .usa-button-secondary {
-      background: #fff;
+      background: $color-white;
+    }
+    .button-group {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .usa-input-error {
+      position: relative;
+      right: 0;
+      margin-top: 0;
+      input {
+        width: 100%;
+      }
     }
   }
   .edit-item-container {
     margin: 5px 0;
     .usa-button-secondary {
-      background: #fff;
+      background: $color-white;
     }
   }
   .add-item-container {
     display: flex;
     flex-direction: column;
-    background-color: #f1f1f1;
+    background-color: $color-gray-lightest;
     padding: 20px 30px 20px;
     margin-top: 20px;
     .add-item-link-section {
       .plus-icon {
-        color: #0071bb;
+        color: $color-light-blue;
         margin-right: 5px;
       }
     }
@@ -76,16 +102,93 @@
   }
 }
 
-// date-widget
-.usa-date-of-birth {
-  padding: 10px 0;
+.contact-info {
+  .checkbox-group {
+    label {
+      margin-top: 0;
+    }
+  }
+  .review-card--body {
+    border: 3px solid $color-light-blue;
+    padding: 25px;
+  }
 }
 
+// form field subtitle
+.formfield-subtitle {
+  margin: 4px 0 8px;
+  font-size: 15px;
+  max-width: 400px;
+  color: $color-gray-medium;
+}
+
+// bankruptcyHistory
+.court-location label {
+  margin-top: 10px;
+}
+
+// monetary assets
+.assets-note {
+  margin: 15px 0 20px;
+}
+
+// resolution options
+.edu-waiver-checkbox {
+  .schemaform-field-template {
+    margin-top: 0;
+  }
+  legend {
+    display: none;
+  }
+}
+
+.resolution-inputs label,
+.eduWaiverCheckbox label {
+  margin-top: 0;
+}
+
+.overview-container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 400px;
+}
+
+.max-width-400 {
+  max-width: 400px;
+}
+
+.no-wrap {
+  white-space: nowrap;
+}
+
+.usa-datefields {
+  padding-top: 16px;
+}
+
+.schemaform-sip-save-link {
+  margin: 20px 0;
+}
+
+// confirmation page
+.help-container {
+  padding-bottom: 40px;
+}
+
+// wizard
+.fsr-wizard {
+  .wizard-content {
+    margin: 30px 0;
+    .fieldset-input:first-child {
+      margin-top: 0;
+    }
+  }
+}
+
+// input fields
 .input-size-1 {
   @include media($medium-screen) {
     width: 152px;
     max-width: 152px;
-    margin: 5px 10px 20px 0;
   }
 }
 
@@ -93,15 +196,13 @@
   @include media($medium-screen) {
     width: 173px;
     max-width: 173px;
-    margin: 5px 10px 20px 0;
   }
 }
 
 .input-size-3 {
   @include media($medium-screen) {
-    width: 192px;
-    max-width: 192px;
-    margin: 5px 10px 20px 0;
+    width: 196px;
+    max-width: 196px;
   }
 }
 
@@ -109,7 +210,6 @@
   @include media($medium-screen) {
     width: 215px;
     max-width: 215px;
-    margin: 5px 10px 20px 0;
   }
 }
 
@@ -117,7 +217,6 @@
   @include media($medium-screen) {
     width: 262px;
     max-width: 262px;
-    margin: 5px 10px 20px 0;
   }
 }
 
@@ -125,7 +224,6 @@
   @include media($medium-screen) {
     width: 283px;
     max-width: 283px;
-    margin: 5px 10px 20px 0;
   }
 }
 
@@ -133,6 +231,5 @@
   @include media($medium-screen) {
     width: 332px;
     max-width: 332px;
-    margin: 5px 10px 20px 0;
   }
 }

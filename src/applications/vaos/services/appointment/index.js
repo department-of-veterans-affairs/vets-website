@@ -1,7 +1,18 @@
+/**
+ * Functions related to fetching Apppointment data and pulling information from that data
+ * @module services/Appointment
+ */
 import moment from 'moment';
-import { getConfirmedAppointments, getPendingAppointments } from '../var';
 import {
+  getConfirmedAppointment,
+  getConfirmedAppointments,
+  getPendingAppointment,
+  getPendingAppointments,
+} from '../var';
+import {
+  transformConfirmedAppointment,
   transformConfirmedAppointments,
+  transformPendingAppointment,
   transformPendingAppointments,
 } from './transformers';
 import { mapToFHIRErrors } from '../utils';
@@ -58,9 +69,10 @@ const PAST_APPOINTMENTS_HIDDEN_SET = new Set([
  * Fetch the logged in user's confirmed appointments that fall between a startDate and endDate
  *
  * @export
+ * @async
  * @param {String} startDate Date in YYYY-MM-DD format
  * @param {String} endDate Date in YYYY-MM-DD format
- * @returns {Object} A FHIR searchset of booked Appointment resources
+ * @returns {Appointment[]} A FHIR searchset of booked Appointment resources
  */
 export async function getBookedAppointments({ startDate, endDate }) {
   try {
@@ -77,9 +89,17 @@ export async function getBookedAppointments({ startDate, endDate }) {
       ),
     ]);
 
+    // We might get partial results back from MAS, so throw an error if we do
+    if (appointments[0].errors?.length) {
+      throw mapToFHIRErrors(
+        appointments[0].errors,
+        'MAS returned partial results',
+      );
+    }
+
     return transformConfirmedAppointments([
-      ...appointments[0],
-      ...appointments[1],
+      ...appointments[0].data,
+      ...appointments[1].data,
     ]);
   } catch (e) {
     if (e.errors) {
@@ -94,9 +114,10 @@ export async function getBookedAppointments({ startDate, endDate }) {
  * Fetch the logged in user's pending appointments that fall between a startDate and endDate
  *
  * @export
+ * @async
  * @param {String} startDate Date in YYYY-MM-DD format
  * @param {String} endDate Date in YYYY-MM-DD format
- * @returns {Object} A FHIR searchset of pending Appointment resources
+ * @returns {Appointment[]} A FHIR searchset of pending Appointment resources
  */
 export async function getAppointmentRequests({ startDate, endDate }) {
   try {
@@ -113,15 +134,92 @@ export async function getAppointmentRequests({ startDate, endDate }) {
 }
 
 /**
- * Returns whether or not the appointment/request is video
+ * Fetches a single appointment request and transforms it into our Appointment type
+ *
+ * @export
+ * @async
+ * @param {string} id Appointment request id
+ * @returns {Appointment} An Appointment object for the given request id
+ */
+export async function fetchRequestById(id) {
+  try {
+    const appointment = await getPendingAppointment(id);
+
+    return transformPendingAppointment(appointment);
+  } catch (e) {
+    if (e.errors) {
+      throw mapToFHIRErrors(e.errors);
+    }
+
+    throw e;
+  }
+}
+/**
+ * Fetches a booked appointment based on the id and type provided
+ *
+ * @export
+ * @async
+ * @param {string} id MAS or community care booked appointment id
+ * @param {'cc'|'va'} type Type of appointment that is being fetched
+ * @returns {Appointment} A transformed appointment with the given id
+ */
+export async function fetchBookedAppointment(id, type) {
+  try {
+    let appointment;
+    if (type === 'va') {
+      appointment = await getConfirmedAppointment(id, type);
+    } else if (type === 'cc') {
+      // We don't have a fetch by id service for cc, so hopefully
+      // the appointment is 13 months in either direction
+      const { data } = await getConfirmedAppointments(
+        type,
+        moment()
+          .add(-395, 'days')
+          .startOf('day')
+          .toISOString(),
+        moment()
+          .add(395, 'days')
+          .startOf('day')
+          .toISOString(),
+      );
+      appointment = data.find(appt => appt.id === id);
+    }
+
+    if (!appointment) {
+      throw new Error(`Couldn't find ${type} appointment`);
+    }
+
+    return transformConfirmedAppointment(appointment);
+  } catch (e) {
+    if (e.errors) {
+      throw mapToFHIRErrors(e.errors);
+    }
+
+    throw e;
+  }
+}
+
+/**
+ * Returns whether or not the appointment is VA phone appointment
  *
  * @export
  * @param {Object} appointment A FHIR appointment resource
- * @returns {Boolean} Whether or not the appointment/request is video
+ * @returns {Boolean} Whether or not the appointment is by phone
+ */
+export function isVAPhoneAppointment(appointment) {
+  return appointment.vaos.isPhoneAppointment;
+}
+
+/**
+ * Returns whether or not the appointment/request is video
+ *
+ * @export
+ * @param {Appointment} appointment A FHIR appointment resource
+ * @returns {boolean} Whether or not the appointment/request is video
  */
 export function isVideoAppointment(appointment) {
   return (
-    appointment.contained
+    appointment?.contained
       ?.find(contained => contained.resourceType === 'HealthcareService')
       ?.characteristic?.some(c =>
         c.coding?.some(code => code.system === 'VVS'),
@@ -133,8 +231,8 @@ export function isVideoAppointment(appointment) {
  * Returns the VVS appointment kind
  *
  * @export
- * @param {Object} appointment A FHIR appointment resource
- * @returns {String} The VVS appointment kind
+ * @param {Appointment} appointment A FHIR appointment resource
+ * @returns {string} The VVS appointment kind
  */
 export function getVideoKind(appointment) {
   const characteristic = appointment.contained
@@ -148,8 +246,8 @@ export function getVideoKind(appointment) {
  * Returns whether or not the appointment/request is a GFE video appointment
  *
  * @export
- * @param {Object} appointment A FHIR appointment resource
- * @returns {Boolean} Whether or not the appointment is a GFE video appointment
+ * @param {Appointment} appointment A FHIR appointment resource
+ * @returns {boolean} Whether or not the appointment is a GFE video appointment
  */
 export function isVideoGFE(appointment) {
   return (
@@ -164,8 +262,8 @@ export function isVideoGFE(appointment) {
 /**
  * Gets legacy VAR ATLAS location from HealthcareService reference
  *
- * @param {Object} appointment VAR Appointment in FHIR schema
- * @returns {Object} the address from legacy VAR tasInfo.address
+ * @param {Appointment} appointment VAR Appointment in FHIR schema
+ * @returns {AtlasLocation} the address from legacy VAR tasInfo.address
  */
 export function getATLASLocation(appointment) {
   return appointment?.contained.find(res => res.resourceType === 'Location');
@@ -174,8 +272,8 @@ export function getATLASLocation(appointment) {
 /**
  * Gets legacy VAR ATLAS confirmation code from HealthcareService reference
  *
- * @param {Object} appointment VAR Appointment in FHIR schema
- * @returns {Object} the confirmation code from legacy VAR tasInfo.confirmationCode
+ * @param {Appointment} appointment VAR Appointment in FHIR schema
+ * @returns {string} the confirmation code from legacy VAR tasInfo.confirmationCode
  */
 export function getATLASConfirmationCode(appointment) {
   const characteristic = appointment.contained
@@ -190,8 +288,8 @@ export function getATLASConfirmationCode(appointment) {
 /**
  * Gets legacy VAR facility id from HealthcareService reference
  *
- * @param {Object} appointment VAR Appointment in FHIR schema
- * @returns {String} Legacy VAR facility id
+ * @param {Appointment} appointment VAR Appointment in FHIR schema
+ * @returns {string} Legacy VAR facility id
  */
 export function getVARFacilityId(appointment) {
   if (appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
@@ -204,7 +302,7 @@ export function getVARFacilityId(appointment) {
       ?.split('_')?.[0];
 
     if (id) {
-      return id.replace('var', '');
+      return id;
     }
 
     return null;
@@ -216,8 +314,8 @@ export function getVARFacilityId(appointment) {
 /**
  * Gets legacy var clinic id from HealthcareService reference
  *
- * @param {Object} appointment VAR Appointment in FHIR schema
- * @returns {String} Legacy VAR clinic id
+ * @param {Appointment} appointment VAR Appointment in FHIR schema
+ * @returns {string} Legacy VAR clinic id
  */
 export function getVARClinicId(appointment) {
   if (appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
@@ -235,11 +333,11 @@ export function getVARClinicId(appointment) {
  * Returns the location of a video appointment
  *
  * @export
- * @param {Object} appointment A FHIR appointment resource
- * @returns {String} The location id where the video appointment is located
+ * @param {Appointment} appointment A FHIR appointment resource
+ * @returns {string} The location id where the video appointment is located
  */
 export function getVideoAppointmentLocation(appointment) {
-  const serviceResource = appointment.contained.find(
+  const serviceResource = appointment?.contained.find(
     res => res.resourceType === 'HealthcareService',
   );
   const locationReference =
@@ -254,14 +352,21 @@ export function getVideoAppointmentLocation(appointment) {
 }
 
 /**
- * Returns the location ID of a VA appointment
+ * Returns the location ID of a VA appointment (in person or video)
  *
  * @export
- * @param {Object} appointment A FHIR appointment resource
- * @returns The location id where the VA appointment is located
+ * @param {Appointment} appointment A FHIR appointment resource
+ * @returns {string} The location id where the VA appointment is located
  */
 export function getVAAppointmentLocationId(appointment) {
-  const locationReference = appointment.participant?.find(p =>
+  if (
+    isVideoAppointment(appointment) &&
+    appointment.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment
+  ) {
+    return getVideoAppointmentLocation(appointment);
+  }
+
+  const locationReference = appointment?.participant?.find(p =>
     p.actor.reference?.startsWith('Location'),
   )?.actor?.reference;
 
@@ -271,14 +376,13 @@ export function getVAAppointmentLocationId(appointment) {
 
   return null;
 }
-
 /**
  * Returns the patient telecom info in a VA appointment
  *
  * @export
- * @param {Object} appointment A FHIR appointment resource
- * @param {String} system A FHIR telecom system id
- * @returns The patient telecome value
+ * @param {Appointment} appointment A FHIR appointment resource
+ * @param {string} system A FHIR telecom system id
+ * @returns {string} The patient telecome value
  */
 export function getPatientTelecom(appointment, system) {
   return appointment?.contained
@@ -289,8 +393,8 @@ export function getPatientTelecom(appointment, system) {
 /**
  * Checks to see if a past appointment has a valid status
  *
- * @param {Object} appt A FHIR appointment resource
- * @returns Whether or not the appt should be shown
+ * @param {Appointment} appt A FHIR appointment resource
+ * @returns {boolean} Whether or not the appt should be shown
  */
 export function isValidPastAppointment(appt) {
   return (
@@ -300,12 +404,36 @@ export function isValidPastAppointment(appt) {
 }
 
 /**
+ * Checks to see if the appointment is either an appointment that does
+ * not have one of the excluded statuses for past appointments or an
+ * Express Care request that is either resolved or old enough to show
+ *
+ * @param {Appointment} appt A FHIR appointment resource
+ * @returns {boolean} Whether or not the appt should be shown
+ */
+export function isValidPastAppointmentOrExpressCare(appt) {
+  return (
+    // Show any fulfilled EC request
+    (appt.vaos.isExpressCare && appt.status === APPOINTMENT_STATUS.fulfilled) ||
+    // Only show non-fulfilled EC requests if they're more than 2 days old
+    (appt.vaos.isExpressCare &&
+      appt.status !== APPOINTMENT_STATUS.fulfilled &&
+      moment(appt.created).isBefore(moment().subtract(2, 'days'))) ||
+    // Show any VA appointment that doesn't have a status in our hidden list
+    (appt.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment &&
+      !PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description)) ||
+    // Show any booked community care appointment
+    appt.vaos.appointmentType === APPOINTMENT_TYPES.ccAppointment
+  );
+}
+
+/**
  * Returns true if the given Appointment is a confirmed appointment
  * or a request that still needs processing
  *
  * @export
- * @param {Object} appt The FHIR Appointment to check
- * @returns {Boolean} Whether or not the appointment is a valid upcoming
+ * @param {Appointment} appt The FHIR Appointment to check
+ * @returns {boolean} Whether or not the appointment is a valid upcoming
  *  appointment or request
  */
 export function isUpcomingAppointmentOrRequest(appt) {
@@ -316,7 +444,7 @@ export function isUpcomingAppointmentOrRequest(appt) {
       !appt.vaos.isPastAppointment &&
       !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
       apptDateTime.isValid() &&
-      apptDateTime.isBefore(moment().add(13, 'months'))
+      apptDateTime.isBefore(moment().add(395, 'days'))
     );
   }
 
@@ -338,18 +466,113 @@ export function isUpcomingAppointmentOrRequest(appt) {
 }
 
 /**
+ * Returns true if the given Appointment is a confirmed appointment
+ * or an Express Care request
+ *
+ * @export
+ * @param {Appointment} appt The FHIR Appointment to check
+ * @returns {boolean} Whether or not the appointment is a valid upcoming
+ *  appointment or Express Care request
+ */
+export function isUpcomingAppointmentOrExpressCare(appt) {
+  if (CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType)) {
+    const apptDateTime = moment(appt.start);
+
+    return (
+      !appt.vaos.isPastAppointment &&
+      !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
+      apptDateTime.isValid() &&
+      apptDateTime.isAfter(moment().startOf('day')) &&
+      apptDateTime.isBefore(
+        moment()
+          .endOf('day')
+          .add(395, 'days'),
+      )
+    );
+  }
+
+  return (
+    appt.vaos.isExpressCare &&
+    appt.status !== APPOINTMENT_STATUS.fulfilled &&
+    moment(appt.start).isAfter(
+      // going one day back to account for late in the day EC requests
+      moment()
+        .startOf('day')
+        .add(-1, 'day'),
+    )
+  );
+}
+
+/**
+ * Returns true if the given Appointment is a canceled confirmed appointment
+ * or a canceled Express Care request
+ *
+ * @export
+ * @param {Appointment} appt The FHIR Appointment to check
+ * @returns {boolean} Whether or not the appointment is a canceled
+ *  appointment or Express Care request
+ */
+export function isCanceledConfirmedOrExpressCare(appt) {
+  const today = moment();
+
+  if (
+    CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType) ||
+    appt.vaos.isExpressCare
+  ) {
+    const apptDateTime = moment(appt.start);
+
+    return (
+      appt.status === APPOINTMENT_STATUS.cancelled &&
+      apptDateTime.isValid() &&
+      apptDateTime.isAfter(
+        today
+          .clone()
+          .startOf('day')
+          .subtract(30, 'days'),
+      ) &&
+      apptDateTime.isBefore(
+        today
+          .clone()
+          .endOf('day')
+          .add(395, 'days'),
+      )
+    );
+  }
+
+  return false;
+}
+
+/**
  * Sort method for past appointments
- * @param {Object} a A FHIR appointment resource
- * @param {Object} b A FHIR appointment resource
+ * @param {Appointment} a A FHIR appointment resource
+ * @param {Appointment} b A FHIR appointment resource
  */
 export function sortByDateDescending(a, b) {
   return moment(a.start).isAfter(moment(b.start)) ? -1 : 1;
 }
 
 /**
+ * Sort method for upcoming appointments
+ * @param {Appointment} a A FHIR appointment resource
+ * @param {Appointment} b A FHIR appointment resource
+ */
+export function sortByDateAscending(a, b) {
+  return moment(a.start).isBefore(moment(b.start)) ? -1 : 1;
+}
+
+/**
+ * Sort method for appointments requests
+ * @param {Appointment} a A FHIR appointment resource
+ * @param {Appointment} b A FHIR appointment resource
+ */
+export function sortByCreatedDateDescending(a, b) {
+  return moment(a.created).isAfter(moment(b.created)) ? -1 : 1;
+}
+
+/**
  * Sort method for future appointment requests
- * @param {Object} a A FHIR appointment resource
- * @param {Object} b A FHIR appointment resource
+ * @param {Appointment} a A FHIR appointment resource
+ * @param {Appointment} b A FHIR appointment resource
  */
 export function sortUpcoming(a, b) {
   if (
@@ -381,8 +604,8 @@ export function sortUpcoming(a, b) {
 
 /**
  * Sort method for appointment messages
- * @param {Object} a A FHIR appointment resource
- * @param {Object} b A FHIR appointment resource
+ * @param {Object} a Message object
+ * @param {Object} b Message object
  */
 export function sortMessages(a, b) {
   return moment(a.attributes.date).isBefore(b.attributes.date) ? -1 : 1;
@@ -390,8 +613,8 @@ export function sortMessages(a, b) {
 
 /**
  * Method to check for ATLAS appointment
- * @param {*} appointment  A FHIR appointment resource
- * @return (Boolean} Returns whether or not the appointment is an ATLAS appointment.
+ * @param {Appointment} appointment  A FHIR appointment resource
+ * @return {boolean} Returns whether or not the appointment is an ATLAS appointment.
  */
 export function isAtlasLocation(appointment) {
   return appointment.legacyVAR.apiData.vvsAppointments?.some(
@@ -401,8 +624,8 @@ export function isAtlasLocation(appointment) {
 
 /**
  * Method to check for home video appointment
- * @param {*} appointment A FHIR appointment resource
- * @return (Boolean} Returns whether or not the appointment is a home video appointment.
+ * @param {Appointment} appointment A FHIR appointment resource
+ * @return {boolean} Returns whether or not the appointment is a home video appointment.
  */
 export function isVideoHome(appointment) {
   const videoKind = getVideoKind(appointment);
@@ -415,8 +638,8 @@ export function isVideoHome(appointment) {
 
 /**
  * Method to check for VA facility video appointment
- * @param {} appointment A FHIR appointment resource
- * @return (Boolean} Returns whether or not the appointment is a VA facility video appointment.
+ * @param {Appointment} appointment A FHIR appointment resource
+ * @return {boolean} Returns whether or not the appointment is a VA facility video appointment.
  */
 export function isVideoVAFacility(appointment) {
   return VIDEO_TYPES.clinic === getVideoKind(appointment);
@@ -424,8 +647,8 @@ export function isVideoVAFacility(appointment) {
 
 /**
  * Method to check for store forward video appointment
- * @param {*} appointment A FHIR appointment resource
- * @return (Boolean} Returns whether or not the appointment is a store forward video appointment.
+ * @param {Appointment} appointment A FHIR appointment resource
+ * @return {boolean} Returns whether or not the appointment is a store forward video appointment.
  */
 export function isVideoStoreForward(appointment) {
   return VIDEO_TYPES.storeForward === getVideoKind(appointment);
@@ -433,8 +656,8 @@ export function isVideoStoreForward(appointment) {
 
 /**
  * Method to check for the existence of a practitioner
- * @param {Object} appointment An appointment resource
- * @return {Boolean} Returns whether or not the appointment has a practitioner.
+ * @param {Appointment} appointment An appointment resource
+ * @return {boolean} Returns whether or not the appointment has a practitioner.
  */
 export function hasPractitioner(appointment) {
   return !!appointment?.participant?.some(item =>
@@ -445,9 +668,51 @@ export function hasPractitioner(appointment) {
 /**
  * Method to parse out the appointment practitioner of participants array
  * @param {Array} participants An array of appointment participants
- * @return {Object} Returns the appointment practitioner object.
+ * @return {string} Returns the appointment practitioner display value.
  */
 export function getPractitionerDisplay(participants) {
-  return participants.find(p => p.actor.reference.includes('Practitioner'))
+  return participants?.find(p => p.actor.reference.includes('Practitioner'))
     .actor.display;
+}
+
+/**
+ * Method to parse out the appointment practitioner location display in contained array
+ * @param {Array} participants An array of appointment participants
+ * @return {Object} Returns the appointment practitioner object.
+ */
+export function getPractitionerLocationDisplay(appointment) {
+  return appointment.contained?.find(c =>
+    c.resourceType.includes('Practitioner'),
+  )?.practitionerRole?.[0]?.location?.[0]?.display;
+}
+
+/**
+ * Groups appointments into an array of arrays by month
+ * Assumes appointments are already sorted
+ *
+ * @export
+ * @param {Appointment[]} appointments List of FHIR appointments
+ * @returns {Array} An array of arrays by month
+ */
+export function groupAppointmentsByMonth(appointments) {
+  if (appointments.length === 0) {
+    return [];
+  }
+
+  const appointmentsByMonth = [[]];
+  let currentIndex = 0;
+  appointments.forEach(appt => {
+    if (
+      !appointmentsByMonth[currentIndex].length ||
+      moment(appt.start).format('YYYY-MM') ===
+        moment(appointmentsByMonth[currentIndex][0].start).format('YYYY-MM')
+    ) {
+      appointmentsByMonth[currentIndex].push(appt);
+    } else {
+      appointmentsByMonth.push([appt]);
+      currentIndex++;
+    }
+  });
+
+  return appointmentsByMonth;
 }

@@ -31,7 +31,7 @@ module.exports = {
           required: ['value'],
         },
         fieldLoadingMessage: { type: ['string', 'null'] },
-        fieldTimeout: { type: 'number' },
+        fieldTimeout: { oneOf: [{ type: 'null' }, { type: 'number' }] },
         fieldWidgetType: { type: 'string' },
       },
       required: [

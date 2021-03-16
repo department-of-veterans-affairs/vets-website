@@ -2,7 +2,7 @@ import React from 'react';
 
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { VA_FORM4192_URL } from '../constants';
 import { claimsIntakeAddress } from './itfWrapper';

@@ -1,6 +1,6 @@
 import React from 'react';
 import PromoBanner from './PromoBanner';
-import { PROMO_BANNER_TYPES } from '@department-of-veterans-affairs/formation-react/PromoBanner';
+import { PROMO_BANNER_TYPES } from '@department-of-veterans-affairs/component-library/PromoBanner';
 
 export default function MissionAct({ dismiss }) {
   return (

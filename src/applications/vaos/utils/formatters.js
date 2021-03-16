@@ -43,3 +43,11 @@ export function joinWithAnd(items) {
 
   return `${start.join(', ')} and ${items[items.length - 1]}`;
 }
+
+export function aOrAn(noun) {
+  if (['a', 'e', 'i', 'o', 'u'].includes(noun[0].toLowerCase())) {
+    return 'an';
+  }
+
+  return 'a';
+}

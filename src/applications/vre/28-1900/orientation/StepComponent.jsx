@@ -1,36 +1,80 @@
 import React from 'react';
-import SegmentedProgressBar from '@department-of-veterans-affairs/formation-react/SegmentedProgressBar';
 import { orientationSteps } from './utils';
 
 const StepComponent = props => {
   const { step } = props;
-  const stepTotal = orientationSteps.length;
   const data = orientationSteps[step];
+  let content;
+
+  if (data.isVideoStep) {
+    content = (
+      <>
+        {data.subTitle()}
+
+        <iframe
+          width="325px"
+          height="185px"
+          src={`https://www.youtube.com/embed/${data.path}`}
+          title={data.title}
+          frameBorder="0"
+          allowFullScreen
+          key={data.path}
+        />
+        <p>{data.desc}</p>
+        <ul>
+          {data.list.map((item, index) => {
+            return <li key={index}>{item}</li>;
+          })}
+        </ul>
+      </>
+    );
+  } else if (data.isSubwayContent) {
+    content = (
+      <>
+        <h3>{data.desc}</h3>
+        <div className="process schemaform-process">
+          <ol>
+            {data.list.map((entry, index) => {
+              return (
+                <li
+                  key={index}
+                  className={`process-step list-${
+                    entry.step
+                  } vads-u-padding-bottom--0p5`}
+                >
+                  <h4>{entry.title}</h4>
+                  <ul>
+                    {entry.items.map((item, idx) => {
+                      return <li key={idx}>{item}</li>;
+                    })}
+                  </ul>
+                </li>
+              );
+            })}
+          </ol>
+        </div>
+      </>
+    );
+  } else {
+    content = (
+      <>
+        <p>{data.desc}</p>
+        <ul>
+          {data.list.map((item, index) => {
+            return <li key={index}>{item}</li>;
+          })}
+        </ul>
+        {data.postText()}
+      </>
+    );
+  }
+
   return (
     <div>
-      <h3 className="vads-u-margin-top--0">
-        {data.number}. {data.title}
-      </h3>
-      <h4 className="vads-u-font-weight--normal vads-u-margin-top--0">
-        Veteran Readiness and Employment orientation
-      </h4>
-      <div className="vads-u-margin-bottom--3">
-        <SegmentedProgressBar current={data.number} total={stepTotal} />
-      </div>
-      <iframe
-        width="325px"
-        height="185px"
-        src={`https://www.youtube.com/embed/${data.path}`}
-        title={data.title}
-        frameBorder="0"
-        allowFullScreen
-      />
-      <p>{data.desc}</p>
-      <ul>
-        {data.list.map((item, index) => {
-          return <li key={index}>{item}</li>;
-        })}
-      </ul>
+      <h2 id="StepTitle" className="vads-u-margin-top--0">
+        {data.title}
+      </h2>
+      {content}
     </div>
   );
 };

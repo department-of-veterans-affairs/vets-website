@@ -6,7 +6,7 @@ import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
 import { getVAFacilityMock, getVideoAppointmentMock } from '../../mocks/v0';
 import { renderWithStoreAndRouter } from '../../mocks/setup';
 
-import FutureAppointmentsList from '../../../appointment-list/components/FutureAppointmentsList';
+import AppointmentsPage from '../../../appointment-list/components/AppointmentsPage';
 
 const initialState = {
   featureToggles: {
@@ -38,7 +38,7 @@ describe('VAOS integration: upcoming video appointments', () => {
       baseElement,
       getByText,
       queryByText,
-    } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
+    } = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState,
     });
 
@@ -116,7 +116,7 @@ describe('VAOS integration: upcoming video appointments', () => {
       findByText,
       getByText,
       queryByText,
-    } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
+    } = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState,
     });
 
@@ -170,7 +170,7 @@ describe('VAOS integration: upcoming video appointments', () => {
     mockAppointmentInfo({ va: [appointment] });
 
     const { findByText, getByText, queryByText } = renderWithStoreAndRouter(
-      <FutureAppointmentsList />,
+      <AppointmentsPage />,
       {
         initialState,
       },
@@ -232,7 +232,7 @@ describe('VAOS integration: upcoming video appointments', () => {
       findByText,
       getByText,
       queryByText,
-    } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
+    } = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState,
     });
 
@@ -278,7 +278,7 @@ describe('VAOS integration: upcoming video appointments', () => {
     };
     mockAppointmentInfo({ va: [appointment] });
 
-    const screen = renderWithStoreAndRouter(<FutureAppointmentsList />, {
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState,
     });
 
@@ -354,7 +354,7 @@ describe('VAOS integration: upcoming video appointments', () => {
       findByText,
       getByText,
       queryByText,
-    } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
+    } = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState,
     });
 
@@ -401,7 +401,7 @@ describe('VAOS integration: upcoming video appointments', () => {
       findByText,
       getByText,
       queryByText,
-    } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
+    } = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState,
     });
 
@@ -447,7 +447,7 @@ describe('VAOS integration: upcoming video appointments', () => {
       baseElement,
       getByText,
       queryByText,
-    } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
+    } = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState,
     });
 
@@ -536,7 +536,7 @@ describe('VAOS integration: upcoming video appointments', () => {
       baseElement,
       getByText,
       queryByText,
-    } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
+    } = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState,
     });
 
@@ -631,7 +631,7 @@ describe('VAOS integration: upcoming ATLAS video appointments', () => {
 
     mockAppointmentInfo({ va: [appointment] });
 
-    const screen = renderWithStoreAndRouter(<FutureAppointmentsList />, {
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState,
     });
 
@@ -662,12 +662,13 @@ describe('VAOS integration: upcoming ATLAS video appointments', () => {
 
     // Should display appointment location address
     expect(screen.getByText(/114 Dewey Ave/i)).to.be.ok;
-    expect(screen.getByText(/Eureka, MT 59917/i)).to.be.ok;
+    expect(screen.baseElement).to.contain.text('Eureka, MT 59917');
 
     // Should display directions to location
     expect(
       screen.getByRole('link', {
-        name: 'Directions to ATLAS facility in Eureka, MT',
+        name:
+          'Directions to ATLAS facility in Eureka, MT Link opens in a new tab.',
       }),
     ).to.be.ok;
 

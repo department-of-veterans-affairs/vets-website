@@ -1,12 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
-import reducers from '../../../redux/reducer';
 import { getCCAppointmentMock, getVAAppointmentMock } from '../../mocks/v0';
 import { mockAppointmentInfo } from '../../mocks/helpers';
 import { renderWithStoreAndRouter } from '../../mocks/setup';
 
-import FutureAppointmentsList from '../../../appointment-list/components/FutureAppointmentsList';
+import AppointmentsPage from '../../../appointment-list/components/AppointmentsPage';
 
 const initialState = {
   featureToggles: {
@@ -43,7 +42,7 @@ describe('VAOS integration: upcoming CC appointments', () => {
       baseElement,
       getByText,
       queryByText,
-    } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
+    } = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState,
     });
 
@@ -89,9 +88,8 @@ describe('VAOS integration: upcoming CC appointments', () => {
       baseElement,
       getByText,
       queryByText,
-    } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
+    } = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState,
-      reducers,
     });
 
     const dateHeader = await findByText(
@@ -121,12 +119,9 @@ describe('VAOS integration: upcoming CC appointments', () => {
     };
 
     mockAppointmentInfo({ va: [appointment] });
-    const { findByText } = renderWithStoreAndRouter(
-      <FutureAppointmentsList />,
-      {
-        initialState,
-      },
-    );
+    const { findByText } = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState,
+    });
 
     expect(await findByText(/You don’t have any appointments/i)).to.exist;
   });
@@ -141,12 +136,9 @@ describe('VAOS integration: upcoming CC appointments', () => {
     };
 
     mockAppointmentInfo({ cc: [appointment] });
-    const { findByText } = renderWithStoreAndRouter(
-      <FutureAppointmentsList />,
-      {
-        initialState,
-      },
-    );
+    const { findByText } = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState,
+    });
 
     const dateHeader = await findByText(
       new RegExp(appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'), 'i'),

@@ -3,7 +3,7 @@ import moment from 'moment';
 import Telephone, {
   CONTACTS,
   PATTERNS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const diaryCodes = Object.freeze({
   '71': 'Pending Veteran deployment verification',

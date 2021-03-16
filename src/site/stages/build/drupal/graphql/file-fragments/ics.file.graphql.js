@@ -2,7 +2,7 @@
  * Queries to get all .ics files
  * To execute, run this query at http://staging.va.agile6.com/graphql/explorer.
  */
-module.exports = `
+const icsFiles = `
   icsFiles: fileQuery(filter: {
       conditions: [
         { field: "filemime", value: "text/calendar"}
@@ -19,3 +19,14 @@ module.exports = `
     }
   }
 `;
+
+const GetIcsFiles = `
+  query {
+    ${icsFiles}
+  }
+`;
+
+module.exports = {
+  partialQuery: icsFiles,
+  GetIcsFiles,
+};

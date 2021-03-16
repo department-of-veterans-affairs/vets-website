@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { isEmpty } from 'lodash';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import {
   deleteConnectedApp,
   dismissDeletedAppAlert,
@@ -107,6 +107,7 @@ export class ConnectedApps extends Component {
           <AppDeletedAlert
             id={app.id}
             title={app?.attributes?.title}
+            privacyUrl={app?.attributes?.privacyUrl}
             key={app.id}
             dismissAlert={this.dismissAlert}
           />

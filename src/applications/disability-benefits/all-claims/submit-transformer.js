@@ -247,34 +247,17 @@ export const stringifyRelatedDisabilities = formData => {
     return formData;
   }
   const clonedData = _.cloneDeep(formData);
-  const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility => {
-    const allTreatedNames = Object.entries(
-      facility.treatedDisabilityNames,
-    ).reduce((list, [name, state]) => {
-      if (state) {
-        list.push(name);
-      }
-      return list;
-    }, []);
-
+  const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility =>
     // Transform the related disabilities lists into an array of strings
-    return _.set(
+    _.set(
       'treatedDisabilityNames',
-      // transformRelatedDisabilities(
-      //   facility.treatedDisabilityNames,
-      //   getClaimedConditionNames(formData, false),
-      // ),
-
-      // Return all facility.treatedDisabilityNames set to true; this fixes an
-      // issue with SiPs data returning these names an inflection applied; not
-      // an ideal solution, but it will stop submitting empty arrays and
-      // causing the submission to be rejected. See
-      // github.com/department-of-veterans-affairs/va.gov-team/issues/15368
-      allTreatedNames,
+      transformRelatedDisabilities(
+        facility.treatedDisabilityNames,
+        getClaimedConditionNames(formData, false),
+      ),
       facility,
-    );
-  });
-
+    ),
+  );
   clonedData.vaTreatmentFacilities = newVAFacilities;
   return clonedData;
 };
@@ -649,6 +632,17 @@ export function transform(formConfig, form) {
     });
     return { ...clonedData, ...(attachments.length && { attachments }) };
   };
+
+  const fullyDevelopedClaim = formData => {
+    if (isBDD) {
+      const clonedData = _.cloneDeep(formData);
+      // standardClaim = false means it's a fully developed claim (FDC); but
+      // this value is ignored in the BDD flow unless the submission falls out
+      // of BDD status. Then we want it to be a FDC
+      return { ...clonedData, standardClaim: false };
+    }
+    return formData;
+  };
   // End transformation definitions
 
   // Apply the transformations
@@ -673,6 +667,7 @@ export function transform(formConfig, form) {
     addForm0781,
     addForm8940,
     addFileAttachmments,
+    fullyDevelopedClaim,
   ].reduce(
     (formData, transformer) => transformer(formData),
     _.cloneDeep(form.data),

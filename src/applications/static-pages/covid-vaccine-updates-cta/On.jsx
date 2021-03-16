@@ -1,34 +1,55 @@
 import React from 'react';
 import AlertBox, {
   ALERT_TYPE,
-} from '@department-of-veterans-affairs/formation-react/AlertBox';
+} from '@department-of-veterans-affairs/component-library/AlertBox';
+
+import { connect } from 'react-redux';
+import {
+  DowntimeNotification,
+  externalServices,
+} from 'platform/monitoring/DowntimeNotification';
 
 import { rootUrl as covidVaccineFormUrl } from 'applications/coronavirus-vaccination/manifest.json';
 
-export default function OnState() {
+function OnState({ copy }) {
   return (
-    <AlertBox
-      status={ALERT_TYPE.INFO}
-      headline="Stay informed and help us prepare"
-      content={
-        <>
-          <p>
-            Sign up for an easy way to stay informed about our COVID-19 plans.
-          </p>
-          <p>
-            When you sign up, we'll also ask about your interest in getting a
-            vaccine when one is available to you. By sharing your interest, you
-            can help us better prepare as we work to offer vaccines to more
-            Veterans.
-          </p>
-          <p>
-            <strong>Note:</strong> You don’t need to sign up to get a vaccine.
-          </p>
-          <a href={covidVaccineFormUrl} className="usa-button-primary">
-            Sign up to stay informed
-          </a>
-        </>
-      }
-    />
+    <>
+      <DowntimeNotification
+        dependencies={[externalServices.vetextVaccine]}
+        appTitle={copy.appTitle}
+      >
+        <div />
+      </DowntimeNotification>
+      <AlertBox
+        status={ALERT_TYPE.INFO}
+        headline={copy.headline}
+        content={
+          <>
+            <p>{copy.cta}</p>
+            <p>{copy.body}</p>
+            <p>
+              {' '}
+              {copy.boldedNote ? <strong>{copy.boldedNote} </strong> : ''}
+              {copy.note}
+            </p>
+            <DowntimeNotification
+              dependencies={[externalServices.vetextVaccine]}
+              render={(downtime, children) => {
+                if (downtime.status === 'down') {
+                  return <button disabled>{copy.buttonText}</button>;
+                }
+                return children; // Render normal enabled button
+              }}
+            >
+              <a href={covidVaccineFormUrl} className="usa-button-primary">
+                {copy.buttonText}
+              </a>
+            </DowntimeNotification>
+          </>
+        }
+      />
+    </>
   );
 }
+export default connect()(OnState);
+export { OnState };

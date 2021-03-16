@@ -1,0 +1,43 @@
+{% if audienceTags.length > 0 %}
+  <div data-template="components/browse-by-audience">
+    <h2>Browse by audience</h2>
+    <ul class="usa-unstyled-list">
+
+    {% assign pageSize = 5 %}
+
+    {% for audienceTag in audienceTags %}
+      {% if forloop.index <= pageSize %}
+        <li class="vads-u-margin-y--2">
+          <a class="vads-u-font-weight--bold vads-u-text-decoration--none" href="{{ audienceTag.entityUrl.path }}/">
+            {{ audienceTag.name }} <i role="presentation" aria-hidden="true" class="fa fa-chevron-right vads-u-margin-left--1"></i>
+          </a>
+        </li>
+      {% endif %}
+    {% endfor %}
+
+    </ul>
+
+    {% if audienceTags.length > pageSize %}
+      <div class="form-expanding-group additional-info-container vads-u-margin-y--2p5">
+        <div class="additional-info-title">Show more</div>
+
+        {% assign remainingAudienceTags = audienceTags | sliceArrayFromStart: pageSize %}
+
+        <span>
+          <div class="additional-info-content">
+            <ul class="usa-unstyled-list">
+              {% for audienceTag in remainingAudienceTags %}
+                <li class="vads-u-margin-y--2">
+                  <a class="vads-u-font-weight--bold vads-u-text-decoration--none" href="{{ audienceTag.path.alias }}/">
+                    {{ audienceTag.name }}
+                    <i role="presentation" aria-hidden="true" class="fa fa-chevron-right vads-u-margin-left--1"> </i>
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </span>
+      </div>
+    {% endif %}
+  </div>
+{% endif %}

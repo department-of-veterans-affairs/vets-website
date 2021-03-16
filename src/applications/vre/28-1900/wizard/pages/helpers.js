@@ -5,13 +5,13 @@ const mapValueToOption = (value, options) => {
   return optionText[0].label;
 };
 
-export const handleChangeAndPageSet = (setPageState, value, options) => {
+export const handleChangeAndPageSet = (setPageState, value, options, label) => {
   setPageState({ selected: value }, value);
   const optionText = mapValueToOption(value, options);
   recordEvent({
     event: 'howToWizard-formChange',
     'form-field-type': 'form-radio-buttons',
-    'form-field-label': 'Which of these describes you?',
+    'form-field-label': label,
     'form-field-value': optionText,
   });
 };

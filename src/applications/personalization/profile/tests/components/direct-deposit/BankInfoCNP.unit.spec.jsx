@@ -88,7 +88,7 @@ describe('DirectDepositCNP', () => {
     // before we can use msw, we need to make sure that global.fetch has been
     // restored and is not longer a sinon stub.
     resetFetch();
-    server = setupServer(...mocks.updateDirectDepositSuccess);
+    server = setupServer(...mocks.updateDD4CNPSuccess);
     server.listen();
   });
   afterEach(() => {
@@ -118,23 +118,6 @@ describe('DirectDepositCNP', () => {
       initialState,
     });
     expect(container).to.be.empty;
-  });
-  it('should only render an AlertBox prompting the user to set up 2FA if the user does not have 2FA set up and is LOA3', () => {
-    initialState = createBasicInitialState();
-    initialState.user.profile.multifactor = false;
-
-    const view = renderWithProfileReducers(ui, {
-      initialState,
-    });
-    expect(
-      view.getByText(
-        /You’ll need to set up 2-factor authentication before you can edit your direct deposit information./i,
-      ),
-    ).to.exist;
-    expect(view.queryByText(paymentAccount.financialInstitutionName)).not.to
-      .exist;
-    expect(view.queryByText(paymentAccount.accountNumber)).not.to.exist;
-    expect(view.queryByText(paymentAccount.accountType)).not.to.exist;
   });
   describe('when bank info is not set up', () => {
     let view;
@@ -240,7 +223,7 @@ describe('DirectDepositCNP', () => {
       ).to.exist;
     });
     it('should handle a failed attempt to update bank info', async () => {
-      server.use(...mocks.updateDirectDepositFailure);
+      server.use(...mocks.updateDD4CNPFailure);
       userEvent.click(findEditBankInfoButton(view));
 
       // fill out form info

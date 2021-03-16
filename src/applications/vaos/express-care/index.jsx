@@ -6,8 +6,9 @@ import {
   useRouteMatch,
   useHistory,
   useLocation,
+  Redirect,
 } from 'react-router-dom';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import * as actions from '../appointment-list/redux/actions';
 import expressCareReducer from './redux/reducer';
 import { FETCH_STATUS } from '../utils/constants';
@@ -19,43 +20,52 @@ import ExpressCareConfirmationPage from './components/ExpressCareConfirmationPag
 import ExpressCareInfoPage from './components/ExpressCareInfoPage';
 import ExpressCareRequestLimitPage from './components/ExpressCareRequestLimitPage';
 import ErrorMessage from '../components/ErrorMessage';
+import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
+import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
+import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
 
 function NewExpressCareRequestSection({
   windowsStatus,
   allowRequests,
+  useNewFlow,
   fetchExpressCareWindows,
 }) {
   const match = useRouteMatch();
   const history = useHistory();
   const location = useLocation();
 
+  useManualScrollRestoration();
+
   useEffect(() => {
     if (windowsStatus === FETCH_STATUS.notStarted) {
       fetchExpressCareWindows();
-    }
-
-    if (window.History) {
-      window.History.scrollRestoration = 'manual';
-    }
-
-    const { pathname } = location;
-
-    if (
-      !pathname.endsWith('new-express-care-request') &&
-      !pathname.endsWith('confirmation')
-    ) {
-      history.replace('/new-express-care-request');
     }
   }, []);
 
   useEffect(
     () => {
-      if (windowsStatus === FETCH_STATUS.succeeded && !allowRequests) {
+      if (
+        !useNewFlow ||
+        (windowsStatus === FETCH_STATUS.succeeded && !allowRequests)
+      ) {
         history.push('/');
       }
     },
-    [history, windowsStatus, allowRequests],
+    [history, windowsStatus, allowRequests, useNewFlow],
   );
+  useFormUnsavedDataWarning();
+
+  const shouldRedirectToStart = useFormRedirectToStart({
+    shouldRedirect: () =>
+      !location.pathname.endsWith('new-express-care-request') &&
+      !location.pathname.endsWith('confirmation'),
+    enabled:
+      useNewFlow && windowsStatus === FETCH_STATUS.succeeded && allowRequests,
+  });
+
+  if (shouldRedirectToStart) {
+    return <Redirect to="/new-express-care-request" />;
+  }
 
   return (
     <FormLayout>

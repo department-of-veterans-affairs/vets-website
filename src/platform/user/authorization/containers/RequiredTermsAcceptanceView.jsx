@@ -6,7 +6,7 @@ import recordEvent from '../../../monitoring/record-event';
 import { fetchLatestTerms, acceptTerms } from '../../profile/actions';
 
 import AcceptTermsPrompt from '../components/AcceptTermsPrompt';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 export class RequiredTermsAcceptanceView extends React.Component {
   componentDidMount() {

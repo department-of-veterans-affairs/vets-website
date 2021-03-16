@@ -1,11 +1,10 @@
 {% include "src/site/includes/header.html" with drupalTags = true %}
-
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
 
 <div itemscope itemtype="https://schema.org/FAQPage">
-  <div id="content" class="interior">
+  <div id="content" class="interior" lang="{{ entityUrl.path | detectLang }}">
     <main class="va-l-detail-page">
       <div class="usa-grid usa-grid-full">
 
@@ -17,18 +16,11 @@
           {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
         {% endif %}
 
-        {% if !entityPublished %}
-          <div class="usa-alert usa-alert-info" >
-            <div class="usa-alert-body">
-              <p class="usa-alert-text">You are viewing a draft.</p>
-            </div>
-          </div>
-        {% endif %}
-
         <article class="usa-content">
+          <div data-widget-type="i18-select"></div>
           <h1>{{ title }}</h1>
           <div class="va-introtext">
-            <p>{{ fieldIntroText }}</p>
+            {{ fieldIntroTextLimitedHtml.processed }}
           </div>
           {% if fieldAlert.length %}
             {% for alert in fieldAlert %}
@@ -43,10 +35,10 @@
           {% endif %}
 
           {% if fieldTableOfContentsBoolean != empty and fieldTableOfContentsBoolean %}
-          <section id="table-of-contents">
+          <nav id="table-of-contents">
             <h2 class="vads-u-margin-bottom--2 vads-u-font-size--lg">On this page</h2>
             <ul class="usa-unstyled-list"></ul>
-          </section>
+          </nav>
           {% endif %}
 
           {% assign featureCount = fieldFeaturedContent | size  %}

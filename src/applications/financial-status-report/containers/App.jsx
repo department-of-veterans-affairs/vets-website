@@ -1,11 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
 import { connect } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import ErrorMessage from '../components/ErrorMessage';
 import { fetchFormStatus } from '../actions/index';
-import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
+import WizardContainer from '../wizard/WizardContainer';
+import { WIZARD_STATUS } from '../wizard/constants';
+import {
+  WIZARD_STATUS_NOT_STARTED,
+  WIZARD_STATUS_COMPLETE,
+} from 'platform/site-wide/wizard';
 
 const App = ({
   location,
@@ -15,7 +20,14 @@ const App = ({
   isLoggedIn,
   getFormStatus,
 }) => {
-  const showMainContent = !pending && !isError;
+  const [wizardState, setWizardState] = useState(
+    sessionStorage.getItem(WIZARD_STATUS) || WIZARD_STATUS_NOT_STARTED,
+  );
+
+  const setWizardStatus = value => {
+    sessionStorage.setItem(WIZARD_STATUS, value);
+    setWizardState(value);
+  };
 
   useEffect(
     () => {
@@ -24,31 +36,22 @@ const App = ({
     [getFormStatus],
   );
 
+  if (wizardState !== WIZARD_STATUS_COMPLETE) {
+    return <WizardContainer setWizardStatus={setWizardStatus} />;
+  }
+
+  if (pending) {
+    return <LoadingIndicator setFocus message="Loading your information..." />;
+  }
+
+  if (isLoggedIn && isError) {
+    return <ErrorMessage />;
+  }
+
   return (
-    <>
-      <Breadcrumbs>
-        <a href="/">Home</a>
-        <a href="#">Debt Management</a>
-        <span>
-          <strong>Financial Status Report</strong>
-        </span>
-      </Breadcrumbs>
-      {pending && (
-        <LoadingIndicator setFocus message="Loading your information..." />
-      )}
-      {isError &&
-        !pending &&
-        isLoggedIn && (
-          <div className="row vads-u-margin-bottom--3">
-            <ErrorMessage />
-          </div>
-        )}
-      {showMainContent && (
-        <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-          {children}
-        </RoutedSavableApp>
-      )}
-    </>
+    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+      {children}
+    </RoutedSavableApp>
   );
 };
 

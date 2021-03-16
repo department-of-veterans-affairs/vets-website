@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import backendServices from 'platform/user/profile/constants/backendServices';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
@@ -29,6 +31,8 @@ class ViewDependentsApp extends Component {
               error={this.props.error}
               onAwardDependents={this.props.onAwardDependents}
               notOnAwardDependents={this.props.notOnAwardDependents}
+              dependentsToggle={this.props.dependentsToggle}
+              manageDependentsToggle={this.props.manageDependentsToggle}
             />
           </RequiredLoginView>
         </DowntimeNotification>
@@ -41,6 +45,12 @@ const mapStateToProps = state => ({
   user: state.user,
   loading: state.allDependents.loading,
   error: state.allDependents.error,
+  dependentsToggle: toggleValues(state)[
+    FEATURE_FLAG_NAMES.vaViewDependentsAccess
+  ],
+  manageDependentsToggle: toggleValues(state)[
+    FEATURE_FLAG_NAMES.manageDependents
+  ],
   onAwardDependents: state.allDependents.onAwardDependents,
   notOnAwardDependents: state.allDependents.notOnAwardDependents,
 });

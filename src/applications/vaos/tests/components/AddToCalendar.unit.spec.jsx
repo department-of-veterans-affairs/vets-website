@@ -14,7 +14,7 @@ describe('VAOS <AddToCalendar>', () => {
       <AddToCalendar
         summary="VA Appointment"
         description="Follow-up/Routine: some description"
-        location="A location"
+        location="123 main street, bozeman, MT"
         duration={60}
         startDateTime={startDateTime.toDate()}
       />,
@@ -39,17 +39,73 @@ describe('VAOS <AddToCalendar>', () => {
     expect(ics).to.contain('UID:');
     expect(ics).to.contain('SUMMARY:VA Appointment');
     expect(ics).to.contain('DESCRIPTION:Follow-up/Routine: some description');
-    expect(ics).to.contain('LOCATION:A location');
+    expect(ics).to.contain('LOCATION:123 main street\\, bozeman\\, MT');
     expect(ics).to.contain(
-      `DTSTAMP:${startDateTime.format('YYYYMMDDTHHmmss')}`,
+      `DTSTAMP:${moment(startDateTime)
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
     );
     expect(ics).to.contain(
-      `DTSTART:${startDateTime.format('YYYYMMDDTHHmmss')}`,
+      `DTSTART:${moment(startDateTime)
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
     );
     expect(ics).to.contain(
       `DTEND:${startDateTime
         .clone()
         .add(60, 'minutes')
+        .utc()
+        .format('YYYYMMDDTHHmmss')}`,
+    );
+  });
+
+  it('should render link with calendar info for phone appointment', () => {
+    const startDateTime = moment('2020-01-02');
+    const screen = render(
+      <AddToCalendar
+        summary="VA Appointment"
+        description="Follow-up/Routine: some description"
+        location="Phone call"
+        duration={60}
+        startDateTime={startDateTime.toDate()}
+      />,
+    );
+
+    expect(screen.getByRole('link')).to.contain.text('Add to calendar');
+    expect(screen.getByRole('link')).to.have.attribute(
+      'download',
+      'VA_Appointment.ics',
+    );
+    expect(screen.getByRole('link')).to.have.attribute(
+      'aria-label',
+      `Add January 2, 2020 appointment to your calendar`,
+    );
+    const ics = decodeURIComponent(
+      screen
+        .getByRole('link')
+        .getAttribute('href')
+        .replace('data:text/calendar;charset=utf-8,', ''),
+    );
+    expect(ics).to.contain('PRODID:VA');
+    expect(ics).to.contain('UID:');
+    expect(ics).to.contain('SUMMARY:VA Appointment');
+    expect(ics).to.contain('DESCRIPTION:Follow-up/Routine: some description');
+    expect(ics).to.contain('LOCATION:Phone call');
+    expect(ics).to.contain(
+      `DTSTAMP:${moment(startDateTime)
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(ics).to.contain(
+      `DTSTART:${moment(startDateTime)
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(ics).to.contain(
+      `DTEND:${startDateTime
+        .clone()
+        .add(60, 'minutes')
+        .utc()
         .format('YYYYMMDDTHHmmss')}`,
     );
   });
@@ -73,7 +129,7 @@ describe('VAOS <AddToCalendar>', () => {
         .replace('data:text/calendar;charset=utf-8,', ''),
     );
     expect(ics).to.contain(
-      'DESCRIPTION:Testing long line descriptions Testing long descriptions Testi\r\n\tng long descriptions Testing long descriptions Testing long descriptions T\r\n\testing long descriptions Testing long descriptions Testing long descriptio\r\n\tns\n',
+      'DESCRIPTION:Testing long line descriptions Testing long descriptions Testi\r\n\tng long descriptions Testing long descriptions Testing long descriptions T\r\n\testing long descriptions Testing long descriptions Testing long descriptio\r\n\tns\r\n',
     );
   });
   it('should download ICS file via blob in IE', () => {

@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import { merge, omit, assign, pick, get } from 'lodash/fp';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
@@ -8,7 +8,7 @@ import { validateDependentDate } from '../validation';
 const incomeFields = ['grossIncome', 'netIncome', 'otherIncome'];
 
 export const createDependentSchema = hcaSchema => {
-  const s = _.merge(hcaSchema.definitions.dependent, {
+  const schema = merge(hcaSchema.definitions.dependent, {
     required: [
       'dependentRelation',
       'socialSecurityNumber',
@@ -20,15 +20,15 @@ export const createDependentSchema = hcaSchema => {
     ],
   });
 
-  s.properties = _.omit(incomeFields, s.properties);
+  schema.properties = omit(incomeFields, schema.properties);
 
-  return s;
+  return schema;
 };
 
 export const createDependentIncomeSchema = hcaSchema => {
   const dependent = hcaSchema.definitions.dependent;
-  return _.assign(dependent, {
-    properties: _.pick(incomeFields, dependent.properties),
+  return assign(dependent, {
+    properties: pick(incomeFields, dependent.properties),
     required: incomeFields,
   });
 };
@@ -47,16 +47,31 @@ export const uiSchema = {
     'cohabitedLastYear',
     'receivedSupportLastYear',
   ],
-  fullName: fullNameUI,
-  dependentRelation: {
-    'ui:title': 'Dependent’s relationship to you?',
+  fullName: {
+    ...fullNameUI,
+    first: {
+      'ui:title': 'Dependent\u2019s first name',
+    },
+    last: {
+      'ui:title': 'Dependent\u2019s last name',
+    },
+    middle: {
+      'ui:title': 'Dependent\u2019s middle name',
+    },
+    suffix: {
+      'ui:title': 'Dependent\u2019s suffix',
+    },
   },
-  socialSecurityNumber: _.merge(ssnUI, {
-    'ui:title': 'Dependent’s Social Security number',
-  }),
+  dependentRelation: {
+    'ui:title': 'What\u2019s your dependent\u2019s relationship to you?',
+  },
+  socialSecurityNumber: {
+    ...ssnUI,
+    'ui:title': 'Dependent\u2019s Social Security number',
+  },
   dateOfBirth: currentOrPastDateUI('Dependent’s date of birth'),
-  becameDependent: _.assign(
-    currentOrPastDateUI('Date they became your dependent?'),
+  becameDependent: assign(
+    currentOrPastDateUI('When did they become your dependent?'),
     {
       'ui:validations': [validateDependentDate],
     },
@@ -89,18 +104,22 @@ export const uiSchema = {
       // Not being invoked until the data is changed...which means this is open
       //  by default
       hideIf: (formData, index) =>
-        _.get(`dependents[${index}].cohabitedLastYear`, formData) !== false,
+        get(`dependents[${index}].cohabitedLastYear`, formData) !== false,
     },
   },
 };
 
 export const dependentIncomeUiSchema = {
-  grossIncome: currencyUI('Gross annual income from employment'),
-  netIncome: currencyUI('Net income from farm, ranch, property or business'),
-  otherIncome: currencyUI('Other income amount'),
+  grossIncome: currencyUI(
+    'Dependent\u2019s gross annual income from employment',
+  ),
+  netIncome: currencyUI(
+    'Dependent\u2019s net income from farm, ranch, property or business',
+  ),
+  otherIncome: currencyUI('Dependent\u2019s other income amount'),
   'ui:options': {
     updateSchema: (formData, schema, ui, index) => {
-      const name = _.get(`dependents.[${index}].fullName`, formData);
+      const name = get(`dependents.[${index}].fullName`, formData);
       if (name) {
         return {
           title: `${name.first} ${name.last} income`,

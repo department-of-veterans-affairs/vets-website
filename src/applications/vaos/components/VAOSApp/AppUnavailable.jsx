@@ -1,6 +1,6 @@
 import React from 'react';
 import Breadcrumbs from '../Breadcrumbs';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 export default function AppUnavailable() {
   return (

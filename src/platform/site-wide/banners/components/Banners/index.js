@@ -1,8 +1,8 @@
 // Node modules.
 import React from 'react';
 import PropTypes from 'prop-types';
-import EmergencyBanner from '@department-of-veterans-affairs/formation-react/EmergencyBanner';
-import MaintenanceBanner from '@department-of-veterans-affairs/formation-react/MaintenanceBanner';
+import EmergencyBanner from '@department-of-veterans-affairs/component-library/EmergencyBanner';
+import MaintenanceBanner from '@department-of-veterans-affairs/component-library/MaintenanceBanner';
 // Relative imports.
 import config from '../../config/maintenanceBanner';
 import environment from 'platform/utilities/environment';

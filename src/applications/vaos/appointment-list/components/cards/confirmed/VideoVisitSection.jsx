@@ -9,12 +9,6 @@ import VideoLink from './VideoLink';
 import AtlasLocation from './AtlasLocation';
 import VAFacilityLocation from '../../../../components/VAFacilityLocation';
 
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id ? id.replace('var', '') : id;
-}
-
 export default function VideoVisitLocation({ appointment, facility }) {
   const videoKind = getVideoKind(appointment);
   const isAtlas = isAtlasLocation(appointment);
@@ -23,7 +17,7 @@ export default function VideoVisitLocation({ appointment, facility }) {
     return (
       <VAFacilityLocation
         facility={facility}
-        facilityId={parseFakeFHIRId(getVAAppointmentLocationId(appointment))}
+        facilityId={getVAAppointmentLocationId(appointment)}
       />
     );
   }
@@ -49,9 +43,7 @@ export default function VideoVisitLocation({ appointment, facility }) {
             <div className="vads-u-margin-top--2">
               <VAFacilityLocation
                 facility={facility}
-                facilityId={parseFakeFHIRId(
-                  getVAAppointmentLocationId(appointment),
-                )}
+                facilityId={getVAAppointmentLocationId(appointment)}
               />
             </div>
           )}

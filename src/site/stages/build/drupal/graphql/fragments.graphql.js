@@ -2,6 +2,7 @@ const administration = require('./taxonomy-fragments/administration.taxonomy.gra
 const alertParagraph = require('./paragraph-fragments/alert.paragraph.graphql');
 const alertParagraphSingle = require('./paragraph-fragments/alertSingle.paragraph.graphql');
 const audienceBeneficiaries = require('./taxonomy-fragments/audienceBeneficiaries.taxonomy.graphql');
+const audienceNonBeneficiaries = require('./taxonomy-fragments/audienceNonBeneficiaries.taxonomy.graphql');
 const audienceTopics = require('./paragraph-fragments/audienceTopics.paragraph.graphql');
 const button = require('./paragraph-fragments/button.paragraph.graphql');
 const collapsiblePanel = require('./paragraph-fragments/collapsiblePanel.paragraph.graphql');
@@ -31,12 +32,13 @@ const {
 } = require('./paragraph-fragments/listOfLinkTeasers.paragraph.graphql');
 const { promo } = require('./block-fragments/promo.block.graphql');
 
-module.exports = `
+const ALL_FRAGMENTS = `
   ${administration}
   ${alertParagraphSingle}
   ${alertParagraph}
   ${alert}
   ${audienceBeneficiaries}
+  ${audienceNonBeneficiaries}
   ${audienceTopics}
   ${button}
   ${collapsiblePanel}
@@ -63,3 +65,38 @@ module.exports = `
   ${termTopics}
   ${wysiwyg}
 `;
+
+module.exports = {
+  ALL_FRAGMENTS,
+  administration,
+  alertParagraphSingle,
+  alertParagraph,
+  alert,
+  audienceBeneficiaries,
+  audienceNonBeneficiaries,
+  audienceTopics,
+  button,
+  collapsiblePanel,
+  contactInformation,
+  downloadableFile,
+  emailContact,
+  embeddedImage,
+  linkTeaser,
+  listOfLinkTeasers,
+  listsOfLinks,
+  numberCallout,
+  phoneNumber,
+  process,
+  promo,
+  qaSection,
+  qa,
+  reactWidget,
+  richTextCharLimit1000,
+  spanishSummary,
+  staffProfile,
+  supportService,
+  table,
+  termLcCategory,
+  termTopics,
+  wysiwyg,
+};

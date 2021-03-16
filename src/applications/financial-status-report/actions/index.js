@@ -92,9 +92,28 @@ export const fetchDebts = () => async (dispatch, getState) => {
     // that have a current amount owed of 0
     const filteredResponse = response.debts
       .filter(res => approvedDeductionCodes.includes(res.deductionCode))
-      .filter(debt => debt.currentAr > 0);
+      .filter(debt => debt.currentAr > 0)
+      .map((debt, index) => ({ ...debt, id: index }));
     return dispatch(fetchDebtLettersSuccess(filteredResponse));
   } catch (error) {
     return null;
   }
+};
+
+export const downloadPDF = () => {
+  const options = {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Key-Inflection': 'camel',
+      'Source-App-Name': window.appName,
+    },
+  };
+  return fetch(
+    `${environment.API_URL}/v0/financial_status_reports/download_pdf`,
+    options,
+  ).catch(err => {
+    throw new Error(err);
+  });
 };

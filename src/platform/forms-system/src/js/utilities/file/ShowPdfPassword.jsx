@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
+import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 
 const ShowPdfPassword = ({ file, index, onSubmitPassword }) => {
   const [fieldObj, setFieldObj] = useState({
@@ -11,7 +11,7 @@ const ShowPdfPassword = ({ file, index, onSubmitPassword }) => {
   const showError = fieldObj.dirty && !fieldObj.value;
   return (
     <div className="vads-u-margin-bottom--2">
-      <ErrorableTextInput
+      <TextInput
         label={'PDF password'}
         errorMessage={
           showError && 'Please provide a password to decrypt this file'

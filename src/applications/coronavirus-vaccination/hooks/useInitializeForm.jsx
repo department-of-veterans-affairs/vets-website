@@ -27,8 +27,11 @@ export default function useInitializeForm(
         const formData = {
           isIdentityVerified: false,
         };
-
-        updateFormData(initialFormSchema, initialUiSchema, formData);
+        updateFormData(
+          initialFormSchema,
+          initialUiSchema.unauthenticated,
+          formData,
+        );
 
         recordEvent({
           event: 'no-login-start-form',
@@ -62,7 +65,11 @@ export default function useInitializeForm(
                 vaccineInterest: previouslySubmittedFormData?.vaccineInterest,
               };
 
-              updateFormData(initialFormSchema, initialUiSchema, formData);
+              updateFormData(
+                initialFormSchema,
+                initialUiSchema.authenticated,
+                formData,
+              );
               setOldFormData(previouslySubmittedFormData);
               return;
             }
@@ -90,7 +97,11 @@ export default function useInitializeForm(
             : '',
         };
 
-        updateFormData(initialFormSchema, initialUiSchema, formData);
+        updateFormData(
+          initialFormSchema,
+          initialUiSchema.authenticated,
+          formData,
+        );
       }
 
       if (isLoggedIn) {

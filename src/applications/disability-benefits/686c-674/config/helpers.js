@@ -2,7 +2,7 @@ import React from 'react';
 import Telephone, {
   CONTACTS,
   PATTERNS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const isChapterFieldRequired = (formData, option) =>
   formData[`view:selectable686Options`][option];
@@ -157,3 +157,11 @@ export const isOutsideListLoopReturn = (
     },
   };
 };
+
+export const PensionIncomeRemovalQuestionTitle = (
+  <p>
+    Did this dependent earn an income in the last 365 days? Answer this question{' '}
+    <strong>only</strong> if you are removing this dependent from your{' '}
+    <strong>pension</strong>.
+  </p>
+);

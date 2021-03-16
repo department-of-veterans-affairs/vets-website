@@ -1,5 +1,4 @@
 {% include "src/site/includes/header.html" with drupalTags = true %}
-
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" with constructLcBreadcrumbs = true titleInclude = true %}
@@ -9,21 +8,12 @@
     <div class="usa-grid usa-grid-full">
       <div class="usa-width-three-fourths">
         <div class="usa-content">
-          <!-- Draft status -->
-          {% if !entityPublished %}
-            <div class="usa-alert usa-alert-info">
-              <div class="usa-alert-body">
-                <p class="usa-alert-text">You are viewing a draft.</p>
-              </div>
-            </div>
-          {% endif %}
-
           <!-- Search bar -->
           <div class="medium-screen:vads-u-border-bottom--2px vads-u-border-color--gray-light medium-screen:vads-u-margin-bottom--3">
             {% include "src/site/includes/support_resources_search_bar.drupal.liquid" %}
           </div>
 
-          <article>
+          <article class="vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
             <!-- Title -->
             <h1>{{ title }}</h1>
 
@@ -46,11 +36,11 @@
 
             <!-- TOC -->
             {% if fieldTableOfContentsBoolean %}
-              <section id="table-of-contents">
+              <nav id="table-of-contents">
                 <button type="button" class="vads-u-visibility--screen-reader">Back to top</button>
                 <h2 class="vads-u-margin-bottom--2 vads-u-font-size--lg">On this page</h2>
                 <ul class="usa-unstyled-list"></ul>
-              </section>
+              </nav>
             {% endif %}
 
             <!-- QAs -->
@@ -123,21 +113,17 @@
 
           <!-- VA benefits -->
           {% include "src/site/includes/benefit-hubs-links.drupal.liquid" with fieldRelatedBenefitHubs = fieldRelatedBenefitHubs %}
-
-          <!-- Need more help -->
-          {% include "src/site/paragraphs/contact_information.drupal.liquid" with entity = fieldContactInformation.entity %}
-
-          <!-- Last Updated -->
-          <div class="last-updated usa-content">
-            Last updated: <time
-              datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
-          </div>
-
-        
         </div>
       </div>
     </div>
+
+    <!-- Need more help -->
+    {% include "src/site/paragraphs/contact_information.drupal.liquid" with entity = fieldContactInformation.entity %}
+
+    <!-- Last updated -->
+    {% include "src/site/includes/last-updated.drupal.liquid" %}
   </main>
+
   <!-- Up To Top Button -->
   {% include "src/site/components/up_to_top_button.html" %}
 </div>

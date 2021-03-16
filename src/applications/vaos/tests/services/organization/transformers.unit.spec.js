@@ -30,7 +30,7 @@ describe('VAOS Organization transformer', () => {
 
     it('should map partOf field for non-root parents', () => {
       const data = transformParentFacilities(facilitiesParsed);
-      expect(data[2].partOf.reference).to.equal('Organization/var983');
+      expect(data[2].partOf.reference).to.equal('Organization/983');
     });
 
     it('should not map partOf field for root parents', () => {

@@ -8,6 +8,10 @@ const SocksProxyAgent = require('socks-proxy-agent');
 
 const DRUPALS = require('../../../constants/drupals');
 const { queries, getQuery } = require('./queries');
+const {
+  getIndividualizedQueries,
+  CountEntityTypes,
+} = require('./individual-queries');
 
 const syswidecas = require('syswide-cas');
 
@@ -22,20 +26,25 @@ function encodeCredentials({ user, password }) {
   return Buffer.from(credentials).toString('base64');
 }
 
-const defaultClientOptions = { verbose: true };
+const defaultClientOptions = { verbose: true, maxParallelRequests: 15 };
 
 function getDrupalClient(buildOptions, clientOptionsArg) {
   const buildArgs = {
     address: buildOptions['drupal-address'],
     user: buildOptions['drupal-user'],
     password: buildOptions['drupal-password'],
+    maxParallelRequests: buildOptions['drupal-max-parallel-requests'],
   };
+
+  const maxParallelRequests =
+    buildArgs.maxParallelRequests ?? defaultClientOptions.maxParallelRequests;
 
   Object.keys(buildArgs).forEach(key => {
     if (!buildArgs[key]) delete buildArgs[key];
   });
 
   const clientOptions = { ...defaultClientOptions, ...clientOptionsArg };
+
   // Set up debug logging
   // eslint-disable-next-line no-console
   const say = clientOptions.verbose ? console.log : () => {};
@@ -165,6 +174,124 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
       } else {
         throw new Error('Failed to fetch the CMS export tarball');
       }
+    },
+
+    async getAllPagesViaIndividualGraphQlQueries(onlyPublishedContent = true) {
+      /* eslint-disable no-console, no-await-in-loop */
+
+      say('Pulling from Drupal via GraphQL...');
+
+      const entityCounts = await this.query({
+        query: CountEntityTypes,
+      });
+
+      say('Received node counts...');
+      console.table(entityCounts.data);
+
+      const result = {
+        data: {
+          nodeQuery: {
+            entities: [],
+          },
+        },
+      };
+
+      const individualQueries = Object.entries(
+        getIndividualizedQueries(entityCounts),
+      );
+
+      const totalQueries = individualQueries.length;
+
+      const parallelQuery = async () => {
+        if (individualQueries.length === 0) {
+          // The only time this condition should occur is if
+          // the parallelQueries executed before this
+          // finish the entire array of requests before this
+          // one has a chance to execute its first request.
+          // This can happen is the CMS's cache is very hot.
+          return true;
+        }
+
+        const [queryName, query] = individualQueries.pop();
+        const request = this.query({
+          query,
+          variables: {
+            today: moment().format('YYYY-MM-DD'),
+            onlyPublishedContent,
+          },
+        });
+
+        const startTime = moment();
+        const json = await request;
+
+        if (json.errors) {
+          const formattedErrors = JSON.stringify(json.errors, null, 2);
+          const pluralizedErrors =
+            json.errors.length > 1 ? 'errors' : 'an error';
+          throw new Error(
+            `GraphQL query ${queryName} has ${pluralizedErrors}:\n${query}\n\n${chalk.red(
+              `Error with ${queryName}. Scroll up for the GraphQL query that has ${pluralizedErrors}:\n\n${formattedErrors}`,
+            )}`,
+          );
+        }
+
+        if (json.data?.nodeQuery) {
+          result.data.nodeQuery.entities.push(...json.data.nodeQuery.entities);
+        } else {
+          Object.assign(result.data, json.data);
+        }
+
+        let timeElapsed = moment().diff(startTime, 'seconds');
+        let pageCount = json.data.nodeQuery
+          ? json.data.nodeQuery.entities.length
+          : '[n/a]';
+
+        if (timeElapsed > 60) {
+          timeElapsed = chalk.red(timeElapsed);
+        }
+
+        if (pageCount > 100) {
+          pageCount = chalk.red(pageCount);
+        }
+
+        say(
+          `| ${chalk.blue(queryName)} | ${timeElapsed}s | ${pageCount} pages |`,
+        );
+
+        if (individualQueries.length > 0) {
+          return parallelQuery();
+        }
+
+        return true;
+      };
+
+      say(
+        chalk.blue(
+          `Beginning GraphQL queries with parallelization at ${maxParallelRequests} requests...`,
+        ),
+      );
+
+      const overallStartTime = moment();
+      const staggeredRequests = new Array(maxParallelRequests)
+        .fill(null)
+        .map((_, index) => {
+          return new Promise(resolve => {
+            const delay = index * 250;
+            setTimeout(() => resolve(parallelQuery()), delay);
+          });
+        });
+
+      await Promise.all(staggeredRequests);
+
+      const overallTimeElapsed = moment().diff(overallStartTime, 'seconds');
+
+      console.log(
+        `Finished ${totalQueries} queries in ${overallTimeElapsed}s with ${
+          result.data.nodeQuery.entities.length
+        } pages`,
+      );
+
+      return result;
     },
 
     getAllPages(onlyPublishedContent = true) {

@@ -1,14 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
-import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import ProgressButton from '@department-of-veterans-affairs/component-library/ProgressButton';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   CONTINUE_APP_DEFAULT_MESSAGE,
   START_NEW_APP_DEFAULT_MESSAGE,
   APP_TYPE_DEFAULT,
 } from '../../forms-system/src/js/constants';
+
+import {
+  WIZARD_STATUS,
+  WIZARD_STATUS_RESTARTING,
+} from 'platform/site-wide/wizard';
 
 class FormStartControls extends React.Component {
   constructor(props) {
@@ -64,6 +69,14 @@ class FormStartControls extends React.Component {
       this.props.formId,
       this.props.migrations,
       this.props.prefillTransformer,
+    );
+
+    const { formConfig = {} } = this.props.routes?.[1] || {};
+    // Wizard status needs an intermediate value between not-started &
+    // complete to prevent infinite loops in the RoutedSavableApp
+    sessionStorage.setItem(
+      formConfig.wizardStorageKey || WIZARD_STATUS,
+      WIZARD_STATUS_RESTARTING,
     );
   };
 

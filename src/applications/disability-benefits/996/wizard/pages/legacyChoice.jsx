@@ -1,5 +1,5 @@
 import React from 'react';
-import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import recordEvent from 'platform/monitoring/record-event';
 
 import pageNames from './pageNames';
@@ -31,7 +31,7 @@ const name = 'higher-level-review-legacy';
 
 const LegacyChoice = ({ setPageState, state = {} }) => {
   return (
-    <ErrorableRadioButtons
+    <RadioButtons
       name={name}
       id={name}
       label={label}

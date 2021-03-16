@@ -4,11 +4,13 @@ import PropTypes from 'prop-types';
 import { isEmpty, map, replace } from 'lodash';
 import * as Sentry from '@sentry/browser';
 // Relative imports.
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import environment from 'platform/utilities/environment';
+import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
 import { appointmentsToolLink } from 'platform/utilities/cerner';
+import { getButtonType } from 'applications/static-pages/analytics/addButtonLinkListeners';
 
 export class CernerCallToAction extends Component {
   static defaultProps = {
@@ -84,7 +86,19 @@ export class CernerCallToAction extends Component {
     }
   };
 
+  onCTALinkClick = event => {
+    const style = window.getComputedStyle(event.target);
+
+    recordEvent({
+      event: 'cta-button-click',
+      'button-type': getButtonType(event.target.classList),
+      'button-click-label': event.target.text,
+      'button-background-color': style.getPropertyValue('background-color'),
+    });
+  };
+
   render() {
+    const { onCTALinkClick } = this;
     const {
       cernerFacilities,
       linksHeaderText,
@@ -195,6 +209,7 @@ export class CernerCallToAction extends Component {
                 <a
                   className="usa-button vads-u-color--white vads-u-margin-top--0 vads-u-margin-bottom--4"
                   href={isCerner ? myVAHealthLink : myHealtheVetLink}
+                  onClick={onCTALinkClick}
                   rel="noreferrer noopener"
                   target="_blank"
                 >
@@ -211,6 +226,7 @@ export class CernerCallToAction extends Component {
             <a
               className="usa-button usa-button-secondary vads-u-color--primary vads-u-margin-top--0 vads-u-margin-bottom--2"
               href={myHealtheVetLink}
+              onClick={onCTALinkClick}
               rel="noreferrer noopener"
               target="_blank"
             >

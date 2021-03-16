@@ -157,13 +157,13 @@ describe('VAOS selectors', () => {
           data: {
             typeOfCareId: '323',
             clinicId: '124',
-            vaParent: 'var123',
-            vaFacility: 'var983',
+            vaParent: '123',
+            vaFacility: '983',
           },
           facilities: {
-            '323_var123': [
+            '323': [
               {
-                id: 'var983',
+                id: '983',
               },
             ],
           },
@@ -171,7 +171,7 @@ describe('VAOS selectors', () => {
       };
 
       expect(getChosenFacilityInfo(state)).to.equal(
-        state.newAppointment.facilities['323_var123'][0],
+        state.newAppointment.facilities['323'][0],
       );
     });
   });
@@ -182,17 +182,16 @@ describe('VAOS selectors', () => {
         newAppointment: {
           data: {
             vaFacility: '983',
+            typeOfCareId: '323',
           },
-          facilityDetails: {
-            983: {
-              institutionCode: '983',
-            },
+          facilities: {
+            323: [{ id: '983' }],
           },
         },
       };
 
       expect(getChosenFacilityDetails(state)).to.equal(
-        state.newAppointment.facilityDetails['983'],
+        state.newAppointment.facilities['323'][0],
       );
     });
   });
@@ -204,15 +203,15 @@ describe('VAOS selectors', () => {
           data: {
             typeOfCareId: '323',
             vaFacility: '688GB',
-            clinicId: 'var688GB_124',
+            clinicId: '688GB_124',
           },
           clinics: {
             '688GB_323': [
               {
-                id: 'var688GB_123',
+                id: '688GB_123',
               },
               {
-                id: 'var688GB_124',
+                id: '688GB_124',
               },
             ],
           },
@@ -347,18 +346,18 @@ describe('VAOS selectors', () => {
           },
           data: {
             typeOfCareId: '323',
-            vaParent: 'var983',
-            vaFacility: 'var983',
+            vaParent: '983',
+            vaFacility: '983',
           },
           eligibility: {
             // eslint-disable-next-line camelcase
-            var983_323: {
+            983_323: {
               request: true,
             },
           },
           parentFacilities: [
             {
-              id: 'var983',
+              id: '983',
               identifier: [
                 {
                   system: VHA_FHIR_ID,
@@ -368,9 +367,9 @@ describe('VAOS selectors', () => {
             },
           ],
           facilities: {
-            '323_var983': [
+            '323': [
               {
-                id: 'var983',
+                id: '983',
               },
             ],
           },
@@ -381,7 +380,6 @@ describe('VAOS selectors', () => {
       const data = getDateTimeSelect(state, 'selectDateTime');
       expect(data.timezone).to.equal('America/Denver');
       expect(data.timezoneDescription).to.equal('Mountain time (MT)');
-      expect(data.availableDates).to.eql(['2019-10-24']);
       expect(data.availableSlots).to.eql(availableSlots);
     });
   });

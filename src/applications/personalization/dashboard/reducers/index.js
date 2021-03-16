@@ -4,16 +4,21 @@ import prescriptions from './prescriptions';
 import recipients from './recipients';
 import folders from './folders';
 import preferences from '../../preferences/reducers';
-import appointments from '../../appointments/reducers';
+import appointments from '~/applications/personalization/appointments/reducers';
+import profile from '@@profile/reducers';
+
+import ratedDisabilities from '~/applications/personalization/rated-disabilities/reducers';
 
 import { combineReducers } from 'redux';
 
 export default {
   ...claimsAppeals,
   preferences,
-  appointments,
+  ...profile,
+  ...ratedDisabilities,
   hcaEnrollmentStatus,
   health: combineReducers({
+    appointments,
     rx: combineReducers({
       prescriptions,
     }),

@@ -6,9 +6,7 @@ import EducationWizard from '../../components/EducationWizard';
 import wizardConfig from '../../utils/wizardConfig';
 
 function getQuestion(tree, name) {
-  return tree
-    .everySubTree('ErrorableRadioButtons')
-    .find(i => i.props.name === name);
+  return tree.everySubTree('RadioButtons').find(i => i.props.name === name);
 }
 
 function answerQuestion(tree, name, value) {
@@ -42,7 +40,7 @@ describe('<EducationWizard>', () => {
     expect(tree.subTree('#wizardOptions').props.className).not.to.contain(
       'wizard-content-closed',
     );
-    expect(tree.everySubTree('ErrorableRadioButtons')).not.to.be.empty;
+    expect(tree.everySubTree('RadioButtons')).not.to.be.empty;
   });
   it('should show next relevant question', () => {
     const tree = SkinDeep.shallowRender(

@@ -27,26 +27,15 @@ export const selectFeatureCommunityCare = state =>
   toggleValues(state).vaOnlineSchedulingCommunityCare;
 export const selectFeatureDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingDirect;
-export const selectFeaturePastAppointments = state =>
-  toggleValues(state).vaOnlineSchedulingPast;
 export const selectFeatureVSPAppointmentNew = state =>
   toggleValues(state).vaOnlineSchedulingVspAppointmentNew;
-export const selectFeatureExpressCare = state =>
-  toggleValues(state).vaOnlineSchedulingExpressCare;
 export const selectFeatureExpressCareNewRequest = state =>
   toggleValues(state).vaOnlineSchedulingExpressCareNew;
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
-const selectFeatureFlatFacilityPage = state =>
-  toggleValues(state).vaOnlineSchedulingFlatFacilityPage;
-const selectFeatureFlatFacilityPageSacramento = state =>
-  toggleValues(state).vaOnlineSchedulingFlatFacilityPageSacramento;
 export const selectFeatureProjectCheetah = state =>
   toggleValues(state).vaOnlineSchedulingCheetah;
-export const selectUseFlatFacilityPage = state =>
-  selectFeatureFlatFacilityPage(state) &&
-  !selectIsCernerPatient(state) &&
-  (!selectIsRegisteredToSacramentoVA(state) ||
-    selectFeatureFlatFacilityPageSacramento(state));
+// Use flat facility page for non Cerner patients
+export const selectUseFlatFacilityPage = state => !selectIsCernerPatient(state);
 
 const selectFeatureProviderSelection = state =>
   toggleValues(state).vaOnlineSchedulingProviderSelection;
@@ -61,3 +50,9 @@ export const selectIsWelcomeModalDismissed = state =>
 
 export const selectSystemIds = state =>
   selectPatientFacilities(state)?.map(f => f.facilityId) || null;
+
+export const selectFeatureHomepageRefresh = state =>
+  toggleValues(state).vaOnlineSchedulingHomepageRefresh;
+
+export const selectFeatureFacilitySelectionV22 = state =>
+  toggleValues(state).vaOnlineFacilitySelectionV22;

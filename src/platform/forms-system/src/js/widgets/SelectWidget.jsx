@@ -58,7 +58,6 @@ function SelectWidget({
           {labels[option.value] || option.label}
         </option>
       ))}
-      )}
     </select>
   );
 }

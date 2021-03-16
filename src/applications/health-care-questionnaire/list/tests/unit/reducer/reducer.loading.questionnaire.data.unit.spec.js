@@ -5,23 +5,33 @@ import reducer from '../../../reducers';
 import {
   questionnaireListLoaded,
   questionnaireListLoading,
+  questionnaireListLoadedWithError,
 } from '../../../actions';
 
 import { sortQuestionnairesByStatus } from '../../../utils';
 
-import testData from '../../../api/my-questionnaires.sample.json';
+import testData from '../../../../shared/api/mock-data/my-questionnaires.sample.json';
 
 describe('health care-questionnaire -- questionnaire reducer --', () => {
   it('should set loading to true', () => {
     const action = questionnaireListLoading();
     const state = reducer.questionnaireListData(undefined, action);
     expect(state.list.status.isLoading).to.be.true;
+    expect(state.list.status.apiReturnedError).to.be.false;
+  });
+  it('api error - should set loading to false', () => {
+    const action = questionnaireListLoadedWithError();
+    const state = reducer.questionnaireListData(undefined, action);
+
+    expect(state.list.status.isLoading).to.be.false;
+    expect(state.list.status.apiReturnedError).to.be.true;
   });
   it('should set loading to false', () => {
     const action = questionnaireListLoaded();
     const state = reducer.questionnaireListData(undefined, action);
 
     expect(state.list.status.isLoading).to.be.false;
+    expect(state.list.status.apiReturnedError).to.be.false;
   });
   it('should set populate appointment data', () => {
     const sorted = sortQuestionnairesByStatus(testData.data);

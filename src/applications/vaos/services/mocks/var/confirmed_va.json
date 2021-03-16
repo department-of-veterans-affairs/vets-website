@@ -4,7 +4,7 @@
       "id": "20abc6741c00ac67b6cbf6b972d084c1",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2020-09-19T16:00:00Z",
+        "startDate": "2021-09-19T16:00:00Z",
         "clinicId": "308",
         "clinicFriendlyName": "Neighborhood Clinic",
         "facilityId": "983",
@@ -14,7 +14,7 @@
           {
             "bookingNote": "CC vista appt",
             "appointmentLength": "60",
-            "appointmentTime": "2020-09-19T16:00:00Z",
+            "appointmentTime": "2021-09-19T16:00:00Z",
             "clinic": {
               "name": "CHY OPT VAR1",
               "askForCheckIn": false,
@@ -58,7 +58,7 @@
       "id": "a784f714fa1606e39dee11e3bdbb7901",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2020-11-14T12:52:00Z",
+        "startDate": "2021-11-14T12:52:00Z",
         "sta6aid": "983",
         "clinicId": "848",
         "clinicFriendlyName": "CHY PC VAR2",
@@ -70,8 +70,8 @@
             "id": "CB2349303442341141231a",
             "appointmentKind": "CLINIC_BASED",
             "sourceSystem": "TMP",
-            "dateTime": "2020-11-14T12:52:00Z",
-            "desiredDate": "2020-10-10T17:40:00Z",
+            "dateTime": "2021-11-14T12:52:00Z",
+            "desiredDate": "2021-10-10T17:40:00Z",
             "duration": 20,
             "status": {
               "description": "F",
@@ -142,7 +142,7 @@
       "id": "c3e3e32701e23fdf389c06eae00fcb24",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2020-11-22T20:00:00Z",
+        "startDate": "2021-11-22T20:00:00Z",
         "sta6aid": null,
         "clinicId": null,
         "clinicFriendlyName": null,
@@ -154,8 +154,8 @@
             "id": "465f0120-e268-4f66-bdbf-96f44d9ad3a9",
             "appointmentKind": "ADHOC",
             "sourceSystem": "PV",
-            "dateTime": "2020-11-22T20:00:00Z",
-            "desiredDate": "2020-11-22T20:00:00Z",
+            "dateTime": "2021-11-22T20:00:00Z",
+            "desiredDate": "2021-11-22T20:00:00Z",
             "duration": 30,
             "status": {
               "description": "F",
@@ -256,7 +256,7 @@
       "id": "21cdc6741c00ac67b6cbf6b972d084c1",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2025-06-19T16:00:00Z",
+        "startDate": "2021-06-19T16:00:00Z",
         "clinicId": "308",
         "clinicFriendlyName": "Jennie's Lab",
         "facilityId": "983",
@@ -264,9 +264,9 @@
         "communityCare": false,
         "vdsAppointments": [
           {
-            "bookingNote": "RP test",
+            "bookingNote": "New issue: ASAP",
             "appointmentLength": "60",
-            "appointmentTime": "2020-12-07T16:00:00Z",
+            "appointmentTime": "2021-12-07T16:00:00Z",
             "clinic": {
               "name": "CHY OPT VAR1",
               "askForCheckIn": false,
@@ -283,17 +283,18 @@
       "id": "22cdc6741c00ac67b6cbf6b972d084c0",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2020-02-07T16:00:00Z",
+        "startDate": "2021-06-20T16:00:00Z",
         "clinicId": "308",
         "clinicFriendlyName": null,
         "facilityId": "983",
         "sta6aid": "983",
         "communityCare": false,
+        "phoneOnly": true,
         "vdsAppointments": [
           {
-            "bookingNote": "RP test",
+            "bookingNote": "Medication concern: test",
             "appointmentLength": "60",
-            "appointmentTime": "2020-12-07T16:00:00Z",
+            "appointmentTime": "2021-06-20T16:00:00Z",
             "clinic": {
               "name": "CHY OPT VAR1",
               "askForCheckIn": false,
@@ -754,7 +755,7 @@
             "id": "250afc0b-8551-4a79-bbc9-cf5cdd6575c2",
             "appointmentKind": "MOBILE_GFE",
             "sourceSystem": "SM",
-            "dateTime": "2020-11-22T13:35:00Z",
+            "dateTime": "2021-02-22T13:35:00Z",
             "duration": 20,
             "status": { "description": "F", "code": "FUTURE" },
             "schedulingRequestType": "NEXT_AVAILABLE_APPT",
@@ -900,7 +901,7 @@
             "id": "8a74bdfa-0e66-4848-87f5-0d9bb413ae6d",
             "appointmentKind": "ADHOC",
             "sourceSystem": "SM",
-            "dateTime": "2020-11-25T15:17:00Z",
+            "dateTime": "2021-02-25T15:17:00Z",
             "duration": 20,
             "status": { "description": "F", "code": "FUTURE" },
             "schedulingRequestType": "NEXT_AVAILABLE_APPT",
@@ -987,6 +988,7 @@
     }
   ],
   "meta": {
+    "errors": [],
     "pagination": {
       "currentPage": 0,
       "perPage": 0,

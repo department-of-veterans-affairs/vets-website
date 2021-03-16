@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchDebts } from '../actions';
 import DebtCard from './DebtCard';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 class AvailableDebts extends Component {
   componentDidMount() {
@@ -13,11 +13,11 @@ class AvailableDebts extends Component {
     return (
       <>
         <h2 className="vads-u-font-size--h4">
-          Which debts do you need help with?
+          What debt do you need help with?
         </h2>
         <p>
-          Please select at least one debt for payment plan, compromise, or
-          waiver consideration.
+          Select one or more debts below. We’ll help you choose a debt repayment
+          or relief option for each.
         </p>
         <p>
           You will be able to choose a repayment option for each debt you
@@ -27,17 +27,19 @@ class AvailableDebts extends Component {
           <DebtCard debt={debt} key={`${index}-${debt.currentAr}`} />
         ))}
         <h3 className="vads-u-font-size--h4">
-          What if I don't see the debt I'm looking for?
+          What if my debt isn’t listed here?
         </h3>
         <p className="vads-u-font-family--sans">
-          If you’ve received a letter about a VA debt, but don’t see it listed
-          here call the Debt Management Center (DMC) at{' '}
-          <Telephone contact="8008270648" />
-          {'.'}
+          If you received a letter about a VA benefit debt that isn’t listed
+          here, call us at <Telephone contact="8008270648" /> (or{' '}
+          <Telephone contact="16127136415" /> from overseas). We’re here Monday
+          through Friday, 7:30 a.m. to 7:00 p.m. ET.
         </p>
         <p>
-          For medical copayment debt, please go to Request financial hardship
-          assistance for copay bills to learn about your assistance options.
+          If you need help with a VA copay debt,{' '}
+          <a href="https://www.va.gov/health-care/pay-copay-bill/financial-hardship/">
+            learn how to request financial hardship assistance.
+          </a>
         </p>
       </>
     );

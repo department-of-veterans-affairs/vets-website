@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { object, func } from 'prop-types';
 import { fetchProviderDetail } from '../actions';
 import { focusElement } from 'platform/utilities/ui';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import LocationMap from '../components/LocationMap';
 import LocationAddress from '../components/search-results-items/common/LocationAddress';
 import LocationPhoneLink from '../components/search-results-items/common/LocationPhoneLink';

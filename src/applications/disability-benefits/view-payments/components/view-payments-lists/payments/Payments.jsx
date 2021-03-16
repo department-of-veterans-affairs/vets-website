@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
-import Table from '@department-of-veterans-affairs/formation-react/Table';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
+import Table from '@department-of-veterans-affairs/component-library/Table';
 import { clientServerErrorContent } from '../helpers';
 import { chunk } from 'lodash';
 

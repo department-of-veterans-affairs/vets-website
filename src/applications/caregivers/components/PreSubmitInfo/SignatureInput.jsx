@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
+import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 
 const SignatureInput = ({
   fullName,
@@ -67,7 +67,7 @@ const SignatureInput = ({
   );
 
   return (
-    <ErrorableTextInput
+    <TextInput
       additionalClass="signature-input"
       label={label}
       required={required}

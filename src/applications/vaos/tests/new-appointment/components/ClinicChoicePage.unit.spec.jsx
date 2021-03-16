@@ -199,7 +199,7 @@ describe('VAOS <ClinicChoicePage>', () => {
     );
   });
 
-  it('should show message if user choose a different clinic but isn not eligible for requests', async () => {
+  it('should show message if user choose a different clinic but is not eligible for requests', async () => {
     const clinics = [
       {
         id: '308',

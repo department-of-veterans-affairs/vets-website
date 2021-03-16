@@ -1,3 +1,5 @@
+import { MIN_RADIUS } from '../constants';
+
 function toRadians(value) {
   return (value * Math.PI) / 180;
 }
@@ -17,3 +19,16 @@ export function distBetween(lat1, lng1, lat2, lng2) {
 
   return R * c;
 }
+
+export const radiusFromBoundingBox = fbox => {
+  let radius = distBetween(
+    fbox[0].bbox[1],
+    fbox[0].bbox[0],
+    fbox[0].bbox[3],
+    fbox[0].bbox[2],
+  );
+
+  if (radius < MIN_RADIUS) radius = MIN_RADIUS;
+
+  return Math.max(radius, MIN_RADIUS);
+};

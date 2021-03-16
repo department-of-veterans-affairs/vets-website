@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -11,12 +12,24 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import IntroductionPageHelpers from '../components/introduction-page';
 
+import { getAppointTypeFromAppointment } from '../../shared/utils';
+
+import environment from 'platform/utilities/environment';
+import { removeFormApi } from 'platform/forms/save-in-progress/api';
+
 const IntroductionPage = props => {
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
-
+  const { isLoggedIn, route, savedForms, formId } = props;
   const { appointment } = props?.questionnaire?.context;
+  if (!appointment?.attributes) {
+    return (
+      <>
+        <LoadingIndicator message="Please wait while we load your appointment details..." />
+      </>
+    );
+  }
   const appointmentData = appointment?.attributes?.vdsAppointments
     ? appointment?.attributes?.vdsAppointments[0]
     : {};
@@ -27,8 +40,6 @@ const IntroductionPage = props => {
   if (expirationTime) {
     expirationTime = moment(expirationTime).format('MM/DD/YYYY');
   }
-
-  const { isLoggedIn, route, savedForms, formId } = props;
 
   const savedForm = savedForms.find(f => f.form === formId);
   const showLoginModel = () => props.toggleLoginModal(true, 'cta-form');
@@ -54,6 +65,7 @@ const IntroductionPage = props => {
           formConfig={props.route?.formConfig}
           resumeOnly={props.route?.formConfig.saveInProgress.resumeOnly}
           renderSignInMessage={UnAuthedWelcomeMessage}
+          downtime={props.route.formConfig.downtime}
         />
       );
     } else if (isLoggedIn) {
@@ -65,15 +77,17 @@ const IntroductionPage = props => {
     }
   };
 
-  const title = 'Answer primary care questionnaire';
+  const title = `Answer ${getAppointTypeFromAppointment(
+    appointment,
+  )} questionnaire`;
   const subTitle = facilityName;
   return (
     <div className="schemaform-intro healthcare-experience">
       <FormTitle title={title} subTitle={subTitle} />
       <h2 className="better-prepare-yours">
-        Please try to fill out this questionnaire at least [X] days before your
-        appointment. When you tell us about your symptoms and concerns, we can
-        better prepare to meet your needs.
+        Please try to fill out this questionnaire before your appointment. When
+        you tell us about your symptoms and concerns, we can better prepare to
+        meet your needs.
       </h2>
       <section className="after-details">
         <h3>What happens after I answer the questions?</h3>
@@ -145,6 +159,17 @@ const IntroductionPage = props => {
       <div className="omb-info--container">
         <OMBInfo expDate={expirationTime} />
       </div>
+      {!environment.isProduction() && (
+        <>
+          <button
+            onClick={() => {
+              removeFormApi(formId);
+            }}
+          >
+            Clear SiP Data
+          </button>
+        </>
+      )}
     </div>
   );
 };

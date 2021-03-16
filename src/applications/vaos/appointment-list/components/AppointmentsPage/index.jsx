@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 
 import ScheduleNewAppointment from './ScheduleNewAppointment';
@@ -15,12 +15,11 @@ import {
 } from '../../redux/selectors';
 import {
   selectFeatureRequests,
-  selectFeaturePastAppointments,
   selectFeatureDirectScheduling,
   selectFeatureCommunityCare,
-  selectFeatureExpressCare,
   selectIsWelcomeModalDismissed,
   selectIsCernerOnlyPatient,
+  selectFeatureProjectCheetah,
 } from '../../../redux/selectors';
 import { GA_PREFIX, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -29,11 +28,11 @@ import RequestExpressCare from './RequestExpressCare';
 import FutureAppointmentsList from '../FutureAppointmentsList';
 import PastAppointmentsList from '../PastAppointmentsList';
 import ExpressCareList from '../ExpressCareList';
-import PageLayout from './PageLayout';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import WarningNotification from '../../../components/WarningNotification';
+import ScheduleNewProjectCheetah from './ScheduleNewProjectCheetah';
 
 const pageTitle = 'VA appointments';
 
@@ -50,23 +49,19 @@ function AppointmentsPage({
   pendingStatus,
   showCommunityCare,
   showDirectScheduling,
-  showExpressCare,
-  showPastAppointments,
   showScheduleButton,
+  showCheetahScheduleButton,
   startNewAppointmentFlow,
   startNewExpressCareFlow,
 }) {
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
 
-    if (showExpressCare && futureStatus === FETCH_STATUS.notStarted) {
+    if (futureStatus === FETCH_STATUS.notStarted) {
       fetchFutureAppointments();
     }
 
-    if (
-      expressCare.enabled &&
-      expressCare.windowsStatus === FETCH_STATUS.notStarted
-    ) {
+    if (expressCare.windowsStatus === FETCH_STATUS.notStarted) {
       fetchExpressCareWindows();
     }
   }, []);
@@ -107,7 +102,7 @@ function AppointmentsPage({
   );
 
   return (
-    <PageLayout>
+    <>
       <h1 className="vads-u-flex--1">{pageTitle}</h1>
       <DowntimeNotification
         appTitle="VA online scheduling tool"
@@ -131,39 +126,41 @@ function AppointmentsPage({
           }}
         />
       )}
-      {!expressCare.enabled && (
-        <>
-          {showPastAppointments && <TabNav />}
-          {routes}
-        </>
+
+      {showCheetahScheduleButton && (
+        <ScheduleNewProjectCheetah
+          startNewAppointmentFlow={() => {
+            recordEvent({
+              event: `${GA_PREFIX}-schedule-project-cheetah-button-clicked`,
+            });
+            startNewAppointmentFlow();
+          }}
+        />
       )}
-      {expressCare.enabled && (
+
+      {isLoading && (
+        <LoadingIndicator message="Loading your appointment information" />
+      )}
+      {!isLoading && (
         <>
-          {isLoading && (
-            <LoadingIndicator message="Loading your appointment information" />
+          {!isCernerOnlyPatient && (
+            <RequestExpressCare
+              {...expressCare}
+              startNewExpressCareFlow={() => {
+                recordEvent({
+                  event: `${GA_PREFIX}-express-care-request-button-clicked`,
+                });
+                startNewExpressCareFlow();
+              }}
+            />
           )}
-          {!isLoading && (
-            <>
-              {!isCernerOnlyPatient && (
-                <RequestExpressCare
-                  {...expressCare}
-                  startNewExpressCareFlow={() => {
-                    recordEvent({
-                      event: `${GA_PREFIX}-express-care-request-button-clicked`,
-                    });
-                    startNewExpressCareFlow();
-                  }}
-                />
-              )}
-              {expressCare.hasRequests && (
-                <h2 className="vads-u-font-size--h3 vads-u-margin-y--3">
-                  Your upcoming, past, and Express Care appointments
-                </h2>
-              )}
-              <TabNav hasExpressCareRequests={expressCare.hasRequests} />
-              {routes}
-            </>
+          {expressCare.hasRequests && (
+            <h2 className="vads-u-font-size--h3 vads-u-margin-y--3">
+              Your upcoming, past, and Express Care appointments
+            </h2>
           )}
+          <TabNav hasExpressCareRequests={expressCare.hasRequests} />
+          {routes}
         </>
       )}
       <CancelAppointmentModal
@@ -171,7 +168,7 @@ function AppointmentsPage({
         onConfirm={confirmCancelAppointment}
         onClose={closeCancelAppointment}
       />
-    </PageLayout>
+    </>
   );
 }
 
@@ -181,10 +178,10 @@ AppointmentsPage.propTypes = {
   confirmCancelAppointment: PropTypes.func.isRequired,
   isCernerOnlyPatient: PropTypes.bool.isRequired,
   isWelcomeModalDismissed: PropTypes.bool.isRequired,
-  showPastAppointments: PropTypes.bool.isRequired,
   showCommunityCare: PropTypes.bool.isRequired,
   showDirectScheduling: PropTypes.bool.isRequired,
   startNewAppointmentFlow: PropTypes.func.isRequired,
+  showCheetahScheduleButton: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -192,11 +189,10 @@ function mapStateToProps(state) {
     pendingStatus: state.appointments.pendingStatus,
     futureStatus: selectFutureStatus(state),
     cancelInfo: getCancelInfo(state),
-    showPastAppointments: selectFeaturePastAppointments(state),
     showScheduleButton: selectFeatureRequests(state),
     showCommunityCare: selectFeatureCommunityCare(state),
     showDirectScheduling: selectFeatureDirectScheduling(state),
-    showExpressCare: selectFeatureExpressCare(state),
+    showCheetahScheduleButton: selectFeatureProjectCheetah(state),
     isWelcomeModalDismissed: selectIsWelcomeModalDismissed(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     expressCare: selectExpressCareAvailability(state),

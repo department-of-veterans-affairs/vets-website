@@ -18,9 +18,9 @@ describe('VAOS Slot service', () => {
       setFetchJSONResponse(global.fetch, slots);
 
       data = await getSlots({
-        siteId: 'var983',
+        siteId: '983',
         typeOfCareId: '323',
-        clinicId: 'var983_308',
+        clinicId: '983_308',
         startDate: '2020-05-01',
         endDate: '2020-06-30',
       });
@@ -57,9 +57,9 @@ describe('VAOS Slot service', () => {
       let error;
       try {
         data = await getSlots({
-          siteId: 'var983',
+          siteId: '983',
           typeOfCareId: '323',
-          clinicId: 'var983_308',
+          clinicId: '983_308',
           startDate: '2020-05-01',
           endDate: '2020-06-30',
         });

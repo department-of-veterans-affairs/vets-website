@@ -1,5 +1,8 @@
 import React from 'react';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import Telephone, {
+  CONTACTS,
+  PATTERNS,
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const deductionCodes = Object.freeze({
   '30': 'Compensation & pension debt',
@@ -160,7 +163,7 @@ export const renderWhyMightIHaveThisDebt = deductionCode => {
               status.
             </li>
             <li>
-              You‘ve received two payments for the same compensation and pension
+              You’ve received two payments for the same compensation and pension
               benefits.
             </li>
             <li>You didn’t let us know of additional income you might have.</li>
@@ -217,21 +220,30 @@ export const renderWhyMightIHaveThisDebt = deductionCode => {
 export const CoronaVirusAlert = () => (
   <>
     <h2 className="vads-u-font-family--serif vads-u-margin-top--0 vads-u-font-size--h3">
-      VA debt collection is on hold due to the coronavirus
+      We’re collecting again on VA debt
     </h2>
     <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
-      We’ve taken action to stop collection on newly established Veteran debt
-      and make it easier for Veterans to request extended repayment plans and
-      address other financial needs during this time.
+      On April 3, 2020, we paused collections on new VA debt. On{' '}
+      <strong>January 1, 2021</strong>, we started to send out debt collection
+      letters again. If we granted you an extension due to COVID-19, we’ll start
+      collection again on <strong>February 1, 2021</strong>.
     </p>
     <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
-      You won’t receive any debt collection letters in the mail until after
-      December 31, 2020. For the latest information about managing VA debt,
-      visit our{' '}
-      <a href="http://va.gov/coronavirus-veteran-frequently-asked-questions/">
-        coronavirus FAQs
+      If you can’t make your payments, we can help. To avoid late charges,
+      interest, or other collection actions, make a payment or request help now.
+      Call us at {<Telephone contact={CONTACTS.DMC || '800-827-0648'} />} (or{' '}
+      {
+        <Telephone
+          contact={CONTACTS.DMC_OVERSEAS || '1-612-713-6415'}
+          pattern={PATTERNS.OUTSIDE_US}
+        />
+      }{' '}
+      from overseas) We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m.
+      ET. Or send us a question through our{' '}
+      <a href="https://iris.custhelp.va.gov/app/ask">
+        {' '}
+        online question form (called IRIS)
       </a>
-      {'.'}
     </p>
   </>
 );

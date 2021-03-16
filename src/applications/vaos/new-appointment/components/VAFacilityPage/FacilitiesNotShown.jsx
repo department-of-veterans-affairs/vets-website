@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
-import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
+import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import recordEvent from 'platform/monitoring/record-event';
 import FacilityPhone from '../../../components/FacilityPhone';
 import { GA_PREFIX } from '../../../utils/constants';
+import State from '../../../components/State';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 const UNSUPPORTED_FACILITY_RANGE = 100;
 
@@ -87,7 +89,8 @@ export default function FacilitiesNotShown({
               <li key={facility.id} className="vads-u-margin-top--2">
                 <strong>{facility.name}</strong>
                 <br />
-                {facility.address?.city}, {facility.address?.state}
+                {facility.address?.city},{' '}
+                <State state={facility.address?.state} />
                 <br />
                 {!!facility.legacyVAR[sortMethod] && (
                   <>
@@ -110,10 +113,8 @@ export default function FacilitiesNotShown({
           <p className="vads-u-margin-top--0">
             Call the facility directly to schedule your appointment,{' '}
             <strong>or </strong>
-            <a
+            <NewTabAnchor
               href="/find-locations"
-              target="_blank"
-              rel="noopener nofollow"
               onClick={() =>
                 recordEvent({
                   event: `${GA_PREFIX}-facilities-not-listed-locator-click`,
@@ -121,7 +122,7 @@ export default function FacilitiesNotShown({
               }
             >
               search for a different VA location
-            </a>
+            </NewTabAnchor>
             .
           </p>
         </div>

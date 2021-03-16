@@ -22,8 +22,8 @@ describe('DEA benefit', () => {
       'ojtProfile',
     );
     initApplicationMock(institutionProfile, deaSearchResults);
-    cy.visit('/gi-bill-comparison-tool').injectAxe();
-    cy.axeCheck();
+    cy.visit('/gi-bill-comparison-tool');
+    cy.injectAxeThenAxeCheck();
   });
 
   it('path is valid without errors', () => {
@@ -37,6 +37,7 @@ describe('DEA benefit', () => {
 
     // Search page
     cy.wait('@defaultSearch');
+    cy.injectAxeThenAxeCheck();
     cy.url().should('include', `/search?category=school&name=${searchTerm}`);
 
     // verify search results and housing rates
@@ -72,6 +73,7 @@ describe('DEA benefit', () => {
 
     // Profile page
     cy.wait('@ojtProfile');
+    cy.injectAxeThenAxeCheck();
     cy.url().should('include', `/profile/${ojtFacilityCode}`);
     cy.get('.profile-page').should('be.visible');
 
@@ -106,6 +108,7 @@ describe('DEA benefit', () => {
     breadCrumb('/gi-bill-comparison-tool/');
 
     // Search again
+    cy.get('.keyword-search input[type="text"]').type(searchTerm);
     cy.get('#search-button').click();
 
     // Search page
@@ -124,6 +127,7 @@ describe('DEA benefit', () => {
 
     // Profile page
     cy.wait(`@profile${facilityCode}`);
+    cy.injectAxeThenAxeCheck();
     cy.url().should('include', `/profile/${facilityCode}`);
     cy.get('.profile-page').should('be.visible');
 

@@ -27,7 +27,10 @@ const fetchDebtLettersVBMSSuccess = debtLinks => ({
   debtLinks,
 });
 
-const fetchDebtLettersFailure = () => ({ type: DEBTS_FETCH_FAILURE });
+const fetchDebtLettersFailure = errors => ({
+  type: DEBTS_FETCH_FAILURE,
+  errors,
+});
 const fetchDebtLettersVBMSFailure = () => ({
   type: DEBT_LETTERS_FETCH_FAILURE,
 });
@@ -93,9 +96,9 @@ export const fetchDebtLetters = () => async dispatch => {
       ? await apiRequest(`${environment.API_URL}/v0/debts`, options)
       : await debtLettersSuccess();
 
-    if (Object.keys(response).includes('error')) {
+    if (Object.keys(response).includes('errors')) {
       recordEvent({ event: 'bam-get-veteran-dmc-info-failed' });
-      return dispatch(fetchDebtLettersFailure());
+      return dispatch(fetchDebtLettersFailure(response.errors));
     }
 
     const approvedDeductionCodes = Object.keys(deductionCodes);
@@ -123,6 +126,6 @@ export const fetchDebtLetters = () => async dispatch => {
     return dispatch(fetchDebtLettersSuccess(filteredResponse));
   } catch (error) {
     recordEvent({ event: 'bam-get-veteran-dmc-info-failed' });
-    return dispatch(fetchDebtLettersFailure());
+    return dispatch(fetchDebtLettersFailure(error.errors));
   }
 };

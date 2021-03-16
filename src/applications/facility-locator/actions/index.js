@@ -1,5 +1,8 @@
 import mapboxClient from '../components/MapboxClient';
-import { reverseGeocodeBox } from '../utils/mapHelpers';
+import {
+  reverseGeocodeBox,
+  searchCriteraFromCoords,
+} from '../utils/mapHelpers';
 import {
   SEARCH_STARTED,
   SEARCH_QUERY_UPDATED,
@@ -10,9 +13,11 @@ import {
   FETCH_SPECIALTIES_DONE,
   FETCH_SPECIALTIES_FAILED,
   CLEAR_SEARCH_RESULTS,
+  CLEAR_SEARCH_TEXT,
   GEOCODE_STARTED,
   GEOCODE_COMPLETE,
   GEOCODE_FAILED,
+  GEOCODE_CLEAR_ERROR,
   MAP_MOVED,
 } from '../utils/actionTypes';
 import LocatorApi from '../api';
@@ -24,7 +29,7 @@ import {
 } from '../constants';
 
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import { distBetween } from '../utils/facilityDistance';
+import { distBetween, radiusFromBoundingBox } from '../utils/facilityDistance';
 
 const mbxClient = mbxGeo(mapboxClient);
 /**
@@ -282,12 +287,7 @@ export const genBBoxFromAddress = query => {
           ];
         }
 
-        const radius = distBetween(
-          features[0].bbox[1],
-          features[0].bbox[0],
-          features[0].bbox[3],
-          features[0].bbox[2],
-        );
+        const radius = radiusFromBoundingBox(features);
 
         dispatch({
           type: SEARCH_QUERY_UPDATED,
@@ -347,12 +347,9 @@ export const genSearchAreaFromCenter = query => {
             features[0].context.find(v => v.id.includes('postcode')) || {};
           const location = zip.text || features[0].place_name;
 
-          const radius = distBetween(
-            currentBounds[1],
-            currentBounds[0],
-            currentBounds[3],
-            currentBounds[2],
-          );
+          // Radius is computed as the distance from the center point
+          // to the western edge of the bounding box
+          const radius = distBetween(lat, lng, lat, currentBounds[0]);
 
           dispatch({
             type: SEARCH_QUERY_UPDATED,
@@ -408,4 +405,33 @@ export const getProviderSpecialties = () => async dispatch => {
     dispatch({ type: FETCH_SPECIALTIES_FAILED, error });
     return ['Services Temporarily Unavailable'];
   }
+};
+
+export const geolocateUser = () => async dispatch => {
+  if (navigator?.geolocation?.getCurrentPosition) {
+    dispatch({ type: GEOCODE_STARTED });
+    navigator.geolocation.getCurrentPosition(
+      async currentPosition => {
+        const query = await searchCriteraFromCoords(
+          currentPosition.coords.longitude,
+          currentPosition.coords.latitude,
+        );
+        dispatch({ type: GEOCODE_COMPLETE });
+        dispatch(updateSearchQuery(query));
+      },
+      e => {
+        dispatch({ type: GEOCODE_FAILED, code: e.code });
+      },
+    );
+  } else {
+    dispatch({ type: GEOCODE_FAILED, code: -1 });
+  }
+};
+
+export const clearGeocodeError = () => async dispatch => {
+  dispatch({ type: GEOCODE_CLEAR_ERROR });
+};
+
+export const clearSearchText = () => async dispatch => {
+  dispatch({ type: CLEAR_SEARCH_TEXT });
 };

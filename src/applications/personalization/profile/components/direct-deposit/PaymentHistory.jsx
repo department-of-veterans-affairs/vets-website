@@ -1,7 +1,5 @@
 import React from 'react';
-
-import EbenefitsLink from '~/platform/site-wide/ebenefits/containers/EbenefitsLink';
-
+import recordEvent from '~/platform/monitoring/record-event';
 import ProfileInfoTable from '../ProfileInfoTable';
 
 function PaymentHistory() {
@@ -13,9 +11,18 @@ function PaymentHistory() {
             Check your payment history for your VA disability compensation,
             pension, and education benefits
           </p>
-          <EbenefitsLink path="ebenefits/about/feature?feature=payment-history">
+          <a
+            href="/va-payment-history/payments/"
+            onClick={() =>
+              recordEvent({
+                event: 'profile-navigation',
+                'profile-action': 'view-link',
+                'profile-section': 'view-payment-history',
+              })
+            }
+          >
             View your payment history
-          </EbenefitsLink>
+          </a>
         </>
       ),
     },

@@ -1,13 +1,13 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import asyncLoader from 'platform/utilities/ui/asyncLoader';
-import AppointmentsPage from './appointment-list/components/AppointmentsPage';
 import VAOSApp from './components/VAOSApp';
 import ErrorBoundary from './components/ErrorBoundary';
 import { captureError } from './utils/error';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import ErrorMessage from './components/ErrorMessage';
 import FullWidthLayout from './components/FullWidthLayout';
+import { AppointmentList } from './appointment-list';
 
 // Handles errors loading components by doing one page reload and showing
 // an error message otherwise
@@ -53,7 +53,7 @@ export default function createRoutesWithStore(store) {
             )}
           />
           <Route
-            path="/new-project-cheetah-booking"
+            path="/new-covid-19-vaccine-booking"
             component={asyncLoader(() =>
               import(/* webpackChunkName: "project-cheetah" */ './project-cheetah')
                 .then(({ NewBooking, reducer }) => {
@@ -63,7 +63,7 @@ export default function createRoutesWithStore(store) {
                 .catch(handleLoadError),
             )}
           />
-          <Route path="/" component={AppointmentsPage} />
+          <Route path="/" component={AppointmentList} />
         </Switch>
       </VAOSApp>
     </ErrorBoundary>

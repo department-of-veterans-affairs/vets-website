@@ -211,7 +211,7 @@ export const UnauthContent = () => (
       <a href="tel:711" aria-label="TTY. 7 1 1.">
         TTY: 711
       </a>
-      ). We’re here Monday through Saturday, 7:00 a.m. to 11:00 p.m. ET.
+      ). We’re here 24/7.
     </p>
     <MoreInfoAboutBenefits />
   </>

@@ -1,4 +1,5 @@
 import React from 'react';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import ViewDependentsLists from './ViewDependentsLists';
 import ViewDependentsSidebar from '../components/ViewDependentsSidebar/ViewDependentsSidebar';
 import ViewDependentsHeader from '../components/ViewDependentsHeader/ViewDependentsHeader';
@@ -8,15 +9,24 @@ import {
   secondSidebarBlock,
   thirdSidebarBlock,
 } from '../components/ViewDependentsSidebar/ViewDependentsSidebarBlockStates/ViewDependentSidebarBlockStates';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { isServerError, isClientError } from '../util';
 import { errorFragment, infoFragment } from './helpers';
 
 function ViewDependentsLayout(props) {
   let mainContent;
 
-  if (props.error && isServerError(props.error.code)) {
-    mainContent = <AlertBox content={errorFragment} status="error" />;
+  if (props.loading) {
+    mainContent = <LoadingIndicator message="Loading your information..." />;
+  } else if (props.error && isServerError(props.error.code)) {
+    mainContent = (
+      <AlertBox
+        content={errorFragment}
+        status="error"
+        headline="We're sorry. Something went wrong on our end"
+        level="2"
+      />
+    );
   } else if (props.error && isClientError(props.error.code)) {
     mainContent = <AlertBox content={infoFragment} status="info" />;
   } else if (
@@ -27,6 +37,7 @@ function ViewDependentsLayout(props) {
   } else {
     mainContent = (
       <ViewDependentsLists
+        manageDependentsToggle={props.manageDependentsToggle}
         loading={props.loading}
         onAwardDependents={props.onAwardDependents}
         notOnAwardDependents={props.notOnAwardDependents}
@@ -37,7 +48,7 @@ function ViewDependentsLayout(props) {
   const layout = (
     <div className="vads-l-row">
       <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-        <ViewDependentsHeader />
+        <ViewDependentsHeader dependentsToggle={props.dependentsToggle} />
         {mainContent}
       </div>
       <div className="vads-l-col--12 medium-screen:vads-l-col--4">

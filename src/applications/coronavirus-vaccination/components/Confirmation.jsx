@@ -3,6 +3,11 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import { focusElement } from 'platform/utilities/ui';
+import {
+  CaregiverMessage,
+  ConfirmationMessage,
+  ContactRules,
+} from './VerbiageHelper';
 
 function Confirmation({ router, formData }) {
   useEffect(() => {
@@ -20,24 +25,26 @@ function Confirmation({ router, formData }) {
       <h1 className="no-outline" id="covid-vaccination-heading-confirmation">
         We've received your information
       </h1>
+      <ConfirmationMessage />
+      <CaregiverMessage />
+      <h2>How will VA contact me when I can get a COVID-19 vaccine?</h2>
+      <ContactRules />
       <p>
-        Thank you for signing up to stay informed about COVID-19 vaccines at VA.
-        When we have new information to share about our COVID-19 plans and your
-        vaccine options, we'll send you updates by email or text.
+        <strong>Please know:</strong> By sharing your plans for getting a
+        vaccine, you help us better plan our efforts. But we’ll still contact
+        every eligible Veteran in each risk group to ask if they want to get a
+        vaccine. You don’t need to call or come to a VA facility to request or
+        reserve a vaccine.
       </p>
       <p>
-        You can also visit our main{' '}
-        <a href="/health-care/covid-19-vaccine/">
-          COVID-19 vaccines at VA page
-        </a>{' '}
-        for the latest information and answers to common questions.
-      </p>
-      <p>
-        <strong>Remember:</strong> This form doesn’t sign you up to get a
-        vaccine. And you can change your mind about getting a vaccine at any
-        time. We’ll use the information you provided to understand your interest
-        and keep you informed. If you want to update your information later, you
-        can submit a new form.
+        You can also get updates and answers to common questions on our main{' '}
+        <a
+          href="/health-care/covid-19-vaccine/"
+          aria-label="Main COVID-19 vaccines page"
+        >
+          COVID-19 vaccines page
+        </a>
+        .
       </p>
     </>
   );

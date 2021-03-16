@@ -50,7 +50,7 @@ describe('<ReceiveTextMessages/>', () => {
 
   it('renders the checkbox when conditions do allow checkbox to be rendered', () => {
     const component = enzyme.shallow(<ReceiveTextMessages {...props} />);
-    const errorableCheckbox = component.find('ErrorableCheckbox');
+    const errorableCheckbox = component.find('Checkbox');
     expect(errorableCheckbox, 'the checkbox rendered').to.have.lengthOf(1);
     component.unmount();
   });

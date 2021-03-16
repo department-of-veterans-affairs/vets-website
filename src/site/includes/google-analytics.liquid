@@ -18,6 +18,7 @@
   {% when 'vagovstaging' %}
     {% capture google_analytics_js %}
       {% include "src/site/assets/js/google-analytics/vagovstaging.js" %}
+      {% include "src/site/assets/js/google-analytics/medallia-events.js" %}
     {% endcapture %}
 
     {% capture google_analytics_noscript %}
@@ -28,6 +29,7 @@
   {% else %}
     {% capture google_analytics_js %}
       {% include "src/site/assets/js/google-analytics/vagovprod.js" %}
+      {% include "src/site/assets/js/google-analytics/medallia-events.js" %}
     {% endcapture %}
 
     {% capture google_analytics_noscript %}

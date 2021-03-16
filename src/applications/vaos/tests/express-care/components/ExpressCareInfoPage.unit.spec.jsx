@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import MockDate from 'mockdate';
 import moment from 'moment';
 import { waitFor, fireEvent } from '@testing-library/dom';
 import React from 'react';
@@ -19,11 +20,20 @@ const initialState = {
       facilities: [{ facilityId: '983', isCerner: false }],
     },
   },
+  featureToggles: {
+    vaOnlineSchedulingExpressCareNew: true,
+  },
 };
 
 describe('VAOS integration: Express Care info page', () => {
-  beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
+  beforeEach(() => {
+    mockFetch();
+    MockDate.set(moment('2020-01-26T14:00:00'));
+  });
+  afterEach(() => {
+    resetFetch();
+    MockDate.reset();
+  });
 
   it('should render info page when there are active windows', async () => {
     const store = createTestStore({
@@ -147,6 +157,22 @@ describe('VAOS integration: Express Care info page', () => {
   });
 
   it('should render warning message', async () => {
+    const today = moment();
+    const startTime = today
+      .clone()
+      .subtract(5, 'minutes')
+      .tz('America/Denver');
+    const endTime = today
+      .clone()
+      .add(3, 'minutes')
+      .tz('America/Denver');
+
+    setupExpressCareMocks({
+      startTime,
+      endTime,
+      isUnderRequestLimit: true,
+      isWindowOpen: true,
+    });
     setFetchJSONResponse(
       global.fetch.withArgs(`${environment.API_URL}/v0/maintenance_windows/`),
       {

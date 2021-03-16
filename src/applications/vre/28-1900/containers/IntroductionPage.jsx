@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
 import Scroll from 'react-scroll';
 import { focusElement, getScrollOptions } from 'platform/utilities/ui';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import { getEligiblePages } from 'platform/forms-system/src/js/routing';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { CHAPTER_31_ROOT_URL, WIZARD_STATUS } from '../constants';
+import recordEvent from 'platform/monitoring/record-event';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -14,22 +13,10 @@ const scrollToTop = () => {
 };
 
 const IntroductionPage = props => {
-  const [pageList, setPageList] = useState([]);
-  useEffect(
-    () => {
-      const getPageList = () => {
-        return getEligiblePages(
-          props.route.pageList,
-          props.form.data,
-          '/introduction',
-        );
-      };
-      setPageList(getPageList());
-      focusElement('.schemaform-title > h1');
-      scrollToTop();
-    },
-    [props.form.data, props.route.pageList],
-  );
+  useEffect(() => {
+    focusElement('.schemaform-title > h1');
+    scrollToTop();
+  }, []);
 
   return (
     <div className="schemaform-intro">
@@ -37,19 +24,14 @@ const IntroductionPage = props => {
       <p>
         Equal to VA Form 21-1900 (28-1900 Veteran Readiness and Employment).
       </p>
-      {pageList.length < 1 ? (
-        <LoadingIndicator message="Checking status..." />
-      ) : (
-        <SaveInProgressIntro
-          prefillEnabled={props.route.formConfig.prefillEnabled}
-          messages={props.route.formConfig.savedFormMessages}
-          pageList={pageList?.pages}
-          startText="Start the Application"
-        >
-          Please complete the 21-1900 form to apply for Vocational
-          Rehabilitation.
-        </SaveInProgressIntro>
-      )}
+      <SaveInProgressIntro
+        prefillEnabled={props.route.formConfig.prefillEnabled}
+        messages={props.route.formConfig.savedFormMessages}
+        pageList={props.route.pageList}
+        startText="Start the Application"
+      >
+        Please complete the 21-1900 form to apply for Vocational Rehabilitation.
+      </SaveInProgressIntro>
       <h4>
         Follow the steps below to apply for Veteran Readiness and Employment.
       </h4>
@@ -101,18 +83,28 @@ const IntroductionPage = props => {
             </p>
           </li>
         </ol>
+        <p>
+          If you’re not sure this is the right form, you can{' '}
+          <a
+            href={`${CHAPTER_31_ROOT_URL}`}
+            onClick={() => {
+              recordEvent({
+                event: 'howToWizard-start-over',
+              });
+              sessionStorage.removeItem(WIZARD_STATUS);
+            }}
+          >
+            go back and answer the questions again.
+          </a>
+        </p>
       </div>
-      {pageList.length < 1 ? (
-        <LoadingIndicator message="Checking status..." />
-      ) : (
-        <SaveInProgressIntro
-          buttonOnly
-          prefillEnabled={props.route.formConfig.prefillEnabled}
-          messages={props.route.formConfig.savedFormMessages}
-          pageList={pageList?.pages}
-          startText="Start the Application"
-        />
-      )}
+      <SaveInProgressIntro
+        buttonOnly
+        prefillEnabled={props.route.formConfig.prefillEnabled}
+        messages={props.route.formConfig.savedFormMessages}
+        pageList={props.route.pageList}
+        startText="Start the Application"
+      />
       <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
         <OMBInfo resBurden={30} ombNumber="21-1900" expDate="12/31/2021" />
       </div>
@@ -120,9 +112,4 @@ const IntroductionPage = props => {
   );
 };
 
-const mapStateToProps = state => ({
-  isLoggedIn: state?.user?.login?.currentlyLoggedIn,
-  form: state?.form,
-});
-
-export default connect(mapStateToProps)(IntroductionPage);
+export default IntroductionPage;

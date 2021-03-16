@@ -118,4 +118,22 @@ describe('Schemaform <RadioWidget>', () => {
 
     expect(tree.text()).not.to.contain('Nested');
   });
+  it('should add custom props', () => {
+    const onChange = sinon.spy();
+    const options = {
+      enumOptions: [
+        { label: 'Testing', value: '1' },
+        { label: 'Testing2', value: '2' },
+      ],
+      widgetProps: {
+        1: { 'data-test': 'first' },
+        2: { 'data-test': 'second' },
+      },
+    };
+    const tree = SkinDeep.shallowRender(
+      <RadioWidget value onChange={onChange} options={options} />,
+    );
+    expect(tree.everySubTree('input')[0].props['data-test']).to.equal('first');
+    expect(tree.everySubTree('input')[1].props['data-test']).to.equal('second');
+  });
 });

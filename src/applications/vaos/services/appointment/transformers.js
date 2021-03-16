@@ -1,3 +1,6 @@
+/**
+ * @module services/Appointment/transformers
+ */
 import moment from '../../lib/moment-tz';
 
 import {
@@ -271,9 +274,7 @@ function setParticipant(appt) {
       if (appt.clinicId) {
         participant.push({
           actor: {
-            reference: `HealthcareService/var${appt.facilityId}_${
-              appt.clinicId
-            }`,
+            reference: `HealthcareService/${appt.facilityId}_${appt.clinicId}`,
             display:
               appt.clinicFriendlyName ||
               appt.vdsAppointments?.[0]?.clinic?.name ||
@@ -285,7 +286,7 @@ function setParticipant(appt) {
       if (appt.sta6aid) {
         participant.push({
           actor: {
-            reference: `Location/var${appt.sta6aid}`,
+            reference: `Location/${appt.sta6aid}`,
           },
         });
       }
@@ -326,7 +327,7 @@ function setParticipant(appt) {
         return [
           {
             actor: {
-              reference: `Location/var${appt.facility.facilityCode}`,
+              reference: `Location/${appt.facility.facilityCode}`,
             },
           },
         ];
@@ -378,14 +379,14 @@ function setContained(appt) {
         const { tasInfo } = appt.vvsAppointments[0];
         const service = {
           resourceType: 'HealthcareService',
-          id: `HealthcareService/var${appt.vvsAppointments[0].id}`,
+          id: `HealthcareService/${appt.vvsAppointments[0].id}`,
           type: [
             {
               text: 'Patient Virtual Meeting Room',
             },
           ],
           providedBy: {
-            reference: `Organization/var${appt.facilityId}`,
+            reference: `Organization/${appt.facilityId}`,
           },
           characteristic: [
             {
@@ -423,7 +424,7 @@ function setContained(appt) {
           contained.push(transformATLASLocation(tasInfo));
         } else if (appt.sta6aid) {
           service.location = {
-            reference: `Location/var${appt.sta6aid}`,
+            reference: `Location/${appt.sta6aid}`,
           };
         }
         contained.push(service);
@@ -544,83 +545,105 @@ function setLegacyVAR(appt) {
  * Transforms VAR appointment to FHIR appointment resource
  *
  * @export
- * @param {Array} appointments An array of appointments from the VA facilities api
- * @returns {Array} An array of FHIR Appointment resource
+ * @param {Object} appt An appointment from MAS or the VAR community care api
+ * @returns {Appointment} An Appointment resource
  */
-export function transformConfirmedAppointments(appointments) {
-  return appointments.map(appt => {
-    const minutesDuration = getAppointmentDuration(appt);
-    const start = getMomentConfirmedDate(appt).format();
-    const isPast = isPastAppointment(appt);
-    const isCC = isCommunityCare(appt);
-    return {
-      resourceType: 'Appointment',
-      id: `var${appt.id}`,
-      status: getConfirmedStatus(appt, isPast),
-      description: getVistaStatus(appt),
-      start,
-      minutesDuration,
-      comment:
-        appt.instructionsToVeteran ||
-        (!appt.communityCare && appt.vdsAppointments?.[0]?.bookingNote) ||
-        appt.vvsAppointments?.[0]?.instructionsTitle,
-      participant: setParticipant(appt),
-      contained: setContained(appt),
-      legacyVAR: setLegacyVAR(appt),
-      vaos: {
-        isPastAppointment: isPast,
-        appointmentType: getAppointmentType(appt),
-        isCommunityCare: isCC,
-        timeZone: isCC ? appt.timeZone : null,
-      },
-    };
-  });
+export function transformConfirmedAppointment(appt) {
+  const minutesDuration = getAppointmentDuration(appt);
+  const start = getMomentConfirmedDate(appt).format();
+  const isPast = isPastAppointment(appt);
+  const isCC = isCommunityCare(appt);
+  return {
+    resourceType: 'Appointment',
+    id: appt.id,
+    status: getConfirmedStatus(appt, isPast),
+    description: getVistaStatus(appt),
+    start,
+    minutesDuration,
+    comment:
+      appt.instructionsToVeteran ||
+      (!appt.communityCare && appt.vdsAppointments?.[0]?.bookingNote) ||
+      appt.vvsAppointments?.[0]?.instructionsTitle,
+    participant: setParticipant(appt),
+    contained: setContained(appt),
+    legacyVAR: setLegacyVAR(appt),
+    vaos: {
+      isPastAppointment: isPast,
+      appointmentType: getAppointmentType(appt),
+      isCommunityCare: isCC,
+      timeZone: isCC ? appt.timeZone : null,
+      isPhoneAppointment: appt.phoneOnly,
+    },
+  };
 }
 
 /**
- * Transforms VAR appointment request to FHIR appointment resource
+ * Transforms MAS appointment to FHIR appointment resource
  *
  * @export
- * @param {Array} appointments An array of appointments from the VA facilities api
- * @returns {Array} An array of FHIR Appointment resource
+ * @param {Array<Object>} appointments An array of appointments from MAS
+ *   or the VAR community care api
+ * @returns {Array<Appointment>} An array of FHIR Appointment resource
+ */
+export function transformConfirmedAppointments(appointments) {
+  return appointments.map(appt => transformConfirmedAppointment(appt));
+}
+
+/**
+ * Transforms a VAR appointment request to FHIR appointment resource
+ *
+ * @export
+ * @param {Object} appointment An appointment request from var-resources
+ * @returns {Appointment} A FHIR Appointment resource
+ */
+export function transformPendingAppointment(appt) {
+  const isCC = isCommunityCare(appt);
+  const isExpressCare = appt.typeOfCareId === EXPRESS_CARE;
+  const requestedPeriod = getRequestedPeriods(appt);
+  const unableToReachVeteran = appt.appointmentRequestDetailCode?.some(
+    detail => detail.detailCode?.code === UNABLE_TO_REACH_VETERAN_DETCODE,
+  );
+  const created = moment.parseZone(appt.date).format('YYYY-MM-DD');
+
+  return {
+    resourceType: 'Appointment',
+    id: appt.id,
+    status: getRequestStatus(appt, isExpressCare),
+    created,
+    cancelationReason: unableToReachVeteran
+      ? { text: UNABLE_TO_REACH_VETERAN_DETCODE }
+      : null,
+    requestedPeriod,
+    start: isExpressCare ? created : undefined,
+    minutesDuration: 60,
+    type: {
+      coding: [
+        {
+          code: appt.typeOfCareId,
+          display: appt.appointmentType,
+        },
+      ],
+    },
+    reason: getPurposeOfVisit(appt),
+    participant: setParticipant(appt),
+    contained: setContained(appt),
+    legacyVAR: setLegacyVAR(appt),
+    comment: appt.additionalInformation,
+    vaos: {
+      appointmentType: getAppointmentType(appt),
+      isCommunityCare: isCC,
+      isExpressCare,
+    },
+  };
+}
+
+/**
+ * Transforms an array of VAR appointment requests to FHIR appointment resources
+ *
+ * @export
+ * @param {Array<Object>} appointments An array of appointment requests from var-resources
+ * @returns {Array<Appointment>} An array of FHIR Appointment resource
  */
 export function transformPendingAppointments(requests) {
-  return requests.map(appt => {
-    const isCC = isCommunityCare(appt);
-    const isExpressCare = appt.typeOfCareId === EXPRESS_CARE;
-    const requestedPeriod = getRequestedPeriods(appt);
-    const unableToReachVeteran = appt.appointmentRequestDetailCode?.some(
-      detail => detail.detailCode?.code === UNABLE_TO_REACH_VETERAN_DETCODE,
-    );
-
-    return {
-      resourceType: 'Appointment',
-      id: `var${appt.id}`,
-      status: getRequestStatus(appt, isExpressCare),
-      cancelationReason: unableToReachVeteran
-        ? { text: UNABLE_TO_REACH_VETERAN_DETCODE }
-        : null,
-      requestedPeriod,
-      start: isExpressCare ? appt.date : undefined,
-      minutesDuration: 60,
-      type: {
-        coding: [
-          {
-            code: appt.typeOfCareId,
-            display: appt.appointmentType,
-          },
-        ],
-      },
-      reason: getPurposeOfVisit(appt),
-      participant: setParticipant(appt),
-      contained: setContained(appt),
-      legacyVAR: setLegacyVAR(appt),
-      comment: appt.additionalInformation,
-      vaos: {
-        appointmentType: getAppointmentType(appt),
-        isCommunityCare: isCC,
-        isExpressCare,
-      },
-    };
-  });
+  return requests.map(appt => transformPendingAppointment(appt));
 }

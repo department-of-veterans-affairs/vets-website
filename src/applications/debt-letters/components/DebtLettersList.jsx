@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CoronaVirusAlert } from '../const/deduction-codes';
 import { DebtLettersTable } from './DebtLettersTable';
 import { connect } from 'react-redux';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 const DebtLettersList = ({ debtLinks, isVBMSError }) => {
   const renderAlert = () => (
@@ -19,9 +18,7 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
           You can't download your debt letters because something went wrong on
           our end.
         </p>
-        <p className="vads-u-margin-bottom--1">
-          <strong>What you can do</strong>
-        </p>
+        <h4>What you can do</h4>
         <p className="vads-u-font-family--sans vads-u-margin-y--0">
           You can check back later or call the Debt Management Center at{' '}
           <Telephone contact="8008270648" /> to find out more information about
@@ -46,12 +43,6 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
             </p>
             <DebtLettersTable debtLinks={debtLinks} />
           </>
-        )}
-      {!isVBMSError &&
-        debtLinks.length < 1 && (
-          <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3">
-            <CoronaVirusAlert />
-          </div>
         )}
       <div className="vads-u-margin-bottom--6 vads-u-margin-top--3">
         <h3 className="vads-u-margin-y--0">

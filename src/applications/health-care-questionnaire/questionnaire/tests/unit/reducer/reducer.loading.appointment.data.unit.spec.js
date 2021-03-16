@@ -7,7 +7,7 @@ import {
   questionnaireAppointmentLoading,
 } from '../../../actions';
 
-import testData from '../../../api/appointment-data.json';
+import testData from '../../../../shared/api/mock-data/appointment-data.json';
 
 describe('health care questionnaire -- questionnaire reducer --', () => {
   it('should set loading to true', () => {
@@ -30,5 +30,6 @@ describe('health care questionnaire -- questionnaire reducer --', () => {
       state.context.appointment.attributes.vdsAppointments.length,
     ).to.be.equal(1);
     expect(state.context.appointment.attributes.vdsAppointments[0]).to.be.exist;
+    expect(state.context.questionnaire.id).to.exist;
   });
 });

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import 'url-search-params-polyfill';
 
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchFormStatus } from '../actions';
 import formConfig from '../config/form';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import ErrorMessage from '../components/ErrorMessage';
 
 class App extends Component {

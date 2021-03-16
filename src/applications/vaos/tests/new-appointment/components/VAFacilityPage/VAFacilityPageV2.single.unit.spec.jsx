@@ -29,7 +29,6 @@ const initialState = {
     vaOnlineSchedulingCommunityCare: false,
     vaOnlineSchedulingVSPAppointmentNew: false,
     vaOnlineSchedulingDirect: true,
-    vaOnlineSchedulingFlatFacilityPage: true,
   },
   user: {
     profile: {
@@ -135,23 +134,19 @@ describe('VAOS integration: VA flat facility page - single facility', () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
 
-    const {
-      baseElement,
-      findByText,
-      getByText,
-      history,
-    } = renderWithStoreAndRouter(<VAFacilityPage />, {
-      store,
-    });
+    const { baseElement, findByText, history } = renderWithStoreAndRouter(
+      <VAFacilityPage />,
+      {
+        store,
+      },
+    );
 
-    await findByText(/we found one VA location for you/i);
+    await findByText(
+      /We found one VA facility for your primary care appointment./i,
+    );
 
     expect(baseElement).to.contain.text('San Diego VA Medical Center');
     expect(baseElement).to.contain.text('San Diego, CA');
-    expect(getByText(/search for a nearby location/i)).to.have.attribute(
-      'href',
-      '/find-locations',
-    );
 
     fireEvent.click(await findByText(/Continue/));
     await waitFor(() =>
@@ -188,10 +183,12 @@ describe('VAOS integration: VA flat facility page - single facility', () => {
       store,
     });
 
-    await screen.findByText(/we found one VA location for you/i);
+    await screen.findByText(
+      /The facility we found doesn’t accept online scheduling for this care/i,
+    );
 
     expect(screen.baseElement).to.contain.text(
-      'However, this facility does not allow online requests',
+      'You’ll need to call this facility to request your appointment',
     );
     expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
   });
@@ -233,11 +230,7 @@ describe('VAOS integration: VA flat facility page - single facility', () => {
     await screen.findByText(/San Diego VA Medical Center/i);
     fireEvent.click(screen.getByText(/Continue/));
     await screen.findByText(
-      /you need to have been seen within the past 12 months/,
-    );
-    expect(screen.getByText(/search for a nearby location/i)).to.have.attribute(
-      'href',
-      '/find-locations',
+      /you need to have had a mental health appointment at this facility within the last 12 months/,
     );
   });
 
@@ -258,11 +251,7 @@ describe('VAOS integration: VA flat facility page - single facility', () => {
     await screen.findByText(/San Diego VA Medical Center/i);
 
     expect(screen.baseElement).to.contain.text(
-      'you have more outstanding requests than this facility allows',
-    );
-    expect(screen.getByText(/search for a nearby location/i)).to.have.attribute(
-      'href',
-      '/find-locations',
+      'Before requesting an appointment at this location, you need to schedule or cancel your open appointment requests at this facility',
     );
 
     expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');

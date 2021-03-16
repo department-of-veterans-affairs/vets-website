@@ -14,6 +14,7 @@ import parentFacilities from '../../services/mocks/var/facilities.json';
 
 import newAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 import { FACILITY_TYPES } from '../../utils/constants';
+import { waitFor } from '@testing-library/dom';
 
 const userState = {
   user: {
@@ -59,15 +60,10 @@ describe('VAOS newAppointmentFlow', () => {
         const getState = () => state;
         const dispatch = action =>
           typeof action === 'function' ? action(sinon.spy(), getState) : null;
-        let nextState = await newAppointmentFlow.typeOfCare.next(
+        const nextState = await newAppointmentFlow.typeOfCare.next(
           state,
           dispatch,
         );
-        expect(nextState).to.equal('vaFacility');
-
-        // Check v2 feature toggle
-        state.featureToggles.vaOnlineSchedulingFlatFacilityPage = true;
-        nextState = newAppointmentFlow.typeOfFacility.next(state);
         expect(nextState).to.equal('vaFacilityV2');
 
         resetFetch();
@@ -95,16 +91,12 @@ describe('VAOS newAppointmentFlow', () => {
         const getState = () => state;
         const dispatch = action =>
           typeof action === 'function' ? action(sinon.spy(), getState) : null;
-        let nextState = await newAppointmentFlow.typeOfCare.next(
+        const nextState = await newAppointmentFlow.typeOfCare.next(
           state,
           dispatch,
         );
-        expect(nextState).to.equal('vaFacility');
-
-        // Check v2 feature toggle
-        state.featureToggles.vaOnlineSchedulingFlatFacilityPage = true;
-        nextState = newAppointmentFlow.typeOfFacility.next(state);
         expect(nextState).to.equal('vaFacilityV2');
+
         resetFetch();
       });
 
@@ -165,8 +157,10 @@ describe('VAOS newAppointmentFlow', () => {
           dispatch,
         );
 
-        const dataLayer = global.window.dataLayer;
-        expect(dataLayer[0].event).to.not.equal('vaos-cc-eligible-yes');
+        await waitFor(() => {
+          const dataLayer = global.window.dataLayer;
+          expect(dataLayer[0].event).to.not.equal('vaos-cc-eligible-yes');
+        });
 
         expect(nextState).to.equal('typeOfCare');
       });
@@ -316,16 +310,10 @@ describe('VAOS newAppointmentFlow', () => {
           },
           featureToggles: {
             loading: false,
-            vaOnlineSchedulingFlatFacilityPage: false,
           },
         };
 
-        let nextState = newAppointmentFlow.typeOfFacility.next(state);
-        expect(nextState).to.equal('vaFacility');
-
-        // Check v2 feature toggle
-        state.featureToggles.vaOnlineSchedulingFlatFacilityPage = true;
-        nextState = newAppointmentFlow.typeOfFacility.next(state);
+        const nextState = newAppointmentFlow.typeOfFacility.next(state);
         expect(nextState).to.equal('vaFacilityV2');
       });
     });
@@ -355,6 +343,20 @@ describe('VAOS newAppointmentFlow', () => {
         },
         eligibility: {
           '983_323': {},
+        },
+      },
+      user: {
+        profile: {
+          facilities: [
+            {
+              facilityId: '983',
+              isCerner: false,
+            },
+            {
+              facilityId: '984',
+              isCerner: true,
+            },
+          ],
         },
       },
     };
@@ -662,7 +664,6 @@ describe('VAOS newAppointmentFlow', () => {
           loading: false,
           vaOnlineSchedulingDirect: true,
           vaOnlineSchedulingCommunityCare: true,
-          vaOnlineSchedulingFlatFacilityPage: false,
         },
         newAppointment: {
           data: {
@@ -675,16 +676,12 @@ describe('VAOS newAppointmentFlow', () => {
       const getState = () => state;
       const dispatch = action =>
         typeof action === 'function' ? action(sinon.spy(), getState) : null;
-      let nextState = await newAppointmentFlow.typeOfEyeCare.next(
+      const nextState = await newAppointmentFlow.typeOfEyeCare.next(
         state,
         dispatch,
       );
-      expect(nextState).to.equal('vaFacility');
-
-      // check v2 feature toggle
-      state.featureToggles.vaOnlineSchedulingFlatFacilityPage = true;
-      nextState = await newAppointmentFlow.typeOfEyeCare.next(state, dispatch);
       expect(nextState).to.equal('vaFacilityV2');
+
       resetFetch();
     });
   });

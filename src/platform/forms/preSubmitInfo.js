@@ -14,7 +14,11 @@ export default {
   label: (
     <span>
       I have read and accept the{' '}
-      <a target="_blank" href="/privacy-policy/">
+      <a
+        aria-label="Privacy policy, will open in new tab"
+        target="_blank"
+        href="/privacy-policy/"
+      >
         privacy policy
       </a>
     </span>

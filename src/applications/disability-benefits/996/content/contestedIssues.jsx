@@ -1,10 +1,10 @@
 import React from 'react';
 import moment from 'moment';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 import {
   BOARD_APPEALS_URL,
@@ -93,8 +93,8 @@ const disabilitiesList = (
         fill out VA Form 20-0996 and submit it by mail or in person.
       </li>
       <li>
-        The issue or decision isn’t our system yet. You’ll need to fill VA Form
-        20-0996 and submit it by mail or in person.
+        The issue or decision isn’t in our system yet. You’ll need to fill out
+        VA Form 20-0996 and submit it by mail or in person.
       </li>
       <li>
         You and another surviving dependent of the Veteran are applying for the

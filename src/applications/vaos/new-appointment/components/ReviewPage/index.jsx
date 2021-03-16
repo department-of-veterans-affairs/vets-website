@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import { Redirect, useHistory } from 'react-router-dom';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { selectUseProviderSelection } from '../../../redux/selectors';
 import {
   getFormData,
@@ -20,6 +21,7 @@ import ReviewRequestInfo from './ReviewRequestInfo';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import * as actions from '../../redux/actions';
 import FacilityAddress from '../../../components/FacilityAddress';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 const pageTitle = 'Review your appointment details';
 
@@ -30,20 +32,21 @@ export function ReviewPage({
   clinic,
   vaCityState,
   flowType,
-  history,
   submitStatus,
   submitStatusVaos400,
   systemId,
   submitAppointmentOrRequest,
   useProviderSelection,
 }) {
+  const history = useHistory();
   useEffect(() => {
-    if (history && !data?.typeOfCareId) {
-      history.replace('/new-appointment');
-    }
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
   }, []);
+
+  if (!data?.typeOfCareId) {
+    return <Redirect to="/new-appointment" />;
+  }
 
   const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
 
@@ -105,9 +108,7 @@ export function ReviewPage({
               )}
               <p>
                 {!facilityDetails && (
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <NewTabAnchor
                     href={`/find-locations/facility/vha_${getRealFacilityId(
                       data.vaFacility || data.communityCareSystemId,
                     )}`}
@@ -115,7 +116,7 @@ export function ReviewPage({
                     {submitStatusVaos400
                       ? 'Find facility contact information'
                       : 'Contact your local VA medical center'}
-                  </a>
+                  </NewTabAnchor>
                 )}
                 {!!facilityDetails && (
                   <FacilityAddress

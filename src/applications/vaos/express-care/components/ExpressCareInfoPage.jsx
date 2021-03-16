@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import { GA_PREFIX } from '../../utils/constants';
@@ -11,7 +11,7 @@ import { selectExpressCareNewRequest } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 const pageKey = 'info';
 const pageTitle = 'How Express Care works';

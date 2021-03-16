@@ -19,7 +19,7 @@ describe('PersonalInformation', () => {
     // before we can use msw, we need to make sure that global.fetch has been
     // restored and is not longer a sinon stub.
     resetFetch();
-    server = setupServer(...mocks.updateDirectDepositSuccess);
+    server = setupServer(...mocks.updateDD4CNPSuccess);
     server.listen();
   });
   afterEach(() => {

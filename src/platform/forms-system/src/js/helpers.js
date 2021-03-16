@@ -1,6 +1,13 @@
+import moment from 'moment';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import shouldUpdate from 'recompose/shouldUpdate';
 import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+
+export const minYear = 1900;
+// maxYear was previously set to 3000
+export const maxYear = moment()
+  .add(100, 'year')
+  .year();
 
 // An active page is one that will be shown to the user.
 // Pages become inactive if they are conditionally shown based

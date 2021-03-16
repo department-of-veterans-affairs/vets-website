@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
@@ -10,22 +10,14 @@ import ExpressCareCard from '../../appointment-list/components/cards/express-car
 const pageTitle = 'You’ve successfully submitted your Express Care request';
 
 function ExpressCareConfirmationPage({ successfulRequest }) {
-  const history = useHistory();
-  useEffect(
-    () => {
-      document.title = `${pageTitle} | Veterans Affairs`;
+  useEffect(() => {
+    document.title = `${pageTitle} | Veterans Affairs`;
 
-      if (!successfulRequest) {
-        history.replace('/new-express-care-request');
-      }
-
-      scrollAndFocus();
-    },
-    [successfulRequest, history],
-  );
+    scrollAndFocus();
+  }, []);
 
   if (!successfulRequest) {
-    return null;
+    return <Redirect to="/new-express-care-request" />;
   }
 
   const transformedRequest = transformPendingAppointments([

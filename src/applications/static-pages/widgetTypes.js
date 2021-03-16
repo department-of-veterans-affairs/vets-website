@@ -1,6 +1,5 @@
 export default {
   BURIALS_APP_STATUS: 'burials-app-status',
-  CAREGIVER_CONTENT_TOGGLE: 'caregiver-content-toggle',
   CHAPTER_31_WIZARD: 'chapter-31-Wizard',
   CHAPTER_36_CTA: 'chapter-36-cta',
   CHAPTER_31_CTA: 'chapter-31-cta',
@@ -29,4 +28,6 @@ export default {
   SECURE_MESSAGING_PAGE: 'secure-messaging-page',
   VIEW_TEST_AND_LAB_RESULTS_PAGE: 'view-test-and-lab-results-page',
   VIEW_PAYMENT_HISTORY: 'view-payment-history',
+  I_18_SELECT: 'i18-select',
+  DEPENDENCY_VERIFICATION: 'dependency-verification',
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 
@@ -13,6 +14,9 @@ import ExpressCareDetailsPage from '../../../express-care/components/ExpressCare
 import { fetchExpressCareWindows } from '../../../appointment-list/redux/actions';
 
 const initialState = {
+  featureToggles: {
+    vaOnlineSchedulingExpressCareNew: true,
+  },
   user: {
     profile: {
       facilities: [{ facilityId: '983', isCerner: false }],
@@ -28,9 +32,15 @@ const initialState = {
   },
 };
 
-describe('VAOS integration: Express Care form - Additional Details Page', () => {
-  beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
+describe('VAOS integration: Express Care form - Additional Appointment detail', () => {
+  beforeEach(() => {
+    mockFetch();
+    MockDate.set(moment('2020-01-26T14:00:00'));
+  });
+  afterEach(() => {
+    resetFetch();
+    MockDate.reset();
+  });
 
   it('should contain expected form elements', async () => {
     const today = moment();
@@ -78,7 +88,7 @@ describe('VAOS integration: Express Care form - Additional Details Page', () => 
     screen.getByText(/submit express care request/i);
   });
 
-  it('should redirect to info page when there is no reason in data', async () => {
+  it('should redirect to info page when starting on Appointment detail', async () => {
     const store = createTestStore({
       ...initialState,
       expressCare: {
@@ -88,16 +98,40 @@ describe('VAOS integration: Express Care form - Additional Details Page', () => 
         },
       },
     });
-    store.dispatch(fetchExpressCareWindows());
+    const today = moment();
+    mockRequestEligibilityCriteria(
+      ['983'],
+      [
+        getExpressCareRequestCriteriaMock('983', [
+          {
+            day: today
+              .clone()
+              .tz('America/Denver')
+              .format('dddd')
+              .toUpperCase(),
+            canSchedule: true,
+            startTime: today
+              .clone()
+              .subtract('2', 'minutes')
+              .tz('America/Denver')
+              .format('HH:mm'),
+            endTime: today
+              .clone()
+              .add('1', 'minutes')
+              .tz('America/Denver')
+              .format('HH:mm'),
+          },
+        ]),
+      ],
+    );
 
     const { history } = renderWithStoreAndRouter(<NewExpressCareRequest />, {
       store,
       path: '/additional-details',
     });
 
-    await waitFor(() => expect(history.replace.called).to.be.true);
-    expect(history.replace.firstCall.args[0]).to.equal(
-      '/new-express-care-request',
+    await waitFor(() =>
+      expect(history.location.pathname).to.equal('/new-express-care-request'),
     );
   });
 });

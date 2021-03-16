@@ -5,7 +5,7 @@ import './cypress-helpers';
  */
 describe('Profile Page', () => {
   it('Axe check when error is present', () => {
-    cy.visit('/gi-bill-comparison-tool/profile/99999999').injectAxe();
-    cy.axeCheck();
+    cy.visit('/gi-bill-comparison-tool/profile/99999999');
+    cy.injectAxeThenAxeCheck();
   });
 });

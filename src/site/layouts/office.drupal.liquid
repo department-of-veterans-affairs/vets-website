@@ -1,5 +1,4 @@
 {% include "src/site/includes/header.html" with drupalTags = true %}
-
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
@@ -9,14 +8,6 @@
     <div class="usa-grid usa-grid-full">
       {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = outreachSidebar %}
       <div class="usa-width-three-fourths">
-        {% if !entityPublished %}
-        <div class="usa-alert usa-alert-info">
-          <div class="usa-alert-body">
-            <p class="usa-alert-text">You are viewing a draft.</p>
-          </div>
-        </div>
-        {% endif %}
-
         <article aria-labelledby="article-heading" class="vads-l-grid-container--full" role="region">
           <div class="vads-l-grid-container--full">
             <h1 id="article-heading">{{ title }}</h1>

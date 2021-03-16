@@ -1,6 +1,6 @@
 import React from 'react';
 import { pageNames } from './pageList';
-import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import { formIdSuffixes } from 'applications/static-pages/wizard/';
 
 const claimingBenefitOwnServiceOptions = [
@@ -14,7 +14,7 @@ const ClaimingBenefitOwnService = ({
   setReferredBenefit,
 }) => (
   <div>
-    <ErrorableRadioButtons
+    <RadioButtons
       name={`${pageNames.claimingBenefitOwnService}`}
       label="Are you a Veteran or service member claiming a benefit based on your own service?"
       id={`${pageNames.claimingBenefitOwnService}`}

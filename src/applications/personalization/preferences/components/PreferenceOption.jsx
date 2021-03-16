@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
+import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 export default ({ item, onChange, checked }) => {
   const itemId = item.shortTitle
@@ -15,7 +15,7 @@ export default ({ item, onChange, checked }) => {
         <h5 id={`itemTitle${itemId}`} className="title-item">
           {item.shortTitle || item.title}
         </h5>
-        <ErrorableCheckbox
+        <Checkbox
           name={item.code}
           checked={checked}
           ariaLabelledBy={`itemTitle${itemId}`}

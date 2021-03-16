@@ -97,5 +97,30 @@ Disallow: /drupal
 Disallow: /performance-dashboard
 Disallow: /covid19screen
 
+# disallow WIP VAMCs
+Disallow: /altoona-health-care
+Disallow: /asheville-health-care
+Disallow: /butler-health-care
+Disallow: /cheyenne-health-care
+Disallow: /coatesville-health-care
+Disallow: /durham-health-care
+Disallow: /eastern-colorado-health-care
+Disallow: /eastern-oklahoma-health-care
+Disallow: /erie-health-care
+Disallow: /fayetteville-coastal-health-care
+Disallow: /hampton-health-care
+Disallow: /lebanon-health-care
+Disallow: /montana-health-care
+Disallow: /oklahoma-city-health-care
+Disallow: /philadelphia-health-care
+Disallow: /richmond-health-care
+Disallow: /salem-health-care
+Disallow: /salisbury-health-care
+Disallow: /salt-lake-city-health-care
+Disallow: /sheridan-health-care
+Disallow: /western-colorado-health-care
+Disallow: /wilkes-barre-health-care
+Disallow: /wilmington-health-care
+
 # sitemap index
 Sitemap: https://www.va.gov/sitemap.xml

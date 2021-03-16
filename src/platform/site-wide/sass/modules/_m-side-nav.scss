@@ -242,4 +242,8 @@ $side-nav-color-dark: #323a45;
       }
     }
   }
+
+  #va-sidenav-ul-container [href]:focus {
+    outline-offset: -2px;
+  }
 }

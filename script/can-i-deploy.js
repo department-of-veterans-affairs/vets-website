@@ -24,6 +24,8 @@ const PactBrokerClient = require('../src/platform/testing/contract/client');
 const checkDeployability = async (retries = 3, timeout = 30) => {
   const pactBrokerClient = new PactBrokerClient({
     url: process.env.PACT_BROKER_BASE_URL,
+    username: process.env.PACT_BROKER_BASIC_AUTH_USERNAME,
+    password: process.env.PACT_BROKER_BASIC_AUTH_PASSWORD,
   });
 
   const pactsFolder = path.resolve(__dirname, '../pacts');

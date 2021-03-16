@@ -109,12 +109,12 @@ jobs:
       - checkout
       - run: yarn security-check
 
-  additional-linting:
-    executor: circleci-node
-    steps:
-      - checkout
-      - yarn-install-cache
-      - run: npm run lint:circle
+  # additional-linting:
+  #   executor: circleci-node
+  #   steps:
+  #     - checkout
+  #     - yarn-install-cache
+  #     - run: npm run lint:circle
 
   build:
     executor: circleci-node
@@ -289,6 +289,6 @@ workflows:
       - e2e-test:
           requires:
             - build-e2e
-  additional-linting:
-    jobs:
-      - additional-linting
+  # additional-linting:
+  #   jobs:
+  #     - additional-linting

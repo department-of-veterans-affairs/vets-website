@@ -12,7 +12,7 @@ import {
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
 import { renderWithStoreAndRouter } from '../../mocks/setup';
 
-import FutureAppointmentsList from '../../../appointment-list/components/FutureAppointmentsList';
+import AppointmentsPage from '../../../appointment-list/components/AppointmentsPage';
 
 const initialState = {
   featureToggles: {
@@ -53,7 +53,7 @@ describe('VAOS integration: pending appointments', () => {
         baseElement,
         getByText,
         queryByText,
-      } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
+      } = renderWithStoreAndRouter(<AppointmentsPage />, {
         initialState,
       });
 
@@ -131,7 +131,7 @@ describe('VAOS integration: pending appointments', () => {
       mockFacilitiesFetch('vha_442GC', [facility]);
 
       const { findByText, baseElement, queryByText } = renderWithStoreAndRouter(
-        <FutureAppointmentsList />,
+        <AppointmentsPage />,
         {
           initialState,
         },
@@ -175,7 +175,7 @@ describe('VAOS integration: pending appointments', () => {
       mockAppointmentInfo({ requests: [appointment] });
 
       const { findByText, baseElement, queryByText } = renderWithStoreAndRouter(
-        <FutureAppointmentsList />,
+        <AppointmentsPage />,
         {
           initialState,
         },
@@ -210,12 +210,9 @@ describe('VAOS integration: pending appointments', () => {
       };
       mockAppointmentInfo({ requests: [appointment] });
 
-      const { findByText } = renderWithStoreAndRouter(
-        <FutureAppointmentsList />,
-        {
-          initialState,
-        },
-      );
+      const { findByText } = renderWithStoreAndRouter(<AppointmentsPage />, {
+        initialState,
+      });
 
       return expect(findByText(/You don’t have any appointments/i)).to
         .eventually.be.ok;
@@ -233,12 +230,9 @@ describe('VAOS integration: pending appointments', () => {
       };
       mockAppointmentInfo({ requests: [appointment] });
 
-      const { findByText } = renderWithStoreAndRouter(
-        <FutureAppointmentsList />,
-        {
-          initialState,
-        },
-      );
+      const { findByText } = renderWithStoreAndRouter(<AppointmentsPage />, {
+        initialState,
+      });
 
       return expect(findByText(/You don’t have any appointments/i)).to
         .eventually.be.ok;
@@ -273,7 +267,7 @@ describe('VAOS integration: pending appointments', () => {
       );
 
       const { baseElement, findByText } = renderWithStoreAndRouter(
-        <FutureAppointmentsList />,
+        <AppointmentsPage />,
         {
           initialState,
         },
@@ -327,7 +321,7 @@ describe('VAOS integration: pending appointments', () => {
         baseElement,
         getByText,
         queryByText,
-      } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
+      } = renderWithStoreAndRouter(<AppointmentsPage />, {
         initialState,
       });
 
@@ -405,7 +399,7 @@ describe('VAOS integration: pending appointments', () => {
         baseElement,
         getByText,
         queryByText,
-      } = renderWithStoreAndRouter(<FutureAppointmentsList />, {
+      } = renderWithStoreAndRouter(<AppointmentsPage />, {
         initialState,
       });
 

@@ -13,6 +13,7 @@ export const SET_SUBMISSION = 'SET_SUBMISSION';
 export const SET_SUBMITTED = 'SET_SUBMITTED';
 export const OPEN_REVIEW_CHAPTER = 'OPEN_REVIEW_CHAPTER';
 export const CLOSE_REVIEW_CHAPTER = 'CLOSE_REVIEW_CHAPTER';
+export const SET_FORM_ERRORS = 'SET_FORM_ERRORS';
 
 export function closeReviewChapter(closedChapter, pageKeys = []) {
   return {
@@ -76,6 +77,15 @@ export function setViewedPages(pageKeys) {
   return {
     type: SET_VIEWED_PAGES,
     pageKeys,
+  };
+}
+
+export function setFormErrors(errors) {
+  // See platform/forms-system/src/js/utilities/data/reduceErrors.js for
+  // data structure
+  return {
+    type: SET_FORM_ERRORS,
+    data: errors,
   };
 }
 
@@ -210,7 +220,13 @@ export function uploadFile(
   // This item should have been set in any previous API calls
   const csrfTokenStored = localStorage.getItem('csrfToken');
   return (dispatch, getState) => {
-    if (file.size > uiOptions.maxSize) {
+    // PDFs may have a different max size based on where it is being uploaded
+    // (form 526 & claim status)
+    const maxSize =
+      (file.name.toLowerCase().endsWith('pdf') && uiOptions.maxPdfSize) ||
+      uiOptions.maxSize;
+
+    if (file.size > maxSize) {
       onChange({
         name: file.name,
         errorMessage: 'File is too large to be uploaded',

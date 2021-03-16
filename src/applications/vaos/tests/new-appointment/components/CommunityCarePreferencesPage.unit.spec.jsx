@@ -17,6 +17,7 @@ import {
   mockCommunityCareEligibility,
   mockParentSites,
 } from '../../mocks/helpers';
+import { GA_PREFIX } from '../../../utils/constants';
 
 import CommunityCarePreferencesPage from '../../../new-appointment/components/CommunityCarePreferencesPage';
 
@@ -63,6 +64,12 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
     await screen.findByText(
       /do you have a preferred VA-approved community care provider for this primary care appointment/i,
     );
+
+    expect(
+      global.window.dataLayer.find(
+        ev => ev.event === `${GA_PREFIX}-community-care-legacy-provider-page`,
+      ),
+    ).to.exist;
 
     expect(screen.getAllByRole('radio').length).to.equal(2);
     expect(screen.getAllByRole('combobox').length).to.equal(1);

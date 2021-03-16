@@ -9,7 +9,12 @@ export default function RadioWidget({
   onChange,
   id,
 }) {
-  const { enumOptions, labels = {}, nestedContent = {} } = options;
+  const {
+    enumOptions,
+    labels = {},
+    nestedContent = {},
+    widgetProps = {},
+  } = options;
 
   // nested content could be a component or just jsx/text
   let content = nestedContent[value];
@@ -32,6 +37,7 @@ export default function RadioWidget({
               value={option.value}
               disabled={disabled}
               onChange={_ => onChange(option.value)}
+              {...widgetProps[option.value] || {}}
             />
             <label htmlFor={`${id}_${i}`}>
               {labels[option.value] || option.label}

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 const PodiatryAppointmentUnavailableModal = ({ onClose, showModal }) => {
   if (!showModal) {
@@ -20,9 +21,9 @@ const PodiatryAppointmentUnavailableModal = ({ onClose, showModal }) => {
       online at this time. Please call your local VA medical center to schedule
       this appointment.
       <br />
-      <a target="_blank" rel="noopener noreferrer" href="/find-locations">
+      <NewTabAnchor href="/find-locations">
         Find your VA health facility’s phone number
-      </a>
+      </NewTabAnchor>
       <button
         onClick={onClose}
         className="vads-u-display--block vads-u-margin-top--2p5"

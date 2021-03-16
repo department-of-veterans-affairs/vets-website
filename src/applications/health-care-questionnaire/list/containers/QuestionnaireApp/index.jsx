@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import Home from '../../questionnaire-list/components/Home';
 import {
   selectShowQuestionnaire,
   selectLoadingFeatureFlags,
-} from '../../selectors';
+} from '../../../shared/selectors';
 
 const QuestionnaireApp = props => {
   const { isLoadingFeatureFlags, isQuestionnaireEnabled } = props;

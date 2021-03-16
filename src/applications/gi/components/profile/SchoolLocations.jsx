@@ -57,7 +57,7 @@ export class SchoolLocations extends React.Component {
     const query = version ? `?version=${version}` : '';
 
     return (
-      <div>
+      <div className="school-name">
         <Link to={`${facilityCode}${query}`}>{name}</Link>
       </div>
     );

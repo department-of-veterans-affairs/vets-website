@@ -196,7 +196,7 @@
         "mobile": false,
         "name": "Cedar Park VA Clinic",
         "operatingStatus": {
-          "code": "NORMAL"
+          "code": "LIMITED"
         },
         "phone": {
           "fax": "254-743-1566",

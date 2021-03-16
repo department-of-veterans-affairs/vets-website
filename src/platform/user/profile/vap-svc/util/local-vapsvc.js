@@ -136,6 +136,14 @@ function asyncReturn(returnValue, delay = 300) {
   });
 }
 
+function asyncReject(returnValue, delay = 300) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject(returnValue);
+    }, delay);
+  });
+}
+
 export default {
   getUserTransactions() {
     const data = [
@@ -167,7 +175,7 @@ export default {
     });
   },
   createTransactionFailure() {
-    return asyncReturn(
+    return asyncReject(
       {
         errors: [
           {
@@ -501,7 +509,7 @@ export default {
     );
   },
   addressValidationError() {
-    return asyncReturn(
+    return asyncReject(
       {
         errors: [
           {

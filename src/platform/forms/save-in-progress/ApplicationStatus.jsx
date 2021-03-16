@@ -8,9 +8,9 @@ import {
   formDescriptions,
   formBenefits,
 } from 'applications/personalization/dashboard/helpers';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import ProgressButton from '@department-of-veterans-affairs/component-library/ProgressButton';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { removeSavedForm } from '../../user/profile/actions';
 
 import {
@@ -19,6 +19,11 @@ import {
   APP_TYPE_DEFAULT,
   APP_ACTION_DEFAULT,
 } from '../../forms-system/src/js/constants';
+
+import {
+  WIZARD_STATUS,
+  WIZARD_STATUS_COMPLETE,
+} from 'platform/site-wide/wizard';
 
 export class ApplicationStatus extends React.Component {
   constructor(props) {
@@ -42,6 +47,10 @@ export class ApplicationStatus extends React.Component {
       // Swallow any errors and redirect anyway
       .catch(x => x)
       .then(() => {
+        // This application status is rendered on the form INFO page, so the
+        // stayAfterDelete is used to show the wizard again; this will be
+        // obsolete once all wizards are moved to the intro page
+        sessionStorage.removeItem(this.props.wizardStatus || WIZARD_STATUS);
         if (!this.props.stayAfterDelete) {
           window.location.href = formLinks[formId];
         } else {
@@ -52,6 +61,14 @@ export class ApplicationStatus extends React.Component {
 
   toggleModal = () => {
     this.setState({ modalOpen: !this.state.modalOpen });
+  };
+
+  handleResume = () => {
+    // make sure we skip the wizard on resume
+    sessionStorage.setItem(
+      this.props.wizardStatus || WIZARD_STATUS,
+      WIZARD_STATUS_COMPLETE,
+    );
   };
 
   render() {
@@ -141,6 +158,7 @@ export class ApplicationStatus extends React.Component {
               <a
                 className="usa-button-primary"
                 href={`${formLinks[formId]}resume`}
+                onClick={this.handleResume}
               >
                 {continueAppButtonText}
               </a>

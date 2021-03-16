@@ -2,6 +2,7 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import moment from 'moment';
+import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
 
 import {
   SAVED_SEPARATION_DATE,
@@ -36,12 +37,14 @@ import {
   activeServicePeriods,
   formatDate,
   formatDateRange,
+  isValidFullDate,
+  isValidServicePeriod,
   isBDD,
   show526Wizard,
   isUndefined,
   isDisabilityPtsd,
   confirmationEmailFeature,
-} from '../utils.jsx';
+} from '../utils';
 
 describe('526 helpers', () => {
   describe('hasGuardOrReservePeriod', () => {
@@ -314,24 +317,25 @@ describe('526 helpers', () => {
       global.fetch = originalFetch;
     });
 
-    it('should not call the api if the input length is < 3', () => {
+    /* un-skip these once we get a new enpoint in place; see #14028 */
+    it.skip('should not call the api if the input length is < 3', () => {
       queryForFacilities('12');
       expect(global.fetch.called).to.be.false;
     });
 
-    it('should call the api if the input length is >= 3', () => {
+    it.skip('should call the api if the input length is >= 3', () => {
       queryForFacilities('123');
       expect(global.fetch.called).to.be.true;
     });
 
-    it('should call the api with the input', () => {
+    it.skip('should call the api with the input', () => {
       queryForFacilities('asdf');
       expect(global.fetch.firstCall.args[0]).to.contain(
         '/facilities/suggested?type%5B%5D=health&type%5B%5D=dod_health&name_part=asdf',
       );
     });
 
-    it('should return the mapped data for autosuggest if successful', () => {
+    it.skip('should return the mapped data for autosuggest if successful', () => {
       // Doesn't matter what we call this with since our stub will always return the same thing
       const requestPromise = queryForFacilities('asdf');
       return requestPromise.then(result => {
@@ -1116,6 +1120,47 @@ describe('526 v2 depends functions', () => {
           },
         }),
       ).to.be.false;
+    });
+  });
+
+  describe('isValidFullDate', () => {
+    it('should return true when a date is valid', () => {
+      expect(isValidFullDate('2021-01-01')).to.be.true;
+      expect(isValidFullDate(`${minYear}-01-01`)).to.be.true;
+      expect(isValidFullDate(`${maxYear}-01-01`)).to.be.true;
+    });
+    it('should return false when a date is invalid', () => {
+      expect(isValidFullDate()).to.be.false;
+      expect(isValidFullDate('')).to.be.false;
+      expect(isValidFullDate('2021')).to.be.false;
+      expect(isValidFullDate('2021-01')).to.be.false;
+      expect(isValidFullDate('01-01')).to.be.false;
+      expect(isValidFullDate('XXXX-01-01')).to.be.false;
+      expect(isValidFullDate('2021-XX-01')).to.be.false;
+      expect(isValidFullDate('2021-01-XX')).to.be.false;
+      expect(isValidFullDate('2021-02-31')).to.be.false;
+      expect(isValidFullDate(`${minYear - 1}-01-01`)).to.be.false;
+      expect(isValidFullDate(`${maxYear + 1}-01-01`)).to.be.false;
+      expect(isValidFullDate(new Date())).to.be.false;
+    });
+  });
+
+  describe('isValidServicePeriod', () => {
+    const check = (serviceBranch, from, to) =>
+      isValidServicePeriod({ serviceBranch, dateRange: { from, to } });
+    it('should return true when a service period data is valid', () => {
+      expect(check('a', '2020-01-31', '2020-02-14')).to.be.true;
+      expect(check('a', `${minYear}-01-31`, `${maxYear}-02-14`)).to.be.true;
+    });
+    it('should return false when a service period data is invalid', () => {
+      expect(check('', '2020-01-31', '2020-02-14')).to.be.false;
+      expect(check('a', 'XXXX-01-31', '2020-02-14')).to.be.false;
+      expect(check('a', '2020-XX-31', '2020-02-14')).to.be.false;
+      expect(check('a', '2020-01-XX', '2020-02-14')).to.be.false;
+      expect(check('a', '2020-01-31', 'XXXX-02-14')).to.be.false;
+      expect(check('a', '2020-01-31', '2020-XX-14')).to.be.false;
+      expect(check('a', '2020-01-31', '2020-02-XX')).to.be.false;
+      expect(check('a', '2020-02-14', '2020-01-31')).to.be.false;
     });
   });
 });

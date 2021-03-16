@@ -106,6 +106,10 @@ export function selectCurrentlyOpenEditModal(state) {
   return state.vapService.modal;
 }
 
+export function selectEditViewData(state) {
+  return state.vapService.modalData;
+}
+
 export function selectAddressValidation(state) {
   return state.vapService?.addressValidation || {};
 }

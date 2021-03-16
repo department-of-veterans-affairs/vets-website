@@ -37,7 +37,7 @@ describe('<AskVAPage>', () => {
       />,
     );
 
-    tree.subTree('ErrorableCheckbox').props.onValueChange(true);
+    tree.subTree('Checkbox').props.onValueChange(true);
     expect(tree.everySubTree('button')[0].props.disabled).to.be.null;
   });
 
@@ -76,7 +76,7 @@ describe('<AskVAPage>', () => {
       />,
     );
 
-    tree.subTree('ErrorableCheckbox').props.onValueChange(true);
+    tree.subTree('Checkbox').props.onValueChange(true);
     tree.subTree('button').props.onClick();
     expect(submitRequest.called).to.be.true;
   });

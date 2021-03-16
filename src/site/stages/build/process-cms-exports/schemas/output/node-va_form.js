@@ -6,6 +6,7 @@ const dateSchema = {
       type: 'object',
       properties: {
         value: { type: 'string' },
+        date: { type: 'string' },
       },
     },
     { type: 'null' },

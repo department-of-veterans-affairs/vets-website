@@ -4,7 +4,7 @@ import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 import ValidatedServicePeriodView from '../components/ValidatedServicePeriodView';
 import ArrayField from '../components/ArrayField';
-import { isUndefined } from '../utils';
+import { isValidServicePeriod, formatDate } from '../utils';
 
 const dateRangeUISchema = dateRangeUI(
   'Service start date',
@@ -49,6 +49,14 @@ const validateSeparationDate = (
 dateRangeUISchema.from['ui:validations'].push(validateAge);
 dateRangeUISchema.to['ui:validations'].push(validateSeparationDate);
 
+const itemAriaLabel = data => {
+  const hasDate =
+    data.serviceBranch && data.dateRange?.from
+      ? ` started on ${formatDate(data.dateRange.from)}`
+      : '';
+  return `${data.serviceBranch || ''}${hasDate}`;
+};
+
 export const uiSchema = {
   serviceInformation: {
     servicePeriods: {
@@ -58,16 +66,12 @@ export const uiSchema = {
       'ui:field': ArrayField,
       'ui:options': {
         itemName: 'Service Period',
+        itemAriaLabel,
         viewField: ValidatedServicePeriodView,
         reviewMode: true,
         showSave: true,
         setEditState: formData =>
-          formData.map(
-            data =>
-              isUndefined(data?.serviceBranch) ||
-              isUndefined(data?.dateRange?.from) ||
-              isUndefined(data?.dateRange?.to),
-          ),
+          formData.map(data => !isValidServicePeriod(data)),
       },
       items: {
         serviceBranch: {
@@ -75,7 +79,8 @@ export const uiSchema = {
         },
         dateRange: dateRangeUISchema,
         'ui:options': {
-          ariaLabelForEditButtonOnReview: 'Edit Military service history',
+          itemAriaLabel,
+          itemName: 'Military service history',
         },
       },
     },

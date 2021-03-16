@@ -1,22 +1,32 @@
 import recordEvent from 'platform/monitoring/record-event';
 import { isAnchor } from './utilities';
 
-const selectors = {
+const qaSelectors = {
   template: '[data-template="paragraphs/q_a_section"]',
-  faq: '[data-template="paragraphs/q_a"]',
+  qa: '[data-template="paragraphs/q_a"]',
+  // "qaCollapsiblePanel" is the same content model as "qa" but rendered as a collapsible panel.
+  qaCollapsiblePanel: '[data-template="paragraphs/q_a.collapsible_panel__qa"]',
 };
 
-function attachDataToAnchorTags() {
-  const faqs = document.querySelectorAll(selectors.faq);
+// There is also a totally separate "collapsible panel" paragraph-type.
+const collapsiblePanelSelectors = {
+  template: '[data-template="paragraphs/collapsible_panel"]',
+  panel: '[data-template="paragraphs/collapsible_panel__panel"]',
+};
+
+function attachDataToAnchorTags(qaSelector) {
+  const questionAndAnswerBlocks = document.querySelectorAll(qaSelector);
 
   // Cycle through each FAQ, binding the FAQ data to each anchor
   // tag generated from the WYSIWYG content.
-  [...faqs].forEach(faq => {
+  [...questionAndAnswerBlocks].forEach(faq => {
     const anchors = faq.querySelectorAll('a');
 
     [...anchors].forEach(anchor => {
       const { dataset: anchorData } = anchor;
-      anchorData.faqSection = faq.dataset.analyticsFaqSection;
+      if (faq.dataset.analyticsFaqSection) {
+        anchorData.faqSection = faq.dataset.analyticsFaqSection;
+      }
       anchorData.faqText = faq.dataset.analyticsFaqText;
     });
   });
@@ -31,11 +41,17 @@ export default function addQaSectionListeners() {
   // attach the listener to the wrapper of the "selectors.faq" elements
   // and access the <a>'s dataset to get the context.
 
-  attachDataToAnchorTags();
+  attachDataToAnchorTags(qaSelectors.qa);
+  attachDataToAnchorTags(qaSelectors.qaCollapsiblePanel);
 
-  const containers = document.querySelectorAll(selectors.template);
+  attachDataToAnchorTags(collapsiblePanelSelectors.panel);
 
-  [...containers].forEach(container => {
+  const containers = [
+    ...document.querySelectorAll(qaSelectors.template),
+    ...document.querySelectorAll(collapsiblePanelSelectors.template),
+  ];
+
+  containers.forEach(container => {
     container.addEventListener('click', event => {
       if (!isAnchor(event.target)) {
         return;

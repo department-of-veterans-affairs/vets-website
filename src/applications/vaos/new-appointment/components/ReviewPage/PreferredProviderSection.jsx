@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import newAppointmentFlow from '../../newAppointmentFlow';
 
 import { LANGUAGES } from '../../../utils/constants';
+import State from '../../../components/State';
 
 export default function PreferredProviderSection(props) {
   return (
@@ -31,7 +32,7 @@ export default function PreferredProviderSection(props) {
                 )}
                 <br />
                 {props.data.communityCareProvider.address.city},{' '}
-                {props.data.communityCareProvider.address.state}{' '}
+                <State state={props.data.communityCareProvider.address.state} />{' '}
                 {props.data.communityCareProvider.address.postalCode}
                 <br />
                 <br />

@@ -10,16 +10,7 @@
     <main class="va-l-detail-page va-facility-page">
         <div class="usa-grid usa-grid-full">
             {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
-
             <div class="usa-width-three-fourths">
-                {% if !entityPublished %}
-                    <div class="usa-alert usa-alert-info" >
-                        <div class="usa-alert-body">
-                            <p class="usa-alert-text">You are viewing a draft.</p>
-                        </div>
-                    </div>
-                {% endif %}
-
                 <article class="usa-content">
                     <h1>{{ title }}</h1>
                     {% assign image = fieldMedia.entity.image %}

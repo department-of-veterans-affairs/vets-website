@@ -1,7 +1,8 @@
-// Dependencies.
 import React from 'react';
+// Dependencies.
 import { expect } from 'chai';
 import { mount } from 'enzyme';
+import sinon from 'sinon';
 // Relative imports.
 import FormTitle from '../../components/FormTitle';
 
@@ -10,8 +11,8 @@ describe('Find VA Forms <FormTitle />', () => {
     id: 'VA10192',
     formDetailsUrl:
       'https://www.va.gov/health-care/about-information-for-pre-complaint-processing/',
-    showFindFormsResultsLinkToFormDetailPages: true, //  TODO: 12/17/20 remove prop once feature is deployed to prod in Jan 12 2020 https://github.com/department-of-veterans-affairs/va.gov-team/issues/16930
     title: 'Information for Pre-Complaint Processing',
+    recordGAEvent: sinon.stub(),
   };
 
   it('should expect props', () => {
@@ -19,9 +20,7 @@ describe('Find VA Forms <FormTitle />', () => {
       <FormTitle
         id={props.id}
         formUrl={props.formDetailsUrl}
-        showFindFormsResultsLinkToFormDetailPages={
-          props.showFindFormsResultsLinkToFormDetailPages
-        }
+        recordGAEvent={props.recordGAEvent}
         title={props.title}
       />,
     );
@@ -30,6 +29,7 @@ describe('Find VA Forms <FormTitle />', () => {
     expect(tree.props().id).to.equal(props.id);
     expect(tree.props().formUrl).to.equal(props.formDetailsUrl);
     expect(tree.props().title).to.equal(props.title);
+    expect(tree.props().recordGAEvent).to.equal(props.recordGAEvent);
 
     tree.unmount();
   });
@@ -55,9 +55,6 @@ describe('Find VA Forms <FormTitle />', () => {
       <FormTitle
         id={props.id}
         formUrl={props.formDetailsUrl}
-        showFindFormsResultsLinkToFormDetailPages={
-          props.showFindFormsResultsLinkToFormDetailPages
-        }
         title={props.title}
       />,
     );

@@ -4,12 +4,15 @@ import { connect } from 'react-redux';
 import {
   selectShowQuestionnaire,
   selectLoadingFeatureFlags,
-} from '../selectors';
+} from '../../shared/selectors';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import App from './App';
 import BreadCrumbs from '../components/bread-crumbs/BreadCrumbs';
-import { getCurrentAppointmentId, setCurrentAppointmentId } from '../utils';
+import {
+  getCurrentAppointmentId,
+  setCurrentAppointmentId,
+} from '../../shared/utils';
 
 const QuestionnaireWrapper = ({
   location,

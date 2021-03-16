@@ -1,28 +1,40 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+
+import recordEvent from 'platform/monitoring/record-event';
+
 import { pageNames } from './pageList';
 
-const alertContent = (
-  <>
-    <p>
-      If you disagree with a VA decision on your claim, you can file a
-      Supplemental Claim. Because more than a year has passed since the date on
-      your decision letter, you can no longer request a Higher-Level Review or
-      Board Appeal.
-    </p>
-    <a href="/decision-reviews/supplemental-claim/">
-      Find out how to file a Supplemental Claim
-    </a>
-  </>
-);
+const DisagreeFileClaimPage = () => {
+  const linkText = 'Learn about the decision review process';
 
-const DisagreeFileClaimPage = () => (
-  <AlertBox
-    status="warning"
-    headline="You’ll need to file a Supplemental Claim"
-    content={alertContent}
-  />
-);
+  recordEvent({
+    event: 'howToWizard-alert-displayed',
+    'reason-for-alert': 'disagree with VA decision, needs a decision review',
+  });
+  return (
+    <div
+      className="usa-alert usa-alert-info background-color-only vads-u-padding--2 vads-u-margin-top--2"
+      aria-live="polite"
+    >
+      <span className="sr-only">Info: </span>
+      <p className="vads-u-margin-top--0">
+        If you disagree with a VA decision on your claim, you’ll need to request
+        a decision review.
+      </p>
+      <a
+        href="/decision-reviews/"
+        onClick={() => {
+          recordEvent({
+            event: 'howToWizard-alert-link-click',
+            'howToWizard-alert-link-click-label': linkText,
+          });
+        }}
+      >
+        {linkText}
+      </a>
+    </div>
+  );
+};
 
 export default {
   name: pageNames.disagreeFileClaim,

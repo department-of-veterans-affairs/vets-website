@@ -6,25 +6,16 @@
 {% endif %}
 
 {% if fieldDatetimeRangeTimezone.value != empty %}
-    {% assign start_date_no_time = fieldDatetimeRangeTimezone.value | dateFromUnix: 'dddd, MMM D', fieldDatetimeRangeTimezone.timezone %}
+    {% assign start_date_no_time = fieldDatetimeRangeTimezone.value | dateFromUnix: 'dddd, MMM D, YYYY', fieldDatetimeRangeTimezone.timezone %}
     {% assign start_time = fieldDatetimeRangeTimezone.value | dateFromUnix: "h:mm A", fieldDatetimeRangeTimezone.timezone %}
-    {% assign start_date_full = fieldDatetimeRangeTimezone.value | dateFromUnix: "dddd, MMM D, h:mm A", fieldDatetimeRangeTimezone.timezone %}
+    {% assign start_date_full = fieldDatetimeRangeTimezone.value | dateFromUnix: "dddd, MMM D, YYYY h:mm A", fieldDatetimeRangeTimezone.timezone %}
     {% assign start_timestamp = fieldDatetimeRangeTimezone.value %}
-{% else %}
-    {% assign start_date_no_time = fieldDate.startDate | timeZone: defaultTZ, "dddd, MMM D" %}
-    {% assign start_time = fieldDate.startDate | timeZone: defaultTZ, "h:mm A" %}
-    {% assign start_date_full = fieldDate.startDate | timeZone: defaultTZ, "dddd, MMM D, h:mm A" %}
-    {% assign start_timestamp = fieldDate.value | unixFromDate %}
 {% endif %}
 
 {% if fieldDatetimeRangeTimezone.endValue != empty %}
-    {% assign end_date_no_time = fieldDatetimeRangeTimezone.endValue | dateFromUnix: 'dddd, MMM D', fieldDatetimeRangeTimezone.timezone %}
+    {% assign end_date_no_time = fieldDatetimeRangeTimezone.endValue | dateFromUnix: 'dddd, MMM D, YYYY', fieldDatetimeRangeTimezone.timezone %}
     {% assign end_time = fieldDatetimeRangeTimezone.endValue | dateFromUnix: "h:mm A", fieldDatetimeRangeTimezone.timezone %}
     {% assign end_date_full = fieldDatetimeRangeTimezone.endValue | dateFromUnix: "dddd, MMM D, h:mm A", fieldDatetimeRangeTimezone.timezone %}
-{% else %}
-    {% assign end_date_no_time = fieldDate.endValue | timeZone: defaultTZ, "dddd, MMM D" %}
-    {% assign end_time = fieldDate.endDate | timeZone: defaultTZ, "h:mm A" %}
-    {% assign end_date_full = fieldDate.endDate | timeZone: defaultTZ, "dddd, MMM D, h:mm A" %}
 {% endif %}
 
 {% assign current_timestamp = ''| currentTimeInSeconds %}

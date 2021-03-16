@@ -1,17 +1,14 @@
+/**
+ * @module services/Location/transformers
+ */
+
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import { VHA_FHIR_ID } from '../../utils/constants';
 
-/*
- * This is used to parse the fake FHIR ids we create for organizations
- */
-function parseId(id) {
-  return id.replace('var', '');
-}
-
 /**
  * Transforms /vaos/systems/983/direct_scheduling_facilities?type_of_care_id=323&parent_code=983GB to
- * /Location?organization=Organization/var983
+ * /Location?organization=Organization/983
  *
  * @export
  * @param {Array} facilities A list of facilities from var-resources
@@ -20,7 +17,7 @@ function parseId(id) {
 export function transformDSFacilities(facilities) {
   return facilities.map(facility => ({
     resourceType: 'Location',
-    id: `var${facility.id}`,
+    id: facility.id,
     identifier: [
       {
         system: VHA_FHIR_ID,
@@ -45,7 +42,7 @@ export function transformDSFacilities(facilities) {
       directSchedulingSupported: facility.directSchedulingSupported,
     },
     managingOrganization: {
-      reference: `Organization/var${facility.parentStationCode}`,
+      reference: `Organization/${facility.parentStationCode}`,
     },
   }));
 }
@@ -157,7 +154,7 @@ function transformOperatingHours(facilityHours) {
  * @returns A facility id with either 442 or 552 replaced with 983 or 984
  */
 function getTestFacilityId(facilityId) {
-  if (!environment.isProduction() && facilityId) {
+  if (facilityId && (!environment.isProduction() || window.Cypress)) {
     return facilityId.replace('442', '983').replace('552', '984');
   }
 
@@ -165,7 +162,7 @@ function getTestFacilityId(facilityId) {
 }
 /**
  * Transforms /facilities/va/vha_983 to
- * /Location/var983
+ * /Location/983
  *
  * @export
  * @param {Object} facility A facility from the VA facilities api
@@ -175,7 +172,7 @@ export function transformFacility(facility) {
   const id = getTestFacilityId(facility.uniqueId);
   return {
     resourceType: 'Location',
-    id: `var${id}`,
+    id,
     identifier: [
       {
         system: 'http://med.va.gov/fhir/urn',
@@ -211,7 +208,7 @@ export function transformFacility(facility) {
     },
     hoursOfOperation: transformOperatingHours(facility.hours),
     managingOrganization: {
-      reference: `Organization/var${id.substr(0, 3)}`,
+      reference: `Organization/${id.substr(0, 3)}`,
     },
   };
 }
@@ -234,7 +231,7 @@ export function transformATLASLocation(tasInfo) {
   } = address;
   return {
     resourceType: 'Location',
-    id: `var${siteCode}`,
+    id: siteCode,
     address: {
       line: [streetAddress],
       city,
@@ -271,10 +268,10 @@ export function setSupportedSchedulingMethods({
   const directSchedulingSupported = {};
 
   const facilityRequestSettings = requestFacilities.find(
-    facility => `var${facility.id}` === id,
+    facility => facility.id === id,
   )?.requestSettings;
   const facilityCoreSettings = directFacilities.find(
-    facility => `var${facility.id}` === id,
+    facility => facility.id === id,
   )?.coreSettings;
 
   if (facilityRequestSettings) {
@@ -297,7 +294,7 @@ export function setSupportedSchedulingMethods({
   if (!vhaIdentifier) {
     identifier.push({
       system: VHA_FHIR_ID,
-      value: parseId(id),
+      value: id,
     });
   }
 
@@ -331,7 +328,13 @@ export function transformFacilities(facilities) {
 export function transformCommunityProviders(providers) {
   return providers.map(provider => {
     return {
-      id: provider.uniqueId,
+      id: provider.id,
+      identifier: [
+        {
+          system: 'PPMS',
+          value: provider.uniqueId,
+        },
+      ],
       resourceType: 'Location',
       address: {
         line: [provider.address.street],

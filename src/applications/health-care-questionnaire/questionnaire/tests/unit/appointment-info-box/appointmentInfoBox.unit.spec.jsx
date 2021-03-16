@@ -9,7 +9,9 @@ import { createFakeUserStore } from '../utils/createFakeStores';
 describe('health care questionnaire - AppointmentInfoBox', () => {
   it('Appointment Info Box -- details that are always shown -- Full name; date of birth;', () => {
     const fakeStore = createFakeUserStore();
-    const appointmentDetails = mount(<AppointmentInfoBox store={fakeStore} />);
+    const appointmentDetails = mount(
+      <AppointmentInfoBox store={fakeStore} onChange={() => {}} />,
+    );
     expect(appointmentDetails.find('[data-testid="fullName"]').text()).to.equal(
       'Calvin C Fletcher',
     );
@@ -21,7 +23,9 @@ describe('health care questionnaire - AppointmentInfoBox', () => {
   });
   it('Appointment Info Box -- dynamic details -- gender -- gender unknown', () => {
     const noGender = createFakeUserStore('');
-    const appointmentNoGender = mount(<AppointmentInfoBox store={noGender} />);
+    const appointmentNoGender = mount(
+      <AppointmentInfoBox store={noGender} onChange={() => {}} />,
+    );
     expect(appointmentNoGender.exists('[data-testid="gender"]')).to.equal(
       false,
     );
@@ -30,7 +34,7 @@ describe('health care questionnaire - AppointmentInfoBox', () => {
   it('Appointment Info Box -- dynamic details -- gender -- has gender', () => {
     const hasGender = createFakeUserStore('M');
     const appointmentHasGender = mount(
-      <AppointmentInfoBox store={hasGender} />,
+      <AppointmentInfoBox store={hasGender} onChange={() => {}} />,
     );
     expect(appointmentHasGender.find('[data-testid="gender"]').text()).to.equal(
       'Male',
@@ -40,7 +44,7 @@ describe('health care questionnaire - AppointmentInfoBox', () => {
   it('Appointment Info Box -- dynamic details -- mailing address -- no address', () => {
     const noAddress = createFakeUserStore(null, false);
     const appointmentInfoBoxNoAddress = mount(
-      <AppointmentInfoBox store={noAddress} />,
+      <AppointmentInfoBox store={noAddress} onChange={() => {}} />,
     );
     expect(
       appointmentInfoBoxNoAddress.exists('[data-testid="mailingAddress"]'),
@@ -49,7 +53,9 @@ describe('health care questionnaire - AppointmentInfoBox', () => {
   });
   it('Appointment Info Box -- dynamic details -- mailing address -- has address', () => {
     const hasAddress = createFakeUserStore();
-    const appointmentInfoBox = mount(<AppointmentInfoBox store={hasAddress} />);
+    const appointmentInfoBox = mount(
+      <AppointmentInfoBox store={hasAddress} onChange={() => {}} />,
+    );
     expect(
       appointmentInfoBox.find('[data-testid="mailingAddress"]').text(),
     ).to.contains('1493 Martin Luther King Rd Apt 1');
@@ -57,7 +63,9 @@ describe('health care questionnaire - AppointmentInfoBox', () => {
   });
   it('Appointment Info Box -- dynamic details -- residential address -- has address', () => {
     const hasAddress = createFakeUserStore();
-    const appointmentInfoBox = mount(<AppointmentInfoBox store={hasAddress} />);
+    const appointmentInfoBox = mount(
+      <AppointmentInfoBox store={hasAddress} onChange={() => {}} />,
+    );
     expect(
       appointmentInfoBox.find('[data-testid="residentialAddress"]').text(),
     ).to.contains('PSC 808 Box 37');
@@ -66,7 +74,7 @@ describe('health care questionnaire - AppointmentInfoBox', () => {
   it('Appointment Info Box -- dynamic details -- residential address -- no address', () => {
     const noAddress = createFakeUserStore(null, false, false);
     const appointmentInfoBoxNoAddress = mount(
-      <AppointmentInfoBox store={noAddress} />,
+      <AppointmentInfoBox store={noAddress} onChange={() => {}} />,
     );
     expect(
       appointmentInfoBoxNoAddress.exists('[data-testid="mailingAddress"]'),
@@ -77,7 +85,7 @@ describe('health care questionnaire - AppointmentInfoBox', () => {
     // all phones
     const hasAllPhones = createFakeUserStore();
     const appointmentInfoBoxAllPhones = mount(
-      <AppointmentInfoBox store={hasAllPhones} />,
+      <AppointmentInfoBox store={hasAllPhones} onChange={() => {}} />,
     );
     expect(
       appointmentInfoBoxAllPhones.find('[data-testid="phoneNumber"]').length,
@@ -87,7 +95,7 @@ describe('health care questionnaire - AppointmentInfoBox', () => {
     // no phones
     const hasNoPhones = createFakeUserStore(null, false, false, {});
     const appointmentInfoBoxNoPhones = mount(
-      <AppointmentInfoBox store={hasNoPhones} />,
+      <AppointmentInfoBox store={hasNoPhones} onChange={() => {}} />,
     );
     expect(
       appointmentInfoBoxNoPhones.find('[data-testid="phoneNumber"]').length,
@@ -100,7 +108,7 @@ describe('health care questionnaire - AppointmentInfoBox', () => {
       hasMobile: true,
     });
     const appointmentInfoBoxHomeAndMobilePhones = mount(
-      <AppointmentInfoBox store={hasHomeAndMobile} />,
+      <AppointmentInfoBox store={hasHomeAndMobile} onChange={() => {}} />,
     );
     expect(
       appointmentInfoBoxHomeAndMobilePhones.find('[data-testid="phoneNumber"]')
@@ -112,7 +120,7 @@ describe('health care questionnaire - AppointmentInfoBox', () => {
     // no phones
     const hasNoPhones = createFakeUserStore(null, false, false, {});
     const appointmentInfoBoxNoPhones = mount(
-      <AppointmentInfoBox store={hasNoPhones} />,
+      <AppointmentInfoBox store={hasNoPhones} onChange={() => {}} />,
     );
     expect(
       appointmentInfoBoxNoPhones.find('[data-testid="phoneNumber"]').length,
@@ -126,7 +134,7 @@ describe('health care questionnaire - AppointmentInfoBox', () => {
       hasMobile: true,
     });
     const appointmentInfoBoxHomeAndMobilePhones = mount(
-      <AppointmentInfoBox store={hasHomeAndMobile} />,
+      <AppointmentInfoBox store={hasHomeAndMobile} onChange={() => {}} />,
     );
     expect(
       appointmentInfoBoxHomeAndMobilePhones.find('[data-testid="phoneNumber"]')

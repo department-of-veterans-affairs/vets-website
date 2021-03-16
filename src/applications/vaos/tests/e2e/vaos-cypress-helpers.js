@@ -13,6 +13,9 @@ import facilityData from '../../services/mocks/var/facility_data.json';
 import facilities983 from '../../services/mocks/var/facilities_983.json';
 import clinicList983 from '../../services/mocks/var/clinicList983.json';
 import slots from '../../services/mocks/var/slots.json';
+import requestEligibilityCriteria from '../../services/mocks/var/request_eligibility_criteria.json';
+import directEligibilityCriteria from '../../services/mocks/var/direct_booking_eligibility_criteria.json';
+
 import {
   getVAAppointmentMock,
   getExpressCareRequestCriteriaMock,
@@ -192,7 +195,7 @@ export function createPastVAAppointments() {
   };
 }
 
-function mockFeatureToggles() {
+export function mockFeatureToggles({ providerSelectionEnabled = false } = {}) {
   cy.route({
     method: 'GET',
     url: '/v0/feature_toggles*',
@@ -225,12 +228,20 @@ function mockFeatureToggles() {
             value: true,
           },
           {
-            name: 'vaOnlineSchedulingExpressCare',
+            name: 'vaOnlineSchedulingExpressCareNew',
             value: true,
           },
           {
-            name: 'vaOnlineSchedulingExpressCareNew',
+            name: 'vaOnlineSchedulingCheetah',
             value: true,
+          },
+          {
+            name: `cerner_override_668`,
+            value: false,
+          },
+          {
+            name: 'vaOnlineSchedulingProviderSelection',
+            value: providerSelectionEnabled,
           },
         ],
       },
@@ -276,6 +287,30 @@ function mockCCPrimaryCareEligibility() {
   });
 }
 
+function mockRequestEligibilityCriteria() {
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/request_eligibility_criteria*',
+    response: requestEligibilityCriteria,
+  });
+}
+
+function mockDirectBookingEligibilityCriteria() {
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/direct_booking_eligibility_criteria*',
+    response: directEligibilityCriteria,
+  });
+}
+
+function mockFacilityDetails() {
+  cy.route({
+    method: 'GET',
+    url: '/v1/facilities/va?ids=*',
+    response: facilityData,
+  });
+}
+
 function mockFacilities() {
   cy.route({
     method: 'GET',
@@ -318,13 +353,48 @@ function mockSubmitVAAppointment() {
   }).as('appointmentPreferences');
 }
 
-function setupSchedulingMocks() {
+function setupSchedulingMocks({ cernerUser = false } = {}) {
+  Cypress.Commands.add('axeCheckBestPractice', (context = 'main') =>
+    cy.axeCheck(context, {
+      runOnly: {
+        type: 'tag',
+        values: ['section508', 'wcag2a', 'wcag2aa', 'best-practice'],
+      },
+    }),
+  );
   cy.server();
-  cy.login(mockUser);
-
   mockFeatureToggles();
+
+  if (cernerUser) {
+    const mockCernerUser = {
+      ...mockUser,
+      data: {
+        ...mockUser.data,
+        attributes: {
+          ...mockUser.data.attributes,
+          vaProfile: {
+            ...mockUser.data.attributes.vaProfile,
+            facilities: [
+              ...mockUser.data.attributes.vaProfile.facilities,
+              {
+                facilityID: '123',
+                isCerner: true,
+              },
+            ],
+          },
+        },
+      },
+    };
+    cy.login(mockCernerUser);
+  } else {
+    cy.login(mockUser);
+  }
+
   mockSupportedSites();
   mockCCPrimaryCareEligibility();
+  mockRequestEligibilityCriteria();
+  mockDirectBookingEligibilityCriteria();
+  mockFacilityDetails();
   mockFacilities();
   mockDirectSchedulingFacilities();
 }
@@ -511,8 +581,8 @@ export function initExpressCareMocks() {
   });
 }
 
-export function initVAAppointmentMock() {
-  setupSchedulingMocks();
+export function initVAAppointmentMock({ cernerUser = false } = {}) {
+  setupSchedulingMocks({ cernerUser });
   cy.route({
     method: 'GET',
     url: '/v1/facilities/va/vha_442',
@@ -535,8 +605,25 @@ export function initVAAppointmentMock() {
   mockSubmitVAAppointment();
 }
 
-export function initVARequestMock() {
+export function initVaccineAppointmentMock() {
   setupSchedulingMocks();
+  cy.route({
+    method: 'GET',
+    url: '/v1/facilities/va/vha_442',
+    response: { data: facilityData.data[0] },
+  });
+  cy.route({
+    method: 'GET',
+    url: '/v1/facilities/va?ids=*',
+    response: facilityData,
+  });
+  mockPrimaryCareClinics();
+  mockDirectScheduleSlots();
+  mockSubmitVAAppointment();
+}
+
+export function initVARequestMock({ cernerUser = false } = {}) {
+  setupSchedulingMocks({ cernerUser });
   cy.route({
     method: 'GET',
     url: '/vaos/v0/facilities/983/clinics*',
@@ -573,6 +660,46 @@ export function initCommunityCareMock() {
     method: 'GET',
     url: '/vaos/v0/appointments?start_date=*&end_date=*&type=va',
     response: updateConfirmedVADates(confirmedVA),
+  });
+  cy.route({
+    method: 'GET',
+    url: '/v1/facilities/ccp*',
+    response: {
+      data: [
+        {
+          id: '1497723753',
+          type: 'provider',
+          attributes: {
+            accNewPatients: 'true',
+            address: {
+              street: '1012 14TH ST NW STE 700',
+              city: 'WASHINGTON',
+              state: 'DC',
+              zip: '20005-3477',
+            },
+            caresitePhone: '202-638-0750',
+            email: null,
+            fax: null,
+            gender: 'Male',
+            lat: 38.903195,
+            long: -77.032382,
+            name: 'Doe, Jane',
+            phone: null,
+            posCodes: null,
+            prefContact: null,
+            uniqueId: '1497723753',
+          },
+          relationships: {
+            specialties: {
+              data: [
+                { id: '363L00000X', type: 'specialty' },
+                { id: '363LP2300X', type: 'specialty' },
+              ],
+            },
+          },
+        },
+      ],
+    },
   });
 
   cy.route({

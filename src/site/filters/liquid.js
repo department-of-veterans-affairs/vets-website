@@ -12,6 +12,10 @@ function getPath(obj) {
 module.exports = function registerFilters() {
   const { cmsFeatureFlags } = global;
 
+  // Set timeout option to something higher (20mins)
+  // eslint-disable-next-line no-new
+  new liquid.Context({ timeout: 1200000 });
+
   // Custom liquid filter(s)
   liquid.filters.humanizeDate = dt =>
     moment(dt, 'YYYY-MM-DD').format('MMMM D, YYYY');
@@ -34,6 +38,37 @@ module.exports = function registerFilters() {
       return prettyTimeFormatted(timeZoneDate, format);
     }
     return dt;
+  };
+
+  liquid.filters.formatVaParagraphs = vaParagraphs => {
+    const FIRST_SECTION_HEADER = 'VA account and profile';
+    const LAST_SECTION_HEADER = 'Other topics and questions';
+
+    // Derive the first and last sections.
+    const firstSection = _.find(
+      vaParagraphs,
+      vaParagraph =>
+        vaParagraph.entity.fieldSectionHeader === FIRST_SECTION_HEADER,
+    );
+    const lastSection = _.find(
+      vaParagraphs,
+      vaParagraph =>
+        vaParagraph.entity.fieldSectionHeader === LAST_SECTION_HEADER,
+    );
+
+    const otherSections = _.filter(
+      vaParagraphs,
+      vaParagraph =>
+        vaParagraph.entity.fieldSectionHeader !== FIRST_SECTION_HEADER &&
+        vaParagraph.entity.fieldSectionHeader !== LAST_SECTION_HEADER,
+    );
+
+    return [
+      firstSection,
+      // Other sections is sorted alphabetically by `fieldSectionHeader`.
+      ..._.orderBy(otherSections, 'entity.fieldSectionHeader', 'asc'),
+      lastSection,
+    ];
   };
 
   // Convert a timezone string (e.g. 'America/Los_Angeles') to an abbreviation
@@ -233,11 +268,6 @@ module.exports = function registerFilters() {
     return output;
   };
 
-  liquid.filters.locationUrlConvention = facility =>
-    facility.fieldNicknameForThisFacility
-      ? facility.fieldNicknameForThisFacility.replace(/\s+/g, '-').toLowerCase()
-      : facility.fieldFacilityLocatorApiId;
-
   liquid.filters.hashReference = str =>
     str
       .toLowerCase()
@@ -259,7 +289,6 @@ module.exports = function registerFilters() {
 
       facilityList[id] = f.fieldMedia ? f.fieldMedia.entity.image : {};
       facilityList[id].entityUrl = f.entityUrl;
-      facilityList[id].nickname = f.fieldNicknameForThisFacility;
     });
     return JSON.stringify(facilityList);
   };
@@ -276,8 +305,8 @@ module.exports = function registerFilters() {
   liquid.filters.eventSorter = item =>
     item &&
     item.sort((a, b) => {
-      const start1 = moment(a.fieldDate.startDate);
-      const start2 = moment(b.fieldDate.startDate);
+      const start1 = moment(a.fieldDatetimeRangeTimezone.startTime);
+      const start2 = moment(b.fieldDatetimeRangeTimezone.startTime);
       return start1.isAfter(start2);
     });
 
@@ -523,6 +552,12 @@ module.exports = function registerFilters() {
     return false;
   };
 
+  liquid.filters.detectLang = url => {
+    if (url?.endsWith('-esp')) return 'es';
+    if (url?.endsWith('-tag')) return 'tag';
+    return 'en';
+  };
+
   // sort a list of objects by a certain property in the object
   liquid.filters.sortObjectsBy = (entities, path) => _.sortBy(entities, path);
 
@@ -560,4 +595,103 @@ module.exports = function registerFilters() {
 
   liquid.filters.sortEntityMetatags = item =>
     item ? item.sort((a, b) => a.key.localeCompare(b.key)) : undefined;
+
+  liquid.filters.createEmbedYouTubeVideoURL = url => {
+    if (!url) {
+      return url;
+    }
+
+    if (!_.includes(url, 'youtu')) {
+      return url;
+    }
+
+    if (_.includes(url, 'embed')) {
+      return url;
+    }
+
+    if (_.includes(url, 'youtube.com/watch?v=')) {
+      return _.replace(url, '/watch?v=', '/embed/');
+    }
+
+    return _.replace(url, 'youtu.be', 'youtube.com/embed');
+  };
+
+  liquid.filters.deriveCLPTotalSections = (
+    maxSections,
+    fieldClpVideoPanel,
+    fieldClpSpotlightPanel,
+    fieldClpStoriesPanel,
+    fieldClpResourcesPanel,
+    fieldClpEventsPanel,
+    fieldClpFaqPanel,
+    fieldBenefitCategories,
+  ) => {
+    const removedSectionsCount = [
+      fieldClpVideoPanel,
+      fieldClpSpotlightPanel,
+      fieldClpStoriesPanel,
+      fieldClpResourcesPanel,
+      fieldClpEventsPanel,
+      fieldClpFaqPanel,
+      !_.isEmpty(fieldBenefitCategories),
+    ].filter(panel => !panel).length;
+
+    return maxSections - removedSectionsCount;
+  };
+
+  liquid.filters.formatSeconds = rawSeconds => {
+    // Dates need milliseconds, so mulitply by 1000.
+    const date = new Date(rawSeconds * 1000);
+
+    // Derive digits.
+    const hours = date.getUTCHours() || '';
+    const minutes = date.getUTCMinutes() || '';
+    const seconds = date.getUTCSeconds() || '';
+
+    // Derive if we should say 'hours', 'minutes', or 'seconds' at the end.
+    let text = '';
+    if (seconds) {
+      text = ' seconds';
+    }
+    if (minutes) {
+      text = ' minutes';
+    }
+    if (hours) {
+      text = ' hours';
+    }
+
+    const digits = [hours, minutes, seconds].filter(item => item).join(':');
+
+    // Return a formatted timestamp string.
+    return `${digits}${text}`;
+  };
+
+  liquid.filters.getTagsList = fieldTags => {
+    const {
+      entity: {
+        fieldTopics = [],
+        fieldAudienceBeneficiares,
+        fieldNonBeneficiares,
+      },
+    } = fieldTags;
+
+    const topics = fieldTopics.map(topic => ({
+      ...topic.entity,
+      categoryLabel: 'Topics',
+    }));
+
+    const audiences = [
+      fieldAudienceBeneficiares?.entity,
+      fieldNonBeneficiares?.entity,
+    ]
+      .filter(tag => !!tag)
+      .map(audience => ({
+        ...audience,
+        categoryLabel: 'Audience',
+      }));
+
+    const tagList = [...topics, ...audiences];
+
+    return _.sortBy(tagList, 'name');
+  };
 };

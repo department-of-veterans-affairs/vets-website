@@ -7,14 +7,6 @@ module.exports = {
       properties: {
         entityType: { type: 'string' },
         entityBundle: { type: 'string' },
-        fieldDateAndTime: {
-          type: 'object',
-          // These properties are strings resembling dates
-          properties: {
-            date: { type: 'string' },
-            value: { type: 'string' },
-          },
-        },
         fieldDatetimeRangeTimezone: {
           type: 'object',
           properties: {
@@ -34,7 +26,6 @@ module.exports = {
       required: [
         'entityType',
         'entityBundle',
-        'fieldDateAndTime',
         'fieldDatetimeRangeTimezone',
         'fieldSendEmailToSubscribers',
         'fieldWysiwyg',

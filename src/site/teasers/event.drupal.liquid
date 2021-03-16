@@ -1,5 +1,5 @@
 {% if node != empty %}
-  {% include "src/site/includes/date.drupal.liquid" with fieldDate = node.fieldDate fieldDatetimeRangeTimezone = node.fieldDatetimeRangeTimezone %}
+  {% include "src/site/includes/date.drupal.liquid" with fieldDatetimeRangeTimezone = node.fieldDatetimeRangeTimezone %}
 
   {% if header == empty %}
       {% assign header = "h2" %}

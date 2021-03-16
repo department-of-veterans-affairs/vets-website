@@ -25,7 +25,7 @@ export default createE2eTest(client => {
       .pause(1000)
       .waitForElementVisible('body', normal)
       .assert.containsText(
-        'div[class*=vads-l-grid-container]',
+        '.covid-screener div[class*=vads-l-grid-container]',
         `${routeOption.expectedText}`,
         routeOption.title,
       );

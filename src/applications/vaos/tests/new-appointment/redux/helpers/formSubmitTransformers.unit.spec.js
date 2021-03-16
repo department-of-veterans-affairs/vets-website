@@ -20,23 +20,15 @@ describe('VAOS data transformation', () => {
           visitType: 'office',
           reasonForAppointment: 'other',
           reasonAdditionalInfo: 'Testing',
-          calendarData: {
-            currentlySelectedDate: '2019-11-20',
-            selectedDates: [
-              {
-                date: '2019-11-20',
-                optionTime: 'PM',
-              },
-            ],
-          },
-          vaParent: 'var983A6',
-          vaFacility: 'var983GB',
+          selectedDates: ['2019-11-20T12:00:00.000'],
+          vaParent: '983A6',
+          vaFacility: '983GB',
           facilityType: 'vamc',
           typeOfCareId: '323',
         },
         parentFacilities: [
           {
-            id: 'var983A6',
+            id: '983A6',
             identifier: [
               {
                 system: VHA_FHIR_ID,
@@ -44,21 +36,21 @@ describe('VAOS data transformation', () => {
               },
             ],
             partOf: {
-              reference: 'Organization/var983',
+              reference: 'Organization/983',
             },
           },
         ],
         facilities: {
-          '323_var983A6': [
+          '323': [
             {
-              id: 'var983GB',
+              id: '983GB',
               identifier: [
                 {
                   system: VHA_FHIR_ID,
                   value: '983GB',
                 },
               ],
-              name: 'CHYSHR-Cheyenne VA Medical Center',
+              name: 'Cheyenne VA Medical Center',
               address: {
                 city: 'Cheyenne',
                 state: 'WY',
@@ -120,24 +112,16 @@ describe('VAOS data transformation', () => {
           visitType: 'office',
           reasonForAppointment: 'routine-follow-up',
           reasonAdditionalInfo: 'Testing',
-          calendarData: {
-            currentlySelectedDate: '2019-11-20',
-            selectedDates: [
-              {
-                date: '2019-11-20',
-                optionTime: 'PM',
-              },
-            ],
-          },
-          vaParent: 'var983',
-          vaFacility: 'var983GB',
+          selectedDates: ['2019-11-20T12:00:00.000'],
+          vaParent: '983',
+          vaFacility: '983GB',
           facilityType: 'vamc',
           typeOfCareId: 'SLEEP',
           typeOfSleepCareId: '349',
         },
         parentFacilities: [
           {
-            id: 'var983',
+            id: '983',
             identifier: [
               {
                 system: VHA_FHIR_ID,
@@ -147,16 +131,16 @@ describe('VAOS data transformation', () => {
           },
         ],
         facilities: {
-          '349_var983': [
+          '349': [
             {
-              id: 'var983GB',
+              id: '983GB',
               identifier: [
                 {
                   system: VHA_FHIR_ID,
                   value: '983GB',
                 },
               ],
-              name: 'CHYSHR-Cheyenne VA Medical Center',
+              name: 'Cheyenne VA Medical Center',
               address: {
                 city: 'Cheyenne',
                 state: 'WY',
@@ -223,7 +207,7 @@ describe('VAOS data transformation', () => {
           email: 'test@va.gov',
           reasonForAppointment: 'routine-follow-up',
           reasonAdditionalInfo: 'asdf',
-          communityCareSystemId: 'var983',
+          communityCareSystemId: '983',
           preferredLanguage: 'english',
           hasCommunityCareProvider: true,
           communityCareProvider: {
@@ -239,15 +223,7 @@ describe('VAOS data transformation', () => {
             },
             phone: '2342444444',
           },
-          calendarData: {
-            currentlySelectedDate: '2019-11-20',
-            selectedDates: [
-              {
-                date: '2019-11-20',
-                optionTime: 'PM',
-              },
-            ],
-          },
+          selectedDates: ['2019-11-20T12:00:00.000'],
           facilityType: 'communityCare',
           typeOfCareId: '323',
         },
@@ -257,7 +233,7 @@ describe('VAOS data transformation', () => {
         eligibility: {},
         ccEnabledSystems: [
           {
-            id: 'var983',
+            id: '983',
             identifier: [
               {
                 system: VHA_FHIR_ID,
@@ -271,7 +247,7 @@ describe('VAOS data transformation', () => {
             },
           },
           {
-            id: 'var984',
+            id: '984',
             identifier: [
               {
                 system: VHA_FHIR_ID,
@@ -364,7 +340,7 @@ describe('VAOS data transformation', () => {
           email: 'test@va.gov',
           reasonForAppointment: 'routine-follow-up',
           reasonAdditionalInfo: 'asdf',
-          communityCareSystemId: 'var983',
+          communityCareSystemId: '983',
           preferredLanguage: 'english',
           hasCommunityCareProvider: true,
           communityCareProvider: {
@@ -380,15 +356,7 @@ describe('VAOS data transformation', () => {
             },
             phone: '2342444444',
           },
-          calendarData: {
-            currentlySelectedDate: '2019-11-20',
-            selectedDates: [
-              {
-                date: '2019-11-20',
-                optionTime: 'PM',
-              },
-            ],
-          },
+          selectedDates: ['2019-11-20T12:00:00.000'],
           facilityType: 'communityCare',
           typeOfCareId: '203',
           audiologyType: 'CCAUDHEAR',
@@ -399,7 +367,7 @@ describe('VAOS data transformation', () => {
         eligibility: {},
         ccEnabledSystems: [
           {
-            id: 'var983',
+            id: '983',
             identifier: [
               {
                 system: VHA_FHIR_ID,
@@ -413,7 +381,7 @@ describe('VAOS data transformation', () => {
             },
           },
           {
-            id: 'var984',
+            id: '984',
             identifier: [
               {
                 system: VHA_FHIR_ID,
@@ -506,19 +474,11 @@ describe('VAOS data transformation', () => {
           email: 'test@va.gov',
           reasonForAppointment: 'routine-follow-up',
           reasonAdditionalInfo: 'asdfasdf',
-          calendarData: {
-            currentlySelectedDate: '2019-11-22',
-            selectedDates: [
-              {
-                date: '2019-11-22',
-                datetime: '2019-11-22T09:30:00',
-              },
-            ],
-          },
+          selectedDates: ['2019-11-22T09:30:00'],
           preferredDate: '2019-12-02',
-          clinicId: 'var983_308',
-          vaParent: 'var983',
-          vaFacility: 'var983',
+          clinicId: '983_308',
+          vaParent: '983',
+          vaFacility: '983',
           facilityType: 'vamc',
           typeOfCareId: '323',
         },
@@ -534,7 +494,7 @@ describe('VAOS data transformation', () => {
         ],
         parentFacilities: [
           {
-            id: 'var983',
+            id: '983',
             identifier: [
               {
                 system: VHA_FHIR_ID,
@@ -548,16 +508,16 @@ describe('VAOS data transformation', () => {
           },
         ],
         facilities: {
-          '323_var983': [
+          '323': [
             {
-              id: 'var983',
+              id: '983',
               identifier: [
                 {
                   system: VHA_FHIR_ID,
                   value: '983',
                 },
               ],
-              name: 'CHYSHR-Cheyenne VA Medical Center',
+              name: 'Cheyenne VA Medical Center',
               address: {
                 city: 'Cheyenne',
                 state: 'WY',
@@ -569,10 +529,9 @@ describe('VAOS data transformation', () => {
           ],
         },
         clinics: {
-          // eslint-disable-next-line camelcase
-          var983_323: [
+          '983_323': [
             {
-              id: 'var983_308',
+              id: '983_308',
               resourceType: 'HealthcareService',
               identifier: [
                 {
@@ -651,25 +610,16 @@ describe('VAOS data transformation', () => {
           visitType: 'office',
           reasonForAppointment: 'routine-follow-up',
           reasonAdditionalInfo: 'Testing',
-          calendarData: {
-            currentlySelectedDate: '2019-11-20',
-            selectedDates: [
-              {
-                date: '2019-11-20',
-                optionTime: 'PM',
-              },
-            ],
-            currentRowIndex: 3,
-          },
-          vaParent: 'var983',
-          vaFacility: 'var983GB',
+          selectedDates: ['2019-11-20T12:00:00.000'],
+          vaParent: '983',
+          vaFacility: '983GB',
           facilityType: 'vamc',
           typeOfCareId: 'EYE',
           typeOfEyeCareId: '407',
         },
         parentFacilities: [
           {
-            id: 'var983',
+            id: '983',
             identifier: [
               {
                 system: VHA_FHIR_ID,
@@ -679,16 +629,16 @@ describe('VAOS data transformation', () => {
           },
         ],
         facilities: {
-          '407_var983': [
+          '407': [
             {
-              id: 'var983GB',
+              id: '983GB',
               identifier: [
                 {
                   system: VHA_FHIR_ID,
                   value: '983GB',
                 },
               ],
-              name: 'CHYSHR-Cheyenne VA Medical Center',
+              name: 'Cheyenne VA Medical Center',
               address: {
                 city: 'Cheyenne',
                 state: 'WY',
@@ -768,7 +718,7 @@ describe('VAOS data transformation', () => {
           email: 'test@va.gov',
           reasonForAppointment: 'routine-follow-up',
           reasonAdditionalInfo: 'asdf',
-          communityCareSystemId: 'var983',
+          communityCareSystemId: '983',
           preferredLanguage: 'english',
           communityCareProvider: {
             name: 'Practice',
@@ -779,15 +729,7 @@ describe('VAOS data transformation', () => {
               postalCode: '01050',
             },
           },
-          calendarData: {
-            currentlySelectedDate: '2019-11-20',
-            selectedDates: [
-              {
-                date: '2019-11-20',
-                optionTime: 'PM',
-              },
-            ],
-          },
+          selectedDates: ['2019-11-20T12:00:00.000'],
           facilityType: 'communityCare',
           typeOfCareId: '323',
         },
@@ -797,7 +739,7 @@ describe('VAOS data transformation', () => {
         eligibility: {},
         ccEnabledSystems: [
           {
-            id: 'var983',
+            id: '983',
             identifier: [
               {
                 system: VHA_FHIR_ID,
@@ -811,7 +753,7 @@ describe('VAOS data transformation', () => {
             },
           },
           {
-            id: 'var984',
+            id: '984',
             identifier: [
               {
                 system: VHA_FHIR_ID,

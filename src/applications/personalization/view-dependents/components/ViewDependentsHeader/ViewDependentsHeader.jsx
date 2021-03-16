@@ -18,13 +18,15 @@ class ViewDependentsHeader extends Component {
             a claim for additional disability compensation whenever you add a
             new dependent.
           </p>
-          <a
-            href="/view-change-dependents/add-remove-form-686c/"
-            className="usa-button-primary va-button-primary"
-            onClick={this.handleClick}
-          >
-            Add or remove a dependent
-          </a>
+          {this.props.dependentsToggle && (
+            <a
+              href="/view-change-dependents/add-remove-form-686c/"
+              className="usa-button-primary va-button-primary"
+              onClick={this.handleClick}
+            >
+              Add or remove a dependent
+            </a>
+          )}
         </div>
       </div>
     );

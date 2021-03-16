@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
 

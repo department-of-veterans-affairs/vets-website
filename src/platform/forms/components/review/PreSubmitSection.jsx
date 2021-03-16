@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // formation
-import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
+import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 // platform - forms - selectors
 import { preSubmitSelector } from 'platform/forms/selectors/review';
@@ -37,7 +37,7 @@ export function PreSubmitSection(props) {
         <div>
           {preSubmit.notice}
           {preSubmit.required && (
-            <ErrorableCheckbox
+            <Checkbox
               required
               checked={checked}
               onValueChange={value => setPreSubmit(preSubmit?.field, value)}

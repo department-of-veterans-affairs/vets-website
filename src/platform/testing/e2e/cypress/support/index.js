@@ -36,13 +36,6 @@ Cypress.Commands.overwrite('type', (originalFn, element, text, options) => {
 beforeEach(() => {
   cy.server();
 
-  cy.route('GET', '/v0/feature_toggles?*', {
-    data: {
-      type: 'feature_toggles',
-      features: [],
-    },
-  });
-
   cy.route('GET', '/v0/maintenance_windows', {
     data: [],
   });

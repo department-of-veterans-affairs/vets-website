@@ -1,6 +1,6 @@
 import React from 'react';
 import { focusElement } from 'platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import WizardContainer from 'applications/edu-benefits/wizard/containers/WizardContainer';
@@ -142,8 +142,8 @@ export class IntroductionPage extends React.Component {
             <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
               <OMBInfo
                 resBurden={20}
-                ombNumber="2900-0074"
-                expDate="05/31/2018"
+                ombNumber="2900-0099"
+                expDate="02/28/2023"
               />
             </div>
           </div>

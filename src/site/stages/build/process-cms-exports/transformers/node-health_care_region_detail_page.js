@@ -6,7 +6,6 @@ const {
 } = require('./helpers');
 
 const transform = (entity, { ancestors }) => ({
-  entityType: 'node',
   entityBundle: 'health_care_region_detail_page',
   title: getDrupalValue(entity.title),
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
@@ -31,7 +30,7 @@ const transform = (entity, { ancestors }) => ({
           ? entity.fieldOffice[0]
           : {
               entityLabel: getDrupalValue(entity.fieldOffice[0].title),
-              entityType: entity.fieldOffice[0].entityType,
+              title: getDrupalValue(entity.fieldOffice[0].title),
             },
       }
     : null,

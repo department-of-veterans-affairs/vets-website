@@ -40,6 +40,7 @@ export const SearchResult = ({
       'search-results-top-recommendation': undefined,
       'search-results-total-count': totalResults,
       'search-results-total-pages': Math.ceil(totalResults / 10),
+      'search-result-type': 'title',
       'search-selection': 'Resources and support',
       'search-typeahead-enabled': searchTypeaheadEnabled,
     });

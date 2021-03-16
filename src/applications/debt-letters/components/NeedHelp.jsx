@@ -1,7 +1,7 @@
 import React from 'react';
 import Telephone, {
   PATTERNS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 const NeedHelp = () => (
   <div className="vads-u-font-family--sans">

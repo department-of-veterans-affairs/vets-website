@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { selectProfile, selectVAPContactInfo } from 'platform/user/selectors';
 
-import AppointmentDisplay from './AppointmentDisplay';
+import AppointmentDisplay from '../appointment-display/AppointmentDisplay';
 import { autoSaveForm } from 'platform/forms/save-in-progress/actions';
 import VeteranInformationDisplay from './VeteranInformationDisplay';
 
@@ -17,11 +17,9 @@ const AppointmentInfoBox = props => {
     addresses,
     phoneNumbers,
     appointment,
-    setFormData,
-    saveForm,
     form,
+    onChange,
   } = props;
-
   const fullName = useMemo(
     () => {
       return [userFullName.first, userFullName.middle, userFullName.last]
@@ -33,7 +31,7 @@ const AppointmentInfoBox = props => {
     [userFullName.first, userFullName.middle, userFullName.last],
   );
 
-  const { formId, version, data } = form;
+  const { data } = form;
   const veteranInfo = {
     gender,
     dateOfBirth,
@@ -44,17 +42,15 @@ const AppointmentInfoBox = props => {
 
   return (
     <div>
-      <AppointmentDisplay appointment={appointment} />
+      <h2 className="upcoming-header">You have an upcoming appointment</h2>
+      <AppointmentDisplay appointment={appointment} bold />
       <p>
         Below is the personal and contact information we have on file for you.
       </p>
       <VeteranInformationDisplay
         veteranInfo={veteranInfo}
         data={data}
-        formId={formId}
-        version={version}
-        setFormData={setFormData}
-        saveForm={saveForm}
+        setFormData={onChange}
       />
       <p>
         Note: If you need to update your personal information, please call

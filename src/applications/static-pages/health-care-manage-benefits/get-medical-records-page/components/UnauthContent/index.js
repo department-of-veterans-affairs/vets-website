@@ -2,7 +2,7 @@
 import React from 'react';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 // Relative imports.
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 
@@ -86,11 +86,11 @@ const UnauthContent = () => (
         <a href="https://www.myhealth.va.gov/mhv-portal-web/upgrade-account-to-premium#UpgradeToPremiumAccount">
           Premium <strong>My HealtheVet</strong> account
         </a>
-        , or
+        , <strong>or</strong>
       </li>
       <li>
         A Premium <strong>DS Logon</strong> account (used for eBenefits and
-        milConnect), or
+        milConnect), <strong>or</strong>
       </li>
       <li>
         A verified <strong>ID.me</strong> account that you can{' '}

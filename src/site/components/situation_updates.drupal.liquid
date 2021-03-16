@@ -2,7 +2,7 @@
   <h2>Situation updates and information</h2>
   {% for situation in fieldBannerAlert %}
   {% if situation.entity.status == true %}
-    {% assign sortedUpdates = situation.entity.fieldSituationUpdates | sort: update.entity.fieldDateAndTime.date | reverse %}
+    {% assign sortedUpdates = situation.entity.fieldSituationUpdates | sort: update.entity.fieldDatetimeRangeTimezone.value | reverse %}
       {% for update in sortedUpdates %}
         <div data-entity-id="{{ update.entity.entityId }}" class="usa-alert background-color-only vads-u-padding-y--1p5">
           <h3 class="vads-u-margin-top--0">
@@ -12,8 +12,6 @@
             <h4 class="vads-u-margin-top--1 vads-u-margin-bottom--2">
                 {% if update.entity.fieldDatetimeRangeTimezone.value != empty %}
                  {{update.entity.fieldDatetimeRangeTimezone.value | dateFromUnix: "dddd, MMM D, h:mm A"}}
-                {% else %}
-                 {{update.entity.fieldDateAndTime.date | timeZone: "America/New_York", "dddd, MMM D, h:mm A"}}
                 {% endif %}
                 {% if update.entity.fieldDatetimeRangeTimezone.timezone != empty %}
                   {{update.entity.fieldDatetimeRangeTimezone.timezone | timezoneAbbrev: fieldDatetimeRangeTimezone.value }}

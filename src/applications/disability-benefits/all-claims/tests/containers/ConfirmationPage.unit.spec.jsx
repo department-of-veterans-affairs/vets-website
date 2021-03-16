@@ -3,7 +3,12 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import ConfirmationPage from '../../containers/ConfirmationPage';
-import { submissionStatuses } from '../../constants';
+import {
+  submissionStatuses,
+  WIZARD_STATUS,
+  FORM_STATUS_BDD,
+  SAVED_SEPARATION_DATE,
+} from '../../constants';
 
 describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
   const defaultProps = {
@@ -102,6 +107,18 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
 
     const tree = shallow(<ConfirmationPage {...props} />);
     expect(tree.find('#note-email').length).to.equal(0);
+    tree.unmount();
+  });
+  it('should reset wizard state & values', () => {
+    sessionStorage.setItem(WIZARD_STATUS, 'a');
+    sessionStorage.setItem(FORM_STATUS_BDD, 'b');
+    sessionStorage.setItem(SAVED_SEPARATION_DATE, 'c');
+
+    const tree = testPage(submissionStatuses.succeeded);
+    expect(tree.text()).to.contain('Claim ID number');
+    expect(sessionStorage.getItem(WIZARD_STATUS)).to.be.null;
+    expect(sessionStorage.getItem(FORM_STATUS_BDD)).to.be.null;
+    expect(sessionStorage.getItem(SAVED_SEPARATION_DATE)).to.be.null;
     tree.unmount();
   });
 });

@@ -85,19 +85,16 @@ describe('VAOS <NoValidVAFacilities>', () => {
     expect(screen.getByText(new RegExp(`${parentDetails.name}`))).to.exist;
     expect(screen.getByText(new RegExp(`${parentDetails.address.line[0]}`))).to
       .exist;
-    expect(
-      screen.getByText(
-        new RegExp(
-          `${parentDetails.address.city}, ${parentDetails.address.state} ${
-            parentDetails.address.postalCode
-          }`,
-        ),
-      ),
-    ).to.exist;
+    expect(screen.baseElement).to.contain.text(
+      `${parentDetails.address.city}, ${parentDetails.address.state} ${
+        parentDetails.address.postalCode
+      }`,
+    );
     expect(screen.getByText('Directions')).to.exist;
     expect(
       screen.getByRole('link', {
-        name: 'Directions to Cheyenne VA Medical Center',
+        name:
+          'Directions to Cheyenne VA Medical Center Link opens in a new tab.',
       }),
     ).to.exist;
     expect(screen.getByText('Main phone:')).to.exist;
@@ -131,7 +128,7 @@ describe('VAOS <NoValidVAFacilities>', () => {
 
     expect(
       screen.getByRole('link', {
-        name: 'our facility locator tool',
+        name: 'our facility locator tool Link opens in a new tab.',
       }),
     ).to.exist;
   });

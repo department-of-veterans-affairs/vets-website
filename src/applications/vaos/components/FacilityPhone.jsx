@@ -1,5 +1,5 @@
 import React from 'react';
-import Telephone from '@department-of-veterans-affairs/formation-react/Telephone';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 export default function FacilityPhone({ contact }) {
   if (!contact) {

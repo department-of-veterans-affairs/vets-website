@@ -92,11 +92,11 @@ export function updateRequiredFields(schema, uiSchema, formData, index = null) {
   return schema;
 }
 
-export function isContentExpanded(data, matcher) {
+export function isContentExpanded(data, matcher, formData) {
   if (typeof matcher === 'undefined') {
     return !!data;
   } else if (typeof matcher === 'function') {
-    return matcher(data);
+    return matcher(data, formData);
   }
 
   return data === matcher;
@@ -141,7 +141,11 @@ export function setHiddenFields(schema, uiSchema, formData, path = []) {
   );
   if (
     expandUnder &&
-    !isContentExpanded(containingObject[expandUnder], expandUnderCondition)
+    !isContentExpanded(
+      containingObject[expandUnder],
+      expandUnderCondition,
+      formData,
+    )
   ) {
     if (!updatedSchema['ui:collapsed']) {
       updatedSchema = _.set('ui:collapsed', true, updatedSchema);
@@ -638,6 +642,7 @@ export function createInitialState(formConfig) {
       viewedPages: new Set(),
     },
     trackingPrefix: formConfig.trackingPrefix,
+    formErrors: {},
   };
 
   const pageAndDataState = createFormPageList(formConfig).reduce(

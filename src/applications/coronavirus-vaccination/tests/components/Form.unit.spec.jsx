@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 // import { fireEvent } from '@testing-library/react';
 import { rest } from 'msw';
@@ -12,23 +11,21 @@ import { renderInReduxProvider } from 'platform/testing/unit/react-testing-libra
 
 import reducer from '../../reducers';
 
-import FormContainer, { Form } from '../../components/Form';
+import Form from '../../components/Form';
+
+const scheduledDowntimeState = {
+  scheduledDowntime: {
+    globalDowntime: null,
+    isReady: true,
+    isPending: false,
+    serviceMap: {
+      get() {},
+    },
+    dismissedDowntimeWarnings: [],
+  },
+};
 
 describe('<Form/>', () => {
-  it('renders without crashing', () => {
-    const div = document.createElement('div');
-    ReactDOM.render(
-      <Form
-        formState={null}
-        updateFormData={() => {}}
-        router={{}}
-        isLoggedIn={false}
-        profile={{}}
-      />,
-      div,
-    );
-  });
-
   it('renders a form', async () => {
     const initialState = {
       user: {
@@ -40,15 +37,16 @@ describe('<Form/>', () => {
       coronavirusVaccinationApp: {
         formState: null,
       },
+      ...scheduledDowntimeState,
     };
 
-    const screen = renderInReduxProvider(<FormContainer />, {
+    const screen = renderInReduxProvider(<Form />, {
       initialState,
       reducers: reducer,
     });
 
     screen.getByText('Fill out the form below');
-    screen.getByLabelText('Social Security number (SSN)');
+    await screen.findByLabelText('Social Security number (SSN)');
     screen.getByLabelText('Last name', { exact: false });
     screen.getByLabelText('First name', { exact: false });
     screen.getByText('Date of birth');
@@ -58,6 +56,26 @@ describe('<Form/>', () => {
       'Do you plan to get a COVID-19 vaccine when one is available to you?',
       { exact: false },
     );
+    const firstName = await screen.findByLabelText('First name', {
+      exact: false,
+    });
+    const lastName = await screen.findByLabelText('Last name', {
+      exact: false,
+    });
+    const month = await screen.findByLabelText('Month', {
+      exact: false,
+    });
+    const day = await screen.findByLabelText('Day', {
+      exact: false,
+    });
+    const year = await screen.findByLabelText('Year', {
+      exact: false,
+    });
+    expect(firstName.disabled).to.be.false;
+    expect(lastName.disabled).to.be.false;
+    expect(month.disabled).to.be.false;
+    expect(day.disabled).to.be.false;
+    expect(year.disabled).to.be.false;
   });
 });
 
@@ -116,9 +134,10 @@ describe('<Form/> prefills -> by old form data', () => {
       coronavirusVaccinationApp: {
         formState: null,
       },
+      ...scheduledDowntimeState,
     };
 
-    const screen = renderInReduxProvider(<FormContainer />, {
+    const screen = renderInReduxProvider(<Form />, {
       initialState,
       reducers: reducer,
     });
@@ -154,7 +173,7 @@ describe('<Form/> prefills -> profile data ', () => {
     server.close();
   });
 
-  it('prefills from profile data', async () => {
+  it('prefills from profile data with readonly name and dob', async () => {
     const doTest = async loa => {
       const initialState = {
         user: {
@@ -163,6 +182,7 @@ describe('<Form/> prefills -> profile data ', () => {
               first: 'Jim',
               last: 'Testing',
             },
+            dob: '1972-03-21',
             loa: {
               current: loa,
               highest: 3,
@@ -175,9 +195,10 @@ describe('<Form/> prefills -> profile data ', () => {
         coronavirusVaccinationApp: {
           formState: null,
         },
+        ...scheduledDowntimeState,
       };
 
-      const screen = renderInReduxProvider(<FormContainer />, {
+      const screen = renderInReduxProvider(<Form />, {
         initialState,
         reducers: reducer,
       });
@@ -188,9 +209,28 @@ describe('<Form/> prefills -> profile data ', () => {
       const lastName = await screen.findByLabelText('Last name', {
         exact: false,
       });
+      const month = await screen.findByLabelText('Month', {
+        exact: false,
+      });
+      const day = await screen.findByLabelText('Day', {
+        exact: false,
+      });
+      const year = await screen.findByLabelText('Year', {
+        exact: false,
+      });
 
       expect(firstName.value).to.be.equal('Jim');
       expect(lastName.value).to.be.equal('Testing');
+      expect(month.value).to.be.equal('3');
+      expect(day.value).to.be.equal('21');
+      expect(year.value).to.be.equal('1972');
+
+      // ensure name and DOB fields from Profile are readonly
+      expect(firstName.disabled).to.be.true;
+      expect(lastName.disabled).to.be.true;
+      expect(month.disabled).to.be.true;
+      expect(day.disabled).to.be.true;
+      expect(year.disabled).to.be.true;
     };
 
     // Test LOA1 users where a request for a prev form is NOT sent

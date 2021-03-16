@@ -65,7 +65,7 @@ export const TYPES_OF_CARE = [
     group: 'primary',
     ccId: 'CCPRMYRTNE',
     cceType: 'PrimaryCare',
-    specialties: ['208D00000X', '207R00000X', '261QP2300X', '207Q00000X'],
+    specialties: ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
   },
   {
     id: '160',
@@ -106,7 +106,7 @@ export const TYPES_OF_CARE = [
     group: 'specialty',
     ccId: 'CCNUTRN',
     cceType: 'Nutrition',
-    specialties: ['133N00000X', '136A00000X', '132700000X', '133V00000X'],
+    specialties: ['133V00000X', '133VN1201X', '133N00000X', '133NN1002X'],
   },
   {
     id: PODIATRY_ID,
@@ -115,7 +115,7 @@ export const TYPES_OF_CARE = [
     ccId: 'CCPOD',
     group: 'specialty',
     cceType: 'Podiatry',
-    specialties: ['211D00000X', '213E00000X', '261QP1100X', '207XX0004X'],
+    specialties: ['213E00000X', '213EG0000X', '213EP1101X', '213ES0131X'],
   },
   {
     id: 'SLEEP',
@@ -146,7 +146,7 @@ export const TYPES_OF_EYE_CARE = [
     name: 'Optometry',
     ccId: 'CCOPT',
     cceType: 'Optometry',
-    specialties: ['152W00000X', '156F00000X'],
+    specialties: ['152W00000X', '152WC0802X'],
   },
   {
     id: '407',
@@ -158,12 +158,12 @@ export const AUDIOLOGY_TYPES_OF_CARE = [
   {
     ccId: 'CCAUDRTNE',
     name: 'Routine hearing exam',
-    specialties: ['231H00000X', '261QH0700X'],
+    specialties: ['231H00000X', '237600000X', '261QH0700X'],
   },
   {
     ccId: 'CCAUDHEAR',
     name: 'Hearing aid support',
-    specialties: ['332S00000X', '237600000X', '237700000X', '231H00000X'],
+    specialties: ['231H00000X', '237600000X'],
   },
 ];
 
@@ -279,11 +279,6 @@ export const DISTANCES = [
     name: 'Further than 50 miles',
   },
 ];
-
-export const CALENDAR_INDICATOR_TYPES = {
-  CHECK: 'check',
-  BUBBLES: 'bubbles',
-};
 
 export const MENTAL_HEALTH = '502';
 export const EXPRESS_CARE = 'CR1';

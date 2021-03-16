@@ -25,7 +25,7 @@ export const uiSchema = {
       'ui:title': ChildNameHeader,
       doesChildLiveWithYou: {
         'ui:widget': 'yesNo',
-        'ui:title': 'Does your child live with you?',
+        'ui:title': 'Does this child live with you?',
         'ui:required': formData =>
           isChapterFieldRequired(formData, TASK_KEYS.addChild),
       },
@@ -36,7 +36,7 @@ export const uiSchema = {
           keepInPageOnReview: true,
         },
         personChildLivesWith: {
-          'ui:title': 'Person your child lives with',
+          'ui:title': 'Person child lives with',
           first: {
             'ui:title': 'First name',
             'ui:required': (formData, index) =>

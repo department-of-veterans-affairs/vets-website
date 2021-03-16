@@ -22,7 +22,7 @@ describe('VAOS Healthcare service', () => {
   describe('getAvailableHealthcareServices', () => {
     it('should make successful request', async () => {
       await getAvailableHealthcareServices({
-        facilityId: 'var983',
+        facilityId: '983',
         typeOfCareId: '123',
         systemId: '456',
       });
@@ -34,7 +34,7 @@ describe('VAOS Healthcare service', () => {
 
     it('should sort by serviceName', async () => {
       const data = await getAvailableHealthcareServices({
-        facilityId: 'var983',
+        facilityId: '983',
         typeOfCareId: '123',
         systemId: '456',
       });
@@ -47,7 +47,7 @@ describe('VAOS Healthcare service', () => {
 
     it('should set identifier', async () => {
       const data = await getAvailableHealthcareServices({
-        facilityId: 'var983',
+        facilityId: '983',
         typeOfCareId: '123',
         systemId: '456',
       });
@@ -59,27 +59,27 @@ describe('VAOS Healthcare service', () => {
 
     it('should set providedBy', async () => {
       const data = await getAvailableHealthcareServices({
-        facilityId: 'var983',
+        facilityId: '983',
         typeOfCareId: '123',
         systemId: '456',
       });
 
-      expect(data[2].providedBy).to.equal('Organization/var983');
+      expect(data[2].providedBy).to.equal('Organization/983');
     });
 
     it('should set location', async () => {
       const data = await getAvailableHealthcareServices({
-        facilityId: 'var983',
+        facilityId: '983',
         typeOfCareId: '123',
         systemId: '456',
       });
 
-      expect(data[2].location.reference).to.equal('Location/var983');
+      expect(data[2].location.reference).to.equal('Location/983');
     });
 
     it('should set serviceType', async () => {
       const data = await getAvailableHealthcareServices({
-        facilityId: 'var983',
+        facilityId: '983',
         typeOfCareId: '123',
         systemId: '456',
       });
@@ -89,7 +89,7 @@ describe('VAOS Healthcare service', () => {
 
     it('should set service name to clinic name', async () => {
       const data = await getAvailableHealthcareServices({
-        facilityId: 'var983',
+        facilityId: '983',
         typeOfCareId: '123',
         systemId: '456',
       });
@@ -99,7 +99,7 @@ describe('VAOS Healthcare service', () => {
 
     it('should set service name to friendly name when present', async () => {
       const data = await getAvailableHealthcareServices({
-        facilityId: 'var983',
+        facilityId: '983',
         typeOfCareId: '123',
         systemId: '456',
       });
@@ -116,7 +116,7 @@ describe('VAOS Healthcare service', () => {
       let error;
       try {
         await getAvailableHealthcareServices({
-          facilityId: 'var983',
+          facilityId: '983',
           typeOfCareId: '123',
           systemId: '456',
         });

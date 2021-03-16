@@ -3,8 +3,6 @@ import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 
-import { isFieldRequired } from '../../../helpers';
-
 const { veteranInformation } = fullSchema.properties;
 
 export const schema = {
@@ -20,25 +18,29 @@ export const uiSchema = {
     fullName: {
       first: {
         'ui:title': 'Your first name',
-        'ui:required': formData => !isFieldRequired(formData, 'isLoggedIn'),
+        'ui:required': () => true,
       },
       middle: {
         'ui:title': 'Your middle name',
+        'ui:options': {
+          hideEmptyValueInReview: true,
+        },
       },
       last: {
         'ui:title': 'Your last name',
-        'ui:required': formData => !isFieldRequired(formData, 'isLoggedIn'),
+        'ui:required': () => true,
       },
       suffix: {
         'ui:title': 'Suffix',
         'ui:options': {
           widgetClassNames: 'form-select-medium',
+          hideEmptyValueInReview: true,
         },
       },
     },
     ssn: {
       'ui:title': 'Your Social Security number',
-      'ui:required': formData => !isFieldRequired(formData, 'isLoggedIn'),
+      'ui:required': () => true,
       ...ssnUI,
     },
     vaFileNumber: {
@@ -56,11 +58,12 @@ export const uiSchema = {
       ),
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
+        hideEmptyValueInReview: true,
       },
     },
     dob: {
       ...currentOrPastDateUI('Date of birth'),
-      'ui:required': formData => !isFieldRequired(formData, 'isLoggedIn'),
+      'ui:required': () => true,
     },
   },
 };

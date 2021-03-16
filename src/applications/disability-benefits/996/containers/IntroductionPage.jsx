@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 import recordEvent from 'platform/monitoring/record-event';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -24,10 +24,12 @@ import {
 } from '../actions';
 import { higherLevelReviewFeature, scrollToTop } from '../helpers';
 import {
+  BASE_URL,
   SAVED_CLAIM_TYPE,
   SUPPLEMENTAL_CLAIM_URL,
   FACILITY_LOCATOR_URL,
   GET_HELP_REVIEW_REQUEST_URL,
+  WIZARD_STATUS,
 } from '../constants';
 import {
   noContestableIssuesFound,
@@ -37,10 +39,9 @@ import {
 } from '../content/contestableIssueAlerts';
 import WizardContainer from '../wizard/WizardContainer';
 import {
-  WIZARD_STATUS,
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
-} from 'applications/static-pages/wizard';
+} from 'platform/site-wide/wizard';
 
 export class IntroductionPage extends React.Component {
   state = {
@@ -98,32 +99,50 @@ export class IntroductionPage extends React.Component {
   };
 
   getCallToActionContent = () => {
-    const { route, contestableIssues } = this.props;
+    const { route, contestableIssues, delay = 250 } = this.props;
 
     if (contestableIssues?.error) {
-      return showContestableIssueError(contestableIssues.error);
+      return showContestableIssueError(contestableIssues, delay);
     }
-    if (contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_INIT) {
+
+    if (
+      (contestableIssues?.status || '') === '' ||
+      contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_INIT
+    ) {
       return (
         <LoadingIndicator
           setFocus
-          message="Loading your contestable issues..."
+          message="Loading your previous decisions..."
         />
       );
     }
+
     const { formId, prefillEnabled, savedFormMessages } = route.formConfig;
-    return contestableIssues?.issues?.length > 0 ? (
-      <SaveInProgressIntro
-        formId={formId}
-        prefillEnabled={prefillEnabled}
-        messages={savedFormMessages}
-        pageList={route.pageList}
-        startText="Start the Request for a Higher-Level Review"
-        gaStartEventName="decision-reviews-va20-0996-start-form"
-      />
-    ) : (
-      noContestableIssuesFound
-    );
+
+    if (contestableIssues?.issues?.length > 0) {
+      return (
+        <SaveInProgressIntro
+          formId={formId}
+          prefillEnabled={prefillEnabled}
+          messages={savedFormMessages}
+          pageList={route.pageList}
+          startText="Start the Request for a Higher-Level Review"
+          gaStartEventName="decision-reviews-va20-0996-start-form"
+        />
+      );
+    }
+
+    recordEvent({
+      event: 'visible-alert-box',
+      'alert-box-type': 'warning',
+      'alert-box-heading':
+        'We don’t have any issues on file for you that are eligible for a Higher-Level Review',
+      'error-key': contestableIssues?.status || '',
+      'alert-box-full-width': false,
+      'alert-box-background-only': false,
+      'alert-box-closeable': false,
+    });
+    return noContestableIssuesFound;
   };
 
   setWizardStatus = value => {
@@ -201,16 +220,19 @@ export class IntroductionPage extends React.Component {
               </h2>
               <p className="vads-u-margin-top--2">
                 if you don’t think this is the right form for you,{' '}
-                <button
+                <a
+                  href={BASE_URL}
                   className="va-button-link"
-                  onClick={() => {
+                  onClick={event => {
+                    // prevent reload, but allow opening a new tab
+                    event.preventDefault();
                     this.setWizardStatus(WIZARD_STATUS_NOT_STARTED);
                     this.setPageFocus();
                     recordEvent({ event: 'howToWizard-start-over' });
                   }}
                 >
                   go back and answer questions again
-                </button>
+                </a>
                 .
               </p>
               <ol>
@@ -261,7 +283,7 @@ export class IntroductionPage extends React.Component {
                   <p>
                     Our goal for completing a Higher-Level Review is 125 days. A
                     review might take longer if we need to get records or
-                    schedule a new exam to correct the error.
+                    schedule a new exam to correct an error.
                   </p>
                 </li>
                 <li className="process-step list-four">

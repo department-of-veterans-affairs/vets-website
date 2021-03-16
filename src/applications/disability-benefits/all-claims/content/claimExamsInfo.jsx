@@ -1,6 +1,6 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import CollapsiblePanel from '@department-of-veterans-affairs/formation-react/CollapsiblePanel';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import CollapsiblePanel from '@department-of-veterans-affairs/component-library/CollapsiblePanel';
 
 export const claimExamsDescription = (
   <div>

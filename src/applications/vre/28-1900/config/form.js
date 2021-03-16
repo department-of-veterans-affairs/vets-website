@@ -1,16 +1,15 @@
 import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
-import { hasSession } from 'platform/user/profile/utilities';
 import environment from 'platform/utilities/environment';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PreSubmitInfo from 'applications/vre/28-1900/components/PreSubmitInfo';
-import VeteranInformationViewComponent from '../components/VeteranInformationViewComponent';
 import { additionalInformation } from './chapters/additional-information';
 import { communicationPreferences } from './chapters/communication-preferences';
 import { veteranInformation, veteranAddress } from './chapters/veteran';
 import StaticInformationReviewField from '../containers/StaticInformationReviewField';
 import GetFormHelp from 'applications/vre/components/GetFormHelp';
 import { transform } from './helpers';
+import { WIZARD_STATUS } from '../constants';
 
 import manifest from '../manifest.json';
 
@@ -24,6 +23,7 @@ const formConfig = {
   preSubmitInfo: PreSubmitInfo,
   transformForSubmit: transform,
   formId: '28-1900',
+  wizardStorageKey: WIZARD_STATUS,
   saveInProgress: {
     messages: {
       inProgress:
@@ -51,23 +51,23 @@ const formConfig = {
       title: 'Veteran Information',
       reviewDescription: StaticInformationReviewField,
       pages: {
-        veteranStaticInformation: {
-          depends: () => hasSession(),
-          path: 'veteran-information-review',
-          title: 'Veteran Information Review',
-          hideHeaderRow: true,
-          schema: {
-            type: 'object',
-            properties: {},
-          },
-          uiSchema: {
-            'ui:description': VeteranInformationViewComponent,
-            'ui:reviewField': StaticInformationReviewField,
-          },
-        },
+        // TODO: possibly add this back in once issue has been investigated.
+        // veteranStaticInformation: {
+        //   depends: () => hasSession(),
+        //   path: 'veteran-information-review',
+        //   title: 'Veteran Information Review',
+        //   hideHeaderRow: true,
+        //   schema: {
+        //     type: 'object',
+        //     properties: {},
+        //   },
+        //   uiSchema: {
+        //     'ui:description': VeteranInformationViewComponent,
+        //     'ui:reviewField': StaticInformationReviewField,
+        //   },
+        // },
         veteranInformation: {
-          depends: () => !hasSession(),
-          path: 'veteran-information',
+          path: 'veteran-information-review',
           title: 'Veteran Information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,

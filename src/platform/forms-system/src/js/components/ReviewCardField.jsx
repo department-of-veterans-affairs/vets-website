@@ -153,7 +153,6 @@ export default class ReviewCardField extends React.Component {
       'vads-u-margin-top--1',
       'vads-u-margin-bottom--2p5',
       'vads-u-margin-x--0',
-      'vads-u-font-size--h4',
     ].join(' ');
 
     const updateButtonClasses = [

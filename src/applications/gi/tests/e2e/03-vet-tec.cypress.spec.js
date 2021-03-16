@@ -13,8 +13,8 @@ describe('VETTEC', () => {
 
     initMockProfile(vetTecProfile);
 
-    cy.visit('/gi-bill-comparison-tool').injectAxe();
-    cy.axeCheck();
+    cy.visit('/gi-bill-comparison-tool');
+    cy.injectAxeThenAxeCheck();
   });
 
   it('Default VETTEC profile flow with giBillChapter chapter 33', () => {
@@ -47,7 +47,9 @@ describe('VETTEC', () => {
       .should('include', vetTecAttributes.facility_code)
       .get('.profile-page')
       .should('be.visible');
-    cy.get('body').axeCheck();
+
+    cy.get('body');
+    cy.injectAxeThenAxeCheck();
 
     displayLearnMoreModal();
     // Approved programs

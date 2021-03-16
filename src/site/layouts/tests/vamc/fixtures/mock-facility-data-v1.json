@@ -1,0 +1,145 @@
+{
+  "data": {
+    "id": "vha_646",
+    "type": "facility",
+    "attributes": {
+      "access": {
+        "health": [
+          {
+            "service": "Audiology",
+            "new": 14.067415,
+            "established": 4.131764
+          },
+          {
+            "service": "Cardiology",
+            "new": 11.2,
+            "established": 31.792207
+          },
+          {
+            "service": "Dermatology",
+            "new": 6.555555,
+            "established": 9.442028
+          },
+          {
+            "service": "Gastroenterology",
+            "new": 9.4,
+            "established": 12.5
+          },
+          {
+            "service": "Gynecology",
+            "new": 11.4,
+            "established": 4.875
+          },
+          {
+            "service": "MentalHealthCare",
+            "new": 9.60396,
+            "established": 2.520347
+          },
+          {
+            "service": "Ophthalmology",
+            "new": 12.470588,
+            "established": 10.425757
+          },
+          {
+            "service": "Optometry",
+            "new": 25.17647,
+            "established": 33.226361
+          },
+          {
+            "service": "Orthopedics",
+            "new": 13.095238,
+            "established": 10.954063
+          },
+          {
+            "service": "PrimaryCare",
+            "new": 19.87931,
+            "established": 10.020588
+          },
+          {
+            "service": "SpecialtyCare",
+            "new": 14.208105,
+            "established": 11.325
+          },
+          {
+            "service": "Urology",
+            "new": 9.011494,
+            "established": 7.089494
+          }
+        ],
+        "effectiveDate": "2021-01-04"
+      },
+      "activeStatus": "A",
+      "address": {
+        "mailing": {},
+        "physical": {
+          "zip": "15240-1003",
+          "city": "Pittsburgh",
+          "state": "PA",
+          "address1": "University Drive C",
+          "address2": null,
+          "address3": null
+        }
+      },
+      "classification": "VA Medical Center (VAMC)",
+      "facilityType": "va_health_facility",
+      "feedback": {
+        "health": {
+          "primaryCareUrgent": 0.8199999928474426,
+          "primaryCareRoutine": 0.9300000071525574,
+          "specialtyCareUrgent": 0.8999999761581421,
+          "specialtyCareRoutine": 0.9100000262260437
+        },
+        "effectiveDate": "2020-04-16"
+      },
+      "hours": {
+        "monday": "24/7",
+        "tuesday": "24/7",
+        "wednesday": "24/7",
+        "thursday": "24/7",
+        "friday": "24/7",
+        "saturday": "24/7",
+        "sunday": "24/7"
+      },
+      "id": "vha_646",
+      "lat": 40.44473269,
+      "long": -79.95960866,
+      "mobile": false,
+      "name": "Pittsburgh VA Medical Center-University Drive",
+      "operatingStatus": {
+        "code": "NORMAL"
+      },
+      "phone": {
+        "fax": "412-360-6789",
+        "main": "866-482-7488",
+        "pharmacy": "412-360-6119",
+        "afterHours": "412-360-6000",
+        "patientAdvocate": "412-360-3614",
+        "mentalHealthClinic": "412-360-6600",
+        "enrollmentCoordinator": "412-360-6993"
+      },
+      "services": {
+        "other": [],
+        "health": [
+          "Audiology",
+          "Cardiology",
+          "Dermatology",
+          "EmergencyCare",
+          "Gastroenterology",
+          "Gynecology",
+          "MentalHealthCare",
+          "Ophthalmology",
+          "Optometry",
+          "Orthopedics",
+          "Podiatry",
+          "PrimaryCare",
+          "SpecialtyCare",
+          "Urology"
+        ],
+        "lastUpdated": "2021-01-04"
+      },
+      "uniqueId": "646",
+      "visn": "4",
+      "website": "https://www.va.gov/pittsburgh-health-care/locations/pittsburgh-va-medical-center-university-drive/"
+    }
+  }
+}

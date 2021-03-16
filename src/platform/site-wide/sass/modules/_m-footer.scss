@@ -102,10 +102,13 @@
       > a {
         display: inline-block;
         color: $color-white;
-        text-decoration: none;
         font-size: 1em;
         font-weight: 400;
         margin: .25em 0;
+
+        &:hover {
+          color: $color-gold !important;
+        }
       }
     }
   }

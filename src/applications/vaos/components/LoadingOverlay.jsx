@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 export default function LoadingOverlay({ show, message }) {
   useEffect(
@@ -17,7 +17,7 @@ export default function LoadingOverlay({ show, message }) {
     return (
       <div className="vaos__loading-overlay">
         <div className="vaos__loading-overlay-inner">
-          <LoadingIndicator message={message} />
+          <LoadingIndicator setFocus message={message} />
         </div>
       </div>
     );

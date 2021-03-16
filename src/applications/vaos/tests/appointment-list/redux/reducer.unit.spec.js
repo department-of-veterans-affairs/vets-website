@@ -5,6 +5,7 @@ import {
   FETCH_FUTURE_APPOINTMENTS,
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
   FETCH_FUTURE_APPOINTMENTS_FAILED,
+  FETCH_PENDING_APPOINTMENTS,
   FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
   FETCH_PENDING_APPOINTMENTS_FAILED,
   FETCH_PAST_APPOINTMENTS,
@@ -82,6 +83,16 @@ describe('VAOS reducer: appointments', () => {
     expect(newState.confirmedStatus).to.equal(FETCH_STATUS.failed);
   });
 
+  it('should update pending and status to be loading when calling FETCH_PENDING_APPOINTMENTS', () => {
+    const action = {
+      type: FETCH_PENDING_APPOINTMENTS,
+    };
+
+    const newState = appointmentsReducer(initialState, action);
+
+    expect(newState.pendingStatus).to.equal(FETCH_STATUS.loading);
+  });
+
   it('should populate pending with requests when FETCH_PENDING_APPOINTMENTS_SUCCEEDED', () => {
     const action = {
       type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
@@ -129,7 +140,7 @@ describe('VAOS reducer: appointments', () => {
       startDate: '2018-01-01',
       endDate: moment().format(),
       selectedIndex: 1,
-      data: [
+      appointments: [
         {
           start: '2019-04-30T05:35:00',
           vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
@@ -206,14 +217,14 @@ describe('VAOS reducer: appointments', () => {
       type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
       facilityData: [
         {
-          id: 'var442',
+          id: '442',
         },
       ],
       clinicInstitutionList: null,
     };
 
     const newState = appointmentsReducer(initialState, action);
-    expect(newState.facilityData.var442).to.equal(action.facilityData[0]);
+    expect(newState.facilityData['442']).to.equal(action.facilityData[0]);
   });
 
   it('should set facility data when fetch succeeds', () => {
@@ -221,13 +232,13 @@ describe('VAOS reducer: appointments', () => {
       type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
       facilityData: [
         {
-          id: 'var442GA',
+          id: '442GA',
         },
       ],
     };
 
     const newState = appointmentsReducer(initialState, action);
-    expect(newState.facilityData.var442GA).to.equal(action.facilityData[0]);
+    expect(newState.facilityData['442GA']).to.equal(action.facilityData[0]);
   });
 
   describe('cancel appointment', () => {
@@ -304,7 +315,7 @@ describe('VAOS reducer: appointments', () => {
 
       expect(newState.showCancelModal).to.be.true;
       expect(newState.cancelAppointmentStatus).to.equal(FETCH_STATUS.succeeded);
-      expect(newState.pending[0].apiData).to.equal(action.apiData);
+      expect(newState.pending[0].legacyVAR.apiData).to.equal(action.apiData);
       expect(newState.pending[0].status).to.equal(APPOINTMENT_STATUS.cancelled);
       expect(newState.cancelAppointmentStatusVaos400).to.equal(false);
     });

@@ -187,6 +187,24 @@ const createFakeReasonForVisitDescriptionStore = reason => {
   };
 };
 
+const createFakeExpiresAtStore = (appointmentTime = 'no a real date') => {
+  return {
+    getState: () => ({
+      questionnaireData: {
+        context: {
+          appointment: {
+            attributes: {
+              vdsAppointments: [{ appointmentTime }],
+            },
+          },
+        },
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  };
+};
+
 const createFakeReasonForVisitStore = ({ reason = '' }) => {
   return {
     getState: () => ({
@@ -198,40 +216,6 @@ const createFakeReasonForVisitStore = ({ reason = '' }) => {
         },
       },
     }),
-    subscribe: () => {},
-    dispatch: () => {},
-  };
-};
-
-const createFakeConfirmationStore = ({ hasData }) => {
-  return {
-    getState: () => {
-      return hasData
-        ? {
-            form: {
-              submission: {
-                response: {
-                  veteranInfo: { fullName: 'Mickey Mouse' },
-                  timestamp: new Date(),
-                },
-              },
-            },
-            questionnaireData: {
-              context: {
-                appointment: {
-                  attributes: {
-                    vdsAppointments: [
-                      {
-                        clinic: { facility: { displayName: 'Magic Kingdom' } },
-                      },
-                    ],
-                  },
-                },
-              },
-            },
-          }
-        : { form: {}, questionnaireData: {} };
-    },
     subscribe: () => {},
     dispatch: () => {},
   };
@@ -287,11 +271,12 @@ const createFakeStopCodeStore = (stopCode = '323') => {
     }),
   };
 };
+
 export {
   createFakeUserStore,
   createFakeReasonForVisitDescriptionStore,
   createFakeReasonForVisitStore,
-  createFakeConfirmationStore,
   createFakeIntroductionPageStore,
   createFakeStopCodeStore,
+  createFakeExpiresAtStore,
 };

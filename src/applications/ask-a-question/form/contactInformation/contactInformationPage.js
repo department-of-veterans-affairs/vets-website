@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-import { confirmationEmailUI } from '../../../caregivers/definitions/caregiverUI';
+import { confirmationEmailUI } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 import fullNameUI from './fullName/fullName';
 
 import fullSchema from '../0873-schema.json';

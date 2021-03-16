@@ -57,7 +57,7 @@ describe('VAOS <ReviewPage> CC request', () => {
           phoneNumber: '1234567890',
           email: 'joeblow@gmail.com',
           reasonAdditionalInfo: 'I need an appt',
-          communityCareSystemId: 'var983',
+          communityCareSystemId: '983',
           preferredLanguage: 'english',
           hasCommunityCareProvider: true,
           communityCareProvider: {
@@ -80,7 +80,7 @@ describe('VAOS <ReviewPage> CC request', () => {
         clinics: {},
         ccEnabledSystems: [
           {
-            id: 'var983',
+            id: '983',
             identifier: [
               { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
               {
@@ -92,7 +92,7 @@ describe('VAOS <ReviewPage> CC request', () => {
         ],
         parentFacilities: [
           {
-            id: 'var983',
+            id: '983',
             identifier: [
               { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
               {
@@ -102,42 +102,12 @@ describe('VAOS <ReviewPage> CC request', () => {
             ],
           },
         ],
-        facilityDetails: {
-          var983: {
-            id: 'var983',
-            name: 'Cheyenne VA Medical Center',
-            address: {
-              postalCode: '82001-5356',
-              city: 'Cheyenne',
-              state: 'WY',
-              line: ['2360 East Pershing Boulevard'],
-            },
-          },
-        },
-        facilities: {
-          '323_var983': [
-            {
-              id: 'var983',
-              name: 'Cheyenne VA Medical Center',
-              identifier: [
-                { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
-              ],
-            },
-          ],
-        },
+        facilities: {},
       },
     });
     store.dispatch(startRequestAppointmentFlow());
     store.dispatch(
-      onCalendarChange({
-        currentlySelectedDate: start.format('YYYY-MM-DD'),
-        selectedDates: [
-          {
-            date: start.format('YYYY-MM-DD'),
-            optionTime: 'AM',
-          },
-        ],
-      }),
+      onCalendarChange([start.format('YYYY-MM-DD[T00:00:00.000]')]),
     );
   });
   afterEach(() => resetFetch());
@@ -278,13 +248,6 @@ describe('VAOS <ReviewPage> CC request', () => {
       'Something went wrong when we tried to submit your request and you’ll need to start over. We suggest you wait a day',
     );
 
-    await screen.findByText('307-778-7550');
-
-    // Not sure of a better way to search for test just within the alert
-    const alert = screen.baseElement.querySelector('.usa-alert');
-    expect(alert).contain.text('Cheyenne VA Medical Center');
-    expect(alert).contain.text('2360 East Pershing Boulevard');
-    expect(alert).contain.text('Cheyenne, WY 82001-5356');
     expect(screen.history.push.called).to.be.false;
   });
 });
@@ -323,7 +286,7 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
           phoneNumber: '1234567890',
           email: 'joeblow@gmail.com',
           reasonAdditionalInfo: 'I need an appt',
-          communityCareSystemId: 'var983',
+          communityCareSystemId: '983',
           hasCommunityCareProvider: true,
           communityCareProvider: {
             resourceType: 'Location',
@@ -344,7 +307,7 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
         clinics: {},
         ccEnabledSystems: [
           {
-            id: 'var983',
+            id: '983',
             identifier: [
               { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
               {
@@ -356,7 +319,7 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
         ],
         parentFacilities: [
           {
-            id: 'var983',
+            id: '983',
             identifier: [
               { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
               {
@@ -367,8 +330,8 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
           },
         ],
         facilityDetails: {
-          var983: {
-            id: 'var983',
+          '983': {
+            id: '983',
             name: 'Cheyenne VA Medical Center',
             address: {
               postalCode: '82001-5356',
@@ -379,9 +342,9 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
           },
         },
         facilities: {
-          '323_var983': [
+          '323_983': [
             {
-              id: 'var983',
+              id: '983',
               name: 'Cheyenne VA Medical Center',
               identifier: [
                 { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
@@ -393,15 +356,7 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
     });
     store.dispatch(startRequestAppointmentFlow());
     store.dispatch(
-      onCalendarChange({
-        currentlySelectedDate: start.format('YYYY-MM-DD'),
-        selectedDates: [
-          {
-            date: start.format('YYYY-MM-DD'),
-            optionTime: 'AM',
-          },
-        ],
-      }),
+      onCalendarChange([start.format('YYYY-MM-DD[T00:00:00.000]')]),
     );
   });
   afterEach(() => resetFetch());
@@ -540,13 +495,6 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
       'Something went wrong when we tried to submit your request and you’ll need to start over. We suggest you wait a day',
     );
 
-    await screen.findByText('307-778-7550');
-
-    // Not sure of a better way to search for test just within the alert
-    const alert = screen.baseElement.querySelector('.usa-alert');
-    expect(alert).contain.text('Cheyenne VA Medical Center');
-    expect(alert).contain.text('2360 East Pershing Boulevard');
-    expect(alert).contain.text('Cheyenne, WY 82001-5356');
     expect(screen.history.push.called).to.be.false;
   });
 });

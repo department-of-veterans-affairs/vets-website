@@ -78,7 +78,7 @@ describe('<SearchMenu>', () => {
 
     expect(wrapper.find('#suggestions-list').children()).to.have.lengthOf(5);
 
-    expect(wrapper.html()).to.contain('<strong>sample</strong> 1');
+    expect(wrapper.html()).to.contain('sample<strong> 1</strong>');
 
     wrapper.unmount();
   });

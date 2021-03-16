@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import HCASubwayMap from '../components/HCASubwayMap';
 import recordEvent from 'platform/monitoring/record-event';

@@ -1,19 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export default function NoVASystems() {
   return (
     <div aria-atomic="true" aria-live="assertive">
       <AlertBox
         status="warning"
-        headline="Sorry, we couldn't find any VA health systems you've been seen at."
+        headline="We can’t find a VA health system where you’re registered"
       >
-        You may need to call to make an appointment at your{' '}
-        <a href="/find-locations" target="_blank" rel="noopener noreferrer">
-          local VA medical center
-        </a>{' '}
-        if you have not been seen there before.
+        If you haven’t had an appointment at your local VA health facility,
+        you’ll need to call the facility to schedule an appointment.{' '}
+        <NewTabAnchor href="/find-locations">Find a VA location</NewTabAnchor>
         <p>
           <Link to="/">Go back to VA Online Scheduling home.</Link>
         </p>

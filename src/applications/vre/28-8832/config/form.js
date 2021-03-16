@@ -2,24 +2,22 @@ import fullSchema from 'vets-json-schema/dist/28-8832-schema.json';
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
-import { hasSession } from 'platform/user/profile/utilities';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { statusSelection } from './chapters/status-selection';
 import { veteranInformation } from './chapters/veteran-information';
 import GetFormHelp from '../components/GetFormHelp';
-import ReadOnlyUserDescription from '../components/ReadOnlyUserDescription';
 import PreSubmitInfo from '../components/PreSubmitInfo';
 
 import {
   claimantInformation,
   claimantAddress,
-  staticClaimantInformation,
 } from './chapters/claimant-information';
 import { isDependent, transform } from './helpers';
-
 import manifest from '../manifest.json';
+
+import { WIZARD_STATUS } from '../constants';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -30,6 +28,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   transformForSubmit: transform,
   formId: VA_FORM_IDS.FORM_28_8832,
+  wizardStorageKey: WIZARD_STATUS,
   saveInProgress: {
     messages: {
       inProgress:
@@ -57,22 +56,25 @@ const formConfig = {
   chapters: {
     claimantInformation: {
       title: 'Applicant Information',
-      reviewDescription: ReadOnlyUserDescription,
+      // TODO: possibly re-added some time down later
+      // reviewDescription: ReadOnlyUserDescription,
       pages: {
         claimantInformation: {
-          depends: () => !hasSession(),
-          path: 'basic-information',
+          path: 'claimant-information',
           title: 'Applicant Information',
           uiSchema: claimantInformation.uiSchema,
           schema: claimantInformation.schema,
         },
-        claimantStaticInformation: {
-          depends: () => hasSession(),
-          path: 'claimant-information',
-          title: 'Applicant Information',
-          uiSchema: staticClaimantInformation.uiSchema,
-          schema: staticClaimantInformation.schema,
-        },
+        // TODO: possibly re-added some time later
+        // claimantStaticInformation: {
+        //   depends: formData => {
+        //     return formData.loa === LOA_LEVEL_REQUIRED;
+        //   },
+        //   path: 'claimant-information',
+        //   title: 'Applicant Information',
+        //   uiSchema: staticClaimantInformation.uiSchema,
+        //   schema: staticClaimantInformation.schema,
+        // },
         claimantAddress: {
           path: 'claimant-address',
           title: 'Applicant Address',
@@ -93,7 +95,7 @@ const formConfig = {
         veteranInformation: {
           depends: formData => isDependent(formData),
           path: 'veteran-information',
-          title: 'Your sponsoring Veteran or service member',
+          title: 'Your sponsor’s information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },

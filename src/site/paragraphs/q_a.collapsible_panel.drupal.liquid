@@ -16,12 +16,19 @@
   }
 {% endcomment %}
 
-<div data-template="paragraphs/q_a.collapsible_panel" >
+<div data-template="paragraphs/q_a.collapsible_panel">
   <div class="usa-accordion">
     <ul class="usa-unstyled-list">
+        {% assign questions = entity.fieldQuestions %}
+        {% assign sectionHeader = entity.fieldSectionHeader %}
+
         {% for accordionItem in questions %}
           {% assign item = accordionItem.entity %}
-          <li id="{{ item.entityId }}">
+          <li id="{{ item.entityId }}"
+            data-template="paragraphs/q_a.collapsible_panel__qa"
+            data-entity-id="{{ item.entityId }}"
+            data-analytics-faq-section="{{ sectionHeader | escape }}"
+            data-analytics-faq-text="{{ item.fieldQuestion | escape }}">
           <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
             <button class="usa-accordion-button usa-button-unstyled" aria-controls="{{ item.entityBundle }}-{{ item.entityId }}">
               <span itemprop="name">{{ item.fieldQuestion }}</span>

@@ -1,5 +1,5 @@
 import React from 'react';
-import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import { veteranPathPageNames } from '../pageList';
 import { handleChangeAndPageSet } from '../helpers';
 
@@ -9,7 +9,7 @@ const options = [
 ];
 
 const isVeteran = ({ setPageState, state = {} }) => (
-  <ErrorableRadioButtons
+  <RadioButtons
     name={`${veteranPathPageNames.isVeteran}-option`}
     label={
       <p>
@@ -20,7 +20,12 @@ const isVeteran = ({ setPageState, state = {} }) => (
     id={`${veteranPathPageNames.isVeteran}-option`}
     options={options}
     onValueChange={({ value }) =>
-      handleChangeAndPageSet(setPageState, value, options)
+      handleChangeAndPageSet(
+        setPageState,
+        value,
+        options,
+        'Did you receive a discharge status other than  dishonorable?',
+      )
     }
     value={{ value: state.selected }}
     additionalFieldsetClass="vads-u-margin-top--0"

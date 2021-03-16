@@ -11,7 +11,7 @@ export default function PreferredDatesSection(props) {
           <div className="vads-u-flex--1 vads-u-padding-right--1">
             <h3 className="vaos-appts__block-label">Preferred date and time</h3>
             <ul className="usa-unstyled-list">
-              <PreferredDates dates={props.data.calendarData.selectedDates} />
+              <PreferredDates dates={props.data.selectedDates} />
             </ul>
           </div>
           <div>

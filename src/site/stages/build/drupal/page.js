@@ -1,7 +1,8 @@
-/* eslint-disable no-param-reassign, no-continue */
+/* eslint-disable no-param-reassign, no-continue, no-console */
 const path = require('path');
 const _ = require('lodash');
 const set = require('lodash/fp/set');
+const chalk = require('chalk');
 
 // Creates the file object to add to the file list using the page and layout
 function createFileObj(page, layout) {
@@ -241,11 +242,58 @@ function getFacilitySidebar(page, contentData) {
 
     if (facilitySidebarNavName) {
       return contentData.data[facilitySidebarNavName];
+    } else {
+      const errorMessage = `Failed to find a facility sidebar with a name that matches the VAMC office label "${facilityNavName}".`;
+
+      console.log(chalk.red(errorMessage));
+
+      console.log(
+        chalk.red(
+          'The VAMC office label should match one of the following menu names as returned by the CMS -',
+        ),
+      );
+
+      const sidebarNames = Object.values(contentData.data)
+        .filter(queryData => queryData?.name)
+        .map(queryData => `- ${queryData.name}`);
+
+      console.log(chalk.red(sidebarNames.join('\n')));
+
+      const stringifiedPage = JSON.stringify(page, null, 2);
+
+      console.log(
+        chalk.red(
+          `Here is the entity evaluated when this error was triggered: \n${stringifiedPage}`,
+        ),
+      );
+
+      throw new Error(errorMessage);
     }
   }
 
   // return the default and most important of the menu structure
   return { links: [] };
+}
+
+function mergeTaxonomiesIntoResourcesAndSupportHomepage(
+  resourcesAndSupportHomepage,
+  allTaxonomies,
+) {
+  const audienceBundles = new Set([
+    'audience_beneficiaries',
+    'audience_non_beneficiaries',
+  ]);
+
+  const audienceTagsUnsorted = allTaxonomies.entities
+    .filter(taxonomy => audienceBundles.has(taxonomy.entityBundle))
+    .filter(audienceTag => audienceTag.fieldAudienceRsHomepage);
+
+  const audienceTags = _.sortBy(audienceTagsUnsorted, 'name');
+
+  return {
+    ...resourcesAndSupportHomepage,
+    audienceTags,
+  };
 }
 
 function compilePage(page, contentData) {
@@ -265,6 +313,9 @@ function compilePage(page, contentData) {
       alerts: alertsItem = {},
       bannerAlerts: bannerAlertsItem = {},
       outreachSidebarQuery: outreachSidebarNav = {},
+      allTaxonomies = {
+        entities: [],
+      },
     },
   } = contentData;
 
@@ -386,6 +437,13 @@ function compilePage(page, contentData) {
         pageId,
       );
       break;
+  }
+
+  if (entityUrl.path === '/resources') {
+    pageCompiled = mergeTaxonomiesIntoResourcesAndSupportHomepage(
+      pageCompiled,
+      allTaxonomies,
+    );
   }
 
   return pageCompiled;

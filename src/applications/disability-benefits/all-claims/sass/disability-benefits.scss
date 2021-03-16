@@ -17,6 +17,18 @@
   white-space: nowrap;
 }
 
+.word-break {
+  word-break: break-all;
+}
+
+.clearfix:after {
+  content: " ";
+  visibility: hidden;
+  display: block;
+  height: 0;
+  clear: both;
+}
+
 ul.original-disability-list {
   li {
     margin-bottom: 0;
@@ -24,6 +36,7 @@ ul.original-disability-list {
 }
 
 fieldset.schemaform-block,
+.schemaform-field-template.usa-input-error,
 .wizard-content-inner .fieldset-input:first-child {
   margin-top: 0;
 }
@@ -140,6 +153,12 @@ fieldset.schemaform-block,
   white-space: pre-wrap;
   height: auto;
   white-space: pre-wrap;
+}
+
+article[data-location="review-veteran-details/separation-location"] {
+  fieldset > .schemaform-field-container {
+    margin-top: 0;
+  }
 }
 
 // Style fix for "Private medical records"

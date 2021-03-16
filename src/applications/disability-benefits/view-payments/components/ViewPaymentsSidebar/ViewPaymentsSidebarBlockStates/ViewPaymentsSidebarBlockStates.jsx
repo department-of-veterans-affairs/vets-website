@@ -1,19 +1,23 @@
 import React from 'react';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const firstSidebarBlock = {
   heading: 'What if I need to change my direct deposit or contact information?',
   content: (
     <>
       <p>
-        Go to your profile to make updates to your contact and direct deposit
-        information. Any changes you make in your profile will update across
-        your disability compensation, pension, claims and appeal, VR&E, and VA
-        health care benefits.
+        Any changes you make in your profile will update across your disability
+        compensation, pension, claims and appeal, VR&E, and VA health care
+        benefits.
       </p>
-      <a href="/profile">Go to your profile</a>
+      <p>
+        <a href="/profile">
+          Go to your profile to make updates to your contact and direct deposit
+          information.
+        </a>
+      </p>
     </>
   ),
 };

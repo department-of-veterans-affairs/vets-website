@@ -19,7 +19,7 @@
     <p>{{ entity.fieldSectionIntro }}</p>
   {% endif %}
   {% if entity.fieldAccordionDisplay %}
-      {% include "src/site/paragraphs/q_a.collapsible_panel.drupal.liquid" questions = entity.fieldQuestions %}
+      {% include "src/site/paragraphs/q_a.collapsible_panel.drupal.liquid" %}
   {% else %}
       {% for question in entity.fieldQuestions %}
         {% assign sectionHeader = entity.fieldSectionHeader %}

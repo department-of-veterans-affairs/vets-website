@@ -46,7 +46,7 @@ describe('Report 674 school information', () => {
       />,
     );
     expect(form.find('input').length).to.equal(7);
-    expect(form.find('select').length).to.equal(2);
+    expect(form.find('select').length).to.equal(3);
     form.unmount();
   });
 
@@ -62,7 +62,7 @@ describe('Report 674 school information', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(4);
+    expect(form.find('.usa-input-error').length).to.equal(6);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -79,7 +79,12 @@ describe('Report 674 school information', () => {
       />,
     );
     fillData(form, 'input#root_schoolInformation_name', 'Phoenix Online');
-    fillData(form, 'input#root_schoolInformation_trainingProgram', 'A Degree');
+    changeDropdown(form, 'select#root_schoolInformation_schoolType', 'HighSch');
+    fillData(
+      form,
+      'input#root_schoolInformation_trainingProgram',
+      'Marine Biology',
+    );
     changeDropdown(
       form,
       'select#root_schoolInformation_address_countryName',
@@ -111,7 +116,12 @@ describe('Report 674 school information', () => {
       />,
     );
     fillData(form, 'input#root_schoolInformation_name', 'Phoenix Online');
-    fillData(form, 'input#root_schoolInformation_trainingProgram', 'A Degree');
+    changeDropdown(form, 'select#root_schoolInformation_schoolType', 'HighSch');
+    fillData(
+      form,
+      'input#root_schoolInformation_trainingProgram',
+      'Marine Biology',
+    );
     changeDropdown(
       form,
       'select#root_schoolInformation_address_countryName',

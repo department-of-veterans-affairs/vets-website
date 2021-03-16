@@ -4,7 +4,7 @@
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-module.exports = `
+const benefitListingPage = `
  fragment benefitListingPage on NodePublicationListing {
     ${entityElementsFromPages}
     changed
@@ -16,3 +16,26 @@ module.exports = `
     }
  }
 `;
+
+const GetNodePublicationListingPages = `
+
+  ${benefitListingPage}
+
+  query GetNodePublicationListingPages($onlyPublishedContent: Boolean!) {
+    nodeQuery(limit: 500, filter: {
+      conditions: [
+        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+        { field: "type", value: ["publication_listing"] }
+      ]
+    }) {
+      entities {
+        ... benefitListingPage
+      }
+    }
+  }
+`;
+
+module.exports = {
+  fragment: benefitListingPage,
+  GetNodePublicationListingPages,
+};
