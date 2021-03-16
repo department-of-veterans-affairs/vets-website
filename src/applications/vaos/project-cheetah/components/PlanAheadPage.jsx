@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
-import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
-import CollapsiblePanel from '@department-of-veterans-affairs/component-library/CollapsiblePanel';
 import recordEvent from 'platform/monitoring/record-event';
 import * as actions from '../redux/actions';
 import { GA_PREFIX } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import NewTabAnchor from '../../components/NewTabAnchor';
+import FormButtons from '../../components/FormButtons';
 
 const pageKey = 'planAhead';
-const pageTitle = 'Plan ahead';
+const pageTitle = 'COVID-19 vaccine appointment';
 
-function PlanAheadPage({ routeToNextAppointmentPage }) {
+function PlanAheadPage({
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+  pageChangeInProgress,
+}) {
   const history = useHistory();
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -22,46 +25,61 @@ function PlanAheadPage({ routeToNextAppointmentPage }) {
   return (
     <div>
       <h1>{pageTitle}</h1>
-      <p>
-        If you haven’t received a COVID-19 vaccine yet, you can schedule one
-        now.
-      </p>
+      <p>Here’s what to know:</p>
+      <div className="vads-u-padding-y--1p5">
+        <div className="vads-l-row vads-u-padding-bottom--2p5">
+          <div className="vads-l-col--1">
+            <i className="fas fa-info-circle vads-u-font-size--xl vads-u-color--gray" />
+          </div>
+          <div className="vads-l-col--11 vaos-list-item__text">
+            Some COVID-19 vaccines require 2 doses.
+          </div>
+        </div>
+        <div className="vads-l-row vads-u-padding-bottom--2p5">
+          <div className="vads-l-col--1 ">
+            <i className="fas fa-info-circle vads-u-font-size--xl vads-u-color--gray" />
+          </div>
+          <div className="vads-l-col--11 vaos-list-item__text">
+            If you get a vaccine that requires a second dose, we'll schedule
+            your second appointment while you're here for your first dose.
+          </div>
+        </div>
+      </div>
 
-      <ProgressButton
-        buttonText="Start scheduling"
-        buttonClass="vads-u-font-weight--bold vads-u-font-size--md vads-u-width--full small-screen:vads-u-width--auto"
+      <p>
+        If you have questions,{' '}
+        <NewTabAnchor
+          href="/health-care/covid-19-vaccine"
+          className="vads-u-margin-top--2"
+          onClick={() => {
+            recordEvent({
+              event: `${GA_PREFIX}-COVID-19-vaccines-at-VA-link-clicked`,
+            });
+          }}
+        >
+          go to our main COVID-19 vaccine at VA page.
+        </NewTabAnchor>
+      </p>
+      <FormButtons
+        pageChangeInProgress={pageChangeInProgress}
         onButtonClick={() => {
           recordEvent({
             event: `${GA_PREFIX}-cheetah-start-scheduling-button-clicked`,
           });
           routeToNextAppointmentPage(history, pageKey);
         }}
+        onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+        onSubmit={() => {
+          routeToNextAppointmentPage(history, pageKey);
+        }}
       />
-      <h2 className="vads-u-margin-top--2">Common questions</h2>
-      <CollapsiblePanel panelName="Collapsible panel example">
-        <div>Panel contents go here.</div>
-      </CollapsiblePanel>
-      <CollapsiblePanel panelName="Collapsible panel example">
-        <div>Panel contents go here.</div>
-      </CollapsiblePanel>
-      <CollapsiblePanel panelName="Collapsible panel example">
-        <div>Panel contents go here.</div>
-      </CollapsiblePanel>
-      <CollapsiblePanel panelName="Collapsible panel example">
-        <div>Panel contents go here.</div>
-      </CollapsiblePanel>
-      <NewTabAnchor
-        href="/health-care/covid-19-vaccine"
-        className="vads-u-display--block vads-u-margin-top--2"
-      >
-        Learn more about COVID-19 vaccines at the VA.
-      </NewTabAnchor>
     </div>
   );
 }
 
 const mapDispatchToProps = {
   routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
 };
 
 export default connect(
