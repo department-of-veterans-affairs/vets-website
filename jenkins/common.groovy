@@ -265,9 +265,16 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
   }
 }
 
-def accessibilityTests(dockerContainer, ref) {
+def accessibilityTests(dockerContainer, ref, String envName) {
   stage("Accessibility") {
     if (shouldBail()) { return }
+
+      slackSend(
+        message: '(Testing): integration tests failed. |${env.RUN_DISPLAY_URL}'.stripMargin()
+        color: 'danger',
+        failOnError: true,
+        channel: '-daily-accessibility-scan'
+      )
 
     dir("vets-website") {
       try {
@@ -276,13 +283,6 @@ def accessibilityTests(dockerContainer, ref) {
             sh "export IMAGE_TAG=${IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
           },
         )
-
-      slackSend(
-        message: '(Testing): integration tests failed. |${env.RUN_DISPLAY_URL}'.stripMargin()
-        color: 'danger',
-        failOnError: true,
-        channel: '-daily-accessibility-scan'
-      )
 
       } catch (error) {
 

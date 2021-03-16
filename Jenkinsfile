@@ -63,7 +63,7 @@ node('vetsgov-general-purpose') {
   envsUsingDrupalCache = commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
 
   // Run accessibility tests
-  commonStages.accessibilityTests(dockerContainer, ref);
+  commonStages.accessibilityTests(dockerContainer, ref, 'vagovprod');
 
   // Run E2E tests
   stage('Integration') {
