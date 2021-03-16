@@ -18,6 +18,9 @@ export const transform = ({ data }) => {
   const totalExpenses = getMonthlyExpenses(data);
 
   const formObj = {
+    personalIdentification: {
+      fsrReason: null,
+    },
     personalData: {
       ...personalData,
       agesOfOtherDependents: agesOfOtherDependents
