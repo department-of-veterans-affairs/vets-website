@@ -26,6 +26,7 @@ describe('search query reducer', () => {
   it('should handle fetching list of facilities', () => {
     const state = SearchQueryReducer(
       {
+        ...INITIAL_STATE,
         searchString: 'test',
         facilityType: 'test',
         inProgress: true,
@@ -46,6 +47,7 @@ describe('search query reducer', () => {
   it('should handle fetching single facility', () => {
     const state = SearchQueryReducer(
       {
+        ...INITIAL_STATE,
         error: true,
         inProgress: true,
       },
@@ -61,6 +63,7 @@ describe('search query reducer', () => {
   it('should handle search failed', () => {
     const state = SearchQueryReducer(
       {
+        ...INITIAL_STATE,
         error: false,
         inProgress: true,
       },
@@ -78,6 +81,7 @@ describe('search query reducer', () => {
   it('should handle search query updated', () => {
     const state = SearchQueryReducer(
       {
+        ...INITIAL_STATE,
         error: true,
       },
       {
@@ -95,82 +99,72 @@ describe('search query reducer', () => {
 
   describe('isValid', () => {
     it('should be true with searchString and facilityType', () => {
-      const state = SearchQueryReducer(
-        {
-          error: false,
+      const state = SearchQueryReducer(INITIAL_STATE, {
+        type: SEARCH_QUERY_UPDATED,
+        payload: {
+          searchString: 'test',
+          facilityType: 'test',
         },
-        {
-          type: SEARCH_QUERY_UPDATED,
-          payload: {
-            searchString: 'test',
-            facilityType: 'test',
-          },
-        },
-      );
+      });
       expect(state.isValid).to.eql(true);
+      expect(state.locationChanged).to.eql(true);
+      expect(state.facilityTypeChanged).to.eql(true);
+      expect(state.serviceTypeChanged).to.eql(false);
     });
 
     it('should be false with only searchString', () => {
-      const state = SearchQueryReducer(
-        {
-          error: false,
+      const state = SearchQueryReducer(INITIAL_STATE, {
+        type: SEARCH_QUERY_UPDATED,
+        payload: {
+          searchString: 'test',
         },
-        {
-          type: SEARCH_QUERY_UPDATED,
-          payload: {
-            searchString: 'test',
-          },
-        },
-      );
+      });
       expect(state.isValid).to.eql(false);
+      expect(state.locationChanged).to.eql(true);
+      expect(state.facilityTypeChanged).to.eql(false);
+      expect(state.serviceTypeChanged).to.eql(false);
     });
 
     it('should be false with only facilityType', () => {
-      const state = SearchQueryReducer(
-        {
-          error: false,
+      const state = SearchQueryReducer(INITIAL_STATE, {
+        type: SEARCH_QUERY_UPDATED,
+        payload: {
+          facilityType: 'test',
         },
-        {
-          type: SEARCH_QUERY_UPDATED,
-          payload: {
-            facilityType: 'test',
-          },
-        },
-      );
+      });
       expect(state.isValid).to.eql(false);
+      expect(state.locationChanged).to.eql(false);
+      expect(state.facilityTypeChanged).to.eql(true);
+      expect(state.serviceTypeChanged).to.eql(false);
     });
 
     it('should be false when facilityType is provider and no serviceType', () => {
-      const state = SearchQueryReducer(
-        {
-          error: false,
+      const state = SearchQueryReducer(INITIAL_STATE, {
+        type: SEARCH_QUERY_UPDATED,
+        payload: {
+          searchString: 'test',
+          facilityType: 'provider',
         },
-        {
-          type: SEARCH_QUERY_UPDATED,
-          payload: {
-            searchString: 'test',
-            facilityType: 'provider',
-          },
-        },
-      );
+      });
       expect(state.isValid).to.eql(false);
+      expect(state.locationChanged).to.eql(true);
+      expect(state.facilityTypeChanged).to.eql(true);
+      expect(state.serviceTypeChanged).to.eql(false);
     });
 
     it('should be true with searchString, facilityType and serviceType', () => {
-      const state = SearchQueryReducer(
-        {
-          error: false,
+      const state = SearchQueryReducer(INITIAL_STATE, {
+        type: SEARCH_QUERY_UPDATED,
+        payload: {
+          searchString: 'test',
+          facilityType: 'provider',
+          serviceType: 'test',
         },
-        {
-          type: SEARCH_QUERY_UPDATED,
-          payload: {
-            searchString: 'test',
-            facilityType: 'provider',
-            serviceType: 'test',
-          },
-        },
-      );
+      });
       expect(state.isValid).to.eql(true);
+      expect(state.locationChanged).to.eql(true);
+      expect(state.facilityTypeChanged).to.eql(true);
+      expect(state.serviceTypeChanged).to.eql(true);
     });
   });
 
@@ -181,6 +175,9 @@ describe('search query reducer', () => {
 
     expect(state.mapMoved).to.eql(true);
     expect(state.isValid).to.eql(false);
+    expect(state.locationChanged).to.eql(false);
+    expect(state.facilityTypeChanged).to.eql(false);
+    expect(state.serviceTypeChanged).to.eql(false);
   });
 
   it('should handle fetching services', () => {
@@ -222,5 +219,8 @@ describe('search query reducer', () => {
 
     expect(state.isValid).to.eql(false);
     expect(state.searchString).to.eql('');
+    expect(state.locationChanged).to.eql(true);
+    expect(state.facilityTypeChanged).to.be.undefined;
+    expect(state.serviceTypeChanged).to.be.undefined;
   });
 });

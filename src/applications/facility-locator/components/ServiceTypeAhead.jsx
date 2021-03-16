@@ -112,6 +112,7 @@ class ServiceTypeAhead extends Component {
                   placeholder: 'like Chiropractor or Optometrist',
                 })}
                 id="service-type-ahead-input"
+                onBlur={this.props.onBlur}
               />
               {isOpen && inputValue && inputValue.length >= 2 ? (
                 <div className="dropdown" role="listbox">
@@ -146,6 +147,7 @@ ServiceTypeAhead.propTypes = {
   getProviderSpecialties: PropTypes.func.isRequired,
   initialSelectedServiceType: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
+  onBlur: PropTypes.func,
   showError: PropTypes.bool,
 };
 
