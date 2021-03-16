@@ -12,7 +12,6 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 const ManifestPlugin = require('webpack-manifest-plugin');
 const WebpackBar = require('webpackbar');
-// const SVGPlugin = require('svgo');
 
 const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
 const BUCKETS = require('../src/site/constants/buckets');
@@ -184,7 +183,7 @@ module.exports = (env = {}) => {
           },
         },
         {
-          test: /\.svg$/,
+          test: /\.svg/,
           use: [
             {
               loader: 'file-loader',
@@ -193,11 +192,6 @@ module.exports = (env = {}) => {
               loader: 'svgo-loader',
               options: {
                 multipass: true,
-                datauri: 'base64',
-                js2svg: {
-                  indent: 2,
-                  pretty: false,
-                },
               },
             },
           ],
