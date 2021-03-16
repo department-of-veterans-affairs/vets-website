@@ -265,12 +265,12 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
   }
 }
 
-def accessibilityTests(dockerContainer, ref, String envName) {
+def accessibilityTests(dockerContainer, ref) {
   stage("Accessibility") {
     if (shouldBail()) { return }
 
       slackSend(
-        message: '(Testing): integration tests failed. |${env.RUN_DISPLAY_URL}'.stripMargin()
+        message: '(Testing): Accessibility tests failed.'
         color: 'danger',
         failOnError: true,
         channel: '-daily-accessibility-scan'
