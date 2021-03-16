@@ -221,37 +221,6 @@ const createFakeReasonForVisitStore = ({ reason = '' }) => {
   };
 };
 
-const createFakeIntroductionPageStore = (formId, savedForms) => {
-  return {
-    getState: () => ({
-      form: {
-        pages: [],
-        formId,
-      },
-      user: {
-        profile: {
-          savedForms: [...savedForms],
-        },
-      },
-      questionnaireData: {
-        context: {
-          appointment: {
-            attributes: {
-              vdsAppointments: [
-                { clinic: { facility: { displayName: 'Magic Kingdom' } } },
-              ],
-            },
-          },
-        },
-      },
-    }),
-    subscribe: () => {},
-    dispatch: () => ({
-      toggleLoginModal: () => {},
-    }),
-  };
-};
-
 const createFakeStopCodeStore = (stopCode = '323') => {
   return {
     getState: () => ({
@@ -276,7 +245,6 @@ export {
   createFakeUserStore,
   createFakeReasonForVisitDescriptionStore,
   createFakeReasonForVisitStore,
-  createFakeIntroductionPageStore,
   createFakeStopCodeStore,
   createFakeExpiresAtStore,
 };

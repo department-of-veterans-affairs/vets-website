@@ -5,6 +5,7 @@ import { validateCurrentOrFutureDate } from 'platform/forms-system/src/js/valida
 import {
   activeDutyNotice,
   benefitNotice,
+  notActiveBenefitNotice,
   remainingDaysGreaterThan180Notice,
   remainingDaysNotGreaterThan180Notice,
   selectedReserveNationalGuardExpectedDutyTitle,
@@ -45,7 +46,8 @@ export const uiSchema = {
   expectedReleaseDate: {
     'ui:title': 'Enter the date you expect to be released from active duty.',
     'ui:widget': 'date',
-    'ui:required': formData => formData.activeDuty,
+    'ui:required': formData =>
+      formData.activeDuty && !environment.isProduction(),
     'ui:options': {
       hideIf: () => environment.isProduction(),
       expandUnder: 'activeDuty',
@@ -88,6 +90,15 @@ export const uiSchema = {
       },
     },
   },
+  'view:notActiveBenefitNotice': {
+    'ui:title': '',
+    'ui:description': notActiveBenefitNotice,
+    'ui:options': {
+      hideIf: () => environment.isProduction(),
+      expandUnder: 'activeDuty',
+      expandUnderCondition: false,
+    },
+  },
   expectedActiveDutyStatusChange: {
     'ui:title':
       'Do you expect to be called to active duty while enrolled in a VET TEC program?',
@@ -108,6 +119,9 @@ export const uiSchema = {
   'view:benefitNotice': {
     'ui:title': '',
     'ui:description': benefitNotice,
+    'ui:options': {
+      hideIf: () => !environment.isProduction(),
+    },
   },
 };
 
@@ -132,6 +146,10 @@ export const schema = {
       properties: {},
     },
     'view:benefitNotice': {
+      type: 'object',
+      properties: {},
+    },
+    'view:notActiveBenefitNotice': {
       type: 'object',
       properties: {},
     },
