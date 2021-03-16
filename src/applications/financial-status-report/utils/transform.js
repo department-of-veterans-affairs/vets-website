@@ -5,6 +5,7 @@ export const transform = ({ data }) => {
     questions,
     personalData,
     expenses,
+    utilityRecords,
     assets,
     installmentContractsAndOtherDebts,
     additionalData,
@@ -16,7 +17,7 @@ export const transform = ({ data }) => {
     personalData: {
       ...personalData,
       agesOfOtherDependents: agesOfOtherDependents
-        ? agesOfOtherDependents.map(item => item.dependentAge)
+        ? agesOfOtherDependents.map(dependent => dependent.dependentAge)
         : null,
       address: {
         street: address.addressLine1,
@@ -86,6 +87,14 @@ export const transform = ({ data }) => {
     },
     expenses: {
       ...expenses,
+      utilities: utilityRecords
+        ? utilityRecords
+            .map(record => record.monthlyUtilityAmount)
+            .reduce((acc, amount) => acc + amount, 0)
+        : null,
+      other: null,
+      installmentContractsAndOtherDebts: null,
+      totalMonthlyExpenses: null,
     },
     discretionaryIncome: {
       netMonthlyIncomeLessExpenses: null,
