@@ -2,10 +2,10 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import ToDoQuestionnaireItem from '../../../questionnaire-list/components/ToDoQuestionnaires/ToDoQuestionnaireItem';
+import ToDoQuestionnaireItem from '../ToDoQuestionnaireItem';
 
-import upcomingAppointment from '../../../../shared/api/mock-data/fhir/upcoming.appointment.not.started.primary.care.questionnaire.json';
-import cancelledAppointment from '../../../../shared/api/mock-data/fhir/cancelled.appointment.completed.primary.care.questionnaire.json';
+import upcomingAppointment from '../../../../../shared/api/mock-data/fhir/upcoming.appointment.not.started.primary.care.questionnaire.json';
+import cancelledAppointment from '../../../../../shared/api/mock-data/fhir/cancelled.appointment.completed.primary.care.questionnaire.json';
 
 describe('health care questionnaire list - display a questionnaire item', () => {
   it('basic information - canceled appointment', () => {
