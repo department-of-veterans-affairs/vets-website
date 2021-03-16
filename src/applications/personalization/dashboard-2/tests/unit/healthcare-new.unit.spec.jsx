@@ -31,7 +31,7 @@ describe('HealthCare component', () => {
                 data: {
                   currentItem: {
                     attributes: {
-                      unreadCount: 0,
+                      unreadCount: 3,
                     },
                   },
                 },
@@ -64,6 +64,11 @@ describe('HealthCare component', () => {
           }),
         ).to.be.true;
       });
+
+      // it('should render the unread messages count', () => {
+      //   expect(view.getByText(new RegExp(`you have 3 new messages`, 'i'))).to
+      //     .exist;
+      // });
     });
 
     context('when user lacks the `messaging` service', () => {
@@ -84,7 +89,7 @@ describe('HealthCare component', () => {
                 data: {
                   currentItem: {
                     attributes: {
-                      unreadCount: 0,
+                      unreadCount: 3,
                     },
                   },
                 },
@@ -109,38 +114,6 @@ describe('HealthCare component', () => {
             return call.args[0].includes('v0/messaging/health/folders/0');
           }),
         ).to.be.false;
-      });
-    });
-
-    context('when user has the `messaging` services', () => {
-      beforeEach(() => {
-        mockFetch();
-        initialState = {
-          user: {
-            profile: {
-              services: ['messaging'],
-            },
-          },
-        };
-        view = renderInReduxProvider(<HealthCare />, {
-          initialState,
-          reducers,
-        });
-      });
-      afterEach(() => {
-        resetFetch();
-      });
-      it('should not attempt to get messaging data', async () => {
-        // Because fetch is called as part of an async Redux thunk, we need to
-        // wait here before confirming that fetch was called or not called.
-        await wait(1);
-        const fetchCalls = global.fetch.getCalls();
-        // make sure we are not fetching messaging folders
-        expect(
-          fetchCalls.some(call => {
-            return call.args[0].includes('v0/messaging/health/folders/0');
-          }),
-        ).to.be.true;
       });
     });
   });

@@ -18,9 +18,6 @@ export function isVAProfileServiceConfigured() {
   );
 }
 
-export const mockApiRequest = () =>
-  environment.isLocalhost && !window.Cypress && !window.VetsGov.pollTimeout;
-
 export const mockContactInformation = {
   email: {
     id: 100,
