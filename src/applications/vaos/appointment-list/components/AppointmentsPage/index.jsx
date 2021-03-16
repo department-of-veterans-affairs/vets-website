@@ -32,7 +32,7 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import WarningNotification from '../../../components/WarningNotification';
-import ScheduleNewProjectCheetah from './ScheduleNewProjectCheetah';
+import ScheduleNewAppointmentRadioButtons from './ScheduleNewAppointmentRadioButtons';
 
 const pageTitle = 'VA appointments';
 
@@ -46,9 +46,9 @@ function AppointmentsPage({
   futureStatus,
   isCernerOnlyPatient,
   isWelcomeModalDismissed,
-  pendingStatus,
   showCommunityCare,
   showDirectScheduling,
+  pendingStatus,
   showScheduleButton,
   showCheetahScheduleButton,
   startNewAppointmentFlow,
@@ -114,28 +114,29 @@ function AppointmentsPage({
       />
 
       {showScheduleButton && (
-        <ScheduleNewAppointment
-          isCernerOnlyPatient={isCernerOnlyPatient}
-          showCommunityCare={showCommunityCare}
-          showDirectScheduling={showDirectScheduling}
-          startNewAppointmentFlow={() => {
-            recordEvent({
-              event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
-            });
-            startNewAppointmentFlow();
-          }}
-        />
-      )}
-
-      {showCheetahScheduleButton && (
-        <ScheduleNewProjectCheetah
-          startNewAppointmentFlow={() => {
-            recordEvent({
-              event: `${GA_PREFIX}-schedule-project-cheetah-button-clicked`,
-            });
-            startNewAppointmentFlow();
-          }}
-        />
+        <>
+          {!showCheetahScheduleButton && (
+            <ScheduleNewAppointment
+              isCernerOnlyPatient={isCernerOnlyPatient}
+              showCommunityCare={showCommunityCare}
+              showDirectScheduling={showDirectScheduling}
+              startNewAppointmentFlow={() => {
+                recordEvent({
+                  event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
+                });
+                startNewAppointmentFlow();
+              }}
+            />
+          )}
+          {showCheetahScheduleButton && (
+            <div className="vads-u-margin-bottom--4">
+              <ScheduleNewAppointmentRadioButtons
+                showCheetahScheduleButton={showCheetahScheduleButton}
+                startNewAppointmentFlow={startNewAppointmentFlow}
+              />
+            </div>
+          )}
+        </>
       )}
 
       {isLoading && (
