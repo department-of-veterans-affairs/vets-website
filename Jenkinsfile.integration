@@ -1,5 +1,6 @@
 node('vetsgov-general-purpose') {
-  // Checkout content-build code
+
+  // Checkout vets-website code
   dir("vets-website") {
     checkout scm
     ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()

@@ -150,7 +150,7 @@ def accessibilityTests() {
   stage("Accessibility") {
 
      slackSend(
-        message: "Starting daily accessibility scan of vets-website.... ${env.RUN_DISPLAY_URL}".stripMargin(),
+        message: "Starting daily accessibility scan of vets-website... ${env.RUN_DISPLAY_URL}".stripMargin(),
         color: 'good',
         failOnError: true,
         channel: '-daily-accessibility-scan'
@@ -163,6 +163,14 @@ def accessibilityTests() {
             sh "export IMAGE_TAG=${IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
           },
         )
+
+        slackSend(
+          message: 'Daily accessibility scan has completed successfully.'
+          color: 'good',
+          failOnError: true,
+          channel: '-daily-accessibility-scan'
+        )
+
       } catch (error) {
 
         slackSend(

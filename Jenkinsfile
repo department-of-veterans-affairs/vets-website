@@ -88,7 +88,7 @@ node('vetsgov-general-purpose') {
         throw error
       } finally {
         sh "docker-compose -p nightwatch down --remove-orphans"
-        // sh "docker-compose -p accessibility down --remove-orphans"
+        sh "docker-compose -p accessibility down --remove-orphans"
         sh "docker-compose -p cypress down --remove-orphans"
         step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
       }
