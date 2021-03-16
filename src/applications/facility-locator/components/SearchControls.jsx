@@ -28,6 +28,12 @@ class SearchControls extends Component {
     this.props.onChange({ facilityType: e.target.value, serviceType: null });
   };
 
+  handleFacilityTypeBlur = e => {
+    // force redux state to register a change
+    this.props.onChange({ facilityType: ' ' });
+    this.handleFacilityTypeChange(e);
+  };
+
   handleServiceTypeChange = ({ target }) => {
     const option = target.value.trim();
 
@@ -69,12 +75,14 @@ class SearchControls extends Component {
       this.props.onChange({ searchString: ' ' });
       this.props.onChange({ searchString: null });
       focusElement('#street-city-state-zip');
+      return;
     }
 
     if (!facilityType) {
       this.props.onChange({ facilityType: ' ' });
       this.props.onChange({ facilityType: null });
       focusElement('#facility-type-dropdown');
+      return;
     }
 
     if (!isValid) {
@@ -228,6 +236,7 @@ class SearchControls extends Component {
           value={facilityType || ''}
           className="bor-rad"
           onChange={this.handleFacilityTypeChange}
+          onBlur={this.handleFacilityTypeBlur}
           style={{ fontWeight: 'bold' }}
         >
           {options}
