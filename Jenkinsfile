@@ -54,7 +54,7 @@ node('vetsgov-general-purpose') {
       throw error
     } finally {
       dir("vets-website") {
-        // step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
+        step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
       }
     }
   }

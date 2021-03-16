@@ -6,7 +6,7 @@ node('vetsgov-general-purpose') {
     ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
   }
 
-  def commonStages = load "content-build/jenkins/common.groovy"
+  def commonStages = load "vets-website/jenkins/common.groovy"
 
   // Setup stage
   dockerContainer = commonStages.setup()
