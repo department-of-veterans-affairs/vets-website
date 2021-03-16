@@ -111,7 +111,7 @@ export const fetchProviderDetail = id => async dispatch => {
  * @param {Function} parameters from the search request
  * @returns {[]} A List of locations/providers
  */
-const requestAllUrgentCare = async (dispatch, params) => {
+const returnAllUrgentCare = async (dispatch, params) => {
   const { address, bounds, locationType, page, center, radius } = params;
   const urgentCareVaData = await LocatorApi.searchWithBounds(
     address,
@@ -134,10 +134,35 @@ const requestAllUrgentCare = async (dispatch, params) => {
     radius,
     true,
   );
-  dispatch({ type: SEARCH_FAILED, error: 'error' });
 
-  // console.log([...urgentCareNonVaData.data, urgentCareVaData.data])
-  return [...urgentCareNonVaData.data, urgentCareVaData.data];
+  return {
+    meta: {
+      pagination: {
+        currentPage: 1,
+        nextPage: null,
+        prevPage: null,
+        totalPages: 1,
+      },
+    },
+    links: {},
+    data: [...urgentCareNonVaData.data, ...urgentCareVaData.data]
+      .map(location => {
+        const distance =
+          center &&
+          distBetween(
+            center[0],
+            center[1],
+            location.attributes.lat,
+            location.attributes.long,
+          );
+        return {
+          ...location,
+          distance,
+        };
+      })
+      .sort((resultA, resultB) => resultA.distance - resultB.distance)
+      .slice(0, 20),
+  };
 };
 
 /**
@@ -172,11 +197,14 @@ export const fetchLocations = async (
   console.log({ radius });
 
    */
+  let data = {};
 
   try {
-    let data;
-    if (!serviceType || serviceType === Object.keys(urgentCareServices)[0]) {
-      requestAllUrgentCare(dispatch, {
+    if (
+      locationType === LocationType.URGENT_CARE &&
+      (!serviceType || serviceType === Object.keys(urgentCareServices)[0])
+    ) {
+      const allUrgentCareList = await returnAllUrgentCare(dispatch, {
         address,
         bounds,
         locationType,
@@ -184,9 +212,9 @@ export const fetchLocations = async (
         center,
         radius,
       });
-      data = [];
+      data = allUrgentCareList;
     } else {
-      data = await LocatorApi.searchWithBounds(
+      const dataList = await LocatorApi.searchWithBounds(
         address,
         bounds,
         locationType,
@@ -195,13 +223,24 @@ export const fetchLocations = async (
         center,
         radius,
       );
+      data = { ...dataList };
+      data.data = dataList.data
+        .map(location => {
+          const distance =
+            center &&
+            distBetween(
+              center[0],
+              center[1],
+              location.attributes.lat,
+              location.attributes.long,
+            );
+          return {
+            ...location,
+            distance,
+          };
+        })
+        .sort((resultA, resultB) => resultA.distance - resultB.distance);
     }
-
-    /*
-    console.log('-------------------------+++++++++++-------------');
-    console.log({ data });
-     */
-
     if (data.errors) {
       dispatch({ type: SEARCH_FAILED, error: data.errors });
     } else {
