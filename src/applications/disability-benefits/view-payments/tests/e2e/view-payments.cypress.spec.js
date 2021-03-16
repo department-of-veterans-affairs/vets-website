@@ -113,10 +113,10 @@ describe('View payment history', () => {
   it('C3919 - Should display an alert when a user has payments returned to VA but no payments received', () => {
     testEmptyPaymentsArray();
   });
-  it('C3920 - Should display an alert when a user recevies a 5xx error', () => {
+  it('C3920 - Should display an alert when a user receives a 5xx error', () => {
     testApiError();
   });
-  it('C3921 - Should display an alert when a user recevies a 4xx error', () => {
+  it('C3921 - Should display an alert when a user receives a 4xx error', () => {
     testApiError('400');
   });
 });
