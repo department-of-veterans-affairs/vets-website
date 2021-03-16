@@ -17,9 +17,11 @@ import {
   getCCAppointmentMock,
   getExpressCareRequestCriteriaMock,
   getVAFacilityMock,
+  getDirectBookingEligibilityCriteriaMock,
 } from '../../../mocks/v0';
 import {
   mockAppointmentInfo,
+  mockDirectBookingEligibilityCriteria,
   mockFacilitiesFetch,
   mockRequestEligibilityCriteria,
 } from '../../../mocks/helpers';
@@ -930,10 +932,19 @@ describe('VAOS integration: appointment list', () => {
       },
       user: userState,
     };
+    mockDirectBookingEligibilityCriteria(
+      ['983'],
+      [
+        getDirectBookingEligibilityCriteriaMock({
+          id: '983',
+          typeOfCareId: 'covid',
+        }),
+      ],
+    );
+
     const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState: defaultState,
     });
-
     expect(
       await screen.findByRole('heading', {
         level: 2,
@@ -950,5 +961,32 @@ describe('VAOS integration: appointment list', () => {
     );
 
     expect(await screen.findByRole('link', { name: /Start scheduling/ }));
+  });
+
+  it('should render schedule radio list without COVID-19 vaccine option', async () => {
+    const defaultState = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingCheetah: true,
+      },
+      user: userState,
+    };
+
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState: defaultState,
+    });
+    expect(
+      await screen.findByRole('heading', {
+        level: 2,
+        name: /Schedule a new appointment/,
+      }),
+    );
+
+    expect(await screen.findAllByRole('radio')).to.have.length(1);
+
+    expect(screen.getByText(/Choose an appointment type/)).to.be.ok;
+
+    expect(screen.queryByRole('radio', { name: 'COVID-19 vaccine' })).not.to
+      .exist;
   });
 });

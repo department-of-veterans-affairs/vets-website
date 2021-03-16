@@ -36,7 +36,6 @@ import {
 
 export function NewBookingSection({
   canUseVaccineFlow,
-  newBookingStatus,
   featureProjectCheetah,
   directScheduleSettingsStatus,
   fetchDirectScheduleSettings,
@@ -62,11 +61,11 @@ export function NewBookingSection({
 
   useEffect(
     () => {
-      if (newBookingStatus === FETCH_STATUS.failed) {
+      if (directScheduleSettingsStatus === FETCH_STATUS.failed) {
         scrollAndFocus();
       }
     },
-    [newBookingStatus],
+    [directScheduleSettingsStatus],
   );
 
   useManualScrollRestoration();
@@ -86,13 +85,13 @@ export function NewBookingSection({
     return <Redirect to={match.url} />;
   }
 
-  if (newBookingStatus === FETCH_STATUS.failed) {
+  if (directScheduleSettingsStatus === FETCH_STATUS.failed) {
     return <ErrorMessage level="1" />;
   }
 
   if (
-    newBookingStatus === FETCH_STATUS.loading ||
-    newBookingStatus === FETCH_STATUS.notStarted
+    directScheduleSettingsStatus === FETCH_STATUS.loading ||
+    directScheduleSettingsStatus === FETCH_STATUS.notStarted
   ) {
     return (
       <div className="vads-u-margin-y--8">
@@ -108,7 +107,7 @@ export function NewBookingSection({
   // support scheduling an appointment for the vaccine.
   if (
     !canUseVaccineFlow &&
-    newBookingStatus === FETCH_STATUS.succeeded &&
+    directScheduleSettingsStatus === FETCH_STATUS.succeeded &&
     !location.pathname.includes(`${match.url}/contact-facilities`)
   ) {
     return <Redirect to={`${match.url}/contact-facilities`} />;
