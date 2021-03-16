@@ -150,7 +150,14 @@ def accessibilityTests(dockerContainer, ref, String buildLogPath, String envName
   stage("Accessibility") {
 
      slackSend(
-        message: "Accessibiklity tests ${env.BRANCH_NAME} branch CI failed. |${env.RUN_DISPLAY_URL}".stripMargin(),
+        message: 'Starting daily accessibility scan of vets-website...',
+        color: 'good',
+        failOnError: true,
+        channel: '-daily-accessibility-scan'
+      )
+
+     slackSend(
+        message: "@here Daily accessibility tests failed. ${env.RUN_DISPLAY_URL}".stripMargin(),
         color: 'danger',
         failOnError: true,
         channel: '-daily-accessibility-scan'
