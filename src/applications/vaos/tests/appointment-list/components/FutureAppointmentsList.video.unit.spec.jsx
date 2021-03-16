@@ -667,7 +667,8 @@ describe('VAOS integration: upcoming ATLAS video appointments', () => {
     // Should display directions to location
     expect(
       screen.getByRole('link', {
-        name: 'Directions to ATLAS facility in Eureka, MT',
+        name:
+          'Directions to ATLAS facility in Eureka, MT Link opens in a new tab.',
       }),
     ).to.be.ok;
 
