@@ -269,12 +269,12 @@ def accessibilityTests(dockerContainer, ref) {
   stage("Accessibility") {
     if (shouldBail()) { return }
 
-      slackSend(
-        message: '(Testing): Accessibility tests failed.'
-        color: 'danger',
-        failOnError: true,
-        channel: '-daily-accessibility-scan'
-      )
+      // slackSend(
+      //   message: '(Testing): Accessibility tests failed.'
+      //   color: 'danger',
+      //   failOnError: true,
+      //   channel: '-daily-accessibility-scan'
+      // )
 
     dir("vets-website") {
       try {
@@ -286,12 +286,12 @@ def accessibilityTests(dockerContainer, ref) {
 
       } catch (error) {
 
-      slackSend(
-        message: '(Testing): integration tests failed. |${env.RUN_DISPLAY_URL}'.stripMargin()
-        color: 'danger',
-        failOnError: true,
-        channel: '-daily-accessibility-scan'
-      )
+      // slackSend(
+      //   message: '(Testing): integration tests failed. |${env.RUN_DISPLAY_URL}'.stripMargin()
+      //   color: 'danger',
+      //   failOnError: true,
+      //   channel: '-daily-accessibility-scan'
+      // )
 
         throw error
       } finally {
