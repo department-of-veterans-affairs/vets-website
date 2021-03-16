@@ -60,10 +60,14 @@ class SearchControls extends Component {
 
     let analyticsServiceType = serviceType;
 
+    const updateReduxState = propName => {
+      this.props.onChange({ [propName]: ' ' });
+      this.props.onChange({ [propName]: '' });
+    };
+
     if (facilityType === LocationType.CC_PROVIDER) {
       if (!serviceType) {
-        this.props.onChange({ serviceType: ' ' });
-        this.props.onChange({ serviceType: null });
+        updateReduxState('serviceType');
         focusElement('#service-type-ahead-input');
         return;
       }
@@ -72,15 +76,13 @@ class SearchControls extends Component {
     }
 
     if (!searchString) {
-      this.props.onChange({ searchString: ' ' });
-      this.props.onChange({ searchString: null });
+      updateReduxState('searchString');
       focusElement('#street-city-state-zip');
       return;
     }
 
     if (!facilityType) {
-      this.props.onChange({ facilityType: ' ' });
-      this.props.onChange({ facilityType: null });
+      updateReduxState('facilityType');
       focusElement('#facility-type-dropdown');
       return;
     }
