@@ -960,7 +960,15 @@ describe('VAOS integration: appointment list', () => {
       await screen.findByRole('radio', { name: 'COVID-19 vaccine' }),
     );
 
-    expect(await screen.findByRole('link', { name: /Start scheduling/ }));
+    userEvent.click(
+      await screen.findByRole('link', { name: /Start scheduling/ }),
+    );
+
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0]).to.equal(
+        '/new-covid-19-vaccine-booking',
+      ),
+    );
   });
 
   it('should render schedule radio list without COVID-19 vaccine option', async () => {
@@ -988,5 +996,16 @@ describe('VAOS integration: appointment list', () => {
 
     expect(screen.queryByRole('radio', { name: 'COVID-19 vaccine' })).not.to
       .exist;
+
+    userEvent.click(
+      await screen.findByRole('radio', { name: /primary or specialty/i }),
+    );
+    userEvent.click(
+      await screen.findByRole('link', { name: /Start scheduling/ }),
+    );
+
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0]).to.equal('/new-appointment'),
+    );
   });
 });
