@@ -13,6 +13,7 @@ import { getRealFacilityId } from '../../utils/appointment';
 import { getReviewPage } from '../redux/selectors';
 import flow from '../flow';
 import State from '../../components/State';
+import NewTabAnchor from '../../components/NewTabAnchor';
 
 const pageTitle = 'Review your appointment details';
 
@@ -129,9 +130,7 @@ function ReviewPage({
               )}
               <p>
                 {!facilityDetails && (
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <NewTabAnchor
                     href={`/find-locations/facility/vha_${getRealFacilityId(
                       data.vaFacility,
                     )}`}
@@ -139,7 +138,7 @@ function ReviewPage({
                     {submitStatusVaos400
                       ? 'Find facility contact information'
                       : 'Contact your local VA medical center'}
-                  </a>
+                  </NewTabAnchor>
                 )}
                 {!!facilityDetails && (
                   <FacilityAddress

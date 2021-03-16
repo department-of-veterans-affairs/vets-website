@@ -4,6 +4,7 @@ import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { FETCH_STATUS } from '../../../utils/constants';
 import FacilityAddress from '../../../components/FacilityAddress';
 import { aOrAn, lowerCase } from '../../../utils/formatters';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export default function EligibilityModal({
   onClose,
@@ -38,9 +39,9 @@ export default function EligibilityModal({
         </p>
         <p>
           You’ll need to call the facility to schedule this appointment. Or{' '}
-          <a href="/find-locations" target="_blank" rel="noopener noreferrer">
+          <NewTabAnchor href="/find-locations">
             search for another VA facility
-          </a>
+          </NewTabAnchor>
           .
         </p>
       </>

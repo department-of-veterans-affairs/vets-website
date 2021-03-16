@@ -3,6 +3,7 @@ import {
   APPOINTMENT_STATUS,
   UNABLE_TO_REACH_VETERAN_DETCODE,
 } from '../../../../utils/constants';
+import NewTabAnchor from '../../../../components/NewTabAnchor';
 
 export default function ExpressCareStatus({ appointment }) {
   let iconClass = null;
@@ -75,10 +76,9 @@ export default function ExpressCareStatus({ appointment }) {
               urgent care clinic near you. If you need medical care right away,
               call 911 or go to the nearest emergency room. Please contact us
               first before going to any{' '}
-              <a href="/find-locations" target="_blank" rel="noopener nofollow">
-                VA location
-              </a>
-              . Contacting us first helps keep you safe.
+              <NewTabAnchor href="/find-locations">VA location</NewTabAnchor>
+              {'. '}
+              Contacting us first helps keep you safe.
             </p>
           </div>
         </>

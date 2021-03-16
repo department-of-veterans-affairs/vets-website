@@ -93,7 +93,8 @@ describe('VAOS <NoValidVAFacilities>', () => {
     expect(screen.getByText('Directions')).to.exist;
     expect(
       screen.getByRole('link', {
-        name: 'Directions to Cheyenne VA Medical Center',
+        name:
+          'Directions to Cheyenne VA Medical Center Link opens in a new tab.',
       }),
     ).to.exist;
     expect(screen.getByText('Main phone:')).to.exist;
@@ -127,7 +128,7 @@ describe('VAOS <NoValidVAFacilities>', () => {
 
     expect(
       screen.getByRole('link', {
-        name: 'our facility locator tool',
+        name: 'our facility locator tool Link opens in a new tab.',
       }),
     ).to.exist;
   });
