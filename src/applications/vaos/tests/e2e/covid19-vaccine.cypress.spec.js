@@ -13,13 +13,18 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     cy.get('.va-modal-body button').click();
     cy.findAllByRole('tab').should('exist');
 
+    // Select COVID-19 vaccine appointment type
+    cy.get('#schedule-new-appointment-1').click();
+
     // Start flow
-    cy.findByText('Learn more').click();
+    cy.findByText('Start scheduling').click();
 
     // Plan ahead page
     cy.url().should('include', '/new-covid-19-vaccine-booking');
     cy.axeCheckBestPractice();
-    cy.findByText('Start scheduling').click();
+    cy.contains('button', 'Start scheduling')
+      .focus()
+      .click();
 
     // Screener page
     cy.url().should('include', '/received-dose');
@@ -72,7 +77,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     // Review
     cy.url().should('include', '/review');
     cy.axeCheckBestPractice();
-    cy.findByText('Confirm appointment').click();
+    cy.findByText('Schedule appointment').click();
 
     // Check form requestBody is as expected
     cy.wait('@appointmentSubmission').should(xhr => {

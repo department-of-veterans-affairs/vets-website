@@ -5,6 +5,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import FacilityPhone from '../../../components/FacilityPhone';
 import { GA_PREFIX } from '../../../utils/constants';
 import State from '../../../components/State';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 const UNSUPPORTED_FACILITY_RANGE = 100;
 
@@ -112,10 +113,8 @@ export default function FacilitiesNotShown({
           <p className="vads-u-margin-top--0">
             Call the facility directly to schedule your appointment,{' '}
             <strong>or </strong>
-            <a
+            <NewTabAnchor
               href="/find-locations"
-              target="_blank"
-              rel="noopener nofollow"
               onClick={() =>
                 recordEvent({
                   event: `${GA_PREFIX}-facilities-not-listed-locator-click`,
@@ -123,7 +122,7 @@ export default function FacilitiesNotShown({
               }
             >
               search for a different VA location
-            </a>
+            </NewTabAnchor>
             .
           </p>
         </div>

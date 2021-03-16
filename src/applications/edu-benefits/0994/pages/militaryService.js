@@ -1,11 +1,32 @@
+import moment from 'moment';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
+import environment from 'platform/utilities/environment';
+import { validateCurrentOrFutureDate } from 'platform/forms-system/src/js/validation';
 import {
   activeDutyNotice,
   benefitNotice,
+  remainingDaysGreaterThan180Notice,
+  remainingDaysNotGreaterThan180Notice,
   selectedReserveNationalGuardExpectedDutyTitle,
 } from '../content/militaryService';
 
-const { activeDuty, activeDutyDuringVetTec } = fullSchema.properties;
+const {
+  activeDuty,
+  activeDutyDuringVetTec,
+  expectedActiveDutyStatusChange,
+  expectedReleaseDate,
+} = fullSchema.properties;
+
+const expectedReleaseDateDaysRemaining = formData => {
+  return moment(formData.expectedReleaseDate).diff(moment(), 'days');
+};
+
+const expectedReleaseDateValidYear = formData => {
+  return (
+    formData.expectedReleaseDate &&
+    formData.expectedReleaseDate.split('-')[0].length === 4
+  );
+};
 
 export const uiSchema = {
   activeDuty: {
@@ -16,13 +37,73 @@ export const uiSchema = {
   'view:activeDutyNotice': {
     'ui:description': activeDutyNotice,
     'ui:options': {
+      hideIf: () => !environment.isProduction(),
       expandUnder: 'activeDuty',
       expandUnderCondition: true,
+    },
+  },
+  expectedReleaseDate: {
+    'ui:title': 'Enter the date you expect to be released from active duty.',
+    'ui:widget': 'date',
+    'ui:required': formData => formData.activeDuty,
+    'ui:options': {
+      hideIf: () => environment.isProduction(),
+      expandUnder: 'activeDuty',
+      expandUnderCondition: true,
+    },
+    'ui:validations': [validateCurrentOrFutureDate],
+    'ui:errorMessages': {
+      pattern: 'Please enter a valid date',
+      required: 'Please enter a date',
+    },
+  },
+  'view:remainingDaysGreaterThan180Notice': {
+    'ui:title': '',
+    'ui:description': remainingDaysGreaterThan180Notice,
+    'ui:options': {
+      hideIf: () => environment.isProduction(),
+      expandUnder: 'activeDuty',
+      expandUnderCondition: (value, formData) => {
+        return (
+          value === true &&
+          expectedReleaseDateValidYear(formData) &&
+          expectedReleaseDateDaysRemaining(formData) > 180
+        );
+      },
+    },
+  },
+  'view:remainingDaysNotGreaterThan180Notice': {
+    'ui:title': '',
+    'ui:description': remainingDaysNotGreaterThan180Notice,
+    expandUnder: 'activeDuty',
+    'ui:options': {
+      hideIf: () => environment.isProduction(),
+      expandUnder: 'activeDuty',
+      expandUnderCondition: (value, formData) => {
+        return (
+          value === true &&
+          expectedReleaseDateValidYear(formData) &&
+          expectedReleaseDateDaysRemaining(formData) <= 180
+        );
+      },
+    },
+  },
+  expectedActiveDutyStatusChange: {
+    'ui:title':
+      'Do you expect to be called to active duty while enrolled in a VET TEC program?',
+    'ui:widget': 'yesNo',
+    'ui:options': {
+      hideIf: () => environment.isProduction(),
+      expandUnder: 'activeDuty',
+      expandUnderCondition: false,
     },
   },
   activeDutyDuringVetTec: {
     'ui:title': selectedReserveNationalGuardExpectedDutyTitle,
     'ui:widget': 'yesNo',
+    'ui:options': {
+      hideIf: () => !environment.isProduction(),
+    },
   },
   'view:benefitNotice': {
     'ui:title': '',
@@ -35,11 +116,21 @@ export const schema = {
   required: ['activeDuty'],
   properties: {
     activeDuty,
+    activeDutyDuringVetTec,
+    expectedReleaseDate,
+    expectedActiveDutyStatusChange,
     'view:activeDutyNotice': {
       type: 'object',
       properties: {},
     },
-    activeDutyDuringVetTec,
+    'view:remainingDaysGreaterThan180Notice': {
+      type: 'object',
+      properties: {},
+    },
+    'view:remainingDaysNotGreaterThan180Notice': {
+      type: 'object',
+      properties: {},
+    },
     'view:benefitNotice': {
       type: 'object',
       properties: {},

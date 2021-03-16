@@ -1,42 +1,51 @@
 <div data-template="includes/facilityListing"
-  class="region-list usa-width-one-whole vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row facility vads-u-margin-bottom--4 medium-screen:vads-u-margin-bottom--5">
+     class="region-list usa-width-one-whole vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row facility vads-u-margin-bottom--4 medium-screen:vads-u-margin-bottom--5">
   <section class="region-grid vads-u-margin-right--2">
     <h3
       class="vads-u-margin-bottom--1 vads-u-margin-top--0 vads-u-font-size--md medium-screen:vads-u-font-size--lg">
-      <a href="{{entity.entityUrl.path}}">{{entity.title}}</a> </h3>
+      <a href="{{ entity.entityUrl.path }}">{{ entity.title }}</a></h3>
     {% if entity.fieldOperatingStatusFacility and entity.fieldOperatingStatusFacility != 'normal' %}
-    <div class="vads-u-display--inline-block vads-u-margin-bottom--1">
-      {% include "src/site/includes/operatingStatusFlags.drupal.liquid" with entity %}
-    </div>
+      <div class="vads-u-display--inline-block vads-u-margin-bottom--1">
+        {% include "src/site/includes/operatingStatusFlags.drupal.liquid" with entity %}
+      </div>
     {% endif %}
     <div class="vads-u-margin-bottom--1">
       <address class="vads-u-margin-bottom--0">
-        <div>{{entity.fieldAddress.addressLine1}}</div>
-        <div>{{entity.fieldAddress.locality}},
-          {{entity.fieldAddress.administrativeArea}}
-          {{entity.fieldAddress.postalCode}}</div>
+        <div>{{ entity.fieldAddress.addressLine1 }}</div>
+        <div>{{ entity.fieldAddress.locality }},
+          {{ entity.fieldAddress.administrativeArea }}
+          {{ entity.fieldAddress.postalCode }}
+        </div>
       </address>
-      <div><a
-          href="https://maps.google.com?saddr=Current+Location&amp;daddr={{entity.fieldAddress.addressLine1}}, {{entity.fieldAddress.locality}}, {{entity.fieldAddress.administrativeArea}} {{entity.fieldAddress.postalCode}}"
-          target="_blank" rel="noopener noreferrer">Directions</a></div>
+      <div>
+        <a
+          href="https://maps.google.com?saddr=Current+Location&amp;daddr={{ entity.fieldAddress.addressLine1 }}, {{ entity.fieldAddress.locality }}, {{ entity.fieldAddress.administrativeArea }} {{ entity.fieldAddress.postalCode }}"
+          target="_blank" rel="noopener noreferrer">
+          Directions
+        </a>
+      </div>
     </div>
     <div class="vads-u-margin-bottom--0">
-      <div class="main-phone vads-u-margin-bottom--1"><strong>Main phone:
-        </strong><a
-          href="tel:{{entity.fieldPhoneNumber}}">{{entity.fieldPhoneNumber}}</a>
+      <div class="main-phone vads-u-margin-bottom--1">
+        <strong>Main phone:</strong>
+        <a href="tel:{{ entity.fieldPhoneNumber }}">{{ entity.fieldPhoneNumber }}</a>
       </div>
-      <div class="mental-health-clinic-phone"><strong>Mental health clinic:
-        </strong><a
-          href="tel:{{entity.fieldMentalHealthPhone}}">{{entity.fieldMentalHealthPhone}}</a>
-      </div>
+      {% if entity.fieldMentalHealthPhone %}
+        <div class="mental-health-clinic-phone">
+          <strong>Mental health clinic:</strong>
+          <a href="tel:{{ entity.fieldMentalHealthPhone }}">{{ entity.fieldMentalHealthPhone }}</a>
+        </div>
+      {% endif %}
     </div>
   </section>
   <section
     class="region-grid usa-width-one-half vads-u-order--first small-screen:vads-u-order--initial vads-u-margin-bottom--2">
-    <a href="{{entity.entityUrl.path}}"
-      aria-label="{{entity.fieldMedia.entity.image.alt}}"><img
-        class="region-img"
-        src="{{entity.fieldMedia.entity.image.derivative.url}}"
-        alt="{{entity.fieldMedia.entity.image.alt}}"></a>
+    <a href="{{ entity.entityUrl.path }}"
+       aria-label="{{ entity.fieldMedia.entity.image.alt }}">
+      <img class="region-img"
+           src="{{ entity.fieldMedia.entity.image.derivative.url }}"
+           alt="{{ entity.fieldMedia.entity.image.alt }}"
+      />
+    </a>
   </section>
 </div>
