@@ -16,8 +16,8 @@ describe('intro', () => {
     });
 
     it('reports no axe violations', async () => {
-      const result = await axeCheck(container);
-      expect(result.violations.length).to.equal(0);
+      const violations = await axeCheck(container);
+      expect(violations.length).to.equal(0);
     });
 
     it('renders elements with expected values', () => {
