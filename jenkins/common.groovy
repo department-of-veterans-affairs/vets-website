@@ -265,26 +265,16 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
   }
 }
 
-def accessibilityTests(dockerContainer, ref) {
+def accessibilityTests(dockerContainer, ref, String buildLogPath, String envName) {
   stage("Accessibility") {
-    if (shouldBail()) { return }
 
     dir("vets-website") {
       try {
-
-      slackSend(
-        message: '(Testing): Accessibility tests are running.'
-        color: 'danger',
-        failOnError: true,
-        channel: '-daily-accessibility-scan'
-      )
-
         parallel (
           'nightwatch-accessibility': {
             sh "export IMAGE_TAG=${IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
           },
         )
-
       } catch (error) {
 
       // slackSend(
