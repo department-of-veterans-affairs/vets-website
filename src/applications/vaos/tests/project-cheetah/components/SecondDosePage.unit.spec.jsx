@@ -51,9 +51,9 @@ describe('VAOS vaccine flow <SecondDosePage>', () => {
       store,
     });
 
-    expect(await screen.getByText(/Plan your second dose/i)).to.have.tagName(
-      'h1',
-    );
+    expect(
+      await screen.getByText(/When to expect a second dose/i),
+    ).to.have.tagName('h1');
     expect(
       screen.getByText(
         /You may need to return to the Cheyenne VA Medical Center/i,
@@ -61,6 +61,7 @@ describe('VAOS vaccine flow <SecondDosePage>', () => {
     ).to.be.ok;
     expect(screen.getByText('Moderna')).to.have.tagName('h2');
     expect(screen.getByText('Pfizer')).to.have.tagName('h2');
+    expect(screen.getByText('Johnson & Johnson')).to.have.tagName('h2');
     expect(screen.baseElement).to.contain.text(
       `If you receive your first dose on ${start.format(
         'dddd, MMMM DD, YYYY',
@@ -69,7 +70,7 @@ describe('VAOS vaccine flow <SecondDosePage>', () => {
     expect(
       screen.getByText(
         new RegExp(
-          `Return for your second dose after ${start
+          `Plan to return after ${start
             .clone()
             .add(21, 'days')
             .format('dddd, MMMM DD, YYYY')}`,
@@ -80,7 +81,7 @@ describe('VAOS vaccine flow <SecondDosePage>', () => {
     expect(
       screen.getByText(
         new RegExp(
-          `Return for your second dose after ${start
+          `Plan to return after ${start
             .clone()
             .add(28, 'days')
             .format('dddd, MMMM DD, YYYY')}`,
@@ -88,9 +89,11 @@ describe('VAOS vaccine flow <SecondDosePage>', () => {
         ),
       ),
     ).to.be.ok;
+    // Johnson & Johnson
+    expect(screen.getByText('1 dose only')).to.be.ok;
   });
 
-  it('should show additional message after user clicks the expand link', async () => {
+  xit('should show additional message after user clicks the expand link', async () => {
     const screen = renderWithStoreAndRouter(<SecondDosePage />, {
       store,
     });
