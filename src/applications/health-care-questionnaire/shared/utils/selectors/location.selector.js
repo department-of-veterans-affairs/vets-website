@@ -1,4 +1,4 @@
-const getType = (clinic, options) => {
+const getType = (clinic, options = { titleCase: false }) => {
   if (!clinic) {
     return null;
   }
@@ -14,6 +14,10 @@ const getType = (clinic, options) => {
   }
 
   const { display } = coding[0];
+
+  if (!display) {
+    return null;
+  }
 
   return titleCase
     ? display.charAt(0).toUpperCase() + display.slice(1).toLowerCase()

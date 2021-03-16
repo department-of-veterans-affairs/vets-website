@@ -7,7 +7,7 @@ describe('health care questionnaire -- utils -- get appointment status --', () =
     const result = appointment.getStatus(undefined);
     expect(result).to.be.null;
   });
-  it('vdsAppointments exists, and appointment status is null ', () => {
+  it('appointment exists, and appointment status is null ', () => {
     const result = appointment.getStatus({
       status: null,
     });
