@@ -1,4 +1,5 @@
 import { createUrlWithQuery } from '../utils/helpers';
+import { mockApiRequest } from '@@vap-svc/util/local-vapsvc';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { folder } from '~/applications/personalization/dashboard-2/utils/mocks/messaging/folder';
@@ -28,7 +29,7 @@ export function fetchFolder(id, query = {}) {
       const folderUrl = `/folders/${id}`;
       const messagesUrl = createUrlWithQuery(`${folderUrl}/messages`, query);
 
-      if (environment.isLocalhost && !window.Cypress) {
+      if (mockApiRequest) {
         dispatch({
           type: FETCH_FOLDER_SUCCESS,
           folder,

@@ -1,4 +1,5 @@
 import { uniqueId } from 'lodash';
+import environment from 'platform/utilities/environment';
 import * as VAP_SERVICE from '../constants';
 
 export function isVAProfileServiceConfigured() {
@@ -16,6 +17,9 @@ export function isVAProfileServiceConfigured() {
     ].includes(document.location.hostname)
   );
 }
+
+export const mockApiRequest = () =>
+  environment.isLocalhost && !window.Cypress && !window.VetsGov.pollTimeout;
 
 export const mockContactInformation = {
   email: {

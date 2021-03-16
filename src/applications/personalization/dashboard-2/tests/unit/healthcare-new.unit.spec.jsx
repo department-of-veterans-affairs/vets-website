@@ -5,28 +5,16 @@ import { mockFetch, resetFetch } from '~/platform/testing/unit/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 import reducers from '~/applications/personalization/dashboard/reducers';
 import { wait } from '@@profile/tests/unit-test-helpers';
-import { HealthCare } from '~/applications/personalization/dashboard-2/components/health-care/HealthCare';
+import HealthCare from '~/applications/personalization/dashboard-2/components/health-care/HealthCare';
 
 describe('HealthCare component', () => {
   let view;
   let initialState;
 
-  // const defaultProps = () => {
-  //   return {
-  //     appointments: [],
-  //     authenticatedWithSSOe: true,
-  //     canAccessRx: false,
-  //     canAccessMessaging: true,
-  //     unreadMessagesCount: 0,
-  //     fetchFolder: () => {},
-  //     fetchPrescriptions: () => {},
-  //     fetchConfirmedFutureAppointments: () => {},
-  //   };
-  // };
-
   describe('data loading', () => {
     context('when user has the `messaging` service', () => {
       beforeEach(() => {
+        window.VetsGov = { pollTimeout: 1 };
         mockFetch();
         initialState = {
           user: {
@@ -45,6 +33,12 @@ describe('HealthCare component', () => {
                     attributes: {
                       unreadCount: 0,
                     },
+                  },
+                },
+                ui: {
+                  nav: {
+                    foldersExpanded: false,
+                    visible: false,
                   },
                 },
               },
@@ -118,37 +112,37 @@ describe('HealthCare component', () => {
       });
     });
 
-    // context('when user has the `messaging` services', () => {
-    //   beforeEach(() => {
-    //     mockFetch();
-    //     initialState = {
-    //       user: {
-    //         profile: {
-    //           services: ['messaging'],
-    //         },
-    //       },
-    //     };
-    //     view = renderInReduxProvider(<HealthCare />, {
-    //       initialState,
-    //       reducers,
-    //     });
-    //   });
-    //   afterEach(() => {
-    //     resetFetch();
-    //   });
-    //   it('should not attempt to get messaging data', async () => {
-    //     // Because fetch is called as part of an async Redux thunk, we need to
-    //     // wait here before confirming that fetch was called or not called.
-    //     await wait(1);
-    //     const fetchCalls = global.fetch.getCalls();
-    //     // make sure we are not fetching messaging folders
-    //     expect(
-    //       fetchCalls.some(call => {
-    //         return call.args[0].includes('v0/messaging/health/folders/0');
-    //       }),
-    //     ).to.be.true;
-    //   });
-    // });
+    context('when user has the `messaging` services', () => {
+      beforeEach(() => {
+        mockFetch();
+        initialState = {
+          user: {
+            profile: {
+              services: ['messaging'],
+            },
+          },
+        };
+        view = renderInReduxProvider(<HealthCare />, {
+          initialState,
+          reducers,
+        });
+      });
+      afterEach(() => {
+        resetFetch();
+      });
+      it('should not attempt to get messaging data', async () => {
+        // Because fetch is called as part of an async Redux thunk, we need to
+        // wait here before confirming that fetch was called or not called.
+        await wait(1);
+        const fetchCalls = global.fetch.getCalls();
+        // make sure we are not fetching messaging folders
+        expect(
+          fetchCalls.some(call => {
+            return call.args[0].includes('v0/messaging/health/folders/0');
+          }),
+        ).to.be.true;
+      });
+    });
   });
 
   // describe('Messaging', () => {
