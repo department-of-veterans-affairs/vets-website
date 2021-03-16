@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export default function NoVASystems() {
   return (
@@ -11,9 +12,7 @@ export default function NoVASystems() {
       >
         If you haven’t had an appointment at your local VA health facility,
         you’ll need to call the facility to schedule an appointment.{' '}
-        <a href="/find-locations" target="_blank" rel="noopener noreferrer">
-          Find a VA location
-        </a>
+        <NewTabAnchor href="/find-locations">Find a VA location</NewTabAnchor>
         <p>
           <Link to="/">Go back to VA Online Scheduling home.</Link>
         </p>

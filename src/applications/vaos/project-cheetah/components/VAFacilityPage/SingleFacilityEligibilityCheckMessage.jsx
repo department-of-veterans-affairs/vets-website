@@ -1,6 +1,7 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import State from '../../../components/State';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export default function SingleFacilityEligibilityCheckMessage({ facility }) {
   return (
@@ -14,9 +15,9 @@ export default function SingleFacilityEligibilityCheckMessage({ facility }) {
         However, we couldn’t find any available slots right now.
         <p>
           If this location wasn’t what you were looking for, you can{' '}
-          <a href="/find-locations" target="_blank" rel="noopener noreferrer">
+          <NewTabAnchor href="/find-locations">
             search for a nearby location
-          </a>{' '}
+          </NewTabAnchor>{' '}
           and call to schedule an appointment.
         </p>
       </AlertBox>

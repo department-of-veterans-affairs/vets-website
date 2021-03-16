@@ -7,6 +7,7 @@ import FacilityAddress from '../../../components/FacilityAddress';
 export default function EligibilityCheckMessage({
   eligibility,
   facilityDetails,
+  typeOfCareName,
 }) {
   if (eligibility.requestFailed) {
     return <ErrorMessage />;
@@ -34,14 +35,12 @@ export default function EligibilityCheckMessage({
         >
           <p>
             You need to have visited this facility within the past{' '}
-            {eligibility.requestPastVisitValue} months to request an appointment
-            online for the type of care you selected.
+            {eligibility.requestPastVisitValue} months for {typeOfCareName} to
+            request an appointment for this type of care.
           </p>
           <p>
-            If you haven’t visited this location within the past{' '}
-            {eligibility.requestPastVisitValue} months, please call this
-            facility to schedule your appointment or search for another
-            facility.
+            Please call the facility to schedule your appointment or search for
+            another facility.
           </p>
         </AlertBox>
       </div>

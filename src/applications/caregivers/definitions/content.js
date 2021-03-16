@@ -15,6 +15,7 @@ export const links = {
   },
   caregiverHelpPage: {
     link: 'https://www.caregiver.va.gov/',
+    label: 'www.va.caregiver.gov',
   },
   applyVAHealthCare: {
     link: 'https://www.va.gov/health-care/how-to-apply/',
@@ -53,7 +54,7 @@ export const PrivacyPolicy = () => (
       target="_blank"
       rel="noopener noreferrer"
       className="vads-u-margin-left--0p5"
-      href={links.privacyPolicy}
+      href={links.privacyPolicy.link}
     >
       privacy policy
     </a>
