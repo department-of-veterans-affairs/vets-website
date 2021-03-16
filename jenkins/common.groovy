@@ -269,6 +269,9 @@ def accessibilityTests(dockerContainer, ref) {
   stage("Accessibility") {
     if (shouldBail()) { return }
 
+    dir("vets-website") {
+      try {
+
       slackSend(
         message: '(Testing): Accessibility tests are running.'
         color: 'danger',
@@ -276,8 +279,6 @@ def accessibilityTests(dockerContainer, ref) {
         channel: '-daily-accessibility-scan'
       )
 
-    dir("vets-website") {
-      try {
         parallel (
           'nightwatch-accessibility': {
             sh "export IMAGE_TAG=${IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
