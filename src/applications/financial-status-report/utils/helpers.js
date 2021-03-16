@@ -1,3 +1,5 @@
+import { omit } from 'lodash/fp';
+
 export const getMonthlyIncome = ({
   questions,
   personalData,
@@ -92,4 +94,43 @@ export const getMonthlyExpenses = ({
   }
 
   return totalArr.reduce((acc, expense) => acc + expense, 0);
+};
+
+export const getEmploymentHistory = ({ questions, personalData }) => {
+  const { employmentHistory } = personalData;
+  let history = [];
+
+  if (questions.vetIsEmployed) {
+    history = [
+      ...history,
+      omit('deductions', employmentHistory.veteran.currentEmployment),
+    ];
+  }
+
+  if (questions.spouseIsEmployed) {
+    history = [
+      ...history,
+      omit('deductions', employmentHistory.spouse.currentEmployment),
+    ];
+  }
+
+  if (questions.vetPreviouslyEmployed) {
+    const { previousEmployment } = employmentHistory.veteran;
+    const employmentRecords = previousEmployment.map(record => ({
+      ...record,
+      veteranOrSpouse: 'VETERAN',
+    }));
+    history = [...history, ...employmentRecords];
+  }
+
+  if (questions.spousePreviouslyEmployed) {
+    const { previousEmployment } = employmentHistory.spouse;
+    const employmentRecords = previousEmployment.map(record => ({
+      ...record,
+      veteranOrSpouse: 'SPOUSE',
+    }));
+    history = [...history, ...employmentRecords];
+  }
+
+  return history;
 };

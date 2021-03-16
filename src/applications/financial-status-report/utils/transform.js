@@ -1,5 +1,8 @@
-import { omit } from 'lodash/fp';
-import { getMonthlyIncome, getMonthlyExpenses } from '../utils/helpers';
+import {
+  getMonthlyIncome,
+  getMonthlyExpenses,
+  getEmploymentHistory,
+} from '../utils/helpers';
 
 export const transform = ({ data }) => {
   const {
@@ -16,6 +19,7 @@ export const transform = ({ data }) => {
 
   const totalIncome = getMonthlyIncome(data);
   const totalExpenses = getMonthlyExpenses(data);
+  const workHistory = getEmploymentHistory(data);
 
   const formObj = {
     personalIdentification: {
@@ -39,16 +43,7 @@ export const transform = ({ data }) => {
         middle: '',
         last: '',
       },
-      employmentHistory: {
-        veteran: [
-          omit('deductions', employmentHistory.veteran.currentEmployment),
-          ...(employmentHistory.veteran.previousEmployment || []),
-        ],
-        spouse: [
-          omit('deductions', employmentHistory.spouse.currentEmployment),
-          ...(employmentHistory.spouse.previousEmployment || []),
-        ],
-      },
+      employmentHistory: workHistory,
     },
     income: {
       veteran: {
