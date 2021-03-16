@@ -1,4 +1,5 @@
 import { omit } from 'lodash/fp';
+import { getMonthlyIncome, getMonthlyExpenses } from '../utils/helpers';
 
 export const transform = ({ data }) => {
   const {
@@ -12,6 +13,9 @@ export const transform = ({ data }) => {
   } = data;
 
   const { agesOfOtherDependents, address, employmentHistory } = personalData;
+
+  const totalIncome = getMonthlyIncome(data);
+  const totalExpenses = getMonthlyExpenses(data);
 
   const formObj = {
     personalData: {
@@ -94,10 +98,10 @@ export const transform = ({ data }) => {
         : null,
       other: null,
       installmentContractsAndOtherDebts: null,
-      totalMonthlyExpenses: null,
+      totalMonthlyExpenses: totalExpenses,
     },
     discretionaryIncome: {
-      netMonthlyIncomeLessExpenses: null,
+      netMonthlyIncomeLessExpenses: totalIncome - totalExpenses,
       amountCanBePaidTowardDebt: null,
     },
     assets: {
