@@ -922,7 +922,7 @@ describe('VAOS integration: appointment list', () => {
     expect(screen.getByRole('link', { name: 'Request an appointment' }));
   });
 
-  it('should show COVID-19 vaccine button', async () => {
+  it('should render schedule radio list with COVID-19 vaccine option', async () => {
     const defaultState = {
       featureToggles: {
         ...initialState.featureToggles,
@@ -935,16 +935,20 @@ describe('VAOS integration: appointment list', () => {
     });
 
     expect(
-      await screen.findAllByRole('heading', {
+      await screen.findByRole('heading', {
         level: 2,
-        name: /Schedule your first COVID-19 vaccine/,
+        name: /Schedule a new appointment/,
       }),
     );
 
-    expect(
-      screen.getByText(/You may be eligible to receive the COVID-19 vaccine/i),
-    ).to.be.ok;
+    expect(await screen.findAllByRole('radio')).to.have.length(2);
 
-    expect(screen.getByRole('link', { name: 'Learn more' }));
+    expect(screen.getByText(/Choose an appointment type/)).to.be.ok;
+
+    userEvent.click(
+      await screen.findByRole('radio', { name: 'COVID-19 vaccine' }),
+    );
+
+    expect(await screen.findByRole('link', { name: /Start scheduling/ }));
   });
 });
