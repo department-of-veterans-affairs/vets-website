@@ -8,7 +8,7 @@ import { recordDashboardClick } from '~/applications/personalization/dashboard/h
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 
 export const Appointments = ({ authenticatedWithSSOe, appointments }) => {
-  const nextAppointment = appointments[0];
+  const nextAppointment = appointments?.[0];
   const start = new Date(nextAppointment?.startsAt);
   const today = new Date();
   const hasUpcomingAppointment = differenceInDays(start, today) < 30;

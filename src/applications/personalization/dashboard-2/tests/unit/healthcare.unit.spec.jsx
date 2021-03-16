@@ -10,7 +10,9 @@ describe('HealthCare', () => {
     authenticatedWithSSOe: true,
     canAccessRx: false,
     canAccessMessaging: true,
+    unreadMessagesCount: undefined,
     fetchFolder: () => {},
+    fetchPrescriptions: () => {},
     fetchConfirmedFutureAppointments: () => {},
   };
 
