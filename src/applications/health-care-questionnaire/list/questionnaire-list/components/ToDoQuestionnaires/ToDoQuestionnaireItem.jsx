@@ -4,15 +4,23 @@ import moment from 'moment-timezone';
 import AnswerQuestions from '../Shared/Buttons/AnswerQuestions';
 import PrintButton from '../../../../shared/components/print/PrintButton';
 import { isAppointmentCancelled } from '../../../utils';
-import { appointment as appointmentSelectors } from '../../../../shared/utils/selectors';
+import {
+  appointment as appointmentSelectors,
+  questionnaireResponse as questionnaireResponseSelector,
+} from '../../../../shared/utils/selectors';
 
 import QuestionnaireItem from '../QuestionnaireItem';
 
 export default function ToDoQuestionnaireItem({ data }) {
-  const { appointment, questionnaire } = data;
+  const { appointment, questionnaire, organization } = data;
   const appointmentStatus = appointmentSelectors.getStatus(appointment);
   const isCancelled = isAppointmentCancelled(appointmentStatus);
 
+  const facility = organization;
+  const appointmentTime = appointmentSelectors.getStartTime(appointment);
+  const questionnaireResponseStatus = questionnaireResponseSelector.getStatus(
+    questionnaire[0].questionnaireResponse,
+  );
   return (
     <QuestionnaireItem
       data={data}
@@ -28,21 +36,14 @@ export default function ToDoQuestionnaireItem({ data }) {
           <AnswerQuestions
             fullData={data}
             id={appointment.id}
-            facilityName={
-              appointment.attributes.vdsAppointments[0].clinic.facility
-                .displayName
-            }
-            appointmentTime={
-              appointment.attributes.vdsAppointments[0].appointmentTime
-            }
-            status={questionnaire[0].questionnaireResponse.status}
+            facilityName={facility.name}
+            appointmentTime={appointmentTime}
+            status={questionnaireResponseStatus}
           />
         )
       }
       DueDate={() => {
-        const dueDate = moment(
-          appointment.attributes.vdsAppointments[0].appointmentTime,
-        );
+        const dueDate = moment(appointmentTime);
         const guess = moment.tz.guess();
         const formattedTimezone = moment.tz(guess).format('z');
         const meridiem = dueDate.hours() > 12 ? 'p.m.' : 'a.m.';
