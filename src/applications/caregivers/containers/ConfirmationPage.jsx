@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import { links } from 'src/applications/caregivers/definitions/content';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
@@ -126,8 +127,11 @@ const ConfirmationPage = props => {
               className="vads-u-margin-x--0p5"
             />
             or visit
-            <a className="vads-u-margin-left--0p5" href="www.va.caregiver.gov">
-              www.va.caregiver.gov
+            <a
+              className="vads-u-margin-left--0p5"
+              href={links.caregiverHelpPage.link}
+            >
+              {links.caregiverHelpPage.label}
             </a>
             .
           </p>
