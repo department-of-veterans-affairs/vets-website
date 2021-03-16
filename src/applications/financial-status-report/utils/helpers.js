@@ -89,7 +89,7 @@ export const getMonthlyExpenses = ({
   }
 
   if (questions.hasOtherExpenses) {
-    const other = otherExpenses.map(expense => expense.expenseAmount);
+    const other = otherExpenses.map(expense => expense.amount);
     totalArr = [...totalArr, ...other];
   }
 

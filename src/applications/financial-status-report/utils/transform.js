@@ -9,10 +9,12 @@ export const transform = ({ data }) => {
     questions,
     personalData,
     expenses,
+    otherExpenses,
     utilityRecords,
     assets,
     installmentContractsAndOtherDebts,
     additionalData,
+    selectedDebts,
   } = data;
 
   const { agesOfOtherDependents, address, employmentHistory } = personalData;
@@ -23,7 +25,9 @@ export const transform = ({ data }) => {
 
   const formObj = {
     personalIdentification: {
-      fsrReason: null,
+      fsrReason: selectedDebts
+        .map(({ resolution }) => resolution.resolutionType)
+        .join(', '),
     },
     personalData: {
       ...personalData,
@@ -31,17 +35,19 @@ export const transform = ({ data }) => {
         ? agesOfOtherDependents.map(dependent => dependent.dependentAge)
         : null,
       address: {
-        street: address.addressLine1,
+        addresslineOne: address.addressLine1,
+        addresslineTwo: address.addressLine2,
+        addresslineThree: address.addressLine3,
         city: address.city,
-        stateCode: address.stateCode,
-        countryName: address.countryName,
-        zipCode: address.zipCode,
+        stateOrProvince: address.stateCode,
+        zipOrPostalCode: address.zipCode,
+        countryName: address.countryCodeIso3,
       },
       married: questions.maritalStatus === 'Married',
       spouseFullName: {
-        first: '',
-        middle: '',
-        last: '',
+        first: null,
+        middle: null,
+        last: null,
       },
       employmentHistory: workHistory,
     },
@@ -94,8 +100,8 @@ export const transform = ({ data }) => {
             .map(record => record.monthlyUtilityAmount)
             .reduce((acc, amount) => acc + amount, 0)
         : null,
-      other: null,
-      installmentContractsAndOtherDebts: null,
+      otherLivingExpenses: otherExpenses,
+      expensesInstallmentContractsAndOtherDebts: null,
       totalMonthlyExpenses: totalExpenses,
     },
     discretionaryIncome: {
@@ -108,6 +114,24 @@ export const transform = ({ data }) => {
     installmentContractsAndOtherDebts: [
       ...(installmentContractsAndOtherDebts || []),
     ],
+    totalOfInstallmentContractsAndOtherDebts: {
+      originalAmount: installmentContractsAndOtherDebts.reduce(
+        (acc, debt) => acc + debt.originalAmount,
+        0,
+      ),
+      unpaidBalance: installmentContractsAndOtherDebts.reduce(
+        (acc, debt) => acc + debt.unpaidBalance,
+        0,
+      ),
+      amountDueMonthly: installmentContractsAndOtherDebts.reduce(
+        (acc, debt) => acc + debt.amountDueMonthly,
+        0,
+      ),
+      amountPastDue: installmentContractsAndOtherDebts.reduce(
+        (acc, debt) => acc + debt.amountPastDue,
+        0,
+      ),
+    },
     additionalData: {
       ...additionalData,
     },
