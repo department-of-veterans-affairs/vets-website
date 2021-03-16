@@ -10,9 +10,9 @@ import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import IntroductionPageHelpers from '../components/introduction-page';
+import IntroductionPageHelpers from '../../components/introduction-page';
 
-import { getAppointTypeFromAppointment } from '../../shared/utils';
+import { getAppointTypeFromAppointment } from '../../../shared/utils';
 
 import environment from 'platform/utilities/environment';
 import { removeFormApi } from 'platform/forms/save-in-progress/api';
@@ -54,7 +54,27 @@ const IntroductionPage = props => {
       props.router.push(firstPage.path);
     };
 
-    if (savedForm) {
+    const appointmentInPast = moment(
+      appointmentData.appointmentTime,
+    ).isSameOrBefore(moment(new Date()));
+
+    if (appointmentInPast) {
+      return (
+        <div>
+          <div className="usa-alert usa-alert-warning background-color-only schemaform-sip-alert">
+            <div className="schemaform-sip-alert-title">
+              <strong>Your questionnaire has expired</strong>
+            </div>
+            <div className="saved-form-metadata-container">
+              <span className="saved-form-metadata">
+                {props.route?.formConfig.saveInProgress.messages.expired}
+              </span>
+            </div>
+          </div>
+          <br />
+        </div>
+      );
+    } else if (savedForm) {
       return (
         <SaveInProgressIntro
           hideUnauthedStartLink
