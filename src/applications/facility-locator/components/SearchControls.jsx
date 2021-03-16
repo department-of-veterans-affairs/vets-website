@@ -49,18 +49,32 @@ class SearchControls extends Component {
       serviceType,
       zoomLevel,
       isValid,
+      searchString,
     } = this.props.currentQuery;
 
     let analyticsServiceType = serviceType;
 
     if (facilityType === LocationType.CC_PROVIDER) {
       if (!serviceType) {
+        this.props.onChange({ serviceType: ' ' });
+        this.props.onChange({ serviceType: null });
         focusElement('#service-type-ahead-input');
-
         return;
       }
 
       analyticsServiceType = this.props.currentQuery.specialties[serviceType];
+    }
+
+    if (!searchString) {
+      this.props.onChange({ searchString: ' ' });
+      this.props.onChange({ searchString: null });
+      focusElement('#street-city-state-zip');
+    }
+
+    if (!facilityType) {
+      this.props.onChange({ facilityType: ' ' });
+      this.props.onChange({ facilityType: null });
+      focusElement('#facility-type-dropdown');
     }
 
     if (!isValid) {
@@ -108,7 +122,8 @@ class SearchControls extends Component {
 
   renderLocationInputField = currentQuery => {
     const { locationChanged, searchString, geocodeInProgress } = currentQuery;
-    const showError = locationChanged && !searchString;
+    const showError =
+      locationChanged && (!searchString || searchString.length === 0);
     return (
       <div
         className={classNames('input-clear', 'vads-u-margin--0', {

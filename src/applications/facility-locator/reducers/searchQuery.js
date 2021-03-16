@@ -120,7 +120,6 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         error: true,
-        ...validateForm(state, action.payload),
         inProgress: false,
         searchBoundsInProgress: false,
       };
