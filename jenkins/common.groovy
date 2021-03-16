@@ -269,12 +269,12 @@ def accessibilityTests(dockerContainer, ref) {
   stage("Accessibility") {
     if (shouldBail()) { return }
 
-      // slackSend(
-      //   message: '(Testing): Accessibility tests failed.'
-      //   color: 'danger',
-      //   failOnError: true,
-      //   channel: '-daily-accessibility-scan'
-      // )
+      slackSend(
+        message: '(Testing): Accessibility tests are running.'
+        color: 'danger',
+        failOnError: true,
+        channel: '-daily-accessibility-scan'
+      )
 
     dir("vets-website") {
       try {
