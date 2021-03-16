@@ -43,6 +43,18 @@ function CommunityCareAppointmentDetailsPage({
     [appointment, appointmentDate],
   );
 
+  useEffect(
+    () => {
+      if (
+        appointmentDetailsStatus === FETCH_STATUS.failed ||
+        (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+      ) {
+        scrollAndFocus();
+      }
+    },
+    [appointmentDetailsStatus],
+  );
+
   if (
     appointmentDetailsStatus === FETCH_STATUS.failed ||
     (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
