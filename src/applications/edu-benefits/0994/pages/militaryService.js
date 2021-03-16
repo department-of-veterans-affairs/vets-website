@@ -46,7 +46,8 @@ export const uiSchema = {
   expectedReleaseDate: {
     'ui:title': 'Enter the date you expect to be released from active duty.',
     'ui:widget': 'date',
-    'ui:required': formData => formData.activeDuty,
+    'ui:required': formData =>
+      formData.activeDuty && !environment.isProduction(),
     'ui:options': {
       hideIf: () => environment.isProduction(),
       expandUnder: 'activeDuty',
