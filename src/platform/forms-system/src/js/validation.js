@@ -274,13 +274,9 @@ export function isValidForm(form, pageList) {
             // want to filter the schemas if they can be different. This ensures
             // the data still matches its corresponding schema if we filtered
             // out some data with `itemFilter`.
-            schema.properties[arrayPath] = _.set(
-              'items',
-              schema.properties[arrayPath].items.filter(
-                (item, index) => itemsToKeep[index],
-              ),
-              formData,
-            );
+            schema.properties[arrayPath].items = schema.properties[
+              arrayPath
+            ].items.filter((item, index) => itemsToKeep[index]);
           }
         } else {
           formData = _.unset(arrayPath, formData);
