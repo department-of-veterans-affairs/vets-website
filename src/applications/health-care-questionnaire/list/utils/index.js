@@ -1,47 +1,58 @@
-const getAppointmentStatus = appointment => {
-  if (appointment?.attributes?.vdsAppointments) {
-    return appointment?.attributes?.vdsAppointments[0]?.currentStatus;
-  }
-  return null;
-};
+import {
+  appointment,
+  questionnaireResponse,
+} from '../../shared/utils/selectors';
+
+import { cancelled, booked } from '../../shared/constants/appointment.status';
+import {
+  completed as completedQuestionnaireResponseStatus,
+  inProgress,
+} from '../../shared/constants/questionnaire.response.status';
 
 const isAppointmentCancelled = appointmentStatus =>
-  appointmentStatus?.toUpperCase().includes('CANCELLED');
+  appointmentStatus?.toLowerCase().includes(cancelled);
 
 const sortQuestionnairesByStatus = questionnaires => {
   let data = questionnaires;
   if (!data) {
     data = [];
   }
+  // NEED TEST CASE FOR: remove items where the appointment is cancelled, and there is not questionnaire status
+  data = data.filter(f => {
+    return !(
+      !questionnaireResponse.getStatus(
+        f.questionnaire[0]?.questionnaireResponse,
+      ) && isAppointmentCancelled(appointment.getStatus(f.appointment))
+    );
+  });
 
-  data = data.filter(
-    f =>
-      !(
-        !f.questionnaire[0]?.questionnaireResponse.status &&
-        f.appointment.attributes.vdsAppointments[0].currentStatus.includes(
-          'CANCELLED',
-        )
-      ),
-  );
-
+  // sort the items based on appointment time
   data.sort((first, second) => {
-    const f = first.appointment.attributes.vdsAppointments[0].appointmentTime;
-    const s = second.appointment.attributes.vdsAppointments[0].appointmentTime;
+    const f = appointment.getStartTime(first.appointment);
+    const s = appointment.getStartTime(second.appointment);
     return new Date(f) - new Date(s);
   });
-  const completed = data.filter(
-    f => f.questionnaire[0]?.questionnaireResponse.status === 'completed',
-  );
-  const toDo = data.filter(f => {
-    const questionnaireStatus =
-      f.questionnaire[0]?.questionnaireResponse.status;
-    const appointmentStatus = getAppointmentStatus(f.appointment);
+
+  // find appointments that are completed based on questionnaire status
+  const completed = data.filter(f => {
     return (
-      (appointmentStatus === 'FUTURE' && !questionnaireStatus) ||
-      (appointmentStatus === 'FUTURE' &&
-        questionnaireStatus === 'in-progress') ||
+      questionnaireResponse.getStatus(
+        f.questionnaire[0]?.questionnaireResponse,
+      ) === completedQuestionnaireResponseStatus
+    );
+  });
+
+  // find appointments that have questionnaires
+  const toDo = data.filter(f => {
+    const questionnaireStatus = questionnaireResponse.getStatus(
+      f.questionnaire[0]?.questionnaireResponse,
+    );
+    const appointmentStatus = appointment.getStatus(f.appointment);
+    return (
+      (appointmentStatus === booked && !questionnaireStatus) ||
+      (appointmentStatus === booked && questionnaireStatus === inProgress) ||
       (isAppointmentCancelled(appointmentStatus) &&
-        questionnaireStatus === 'in-progress')
+        questionnaireStatus === inProgress)
     );
   });
 
@@ -51,8 +62,4 @@ const sortQuestionnairesByStatus = questionnaires => {
   };
 };
 
-export {
-  sortQuestionnairesByStatus,
-  getAppointmentStatus,
-  isAppointmentCancelled,
-};
+export { sortQuestionnairesByStatus, isAppointmentCancelled };
