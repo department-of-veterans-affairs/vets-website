@@ -61,7 +61,7 @@ describe('VAOS <PlanAheadPage>', () => {
     );
   });
 
-  it('should retun to the correct page once back button to clicked', async () => {
+  it('should return to the correct page once back button to clicked', async () => {
     const screen = renderWithStoreAndRouter(<PlanAheadPage />, {
       store,
     });

@@ -28,20 +28,24 @@ function PlanAheadPage({
       <p>Here’s what to know:</p>
       <div className="vads-u-padding-y--1p5">
         <div className="vads-l-row vads-u-padding-bottom--2p5">
+          {/* icon */}
           <div className="vads-l-col--1">
             <i className="fas fa-info-circle vads-u-font-size--xl vads-u-color--gray" />
           </div>
-          <div className="vads-l-col--11 vaos-list-item__text">
+          {/* text  */}
+          <div className="vads-l-col--11 vads-u-padding-left--3 small-desktop-screen:vads-u-padding-left--0 medium-screen:vads-u-padding-left--1">
             Some COVID-19 vaccines require 2 doses.
           </div>
         </div>
         <div className="vads-l-row vads-u-padding-bottom--2p5">
+          {/* icon  */}
           <div className="vads-l-col--1 ">
             <i className="fas fa-info-circle vads-u-font-size--xl vads-u-color--gray" />
           </div>
-          <div className="vads-l-col--11 vaos-list-item__text">
-            If you get a vaccine that requires a second dose, we'll schedule
-            your second appointment while you're here for your first dose.
+          {/* text  */}
+          <div className="vads-l-col--11 vads-u-padding-left--3 small-desktop-screen:vads-u-padding-left--0 medium-screen:vads-u-padding-left--1">
+            If you get a vaccine that requires a second dose, we’ll schedule
+            your second appointment while you’re here for your first dose.
           </div>
         </div>
       </div>
