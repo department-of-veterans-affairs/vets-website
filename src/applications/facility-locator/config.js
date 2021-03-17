@@ -8,7 +8,6 @@ export const api = {
   baseUrl: `${environment.API_URL}/v1/facilities`,
   url: `${environment.API_URL}/v1/facilities/va`,
   ccUrl: `${environment.API_URL}/v1/facilities/ccp`,
-  allUrgentCareUrl: `${environment.API_URL}/v1/facilities/va_ccp/urgent_care`,
   settings: {
     credentials: 'include',
     headers: {
