@@ -26,7 +26,7 @@ function ActualApp() {
 
   useEffect(() => {
     async function getToken() {
-      const res = await apiRequest('/virtual_agent_tokens', {
+      const res = await apiRequest('/virtual_agent_token', {
         method: 'POST',
       });
       setToken(res.token);
