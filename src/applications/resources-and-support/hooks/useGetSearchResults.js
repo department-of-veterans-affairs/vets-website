@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 import { orderBy } from 'lodash';
 // Relative imports.
-import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import { SEARCH_IGNORE_LIST } from '../constants';
 
