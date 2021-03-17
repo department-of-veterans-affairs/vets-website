@@ -1,17 +1,22 @@
 import { run } from 'axe-core';
 
 const logViolations = violations => {
-  violations.forEach(violation => {
-    /* eslint-disable no-console */
-    console.log('\nAxe Violation:\n', violation);
-    /* eslint-enable no-console */
+  /* eslint-disable no-console */
+  console.log(
+    `\n${violations.length} Accessibility Violation${
+      violations.length === 1 ? ' Was' : 's Were'
+    } Detected`,
+  );
 
-    violation.nodes.forEach((node, index) => {
-      /* eslint-disable no-console */
-      console.log(`\nNode ${index + 1}:\n`, node);
-      /* eslint-enable no-console */
+  violations.forEach((violation, violationIdx) => {
+    console.log(`\nAxe Violation ${violationIdx + 1}:\n`, violation);
+
+    violation.nodes.forEach((node, nodeIdx) => {
+      console.log(`\nNode ${nodeIdx + 1}:\n`, node);
     });
   });
+
+  /* eslint-enable no-console */
 };
 
 export default (container, options = {}) => {
