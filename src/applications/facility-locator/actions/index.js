@@ -109,7 +109,7 @@ export const fetchProviderDetail = id => async dispatch => {
 /**
  * Handles all urgent care request (mashup)
  * @param {Object} parameters from the search request
- * @returns {{}} An Object response (locations/providers)
+ * @returns {Object} An Object response (locations/providers)
  */
 const returnAllUrgentCare = async params => {
   const { address, bounds, locationType, page, center, radius } = params;
@@ -117,7 +117,7 @@ const returnAllUrgentCare = async params => {
     address,
     bounds,
     locationType,
-    Object.keys(urgentCareServices)[1], // VA UrgentCare
+    'UrgentCare',
     page,
     center,
     radius,
@@ -128,7 +128,7 @@ const returnAllUrgentCare = async params => {
     address,
     bounds,
     locationType,
-    Object.keys(urgentCareServices)[2], // NonVAUrgentCare
+    'NonVAUrgentCare',
     page,
     center,
     radius,
