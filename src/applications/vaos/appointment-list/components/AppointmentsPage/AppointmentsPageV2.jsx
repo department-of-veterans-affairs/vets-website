@@ -5,7 +5,11 @@ import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 
 import * as actions from '../../redux/actions';
-import { selectExpressCareAvailability } from '../../redux/selectors';
+import {
+  selectCanUseVaccineFlow,
+  selectDirectScheduleSettingsStatus,
+  selectExpressCareAvailability,
+} from '../../redux/selectors';
 import {
   selectFeatureRequests,
   selectFeatureDirectScheduling,
@@ -58,7 +62,10 @@ function getDropdownValueFromLocation(pathname) {
 }
 
 function AppointmentsPageV2({
+  canUseVaccineFlow,
+  directScheduleSettingsStatus,
   expressCare,
+  fetchDirectScheduleSettings,
   fetchExpressCareWindows,
   isCernerOnlyPatient,
   isWelcomeModalDismissed,
@@ -66,6 +73,7 @@ function AppointmentsPageV2({
   showScheduleButton,
   startNewAppointmentFlow,
   startNewExpressCareFlow,
+  startNewVaccineFlow,
 }) {
   const location = useLocation();
 
@@ -77,6 +85,13 @@ function AppointmentsPageV2({
       expressCare.windowsStatus === FETCH_STATUS.notStarted
     ) {
       fetchExpressCareWindows();
+    }
+
+    if (
+      showCheetahScheduleButton &&
+      directScheduleSettingsStatus === FETCH_STATUS.notStarted
+    ) {
+      fetchDirectScheduleSettings();
     }
   }, []);
 
@@ -127,8 +142,9 @@ function AppointmentsPageV2({
       {showScheduleButton && (
         <div className="vads-u-margin-bottom--4">
           <ScheduleNewAppointmentRadioButtons
-            showCheetahScheduleButton={showCheetahScheduleButton}
+            showCheetahScheduleButton={canUseVaccineFlow}
             startNewAppointmentFlow={startNewAppointmentFlow}
+            startNewVaccineFlow={startNewVaccineFlow}
           />
         </div>
       )}
@@ -174,6 +190,8 @@ AppointmentsPageV2.propTypes = {
 
 function mapStateToProps(state) {
   return {
+    canUseVaccineFlow: selectCanUseVaccineFlow(state),
+    directScheduleSettingsStatus: selectDirectScheduleSettingsStatus(state),
     showScheduleButton: selectFeatureRequests(state),
     showCommunityCare: selectFeatureCommunityCare(state),
     showDirectScheduling: selectFeatureDirectScheduling(state),
@@ -187,8 +205,10 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   fetchExpressCareWindows: actions.fetchExpressCareWindows,
+  fetchDirectScheduleSettings: actions.fetchDirectScheduleSettings,
   startNewAppointmentFlow: actions.startNewAppointmentFlow,
   startNewExpressCareFlow: actions.startNewExpressCareFlow,
+  startNewVaccineFlow: actions.startNewVaccineFlow,
 };
 
 export default connect(
