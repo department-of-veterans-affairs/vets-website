@@ -16,6 +16,8 @@ export default function useGetSearchResults(articles, query, page) {
         return;
       }
 
+      // Begin filtering logic.
+      // =====
       const keywords = query
         .split(' ')
         .filter(word => !!word)
@@ -43,11 +45,13 @@ export default function useGetSearchResults(articles, query, page) {
           );
         });
       });
-
-      let orderedResults = [];
+      // =====
+      // End of filtering logic.
 
       // Begin ordering logic.
       // =====
+      let orderedResults = [];
+
       filteredArticles = filteredArticles?.map(article => ({
         ...article,
 
@@ -68,16 +72,36 @@ export default function useGetSearchResults(articles, query, page) {
             1,
           0,
         ),
+
+        wholePhraseMatchCounts:
+          article.title.toLowerCase()?.split(query.toLowerCase())?.length -
+          1 +
+          (article.description.toLowerCase()?.split(query.toLowerCase())
+            ?.length -
+            1),
       }));
 
       // Sort first by query word instances found in title descending
       // Sort ties then by query word instances found in description descending
       // Sort ties then by alphabetical descending
-      orderedResults = orderBy(
-        filteredArticles,
-        ['keywordsCountsTitle', 'keywordsCountsDescription', 'title'],
-        ['desc', 'desc', 'asc'],
-      );
+      if (environment.isProduction()) {
+        orderedResults = orderBy(
+          filteredArticles,
+          ['keywordsCountsTitle', 'keywordsCountsDescription', 'title'],
+          ['desc', 'desc', 'asc'],
+        );
+      } else {
+        orderedResults = orderBy(
+          filteredArticles,
+          [
+            'wholePhraseMatchCounts',
+            'keywordsCountsTitle',
+            'keywordsCountsDescription',
+            'title',
+          ],
+          ['desc', 'desc', 'desc', 'asc'],
+        );
+      }
       // =====
       // End of ordering logic.
 
