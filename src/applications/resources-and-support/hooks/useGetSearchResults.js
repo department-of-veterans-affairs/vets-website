@@ -81,16 +81,20 @@ export default function useGetSearchResults(articles, query, page) {
             1),
       }));
 
-      // Sort first by query word instances found in title descending
-      // Sort ties then by query word instances found in description descending
-      // Sort ties then by alphabetical descending
       if (environment.isProduction()) {
+        // Sort first by query word instances found in title descending
+        // Sort ties then by query word instances found in description descending
+        // Sort ties then by alphabetical descending
         orderedResults = orderBy(
           filteredArticles,
           ['keywordsCountsTitle', 'keywordsCountsDescription', 'title'],
           ['desc', 'desc', 'asc'],
         );
       } else {
+        // Sort first by the number of exact query matches (ignoring casing) in the title and description
+        // Sort ties by query word instances found in title descending
+        // Sort ties then by query word instances found in description descending
+        // Sort ties then by alphabetical descending
         orderedResults = orderBy(
           filteredArticles,
           [
