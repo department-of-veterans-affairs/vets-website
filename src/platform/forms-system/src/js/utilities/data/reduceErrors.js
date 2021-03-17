@@ -1,8 +1,90 @@
-// min/max length or item errors may show up as duplicates
-const errorExists = (list, name, index) =>
-  list.some(obj => obj.name === name && obj.index === index);
+import numberToWords from './numberToWords';
 
-// Keys to ignore within the pageList objects & pageList schema
+// Process JSON-schema error messages for viewing
+
+/**
+ * Convert array zero-based number `test[0]` into a word `first test`
+ * @param {string} _ - Entire regex matching group (unused)
+ * @param {string} word - Word portion of the regexp that matches the array name,
+ *   e.g. in "array[0]", "array" would be the word
+ * @param {string} number - Number portion of the regexp that matches the number
+ * @returns {string} "{converted word number} {word}"
+ */
+const replaceNumberWithWord = (_, word, number) => {
+  const num = parseInt(number, 10);
+  return `${
+    isNaN(num) || !isFinite(num) ? number : numberToWords(num + 1)
+  } ${word}`;
+};
+
+/**
+ * @typedef FormConfig~reviewErrorMessage
+ * @type {string|function}
+ * @param {number} index - provided to the function if the schema property is an
+ *  array. This index indicates the index of the entry with an error
+ * @returns {string} predefined error message
+ */
+/**
+ * @typedef FormConfig~reviewErrors - Cross-reference of required schema names
+ *  with the error message displayed inside of the alert error link
+ * @type {Object}
+ * @property {Object.<string>} - required schema name (key)
+ * @property {FormConfig~reviewErrorMessage} - Error message string or function
+ *  that returns a string
+ */
+/**
+ * Get error message contained in FormConfig~reviewErrors
+ * @param {string|function} message - property name with an error
+ * @param {string} index - index of error (as a string, so it is concerted)
+ * @returns {string} Predefined error message
+ */
+export const getErrorMessage = (message, index = '') =>
+  typeof message === 'function' ? message(Number(index)) : message || '';
+
+// Regexp & replace string/function to reformat hard-coded error messages
+const messageFormatting = [
+  // Error messages include "requires property" or "instance."
+  { regex: /(requires property|instance\.?)\s*/g, replace: '' },
+  // Don't show the "view:" or "ui:" prefix
+  { regex: /(view:|ui:|")/g, replace: '' },
+  // Convert numbers into words
+  { regex: /(\w+)\[(\d+)\]/, replace: replaceNumberWithWord },
+  // Separate numbers (e.g. "address1" -> "address 1")
+  { regex: /([a-z])(\d)/g, replace: '$1 $2' },
+  // "zip" code replaced with "postal" code in content, but not property names
+  { regex: /zip\s(code)?/i, replace: 'postal code' },
+  // Make abbreviations upper case
+  { regex: /\b(va|pow)\b/g, replace: str => ` ${str.toUpperCase()} ` },
+  // "enum values:" may be followed by a very long list (e.g. all countries)
+  { regex: /(enum\svalues:.+)$/g, replace: 'the available values' },
+];
+
+/**
+ * Make hard-coded jsonschema validation error messages _more_ readable, e.g.
+ * - Changes`instance.news does not meet minimum length of 1` to
+ *   `News does not meet minimum length of 1`
+ * - Changes `instance.address requires property "city"` to `Address city`
+ * - Array type properties need to get special treatment,
+ *   `"instance.newDisabilities[0] requires property "cause"` is modified into
+ *   `First new disabilities cause`.
+ * These formatting methods use the schema property name, which isn't ideal.
+ * That's why this is used as a fallback for the predefined `reviewErrors`
+ * object in the form config - see FormConfig~reviewErrors
+ * @param {string} message - hard coded error message
+ * @returns {string} - transformed "human-readable" error message
+ */
+const formatErrors = message =>
+  messageFormatting
+    .reduce(
+      (newMessage, transformer) =>
+        newMessage.replace(transformer.regex, transformer.replace),
+      message,
+    )
+    .trim()
+    // make first letter upper case
+    .replace(/^./, str => str.toUpperCase());
+
+// Keys to ignore within the pageList objects & pageList uiSchema
 const ignoreKeys = [
   'title',
   'path',
@@ -14,6 +96,12 @@ const ignoreKeys = [
   'type',
   'required',
   'initialData',
+  'onContinue',
+  'showPagePerItem',
+  'itemFilter',
+  'arrayPath',
+  'updateFormData',
+  'appStateSelector',
 ];
 
 /**
@@ -41,7 +129,10 @@ const ignoreKeys = [
  *   page object if the name is not found on any page
  */
 export const getPropertyInfo = (pageList = [], name, instance = '') => {
-  const findPageIndex = (obj, insideInstance = instance === '') => {
+  const findPageIndex = (
+    obj,
+    insideInstance = instance === '' || instance === name,
+  ) => {
     if (obj && typeof obj === 'object') {
       return Object.keys(obj).findIndex(key => {
         if (key.startsWith('ui:') || ignoreKeys.includes(key)) {
@@ -70,6 +161,16 @@ export const getPropertyInfo = (pageList = [], name, instance = '') => {
  * @property {string} pageKey - the page within the chapter the element is
  *   associated with
  */
+/**
+ * min/max length or item errors may show up as duplicates
+ * @param {Form~errors} list - list of error messages
+ * @param {string} name - error name
+ * @param {number|null} index - error index
+ * @returns {boolean} true if the name/index already exist in the list
+ */
+const errorExists = (list, name, index) =>
+  list.some(obj => obj.name === name && obj.index === index);
+
 /**
  * @typedef Form~rawErrors - list of raw errors that are output from jsonschema
  *   validator
@@ -137,16 +238,17 @@ export const getPropertyInfo = (pageList = [], name, instance = '') => {
  * @param {Form~pageList} pageList - list of all form pages from `route.pageList`
  * @return {Form~errors} - Finely curated list of form errors
  */
-export const reduceErrors = (errors, pageList) =>
+export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
   errors.reduce((processedErrors, error) => {
+    let errorIndex = null; // save key (index) of array items with __error
     const findErrors = (name, err) => {
       if (err && typeof err === 'object') {
         // process the last type of error message which provides an `__errors`
         // message array. If there are multiple errors, we'll join them into
         // one message.
         if (
-          err?.__errors?.length &&
-          !errorExists(processedErrors, name, null)
+          err.__errors?.length &&
+          !errorExists(processedErrors, name, errorIndex)
         ) {
           const { chapterKey = '', pageKey = '' } = getPropertyInfo(
             pageList,
@@ -154,8 +256,10 @@ export const reduceErrors = (errors, pageList) =>
           );
           processedErrors.push({
             name,
-            index: null,
-            message: err.__errors.join('. '),
+            index: errorIndex || null,
+            message:
+              getErrorMessage(reviewErrors[name], errorIndex) ||
+              err.__errors.map(e => formatErrors(e)).join('. '),
             chapterKey,
             pageKey,
           });
@@ -171,7 +275,7 @@ export const reduceErrors = (errors, pageList) =>
           //
           // http://sentry.vfs.va.gov/vets-gov/website-production/issues/12188/events/cf24a5bc9ef9452e9611f3e14846f6f0/
           const argument =
-            Array.isArray(err.argument) || !err.argument
+            Array.isArray(err.argument) || !err.argument || !isNaN(err.argument)
               ? property.split('.').slice(-1)[0]
               : err.argument;
           // name is the property that had the validation error
@@ -204,7 +308,9 @@ export const reduceErrors = (errors, pageList) =>
               // the "stack" string isn't included in the one error message
               // example, so we'll include the message. We'll process and
               // display this message to the user in some future work
-              message: err.stack || err.message,
+              message:
+                getErrorMessage(reviewErrors[propertyName], index) ||
+                formatErrors(err.stack || err.message),
               // Accordion (chapter) key that needs to be highlighted
               chapterKey,
               // page within the chapter that contains the error; will be used
@@ -215,11 +321,20 @@ export const reduceErrors = (errors, pageList) =>
           return null;
         }
         // process nested error messages (follows uiSchema nesting)
-        Object.keys(err).forEach(key => findErrors(key, err[key]));
+        Object.keys(err).forEach(key => {
+          if (!isNaN(key) && typeof err[key] !== 'string') {
+            // save array/object index if key is a number; but ignore it if the
+            // value is a string, e.g. an __error message string
+            errorIndex = key;
+          }
+          findErrors(key, err[key]);
+        });
       }
       return null;
     };
     // Initialize search for errors
-    Object.keys(error).forEach(key => findErrors(key, error));
+    Object.keys(error).forEach(key => {
+      findErrors(key, error);
+    });
     return processedErrors;
   }, []);

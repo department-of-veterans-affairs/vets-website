@@ -49,7 +49,7 @@ describe('Process form validation errors', () => {
         },
       },
     ];
-    expect(reduceErrors(raw, [])).to.eql([
+    expect(reduceErrors(raw, [])).to.deep.equal([
       {
         name: 'bar',
         message: 'BAH',
@@ -184,14 +184,14 @@ describe('Process form validation errors', () => {
     const result = [
       {
         name: 'view:baz',
-        message: 'instance requires property "view:baz"',
+        message: 'Baz',
         chapterKey: 'bar',
         pageKey: 'zoo',
         index: null,
       },
       {
         name: 'city',
-        message: 'instance.address requires property "city"',
+        message: 'Address city',
         chapterKey: 'info',
         pageKey: 'contact',
         index: null,
@@ -236,10 +236,56 @@ describe('Process form validation errors', () => {
     const result = [
       {
         name: 'cause',
-        message: 'instance.news[0] requires property "cause"',
+        message: 'First news cause',
         chapterKey: 'diz',
         pageKey: 'news',
         index: '0',
+      },
+    ];
+    expect(reduceErrors(raw, pages)).to.eql(result);
+  });
+
+  it('should process minimum array length', () => {
+    const pages = [
+      {
+        path: '/news/follow-up/:index',
+        showPagePerItem: true,
+        arrayPath: 'news',
+        uiSchema: {
+          'ui:title': 'Details',
+          news: {
+            items: {
+              cause: {
+                'ui:title': {},
+                'ui:widget': 'radio',
+                'ui:options': {},
+              },
+            },
+          },
+        },
+        schema: {},
+        chapterTitle: 'Diz',
+        chapterKey: 'diz',
+        pageKey: 'news',
+      },
+    ];
+    const raw = [
+      {
+        property: 'instance.news',
+        message: 'does not meet minimum length of 1',
+        schema: {},
+        name: 'minItems',
+        argument: 1,
+        stack: 'instance.news does not meet minimum length of 1',
+      },
+    ];
+    const result = [
+      {
+        name: 'news',
+        message: 'News does not meet minimum length of 1',
+        chapterKey: 'diz',
+        pageKey: 'news',
+        index: null,
       },
     ];
     expect(reduceErrors(raw, pages)).to.eql(result);
@@ -316,7 +362,7 @@ describe('Process form validation errors', () => {
       {
         name: 'newDisabilities.view:secondaryFollowUp.causedByDisability',
         index: '4',
-        message: 'is not one of enum values: Abc,Bcd,Cde,Def,Efg,Fgh,Ghi,Hij',
+        message: 'Fifth new disability is missing a value',
         chapterKey: 'disabilities',
         pageKey: 'newDisabilityFollowUp',
       },
@@ -324,12 +370,16 @@ describe('Process form validation errors', () => {
         name: 'newDisabilities.view:secondaryFollowUp.causedByDisability',
         index: '6',
         message:
-          'instance.newDisabilities[6].view:secondaryFollowUp.causedByDisability is not one of enum values: Abc,Bcd,Cde,Def,Efg,Fgh,Ghi,Hij',
+          'Seventh newDisabilities.secondaryFollowUp.causedByDisability is not one of the available values',
         chapterKey: 'disabilities',
         pageKey: 'newDisabilityFollowUp',
       },
     ];
-    expect(reduceErrors(raw, pages)).to.eql(result);
+    const reviewErrors = {
+      'newDisabilities.view:secondaryFollowUp.causedByDisability': index =>
+        index === 4 ? 'Fifth new disability is missing a value' : null,
+    };
+    expect(reduceErrors(raw, pages, reviewErrors)).to.eql(result);
   });
 });
 
