@@ -7,7 +7,11 @@ import ProgressButton from 'platform/forms-system/src/js/components/ProgressButt
 
 import * as actions from '../redux/actions';
 import { selectContactFacilitiesPageInfo } from '../redux/selectors';
-import { FACILITY_SORT_METHODS, FETCH_STATUS } from '../../utils/constants';
+import {
+  FACILITY_SORT_METHODS,
+  FETCH_STATUS,
+  GA_PREFIX,
+} from '../../utils/constants';
 import ErrorMessage from '../../components/ErrorMessage';
 import State from '../../components/State';
 import FacilityPhone from '../../components/FacilityPhone';
@@ -15,6 +19,7 @@ import { getFacilityIdFromLocation } from '../../services/location/index';
 import { getRealFacilityId } from '../../utils/appointment';
 import NewTabAnchor from '../../components/NewTabAnchor';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import recordEvent from 'platform/monitoring/record-event';
 
 const pageKey = 'contactFacilities';
 
@@ -144,9 +149,16 @@ function ContactFacilitiesPage({
             We’re working to provide COVID-19 vaccines to Veterans as quickly
             and safely as we can, based on CDC guidelines and available supply.
           </p>
-          <NewTabAnchor href="/health-care/covid-19-vaccine">
+          <a
+            href="/health-care/covid-19-vaccine"
+            onClick={() => {
+              recordEvent({
+                event: `${GA_PREFIX}-COVID-19-vaccines-at-VA-link-clicked`,
+              });
+            }}
+          >
             Learn how to stay informed about COVID-19 vaccines at VA.
-          </NewTabAnchor>
+          </a>
         </AlertBox>
       )}
       <ProgressButton
