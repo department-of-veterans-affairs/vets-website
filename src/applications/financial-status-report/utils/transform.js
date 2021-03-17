@@ -1,4 +1,5 @@
 import {
+  getIncome,
   getMonthlyIncome,
   getMonthlyExpenses,
   getEmploymentHistory,
@@ -23,6 +24,7 @@ export const transform = ({ data }) => {
   const totalExpenses = getMonthlyExpenses(data);
   const workHistory = getEmploymentHistory(data);
   const totalAssets = getTotalAssets(data);
+  const income = getIncome(data);
 
   const formObj = {
     personalIdentification: {
@@ -56,50 +58,7 @@ export const transform = ({ data }) => {
       telephoneNumber: personalData.telephoneNumber,
       dateOfBirth: personalData.dateOfBirth,
     },
-    income: {
-      veteran: {
-        monthlyGrossSalary: null,
-        deductions: {
-          taxes: null,
-          retirement: null,
-          socialSecurity: null,
-          other: [
-            ...(personalData.employmentHistory.veteran.currentEmployment
-              .deductions || []),
-          ],
-        },
-        totalDeductions: null,
-        netTakeHomePay: null,
-        otherIncome: [
-          {
-            name: null,
-            amount: null,
-          },
-        ],
-        totalMonthlyNetIncome: null,
-      },
-      spouse: {
-        monthlyGrossSalary: null,
-        deductions: {
-          taxes: null,
-          retirement: null,
-          socialSecurity: null,
-          other: [
-            ...(personalData.employmentHistory.spouse.currentEmployment
-              .deductions || []),
-          ],
-        },
-        totalDeductions: null,
-        netTakeHomePay: null,
-        otherIncome: [
-          {
-            name: null,
-            amount: null,
-          },
-        ],
-        totalMonthlyNetIncome: null,
-      },
-    },
+    income,
     expenses: {
       ...expenses,
       utilities: utilityRecords

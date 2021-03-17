@@ -11,25 +11,25 @@ export const getMonthlyIncome = ({
   let totalArr = [];
 
   if (questions.vetIsEmployed) {
-    const { grossMonthlyIncome } = employmentHistory.veteran.currentEmployment;
-    totalArr = [...totalArr, grossMonthlyIncome];
+    const { monthlyGrossSalary } = employmentHistory.veteran.currentEmployment;
+    totalArr = [...totalArr, monthlyGrossSalary];
   }
 
   if (questions.spouseIsEmployed) {
-    const { grossMonthlyIncome } = employmentHistory.spouse.currentEmployment;
-    totalArr = [...totalArr, grossMonthlyIncome];
+    const { monthlyGrossSalary } = employmentHistory.spouse.currentEmployment;
+    totalArr = [...totalArr, monthlyGrossSalary];
   }
 
   if (questions.hasAdditionalIncome) {
     const vetAddl = additionalIncome.additionalIncomeRecords.map(
-      record => record.monthlyIncome,
+      record => record.amount,
     );
     totalArr = [...totalArr, ...vetAddl];
   }
 
   if (questions.spouseHasAdditionalIncome) {
     const spouseAddl = additionalIncome.spouse.additionalIncomeRecords.map(
-      record => record.monthlyIncome,
+      record => record.amount,
     );
     totalArr = [...totalArr, ...spouseAddl];
   }
@@ -68,9 +68,7 @@ export const getMonthlyExpenses = ({
 
   if (questions.vetIsEmployed) {
     const { deductions } = employmentHistory.veteran.currentEmployment;
-    const payrollDeductions = deductions.map(
-      deduction => deduction.deductionAmount,
-    );
+    const payrollDeductions = deductions.map(deduction => deduction.amount);
     totalArr = [...totalArr, ...payrollDeductions];
   }
 
@@ -159,4 +157,97 @@ export const getTotalAssets = ({ assets, realEstateRecords }) => {
   return (
     totVehicles + totRecVehicles + totAssets + totRealEstate + totOtherAssets
   );
+};
+
+export const getIncome = ({ questions, personalData, additionalIncome }) => {
+  const { employmentHistory } = personalData;
+
+  const defaultObj = {
+    monthlyGrossSalary: null,
+    deductions: {
+      taxes: null,
+      retirement: null,
+      socialSecurity: null,
+      otherDeductions: {
+        name: null,
+        amount: null,
+      },
+    },
+    totalDeductions: null,
+    netTakeHomePay: null,
+    otherIncome: {
+      name: null,
+      amount: null,
+    },
+    totalMonthlyNetIncome: null,
+  };
+
+  let income = [
+    { veteranOrSpouse: 'VETERAN', ...defaultObj },
+    { veteranOrSpouse: 'SPOUSE', ...defaultObj },
+  ];
+
+  if (questions.vetIsEmployed) {
+    income = income.map(item => {
+      if (item.veteranOrSpouse === 'VETERAN') {
+        return {
+          ...item,
+          deductions: {
+            ...item.deductions,
+            otherDeductions: [
+              ...employmentHistory.veteran.currentEmployment.deductions,
+            ],
+          },
+          monthlyGrossSalary:
+            employmentHistory.veteran.currentEmployment.monthlyGrossSalary,
+        };
+      }
+      return item;
+    });
+  }
+
+  if (questions.spouseIsEmployed) {
+    income = income.map(item => {
+      if (item.veteranOrSpouse === 'SPOUSE') {
+        return {
+          ...item,
+          deductions: {
+            ...item.deductions,
+            otherDeductions: [
+              ...employmentHistory.spouse.currentEmployment.deductions,
+            ],
+          },
+          monthlyGrossSalary:
+            employmentHistory.spouse.currentEmployment.monthlyGrossSalary,
+        };
+      }
+      return item;
+    });
+  }
+
+  if (questions.hasAdditionalIncome) {
+    income = income.map(item => {
+      if (item.veteranOrSpouse === 'VETERAN') {
+        return {
+          ...item,
+          otherIncome: additionalIncome.additionalIncomeRecords,
+        };
+      }
+      return item;
+    });
+  }
+
+  if (questions.spouseHasAdditionalIncome) {
+    income = income.map(item => {
+      if (item.veteranOrSpouse === 'SPOUSE') {
+        return {
+          ...item,
+          otherIncome: additionalIncome.spouse.additionalIncomeRecords,
+        };
+      }
+      return item;
+    });
+  }
+
+  return income;
 };
