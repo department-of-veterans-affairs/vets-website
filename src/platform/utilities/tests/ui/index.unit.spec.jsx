@@ -34,4 +34,10 @@ describe('isReactComponent', () => {
   it('should return false for number', () => {
     expect(isReactComponent(3)).to.be.false;
   });
+  it('should return false for null', () => {
+    expect(isReactComponent(null)).to.be.false;
+  });
+  it('should return false for undefined', () => {
+    expect(isReactComponent()).to.be.false;
+  });
 });
