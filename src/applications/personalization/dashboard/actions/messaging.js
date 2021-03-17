@@ -1,8 +1,8 @@
 import { createUrlWithQuery } from '../utils/helpers';
-import environment from 'platform/utilities/environment';
-import { apiRequest } from 'platform/utilities/api';
-import { folder } from '~/applications/personalization/dashboard-2/utils/mocks/messaging/folder';
-import { messages } from '~/applications/personalization/dashboard-2/utils/mocks/messaging/messages';
+import environment from '~/platform/utilities/environment';
+import { apiRequest } from '~/platform/utilities/api';
+import { mockFolderResponse } from '~/applications/personalization/dashboard-2/utils/mocks/messaging/folder';
+import { mockMessagesResponse } from '~/applications/personalization/dashboard-2/utils/mocks/messaging/messages';
 import { shouldMockApiRequest } from '~/applications/personalization/dashboard/tests/helpers';
 import {
   FETCH_FOLDER_FAILURE,
@@ -31,8 +31,8 @@ export function fetchFolder(id, query = {}) {
       if (shouldMockApiRequest()) {
         dispatch({
           type: FETCH_FOLDER_SUCCESS,
-          folder,
-          messages,
+          mockFolderResponse,
+          mockMessagesResponse,
         });
 
         return;

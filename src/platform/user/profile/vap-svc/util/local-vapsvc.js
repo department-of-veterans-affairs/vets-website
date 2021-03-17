@@ -1,5 +1,4 @@
 import { uniqueId } from 'lodash';
-import environment from 'platform/utilities/environment';
 import * as VAP_SERVICE from '../constants';
 
 export function isVAProfileServiceConfigured() {

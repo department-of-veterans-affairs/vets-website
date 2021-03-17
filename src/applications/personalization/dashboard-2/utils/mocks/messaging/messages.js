@@ -1,4 +1,4 @@
-export const messages = {
+export const mockMessagesResponse = {
   data: [
     {
       id: '1412070',

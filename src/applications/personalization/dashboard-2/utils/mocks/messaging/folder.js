@@ -1,4 +1,4 @@
-export const folder = {
+export const mockFolderResponse = {
   data: {
     id: '0',
     type: 'folders',
