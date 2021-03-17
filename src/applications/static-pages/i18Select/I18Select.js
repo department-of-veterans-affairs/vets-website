@@ -4,33 +4,36 @@ import recordEvent from 'platform/monitoring/record-event';
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-import { useTranslation } from 'react-i18next';
+import { useTranslation, initReactI18next } from 'react-i18next';
 
 const LANGS_TO_LINK_SUFFIXES = {
   es: '-esp/',
   tag: '-tag/',
 };
 
-i18n.use(LanguageDetector).init({
-  resources: {
-    en: {
-      translation: {
-        'Welcome to React': 'Welcome to React and react-i18next',
+i18n
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    resources: {
+      en: {
+        translation: {
+          'Welcome to React': 'Welcome to React and react-i18next',
+        },
+      },
+      es: {
+        translation: {
+          'Welcome to React': 'ESPANOL WELCOME TO REACT',
+        },
       },
     },
-    es: {
-      translation: {
-        'Welcome to React': 'ESPANOL WELCOME TO REACT',
-      },
+    // lng: 'en',
+    fallbackLng: 'en',
+    debug: true,
+    interpolation: {
+      escapeValue: false,
     },
-  },
-  lng: 'en',
-  fallbackLng: 'en',
-
-  interpolation: {
-    escapeValue: false,
-  },
-});
+  });
 const I18Select = ({ baseUrls, content }) => {
   const [lang, setLang] = useState('en');
   useEffect(() => {
@@ -52,6 +55,9 @@ const I18Select = ({ baseUrls, content }) => {
 
   useEffect(
     () => {
+      if (lang) {
+        i18n.changeLanguage(lang);
+      }
       if (lang && lang !== 'en') {
         const onThisPageEl = document?.getElementById('on-this-page');
         onThisPageEl.innerText = content[lang].onThisPage;
