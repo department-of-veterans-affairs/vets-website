@@ -15,7 +15,23 @@ describe('MyVA Dashboard', () => {
         messaging: false,
         rx: false,
         facilities: [],
-        inProgressForms: [],
+        inProgressForms: [
+          // a single SIP form that has expired, so this should not be shown in
+          // the UI
+          {
+            form: '40-10007',
+            metadata: {
+              version: 0,
+              returnUrl: '/preparer',
+              savedAt: 1602619612576,
+              // a date one week in the past, in seconds
+              expiresAt: Date.now() - 7 * 24 * 60 * 60,
+              lastUpdated: 1602619612,
+              inProgressFormId: 4950,
+            },
+            lastUpdated: 1602619612,
+          },
+        ],
         isPatient: false,
       });
       cy.login(mockUser);
