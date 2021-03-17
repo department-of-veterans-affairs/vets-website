@@ -7,7 +7,7 @@ import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 export const UnauthContent = () => (
   <>
     <CallToActionWidget appId="view-appointments" setFocus={false} />
-    <p>
+    <p data-testid="non-cerner-content">
       <strong>Please note:</strong> The fastest way to make all your VA
       appointments is usually to call the VA or community care health facility
       where you want to receive care. If you can’t keep an existing appointment,
