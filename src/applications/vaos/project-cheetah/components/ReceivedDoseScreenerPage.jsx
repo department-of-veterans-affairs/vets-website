@@ -20,7 +20,16 @@ const initialSchema = {
 const uiSchema = {
   hasReceivedDose: {
     'ui:widget': 'yesNo',
-    'ui:title': 'This includes the first or second shot, at any facility',
+    'ui:options': {
+      labels: {
+        N: "No/I'm not sure",
+      },
+    },
+    'ui:title':
+      "If you've received the first dose of a vaccine that requires 2 doses, answer Yes.",
+    'ui:errorMessages': {
+      required: 'Please select an option',
+    },
   },
 };
 
