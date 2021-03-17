@@ -30,7 +30,10 @@ function PlanAheadPage({
         <div className="vads-l-row vads-u-padding-bottom--2p5">
           {/* icon */}
           <div className="vads-l-col--1">
-            <i className="fas fa-info-circle vads-u-font-size--xl vads-u-color--gray" />
+            <i
+              aria-hidden="true"
+              className="fas fa-info-circle vads-u-font-size--xl vads-u-color--gray"
+            />
           </div>
           {/* text  */}
           <div className="vads-l-col--11 vads-u-padding-left--3 small-desktop-screen:vads-u-padding-left--0 medium-screen:vads-u-padding-left--1">
@@ -40,7 +43,10 @@ function PlanAheadPage({
         <div className="vads-l-row vads-u-padding-bottom--2p5">
           {/* icon  */}
           <div className="vads-l-col--1 ">
-            <i className="fas fa-info-circle vads-u-font-size--xl vads-u-color--gray" />
+            <i
+              aria-hidden="true"
+              className="fas fa-info-circle vads-u-font-size--xl vads-u-color--gray"
+            />
           </div>
           {/* text  */}
           <div className="vads-l-col--11 vads-u-padding-left--3 small-desktop-screen:vads-u-padding-left--0 medium-screen:vads-u-padding-left--1">
