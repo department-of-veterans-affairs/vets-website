@@ -48,6 +48,11 @@ export default function ScheduleNewAppointmentRadioButtons({
         Schedule a new appointment
       </h2>
       <RadioButtons
+        label={
+          <span className="sr-only">
+            Choose an appointment type to begin scheduling
+          </span>
+        }
         name={'schedule-new-appointment'}
         id={'schedule-new-appointment'}
         options={radioOptions()}
@@ -60,7 +65,10 @@ export default function ScheduleNewAppointmentRadioButtons({
       />
 
       {!radioSelection && (
-        <span className="vads-u-padding--0 va-action-link--disabled">
+        <span
+          aria-disabled="true"
+          className="vads-u-padding--0 va-action-link--disabled"
+        >
           Choose an appointment type
         </span>
       )}
