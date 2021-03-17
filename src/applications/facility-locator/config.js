@@ -70,7 +70,7 @@ export const resolveParamsWithUrl = (
       service = serviceType;
   }
 
-  if (radius) roundRadius = radius.toFixed();
+  if (radius) roundRadius = Math.max(1, radius.toFixed());
 
   return {
     url,
