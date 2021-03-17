@@ -31,8 +31,8 @@ export function fetchFolder(id, query = {}) {
       if (shouldMockApiRequest()) {
         dispatch({
           type: FETCH_FOLDER_SUCCESS,
-          mockFolderResponse,
-          mockMessagesResponse,
+          folder: mockFolderResponse,
+          messages: mockMessagesResponse,
         });
 
         return;
