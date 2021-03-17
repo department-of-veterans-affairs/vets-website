@@ -21,100 +21,41 @@ const ApplicationInProgress = ({
   formTitle,
   lastOpenedDate,
   presentableFormId,
-  removeForm,
-  startNewApplicationUrl,
 }) => {
-  const isExpired = React.useMemo(
-    () => new Date(expirationDate).getTime() < Date.now(),
-    [expirationDate],
-  );
-
   return (
     <div
       className="vads-u-display--flex vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--4 medium-screen:vads-u-padding-right--3 vads-u-padding-bottom--3"
       data-testid="application-in-progress"
     >
       <div className="vads-u-display--flex vads-u-width--full vads-u-flex-direction--column vads-u-justify-content--space-between vads-u-align-items--flex-start vads-u-background-color--gray-lightest vads-u-padding--2p5">
-        {!isExpired && (
-          <>
+        <div>
+          <p className="vads-u-text-transform--uppercase vads-u-margin-y--0">
+            {presentableFormId}
+          </p>
+          <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
+            {capitalizeFirstLetter(formTitle)}
+          </h4>
+          <div className="vads-u-display--flex">
+            <i
+              aria-hidden="true"
+              className={`fas fa-fw fa-exclamation-circle vads-u-margin-right--1 vads-u-margin-top--0p5`}
+            />
             <div>
-              <p className="vads-u-text-transform--uppercase vads-u-margin-y--0">
-                {presentableFormId}
+              <p className="vads-u-margin-top--0">
+                Application expires on: {expirationDate}
               </p>
-              <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
-                {capitalizeFirstLetter(formTitle)}
-              </h4>
-              <div className="vads-u-display--flex">
-                <i
-                  aria-hidden="true"
-                  className={`fas fa-fw fa-exclamation-circle vads-u-margin-right--1 vads-u-margin-top--0p5`}
-                />
-                <div>
-                  <p className="vads-u-margin-top--0">
-                    Application expires on: {expirationDate}
-                  </p>
-                  <p>Last opened on: {lastOpenedDate}</p>
-                </div>
-              </div>
+              <p>Last opened on: {lastOpenedDate}</p>
             </div>
-            <a
-              className="usa-button usa-button-primary"
-              aria-label={`Continue your ${formTitle}`}
-              href={continueUrl}
-              onClick={recordDashboardClick(formId, 'continue-button')}
-            >
-              Continue your application
-            </a>
-          </>
-        )}
-        {isExpired && (
-          <>
-            <div>
-              <p className="vads-u-text-transform--uppercase vads-u-margin-y--0">
-                {presentableFormId}
-              </p>
-              <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
-                {capitalizeFirstLetter(formTitle)}
-              </h4>
-              <div className="vads-u-display--flex">
-                <i
-                  aria-hidden="true"
-                  className={`fas fa-fw fa-exclamation-circle vads-u-margin-right--1 vads-u-margin-top--0p5`}
-                />
-                <div>
-                  <p className="vads-u-margin-top--0">
-                    Expired: Your {formTitle} has expired.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div>
-              <a
-                className="usa-button usa-button-primary"
-                aria-label={`Start a new ${formTitle}`}
-                href={startNewApplicationUrl}
-              >
-                Start a new application
-              </a>
-              <button
-                className="va-button-link"
-                aria-label={`Remove this notification about my expired ${formTitle}`}
-                onClick={() => {
-                  removeForm(formId);
-                  recordDashboardClick(formId, 'delete-link');
-                }}
-              >
-                <i
-                  className="fa fa-times vads-u-margin-right--1 vads-u-margin-top--0p5"
-                  aria-hidden="true"
-                />
-                <span className="remove-notification-label">
-                  Remove this notification
-                </span>
-              </button>
-            </div>
-          </>
-        )}
+          </div>
+        </div>
+        <a
+          className="usa-button usa-button-primary"
+          aria-label={`Continue your ${formTitle}`}
+          href={continueUrl}
+          onClick={recordDashboardClick(formId, 'continue-button')}
+        >
+          Continue your application
+        </a>
       </div>
     </div>
   );
@@ -133,10 +74,6 @@ ApplicationInProgress.propTypes = {
   lastOpenedDate: PropTypes.string.isRequired,
   // String to show at the very top of the component, usually `Form ${formId}`
   presentableFormId: PropTypes.string.isRequired,
-  // Function to call when the user wants to remove an expired form
-  removeForm: PropTypes.func,
-  // The URL that lets the user start a new application
-  startNewApplicationUrl: PropTypes.string.isRequired,
 };
 
 export default ApplicationInProgress;
