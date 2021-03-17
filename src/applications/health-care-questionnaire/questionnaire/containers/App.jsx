@@ -62,7 +62,7 @@ const App = props => {
             'hidden:questionnaire': questionnaire,
           });
         }
-        setLoadedAppointment(appointment);
+        setLoadedAppointment(data);
         setIsLoading(false);
         const apptType = getAppointTypeFromAppointment(appointment);
         setForm(f => {
