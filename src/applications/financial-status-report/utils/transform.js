@@ -22,7 +22,7 @@ export const transform = ({ data }) => {
 
   const totalIncome = getMonthlyIncome(data);
   const totalExpenses = getMonthlyExpenses(data);
-  const workHistory = getEmploymentHistory(data);
+  const employmentHistory = getEmploymentHistory(data);
   const totalAssets = getTotalAssets(data);
   const income = getIncome(data);
 
@@ -54,7 +54,7 @@ export const transform = ({ data }) => {
         middle: null,
         last: null,
       },
-      employmentHistory: workHistory,
+      employmentHistory,
       telephoneNumber: personalData.telephoneNumber,
       dateOfBirth: personalData.dateOfBirth,
     },

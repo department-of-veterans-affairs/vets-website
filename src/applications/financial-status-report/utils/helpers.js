@@ -1,5 +1,3 @@
-import { omit } from 'lodash/fp';
-
 export const getMonthlyIncome = ({
   questions,
   personalData,
@@ -99,33 +97,53 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
   let history = [];
 
   if (questions.vetIsEmployed) {
+    const { currentEmployment } = employmentHistory.veteran;
     history = [
       ...history,
-      omit('deductions', employmentHistory.veteran.currentEmployment),
+      {
+        veteranOrSpouse: 'VETERAN',
+        employerName: currentEmployment.employerName,
+        from: currentEmployment.from,
+        to: null,
+        present: true,
+      },
     ];
   }
 
   if (questions.spouseIsEmployed) {
+    const { currentEmployment } = employmentHistory.spouse;
     history = [
       ...history,
-      omit('deductions', employmentHistory.spouse.currentEmployment),
+      {
+        veteranOrSpouse: 'SPOUSE',
+        employerName: currentEmployment.employerName,
+        from: currentEmployment.from,
+        to: null,
+        present: true,
+      },
     ];
   }
 
   if (questions.vetPreviouslyEmployed) {
     const { previousEmployment } = employmentHistory.veteran;
-    const employmentRecords = previousEmployment.map(record => ({
-      ...record,
+    const employmentRecords = previousEmployment.map(employment => ({
       veteranOrSpouse: 'VETERAN',
+      employerName: employment.employerName,
+      from: employment.from,
+      to: employment.to,
+      present: false,
     }));
     history = [...history, ...employmentRecords];
   }
 
   if (questions.spousePreviouslyEmployed) {
     const { previousEmployment } = employmentHistory.spouse;
-    const employmentRecords = previousEmployment.map(record => ({
-      ...record,
+    const employmentRecords = previousEmployment.map(employment => ({
       veteranOrSpouse: 'SPOUSE',
+      employerName: employment.employerName,
+      from: employment.from,
+      to: employment.to,
+      present: false,
     }));
     history = [...history, ...employmentRecords];
   }
