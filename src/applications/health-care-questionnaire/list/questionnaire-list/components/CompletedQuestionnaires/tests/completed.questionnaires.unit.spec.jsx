@@ -2,18 +2,18 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import ToDoQuestionnaire from '../../../questionnaire-list/components/ToDoQuestionnaires';
+import CompletedQuestionnaires from '../index';
 
 import {
   createFakeListStore,
   createFakeListStoreEmptyList,
   createFakeListStoreForServiceDown,
-} from '../utils/createFakeStores';
+} from './utils';
 
 describe('health care questionnaire list - todo list', () => {
   it('No questionnaires -- service down message', () => {
     const fakeStore = createFakeListStoreForServiceDown();
-    const component = mount(<ToDoQuestionnaire store={fakeStore} />);
+    const component = mount(<CompletedQuestionnaires store={fakeStore} />);
 
     expect(component.exists('[data-testid="service-down-message"]')).to.be.true;
 
@@ -21,7 +21,7 @@ describe('health care questionnaire list - todo list', () => {
   });
   it('No questionnaires -- empty list', () => {
     const fakeStore = createFakeListStoreEmptyList();
-    const component = mount(<ToDoQuestionnaire store={fakeStore} />);
+    const component = mount(<CompletedQuestionnaires store={fakeStore} />);
 
     expect(component.exists('[data-testid="empty-message"]')).to.be.true;
 
@@ -29,7 +29,7 @@ describe('health care questionnaire list - todo list', () => {
   });
   it('has questionnaires', () => {
     const fakeStore = createFakeListStore();
-    const component = mount(<ToDoQuestionnaire store={fakeStore} />);
+    const component = mount(<CompletedQuestionnaires store={fakeStore} />);
     expect(component.exists('[data-testid="service-down-message"]')).to.be
       .false;
 

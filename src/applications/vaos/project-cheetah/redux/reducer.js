@@ -32,9 +32,6 @@ import {
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
   FORM_PREFILL_CONTACT_INFO,
-  FETCH_NEW_BOOKING_WINDOW,
-  FETCH_NEW_BOOKING_WINDOW_FAILED,
-  FETCH_NEW_BOOKING_WINDOW_SUCCEEDED,
 } from './actions';
 
 import { FACILITY_SORT_METHODS, FETCH_STATUS } from '../../utils/constants';
@@ -59,8 +56,6 @@ const initialState = {
   submitStatus: FETCH_STATUS.notStarted,
   submitErrorReason: null,
   successfulRequest: null,
-  newBookingStatus: FETCH_STATUS.notStarted,
-  isEligible: false,
 };
 
 function setupFormData(data, schema, uiSchema) {
@@ -544,26 +539,6 @@ export default function projectCheetahReducer(state = initialState, action) {
           facilitiesStatus: FETCH_STATUS.succeeded,
           facilityPageSortMethod: sortMethod,
         },
-      };
-    }
-    case FETCH_NEW_BOOKING_WINDOW: {
-      return {
-        ...state,
-        newBookingStatus: FETCH_STATUS.loading,
-      };
-    }
-    case FETCH_NEW_BOOKING_WINDOW_FAILED: {
-      return {
-        ...state,
-        newBookingStatus: FETCH_STATUS.failed,
-        isEligible: action.isEligible,
-      };
-    }
-    case FETCH_NEW_BOOKING_WINDOW_SUCCEEDED: {
-      return {
-        ...state,
-        newBookingStatus: FETCH_STATUS.succeeded,
-        isEligible: action.isEligible,
       };
     }
 

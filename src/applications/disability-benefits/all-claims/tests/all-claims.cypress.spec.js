@@ -15,6 +15,7 @@ import formConfig from '../config/form';
 import manifest from '../manifest.json';
 import { mockItf } from './all-claims.cypress.helpers';
 import {
+  MOCK_SIPS_API,
   WIZARD_STATUS,
   FORM_STATUS_BDD,
   SAVED_SEPARATION_DATE,
@@ -142,7 +143,7 @@ const testConfig = createTestConfig(
       // because fixtures don't evaluate JS.
       cy.intercept('GET', '/v0/intent_to_file', mockItf);
 
-      cy.intercept('PUT', '/v0/in_progress_forms/*', mockInProgress);
+      cy.intercept('PUT', `${MOCK_SIPS_API}*`, mockInProgress);
 
       cy.intercept(
         'GET',
@@ -176,7 +177,7 @@ const testConfig = createTestConfig(
           ({ 'view:selected': _, ...obj }) => obj,
         );
 
-        cy.intercept('GET', 'v0/in_progress_forms/21-526EZ', {
+        cy.intercept('GET', MOCK_SIPS_API, {
           formData: {
             veteran: {
               primaryPhone: '4445551212',

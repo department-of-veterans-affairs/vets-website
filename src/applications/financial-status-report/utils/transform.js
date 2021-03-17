@@ -1,44 +1,55 @@
+import {
+  getMonthlyIncome,
+  getMonthlyExpenses,
+  getEmploymentHistory,
+} from '../utils/helpers';
+
 export const transform = ({ data }) => {
   const {
     questions,
     personalData,
     expenses,
+    otherExpenses,
+    utilityRecords,
     assets,
     installmentContractsAndOtherDebts,
     additionalData,
+    selectedDebts,
   } = data;
 
   const { agesOfOtherDependents, address, employmentHistory } = personalData;
 
+  const totalIncome = getMonthlyIncome(data);
+  const totalExpenses = getMonthlyExpenses(data);
+  const workHistory = getEmploymentHistory(data);
+
   const formObj = {
+    personalIdentification: {
+      fsrReason: selectedDebts
+        .map(({ resolution }) => resolution.resolutionType)
+        .join(', '),
+    },
     personalData: {
       ...personalData,
       agesOfOtherDependents: agesOfOtherDependents
-        ? agesOfOtherDependents.map(item => item.dependentAge)
+        ? agesOfOtherDependents.map(dependent => dependent.dependentAge)
         : null,
       address: {
-        street: address.addressLine1,
+        addresslineOne: address.addressLine1,
+        addresslineTwo: address.addressLine2,
+        addresslineThree: address.addressLine3,
         city: address.city,
-        stateCode: address.stateCode,
-        countryName: address.countryName,
-        zipCode: address.zipCode,
+        stateOrProvince: address.stateCode,
+        zipOrPostalCode: address.zipCode,
+        countryName: address.countryCodeIso3,
       },
       married: questions.maritalStatus === 'Married',
       spouseFullName: {
-        first: '',
-        middle: '',
-        last: '',
+        first: null,
+        middle: null,
+        last: null,
       },
-      employmentHistory: {
-        veteran: [
-          employmentHistory.veteran.currentEmployment,
-          ...(employmentHistory.veteran.previousEmployment || []),
-        ],
-        spouse: [
-          employmentHistory.spouse.currentEmployment,
-          ...(employmentHistory.spouse.previousEmployment || []),
-        ],
-      },
+      employmentHistory: workHistory,
     },
     income: {
       veteran: {
@@ -84,9 +95,17 @@ export const transform = ({ data }) => {
     },
     expenses: {
       ...expenses,
+      utilities: utilityRecords
+        ? utilityRecords
+            .map(record => record.monthlyUtilityAmount)
+            .reduce((acc, amount) => acc + amount, 0)
+        : null,
+      otherLivingExpenses: otherExpenses,
+      expensesInstallmentContractsAndOtherDebts: null,
+      totalMonthlyExpenses: totalExpenses,
     },
     discretionaryIncome: {
-      netMonthlyIncomeLessExpenses: null,
+      netMonthlyIncomeLessExpenses: totalIncome - totalExpenses,
       amountCanBePaidTowardDebt: null,
     },
     assets: {
@@ -95,6 +114,24 @@ export const transform = ({ data }) => {
     installmentContractsAndOtherDebts: [
       ...(installmentContractsAndOtherDebts || []),
     ],
+    totalOfInstallmentContractsAndOtherDebts: {
+      originalAmount: installmentContractsAndOtherDebts.reduce(
+        (acc, debt) => acc + debt.originalAmount,
+        0,
+      ),
+      unpaidBalance: installmentContractsAndOtherDebts.reduce(
+        (acc, debt) => acc + debt.unpaidBalance,
+        0,
+      ),
+      amountDueMonthly: installmentContractsAndOtherDebts.reduce(
+        (acc, debt) => acc + debt.amountDueMonthly,
+        0,
+      ),
+      amountPastDue: installmentContractsAndOtherDebts.reduce(
+        (acc, debt) => acc + debt.amountPastDue,
+        0,
+      ),
+    },
     additionalData: {
       ...additionalData,
     },
