@@ -10,24 +10,31 @@ const LANGS_TO_LINK_SUFFIXES = {
   es: '-esp/',
   tag: '-tag/',
 };
+const translationsContent = {
+  en: {
+    translation: {
+      'Welcome to React': 'Welcome to React and react-i18next',
+    },
+  },
+  es: {
+    translation: {
+      'Welcome to React': 'ESPANOL WELCOME TO REACT',
+      onThisPage: 'En esta página',
+    },
+  },
+  tag: {
+    translation: {
+      'Welcome to React': 'TAGALOG WELCOME TO REACT',
+      onThisPage: 'Sa pahinang ito',
+    },
+  },
+};
 
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    resources: {
-      en: {
-        translation: {
-          'Welcome to React': 'Welcome to React and react-i18next',
-        },
-      },
-      es: {
-        translation: {
-          'Welcome to React': 'ESPANOL WELCOME TO REACT',
-        },
-      },
-    },
-    // lng: 'en',
+    resources: translationsContent,
     fallbackLng: 'en',
     debug: true,
     interpolation: {
@@ -52,24 +59,21 @@ const I18Select = ({ baseUrls, content }) => {
       }
     }
   }, []);
-
+  const { t } = useTranslation();
   useEffect(
     () => {
       if (lang) {
         i18n.changeLanguage(lang);
       }
-      if (lang && lang !== 'en') {
+      if (lang && lang !== 'en' && translationsContent) {
         const onThisPageEl = document?.getElementById('on-this-page');
-        onThisPageEl.innerText = content[lang].onThisPage;
+        onThisPageEl.innerText =
+          translationsContent[lang].translation.onThisPage;
       }
     },
     [lang, content],
   );
-
-  const { t } = useTranslation();
-
-  console.log(t('Welcome to React'), 'THE TRANSLATION');
-
+  console.log(t('Welcome to React'), 'trans');
   return (
     <div className="vads-u-display--inline-block vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-border--0 vads-u-border-bottom--1px vads-u-border-style--solid vads-u-border-color--gray">
       <span>

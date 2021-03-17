@@ -31,20 +31,17 @@ export default function createI18Select(store, widgetType) {
   const isFaq = document.location.pathname.includes(
     `/coronavirus-veteran-frequently-asked-questions`,
   );
+  // this is to display the links, should separate it from content
+  //  rename this to link configuration
   const I18_CONTENT = {
     en: {
       label: 'English',
-      suffix: '/',
     },
     es: {
-      onThisPage: 'En esta página',
       label: 'Español',
-      suffix: '-esp/',
     },
     tag: {
-      suffix: '-tag/',
       label: 'Tagalog',
-      onThisPage: 'Sa pahinang ito',
     },
   };
 
