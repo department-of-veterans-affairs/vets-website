@@ -31,19 +31,6 @@ export default function createI18Select(store, widgetType) {
   const isFaq = document.location.pathname.includes(
     `/coronavirus-veteran-frequently-asked-questions`,
   );
-  // this is to display the links, should separate it from content
-  //  rename this to link configuration
-  const I18_CONTENT = {
-    en: {
-      label: 'English',
-    },
-    es: {
-      label: 'Español',
-    },
-    tag: {
-      label: 'Tagalog',
-    },
-  };
 
   if (root) {
     import(/* webpackChunkName: "i18Select" */
@@ -51,10 +38,7 @@ export default function createI18Select(store, widgetType) {
       const I18Select = module.default;
       ReactDOM.render(
         <Provider store={store}>
-          <I18Select
-            baseUrls={isFaq ? baseUrls.faq : baseUrls.vaccine}
-            content={I18_CONTENT}
-          />
+          <I18Select baseUrls={isFaq ? baseUrls.faq : baseUrls.vaccine} />
         </Provider>,
         root,
       );
