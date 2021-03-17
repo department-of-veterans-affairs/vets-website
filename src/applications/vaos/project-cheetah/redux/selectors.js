@@ -5,6 +5,7 @@ import {
   getTimezoneDescBySystemId,
 } from '../../utils/timezone';
 import { getSiteIdFromFacilityId } from '../../services/location';
+import { selectCanUseVaccineFlow } from '../../appointment-list/redux/selectors';
 
 export function selectProjectCheetah(state) {
   return state.projectCheetah;
@@ -157,7 +158,7 @@ export function selectContactFacilitiesPageInfo(state) {
     facilities,
     facilitiesStatus,
     sortMethod: newBooking.facilityPageSortMethod,
-    isEligible: state.projectCheetah.isEligible,
+    canUseVaccineFlow: selectCanUseVaccineFlow(state),
     newBookingStatus: state.projectCheetah.newBookingStatus,
   };
 }
