@@ -1,6 +1,5 @@
 node('vetsgov-general-purpose') {
-
-  // Checkout vets-website code
+  // Checkout content-build code
   dir("vets-website") {
     checkout scm
     ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
@@ -12,9 +11,9 @@ node('vetsgov-general-purpose') {
   dockerContainer = commonStages.setup()
 
   // Perform a build for each build type
-  commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
+  envsUsingDrupalCache = commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
 
-  // Run accessibility tests
+   // Run accessibility tests
   commonStages.accessibilityTests();
 
 }
