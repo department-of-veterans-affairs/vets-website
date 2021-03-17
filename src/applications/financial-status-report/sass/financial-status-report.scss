@@ -142,9 +142,12 @@
   }
 }
 
-.resolution-inputs label,
-.eduWaiverCheckbox label {
+.resolution-inputs label {
   margin-top: 0;
+}
+
+.resolution-inputs .schemaform-currency-input label {
+  white-space: nowrap;
 }
 
 .overview-container {

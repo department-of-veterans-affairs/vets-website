@@ -129,6 +129,7 @@ const formConfig = {
               employmentHistory: {
                 veteran: {
                   currentEmployment: {
+                    veteranOrSpouse: 'VETERAN',
                     present: true,
                     to: null,
                   },
@@ -218,6 +219,7 @@ const formConfig = {
               employmentHistory: {
                 spouse: {
                   currentEmployment: {
+                    veteranOrSpouse: 'SPOUSE',
                     present: true,
                     to: null,
                   },
