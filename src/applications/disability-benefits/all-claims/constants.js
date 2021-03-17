@@ -1,4 +1,8 @@
 import { pciuStates as PCIU_STATES } from 'vets-json-schema/dist/constants.json';
+import {
+  VA_FORM_IDS,
+  VA_FORM_IDS_IN_PROGRESS_FORMS_API,
+} from 'platform/forms/constants';
 
 import disabilityLabels from './content/disabilityLabels';
 
@@ -269,6 +273,12 @@ export const ANALYTICS_EVENTS = {
       'Disability - Form 21-0781a - PTSD Secondary Sources - Which should I choose',
   },
 };
+
+// new /v0/disability_compensation_in_progress_forms/21-526EZ. Not using the
+// platform/forms/helpers/inProgressApi because the mock doesn't include the
+// environment.API_URL
+export const MOCK_SIPS_API =
+  VA_FORM_IDS_IN_PROGRESS_FORMS_API[VA_FORM_IDS.FORM_21_526EZ];
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
 
