@@ -22,7 +22,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     // Plan ahead page
     cy.url().should('include', '/new-covid-19-vaccine-booking');
     cy.axeCheckBestPractice();
-    cy.contains('button', 'Start scheduling')
+    cy.contains('button', 'Continue')
       .focus()
       .click();
 
@@ -77,7 +77,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     // Review
     cy.url().should('include', '/review');
     cy.axeCheckBestPractice();
-    cy.findByText('Schedule appointment').click();
+    cy.findByText('Confirm appointment').click();
 
     // Check form requestBody is as expected
     cy.wait('@appointmentSubmission').should(xhr => {

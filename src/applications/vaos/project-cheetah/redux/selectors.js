@@ -41,6 +41,15 @@ export function getChosenSlot(state) {
   return availableSlots?.find(slot => slot.start === selectedTime);
 }
 
+export function getChosenFacilityInfo(state) {
+  return (
+    selectProjectCheetahNewBooking(state).facilities?.find(
+      facility =>
+        facility.id === selectProjectCheetahFormData(state).vaFacility,
+    ) || null
+  );
+}
+
 export function getDateTimeSelect(state, pageKey) {
   const newBooking = selectProjectCheetahNewBooking(state);
   const appointmentSlotsStatus = newBooking.appointmentSlotsStatus;
@@ -58,20 +67,12 @@ export function getDateTimeSelect(state, pageKey) {
     ...formInfo,
     availableSlots,
     facilityId: data.vaFacility,
+    selectedFacility: getChosenFacilityInfo(state),
     appointmentSlotsStatus,
     preferredDate: data.preferredDate,
     timezone,
     timezoneDescription,
   };
-}
-
-export function getChosenFacilityInfo(state) {
-  return (
-    selectProjectCheetahNewBooking(state).facilities?.find(
-      facility =>
-        facility.id === selectProjectCheetahFormData(state).vaFacility,
-    ) || null
-  );
 }
 
 export function getFacilityPageInfo(state) {
