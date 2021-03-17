@@ -5,6 +5,14 @@ import { apiRequest } from 'platform/utilities/api';
 window.React = React;
 window.ReactDOM = ReactDOM;
 
+const script = document.createElement('script');
+
+script.src =
+  'https://cdn.botframework.com/botframework-webchat/4.12.0/webchat-es5.js';
+script.crossOrigin = 'anonymous';
+
+document.body.appendChild(script);
+
 export default function App() {
   const [isLoaded, setLoaded] = useState(!!window.WebChat);
 
