@@ -370,7 +370,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
 
     expect(await screen.findAllByRole('radio')).to.have.length(1);
 
-    expect(screen.getByText(/Choose an appointment type/)).to.be.ok;
+    expect(screen.getByText(/Choose an appointment type$/)).to.be.ok;
 
     userEvent.click(
       await screen.findByRole('radio', { name: 'Primary or specialty care' }),
@@ -409,7 +409,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
 
     expect(await screen.findAllByRole('radio')).to.have.length(2);
 
-    expect(screen.getByText(/Choose an appointment type/)).to.be.ok;
+    expect(screen.getByText(/Choose an appointment type$/)).to.be.ok;
 
     userEvent.click(
       await screen.findByRole('radio', { name: 'COVID-19 vaccine' }),
@@ -447,7 +447,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
 
     expect(await screen.findAllByRole('radio')).to.have.length(1);
 
-    expect(screen.getByText(/Choose an appointment type/)).to.be.ok;
+    expect(screen.getByText(/Choose an appointment type$/)).to.be.ok;
 
     expect(screen.queryByRole('radio', { name: 'COVID-19 vaccine' })).not.to
       .exist;

@@ -954,7 +954,7 @@ describe('VAOS integration: appointment list', () => {
 
     expect(await screen.findAllByRole('radio')).to.have.length(2);
 
-    expect(screen.getByText(/Choose an appointment type/)).to.be.ok;
+    expect(screen.getByText(/Choose an appointment type$/)).to.be.ok;
 
     userEvent.click(
       await screen.findByRole('radio', { name: 'COVID-19 vaccine' }),
