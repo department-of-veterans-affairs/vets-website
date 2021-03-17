@@ -994,7 +994,7 @@
     }
   },
   {
-    "appName": "VA Virtual Assistant",
+    "appName": "Virtual Agent",
     "entryName": "virtual-agent",
     "rootUrl": "/virtual-agent",
     "template": {

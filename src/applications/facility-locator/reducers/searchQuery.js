@@ -34,22 +34,30 @@ export const INITIAL_STATE = {
   geocodeInProgress: false,
   geocodeResults: [],
   mapMoved: false,
+  error: false,
   isValid: true,
 };
 
-const validateForm = state => {
-  const needServiceType = state.facilityType === 'provider';
+const validateForm = (oldState, payload) => {
+  const newState = {
+    ...oldState,
+    ...payload,
+  };
 
-  return (
-    state.searchString?.length > 0 &&
-    state.facilityType?.length > 0 &&
-    (needServiceType ? state.serviceType?.length > 0 : true)
-  );
+  const needServiceType = newState.facilityType === 'provider';
+
+  return {
+    isValid:
+      newState.searchString?.length > 0 &&
+      newState.facilityType?.length > 0 &&
+      (needServiceType ? newState.serviceType?.length > 0 : true),
+    locationChanged: oldState.searchString !== newState.searchString,
+    facilityTypeChanged: oldState.facilityType !== newState.facilityType,
+    serviceTypeChanged: oldState.serviceType !== newState.serviceType,
+  };
 };
 
 export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
-  let newState = {};
-
   switch (action.type) {
     case SEARCH_STARTED:
       return {
@@ -62,24 +70,24 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
     case FETCH_LOCATIONS:
       return {
         ...state,
+        ...action.payload,
         error: false,
         inProgress: false,
         searchBoundsInProgress: false,
         mapMoved: false,
-        isValid: validateForm(state),
+        ...validateForm(state, action.payload),
       };
     case MAP_MOVED:
       return {
         ...state,
         mapMoved: true,
-        isValid: validateForm(state),
       };
     case FETCH_LOCATION_DETAIL:
     case SEARCH_COMPLETE:
       return {
         ...state,
         error: false,
-        isValid: validateForm(state),
+        ...validateForm(state, action.payload),
         inProgress: false,
         mapMoved: false,
       };
@@ -111,20 +119,16 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         error: true,
-        isValid: validateForm(state),
         inProgress: false,
         searchBoundsInProgress: false,
       };
     case SEARCH_QUERY_UPDATED:
-      newState = {
+      return {
         ...state,
         ...action.payload,
+        ...validateForm(state, action.payload),
         error: false,
       };
-
-      newState.isValid = validateForm(newState);
-
-      return newState;
     case GEOCODE_STARTED:
       return {
         ...state,
@@ -157,6 +161,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         ...state,
         searchString: '',
         isValid: false,
+        locationChanged: true,
       };
     default:
       return state;

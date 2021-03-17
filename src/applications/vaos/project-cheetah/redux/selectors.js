@@ -5,6 +5,7 @@ import {
   getTimezoneDescBySystemId,
 } from '../../utils/timezone';
 import { getSiteIdFromFacilityId } from '../../services/location';
+import { selectCanUseVaccineFlow } from '../../appointment-list/redux/selectors';
 
 export function selectProjectCheetah(state) {
   return state.projectCheetah;
@@ -40,6 +41,15 @@ export function getChosenSlot(state) {
   return availableSlots?.find(slot => slot.start === selectedTime);
 }
 
+export function getChosenFacilityInfo(state) {
+  return (
+    selectProjectCheetahNewBooking(state).facilities?.find(
+      facility =>
+        facility.id === selectProjectCheetahFormData(state).vaFacility,
+    ) || null
+  );
+}
+
 export function getDateTimeSelect(state, pageKey) {
   const newBooking = selectProjectCheetahNewBooking(state);
   const appointmentSlotsStatus = newBooking.appointmentSlotsStatus;
@@ -57,20 +67,12 @@ export function getDateTimeSelect(state, pageKey) {
     ...formInfo,
     availableSlots,
     facilityId: data.vaFacility,
+    selectedFacility: getChosenFacilityInfo(state),
     appointmentSlotsStatus,
     preferredDate: data.preferredDate,
     timezone,
     timezoneDescription,
   };
-}
-
-export function getChosenFacilityInfo(state) {
-  return (
-    selectProjectCheetahNewBooking(state).facilities?.find(
-      facility =>
-        facility.id === selectProjectCheetahFormData(state).vaFacility,
-    ) || null
-  );
 }
 
 export function getFacilityPageInfo(state) {
@@ -157,7 +159,7 @@ export function selectContactFacilitiesPageInfo(state) {
     facilities,
     facilitiesStatus,
     sortMethod: newBooking.facilityPageSortMethod,
-    isEligible: state.projectCheetah.isEligible,
+    canUseVaccineFlow: selectCanUseVaccineFlow(state),
     newBookingStatus: state.projectCheetah.newBookingStatus,
   };
 }
