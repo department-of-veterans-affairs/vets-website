@@ -232,7 +232,24 @@ export function errorSchemaIsValid(errorSchema) {
   return _.values(_.omit('__errors', errorSchema)).every(errorSchemaIsValid);
 }
 
-export function isValidForm(form, pageList) {
+/**
+ * IsValidForm~results
+ * @typedef {Object}
+ * @property {Boolean} isValid - Returns true if the formData & schema match and
+ *  are valid
+ * @property {Object[]} errors - Errors returned by jsonschema validator
+ * @property {Object|null} formData - Only available during unit tests
+ */
+/**
+ * Use third-party jsonschema validator to validate the formData against the
+ * schema
+ * @param {Object} form - the entire form object from Redux state
+ * @param {Obect[]} pageList - Page list array from the router
+ * @param {Boolean} isTesting - Testing flag used to return the modified form
+ *  data to verify the correct changes were made
+ * @returns {IsValidForm~results}
+ */
+export function isValidForm(form, pageList, isTesting = false) {
   const pageListMap = new Map();
   pageList.forEach(page => pageListMap.set(page.pageKey, page));
   const validPages = Object.keys(form.pages).filter(pageKey =>
@@ -300,6 +317,7 @@ export function isValidForm(form, pageList) {
         return {
           isValid: isValid && errorSchemaIsValid(customErrors),
           errors: errors.concat(customErrors),
+          formData: isTesting ? formData : null, // for unit tests
         };
       }
 
@@ -307,6 +325,7 @@ export function isValidForm(form, pageList) {
         isValid: false,
         // removes PII
         errors: errors.concat(result.errors.map(_.unset('instance'))),
+        formData: isTesting ? formData : null, // for unit tests
       };
     },
     { isValid: true, errors: [] },
