@@ -17,8 +17,6 @@ export const transform = ({ data }) => {
     selectedDebts,
   } = data;
 
-  const { agesOfOtherDependents, address, employmentHistory } = personalData;
-
   const totalIncome = getMonthlyIncome(data);
   const totalExpenses = getMonthlyExpenses(data);
   const workHistory = getEmploymentHistory(data);
@@ -30,18 +28,20 @@ export const transform = ({ data }) => {
         .join(', '),
     },
     personalData: {
-      ...personalData,
-      agesOfOtherDependents: agesOfOtherDependents
-        ? agesOfOtherDependents.map(dependent => dependent.dependentAge)
+      veteranFullName: personalData.veteranFullName,
+      agesOfOtherDependents: personalData.agesOfOtherDependents
+        ? personalData.agesOfOtherDependents.map(
+            dependent => dependent.dependentAge,
+          )
         : null,
       address: {
-        addresslineOne: address.addressLine1,
-        addresslineTwo: address.addressLine2,
-        addresslineThree: address.addressLine3,
-        city: address.city,
-        stateOrProvince: address.stateCode,
-        zipOrPostalCode: address.zipCode,
-        countryName: address.countryCodeIso3,
+        addresslineOne: personalData.address.addressLine1,
+        addresslineTwo: personalData.address.addressLine2,
+        addresslineThree: personalData.address.addressLine3,
+        city: personalData.address.city,
+        stateOrProvince: personalData.address.stateCode,
+        zipOrPostalCode: personalData.address.zipCode,
+        countryName: personalData.address.countryCodeIso3,
       },
       married: questions.maritalStatus === 'Married',
       spouseFullName: {
@@ -50,6 +50,8 @@ export const transform = ({ data }) => {
         last: null,
       },
       employmentHistory: workHistory,
+      telephoneNumber: personalData.telephoneNumber,
+      dateOfBirth: personalData.dateOfBirth,
     },
     income: {
       veteran: {
@@ -59,7 +61,8 @@ export const transform = ({ data }) => {
           retirement: null,
           socialSecurity: null,
           other: [
-            ...(employmentHistory.veteran.currentEmployment.deductions || []),
+            ...(personalData.employmentHistory.veteran.currentEmployment
+              .deductions || []),
           ],
         },
         totalDeductions: null,
@@ -79,7 +82,8 @@ export const transform = ({ data }) => {
           retirement: null,
           socialSecurity: null,
           other: [
-            ...(employmentHistory.spouse.currentEmployment.deductions || []),
+            ...(personalData.employmentHistory.spouse.currentEmployment
+              .deductions || []),
           ],
         },
         totalDeductions: null,
@@ -106,7 +110,9 @@ export const transform = ({ data }) => {
     },
     discretionaryIncome: {
       netMonthlyIncomeLessExpenses: totalIncome - totalExpenses,
-      amountCanBePaidTowardDebt: null,
+      amountCanBePaidTowardDebt: selectedDebts
+        .map(debt => debt.resolution.offerToPay || 0)
+        .reduce((acc, offer) => acc + offer, 0),
     },
     assets: {
       ...assets,
