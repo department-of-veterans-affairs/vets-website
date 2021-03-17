@@ -55,7 +55,6 @@ export const resolveParamsWithUrl = (
       } else if (serviceType === 'NonVAUrgentCare' && !allUrgentCare) {
         facility = 'urgent_care';
         url = api.ccUrl;
-        perPage = 20;
       }
       break;
     case 'pharmacy':
@@ -63,7 +62,6 @@ export const resolveParamsWithUrl = (
       facility = locationType;
       service = serviceType;
       url = api.ccUrl;
-      perPage = 10;
       break;
     default:
       facility = locationType;

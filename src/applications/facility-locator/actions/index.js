@@ -30,7 +30,6 @@ import {
 
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import { distBetween, radiusFromBoundingBox } from '../utils/facilityDistance';
-import { urgentCareServices } from '../config';
 
 const mbxClient = mbxGeo(mapboxClient);
 /**
@@ -192,7 +191,7 @@ export const fetchLocations = async (
   try {
     if (
       locationType === LocationType.URGENT_CARE &&
-      (!serviceType || serviceType === Object.keys(urgentCareServices)[0])
+      (!serviceType || serviceType === 'AllUrgentCare')
     ) {
       const allUrgentCareList = await returnAllUrgentCare({
         address,
