@@ -5,6 +5,10 @@ import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
 
 import manifest from 'applications/personalization/dashboard/manifest.json';
+import {
+  VA_FORM_IDS,
+  VA_FORM_IDS_IN_PROGRESS_FORMS_API,
+} from '~/platform/forms/constants';
 
 import { mockFeatureToggles } from './helpers';
 
@@ -106,7 +110,9 @@ describe('The My VA Dashboard', () => {
       cy.login(mockUser);
       mockFeatureToggles();
       deleteApplicationStub = cy.stub();
-      cy.intercept('DELETE', '/v0/in_progress_forms/21-526EZ', () => {
+      const form526InProgressApi =
+        VA_FORM_IDS_IN_PROGRESS_FORMS_API[VA_FORM_IDS.FORM_21_526EZ];
+      cy.intercept('DELETE', form526InProgressApi, () => {
         deleteApplicationStub();
       });
       cy.visit(manifest.rootUrl);

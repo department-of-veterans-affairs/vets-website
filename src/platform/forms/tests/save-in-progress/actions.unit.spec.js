@@ -22,6 +22,7 @@ import {
 } from '../../save-in-progress/actions';
 
 import { logOut } from '../../../user/authentication/actions';
+import { inProgressApi } from '../../helpers';
 
 let oldFetch;
 const setup = () => {
@@ -166,14 +167,14 @@ describe('Schemaform save / load actions:', () => {
           done(err);
         });
     });
-    it.skip('calls the Form 526-specific api to save the form', done => {
+    it('calls the Form 526-specific api to save the form', done => {
       const thunk = saveAndRedirectToReturnUrl(VA_FORM_IDS.FORM_21_526EZ, {});
       const dispatch = sinon.spy();
 
       thunk(dispatch, getState)
         .then(() => {
           expect(global.fetch.args[0][0]).to.contain(
-            '/v0/disability_compensation_in_progress_forms/21-526EZ',
+            inProgressApi(VA_FORM_IDS.FORM_21_526EZ),
           );
           done();
         })
@@ -335,7 +336,7 @@ describe('Schemaform save / load actions:', () => {
         );
       });
     });
-    it.skip('dispatches a success from the form 526-specific api on form load', () => {
+    it('dispatches a success from the form 526-specific api on form load', () => {
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_21_526EZ, {});
       const dispatch = sinon.spy();
       global.fetch.returns(
@@ -352,7 +353,7 @@ describe('Schemaform save / load actions:', () => {
 
       return thunk(dispatch, getState).then(() => {
         expect(global.fetch.args[0][0]).to.contain(
-          '/v0/disability_compensation_in_progress_forms/21-526EZ',
+          inProgressApi(VA_FORM_IDS.FORM_21_526EZ),
         );
       });
     });
