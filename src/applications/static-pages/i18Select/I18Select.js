@@ -1,10 +1,37 @@
+/* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
+import i18n from 'i18next';
+
+import { useTranslation, initReactI18next } from 'react-i18next';
 
 const LANGS_TO_LINK_SUFFIXES = {
   es: '-esp/',
   tag: '-tag/',
 };
+
+i18n
+  .use(initReactI18next) // passes i18n down to react-i18next
+  .init({
+    resources: {
+      en: {
+        translation: {
+          'Welcome to React': 'Welcome to React and react-i18next',
+        },
+      },
+      es: {
+        translation: {
+          'Welcome to React': 'ESPANOL WELCOME TO REACT',
+        },
+      },
+    },
+    lng: 'en',
+    fallbackLng: 'en',
+
+    interpolation: {
+      escapeValue: false,
+    },
+  });
 const I18Select = ({ baseUrls, content }) => {
   const [lang, setLang] = useState('en');
   useEffect(() => {
@@ -33,6 +60,10 @@ const I18Select = ({ baseUrls, content }) => {
     },
     [lang, content],
   );
+
+  const { t } = useTranslation();
+
+  console.log(t('Welcome to React'), 'THE TRANSLATION');
 
   return (
     <div className="vads-u-display--inline-block vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-border--0 vads-u-border-bottom--1px vads-u-border-style--solid vads-u-border-color--gray">
