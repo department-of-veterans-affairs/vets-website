@@ -71,54 +71,54 @@ describe('HealthCare component', () => {
       });
     });
 
-    // context('when user lacks the `messaging` service', () => {
-    //   beforeEach(() => {
-    //     mockFetch();
-    //     initialState = {
-    //       user: {
-    //         profile: {
-    //           services: [],
-    //         },
-    //       },
-    //       health: {
-    //         appointments: {
-    //           data: [],
-    //         },
-    //         msg: {
-    //           folders: {
-    //             data: {
-    //               currentItem: {
-    //                 attributes: {
-    //                   unreadCount: 3,
-    //                 },
-    //               },
-    //             },
-    //           },
-    //         },
-    //       },
-    //     };
-    //     view = renderInReduxProvider(<HealthCare />, {
-    //       initialState,
-    //       reducers,
-    //     });
-    //   });
-    //   afterEach(() => {
-    //     resetFetch();
-    //   });
-    //   it('should not attempt to get messaging data', async () => {
-    //     await wait(1);
-    //     const fetchCalls = global.fetch.getCalls();
-    //     // make sure we are not fetching messaging folders
-    //     expect(
-    //       fetchCalls.some(call => {
-    //         return call.args[0].includes('v0/messaging/health/folders/0');
-    //       }),
-    //     ).to.be.false;
-    //   });
+    context('when user lacks the `messaging` service', () => {
+      beforeEach(() => {
+        mockFetch();
+        initialState = {
+          user: {
+            profile: {
+              services: [],
+            },
+          },
+          health: {
+            appointments: {
+              data: [],
+            },
+            msg: {
+              folders: {
+                data: {
+                  currentItem: {
+                    attributes: {
+                      unreadCount: 3,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        };
+        view = renderInReduxProvider(<HealthCare />, {
+          initialState,
+          reducers,
+        });
+      });
+      afterEach(() => {
+        resetFetch();
+      });
+      it('should not attempt to get messaging data', async () => {
+        await wait(1);
+        const fetchCalls = global.fetch.getCalls();
+        // make sure we are not fetching messaging folders
+        expect(
+          fetchCalls.some(call => {
+            return call.args[0].includes('v0/messaging/health/folders/0');
+          }),
+        ).to.be.false;
+      });
 
-    //   it('should not render Messages', () => {
-    //     expect(view.queryByText(new RegExp(`Messages`, 'i'))).not.to.exist;
-    //   });
-    // });
+      it('should not render Messages', () => {
+        expect(view.queryByText(new RegExp(`Messages`, 'i'))).not.to.exist;
+      });
+    });
   });
 });
