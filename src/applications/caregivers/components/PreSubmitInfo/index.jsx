@@ -8,7 +8,8 @@ import {
   primaryCaregiverContent,
   secondaryCaregiverContent,
   signatureBoxNoteContent,
-} from 'applications/caregivers/definitions/content.js';
+} from 'applications/caregivers/definitions/content';
+import SubmitLoadingIndicator from './SubmitLoadingIndicator';
 
 const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
   const veteranLabel = `Veteran\u2019s`;
@@ -110,7 +111,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
    */
 
   return (
-    <section className="signature-container">
+    <section className="vads-u-display--flex vads-u-flex-direction--column">
       <p className="vads-u-margin-bottom--5">
         Please review information entered into this application. The Veteran and
         each family caregiver applicant must sign the appropriate section.
@@ -190,6 +191,10 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
       <p className="vads-u-margin-bottom--6">
         <strong>Note:</strong> {signatureBoxNoteContent}
       </p>
+
+      <div aria-live="polite">
+        <SubmitLoadingIndicator />
+      </div>
     </section>
   );
 };

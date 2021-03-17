@@ -85,4 +85,5 @@ export default Object.freeze({
   eduFormOmbAndExpiration: 'edu_form_omb_and_expiration',
   manageDependents: 'dependents_management',
   subform89404192: 'subform_8940_4192',
+  dependencyVerification: 'dependency_verification',
 });

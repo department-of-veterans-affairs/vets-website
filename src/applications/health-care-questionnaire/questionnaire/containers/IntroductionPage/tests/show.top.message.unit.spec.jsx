@@ -4,11 +4,15 @@ import { mount } from 'enzyme';
 
 import IntroductionPage from '../../../containers/IntroductionPage';
 
-import { createFakeIntroductionPageStore } from '../utils/createFakeStores';
+import { createFakeIntroductionPageStore } from './utils';
 
 describe('health care questionnaire - introduction page  -', () => {
   it('does not have a saved form', () => {
-    const fakeStore = createFakeIntroductionPageStore('my-test-form', []);
+    const fakeStore = createFakeIntroductionPageStore({
+      formId: 'my-test-form',
+      savedForms: [],
+      appointmentInThePast: false,
+    });
     const wrapper = mount(<IntroductionPage store={fakeStore} />);
 
     expect(wrapper.find('[data-testid="sign-in-header"]').text()).to.equal(
