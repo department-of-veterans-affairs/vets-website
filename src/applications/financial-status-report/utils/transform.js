@@ -2,6 +2,7 @@ import {
   getMonthlyIncome,
   getMonthlyExpenses,
   getEmploymentHistory,
+  getTotalAssets,
 } from '../utils/helpers';
 
 export const transform = ({ data }) => {
@@ -15,11 +16,13 @@ export const transform = ({ data }) => {
     installmentContractsAndOtherDebts,
     additionalData,
     selectedDebts,
+    realEstateRecords,
   } = data;
 
   const totalIncome = getMonthlyIncome(data);
   const totalExpenses = getMonthlyExpenses(data);
   const workHistory = getEmploymentHistory(data);
+  const totalAssets = getTotalAssets(data);
 
   const formObj = {
     personalIdentification: {
@@ -100,10 +103,8 @@ export const transform = ({ data }) => {
     expenses: {
       ...expenses,
       utilities: utilityRecords
-        ? utilityRecords
-            .map(record => record.monthlyUtilityAmount)
-            .reduce((acc, amount) => acc + amount, 0)
-        : null,
+        .map(record => record.monthlyUtilityAmount || 0)
+        .reduce((acc, amount) => acc + amount, 0),
       otherLivingExpenses: otherExpenses,
       expensesInstallmentContractsAndOtherDebts: null,
       totalMonthlyExpenses: totalExpenses,
@@ -116,6 +117,13 @@ export const transform = ({ data }) => {
     },
     assets: {
       ...assets,
+      trailersBoatsCampers: assets.trailersBoatsCampers
+        .map(record => record.recreationalVehicleAmount || 0)
+        .reduce((acc, amount) => acc + amount, 0),
+      realEstateOwned: realEstateRecords
+        .map(record => record.realEstateAmount || 0)
+        .reduce((acc, amount) => acc + amount, 0),
+      totalAssets,
     },
     installmentContractsAndOtherDebts: [
       ...(installmentContractsAndOtherDebts || []),

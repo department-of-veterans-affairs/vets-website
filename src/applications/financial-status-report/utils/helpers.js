@@ -134,3 +134,29 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
 
   return history;
 };
+
+export const getTotalAssets = ({ assets, realEstateRecords }) => {
+  const totVehicles = assets.automobiles
+    .map(vehicle => vehicle.resaleValue || 0)
+    .reduce((acc, amount) => acc + amount, 0);
+
+  const totRecVehicles = assets.trailersBoatsCampers
+    .map(vehicle => vehicle.recreationalVehicleAmount || 0)
+    .reduce((acc, amount) => acc + amount, 0);
+
+  const totRealEstate = realEstateRecords
+    .map(record => record.realEstateAmount || 0)
+    .reduce((acc, amount) => acc + amount, 0);
+
+  const totAssets = Object.values(assets)
+    .map(asset => (Number.isInteger(asset) ? asset : null))
+    .reduce((acc, amount) => acc + amount, 0);
+
+  const totOtherAssets = assets.otherAssets
+    .map(asset => asset.amount || 0)
+    .reduce((acc, amount) => acc + amount, 0);
+
+  return (
+    totVehicles + totRecVehicles + totAssets + totRealEstate + totOtherAssets
+  );
+};
