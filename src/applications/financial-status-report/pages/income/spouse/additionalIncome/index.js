@@ -3,7 +3,7 @@ export const uiSchema = {
   questions: {
     spouseHasAdditionalIncome: {
       'ui:title':
-        'Does your questions get income from any other sources (like a retirement pension or alimony support)?',
+        'Does your spouse get income from any other sources (like a retirement pension or alimony support)? ',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
     },
