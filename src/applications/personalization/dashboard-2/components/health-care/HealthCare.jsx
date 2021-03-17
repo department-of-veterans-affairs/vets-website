@@ -74,34 +74,34 @@ const HealthCare = ({
           appointments={appointments}
           authenticatedWithSSOe={authenticatedWithSSOe}
         />
+      </div>
+
+      <div className="vads-u-margin-top--4">
+        {/* Messages */}
+        {canAccessMessaging && (
+          <>
+            <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--2p5">
+              Messages
+            </h3>
+            <NotificationCTA CTA={ViewMessages} />
+          </>
+        )}
+
+        <h3>Manage your health care benefits</h3>
+        <hr
+          aria-hidden="true"
+          className="vads-u-background-color--primary vads-u-margin-bottom--2 vads-u-margin-top--0p5 vads-u-border--0"
+        />
 
         <a
           href={mhvUrl(
             authenticatedWithSSOe,
             'web/myhealthevet/refill-prescriptions',
           )}
-          onClick={recordDashboardClick('view-all-prescriptions')}
+          onClick={recordDashboardClick('manage-all-prescriptions')}
         >
-          View your Prescriptions
+          Manage all your prescriptions
         </a>
-      </div>
-
-      {/* Messages */}
-      {canAccessMessaging && (
-        <>
-          <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--2p5">
-            Messages
-          </h3>
-          <NotificationCTA CTA={ViewMessages} />
-        </>
-      )}
-
-      <div className="vads-u-margin-top--4">
-        <h3>Manage your health care benefits</h3>
-        <hr
-          aria-hidden="true"
-          className="vads-u-background-color--primary vads-u-margin-bottom--2 vads-u-margin-top--0p5 vads-u-border--0"
-        />
 
         <p>
           <a
