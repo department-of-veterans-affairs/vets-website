@@ -24,7 +24,7 @@ function ContactFacilitiesPage({
   facilities,
   routeToPreviousAppointmentPage,
   sortMethod,
-  isEligible,
+  canUseVaccineFlow,
 }) {
   const history = useHistory();
   const loadingFacilities =
@@ -69,7 +69,7 @@ function ContactFacilitiesPage({
     <div>
       {title}
       <p id="vaos-facilities-label">
-        {!isEligible
+        {!canUseVaccineFlow
           ? 'None of your registered facilities offer vaccination appointments online. Contact a VA facility that offers vaccine appointments.'
           : 'Only first doses of the COVID-19 vaccine can be scheduled online. If you need a second dose, please schedule with a VA facility.'}
       </p>
