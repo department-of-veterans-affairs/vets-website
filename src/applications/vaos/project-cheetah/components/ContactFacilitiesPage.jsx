@@ -13,6 +13,7 @@ import State from '../../components/State';
 import FacilityPhone from '../../components/FacilityPhone';
 import { getFacilityIdFromLocation } from '../../services/location/index';
 import { getRealFacilityId } from '../../utils/appointment';
+import NewTabAnchor from '../../components/NewTabAnchor';
 
 const pageKey = 'contactFacilities';
 const pageTitle = 'Contact a facility';
@@ -23,7 +24,7 @@ function ContactFacilitiesPage({
   facilities,
   routeToPreviousAppointmentPage,
   sortMethod,
-  isEligible,
+  canUseVaccineFlow,
 }) {
   const history = useHistory();
   const loadingFacilities =
@@ -68,7 +69,7 @@ function ContactFacilitiesPage({
     <div>
       {title}
       <p id="vaos-facilities-label">
-        {!isEligible
+        {!canUseVaccineFlow
           ? 'None of your registered facilities offer vaccination appointments online. Contact a VA facility that offers vaccine appointments.'
           : 'Only first doses of the COVID-19 vaccine can be scheduled online. If you need a second dose, please schedule with a VA facility.'}
       </p>
@@ -76,15 +77,13 @@ function ContactFacilitiesPage({
         {facilities.slice(0, facilitiesToShow).map(facility => (
           <li key={facility.id} className="vads-u-margin-top--2">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
-              <a
+              <NewTabAnchor
                 href={`/find-locations/facility/vha_${getRealFacilityId(
                   getFacilityIdFromLocation(facility),
                 )}`}
-                target="_blank"
-                rel="noreferrer nofollow"
               >
                 {facility.name}
-              </a>
+              </NewTabAnchor>
             </h2>
             {facility.address?.city}, <State state={facility.address?.state} />
             <br />
@@ -104,9 +103,9 @@ function ContactFacilitiesPage({
         ))}
       </ul>
       <p className="vads-u-margin-y--3">
-        <a href="/find-locations" target="_blank" rel="noreferrer nofollow">
+        <NewTabAnchor href="/find-locations">
           Search for more facilities
-        </a>
+        </NewTabAnchor>
       </p>
       <ProgressButton
         onButtonClick={goBack}

@@ -73,7 +73,7 @@ const formConfig = {
             },
             personalIdentification: {
               ssn: '1234',
-              fileNumber: 5678,
+              fileNumber: '5678',
             },
           },
         },
@@ -129,6 +129,7 @@ const formConfig = {
               employmentHistory: {
                 veteran: {
                   currentEmployment: {
+                    veteranOrSpouse: 'VETERAN',
                     present: true,
                     to: null,
                   },
@@ -218,6 +219,7 @@ const formConfig = {
               employmentHistory: {
                 spouse: {
                   currentEmployment: {
+                    veteranOrSpouse: 'SPOUSE',
                     present: true,
                     to: null,
                   },
