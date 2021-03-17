@@ -36,6 +36,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
 
     // Choose VA Flat Facility
     cy.url().should('include', '/facility');
+    cy.findByText(/Some COVID-19 vaccines require 2 doses/i).should('exist');
     cy.axeCheckBestPractice();
     cy.findByLabelText(/cheyenne/i).click();
     cy.findByText(/Continue/).click();
