@@ -183,6 +183,12 @@ export function isSIPEnabledForm(savedForm) {
   return true;
 }
 
+// This function is intended to be used as an Array.filter callback
+export function filterOutExpiredForms(savedForm) {
+  const { expiresAt } = savedForm.metadata;
+  return new Date(expiresAt).getTime() > Date.now();
+}
+
 // Callback to use with Array.sort that expects two properly formatted form
 // objects (that have `metadata.expiresAt` properties). Used to sort form
 // objects, placing the form that expires sooner before the form that expires
