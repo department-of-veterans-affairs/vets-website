@@ -28,7 +28,7 @@ export function fetchFolder(id, query = {}) {
       const folderUrl = `/folders/${id}`;
       const messagesUrl = createUrlWithQuery(`${folderUrl}/messages`, query);
 
-      if (shouldMockApiRequest) {
+      if (shouldMockApiRequest()) {
         dispatch({
           type: FETCH_FOLDER_SUCCESS,
           folder,
