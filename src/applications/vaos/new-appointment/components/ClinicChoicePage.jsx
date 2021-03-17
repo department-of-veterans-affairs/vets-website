@@ -139,7 +139,10 @@ export function ClinicChoicePage({
       >
         {usingUnsupportedRequestFlow && (
           <div className="vads-u-margin-top--2">
-            <EligibilityCheckMessage eligibility={eligibility} />
+            <EligibilityCheckMessage
+              eligibility={eligibility}
+              typeOfCareName={typeOfCareLabel}
+            />
           </div>
         )}
         <FormButtons
