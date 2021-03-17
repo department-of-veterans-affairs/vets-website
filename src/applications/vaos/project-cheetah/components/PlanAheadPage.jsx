@@ -74,7 +74,7 @@ function PlanAheadPage({
         pageChangeInProgress={pageChangeInProgress}
         onButtonClick={() => {
           recordEvent({
-            event: `${GA_PREFIX}-cheetah-start-scheduling-button-clicked`,
+            event: `${GA_PREFIX}-covid19-start-scheduling-button-clicked`,
           });
           routeToNextAppointmentPage(history, pageKey);
         }}

@@ -86,7 +86,7 @@ export default function ScheduleNewAppointmentRadioButtons({
               startNewAppointmentFlow();
             } else {
               recordEvent({
-                event: `${GA_PREFIX}-schedule-project-cheetah-button-clicked`,
+                event: `${GA_PREFIX}-schedule-covid19-button-clicked`,
               });
               startNewVaccineFlow();
             }
