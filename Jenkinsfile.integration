@@ -15,6 +15,6 @@ node('vetsgov-general-purpose') {
   envsUsingDrupalCache = commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
 
   // Run accessibility tests
-  commonStages.accessibilityTests();
+  // commonStages.accessibilityTests();
 
 }
