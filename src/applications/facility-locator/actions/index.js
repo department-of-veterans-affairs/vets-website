@@ -108,10 +108,10 @@ export const fetchProviderDetail = id => async dispatch => {
 
 /**
  * Handles all urgent care request (mashup)
- * @param {Function} parameters from the search request
+ * @param {Object} parameters from the search request
  * @returns {[]} A List of locations/providers
  */
-const returnAllUrgentCare = async (dispatch, params) => {
+const returnAllUrgentCare = async params => {
   const { address, bounds, locationType, page, center, radius } = params;
   const urgentCareVaData = await LocatorApi.searchWithBounds(
     address,
@@ -194,7 +194,7 @@ export const fetchLocations = async (
       locationType === LocationType.URGENT_CARE &&
       (!serviceType || serviceType === Object.keys(urgentCareServices)[0])
     ) {
-      const allUrgentCareList = await returnAllUrgentCare(dispatch, {
+      const allUrgentCareList = await returnAllUrgentCare({
         address,
         bounds,
         locationType,
