@@ -43,4 +43,4 @@ const parseNonEnglishContent = () => {
     });
 };
 
-console.log(parseNonEnglishContent());
+parseNonEnglishContent();
