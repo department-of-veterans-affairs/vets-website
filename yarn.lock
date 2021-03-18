@@ -1316,22 +1316,17 @@
     yosay "^2.0.1"
 
 "@department-of-veterans-affairs/react-jsonschema-form@^1.0.0":
-  version "1.1.0"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/react-jsonschema-form/-/react-jsonschema-form-1.1.0.tgz"
-  integrity sha512-+QfWGltnlwmcHC/rBZv6A1gC2BJ2nCxSmLISitd/mEGMOPvk+AKUKm4ZRbu/LyHnFRho3LXueaB9MycjO1YboQ==
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-jsonschema-form/-/react-jsonschema-form-1.2.0.tgz#9080236759e920e30f10727055a9dc04f4a711a8"
+  integrity sha512-SuwcYn59fv3nWxmbfh43KUdrKmn4vcd7aMQuKlu0vcOjcArsl9n5YWPgUwBtLOoztSZl9D8sRlxBAPqmoXCsQA==
   dependencies:
     jsonschema "^1.0.2"
     lodash.topath "^4.5.2"
     prop-types "^15.6.1"
+    react-is "^17.0.1"
     setimmediate "^1.0.5"
 
-"@formatjs/ecma402-abstract@1.5.2":
-  version "1.5.2"
-  resolved "https://registry.npmjs.org/@formatjs/ecma402-abstract/-/ecma402-abstract-1.5.2.tgz"
-  integrity sha512-rscxoLyIwH2x+l15Z4eD580ioO3CkFVoWDLgDtgiOnWzDzpL5EigDRg9V4mINb8W6bQRT1xnCxiRwvw3bgvqrA==
-  dependencies:
     tslib "^2.0.1"
-
 "@formatjs/intl-datetimeformat@^3.2.7":
   version "3.2.7"
   resolved "https://registry.npmjs.org/@formatjs/intl-datetimeformat/-/intl-datetimeformat-3.2.7.tgz"
@@ -16703,10 +16698,15 @@ resolve@^1.12.0, resolve@^1.13.1, resolve@^1.15.1, resolve@^1.17.0:
   dependencies:
     path-parse "^1.0.6"
 
-responselike@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.npmjs.org/responselike/-/responselike-1.0.2.tgz"
-  integrity sha1-kYcg7ztjHFZCvgaPFa3lpG9Loec=
+jsonschema@^1.0.2:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/jsonschema/-/jsonschema-1.4.0.tgz#1afa34c4bc22190d8e42271ec17ac8b3404f87b2"
+  integrity sha512-/YgW6pRMr6M7C+4o8kS+B/2myEpHCrxO4PEWnqJNBFMjn7EWXqlQ4tGwL6xTHeRplwuZmcAncdvfOad1nT2yMw==
+
+"responselike@1.0.2":
+  "integrity" "sha1-kYcg7ztjHFZCvgaPFa3lpG9Loec="
+  "resolved" "https://registry.npmjs.org/responselike/-/responselike-1.0.2.tgz"
+  "version" "1.0.2"
   dependencies:
     lowercase-keys "^1.0.0"
 

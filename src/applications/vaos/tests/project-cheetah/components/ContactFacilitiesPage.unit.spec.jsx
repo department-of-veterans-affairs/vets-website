@@ -18,6 +18,15 @@ import {
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingDirect: true,
+    vaOnlineSchedulingCheetah: true,
+  },
+  appointments: {
+    directScheduleSettings: [
+      getDirectBookingEligibilityCriteriaMock({
+        id: '983',
+        typeOfCareId: 'covid',
+      }).attributes,
+    ],
   },
   user: {
     profile: {
@@ -149,6 +158,12 @@ describe('VAOS cheetah: <ContactFacilitiesPage>', () => {
     });
     expect(
       await screen.findByRole('link', { name: /Facility that is enabled/i }),
+    ).to.be.ok;
+    expect(
+      screen.getByRole('heading', {
+        name: 'We can’t schedule your second dose online',
+        level: 1,
+      }),
     ).to.be.ok;
     expect(screen.baseElement).to.contain.text('Bozeman, MT');
     expect(screen.getByText(/80\.4 miles/i)).to.be.ok;
@@ -320,8 +335,83 @@ describe('VAOS cheetah: <ContactFacilitiesPage>', () => {
     expect(
       await screen.findByRole('heading', {
         name: 'We’re sorry. We’ve run into a problem',
-        level: 2,
+        level: 1,
       }),
     ).to.be.ok;
+  });
+
+  it('should show no facilities for online vaccine scheduling view', async () => {
+    mockDirectBookingEligibilityCriteria(parentSiteIds, [
+      getDirectBookingEligibilityCriteriaMock({
+        id: '983',
+        typeOfCareId: 'covid',
+        patientHistoryRequired: null,
+      }),
+    ]);
+    mockRequestEligibilityCriteria(parentSiteIds, [
+      getRequestEligibilityCriteriaMock({
+        id: '983',
+        typeOfCareId: 'covid',
+        patientHistoryRequired: null,
+      }),
+    ]);
+    mockFacilitiesFetch('vha_442', [
+      {
+        id: '983',
+        attributes: {
+          ...getVAFacilityMock().attributes,
+          uniqueId: '983',
+          name: 'Facility that is enabled',
+          lat: 39.1362562,
+          long: -83.1804804,
+        },
+      },
+    ]);
+    const store = createTestStore({
+      ...initialState,
+      appointments: {
+        directScheduleSettings: [
+          getDirectBookingEligibilityCriteriaMock({
+            id: '983',
+            typeOfCareId: 'covid',
+            patientHistoryRequired: null,
+          }).attributes,
+        ],
+      },
+      user: {
+        ...initialState.user,
+        profile: {
+          ...initialState.user.profile,
+          vapContactInfo: {
+            residentialAddress: {
+              latitude: 39.1362562,
+              longitude: -84.6804804,
+            },
+          },
+        },
+      },
+    });
+    const screen = renderWithStoreAndRouter(<ContactFacilitiesPage />, {
+      store,
+    });
+    expect(
+      await screen.findByRole('link', { name: /Facility that is enabled/i }),
+    ).to.be.ok;
+    expect(
+      screen.getByRole('heading', {
+        name: 'Contact a facility',
+        level: 1,
+      }),
+    ).to.be.ok;
+    expect(screen.getAllByRole('link').map(el => el.textContent)).to.deep.equal(
+      [
+        'Facility that is enabled',
+        'Search for more facilities',
+        'Learn how to stay informed about COVID-19 vaccines at VA.',
+      ],
+    );
+    expect(
+      screen.getByRole('link', { name: /search for more facilities/i }),
+    ).to.have.attribute('href', '/find-locations');
   });
 });

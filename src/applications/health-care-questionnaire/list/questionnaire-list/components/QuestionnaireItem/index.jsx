@@ -1,23 +1,25 @@
 import React from 'react';
 
+import { isAppointmentCancelled } from '../../../utils';
 import {
-  getAppointTypeFromAppointment,
-  getClinicFromAppointment,
-} from '../../../../shared/utils';
-import { getAppointmentStatus, isAppointmentCancelled } from '../../../utils';
+  appointment as appointmentSelector,
+  location as locationSelector,
+} from '../../../../shared/utils/selectors';
 
 import Status from '../Shared/Labels/Status';
 
 const index = props => {
   const { data, DueDate, Actions, extraText } = props;
-  const { appointment } = data;
-  const appointmentType = getAppointTypeFromAppointment(appointment, {
+  const { appointment, organization, location } = data;
+
+  const appointmentStatus = appointmentSelector.getStatus(appointment);
+  const appointmentType = locationSelector.getType(location, {
     titleCase: true,
   });
-  const appointmentStatus = getAppointmentStatus(appointment);
   const isCancelled = isAppointmentCancelled(appointmentStatus);
 
-  const clinic = getClinicFromAppointment(appointment);
+  const clinic = location;
+  const facility = organization;
   return (
     <li data-request-id={appointment.id} className="card">
       <Status data={data} />
@@ -26,7 +28,7 @@ const index = props => {
       </header>
       <p className="appointment-location" data-testid="appointment-location">
         for your {isCancelled ? 'canceled or rescheduled ' : ''}
-        appointment at {clinic.friendlyName}, {clinic.facility.displayName}
+        appointment at {clinic.name}, {facility.name}
         {extraText && `. ${extraText}`}
       </p>
       <section className="due-details">{DueDate && <DueDate />}</section>

@@ -34,7 +34,9 @@
   align-items: center;
   justify-content: center;
 
-  &:hover, &:focus, &:active {
+  &:hover,
+  &:focus,
+  &:active {
     color: $color-gray-dark;
     text-decoration: none;
     background: $color-gray-lighter;
@@ -82,7 +84,7 @@
   }
 }
 
-.vaos-appts__breadcrumbs{
+.vaos-appts__breadcrumbs {
   padding: 2em 0;
 }
 .vaos-appts__breadcrumbs li {

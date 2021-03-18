@@ -1,4 +1,5 @@
 import React from 'react';
+import { isReactComponent } from '../../../../utilities/ui';
 
 import ExpandingGroup from '../components/ExpandingGroup';
 
@@ -18,7 +19,7 @@ export default function RadioWidget({
 
   // nested content could be a component or just jsx/text
   let content = nestedContent[value];
-  if (typeof content === 'function') {
+  if (isReactComponent(content)) {
     const NestedContent = content;
     content = <NestedContent />;
   }
