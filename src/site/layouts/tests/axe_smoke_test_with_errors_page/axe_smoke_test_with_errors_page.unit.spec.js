@@ -6,14 +6,9 @@ const layoutPath = 'src/site/layouts/axe_smoke_test_with_errors.drupal.liquid';
 
 describe('intro', () => {
   describe('no fieldTitleIcon', () => {
-    // let container;
     const data = parseFixture(
       'src/site/layouts/tests/axe_smoke_test_with_errors_page/fixtures/axe_smoke_test_with_errors_page.json',
     );
-
-    // before(async () => {
-    //   container = await renderHTML(layoutPath, data);
-    // });
 
     it('reports no axe violations', async () => {
       const container = await renderHTML(layoutPath, data);
