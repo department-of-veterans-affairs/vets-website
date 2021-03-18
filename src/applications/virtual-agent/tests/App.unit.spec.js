@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
 import App from '../containers/App';
-import ReactWebChat from 'botframework-webchat';
 
 describe('App', () => {
   describe('web chat script is loaded', () => {
@@ -13,8 +12,8 @@ describe('App', () => {
         WebChat: {
           createStore: () => {},
           createDirectLine: () => {},
-          ReactWebChat: props => {
-            return <ReactWebChat {...props.children} />;
+          ReactWebChat: () => {
+            return <div />;
           },
         },
       });
@@ -26,11 +25,18 @@ describe('App', () => {
 
       const wrapper = render(<App />);
 
-      expect(wrapper.find('ReactWebChat')).length.to.equal(1);
+      expect(wrapper.getByTestId('webchat')).to.exist;
 
       wrapper.unmount();
 
       global.window = oldWindow;
+    });
+  });
+  describe('web chat script has not loaded', () => {
+    it('renders loading message', () => {
+      const wrapper = render(<App />);
+
+      expect(wrapper.getByText('waiting on webchat framework . . .')).to.exist;
     });
   });
 });
