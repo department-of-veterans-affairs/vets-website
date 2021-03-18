@@ -87,9 +87,20 @@ export const transform = ({ data }) => {
         .reduce((acc, amount) => acc + amount, 0),
       totalAssets,
     },
-    installmentContractsAndOtherDebts: [
-      ...(installmentContractsAndOtherDebts || []),
-    ],
+    installmentContractsAndOtherDebts: installmentContractsAndOtherDebts?.map(
+      debt => ({
+        ...debt,
+        creditorAddress: {
+          addresslineOne: '',
+          addresslineTwo: '',
+          addresslineThree: '',
+          city: '',
+          stateORProvince: '',
+          zipORPostalCode: '',
+          countryName: '',
+        },
+      }),
+    ),
     totalOfInstallmentContractsAndOtherDebts: {
       originalAmount: installmentContractsAndOtherDebts?.reduce(
         (acc, debt) => acc + debt.originalAmount,
