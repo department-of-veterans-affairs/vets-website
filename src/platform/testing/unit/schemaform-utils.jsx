@@ -8,6 +8,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { fillDate as oldFillDate } from './helpers';
 
@@ -173,7 +174,7 @@ function printTree(node, level = 0, isLastChild = true, padding = '') {
  * @returns {object} An DOM node for the form, with added helper methods
  */
 export function getFormDOM(form) {
-  const formDOM = form.container;
+  const formDOM = findDOMNode(form) || form.container;
 
   if (formDOM === null) {
     throw new Error(
@@ -214,7 +215,7 @@ export function getFormDOM(form) {
   };
 
   formDOM.submitForm = () => {
-    fireEvent.submit(form.container.querySelector('form'), {
+    fireEvent.submit(formDOM.querySelector('form'), {
       preventDefault: f => f,
     });
   };
