@@ -76,8 +76,9 @@ function FormSaveErrorMessage(props) {
       >
         <p>
           We’re working to fix the problem. Please make sure you’re connected to
-          the Internet, and then try saving your {appType} again. {saveLink}.
+          the Internet, and then try saving your {appType} again.
         </p>
+        {saveLink}.
         {!user.login.currentlyLoggedIn && (
           <p>
             If you don’t have an account, you’ll have to start over. Try
