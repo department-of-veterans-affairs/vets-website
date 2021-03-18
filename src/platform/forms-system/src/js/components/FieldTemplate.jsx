@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import classNames from 'classnames';
+import { isReactComponent } from '../../../../utilities/ui';
 // import environment from 'platform/utilities/environment';
 
 /*
@@ -35,8 +36,9 @@ export default function FieldTemplate(props) {
 
   const description = uiSchema['ui:description'];
   const textDescription = typeof description === 'string' ? description : null;
-  const DescriptionField =
-    typeof description === 'function' ? uiSchema['ui:description'] : null;
+  const DescriptionField = isReactComponent(description)
+    ? uiSchema['ui:description']
+    : null;
   const isFieldGroup =
     isDateField ||
     uiSchema['ui:widget'] === 'yesNo' ||
