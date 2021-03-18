@@ -104,7 +104,7 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
         veteranOrSpouse: 'VETERAN',
         employerName: currentEmployment.employerName,
         from: currentEmployment.from,
-        to: null,
+        to: '',
         present: true,
       },
     ];
@@ -118,7 +118,7 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
         veteranOrSpouse: 'SPOUSE',
         employerName: currentEmployment.employerName,
         from: currentEmployment.from,
-        to: null,
+        to: '',
         present: true,
       },
     ];
@@ -165,7 +165,7 @@ export const getTotalAssets = ({ assets, realEstateRecords }) => {
     .reduce((acc, amount) => acc + amount, 0);
 
   const totAssets = Object.values(assets)
-    .map(asset => (Number.isInteger(asset) ? asset : null))
+    .map(asset => (Number.isInteger(asset) ? asset : {}))
     .reduce((acc, amount) => acc + amount, 0);
 
   const totOtherAssets = assets.otherAssets
@@ -189,23 +189,23 @@ export const getIncome = ({ questions, personalData, additionalIncome }) => {
   const { employmentHistory } = personalData;
 
   const defaultObj = {
-    monthlyGrossSalary: null,
+    monthlyGrossSalary: '',
     deductions: {
-      taxes: null,
-      retirement: null,
-      socialSecurity: null,
+      taxes: '',
+      retirement: '',
+      socialSecurity: '',
       otherDeductions: {
-        name: null,
-        amount: null,
+        name: '',
+        amount: '',
       },
     },
-    totalDeductions: null,
-    netTakeHomePay: null,
+    totalDeductions: '',
+    netTakeHomePay: '',
     otherIncome: {
-      name: null,
-      amount: null,
+      name: '',
+      amount: '',
     },
-    totalMonthlyNetIncome: null,
+    totalMonthlyNetIncome: '',
   };
 
   let income = [

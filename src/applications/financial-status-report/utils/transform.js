@@ -38,11 +38,11 @@ export const transform = ({ data }) => {
         ? personalData.agesOfOtherDependents.map(
             dependent => dependent.dependentAge,
           )
-        : null,
+        : [],
       address: {
         addresslineOne: personalData.address.addressLine1,
         addresslineTwo: personalData.address.addressLine2,
-        addresslineThree: personalData.address.addressLine3,
+        addresslineThree: '',
         city: personalData.address.city,
         stateOrProvince: personalData.address.stateCode,
         zipOrPostalCode: personalData.address.zipCode,
