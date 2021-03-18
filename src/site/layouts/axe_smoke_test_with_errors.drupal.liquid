@@ -9,12 +9,29 @@
       {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
       <div class="usa-width-three-fourths">
         <article class="usa-content">
-          <h1>{{ title }}</h1>
+          <!-- [AXE]: ARIA roles used must conform to valid values. Critical. -->
+          <h1 role="nonsense">{{ title }}</h1>
           {% assign image = fieldMedia.entity.image %}
 
           <div
             class="duotone darken lighten medium-screen:vads-u-margin-bottom--0p5">
-            <img src="{{ image.derivative.url }}" aria-hidden="true" role="presentation" alt="" width="100%">
+            <!-- [AXE]: Images must have alternate text. Critical. -->
+            <img src="{{ image.derivative.url }}" width="100%">
+
+            <!-- [AXE]: ARIA role must be appropriate for the element. Minor. -->
+            <img alt="" role="img" src="{{ image.derivative.url }}" width="100%">
+
+            <!-- [AXE]: Buttons must have discernible text. Critical. -->
+            <button type="button"></button>
+
+            <ul>
+              <!-- [AXE]: <ul> and <ol> must only directly contain <li>, <script> or <template> elements. Serious. -->
+              <h3>This heading should not be here</h3>
+              <li>One</li>
+              <li>Two</li>
+              <li>Three</li>
+              <li>Four</li>
+            </ul>
           </div>
 
           <div
@@ -29,7 +46,7 @@
           </div>
           {% endif %}
 
-          <section>
+          <section id="testId">
             <h2
               class="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 medium-screen:vads-u-margin-bottom--2p5">
               Locations</h2>
@@ -45,22 +62,18 @@
           </section>
 
           <!-- "Manage your health online" section -->
-          <section>
+          <!-- [AXE]: No duplicate IDs. Minor. -->
+          <section id="testId">
             <h3>Manage your health online</h3>
             <div
               class="vads-u-display--flex medium-screen:vads-u-flex-direction--row vads-u-flex-direction--column">
               <div
                 class="vads-u-margin-right--0 medium-screen:vads-u-margin-right--3">
                 <div class="vads-facility-hub-cta">
+                  <!-- [AXE]: Links must have discernible text. Serious. -->
                   <a onClick="recordEvent({ event: 'cta-hub-link-click' });"
                     href="/health-care/refill-track-prescriptions/"
-                    class="vads-u-height--full vads-u-width--full">
-                    <i
-                      class=" fa fa-prescription-bottle vads-facility-hub-cta-circle">&nbsp;</i>
-                    <span class="vads-facility-hub-cta-label">Refill and track
-                      your prescriptions<i
-                        class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
-                  </a>
+                    class="vads-u-height--full vads-u-width--full"></a>
                 </div>
                 <div class="vads-facility-hub-cta">
                   <a onClick="recordEvent({ event: 'cta-hub-link-click' });"
