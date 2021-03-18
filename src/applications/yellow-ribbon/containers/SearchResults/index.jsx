@@ -130,7 +130,7 @@ export class SearchResults extends Component {
       'search-result-chosen-title': school?.nameOfInstitution,
       'search-query': searchQuery,
       'search-results-total-count': totalResults,
-      'search-results-total-page': Math.ceil(totalResults / perPage),
+      'search-results-total-pages': Math.ceil(totalResults / perPage),
       'search-result-position': school?.positionInResults,
       'search-result-page': page,
       'search-result-chosen-yellow-ribbon-school-attributes': school,
