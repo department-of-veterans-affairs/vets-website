@@ -52,6 +52,8 @@ function ActualApp() {
     () =>
       createDirectLine({
         token,
+        domain:
+          'https://northamerica.directline.botframework.com/v3/directline',
       }),
     [token],
   );
