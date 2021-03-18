@@ -22,7 +22,7 @@ const logViolations = violations => {
   /* eslint-enable no-console */
 };
 
-export default container => {
+const axeCheck = container => {
   const options = {
     runOnly: {
       type: 'tag',
@@ -59,3 +59,5 @@ export default container => {
     }),
   );
 };
+
+export default axeCheck;
