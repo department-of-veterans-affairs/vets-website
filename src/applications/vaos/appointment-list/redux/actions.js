@@ -684,7 +684,7 @@ export function fetchExpressCareWindows() {
     });
 
     const initialState = getState();
-    const userSiteIds = selectSystemIds(initialState);
+    const userSiteIds = selectSystemIds(initialState) || [];
     const address = selectVAPResidentialAddress(initialState);
 
     try {
