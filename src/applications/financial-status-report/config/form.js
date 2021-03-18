@@ -16,7 +16,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submit: transform,
-  submitUrl: `${environment.API_URL}/v0/api`,
+  submitUrl: `${environment.API_URL}/v0/financial_status_reports`,
   trackingPrefix: 'fsr-5655-',
   wizardStorageKey: WIZARD_STATUS,
   verifyRequiredPrefill: true,
