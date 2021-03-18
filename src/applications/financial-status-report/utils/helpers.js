@@ -185,7 +185,7 @@ export const getTotalAssets = ({ assets, realEstateRecords }) => {
     .reduce((acc, amount) => acc + amount, 0);
 
   const totAssets = Object.values(assets)
-    .map(asset => (Number.isInteger(asset) ? asset : {}))
+    .map(asset => (Number.isInteger(asset) ? asset : 0))
     .reduce((acc, amount) => acc + amount, 0);
 
   const totOtherAssets = assets.otherAssets
@@ -234,18 +234,25 @@ export const getIncome = ({ questions, personalData, additionalIncome }) => {
   ];
 
   if (questions.vetIsEmployed) {
+    const { monthlyGrossSalary } = employmentHistory.veteran.currentEmployment;
+    const { deductions } = employmentHistory.veteran.currentEmployment;
+
+    const totalDeductions = deductions
+      .map(deduction => deduction.amount)
+      .reduce((acc, amount) => acc + amount, 0);
+
     income = income.map(item => {
       if (item.veteranOrSpouse === 'VETERAN') {
         return {
           ...item,
           deductions: {
             ...item.deductions,
-            otherDeductions: [
-              ...employmentHistory.veteran.currentEmployment.deductions,
-            ],
+            otherDeductions: [...deductions],
           },
-          monthlyGrossSalary:
-            employmentHistory.veteran.currentEmployment.monthlyGrossSalary,
+          monthlyGrossSalary,
+          totalDeductions,
+          netTakeHomePay: monthlyGrossSalary - totalDeductions,
+          totalMonthlyNetIncome: monthlyGrossSalary - totalDeductions,
         };
       }
       return item;
@@ -253,18 +260,25 @@ export const getIncome = ({ questions, personalData, additionalIncome }) => {
   }
 
   if (questions.spouseIsEmployed) {
+    const { monthlyGrossSalary } = employmentHistory.spouse.currentEmployment;
+    const { deductions } = employmentHistory.spouse.currentEmployment;
+
+    const totalDeductions = deductions
+      .map(deduction => deduction.amount)
+      .reduce((acc, amount) => acc + amount, 0);
+
     income = income.map(item => {
       if (item.veteranOrSpouse === 'SPOUSE') {
         return {
           ...item,
           deductions: {
             ...item.deductions,
-            otherDeductions: [
-              ...employmentHistory.spouse.currentEmployment.deductions,
-            ],
+            otherDeductions: [...deductions],
           },
-          monthlyGrossSalary:
-            employmentHistory.spouse.currentEmployment.monthlyGrossSalary,
+          monthlyGrossSalary,
+          totalDeductions,
+          netTakeHomePay: monthlyGrossSalary - totalDeductions,
+          totalMonthlyNetIncome: monthlyGrossSalary - totalDeductions,
         };
       }
       return item;
@@ -272,11 +286,25 @@ export const getIncome = ({ questions, personalData, additionalIncome }) => {
   }
 
   if (questions.hasAdditionalIncome) {
+    const { monthlyGrossSalary } = employmentHistory.veteran.currentEmployment;
+    const { deductions } = employmentHistory.veteran.currentEmployment;
+
+    const totalDeductions = deductions
+      .map(deduction => deduction.amount)
+      .reduce((acc, amount) => acc + amount, 0);
+
+    const otherIncome = additionalIncome.additionalIncomeRecords
+      .map(addtl => addtl.amount)
+      .reduce((acc, amount) => acc + amount, 0);
+
+    const totalNetIncome = monthlyGrossSalary + otherIncome - totalDeductions;
+
     income = income.map(item => {
       if (item.veteranOrSpouse === 'VETERAN') {
         return {
           ...item,
           otherIncome: additionalIncome.additionalIncomeRecords,
+          totalMonthlyNetIncome: totalNetIncome,
         };
       }
       return item;
@@ -284,11 +312,25 @@ export const getIncome = ({ questions, personalData, additionalIncome }) => {
   }
 
   if (questions.spouseHasAdditionalIncome) {
+    const { monthlyGrossSalary } = employmentHistory.spouse.currentEmployment;
+    const { deductions } = employmentHistory.spouse.currentEmployment;
+
+    const totalDeductions = deductions
+      .map(deduction => deduction.amount)
+      .reduce((acc, amount) => acc + amount, 0);
+
+    const otherIncome = additionalIncome.spouse.additionalIncomeRecords
+      .map(addtl => addtl.amount)
+      .reduce((acc, amount) => acc + amount, 0);
+
+    const totalNetIncome = monthlyGrossSalary + otherIncome - totalDeductions;
+
     income = income.map(item => {
       if (item.veteranOrSpouse === 'SPOUSE') {
         return {
           ...item,
           otherIncome: additionalIncome.spouse.additionalIncomeRecords,
+          totalMonthlyNetIncome: totalNetIncome,
         };
       }
       return item;
