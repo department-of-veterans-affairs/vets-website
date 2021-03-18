@@ -1,4 +1,6 @@
+import moment from 'moment';
 import {
+  dateFormatter,
   getIncome,
   getMonthlyIncome,
   getMonthlyExpenses,
@@ -56,7 +58,7 @@ export const transform = ({ data }) => {
       },
       employmentHistory,
       telephoneNumber: personalData.telephoneNumber,
-      dateOfBirth: personalData.dateOfBirth,
+      dateOfBirth: moment(personalData.dateOfBirth).format('MM/DD/YYYY'),
     },
     income,
     expenses: {
@@ -90,6 +92,7 @@ export const transform = ({ data }) => {
     installmentContractsAndOtherDebts: installmentContractsAndOtherDebts?.map(
       debt => ({
         ...debt,
+        dateStarted: dateFormatter(debt.dateStarted),
         creditorAddress: {
           addresslineOne: '',
           addresslineTwo: '',
@@ -120,7 +123,10 @@ export const transform = ({ data }) => {
       ),
     },
     additionalData: {
-      ...additionalData,
+      bankruptcy: {
+        ...additionalData.bankruptcy,
+        dateDischarged: dateFormatter(additionalData.bankruptcy.dateDischarged),
+      },
       additionalComments: selectedDebts
         .map(debt => debt.additionalData.additionalComments)
         .join(', '),

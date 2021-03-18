@@ -1,3 +1,10 @@
+import moment from 'moment';
+
+export const dateFormatter = date => {
+  const formatDate = date.slice(0, -3);
+  return moment(formatDate).format('MM/YYYY');
+};
+
 export const getMonthlyIncome = ({
   questions,
   personalData,
@@ -122,7 +129,7 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
         ...defaultObj,
         veteranOrSpouse: 'VETERAN',
         employerName: currentEmployment.employerName,
-        from: currentEmployment.from,
+        from: dateFormatter(currentEmployment.from),
         present: true,
       },
     ];
@@ -136,7 +143,7 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
         ...defaultObj,
         veteranOrSpouse: 'SPOUSE',
         employerName: currentEmployment.employerName,
-        from: currentEmployment.from,
+        from: dateFormatter(currentEmployment.from),
         present: true,
       },
     ];
@@ -148,8 +155,8 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
       ...defaultObj,
       veteranOrSpouse: 'VETERAN',
       employerName: employment.employerName,
-      from: employment.from,
-      to: employment.to,
+      from: dateFormatter(employment.from),
+      to: dateFormatter(employment.to),
       present: false,
     }));
     history = [...history, ...employmentRecords];
@@ -161,8 +168,8 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
       ...defaultObj,
       veteranOrSpouse: 'SPOUSE',
       employerName: employment.employerName,
-      from: employment.from,
-      to: employment.to,
+      from: dateFormatter(employment.from),
+      to: dateFormatter(employment.to),
       present: false,
     }));
     history = [...history, ...employmentRecords];

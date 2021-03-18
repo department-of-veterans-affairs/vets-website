@@ -4,6 +4,7 @@ import ItemLoop from '../../../components/ItemLoop';
 import TableDetailsView from '../../../components/TableDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import Typeahead from '../../../components/Typeahead';
+import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
 import {
   formatOptions,
   deductionTypes,
@@ -26,13 +27,7 @@ export const uiSchema = {
               widgetClassNames: 'input-size-3',
             },
           },
-          from: {
-            'ui:title': 'Date you started work at this job',
-            'ui:widget': 'date',
-            'ui:options': {
-              widgetClassNames: 'vads-u-margin-top--3',
-            },
-          },
+          from: monthYearUI('Date you started work at this job'),
           employerName: {
             'ui:title': 'Employer name',
             'ui:options': {

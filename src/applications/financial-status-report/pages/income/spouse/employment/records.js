@@ -1,14 +1,14 @@
+import React from 'react';
+import _ from 'lodash/fp';
 import ItemLoop from '../../../../components/ItemLoop';
 import TableDetailsView from '../../../../components/TableDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import Typeahead from '../../../../components/Typeahead';
+import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
 import {
   formatOptions,
   deductionTypes,
 } from '../../../../constants/typeaheadOptions';
-import _ from 'lodash/fp';
-
-import React from 'react';
 
 export const uiSchema = {
   'ui:title': 'Your spouse information',
@@ -27,10 +27,7 @@ export const uiSchema = {
               widgetClassNames: 'input-size-3',
             },
           },
-          from: {
-            'ui:title': 'Date your spouse started work at this job',
-            'ui:widget': 'date',
-          },
+          from: monthYearUI('Date your spouse started work at this job'),
           employerName: {
             'ui:title': 'Employer name',
             'ui:options': {

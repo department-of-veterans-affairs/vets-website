@@ -1,13 +1,13 @@
 import React from 'react';
+import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
 
 export const uiSchema = {
   'ui:title': 'Your bankruptcy details',
   additionalData: {
     bankruptcy: {
-      dateDischarged: {
-        'ui:title': 'Date a court granted you a bankruptcy discharge',
-        'ui:widget': 'date',
-      },
+      dateDischarged: monthYearUI(
+        'Date a court granted you a bankruptcy discharge',
+      ),
       courtLocation: {
         'ui:title': 'Location of court (city, state)',
         'ui:options': {
