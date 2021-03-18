@@ -1,33 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TextWidget from './TextWidget';
+
+import { formatSSN } from 'platform/utilities/ui';
+
+/**
+ * Mask a SSN, but leave the final sequence of digits visible (up to 4)
+ */
+function maskSSN(ssnString = '') {
+  const strippedSSN = ssnString.replace(/[- ]/g, '');
+  const maskedSSN = strippedSSN.replace(/^\d{1,5}/, digit =>
+    digit.replace(/\d/g, '●'),
+  );
+
+  return formatSSN(maskedSSN);
+}
 
 /*
  * Handles removing dashes from SSNs by keeping the user input in local state
  * and saving the transformed version instead
  */
-export default class SSNWidget extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { val: props.value };
-  }
-  handleChange = val => {
+export default function SSNWidget(props) {
+  const [val, setVal] = useState(props.value);
+  const [displayVal, setDisplayVal] = useState(props.value);
+
+  const handleChange = value => {
     // If val is blank or undefined, pass undefined to onChange
     let strippedSSN;
-    if (val) {
-      strippedSSN = val.replace(/[- ]/g, '');
+    if (value) {
+      strippedSSN = value.replace(/[- ]/g, '');
     }
 
-    this.setState({ val }, () => {
-      this.props.onChange(strippedSSN);
-    });
+    setVal(value);
+    setDisplayVal(value);
+    props.onChange(strippedSSN);
   };
-  render() {
-    return (
-      <TextWidget
-        {...this.props}
-        value={this.state.val}
-        onChange={this.handleChange}
-      />
-    );
-  }
+
+  const handleBlur = () => {
+    setDisplayVal(maskSSN(val));
+    props.onBlur(props.id);
+  };
+
+  const handleFocus = () => {
+    setDisplayVal(val);
+  };
+
+  return (
+    <TextWidget
+      {...props}
+      value={displayVal}
+      onChange={handleChange}
+      onBlur={handleBlur}
+      onFocus={handleFocus}
+    />
+  );
 }

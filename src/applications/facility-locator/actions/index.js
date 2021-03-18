@@ -106,6 +106,65 @@ export const fetchProviderDetail = id => async dispatch => {
 };
 
 /**
+ * Handles all urgent care request (mashup)
+ * @param {Object} parameters from the search request
+ * @returns {Object} An Object response (locations/providers)
+ */
+const returnAllUrgentCare = async params => {
+  const { address, bounds, locationType, page, center, radius } = params;
+  const urgentCareVaData = await LocatorApi.searchWithBounds(
+    address,
+    bounds,
+    locationType,
+    'UrgentCare',
+    page,
+    center,
+    radius,
+    true,
+  );
+
+  const urgentCareNonVaData = await LocatorApi.searchWithBounds(
+    address,
+    bounds,
+    locationType,
+    'NonVAUrgentCare',
+    page,
+    center,
+    radius,
+    true,
+  );
+
+  return {
+    meta: {
+      pagination: {
+        currentPage: 1,
+        nextPage: null,
+        prevPage: null,
+        totalPages: 1,
+      },
+    },
+    links: {},
+    data: [...urgentCareNonVaData.data, ...urgentCareVaData.data]
+      .map(location => {
+        const distance =
+          center &&
+          distBetween(
+            center[0],
+            center[1],
+            location.attributes.lat,
+            location.attributes.long,
+          );
+        return {
+          ...location,
+          distance,
+        };
+      })
+      .sort((resultA, resultB) => resultA.distance - resultB.distance)
+      .slice(0, 20),
+  };
+};
+
+/**
  * Handles the actual API call to get the type of locations closest to `address`
  * and/or within the given `bounds`.
  *
@@ -127,17 +186,50 @@ export const fetchLocations = async (
   center,
   radius,
 ) => {
+  let data = {};
+
   try {
-    const data = await LocatorApi.searchWithBounds(
-      address,
-      bounds,
-      locationType,
-      serviceType,
-      page,
-      center,
-      radius,
-    );
-    // Record event as soon as API return results
+    if (
+      locationType === LocationType.URGENT_CARE &&
+      (!serviceType || serviceType === 'AllUrgentCare')
+    ) {
+      const allUrgentCareList = await returnAllUrgentCare({
+        address,
+        bounds,
+        locationType,
+        page,
+        center,
+        radius,
+      });
+      data = allUrgentCareList;
+    } else {
+      const dataList = await LocatorApi.searchWithBounds(
+        address,
+        bounds,
+        locationType,
+        serviceType,
+        page,
+        center,
+        radius,
+      );
+      data = { ...dataList };
+      data.data = dataList.data
+        .map(location => {
+          const distance =
+            center &&
+            distBetween(
+              center[0],
+              center[1],
+              location.attributes.lat,
+              location.attributes.long,
+            );
+          return {
+            ...location,
+            distance,
+          };
+        })
+        .sort((resultA, resultB) => resultA.distance - resultB.distance);
+    }
     if (data.errors) {
       dispatch({ type: SEARCH_FAILED, error: data.errors });
     } else {
