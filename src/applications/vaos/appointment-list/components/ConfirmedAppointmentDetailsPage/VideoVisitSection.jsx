@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import {
-  getVideoKind,
-  isAtlasLocation,
   getVAAppointmentLocationId,
   isVideoHome,
-  isVideoGFE,
   getATLASLocation,
-  isVideoAppointment,
 } from '../../../services/appointment';
 import { VIDEO_TYPES } from '../../../utils/constants';
 import VideoLink from './VideoLink';
@@ -21,12 +17,6 @@ import AddToCalendar from 'applications/vaos/components/AddToCalendar';
 import moment from 'applications/vaos/lib/moment-tz';
 import { formatFacilityAddress } from 'applications/vaos/services/location';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id ? id.replace('var', '') : id;
-}
 
 function getLocation(
   isAtlas,
@@ -50,11 +40,8 @@ function getLocation(
 }
 
 export default function VideoVisitLocation({ header, appointment, facility }) {
-  const videoKind = getVideoKind(appointment);
-  const isAtlas = isAtlasLocation(appointment);
+  const { kind, isAtlas, providers } = appointment.videoData;
   const isHome = isVideoHome(appointment);
-  const isVideo = isVideoAppointment(appointment);
-  const isGFE = isVideoGFE(appointment);
   const [showMoreOpen, setShowMoreOpen] = useState(false);
   const phone = facility?.telecom?.find(tele => tele.system === 'phone')?.value;
   const name = facility?.name;
@@ -62,18 +49,18 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
   const isCommunityCare = appointment.vaos.isCommunityCare;
   const location = getLocation(
     isAtlas,
-    isVideo,
-    videoKind,
+    appointment.vaos.isVideo,
+    kind,
     isCommunityCare,
     facility,
     appointment,
   );
 
-  if (appointment.vaos.isPastAppointment && videoKind === VIDEO_TYPES.clinic) {
+  if (appointment.vaos.isPastAppointment && kind === VIDEO_TYPES.clinic) {
     return (
       <VAFacilityLocation
         facility={facility}
-        facilityId={parseFakeFHIRId(getVAAppointmentLocationId(appointment))}
+        facilityId={getVAAppointmentLocationId(appointment)}
       />
     );
   }
@@ -89,7 +76,7 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
         {isHome && (
           <>
             <div className="vads-u-margin-top--2">
-              <VideoVisitProvider participants={appointment.participant} />
+              <VideoVisitProvider providers={providers} />
             </div>
             <div className="vads-u-margin-top--2">
               <AdditionalInfo
@@ -103,9 +90,9 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
             </div>
           </>
         )}
-        {isGFE && (
+        {kind === VIDEO_TYPES.gfe && (
           <div className="vads-u-margin-top--2">
-            <VideoVisitProvider participants={appointment.participant} />
+            <VideoVisitProvider providers={providers} />
           </div>
         )}
         {isAtlas && (
@@ -113,14 +100,12 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
             <AtlasLocation appointment={appointment} />
           </div>
         )}
-        {videoKind === VIDEO_TYPES.clinic &&
+        {kind === VIDEO_TYPES.clinic &&
           !isAtlas && (
             <div className="vads-u-margin-top--2">
               <VAFacilityLocation
                 facility={facility}
-                facilityId={parseFakeFHIRId(
-                  getVAAppointmentLocationId(appointment),
-                )}
+                facilityId={getVAAppointmentLocationId(appointment)}
                 clinicFriendlyName={appointment.participant[0].actor.display}
               />
             </div>

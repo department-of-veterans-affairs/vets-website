@@ -13,7 +13,6 @@ import {
   getVARFacilityId,
   isAtlasLocation,
   isVAPhoneAppointment,
-  isVideoAppointment,
   isVideoGFE,
   isVideoHome,
   isVideoVAFacility,
@@ -151,7 +150,7 @@ function ConfirmedAppointmentDetailsPage({
   }
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
-  const isVideo = isVideoAppointment(appointment);
+  const isVideo = appointment.vaos.isVideo;
   const isPhone = isVAPhoneAppointment(appointment);
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];

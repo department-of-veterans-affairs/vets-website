@@ -1,19 +1,16 @@
 import React from 'react';
-import {
-  getVideoKind,
-  isAtlasLocation,
-  getVAAppointmentLocationId,
-} from '../../../../services/appointment';
+import { getVAAppointmentLocationId } from '../../../../services/appointment';
 import { VIDEO_TYPES } from '../../../../utils/constants';
 import VideoLink from './VideoLink';
 import AtlasLocation from './AtlasLocation';
 import VAFacilityLocation from '../../../../components/VAFacilityLocation';
 
 export default function VideoVisitLocation({ appointment, facility }) {
-  const videoKind = getVideoKind(appointment);
-  const isAtlas = isAtlasLocation(appointment);
-
-  if (appointment.vaos.isPastAppointment && videoKind === VIDEO_TYPES.clinic) {
+  const videoData = appointment.videoData;
+  if (
+    appointment.vaos.isPastAppointment &&
+    appointment.videoData.kind === VIDEO_TYPES.clinic
+  ) {
     return (
       <VAFacilityLocation
         facility={facility}
@@ -33,13 +30,13 @@ export default function VideoVisitLocation({ appointment, facility }) {
       </h4>
       <div>
         <VideoLink appointment={appointment} />
-        {isAtlas && (
+        {videoData.isAtlas && (
           <div className="vads-u-margin-top--2">
             <AtlasLocation appointment={appointment} />
           </div>
         )}
-        {videoKind === VIDEO_TYPES.clinic &&
-          !isAtlas && (
+        {appointment.videoData.kind === VIDEO_TYPES.clinic &&
+          !videoData.isAtlas && (
             <div className="vads-u-margin-top--2">
               <VAFacilityLocation
                 facility={facility}

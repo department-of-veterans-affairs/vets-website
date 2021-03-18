@@ -218,13 +218,7 @@ export function isVAPhoneAppointment(appointment) {
  * @returns {boolean} Whether or not the appointment/request is video
  */
 export function isVideoAppointment(appointment) {
-  return (
-    appointment?.contained
-      ?.find(contained => contained.resourceType === 'HealthcareService')
-      ?.characteristic?.some(c =>
-        c.coding?.some(code => code.system === 'VVS'),
-      ) || false
-  );
+  return appointment?.vaos.isVideo;
 }
 
 /**
@@ -235,11 +229,7 @@ export function isVideoAppointment(appointment) {
  * @returns {string} The VVS appointment kind
  */
 export function getVideoKind(appointment) {
-  const characteristic = appointment.contained
-    ?.find(contained => contained.resourceType === 'HealthcareService')
-    ?.characteristic?.find(c => c.coding?.find(code => code.system === 'VVS'));
-
-  return characteristic?.coding[0].code;
+  return appointment.videoData?.kind;
 }
 
 /**
@@ -250,13 +240,7 @@ export function getVideoKind(appointment) {
  * @returns {boolean} Whether or not the appointment is a GFE video appointment
  */
 export function isVideoGFE(appointment) {
-  return (
-    appointment.contained
-      ?.find(contained => contained.resourceType === 'HealthcareService')
-      ?.characteristic?.some(c =>
-        c.coding.some(code => code.code === VIDEO_TYPES.gfe),
-      ) || false
-  );
+  return appointment.videoData?.kind === VIDEO_TYPES.gfe;
 }
 
 /**
@@ -266,7 +250,7 @@ export function isVideoGFE(appointment) {
  * @returns {AtlasLocation} the address from legacy VAR tasInfo.address
  */
 export function getATLASLocation(appointment) {
-  return appointment?.contained.find(res => res.resourceType === 'Location');
+  return appointment.videoData?.atlasLocation;
 }
 
 /**
@@ -276,13 +260,7 @@ export function getATLASLocation(appointment) {
  * @returns {string} the confirmation code from legacy VAR tasInfo.confirmationCode
  */
 export function getATLASConfirmationCode(appointment) {
-  const characteristic = appointment.contained
-    ?.find(contained => contained.resourceType === 'HealthcareService')
-    ?.characteristic?.find(c =>
-      c.coding?.find(code => code.system === 'ATLAS_CC'),
-    );
-
-  return characteristic?.coding[0].code;
+  return appointment.videoData?.atlasConfirmationCode;
 }
 
 /**
@@ -337,18 +315,7 @@ export function getVARClinicId(appointment) {
  * @returns {string} The location id where the video appointment is located
  */
 export function getVideoAppointmentLocation(appointment) {
-  const serviceResource = appointment?.contained.find(
-    res => res.resourceType === 'HealthcareService',
-  );
-  const locationReference =
-    serviceResource?.location?.reference ||
-    serviceResource?.providedBy?.reference;
-
-  if (locationReference) {
-    return locationReference.split('/')[1];
-  }
-
-  return null;
+  return appointment.videoData?.facilityId || null;
 }
 
 /**
@@ -628,11 +595,9 @@ export function isAtlasLocation(appointment) {
  * @return {boolean} Returns whether or not the appointment is a home video appointment.
  */
 export function isVideoHome(appointment) {
-  const videoKind = getVideoKind(appointment);
-  const isAtlas = isAtlasLocation(appointment);
+  const { isAtlas, kind } = appointment.videoData || {};
   return (
-    !isAtlas &&
-    (videoKind === VIDEO_TYPES.mobile || videoKind === VIDEO_TYPES.adhoc)
+    !isAtlas && (kind === VIDEO_TYPES.mobile || kind === VIDEO_TYPES.adhoc)
   );
 }
 
@@ -642,7 +607,7 @@ export function isVideoHome(appointment) {
  * @return {boolean} Returns whether or not the appointment is a VA facility video appointment.
  */
 export function isVideoVAFacility(appointment) {
-  return VIDEO_TYPES.clinic === getVideoKind(appointment);
+  return VIDEO_TYPES.clinic === appointment.videoData?.kind;
 }
 
 /**
@@ -651,7 +616,7 @@ export function isVideoVAFacility(appointment) {
  * @return {boolean} Returns whether or not the appointment is a store forward video appointment.
  */
 export function isVideoStoreForward(appointment) {
-  return VIDEO_TYPES.storeForward === getVideoKind(appointment);
+  return VIDEO_TYPES.storeForward === appointment.videoData?.kind;
 }
 
 /**
