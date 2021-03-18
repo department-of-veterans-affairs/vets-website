@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import { GeneralCernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
-import { fetchFolder as fetchFolderAction } from '~/applications/personalization/dashboard/actions/messaging';
+import { fetchFolder as fetchInboxAction } from '~/applications/personalization/dashboard/actions/messaging';
 import { recordDashboardClick } from '~/applications/personalization/dashboard/helpers';
+import { FOLDER } from '~/applications/personalization/dashboard-2/constants';
 import { selectUnreadMessagesCount } from '~/applications/personalization/dashboard-2/selectors';
 import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction } from '~/applications/personalization/appointments/actions';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
@@ -27,8 +28,9 @@ const HealthCare = ({
   isCernerPatient,
   facilityNames,
   canAccessMessaging,
-  fetchFolder,
+  fetchInbox,
   unreadMessagesCount,
+  // TODO: possibly remove this prop in favor of mocking API calls in our unit tests
   dataLoadingDisabled = false,
 }) => {
   useEffect(
@@ -43,13 +45,13 @@ const HealthCare = ({
   useEffect(
     () => {
       if (canAccessMessaging && !dataLoadingDisabled) {
-        fetchFolder(0);
+        fetchInbox(FOLDER.inbox);
       }
     },
-    [canAccessMessaging, fetchFolder, dataLoadingDisabled],
+    [canAccessMessaging, fetchInbox, dataLoadingDisabled],
   );
 
-  const ViewMessages = {
+  const viewMessagesCTA = {
     icon: 'envelope',
     text: unreadMessagesCount
       ? `You have ${unreadMessagesCount} new messages`
@@ -86,7 +88,7 @@ const HealthCare = ({
             <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--2p5">
               Messages
             </h3>
-            <NotificationCTA CTA={ViewMessages} />
+            <NotificationCTA CTA={viewMessagesCTA} />
           </>
         )}
 
@@ -170,7 +172,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  fetchFolder: fetchFolderAction,
+  fetchInbox: fetchInboxAction,
   fetchConfirmedFutureAppointments: fetchConfirmedFutureAppointmentsAction,
 };
 
