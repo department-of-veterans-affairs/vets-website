@@ -47,9 +47,6 @@ export const secondaryCaregiverContent = [
 export const signatureBoxNoteContent =
   'According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or providing incorrect information. (See 18 U.S.C. 1001)';
 
-export const preLoaderNoteContent =
-  'It can take several minutes for your application to process after you submit it. Please don’t refresh your browser during that time.';
-
 export const PrivacyPolicy = () => (
   <p>
     I have read and accept the
