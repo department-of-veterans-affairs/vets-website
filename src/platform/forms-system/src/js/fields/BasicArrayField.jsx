@@ -9,6 +9,7 @@ import {
   getDefaultFormState,
   deepEquals,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import { isReactComponent } from '../../../../utilities/ui';
 
 const Element = Scroll.Element;
 
@@ -44,8 +45,9 @@ class BasicArrayField extends React.Component {
     const description = uiSchema['ui:description'];
     const textDescription =
       typeof description === 'string' ? description : null;
-    const DescriptionField =
-      typeof description === 'function' ? uiSchema['ui:description'] : null;
+    const DescriptionField = isReactComponent(description)
+      ? uiSchema['ui:description']
+      : null;
     const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
 
     // if we have form data, use that, otherwise use an array with a single default object
