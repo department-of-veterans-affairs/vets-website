@@ -1,5 +1,6 @@
 import { getAppointTypeFromAppointment } from '../utils';
 import recordEvent from 'platform/monitoring/record-event';
+import { removeFormApi } from 'platform/forms/save-in-progress/api';
 
 const USE_MOCK_DATA = true;
 
@@ -64,7 +65,7 @@ const submitToUrl = (body, submitUrl, trackingPrefix, eventData) => {
   });
 };
 
-const submit = (form, formConfig) => {
+const submit = async (form, formConfig) => {
   const body = {
     questionnaireResponse: formConfig.transformForSubmit(formConfig, form),
   };
@@ -74,15 +75,17 @@ const submit = (form, formConfig) => {
       // reject(body);
     });
   } else {
-    // Commented out till API is working.
     const eventData = {};
 
-    return submitToUrl(
-      JSON.stringify(body),
-      formConfig.submitUrl,
-      formConfig.trackingPrefix,
-      eventData,
-    );
+    return Promise.all([
+      await submitToUrl(
+        JSON.stringify(body),
+        formConfig.submitUrl,
+        formConfig.trackingPrefix,
+        eventData,
+      ),
+      await removeFormApi(form.formId),
+    ]);
   }
 };
 

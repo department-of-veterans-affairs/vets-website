@@ -1,37 +1,30 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
 import { selectProfile } from '~/platform/user/selectors';
 
 import {
+  filterOutExpiredForms,
   formLinks,
   formTitles,
   isSIPEnabledForm,
   presentableFormIDs,
   sipFormSorter,
 } from '~/applications/personalization/dashboard/helpers';
-import { removeSavedForm as removeSavedFormAction } from '~/applications/personalization/dashboard/actions';
 
 import ApplicationInProgress from './ApplicationInProgress';
 
-const ApplicationsInProgress = ({ savedForms, removeSavedForm }) => {
-  const [deletedForms, setDeletedForms] = useState([]);
-  // Filter out non-SIP-enabled applications and expired applications the user
-  // has deleted
+const ApplicationsInProgress = ({ savedForms }) => {
+  // Filter out non-SIP-enabled applications and expired applications
   const verifiedSavedForms = useMemo(
     () =>
       savedForms
         .filter(isSIPEnabledForm)
-        .filter(form => !deletedForms.includes(form.form))
+        .filter(filterOutExpiredForms)
         .sort(sipFormSorter),
-    [savedForms, deletedForms],
+    [savedForms],
   );
-
-  const removeForm = formId => {
-    setDeletedForms([...deletedForms, formId]);
-    removeSavedForm(formId, false);
-  };
 
   return (
     <>
@@ -53,7 +46,6 @@ const ApplicationsInProgress = ({ savedForms, removeSavedForm }) => {
               const expirationDate = moment
                 .unix(expiresAt)
                 .format('MMMM D, YYYY');
-              const startNewApplicationUrl = formLinks[formId];
               const continueUrl = `${formLinks[formId]}resume`;
               return (
                 <ApplicationInProgress
@@ -64,8 +56,6 @@ const ApplicationsInProgress = ({ savedForms, removeSavedForm }) => {
                   formTitle={formTitle}
                   lastOpenedDate={lastOpenedDate}
                   presentableFormId={presentableFormId}
-                  removeForm={removeForm}
-                  startNewApplicationUrl={startNewApplicationUrl}
                 />
               );
             })}
@@ -83,11 +73,4 @@ const mapStateToProps = state => ({
   savedForms: selectProfile(state).savedForms || [],
 });
 
-const mapDispatchToProps = {
-  removeSavedForm: removeSavedFormAction,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ApplicationsInProgress);
+export default connect(mapStateToProps)(ApplicationsInProgress);

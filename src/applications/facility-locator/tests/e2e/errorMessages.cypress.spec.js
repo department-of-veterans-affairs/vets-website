@@ -11,17 +11,25 @@ describe('Facility search error messages', () => {
     cy.server();
     cy.route('GET', '/v0/feature_toggles?*', []);
     cy.route('GET', '/v0/maintenance_windows', []);
+    cy.visit('/find-locations');
   });
 
-  it('shows error message for location field', () => {
-    cy.visit('/find-locations');
-
+  afterEach(() => {
     cy.injectAxe();
-
-    cy.get('#facility-type-dropdown').select('VA health');
-
     cy.axeCheck();
+  });
 
+  it('shows error message in location field on invalid search', () => {
+    cy.get('#facility-search').click({ waitForAnimations: true });
+    cy.get('.usa-input-error-message').contains(
+      'Please fill in a city, state, or postal code.',
+    );
+    cy.get('#street-city-state-zip').should('be.focused');
+  });
+
+  it('shows error message on leaving location field empty', () => {
+    cy.get('#street-city-state-zip').focus();
+    cy.get('#facility-type-dropdown').focus();
     cy.get('.usa-input-error-message').contains(
       'Please fill in a city, state, or postal code.',
     );
@@ -29,15 +37,9 @@ describe('Facility search error messages', () => {
     cy.get('.usa-input-error-message').should('not.exist');
   });
 
-  it('shows error message for facility type field', () => {
-    cy.visit('/find-locations');
-
-    cy.injectAxe();
-
-    cy.get('#street-city-state-zip').type('A');
-
-    cy.axeCheck();
-
+  it('shows error message when leaving facility type field empty', () => {
+    cy.get('#facility-type-dropdown').focus();
+    cy.get('#street-city-state-zip').focus();
     cy.get('.usa-input-error-message').contains(
       'Please choose a facility type.',
     );
@@ -45,18 +47,12 @@ describe('Facility search error messages', () => {
     cy.get('.usa-input-error-message').should('not.exist');
   });
 
-  it('shows error message for service type field', () => {
-    cy.visit('/find-locations');
-
-    cy.injectAxe();
-
-    cy.get('#street-city-state-zip').type('A');
+  it('shows error message when leaving service type field epmty', () => {
     cy.get('#facility-type-dropdown').select(
       'Community providers (in VA’s network)',
     );
-
-    cy.axeCheck();
-
+    cy.get('#service-type-ahead-input').focus();
+    cy.get('#facility-search').focus();
     cy.get('.usa-input-error-message').contains(
       'Please choose a service type.',
     );

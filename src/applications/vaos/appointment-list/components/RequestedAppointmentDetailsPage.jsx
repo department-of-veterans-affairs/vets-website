@@ -53,9 +53,27 @@ function RequestedAppointmentDetailsPage({
 
   useEffect(() => {
     fetchRequestDetails(id);
-
-    scrollAndFocus();
   }, []);
+
+  useEffect(
+    () => {
+      if (appointment) {
+        const isCanceled = appointment.status === APPOINTMENT_STATUS.cancelled;
+        const isCC = appointment.vaos.isCommunityCare;
+        const typeOfCareText = lowerCase(
+          appointment?.type?.coding?.[0]?.display,
+        );
+
+        const title = `${isCanceled ? 'Canceled' : 'Pending'} ${
+          isCC ? 'Community care' : 'VA'
+        } ${typeOfCareText} appointment`;
+
+        document.title = title;
+      }
+      scrollAndFocus();
+    },
+    [appointment],
+  );
 
   useEffect(
     () => {
@@ -67,6 +85,18 @@ function RequestedAppointmentDetailsPage({
       }
     },
     [cancelInfo.showCancelModal, cancelInfo.cancelAppointmentStatus],
+  );
+
+  useEffect(
+    () => {
+      if (
+        appointmentDetailsStatus === FETCH_STATUS.failed ||
+        (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+      ) {
+        scrollAndFocus();
+      }
+    },
+    [appointmentDetailsStatus],
   );
 
   if (
@@ -83,7 +113,10 @@ function RequestedAppointmentDetailsPage({
   if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
     return (
       <FullWidthLayout>
-        <LoadingIndicator message="Loading your appointment request..." />
+        <LoadingIndicator
+          setFocus
+          message="Loading your appointment request..."
+        />
       </FullWidthLayout>
     );
   }

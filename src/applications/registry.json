@@ -992,5 +992,14 @@
       "vagovprod": false,
       "layout": "page-react.html"
     }
+  },
+  {
+    "appName": "Virtual Agent",
+    "entryName": "virtual-agent",
+    "rootUrl": "/virtual-agent",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
+    }
   }
 ]

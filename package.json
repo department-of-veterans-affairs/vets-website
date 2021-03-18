@@ -176,7 +176,7 @@
     "cors": "^2.7.1",
     "css-loader": "^1.0.0",
     "cssnano": "^4.1.10",
-    "cypress": "^6.6.0",
+    "cypress": "^6.7.1",
     "cypress-axe": "^0.12.0",
     "cypress-multi-reporters": "^1.4.0",
     "cypress-plugin-tab": "^1.0.5",
@@ -307,6 +307,7 @@
     "fast-levenshtein": "^2.0.6",
     "fine-uploader": "^5.16.2",
     "foundation-sites": "^5.5.3",
+    "he": "^1.2.0",
     "history": "3",
     "history-v4": "npm:history@4.9.0",
     "ics-js": "^0.10.2",
@@ -340,6 +341,7 @@
     "react-dom": "^16.13.1",
     "react-dropzone": "^4.2.5",
     "react-focus-lock": "^2.5.0",
+    "react-is": "^17.0.1",
     "react-leaflet": "^2.7.0",
     "react-meta-tags": "^0.7.4",
     "react-redux": "5.1.1",
@@ -374,7 +376,7 @@
     "**/node-forge": "^0.10.0",
     "**/axios": "^0.21.1",
     "**/elliptic": "^6.5.4",
-    "cypress": "^6.6.0",
+    "cypress": "^6.7.1",
     "tar-fs/tar-stream/bl": "^4.0.3",
     "nightwatch/**/lodash.defaultsdeep": "^4.6.1"
   }

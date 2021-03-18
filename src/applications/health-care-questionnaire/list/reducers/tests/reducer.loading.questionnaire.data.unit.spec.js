@@ -1,16 +1,16 @@
 import { expect } from 'chai';
 
-import reducer from '../../../reducers';
+import reducer from '../index';
 
 import {
   questionnaireListLoaded,
   questionnaireListLoading,
   questionnaireListLoadedWithError,
-} from '../../../actions';
+} from '../../actions';
 
-import { sortQuestionnairesByStatus } from '../../../utils';
+import { sortQuestionnairesByStatus } from '../../utils';
 
-import testData from '../../../../shared/api/mock-data/my-questionnaires.sample.json';
+import { json } from '../../../shared/api/mock-data/fhir/full.example.data';
 
 describe('health care-questionnaire -- questionnaire reducer --', () => {
   it('should set loading to true', () => {
@@ -34,7 +34,7 @@ describe('health care-questionnaire -- questionnaire reducer --', () => {
     expect(state.list.status.apiReturnedError).to.be.false;
   });
   it('should set populate appointment data', () => {
-    const sorted = sortQuestionnairesByStatus(testData.data);
+    const sorted = sortQuestionnairesByStatus(json.data);
     const action = questionnaireListLoaded(sorted);
 
     const state = reducer.questionnaireListData(undefined, action);
