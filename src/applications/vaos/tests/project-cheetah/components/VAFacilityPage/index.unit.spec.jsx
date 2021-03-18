@@ -83,6 +83,38 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
 
+  it('should display 2 dosages COVID alert', async () => {
+    mockDirectBookingEligibilityCriteria(
+      parentSiteIds,
+      directFacilities.slice(0, 5),
+    );
+    mockRequestEligibilityCriteria(parentSiteIds, []);
+    mockFacilitiesFetch(vhaIds.slice(0, 5).join(','), facilities.slice(0, 5));
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: TYPE_OF_CARE_ID,
+    });
+    const store = createTestStore(initialState);
+
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+
+    // Radio buttons only show up after all the data is loaded, which
+    // should mean all page rendering is finished
+    await screen.findAllByRole('radio');
+
+    expect(screen.getByText(/Some COVID-19 vaccines require 2 doses/i)).to
+      .exist;
+
+    expect(
+      screen.getByText(
+        /If you get a vaccine that requires 2 doses, you'll need to return to the same facility for your second dose./i,
+      ),
+    ).to.exist;
+  });
+
   it('should display list of facilities with show more button', async () => {
     mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
     mockRequestEligibilityCriteria(parentSiteIds, []);

@@ -2,6 +2,7 @@
 
 const _ = require('lodash');
 const liquid = require('tinyliquid');
+const he = require('he');
 
 const { ENTITY_BUNDLES } = require('../../../constants/content-modeling');
 
@@ -291,10 +292,13 @@ function createArticleListingsPages(files) {
 }
 
 function createArticleResultSnippet(text) {
-  const sanitized = liquid.filters.strip_html(text);
-  const truncated = liquid.filters.truncate(sanitized, 200);
+  const sanitizedText = liquid.filters.strip_html(text);
+  const strippedNewlines = liquid.filters.strip_newlines(sanitizedText);
+  const decodedText = he.decode(strippedNewlines);
 
-  if (sanitized !== truncated) {
+  const truncated = liquid.filters.truncate(decodedText, 190);
+
+  if (decodedText !== truncated) {
     return `${truncated}...`;
   }
 
