@@ -62,25 +62,28 @@ export const transform = ({ data }) => {
     expenses: {
       ...expenses,
       utilities: utilityRecords
-        .map(record => record.monthlyUtilityAmount || 0)
+        ?.map(record => record.monthlyUtilityAmount || 0)
         .reduce((acc, amount) => acc + amount, 0),
       otherLivingExpenses: otherExpenses,
-      expensesInstallmentContractsAndOtherDebts: null,
+      expensesInstallmentContractsAndOtherDebts: installmentContractsAndOtherDebts?.reduce(
+        (acc, debt) => acc + debt.amountDueMonthly,
+        0,
+      ),
       totalMonthlyExpenses: totalExpenses,
     },
     discretionaryIncome: {
       netMonthlyIncomeLessExpenses: totalIncome - totalExpenses,
       amountCanBePaidTowardDebt: selectedDebts
-        .map(debt => debt.resolution.offerToPay || 0)
+        ?.map(debt => debt.resolution.offerToPay || 0)
         .reduce((acc, offer) => acc + offer, 0),
     },
     assets: {
       ...assets,
       trailersBoatsCampers: assets.trailersBoatsCampers
-        .map(record => record.recreationalVehicleAmount || 0)
+        ?.map(record => record.recreationalVehicleAmount || 0)
         .reduce((acc, amount) => acc + amount, 0),
       realEstateOwned: realEstateRecords
-        .map(record => record.realEstateAmount || 0)
+        ?.map(record => record.realEstateAmount || 0)
         .reduce((acc, amount) => acc + amount, 0),
       totalAssets,
     },
@@ -88,25 +91,28 @@ export const transform = ({ data }) => {
       ...(installmentContractsAndOtherDebts || []),
     ],
     totalOfInstallmentContractsAndOtherDebts: {
-      originalAmount: installmentContractsAndOtherDebts.reduce(
+      originalAmount: installmentContractsAndOtherDebts?.reduce(
         (acc, debt) => acc + debt.originalAmount,
         0,
       ),
-      unpaidBalance: installmentContractsAndOtherDebts.reduce(
+      unpaidBalance: installmentContractsAndOtherDebts?.reduce(
         (acc, debt) => acc + debt.unpaidBalance,
         0,
       ),
-      amountDueMonthly: installmentContractsAndOtherDebts.reduce(
+      amountDueMonthly: installmentContractsAndOtherDebts?.reduce(
         (acc, debt) => acc + debt.amountDueMonthly,
         0,
       ),
-      amountPastDue: installmentContractsAndOtherDebts.reduce(
+      amountPastDue: installmentContractsAndOtherDebts?.reduce(
         (acc, debt) => acc + debt.amountPastDue,
         0,
       ),
     },
     additionalData: {
       ...additionalData,
+      additionalComments: selectedDebts
+        .map(debt => debt.additionalData.additionalComments)
+        .join(', '),
     },
   };
 
