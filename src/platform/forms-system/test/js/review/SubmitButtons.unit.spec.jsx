@@ -9,7 +9,6 @@ import GenericError from '../../../src/js/review/submit-states/GenericError';
 import Pending from '../../../src/js/review/submit-states/Pending';
 import Submitted from '../../../src/js/review/submit-states/Submitted';
 import ThrottledError from '../../../src/js/review/submit-states/ThrottledError';
-import ValidationError from '../../../src/js/review/submit-states/ValidationError';
 
 describe('Schemaform review: <SubmitButtons>', () => {
   let formConfig;
@@ -74,9 +73,7 @@ describe('Schemaform review: <SubmitButtons>', () => {
       <SubmitButtons submission={submission} formConfig={formConfig} />,
     );
 
-    expect(tree.everySubTree('ValidationError')[0].type).to.equal(
-      ValidationError,
-    );
+    expect(tree.everySubTree('Connect(ValidationError)')[0].type).to.exist;
   });
 
   it('renders throttled error', () => {

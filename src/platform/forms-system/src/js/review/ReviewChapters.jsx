@@ -68,6 +68,7 @@ class ReviewChapters extends React.Component {
     const {
       chapters,
       form,
+      formConfig,
       formContext,
       setValid,
       viewedPages,
@@ -83,6 +84,7 @@ class ReviewChapters extends React.Component {
               chapterFormConfig={chapter.formConfig}
               chapterKey={chapter.name}
               form={form}
+              formConfig={formConfig}
               formContext={formContext}
               key={chapter.name}
               onEdit={this.handleEdit}

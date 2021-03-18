@@ -78,7 +78,11 @@ class SubmitController extends Component {
     };
 
     if (!isValid) {
-      const processedErrors = reduceErrors(errors, pageList);
+      const processedErrors = reduceErrors(
+        errors,
+        pageList,
+        formConfig.reviewErrors,
+      );
       this.props.setFormErrors({
         rawErrors: errors,
         errors: processedErrors,
@@ -122,7 +126,12 @@ class SubmitController extends Component {
   };
 
   render() {
-    const { form, formConfig } = this.props;
+    const {
+      form,
+      formConfig,
+      renderErrorMessage,
+      formErrors = {},
+    } = this.props;
 
     return (
       <SubmitButtons
@@ -130,6 +139,8 @@ class SubmitController extends Component {
         onBack={this.goBack}
         onSubmit={this.handleSubmit}
         submission={form.submission}
+        renderErrorMessage={renderErrorMessage}
+        formErrors={formErrors}
       />
     );
   }
