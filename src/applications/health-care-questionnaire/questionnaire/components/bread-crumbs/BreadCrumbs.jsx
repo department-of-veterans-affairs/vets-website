@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getAppointTypeFromAppointment } from '../../../shared/utils';
+import { location as locationSelector } from '../../../shared/utils/selectors';
 
 const BreadCrumbs = props => {
-  const { appointment } = props;
-  const appointmentTypeText = getAppointTypeFromAppointment(appointment);
+  const { location } = props;
+  const appointmentTypeText = locationSelector.getType(location)?.toLowerCase();
 
   return (
     <nav
@@ -43,7 +43,7 @@ const BreadCrumbs = props => {
 };
 
 const mapStateToProps = state => ({
-  appointment: state?.questionnaireData?.context?.appointment,
+  location: state.questionnaireData?.context.location,
 });
 
 export default connect(
