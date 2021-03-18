@@ -17,8 +17,8 @@ DRUPAL_CREDENTIALS = [
 ]
 
 ALL_VAGOV_BUILDTYPES = [
-  'vagovdev',
-  'vagovstaging',
+  // 'vagovdev',
+  // 'vagovstaging',
   'vagovprod'
 ]
 
@@ -29,10 +29,12 @@ VAGOV_BUILDTYPES = BUILD_TYPE_OVERRIDE ? [BUILD_TYPE_OVERRIDE] : ALL_VAGOV_BUILD
 DEV_BRANCH = 'master'
 STAGING_BRANCH = 'master'
 PROD_BRANCH = 'master'
+TEST_BRANCH = 'feature/21550-nightwatch-tests-only-in-master'
 
 IS_DEV_BRANCH = env.BRANCH_NAME == DEV_BRANCH
 IS_STAGING_BRANCH = env.BRANCH_NAME == STAGING_BRANCH
 IS_PROD_BRANCH = env.BRANCH_NAME == PROD_BRANCH
+IS_TEST_BRANCH = env.BRANCH_NAME == TEST_BRANCH
 
 DOCKER_ARGS = "-v ${WORKSPACE}/vets-website:/application -v ${WORKSPACE}/vagov-content:/vagov-content --ulimit nofile=8192:8192"
 IMAGE_TAG = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
