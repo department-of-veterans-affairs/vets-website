@@ -52,8 +52,7 @@ const I18Select = ({ baseUrls, content }) => {
                 onClick={_ => {
                   recordEvent({
                     event: 'nav-pipe-delimited-list-click',
-                    faqText: undefined,
-                    'pipe-delimited-list-header': lang,
+                    pipeDelimitedListHeader: lang,
                   });
                 }}
                 href={baseUrls[languageCode]}
