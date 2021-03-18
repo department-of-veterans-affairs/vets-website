@@ -1,23 +1,11 @@
 import React, { useEffect } from 'react';
-import moment from 'moment';
 import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
-import {
-  isMultifactorEnabled,
-  isVAPatient,
-  selectProfile,
-} from '~/platform/user/selectors';
+import { isMultifactorEnabled, isVAPatient } from '~/platform/user/selectors';
 
-import {
-  formLinks,
-  formTitles,
-  isSIPEnabledForm,
-  presentableFormIDs,
-  sipFormSorter,
-} from '~/applications/personalization/dashboard/helpers';
 import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/applications/hca/actions';
 import { HCA_ENROLLMENT_STATUSES } from '~/applications/hca/constants';
 import {
@@ -31,51 +19,8 @@ import {
   eduDirectDepositIsSetUp,
 } from '@@profile/selectors';
 
-import ApplicationInProgress from './ApplicationInProgress';
+import ApplicationsInProgress from './ApplicationsInProgress';
 import BenefitOfInterest from './BenefitOfInterest';
-
-const ApplicationsInProgress = ({ verifiedSavedForms }) => {
-  return (
-    <>
-      <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--2p5">
-        Applications in progress
-      </h3>
-      {verifiedSavedForms.length > 0 && (
-        <div className="vads-l-grid-container vads-u-padding--0">
-          <div className="vads-l-row">
-            {verifiedSavedForms.map(form => {
-              const formId = form.form;
-              const formTitle = `Application for ${formTitles[formId]}`;
-              const presentableFormId = presentableFormIDs[formId];
-              const { lastUpdated, expiresAt } = form.metadata || {};
-              const lastOpenedDate = moment
-                .unix(lastUpdated)
-                .format('MMMM D, YYYY');
-              const expirationDate = moment
-                .unix(expiresAt)
-                .format('MMMM D, YYYY');
-              const continueUrl = `${formLinks[formId]}resume`;
-              return (
-                <ApplicationInProgress
-                  key={formId}
-                  continueUrl={continueUrl}
-                  expirationDate={expirationDate}
-                  formId={formId}
-                  formTitle={formTitle}
-                  lastOpenedDate={lastOpenedDate}
-                  presentableFormId={presentableFormId}
-                />
-              );
-            })}
-          </div>
-        </div>
-      )}
-      {!verifiedSavedForms.length && (
-        <p>You have no applications in progress.</p>
-      )}
-    </>
-  );
-};
 
 const BenefitsOfInterest = ({ children, showChildren }) => {
   return (
@@ -94,7 +39,9 @@ const BenefitsOfInterest = ({ children, showChildren }) => {
         )}
         {showChildren && <div className="vads-l-row">{children}</div>}
         <AdditionalInfo triggerText="What benefits does the VA offer?">
-          <p>Explore VA.gov to learn about the benefits we offer</p>
+          <p className="vads-u-font-weight--bold">
+            Explore VA.gov to learn about the benefits we offer.
+          </p>
           <ul>
             <li>
               <a href="https://www.va.gov/careers-employment/">
@@ -127,6 +74,15 @@ const BenefitsOfInterest = ({ children, showChildren }) => {
                 Family member benefits
               </a>
             </li>
+            <li>
+              <a href="https://www.va.gov/health-care/">Health care benefits</a>
+            </li>
+            <li>
+              <a href="https://www.va.gov/education/">Education benefits</a>
+            </li>
+            <li>
+              <a href="https://www.va.gov/disability/">Disability benefits</a>
+            </li>
           </ul>
         </AdditionalInfo>
       </div>
@@ -143,7 +99,6 @@ const ApplyForBenefits = ({
   isPatient,
   shouldGetDD4EDUStatus,
   shouldGetESRStatus,
-  verifiedSavedForms,
 }) => {
   useEffect(
     () => {
@@ -169,7 +124,7 @@ const ApplyForBenefits = ({
   return (
     <>
       <h2>Apply for benefits</h2>
-      <ApplicationsInProgress verifiedSavedForms={verifiedSavedForms} />
+      <ApplicationsInProgress />
       <BenefitsOfInterest showChildren={hasLoadedAllData}>
         <>
           {showHealthCare && (
@@ -217,10 +172,6 @@ const ApplyForBenefits = ({
 
 const mapStateToProps = state => {
   const isPatient = isVAPatient(state);
-  const savedForms = selectProfile(state).savedForms || [];
-  const verifiedSavedForms = savedForms
-    .filter(isSIPEnabledForm)
-    .sort(sipFormSorter);
   const esrEnrollmentStatus = selectESRStatus(state).enrollmentStatus;
 
   const shouldGetESRStatus = !isPatient;
@@ -243,7 +194,6 @@ const mapStateToProps = state => {
     isPatient,
     shouldGetDD4EDUStatus,
     shouldGetESRStatus,
-    verifiedSavedForms,
   };
 };
 

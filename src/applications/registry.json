@@ -960,7 +960,7 @@
     }
   },
   {
-    "appName": "coronavirus-vaccination",
+    "appName": "Coronavirus Vaccination",
     "entryName": "coronavirus-vaccination",
     "rootUrl": "/health-care/covid-19-vaccine/stay-informed",
     "template": {
@@ -988,6 +988,15 @@
     "appName": "View your representative",
     "entryName": "view-representative",
     "rootUrl": "/view-change-representative/view",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
+    }
+  },
+  {
+    "appName": "Virtual Agent",
+    "entryName": "virtual-agent",
+    "rootUrl": "/virtual-agent",
     "template": {
       "vagovprod": false,
       "layout": "page-react.html"

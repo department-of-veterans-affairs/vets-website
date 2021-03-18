@@ -1,4 +1,8 @@
 import { pciuStates as PCIU_STATES } from 'vets-json-schema/dist/constants.json';
+import {
+  VA_FORM_IDS,
+  VA_FORM_IDS_IN_PROGRESS_FORMS_API,
+} from 'platform/forms/constants';
 
 import disabilityLabels from './content/disabilityLabels';
 
@@ -270,6 +274,12 @@ export const ANALYTICS_EVENTS = {
   },
 };
 
+// new /v0/disability_compensation_in_progress_forms/21-526EZ. Not using the
+// platform/forms/helpers/inProgressApi because the mock doesn't include the
+// environment.API_URL
+export const MOCK_SIPS_API =
+  VA_FORM_IDS_IN_PROGRESS_FORMS_API[VA_FORM_IDS.FORM_21_526EZ];
+
 export const NULL_CONDITION_STRING = 'Unknown Condition';
 
 // Moment date format
@@ -279,6 +289,8 @@ export const DATE_FORMAT = 'LL';
 export const WIZARD_STATUS = 'wizardStatus526';
 // sessionStorage key used to determine if the form title should be set to BDD
 export const FORM_STATUS_BDD = 'formStatusBdd';
+
+export const SHOW_8940_4192 = 'showSubforms';
 
 // sessionStorage key used for the user entered separation date in the wizard
 // used by the first page of the form to populate the form data

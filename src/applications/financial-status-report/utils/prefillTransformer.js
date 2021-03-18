@@ -9,15 +9,21 @@ export function prefillTransformer(pages, formData, metadata, state) {
   let newData = formData;
 
   if (mailingAddress) {
-    newData = { ...newData, mailingAddress };
+    newData = {
+      ...newData,
+      personalData: {
+        ...newData.personalData,
+        address: mailingAddress,
+      },
+    };
   }
 
   if (areaCode && phoneNumber) {
     newData = {
       ...newData,
-      contactInfo: {
-        ...newData.contactInfo,
-        phoneNumber: areaCode + phoneNumber,
+      personalData: {
+        ...newData.personalData,
+        telephoneNumber: areaCode + phoneNumber,
       },
     };
   }
@@ -25,10 +31,9 @@ export function prefillTransformer(pages, formData, metadata, state) {
   if (emailAddress) {
     newData = {
       ...newData,
-      contactInfo: {
-        ...newData.contactInfo,
+      personalData: {
+        ...newData.personalData,
         primaryEmail: emailAddress,
-        confirmationEmail: emailAddress,
       },
     };
   }

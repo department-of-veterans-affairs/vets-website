@@ -1,8 +1,14 @@
-.vaos-calendar__loading {
+.vaos-calendar__disabled {
   opacity: 0.3;
+  pointer-events: none;
+  background: none !important;
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;          /* Likely future */
 }
 
-.vaos-calendar__loading-overlay {
+.vaos-calendar__disabled-overlay {
   position: absolute;
   width: 100%;
   top: 25%;
@@ -235,4 +241,8 @@
 
 .vaos-u-border-radius--bottom-left {
   border-bottom-left-radius: 5px;
+}
+
+.vaos-calendar > .usa-input-error {
+  margin-top: 0;
 }

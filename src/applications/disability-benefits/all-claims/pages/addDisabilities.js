@@ -15,6 +15,7 @@ import {
   validateDisabilityName,
   requireDisability,
   limitNewDisabilities,
+  missingConditionMessage,
 } from '../validations';
 import {
   newConditionsOnly,
@@ -35,8 +36,9 @@ export const uiSchema = {
     'ui:options': {
       viewField: NewDisability,
       reviewTitle: 'New Conditions',
+      duplicateKey: 'condition',
       itemName: 'Condition',
-      includeIndexInTitle: true,
+      itemAriaLabel: data => data.condition,
       includeRequiredLabelInTitle: true,
     },
     // Ideally, this would show the validation on the array itself (or the name
@@ -77,8 +79,7 @@ export const uiSchema = {
           'ui:validations': [validateDisabilityName, limitNewDisabilities],
           'ui:required': () => true,
           'ui:errorMessages': {
-            required:
-              'Please enter a condition or select one from the suggested list',
+            required: missingConditionMessage,
           },
         },
       ),
@@ -86,7 +87,8 @@ export const uiSchema = {
       // disabled until design changes have been approved
       'ui:objectViewField': ConditionReviewField,
       'ui:options': {
-        ariaLabelForEditButtonOnReview: 'Edit New condition',
+        itemAriaLabel: data => data.condition,
+        itemName: 'New condition',
       },
     },
   },

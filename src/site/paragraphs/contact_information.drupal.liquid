@@ -1,66 +1,74 @@
 {% if entity.fieldAdditionalContact != empty or entity.fieldBenefitHubContacts != empty or entity.fieldContactDefault != empty %}
-  <section class="vads-u-display--flex vads-u-flex-direction--column vads-u-background-color--gray-light-alt vads-u-padding--2" data-template="paragraphs/contact_information">
-    <h2 class="vads-u-font-size--h3 vads-u-border-bottom--4px vads-u-border-color--primary vads-u-margin--0 vads-u-margin-y--1 vads-u-padding-bottom--1">Need more help?</h2>
+  <div class="vads-u-background-color--gray-light-alt">
+    <div class="usa-grid usa-grid-full">
+      <div class="usa-width-three-fourths">
+        <div class="usa-content vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
+          <section class="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-y--2" data-template="paragraphs/contact_information">
+            <h2 class="vads-u-font-size--h3 vads-u-border-bottom--4px vads-u-border-color--primary vads-u-margin--0 vads-u-margin-y--1 vads-u-padding-bottom--1">Need more help?</h2>
 
-    <ul class="usa-unstyled-list vads-u-display--flex vads-u-flex-direction--column">
-      <!-- Default contact -->
-      {% if entity.fieldBenefitHubContacts == empty and entity.fieldContactDefault != empty %}
-        <li class="vads-u-margin-top--1">
-          <strong>{{ entity.fieldContactDefault.entity.title }} </strong>
-          {% if entity.fieldContactDefault.entity.fieldLink %}
-            <a onclick="recordEvent({ 'event': 'nav-linkslist', 'links-list-header': '{{ entity.fieldContactDefault.entity.fieldPhoneNumber }}', 'links-list-section-header': 'Need more help?' })"
-                href="{{ entity.fieldContactDefault.entity.fieldLink.url.path }}"
-                rel="noreferrer noopener">
-              {{ entity.fieldContactDefault.entity.fieldPhoneNumber }}
-            </a>
-          {% endif %}
-        </li>
-      {% endif %}
+            <ul class="usa-unstyled-list vads-u-display--flex vads-u-flex-direction--column">
+              <!-- Default contact -->
+              {% if entity.fieldContactInfoSwitch == 'DC' and entity.fieldContactDefault != empty %}
+                <li class="vads-u-margin-top--1">
+                  <strong>{{ entity.fieldContactDefault.entity.title }} </strong>
+                  {% if entity.fieldContactDefault.entity.fieldLink %}
+                    <a onclick="recordEvent({ 'event': 'nav-linkslist', 'links-list-header': '{{ entity.fieldContactDefault.entity.fieldPhoneNumber }}', 'links-list-section-header': 'Need more help?' })"
+                        href="{{ entity.fieldContactDefault.entity.fieldLink.url.path }}"
+                        rel="noreferrer noopener">
+                      {{ entity.fieldContactDefault.entity.fieldPhoneNumber }}
+                    </a>
+                  {% endif %}
+                </li>
+              {% endif %}
 
-      <!-- Additional contact -->
-      {% if entity.fieldAdditionalContact != empty %}
-        <li class="vads-u-margin-top--1">
-          <!-- Email -->
-          {% if entity.fieldAdditionalContact.entity.fieldEmailLabel and entity.fieldAdditionalContact.entity.fieldEmailAddress %}
-            <strong>{{ entity.fieldAdditionalContact.entity.fieldEmailLabel }}: </strong>
-            {% if entity.fieldAdditionalContact.entity.fieldEmailAddress %}
-              <a onclick="recordEvent({ 'event': 'nav-linkslist', 'links-list-header': '{{ entity.fieldAdditionalContact.entity.fieldEmailAddress | escape }}', 'links-list-section-header': 'Need more help?' })"
-                  href="mailto:{{ entity.fieldAdditionalContact.entity.fieldEmailAddress }}"
-                  rel="noreferrer noopener">
-                {{ entity.fieldAdditionalContact.entity.fieldEmailAddress }}
-              </a>
-            {% endif %}
-          {% endif %}
+              <!-- Additional contact -->
+              {% if entity.fieldAdditionalContact != empty %}
+                <li class="vads-u-margin-top--1">
+                  <!-- Email -->
+                  {% if entity.fieldAdditionalContact.entity.fieldEmailLabel and entity.fieldAdditionalContact.entity.fieldEmailAddress %}
+                    <strong>{{ entity.fieldAdditionalContact.entity.fieldEmailLabel }}: </strong>
+                    {% if entity.fieldAdditionalContact.entity.fieldEmailAddress %}
+                      <a onclick="recordEvent({ 'event': 'nav-linkslist', 'links-list-header': '{{ entity.fieldAdditionalContact.entity.fieldEmailAddress | escape }}', 'links-list-section-header': 'Need more help?' })"
+                          href="mailto:{{ entity.fieldAdditionalContact.entity.fieldEmailAddress }}"
+                          rel="noreferrer noopener">
+                        {{ entity.fieldAdditionalContact.entity.fieldEmailAddress }}
+                      </a>
+                    {% endif %}
+                  {% endif %}
 
-          <!-- Phone number -->
-          {% if entity.fieldAdditionalContact.entity.fieldPhoneLabel and entity.fieldAdditionalContact.entity.fieldPhoneNumber %}
-            <strong>{{ entity.fieldAdditionalContact.entity.fieldPhoneLabel }}: </strong>
-            {% if entity.fieldAdditionalContact.entity.fieldPhoneNumber %}
-              <a onclick="recordEvent({ 'event': 'nav-linkslist', 'links-list-header': '{{ entity.fieldAdditionalContact.entity.fieldPhoneNumber | escape }}{% if fieldPhoneExtension %}p{{ fieldPhoneExtension }}{% endif %}', 'links-list-section-header': 'Need more help?' })"
-                  href="tel:{{ entity.fieldAdditionalContact.entity.fieldPhoneNumber }}{% if fieldPhoneExtension %}p{{ fieldPhoneExtension }}{% endif %}"
-                  rel="noreferrer noopener">
-                {{ entity.fieldAdditionalContact.entity.fieldPhoneNumber }}{% if fieldPhoneExtension %}p{{ fieldPhoneExtension }}{% endif %}
-              </a>
-            {% endif %}
-          {% endif %}
-        </li>
-      {% endif %}
+                  <!-- Phone number -->
+                  {% if entity.fieldAdditionalContact.entity.fieldPhoneLabel and entity.fieldAdditionalContact.entity.fieldPhoneNumber %}
+                    <strong>{{ entity.fieldAdditionalContact.entity.fieldPhoneLabel }}: </strong>
+                    {% if entity.fieldAdditionalContact.entity.fieldPhoneNumber %}
+                      <a onclick="recordEvent({ 'event': 'nav-linkslist', 'links-list-header': '{{ entity.fieldAdditionalContact.entity.fieldPhoneNumber | escape }}{% if fieldPhoneExtension %}p{{ fieldPhoneExtension }}{% endif %}', 'links-list-section-header': 'Need more help?' })"
+                          href="tel:{{ entity.fieldAdditionalContact.entity.fieldPhoneNumber }}{% if fieldPhoneExtension %}p{{ fieldPhoneExtension }}{% endif %}"
+                          rel="noreferrer noopener">
+                        {{ entity.fieldAdditionalContact.entity.fieldPhoneNumber }}{% if fieldPhoneExtension %}p{{ fieldPhoneExtension }}{% endif %}
+                      </a>
+                    {% endif %}
+                  {% endif %}
+                </li>
+              {% endif %}
 
-      <!-- Benefit hub contacts -->
-      {% if entity.fieldBenefitHubContacts != empty %}
-        {% for supportService in entity.fieldBenefitHubContacts.entity.fieldSupportServices %}
-          <li class="vads-u-margin-top--1">
-            <strong>{{ supportService.entity.title }} </strong>
-            {% if supportService.entity.fieldLink %}
-              <a onclick="recordEvent({ 'event': 'nav-linkslist', 'links-list-header': '{{ supportService.entity.fieldPhoneNumber | escape }}', 'links-list-section-header': 'Need more help?' })"
-                  href="{{ supportService.entity.fieldLink.url.path }}"
-                  rel="noreferrer noopener">
-                {{ supportService.entity.fieldPhoneNumber }}
-              </a>
-            {% endif %}
-          </li>
-        {% endfor %}
-      {% endif %}
-    </ul>
-  </section>
+              <!-- Benefit hub contacts -->
+              {% if entity.fieldContactInfoSwitch == 'BHC' and entity.fieldBenefitHubContacts != empty %}
+                {% for supportService in entity.fieldBenefitHubContacts.entity.fieldSupportServices %}
+                  <li class="vads-u-margin-top--1">
+                    <strong>{{ supportService.entity.title }} </strong>
+                    {% if supportService.entity.fieldLink %}
+                      <a onclick="recordEvent({ 'event': 'nav-linkslist', 'links-list-header': '{{ supportService.entity.fieldPhoneNumber | escape }}', 'links-list-section-header': 'Need more help?' })"
+                          href="{{ supportService.entity.fieldLink.url.path }}"
+                          rel="noreferrer noopener">
+                        {{ supportService.entity.fieldPhoneNumber }}
+                      </a>
+                    {% endif %}
+                  </li>
+                {% endfor %}
+              {% endif %}
+            </ul>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endif %}

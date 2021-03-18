@@ -60,6 +60,9 @@ export const uiSchema = {
   newDisabilities: {
     items: {
       'ui:title': disabilityNameTitle,
+      'ui:options': {
+        itemAriaLabel: data => `${data.condition} followup questions`,
+      },
       cause: {
         'ui:title': 'What caused this service-connected disability?',
         'ui:widget': 'radio',

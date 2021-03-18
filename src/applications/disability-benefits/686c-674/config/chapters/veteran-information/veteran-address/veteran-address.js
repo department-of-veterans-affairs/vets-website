@@ -31,13 +31,23 @@ export const uiSchema = {
       () => true,
     ),
     phoneNumber: {
-      'ui:options': {
-        widgetClassNames: 'usa-input-medium',
-      },
       'ui:required': () => true,
       'ui:title': 'Phone Number',
+      'ui:options': {
+        widgetClassNames: 'usa-input-medium',
+        updateSchema: () => {
+          return {
+            type: 'string',
+            pattern: '^\\d{10}$',
+          };
+        },
+      },
       'ui:errorMessages': {
-        pattern: 'Please enter only numbers, no dashes or parentheses',
+        pattern:
+          'Please enter a 10-digit phone number without dashes or spaces',
+        minLength:
+          'Please enter a 10-digit phone number without dashes or spaces',
+        required: 'Please enter a phone number',
       },
     },
     emailAddress: emailUI(),

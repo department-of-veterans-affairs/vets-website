@@ -1068,5 +1068,30 @@
     "domain": "www.benefits.va.gov",
     "src": "/PENSION/rates_veteran_pen17.asp",
     "dest": "/pension/veterans-pension-rates/past-rates-2018/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/vocrehab/vre_process.asp",
+    "dest": "/careers-employment/vocational-rehabilitation/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/INSURANCE/introCalc.asp",
+    "dest": "/resources/deciding-how-much-life-insurance-to-get/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/lifeins101.asp",
+    "dest": "/resources/deciding-how-much-life-insurance-to-get/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/INSURANCE/uninsurable.asp",
+    "dest": "/resources/life-insurance-if-you-have-preexisting-conditions/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/dividends_options.asp",
+    "dest": "/resources/life-insurance-dividend-payment-options/"
   }
 ]

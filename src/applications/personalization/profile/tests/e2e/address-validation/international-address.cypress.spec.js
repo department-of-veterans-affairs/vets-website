@@ -7,11 +7,11 @@ describe('Personal and contact information', () => {
 
       cy.findByLabelText(/Country/i).select('NLD');
 
-      cy.get('#root_addressLine1')
+      cy.findByLabelText(/^street address/i)
         .clear()
         .type('Dam 1');
-      cy.get('#root_addressLine2').clear();
-      cy.get('#root_addressLine3').clear();
+      cy.findByLabelText(/^line 2/i).clear();
+      cy.findByLabelText(/^line 3/i).clear();
 
       cy.findByLabelText(/City/i)
         .clear()

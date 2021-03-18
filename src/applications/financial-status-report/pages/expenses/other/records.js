@@ -35,7 +35,7 @@ export const uiSchema = {
       'ui:options': {
         classNames: 'horizonal-field-container no-wrap',
       },
-      expenseType: {
+      name: {
         'ui:title': 'Type of expense',
         'ui:field': Typeahead,
         'ui:options': {
@@ -43,15 +43,17 @@ export const uiSchema = {
           getOptions: () => formatOptions(expenseTypes),
         },
       },
-      expenseAmount: _.merge(currencyUI('Estimated cost each month'), {
+      amount: _.merge(currencyUI('Estimated cost each month'), {
         'ui:options': {
           widgetClassNames: 'input-size-1',
         },
       }),
     },
   },
-  'view:assetInfo': {
-    'ui:description': AssetInfo,
+  'view:components': {
+    'view:assetInfo': {
+      'ui:description': AssetInfo,
+    },
   },
 };
 export const schema = {
@@ -61,20 +63,26 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
-        required: ['expenseType', 'expenseAmount'],
+        title: 'Expense',
+        required: ['name', 'amount'],
         properties: {
-          expenseType: {
+          name: {
             type: 'string',
           },
-          expenseAmount: {
+          amount: {
             type: 'number',
           },
         },
       },
     },
-    'view:assetInfo': {
+    'view:components': {
       type: 'object',
-      properties: {},
+      properties: {
+        'view:assetInfo': {
+          type: 'object',
+          properties: {},
+        },
+      },
     },
   },
 };

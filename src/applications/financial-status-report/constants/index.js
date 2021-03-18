@@ -15,11 +15,11 @@ export const MILITARY_STATE_LABELS = [
 ];
 
 export const SCHEMA_DEFINITIONS = {
-  phone: {
+  telephoneNumber: {
     type: 'string',
     pattern: '^\\d{10}$',
   },
-  email: {
+  emailAddress: {
     type: 'string',
     minLength: 6,
     maxLength: 80,

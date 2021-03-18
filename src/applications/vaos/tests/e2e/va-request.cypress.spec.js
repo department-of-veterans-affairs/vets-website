@@ -13,11 +13,14 @@ function fillOutForm(facilitySelection) {
   cy.get('.va-modal-body button').click();
   cy.findAllByRole('tab').should('exist');
 
+  // Select primary care appointment type
+  cy.get('#schedule-new-appointment-0').click();
+
   // Start flow
-  cy.findByText('Schedule an appointment').click();
+  cy.findByText('Start scheduling').click();
 
   // Choose Type of Care
-  newApptTests.chooseTypeOfCareTest('Mental health');
+  newApptTests.chooseTypeOfCareTest('Social work');
 
   // Choose VA Facility
   cy.url().should('include', '/va-facility');
@@ -78,7 +81,7 @@ function fillOutForm(facilitySelection) {
 
     expect(request.facility.facilityCode).to.eq('983GB');
     expect(request.facility.parentSiteCode).to.eq('983');
-    expect(request).to.have.property('typeOfCareId', '502');
+    expect(request).to.have.property('typeOfCareId', '125');
     expect(request).to.have.property('visitType', 'Office Visit');
     expect(request).to.have.property('optionTime1', 'AM');
     expect(request).to.have.property('optionTime2', 'No Time Selected');

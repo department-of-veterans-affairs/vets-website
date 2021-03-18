@@ -21,6 +21,10 @@ do
       drupalAddress="${2}"
       shift 2
       ;;
+    --drupalMaxParallelRequests)
+      drupalMaxParallelRequests="${2}"
+      shift 2
+      ;;
     --pull-drupal)
       pullDrupal="${1}"
       shift
@@ -29,13 +33,9 @@ do
       buildLog="${2}"
       shift 2
       ;;
-    --use-cms-export)
-      useCMSExport="${1}"
+    --omitdebug)
+      omitdebug="${1}"
       shift
-      ;;
-    --destination)
-      destination="${2}"
-      shift 2
       ;;
     *)    # unknown option
       shift # past argument
@@ -47,6 +47,6 @@ done
 # exit code.  In this case, if the build command fails, the tee
 # command won't trick Jenkins into thinking the step passed.
 set -o pipefail
-npm --no-color run build -- --buildtype="$envName" --asset-source="$assetSource" --drupal-address="$drupalAddress" "$pullDrupal" "$useCMSExport" --destination="$destination" 2>&1 | tee "$buildLog"
+npm --no-color run build -- --verbose --buildtype="$envName" --asset-source="$assetSource" --drupal-address="$drupalAddress" --drupal-max-parallel-requests="$drupalMaxParallelRequests" "$omitdebug" "$pullDrupal" 2>&1 | tee "$buildLog"
 
 exit $?

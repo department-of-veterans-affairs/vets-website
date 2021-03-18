@@ -7,6 +7,7 @@ import {
   isVideoVAFacility,
   isVideoHome,
 } from '../../../services/appointment';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export default function VideoLink({ appointment }) {
   if (isVideoGFE(appointment)) {
@@ -41,6 +42,7 @@ export default function VideoLink({ appointment }) {
       'vads-u-margin-left--0',
       'vads-u-margin-right--1p5',
       { 'usa-button-disabled': disableVideoLink },
+      'vaos-link-for-print',
     );
 
     return (
@@ -57,21 +59,19 @@ export default function VideoLink({ appointment }) {
             time.
           </span>
         )}
-        <a
+        <NewTabAnchor
+          href={url}
           aria-describedby={
             disableVideoLink
               ? `description-join-link-${appointment.id}`
               : undefined
           }
           aria-disabled={disableVideoLink ? 'true' : 'false'}
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
           className={linkClasses}
           onClick={disableVideoLink ? e => e.preventDefault() : undefined}
         >
           Join appointment
-        </a>
+        </NewTabAnchor>
       </div>
     );
   }

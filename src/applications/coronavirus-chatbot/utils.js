@@ -27,7 +27,7 @@ const disableCheckboxes = () => {
 
 const scrollToNewMessage = () => {
   const messages = [
-    ...document.getElementsByClassName('webchat__stackedLayout--fromUser'),
+    ...document.getElementsByClassName('webchat__stacked-layout--from-user'),
   ];
   const lastMessageFromUser = messages[messages.length - 1];
   lastMessageFromUser.scrollIntoView({ behavior: 'smooth' });

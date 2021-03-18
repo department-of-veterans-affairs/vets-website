@@ -1,78 +1,62 @@
-import React from 'react';
-import NotificationCTA from '../NotificationCTA';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
+import { loadPrescriptions as loadPrescriptionsAction } from '~/applications/personalization/dashboard/actions/prescriptions';
+import { getMedicalCenterNameByID } from '~/platform/utilities/medical-centers/medical-centers';
+import { GeneralCernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
+import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction } from '~/applications/personalization/appointments/actions';
 
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import {
+  selectCernerAppointmentsFacilities,
+  selectCernerMessagingFacilities,
+  selectCernerRxFacilities,
+  selectIsCernerPatient,
+} from '~/platform/user/selectors';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-// import { recordDashboardClick } from 'applications/personalization/dashboard/helpers';
+import Prescriptions from './Prescriptions';
+import Appointments from './Appointments';
+import HealthCareCard from './HealthCareCard';
 
-const HealthCareCard = props => {
-  let cardTitle;
-  let line1;
-  let line2;
-  let line3;
-  const CTA = {};
-  let sectionTitle;
-
-  if (props.type === 'messages') {
-    cardTitle = 'Latest Message';
-    line1 = 'From: Dr. Susan Smith';
-    line2 = 'Date: January 22nd, 2021';
-    line3 = 'Subject: We received your most recent lab results ...';
-    sectionTitle = 'Messages';
-    CTA.icon = 'envelope';
-    CTA.text = 'You have 2 unread messages';
-    CTA.href = '';
-    CTA.ariaLabel = 'View your unread messages';
-  }
-
-  if (props.type === 'appointments') {
-    cardTitle = 'Next Appointment';
-    line1 = 'Monday, November 12th, 2020';
-    line2 = 'Time: 9:00 a.m. ET';
-    line3 = 'VA Video Connect';
-    sectionTitle = 'Appointments';
-    CTA.icon = 'calendar';
-    CTA.text = '6 upcoming appointments';
-    CTA.href = '';
-    CTA.ariaLabel = 'View upcoming appointments';
-  }
-
-  if (props.type === 'prescriptions') {
-    sectionTitle = 'Prescriptions';
-    cardTitle = 'Prescription refills';
-    line1 = 'Metformin, 500 mg';
-    line2 = 'Status: submitted on Monday, March 11th, 2021';
-    line3 = '';
-    CTA.icon = 'prescription-bottle';
-    CTA.text = '3 prescription updates';
-    CTA.href = '';
-    CTA.ariaLabel = 'View prescription updates';
-  }
-
-  return (
-    <div className="vads-u-display--flex vads-u-flex-direction--column vads-l-col--12 medium-screen:vads-l-col--6 large-screen:vads-l-col--4 medium-screen:vads-u-padding-right--3">
-      {/* Title */}
-      <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--2p5">
-        {sectionTitle}
-      </h3>
-
-      {/* Content */}
-      <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2p5 vads-u-padding-x--2p5 vads-u-flex--fill">
-        <h4 className="vads-u-margin-top--0 vads-u-font-size--h3">
-          {cardTitle}
-        </h4>
-        <p>{line1}</p>
-        <p>{line2}</p>
-        <p className="vads-u-margin-bottom--0">{line3}</p>
-      </div>
-
-      {/* CTA */}
-      <NotificationCTA CTA={CTA} />
-    </div>
+const HealthCare = ({
+  loadPrescriptions,
+  prescriptions,
+  appointments,
+  authenticatedWithSSOe,
+  canAccessRx,
+  fetchConfirmedFutureAppointments,
+  isCernerPatient,
+  facilityNames,
+}) => {
+  useEffect(
+    () => {
+      if (canAccessRx && !isCernerPatient) {
+        loadPrescriptions({
+          active: true,
+          sort: '-refill_submit_date',
+        });
+      }
+    },
+    [canAccessRx, loadPrescriptions, isCernerPatient],
   );
-};
 
-const HealthCare = () => {
+  useEffect(
+    () => {
+      fetchConfirmedFutureAppointments();
+    },
+    [fetchConfirmedFutureAppointments],
+  );
+
+  if (isCernerPatient && facilityNames?.length) {
+    return (
+      <GeneralCernerWidget
+        facilityNames={facilityNames}
+        authenticatedWithSSOe={authenticatedWithSSOe}
+      />
+    );
+  }
+
   return (
     <div className="health-care vads-u-margin-y--6">
       <h2 className="vads-u-margin-y--0">Health care</h2>
@@ -80,10 +64,20 @@ const HealthCare = () => {
       <div className="vads-u-display--flex vads-u-flex-wrap--wrap">
         {/* Messages */}
         <HealthCareCard type="messages" />
+
         {/* Appointments */}
-        <HealthCareCard type="appointments" />
+        <Appointments
+          appointments={appointments}
+          authenticatedWithSSOe={authenticatedWithSSOe}
+        />
+
         {/* Prescriptions */}
-        <HealthCareCard type="prescriptions" />
+        {canAccessRx && (
+          <Prescriptions
+            prescriptions={prescriptions}
+            authenticatedWithSSOe={authenticatedWithSSOe}
+          />
+        )}
       </div>
 
       <div className="vads-u-margin-top--4">
@@ -118,4 +112,84 @@ const HealthCare = () => {
   );
 };
 
-export default HealthCare;
+const mapStateToProps = state => {
+  const rxState = state.health.rx;
+  const profileState = state.user.profile;
+  const canAccessRx = profileState.services.includes('rx');
+  const prescriptions = rxState.prescriptions?.items;
+
+  const cernerAppointmentFacilities = selectCernerAppointmentsFacilities(state);
+  const cernerMessagingFacilities = selectCernerMessagingFacilities(state);
+  const cernerPrescriptionFacilities = selectCernerRxFacilities(state);
+
+  const appointmentFacilityNames =
+    cernerAppointmentFacilities?.map(facility =>
+      getMedicalCenterNameByID(facility.facilityId),
+    ) || [];
+  const messagingFacilityNames =
+    cernerMessagingFacilities?.map(facility =>
+      getMedicalCenterNameByID(facility.facilityId),
+    ) || [];
+  const prescriptionFacilityNames =
+    cernerPrescriptionFacilities?.map(facility =>
+      getMedicalCenterNameByID(facility.facilityId),
+    ) || [];
+
+  const facilityNames = [
+    ...new Set([
+      ...appointmentFacilityNames,
+      ...messagingFacilityNames,
+      ...prescriptionFacilityNames,
+    ]),
+  ];
+
+  return {
+    appointments: state.health?.appointments?.data,
+    isCernerPatient: selectIsCernerPatient(state),
+    facilityNames,
+    prescriptions,
+    canAccessRx,
+    authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
+  };
+};
+
+const mapDispatchToProps = {
+  loadPrescriptions: loadPrescriptionsAction,
+  fetchConfirmedFutureAppointments: fetchConfirmedFutureAppointmentsAction,
+};
+
+HealthCare.propTypes = {
+  authenticatedWithSSOe: PropTypes.bool.isRequired,
+  isCernerPatient: PropTypes.bool.isRequired,
+  facilityNames: PropTypes.array.isRequired,
+  canAccessRx: PropTypes.bool.isRequired,
+  prescriptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      type: PropTypes.string.isRequired,
+      attributes: PropTypes.shape({
+        dispensedDate: PropTypes.string,
+        expirationDate: PropTypes.string.isRequired,
+        facilityName: PropTypes.string.isRequired,
+        isRefillable: PropTypes.bool.isRequired,
+        isTrackable: PropTypes.bool.isRequired,
+        orderedDate: PropTypes.string.isRequired,
+        prescriptionId: PropTypes.number.isRequired,
+        prescriptionName: PropTypes.string.isRequired,
+        prescriptionNumber: PropTypes.string.isRequired,
+        quantity: PropTypes.number.isRequired,
+        refillDate: PropTypes.string.isRequired,
+        refillRemaining: PropTypes.number.isRequired,
+        refillStatus: PropTypes.string.isRequired,
+        refillSubmitDate: PropTypes.string,
+        stationNumber: PropTypes.string.isRequired,
+      }),
+      id: PropTypes.string.isRequired,
+    }),
+  ),
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(HealthCare);
+export { HealthCare };

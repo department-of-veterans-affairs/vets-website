@@ -59,6 +59,57 @@ describe('VAOS <AddToCalendar>', () => {
     );
   });
 
+  it('should render link with calendar info for phone appointment', () => {
+    const startDateTime = moment('2020-01-02');
+    const screen = render(
+      <AddToCalendar
+        summary="VA Appointment"
+        description="Follow-up/Routine: some description"
+        location="Phone call"
+        duration={60}
+        startDateTime={startDateTime.toDate()}
+      />,
+    );
+
+    expect(screen.getByRole('link')).to.contain.text('Add to calendar');
+    expect(screen.getByRole('link')).to.have.attribute(
+      'download',
+      'VA_Appointment.ics',
+    );
+    expect(screen.getByRole('link')).to.have.attribute(
+      'aria-label',
+      `Add January 2, 2020 appointment to your calendar`,
+    );
+    const ics = decodeURIComponent(
+      screen
+        .getByRole('link')
+        .getAttribute('href')
+        .replace('data:text/calendar;charset=utf-8,', ''),
+    );
+    expect(ics).to.contain('PRODID:VA');
+    expect(ics).to.contain('UID:');
+    expect(ics).to.contain('SUMMARY:VA Appointment');
+    expect(ics).to.contain('DESCRIPTION:Follow-up/Routine: some description');
+    expect(ics).to.contain('LOCATION:Phone call');
+    expect(ics).to.contain(
+      `DTSTAMP:${moment(startDateTime)
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(ics).to.contain(
+      `DTSTART:${moment(startDateTime)
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(ics).to.contain(
+      `DTEND:${startDateTime
+        .clone()
+        .add(60, 'minutes')
+        .utc()
+        .format('YYYYMMDDTHHmmss')}`,
+    );
+  });
+
   it('should propertly format long descriptions', () => {
     const startDateTime = moment('2020-01-02');
     const screen = render(

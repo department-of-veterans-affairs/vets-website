@@ -28,9 +28,7 @@ class DebtLettersSummary extends Component {
             You can't view information about your current debts or download your
             debt letters because something went wrong on our end.
           </p>
-          <p className="vads-u-margin-bottom--1">
-            <strong>What you can do</strong>
-          </p>
+          <h4>What you can do</h4>
           <p className="vads-u-font-family--sans vads-u-margin-y--0">
             If you need help resolving debt, or you would like to get
             information about a debt that has been resolved, call the Debt

@@ -1,5 +1,6 @@
 import React from 'react';
 import { getCernerURL } from 'platform/utilities/cerner';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 /*
  * This is a copy of the form system RadioWidget, but with custom
@@ -39,13 +40,11 @@ export default function SystemsRadioWidget({
                   <br />
                   <strong>
                     To schedule a VA appointment at this location, go to{' '}
-                    <a
+                    <NewTabAnchor
                       href={getCernerURL('/pages/scheduling/upcoming')}
-                      target="_blank"
-                      rel="noopener noreferrer"
                     >
                       My VA Health
-                    </a>
+                    </NewTabAnchor>
                   </strong>
                   .
                 </>

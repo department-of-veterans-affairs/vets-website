@@ -14,19 +14,15 @@ import {
 } from '../../redux/selectors';
 
 import {
-  selectPendingAppointments,
-  selectFutureAppointments,
-} from '../redux/selectors';
-
-import {
   getCancelReasons,
+  getDirectBookingEligibilityCriteria,
   getRequestEligibilityCriteria,
   getRequestMessages,
   updateAppointment,
   updateRequest,
 } from '../../services/var';
 
-import { getLocations } from '../../services/location';
+import { getLocation, getLocations } from '../../services/location';
 
 import {
   getBookedAppointments,
@@ -41,13 +37,17 @@ import {
   isVideoGFE,
   isVideoVAFacility,
   isVideoStoreForward,
+  fetchRequestById,
+  fetchBookedAppointment,
 } from '../../services/appointment';
 
 import { captureError, has400LevelError } from '../../utils/error';
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
   STARTED_NEW_EXPRESS_CARE_FLOW,
+  STARTED_NEW_VACCINE_FLOW,
 } from '../../redux/sitewide';
+import { selectAppointmentById } from './selectors';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
 export const FETCH_PENDING_APPOINTMENTS = 'vaos/FETCH_PENDING_APPOINTMENTS';
@@ -75,7 +75,7 @@ export const FETCH_CONFIRMED_DETAILS = 'vaos/FETCH_CONFIRMED_DETAILS';
 export const FETCH_CONFIRMED_DETAILS_FAILED =
   'vaos/FETCH_CONFIRMED_DETAILS_FAILED';
 export const FETCH_CONFIRMED_DETAILS_SUCCEEDED =
-  'vaos/FETCH_REQUEST_DETAILS_SUCCEEDED';
+  'vaos/FETCH_CONFIRMED_DETAILS_SUCCEEDED';
 
 export const FETCH_REQUEST_MESSAGES = 'vaos/FETCH_REQUEST_MESSAGES';
 export const FETCH_REQUEST_MESSAGES_FAILED =
@@ -98,6 +98,12 @@ export const FETCH_EXPRESS_CARE_WINDOWS_FAILED =
   'vaos/FETCH_EXPRESS_CARE_WINDOWS_FAILED';
 export const FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED =
   'vaos/FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED';
+export const FETCH_DIRECT_SCHEDULE_SETTINGS =
+  'vaos/FETCH_DIRECT_SCHEDULE_SETTINGS';
+export const FETCH_DIRECT_SCHEDULE_SETTINGS_FAILED =
+  'vaos/FETCH_DIRECT_SCHEDULE_SETTINGS_FAILED';
+export const FETCH_DIRECT_SCHEDULE_SETTINGS_SUCCEEDED =
+  'vaos/FETCH_DIRECT_SCHEDULE_SETTINGS_SUCCEEDED';
 
 export function fetchRequestMessages(requestId) {
   return async dispatch => {
@@ -426,51 +432,101 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
 
 export function fetchRequestDetails(id) {
   return async (dispatch, getState) => {
-    const state = getState();
-    const { appointmentDetails, requestMessages } = state.appointments;
-    const pendingAppointments = selectPendingAppointments(state);
-    const request =
-      appointmentDetails[id] || pendingAppointments?.find(p => p.id === id);
+    try {
+      const state = getState();
+      let request = selectAppointmentById(state, id, [
+        APPOINTMENT_TYPES.ccRequest,
+        APPOINTMENT_TYPES.request,
+      ]);
+      let facilityId = getVAAppointmentLocationId(request);
+      let facility = state.appointments.facilityData?.[facilityId];
 
-    dispatch({
-      type: FETCH_REQUEST_DETAILS,
-    });
+      if (!request || (facilityId && !facility)) {
+        dispatch({
+          type: FETCH_REQUEST_DETAILS,
+        });
+      }
 
-    if (request) {
+      if (!request) {
+        request = await fetchRequestById(id);
+        facilityId = getVAAppointmentLocationId(request);
+        facility = state.appointments.facilityData?.[facilityId];
+      }
+
+      if (facilityId && !facility) {
+        try {
+          facility = await getLocation({ facilityId });
+        } catch (e) {
+          captureError(e);
+        }
+      }
+
       dispatch({
         type: FETCH_REQUEST_DETAILS_SUCCEEDED,
         appointment: request,
         id,
+        facility,
       });
-    } else {
-      // TODO: fetch single appointment
-    }
 
-    const messages = requestMessages?.[id];
+      const requestMessages = state.appointments.requestMessages;
+      const messages = requestMessages?.[id];
 
-    if (!messages) {
-      dispatch(fetchRequestMessages(id));
+      if (!messages) {
+        dispatch(fetchRequestMessages(id));
+      }
+    } catch (e) {
+      captureError(e);
+      dispatch({
+        type: FETCH_REQUEST_DETAILS_FAILED,
+      });
     }
   };
 }
 
-export function fetchConfirmedAppointmentDetails(id) {
+export function fetchConfirmedAppointmentDetails(id, type) {
   return async (dispatch, getState) => {
-    const state = getState();
-    const { appointmentDetails } = state.appointments;
-    const futureAppointments = selectFutureAppointments(state);
-    const appointment =
-      appointmentDetails[id] ||
-      futureAppointments?.find(appt => appt.id === id);
+    try {
+      const state = getState();
+      let appointment = selectAppointmentById(state, id, [
+        type === 'cc'
+          ? APPOINTMENT_TYPES.ccAppointment
+          : APPOINTMENT_TYPES.vaAppointment,
+      ]);
+      let facilityId = getVAAppointmentLocationId(appointment);
+      let facility = state.appointments.facilityData?.[facilityId];
 
-    dispatch({
-      type: FETCH_CONFIRMED_DETAILS,
-    });
+      if (!appointment || (facilityId && !facility)) {
+        dispatch({
+          type: FETCH_CONFIRMED_DETAILS,
+        });
+      }
 
-    if (appointment) {
-      dispatch({ type: FETCH_CONFIRMED_DETAILS_SUCCEEDED, appointment, id });
-    } else {
-      // TODO: fetch single appointment
+      if (!appointment) {
+        appointment = await fetchBookedAppointment(id, type);
+      }
+
+      facilityId = getVAAppointmentLocationId(appointment);
+      facility = state.appointments.facilityData?.[facilityId];
+
+      if (facilityId && !facility) {
+        try {
+          facility = await getLocation({ facilityId });
+        } catch (e) {
+          captureError(e);
+        }
+      }
+
+      dispatch({
+        type: FETCH_CONFIRMED_DETAILS_SUCCEEDED,
+        appointment,
+        id,
+        facility,
+      });
+    } catch (e) {
+      captureError(e);
+      dispatch({
+        type: FETCH_CONFIRMED_DETAILS_FAILED,
+      });
     }
   };
 }
@@ -615,6 +671,12 @@ export function startNewExpressCareFlow() {
   };
 }
 
+export function startNewVaccineFlow() {
+  return {
+    type: STARTED_NEW_VACCINE_FLOW,
+  };
+}
+
 export function fetchExpressCareWindows() {
   return async (dispatch, getState) => {
     dispatch({
@@ -660,6 +722,32 @@ export function fetchExpressCareWindows() {
       dispatch({
         type: FETCH_EXPRESS_CARE_WINDOWS_FAILED,
       });
+    }
+  };
+}
+
+export function fetchDirectScheduleSettings() {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: FETCH_DIRECT_SCHEDULE_SETTINGS,
+    });
+
+    try {
+      const initialState = getState();
+      const siteIds = selectSystemIds(initialState);
+
+      const settings = await getDirectBookingEligibilityCriteria(siteIds);
+
+      dispatch({
+        type: FETCH_DIRECT_SCHEDULE_SETTINGS_SUCCEEDED,
+        settings,
+      });
+    } catch (e) {
+      dispatch({
+        type: FETCH_DIRECT_SCHEDULE_SETTINGS_FAILED,
+      });
+
+      captureError(e, false);
     }
   };
 }

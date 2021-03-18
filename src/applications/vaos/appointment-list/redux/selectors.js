@@ -19,11 +19,15 @@ import {
   sortByCreatedDateDescending,
   isValidPastAppointmentOrExpressCare,
 } from '../../services/appointment';
-import { selectFeatureExpressCareNewRequest } from '../../redux/selectors';
+import {
+  selectFeatureExpressCareNewRequest,
+  selectFeatureProjectCheetah,
+} from '../../redux/selectors';
 import {
   getTimezoneAbbrBySystemId,
   getTimezoneBySystemId,
 } from '../../utils/timezone';
+import { TYPE_OF_CARE_ID as VACCINE_TYPE_OF_CARE_ID } from '../../project-cheetah/utils';
 
 export function getCancelInfo(state) {
   const {
@@ -168,17 +172,10 @@ export const selectCanceledAppointments = createSelector(
   },
 );
 
-export function selectFirstRequestMessage(state) {
-  const { currentAppointment, requestMessages } = state.appointments;
+export function selectFirstRequestMessage(state, id) {
+  const { requestMessages } = state.appointments;
 
-  if (!currentAppointment) {
-    return null;
-  }
-
-  return (
-    requestMessages?.[currentAppointment.id]?.[0]?.attributes?.messageText ||
-    null
-  );
+  return requestMessages?.[id]?.[0]?.attributes?.messageText || null;
 }
 
 /*
@@ -298,7 +295,7 @@ function getWindowString(window, timezoneAbbreviation, isToday) {
   )} to ${getFormattedTime(window.endTime)} ${timezoneAbbreviation}`;
 }
 
-/**
+/*
  * Returns next schedulable window.  If today is schedulable and current time is before window,
  * return today's window.  Otherwise, return the next schedulable day's window
  */
@@ -375,4 +372,41 @@ export function selectExpressCareAvailability(state) {
     ),
     windowsStatus: state.appointments.expressCareWindowsStatus,
   };
+}
+
+export function selectAppointmentById(state, id, types = null) {
+  const { appointmentDetails, past, confirmed, pending } = state.appointments;
+
+  if (
+    appointmentDetails[id] &&
+    (types === null ||
+      types.includes(appointmentDetails[id].vaos.appointmentType))
+  ) {
+    return appointmentDetails[id];
+  }
+
+  const allAppointments = []
+    .concat(pending)
+    .concat(past)
+    .concat(confirmed)
+    .filter(item => !!item);
+
+  return allAppointments.find(p => p.id === id);
+}
+
+export function selectDirectScheduleSettingsStatus(state) {
+  return state.appointments.directScheduleSettingsStatus;
+}
+
+export function selectCanUseVaccineFlow(state) {
+  return (
+    selectFeatureProjectCheetah(state) &&
+    state.appointments.directScheduleSettings?.some(setting =>
+      setting.coreSettings.some(
+        coreSetting =>
+          coreSetting.id === VACCINE_TYPE_OF_CARE_ID &&
+          !!coreSetting.patientHistoryRequired,
+      ),
+    )
+  );
 }

@@ -1205,3 +1205,16 @@ $marker-text-width: 9rem;
   margin-right: -0.6rem;
   font-size: 80%;
 }
+
+.stem-ad-list {
+  list-style-type: disc;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 2px;
+}
+.stem-ad-list-secondary {
+  list-style-type: "-";
+}
+.stem-ad-list-item {
+  padding-left: 14px;
+}

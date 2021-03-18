@@ -9,6 +9,7 @@ const nodeCampaignLandingPage = `
     ${entityElementsFromPages}
     changed
     entityId
+    entityBundle
     title
     fieldAdministration {
       entity {
@@ -439,6 +440,11 @@ const nodeCampaignLandingPage = `
               ... on Media {
                 name
                 thumbnail {
+                  derivative(style: _32MEDIUMTHUMBNAIL) {
+                    url
+                    width
+                    height
+                  }
                   height
                   width
                   url

@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import classNames from 'classnames';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import CalendarRow from './CalendarRow';
 import CalendarNavigation from './CalendarNavigation';
 import CalendarWeekdayHeader from './CalendarWeekdayHeader';
-import { FETCH_STATUS } from '../../utils/constants';
 
 const DEFAULT_MAX_DAYS_AHEAD = 90;
 
@@ -137,22 +135,24 @@ function handleNext(onClickNext, months, setMonths) {
 }
 
 export default function CalendarWidget({
-  additionalOptions,
   availableSlots,
   id,
-  loadingErrorMessage,
-  loadingStatus,
+  disabled,
+  disabledMessage,
   maxDate,
   maxSelections = 1,
+  maxSelectionsError = "You've exceeded the maximum number of selections",
   minDate,
   onChange,
   onClickNext,
   onClickPrev,
   renderOptions,
-  selectedIndicatorType,
+  renderIndicator,
+  required,
+  requiredMessage = 'Please select a date',
+  showValidation,
   startMonth,
   timezone,
-  validationError,
   value = [],
 }) {
   const [currentlySelectedDate, setCurrentlySelectedDate] = useState(() => {
@@ -165,17 +165,14 @@ export default function CalendarWidget({
   const currentDate = moment();
   const maxMonth = getMaxMonth(maxDate, startMonth);
   const [months, setMonths] = useState([moment(startMonth || minDate)]);
-
-  const showError = validationError?.length > 0;
+  const exceededMaximumSelections = value.length > maxSelections;
+  const hasError = (required && showValidation) || exceededMaximumSelections;
 
   const calendarCss = classNames('vaos-calendar__calendars vads-u-flex--1', {
-    'vaos-calendar__loading': loadingStatus === FETCH_STATUS.loading,
-    'usa-input-error': showError,
+    'vaos-calendar__disabled': disabled,
+    'usa-input-error': hasError,
   });
 
-  if (loadingStatus === FETCH_STATUS.failed) {
-    return loadingErrorMessage;
-  }
   // declare const from renderMonth here
   const nextMonthToDisplay = months[months.length - 1]
     ?.clone()
@@ -183,23 +180,22 @@ export default function CalendarWidget({
     .format('YYYY-MM');
 
   const prevDisabled =
-    months[0].format('YYYY-MM') <= currentDate.format('YYYY-MM');
-  const nextDisabled = nextMonthToDisplay > maxMonth;
+    disabled || months[0].format('YYYY-MM') <= currentDate.format('YYYY-MM');
+  const nextDisabled = disabled || nextMonthToDisplay > maxMonth;
+
   return (
     <div className="vaos-calendar vads-u-margin-top--4 vads-u-display--flex">
-      {(loadingStatus === FETCH_STATUS.loading ||
-        loadingStatus === FETCH_STATUS.notStarted) && (
-        <div className="vaos-calendar__loading-overlay">
-          <LoadingIndicator message="Finding appointment availability..." />
-        </div>
+      {disabled && (
+        <div className="vaos-calendar__disabled-overlay">{disabledMessage}</div>
       )}
       <div className={calendarCss}>
-        {showError && (
+        {hasError && (
           <span
             className="vaos-calendar__validation-msg usa-input-error-message"
             role="alert"
           >
-            {validationError}
+            {showValidation && requiredMessage}
+            {exceededMaximumSelections && maxSelectionsError}
           </span>
         )}
         {months.map(
@@ -228,10 +224,8 @@ export default function CalendarWidget({
                   <hr aria-hidden="true" className="vads-u-margin-y--1" />
                   <CalendarWeekdayHeader />
                   <div role="rowgroup">
-                    {/* replace renderWeeks function here */}
                     {getCalendarWeeks(month).map((week, weekIndex) => (
                       <CalendarRow
-                        additionalOptions={additionalOptions}
                         availableSlots={availableSlots}
                         cells={week}
                         id={id}
@@ -264,15 +258,16 @@ export default function CalendarWidget({
                             onChange([date]);
                           }
                         }}
-                        hasError={validationError?.length > 0}
+                        hasError={hasError}
                         key={`row-${weekIndex}`}
                         maxDate={maxDate}
                         maxSelections={maxSelections}
                         minDate={minDate}
                         rowNumber={weekIndex}
                         selectedDates={value}
-                        selectedIndicatorType={selectedIndicatorType}
+                        renderIndicator={renderIndicator}
                         renderOptions={renderOptions}
+                        disabled={disabled}
                       />
                     ))}
                   </div>
@@ -286,23 +281,28 @@ export default function CalendarWidget({
 }
 
 CalendarWidget.propTypes = {
-  additionalOptions: PropTypes.object,
   availableSlots: PropTypes.arrayOf(
     PropTypes.shape({
       start: PropTypes.string.isRequired,
       end: PropTypes.string,
     }),
   ),
-  loadingStatus: PropTypes.string,
+  disabled: PropTypes.bool,
+  disabledMessage: PropTypes.object,
   minDate: PropTypes.string, // YYYY-MM-DD
   maxDate: PropTypes.string, // YYYY-MM-DD
   maxSelections: PropTypes.number,
+  maxSelectionsError: PropTypes.string,
   startMonth: PropTypes.string, // YYYY-MM
   onChange: PropTypes.func,
   onClickNext: PropTypes.func,
   onClickPrev: PropTypes.func,
-  validationError: PropTypes.string,
+  renderIndicator: PropTypes.func,
   renderOptions: PropTypes.func,
+  required: PropTypes.bool,
+  requiredMessage: PropTypes.string,
+  showValidation: PropTypes.bool,
   id: PropTypes.string.isRequired,
   timezone: PropTypes.string, // America/Denver
+  value: PropTypes.array,
 };

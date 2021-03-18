@@ -1,9 +1,9 @@
 import 'platform/polyfills';
-import './sass/gi-sandbox.scss';
+import './sass/gi.scss';
 
 import startApp from 'platform/startup/router';
 import { buildRoutes } from './routes';
-import reducer from '../gi/reducers';
+import reducer from './reducers';
 import manifest from './manifest.json';
 
 startApp({

@@ -62,7 +62,7 @@ node('vetsgov-general-purpose') {
   // Perform a build for each build type
   envsUsingDrupalCache = commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
 
-  // Run E2E and accessibility tests
+  // Run E2E tests
   stage('Integration') {
     if (commonStages.shouldBail() || !commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) { return }
     dir("vets-website") {
@@ -124,6 +124,7 @@ node('vetsgov-general-purpose') {
       if (!commonStages.isDeployable()) { return }
 
       if (commonStages.IS_DEV_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovdev')) {
+        commonStages.runDeploy('deploys/application-build-vagovdev', ref, false)
         commonStages.runDeploy('deploys/vets-website-vagovdev', ref, false)
       }
 

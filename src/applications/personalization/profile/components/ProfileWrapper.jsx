@@ -81,12 +81,10 @@ const ProfileWrapper = ({
         <Breadcrumbs className="vads-u-padding-x--1 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
           <a href="/">Home</a>
 
-          {showLOA1BreadCrumb && (
-            <Link to="/">Your profile - Account security</Link>
-          )}
+          {showLOA1BreadCrumb && <Link to="/">Profile - Account security</Link>}
 
           {!showLOA1BreadCrumb &&
-            !onPersonalInformationMobile && <Link to="/">Your profile</Link>}
+            !onPersonalInformationMobile && <Link to="/">Profile</Link>}
 
           {!showLOA1BreadCrumb && (
             <a href={activeLocation}>{activeRouteName}</a>

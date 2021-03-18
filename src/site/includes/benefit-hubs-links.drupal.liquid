@@ -1,10 +1,10 @@
 {% if fieldRelatedBenefitHubs != empty %}
-  <section class="vads-u-padding-y--3 vads-u-display--flex vads-u-flex-direction--column" data-template="includes/benefit-hubs-links">
-    <h2 class="vads-u-margin-top--0 vads-u-font-size--h3">VA benefits</h2>
+  <section class="vads-u-padding-y--3 vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--1 large-screen:vads-u-padding-x--0" data-template="includes/benefit-hubs-links">
+    <h2 class="vads-u-margin-y--0 vads-u-font-size--h3">VA benefits</h2>
 
     <ul class="usa-unstyled-list">
       {% for relatedBenefitHub in fieldRelatedBenefitHubs %}
-        <li>
+        <li class="vads-u-margin-y--2">
           <p class="vads-u-margin--0">
             <strong>
               <a onclick="recordEvent({ 'event': 'nav-linkslist', 'links-list-header': '{{ relatedBenefitHub.entity.fieldHomePageHubLabel | escape }}', 'links-list-section-header': 'VA benefits' })" href="{{ relatedBenefitHub.entity.path.alias }}">
@@ -12,7 +12,7 @@
               </a>
             </strong>
           </p>
-          <p>{{ relatedBenefitHub.entity.fieldTeaserText }}</p>
+          <p class="vads-u-margin--0">{{ relatedBenefitHub.entity.fieldTeaserText }}</p>
         </li>
       {% endfor %}
     </ul>

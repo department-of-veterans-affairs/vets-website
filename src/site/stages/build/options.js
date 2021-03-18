@@ -53,12 +53,18 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
     type: String,
     defaultValue: process.env.DRUPAL_PASSWORD,
   },
+  {
+    name: 'drupal-max-parallel-requests',
+    type: Number,
+    defaultValue: process.env.DRUPAL_MAX_PARALLEL_REQUESTS,
+  },
   { name: 'no-drupal-proxy', type: Boolean, defaultValue: false },
   { name: 'local-proxy-rewrite', type: Boolean, defaultValue: false },
   { name: 'local-css-sourcemaps', type: Boolean, defaultValue: false },
   { name: 'accessibility', type: Boolean, defaultValue: false },
   { name: 'lint-plain-language', type: Boolean, defaultValue: false },
   { name: 'verbose', alias: 'v', type: Boolean, defaultValue: false },
+  { name: 'omitdebug', type: Boolean, defaultValue: false },
 
   // HACK: The drupal-aws-cache script ends up here while trying to cache
   // the query for getting all pages. The 'fetch' option from that cache script

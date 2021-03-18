@@ -34,7 +34,9 @@
   align-items: center;
   justify-content: center;
 
-  &:hover, &:focus, &:active {
+  &:hover,
+  &:focus,
+  &:active {
     color: $color-gray-dark;
     text-decoration: none;
     background: $color-gray-lighter;
@@ -82,8 +84,42 @@
   }
 }
 
+.vaos-appts__breadcrumbs {
+  padding: 2em 0;
+}
+.vaos-appts__breadcrumbs li {
+  padding: 0em !important;
+}
+
 @media print {
   .vaos-hide-for-print {
     display: none !important;
   }
+
+  .vaos-link-for-print {
+    color: $color-black;
+    text-align: left;
+    padding-left: 0;
+  }
+}
+
+span.va-action-link--disabled {
+  color: $color-gray-lighter;
+  &:before {
+    font-family: "Font Awesome 5 Free";
+    color: $color-gray-lighter;
+    font-weight: 900;
+    font-size: 175%;
+    display: inline-block; // Remove the underline text decoration
+    content: "\f138";
+    padding-right: 1rem;
+    transform: translateY(5px); // "Center" the circle with the text
+    height: 0px; // So the height doesn't mess with the focus halo
+  }
+  font-weight: bold;
+  padding: 8px;
+}
+
+span.va-action-link--disabled:before {
+  color: $color-gray-lighter;
 }

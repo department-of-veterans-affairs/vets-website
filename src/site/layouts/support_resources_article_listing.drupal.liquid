@@ -9,14 +9,16 @@
     <div class="usa-grid usa-grid-full">
       <div class="usa-width-three-fourths">
         <div class="usa-content">
-          <h1>{{ title }}</h1>
+          <div class="vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
+            <h1>{{ title }}</h1>
+          </div>
 
           <!-- Search bar -->
           {% include "src/site/includes/support_resources_search_bar.drupal.liquid" %}
 
-          <p>{{ paginationTitle }}</p>
+          <p class="vads-u-padding-x--1 large-screen:vads-u-padding-x--0">{{ paginationTitle }}</p>
 
-          <ul class="usa-unstyled-list">
+          <ul class="usa-unstyled-list vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
           {% for article in articles %}
             <li>
               <div class="vads-u-padding-y--3 vads-u-border-top--1px vads-u-border-color--gray-lighter">

@@ -101,22 +101,22 @@ describe('View payment history', () => {
     disableFTUXModals();
     cy.login(mockUser);
   });
-  it('should pass an aXe scan and paginate through payment data', () => {
+  it('C3916 - Should pass an aXe scan and paginate through payment data', () => {
     testPagination();
   });
-  it('should display an alert when a user has no payment data on file', () => {
+  it('C3917 - Should display an alert when a user has no payment data on file', () => {
     testNoPayments();
   });
-  it('should display an alert when a user has payments received but no payments returned to VA', () => {
+  it('C3918 - Should display an alert when a user has payments received but no payments returned to VA', () => {
     testEmptyPaymentsArray('returnPayments');
   });
-  it('should display an alert when a user has payments returned to VA but no payments received', () => {
+  it('C3919 - Should display an alert when a user has payments returned to VA but no payments received', () => {
     testEmptyPaymentsArray();
   });
-  it('should display an alert when a user recevies a 5xx error', () => {
+  it('C3920 - Should display an alert when a user receives a 5xx error', () => {
     testApiError();
   });
-  it('should display an alert when a user recevies a 4xx error', () => {
+  it('C3921 - Should display an alert when a user receives a 4xx error', () => {
     testApiError('400');
   });
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import FinancialHardshipExplanation from '../../components/FinancialHardshipExplanation';
+import ResolutionComments from '../../components/ResolutionComments';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 const ResolutionInfo = (
@@ -11,39 +11,68 @@ const ResolutionInfo = (
 );
 
 export const uiSchema = {
-  'ui:title': 'Supporting personal statement',
-  'view:financialHardshipExplanation': {
-    'ui:field': FinancialHardshipExplanation,
-  },
-  'view:resolutionOptionsInfo': {
-    'ui:description': ResolutionInfo,
-  },
-  resolutionComments: {
-    'ui:title': ' ',
-    'ui:widget': 'textarea',
-    'ui:required': formData =>
-      formData.fsrDebts.some(
-        debt => debt.resolution?.resolutionType === 'Waiver',
-      ),
-    'ui:options': {
-      rows: 5,
-      maxLength: 32000,
+  selectedDebts: {
+    items: {
+      'ui:title': 'Supporting personal statement',
+      'view:components': {
+        'view:financialHardshipExplanation': {
+          'ui:field': ResolutionComments,
+        },
+        'view:resolutionOptionsInfo': {
+          'ui:description': ResolutionInfo,
+        },
+      },
+      additionalData: {
+        additionalComments: {
+          'ui:title': ' ',
+          'ui:widget': 'textarea',
+          'ui:required': formData => {
+            const index = window.location.href.slice(-1);
+            const debt = formData.selectedDebts[index];
+            const type = debt?.resolution?.resolutionType;
+            return type === 'Waiver';
+          },
+          'ui:options': {
+            rows: 5,
+            maxLength: 32000,
+          },
+        },
+      },
     },
   },
 };
+
 export const schema = {
   type: 'object',
   properties: {
-    'view:financialHardshipExplanation': {
-      type: 'object',
-      properties: {},
-    },
-    'view:resolutionOptionsInfo': {
-      type: 'object',
-      properties: {},
-    },
-    resolutionComments: {
-      type: 'string',
+    selectedDebts: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          'view:components': {
+            type: 'object',
+            properties: {
+              'view:financialHardshipExplanation': {
+                type: 'object',
+                properties: {},
+              },
+              'view:resolutionOptionsInfo': {
+                type: 'object',
+                properties: {},
+              },
+            },
+          },
+          additionalData: {
+            type: 'object',
+            properties: {
+              additionalComments: {
+                type: 'string',
+              },
+            },
+          },
+        },
+      },
     },
   },
 };

@@ -134,6 +134,7 @@ function build(BUILD_OPTIONS) {
     buildtype: BUILD_OPTIONS.buildtype,
     hostUrl: BUILD_OPTIONS.hostUrl,
     enabledFeatureFlags: BUILD_OPTIONS.cmsFeatureFlags,
+    omitdebug: BUILD_OPTIONS.omitdebug,
   });
 
   smith.use(

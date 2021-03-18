@@ -3,6 +3,17 @@ import PropTypes from 'prop-types';
 
 import { recordDashboardClick } from '~/applications/personalization/dashboard/helpers';
 
+/**
+ * Returns a copy of the passed-in string with the first letter capitalized
+ *
+ * @param {string} input - word to capitalize
+ * @returns {string} - the input string with the first letter capitalized
+ */
+const capitalizeFirstLetter = input => {
+  const capitalizedFirstLetter = input[0].toUpperCase();
+  return `${capitalizedFirstLetter}${input.slice(1)}`;
+};
+
 const ApplicationInProgress = ({
   continueUrl,
   expirationDate,
@@ -18,11 +29,11 @@ const ApplicationInProgress = ({
     >
       <div className="vads-u-display--flex vads-u-width--full vads-u-flex-direction--column vads-u-justify-content--space-between vads-u-align-items--flex-start vads-u-background-color--gray-lightest vads-u-padding--2p5">
         <div>
-          <div className="vads-u-text-transform--uppercase">
+          <p className="vads-u-text-transform--uppercase vads-u-margin-y--0">
             {presentableFormId}
-          </div>
+          </p>
           <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
-            {formTitle}
+            {capitalizeFirstLetter(formTitle)}
           </h4>
           <div className="vads-u-display--flex">
             <i

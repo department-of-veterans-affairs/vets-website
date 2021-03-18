@@ -12,7 +12,7 @@ const contestedIssuesPage = {
   uiSchema: {
     'ui:title': ContestedIssuesTitle,
     'ui:options': {
-      ariaLabelForEditButtonOnReview: 'Edit issues eligible for review',
+      itemName: 'issues eligible for review',
     },
     contestedIssues: {
       'ui:title': ' ',

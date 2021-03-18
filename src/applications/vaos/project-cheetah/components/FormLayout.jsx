@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useRouteMatch } from 'react-router-dom';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import DowntimeNotification, {
@@ -9,12 +9,13 @@ import WarningNotification from '../../components/WarningNotification';
 
 export default function FormLayout({ children }) {
   const location = useLocation();
+  const match = useRouteMatch();
   return (
     <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--8">
       <Breadcrumbs>
-        <Link to="new-project-cheetah-booking">COVID-19 vaccine</Link>
+        <Link to={match.url}>COVID-19 vaccine</Link>
       </Breadcrumbs>
-      {location.pathname.endsWith('new-project-cheetah-booking') && (
+      {location.pathname.endsWith(match.url) && (
         <DowntimeNotification
           appTitle="VA online scheduling tool"
           isReady

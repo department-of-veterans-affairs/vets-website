@@ -91,13 +91,16 @@ const FacilitiesMap = props => {
 
   const updateUrlParams = params => {
     const { location, currentQuery } = props;
-
     const queryParams = {
       ...location.query,
       page: currentQuery.currentPage,
       address: currentQuery.searchString,
       facilityType: currentQuery.facilityType,
       serviceType: currentQuery.serviceType,
+      latitude: props.currentQuery.position?.latitude,
+      longitude: props.currentQuery.position?.longitude,
+      radius: props.currentQuery.radius && props.currentQuery.radius.toFixed(),
+      bounds: props.currentQuery.bounds,
       ...params,
     };
 
@@ -118,28 +121,11 @@ const FacilitiesMap = props => {
 
   const renderMarkers = locations => {
     if (locations.length === 0) return;
-    const currentLocation = props.currentQuery.position;
     const markersLetters = MARKER_LETTERS.values();
-    const sortedLocations = locations
-      .map(r => {
-        const distance = currentLocation
-          ? distBetween(
-              currentLocation.latitude,
-              currentLocation.longitude,
-              r.attributes.lat,
-              r.attributes.long,
-            )
-          : null;
-        return {
-          ...r,
-          distance,
-        };
-      })
-      .sort((resultA, resultB) => resultA.distance - resultB.distance);
 
     const locationBounds = new mapboxgl.LngLatBounds();
 
-    sortedLocations.forEach(loc => {
+    locations.forEach(loc => {
       const attrs = {
         letter: markersLetters.next().value,
       };
@@ -196,6 +182,24 @@ const FacilitiesMap = props => {
   };
 
   const handleSearchArea = () => {
+    // Since the Search this Area button doesn't use React,
+    // the normal react stuff doesn't work as it should,
+    // so we have to check for errors old-school.
+    // TODO: revisit this when we convert the Search This Area button to a React component.
+
+    // Location is not required here
+    const selectedFacilityType = document.querySelector(
+      '#facility-type-dropdown',
+    ).selectedOptions[0].value;
+
+    if (
+      selectedFacilityType === '' ||
+      (selectedFacilityType === 'provider' &&
+        document.querySelector('#service-type-ahead-input').value === '')
+    ) {
+      return;
+    }
+
     resetMapElements();
     const { currentQuery } = props;
     lastZoom = null;
@@ -251,10 +255,7 @@ const FacilitiesMap = props => {
     }
 
     // TODO: hide after new search
-    if (
-      calculateSearchArea() > MAX_SEARCH_AREA ||
-      !props.currentQuery.isValid
-    ) {
+    if (calculateSearchArea() > MAX_SEARCH_AREA) {
       searchAreaControl.style.display = 'none';
       return;
     }
@@ -402,6 +403,7 @@ const FacilitiesMap = props => {
             facilityType={facilityType}
             serviceType={serviceType}
             context={queryContext}
+            specialtyMap={props.specialties}
             inProgress={currentQuery.inProgress}
           />
         </div>
@@ -479,6 +481,7 @@ const FacilitiesMap = props => {
     const facilityType = currentQuery.facilityType;
     const serviceType = currentQuery.serviceType;
     const queryContext = currentQuery.context;
+
     return (
       <div className="desktop-container">
         <SearchControls
@@ -498,6 +501,7 @@ const FacilitiesMap = props => {
             facilityType={facilityType}
             serviceType={serviceType}
             context={queryContext}
+            specialtyMap={props.specialties}
             inProgress={currentQuery.inProgress}
           />
         </div>
@@ -563,16 +567,13 @@ const FacilitiesMap = props => {
   useEffect(
     () => {
       const { currentQuery } = props;
-      const { searchArea, position, context, searchString } = currentQuery;
+      const { searchArea, context, searchString } = currentQuery;
       const coords = currentQuery.position;
       const radius = currentQuery.radius;
       const center = [coords.latitude, coords.longitude];
       // Search current area
       if (searchArea) {
         updateUrlParams({
-          location: `${position.latitude.toFixed(
-            2,
-          )},${position.longitude.toFixed(2)}`,
           context,
           searchString,
         });
@@ -622,9 +623,6 @@ const FacilitiesMap = props => {
     () => {
       if (isSearching) {
         updateUrlParams({
-          location: `${props.currentQuery.position.latitude},${
-            props.currentQuery.position.longitude
-          }`,
           context: props.currentQuery.context,
           address: props.currentQuery.searchString,
         });
@@ -712,6 +710,7 @@ const mapStateToProps = state => ({
   results: state.searchResult.results,
   pagination: state.searchResult.pagination,
   selectedResult: state.searchResult.selectedResult,
+  specialties: state.searchQuery.specialties,
 });
 
 const mapDispatchToProps = {

@@ -3,22 +3,22 @@
   class="vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-padding-top--3 vads-u-padding-bottom--1 medium-screen:vads-u-padding-bottom--3"
   data-template="includes/tags">
   <div
-    class="vads-u-display--flex vads-u-align-items--flex-start medium-screen:vads-u-align-items--center vads-u-flex-direction--row vads-u-padding-x--1 medium-screen:vads-u-padding-x--0">
+    class="vads-u-display--flex vads-u-align-items--flex-start medium-screen:vads-u-align-items--center vads-u-flex-direction--row vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
     <!-- Title -->
     <strong class="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0">Tags</strong>
 
     <!-- Topic tags -->
     <div class="vads-u-display--flex vads-u-flex-wrap--wrap">
-      {% for topic in fieldTags.entity.fieldTopics %}
-      <a onclick="recordEvent({ 'event': 'nav-page-tag-click', 'page-tag-click-label': '{{ topic.entity.name }}', 'page-tag-category-label': 'Topics' });"
-        href="{{ topic.entity.entityUrl.path }}" style="border-radius: 3px;"
-        class="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0 usa-button-secondary vads-u-font-size--sm vads-u-border--1px vads-u-border-color--primary vads-u-padding--0p25 vads-u-padding-x--0p5 vads-u-margin-left--1 vads-u-text-decoration--none vads-u-color--base">{{ topic.entity.name }}</a>
-      {% endfor %}
+      {% assign tags = fieldTags | getTagsList %}
 
-      <!-- Audience beneficiary tag -->
-      <a onclick="recordEvent({ 'event': 'nav-page-tag-click', 'page-tag-click-label': '{{ fieldTags.entity.fieldAudienceBeneficiares.entity.name }}', 'page-tag-category-label': 'Audience' });"
-        href="{{ fieldTags.entity.fieldAudienceBeneficiares.entity.entityUrl.path }}" style="border-radius: 3px;"
-        class="usa-button-secondary vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0 vads-u-font-size--sm vads-u-border--1px vads-u-border-color--primary vads-u-padding--0p25 vads-u-padding-x--0p5 vads-u-margin-left--1 vads-u-text-decoration--none vads-u-color--base">{{ fieldTags.entity.fieldAudienceBeneficiares.entity.name }}</a>
+      {% for entity in tags %}
+        <a href="{{ entity.entityUrl.path }}"
+          class="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0 usa-button-secondary vads-u-font-size--sm vads-u-border--1px vads-u-border-color--primary vads-u-padding--0p25 vads-u-padding-x--0p5 vads-u-margin-left--1 vads-u-text-decoration--none vads-u-color--base"
+          style="border-radius: 3px;"
+          onclick="recordEvent({ 'event': 'nav-page-tag-click', 'page-tag-click-label': '{{ entity.name }}', 'page-tag-category-label': '{{  entity.categoryLabel  }}' });">
+          {{ entity.name }}
+        </a>
+      {% endfor %}
     </div>
   </div>
 </div>

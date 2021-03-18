@@ -8,7 +8,7 @@ const ContactInfoCard = ({
   city,
   stateCode,
   zipCode,
-  country,
+  countryName,
   edit,
 }) => {
   return (
@@ -22,7 +22,7 @@ const ContactInfoCard = ({
         <p className="vads-u-margin--1px">
           {city}, {stateCode} {zipCode}
         </p>
-        <p className="vads-u-margin--1px">{country}</p>
+        <p className="vads-u-margin--1px">{countryName}</p>
       </div>
       <div className="vads-u-margin-top--1">
         <a onClick={() => edit()}>Edit mailing address</a>
@@ -37,16 +37,16 @@ ContactInfoCard.propTypes = {
   city: PropTypes.string,
   stateCode: PropTypes.string,
   zipCode: PropTypes.string,
-  country: PropTypes.string,
+  countryName: PropTypes.string,
 };
 
 const mapStateToProps = ({ form }) => ({
-  addressLine1: form.data.mailingAddress?.addressLine1,
-  addressLine2: form.data.mailingAddress?.addressLine2,
-  city: form.data.mailingAddress?.city,
-  stateCode: form.data.mailingAddress?.stateCode,
-  zipCode: form.data.mailingAddress?.zipCode,
-  country: form.data.mailingAddress?.country,
+  addressLine1: form.data.personalData.address?.addressLine1,
+  addressLine2: form.data.personalData.address?.addressLine2,
+  city: form.data.personalData.address?.city,
+  stateCode: form.data.personalData.address?.stateCode,
+  zipCode: form.data.personalData.address?.zipCode,
+  countryName: form.data.personalData.address?.countryName,
 });
 
 export default connect(

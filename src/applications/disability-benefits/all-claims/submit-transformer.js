@@ -632,6 +632,17 @@ export function transform(formConfig, form) {
     });
     return { ...clonedData, ...(attachments.length && { attachments }) };
   };
+
+  const fullyDevelopedClaim = formData => {
+    if (isBDD) {
+      const clonedData = _.cloneDeep(formData);
+      // standardClaim = false means it's a fully developed claim (FDC); but
+      // this value is ignored in the BDD flow unless the submission falls out
+      // of BDD status. Then we want it to be a FDC
+      return { ...clonedData, standardClaim: false };
+    }
+    return formData;
+  };
   // End transformation definitions
 
   // Apply the transformations
@@ -656,6 +667,7 @@ export function transform(formConfig, form) {
     addForm0781,
     addForm8940,
     addFileAttachmments,
+    fullyDevelopedClaim,
   ].reduce(
     (formData, transformer) => transformer(formData),
     _.cloneDeep(form.data),

@@ -8,7 +8,7 @@ import {
   useLocation,
   Redirect,
 } from 'react-router-dom';
-import * as actions from './redux/actions';
+import * as listActions from '../appointment-list/redux/actions';
 import projectCheetahReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
 import PlanAheadPage from './components/PlanAheadPage';
@@ -27,25 +27,28 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
 import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
-import { SelectDate2Page } from './components/SelectDate2Page';
 import ErrorMessage from '../components/ErrorMessage';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
+import {
+  selectCanUseVaccineFlow,
+  selectDirectScheduleSettingsStatus,
+} from '../appointment-list/redux/selectors';
 
 export function NewBookingSection({
-  isEligible,
-  newBookingStatus,
+  canUseVaccineFlow,
   featureProjectCheetah,
-  openNewBookingPage,
+  directScheduleSettingsStatus,
+  fetchDirectScheduleSettings,
 }) {
   const match = useRouteMatch();
   const history = useHistory();
   const location = useLocation();
 
-  useEffect(
-    () => {
-      openNewBookingPage(history);
-    },
-    [isEligible],
-  );
+  useEffect(() => {
+    if (directScheduleSettingsStatus === FETCH_STATUS.notStarted) {
+      fetchDirectScheduleSettings();
+    }
+  }, []);
 
   useEffect(
     () => {
@@ -54,6 +57,15 @@ export function NewBookingSection({
       }
     },
     [featureProjectCheetah, history],
+  );
+
+  useEffect(
+    () => {
+      if (directScheduleSettingsStatus === FETCH_STATUS.failed) {
+        scrollAndFocus();
+      }
+    },
+    [directScheduleSettingsStatus],
   );
 
   useManualScrollRestoration();
@@ -66,30 +78,27 @@ export function NewBookingSection({
 
   const shouldRedirectToStart = useFormRedirectToStart({
     shouldRedirect: () =>
-      !location.pathname.endsWith('new-project-cheetah-booking') &&
+      !location.pathname.endsWith(match.url) &&
       !location.pathname.endsWith('confirmation'),
   });
   if (shouldRedirectToStart) {
-    return <Redirect to="/new-project-cheetah-booking" />;
+    return <Redirect to={match.url} />;
   }
 
-  const title = <h1 className="vads-u-font-size--h2">{'New Booking'}</h1>;
-  if (newBookingStatus === FETCH_STATUS.failed) {
-    return (
-      <div>
-        {title}
-        <ErrorMessage level="2" />
-      </div>
-    );
+  if (directScheduleSettingsStatus === FETCH_STATUS.failed) {
+    return <ErrorMessage level="1" />;
   }
 
   if (
-    newBookingStatus === FETCH_STATUS.loading ||
-    newBookingStatus === FETCH_STATUS.notStarted
+    directScheduleSettingsStatus === FETCH_STATUS.loading ||
+    directScheduleSettingsStatus === FETCH_STATUS.notStarted
   ) {
     return (
       <div className="vads-u-margin-y--8">
-        <LoadingIndicator message="Checking for online appointment availability" />
+        <LoadingIndicator
+          setFocus
+          message="Checking for online appointment availability"
+        />
       </div>
     );
   }
@@ -97,13 +106,11 @@ export function NewBookingSection({
   // Redirect the user to the Contact Facilities page when there are no facilities that
   // support scheduling an appointment for the vaccine.
   if (
-    !isEligible &&
-    newBookingStatus === FETCH_STATUS.succeeded &&
-    !location.pathname.includes(
-      '/new-project-cheetah-booking/contact-facilities',
-    )
+    !canUseVaccineFlow &&
+    directScheduleSettingsStatus === FETCH_STATUS.succeeded &&
+    !location.pathname.includes(`${match.url}/contact-facilities`)
   ) {
-    return <Redirect to="/new-project-cheetah-booking/contact-facilities" />;
+    return <Redirect to={`${match.url}/contact-facilities`} />;
   }
 
   return (
@@ -124,10 +131,6 @@ export function NewBookingSection({
           component={SelectDate1Page}
         />
         <Route
-          path={`${match.url}/select-date-2`}
-          component={SelectDate2Page}
-        />
-        <Route
           path={`${match.url}/plan-second-dose`}
           component={SecondDosePage}
         />
@@ -146,13 +149,13 @@ export function NewBookingSection({
 function mapStateToProps(state) {
   return {
     featureProjectCheetah: selectFeatureProjectCheetah(state),
-    isEligible: state.projectCheetah.isEligible,
-    newBookingStatus: state.projectCheetah.newBookingStatus,
+    directScheduleSettingsStatus: selectDirectScheduleSettingsStatus(state),
+    canUseVaccineFlow: selectCanUseVaccineFlow(state),
     pageChangeInProgress: state.projectCheetah.newBooking.pageChangeInProgress,
   };
 }
 const mapDispatchToProps = {
-  openNewBookingPage: actions.openNewBookingPage,
+  fetchDirectScheduleSettings: listActions.fetchDirectScheduleSettings,
 };
 
 export const NewBooking = connect(

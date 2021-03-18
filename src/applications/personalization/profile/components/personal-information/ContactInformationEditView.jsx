@@ -302,6 +302,7 @@ export class ContactInformationEditView extends Component {
                     data-action="save-edit"
                     data-testid="save-edit-button"
                     isLoading={isLoading}
+                    loadingText="Saving changes"
                     className="vads-u-width--auto vads-u-margin-top--0"
                     disabled={!hasUnsavedEdits}
                   >

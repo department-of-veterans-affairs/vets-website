@@ -40,7 +40,7 @@ describe('VAOS <ReceivedDoseScreenerPage> ', () => {
 
     fireEvent.click(screen.getByText(/Continue/));
 
-    expect(await screen.findByText('Please provide a response')).to.exist;
+    expect(await screen.findByText('Please select an option')).to.exist;
     expect(screen.history.push.called).to.not.be.true;
   });
 
@@ -76,7 +76,7 @@ describe('VAOS <ReceivedDoseScreenerPage> ', () => {
 
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-project-cheetah-booking/facility',
+        '/new-covid-19-vaccine-booking/facility',
       ),
     );
 
@@ -85,7 +85,7 @@ describe('VAOS <ReceivedDoseScreenerPage> ', () => {
 
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-project-cheetah-booking/contact-facilities',
+        '/new-covid-19-vaccine-booking/contact-facilities',
       ),
     );
   });

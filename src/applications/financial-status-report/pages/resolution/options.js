@@ -70,8 +70,8 @@ const isRequired = (formData, option) => {
   let type = '';
   if (window.location.href.includes('resolution-options')) {
     index = window.location.href.slice(-1);
-    selected = formData.fsrDebts[index].resolution.resolutionType;
-    type = formData.fsrDebts[index].deductionCode;
+    selected = formData.selectedDebts[index].resolution.resolutionType;
+    type = formData.selectedDebts[index].deductionCode;
   }
 
   if (selected === option && option === 'Waiver') {
@@ -101,17 +101,29 @@ const renderLabels = () => {
 };
 
 export const uiSchema = {
-  fsrDebts: {
+  selectedDebts: {
     items: {
       financialOverview: {
         'ui:field': FinancialOverview,
+        'ui:options': {
+          hideOnReview: true,
+        },
       },
       debtRepaymentOptions: {
         'ui:field': DebtRepayment,
+        'ui:options': {
+          hideOnReview: true,
+        },
+      },
+      resolutionOptionsTitle: {
+        'ui:field': ResolutionOptionsTitle,
+        'ui:options': {
+          hideOnReview: true,
+        },
       },
       resolution: {
-        'view:resolutionOptionsTitle': {
-          'ui:field': ResolutionOptionsTitle,
+        'ui:options': {
+          classNames: 'resolution-inputs',
         },
         resolutionType: {
           'ui:title': ' ',
@@ -126,7 +138,7 @@ export const uiSchema = {
             expandUnder: 'resolutionType',
             expandUnderCondition: (selectedOption, formData) => {
               const index = window.location.href.slice(-1);
-              const type = formData.fsrDebts[index]?.deductionCode;
+              const type = formData.selectedDebts[index]?.deductionCode;
               return selectedOption === 'Waiver' && type !== '30';
             },
           },
@@ -138,14 +150,16 @@ export const uiSchema = {
               showFieldLabel: true,
             },
           },
-          'view:waiverNote': {
-            'ui:description': (
-              <p>
-                Note: If you have questions about this, call us at 800-827-0648
-                (or 1-612-713-6415 from overseas). We’re here Monday through
-                Friday, 7:30 a.m. to 7:00 p.m. ET.
-              </p>
-            ),
+          'view:components': {
+            'view:waiverNote': {
+              'ui:description': (
+                <p>
+                  Note: If you have questions about this, call us at
+                  800-827-0648 (or 1-612-713-6415 from overseas). We’re here
+                  Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+                </p>
+              ),
+            },
           },
         },
         affordToPay: _.merge(
@@ -154,7 +168,6 @@ export const uiSchema = {
             'ui:options': {
               expandUnder: 'resolutionType',
               expandUnderCondition: 'Extended monthly payments',
-              classNames: 'resolution-inputs no-wrap',
               widgetClassNames: 'input-size-3',
             },
             'ui:required': formData =>
@@ -170,7 +183,6 @@ export const uiSchema = {
             'ui:options': {
               expandUnder: 'resolutionType',
               expandUnderCondition: 'Compromise',
-              classNames: 'resolution-inputs no-wrap',
               widgetClassNames: 'input-size-3',
             },
             'ui:required': formData => isRequired(formData, 'Compromise'),
@@ -184,20 +196,20 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    fsrDebts: {
+    selectedDebts: {
       type: 'array',
       items: {
         type: 'object',
         properties: {
           financialOverview: {
             type: 'object',
-            properties: {
-              income: {
-                type: 'string',
-              },
-            },
+            properties: {},
           },
           debtRepaymentOptions: {
+            type: 'object',
+            properties: {},
+          },
+          resolutionOptionsTitle: {
             type: 'object',
             properties: {},
           },
@@ -205,10 +217,6 @@ export const schema = {
             type: 'object',
             required: ['resolutionType'],
             properties: {
-              'view:resolutionOptionsTitle': {
-                type: 'object',
-                properties: {},
-              },
               resolutionType: {
                 type: 'string',
                 enum: resolutionOptions.map(option => option.type),
@@ -219,9 +227,14 @@ export const schema = {
                   waiver: {
                     type: 'boolean',
                   },
-                  'view:waiverNote': {
+                  'view:components': {
                     type: 'object',
-                    properties: {},
+                    properties: {
+                      'view:waiverNote': {
+                        type: 'object',
+                        properties: {},
+                      },
+                    },
                   },
                 },
               },

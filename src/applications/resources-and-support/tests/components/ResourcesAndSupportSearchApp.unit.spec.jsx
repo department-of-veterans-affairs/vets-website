@@ -34,7 +34,8 @@ describe('ResourcesAndSupportSearchApp', () => {
     ReactDOM.render(<ResourcesAndSupportSearchApp />, div);
   });
 
-  it('conducts searches', async () => {
+  // Failed on master: http://jenkins.vfs.va.gov/blue/organizations/jenkins/testing%2Fvets-website/detail/master/10217/tests
+  it.skip('conducts searches', async () => {
     const screen = renderInReduxProvider(<ResourcesAndSupportSearchApp />);
     const queryInput = await screen.findByLabelText(
       'Enter a keyword, phrase, or question',

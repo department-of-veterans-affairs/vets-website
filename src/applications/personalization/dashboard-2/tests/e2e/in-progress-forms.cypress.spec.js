@@ -80,6 +80,7 @@ describe('The My VA Dashboard', () => {
           },
           lastUpdated: 1607012813,
         },
+        // this form expired so it won't be shown
         {
           form: '21-526EZ',
           metadata: {
@@ -93,8 +94,8 @@ describe('The My VA Dashboard', () => {
               timestamp: false,
               hasAttemptedSubmit: false,
             },
-            // one week from now
-            expiresAt: now + oneWeekInSeconds,
+            // expired one week ago
+            expiresAt: now - oneWeekInSeconds,
             lastUpdated: 1612535290,
             inProgressFormId: 9374,
           },
@@ -106,12 +107,12 @@ describe('The My VA Dashboard', () => {
       mockFeatureToggles();
       cy.visit(manifest.rootUrl);
     });
-    it('should show benefit applications that were saved in progress', () => {
+    it('should show benefit applications that were saved in progress and have not expired', () => {
       cy.findByRole('heading', { name: /apply for benefits/i }).should('exist');
       cy.findByRole('heading', { name: /applications in progress/i }).should(
         'exist',
       );
-      cy.findAllByTestId('application-in-progress').should('have.length', 3);
+      cy.findAllByTestId('application-in-progress').should('have.length', 2);
       cy.findByText(/you have no applications in/i).should('not.exist');
       // make the a11y check
       cy.injectAxe();

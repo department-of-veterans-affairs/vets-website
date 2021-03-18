@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 import moment from 'moment';
-import { APPEAL_TYPES } from '../utils/appeals-v2-helpers';
+import { appealTypes } from '../utils/appeals-v2-helpers';
 
 import {
   SET_CLAIMS,
@@ -57,14 +57,12 @@ const sortPropertyFn = {
   claimType,
 };
 
-const appealTypesArray = Object.values(APPEAL_TYPES);
-
 function filterList(list, filter) {
   let filteredList = list;
   if (filter) {
     const open = filter === 'open';
     filteredList = filteredList.filter(claim => {
-      if (appealTypesArray.includes(claim.type)) {
+      if (appealTypes.includes(claim.type)) {
         return claim.attributes.active === open;
       }
       return claim.attributes.open === open;
@@ -76,7 +74,7 @@ function filterList(list, filter) {
 function sortList(list, sortProperty) {
   const sortOrder = sortProperty === 'claimType' ? 'asc' : 'desc';
   const sortFunc = el => {
-    if (appealTypesArray.includes(el.type)) {
+    if (appealTypes.includes(el.type)) {
       const events = _.orderBy(
         [e => moment(e.date).unix()],
         'desc',

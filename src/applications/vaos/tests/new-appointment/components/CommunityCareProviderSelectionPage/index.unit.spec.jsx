@@ -191,10 +191,9 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       '123 big sky stCincinnati, OH 45220',
     );
 
-    expect((await screen.findAllByRole('radio')).length).to.equal(7);
-    expect(screen.baseElement).to.contain.text(
-      'Displaying 1 to 5 of 16 providers',
-    );
+    expect(await screen.findByText(/Displaying 1 to 5 of 16 providers/i)).to.be
+      .ok;
+    expect(screen.getAllByRole('radio').length).to.equal(7);
 
     userEvent.click(await screen.findByText(/\+ 5 more providers/i));
     expect(await screen.findByText(/displaying 1 to 10 of 16 providers/i)).to
@@ -218,6 +217,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     userEvent.click(
       await screen.getByRole('button', { name: /choose provider/i }),
     );
+    expect(screen.baseElement).to.contain.text('Selected Provider');
     expect(screen.baseElement).to.contain.text(
       'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-6599',
     );
@@ -363,8 +363,9 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       ),
     ).to.exist;
     expect(
-      await screen.findByRole('heading', {
-        name: /We can’t find any Primary care providers close to you/i,
+      screen.findByRole('heading', {
+        level: 3,
+        name: /We .* find any Primary care providers close to you/i,
       }),
     );
     expect(

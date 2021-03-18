@@ -27,6 +27,7 @@ export const uiSchema = {
   vaTreatmentFacilities: {
     'ui:options': {
       itemName: 'Facility',
+      itemAriaLabel: data => data.treatmentCenterName,
       viewField: treatmentView,
     },
     items: {
@@ -36,6 +37,9 @@ export const uiSchema = {
         'treatmentDateRange',
         'treatmentCenterAddress',
       ],
+      'ui:options': {
+        itemAriaLabel: data => data.treatmentCenterName,
+      },
       treatmentCenterName: autoSuggestUiSchema(
         'Name of VA medical facility',
         queryForFacilities,
@@ -52,6 +56,7 @@ export const uiSchema = {
           'Please choose the conditions for which you received treatment at this facility.',
         'ui:options': {
           updateSchema: makeSchemaForAllDisabilities,
+          itemAriaLabel: data => data.treatmentCenterName,
           showFieldLabel: true,
         },
         'ui:validations': [validateBooleanGroup],

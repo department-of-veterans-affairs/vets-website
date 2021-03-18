@@ -13,7 +13,7 @@
             {% include "src/site/includes/support_resources_search_bar.drupal.liquid" %}
           </div>
 
-          <article>
+          <article class="vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
             <!-- Title -->
             <h1>{{ title }}</h1>
 
@@ -36,18 +36,41 @@
             <h2>{{ fieldMediaListVideos.entity.fieldSectionHeader | default: 'Videos' }}</h2>
             <ul class="usa-unstyled-list">
               {% for mediaVideo in fieldMediaListVideos.entity.fieldVideos %}
-                <li>
-                  <h3>{{ mediaVideo.entity.name }}</h3>
-                  <iframe allowFullScreen frameBorder="0" src="{{ mediaVideo.entity.fieldMediaVideoEmbedField }}"
-                    title="{{ mediaVideo.entity.name }}" width="100%"></iframe>
-                  {% comment %}
-                  @Todo
-                  Awaiting CMS implementation as The duration, date and description are maintained by YouTube.
-                  https://github.com/department-of-veterans-affairs/va.gov-cms/issues/2454
-                  <p>{{ mediaVideo.entity.created | humanizeTimestamp }}</p>
-                  <p>{{ mediaEntity.entity.fieldDescription }}</p>
-                  {% endcomment %}
-                </li>
+                {% assign videoURL = mediaVideo.entity.fieldMediaVideoEmbedField | createEmbedYouTubeVideoURL %}
+                {% if videoURL %}
+                  <li>
+                    <!-- Video title -->
+                    <h3>{{ mediaVideo.entity.name }}</h3>
+
+                    <!-- Video -->
+                    <iframe
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      class="va-c-video vads-u-margin-top--4"
+                      frameBorder="0"
+                      height="315"
+                      src="{{ videoURL }}"
+                      title="{{ mediaVideo.entity.name | default: 'A related YouTube video' }}"
+                      width="100%"
+                    ></iframe>
+
+                    <!-- Video duration + publication date -->
+                    {% if mediaVideo.entity.fieldDuration %}
+                      <p class="vads-u-font-size--sm vads-u-margin--0">
+                        {{ mediaVideo.entity.fieldDuration | formatSeconds }}
+                        {% if mediaVideo.entity.fieldDuration != empty && mediaVideo.entity.fieldPublicationDate.date != empty %}
+                        &bull;
+                        {% endif %}
+                        {{ mediaVideo.entity.fieldPublicationDate.date | humanizeDate }}
+                      </p>
+                    {% endif %}
+
+                    <!-- Video description -->
+                    {% if mediaVideo.entity.fieldDescription %}
+                      <p class="va-introtext vads-u-margin-top--1 vads-u-margin-bottom--0">{{ mediaVideo.entity.fieldDescription }}</p>
+                    {% endif %}
+                  </li>
+                {% endif %}
               {% endfor %}
             </ul>
 
@@ -72,19 +95,18 @@
 
           <!-- VA benefits -->
           {% include "src/site/includes/benefit-hubs-links.drupal.liquid" with fieldRelatedBenefitHubs = fieldRelatedBenefitHubs %}
-
-          <!-- Need more help -->
-          {% include "src/site/paragraphs/contact_information.drupal.liquid" with entity = fieldContactInformation.entity %}
-
-          <!-- Last updated -->
-          <div class="last-updated usa-content">
-            Last updated: <time
-              datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
-          </div>
         </div>
       </div>
     </div>
+
+    <!-- Need more help -->
+    {% include "src/site/paragraphs/contact_information.drupal.liquid" with entity = fieldContactInformation.entity %}
+
+    <!-- Last updated -->
+    {% include "src/site/includes/last-updated.drupal.liquid" %}
   </main>
+
+  <!-- Up To Top Button -->
   {% include "src/site/components/up_to_top_button.html" %}
 </div>
 

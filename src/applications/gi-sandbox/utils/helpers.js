@@ -1,6 +1,7 @@
 import { snakeCase } from 'lodash';
 import URLSearchParams from 'url-search-params';
 import { useLocation } from 'react-router-dom';
+import { SMALL_SCREEN_WIDTH } from '../constants';
 
 /**
  * Snake-cases field names
@@ -22,14 +23,18 @@ export const formatNumber = value => {
 };
 
 export const isPresent = value => value && value !== '';
+
 export const createId = name => name?.toLowerCase().replace(/\s/g, '-');
+
+export const isMobileView = () => window.innerWidth <= SMALL_SCREEN_WIDTH;
+
+export const isCountryUSA = country => country.toUpperCase() === 'USA';
+
+export const isCountryInternational = country => !isCountryUSA(country);
 
 export function useQueryParams() {
   return new URLSearchParams(useLocation().search);
 }
-
-export const isCountryUSA = country => country.toUpperCase() === 'USA';
-export const isCountryInternational = country => !isCountryUSA(country);
 
 export const locationInfo = (city, state, country) => {
   let address = '';
@@ -80,3 +85,10 @@ export function convertRatingToStars(rating) {
 
   return { full, half, display: rounded };
 }
+
+export const handleScrollOnInputFocus = fieldId => {
+  const field = document.getElementById(fieldId);
+  if (field && isMobileView()) {
+    field.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+};

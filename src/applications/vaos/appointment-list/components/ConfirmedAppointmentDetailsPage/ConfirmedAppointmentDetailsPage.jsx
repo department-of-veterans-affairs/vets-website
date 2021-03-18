@@ -1,30 +1,40 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
+import CancelAppointmentModal from '../cancel/CancelAppointmentModal';
 import AddToCalendar from '../../../components/AddToCalendar';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import moment from '../../../lib/moment-tz';
 import {
   getVAAppointmentLocationId,
   getVARFacilityId,
-  getVideoAppointmentLocation,
   isAtlasLocation,
+  isVAPhoneAppointment,
   isVideoAppointment,
   isVideoGFE,
   isVideoHome,
   isVideoVAFacility,
 } from '../../../services/appointment';
-import { FETCH_STATUS, PURPOSE_TEXT } from '../../../utils/constants';
+import {
+  APPOINTMENT_STATUS,
+  APPOINTMENT_TYPES,
+  FETCH_STATUS,
+  PURPOSE_TEXT,
+} from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import * as actions from '../../redux/actions';
-import { cancelAppointment } from '../../redux/actions';
 import AppointmentDateTime from './AppointmentDateTime';
-import AppointmentInstructions from './AppointmentInstructions';
+import { getCancelInfo, selectAppointmentById } from '../../redux/selectors';
 import { selectFeatureCancel } from '../../../redux/selectors';
 import VideoVisitSection from './VideoVisitSection';
 import { formatFacilityAddress } from 'applications/vaos/services/location';
+import PageLayout from '../AppointmentsPage/PageLayout';
+import ErrorMessage from '../../../components/ErrorMessage';
+import FullWidthLayout from '../../../components/FullWidthLayout';
+import Breadcrumbs from '../../../components/Breadcrumbs';
 
 function formatAppointmentDate(date) {
   if (!date.isValid()) {
@@ -48,53 +58,107 @@ function formatHeader(appointment) {
   }
 }
 
+function formatInstructions(instructions) {
+  if (!instructions) {
+    return null;
+  }
+
+  const strParts = instructions.split(': ');
+
+  if (strParts[0] && strParts[1]) {
+    return {
+      header: strParts[0],
+      body: strParts[1],
+    };
+  }
+
+  return null;
+}
+
 function ConfirmedAppointmentDetailsPage({
-  appointmentDetails,
+  appointment,
   appointmentDetailsStatus,
+  cancelAppointment,
+  cancelInfo,
+  closeCancelAppointment,
+  confirmCancelAppointment,
   facilityData,
   fetchConfirmedAppointmentDetails,
-  confirmedStatus,
   showCancelButton,
 }) {
   const { id } = useParams();
-  const history = useHistory();
-
-  const appointment = appointmentDetails?.[id];
+  const appointmentDate = moment.parseZone(appointment?.start);
 
   useEffect(() => {
-    const status = confirmedStatus === FETCH_STATUS.succeeded;
-
-    if (!status) {
-      history.push('/');
-    }
-
-    if (!appointment) {
-      fetchConfirmedAppointmentDetails(id);
-    }
+    fetchConfirmedAppointmentDetails(id, 'va');
 
     scrollAndFocus();
   }, []);
 
-  if (appointmentDetailsStatus === FETCH_STATUS.loading) {
+  useEffect(
+    () => {
+      if (appointment && appointmentDate) {
+        document.title = `VA appointment on ${appointmentDate.format(
+          'dddd, MMMM D, YYYY',
+        )}`;
+        scrollAndFocus();
+      }
+    },
+    [appointment, appointmentDate],
+  );
+
+  useEffect(
+    () => {
+      if (
+        !cancelInfo.showCancelModal &&
+        cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded
+      ) {
+        scrollAndFocus();
+      }
+    },
+    [cancelInfo.showCancelModal, cancelInfo.cancelAppointmentStatus],
+  );
+
+  useEffect(
+    () => {
+      if (
+        appointmentDetailsStatus === FETCH_STATUS.failed ||
+        (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+      ) {
+        scrollAndFocus();
+      }
+    },
+    [appointmentDetailsStatus],
+  );
+
+  if (
+    appointmentDetailsStatus === FETCH_STATUS.failed ||
+    (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+  ) {
     return (
-      <div className="vads-u-margin-y--8">
-        <LoadingIndicator message="Loading your appointment request...!!!!" />
-      </div>
+      <FullWidthLayout>
+        <ErrorMessage level={1} />
+      </FullWidthLayout>
     );
   }
 
-  if (!appointment) {
-    return null;
+  if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
+    return (
+      <FullWidthLayout>
+        <LoadingIndicator setFocus message="Loading your appointment..." />
+      </FullWidthLayout>
+    );
   }
 
+  const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isVideo = isVideoAppointment(appointment);
-  const facilityId = isVideo
-    ? getVideoAppointmentLocation(appointment)
-    : getVAAppointmentLocationId(appointment);
+  const isPhone = isVAPhoneAppointment(appointment);
+  const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
   const isInPersonVAAppointment = !isVideo;
 
   const header = formatHeader(appointment);
+  const instructions = formatInstructions(appointment.comment);
 
   const showInstructions =
     isInPersonVAAppointment &&
@@ -103,10 +167,10 @@ function ConfirmedAppointmentDetailsPage({
     );
 
   return (
-    <div>
-      <div className="vads-u-display--block vads-u-padding-y--2p5 vaos-hide-for-print">
-        ‹ <Link to="/">Manage appointments</Link>
-      </div>
+    <PageLayout>
+      <Breadcrumbs>
+        <Link to={`/va/${id}`}>Appointment detail</Link>
+      </Breadcrumbs>
 
       <h1>
         <AppointmentDateTime
@@ -114,6 +178,16 @@ function ConfirmedAppointmentDetailsPage({
           facilityId={getVARFacilityId(appointment)}
         />
       </h1>
+
+      {canceled && (
+        <AlertBox
+          status="error"
+          className="vads-u-display--block vads-u-margin-bottom--2"
+          backgroundOnly
+        >
+          This appointment has been canceled
+        </AlertBox>
+      )}
 
       {isVideo && (
         <>
@@ -143,65 +217,81 @@ function ConfirmedAppointmentDetailsPage({
             />
 
             {showInstructions &&
-              isInPersonVAAppointment && (
+              isInPersonVAAppointment &&
+              instructions && (
                 <div className="vads-u-margin-top--3 vaos-appts__block-label">
-                  <AppointmentInstructions instructions={appointment.comment} />
+                  <div className="vads-u-flex--1 vads-u-margin-bottom--2 vaos-u-word-break--break-word">
+                    <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+                      {instructions.header}
+                    </h2>
+                    <div>{instructions.body}</div>
+                  </div>
                 </div>
               )}
+            {!canceled && (
+              <>
+                <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
+                  <i
+                    aria-hidden="true"
+                    className="far fa-calendar vads-u-margin-right--1"
+                  />
+                  <AddToCalendar
+                    summary={`${header}`}
+                    description={`instructionText`}
+                    location={
+                      isPhone ? 'Phone call' : formatFacilityAddress(facility)
+                    }
+                    duration={appointment.minutesDuration}
+                    startDateTime={appointment.start}
+                  />
+                </div>
 
-            <div className="vads-u-margin-top--3 vaos-appts__block-label">
-              <i
-                aria-hidden="true"
-                className="far fa-calendar vads-u-margin-right--1"
-              />
-              <AddToCalendar
-                summary={`${header}`}
-                description={`instructionText`}
-                location={formatFacilityAddress(facility)}
-                duration={appointment.minutesDuration}
-                startDateTime={appointment.start}
-              />
-            </div>
+                <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
+                  <i
+                    aria-hidden="true"
+                    className="fas fa-print vads-u-margin-right--1"
+                  />
+                  <button
+                    className="va-button-link"
+                    onClick={() => window.print()}
+                  >
+                    Print
+                  </button>
+                </div>
 
-            <div className="vads-u-margin-top--2 vaos-appts__block-label">
-              <i
-                aria-hidden="true"
-                className="fas fa-print vads-u-margin-right--1"
-              />
-              <button className="va-button-link" onClick={() => window.print()}>
-                Print
-              </button>
-            </div>
+                <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
+                  <i
+                    aria-hidden="true"
+                    className="fas fa-clock vads-u-margin-right--1"
+                  />
+                  <a href="#">Reschedule</a>
+                </div>
 
-            <div className="vads-u-margin-top--2 vaos-appts__block-label">
-              <i
-                aria-hidden="true"
-                className="fas fa-clock vads-u-margin-right--1"
-              />
-              <a href="#">Reschedule</a>
-            </div>
-
-            {showCancelButton && (
-              <div className="vads-u-margin-top--2 vaos-appts__block-label">
-                <i
-                  aria-hidden="true"
-                  className="fas fa-times vads-u-margin-right--1 vads-u-font-size--lg"
-                />
-                <button
-                  onClick={() => cancelAppointment(appointment)}
-                  aria-label={`Cancel appointment on ${formatAppointmentDate(
-                    moment.parseZone(appointment.start),
-                  )}`}
-                  className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
-                >
-                  Cancel appointment
-                  <span className="sr-only">
-                    {' '}
-                    on{' '}
-                    {formatAppointmentDate(moment.parseZone(appointment.start))}
-                  </span>
-                </button>
-              </div>
+                {showCancelButton && (
+                  <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
+                    <i
+                      aria-hidden="true"
+                      className="fas fa-times vads-u-margin-right--1 vads-u-font-size--lg"
+                    />
+                    <button
+                      onClick={() => cancelAppointment(appointment)}
+                      aria-label={`Cancel appointment on ${formatAppointmentDate(
+                        moment.parseZone(appointment.start),
+                      )}`}
+                      className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
+                    >
+                      Cancel appointment
+                      <span className="sr-only">
+                        {' '}
+                        on{' '}
+                        {formatAppointmentDate(
+                          moment.parseZone(appointment.start),
+                        )}
+                      </span>
+                    </button>
+                  </div>
+                )}
+              </>
             )}
           </>
         )}
@@ -211,30 +301,33 @@ function ConfirmedAppointmentDetailsPage({
           « Go back to appointments
         </Link>
       </div>
-    </div>
+      <CancelAppointmentModal
+        {...cancelInfo}
+        onConfirm={confirmCancelAppointment}
+        onClose={closeCancelAppointment}
+      />
+    </PageLayout>
   );
 }
 
-function mapStateToProps(state) {
-  const {
-    appointmentDetails,
-    appointmentDetailsStatus,
-    facilityData,
-    confirmedStatus,
-    requestMessages,
-  } = state.appointments;
+function mapStateToProps(state, ownProps) {
+  const { appointmentDetailsStatus, facilityData } = state.appointments;
 
   return {
-    appointmentDetails,
+    appointment: selectAppointmentById(state, ownProps.match.params.id, [
+      APPOINTMENT_TYPES.vaAppointment,
+    ]),
     appointmentDetailsStatus,
+    cancelInfo: getCancelInfo(state),
     facilityData,
-    confirmedStatus,
-    requestMessages,
     showCancelButton: selectFeatureCancel(state),
   };
 }
 
 const mapDispatchToProps = {
+  cancelAppointment: actions.cancelAppointment,
+  closeCancelAppointment: actions.closeCancelAppointment,
+  confirmCancelAppointment: actions.confirmCancelAppointment,
   fetchConfirmedAppointmentDetails: actions.fetchConfirmedAppointmentDetails,
 };
 

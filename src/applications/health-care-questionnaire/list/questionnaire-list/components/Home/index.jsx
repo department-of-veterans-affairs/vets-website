@@ -15,16 +15,21 @@ import {
 import TabNav from './TabNav';
 import ToDoQuestionnaires from '../ToDoQuestionnaires';
 import CompletedQuestionnaires from '../CompletedQuestionnaires';
-import { loadQuestionnaires } from '../../../api';
+import { loadQuestionnaires } from '../../../../shared/api';
 import {
   questionnaireListLoading,
   questionnaireListLoaded,
   questionnaireListLoadedWithError,
 } from '../../../actions';
 
-import GetHelpFooter from '../../../../questionnaire/components/get-help/GetHelpFooter';
+import { GetHelpFooter } from '../../../../shared/components/footer';
 
 import { sortQuestionnairesByStatus } from '../../../utils';
+
+import {
+  clearAllSelectedAppointments,
+  clearCurrentSession,
+} from '../../../../shared/utils';
 
 import { path, todoPath, completedPath } from './routes';
 import ShowErrorStatus from '../Messages/ShowErrorStatus';
@@ -40,13 +45,17 @@ const Home = props => {
   const [apiDidError, setApiDidError] = useState(false);
   useEffect(
     () => {
+      clearAllSelectedAppointments(window);
+      clearCurrentSession(window);
       // call the API
       setLoading();
       loadQuestionnaires()
         .then(response => {
           const { data } = response;
           // load data in to redux
-          setQuestionnaireData(sortQuestionnairesByStatus(data));
+
+          const sorted = sortQuestionnairesByStatus(data);
+          setQuestionnaireData(sorted);
         })
         .catch(() => {
           setApiDidError(true);

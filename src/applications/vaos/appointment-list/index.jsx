@@ -8,39 +8,17 @@ import AppointmentsPage from './components/AppointmentsPage/index';
 import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
 import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage/ConfirmedAppointmentDetailsPage';
 import CommunityCareAppointmentDetailsPage from './components/CommunityCareAppointmentDetailsPage';
+import ExpressCareDetailsPage from './components/ExpressCareDetailsPage';
+import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 
 function AppointmentListSection({ featureHomepageRefresh }) {
+  useManualScrollRestoration();
   return (
     <Switch>
-      {featureHomepageRefresh && (
-        <Route
-          path="/cc/:id"
-          component={() => (
-            <PageLayout>
-              <CommunityCareAppointmentDetailsPage />
-            </PageLayout>
-          )}
-        />
-      )}
-      <Route
-        path="/va/:id"
-        component={() => (
-          <PageLayout>
-            <ConfirmedAppointmentDetailsPage />
-          </PageLayout>
-        )}
-      />
-      )}
-      {featureHomepageRefresh && (
-        <Route
-          path="/requests/:id"
-          component={() => (
-            <PageLayout>
-              <RequestedAppointmentDetailsPage />
-            </PageLayout>
-          )}
-        />
-      )}
+      <Route path="/cc/:id" component={CommunityCareAppointmentDetailsPage} />
+      <Route path="/va/:id" component={ConfirmedAppointmentDetailsPage} />
+      <Route path="/requests/:id" component={RequestedAppointmentDetailsPage} />
+      <Route path="/express-care/:id" component={ExpressCareDetailsPage} />
       <Route
         path="/"
         render={() => {

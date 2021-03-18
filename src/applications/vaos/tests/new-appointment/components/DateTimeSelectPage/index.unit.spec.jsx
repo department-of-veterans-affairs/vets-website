@@ -47,25 +47,102 @@ describe('VAOS <DateTimeSelectPage>', () => {
     MockDate.reset();
   });
   it('should not submit form with validation error', async () => {
-    const store = createTestStore({
-      newAppointment: {
-        data: {
-          vaFacility: '983GB',
-          clinicId: '308',
-          selectedDates: [],
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '323',
+      limit: true,
+      requestPastVisits: true,
+      directPastVisits: true,
+      clinics: [
+        {
+          id: '308',
+          attributes: {
+            ...getClinicMock(),
+            siteCode: '983',
+            clinicId: '308',
+            institutionCode: '983',
+            clinicFriendlyLocationName: 'Green team clinic',
+          },
         },
-        pages: [],
-        eligibility: [],
-        previousPages: {
-          selectDateTime: 'preferredDate',
+        {
+          id: '309',
+          attributes: {
+            ...getClinicMock(),
+            siteCode: '983',
+            clinicId: '309',
+            institutionCode: '983',
+            clinicFriendlyLocationName: 'Red team clinic',
+          },
         },
+      ],
+      pastClinics: true,
+    });
+
+    const slot308Date = moment()
+      .day(9)
+      .hour(9)
+      .minute(0)
+      .second(0);
+    const slot309Date = moment()
+      .day(11)
+      .hour(13)
+      .minute(0)
+      .second(0);
+    const preferredDate = moment();
+
+    mockAppointmentSlotFetch({
+      siteId: '983',
+      clinicId: '308',
+      typeOfCareId: '323',
+      slots: [
+        {
+          ...getAppointmentSlotMock(),
+          startDateTime: slot308Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+          endDateTime: slot308Date
+            .clone()
+            .minute(20)
+            .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+        },
+      ],
+      preferredDate,
+    });
+    mockAppointmentSlotFetch({
+      siteId: '983',
+      clinicId: '309',
+      typeOfCareId: '323',
+      slots: [
+        {
+          ...getAppointmentSlotMock(),
+          startDateTime: slot309Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+          endDateTime: slot309Date
+            .clone()
+            .minute(20)
+            .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+        },
+      ],
+      preferredDate,
+    });
+
+    const store = createTestStore(initialState);
+
+    await setTypeOfCare(store, /primary care/i);
+    await setVAFacility(store, '983');
+    await setClinic(store, /green team/i);
+    await setPreferredDate(store, preferredDate);
+
+    // First pass check to make sure the slots associated with green team are displayed
+    const screen = renderWithStoreAndRouter(
+      <Route component={DateTimeSelectPage} />,
+      {
+        store,
       },
-    });
+    );
 
-    const screen = renderWithStoreAndRouter(<DateTimeSelectPage />, {
-      store,
-    });
-
+    const overlay = screen.queryByText(/Finding appointment availability.../i);
+    if (overlay) {
+      await waitForElementToBeRemoved(overlay);
+    }
     // it should not allow user to submit the form without selecting a date
     const button = screen.getByText(/^Continue/);
     userEvent.click(button);
@@ -164,7 +241,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
 
     expect(
       screen.getByRole('heading', {
-        level: 3,
+        level: 2,
         name: 'We’ve run into a problem trying to find an appointment time',
       }),
     ).to.be.ok;
@@ -172,14 +249,14 @@ describe('VAOS <DateTimeSelectPage>', () => {
     // it should display link to contact the local VA medical center
     expect(
       screen.getByRole('link', {
-        name: 'Contact your local VA medical center',
+        name: 'Contact your local VA medical center Link opens in a new tab.',
       }),
     ).to.be.ok;
 
     // it should display link to call the local VA medical center
     expect(
       screen.getByRole('link', {
-        name: 'call your local VA medical center',
+        name: 'call your local VA medical center Link opens in a new tab.',
       }),
     ).to.be.ok;
 
@@ -830,8 +907,6 @@ describe('VAOS <DateTimeSelectPage>', () => {
     if (overlay) {
       await waitForElementToBeRemoved(overlay);
     }
-
-    expect(screen.getByText('Your appointment time')).to.be.ok;
 
     expect(
       screen.getByRole('heading', {

@@ -9,15 +9,14 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import VeteranInfoPage from '../components/veteran-info';
 import ReasonForVisit from '../components/reason-for-visit';
 import ReasonForVisitDescription from '../components/reason-for-visit-description';
-import GetHelp from '../components/get-help';
+import { GetHelpFooter, NeedHelpSmall } from '../../shared/components/footer';
 import ExpiresAt from '../components/expires-at';
-import HiddenFields from '../components/hidden-fields';
 import Messages from '../components/messages';
 
 import { TITLES, createPathFromTitle } from './utils';
-
+import { preventLargeFields } from './validators';
 import manifest from '../manifest.json';
-import { submit, transformForSubmit } from '../api';
+import { submit, transformForSubmit } from '../../shared/api';
 
 import { updateUrls } from './migrations';
 
@@ -39,17 +38,16 @@ const formConfig = {
     resumeOnly: true,
     messages: {
       inProgress: '',
-      expired:
-        'Your saved upcoming appointment questionnaire has expired. If you want to apply for appointment questionnaire, please start a new application.',
+      expired: 'Your saved upcoming appointment questionnaire has expired.',
       saved: 'Your questionnaire has been saved.',
     },
   },
   version: 1,
   migrations: [updateUrls],
   prefillEnabled: true,
-  footerContent: GetHelp.footer,
+  footerContent: GetHelpFooter,
   preSubmitInfo: {
-    CustomComponent: GetHelp.review,
+    CustomComponent: NeedHelpSmall,
   },
   savedFormMessages: {
     notFound: 'Please start over to apply for Upcoming Visit questionnaire.',
@@ -83,6 +81,7 @@ const formConfig = {
                 hideLabelText: true,
               },
             },
+
             daysTillExpires: {
               'ui:field': ExpiresAt.field,
               'ui:options': {
@@ -113,20 +112,16 @@ const formConfig = {
           path: createPathFromTitle(TITLES.reasonForVisit),
           title: TITLES.reasonForVisit,
           uiSchema: {
-            'hidden:fields': {
-              'ui:field': HiddenFields.fields,
-              'ui:options': {
-                hideLabelText: true,
-                hideOnReview: true,
-              },
-            },
             reasonForVisit: {
               'ui:field': ReasonForVisit.field,
-              'ui:title': ' ',
+              'ui:options': {
+                hideLabelText: true,
+              },
               'ui:reviewField': ReasonForVisit.review,
             },
             reasonForVisitDescription: {
               'ui:widget': ReasonForVisitDescription.field,
+              'ui:validations': [preventLargeFields],
               'ui:title': (
                 <span>
                   Are there any additional details you’d like to share with your
@@ -144,10 +139,12 @@ const formConfig = {
                   medical conditions)
                 </span>
               ),
+              'ui:validations': [preventLargeFields],
             },
             questions: {
               items: {
                 additionalQuestions: {
+                  'ui:validations': [preventLargeFields],
                   'ui:title':
                     'Do you have a question you want to ask your provider? Please enter your most important question first.',
                 },
@@ -167,14 +164,6 @@ const formConfig = {
             type: 'object',
             required: ['reasonForVisitDescription'],
             properties: {
-              'hidden:fields': {
-                type: 'object',
-                properties: {
-                  appointmentId: { type: 'string' },
-                  questionnaireId: { type: 'string' },
-                },
-              },
-
               reasonForVisit: {
                 type: 'string',
               },

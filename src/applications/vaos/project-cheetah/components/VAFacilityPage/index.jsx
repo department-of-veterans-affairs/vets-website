@@ -17,6 +17,7 @@ import SingleFacilityEligibilityCheckMessage from './SingleFacilityEligibilityCh
 import VAFacilityInfoMessage from './VAFacilityInfoMessage';
 import ResidentialAddress from './ResidentialAddress';
 import LoadingOverlay from '../../../components/LoadingOverlay';
+import { usePrevious } from 'platform/utilities/react-hooks';
 
 const initialSchema = {
   type: 'object',
@@ -44,7 +45,6 @@ function VAFacilityPage({
   canScheduleAtChosenFacility,
   facilitiesStatus,
   data,
-  hasDataFetchingError,
   hideEligibilityModal,
   clinicsStatus,
   noValidVAFacilities,
@@ -76,13 +76,33 @@ function VAFacilityPage({
     [openFacilityPage],
   );
 
+  useEffect(
+    () => {
+      scrollAndFocus();
+    },
+    [loadingFacilities],
+  );
+
+  const previouslyShowingModal = usePrevious(showEligibilityModal);
+  useEffect(
+    () => {
+      if (!showEligibilityModal && previouslyShowingModal) {
+        scrollAndFocus('.usa-button-primary');
+      }
+    },
+    [showEligibilityModal, previouslyShowingModal],
+  );
+
   const goBack = () => routeToPreviousAppointmentPage(history, pageKey);
 
   const goForward = () => routeToNextAppointmentPage(history, pageKey);
 
   const title = <h1 className="vads-u-font-size--h2">{pageTitle}</h1>;
 
-  if (hasDataFetchingError) {
+  if (
+    facilitiesStatus === FETCH_STATUS.failed ||
+    (clinicsStatus === FETCH_STATUS.failed && singleValidVALocation)
+  ) {
     return (
       <div>
         {title}

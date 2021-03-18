@@ -224,6 +224,156 @@ describe('Schemaform review <ArrayField>', () => {
     expect(tree.everySubTree('.schemaform-review-array-warning')).to.not.be
       .empty;
   });
+  it('should render start in edit mode for duplicate items', () => {
+    const idSchema = {};
+    const schema = {
+      type: 'array',
+      items: [
+        {
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string',
+            },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string',
+            },
+          },
+        },
+      ],
+      additionalItems: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string',
+          },
+        },
+      },
+    };
+    const uiSchema = {
+      'ui:title': 'List of things',
+      items: {
+        test: {
+          type: 'string',
+        },
+      },
+      'ui:options': {
+        viewField: f => f,
+        itemName: 'Item name',
+        duplicateKey: 'field',
+      },
+    };
+    // Duplicates are case insensitive
+    const arrayData = [
+      { field: 'a' },
+      { field: 'b' },
+      { field: 'A' },
+      { field: 'a' },
+      { field: 'B' },
+    ];
+    const tree = SkinDeep.shallowRender(
+      <ArrayField
+        pageKey="page1"
+        arrayData={arrayData}
+        path={['thingList']}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        registry={registry}
+        formContext={formContext}
+        pageTitle=""
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    expect(tree.getMountedInstance().state.editing).to.deep.equal([
+      false,
+      false,
+      true,
+      true,
+      true,
+    ]);
+  });
+
+  it('should render unique aria-labels on buttons from ui option key in item', () => {
+    const idSchema = {};
+    const schema = {
+      type: 'array',
+      items: [
+        {
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string',
+            },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string',
+            },
+          },
+        },
+      ],
+      additionalItems: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string',
+          },
+        },
+      },
+    };
+    const uiSchema = {
+      'ui:title': 'List of things',
+      items: {
+        test: {},
+        'ui:options': {
+          itemAriaLabel: data => data.field,
+        },
+      },
+      'ui:options': {
+        viewField: f => f,
+        itemAriaLabel: data => data.field,
+        itemName: 'Itemz',
+      },
+    };
+    const arrayData = [{ field: 'foo' }, { field: 'bar' }];
+    const tree = SkinDeep.shallowRender(
+      <ArrayField
+        pageKey="page1"
+        arrayData={arrayData}
+        path={['thingList']}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        registry={registry}
+        formContext={formContext}
+        pageTitle=""
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    tree.getMountedInstance().handleEdit(1, true);
+    tree.getMountedInstance().handleAdd();
+    expect(tree.everySubTree('.schemaform-array-row-title')[0].text()).to.equal(
+      'New Itemz',
+    );
+    const buttons = tree.everySubTree('button');
+    expect(buttons[0].props['aria-label']).to.equal('Update bar');
+    expect(buttons[1].props['aria-label']).to.equal('Remove bar');
+    expect(buttons[2].props['aria-label']).to.equal('Update Itemz');
+    expect(buttons[3].props['aria-label']).to.equal('Remove Itemz');
+    expect(buttons[4].text()).to.equal('Add another Itemz');
+  });
+
   describe('should handle', () => {
     let tree;
     let setData;
@@ -315,6 +465,7 @@ describe('Schemaform review <ArrayField>', () => {
       expect(setData.calledWith({ thingList: [{ test: 1 }] })).to.be.true;
     });
   });
+
   it('should update state when props change', () => {
     const idSchema = {};
     const schema = {

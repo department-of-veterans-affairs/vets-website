@@ -3,10 +3,8 @@ import moment from 'moment';
 import classNames from 'classnames';
 import debounce from 'platform/utilities/data/debounce';
 import CalendarOptions from './CalendarOptions';
-import CalendarSelectedIndicator from './CalendarSelectedIndicator';
 
 const CalendarCell = ({
-  additionalOptions,
   availableSlots,
   currentlySelectedDate,
   date,
@@ -16,9 +14,9 @@ const CalendarCell = ({
   index,
   maxSelections,
   onClick,
+  renderIndicator,
   renderOptions,
   selectedDates,
-  selectedIndicatorType,
   id,
   timezone,
 }) => {
@@ -106,14 +104,13 @@ const CalendarCell = ({
         type="button"
         ref={buttonRef}
       >
-        {inSelectedArray && (
-          <CalendarSelectedIndicator
-            date={date}
-            fieldName={id}
-            selectedDates={selectedDates}
-            selectedIndicatorType={selectedIndicatorType}
-          />
-        )}
+        {inSelectedArray &&
+          !!renderIndicator &&
+          renderIndicator({ date, id, selectedDates })}
+        {inSelectedArray &&
+          !renderIndicator && (
+            <i className="fas fa-check vads-u-color--white vaos-calendar__fa-check-position" />
+          )}
         {dateDay}
         {isCurrentlySelected && (
           <span className="vaos-calendar__day--selected-triangle" />
@@ -121,7 +118,6 @@ const CalendarCell = ({
       </button>
       {isCurrentlySelected && (
         <CalendarOptions
-          additionalOptions={additionalOptions}
           availableSlots={availableSlots}
           currentlySelectedDate={date}
           handleSelectOption={handleSelectOption}
