@@ -5,10 +5,6 @@ import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
 
 import manifest from 'applications/personalization/dashboard/manifest.json';
-import {
-  VA_FORM_IDS,
-  VA_FORM_IDS_IN_PROGRESS_FORMS_API,
-} from '~/platform/forms/constants';
 
 import { mockFeatureToggles } from './helpers';
 
@@ -26,7 +22,6 @@ describe('The My VA Dashboard', () => {
     );
   });
   describe('when there are in-progress forms', () => {
-    let deleteApplicationStub;
     beforeEach(() => {
       // four forms, but one will fail the `isSIPEnabledForm()` check so only
       // three will be shown on the dashboard
@@ -85,6 +80,7 @@ describe('The My VA Dashboard', () => {
           },
           lastUpdated: 1607012813,
         },
+        // this form expired so it won't be shown
         {
           form: '21-526EZ',
           metadata: {
@@ -109,31 +105,18 @@ describe('The My VA Dashboard', () => {
       mockUser.data.attributes.inProgressForms = savedForms;
       cy.login(mockUser);
       mockFeatureToggles();
-      deleteApplicationStub = cy.stub();
-      const form526InProgressApi =
-        VA_FORM_IDS_IN_PROGRESS_FORMS_API[VA_FORM_IDS.FORM_21_526EZ];
-      cy.intercept('DELETE', form526InProgressApi, () => {
-        deleteApplicationStub();
-      });
       cy.visit(manifest.rootUrl);
     });
-    it('should show benefit applications that were saved in progress and allow removing expired applications', () => {
+    it('should show benefit applications that were saved in progress and have not expired', () => {
       cy.findByRole('heading', { name: /apply for benefits/i }).should('exist');
       cy.findByRole('heading', { name: /applications in progress/i }).should(
         'exist',
       );
-      cy.findAllByTestId('application-in-progress').should('have.length', 3);
+      cy.findAllByTestId('application-in-progress').should('have.length', 2);
       cy.findByText(/you have no applications in/i).should('not.exist');
       // make the a11y check
       cy.injectAxe();
       cy.axeCheck();
-
-      cy.findByRole('button', { name: /^remove/i }).click();
-      cy.findAllByTestId('application-in-progress').should('have.length', 2);
-      // make sure we called the DELETE endpoint
-      cy.should(() => {
-        expect(deleteApplicationStub).to.be.called;
-      });
     });
   });
   describe('when there are no-progress forms', () => {

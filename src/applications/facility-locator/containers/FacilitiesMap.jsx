@@ -121,28 +121,11 @@ const FacilitiesMap = props => {
 
   const renderMarkers = locations => {
     if (locations.length === 0) return;
-    const currentLocation = props.currentQuery.position;
     const markersLetters = MARKER_LETTERS.values();
-    const sortedLocations = locations
-      .map(r => {
-        const distance = currentLocation
-          ? distBetween(
-              currentLocation.latitude,
-              currentLocation.longitude,
-              r.attributes.lat,
-              r.attributes.long,
-            )
-          : null;
-        return {
-          ...r,
-          distance,
-        };
-      })
-      .sort((resultA, resultB) => resultA.distance - resultB.distance);
 
     const locationBounds = new mapboxgl.LngLatBounds();
 
-    sortedLocations.forEach(loc => {
+    locations.forEach(loc => {
       const attrs = {
         letter: markersLetters.next().value,
       };
