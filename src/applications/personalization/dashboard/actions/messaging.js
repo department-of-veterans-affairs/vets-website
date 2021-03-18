@@ -1,7 +1,9 @@
 import { createUrlWithQuery } from '../utils/helpers';
-import environment from 'platform/utilities/environment';
-import { apiRequest } from 'platform/utilities/api';
-
+import environment from '~/platform/utilities/environment';
+import { apiRequest } from '~/platform/utilities/api';
+import { mockFolderResponse } from '~/applications/personalization/dashboard-2/utils/mocks/messaging/folder';
+import { mockMessagesResponse } from '~/applications/personalization/dashboard-2/utils/mocks/messaging/messages';
+import { shouldMockApiRequest } from '~/applications/personalization/dashboard/tests/helpers';
 import {
   FETCH_FOLDER_FAILURE,
   FETCH_FOLDER_SUCCESS,
@@ -25,6 +27,16 @@ export function fetchFolder(id, query = {}) {
     if (id !== null) {
       const folderUrl = `/folders/${id}`;
       const messagesUrl = createUrlWithQuery(`${folderUrl}/messages`, query);
+
+      if (shouldMockApiRequest()) {
+        dispatch({
+          type: FETCH_FOLDER_SUCCESS,
+          folder: mockFolderResponse,
+          messages: mockMessagesResponse,
+        });
+
+        return;
+      }
 
       Promise.all(
         [folderUrl, messagesUrl].map(url =>
