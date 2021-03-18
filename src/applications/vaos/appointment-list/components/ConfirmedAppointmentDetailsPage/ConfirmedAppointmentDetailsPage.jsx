@@ -11,17 +11,15 @@ import moment from '../../../lib/moment-tz';
 import {
   getVAAppointmentLocationId,
   getVARFacilityId,
-  isAtlasLocation,
   isVAPhoneAppointment,
-  isVideoGFE,
   isVideoHome,
-  isVideoVAFacility,
 } from '../../../services/appointment';
 import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
   FETCH_STATUS,
   PURPOSE_TEXT,
+  VIDEO_TYPES,
 } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import * as actions from '../../redux/actions';
@@ -44,11 +42,11 @@ function formatAppointmentDate(date) {
 }
 
 function formatHeader(appointment) {
-  if (isVideoGFE(appointment)) {
+  if (appointment.videoData?.kind === VIDEO_TYPES.gfe) {
     return 'VA Video Connect using VA device';
-  } else if (isVideoVAFacility(appointment)) {
+  } else if (appointment.videoData?.kind === VIDEO_TYPES.clinic) {
     return 'VA Video Connect at VA location';
-  } else if (isAtlasLocation(appointment)) {
+  } else if (appointment.videoData?.isAtlas) {
     return 'VA Video Connect at an ATLAS location';
   } else if (isVideoHome(appointment)) {
     return 'VA Video Connect at home';

@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
-import {
-  getVAAppointmentLocationId,
-  isVideoHome,
-  getATLASLocation,
-} from '../../../services/appointment';
+import { isVideoHome } from '../../../services/appointment';
 import { VIDEO_TYPES } from '../../../utils/constants';
 import VideoLink from './VideoLink';
 import AtlasLocation from './AtlasLocation';
@@ -18,16 +14,9 @@ import moment from 'applications/vaos/lib/moment-tz';
 import { formatFacilityAddress } from 'applications/vaos/services/location';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
-function getLocation(
-  isAtlas,
-  isVideo,
-  videoKind,
-  isCommunityCare,
-  facility,
-  appointment,
-) {
+function getLocation(isAtlas, isVideo, videoKind, facility, appointment) {
   if (isAtlas) {
-    const atlasLocation = getATLASLocation(appointment);
+    const { atlasLocation } = appointment.videoData;
     if (atlasLocation?.address) {
       return formatFacilityAddress(atlasLocation);
     }
@@ -46,12 +35,10 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
   const phone = facility?.telecom?.find(tele => tele.system === 'phone')?.value;
   const name = facility?.name;
 
-  const isCommunityCare = appointment.vaos.isCommunityCare;
   const location = getLocation(
     isAtlas,
     appointment.vaos.isVideo,
     kind,
-    isCommunityCare,
     facility,
     appointment,
   );
@@ -60,7 +47,7 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
     return (
       <VAFacilityLocation
         facility={facility}
-        facilityId={getVAAppointmentLocationId(appointment)}
+        facilityId={appointment.videoData.facilityId}
       />
     );
   }
@@ -105,7 +92,7 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
             <div className="vads-u-margin-top--2">
               <VAFacilityLocation
                 facility={facility}
-                facilityId={getVAAppointmentLocationId(appointment)}
+                facilityId={appointment.videoData.facilityId}
                 clinicFriendlyName={appointment.participant[0].actor.display}
               />
             </div>
