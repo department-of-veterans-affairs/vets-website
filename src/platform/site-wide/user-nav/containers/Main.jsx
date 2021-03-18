@@ -209,4 +209,7 @@ const mapDispatchToProps = {
   updateLoggedInStatus,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Main);
