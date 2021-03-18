@@ -10,7 +10,7 @@ import numberToWords from './numberToWords';
  * @param {string} number - Number portion of the regexp that matches the number
  * @returns {string} "{converted word number} {word}"
  */
-const replaceNumberWithWord = (_, word, number) => {
+export const replaceNumberWithWord = (_, word, number) => {
   const num = parseInt(number, 10);
   return `${
     isNaN(num) || !isFinite(num) ? number : numberToWords(num + 1)
@@ -50,7 +50,7 @@ const messageFormatting = [
   // Convert numbers into words
   { regex: /(\w+)\[(\d+)\]/, replace: replaceNumberWithWord },
   // Separate numbers (e.g. "address1" -> "address 1")
-  { regex: /([a-z])(\d)/g, replace: '$1 $2' },
+  { regex: /([a-z])(\d)/g, replace: '$1 $2 ' },
   // "zip" code replaced with "postal" code in content, but not property names
   { regex: /zip\s(code)?/i, replace: 'postal code' },
   // Make abbreviations upper case
@@ -73,7 +73,7 @@ const messageFormatting = [
  * @param {string} message - hard coded error message
  * @returns {string} - transformed "human-readable" error message
  */
-const formatErrors = message =>
+export const formatErrors = message =>
   messageFormatting
     .reduce(
       (newMessage, transformer) =>

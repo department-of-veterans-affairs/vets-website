@@ -3,6 +3,8 @@ import { expect } from 'chai';
 import {
   reduceErrors,
   getPropertyInfo,
+  replaceNumberWithWord,
+  formatErrors,
 } from '../../../src/js/utilities/data/reduceErrors';
 
 describe('Process form validation errors', () => {
@@ -517,5 +519,71 @@ describe('getPropertyInfo', () => {
       'instance.newDisabilities[4].view:secondaryFollowUp.causedByDisability';
     const info = getPropertyInfo(pageList, 'causedByDisability', property);
     expect(info).to.deep.equal(pageList[0]);
+  });
+});
+
+describe('replaceNumberWithWord', () => {
+  it('should return an oridanal word name', () => {
+    const string = replaceNumberWithWord(null, 'test', '0');
+    expect(string).to.equal('first test');
+  });
+  it('should return original text if not a number', () => {
+    const string = replaceNumberWithWord(null, 'test', 'foo');
+    expect(string).to.equal('foo test');
+  });
+  it('should return an original non-number', () => {
+    const string = replaceNumberWithWord(null, 'test', 'Infinity');
+    expect(string).to.equal('Infinity test');
+  });
+  it('should return empty string + word', () => {
+    const string = replaceNumberWithWord(null, 'test', '');
+    expect(string).to.equal(' test');
+  });
+});
+
+describe('formatErrors', () => {
+  it('should return an untouched string', () => {
+    const string =
+      '_this is a test of property requires view of a string with 0 random enum values';
+    const result = formatErrors(string);
+    expect(result).to.equal(string);
+  });
+  it('should trim spaces', () => {
+    const result = formatErrors('    ');
+    expect(result).to.equal('');
+  });
+  it('should capitalize the first letter', () => {
+    const result = formatErrors('abcd');
+    expect(result).to.equal('Abcd');
+  });
+  it('should remove "requires property" and "instance"', () => {
+    const result = formatErrors('requires property instance');
+    expect(result).to.equal('');
+  });
+  it('should remove "view:" and "ui:" prefixes (and capitalize "Foo")', () => {
+    const result = formatErrors('view:foo ui:baz');
+    expect(result).to.equal('Foo baz');
+  });
+  it('should replace an JS array bracketed number with a word', () => {
+    const result = formatErrors('test[0]');
+    expect(result).to.equal('First test');
+  });
+  it('should separate letter+number combos', () => {
+    const result = formatErrors('a1b2c3');
+    expect(result).to.equal('A 1 b 2 c 3');
+  });
+  it('should replace "zip code" with "postal code"', () => {
+    const result = formatErrors('a zip code');
+    expect(result).to.equal('A postal code');
+  });
+  it('should capitalize "VA" and "POW"', () => {
+    const result = formatErrors('eva va power pow vac epow');
+    expect(result).to.equal('Eva  VA  power  POW  vac epow');
+  });
+  it('should strip off the ending after an enum list', () => {
+    const result = formatErrors(
+      'x is not one of enum values: Abc,Bcd,Cde,Def,Efg,Fgh,Ghi,Hij',
+    );
+    expect(result).to.equal('X is not one of the available values');
   });
 });
