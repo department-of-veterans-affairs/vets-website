@@ -8,7 +8,6 @@ import sinon from 'sinon';
 import createCommonStore from 'platform/startup/store';
 import createSchemaFormReducer from 'platform/forms-system/src/js/state';
 import reducers from 'platform/forms-system/src/js/state/reducers';
-import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import ValidationError from '../../../../src/js/review/submit-states/ValidationError';
 
@@ -216,7 +215,11 @@ describe('Schemaform review: <ValidationError />', () => {
   });
 
   it('has the expected list of errors', () => {
-    const formErrors = {
+    const onBack = sinon.spy();
+    const onSubmit = sinon.spy();
+
+    const form = createForm();
+    form.formErrors = {
       errors: [
         {
           name: 'test',
@@ -225,43 +228,38 @@ describe('Schemaform review: <ValidationError />', () => {
           index: 0,
         },
         { name: 'zip', message: 'Zip', chapterKey: 'Zip', pageKey: 'zip' },
-        // No chapter -> no link to open accordion
+        // No chapter = no link to open accordion
         { name: 'empty', message: 'Property not found', chapterKey: '' },
       ],
     };
-    const onBack = sinon.spy();
-    const onSubmit = sinon.spy();
-    const form = createForm();
+
     const formConfig = getFormConfig();
-    formConfig.formId = VA_FORM_IDS.FORM_21_526EZ;
+    formConfig.showReviewErrors = () => true;
+
     const formReducer = createformReducer({
       formConfig: form,
     });
+
     const store = createStore();
     store.injectReducer('form', formReducer);
+
     const tree = render(
       <Provider store={store}>
         <ValidationError
           appType="test"
+          buttonText="test"
           formConfig={formConfig}
-          formErrors={formErrors}
           onBack={onBack}
           onSubmit={onSubmit}
           testId={'12345'}
         />
       </Provider>,
     );
-    expect(
-      tree.getByText(
-        'We’re sorry. Some information in your test is missing or not valid.',
-      ),
-    ).to.not.be.null;
-    expect(
-      tree.getByText('The following required items are preventing submission:'),
-    ).to.not.be.null;
-    expect(tree.getByText('Missing test')).to.not.be.null;
-    expect(tree.getByText('Zip')).to.not.be.null;
-    expect(tree.getByText('Property not found')).to.not.be.null;
+    expect(tree.getByText(/your test is missing or not valid/)).to.exist;
+    expect(tree.getByText(/preventing submission/)).to.exist;
+    expect(tree.getByText('Missing test')).to.exist;
+    expect(tree.getByText('Zip')).to.exist;
+    expect(tree.getByText('Property not found')).to.exist;
     tree.unmount();
   });
 });

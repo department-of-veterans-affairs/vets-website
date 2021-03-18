@@ -29,7 +29,7 @@ function ValidationError(props) {
 
   // error links need evaluation & testing before production
   const renderErrors =
-    (errorsLen > 0 && formConfig?.showReviewErrors()) || false;
+    (errorsLen > 0 && formConfig.showReviewErrors?.()) || false;
 
   useEffect(
     () => {
