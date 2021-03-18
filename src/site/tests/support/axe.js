@@ -43,6 +43,9 @@ export default (container, options = {}) => {
       'color-contrast': {
         enabled: false,
       },
+      bypass: {
+        enabled: false,
+      },
     },
   };
 
