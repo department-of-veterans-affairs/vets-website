@@ -28,7 +28,7 @@ export const schema = {
         title: 'Debt',
         properties: {
           fileNumber: {
-            type: 'number',
+            type: 'string',
           },
           benefitType: {
             type: 'string',

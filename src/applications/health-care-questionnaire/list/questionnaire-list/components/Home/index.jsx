@@ -53,7 +53,9 @@ const Home = props => {
         .then(response => {
           const { data } = response;
           // load data in to redux
-          setQuestionnaireData(sortQuestionnairesByStatus(data));
+
+          const sorted = sortQuestionnairesByStatus(data);
+          setQuestionnaireData(sorted);
         })
         .catch(() => {
           setApiDidError(true);
