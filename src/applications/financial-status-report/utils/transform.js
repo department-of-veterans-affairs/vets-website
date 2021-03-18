@@ -50,9 +50,9 @@ export const transform = ({ data }) => {
       },
       married: questions.maritalStatus === 'Married',
       spouseFullName: {
-        first: null,
-        middle: null,
-        last: null,
+        first: personalData.spouseFullName.first,
+        middle: '',
+        last: personalData.spouseFullName.last,
       },
       employmentHistory,
       telephoneNumber: personalData.telephoneNumber,
