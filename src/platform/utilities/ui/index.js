@@ -84,3 +84,19 @@ export function scrollAndFocus(errorEl) {
 export function displayPercent(decimalNumber, places = 0) {
   return `${(decimalNumber * 100).toFixed(places)}%`;
 }
+
+/**
+ * Accepts a string of numbers as an argument
+ * and returns a formatted SSN with dashes.
+ */
+export function formatSSN(ssnString = '') {
+  let val = ssnString;
+
+  // Strips any dashes or spaces out of the string if they are included
+  if (val.includes('-') || val.includes(' ')) {
+    val = val.replace(/[- ]/g, '');
+  }
+  val = val.replace(/^(.{3})(.{1,2})/, '$1-$2');
+  val = val.replace(/^(.{3})-(.{2})(.{1,4})$/, '$1-$2-$3');
+  return val;
+}

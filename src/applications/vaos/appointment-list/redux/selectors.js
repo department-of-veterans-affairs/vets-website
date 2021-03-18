@@ -19,11 +19,15 @@ import {
   sortByCreatedDateDescending,
   isValidPastAppointmentOrExpressCare,
 } from '../../services/appointment';
-import { selectFeatureExpressCareNewRequest } from '../../redux/selectors';
+import {
+  selectFeatureExpressCareNewRequest,
+  selectFeatureProjectCheetah,
+} from '../../redux/selectors';
 import {
   getTimezoneAbbrBySystemId,
   getTimezoneBySystemId,
 } from '../../utils/timezone';
+import { TYPE_OF_CARE_ID as VACCINE_TYPE_OF_CARE_ID } from '../../project-cheetah/utils';
 
 export function getCancelInfo(state) {
   const {
@@ -388,4 +392,21 @@ export function selectAppointmentById(state, id, types = null) {
     .filter(item => !!item);
 
   return allAppointments.find(p => p.id === id);
+}
+
+export function selectDirectScheduleSettingsStatus(state) {
+  return state.appointments.directScheduleSettingsStatus;
+}
+
+export function selectCanUseVaccineFlow(state) {
+  return (
+    selectFeatureProjectCheetah(state) &&
+    state.appointments.directScheduleSettings?.some(setting =>
+      setting.coreSettings.some(
+        coreSetting =>
+          coreSetting.id === VACCINE_TYPE_OF_CARE_ID &&
+          !!coreSetting.patientHistoryRequired,
+      ),
+    )
+  );
 }
