@@ -307,6 +307,7 @@
     "fast-levenshtein": "^2.0.6",
     "fine-uploader": "^5.16.2",
     "foundation-sites": "^5.5.3",
+    "he": "^1.2.0",
     "history": "3",
     "history-v4": "npm:history@4.9.0",
     "ics-js": "^0.10.2",
