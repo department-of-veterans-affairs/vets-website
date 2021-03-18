@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import State from '../../../components/State';
 import { FACILITY_SORT_METHODS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 const INITIAL_FACILITY_DISPLAY_COUNT = 5;
 
@@ -104,6 +105,13 @@ export default function FacilitiesRadioWidget({
             </span>
           </button>
         )}
+
+      <AlertBox
+        backgroundOnly
+        content="If you get a vaccine that requires 2 doses, you'll need to return to the same facility for your second dose."
+        headline="Some COVID-19 vaccines require 2 doses"
+        status="info"
+      />
     </div>
   );
 }

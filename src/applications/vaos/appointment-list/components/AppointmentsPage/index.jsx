@@ -12,6 +12,8 @@ import {
   getCancelInfo,
   selectFutureStatus,
   selectExpressCareAvailability,
+  selectCanUseVaccineFlow,
+  selectDirectScheduleSettingsStatus,
 } from '../../redux/selectors';
 import {
   selectFeatureRequests,
@@ -38,9 +40,12 @@ const pageTitle = 'VA appointments';
 
 function AppointmentsPage({
   cancelInfo,
+  canUseVaccineFlow,
   closeCancelAppointment,
   confirmCancelAppointment,
+  directScheduleSettingsStatus,
   expressCare,
+  fetchDirectScheduleSettings,
   fetchFutureAppointments,
   fetchExpressCareWindows,
   futureStatus,
@@ -53,6 +58,7 @@ function AppointmentsPage({
   showCheetahScheduleButton,
   startNewAppointmentFlow,
   startNewExpressCareFlow,
+  startNewVaccineFlow,
 }) {
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -63,6 +69,13 @@ function AppointmentsPage({
 
     if (expressCare.windowsStatus === FETCH_STATUS.notStarted) {
       fetchExpressCareWindows();
+    }
+
+    if (
+      showCheetahScheduleButton &&
+      directScheduleSettingsStatus === FETCH_STATUS.notStarted
+    ) {
+      fetchDirectScheduleSettings();
     }
   }, []);
 
@@ -131,8 +144,9 @@ function AppointmentsPage({
           {showCheetahScheduleButton && (
             <div className="vads-u-margin-bottom--4">
               <ScheduleNewAppointmentRadioButtons
-                showCheetahScheduleButton={showCheetahScheduleButton}
+                showCheetahScheduleButton={canUseVaccineFlow}
                 startNewAppointmentFlow={startNewAppointmentFlow}
+                startNewVaccineFlow={startNewVaccineFlow}
               />
             </div>
           )}
@@ -190,6 +204,8 @@ function mapStateToProps(state) {
     pendingStatus: state.appointments.pendingStatus,
     futureStatus: selectFutureStatus(state),
     cancelInfo: getCancelInfo(state),
+    canUseVaccineFlow: selectCanUseVaccineFlow(state),
+    directScheduleSettingsStatus: selectDirectScheduleSettingsStatus(state),
     showScheduleButton: selectFeatureRequests(state),
     showCommunityCare: selectFeatureCommunityCare(state),
     showDirectScheduling: selectFeatureDirectScheduling(state),
@@ -202,10 +218,12 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   fetchExpressCareWindows: actions.fetchExpressCareWindows,
+  fetchDirectScheduleSettings: actions.fetchDirectScheduleSettings,
   closeCancelAppointment: actions.closeCancelAppointment,
   confirmCancelAppointment: actions.confirmCancelAppointment,
   startNewAppointmentFlow: actions.startNewAppointmentFlow,
   startNewExpressCareFlow: actions.startNewExpressCareFlow,
+  startNewVaccineFlow: actions.startNewVaccineFlow,
   fetchFutureAppointments: actions.fetchFutureAppointments,
 };
 

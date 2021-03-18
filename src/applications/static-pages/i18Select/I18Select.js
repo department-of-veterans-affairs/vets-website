@@ -51,9 +51,8 @@ const I18Select = ({ baseUrls, content }) => {
                 }`}
                 onClick={_ => {
                   recordEvent({
-                    event: 'nav-covid-link-click',
-                    faqText: undefined,
-                    faqSection: undefined,
+                    event: 'nav-pipe-delimited-list-click',
+                    pipeDelimitedListHeader: lang,
                   });
                 }}
                 href={baseUrls[languageCode]}

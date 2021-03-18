@@ -8,8 +8,17 @@ import {
   DowntimeNotification,
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
-
+import recordEvent from 'platform/monitoring/record-event';
 import { rootUrl as covidVaccineFormUrl } from 'applications/coronavirus-vaccination/manifest.json';
+
+const recordButtonClick = buttonClickLabel => {
+  recordEvent({
+    event: 'cta-button-click',
+    buttonType: 'primary',
+    buttonClickLabel,
+    buttonBackgroundColor: '#0071bb',
+  });
+};
 
 function OnState({ copy }) {
   return (
@@ -36,12 +45,27 @@ function OnState({ copy }) {
               dependencies={[externalServices.vetextVaccine]}
               render={(downtime, children) => {
                 if (downtime.status === 'down') {
-                  return <button disabled>{copy.buttonText}</button>;
+                  return (
+                    <button
+                      onClick={() => {
+                        recordButtonClick(copy.buttonText);
+                      }}
+                      disabled
+                    >
+                      {copy.buttonText}
+                    </button>
+                  );
                 }
                 return children; // Render normal enabled button
               }}
             >
-              <a href={covidVaccineFormUrl} className="usa-button-primary">
+              <a
+                onClick={() => {
+                  recordButtonClick(copy.buttonText);
+                }}
+                href={covidVaccineFormUrl}
+                className="usa-button-primary"
+              >
                 {copy.buttonText}
               </a>
             </DowntimeNotification>

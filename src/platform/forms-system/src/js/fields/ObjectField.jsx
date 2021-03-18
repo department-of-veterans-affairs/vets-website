@@ -12,6 +12,7 @@ import {
 
 import ExpandingGroup from '../components/ExpandingGroup';
 import { pureWithDeepEquals } from '../helpers';
+import { isReactComponent } from '../../../../utilities/ui';
 
 /*
  * This is largely copied from the react-jsonschema-form library,
@@ -178,13 +179,14 @@ class ObjectField extends React.Component {
     const fieldsetClassNames = uiOptions.classNames;
     const forceDivWrapper = !!uiOptions.forceDivWrapper;
     const title = uiSchema['ui:title'] || schema.title;
-    const CustomTitleField = typeof title === 'function' ? title : null;
+    const CustomTitleField = isReactComponent(title) ? title : null;
 
     const description = uiSchema['ui:description'];
     const textDescription =
       typeof description === 'string' ? description : null;
-    const DescriptionField =
-      typeof description === 'function' ? uiSchema['ui:description'] : null;
+    const DescriptionField = isReactComponent(description)
+      ? uiSchema['ui:description']
+      : null;
 
     const hasTitleOrDescription = !!title || !!description;
     const isRoot = idSchema.$id === 'root';
