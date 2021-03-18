@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import ReactTestUtils from 'react-dom/test-utils';
+import { render } from '@testing-library/react';
 import { shallow } from 'enzyme';
 import { Provider } from 'react-redux';
 
@@ -426,7 +426,7 @@ describe('Schemaform <FileField>', () => {
         fileField: fileSchema,
       },
     };
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = render(
       <Provider store={uploadStore}>
         <DefinitionTester
           schema={schema}
@@ -461,7 +461,7 @@ describe('Schemaform <FileField>', () => {
       },
     };
     const uploadFile = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = render(
       <Provider store={uploadStore}>
         <DefinitionTester
           schema={schema}
@@ -505,7 +505,7 @@ describe('Schemaform <FileField>', () => {
       'ui:options': uiOptions,
     };
 
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = render(
       <Provider store={uploadStore}>
         <DefinitionTester
           schema={schema}
@@ -546,7 +546,7 @@ describe('Schemaform <FileField>', () => {
       },
     };
 
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = render(
       <Provider store={uploadStore}>
         <DefinitionTester
           schema={schema}
