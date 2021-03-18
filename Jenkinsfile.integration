@@ -11,8 +11,10 @@ node('vetsgov-general-purpose') {
   // Setup stage
   dockerContainer = commonStages.setup()
 
-  // Perform a build for each build type
-  commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
+  // Perform a build for vagovprod
+  stage('Build') {
+    commonStages.build(ref, dockerContainer, 'local', 'vagovprod', false, false)
+  }
 
   // Run accessibility tests
   commonStages.accessibilityTests();
