@@ -38,6 +38,8 @@ export default (container, options = {}) => {
       values: ['section508', 'wcag2a', 'wcag2aa'],
     },
     rules: {
+      // css is not referenced when the html document is created
+      // so 'color-contrast' checks are disabled
       'color-contrast': {
         enabled: false,
       },
