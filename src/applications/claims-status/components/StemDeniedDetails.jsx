@@ -112,7 +112,10 @@ const StemDeniedDetails = ({
           If you have new or previously unprovided evidence to prove your
           eligibility for this scholarship, you can file a Supplemental Claim by
           completing VA Form 20-0995.{' '}
-          <a href="https://www.va.gov/find-forms/about-form-20-0995/">
+          <a
+            href="https://www.va.gov/find-forms/about-form-20-0995/"
+            aria-label="download Decision Review Request for Supplemental Claims VA Form 20 - 0 9 9 5"
+          >
             Download VA Form 20-0995.
           </a>
         </li>
@@ -120,7 +123,10 @@ const StemDeniedDetails = ({
           If you don't have new evidence but would like a more senior reviewer
           to look at your case, you can request a Higher-Level Review by
           completing VA Form 20-0996.{' '}
-          <a href="https://www.va.gov/find-forms/about-form-20-0996/">
+          <a
+            href="https://www.va.gov/find-forms/about-form-20-0996/"
+            aria-label="download Decision Review Request: Higher-Level Review VA Form 20 - 0 9 9 6"
+          >
             Download VA Form 20-0996.
           </a>
         </li>
@@ -128,7 +134,10 @@ const StemDeniedDetails = ({
           If you filed a Supplemental Claim or Higher-Level Review and don't
           agree with the decision, you can appeal to a Veterans Law Judge by
           completing VA Form 10182.{' '}
-          <a href="https://www.va.gov/find-forms/about-form-10182/">
+          <a
+            href="https://www.va.gov/find-forms/about-form-10182/"
+            aria-label="download Decision Review Request: Board Appeal for Notice of Disagreement VA Form 1 0 1 8 2"
+          >
             Download VA Form 10182.
           </a>
         </li>
@@ -136,7 +145,10 @@ const StemDeniedDetails = ({
       <p>
         For more information about these options, please read "Your Rights to
         Seek Further Review of Our Decisions" (VA Form 20-0998).{' '}
-        <a href="https://www.va.gov/find-forms/about-form-20-0998/">
+        <a
+          href="https://www.va.gov/find-forms/about-form-20-0998/"
+          aria-label="download Your Rights to Seek Further Review of Our Decisions VA Form 20 - 0 9 9 8"
+        >
           Download VA Form 20-0998.
         </a>
       </p>
