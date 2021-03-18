@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 export const dateFormatter = date => {
-  const formatDate = date.slice(0, -3);
+  const formatDate = date?.slice(0, -3);
   return moment(formatDate).format('MM/YYYY');
 };
 
