@@ -38,12 +38,18 @@ export default (container, options = {}) => {
       values: ['section508', 'wcag2a', 'wcag2aa'],
     },
     rules: {
+      bypass: {
+        enabled: false,
+      },
       // css is not referenced when the html document is created
       // so 'color-contrast' checks are disabled
       'color-contrast': {
         enabled: false,
       },
-      bypass: {
+      // the title tag won't always be present in the html document
+      // so the following check has been disabled.
+      // also, axe-core has been reporting a false-positive for this check in this tool
+      'document-title': {
         enabled: false,
       },
     },
