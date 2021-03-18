@@ -42,13 +42,13 @@ export default (container, options = {}) => {
         enabled: false,
       },
       // css is not referenced when the html document is created
-      // so 'color-contrast' checks are disabled
+      // so the 'color-contrast' check is disabled
       'color-contrast': {
         enabled: false,
       },
       // the title tag won't always be present in the html document
-      // so the following check has been disabled.
-      // also, axe-core has been reporting a false-positive for this check in this tool
+      // so the following check is disabled.
+      // also, axe-core reports a false-positive for this check
       'document-title': {
         enabled: false,
       },
