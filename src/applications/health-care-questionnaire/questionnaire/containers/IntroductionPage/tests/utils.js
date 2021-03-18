@@ -1,4 +1,4 @@
-import upcomingAppointment from '../../../../shared/api/mock-data/fhir/upcoming.appointment.not.started.primary.care.questionnaire.json';
+import upcomingAppointment from './sample.upcoming.appointment.json';
 
 const createFakeIntroductionPageStore = ({
   formId,
