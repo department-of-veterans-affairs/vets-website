@@ -22,17 +22,8 @@ const logViolations = violations => {
   /* eslint-enable no-console */
 };
 
-export default (container, options = {}) => {
-  const { _13647Exception } = options;
-
-  /**
-   * Default required ruleset to meet Section 508 compliance.
-   * Do not remove values[] entries. Only add new rulesets like 'best-practices'.
-   *
-   * See https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#axe-core-tags
-   * for available rulesets.
-   */
-  let axeBuilder = {
+export default container => {
+  const options = {
     runOnly: {
       type: 'tag',
       values: ['section508', 'wcag2a', 'wcag2aa'],
@@ -41,31 +32,21 @@ export default (container, options = {}) => {
       bypass: {
         enabled: false,
       },
-      // css is not referenced when the html document is created
+      // the css file isn't referenced when the html document is created
       // so the 'color-contrast' check is disabled
       'color-contrast': {
         enabled: false,
       },
       // the title tag won't always be present in the html document
-      // so the following check is disabled.
-      // also, axe-core reports a false-positive for this check
+      // so the 'document-title' check is disabled
       'document-title': {
         enabled: false,
       },
     },
   };
 
-  /**
-   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
-   */
-  axeBuilder = Object.assign(axeBuilder, options);
-
-  const axeConfig = _13647Exception
-    ? { includedImpacts: ['critical'] }
-    : axeBuilder;
-
   return new Promise((resolve, reject) =>
-    run(container, axeConfig, (error, { violations }) => {
+    run(container, options, (error, { violations }) => {
       if (error) {
         reject(error);
       } else {
