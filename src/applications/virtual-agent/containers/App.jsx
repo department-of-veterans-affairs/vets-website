@@ -5,13 +5,17 @@ import { apiRequest } from 'platform/utilities/api';
 window.React = React;
 window.ReactDOM = ReactDOM;
 
-const script = document.createElement('script');
+const loadWebChat = () => {
+  const script = document.createElement('script');
 
-script.src =
-  'https://cdn.botframework.com/botframework-webchat/4.12.0/webchat-es5.js';
-script.crossOrigin = 'anonymous';
+  script.src =
+    'https://cdn.botframework.com/botframework-webchat/4.12.0/webchat-es5.js';
+  script.crossOrigin = 'anonymous';
 
-document.body.appendChild(script);
+  document.body.appendChild(script);
+};
+
+loadWebChat();
 
 export default function App() {
   const [isLoaded, setLoaded] = useState(!!window.WebChat);
@@ -48,13 +52,19 @@ function ActualApp() {
     () =>
       createDirectLine({
         token,
+        domain:
+          'https://northamerica.directline.botframework.com/v3/directline',
       }),
     [token],
   );
 
   return (
     <div className={'vads-l-grid-container'}>
-      <div className={'vads-l-row'} style={{ height: '200px' }}>
+      <div
+        className={'vads-l-row'}
+        data-testid={'webchat'}
+        style={{ height: '500px' }}
+      >
         <ReactWebChat directLine={directLine} store={store} userID="12345" />
       </div>
     </div>
