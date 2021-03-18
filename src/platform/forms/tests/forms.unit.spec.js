@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import schemas from 'vets-json-schema/dist/schemas';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import { isReactComponent } from 'platform/utilities/ui';
 
 const path = require('path');
 const find = require('find');
@@ -86,6 +87,19 @@ const validFunctionProperty = (
   warning = null,
 ) => {
   validProperty(formConfig, name, 'function', required, warning);
+};
+
+const validComponentProperty = (
+  formConfig,
+  name,
+  required = true,
+  warning = null,
+) => {
+  const property = formConfig[name];
+  if (required || property) {
+    const msg = warning || `${name} is not a React component`;
+    expect(isReactComponent(property), msg).to.be.true;
+  }
 };
 
 const validBooleanProperty = (
@@ -209,7 +223,7 @@ const validAdditionalRoutes = ({ additionalRoutes }) => {
         true,
         `additionalRoutes[${index}].path is not a string`,
       );
-      validFunctionProperty(
+      validComponentProperty(
         route,
         'component',
         true,
@@ -271,7 +285,7 @@ describe('form:', () => {
           validMigrations(formConfig);
           validObjectProperty(formConfig, 'chapters');
           validObjectProperty(formConfig, 'defaultDefinitions');
-          validFunctionProperty(formConfig, 'introduction', false);
+          validComponentProperty(formConfig, 'introduction', false);
           validBooleanProperty(formConfig, 'prefillEnabled', false);
           validFunctionProperty(formConfig, 'prefillTransformer', false);
           validStringProperty(formConfig, 'trackingPrefix');
@@ -282,15 +296,15 @@ describe('form:', () => {
           validFunctionProperty(formConfig, 'submit', false);
           validObjectProperty(formConfig, 'savedFormMessages', false);
           validFunctionProperty(formConfig, 'transformForSubmit', false);
-          validFunctionProperty(formConfig, 'confirmation');
+          validComponentProperty(formConfig, 'confirmation');
           validObjectProperty(formConfig, 'preSubmitInfo', false);
-          validFunctionProperty(formConfig, 'footerContent', false);
+          validComponentProperty(formConfig, 'footerContent', false);
           validFunctionProperty(formConfig, 'getHelp', false);
           validFunctionProperty(formConfig, 'errorText', false);
           validBooleanProperty(formConfig, 'verifyRequiredPrefill', false);
           validDowntime(formConfig);
           validFunctionProperty(formConfig, 'onFormLoaded', false);
-          validFunctionProperty(formConfig, 'formSavedPage', false);
+          validComponentProperty(formConfig, 'formSavedPage', false);
           validAdditionalRoutes(formConfig);
           validCustomText(formConfig);
           validFunctionProperty(formConfig, 'submissionError', false);

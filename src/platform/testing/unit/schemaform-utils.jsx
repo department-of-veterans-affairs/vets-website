@@ -8,7 +8,6 @@ import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { fillDate as oldFillDate } from './helpers';
 
@@ -16,6 +15,7 @@ import {
   replaceRefSchemas,
   updateSchemaAndData,
 } from 'platform/forms-system/src/js/state/helpers';
+import { fireEvent } from '@testing-library/dom';
 
 function getDefaultData(schema) {
   if (schema.type === 'array') {
@@ -173,7 +173,7 @@ function printTree(node, level = 0, isLastChild = true, padding = '') {
  * @returns {object} An DOM node for the form, with added helper methods
  */
 export function getFormDOM(form) {
-  const formDOM = findDOMNode(form);
+  const formDOM = form.container;
 
   if (formDOM === null) {
     throw new Error(
@@ -214,7 +214,9 @@ export function getFormDOM(form) {
   };
 
   formDOM.submitForm = () => {
-    submitForm(form);
+    fireEvent.submit(form.container.querySelector('form'), {
+      preventDefault: f => f,
+    });
   };
 
   formDOM.setCheckbox = function toggleCheckbox(selector, checked) {
