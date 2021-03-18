@@ -16,7 +16,7 @@ const AppointmentInfoBox = props => {
     gender,
     addresses,
     phoneNumbers,
-    appointment,
+    appointmentData,
     form,
     onChange,
   } = props;
@@ -43,7 +43,7 @@ const AppointmentInfoBox = props => {
   return (
     <div>
       <h2 className="upcoming-header">You have an upcoming appointment</h2>
-      <AppointmentDisplay appointment={appointment} bold />
+      <AppointmentDisplay appointmentData={appointmentData} bold />
       <p>
         Below is the personal and contact information we have on file for you.
       </p>
@@ -80,7 +80,7 @@ const mapStateToProps = state => {
       { label: 'Work', data: vapContactInfo?.workPhone },
       { label: 'Temporary', data: vapContactInfo?.temporaryPhone },
     ],
-    appointment: state.questionnaireData?.context?.appointment,
+    appointmentData: state.questionnaireData?.context,
   };
 };
 
