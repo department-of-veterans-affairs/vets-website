@@ -8,11 +8,13 @@ import StemAskVAQuestions from '../components/StemAskVAQuestions';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import StemDeniedDetails from '../components/StemDeniedDetails';
+import { getStemClaims } from '../actions';
 
 class StemClaimStatusPage extends React.Component {
   componentDidMount() {
     this.setTitle();
     setUpPage();
+    this.props.getStemClaims();
   }
 
   setTitle() {
@@ -86,6 +88,13 @@ function mapStateToProps(state, props) {
   };
 }
 
-export default connect(mapStateToProps)(StemClaimStatusPage);
+const mapDispatchToProps = {
+  getStemClaims,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(StemClaimStatusPage);
 
 export { StemClaimStatusPage };

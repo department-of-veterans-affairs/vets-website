@@ -5,6 +5,9 @@ export const uiSchema = {
   'ui:title': 'Your spouse information',
   benefits: {
     spouseBenefits: {
+      'ui:options': {
+        classNames: 'max-width-400',
+      },
       benefitAmount: _.merge(
         currencyUI(
           'How much does your spouse get each month for disability compensation and pension benefits?',
@@ -21,7 +24,6 @@ export const uiSchema = {
         ),
         {
           'ui:options': {
-            classNames: 'max-width-400',
             widgetClassNames: 'input-size-3',
           },
         },
