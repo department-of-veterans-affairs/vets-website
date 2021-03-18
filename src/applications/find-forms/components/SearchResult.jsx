@@ -83,6 +83,7 @@ const SearchResult = ({ form, formMetaInfo }) => {
       formDetailsUrl,
       lastRevisionOn,
       benefitCategories,
+      vaFormAdministration,
       title,
       url,
     },
@@ -107,16 +108,18 @@ const SearchResult = ({ form, formMetaInfo }) => {
         title={title}
         recordGAEvent={recordGAEvent}
       />
-
       <dd className="vads-u-margin-y--1 vads-u-margin-y--1 vsa-from-last-updated">
         <dfn className="vads-u-font-weight--bold">Form last updated:</dfn>{' '}
         {lastRevision}
       </dd>
 
-      {benefitCategories && benefitCategories.length > 0 ? (
+      {(benefitCategories && benefitCategories.length > 0) ||
+      vaFormAdministration ? (
         <dd className="vads-u-margin-y--1 vads-u-margin-y--1">
           <dfn className="vads-u-font-weight--bold">Related to:</dfn>{' '}
-          {benefitCategories.map(f => f.name).join(', ')}
+          {benefitCategories.length > 0
+            ? benefitCategories.map(f => f.name).join(', ')
+            : vaFormAdministration}
         </dd>
       ) : null}
 
@@ -132,7 +135,6 @@ const SearchResult = ({ form, formMetaInfo }) => {
           Download VA form {id} {pdfLabel}
         </a>
       </dd>
-
       {formToolUrl ? (
         <dd>
           <a
