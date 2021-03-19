@@ -60,11 +60,11 @@ const CardDetailsView = ({ formData, onEdit, index, title }) => {
       employer = formData[key];
     }
     if (key.toLowerCase().includes('from')) {
-      const formatDate = formData[key].slice(0, -3);
+      const formatDate = formData[key]?.slice(0, -3);
       startDate = moment(formatDate).format('MMMM YYYY');
     }
     if (key.toLowerCase().includes('to')) {
-      const formatDate = formData[key].slice(0, -3);
+      const formatDate = formData[key]?.slice(0, -3);
       endDate = moment(formatDate).format('MMMM YYYY');
     }
     if (key.toLowerCase().includes('age')) {

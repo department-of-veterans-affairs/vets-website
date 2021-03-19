@@ -106,19 +106,19 @@ export const transform = ({ data }) => {
     ),
     totalOfInstallmentContractsAndOtherDebts: {
       originalAmount: installmentContractsAndOtherDebts?.reduce(
-        (acc, debt) => acc + debt.originalAmount,
+        (acc, debt) => acc + debt.originalAmount || 0,
         0,
       ),
       unpaidBalance: installmentContractsAndOtherDebts?.reduce(
-        (acc, debt) => acc + debt.unpaidBalance,
+        (acc, debt) => acc + debt.unpaidBalance || 0,
         0,
       ),
       amountDueMonthly: installmentContractsAndOtherDebts?.reduce(
-        (acc, debt) => acc + debt.amountDueMonthly,
+        (acc, debt) => acc + debt.amountDueMonthly || 0,
         0,
       ),
       amountPastDue: installmentContractsAndOtherDebts?.reduce(
-        (acc, debt) => acc + debt.amountPastDue,
+        (acc, debt) => acc + debt.amountPastDue || 0,
         0,
       ),
     },
