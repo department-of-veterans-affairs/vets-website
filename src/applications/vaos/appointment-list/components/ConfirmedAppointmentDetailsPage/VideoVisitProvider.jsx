@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function VideoVisitProvider({ providers }) {
-  if (!providers) {
+  if (!providers?.length) {
     return null;
   }
 

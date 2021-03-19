@@ -27,6 +27,7 @@ import AppointmentDateTime from './AppointmentDateTime';
 import { getCancelInfo, selectAppointmentById } from '../../redux/selectors';
 import { selectFeatureCancel } from '../../../redux/selectors';
 import VideoVisitSection from './VideoVisitSection';
+import { getVideoInstructionText } from './VideoInstructions';
 import { formatFacilityAddress } from 'applications/vaos/services/location';
 import PageLayout from '../AppointmentsPage/PageLayout';
 import ErrorMessage from '../../../components/ErrorMessage';
@@ -149,6 +150,7 @@ function ConfirmedAppointmentDetailsPage({
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isVideo = appointment.vaos.isVideo;
+  const videoKind = appointment.videoData?.kind;
   const isPhone = isVAPhoneAppointment(appointment);
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
@@ -162,6 +164,21 @@ function ConfirmedAppointmentDetailsPage({
     PURPOSE_TEXT.some(purpose =>
       appointment?.comment?.startsWith(purpose.short),
     );
+
+  const showVideoInstructions =
+    isVideo &&
+    appointment.comment &&
+    videoKind !== VIDEO_TYPES.clinic &&
+    videoKind !== VIDEO_TYPES.gfe;
+
+  let calendarDescription = 'VA appointment';
+  if (showInstructions) {
+    calendarDescription = appointment.comment;
+  } else if (showVideoInstructions) {
+    calendarDescription = getVideoInstructionText(appointment.comment);
+  } else if (isVideo) {
+    calendarDescription = 'VA video appointment';
+  }
 
   return (
     <PageLayout>
@@ -234,7 +251,7 @@ function ConfirmedAppointmentDetailsPage({
                   />
                   <AddToCalendar
                     summary={`${header}`}
-                    description={`instructionText`}
+                    description={calendarDescription}
                     location={
                       isPhone ? 'Phone call' : formatFacilityAddress(facility)
                     }

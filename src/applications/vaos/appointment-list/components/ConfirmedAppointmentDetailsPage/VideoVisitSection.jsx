@@ -43,6 +43,12 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
     appointment,
   );
 
+  const showVideoInstructions =
+    appointment.vaos.isVideo &&
+    appointment.comment &&
+    kind !== VIDEO_TYPES.clinic &&
+    kind !== VIDEO_TYPES.gfe;
+
   if (appointment.vaos.isPastAppointment && kind === VIDEO_TYPES.clinic) {
     return (
       <VAFacilityLocation
@@ -65,16 +71,18 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
             <div className="vads-u-margin-top--2">
               <VideoVisitProvider providers={providers} />
             </div>
-            <div className="vads-u-margin-top--2">
-              <AdditionalInfo
-                onClick={() => setShowMoreOpen(!showMoreOpen)}
-                triggerText="Prepare for video visit"
-              >
-                <VideoVisitInstructions
-                  instructionsType={appointment.comment}
-                />
-              </AdditionalInfo>
-            </div>
+            {showVideoInstructions && (
+              <div className="vads-u-margin-top--2">
+                <AdditionalInfo
+                  onClick={() => setShowMoreOpen(!showMoreOpen)}
+                  triggerText="Prepare for video visit"
+                >
+                  <VideoVisitInstructions
+                    instructionsType={appointment.comment}
+                  />
+                </AdditionalInfo>
+              </div>
+            )}
           </>
         )}
         {kind === VIDEO_TYPES.gfe && (
