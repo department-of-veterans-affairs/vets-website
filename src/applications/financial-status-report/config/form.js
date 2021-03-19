@@ -62,6 +62,7 @@ const formConfig = {
           title: 'Veteran information',
           uiSchema: pages.veteranInfo.uiSchema,
           schema: pages.veteranInfo.schema,
+          editModeOnReviewPage: true,
           initialData: {
             personalData: {
               veteranFullName: {
