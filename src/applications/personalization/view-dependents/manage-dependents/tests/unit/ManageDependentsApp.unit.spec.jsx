@@ -46,15 +46,18 @@ describe('<ManageDependentsApp />', () => {
         reducers: { removeDependents },
       },
     );
-    expect(await screen.findByText('Remove dependent', { selector: 'button' }))
-      .to.exist;
-    expect(await screen.findByLabelText('Divorce')).to.exist;
-    expect(await screen.findByLabelText('Annulment')).to.exist;
-    expect(await screen.findByLabelText('Declared Void')).to.exist;
-    expect(await screen.findByLabelText('Spouse’s Death')).to.exist;
-    expect(await screen.findByText('Date marriage ended')).to.exist;
-    expect(await screen.findByText('State where this happened')).to.exist;
-    expect(await screen.findByText('City where this happened')).to.exist;
+    expect(
+      screen.getByRole('button', {
+        name: 'Submit VA Form 686c to remove this dependent',
+      }),
+    ).to.exist;
+    expect(screen.getByLabelText('Divorce')).to.exist;
+    expect(screen.getByLabelText('Annulment')).to.exist;
+    expect(screen.getByLabelText('Declared Void')).to.exist;
+    expect(screen.getByLabelText('Spouse’s Death')).to.exist;
+    expect(screen.getByText('Date marriage ended')).to.exist;
+    expect(screen.getByText('State where this happened')).to.exist;
+    expect(screen.getByText('City where this happened')).to.exist;
   });
 
   it('fills out the form', async () => {
@@ -113,26 +116,26 @@ describe('<ManageDependentsApp />', () => {
         reducers: { removeDependents },
       },
     );
-    userEvent.click(await screen.findByLabelText('Divorce'));
-    userEvent.selectOptions(await screen.findByLabelText('Month'), ['1']);
-    userEvent.selectOptions(await screen.findByLabelText('Day'), ['25']);
-    userEvent.type(await screen.findByLabelText('Year'), '2003');
+    userEvent.click(screen.getByLabelText('Divorce'));
+    userEvent.selectOptions(screen.getByLabelText('Month'), ['1']);
+    userEvent.selectOptions(screen.getByLabelText('Day'), ['25']);
+    userEvent.type(screen.getByLabelText('Year'), '2003');
     userEvent.selectOptions(
-      await screen.findByLabelText('State where this happened', {
+      screen.getByLabelText('State where this happened', {
         exact: false,
       }),
       ['AL'],
     );
     userEvent.type(
-      await screen.findByLabelText('City where this happened', {
+      screen.getByLabelText('City where this happened', {
         exact: false,
       }),
       'Test city',
     );
-    const submitBtn = screen.findByText('Remove dependent', {
-      selector: 'button',
+    const submitBtn = screen.getByRole('button', {
+      name: 'Submit VA Form 686c to remove this dependent',
     });
-    userEvent.click(await submitBtn);
-    expect(await screen.queryAllByRole('alert')).to.have.lengthOf(0);
+    userEvent.click(submitBtn);
+    expect(screen.queryAllByRole('alert')).to.have.lengthOf(0);
   });
 });
