@@ -54,6 +54,8 @@ const formConfigKeys = [
   'submissionError',
   'saveInProgress',
   'wizardStorageKey',
+  'showReviewErrors',
+  'reviewErrors',
 ];
 
 const validProperty = (
