@@ -13,6 +13,7 @@ import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import set from 'platform/utilities/data/set';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
+import { isReactComponent } from 'platform/utilities/ui';
 
 /**
  * Displays a review card if the information inside is valid.
@@ -36,7 +37,7 @@ export default class ReviewCardField extends React.Component {
 
     // Throw an error if there’s no viewComponent (should be React component)
     if (
-      typeof get('ui:options.viewComponent', this.props.uiSchema) !== 'function'
+      !isReactComponent(get('ui:options.viewComponent', this.props.uiSchema))
     ) {
       throw new Error(
         `No viewComponent found in uiSchema for ReviewCardField ${
