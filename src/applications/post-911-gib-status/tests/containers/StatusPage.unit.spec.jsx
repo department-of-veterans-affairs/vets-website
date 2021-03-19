@@ -1,9 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { findDOMNode } from 'react-dom';
-import SkinDeep from 'skin-deep';
+import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
-import ReactTestUtils from 'react-dom/test-utils';
 
 import StatusPage from '../../containers/StatusPage';
 
@@ -24,28 +22,30 @@ defaultProps.post911GIBStatus = {
 
 describe('<StatusPage>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(
-      <StatusPage store={store} {...defaultProps} />,
+    const tree = mount(
+      <Provider store={store}>
+        <StatusPage {...defaultProps} />
+      </Provider>,
     );
-    const vdom = tree.getRenderOutput();
+    const vdom = tree.html();
     expect(vdom).to.exist;
+    tree.unmount();
   });
 
   it('should show title and print button', () => {
     window.dataLayer = [];
-    const node = findDOMNode(
-      ReactTestUtils.renderIntoDocument(
-        <Provider store={store}>
-          <StatusPage {...defaultProps} />
-        </Provider>,
-      ),
+    const tree = mount(
+      <Provider store={store}>
+        <StatusPage {...defaultProps} />
+      </Provider>,
     );
-    expect(node.querySelector('.schemaform-title').textContent).to.contain(
+    expect(tree.find('.schemaform-title').text()).to.contain(
       'Post-9/11 GI Bill Statement of Benefits',
     );
-    expect(node.querySelector('.usa-button-primary').textContent).to.contain(
+    expect(tree.find('.usa-button-primary').text()).to.contain(
       'Get Printable Statement of Benefits',
     );
+    tree.unmount();
   });
 
   it('should not show intro and print button if veteran is not eligible', () => {
@@ -59,10 +59,9 @@ describe('<StatusPage>', () => {
       },
     };
 
-    const tree = SkinDeep.shallowRender(
-      <StatusPage store={store} {...props} />,
-    );
-    expect(tree.subTree('.va-introtext')).to.be.false;
-    expect(tree.subTree('.usa-button-primary')).to.be.false;
+    const tree = shallow(<StatusPage store={store} {...props} />);
+    expect(tree.find('.va-introtext').exists()).to.be.false;
+    expect(tree.find('.usa-button-primary').exists()).to.be.false;
+    tree.unmount();
   });
 });
