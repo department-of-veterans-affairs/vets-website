@@ -30,15 +30,17 @@ export function command(context, config, _callback) {
   // Run axe checks and report
   this.executeAsync(
     (innerContext, rules, done) => {
+      const axeConfig = {
+        runOnly: {
+          type: 'tag',
+          values: rules,
+        },
+      };
+
       // eslint-disable-next-line no-undef
       axe.run(
         document.querySelector(innerContext) || document,
-        {
-          runOnly: {
-            type: 'tag',
-            values: rules,
-          },
-        },
+        axeConfig,
         (err, results) => {
           done({ err, results });
         },
