@@ -38,7 +38,9 @@ const getPhoneNumber = (location, options = { separateExtension: false }) => {
   }
   const rv = {};
   const phone = telecom.find(com => com.system === 'phone');
-
+  if (!phone.value) {
+    return null;
+  }
   if (options.separateExtension) {
     // value(pin):"254-743-2867 x0002"
     const numbers = phone.value.split('x');
