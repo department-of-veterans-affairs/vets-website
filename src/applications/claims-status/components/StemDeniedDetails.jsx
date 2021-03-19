@@ -30,7 +30,7 @@ const StemDeniedDetails = ({
       <ul className="stem-ad-list">
         <li className="stem-ad-list-item">
           You didn’t meet the benefit requirements for the Rogers STEM
-          Scholarship
+          Scholarship.
           <ul className="stem-ad-list-secondary">
             <li className="stem-ad-list-item">
               According to your service and school data records on file, as of{' '}
@@ -50,7 +50,7 @@ const StemDeniedDetails = ({
       </h3>
       <ul className="stem-ad-list">
         <li className="stem-ad-list-item">
-          You're eligible for Post-9/11 GI Bill benefits
+          You're eligible for Post-9/11 GI Bill benefits.
           <ul className="stem-ad-list-secondary">
             <li className="stem-ad-list-item">
               According to your service and school data records on file, as of{' '}
@@ -65,7 +65,7 @@ const StemDeniedDetails = ({
         </li>
         {(isEnrolledStem || isPursuingTeachingCert) && (
           <li>
-            You meet the degree requirements for the Rogers STEM Scholarship
+            You meet the degree requirements for the Rogers STEM Scholarship.
             <ul className="stem-ad-list-secondary">
               <li className="stem-ad-list-item">
                 You meet the degree requirements because you answered "Yes" to
