@@ -1,7 +1,4 @@
 import { run } from 'axe-core';
-import ENVIRONMENT_CONFIGURATIONS from 'site/constants/environments-configs';
-
-const BUILDTYPE = ENVIRONMENT_CONFIGURATIONS[__BUILDTYPE__].BUILDTYPE;
 
 const logViolations = violations => {
   /* eslint-disable no-console */
@@ -52,7 +49,7 @@ const axeCheck = container => {
       if (error) {
         reject(error);
       } else {
-        if (BUILDTYPE === 'vagovdev' && violations.length) {
+        if (violations.length) {
           logViolations(violations);
         }
 
