@@ -18,7 +18,7 @@ export function FacilityPatientSatisfactionScoresWidget(props) {
 
   const facility = props.facility.attributes;
 
-  if (Object.keys(facility.feedback.health).length === 0) return null;
+  if (Object.values(facility.feedback.health).length === 0) return null;
 
   return (
     <div>
