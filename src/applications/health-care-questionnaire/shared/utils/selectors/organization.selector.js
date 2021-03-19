@@ -15,7 +15,7 @@ const getPhoneNumber = (
   }
   const rv = {};
   const phone = telecom.find(com => com.system === 'phone');
-  if (!phone.value) {
+  if (!phone?.value) {
     return null;
   }
   if (options.separateExtension) {
@@ -39,7 +39,7 @@ const getFacilityIdentifier = organization => {
   }
 
   const { identifier } = organization;
-  if (!identifier) {
+  if (!identifier?.length) {
     return null;
   }
   const fid = identifier.find(
