@@ -6,7 +6,7 @@ import AtlasLocation from './AtlasLocation';
 import VAFacilityLocation from '../../../../components/VAFacilityLocation';
 
 export default function VideoVisitLocation({ appointment, facility }) {
-  const { kind: videoKind, isAtlas } = appointment;
+  const { kind: videoKind, isAtlas } = appointment.videoData;
 
   if (appointment.vaos.isPastAppointment && videoKind === VIDEO_TYPES.clinic) {
     return (
