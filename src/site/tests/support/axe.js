@@ -29,6 +29,8 @@ const axeCheck = container => {
       values: ['section508', 'wcag2a', 'wcag2aa'],
     },
     rules: {
+      // the 'bypass' check is disabled because it may give a false-positive
+      // for lists of 4-5 links
       bypass: {
         enabled: false,
       },
@@ -37,8 +39,8 @@ const axeCheck = container => {
       'color-contrast': {
         enabled: false,
       },
-      // the title tag won't always be present in the html document
-      // so the 'document-title' check is disabled
+      // when testing liquid template include files, the title tag likely won't
+      // be present in the html document so the 'document-title' check is disabled
       'document-title': {
         enabled: false,
       },
