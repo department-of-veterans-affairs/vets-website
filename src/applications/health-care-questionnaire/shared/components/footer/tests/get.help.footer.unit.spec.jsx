@@ -6,12 +6,12 @@ import GetHelpFooter from '../GetHelpFooter';
 
 import { createFakeFooterStore } from './utils';
 
-describe('health care questionnaire - confirmation page  -', () => {
+describe('health care questionnaire - get help footer  -', () => {
   it('displays clinic information', () => {
-    const fakeStore = createFakeFooterStore(
-      { phoneNumber: '1231231234' },
-      'Magic Kingdom',
-    );
+    const fakeStore = createFakeFooterStore({
+      name: 'Magic Kingdom',
+      phone: '1231231234',
+    });
     const wrapper = mount(<GetHelpFooter store={fakeStore} />);
     expect(wrapper.find('[data-testid="clinic-details"]').text()).to.contains(
       'Magic Kingdom',
@@ -21,12 +21,13 @@ describe('health care questionnaire - confirmation page  -', () => {
     wrapper.unmount();
   });
   it('displays facility information', () => {
-    const fakeStore = createFakeFooterStore({
-      facility: {
-        displayName: 'Magic Kingdom',
-        phoneNumber: '1231231234',
+    const fakeStore = createFakeFooterStore(
+      {},
+      {
+        name: 'Magic Kingdom',
+        phone: '12d31231234',
       },
-    });
+    );
     const wrapper = mount(<GetHelpFooter store={fakeStore} />);
     expect(wrapper.find('[data-testid="facility-details"]').text()).to.contains(
       'Magic Kingdom',
