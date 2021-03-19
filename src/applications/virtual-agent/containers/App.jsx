@@ -21,9 +21,10 @@ export default function App() {
   const [isLoaded, setLoaded] = useState(!!window.WebChat);
 
   if (!isLoaded) {
-    setTimeout(() => {
+    const intervalId = setInterval(() => {
       if (window.WebChat) {
         setLoaded(true);
+        clearInterval(intervalId);
       }
     }, 300);
     return 'waiting on webchat framework . . .';
