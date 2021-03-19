@@ -39,7 +39,7 @@ const FACILITY_MENU_NAMES = [
   // VISN 6
   'va-asheville-health-care',
   'va-durham-health-care',
-  'va-fayetteville-coastal-health-care',
+  'va-fayetteville-coastal-health-c',
   'va-hampton-health-care',
   'va-richmond-health-care',
   'va-salem-health-care',
