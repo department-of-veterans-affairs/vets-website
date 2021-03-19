@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
+import sinon from 'sinon';
 
 import App from '../containers/App';
 
@@ -39,22 +40,25 @@ describe('App', () => {
   });
 
   describe('web chat script has not loaded', () => {
-    async function wait(timeout) {
-      return new Promise(resolve => {
-        setTimeout(resolve, timeout);
-      });
-    }
+    let clock;
+    beforeEach(() => {
+      clock = sinon.useFakeTimers();
+    });
+
+    afterEach(() => {
+      clock.restore();
+    });
 
     it('should wait until webchat is loaded', async () => {
       const wrapper = render(<App />);
 
       expect(wrapper.getByText('waiting on webchat framework . . .')).to.exist;
 
-      await wait(500);
+      clock.tick(500);
 
       loadWebChat();
 
-      await wait(100);
+      clock.tick(100);
 
       expect(wrapper.getByTestId('webchat')).to.exist;
     });

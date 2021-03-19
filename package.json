@@ -256,7 +256,7 @@
     "selenium-server": "^3.141.59",
     "semver": "^7.3.2",
     "sentry-testkit": "^2.2.1",
-    "sinon": "^3.2.1",
+    "sinon": "^7.5.0",
     "skin-deep": "^1.0.0",
     "socks-proxy-agent": "^5.0.0",
     "start-server-and-test": "^1.11.0",
