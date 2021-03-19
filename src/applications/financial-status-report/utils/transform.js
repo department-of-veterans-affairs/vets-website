@@ -123,13 +123,11 @@ export const transform = ({ data }) => {
       ),
     },
     additionalData: {
+      ...additionalData,
       bankruptcy: {
         ...additionalData.bankruptcy,
         dateDischarged: dateFormatter(additionalData.bankruptcy.dateDischarged),
       },
-      additionalComments: selectedDebts
-        .map(debt => debt.additionalData.additionalComments)
-        .join(', '),
     },
   };
 

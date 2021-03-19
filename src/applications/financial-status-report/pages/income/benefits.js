@@ -18,23 +18,7 @@ export const schema = {
       properties: {
         'view:vaBenefitsOnFile': {
           type: 'object',
-          properties: {
-            income: {
-              type: 'array',
-              items: {
-                type: 'object',
-                title: 'Benefit',
-                properties: {
-                  compensationAndPension: {
-                    type: 'string',
-                  },
-                  education: {
-                    type: 'string',
-                  },
-                },
-              },
-            },
-          },
+          properties: {},
         },
       },
     },

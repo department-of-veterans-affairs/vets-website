@@ -11,32 +11,26 @@ const ResolutionInfo = (
 );
 
 export const uiSchema = {
-  selectedDebts: {
-    items: {
-      'ui:title': 'Supporting personal statement',
-      'view:components': {
-        'view:financialHardshipExplanation': {
-          'ui:field': ResolutionComments,
-        },
-        'view:resolutionOptionsInfo': {
-          'ui:description': ResolutionInfo,
-        },
-      },
-      additionalData: {
-        additionalComments: {
-          'ui:title': ' ',
-          'ui:widget': 'textarea',
-          'ui:required': formData => {
-            const index = window.location.href.slice(-1);
-            const debt = formData.selectedDebts[index];
-            const type = debt?.resolution?.resolutionType;
-            return type === 'Waiver';
-          },
-          'ui:options': {
-            rows: 5,
-            maxLength: 32000,
-          },
-        },
+  'ui:title': 'Supporting personal statement',
+  'view:components': {
+    'view:financialHardshipExplanation': {
+      'ui:field': ResolutionComments,
+    },
+    'view:resolutionOptionsInfo': {
+      'ui:description': ResolutionInfo,
+    },
+  },
+  additionalData: {
+    additionalComments: {
+      'ui:title': ' ',
+      'ui:widget': 'textarea',
+      'ui:required': formData =>
+        formData.selectedDebts.some(
+          debt => debt.resolution?.resolutionType === 'Waiver',
+        ),
+      'ui:options': {
+        rows: 5,
+        maxLength: 32000,
       },
     },
   },
@@ -45,32 +39,24 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    selectedDebts: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          'view:components': {
-            type: 'object',
-            properties: {
-              'view:financialHardshipExplanation': {
-                type: 'object',
-                properties: {},
-              },
-              'view:resolutionOptionsInfo': {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
-          additionalData: {
-            type: 'object',
-            properties: {
-              additionalComments: {
-                type: 'string',
-              },
-            },
-          },
+    'view:components': {
+      type: 'object',
+      properties: {
+        'view:financialHardshipExplanation': {
+          type: 'object',
+          properties: {},
+        },
+        'view:resolutionOptionsInfo': {
+          type: 'object',
+          properties: {},
+        },
+      },
+    },
+    additionalData: {
+      type: 'object',
+      properties: {
+        additionalComments: {
+          type: 'string',
         },
       },
     },
