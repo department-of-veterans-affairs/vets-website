@@ -25,9 +25,6 @@ export const schema = {
                 type: 'object',
                 title: 'Benefit',
                 properties: {
-                  veteranOrSpouse: {
-                    type: 'string',
-                  },
                   compensationAndPension: {
                     type: 'string',
                   },

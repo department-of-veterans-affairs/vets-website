@@ -16,7 +16,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submit: transform,
-  submitUrl: `${environment.API_URL}/v0/api`,
+  submitUrl: `${environment.API_URL}/v0/financial_status_reports`,
   trackingPrefix: 'fsr-5655-',
   wizardStorageKey: WIZARD_STATUS,
   verifyRequiredPrefill: true,
@@ -124,19 +124,6 @@ const formConfig = {
           schema: pages.employment.schema,
         },
         employmentRecords: {
-          initialData: {
-            personalData: {
-              employmentHistory: {
-                veteran: {
-                  currentEmployment: {
-                    veteranOrSpouse: 'VETERAN',
-                    present: true,
-                    to: null,
-                  },
-                },
-              },
-            },
-          },
           path: 'employment-records',
           title: 'Employment',
           uiSchema: pages.employmentRecords.uiSchema,
@@ -214,19 +201,6 @@ const formConfig = {
           uiSchema: pages.spouseEmployment.uiSchema,
           schema: pages.spouseEmployment.schema,
           depends: formData => formData.questions.maritalStatus === 'Married',
-          initialData: {
-            personalData: {
-              employmentHistory: {
-                spouse: {
-                  currentEmployment: {
-                    veteranOrSpouse: 'SPOUSE',
-                    present: true,
-                    to: null,
-                  },
-                },
-              },
-            },
-          },
         },
         spouseEmploymentRecords: {
           path: 'spouse-employment-records',
