@@ -2,11 +2,12 @@ import { expect } from 'chai';
 import { parseFixture, renderHTML } from '~/site/tests/support';
 import axeCheck from '~/site/tests/support/axe';
 
-const layoutPath = 'src/site/layouts/axe_smoke_test_with_errors.drupal.liquid';
+const layoutPath =
+  'src/site/layouts/liquid_template_axe_check_smoke_test.drupal.liquid';
 
 describe('liquid template axe check smoke test', () => {
   const data = parseFixture(
-    'src/site/layouts/tests/axe_smoke_test_with_errors_page/fixtures/axe_smoke_test_with_errors_page.json',
+    'src/site/layouts/tests/liquid_template_axe_check_smoke_test/fixtures/liquid_template_axe_check_smoke_test.json',
   );
 
   it('reports the expected number of axe violations', async () => {
