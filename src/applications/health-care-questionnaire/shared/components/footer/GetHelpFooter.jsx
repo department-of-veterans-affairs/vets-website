@@ -10,7 +10,7 @@ import {
 
 const GetHelpFooter = props => {
   const { currentLocation, context } = props;
-  const { organization: facility, location: clinic } = context;
+  const { organization: facility, location: clinic } = context || {};
   if (currentLocation?.pathname.replace(/\/$/, '').endsWith('confirmation')) {
     return null;
   }
