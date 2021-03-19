@@ -5,7 +5,9 @@ import { render } from '@testing-library/react';
 import App from '../containers/App';
 
 describe('App', () => {
-  function setupWindowObject() {
+  let oldWindow;
+
+  function loadWebChat() {
     global.window = Object.create(global.window);
     Object.assign(global.window, {
       WebChat: {
@@ -17,26 +19,32 @@ describe('App', () => {
       },
     });
   }
+
+  beforeEach(() => {
+    oldWindow = global.window;
+  });
+
+  afterEach(() => {
+    global.window = oldWindow;
+  });
+
   describe('web chat script is loaded', () => {
     it('renders web chat', () => {
-      const oldWindow = global.window;
-      setupWindowObject();
+      loadWebChat();
 
       const wrapper = render(<App />);
 
       expect(wrapper.getByTestId('webchat')).to.exist;
-
-      wrapper.unmount();
-
-      global.window = oldWindow;
     });
   });
+
   describe('web chat script has not loaded', () => {
     async function wait(timeout) {
       return new Promise(resolve => {
         setTimeout(resolve, timeout);
       });
     }
+
     it('should wait until webchat is loaded', async () => {
       const wrapper = render(<App />);
 
@@ -44,16 +52,11 @@ describe('App', () => {
 
       await wait(500);
 
-      const oldWindow = global.window;
-      setupWindowObject();
+      loadWebChat();
 
       await wait(100);
 
       expect(wrapper.getByTestId('webchat')).to.exist;
-
-      wrapper.unmount();
-
-      global.window = oldWindow;
     });
   });
 });
