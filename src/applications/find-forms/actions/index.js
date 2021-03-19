@@ -115,6 +115,7 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
       'type-ahead-option-keyword-selected': undefined, // populate with undefined since type ahead won't feature here
       'type-ahead-option-position': undefined, // populate with undefined since type ahead won't feature here
       'type-ahead-options-list': undefined, // populate with undefined since type ahead won't feature here
+      'type-ahead-options-count': undefined,
     });
 
     // If we are here, the API request succeeded.
