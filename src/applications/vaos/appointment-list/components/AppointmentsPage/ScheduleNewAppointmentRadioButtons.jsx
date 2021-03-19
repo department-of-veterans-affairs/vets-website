@@ -3,20 +3,21 @@ import RadioButtons from '@department-of-veterans-affairs/component-library/Radi
 import { Link } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 import { GA_PREFIX } from 'applications/vaos/utils/constants';
+import PropTypes from 'prop-types';
 
 /**
  * React component used to conditionally render radio call-to-action buttons and start applicable workflow.
- * @property {boolean} [showCheetahScheduleButton=false] - A boolean value to determine Whether or not to show COVID-19 vaccine option.
- * @property {function} startNewAppointmentFlow - A function that’s called when the user starts the new appointment flow.
- * @property {function} startNewVaccineFlow - A function that’s called when the user starts the vaccine flow.
+ *
  * @component
- * @example
  * <ScheduleNewAppointmentRadioButtons
- *  showCheetahScheduleButton={valueFromProp}
+ *  showCheetahScheduleButton=true
  *  startNewAppointmentFlow={givenFlowFromProp}
  *  startNewVaccineFlow={givenFlowFromProp}
  * />
- * @module appointment-list/components
+ *
+ * @category Appointment List
+ * @subcategory Appointments Page
+ * @module ScheduleNewAppointmentRadioButtons
  */
 export default function ScheduleNewAppointmentRadioButtons({
   showCheetahScheduleButton = false,
@@ -98,3 +99,18 @@ export default function ScheduleNewAppointmentRadioButtons({
     </>
   );
 }
+
+ScheduleNewAppointmentRadioButtons.propTypes = {
+  /**
+   * A boolean value to determine Whether or not to show COVID-19 vaccine option
+   */
+  showCheetahScheduleButton: PropTypes.bool,
+  /**
+   * A function that’s called when the user starts the new appointment flow
+   */
+  startNewAppointmentFlow: PropTypes.func,
+  /**
+   * A function that’s called when the user starts the vaccine flow
+   */
+  startNewVaccineFlow: PropTypes.func,
+};

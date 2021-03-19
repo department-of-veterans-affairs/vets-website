@@ -2,6 +2,20 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Select from '../../../components/Select';
 
+/**
+ * React component used to render past appointment date dropdown.
+ *
+ * @component
+ * <PastAppointmentsDateDropdown
+ *  currentRange=[]
+ *  onChange={givenOnChangeFunction}
+ *  options=[]
+ * />
+ *
+ * @category Appointment List
+ * @subcategory Past Appointments List V2
+ * @module PastAppointmentsDateDropdown
+ */
 export default function PastAppointmentsDateDropdown({
   currentRange,
   onChange,
@@ -40,7 +54,16 @@ export default function PastAppointmentsDateDropdown({
 }
 
 PastAppointmentsDateDropdown.propTypes = {
+  /**
+   * Date Range
+   */
   currentRange: PropTypes.number.isRequired,
+  /**
+   * A function that’s called when onChange called
+   */
   onChange: PropTypes.func.isRequired,
+  /**
+   * Dropdown Options Array
+   */
   options: PropTypes.array.isRequired,
 };
