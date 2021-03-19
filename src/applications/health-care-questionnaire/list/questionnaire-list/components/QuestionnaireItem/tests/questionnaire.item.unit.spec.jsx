@@ -2,11 +2,11 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import QuestionnaireItem from '../../../questionnaire-list/components/QuestionnaireItem';
+import QuestionnaireItem from '../index';
 
-import upcomingAppointment from '../../../../shared/api/mock-data/fhir/upcoming.appointment.not.started.primary.care.questionnaire.json';
-import cancelledAppointment from '../../../../shared/api/mock-data/fhir/cancelled.appointment.completed.primary.care.questionnaire.json';
-import upcomingMentalHealth from '../../../../shared/api/mock-data/fhir/upcoming.appointment.not.started.mental.health.questionnaire.json';
+import upcomingAppointment from './data/upcoming.primary.care.json';
+import cancelledAppointment from './data/cancelled.json';
+import upcomingMentalHealth from './data/upcoming.mental.health.json';
 
 describe('health care questionnaire list - display a questionnaire item', () => {
   it('appointment information', () => {

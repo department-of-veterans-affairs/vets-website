@@ -4,11 +4,12 @@ import { mount } from 'enzyme';
 
 import BreadCrumbs from '../../../components/bread-crumbs/BreadCrumbs';
 
-import { createFakeStopCodeStore } from '../utils/createFakeStores';
+import { createBreadCrumbStore } from './utils';
+import sampleLocation from './sample.location.json';
 
 describe('health care questionnaire - bread crumbs -', () => {
   it('displays with appointment data', () => {
-    const fakeStore = createFakeStopCodeStore();
+    const fakeStore = createBreadCrumbStore(sampleLocation);
     const wrapper = mount(<BreadCrumbs store={fakeStore} />);
     expect(
       wrapper.find('[data-testid="current-location-text"]').text(),
@@ -16,7 +17,7 @@ describe('health care questionnaire - bread crumbs -', () => {
     wrapper.unmount();
   });
   it('displays with out appointment data', () => {
-    const fakeStore = createFakeStopCodeStore(null);
+    const fakeStore = createBreadCrumbStore({});
     const wrapper = mount(<BreadCrumbs store={fakeStore} />);
     expect(
       wrapper.find('[data-testid="current-location-text"]').text(),

@@ -72,6 +72,7 @@ export const schema = {
         title: 'Repayment',
         required: [
           'purpose',
+          'unpaidBalance',
           'amountDueMonthly',
           'dateStarted',
           'amountPastDue',

@@ -11,7 +11,8 @@ import AppointmentDisplay from '../../components/appointment-display/Appointment
 import PrintButton from '../../../shared/components/print/PrintButton';
 
 const ConfirmationPage = props => {
-  const { appointment } = props;
+  const { context } = props;
+  const { appointment } = context;
 
   useEffect(() => {
     clearCurrentSession(window);
@@ -33,7 +34,7 @@ const ConfirmationPage = props => {
           Your provider will discuss the information on your questionnaire
           during your appointment:
         </h2>
-        <AppointmentDisplay appointment={appointment} bold={false} />
+        <AppointmentDisplay appointmentData={context} bold={false} />
         <p>We look forward to seeing you at your upcoming appointment.</p>
         <PrintButton
           displayArrow={false}
@@ -53,7 +54,7 @@ const ConfirmationPage = props => {
           }}
         />
       </div>
-      {appointment && <ConfirmationPageFooter appointment={appointment} />}
+      {appointment && <ConfirmationPageFooter context={context} />}
     </div>
   );
 };
@@ -61,7 +62,7 @@ const ConfirmationPage = props => {
 function mapStateToProps(state) {
   return {
     form: state.form,
-    appointment: state?.questionnaireData?.context?.appointment,
+    context: state?.questionnaireData?.context,
   };
 }
 
