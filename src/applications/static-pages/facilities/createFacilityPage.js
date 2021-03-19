@@ -54,7 +54,7 @@ export default async function createFacilityPage(store) {
         detailWidget,
       );
     }
-    if (scoreWidget.length) {
+    if (scoreWidget) {
       const {
         default: FacilityPatientSatisfactionScoresWidget,
       } = await import(/* webpackChunkName: "facility-detail" */ './FacilityPatientSatisfactionScoresWidget');

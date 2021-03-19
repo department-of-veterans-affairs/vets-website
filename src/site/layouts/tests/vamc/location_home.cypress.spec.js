@@ -74,7 +74,7 @@ Cypress.Commands.add('checkElements', (page, isMobile) => {
   cy.get('[data-widget-type="facility-patient-satisfaction-scores"]').should(
     'exist',
   );
-  // cy.get('h3').contains('Urgent care appointments');
+  cy.get('h3').contains('Urgent care appointments');
   cy.get('h3').contains('Routine care appointments');
   cy.get('h3').contains('Get updates');
 });
