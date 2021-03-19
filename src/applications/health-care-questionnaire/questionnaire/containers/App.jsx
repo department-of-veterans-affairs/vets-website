@@ -23,10 +23,11 @@ import {
 
 import {
   getSelectedAppointmentData,
-  getAppointTypeFromAppointment,
   getCurrentAppointmentId,
   clearCurrentSession,
 } from '../../shared/utils';
+
+import { location as locationSelector } from '../../shared/utils/selectors';
 
 const App = props => {
   const { location, children } = props;
@@ -55,23 +56,27 @@ const App = props => {
             '/health-care/health-questionnaires/questionnaires',
           );
         }
-        const { appointment, questionnaire } = data;
+        const {
+          appointment,
+          questionnaire,
+          location: clinic,
+          organization: facility,
+        } = data;
         if (!appointmentFormData || !questionnaireFormData) {
           setFormData({
             'hidden:appointment': appointment,
             'hidden:questionnaire': questionnaire,
           });
         }
-        setLoadedAppointment(appointment);
+        setLoadedAppointment(data);
         setIsLoading(false);
-        const apptType = getAppointTypeFromAppointment(appointment);
+        const apptType = locationSelector.getType(clinic)?.toLowerCase();
+        const facilityName = facility.name;
         setForm(f => {
           return {
             ...f,
             title: `Answer ${apptType} questionnaire`,
-            subTitle:
-              appointment?.attributes?.vdsAppointments[0]?.clinic?.facility
-                ?.displayName,
+            subTitle: facilityName,
           };
         });
       } else {

@@ -2,40 +2,63 @@ import React from 'react';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import {
-  getClinicFromAppointment,
-  getFacilityFromAppointment,
-} from '../../../shared/utils';
+  location as locationSelector,
+  organization as organizationSelector,
+} from '../../../shared/utils/selectors';
 
 export default function ConfirmationPageFooter(props) {
-  const { appointment } = props;
+  const { context } = props;
+  const { location: clinic, organization: facility } = context;
 
   const PhoneNumbers = () => {
-    const clinic = getClinicFromAppointment(appointment);
-    const facility = getFacilityFromAppointment(appointment);
-    const facilityId = appointment.attributes.facilityId;
-    if (clinic && clinic.phoneNumber && facility && facility.phoneNumber) {
+    const clinicName = locationSelector.getName(clinic);
+    const clinicPhone = locationSelector.getPhoneNumber(clinic, {
+      separateExtension: true,
+    });
+    const facilityName = organizationSelector.getName(facility);
+    const facilityPhone = organizationSelector.getPhoneNumber(facility, {
+      separateExtension: true,
+    });
+    const facilityId = organizationSelector.getFacilityIdentifier(facility);
+    if (clinic && clinicPhone?.number && facility && facilityPhone?.number) {
       return (
         <span data-testid="full-details">
           If you have questions about your upcoming appointment, please call
-          your VA provider. You can contact them at {clinic.friendlyName} at{' '}
-          <Telephone contact={clinic.phoneNumber} /> or {facility.displayName}{' '}
-          at <Telephone contact={facility.phoneNumber} />.
+          your VA provider. You can contact them at {clinicName} at{' '}
+          <Telephone
+            contact={clinicPhone.number}
+            extension={clinicPhone.extension}
+          />{' '}
+          or {facilityName} at{' '}
+          <Telephone
+            contact={facilityPhone.number}
+            extension={facilityPhone.extension}
+          />
+          .
         </span>
       );
-    } else if (clinic && clinic.phoneNumber) {
+    } else if (clinic && clinicPhone?.number) {
       return (
         <span data-testid="clinic-only-details">
           If you have questions about your upcoming appointment, please call
-          your VA provider. You can contact them at {clinic.friendlyName} at{' '}
-          <Telephone contact={clinic.phoneNumber} />.
+          your VA provider. You can contact them at {clinicName} at{' '}
+          <Telephone
+            contact={clinicPhone.number}
+            extension={clinicPhone.extension}
+          />
+          .
         </span>
       );
-    } else if (facility && facility.phoneNumber) {
+    } else if (facility && facilityPhone?.number) {
       return (
         <span data-testid="facility-only-details">
           If you have questions about your upcoming appointment, please call
-          your VA provider. You can contact them at {facility.displayName} at{' '}
-          <Telephone contact={facility.phoneNumber} />.
+          your VA provider. You can contact them at {facilityName} at{' '}
+          <Telephone
+            contact={facilityPhone.number}
+            extension={facilityPhone.extension}
+          />
+          .
         </span>
       );
     } else {
@@ -43,7 +66,7 @@ export default function ConfirmationPageFooter(props) {
         <span data-testid="default-details">
           If you have questions about your upcoming appointment, please call
           your VA provider.{' '}
-          <a href={`/find-locations/facility/vha_${facilityId}`}>
+          <a href={`/find-locations/facility/${facilityId}`}>
             Contact your VA provider
           </a>
           .

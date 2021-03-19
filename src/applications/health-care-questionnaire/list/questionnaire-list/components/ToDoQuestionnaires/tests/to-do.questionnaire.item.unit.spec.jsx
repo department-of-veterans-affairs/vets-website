@@ -4,8 +4,8 @@ import { mount } from 'enzyme';
 
 import ToDoQuestionnaireItem from '../ToDoQuestionnaireItem';
 
-import upcomingAppointment from '../../../../../shared/api/mock-data/fhir/upcoming.appointment.not.started.primary.care.questionnaire.json';
-import cancelledAppointment from '../../../../../shared/api/mock-data/fhir/cancelled.appointment.completed.primary.care.questionnaire.json';
+import upcomingAppointment from './data/upcoming.json';
+import cancelledAppointment from './data/cancelled.json';
 
 describe('health care questionnaire list - display a questionnaire item', () => {
   it('basic information - canceled appointment', () => {
