@@ -43,10 +43,17 @@ describe('<ManageDependentsApp />', () => {
       />,
       {
         initialState,
-        reducers: removeDependents,
+        reducers: { removeDependents },
       },
     );
     expect(await screen.findByText('Remove dependent', { selector: 'button' }))
       .to.exist;
+    expect(await screen.findByLabelText('Divorce')).to.exist;
+    expect(await screen.findByLabelText('Annulment')).to.exist;
+    expect(await screen.findByLabelText('Declared Void')).to.exist;
+    expect(await screen.findByLabelText('Spouse’s Death')).to.exist;
+    expect(await screen.findByText('Date marriage ended')).to.exist;
+    expect(await screen.findByText('State where this happened')).to.exist;
+    expect(await screen.findByText('City where this happened')).to.exist;
   });
 });
