@@ -4,41 +4,25 @@ import { mount } from 'enzyme';
 
 import ConfirmationPageFooter from '../ConfirmationPageFooter';
 
+import sampleData from '../../../../shared/api/mock-data/fhir/upcoming.appointment.not.started.primary.care.questionnaire.json';
+
 describe('health care questionnaire - confirmation page footer -- phone numbers -- ', () => {
   it('has appointment - show both clinic and facility', () => {
-    const appointment = {
-      attributes: {
-        clinicFriendlyName: 'my friendly clinic name',
-        facilityId: '983',
-        vdsAppointments: [
-          {
-            clinic: {
-              name: 'CHY PC VAR2',
-              phoneNumber: '8889990000',
-              facility: {
-                displayName: 'my facility name',
-                phoneNumber: '4445556666',
-              },
-            },
-          },
-        ],
-      },
-    };
     const mountedComponent = mount(
-      <ConfirmationPageFooter appointment={appointment} />,
+      <ConfirmationPageFooter context={sampleData} />,
     );
     expect(
       mountedComponent.find('[data-testid="full-details"]').text(),
-    ).to.contain('my facility name');
+    ).to.contain('NEW AMSTERDAM CBOC');
     expect(
       mountedComponent.find('[data-testid="full-details"]').text(),
-    ).to.contain('444-555-6666');
+    ).to.contain('800-555-7710');
     expect(
       mountedComponent.find('[data-testid="full-details"]').text(),
-    ).to.contain('my friendly clinic name');
+    ).to.contain('TEM MH PSO TRS IND93EH 2');
     expect(
       mountedComponent.find('[data-testid="full-details"]').text(),
-    ).to.contain('888-999-0000');
+    ).to.contain('254-743-2867, ext. x0002');
     mountedComponent.unmount();
   });
   it('has appointment - show clinic only', () => {

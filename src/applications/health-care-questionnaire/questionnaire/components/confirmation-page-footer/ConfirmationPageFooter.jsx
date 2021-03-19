@@ -46,6 +46,7 @@ export default function ConfirmationPageFooter(props) {
             contact={clinicPhone.number}
             extension={clinicPhone.extension}
           />
+          .
         </span>
       );
     } else if (facility && facilityPhone?.number) {
@@ -57,6 +58,7 @@ export default function ConfirmationPageFooter(props) {
             contact={facilityPhone.number}
             extension={facilityPhone.extension}
           />
+          .
         </span>
       );
     } else {
