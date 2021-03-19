@@ -855,12 +855,7 @@ export const directToCorrectForm = ({
     // Redirect to the other app
     window.location.assign(`${baseUrl}/resume`);
   } else {
-    router.push(
-      returnUrl ||
-        // returnUrl is undefined when reloading & submitting on the review &
-        // submit page (while testing); an undefined returnUrl crashes the form
-        `/${formConfig.chapters.veteranDetails.pages.veteranInformation.path}`,
-    );
+    router.push(returnUrl);
   }
 };
 

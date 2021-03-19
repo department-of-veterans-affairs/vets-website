@@ -333,8 +333,6 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
       return null;
     };
     // Initialize search for errors
-    Object.keys(error).forEach(key => {
-      findErrors(key, error);
-    });
+    Object.keys(error).forEach(key => findErrors(key, error));
     return processedErrors;
   }, []);

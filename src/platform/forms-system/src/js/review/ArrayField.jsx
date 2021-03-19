@@ -40,7 +40,7 @@ class ArrayField extends React.Component {
       items: arrayData,
       editing: arrayData.map(
         (item, index) =>
-          // put empty fields into edit mode when a duplicateKey is provided
+          // put empty fields & duplicate entries into edit mode
           duplicates.includes(index) || (key && (item[key] || '') === ''),
       ),
     };
