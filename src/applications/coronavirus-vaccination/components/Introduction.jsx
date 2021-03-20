@@ -123,42 +123,40 @@ function Introduction({
               <p>
                 <strong>What you should know about signing up</strong>
               </p>
-              <p>
-                <ul>
-                  <li>
-                    <strong>
-                      If you're a Veteran currently receiving care through VA,
-                    </strong>{' '}
-                    we'll ask about your vaccine plans when you sign up. We
-                    continue to contact Veterans as they become eligible to get
-                    a COVID-19 vaccine. We base eligibility on VA and{' '}
-                    <a
-                      href="https://www.cdc.gov/vaccines/covid-19/phased-implementation.html"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="CDC COVID-19 risk criteria phased implemention (Open in a new window)"
-                    >
-                      CDC COVID-19 risk criteria
-                    </a>
-                    . Within each risk group, we may first contact Veterans who
-                    sign up here and tell us that they plan to get a vaccine.
-                    But we’ll still contact every eligible Veteran in each risk
-                    group to ask if they want to get a vaccine. You don’t need
-                    to sign up here, call, or come to a VA facility to request
-                    or reserve a vaccine.
-                  </li>
-                  <li>
-                    <strong>
-                      If you're a Veteran, spouse, or caregiver not receiving
-                      care through VA,
-                    </strong>{' '}
-                    sign up to tell us if you want to get a vaccine through VA.
-                    If you're eligible, we'll contact you when we have a vaccine
-                    available for you. At this time, we don't know when that
-                    will be.
-                  </li>
-                </ul>
-              </p>
+              <ul>
+                <li>
+                  <strong>
+                    If you're a Veteran currently receiving care through VA,
+                  </strong>{' '}
+                  we'll ask about your vaccine plans when you sign up. We
+                  continue to contact Veterans as they become eligible to get a
+                  COVID-19 vaccine. We base eligibility on VA and{' '}
+                  <a
+                    href="https://www.cdc.gov/vaccines/covid-19/phased-implementation.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="CDC COVID-19 risk criteria phased implemention (Open in a new window)"
+                  >
+                    CDC COVID-19 risk criteria
+                  </a>
+                  . Within each risk group, we may first contact Veterans who
+                  sign up here and tell us that they plan to get a vaccine. But
+                  we’ll still contact every eligible Veteran in each risk group
+                  to ask if they want to get a vaccine. You don’t need to sign
+                  up here, call, or come to a VA facility to request or reserve
+                  a vaccine.
+                </li>
+                <li>
+                  <strong>
+                    If you're a Veteran, spouse, or caregiver not receiving care
+                    through VA,
+                  </strong>{' '}
+                  sign up to tell us if you want to get a vaccine through VA. If
+                  you're eligible, we'll contact you when we have a vaccine
+                  available for you. At this time, we don't know when that will
+                  be.
+                </li>
+              </ul>
               <p>
                 By sharing your plans for getting a vaccine, you help us better
                 plan our efforts. This helps us do the most good with our
