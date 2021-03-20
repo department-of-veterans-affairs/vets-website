@@ -142,9 +142,7 @@ function Introduction({
                   . Within each risk group, we may first contact Veterans who
                   sign up here and tell us that they plan to get a vaccine. But
                   we’ll still contact every eligible Veteran in each risk group
-                  to ask if they want to get a vaccine. You don’t need to sign
-                  up here, call, or come to a VA facility to request or reserve
-                  a vaccine.
+                  to ask if they want to get a vaccine.
                 </li>
                 <li>
                   <strong>

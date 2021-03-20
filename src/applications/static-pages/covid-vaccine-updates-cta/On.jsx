@@ -55,7 +55,7 @@ function OnState({ copy }) {
               ''
             )}
 
-            <p> {copy.body ? copy.body : ''}</p>
+            {copy.body ? <p>{copy.body}</p> : ''}
             <p>
               {copy.boldedNote ? <strong>{copy.boldedNote} </strong> : ''}
               {copy.note ? copy.note : ''}

@@ -15,7 +15,7 @@ const copy = {
     expandedEligibilityContent: {
       veteran: {
         boldedNote: `If you're a Veteran currently receiving care through VA,`,
-        body: ` we'll ask about your vaccine plans. Your local VA health facility may use this information to determine when to contact you once your risk group becomes eligible.`,
+        body: ` we'll ask about your vaccine plans when you sign up. Your local VA health facility may use this information to determine when to contact you once your risk group becomes eligible.`,
       },
       nonVeteran: {
         boldedNote: `If you're a Veteran, spouse, or caregiver not receiving care through VA,`,
