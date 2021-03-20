@@ -96,6 +96,15 @@ const FACILITY_MENU_NAMES = [
   'va-san-francisco-health-care',
   'va-sierra-nevada-health-care',
   'va-southern-nevada-health-care',
+  // VISN 22
+  'va-greater-los-angeles-health-ca',
+  'va-loma-linda-health-care',
+  'va-long-beach-health-care',
+  'va-new-mexico-health-care',
+  'va-northern-arizona health-care',
+  'va-phoenix-health-care',
+  'va-san-diego-health-care',
+  'va-southern-arizona-health-care',
   // VISN 23
   'va-black-hills-health-care',
   'va-central-iowa-health-care',
