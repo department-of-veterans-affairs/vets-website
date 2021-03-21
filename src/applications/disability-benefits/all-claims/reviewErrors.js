@@ -6,6 +6,8 @@ export default {
   servicePeriods: 'Please add a military service period',
   'view:hasMilitaryRetiredPay':
     'Please share if you have received military retired pay at any time',
+  servedInCombatZonePost911:
+    'Please let us know if you served in a combat zone after September 11, 2001',
   hasTrainingPay:
     'Please share if you expect to receive active or inactive duty training pay',
   'view:powStatus': 'Please let us know if you have ever been a POW',
