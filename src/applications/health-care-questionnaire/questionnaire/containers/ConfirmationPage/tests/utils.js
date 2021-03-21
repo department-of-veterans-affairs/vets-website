@@ -13,18 +13,22 @@ const createFakeConfirmationStore = ({ hasData }) => {
             },
             questionnaireData: {
               context: {
-                appointment: {
-                  attributes: {
-                    vdsAppointments: [
-                      {
-                        clinic: {
-                          stopCode: '323',
-                          facility: { displayName: 'Magic Kingdom' },
+                location: {
+                  type: [
+                    {
+                      coding: [
+                        {
+                          display: 'Primary Care',
                         },
-                      },
-                    ],
-                  },
+                      ],
+                      text: 'Primary Care',
+                    },
+                  ],
                 },
+                organization: {
+                  name: 'Magic Kingdom',
+                },
+                appointment: {},
               },
             },
           }
