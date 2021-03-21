@@ -154,18 +154,18 @@ const findTargets = (error, { getLabel = true } = {}) => {
   }
   // Find all visible elements within the form
   const form = el?.closest('.form-review-panel-page')?.querySelectorAll('form');
-  const formElement = getFocusableElements(form[error.index] || form[0]);
+  const formElements = getFocusableElements(form[error.index] || form[0]);
   // narrow down search to a matching id (if possible)
   const firstElement =
-    formElement.filter(elm => elm.id.includes(`_${error.name}`))[0] ||
+    formElements.filter(elm => elm.id.includes(`_${error.name}`))[0] ||
     // ID may not match the name in an array block (e.g. 526 servicePeriods)
-    formElement[0];
+    formElements[0];
   return {
     scroll: el,
     focus:
       (getLabel
         ? firstElement
-            ?.closest('.schemaform-field-template')
+            ?.closest('.schemaform-field-container')
             ?.querySelector('legend, label')
         : firstElement) || el,
   };
