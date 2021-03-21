@@ -15,7 +15,11 @@ import classNames from 'classnames';
 
 class SearchControls extends Component {
   handleQueryChange = e => {
-    this.props.onChange({ searchString: e.target.value.trim() });
+    this.props.onChange({
+      searchString: /^\s+$/.test(e.target.value)
+        ? e.target.value.trim()
+        : e.target.value,
+    });
   };
 
   handleLocationBlur = e => {
