@@ -85,6 +85,7 @@ const HealthCare = ({
             newTab
             text={messagesText}
           />
+
           {/* Prescriptions */}
           <IconCTALink
             href={mhvUrl(
@@ -95,6 +96,7 @@ const HealthCare = ({
             newTab
             text="Refill and track your prescriptions"
           />
+
           {/* Lab and test results */}
           <IconCTALink
             href={mhvUrl(authenticatedWithSSOe, 'download-my-data')}

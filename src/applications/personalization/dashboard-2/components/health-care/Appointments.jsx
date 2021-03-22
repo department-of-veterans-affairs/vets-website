@@ -30,10 +30,9 @@ export const Appointments = ({ authenticatedWithSSOe, appointments }) => {
     locationName = nextAppointment?.providerName;
   }
 
-  // change url to vaos
   const cardDetails = {
     ctaIcon: 'calendar',
-    ctaHref: mhvUrl(authenticatedWithSSOe, 'appointments'),
+    ctaHref: '/health-care/schedule-view-va-appointments/appointments',
     ctaAriaLabel: 'Manage all appointments',
     ctaOnClick: recordDashboardClick('manage-all-appointments'),
     ctaText: 'Manage all appointments',
@@ -79,15 +78,15 @@ export const Appointments = ({ authenticatedWithSSOe, appointments }) => {
         <p>{cardDetails?.line1}</p>
         {hasUpcomingAppointment && (
           <>
-            <p>{cardDetails.line2}</p>
+            <p>{cardDetails?.line2}</p>
             <p>{cardDetails?.line3}</p>
           </>
         )}
         <CTALink
-          text={cardDetails?.ctaText}
-          icon={cardDetails?.ctaIcon}
-          href={cardDetails?.ctaHref}
-          ariaLabel={cardDetails?.ctaAriaLabel}
+          text={cardDetails.ctaText}
+          icon={cardDetails.ctaIcon}
+          href={cardDetails.ctaHref}
+          ariaLabel={cardDetails.ctaAriaLabel}
         />
       </div>
     </div>
