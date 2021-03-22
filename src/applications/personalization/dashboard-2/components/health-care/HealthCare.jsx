@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import backendServices from '~/platform/user/profile/constants/backendServices';
 import { GeneralCernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
 import { fetchFolder as fetchInboxAction } from '~/applications/personalization/dashboard/actions/messaging';
 import { FOLDER } from '~/applications/personalization/dashboard-2/constants';
@@ -16,15 +15,10 @@ import {
   selectIsCernerPatient,
 } from '~/platform/user/selectors';
 
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+
 import Appointments from './Appointments';
 import IconCTALink from '../IconCTALink';
-
-import {
-  messagesCTA,
-  prescriptionsCTA,
-  labResultsCTA,
-  medicalRecordsCTA,
-} from '~/applications/personalization/dashboard-2/components/health-care/ctaHelper';
 
 const HealthCare = ({
   appointments,
@@ -32,7 +26,6 @@ const HealthCare = ({
   fetchConfirmedFutureAppointments,
   isCernerPatient,
   facilityNames,
-  canAccessMessaging,
   fetchInbox,
   unreadMessagesCount,
   // TODO: possibly remove this prop in favor of mocking API calls in our unit tests
@@ -49,11 +42,11 @@ const HealthCare = ({
 
   useEffect(
     () => {
-      if (canAccessMessaging && !dataLoadingDisabled) {
+      if (!dataLoadingDisabled) {
         fetchInbox(FOLDER.inbox);
       }
     },
-    [canAccessMessaging, fetchInbox, dataLoadingDisabled],
+    [fetchInbox, dataLoadingDisabled],
   );
 
   if (isCernerPatient && facilityNames?.length) {
@@ -64,6 +57,11 @@ const HealthCare = ({
       />
     );
   }
+
+  const messagesText =
+    typeof unreadMessagesCount === 'number'
+      ? `You have ${unreadMessagesCount} new messages`
+      : 'Send a secure message to your health care team';
 
   return (
     <div className="health-care vads-u-margin-y--6">
@@ -81,17 +79,36 @@ const HealthCare = ({
         <div className="vads-u-display--flex vads-u-flex-direction--column cta-links vads-u-flex--1">
           {/* Messages */}
           <IconCTALink
-            CTA={messagesCTA(authenticatedWithSSOe, unreadMessagesCount)}
+            boldText={unreadMessagesCount > 0}
+            href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
+            icon="comments"
+            newTab
+            text={messagesText}
+          />
+          {/* Prescriptions */}
+          <IconCTALink
+            href={mhvUrl(
+              authenticatedWithSSOe,
+              'web/myhealthevet/refill-prescriptions',
+            )}
+            icon="prescription-bottle"
+            newTab
+            text="Refill and track your prescriptions"
+          />
+          {/* Lab and test results */}
+          <IconCTALink
+            href={mhvUrl(authenticatedWithSSOe, 'download-my-data')}
+            icon="clipboard-list"
+            newTab
+            text="Get your lab and test results"
           />
 
-          {/* Prescriptions */}
-          <IconCTALink CTA={prescriptionsCTA(authenticatedWithSSOe)} />
-
-          {/* Lab and test results */}
-          <IconCTALink CTA={labResultsCTA(authenticatedWithSSOe)} />
-
           {/* VA Medical records */}
-          <IconCTALink CTA={medicalRecordsCTA} />
+          <IconCTALink
+            href="/health-care/get-medical-records/"
+            icon="file-medical"
+            text="Get your VA medical records"
+          />
         </div>
       </div>
     </div>
@@ -129,9 +146,6 @@ const mapStateToProps = state => {
     isCernerPatient: selectIsCernerPatient(state),
     facilityNames,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
-    canAccessMessaging: state.user.profile?.services?.includes(
-      backendServices.MESSAGING,
-    ),
     unreadMessagesCount: selectUnreadMessagesCount(state),
   };
 };

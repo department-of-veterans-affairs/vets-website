@@ -1,14 +1,15 @@
 import React from 'react';
 
-const CTALink = ({ CTA }) => {
-  const { ariaLabel, href, text, onClick } = CTA;
+const CTALink = ({ ariaLabel, href, text, onClick, newTab }) => {
+  const relProp = newTab ? 'noreferrer noopener' : undefined;
+  const targetProp = newTab ? '_blank' : undefined;
 
   return (
     <a
-      aria-label={ariaLabel ? `${ariaLabel} (opens in new tab)` : ''}
+      aria-label={ariaLabel ? `${ariaLabel}` : ''}
       href={href}
-      rel="noreferrer noopener"
-      target="_blank"
+      rel={relProp}
+      target={targetProp}
       onClick={onClick || undefined}
       className="vads-u-margin-top--2"
     >

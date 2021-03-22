@@ -30,6 +30,7 @@ export const Appointments = ({ authenticatedWithSSOe, appointments }) => {
     locationName = nextAppointment?.providerName;
   }
 
+  // change url to vaos
   const cardDetails = {
     ctaIcon: 'calendar',
     ctaHref: mhvUrl(authenticatedWithSSOe, 'appointments'),
@@ -69,13 +70,6 @@ export const Appointments = ({ authenticatedWithSSOe, appointments }) => {
     ? standardClass
     : `vads-u-background-color--gray-lightest ${standardClass}`;
 
-  const CTA = {
-    text: cardDetails?.ctaText,
-    icon: cardDetails?.ctaIcon,
-    href: cardDetails?.ctaHref,
-    ariaLabel: cardDetails?.ctaAriaLabel,
-  };
-
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-flex--1 vads-u-margin-right--3">
       <div className={backgroundClasses}>
@@ -89,7 +83,12 @@ export const Appointments = ({ authenticatedWithSSOe, appointments }) => {
             <p>{cardDetails?.line3}</p>
           </>
         )}
-        <CTALink CTA={CTA} />
+        <CTALink
+          text={cardDetails?.ctaText}
+          icon={cardDetails?.ctaIcon}
+          href={cardDetails?.ctaHref}
+          ariaLabel={cardDetails?.ctaAriaLabel}
+        />
       </div>
     </div>
   );

@@ -1,18 +1,27 @@
 import React from 'react';
 
-const IconCTALink = ({ CTA }) => {
-  const { ariaLabel, href, text, icon, onClick, boldText } = CTA;
-
+const IconCTALink = ({
+  ariaLabel,
+  href,
+  text,
+  icon,
+  onClick,
+  boldText,
+  newTab,
+}) => {
   const linkClass = `vads-u-text-decoration--none vads-u-padding-y--2p5 vads-u-padding-x--1 cta-link vads-u-font-weight--${
     boldText ? 'bold' : 'normal'
   }`;
 
+  const relProp = newTab ? 'noreferrer noopener' : undefined;
+  const targetProp = newTab ? '_blank' : undefined;
+
   return (
     <a
-      aria-label={ariaLabel ? `${ariaLabel} (opens in new tab)` : ''}
+      aria-label={ariaLabel ? `${ariaLabel}` : ''}
       href={href}
-      rel="noreferrer noopener"
-      target="_blank"
+      rel={relProp}
+      target={targetProp}
       onClick={onClick || undefined}
       className={linkClass}
     >
