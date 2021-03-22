@@ -215,8 +215,8 @@ function handleNext(onClickNext, months, setMonths) {
  * @param {string} props.maxSelectionsError
  * @param {string} props.minDate YYYY-MM-DD
  * @param {Function} props.onChange
- * @param {Function} props.onClickNext
- * @param {Function} props.onClickPrev
+ * @param {Function} props.onNextMonth
+ * @param {Function} props.onPreviousMonth
  * @param {Function} props.renderOptions
  * @param {Function} props.renderIndicator
  * @param {boolean} props.required
@@ -237,8 +237,8 @@ function CalendarWidget({
   maxSelectionsError = "You've exceeded the maximum number of selections",
   minDate,
   onChange,
-  onClickNext: onNextMonth,
-  onClickPrev: onPreviousMonth,
+  onNextMonth,
+  onPreviousMonth,
   renderOptions,
   renderIndicator,
   required,
@@ -388,8 +388,8 @@ CalendarWidget.propTypes = {
   maxSelectionsError: PropTypes.string,
   startMonth: PropTypes.string,
   onChange: PropTypes.func,
-  onClickNext: PropTypes.func,
-  onClickPrev: PropTypes.func,
+  onNextMonth: PropTypes.func,
+  onPreviousMonth: PropTypes.func,
   renderIndicator: PropTypes.func,
   renderOptions: PropTypes.func,
   required: PropTypes.bool,
