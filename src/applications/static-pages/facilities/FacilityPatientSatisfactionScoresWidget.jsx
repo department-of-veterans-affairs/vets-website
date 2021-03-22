@@ -18,8 +18,16 @@ export function FacilityPatientSatisfactionScoresWidget(props) {
 
   const facility = props.facility.attributes;
 
+  if (Object.values(facility.feedback.health).length === 0) return null;
+
   return (
     <div>
+      <h2
+        id="our-patient-satisfaction-scores"
+        className="vads-u-margin-top--4 vads-u-font-size--lg small-screen:vads-u-font-size--xl"
+      >
+        Veteran satisfaction with appointment wait times at this location
+      </h2>
       <p>
         VA measures Veteran satisfaction with getting timely appointments at
         each of our health facilities. We use a health care industry standard,
