@@ -14,8 +14,17 @@ import environment from 'platform/utilities/environment';
 import classNames from 'classnames';
 
 class SearchControls extends Component {
+  onlySpaces = str => /^\s+$/.test(str);
+
   handleQueryChange = e => {
-    this.props.onChange({ searchString: e.target.value.trim() });
+    // prevent users from entering only spaces
+    // because this will not trigger a change
+    // when they exit the field
+    this.props.onChange({
+      searchString: this.onlySpaces(e.target.value)
+        ? e.target.value.trim()
+        : e.target.value,
+    });
   };
 
   handleLocationBlur = e => {
