@@ -43,10 +43,11 @@ export const WhatIfIDontSignUp = () => {
   return (
     <>
       <p>
-        Yes. You don’t have to sign up to get a vaccine. When you’re eligible to
-        get a vaccine, your local VA health facility will contact you to ask if
-        you want one. But if you do sign up and tell us you plan to get a
-        vaccine, your facility may contact you sooner.
+        If you're a Veteran currently receiving care through VA, you don’t have
+        to sign up to get a vaccine. When you’re eligible to get a vaccine, your
+        local VA health facility will contact you to ask if you want one. But if
+        you do sign up and tell us you plan to get a vaccine, your facility may
+        contact you sooner.
       </p>
       <p>
         If you signed up before and want to update your information, you can

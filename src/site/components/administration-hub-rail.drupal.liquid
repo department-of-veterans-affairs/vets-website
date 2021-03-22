@@ -1,66 +1,62 @@
-<ul data-template="components/administration-hub-rail" data-entity-id="{{ administration.entityId }}" class="usa-accordion-bordered social">
-    <li>
-        {% assign accordionId = administration.entityBundle | append: administration.entityId  %}
-        <button class="usa-accordion-button usa-accordion-button-dark rail-heading" aria-expanded="true" aria-controls="{{ accordionId }}">Connect with us</button>
-        <div id="{{ accordionId }}" class="usa-accordion-content" aria-hidden="false">
-            {% if administration.fieldLink.url.path != empty %}
-              <h4 class="va-nav-linkslist-list">
-                  <a href="{{ administration.fieldLink.url.path }}"
-                    onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Connect with us' });">{{ administration.name }}</a>
-              </h4>
+<va-accordion bordered data-template="components/administration-hub-rail" data-entity-id={{ administration.entityId }}" class="social">
+  <va-accordion-item level="3" header="Connect with us" open="true">
+    {% if administration.fieldLink.url.path != empty %}
+      <h4 class="va-nav-linkslist-list">
+        <a href="{{ administration.fieldLink.url.path }}"
+          onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Connect with us' });">{{ administration.name }}</a>
+      </h4>
+    {% endif %}
+
+  <section>
+    <h4>Get updates</h4>
+      <ul class="va-nav-linkslist-list social">
+        <li>
+          <a href="{{ administration.fieldEmailUpdatesUrl }}"
+            onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Connect with us' });">
+            <i class="fas fa-envelope vads-u-padding-right--1"></i>
+              {{ administration.fieldEmailUpdatesLinkText }}
+          </a>
+        </li>
+    </ul>
+  </section>
+
+  <section>
+    <h4>Follow us</h4>
+      <ul class="va-nav-linkslist-list social">
+        {% assign socialLinks =  administration.fieldSocialMediaLinks.platformValues | jsonToObj %}
+        {% assign socialPlatforms = socialLinks | keys %}
+        {% for socialPlatform in socialPlatforms %}
+          {% assign socialLink = socialLinks | get: socialPlatform  %}
+          {%  if socialLink.value %}
+            {% if socialPlatform = "youtube_channel" %}
+              <li>
+                <a href="http://youtube.com/channel/{{ socialLink.value }}"
+                  onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Connect with us' });">
+                  <i class="fab fa-youtube vads-u-padding-right--1"></i>
+                    {{ administration.name }} {{ socialPlatform | remove: '_' | capitalize }}
+                </a>
+              </li>
+            {% elsif socialPlatform == "youtube" %}
+              <li>
+                <a href="http://{{ socialPlatform }}.com/{{ socialLink.value }}"
+                  onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Connect with us' });">
+                  <i class="fab fa-{{ socialPlatform }} vads-u-padding-right--1"></i>
+                  {{ administration.name }} YouTube
+                </a>
+              </li>
+            {% else %}
+              <li>
+                <a href="http://{{ socialPlatform }}.com/{{ socialLink.value }}"
+                  onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Connect with us' });">
+                  <i class="fab fa-{{ socialPlatform }} vads-u-padding-right--1"></i>
+                  {{ administration.name }} {{ socialPlatform | capitalize }}
+                </a>
+              </li>
             {% endif %}
-
-            <section>
-                <h4>Get updates</h4>
-                <ul class="va-nav-linkslist-list social">
-                    <li>
-                        <a href="{{ administration.fieldEmailUpdatesUrl }}"
-                          onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Connect with us' });">
-                            <i class="fas fa-envelope vads-u-padding-right--1"></i>
-                            {{ administration.fieldEmailUpdatesLinkText }}
-                        </a>
-                    </li>
-                </ul>
-            </section>
-
-            <section>
-                <h4>Follow us</h4>
-                <ul class="va-nav-linkslist-list social">
-                    {% assign socialLinks =  administration.fieldSocialMediaLinks.platformValues | jsonToObj %}
-                    {% assign socialPlatforms = socialLinks | keys %}
-                    {% for socialPlatform in socialPlatforms %}
-                        {% assign socialLink = socialLinks | get: socialPlatform  %}
-                        {%  if socialLink.value %}
-                            {% if socialPlatform = "youtube_channel" %}
-                                <li>
-                                    <a href="http://youtube.com/channel/{{ socialLink.value }}"
-                                      onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Connect with us' });">
-                                        <i class="fab fa-youtube vads-u-padding-right--1"></i>
-                                        {{ administration.name }} {{ socialPlatform | remove: '_' | capitalize }}
-                                    </a>
-                                </li>
-                            {% elsif socialPlatform == "youtube" %}
-                                <li>
-                                    <a href="http://{{ socialPlatform }}.com/{{ socialLink.value }}"
-                                      onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Connect with us' });">
-                                        <i class="fab fa-{{ socialPlatform }} vads-u-padding-right--1"></i>
-                                        {{ administration.name }} YouTube
-                                    </a>
-                                </li>
-                            {% else %}
-                                <li>
-                                    <a href="http://{{ socialPlatform }}.com/{{ socialLink.value }}"
-                                      onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Connect with us' });">
-                                        <i class="fab fa-{{ socialPlatform }} vads-u-padding-right--1"></i>
-                                        {{ administration.name }} {{ socialPlatform | capitalize }}
-                                    </a>
-                                </li>
-                            {% endif %}
-                        {%  endif %}
-                    {% endfor %}
-                </ul>
-            </section>
-        </div>
-    </li>
-</ul>
+          {%  endif %}
+        {% endfor %}
+      </ul>
+    </section>
+  </va-accordion-item>
+</va-accordion>
 

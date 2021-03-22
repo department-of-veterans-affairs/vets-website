@@ -19,7 +19,7 @@ export function fetchSearchResults(query, page, analyticsMetaInfo) {
       .then(response => {
         if (analyticsMetaInfo) {
           recordEvent({
-            event: 'view_search_results',
+            event: analyticsMetaInfo?.eventName,
             'search-page-path': analyticsMetaInfo?.path,
             'search-query': analyticsMetaInfo?.userInput,
             'search-results-total-count':
@@ -33,6 +33,8 @@ export function fetchSearchResults(query, page, analyticsMetaInfo) {
               analyticsMetaInfo?.keywordSelected,
             'type-ahead-option-position': analyticsMetaInfo?.keywordPosition,
             'type-ahead-options-list': analyticsMetaInfo?.suggestionsList,
+            'type-ahead-options-count':
+              analyticsMetaInfo?.suggestionsList.length,
           });
         }
         dispatch({

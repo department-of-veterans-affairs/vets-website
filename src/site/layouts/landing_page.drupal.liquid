@@ -73,14 +73,8 @@
         {% include "src/site/blocks/promo.drupal.liquid" with entity = fieldPromo.entity %}
         {% endif %}
 
-        <ul class="usa-accordion-bordered social">
-          <li>
-            <button
-              class="usa-accordion-button usa-accordion-button-dark rail-heading"
-              aria-expanded="true" aria-controls="a1">
-              Ask questions
-            </button>
-            <div id="a1" class="usa-accordion-content" aria-hidden="false">
+        <va-accordion bordered multi>
+          <va-accordion-item level="3" open="true" header="Ask questions">
               <section>
                 <h4>Message us</h4>
                 <ul class="va-nav-linkslist-list social">
@@ -114,18 +108,10 @@
                 </ul>
               </section>
               {% endif %}
-            </div>
-          </li>
-        </ul>
+          </va-accordion-item>
 
         {% if fieldLinks != empty and fieldLinks.length > 0 %}
-        <ul class="usa-accordion-bordered links">
-          <li>
-            <button class="usa-accordion-button usa-accordion-button-dark rail-heading"
-              aria-expanded="true" aria-controls="a2">
-              Not a Veteran?
-            </button>
-            <div id="a2" class="usa-accordion-content" aria-hidden="false">
+          <va-accordion-item level="3" open="true" header="Not a Veteran?">
             <section>
               <h4>Get information for:</h4>
               <ul class="va-nav-linkslist-list links">
@@ -139,11 +125,9 @@
                 {% endfor %}
               </ul>
             </section>
-
-            </div>
-          </li>
-        </ul>
+          </va-accordion-item>
         {% endif %}
+        </va-accordion>
 
         {% if fieldAdministration != empty and fieldAdministration.entity.name != "Records benefits hub" %}
           {% include "src/site/components/administration-hub-rail.drupal.liquid" administration = fieldAdministration.entity %}

@@ -111,8 +111,9 @@ describe('VAOS vaccine flow', () => {
       store,
     });
 
-    expect(await screen.findByText(/None of your registered facilities/i)).to.be
-      .ok;
+    expect(
+      await screen.findByText(/Contact one of your registered VA facilities/i),
+    ).to.be.ok;
   });
 
   it('should render warning message', async () => {

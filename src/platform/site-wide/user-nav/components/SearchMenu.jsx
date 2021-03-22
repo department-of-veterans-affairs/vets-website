@@ -27,6 +27,7 @@ export class SearchMenu extends React.Component {
     this.state = {
       userInput: '',
       suggestions: [],
+      savedSuggestions: [],
       highlightedIndex: null,
     };
   }
@@ -106,7 +107,7 @@ export class SearchMenu extends React.Component {
         this.setState({ suggestions: sortedSuggestions });
         return;
       }
-      this.setState({ suggestions });
+      this.setState({ suggestions, savedSuggestions: [] });
       // if we fail to fetch suggestions
     } catch (error) {
       Sentry.captureException(error);
@@ -159,16 +160,21 @@ export class SearchMenu extends React.Component {
     }
   };
 
+  handleSearchTab = () => {
+    const { suggestions } = this.state;
+    this.setState({ suggestions: [], savedSuggestions: suggestions });
+  };
+
   // handle event logging and fire off a search query
   handleSearchEvent = suggestion => {
-    const { suggestions, userInput } = this.state;
+    const { suggestions, userInput, savedSuggestions } = this.state;
     const { isUserInputValid } = this;
 
+    const suggestionsList = [...suggestions, ...savedSuggestions];
     // if the user tries to search with an empty input, escape early
     if (!isUserInputValid()) {
       return;
     }
-
     // event logging, note suggestion will be undefined during a userInput search
     recordEvent({
       event: 'view_search_results',
@@ -181,9 +187,10 @@ export class SearchMenu extends React.Component {
       'sitewide-search-app-used': true,
       'type-ahead-option-keyword-selected': suggestion,
       'type-ahead-option-position': suggestion
-        ? suggestions.indexOf(suggestion) + 1
+        ? suggestionsList.indexOf(suggestion) + 1
         : undefined,
-      'type-ahead-options-list': suggestions,
+      'type-ahead-options-list': suggestionsList,
+      'type-ahead-options-count': suggestionsList.length,
     });
 
     // unifier to let the same function be used if we are searching from a userInput or a suggestion
@@ -226,6 +233,7 @@ export class SearchMenu extends React.Component {
       handleKeyUp,
       isUserInputValid,
       formatSuggestion,
+      handleSearchTab,
     } = this;
 
     const highlightedSuggestion =
@@ -319,7 +327,7 @@ export class SearchMenu extends React.Component {
                   event.preventDefault();
                   handleSearchEvent();
                 }}
-                onFocus={() => this.setState({ suggestions: [] })}
+                onFocus={handleSearchTab}
               >
                 <IconSearch color="#fff" />
                 <span className="usa-sr-only">Search</span>
