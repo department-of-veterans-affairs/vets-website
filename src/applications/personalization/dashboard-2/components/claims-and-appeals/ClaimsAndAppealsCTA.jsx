@@ -1,6 +1,6 @@
 import React from 'react';
 
-import NotificationCTA from '../NotificationCTA';
+import IconCTALink from '../IconCTALink';
 
 const ClaimsAndAppealsCTA = ({ count }) => {
   let content = 'Go to all claims or appeals';
@@ -11,7 +11,7 @@ const ClaimsAndAppealsCTA = ({ count }) => {
   }
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--4 medium-screen:vads-u-padding-right--3">
-      <NotificationCTA
+      <IconCTALink
         CTA={{
           text: content,
           href: 'claim-or-appeal-status/',

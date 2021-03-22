@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { differenceInDays, format } from 'date-fns';
-import NotificationCTA from '../NotificationCTA';
+import CTALink from '../CTALink';
 import { recordDashboardClick } from '~/applications/personalization/dashboard/helpers';
 
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
@@ -31,7 +31,6 @@ export const Appointments = ({ authenticatedWithSSOe, appointments }) => {
   }
 
   const cardDetails = {
-    sectionTitle: 'Appointments',
     ctaIcon: 'calendar',
     ctaHref: mhvUrl(authenticatedWithSSOe, 'appointments'),
     ctaAriaLabel: 'Manage all appointments',
@@ -65,8 +64,7 @@ export const Appointments = ({ authenticatedWithSSOe, appointments }) => {
     return null;
   }
 
-  const standardClass =
-    'vads-u-padding-y--2p5 vads-u-padding-x--2p5 vads-u-flex--fill';
+  const standardClass = 'vads-u-padding-y--2p5 vads-u-padding-x--2p5';
   const backgroundClasses = !hasUpcomingAppointment
     ? standardClass
     : `vads-u-background-color--gray-lightest ${standardClass}`;
@@ -79,11 +77,7 @@ export const Appointments = ({ authenticatedWithSSOe, appointments }) => {
   };
 
   return (
-    <div className="vads-u-display--flex vads-u-flex-direction--column vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--4 medium-screen:vads-u-padding-right--3">
-      <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--2p5">
-        {cardDetails?.sectionTitle}
-      </h3>
-
+    <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-flex--1 vads-u-margin-right--3">
       <div className={backgroundClasses}>
         <h4 className="vads-u-margin-top--0 vads-u-font-size--h3">
           {cardDetails?.cardTitle}
@@ -92,12 +86,11 @@ export const Appointments = ({ authenticatedWithSSOe, appointments }) => {
         {hasUpcomingAppointment && (
           <>
             <p>{cardDetails.line2}</p>
-            <p className="vads-u-margin-bottom--0">{cardDetails?.line3}</p>
+            <p>{cardDetails?.line3}</p>
           </>
         )}
+        <CTALink CTA={CTA} />
       </div>
-
-      <NotificationCTA CTA={CTA} />
     </div>
   );
 };
