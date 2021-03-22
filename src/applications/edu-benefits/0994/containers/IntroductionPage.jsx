@@ -94,7 +94,7 @@ export class IntroductionPage extends React.Component {
                       benefits, <strong>or</strong>
                     </li>
                     <li>
-                      A service member with 180 days of less left on active duty
+                      A service member with 180 days or less left on active duty
                     </li>
                   </ul>
                   <p>
