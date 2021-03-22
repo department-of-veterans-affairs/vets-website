@@ -58,7 +58,7 @@ const mockFetchSuggestions = () => {
   });
 };
 
-describe('Site-wide Search general functionality', () => {
+describe.skip('Site-wide Search general functionality', () => {
   before(function() {
     if (Cypress.env('CIRCLECI')) this.skip();
   });
@@ -92,7 +92,7 @@ describe('Site-wide Search general functionality', () => {
   });
 });
 
-describe('Site-wide Search functionality with typeahead disabled', () => {
+describe.skip('Site-wide Search functionality with typeahead disabled', () => {
   before(function() {
     if (Cypress.env('CIRCLECI')) this.skip();
   });
@@ -111,7 +111,7 @@ describe('Site-wide Search functionality with typeahead disabled', () => {
   });
 });
 
-describe('Site-wide Search functionality with typeahead enabled', () => {
+describe.skip('Site-wide Search functionality with typeahead enabled', () => {
   before(function() {
     if (Cypress.env('CIRCLECI')) this.skip();
   });

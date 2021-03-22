@@ -10,7 +10,7 @@ Cypress.Commands.add('tabFocus', el => {
   );
 });
 
-describe('Facilities VAMC SideNav', () => {
+describe.skip('Facilities VAMC SideNav', () => {
   before(function() {
     if (Cypress.env('CIRCLECI')) this.skip();
   });
