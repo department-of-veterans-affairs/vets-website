@@ -15,6 +15,10 @@
 }
 
 .debt-card {
+  padding: 24px;
+  label {
+    user-select: none;
+  }
   [type="checkbox"]:checked + label::before {
     background-color: $color-white;
     color: $color-primary;
@@ -22,6 +26,11 @@
     font-family: "Font Awesome 5 Free";
     padding-right: 2px;
   }
+}
+
+.selected-debt {
+  border: 4px solid $color-blue;
+  padding: 20px;
 }
 
 .schemaform-subtitle {
@@ -149,6 +158,12 @@
 
 .resolution-inputs .schemaform-currency-input label {
   white-space: nowrap;
+}
+
+.repayments {
+  #root__title {
+    height: auto;
+  }
 }
 
 .overview-container {

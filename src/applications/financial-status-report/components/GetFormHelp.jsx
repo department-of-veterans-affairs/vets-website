@@ -31,7 +31,7 @@ const GetFormHelp = () => {
           }{' '}
           from overseas).
         </span>{' '}
-        We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+        We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
       </p>
     </div>
   );

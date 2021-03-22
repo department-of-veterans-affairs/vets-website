@@ -46,7 +46,7 @@ const formConfig = {
     },
   },
   title: 'Request help with VA debt (VA Form 5655)',
-  subTitle: 'Form 5655',
+  subTitle: 'Financial Status Report',
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   customText: {

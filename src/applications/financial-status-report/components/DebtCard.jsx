@@ -54,8 +54,15 @@ const DebtCard = ({ debt, selectedDebts, formData, setDebts }) => {
     }
   };
 
+  const container = classnames(
+    'vads-u-background-color--gray-lightest vads-u-margin-bottom--3 debt-card',
+    {
+      'selected-debt': isChecked,
+    },
+  );
+
   return (
-    <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2 debt-card">
+    <div className={container}>
       <h3 className="vads-u-font-size--h4 vads-u-margin--0">
         {debtCardHeading}
       </h3>
