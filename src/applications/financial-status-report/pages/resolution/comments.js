@@ -16,13 +16,10 @@ export const uiSchema = {
     'view:financialHardshipExplanation': {
       'ui:field': ResolutionComments,
     },
-    'view:resolutionOptionsInfo': {
-      'ui:description': ResolutionInfo,
-    },
   },
   additionalData: {
     additionalComments: {
-      'ui:title': ' ',
+      'ui:title': ResolutionInfo,
       'ui:widget': 'textarea',
       'ui:required': formData =>
         formData.selectedDebts.some(
@@ -43,10 +40,6 @@ export const schema = {
       type: 'object',
       properties: {
         'view:financialHardshipExplanation': {
-          type: 'object',
-          properties: {},
-        },
-        'view:resolutionOptionsInfo': {
           type: 'object',
           properties: {},
         },
