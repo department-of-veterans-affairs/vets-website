@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import ReasonForVisitReview from '../../../components/reason-for-visit/ReasonForVisitReview';
+import ReasonForVisitReview from '../ReasonForVisitReview';
 
 describe('health care questionnaire - reason for visit - review -', () => {
   it('reason for visit exists', () => {
