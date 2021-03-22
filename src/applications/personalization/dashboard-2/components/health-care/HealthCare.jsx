@@ -73,10 +73,7 @@ const HealthCare = ({
 
       <div className="vads-u-display--flex vads-u-flex-wrap--wrap">
         {/* Appointments */}
-        <Appointments
-          appointments={appointments}
-          authenticatedWithSSOe={authenticatedWithSSOe}
-        />
+        <Appointments appointments={appointments} />
 
         <div className="vads-u-display--flex vads-u-flex-direction--column cta-links vads-u-flex--1">
           {/* Messages */}

@@ -4,9 +4,7 @@ import { differenceInDays, format } from 'date-fns';
 import CTALink from '../CTALink';
 import { recordDashboardClick } from '~/applications/personalization/dashboard/helpers';
 
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-
-export const Appointments = ({ authenticatedWithSSOe, appointments }) => {
+export const Appointments = ({ appointments }) => {
   const nextAppointment = appointments?.[0];
   const start = new Date(nextAppointment?.startsAt);
   const today = new Date();

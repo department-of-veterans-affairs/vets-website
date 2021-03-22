@@ -133,7 +133,7 @@ describe('HealthCare component', () => {
       ).to.be.false;
     });
 
-    it('should render a generic message when the number of unread messages could not be fetched', async () => {
+    it('should render a generic message when the number of unread messages was not fetched', async () => {
       initialState.health.msg.folders.data.currentItem.attributes.unreadCount = null;
       view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {
         initialState,
