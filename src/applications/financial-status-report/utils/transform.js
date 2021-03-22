@@ -131,8 +131,5 @@ export const transform = ({ data }) => {
     },
   };
 
-  // console.log('incoming data: ', data);
-  // console.log('transformed data: ', formObj);
-
-  return Promise.resolve(JSON.stringify(formObj));
+  return JSON.stringify(formObj);
 };
