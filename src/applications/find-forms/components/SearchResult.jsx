@@ -97,6 +97,12 @@ const SearchResult = ({ form, formMetaInfo }) => {
   const pdfLabel = url.toLowerCase().includes('.pdf') ? '(PDF)' : '';
   const lastRevision = deriveLatestIssue(firstIssuedOn, lastRevisionOn);
 
+  let relatedTo = vaFormAdministration;
+
+  if (benefitCategories && benefitCategories?.length > 0) {
+    relatedTo = benefitCategories.map(f => f.name).join(', ');
+  }
+
   const recordGAEvent = (eventTitle, eventUrl, eventType) =>
     recordGAEventHelper({ ...formMetaInfo, eventTitle, eventUrl, eventType });
 
@@ -113,13 +119,10 @@ const SearchResult = ({ form, formMetaInfo }) => {
         {lastRevision}
       </dd>
 
-      {(benefitCategories && benefitCategories.length > 0) ||
-      vaFormAdministration ? (
+      {relatedTo ? (
         <dd className="vads-u-margin-y--1 vads-u-margin-y--1">
           <dfn className="vads-u-font-weight--bold">Related to:</dfn>{' '}
-          {benefitCategories.length > 0
-            ? benefitCategories.map(f => f.name).join(', ')
-            : vaFormAdministration}
+          {relatedTo}
         </dd>
       ) : null}
 
