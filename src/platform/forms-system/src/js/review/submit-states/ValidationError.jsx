@@ -46,64 +46,68 @@ function ValidationError(props) {
   if (!hadErrors && errorsLen > 0) {
     setHadErrors(true);
   }
-  const resolved = hadErrors && errorsLen === 0;
 
-  // Once all errors have been resolved, we can update the message
-  const errorTitle = resolved
-    ? `The information in your ${appType} now appears to be valid`
-    : `We’re sorry. Some information in your ${appType} is missing or
-      not valid.`;
+  let errorTitle;
+  let errorMessage;
+  if (renderErrors) {
+    const resolved = hadErrors && errorsLen === 0;
 
-  const errorMessage = resolved ? (
-    `please try resubmitting your ${appType} now.`
-  ) : (
-    <>
-      {renderErrors && (
-        <fieldset>
-          <legend
-            className="vads-u-font-size--base"
-            tabIndex={-1}
-            ref={errorRef}
-          >
-            The following required
-            {errorsLen === 1 ? ' item is ' : ' items are '}
-            preventing submission:
-          </legend>
-          <ul className="vads-u-margin-left--3">
-            {errors.map(error => (
-              <li key={error.name} className="error-message-list-item">
-                {error.chapterKey ? (
-                  <a
-                    href="#"
-                    className="error-message-list-link"
-                    onClick={event => {
-                      event.preventDefault();
-                      props.openReviewChapter(error.chapterKey);
-                      props.setEditMode(
-                        error.pageKey,
-                        true, // enable edit mode
-                        error.index || null,
-                      );
-                      // props.formContext.onError();
-                      focusAndScrollToReviewElement(error);
-                    }}
-                  >
-                    {error.message}
-                  </a>
-                ) : (
-                  error.message
-                )}
-              </li>
-            ))}
-          </ul>
-        </fieldset>
-      )}
+    // Once all errors have been resolved, we can update the message
+    errorTitle = resolved
+      ? `Thank you for completing your ${appType}`
+      : `Your ${appType} is missing some information`;
+
+    errorMessage = resolved ? (
+      `Try submitting your ${appType} again.`
+    ) : (
+      <fieldset>
+        <legend className="vads-u-font-size--base" tabIndex={-1} ref={errorRef}>
+          <p className="vads-u-font-weight--normal">
+            You’ll need to fill in the missing information before you can submit
+            your {appType}
+          </p>
+          {`Please return to the following ${
+            errorsLen === 1 ? 'part' : `${errorsLen} parts`
+          } of the form:`}
+        </legend>
+        <ul className="vads-u-margin-left--3">
+          {errors.map(error => (
+            <li key={error.name} className="error-message-list-item">
+              {error.chapterKey ? (
+                <a
+                  href="#"
+                  className="error-message-list-link"
+                  onClick={event => {
+                    event.preventDefault();
+                    props.openReviewChapter(error.chapterKey);
+                    props.setEditMode(
+                      error.pageKey,
+                      true, // enable edit mode
+                      error.index || null,
+                    );
+                    // props.formContext.onError();
+                    focusAndScrollToReviewElement(error);
+                  }}
+                >
+                  {error.message}
+                </a>
+              ) : (
+                error.message
+              )}
+            </li>
+          ))}
+        </ul>
+      </fieldset>
+    );
+  } else {
+    errorTitle = `We’re sorry. Some information in your ${appType} is missing or not valid.`;
+    errorMessage = (
       <p>
         Please check each section of your {appType} to make sure you’ve filled
         out all the information that is required.
       </p>
-    </>
-  );
+    );
+  }
 
   return (
     <>

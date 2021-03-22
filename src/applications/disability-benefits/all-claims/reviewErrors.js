@@ -3,31 +3,33 @@ import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToW
 // Link text for review & submit page errors
 // key = "name" from `form.formErrors.errors`
 export default {
-  servicePeriods: 'Please add a military service period',
-  'view:hasMilitaryRetiredPay':
-    'Please share if you have received military retired pay at any time',
+  servicePeriods:
+    'Military service history (fill in any missing information for branch of service or service start and end dates)',
   servedInCombatZonePost911:
-    'Please let us know if you served in a combat zone after September 11, 2001',
+    'Did you serve in a combat zone after September 11, 2001? (select yes or no)',
+  ratedDisabilities:
+    'Rated disability (select the disability you’re filing for)',
+  'view:hasMilitaryRetiredPay':
+    'Have you ever received military retirement pay? (select yes or no)',
   hasTrainingPay:
-    'Please share if you expect to receive active or inactive duty training pay',
-  'view:powStatus': 'Please let us know if you have ever been a POW',
+    'Do you expect to receive active or inactive duty training pay? (select yes or no)',
+  'view:powStatus': 'Are you a former POW? (select yes or no)',
   'view:selectableEvidenceTypes':
-    'Please select at least one type of supporting evidence',
-  primaryPhone: 'Please provide a contact phone number',
-  emailAddress: 'Please provide an email address',
-  city: 'Please include a city in your mailing address',
-  addressLine1: 'Please include an address line in your mailing address',
-  state: 'Please include a state in your mailing address',
-  zipCode: 'Please include a postal or zip code in your mailing address',
+    'What type of evidence do you want us to review as part of your claim? (select at least one type)',
+  primaryPhone: 'Contact information (enter your phone number)',
+  emailAddress: 'Contact information (enter your email address)',
+  city: 'Contact information (enter a city for your mailing address)',
+  addressLine1: 'Contact information (enter a street address)',
+  state: 'Contact information (enter a state for your mailing address)',
+  zipCode:
+    'Contact information (enter a postal or zip code for your mailing address)',
   homelessOrAtRisk:
-    'Please let us know if you are homeless or at risk of becoming homeless',
-  isVaEmployee: 'Please let us know if you are currently a VA employee',
+    'Are you homeless or at risk of becoming homeless? (select one of the answers)',
+  isVaEmployee: 'Are you a VA employee? (select yes or no)',
   condition: index =>
-    `In the ${numberToWords(
+    `New conditions (in the ${numberToWords(
       index + 1,
-    )} entry under new conditions, please enter a condition or select one from the suggested list`,
-  cause: index =>
-    `In the ${numberToWords(
-      index + 1,
-    )} new condition follow up question, please choose an appropriate cause for the condition`,
+    )} section, enter a condition or select one from the list)`,
+  cause:
+    'What caused this service-connected disability? (select from the list of causes)',
 };

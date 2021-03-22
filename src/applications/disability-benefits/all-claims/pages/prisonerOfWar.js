@@ -22,7 +22,7 @@ const itemAriaLabel = data =>
 export const uiSchema = {
   'ui:title': 'Prisoner of War (POW)',
   'view:powStatus': {
-    'ui:title': 'Have you ever been a POW?',
+    'ui:title': 'Are you a former POW?',
     'ui:widget': 'yesNo',
   },
   'view:isPow': {

@@ -254,6 +254,7 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
             pageList,
             name,
           );
+
           processedErrors.push({
             name,
             index: errorIndex || null,
