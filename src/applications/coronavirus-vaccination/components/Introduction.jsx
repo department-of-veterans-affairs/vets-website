@@ -55,17 +55,45 @@ function Introduction({
           <p>
             <Link
               className="usa-button"
-              to="/form"
+              to="/form?showEnrollmentFields=false"
               onClick={() => {
                 recordEvent({
                   event: 'cta-button-click',
                   'button-type': 'default',
-                  'button-click-label': 'Continue',
+                  'button-click-label': 'I have used VA health care before',
                   'button-background-color': '#0071bb',
                 });
               }}
             >
-              Continue
+              I have used VA health care before
+            </Link>
+            <Link
+              className="usa-button usa-button-secondary"
+              to="/form?showEnrollmentFields=true"
+              onClick={() => {
+                recordEvent({
+                  event: 'cta-button-click',
+                  'button-type': 'secondary',
+                  'button-click-label': 'I am new to VA health care',
+                  'button-background-color': 'transparent',
+                });
+              }}
+            >
+              I am new to VA health care
+            </Link>
+            <Link
+              className="usa-button usa-button-secondary"
+              to="/form?showEnrollmentFields=true"
+              onClick={() => {
+                recordEvent({
+                  event: 'cta-button-click',
+                  'button-type': 'secondary',
+                  'button-click-label': "I'm not sure",
+                  'button-background-color': 'transparent',
+                });
+              }}
+            >
+              I'm not sure
             </Link>
           </p>
         ) : (

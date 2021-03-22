@@ -30,6 +30,7 @@ import GetHelp from './GetHelp';
 
 function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
   const [submitStatus, submitToApi] = useSubmitForm();
+  const showEnrollment = router.location.query.showEnrollmentFields;
 
   useEffect(() => {
     focusElement('#covid-vaccination-heading-form');
@@ -56,6 +57,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
     updateFormData,
     isLoggedIn,
     profile,
+    showEnrollment,
   );
 
   const onFormChange = useCallback(

@@ -11,6 +11,7 @@ export default function useInitializeForm(
   updateFormData,
   isLoggedIn,
   profile,
+  _showEnrollmentFields,
 ) {
   const [oldFormData, setOldFormData] = useState(null);
 
@@ -27,6 +28,7 @@ export default function useInitializeForm(
         const formData = {
           isIdentityVerified: false,
         };
+
         updateFormData(
           initialFormSchema,
           initialUiSchema.unauthenticated,
