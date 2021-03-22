@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 
-import ReasonForVisitDescriptionField from '../../../../components/reason-for-visit-description/ReasonForVisitDescriptionField';
+import ReasonForVisitDescriptionField from '../../ReasonForVisitDescriptionField';
 
-import { createFakeReasonForVisitDescriptionStore } from '../../utils/createFakeStores';
+import { createFakeReasonForVisitDescriptionStore } from '../utils';
 
 describe('health care questionnaire -- reason to visit description -- when to render --', () => {
   it('parsing reason from state -- text widget is rendered by default', () => {
