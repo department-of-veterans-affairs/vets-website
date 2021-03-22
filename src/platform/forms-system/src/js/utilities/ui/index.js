@@ -165,7 +165,7 @@ const findTargets = (error, { getLabel = true } = {}) => {
     focus:
       (getLabel
         ? firstElement
-            ?.closest('.schemaform-field-container')
+            ?.closest('.schemaform-field-container, .schemaform-field-template')
             ?.querySelector('legend, label')
         : firstElement) || el,
   };
