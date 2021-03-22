@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import backendServices from '~/platform/user/profile/constants/backendServices';
 import { GeneralCernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
 import { fetchFolder as fetchInboxAction } from '~/applications/personalization/dashboard/actions/messaging';
 import { FOLDER } from '~/applications/personalization/dashboard-2/constants';
@@ -23,6 +24,7 @@ import IconCTALink from '../IconCTALink';
 const HealthCare = ({
   appointments,
   authenticatedWithSSOe,
+  shouldFetchMessages,
   fetchConfirmedFutureAppointments,
   isCernerPatient,
   facilityNames,
@@ -42,11 +44,11 @@ const HealthCare = ({
 
   useEffect(
     () => {
-      if (!dataLoadingDisabled) {
+      if (shouldFetchMessages && !dataLoadingDisabled) {
         fetchInbox(FOLDER.inbox);
       }
     },
-    [fetchInbox, dataLoadingDisabled],
+    [shouldFetchMessages, fetchInbox, dataLoadingDisabled],
   );
 
   if (isCernerPatient && facilityNames?.length) {
@@ -145,6 +147,9 @@ const mapStateToProps = state => {
 
   return {
     appointments: state.health?.appointments?.data,
+    shouldFetchMessages: state.user.profile?.services?.includes(
+      backendServices.MESSAGING,
+    ),
     isCernerPatient: selectIsCernerPatient(state),
     facilityNames,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
