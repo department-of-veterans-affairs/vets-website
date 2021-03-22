@@ -34,7 +34,7 @@ export function fetchSearchResults(query, page, analyticsMetaInfo) {
             'type-ahead-option-position': analyticsMetaInfo?.keywordPosition,
             'type-ahead-options-list': analyticsMetaInfo?.suggestionsList,
             'type-ahead-options-count':
-              analyticsMetaInfo?.suggestionsList.length,
+              analyticsMetaInfo?.suggestionsList?.length,
           });
         }
         dispatch({
@@ -43,11 +43,11 @@ export function fetchSearchResults(query, page, analyticsMetaInfo) {
           meta: response.meta,
         });
       })
-      .catch(error =>
+      .catch(error => {
         dispatch({
           type: FETCH_SEARCH_RESULTS_FAILURE,
           errors: error.errors,
-        }),
-      );
+        });
+      });
   };
 }
