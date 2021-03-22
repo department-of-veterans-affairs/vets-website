@@ -76,6 +76,9 @@ export const uiSchema = {
   'view:notActiveBenefitNotice': {
     'ui:title': '',
     'ui:description': notActiveBenefitNotice,
+    'ui:options': {
+      hideIf: formData => formData.activeDuty !== false,
+    },
   },
   expectedActiveDutyStatusChange: {
     'ui:title':
