@@ -19,7 +19,6 @@ const stateLabels = createUSAStateLabels(states);
 export const vetInputLabel = 'Veteran\u2019s';
 
 export const veteranPreferredFacilityName = {
-  'ui:required': formData => !!formData.veteranLastTreatmentFacilityType,
   'ui:validations': [
     {
       validator: (errors, fieldData, formData) => {
@@ -31,7 +30,6 @@ export const veteranPreferredFacilityName = {
 };
 
 export const veteranPreferredFacilityType = {
-  'ui:required': formData => !!formData.veteranLastTreatmentFacilityName,
   'ui:title': 'Was this a hospital or clinic?',
   'ui:options': {
     labels: {
