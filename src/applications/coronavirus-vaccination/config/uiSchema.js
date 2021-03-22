@@ -213,7 +213,9 @@ export default {
       },
     },
     address: {
-      ...{ hideIf: formData => !formData.isNewRegistration },
+      'ui:options': {
+        hideIf: formData => !formData.isNewRegistration,
+      },
       ...addressUISchema(
         false,
         'address',
