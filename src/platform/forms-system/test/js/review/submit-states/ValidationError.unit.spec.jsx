@@ -255,8 +255,8 @@ describe('Schemaform review: <ValidationError />', () => {
         />
       </Provider>,
     );
-    expect(tree.getByText(/your test is missing or not valid/)).to.exist;
-    expect(tree.getByText(/preventing submission/)).to.exist;
+    expect(tree.getByText(/missing some information/)).to.exist;
+    expect(tree.getByText(/information before you can submit/)).to.exist;
     expect(tree.getByText('Missing test')).to.exist;
     expect(tree.getByText('Zip')).to.exist;
     expect(tree.getByText('Property not found')).to.exist;
