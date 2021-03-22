@@ -63,8 +63,9 @@
     }
     .button-group {
       display: flex;
-      align-items: center;
+      align-items: baseline;
       justify-content: space-between;
+      min-width: 150px;
     }
     .usa-input-error {
       position: relative;
@@ -161,7 +162,9 @@
 }
 
 .no-wrap {
-  white-space: nowrap;
+  @include media($medium-screen) {
+    white-space: nowrap;
+  }
 }
 
 .usa-datefields {
