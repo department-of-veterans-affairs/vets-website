@@ -12,12 +12,16 @@ const copy = {
     appTitle: 'Covid 19 Vaccination Information',
     cta: `Sign up for an easy way to stay informed about getting a COVID-19
       vaccine at VA.`,
-    body: `   When you sign up, we’ll also ask about your vaccine plans. Your
-      local VA health facility may use this information to determine
-      when to contact you once your risk group becomes eligible.`,
-    boldedNote: `Note:`,
-    note: `We’ll contact every eligible Veteran in
-      each risk group. You don't need to sign up to get a vaccine`,
+    expandedEligibilityContent: {
+      veteran: {
+        boldedNote: `If you're a Veteran currently receiving care through VA,`,
+        body: ` we'll ask about your vaccine plans when you sign up. Your local VA health facility may use this information to determine when to contact you once your risk group becomes eligible.`,
+      },
+      nonVeteran: {
+        boldedNote: `If you're a Veteran, spouse, or caregiver not receiving care through VA,`,
+        body: ` sign up to tell us if you want to get a vaccine through VA. If you're eligible, we'll contact you when we have a vaccine available for you. At this time, we don't know when that will be.`,
+      },
+    },
     headline: 'Stay informed about getting a COVID-19 vaccine',
     buttonText: 'Sign up to stay informed',
   },

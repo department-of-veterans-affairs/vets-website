@@ -11,6 +11,8 @@ const initialState = {
     questionnaire: {},
     status: {},
     appointment: {},
+    location: {},
+    organization: {},
   },
 };
 
@@ -22,8 +24,12 @@ const questionnaireReducer = (state = initialState, action) => {
       return { ...state, context };
     case QUESTIONNAIRE_APPOINTMENT_LOADED:
       context.status = { ...context.status, isLoading: false };
-      context.appointment = { ...action.appointment };
-      context.questionnaire = { id: 'testing-id-123' };
+      context.appointment = { ...action.payload?.appointment };
+      if (action.payload?.questionnaire) {
+        context.questionnaire = [...action.payload?.questionnaire];
+      }
+      context.location = { ...action.payload?.location };
+      context.organization = { ...action.payload?.organization };
       return { ...state, context };
 
     default:

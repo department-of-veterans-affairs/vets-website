@@ -1,18 +1,19 @@
 import React from 'react';
 import moment from 'moment-timezone';
 
-import {
-  getClinicFromAppointment,
-  getAppointmentTimeFromAppointment,
-} from '../../../shared/utils';
+import { appointment as appointmentSelector } from '../../../shared/utils/selectors';
 
-export default function AppointmentDisplay({ appointment, bold }) {
-  const appointmentTime = getAppointmentTimeFromAppointment(appointment);
-  const clinic = getClinicFromAppointment(appointment);
-  if (!clinic) {
+export default function AppointmentDisplay({ appointmentData, bold }) {
+  if (!appointmentData) {
     return <></>;
   }
+  const {
+    appointment,
+    location: clinic,
+    organization: facility,
+  } = appointmentData;
 
+  const appointmentTime = appointmentSelector.getStartTime(appointment);
   const boldClass = bold ? 'vads-u-font-weight--bold' : '';
   const guess = moment.tz.guess();
   const formattedTimezone = moment.tz(guess).format('z');
@@ -45,11 +46,9 @@ export default function AppointmentDisplay({ appointment, bold }) {
         <dt>Location: </dt>
         <dd
           data-testid="appointment-location"
-          aria-label={`appointment at ${clinic.friendlyName} at ${
-            clinic.facility.displayName
-          }`}
+          aria-label={`appointment at ${clinic.name} at ${facility.name}`}
         >
-          {clinic.friendlyName}, {clinic.facility.displayName}
+          {clinic.name}, {facility.name}
         </dd>
       </div>
     </dl>
