@@ -35,12 +35,32 @@ function OnState({ copy }) {
         content={
           <>
             <p>{copy.cta}</p>
-            <p>{copy.body}</p>
+
+            {copy.expandedEligibilityContent ? (
+              <ul>
+                <li>
+                  <strong>
+                    {copy.expandedEligibilityContent.veteran.boldedNote}
+                  </strong>
+                  {copy.expandedEligibilityContent.veteran.body}
+                </li>
+                <li>
+                  <strong>
+                    {copy.expandedEligibilityContent.nonVeteran.boldedNote}
+                  </strong>
+                  {copy.expandedEligibilityContent.nonVeteran.body}
+                </li>
+              </ul>
+            ) : (
+              ''
+            )}
+
+            {copy.body ? <p>{copy.body}</p> : ''}
             <p>
-              {' '}
               {copy.boldedNote ? <strong>{copy.boldedNote} </strong> : ''}
-              {copy.note}
+              {copy.note ? copy.note : ''}
             </p>
+
             <DowntimeNotification
               dependencies={[externalServices.vetextVaccine]}
               render={(downtime, children) => {

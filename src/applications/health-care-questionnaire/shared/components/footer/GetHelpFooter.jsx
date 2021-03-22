@@ -4,41 +4,59 @@ import { connect } from 'react-redux';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import {
-  getClinicFromAppointment,
-  getFacilityFromAppointment,
-} from '../../utils';
+  location as locationSelector,
+  organization as organizationSelector,
+} from '../../../shared/utils/selectors';
 
 const GetHelpFooter = props => {
-  const { currentLocation, appointment } = props;
+  const { currentLocation, context } = props;
+  const { organization: facility, location: clinic } = context || {};
   if (currentLocation?.pathname.replace(/\/$/, '').endsWith('confirmation')) {
     return null;
   }
 
   const HELP_NUMBER = '800-698-2411';
   const TTY_NUMBER = '711';
-  const FACILITY_LOCATOR_URL = '/find-locations';
 
   const WhoToContact = () => {
-    const clinic = getClinicFromAppointment(appointment);
-    const facility = getFacilityFromAppointment(appointment);
-    if (clinic && clinic.phoneNumber) {
+    const clinicName = locationSelector.getName(clinic);
+    const clinicPhone = locationSelector.getPhoneNumber(clinic, {
+      separateExtension: true,
+    });
+    const facilityName = organizationSelector.getName(facility);
+    const facilityPhone = organizationSelector.getPhoneNumber(facility, {
+      separateExtension: true,
+    });
+    const facilityId = organizationSelector.getFacilityIdentifier(facility);
+    if (clinic && clinicPhone?.number) {
       return (
         <span data-testid="clinic-details">
-          You can contact them at {clinic.friendlyName} at{' '}
-          <Telephone contact={clinic.phoneNumber} />.
+          You can contact them at {clinicName} at{' '}
+          <Telephone
+            contact={clinicPhone.number}
+            extension={clinicPhone.extension}
+          />
+          .
         </span>
       );
-    } else if (facility && facility.phoneNumber) {
+    } else if (facility && facilityPhone?.number) {
       return (
         <span data-testid="facility-details">
-          You can contact them at {facility.displayName} at{' '}
-          <Telephone contact={facility.phoneNumber} />.
+          You can contact them at {facilityName} at{' '}
+          <Telephone
+            contact={facilityPhone.number}
+            extension={facilityPhone.extension}
+          />
+          .
         </span>
       );
     } else {
       return (
         <>
-          <a href={FACILITY_LOCATOR_URL} data-testid="default-details">
+          <a
+            href={`/find-locations/facility/${facilityId}`}
+            data-testid="default-details"
+          >
             Contact your VA provider
           </a>
           .
@@ -83,6 +101,6 @@ const GetHelpFooter = props => {
   );
 };
 const mapStateToProps = state => ({
-  appointment: state?.questionnaireData?.context?.appointment,
+  context: state?.questionnaireData?.context,
 });
 export default connect(mapStateToProps)(GetHelpFooter);
