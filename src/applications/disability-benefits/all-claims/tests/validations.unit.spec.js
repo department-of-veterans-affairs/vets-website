@@ -390,10 +390,11 @@ describe('526 All Claims validations', () => {
       const errors = { addError: sinon.spy() };
       const dob = '2000-01-01';
       // 13th birthday (needs to be _after_ 13th birthday)
-      const age = formatDate(add(new Date(dob), { years: 13 }));
+      const age = formatDate(add(new Date(dob), { years: 13, days: -1 }));
       validateAge(errors, age, _, _, _, _, { dob });
 
       expect(errors.addError.called).to.be.true;
+      expect(errors.addError.args[0][0]).to.contain('after your 13th birthday');
     });
     it('should allow age 13 years at start of service', () => {
       const errors = { addError: sinon.spy() };
