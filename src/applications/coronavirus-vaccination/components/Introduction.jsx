@@ -16,7 +16,6 @@ import AlertBox, {
 
 import * as userNavActions from 'platform/site-wide/user-nav/actions';
 import * as userSelectors from 'platform/user/selectors';
-import CollapsiblePanel from '@department-of-veterans-affairs/component-library/CollapsiblePanel';
 import {
   ContactRules,
   ProvideSSNAndDOB,
@@ -181,20 +180,20 @@ function Introduction({
         />
       </DowntimeNotification>
 
-      <div className="vads-u-margin-top--1">
-        <CollapsiblePanel panelName="Why would VA contact Veterans who are planning to get a vaccine first?">
+      <va-accordion class="vads-u-margin-top--1">
+        <va-accordion-item header="Why would VA contact Veterans who are planning to get a vaccine first?">
           <WhyContact />
-        </CollapsiblePanel>
-        <CollapsiblePanel panelName="If I don’t sign up or tell VA I plan to get a vaccine, will VA still contact me when I can get a vaccine?">
+        </va-accordion-item>
+        <va-accordion-item header="If I don’t sign up or tell VA I plan to get a vaccine, will VA still contact me when I can get a vaccine?">
           <WhatIfIDontSignUp />
-        </CollapsiblePanel>
-        <CollapsiblePanel panelName="Do I have to provide my Social Security number and date of birth?">
+        </va-accordion-item>
+        <va-accordion-item header="Do I have to provide my Social Security number and date of birth?">
           <ProvideSSNAndDOB />
-        </CollapsiblePanel>
-        <CollapsiblePanel panelName="How will VA contact me when I can get a COVID-19 vaccine?">
+        </va-accordion-item>
+        <va-accordion-item header="How will VA contact me when I can get a COVID-19 vaccine?">
           <ContactRules />
-        </CollapsiblePanel>
-      </div>
+        </va-accordion-item>
+      </va-accordion>
       <div className="vads-u-margin-top--1">
         <FormFooter formConfig={{ getHelp: GetHelp }} />
       </div>
