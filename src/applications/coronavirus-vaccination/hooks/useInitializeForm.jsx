@@ -11,7 +11,7 @@ export default function useInitializeForm(
   updateFormData,
   isLoggedIn,
   profile,
-  _showEnrollmentFields,
+  showEnrollmentFields,
 ) {
   const [oldFormData, setOldFormData] = useState(null);
 
@@ -27,8 +27,8 @@ export default function useInitializeForm(
       function renderEmptyForm() {
         const formData = {
           isIdentityVerified: false,
+          isNewRegistration: showEnrollmentFields === 'true',
         };
-
         updateFormData(
           initialFormSchema,
           initialUiSchema.unauthenticated,

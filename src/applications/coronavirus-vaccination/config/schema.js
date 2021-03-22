@@ -1,3 +1,7 @@
+import { buildAddressSchema } from '../../disability-benefits/686c-674/config/address-schema';
+
+const addressSchema = buildAddressSchema(false);
+
 export default {
   type: 'object',
   required: [
@@ -11,6 +15,9 @@ export default {
   ],
   properties: {
     isIdentityVerified: {
+      type: 'boolean',
+    },
+    isNewRegistration: {
       type: 'boolean',
     },
     firstName: {
@@ -34,6 +41,7 @@ export default {
       type: 'string',
       pattern: '\\(?\\d{3}\\)?-?\\d{3}-?\\d{4}$',
     },
+    address: addressSchema,
     zipCode: {
       type: 'string',
       pattern: '^\\d{5}(-\\d{4})?$',

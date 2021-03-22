@@ -68,12 +68,12 @@ function Introduction({
               I have used VA health care before
             </Link>
             <Link
-              className="usa-button usa-button-secondary"
+              className="usa-button"
               to="/form?showEnrollmentFields=true"
               onClick={() => {
                 recordEvent({
                   event: 'cta-button-click',
-                  'button-type': 'secondary',
+                  'button-type': 'default',
                   'button-click-label': 'I am new to VA health care',
                   'button-background-color': 'transparent',
                 });
@@ -82,12 +82,12 @@ function Introduction({
               I am new to VA health care
             </Link>
             <Link
-              className="usa-button usa-button-secondary"
+              className="usa-button"
               to="/form?showEnrollmentFields=true"
               onClick={() => {
                 recordEvent({
                   event: 'cta-button-click',
-                  'button-type': 'secondary',
+                  'button-type': 'default',
                   'button-click-label': "I'm not sure",
                   'button-background-color': 'transparent',
                 });

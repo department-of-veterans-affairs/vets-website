@@ -1,6 +1,7 @@
 import React from 'react';
 
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
+import { addressUISchema } from '../../disability-benefits/686c-674/config/address-schema';
 
 // import SelectFacilityWidget from '../components/SelectFacilityWidget';
 
@@ -135,6 +136,11 @@ export default {
         hideIf: () => true,
       },
     },
+    isNewRegistration: {
+      'ui:options': {
+        hideIf: () => true,
+      },
+    },
     firstName: {
       'ui:title': 'First name',
       'ui:errorMessages': {
@@ -206,11 +212,23 @@ export default {
         pattern: 'Please enter a valid phone number',
       },
     },
+    address: {
+      ...{ hideIf: formData => !formData.isNewRegistration },
+      ...addressUISchema(
+        false,
+        'address',
+        formData => formData.isNewRegistration,
+      ),
+    },
     zipCode: {
       'ui:title': 'Zip code',
       'ui:errorMessages': {
         required: 'Please enter your zip code',
         pattern: 'Please enter a valid zip code',
+      },
+      'ui:required': formData => !formData.isNewRegistration,
+      'ui:options': {
+        hideIf: formData => formData.isNewRegistration,
       },
     },
     locationDetails: {
@@ -219,12 +237,14 @@ export default {
       'ui:errorMessages': {
         required: 'Please select an answer.',
       },
+      'ui:required': formData => !formData.isNewRegistration,
       'ui:options': {
         labels: {
           Yes: 'Yes',
           No: 'No',
           Unsure: "I'm not sure.",
         },
+        hideIf: formData => formData.isNewRegistration,
       },
     },
     vaccineInterest: {
@@ -234,6 +254,7 @@ export default {
       'ui:errorMessages': {
         required: 'Please select an answer.',
       },
+      'ui:required': formData => !formData.isNewRegistration,
       'ui:options': {
         labels: {
           INTERESTED: 'Yes',
@@ -241,6 +262,7 @@ export default {
           UNDECIDED: 'I’m not sure yet.',
           PREFER_NO_ANSWER: 'I prefer not to answer.',
         },
+        hideIf: formData => formData.isNewRegistration,
       },
       'ui:description': () => (
         <span>
