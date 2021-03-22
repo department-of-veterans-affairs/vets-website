@@ -129,7 +129,9 @@ const mapStateToProps = state => {
     isCernerPatient: selectIsCernerPatient(state),
     facilityNames,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
-    canAccessMessaging: true,
+    canAccessMessaging: state.user.profile?.services?.includes(
+      backendServices.MESSAGING,
+    ),
     unreadMessagesCount: selectUnreadMessagesCount(state),
   };
 };
