@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {
   FacilityInfo,
   PleaseSelectVAFacility,
@@ -20,39 +18,25 @@ const stateLabels = createUSAStateLabels(states);
 // veteran UI
 export const vetInputLabel = 'Veteran\u2019s';
 
-export const previousTreatmentFacilityUI = {
-  'ui:title': ' ',
-  'ui:order': ['name', 'type'],
-  'ui:description': (
-    <div>
-      <h3 className="vads-u-font-size--h4">Recent medical care</h3>
-      <p>
-        Please enter the name of the medical facility where the Veteran
-        <strong className="vads-u-margin-left--0p5">
-          last received medical treatment.
-        </strong>
-      </p>
-    </div>
-  ),
-  name: {
-    'ui:required': formData => !!formData.veteranLastTreatmentFacility.type,
-    'ui:validations': [
-      {
-        validator: (errors, fieldData, formData) => {
-          facilityNameMaxLength(errors, formData);
-        },
+export const veteranPreferredFacilityName = {
+  'ui:required': formData => !!formData.veteranLastTreatmentFacilityType,
+  'ui:validations': [
+    {
+      validator: (errors, fieldData, formData) => {
+        facilityNameMaxLength(errors, formData);
       },
-    ],
-    'ui:title': 'Name of medical facility',
-  },
-  type: {
-    'ui:required': formData => !!formData.veteranLastTreatmentFacility.name,
-    'ui:title': 'Was this a hospital or clinic?',
-    'ui:options': {
-      labels: {
-        hospital: 'Hospital',
-        clinic: 'Clinic',
-      },
+    },
+  ],
+  'ui:title': 'Name of medical facility',
+};
+
+export const veteranPreferredFacilityType = {
+  'ui:required': formData => !!formData.veteranLastTreatmentFacilityName,
+  'ui:title': 'Was this a hospital or clinic?',
+  'ui:options': {
+    labels: {
+      hospital: 'Hospital',
+      clinic: 'Clinic',
     },
   },
 };
