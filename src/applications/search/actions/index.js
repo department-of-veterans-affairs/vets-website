@@ -34,7 +34,7 @@ export function fetchSearchResults(query, page, analyticsMetaInfo) {
             'type-ahead-option-position': analyticsMetaInfo?.keywordPosition,
             'type-ahead-options-list': analyticsMetaInfo?.suggestionsList,
             'type-ahead-options-count':
-              analyticsMetaInfo?.suggestionsList.length,
+              analyticsMetaInfo?.suggestionsList?.length,
           });
         }
         dispatch({
