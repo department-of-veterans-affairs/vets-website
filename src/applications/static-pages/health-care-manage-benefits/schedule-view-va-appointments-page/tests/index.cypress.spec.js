@@ -32,7 +32,7 @@ const setup = ({ authenticated, isCerner } = {}) => {
   });
 };
 
-describe('The schedule view VA appointments page', () => {
+describe.skip('The schedule view VA appointments page', () => {
   before(function() {
     if (Cypress.env('CIRCLECI')) this.skip();
   });

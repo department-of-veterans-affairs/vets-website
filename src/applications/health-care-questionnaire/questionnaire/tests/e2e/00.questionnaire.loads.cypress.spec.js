@@ -15,7 +15,7 @@ describe('health care questionnaire -- ', () => {
       );
     });
   });
-  it('loads introduction page -- feature enabled', () => {
+  it.skip('loads introduction page -- feature enabled', () => {
     cy.visit(
       '/health-care/health-questionnaires/questionnaires/answer-questions?id=195bc02c0518870fc6b1e302cfc326b61',
     );

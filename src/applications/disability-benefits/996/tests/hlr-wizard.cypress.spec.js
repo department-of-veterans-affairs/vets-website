@@ -93,7 +93,7 @@ describe('HLR wizard', () => {
   });
 
   // start form flow
-  it('should show legacy appeals question & alert', () => {
+  it.skip('should show legacy appeals question & alert', () => {
     const h1Text = 'Request a Higher-Level Review';
     // starts with focus on breadcrumb
     cy.focused().should('have.attr', 'id', 'va-breadcrumbs-list');
