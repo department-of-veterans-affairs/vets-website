@@ -2,29 +2,30 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import AppointmentDisplay from '../../../components/appointment-display/AppointmentDisplay';
-import testData from '../../../../shared/api/mock-data/appointment-data.json';
+import AppointmentDisplay from '../AppointmentDisplay';
+import testData from '../../../../shared/api/mock-data/fhir/upcoming.appointment.not.started.primary.care.questionnaire.json';
 
 describe('health care questionnaire - display an appointment -- ', () => {
   it('has appointment data', () => {
     const mountedComponent = mount(
-      <AppointmentDisplay appointment={testData.data} />,
+      <AppointmentDisplay appointmentData={testData} />,
     );
     expect(
       mountedComponent.find('[data-testid="appointment-location"]').text(),
-    ).to.equal('CHY PC VAR2, VDS Facility Display Name');
+      'TEM MH PSO TRS IND93EH 2, NEW AMSTERDAM CBOC',
+    );
     expect(
       mountedComponent.find('[data-testid="appointment-time"]').text(),
     ).to.match(/([\d]|[\d][\d]):[\d][\d]\s[a|p].m./);
     expect(
       mountedComponent.find('[data-testid="appointment-date"]').text(),
-    ).to.equal('Tuesday, January 26th, 2021');
+    ).to.equal('Thursday, November 25th, 2021');
 
     mountedComponent.unmount();
   });
   it('does not have appointment data', () => {
     const mountedComponent = mount(
-      <AppointmentDisplay appointment={undefined} />,
+      <AppointmentDisplay appointmentData={undefined} />,
     );
     expect(
       mountedComponent.find('[data-testid="appointment-location"]').exists(),
@@ -38,7 +39,7 @@ describe('health care questionnaire - display an appointment -- ', () => {
   });
   it('does bold', () => {
     const mountedComponent = mount(
-      <AppointmentDisplay appointment={testData.data} bold />,
+      <AppointmentDisplay appointmentData={testData} bold />,
     );
     const classes = mountedComponent.find('.appointment-details').props('class')
       .className;
@@ -48,7 +49,7 @@ describe('health care questionnaire - display an appointment -- ', () => {
   });
   it('does not bold', () => {
     const mountedComponent = mount(
-      <AppointmentDisplay appointment={testData.data} bold={false} />,
+      <AppointmentDisplay appointmentData={testData} bold={false} />,
     );
     const classes = mountedComponent.find('.appointment-details').props('class')
       .className;

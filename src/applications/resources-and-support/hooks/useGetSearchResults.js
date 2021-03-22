@@ -122,6 +122,7 @@ export default function useGetSearchResults(articles, query, page) {
         'type-ahead-option-keyword-selected': undefined,
         'type-ahead-option-position': undefined,
         'type-ahead-options-list': undefined,
+        'type-ahead-options-count': undefined,
       });
 
       setResults(orderedResults);

@@ -43,6 +43,7 @@ const updateHTML = files => {
     buildtype: BUILDTYPE,
     entry: true,
     liquidUnitTestingFramework: true,
+    accessibility: true,
     // the following options are needed to set options.domainReplacements
     // for createRedirects() but the values are arbitrary for this testing framework
     host: 'host',
