@@ -43,11 +43,11 @@ export function fetchSearchResults(query, page, analyticsMetaInfo) {
           meta: response.meta,
         });
       })
-      .catch(error => {
+      .catch(error =>
         dispatch({
           type: FETCH_SEARCH_RESULTS_FAILURE,
           errors: error.errors,
-        });
-      });
+        }),
+      );
   };
 }
