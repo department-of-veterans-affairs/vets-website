@@ -147,6 +147,7 @@ export function selectConfirmationPage(state) {
     data: selectProjectCheetahFormData(state),
     facilityDetails: getChosenFacilityInfo(state),
     systemId: getSiteIdForChosenFacility(state),
+    submitStatus: selectProjectCheetah(state).submitStatus,
   };
 }
 
@@ -160,6 +161,5 @@ export function selectContactFacilitiesPageInfo(state) {
     facilitiesStatus,
     sortMethod: newBooking.facilityPageSortMethod,
     canUseVaccineFlow: selectCanUseVaccineFlow(state),
-    newBookingStatus: state.projectCheetah.newBookingStatus,
   };
 }
