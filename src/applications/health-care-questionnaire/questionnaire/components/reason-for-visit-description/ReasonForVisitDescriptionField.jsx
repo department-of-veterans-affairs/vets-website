@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
-import { getBookingNoteFromAppointment } from '../../../shared/utils';
+import { appointment as appointmentSelector } from '../../../shared/utils/selectors';
 import TextAreaWidget from '@department-of-veterans-affairs/react-jsonschema-form/lib/components/widgets/TextareaWidget';
 
 const ReasonForVisitDescriptionField = props => {
@@ -16,7 +16,7 @@ const ReasonForVisitDescriptionField = props => {
         if (!currentValue) {
           // check to see if the current appointment has a booking note,
           // not all appointments have them
-          const bookingNote = getBookingNoteFromAppointment(appointment);
+          const bookingNote = appointmentSelector.getBookingNote(appointment);
           if (bookingNote) {
             onChange(bookingNote.description);
             setHasOnChangeBeenRun(true);
