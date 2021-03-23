@@ -333,7 +333,7 @@ module.exports = (env = {}) => {
         }, [])
         .join('');
 
-    const appRegistryPath = '../src/applications/registry.json';
+    const appRegistryPath = 'src/applications/registry.json';
     let appRegistry;
 
     if (fs.existsSync(appRegistryPath)) {
@@ -365,7 +365,10 @@ module.exports = (env = {}) => {
           loadingMessage: 'Please wait while we load the application for you.',
           ...template, // Unpack any template metadata from the registry entry.
         },
-        title: template.title || appName ? `${appName} | VA.gov` : 'VA.gov',
+        title:
+          template.title || appName
+            ? `${appName} | Veteran Affairs`
+            : 'VA.gov | Veteran Affairs',
       });
 
     baseConfig.plugins = baseConfig.plugins.concat(
