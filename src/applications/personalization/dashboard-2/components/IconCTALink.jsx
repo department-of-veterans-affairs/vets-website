@@ -4,6 +4,7 @@ const IconCTALink = ({
   ariaLabel,
   href,
   text,
+  // icon should be a valid Font Awesome 5 icon name
   icon,
   onClick,
   boldText,

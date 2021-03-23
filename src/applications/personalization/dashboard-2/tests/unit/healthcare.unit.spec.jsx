@@ -71,6 +71,16 @@ describe('HealthCare component', () => {
         .to.exist;
     });
 
+    it('should render the unread messages count with 1 message', async () => {
+      initialState.health.msg.folders.data.currentItem.attributes.unreadCount = 1;
+      view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {
+        initialState,
+        reducers,
+      });
+      expect(await view.findByText(new RegExp(`you have 1 new message`, 'i')))
+        .to.exist;
+    });
+
     it('should render the unread messages count with 0 messages', async () => {
       initialState.health.msg.folders.data.currentItem.attributes.unreadCount = 0;
       view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {

@@ -14,6 +14,7 @@ import {
   selectCernerMessagingFacilities,
   selectCernerRxFacilities,
   selectIsCernerPatient,
+  selectAvailableServices,
 } from '~/platform/user/selectors';
 
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
@@ -62,7 +63,9 @@ const HealthCare = ({
 
   const messagesText =
     typeof unreadMessagesCount === 'number'
-      ? `You have ${unreadMessagesCount} new messages`
+      ? `You have ${unreadMessagesCount} new message${
+          unreadMessagesCount === 1 ? '' : 's'
+        }`
       : 'Send a secure message to your health care team';
 
   return (
@@ -144,7 +147,7 @@ const mapStateToProps = state => {
 
   return {
     appointments: state.health?.appointments?.data,
-    shouldFetchMessages: state.user.profile?.services?.includes(
+    shouldFetchMessages: selectAvailableServices(state).includes(
       backendServices.MESSAGING,
     ),
     isCernerPatient: selectIsCernerPatient(state),
