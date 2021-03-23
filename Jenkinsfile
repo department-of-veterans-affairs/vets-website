@@ -80,7 +80,7 @@ node('vetsgov-general-purpose') {
           sh "docker-compose -p accessibility down --remove-orphans"
         }
         sh "docker-compose -p cypress down --remove-orphans"
-        step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
+        // step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
         step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
       }
     }
