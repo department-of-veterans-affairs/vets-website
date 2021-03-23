@@ -11,11 +11,14 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
   attestation,
+  notEligible,
   complianceAgreement,
   personalInformation,
   addressInformation,
   vaLocation,
 } from './pages';
+
+import { isTypeNone } from './helpers';
 
 const formConfig = {
   urlPrefix: '/',
@@ -42,7 +45,14 @@ const formConfig = {
           schema: attestation.schema.attestation,
           uiSchema: attestation.uiSchema.attestation,
         },
+        notEligible: {
+          depends: formData => isTypeNone(formData),
+          path: 'eligibility',
+          schema: notEligible.schema.notEligible,
+          uiSchema: notEligible.uiSchema.notEligible,
+        },
         complianceAgreement: {
+          depends: formData => !isTypeNone(formData),
           path: 'compliance-agreement',
           schema: complianceAgreement.schema.complianceAgreement,
           uiSchema: complianceAgreement.uiSchema.complianceAgreement,
@@ -53,6 +63,7 @@ const formConfig = {
       title: 'Applicant Information',
       pages: {
         personalInformation: {
+          depends: formData => !isTypeNone(formData),
           title: 'Applicant Information',
           path: 'personal-information',
           schema: personalInformation.schema.personalInformation,
@@ -64,6 +75,7 @@ const formConfig = {
       title: 'Applicant Address',
       pages: {
         addressInformation: {
+          depends: formData => !isTypeNone(formData),
           title: 'Applicant Address',
           path: 'address',
           schema: addressInformation.schema.addressInformation,
@@ -75,6 +87,7 @@ const formConfig = {
       title: 'Select where to go for your vaccine',
       pages: {
         vaLocation: {
+          depends: formData => !isTypeNone(formData),
           path: 'VA Location',
           schema: vaLocation.schema.vaLocation,
           uiSchema: vaLocation.uiSchema.vaLocation,

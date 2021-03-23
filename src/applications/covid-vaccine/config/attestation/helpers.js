@@ -1,9 +1,22 @@
 import React from 'react';
 
 export const veteranLabel = (
-  <p>
-    <strong>Veteran</strong> who didn't recieve a dishonorable discharge
-  </p>
+  <>
+    <p>
+      <strong>Eligible Veteran</strong>. To be eligible for a COVID-19 vaccine
+      at VA under this law, a Veteran must meet these 2 requirements:
+    </p>
+    <ul>
+      <li>
+        They served in the active military, naval, or air service,{' '}
+        <strong>and</strong>
+      </li>
+      <li>
+        They were discharged from service under conditions other than
+        dishonorable.
+      </li>
+    </ul>
+  </>
 );
 
 export const spouseLabel = (
