@@ -1,0 +1,26 @@
+name: Build / Test
+
+on: [push]
+
+jobs:
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v2
+      - name: Create test results folder
+        run: mkdir -p ./test-results
+      - name: Run unit tests
+        run: yarn test:unit --coverage
+        env:
+          MOCHA_FILE: ./test-results/unit-tests.xml
+      - name: Generate coverage report by app
+        run: node ./script/app-coverage-report.js
+      - name: Archive test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: unit-tests.xml
+          path: ./test-results/unit-tests.xml
