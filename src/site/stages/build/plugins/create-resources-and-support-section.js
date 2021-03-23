@@ -291,41 +291,23 @@ function createArticleListingsPages(files) {
   );
 }
 
-function deriveIntroText(htmlText, options = {}) {
+function deriveIntroText(htmlText) {
   const sanitizedText = liquid.filters.strip_html(htmlText);
   const strippedNewlines = liquid.filters.strip_newlines(sanitizedText);
   const decodedText = he.decode(strippedNewlines);
-
-  // Truncate the text.
-  const truncated = liquid.filters.truncate(decodedText, 190);
-
-  // Return full html escaped text if we are not truncating text or if text is brief.
-  if (!options?.truncated || decodedText === truncated) {
-    return decodedText;
-  }
-
-  // If the text is long, show an ellipsis at the end of it.
-  return `${truncated}...`;
+  return decodedText;
 }
 
 function createSearchResults(files) {
   const allArticles = getArticlesBelongingToResourcesAndSupportSection(files);
   const articleSearchData = allArticles.map(article => {
-    let truncatedIntroText = '';
     let introText = '';
 
     if (article.entityBundle === 'q_a') {
       const answer = article.fieldAnswer.entity.fieldWysiwyg.processed;
-      truncatedIntroText = deriveIntroText(answer, { truncated: true });
-      introText = deriveIntroText(answer, { truncated: false });
+      introText = deriveIntroText(answer);
     } else {
-      truncatedIntroText = deriveIntroText(
-        article.fieldIntroTextLimitedHtml.processed,
-        { truncated: true },
-      );
-      introText = deriveIntroText(article.fieldIntroTextLimitedHtml.processed, {
-        truncated: false,
-      });
+      introText = deriveIntroText(article.fieldIntroTextLimitedHtml.processed);
     }
 
     return {
@@ -336,7 +318,6 @@ function createSearchResults(files) {
       fieldTags: article.fieldTags,
       introText,
       title: article.title,
-      truncatedIntroText,
     };
   });
 

@@ -5,8 +5,7 @@
       "path": "/resources/test-page"
     },
     "title": "Sample title - Health 1",
-    "introText": "Sample description",
-    "truncatedIntroText": "Sample description"
+    "introText": "Sample description"
   },
   {
     "entityBundle": "support_resources_detail_page",
@@ -14,8 +13,7 @@
       "path": "/resources/test-page"
     },
     "title": "Sample title - Health 2",
-    "introText": "Sample description",
-    "truncatedIntroText": "Sample description"
+    "introText": "Sample description"
   },
   {
     "entityBundle": "support_resources_detail_page",
@@ -23,8 +21,7 @@
       "path": "/resources/test-page"
     },
     "title": "Sample title - Health 3",
-    "introText": "Sample description",
-    "truncatedIntroText": "Sample description"
+    "introText": "Sample description"
   },
   {
     "entityBundle": "support_resources_detail_page",
@@ -32,8 +29,7 @@
       "path": "/resources/test-page"
     },
     "title": "Sample title - Health 4",
-    "introText": "Sample description",
-    "truncatedIntroText": "Sample description"
+    "introText": "Sample description"
   },
   {
     "entityBundle": "support_resources_detail_page",
@@ -41,8 +37,7 @@
       "path": "/resources/test-page"
     },
     "title": "Sample title - Health 5",
-    "introText": "Sample description",
-    "truncatedIntroText": "Sample description"
+    "introText": "Sample description"
   },
   {
     "entityBundle": "support_resources_detail_page",
@@ -50,8 +45,7 @@
       "path": "/resources/test-page"
     },
     "title": "Sample title - Health 6",
-    "introText": "Sample description",
-    "truncatedIntroText": "Sample description"
+    "introText": "Sample description"
   },
   {
     "entityBundle": "support_resources_detail_page",
@@ -59,8 +53,7 @@
       "path": "/resources/test-page"
     },
     "title": "Sample title - Health 7",
-    "introText": "Sample description",
-    "truncatedIntroText": "Sample description"
+    "introText": "Sample description"
   },
   {
     "entityBundle": "support_resources_detail_page",
@@ -68,8 +61,7 @@
       "path": "/resources/test-page"
     },
     "title": "Sample title - Health 8",
-    "introText": "Sample description",
-    "truncatedIntroText": "Sample description"
+    "introText": "Sample description"
   },
   {
     "entityBundle": "support_resources_detail_page",
@@ -77,8 +69,7 @@
       "path": "/resources/test-page"
     },
     "title": "Sample title - Health 9",
-    "introText": "Sample description",
-    "truncatedIntroText": "Sample description"
+    "introText": "Sample description"
   },
   {
     "entityBundle": "support_resources_detail_page",
@@ -86,8 +77,7 @@
       "path": "/resources/test-page"
     },
     "title": "Sample title - Health 10",
-    "introText": "Sample description",
-    "truncatedIntroText": "Sample description"
+    "introText": "Sample description"
   },
   {
     "entityBundle": "support_resources_detail_page",
@@ -95,8 +85,7 @@
       "path": "/resources/test-page"
     },
     "title": "Sample title - Health 11",
-    "introText": "Sample description",
-    "truncatedIntroText": "Sample description"
+    "introText": "Sample description"
   },
   {
     "entityBundle": "support_resources_detail_page",
@@ -104,8 +93,7 @@
       "path": "/resources/test-page"
     },
     "title": "Sample title - Health 12",
-    "introText": "Sample description",
-    "truncatedIntroText": "Sample description"
+    "introText": "Sample description"
   },
   {
     "entityBundle": "support_resources_detail_page",
@@ -113,8 +101,7 @@
       "path": "/resources/test-page"
     },
     "title": "Sample title - Disabilities",
-    "introText": "Sample description",
-    "truncatedIntroText": "Sample description"
+    "introText": "Sample description"
   },
   {
     "entityBundle": "support_resources_detail_page",
@@ -122,7 +109,6 @@
       "path": "/resources/test-page"
     },
     "title": "Sample title - Disability",
-    "introText": "Sample description",
-    "truncatedIntroText": "Sample description"
+    "introText": "Sample description"
   }
 ]

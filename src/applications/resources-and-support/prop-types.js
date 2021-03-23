@@ -16,7 +16,6 @@ export const Article = PropTypes.shape({
   }).isRequired,
   title: PropTypes.string.isRequired,
   introText: PropTypes.string.isRequired,
-  truncatedIntroText: PropTypes.string.isRequired,
   fieldPrimaryCategory: PropTypes.shape({
     entity: TaxonomyTerm,
   }),

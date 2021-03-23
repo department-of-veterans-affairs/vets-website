@@ -13,8 +13,6 @@ const results = [
       'How to change direct deposit information for VA disability or pension ',
     introText:
       'Follow our step-by-step instructions for making&#xA0;changes to your VA direct deposit information for VA disability or pension benefit payments. We&apos;ll show you how to sign in and make changes on this is very long text this is very long text.',
-    truncatedIntroText:
-      'Follow our step-by-step instructions for making&#xA0;changes to your VA direct deposit information for VA disability or pension benefit payments. We&apos;ll show you how to sign in and make changes on...',
     fieldPrimaryCategory: {
       entity: {
         entityUrl: { path: '/taxonomy/term/282' },
@@ -40,8 +38,6 @@ const results = [
     entityUrl: { path: '/node/8520' },
     title: 'How to check your VA claim or appeal status online',
     introText:
-      'Follow our step-by-step instructions for&#xA0;checking the status of your&#xA0;VA claim or appeal online.\n',
-    truncatedIntroText:
       'Follow our step-by-step instructions for&#xA0;checking the status of your&#xA0;VA claim or appeal online.\n',
     fieldPrimaryCategory: {
       entity: {
