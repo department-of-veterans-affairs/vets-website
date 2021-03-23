@@ -1001,5 +1001,14 @@
       "vagovprod": false,
       "layout": "page-react.html"
     }
+  },
+  {
+    "appName": "covid-vaccine-expansion",
+    "entryName": "covid-vaccine",
+    "rootUrl": "/covid-vaccine",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
+    }
   }
 ]
