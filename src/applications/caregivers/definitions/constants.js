@@ -16,6 +16,10 @@ export const veteranFields = {
   verifyEmail: 'view:veteranEmail',
 };
 
+export const representativeFields = {
+  signAsRepresentative: 'signAsRepresentative',
+};
+
 export const primaryCaregiverFields = {
   address: 'primaryAddress',
   alternativePhoneNumber: 'primaryAlternativePhoneNumber',

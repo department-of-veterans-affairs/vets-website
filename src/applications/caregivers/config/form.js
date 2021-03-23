@@ -27,6 +27,9 @@ import vetInfoPage from './chapters/veteran/vetInfo';
 import vetContactInfoPage from './chapters/veteran/vetContactInfo';
 import vetMedicalCenterPage from './chapters/veteran/vetMedicalCenter';
 
+// sign as representative
+import signAsRepresentativeYesNo from './chapters/signAsRepresentative/signAsRepresentativeYesNo';
+
 // primary pages
 import hasPrimaryCaregiverPage from './chapters/primary/hasPrimaryCaregiver';
 import primaryInfoPage from './chapters/primary/primaryInfo';
@@ -117,6 +120,17 @@ const formConfig = {
           title: 'VA medical center',
           uiSchema: vetMedicalCenterPage.uiSchema,
           schema: vetMedicalCenterPage.schema,
+        },
+      },
+    },
+    signAsRepresentativeChapter: {
+      title: 'Representative documentation',
+      pages: {
+        signAsRepresentative: {
+          path: 'representative-documentation',
+          title: 'Representative documentation',
+          uiSchema: signAsRepresentativeYesNo.uiSchema,
+          schema: signAsRepresentativeYesNo.schema,
         },
       },
     },
