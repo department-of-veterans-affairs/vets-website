@@ -46,7 +46,7 @@ const formConfig = {
     },
   },
   title: 'Request help with VA debt (VA Form 5655)',
-  subTitle: 'Form 5655',
+  subTitle: 'Financial Status Report',
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   customText: {
@@ -62,6 +62,7 @@ const formConfig = {
           title: 'Veteran information',
           uiSchema: pages.veteranInfo.uiSchema,
           schema: pages.veteranInfo.schema,
+          editModeOnReviewPage: true,
           initialData: {
             personalData: {
               veteranFullName: {
@@ -411,10 +412,8 @@ const formConfig = {
           schema: pages.resolutionOptions.schema,
         },
         resolutionComments: {
-          path: 'resolution-comments/:index',
+          path: 'resolution-comments',
           title: 'Resolution comments',
-          showPagePerItem: true,
-          arrayPath: 'selectedDebts',
           uiSchema: pages.resolutionComments.uiSchema,
           schema: pages.resolutionComments.schema,
         },

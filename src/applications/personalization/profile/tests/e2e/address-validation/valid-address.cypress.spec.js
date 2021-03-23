@@ -15,7 +15,7 @@ describe('Personal and contact information', () => {
         cy.findByLabelText(/City/i)
           .clear()
           .type('Fremont');
-        cy.findByLabelText(/^State/).select('CA');
+        cy.findByLabelText(/^State/).select('MD');
         cy.findByLabelText(/Zip code/i)
           .clear()
           .type('94536');

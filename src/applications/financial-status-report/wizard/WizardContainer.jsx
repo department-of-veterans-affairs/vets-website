@@ -39,7 +39,7 @@ const WizardContainer = ({ setWizardStatus }) => {
           </p>
           <p>
             If you need help with a VA copay debt,{' '}
-            <a href="https://www.va.gov/debtman/Financial_Status_Report.asp">
+            <a href="https://www.va.gov/health-care/pay-copay-bill/financial-hardship/">
               learn how to request financial hardship assistance.
             </a>
           </p>
