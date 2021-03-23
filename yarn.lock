@@ -1279,7 +1279,7 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@^2.1.0":
+"@department-of-veterans-affairs/component-library@2.1.0":
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-2.1.0.tgz#cb3e59adc23c76960512ffe1f91c46eb4ce82736"
   integrity sha512-R4NkClUcs55SO42n2CXGEn7VBfGbKSXhtbqFs2CbVXkaPe7tEe8a4PjKWAYgzgzooKD87xZyfjnvEnJvW1JWhA==
