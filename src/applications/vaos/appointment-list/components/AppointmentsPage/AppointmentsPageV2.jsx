@@ -5,19 +5,11 @@ import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 
 import * as actions from '../../redux/actions';
-import {
-  selectCanUseVaccineFlow,
-  selectDirectScheduleSettingsStatus,
-  selectExpressCareAvailability,
-} from '../../redux/selectors';
+import { selectExpressCareAvailability } from '../../redux/selectors';
 import {
   selectFeatureRequests,
-  selectFeatureDirectScheduling,
-  selectFeatureCommunityCare,
   selectIsWelcomeModalDismissed,
   selectIsCernerOnlyPatient,
-  selectFeatureProjectCheetah,
-  selectFeatureHomepageRefresh,
 } from '../../../redux/selectors';
 import { GA_PREFIX, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -67,9 +59,7 @@ function AppointmentsPageV2({
   isCernerOnlyPatient,
   isWelcomeModalDismissed,
   showScheduleButton,
-  startNewAppointmentFlow,
   startNewExpressCareFlow,
-  startNewVaccineFlow,
 }) {
   const location = useLocation();
 
@@ -128,12 +118,7 @@ function AppointmentsPageV2({
         )}
       />
 
-      {showScheduleButton && (
-        <ScheduleNewAppointmentRadioButtons
-          startNewAppointmentFlow={startNewAppointmentFlow}
-          startNewVaccineFlow={startNewVaccineFlow}
-        />
-      )}
+      {showScheduleButton && <ScheduleNewAppointmentRadioButtons />}
 
       {expressCare.useNewFlow &&
         !isCernerOnlyPatient && (
@@ -170,19 +155,11 @@ AppointmentsPageV2.propTypes = {
   isWelcomeModalDismissed: PropTypes.bool.isRequired,
   showCommunityCare: PropTypes.bool.isRequired,
   showDirectScheduling: PropTypes.bool.isRequired,
-  startNewAppointmentFlow: PropTypes.func.isRequired,
-  showCheetahScheduleButton: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
-    canUseVaccineFlow: selectCanUseVaccineFlow(state),
-    directScheduleSettingsStatus: selectDirectScheduleSettingsStatus(state),
     showScheduleButton: selectFeatureRequests(state),
-    showCommunityCare: selectFeatureCommunityCare(state),
-    showDirectScheduling: selectFeatureDirectScheduling(state),
-    showCheetahScheduleButton: selectFeatureProjectCheetah(state),
-    showHomePageRefresh: selectFeatureHomepageRefresh(state),
     isWelcomeModalDismissed: selectIsWelcomeModalDismissed(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     expressCare: selectExpressCareAvailability(state),
@@ -191,10 +168,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   fetchExpressCareWindows: actions.fetchExpressCareWindows,
-  fetchDirectScheduleSettings: actions.fetchDirectScheduleSettings,
-  startNewAppointmentFlow: actions.startNewAppointmentFlow,
   startNewExpressCareFlow: actions.startNewExpressCareFlow,
-  startNewVaccineFlow: actions.startNewVaccineFlow,
 };
 
 export default connect(
