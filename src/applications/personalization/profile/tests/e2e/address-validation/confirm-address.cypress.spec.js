@@ -9,8 +9,8 @@ describe('Personal and contact information', () => {
         .clear()
         .type('36310 Coronado Dr');
 
-      cy.findByLabelText(/^line 2/i).clear();
-      cy.findByLabelText(/^line 3/i).clear();
+      cy.findByLabelText(/^street address line 2/i).clear();
+      cy.findByLabelText(/^street address line 3/i).clear();
 
       cy.findByLabelText(/City/i)
         .clear()

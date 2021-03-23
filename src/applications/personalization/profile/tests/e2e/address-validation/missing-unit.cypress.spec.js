@@ -8,8 +8,8 @@ describe('Personal and contact information', () => {
       cy.findByLabelText(/^street address/i)
         .clear()
         .type('225 irving st');
-      cy.findByLabelText(/^line 2/i).clear();
-      cy.findByLabelText(/^line 3/i).clear();
+      cy.findByLabelText(/^Street address line 2/i).clear();
+      cy.findByLabelText(/^Street address line 3/i).clear();
 
       cy.findByLabelText(/City/i)
         .clear()

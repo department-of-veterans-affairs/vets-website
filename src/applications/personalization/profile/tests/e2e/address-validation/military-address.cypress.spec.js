@@ -12,8 +12,8 @@ describe('Personal and contact information', () => {
       cy.findByLabelText(/^street address/i)
         .clear()
         .type('PSC 808 Box 37');
-      cy.findByLabelText(/^line 2/i).clear();
-      cy.findByLabelText(/^line 3/i).clear();
+      cy.findByLabelText(/^Street address line 2/i).clear();
+      cy.findByLabelText(/^Street address line 3/i).clear();
 
       cy.get('#root_city').select('FPO');
 

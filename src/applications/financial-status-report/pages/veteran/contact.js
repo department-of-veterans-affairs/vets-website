@@ -113,7 +113,7 @@ export const uiSchema = {
         },
       },
       addressLine2: {
-        'ui:title': 'Line 2',
+        'ui:title': 'Street address line 2',
         'ui:options': {
           classNames: 'input-size-7',
         },

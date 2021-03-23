@@ -9,11 +9,11 @@ describe('Personal and contact information', () => {
       cy.findByLabelText(/^street address/i)
         .clear()
         .type('225 irving st');
-      cy.findByLabelText(/^line 2/i)
+      cy.findByLabelText(/^street address line 2/i)
         .clear()
         .type('Unit A');
 
-      cy.findByLabelText(/^line 3/i).clear();
+      cy.findByLabelText(/^street address line 3/i).clear();
 
       cy.findByLabelText(/City/i)
         .clear()

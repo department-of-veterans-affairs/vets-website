@@ -17,10 +17,10 @@ describe('Personal and contact information', () => {
       cy.findByLabelText(/^Street address/i)
         .clear()
         .type(addressLine1);
-      cy.findAllByLabelText(/^Line 2/i)
+      cy.findAllByLabelText(/^Street address line 2/i)
         .clear()
         .type(addressLine2);
-      cy.findAllByLabelText(/^Line 3/i).clear();
+      cy.findAllByLabelText(/^Street address line 3/i).clear();
 
       cy.findByLabelText(/City/i)
         .clear()
@@ -50,7 +50,10 @@ describe('Personal and contact information', () => {
 
       // confirm the address we just entered is in the form
       cy.findByLabelText(/^street address/i).should('have.value', addressLine1);
-      cy.findAllByLabelText(/^Line 2/i).should('have.value', addressLine2);
+      cy.findAllByLabelText(/^Street address line 2/i).should(
+        'have.value',
+        addressLine2,
+      );
 
       // then click the update button to return to the validation screen
       cy.findByRole('button', { name: /^Update$/i }).click({ force: true });
