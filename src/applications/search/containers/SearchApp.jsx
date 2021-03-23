@@ -328,9 +328,9 @@ class SearchApp extends React.Component {
             index,
             url: result.url,
           })}
-          data-e2e-id="result-title"
         >
           <h5
+            data-e2e-id="result-title"
             dangerouslySetInnerHTML={{
               __html: strippedTitle,
             }}
