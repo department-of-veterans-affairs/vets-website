@@ -11,10 +11,10 @@ import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your installment contracts and other debts',
-  'ui:description':
-    'Enter information for each installment contract or debt separately below.',
   installmentContractsAndOtherDebts: {
     'ui:field': ItemLoop,
+    'ui:description':
+      'Enter information for each installment contract or debt separately below.',
     'ui:options': {
       viewField: CardDetailsView,
       doNotScroll: true,

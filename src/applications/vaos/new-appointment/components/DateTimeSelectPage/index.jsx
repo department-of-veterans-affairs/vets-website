@@ -178,8 +178,8 @@ export function DateTimeSelectPage({
               />
             }
             onChange={onCalendarChange}
-            onClickNext={getAppointmentSlots}
-            onClickPrev={getAppointmentSlots}
+            onNextMonth={getAppointmentSlots}
+            onPreviousMonth={getAppointmentSlots}
             minDate={moment()
               .add(1, 'days')
               .format('YYYY-MM-DD')}

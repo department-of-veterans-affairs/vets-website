@@ -193,8 +193,8 @@ export function SelectDate1Page({
               validate({ dates, setValidationError });
               onCalendarChange(dates, pageKey);
             }}
-            onClickNext={getAppointmentSlots}
-            onClickPrev={getAppointmentSlots}
+            onNextMonth={getAppointmentSlots}
+            onPreviousMonth={getAppointmentSlots}
             minDate={moment()
               .add(1, 'days')
               .format('YYYY-MM-DD')}
