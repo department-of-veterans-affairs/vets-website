@@ -11,14 +11,9 @@ const testConfig = createTestConfig(
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
     },
-    // setupPerTest: () => {
-    //   // Log in if the form requires an authenticated session.
-    //   cy.login();
-    //   cy.route('POST', formConfig.submitUrl, { status: 200 });
-    // },
     pageHooks: {
       introduction: () => {
-        // Hit the start button
+        // click the start button
         cy.findAllByText(/start/i, { selector: 'button' })
           .first()
           .click();

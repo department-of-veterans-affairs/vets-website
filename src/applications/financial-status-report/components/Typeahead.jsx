@@ -108,6 +108,7 @@ const Typeahead = ({ uiSchema, idSchema, formData, onChange, onBlur }) => {
       }) => (
         <div className="autosuggest-container">
           <input
+            aria-label="autosuggest-input"
             {...getInputProps({
               autoComplete: 'off',
               id: idSchema.$id,
