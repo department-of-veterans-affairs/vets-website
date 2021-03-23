@@ -78,6 +78,8 @@ export const uiSchema = {
     'ui:description': notActiveBenefitNotice,
     'ui:options': {
       hideIf: formData => formData.activeDuty !== false,
+      expandUnder: 'activeDuty',
+      expandUnderCondition: false,
     },
   },
   expectedActiveDutyStatusChange: {
