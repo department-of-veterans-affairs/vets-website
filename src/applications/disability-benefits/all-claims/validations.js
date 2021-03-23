@@ -374,3 +374,45 @@ export function validateBooleanGroup(
     errors.addError(atLeastOne);
   }
 }
+
+/* Military history validations */
+export const validateAge = (
+  errors,
+  dateString,
+  _formData,
+  _schema,
+  _uiSchema,
+  _currentIndex,
+  appStateData,
+) => {
+  if (moment(dateString).isBefore(moment(appStateData.dob).add(13, 'years'))) {
+    errors.addError('Your start date must be after your 13th birthday');
+  }
+};
+
+// partial matches for reserves
+// NOAA & Public Health Service are considered to be active duty
+const reservesList = ['Reserve', 'National Guard'];
+
+export const validateSeparationDate = (
+  errors,
+  dateString,
+  _formData,
+  _schema,
+  _uiSchema,
+  currentIndex,
+  appStateData,
+) => {
+  const { allowBDD, servicePeriods = [] } = appStateData;
+  const branch = servicePeriods[currentIndex]?.serviceBranch || '';
+  const isReserves = reservesList.some(match => branch.includes(match));
+  if (!allowBDD && !isReserves && moment(dateString).isAfter(moment())) {
+    errors.addError('Your separation date must be in the past');
+  } else if (
+    allowBDD &&
+    !isReserves &&
+    moment(dateString).isAfter(moment().add(180, 'days'))
+  ) {
+    errors.addError('Your separation date must be before 180 days from today');
+  }
+};

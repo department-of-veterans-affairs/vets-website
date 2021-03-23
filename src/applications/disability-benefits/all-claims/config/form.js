@@ -208,6 +208,8 @@ const formConfig = {
             dob: state.user.profile.dob,
             allowBDD:
               form526BDDFeature(state) && state.form.data?.['view:isBddData'],
+            servicePeriods:
+              state.form.data?.serviceInformation?.servicePeriods || [],
           }),
         },
         separationLocation: {
