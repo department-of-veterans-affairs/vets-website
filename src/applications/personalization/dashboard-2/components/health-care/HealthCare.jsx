@@ -55,6 +55,17 @@ const HealthCare = ({
     [shouldFetchMessages, fetchInbox, dataLoadingDisabled],
   );
 
+  if (shouldShowLoadingIndicator) {
+    return (
+      <div className="health-care vads-u-margin-y--6">
+        <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+          Health care
+        </h2>
+        <LoadingIndicator message="Loading health care..." />
+      </div>
+    );
+  }
+
   if (isCernerPatient && facilityNames?.length) {
     return (
       <GeneralCernerWidget
@@ -62,10 +73,6 @@ const HealthCare = ({
         authenticatedWithSSOe={authenticatedWithSSOe}
       />
     );
-  }
-
-  if (shouldShowLoadingIndicator) {
-    return <LoadingIndicator />;
   }
 
   const messagesText =
@@ -81,7 +88,7 @@ const HealthCare = ({
         Health care
       </h2>
 
-      <div className="vads-u-display--flex vads-u-flex-wrap--wrap">
+      <div className="vads-u-display--flex medium-screen:vads-u-flex-direction--row vads-u-flex-direction--column">
         {/* Appointments */}
         <Appointments appointments={appointments} />
 
@@ -153,12 +160,10 @@ const mapStateToProps = state => {
   ];
 
   const fetchingAppointments = state.health?.appointments?.fetching;
-  const fetchingInbox = state.health.msg.folders.data.currentItem.loading;
-  // const shouldFetchMessages = selectAvailableServices(state).includes(
-  //   backendServices.MESSAGING,
-  // ),
-
-  const shouldFetchMessages = true;
+  const fetchingInbox = state.health.msg.folders.data.currentItem.fetching;
+  const shouldFetchMessages = selectAvailableServices(state).includes(
+    backendServices.MESSAGING,
+  );
 
   return {
     appointments: state.health?.appointments?.data,
@@ -167,8 +172,6 @@ const mapStateToProps = state => {
     facilityNames,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
     unreadMessagesCount: selectUnreadMessagesCount(state),
-    // loading messages
-    // laoding appointments
     shouldShowLoadingIndicator:
       fetchingAppointments || (shouldFetchMessages && fetchingInbox),
   };
