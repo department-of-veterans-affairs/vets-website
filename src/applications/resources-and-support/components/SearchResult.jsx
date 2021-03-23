@@ -57,12 +57,7 @@ export const SearchResult = ({
           {article.title}
         </a>
       </h2>
-      <p
-        className="vads-u-margin-bottom--0"
-        // the article descriptions contain HTML entities
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: article.description }}
-      />
+      <p className="vads-u-margin-bottom--0">{article.truncatedIntroText}</p>
     </div>
   );
 };

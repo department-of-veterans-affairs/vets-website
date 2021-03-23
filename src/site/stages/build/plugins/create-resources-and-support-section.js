@@ -291,44 +291,52 @@ function createArticleListingsPages(files) {
   );
 }
 
-function createArticleResultSnippet(text) {
-  const sanitizedText = liquid.filters.strip_html(text);
+function deriveIntroText(htmlText, options = {}) {
+  const sanitizedText = liquid.filters.strip_html(htmlText);
   const strippedNewlines = liquid.filters.strip_newlines(sanitizedText);
   const decodedText = he.decode(strippedNewlines);
 
+  // Truncate the text.
   const truncated = liquid.filters.truncate(decodedText, 190);
 
-  if (decodedText !== truncated) {
-    return `${truncated}...`;
+  // Return full html escaped text if we are not truncating text or if text is brief.
+  if (!options?.truncated || decodedText === truncated) {
+    return decodedText;
   }
 
-  return truncated;
+  // If the text is long, show an ellipsis at the end of it.
+  return `${truncated}...`;
 }
 
 function createSearchResults(files) {
   const allArticles = getArticlesBelongingToResourcesAndSupportSection(files);
   const articleSearchData = allArticles.map(article => {
-    let limitedDescription = null;
+    let truncatedIntroText = '';
+    let introText = '';
 
     if (article.entityBundle === 'q_a') {
       const answer = article.fieldAnswer.entity.fieldWysiwyg.processed;
-      limitedDescription = createArticleResultSnippet(answer);
+      truncatedIntroText = deriveIntroText(answer, { truncated: true });
+      introText = deriveIntroText(answer, { truncated: false });
     } else {
-      limitedDescription = createArticleResultSnippet(
+      truncatedIntroText = deriveIntroText(
         article.fieldIntroTextLimitedHtml.processed,
+        { truncated: true },
       );
+      introText = deriveIntroText(article.fieldIntroTextLimitedHtml.processed, {
+        truncated: false,
+      });
     }
 
     return {
       entityBundle: article.entityBundle,
-      entityUrl: {
-        path: article.entityUrl.path,
-      },
-      title: article.title,
-      description: limitedDescription,
-      fieldPrimaryCategory: article.fieldPrimaryCategory,
+      entityUrl: { path: article.entityUrl.path },
       fieldOtherCategories: article.fieldOtherCategories,
+      fieldPrimaryCategory: article.fieldPrimaryCategory,
       fieldTags: article.fieldTags,
+      introText,
+      title: article.title,
+      truncatedIntroText,
     };
   });
 
