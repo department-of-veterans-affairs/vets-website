@@ -407,7 +407,9 @@ describe('VAOS <AppointmentsPageV2>', () => {
       }),
     );
 
-    expect(await screen.findAllByRole('radio')).to.have.length(2);
+    await waitFor(() => {
+      expect(screen.getAllByRole('radio')).to.have.length(2);
+    });
 
     expect(screen.getByText(/Choose an appointment type$/)).to.be.ok;
 
