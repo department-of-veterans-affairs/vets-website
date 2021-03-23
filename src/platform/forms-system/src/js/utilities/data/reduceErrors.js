@@ -163,6 +163,8 @@ export const getPropertyInfo = (pageList = [], name, instance = '') => {
  */
 /**
  * min/max length or item errors may show up as duplicates
+ * Comparing index with null to prevent overall "null" index from repeating
+ * item array specific index
  * @param {Form~errors} list - list of error messages
  * @param {string} name - error name
  * @param {number|null} index - error index
@@ -254,18 +256,21 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
             pageList,
             name,
           );
-
-          processedErrors.push({
-            name,
-            index: errorIndex || null,
-            message:
-              getErrorMessage(reviewErrors[name], errorIndex) ||
-              err.__errors.map(e => formatErrors(e)).join('. '),
-            chapterKey,
-            pageKey,
-          });
-        }
-        if (err.property) {
+          // message returns null if we don't want a link to show up
+          // happens for 526's when a new disability is missing (has error), and
+          // the nested required condition (also has an error) is also missing
+          const message = getErrorMessage(reviewErrors[name], errorIndex);
+          if (message !== null) {
+            processedErrors.push({
+              name,
+              index: errorIndex || null,
+              message:
+                message || err.__errors.map(e => formatErrors(e)).join('. '),
+              chapterKey,
+              pageKey,
+            });
+          }
+        } else if (err.property) {
           // property includes a path to the error; we'll remove "instance",
           // then use `getPropertyInfo` to search the pageList to find the
           // matching chapterKey & pageKey

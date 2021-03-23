@@ -9,6 +9,15 @@ export default {
     'Did you serve in a combat zone after September 11, 2001? (select yes or no)',
   ratedDisabilities:
     'Rated disability (select the disability you’re filing for)',
+  // newDisabilities is returning null so it doesn't render because a missing
+  // "condition" will show the error
+  newDisabilities: () => null,
+  condition: index =>
+    `New conditions (in the ${numberToWords(
+      index + 1,
+    )} section, enter a condition or select one from the list)`,
+  cause:
+    'What caused this service-connected disability? (select from the list of causes)',
   'view:hasMilitaryRetiredPay':
     'Have you ever received military retirement pay? (select yes or no)',
   hasTrainingPay:
@@ -26,10 +35,4 @@ export default {
   homelessOrAtRisk:
     'Are you homeless or at risk of becoming homeless? (select one of the answers)',
   isVaEmployee: 'Are you a VA employee? (select yes or no)',
-  condition: index =>
-    `New conditions (in the ${numberToWords(
-      index + 1,
-    )} section, enter a condition or select one from the list)`,
-  cause:
-    'What caused this service-connected disability? (select from the list of causes)',
 };
