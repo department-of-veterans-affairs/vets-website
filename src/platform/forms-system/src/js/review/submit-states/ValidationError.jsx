@@ -40,72 +40,95 @@ function ValidationError(props) {
         errorRef.current.classList.add('has-focused');
       }
     },
-    [renderErrors],
+    [renderErrors, errorRef],
   );
 
-  if (!hadErrors && errorsLen > 0) {
-    setHadErrors(true);
-  }
-
-  let errorTitle;
-  let errorMessage;
+  let alert;
   if (renderErrors) {
+    if (!hadErrors && errorsLen > 0) {
+      setHadErrors(true);
+    }
+
     const resolved = hadErrors && errorsLen === 0;
 
     // Once all errors have been resolved, we can update the message
-    errorTitle = resolved
-      ? `Thank you for completing your ${appType}`
-      : `Your ${appType} is missing some information`;
-
-    errorMessage = resolved ? (
+    const errorMessage = resolved ? (
       `Try submitting your ${appType} again.`
     ) : (
-      <fieldset>
-        <legend className="vads-u-font-size--base" tabIndex={-1} ref={errorRef}>
-          <p className="vads-u-font-weight--normal">
-            You’ll need to fill in the missing information before you can submit
-            your {appType}
-          </p>
-          {`Please return to the following ${
-            errorsLen === 1 ? 'part' : `${errorsLen} parts`
-          } of the form:`}
-        </legend>
-        <ul className="vads-u-margin-left--3">
-          {errors.map(error => (
-            <li key={error.name} className="error-message-list-item">
-              {error.chapterKey ? (
-                <a
-                  href="#"
-                  className="error-message-list-link"
-                  onClick={event => {
-                    event.preventDefault();
-                    props.openReviewChapter(error.chapterKey);
-                    props.setEditMode(
-                      error.pageKey,
-                      true, // enable edit mode
-                      error.index || null,
-                    );
-                    // props.formContext.onError();
-                    focusAndScrollToReviewElement(error);
-                  }}
-                >
-                  {error.message}
-                </a>
-              ) : (
-                error.message
-              )}
-            </li>
-          ))}
-        </ul>
-      </fieldset>
+      <>
+        <p aria-describedby="missing-info-alert-legend">
+          You’ll need to fill in the missing information before you can submit
+          your {appType}
+        </p>
+        <fieldset>
+          <legend
+            id="missing-info-alert-legend"
+            className="vads-u-font-size--base"
+          >
+            {`Please return to the following ${
+              errorsLen === 1 ? 'part' : `${errorsLen} parts`
+            } of the form:`}
+          </legend>
+          <ul className="vads-u-margin-left--2 error-message-list">
+            {errors.map(error => (
+              <li key={error.name}>
+                {error.chapterKey ? (
+                  <a
+                    href="#"
+                    onClick={event => {
+                      event.preventDefault();
+                      props.openReviewChapter(error.chapterKey);
+                      props.setEditMode(
+                        error.pageKey,
+                        true, // enable edit mode
+                        error.index || null,
+                      );
+                      // props.formContext.onError();
+                      focusAndScrollToReviewElement(error);
+                    }}
+                  >
+                    {error.message}
+                  </a>
+                ) : (
+                  error.message
+                )}
+              </li>
+            ))}
+          </ul>
+        </fieldset>
+      </>
+    );
+    alert = (
+      <div
+        className="usa-alert usa-alert-error schemaform-failure-alert"
+        data-testid={testId}
+      >
+        <div className="usa-alert-body">
+          <h3
+            aria-describedby="missing-info-alert-legend"
+            className="schemaform-warning-header vads-u-margin-top--0"
+            tabIndex={-1}
+            ref={errorRef}
+          >
+            {resolved
+              ? `Thank you for completing your ${appType}`
+              : `Your ${appType} is missing some information`}
+          </h3>
+          {errorMessage}
+        </div>
+      </div>
     );
   } else {
-    errorTitle = `We’re sorry. Some information in your ${appType} is missing or not valid.`;
-    errorMessage = (
-      <p>
-        Please check each section of your {appType} to make sure you’ve filled
-        out all the information that is required.
-      </p>
+    alert = (
+      <ErrorMessage
+        active
+        title={`We’re sorry. Some information in your ${appType} is missing or not valid.`}
+      >
+        <p>
+          Please check each section of your {appType} to make sure you’ve filled
+          out all the information that is required.
+        </p>
+      </ErrorMessage>
     );
   }
 
@@ -113,9 +136,7 @@ function ValidationError(props) {
     <>
       <Row>
         <Column role="alert" testId={testId}>
-          <ErrorMessage active title={errorTitle}>
-            {errorMessage}
-          </ErrorMessage>
+          {alert}
         </Column>
       </Row>
       <PreSubmitSection formConfig={formConfig} />
