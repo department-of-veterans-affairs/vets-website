@@ -99,7 +99,7 @@ const SearchResult = ({ form, formMetaInfo }) => {
 
   let relatedTo = vaFormAdministration;
 
-  if (benefitCategories && benefitCategories?.length > 0) {
+  if (benefitCategories?.length > 0) {
     relatedTo = benefitCategories.map(f => f.name).join(', ');
   }
 
