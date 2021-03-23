@@ -50,7 +50,7 @@ node('vetsgov-general-purpose') {
                 sh "cd /application && npm --no-color run test:unit -- --coverage"
                 sh "cd /application && /cc-test-reporter after-build -r fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24"
               }
-            }
+            },
             'nightwatch-e2e': {
               sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p nightwatch up -d && docker-compose -p nightwatch run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
             },          
