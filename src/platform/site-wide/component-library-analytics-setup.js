@@ -9,7 +9,7 @@ const analyticsEvents = {
   Modal: [{ action: 'show', event: 'int-modal-click' }],
   AdditionalInfo: [
     { action: 'expand', event: 'int-additional-info-expand' },
-    { action: 'collapse', event: 'int-additional-info-contract' },
+    { action: 'collapse', event: 'int-additional-info-collapse' },
   ],
 };
 
