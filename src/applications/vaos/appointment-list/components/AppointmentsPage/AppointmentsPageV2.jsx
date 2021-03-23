@@ -62,14 +62,10 @@ function getDropdownValueFromLocation(pathname) {
 }
 
 function AppointmentsPageV2({
-  canUseVaccineFlow,
-  directScheduleSettingsStatus,
   expressCare,
-  fetchDirectScheduleSettings,
   fetchExpressCareWindows,
   isCernerOnlyPatient,
   isWelcomeModalDismissed,
-  showCheetahScheduleButton,
   showScheduleButton,
   startNewAppointmentFlow,
   startNewExpressCareFlow,
@@ -85,13 +81,6 @@ function AppointmentsPageV2({
       expressCare.windowsStatus === FETCH_STATUS.notStarted
     ) {
       fetchExpressCareWindows();
-    }
-
-    if (
-      showCheetahScheduleButton &&
-      directScheduleSettingsStatus === FETCH_STATUS.notStarted
-    ) {
-      fetchDirectScheduleSettings();
     }
   }, []);
 
@@ -140,13 +129,10 @@ function AppointmentsPageV2({
       />
 
       {showScheduleButton && (
-        <div className="vads-u-margin-bottom--4">
-          <ScheduleNewAppointmentRadioButtons
-            showCheetahScheduleButton={canUseVaccineFlow}
-            startNewAppointmentFlow={startNewAppointmentFlow}
-            startNewVaccineFlow={startNewVaccineFlow}
-          />
-        </div>
+        <ScheduleNewAppointmentRadioButtons
+          startNewAppointmentFlow={startNewAppointmentFlow}
+          startNewVaccineFlow={startNewVaccineFlow}
+        />
       )}
 
       {expressCare.useNewFlow &&
