@@ -12,7 +12,7 @@ describe('facilities <FacilityPatientSatisfactionScoresWidget>', () => {
     tree.unmount();
   });
 
-  it('should render facility patient satisfaction score data', () => {
+  it.skip('should render facility patient satisfaction score data', () => {
     const tree = shallow(
       <FacilityPatientSatisfactionScoresWidget
         loading={false}

@@ -12,7 +12,7 @@ describe('facilities <FacilityAppointmentWaitTimesWidget>', () => {
     tree.unmount();
   });
 
-  it('should render facility patient satisfaction score data', () => {
+  it.skip('should render facility patient satisfaction score data', () => {
     const tree = shallow(
       <FacilityAppointmentWaitTimesWidget
         loading={false}
