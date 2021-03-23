@@ -34,10 +34,10 @@ function pad(num, size) {
  * Gets the weekday of the first month
  *
  * @param {Moment} momentDate A given moment date
- * @returns {string} A formatted date e.g. 3
+ * @returns {number} A number of the week e.g. 0-6
  */
 function getWeekdayOfFirstOfMonth(momentDate) {
-  return momentDate.startOf('month').format('d');
+  return Number(momentDate.startOf('month').format('d'));
 }
 
 /**
@@ -83,7 +83,7 @@ export function getMaxMonth(maxDate, startMonth) {
 function getInitialBlankCells(momentDate) {
   const firstWeekday = getWeekdayOfFirstOfMonth(momentDate);
 
-  if (firstWeekday === '0' || firstWeekday === '6') {
+  if (firstWeekday === 0 || firstWeekday === 6) {
     return [];
   }
 
@@ -102,7 +102,7 @@ function getInitialBlankCells(momentDate) {
  * @returns {Array} Array of weekdays
  */
 function getWeekdays(momentDate) {
-  let dayOfWeek = Number(getWeekdayOfFirstOfMonth(momentDate));
+  let dayOfWeek = getWeekdayOfFirstOfMonth(momentDate);
   const daysToShow = [];
 
   // Create array of weekdays
