@@ -294,8 +294,7 @@ function createArticleListingsPages(files) {
 function deriveIntroText(htmlText) {
   const sanitizedText = liquid.filters.strip_html(htmlText);
   const strippedNewlines = liquid.filters.strip_newlines(sanitizedText);
-  const decodedText = he.decode(strippedNewlines);
-  return decodedText;
+  return he.decode(strippedNewlines);
 }
 
 function createSearchResults(files) {
