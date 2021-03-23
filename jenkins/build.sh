@@ -29,6 +29,10 @@ do
       pullDrupal="${1}"
       shift
       ;;
+    --no-proxy)
+      noProxy="${1}"
+      shift
+      ;;
     --buildLog)
       buildLog="${2}"
       shift 2
@@ -47,6 +51,6 @@ done
 # exit code.  In this case, if the build command fails, the tee
 # command won't trick Jenkins into thinking the step passed.
 set -o pipefail
-npm --no-color run build -- --verbose --buildtype="$envName" --asset-source="$assetSource" --drupal-address="$drupalAddress" --drupal-max-parallel-requests="$drupalMaxParallelRequests" "$omitdebug" "$pullDrupal" 2>&1 | tee "$buildLog"
+npm --no-color run build -- --verbose --buildtype="$envName" --asset-source="$assetSource" --drupal-address="$drupalAddress" --drupal-max-parallel-requests="$drupalMaxParallelRequests" "$omitdebug" "$pullDrupal" "$noProxy" 2>&1 | tee "$buildLog"
 
 exit $?
