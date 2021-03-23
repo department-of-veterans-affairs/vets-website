@@ -63,7 +63,10 @@ describe('VAOS vaccine flow', () => {
       store,
     });
 
-    await screen.findByRole('heading', { level: 1, name: 'Plan ahead' });
+    await screen.findByRole('heading', {
+      level: 1,
+      name: 'COVID-19 vaccine appointment',
+    });
   });
 
   it('should redirect the user to the Contact Facilities page when facilities are not available', async () => {
@@ -108,8 +111,9 @@ describe('VAOS vaccine flow', () => {
       store,
     });
 
-    expect(await screen.findByText(/None of your registered facilities/i)).to.be
-      .ok;
+    expect(
+      await screen.findByText(/Contact one of your registered VA facilities/i),
+    ).to.be.ok;
   });
 
   it('should render warning message', async () => {

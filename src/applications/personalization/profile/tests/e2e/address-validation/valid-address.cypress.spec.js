@@ -6,16 +6,16 @@ describe('Personal and contact information', () => {
       it('should update successfully without showing the validation screen', () => {
         setUp('valid-address');
 
-        cy.get('#root_addressLine1')
+        cy.findByLabelText(/^street address/i)
           .clear()
           .type('36320 Coronado Dr');
-        cy.get('#root_addressLine2').clear();
-        cy.get('#root_addressLine3').clear();
+        cy.findByLabelText(/^line 2/i).clear();
+        cy.findByLabelText(/^line 3/i).clear();
 
         cy.findByLabelText(/City/i)
           .clear()
           .type('Fremont');
-        cy.findByLabelText(/^State/).select('CA');
+        cy.findByLabelText(/^State/).select('MD');
         cy.findByLabelText(/Zip code/i)
           .clear()
           .type('94536');

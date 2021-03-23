@@ -15,7 +15,7 @@ function verifyDependents(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        verifiableDependents: action.response.dependents,
+        verifiableDependents: action.response.dependencyVerifications,
       };
     case DEPENDENCY_VERIFICATION_CALL_FAILED:
       return {

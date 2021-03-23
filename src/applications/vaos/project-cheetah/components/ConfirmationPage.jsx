@@ -6,7 +6,7 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 import recordEvent from 'platform/monitoring/record-event.js';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { getTimezoneAbbrBySystemId } from '../../utils/timezone.js';
-import { GA_PREFIX } from '../../utils/constants.js';
+import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants.js';
 import FacilityAddress from '../../components/FacilityAddress.jsx';
 import { selectConfirmationPage } from '../redux/selectors.js';
 import AddToCalendar from 'applications/vaos/components/AddToCalendar';
@@ -14,13 +14,13 @@ import { formatFacilityAddress } from 'applications/vaos/services/location';
 
 const pageTitle = 'Your appointment has been scheduled';
 
-function ConfirmationPage({ data, systemId, facilityDetails }) {
+function ConfirmationPage({ data, systemId, facilityDetails, submitStatus }) {
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
   }, []);
 
-  if (!data?.date1) {
+  if (submitStatus !== FETCH_STATUS.succeeded) {
     return <Redirect to="/" />;
   }
 

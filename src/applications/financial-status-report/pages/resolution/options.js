@@ -122,6 +122,9 @@ export const uiSchema = {
         },
       },
       resolution: {
+        'ui:options': {
+          classNames: 'resolution-inputs',
+        },
         resolutionType: {
           'ui:title': ' ',
           'ui:widget': 'radio',
@@ -165,7 +168,6 @@ export const uiSchema = {
             'ui:options': {
               expandUnder: 'resolutionType',
               expandUnderCondition: 'Extended monthly payments',
-              classNames: 'resolution-inputs no-wrap',
               widgetClassNames: 'input-size-3',
             },
             'ui:required': formData =>
@@ -181,7 +183,6 @@ export const uiSchema = {
             'ui:options': {
               expandUnder: 'resolutionType',
               expandUnderCondition: 'Compromise',
-              classNames: 'resolution-inputs no-wrap',
               widgetClassNames: 'input-size-3',
             },
             'ui:required': formData => isRequired(formData, 'Compromise'),

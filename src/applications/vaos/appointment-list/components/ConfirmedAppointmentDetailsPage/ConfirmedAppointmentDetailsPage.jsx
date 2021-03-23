@@ -53,6 +53,8 @@ function formatHeader(appointment) {
     return 'VA Video Connect at an ATLAS location';
   } else if (isVideoHome(appointment)) {
     return 'VA Video Connect at home';
+  } else if (isVAPhoneAppointment(appointment)) {
+    return 'VA Appointment over the phone';
   } else {
     return 'VA Appointment';
   }
@@ -87,12 +89,25 @@ function ConfirmedAppointmentDetailsPage({
   showCancelButton,
 }) {
   const { id } = useParams();
+  const appointmentDate = moment.parseZone(appointment?.start);
 
   useEffect(() => {
     fetchConfirmedAppointmentDetails(id, 'va');
 
     scrollAndFocus();
   }, []);
+
+  useEffect(
+    () => {
+      if (appointment && appointmentDate) {
+        document.title = `VA appointment on ${appointmentDate.format(
+          'dddd, MMMM D, YYYY',
+        )}`;
+        scrollAndFocus();
+      }
+    },
+    [appointment, appointmentDate],
+  );
 
   useEffect(
     () => {
@@ -104,6 +119,18 @@ function ConfirmedAppointmentDetailsPage({
       }
     },
     [cancelInfo.showCancelModal, cancelInfo.cancelAppointmentStatus],
+  );
+
+  useEffect(
+    () => {
+      if (
+        appointmentDetailsStatus === FETCH_STATUS.failed ||
+        (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+      ) {
+        scrollAndFocus();
+      }
+    },
+    [appointmentDetailsStatus],
   );
 
   if (
@@ -120,7 +147,7 @@ function ConfirmedAppointmentDetailsPage({
   if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
     return (
       <FullWidthLayout>
-        <LoadingIndicator message="Loading your appointment..." />
+        <LoadingIndicator setFocus message="Loading your appointment..." />
       </FullWidthLayout>
     );
   }

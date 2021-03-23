@@ -15,6 +15,7 @@ import {
 
 import {
   getCancelReasons,
+  getDirectBookingEligibilityCriteria,
   getRequestEligibilityCriteria,
   getRequestMessages,
   updateAppointment,
@@ -44,6 +45,7 @@ import { captureError, has400LevelError } from '../../utils/error';
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
   STARTED_NEW_EXPRESS_CARE_FLOW,
+  STARTED_NEW_VACCINE_FLOW,
 } from '../../redux/sitewide';
 import { selectAppointmentById } from './selectors';
 
@@ -96,6 +98,12 @@ export const FETCH_EXPRESS_CARE_WINDOWS_FAILED =
   'vaos/FETCH_EXPRESS_CARE_WINDOWS_FAILED';
 export const FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED =
   'vaos/FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED';
+export const FETCH_DIRECT_SCHEDULE_SETTINGS =
+  'vaos/FETCH_DIRECT_SCHEDULE_SETTINGS';
+export const FETCH_DIRECT_SCHEDULE_SETTINGS_FAILED =
+  'vaos/FETCH_DIRECT_SCHEDULE_SETTINGS_FAILED';
+export const FETCH_DIRECT_SCHEDULE_SETTINGS_SUCCEEDED =
+  'vaos/FETCH_DIRECT_SCHEDULE_SETTINGS_SUCCEEDED';
 
 export function fetchRequestMessages(requestId) {
   return async dispatch => {
@@ -663,6 +671,12 @@ export function startNewExpressCareFlow() {
   };
 }
 
+export function startNewVaccineFlow() {
+  return {
+    type: STARTED_NEW_VACCINE_FLOW,
+  };
+}
+
 export function fetchExpressCareWindows() {
   return async (dispatch, getState) => {
     dispatch({
@@ -708,6 +722,32 @@ export function fetchExpressCareWindows() {
       dispatch({
         type: FETCH_EXPRESS_CARE_WINDOWS_FAILED,
       });
+    }
+  };
+}
+
+export function fetchDirectScheduleSettings() {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: FETCH_DIRECT_SCHEDULE_SETTINGS,
+    });
+
+    try {
+      const initialState = getState();
+      const siteIds = selectSystemIds(initialState);
+
+      const settings = await getDirectBookingEligibilityCriteria(siteIds);
+
+      dispatch({
+        type: FETCH_DIRECT_SCHEDULE_SETTINGS_SUCCEEDED,
+        settings,
+      });
+    } catch (e) {
+      dispatch({
+        type: FETCH_DIRECT_SCHEDULE_SETTINGS_FAILED,
+      });
+
+      captureError(e, false);
     }
   };
 }

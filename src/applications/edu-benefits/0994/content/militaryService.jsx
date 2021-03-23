@@ -1,5 +1,4 @@
 import React from 'react';
-import environment from 'platform/utilities/environment';
 
 // background & foreground class names added to indicate this paragraphs needs
 // an axeCheck color contrast exception
@@ -11,14 +10,16 @@ export const activeDutyNotice = (
   </p>
 );
 
-export const benefitNotice = environment.isProduction() ? (
+export const benefitNotice = (
   <p>
     <strong>Note: </strong>
     Your eligibility for VET TEC may be affected if you're called to active
     duty. Please let us know as soon as possible if there's a change in your
     military status.
   </p>
-) : (
+);
+
+export const notActiveBenefitNotice = (
   <p>
     <strong>Note: </strong>
     Your eligibility for monthly housing allowance may be affected if you're

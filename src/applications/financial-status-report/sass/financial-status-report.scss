@@ -15,6 +15,10 @@
 }
 
 .debt-card {
+  padding: 24px;
+  label {
+    user-select: none;
+  }
   [type="checkbox"]:checked + label::before {
     background-color: $color-white;
     color: $color-primary;
@@ -22,6 +26,11 @@
     font-family: "Font Awesome 5 Free";
     padding-right: 2px;
   }
+}
+
+.selected-debt {
+  border: 4px solid $color-blue;
+  padding: 20px;
 }
 
 .schemaform-subtitle {
@@ -63,8 +72,9 @@
     }
     .button-group {
       display: flex;
-      align-items: center;
+      align-items: baseline;
       justify-content: space-between;
+      min-width: 150px;
     }
     .usa-input-error {
       position: relative;
@@ -142,9 +152,18 @@
   }
 }
 
-.resolution-inputs label,
-.eduWaiverCheckbox label {
+.resolution-inputs label {
   margin-top: 0;
+}
+
+.resolution-inputs .schemaform-currency-input label {
+  white-space: nowrap;
+}
+
+.repayments {
+  #root__title {
+    height: auto;
+  }
 }
 
 .overview-container {
@@ -158,7 +177,9 @@
 }
 
 .no-wrap {
-  white-space: nowrap;
+  @include media($medium-screen) {
+    white-space: nowrap;
+  }
 }
 
 .usa-datefields {

@@ -6,14 +6,14 @@ describe('Personal and contact information', () => {
       setUp('bad-unit');
       cy.axeCheck();
 
-      cy.get('#root_addressLine1')
+      cy.findByLabelText(/^street address/i)
         .clear()
         .type('225 irving st');
-      cy.get('#root_addressLine2')
+      cy.findByLabelText(/^line 2/i)
         .clear()
         .type('Unit A');
 
-      cy.get('#root_addressLine3').clear();
+      cy.findByLabelText(/^line 3/i).clear();
 
       cy.findByLabelText(/City/i)
         .clear()

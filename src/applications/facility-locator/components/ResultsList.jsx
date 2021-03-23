@@ -15,7 +15,6 @@ import {
   Error,
 } from '../constants';
 
-import { distBetween } from '../utils/facilityDistance';
 import { setFocus } from '../utils/helpers';
 import { recordSearchResultsEvents } from '../utils/analytics';
 import { updateSearchQuery, searchWithBounds } from '../actions';
@@ -111,7 +110,6 @@ class ResultsList extends Component {
     const {
       facilityTypeName,
       inProgress,
-      position,
       searchString,
       results,
       error,
@@ -174,27 +172,16 @@ class ResultsList extends Component {
       return <SearchResultMessage />;
     }
 
-    const currentLocation = position;
     const markers = MARKER_LETTERS.values();
-    const sortedResults = results
+    const resultsData = results
       .map(result => {
-        const distance = currentLocation
-          ? distBetween(
-              currentLocation.latitude,
-              currentLocation.longitude,
-              result.attributes.lat,
-              result.attributes.long,
-            )
-          : null;
         return {
           ...result,
-          distance,
           resultItem: true,
           searchString,
           currentPage,
         };
       })
-      .sort((resultA, resultB) => resultA.distance - resultB.distance)
       .map(result => {
         const markerText = markers.next().value;
         return {
@@ -203,10 +190,10 @@ class ResultsList extends Component {
         };
       });
 
-    if (sortedResults.length > 0) {
-      recordSearchResultsEvents(this.props, sortedResults);
+    if (resultsData.length > 0) {
+      recordSearchResultsEvents(this.props, resultsData);
     }
-    return <div>{this.renderResultItems(query, sortedResults)}</div>;
+    return <div>{this.renderResultItems(query, resultsData)}</div>;
   }
 }
 

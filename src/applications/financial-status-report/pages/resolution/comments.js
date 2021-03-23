@@ -1,5 +1,5 @@
 import React from 'react';
-import FinancialHardshipExplanation from '../../components/FinancialHardshipExplanation';
+import ResolutionComments from '../../components/ResolutionComments';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 const ResolutionInfo = (
@@ -14,7 +14,7 @@ export const uiSchema = {
   'ui:title': 'Supporting personal statement',
   'view:components': {
     'view:financialHardshipExplanation': {
-      'ui:field': FinancialHardshipExplanation,
+      'ui:field': ResolutionComments,
     },
     'view:resolutionOptionsInfo': {
       'ui:description': ResolutionInfo,
