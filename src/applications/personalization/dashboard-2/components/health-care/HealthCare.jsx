@@ -17,6 +17,8 @@ import {
   selectAvailableServices,
 } from '~/platform/user/selectors';
 
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 
 import Appointments from './Appointments';
@@ -33,6 +35,7 @@ const HealthCare = ({
   unreadMessagesCount,
   // TODO: possibly remove this prop in favor of mocking API calls in our unit tests
   dataLoadingDisabled = false,
+  shouldShowLoadingIndicator,
 }) => {
   useEffect(
     () => {
@@ -59,6 +62,10 @@ const HealthCare = ({
         authenticatedWithSSOe={authenticatedWithSSOe}
       />
     );
+  }
+
+  if (shouldShowLoadingIndicator) {
+    return <LoadingIndicator />;
   }
 
   const messagesText =
@@ -145,15 +152,25 @@ const mapStateToProps = state => {
     ]),
   ];
 
+  const fetchingAppointments = state.health?.appointments?.fetching;
+  const fetchingInbox = state.health.msg.folders.data.currentItem.loading;
+  // const shouldFetchMessages = selectAvailableServices(state).includes(
+  //   backendServices.MESSAGING,
+  // ),
+
+  const shouldFetchMessages = true;
+
   return {
     appointments: state.health?.appointments?.data,
-    shouldFetchMessages: selectAvailableServices(state).includes(
-      backendServices.MESSAGING,
-    ),
+    shouldFetchMessages,
     isCernerPatient: selectIsCernerPatient(state),
     facilityNames,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
     unreadMessagesCount: selectUnreadMessagesCount(state),
+    // loading messages
+    // laoding appointments
+    shouldShowLoadingIndicator:
+      fetchingAppointments || (shouldFetchMessages && fetchingInbox),
   };
 };
 
