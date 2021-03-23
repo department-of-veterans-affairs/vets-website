@@ -14,13 +14,13 @@ describe('Personal and contact information', () => {
         'disabled',
       );
 
-      cy.findByLabelText(/^Street address/i)
+      cy.findByLabelText(/^street address/i)
         .clear()
         .type(addressLine1);
-      cy.findAllByLabelText(/^Street address line 2/i)
+      cy.findAllByLabelText(/^street address line 2/i)
         .clear()
         .type(addressLine2);
-      cy.findAllByLabelText(/^Street address line 3/i).clear();
+      cy.findAllByLabelText(/^street address line 3/i).clear();
 
       cy.findByLabelText(/City/i)
         .clear()
@@ -50,7 +50,7 @@ describe('Personal and contact information', () => {
 
       // confirm the address we just entered is in the form
       cy.findByLabelText(/^street address/i).should('have.value', addressLine1);
-      cy.findAllByLabelText(/^Street address line 2/i).should(
+      cy.findAllByLabelText(/^street address line 2/i).should(
         'have.value',
         addressLine2,
       );
