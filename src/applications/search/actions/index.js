@@ -17,7 +17,7 @@ export function fetchSearchResults(query, page, analyticsMetaInfo) {
 
     return apiRequest(queryString)
       .then(response => {
-        if (analyticsMetaInfo) {
+        if (analyticsMetaInfo && (page === 1 || page === undefined)) {
           recordEvent({
             event: analyticsMetaInfo?.eventName,
             'search-page-path': analyticsMetaInfo?.path,
