@@ -9,7 +9,6 @@ import HealthCare from '~/applications/personalization/dashboard-2/components/he
 describe('HealthCare component', () => {
   let view;
   let initialState;
-
   context('when user has the `messaging` service', () => {
     beforeEach(() => {
       window.VetsGov = { pollTimeout: 1 };
@@ -63,12 +62,32 @@ describe('HealthCare component', () => {
       ).to.be.true;
     });
 
-    it('should render the unread messages count', async () => {
+    it('should render the unread messages count with 3 messages', async () => {
       view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {
         initialState,
         reducers,
       });
       expect(await view.findByText(new RegExp(`you have 3 new messages`, 'i')))
+        .to.exist;
+    });
+
+    it('should render the unread messages count with 1 message', async () => {
+      initialState.health.msg.folders.data.currentItem.attributes.unreadCount = 1;
+      view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {
+        initialState,
+        reducers,
+      });
+      expect(await view.findByText(new RegExp(`you have 1 new message`, 'i')))
+        .to.exist;
+    });
+
+    it('should render the unread messages count with 0 messages', async () => {
+      initialState.health.msg.folders.data.currentItem.attributes.unreadCount = 0;
+      view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {
+        initialState,
+        reducers,
+      });
+      expect(await view.findByText(new RegExp(`you have 0 new messages`, 'i')))
         .to.exist;
     });
   });
@@ -91,7 +110,7 @@ describe('HealthCare component', () => {
               data: {
                 currentItem: {
                   attributes: {
-                    unreadCount: 0,
+                    unreadCount: null,
                   },
                 },
               },
@@ -124,12 +143,17 @@ describe('HealthCare component', () => {
       ).to.be.false;
     });
 
-    it('should not render Messages', () => {
+    it('should render a generic message when the number of unread messages was not fetched', async () => {
+      initialState.health.msg.folders.data.currentItem.attributes.unreadCount = null;
       view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {
         initialState,
         reducers,
       });
-      expect(view.queryByText(new RegExp(`Messages`, 'i'))).not.to.exist;
+      expect(
+        await view.findByText(
+          new RegExp(`Send a secure message to your health care team`, 'i'),
+        ),
+      ).to.exist;
     });
   });
 });

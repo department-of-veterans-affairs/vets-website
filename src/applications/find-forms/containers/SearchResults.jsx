@@ -179,21 +179,13 @@ export class SearchResults extends Component {
 
     return (
       <>
-        <div
-          className="find-forms-search-metadata vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row medium-screen:vads-u-justify-content--space-between"
-          aria-atomic="false"
-          aria-live="assertive"
-          aria-relevant="text"
-          role="region"
-        >
+        <div className="find-forms-search-metadata vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row medium-screen:vads-u-justify-content--space-between">
           <h2
             className="vads-u-font-size--md vads-u-line-height--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--1p5"
             data-forms-focus
-            aria-label={`Showing ${startLabel} through ${lastLabel} of ${
-              results.length
-            } results for ${query}, sorted by ${sortByPropertyName}`}
           >
-            <span aria-hidden>
+            {/* eslint-disable-next-line jsx-a11y/aria-role */}
+            <span role="text">
               Showing{' '}
               <span className="vads-u-font-weight--bold">{startLabel}</span>{' '}
               &ndash;{' '}

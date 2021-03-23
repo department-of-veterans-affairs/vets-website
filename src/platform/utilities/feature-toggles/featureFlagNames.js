@@ -81,7 +81,6 @@ export default Object.freeze({
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
   evssUploadLimit150Mb: 'evss_upload_limit_150mb',
   searchRepresentative: 'search_representative',
-  gibctStateSearch: 'gibct_state_search',
   eduFormOmbAndExpiration: 'edu_form_omb_and_expiration',
   manageDependents: 'dependents_management',
   subform89404192: 'subform_8940_4192',
