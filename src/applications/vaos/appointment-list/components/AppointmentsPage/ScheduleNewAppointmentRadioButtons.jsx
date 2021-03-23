@@ -9,7 +9,6 @@ import { GA_PREFIX } from 'applications/vaos/utils/constants';
  * @property {boolean} [showCheetahScheduleButton=false] - A boolean value to determine Whether or not to show COVID-19 vaccine option.
  * @property {function} startNewAppointmentFlow - A function that’s called when the user starts the new appointment flow.
  * @property {function} startNewVaccineFlow - A function that’s called when the user starts the vaccine flow.
- * @component
  * @example
  * <ScheduleNewAppointmentRadioButtons
  *  showCheetahScheduleButton={valueFromProp}

@@ -75,10 +75,8 @@ export const sortTheResults = (sortByPropertyName, indexA, indexB) => {
  * @param {string|number} index index where we need to add the dash
  * @return {string} new substring with dash
  */
-export const regexpDashAdder = (match, index) => {
-  const regex = new RegExp(`(?<=^.{${index}})`);
-  return match.replace(regex, '-');
-};
+export const regexpDashAdder = (match, index) =>
+  `${match.slice(0, index)}-${match.slice(index)}`;
 
 /**
  * This function takes a string and runs through the SEARCH_QUERY_AUTO_CORRECT_MAP to remove/ replace of any of those properties listed.

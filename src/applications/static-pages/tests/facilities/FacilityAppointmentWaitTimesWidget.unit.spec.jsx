@@ -47,4 +47,21 @@ describe('facilities <FacilityAppointmentWaitTimesWidget>', () => {
 
     tree.unmount();
   });
+
+  it('should NOT render facility patient satisfaction score data', () => {
+    const testNoFeedbackData = mockFacilityLocatorApiResponse.data[0];
+    testNoFeedbackData.attributes.feedback.health = {};
+
+    const tree = shallow(
+      <FacilityAppointmentWaitTimesWidget
+        loading={false}
+        facility={testNoFeedbackData}
+        service="PrimaryCare"
+      />,
+    );
+
+    expect(tree).to.be.empty;
+
+    tree.unmount();
+  });
 });

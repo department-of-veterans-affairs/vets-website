@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { differenceInDays, format } from 'date-fns';
-
-import HealthCareCard from './HealthCareCard';
+import NotificationCTA from '../NotificationCTA';
 import { recordDashboardClick } from '~/applications/personalization/dashboard/helpers';
 
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 
 export const Appointments = ({ authenticatedWithSSOe, appointments }) => {
-  const nextAppointment = appointments[0];
+  const nextAppointment = appointments?.[0];
   const start = new Date(nextAppointment?.startsAt);
   const today = new Date();
   const hasUpcomingAppointment = differenceInDays(start, today) < 30;
@@ -66,11 +65,40 @@ export const Appointments = ({ authenticatedWithSSOe, appointments }) => {
     return null;
   }
 
+  const standardClass =
+    'vads-u-padding-y--2p5 vads-u-padding-x--2p5 vads-u-flex--fill';
+  const backgroundClasses = !hasUpcomingAppointment
+    ? standardClass
+    : `vads-u-background-color--gray-lightest ${standardClass}`;
+
+  const CTA = {
+    text: cardDetails?.ctaText,
+    icon: cardDetails?.ctaIcon,
+    href: cardDetails?.ctaHref,
+    ariaLabel: cardDetails?.ctaAriaLabel,
+  };
+
   return (
-    <HealthCareCard
-      cardProperties={cardDetails}
-      noActiveData={!hasUpcomingAppointment}
-    />
+    <div className="vads-u-display--flex vads-u-flex-direction--column vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--4 medium-screen:vads-u-padding-right--3">
+      <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--2p5">
+        {cardDetails?.sectionTitle}
+      </h3>
+
+      <div className={backgroundClasses}>
+        <h4 className="vads-u-margin-top--0 vads-u-font-size--h3">
+          {cardDetails?.cardTitle}
+        </h4>
+        <p>{cardDetails?.line1}</p>
+        {hasUpcomingAppointment && (
+          <>
+            <p>{cardDetails.line2}</p>
+            <p className="vads-u-margin-bottom--0">{cardDetails?.line3}</p>
+          </>
+        )}
+      </div>
+
+      <NotificationCTA CTA={CTA} />
+    </div>
   );
 };
 
