@@ -21,7 +21,10 @@ export function subscribeComponentAnalyticsEvents(
     const action = component.find(ev => ev.action === e.detail.action);
 
     if (action) {
-      const dataLayer = { event: action.event };
+      const dataLayer = {
+        event: action.event,
+        'event-source': 'component-library',
+      };
 
       // If the event included additional details / context...
       if (e.detail.details) {
