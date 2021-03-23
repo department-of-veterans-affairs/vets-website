@@ -60,6 +60,7 @@ class SearchApp extends React.Component {
     const { userInput, page } = this.state;
     if (userInput) {
       this.props.fetchSearchResults(userInput, page, {
+        eventName: 'onload_view_search_results',
         path: document.location.pathname,
         userInput,
         typeaheadEnabled: false,
@@ -106,6 +107,7 @@ class SearchApp extends React.Component {
 
     // Fetch new results
     this.props.fetchSearchResults(userInput, nextPage, {
+      eventName: 'view_search_results',
       path: document.location.pathname,
       userInput,
       typeaheadEnabled: false,

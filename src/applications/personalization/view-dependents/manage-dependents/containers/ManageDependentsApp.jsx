@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { connect } from 'react-redux';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import PropTypes from 'prop-types';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
@@ -66,7 +67,7 @@ const ManageDependents = props => {
         setUiSchema(dependentsState[stateKey].uiSchema);
       }
     },
-    [dependentsState],
+    [dependentsState, stateKey],
   );
 
   return schema ? (
@@ -97,7 +98,9 @@ const ManageDependents = props => {
         </div>
       </SchemaForm>
     </div>
-  ) : null;
+  ) : (
+    <LoadingIndicator message="Loading the form..." />
+  );
 };
 
 const mapStateToProps = state => ({

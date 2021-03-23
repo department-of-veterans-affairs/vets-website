@@ -19,6 +19,7 @@ import {
   FLOW_TYPES,
   FACILITY_TYPES,
   GA_PREFIX,
+  FETCH_STATUS,
 } from '../../../utils/constants';
 import ConfirmationDirectScheduleInfo from './ConfirmationDirectScheduleInfo';
 import ConfirmationRequestInfo from './ConfirmationRequestInfo';
@@ -33,6 +34,7 @@ export function ConfirmationPage({
   startNewAppointmentFlow,
   fetchFacilityDetails,
   useProviderSelection,
+  submitStatus,
 }) {
   const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
   const pageTitle = isDirectSchedule
@@ -44,7 +46,6 @@ export function ConfirmationPage({
       data?.vaFacility &&
       data?.facilityType !== FACILITY_TYPES.COMMUNITY_CARE
     ) {
-      // Remove parse function when converting this call to FHIR service
       fetchFacilityDetails(data.vaFacility);
     }
 
@@ -52,7 +53,7 @@ export function ConfirmationPage({
     scrollAndFocus();
   }, []);
 
-  if (!data?.typeOfCareId) {
+  if (submitStatus !== FETCH_STATUS.succeeded) {
     return <Redirect to="/new-appointment" />;
   }
 
@@ -123,6 +124,7 @@ function mapStateToProps(state) {
     systemId: getSiteIdForChosenFacility(state),
     slot: getChosenSlot(state),
     useProviderSelection: selectUseProviderSelection(state),
+    submitStatus: state.newAppointment.submitStatus,
   };
 }
 

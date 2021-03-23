@@ -6,6 +6,7 @@ import { createAddressValidationResponse } from './addressValidation';
 import mockUser from '@@profile/tests/fixtures/users/user-36.json';
 import receivedTransaction from '@@profile/tests/fixtures/transactions/received-transaction.json';
 import finishedTransaction from '@@profile/tests/fixtures/transactions/finished-transaction.json';
+import noChangesTransaction from '@@profile/tests/fixtures/transactions/no-changes-transaction.json';
 
 export const setUp = type => {
   disableFTUXModals();
@@ -29,7 +30,7 @@ export const setUp = type => {
     method: 'PUT',
     url: '/v0/profile/addresses',
     status: 200,
-    response: receivedTransaction,
+    response: type === 'no-change' ? noChangesTransaction : receivedTransaction,
   }).as('saveAddress');
 
   cy.route({
