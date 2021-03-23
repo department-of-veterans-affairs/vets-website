@@ -119,7 +119,6 @@ export default [
   },
   {
     path: /vaos\/v0\/appointments\?.*type=va.*/,
-    delay: 3000,
     response: confirmedVA,
   },
   {
@@ -293,7 +292,6 @@ export default [
   },
   {
     path: /vaos\/v0\/direct_booking_eligibility_criteria/,
-    delay: 2000,
     response: directBookingEligibilityCriteria,
   },
   {
