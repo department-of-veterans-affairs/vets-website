@@ -35,11 +35,11 @@ const copy = {
     expandedEligibilityContent: {
       veteran: {
         boldedNote: `Si usted es un Veterano que actualmente recibe atención a través de VA,`,
-        body: `le preguntaremos sobre sus planes de vacunación cuando se inscriba. Su centro de salud local de VA puede utilizar esta información para determinar cuándo ponerse en contacto con usted una vez que su grupo de riesgo sea elegible.`,
+        body: ` le preguntaremos sobre sus planes de vacunación cuando se inscriba. Su centro de salud local de VA puede utilizar esta información para determinar cuándo ponerse en contacto con usted una vez que su grupo de riesgo sea elegible.`,
       },
       nonVeteran: {
         boldedNote: `Si usted es un Veterano, cónyuge o cuidador que no recibe atención a través de VA,`,
-        body: `inscríbase para indicarnos si desea vacunarse a través del VA. Si es elegible, nos pondremos en contacto con usted cuando tengamos una vacuna disponible. En este momento, no sabemos cuándo ocurrirá eso.`,
+        body: ` inscríbase para indicarnos si desea vacunarse a través del VA. Si es elegible, nos pondremos en contacto con usted cuando tengamos una vacuna disponible. En este momento, no sabemos cuándo ocurrirá eso.`,
       },
     },
     boldedNote: 'Nota: ',
@@ -52,11 +52,11 @@ const copy = {
     expandedEligibilityContent: {
       veteran: {
         boldedNote: `Kung kayo ay isang Beterano na kasalukuyang tumatanggap ng pag-aaruga sa pamamagitan ng VA,`,
-        body: `tatanungin namin kayo kung ano ang inyong plano patungkol sa bakuna kapag nagparehistro kayo. Maaaring gamitin ng inyong lokal na pasilidad-pangkalusugan ng VA ang impormasyong ito, para matukoy kung kailan makikipag-ugnayan sa inyo kapag karapat-dapat na ang inyong pangkat ayon sa panganib.`,
+        body: ` tatanungin namin kayo kung ano ang inyong plano patungkol sa bakuna kapag nagparehistro kayo. Maaaring gamitin ng inyong lokal na pasilidad-pangkalusugan ng VA ang impormasyong ito, para matukoy kung kailan makikipag-ugnayan sa inyo kapag karapat-dapat na ang inyong pangkat ayon sa panganib.`,
       },
       nonVeteran: {
         boldedNote: `Kung kayo naman ay isang Beterano, asawa o tagapag-alaga na hindi tumatanggap ng pag-aaruga sa VA, `,
-        body: `magparehistro para malaman kung nais ninyong magpabakuna sa VA. Kung karapat-dapat, makikipag-ugnayan kami sa inyo kapag may bakuna na para sa inyo. Sa ngayon, hindi pa namin alam kung kailan ito.`,
+        body: ` magparehistro para malaman kung nais ninyong magpabakuna sa VA. Kung karapat-dapat, makikipag-ugnayan kami sa inyo kapag may bakuna na para sa inyo. Sa ngayon, hindi pa namin alam kung kailan ito.`,
       },
     },
     boldedNote: 'Paalala:',
