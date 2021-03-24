@@ -42,9 +42,6 @@ const copy = {
         body: ` inscríbase para indicarnos si desea vacunarse a través del VA. Si es elegible, nos pondremos en contacto con usted cuando tengamos una vacuna disponible. En este momento, no sabemos cuándo ocurrirá eso.`,
       },
     },
-    boldedNote: 'Nota: ',
-    note:
-      'Intentaremos contactar a todos los Veteranos elegibles en cada grupo de riesgo. No es necesario que se inscriba para recibir la vacuna.',
   },
   tag: {
     headline: `Manatiling nakikibalita tungkol sa pagpapabakuna para sa COVID-19`,
@@ -59,8 +56,6 @@ const copy = {
         body: ` magparehistro para malaman kung nais ninyong magpabakuna sa VA. Kung karapat-dapat, makikipag-ugnayan kami sa inyo kapag may bakuna na para sa inyo. Sa ngayon, hindi pa namin alam kung kailan ito.`,
       },
     },
-    boldedNote: 'Paalala:',
-    note: `Susubukan naming makipag-ugnayan sa bawat-isang kwalipikadong Beterano sa bawat pangkat ng panganib. Hindi ninyo kailangang mag-sign up para makapagpabakuna.`,
     buttonText: `Mag-sign up para manatiling nakikibalita (sa English)`,
   },
 };
