@@ -28,8 +28,8 @@ import {
 } from '../../shared/utils';
 
 import {
-  location as locationSelector,
-  organization as organizationSelector,
+  locationSelector,
+  organizationSelector,
 } from '../../shared/utils/selectors';
 
 const App = props => {

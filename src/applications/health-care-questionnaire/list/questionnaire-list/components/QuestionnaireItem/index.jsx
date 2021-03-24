@@ -2,9 +2,9 @@ import React from 'react';
 
 import { isAppointmentCancelled } from '../../../utils';
 import {
-  appointment as appointmentSelector,
-  location as locationSelector,
-  organization as organizationSelector,
+  appointmentSelector,
+  locationSelector,
+  organizationSelector,
 } from '../../../../shared/utils/selectors';
 
 import Status from '../Shared/Labels/Status';

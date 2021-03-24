@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
-import { appointment as appointmentSelector } from '../../../shared/utils/selectors';
+import { appointmentSelector } from '../../../shared/utils/selectors';
 import TextAreaWidget from '@department-of-veterans-affairs/react-jsonschema-form/lib/components/widgets/TextareaWidget';
 
 const ReasonForVisitDescriptionField = props => {

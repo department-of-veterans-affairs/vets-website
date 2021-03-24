@@ -2,9 +2,9 @@ import React from 'react';
 import moment from 'moment-timezone';
 
 import {
-  appointment as appointmentSelector,
-  organization as organizationSelector,
-  location as locationSelector,
+  appointmentSelector,
+  organizationSelector,
+  locationSelector,
 } from '../../../shared/utils/selectors';
 
 export default function AppointmentDisplay({ appointmentData, bold }) {

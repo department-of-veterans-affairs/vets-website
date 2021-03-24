@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import {
-  location as locationSelector,
-  organization as organizationSelector,
+  locationSelector,
+  organizationSelector,
 } from '../../../shared/utils/selectors';
 
 const GetHelpFooter = props => {

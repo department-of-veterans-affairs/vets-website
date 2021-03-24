@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { appointment as appointmentSelector } from '../../../shared/utils/selectors';
+import { appointmentSelector } from '../../../shared/utils/selectors';
 
 const ReasonForVisitField = ({ appointment, onChange }) => {
   const bookingNote = appointmentSelector.getBookingNote(appointment);

@@ -16,9 +16,9 @@ import environment from 'platform/utilities/environment';
 import { removeFormApi } from 'platform/forms/save-in-progress/api';
 
 import {
-  organization as organizationSelector,
-  appointment as appointmentSelector,
-  location as locationSelector,
+  organizationSelector,
+  appointmentSelector,
+  locationSelector,
 } from '../../../shared/utils/selectors';
 
 const IntroductionPage = props => {

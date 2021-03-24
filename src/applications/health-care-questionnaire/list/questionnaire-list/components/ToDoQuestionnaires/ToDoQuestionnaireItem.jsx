@@ -5,20 +5,20 @@ import AnswerQuestions from '../Shared/Buttons/AnswerQuestions';
 import PrintButton from '../../../../shared/components/print/PrintButton';
 import { isAppointmentCancelled } from '../../../utils';
 import {
-  appointment as appointmentSelectors,
-  questionnaireResponse as questionnaireResponseSelector,
-  organization as organizationSelector,
+  appointmentSelector,
+  questionnaireResponseSelector,
+  organizationSelector,
 } from '../../../../shared/utils/selectors';
 
 import QuestionnaireItem from '../QuestionnaireItem';
 
 export default function ToDoQuestionnaireItem({ data }) {
   const { appointment, questionnaire, organization } = data;
-  const appointmentStatus = appointmentSelectors.getStatus(appointment);
+  const appointmentStatus = appointmentSelector.getStatus(appointment);
   const isCancelled = isAppointmentCancelled(appointmentStatus);
 
   const facilityName = organizationSelector.getName(organization);
-  const appointmentTime = appointmentSelectors.getStartTime(appointment);
+  const appointmentTime = appointmentSelector.getStartTime(appointment);
   const questionnaireResponseStatus = questionnaireResponseSelector.getStatus(
     questionnaire[0].questionnaireResponse,
   );

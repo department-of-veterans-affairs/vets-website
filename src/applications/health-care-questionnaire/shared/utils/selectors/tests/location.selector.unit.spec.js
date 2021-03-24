@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { location } from '../index';
+import { locationSelector as location } from '../index';
 
 describe('health care questionnaire -- utils -- get location type status --', () => {
   describe('getType', () => {
