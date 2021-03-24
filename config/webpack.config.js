@@ -376,6 +376,11 @@ module.exports = (env = {}) => {
         rootUrl: '/education/how-to-apply',
         widgetType: 'education-app-status',
       },
+      {
+        appName: 'Post-9/11 GI Bill Statement Of Benefits',
+        rootUrl: '/education/gi-bill/post-9-11/ch-33-benefit',
+        widgetType: 'post-9-11-gi-bill-status',
+      },
     ];
 
     /* eslint-disable no-nested-ternary */
