@@ -263,14 +263,15 @@ function setVideoData(appt) {
     getAppointmentType(appt) !== APPOINTMENT_TYPES.vaAppointment ||
     !isVideoVisit(appt)
   ) {
-    return null;
+    return { isVideo: false };
   }
 
   const videoData = appt.vvsAppointments[0];
   return {
+    isVideo: true,
     facilityId: appt.sta6aid || appt.facilityId,
-    providers: videoData.providers
-      ?.filter(provider => !!provider.name)
+    providers: (videoData.providers || [])
+      .filter(provider => !!provider.name)
       .map(provider => ({
         name: provider.name,
         display: `${provider.name.firstName} ${provider.name.lastName}`,
@@ -506,7 +507,7 @@ export function transformConfirmedAppointment(appt) {
     legacyVAR: setLegacyVAR(appt),
     videoData,
     vaos: {
-      isVideo: !!videoData,
+      isVideo: videoData.isVideo,
       isPastAppointment: isPast,
       appointmentType: getAppointmentType(appt),
       isCommunityCare: isCC,
@@ -543,6 +544,7 @@ export function transformPendingAppointment(appt) {
     detail => detail.detailCode?.code === UNABLE_TO_REACH_VETERAN_DETCODE,
   );
   const created = moment.parseZone(appt.date).format('YYYY-MM-DD');
+  const isVideo = appt.visitType === 'Video Conference';
 
   return {
     resourceType: 'Appointment',
@@ -568,8 +570,11 @@ export function transformPendingAppointment(appt) {
     contained: setContained(appt),
     legacyVAR: setLegacyVAR(appt),
     comment: appt.additionalInformation,
+    videoData: {
+      isVideo,
+    },
     vaos: {
-      isVideo: appt.visitType === 'Video Conference',
+      isVideo,
       appointmentType: getAppointmentType(appt),
       isCommunityCare: isCC,
       isExpressCare,

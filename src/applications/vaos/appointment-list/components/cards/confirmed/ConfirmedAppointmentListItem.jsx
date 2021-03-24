@@ -49,8 +49,8 @@ export default function ConfirmedAppointmentListItem({
   const isVideo = appointment.vaos.isVideo;
   const isPhone = isVAPhoneAppointment(appointment);
   const isInPersonVAAppointment = !isVideo && !isCommunityCare;
-  const isAtlas = appointment.videoData?.isAtlas;
-  const videoKind = appointment.videoData?.kind;
+  const isAtlas = appointment.videoData.isAtlas;
+  const videoKind = appointment.videoData.kind;
   const showInstructions =
     isCommunityCare ||
     (isInPersonVAAppointment &&
@@ -64,7 +64,7 @@ export default function ConfirmedAppointmentListItem({
     videoKind !== VIDEO_TYPES.clinic &&
     videoKind !== VIDEO_TYPES.gfe;
 
-  const showProvider = isVideo && !!appointment.videoData?.providers?.length;
+  const showProvider = isVideo && !!appointment.videoData.providers?.length;
 
   let instructionText = 'VA appointment';
   if (showInstructions) {

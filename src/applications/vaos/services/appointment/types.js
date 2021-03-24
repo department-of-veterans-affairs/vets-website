@@ -50,26 +50,27 @@
  * @property {Object} legacyVAR.apiData This is the full appointment/request object. Generally, we shouldn't be pulling data from here
  * @property {?Object} legacyVAR.bestTimeToCall Array of best times to call (Morning, Afternoon, Eventing), mapped from request.bestTimetoCall
  * @property {?Array<RequestedPeriod>} requestedPeriods Mapped from request.optionDate and request.optionTime fields 1 through 3
- * @property {?VideoData} videoData Information associated with video visits from Video Visit Service (via MAS)
+ * @property {VideoData} videoData Information associated with video visits from Video Visit Service (via MAS)
  * @property {DerivedAppointmentData} vaos This object contains derived data or information we need that doesn't fit in the FHIR format
  */
 
 /**
  * @typedef {Object} VideoData
- * @property {string} facilityId The location id of the video appointment
+ * @property {boolean} isVideo If the appointment is a video appointment
+ * @property {?string} facilityId The location id of the video appointment
  * - Mapped from appt.sta6aid for clinic based appointments or appt.facilityId for other video appointment types
- * @property {Array<VideoProvider>} providers Array of providers included in the video visit, mapped from appt.vvsAppointments[0].providers
+ * @property {?Array<VideoProvider>} providers Array of providers included in the video visit, mapped from appt.vvsAppointments[0].providers
  * @property {'ADHOC'|'MOBILE_GFE'|'CLINIC_BASED'|'STORE_FORWARD'|'MOBILE_ANY'} kind Video visit type
  * - Mapped from appointment.vvsAppointments[0].appointmentKind
- * @property {string} url The url for the video visit
+ * @property {?string} url The url for the video visit
  * - Mapped from appointment.vvsAppointments[0].patients[0].virtualMeetingRoom.url
- * @property {boolean} isAtlas True if the appointment is an ATLAS video appointment
+ * @property {?boolean} isAtlas True if the appointment is an ATLAS video appointment
  * @property {?AtlasLocation} atlasLocation The ATLAS location information
  * @property {?string} atlasConfirmationCode The ATLAS confirmation code
  * - Mapped from appointment.vvsAppointments[0].tasInfo.confirmationCode
- * @property {number} duration The duration of the video appointment
+ * @property {?number} duration The duration of the video appointment
  * - Mapped from appointment.vvsAppointments[0].duration
- * @property {string} status The status of the video appointment
+ * @property {?string} status The status of the video appointment
  * - Mapped from appointment.vvsAppointments[0].status.code
  */
 

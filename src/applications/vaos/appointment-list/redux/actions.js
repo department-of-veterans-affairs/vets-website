@@ -236,25 +236,24 @@ export function fetchFutureAppointments() {
 
       recordItemsRetrieved(
         'video_atlas',
-        data[0]?.filter(appt => appt.videoData?.isAtlas).length,
+        data[0]?.filter(appt => appt.videoData.isAtlas).length,
       );
 
       recordItemsRetrieved(
         'video_va_facility',
-        data[0]?.filter(appt => appt.videoData?.kind === VIDEO_TYPES.clinic)
+        data[0]?.filter(appt => appt.videoData.kind === VIDEO_TYPES.clinic)
           .length,
       );
 
       recordItemsRetrieved(
         'video_gfe',
-        data[0]?.filter(appt => appt.videoData?.kind === VIDEO_TYPES.gfe)
-          .length,
+        data[0]?.filter(appt => appt.videoData.kind === VIDEO_TYPES.gfe).length,
       );
 
       recordItemsRetrieved(
         'video_store_forward',
         data[0]?.filter(
-          appt => appt.videoData?.kind === VIDEO_TYPES.storeForward,
+          appt => appt.videoData.kind === VIDEO_TYPES.storeForward,
         ).length,
       );
 

@@ -43,11 +43,11 @@ function formatAppointmentDate(date) {
 }
 
 function formatHeader(appointment) {
-  if (appointment.videoData?.kind === VIDEO_TYPES.gfe) {
+  if (appointment.videoData.kind === VIDEO_TYPES.gfe) {
     return 'VA Video Connect using VA device';
-  } else if (appointment.videoData?.kind === VIDEO_TYPES.clinic) {
+  } else if (appointment.videoData.kind === VIDEO_TYPES.clinic) {
     return 'VA Video Connect at VA location';
-  } else if (appointment.videoData?.isAtlas) {
+  } else if (appointment.videoData.isAtlas) {
     return 'VA Video Connect at an ATLAS location';
   } else if (isVideoHome(appointment)) {
     return 'VA Video Connect at home';
@@ -152,7 +152,7 @@ function ConfirmedAppointmentDetailsPage({
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isVideo = appointment.vaos.isVideo;
-  const videoKind = appointment.videoData?.kind;
+  const videoKind = appointment.videoData.kind;
   const isPhone = isVAPhoneAppointment(appointment);
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
