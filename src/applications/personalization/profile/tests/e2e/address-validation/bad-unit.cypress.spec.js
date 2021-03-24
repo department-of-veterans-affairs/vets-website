@@ -6,7 +6,7 @@ describe('Personal and contact information', () => {
       setUp('bad-unit');
       cy.axeCheck();
 
-      cy.findAllByLabelText(/^Street address$/i)
+      cy.findByLabelText('Street address')
         .clear()
         .type('225 irving st');
       cy.findByLabelText(/^street address line 2/i)
