@@ -18,14 +18,6 @@ export const schema = {
       ssn: {
         type: 'string',
       },
-      email: {
-        type: 'string',
-        format: 'email',
-      },
-      phone: {
-        type: 'string',
-        pattern: '\\(?\\d{3}\\)?-?\\d{3}-?\\d{4}$',
-      },
     },
   },
 };
@@ -74,22 +66,6 @@ export const uiSchema = {
           pattern: 'Please enter a valid 9 digit SSN (dashes allowed)',
           required: 'Please enter a SSN',
         },
-      },
-    },
-    email: {
-      'ui:title': 'Email address',
-      'ui:widget': 'email',
-      'ui:errorMessages': {
-        required: 'Please enter your email address, using this format: X@X.com',
-        pattern:
-          'Please enter your email address again, using this format: X@X.com',
-      },
-    },
-    phone: {
-      'ui:title': 'Phone',
-      'ui:errorMessages': {
-        required: 'Please enter your phone number',
-        pattern: 'Please enter a valid phone number',
       },
     },
   },
