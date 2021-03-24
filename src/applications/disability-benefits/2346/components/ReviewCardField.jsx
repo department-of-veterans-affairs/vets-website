@@ -10,7 +10,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import set from 'platform/utilities/data/set';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement, isReactComponent } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -49,7 +49,7 @@ class ReviewCardField extends React.Component {
     super(props);
     // Throw an error if there’s no viewComponent (should be React component)
     if (
-      typeof get('ui:options.viewComponent', this.props.uiSchema) !== 'function'
+      !isReactComponent(get('ui:options.viewComponent', this.props.uiSchema))
     ) {
       throw new Error(
         `No viewComponent found in uiSchema for ReviewCardField ${

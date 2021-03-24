@@ -10,6 +10,7 @@ import {
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import { showReviewField } from '../helpers';
+import { isReactComponent } from 'platform/utilities/ui';
 
 /*
  * This is largely copied from the react-jsonschema-form library,
@@ -167,7 +168,7 @@ class ObjectField extends React.Component {
         </button>
       );
 
-      return typeof objectViewField === 'function' ? (
+      return isReactComponent(objectViewField) ? (
         objectViewField({
           ...this.props,
           renderedProperties,

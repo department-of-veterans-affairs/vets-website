@@ -5,6 +5,7 @@ import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import { isReactComponent } from 'platform/utilities/ui';
 
 const ReviewCardField = ({
   uiSchema,
@@ -43,7 +44,7 @@ const ReviewCardField = ({
 
   useEffect(() => {
     // Throw an error if there’s no viewComponent (should be React component)
-    if (typeof get('ui:options.viewComponent', uiSchema) !== 'function') {
+    if (!isReactComponent(get('ui:options.viewComponent', uiSchema))) {
       throw new Error(
         `No viewComponent found in uiSchema for ReviewCardField ${
           idSchema.$id
