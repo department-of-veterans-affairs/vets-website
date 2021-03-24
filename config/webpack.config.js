@@ -382,12 +382,12 @@ module.exports = (env = {}) => {
         },
         title:
           typeof template !== 'undefined' && template.title
-            ? `${template.title} | Veteran Affairs`
+            ? `${template.title} | Veterans Affairs`
             : typeof appName !== 'undefined'
               ? appName
-                ? `${appName} | Veteran Affairs`
+                ? `${appName} | Veterans Affairs`
                 : null
-              : 'VA.gov Home | Veteran Affairs...',
+              : 'VA.gov Home | Veterans Affairs',
       });
     /* eslint-enable no-nested-ternary */
 
