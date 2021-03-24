@@ -352,6 +352,7 @@ module.exports = (env = {}) => {
       },
     ];
 
+    /* eslint-disable no-nested-ternary */
     const generateLandingPage = ({
       appName,
       entryName = 'static-pages',
@@ -379,8 +380,16 @@ module.exports = (env = {}) => {
           loadingMessage: 'Please wait while we load the application for you.',
           ...template, // Unpack any template metadata from the registry entry.
         },
-        title: template.title || appName ? `${appName} | VA.gov` : 'VA.gov',
+        title:
+          typeof template !== 'undefined' && template.title
+            ? `${template.title} | Veteran Affairs`
+            : typeof appName !== 'undefined'
+              ? appName
+                ? `${appName} | Veteran Affairs`
+                : null
+              : 'VA.gov Home | Veteran Affairs...',
       });
+    /* eslint-enable no-nested-ternary */
 
     baseConfig.plugins = baseConfig.plugins.concat(
       // Fall back to using app manifests if app registry no longer exists.
