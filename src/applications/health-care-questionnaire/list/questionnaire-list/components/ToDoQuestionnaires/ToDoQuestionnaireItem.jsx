@@ -7,6 +7,7 @@ import { isAppointmentCancelled } from '../../../utils';
 import {
   appointment as appointmentSelectors,
   questionnaireResponse as questionnaireResponseSelector,
+  organization as organizationSelector,
 } from '../../../../shared/utils/selectors';
 
 import QuestionnaireItem from '../QuestionnaireItem';
@@ -16,7 +17,7 @@ export default function ToDoQuestionnaireItem({ data }) {
   const appointmentStatus = appointmentSelectors.getStatus(appointment);
   const isCancelled = isAppointmentCancelled(appointmentStatus);
 
-  const facility = organization;
+  const facilityName = organizationSelector.getName(organization);
   const appointmentTime = appointmentSelectors.getStartTime(appointment);
   const questionnaireResponseStatus = questionnaireResponseSelector.getStatus(
     questionnaire[0].questionnaireResponse,
@@ -36,7 +37,7 @@ export default function ToDoQuestionnaireItem({ data }) {
           <AnswerQuestions
             fullData={data}
             id={appointment.id}
-            facilityName={facility.name}
+            facilityName={facilityName}
             appointmentTime={appointmentTime}
             status={questionnaireResponseStatus}
           />

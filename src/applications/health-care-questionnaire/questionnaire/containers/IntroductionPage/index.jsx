@@ -16,8 +16,9 @@ import environment from 'platform/utilities/environment';
 import { removeFormApi } from 'platform/forms/save-in-progress/api';
 
 import {
-  location as locationSelector,
+  organization as organizationSelector,
   appointment as appointmentSelector,
+  location as locationSelector,
 } from '../../../shared/utils/selectors';
 
 const IntroductionPage = props => {
@@ -34,7 +35,7 @@ const IntroductionPage = props => {
     );
   }
 
-  const facilityName = organization.name;
+  const facilityName = organizationSelector.getName(organization);
   const appointmentTime = appointmentSelector.getStartTime(appointment);
   let expirationTime = appointmentTime;
 
