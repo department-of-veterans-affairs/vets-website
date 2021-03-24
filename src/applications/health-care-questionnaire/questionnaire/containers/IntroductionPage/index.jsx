@@ -182,7 +182,7 @@ const IntroductionPage = props => {
       <div className="omb-info--container">
         <OMBInfo expDate={expirationTime} />
       </div>
-      {!environment.isProduction() && (
+      {environment.isLocalhost() && (
         <>
           <button
             onClick={() => {
