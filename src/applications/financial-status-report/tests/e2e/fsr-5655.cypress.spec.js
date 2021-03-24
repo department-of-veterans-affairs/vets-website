@@ -16,11 +16,10 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cy.login(mockUser);
       cy.intercept('GET', '/v0/debts', debts);
-
-      // cy.get('@testData').then(testData => {
-      //   cy.intercept('GET', '/v0/in_progress_forms/5655', testData);
-      //   cy.intercept('PUT', 'v0/in_progress_forms/5655', testData);
-      // });
+      cy.get('@testData').then(testData => {
+        cy.intercept('GET', '/v0/in_progress_forms/5655', testData);
+        cy.intercept('PUT', 'v0/in_progress_forms/5655', testData);
+      });
     },
     pageHooks: {
       introduction: () => {
