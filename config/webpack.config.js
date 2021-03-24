@@ -371,6 +371,11 @@ module.exports = (env = {}) => {
         rootUrl: '/disability/about-disability-ratings',
         widgetType: 'disability-rating-calculator',
       },
+      {
+        appName: 'How To Apply For The GI Bill',
+        rootUrl: '/education/how-to-apply',
+        widgetType: 'education-app-status',
+      },
     ];
 
     /* eslint-disable no-nested-ternary */
