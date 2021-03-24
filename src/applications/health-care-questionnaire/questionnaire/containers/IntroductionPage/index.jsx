@@ -15,6 +15,7 @@ import IntroductionPageHelpers from '../../components/introduction-page';
 import environment from 'platform/utilities/environment';
 import { removeFormApi } from 'platform/forms/save-in-progress/api';
 
+import { selectQuestionnaireContext } from '../../../shared/redux-selectors';
 import {
   organizationSelector,
   appointmentSelector,
@@ -26,7 +27,7 @@ const IntroductionPage = props => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
   const { isLoggedIn, route, savedForms, formId } = props;
-  const { appointment, location, organization } = props?.questionnaire?.context;
+  const { appointment, location, organization } = props?.context;
   if (!appointment?.id) {
     return (
       <>
@@ -200,7 +201,7 @@ const mapStateToProps = state => {
   return {
     pages: state?.form?.pages,
     isLoggedIn: state?.user?.login?.currentlyLoggedIn,
-    questionnaire: state?.questionnaireData,
+    context: selectQuestionnaireContext(state),
     savedForms: state?.user?.profile?.savedForms,
     formId: state.form.formId,
     form: state.form,

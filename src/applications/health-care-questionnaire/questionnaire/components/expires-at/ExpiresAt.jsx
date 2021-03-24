@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import { appointmentSelector } from '../../../shared/utils/selectors';
+import { selectCurrentAppointment } from '../../../shared/redux-selectors';
 
 const ExpiresAt = props => {
   const { onChange, appointment } = props;
@@ -32,7 +33,7 @@ const ExpiresAt = props => {
 };
 
 const mapStateToProps = state => ({
-  appointment: state?.questionnaireData?.context?.appointment,
+  appointment: selectCurrentAppointment(state),
 });
 
 export default connect(

@@ -7,6 +7,7 @@ import {
   locationSelector,
   organizationSelector,
 } from '../../../shared/utils/selectors';
+import { selectQuestionnaireContext } from '../../../shared/redux-selectors';
 
 const GetHelpFooter = props => {
   const { currentLocation, context } = props;
@@ -101,6 +102,6 @@ const GetHelpFooter = props => {
   );
 };
 const mapStateToProps = state => ({
-  context: state?.questionnaireData?.context,
+  context: selectQuestionnaireContext(state),
 });
 export default connect(mapStateToProps)(GetHelpFooter);
