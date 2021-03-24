@@ -350,6 +350,11 @@ module.exports = (env = {}) => {
         rootUrl: '/find-forms',
         widgetType: 'find-va-forms',
       },
+      {
+        appName: 'VA coronavirus chatbot',
+        rootUrl: '/coronavirus-chatbot',
+        widgetType: 'coronavirus-chatbot',
+      },
     ];
 
     /* eslint-disable no-nested-ternary */
@@ -406,7 +411,7 @@ module.exports = (env = {}) => {
       new HtmlPlugin({
         filename: path.join(outputPath, '..', 'index.html'),
         inject: false,
-        title: 'VA.gov',
+        title: 'VA.gov Home | Veterans Affairs',
       }),
     );
 
