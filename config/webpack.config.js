@@ -351,9 +351,20 @@ module.exports = (env = {}) => {
         widgetType: 'find-va-forms',
       },
       {
-        appName: 'VA coronavirus chatbot',
+        appName: 'Coronavirus Chatbot',
         rootUrl: '/coronavirus-chatbot',
-        widgetType: 'coronavirus-chatbot',
+        widgetType: 'va-coronavirus-chatbot',
+        template: {
+          title: 'VA coronavirus chatbot',
+        },
+      },
+      {
+        appName: 'GI Bill Benefit Status',
+        rootUrl: '/education/gi-bill/post-9-11/ch-33-benefit/status',
+      },
+      {
+        appName: 'Download VA Letters',
+        rootUrl: '/records/download-va-letters/letters',
       },
     ];
 
