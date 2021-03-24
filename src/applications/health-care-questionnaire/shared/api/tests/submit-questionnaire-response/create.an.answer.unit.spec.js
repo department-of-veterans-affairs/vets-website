@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { createAnAnswer } from '../../../../shared/api/submit-questionnaire';
+import { createAnAnswer } from '../../submit-questionnaire';
 
 describe('health care questionnaire -- utils -- create an answer item', () => {
   it('structure is created with empty data', () => {

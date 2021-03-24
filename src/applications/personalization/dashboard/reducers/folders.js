@@ -7,6 +7,7 @@ const initialState = {
   data: {
     currentItem: {
       attributes: {},
+      fetching: false,
       filter: {},
       messages: [],
       pagination: {},
@@ -52,6 +53,7 @@ export default function folders(state = initialState, action) {
         'data.currentItem',
         {
           attributes,
+          fetching: false,
           filter,
           messages,
           pagination,
@@ -80,6 +82,7 @@ export default function folders(state = initialState, action) {
             visible: false,
           },
           lastRequestedFolder: action.request,
+          fetching: true,
         },
         newState,
       );
