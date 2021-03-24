@@ -379,7 +379,7 @@ module.exports = (env = {}) => {
           loadingMessage: 'Please wait while we load the application for you.',
           ...template, // Unpack any template metadata from the registry entry.
         },
-        title: template.title || appName ? `${appName} | VA.gov` : 'VA.gov',
+        title: `${template.title || appName} | Veterans Affairs`,
       });
 
     baseConfig.plugins = baseConfig.plugins.concat(
