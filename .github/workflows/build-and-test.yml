@@ -19,8 +19,20 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
+      - name: Get Yarn cache dir
+        id: get-yarn-cache-dir
+        run: echo ::set-output name=YARN_CACHE_DIR::$(yarn cache dir)
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.get-yarn-cache-dir.outputs.YARN_CACHE_DIR }}
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile --prefer-offline
+
       - name: Create test results folder
         run: mkdir -p ./test-results
 
