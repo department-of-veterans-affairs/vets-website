@@ -12,7 +12,7 @@ import { selectConfirmationPage } from '../redux/selectors.js';
 import AddToCalendar from 'applications/vaos/components/AddToCalendar';
 import { formatFacilityAddress } from 'applications/vaos/services/location';
 
-const pageTitle = 'Your appointment has been scheduled';
+const pageTitle = 'We’ve scheduled your appointment';
 
 function ConfirmationPage({ data, systemId, facilityDetails, submitStatus }) {
   useEffect(() => {
@@ -34,10 +34,11 @@ function ConfirmationPage({ data, systemId, facilityDetails, submitStatus }) {
     <div>
       <h1>{pageTitle}</h1>
       <AlertBox status="success">
-        <strong>
-          Your appointment is confirmed. Please see your appointment details
-          below.
-        </strong>
+        <strong>Your appointment is confirmed.</strong>
+        <p>
+          If you get a vaccine that requires a second dose, we'll schedule your
+          second appointment while you're here for your first dose.
+        </p>
       </AlertBox>
       <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
         <span className="vads-u-margin-y--0 vaos-u-text-transform--uppercase">

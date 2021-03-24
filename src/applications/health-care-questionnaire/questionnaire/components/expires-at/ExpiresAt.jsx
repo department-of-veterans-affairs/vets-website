@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { getAppointmentTimeFromAppointment } from '../../../shared/utils';
+import { appointment as appointmentSelector } from '../../../shared/utils/selectors';
 
 const ExpiresAt = props => {
   const { onChange, appointment } = props;
-  const time = getAppointmentTimeFromAppointment(appointment);
+  const time = appointmentSelector.getStartTime(appointment);
   const currentValue = time;
   const [diff, setDiff] = useState(60);
   useEffect(

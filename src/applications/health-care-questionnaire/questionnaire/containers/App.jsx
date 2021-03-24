@@ -66,6 +66,7 @@ const App = props => {
           setFormData({
             'hidden:appointment': appointment,
             'hidden:questionnaire': questionnaire,
+            'hidden:clinic': clinic,
           });
         }
         setLoadedAppointment(data);

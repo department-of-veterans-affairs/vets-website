@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 
-import ReasonForVisitField from '../../../components/reason-for-visit/ReasonForVisitField';
+import ReasonForVisitField from '../ReasonForVisitField';
 
-import { createFakeReasonForVisitStore } from '../utils/createFakeStores';
+import { createFakeReasonForVisitStore } from './utils';
 
 describe('health care questionnaire - reason for visit - visit page -', () => {
   it('reason for visit exists', () => {

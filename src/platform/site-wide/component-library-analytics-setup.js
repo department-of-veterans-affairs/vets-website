@@ -11,6 +11,7 @@ const analyticsEvents = {
     { action: 'expand', event: 'int-additional-info-expand' },
     { action: 'collapse', event: 'int-additional-info-collapse' },
   ],
+  AlertBox: [{ action: 'linkClick', event: 'nav-alert-box-link-click' }],
 };
 
 export function subscribeComponentAnalyticsEvents(
@@ -24,7 +25,10 @@ export function subscribeComponentAnalyticsEvents(
     const action = component.find(ev => ev.action === e.detail.action);
 
     if (action) {
-      const dataLayer = { event: action.event };
+      const dataLayer = {
+        event: action.event,
+        'event-source': 'component-library',
+      };
 
       // If the event included additional details / context...
       if (e.detail.details) {
