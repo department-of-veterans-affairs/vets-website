@@ -59,7 +59,7 @@ export default function ToDoQuestionnaireItem({ data }) {
                 className="vads-u-font-weight--bold"
                 data-testid="due-by-timestamp"
               >
-                {dueDate.format(`H:MM`)} {meridiem} {formattedTimezone}
+                {dueDate.format(`h:mm`)} {meridiem} {formattedTimezone}
               </p>
             )}
           </section>
