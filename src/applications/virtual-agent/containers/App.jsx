@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import WebChat from './WebChat';
+import WaitForFeatureToggles from './WaitForFeatureToggles';
 
 window.React = React;
 window.ReactDOM = ReactDOM;
@@ -30,5 +30,5 @@ export default function App() {
     return 'waiting on webchat framework . . .';
   }
 
-  return <WebChat />;
+  return <WaitForFeatureToggles />;
 }

@@ -1,25 +1,19 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { apiRequest } from 'platform/utilities/api';
-import { connect } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-function WebChat({ featureTogglesLoading }) {
+export default function WebChat() {
   const { ReactWebChat, createDirectLine, createStore } = window.WebChat;
   const [token, setToken] = useState('');
 
-  useEffect(
-    () => {
-      async function getToken() {
-        if (featureTogglesLoading) return;
-        const res = await apiRequest('/virtual_agent_token', {
-          method: 'POST',
-        });
-        setToken(res.token);
-      }
-      getToken();
-    },
-    [featureTogglesLoading],
-  );
+  useEffect(() => {
+    async function getToken() {
+      const res = await apiRequest('/virtual_agent_token', {
+        method: 'POST',
+      });
+      setToken(res.token);
+    }
+    getToken();
+  }, []);
 
   const store = useMemo(() => createStore(), []);
 
@@ -32,10 +26,6 @@ function WebChat({ featureTogglesLoading }) {
       }),
     [token],
   );
-
-  if (featureTogglesLoading) {
-    return <LoadingIndicator message={'Loading Chatbot'} />;
-  }
 
   return (
     <div className={'vads-l-grid-container'}>
@@ -54,11 +44,3 @@ function WebChat({ featureTogglesLoading }) {
     </div>
   );
 }
-
-const mapStateToProps = state => {
-  return {
-    featureTogglesLoading: state.featureToggles.loading,
-  };
-};
-
-export default connect(mapStateToProps)(WebChat);
