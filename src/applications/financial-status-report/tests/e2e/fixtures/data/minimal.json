@@ -17,7 +17,6 @@
   },
   "view:components": {
     "view:financialHardshipExplanation": {},
-    "view:resolutionOptionsInfo": {},
     "view:veteranInfo": {},
     "view:vaBenefitsOnFile": {},
     "view:vehicleInfo": {},
@@ -25,7 +24,7 @@
     "view:assetInfo": {}
   },
   "additionalData": {
-    "additionalComments": "testing",
+    "additionalComments": "Supporting personal statement",
     "bankruptcy": {}
   },
   "expenses": {

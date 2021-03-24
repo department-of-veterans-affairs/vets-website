@@ -9,7 +9,7 @@ import debts from './fixtures/mocks/debts.json';
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['positiveResponse'],
+    dataSets: ['minimal'],
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
     },
@@ -23,10 +23,19 @@ const testConfig = createTestConfig(
     },
     pageHooks: {
       introduction: () => {
-        // click the start button
         cy.findAllByText(/start/i, { selector: 'button' })
           .first()
           .click();
+      },
+      'available-debts': ({ afterHook }) => {
+        afterHook(() => {
+          cy.findAllByText(/Request help with this debt/i, {
+            selector: 'label',
+          })
+            .first()
+            .click();
+          cy.get('.usa-button-primary').click();
+        });
       },
     },
     // skip: true, // disable test until FSR is in production

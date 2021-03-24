@@ -128,10 +128,6 @@
             {
               "name": "Federal tax",
               "amount": 375
-            },
-            {
-              "name": "FICA (Social Security and Medicare)",
-              "amount": 400
             }
           ]
         },
@@ -160,10 +156,6 @@
             {
               "name": "Federal tax",
               "amount": 300
-            },
-            {
-              "name": "Health insurance",
-              "amount": 450
             }
           ]
         },
