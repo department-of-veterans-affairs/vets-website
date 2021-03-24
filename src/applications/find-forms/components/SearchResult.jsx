@@ -83,6 +83,7 @@ const SearchResult = ({ form, formMetaInfo }) => {
       formDetailsUrl,
       lastRevisionOn,
       benefitCategories,
+      vaFormAdministration,
       title,
       url,
     },
@@ -96,6 +97,12 @@ const SearchResult = ({ form, formMetaInfo }) => {
   const pdfLabel = url.toLowerCase().includes('.pdf') ? '(PDF)' : '';
   const lastRevision = deriveLatestIssue(firstIssuedOn, lastRevisionOn);
 
+  let relatedTo = vaFormAdministration;
+
+  if (benefitCategories?.length > 0) {
+    relatedTo = benefitCategories.map(f => f.name).join(', ');
+  }
+
   const recordGAEvent = (eventTitle, eventUrl, eventType) =>
     recordGAEventHelper({ ...formMetaInfo, eventTitle, eventUrl, eventType });
 
@@ -107,16 +114,15 @@ const SearchResult = ({ form, formMetaInfo }) => {
         title={title}
         recordGAEvent={recordGAEvent}
       />
-
       <dd className="vads-u-margin-y--1 vads-u-margin-y--1 vsa-from-last-updated">
         <dfn className="vads-u-font-weight--bold">Form last updated:</dfn>{' '}
         {lastRevision}
       </dd>
 
-      {benefitCategories && benefitCategories.length > 0 ? (
+      {relatedTo ? (
         <dd className="vads-u-margin-y--1 vads-u-margin-y--1">
           <dfn className="vads-u-font-weight--bold">Related to:</dfn>{' '}
-          {benefitCategories.map(f => f.name).join(', ')}
+          {relatedTo}
         </dd>
       ) : null}
 
@@ -132,7 +138,6 @@ const SearchResult = ({ form, formMetaInfo }) => {
           Download VA form {id} {pdfLabel}
         </a>
       </dd>
-
       {formToolUrl ? (
         <dd>
           <a

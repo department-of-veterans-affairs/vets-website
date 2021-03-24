@@ -14,8 +14,17 @@ import environment from 'platform/utilities/environment';
 import classNames from 'classnames';
 
 class SearchControls extends Component {
+  onlySpaces = str => /^\s+$/.test(str);
+
   handleQueryChange = e => {
-    this.props.onChange({ searchString: e.target.value.trim() });
+    // prevent users from entering only spaces
+    // because this will not trigger a change
+    // when they exit the field
+    this.props.onChange({
+      searchString: this.onlySpaces(e.target.value)
+        ? e.target.value.trim()
+        : e.target.value,
+    });
   };
 
   handleLocationBlur = e => {
@@ -115,21 +124,6 @@ class SearchControls extends Component {
     focusElement('#street-city-state-zip');
   };
 
-  renderClearInput = () => {
-    if (window.Cypress || !environment.isProduction()) {
-      return (
-        <button
-          aria-label="Clear your city, state or postal code"
-          type="button"
-          id="clear-input"
-          className="fas fa-times-circle clear-button"
-          onClick={this.handleClearInput}
-        />
-      );
-    }
-    return null;
-  };
-
   renderLocationInputField = currentQuery => {
     const { locationChanged, searchString, geocodeInProgress } = currentQuery;
     const showError =
@@ -188,7 +182,15 @@ class SearchControls extends Component {
           value={searchString}
           title="Your location: Street, City, State or Postal code"
         />
-        {searchString?.length > 0 && this.renderClearInput()}
+        {searchString?.length > 0 && (
+          <button
+            aria-label="Clear your city, state or postal code"
+            type="button"
+            id="clear-input"
+            className="fas fa-times-circle clear-button"
+            onClick={this.handleClearInput}
+          />
+        )}
       </div>
     );
   };
