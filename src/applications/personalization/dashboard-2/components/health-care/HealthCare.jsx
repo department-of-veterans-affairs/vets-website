@@ -17,6 +17,8 @@ import {
   selectAvailableServices,
 } from '~/platform/user/selectors';
 
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 
 import Appointments from './Appointments';
@@ -33,6 +35,7 @@ const HealthCare = ({
   unreadMessagesCount,
   // TODO: possibly remove this prop in favor of mocking API calls in our unit tests
   dataLoadingDisabled = false,
+  shouldShowLoadingIndicator,
 }) => {
   useEffect(
     () => {
@@ -51,6 +54,17 @@ const HealthCare = ({
     },
     [shouldFetchMessages, fetchInbox, dataLoadingDisabled],
   );
+
+  if (shouldShowLoadingIndicator) {
+    return (
+      <div className="health-care vads-u-margin-y--6">
+        <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+          Health care
+        </h2>
+        <LoadingIndicator message="Loading health care..." />
+      </div>
+    );
+  }
 
   if (isCernerPatient && facilityNames?.length) {
     return (
@@ -74,7 +88,7 @@ const HealthCare = ({
         Health care
       </h2>
 
-      <div className="vads-u-display--flex vads-u-flex-wrap--wrap">
+      <div className="vads-u-display--flex medium-screen:vads-u-flex-direction--row vads-u-flex-direction--column">
         {/* Appointments */}
         <Appointments appointments={appointments} />
 
@@ -145,15 +159,23 @@ const mapStateToProps = state => {
     ]),
   ];
 
+  const shouldFetchMessages = selectAvailableServices(state).includes(
+    backendServices.MESSAGING,
+  );
+
+  const fetchingAppointments = state.health?.appointments?.fetching;
+  const fetchingInbox = shouldFetchMessages
+    ? state.health?.msg?.folders?.data?.currentItem?.fetching
+    : false;
+
   return {
     appointments: state.health?.appointments?.data,
-    shouldFetchMessages: selectAvailableServices(state).includes(
-      backendServices.MESSAGING,
-    ),
+    shouldFetchMessages,
     isCernerPatient: selectIsCernerPatient(state),
     facilityNames,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
     unreadMessagesCount: selectUnreadMessagesCount(state),
+    shouldShowLoadingIndicator: fetchingAppointments || fetchingInbox,
   };
 };
 
