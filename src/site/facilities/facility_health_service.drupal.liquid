@@ -37,7 +37,7 @@
              data-service="{{ serviceTaxonomy | healthServiceApiId | escape }}"></div>
 
         {% if healthService.fieldBody.processed %}
-          <div>{{ healthService.fieldBody.processed }}</div>
+          <div>{{ healthService.fieldBody.processed | replace: 'h3', 'h4' }}</div>
         {% endif %}
       </div>
     </li>
