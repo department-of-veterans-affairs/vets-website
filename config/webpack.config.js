@@ -337,11 +337,27 @@ module.exports = (env = {}) => {
       appRegistry = JSON.parse(fs.readFileSync(appRegistryPath));
     }
 
+    // If more widgets need to be added to `widgetRegistry`,
+    // we can move this into a file.
+    const widgetRegistry = [
+      {
+        appName: 'Schedule And View VA Appointments Online',
+        rootUrl: '/health-care/schedule-view-va-appointments',
+        widgetType: 'schedule-view-va-appointments-page',
+      },
+      {
+        appName: 'Find Forms',
+        rootUrl: '/find-forms',
+        widgetType: 'find-va-forms',
+      },
+    ];
+
     const generateLandingPage = ({
       appName,
       entryName = 'static-pages',
       rootUrl,
       template = {},
+      widgetType,
     }) =>
       new HtmlPlugin({
         chunks: ['polyfills', 'vendor', 'style', entryName],
@@ -355,6 +371,7 @@ module.exports = (env = {}) => {
           inlineScripts,
           modifyScriptTags,
           modifyStyleTags,
+          widgetType,
 
           // Default template metadata.
           breadcrumbs_override: [], // eslint-disable-line camelcase
@@ -372,6 +389,7 @@ module.exports = (env = {}) => {
       (appRegistry || getAppManifests())
         .filter(({ rootUrl }) => rootUrl)
         .map(generateLandingPage),
+      widgetRegistry.map(generateLandingPage),
     );
 
     // Create a placeholder home page.
