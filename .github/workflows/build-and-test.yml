@@ -9,18 +9,29 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
       - name: Setup Node
         uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Create test results folder
         run: mkdir -p ./test-results
+
       - name: Run unit tests
         run: yarn test:unit --coverage
         env:
           MOCHA_FILE: ./test-results/unit-tests.xml
+
       - name: Generate coverage report by app
         run: node ./script/app-coverage-report.js
+
       - name: Archive test results
         uses: actions/upload-artifact@v2
         with:
