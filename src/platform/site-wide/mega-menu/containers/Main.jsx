@@ -1,18 +1,18 @@
-// Node modules.
 import React from 'react';
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
-// Relative imports.
-import MegaMenu from '../components/MegaMenu';
+
 import authenticatedUserLinkData from '../mega-menu-link-data-for-authenticated-users.json';
+import {
+  togglePanelOpen,
+  toggleMobileDisplayHidden,
+  updateCurrentSection,
+} from '../actions';
 import recordEvent from '../../../monitoring/record-event';
 import { isLoggedIn } from '../../../user/selectors';
 import { replaceDomainsInData } from '../../../utilities/environment/stagingDomains';
-import {
-  toggleMobileDisplayHidden,
-  togglePanelOpen,
-  updateCurrentSection,
-} from '../actions';
+
+import MegaMenu from '../components/MegaMenu';
 
 export function flagCurrentPageInTopLevelLinks(
   links = [],
@@ -99,19 +99,8 @@ const mainSelector = createSelector(
   ({ state }) => state.megaMenu,
   ({ megaMenuData }) => megaMenuData,
   (loggedIn, megaMenu, megaMenuData) => {
-    // Derive the default mega menu links (both auth + unauth).
-    const defaultLinks = [
-      ...megaMenuData,
-      // Add the My VA link to default links.
-      {
-        className: 'my-va-top-nav',
-        href: '/my-va/',
-        title: 'My VA',
-      },
-    ];
-
     const data = flagCurrentPageInTopLevelLinks(
-      getAuthorizedLinkData(loggedIn, defaultLinks),
+      getAuthorizedLinkData(loggedIn, megaMenuData),
     );
 
     return {
