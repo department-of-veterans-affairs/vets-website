@@ -10,7 +10,7 @@
       border-top: 1px solid $color-primary-alt-light;
 
       @media (max-width: $small-screen) {
-        margin-top: 20px;
+        margin-top: units(2.5);
       }
     }
 

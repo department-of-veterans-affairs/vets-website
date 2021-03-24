@@ -13,7 +13,6 @@ describe('HealthCare component', () => {
   context('when appointments and messaging data are still loading', () => {
     it('should only show a loading spinner', async () => {
       window.VetsGov = { pollTimeout: 1 };
-      mockFetch();
       initialState = {
         user: {
           profile: {
@@ -46,12 +45,11 @@ describe('HealthCare component', () => {
         initialState,
         reducers,
       });
-      expect(view.queryByRole('progressbar')).to.exist;
-      expect(view.queryByText('Refill and track your prescriptions')).not.to
+      expect(view.getByRole('progressbar')).to.exist;
+      expect(view.queryByText(/Refill and track your prescriptions/i)).not.to
         .exist;
-      expect(view.queryByText('Get your lab and test results')).not.to.exist;
-      expect(view.queryByText('Get your VA medical records')).not.to.exist;
-      resetFetch();
+      expect(view.queryByText(/Get your lab and test results/i)).not.to.exist;
+      expect(view.queryByText(/Get your VA medical records/i)).not.to.exist;
     });
   });
 

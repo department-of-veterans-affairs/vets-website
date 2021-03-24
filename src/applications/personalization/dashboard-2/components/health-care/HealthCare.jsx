@@ -159,11 +159,14 @@ const mapStateToProps = state => {
     ]),
   ];
 
-  const fetchingAppointments = state.health?.appointments?.fetching;
-  const fetchingInbox = state.health.msg.folders.data.currentItem.fetching;
   const shouldFetchMessages = selectAvailableServices(state).includes(
     backendServices.MESSAGING,
   );
+
+  const fetchingAppointments = state.health?.appointments?.fetching;
+  const fetchingInbox = shouldFetchMessages
+    ? state.health?.msg?.folders?.data?.currentItem?.fetching
+    : false;
 
   return {
     appointments: state.health?.appointments?.data,
@@ -172,8 +175,7 @@ const mapStateToProps = state => {
     facilityNames,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
     unreadMessagesCount: selectUnreadMessagesCount(state),
-    shouldShowLoadingIndicator:
-      fetchingAppointments || (shouldFetchMessages && fetchingInbox),
+    shouldShowLoadingIndicator: fetchingAppointments || fetchingInbox,
   };
 };
 
