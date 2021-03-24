@@ -7,7 +7,7 @@ describe('health care questionnaire list -- ', () => {
     cy.login(basicUser);
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
   });
-  it('manager and questionnaire integration -- exists', () => {
+  it.skip('manager and questionnaire integration -- exists', () => {
     cy.visit('/health-care/health-questionnaires/questionnaires/');
     cy.get('h1').contains('Your health questionnaires');
     cy.get(
