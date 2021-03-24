@@ -50,9 +50,8 @@ describe('facilities <FacilityAppointmentWaitTimesWidget>', () => {
 
   it('should NOT render facility patient satisfaction score data', () => {
     const testNoFeedbackData = {
-      ...mockFacilityLocatorApiResponse.data[0],
+      attributes: { feedback: { health: {} } },
     };
-    testNoFeedbackData.attributes.feedback.health = {};
 
     const tree = shallow(
       <FacilityAppointmentWaitTimesWidget

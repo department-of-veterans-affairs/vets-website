@@ -29,7 +29,7 @@ src/platform/utilities/medical-centers @department-of-veterans-affairs/vsa-authd
 # Benefits and Memorials
 src/applications/letters @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
 src/applications/disability-benefits @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend
-src/applications/claims-status @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-bam-2-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend
+src/applications/claims-status @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-bam-2-frontend
 
 # Benefits and Memorials 2
 src/applications/disability-benefits/2346 @department-of-veterans-affairs/vsa-bam-2-frontend @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend

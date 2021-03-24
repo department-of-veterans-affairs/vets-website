@@ -623,13 +623,16 @@ canvas.mapboxgl-canvas:focus {
   }
 
   .clear-button {
-    position: absolute;
     top: 95px;
     right: 10px;
+    position: absolute;
+
 
     @media (max-width: $small-screen) {
-      width: 18px;
-      height: 18px;
+      top: 83px;
+      right: 0px;
+      width: 44px;
+      height: 44px;
     }
 
     background-color: transparent;
