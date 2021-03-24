@@ -30,8 +30,7 @@ export default {
   city: 'Contact information (enter a city for your mailing address)',
   addressLine1: 'Contact information (enter a street address)',
   state: 'Contact information (enter a state for your mailing address)',
-  zipCode:
-    'Contact information (enter a postal or zip code for your mailing address)',
+  zipCode: 'Contact information (enter a postal code for your mailing address)',
   homelessOrAtRisk:
     'Are you homeless or at risk of becoming homeless? (select one of the answers)',
   isVaEmployee: 'Are you a VA employee? (select yes or no)',
