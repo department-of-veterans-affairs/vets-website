@@ -1,3 +1,4 @@
+import { add, format } from 'date-fns';
 import sinon from 'sinon';
 import { expect } from 'chai';
 
@@ -9,11 +10,16 @@ import {
   hasMonthYear,
   validateDisabilityName,
   validateBooleanGroup,
+  validateAge,
+  validateSeparationDate,
 } from '../validations';
 
 import disabilityLabels from '../content/disabilityLabels';
 import { capitalizeEachWord } from '../utils';
 import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
+
+const formatDate = date => format(date, 'yyyy-MM-dd');
+const daysFromToday = days => formatDate(add(new Date(), { days }));
 
 describe('526 All Claims validations', () => {
   describe('isValidYear', () => {
@@ -375,6 +381,137 @@ describe('526 All Claims validations', () => {
       );
 
       expect(errors.addError.firstCall.args[0]).to.equal('testing');
+    });
+  });
+
+  describe('validateAge', () => {
+    const _ = null;
+    it('should not allow age < 13 years at start of service', () => {
+      const errors = { addError: sinon.spy() };
+      const dob = '2000-01-01';
+      // 13th birthday (needs to be _after_ 13th birthday)
+      const age = formatDate(add(new Date(dob), { years: 13, days: -1 }));
+      validateAge(errors, age, _, _, _, _, { dob });
+
+      expect(errors.addError.called).to.be.true;
+      expect(errors.addError.args[0][0]).to.contain('after your 13th birthday');
+    });
+    it('should allow age 13 years at start of service', () => {
+      const errors = { addError: sinon.spy() };
+      const dob = '2000-01-01';
+      // Add 1 extra day to ensure we're after 13th birthday
+      const age = formatDate(add(new Date(dob), { years: 13, days: 1 }));
+      validateAge(errors, age, _, _, _, _, { dob });
+
+      expect(errors.addError.called).to.be.false;
+    });
+  });
+
+  describe('validateSeparationDate', () => {
+    const _ = null;
+    // builds the appStateData object
+    const data = ({ bdd = false, branch = 'Army' } = {}) => ({
+      allowBDD: bdd,
+      servicePeriods: [{ serviceBranch: branch }],
+    });
+
+    const pastDate = daysFromToday(-100);
+    const futureDate = daysFromToday(100);
+
+    it('should allow past end service dates for all-claims', () => {
+      const errors = { addError: sinon.spy() };
+      validateSeparationDate(errors, pastDate, _, _, _, 0, data());
+
+      expect(errors.addError.called).to.be.false;
+    });
+    it('should not allow future end service dates for active service all-claims', () => {
+      const errors = { addError: sinon.spy() };
+      const index = 0;
+      validateSeparationDate(errors, futureDate, _, _, _, index, data());
+
+      expect(errors.addError.called).to.be.true;
+      expect(errors.addError.args[0][index]).to.contain('be in the past');
+    });
+    it('should allow future end service dates for all-claims when in the reserves', () => {
+      const errors = { addError: sinon.spy() };
+      validateSeparationDate(
+        errors,
+        futureDate,
+        _,
+        _,
+        _,
+        0,
+        data({ branch: 'Army Reserve' }),
+      );
+
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('should allow past end service dates for BDD', () => {
+      const errors = { addError: sinon.spy() };
+      validateSeparationDate(errors, pastDate, _, _, _, 0, data({ bdd: true }));
+
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('should allow future end service dates for BDD', () => {
+      const err = { addError: sinon.spy() };
+      validateSeparationDate(err, futureDate, _, _, _, 0, data({ bdd: true }));
+
+      expect(err.addError.called).to.be.false;
+    });
+
+    // assuming this person has been activated
+    it('should allow future end service dates for BDD when in the reserves', () => {
+      const errors = { addError: sinon.spy() };
+      validateSeparationDate(
+        errors,
+        futureDate,
+        _,
+        _,
+        _,
+        0,
+        data({
+          bdd: true,
+          branch: 'Army Reserve',
+        }),
+      );
+
+      expect(errors.addError.called).to.be.false;
+    });
+    it('should not allow future end service dates > 180 days', () => {
+      const errors = { addError: sinon.spy() };
+      const index = 0;
+      validateSeparationDate(
+        errors,
+        daysFromToday(181),
+        _,
+        _,
+        _,
+        index,
+        data({ bdd: true }),
+      );
+
+      expect(errors.addError.called).to.be.true;
+      expect(errors.addError.args[0][index]).to.contain('before 180 days');
+    });
+    it('should allow future end service dates > 180 days if in the reserves', () => {
+      const errors = { addError: sinon.spy() };
+      const index = 0;
+      validateSeparationDate(
+        errors,
+        daysFromToday(181),
+        _,
+        _,
+        _,
+        index,
+        data({
+          bdd: true,
+          branch: 'Army National Guard',
+        }),
+      );
+
+      expect(errors.addError.called).to.be.false;
     });
   });
 });
