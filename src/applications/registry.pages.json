@@ -1,0 +1,50 @@
+[
+    {
+        "appName": "Schedule And View VA Appointments Online",
+        "rootUrl": "/health-care/schedule-view-va-appointments",
+        "widgetType": "schedule-view-va-appointments-page"
+    },
+    {
+        "appName": "Homepage",
+        "rootUrl": "/",
+        "template": {
+            "title": "VA.gov"
+        }
+    },
+    {
+        "appName": "Find Forms",
+        "rootUrl": "/find-forms",
+        "widgetType": "find-va-forms"
+    },
+    {
+        "appName": "Coronavirus Chatbot",
+        "rootUrl": "/coronavirus-chatbot",
+        "widgetType": "va-coronavirus-chatbot",
+        "template": {
+            "title": "VA coronavirus chatbot"
+        }
+    },
+    {
+        "appName": "GI Bill Benefit Status",
+        "rootUrl": "/education/gi-bill/post-9-11/ch-33-benefit/status"
+    },
+    {
+        "appName": "Download VA Letters",
+        "rootUrl": "/records/download-va-letters/letters"
+    },
+    {
+        "appName": "About VA Disability Ratings",
+        "rootUrl": "/disability/about-disability-ratings",
+        "widgetType": "disability-rating-calculator"
+    },
+    {
+        "appName": "How To Apply For The GI Bill",
+        "rootUrl": "/education/how-to-apply",
+        "widgetType": "education-app-status"
+    },
+    {
+        "appName": "Post-9/11 GI Bill Statement Of Benefits",
+        "rootUrl": "/education/gi-bill/post-9-11/ch-33-benefit",
+        "widgetType": "post-9-11-gi-bill-status"
+    }
+]

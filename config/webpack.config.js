@@ -16,6 +16,7 @@ const WebpackBar = require('webpackbar');
 const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
 const BUCKETS = require('../src/site/constants/buckets');
 const ENVIRONMENTS = require('../src/site/constants/environments');
+const pageRegistry = require('../src/applications/registry.pages.json');
 
 const { VAGOVSTAGING, VAGOVPROD, LOCALHOST } = ENVIRONMENTS;
 
@@ -337,56 +338,6 @@ module.exports = (env = {}) => {
       appRegistry = JSON.parse(fs.readFileSync(appRegistryPath));
     }
 
-    // If more widgets need to be added to `widgetRegistry`,
-    // we can move this into a file.
-    const widgetRegistry = [
-      {
-        appName: 'VA.gov',
-        rootUrl: '/',
-      },
-      {
-        appName: 'Schedule And View VA Appointments Online',
-        rootUrl: '/health-care/schedule-view-va-appointments',
-        widgetType: 'schedule-view-va-appointments-page',
-      },
-      {
-        appName: 'Find Forms',
-        rootUrl: '/find-forms',
-        widgetType: 'find-va-forms',
-      },
-      {
-        appName: 'Coronavirus Chatbot',
-        rootUrl: '/coronavirus-chatbot',
-        widgetType: 'va-coronavirus-chatbot',
-        template: {
-          title: 'VA coronavirus chatbot',
-        },
-      },
-      {
-        appName: 'GI Bill Benefit Status',
-        rootUrl: '/education/gi-bill/post-9-11/ch-33-benefit/status',
-      },
-      {
-        appName: 'Download VA Letters',
-        rootUrl: '/records/download-va-letters/letters',
-      },
-      {
-        appName: 'About VA Disability Ratings',
-        rootUrl: '/disability/about-disability-ratings',
-        widgetType: 'disability-rating-calculator',
-      },
-      {
-        appName: 'How To Apply For The GI Bill',
-        rootUrl: '/education/how-to-apply',
-        widgetType: 'education-app-status',
-      },
-      {
-        appName: 'Post-9/11 GI Bill Statement Of Benefits',
-        rootUrl: '/education/gi-bill/post-9-11/ch-33-benefit',
-        widgetType: 'post-9-11-gi-bill-status',
-      },
-    ];
-
     /* eslint-disable no-nested-ternary */
     const generateLandingPage = ({
       appName,
@@ -433,7 +384,7 @@ module.exports = (env = {}) => {
       (appRegistry || getAppManifests())
         .filter(({ rootUrl }) => rootUrl)
         .map(generateLandingPage),
-      widgetRegistry.map(generateLandingPage),
+      pageRegistry.map(generateLandingPage),
     );
 
     // Create a placeholder home page.
