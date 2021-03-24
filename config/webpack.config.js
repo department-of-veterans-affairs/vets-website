@@ -350,6 +350,14 @@ module.exports = (env = {}) => {
         rootUrl: '/find-forms',
         widgetType: 'find-va-forms',
       },
+      {
+        appName: 'Coronavirus Chatbot',
+        rootUrl: '/coronavirus-chatbot',
+        widgetType: 'va-coronavirus-chatbot',
+        template: {
+          title: 'VA coronavirus chatbot',
+        },
+      },
     ];
 
     const generateLandingPage = ({
