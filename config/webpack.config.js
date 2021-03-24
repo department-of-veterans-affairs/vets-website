@@ -341,6 +341,10 @@ module.exports = (env = {}) => {
     // we can move this into a file.
     const widgetRegistry = [
       {
+        appName: 'VA.gov',
+        rootUrl: '/',
+      },
+      {
         appName: 'Schedule And View VA Appointments Online',
         rootUrl: '/health-care/schedule-view-va-appointments',
         widgetType: 'schedule-view-va-appointments-page',
@@ -433,13 +437,13 @@ module.exports = (env = {}) => {
     );
 
     // Create a placeholder home page.
-    baseConfig.plugins.push(
-      new HtmlPlugin({
-        filename: path.join(outputPath, '..', 'index.html'),
-        inject: false,
-        title: 'VA.gov Home | Veterans Affairs',
-      }),
-    );
+    // baseConfig.plugins.push(
+    //   new HtmlPlugin({
+    //     filename: path.join(outputPath, '..', 'index.html'),
+    //     inject: false,
+    //     title: 'VA.gov Home | Veterans Affairs',
+    //   }),
+    // );
 
     // Copy over image assets to fill in the header and other content.
     baseConfig.plugins.push(
