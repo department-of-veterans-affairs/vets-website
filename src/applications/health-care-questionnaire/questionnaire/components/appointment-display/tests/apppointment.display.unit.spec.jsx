@@ -12,7 +12,7 @@ describe('health care questionnaire - display an appointment -- ', () => {
     );
     expect(
       mountedComponent.find('[data-testid="appointment-location"]').text(),
-      'TEM MH PSO TRS IND93EH 2, NEW AMSTERDAM CBOC',
+      'LOM ACC TRAINING CLINIC, Loma Linda VA Clinic',
     );
     expect(
       mountedComponent.find('[data-testid="appointment-time"]').text(),
