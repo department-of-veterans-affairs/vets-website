@@ -366,6 +366,11 @@ module.exports = (env = {}) => {
         appName: 'Download VA Letters',
         rootUrl: '/records/download-va-letters/letters',
       },
+      {
+        appName: 'About VA Disability Ratings',
+        rootUrl: '/disability/about-disability-ratings',
+        widgetType: 'disability-rating-calculator',
+      },
     ];
 
     /* eslint-disable no-nested-ternary */
