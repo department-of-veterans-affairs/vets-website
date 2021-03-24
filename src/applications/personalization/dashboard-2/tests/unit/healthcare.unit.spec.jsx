@@ -12,7 +12,6 @@ describe('HealthCare component', () => {
 
   context('when appointments and messaging data are still loading', () => {
     it('should only show a loading spinner', async () => {
-      window.VetsGov = { pollTimeout: 1 };
       initialState = {
         user: {
           profile: {
