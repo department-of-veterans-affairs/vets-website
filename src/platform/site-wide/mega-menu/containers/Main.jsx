@@ -105,7 +105,7 @@ const mainSelector = createSelector(
       // Add the My VA link to default links.
       {
         className: 'my-va-top-nav',
-        href: '/my-va/',
+        href: 'https://va.gov/my-va/',
         title: 'My VA',
       },
     ];
