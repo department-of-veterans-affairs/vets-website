@@ -1,5 +1,6 @@
 // libs
-import React from 'react';
+import React, { useEffect } from 'react';
+import { focusElement } from 'platform/utilities/ui';
 
 /**
  * A column layout component
@@ -10,6 +11,10 @@ import React from 'react';
  */
 function ErrorMessage(props) {
   const { active, children, message, testId, title } = props;
+
+  useEffect(() => {
+    focusElement('.schemaform-failure-alert');
+  }, []);
 
   if (!active) return null;
   else {
