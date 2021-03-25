@@ -16,7 +16,6 @@ describe('HealthCare component', () => {
   describe('when the user has an appointment scheduled within the next 30 days', () => {
     it('should render "Next appointment"', async () => {
       window.VetsGov = { pollTimeout: 1 };
-      mockFetch();
       initialState = {
         user: {
           profile: {
@@ -56,14 +55,12 @@ describe('HealthCare component', () => {
 
       await expect(view.queryByText(new RegExp(`Next appointment`, 'i'))).to
         .exist;
-      resetFetch();
     });
   });
 
   describe('when the user has an appointment scheduled after the next 30 days', () => {
     beforeEach(() => {
       window.VetsGov = { pollTimeout: 1 };
-      mockFetch();
       initialState = {
         user: {
           profile: {
@@ -102,10 +99,6 @@ describe('HealthCare component', () => {
       });
     });
 
-    afterEach(() => {
-      resetFetch();
-    });
-
     it('should not render "You have no appointments scheduled within the next 30 days"', async () => {
       expect(
         await view.queryByText(
@@ -121,7 +114,6 @@ describe('HealthCare component', () => {
   describe('when the user has no appointments scheduled', () => {
     beforeEach(() => {
       window.VetsGov = { pollTimeout: 1 };
-      mockFetch();
       initialState = {
         user: {
           profile: {
@@ -158,10 +150,6 @@ describe('HealthCare component', () => {
         initialState,
         reducers,
       });
-    });
-
-    afterEach(() => {
-      resetFetch();
     });
 
     it('should not render "You have no appointments scheduled within the next 30 days"', async () => {
