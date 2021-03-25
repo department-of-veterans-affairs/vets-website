@@ -307,3 +307,11 @@ describe('getTagsList', () => {
     ]);
   });
 });
+
+describe('replace', () => {
+  it('replaces text with other text', () => {
+    expect(liquid.filters.replace('<h3>some text</h3>', 'h3', 'h4')).to.equal(
+      '<h4>some text</h4>',
+    );
+  });
+});
