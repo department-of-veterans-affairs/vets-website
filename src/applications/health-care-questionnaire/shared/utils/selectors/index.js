@@ -35,4 +35,9 @@ const organization = {
   getFacilityIdentifier,
 };
 
-export { appointment, questionnaireResponse, location, organization };
+export {
+  appointment as appointmentSelector,
+  questionnaireResponse as questionnaireResponseSelector,
+  location as locationSelector,
+  organization as organizationSelector,
+};

@@ -8,6 +8,10 @@
   .health-care {
     .cta-link:nth-of-type(1) {
       border-top: 1px solid $color-primary-alt-light;
+
+      @media (max-width: $small-screen) {
+        margin-top: units(2.5);
+      }
     }
 
     .cta-link {

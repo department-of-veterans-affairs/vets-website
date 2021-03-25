@@ -32,18 +32,30 @@ const copy = {
       'Manténgase informado sobre cómo recibir la vacuna contra COVID-19',
     cta:
       'Inscríbase para una manera fácil de mantenerse informado sobre cómo recibir la vacuna contra COVID-19 en él VA.',
-    body:
-      'Cuando se inscriba, también le preguntaremos acerca de sus planes de vacunas. Su centro de salud del VA local puede usar esta información para determinar cuándo nos podemos comunicarnos una vez que su grupo de riesgo sea elegible. Por favor, tenga nota que estas actualizaciones solo están disponibles en inglés en este momento.',
-    boldedNote: 'Nota: ',
-    note:
-      'Intentaremos contactar a todos los Veteranos elegibles en cada grupo de riesgo. No es necesario que se inscriba para recibir la vacuna.',
+    expandedEligibilityContent: {
+      veteran: {
+        boldedNote: `Si usted es un Veterano que actualmente recibe atención a través de VA,`,
+        body: ` le preguntaremos sobre sus planes de vacunación cuando se inscriba. Su centro de salud local de VA puede utilizar esta información para determinar cuándo ponerse en contacto con usted una vez que su grupo de riesgo sea elegible.`,
+      },
+      nonVeteran: {
+        boldedNote: `Si usted es un Veterano, cónyuge o cuidador que no recibe atención a través de VA,`,
+        body: ` inscríbase para indicarnos si desea vacunarse a través del VA. Si es elegible, nos pondremos en contacto con usted cuando tengamos una vacuna disponible. En este momento, no sabemos cuándo ocurrirá eso.`,
+      },
+    },
   },
   tag: {
     headline: `Manatiling nakikibalita tungkol sa pagpapabakuna para sa COVID-19`,
     cta: `Mag-sign up para sa madaling paraan ng pakikibalita tungkol sa pagpapabakuna para sa COVID-19 sa VA.`,
-    body: `Kapag nag-sign-up kayo, magtatanong din kami tungkol sa inyong mga plano sa bakuna. Maaaring gamitin ng inyong lokal na pasilidad-pangkalusugan ng VA ang impormasyong ito para matukoy kung kailan makikipag-ugnayan sa inyo kapag naging kwalipikado na ang inyong pangkat ng panganib (risk group). Pakitandaan na ang mga update na ito ay nasa English lang sa ngayon.`,
-    boldedNote: 'Paalala:',
-    note: `Susubukan naming makipag-ugnayan sa bawat-isang kwalipikadong Beterano sa bawat pangkat ng panganib. Hindi ninyo kailangang mag-sign up para makapagpabakuna.`,
+    expandedEligibilityContent: {
+      veteran: {
+        boldedNote: `Kung kayo ay isang Beterano na kasalukuyang tumatanggap ng pag-aaruga sa pamamagitan ng VA,`,
+        body: ` tatanungin namin kayo kung ano ang inyong plano patungkol sa bakuna kapag nagparehistro kayo. Maaaring gamitin ng inyong lokal na pasilidad-pangkalusugan ng VA ang impormasyong ito, para matukoy kung kailan makikipag-ugnayan sa inyo kapag karapat-dapat na ang inyong pangkat ayon sa panganib.`,
+      },
+      nonVeteran: {
+        boldedNote: `Kung kayo naman ay isang Beterano, asawa o tagapag-alaga na hindi tumatanggap ng pag-aaruga sa VA, `,
+        body: ` magparehistro para malaman kung nais ninyong magpabakuna sa VA. Kung karapat-dapat, makikipag-ugnayan kami sa inyo kapag may bakuna na para sa inyo. Sa ngayon, hindi pa namin alam kung kailan ito.`,
+      },
+    },
     buttonText: `Mag-sign up para manatiling nakikibalita (sa English)`,
   },
 };
