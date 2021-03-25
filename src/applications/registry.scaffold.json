@@ -35,6 +35,11 @@
     "widgetType": "pension-app-status"
   },
   {
+    "appName": "GI Bill Eligibility",
+    "rootUrl": "/education/eligibility",
+    "widgetType": "education-app-status"
+  },
+  {
     "appName": "How To Apply For A Veterans Burial Allowance",
     "rootUrl": "/burials-memorials/veterans-burial-allowance",
     "widgetType": "burials-app-status"
