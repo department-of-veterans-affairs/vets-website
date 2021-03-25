@@ -285,7 +285,9 @@ IntroductionPage.propTypes = {
   formData: PropTypes.object,
 };
 
+const introPageWithRouter = withRouter(IntroductionPage);
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withRouter(IntroductionPage));
+)(introPageWithRouter);
