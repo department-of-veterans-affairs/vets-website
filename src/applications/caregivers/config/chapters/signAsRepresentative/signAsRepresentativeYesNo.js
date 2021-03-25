@@ -1,11 +1,11 @@
 // import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { representativeFields } from 'applications/caregivers/definitions/constants';
 
-// const { veteran } = fullSchema.properties;
+// const { representative } = fullSchema.properties;
 // const veteranProps = veteran.properties;
 // const { address, phone } = fullSchema.definitions;
 
-const vetContactInfoPage = {
+const representativePage = {
   uiSchema: {
     [representativeFields.signAsRepresentative]: {
       'ui:title':
@@ -14,7 +14,7 @@ const vetContactInfoPage = {
       'ui:options': {
         labels: {
           yes: "Yes, I'd like to upload documents now",
-          noR:
+          noRep:
             'No, I am a legal representative but will upload documents later',
           no: 'No',
         },
@@ -27,10 +27,10 @@ const vetContactInfoPage = {
     properties: {
       [representativeFields.signAsRepresentative]: {
         type: 'string',
-        enum: ['yes', 'noR', 'no'],
+        enum: ['yes', 'noRep', 'no'],
       },
     },
   },
 };
 
-export default vetContactInfoPage;
+export default representativePage;
