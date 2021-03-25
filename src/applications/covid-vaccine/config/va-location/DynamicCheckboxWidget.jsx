@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 
 import { apiRequest } from 'platform/utilities/api';
 
-export default function DynamicCheckboxWidget({
-  onChange,
-  // options = {},
-}) {
+export function DynamicCheckboxWidget(props) {
+  // console.log(props);
+  const { onChange } = props;
   const [locations, setLocations] = useState([]);
 
-  useEffect(() => {
-    apiRequest('/vaccine_locations').then(resp => {
-      setLocations(resp.data.locations);
-    });
-  });
+  useEffect(
+    () => {
+      apiRequest('/vaccine_locations').then(resp => {
+        setLocations(resp.data.locations);
+      });
+    },
+    [props.zipcode],
+  );
 
   return (
     <fieldset className="fieldset-input vads-u-margin-top--0">
@@ -40,3 +43,14 @@ export default function DynamicCheckboxWidget({
     </fieldset>
   );
 }
+
+function mapStateToProps(state) {
+  return {
+    zipcode: state.form.data.zipCode,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  null,
+)(DynamicCheckboxWidget);
