@@ -40,6 +40,8 @@ export function subscribeComponentAnalyticsEvents(
       }
 
       recordEvent(dataLayer);
+      // Remove event-source from the dataLayer
+      recordEvent({ 'event-source': undefined });
     }
   }
 }
