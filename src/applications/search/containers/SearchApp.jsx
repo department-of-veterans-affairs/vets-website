@@ -95,13 +95,15 @@ class SearchApp extends React.Component {
     const { userInput, currentResultsQuery, page } = this.state;
 
     const userInputFromURL = this.props.router?.location?.query?.query;
-    const pageFromURL = this.props.router?.location?.query?.page;
+    const rawPageFromURL = this.props.router?.location?.query?.page;
+    const pageFromURL = rawPageFromURL
+      ? parseInt(rawPageFromURL, 10)
+      : undefined;
 
     const repeatSearch = userInputFromURL === userInput && pageFromURL === page;
 
     const queryChanged = userInput !== currentResultsQuery;
     const nextPage = queryChanged ? 1 : page;
-
     // Update URL
     this.props.router.push({
       pathname: '',
