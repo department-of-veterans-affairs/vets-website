@@ -5,7 +5,6 @@ import EmailWidget from './EmailWidget';
 import RadioWidget from './RadioWidget';
 import CheckboxWidget from './CheckboxWidget';
 import YesNoWidget from './YesNoWidget';
-import DynamicCheckboxWidget from '~/applications/covid-vaccine/config/va-location/DynamicCheckboxWidget';
 
 const widgets = {
   TextWidget,
@@ -15,7 +14,6 @@ const widgets = {
   RadioWidget,
   CheckboxWidget,
   yesNo: YesNoWidget,
-  dynamicCheckbox: DynamicCheckboxWidget,
 };
 
 export default widgets;
