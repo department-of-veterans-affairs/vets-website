@@ -24,7 +24,6 @@ export const Appointments = ({ appointments }) => {
   const cardDetails = {
     ctaIcon: 'calendar',
     ctaHref: '/health-care/schedule-view-va-appointments/appointments',
-    // ctaOnClick: recordDashboardClick('schedule-view-all-appointments'),
     ctaText: 'Schedule and view your appointments',
     cardTitle: 'Next appointment',
     line1: format(start, 'EEEE, MMMM Mo, yyyy'),

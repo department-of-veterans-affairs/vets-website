@@ -181,7 +181,6 @@ describe('HealthCare component', () => {
     });
 
     it('should render "Schedule and view your appointments"', async () => {
-      console.log(view.debug());
       expect(
         await view.queryByText(
           new RegExp(`Schedule and view your appointments`, 'i'),
