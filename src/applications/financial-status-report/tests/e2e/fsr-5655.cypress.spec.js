@@ -5,6 +5,8 @@ import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mockUser.json';
 import debts from './fixtures/mocks/debts.json';
+import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
+import { WIZARD_STATUS } from '../../wizard/constants';
 
 const testConfig = createTestConfig(
   {
@@ -14,6 +16,7 @@ const testConfig = createTestConfig(
       data: path.join(__dirname, 'fixtures', 'data'),
     },
     setupPerTest: () => {
+      sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
       cy.login(mockUser);
       cy.intercept('GET', '/v0/debts', debts);
       cy.get('@testData').then(testData => {
@@ -38,7 +41,7 @@ const testConfig = createTestConfig(
         });
       },
     },
-    // skip: true, // disable test until FSR is in production
+    skip: true, // test is passing but form is wip disabling test until changes are complete
   },
   manifest,
   formConfig,
