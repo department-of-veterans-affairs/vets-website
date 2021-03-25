@@ -148,7 +148,6 @@
     <!-- React root -->
     <div id="content">
       <main id="main" class="main">
-        
         <% if (widgetType) { %>
           <% if (widgetTemplate == 'navigation/facility_sidebar_nav') { %>
             <script nonce="**CSP_NONCE**" type="text/javascript">
@@ -159,7 +158,7 @@
           <article class="usa-content">
             <div data-template="paragraphs/react_widget" data-widget-type="<%= widgetType %>" data-widget-timeout="20">
               <div class="loading-indicator-container">
-                <div class="loading-indicator" role="progressbar" aria-valuetext></div>
+                <div class="loading-indicator" role="progressbar" aria-valuetext="Loading" aria-label="secondary"></div>
                 <span class="loading-indicator-message loading-indicator-message--normal"></span>
                 <span class="loading-indicator-message loading-indicator-message--slow vads-u-display--none"
                   aria-hidden="true">
