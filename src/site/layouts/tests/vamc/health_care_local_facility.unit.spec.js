@@ -8,7 +8,6 @@ describe('health_care_local_facility', () => {
   // TODO extend tests with more suites
   describe('PhoneNumbers', () => {
     let container;
-
     const data = parseFixture(
       'src/site/layouts/tests/vamc/fixtures/health_care_local_facility_no_phone_mental.json',
     );
