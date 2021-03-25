@@ -345,6 +345,7 @@ module.exports = (env = {}) => {
       rootUrl,
       template = {},
       widgetType,
+      widgetTemplate,
     }) =>
       new HtmlPlugin({
         chunks: ['polyfills', 'vendor', 'style', entryName],
@@ -359,6 +360,7 @@ module.exports = (env = {}) => {
           modifyScriptTags,
           modifyStyleTags,
           widgetType,
+          widgetTemplate,
 
           // Default template metadata.
           breadcrumbs_override: [], // eslint-disable-line camelcase

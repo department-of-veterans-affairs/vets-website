@@ -74,6 +74,7 @@
   {
     "appName": "VA Pittsburgh Health Care",
     "rootUrl": "/pittsburgh-health-care",
-    "widgetType": "side-nav"
+    "widgetType": "side-nav",
+    "widgetTemplate": "navigation/facility_sidebar_nav"
   }
 ]
