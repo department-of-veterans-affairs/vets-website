@@ -34,18 +34,24 @@ jobs:
         run: yarn install --frozen-lockfile --prefer-offline
 
       - name: Create test results folder
-        run: mkdir -p ./test-results
+        run: mkdir -p test-results
 
       - name: Run unit tests
         run: yarn test:unit --coverage
         env:
-          MOCHA_FILE: ./test-results/unit-tests.xml
+          MOCHA_FILE: test-results/unit-tests.xml
 
       - name: Generate coverage report by app
-        run: node ./script/app-coverage-report.js
+        run: node script/app-coverage-report.js
 
-      - name: Archive test results
-        uses: actions/upload-artifact@v2
+      - name: Publish test results
+        uses: mikepenz/action-junit-report@v2
         with:
-          name: unit-tests.xml
-          path: ./test-results/unit-tests.xml
+          report_paths: 'test-results/*.xml'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+#     - name: Archive test results
+#       uses: actions/upload-artifact@v2
+#       with:
+#         name: unit-tests.xml
+#         path: ./test-results/unit-tests.xml
