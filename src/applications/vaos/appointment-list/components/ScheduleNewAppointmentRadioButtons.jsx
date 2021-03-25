@@ -5,11 +5,11 @@ import { Link } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 import { FETCH_STATUS, GA_PREFIX } from 'applications/vaos/utils/constants';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import * as actions from '../../redux/actions';
+import * as actions from '../redux/actions';
 import {
   selectCanUseVaccineFlow,
   selectDirectScheduleSettingsStatus,
-} from '../../redux/selectors';
+} from '../redux/selectors';
 
 /**
  * React component used to conditionally render radio call-to-action buttons and start applicable workflow.
