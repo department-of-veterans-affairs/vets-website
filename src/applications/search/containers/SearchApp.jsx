@@ -94,6 +94,17 @@ class SearchApp extends React.Component {
     if (e) e.preventDefault();
     const { userInput, currentResultsQuery, page } = this.state;
 
+    let userInputFromAddress = '';
+    let pageFromAddress;
+
+    if (this.props.router.location.query) {
+      userInputFromAddress = this.props.router.location.query.query;
+      pageFromAddress = this.props.router.location.query.page;
+    }
+
+    const repeatSearch =
+      userInputFromAddress === userInput && pageFromAddress === page;
+
     const queryChanged = userInput !== currentResultsQuery;
     const nextPage = queryChanged ? 1 : page;
 
@@ -108,7 +119,7 @@ class SearchApp extends React.Component {
 
     // Fetch new results
     this.props.fetchSearchResults(userInput, nextPage, {
-      trackEvent: queryChanged,
+      trackEvent: queryChanged || repeatSearch,
       eventName: 'view_search_results',
       path: document.location.pathname,
       userInput,
