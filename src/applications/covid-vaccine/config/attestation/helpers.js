@@ -91,3 +91,35 @@ export const champvaLabel = (
     of the Department of Veteran Affairs) benefits
   </p>
 );
+
+export const noneApplyText = (
+  <>
+    <h3>
+      If none of the descriptions on this page fit you, we can't offer you a
+      vaccine at this time
+    </h3>
+    <AdditionalInfo triggerText="More information">
+      <p>
+        We can only offer vaccines to people who are eligible under the law.
+      </p>
+      <p>
+        Your employer, pharmacy, health care provider’s office, or local public
+        healthofficials may offer you a COVID-19 vaccine.
+      </p>
+      <p>
+        The Center for Disease Control and Prevention’s (CDC) online vaccine
+        finder tool can help you find COVID-19vaccines near you.
+      </p>
+      <p>
+        <a
+          href="https://www.cdc.gov/vaccines/covid-19/reporting/vaccinefinder/about.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="CDC COVID-19 vaccine finder (Open in a new window)"
+        >
+          Go to the CDC’s COVID-19 vaccine finder
+        </a>
+      </p>
+    </AdditionalInfo>
+  </>
+);

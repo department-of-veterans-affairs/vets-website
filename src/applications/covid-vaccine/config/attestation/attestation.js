@@ -39,7 +39,7 @@ export const uiSchema = {
           caregiverEnrolled: caregiverEnrolledLabel,
           caregiverOfVeteran: caregiverOfVeteranLabel,
           CHAMPVA: champvaLabel,
-          none: 'None of the above',
+          none: 'None of these descriptions fit me',
         },
       },
     },
