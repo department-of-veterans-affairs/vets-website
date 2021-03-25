@@ -52,6 +52,11 @@ const formConfig = {
           schema: notEligible.schema.notEligible,
           uiSchema: notEligible.uiSchema.notEligible,
         },
+      },
+    },
+    statementOfTruth: {
+      title: 'Certify these statements',
+      pages: {
         complianceAgreement: {
           depends: formData => !isTypeNone(formData),
           path: 'compliance-agreement',
