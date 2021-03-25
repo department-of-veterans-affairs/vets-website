@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import { selectFeatureHomepageRefresh } from '../redux/selectors';
 import PageLayout from './components/AppointmentsPage/PageLayout';
-import AppointmentsPageV2 from './components/AppointmentsPage/AppointmentsPageV2';
+import AppointmentsPageV2 from './components/AppointmentsPageV2/index';
 import AppointmentsPage from './components/AppointmentsPage/index';
 import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
 import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage/ConfirmedAppointmentDetailsPage';
