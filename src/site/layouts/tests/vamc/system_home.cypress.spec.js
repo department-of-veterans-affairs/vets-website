@@ -44,14 +44,17 @@ Cypress.Commands.add('checkElements', (page, isMobile) => {
 
   cy.window().then(win => {
     if (win.contentData) {
-      if (win.contentData.newsStoryTeasersFeatured.entities.length > 0) {
+      if (win.contentData?.newsStoryTeasersFeatured?.entities?.length > 0) {
         cy.get('#stories').contains('Stories');
         cy.get('a').contains('See all stories');
       } else {
-        cy.get('#events').should('not.exist');
+        cy.get('#stories').should('not.exist');
       }
 
-      if (win.contentData.allEventTeasers.entities.length > 0) {
+      if (
+        win.contentData?.eventTeasersFeatured?.entities?.length > 0 ||
+        win.contentData?.eventTeasersAll?.entities?.length > 0
+      ) {
         cy.get('#events').contains('Events');
       } else {
         cy.get('#events').should('not.exist');
@@ -63,7 +66,7 @@ Cypress.Commands.add('checkElements', (page, isMobile) => {
     }
   });
 
-  cy.get('h3').contains('Get updates');
+  cy.get('h2').contains('Get updates');
 });
 
 describe('VAMC system home page', () => {
