@@ -18,8 +18,8 @@ const getFile = filePath =>
 const getLayout = filePath => getFile(filePath);
 const parseFixture = filePath => JSON.parse(getFile(filePath));
 
-const makeHTMLFileName = (layPath, dataName) => {
-  const liquidFileName = layPath.match(/(\w|\d|\.|-)+$/g)[0];
+const makeHTMLFileName = (layoutPath, dataName) => {
+  const liquidFileName = layoutPath.match(/(\w|\d|\.|-)+$/g)[0];
   const fileName = liquidFileName.split('.')[0];
   return dataName ? `${fileName}.${dataName}.html` : `${fileName}.html`;
 };
