@@ -12,13 +12,14 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import {
   attestation,
   notEligible,
+  militaryHistory,
   complianceAgreement,
   personalInformation,
   addressInformation,
   vaLocation,
 } from './pages';
 
-import { isTypeNone } from './helpers';
+import { isTypeNone, isVeteran } from './helpers';
 
 const formConfig = {
   urlPrefix: '/',
@@ -56,6 +57,17 @@ const formConfig = {
           path: 'compliance-agreement',
           schema: complianceAgreement.schema.complianceAgreement,
           uiSchema: complianceAgreement.uiSchema.complianceAgreement,
+        },
+      },
+    },
+    militaryHistory: {
+      title: 'Tell us about your military service',
+      pages: {
+        militaryHistory: {
+          depends: formData => isVeteran(formData),
+          path: 'military-history',
+          schema: militaryHistory.schema.militaryHistory,
+          uiSchema: militaryHistory.uiSchema.militaryHistory,
         },
       },
     },
