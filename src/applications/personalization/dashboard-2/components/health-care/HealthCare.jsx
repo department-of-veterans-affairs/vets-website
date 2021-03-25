@@ -102,7 +102,7 @@ const HealthCare = ({
           <Appointments appointments={appointments} />
         )}
 
-        <div className="vads-u-display--flex vads-u-flex-direction--column cta-links vads-u-flex--1">
+        <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-flex--1">
           {!hasUpcomingAppointment && (
             <>
               <p>You have no appointments scheduled in the next 30 days.</p>

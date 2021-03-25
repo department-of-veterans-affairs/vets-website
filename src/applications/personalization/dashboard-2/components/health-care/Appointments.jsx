@@ -24,9 +24,8 @@ export const Appointments = ({ appointments }) => {
   const cardDetails = {
     ctaIcon: 'calendar',
     ctaHref: '/health-care/schedule-view-va-appointments/appointments',
-    ctaAriaLabel: 'Manage all appointments',
-    ctaOnClick: recordDashboardClick('manage-all-appointments'),
-    ctaText: 'Manage all appointments',
+    // ctaOnClick: recordDashboardClick('schedule-view-all-appointments'),
+    ctaText: 'Schedule and view your appointments',
     cardTitle: 'Next appointment',
     line1: format(start, 'EEEE, MMMM Mo, yyyy'),
     line2: `Time: ${format(start, 'h:mm aaaa')} ${nextAppointment?.timeZone}`,
@@ -34,19 +33,20 @@ export const Appointments = ({ appointments }) => {
   };
 
   return (
-    <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-flex--1 medium-screen:vads-u-margin-right--3">
+    <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-flex--1 medium-screen:vads-u-margin-right--3 small-screen:vads-u-margin-bottom--2">
       <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2p5 vads-u-padding-x--2p5">
         <h4 className="vads-u-margin-top--0 vads-u-font-size--h3">
           {cardDetails?.cardTitle}
         </h4>
-        <p>{cardDetails?.line1}</p>
-        <p>{cardDetails?.line2}</p>
-        <p>{cardDetails?.line3}</p>
+        <p className="vads-u-margin-bottom--1">{cardDetails?.line1}</p>
+        <p className="vads-u-margin-bottom--1 vads-u-margin-top--1">
+          {cardDetails?.line2}
+        </p>
+        <p className="vads-u-margin-top--1">{cardDetails?.line3}</p>
         <CTALink
           text={cardDetails.ctaText}
           icon={cardDetails.ctaIcon}
           href={cardDetails.ctaHref}
-          ariaLabel={cardDetails.ctaAriaLabel}
         />
       </div>
     </div>
