@@ -1,5 +1,6 @@
 // Node modules.
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
 import MY_VA_LINK from '../constants/MY_VA_LINK';
@@ -40,6 +41,33 @@ export function getAuthorizedLinkData(
 }
 
 export class Main extends Component {
+  static propTypes = {
+    megaMenuData: PropTypes.arrayOf(
+      PropTypes.shape({
+        href: PropTypes.string,
+        menuSections: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+      }).isRequired,
+    ).isRequired,
+    toggleMobileDisplayHidden: PropTypes.func.isRequired,
+    togglePanelOpen: PropTypes.func.isRequired,
+    updateCurrentSection: PropTypes.func.isRequired,
+    // From mapStateToProps.
+    data: PropTypes.arrayOf(
+      PropTypes.shape({
+        href: PropTypes.string,
+        menuSections: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+        title: PropTypes.string.isRequired,
+      }).isRequired,
+    ).isRequired,
+    loggedIn: PropTypes.bool.isRequired,
+    megaMenu: PropTypes.shape({
+      currentDropdown: PropTypes.string,
+      currentSection: PropTypes.string,
+      display: PropTypes.object,
+    }).isRequired,
+    showDashboard2: PropTypes.bool.isRequired,
+  };
+
   toggleDropDown = currentDropdown => {
     const isVisible = !!currentDropdown;
     if (isVisible) {
@@ -90,6 +118,8 @@ export class Main extends Component {
       linkClicked: this.linkClicked,
       columnThreeLinkClicked: this.columnThreeLinkClicked,
     };
+
+    console.log(this.props);
 
     return <MegaMenu {...childProps} />;
   }
