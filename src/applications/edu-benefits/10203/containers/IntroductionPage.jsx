@@ -222,8 +222,8 @@ export class IntroductionPage extends React.Component {
                 usually in the Registrar or Financial Aid office at the school.
               </p>
               <p>
-                If your application isn't approved, you’ll get a denial letter
-                in the mail.
+                If your application isn't approved, you'll get a denial letter
+                in the mail or a claim status notification by email.
               </p>
             </li>
           </ol>

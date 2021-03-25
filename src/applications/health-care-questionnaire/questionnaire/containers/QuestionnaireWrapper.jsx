@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import {
   selectShowQuestionnaire,
   selectLoadingFeatureFlags,
-} from '../../shared/selectors';
+} from '../../shared/redux-selectors';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import App from './App';

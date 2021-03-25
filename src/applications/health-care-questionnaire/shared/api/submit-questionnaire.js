@@ -1,4 +1,4 @@
-import { location as locationSelector } from '../../shared/utils/selectors';
+import { locationSelector } from '../../shared/utils/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import { removeFormApi } from 'platform/forms/save-in-progress/api';
 
@@ -70,10 +70,13 @@ const submit = async (form, formConfig) => {
     questionnaireResponse: formConfig.transformForSubmit(formConfig, form),
   };
   if (USE_MOCK_DATA) {
-    return new Promise((resolve, _reject) => {
-      resolve(body);
-      // reject(body);
-    });
+    return Promise.all([
+      await removeFormApi(form.formId),
+      new Promise((resolve, _reject) => {
+        resolve(body);
+        // reject(body);
+      }),
+    ]);
   } else {
     const eventData = {};
 

@@ -65,14 +65,14 @@ function Introduction({
                   : '/health-care/covid-19-vaccine/stay-informed/form'
               }
             >
-              Continue
+              Sign up now
             </a>
           </p>
         ) : (
           <>
             {isLoggedIn ? (
               <Link className="usa-button" to="/form">
-                Sign up to stay informed
+                Sign up now
               </Link>
             ) : (
               <>

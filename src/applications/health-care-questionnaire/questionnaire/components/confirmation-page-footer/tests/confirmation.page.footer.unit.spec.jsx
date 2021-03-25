@@ -13,13 +13,13 @@ describe('health care questionnaire - confirmation page footer -- phone numbers 
     );
     expect(
       mountedComponent.find('[data-testid="full-details"]').text(),
-    ).to.contain('NEW AMSTERDAM CBOC');
+    ).to.contain('Loma Linda VA Clinic');
     expect(
       mountedComponent.find('[data-testid="full-details"]').text(),
     ).to.contain('800-555-7710');
     expect(
       mountedComponent.find('[data-testid="full-details"]').text(),
-    ).to.contain('TEM MH PSO TRS IND93EH 2');
+    ).to.contain('LOM ACC TRAINING CLINIC');
     expect(
       mountedComponent.find('[data-testid="full-details"]').text(),
     ).to.contain('254-743-2867, ext. x0002');
