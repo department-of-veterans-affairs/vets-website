@@ -386,14 +386,14 @@ export class SearchMenu extends React.Component {
 
     return (
       <DropDownPanel
-        onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
         buttonText="Search"
         clickHandler={clickHandler}
-        dropdownPanelClassNames="vads-u-padding--0 vads-u-margin--0"
         cssClass={buttonClasses}
-        id="search"
+        dropdownPanelClassNames="vads-u-padding--0 vads-u-margin--0"
         icon={icon}
+        id="search"
         isOpen={isOpen}
+        onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
       >
         {makeForm()}
       </DropDownPanel>
