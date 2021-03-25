@@ -23,7 +23,9 @@ jobs:
         id: cache-dependencies
         uses: actions/cache@v2
         with:
-          path: ~/.cache/yarn
+          path: |
+            ~/.cache/yarn
+            node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
@@ -69,7 +71,9 @@ jobs:
         id: cache-dependencies
         uses: actions/cache@v2
         with:
-          path: ~/.cache/yarn
+          path: |
+            ~/.cache/yarn
+            node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
