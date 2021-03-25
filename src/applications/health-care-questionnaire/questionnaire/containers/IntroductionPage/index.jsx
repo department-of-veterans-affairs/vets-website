@@ -15,9 +15,11 @@ import IntroductionPageHelpers from '../../components/introduction-page';
 import environment from 'platform/utilities/environment';
 import { removeFormApi } from 'platform/forms/save-in-progress/api';
 
+import { selectQuestionnaireContext } from '../../../shared/redux-selectors';
 import {
-  location as locationSelector,
-  appointment as appointmentSelector,
+  organizationSelector,
+  appointmentSelector,
+  locationSelector,
 } from '../../../shared/utils/selectors';
 
 const IntroductionPage = props => {
@@ -25,7 +27,7 @@ const IntroductionPage = props => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
   const { isLoggedIn, route, savedForms, formId } = props;
-  const { appointment, location, organization } = props?.questionnaire?.context;
+  const { appointment, location, organization } = props?.context;
   if (!appointment?.id) {
     return (
       <>
@@ -34,7 +36,7 @@ const IntroductionPage = props => {
     );
   }
 
-  const facilityName = organization.name;
+  const facilityName = organizationSelector.getName(organization);
   const appointmentTime = appointmentSelector.getStartTime(appointment);
   let expirationTime = appointmentTime;
 
@@ -180,7 +182,7 @@ const IntroductionPage = props => {
       <div className="omb-info--container">
         <OMBInfo expDate={expirationTime} />
       </div>
-      {!environment.isProduction() && (
+      {environment.isLocalhost() && (
         <>
           <button
             onClick={() => {
@@ -199,7 +201,7 @@ const mapStateToProps = state => {
   return {
     pages: state?.form?.pages,
     isLoggedIn: state?.user?.login?.currentlyLoggedIn,
-    questionnaire: state?.questionnaireData,
+    context: selectQuestionnaireContext(state),
     savedForms: state?.user?.profile?.savedForms,
     formId: state.form.formId,
     form: state.form,

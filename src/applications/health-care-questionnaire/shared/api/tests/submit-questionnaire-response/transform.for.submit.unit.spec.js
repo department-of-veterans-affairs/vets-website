@@ -27,7 +27,7 @@ describe('health care questionnaire -- utils -- transform for submit --', () => 
               actor: {
                 reference:
                   'https://sandbox-api.va.gov/services/fhir/v0/r4/Location/I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000',
-                display: 'TEM MH PSO TRS IND93EH 2',
+                display: 'LOM ACC TRAINING CLINIC',
               },
               status: 'accepted',
             },
@@ -68,7 +68,7 @@ describe('health care questionnaire -- utils -- transform for submit --', () => 
             },
           ],
           status: 'active',
-          name: 'TEM MH PSO TRS IND93EH 2',
+          name: 'LOM ACC TRAINING CLINIC',
           description: 'BLDG 146, RM W02',
           mode: 'instance',
           type: [
@@ -181,7 +181,7 @@ describe('health care questionnaire -- utils -- transform for submit --', () => 
               actor: {
                 reference:
                   'https://sandbox-api.va.gov/services/fhir/v0/r4/Location/I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000',
-                display: 'TEM MH PSO TRS IND93EH 2',
+                display: 'LOM ACC TRAINING CLINIC',
               },
               status: 'accepted',
             },
@@ -222,7 +222,7 @@ describe('health care questionnaire -- utils -- transform for submit --', () => 
             },
           ],
           status: 'active',
-          name: 'TEM MH PSO TRS IND93EH 2',
+          name: 'LOM ACC TRAINING CLINIC',
           description: 'BLDG 146, RM W02',
           mode: 'instance',
           type: [
@@ -305,7 +305,7 @@ describe('health care questionnaire -- utils -- transform for submit --', () => 
               actor: {
                 reference:
                   'https://sandbox-api.va.gov/services/fhir/v0/r4/Location/I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000',
-                display: 'TEM MH PSO TRS IND93EH 2',
+                display: 'LOM ACC TRAINING CLINIC',
               },
               status: 'accepted',
             },
@@ -346,7 +346,7 @@ describe('health care questionnaire -- utils -- transform for submit --', () => 
             },
           ],
           status: 'active',
-          name: 'TEM MH PSO TRS IND93EH 2',
+          name: 'LOM ACC TRAINING CLINIC',
           description: 'BLDG 146, RM W02',
           mode: 'instance',
           type: [
@@ -433,7 +433,7 @@ describe('health care questionnaire -- utils -- transform for submit --', () => 
               actor: {
                 reference:
                   'https://sandbox-api.va.gov/services/fhir/v0/r4/Location/I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000',
-                display: 'TEM MH PSO TRS IND93EH 2',
+                display: 'LOM ACC TRAINING CLINIC',
               },
               status: 'accepted',
             },
@@ -474,7 +474,7 @@ describe('health care questionnaire -- utils -- transform for submit --', () => 
             },
           ],
           status: 'active',
-          name: 'TEM MH PSO TRS IND93EH 2',
+          name: 'LOM ACC TRAINING CLINIC',
           description: 'BLDG 146, RM W02',
           mode: 'instance',
           type: [
