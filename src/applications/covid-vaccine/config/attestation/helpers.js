@@ -94,21 +94,17 @@ export const champvaLabel = (
 
 export const noneApplyText = (
   <>
-    <h3>
-      If none of the descriptions on this page fit you, we can't offer you a
-      vaccine at this time
-    </h3>
-    <AdditionalInfo triggerText="More information">
+    <AdditionalInfo triggerText="If none of these roles describe you, we can’t offer you a COVID-19 vaccine. Learn about other options">
       <p>
         We can only offer vaccines to people who are eligible under the law.
       </p>
       <p>
         Your employer, pharmacy, health care provider’s office, or local public
-        healthofficials may offer you a COVID-19 vaccine.
+        health officials may offer you a COVID-19 vaccine.
       </p>
       <p>
         The Center for Disease Control and Prevention’s (CDC) online vaccine
-        finder tool can help you find COVID-19vaccines near you.
+        finder tool can help you find COVID-19 vaccines near you.
       </p>
       <p>
         <a

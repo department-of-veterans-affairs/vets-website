@@ -25,8 +25,6 @@ export const schema = {
   },
 };
 
-// TODO conditional require the one that will be shown.
-
 export const uiSchema = {
   complianceAgreement: {
     'ui:title': 'Statement of truth',
