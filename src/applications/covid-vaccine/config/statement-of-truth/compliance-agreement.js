@@ -39,6 +39,9 @@ export const uiSchema = {
           return formData.applicatntType !== 'veteran';
         },
       },
+      'ui:required': formData => {
+        return formData.applicatntType === 'veteran';
+      },
       'ui:widget': 'checkbox',
       'ui:title': statementOfTruthVeteran,
     },
@@ -48,6 +51,9 @@ export const uiSchema = {
         hideIf: formData => {
           return formData.applicatntType !== 'spouse';
         },
+      },
+      'ui:required': formData => {
+        return formData.applicatntType === 'spouse';
       },
       'ui:widget': 'checkbox',
       'ui:title': statementOfTruthSpouse,
@@ -62,6 +68,12 @@ export const uiSchema = {
           );
         },
       },
+      'ui:required': formData => {
+        return (
+          formData.applicatntType === 'caregiverEnrolled' ||
+          formData.applicatntType === 'caregiverOfVeteran'
+        );
+      },
       'ui:widget': 'checkbox',
       'ui:title': statementOfTruthCaregiver,
     },
@@ -71,6 +83,9 @@ export const uiSchema = {
         hideIf: formData => {
           return formData.applicatntType !== 'CHAMPVA';
         },
+      },
+      'ui:required': formData => {
+        return formData.applicatntType === 'CHAMPVA';
       },
       'ui:widget': 'checkbox',
       'ui:title': statementOfTruthChampva,
