@@ -36,11 +36,11 @@ export const uiSchema = {
       'ui:options': {
         hideLabelText: true,
         hideIf: formData => {
-          return formData.applicatntType !== 'veteran';
+          return formData.applicantType !== 'veteran';
         },
       },
       'ui:required': formData => {
-        return formData.applicatntType === 'veteran';
+        return formData.applicantType === 'veteran';
       },
       'ui:widget': 'checkbox',
       'ui:title': statementOfTruthVeteran,
@@ -49,11 +49,11 @@ export const uiSchema = {
       'ui:options': {
         hideLabelText: true,
         hideIf: formData => {
-          return formData.applicatntType !== 'spouse';
+          return formData.applicantType !== 'spouse';
         },
       },
       'ui:required': formData => {
-        return formData.applicatntType === 'spouse';
+        return formData.applicantType === 'spouse';
       },
       'ui:widget': 'checkbox',
       'ui:title': statementOfTruthSpouse,
@@ -63,15 +63,15 @@ export const uiSchema = {
         hideLabelText: true,
         hideIf: formData => {
           return (
-            formData.applicatntType !== 'caregiverEnrolled' &&
-            formData.applicatntType !== 'caregiverOfVeteran'
+            formData.applicantType !== 'caregiverEnrolled' &&
+            formData.applicantType !== 'caregiverOfVeteran'
           );
         },
       },
       'ui:required': formData => {
         return (
-          formData.applicatntType === 'caregiverEnrolled' ||
-          formData.applicatntType === 'caregiverOfVeteran'
+          formData.applicantType === 'caregiverEnrolled' ||
+          formData.applicantType === 'caregiverOfVeteran'
         );
       },
       'ui:widget': 'checkbox',
@@ -81,11 +81,11 @@ export const uiSchema = {
       'ui:options': {
         hideLabelText: true,
         hideIf: formData => {
-          return formData.applicatntType !== 'CHAMPVA';
+          return formData.applicantType !== 'CHAMPVA';
         },
       },
       'ui:required': formData => {
-        return formData.applicatntType === 'CHAMPVA';
+        return formData.applicantType === 'CHAMPVA';
       },
       'ui:widget': 'checkbox',
       'ui:title': statementOfTruthChampva,

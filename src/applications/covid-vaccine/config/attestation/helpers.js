@@ -1,60 +1,93 @@
 import React from 'react';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+
+const activeDutyAccordianContent = (
+  <>
+    <p>
+      Active-duty service means you served full-time duty in any of these ways
+      (other than for training only):
+    </p>
+    <ul>
+      <li>In the U.S. Armed Forces (including Reserves)</li>
+      <li>
+        As a commissioned officer of the Regular or Reserve Corp of the Public
+        Health Service, <strong>or</strong>
+      </li>
+      <li>
+        As a commissioned officer of the National Oceanic and Atmospheric
+        Administration (or Coast and Geodetic Survey), <strong>or</strong>
+      </li>
+      <li>
+        As a Cadet at the U.S. Military, Air Force, or Coast Guard Academy,{' '}
+        <strong>or</strong>
+      </li>
+      <li>As a midshipman at the United States Naval Academy</li>
+    </ul>
+  </>
+);
 
 export const veteranLabel = (
   <>
     <p>
       <strong>Eligible Veteran</strong>. To be eligible for a COVID-19 vaccine
-      at VA under this law, a Veteran must meet these 2 requirements:
+      at VA, both of these statements must be true for you:
     </p>
     <ul>
       <li>
-        They served in the active military, naval, or air service,{' '}
-        <strong>and</strong>
+        You served on active duty (other than for training) or have a
+        service-connected disability, <strong>and</strong>
       </li>
-      <li>
-        They were discharged from service under conditions other than
-        dishonorable.
-      </li>
+      <li>You didn't receive a dishonorable discharge.</li>
     </ul>
+    <AdditionalInfo triggerText="What counts as active duty service?">
+      {activeDutyAccordianContent}
+    </AdditionalInfo>
   </>
 );
 
 export const spouseLabel = (
   <p>
-    <strong>Spouse</strong> of a Veteran
+    <strong>Spouse</strong> of an eligible Veteran
   </p>
 );
 
 export const caregiverEnrolledLabel = (
   <>
     <p>
-      <strong>Caregiver</strong> enrolled in one of these VA programs
+      <strong>Eligible caregiver</strong> enrolled in an official VA caregiver
+      program
     </p>
-    <ul>
-      <li>Program of Comprehensive Assistance for Caregivers, or</li>
-      <li>General Caregiver Support Services program</li>
-    </ul>
+    <AdditionalInfo triggerText="What programs does this include?">
+      <p>This includes caregivers enrolled in these programs:</p>
+      <ul>
+        <li>The Program of Comprehensive Assistance for Family Caregivers</li>
+        <li>The General Caregiver Support Services program</li>
+      </ul>
+    </AdditionalInfo>
   </>
 );
 
 export const caregiverOfVeteranLabel = (
   <>
     <p>
-      <strong>Caregiver</strong> of a Veteran who is enrolled in one of these VA
-      programs
+      <strong>Eligible caregiver</strong> of a Veteran who is enrolled in an
+      official VA home-based or long-term care program
     </p>
-    <ul>
-      <li>Medical Foster Home program, or</li>
-      <li>Bowel or Bladder program, or</li>
-      <li>Home Base Promary Care program, or</li>
-      <li>Veteran Directed Care program</li>
-    </ul>
+    <AdditionalInfo triggerText="What programs does this include?">
+      <p>This includes caregivers enrolled in these programs:</p>
+      <ul>
+        <li>Medical Foster Home program</li>
+        <li>Bowel and Bladder program</li>
+        <li>Home Based Primary Care program</li>
+        <li>Veteran Directed Care program</li>
+      </ul>
+    </AdditionalInfo>
   </>
 );
 
 export const champvaLabel = (
   <p>
-    <strong>Reciepient of CHAMPVA</strong> (Civilian Health and Medical Program
+    <strong>Recipient of CHAMPVA</strong> (Civilian Health and Medical Program
     of the Department of Veteran Affairs) benefits
   </p>
 );
