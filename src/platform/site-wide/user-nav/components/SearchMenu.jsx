@@ -85,7 +85,7 @@ export class SearchMenu extends React.Component {
     // end early / clear suggestions if user input is too short
     if (userInput?.length <= 2) {
       if (this.state.suggestions.length > 0) {
-        this.setState({ suggestions: [] });
+        this.setState({ suggestions: [], savedSuggestions: [] });
       }
 
       return;
@@ -104,7 +104,7 @@ export class SearchMenu extends React.Component {
         const sortedSuggestions = suggestions.sort(function(a, b) {
           return a.length - b.length;
         });
-        this.setState({ suggestions: sortedSuggestions });
+        this.setState({ suggestions: sortedSuggestions, savedSuggestions: [] });
         return;
       }
       this.setState({ suggestions, savedSuggestions: [] });

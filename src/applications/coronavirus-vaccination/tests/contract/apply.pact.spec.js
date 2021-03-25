@@ -1,5 +1,8 @@
 import contractTest from 'platform/testing/contract';
-import { like, term } from '@pact-foundation/pact/dsl/matchers';
+import { Matchers } from '@pact-foundation/pact';
+
+const { like, term } = Matchers;
+
 import { retrievePreviouslySubmittedForm, saveForm } from '../../api/';
 import authenticatedApplicationData from '../cypress/fixtures/data/authenticated-coronavirus-vaccination-application.json';
 import unauthenticatedApplicationData from '../cypress/fixtures/data/unauthenticated-coronavirus-vaccination-application.json';

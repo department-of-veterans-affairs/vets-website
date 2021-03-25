@@ -1,4 +1,4 @@
-import { location as locationSelector } from '../../shared/utils/selectors';
+import { locationSelector } from '../../shared/utils/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import { removeFormApi } from 'platform/forms/save-in-progress/api';
 

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { questionnaireResponse } from '../index';
+import { questionnaireResponseSelector as questionnaireResponse } from '../index';
 
 describe('health care questionnaire -- utils -- get questionnaire response status --', () => {
   it('QR is undefined', () => {

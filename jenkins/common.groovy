@@ -312,7 +312,9 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 
 def prearchive(dockerContainer, envName) {
   dockerContainer.inside(DOCKER_ARGS) {
-    sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath"
+    if (envName == 'vagovprod') {
+      sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath"
+    }
     sh "cd /application && node script/prearchive.js --buildtype=${envName}"
   }
 }
