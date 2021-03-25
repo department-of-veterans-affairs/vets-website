@@ -1,4 +1,8 @@
-import { getStatus, getStartTime } from './appointment.selectors';
+import {
+  getStatus,
+  getStartTime,
+  getBookingNote,
+} from './appointment.selectors';
 import { getStatus as getQRStatus } from './questionnaire.response.selectors';
 import { getType, getName, getPhoneNumber } from './location.selector';
 import {
@@ -11,6 +15,7 @@ import {
 const appointment = {
   getStatus,
   getStartTime,
+  getBookingNote,
 };
 
 const questionnaireResponse = {
@@ -30,4 +35,9 @@ const organization = {
   getFacilityIdentifier,
 };
 
-export { appointment, questionnaireResponse, location, organization };
+export {
+  appointment as appointmentSelector,
+  questionnaireResponse as questionnaireResponseSelector,
+  location as locationSelector,
+  organization as organizationSelector,
+};

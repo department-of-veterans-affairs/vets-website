@@ -64,11 +64,11 @@ export default function useGetSearchResults(articles, query, page) {
           0,
         ),
 
-        // Number of times a keyword is found in the article's description.
+        // Number of times a keyword is found in the article's introText.
         keywordsCountsDescription: keywords?.reduce(
           (keywordInstances, keyword) =>
             keywordInstances +
-            article.description.toLowerCase()?.split(keyword)?.length -
+            article.introText.toLowerCase()?.split(keyword)?.length -
             1,
           0,
         ),
@@ -76,14 +76,13 @@ export default function useGetSearchResults(articles, query, page) {
         wholePhraseMatchCounts:
           article.title.toLowerCase()?.split(query.toLowerCase())?.length -
           1 +
-          (article.description.toLowerCase()?.split(query.toLowerCase())
-            ?.length -
+          (article.introText.toLowerCase()?.split(query.toLowerCase())?.length -
             1),
       }));
 
       if (environment.isProduction()) {
         // Sort first by query word instances found in title descending
-        // Sort ties then by query word instances found in description descending
+        // Sort ties then by query word instances found in introText descending
         // Sort ties then by alphabetical descending
         orderedResults = orderBy(
           filteredArticles,
@@ -91,9 +90,9 @@ export default function useGetSearchResults(articles, query, page) {
           ['desc', 'desc', 'asc'],
         );
       } else {
-        // Sort first by the number of exact query matches (ignoring casing) in the title and description
+        // Sort first by the number of exact query matches (ignoring casing) in the title and introText
         // Sort ties by query word instances found in title descending
-        // Sort ties then by query word instances found in description descending
+        // Sort ties then by query word instances found in introText descending
         // Sort ties then by alphabetical descending
         orderedResults = orderBy(
           filteredArticles,

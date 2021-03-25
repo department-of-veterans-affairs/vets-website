@@ -1,4 +1,4 @@
-import { getAppointTypeFromAppointment } from '../utils';
+import { locationSelector } from '../../shared/utils/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import { removeFormApi } from 'platform/forms/save-in-progress/api';
 
@@ -100,7 +100,8 @@ const transformForSubmit = (_formConfig, form) => {
     ? form.data['hidden:questionnaire'][0]
     : {};
   const appointment = form.data['hidden:appointment'];
-  const type = getAppointTypeFromAppointment(appointment, { titleCase: true });
+  const clinic = form.data['hidden:clinic'];
+  const type = locationSelector.getType(clinic, { titleCase: true });
   const title = `${type} questionnaire`;
   const {
     reasonForVisit,
