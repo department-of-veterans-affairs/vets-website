@@ -52,6 +52,8 @@ export class Main extends Component {
     togglePanelOpen: PropTypes.func.isRequired,
     updateCurrentSection: PropTypes.func.isRequired,
     // From mapStateToProps.
+    currentDropdown: PropTypes.string,
+    currentSection: PropTypes.string,
     data: PropTypes.arrayOf(
       PropTypes.shape({
         href: PropTypes.string,
@@ -59,12 +61,8 @@ export class Main extends Component {
         title: PropTypes.string.isRequired,
       }).isRequired,
     ).isRequired,
+    display: PropTypes.object,
     loggedIn: PropTypes.bool.isRequired,
-    megaMenu: PropTypes.shape({
-      currentDropdown: PropTypes.string,
-      currentSection: PropTypes.string,
-      display: PropTypes.object,
-    }).isRequired,
     showDashboard2: PropTypes.bool.isRequired,
   };
 
@@ -119,8 +117,6 @@ export class Main extends Component {
       columnThreeLinkClicked: this.columnThreeLinkClicked,
     };
 
-    console.log(this.props);
-
     return <MegaMenu {...childProps} />;
   }
 }
@@ -142,9 +138,11 @@ const mapStateToProps = (state, ownProps) => {
   );
 
   return {
+    currentDropdown: state.megaMenu?.currentDropdown,
+    currentSection: state.megaMenu?.currentSection,
     data,
+    display: state.megaMenu?.display,
     loggedIn,
-    megaMenu: state.megaMenu,
     showDashboard2,
   };
 };
