@@ -9,6 +9,9 @@ import { selectUnreadMessagesCount } from '~/applications/personalization/dashbo
 import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction } from '~/applications/personalization/appointments/actions';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { getMedicalCenterNameByID } from '~/platform/utilities/medical-centers/medical-centers';
+
+import { differenceInDays } from 'date-fns';
+
 import {
   selectCernerAppointmentsFacilities,
   selectCernerMessagingFacilities,
@@ -37,6 +40,11 @@ const HealthCare = ({
   dataLoadingDisabled = false,
   shouldShowLoadingIndicator,
 }) => {
+  const nextAppointment = appointments?.[0];
+  const start = new Date(nextAppointment?.startsAt);
+  const today = new Date();
+  const hasUpcomingAppointment = differenceInDays(start, today) < 30;
+
   useEffect(
     () => {
       if (!dataLoadingDisabled) {
@@ -89,10 +97,24 @@ const HealthCare = ({
       </h2>
 
       <div className="vads-u-display--flex medium-screen:vads-u-flex-direction--row vads-u-flex-direction--column">
-        {/* Appointments */}
-        <Appointments appointments={appointments} />
+        {hasUpcomingAppointment && (
+          /* Appointments */
+          <Appointments appointments={appointments} />
+        )}
 
         <div className="vads-u-display--flex vads-u-flex-direction--column cta-links vads-u-flex--1">
+          {!hasUpcomingAppointment && (
+            <>
+              <p>You have no appointments scheduled in the next 30 days.</p>
+              <IconCTALink
+                href="/health-care/schedule-view-va-appointments/appointments"
+                icon="calendar-check"
+                newTab
+                text="Schedule and view your appointments"
+              />
+            </>
+          )}
+
           {/* Messages */}
           <IconCTALink
             boldText={unreadMessagesCount > 0}
