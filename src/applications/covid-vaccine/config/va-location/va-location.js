@@ -1,3 +1,5 @@
+import { LocationFinder } from './location-finder';
+
 export const schema = {
   vaLocation: {
     type: 'object',
@@ -11,6 +13,11 @@ export const schema = {
 
 export const uiSchema = {
   vaLocation: {
-    location: {},
+    location: {
+      'ui:widget': LocationFinder,
+      'ui:options': {
+        hideLabelText: true,
+      },
+    },
   },
 };

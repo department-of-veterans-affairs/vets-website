@@ -1,8 +1,3 @@
-export const isTypeNone = formData => {
-  return formData.applicantType === 'none';
-  // if (formData.applicantType == 'none') {
-  //   return true;
-  // } else {
-  //   return false;
-  // }
-};
+export const isTypeNone = formData => formData?.applicantType === 'none';
+
+export const isVeteran = formData => formData?.applicantType === 'veteran';

@@ -46,6 +46,14 @@ export const schema = {
       'view:confirmEmail': {
         type: 'string',
       },
+      homePhone: {
+        type: 'string',
+        pattern: '\\(?\\d{3}\\)?-?\\d{3}-?\\d{4}$',
+      },
+      mobilePhone: {
+        type: 'string',
+        pattern: '\\(?\\d{3}\\)?-?\\d{3}-?\\d{4}$',
+      },
     },
   },
 };
@@ -65,7 +73,7 @@ export const uiSchema = {
       'ui:title': 'Line 2',
     },
     addressLine3: {
-      'ui:title': 'Line 2',
+      'ui:title': 'Line 3',
     },
     city: {
       'ui:title': 'City',
@@ -97,6 +105,18 @@ export const uiSchema = {
         },
       ],
       'ui:title': 'Confirm email address',
+    },
+    homePhone: {
+      'ui:title': 'Home telephone number',
+      'ui:required': () => {
+        return true;
+      },
+    },
+    mobilePhone: {
+      'ui:title': 'Mobile telephone number',
+      'ui:required': () => {
+        return true;
+      },
     },
   },
 };

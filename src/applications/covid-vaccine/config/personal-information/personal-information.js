@@ -1,4 +1,5 @@
 import React from 'react';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 
 export const schema = {
   personalInformation: {
@@ -7,7 +8,13 @@ export const schema = {
       firstName: {
         type: 'string',
       },
+      middleName: {
+        type: 'string',
+      },
       lastName: {
+        type: 'string',
+      },
+      suffix: {
         type: 'string',
       },
       birthDate: {
@@ -16,14 +23,6 @@ export const schema = {
       },
       ssn: {
         type: 'string',
-      },
-      email: {
-        type: 'string',
-        format: 'email',
-      },
-      phone: {
-        type: 'string',
-        pattern: '\\(?\\d{3}\\)?-?\\d{3}-?\\d{4}$',
       },
     },
   },
@@ -36,47 +35,64 @@ export const uiSchema = {
       'ui:errorMessages': {
         required: 'Please enter your first name.',
       },
-      // 'ui:disabled': true,
+      'ui:required': () => {
+        return true;
+      },
+    },
+    middleName: {
+      'ui:title': 'Middle name',
     },
     lastName: {
       'ui:title': 'Last name',
       'ui:errorMessages': {
         required: 'Please enter your last name.',
       },
-      // 'ui:disabled': true,
+      'ui:required': () => {
+        return true;
+      },
+    },
+    suffix: {
+      'ui:title': 'Spouse’s suffix',
+      'ui:options': {
+        widgetClassNames: 'form-select-medium',
+      },
     },
     birthDate: {
       'ui:title': 'Date of birth',
-
+      'ui:description': () => (
+        <span>
+          <b>Note: </b>
+          Your date of birth helps us match your information to your Veteran
+          records. We can then share your vaccine plans with your local VA
+          health facility so they can contact you when you’re eligible to get a
+          vaccine.
+        </span>
+      ),
       'ui:widget': 'date',
-      // 'ui:disabled': true,
+      'ui:required': () => {
+        return true;
+      },
     },
     ssn: {
-      'ui:title': 'Social Security number (SSN)',
-
-      'ui:options': {
-        widgetClassNames: 'usa-input-medium',
-        // hideIf: formData => formData.isIdentityVerified,
-      },
-      'ui:errorMessages': {
-        pattern: 'Please enter a valid 9 digit SSN (dashes allowed)',
-        required: 'Please enter a SSN',
-      },
-    },
-    email: {
-      'ui:title': 'Email address',
-      'ui:widget': 'email',
-      'ui:errorMessages': {
-        required: 'Please enter your email address, using this format: X@X.com',
-        pattern:
-          'Please enter your email address again, using this format: X@X.com',
-      },
-    },
-    phone: {
-      'ui:title': 'Phone',
-      'ui:errorMessages': {
-        required: 'Please enter your phone number',
-        pattern: 'Please enter a valid phone number',
+      ...ssnUI,
+      ...{
+        'ui:title': 'Social Security number (SSN)',
+        'ui:description': () => (
+          <span>
+            <b>Note: </b>
+            Your <abbr title="Social Security Number">SSN</abbr> helps us match
+            your information to your Veteran records. We can then share your
+            vaccine plans with your local VA health facility so they can contact
+            you when you’re eligible to get a vaccine.
+          </span>
+        ),
+        'ui:errorMessages': {
+          pattern: 'Please enter a valid 9 digit SSN (dashes allowed)',
+          required: 'Please enter a SSN',
+        },
+        'ui:required': () => {
+          return true;
+        },
       },
     },
   },
