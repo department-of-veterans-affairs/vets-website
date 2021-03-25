@@ -65,14 +65,14 @@ function Introduction({
                 });
               }}
             >
-              Continue
+              Sign up now
             </Link>
           </p>
         ) : (
           <>
             {isLoggedIn ? (
               <Link className="usa-button" to="/form">
-                Sign up to stay informed
+                Sign up now
               </Link>
             ) : (
               <>
