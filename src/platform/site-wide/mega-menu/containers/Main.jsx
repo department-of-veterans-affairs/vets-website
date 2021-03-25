@@ -1,6 +1,5 @@
 // Node modules.
 import React, { Component } from 'react';
-import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 // Relative imports.
 import MY_VA_LINK from '../constants/MY_VA_LINK';
