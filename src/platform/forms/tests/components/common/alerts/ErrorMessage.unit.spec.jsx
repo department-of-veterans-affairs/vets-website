@@ -56,4 +56,12 @@ describe('Common ErrorMessage component', () => {
 
     tree.unmount();
   });
+
+  it('should apply tabindex when rendered', () => {
+    const tree = render(<ErrorMessage testId="12345" active />);
+
+    const element = tree.getByTestId('12345');
+
+    expect(element.getAttribute('tabindex')).to.equal('-1');
+  });
 });
