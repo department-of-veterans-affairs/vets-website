@@ -12,6 +12,13 @@
     }
   },
   {
+    "appName": "Search",
+    "rootUrl": "/search",
+    "template": {
+      "title": "Search Results"
+    }
+  },
+  {
     "appName": "Find Forms",
     "rootUrl": "/find-forms",
     "widgetType": "find-va-forms"
@@ -68,5 +75,10 @@
     "appName": "How To Apply For The GI Bill",
     "rootUrl": "/education/eligibility",
     "widgetType": "education-app-status"
+  },
+  {
+    "appName": "VA Pittsburgh Health Care",
+    "rootUrl": "/pittsburgh-health-care",
+    "widgetType": "side-nav"
   }
 ]
