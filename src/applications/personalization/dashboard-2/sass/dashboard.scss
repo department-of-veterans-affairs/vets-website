@@ -5,7 +5,19 @@
 }
 
 .dashboard {
-  .health-care {
+  .health-care-wrapper {
+
+    .health-care {
+      width: 520px;
+
+      @media (max-width: $small-screen) {
+        width: 100%;
+      }
+
+      @media (min-width: $large-screen) {
+        width: 100%;
+      }
+    }
 
     .cta-link:nth-of-type(1) {
       border-top: 1px solid $color-primary-alt-light;
@@ -21,13 +33,6 @@
       &:hover {
         background-color: $color-gray-lightest;
         cursor: pointer;
-      }
-    }
-    .half-width {
-      .cta-link {
-        @media (min-width: $small-screen) {
-          width: 50%;
-        }
       }
     }
   }
