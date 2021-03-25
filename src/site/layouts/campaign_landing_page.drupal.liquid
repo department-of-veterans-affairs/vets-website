@@ -657,10 +657,10 @@
 <!-- =============== -->
 <script>
   function checkCLPAuth() {
-    var clpPassword = prompt('This page is in BETA. Please enter the password to access it:');
+    var clpPassphrase = prompt('This page is in BETA. Please enter the passphrase to access it:');
 
-    // Escape early if the password is incorrect.
-    if (clpPassword !== 'clptest123') {
+    // Escape early if the passphrase is incorrect.
+    if (clpPassphrase !== 'clptest123') {
       checkCLPAuth();
       return;
     }
