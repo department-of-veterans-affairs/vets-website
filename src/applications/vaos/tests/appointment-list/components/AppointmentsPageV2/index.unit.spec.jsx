@@ -27,7 +27,7 @@ import {
 } from '../../../mocks/setup';
 
 import reducers from '../../../../redux/reducer';
-import AppointmentsPageV2 from '../../../../appointment-list/components/AppointmentsPage/AppointmentsPageV2';
+import AppointmentsPageV2 from '../../../../appointment-list/components/AppointmentsPageV2';
 import userEvent from '@testing-library/user-event';
 
 const initialState = {
