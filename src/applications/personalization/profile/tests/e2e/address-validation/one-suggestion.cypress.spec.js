@@ -5,7 +5,7 @@ describe('Personal and contact information', () => {
     it('should successfully update on Desktop', () => {
       setUp('one-suggestion');
 
-      cy.findByLabelText(/^street address/i)
+      cy.findByLabelText(/^street address \(/i)
         .clear()
         .type('400 65th st');
       cy.findByLabelText(/^street address line 2/i).clear();

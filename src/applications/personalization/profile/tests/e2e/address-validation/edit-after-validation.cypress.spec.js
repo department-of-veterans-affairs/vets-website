@@ -14,7 +14,7 @@ describe('Personal and contact information', () => {
         'disabled',
       );
 
-      cy.findByLabelText(/^street address/i)
+      cy.findByLabelText(/^street address \(/i)
         .clear()
         .type(addressLine1);
       cy.findAllByLabelText(/^street address line 2/i)
@@ -49,7 +49,10 @@ describe('Personal and contact information', () => {
       cy.findByRole('button', { name: /edit your address/i }).click();
 
       // confirm the address we just entered is in the form
-      cy.findByLabelText(/^street address/i).should('have.value', addressLine1);
+      cy.findByLabelText(/^street address \(/i).should(
+        'have.value',
+        addressLine1,
+      );
       cy.findAllByLabelText(/^street address line 2/i).should(
         'have.value',
         addressLine2,

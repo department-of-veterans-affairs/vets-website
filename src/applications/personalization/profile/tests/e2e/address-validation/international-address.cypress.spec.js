@@ -7,7 +7,7 @@ describe('Personal and contact information', () => {
 
       cy.findByLabelText(/Country/i).select('NLD');
 
-      cy.findByLabelText(/^street address/i)
+      cy.findByLabelText(/^street address \(/i)
         .clear()
         .type('Dam 1');
       cy.findByLabelText(/^street address line 2/i).clear();

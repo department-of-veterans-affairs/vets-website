@@ -6,7 +6,7 @@ describe('Personal and contact information', () => {
       it('should update successfully without showing the validation screen', () => {
         setUp('valid-address');
 
-        cy.findByLabelText(/^street address/i)
+        cy.findByLabelText(/^street address \(/i)
           .clear()
           .type('36320 Coronado Dr');
         cy.findByLabelText(/^street address line 2/i).clear();

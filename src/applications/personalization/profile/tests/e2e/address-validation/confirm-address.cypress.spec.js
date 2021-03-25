@@ -5,7 +5,7 @@ describe('Personal and contact information', () => {
     it('should successfully update on Desktop', () => {
       setUp('confirm-address');
 
-      cy.findByLabelText(/^street address/i)
+      cy.findByLabelText(/^street address \(/i)
         .clear()
         .type('36310 Coronado Dr');
 
