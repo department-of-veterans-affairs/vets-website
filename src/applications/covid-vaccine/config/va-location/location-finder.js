@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { mockLocations } from '../../actions/mockData';
 
-export const LocationFinder = props => {
-  console.log(props.locations);
+export const LocationFinder = () => {
   return (
     <>
       <p>
@@ -46,12 +45,4 @@ const mapStateToProps = store => ({
   locations: store,
 });
 
-const ReduxWrapped = connect(mapStateToProps)(LocationFinder);
-
-class CategorySelectWrapper extends Component {
-  render() {
-    return <ReduxWrapped {...this.props} />;
-  }
-}
-
-export default CategorySelectWrapper;
+export default connect(mapStateToProps)(LocationFinder);

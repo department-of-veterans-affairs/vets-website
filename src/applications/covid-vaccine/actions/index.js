@@ -8,7 +8,7 @@ const getLocations = () => async dispatch => {
   dispatch({ type: GET_LOCATIONS_STARTED });
   const response = mockLocations;
   if (response.errors) {
-    dispatch({ type: GET_LOCATIONS_FAILED, response: error });
+    dispatch({ type: GET_LOCATIONS_FAILED, response: 'error' });
   } else {
     dispatch({ type: GET_LOCATIONS_SUCCEEDED, response });
   }

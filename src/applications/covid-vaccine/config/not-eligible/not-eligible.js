@@ -1,7 +1,6 @@
 import React from 'react';
 
-const notEligibleText = props => {
-  console.log(props);
+const notEligibleText = () => {
   return (
     <>
       <p>You are not eligible</p>
