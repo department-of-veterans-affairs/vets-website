@@ -19526,7 +19526,7 @@ verror@1.10.0:
     extsprintf "^1.2.0"
 
 "vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#7f003afd86f73155568cfc81676999beedea8032":
-  version "18.6.8"
+  version "18.6.9"
   resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#7f003afd86f73155568cfc81676999beedea8032"
 
 vinyl-file@^2.0.0:
