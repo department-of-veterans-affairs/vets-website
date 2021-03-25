@@ -32,7 +32,7 @@ export default class ArrayField extends React.Component {
   constructor(props) {
     super(props);
     // Throw an error if there’s no viewField (should be React component)
-    if (!isReactComponent(typeof this.props.uiSchema['ui:options'].viewField)) {
+    if (!isReactComponent(this.props.uiSchema['ui:options'].viewField)) {
       throw new Error(
         `No viewField found in uiSchema for ArrayField ${
           this.props.idSchema.$id
