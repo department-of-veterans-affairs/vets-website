@@ -33,7 +33,10 @@ const IntroductionPage = ({
 
   const getFeatureFlip = useCallback(
     () => {
-      setFormData({ ...formData, canUpload1010cgPOA });
+      setFormData({
+        ...formData,
+        'view:canUpload1010cgPOA': canUpload1010cgPOA,
+      });
     },
     [setFormData, canUpload1010cgPOA],
   );
