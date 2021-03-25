@@ -656,17 +656,17 @@
 <!-- TEMPORARY -->
 <!-- =============== -->
 <script>
-  const checkCLPAuth = () => {
-    const password = prompt('This page is in BETA. Please enter the password to access it:');
+  function checkCLPAuth() {
+    var clpPassword = prompt('This page is in BETA. Please enter the password to access it:');
 
     // Escape early if the password is incorrect.
-    if (password !== 'clptest123') {
+    if (clpPassword !== 'clptest123') {
       checkCLPAuth();
       return;
     }
 
     // Derive the content element.
-    const content = document.getElementById('content');
+    var content = document.getElementById('content');
 
     // Escape early if we cannot find it.
     if (!content) {
