@@ -44,6 +44,7 @@ const HealthCare = ({
   const start = new Date(nextAppointment?.startsAt);
   const today = new Date();
   const hasUpcomingAppointment = differenceInDays(start, today) < 30;
+  const hasFutureAppointments = appointments?.length;
 
   useEffect(
     () => {
@@ -103,17 +104,18 @@ const HealthCare = ({
         )}
 
         <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-flex--1">
-          {!hasUpcomingAppointment && (
-            <>
-              <p>You have no appointments scheduled in the next 30 days.</p>
-              <IconCTALink
-                href="/health-care/schedule-view-va-appointments/appointments"
-                icon="calendar-check"
-                newTab
-                text="Schedule and view your appointments"
-              />
-            </>
-          )}
+          {!hasUpcomingAppointment &&
+            hasFutureAppointments && (
+              <>
+                <p>You have no appointments scheduled in the next 30 days.</p>
+                <IconCTALink
+                  href="/health-care/schedule-view-va-appointments/appointments"
+                  icon="calendar-check"
+                  newTab
+                  text="Schedule and view your appointments"
+                />
+              </>
+            )}
 
           {/* Messages */}
           <IconCTALink
