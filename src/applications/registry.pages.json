@@ -25,10 +25,6 @@
         }
     },
     {
-        "appName": "GI Bill Benefit Status",
-        "rootUrl": "/education/gi-bill/post-9-11/ch-33-benefit/status"
-    },
-    {
         "appName": "About VA Disability Ratings",
         "rootUrl": "/disability/about-disability-ratings",
         "widgetType": "disability-rating-calculator"
