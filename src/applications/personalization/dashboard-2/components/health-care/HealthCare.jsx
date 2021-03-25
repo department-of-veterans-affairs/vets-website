@@ -91,6 +91,10 @@ const HealthCare = ({
         }`
       : 'Send a secure message to your health care team';
 
+  const linkWrapperClasses = `vads-u-display--flex vads-u-flex-direction--column vads-u-flex--1 ${
+    hasUpcomingAppointment ? '' : 'half-width'
+  }`;
+
   return (
     <div className="health-care vads-u-margin-y--6">
       <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
@@ -103,7 +107,7 @@ const HealthCare = ({
           <Appointments appointments={appointments} />
         )}
 
-        <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-flex--1">
+        <div className={linkWrapperClasses}>
           {!hasUpcomingAppointment && (
             <>
               {hasFutureAppointments && (

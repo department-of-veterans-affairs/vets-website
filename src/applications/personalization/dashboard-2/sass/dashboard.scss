@@ -22,9 +22,12 @@
         background-color: $color-gray-lightest;
         cursor: pointer;
       }
-
-      @media (min-width: $small-screen) {
-        width: 50%;
+    }
+    .half-width {
+      .cta-link {
+        @media (min-width: $small-screen) {
+          width: 50%;
+        }
       }
     }
   }
