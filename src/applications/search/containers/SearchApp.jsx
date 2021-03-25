@@ -36,21 +36,21 @@ class SearchApp extends React.Component {
   constructor(props) {
     super(props);
 
-    let userInputFromAddress = '';
-    let page;
+    let userInputFromURL = '';
+    let pageFromURL;
 
     if (this.props.router.location.query) {
-      userInputFromAddress = this.props.router.location.query.query;
-      page = this.props.router.location.query.page;
+      userInputFromURL = this.props.router?.location?.query?.query;
+      pageFromURL = this.props.router?.location?.query?.page;
     }
 
     this.state = {
-      userInput: userInputFromAddress,
-      currentResultsQuery: userInputFromAddress,
-      page,
+      userInput: userInputFromURL,
+      currentResultsQuery: userInputFromURL,
+      page: pageFromURL,
     };
 
-    if (!userInputFromAddress) {
+    if (!userInputFromURL) {
       window.location.href = '/';
     }
   }
@@ -94,16 +94,10 @@ class SearchApp extends React.Component {
     if (e) e.preventDefault();
     const { userInput, currentResultsQuery, page } = this.state;
 
-    let userInputFromAddress = '';
-    let pageFromAddress;
+    const userInputFromURL = this.props.router?.location?.query?.query;
+    const pageFromURL = this.props.router?.location?.query?.page;
 
-    if (this.props.router.location.query) {
-      userInputFromAddress = this.props.router.location.query.query;
-      pageFromAddress = this.props.router.location.query.page;
-    }
-
-    const repeatSearch =
-      userInputFromAddress === userInput && pageFromAddress === page;
+    const repeatSearch = userInputFromURL === userInput && pageFromURL === page;
 
     const queryChanged = userInput !== currentResultsQuery;
     const nextPage = queryChanged ? 1 : page;
