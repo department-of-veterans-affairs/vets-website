@@ -92,7 +92,7 @@ const Typeahead = ({ uiSchema, idSchema, formData, onChange, onBlur }) => {
       const fetchedsuggestions = getSuggestions(input);
       setSuggestions(fetchedsuggestions);
     },
-    [input, getInput, getSuggestions],
+    [], // eslint-disable-line react-hooks/exhaustive-deps
   );
 
   return (
