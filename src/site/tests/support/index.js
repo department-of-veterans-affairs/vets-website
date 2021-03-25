@@ -27,8 +27,6 @@ const parseFixture = filePath => {
     /* eslint-disable no-console */
     console.log(`Error parsing JSON fixture in:\n`, error);
     /* eslint-enable no-console */
-
-    this.skip();
   }
 
   return data;
