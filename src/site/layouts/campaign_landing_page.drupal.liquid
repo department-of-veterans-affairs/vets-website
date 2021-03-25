@@ -675,7 +675,7 @@
     }
 
     // Show the content.
-    content.classList.remove('vads-u-display--none');
+    content.className = content.className.replace(' vads-u-display--none', '');
   }
 
   checkCLPAuth();
