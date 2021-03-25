@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { createAnswerArray } from '../../../../shared/api/submit-questionnaire';
+import { createAnswerArray } from '../../submit-questionnaire';
 
 describe('health care questionnaire -- utils -- create an answer array', () => {
   it('empty array is created with a falsey answer', () => {

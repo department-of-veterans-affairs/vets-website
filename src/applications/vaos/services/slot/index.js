@@ -6,6 +6,16 @@ import { fhirSearch, mapToFHIRErrors } from '../utils';
 import { transformSlots } from './transformers';
 
 /**
+ * @summary
+ * Each FHIR slot will have a start and end
+ *
+ * @global
+ * @typedef {Object} Slot
+ * @property {string} start Start date in iso format
+ * @property {?string} end End date in iso format
+ */
+
+/**
  * Fetch appointment slots based on start/end date times based on a VistA sites
  * availability for a particular type of care
  *

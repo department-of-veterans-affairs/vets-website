@@ -40,7 +40,7 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
     }
     const facility = this.props.facility.attributes;
     const service = this.props.service.split('(')[0].toLowerCase();
-    const serviceExists = facility.access.health.find(
+    const serviceExists = facility?.access?.health.find(
       s => s.service && s.service.toLowerCase() === service,
     );
     // check if this health service has a wait time associated with it

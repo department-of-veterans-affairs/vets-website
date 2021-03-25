@@ -25,7 +25,7 @@ const getType = (clinic, options = { titleCase: false }) => {
 };
 
 const getName = location => {
-  return location?.name ? location.name : name;
+  return location?.name ? location.name : null;
 };
 
 const getPhoneNumber = (location, options = { separateExtension: false }) => {
@@ -38,7 +38,7 @@ const getPhoneNumber = (location, options = { separateExtension: false }) => {
   }
   const rv = {};
   const phone = telecom.find(com => com.system === 'phone');
-  if (!phone.value) {
+  if (!phone?.value) {
     return null;
   }
   if (options.separateExtension) {
