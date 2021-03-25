@@ -659,9 +659,9 @@
   function checkCLPAuth() {
     var clpPassphrase = prompt('This page is in BETA. Please enter the passphrase to access it:');
 
-    // Escape early if the passphrase is incorrect.
+    // Redirect to homepage if the passphrase is incorrect.
     if (clpPassphrase !== 'clptest123') {
-      checkCLPAuth();
+      window.location.href = '/';
       return;
     }
 
