@@ -1,4 +1,11 @@
-import { LocationFinder } from './location-finder';
+// import { LocationFinder } from './location-finder';
+import React from 'react';
+
+function ReviewWidget({ value }) {
+  // console.log(value);
+
+  return <span>{value}</span>;
+}
 
 export const schema = {
   vaLocation: {
@@ -14,7 +21,8 @@ export const schema = {
 export const uiSchema = {
   vaLocation: {
     location: {
-      'ui:widget': LocationFinder,
+      'ui:widget': 'dynamicCheckbox',
+      'ui:reviewWidget': ReviewWidget,
       'ui:options': {
         hideLabelText: true,
       },
