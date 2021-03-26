@@ -124,21 +124,6 @@ class SearchControls extends Component {
     focusElement('#street-city-state-zip');
   };
 
-  renderClearInput = () => {
-    if (window.Cypress || !environment.isProduction()) {
-      return (
-        <button
-          aria-label="Clear your city, state or postal code"
-          type="button"
-          id="clear-input"
-          className="fas fa-times-circle clear-button"
-          onClick={this.handleClearInput}
-        />
-      );
-    }
-    return null;
-  };
-
   renderLocationInputField = currentQuery => {
     const { locationChanged, searchString, geocodeInProgress } = currentQuery;
     const showError =
@@ -197,7 +182,15 @@ class SearchControls extends Component {
           value={searchString}
           title="Your location: Street, City, State or Postal code"
         />
-        {searchString?.length > 0 && this.renderClearInput()}
+        {searchString?.length > 0 && (
+          <button
+            aria-label="Clear your city, state or postal code"
+            type="button"
+            id="clear-input"
+            className="fas fa-times-circle clear-button"
+            onClick={this.handleClearInput}
+          />
+        )}
       </div>
     );
   };

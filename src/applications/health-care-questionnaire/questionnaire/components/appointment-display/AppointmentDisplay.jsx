@@ -1,7 +1,11 @@
 import React from 'react';
 import moment from 'moment-timezone';
 
-import { appointment as appointmentSelector } from '../../../shared/utils/selectors';
+import {
+  appointmentSelector,
+  organizationSelector,
+  locationSelector,
+} from '../../../shared/utils/selectors';
 
 export default function AppointmentDisplay({ appointmentData, bold }) {
   if (!appointmentData) {
@@ -18,6 +22,8 @@ export default function AppointmentDisplay({ appointmentData, bold }) {
   const guess = moment.tz.guess();
   const formattedTimezone = moment.tz(guess).format('z');
 
+  const clinicName = locationSelector.getName(clinic);
+  const facilityName = organizationSelector.getName(facility);
   return (
     <dl className={`appointment-details ${boldClass}`} itemScope>
       <div itemProp="appointment-date">
@@ -46,9 +52,9 @@ export default function AppointmentDisplay({ appointmentData, bold }) {
         <dt>Location: </dt>
         <dd
           data-testid="appointment-location"
-          aria-label={`appointment at ${clinic.name} at ${facility.name}`}
+          aria-label={`appointment at ${clinicName} at ${facilityName}`}
         >
-          {clinic.name}, {facility.name}
+          {clinicName}, {facilityName}
         </dd>
       </div>
     </dl>

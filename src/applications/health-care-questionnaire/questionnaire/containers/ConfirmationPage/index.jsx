@@ -7,6 +7,7 @@ import {
 } from '../../../shared/utils';
 import ConfirmationPageFooter from '../../components/confirmation-page-footer/ConfirmationPageFooter';
 import AppointmentDisplay from '../../components/appointment-display/AppointmentDisplay';
+import { selectQuestionnaireContext } from '../../../shared/redux-selectors';
 
 import PrintButton from '../../../shared/components/print/PrintButton';
 
@@ -62,7 +63,7 @@ const ConfirmationPage = props => {
 function mapStateToProps(state) {
   return {
     form: state.form,
-    context: state?.questionnaireData?.context,
+    context: selectQuestionnaireContext(state),
   };
 }
 

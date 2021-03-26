@@ -46,13 +46,15 @@ export function ClinicChoicePage({
   return (
     <div>
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-      Choose a clinic located at:
+      <p>Each clinic offers vaccine appointments at different times.</p>
+      <p>Choose a clinic located at:</p>
       {facilityDetails && (
         <div className="vads-u-margin-y--2p5">
           <FacilityAddress
             name={facilityDetails.name}
             facility={facilityDetails}
             level={2}
+            showPhone={false}
           />
         </div>
       )}
