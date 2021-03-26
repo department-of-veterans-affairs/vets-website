@@ -55,6 +55,7 @@ export const schema = {
         pattern: '\\(?\\d{3}\\)?-?\\d{3}-?\\d{4}$',
       },
     },
+    required: ['countryName', 'city', 'stateCode', 'zipCode', 'homePhone'],
   },
 };
 
@@ -62,9 +63,6 @@ export const uiSchema = {
   addressInformation: {
     countryName: {
       'ui:title': 'Country',
-      'ui:required': () => {
-        return true;
-      },
     },
     addressLine1: {
       'ui:title': 'Street Address',
@@ -77,21 +75,12 @@ export const uiSchema = {
     },
     city: {
       'ui:title': 'City',
-      'ui:required': () => {
-        return true;
-      },
     },
     stateCode: {
       'ui:title': 'State',
-      'ui:required': () => {
-        return true;
-      },
     },
     zipCode: {
       'ui:title': 'Zip Code',
-      'ui:required': () => {
-        return true;
-      },
     },
     emailAddress: emailUI(),
     'view:confirmEmail': {
@@ -108,9 +97,6 @@ export const uiSchema = {
     },
     homePhone: {
       'ui:title': 'Home telephone number',
-      'ui:required': () => {
-        return true;
-      },
     },
     mobilePhone: {
       'ui:title': 'Mobile telephone number',

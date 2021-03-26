@@ -22,6 +22,7 @@ export const schema = {
         type: 'string',
       },
     },
+    required: ['firstName', 'lastName', 'birthDate', 'ssn'],
   },
 };
 
@@ -32,9 +33,6 @@ export const uiSchema = {
       'ui:errorMessages': {
         required: 'Please enter your first name.',
       },
-      'ui:required': () => {
-        return true;
-      },
     },
     middleName: {
       'ui:title': 'Middle name',
@@ -43,9 +41,6 @@ export const uiSchema = {
       'ui:title': 'Last name',
       'ui:errorMessages': {
         required: 'Please enter your last name.',
-      },
-      'ui:required': () => {
-        return true;
       },
     },
     birthDate: {
@@ -60,9 +55,6 @@ export const uiSchema = {
         </span>
       ),
       'ui:widget': 'date',
-      'ui:required': () => {
-        return true;
-      },
     },
     ssn: {
       ...ssnUI,
@@ -80,9 +72,6 @@ export const uiSchema = {
         'ui:errorMessages': {
           pattern: 'Please enter a valid 9 digit SSN (dashes allowed)',
           required: 'Please enter a SSN',
-        },
-        'ui:required': () => {
-          return true;
         },
       },
     },
