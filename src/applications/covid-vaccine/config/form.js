@@ -19,7 +19,13 @@ import {
   vaLocation,
 } from './pages';
 
-import { isTypeNone, isVeteran } from './helpers';
+import {
+  isTypeNone,
+  isVeteran,
+  consentLabel,
+  consentNotice,
+  consentError,
+} from './helpers';
 
 const formConfig = {
   urlPrefix: '/',
@@ -29,6 +35,13 @@ const formConfig = {
   trackingPrefix: 'complex-form-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  preSubmitInfo: {
+    required: true,
+    field: 'privacyAgreementAccepted',
+    label: consentLabel,
+    notice: consentNotice,
+    error: consentError,
+  },
   formId: '1234',
   version: 0,
   prefillEnabled: true,
