@@ -91,7 +91,7 @@ class IntroductionPage extends React.Component {
           visible={this.state.showPrivacyModal}
           onClose={() => this.togglePrivacyModal()}
           status="info"
-          title="Privacy Act Statement"
+          // title="Privacy Act Statement"
           contents={modalContents(30)}
         />
       </div>
