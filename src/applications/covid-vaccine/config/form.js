@@ -59,7 +59,7 @@ const formConfig = {
       pages: {
         complianceAgreement: {
           depends: formData => !isTypeNone(formData),
-          path: 'compliance-agreement',
+          path: 'attestation',
           schema: complianceAgreement.schema.complianceAgreement,
           uiSchema: complianceAgreement.uiSchema.complianceAgreement,
         },
@@ -70,7 +70,7 @@ const formConfig = {
       pages: {
         militaryHistory: {
           depends: formData => isVeteran(formData),
-          path: 'military-history',
+          path: 'service-information',
           schema: militaryHistory.schema.militaryHistory,
           uiSchema: militaryHistory.uiSchema.militaryHistory,
         },
@@ -82,7 +82,7 @@ const formConfig = {
         personalInformation: {
           depends: formData => !isTypeNone(formData),
           title: 'Applicant Information',
-          path: 'personal-information',
+          path: 'recipient-information',
           schema: personalInformation.schema.personalInformation,
           uiSchema: personalInformation.uiSchema.personalInformation,
         },
