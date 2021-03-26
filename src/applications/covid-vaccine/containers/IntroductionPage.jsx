@@ -41,7 +41,12 @@ class IntroductionPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <FormTitle title="Sign up to get a COVID-19 vaccine at VA" />
-        <fieldset className="fieldset-input u-vads-margin-top--10">
+        <fieldset
+          className="fieldset-input"
+          style={{
+            marginTop: '-2em',
+          }}
+        >
           <RadioButtons
             id="introductionRadios"
             errorMessage=""
