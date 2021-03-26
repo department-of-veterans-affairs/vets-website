@@ -2,10 +2,12 @@ import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import ProgressButton from '@department-of-veterans-affairs/component-library/ProgressButton';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 import { focusElement } from 'platform/utilities/ui';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import { modalContents } from './privacyDataHelper';
 
 const alreadyReceivingCarePath =
   '/health-care/covid-19-vaccine/stay-informed/form';
@@ -14,7 +16,7 @@ const newlyEligiblePath = '/covid-vaccine/verify-eligibility';
 class IntroductionPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { currentSelection: '', nextUrl: '' };
+    this.state = { currentSelection: '', nextUrl: '', showPrivacyModal: false };
   }
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
@@ -36,7 +38,9 @@ class IntroductionPage extends React.Component {
     });
     window.location.href = this.state.nextUrl;
   }
-
+  togglePrivacyModal() {
+    this.setState({ showPrivacyModal: !this.state.showPrivacyModal });
+  }
   render() {
     return (
       <div className="schemaform-intro">
@@ -67,6 +71,19 @@ class IntroductionPage extends React.Component {
             disabled={this.state.currentSelection === ''}
           />
         </fieldset>
+        <button
+          className="va-button-link"
+          onClick={() => this.togglePrivacyModal()}
+        >
+          Privacy Act Statement
+        </button>
+        <Modal
+          visible={this.state.showPrivacyModal}
+          onClose={() => this.togglePrivacyModal()}
+          status="info"
+          title="Privacy Act Statement"
+          contents={modalContents(30)}
+        />
       </div>
     );
   }
