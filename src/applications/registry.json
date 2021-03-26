@@ -1011,6 +1011,7 @@
       "layout": "page-react.html"
     }
   },
+  {
     "appName": "Veteran Rapid Retraining Assistance Program",
     "entryName": "vrrap",
     "rootUrl": "/vrrap",
