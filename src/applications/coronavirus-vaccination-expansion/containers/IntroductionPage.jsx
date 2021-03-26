@@ -16,7 +16,12 @@ const newlyEligiblePath = '/covid-vaccine/verify-eligibility';
 class IntroductionPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { currentSelection: '', nextUrl: '', showPrivacyModal: false };
+    this.state = {
+      currentSelection: '',
+      errorMessage: null,
+      nextUrl: '',
+      showPrivacyModal: false,
+    };
   }
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
@@ -27,9 +32,15 @@ class IntroductionPage extends React.Component {
       currentSelection: selected,
       nextUrl:
         selected.value === 'Yes' ? alreadyReceivingCarePath : newlyEligiblePath,
+      errorMessage: null,
     });
   }
   loadNextPage() {
+    if (this.state.currentSelection === '') {
+      this.setState({ errorMessage: 'Please select an option' });
+      return;
+    }
+
     recordEvent({
       event: 'cta-button-click',
       'button-type': 'default',
@@ -53,7 +64,7 @@ class IntroductionPage extends React.Component {
         >
           <RadioButtons
             id="introductionRadios"
-            errorMessage=""
+            errorMessage={this.state.errorMessage}
             onKeyDown={function noRefCheck() {}}
             onMouseDown={function noRefCheck() {}}
             onValueChange={val => this.setSelected(val)}
@@ -68,7 +79,6 @@ class IntroductionPage extends React.Component {
             afterText="»"
             buttonText="Continue"
             onButtonClick={() => this.loadNextPage()}
-            disabled={this.state.currentSelection === ''}
           />
         </fieldset>
         <button
