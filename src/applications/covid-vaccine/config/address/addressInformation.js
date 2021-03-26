@@ -55,7 +55,14 @@ export const schema = {
         pattern: '\\(?\\d{3}\\)?-?\\d{3}-?\\d{4}$',
       },
     },
-    required: ['countryName', 'city', 'stateCode', 'zipCode', 'homePhone'],
+    required: [
+      'countryName',
+      'city',
+      'stateCode',
+      'addressLine1',
+      'zipCode',
+      'homePhone',
+    ],
   },
 };
 
