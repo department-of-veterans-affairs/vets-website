@@ -1,4 +1,5 @@
 import {
+  ifYouAgree,
   statementOfTruthVeteran,
   statementOfTruthSpouse,
   statementOfTruthCaregiver,
@@ -30,8 +31,7 @@ export const schema = {
 export const uiSchema = {
   complianceAgreement: {
     'ui:title': 'Statement of truth',
-    'ui:description':
-      'If you understand and agree with these statements, please check the box:',
+    'ui:description': ifYouAgree,
     veteranCertify: {
       'ui:options': {
         hideLabelText: true,

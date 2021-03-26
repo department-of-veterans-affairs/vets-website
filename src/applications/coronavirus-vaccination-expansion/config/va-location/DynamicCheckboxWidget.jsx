@@ -19,6 +19,7 @@ export function DynamicCheckboxWidget(props) {
         )
           .then(response => response.json())
           .then(data => {
+            console.log(data);
             setLocations(data.data);
           });
         /* apiRequest(`/covid_vaccine/v0/facilities/${props.zipcode}`, {}).then(resp => {
