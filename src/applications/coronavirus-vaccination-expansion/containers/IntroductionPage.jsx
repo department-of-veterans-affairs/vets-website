@@ -9,9 +9,11 @@ import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { modalContents } from './privacyDataHelper';
 
+import manifest from '../manifest.json';
+
 const alreadyReceivingCarePath =
   '/health-care/covid-19-vaccine/stay-informed/form';
-const newlyEligiblePath = '/covid-vaccine/verify-eligibility';
+const newlyEligiblePath = `${manifest.rootUrl}/verify-eligibility`;
 
 class IntroductionPage extends React.Component {
   constructor(props) {
