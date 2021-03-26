@@ -83,7 +83,7 @@ jobs:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Run ESLint
-        run: yarn lint:js --output-file eslint-report.json --format json
+        run: yarn run eslint --ext .js --ext .jsx --output-file eslint-report.json --format json .
 
       - name: Annotate linting results
         uses: ataylorme/eslint-annotate-action@1.1.2
