@@ -28,6 +28,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
         'include',
         '/health-care/covid-19-vaccine/stay-informed/form',
       );
+      cy.injectAxe();
       cy.axeCheck();
       cy.get('#covid-vaccination-heading-form').contains(
         'Fill out the form below',

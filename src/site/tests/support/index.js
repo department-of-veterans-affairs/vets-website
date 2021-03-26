@@ -32,9 +32,9 @@ const parseFixture = filePath => {
   return data;
 };
 
-const makeHTMLFileName = name => {
-  const liquidFileName = name.match(/(\w|\d|\.)+$/g)[0];
-  return `${liquidFileName.split('.')[0]}.html`;
+const makeHTMLFileName = (layoutPath, dataName) => {
+  const fileName = path.basename(layoutPath).split('.')[0];
+  return dataName ? `${fileName}.${dataName}.html` : `${fileName}.html`;
 };
 
 const createDirectory = async () => {
@@ -82,7 +82,7 @@ const updateHTML = files => {
   modifyDom(options)(files, null, done);
 };
 
-const renderHTML = (layoutPath, data) => {
+const renderHTML = (layoutPath, data, dataName) => {
   const layout = getLayout(layoutPath);
   const context = liquid.newContext({ locals: data });
 
@@ -99,7 +99,7 @@ const renderHTML = (layoutPath, data) => {
         reject(err);
       } else {
         const html = context.getBuffer();
-        const htmlFileName = makeHTMLFileName(layoutPath);
+        const htmlFileName = makeHTMLFileName(layoutPath, dataName);
         const files = {
           [htmlFileName]: { contents: html, isDrupalPage: true },
           'generated/file-manifest.json': { contents: JSON.stringify({}) },
