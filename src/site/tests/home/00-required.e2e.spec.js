@@ -37,7 +37,8 @@ function verifyElementCount(browser, selector, expectedNumElements, message) {
 }
 
 function main(browser) {
-  browser.openUrl(`${E2eHelpers.baseUrl}/`).axeCheck();
+  browser.openUrl(`${E2eHelpers.baseUrl}/`);
+  browser.axeCheck('main');
 
   verifyElementCount(browser, '[data-e2e="bucket"]', 4, 'There are 4 buckets');
   verifyElementCount(browser, '[data-e2e="hub"]', 11, 'There are 11 hubs');
