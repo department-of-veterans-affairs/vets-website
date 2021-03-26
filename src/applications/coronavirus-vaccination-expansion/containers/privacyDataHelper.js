@@ -2,7 +2,7 @@ import React from 'react';
 
 export const modalContents = minutes => (
   <div>
-    <h3>Privacy Act Statement</h3>
+    <h2>Privacy Act Statement</h2>
     <p>
       <strong>Respondent Burden:</strong> We need this information to determine
       your ability to participate in the VET TEC High Technology Pilot Program,

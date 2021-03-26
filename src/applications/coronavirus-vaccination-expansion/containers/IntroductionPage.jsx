@@ -9,14 +9,21 @@ import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { modalContents } from './privacyDataHelper';
 
+import manifest from '../manifest.json';
+
 const alreadyReceivingCarePath =
   '/health-care/covid-19-vaccine/stay-informed/form';
-const newlyEligiblePath = '/covid-vaccine/verify-eligibility';
+const newlyEligiblePath = `${manifest.rootUrl}/verify-eligibility`;
 
 class IntroductionPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { currentSelection: '', nextUrl: '', showPrivacyModal: false };
+    this.state = {
+      currentSelection: '',
+      errorMessage: null,
+      nextUrl: '',
+      showPrivacyModal: false,
+    };
   }
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
@@ -27,9 +34,15 @@ class IntroductionPage extends React.Component {
       currentSelection: selected,
       nextUrl:
         selected.value === 'Yes' ? alreadyReceivingCarePath : newlyEligiblePath,
+      errorMessage: null,
     });
   }
   loadNextPage() {
+    if (this.state.currentSelection === '') {
+      this.setState({ errorMessage: 'Please select an option' });
+      return;
+    }
+
     recordEvent({
       event: 'cta-button-click',
       'button-type': 'default',
@@ -53,7 +66,7 @@ class IntroductionPage extends React.Component {
         >
           <RadioButtons
             id="introductionRadios"
-            errorMessage=""
+            errorMessage={this.state.errorMessage}
             onKeyDown={function noRefCheck() {}}
             onMouseDown={function noRefCheck() {}}
             onValueChange={val => this.setSelected(val)}
@@ -68,7 +81,6 @@ class IntroductionPage extends React.Component {
             afterText="»"
             buttonText="Continue"
             onButtonClick={() => this.loadNextPage()}
-            disabled={this.state.currentSelection === ''}
           />
         </fieldset>
         <button
@@ -81,7 +93,7 @@ class IntroductionPage extends React.Component {
           visible={this.state.showPrivacyModal}
           onClose={() => this.togglePrivacyModal()}
           status="info"
-          title="Privacy Act Statement"
+          // title="Privacy Act Statement"
           contents={modalContents(30)}
         />
       </div>
