@@ -82,16 +82,7 @@ jobs:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Run ESLint
-        run: |
-          mkdir -p test-results
-          npx eslint --ext .js --ext .jsx --format junit --output-file test-results/eslint.xml .
+        uses: bradennapier/eslint-plus-action@v3.4.2
 
       - name: Run Sass linter
         run: yarn lint:sass
-
-      - name: Publish linting results
-        uses: mikepenz/action-junit-report@v2
-        with:
-          check_name: 'Linting Summary'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          report_paths: 'test-results/eslint.xml'
