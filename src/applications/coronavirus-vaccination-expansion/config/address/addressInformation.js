@@ -1,69 +1,8 @@
-import { countries, states50AndDC } from './constants';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
+import { addressInformation } from '../schema-imports';
 
 export const schema = {
-  addressInformation: {
-    type: 'object',
-    properties: {
-      countryName: {
-        type: 'string',
-        enum: countries.map(country => country.value),
-        enumNames: countries.map(country => country.label),
-      },
-      addressLine1: {
-        type: 'string',
-        minLength: 1,
-        maxLength: 100,
-        pattern: '^.*\\S.*',
-      },
-      addressLine2: {
-        type: 'string',
-        minLength: 1,
-        maxLength: 100,
-        pattern: '^.*\\S.*',
-      },
-      addressLine3: {
-        type: 'string',
-        minLength: 1,
-        maxLength: 100,
-        pattern: '^.*\\S.*',
-      },
-      city: {
-        type: 'string',
-      },
-      stateCode: {
-        type: 'string',
-        enum: states50AndDC.map(state => state.value),
-        enumNames: states50AndDC.map(state => state.label),
-      },
-      zipCode: {
-        type: 'string',
-        pattern: '^\\d{5}$',
-      },
-      emailAddress: {
-        type: 'string',
-      },
-      'view:confirmEmail': {
-        type: 'string',
-      },
-      homePhone: {
-        type: 'string',
-        pattern: '\\(?\\d{3}\\)?-?\\d{3}-?\\d{4}$',
-      },
-      mobilePhone: {
-        type: 'string',
-        pattern: '\\(?\\d{3}\\)?-?\\d{3}-?\\d{4}$',
-      },
-    },
-    required: [
-      'countryName',
-      'city',
-      'stateCode',
-      'addressLine1',
-      'zipCode',
-      'homePhone',
-    ],
-  },
+  addressInformation,
 };
 
 export const uiSchema = {

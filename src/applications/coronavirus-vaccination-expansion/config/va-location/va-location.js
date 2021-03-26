@@ -1,19 +1,13 @@
 import React from 'react';
 import DynamicCheckboxWidget from './DynamicCheckboxWidget.jsx';
+import { vaLocation } from '../schema-imports';
 
 function ReviewWidget({ value }) {
   return <span>{value}</span>;
 }
 
 export const schema = {
-  vaLocation: {
-    type: 'object',
-    properties: {
-      preferredFacility: {
-        type: 'string',
-      },
-    },
-  },
+  vaLocation,
 };
 
 export const uiSchema = {

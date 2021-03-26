@@ -1,3 +1,4 @@
+import { complianceAgreement } from '../schema-imports';
 import {
   ifYouAgree,
   statementOfTruthVeteran,
@@ -7,23 +8,7 @@ import {
 } from './helpers';
 
 export const schema = {
-  complianceAgreement: {
-    type: 'object',
-    properties: {
-      veteranCertify: {
-        type: 'boolean',
-      },
-      spouseCertify: {
-        type: 'boolean',
-      },
-      caregiverCertify: {
-        type: 'boolean',
-      },
-      champVaRecipientCertify: {
-        type: 'boolean',
-      },
-    },
-  },
+  complianceAgreement,
 };
 
 export const uiSchema = {

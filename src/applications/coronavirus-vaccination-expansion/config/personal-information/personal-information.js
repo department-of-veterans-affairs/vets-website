@@ -1,33 +1,9 @@
 import React from 'react';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import { personalInformation } from '../schema-imports';
 
 export const schema = {
-  personalInformation: {
-    type: 'object',
-    properties: {
-      firstName: {
-        type: 'string',
-      },
-      middleName: {
-        type: 'string',
-      },
-      lastName: {
-        type: 'string',
-      },
-      birthDate: {
-        type: 'string',
-        pattern: '^\\d{4}-\\d{2}-\\d{2}$',
-      },
-      birthSex: {
-        type: 'string',
-        enum: ['Male', 'Female', 'Prefer not to answer'],
-      },
-      ssn: {
-        type: 'string',
-      },
-    },
-    required: ['firstName', 'lastName', 'birthDate', 'ssn'],
-  },
+  personalInformation,
 };
 
 export const uiSchema = {

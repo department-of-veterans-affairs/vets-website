@@ -1,20 +1,9 @@
 import React from 'react';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import { veteranInformation } from '../schema-imports';
 
 export const schema = {
-  veteranInformation: {
-    type: 'object',
-    properties: {
-      veteranBirthDate: {
-        type: 'string',
-        pattern: '^\\d{4}-\\d{2}-\\d{2}$',
-      },
-      veteranSsn: {
-        type: 'string',
-      },
-    },
-    required: ['veteranBirthDate', 'veteranSsn'],
-  },
+  veteranInformation,
 };
 
 export const uiSchema = {

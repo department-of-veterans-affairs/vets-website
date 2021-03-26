@@ -1,4 +1,5 @@
 import React from 'react';
+import { notEligible } from '../schema-imports';
 
 const notEligibleText = () => {
   return (
@@ -9,14 +10,7 @@ const notEligibleText = () => {
 };
 
 export const schema = {
-  notEligible: {
-    type: 'object',
-    properties: {
-      eligibility: {
-        type: 'string',
-      },
-    },
-  },
+  notEligible,
 };
 
 export const uiSchema = {

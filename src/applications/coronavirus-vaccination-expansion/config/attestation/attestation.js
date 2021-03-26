@@ -1,3 +1,5 @@
+import { attestation } from '../schema-imports';
+
 import {
   veteranLabel,
   spouseLabel,
@@ -8,39 +10,7 @@ import {
 } from './helpers';
 
 export const schema = {
-  attestation: {
-    type: 'object',
-    properties: {
-      introText: {
-        type: 'object',
-        properties: {
-          'view:introText': {
-            type: 'object',
-            properties: {},
-          },
-        },
-      },
-      notEligibleText: {
-        type: 'object',
-        properties: {
-          'view:notEligibleText': {
-            type: 'object',
-            properties: {},
-          },
-        },
-      },
-      applicantType: {
-        type: 'string',
-        enum: [
-          'veteran',
-          'spouse',
-          'caregiverEnrolled',
-          'caregiverOfVeteran',
-          'CHAMPVA',
-        ],
-      },
-    },
-  },
+  attestation,
 };
 
 export const uiSchema = {
