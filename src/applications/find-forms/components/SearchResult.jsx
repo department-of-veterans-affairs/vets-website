@@ -70,6 +70,38 @@ const recordGAEventHelper = ({
     'search-typeahead-enabled': false, // consistently populate with false since there's no type ahead enabled for this search feature
   });
 
+const deriveRelatedTo = ({
+  vaFormAdministration,
+  formType,
+  benefitCategories,
+}) => {
+  let relatedTo = vaFormAdministration;
+
+  if (formType === 'employment') {
+    relatedTo = 'Employment or jobs at VA';
+  }
+  if (formType === 'non-va') {
+    relatedTo = 'A non-VA form. For other government agency forms, go to the ';
+  }
+
+  if (benefitCategories?.length > 0) {
+    relatedTo = benefitCategories.map(f => f.name).join(', ');
+  }
+
+  if (relatedTo) {
+    return (
+      <dd className="vads-u-margin-y--1 vads-u-margin-y--1">
+        <dfn className="vads-u-font-weight--bold">Related to:</dfn> {relatedTo}
+        {formType === 'non-va' ? (
+          <a href="https://www.gsa.gov/reference/forms">GSA forms library</a>
+        ) : (
+          ''
+        )}
+      </dd>
+    );
+  } else return null;
+};
+
 const SearchResult = ({ form, formMetaInfo }) => {
   // Escape early if we don't have the necessary form attributes.
   if (!form?.attributes) {
@@ -79,6 +111,7 @@ const SearchResult = ({ form, formMetaInfo }) => {
   const {
     attributes: {
       firstIssuedOn,
+      formType,
       formToolUrl,
       formDetailsUrl,
       lastRevisionOn,
@@ -97,11 +130,11 @@ const SearchResult = ({ form, formMetaInfo }) => {
   const pdfLabel = url.toLowerCase().includes('.pdf') ? '(PDF)' : '';
   const lastRevision = deriveLatestIssue(firstIssuedOn, lastRevisionOn);
 
-  let relatedTo = vaFormAdministration;
-
-  if (benefitCategories?.length > 0) {
-    relatedTo = benefitCategories.map(f => f.name).join(', ');
-  }
+  const relatedTo = deriveRelatedTo({
+    vaFormAdministration,
+    formType,
+    benefitCategories,
+  });
 
   const recordGAEvent = (eventTitle, eventUrl, eventType) =>
     recordGAEventHelper({ ...formMetaInfo, eventTitle, eventUrl, eventType });
@@ -119,13 +152,7 @@ const SearchResult = ({ form, formMetaInfo }) => {
         {lastRevision}
       </dd>
 
-      {relatedTo ? (
-        <dd className="vads-u-margin-y--1 vads-u-margin-y--1">
-          <dfn className="vads-u-font-weight--bold">Related to:</dfn>{' '}
-          {relatedTo}
-        </dd>
-      ) : null}
-
+      {relatedTo}
       <dd className="vads-u-margin-bottom--1">
         <a
           href={url}
