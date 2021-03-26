@@ -5,7 +5,11 @@ import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export default function VAFacilityInfoMessage({ facility }) {
   return (
-    <AlertBox status="info" headline="We found one VA location for you">
+    <AlertBox
+      status="info"
+      headline="We found one VA location for you"
+      level="2"
+    >
       <p>
         <strong>{facility.name}</strong>
         <br />
