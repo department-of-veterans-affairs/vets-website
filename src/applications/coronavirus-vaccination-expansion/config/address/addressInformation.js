@@ -110,8 +110,8 @@ export const uiSchema = {
       'ui:title': 'Mobile telephone number',
       'ui:description': (
         <span>
-          <strong>Note:</strong> Note: If you give us your mobile phone number,
-          we may be able to schedule your vaccine appointment by text message.
+          <strong>Note:</strong> If you give us your mobile phone number, we may
+          be able to schedule your vaccine appointment by text message.
         </span>
       ),
     },
