@@ -6,7 +6,11 @@ import NewTabAnchor from '../../../components/NewTabAnchor';
 export default function SingleFacilityEligibilityCheckMessage({ facility }) {
   return (
     <div aria-atomic="true" aria-live="assertive">
-      <AlertBox status="warning" headline="We found one VA location for you">
+      <AlertBox
+        status="warning"
+        headline="We found one VA location for you"
+        level="2"
+      >
         <p>
           <strong>{facility.name}</strong>
           <br />
