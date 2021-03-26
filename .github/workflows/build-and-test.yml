@@ -82,8 +82,20 @@ jobs:
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
-      - name: Run ESLint
-        uses: bradennapier/eslint-plus-action@v3.4.2
+      - name: Run ESLint on changed files
+        uses: tj-actions/eslint-changed-files@v5.1
+        with:
+          config-path: ".eslintrc.js"
+          ignore-path: ".eslintignore"
+          extensions: "js,jsx"
+          extra-args: "-f json -o eslint-report.json"
+        continue-on-error: true
+
+      - name: Annotate linting results
+        uses: ataylorme/eslint-annotate-action@1.1.2
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          report-json: "eslint-report.json"
 
       - name: Run Sass linter
         run: yarn lint:sass
