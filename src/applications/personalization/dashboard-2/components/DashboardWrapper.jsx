@@ -2,8 +2,6 @@ import React, { Suspense } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-
-import localStorage from 'platform/utilities/storage/localStorage';
 import { selectShowDashboard2 } from '../selectors';
 
 const DashboardV1 = React.lazy(() => {

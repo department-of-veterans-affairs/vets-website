@@ -1,5 +1,6 @@
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import localStorage from 'platform/utilities/storage/localStorage';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 export const selectShowDashboard2 = state => {
   const LSDashboardVersion = localStorage.getItem('DASHBOARD_VERSION');
