@@ -114,9 +114,8 @@ export const uiSchema = {
     },
     mobilePhone: {
       'ui:title': 'Mobile telephone number',
-      'ui:required': () => {
-        return true;
-      },
+      'ui:description':
+        '(You may be able to schedule your vaccination appointment by text message. We will need your mobile number to do this.)',
     },
   },
 };
