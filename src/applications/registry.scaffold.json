@@ -70,13 +70,6 @@
     "widgetType": "schedule-view-va-appointments-page"
   },
   {
-    "appName": "Search",
-    "rootUrl": "/search",
-    "template": {
-      "title": "Search Results"
-    }
-  },
-  {
     "appName": "VA Pittsburgh Health Care",
     "rootUrl": "/pittsburgh-health-care",
     "widgetType": "side-nav",
