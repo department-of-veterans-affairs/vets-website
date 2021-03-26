@@ -18,15 +18,11 @@ import {
   personalInformation,
   addressInformation,
   vaLocation,
+  veteranInformation,
 } from './pages';
 
-import {
-  isTypeNone,
-  isVeteran,
-  consentLabel,
-  consentNotice,
-  consentError,
-} from './helpers';
+import { isTypeNone, isVeteran, isSpouseOrCaregiver } from './helpers';
+import PreSubmitInfo from './PreSubmitinfo';
 
 const formConfig = {
   urlPrefix: '/',
@@ -36,13 +32,7 @@ const formConfig = {
   trackingPrefix: 'complex-form-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  preSubmitInfo: {
-    required: true,
-    field: 'privacyAgreementAccepted',
-    label: consentLabel,
-    notice: consentNotice,
-    error: consentError,
-  },
+  preSubmitInfo: PreSubmitInfo,
   formId: '1234',
   version: 0,
   prefillEnabled: true,
@@ -90,6 +80,17 @@ const formConfig = {
           path: 'service-information',
           schema: militaryHistory.schema.militaryHistory,
           uiSchema: militaryHistory.uiSchema.militaryHistory,
+        },
+      },
+    },
+    veteranInformation: {
+      title: "Veteran's information",
+      pages: {
+        veteranInformation: {
+          depends: formData => isSpouseOrCaregiver(formData),
+          path: 'veteran-information',
+          schema: veteranInformation.schema.veteranInformation,
+          uiSchema: veteranInformation.uiSchema.veteranInformation,
         },
       },
     },
