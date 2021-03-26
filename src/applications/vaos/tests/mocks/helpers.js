@@ -76,6 +76,25 @@ export function mockAppointmentInfo({
     ),
     { data: requests },
   );
+
+  // Stub this out so that we don't log 404 errors when we don't care about the
+  // criteria endpoint
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/request_eligibility_criteria?`,
+    ),
+    {
+      data: [],
+    },
+  );
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/v1/facilities/va?ids=vha_fake&per_page=1`,
+    ),
+    {
+      data: [],
+    },
+  );
 }
 
 /**
