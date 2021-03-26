@@ -127,6 +127,7 @@ const formConfig = {
       title: 'Representative documentation',
       pages: {
         signAsRepresentative: {
+          depends: formData => formData['view:canUpload1010cgPOA'],
           path: 'representative-documentation',
           title: 'Representative documentation',
           uiSchema: signAsRepresentativeYesNo.uiSchema,
