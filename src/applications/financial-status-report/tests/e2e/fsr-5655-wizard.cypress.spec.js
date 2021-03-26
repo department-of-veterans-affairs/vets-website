@@ -14,14 +14,14 @@ describe('Financial Status Report (Wizard)', () => {
     cy.injectAxe();
   });
 
-  it('should show the wizard', () => {
+  it.skip('should show the wizard', () => {
     const heading = 'Is this the form I need?';
     cy.url().should('include', ROOT_URL);
     cy.get('.wizard-heading').should('have.text', heading);
     cy.axeCheck();
   });
 
-  it.skip('should navigate the wizard and start the form', () => {
+  it('should navigate the wizard and start the form', () => {
     const title = 'Request help with VA debt (VA Form 5655)';
     cy.get('[type="radio"][value="request"]').click();
     cy.get('[type="radio"][value="recipients"]').click();
