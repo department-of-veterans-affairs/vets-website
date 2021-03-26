@@ -1,13 +1,13 @@
 {% if buildtype == 'vagovprod' %}
-  <script nonce="**CSP_NONCE**">
+  <script defer nonce="**CSP_NONCE**">
     {% include "src/site/assets/js/foresee/vagovprod.js" %}
   </script>
-  <script type="text/javascript" nonce="**CSP_NONCE**" src="https://resource.digital.voice.va.gov/wdcvoice/2/onsite/embed.js" async></script>
+  <script defer type="text/javascript" nonce="**CSP_NONCE**" src="https://resource.digital.voice.va.gov/wdcvoice/2/onsite/embed.js" async></script>
 {% endif %}
 
 {% if buildtype == 'vagovstaging' %}
-  <script nonce="**CSP_NONCE**">
+  <script defer nonce="**CSP_NONCE**">
     {% include "src/site/assets/js/foresee/vagovstaging.js" %}
   </script>
-  <script type="text/javascript" nonce="**CSP_NONCE**" src="https://resource.digital.voice.va.gov/wdcvoice/5/onsite/embed.js" async></script>
+  <script defer type="text/javascript" nonce="**CSP_NONCE**" src="https://resource.digital.voice.va.gov/wdcvoice/5/onsite/embed.js" async></script>
 {% endif %}
