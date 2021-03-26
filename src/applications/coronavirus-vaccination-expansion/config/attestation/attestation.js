@@ -1,6 +1,7 @@
 import { attestation } from '../schema-imports';
 
 import {
+  veteranDescription,
   veteranLabel,
   spouseLabel,
   caregiverEnrolledLabel,
@@ -37,6 +38,9 @@ export const uiSchema = {
           caregiverEnrolled: caregiverEnrolledLabel,
           caregiverOfVeteran: caregiverOfVeteranLabel,
           CHAMPVA: champvaLabel,
+        },
+        nestedContent: {
+          veteran: veteranDescription,
         },
       },
       'ui:required': () => true,

@@ -39,10 +39,12 @@ export const veteranLabel = (
       </li>
       <li>You didn't receive a dishonorable discharge.</li>
     </ul>
-    <AdditionalInfo triggerText="What counts as active duty service?">
-      {activeDutyAccordianContent}
-    </AdditionalInfo>
   </>
+);
+export const veteranDescription = (
+  <AdditionalInfo triggerText="What counts as active duty service?">
+    {activeDutyAccordianContent}
+  </AdditionalInfo>
 );
 
 export const spouseLabel = (

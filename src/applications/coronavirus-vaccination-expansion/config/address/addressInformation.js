@@ -1,3 +1,4 @@
+import React from 'react';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { addressInformation } from '../schema-imports';
 
@@ -46,8 +47,12 @@ export const uiSchema = {
     },
     mobilePhone: {
       'ui:title': 'Mobile telephone number',
-      'ui:description':
-        '(You may be able to schedule your vaccination appointment by text message. We will need your mobile number to do this.)',
+      'ui:description': (
+        <span>
+          <strong>Note:</strong> Note: If you give us your mobile phone number,
+          we may be able to schedule your vaccine appointment by text message.
+        </span>
+      ),
     },
   },
 };
