@@ -25,10 +25,10 @@ export function DynamicCheckboxWidget(props) {
             setLocations(resp.data);
             isLoading(false);
           })
-          .catch(error => {
+          .catch(err => {
             isLoading(false);
             setError(true);
-            return error;
+            return err;
           });
       }
     },
