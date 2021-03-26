@@ -633,11 +633,6 @@ canvas.mapboxgl-canvas:focus {
   margin: 0;
   font-family: 'Font Awesome 5 Free';
 
-  &:active {
-    background-color: unset ;
-    color: unset ;
-  }
-
   &:hover {
     background-color: unset;
     color: unset;
