@@ -734,7 +734,7 @@ export function fetchDirectScheduleSettings() {
 
     try {
       const initialState = getState();
-      const siteIds = selectSystemIds(initialState);
+      const siteIds = selectSystemIds(initialState) || [];
 
       const settings = await getDirectBookingEligibilityCriteria(siteIds);
 
