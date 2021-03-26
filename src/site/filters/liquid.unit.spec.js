@@ -315,3 +315,20 @@ describe('replace', () => {
     );
   });
 });
+
+describe('dedupeArray', () => {
+  it('removes dupes', () => {
+    const arrayWithDupes = [{ foo: { bar: 'a' } }, { foo: { bar: 'a' } }];
+    expect(liquid.filters.dedupeArray(arrayWithDupes, 'foo')).to.eql([
+      { foo: { bar: 'a' } },
+    ]);
+  });
+
+  it('preserves non-dupes', () => {
+    const arrayWithDupes = [{ foo: { bar: 'a' } }, { foo: { bar: 'b' } }];
+    expect(liquid.filters.dedupeArray(arrayWithDupes, 'foo.bar')).to.eql([
+      { foo: { bar: 'a' } },
+      { foo: { bar: 'b' } },
+    ]);
+  });
+});

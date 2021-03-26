@@ -176,7 +176,7 @@
               information.</p>
             <section class="local-health-services" id="local-health-services">
 
-              {% assign localHealthServices = fieldLocalHealthCareService | sortObjectsBy: 'entity.fieldRegionalHealthService.entity.fieldServiceNameAndDescripti.entity.name' %}
+              {% assign localHealthServices = fieldLocalHealthCareService | sortObjectsBy: 'entity.fieldRegionalHealthService.entity.fieldServiceNameAndDescripti.entity.name', true %}
               {% for localService in localHealthServices %}
                 {% assign localHealthService = localService.entity | featureFieldRegionalHealthService %}
                 {% if localHealthService != empty %}

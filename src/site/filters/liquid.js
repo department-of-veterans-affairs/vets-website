@@ -559,7 +559,14 @@ module.exports = function registerFilters() {
   };
 
   // sort a list of objects by a certain property in the object
-  liquid.filters.sortObjectsBy = (entities, path) => _.sortBy(entities, path);
+  liquid.filters.sortObjectsBy = (entities, path, dedupe = false) => {
+    const sortedEntities = _.sortBy(entities, path);
+    if (dedupe) {
+      return liquid.filters.dedupeArray(sortedEntities, path);
+    } else {
+      return sortedEntities;
+    }
+  };
 
   // get a value from a path of an object
   // works for arrays as well
@@ -698,5 +705,18 @@ module.exports = function registerFilters() {
   liquid.filters.replace = (string, oldVal, newVal) => {
     const regex = new RegExp(oldVal, 'g');
     return string.replace(regex, newVal);
+  };
+
+  liquid.filters.dedupeArray = (array, idKey) => {
+    const seen = {};
+    return array.filter(item => {
+      const k = _.get(item, idKey);
+      if (seen[k]) {
+        return false;
+      } else {
+        seen[k] = true;
+        return true;
+      }
+    });
   };
 };
