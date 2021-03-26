@@ -18,6 +18,10 @@ export const schema = {
         type: 'string',
         pattern: '^\\d{4}-\\d{2}-\\d{2}$',
       },
+      birthSex: {
+        type: 'string',
+        enum: ['Male', 'Female', 'Prefer not to answer'],
+      },
       ssn: {
         type: 'string',
       },
@@ -47,7 +51,7 @@ export const uiSchema = {
       'ui:title': 'Date of birth',
       'ui:description': () => (
         <span>
-          <b>Note: </b>
+          <strong>Note: </strong>
           Your date of birth helps us match your information to your Veteran
           records. We can then share your vaccine plans with your local VA
           health facility so they can contact you when you’re eligible to get a
@@ -55,6 +59,26 @@ export const uiSchema = {
         </span>
       ),
       'ui:widget': 'date',
+    },
+    birthSex: {
+      'ui:title': 'What sex were you assigned at birth?',
+      'ui:widget': 'radio',
+      'ui:description': (
+        <>
+          <p>
+            <strong>Note:</strong>
+            We ask for this information to help us and our partners at the
+            Centers for Disease Control and Prevention (CDC) understand who is
+            getting vaccines. This helps us serve all eligible Veterans and
+            family members better. If you choose to answer, we’ll add this
+            information to your VA health record. We’ll also share this
+            information with the CDC, but we won’t link it to your name.
+          </p>
+        </>
+      ),
+      'ui:required': () => {
+        return true;
+      },
     },
     ssn: {
       ...ssnUI,
