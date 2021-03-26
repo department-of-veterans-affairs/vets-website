@@ -1,6 +1,7 @@
 import React from 'react';
 // import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { representativeFields } from 'applications/caregivers/definitions/constants';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 // const { representative } = fullSchema.properties;
 // const veteranProps = veteran.properties;
@@ -35,26 +36,28 @@ const RepresentativeIntroContent = () => {
 const RepresentativeAdditionalInfo = () => {
   return (
     <div>
-      <ul>
-        <p>
-          To show that you’re the Veteran’s legal representative, you’ll need to
-          upload one of these current documents:
+      <AdditionalInfo triggerText="What type of document does a legal representative need?">
+        <ul>
+          <p>
+            To show that you’re the Veteran’s legal representative, you’ll need
+            to upload one of these current documents:
+          </p>
+
+          <li>Power of attorney, or</li>
+          <li>Legal guardianship order, or</li>
+          <li>
+            Another legal document that confirms your legal status as the
+            Veteran’s representative. This document can be from by a federal,
+            state, local, or tribal court.
+          </li>
+        </ul>
+
+        <p className="vads-u-margin-bottom--6">
+          <strong>Note:</strong> Being a Veteran’s closest family member or next
+          of kin doesn’t mean you’re their representative. You need a separate
+          legal document to show your status as the representative.
         </p>
-
-        <li>Power of attorney, or</li>
-        <li>Legal guardianship order, or</li>
-        <li>
-          Another legal document that confirms your legal status as the
-          Veteran’s representative. This document can be from by a federal,
-          state, local, or tribal court.
-        </li>
-      </ul>
-
-      <p className="vads-u-margin-bottom--6">
-        <strong>Note:</strong> Being a Veteran’s closest family member or next
-        of kin doesn’t mean you’re their representative. You need a separate
-        legal document to show your status as the representative.
-      </p>
+      </AdditionalInfo>
     </div>
   );
 };
@@ -75,6 +78,9 @@ const representativePage = {
         },
       },
     },
+    'view:placeholder': {
+      'ui:description': RepresentativeAdditionalInfo(),
+    },
   },
   schema: {
     type: 'object',
@@ -83,6 +89,10 @@ const representativePage = {
       [representativeFields.signAsRepresentative]: {
         type: 'string',
         enum: ['yes', 'noRep', 'no'],
+      },
+      'view:placeholder': {
+        type: 'object',
+        properties: {},
       },
     },
   },
