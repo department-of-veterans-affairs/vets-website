@@ -68,7 +68,7 @@ class IntroductionPage extends React.Component {
             afterText="»"
             buttonText="Continue"
             onButtonClick={() => this.loadNextPage()}
-            disabled={this.state.currentSelection === ''}
+            // disabled={this.state.currentSelection === ''}
           />
         </fieldset>
         <button
@@ -81,7 +81,7 @@ class IntroductionPage extends React.Component {
           visible={this.state.showPrivacyModal}
           onClose={() => this.togglePrivacyModal()}
           status="info"
-          title="Privacy Act Statement"
+          // title="Privacy Act Statement"
           contents={modalContents(30)}
         />
       </div>
