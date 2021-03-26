@@ -104,14 +104,15 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
           contributionAmount: contributionAmount || undefined,
           numberOfStudents: numberOfStudents || undefined,
         },
-        'search-results-total-count': response.results.length,
-        'search-results-total-page': Math.ceil(
-          response.results.length / perPage,
+        'search-results-total-count': response.totalResults,
+        'search-results-total-pages': Math.ceil(
+          response.totalResults / perPage,
         ),
         'sitewide-search-app-used': false,
         'type-ahead-option-keyword-selected': undefined,
         'type-ahead-option-position': undefined,
         'type-ahead-options-list': undefined,
+        'type-ahead-options-count': undefined,
       });
     }
 

@@ -15,7 +15,7 @@ export const Article = PropTypes.shape({
     path: PropTypes.string.isRequired,
   }).isRequired,
   title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  introText: PropTypes.string.isRequired,
   fieldPrimaryCategory: PropTypes.shape({
     entity: TaxonomyTerm,
   }),

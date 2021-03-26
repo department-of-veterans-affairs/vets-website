@@ -47,13 +47,11 @@ span.sidelines {
 }
 
 #login-root {
-  .profile-nav {
-    display: flex;
-    align-items: center;
-  }
-
-  .contact-us-link {
-    min-width: 91px;
+  .sitewide-search-drop-down-panel-button, .sign-in-drop-down-panel-button {
+    border-top: none;
+    margin-right: 0;
+    padding: 0 30px 0 0;
+    width: auto;
   }
 
   .login {

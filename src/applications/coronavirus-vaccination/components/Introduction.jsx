@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import environment from 'platform/utilities/environment';
 
 import {
   DowntimeNotification,
@@ -29,6 +30,7 @@ import GetHelp from './GetHelp';
 
 function Introduction({
   authButtonDisabled = false,
+  enhancedEligibilityEnabled,
   isLoggedIn,
   toggleLoginModal,
 }) {
@@ -37,10 +39,9 @@ function Introduction({
       <h1>Stay informed about getting a COVID-19 vaccine at VA</h1>
       <div className="va-introtext">
         <p>
-          We’re working to provide COVID-19 vaccines to Veterans as quickly and
-          safely as we can, based on CDC guidelines and available supply. Sign
-          up below to stay informed about when you can get a COVID-19 vaccine at
-          VA.
+          We’re working to provide COVID-19 vaccines as quickly and safely as we
+          can, based on CDC guidelines and available supply. Sign up below to
+          stay informed about when you can get a COVID-19 vaccine at VA.
         </p>
       </div>
       <DowntimeNotification
@@ -54,26 +55,24 @@ function Introduction({
         </p>
         {authButtonDisabled ? (
           <p>
-            <Link
+            <a
               className="usa-button"
-              to="/form"
-              onClick={() => {
-                recordEvent({
-                  event: 'cta-button-click',
-                  'button-type': 'default',
-                  'button-click-label': 'Continue',
-                  'button-background-color': '#0071bb',
-                });
-              }}
+              href={
+                enhancedEligibilityEnabled
+                  ? encodeURI(
+                      `${environment.BASE_URL}/covid-vaccine/introduction`,
+                    )
+                  : '/health-care/covid-19-vaccine/stay-informed/form'
+              }
             >
-              Continue
-            </Link>
+              Sign up now
+            </a>
           </p>
         ) : (
           <>
             {isLoggedIn ? (
               <Link className="usa-button" to="/form">
-                Sign up to stay informed
+                Sign up now
               </Link>
             ) : (
               <>
@@ -124,27 +123,48 @@ function Introduction({
               <p>
                 <strong>What you should know about signing up</strong>
               </p>
-              <p>
-                We continue to contact Veterans as they become eligible to get a
-                COVID-19 vaccine. We base eligibility on VA and{' '}
-                <a
-                  href="https://www.cdc.gov/vaccines/covid-19/phased-implementation.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="CDC COVID-19 risk criteria phased implemention (Open in a new window)"
-                >
-                  CDC COVID-19 risk criteria
-                </a>
-                . Within each risk group, we may first contact Veterans who sign
-                up here and tell us that they plan to get a vaccine. But we’ll
-                still contact every eligible Veteran in each risk group to ask
-                if they want to get a vaccine. You don’t need to sign up here,
-                call, or come to a VA facility to request or reserve a vaccine.
-              </p>
+              <ul>
+                <li>
+                  <strong>
+                    If you're a Veteran currently receiving care through VA,
+                  </strong>{' '}
+                  we'll ask about your vaccine plans when you sign up. We
+                  continue to contact Veterans as they become eligible to get a
+                  COVID-19 vaccine. We base eligibility on VA and{' '}
+                  <a
+                    href="https://www.cdc.gov/vaccines/covid-19/phased-implementation.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="CDC COVID-19 risk criteria phased implemention (Open in a new window)"
+                  >
+                    CDC COVID-19 risk criteria
+                  </a>
+                  . Within each risk group, we may first contact Veterans who
+                  sign up here and tell us that they plan to get a vaccine. But
+                  we’ll still contact every eligible Veteran in each risk group
+                  to ask if they want to get a vaccine.
+                </li>
+                <li>
+                  <strong>
+                    If you're a Veteran, spouse, or caregiver not receiving care
+                    through VA,
+                  </strong>{' '}
+                  sign up to tell us if you want to get a vaccine through VA. If
+                  you're eligible, we'll contact you when we have a vaccine
+                  available for you. At this time, we don't know when that will
+                  be.
+                </li>
+              </ul>
               <p>
                 By sharing your plans for getting a vaccine, you help us better
                 plan our efforts. This helps us do the most good with our
                 limited vaccine supply.
+              </p>
+              <p>
+                <strong>Note:</strong> Your employer, pharmacy, or local public
+                health officials may offer you a COVID-19 vaccine. We encourage
+                you to take the first opportunity you have to get a vaccine at
+                the most convenient location for you.
               </p>
               <span>
                 <a
@@ -187,6 +207,9 @@ const mapStateToProps = state => {
     isLoggedIn: userSelectors.isLoggedIn(state),
     authButtonDisabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.covidVaccineUpdatesDisableAuth
+    ],
+    enhancedEligibilityEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.covidVaccineUpdatesEnableExpandedEligibility
     ],
   };
 };

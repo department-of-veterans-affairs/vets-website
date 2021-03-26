@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { setData } from 'platform/forms-system/src/js/actions';
 import { selectProfile, selectVAPContactInfo } from 'platform/user/selectors';
+import { selectQuestionnaireContext } from '../../../shared/redux-selectors';
 
 import AppointmentDisplay from '../appointment-display/AppointmentDisplay';
 import { autoSaveForm } from 'platform/forms/save-in-progress/actions';
@@ -16,7 +17,7 @@ const AppointmentInfoBox = props => {
     gender,
     addresses,
     phoneNumbers,
-    appointment,
+    appointmentData,
     form,
     onChange,
   } = props;
@@ -43,7 +44,7 @@ const AppointmentInfoBox = props => {
   return (
     <div>
       <h2 className="upcoming-header">You have an upcoming appointment</h2>
-      <AppointmentDisplay appointment={appointment} bold />
+      <AppointmentDisplay appointmentData={appointmentData} bold />
       <p>
         Below is the personal and contact information we have on file for you.
       </p>
@@ -80,7 +81,7 @@ const mapStateToProps = state => {
       { label: 'Work', data: vapContactInfo?.workPhone },
       { label: 'Temporary', data: vapContactInfo?.temporaryPhone },
     ],
-    appointment: state.questionnaireData?.context?.appointment,
+    appointmentData: selectQuestionnaireContext(state),
   };
 };
 

@@ -1,8 +1,15 @@
-{% if number.fieldPhoneLabel %}<span>{{ number.fieldPhoneLabel }}</span>{% endif %}
+{% if number.fieldPhoneLabel != empty %}
+  {% assign phoneLabel = number.fieldPhoneLabel %}
+{% endif %}
+{% if phoneLabel == empty %}
+  {% assign phoneLabel = 'Phone' %}
+{% endif %}
+{% if haveLocationName != empty %}
+  <h5>{{ phoneLabel }}</h5>
+{% else %}
+  <h4 class="force-small-header">{{ phoneLabel }}</h4>
+{% endif %}
 <a class="vads-u-margin-bottom--1" aria-label="{{ number.fieldPhoneNumber | accessibleNumber }}{% if number.fieldPhoneExtension %} extension: {{ number.fieldPhoneExtension | accessibleNumber }}{% endif %}"
    href="tel:{{ number.fieldPhoneNumber }}{% if number.fieldPhoneExtension %}p{{ number.fieldPhoneExtension }}{% endif %}">
-  {{ number.fieldPhoneNumber }}
-  {% if number.fieldPhoneExtension %}
-    x {{ number.fieldPhoneExtension }}
-  {% endif %}
+  {{ number.fieldPhoneNumber }}{% if number.fieldPhoneExtension %}x {{ number.fieldPhoneExtension }}{% endif %}
 </a>

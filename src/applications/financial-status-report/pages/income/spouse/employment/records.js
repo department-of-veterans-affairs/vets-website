@@ -1,14 +1,14 @@
+import React from 'react';
+import _ from 'lodash/fp';
 import ItemLoop from '../../../../components/ItemLoop';
 import TableDetailsView from '../../../../components/TableDetailsView';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import Typeahead from '../../../../components/Typeahead';
+import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
 import {
   formatOptions,
   deductionTypes,
 } from '../../../../constants/typeaheadOptions';
-import _ from 'lodash/fp';
-
-import React from 'react';
 
 export const uiSchema = {
   'ui:title': 'Your spouse information',
@@ -27,17 +27,14 @@ export const uiSchema = {
               widgetClassNames: 'input-size-3',
             },
           },
-          from: {
-            'ui:title': 'Date your spouse started work at this job',
-            'ui:widget': 'date',
-          },
+          from: monthYearUI('Date your spouse started work at this job'),
           employerName: {
             'ui:title': 'Employer name',
             'ui:options': {
               widgetClassNames: 'input-size-6',
             },
           },
-          grossMonthlyIncome: _.merge(currencyUI('Gross monthly income'), {
+          monthlyGrossSalary: _.merge(currencyUI('Gross monthly income'), {
             'ui:options': {
               widgetClassNames: 'input-size-1 vads-u-margin-bottom--3',
             },
@@ -64,14 +61,14 @@ export const uiSchema = {
               'ui:options': {
                 classNames: 'horizonal-field-container no-wrap',
               },
-              deductionName: {
+              name: {
                 'ui:title': 'Type of payroll deduction',
                 'ui:field': Typeahead,
                 'ui:options': {
                   getOptions: () => formatOptions(deductionTypes),
                 },
               },
-              deductionAmount: _.merge(currencyUI('Deduction amount'), {
+              amount: _.merge(currencyUI('Deduction amount'), {
                 'ui:options': {
                   widgetClassNames: 'input-size-1',
                 },
@@ -98,7 +95,7 @@ export const schema = {
               properties: {
                 currentEmployment: {
                   type: 'object',
-                  required: ['type', 'from', 'grossMonthlyIncome'],
+                  required: ['type', 'from', 'monthlyGrossSalary'],
                   properties: {
                     type: {
                       type: 'string',
@@ -110,7 +107,7 @@ export const schema = {
                     employerName: {
                       type: 'string',
                     },
-                    grossMonthlyIncome: {
+                    monthlyGrossSalary: {
                       type: 'number',
                     },
                     deductions: {
@@ -118,12 +115,12 @@ export const schema = {
                       items: {
                         type: 'object',
                         title: 'Deduction',
-                        required: ['deductionName', 'deductionAmount'],
+                        required: ['name', 'amount'],
                         properties: {
-                          deductionName: {
+                          name: {
                             type: 'string',
                           },
-                          deductionAmount: {
+                          amount: {
                             type: 'number',
                           },
                         },

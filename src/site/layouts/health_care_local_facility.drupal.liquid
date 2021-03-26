@@ -71,11 +71,13 @@
                         </strong><a
                           href="tel:{{ fieldPhoneNumber }}">{{ fieldPhoneNumber }}</a>
                       </div>
-                      <div class="mental-health-clinic-phone"><strong>Mental
-                          health clinic:
-                        </strong><a
-                          href="tel:{{ fieldMentalHealthPhone }}">{{ fieldMentalHealthPhone }}</a>
-                      </div>
+                      {% if fieldMentalHealthPhone %}
+                        <div class="mental-health-clinic-phone"><strong>Mental
+                            health clinic:
+                          </strong><a
+                            href="tel:{{ fieldMentalHealthPhone }}">{{ fieldMentalHealthPhone }}</a>
+                        </div>
+                      {% endif %}
                     </div>
                     <div class="vads-u-margin-bottom--0">
                       <div class="clinicalhours">
@@ -192,14 +194,9 @@
             </section>
           {% endif %}
 
-          <h2 id="our-patient-satisfaction-scores"
-              class="vads-u-margin-top--4 vads-u-font-size--lg small-screen:vads-u-font-size--xl">
-            Veteran satisfaction with appointment wait times at this location
-          </h2>
           <div data-widget-type="facility-patient-satisfaction-scores"
                data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape }}">
           </div>
-
 
           <!-- Social Links -->
           {% include "src/site/facilities/facility_social_links.drupal.liquid"

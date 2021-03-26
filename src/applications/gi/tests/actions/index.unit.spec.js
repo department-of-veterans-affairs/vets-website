@@ -367,20 +367,6 @@ describe('institution search', () => {
       done();
     }, 0);
   });
-
-  it('should pass state_search when flag value is true', done => {
-    const dispatch = sinon.spy();
-    fetchInstitutionSearchResults({}, true)(dispatch);
-    expect(global.fetch.firstCall.args[0]).to.contain('state_search=true');
-    done();
-  });
-
-  it('should not pass state_search when flag value is false', done => {
-    const dispatch = sinon.spy();
-    fetchInstitutionSearchResults({}, false)(dispatch);
-    expect(global.fetch.firstCall.args[0]).to.not.contain('state_search');
-    done();
-  });
 });
 
 describe('constants', () => {

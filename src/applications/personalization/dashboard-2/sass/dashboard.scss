@@ -6,12 +6,20 @@
 
 .dashboard {
   .health-care {
-    hr {
-      height: 3px;
-      width: 100%;
+    .cta-link:nth-of-type(1) {
+      border-top: 1px solid $color-primary-alt-light;
 
-      @media (min-width: $medium-screen) {
-        width: 60%;
+      @media (max-width: $small-screen) {
+        margin-top: units(2.5);
+      }
+    }
+
+    .cta-link {
+      border-bottom: 1px solid $color-primary-alt-light;
+
+      &:hover {
+        background-color: $color-gray-lightest;
+        cursor: pointer;
       }
     }
   }
