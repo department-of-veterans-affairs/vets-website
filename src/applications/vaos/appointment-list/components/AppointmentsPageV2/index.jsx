@@ -153,8 +153,6 @@ function AppointmentsPageV2({
 AppointmentsPageV2.propTypes = {
   isCernerOnlyPatient: PropTypes.bool.isRequired,
   isWelcomeModalDismissed: PropTypes.bool.isRequired,
-  showCommunityCare: PropTypes.bool.isRequired,
-  showDirectScheduling: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
