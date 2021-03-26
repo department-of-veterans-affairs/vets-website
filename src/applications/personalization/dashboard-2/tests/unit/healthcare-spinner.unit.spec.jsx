@@ -17,15 +17,11 @@ describe('HealthCare component', () => {
           },
         },
         health: {
-          appointments: {
-            fetching: true,
-          },
+          appointments: {},
           msg: {
             folders: {
               data: {
-                currentItem: {
-                  loading: true,
-                },
+                currentItem: {},
               },
               ui: {
                 nav: {
@@ -38,7 +34,7 @@ describe('HealthCare component', () => {
         },
       };
 
-      view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {
+      view = renderInReduxProvider(<HealthCare />, {
         initialState,
         reducers,
       });

@@ -14,7 +14,6 @@ describe('HealthCare component', () => {
 
   describe('when the user has an appointment scheduled within the next 30 days', () => {
     it('should render "Next appointment"', async () => {
-      window.VetsGov = { pollTimeout: 1 };
       initialState = {
         user: {
           profile: {
@@ -52,14 +51,12 @@ describe('HealthCare component', () => {
         reducers,
       });
 
-      await expect(view.queryByText(new RegExp(`Next appointment`, 'i'))).to
-        .exist;
+      expect(view.getByText(/next appointment/i));
     });
   });
 
   describe('when the user has an appointment scheduled after the next 30 days', () => {
     beforeEach(() => {
-      window.VetsGov = { pollTimeout: 1 };
       initialState = {
         user: {
           profile: {
@@ -98,9 +95,9 @@ describe('HealthCare component', () => {
       });
     });
 
-    it('should not render "You have no appointments scheduled within the next 30 days"', async () => {
+    it('should not render "You have no appointments scheduled within the next 30 days"', () => {
       expect(
-        await view.queryByText(
+        view.queryByText(
           new RegExp(
             `You have no appointments scheduled within the next 30 days`,
             'i',
@@ -112,7 +109,6 @@ describe('HealthCare component', () => {
 
   describe('when the user has no appointments scheduled', () => {
     beforeEach(() => {
-      window.VetsGov = { pollTimeout: 1 };
       initialState = {
         user: {
           profile: {
@@ -151,9 +147,9 @@ describe('HealthCare component', () => {
       });
     });
 
-    it('should not render "You have no appointments scheduled within the next 30 days"', async () => {
+    it('should not render "You have no appointments scheduled within the next 30 days"', () => {
       expect(
-        await view.queryByText(
+        view.queryByText(
           new RegExp(
             `You have no appointments scheduled within the next 30 days`,
             'i',
@@ -162,17 +158,13 @@ describe('HealthCare component', () => {
       ).not.to.exist;
     });
 
-    it('should not render "Next appointment"', async () => {
-      expect(await view.queryByText(new RegExp(`Next appointment`, 'i'))).not.to
+    it('should not render "Next appointment"', () => {
+      expect(view.queryByText(new RegExp(`Next appointment`, 'i'))).not.to
         .exist;
     });
 
-    it('should render "Schedule and view your appointments"', async () => {
-      expect(
-        await view.queryByText(
-          new RegExp(`Schedule and view your appointments`, 'i'),
-        ),
-      ).to.exist;
+    it('should render "Schedule and view your appointments"', () => {
+      expect(view.getByText(/schedule and view your appointments/i));
     });
   });
 });

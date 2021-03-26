@@ -44,7 +44,7 @@ export const Appointments = ({ appointments }) => {
 };
 
 Appointments.propTypes = {
-  authenticatedWithSSOe: PropTypes.bool.isRequired,
+  authenticatedWithSSOe: PropTypes.bool,
   appointments: PropTypes.arrayOf(
     PropTypes.shape({
       additionalInfo: PropTypes.string,

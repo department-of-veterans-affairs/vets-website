@@ -6,11 +6,11 @@
 
 .dashboard {
   .health-care-wrapper {
-
     .health-care {
+      // This set width applies to medium and small-desktop screens
       width: 520px;
 
-      @media (max-width: $small-screen) {
+      @media (min-width: $xsmall-screen) and (max-width: $medium-screen - 1) {
         width: 100%;
       }
 
