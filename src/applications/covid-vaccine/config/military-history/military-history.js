@@ -1,3 +1,5 @@
+import monthYearRange from 'platform/forms-system/src/js/definitions/monthYearRange';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { serviceBranchEnum, dischargeTypeEnum } from './helper';
 
 export const schema = {
@@ -8,12 +10,7 @@ export const schema = {
         type: 'string',
         enum: serviceBranchEnum(),
       },
-      serviceStartYear: {
-        type: 'string',
-      },
-      serviceEndYear: {
-        type: 'string',
-      },
+      dateRange: fullSchema.definitions.dateRangeAllRequired,
       characterOfService: {
         type: 'string',
         enum: dischargeTypeEnum(),
@@ -30,18 +27,7 @@ export const uiSchema = {
         return true;
       },
     },
-    serviceStartYear: {
-      'ui:title': 'Service start year',
-      'ui:required': () => {
-        return true;
-      },
-    },
-    serviceEndYear: {
-      'ui:title': 'Service end year',
-      'ui:required': () => {
-        return true;
-      },
-    },
+    dateRange: monthYearRange(),
     characterOfService: {
       'ui:title': 'Character of service',
       'ui:required': () => {

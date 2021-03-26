@@ -6,6 +6,7 @@
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
 
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -37,6 +38,9 @@ const formConfig = {
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
   title: 'Sign up to get a COVID-19 vaccine at VA',
+  defaultDefinitions: {
+    ...fullSchema.definitions,
+  },
   chapters: {
     attestation: {
       title: 'Verify your eligibility',
