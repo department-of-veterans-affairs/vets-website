@@ -1,10 +1,12 @@
+import { serviceBranchEnum, dischargeTypeEnum } from './helper';
+
 export const schema = {
   militaryHistory: {
     type: 'object',
     properties: {
       lastBranchOfService: {
         type: 'string',
-        enum: ['Army', 'Navy', 'Air Force'],
+        enum: serviceBranchEnum(),
       },
       serviceStartYear: {
         type: 'string',
@@ -14,7 +16,7 @@ export const schema = {
       },
       characterOfService: {
         type: 'string',
-        enum: ['Something', 'Another thing'],
+        enum: dischargeTypeEnum(),
       },
     },
   },
