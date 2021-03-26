@@ -594,7 +594,7 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
         level: 2,
         name: 'We found one VA location for you',
       }),
-    );
+    ).to.exist;
 
     expect(screen.baseElement).to.contain.text('Fake facility name 1');
     expect(screen.baseElement).to.contain.text('Fake city 1');
@@ -635,7 +635,7 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
         level: 2,
         name: 'We found one VA location for you',
       }),
-    );
+    ).to.exist;
 
     expect(screen.baseElement).to.contain.text('Fake facility name 1');
     expect(screen.baseElement).to.contain.text('Fake city 1');
@@ -674,7 +674,7 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
         level: 2,
         name: 'We found one VA location for you',
       }),
-    );
+    ).to.exist;
 
     expect(screen.baseElement).to.contain.text(
       'However, we couldn’t find any available slots right now',
