@@ -36,13 +36,8 @@ class SearchApp extends React.Component {
   constructor(props) {
     super(props);
 
-    let userInputFromURL = '';
-    let pageFromURL;
-
-    if (this.props.router.location.query) {
-      userInputFromURL = this.props.router?.location?.query?.query;
-      pageFromURL = this.props.router?.location?.query?.page;
-    }
+    const userInputFromURL = this.props.router?.location?.query?.query || '';
+    const pageFromURL = this.props.router?.location?.query?.page || undefined;
 
     this.state = {
       userInput: userInputFromURL,
