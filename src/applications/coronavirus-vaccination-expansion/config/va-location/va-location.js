@@ -1,6 +1,10 @@
 import React from 'react';
 import DynamicCheckboxWidget from './DynamicCheckboxWidget.jsx';
 
+function ReviewWidget({ value }) {
+  return <span>{value}</span>;
+}
+
 export const schema = {
   vaLocation: {
     type: 'object',
@@ -19,15 +23,7 @@ export const uiSchema = {
       'ui:options': {
         hideLabelText: true,
       },
-      'ui:reviewField': ({ children, schema, uiSchema }) => (
-        <div className="review-row">
-          <p>Derp</p>
-          <dt>
-            {uiSchema['ui:title']}
-            {uiSchema['ui:description']}
-          </dt>
-        </div>
-      ),
+      'ui:reviewWidget': ReviewWidget,
     },
   },
 };
