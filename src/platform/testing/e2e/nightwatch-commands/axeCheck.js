@@ -29,13 +29,16 @@ export function command(context, config, _callback) {
 
   // Run axe checks and report
   this.executeAsync(
-    (innerContext, rules, done) => {
-      const axeConfig = {
-        runOnly: {
-          type: 'tag',
-          values: rules,
+    (innerContext, userConfig, done) => {
+      const axeConfig = Object.assign(
+        {
+          runOnly: {
+            type: 'tag',
+            values: ['section508', 'wcag2a', 'wcag2aa'],
+          },
         },
-      };
+        userConfig,
+      );
 
       // eslint-disable-next-line no-undef
       axe.run(
@@ -46,11 +49,7 @@ export function command(context, config, _callback) {
         },
       );
     },
-    [
-      context,
-      (config || {}).rules ||
-        this.globals.rules || ['section508', 'wcag2a', 'wcag2aa'],
-    ],
+    [context, config],
     response => {
       const {
         err,

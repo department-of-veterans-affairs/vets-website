@@ -44,7 +44,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeVeteranInformation(client, testData.data);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   // This expects the url to not contain 'veteran-information', but when we
   //  navigate away properly, the new url is 'veteran-information/burial', so
   //  it fails when it shouldn't.
@@ -56,7 +64,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Timeouts.normal,
   );
   PageHelpers.completeBurialInformation(client, testData.data);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information/burial');
 
   // Service Periods page
@@ -69,7 +85,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     '.progress-bar-segmented div.progress-segment:nth-child(3)',
     'progress-segment-complete',
   );
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
     '/military-history/service-periods',
@@ -81,7 +105,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Timeouts.normal,
   );
   PageHelpers.completePreviousNames(client, testData.data);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/military-history/previous-names');
 
   // Benefit Selection page
@@ -94,7 +126,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeBenefitSelection(client, testData.data);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/benefits/selection');
 
   // Burial Allowance page -- conditional
@@ -104,7 +144,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
       Timeouts.normal,
     );
     PageHelpers.completeBurialAllowance(client, testData.data);
-    client.axeCheck('.main').click('.form-panel .usa-button-primary');
+    client
+      .axeCheck('.main', {
+        rules: {
+          'color-contrast': {
+            enabled: false,
+          },
+        },
+      })
+      .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/benefits/burial-allowance');
   }
 
@@ -115,7 +163,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
       Timeouts.normal,
     );
     PageHelpers.completePlotAllowance(client, testData.data);
-    client.axeCheck('.main').click('.form-panel .usa-button-primary');
+    client
+      .axeCheck('.main', {
+        rules: {
+          'color-contrast': {
+            enabled: false,
+          },
+        },
+      })
+      .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/benefits/plot-allowance');
   }
 
@@ -129,11 +185,27 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeClaimantContactInformation(client, testData.data);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/claimant-contact-information');
 
   // TODO: Test file upload
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/documents');
 
   client.assert.cssClassPresent(
@@ -149,7 +221,13 @@ const runTest = E2eHelpers.createE2eTest(client => {
     )
     .pause(1000)
     .click('input[type="checkbox"]')
-    .axeCheck('.main')
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
     .click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
   client.expect
@@ -161,7 +239,13 @@ const runTest = E2eHelpers.createE2eTest(client => {
   // Submit message
   client.waitForElementVisible('.confirmation-page-title', Timeouts.normal);
 
-  client.axeCheck('.main');
+  client.axeCheck('.main', {
+    rules: {
+      'color-contrast': {
+        enabled: false,
+      },
+    },
+  });
 
   client.end();
 });

@@ -66,7 +66,15 @@ function runTests(client, segment, only508List) {
       .waitForElementVisible('body', Timeouts.normal)
       .axeCheck(
         'document',
-        only508 ? { scope: url, rules: ['section508'] } : { scope: url },
+        only508
+          ? {
+              scope: url,
+              runOnly: {
+                type: 'tag',
+                values: ['section508'],
+              },
+            }
+          : { scope: url },
       );
   });
 }
