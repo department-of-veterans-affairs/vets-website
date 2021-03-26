@@ -15,8 +15,22 @@ registerFilters();
 
 const getFile = filePath =>
   readFileSync(path.resolve(__dirname, `../../../../`, filePath), 'utf8');
+
 const getLayout = filePath => getFile(filePath);
-const parseFixture = filePath => JSON.parse(getFile(filePath));
+
+const parseFixture = filePath => {
+  let data;
+
+  try {
+    data = JSON.parse(getFile(filePath));
+  } catch (error) {
+    /* eslint-disable no-console */
+    console.log(`Error parsing JSON fixture in:\n`, error);
+    /* eslint-enable no-console */
+  }
+
+  return data;
+};
 
 const makeHTMLFileName = (layoutPath, dataName) => {
   const fileName = path.basename(layoutPath).split('.')[0];
