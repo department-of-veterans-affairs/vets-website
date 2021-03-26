@@ -1,0 +1,31 @@
+{
+  "labelAndLocationName": {
+    "phoneLabel": "Phone",
+    "number": {
+      "fieldPhoneLabel": "Test",
+      "fieldPhoneNumber": "1234567890"
+    },
+    "haveLocationName": true
+  },
+
+  "noLabelLocationName": {
+    "phoneLabel": "Fax",
+    "number": {
+      "fieldPhoneNumber": "1234567890"
+    },
+    "haveLocationName": true
+  },
+
+  "noLabelNoLocationName": {
+    "number": {
+      "fieldPhoneNumber": "1234567890"
+    }
+  },
+
+  "numberWithExtension": {
+    "number": {
+      "fieldPhoneNumber": "1234567890",
+      "fieldPhoneExtension": "100"
+    }
+  }
+}
