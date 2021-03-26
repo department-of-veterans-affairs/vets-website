@@ -1,9 +1,7 @@
-import DynamicCheckboxWidget from './DynamicCheckboxWidget';
 import React from 'react';
+import DynamicCheckboxWidget from './DynamicCheckboxWidget.jsx';
 
 function ReviewWidget({ value }) {
-  // console.log(value);
-
   return <span>{value}</span>;
 }
 
@@ -11,7 +9,7 @@ export const schema = {
   vaLocation: {
     type: 'object',
     properties: {
-      location: {
+      preferredFacility: {
         type: 'string',
       },
     },
@@ -20,12 +18,12 @@ export const schema = {
 
 export const uiSchema = {
   vaLocation: {
-    location: {
+    preferredFacility: {
       'ui:widget': DynamicCheckboxWidget,
-      'ui:reviewWidget': ReviewWidget,
       'ui:options': {
         hideLabelText: true,
       },
+      'ui:reviewWidget': ReviewWidget,
     },
   },
 };

@@ -9,6 +9,15 @@ const statementOfTruth = (
   </>
 );
 
+export const ifYouAgree = (
+  <>
+    <p>
+      If you understand and agree with these statements, please check the box:
+    </p>
+    <p className="vads-u-color--secondary">(*Required)</p>
+  </>
+);
+
 export const statementOfTruthVeteran = (
   <>
     <p>I certify that I am a Veteran. {statementOfTruth}</p>

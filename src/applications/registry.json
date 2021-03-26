@@ -1005,7 +1005,7 @@
   {
     "appName": "covid-vaccine-expansion",
     "entryName": "covid-vaccine",
-    "rootUrl": "/covid-vaccine",
+    "rootUrl": "/coronavirus-vaccination-expansion",
     "template": {
       "vagovprod": false,
       "layout": "page-react.html"
