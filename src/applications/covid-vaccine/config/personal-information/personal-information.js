@@ -14,9 +14,6 @@ export const schema = {
       lastName: {
         type: 'string',
       },
-      suffix: {
-        type: 'string',
-      },
       birthDate: {
         type: 'string',
         pattern: '^\\d{4}-\\d{2}-\\d{2}$',
@@ -49,12 +46,6 @@ export const uiSchema = {
       },
       'ui:required': () => {
         return true;
-      },
-    },
-    suffix: {
-      'ui:title': 'Spouse’s suffix',
-      'ui:options': {
-        widgetClassNames: 'form-select-medium',
       },
     },
     birthDate: {
