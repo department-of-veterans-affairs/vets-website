@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import environment from 'platform/utilities/environment';
 
 import {
   DowntimeNotification,
@@ -29,6 +30,7 @@ import GetHelp from './GetHelp';
 
 function Introduction({
   authButtonDisabled = false,
+  enhancedEligibilityEnabled,
   isLoggedIn,
   toggleLoginModal,
 }) {
@@ -53,26 +55,24 @@ function Introduction({
         </p>
         {authButtonDisabled ? (
           <p>
-            <Link
+            <a
               className="usa-button"
-              to="/form"
-              onClick={() => {
-                recordEvent({
-                  event: 'cta-button-click',
-                  'button-type': 'default',
-                  'button-click-label': 'Continue',
-                  'button-background-color': '#0071bb',
-                });
-              }}
+              href={
+                enhancedEligibilityEnabled
+                  ? encodeURI(
+                      `${environment.BASE_URL}/covid-vaccine/introduction`,
+                    )
+                  : '/health-care/covid-19-vaccine/stay-informed/form'
+              }
             >
-              Continue
-            </Link>
+              Sign up now
+            </a>
           </p>
         ) : (
           <>
             {isLoggedIn ? (
               <Link className="usa-button" to="/form">
-                Sign up to stay informed
+                Sign up now
               </Link>
             ) : (
               <>
@@ -207,6 +207,9 @@ const mapStateToProps = state => {
     isLoggedIn: userSelectors.isLoggedIn(state),
     authButtonDisabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.covidVaccineUpdatesDisableAuth
+    ],
+    enhancedEligibilityEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.covidVaccineUpdatesEnableExpandedEligibility
     ],
   };
 };
