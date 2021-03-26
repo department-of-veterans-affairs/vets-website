@@ -45,6 +45,7 @@ jobs:
         run: node script/app-coverage-report.js
 
       - name: Publish test results
+        if: ${{ always() }}
         uses: mikepenz/action-junit-report@v2
         with:
           check_name: 'Unit Tests Summary'
