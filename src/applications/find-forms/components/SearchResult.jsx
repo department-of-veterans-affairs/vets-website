@@ -81,7 +81,12 @@ const deriveRelatedTo = ({
     relatedTo = 'Employment or jobs at VA';
   }
   if (formType === 'non-va') {
-    relatedTo = 'A non-VA form. For other government agency forms, go to the ';
+    relatedTo = (
+      <>
+        A non-VA form. For other government agency forms, go to the{' '}
+        <a href="https://www.gsa.gov/reference/forms">GSA forms library</a>
+      </>
+    );
   }
 
   if (benefitCategories?.length > 0) {
@@ -92,14 +97,11 @@ const deriveRelatedTo = ({
     return (
       <dd className="vads-u-margin-y--1 vads-u-margin-y--1">
         <dfn className="vads-u-font-weight--bold">Related to:</dfn> {relatedTo}
-        {formType === 'non-va' ? (
-          <a href="https://www.gsa.gov/reference/forms">GSA forms library</a>
-        ) : (
-          ''
-        )}
       </dd>
     );
-  } else return null;
+  }
+
+  return null;
 };
 
 const SearchResult = ({ form, formMetaInfo }) => {
