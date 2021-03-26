@@ -634,11 +634,13 @@ canvas.mapboxgl-canvas:focus {
   font-family: 'Font Awesome 5 Free';
 
   &:active {
-    background-color: transparent;
+    background-color: unset ;
+    color: unset ;
   }
 
   &:hover {
-    background: transparent;
+    background-color: unset;
+    color: unset;
   }
 }
 
