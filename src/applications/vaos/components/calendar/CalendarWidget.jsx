@@ -31,12 +31,12 @@ function pad(num, size) {
 }
 
 /**
- * Gets the weekday of the first month
+ * Gets the first day of the month
  *
  * @param {Moment} momentDate A given moment date
- * @returns {number} A number of the week e.g. 0-6
+ * @returns {number} A number of the first day of the month
  */
-function getWeekdayOfFirstOfMonth(momentDate) {
+function getFirstDayOfMonth(momentDate) {
   return Number(momentDate.startOf('month').format('d'));
 }
 
@@ -78,17 +78,18 @@ export function getMaxMonth(maxDate, startMonth) {
  * Gets the initial blank cells
  *
  * @param {Moment} momentDate A given moment date
- * @returns {Array} Array of blanks
+ * @param {boolean} [showWeekends] Whether to show full weekend slots or not
+ * @returns {Array} Array of blanks to push start day position
  */
-function getInitialBlankCells(momentDate) {
-  const firstWeekday = getWeekdayOfFirstOfMonth(momentDate);
+function getInitialBlankCells(momentDate, showWeekends) {
+  const firstDay = getFirstDayOfMonth(momentDate);
+  const blanks = [];
 
-  if (firstWeekday === 0 || firstWeekday === 6) {
-    return [];
+  if (!showWeekends && (firstDay === 0 || firstDay === 6)) {
+    return blanks;
   }
 
-  const blanks = [];
-  for (let i = 1; i < firstWeekday; i++) {
+  for (let i = 0; i < firstDay; i++) {
     blanks.push(null);
   }
 
@@ -96,41 +97,59 @@ function getInitialBlankCells(momentDate) {
 }
 
 /**
- * Gets weekdays
+ * Gets the days of the week
  *
  * @param {Moment} momentDate A given moment date
- * @returns {Array} Array of weekdays
+ * @param {boolean} [showWeekend] Whether to show full weekend slots or not
+ * @returns {Array} Array of days
  */
-function getWeekdays(momentDate) {
-  let dayOfWeek = getWeekdayOfFirstOfMonth(momentDate);
+function getDaysOfTheWeek(momentDate, showWeekend) {
   const daysToShow = [];
+  let dayOfWeek;
 
-  // Create array of weekdays
+  if (!showWeekend) {
+    dayOfWeek = getFirstDayOfMonth(momentDate);
+  }
+
+  /**
+   * Create array of days of the week. If the showing the weekend, don't check
+   * for Sunday (0) or Saturday (6)
+   */
   for (let i = 1; i <= momentDate.daysInMonth(); i++) {
-    if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+    if (showWeekend) {
       daysToShow.push(
         `${momentDate.format('YYYY')}-${momentDate.format('MM')}-${pad(i, 2)}`,
       );
+    } else {
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+        daysToShow.push(
+          `${momentDate.format('YYYY')}-${momentDate.format('MM')}-${pad(
+            i,
+            2,
+          )}`,
+        );
+      }
+      dayOfWeek = dayOfWeek + 1 > 6 ? 0 : dayOfWeek + 1;
     }
-    dayOfWeek = dayOfWeek + 1 > 6 ? 0 : dayOfWeek + 1;
   }
   return daysToShow;
 }
 
 /**
- * Gets cells
+ * Gets cells for days of a week
  *
  * @param {Moment} momentDate A given moment date
+ * @param {boolean} [showWeekend] Whether to show full weekend slots or not
  * @returns {Array} Array of cells
  */
-function getCells(momentDate) {
-  const cells = [
-    ...getInitialBlankCells(momentDate),
-    ...getWeekdays(momentDate),
-  ];
+function getCells(momentDate, showWeekend) {
+  const cells = [...getInitialBlankCells(momentDate, showWeekend)];
+  const daysToShow = showWeekend ? 7 : 5;
+
+  cells.push(...getDaysOfTheWeek(momentDate, showWeekend));
 
   // Add blank cells to end of month
-  while (cells.length % 5 !== 0) cells.push(null);
+  while (cells.length % daysToShow !== 0) cells.push(null);
 
   return cells;
 }
@@ -139,15 +158,17 @@ function getCells(momentDate) {
  * Parses calendar weeks and returns array
  *
  * @param {Moment} momentDate A given moment date
+ * @param {boolean} [showWeekend] Whether to show full weekend slots or not
  * @returns {Array} Array of weeks
  */
-export function getCalendarWeeks(momentDate) {
-  const dateCells = getCells(momentDate);
+export function getCalendarWeeks(momentDate, showWeekend) {
+  const dateCells = getCells(momentDate, showWeekend);
   const weeks = [];
+  const daysToShow = showWeekend ? 7 : 5;
   let currentWeek = [];
 
   for (let index = 0; index < dateCells.length; index++) {
-    if (index > 0 && index % 5 === 0) {
+    if (index > 0 && index % daysToShow === 0) {
       weeks.push(currentWeek);
       currentWeek = [dateCells[index]];
     } else {
@@ -225,7 +246,8 @@ function handleNext(onClickNext, months, setMonths) {
  * @param {string} props.startMonth YYYY-MM
  * @param {string} props.timezone America/Denver
  * @param {Array<string>} props.value
- * @returns {JSX.Element} props.Calendar Widget
+ * @param {boolean} [props.showWeekends=false] Whether to show full weekend slots or not
+ * @returns {JSX.Element} props.Calendar Calendar Widget
  */
 function CalendarWidget({
   availableSlots,
@@ -247,6 +269,7 @@ function CalendarWidget({
   startMonth,
   timezone,
   value = [],
+  showWeekends = false,
 }) {
   const [currentlySelectedDate, setCurrentlySelectedDate] = useState(() => {
     if (value.length > 0) {
@@ -315,54 +338,56 @@ function CalendarWidget({
                     />
                   )}
                   <hr aria-hidden="true" className="vads-u-margin-y--1" />
-                  <CalendarWeekdayHeader />
+                  <CalendarWeekdayHeader showFullWeek={showWeekends} />
                   <div role="rowgroup">
-                    {getCalendarWeeks(month).map((week, weekIndex) => (
-                      <CalendarRow
-                        availableSlots={availableSlots}
-                        cells={week}
-                        id={id}
-                        timezone={timezone}
-                        currentlySelectedDate={currentlySelectedDate}
-                        handleSelectDate={date => {
-                          if (
-                            maxSelections === 1 &&
-                            date === currentlySelectedDate
-                          ) {
-                            onChange([]);
-                          }
-
-                          setCurrentlySelectedDate(
-                            date === currentlySelectedDate ? null : date,
-                          );
-                        }}
-                        handleSelectOption={date => {
-                          if (maxSelections > 1) {
-                            if (value.includes(date)) {
-                              onChange(
-                                value.filter(
-                                  selectedDate => selectedDate !== date,
-                                ),
-                              );
-                            } else {
-                              onChange(value.concat(date));
+                    {getCalendarWeeks(month, showWeekends).map(
+                      (week, weekIndex) => (
+                        <CalendarRow
+                          availableSlots={availableSlots}
+                          cells={week}
+                          id={id}
+                          timezone={timezone}
+                          currentlySelectedDate={currentlySelectedDate}
+                          handleSelectDate={date => {
+                            if (
+                              maxSelections === 1 &&
+                              date === currentlySelectedDate
+                            ) {
+                              onChange([]);
                             }
-                          } else {
-                            onChange([date]);
-                          }
-                        }}
-                        hasError={hasError}
-                        key={`row-${weekIndex}`}
-                        maxDate={maxDate}
-                        maxSelections={maxSelections}
-                        minDate={minDate}
-                        rowNumber={weekIndex}
-                        selectedDates={value}
-                        renderIndicator={renderIndicator}
-                        renderOptions={renderOptions}
-                        disabled={disabled}
-                      />
-                    ))}
+
+                            setCurrentlySelectedDate(
+                              date === currentlySelectedDate ? null : date,
+                            );
+                          }}
+                          handleSelectOption={date => {
+                            if (maxSelections > 1) {
+                              if (value.includes(date)) {
+                                onChange(
+                                  value.filter(
+                                    selectedDate => selectedDate !== date,
+                                  ),
+                                );
+                              } else {
+                                onChange(value.concat(date));
+                              }
+                            } else {
+                              onChange([date]);
+                            }
+                          }}
+                          hasError={hasError}
+                          key={`row-${weekIndex}`}
+                          maxDate={maxDate}
+                          maxSelections={maxSelections}
+                          minDate={minDate}
+                          rowNumber={weekIndex}
+                          selectedDates={value}
+                          renderIndicator={renderIndicator}
+                          renderOptions={renderOptions}
+                          disabled={disabled}
+                        />
+                      ),
+                    )}
                   </div>
                 </>
               </div>
