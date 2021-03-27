@@ -1,7 +1,7 @@
 import { attestation } from '../schema-imports';
 
 import {
-  veteranDescription,
+  eligibilityAccordion,
   veteranLabel,
   spouseLabel,
   caregiverEnrolledLabel,
@@ -23,7 +23,7 @@ export const uiSchema = {
     },
     applicantType: {
       'ui:title': 'Which of these best describes you?',
-      // 'ui:description': 'Which of these best describes you?',
+      'ui:description': eligibilityAccordion,
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
@@ -32,9 +32,6 @@ export const uiSchema = {
           caregiverEnrolled: caregiverEnrolledLabel,
           caregiverOfVeteran: caregiverOfVeteranLabel,
           CHAMPVA: champvaLabel,
-        },
-        nestedContent: {
-          veteran: veteranDescription,
         },
       },
       'ui:required': () => true,
