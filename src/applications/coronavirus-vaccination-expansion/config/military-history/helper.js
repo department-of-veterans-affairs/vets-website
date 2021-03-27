@@ -1,32 +1,15 @@
-const dischargeTypeLabels = {
-  honorable: 'Honorable',
-  general: 'General',
-  other: 'Other Than Honorable',
-  'bad-conduct': 'Bad Conduct',
-  dishonorable: 'Dishonorable',
-  undesirable: 'Undesirable',
-};
+import {
+  branchesServed,
+  dischargeTypes,
+} from 'platform/static-data/options-for-select';
 
-const lastServiceBranchLabels = {
-  'air force': 'Air Force',
-  army: 'Army',
-  'coast guard': 'Coast Guard',
-  'marine corps': 'Marine Corps',
-  'merchant seaman': 'Merchant Seaman',
-  navy: 'Navy',
-  noaa: 'Noaa',
-  usphs: 'USPHS',
-  'f.commonwealth': 'Filipino Commonwealth Army',
-  'f.guerilla': 'Filipino Guerilla Forces',
-  'f.scouts new': 'Filipino New Scout',
-  'f.scouts old': 'Filipino Old Scout',
-  other: 'Other',
+export const serviceBranchLabels = () => {
+  return branchesServed.map(branch => {
+    return branch.label;
+  });
 };
-
-export const serviceBranchEnum = () => {
-  return Object.values(lastServiceBranchLabels);
-};
-
-export const dischargeTypeEnum = () => {
-  return Object.values(dischargeTypeLabels);
+export const dischargeTypeLabels = () => {
+  return dischargeTypes.map(type => {
+    return type.label;
+  });
 };
