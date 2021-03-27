@@ -1,14 +1,7 @@
-// Example of an imported schema:
-// import fullSchema from '../-schema.json';
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/-schema.json';
-
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
-
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import {
   attestation,
@@ -36,7 +29,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: PreSubmitInfo,
-  formId: '1234',
+  formId: VA_FORM_IDS.FORM_COVID_VACCINATION_EXPANSION,
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {

@@ -20,6 +20,17 @@ describe('Find VA Forms <SearchResult />', () => {
   const form = {
     id: '10-10CG',
     attributes: {
+      benefitCategories: [
+        {
+          description:
+            'VA benefits for spouses, dependents, survivors, and family caregivers',
+          name: 'Family member benefits',
+        },
+        {
+          description: 'VA health care',
+          name: 'Health care',
+        },
+      ],
       deletedAt: null,
       firstIssuedOn: '2011-05-01',
       formDetailsUrl:
@@ -41,6 +52,7 @@ describe('Find VA Forms <SearchResult />', () => {
       title:
         'Instructions and Application for Comprehensive Assistance for Family Caregivers Program',
       url: 'https://www.va.gov/vaforms/medical/pdf/10-10CG.pdf',
+      vaFormAdministration: 'Veterans Health Administration',
       validPdf: true,
     },
   };
@@ -71,6 +83,16 @@ describe('Find VA Forms <SearchResult />', () => {
       <SearchResult formMetaInfo={formMetaInfo} form={form} />,
     );
     expect(tree.exists('.usa-button')).to.equal(true);
+    tree.unmount();
+  });
+
+  it('should have related to text', () => {
+    const tree = mount(
+      <SearchResult formMetaInfo={formMetaInfo} form={form} />,
+    );
+    const html = tree.html();
+    expect(html).to.include(form.attributes.benefitCategories[0].name);
+    expect(html).to.include(form.attributes.benefitCategories[1].name);
     tree.unmount();
   });
 

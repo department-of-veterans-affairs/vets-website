@@ -85,7 +85,6 @@ describe('VAOS vaccine flow <ClinicChoicePage>', () => {
 
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
     expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
-    expect(screen.baseElement).to.contain.text('307-778-7550');
 
     expect(screen.getAllByRole('radio').length).to.equal(2);
     expect(screen.getByRole('radio', { name: /Green team clinic/ })).to.be.ok;

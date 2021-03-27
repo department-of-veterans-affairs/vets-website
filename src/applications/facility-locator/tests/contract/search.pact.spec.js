@@ -5,14 +5,10 @@ import {
   fetchVAFacility,
   getProviderSpecialties,
 } from '../../actions';
-import {
-  decimal,
-  eachLike,
-  integer,
-  string,
-} from '@pact-foundation/pact/dsl/matchers';
+import { Matchers } from '@pact-foundation/pact';
 import sinon from 'sinon';
 
+const { decimal, eachLike, integer, string } = Matchers;
 const bounds = ['-112.54', '32.53', '-111.04', '34.03'];
 const address = 'South Gilbert Road, Chandler, Arizona 85286, United States';
 
