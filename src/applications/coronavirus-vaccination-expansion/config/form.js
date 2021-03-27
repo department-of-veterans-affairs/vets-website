@@ -24,7 +24,10 @@ import {
 import { isTypeNone, isVeteran, isSpouseOrCaregiver } from './helpers';
 import PreSubmitInfo from './PreSubmitinfo';
 
+import manifest from '../manifest.json';
+
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // submitUrl: '/v0/api',
   submit: () =>
