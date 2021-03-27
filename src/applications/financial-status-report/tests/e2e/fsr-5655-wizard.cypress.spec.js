@@ -1,20 +1,13 @@
 import { WIZARD_STATUS, ROOT_URL } from '../../wizard/constants';
 
-Cypress.Commands.add('checkStorage', (key, expectedValue) => {
-  cy.window()
-    .its(`sessionStorage.${key}`)
-    .should('eq', expectedValue);
-});
-
 describe('Financial Status Report (Wizard)', () => {
   beforeEach(() => {
-    window.dataLayer = [];
     sessionStorage.removeItem(WIZARD_STATUS);
     cy.visit(ROOT_URL);
     cy.injectAxe();
   });
 
-  it.skip('should show the wizard', () => {
+  it('should show the wizard', () => {
     const heading = 'Is this the form I need?';
     cy.url().should('include', ROOT_URL);
     cy.get('.wizard-heading').should('have.text', heading);
@@ -28,7 +21,6 @@ describe('Financial Status Report (Wizard)', () => {
     cy.get('[type="radio"][value="veteran"]').click();
     cy.get('.usa-button-primary').click();
     cy.get('h1').should('have.text', title);
-    cy.checkStorage(WIZARD_STATUS, 'complete');
     cy.axeCheck();
   });
 });
