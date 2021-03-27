@@ -64,5 +64,9 @@ export const uiSchema = {
         pattern: 'Please enter your area code and phone number',
       },
     },
+    smsAcknowledgement: {
+      'ui:title':
+        'I authorize VA to send me text messages about my medical care, such as for appointment scheduling.',
+    },
   },
 };
