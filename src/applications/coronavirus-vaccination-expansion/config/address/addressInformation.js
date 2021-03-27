@@ -32,27 +32,13 @@ export const uiSchema = {
         pattern: 'Please enter your five digit zip code',
       },
     },
-    emailAddress: emailUI(),
-    'view:confirmEmail': {
-      'ui:required': formData =>
-        formData.addressInformation?.emailAddress !== undefined,
-      'ui:validations': [
-        (errors, fieldData, formData) => {
-          if (formData?.emailAddress !== formData['view:confirmEmail']) {
-            errors.addError('Please ensure your emails match');
-          }
-        },
-      ],
-      'ui:title': 'Confirm email address',
+    emailAddress: {
+      ...emailUI(),
+      'ui:description':
+        'If you provide an email address, we can send you information about the vaccine process.',
     },
-    homePhone: {
-      'ui:title': 'Home telephone number',
-      'ui:errorMessages': {
-        pattern: 'Please enter your area code and phone number',
-      },
-    },
-    mobilePhone: {
-      'ui:title': 'Mobile telephone number',
+    phone: {
+      'ui:title': 'Telephone number',
       'ui:description': (
         <p>
           <strong>Note: </strong>

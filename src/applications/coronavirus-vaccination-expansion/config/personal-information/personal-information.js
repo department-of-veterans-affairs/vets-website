@@ -1,6 +1,7 @@
 import React from 'react';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import { personalInformation } from '../schema-imports';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
 export const schema = {
   personalInformation,
@@ -24,7 +25,7 @@ export const uiSchema = {
       },
     },
     birthDate: {
-      'ui:title': 'Date of birth',
+      ...currentOrPastDateUI('Date of birth'),
       'ui:description': () => (
         <p>
           <strong>Note: </strong>
@@ -32,7 +33,6 @@ export const uiSchema = {
           your eligibility for a vaccine.
         </p>
       ),
-      'ui:widget': 'date',
       'ui:errorMessages': {
         pattern: 'Please enter your complete birthday',
         required: 'Please enter your date of birth',

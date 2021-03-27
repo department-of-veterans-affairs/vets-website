@@ -1,7 +1,10 @@
 import monthYearRange from 'platform/forms-system/src/js/definitions/monthYearRange';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-import { dischargeTypeLabels, serviceBranchLabels } from './helper';
+import {
+  branchesServed,
+  dischargeTypes,
+} from 'platform/static-data/options-for-select';
 
 export const schema = {
   militaryHistory: {
@@ -9,12 +12,12 @@ export const schema = {
     properties: {
       lastBranchOfService: {
         type: 'string',
-        enum: serviceBranchLabels(),
+        enum: branchesServed.map(branch => branch.label),
       },
       dateRange: fullSchema.definitions.dateRangeAllRequired,
       characterOfService: {
         type: 'string',
-        enum: dischargeTypeLabels(),
+        enum: dischargeTypes.map(type => type.label),
       },
     },
   },
