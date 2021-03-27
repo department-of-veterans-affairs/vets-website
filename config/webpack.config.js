@@ -17,6 +17,8 @@ const headerFooterData = require('../src/platform/landing-pages/header-footer-da
 const BUCKETS = require('../src/site/constants/buckets');
 const ENVIRONMENTS = require('../src/site/constants/environments');
 const scaffoldRegistry = require('../src/applications/registry.scaffold.json');
+const facilitySidebar = require('../src/site/layouts/tests/vamc/fixtures/health_care_region_page.json')
+  .facilitySidebar;
 
 const { VAGOVSTAGING, VAGOVPROD, LOCALHOST } = ENVIRONMENTS;
 
@@ -361,6 +363,7 @@ module.exports = (env = {}) => {
           modifyStyleTags,
           widgetType,
           widgetTemplate,
+          facilitySidebar,
 
           // Default template metadata.
           breadcrumbs_override: [], // eslint-disable-line camelcase
