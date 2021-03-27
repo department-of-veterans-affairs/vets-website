@@ -1003,6 +1003,15 @@
     }
   },
   {
+    "appName": "covid-vaccine-expansion",
+    "entryName": "covid-vaccine",
+    "rootUrl": "/coronavirus-vaccination-expansion",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
+    }
+  },
+  {
     "appName": "Veteran Rapid Retraining Assistance Program",
     "entryName": "vrrap",
     "rootUrl": "/vrrap",
