@@ -36,6 +36,7 @@ const formConfig = {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
+  saveInProgress: {},
   title: 'Sign up to get a COVID-19 vaccine at VA',
   defaultDefinitions: {
     ...fullSchema.definitions,
