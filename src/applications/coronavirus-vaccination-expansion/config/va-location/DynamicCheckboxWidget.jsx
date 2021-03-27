@@ -12,7 +12,6 @@ export function DynamicCheckboxWidget(props) {
   // console.log(props);
   const { onChange } = props;
   let locationsList = null;
-  let upperContent = null;
   const [locations, setLocations] = useState([]);
   const [loading, isLoading] = useState(true); // app starts in a loading state
   const [error, setError] = useState(false); // app starts with no error
@@ -39,21 +38,6 @@ export function DynamicCheckboxWidget(props) {
       <LoadingIndicator message="Loading VA medical centers near you..." />
     );
   } else if (locations.length > 0 && loading === false) {
-    upperContent = (
-      <>
-        <p>
-          These are the VA medical centers closest to where you live. Select one
-          or more medical centers you're willing to go to get a COVID-19
-          vaccine. If you don't select any, we'll match you with the first one
-          on the list
-        </p>
-        <p>
-          <strong>Note</strong>: if you get a vaccine that requires 2 doses to
-          be fully effective, you'll need to return to the same VA medical
-          center to get your second dose.
-        </p>
-      </>
-    );
     locationsList = (
       <fieldset className="fieldset-input vads-u-margin-top--0">
         {locations.map((location, index) => (
@@ -77,7 +61,6 @@ export function DynamicCheckboxWidget(props) {
       </fieldset>
     );
   } else if (locations.length === 0 && error === false && loading === false) {
-    upperContent = '';
     // there are no locations returned
     locationsList = (
       <AlertBox
@@ -88,7 +71,6 @@ export function DynamicCheckboxWidget(props) {
     );
   } else if (error === true && loading === false) {
     // there was an error
-    upperContent = '';
     locationsList = (
       <AlertBox
         content="We're sorry. Something went wrong on our end. Please refresh this page or check back later."
@@ -97,12 +79,7 @@ export function DynamicCheckboxWidget(props) {
       />
     );
   }
-  return (
-    <>
-      {upperContent}
-      {locationsList}
-    </>
-  );
+  return <>{locationsList}</>;
 }
 
 function mapStateToProps(state) {
