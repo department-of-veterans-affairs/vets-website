@@ -17,10 +17,10 @@ export const uiSchema = {
       'ui:description': (
         <>
           <p>
-            These are the VA medical centers closest to where you live. Select
-            one or more medical centers you're willing to go to get a COVID-19
-            vaccine. If you don't select any, we'll match you with the first one
-            on the list
+            These are the VA medical centers closest to the address you
+            provided. Select the medical center where you would like to get your
+            COVID-19 vaccine . If you don't select any, we'll match you with the
+            nearest one.
           </p>
           <p>
             <strong>Note</strong>: if you get a vaccine that requires 2 doses to

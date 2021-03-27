@@ -12,7 +12,7 @@ export const uiSchema = {
       'ui:title': 'Date of birth',
       'ui:description': () => (
         <span>
-          <b>Note: </b>
+          <strong>Note: </strong>
           The Veteran's date of birth helps us match your information to your
           Veteran's records. We can then share your vaccine plans with your
           local VA health facility so they can contact you when you’re eligible
@@ -27,7 +27,7 @@ export const uiSchema = {
         'ui:title': 'Social Security number (SSN)',
         'ui:description': () => (
           <span>
-            <b>Note: </b>
+            <strong>Note: </strong>
             The Veteran's <abbr title="Social Security Number">SSN</abbr> helps
             us match your information to your Veteran's records. We can then
             share your vaccine plans with your local VA health facility so they

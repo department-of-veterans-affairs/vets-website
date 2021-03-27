@@ -26,15 +26,17 @@ export const uiSchema = {
     birthDate: {
       'ui:title': 'Date of birth',
       'ui:description': () => (
-        <span>
+        <p>
           <strong>Note: </strong>
-          Your date of birth helps us match your information to your Veteran
-          records. We can then share your vaccine plans with your local VA
-          health facility so they can contact you when you’re eligible to get a
-          vaccine.
-        </span>
+          We ask for your date of birth to add you to our records and confirm
+          your eligibility for a vaccine.
+        </p>
       ),
       'ui:widget': 'date',
+      'ui:errorMessages': {
+        pattern: 'Please enter your complete birthday',
+        required: 'Please enter your date of birth',
+      },
     },
     birthSex: {
       'ui:title': 'What sex were you assigned at birth?',
@@ -42,7 +44,7 @@ export const uiSchema = {
       'ui:description': (
         <>
           <p>
-            <strong>Note:</strong>
+            <strong>Note: </strong>
             We ask for this information to help us and our partners at the
             Centers for Disease Control and Prevention (CDC) understand who is
             getting vaccines. This helps us serve all eligible Veterans and
@@ -61,13 +63,11 @@ export const uiSchema = {
       ...{
         'ui:title': 'Social Security number (SSN)',
         'ui:description': () => (
-          <span>
-            <b>Note: </b>
-            Your <abbr title="Social Security Number">SSN</abbr> helps us match
-            your information to your Veteran records. We can then share your
-            vaccine plans with your local VA health facility so they can contact
-            you when you’re eligible to get a vaccine.
-          </span>
+          <p>
+            <strong>Note: </strong>
+            We ask for your <abbr title="Social Security Number">SSN</abbr> to
+            add you to our records and confirm your eligibility for a vaccine.
+          </p>
         ),
         'ui:errorMessages': {
           pattern: 'Please enter a valid 9 digit SSN (dashes allowed)',

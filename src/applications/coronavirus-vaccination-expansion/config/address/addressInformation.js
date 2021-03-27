@@ -12,7 +12,7 @@ export const uiSchema = {
       'ui:title': 'Country',
     },
     addressLine1: {
-      'ui:title': 'Street Address',
+      'ui:title': 'Street address',
     },
     addressLine2: {
       'ui:title': 'Line 2',
@@ -27,7 +27,10 @@ export const uiSchema = {
       'ui:title': 'State',
     },
     zipCode: {
-      'ui:title': 'Zip Code',
+      'ui:title': 'Zip code',
+      'ui:errorMessages': {
+        pattern: 'Please enter your five digit zip code',
+      },
     },
     emailAddress: emailUI(),
     'view:confirmEmail': {
@@ -44,15 +47,22 @@ export const uiSchema = {
     },
     homePhone: {
       'ui:title': 'Home telephone number',
+      'ui:errorMessages': {
+        pattern: 'Please enter your area code and phone number',
+      },
     },
     mobilePhone: {
       'ui:title': 'Mobile telephone number',
       'ui:description': (
-        <span>
-          <strong>Note:</strong> If you give us your mobile phone number, we may
-          be able to schedule your vaccine appointment by text message.
-        </span>
+        <p>
+          <strong>Note: </strong>
+          If you give us your mobile phone number, we may be able to schedule
+          your vaccine appointment by text message.
+        </p>
       ),
+      'ui:errorMessages': {
+        pattern: 'Please enter your area code and phone number',
+      },
     },
   },
 };

@@ -5,7 +5,6 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import {
   attestation,
-  notEligible,
   militaryHistory,
   complianceAgreement,
   personalInformation,
@@ -49,12 +48,6 @@ const formConfig = {
           path: 'verify-eligibility',
           schema: attestation.schema.attestation,
           uiSchema: attestation.uiSchema.attestation,
-        },
-        notEligible: {
-          depends: formData => isTypeNone(formData),
-          path: 'eligibility',
-          schema: notEligible.schema.notEligible,
-          uiSchema: notEligible.uiSchema.notEligible,
         },
       },
     },
