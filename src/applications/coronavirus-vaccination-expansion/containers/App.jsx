@@ -11,7 +11,7 @@ export default function App({ location, children }) {
         <a href="/">Home</a>
         <a href="/health-care">Health care</a>
         <a href="/health-care/covid-19-vaccine">COVID-19 vaccines at VA</a>
-        <a href="/health-care/covid-19-vaccine/sign-up/stay-informed">
+        <a href="/health-care/covid-19-vaccine/stay-informed">
           Sign up to get a vaccine
         </a>
       </Breadcrumbs>
