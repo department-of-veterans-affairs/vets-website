@@ -48,6 +48,9 @@ export function DynamicCheckboxWidget(props) {
               id={`location-${index}`}
               value={location.attributes.name}
               onChange={_ => onChange(location.id)}
+              aria-label={`${location.attributes.name} located in ${
+                location.attributes.city
+              }, ${location.attributes.state}`}
             />
             <label name="undefined-0-label" htmlFor="default-0">
               <p className="vads-u-padding-left--4 vads-u-margin-top--neg3">

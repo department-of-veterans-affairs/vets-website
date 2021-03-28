@@ -11,7 +11,13 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
 
     // Rename and modify the test data as needed.
-    dataSets: ['test-data'],
+    dataSets: [
+      'test-data-veteran',
+      'test-data-spouse',
+      'test-data-caregiver-enrolled',
+      'test-data-caregiver-of-veteran',
+      'test-data-champva',
+    ],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
@@ -27,24 +33,81 @@ const testConfig = createTestConfig(
 
         cy.injectAxe();
       },
-      'verify-eligibility': () => {
-        // cy.get('@testData').then(({ applicantType }) => {
-        //   cy.injectAxe();
-        //   if (applicantType === 'veteran') {
-        //     cy.log('app type is veteran');
-        //   } else {
-        //     cy.log('data: ', applicantType);
-        //   }
-        // });
+      verify: () => {
         cy.fillPage();
+      },
+      'vaccine-location': () => {
+        cy.wait('@getFacilities');
+        cy.get('#location-0').check();
+      },
+      confirmation: () => {
+        cy.log('TODO - Tests for confirmation screen here');
       },
     },
 
     setupPerTest: () => {
-      // Log in if the form requires an authenticated session.
-      // cy.login();
-      // cy.injectAxe();
-      // cy.route('POST', formConfig.submitUrl, { status: 200 });
+      cy.intercept('GET', '/covid_vaccine/v0/facilities/97214', {
+        statusCode: 200,
+        body: {
+          data: [
+            {
+              id: 'vha_648',
+              type: 'vaccination_facility',
+              attributes: {
+                name: 'Portland VA Medical Center',
+                distance: 2.31,
+                city: 'Portland',
+                state: 'OR',
+              },
+            },
+            {
+              id: 'vha_663',
+              type: 'vaccination_facility',
+              attributes: {
+                name: 'Seattle VA Medical Center',
+                distance: 142.35,
+                city: 'Seattle',
+                state: 'WA',
+              },
+            },
+            {
+              id: 'vha_653',
+              type: 'vaccination_facility',
+              attributes: {
+                name: 'Roseburg VA Medical Center',
+                distance: 161.95,
+                city: 'Roseburg',
+                state: 'OR',
+              },
+            },
+            {
+              id: 'vha_687',
+              type: 'vaccination_facility',
+              attributes: {
+                name: 'Jonathan M. Wainwright Memorial VA Medical Center',
+                distance: 209.89,
+                city: 'Walla Walla',
+                state: 'WA',
+              },
+            },
+            {
+              id: 'vha_692',
+              type: 'vaccination_facility',
+              attributes: {
+                name: 'White City VA Medical Center',
+                distance: 212.66,
+                city: 'White City',
+                state: 'OR',
+              },
+            },
+          ],
+        },
+      }).as('getFacilities');
+
+      cy.intercept('POST', '/covid_vaccine/v0/expanded_registration', {
+        statusCode: 200,
+        body: {},
+      }).as('submitForm');
     },
 
     // Skip tests in CI until the form is released.
