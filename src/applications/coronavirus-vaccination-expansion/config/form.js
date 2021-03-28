@@ -24,7 +24,7 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/covid_vaccine/v0/expanded_registration`,
   trackingPrefix: 'covid-vaccination-expanded-',
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  // confirmation: ConfirmationPage,
   preSubmitInfo: PreSubmitInfo,
   formId: VA_FORM_IDS.FORM_COVID_VACCINATION_EXPANSION,
   version: 0,
@@ -38,6 +38,13 @@ const formConfig = {
     reviewPageTitle: 'Review your information',
     appType: 'form',
   },
+  additionalRoutes: [
+    {
+      path: 'confirmation',
+      component: ConfirmationPage,
+      pageKey: 'confirmation',
+    },
+  ],
   chapters: {
     attestation: {
       title: 'Make sure you’re eligible',
