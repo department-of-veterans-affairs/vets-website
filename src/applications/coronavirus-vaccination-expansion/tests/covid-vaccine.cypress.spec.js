@@ -18,7 +18,7 @@ const testConfig = createTestConfig(
     },
 
     pageHooks: {
-      introduction: ({ afterHook }) => {
+      introduction: () => {
         // cy.injectAxe();
         cy.get('#introductionRadios-1').check();
         cy.findByText(/continue/i, { selector: 'button' })
