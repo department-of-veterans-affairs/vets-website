@@ -34,6 +34,9 @@ const formConfig = {
   defaultDefinitions: {
     ...fullSchema.definitions,
   },
+  customText: {
+    reviewPageTitle: 'Review your submission',
+  },
   chapters: {
     attestation: {
       title: 'Make sure you’re eligible',
