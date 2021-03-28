@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import environment from 'platform/utilities/environment';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 
 import { apiRequest } from 'platform/utilities/api';
 
@@ -15,6 +16,7 @@ export function DynamicCheckboxWidget(props) {
   const [locations, setLocations] = useState([]);
   const [loading, isLoading] = useState(true); // app starts in a loading state
   const [error, setError] = useState(false); // app starts with no error
+  const [selected, setSelected] = useState(null); // app starts with no error
 
   useEffect(
     () => {
@@ -39,27 +41,29 @@ export function DynamicCheckboxWidget(props) {
       <LoadingIndicator message="Loading VA medical centers near you..." />
     );
   } else if (locations.length > 0 && loading === false) {
+    const optionsList = locations.map(location => ({
+      label: (
+        <>
+          <p className="vads-u-padding-left--4 vads-u-margin-top--neg3">
+            {location.attributes.name}
+          </p>
+          <p className="vads-u-padding-left--4 vads-u-margin-top--neg2">{`${
+            location.attributes.city
+          } ${location.attributes.state}`}</p>
+        </>
+      ),
+      value: location.attributes.name,
+    }));
+
     locationsList = (
-      <fieldset className="fieldset-input vads-u-margin-top--0">
-        {locations.map((location, index) => (
-          <div key={index}>
-            <input
-              type="checkbox"
-              id={`location-${index}`}
-              value={location.attributes.name}
-              onChange={_ => onChange(location.id)}
-            />
-            <label name="undefined-0-label" htmlFor="default-0">
-              <p className="vads-u-padding-left--4 vads-u-margin-top--neg3">
-                {location.attributes.name}
-              </p>
-              <p className="vads-u-padding-left--4 vads-u-margin-top--neg2">{`${
-                location.attributes.city
-              } ${location.attributes.state}`}</p>
-            </label>
-          </div>
-        ))}
-      </fieldset>
+      <RadioButtons
+        options={optionsList.enumOptions}
+        value={selected}
+        onValueChange={value => {
+          onChange(value.value);
+          setSelected(value);
+        }}
+      />
     );
   } else if (locations.length === 0 && error === false && loading === false) {
     // there are no locations returned
