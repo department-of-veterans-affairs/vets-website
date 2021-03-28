@@ -36,12 +36,13 @@ function Introduction({
 }) {
   return (
     <>
-      <h1>Stay informed about getting a COVID-19 vaccine at VA</h1>
+      <h1>Sign up to get a COVID-19 vaccine at VA</h1>
       <div className="va-introtext">
         <p>
           We’re working to provide COVID-19 vaccines as quickly and safely as we
-          can, based on CDC guidelines and available supply. Sign up below to
-          stay informed about when you can get a COVID-19 vaccine at VA.
+          can. We base our vaccine plans on CDC guidelines, federal law, and
+          available supply. Sign up to tell us you’d like to get a COVID-19
+          vaccine at VA.
         </p>
       </div>
       <DowntimeNotification
@@ -49,9 +50,8 @@ function Introduction({
         dependencies={[externalServices.vetextVaccine]}
       >
         <p>
-          We’ll send you updates on how we’re providing vaccines across the
-          country—and when you can get a vaccine if you want one. We’ll also
-          offer information and answers to your questions along the way.
+          If you’re eligible, we’ll contact you when we have a vaccine for you.
+          We’ll also offer updates and answers to your questions along the way.
         </p>
         {authButtonDisabled ? (
           <p>
@@ -60,7 +60,7 @@ function Introduction({
               href={
                 enhancedEligibilityEnabled
                   ? encodeURI(
-                      `${environment.BASE_URL}/covid-vaccine/introduction`,
+                      `${environment.BASE_URL}/health-care/covid-19-vaccine/sign-up`,
                     )
                   : '/health-care/covid-19-vaccine/stay-informed/form'
               }
@@ -146,8 +146,8 @@ function Introduction({
                 </li>
                 <li>
                   <strong>
-                    If you're a Veteran, spouse, or caregiver not receiving care
-                    through VA,
+                    If you're a Veteran who isn’t receiving care through VA or a
+                    spouse, caregiver, or CHAMPVA recipient,
                   </strong>{' '}
                   sign up to tell us if you want to get a vaccine through VA. If
                   you're eligible, we'll contact you when we have a vaccine
@@ -161,19 +161,23 @@ function Introduction({
                 limited vaccine supply.
               </p>
               <p>
-                <strong>Note:</strong> Your employer, pharmacy, or local public
-                health officials may offer you a COVID-19 vaccine. We encourage
-                you to take the first opportunity you have to get a vaccine at
-                the most convenient location for you.
+                <strong>Note:</strong> Your employer, pharmacy, health care
+                provider’s office, or local public health officials may offer
+                you a COVID-19 vaccine. We encourage you to take the first
+                opportunity you have to get a vaccine at the most convenient
+                location for you.
+              </p>
+              <p>
+                The Centers for Disease Control and Prevention’s (CDC) online
+                vaccine finder tool can help you find COVID-19 vaccines near
+                you.
               </p>
               <span>
                 <a
-                  href="/health-care/covid-19-vaccine/#who-will-get-a-covid-19-vaccin"
-                  aria-label="Learn who will get a COVID-19 vaccine first based on CDC
-                  guidelines"
+                  href="https://www.cdc.gov/vaccines/covid-19/reporting/vaccinefinder/about.html"
+                  aria-label="Find COVID-19 vaccines near you with the CDC’s vaccine finder"
                 >
-                  Learn who can get a COVID-19 vaccine now based on CDC
-                  guidelines
+                  Find COVID-19 vaccines near you with the CDC’s vaccine finder
                 </a>
               </span>
             </>
@@ -182,10 +186,11 @@ function Introduction({
       </DowntimeNotification>
 
       <div className="vads-u-margin-top--1">
+        <h2>More about getting a COVID-19 vaccine at VA</h2>
         <CollapsiblePanel panelName="Why would VA contact Veterans who are planning to get a vaccine first?">
           <WhyContact />
         </CollapsiblePanel>
-        <CollapsiblePanel panelName="If I don’t sign up or tell VA I plan to get a vaccine, will VA still contact me when I can get a vaccine?">
+        <CollapsiblePanel panelName="If I don’t sign up or tell VA I plan to get a vaccine, will VA still contact me when I can get one?">
           <WhatIfIDontSignUp />
         </CollapsiblePanel>
         <CollapsiblePanel panelName="Do I have to provide my Social Security number and date of birth?">
@@ -218,8 +223,5 @@ const mapDispatchToProps = {
   toggleLoginModal: userNavActions.toggleLoginModal,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Introduction);
+export default connect(mapStateToProps, mapDispatchToProps)(Introduction);
 export { Introduction };

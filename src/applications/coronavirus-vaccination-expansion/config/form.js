@@ -2,6 +2,7 @@ import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import environment from 'platform/utilities/environment';
 
 import {
   attestation,
@@ -20,38 +21,33 @@ import manifest from '../manifest.json';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
+  submitUrl: `${environment.API_URL}/covid_vaccine/v0/expanded_registration`,
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'complex-form-',
+  trackingPrefix: 'covid-vaccination-expanded-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: PreSubmitInfo,
   formId: VA_FORM_IDS.FORM_COVID_VACCINATION_EXPANSION,
   version: 0,
-  prefillEnabled: true,
-  savedFormMessages: {
-    notFound: 'Please start over to apply for benefits.',
-    noAuth: 'Please sign in again to continue your application for benefits.',
-  },
-  saveInProgress: {},
+  prefillEnabled: false,
   title: 'Sign up to get a COVID-19 vaccine at VA',
   defaultDefinitions: {
     ...fullSchema.definitions,
   },
   chapters: {
     attestation: {
-      title: 'Verify your eligibility',
+      title: 'Make sure you’re eligible',
       pages: {
         attestation: {
-          path: 'verify-eligibility',
+          path: 'eligibility',
           schema: attestation.schema.attestation,
           uiSchema: attestation.uiSchema.attestation,
         },
       },
     },
     militaryHistory: {
-      title: 'Tell us about your military service',
+      title: 'Help us confirm your eligibility',
       pages: {
         militaryHistory: {
           depends: formData => isVeteran(formData),
@@ -62,7 +58,7 @@ const formConfig = {
       },
     },
     veteranInformation: {
-      title: "Veteran's information",
+      title: 'Help us match you to an eligible Veteran',
       pages: {
         veteranInformation: {
           depends: formData => isSpouseOrCaregiver(formData),
@@ -73,24 +69,22 @@ const formConfig = {
       },
     },
     personalInformation: {
-      title: 'Applicant Information',
+      title: 'Provide your personal information',
       pages: {
         personalInformation: {
           depends: formData => !isTypeNone(formData),
-          title: 'Applicant Information',
-          path: 'recipient-information',
+          path: 'personal-information',
           schema: personalInformation.schema.personalInformation,
           uiSchema: personalInformation.uiSchema.personalInformation,
         },
       },
     },
     addressInformation: {
-      title: 'Applicant Address',
+      title: 'Provide your contact information',
       pages: {
         addressInformation: {
           depends: formData => !isTypeNone(formData),
-          title: 'Applicant Address',
-          path: 'address',
+          path: 'contact-information',
           schema: addressInformation.schema.addressInformation,
           uiSchema: addressInformation.uiSchema.addressInformation,
         },
@@ -101,7 +95,7 @@ const formConfig = {
       pages: {
         vaLocation: {
           depends: formData => !isTypeNone(formData),
-          path: 'VA Location',
+          path: 'vaccine-location',
           schema: vaLocation.schema.vaLocation,
           uiSchema: vaLocation.uiSchema.vaLocation,
         },
