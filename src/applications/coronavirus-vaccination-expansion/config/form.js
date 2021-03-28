@@ -22,8 +22,6 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/covid_vaccine/v0/expanded_registration`,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'covid-vaccination-expanded-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
