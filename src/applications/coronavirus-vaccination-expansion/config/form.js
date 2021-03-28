@@ -36,6 +36,7 @@ const formConfig = {
   },
   customText: {
     reviewPageTitle: 'Review your information',
+    appType: 'form',
   },
   chapters: {
     attestation: {
