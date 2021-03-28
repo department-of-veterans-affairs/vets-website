@@ -7,7 +7,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       cy.route('GET', '/v0/feature_toggles*', featureTogglesEnabled).as(
         'feature',
       );
-      cy.visit('health-care/covid-19-vaccine/stay-informed/');
+      cy.visit('health-care/covid-19-vaccine/sign-up/stay-informed/');
       cy.wait('@feature');
       cy.injectAxe();
     });
@@ -15,9 +15,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
     it('should successfully submit the vaccine preparation form', () => {
       // Intro page
       cy.axeCheck();
-      cy.get('.vads-l-row').contains(
-        'Stay informed about getting a COVID-19 vaccine at VA',
-      );
+      cy.get('.vads-l-row').contains('What you should know about signing up');
       // Expand all Accordions with keyboard and test for A11y
       cy.get('[aria-controls="collapsible-1"]').type('{shift}');
       cy.get('div').contains(
@@ -31,7 +29,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
 
       cy.get('[aria-controls="collapsible-3"]').type('{shift}');
       cy.get('div').contains(
-        'No. But when you provide this information, we can match your information to your Veteran records',
+        'you don’t have to provide your Social Security number. ',
       );
 
       cy.get('[aria-controls="collapsible-4"]').type('{shift}');
@@ -50,7 +48,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       // Form page
       cy.url().should(
         'include',
-        '/health-care/covid-19-vaccine/stay-informed/form',
+        '/health-care/covid-19-vaccine/sign-up/stay-informed/form',
       );
       cy.axeCheck();
       cy.get('#covid-vaccination-heading-form').contains(
@@ -111,7 +109,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       // Confirmation page
       cy.url().should(
         'include',
-        '/health-care/covid-19-vaccine/stay-informed/confirmation',
+        '/health-care/covid-19-vaccine/sign-up/stay-informed/confirmation',
       );
       cy.axeCheck();
       cy.get('#covid-vaccination-heading-confirmation').contains(

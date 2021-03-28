@@ -10,7 +10,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       'feature',
     );
     cy.visit(
-      'health-care/covid-19-vaccine/stay-informed/unsubscribe?sid=12345',
+      'health-care/covid-19-vaccine/sign-up/stay-informed/unsubscribe?sid=12345',
     );
     cy.injectAxe();
 
