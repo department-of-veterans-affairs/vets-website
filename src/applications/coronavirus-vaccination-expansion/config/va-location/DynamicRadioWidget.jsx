@@ -57,7 +57,7 @@ export function DynamicRadioWidget(props) {
 
     locationsList = (
       <RadioButtons
-        options={optionsList.enumOptions}
+        options={optionsList}
         value={selected}
         onValueChange={value => {
           onChange(value.value);
