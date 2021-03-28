@@ -19,15 +19,15 @@ const testConfig = createTestConfig(
 
     pageHooks: {
       introduction: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('#introductionRadios-1').check();
-          cy.findByText(/continue/i, { selector: 'button' })
-            .first()
-            .click();
-        });
+        // cy.injectAxe();
+        cy.get('#introductionRadios-1').check();
+        cy.findByText(/continue/i, { selector: 'button' })
+          .first()
+          .click();
+
+        cy.injectAxe();
       },
       'verify-eligibility': () => {
-        cy.injectAxe();
         // cy.get('@testData').then(({ applicantType }) => {
         //   cy.injectAxe();
         //   if (applicantType === 'veteran') {
