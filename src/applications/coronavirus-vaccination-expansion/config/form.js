@@ -6,7 +6,6 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import {
   attestation,
   militaryHistory,
-  complianceAgreement,
   personalInformation,
   addressInformation,
   vaLocation,
@@ -48,17 +47,6 @@ const formConfig = {
           path: 'verify-eligibility',
           schema: attestation.schema.attestation,
           uiSchema: attestation.uiSchema.attestation,
-        },
-      },
-    },
-    statementOfTruth: {
-      title: 'Certify these statements',
-      pages: {
-        complianceAgreement: {
-          depends: formData => !isTypeNone(formData),
-          path: 'attestation',
-          schema: complianceAgreement.schema.complianceAgreement,
-          uiSchema: complianceAgreement.uiSchema.complianceAgreement,
         },
       },
     },

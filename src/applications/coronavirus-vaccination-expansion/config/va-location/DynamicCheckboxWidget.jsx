@@ -18,6 +18,7 @@ export function DynamicCheckboxWidget(props) {
 
   useEffect(
     () => {
+      // how sure are we that people will always enter 5 digits for their zipcode?
       if (props.zipcode && props.zipcode.length === 5) {
         apiRequest(`${apiUrl}${props.zipcode}`, {})
           .then(resp => {
@@ -46,7 +47,7 @@ export function DynamicCheckboxWidget(props) {
               type="checkbox"
               id={`location-${index}`}
               value={location.attributes.name}
-              onChange={_ => onChange(location.attributes.name)}
+              onChange={_ => onChange(location.id)}
             />
             <label name="undefined-0-label" htmlFor="default-0">
               <p className="vads-u-padding-left--4 vads-u-margin-top--neg3">

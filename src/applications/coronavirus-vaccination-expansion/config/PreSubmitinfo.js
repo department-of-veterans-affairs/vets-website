@@ -6,7 +6,10 @@ export default {
   field: 'privacyAgreementAccepted',
   label: (
     <span>
-      I have read and accept the{' '}
+      I certify that the information I have provided in this form is true and
+      correct to the best of my knowledge and believf. I understand that it's a
+      crime to provide information that you know is untrue or incorrect. Doing
+      so could result in a fine or other penalty. I have read and accept the{' '}
       <a target="_blank" href="/privacy-policy/">
         privacy policy
       </a>
