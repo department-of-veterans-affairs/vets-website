@@ -10,22 +10,22 @@ export const schema = {
 export const uiSchema = {
   personalInformation: {
     firstName: {
-      'ui:title': 'First name',
+      'ui:title': 'Your first name',
       'ui:errorMessages': {
         required: 'Please enter your first name.',
       },
     },
     middleName: {
-      'ui:title': 'Middle name',
+      'ui:title': 'Your middle name',
     },
     lastName: {
-      'ui:title': 'Last name',
+      'ui:title': 'Your last name',
       'ui:errorMessages': {
         required: 'Please enter your last name.',
       },
     },
     birthDate: {
-      ...currentOrPastDateUI('Date of birth'),
+      ...currentOrPastDateUI('Your date of birth'),
       'ui:description': () => (
         <p>
           <strong>Note: </strong>
@@ -47,8 +47,7 @@ export const uiSchema = {
             <strong>Note: </strong>
             We ask for this information to help us and our partners at the
             Centers for Disease Control and Prevention (CDC) understand who is
-            getting vaccines. This helps us serve all eligible Veterans and
-            family members better. If you choose to answer, we’ll add this
+            getting vaccines. If you choose to answer, we’ll add this
             information to your VA health record. We’ll also share this
             information with the CDC, but we won’t link it to your name.
           </p>

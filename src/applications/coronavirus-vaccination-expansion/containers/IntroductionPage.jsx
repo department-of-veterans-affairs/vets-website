@@ -12,8 +12,8 @@ import { modalContents } from './privacyDataHelper';
 import manifest from '../manifest.json';
 
 const alreadyReceivingCarePath =
-  '/health-care/covid-19-vaccine/stay-informed/form';
-const newlyEligiblePath = `${manifest.rootUrl}/verify-eligibility`;
+  '/health-care/covid-19-vaccine/sign-up/stay-informed/form';
+const newlyEligiblePath = `${manifest.rootUrl}/eligibility`;
 
 class IntroductionPage extends React.Component {
   constructor(props) {
@@ -57,7 +57,12 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
+        <br />
         <FormTitle title="Sign up to get a COVID-19 vaccine at VA" />
+        <span>
+          To get started, tell us about your experience with VA health care.
+          We'll then guide you to the right form.
+        </span>
         <fieldset
           className="fieldset-input"
           style={{
@@ -72,8 +77,7 @@ class IntroductionPage extends React.Component {
             onValueChange={val => this.setSelected(val)}
             options={['Yes', 'No', "I'm not sure"]}
             value={this.state.currentSelection}
-            label="Are you a Veteran who is enrolled in VA health care or receiving
-            care at VA?"
+            label="Are you a Veteran who is enrolled in VA health care or receiving care at VA?"
             required
           />
           <ProgressButton
@@ -83,12 +87,15 @@ class IntroductionPage extends React.Component {
             onButtonClick={() => this.loadNextPage()}
           />
         </fieldset>
-        <button
-          className="va-button-link"
-          onClick={() => this.togglePrivacyModal()}
-        >
-          Privacy Act Statement
-        </button>
+        <p>
+          <strong>Note:</strong> We take your privacy seriously.{' '}
+          <button
+            className="va-button-link"
+            onClick={() => this.togglePrivacyModal()}
+          >
+            Read our Privacy Act statement
+          </button>
+        </p>
         <Modal
           visible={this.state.showPrivacyModal}
           onClose={() => this.togglePrivacyModal()}

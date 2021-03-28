@@ -9,16 +9,16 @@ export const schema = {
 export const uiSchema = {
   addressInformation: {
     countryName: {
-      'ui:title': 'Country',
+      'ui:title': 'Country where you live now',
     },
     addressLine1: {
-      'ui:title': 'Street address',
+      'ui:title': 'Street address where you live now',
     },
     addressLine2: {
-      'ui:title': 'Line 2',
+      'ui:title': 'Street address (line 2)',
     },
     addressLine3: {
-      'ui:title': 'Line 3',
+      'ui:title': 'Street address (line 3)',
     },
     city: {
       'ui:title': 'City',
@@ -34,16 +34,22 @@ export const uiSchema = {
     },
     emailAddress: {
       ...emailUI(),
-      'ui:description':
-        'If you provide an email address, we can send you information about the vaccine process.',
+      'ui:description': (
+        <p>
+          <strong>Note:</strong>
+          If you provide an email address, we can send you information about the
+          vaccine process.),
+        </p>
+      ),
     },
     phone: {
-      'ui:title': 'Telephone number',
+      'ui:title': 'Phone number',
       'ui:description': (
         <p>
           <strong>Note: </strong>
-          If you give us your mobile phone number, we may be able to schedule
-          your vaccine appointment by text message.
+          We will use this number to contact you about a vaccine. If you give us
+          your mobile phone number, we may be able to schedule your vaccine
+          appointment by text message.
         </p>
       ),
       'ui:errorMessages': {
@@ -52,7 +58,7 @@ export const uiSchema = {
     },
     smsAcknowledgement: {
       'ui:title':
-        'I authorize VA to send me text messages about my medical care, such as for appointment scheduling.',
+        'I authorize VA to send me text messages about my health care. This includes text messages to schedule a vaccine appointment.',
     },
   },
 };
