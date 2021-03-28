@@ -35,7 +35,7 @@ const formConfig = {
     ...fullSchema.definitions,
   },
   customText: {
-    reviewPageTitle: 'Review your submission',
+    reviewPageTitle: 'Review your information',
   },
   chapters: {
     attestation: {
