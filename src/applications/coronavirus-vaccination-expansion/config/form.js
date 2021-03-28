@@ -31,6 +31,7 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_COVID_VACCINATION_EXPANSION,
   version: 0,
   prefillEnabled: false,
+  saveInProgress: {},
   title: 'Sign up to get a COVID-19 vaccine at VA',
   defaultDefinitions: {
     ...fullSchema.definitions,
