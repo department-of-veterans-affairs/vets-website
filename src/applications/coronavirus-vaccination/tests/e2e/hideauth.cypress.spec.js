@@ -7,7 +7,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       cy.route('GET', '/v0/feature_toggles*', featureTogglesEnabled).as(
         'feature',
       );
-      cy.visit('health-care/covid-19-vaccine/stay-informed/');
+      cy.visit('health-care/covid-19-vaccine/sign-up/stay-informed/');
       cy.wait('@feature');
       cy.injectAxe();
     });
@@ -15,9 +15,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
     it('should launch app from the continue button', () => {
       // Intro page
       cy.axeCheck();
-      cy.get('.vads-l-row').contains(
-        'Stay informed about getting a COVID-19 vaccine at VA',
-      );
+      cy.get('.vads-l-row').contains('What you should know about signing up');
 
       cy.get('.usa-button').contains('Sign up now');
 
@@ -26,7 +24,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       // Form page
       cy.url().should(
         'include',
-        '/health-care/covid-19-vaccine/stay-informed/form',
+        '/health-care/covid-19-vaccine/sign-up/stay-informed/form',
       );
       cy.injectAxe();
       cy.axeCheck();
@@ -84,7 +82,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       // Confirmation page
       cy.url().should(
         'include',
-        '/health-care/covid-19-vaccine/stay-informed/confirmation',
+        '/health-care/covid-19-vaccine/sign-up/stay-informed/confirmation',
       );
       cy.axeCheck();
       cy.get('#covid-vaccination-heading-confirmation').contains(
