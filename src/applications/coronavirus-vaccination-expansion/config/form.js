@@ -3,6 +3,8 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from 'platform/utilities/environment';
+import FormFooter from 'platform/forms/components/FormFooter';
+import GetFormHelp from './getFormHelp.jsx';
 
 import {
   attestation,
@@ -29,6 +31,8 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_COVID_VACCINATION_EXPANSION,
   version: 0,
   prefillEnabled: false,
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
   saveInProgress: {},
   title: 'Sign up to get a COVID-19 vaccine at VA',
   defaultDefinitions: {
