@@ -60,9 +60,11 @@ function Introduction({
               href={
                 enhancedEligibilityEnabled
                   ? encodeURI(
-                      `${environment.BASE_URL}/health-care/covid-19-vaccine/sign-up`,
+                      `${
+                        environment.BASE_URL
+                      }/health-care/covid-19-vaccine/sign-up`,
                     )
-                  : '/health-care/covid-19-vaccine/stay-informed/form'
+                  : '/health-care/covid-19-vaccine/sign-up/stay-informed/form'
               }
             >
               Sign up now
@@ -223,5 +225,8 @@ const mapDispatchToProps = {
   toggleLoginModal: userNavActions.toggleLoginModal,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Introduction);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Introduction);
 export { Introduction };
