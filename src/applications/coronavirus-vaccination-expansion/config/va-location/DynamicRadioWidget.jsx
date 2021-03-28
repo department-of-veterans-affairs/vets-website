@@ -9,7 +9,7 @@ import { apiRequest } from 'platform/utilities/api';
 
 const apiUrl = `${environment.API_URL}/covid_vaccine/v0/facilities/`;
 
-export function DynamicCheckboxWidget(props) {
+export function DynamicRadioWidget(props) {
   // console.log(props);
   const { onChange } = props;
   let locationsList = null;
@@ -96,4 +96,4 @@ function mapStateToProps(state) {
 export default connect(
   mapStateToProps,
   null,
-)(DynamicCheckboxWidget);
+)(DynamicRadioWidget);
