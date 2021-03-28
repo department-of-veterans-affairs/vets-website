@@ -26,25 +26,24 @@ const testConfig = createTestConfig(
             .click();
         });
       },
-      'verify-eligibility': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(({ applicantType }) => {
-            if (applicantType === '') {
-              cy.log('app type is null');
-            }
-          });
-          cy.findByText(/continue/i, { selector: 'button' })
-            .first()
-            .click();
-        });
+      'verify-eligibility': () => {
+        cy.injectAxe();
+        // cy.get('@testData').then(({ applicantType }) => {
+        //   cy.injectAxe();
+        //   if (applicantType === 'veteran') {
+        //     cy.log('app type is veteran');
+        //   } else {
+        //     cy.log('data: ', applicantType);
+        //   }
+        // });
+        cy.fillPage();
       },
     },
 
     setupPerTest: () => {
       // Log in if the form requires an authenticated session.
       // cy.login();
-
-      cy.log('FOrm Config: ', formConfig);
+      // cy.injectAxe();
       // cy.route('POST', formConfig.submitUrl, { status: 200 });
     },
 
