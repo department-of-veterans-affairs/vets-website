@@ -61,22 +61,16 @@ export function DynamicCheckboxWidget(props) {
         ))}
       </fieldset>
     );
-  } else if (locations.length === 0 && error === false && loading === false) {
-    // there are no locations returned
+  } else if (
+    (locations.length === 0 && loading === false && error === false) ||
+    error === true
+  ) {
+    // there are no locations returned or there is an error
     locationsList = (
       <AlertBox
         content="based on the information you provided we will identify a facility near your location for vaccination."
         headline="Alert title"
         status="info"
-      />
-    );
-  } else if (error === true && loading === false) {
-    // there was an error
-    locationsList = (
-      <AlertBox
-        content="We're sorry. Something went wrong on our end. Please refresh this page or check back later."
-        headline="Alert title"
-        status="error"
       />
     );
   }
