@@ -20,8 +20,21 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/start/i, { selector: 'button' })
-            .last()
+          cy.get('#introductionRadios-1').check();
+          cy.findByText(/continue/i, { selector: 'button' })
+            .first()
+            .click();
+        });
+      },
+      'verify-eligibility': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(({ applicantType }) => {
+            if (applicantType === '') {
+              cy.log('app type is null');
+            }
+          });
+          cy.findByText(/continue/i, { selector: 'button' })
+            .first()
             .click();
         });
       },
@@ -31,7 +44,8 @@ const testConfig = createTestConfig(
       // Log in if the form requires an authenticated session.
       // cy.login();
 
-      cy.route('POST', formConfig.submitUrl, { status: 200 });
+      cy.log('FOrm Config: ', formConfig);
+      // cy.route('POST', formConfig.submitUrl, { status: 200 });
     },
 
     // Skip tests in CI until the form is released.
