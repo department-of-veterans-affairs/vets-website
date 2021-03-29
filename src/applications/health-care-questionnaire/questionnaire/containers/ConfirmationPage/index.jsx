@@ -10,6 +10,7 @@ import AppointmentDisplay from '../../components/appointment-display/Appointment
 import { selectQuestionnaireContext } from '../../../shared/redux-selectors';
 
 import PrintButton from '../../../shared/components/print/PrintButton';
+import { focusElement } from 'platform/utilities/ui';
 
 const ConfirmationPage = props => {
   const { context } = props;
@@ -18,6 +19,7 @@ const ConfirmationPage = props => {
   useEffect(() => {
     clearCurrentSession(window);
     clearSelectedAppointmentData(window, appointment.id);
+    focusElement('h2.usa-alert-heading');
   }, []);
 
   return (
