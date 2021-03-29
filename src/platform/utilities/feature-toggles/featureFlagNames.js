@@ -77,6 +77,8 @@ export default Object.freeze({
   covidVaccineUpdatesForm: 'covid_vaccine_registration_frontend',
   covidVaccineUpdatesDisableAuth:
     'covid_vaccine_registration_frontend_hide_auth',
+  covidVaccineUpdatesEnableExpandedEligibility:
+    'covid_vaccine_registration_frontend_enable_expanded_eligibility',
   showFindFormsResultsLinkToFormDetailPages: 'find_forms_mvp_enhancement',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
   evssUploadLimit150Mb: 'evss_upload_limit_150mb',

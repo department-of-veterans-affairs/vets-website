@@ -15,9 +15,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
     it('should successfully submit the vaccine preparation form', () => {
       // Intro page
       cy.axeCheck();
-      cy.get('.vads-l-row').contains(
-        'Stay informed about getting a COVID-19 vaccine at VA',
-      );
+      cy.get('.vads-l-row').contains('What you should know about signing up');
       // Expand all Accordions with keyboard and test for A11y
       cy.get('[aria-controls="collapsible-1"]').type('{shift}');
       cy.get('div').contains(
@@ -31,7 +29,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
 
       cy.get('[aria-controls="collapsible-3"]').type('{shift}');
       cy.get('div').contains(
-        'No. But when you provide this information, we can match your information to your Veteran records',
+        'you don’t have to provide your Social Security number. ',
       );
 
       cy.get('[aria-controls="collapsible-4"]').type('{shift}');
