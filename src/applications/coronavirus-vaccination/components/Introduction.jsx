@@ -192,7 +192,6 @@ function Introduction({
           <WhyContact />
         </va-accordion-item>
         <va-accordion-item header="If I don’t sign up or tell VA I plan to get a vaccine, will VA still contact me when I can get a vaccine?">
-        <h2>More about getting a COVID-19 vaccine at VA</h2>
           <WhatIfIDontSignUp />
         </va-accordion-item>
         <va-accordion-item header="Do I have to provide my Social Security number and date of birth?">
