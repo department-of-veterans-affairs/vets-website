@@ -26,7 +26,7 @@
 .vaos-calendar__calendar-day {
   flex-grow: 1;
   flex-basis: 0;
-  margin: 4px;
+  margin: 2px;
 
   @include media($small-screen) {
     margin: 8px;
