@@ -56,12 +56,12 @@ export const eligibilityAccordion = (
         </p>
         <p>
           <strong>Eligible caregiver</strong> enrolled in one of these VA
-          caregiver programs:
+          caregiver support programs:
           <ul>
             <li>
               The Program of Comprehensive Assistance for Family Caregivers
             </li>
-            <li>The General Caregiver Support Services program</li>
+            <li>The Program of General Caregiver Support Services</li>
           </ul>
         </p>
         <p>
@@ -116,15 +116,15 @@ export const spouseLabel = (
 
 export const caregiverEnrolledLabel = (
   <>
-    <strong>Eligible caregiver</strong> enrolled in an official VA caregiver
+    <strong>Eligible caregiver</strong> enrolled in a VA caregiver support
     program
   </>
 );
 
 export const caregiverOfVeteranLabel = (
   <>
-    <strong>Eligible caregiver</strong> of a Veteran who is enrolled in an
-    official VA home-based or long-term care program
+    <strong>Eligible caregiver</strong> of a Veteran who is enrolled in a VA
+    home-based or long-term care program
   </>
 );
 
