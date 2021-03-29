@@ -105,7 +105,7 @@ class IntroductionPage extends React.Component {
           onClose={() => this.togglePrivacyModal()}
           status="info"
           // title="Privacy Act Statement"
-          contents={modalContents(30)}
+          contents={modalContents}
         />
       </div>
     );
