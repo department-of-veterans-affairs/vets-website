@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const modalContents = minutes => (
+export const modalContents = (
   <div>
     <h2>Privacy Act Statement</h2>
     <p>
