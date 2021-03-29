@@ -6,6 +6,8 @@ import { selectProfile } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import formConfig from '../config/form';
+import { noticeOfDisagreementFeature } from '../helpers';
+import { showWorkInProgress } from '../content/WorkInProgressMessage';
 
 export const FormApp = ({
   location,
@@ -13,6 +15,7 @@ export const FormApp = ({
   profile,
   formData,
   setFormData,
+  showNod,
 }) => {
   const { email = {}, homePhone = {}, mailingAddress = {} } =
     profile?.vapContactInfo || {};
@@ -42,9 +45,13 @@ export const FormApp = ({
 
   return (
     <article id="form-10182" data-location={`${location?.pathname?.slice(1)}`}>
-      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-        {children}
-      </RoutedSavableApp>
+      {showNod ? (
+        <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+          {children}
+        </RoutedSavableApp>
+      ) : (
+        showWorkInProgress(formConfig)
+      )}
     </article>
   );
 };
@@ -52,7 +59,8 @@ export const FormApp = ({
 const mapStateToProps = state => {
   const profile = selectProfile(state);
   const formData = state.form?.data || {};
-  return { profile, formData };
+  const showNod = noticeOfDisagreementFeature(state);
+  return { profile, formData, showNod };
 };
 
 const mapDispatchToProps = {
