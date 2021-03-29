@@ -964,10 +964,10 @@
     "entryName": "coronavirus-vaccination",
     "rootUrl": "/health-care/covid-19-vaccine/stay-informed",
     "template": {
-      "title": "COVID-19 vaccines: Stay informed and help us prepare",
+      "title": "Sign up to get a COVID-19 vaccine at VA",
       "layout": "page-react.html",
       "includeBreadcrumbs": true,
-      "description": "We’re working to get COVID-19 vaccines to Veterans as quickly and safely as possible based on CDC guidelines and available supply. Stay informed and help us prepare.",
+      "description": "We’re working to provide COVID-19 vaccines as quickly and safely as we can. We base our vaccine plans on CDC guidelines, federal law, and available supply. Sign up to tell us you’d like to get a COVID-19 vaccine at VA.",
       "breadcrumbs_override": [
         {
           "path": "health-care/",
@@ -979,7 +979,7 @@
         },
         {
           "path": "health-care/covid-19-vaccine/stay-informed",
-          "name": "Stay informed and help us prepare"
+          "name": "Sign up to get a vaccine"
         }
       ]
     }
@@ -1000,6 +1000,31 @@
     "template": {
       "vagovprod": false,
       "layout": "page-react.html"
+    }
+  },
+  {
+    "appName": "covid-vaccine-expansion",
+    "entryName": "covid-vaccine",
+    "rootUrl": "/health-care/covid-19-vaccine/sign-up/",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html",
+      "title": "Sign up to get a vaccine",
+      "description": "We’re working to provide COVID-19 vaccines as quickly and safely as we can. We base our vaccine plans on CDC guidelines, federal law, and available supply. Sign up to tell us you’d like to get a COVID-19 vaccine at VA.",
+      "breadcrumbs_override": [
+        {
+          "path": "health-care/",
+          "name": "Health care"
+        },
+        {
+          "path": "health-care/covid-19-vaccine/",
+          "name": "COVID-19 vaccines"
+        },
+        {
+          "path": "health-care/covid-19-vaccine/sign-up",
+          "name": "Sign up to get a vaccine"
+        }
+      ]
     }
   },
   {

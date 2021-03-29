@@ -1,3 +1,7 @@
+import manifest from '../../manifest.json';
+
+export const ROOT_URL = manifest.rootUrl;
+
 export const WIZARD_STATUS = 'fsrWizardStatus';
 
 export const PAGE_NAMES = {
