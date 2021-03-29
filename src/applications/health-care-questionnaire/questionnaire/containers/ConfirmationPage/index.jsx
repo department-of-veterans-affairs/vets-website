@@ -16,11 +16,14 @@ const ConfirmationPage = props => {
   const { context } = props;
   const { appointment } = context;
 
-  useEffect(() => {
-    clearCurrentSession(window);
-    clearSelectedAppointmentData(window, appointment.id);
-    focusElement('h2.usa-alert-heading');
-  }, []);
+  useEffect(
+    () => {
+      clearCurrentSession(window);
+      clearSelectedAppointmentData(window, appointment.id);
+      focusElement('h2.usa-alert-heading');
+    },
+    [appointment.id],
+  );
 
   return (
     <div className="healthcare-questionnaire-confirm">
