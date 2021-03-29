@@ -17,6 +17,7 @@ import subscribeAccordionEvents from './subscribeAccordionEvents';
 import createApplicationStatus from './createApplicationStatus';
 import createCallToActionWidget from './createCallToActionWidget';
 import createMyVALoginWidget from './createMyVALoginWidget';
+import createDirectDepositContent from './direct-deposit-content/createDirectDepositContent';
 import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
 import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
@@ -194,6 +195,8 @@ createViewPaymentHistoryCTA(store, widgetTypes.VIEW_PAYMENT_HISTORY);
 createI18Select(store, widgetTypes.I_18_SELECT);
 
 createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
+
+createDirectDepositContent(store, widgetTypes.DIRECT_DEPOSIT);
 
 // homepage widgets
 if (location.pathname === '/') {

@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 import recordEvent from 'platform/monitoring/record-event';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import ProgressButton from '@department-of-veterans-affairs/component-library/ProgressButton';
@@ -9,16 +10,9 @@ import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { modalContents } from './privacyDataHelper';
 
-import manifest from '../manifest.json';
-
 const alreadyReceivingCarePath =
   '/health-care/covid-19-vaccine/stay-informed/form';
-const newlyEligiblePath = `${manifest.rootUrl}/eligibility`;
-const receivingCareLabelText = (
-  <strong>
-    Are you a Veteran who is enrolled in VA health care or receiving care at VA?
-  </strong>
-);
+const newlyEligiblePath = `/eligibility`;
 
 class IntroductionPage extends React.Component {
   constructor(props) {
@@ -26,7 +20,6 @@ class IntroductionPage extends React.Component {
     this.state = {
       currentSelection: '',
       errorMessage: null,
-      nextUrl: '',
       showPrivacyModal: false,
     };
   }
@@ -37,8 +30,6 @@ class IntroductionPage extends React.Component {
   setSelected(selected) {
     this.setState({
       currentSelection: selected,
-      nextUrl:
-        selected.value === 'Yes' ? alreadyReceivingCarePath : newlyEligiblePath,
       errorMessage: null,
     });
   }
@@ -54,7 +45,15 @@ class IntroductionPage extends React.Component {
       'button-click-label': 'I have used VA health care before',
       'button-background-color': '#0071bb',
     });
-    window.location.href = this.state.nextUrl;
+
+    const isEnrolledInVaHealthCare =
+      this.state.currentSelection.value === 'Yes';
+
+    if (isEnrolledInVaHealthCare) {
+      document.location.assign(alreadyReceivingCarePath);
+    } else {
+      this.props.router.push(newlyEligiblePath);
+    }
   }
   togglePrivacyModal() {
     this.setState({ showPrivacyModal: !this.state.showPrivacyModal });
@@ -68,32 +67,30 @@ class IntroductionPage extends React.Component {
           To get started, tell us about your experience with VA health care.
           We'll then guide you to the right form.
         </span>
-        <p>
-          <fieldset
-            className="fieldset-input"
-            style={{
-              marginTop: '-2em',
-            }}
-          >
-            <RadioButtons
-              id="introductionRadios"
-              errorMessage={this.state.errorMessage}
-              onKeyDown={function noRefCheck() {}}
-              onMouseDown={function noRefCheck() {}}
-              onValueChange={val => this.setSelected(val)}
-              options={['Yes', 'No', "I'm not sure"]}
-              value={this.state.currentSelection}
-              label={receivingCareLabelText}
-              required
-            />
-            <ProgressButton
-              id="continueButton"
-              afterText="»"
-              buttonText="Continue"
-              onButtonClick={() => this.loadNextPage()}
-            />
-          </fieldset>
-        </p>
+        <fieldset
+          className="fieldset-input"
+          style={{
+            marginTop: '-2em',
+          }}
+        >
+          <RadioButtons
+            id="introductionRadios"
+            errorMessage={this.state.errorMessage}
+            onKeyDown={function noRefCheck() {}}
+            onMouseDown={function noRefCheck() {}}
+            onValueChange={val => this.setSelected(val)}
+            options={['Yes', 'No', "I'm not sure"]}
+            value={this.state.currentSelection}
+            label="Are you a Veteran who is enrolled in VA health care or receiving care at VA?"
+            required
+          />
+          <ProgressButton
+            id="continueButton"
+            afterText="»"
+            buttonText="Continue"
+            onButtonClick={() => this.loadNextPage()}
+          />
+        </fieldset>
         <p>
           <strong>Note:</strong> We take your privacy seriously.{' '}
           <button
@@ -108,11 +105,11 @@ class IntroductionPage extends React.Component {
           onClose={() => this.togglePrivacyModal()}
           status="info"
           // title="Privacy Act Statement"
-          contents={modalContents}
+          contents={modalContents(30)}
         />
       </div>
     );
   }
 }
 
-export default IntroductionPage;
+export default withRouter(IntroductionPage);

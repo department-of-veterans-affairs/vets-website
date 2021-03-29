@@ -22,9 +22,7 @@ import {
   FETCH_PENDING_APPOINTMENTS,
   FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS,
-  FETCH_PAST_APPOINTMENTS_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS_FAILED,
-  FETCH_FACILITY_LIST_DATA_SUCCEEDED,
   FETCH_REQUEST_MESSAGES,
   FETCH_REQUEST_MESSAGES_SUCCEEDED,
   FETCH_REQUEST_MESSAGES_FAILED,
@@ -52,40 +50,6 @@ describe('VAOS actions: appointments', () => {
 
   afterEach(() => {
     resetFetch();
-  });
-
-  it('should fetch past appointments', async () => {
-    const data = {
-      data: [],
-    };
-    setFetchJSONResponse(global.fetch, data);
-    setFetchJSONResponse(global.fetch.onCall(4), facilityData);
-    const thunk = fetchPastAppointments('2019-02-02', '2029-12-31', 1);
-    const dispatchSpy = sinon.spy();
-    const getState = () => ({
-      featureToggles: {},
-      appointments: {
-        pastStatus: 'notStarted',
-        past: [{ facilityId: '442' }],
-      },
-    });
-    await thunk(dispatchSpy, getState);
-    expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_PAST_APPOINTMENTS);
-    expect(dispatchSpy.firstCall.args[0].selectedIndex).to.eql(1);
-    expect(dispatchSpy.secondCall.args[0].type).to.eql(
-      FETCH_PAST_APPOINTMENTS_SUCCEEDED,
-    );
-    expect(dispatchSpy.thirdCall.args[0].type).to.eql(
-      FETCH_FACILITY_LIST_DATA_SUCCEEDED,
-    );
-    expect(global.fetch.lastCall.args[0]).to.contain('ids=vha_442');
-
-    expect(global.window.dataLayer[0].event).to.equal(
-      'vaos-get-past-appointments-started',
-    );
-    expect(global.window.dataLayer[1].event).to.equal(
-      'vaos-get-past-appointments-retrieved',
-    );
   });
 
   it('should dispatch fail action when fetching past appointments', async () => {
