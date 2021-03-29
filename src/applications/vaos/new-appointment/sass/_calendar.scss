@@ -2,10 +2,10 @@
   opacity: 0.3;
   pointer-events: none;
   background: none !important;
-  -webkit-user-select: none;  /* Chrome all / Safari all */
-  -moz-user-select: none;     /* Firefox all */
-  -ms-user-select: none;      /* IE 10+ */
-  user-select: none;          /* Likely future */
+  -webkit-user-select: none; /* Chrome all / Safari all */
+  -moz-user-select: none; /* Firefox all */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Likely future */
 }
 
 .vaos-calendar__disabled-overlay {
@@ -20,7 +20,7 @@
 }
 
 .vaos-calendar__weekday {
-  width: 20%;
+  width: 14.3%;
 }
 
 .vaos-calendar__calendar-day {
@@ -80,7 +80,7 @@
   background-color: $color-gray-lightest;
   border: 1px solid $color-gray-medium;
   border-radius: 5px;
-  padding: 12px;
+  padding: 6px;
   margin: 0;
 
   &:hover {
@@ -91,6 +91,10 @@
     background-color: $color-gray-lightest;
     border-color: $color-gray-lightest;
     color: $color-gray-light;
+  }
+
+  @include media($small-screen) {
+    padding: 12px;
   }
 }
 
@@ -206,7 +210,8 @@
       cursor: not-allowed;
     }
 
-    input[type="checkbox"], input[type="checkbox"] + label::before {
+    input[type="checkbox"],
+    input[type="checkbox"] + label::before {
       box-shadow: 0 0 0 1px $color-gray-light;
       background: $color-gray-lightest;
       cursor: not-allowed;

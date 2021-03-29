@@ -69,7 +69,7 @@ const CalendarCell = ({
   if (date === null) {
     return (
       <div role="cell" className="vaos-calendar__calendar-day">
-        <button className=" vads-u-visibility--hidden" />
+        <button className="vads-u-padding--0 vads-u-visibility--hidden" />
       </div>
     );
   }
