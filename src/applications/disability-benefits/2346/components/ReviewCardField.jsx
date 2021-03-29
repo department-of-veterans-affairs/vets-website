@@ -610,8 +610,10 @@ class ReviewCardField extends React.Component {
 ReviewCardField.propTypes = {
   uiSchema: PropTypes.shape({
     'ui:options': PropTypes.shape({
-      viewComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
-        .isRequired,
+      viewComponent: PropTypes.oneOfType([
+        PropTypes.element,
+        PropTypes.elementType,
+      ]).isRequired,
     }).isRequired,
     'ui:description': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     'ui:subtitle': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
@@ -622,7 +624,7 @@ ReviewCardField.propTypes = {
   idSchema: PropTypes.object.isRequired,
   registry: PropTypes.shape({
     fields: PropTypes.shape({
-      SchemaField: PropTypes.func.isRequired,
+      SchemaField: PropTypes.elementType.isRequired,
     }),
     definitions: PropTypes.object.isRequired,
   }).isRequired,

@@ -151,7 +151,7 @@ class ObjectField extends React.Component {
       const editLabel = (itemName && `Edit ${itemName}`) || `Edit ${title}`;
 
       const Tag = divWrapper ? 'div' : 'dl';
-      const objectViewField = uiSchema?.['ui:objectViewField'];
+      const ObjectViewField = uiSchema?.['ui:objectViewField'];
 
       const defaultEditButton = ({
         label = editLabel,
@@ -168,13 +168,13 @@ class ObjectField extends React.Component {
         </button>
       );
 
-      return isReactComponent(objectViewField) ? (
-        objectViewField({
-          ...this.props,
-          renderedProperties,
-          title,
-          defaultEditButton,
-        })
+      return isReactComponent(ObjectViewField) ? (
+        <ObjectViewField
+          {...this.props}
+          renderedProperties={renderedProperties}
+          title={title}
+          defaultEditButton={defaultEditButton}
+        />
       ) : (
         <>
           {!formContext.hideHeaderRow && (

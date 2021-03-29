@@ -525,7 +525,7 @@ ArrayField.propTypes = {
   readonly: PropTypes.bool,
   registry: PropTypes.shape({
     widgets: PropTypes.objectOf(
-      PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+      PropTypes.oneOfType([PropTypes.elementType, PropTypes.object]),
     ).isRequired,
     fields: PropTypes.objectOf(PropTypes.func).isRequired,
     definitions: PropTypes.object.isRequired,

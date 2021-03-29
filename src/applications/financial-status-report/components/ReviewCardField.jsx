@@ -225,8 +225,10 @@ const ReviewCardField = ({
 ReviewCardField.propTypes = {
   uiSchema: PropTypes.shape({
     'ui:options': PropTypes.shape({
-      viewComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
-        .isRequired,
+      viewComponent: PropTypes.oneOfType([
+        PropTypes.element,
+        PropTypes.elementType,
+      ]).isRequired,
       startInEdit: PropTypes.oneOfType([PropTypes.func, PropTypes.any]),
       volatileData: PropTypes.bool,
       reviewTitle: PropTypes.string,
@@ -248,7 +250,7 @@ ReviewCardField.propTypes = {
   idSchema: PropTypes.object.isRequired,
   registry: PropTypes.shape({
     fields: PropTypes.shape({
-      SchemaField: PropTypes.func.isRequired,
+      SchemaField: PropTypes.elementType.isRequired,
     }),
     definitions: PropTypes.object.isRequired,
   }).isRequired,
