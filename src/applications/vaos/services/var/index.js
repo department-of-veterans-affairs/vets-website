@@ -127,7 +127,17 @@ export function checkPastVisits(
   ).then(parseApiObject);
 }
 
-export function getRequestLimits(facilityId, typeOfCareId) {
+export function getRequestLimits(facilityIds, typeOfCareId) {
+  let url = `/vaos/v0/facilities/limits?type_of_care_id=${typeOfCareId}&`;
+  if (Array.isArray(facilityIds)) {
+    url += facilityIds.map(id => `facility_ids[]=${id}`).join('&');
+  } else {
+    url += `facility_ids[]=${facilityIds}`;
+  }
+  return apiRequestWithMocks(url).then(parseApiList);
+}
+
+export function getRequestLimitss(facilityId, typeOfCareId) {
   return apiRequestWithMocks(
     `/vaos/v0/facilities/${facilityId}/limits?type_of_care_id=${typeOfCareId}`,
   ).then(parseApiObject);
