@@ -8,14 +8,16 @@ const NoHonorableDischargeSM = () => {
     <div
       className="feature vads-u-background-color--gray-lightest"
       aria-live="polite"
+      aria-atomic="true"
     >
-      <p>
+      <p id="dishonorable-discharge-notice">
         To apply for VR&E benefits, you must have received an other than
         dishonorable discharge.
       </p>
       <a
         onClick={e => fireLinkClickEvent(e)}
         href="/discharge-upgrade-instructions/"
+        aria-describedby="dishonorable-discharge-notice"
       >
         Learn more about how to apply for a discharge upgrade
       </a>

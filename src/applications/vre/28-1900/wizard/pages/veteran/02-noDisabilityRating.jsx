@@ -9,8 +9,9 @@ const NoDisabilityRating = () => {
     <div
       className="feature vads-u-background-color--gray-lightest"
       aria-live="polite"
+      aria-atomic="true"
     >
-      <p>
+      <p id="ineligible-disability-notice">
         To be eligible for VR&E benefits, you must have a service-connected
         disability and an employment handicap in which your disability limits
         your ability to get a job.
@@ -18,6 +19,7 @@ const NoDisabilityRating = () => {
       <a
         onClick={e => fireLinkClickEvent(e)}
         href={CAREERS_EMPLOYMENT_ROOT_URL}
+        aria-describedby="ineligible-disability-notice"
       >
         Find out about VA educational and career counseling
       </a>

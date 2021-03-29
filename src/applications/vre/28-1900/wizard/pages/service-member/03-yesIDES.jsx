@@ -18,17 +18,19 @@ const YesIDES = props => {
     <div
       className="vads-u-margin-top--2 vads-u-padding--3 vads-u-background-color--gray-lightest"
       aria-live="polite"
+      aria-atomic="true"
     >
-      <p className="vads-u-margin-top--0">
-        Based on your answers, you probably qualify to apply for VR&E benefits.
-      </p>
-      <p className="vads-u-margin--0">
+      <p className="vads-u-margin--0" id="orientation-complete-notification">
+        <span className="vads-u-display--block vads-u-margin-y--1">
+          Based on your answers, you probably qualify to apply for VR&E
+          benefits.
+        </span>
         <strong>Before you apply,</strong> please go through the VR&E
         orientation below. If you already know you want to apply for VR&E, you
         can go directly to the online application without going through the
         orientation below.{' '}
         <a
-          aria-label="Skip VR&E orientation and apply online with VA Form 28-1900"
+          aria-describedby="orientation-complete-notification"
           onClick={() => {
             sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
           }}
