@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 import recordEvent from 'platform/monitoring/record-event';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import ProgressButton from '@department-of-veterans-affairs/component-library/ProgressButton';
@@ -9,11 +10,9 @@ import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { modalContents } from './privacyDataHelper';
 
-import manifest from '../manifest.json';
-
 const alreadyReceivingCarePath =
   '/health-care/covid-19-vaccine/stay-informed/form';
-const newlyEligiblePath = `${manifest.rootUrl}/eligibility`;
+const newlyEligiblePath = `/eligibility`;
 
 class IntroductionPage extends React.Component {
   constructor(props) {
@@ -21,7 +20,6 @@ class IntroductionPage extends React.Component {
     this.state = {
       currentSelection: '',
       errorMessage: null,
-      nextUrl: '',
       showPrivacyModal: false,
     };
   }
@@ -32,8 +30,6 @@ class IntroductionPage extends React.Component {
   setSelected(selected) {
     this.setState({
       currentSelection: selected,
-      nextUrl:
-        selected.value === 'Yes' ? alreadyReceivingCarePath : newlyEligiblePath,
       errorMessage: null,
     });
   }
@@ -49,7 +45,15 @@ class IntroductionPage extends React.Component {
       'button-click-label': 'I have used VA health care before',
       'button-background-color': '#0071bb',
     });
-    window.location.href = this.state.nextUrl;
+
+    const isEnrolledInVaHealthCare =
+      this.state.currentSelection.value === 'Yes';
+
+    if (isEnrolledInVaHealthCare) {
+      document.location.assign(alreadyReceivingCarePath);
+    } else {
+      this.props.router.push(newlyEligiblePath);
+    }
   }
   togglePrivacyModal() {
     this.setState({ showPrivacyModal: !this.state.showPrivacyModal });
@@ -108,4 +112,4 @@ class IntroductionPage extends React.Component {
   }
 }
 
-export default IntroductionPage;
+export default withRouter(IntroductionPage);

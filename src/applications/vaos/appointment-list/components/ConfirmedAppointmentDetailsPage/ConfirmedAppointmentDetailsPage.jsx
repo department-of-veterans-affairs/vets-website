@@ -11,18 +11,15 @@ import moment from '../../../lib/moment-tz';
 import {
   getVAAppointmentLocationId,
   getVARFacilityId,
-  isAtlasLocation,
   isVAPhoneAppointment,
-  isVideoAppointment,
-  isVideoGFE,
   isVideoHome,
-  isVideoVAFacility,
 } from '../../../services/appointment';
 import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
   FETCH_STATUS,
   PURPOSE_TEXT,
+  VIDEO_TYPES,
 } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import * as actions from '../../redux/actions';
@@ -30,6 +27,7 @@ import AppointmentDateTime from './AppointmentDateTime';
 import { getCancelInfo, selectAppointmentById } from '../../redux/selectors';
 import { selectFeatureCancel } from '../../../redux/selectors';
 import VideoVisitSection from './VideoVisitSection';
+import { getVideoInstructionText } from './VideoInstructions';
 import { formatFacilityAddress } from 'applications/vaos/services/location';
 import PageLayout from '../AppointmentsPage/PageLayout';
 import ErrorMessage from '../../../components/ErrorMessage';
@@ -45,11 +43,11 @@ function formatAppointmentDate(date) {
 }
 
 function formatHeader(appointment) {
-  if (isVideoGFE(appointment)) {
+  if (appointment.videoData.kind === VIDEO_TYPES.gfe) {
     return 'VA Video Connect using VA device';
-  } else if (isVideoVAFacility(appointment)) {
+  } else if (appointment.videoData.kind === VIDEO_TYPES.clinic) {
     return 'VA Video Connect at VA location';
-  } else if (isAtlasLocation(appointment)) {
+  } else if (appointment.videoData.isAtlas) {
     return 'VA Video Connect at an ATLAS location';
   } else if (isVideoHome(appointment)) {
     return 'VA Video Connect at home';
@@ -153,7 +151,8 @@ function ConfirmedAppointmentDetailsPage({
   }
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
-  const isVideo = isVideoAppointment(appointment);
+  const isVideo = appointment.vaos.isVideo;
+  const videoKind = appointment.videoData.kind;
   const isPhone = isVAPhoneAppointment(appointment);
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
@@ -167,6 +166,21 @@ function ConfirmedAppointmentDetailsPage({
     PURPOSE_TEXT.some(purpose =>
       appointment?.comment?.startsWith(purpose.short),
     );
+
+  const showVideoInstructions =
+    isVideo &&
+    appointment.comment &&
+    videoKind !== VIDEO_TYPES.clinic &&
+    videoKind !== VIDEO_TYPES.gfe;
+
+  let calendarDescription = 'VA appointment';
+  if (showInstructions) {
+    calendarDescription = appointment.comment;
+  } else if (showVideoInstructions) {
+    calendarDescription = getVideoInstructionText(appointment.comment);
+  } else if (isVideo) {
+    calendarDescription = 'VA video appointment';
+  }
 
   return (
     <PageLayout>
@@ -239,7 +253,7 @@ function ConfirmedAppointmentDetailsPage({
                   />
                   <AddToCalendar
                     summary={`${header}`}
-                    description={`instructionText`}
+                    description={calendarDescription}
                     location={
                       isPhone ? 'Phone call' : formatFacilityAddress(facility)
                     }

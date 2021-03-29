@@ -34,6 +34,7 @@ describe('VAOS selectors', () => {
             facility: {
               facilityCode: '123',
             },
+            vaos: {},
           },
           facilityData: {
             var123: {},
