@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 import recordEvent from 'platform/monitoring/record-event';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import ProgressButton from '@department-of-veterans-affairs/component-library/ProgressButton';
@@ -9,11 +10,9 @@ import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { modalContents } from './privacyDataHelper';
 
-import manifest from '../manifest.json';
-
 const alreadyReceivingCarePath =
   '/health-care/covid-19-vaccine/stay-informed/form';
-const newlyEligiblePath = `${manifest.rootUrl}/eligibility`;
+const newlyEligiblePath = `/eligibility`;
 
 class IntroductionPage extends React.Component {
   constructor(props) {
@@ -49,7 +48,12 @@ class IntroductionPage extends React.Component {
       'button-click-label': 'I have used VA health care before',
       'button-background-color': '#0071bb',
     });
-    window.location.href = this.state.nextUrl;
+
+    if (this.state.nextUrl === alreadyReceivingCarePath) {
+      document.location.assign(alreadyReceivingCarePath);
+    } else {
+      this.props.router.push(this.state.nextUrl);
+    }
   }
   togglePrivacyModal() {
     this.setState({ showPrivacyModal: !this.state.showPrivacyModal });
@@ -108,4 +112,4 @@ class IntroductionPage extends React.Component {
   }
 }
 
-export default IntroductionPage;
+export default withRouter(IntroductionPage);

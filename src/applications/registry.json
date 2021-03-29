@@ -1003,8 +1003,8 @@
     }
   },
   {
-    "appName": "covid-vaccine-expansion",
-    "entryName": "covid-vaccine",
+    "appName": "coronavirus-vaccination-expansion",
+    "entryName": "coronavirus-vaccination-expansion",
     "rootUrl": "/health-care/covid-19-vaccine/sign-up/",
     "template": {
       "vagovprod": false,
