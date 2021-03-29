@@ -218,7 +218,8 @@ export const RepresentativeIntroContent = () => {
         for the Veteran.
       </p>
 
-      <p>Here's what you should know</p>
+      <p>Here's what you should know:</p>
+
       <ul>
         <li>
           You can still continue with this application to apply for the program
@@ -239,12 +240,12 @@ export const RepresentativeAdditionalInfo = () => {
   return (
     <div className="vads-u-margin-top--1">
       <AdditionalInfo triggerText="What documents can I submit to show legal status as a representative?">
-        <ul>
-          <p>
-            Documentation to show your legal status as a representative could
-            include:
-          </p>
+        <p>
+          Documentation to show your legal status as a representative could
+          include:
+        </p>
 
+        <ul>
           <li>
             A current power of attorney document or legal guardianship order,
             <strong>or</strong>
