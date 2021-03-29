@@ -83,6 +83,8 @@ const {
   GetCampaignLandingPages,
 } = require('./graphql/nodeCampaignLandingPage.graphql');
 
+const { GetVetCenters } = require('./graphql/vetCenter.graphql');
+
 function getNodeQueries(entityCounts) {
   return {
     ...getNodePageQueries(entityCounts),
@@ -113,6 +115,7 @@ function getNodeQueries(entityCounts) {
     GetNodeSupportResourcesDetailPage,
     GetNodeBasicLandingPage,
     GetCampaignLandingPages,
+    GetVetCenters,
   };
 }
 
