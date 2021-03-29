@@ -188,16 +188,28 @@ function Introduction({
 
       <h2>More about getting a COVID-19 vaccine at VA</h2>
       <va-accordion class="vads-u-margin-top--1">
-        <va-accordion-item header="Why would VA contact Veterans who are planning to get a vaccine first?">
+        <va-accordion-item
+          level="3"
+          header="Why would VA contact Veterans who are planning to get a vaccine first?"
+        >
           <WhyContact />
         </va-accordion-item>
-        <va-accordion-item header="If I don’t sign up or tell VA I plan to get a vaccine, will VA still contact me when I can get a vaccine?">
+        <va-accordion-item
+          level="3"
+          header="If I don’t sign up or tell VA I plan to get a vaccine, will VA still contact me when I can get a vaccine?"
+        >
           <WhatIfIDontSignUp />
         </va-accordion-item>
-        <va-accordion-item header="Do I have to provide my Social Security number and date of birth?">
+        <va-accordion-item
+          level="3"
+          header="Do I have to provide my Social Security number and date of birth?"
+        >
           <ProvideSSNAndDOB />
         </va-accordion-item>
-        <va-accordion-item header="How will VA contact me when I can get a COVID-19 vaccine?">
+        <va-accordion-item
+          level="3"
+          header="How will VA contact me when I can get a COVID-19 vaccine?"
+        >
           <ContactRules />
         </va-accordion-item>
       </va-accordion>
