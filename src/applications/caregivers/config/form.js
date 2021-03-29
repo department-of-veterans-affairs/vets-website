@@ -123,18 +123,6 @@ const formConfig = {
         },
       },
     },
-    signAsRepresentativeChapter: {
-      title: 'Representative documentation',
-      pages: {
-        signAsRepresentative: {
-          depends: formData => formData['view:canUpload1010cgPOA'],
-          path: 'representative-documentation',
-          title: 'Representative documentation',
-          uiSchema: signAsRepresentativeYesNo.uiSchema,
-          schema: signAsRepresentativeYesNo.schema,
-        },
-      },
-    },
     primaryCaregiverChapter: {
       title: 'Primary Family Caregiver applicant information',
       pages: {
@@ -209,6 +197,18 @@ const formConfig = {
           depends: formData => hasSecondaryCaregiverTwo(formData),
           uiSchema: secondaryTwoContactPage.uiSchema,
           schema: secondaryTwoContactPage.schema,
+        },
+      },
+    },
+    signAsRepresentativeChapter: {
+      title: 'Representative documentation',
+      pages: {
+        signAsRepresentative: {
+          depends: formData => formData['view:canUpload1010cgPOA'],
+          path: 'representative-documentation',
+          title: 'Representative documentation',
+          uiSchema: signAsRepresentativeYesNo.uiSchema,
+          schema: signAsRepresentativeYesNo.schema,
         },
       },
     },
