@@ -5,7 +5,10 @@ import { recordNotificationEvent, fireLinkClickEvent } from '../helpers';
 const NoHonorableDischargeSM = () => {
   recordNotificationEvent('ineligibility - received a dishonorable discharge');
   return (
-    <div className="feature vads-u-background-color--gray-lightest">
+    <div
+      className="feature vads-u-background-color--gray-lightest"
+      aria-live="polite"
+    >
       <p>
         To apply for VR&E benefits, you must have received an other than
         dishonorable discharge.

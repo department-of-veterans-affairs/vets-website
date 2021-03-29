@@ -6,7 +6,10 @@ import { recordNotificationEvent, fireLinkClickEvent } from '../helpers';
 const NoDisabilityRating = () => {
   recordNotificationEvent('ineligibility - does not have disability rating');
   return (
-    <div className="feature vads-u-background-color--gray-lightest">
+    <div
+      className="feature vads-u-background-color--gray-lightest"
+      aria-live="polite"
+    >
       <p>
         To be eligible for VR&E benefits, you must have a service-connected
         disability and an employment handicap in which your disability limits

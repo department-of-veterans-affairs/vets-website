@@ -14,7 +14,10 @@ const AmOther = props => {
   );
   recordNotificationEvent('ineligibility - is not a Veteran or Service Member');
   return (
-    <div className="feature vads-u-background-color--gray-lightest">
+    <div
+      className="feature vads-u-background-color--gray-lightest"
+      aria-live="polite"
+    >
       <p>
         To apply for VR&E benefits, you must be either a Veteran or active-duty
         service member.

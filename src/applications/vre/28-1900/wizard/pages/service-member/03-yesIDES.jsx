@@ -15,7 +15,10 @@ const YesIDES = props => {
     [setWizardStatus],
   );
   return (
-    <div className="vads-u-margin-top--2 vads-u-padding--3 vads-u-background-color--gray-lightest">
+    <div
+      className="vads-u-margin-top--2 vads-u-padding--3 vads-u-background-color--gray-lightest"
+      aria-live="polite"
+    >
       <p className="vads-u-margin-top--0">
         Based on your answers, you probably qualify to apply for VR&E benefits.
       </p>
