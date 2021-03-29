@@ -18,6 +18,7 @@ export default function AnswerQuestions(props) {
   }
   return (
     <button
+      data-testid="answer-button"
       className="usa-button va-button answer-button"
       aria-label={`Select to ${
         status ? 'continue' : 'start'
