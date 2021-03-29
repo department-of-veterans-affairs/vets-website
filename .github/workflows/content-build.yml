@@ -41,4 +41,4 @@ jobs:
           --function-name cacheDrupalContent
           --s3-bucket vetsgov-website-builds-s3-upload
           --s3-key content-cache/master/function.zip
-      - run: aws lambda invoke --function-name cacheDrupalContent
+      - run: aws lambda invoke --function-name cacheDrupalContent outfile.txt
