@@ -43,7 +43,7 @@ const formConfig = {
   },
 
   formId: VA_FORM_IDS.FORM_10182,
-  version: migrations.length,
+  version: migrations.length - 1,
   title: 'Request a Board Appeal',
   subTitle: 'Equal to VA Form 10182 (Notice of Disagreement)',
 
