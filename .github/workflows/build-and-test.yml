@@ -86,6 +86,7 @@ jobs:
         run: yarn run eslint --ext .js --ext .jsx --output-file eslint-report.json --format json .
 
       - name: Annotate linting results
+        if: ${{ always() }}
         uses: ataylorme/eslint-annotate-action@1.1.2
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
