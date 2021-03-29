@@ -962,7 +962,7 @@
   {
     "appName": "Coronavirus Vaccination",
     "entryName": "coronavirus-vaccination",
-    "rootUrl": "/health-care/covid-19-vaccine/sign-up/stay-informed",
+    "rootUrl": "/health-care/covid-19-vaccine/stay-informed",
     "template": {
       "title": "Sign up to get a COVID-19 vaccine at VA",
       "layout": "page-react.html",
@@ -978,7 +978,7 @@
           "name": "COVID-19 vaccines"
         },
         {
-          "path": "health-care/covid-19-vaccine/sign-up/stay-informed",
+          "path": "health-care/covid-19-vaccine/stay-informed",
           "name": "Sign up to get a vaccine"
         }
       ]

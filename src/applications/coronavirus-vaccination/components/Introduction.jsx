@@ -64,7 +64,7 @@ function Introduction({
                         environment.BASE_URL
                       }/health-care/covid-19-vaccine/sign-up`,
                     )
-                  : '/health-care/covid-19-vaccine/sign-up/stay-informed/form'
+                  : '/health-care/covid-19-vaccine/stay-informed/form'
               }
             >
               Sign up now

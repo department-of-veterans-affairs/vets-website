@@ -1,5 +1,7 @@
 import React from 'react';
 
+const paddingBottom = { paddingBottom: '1em' };
+
 export const eligibilityAccordion = (
   <>
     <p>
@@ -8,8 +10,10 @@ export const eligibilityAccordion = (
       can. We can only offer vaccines to people who are eligible under the law.
       Thank you for helping us to achieve our mission.
     </p>
-    <h3>Learn about who's eligible for a COVID-19 vaccine at VA</h3>
-    <va-accordion>
+    <h3 className="vads-u-font-size--h4" style={paddingBottom}>
+      Learn about who's eligible for a COVID-19 vaccine at VA
+    </h3>
+    <va-accordion style={paddingBottom}>
       <va-accordion-item level="4" header="Which Veterans are eligible?">
         <p>
           To be eligible for a COVID-19 vaccine at VA as a Veteran, both of
@@ -79,7 +83,12 @@ export const eligibilityAccordion = (
   </>
 );
 
-export const veteranLabel = <strong>Eligible Veteran</strong>;
+export const veteranLabel = (
+  <>
+    <strong>Eligible Veteran</strong> who meets the service requirements listed
+    above
+  </>
+);
 
 export const spouseLabel = (
   <>

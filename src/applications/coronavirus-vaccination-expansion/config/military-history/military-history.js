@@ -31,7 +31,7 @@ export const uiSchema = {
         return true;
       },
     },
-    dateRange: monthYearRange(),
+    dateRange: monthYearRange('Service start date', 'Service end date'),
     characterOfService: {
       'ui:title': 'Character of service',
       'ui:required': () => {

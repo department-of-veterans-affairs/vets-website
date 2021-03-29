@@ -12,7 +12,7 @@ import { modalContents } from './privacyDataHelper';
 import manifest from '../manifest.json';
 
 const alreadyReceivingCarePath =
-  '/health-care/covid-19-vaccine/sign-up/stay-informed/form';
+  '/health-care/covid-19-vaccine/stay-informed/form';
 const newlyEligiblePath = `${manifest.rootUrl}/eligibility`;
 
 class IntroductionPage extends React.Component {
