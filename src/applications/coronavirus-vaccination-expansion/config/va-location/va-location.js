@@ -19,11 +19,11 @@ export const uiSchema = {
           <p>
             These are the VA medical centers closest to the address you
             provided. Select the medical center where you’d like to get your
-            COVID-19 vaccine . If you don't select any, we'll match you with the
+            COVID-19 vaccine. If you don't select any, we'll match you with the
             closest one.
           </p>
           <p>
-            <strong>Note</strong>: if you get a vaccine that requires 2 doses to
+            <strong>Note</strong>: If you get a vaccine that requires 2 doses to
             be fully effective, you'll need to return to the same VA medical
             center to get your second dose.
           </p>

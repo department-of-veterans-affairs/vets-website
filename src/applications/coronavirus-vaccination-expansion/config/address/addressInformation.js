@@ -45,7 +45,7 @@ export const uiSchema = {
         <p>
           <strong>Note: </strong>
           If you provide an email address, we can send you information about the
-          vaccine process.),
+          vaccine process.
         </p>
       ),
     },

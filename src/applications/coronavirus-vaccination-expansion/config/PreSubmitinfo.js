@@ -13,7 +13,7 @@ export default {
       understand that doing so could result in a fine or other penalty. I have
       also read and accept the{' '}
       <a target="_blank" href="/privacy-policy/">
-        privacy policy
+        privacy policy.
       </a>
     </span>
   ),
