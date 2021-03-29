@@ -1,6 +1,6 @@
 {
-  "appName": "coronavirus-vaccination-expansion",
+  "appName": "covid-vaccine-expansion",
   "entryFile": "./app-entry.jsx",
-  "entryName": "coronavirus-vaccination-expansion",
+  "entryName": "covid-vaccine",
   "rootUrl": "/health-care/covid-19-vaccine/sign-up"
 }
