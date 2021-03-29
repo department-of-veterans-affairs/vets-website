@@ -5,7 +5,10 @@ import backendServices from '~/platform/user/profile/constants/backendServices';
 import { GeneralCernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
 import { fetchFolder as fetchInboxAction } from '~/applications/personalization/dashboard/actions/messaging';
 import { FOLDER } from '~/applications/personalization/dashboard-2/constants';
-import { selectUnreadMessagesCount } from '~/applications/personalization/dashboard-2/selectors';
+import {
+  selectUnreadMessagesCount,
+  selectFolder,
+} from '~/applications/personalization/dashboard-2/selectors';
 import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction } from '~/applications/personalization/appointments/actions';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { getMedicalCenterNameByID } from '~/platform/utilities/medical-centers/medical-centers';
@@ -192,11 +195,10 @@ const mapStateToProps = state => {
 
   const fetchingAppointments = state.health?.appointments?.fetching;
   const fetchingInbox = shouldFetchMessages
-    ? state.health?.msg?.folders?.data?.currentItem?.fetching
+    ? selectFolder(state)?.fetching
     : false;
 
-  const hasInboxError =
-    state.health?.msg?.folders?.currentItem?.errors?.length > 0;
+  const hasInboxError = selectFolder(state)?.errors?.length > 0;
 
   return {
     appointments: state.health?.appointments?.data,
