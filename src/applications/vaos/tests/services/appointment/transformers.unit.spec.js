@@ -464,18 +464,9 @@ describe('VAOS Appointment transformer', () => {
         ).to.be.false;
       });
 
-      it('should set video url in HealthcareService.telecom', () => {
-        expect('contained' in data).to.equal(true);
-        expect(data.contained[1].resourceType).to.equal('HealthcareService');
-        expect(data.contained[1].id).to.contain(
-          videoAppt.vvsAppointments[0].id,
-        );
-        expect(data.contained[1].telecom[0].value).to.equal(
+      it('should set video url', () => {
+        expect(data.videoData.url).to.equal(
           'https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VVC8275247@care2.evn.va.gov&pin=3242949390#',
-        );
-        expect(data.contained[1].telecom[0].period.start).to.equal(data.start);
-        expect(data.contained[1].characteristic[0].coding[0].system).to.equal(
-          'VVS',
         );
       });
 
@@ -508,25 +499,17 @@ describe('VAOS Appointment transformer', () => {
           },
         ])[0];
 
-        expect(gfeData.contained[1].resourceType).to.equal('HealthcareService');
-        expect(gfeData.contained[1].characteristic[0].coding[0].code).to.equal(
-          VIDEO_TYPES.gfe,
-        );
+        expect(gfeData.videoData.kind).to.equal(VIDEO_TYPES.gfe);
       });
       it('should return ATLAS location', () => {
         const { address } = transformATLASLocation(
           videoAppt.vvsAppointments[0].tasInfo,
         );
 
-        expect(data.contained[0].address).to.eql(address);
+        expect(data.videoData.atlasLocation.address).to.eql(address);
       });
       it('should return confirmation code', () => {
-        expect(data.contained[1].characteristic[1].coding[0].code).to.equal(
-          '7VBBCA',
-        );
-        expect(data.contained[1].characteristic[1].coding[0].system).to.equal(
-          'ATLAS_CC',
-        );
+        expect(data.videoData.atlasConfirmationCode).to.equal('7VBBCA');
       });
     });
 
@@ -582,11 +565,8 @@ describe('VAOS Appointment transformer', () => {
         expect(data.vaos.appointmentType).to.equal(APPOINTMENT_TYPES.request);
       });
 
-      it('should return video type in HealthcareService coding', () => {
-        expect(data.contained[1].resourceType).to.equal('HealthcareService');
-        expect(data.contained[1].characteristic[0].coding[0].system).to.equal(
-          'VVS',
-        );
+      it('should set isVideo in vaos object', () => {
+        expect(data.vaos.isVideo).to.be.true;
       });
 
       it('should set requestedPeriods', () => {

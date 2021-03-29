@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { appointment } from '../index';
+import { appointmentSelector as appointment } from '../index';
 
 describe('health care questionnaire -- utils -- get appointment status --', () => {
   describe('getStatus', () => {

@@ -1,0 +1,160 @@
+{
+  "questions": {
+    "hasBeenAdjucatedBankrupt": false,
+    "hasOtherExpenses": false,
+    "hasRepayments": false,
+    "hasUtilities": false,
+    "hasOtherAssets": false,
+    "hasRecreationalVehicle": false,
+    "hasVehicle": false,
+    "hasRealEstate": false,
+    "hasDependents": false,
+    "maritalStatus": "Single",
+    "hasAdditionalIncome": false,
+    "hasSocialSecurity": false,
+    "vetPreviouslyEmployed": false,
+    "vetIsEmployed": false
+  },
+  "view:components": {
+    "view:financialHardshipExplanation": {},
+    "view:veteranInfo": {},
+    "view:vaBenefitsOnFile": {},
+    "view:vehicleInfo": {},
+    "view:recVehicleInfo": {},
+    "view:assetInfo": {}
+  },
+  "additionalData": {
+    "additionalComments": "Supporting personal statement",
+    "bankruptcy": {}
+  },
+  "expenses": {
+    "rentOrMortgage": 0,
+    "food": 0
+  },
+  "assets": {
+    "cashInBank": 0,
+    "cashOnHand": 0,
+    "usSavingsBonds": 0,
+    "stocksAndOtherBonds": 0
+  },
+  "personalData": {
+    "address": {
+      "livesOnMilitaryBaseInfo": {},
+      "countryName": "United States",
+      "addressLine1": "1493 Martin Luther King Rd",
+      "addressLine2": "Apt 1",
+      "city": "Fulton",
+      "stateCode": "NY",
+      "zipCode": "97062",
+      "addressLine3": null,
+      "addressPou": "CORRESPONDENCE",
+      "addressType": "DOMESTIC",
+      "countryCodeFips": "US",
+      "countryCodeIso2": "US",
+      "countryCodeIso3": "USA",
+      "createdAt": "2018-04-21T20:09:50Z",
+      "effectiveEndDate": "2018-04-21T20:09:50Z",
+      "effectiveStartDate": "2018-04-21T20:09:50Z",
+      "id": 123,
+      "internationalPostalCode": "54321",
+      "province": "string",
+      "sourceDate": "2018-04-21T20:09:50Z",
+      "updatedAt": "2018-04-21T20:09:50Z",
+      "zipCodeSuffix": "1234"
+    },
+    "telephoneNumber": "5035551234",
+    "primaryEmail": "veteran@gmail.com",
+    "confirmationEmail": "veteran@gmail.com",
+    "veteranFullName": {
+      "first": "Mark",
+      "last": "Webb",
+      "middle": "R",
+      "suffix": "Jr."
+    },
+    "dateOfBirth": "1950-10-04",
+    "employmentHistory": {
+      "veteran": {
+        "currentEmployment": {}
+      },
+      "spouse": {
+        "currentEmployment": {}
+      }
+    },
+    "spouseFullName": {},
+    "emailAddress": "test2@test1.net"
+  },
+  "personalIdentification": {
+    "ssn": "4437",
+    "fileNumber": "4437"
+  },
+  "selectedDebts": [
+    {
+      "financialOverview": {},
+      "debtRepaymentOptions": {},
+      "resolutionOptionsTitle": {},
+      "resolution": {
+        "resolutionType": "Waiver"
+      },
+      "fileNumber": "796121200",
+      "payeeNumber": "00",
+      "personEntitled": "AJHONS",
+      "deductionCode": "30",
+      "benefitType": "Comp & Pen",
+      "diaryCode": "080",
+      "diaryCodeDescription": "Referred to the Department of the Treasury",
+      "amountOverpaid": 0,
+      "amountWithheld": 0,
+      "originalAr": 136.24,
+      "currentAr": 100,
+      "debtHistory": [
+        {
+          "date": "02/25/2009",
+          "letterCode": "914",
+          "description": "Paid In Full - Account balance cleared via offset, not including TOP."
+        },
+        {
+          "date": "02/07/2009",
+          "letterCode": "905",
+          "description": "Administrative Write Off"
+        },
+        {
+          "date": "12/03/2008",
+          "letterCode": "487",
+          "description": "Death Case Pending Action"
+        }
+      ],
+      "id": 0
+    }
+  ],
+  "debt": {
+    "currentAr": 0,
+    "debtHistory": [
+      {
+        "date": ""
+      }
+    ],
+    "deductionCode": "",
+    "originalAr": 0
+  },
+  "income": [
+    {
+      "veteranOrSpouse": "VETERAN",
+      "compensationAndPension": "3261.1",
+      "education": "50"
+    },
+    {
+      "veteranOrSpouse": "SPOUSE",
+      "compensationAndPension": "0",
+      "education": "0"
+    }
+  ],
+  "socialSecurity": {
+    "spouse": {}
+  },
+  "additionalIncome": {
+    "spouse": {}
+  },
+  "benefits": {
+    "spouseBenefits": {}
+  }
+}

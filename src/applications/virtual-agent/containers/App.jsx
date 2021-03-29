@@ -1,6 +1,6 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import { apiRequest } from 'platform/utilities/api';
+import WaitForFeatureToggles from './WaitForFeatureToggles';
 
 window.React = React;
 window.ReactDOM = ReactDOM;
@@ -30,44 +30,5 @@ export default function App() {
     return 'waiting on webchat framework . . .';
   }
 
-  return <ActualApp />;
-}
-
-function ActualApp() {
-  const { ReactWebChat, createDirectLine, createStore } = window.WebChat;
-  const [token, setToken] = useState('');
-
-  useEffect(() => {
-    async function getToken() {
-      const res = await apiRequest('/virtual_agent_token', {
-        method: 'POST',
-      });
-      setToken(res.token);
-    }
-    getToken();
-  }, []);
-
-  const store = useMemo(() => createStore(), []);
-
-  const directLine = useMemo(
-    () =>
-      createDirectLine({
-        token,
-        domain:
-          'https://northamerica.directline.botframework.com/v3/directline',
-      }),
-    [token],
-  );
-
-  return (
-    <div className={'vads-l-grid-container'}>
-      <div
-        className={'vads-l-row'}
-        data-testid={'webchat'}
-        style={{ height: '500px' }}
-      >
-        <ReactWebChat directLine={directLine} store={store} userID="12345" />
-      </div>
-    </div>
-  );
+  return <WaitForFeatureToggles />;
 }
