@@ -11,6 +11,7 @@ export default function ViewAndPrint({
     <button
       className="usa-button va-button view-and-print-button"
       onClick={onClick}
+      data-testid="print-button"
       aria-label={`Download your response to the questionnaire you submitted for your appointment at ${facilityName} that was on ${moment(
         appointmentTime,
       ).format('MMMM, D, YYYY')}`}
