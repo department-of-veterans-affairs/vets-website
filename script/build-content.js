@@ -1,3 +1,5 @@
+console.log('Testing out linting');
+
 const chokidar = require('chokidar');
 const chalk = require('chalk');
 const debounce = require('lodash/debounce');
