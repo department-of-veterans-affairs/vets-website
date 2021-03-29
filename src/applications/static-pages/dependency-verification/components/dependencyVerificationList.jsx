@@ -9,7 +9,10 @@ const DependencyVerificationList = ({ dependents }) => {
     <div className="vads-u-margin-top--4">
       {dependents
         .filter(dependent => {
-          return dependent.dependencyStatusType !== NOTONAWARD;
+          return (
+            dependent.dependencyStatusType &&
+            dependent.dependencyStatusType !== NOTONAWARD
+          );
         })
         .map((dependent, index) => {
           return (

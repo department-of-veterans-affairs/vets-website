@@ -1,4 +1,4 @@
-<h3 data-template="paragraphs/service_location">Contact information</h3>
+<h4 data-template="paragraphs/service_location">Contact information</h4>
 {% for singleLocation in locations %}
   {% assign single = singleLocation.entity %}
   {% if single.fieldServiceLocationAddress.entity.fieldClinicName %}
@@ -60,7 +60,7 @@
 {% endfor %}
 
 {% if locationEntity.fieldReferralRequired or locationEntity.fieldWalkInsAccepted or locationEntity.fieldOnlineSchedulingAvailabl %}
-  <h3 data-template="paragraphs/service_location">Appointments</h3>
+  <h4 data-template="paragraphs/service_location">Appointments</h4>
 
   {% assign introText = 'Contact us to schedule, reschedule, or
             cancel your appointment. If a referral is required, you’ll need to contact your
@@ -89,11 +89,7 @@
   {% endcomment %}
   {% if locationEntity.fieldPhoneNumbersParagraph.length > 0 %}
     <div class="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1" data-template="paragraphs/service_location">
-      {% if haveLocationName %}
-        <h4 class="force-small-header">Phone</h4>
-      {% else %}
-        <h5>Phone</h5>
-      {% endif %}
+      <h5>Phone</h5>
       {% if locationEntity.fieldPhoneNumbersParagraph %}
         {% for number in locationEntity.fieldPhoneNumbersParagraph %}
           <a aria-label="{{ number.entity.fieldPhoneNumber | accessibleNumber }}"
@@ -107,20 +103,12 @@
       {% endif %}
     </div>
   {% else %}
-    {% comment %}
-      if fieldPhoneNumbersParagraph is empty and
-      fieldUseMainFacilityPhone is true use fieldPhoneNumber
-    {% endcomment %}
       <div class="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1" data-template="paragraphs/service_location">
-        {% if haveLocationName %}
-          <h4 class="force-small-header">Phone</h4>
-        {% else %}
-          <h5>Phone</h5>
-          <a aria-label="{{ fieldPhoneNumber | accessibleNumber }}"
-             href="tel:{{ fieldPhoneNumber }}">
-            {{ fieldPhoneNumber }}
-          </a>
-        {% endif %}
+        <h5>Phone</h5>
+        <a aria-label="{{ fieldPhoneNumber | accessibleNumber }}"
+           href="tel:{{ fieldPhoneNumber }}">
+          {{ fieldPhoneNumber }}
+        </a>
       </div>
   {% endif %}
 
