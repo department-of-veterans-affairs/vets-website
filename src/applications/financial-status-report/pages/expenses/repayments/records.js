@@ -26,6 +26,7 @@ export const uiSchema = {
         'ui:title': 'Type of contract or debt',
         'ui:field': Typeahead,
         'ui:options': {
+          idPrefix: 'repayments',
           classNames:
             'input-size-7 vads-u-margin-top--3 vads-u-margin-bottom--3',
           getOptions: () => formatOptions(installmentTypes),

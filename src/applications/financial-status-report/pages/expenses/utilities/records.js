@@ -29,6 +29,7 @@ export const uiSchema = {
         'ui:title': 'Type of utility',
         'ui:field': Typeahead,
         'ui:options': {
+          idPrefix: 'utilites',
           classNames: 'input-size-3',
           getOptions: () => formatOptions(utilityTypes),
         },

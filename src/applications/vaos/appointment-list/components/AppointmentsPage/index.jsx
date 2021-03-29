@@ -40,12 +40,10 @@ const pageTitle = 'VA appointments';
 
 function AppointmentsPage({
   cancelInfo,
-  canUseVaccineFlow,
   closeCancelAppointment,
   confirmCancelAppointment,
-  directScheduleSettingsStatus,
   expressCare,
-  fetchDirectScheduleSettings,
+  featureProjectCheetah,
   fetchFutureAppointments,
   fetchExpressCareWindows,
   futureStatus,
@@ -55,10 +53,8 @@ function AppointmentsPage({
   showDirectScheduling,
   pendingStatus,
   showScheduleButton,
-  showCheetahScheduleButton,
   startNewAppointmentFlow,
   startNewExpressCareFlow,
-  startNewVaccineFlow,
 }) {
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -69,13 +65,6 @@ function AppointmentsPage({
 
     if (expressCare.windowsStatus === FETCH_STATUS.notStarted) {
       fetchExpressCareWindows();
-    }
-
-    if (
-      showCheetahScheduleButton &&
-      directScheduleSettingsStatus === FETCH_STATUS.notStarted
-    ) {
-      fetchDirectScheduleSettings();
     }
   }, []);
 
@@ -128,7 +117,7 @@ function AppointmentsPage({
 
       {showScheduleButton && (
         <>
-          {!showCheetahScheduleButton && (
+          {!featureProjectCheetah && (
             <ScheduleNewAppointment
               isCernerOnlyPatient={isCernerOnlyPatient}
               showCommunityCare={showCommunityCare}
@@ -141,15 +130,7 @@ function AppointmentsPage({
               }}
             />
           )}
-          {showCheetahScheduleButton && (
-            <div className="vads-u-margin-bottom--4">
-              <ScheduleNewAppointmentRadioButtons
-                showCheetahScheduleButton={canUseVaccineFlow}
-                startNewAppointmentFlow={startNewAppointmentFlow}
-                startNewVaccineFlow={startNewVaccineFlow}
-              />
-            </div>
-          )}
+          {featureProjectCheetah && <ScheduleNewAppointmentRadioButtons />}
         </>
       )}
 
@@ -158,17 +139,18 @@ function AppointmentsPage({
       )}
       {!isLoading && (
         <>
-          {!isCernerOnlyPatient && (
-            <RequestExpressCare
-              {...expressCare}
-              startNewExpressCareFlow={() => {
-                recordEvent({
-                  event: `${GA_PREFIX}-express-care-request-button-clicked`,
-                });
-                startNewExpressCareFlow();
-              }}
-            />
-          )}
+          {!isCernerOnlyPatient &&
+            expressCare.useNewFlow && (
+              <RequestExpressCare
+                {...expressCare}
+                startNewExpressCareFlow={() => {
+                  recordEvent({
+                    event: `${GA_PREFIX}-express-care-request-button-clicked`,
+                  });
+                  startNewExpressCareFlow();
+                }}
+              />
+            )}
           {expressCare.hasRequests && (
             <h2 className="vads-u-font-size--h3 vads-u-margin-y--3">
               Your upcoming, past, and Express Care appointments
@@ -196,7 +178,7 @@ AppointmentsPage.propTypes = {
   showCommunityCare: PropTypes.bool.isRequired,
   showDirectScheduling: PropTypes.bool.isRequired,
   startNewAppointmentFlow: PropTypes.func.isRequired,
-  showCheetahScheduleButton: PropTypes.bool.isRequired,
+  featureProjectCheetah: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -209,7 +191,7 @@ function mapStateToProps(state) {
     showScheduleButton: selectFeatureRequests(state),
     showCommunityCare: selectFeatureCommunityCare(state),
     showDirectScheduling: selectFeatureDirectScheduling(state),
-    showCheetahScheduleButton: selectFeatureProjectCheetah(state),
+    featureProjectCheetah: selectFeatureProjectCheetah(state),
     isWelcomeModalDismissed: selectIsWelcomeModalDismissed(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     expressCare: selectExpressCareAvailability(state),

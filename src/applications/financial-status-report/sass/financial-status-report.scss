@@ -160,6 +160,19 @@
   white-space: nowrap;
 }
 
+.resolution-comments {
+  label {
+    @include media($medium-screen) {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+  }
+  .additional-info-button {
+    margin: 10px 0 20px;
+  }
+}
+
 .repayments {
   #root__title {
     height: auto;
