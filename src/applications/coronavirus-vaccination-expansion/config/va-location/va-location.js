@@ -13,6 +13,7 @@ export const schema = {
 export const uiSchema = {
   vaLocation: {
     preferredFacility: {
+      'ui:title': 'Selected VA medical center',
       'ui:widget': DynamicRadioWidget,
       'ui:description': (
         <>
