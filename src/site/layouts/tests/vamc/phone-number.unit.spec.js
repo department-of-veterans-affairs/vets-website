@@ -9,7 +9,11 @@ const data = parseFixture(
 describe('phone-number', () => {
   describe('number has label and location', () => {
     it('displays fieldPhoneLabel in h5', async () => {
-      const container = await renderHTML(layoutPath, data.labelAndLocationName);
+      const container = await renderHTML(
+        layoutPath,
+        data.labelAndLocationName,
+        'labelAndLocationName',
+      );
 
       expect(container.querySelector('h5').innerHTML).to.equal(
         data.labelAndLocationName.number.fieldPhoneLabel,
@@ -19,7 +23,11 @@ describe('phone-number', () => {
 
   describe('number has no label, has location', () => {
     it('displays phoneLabel in h5', async () => {
-      const container = await renderHTML(layoutPath, data.noLabelLocationName);
+      const container = await renderHTML(
+        layoutPath,
+        data.noLabelLocationName,
+        'noLabelLocationName',
+      );
 
       expect(container.querySelector('h5').innerHTML).to.equal('Fax');
     });
@@ -30,6 +38,7 @@ describe('phone-number', () => {
       const container = await renderHTML(
         layoutPath,
         data.noLabelNoLocationName,
+        'noLabelNoLocationName',
       );
 
       expect(container.querySelector('h4').innerHTML).to.equal('Phone');
@@ -41,6 +50,7 @@ describe('phone-number', () => {
       const container = await renderHTML(
         layoutPath,
         data.noLabelNoLocationName,
+        'noLabelNoLocationName',
       );
 
       expect(container.querySelector('a').innerHTML.trim()).to.equal(
@@ -52,7 +62,11 @@ describe('phone-number', () => {
     });
 
     it('with extension', async () => {
-      const container = await renderHTML(layoutPath, data.numberWithExtension);
+      const container = await renderHTML(
+        layoutPath,
+        data.numberWithExtension,
+        'numberWithExtension',
+      );
 
       expect(container.querySelector('a').innerHTML.trim()).to.equal(
         `${data.numberWithExtension.number.fieldPhoneNumber}x ${

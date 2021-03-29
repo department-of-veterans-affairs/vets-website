@@ -42,12 +42,12 @@ export const ConfirmationMessage = () => {
 export const WhatIfIDontSignUp = () => {
   return (
     <>
+      <p>This depends on whether you currently receive care through VA.</p>
       <p>
-        If you're a Veteran currently receiving care through VA, you don’t have
-        to sign up to get a vaccine. When you’re eligible to get a vaccine, your
-        local VA health facility will contact you to ask if you want one. But if
-        you do sign up and tell us you plan to get a vaccine, your facility may
-        contact you sooner.
+        <strong>If you're a Veteran currently receiving care through VA</strong>
+        , we’ll contact you when we have a vaccine for you, even if you don’t
+        sign up. But if you do sign up and tell us you plan to get a vaccine, we
+        may contact you sooner.
       </p>
       <p>
         If you signed up before and want to update your information, you can
@@ -83,6 +83,12 @@ export const WhatIfIDontSignUp = () => {
           </a>
         </p>
       </span>
+      <p>
+        <strong>If you don’t currently receive care through VA,</strong> you’ll
+        need to sign up to tell us you want to get a vaccine. If you're
+        eligible, we'll contact you when we have a vaccine for you. At this
+        time, we don't know when that will be.
+      </p>
     </>
   );
 };
@@ -108,10 +114,18 @@ export const ProvideSSNAndDOB = () => {
   return (
     <>
       <p>
-        No. But when you provide this information, we can match your information
-        to your Veteran records. We can then tell your local VA facility about
-        your vaccine plans. If you signed up before and didn’t provide this
-        information, you can submit a new form at any time.
+        <strong>If you’re a Veteran currently receiving care at VA,</strong> you
+        don’t have to provide your Social Security number. But when you provide
+        this information, we can match your information to your Veteran records.
+        We can then tell your local VA facility about your vaccine plans. If you
+        signed up before and didn’t provide this information, you can submit a
+        new form at any time.
+      </p>
+      <p>
+        <strong>If you’re not currently receiving care at VA,</strong> you’ll
+        need to provide your Social Security number and date of birth. We use
+        this information to add you to our records and confirm your eligibility
+        for a vaccine.
       </p>
     </>
   );
