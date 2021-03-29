@@ -5,6 +5,7 @@ import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-lib
 import reducers from '~/applications/personalization/dashboard/reducers';
 import { wait } from '@@profile/tests/unit-test-helpers';
 import HealthCare from '~/applications/personalization/dashboard-2/components/health-care/HealthCare';
+import { mockFolderErrorResponse } from '../../utils/mocks/messaging/folder';
 
 describe('HealthCare component', () => {
   let view;
@@ -147,6 +148,22 @@ describe('HealthCare component', () => {
 
     it('should render a generic message when the number of unread messages was not fetched', async () => {
       initialState.health.msg.folders.data.currentItem.attributes.unreadCount = null;
+      view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {
+        initialState,
+        reducers,
+      });
+      expect(
+        await view.findByText(
+          new RegExp(`Send a secure message to your health care team`, 'i'),
+        ),
+      ).to.exist;
+    });
+  });
+
+  context('when a 400 error occurs', () => {
+    it('should show the correct generic messaging link copy', async () => {
+      initialState.health.msg.folders.data.currentItem = mockFolderErrorResponse;
+
       view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {
         initialState,
         reducers,

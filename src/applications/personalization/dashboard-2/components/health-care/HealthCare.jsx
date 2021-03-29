@@ -39,6 +39,7 @@ const HealthCare = ({
   // TODO: possibly remove this prop in favor of mocking API calls in our unit tests
   dataLoadingDisabled = false,
   shouldShowLoadingIndicator,
+  hasInboxError,
 }) => {
   const nextAppointment = appointments?.[0];
   const start = new Date(nextAppointment?.startsAt);
@@ -85,7 +86,7 @@ const HealthCare = ({
   }
 
   const messagesText =
-    typeof unreadMessagesCount === 'number'
+    typeof unreadMessagesCount === 'number' && !hasInboxError
       ? `You have ${unreadMessagesCount} new message${
           unreadMessagesCount === 1 ? '' : 's'
         }`
@@ -194,14 +195,18 @@ const mapStateToProps = state => {
     ? state.health?.msg?.folders?.data?.currentItem?.fetching
     : false;
 
+  const hasInboxError =
+    state.health?.msg?.folders?.currentItem?.errors?.length > 0;
+
   return {
     appointments: state.health?.appointments?.data,
-    shouldFetchMessages,
-    isCernerPatient: selectIsCernerPatient(state),
-    facilityNames,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
-    unreadMessagesCount: selectUnreadMessagesCount(state),
+    facilityNames,
+    hasInboxError,
+    isCernerPatient: selectIsCernerPatient(state),
+    shouldFetchMessages,
     shouldShowLoadingIndicator: fetchingAppointments || fetchingInbox,
+    unreadMessagesCount: selectUnreadMessagesCount(state),
   };
 };
 
