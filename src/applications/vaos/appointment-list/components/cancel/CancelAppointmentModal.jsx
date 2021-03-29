@@ -13,6 +13,7 @@ import {
   APPOINTMENT_TYPES,
   APPOINTMENT_STATUS,
 } from '../../../utils/constants';
+import CancelCOVIDVaccineModal from './CancelCOVIDVaccineModal';
 
 export default function CancelAppointmentModal(props) {
   const {
@@ -28,6 +29,10 @@ export default function CancelAppointmentModal(props) {
 
   if (!showCancelModal) {
     return null;
+  }
+
+  if (appointmentToCancel.vaos.isCOVIDVaccine) {
+    return <CancelCOVIDVaccineModal onClose={onClose} facility={facility} />;
   }
 
   if (
