@@ -88,6 +88,7 @@ export function DynamicRadioWidget(props) {
     locationsList = (
       <RadioButtons
         options={optionsList}
+        label="Select your medical center"
         value={selected}
         onValueChange={value => {
           onChange(value.value);
