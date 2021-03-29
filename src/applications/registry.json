@@ -1035,5 +1035,34 @@
       "vagovprod": false,
       "layout": "page-react.html"
     }
+  },
+  {
+    "appName": "Request a Board Appeal",
+    "entryName": "10182-notice-of-disagreement",
+    "rootUrl": "/decision-reviews/board-appeal/request-notice-of-disagreement-form-10182",
+    "template": {
+      "title": "Request a Board Appeal",
+      "heading": "Request a Board Appeal",
+      "display_title": "Request a Board Appeal",
+      "layout": "page-react.html",
+      "description": "Apply online to request a Notice of Disagreement.",
+      "includeBreadcrumbs": true,
+      "keywords": "notice of disagreement, board appeal, NOD",
+      "vagovprod": false,
+      "breadcrumbs_override": [
+        {
+          "name": "Decision reviews and appeals",
+          "path": "/decision-reviews"
+        },
+        {
+          "name": "Board Appeals",
+          "path": "/decision-reviews/board-appeal"
+        },
+        {
+          "name": "Request a Board Appeal",
+          "path": "/decision-reviews/board-appeal/request-notice-of-disagreement-form-10182"
+        }
+      ]
+    }
   }
 ]
