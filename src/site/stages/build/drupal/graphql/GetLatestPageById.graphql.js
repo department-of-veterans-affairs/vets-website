@@ -66,6 +66,7 @@ module.exports = `
   ${nodeSupportResourcesDetailPage.fragment}
   ${nodeBasicLandingPage.fragment}
   ${nodeCampaignLandingPage.fragment}
+  ${vetCenters.fragment}
 
   query GetLatestPageById($id: String!, $today: String!, $onlyPublishedContent: Boolean!) {
     nodes: nodeQuery(revisions: LATEST, filter: {
@@ -94,6 +95,7 @@ module.exports = `
         ... nodeSupportResourcesDetailPage
         ... nodeBasicLandingPage
         ... nodeCampaignLandingPage
+        ... vetCenterFragment
       }
     }
     ${icsFileQuery.partialQuery}
@@ -108,7 +110,6 @@ module.exports = `
     }
     ${menuLinksQuery.partialQuery}
     ${taxonomiesQuery.partialQuery}
-    ${vetCenters.fragment}
   }
 `;
 
