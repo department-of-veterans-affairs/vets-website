@@ -46,20 +46,37 @@ export const eligibilityAccordion = (
         </p>
       </va-accordion-item>
       <va-accordion-item level="4" header="Who else is eligible?">
-        <p>Our caregiver programs include these 2 programs:</p>
-        <ul>
-          <li>The Program of Comprehensive Assistance for Family Caregivers</li>
-          <li>The General Caregiver Support Services program</li>
-        </ul>
         <p>
-          Our home-based and long-term care programs include these 4 programs:
+          To be eligible for a COVID-19 vaccine at VA as a non-Veteran, at least
+          one of these descriptions must fit you:
         </p>
-        <ul>
-          <li>Medical Foster Home program</li>
-          <li>Bowel and Bladder program</li>
-          <li>Home Based Primary</li>
-          <li>Care program Veteran Directed Care program</li>
-        </ul>
+        <p>
+          <strong>Spouse</strong> of an eligible Veteran
+        </p>
+        <p>
+          <strong>Eligible caregiver</strong> enrolled in one of these VA
+          caregiver programs:
+          <ul>
+            <li>
+              The Program of Comprehensive Assistance for Family Caregivers
+            </li>
+            <li>The General Caregiver Support Services program</li>
+          </ul>
+        </p>
+        <p>
+          <strong>Eligible caregiver</strong> of a Veteran who is enrolled in
+          one of these VA home-based or long-term care programs:
+          <ul>
+            <li>Medical Foster Home program</li>
+            <li>Bowel and Bladder program</li>
+            <li>Home Based Primary Care program</li>
+            <li>Veteran Directed Care program</li>
+          </ul>
+        </p>
+        <p>
+          <strong>Recipient of CHAMPVA</strong> (Civilian Health and Medical
+          Program of the Department of Veterans Affairs) benefits
+        </p>
       </va-accordion-item>
       <va-accordion-item level="4" header="What if I'm not eligible?">
         <p>
