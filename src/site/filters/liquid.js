@@ -694,4 +694,9 @@ module.exports = function registerFilters() {
 
     return _.sortBy(tagList, 'name');
   };
+
+  liquid.filters.replace = (string, oldVal, newVal) => {
+    const regex = new RegExp(oldVal, 'g');
+    return string.replace(regex, newVal);
+  };
 };

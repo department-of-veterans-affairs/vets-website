@@ -101,7 +101,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     });
 
     // Confirmation page
-    cy.findByText('Your appointment has been scheduled');
+    cy.findByText('We’ve scheduled your appointment');
     cy.findByText('COVID-19 Vaccine');
     cy.axeCheckBestPractice();
   });

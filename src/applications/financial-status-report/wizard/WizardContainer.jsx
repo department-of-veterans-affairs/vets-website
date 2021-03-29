@@ -16,7 +16,7 @@ const WizardContainer = ({ setWizardStatus }) => {
           subTitle={'Equal to VA Form 5655 (Financial Status Report)'}
         />
         <div className="wizard-container">
-          <h2>Is this the form I need?</h2>
+          <h2 className="wizard-heading">Is this the form I need?</h2>
           <p>
             This form is for Veterans or service members who need help with debt
             related to VA disability compensation, education, or pension
@@ -39,7 +39,7 @@ const WizardContainer = ({ setWizardStatus }) => {
           </p>
           <p>
             If you need help with a VA copay debt,{' '}
-            <a href="https://www.va.gov/debtman/Financial_Status_Report.asp">
+            <a href="https://www.va.gov/health-care/pay-copay-bill/financial-hardship/">
               learn how to request financial hardship assistance.
             </a>
           </p>

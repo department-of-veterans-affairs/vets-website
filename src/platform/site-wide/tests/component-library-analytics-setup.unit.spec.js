@@ -19,7 +19,8 @@ describe('Site-wide component library analytics', () => {
     };
 
     const dataLayerEvent = {
-      event: 'int-modal-click',
+      event: 'int-modal-show',
+      'event-source': 'component-library',
       'modal-title': 'Modal title',
       'modal-status': 'info',
       'modal-primaryButtonText': 'Button Text 1',

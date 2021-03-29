@@ -1,20 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-const ResolutionComments = ({ formData }) => {
-  const isWaiverSelected = formData.selectedDebts.some(
+const ResolutionComments = ({ selectedDebts }) => {
+  const isWaiverSelected = selectedDebts.some(
     debt => debt.resolution.resolutionType === 'Waiver',
   );
-  if (isWaiverSelected) {
-    return <p>Please tell us more about why you need a debt waiver.</p>;
-  }
-  return (
-    <p>Please tell us more about why you need help with this debt payment.</p>
+
+  return isWaiverSelected ? (
+    <span>Please tell us more about why you need a debt waiver.</span>
+  ) : (
+    <span>
+      Please tell us more about why you need help with this debt payment.
+    </span>
   );
 };
 
 const mapStateToProps = state => ({
-  formData: state.form?.data,
+  selectedDebts: state.form?.data?.selectedDebts,
 });
 
 export default connect(mapStateToProps)(ResolutionComments);

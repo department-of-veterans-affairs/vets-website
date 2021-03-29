@@ -13,6 +13,7 @@ import {
   createTransaction,
   refreshTransaction,
   clearTransactionRequest,
+  openModal,
   updateFormFieldWithSchema,
   validateAddress,
 } from '@@vap-svc/actions';
@@ -22,6 +23,7 @@ import * as VAP_SERVICE from '@@vap-svc/constants';
 import {
   isFailedTransaction,
   isPendingTransaction,
+  isSuccessfulTransaction,
 } from '@@vap-svc/util/transactions';
 import VAPServiceEditModalErrorMessage from '@@vap-svc/components/base/VAPServiceEditModalErrorMessage';
 import CopyMailingAddress from '@@vap-svc/containers/CopyMailingAddress';
@@ -60,7 +62,6 @@ export class ContactInformationEditView extends Component {
       .isRequired,
     formSchema: PropTypes.object.isRequired,
     getInitialFormValues: PropTypes.func.isRequired,
-    hasUnsavedEdits: PropTypes.bool.isRequired,
     onCancel: PropTypes.func.isRequired,
     refreshTransaction: PropTypes.func.isRequired,
     title: PropTypes.string,
@@ -81,7 +82,7 @@ export class ContactInformationEditView extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    // if the transaction just became pending, start calling the
+    // if the transaction just became pending, start calling
     // refreshTransaction() on an interval
     if (
       isPendingTransaction(this.props.transaction) &&
@@ -98,6 +99,12 @@ export class ContactInformationEditView extends Component {
       !isPendingTransaction(this.props.transaction)
     ) {
       window.clearInterval(this.interval);
+    }
+    // if a transaction was created that was immediately successful (for example
+    // when the transaction's status is `COMPLETED_NO_CHANGES_DETECTED`),
+    // immediately exit edit view
+    if (isSuccessfulTransaction(this.props.transaction)) {
+      this.props.openModal(null);
     }
   }
 
@@ -236,7 +243,6 @@ export class ContactInformationEditView extends Component {
         data,
         field,
         fieldName,
-        hasUnsavedEdits,
         onCancel,
         title,
         transaction,
@@ -304,7 +310,6 @@ export class ContactInformationEditView extends Component {
                     isLoading={isLoading}
                     loadingText="Saving changes"
                     className="vads-u-width--auto vads-u-margin-top--0"
-                    disabled={!hasUnsavedEdits}
                   >
                     Update
                   </LoadingButton>
@@ -347,7 +352,6 @@ export const mapStateToProps = (state, ownProps) => {
   } = getContactInfoFieldAttributes(fieldName);
 
   return {
-    hasUnsavedEdits: state.vapService.hasUnsavedEdits,
     /*
     This ternary is to deal with an edge case: if the user is currently viewing
     the address validation view we need to handle things differently or text in
@@ -377,6 +381,7 @@ export const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = {
   clearTransactionRequest,
   createTransaction,
+  openModal,
   updateFormFieldWithSchema,
   validateAddress,
   refreshTransaction,
