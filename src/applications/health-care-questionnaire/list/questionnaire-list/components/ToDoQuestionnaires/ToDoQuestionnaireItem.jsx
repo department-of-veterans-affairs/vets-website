@@ -5,19 +5,20 @@ import AnswerQuestions from '../Shared/Buttons/AnswerQuestions';
 import PrintButton from '../../../../shared/components/print/PrintButton';
 import { isAppointmentCancelled } from '../../../utils';
 import {
-  appointment as appointmentSelectors,
-  questionnaireResponse as questionnaireResponseSelector,
+  appointmentSelector,
+  questionnaireResponseSelector,
+  organizationSelector,
 } from '../../../../shared/utils/selectors';
 
 import QuestionnaireItem from '../QuestionnaireItem';
 
 export default function ToDoQuestionnaireItem({ data }) {
   const { appointment, questionnaire, organization } = data;
-  const appointmentStatus = appointmentSelectors.getStatus(appointment);
+  const appointmentStatus = appointmentSelector.getStatus(appointment);
   const isCancelled = isAppointmentCancelled(appointmentStatus);
 
-  const facility = organization;
-  const appointmentTime = appointmentSelectors.getStartTime(appointment);
+  const facilityName = organizationSelector.getName(organization);
+  const appointmentTime = appointmentSelector.getStartTime(appointment);
   const questionnaireResponseStatus = questionnaireResponseSelector.getStatus(
     questionnaire[0].questionnaireResponse,
   );
@@ -36,7 +37,7 @@ export default function ToDoQuestionnaireItem({ data }) {
           <AnswerQuestions
             fullData={data}
             id={appointment.id}
-            facilityName={facility.name}
+            facilityName={facilityName}
             appointmentTime={appointmentTime}
             status={questionnaireResponseStatus}
           />
@@ -58,7 +59,7 @@ export default function ToDoQuestionnaireItem({ data }) {
                 className="vads-u-font-weight--bold"
                 data-testid="due-by-timestamp"
               >
-                {dueDate.format(`H:MM`)} {meridiem} {formattedTimezone}
+                {dueDate.format(`h:mm`)} {meridiem} {formattedTimezone}
               </p>
             )}
           </section>

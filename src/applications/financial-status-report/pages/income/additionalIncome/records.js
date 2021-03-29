@@ -30,6 +30,7 @@ export const uiSchema = {
           'ui:title': 'Type of income',
           'ui:field': Typeahead,
           'ui:options': {
+            idPrefix: 'other_income',
             classNames: 'input-size-4',
             getOptions: () => formatOptions(incomeTypes),
           },
