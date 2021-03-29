@@ -1,4 +1,5 @@
-import { WIZARD_STATUS, ROOT_URL } from '../../wizard/constants';
+import { WIZARD_STATUS } from '../../wizard/constants';
+import manifest from '../../manifest.json';
 
 Cypress.config('waitForAnimations', true);
 
@@ -12,19 +13,20 @@ describe('Financial Status Report (Wizard)', () => {
   beforeEach(() => {
     window.dataLayer = [];
     sessionStorage.removeItem(WIZARD_STATUS);
-    cy.visit(ROOT_URL);
+    cy.visit(manifest.rootUrl);
     cy.injectAxe();
   });
 
   it('should show the wizard', () => {
     const heading = 'Is this the form I need?';
-    cy.url().should('include', ROOT_URL);
+    cy.url().should('include', manifest.rootUrl);
     cy.get('.wizard-heading').should('have.text', heading);
     cy.axeCheck();
   });
 
   it('should navigate the wizard and start the form', () => {
     const title = 'Request help with VA debt (VA Form 5655)';
+    cy.url().should('include', manifest.rootUrl);
     cy.get('[type="radio"][value="request"]').click();
     cy.get('[type="radio"][value="recipients"]').click();
     cy.get('[type="radio"][value="veteran"]').click();

@@ -1,11 +1,11 @@
 import React from 'react';
 import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
-import { ROOT_URL } from '../constants';
+import manifest from '../../manifest.json';
 
 const StartFormButton = ({ setWizardStatus, label, ariaId }) => {
   return (
     <a
-      href={`${ROOT_URL}/introduction`}
+      href={`${manifest.rootUrl}/introduction`}
       className="usa-button-primary va-button-primary"
       onClick={event => {
         event.preventDefault();
