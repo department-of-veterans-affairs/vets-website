@@ -42,15 +42,46 @@
  * - Mapped from request.reasonForVisit for Express Care requests
  * - Mapped from request.purposeForVisit for regular requests
  * - Empty for other appointment types
- * @property {VistaAppointmentParticipants | VARequestParticipants | VideoParticipants | CommunityCareParticipants} participant
+ * @property {VistaAppointmentParticipants | VARequestParticipants | CommunityCareParticipants} participant
  *   Array of resources participating in this appointment, used to store information like clinic and location
- * @property {VideoContainedResources | VARequestContainedResources | CommunityCareRequestContainedResources | CommunityCareContainedResources} contained
+ * @property {VARequestContainedResources | CommunityCareRequestContainedResources | CommunityCareContainedResources} contained
  *   Array of fully defined resources for this appointment
  * @property {Object} legacyVAR Object containing untransformed data that we don't have a place for
  * @property {Object} legacyVAR.apiData This is the full appointment/request object. Generally, we shouldn't be pulling data from here
  * @property {?Object} legacyVAR.bestTimeToCall Array of best times to call (Morning, Afternoon, Eventing), mapped from request.bestTimetoCall
  * @property {?Array<RequestedPeriod>} requestedPeriods Mapped from request.optionDate and request.optionTime fields 1 through 3
+ * @property {VideoData} videoData Information associated with video visits from Video Visit Service (via MAS)
  * @property {DerivedAppointmentData} vaos This object contains derived data or information we need that doesn't fit in the FHIR format
+ */
+
+/**
+ * @typedef {Object} VideoData
+ * @property {boolean} isVideo If the appointment is a video appointment
+ * @property {?string} facilityId The location id of the video appointment
+ * - Mapped from appt.sta6aid for clinic based appointments or appt.facilityId for other video appointment types
+ * @property {?Array<VideoProvider>} providers Array of providers included in the video visit, mapped from appt.vvsAppointments[0].providers
+ * @property {'ADHOC'|'MOBILE_GFE'|'CLINIC_BASED'|'STORE_FORWARD'|'MOBILE_ANY'} kind Video visit type
+ * - Mapped from appointment.vvsAppointments[0].appointmentKind
+ * @property {?string} url The url for the video visit
+ * - Mapped from appointment.vvsAppointments[0].patients[0].virtualMeetingRoom.url
+ * @property {?boolean} isAtlas True if the appointment is an ATLAS video appointment
+ * @property {?AtlasLocation} atlasLocation The ATLAS location information
+ * @property {?string} atlasConfirmationCode The ATLAS confirmation code
+ * - Mapped from appointment.vvsAppointments[0].tasInfo.confirmationCode
+ * @property {?number} duration The duration of the video appointment
+ * - Mapped from appointment.vvsAppointments[0].duration
+ * @property {?string} status The status of the video appointment
+ * - Mapped from appointment.vvsAppointments[0].status.code
+ */
+
+/**
+ * @typedef {Object} VideoProvider
+ * @property {Object} name The name of the provider
+ * @property {string} name.first The first name of the provider
+ * - Mapped from appointment.vvsAppointments[0].providers[].name.first
+ * @property {string} name.last The last name of the provider
+ * - Mapped from appointment.vvsAppointments[0].providers[].name.last
+ * @property {string} display The first and last name of the provider concatenated
  */
 
 /**
@@ -76,6 +107,8 @@
  * @property {?string} timeZone Mapped to request.timeZone for community care requests, null or undefined otherwise
  * @property {?boolean} isPhoneAppointment Mapped from appointment.phoneOnly field for VistA appointments, undefined otherwise
  * @property {?boolean} isExpressCare Set to true if request.typeOfCareId is CR1
+ * @property {boolean} isVideo Set to true for video appointments or requests. Will be true if request.visitType is set to
+ *   video conference, or appointment.vvsAppointments has an item
  */
 
 /**
@@ -180,45 +213,6 @@
  * @property {string} city Address city, mapped from request.ccAppointmentRequest.preferredProviders[].address.city
  * @property {string} state Address state, mapped from request.ccAppointmentRequest.preferredProviders[].address.state
  * @property {string} postalCode Address postal code, mapped from request.ccAppointmentRequest.preferredProviders[].address.zipCode
- */
-
-/**
- * @summary
- * Array of resources for a video appointment. Generally just one item, but will have an AtlasLocation resource
- * for ATLAS appointments. ATLAS appointments are indicated by a video appointment having an
- * appointment.vvsAppointments[0].tasInfo object
- *
- * @typedef {Array<VideoHealthCareService|AtlasLocation>} VideoContainedResources
- */
-
-/**
- * @typedef {Object} VideoHealthCareService
- *
- * @property {string} id id value mapped from appointment.vvsAppointments[0].id
- * @property {'HealthcareService'} resourceType Static resource type
- * @property {Object} providedBy Reference to the site that owns the video appointment
- * @property {string} providedBy.reference Mapped to Organization/${appointment.facilityId}
- * @property {?Object} location Only exists if appointmet.sta6aid exists and appointment.vvsAppointments[0].tasInfo does not
- * @property {string} location.reference Mapped to Location/${appointment.sta6aid}
- *     Not sure this is every different from the facility used in providedBy above
- * @property {Array} telecom Contains the video link url
- * @property {Object} telecom.0 First item in telecom array
- * @property {'url'} telecom.0.system Always set to "url"
- * @property {string} telecom.0.value Video appt url, mapped from appointment.vvsAppointments[0].patients[0].virtualMeetingRoom.url
- * @property {Object} telecom.0.period
- * @property {string} telecom.0.period.start Mapped from appointment.vvsAppointments[0].dateTime
- * @property {Array} characteristic Array of characteristics, only one item
- * @property {Object} characteristic.0 First item of array
- * @property {Array} characteristic.0.coding Array of coding data
- * @property {Object} characteristic.0.coding.0 First item of array
- * @property {'VVS'} characteristic.0.coding.0.system Set to VVS
- * @property {'ADHOC'|'MOBILE_GFE'|'CLINIC_BASED'|'STORE_FORWARD'|'MOBILE_ANY'} characteristic.0.coding.0.code Mapped from appointment.vvsAppointments[0].appointmentKind
- * @property {Object} characteristic.1 Second item of array, only exists if it's an ATLAS appointment
- * @property {Array} characteristic.1.coding Array of coding data, only one item
- * @property {Object} characteristic.1.coding.0 First item of array
- * @property {'ATLAS_CC'} characteristic.1.coding.0.system Static system indicator for ATLAS confirmation codes
- * @property {string} characteristic.1.coding.0.code ATLAS confirmation code
- * - Mapped from appointment.vvsAppointments[0].tasInfo.confirmationCode
  */
 
 /**

@@ -1,6 +1,7 @@
 import { attestation } from '../schema-imports';
 
 import {
+  title,
   eligibilityAccordion,
   veteranLabel,
   spouseLabel,
@@ -21,7 +22,7 @@ export const uiSchema = {
       },
     },
     applicantType: {
-      'ui:title': 'Which of these best describes you?',
+      'ui:title': title,
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
