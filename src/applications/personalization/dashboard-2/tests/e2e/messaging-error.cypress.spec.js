@@ -1,4 +1,4 @@
-import { mockFolderErrorResponse } from '~/applications/personalization/dashboard-2/utils/mocks/messaging/folder'
+import { mockFolderErrorResponse } from '~/applications/personalization/dashboard-2/utils/mocks/messaging/folder';
 import { mockFeatureToggles } from './helpers';
 
 import {
@@ -28,8 +28,8 @@ describe('MyVA Dashboard - Messaging', () => {
     it('should show the messaging link with the generic copy', () => {
       cy.visit('my-va/');
       cy.findByText(/Send a secure message to your health care team/i).should(
-        'exist'
-        );
+        'exist',
+      );
     });
   });
 });
