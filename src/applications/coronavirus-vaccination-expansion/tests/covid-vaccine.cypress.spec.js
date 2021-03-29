@@ -38,7 +38,10 @@ const testConfig = createTestConfig(
       },
       'vaccine-location': () => {
         cy.wait('@getFacilities');
-        cy.get('#location-0').check();
+        cy.get('.errorable-radio-button > input')
+          .first()
+          .check();
+        // cy.get('#location-0').check();
       },
       confirmation: () => {
         cy.log('TODO - Tests for confirmation screen here');

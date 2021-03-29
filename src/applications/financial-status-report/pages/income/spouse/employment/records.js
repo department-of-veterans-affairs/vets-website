@@ -65,6 +65,7 @@ export const uiSchema = {
                 'ui:title': 'Type of payroll deduction',
                 'ui:field': Typeahead,
                 'ui:options': {
+                  idPrefix: 'spouse_employment',
                   getOptions: () => formatOptions(deductionTypes),
                 },
               },
