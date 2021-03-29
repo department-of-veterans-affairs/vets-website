@@ -1,5 +1,9 @@
 import { MIN_RADIUS } from '../constants';
 
+/**
+ * @param {number} value
+ * @returns {number}
+ */
 function toRadians(value) {
   return (value * Math.PI) / 180;
 }
