@@ -16,7 +16,7 @@ const WizardContainer = ({ setWizardStatus }) => {
           subTitle={'Equal to VA Form 5655 (Financial Status Report)'}
         />
         <div className="wizard-container">
-          <h2>Is this the form I need?</h2>
+          <h2 className="wizard-heading">Is this the form I need?</h2>
           <p>
             This form is for Veterans or service members who need help with debt
             related to VA disability compensation, education, or pension

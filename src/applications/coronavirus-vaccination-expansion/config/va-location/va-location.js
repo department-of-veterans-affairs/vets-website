@@ -1,5 +1,5 @@
 import React from 'react';
-import DynamicCheckboxWidget from './DynamicCheckboxWidget.jsx';
+import DynamicRadioWidget from './DynamicRadioWidget.jsx';
 import { vaLocation } from '../schema-imports';
 
 function ReviewWidget({ value }) {
@@ -13,7 +13,7 @@ export const schema = {
 export const uiSchema = {
   vaLocation: {
     preferredFacility: {
-      'ui:widget': DynamicCheckboxWidget,
+      'ui:widget': DynamicRadioWidget,
       'ui:description': (
         <>
           <p>
