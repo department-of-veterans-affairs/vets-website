@@ -1,8 +1,6 @@
 import React from 'react';
 import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
-import manifest from '../../manifest.json';
-
-const ROOT_URL = manifest.rootUrl;
+import { ROOT_URL } from '../constants';
 
 const StartFormButton = ({ setWizardStatus, label, ariaId }) => {
   return (

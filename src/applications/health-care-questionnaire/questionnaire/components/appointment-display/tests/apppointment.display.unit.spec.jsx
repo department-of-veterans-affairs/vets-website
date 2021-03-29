@@ -12,14 +12,14 @@ describe('health care questionnaire - display an appointment -- ', () => {
     );
     expect(
       mountedComponent.find('[data-testid="appointment-location"]').text(),
-      'TEM MH PSO TRS IND93EH 2, NEW AMSTERDAM CBOC',
+      'LOM ACC TRAINING CLINIC, Loma Linda VA Clinic',
     );
     expect(
       mountedComponent.find('[data-testid="appointment-time"]').text(),
     ).to.match(/([\d]|[\d][\d]):[\d][\d]\s[a|p].m./);
     expect(
       mountedComponent.find('[data-testid="appointment-date"]').text(),
-    ).to.equal('Thursday, November 25th, 2021');
+    ).to.equal('Wednesday, March 31st, 2021');
 
     mountedComponent.unmount();
   });

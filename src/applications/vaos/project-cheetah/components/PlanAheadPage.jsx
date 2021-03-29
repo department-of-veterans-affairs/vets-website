@@ -72,14 +72,14 @@ function PlanAheadPage({
       </p>
       <FormButtons
         pageChangeInProgress={pageChangeInProgress}
-        onButtonClick={() => {
+        onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+        onSubmit={() => {
           recordEvent({
             event: `${GA_PREFIX}-covid19-start-scheduling-button-clicked`,
           });
-          routeToNextAppointmentPage(history, pageKey);
-        }}
-        onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
-        onSubmit={() => {
+          recordEvent({
+            event: `${GA_PREFIX}-covid19-path-started`,
+          });
           routeToNextAppointmentPage(history, pageKey);
         }}
       />

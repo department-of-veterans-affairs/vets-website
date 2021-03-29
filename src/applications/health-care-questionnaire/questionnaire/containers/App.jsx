@@ -27,7 +27,10 @@ import {
   clearCurrentSession,
 } from '../../shared/utils';
 
-import { location as locationSelector } from '../../shared/utils/selectors';
+import {
+  locationSelector,
+  organizationSelector,
+} from '../../shared/utils/selectors';
 
 const App = props => {
   const { location, children } = props;
@@ -72,7 +75,7 @@ const App = props => {
         setLoadedAppointment(data);
         setIsLoading(false);
         const apptType = locationSelector.getType(clinic)?.toLowerCase();
-        const facilityName = facility.name;
+        const facilityName = organizationSelector.getName(facility);
         setForm(f => {
           return {
             ...f,
