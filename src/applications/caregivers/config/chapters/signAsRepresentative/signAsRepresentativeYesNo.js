@@ -16,13 +16,13 @@ const RepresentativeIntroContent = () => {
         for the Veteran.
       </p>
 
+      <p>Here's what you should know</p>
       <ul>
-        <span>Here's what you should know</span>
-
         <li>
           You can still continue with this application to apply for the program
           even if you’re not the Veteran’s legal representative.
         </li>
+
         <li>
           If you are the Veteran’s legal representative, you can upload one or
           more documents to show your legal status. If you don't upload your
@@ -35,16 +35,22 @@ const RepresentativeIntroContent = () => {
 
 const RepresentativeAdditionalInfo = () => {
   return (
-    <div>
-      <AdditionalInfo triggerText="What type of document does a legal representative need?">
+    <div className="vads-u-margin-top--1">
+      <AdditionalInfo triggerText="What documents can I submit to show legal status as a representative?">
         <ul>
           <p>
             To show that you’re the Veteran’s legal representative, you’ll need
             to upload one of these current documents:
           </p>
 
-          <li>Power of attorney, or</li>
-          <li>Legal guardianship order, or</li>
+          <li>
+            Power of attorney, <strong>or</strong>
+          </li>
+
+          <li>
+            Legal guardianship order, <strong>or</strong>
+          </li>
+
           <li>
             Another legal document that confirms your legal status as the
             Veteran’s representative. This document can be from by a federal,
@@ -52,7 +58,7 @@ const RepresentativeAdditionalInfo = () => {
           </li>
         </ul>
 
-        <p className="vads-u-margin-bottom--6">
+        <p className="vads-u-margin-top--4">
           <strong>Note:</strong> Being a Veteran’s closest family member or next
           of kin doesn’t mean you’re their representative. You need a separate
           legal document to show your status as the representative.
@@ -67,13 +73,12 @@ const representativePage = {
     'ui:description': RepresentativeIntroContent(),
     [representativeFields.signAsRepresentative]: {
       'ui:title':
-        'Would you like to upload documents to show that you’re the Veteran’s legal representative?',
+        "Do you have legal representative documents you'd like to share with us?",
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
-          yes: "Yes, I'd like to upload documents now",
-          noRep:
-            'No, I am a legal representative but will upload documents later',
+          yes: 'Yes. I want to upload my documents now',
+          noRep: "Yes. But I'll provide my documents later",
           no: 'No',
         },
       },
