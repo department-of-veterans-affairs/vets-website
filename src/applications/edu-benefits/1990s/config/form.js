@@ -1,10 +1,10 @@
-// import fullSchema from 'vets-json-schema/dist/VRRAP-schema.json';
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import manifest from '../manifest.json';
+import fullSchema from 'vets-json-schema/dist/VRRAP-schema.json';
 
 // const { } = fullSchema.properties;
 
@@ -36,7 +36,9 @@ const formConfig = {
       'Please sign in again to continue your application for education benefits.',
   },
   title: 'Veteran Rapid Retraining Assistance Program',
-  defaultDefinitions: {},
+  defaultDefinitions: {
+    ...fullSchema.definitions,
+  },
   chapters: {
     chapter1: {
       title: 'Chapter 1',
