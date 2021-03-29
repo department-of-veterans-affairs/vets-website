@@ -28,10 +28,6 @@
   flex-basis: 0;
   margin: 4px;
 
-  @include media($xsmall-screen) {
-    margin: 2px;
-  }
-
   @include media($small-screen) {
     margin: 8px;
   }
@@ -86,10 +82,6 @@
   border-radius: 5px;
   padding: 12px;
   margin: 0;
-
-  @include media($xsmall-screen) {
-    padding: 6px;
-  }
 
   &:hover {
     border-color: $color-primary-darker;
