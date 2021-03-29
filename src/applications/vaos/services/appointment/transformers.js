@@ -258,6 +258,36 @@ function getRequestedPeriods(appt) {
   return requestedPeriods.sort((a, b) => (a.start < b.start ? -1 : 1));
 }
 
+function setVideoData(appt) {
+  if (
+    getAppointmentType(appt) !== APPOINTMENT_TYPES.vaAppointment ||
+    !isVideoVisit(appt)
+  ) {
+    return { isVideo: false };
+  }
+
+  const videoData = appt.vvsAppointments[0];
+  return {
+    isVideo: true,
+    facilityId: appt.sta6aid || appt.facilityId,
+    providers: (videoData.providers || [])
+      .filter(provider => !!provider.name)
+      .map(provider => ({
+        name: provider.name,
+        display: `${provider.name.firstName} ${provider.name.lastName}`,
+      })),
+    kind: videoData.appointmentKind,
+    url: getVideoVisitLink(appt),
+    isAtlas: !!videoData.tasInfo,
+    atlasLocation: videoData.tasInfo
+      ? transformATLASLocation(videoData.tasInfo)
+      : null,
+    atlasConfirmationCode: videoData.tasInfo?.confirmationCode,
+    duration: videoData.duration,
+    status: videoData.status.code,
+  };
+}
+
 /**
  * Builds participant and contained arrays for FHIR Appointment object which usually
  * contain Location (Facility) and HealthcareService (Clinic) or video conference info
@@ -270,7 +300,7 @@ function setParticipant(appt) {
 
   switch (type) {
     case APPOINTMENT_TYPES.vaAppointment: {
-      let participant = [];
+      const participant = [];
       if (appt.clinicId) {
         participant.push({
           actor: {
@@ -289,22 +319,6 @@ function setParticipant(appt) {
             reference: `Location/${appt.sta6aid}`,
           },
         });
-      }
-
-      const providers = appt.vvsAppointments?.[0]?.providers?.filter(
-        provider => !!provider.name,
-      );
-      if (providers?.length) {
-        participant = participant.concat(
-          providers.map(provider => ({
-            actor: {
-              reference: `Practitioner/${provider.name.firstName}_${
-                provider.name.lastName
-              }`,
-              display: `${provider.name.firstName} ${provider.name.lastName}`,
-            },
-          })),
-        );
       }
 
       return participant;
@@ -373,86 +387,8 @@ function createPatientResourceFromRequest(req) {
  */
 function setContained(appt) {
   switch (getAppointmentType(appt)) {
-    case APPOINTMENT_TYPES.vaAppointment: {
-      if (isVideoVisit(appt)) {
-        const contained = [];
-        const { tasInfo } = appt.vvsAppointments[0];
-        const service = {
-          resourceType: 'HealthcareService',
-          id: `HealthcareService/${appt.vvsAppointments[0].id}`,
-          type: [
-            {
-              text: 'Patient Virtual Meeting Room',
-            },
-          ],
-          providedBy: {
-            reference: `Organization/${appt.facilityId}`,
-          },
-          characteristic: [
-            {
-              coding: [
-                {
-                  system: 'VVS',
-                  code: appt.vvsAppointments[0].appointmentKind,
-                },
-              ],
-            },
-          ],
-          telecom: [
-            {
-              system: 'url',
-              value: getVideoVisitLink(appt),
-              period: {
-                start: getMomentConfirmedDate(appt).format(),
-              },
-            },
-          ],
-        };
-
-        if (tasInfo) {
-          service.characteristic = [
-            ...service.characteristic,
-            {
-              coding: [
-                {
-                  system: 'ATLAS_CC',
-                  code: tasInfo.confirmationCode,
-                },
-              ],
-            },
-          ];
-          contained.push(transformATLASLocation(tasInfo));
-        } else if (appt.sta6aid) {
-          service.location = {
-            reference: `Location/${appt.sta6aid}`,
-          };
-        }
-        contained.push(service);
-
-        return contained;
-      }
-
-      return null;
-    }
     case APPOINTMENT_TYPES.request: {
-      const contained = [createPatientResourceFromRequest(appt)];
-
-      if (appt.visitType === 'Video Conference') {
-        contained.push({
-          resourceType: 'HealthcareService',
-          characteristic: [
-            {
-              coding: [
-                {
-                  system: 'VVS',
-                },
-              ],
-            },
-          ],
-        });
-      }
-
-      return contained;
+      return [createPatientResourceFromRequest(appt)];
     }
     case APPOINTMENT_TYPES.ccRequest: {
       const contained = [createPatientResourceFromRequest(appt)];
@@ -523,6 +459,7 @@ function setContained(appt) {
         },
       ];
     }
+    case APPOINTMENT_TYPES.vaAppointment:
     default:
       return null;
   }
@@ -553,6 +490,7 @@ export function transformConfirmedAppointment(appt) {
   const start = getMomentConfirmedDate(appt).format();
   const isPast = isPastAppointment(appt);
   const isCC = isCommunityCare(appt);
+  const videoData = setVideoData(appt);
   return {
     resourceType: 'Appointment',
     id: appt.id,
@@ -567,7 +505,9 @@ export function transformConfirmedAppointment(appt) {
     participant: setParticipant(appt),
     contained: setContained(appt),
     legacyVAR: setLegacyVAR(appt),
+    videoData,
     vaos: {
+      isVideo: videoData.isVideo,
       isPastAppointment: isPast,
       appointmentType: getAppointmentType(appt),
       isCommunityCare: isCC,
@@ -604,6 +544,7 @@ export function transformPendingAppointment(appt) {
     detail => detail.detailCode?.code === UNABLE_TO_REACH_VETERAN_DETCODE,
   );
   const created = moment.parseZone(appt.date).format('YYYY-MM-DD');
+  const isVideo = appt.visitType === 'Video Conference';
 
   return {
     resourceType: 'Appointment',
@@ -629,7 +570,11 @@ export function transformPendingAppointment(appt) {
     contained: setContained(appt),
     legacyVAR: setLegacyVAR(appt),
     comment: appt.additionalInformation,
+    videoData: {
+      isVideo,
+    },
     vaos: {
+      isVideo,
       appointmentType: getAppointmentType(appt),
       isCommunityCare: isCC,
       isExpressCare,

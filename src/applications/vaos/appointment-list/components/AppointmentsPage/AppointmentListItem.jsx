@@ -3,9 +3,6 @@ import moment from '../../../lib/moment-tz';
 import {
   getPractitionerDisplay,
   getVARFacilityId,
-  getVideoKind,
-  isAtlasLocation,
-  isVideoAppointment,
   isVAPhoneAppointment,
 } from '../../../services/appointment';
 import {
@@ -32,8 +29,8 @@ function getAppointmentTimezoneDescription(timezone, facilityId) {
 }
 
 function VideoAppointmentDescription({ appointment }) {
-  const isAtlas = isAtlasLocation(appointment);
-  const videoKind = getVideoKind(appointment);
+  const isAtlas = appointment.videoData.isAtlas;
+  const videoKind = appointment.videoData.kind;
   let desc = 'at home';
   if (isAtlas) {
     desc = 'at an ATLAS location';
@@ -75,7 +72,7 @@ export default function AppointmentListItem({ appointment, facility }) {
   const appointmentDate = moment.parseZone(appointment.start);
   const facilityId = getVARFacilityId(appointment);
   const isCommunityCare = appointment.vaos.isCommunityCare;
-  const isVideo = isVideoAppointment(appointment);
+  const isVideo = appointment.vaos.isVideo;
   const isPhone = isVAPhoneAppointment(appointment);
   const isInPersonVAAppointment = !isVideo && !isCommunityCare && !isPhone;
 
