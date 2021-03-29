@@ -85,7 +85,11 @@ export function DynamicRadioWidget(props) {
   ) {
     // there are no locations returned or there is an error
     locationsList = (
-      <AlertBox content={alertContent} headline="Alert title" status="info" />
+      <AlertBox
+        content={alertContent}
+        headline="We can't share your closest medical centers"
+        status="info"
+      />
     );
   }
   return <>{locationsList}</>;
