@@ -16,7 +16,7 @@ const copy = {
         body: ` we'll ask about your vaccine plans when you sign up. Your local VA health facility may use this information to determine when to contact you once your risk group becomes eligible.`,
       },
       nonVeteran: {
-        boldedNote: `If you're a Veteran who isn't receiving care through VA or a spouse, caregiver, or CHAMPVA recipient`,
+        boldedNote: `If you're a Veteran who isn't receiving care through VA or a spouse, caregiver, or CHAMPVA recipient,`,
         body: ` sign up to tell us if you want to get a vaccine. If you're eligible, we'll contact you when we have a vaccine for you. At this time, we don't know when that will be.`,
       },
     },
