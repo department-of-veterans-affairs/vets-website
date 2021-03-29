@@ -20,7 +20,6 @@ class IntroductionPage extends React.Component {
     this.state = {
       currentSelection: '',
       errorMessage: null,
-      nextUrl: '',
       showPrivacyModal: false,
     };
   }
@@ -31,8 +30,6 @@ class IntroductionPage extends React.Component {
   setSelected(selected) {
     this.setState({
       currentSelection: selected,
-      nextUrl:
-        selected.value === 'Yes' ? alreadyReceivingCarePath : newlyEligiblePath,
       errorMessage: null,
     });
   }
@@ -49,10 +46,13 @@ class IntroductionPage extends React.Component {
       'button-background-color': '#0071bb',
     });
 
-    if (this.state.nextUrl === alreadyReceivingCarePath) {
+    const isEnrolledInVaHealthCare =
+      this.state.currentSelection.value === 'Yes';
+
+    if (isEnrolledInVaHealthCare) {
       document.location.assign(alreadyReceivingCarePath);
     } else {
-      this.props.router.push(this.state.nextUrl);
+      this.props.router.push(newlyEligiblePath);
     }
   }
   togglePrivacyModal() {
