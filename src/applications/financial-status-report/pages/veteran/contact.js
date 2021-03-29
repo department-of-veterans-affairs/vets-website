@@ -21,8 +21,6 @@ import {
   validateZIP,
 } from '../../utils/validations';
 
-const url = window.location.href;
-
 export const uiSchema = {
   'ui:title': 'Contact information',
   'ui:description': (
@@ -38,6 +36,13 @@ export const uiSchema = {
   },
   personalData: {
     address: {
+      'ui:field': ReviewCardField,
+      'ui:options': {
+        editTitle: 'Edit mailing address',
+        viewComponent: ContactInfoCard,
+        startInEdit: false,
+        hideOnReview: true,
+      },
       'ui:subtitle': (
         <>
           <p>
@@ -55,12 +60,6 @@ export const uiSchema = {
           </p>
         </>
       ),
-      'ui:field': url.includes('contact-information') && ReviewCardField,
-      'ui:options': {
-        editTitle: 'Edit mailing address',
-        viewComponent: ContactInfoCard,
-        startInEdit: false,
-      },
       livesOutsideUS: {
         'ui:title': 'I live on a U.S. military base outside of the U.S.',
         'ui:options': {
