@@ -2,6 +2,7 @@ import React from 'react';
 
 const paddingBottom = { paddingBottom: '1em' };
 
+export const title = <strong>Which of these best describes you?</strong>;
 export const eligibilityAccordion = (
   <>
     <p>
