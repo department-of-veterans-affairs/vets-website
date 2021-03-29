@@ -573,7 +573,6 @@ export function transformConfirmedAppointment(appt) {
       isCommunityCare: isCC,
       timeZone: isCC ? appt.timeZone : null,
       isPhoneAppointment: appt.phoneOnly,
-      isCOVIDVaccine: appt.char4 === 'CDQC',
     },
   };
 }
