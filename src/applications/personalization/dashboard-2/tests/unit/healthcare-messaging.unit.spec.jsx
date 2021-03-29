@@ -159,20 +159,4 @@ describe('HealthCare component', () => {
       ).to.exist;
     });
   });
-
-  context('when a 400 error occurs', () => {
-    it('should show the correct generic messaging link copy', async () => {
-      initialState.health.msg.folders.data.currentItem = mockFolderErrorResponse;
-
-      view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {
-        initialState,
-        reducers,
-      });
-      expect(
-        await view.findByText(
-          new RegExp(`Send a secure message to your health care team`, 'i'),
-        ),
-      ).to.exist;
-    });
-  });
 });
