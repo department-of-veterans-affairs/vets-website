@@ -1,7 +1,11 @@
 import _ from 'lodash';
 import set from 'lodash/fp/set';
 
-import { FETCH_FOLDER_SUCCESS, LOADING_FOLDER } from '../utils/constants';
+import {
+  FETCH_FOLDER_SUCCESS,
+  FETCH_FOLDER_FAILURE,
+  LOADING_FOLDER,
+} from '../utils/constants';
 
 const initialState = {
   data: {
@@ -63,6 +67,17 @@ export default function folders(state = initialState, action) {
           },
         },
         newState,
+      );
+    }
+
+    case FETCH_FOLDER_FAILURE: {
+      return set(
+        'data.currentItem',
+        {
+          errors: action.folder?.data?.errors,
+          loading: false,
+        },
+        state,
       );
     }
 
