@@ -19,7 +19,6 @@ import CancelAppointmentModal from './cancel/CancelAppointmentModal';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import {
   getPatientTelecom,
-  isVideoAppointment,
   getVAAppointmentLocationId,
   getPractitionerLocationDisplay,
 } from '../../services/appointment';
@@ -123,7 +122,7 @@ function RequestedAppointmentDetailsPage({
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isCC = appointment.vaos.isCommunityCare;
-  const isVideoRequest = isVideoAppointment(appointment);
+  const isVideoRequest = appointment.vaos.isVideo;
   const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
