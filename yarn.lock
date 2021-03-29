@@ -3117,7 +3117,7 @@ axe-core@^4.1.3:
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.1.3.tgz#64a4c85509e0991f5168340edc4bedd1ceea6966"
   integrity sha512-vwPpH4Aj4122EW38mxO/fxhGKtwWTMLDIJfZ1He0Edbtjcfna/R3YB67yVhezUMzqc3Jr3+Ii50KRntlENL4xQ==
 
-axios@^0.18.0, axios@^0.20.0, axios@^0.21.0, axios@^0.21.1:
+axios@^0.18.0, axios@^0.20.0, axios@^0.21.1:
   version "0.21.1"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
   integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
@@ -4418,13 +4418,13 @@ chrome-trace-event@^1.0.2:
   dependencies:
     tslib "^1.9.0"
 
-chromedriver@^87.0.5:
-  version "87.0.5"
-  resolved "https://registry.npmjs.org/chromedriver/-/chromedriver-87.0.5.tgz"
-  integrity sha512-bWAKdZANrt3LXMUOKFP+DgW7DjVKfihCbjej6URkUcKsvbQBDYpf5YY5d/dXE3SOSzIFZ7fmLxogusxpsupCJg==
+chromedriver@^89.0.0:
+  version "89.0.0"
+  resolved "https://registry.yarnpkg.com/chromedriver/-/chromedriver-89.0.0.tgz#a6f27aa306400651a20dc04976fe5b2c4e65d61a"
+  integrity sha512-+DVYp3+m6tZUYTMl9fEgCZIDk9YBTcHws82nIV1JYwusu51zRITA0oeNzuPyFhuK7ageFnnKCDviH2BL5I4M0w==
   dependencies:
     "@testim/chrome-version" "^1.0.7"
-    axios "^0.21.0"
+    axios "^0.21.1"
     del "^6.0.0"
     extract-zip "^2.0.1"
     https-proxy-agent "^5.0.0"
@@ -19525,9 +19525,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#456ba74f7ab19c105e69abf795943afb1007f127":
-  version "18.6.8"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#456ba74f7ab19c105e69abf795943afb1007f127"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#c3d46158637446c545e746978f25888c9d147414":
+  version "19.0.1"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#c3d46158637446c545e746978f25888c9d147414"
 
 vinyl-file@^2.0.0:
   version "2.0.0"

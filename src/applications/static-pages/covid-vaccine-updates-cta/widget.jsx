@@ -23,7 +23,7 @@ const copy = {
       },
     },
     headline: 'Stay informed about getting a COVID-19 vaccine',
-    buttonText: 'Sign up to stay informed',
+    buttonText: 'Sign up to get a COVID-19 vaccine',
   },
   es: {
     appTitle: `Información de vacunación contra Covid 19`,
