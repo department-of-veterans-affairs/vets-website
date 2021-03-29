@@ -12,7 +12,7 @@ import {
 const representativePage = {
   uiSchema: {
     'ui:description': RepresentativeIntroContent(),
-    [representativeFields.signAsRepresentative]: {
+    [representativeFields.signAsRepresentativeYesNo]: {
       'ui:title':
         "Do you have legal representative documents you'd like to share with us?",
       'ui:widget': 'radio',
@@ -32,7 +32,7 @@ const representativePage = {
     type: 'object',
     required: [],
     properties: {
-      [representativeFields.signAsRepresentative]: {
+      [representativeFields.signAsRepresentativeYesNo]: {
         type: 'string',
         enum: ['yes', 'noRep', 'no'],
       },

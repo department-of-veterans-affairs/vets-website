@@ -17,7 +17,7 @@ export const veteranFields = {
 };
 
 export const representativeFields = {
-  signAsRepresentative: 'signAsRepresentative',
+  signAsRepresentativeYesNo: 'signAsRepresentativeYesNo',
 };
 
 export const primaryCaregiverFields = {
