@@ -38,7 +38,7 @@ export default function CalendarWeekdayHeader({ showFullWeek = false }) {
     ? [
         { name: 'Sunday', abbr: 'Sun' },
         ...DEFAULT_WEEK_DAYS,
-        { name: 'Sunday', abbr: 'Sun' },
+        { name: 'Saturday', abbr: 'Sat' },
       ]
     : DEFAULT_WEEK_DAYS;
 
