@@ -50,33 +50,24 @@ export const eligibilityAccordion = (
         <p>
           To be eligible for a COVID-19 vaccine at VA as a non-Veteran, at least
           one of these descriptions must fit you:
-        </p>
-        <p>
-          <strong>Spouse</strong> of an eligible Veteran
-        </p>
-        <p>
-          <strong>Eligible caregiver</strong> enrolled in one of these VA
-          caregiver support programs:
           <ul>
             <li>
-              The Program of Comprehensive Assistance for Family Caregivers
+              <strong>Spouse</strong> of an eligible Veteran
             </li>
-            <li>The Program of General Caregiver Support Services</li>
+
+            <li>
+              <strong>Caregiver</strong> of an eligible Veteran. A caregiver is
+              a family member or friend who provides care to the Veteran.
+              Caregivers may help the Veteran with personal needs like feeding,
+              bathing, or dressing. They may also help the Veteran with tasks
+              like shopping or transportation.
+            </li>
+
+            <li>
+              <strong>Recipient of CHAMPVA</strong> (Civilian Health and Medical
+              Program of the Department of Veterans Affairs) benefits
+            </li>
           </ul>
-        </p>
-        <p>
-          <strong>Eligible caregiver</strong> of a Veteran who is enrolled in
-          one of these VA home-based or long-term care programs:
-          <ul>
-            <li>Medical Foster Home program</li>
-            <li>Bowel and Bladder program</li>
-            <li>Home Based Primary Care program</li>
-            <li>Veteran Directed Care program</li>
-          </ul>
-        </p>
-        <p>
-          <strong>Recipient of CHAMPVA</strong> (Civilian Health and Medical
-          Program of the Department of Veterans Affairs) benefits
         </p>
       </va-accordion-item>
       <va-accordion-item level="4" header="What if I'm not eligible?">
@@ -114,17 +105,9 @@ export const spouseLabel = (
   </>
 );
 
-export const caregiverEnrolledLabel = (
-  <>
-    <strong>Eligible caregiver</strong> enrolled in a VA caregiver support
-    program
-  </>
-);
-
 export const caregiverOfVeteranLabel = (
   <>
-    <strong>Eligible caregiver</strong> of a Veteran who is enrolled in a VA
-    home-based or long-term care program
+    <strong>Caregiver</strong> of an eligible Veteran
   </>
 );
 
