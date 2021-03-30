@@ -5,7 +5,20 @@
 }
 
 .dashboard {
-  .health-care {
+  .health-care-wrapper {
+    .health-care {
+      // This set width applies to medium and small-desktop screens
+      width: 520px;
+
+      @media (min-width: $xsmall-screen) and (max-width: $medium-screen - 1) {
+        width: 100%;
+      }
+
+      @media (min-width: $large-screen) {
+        width: 100%;
+      }
+    }
+
     .cta-link:nth-of-type(1) {
       border-top: 1px solid $color-primary-alt-light;
 

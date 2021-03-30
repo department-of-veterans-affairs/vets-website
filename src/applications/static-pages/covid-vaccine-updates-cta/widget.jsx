@@ -10,20 +10,18 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 const copy = {
   en: {
     appTitle: 'Covid 19 Vaccination Information',
-    cta: `Sign up for an easy way to stay informed about getting a COVID-19
-      vaccine at VA.`,
     expandedEligibilityContent: {
       veteran: {
         boldedNote: `If you're a Veteran currently receiving care through VA,`,
         body: ` we'll ask about your vaccine plans when you sign up. Your local VA health facility may use this information to determine when to contact you once your risk group becomes eligible.`,
       },
       nonVeteran: {
-        boldedNote: `If you're a Veteran, spouse, or caregiver not receiving care through VA,`,
-        body: ` sign up to tell us if you want to get a vaccine through VA. If you're eligible, we'll contact you when we have a vaccine available for you. At this time, we don't know when that will be.`,
+        boldedNote: `If you're a Veteran who isn't receiving care through VA or a spouse, caregiver, or CHAMPVA recipient,`,
+        body: ` sign up to tell us if you want to get a vaccine. If you're eligible, we'll contact you when we have a vaccine for you. At this time, we don't know when that will be.`,
       },
     },
-    headline: 'Stay informed about getting a COVID-19 vaccine',
-    buttonText: 'Sign up to stay informed',
+    headline: 'Sign up to get a COVID-19 vaccine at VA',
+    buttonText: 'Sign up to get a COVID-19 vaccine',
   },
   es: {
     appTitle: `Información de vacunación contra Covid 19`,

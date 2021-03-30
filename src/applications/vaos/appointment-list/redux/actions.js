@@ -6,6 +6,7 @@ import {
   GA_PREFIX,
   APPOINTMENT_TYPES,
   EXPRESS_CARE,
+  VIDEO_TYPES,
 } from '../../utils/constants';
 import { recordItemsRetrieved, resetDataLayer } from '../../utils/events';
 import {
@@ -30,13 +31,7 @@ import {
   getVARClinicId,
   getVARFacilityId,
   getVAAppointmentLocationId,
-  getVideoAppointmentLocation,
-  isVideoAppointment,
   isVideoHome,
-  isAtlasLocation,
-  isVideoGFE,
-  isVideoVAFacility,
-  isVideoStoreForward,
   fetchRequestById,
   fetchBookedAppointment,
 } from '../../services/appointment';
@@ -138,29 +133,19 @@ async function getAdditionalFacilityInfo(futureAppointments) {
   // Get facility ids from non-VA appts or requests
   const nonVaFacilityAppointmentIds = futureAppointments
     .filter(
-      appt =>
-        !isVideoAppointment(appt) && (appt.vaos?.isCommunityCare || !appt.vaos),
+      appt => !appt.vaos?.isVideo && (appt.vaos?.isCommunityCare || !appt.vaos),
     )
     .map(appt => appt.facilityId || appt.facility?.facilityCode);
 
-  const videoAppointmentIds = futureAppointments
-    .filter(appt => isVideoAppointment(appt))
-    .map(getVideoAppointmentLocation);
-
   // Get facility ids from VA appointments
   const vaFacilityAppointmentIds = futureAppointments
-    .filter(
-      appt =>
-        appt.vaos && !isVideoAppointment(appt) && !appt.vaos.isCommunityCare,
-    )
+    .filter(appt => appt.vaos && !appt.vaos.isCommunityCare)
     .map(getVAAppointmentLocationId);
 
   const uniqueFacilityIds = new Set(
-    [
-      ...nonVaFacilityAppointmentIds,
-      ...videoAppointmentIds,
-      ...vaFacilityAppointmentIds,
-    ].filter(id => !!id),
+    [...nonVaFacilityAppointmentIds, ...vaFacilityAppointmentIds].filter(
+      id => !!id,
+    ),
   );
   let facilityData = null;
   if (uniqueFacilityIds.size > 0) {
@@ -251,22 +236,25 @@ export function fetchFutureAppointments() {
 
       recordItemsRetrieved(
         'video_atlas',
-        data[0]?.filter(appt => isAtlasLocation(appt)).length,
+        data[0]?.filter(appt => appt.videoData.isAtlas).length,
       );
 
       recordItemsRetrieved(
         'video_va_facility',
-        data[0]?.filter(appt => isVideoVAFacility(appt)).length,
+        data[0]?.filter(appt => appt.videoData.kind === VIDEO_TYPES.clinic)
+          .length,
       );
 
       recordItemsRetrieved(
         'video_gfe',
-        data[0]?.filter(appt => isVideoGFE(appt)).length,
+        data[0]?.filter(appt => appt.videoData.kind === VIDEO_TYPES.gfe).length,
       );
 
       recordItemsRetrieved(
         'video_store_forward',
-        data[0]?.filter(appt => isVideoStoreForward(appt)).length,
+        data[0]?.filter(
+          appt => appt.videoData.kind === VIDEO_TYPES.storeForward,
+        ).length,
       );
 
       dispatch({
@@ -684,7 +672,7 @@ export function fetchExpressCareWindows() {
     });
 
     const initialState = getState();
-    const userSiteIds = selectSystemIds(initialState);
+    const userSiteIds = selectSystemIds(initialState) || [];
     const address = selectVAPResidentialAddress(initialState);
 
     try {
@@ -734,7 +722,7 @@ export function fetchDirectScheduleSettings() {
 
     try {
       const initialState = getState();
-      const siteIds = selectSystemIds(initialState);
+      const siteIds = selectSystemIds(initialState) || [];
 
       const settings = await getDirectBookingEligibilityCriteria(siteIds);
 

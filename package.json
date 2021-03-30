@@ -167,7 +167,7 @@
     "cheerio": "^1.0.0-rc.3",
     "chokidar": "^3.4.0",
     "choma": "^1.1.0",
-    "chromedriver": "^87.0.5",
+    "chromedriver": "^89.0.0",
     "cli-table": "^0.3.1",
     "command-line-args": "^3.0.1",
     "command-line-usage": "^6.1.0",
@@ -283,7 +283,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/component-library": "2.1.0",
+    "@department-of-veterans-affairs/component-library": "2.2.0",
     "@department-of-veterans-affairs/formation": "6.14.1",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@formatjs/intl-datetimeformat": "^3.2.7",
@@ -363,7 +363,7 @@
     "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#456ba74f7ab19c105e69abf795943afb1007f127",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#c3d46158637446c545e746978f25888c9d147414",
     "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.2.2",
     "whatwg-fetch": "^2.0.3"
   },
@@ -376,6 +376,7 @@
     "**/node-forge": "^0.10.0",
     "**/axios": "^0.21.1",
     "**/elliptic": "^6.5.4",
+    "**/netmask": "^2.0.1",
     "cypress": "^6.8.0",
     "tar-fs/tar-stream/bl": "^4.0.3",
     "nightwatch/**/lodash.defaultsdeep": "^4.6.1"

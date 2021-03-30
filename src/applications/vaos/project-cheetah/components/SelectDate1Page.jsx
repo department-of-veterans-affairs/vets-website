@@ -237,7 +237,6 @@ const mapDispatchToProps = {
   onCalendarChange: actions.onCalendarChange,
   routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
   routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
-  startRequestAppointmentFlow: actions.startAppointmentFlow,
 };
 
 export default connect(
