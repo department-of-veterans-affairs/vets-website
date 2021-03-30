@@ -1,0 +1,78 @@
+[
+  {
+    "appName": "About VA Disability Ratings",
+    "rootUrl": "/disability/about-disability-ratings",
+    "widgetType": "disability-rating-calculator"
+  },
+  {
+    "appName": "Coronavirus Chatbot",
+    "rootUrl": "/coronavirus-chatbot",
+    "widgetType": "va-coronavirus-chatbot",
+    "template": {
+      "title": "VA coronavirus chatbot"
+    }
+  },
+  {
+    "appName": "Find Forms",
+    "rootUrl": "/find-forms",
+    "widgetType": "find-va-forms"
+  },
+  {
+    "appName": "Homepage",
+    "rootUrl": "/",
+    "template": {
+      "title": "VA.gov"
+    }
+  },
+  {
+    "appName": "Eligibility For VA Health Care",
+    "rootUrl": "/health-care/eligibility",
+    "widgetType": "health-care-app-status"
+  },
+  {
+    "appName": "Eligibility For Veterans Pension",
+    "rootUrl": "/pension/eligibility",
+    "widgetType": "pension-app-status"
+  },
+  {
+    "appName": "GI Bill Eligibility",
+    "rootUrl": "/education/eligibility",
+    "widgetType": "education-app-status"
+  },
+  {
+    "appName": "How To Apply For A Veterans Burial Allowance",
+    "rootUrl": "/burials-memorials/veterans-burial-allowance",
+    "widgetType": "burials-app-status"
+  },
+  {
+    "appName": "How To Apply For A VA Pension As A Veteran",
+    "rootUrl": "/pension/how-to-apply",
+    "widgetType": "pension-app-status"
+  },
+  {
+    "appName": "How To Apply For VA Health Care",
+    "rootUrl": "/health-care/how-to-apply",
+    "widgetType": "health-care-app-status"
+  },
+  {
+    "appName": "How To Apply For The GI Bill",
+    "rootUrl": "/education/how-to-apply",
+    "widgetType": "education-app-status"
+  },
+  {
+    "appName": "Post-9/11 GI Bill Statement Of Benefits",
+    "rootUrl": "/education/gi-bill/post-9-11/ch-33-benefit",
+    "widgetType": "post-9-11-gi-bill-status"
+  },
+  {
+    "appName": "Schedule And View VA Appointments Online",
+    "rootUrl": "/health-care/schedule-view-va-appointments",
+    "widgetType": "schedule-view-va-appointments-page"
+  },
+  {
+    "appName": "VA Pittsburgh Health Care",
+    "rootUrl": "/pittsburgh-health-care",
+    "widgetType": "side-nav",
+    "widgetTemplate": "navigation/facility_sidebar_nav"
+  }
+]
