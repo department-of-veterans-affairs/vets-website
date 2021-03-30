@@ -435,13 +435,13 @@ export const addressUISchema = (
       },
     },
     addressLine2: {
-      'ui:title': 'Street address',
+      'ui:title': 'Street address line 2',
       'ui:errorMessages': {
         pattern: 'Please enter a valid street address',
       },
     },
     addressLine3: {
-      'ui:title': 'Street address',
+      'ui:title': 'Street address line 3',
       'ui:errorMessages': {
         pattern: 'Please enter a valid street address',
       },
