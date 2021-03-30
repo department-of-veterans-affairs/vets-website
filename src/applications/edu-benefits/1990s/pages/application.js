@@ -255,6 +255,7 @@ const schema = {
     },
     'view:confirmEligibility': {
       type: 'object',
+      required: ['vrrapConfirmation'],
       properties: {
         vrrapConfirmation,
       },
