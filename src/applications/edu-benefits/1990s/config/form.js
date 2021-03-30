@@ -5,10 +5,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import manifest from '../manifest.json';
 import fullSchema from 'vets-json-schema/dist/VRRAP-schema.json';
-
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
+import { application } from '../pages';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -35,23 +32,15 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for education benefits.',
   },
-  title: 'Veteran Rapid Retraining Assistance Program',
+  title: 'Veteran Rapid Retraining Assistance Program (VRRAP)',
   defaultDefinitions: {
     ...fullSchema.definitions,
   },
   chapters: {
-    chapter1: {
-      title: 'Chapter 1',
+    form: {
+      title: 'Application',
       pages: {
-        page1: {
-          path: 'first-page',
-          title: 'First Page',
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            properties: {},
-          },
-        },
+        application,
       },
     },
   },
