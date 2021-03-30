@@ -1,8 +1,10 @@
-// import fullSchema from 'vets-json-schema/dist/VRRAP-schema.json';
+import environment from 'platform/utilities/environment';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import manifest from '../manifest.json';
+import fullSchema from 'vets-json-schema/dist/VRRAP-schema.json';
 
 // const { } = fullSchema.properties;
 
@@ -11,11 +13,11 @@ import manifest from '../manifest.json';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  trackingPrefix: 'vrrap-',
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1990s`,
+  trackingPrefix: 'edu-1990s-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: 'VRRAP',
+  formId: VA_FORM_IDS.FORM_22_1990S,
   saveInProgress: {
     messages: {
       inProgress:
@@ -34,7 +36,9 @@ const formConfig = {
       'Please sign in again to continue your application for education benefits.',
   },
   title: 'Veteran Rapid Retraining Assistance Program',
-  defaultDefinitions: {},
+  defaultDefinitions: {
+    ...fullSchema.definitions,
+  },
   chapters: {
     chapter1: {
       title: 'Chapter 1',
