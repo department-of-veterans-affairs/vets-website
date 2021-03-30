@@ -71,4 +71,4 @@ else
 fi
 
 # Always build the content
-# yarn build:content $args
+yarn build:content $args
