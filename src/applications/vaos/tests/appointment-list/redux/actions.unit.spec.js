@@ -10,7 +10,6 @@ import {
 
 import {
   fetchFutureAppointments,
-  fetchPendingAppointments,
   fetchPastAppointments,
   fetchRequestMessages,
   cancelAppointment,
@@ -19,7 +18,6 @@ import {
   startNewAppointmentFlow,
   FETCH_FUTURE_APPOINTMENTS,
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
-  FETCH_PENDING_APPOINTMENTS,
   FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS,
   FETCH_PAST_APPOINTMENTS_FAILED,
@@ -103,22 +101,6 @@ describe('VAOS actions: appointments', () => {
     );
     expect(dispatchSpy.callCount).to.equal(3);
     expect(global.fetch.callCount).to.equal(4);
-  });
-
-  it('should fetch pending appointments', async () => {
-    setFetchJSONResponse(global.fetch, { data: [getVAAppointmentMock()] });
-    setFetchJSONResponse(global.fetch.onCall(2), facilityData);
-    const thunk = fetchPendingAppointments();
-    const dispatchSpy = sinon.spy();
-    await thunk(dispatchSpy, () => ({}));
-    expect(dispatchSpy.firstCall.args[0].type).to.eql(
-      FETCH_PENDING_APPOINTMENTS,
-    );
-    expect(dispatchSpy.secondCall.args[0].type).to.eql(
-      FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
-    );
-    expect(dispatchSpy.callCount).to.equal(2);
-    expect(global.fetch.callCount).to.equal(2);
   });
 
   it('should fetch request messages', async () => {

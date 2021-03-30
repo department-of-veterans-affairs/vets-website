@@ -1007,7 +1007,7 @@
     "entryName": "covid-vaccine",
     "rootUrl": "/health-care/covid-19-vaccine/sign-up/",
     "template": {
-      "vagovprod": false,
+      "vagovprod": true,
       "layout": "page-react.html",
       "title": "Sign up to get a vaccine",
       "description": "We’re working to provide COVID-19 vaccines as quickly and safely as we can. We base our vaccine plans on CDC guidelines, federal law, and available supply. Sign up to tell us you’d like to get a COVID-19 vaccine at VA.",
