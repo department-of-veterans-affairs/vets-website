@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
@@ -8,10 +8,24 @@ import {
   selectShowQuestionnaire,
   selectLoadingFeatureFlags,
 } from '../../../shared/redux-selectors';
+import recordEvent from 'platform/monitoring/record-event';
 
 const QuestionnaireApp = props => {
-  const { isLoadingFeatureFlags, isQuestionnaireEnabled } = props;
-
+  const { isLoadingFeatureFlags, isQuestionnaireEnabled, location } = props;
+  useEffect(
+    () => {
+      if (location && location.query) {
+        const { ref } = location.query;
+        if (ref) {
+          recordEvent({
+            event: 'hcq-list-ref',
+            ref,
+          });
+        }
+      }
+    },
+    [location],
+  );
   if (isLoadingFeatureFlags) {
     return (
       <>
