@@ -267,6 +267,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
     };
 
     mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    mockFacilitiesFetch('vha_442', []);
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
@@ -446,6 +447,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
       'CANCELLED BY CLINIC';
 
     mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    mockFacilitiesFetch('vha_442GC', []);
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
@@ -477,6 +479,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
     appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
 
     mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    mockFacilitiesFetch('vha_442GC', []);
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
@@ -515,6 +518,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
     appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
 
     mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    mockFacilitiesFetch('vha_442GC', []);
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
@@ -553,6 +557,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
     appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
 
     mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    mockFacilitiesFetch('vha_442GC', []);
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
@@ -579,6 +584,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
     appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
 
     mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    mockFacilitiesFetch('vha_442GC', []);
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
       reducers,
