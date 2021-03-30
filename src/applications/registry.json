@@ -1007,7 +1007,7 @@
     "entryName": "covid-vaccine",
     "rootUrl": "/health-care/covid-19-vaccine/sign-up/",
     "template": {
-      "vagovprod": false,
+      "vagovprod": true,
       "layout": "page-react.html",
       "title": "Sign up to get a vaccine",
       "description": "We’re working to provide COVID-19 vaccines as quickly and safely as we can. We base our vaccine plans on CDC guidelines, federal law, and available supply. Sign up to tell us you’d like to get a COVID-19 vaccine at VA.",
@@ -1028,12 +1028,29 @@
     }
   },
   {
-    "appName": "Veteran Rapid Retraining Assistance Program",
-    "entryName": "vrrap",
+    "appName": "Veteran Rapid Retraining Assistance Program (VRRAP)",
+    "entryName": "1990s-edu-benefits",
     "rootUrl": "/vrrap",
     "template": {
       "vagovprod": false,
-      "layout": "page-react.html"
+      "title": "Apply for the Veteran Rapid Retraining Assistance Program (VRRAP)",
+      "heading": "Apply for the Veteran Rapid Retraining Assistance Program (VRRAP)",
+      "layout": "page-react.html",
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "name": "Education and training",
+          "path": "education/"
+        },
+        {
+          "name": "Other VA education benefits",
+          "path": "education/other-va-education-benefits/"
+        },
+        {
+          "name": "Veteran Rapid Retraining Assistance Program",
+          "path": "vrrap"
+        }
+      ]
     }
   }
 ]

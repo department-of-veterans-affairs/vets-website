@@ -6,7 +6,7 @@ import { removeDependents } from '../../redux/reducers';
 import ManageDependentsApp from '../../containers/ManageDependentsApp';
 import { SCHEMAS } from '../../schemas';
 
-describe('<ManageDependentsApp />', () => {
+describe.skip('<ManageDependentsApp />', () => {
   const mockData = {
     firstName: 'Cindy',
     lastName: 'See',

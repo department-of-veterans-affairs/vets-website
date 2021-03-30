@@ -106,7 +106,7 @@ describe('VAOS <ClinicChoicePage>', () => {
     expect(screen.baseElement).to.contain.text(
       'You can choose a clinic where you’ve been seen or request an appointment at a different clinic.',
     );
-    expect(screen.getAllByRole('radio').length).to.equal(3);
+    expect(await screen.findAllByRole('radio')).to.have.length(3);
     expect(screen.getByLabelText('Green team clinic')).to.have.tagName('input');
     expect(screen.getByLabelText('Red team clinic')).to.have.tagName('input');
     expect(screen.getByLabelText('I need a different clinic')).to.have.tagName(
