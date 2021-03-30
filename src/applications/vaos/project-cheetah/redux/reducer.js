@@ -32,10 +32,12 @@ import {
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
   FORM_PREFILL_CONTACT_INFO,
-  FETCH_NEW_BOOKING_WINDOW,
-  FETCH_NEW_BOOKING_WINDOW_FAILED,
-  FETCH_NEW_BOOKING_WINDOW_SUCCEEDED,
 } from './actions';
+
+import {
+  STARTED_NEW_VACCINE_FLOW,
+  VACCINE_FORM_SUBMIT_SUCCEEDED,
+} from '../../redux/sitewide';
 
 import { FACILITY_SORT_METHODS, FETCH_STATUS } from '../../utils/constants';
 import { distanceBetween } from '../../utils/address';
@@ -54,12 +56,11 @@ const initialState = {
     appointmentSlotsStatus: FETCH_STATUS.notStarted,
     availableSlots: null,
     fetchedAppointmentSlotMonths: [],
+    requestLocationStatus: FETCH_STATUS.notStarted,
   },
   submitStatus: FETCH_STATUS.notStarted,
   submitErrorReason: null,
   successfulRequest: null,
-  newBookingStatus: FETCH_STATUS.notStarted,
-  isEligible: false,
 };
 
 function setupFormData(data, schema, uiSchema) {
@@ -395,7 +396,10 @@ export default function projectCheetahReducer(state = initialState, action) {
     case FORM_REQUEST_CURRENT_LOCATION_FAILED: {
       return {
         ...state,
-        requestLocationStatus: FETCH_STATUS.failed,
+        newBooking: {
+          ...state.newBooking,
+          requestLocationStatus: FETCH_STATUS.failed,
+        },
       };
     }
     case FORM_CLINIC_PAGE_OPENED_SUCCEEDED: {
@@ -455,6 +459,17 @@ export default function projectCheetahReducer(state = initialState, action) {
         ...state,
         submitStatus: FETCH_STATUS.loading,
       };
+    case VACCINE_FORM_SUBMIT_SUCCEEDED:
+      return {
+        ...state,
+        submitStatus: FETCH_STATUS.succeeded,
+        submitStatusVaos400: false,
+      };
+    case STARTED_NEW_VACCINE_FLOW: {
+      return {
+        ...initialState,
+      };
+    }
     case FORM_SUBMIT_FAILED:
       return {
         ...state,
@@ -540,26 +555,6 @@ export default function projectCheetahReducer(state = initialState, action) {
           facilitiesStatus: FETCH_STATUS.succeeded,
           facilityPageSortMethod: sortMethod,
         },
-      };
-    }
-    case FETCH_NEW_BOOKING_WINDOW: {
-      return {
-        ...state,
-        newBookingStatus: FETCH_STATUS.loading,
-      };
-    }
-    case FETCH_NEW_BOOKING_WINDOW_FAILED: {
-      return {
-        ...state,
-        newBookingStatus: FETCH_STATUS.failed,
-        isEligible: action.isEligible,
-      };
-    }
-    case FETCH_NEW_BOOKING_WINDOW_SUCCEEDED: {
-      return {
-        ...state,
-        newBookingStatus: FETCH_STATUS.succeeded,
-        isEligible: action.isEligible,
       };
     }
 

@@ -1,7 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { getMonthlyIncome, getMonthlyExpenses } from '../utils/helpers';
 
-const FinancialOverview = ({ formData: { selectedDebts } }) => {
+const FinancialOverview = ({ formData }) => {
+  const { selectedDebts } = formData;
+  const monthlyIncome = getMonthlyIncome(formData);
+  const monthlyExpenses = getMonthlyExpenses(formData);
+  const totalIncome = monthlyIncome - monthlyExpenses;
   const index = window.location.href.slice(-1);
   const debt = selectedDebts[index];
   const formatter = new Intl.NumberFormat('en-US', {
@@ -17,19 +22,19 @@ const FinancialOverview = ({ formData: { selectedDebts } }) => {
         <div className="vads-u-margin-bottom--1 overview-container">
           <div>Total monthly income:</div>
           <div>
-            {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
+            {debt.currentAr && formatter.format(parseFloat(monthlyIncome))}
           </div>
         </div>
         <div className="vads-u-margin-bottom--1 overview-container">
-          <div>Total monthly expenses:</div>
+          <div>Total monthly taxes and expenses:</div>
           <div>
-            {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
+            {debt.currentAr && formatter.format(parseFloat(monthlyExpenses))}
           </div>
         </div>
         <div className="vads-u-margin-bottom--0 overview-container">
-          <div>Monthly discretionary income:</div>
+          <div>Income after taxes and expenses:</div>
           <div>
-            {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
+            {debt.currentAr && formatter.format(parseFloat(totalIncome))}
           </div>
         </div>
       </div>

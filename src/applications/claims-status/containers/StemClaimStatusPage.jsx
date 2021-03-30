@@ -8,16 +8,17 @@ import StemAskVAQuestions from '../components/StemAskVAQuestions';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import StemDeniedDetails from '../components/StemDeniedDetails';
+import { getStemClaims } from '../actions';
 
 class StemClaimStatusPage extends React.Component {
   componentDidMount() {
     this.setTitle();
     setUpPage();
+    this.props.getStemClaims();
   }
 
   setTitle() {
-    document.title =
-      'Status - Your Edith Nourse Rogers STEM Scholarship Application Claim';
+    document.title = 'Your Edith Nourse Rogers STEM Scholarship application';
   }
 
   render() {
@@ -32,11 +33,12 @@ class StemClaimStatusPage extends React.Component {
         />
       );
     } else if (claim) {
+      const claimAttributes = claim.attributes;
       content = (
         <StemDeniedDetails
-          deniedAt={claim.attributes.deniedAt}
-          isEnrolledStem={claim.attributes.isEnrolledStem}
-          isPursuingTeachingCert={claim.attributes.isPursuingTeachingCert}
+          deniedAt={claimAttributes.deniedAt}
+          isEnrolledStem={claimAttributes.isEnrolledStem}
+          isPursuingTeachingCert={claimAttributes.isPursuingTeachingCert}
         />
       );
     } else {
@@ -56,7 +58,7 @@ class StemClaimStatusPage extends React.Component {
             <div className="vads-l-col--12">
               <ClaimsBreadcrumbs>
                 <Link to={claimsPath}>
-                  Your Edith Nourse Rogers STEM Scholarship Application
+                  Your Rogers STEM Scholarship application status details
                 </Link>
               </ClaimsBreadcrumbs>
             </div>
@@ -86,6 +88,13 @@ function mapStateToProps(state, props) {
   };
 }
 
-export default connect(mapStateToProps)(StemClaimStatusPage);
+const mapDispatchToProps = {
+  getStemClaims,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(StemClaimStatusPage);
 
 export { StemClaimStatusPage };

@@ -4,7 +4,7 @@
 <!-- Derive the total sections the page includes for analytics. -->
 {% assign clpTotalSections = 11 | deriveCLPTotalSections: fieldClpVideoPanel, fieldClpSpotlightPanel, fieldClpStoriesPanel, fieldClpResourcesPanel, fieldClpEventsPanel, fieldClpFaqPanel, fieldBenefitCategories %}
 
-<div id="content" class="interior" data-template="node-campaign_landing_page">
+<div id="content" class="interior vads-u-display--none" data-template="node-campaign_landing_page">
   <main>
     <!-- Hero-->
     <div class="va-u-background--image" style="background-image: url('{{ fieldHeroImage.entity.image.url }}">
@@ -101,12 +101,13 @@
           <p class="va-introtext vads-u-margin-top--1 vads-u-margin-bottom--4">{{ fieldClpWhatYouCanDoIntro }}</p>
         </div>
       </div>
+
       <div class="vads-l-row vads-u-margin-bottom--2 medium-screen:vads-u-margin-x--neg1">
         {% for promo in fieldClpWhatYouCanDoPromos %}
           <div class="vads-l-col--12 medium-screen:vads-l-col--4 vads-u-align-content--stretch vads-u-margin-y--1 ">
             <div class="vads-u-background-color--gray-light-alt vads-u-height--full medium-screen:vads-u-margin-x--1 medium-screen:vads-u-margin-y--0">
-              <img alt="{{ promo.entity.fieldImage.entity.thumbnail.alt }}" src="{{ promo.entity.fieldImage.entity.thumbnail.url }}" />
-              <h3 class="vads-u-padding-x--2">
+              <img alt="{{ promo.entity.fieldImage.entity.thumbnail.alt }}" height="{{ promo.entity.fieldImage.entity.thumbnail.derivative.height }}" width="{{ promo.entity.fieldImage.entity.thumbnail.derivative.width }}" src="{{ promo.entity.fieldImage.entity.thumbnail.derivative.url }}" />
+              <h3 class="vads-u-padding-x--2 vads-u-margin-top--1">
                 <a
                   href="{{ promo.entity.fieldPromoLink.entity.fieldLink.uri }}"
                   onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'What you can do', 'clp-section-title': '{{ fieldClpWhatYouCanDoHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ promo.entity.fieldPromoLink.entity.fieldLink.title | escape }}' });"
@@ -295,18 +296,17 @@
         <div class="vads-l-row vads-u-margin-bottom--2 medium-screen:vads-u-margin-x--neg1">
           {% for resource in fieldClpResources %}
             <div class="vads-l-col--12 medium-screen:vads-l-col--4 vads-u-align-content--stretch vads-u-margin-y--1 ">
-              <div class="vads-u-background-color--gray-light-alt vads-u-height--full medium-screen:vads-u-margin-x--1 medium-screen:vads-u-margin-y--0">
-                <div class="vads-u-padding--2">
-                  <h3 class="vads-u-margin--0">{{ resource.entity.name }}</h3>
-                  <p>{{ resource.entity.fieldDescription }}</p>
-                  <a
-                    download
-                    href="{{ resource.entity.fieldMediaExternalFile.uri }}"
-                    onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Downloadable resources', 'clp-section-title': '{{ fieldClpResourcesHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': 'Download {{ resource.entity.name | escape }}' });"
-                  >
-                    Download (PDF)
-                  </a>
-                </div>
+              <div class="vads-u-background-color--gray-light-alt vads-u-height--full vads-u-padding--2 vads-u-display--flex vads-u-flex-direction--column vads-u-justify-content--space-between medium-screen:vads-u-margin-x--1 medium-screen:vads-u-margin-y--0">
+                <h3 class="vads-u-margin--0">{{ resource.entity.name }}</h3>
+                <p class="vads-u-flex--1">{{ resource.entity.fieldDescription }}</p>
+                <a
+                  alt="Download {{ resource.entity.name }} PDF"
+                  download
+                  href="{{ resource.entity.fieldMediaExternalFile.uri }}"
+                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Downloadable resources', 'clp-section-title': '{{ fieldClpResourcesHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': 'Download {{ resource.entity.name | escape }}' });"
+                >
+                  Download (PDF)
+                </a>
               </div>
             </div>
           {% endfor %}
@@ -387,6 +387,7 @@
 
                     <!-- Event link -->
                     <div class="vads-u-display--flex vads-u-flex-direction--column">
+                      <!-- Facility link -->
                       {% if eventReference.entity.fieldFacilityLocation.entity.entityUrl.path %}
                         <a
                           href="{{ eventReference.entity.fieldFacilityLocation.entity.entityUrl.path }}"
@@ -398,6 +399,7 @@
                         </a>
                       {% endif %}
 
+                      <!-- Event link -->
                       {% if eventReference.entity.fieldLink.uri %}
                         <a
                           href="{{ eventReference.entity.fieldLink.uri }}"
@@ -409,9 +411,20 @@
                         </a>
                       {% endif %}
 
-                      <!-- Event address -->
-                      {% if eventReference.entity.fieldLocationHumanreadable != empty %}
-                        <p class="vads-u-margin--0">{{ eventReference.entity.fieldLocationHumanreadable }}</p>
+
+                      <!-- Online event link -->
+                      {% if eventReference.entity.fieldUrlOfAnOnlineEvent.uri %}
+                        <a
+                          href="{{ eventReference.entity.fieldUrlOfAnOnlineEvent.uri }}"
+                          onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Events', 'clp-section-title': '{{ fieldClpEventsHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ eventReference.entity.fieldUrlOfAnOnlineEvent.uri | escape }}' });"
+                        >
+                      {% endif %}
+                        <!-- Event address -->
+                        {% if eventReference.entity.fieldLocationHumanreadable != empty %}
+                          <p class="vads-u-margin--0">{{ eventReference.entity.fieldLocationHumanreadable }}</p>
+                        {% endif %}
+                      {% if eventReference.entity.fieldUrlOfAnOnlineEvent.uri %}
+                        </a>
                       {% endif %}
                     </div>
                   </div>
@@ -639,6 +652,35 @@
     {% include "src/site/components/up_to_top_button.html" %}
   </main>
 </div>
+
+<!-- TEMPORARY -->
+<!-- =============== -->
+<script>
+  function checkCLPAuth() {
+    var clpPassphrase = prompt('This page is in BETA. Please enter the passphrase to access it:');
+
+    // Redirect to homepage if the passphrase is incorrect.
+    if (clpPassphrase !== 'clptest123') {
+      window.location.href = '/';
+      return;
+    }
+
+    // Derive the content element.
+    var content = document.getElementById('content');
+
+    // Escape early if we cannot find it.
+    if (!content) {
+      console.error('Unable to find #content to show.');
+      return;
+    }
+
+    // Show the content.
+    content.className = content.className.replace(' vads-u-display--none', '');
+  }
+
+  checkCLPAuth();
+</script>
+<!-- =============== -->
 
 {% include "src/site/includes/footer.html" %}
 {% include "src/site/includes/debug.drupal.liquid" %}

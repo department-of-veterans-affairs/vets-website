@@ -13,13 +13,11 @@ import CalendarWidget from '../../../components/calendar/CalendarWidget';
 import WaitTimeAlert from './WaitTimeAlert';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { getRealFacilityId } from '../../../utils/appointment';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 import useIsInitialLoad from '../../../hooks/useIsInitialLoad';
 
 const pageKey = 'selectDateTime';
 const pageTitle = 'Tell us the date and time you’d like your appointment';
-
-const missingDateError =
-  'Please choose your preferred date and time for your appointment.';
 
 function ErrorMessage({ facilityId, requestAppointmentDateChoice, history }) {
   return (
@@ -41,13 +39,11 @@ function ErrorMessage({ facilityId, requestAppointmentDateChoice, history }) {
           submit a request for a VA appointment
         </button>{' '}
         or{' '}
-        <a
+        <NewTabAnchor
           href={`/find-locations/facility/vha_${getRealFacilityId(facilityId)}`}
-          rel="noopener noreferrer"
-          target="_blank"
         >
           call your local VA medical center
-        </a>
+        </NewTabAnchor>
         .
       </AlertBox>
     </div>
@@ -58,29 +54,18 @@ function goBack({ routeToPreviousAppointmentPage, history }) {
   return routeToPreviousAppointmentPage(history, pageKey);
 }
 
-function validate({ dates, setValidationError }) {
-  if (dates?.length) {
-    setValidationError(null);
-  } else {
-    setValidationError(missingDateError);
-  }
-}
-
 function goForward({
   data,
   history,
   routeToNextAppointmentPage,
-  submitted,
   setSubmitted,
-  setValidationError,
 }) {
-  validate({ date: data.selectedDates, setValidationError });
+  setSubmitted(true);
+
   if (data.selectedDates?.length) {
     routeToNextAppointmentPage(history, pageKey);
-  } else if (submitted) {
-    scrollAndFocus('.usa-input-error-message');
   } else {
-    setSubmitted(true);
+    scrollAndFocus('.usa-input-error-message');
   }
 }
 
@@ -104,7 +89,6 @@ export function DateTimeSelectPage({
 }) {
   const history = useHistory();
   const [submitted, setSubmitted] = useState(false);
-  const [validationError, setValidationError] = useState(null);
   const fetchFailed = appointmentSlotsStatus === FETCH_STATUS.failed;
   const loadingSlots =
     appointmentSlotsStatus === FETCH_STATUS.loading ||
@@ -142,15 +126,6 @@ export function DateTimeSelectPage({
       }
     },
     [isInitialLoad, loadingSlots, appointmentSlotsStatus],
-  );
-
-  useEffect(
-    () => {
-      if (validationError && submitted) {
-        scrollAndFocus('.usa-input-error-message');
-      }
-    },
-    [validationError, submitted],
   );
 
   const selectedDates = data.selectedDates;
@@ -202,20 +177,19 @@ export function DateTimeSelectPage({
                 message="Finding appointment availability..."
               />
             }
-            onChange={dates => {
-              validate({ dates, setValidationError });
-              onCalendarChange(dates);
-            }}
-            onClickNext={getAppointmentSlots}
-            onClickPrev={getAppointmentSlots}
+            onChange={onCalendarChange}
+            onNextMonth={getAppointmentSlots}
+            onPreviousMonth={getAppointmentSlots}
             minDate={moment()
               .add(1, 'days')
               .format('YYYY-MM-DD')}
             maxDate={moment()
               .add(395, 'days')
               .format('YYYY-MM-DD')}
+            required
+            requiredMessage="Please choose your preferred date and time for your appointment"
             startMonth={startMonth}
-            validationError={submitted ? validationError : null}
+            showValidation={submitted && !selectedDates?.length}
           />
         </>
       )}
@@ -226,9 +200,7 @@ export function DateTimeSelectPage({
             data,
             history,
             routeToNextAppointmentPage,
-            submitted,
             setSubmitted,
-            setValidationError,
           })
         }
         disabled={loadingSlots || fetchFailed}

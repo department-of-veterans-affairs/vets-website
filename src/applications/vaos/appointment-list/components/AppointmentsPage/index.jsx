@@ -12,6 +12,8 @@ import {
   getCancelInfo,
   selectFutureStatus,
   selectExpressCareAvailability,
+  selectCanUseVaccineFlow,
+  selectDirectScheduleSettingsStatus,
 } from '../../redux/selectors';
 import {
   selectFeatureRequests,
@@ -32,7 +34,7 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import WarningNotification from '../../../components/WarningNotification';
-import ScheduleNewProjectCheetah from './ScheduleNewProjectCheetah';
+import ScheduleNewAppointmentRadioButtons from './ScheduleNewAppointmentRadioButtons';
 
 const pageTitle = 'VA appointments';
 
@@ -41,16 +43,16 @@ function AppointmentsPage({
   closeCancelAppointment,
   confirmCancelAppointment,
   expressCare,
+  featureProjectCheetah,
   fetchFutureAppointments,
   fetchExpressCareWindows,
   futureStatus,
   isCernerOnlyPatient,
   isWelcomeModalDismissed,
-  pendingStatus,
   showCommunityCare,
   showDirectScheduling,
+  pendingStatus,
   showScheduleButton,
-  showCheetahScheduleButton,
   startNewAppointmentFlow,
   startNewExpressCareFlow,
 }) {
@@ -114,28 +116,22 @@ function AppointmentsPage({
       />
 
       {showScheduleButton && (
-        <ScheduleNewAppointment
-          isCernerOnlyPatient={isCernerOnlyPatient}
-          showCommunityCare={showCommunityCare}
-          showDirectScheduling={showDirectScheduling}
-          startNewAppointmentFlow={() => {
-            recordEvent({
-              event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
-            });
-            startNewAppointmentFlow();
-          }}
-        />
-      )}
-
-      {showCheetahScheduleButton && (
-        <ScheduleNewProjectCheetah
-          startNewAppointmentFlow={() => {
-            recordEvent({
-              event: `${GA_PREFIX}-schedule-project-cheetah-button-clicked`,
-            });
-            startNewAppointmentFlow();
-          }}
-        />
+        <>
+          {!featureProjectCheetah && (
+            <ScheduleNewAppointment
+              isCernerOnlyPatient={isCernerOnlyPatient}
+              showCommunityCare={showCommunityCare}
+              showDirectScheduling={showDirectScheduling}
+              startNewAppointmentFlow={() => {
+                recordEvent({
+                  event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
+                });
+                startNewAppointmentFlow();
+              }}
+            />
+          )}
+          {featureProjectCheetah && <ScheduleNewAppointmentRadioButtons />}
+        </>
       )}
 
       {isLoading && (
@@ -143,17 +139,18 @@ function AppointmentsPage({
       )}
       {!isLoading && (
         <>
-          {!isCernerOnlyPatient && (
-            <RequestExpressCare
-              {...expressCare}
-              startNewExpressCareFlow={() => {
-                recordEvent({
-                  event: `${GA_PREFIX}-express-care-request-button-clicked`,
-                });
-                startNewExpressCareFlow();
-              }}
-            />
-          )}
+          {!isCernerOnlyPatient &&
+            expressCare.useNewFlow && (
+              <RequestExpressCare
+                {...expressCare}
+                startNewExpressCareFlow={() => {
+                  recordEvent({
+                    event: `${GA_PREFIX}-express-care-request-button-clicked`,
+                  });
+                  startNewExpressCareFlow();
+                }}
+              />
+            )}
           {expressCare.hasRequests && (
             <h2 className="vads-u-font-size--h3 vads-u-margin-y--3">
               Your upcoming, past, and Express Care appointments
@@ -181,7 +178,7 @@ AppointmentsPage.propTypes = {
   showCommunityCare: PropTypes.bool.isRequired,
   showDirectScheduling: PropTypes.bool.isRequired,
   startNewAppointmentFlow: PropTypes.func.isRequired,
-  showCheetahScheduleButton: PropTypes.bool.isRequired,
+  featureProjectCheetah: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -189,10 +186,12 @@ function mapStateToProps(state) {
     pendingStatus: state.appointments.pendingStatus,
     futureStatus: selectFutureStatus(state),
     cancelInfo: getCancelInfo(state),
+    canUseVaccineFlow: selectCanUseVaccineFlow(state),
+    directScheduleSettingsStatus: selectDirectScheduleSettingsStatus(state),
     showScheduleButton: selectFeatureRequests(state),
     showCommunityCare: selectFeatureCommunityCare(state),
     showDirectScheduling: selectFeatureDirectScheduling(state),
-    showCheetahScheduleButton: selectFeatureProjectCheetah(state),
+    featureProjectCheetah: selectFeatureProjectCheetah(state),
     isWelcomeModalDismissed: selectIsWelcomeModalDismissed(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     expressCare: selectExpressCareAvailability(state),
@@ -201,10 +200,12 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   fetchExpressCareWindows: actions.fetchExpressCareWindows,
+  fetchDirectScheduleSettings: actions.fetchDirectScheduleSettings,
   closeCancelAppointment: actions.closeCancelAppointment,
   confirmCancelAppointment: actions.confirmCancelAppointment,
   startNewAppointmentFlow: actions.startNewAppointmentFlow,
   startNewExpressCareFlow: actions.startNewExpressCareFlow,
+  startNewVaccineFlow: actions.startNewVaccineFlow,
   fetchFutureAppointments: actions.fetchFutureAppointments,
 };
 

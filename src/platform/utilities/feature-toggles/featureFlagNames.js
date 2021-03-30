@@ -77,12 +77,16 @@ export default Object.freeze({
   covidVaccineUpdatesForm: 'covid_vaccine_registration_frontend',
   covidVaccineUpdatesDisableAuth:
     'covid_vaccine_registration_frontend_hide_auth',
+  covidVaccineUpdatesEnableExpandedEligibility:
+    'covid_vaccine_registration_frontend_enable_expanded_eligibility',
   showFindFormsResultsLinkToFormDetailPages: 'find_forms_mvp_enhancement',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
   evssUploadLimit150Mb: 'evss_upload_limit_150mb',
   searchRepresentative: 'search_representative',
-  gibctStateSearch: 'gibct_state_search',
   eduFormOmbAndExpiration: 'edu_form_omb_and_expiration',
   manageDependents: 'dependents_management',
   subform89404192: 'subform_8940_4192',
+  dependencyVerification: 'dependency_verification',
+  form10182Nod: 'form10182_nod',
+  canUpload1010cgPOA: 'can_upload_10_10cg_poa',
 });

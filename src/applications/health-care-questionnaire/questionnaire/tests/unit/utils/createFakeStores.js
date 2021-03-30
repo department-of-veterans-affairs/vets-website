@@ -169,24 +169,6 @@ const createFakeUserStore = (
   };
 };
 
-const createFakeReasonForVisitDescriptionStore = reason => {
-  return {
-    getState: () => ({
-      questionnaireData: {
-        context: {
-          appointment: {
-            attributes: {
-              vdsAppointments: [{ bookingNotes: reason }],
-            },
-          },
-        },
-      },
-    }),
-    subscribe: () => {},
-    dispatch: () => {},
-  };
-};
-
 const createFakeExpiresAtStore = (appointmentTime = 'no a real date') => {
   return {
     getState: () => ({
@@ -205,78 +187,4 @@ const createFakeExpiresAtStore = (appointmentTime = 'no a real date') => {
   };
 };
 
-const createFakeReasonForVisitStore = ({ reason = '' }) => {
-  return {
-    getState: () => ({
-      questionnaireData: {
-        context: {
-          appointment: {
-            attributes: { vdsAppointments: [{ bookingNotes: reason }] },
-          },
-        },
-      },
-    }),
-    subscribe: () => {},
-    dispatch: () => {},
-  };
-};
-
-const createFakeIntroductionPageStore = (formId, savedForms) => {
-  return {
-    getState: () => ({
-      form: {
-        pages: [],
-        formId,
-      },
-      user: {
-        profile: {
-          savedForms: [...savedForms],
-        },
-      },
-      questionnaireData: {
-        context: {
-          appointment: {
-            attributes: {
-              vdsAppointments: [
-                { clinic: { facility: { displayName: 'Magic Kingdom' } } },
-              ],
-            },
-          },
-        },
-      },
-    }),
-    subscribe: () => {},
-    dispatch: () => ({
-      toggleLoginModal: () => {},
-    }),
-  };
-};
-
-const createFakeStopCodeStore = (stopCode = '323') => {
-  return {
-    getState: () => ({
-      questionnaireData: {
-        context: {
-          appointment: {
-            attributes: {
-              vdsAppointments: [{ clinic: { stopCode } }],
-            },
-          },
-        },
-      },
-    }),
-    subscribe: () => {},
-    dispatch: () => ({
-      toggleLoginModal: () => {},
-    }),
-  };
-};
-
-export {
-  createFakeUserStore,
-  createFakeReasonForVisitDescriptionStore,
-  createFakeReasonForVisitStore,
-  createFakeIntroductionPageStore,
-  createFakeStopCodeStore,
-  createFakeExpiresAtStore,
-};
+export { createFakeUserStore, createFakeExpiresAtStore };

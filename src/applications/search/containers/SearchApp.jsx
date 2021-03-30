@@ -36,21 +36,16 @@ class SearchApp extends React.Component {
   constructor(props) {
     super(props);
 
-    let userInputFromAddress = '';
-    let page;
-
-    if (this.props.router.location.query) {
-      userInputFromAddress = this.props.router.location.query.query;
-      page = this.props.router.location.query.page;
-    }
+    const userInputFromURL = this.props.router?.location?.query?.query || '';
+    const pageFromURL = this.props.router?.location?.query?.page || undefined;
 
     this.state = {
-      userInput: userInputFromAddress,
-      currentResultsQuery: userInputFromAddress,
-      page,
+      userInput: userInputFromURL,
+      currentResultsQuery: userInputFromURL,
+      page: pageFromURL,
     };
 
-    if (!userInputFromAddress) {
+    if (!userInputFromURL) {
       window.location.href = '/';
     }
   }
@@ -60,6 +55,8 @@ class SearchApp extends React.Component {
     const { userInput, page } = this.state;
     if (userInput) {
       this.props.fetchSearchResults(userInput, page, {
+        trackEvent: true,
+        eventName: 'onload_view_search_results',
         path: document.location.pathname,
         userInput,
         typeaheadEnabled: false,
@@ -92,9 +89,16 @@ class SearchApp extends React.Component {
     if (e) e.preventDefault();
     const { userInput, currentResultsQuery, page } = this.state;
 
+    const userInputFromURL = this.props.router?.location?.query?.query;
+    const rawPageFromURL = this.props.router?.location?.query?.page;
+    const pageFromURL = rawPageFromURL
+      ? parseInt(rawPageFromURL, 10)
+      : undefined;
+
+    const repeatSearch = userInputFromURL === userInput && pageFromURL === page;
+
     const queryChanged = userInput !== currentResultsQuery;
     const nextPage = queryChanged ? 1 : page;
-
     // Update URL
     this.props.router.push({
       pathname: '',
@@ -106,6 +110,8 @@ class SearchApp extends React.Component {
 
     // Fetch new results
     this.props.fetchSearchResults(userInput, nextPage, {
+      trackEvent: queryChanged || repeatSearch,
+      eventName: 'view_search_results',
       path: document.location.pathname,
       userInput,
       typeaheadEnabled: false,
@@ -185,7 +191,11 @@ class SearchApp extends React.Component {
 
     // Reusable search input
     const searchInput = (
-      <form onSubmit={this.handleSearch} className="va-flex search-box">
+      <form
+        onSubmit={this.handleSearch}
+        className="va-flex search-box"
+        data-e2e-id="search-form"
+      >
         <input
           type="text"
           name="query"
@@ -207,6 +217,7 @@ class SearchApp extends React.Component {
             status="error"
             headline="Your search didn't go through"
             content="We’re sorry. Something went wrong on our end, and your search didn't go through. Please try again."
+            data-e2e-id="alert-box"
           />
           {searchInput}
         </div>
@@ -290,7 +301,7 @@ class SearchApp extends React.Component {
 
     if (results && results.length > 0) {
       return (
-        <ul className="results-list">
+        <ul className="results-list" data-e2e-id="search-results">
           {results.map((result, index) =>
             this.renderWebResult(result, undefined, undefined, index),
           )}
@@ -299,7 +310,7 @@ class SearchApp extends React.Component {
     }
 
     return (
-      <p>
+      <p data-e2e-id="search-results-empty">
         Sorry, no results found. Try again using different (or fewer) words.
       </p>
     );
@@ -321,6 +332,7 @@ class SearchApp extends React.Component {
           })}
         >
           <h5
+            data-e2e-id="result-title"
             dangerouslySetInnerHTML={{
               __html: strippedTitle,
             }}
@@ -356,7 +368,7 @@ class SearchApp extends React.Component {
 
   render() {
     return (
-      <div className="search-app">
+      <div className="search-app" data-e2e-id="search-app">
         <SearchBreadcrumbs query={this.props.search.query} />
         <div className="row">
           <div className="columns">

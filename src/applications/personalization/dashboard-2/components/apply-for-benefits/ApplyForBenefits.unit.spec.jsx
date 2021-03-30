@@ -5,11 +5,16 @@ import { mockFetch, resetFetch } from '~/platform/testing/unit/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import reducers from '~/applications/personalization/dashboard/reducers';
+import { wait } from '@@profile/tests/unit-test-helpers';
 import ApplyForBenefits from './ApplyForBenefits';
 
 const oneDayInMS = 24 * 60 * 60 * 1000;
 const oneWeekInMS = oneDayInMS * 7;
 const oneYearInMS = oneDayInMS * 365;
+
+function oneWeekAgo() {
+  return Date.now() - oneWeekInMS;
+}
 
 function oneDayAgo() {
   return Date.now() - oneDayInMS;
@@ -27,12 +32,6 @@ function oneYearFromNow() {
   return Date.now() + oneYearInMS;
 }
 
-function wait(timeout) {
-  return new Promise(resolve => {
-    setTimeout(resolve, timeout);
-  });
-}
-
 describe('ApplyForBenefits component', () => {
   let view;
   describe('Applications in progress', () => {
@@ -48,7 +47,7 @@ describe('ApplyForBenefits component', () => {
         initialState,
         reducers,
       });
-      expect(view.findByText(/you have no applications in progress/)).to.exist;
+      expect(view.getByText(/you have no applications in progress/i)).to.exist;
     });
 
     it('does not render unknown applications that are in progress', () => {
@@ -73,7 +72,43 @@ describe('ApplyForBenefits component', () => {
         initialState,
         reducers,
       });
-      expect(view.findByText(/you have no applications in progress/)).to.exist;
+      expect(view.getByText(/you have no applications in progress/i)).to.exist;
+    });
+
+    it('does not render applications-in-progress that have expired', () => {
+      const initialState = {
+        hcaEnrollmentStatus: { enrollmentStatus: null, hasServerError: false },
+        user: {
+          profile: {
+            savedForms: [
+              {
+                form: '21-526EZ',
+                metadata: {
+                  version: 1,
+                  returnUrl: '/net-worth',
+                  savedAt: oneWeekAgo(),
+                  submission: {
+                    status: false,
+                    errorMessage: false,
+                    id: false,
+                    timestamp: false,
+                    hasAttemptedSubmit: false,
+                  },
+                  expiresAt: oneWeekAgo() / 1000,
+                  lastUpdated: oneWeekAgo() / 1000,
+                  inProgressFormId: 5179,
+                },
+                lastUpdated: oneWeekAgo() / 1000,
+              },
+            ],
+          },
+        },
+      };
+      view = renderInReduxProvider(<ApplyForBenefits />, {
+        initialState,
+        reducers,
+      });
+      expect(view.getByText(/you have no applications in progress/i)).to.exist;
     });
 
     it('sorts the in-progress applications, listing the soonest-to-expire applications first', () => {
@@ -146,7 +181,7 @@ describe('ApplyForBenefits component', () => {
         initialState,
         reducers,
       });
-      expect(view.queryByText(/you have no applications in progress/)).not.to
+      expect(view.queryByText(/you have no applications in progress/i)).not.to
         .exist;
       const applicationsInProgress = view.getAllByTestId(
         'application-in-progress',
@@ -241,7 +276,7 @@ describe('ApplyForBenefits component', () => {
             );
           }),
         ).to.be.false;
-        // make sure the loading spinner is shown
+        // make sure the loading spinner is not shown
         expect(
           view.queryByRole('progressbar', {
             value: /benefits you might be interested in/i,

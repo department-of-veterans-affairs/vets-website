@@ -15,26 +15,41 @@ describe('COVID-19 Vaccination Preparation Form', () => {
     it('should successfully submit the vaccine preparation form', () => {
       // Intro page
       cy.axeCheck();
-      cy.get('.vads-l-row').contains(
-        'Stay informed about getting a COVID-19 vaccine at VA',
-      );
+      cy.get('.vads-l-row').contains('What you should know about signing up');
       // Expand all Accordions with keyboard and test for A11y
-      cy.get('[aria-controls="collapsible-1"]').type('{shift}');
+
+      cy.get('va-accordion-item')
+        .first()
+        .get('button')
+        .first()
+        .type('{shift}');
       cy.get('div').contains(
         'Contacting Veterans who we know plan to get a vaccine helps us do the most good with our limited supply.',
       );
 
-      cy.get('[aria-controls="collapsible-2"]').type('{shift}');
+      cy.get('va-accordion-item')
+        .next()
+        .get('button')
+        .first()
+        .type('{shift}');
       cy.get('div').contains(
         'If you want to learn more before you decide your plans:',
       );
 
-      cy.get('[aria-controls="collapsible-3"]').type('{shift}');
+      cy.get('va-accordion-item')
+        .next()
+        .get('button')
+        .first()
+        .type('{shift}');
       cy.get('div').contains(
-        'No. But when you provide this information, we can match your information to your Veteran records',
+        'you don’t have to provide your Social Security number. ',
       );
 
-      cy.get('[aria-controls="collapsible-4"]').type('{shift}');
+      cy.get('va-accordion-item')
+        .next()
+        .get('button')
+        .first()
+        .type('{shift}');
       cy.get('div').contains(
         'Your local VA health facility may contact you by phone, email, or text message. If you’re eligible and want to get a vaccine, we encourage you to respond.',
       );

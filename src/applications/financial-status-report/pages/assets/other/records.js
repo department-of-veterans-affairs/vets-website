@@ -41,15 +41,16 @@ export const uiSchema = {
         'ui:options': {
           classNames: 'horizonal-field-container no-wrap',
         },
-        assetName: {
+        name: {
           'ui:title': 'Type of asset',
           'ui:field': Typeahead,
           'ui:options': {
+            idPrefix: 'other_assets',
             classNames: 'input-size-3',
             getOptions: () => formatOptions(assetTypes),
           },
         },
-        assetValue: _.merge(currencyUI('Estimated value'), {
+        amount: _.merge(currencyUI('Estimated value'), {
           'ui:options': {
             widgetClassNames: 'input-size-1',
           },
@@ -74,12 +75,12 @@ export const schema = {
           items: {
             type: 'object',
             title: 'Record',
-            required: ['assetName', 'assetValue'],
+            required: ['name', 'amount'],
             properties: {
-              assetName: {
+              name: {
                 type: 'string',
               },
-              assetValue: {
+              amount: {
                 type: 'number',
               },
             },

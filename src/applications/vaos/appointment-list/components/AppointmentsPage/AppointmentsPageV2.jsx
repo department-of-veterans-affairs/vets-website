@@ -4,17 +4,12 @@ import { connect } from 'react-redux';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 
-import ScheduleNewAppointment from './ScheduleNewAppointmentV2';
 import * as actions from '../../redux/actions';
 import { selectExpressCareAvailability } from '../../redux/selectors';
 import {
   selectFeatureRequests,
-  selectFeatureDirectScheduling,
-  selectFeatureCommunityCare,
   selectIsWelcomeModalDismissed,
   selectIsCernerOnlyPatient,
-  selectFeatureProjectCheetah,
-  selectFeatureHomepageRefresh,
 } from '../../../redux/selectors';
 import { GA_PREFIX, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -28,7 +23,7 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import WarningNotification from '../../../components/WarningNotification';
 import Select from '../../../components/Select';
-import ScheduleNewProjectCheetah from './ScheduleNewProjectCheetah';
+import ScheduleNewAppointmentRadioButtons from './ScheduleNewAppointmentRadioButtons';
 
 const pageTitle = 'VA appointments';
 
@@ -63,13 +58,8 @@ function AppointmentsPageV2({
   fetchExpressCareWindows,
   isCernerOnlyPatient,
   isWelcomeModalDismissed,
-  showCheetahScheduleButton,
-  showCommunityCare,
-  showDirectScheduling,
   showScheduleButton,
-  startNewAppointmentFlow,
   startNewExpressCareFlow,
-  showHomePageRefresh,
 }) {
   const location = useLocation();
 
@@ -127,30 +117,8 @@ function AppointmentsPageV2({
           <WarningNotification {...props}>{childContent}</WarningNotification>
         )}
       />
-      {showScheduleButton && (
-        <ScheduleNewAppointment
-          isCernerOnlyPatient={isCernerOnlyPatient}
-          showCommunityCare={showCommunityCare}
-          showDirectScheduling={showDirectScheduling}
-          startNewAppointmentFlow={() => {
-            recordEvent({
-              event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
-            });
-            startNewAppointmentFlow();
-          }}
-        />
-      )}
-      {showCheetahScheduleButton && (
-        <ScheduleNewProjectCheetah
-          startNewAppointmentFlow={() => {
-            recordEvent({
-              event: `${GA_PREFIX}-schedule-project-cheetah-button-clicked`,
-            });
-            startNewAppointmentFlow();
-          }}
-          showHomePageRefresh={showHomePageRefresh}
-        />
-      )}
+
+      {showScheduleButton && <ScheduleNewAppointmentRadioButtons />}
 
       {expressCare.useNewFlow &&
         !isCernerOnlyPatient && (
@@ -187,17 +155,11 @@ AppointmentsPageV2.propTypes = {
   isWelcomeModalDismissed: PropTypes.bool.isRequired,
   showCommunityCare: PropTypes.bool.isRequired,
   showDirectScheduling: PropTypes.bool.isRequired,
-  startNewAppointmentFlow: PropTypes.func.isRequired,
-  showCheetahScheduleButton: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     showScheduleButton: selectFeatureRequests(state),
-    showCommunityCare: selectFeatureCommunityCare(state),
-    showDirectScheduling: selectFeatureDirectScheduling(state),
-    showCheetahScheduleButton: selectFeatureProjectCheetah(state),
-    showHomePageRefresh: selectFeatureHomepageRefresh(state),
     isWelcomeModalDismissed: selectIsWelcomeModalDismissed(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     expressCare: selectExpressCareAvailability(state),
@@ -206,7 +168,6 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   fetchExpressCareWindows: actions.fetchExpressCareWindows,
-  startNewAppointmentFlow: actions.startNewAppointmentFlow,
   startNewExpressCareFlow: actions.startNewExpressCareFlow,
 };
 

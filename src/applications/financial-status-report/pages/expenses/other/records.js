@@ -35,15 +35,16 @@ export const uiSchema = {
       'ui:options': {
         classNames: 'horizonal-field-container no-wrap',
       },
-      expenseType: {
+      name: {
         'ui:title': 'Type of expense',
         'ui:field': Typeahead,
         'ui:options': {
+          idPrefix: 'other_expenses',
           classNames: 'input-size-3',
           getOptions: () => formatOptions(expenseTypes),
         },
       },
-      expenseAmount: _.merge(currencyUI('Estimated cost each month'), {
+      amount: _.merge(currencyUI('Estimated cost each month'), {
         'ui:options': {
           widgetClassNames: 'input-size-1',
         },
@@ -64,12 +65,12 @@ export const schema = {
       items: {
         type: 'object',
         title: 'Expense',
-        required: ['expenseType', 'expenseAmount'],
+        required: ['name', 'amount'],
         properties: {
-          expenseType: {
+          name: {
             type: 'string',
           },
-          expenseAmount: {
+          amount: {
             type: 'number',
           },
         },

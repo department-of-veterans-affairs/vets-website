@@ -25,6 +25,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_COVID_VACCINE_TRIAL: 'COVID-VACCINE-TRIAL',
   FORM_21_22: '21-22',
   FORM_5655: '5655',
+  FORM_COVID_VACCINATION_EXPANSION: 'COVID-VACCINATION-EXPANSION',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -32,8 +33,7 @@ export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
 ]);
 
 export const VA_FORM_IDS_IN_PROGRESS_FORMS_API = Object.freeze({
-  // 526 endpoint updates the ratedDisabilities dynamically and includes a
-  // `ratedDisabilitiesUpdated` as true in the metadata when the data changes
-  // '/v0/disability_compensation_in_progress_forms/'
-  [VA_FORM_IDS.FORM_21_526EZ]: '/v0/in_progress_forms/',
+  // 526 save-in-progress endpoint that adds an `updatedRatedDisabilities` array
+  // to the saved form data from /v0/disability_compensation_in_progress_forms/
+  [VA_FORM_IDS.FORM_21_526EZ]: '/v0/disability_compensation_in_progress_forms/',
 });

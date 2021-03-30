@@ -39,7 +39,7 @@
   <link rel="stylesheet" data-entry-name="web-components.css">
   <script nonce="**CSP_NONCE**" data-entry-name="web-components.js"></script>
 
-  {% include 'src/site/includes/google-analytics' %}
+  {% include 'src/site/includes/google-analytics.liquid' %}
 
   <!-- Icons -->
   <link href="/img/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />
@@ -86,6 +86,8 @@
     window.VetsGov = window.VetsGov || {};
     window.VetsGov.headerFooter = JSON.parse({{ headerFooterData }});
   </script>
+
+  {% include "src/site/includes/survey-tools.html" %}
 
 </head>
 

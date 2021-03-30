@@ -9,6 +9,7 @@ import { getFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { useHistory } from 'react-router-dom';
 import * as actions from '../redux/actions';
+import NewTabAnchor from '../../components/NewTabAnchor';
 
 const initialSchema = {
   type: 'object',
@@ -51,10 +52,7 @@ const uiSchema = {
       <p className="vads-u-margin-y--2">
         If you want to update your contact information for all your VA accounts,
         please{' '}
-        <a href="/profile" target="_blank" rel="noopener noreferrer">
-          go to your profile page
-        </a>
-        .
+        <NewTabAnchor href="/profile">go to your profile page</NewTabAnchor>.
       </p>
     </>
   ),

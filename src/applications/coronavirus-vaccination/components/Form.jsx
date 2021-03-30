@@ -96,9 +96,10 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
           </p>
         ) : (
           <p>
-            We’ll send you updates on how we’re providing COVID-19 vaccines
-            across the country—and when you can get your vaccine if you want
-            one.
+            We’ll share this information with your local VA health facility.
+            They may use this information to determine when to contact you when
+            your risk group becomes eligible for a vaccine. We’ll also send you
+            updates on our vaccine plans.
           </p>
         )}
 

@@ -10,11 +10,12 @@ import { FETCH_STATUS } from '../../utils/constants';
 import { getDateTimeSelect } from '../redux/selectors';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { getRealFacilityId } from '../../utils/appointment';
+import NewTabAnchor from '../../components/NewTabAnchor';
 import useIsInitialLoad from '../../hooks/useIsInitialLoad';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 const pageKey = 'selectDate1';
-const pageTitle = 'Select first date';
+const pageTitle = 'Choose a date';
 
 const missingDateError =
   'Please choose your preferred date and time for your appointment.';
@@ -32,13 +33,11 @@ function ErrorMessage({ facilityId }) {
         headline="We’ve run into a problem when trying to find available appointment times"
       >
         To schedule this appointment, you can{' '}
-        <a
+        <NewTabAnchor
           href={`/find-locations/facility/vha_${getRealFacilityId(facilityId)}`}
-          rel="noopener noreferrer"
-          target="_blank"
         >
           call your local VA medical center
-        </a>
+        </NewTabAnchor>
         .
       </AlertBox>
     </div>
@@ -86,6 +85,7 @@ export function SelectDate1Page({
   routeToPreviousAppointmentPage,
   requestAppointmentDateChoice,
   routeToNextAppointmentPage,
+  selectedFacility,
   timezone,
   timezoneDescription,
 }) {
@@ -141,7 +141,12 @@ export function SelectDate1Page({
 
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+      <h1 className="vads-u-font-size--h2">
+        {pageTitle}
+        <span className="schemaform-required-span vaos-calendar__page_header vads-u-font-size--base vads-u-font-family--sans vads-u-font-weight--normal">
+          (*Required)
+        </span>
+      </h1>
       {appointmentSlotsStatus === FETCH_STATUS.failed && (
         <ErrorMessage
           facilityId={facilityId}
@@ -151,9 +156,21 @@ export function SelectDate1Page({
       {appointmentSlotsStatus !== FETCH_STATUS.failed && (
         <>
           <p>
-            Please select a desired date and time for your appointment.
             {timezone &&
               ` Appointment times are displayed in ${timezoneDescription}.`}
+          </p>
+          <p>
+            When choosing a date, make sure:
+            <ul>
+              <li>
+                You won’t have had a flu shot or any other vaccine in the past{' '}
+                <strong>2 weeks</strong>.
+              </li>
+              <li>
+                You can return to {selectedFacility.name} for your second dose{' '}
+                <strong>3 to 4 weeks after the date you select</strong>.
+              </li>
+            </ul>
           </p>
           <CalendarWidget
             maxSelections={1}
@@ -176,8 +193,8 @@ export function SelectDate1Page({
               validate({ dates, setValidationError });
               onCalendarChange(dates, pageKey);
             }}
-            onClickNext={getAppointmentSlots}
-            onClickPrev={getAppointmentSlots}
+            onNextMonth={getAppointmentSlots}
+            onPreviousMonth={getAppointmentSlots}
             minDate={moment()
               .add(1, 'days')
               .format('YYYY-MM-DD')}
@@ -185,6 +202,9 @@ export function SelectDate1Page({
               .add(395, 'days')
               .format('YYYY-MM-DD')}
             validationError={submitted ? validationError : null}
+            required
+            requiredMessage="Please choose your preferred date and time for your appointment"
+            showValidation={submitted && !selectedDates?.length}
           />
         </>
       )}
@@ -217,7 +237,6 @@ const mapDispatchToProps = {
   onCalendarChange: actions.onCalendarChange,
   routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
   routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
-  startRequestAppointmentFlow: actions.startAppointmentFlow,
 };
 
 export default connect(
