@@ -1,0 +1,19 @@
+name: HCA
+
+on:
+  push:
+    paths:
+      - 'src/applications/hca/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+      - run: echo Building
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo HCA Tests
