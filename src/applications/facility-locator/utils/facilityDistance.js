@@ -9,6 +9,15 @@ function toRadians(value) {
   return (value * Math.PI) / 180;
 }
 
+/**
+ * Calculates distance between two GPS coordinates
+ * @export
+ * @param {number} lat1
+ * @param {number} lng1
+ * @param {number} lat2
+ * @param {number} lng2
+ * @return {*}
+ */
 export function distBetween(lat1, lng1, lat2, lng2) {
   const R = 3959; // radius in miles
   const dLat = toRadians(lat2 - lat1);
