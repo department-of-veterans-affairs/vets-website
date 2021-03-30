@@ -1,10 +1,7 @@
 import { createUrlWithQuery } from '../utils/helpers';
 import environment from '~/platform/utilities/environment';
 import { apiRequest } from '~/platform/utilities/api';
-import {
-  mockFolderResponse,
-  mockFolderErrorResponse,
-} from '~/applications/personalization/dashboard-2/utils/mocks/messaging/folder';
+import { mockFolderResponse } from '~/applications/personalization/dashboard-2/utils/mocks/messaging/folder';
 import { mockMessagesResponse } from '~/applications/personalization/dashboard-2/utils/mocks/messaging/messages';
 import { shouldMockApiRequest } from '~/applications/personalization/dashboard/tests/helpers';
 import {
@@ -20,9 +17,9 @@ const baseUrl = `${environment.API_URL}/v0/messaging/health`;
 
 export function fetchFolder(id, query = {}) {
   return dispatch => {
-    const errorHandler = error => {
-      console.log('FETCH_FOLDER_FAILURE error', error);
-      dispatch({ type: FETCH_FOLDER_FAILURE });
+    const errorHandler = (folderErrors = [], messagesErrors = []) => {
+      const errors = folderErrors.concat(messagesErrors);
+      dispatch({ type: FETCH_FOLDER_FAILURE, errors });
     };
 
     dispatch({
@@ -30,21 +27,11 @@ export function fetchFolder(id, query = {}) {
       request: { id, query },
     });
 
-    console.log('id', id);
-    console.log('query', query);
-
     if (!id) {
       const folderUrl = `/folders/${id}`;
       const messagesUrl = createUrlWithQuery(`${folderUrl}/messages`, query);
 
-      // Mock API endpoint if we need to and escape early.
       if (shouldMockApiRequest()) {
-        console.log('shouldMockApiRequest');
-        console.log('action', {
-          type: FETCH_FOLDER_SUCCESS,
-          folder: mockFolderResponse,
-          messages: mockMessagesResponse,
-        });
         dispatch({
           type: FETCH_FOLDER_SUCCESS,
           folder: mockFolderResponse,
@@ -53,11 +40,6 @@ export function fetchFolder(id, query = {}) {
         return;
       }
 
-      // Make API requests to folder URL and messages URL.
-      console.log('Make API requests to folder URL and messages URL.', [
-        folderUrl,
-        messagesUrl,
-      ]);
       Promise.all(
         [folderUrl, messagesUrl].map(url =>
           apiRequest(`${baseUrl}${url}`)
@@ -69,16 +51,12 @@ export function fetchFolder(id, query = {}) {
           const folder = data?.[0];
           const messages = data?.[1];
 
-          // If messages or folder response has errors, escape early.
+          // Escape early if there are errors in either API request.
           if (folder?.errors || messages?.errors) {
-            throw new Error('Folder or messages have errors', data);
+            errorHandler(folder?.errors, messages?.errors);
+            return;
           }
 
-          console.log('fetch folder Success', {
-            type: FETCH_FOLDER_SUCCESS,
-            folder,
-            messages,
-          });
           dispatch({
             type: FETCH_FOLDER_SUCCESS,
             folder,
