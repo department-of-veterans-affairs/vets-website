@@ -32,7 +32,10 @@ export default function ToDoQuestionnaireItem({ data }) {
       }
       Actions={() =>
         isCancelled ? (
-          <PrintButton />
+          <PrintButton
+            facilityName={facilityName}
+            appointmentTime={appointmentTime}
+          />
         ) : (
           <AnswerQuestions
             fullData={data}
