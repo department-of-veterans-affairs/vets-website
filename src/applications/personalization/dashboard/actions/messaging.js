@@ -15,60 +15,61 @@ import {
 
 const baseUrl = `${environment.API_URL}/v0/messaging/health`;
 
-export function fetchFolder(id, query = {}) {
-  return dispatch => {
-    const errorHandler = (folderErrors = [], messagesErrors = []) => {
-      const errors = folderErrors.concat(messagesErrors);
-      dispatch({ type: FETCH_FOLDER_FAILURE, errors });
-    };
+export const fetchFolder = (id, query = {}) => async dispatch => {
+  dispatch({
+    type: LOADING_FOLDER,
+    request: { id, query },
+  });
+
+  // Escape early if do not have a valid ID with which to fetch folders.
+  if (!id && id !== 0) {
+    dispatch({ type: FETCH_FOLDER_FAILURE, errors: [] });
+    return;
+  }
+
+  const folderUrl = `/folders/${id}`;
+  const messagesUrl = createUrlWithQuery(`${folderUrl}/messages`, query);
+
+  if (shouldMockApiRequest()) {
+    dispatch({
+      type: FETCH_FOLDER_SUCCESS,
+      folder: mockFolderResponse,
+      messages: mockMessagesResponse,
+    });
+    return;
+  }
+
+  try {
+    const folderResponse = await apiRequest(`${baseUrl}${folderUrl}`);
+    const messagesResponse = await apiRequest(`${baseUrl}${messagesUrl}`);
+
+    // Escape early if there are errors in either API request.
+    if (folderResponse?.errors || messagesResponse?.errors) {
+      dispatch({
+        type: FETCH_FOLDER_FAILURE,
+        errors: [
+          ...folderResponse?.errors?.map(error => ({
+            ...error,
+            errorType: 'folder',
+          })),
+          ...messagesResponse?.errors?.map(error => ({
+            ...error,
+            errorType: 'messages',
+          })),
+        ],
+      });
+      return;
+    }
 
     dispatch({
-      type: LOADING_FOLDER,
-      request: { id, query },
+      type: FETCH_FOLDER_SUCCESS,
+      folder: folderResponse,
+      messages: messagesResponse,
     });
-
-    if (!id) {
-      const folderUrl = `/folders/${id}`;
-      const messagesUrl = createUrlWithQuery(`${folderUrl}/messages`, query);
-
-      if (shouldMockApiRequest()) {
-        dispatch({
-          type: FETCH_FOLDER_SUCCESS,
-          folder: mockFolderResponse,
-          messages: mockMessagesResponse,
-        });
-        return;
-      }
-
-      Promise.all(
-        [folderUrl, messagesUrl].map(url =>
-          apiRequest(`${baseUrl}${url}`)
-            .then(response => response)
-            .catch(errorHandler),
-        ),
-      )
-        .then(data => {
-          const folder = data?.[0];
-          const messages = data?.[1];
-
-          // Escape early if there are errors in either API request.
-          if (folder?.errors || messages?.errors) {
-            errorHandler(folder?.errors, messages?.errors);
-            return;
-          }
-
-          dispatch({
-            type: FETCH_FOLDER_SUCCESS,
-            folder,
-            messages,
-          });
-        })
-        .catch(errorHandler);
-    } else {
-      errorHandler();
-    }
-  };
-}
+  } catch (error) {
+    dispatch({ type: FETCH_FOLDER_FAILURE, errors: [] });
+  }
+};
 
 export function fetchRecipients() {
   const url = '/recipients';

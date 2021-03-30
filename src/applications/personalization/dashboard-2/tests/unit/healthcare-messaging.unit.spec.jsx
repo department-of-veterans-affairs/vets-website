@@ -5,7 +5,6 @@ import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-lib
 import reducers from '~/applications/personalization/dashboard/reducers';
 import { wait } from '@@profile/tests/unit-test-helpers';
 import HealthCare from '~/applications/personalization/dashboard-2/components/health-care/HealthCare';
-import { mockFolderErrorResponse } from '../../utils/mocks/messaging/folder';
 
 describe('HealthCare component', () => {
   let view;
