@@ -1,6 +1,7 @@
 import { MIN_RADIUS } from '../constants';
 
 /**
+ * Converts a value to radians
  * @param {number} value
  * @returns {number}
  */
