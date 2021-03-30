@@ -88,11 +88,12 @@ const HealthCare = ({
     );
   }
 
-  const messagesText = !hasInboxError
-    ? `You have ${unreadMessagesCount} new message${
-        unreadMessagesCount === 1 ? '' : 's'
-      }`
-    : 'Send a secure message to your health care team';
+  const messagesText =
+    shouldFetchMessages && !hasInboxError
+      ? `You have ${unreadMessagesCount} new message${
+          unreadMessagesCount === 1 ? '' : 's'
+        }`
+      : 'Send a secure message to your health care team';
 
   return (
     <div className="health-care-wrapper vads-u-margin-y--6">
