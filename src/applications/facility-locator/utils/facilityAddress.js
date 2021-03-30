@@ -1,6 +1,12 @@
 import { compact, isEmpty } from 'lodash';
 import { LocationType } from '../constants';
 
+/**
+ * Capitalizes the first character of every word in the string
+ * @export
+ * @param {string} str
+ * @return {?string}
+ */
 export function titleCase(str) {
   if (!str) return null;
 
