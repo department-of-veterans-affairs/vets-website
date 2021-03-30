@@ -38,10 +38,6 @@ const App = ({
     [getFormStatus],
   );
 
-  if (wizardState !== WIZARD_STATUS_COMPLETE) {
-    return <WizardContainer setWizardStatus={setWizardStatus} />;
-  }
-
   if (pending) {
     return <LoadingIndicator setFocus message="Loading your information..." />;
   }
@@ -52,6 +48,10 @@ const App = ({
 
   if (showFSR === false) {
     return window.location.replace('/manage-va-debt');
+  }
+
+  if (showFSR && wizardState !== WIZARD_STATUS_COMPLETE) {
+    return <WizardContainer setWizardStatus={setWizardStatus} />;
   }
 
   return showFSR ? (
