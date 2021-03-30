@@ -17,20 +17,20 @@ const StemDeniedDetails = ({
       <h1>Your Edith Nourse Rogers STEM Scholarship application</h1>
       <div className="vads-u-background-color--primary-alt-lightest vads-u-padding--2 vads-u-margin-bottom--3">
         <h2 className="claims-alert-header vads-u-font-size--h4">
-          Your application was denied on {date}.
+          Your application was denied on {date}
         </h2>
       </div>
       <p className="va-introtext">
         You must meet all 3 of the eligibility criteria to be considered for the
         Rogers STEM Scholarship.
       </p>
-      <h3 className="vads-u-font-family--sans vads-u-margin-bottom--0">
+      <h3 className="vads-u-font-family--sans vads-u-margin-bottom--neg0p5">
         You didn't meet the following criteria for the Rogers STEM Scholarship:
       </h3>
       <ul className="stem-ad-list">
         <li className="stem-ad-list-item">
           You didn’t meet the benefit requirements for the Rogers STEM
-          Scholarship
+          Scholarship.
           <ul className="stem-ad-list-secondary">
             <li className="stem-ad-list-item">
               According to your service and school data records on file, as of{' '}
@@ -45,12 +45,12 @@ const StemDeniedDetails = ({
           </ul>
         </li>
       </ul>
-      <h3 className="vads-u-font-family--sans vads-u-margin-bottom--0">
+      <h3 className="vads-u-font-family--sans vads-u-margin-bottom--neg0p5">
         You met these criteria for the Rogers STEM Scholarship:
       </h3>
       <ul className="stem-ad-list">
         <li className="stem-ad-list-item">
-          You're eligible for Post-9/11 GI Bill benefits
+          You're eligible for Post-9/11 GI Bill benefits.
           <ul className="stem-ad-list-secondary">
             <li className="stem-ad-list-item">
               According to your service and school data records on file, as of{' '}
@@ -65,7 +65,7 @@ const StemDeniedDetails = ({
         </li>
         {(isEnrolledStem || isPursuingTeachingCert) && (
           <li>
-            You meet the degree requirements for the Rogers STEM Scholarship
+            You meet the degree requirements for the Rogers STEM Scholarship.
             <ul className="stem-ad-list-secondary">
               <li className="stem-ad-list-item">
                 You meet the degree requirements because you answered "Yes" to
@@ -112,33 +112,57 @@ const StemDeniedDetails = ({
           If you have new or previously unprovided evidence to prove your
           eligibility for this scholarship, you can file a Supplemental Claim by
           completing VA Form 20-0995.{' '}
-          <a href="https://www.va.gov/find-forms/about-form-20-0995/">
-            Download VA Form 20-0995.
+          <a
+            href="https://www.vba.va.gov/pubs/forms/VBA-20-0995-ARE.pdf"
+            aria-label="Download Decision Review Request for Supplemental Claims VA Form 20 - 0 9 9 5. Opens in new browser tab"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Download VA Form 20-0995
           </a>
+          .
         </li>
         <li className="stem-ad-list-item">
           If you don't have new evidence but would like a more senior reviewer
           to look at your case, you can request a Higher-Level Review by
           completing VA Form 20-0996.{' '}
-          <a href="https://www.va.gov/find-forms/about-form-20-0996/">
-            Download VA Form 20-0996.
+          <a
+            href="https://www.vba.va.gov/pubs/forms/VBA-20-0996-ARE.pdf"
+            aria-label="Download Decision Review Request: Higher-Level Review VA Form 20 - 0 9 9 6. Opens in new browser tab"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Download VA Form 20-0996
           </a>
+          .
         </li>
         <li className="stem-ad-list-item">
           If you filed a Supplemental Claim or Higher-Level Review and don't
           agree with the decision, you can appeal to a Veterans Law Judge by
           completing VA Form 10182.{' '}
-          <a href="https://www.va.gov/find-forms/about-form-10182/">
-            Download VA Form 10182.
+          <a
+            href="https://www.va.gov/vaforms/va/pdf/VA10182.pdf"
+            aria-label="Download Decision Review Request: Board Appeal for Notice of Disagreement VA Form 1 0 1 8 2. Opens in new browser tab"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Download VA Form 10182
           </a>
+          .
         </li>
       </ul>
       <p>
         For more information about these options, please read "Your Rights to
         Seek Further Review of Our Decisions" (VA Form 20-0998).{' '}
-        <a href="https://www.va.gov/find-forms/about-form-20-0998/">
-          Download VA Form 20-0998.
+        <a
+          href="https://www.vba.va.gov/pubs/forms/VBA-20-0998-ARE.pdf"
+          aria-label="Download Your Rights to Seek Further Review of Our Decisions VA Form 20 - 0 9 9 8. Opens in new browser tab"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Download VA Form 20-0998
         </a>
+        .
       </p>
       <p>
         You can also contact us at <Telephone contact={CONTACTS.GI_BILL} /> to

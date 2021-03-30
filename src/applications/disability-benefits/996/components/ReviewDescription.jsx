@@ -30,8 +30,8 @@ const ReviewDescription = ({ profile }) => {
     'Email address': () => email?.emailAddress,
     Country: () => (isUS ? '' : mailingAddress?.countryName),
     'Street address': () => mailingAddress?.addressLine1,
-    'Line 2': () => mailingAddress?.addressLine2,
-    'Line 3': () => mailingAddress?.addressLine3,
+    'Street address line 2': () => mailingAddress?.addressLine2,
+    'Street address line 3': () => mailingAddress?.addressLine3,
     City: () => mailingAddress?.city,
     [stateOrProvince]: () => mailingAddress?.[isUS ? 'stateCode' : 'province'],
     'Postal code': () =>

@@ -67,13 +67,13 @@ class SearchHelpSignIn extends Component {
 
   render() {
     return (
-      <div className="profile-nav">
+      <div className="vads-u-display--flex vads-u-align-items--center vads-u-padding-top--1">
         <SearchMenu
           clickHandler={this.handleSearchMenuClick}
           isOpen={this.props.isMenuOpen.search}
         />
         <a
-          className="contact-us-link vads-u-color--white vads-u-text-decoration--none vads-u-padding-top--0p5 vads-u-padding-x--1 vads-u-font-weight--bold"
+          className="vads-u-color--white vads-u-text-decoration--none vads-u-padding-x--1 vads-u-font-weight--bold"
           href="https://www.va.gov/contact-us/"
           onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
         >

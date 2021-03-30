@@ -20,12 +20,12 @@ export default {
       const formData = selectProjectCheetahFormData(state);
       if (formData.hasReceivedDose) {
         recordEvent({
-          event: `${GA_PREFIX}-cheetah-screener-yes`,
+          event: `${GA_PREFIX}-covid19-screener-yes`,
         });
         return 'contactFacilities';
       }
       recordEvent({
-        event: `${GA_PREFIX}-cheetah-screener-no`,
+        event: `${GA_PREFIX}-covid19-screener-no`,
       });
       return 'vaFacility';
     },

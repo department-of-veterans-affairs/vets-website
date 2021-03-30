@@ -27,15 +27,16 @@ export const uiSchema = {
           'ui:options': {
             classNames: 'horizonal-field-container no-wrap',
           },
-          incomeType: {
+          name: {
             'ui:title': 'Type of income',
             'ui:field': Typeahead,
             'ui:options': {
+              idPrefix: 'spouse_other_income',
               classNames: 'input-size-4',
               getOptions: () => formatOptions(incomeTypes),
             },
           },
-          monthlyIncome: _.merge(currencyUI('Monthly amount'), {
+          amount: _.merge(currencyUI('Monthly amount'), {
             'ui:options': {
               widgetClassNames: 'input-size-2',
             },
@@ -59,12 +60,12 @@ export const schema = {
               items: {
                 type: 'object',
                 title: 'Additional income',
-                required: ['incomeType', 'monthlyIncome'],
+                required: ['name', 'amount'],
                 properties: {
-                  incomeType: {
+                  name: {
                     type: 'string',
                   },
-                  monthlyIncome: {
+                  amount: {
                     type: 'number',
                   },
                 },

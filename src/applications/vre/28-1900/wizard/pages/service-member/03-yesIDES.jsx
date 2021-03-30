@@ -17,7 +17,7 @@ const YesIDES = props => {
   return (
     <div className="vads-u-margin-top--2 vads-u-padding--3 vads-u-background-color--gray-lightest">
       <p className="vads-u-margin-top--0">
-        Based on your answers, you probably qualify for VR&E benefits.
+        Based on your answers, you probably qualify to apply for VR&E benefits.
       </p>
       <p className="vads-u-margin--0">
         <strong>Before you apply,</strong> please go through the VR&E

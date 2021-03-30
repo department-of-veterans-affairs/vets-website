@@ -1,5 +1,4 @@
 import React from 'react';
-import sinon from 'sinon';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
@@ -13,8 +12,6 @@ describe('ApplicationInProgress component', () => {
       formTitle: 'form title',
       lastOpenedDate: 'Jan 1, 2019',
       presentableFormId: 'Form 1234',
-      removeForm: () => {},
-      startNewApplicationUrl: 'application-url',
     };
   };
   const oneWeekInMs = 7 * 24 * 60 * 60 * 1000;
@@ -46,36 +43,6 @@ describe('ApplicationInProgress component', () => {
     it('renders the correct "continue" button', () => {
       const continueButton = view.getByRole('link', { name: /continue/i });
       expect(continueButton).to.have.attr('href', props.continueUrl);
-    });
-  });
-  describe('when the application has expired', () => {
-    const removeFormSpy = sinon.spy();
-    const expirationEpoch = Date.now() - oneWeekInMs;
-    const expirationDate = dateFormatter.format(expirationEpoch);
-    const props = {
-      ...defaultProps(),
-      expirationDate,
-      removeForm: removeFormSpy,
-    };
-    let view;
-    beforeEach(() => {
-      view = render(<ApplicationInProgress {...props} />);
-    });
-    it('renders the "expired" message', () => {
-      expect(view.getByText(/Expired: Your form title has expired/i)).to.exist;
-    });
-    it('renders the "start a new application" button with accessible label', () => {
-      const continueButton = view.getByRole('link', {
-        name: new RegExp(`start a new ${props.formTitle}`, 'i'),
-      });
-      expect(continueButton).to.have.attr('href', props.startNewApplicationUrl);
-    });
-    it('renders a "remove" button that calls the `removeForm` prop when clicked', () => {
-      const removeButton = view.getByRole('button', {
-        name: new RegExp(`remove.*${props.formTitle}`, 'i'),
-      });
-      removeButton.click();
-      expect(removeFormSpy.calledOnce).to.be.true;
     });
   });
 });

@@ -31,10 +31,8 @@ import moment from 'moment';
 import { getSlots } from '../../services/slot';
 import recordEvent from 'platform/monitoring/record-event';
 import { transformFormToAppointment } from './helpers/formSubmitTransformers';
-import {
-  getDirectBookingEligibilityCriteria,
-  submitAppointment,
-} from '../../services/var';
+import { submitAppointment } from '../../services/var';
+import { VACCINE_FORM_SUBMIT_SUCCEEDED } from '../../redux/sitewide';
 
 export const FORM_PAGE_OPENED = 'projectCheetah/FORM_PAGE_OPENED';
 export const FORM_DATA_UPDATED = 'projectCheetah/FORM_DATA_UPDATED';
@@ -73,7 +71,6 @@ export const FORM_REQUEST_CURRENT_LOCATION_FAILED =
   'projectCheetah/FORM_REQUEST_CURRENT_LOCATION_FAILED';
 export const FORM_PAGE_FACILITY_SORT_METHOD_UPDATED =
   'projectCheetah/FORM_PAGE_FACILITY_SORT_METHOD_UPDATED';
-export const FORM_SUBMIT_SUCCEEDED = 'projectCheetah/FORM_SUBMIT_SUCCEEDED';
 export const FORM_SUBMIT_FAILED = 'projectCheetah/FORM_SUBMIT_FAILED';
 export const FORM_CLINIC_PAGE_OPENED_SUCCEEDED =
   'projectCheetah/FORM_CLINIC_PAGE_OPENED_SUCCEEDED';
@@ -85,12 +82,6 @@ export const FORM_PAGE_CONTACT_FACILITIES_OPEN_SUCCEEDED =
   'projectCheetah/FORM_CONTACT_FACILITIES_OPEN_SUCCEEDED';
 export const FORM_PAGE_CONTACT_FACILITIES_OPEN_FAILED =
   'projectCheetah/FORM_CONTACT_FACILITIES_OPEN_FAILED';
-
-export const FETCH_NEW_BOOKING_WINDOW = 'vaos/FETCH_NEW_BOOKING_WINDOW';
-export const FETCH_NEW_BOOKING_WINDOW_FAILED =
-  'vaos/FETCH_NEW_BOOKING_WINDOW_FAILED';
-export const FETCH_NEW_BOOKING_WINDOW_SUCCEEDED =
-  'vaos/FETCH_NEW_BOOKING_WINDOW_SUCCEEDED';
 
 export const GA_FLOWS = {
   DIRECT: 'direct',
@@ -131,57 +122,13 @@ export function getClinics({ facilityId, showModal = false }) {
         showModal,
       });
     } catch (e) {
-      captureError(e, false, 'cheetah facility page');
+      captureError(e);
       dispatch({
         type: FORM_FETCH_CLINICS_FAILED,
       });
     }
 
     return clinics;
-  };
-}
-
-export function openNewBookingPage(history) {
-  return async (dispatch, getState) => {
-    dispatch({
-      type: FETCH_NEW_BOOKING_WINDOW,
-    });
-
-    let isEligible = false;
-    try {
-      const initialState = getState();
-      const siteIds = selectSystemIds(initialState);
-
-      // Get sites that support vaccines
-      const criteria = await getDirectBookingEligibilityCriteria(siteIds);
-      isEligible = criteria.some(setting =>
-        setting.coreSettings.some(
-          coreSetting =>
-            coreSetting.id === TYPE_OF_CARE_ID &&
-            !!coreSetting.patientHistoryRequired,
-        ),
-      );
-
-      // Redirect the user to the 'Contact facility' page if the appointment can't be
-      // scheduled at the user's registered facilities.
-      if (!isEligible) {
-        history.push('/new-covid-19-vaccine-booking/contact-facilities');
-      }
-
-      dispatch({
-        type: FETCH_NEW_BOOKING_WINDOW_SUCCEEDED,
-        isEligible,
-      });
-    } catch (e) {
-      dispatch({
-        type: FETCH_NEW_BOOKING_WINDOW_FAILED,
-        isEligible,
-      });
-
-      // Just capture the error for now.
-      // TODO: Figure out where to redirect the user.
-      captureError(e, false);
-    }
   };
 }
 
@@ -206,7 +153,7 @@ export function openFacilityPage(uiSchema, schema) {
         });
       }
 
-      recordItemsRetrieved('cheetah_available_facilities', facilities?.length);
+      recordItemsRetrieved('covid19_available_facilities', facilities?.length);
 
       dispatch({
         type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
@@ -225,7 +172,7 @@ export function openFacilityPage(uiSchema, schema) {
       const clinicsNeeded = !!facilityId || supportedFacilities?.length === 1;
 
       if (!facilities.length) {
-        recordEligibilityFailure('cheetah-supported-facilities', 'Cheetah');
+        recordEligibilityFailure('covid19-supported-facilities', 'covid');
       }
 
       if (clinicsNeeded && !facilityId) {
@@ -237,7 +184,7 @@ export function openFacilityPage(uiSchema, schema) {
         dispatch(getClinics({ facilityId }));
       }
     } catch (e) {
-      captureError(e, false, 'cheetah facility page');
+      captureError(e, false, 'covid19 vaccine facility page');
       dispatch({
         type: FORM_PAGE_FACILITY_OPEN_FAILED,
       });
@@ -282,7 +229,7 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
         recordEvent({
           event: `${GA_PREFIX}-request-current-location-blocked`,
         });
-        captureError(e, true, 'facility page');
+        captureError(e, true);
         dispatch({
           type: FORM_REQUEST_CURRENT_LOCATION_FAILED,
         });
@@ -401,23 +348,6 @@ export function openClinicPage(page, uiSchema, schema) {
   };
 }
 
-export function startAppointmentFlow() {
-  recordEvent({
-    event: `vaos-'projectCheetah-path-started`,
-  });
-
-  return {
-    type: START_APPOINTMENT_FLOW,
-  };
-}
-
-export function projectCheetahAppointmentDateChoice(history) {
-  return dispatch => {
-    dispatch(startAppointmentFlow());
-    history.replace('/new-covid-19-vaccine-booking');
-  };
-}
-
 export function prefillContactInfo() {
   return (dispatch, getState) => {
     const state = getState();
@@ -440,11 +370,11 @@ export function confirmAppointment(history) {
     });
 
     const additionalEventData = {
-      'health-TypeOfCare': 'Vaccine',
+      'health-TypeOfCare': 'COVID-19 Vaccine',
     };
 
     recordEvent({
-      event: `${GA_PREFIX}-direct-submission`,
+      event: `${GA_PREFIX}-covid19-submission`,
       flow: GA_FLOWS.DIRECT,
       ...additionalEventData,
     });
@@ -454,25 +384,25 @@ export function confirmAppointment(history) {
       await submitAppointment(appointmentBody);
 
       dispatch({
-        type: FORM_SUBMIT_SUCCEEDED,
+        type: VACCINE_FORM_SUBMIT_SUCCEEDED,
       });
 
       recordEvent({
-        event: `${GA_PREFIX}-direct-submission-successful`,
+        event: `${GA_PREFIX}-covid19-submission-successful`,
         flow: GA_FLOWS.DIRECT,
         ...additionalEventData,
       });
       resetDataLayer();
       history.push('/new-covid-19-vaccine-booking/confirmation');
     } catch (error) {
-      captureError(error, true);
+      captureError(error, true, 'COVID-19 vaccine submission failure');
       dispatch({
         type: FORM_SUBMIT_FAILED,
         isVaos400Error: has400LevelError(error),
       });
 
       recordEvent({
-        event: `${GA_PREFIX}-direct-submission-failed`,
+        event: `${GA_PREFIX}-covid19-submission-failed`,
         flow: GA_FLOWS.DIRECT,
         ...additionalEventData,
       });
@@ -550,7 +480,7 @@ export function openContactFacilitiesPage() {
         });
       }
 
-      recordItemsRetrieved('cheetah_available_facilities', facilities?.length);
+      recordItemsRetrieved('covid19_available_facilities', facilities?.length);
 
       dispatch({
         type: FORM_PAGE_CONTACT_FACILITIES_OPEN_SUCCEEDED,
@@ -558,7 +488,7 @@ export function openContactFacilitiesPage() {
         address: selectVAPResidentialAddress(initialState),
       });
     } catch (e) {
-      captureError(e, false, 'cheetah facility page');
+      captureError(e, false, 'vaccine facility page');
       dispatch({
         type: FORM_PAGE_CONTACT_FACILITIES_OPEN_FAILED,
       });

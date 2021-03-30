@@ -14,19 +14,46 @@ import environment from 'platform/utilities/environment';
 import classNames from 'classnames';
 
 class SearchControls extends Component {
+  onlySpaces = str => /^\s+$/.test(str);
+
   handleQueryChange = e => {
-    this.props.onChange({ searchString: e.target.value });
+    // prevent users from entering only spaces
+    // because this will not trigger a change
+    // when they exit the field
+    this.props.onChange({
+      searchString: this.onlySpaces(e.target.value)
+        ? e.target.value.trim()
+        : e.target.value,
+    });
+  };
+
+  handleLocationBlur = e => {
+    // force redux state to register a change
+    this.props.onChange({ searchString: ' ' });
+    this.handleQueryChange(e);
   };
 
   handleFacilityTypeChange = e => {
     this.props.onChange({ facilityType: e.target.value, serviceType: null });
   };
 
+  handleFacilityTypeBlur = e => {
+    // force redux state to register a change
+    this.props.onChange({ facilityType: ' ' });
+    this.handleFacilityTypeChange(e);
+  };
+
   handleServiceTypeChange = ({ target }) => {
-    const option = target.value;
+    const option = target.value.trim();
 
     const serviceType = option === 'All' ? null : option;
     this.props.onChange({ serviceType });
+  };
+
+  handleServiceTypeBlur = e => {
+    // force redux state to register a change
+    this.props.onChange({ serviceType: ' ' });
+    this.handleServiceTypeChange(e);
   };
 
   handleSubmit = e => {
@@ -37,18 +64,36 @@ class SearchControls extends Component {
       serviceType,
       zoomLevel,
       isValid,
+      searchString,
     } = this.props.currentQuery;
 
     let analyticsServiceType = serviceType;
 
+    const updateReduxState = propName => {
+      this.props.onChange({ [propName]: ' ' });
+      this.props.onChange({ [propName]: '' });
+    };
+
     if (facilityType === LocationType.CC_PROVIDER) {
       if (!serviceType) {
+        updateReduxState('serviceType');
         focusElement('#service-type-ahead-input');
-
         return;
       }
 
       analyticsServiceType = this.props.currentQuery.specialties[serviceType];
+    }
+
+    if (!searchString) {
+      updateReduxState('searchString');
+      focusElement('#street-city-state-zip');
+      return;
+    }
+
+    if (!facilityType) {
+      updateReduxState('facilityType');
+      focusElement('#facility-type-dropdown');
+      return;
     }
 
     if (!isValid) {
@@ -79,27 +124,13 @@ class SearchControls extends Component {
     focusElement('#street-city-state-zip');
   };
 
-  renderClearInput = () => {
-    if (window.Cypress || !environment.isProduction()) {
-      return (
-        <button
-          aria-label="Clear your city, state or postal code"
-          type="button"
-          id="clear-input"
-          className="fas fa-times-circle clear-button"
-          onClick={this.handleClearInput}
-        />
-      );
-    }
-    return null;
-  };
-
   renderLocationInputField = currentQuery => {
+    const { locationChanged, searchString, geocodeInProgress } = currentQuery;
     const showError =
-      !currentQuery.isValid && currentQuery.searchString?.length === 0;
+      locationChanged && (!searchString || searchString.length === 0);
     return (
       <div
-        className={classNames('input-clear', 'vads-u-margin--0', {
+        className={classNames('vads-u-margin--0', {
           'usa-input-error': showError,
         })}
       >
@@ -112,7 +143,7 @@ class SearchControls extends Component {
             <span className="form-required-span">(*Required)</span>
           </label>
           {(window.Cypress || !environment.isProduction()) &&
-            (currentQuery.geocodeInProgress ? (
+            (geocodeInProgress ? (
               <div className="use-my-location-link">
                 <i
                   className="fa fa-spinner fa-spin"
@@ -142,24 +173,39 @@ class SearchControls extends Component {
             Please fill in a city, state, or postal code.
           </span>
         )}
-        <input
-          id="street-city-state-zip"
-          name="street-city-state-zip"
-          type="text"
-          onChange={this.handleQueryChange}
-          value={currentQuery.searchString}
-          title="Your location: Street, City, State or Postal code"
-        />
-        {currentQuery?.searchString?.length > 0 && this.renderClearInput()}
+        <div className="input-container">
+          <input
+            id="street-city-state-zip"
+            name="street-city-state-zip"
+            type="text"
+            onChange={this.handleQueryChange}
+            onBlur={this.handleLocationBlur}
+            value={searchString}
+            title="Your location: Street, City, State or Postal code"
+          />
+          {searchString?.length > 0 && (
+            <button
+              aria-label="Clear your city, state or postal code"
+              type="button"
+              id="clear-input"
+              className="fas fa-times-circle clear-button"
+              onClick={this.handleClearInput}
+            />
+          )}
+        </div>
       </div>
     );
   };
 
   renderFacilityTypeDropdown = () => {
     const { suppressCCP, suppressPharmacies } = this.props;
-    const { facilityType, isValid } = this.props.currentQuery;
+    const {
+      facilityType,
+      isValid,
+      facilityTypeChanged,
+    } = this.props.currentQuery;
     const locationOptions = facilityTypesOptions;
-    const showError = !isValid && !facilityType;
+    const showError = !isValid && facilityTypeChanged && !facilityType;
 
     if (suppressPharmacies) {
       delete locationOptions.pharmacy;
@@ -196,6 +242,7 @@ class SearchControls extends Component {
           value={facilityType || ''}
           className="bor-rad"
           onChange={this.handleFacilityTypeChange}
+          onBlur={this.handleFacilityTypeBlur}
           style={{ fontWeight: 'bold' }}
         >
           {options}
@@ -206,7 +253,11 @@ class SearchControls extends Component {
 
   renderServiceTypeDropdown = () => {
     const { searchCovid19Vaccine } = this.props;
-    const { facilityType, serviceType, isValid } = this.props.currentQuery;
+    const {
+      facilityType,
+      serviceType,
+      serviceTypeChanged,
+    } = this.props.currentQuery;
     const disabled = ![
       LocationType.HEALTH,
       LocationType.URGENT_CARE,
@@ -214,7 +265,7 @@ class SearchControls extends Component {
       LocationType.CC_PROVIDER,
     ].includes(facilityType);
 
-    const showError = !isValid && !disabled && !serviceType;
+    const showError = serviceTypeChanged && !disabled && !serviceType;
 
     let filteredHealthServices = healthServices;
 
@@ -238,6 +289,7 @@ class SearchControls extends Component {
         return (
           <ServiceTypeAhead
             onSelect={this.handleServiceTypeChange}
+            onBlur={this.handleServiceTypeBlur}
             initialSelectedServiceType={serviceType}
             showError={showError}
           />

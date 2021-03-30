@@ -17,7 +17,7 @@ describe('PersonalInformation', () => {
   let server;
   before(() => {
     // before we can use msw, we need to make sure that global.fetch has been
-    // restored and is not longer a sinon stub.
+    // restored and is no longer a sinon stub.
     resetFetch();
     server = setupServer(...mocks.updateDD4CNPSuccess);
     server.listen();

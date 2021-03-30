@@ -7,6 +7,12 @@ import { kebabCase } from 'lodash';
 
 const analyticsEvents = {
   Modal: [{ action: 'show', event: 'int-modal-click' }],
+  Modal: [{ action: 'show', event: 'int-modal-show' }],
+  AdditionalInfo: [
+    { action: 'expand', event: 'int-additional-info-expand' },
+    { action: 'collapse', event: 'int-additional-info-collapse' },
+  ],
+  AlertBox: [{ action: 'linkClick', event: 'nav-alert-box-link-click' }],
   PromoBanner: [{ action: 'linkClick', event: 'nav-promo-banner-link-click' }],
 };
 
@@ -21,7 +27,10 @@ export function subscribeComponentAnalyticsEvents(
     const action = component.find(ev => ev.action === e.detail.action);
 
     if (action) {
-      const dataLayer = { event: action.event };
+      const dataLayer = {
+        event: action.event,
+        'event-source': 'component-library',
+      };
 
       // If the event included additional details / context...
       if (e.detail.details) {
@@ -33,6 +42,8 @@ export function subscribeComponentAnalyticsEvents(
       }
 
       recordEvent(dataLayer);
+      // Remove event-source from the dataLayer
+      recordEvent({ 'event-source': undefined });
     }
   }
 }

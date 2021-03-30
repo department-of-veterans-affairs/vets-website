@@ -3,7 +3,6 @@ import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import unset from 'platform/utilities/data/unset';
 import { states } from 'platform/forms/address';
-import environment from 'platform/utilities/environment';
 
 export const isChapter33 = form =>
   !!form['view:benefit']?.chapter33 || !!form['view:benefit']?.fryScholarship;
@@ -12,9 +11,7 @@ export const displayConfirmEligibility = form =>
   !isChapter33(form) ||
   (!form.isEnrolledStem && !form.isPursuingTeachingCert) ||
   form.benefitLeft === 'moreThanSixMonths' ||
-  (form['view:remainingEntitlement']?.totalDays > 180 &&
-    // Production flag for 18861
-    !environment.isProduction());
+  form['view:remainingEntitlement']?.totalDays > 180;
 
 export function updateProgramDetailsSchema() {
   const usaStates = states.USA.map(state => state.value);

@@ -16,7 +16,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submit: transform,
-  submitUrl: `${environment.API_URL}/v0/api`,
+  submitUrl: `${environment.API_URL}/v0/financial_status_reports`,
   trackingPrefix: 'fsr-5655-',
   wizardStorageKey: WIZARD_STATUS,
   verifyRequiredPrefill: true,
@@ -46,7 +46,7 @@ const formConfig = {
     },
   },
   title: 'Request help with VA debt (VA Form 5655)',
-  subTitle: 'Form 5655',
+  subTitle: 'Financial Status Report',
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   customText: {
@@ -62,6 +62,7 @@ const formConfig = {
           title: 'Veteran information',
           uiSchema: pages.veteranInfo.uiSchema,
           schema: pages.veteranInfo.schema,
+          editModeOnReviewPage: true,
           initialData: {
             personalData: {
               veteranFullName: {
@@ -124,18 +125,6 @@ const formConfig = {
           schema: pages.employment.schema,
         },
         employmentRecords: {
-          initialData: {
-            personalData: {
-              employmentHistory: {
-                veteran: {
-                  currentEmployment: {
-                    present: true,
-                    to: null,
-                  },
-                },
-              },
-            },
-          },
           path: 'employment-records',
           title: 'Employment',
           uiSchema: pages.employmentRecords.uiSchema,
@@ -213,18 +202,6 @@ const formConfig = {
           uiSchema: pages.spouseEmployment.uiSchema,
           schema: pages.spouseEmployment.schema,
           depends: formData => formData.questions.maritalStatus === 'Married',
-          initialData: {
-            personalData: {
-              employmentHistory: {
-                spouse: {
-                  currentEmployment: {
-                    present: true,
-                    to: null,
-                  },
-                },
-              },
-            },
-          },
         },
         spouseEmploymentRecords: {
           path: 'spouse-employment-records',
@@ -435,10 +412,8 @@ const formConfig = {
           schema: pages.resolutionOptions.schema,
         },
         resolutionComments: {
-          path: 'resolution-comments/:index',
+          path: 'resolution-comments',
           title: 'Resolution comments',
-          showPagePerItem: true,
-          arrayPath: 'selectedDebts',
           uiSchema: pages.resolutionComments.uiSchema,
           schema: pages.resolutionComments.schema,
         },

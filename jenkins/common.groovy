@@ -143,6 +143,51 @@ def findMissingQueryFlags(String buildLogPath, String envName) {
   }
 }
 
+def accessibilityTests() {
+
+  if (shouldBail() || !VAGOV_BUILDTYPES.contains('vagovprod')) { return }
+  
+  stage("Accessibility") {
+
+     slackSend(
+        message: "Starting the daily accessibility scan of vets-website... ${env.RUN_DISPLAY_URL}".stripMargin(),
+        color: 'good',
+        channel: '-daily-accessibility-scan'
+      )
+
+    dir("vets-website") {
+      try {
+        parallel (
+          'nightwatch-accessibility': {
+            sh "export IMAGE_TAG=${IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
+          },
+        )
+
+        slackSend(
+          message: 'The daily accessibility scan has completed successfully.',
+          color: 'good',
+          channel: '-daily-accessibility-scan'
+        )
+
+      } catch (error) {
+
+        slackSend(
+            message: "@here Daily accessibility tests have failed. ${env.RUN_DISPLAY_URL}".stripMargin(),
+            color: 'danger',
+            failOnError: true,
+            channel: '-daily-accessibility-scan'
+          )
+
+        throw error
+      } finally {
+        sh "docker-compose -p accessibility down --remove-orphans"
+        step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
+      }
+    }
+
+  }
+}
+
 def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnlyBuild) {
   // Look for broken links
   def csvFileName = "${envName}-broken-links.csv" // For use within the docker container
@@ -267,7 +312,6 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 
 def prearchive(dockerContainer, envName) {
   dockerContainer.inside(DOCKER_ARGS) {
-    sh "cd /application && NODE_ENV=production yarn build --buildtype ${envName} --setPublicPath"
     sh "cd /application && node script/prearchive.js --buildtype=${envName}"
   }
 }
@@ -303,7 +347,7 @@ def archive(dockerContainer, String ref, String envName) {
     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
                      usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
       sh "echo \"${buildDetails}\" > /application/build/${envName}/BUILD.txt"
-      if(envName == 'vagovdev') {
+      if(envName == 'vagovdev' || envName == 'vagovstaging') {
         sh "tar -C /application/build/${envName} -cf /application/build/apps.${envName}.tar.bz2 ."
         sh "aws s3 cp /application/build/apps.${envName}.tar.bz2 s3://vetsgov-website-builds-s3-upload/application-build/${ref}/${envName}.tar.bz2 --acl public-read --region us-gov-west-1 --quiet"
       }

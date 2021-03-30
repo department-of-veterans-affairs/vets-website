@@ -1,22 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { differenceInDays, format } from 'date-fns';
+import { format } from 'date-fns';
+import CTALink from '../CTALink';
 
-import HealthCareCard from './HealthCareCard';
-import { recordDashboardClick } from '~/applications/personalization/dashboard/helpers';
-
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-
-export const Appointments = ({ authenticatedWithSSOe, appointments }) => {
-  const nextAppointment = appointments[0];
+export const Appointments = ({ appointments }) => {
+  const nextAppointment = appointments?.[0];
   const start = new Date(nextAppointment?.startsAt);
-  const today = new Date();
-  const hasUpcomingAppointment = differenceInDays(start, today) < 30;
-
-  const hasFutureAppointments = appointments?.length;
-  const noUpcomingAppointmentsCopy =
-    'You have no appointments scheduled in the next 30 days.';
-
   let locationName;
 
   if (nextAppointment?.isVideo) {
@@ -31,51 +20,31 @@ export const Appointments = ({ authenticatedWithSSOe, appointments }) => {
     locationName = nextAppointment?.providerName;
   }
 
-  const cardDetails = {
-    sectionTitle: 'Appointments',
-    ctaIcon: 'calendar',
-    ctaHref: mhvUrl(authenticatedWithSSOe, 'appointments'),
-    ctaAriaLabel: 'Manage all appointments',
-    ctaOnClick: recordDashboardClick('manage-all-appointments'),
-    ctaText: 'Manage all appointments',
-  };
-
-  // has an upcoming appointment in the next 30 days
-  if (hasFutureAppointments) {
-    cardDetails.cardTitle = 'Next appointment';
-    cardDetails.line1 = format(start, 'EEEE, MMMM Mo, yyyy');
-    cardDetails.line2 = `Time: ${format(start, 'h:mm aaaa')} ${
-      nextAppointment?.timeZone
-    }`;
-    cardDetails.line3 = locationName;
-  }
-
-  // has appointments but not in the next 30 days
-  if (hasFutureAppointments && !hasUpcomingAppointment) {
-    cardDetails.cardTitle = '';
-    cardDetails.line1 = noUpcomingAppointmentsCopy;
-  }
-
-  // has no appointments scheduled
-  if (!hasFutureAppointments) {
-    cardDetails.cardTitle = '';
-    cardDetails.line1 = noUpcomingAppointmentsCopy;
-  }
-
-  if (!nextAppointment) {
-    return null;
-  }
-
   return (
-    <HealthCareCard
-      cardProperties={cardDetails}
-      noActiveData={!hasUpcomingAppointment}
-    />
+    <div className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 large-screen:vads-u-margin-right--3 small-screen:vads-u-margin-bottom--2">
+      <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2p5 vads-u-padding-x--2p5">
+        <h4 className="vads-u-margin-top--0 vads-u-font-size--h3">
+          Next appointment
+        </h4>
+        <p className="vads-u-margin-bottom--1">
+          {format(start, 'EEEE, MMMM Mo, yyyy')}
+        </p>
+        <p className="vads-u-margin-bottom--1 vads-u-margin-top--1">
+          {`Time: ${format(start, 'h:mm aaaa')} ${nextAppointment?.timeZone}`}
+        </p>
+        <p className="vads-u-margin-top--1">{locationName}</p>
+        <CTALink
+          text="Schedule and view your appointments"
+          icon="calendar"
+          href="/health-care/schedule-view-va-appointments/appointments"
+        />
+      </div>
+    </div>
   );
 };
 
 Appointments.propTypes = {
-  authenticatedWithSSOe: PropTypes.bool.isRequired,
+  authenticatedWithSSOe: PropTypes.bool,
   appointments: PropTypes.arrayOf(
     PropTypes.shape({
       additionalInfo: PropTypes.string,

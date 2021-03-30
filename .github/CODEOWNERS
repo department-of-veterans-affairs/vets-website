@@ -29,7 +29,7 @@ src/platform/utilities/medical-centers @department-of-veterans-affairs/vsa-authd
 # Benefits and Memorials
 src/applications/letters @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
 src/applications/disability-benefits @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend
-src/applications/claims-status @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-bam-2-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend
+src/applications/claims-status @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-bam-2-frontend
 
 # Benefits and Memorials 2
 src/applications/disability-benefits/2346 @department-of-veterans-affairs/vsa-bam-2-frontend @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend
@@ -61,6 +61,7 @@ src/site/layouts/campaign_landing_page.drupal.liquid @department-of-veterans-aff
 # Facility Locator and VAMC pages
 src/applications/facility-locator @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
 src/applications/static-pages/facilities @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
+src/applications/static-pages/tests/facilities @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/layouts @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
 src/platform/site-wide/sass/modules/_m-side-nav.scss @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
 src/platform/site-wide/side-nav @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
@@ -68,6 +69,8 @@ src/site/facilities @department-of-veterans-affairs/vsa-facilities-frontend
 src/site/navigation/facility_no_drupal_page_sidebar_nav.drupal.liquid @department-of-veterans-affairs/vsa-facilities-frontend
 src/site/navigation/facility_sidebar_nav.drupal.liquid @department-of-veterans-affairs/vsa-facilities-frontend
 src/site/includes/facilityListing.drupal.liquid @department-of-veterans-affairs/vsa-facilities-frontend
+src/site/components/phone.drupal.liquid @department-of-veterans-affairs/vsa-facilities-frontend
+src/site/components/phone-number.drupal.liquid @department-of-veterans-affairs/vsa-facilities-frontend
 
 # Liquid template filters
 src/site/filters @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
@@ -93,10 +96,12 @@ src/applications/edu-benefits @department-of-veterans-affairs/bah-code-reviewers
 src/applications/coronavirus-research @department-of-veterans-affairs/va-cto-health-products
 src/applications/coronavirus-screener @department-of-veterans-affairs/va-cto-health-products
 src/applications/coronavirus-vaccination @department-of-veterans-affairs/va-cto-health-products
+src/applications/coronavirus-vaccination-expansion @department-of-veterans-affairs/va-cto-health-products
 
 # Other
 src/applications/ask-a-question @department-of-veterans-affairs/orchid
 src/applications/messages @department-of-veterans-affairs/orchid
+src/applications/virtual-agent @department-of-veterans-affairs/orchid
 src/applications/coronavirus-chatbot @department-of-veterans-affairs/chatbot-admin
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos-fe
 src/applications/third-party-app-directory @department-of-veterans-affairs/lighthouse-bilby
