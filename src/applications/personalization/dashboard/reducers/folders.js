@@ -74,7 +74,7 @@ export default function folders(state = initialState, action) {
       return set(
         'data.currentItem',
         {
-          errors: action.folder?.data?.errors,
+          errors: action?.errors,
           loading: false,
         },
         state,
