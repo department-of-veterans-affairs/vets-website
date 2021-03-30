@@ -754,6 +754,36 @@ export function mockRequestLimit({
     },
   );
 }
+// https://dev-api.va.gov/vaos/v0/facilities/limits?type_of_care_id=383&facility_ids[]=var983&facility_ids[]=var984
+
+export function mockRequestLimits({
+  facilityIds,
+  typeOfCareId = 'CR1',
+  requestLimit = 1,
+  numberOfRequests = 0,
+}) {
+  const data = facilityIds.map(id => ({
+    id,
+    attributes: {
+      numberOfRequests,
+      requestLimit,
+      institutionCode: id,
+    },
+  }));
+
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${
+        environment.API_URL
+      }/vaos/v0/facilities/limits?type_of_care_id=${typeOfCareId}&${facilityIds
+        .map(id => `facility_ids[]=${id}`)
+        .join('&')}`,
+    ),
+    {
+      data,
+    },
+  );
+}
 
 /**
  * Mocks the api call that sets or retrieves preferences in var-resources

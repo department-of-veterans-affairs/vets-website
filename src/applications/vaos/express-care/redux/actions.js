@@ -103,13 +103,6 @@ export function fetchRequestLimits() {
         moment(),
       ).map(win => win.facilityId);
 
-      // Temporarily limit concurrent calls to 5 while we
-      // wait for a new endpoint that will accept multiple facilityIds
-      // const requestLimits = await Promise.all(
-      //   activeFacilityIds
-      //     .slice(0, 5)
-      //     .map(facilityId => getRequestLimits(facilityId, EXPRESS_CARE)),
-      // );
       const requestLimits = await getRequestLimits(
         activeFacilityIds.slice(0, 5),
         EXPRESS_CARE,

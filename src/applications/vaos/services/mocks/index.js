@@ -225,7 +225,7 @@ export default [
   },
   {
     path: /vaos\/v0\/facilities\/limits/,
-    response: (url, { groups }) => {
+    response: (url, { _groups }) => {
       const data = [];
       if (url.includes('983'))
         data.push({
