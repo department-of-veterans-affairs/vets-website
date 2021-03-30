@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import ErrorMessage from '../components/ErrorMessage';
 import { fetchFormStatus } from '../actions/index';
-import { fsrFeatureToggle } from '../utils/helpers';
+import { fsrWizardFeatureToggle, fsrFeatureToggle } from '../utils/helpers';
 import WizardContainer from '../wizard/WizardContainer';
 import { WIZARD_STATUS } from '../wizard/constants';
 import {
@@ -20,6 +20,7 @@ const App = ({
   pending,
   isLoggedIn,
   getFormStatus,
+  showWizard,
   showFSR,
 }) => {
   const [wizardState, setWizardState] = useState(
@@ -50,7 +51,7 @@ const App = ({
     return window.location.replace('/manage-va-debt');
   }
 
-  if (showFSR && wizardState !== WIZARD_STATUS_COMPLETE) {
+  if (showWizard && wizardState !== WIZARD_STATUS_COMPLETE) {
     return <WizardContainer setWizardStatus={setWizardStatus} />;
   }
 
@@ -65,6 +66,7 @@ const mapStateToProps = state => ({
   isLoggedIn: state.user.login.currentlyLoggedIn,
   isError: state.fsr.isError,
   pending: state.fsr.pending,
+  showWizard: fsrWizardFeatureToggle(state),
   showFSR: fsrFeatureToggle(state),
 });
 
