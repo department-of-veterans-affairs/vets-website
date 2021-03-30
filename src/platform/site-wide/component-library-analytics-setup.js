@@ -6,7 +6,6 @@ import _recordEvent from 'platform/monitoring/record-event';
 import { kebabCase } from 'lodash';
 
 const analyticsEvents = {
-  Modal: [{ action: 'show', event: 'int-modal-click' }],
   Modal: [{ action: 'show', event: 'int-modal-show' }],
   AdditionalInfo: [
     { action: 'expand', event: 'int-additional-info-expand' },
