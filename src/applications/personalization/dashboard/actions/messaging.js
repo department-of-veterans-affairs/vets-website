@@ -47,16 +47,7 @@ export const fetchFolder = (id, query = {}) => async dispatch => {
     if (folderResponse?.errors || messagesResponse?.errors) {
       dispatch({
         type: FETCH_FOLDER_FAILURE,
-        errors: [
-          ...folderResponse?.errors?.map(error => ({
-            ...error,
-            errorType: 'folder',
-          })),
-          ...messagesResponse?.errors?.map(error => ({
-            ...error,
-            errorType: 'messages',
-          })),
-        ],
+        errors: [...folderResponse?.errors, ...messagesResponse?.errors],
       });
       return;
     }
