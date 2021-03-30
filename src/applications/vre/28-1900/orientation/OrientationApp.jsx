@@ -32,10 +32,16 @@ const OrientationApp = props => {
 
   return (
     <>
-      <div className="row vads-u-margin-bottom--1 vads-u-margin-top--2 vads-u-border--1px vads-u-padding--3 orientation-border">
-        <h2 className="vads-u-margin-top--0">VR&E Orientation</h2>
+      <article
+        aria-labelledby="vre-orientation"
+        aria-roledescription="carousel"
+        className="row vads-u-margin-bottom--1 vads-u-margin-top--2 vads-u-border--1px vads-u-padding--3 orientation-border"
+      >
+        <h2 id="vre-orientation" className="vads-u-margin-top--0">
+          VR&E Orientation
+        </h2>
         <p id="orientation-step" className="vads-u-font-weight--bold">
-          Step {step + 1} of {orientationSteps.length}
+          Slide {step + 1} of {orientationSteps.length}
         </p>
         <StepComponent step={step} />
         <div>
@@ -66,7 +72,7 @@ const OrientationApp = props => {
                 : 'Finish VR&E Orientation'}
           </button>
         </div>
-      </div>
+      </article>
       {formStartControl && (
         <div className="vads-u-padding--3 vads-u-background-color--gray-lightest">
           <p>
