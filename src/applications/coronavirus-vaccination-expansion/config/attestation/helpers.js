@@ -114,17 +114,9 @@ export const spouseLabel = (
   </>
 );
 
-export const caregiverEnrolledLabel = (
-  <>
-    <strong>Eligible caregiver</strong> enrolled in a VA caregiver support
-    program
-  </>
-);
-
 export const caregiverOfVeteranLabel = (
   <>
-    <strong>Eligible caregiver</strong> of a Veteran who is enrolled in a VA
-    home-based or long-term care program
+    <strong>Caregiver</strong> of an eligible Veteran
   </>
 );
 
