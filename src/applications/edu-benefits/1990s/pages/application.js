@@ -42,7 +42,9 @@ const { bankAccount } = fullSchema.definitions;
 
 const addressUiSchema = addressUISchema('Mailing address', false);
 const address = addressSchema(fullSchema, true);
-const useDirectDeposit = form => !form?.declineDirectDeposit;
+const declineDirectDeposit = form =>
+  form['view:directDeposit']['view:declineDirectDeposit'];
+const useDirectDeposit = form => !declineDirectDeposit(form);
 
 const path = 'form';
 const title = 'Application';
@@ -105,7 +107,7 @@ const uiSchema = {
       },
       'ui:options': {
         classNames: 'vads-u-margin-bottom--3',
-        hideIf: form => form?.declineDirectDeposit,
+        hideIf: declineDirectDeposit,
       },
     },
     'view:declineDirectDeposit': {
@@ -189,7 +191,7 @@ const schema = {
       properties: {
         'view:phoneAndEmail': {
           type: 'object',
-          required: ['mobilePhoneNumber', 'email'],
+          required: ['mobilePhone', 'email', 'view:confirmEmail'],
           properties: {
             mobilePhone,
             alternatePhone,
