@@ -29,6 +29,11 @@ export const uiSchema = {
           Y: 'Yes',
           N: 'No, I will submit them later.',
         },
+        widgetProps: {
+          N: {
+            'aria-describedby': 'submit-str-asap',
+          },
+        },
         // Force ReviewFieldTemplate to wrap this component in a <dl>
         useDlWrap: true,
       },
