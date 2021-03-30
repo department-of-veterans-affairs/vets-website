@@ -489,7 +489,10 @@ describe('526 All Claims validations', () => {
         _,
         _,
         index,
-        data({ bdd: true }),
+        data({
+          bdd: true,
+          branch: 'Army',
+        }),
       );
 
       expect(errors.addError.called).to.be.true;
@@ -509,6 +512,22 @@ describe('526 All Claims validations', () => {
           bdd: true,
           branch: 'Army National Guard',
         }),
+      );
+
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('should allow non-BDD future end service dates < 90 days for any type of service', () => {
+      const errors = { addError: sinon.spy() };
+      const index = 0;
+      validateSeparationDate(
+        errors,
+        daysFromToday(89),
+        _,
+        _,
+        _,
+        index,
+        data({ branch: 'Army' }),
       );
 
       expect(errors.addError.called).to.be.false;
