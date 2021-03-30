@@ -1028,12 +1028,29 @@
     }
   },
   {
-    "appName": "Veteran Rapid Retraining Assistance Program",
+    "appName": "Veteran Rapid Retraining Assistance Program (VRRAP)",
     "entryName": "1990s-edu-benefits",
     "rootUrl": "/vrrap",
     "template": {
       "vagovprod": false,
-      "layout": "page-react.html"
+      "title": "Apply for the Veteran Rapid Retraining Assistance Program (VRRAP)",
+      "heading": "Apply for the Veteran Rapid Retraining Assistance Program (VRRAP)",
+      "layout": "page-react.html",
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "name": "Education and training",
+          "path": "education/"
+        },
+        {
+          "name": "Other VA education benefits",
+          "path": "education/other-va-education-benefits/"
+        },
+        {
+          "name": "Veteran Rapid Retraining Assistance Program",
+          "path": "vrrap"
+        }
+      ]
     }
   }
 ]
