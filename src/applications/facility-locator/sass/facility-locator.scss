@@ -257,7 +257,8 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
       input,
       textarea,
-      select {
+      select,
+      .input-container {
         max-width: none;
         margin-bottom: 24px;
         padding: 0 0.7em;
@@ -267,6 +268,10 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
           width: 418px;
           margin-right: 18px;
         }
+      }
+
+      .input-container {
+        padding: 0;
       }
 
       input[type="submit"] {
@@ -614,52 +619,29 @@ canvas.mapboxgl-canvas:focus {
   outline-offset: 2px;
 }
 
-.input-clear {
-  position: relative;
+.clear-button {
   font-size: 16px;
+  display: inline-block;
+  top: -66px;
+  position: relative;
+  float: right;
+  width: 44px;
+  height: 44px;
+  background-color: transparent;
+  color: black;
+  padding: 0;
+  margin: 0;
+  font-family: 'Font Awesome 5 Free';
 
-  @media only screen and (min-width: 980px) {
-    display: inline-block;
-  }
-
-  .clear-button {
-    top: 95px;
-    right: 10px;
-    position: absolute;
-
-
-    @media (max-width: $small-screen) {
-      top: 83px;
-      right: 0px;
-      width: 44px;
-      height: 44px;
-    }
-
-    background-color: transparent;
-    color: black;
-    padding: 0;
-    margin: 0;
-    font-size: inherit;
-    font-family: 'Font Awesome 5 Free';
-
-    &:active {
-      background-color: transparent;
-    }
-
-    &:hover {
-      background: transparent;
-    }
-
-    @media only screen and (min-width: 980px) {
-      right: 26px;
-      top: 38px;
-    }
+  &:hover {
+    background-color: unset;
+    color: unset;
   }
 }
 
 #street-city-state-zip {
   font-weight: bold;
-  padding-right: 28px !important;
+  padding-right: 36px !important;
 }
 
 

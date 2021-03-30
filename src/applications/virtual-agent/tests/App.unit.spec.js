@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { waitFor } from '@testing-library/react';
+import { waitFor, screen } from '@testing-library/react';
 
 import App from '../containers/App';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
@@ -32,7 +32,7 @@ describe('App', () => {
     global.window = oldWindow;
   });
 
-  describe('web chat script is loaded', () => {
+  describe('web chat script is loaded and greeting is shown', () => {
     it('renders web chat', () => {
       loadWebChat();
 
@@ -45,6 +45,9 @@ describe('App', () => {
       });
 
       expect(wrapper.getByTestId('webchat')).to.exist;
+
+      expect(screen.findByText('So, what can I help you with today?\n\n')).to
+        .exist;
     });
   });
 

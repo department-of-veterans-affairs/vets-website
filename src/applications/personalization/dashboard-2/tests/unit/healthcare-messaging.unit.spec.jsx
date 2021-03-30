@@ -10,48 +10,6 @@ describe('HealthCare component', () => {
   let view;
   let initialState;
 
-  context('when appointments and messaging data are still loading', () => {
-    it('should only show a loading spinner', async () => {
-      initialState = {
-        user: {
-          profile: {
-            services: ['messaging'],
-          },
-        },
-        health: {
-          appointments: {
-            fetching: true,
-          },
-          msg: {
-            folders: {
-              data: {
-                currentItem: {
-                  loading: true,
-                },
-              },
-              ui: {
-                nav: {
-                  foldersExpanded: false,
-                  visible: false,
-                },
-              },
-            },
-          },
-        },
-      };
-
-      view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {
-        initialState,
-        reducers,
-      });
-      expect(view.getByRole('progressbar')).to.exist;
-      expect(view.queryByText(/Refill and track your prescriptions/i)).not.to
-        .exist;
-      expect(view.queryByText(/Get your lab and test results/i)).not.to.exist;
-      expect(view.queryByText(/Get your VA medical records/i)).not.to.exist;
-    });
-  });
-
   context('when user has the `messaging` service', () => {
     beforeEach(() => {
       window.VetsGov = { pollTimeout: 1 };
