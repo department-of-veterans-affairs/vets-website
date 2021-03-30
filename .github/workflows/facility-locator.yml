@@ -1,0 +1,19 @@
+name: Facility Locator
+
+on:
+  push:
+    paths:
+      - 'src/applications/facility-locator/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+      run: echo Building
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo Facility Locator Tests
