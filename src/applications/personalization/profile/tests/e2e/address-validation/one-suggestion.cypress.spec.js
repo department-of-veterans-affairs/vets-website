@@ -5,11 +5,11 @@ describe('Personal and contact information', () => {
     it('should successfully update on Desktop', () => {
       setUp('one-suggestion');
 
-      cy.findByLabelText(/^street address/i)
+      cy.findByLabelText(/^street address \(/i)
         .clear()
         .type('400 65th st');
-      cy.findByLabelText(/^line 2/i).clear();
-      cy.findByLabelText(/^line 3/i).clear();
+      cy.findByLabelText(/^street address line 2/i).clear();
+      cy.findByLabelText(/^street address line 3/i).clear();
 
       cy.findByLabelText(/City/i)
         .clear()

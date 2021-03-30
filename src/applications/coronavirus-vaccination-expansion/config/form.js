@@ -15,7 +15,7 @@ import {
   veteranInformation,
 } from './pages';
 
-import { isTypeNone, isVeteran, isSpouseOrCaregiver } from './helpers';
+import { isTypeNone, isVeteran } from './helpers';
 import PreSubmitInfo from './PreSubmitinfo';
 
 import manifest from '../manifest.json';
@@ -68,7 +68,9 @@ const formConfig = {
       title: 'Help us match you to an eligible Veteran',
       pages: {
         veteranInformation: {
-          depends: formData => isSpouseOrCaregiver(formData),
+          //  returning false to disable this page. leaving infrastructure in place as this may be desired functionality in the near future.
+          // To revert set depends: formData => isSpouseOrCaregiver(formData)
+          depends: () => false,
           path: 'veteran-information',
           schema: veteranInformation.schema.veteranInformation,
           uiSchema: veteranInformation.uiSchema.veteranInformation,
