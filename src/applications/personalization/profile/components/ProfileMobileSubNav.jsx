@@ -1,12 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  getTabbableElements,
-  isEscape,
-  isReverseTab,
-  isTab,
-} from 'platform/utilities/accessibility';
+import { isEscape } from 'platform/utilities/accessibility';
 import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
 import { focusElement } from 'platform/utilities/ui';
 
@@ -22,24 +17,9 @@ const ProfileMobileSubNav = ({ isLOA3, isInMVI, routes }) => {
   // refs used so we can easily set focus
   const closeMenuButton = useRef(null);
   const openMenuButton = useRef(null);
-  const lastMenuItem = useRef(null);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [focusTriggerButton, setFocusTriggerButton] = useState(false);
-
-  const overrideShiftTab = e => {
-    if (isReverseTab(e)) {
-      e.preventDefault();
-      lastMenuItem.current.focus();
-    }
-  };
-
-  const overrideTab = e => {
-    if (isTab(e)) {
-      e.preventDefault();
-      closeMenuButton.current.focus();
-    }
-  };
 
   // on first render, set the focus to the h1
   useEffect(() => {
@@ -62,13 +42,6 @@ const ProfileMobileSubNav = ({ isLOA3, isInMVI, routes }) => {
       if (isMenuOpen) {
         document.addEventListener('keydown', closeOnEscape);
         closeMenuButton.current.focus();
-        // trap the focus so that you can't tab the focus to an element behind the
-        // open mobile subnav
-        closeMenuButton.current.addEventListener('keydown', overrideShiftTab);
-        lastMenuItem.current = Array.from(
-          getTabbableElements(document.querySelector('.menu-wrapper ul')),
-        ).pop();
-        lastMenuItem.current.addEventListener('keydown', overrideTab);
       } else {
         document.removeEventListener('keydown', closeOnEscape);
         // Only set the focus on the menu trigger button if the call to the
@@ -77,15 +50,6 @@ const ProfileMobileSubNav = ({ isLOA3, isInMVI, routes }) => {
         if (focusTriggerButton) {
           openMenuButton.current.focus();
           setFocusTriggerButton(false);
-        }
-        if (closeMenuButton.current) {
-          closeMenuButton.current.removeEventListener(
-            'keydown',
-            overrideShiftTab,
-          );
-        }
-        if (lastMenuItem.current) {
-          lastMenuItem.current.removeEventListener('keydown', overrideTab);
         }
       }
     },
