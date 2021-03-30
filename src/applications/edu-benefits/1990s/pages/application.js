@@ -68,7 +68,7 @@ const uiSchema = {
     'view:phoneAndEmail': {
       'ui:title': 'Phone & email',
       mobilePhone: phoneUI('Mobile phone number'),
-      alternatePhone: phoneUI('Alternate phone number'),
+      alternatePhone: phoneUI('Home phone number'),
       email: emailUI(),
       'view:confirmEmail': _.merge(emailUI('Re-enter email address'), {
         'ui:options': {
