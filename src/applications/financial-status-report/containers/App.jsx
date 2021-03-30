@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import ErrorMessage from '../components/ErrorMessage';
 import { fetchFormStatus } from '../actions/index';
+import { fsrFeatureToggle } from '../utils/helpers';
 import WizardContainer from '../wizard/WizardContainer';
 import { WIZARD_STATUS } from '../wizard/constants';
 import {
@@ -19,6 +20,7 @@ const App = ({
   pending,
   isLoggedIn,
   getFormStatus,
+  showFSR,
 }) => {
   const [wizardState, setWizardState] = useState(
     sessionStorage.getItem(WIZARD_STATUS) || WIZARD_STATUS_NOT_STARTED,
@@ -48,17 +50,22 @@ const App = ({
     return <ErrorMessage />;
   }
 
-  return (
+  if (showFSR === false) {
+    return window.location.replace('/manage-va-debt');
+  }
+
+  return showFSR ? (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {children}
     </RoutedSavableApp>
-  );
+  ) : null;
 };
 
 const mapStateToProps = state => ({
   isLoggedIn: state.user.login.currentlyLoggedIn,
   isError: state.fsr.isError,
   pending: state.fsr.pending,
+  showFSR: fsrFeatureToggle(state),
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -38,6 +38,7 @@ export default Object.freeze({
   gibctSchoolRatings: 'gibctSchoolRatings',
   form996HigherLevelReview: 'form996HigherLevelReview',
   debtLettersShowLetters: 'debtLettersShowLetters',
+  showFinancialStatusReport: 'showFinancialStatusReport',
   form526BDD: 'form526BenefitsDeliveryAtDischarge',
   showEduBenefits1995Wizard: 'show_edu_benefits_1995_wizard',
   showEduBenefits5495Wizard: 'show_edu_benefits_5495_wizard',
