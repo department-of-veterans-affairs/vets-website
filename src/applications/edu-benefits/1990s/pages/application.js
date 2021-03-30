@@ -10,7 +10,7 @@ import {
   uiSchema as addressUISchema,
   schema as addressSchema,
 } from 'platform/forms/definitions/address';
-import _ from 'lodash/fp';
+import _ from 'lodash';
 import {
   bankInfoHelpText,
   directDepositAlert,
@@ -45,6 +45,8 @@ const address = addressSchema(fullSchema, true);
 const declineDirectDeposit = form =>
   form['view:directDeposit']['view:declineDirectDeposit'];
 const useDirectDeposit = form => !declineDirectDeposit(form);
+const hasNotSelectedProgram = form =>
+  !_.get(form['view:programSelection'], 'hasSelectedProgram', true);
 
 const path = 'form';
 const title = 'Application';
@@ -134,20 +136,33 @@ const uiSchema = {
     },
     providerName: {
       'ui:title': "What's the name of the program’s provider?",
+      'ui:options': {
+        hideIf: hasNotSelectedProgram,
+      },
     },
     programName: {
       'ui:title': "What's the name of the program?",
+      'ui:options': {
+        hideIf: hasNotSelectedProgram,
+      },
     },
     programCity: {
       'ui:title': 'What city is the program in?',
+      'ui:options': {
+        hideIf: hasNotSelectedProgram,
+      },
     },
     programState: {
       'ui:title': 'What state is the program in?',
+      'ui:options': {
+        hideIf: hasNotSelectedProgram,
+      },
     },
     learningFormat: {
       'ui:title': 'Is it an in-person or online program?',
       'ui:widget': 'radio',
       'ui:options': {
+        hideIf: hasNotSelectedProgram,
         labels: {
           inPerson: 'In-person',
           online: 'Online',
