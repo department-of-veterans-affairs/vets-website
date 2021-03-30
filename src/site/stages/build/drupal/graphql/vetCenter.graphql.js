@@ -17,10 +17,22 @@ const vetCenterFragment = `
         fieldHealthServices {
           entity {
             ... on NodeVetCenterFacilityHealthServi {
-              fieldBody {
-                value
-                format
-                processed
+              fieldServiceNameAndDescripti {
+                entity {
+                  ... on TaxonomyTermHealthCareServiceTaxonomy {
+                    name
+                    fieldVetCenterTypeOfCare
+                    fieldServiceTypeOfCare
+                    fieldVetCenterFriendlyName
+                    fieldAlsoKnownAs
+                    fieldVetCenterComConditions
+                    fieldCommonlyTreatedCondition
+                    fieldVetCenterServiceDescrip
+                    description {
+                      processed
+                    }
+                  }
+                }
               }
             }
           }
