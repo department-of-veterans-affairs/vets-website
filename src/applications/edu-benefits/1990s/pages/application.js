@@ -59,7 +59,7 @@ const uiSchema = {
       ...currentOrPastDateUI('Date of birth'),
       'ui:errorMessages': {
         required: 'Please provide a valid date',
-        futureDate: 'Please provide a valid date',
+        futureDate: 'Please provide a valid date in the past',
       },
     },
   },

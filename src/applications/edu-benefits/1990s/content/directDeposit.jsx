@@ -7,8 +7,8 @@ export const directDepositDescription = () => {
     <div tabIndex="0">
       <p>
         We make payments only through direct deposit, also called electronic
-        funds transfer (EFT). If you’re approved for the Rogers STEM
-        Scholarship, we’ll need to know where to deposit the funds.
+        funds transfer (EFT). Please provide your direct deposit information
+        below. We’ll pay your housing stipend to this account.
       </p>
       <img
         src="/img/direct-deposit-check-guide.png"
@@ -29,13 +29,8 @@ export const directDepositAlert = () => (
   // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
   <div className="vads-u-padding-top--1p5" tabIndex="0">
     <p>
-      <b>Note:</b> Any bank account information you enter here will apply to
-      your other Veteran benefits, including compensation, pension, and Benefits
-      for Certain Children with Disabilities (Chapter 18) payments.
-    </p>
-    <p>
-      Information entered here won’t change your existing accounts for VA
-      education or health benefits.
+      <b>Note:</b> Any updates you make here to your bank account information
+      won't change your existing accounts for VA education or health benefits.
     </p>
   </div>
 );
