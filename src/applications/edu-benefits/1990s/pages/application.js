@@ -67,8 +67,8 @@ const uiSchema = {
     'ui:title': 'Contact Information',
     'view:phoneAndEmail': {
       'ui:title': 'Phone & email',
-      alternatePhone: phoneUI('Home phone number'),
       mobilePhone: phoneUI('Mobile phone number'),
+      alternatePhone: phoneUI('Home phone number'),
       email: emailUI(),
       'view:confirmEmail': _.merge(emailUI('Re-enter email address'), {
         'ui:options': {
@@ -206,10 +206,10 @@ const schema = {
       properties: {
         'view:phoneAndEmail': {
           type: 'object',
-          required: ['alternatePhone', 'email', 'view:confirmEmail'],
+          required: ['mobilePhone', 'email', 'view:confirmEmail'],
           properties: {
-            alternatePhone,
             mobilePhone,
+            alternatePhone,
             email,
             'view:confirmEmail': {
               type: 'string',
