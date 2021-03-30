@@ -11,14 +11,15 @@ export default function FacilityAddress({
   clinicName,
   showPhone = true,
   level = '4',
+  isHomepageRefresh,
 }) {
   const address = facility?.address;
   const phone = facility?.telecom?.find(tele => tele.system === 'phone')?.value;
   const extraInfoClasses = classNames({
     'vads-u-margin-top--1p5': !!clinicName || !!phone,
   });
-  const Heading = `h${level}`;
-  const HeadingSub = `h${parseInt(level, 10) + 1}`;
+  const Heading = isHomepageRefresh ? `h2` : `h${level}`;
+  const HeadingSub = isHomepageRefresh ? `h2` : `h${parseInt(level, 10) + 1}`;
 
   return (
     <>
@@ -61,10 +62,10 @@ export default function FacilityAddress({
           !!phone && (
             <>
               {!!clinicName && <br />}
-              <Heading className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
-                Main phone:
-              </Heading>{' '}
-              <FacilityPhone contact={phone} />
+              <FacilityPhone
+                contact={phone}
+                level={isHomepageRefresh ? 2 : level}
+              />
             </>
           )}
       </div>
