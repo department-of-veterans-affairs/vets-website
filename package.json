@@ -283,7 +283,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/component-library": "2.1.0",
+    "@department-of-veterans-affairs/component-library": "2.2.0",
     "@department-of-veterans-affairs/formation": "6.14.1",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@formatjs/intl-datetimeformat": "^3.2.7",
@@ -376,6 +376,7 @@
     "**/node-forge": "^0.10.0",
     "**/axios": "^0.21.1",
     "**/elliptic": "^6.5.4",
+    "**/netmask": "^2.0.1",
     "cypress": "^6.8.0",
     "tar-fs/tar-stream/bl": "^4.0.3",
     "nightwatch/**/lodash.defaultsdeep": "^4.6.1"

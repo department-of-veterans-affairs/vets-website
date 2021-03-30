@@ -2,13 +2,14 @@ import React from 'react';
 
 const paddingBottom = { paddingBottom: '1em' };
 
+export const title = <strong>Which of these best describes you?</strong>;
 export const eligibilityAccordion = (
   <>
     <p>
       We have a limited amount of COVID-19 vaccines. We want to make sure we can
-      offer vaccines to as many Veterans, family members, and caregivers as we
-      can. We can only offer vaccines to people who are eligible under the law.
-      Thank you for helping us to achieve our mission.
+      offer vaccines to as many Veterans, caregivers, spouses, and CHAMPVA
+      recipients as we can. We can only offer vaccines to people who are
+      eligible under the law. Thank you for helping us to achieve our mission.
     </p>
     <h3 className="vads-u-font-size--h4" style={paddingBottom}>
       Learn about who's eligible for a COVID-19 vaccine at VA
@@ -46,20 +47,37 @@ export const eligibilityAccordion = (
         </p>
       </va-accordion-item>
       <va-accordion-item level="4" header="Who else is eligible?">
-        <p>Our caregiver programs include these 2 programs:</p>
-        <ul>
-          <li>The Program of Comprehensive Assistance for Family Caregivers</li>
-          <li>The General Caregiver Support Services program</li>
-        </ul>
         <p>
-          Our home-based and long-term care programs include these 4 programs:
+          To be eligible for a COVID-19 vaccine at VA as a non-Veteran, at least
+          one of these descriptions must fit you:
         </p>
-        <ul>
-          <li>Medical Foster Home program</li>
-          <li>Bowel and Bladder program</li>
-          <li>Home Based Primary</li>
-          <li>Care program Veteran Directed Care program</li>
-        </ul>
+        <p>
+          <strong>Spouse</strong> of an eligible Veteran
+        </p>
+        <p>
+          <strong>Eligible caregiver</strong> enrolled in one of these VA
+          caregiver support programs:
+          <ul>
+            <li>
+              The Program of Comprehensive Assistance for Family Caregivers
+            </li>
+            <li>The Program of General Caregiver Support Services</li>
+          </ul>
+        </p>
+        <p>
+          <strong>Eligible caregiver</strong> of a Veteran who is enrolled in
+          one of these VA home-based or long-term care programs:
+          <ul>
+            <li>Medical Foster Home program</li>
+            <li>Bowel and Bladder program</li>
+            <li>Home Based Primary Care program</li>
+            <li>Veteran Directed Care program</li>
+          </ul>
+        </p>
+        <p>
+          <strong>Recipient of CHAMPVA</strong> (Civilian Health and Medical
+          Program of the Department of Veterans Affairs) benefits
+        </p>
       </va-accordion-item>
       <va-accordion-item level="4" header="What if I'm not eligible?">
         <p>
@@ -98,15 +116,15 @@ export const spouseLabel = (
 
 export const caregiverEnrolledLabel = (
   <>
-    <strong>Eligible caregiver</strong> enrolled in an official VA caregiver
+    <strong>Eligible caregiver</strong> enrolled in a VA caregiver support
     program
   </>
 );
 
 export const caregiverOfVeteranLabel = (
   <>
-    <strong>Eligible caregiver</strong> of a Veteran who is enrolled in an
-    official VA home-based or long-term care program
+    <strong>Eligible caregiver</strong> of a Veteran who is enrolled in a VA
+    home-based or long-term care program
   </>
 );
 
