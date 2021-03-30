@@ -104,6 +104,12 @@ export function prefillTransformer(pages, formData, metadata, state) {
   };
 }
 
+/**
+ * Transforms attachments
+ * @export
+ * @param {Object} data
+ * @return {Object}
+ */
 export function transformAttachments(data) {
   if (!data.attachments || !(data.attachments instanceof Array)) {
     return data;
