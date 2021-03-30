@@ -56,7 +56,7 @@ export const uiSchema = {
       },
     },
     isParentOrGuardian: {
-      'ui:title': 'Is this your child, or are you their guardian?',
+      'ui:title': 'Are you a parent or guardian of this child?',
       'ui:widget': 'yesNo',
     },
     dependentIncome: {
