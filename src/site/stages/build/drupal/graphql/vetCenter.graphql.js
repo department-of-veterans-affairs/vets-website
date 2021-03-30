@@ -14,6 +14,16 @@ const vetCenterFragment = `
           endhours
           comment
         }
+        fieldPrepareForVisit {
+          entity {
+            ... on ParagraphBasicAccordion {
+              fieldHeader
+              fieldRichWysiwyg {
+                processed
+              }
+            }
+          }
+        }        
         fieldHealthServices {
           entity {
             ... on NodeVetCenterFacilityHealthServi {
