@@ -994,6 +994,10 @@ describe('VAOS integration: appointment list', () => {
     expect(await screen.findByText(/start scheduling/i)).be.ok;
 
     expect(screen.queryByRole('radio')).not.to.exist;
+    expect(screen.getByRole('heading', { name: /COVID-19 vaccines/, level: 3 }))
+      .to.be.ok;
+    expect(screen.getByText(/at this time, you can't schedule a COVID-19/i)).to
+      .be.ok;
 
     userEvent.click(
       await screen.findByRole('link', { name: /Start scheduling/ }),
