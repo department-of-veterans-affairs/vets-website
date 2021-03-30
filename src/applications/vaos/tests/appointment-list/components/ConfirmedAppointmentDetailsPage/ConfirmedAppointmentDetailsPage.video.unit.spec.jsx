@@ -3,15 +3,18 @@ import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
-import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
-import { getVAFacilityMock, getVideoAppointmentMock } from '../../mocks/v0';
+import {
+  mockAppointmentInfo,
+  mockFacilitiesFetch,
+} from '../../../mocks/helpers';
+import { getVAFacilityMock, getVideoAppointmentMock } from '../../../mocks/v0';
 import {
   renderWithStoreAndRouter,
   getTimezoneTestDate,
-} from '../../mocks/setup';
+} from '../../../mocks/setup';
 import { waitFor } from '@testing-library/dom';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
-import { AppointmentList } from '../../../appointment-list';
+import { AppointmentList } from '../../../../appointment-list';
 import sinon from 'sinon';
 
 const initialState = {
