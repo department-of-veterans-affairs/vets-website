@@ -5,7 +5,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import manifest from '../manifest.json';
 import fullSchema from 'vets-json-schema/dist/VRRAP-schema.json';
-import { application } from '../pages';
+import * as application from '../pages/application';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
