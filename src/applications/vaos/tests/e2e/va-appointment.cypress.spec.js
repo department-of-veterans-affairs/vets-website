@@ -223,7 +223,7 @@ describe.skip('VAOS direct schedule flow', () => {
     newApptTests.confirmationPageTest(additionalInfo);
   });
 });
-describe('VAOS direct schedule flow with a Cerner site', () => {
+describe.skip('VAOS direct schedule flow with a Cerner site', () => {
   it('should submit form', () => {
     initAppointmentListMock();
     initVAAppointmentMock({ cernerUser: true });
