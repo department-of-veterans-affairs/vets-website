@@ -76,7 +76,7 @@ const uiSchema = {
         },
       }),
     },
-    mailingAddress: {
+    address: {
       ...addressUiSchema,
       'ui:options': {
         ...addressUiSchema['ui:options'],
@@ -217,7 +217,7 @@ const schema = {
             },
           },
         },
-        mailingAddress: address,
+        address,
         'view:contactInfoNote': {
           type: 'object',
           properties: {},
