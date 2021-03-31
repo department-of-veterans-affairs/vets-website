@@ -54,12 +54,13 @@ const OrientationWizardContainer = props => {
           apply. If you are, we encourage you to complete the orientation before
           you apply.
         </p>
-        <p>
+        <p id="skip-wizard-description">
           <strong>If you already know you want to apply for VR&E</strong>, you
           can go directly to the online application without answering the
           questions below.{' '}
           <a
             href={CHAPTER_31_ROOT_URL}
+            aria-describedby="skip-wizard-description"
             onClick={() => {
               recordEvent({
                 event: 'howToWizard-skip',
