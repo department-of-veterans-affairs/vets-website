@@ -36,8 +36,7 @@ const VeteranInformationDisplay = props => {
           aria-label={`Veterans Full Name ${fullName}`}
           data-testid="fullName"
         >
-          <span style={{ display: 'none' }}>{fullName}</span>
-          Eleven Zztest
+          {fullName}
         </p>
         <p className="vads-u-margin--1px">
           Date of birth:{' '}
