@@ -6,6 +6,7 @@ runs:
     - name: Get Node version
       id: get-node-version
       run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+      shell: bash
 
     - name: Setup Node
       uses: actions/setup-node@v2
@@ -23,5 +24,6 @@ runs:
 
     - name: Install dependencies
       run: yarn install --frozen-lockfile --prefer-offline
+      shell: bash
       env:
         YARN_CACHE_FOLDER: ~/.cache/yarn
