@@ -9,13 +9,17 @@ function StemAskVAQuestions() {
   return (
     <div>
       <h2 className="help-heading">Need help?</h2>
-      <h3 className="vads-u-font-size--h4">Ask a question</h3>
-      <p>
+      <h3 className="vads-u-font-size--h4 vads-u-margin-bottom--0p5">
+        Ask a question
+      </h3>
+      <p className="vads-u-padding-top--1px">
         <a href="https://gibill.custhelp.va.gov/app/">Ask a question online</a>{' '}
         (Include your full name and VA file number)
       </p>
-      <h3 className="vads-u-font-size--h4">Call us</h3>
-      <p>Veterans Crisis Line: </p>
+      <h3 className="vads-u-font-size--h4 vads-u-margin-bottom--0p5">
+        Call us
+      </h3>
+      <p className="vads-u-padding-top--1px">Veterans Crisis Line: </p>
       <p>
         <Telephone contact={CONTACTS.CRISIS_LINE} /> and select 1
       </p>
@@ -39,8 +43,10 @@ function StemAskVAQuestions() {
         TTY, Federal Relay:{' '}
         <Telephone contact={CONTACTS[711]} pattern={PATTERNS['3_DIGIT']} />
       </p>
-      <h3 className="vads-u-font-size--h4">Send us mail</h3>
-      <p>
+      <h3 className="vads-u-font-size--h4 vads-u-margin-bottom--0p5">
+        Send us mail
+      </h3>
+      <p className="vads-u-padding-top--1px">
         Include your full name and VA file number on the inside of mailed
         correspondence, not on envelope.
       </p>

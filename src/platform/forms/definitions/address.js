@@ -309,10 +309,10 @@ export function uiSchema(
       },
     },
     street2: {
-      'ui:title': 'Line 2',
+      'ui:title': 'Street address line 2',
     },
     street3: {
-      'ui:title': 'Line 3',
+      'ui:title': 'Street address line 3',
     },
     city: {
       'ui:title': 'City',
