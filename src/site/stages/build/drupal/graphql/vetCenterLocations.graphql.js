@@ -8,6 +8,37 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
   entityBundle
   entityLabel
   fieldIntroText
+  fieldNearbyVetCenters {
+    entity {
+      ... on NodeVetCenter {
+        title
+        entityBundle
+        fieldMedia {
+          entity {
+            ... on MediaImage {
+              image {
+                alt
+                title
+                derivative(style: _32MEDIUMTHUMBNAIL) {
+                  url
+                  width
+                  height
+                }
+              }
+            }
+          }
+        }
+        fieldAddress {
+          locality
+          administrativeArea
+          postalCode
+          addressLine1
+          addressLine2
+        }
+        fieldPhoneNumber
+      }
+    }
+  }
   fieldOffice {
     entity {
       ... on NodeVetCenter {
@@ -63,6 +94,7 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
                 postalCode
                 addressLine1
               }
+              fieldPhoneNumber              
             }
             ... on NodeVetCenterMobileVetCenter {
               title
@@ -88,6 +120,7 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
                 postalCode
                 addressLine1
               }
+              fieldPhoneNumber              
             }
           }
         }
@@ -97,6 +130,7 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
           postalCode
           addressLine1
         }
+        fieldPhoneNumber
       }
     }
   }
