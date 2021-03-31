@@ -123,11 +123,9 @@ function ContactFacilitiesPage({
                 <br />
               </>
             )}
-            <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-display--inline">
-              Main phone:
-            </h3>{' '}
             <FacilityPhone
               contact={facility.telecom.find(t => t.system === 'phone')?.value}
+              level="3"
             />
           </li>
         ))}

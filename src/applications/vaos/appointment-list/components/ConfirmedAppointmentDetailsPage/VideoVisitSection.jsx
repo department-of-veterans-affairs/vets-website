@@ -164,7 +164,7 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
                 {phone && (
                   <>
                     <br />
-                    Main phone: <FacilityPhone contact={phone} />
+                    <FacilityPhone contact={phone} />
                   </>
                 )}
               </span>

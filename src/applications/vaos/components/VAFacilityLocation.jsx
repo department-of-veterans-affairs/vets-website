@@ -40,7 +40,7 @@ export default function VAFacilityLocation({
           facility={facility}
           showDirectionsLink
           clinicName={clinicFriendlyName}
-          isHomepageRefresh={!!isHomepageRefresh}
+          level={4}
         />
       </>
     );
