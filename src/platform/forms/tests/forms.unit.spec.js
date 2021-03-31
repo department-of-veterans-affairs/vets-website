@@ -10,12 +10,14 @@ const find = require('find');
 const remapFormId = {
   [VA_FORM_IDS.FORM_10_10EZ]: '10-10EZ',
   [VA_FORM_IDS.FORM_21_526EZ]: '21-526EZ-ALLCLAIMS',
+  [VA_FORM_IDS.FORM_22_1990S]: 'VRRAP',
 };
 
 // These form IDs have a config/form.js file but the formId is not found in vets-json-schema/dist/schemas
 const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_HC_QSTNR,
   VA_FORM_IDS.FORM_21_22,
+  VA_FORM_IDS.FORM_10182,
 ];
 
 const root = path.join(__dirname, '../../../');
