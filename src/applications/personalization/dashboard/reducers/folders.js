@@ -75,7 +75,7 @@ export default function folders(state = initialState, action) {
         'data.currentItem',
         {
           errors: action?.errors,
-          loading: false,
+          fetching: false,
         },
         state,
       );
@@ -97,7 +97,6 @@ export default function folders(state = initialState, action) {
             visible: false,
           },
           lastRequestedFolder: action.request,
-          fetching: true,
         },
         newState,
       );

@@ -88,6 +88,10 @@ const HealthCare = ({
     );
   }
 
+  const wrapperClasses = `vads-u-display--flex large-screen:vads-u-flex-direction--row vads-u-flex-direction--column health-care ${
+    hasUpcomingAppointment ? '' : 'half-width'
+  }`;
+
   const messagesText =
     shouldFetchMessages && !hasInboxError
       ? `You have ${unreadMessagesCount} new message${
@@ -101,7 +105,7 @@ const HealthCare = ({
         Health care
       </h2>
 
-      <div className="vads-u-display--flex large-screen:vads-u-flex-direction--row vads-u-flex-direction--column health-care">
+      <div className={wrapperClasses}>
         {hasUpcomingAppointment && (
           /* Appointments */
           <Appointments appointments={appointments} />
