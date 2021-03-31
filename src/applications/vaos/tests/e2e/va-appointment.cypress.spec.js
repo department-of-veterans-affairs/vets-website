@@ -5,7 +5,7 @@ import {
 } from './vaos-cypress-helpers';
 import * as newApptTests from './vaos-cypress-schedule-appointment-helpers';
 
-describe('VAOS direct schedule flow', () => {
+describe.skip('VAOS direct schedule flow', () => {
   it('should submit form', () => {
     initAppointmentListMock();
     initVAAppointmentMock();
@@ -223,7 +223,7 @@ describe('VAOS direct schedule flow', () => {
     newApptTests.confirmationPageTest(additionalInfo);
   });
 });
-describe('VAOS direct schedule flow with a Cerner site', () => {
+describe.skip('VAOS direct schedule flow with a Cerner site', () => {
   it('should submit form', () => {
     initAppointmentListMock();
     initVAAppointmentMock({ cernerUser: true });
