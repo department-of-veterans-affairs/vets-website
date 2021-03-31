@@ -8,11 +8,13 @@ import fullSchema from 'vets-json-schema/dist/VRRAP-schema.json';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import * as application from '../pages/application';
 import FormFooter from 'platform/forms/components/FormFooter';
+import { transform } from '../submit-transformer';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1990s`,
+  transformForSubmit: transform,
   trackingPrefix: 'edu-1990s-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
