@@ -7,7 +7,6 @@ import CancelAppointmentSucceededModal from './CancelAppointmentSucceededModal';
 import CancelAppointmentConfirmationModal from './CancelAppointmentConfirmationModal';
 import CancelCernerAppointmentModal from './CancelCernerAppointmentModal';
 
-import { isVideoAppointment } from '../../../services/appointment';
 import {
   FETCH_STATUS,
   APPOINTMENT_TYPES,
@@ -31,7 +30,7 @@ export default function CancelAppointmentModal(props) {
   }
 
   if (
-    isVideoAppointment(appointmentToCancel) &&
+    appointmentToCancel.vaos?.isVideo &&
     appointmentToCancel.status === APPOINTMENT_STATUS.booked
   ) {
     return (
