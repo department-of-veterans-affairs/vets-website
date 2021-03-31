@@ -14,11 +14,16 @@ import formConfig1990n from '../../1990n/config/form';
 import formConfig1995 from '../../1995/config/form';
 import formConfig10203 from '../../10203/config/form';
 
-const pageTests = (page, addressType = 'veteran') => {
+const pageTests = (page, formConfig, addressType = 'veteran') => {
   const { schema, uiSchema } = page;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
+      <DefinitionTester
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+      />,
     );
 
     const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(
@@ -44,7 +49,12 @@ const pageTests = (page, addressType = 'veteran') => {
   });
   it('should render validation errors for required fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
+      <DefinitionTester
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+      />,
     );
 
     const formDOM = findDOMNode(form);
@@ -59,6 +69,7 @@ const pageTests = (page, addressType = 'veteran') => {
         schema={schema}
         data={{}}
         uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
       />,
     );
 
@@ -100,6 +111,7 @@ const pageTests = (page, addressType = 'veteran') => {
         schema={schema}
         data={{}}
         uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
       />,
     );
 
@@ -150,6 +162,7 @@ const pageTests = (page, addressType = 'veteran') => {
           }}
           reviewMode
           uiSchema={uiSchema}
+          definitions={formConfig.defaultDefinitions}
         />,
       );
 
@@ -162,28 +175,34 @@ describe('Edu contactInformationPage', () => {
   describe('5495', () =>
     pageTests(
       formConfig5495.chapters.personalInformation.pages.contactInformation,
+      formConfig5495,
       'relative',
     ));
   describe('5490', () =>
     pageTests(
       formConfig5490.chapters.personalInformation.pages.contactInformation,
+      formConfig5490,
       'relative',
     ));
   describe('1990e', () =>
     pageTests(
       formConfig1990e.chapters.personalInformation.pages.contactInformation,
+      formConfig1990e,
       'relative',
     ));
   describe('1990n', () =>
     pageTests(
       formConfig1990n.chapters.personalInformation.pages.contactInformation,
+      formConfig1990n,
     ));
   describe('1995', () =>
     pageTests(
       formConfig1995.chapters.personalInformation.pages.contactInformation,
+      formConfig1995,
     ));
   describe('10203', () =>
     pageTests(
       formConfig10203.chapters.personalInformation.pages.contactInformation,
+      formConfig10203,
     ));
 });
