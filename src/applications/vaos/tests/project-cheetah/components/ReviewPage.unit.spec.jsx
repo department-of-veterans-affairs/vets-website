@@ -197,59 +197,8 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
     await screen.findByText('We couldn’t schedule this appointment');
 
     expect(screen.baseElement).contain.text(
-      'You’ll need to call your local VA medical center',
+      'Something went wrong when we tried to submit your appointment and you’ll',
     );
-
-    // Not sure of a better way to search for test just within the alert
-    const alert = screen.baseElement.querySelector('.usa-alert');
-    expect(alert).contain.text('Cheyenne VA Medical Center');
-    expect(alert).contain.text('2360 East Pershing Boulevard');
-    expect(alert).contain.text('Cheyenne, WY 82001-5356');
-    expect(screen.history.push.called).to.be.false;
-  });
-
-  it('should show appropriate message on regular submit error', async () => {
-    mockFacilityFetch('vha_442', {
-      id: 'vha_442',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '442',
-        name: 'Cheyenne VA Medical Center',
-        address: {
-          physical: {
-            zip: '82001-5356',
-            city: 'Cheyenne',
-            state: 'WY',
-            address1: '2360 East Pershing Boulevard',
-          },
-        },
-        phone: {
-          main: '307-778-7550',
-        },
-      },
-    });
-    setFetchJSONFailure(
-      global.fetch.withArgs(`${environment.API_URL}/vaos/v0/appointments`),
-      {
-        errors: [
-          {
-            code: 'VAOS_500',
-          },
-        ],
-      },
-    );
-
-    const screen = renderWithStoreAndRouter(<ReviewPage />, {
-      store,
-    });
-
-    await screen.findByText(/COVID-19 vaccine/i);
-
-    userEvent.click(screen.getByText(/Confirm appointment/i));
-
-    await screen.findByText('We couldn’t schedule this appointment');
-
-    expect(screen.baseElement).contain.text('you’ll need to start over');
 
     // Not sure of a better way to search for test just within the alert
     const alert = screen.baseElement.querySelector('.usa-alert');

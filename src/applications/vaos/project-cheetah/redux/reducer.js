@@ -474,7 +474,7 @@ export default function projectCheetahReducer(state = initialState, action) {
       return {
         ...state,
         submitStatus: FETCH_STATUS.failed,
-        submitStatusVaos400: action.isVaos400Error,
+        submitErrorReason: action.errorReason,
       };
     case FORM_CALENDAR_FETCH_SLOTS: {
       return {
