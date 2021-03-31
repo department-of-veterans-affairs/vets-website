@@ -1,5 +1,6 @@
 #!/bin/sh
 
+echo "Review Entrypoint Script"
 set -e
 yarn install --production=false
 npm run fetch-drupal-cache
