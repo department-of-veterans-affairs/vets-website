@@ -137,13 +137,13 @@ const uiSchema = {
     },
   },
   addressLine2: {
-    'ui:title': `Line 2 (${STREET_LINE_MAX_LENGTH} characters maximum)`,
+    'ui:title': `Street address line 2 (${STREET_LINE_MAX_LENGTH} characters maximum)`,
     'ui:errorMessages': {
       pattern: `Please enter a valid street address under ${STREET_LINE_MAX_LENGTH} characters`,
     },
   },
   addressLine3: {
-    'ui:title': `Line 3 (${STREET_LINE_MAX_LENGTH} characters maximum)`,
+    'ui:title': `Street address line 3 (${STREET_LINE_MAX_LENGTH} characters maximum)`,
     'ui:errorMessages': {
       pattern: `Please enter a valid street address under ${STREET_LINE_MAX_LENGTH} characters`,
     },

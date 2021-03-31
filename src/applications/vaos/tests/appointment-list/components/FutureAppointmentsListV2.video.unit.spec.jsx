@@ -24,7 +24,7 @@ const initialState = {
 // VA appointment id from confirmed_va.json
 const url = 'va/05760f00c80ae60ce49879cf37a05fc8';
 
-describe('<ConfirmedAppointmentDetailsPage>', () => {
+describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
   describe('video appointments', () => {
     beforeEach(() => {
       mockFetch();
@@ -37,7 +37,7 @@ describe('<ConfirmedAppointmentDetailsPage>', () => {
       resetFetch();
       MockDate.reset();
     });
-    it('should show info and disabled link when ad hoc', async () => {
+    it('should show info and disabled link if ad hoc and more than 30 minutes in the future', async () => {
       const appointment = getVideoAppointmentMock();
       const startDate = moment.utc().add(3, 'days');
       appointment.attributes = {
@@ -52,14 +52,10 @@ describe('<ConfirmedAppointmentDetailsPage>', () => {
         bookingNotes: 'Some random note',
         appointmentKind: 'ADHOC',
         status: { description: 'F', code: 'FUTURE' },
+        instructionsTitle: 'Video Visit Preparation',
         providers: [
           {
             name: { firstName: 'Test T+90', lastName: 'Test' },
-            contactInformation: {
-              mobile: '8888888888',
-              preferredEmail: 'marcy.nadeau@va.gov',
-              timeZone: '10',
-            },
             location: {
               type: 'VA',
               facility: {
@@ -831,6 +827,7 @@ describe('<ConfirmedAppointmentDetailsPage>', () => {
         bookingNotes: 'Some random note',
         appointmentKind: 'ADHOC',
         status: { description: 'F', code: 'FUTURE' },
+        instructionsTitle: 'Video Visit Preparation',
         providers: [
           {
             name: { firstName: 'Test T+90', lastName: 'Test' },
@@ -892,6 +889,64 @@ describe('<ConfirmedAppointmentDetailsPage>', () => {
       fireEvent.click(screen.getByText(/Prepare for video visit/i));
 
       expect(await screen.findByText('Before your appointment:')).to.be.ok;
+    });
+    it('should reveal medication review instructions', async () => {
+      const startDate = moment.utc().add(30, 'minutes');
+      const appointment = getVideoAppointmentMock();
+      appointment.attributes = {
+        ...appointment.attributes,
+        facilityId: '983',
+        clinicId: null,
+        startDate: startDate.format(),
+      };
+      appointment.attributes.vvsAppointments[0] = {
+        ...appointment.attributes.vvsAppointments[0],
+        dateTime: startDate.format(),
+        bookingNotes: 'Some random note',
+        appointmentKind: 'ADHOC',
+        status: { description: 'F', code: 'FUTURE' },
+        instructionsTitle: 'Medication Review',
+      };
+      mockAppointmentInfo({
+        va: [appointment],
+        cc: [],
+        requests: [],
+        isHomepageRefresh: true,
+      });
+
+      const screen = renderWithStoreAndRouter(
+        <AppointmentList featureHomepageRefresh />,
+        {
+          initialState,
+        },
+      );
+
+      fireEvent.click(await screen.findByText(/Details/));
+
+      await waitFor(() =>
+        expect(screen.history.push.lastCall.args[0]).to.equal(url),
+      );
+
+      await screen.findByText(
+        new RegExp(
+          startDate
+            .tz('America/Denver')
+            .format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
+      );
+
+      expect(screen.queryByText(/You don’t have any appointments/i)).not.to
+        .exist;
+      expect(screen.queryByText(/before your appointment/i)).to.not.exist;
+
+      fireEvent.click(screen.getByText(/Prepare for video visit/i));
+
+      expect(
+        await screen.findByText(
+          /your provider will want to review all the medications/,
+        ),
+      ).to.be.ok;
     });
   });
 });

@@ -149,10 +149,16 @@
     <div id="content">
       <main id="main" class="main">
         <% if (widgetType) { %>
+          <% if (widgetTemplate == 'navigation/facility_sidebar_nav') { %>
+            <script nonce="**CSP_NONCE**" type="text/javascript">
+              window.sideNav = <%= JSON.stringify(facilitySidebar) %>;
+            </script>
+            <nav data-template="navigation/facility_sidebar_nav" aria-label="secondary" data-widget-type="side-nav"></nav>
+          <% } %>
           <article class="usa-content">
             <div data-template="paragraphs/react_widget" data-widget-type="<%= widgetType %>" data-widget-timeout="20">
               <div class="loading-indicator-container">
-                <div class="loading-indicator" role="progressbar" aria-valuetext></div>
+                <div class="loading-indicator" role="progressbar" aria-valuetext="Loading" aria-label="secondary"></div>
                 <span class="loading-indicator-message loading-indicator-message--normal"></span>
                 <span class="loading-indicator-message loading-indicator-message--slow vads-u-display--none"
                   aria-hidden="true">
@@ -175,7 +181,7 @@
             <div id="react-root">
               <div class="vads-u-margin-y--5">
                 <div class="loading-indicator-container">
-                  <div class="loading-indicator" role="progressbar" aria-valuetext="<%= loadingMessage %>" tabindex="0">
+                  <div class="loading-indicator" role="progressbar" aria-valuetext="<%= loadingMessage %>" aria-label="Load application" tabindex="0">
                   </div>
                   <%= loadingMessage %>
                 </div>
