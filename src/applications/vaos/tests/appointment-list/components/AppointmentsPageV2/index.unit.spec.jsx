@@ -377,6 +377,11 @@ describe('VAOS <AppointmentsPageV2>', () => {
     );
 
     expect(await screen.findByRole('link', { name: /Start scheduling/ }));
+    expect(screen.getByRole('heading', { level: 3 })).to.have.text(
+      'COVID-19 vaccines',
+    );
+    expect(screen.getByText(/at this time, you can't schedule a COVID-19/i)).to
+      .be.ok;
   });
 
   it('should render schedule radio list with COVID-19 vaccine option', async () => {
