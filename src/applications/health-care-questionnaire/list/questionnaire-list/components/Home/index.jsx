@@ -21,6 +21,7 @@ import {
   questionnaireListLoaded,
   questionnaireListLoadedWithError,
 } from '../../../actions';
+import { focusElement } from 'platform/utilities/ui';
 
 import { GetHelpFooter } from '../../../../shared/components/footer';
 
@@ -57,6 +58,7 @@ const Home = props => {
 
           const sorted = sortQuestionnairesByStatus(data);
           setQuestionnaireData(sorted);
+          focusElement('h1');
         })
         .catch(() => {
           setApiDidError(true);
