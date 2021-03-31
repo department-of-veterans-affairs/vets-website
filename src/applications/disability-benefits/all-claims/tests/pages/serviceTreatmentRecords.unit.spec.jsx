@@ -96,6 +96,11 @@ describe('serviceTreatmentRecords', () => {
     form.find('form').simulate('submit');
     expect(onSubmit.calledOnce).to.be.true;
     expect(form.find(errorClass).length).to.equal(0);
+    const noRadioId = form.find('input[value="N"]').props()['aria-describedby'];
+    const alertId = form.find('.service-treatment-records-submit-later').props()
+      .id;
+    expect(noRadioId).to.not.be.undefined;
+    expect(noRadioId).to.eq(alertId);
     form.unmount();
   });
 
