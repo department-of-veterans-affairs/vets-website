@@ -33,7 +33,7 @@ const VeteranInformationDisplay = props => {
       <div className="vads-u-padding-left--2">
         <p
           className="vads-u-margin--1px vads-u-font-weight--bold"
-          aria-label="Veterans Full Name"
+          aria-label={`Veterans Full Name ${fullName}`}
           data-testid="fullName"
         >
           {fullName}
@@ -42,7 +42,9 @@ const VeteranInformationDisplay = props => {
           Date of birth:{' '}
           <time
             dateTime={dateOfBirth}
-            aria-label="Veteran's date of birth"
+            aria-label={`Veteran's date of birth ${moment(dateOfBirth).format(
+              'MMMM DD, YYYY',
+            )}`}
             data-testid="dateOfBirth"
           >
             {moment(dateOfBirth).format('MMMM DD, YYYY')}
@@ -50,7 +52,12 @@ const VeteranInformationDisplay = props => {
         </p>
         {gender && (
           <>
-            <p className="vads-u-margin--1px">
+            <p
+              className="vads-u-margin--1px"
+              aria-label={`Veteran's Gender ${
+                genderLabels[gender] ? genderLabels[gender] : 'UNKNOWN'
+              }`}
+            >
               Gender:{' '}
               <span data-testid="gender">
                 {genderLabels[gender] ? genderLabels[gender] : 'UNKNOWN'}

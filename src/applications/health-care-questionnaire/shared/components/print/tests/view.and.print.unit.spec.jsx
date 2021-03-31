@@ -11,7 +11,21 @@ describe('health care questionnaire list - shows view and print button', () => {
     expect(component.exists('.va-button')).to.be.true;
     component.unmount();
   });
-
+  it('has accessability aria-label', () => {
+    const component = mount(
+      <ViewAndPrint
+        facilityName="Magic Kingdom"
+        appointmentTime="2021-10-31T17:00:00Z"
+      />,
+    );
+    expect(component.exists('.va-button')).to.be.true;
+    expect(
+      component.find('[data-testid="print-button"]').prop('aria-label'),
+    ).to.equal(
+      'Download your response to the questionnaire you submitted for your appointment at Magic Kingdom that was on October, 31, 2021',
+    );
+    component.unmount();
+  });
   it('onClick is added to the button', () => {
     const onClick = sinon.spy();
     const component = mount(<ViewAndPrint onClick={onClick} />);

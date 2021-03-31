@@ -132,10 +132,10 @@ export const uiSchema = {
       },
     },
     addressLine2: {
-      'ui:title': 'Street address (20 characters maximum)',
+      'ui:title': 'Street address line 2 (20 characters maximum)',
     },
     addressLine3: {
-      'ui:title': 'Street address (20 characters maximum)',
+      'ui:title': 'Street address line 3 (20 characters maximum)',
     },
     city: {
       'ui:errorMessages': {

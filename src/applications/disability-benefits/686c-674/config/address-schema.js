@@ -163,10 +163,10 @@ export const addressUISchema = (
         },
       },
       addressLine2: {
-        'ui:title': 'Line 2',
+        'ui:title': 'Street address line 2',
       },
       addressLine3: {
-        'ui:title': 'Line 3',
+        'ui:title': 'Street address line 3',
       },
       city: {
         'ui:required': callback,
