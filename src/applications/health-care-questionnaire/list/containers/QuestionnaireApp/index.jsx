@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
+import recordEvent from 'platform/monitoring/record-event';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import Home from '../../questionnaire-list/components/Home';
@@ -8,7 +9,6 @@ import {
   selectShowQuestionnaire,
   selectLoadingFeatureFlags,
 } from '../../../shared/redux-selectors';
-import recordEvent from 'platform/monitoring/record-event';
 
 const QuestionnaireApp = props => {
   const { isLoadingFeatureFlags, isQuestionnaireEnabled, location } = props;
