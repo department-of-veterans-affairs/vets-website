@@ -401,13 +401,11 @@ function setupSchedulingMocks({ cernerUser = false } = {}) {
 
 function updateTimeslots(data) {
   const startDateTime = moment()
-    .add(1, 'day')
     .add(1, 'months')
     .startOf('month')
     .day(9)
     .format('YYYY-MM-DDTHH:mm:ss[+00:00]');
   const endDateTime = moment()
-    .add(1, 'day')
     .add(1, 'months')
     .startOf('month')
     .day(9)

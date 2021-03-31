@@ -5,7 +5,7 @@ import {
 } from './vaos-cypress-helpers';
 import * as newApptTests from './vaos-cypress-schedule-appointment-helpers';
 
-describe.skip('VAOS direct schedule flow', () => {
+describe('VAOS direct schedule flow', () => {
   it('should submit form', () => {
     initAppointmentListMock();
     initVAAppointmentMock();
