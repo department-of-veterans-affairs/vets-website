@@ -5,7 +5,6 @@ import {
   eligibilityAccordion,
   veteranLabel,
   spouseLabel,
-  caregiverEnrolledLabel,
   caregiverOfVeteranLabel,
   champvaLabel,
 } from './helpers';
@@ -28,7 +27,6 @@ export const uiSchema = {
         labels: {
           veteran: veteranLabel,
           spouse: spouseLabel,
-          caregiverEnrolled: caregiverEnrolledLabel,
           caregiverOfVeteran: caregiverOfVeteranLabel,
           CHAMPVA: champvaLabel,
         },
