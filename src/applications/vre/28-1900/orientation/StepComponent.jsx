@@ -9,17 +9,6 @@ const StepComponent = props => {
   if (data.isVideoStep) {
     content = (
       <>
-        {data.subTitle()}
-
-        <iframe
-          width="325px"
-          height="185px"
-          src={`https://www.youtube.com/embed/${data.path}`}
-          title={data.title}
-          frameBorder="0"
-          allowFullScreen
-          key={data.path}
-        />
         <p>{data.desc}</p>
         <ul>
           {data.list.map((item, index) => {
