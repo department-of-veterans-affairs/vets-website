@@ -213,10 +213,13 @@ export const DirectDepositEDU = ({
       </p>
       <div className="vads-u-margin-bottom--2">
         <AdditionalInfo triggerText="Where can I find these numbers?">
+          {/* eslint-disable jsx-a11y/no-redundant-roles */}
           <img
             src="/img/direct-deposit-check-guide.svg"
             alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
+            role="img"
           />
+          {/* eslint-enable jsx-a11y/no-redundant-roles */}
           <p>
             The bank routing number is the first 9 digits on the bottom left
             corner of a printed check. Your account number is the second set of
