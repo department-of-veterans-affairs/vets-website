@@ -10,12 +10,10 @@ const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
 
-    // Rename and modify the test data as needed.
     dataSets: [
       'test-data-veteran',
       'test-data-spouse',
-      'test-data-caregiver-enrolled',
-      'test-data-caregiver-of-veteran',
+      'test-data-caregiver',
       'test-data-champva',
     ],
 
@@ -25,7 +23,6 @@ const testConfig = createTestConfig(
 
     pageHooks: {
       introduction: () => {
-        // cy.injectAxe();
         cy.get('#introductionRadios-1').check();
         cy.findByText(/continue/i, { selector: 'button' })
           .first()
@@ -41,7 +38,6 @@ const testConfig = createTestConfig(
         cy.get('.errorable-radio-button > input')
           .first()
           .check();
-        // cy.get('#location-0').check();
       },
       confirmation: () => {
         cy.get('h2').contains("We've received your information");
@@ -112,10 +108,6 @@ const testConfig = createTestConfig(
         body: {},
       }).as('submitForm');
     },
-
-    // Skip tests in CI until the form is released.
-    // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,
