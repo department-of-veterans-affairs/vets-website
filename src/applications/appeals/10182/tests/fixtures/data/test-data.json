@@ -1,0 +1,87 @@
+
+{
+  "data": {
+    "type": "noticeOfDisagreement",
+    "attributes": {
+      "veteran": {
+        "homeless": false,
+        "address": {
+          "addressLine1": "123 Main St",
+          "addressLine2": "Suite #1200",
+          "addressLine3": "Box 4",
+          "city": "New York",
+          "countryName": "United States",
+          "stateCode": "NY",
+          "zipCode5": "30012",
+          "internationalPostalCode": "1"
+        },
+        "phone": {
+          "countryCode": "6",
+          "areaCode": "555",
+          "phoneNumber": "8001111",
+          "phoneNumberExt": "2"
+        },
+        "emailAddressText": "user@example.com",
+        "representativesName": "Tony Danza"
+      },
+      "boardReviewOption": "hearing",
+      "hearingTypePreference": "central_office",
+      "timezone": "America/Chicago",
+      "socOptIn": false
+    }
+  },
+  "included": [
+    {
+      "type": "contestableIssue",
+      "attributes": {
+        "issue": "tinnitus",
+        "decisionDate": "1900-01-01",
+        "decisionIssueId": 1,
+        "ratingIssueReferenceId": "2",
+        "ratingDecisionReferenceId": "3"
+      }
+    },
+    {
+      "type": "contestableIssue",
+      "attributes": {
+        "issue": "left knee",
+        "decisionDate": "1900-01-02",
+        "decisionIssueId": 4,
+        "ratingIssueReferenceId": "5"
+      }
+    },
+    {
+      "type": "contestableIssue",
+      "attributes": {
+        "issue": "right knee",
+        "decisionDate": "1900-01-03",
+        "ratingIssueReferenceId": "6",
+        "ratingDecisionReferenceId": "7"
+      }
+    },
+    {
+      "type": "contestableIssue",
+      "attributes": {
+        "issue": "PTSD",
+        "decisionDate": "1900-01-04",
+        "decisionIssueId": 8,
+        "ratingDecisionReferenceId": "9"
+      }
+    },
+    {
+      "type": "contestableIssue",
+      "attributes": {
+        "issue": "Traumatic Brain Injury",
+        "decisionDate": "1900-01-05",
+        "decisionIssueId": 10
+      }
+    },
+    {
+      "type": "contestableIssue",
+      "attributes": {
+        "issue": "right shoulder",
+        "decisionDate": "1900-01-06"
+      }
+    }
+  ]
+}
