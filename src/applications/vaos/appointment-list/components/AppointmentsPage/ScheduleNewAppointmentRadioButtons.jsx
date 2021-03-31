@@ -10,6 +10,8 @@ import {
   selectCanUseVaccineFlow,
   selectDirectScheduleSettingsStatus,
 } from '../../redux/selectors';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 /**
  * React component used to conditionally render radio call-to-action buttons and start applicable workflow.
@@ -76,6 +78,23 @@ function ScheduleNewAppointmentRadioButtons({
       <h2 className="vads-u-font-size--h3 vads-u-padding-bottom--0 vads-u-margin-y--0">
         Schedule a new appointment
       </h2>
+      {!canUseVaccineFlow && (
+        <AlertBox
+          className="vads-u-margin-top--1p5"
+          status="info"
+          backgroundOnly
+        >
+          <h3 className="vads-u-font-size--base vads-u-line-height--1 vads-u-margin-top--0 vads-u-margin-bottom--1p5 vads-u-font-family--sans">
+            COVID-19 vaccines
+          </h3>
+          Note: At this time, you can't schedule a COVID-19 vaccine appointment
+          online.{' '}
+          <NewTabAnchor href="/health-care/covid-19-vaccine">
+            Get the latest updates about COVID-19 vaccines at VA
+          </NewTabAnchor>
+          .
+        </AlertBox>
+      )}
       {onlyRegularAppointmentFlow && (
         <div className="vads-u-margin-top--1p5">
           Schedule primary or specialty care.
