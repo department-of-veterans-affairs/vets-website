@@ -65,6 +65,7 @@ export default function folders(state = initialState, action) {
             value: sortValue,
             order: sortOrder,
           },
+          errors: null,
         },
         newState,
       );
