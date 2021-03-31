@@ -14,6 +14,17 @@ const vetCenterFragment = `
           endhours
           comment
         }
+        # Other locations link:
+        reverseFieldOfficeNode(limit: 500, filter:{conditions: [{field: "type", value: ["vet_center_locations_list"]}]}) {
+          entities {
+            ... on NodeVetCenterLocationsList {
+              entityUrl {
+                path
+                routed
+              }
+            }
+          }
+        }        
         fieldPrepareForVisit {
           entity {
             ... on ParagraphBasicAccordion {

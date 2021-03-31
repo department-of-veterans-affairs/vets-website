@@ -29,6 +29,7 @@ const taxonomiesQuery = require('./taxonomy-fragments/GetTaxonomies.graphql');
 const vaFormPage = require('./vaFormPage.graphql');
 const vamcOperatingStatusAndAlerts = require('./vamcOperatingStatusAndAlerts.graphql');
 const vetCenters = require('./vetCenter.graphql');
+const vetCenterLocations = require('./vetCenterLocations.graphql');
 
 // Get current feature flags
 const { cmsFeatureFlags } = global;
@@ -67,6 +68,7 @@ module.exports = `
   ${nodeBasicLandingPage.fragment}
   ${nodeCampaignLandingPage.fragment}
   ${vetCenters.fragment}
+  ${vetCenterLocations.fragment}
 
   query GetLatestPageById($id: String!, $today: String!, $onlyPublishedContent: Boolean!) {
     nodes: nodeQuery(revisions: LATEST, filter: {
@@ -96,6 +98,7 @@ module.exports = `
         ... nodeBasicLandingPage
         ... nodeCampaignLandingPage
         ... vetCenterFragment
+        ... vetCenterLocationsFragment
       }
     }
     ${icsFileQuery.partialQuery}
