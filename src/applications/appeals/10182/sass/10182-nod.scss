@@ -1,0 +1,99 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
+@import "../../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "../../../../platform/forms/sass/m-form-confirmation";
+
+.schemaform-intro {
+  padding: 0 0 2rem 0;
+
+  .process-step:last-child {
+    padding-bottom: 0;
+  }
+
+  .omb-info--container {
+    margin-top: 1em;
+  }
+}
+
+/* Contested issue cards (contested issue page & review/submit page) */
+dl.review {
+  .widget-wrapper {
+    position: relative;
+
+    h4 {
+      margin-top: 0;
+    }
+  }
+
+  .widget-outline {
+    background: transparent;
+    border: solid 4px $color-primary-alt-light;
+    border-radius: 7px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    max-width: auto; /* IE11 */
+    max-width: unset;
+
+    &.selected {
+      border-color: $color-primary;
+    }
+
+    &::before {
+      position: absolute;
+      margin-left: 1.5rem;
+      margin-top: 1.5rem;
+    }
+  }
+
+  dt.widget-checkbox-wrap {
+    margin: 0;
+    width: 0;
+    min-width: auto; /* IE11 */
+    min-width: unset;
+
+    [type="checkbox"] {
+      width: 1.8rem;
+      height: 1.8rem;
+      margin: 1.8rem;
+    }
+  }
+
+  .widget-title {
+    margin: 1.5rem 2rem 0 5rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: calc(100% - 7rem);
+  }
+
+  dd.widget-content {
+    width: 100%;
+    margin-inline-start: 0; /* override user agent */
+    text-align: left;
+    margin: 3rem 3.5rem 0 5rem;
+  }
+
+  .checkbox-hidden {
+    dt.widget-checkbox-wrap {
+      width: 0;
+    }
+
+    .widget-title {
+      margin-left: 0;
+      width: 100%;
+      overflow: visible;
+      white-space: normal;
+    }
+
+    .widget-content {
+      margin: 2rem 0 0 2rem;
+    }
+  }
+}
