@@ -29,16 +29,17 @@ const YesDisabilityRating = props => {
         orientation below. If you already know you want to apply for VR&E, you
         can go directly to the online application without going through the
         orientation below.{' '}
-        <a
-          aria-describedby="orientation-complete-notification"
-          onClick={() => {
-            sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
-          }}
-          href={CHAPTER_31_ROOT_URL}
-        >
-          Apply online now with VA Form 28-1900
-        </a>
       </p>
+      <a
+        aria-describedby="orientation-complete-notification"
+        onClick={() => {
+          sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+        }}
+        href={CHAPTER_31_ROOT_URL}
+        className="va-action-link--green vads-u-padding-left--0"
+      >
+        Apply online now with VA Form 28-1900
+      </a>
     </div>
   );
 };
