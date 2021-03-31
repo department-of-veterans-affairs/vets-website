@@ -6,6 +6,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import ErrorMessage from '../components/ErrorMessage';
 import { fetchFormStatus } from '../actions/index';
 import { fsrWizardFeatureToggle, fsrFeatureToggle } from '../utils/helpers';
+import MetaTags from 'react-meta-tags';
 import WizardContainer from '../wizard/WizardContainer';
 import { WIZARD_STATUS } from '../wizard/constants';
 import {
@@ -57,6 +58,10 @@ const App = ({
 
   return showFSR ? (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+      {/* TODO: used to prevent staging form being indexed remove once merged to prod */}
+      <MetaTags>
+        <meta name="robots" content="noindex" />
+      </MetaTags>
       {children}
     </RoutedSavableApp>
   ) : null;
