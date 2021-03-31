@@ -363,7 +363,7 @@
     "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ccf4b138584046eef02577bae8deca17ee1a721c",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#edu-usa-phones",
     "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.2.2",
     "whatwg-fetch": "^2.0.3"
   },
