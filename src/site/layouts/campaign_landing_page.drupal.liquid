@@ -4,7 +4,7 @@
 <!-- Derive the total sections the page includes for analytics. -->
 {% assign clpTotalSections = 11 | deriveCLPTotalSections: fieldClpVideoPanel, fieldClpSpotlightPanel, fieldClpStoriesPanel, fieldClpResourcesPanel, fieldClpEventsPanel, fieldClpFaqPanel, fieldBenefitCategories %}
 
-<div id="content" class="interior" data-template="node-campaign_landing_page">
+<div id="content" class="interior vads-u-display--none" data-template="node-campaign_landing_page">
   <main>
     <!-- Hero-->
     <div class="va-u-background--image" style="background-image: url('{{ fieldHeroImage.entity.image.url }}">
@@ -652,6 +652,35 @@
     {% include "src/site/components/up_to_top_button.html" %}
   </main>
 </div>
+
+<!-- TEMPORARY -->
+<!-- =============== -->
+<script>
+  function checkCLPAuth() {
+    var clpPassphrase = prompt('This page is in BETA. Please enter the passphrase to access it:');
+
+    // Redirect to homepage if the passphrase is incorrect.
+    if (clpPassphrase !== 'clptest123') {
+      window.location.href = '/';
+      return;
+    }
+
+    // Derive the content element.
+    var content = document.getElementById('content');
+
+    // Escape early if we cannot find it.
+    if (!content) {
+      console.error('Unable to find #content to show.');
+      return;
+    }
+
+    // Show the content.
+    content.className = content.className.replace(' vads-u-display--none', '');
+  }
+
+  checkCLPAuth();
+</script>
+<!-- =============== -->
 
 {% include "src/site/includes/footer.html" %}
 {% include "src/site/includes/debug.drupal.liquid" %}

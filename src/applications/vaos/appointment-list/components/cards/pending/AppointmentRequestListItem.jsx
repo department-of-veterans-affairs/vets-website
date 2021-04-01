@@ -4,10 +4,7 @@ import moment from 'moment';
 
 import ListBestTimeToCall from './ListBestTimeToCall';
 import { sentenceCase } from '../../../../utils/formatters';
-import {
-  getPatientTelecom,
-  isVideoAppointment,
-} from '../../../../services/appointment';
+import { getPatientTelecom } from '../../../../services/appointment';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import AppointmentStatus from '../AppointmentStatus';
 import VAFacilityLocation from '../../../../components/VAFacilityLocation';
@@ -46,7 +43,7 @@ export default function AppointmentRequestListItem({
 
   const isCC = appointment.vaos.isCommunityCare;
   const isExpressCare = appointment.vaos.isExpressCare;
-  const isVideoRequest = isVideoAppointment(appointment);
+  const isVideoRequest = appointment.vaos.isVideo;
   const cancelled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const firstMessage = messages?.[appointment.id]?.[0]?.attributes?.messageText;
 

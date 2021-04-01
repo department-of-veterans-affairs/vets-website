@@ -21,7 +21,7 @@ export default function VeteranInfoReviewPage({ formData }) {
   const display = [
     {
       label: 'Name',
-      value: 'Eleven Zztest', // veteran.fullName,
+      value: veteran.fullName,
     },
     {
       label: 'Date of birth',
