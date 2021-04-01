@@ -91,7 +91,6 @@ function ContactFacilitiesPage({
               </li>
             </ul>
           </AlertBox>
-          <h2 className="vads-u-font-size--h3">Your facilities</h2>
         </>
       )}
       {!canUseVaccineFlow && (
@@ -103,10 +102,11 @@ function ContactFacilitiesPage({
           </p>
         </>
       )}
+      <h2 className="vads-u-font-size--h3">Your facilities</h2>
       <ul className="usa-unstyled-list" aria-labelledby="vaos-facilities-label">
         {facilities.slice(0, facilitiesToShow).map(facility => (
           <li key={facility.id} className="vads-u-margin-top--2">
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
               <NewTabAnchor
                 href={`/find-locations/facility/vha_${getRealFacilityId(
                   getFacilityIdFromLocation(facility),
@@ -114,7 +114,7 @@ function ContactFacilitiesPage({
               >
                 {facility.name}
               </NewTabAnchor>
-            </h2>
+            </h3>
             {facility.address?.city}, <State state={facility.address?.state} />
             <br />
             {!!facility.legacyVAR[sortMethod] && (
@@ -123,9 +123,9 @@ function ContactFacilitiesPage({
                 <br />
               </>
             )}
-            <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-display--inline">
+            <h4 className="vads-u-font-family--sans vads-u-font-size--base vads-u-display--inline">
               Main phone:
-            </h3>{' '}
+            </h4>{' '}
             <FacilityPhone
               contact={facility.telecom.find(t => t.system === 'phone')?.value}
             />
