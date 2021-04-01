@@ -4,19 +4,14 @@ import fullNameUI from 'platform/forms/definitions/fullName';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-import bankAccountUI from 'platform/forms/definitions/bankAccount';
+import directDeposit from 'platform/forms-system/src/js/definitions/directDeposit';
 
 import {
   uiSchema as addressUISchema,
   schema as addressSchema,
 } from 'platform/forms/definitions/address';
 import _ from 'lodash';
-import {
-  bankInfoHelpText,
-  directDepositAlert,
-  directDepositDescription,
-} from '../content/directDeposit';
-
+import { directDepositAlert } from '../content/directDeposit';
 import {
   confirmEligibilityDescription,
   confirmEligibilityNote,
@@ -38,15 +33,19 @@ const {
   vrrapConfirmation,
 } = fullSchema.properties;
 
-const { bankAccount } = fullSchema.definitions;
-
 const addressUiSchema = addressUISchema('Mailing address', false);
 const address = addressSchema(fullSchema, true);
-const declineDirectDeposit = form =>
-  form['view:directDeposit']['view:declineDirectDeposit'];
-const useDirectDeposit = form => !declineDirectDeposit(form);
+const bankFieldIsRequired = form =>
+  !form['view:directDeposit'].declineDirectDeposit;
 const hasNotSelectedProgram = form =>
   !_.get(form['view:programSelection'], 'hasSelectedProgram', true);
+
+const {
+  uiSchema: directDepositUiSchema,
+  schema: directDepositSchema,
+} = directDeposit({
+  optionalFields: { bankName: false, declineDirectDeposit: true },
+});
 
 const path = 'form';
 const title = 'Application';
@@ -89,43 +88,28 @@ const uiSchema = {
     },
   },
   'view:directDeposit': {
-    'ui:title': 'Direct deposit information',
-    'ui:description': directDepositDescription,
+    ...directDepositUiSchema,
     bankAccount: {
-      'ui:order': ['accountType', 'routingNumber', 'accountNumber'],
+      ...directDepositUiSchema.bankAccount,
       accountType: {
-        ...bankAccountUI.accountType,
-        'ui:required': useDirectDeposit,
+        ...directDepositUiSchema.bankAccount.accountType,
+        'ui:required': bankFieldIsRequired,
       },
       routingNumber: {
-        ...bankAccountUI.routingNumber,
-        'ui:title': 'Bank routing number',
-        'ui:required': useDirectDeposit,
+        ...directDepositUiSchema.bankAccount.routingNumber,
+        'ui:required': bankFieldIsRequired,
       },
       accountNumber: {
-        ...bankAccountUI.accountNumber,
-        'ui:title': 'Bank account number',
-        'ui:required': useDirectDeposit,
+        ...directDepositUiSchema.bankAccount.accountNumber,
+        'ui:required': bankFieldIsRequired,
       },
       'ui:options': {
-        classNames: 'vads-u-margin-bottom--3',
-        hideIf: declineDirectDeposit,
+        ...directDepositUiSchema.bankAccount['ui:options'],
+        hideIf: form => !bankFieldIsRequired(form),
       },
     },
-    'view:declineDirectDeposit': {
-      'ui:title': "I don't want to use direct deposit",
-      'ui:options': {
-        hideOnReviewIfFalse: true,
-      },
-    },
-    'view:directDespositInfo': {
+    'view:directDepositInfo': {
       'ui:description': directDepositAlert,
-    },
-    'view:bankInfoHelpText': {
-      'ui:description': bankInfoHelpText,
-      'ui:options': {
-        classNames: 'vads-u-margin-top--4',
-      },
     },
   },
   'view:programSelection': {
@@ -159,7 +143,7 @@ const uiSchema = {
       },
     },
     learningFormat: {
-      'ui:title': 'Is it an in-person or online program?',
+      'ui:title': 'Is the program in-person, online or both?',
       'ui:widget': 'radio',
       'ui:options': {
         hideIf: hasNotSelectedProgram,
@@ -224,23 +208,7 @@ const schema = {
         },
       },
     },
-    'view:directDeposit': {
-      type: 'object',
-      properties: {
-        bankAccount,
-        'view:declineDirectDeposit': {
-          type: 'boolean',
-        },
-        'view:directDespositInfo': {
-          type: 'object',
-          properties: {},
-        },
-        'view:bankInfoHelpText': {
-          type: 'object',
-          properties: {},
-        },
-      },
-    },
+    'view:directDeposit': directDepositSchema,
     'view:programSelection': {
       type: 'object',
       required: ['hasSelectedProgram'],
