@@ -13,5 +13,5 @@ then
   cd ../content-build && npm run build -- --buildtype localhost --api='${API_URL}' --host='${WEB_HOST}' --port='${WEB_PORT}' && npm run heroku-serve -- build/localhost -p 3002
 else
   echo "Directory ../content-build does not exists."
-  npm run heroku-serve -- build/localhost -p 3001
+  # npm run heroku-serve -- build/localhost -p 3001
 fi
