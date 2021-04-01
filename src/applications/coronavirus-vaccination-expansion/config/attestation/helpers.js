@@ -17,19 +17,27 @@ export const eligibilityAccordion = (
     <va-accordion style={paddingBottom}>
       <va-accordion-item level="4" header="Which Veterans are eligible?">
         <p>
-          To be eligible for a COVID-19 vaccine at VA as a Veteran, both of
-          these statements must be true for you:
+          To be eligible for a COVID-19 vaccine at VA as a Veteran, at least one
+          of these statements must be true for you:
           <ul>
             <li>
-              You served on active duty (other than for training) or have a
-              service-connected disability, <strong>and</strong>
+              You served on active duty (other than for training),{' '}
+              <strong>or</strong>
             </li>
-            <li>You didn’t receive a dishonorable discharge.</li>
+            <li>
+              You have a service-connected disability, <strong>or</strong>
+            </li>
+            <li>
+              You retired from the U.S. National Guard, Reserves, or Coast Guard
+              (even if you were never called up for active-duty service)
+            </li>
           </ul>
-          Active duty service means you served full-time duty in any of these
+          Active-duty service means you served full-time duty in any of these
           ways (other than for training purposes only):
           <ul>
-            <li>In the U.S. Armed Forces (including Reserves)</li>
+            <li>
+              In the U.S. Armed Forces (including Reserves), <strong>or</strong>
+            </li>
             <li>
               As a commissioned officer of the Regular or Reserve Corp of the
               Public Health Service, <strong>or</strong>
@@ -39,7 +47,7 @@ export const eligibilityAccordion = (
               Administration (or Coast and Geodetic Survey), <strong>or</strong>
             </li>
             <li>
-              As a Cadet at the U.S. Military, Air Force, or Coast Guard
+              As a cadet at the U.S. Military, Air Force, or Coast Guard
               Academy, <strong>or</strong>
             </li>
             <li>As a midshipman at the United States Naval Academy</li>
@@ -94,8 +102,10 @@ export const eligibilityAccordion = (
 
 export const veteranLabel = (
   <>
-    <strong>Eligible Veteran</strong> who meets the service requirements listed
-    above
+    <strong>Veteran</strong> who served on active duty, <strong>or</strong> has
+    a service-connected disability, <strong>or</strong> retired from the U.S.
+    National Guard, Reserves, or Coast Guard (even if you were never called up
+    for active-duty service)
   </>
 );
 
