@@ -45,8 +45,8 @@ export function DynamicRadioWidget(props) {
           })
           .catch(err => {
             isLoading(false);
-            setSelected('None');
-            onChange('None');
+            setSelected('');
+            onChange('');
             setError(true);
             return err;
           });
