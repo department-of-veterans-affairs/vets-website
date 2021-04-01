@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import recordEvent from 'platform/monitoring/record-event';
 import { PAGE_NAMES } from '../constants';
 import Telephone, {
   CONTACTS,
@@ -6,6 +7,13 @@ import Telephone, {
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
 const Copays = () => {
+  useEffect(() => {
+    recordEvent({
+      event: 'howToWizard-alert-displayed',
+      'reason-for-alert': 'debt related to VA health care copays',
+    });
+  }, []);
+
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
       <p className="vads-u-margin-top--0">
