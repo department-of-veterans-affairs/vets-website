@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import recordEvent from 'platform/monitoring/record-event';
 import FormFooter from 'platform/forms/components/FormFooter';
 import Wizard from 'applications/static-pages/wizard';
@@ -21,11 +22,7 @@ const WizardContainer = ({ setWizardStatus }) => {
   return (
     <div className="row">
       <div className="usa-width-two-thirds medium-8 columns">
-        <h1>{getPageTitle()}</h1>
-        <p>
-          Equal to VA Form 21-526EZ (Application for Disability Compensation and
-          Related Compensation Benefits).
-        </p>
+        <FormTitle title={getPageTitle()} subTitle={formConfig.subTitle} />
         <div className="wizard-container">
           <h2>Is this the form I need?</h2>
           <p>
