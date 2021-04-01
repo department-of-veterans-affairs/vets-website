@@ -385,6 +385,7 @@ function CalendarWidget({
                           renderIndicator={renderIndicator}
                           renderOptions={renderOptions}
                           disabled={disabled}
+                          showWeekends={showWeekends}
                         />
                       ),
                     )}

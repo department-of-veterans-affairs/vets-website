@@ -26,7 +26,7 @@
 .vaos-calendar__calendar-day {
   flex-grow: 1;
   flex-basis: 0;
-  margin: 2px;
+  margin: 4px 2px;
 
   @include media($small-screen) {
     margin: 8px;
@@ -80,7 +80,7 @@
   background-color: $color-gray-lightest;
   border: 1px solid $color-gray-medium;
   border-radius: 5px;
-  padding: 6px;
+  padding: 11px 6px;
   margin: 0;
 
   &:hover {
@@ -168,6 +168,23 @@
 
   @include media($large-screen) {
     width: 25%;
+  }
+}
+
+.vaos-calendar__option-cell--full-width {
+  @include media($small-desktop-screen) {
+    padding: 0;
+    width: 100% !important;
+    text-align: center;
+    border-radius: 5px;
+
+    .vaos-calendar__option-cell {
+      width: 98% !important;
+      margin-right: 16px;
+      label {
+        max-width: 100%;
+      }
+    }
   }
 }
 
