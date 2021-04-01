@@ -207,6 +207,7 @@ module.exports = function registerFilters() {
   };
 
   liquid.filters.formatSharableLink = (id, description) => {
+    if (!description) return id;
     return `${description
       .toLowerCase()
       .split(' ')
