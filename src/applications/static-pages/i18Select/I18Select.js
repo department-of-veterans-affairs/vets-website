@@ -56,8 +56,8 @@ const I18Select = ({ baseUrls, content }) => {
                   });
                 }}
                 href={baseUrls[languageCode]}
-                hrefLang={lang}
-                lang={lang}
+                hrefLang={languageConfig.lang}
+                lang={languageConfig.lang}
               >
                 {languageConfig.label}{' '}
               </a>
