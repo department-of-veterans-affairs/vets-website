@@ -30,7 +30,7 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Veteran Rapid Retraining Assistance Program" />
+        <FormTitle title="Veteran Rapid Retraining Assistance Program (VRRAP)" />
         {this.loginPrompt()}
         <h4>Follow the steps below to apply for this program</h4>
         <div className="process schemaform-process">
