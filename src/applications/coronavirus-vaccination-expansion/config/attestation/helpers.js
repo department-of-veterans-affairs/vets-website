@@ -14,7 +14,7 @@ export const eligibilityAccordion = (
     <h3 className="vads-u-font-size--h4" style={paddingBottom}>
       Learn about who's eligible for a COVID-19 vaccine at VA
     </h3>
-    <va-accordion style={paddingBottom}>
+    <va-accordion multi style={paddingBottom}>
       <va-accordion-item level="4" header="Which Veterans are eligible?">
         <p>
           <strong>All Veterans</strong> are now eligible for a COVID-19 vaccine
@@ -34,7 +34,7 @@ export const eligibilityAccordion = (
               Cadets at the U.S. Military, Air Force, or Coast Guard Academy,{' '}
               <strong>or</strong>
             </li>
-            <li>As a midshipman at the United States Naval Academy</li>
+            <li>Midshipmen at the United States Naval Academy</li>
           </ul>
         </p>
       </va-accordion-item>
