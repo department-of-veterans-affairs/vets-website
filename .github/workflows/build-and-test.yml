@@ -126,7 +126,7 @@ jobs:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Chmod test
-        run: chmod 755 /opt/hostedtoolcache/node/14.15.0/x64
+        run: chmod 755 /opt/hostedtoolcache/node/14.15.0/*
 
       - name: Create test results folder
         run: mkdir -p test-results
