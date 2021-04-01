@@ -459,6 +459,7 @@ function mockVaccineSlots() {
     .format('YYYY-MM-DDTHH:mm:ss[+00:00]');
   const endDateTime = moment()
     .add(1, 'day')
+    .add(1, 'months')
     .startOf('month')
     .day(9)
     .add(60, 'minutes')
