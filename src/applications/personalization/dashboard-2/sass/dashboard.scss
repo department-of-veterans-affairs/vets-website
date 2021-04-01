@@ -17,6 +17,12 @@
       @media (min-width: $large-screen) {
         width: 100%;
       }
+
+      &.half-width {
+        @media (min-width: $large-screen) {
+          width: 520px;
+        }
+      }
     }
 
     .cta-link:nth-of-type(1) {
