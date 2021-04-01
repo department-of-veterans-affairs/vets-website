@@ -66,6 +66,7 @@ const GetVetCenters = `
   query GetVetCenters {
     nodeQuery(limit: 1000, filter: {
       conditions: [
+        { field: "status", value: ["1"], enabled: $onlyPublishedContent },      
         { field: "type", value: ["vet_center"] }
       ]
     }) {

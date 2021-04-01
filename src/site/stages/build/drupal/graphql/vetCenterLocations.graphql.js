@@ -11,8 +11,14 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
   fieldNearbyVetCenters {
     entity {
       ... on NodeVetCenter {
-        title
         entityBundle
+        fieldAddress {
+          locality
+          administrativeArea
+          postalCode
+          addressLine1
+        }        
+        fieldPhoneNumber
         fieldMedia {
           entity {
             ... on MediaImage {
@@ -27,17 +33,83 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
               }
             }
           }
-        }
+        }                             
+      }          
+      ... on NodeVetCenterOutstation {
+        entityBundle
         fieldAddress {
           locality
           administrativeArea
           postalCode
           addressLine1
-          addressLine2
         }
         fieldPhoneNumber
+        fieldMedia {
+          entity {
+            ... on MediaImage {
+              image {
+                alt
+                title
+                derivative(style: _32MEDIUMTHUMBNAIL) {
+                  url
+                  width
+                  height
+                }
+              }
+            }
+          }
+        }              
       }
-    }
+      ... on NodeVetCenterCap {
+        entityBundle
+        fieldAddress {
+          locality
+          administrativeArea
+          postalCode
+          addressLine1
+        }        
+        fieldMedia {
+          entity {
+            ... on MediaImage {
+              image {
+                alt
+                title
+                derivative(style: _32MEDIUMTHUMBNAIL) {
+                  url
+                  width
+                  height
+                }
+              }
+            }
+          }
+        }                            
+      }
+      ... on NodeVetCenterMobileVetCenter {
+        entityBundle              
+        fieldAddress {
+          locality
+          administrativeArea
+          postalCode
+          addressLine1
+        }      
+        fieldPhoneNumber
+        fieldMedia {
+          entity {
+            ... on MediaImage {
+              image {
+                alt
+                title
+                derivative(style: _32MEDIUMTHUMBNAIL) {
+                  url
+                  width
+                  height
+                }
+              }
+            }
+          }
+        }                              
+      }              
+    } 
   }
   fieldOffice {
     entity {
@@ -142,6 +214,7 @@ const GetVetCenterLocations = `
   query GetVetCenterLocations {
     nodeQuery(limit: 1000, filter: {
       conditions: [
+        { field: "status", value: ["1"], enabled: $onlyPublishedContent },      
         { field: "type", value: ["vet_center_locations_list"] }
       ]
     }) {
