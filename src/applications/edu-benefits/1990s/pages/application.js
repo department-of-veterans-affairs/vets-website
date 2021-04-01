@@ -56,7 +56,7 @@ const uiSchema = {
     veteranFullName: fullNameUI,
     veteranSocialSecurityNumber: ssnUI,
     dateOfBirth: {
-      ...currentOrPastDateUI('Date of birth'),
+      ...currentOrPastDateUI('Your date of birth'),
       'ui:errorMessages': {
         required: 'Please provide a valid date',
         futureDate: 'Please provide a valid date in the past',
