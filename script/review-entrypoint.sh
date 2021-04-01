@@ -1,10 +1,17 @@
 #!/bin/sh
 
 set -e
-yarn install --production=false
-npm run fetch-drupal-cache
-[ ! -d "../content-build" ] && exit 1
-npm run build -- --buildtype localhost --api='${API_URL}' --host='${WEB_HOST}' --port='${WEB_PORT}'
-[ -d "../content-build" ] && cd ../content-build && npm run build -- --buildtype localhost --api='${API_URL}' --host='${WEB_HOST}' --port='${WEB_PORT}'
-[ ! -d "../content-build" ] && npm run heroku-serve -- build/localhost -p 3001
-[ -d "../content-build" ] && cd ../content-build && npm run heroku-serve -- build/localhost -p 3002
+# yarn install --production=false
+# npm run fetch-drupal-cache
+# npm run build -- --buildtype localhost --api='${API_URL}' --host='${WEB_HOST}' --port='${WEB_PORT}'
+
+if [ -d "../content-build" ] 
+then
+  yarn install --production=false
+  npm run fetch-drupal-cache
+  npm run build -- --buildtype localhost --api='${API_URL}' --host='${WEB_HOST}' --port='${WEB_PORT}'
+  cd ../content-build && npm run build -- --buildtype localhost --api='${API_URL}' --host='${WEB_HOST}' --port='${WEB_PORT}' && npm run heroku-serve -- build/localhost -p 3002
+else
+  echo "Directory ../content-build does not exists."
+  npm run heroku-serve -- build/localhost -p 3001
+fi
