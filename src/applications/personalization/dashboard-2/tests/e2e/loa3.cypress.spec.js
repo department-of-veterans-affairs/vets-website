@@ -5,6 +5,8 @@ import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
 import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
+import error401 from '@@profile/tests/fixtures/401.json';
+import error500 from '@@profile/tests/fixtures/500.json';
 
 import manifest from 'applications/personalization/dashboard/manifest.json';
 
@@ -45,6 +47,7 @@ function loa3DashboardTest(mobile) {
   cy.findByTestId('name-tag').should('exist');
   cy.findByText('Wesley Watson Ford').should('exist');
   cy.findByText('United States Air Force').should('exist');
+  cy.findByText('Your disability rating:').should('exist');
   cy.findByText('90% Service connected').should('exist');
 
   // make the a11y check
@@ -53,23 +56,65 @@ function loa3DashboardTest(mobile) {
 }
 
 describe('The My VA Dashboard', () => {
-  beforeEach(() => {
-    disableFTUXModals();
-    cy.login(mockUser);
-    cy.intercept('/v0/profile/service_history', serviceHistory);
-    cy.intercept('/v0/profile/full_name', fullName);
-    cy.intercept('/v0/evss_claims_async', claimsSuccess());
-    cy.intercept('/v0/appeals', appealsSuccess());
-    cy.intercept(
-      '/v0/disability_compensation_form/rating_info',
-      disabilityRating,
-    );
-  });
-  it('should handle LOA3 users at desktop size', () => {
-    loa3DashboardTest(false);
-  });
+  context('when it can load the total disability rating', () => {
+    beforeEach(() => {
+      disableFTUXModals();
+      cy.login(mockUser);
+      cy.intercept('/v0/profile/service_history', serviceHistory);
+      cy.intercept('/v0/profile/full_name', fullName);
+      cy.intercept('/v0/evss_claims_async', claimsSuccess());
+      cy.intercept('/v0/appeals', appealsSuccess());
+      cy.intercept(
+        '/v0/disability_compensation_form/rating_info',
+        disabilityRating,
+      );
+    });
+    it('should handle LOA3 users at desktop size', () => {
+      loa3DashboardTest(false);
+    });
 
-  it('should handle LOA3 users at mobile phone size', () => {
-    loa3DashboardTest(true);
+    it('should handle LOA3 users at mobile phone size', () => {
+      loa3DashboardTest(true);
+    });
+  });
+  context('when there is a 401 fetching the total disability rating', () => {
+    beforeEach(() => {
+      disableFTUXModals();
+      cy.login(mockUser);
+      cy.intercept('/v0/profile/service_history', serviceHistory);
+      cy.intercept('/v0/profile/full_name', fullName);
+      cy.intercept('/v0/evss_claims_async', claimsSuccess());
+      cy.intercept('/v0/appeals', appealsSuccess());
+      cy.intercept('/v0/disability_compensation_form/rating_info', {
+        statusCode: 401,
+        body: error401,
+      });
+    });
+    it('should show the fallback link in the header', () => {
+      mockFeatureToggles();
+      cy.visit(manifest.rootUrl);
+      cy.findByText(/View disability rating/i).should('exist');
+      cy.findByText(/service connected/i).should('not.exist');
+    });
+  });
+  context('when there is a 500 fetching the total disability rating', () => {
+    beforeEach(() => {
+      disableFTUXModals();
+      cy.login(mockUser);
+      cy.intercept('/v0/profile/service_history', serviceHistory);
+      cy.intercept('/v0/profile/full_name', fullName);
+      cy.intercept('/v0/evss_claims_async', claimsSuccess());
+      cy.intercept('/v0/appeals', appealsSuccess());
+      cy.intercept('/v0/disability_compensation_form/rating_info', {
+        statusCode: 500,
+        body: error500,
+      });
+    });
+    it('should show the fallback link in the header', () => {
+      mockFeatureToggles();
+      cy.visit(manifest.rootUrl);
+      cy.findByText(/View disability rating/i).should('exist');
+      cy.findByText(/service connected/i).should('not.exist');
+    });
   });
 });
