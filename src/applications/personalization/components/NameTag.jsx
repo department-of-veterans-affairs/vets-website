@@ -141,8 +141,9 @@ const NameTag = ({
             {showUpdatedNameTag &&
               totalDisabilityRating && (
                 <>
-                  <dt className="sr-only">total disability rating</dt>
+                  <dt className="sr-only">your disability rating</dt>
                   <dd className="vads-u-margin-top--0p5">
+                    Your disability rating:{' '}
                     <a
                       href="/disability/view-disability-rating/rating"
                       aria-label="view your disability rating"
@@ -198,6 +199,8 @@ NameTag.propTypes = {
     suffix: PropTypes.string,
   }).isRequired,
   latestBranchOfService: PropTypes.string.isRequired,
+  showUpdatedNameTag: PropTypes.bool,
+  totalDisabilityRating: PropTypes.number,
 };
 
 export default connect(mapStateToProps)(NameTag);
