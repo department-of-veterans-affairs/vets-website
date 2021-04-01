@@ -207,8 +207,6 @@ module.exports = function registerFilters() {
   };
 
   liquid.filters.formatSharableLink = (id, description) => {
-    /* eslint-disable no-console */
-    console.log(description, 'THE DESCRIPTION');
     if (!description) return id;
     return `${description
       .toLowerCase()
