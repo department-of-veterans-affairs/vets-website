@@ -378,6 +378,7 @@
     "**/elliptic": "^6.5.4",
     "**/netmask": "^2.0.1",
     "**/is-svg": "^4.2.2",
+    "**/y18n": "^ 4.0.1",
     "cypress": "^6.8.0",
     "tar-fs/tar-stream/bl": "^4.0.3",
     "nightwatch/**/lodash.defaultsdeep": "^4.6.1"
