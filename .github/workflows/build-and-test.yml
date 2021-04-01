@@ -126,7 +126,7 @@ jobs:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Chmod test
-        run: chmod -R go-w /opt/hostedtoolcache
+        run: chmod -R go-w /opt
 
       - name: Create test results folder
         run: mkdir -p test-results
