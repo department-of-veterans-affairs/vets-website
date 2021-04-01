@@ -14,9 +14,6 @@ export const schema = {
 
 export const uiSchema = {
   addressInformation: {
-    countryName: {
-      'ui:title': 'Country where you live now',
-    },
     addressLine1: {
       'ui:title': 'Street address where you live now',
     },

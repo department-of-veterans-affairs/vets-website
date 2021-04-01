@@ -34,7 +34,7 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import WarningNotification from '../../../components/WarningNotification';
-import ScheduleNewAppointmentRadioButtons from './ScheduleNewAppointmentRadioButtons';
+import ScheduleNewAppointmentRadioButtons from '../ScheduleNewAppointmentRadioButtons';
 
 const pageTitle = 'VA appointments';
 
