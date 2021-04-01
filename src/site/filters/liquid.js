@@ -601,7 +601,7 @@ module.exports = function registerFilters() {
       return url;
     }
 
-    // Not a youtube link? Return back the modifiedURL.
+    // Not a youtube link? Return back the raw url.
     if (!_.includes(url, 'youtu')) {
       return url;
     }
