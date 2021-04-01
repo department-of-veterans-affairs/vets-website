@@ -7,21 +7,21 @@ import {
   getVAAppointmentMock,
   getVAFacilityMock,
   getCancelReasonMock,
-} from '../../mocks/v0';
+} from '../../../mocks/v0';
 import {
   mockAppointmentInfo,
   mockFacilitiesFetch,
   mockFacilityFetch,
   mockSingleAppointmentFetch,
   mockVACancelFetches,
-} from '../../mocks/helpers';
+} from '../../../mocks/helpers';
 import {
   renderWithStoreAndRouter,
   getTimezoneTestDate,
-} from '../../mocks/setup';
+} from '../../../mocks/setup';
 
 import userEvent from '@testing-library/user-event';
-import { AppointmentList } from '../../../appointment-list';
+import { AppointmentList } from '../../../../appointment-list';
 import sinon from 'sinon';
 import { fireEvent, waitFor } from '@testing-library/react';
 

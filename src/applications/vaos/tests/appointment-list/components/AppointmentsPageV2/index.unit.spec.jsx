@@ -27,7 +27,7 @@ import {
 } from '../../../mocks/setup';
 
 import reducers from '../../../../redux/reducer';
-import AppointmentsPageV2 from '../../../../appointment-list/components/AppointmentsPage/AppointmentsPageV2';
+import AppointmentsPageV2 from '../../../../appointment-list/components/AppointmentsPageV2';
 import userEvent from '@testing-library/user-event';
 
 const initialState = {
@@ -377,6 +377,11 @@ describe('VAOS <AppointmentsPageV2>', () => {
     );
 
     expect(await screen.findByRole('link', { name: /Start scheduling/ }));
+    expect(screen.getByRole('heading', { level: 3 })).to.have.text(
+      'COVID-19 vaccines',
+    );
+    expect(screen.getByText(/at this time, you can't schedule a COVID-19/i)).to
+      .be.ok;
   });
 
   it('should render schedule radio list with COVID-19 vaccine option', async () => {
