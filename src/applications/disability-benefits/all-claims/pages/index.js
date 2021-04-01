@@ -73,6 +73,7 @@ import * as separationLocation from './separationLocation';
 import * as separationPay from './separationPay';
 import * as servedInCombatZone from './servedInCombatZone';
 import * as serviceTreatmentRecords from './serviceTreatmentRecords';
+import * as serviceTreatmentRecordsAttachments from './serviceTreatmentRecordsAttachments';
 import * as socialBehaviorChanges from './socialBehaviorChanges';
 import * as summaryOfDisabilities from './summaryOfDisabilities';
 import * as summaryOfEvidence from './summaryOfEvidence';
@@ -172,6 +173,7 @@ export {
   separationPay,
   servedInCombatZone,
   serviceTreatmentRecords,
+  serviceTreatmentRecordsAttachments,
   socialBehaviorChanges,
   summaryOfDisabilities,
   summaryOfEvidence,
