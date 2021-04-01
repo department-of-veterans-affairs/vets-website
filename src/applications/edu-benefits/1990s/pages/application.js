@@ -89,7 +89,7 @@ const uiSchema = {
     },
   },
   'view:directDeposit': {
-    'ui:title': 'Direct deposit',
+    'ui:title': 'Direct deposit information',
     'ui:description': directDepositDescription,
     bankAccount: {
       'ui:order': ['accountType', 'routingNumber', 'accountNumber'],
