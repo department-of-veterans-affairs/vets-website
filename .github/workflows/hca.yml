@@ -28,7 +28,7 @@ jobs:
             ${{ runner.os }}-yarn-
       - run: yarn install
       - run: yarn fetch-drupal-cache
-      - run: yarn test
+      # - run: yarn test
   # test:
   #   runs-on: ubuntu-latest
   #   steps:
