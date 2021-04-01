@@ -44,7 +44,7 @@ export function generateMockSlots() {
   const today = moment();
   const minuteSlots = ['00:00', '20:00', '40:00'];
 
-  while (times.length < 100) {
+  while (times.length < 300) {
     const daysToAdd = randomInt(1, 60);
     const date = today
       .clone()
