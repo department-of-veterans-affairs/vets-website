@@ -601,18 +601,37 @@ module.exports = function registerFilters() {
       return url;
     }
 
+    // Ensure URL is https and not http.
+    if (_.includes(url, 'http://')) {
+      url = _.replace(url, 'http://', 'https://');
+    }
+
+    // Ensure URL has `https://`.
+    if (!_.includes(url, 'https://')) {
+      url = `https://${url}`;
+    }
+
+    // Ensure URL has `www`.
+    if (!_.includes(url, 'www')) {
+      url = _.replace(url, 'https://', 'https://www.');
+    }
+
+    // Not a youtube link? Return back the url.
     if (!_.includes(url, 'youtu')) {
       return url;
     }
 
+    // Return back the url if it is already formatted for embedding.
     if (_.includes(url, 'embed')) {
       return url;
     }
 
+    // Modify a normal youtube share link with the embedded version.
     if (_.includes(url, 'youtube.com/watch?v=')) {
       return _.replace(url, '/watch?v=', '/embed/');
     }
 
+    // Modify a shortened youtube share link with the embedded version.
     return _.replace(url, 'youtu.be', 'youtube.com/embed');
   };
 
