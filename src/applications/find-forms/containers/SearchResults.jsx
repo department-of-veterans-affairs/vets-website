@@ -118,7 +118,7 @@ export class SearchResults extends Component {
       return (
         <p
           className="vads-u-font-size--base vads-u-line-height--3 vads-u-font-family--sans
-    vads-u-margin-top--1p5 vads-u-font-weight--normal"
+    vads-u-margin-top--1p5 vads-u-font-weight--normal va-u-outline--none"
           data-forms-focus
         >
           The form you're looking for has been retired or is no longer valid,
@@ -131,7 +131,7 @@ export class SearchResults extends Component {
       return (
         <p
           className="vads-u-font-size--base vads-u-line-height--3 vads-u-font-family--sans
-        vads-u-margin-top--1p5 vads-u-font-weight--normal"
+        vads-u-margin-top--1p5 vads-u-font-weight--normal va-u-outline--none"
           data-forms-focus
         >
           No results were found for "<strong>{query}</strong>
@@ -181,7 +181,7 @@ export class SearchResults extends Component {
       <>
         <div className="find-forms-search-metadata vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row medium-screen:vads-u-justify-content--space-between">
           <h2
-            className="vads-u-font-size--md vads-u-line-height--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--1p5"
+            className="vads-u-font-size--md vads-u-line-height--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--1p5 va-u-outline--none"
             data-forms-focus
           >
             {/* eslint-disable-next-line jsx-a11y/aria-role */}

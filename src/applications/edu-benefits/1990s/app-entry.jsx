@@ -1,5 +1,5 @@
 import 'platform/polyfills';
-import './sass/vrrap.scss';
+import './sass/1990s.scss';
 
 import startApp from 'platform/startup';
 
@@ -11,4 +11,5 @@ startApp({
   url: manifest.rootUrl,
   reducer,
   routes,
+  entryName: manifest.entryName,
 });
