@@ -8,6 +8,29 @@ const vetCenterFragment = `
         entityBundle
         entityLabel
         fieldIntroText
+        fieldFacilityLocatorApiId
+        fieldMedia {
+          entity {
+            ... on MediaImage {
+              image {
+                alt
+                title
+                derivative(style: _32MEDIUMTHUMBNAIL) {
+                  url
+                  width
+                  height
+                }
+              }
+            }
+          }
+        }
+        fieldPhoneNumber
+        fieldAddress {
+         countryCode
+         locality
+         postalCode
+         addressLine1
+        }   
         fieldOfficeHours {
           day
           starthours
