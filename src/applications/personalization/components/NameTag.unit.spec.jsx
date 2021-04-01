@@ -93,4 +93,22 @@ describe('<NameTag>', () => {
       });
     },
   );
+  context(
+    'when `showUpdatedNameTag` flag is `true` and `totalDisabilityRatingError` is `true`',
+    () => {
+      it('should render a fallback link', () => {
+        const initialState = getInitialState();
+        const view = render(
+          <NameTag showUpdatedNameTag totalDisabilityRatingError />,
+          { initialState },
+        );
+        expect(view.queryByText(/your disability rating:/i)).to.not.exist;
+        view.getByRole('link', {
+          name: /view your disability rating/i,
+          text: /view disability rating/i,
+          href: /disability\/view-disability-rating\/rating/i,
+        });
+      });
+    },
+  );
 });
