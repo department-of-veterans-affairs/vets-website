@@ -206,6 +206,13 @@ module.exports = function registerFilters() {
     return _.slice(arr, startIndex);
   };
 
+  liquid.filters.formatSharableLink = (id, description) => {
+    return `${description
+      .toLowerCase()
+      .split(' ')
+      .join('-')}-${id}`;
+  };
+
   liquid.filters.breakTerms = data => {
     let output = '';
     if (data != null) {
