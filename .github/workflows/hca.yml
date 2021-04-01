@@ -2,8 +2,8 @@ name: HCA
 
 on:
   push:
-    paths:
-      - 'src/applications/hca/**'
+    # paths:
+      # - 'src/applications/hca/**'
 
 jobs:
   build:
@@ -12,8 +12,13 @@ jobs:
       matrix:
         node-version: [14.x]
     steps:
-      - run: echo Building
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: npm install
+      - run: npm run fetch-drupal-cache
   test:
     runs-on: ubuntu-latest
     steps:
-      - run: echo HCA Tests
+      - run: npm run test
