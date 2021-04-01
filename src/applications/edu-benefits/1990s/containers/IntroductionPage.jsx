@@ -88,7 +88,7 @@ class IntroductionPage extends React.Component {
               </p>
             </li>
             <li className="process-step list-four">
-              <h5>VA Review</h5>
+              <h5>VA review</h5>
               <p>
                 We usually process claims within 30 days. We’ll let you know by
                 mail if we need more information.
