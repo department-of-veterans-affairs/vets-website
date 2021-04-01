@@ -5,9 +5,9 @@
 {% endif %}
 
 {% if entityUrl.path %}
-<meta content="{{ hostUrl }}{{ entityUrl.path }}" property="og:url">
+<meta content="{{ hostUrl }}{{ entityUrl.path }}/" property="og:url">
 {% else %}
-<meta content="{{ hostUrl }}" property="og:url">
+<meta content="{{ hostUrl }}/" property="og:url">
 {% endif %}
 
 <meta content="website" property="og:type">
