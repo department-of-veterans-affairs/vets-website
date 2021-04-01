@@ -31,7 +31,6 @@
     "jsdoc": "jsdoc",
     "prebuild": "node script/prebuild.js",
     "preview": "node script/preview.js",
-    "preview:build": "yarn build:webpack --env.entry=static-pages && yarn preview",
     "heroku-postbuild": "sh script/heroku-postbuild.sh",
     "lint": "npm run lint:js && npm run lint:sass",
     "lint:changed": "npm run lint:js:changed && npm run lint:sass",
