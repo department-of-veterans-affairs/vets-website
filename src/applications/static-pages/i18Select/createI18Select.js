@@ -35,16 +35,19 @@ export default function createI18Select(store, widgetType) {
     en: {
       label: 'English',
       suffix: '/',
+      lang: 'en',
     },
     es: {
       onThisPage: 'En esta página',
       label: 'Español',
       suffix: '-esp/',
+      lang: 'es',
     },
     tag: {
       suffix: '-tag/',
       label: 'Tagalog',
       onThisPage: 'Sa pahinang ito',
+      lang: 'tl',
     },
   };
 
