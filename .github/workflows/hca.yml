@@ -16,9 +16,9 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
-      - run: npm install
-      - run: npm run fetch-drupal-cache
+      - run: yarn install
+      - run: yarn fetch-drupal-cache
   test:
     runs-on: ubuntu-latest
     steps:
-      - run: npm run test
+      - run: yarn test
