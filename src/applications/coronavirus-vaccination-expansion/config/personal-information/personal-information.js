@@ -29,8 +29,7 @@ export const uiSchema = {
       'ui:description': () => (
         <p>
           <strong>Note: </strong>
-          We ask for your date of birth to add you to our records and confirm
-          your eligibility for a vaccine.
+          We ask for your date of birth to add you to our records.
         </p>
       ),
       'ui:errorMessages': {
@@ -65,7 +64,7 @@ export const uiSchema = {
           <p>
             <strong>Note: </strong>
             We ask for your <abbr title="Social Security Number">SSN</abbr> to
-            add you to our records and confirm your eligibility for a vaccine.
+            add you to our records.
           </p>
         ),
         'ui:errorMessages': {

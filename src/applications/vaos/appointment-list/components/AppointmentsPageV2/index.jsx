@@ -23,7 +23,7 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import WarningNotification from '../../../components/WarningNotification';
 import Select from '../../../components/Select';
-import ScheduleNewAppointmentRadioButtons from './ScheduleNewAppointmentRadioButtons';
+import ScheduleNewAppointmentRadioButtons from '../ScheduleNewAppointmentRadioButtons';
 
 const pageTitle = 'VA appointments';
 
@@ -153,8 +153,6 @@ function AppointmentsPageV2({
 AppointmentsPageV2.propTypes = {
   isCernerOnlyPatient: PropTypes.bool.isRequired,
   isWelcomeModalDismissed: PropTypes.bool.isRequired,
-  showCommunityCare: PropTypes.bool.isRequired,
-  showDirectScheduling: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
