@@ -102,4 +102,56 @@ describe('Schemaform <YesNoWidget>', () => {
       'no-input',
     );
   });
+  it('should add custom and "yes" selected props', () => {
+    const onChange = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <YesNoWidget
+        value
+        options={{
+          widgetProps: {
+            Y: { 'data-test': 'yes-input' },
+            N: { 'data-test': 'no-input' },
+          },
+          selectedProps: {
+            Y: { 'data-selected': 'yes-selected' },
+            N: { 'data-selected': 'no-selected' },
+          },
+        }}
+        onChange={onChange}
+      />,
+    );
+
+    const inputs = tree.everySubTree('input');
+    expect(inputs[0].props['data-test']).to.equal('yes-input');
+    expect(inputs[0].props['data-selected']).to.equal('yes-selected');
+
+    expect(inputs[1].props['data-test']).to.equal('no-input');
+    expect(inputs[1].props['data-selected']).to.be.undefined;
+  });
+  it('should add custom and "no" selected props', () => {
+    const onChange = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <YesNoWidget
+        value={false}
+        options={{
+          widgetProps: {
+            Y: { 'data-test': 'yes-input' },
+            N: { 'data-test': 'no-input' },
+          },
+          selectedProps: {
+            Y: { 'data-selected': 'yes-selected' },
+            N: { 'data-selected': 'no-selected' },
+          },
+        }}
+        onChange={onChange}
+      />,
+    );
+
+    const inputs = tree.everySubTree('input');
+    expect(inputs[0].props['data-test']).to.equal('yes-input');
+    expect(inputs[0].props['data-selected']).to.be.undefined;
+
+    expect(inputs[1].props['data-test']).to.equal('no-input');
+    expect(inputs[1].props['data-selected']).to.equal('no-selected');
+  });
 });
