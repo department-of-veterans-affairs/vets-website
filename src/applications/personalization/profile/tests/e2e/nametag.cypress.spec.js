@@ -16,6 +16,10 @@ describe('Profile NameTag', () => {
     cy.login(mockUser);
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
+    // Explicitly mocking these APIs as failures, causes the tests to run MUCH
+    // faster. All three tests run in 2-3s instead of 8-9s.
+    cy.intercept('/v0/profile/personal_information', error500);
+    cy.intercept('/v0/mhv_account', error500);
   });
   context('when it can load the disability rating', () => {
     beforeEach(() => {
@@ -46,7 +50,7 @@ describe('Profile NameTag', () => {
   context('when there is a 500 fetching the disability rating', () => {
     beforeEach(() => {
       cy.intercept('/v0/disability_compensation_form/rating_info', {
-        statusCode: 401,
+        statusCode: 500,
         body: error500,
       });
     });
