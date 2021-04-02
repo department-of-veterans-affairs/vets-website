@@ -30,7 +30,7 @@ export class ConfirmationPage extends React.Component {
         submission={submission}
         printHeader="Apply for the Veterans Rapid Retraining Assistance Program"
         formName="Veterans Rapid Retraining Assistance Program"
-        name={form.data.veteranFullName}
+        name={form.data['view:applicantInformation'].veteranFullName}
       />
     );
   }
