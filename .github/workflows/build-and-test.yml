@@ -141,10 +141,8 @@ jobs:
           PACT_BROKER_BASIC_AUTH_USERNAME: pact-broker
           PACT_BROKER_BASE_URL: https://dev.va.gov/_vfs/pact-broker/
 
-      # - name: Publish test results
-      #   if: ${{ always() }}
-      #   uses: mikepenz/action-junit-report@v2
-      #   with:
-      #     check_name: 'Unit Tests Summary'
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     report_paths: 'test-results/unit-tests.xml'
+      - name: Archive contract test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: contract-test-report
+          path: test-results/test-results.xml
