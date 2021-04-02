@@ -11,7 +11,7 @@ import {
   schema as addressSchema,
 } from 'platform/forms/definitions/address';
 import _ from 'lodash';
-import { directDepositAlert } from '../content/directDeposit';
+import { bankInfoHelpText, directDepositAlert } from '../content/directDeposit';
 import {
   confirmEligibilityDescription,
   confirmEligibilityNote,
@@ -114,6 +114,10 @@ const uiSchema = {
     },
     'view:directDepositInfo': {
       'ui:description': directDepositAlert,
+    },
+    'view:bankInfoHelpText': {
+      ...directDepositUiSchema['view:bankInfoHelpText'],
+      'ui:description': bankInfoHelpText,
     },
   },
   'view:programSelection': {
