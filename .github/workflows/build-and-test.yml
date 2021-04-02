@@ -123,22 +123,10 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
-      # - name: Cache dependencies
-      #   id: cache-dependencies
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: |
-      #       ~/.cache/yarn
-      #       node_modules
-      #     key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
-
-      # - name: Chmod test
-      #   run: sudo chmod -R go-w /opt /usr /home
 
       - name: Create test results folder
         run: mkdir -p test-results
@@ -148,7 +136,7 @@ jobs:
 
       - name: Run Pact publish
         run: yarn pact:publish
-        # env_variable_name: PACT_BROKER_BASIC_AUTH_PASSWORD
+        env_variable_name: PACT_BROKER_BASIC_AUTH_PASSWORD
         env:
           PACT_BROKER_BASIC_AUTH_USERNAME: pact-broker
           PACT_BROKER_BASE_URL: https://dev.va.gov/_vfs/pact-broker/
