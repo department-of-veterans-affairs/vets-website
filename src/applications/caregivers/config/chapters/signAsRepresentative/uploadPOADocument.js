@@ -10,16 +10,17 @@ import environment from 'platform/utilities/environment';
 
 const DocumentUploadDescription = () => {
   return (
-    <div>
+    <section>
       <p>
         If you’re signing as a legal representative, you can upload supporting
         documents showing your authority to complete this application on behalf
         of the Veteran.
       </p>
 
-      <legend style={{ padding: 0 }}>
+      <h3 style={{ padding: 0, marginBottom: '1.3em' }}>
         Upload your supporting documentation
-      </legend>
+      </h3>
+
       <p>
         You can upload document in a .pdf, .jpeg, or .png file format. You’ll
         first need to scan a copy of your document onto your computer or mobile
@@ -32,11 +33,11 @@ const DocumentUploadDescription = () => {
         <li>Maximum file size: 25MB</li>
       </ul>
 
-      <i>
+      <em>
         A 1MB file equals about 500 pages of text. A photo is usually about 6MB.
         Large files can take longer to upload with a slow internet connection.
-      </i>
-    </div>
+      </em>
+    </section>
   );
 };
 
