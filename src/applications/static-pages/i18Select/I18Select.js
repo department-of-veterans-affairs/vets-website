@@ -9,7 +9,6 @@ const I18Select = ({ baseUrls, content }) => {
   const [lang, setLang] = useState('en');
   useEffect(() => {
     const contentDiv = document?.getElementById('content');
-
     setLang('en');
     if (contentDiv) {
       contentDiv.setAttribute('lang', 'en');
@@ -20,6 +19,7 @@ const I18Select = ({ baseUrls, content }) => {
         if (contentDiv) {
           contentDiv.setAttribute('lang', langCode);
         }
+        document.documentElement.setAttribute('lang', langCode);
       }
     }
   }, []);
@@ -56,8 +56,8 @@ const I18Select = ({ baseUrls, content }) => {
                   });
                 }}
                 href={baseUrls[languageCode]}
-                hrefLang={lang}
-                lang={lang}
+                hrefLang={languageConfig.lang}
+                lang={languageConfig.lang}
               >
                 {languageConfig.label}{' '}
               </a>

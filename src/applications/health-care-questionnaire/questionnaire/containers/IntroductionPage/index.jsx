@@ -24,7 +24,7 @@ import {
 
 const IntroductionPage = props => {
   useEffect(() => {
-    focusElement('.va-nav-breadcrumbs-list');
+    focusElement('h1');
   }, []);
   const { isLoggedIn, route, savedForms, formId } = props;
   const { appointment, location, organization } = props?.context;

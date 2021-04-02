@@ -5,6 +5,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from './getFormHelp.jsx';
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 import {
   attestation,
@@ -15,7 +16,7 @@ import {
   veteranInformation,
 } from './pages';
 
-import { isTypeNone, isVeteran, isSpouseOrCaregiver } from './helpers';
+import { isTypeNone, isVeteran } from './helpers';
 import PreSubmitInfo from './PreSubmitinfo';
 
 import manifest from '../manifest.json';
@@ -34,6 +35,13 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   saveInProgress: {},
+  transformForSubmit: (config, form) => {
+    const transformedForm = form;
+    transformedForm.data.preferredFacility = form?.data?.preferredFacility
+      ? form.data.preferredFacility.split('|')[1]
+      : '';
+    return transformForSubmit(formConfig, transformedForm);
+  },
   title: 'Sign up to get a COVID-19 vaccine at VA',
   defaultDefinitions: {
     ...fullSchema.definitions,
@@ -68,7 +76,9 @@ const formConfig = {
       title: 'Help us match you to an eligible Veteran',
       pages: {
         veteranInformation: {
-          depends: formData => isSpouseOrCaregiver(formData),
+          //  returning false to disable this page. leaving infrastructure in place as this may be desired functionality in the near future.
+          // To revert set depends: formData => isSpouseOrCaregiver(formData)
+          depends: () => false,
           path: 'veteran-information',
           schema: veteranInformation.schema.veteranInformation,
           uiSchema: veteranInformation.uiSchema.veteranInformation,
