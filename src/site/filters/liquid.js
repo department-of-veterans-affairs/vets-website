@@ -277,6 +277,7 @@ module.exports = function registerFilters() {
   liquid.filters.facilityIds = facilities =>
     facilities.map(facility => facility.fieldFacilityLocatorApiId).join(',');
 
+  // TODO this filter might be innecesary (assumes only va health faciliies)
   // Used for the react widget "Facilities List" - includes the facility locator api id and the image object from drupal
   liquid.filters.widgetFacilitiesList = facilities => {
     const facilityList = {};
@@ -293,6 +294,7 @@ module.exports = function registerFilters() {
     return JSON.stringify(facilityList);
   };
 
+  // TODO this filter might be innecesary (assumes only va health faciliies)
   liquid.filters.widgetFacilityDetail = facility => {
     const facilityLocatorApiId = facility.split('_')[1].toUpperCase();
     const id = `vha_${facilityLocatorApiId}`;

@@ -45,7 +45,7 @@
                                         </a>
                                     </div>
                                 </div>
-                                <h3 class="vads-u-font-size--lg vads-u-margin-top--0 vads-u-line-height--1 vads-u-margin-bottom--1">Main number</h3>
+                                <h3 class="vads-u-font-size--lg vads-u-margin-top--0 vads-u-line-height--1 vads-u-margin-bottom--1">Direct line</h3>
                                 <div class="vads-u-margin-bottom--3">
                                     <div class="main-phone vads-u-margin-bottom--1">
                                         </strong><a href="tel:{{ fieldPhoneNumber }}">{{ fieldPhoneNumber }}</a>
@@ -53,8 +53,12 @@
                                 </div>
                                <div class="vads-u-margin-bottom--3">
                                    <h3 class="vads-u-font-size--lg vads-u-margin-top--0 vads-u-line-height--1 vads-u-margin-bottom--1">Other locations</h3>
-                                   <p>Vet Centers are community based to be more
-                                       accessible in areas where you live.</p>
+                                   <p>Vet Centers are community based to be more <br>
+                                       accessible in areas where you live.<br>
+                                       <a href="{{ entityUrl.path }}/locations">
+                                           View more Vet Center locations
+                                       </a>
+                                   </p>
                                </div>
                           </section>
                       </div>
@@ -87,10 +91,9 @@
                         </a>
                     {% endif %}
                   {% endcomment %}
-
                   <!-- facility static map -currently does not render in preview server  -->
                   <div data-widget-type="facility-map"
-                       data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape }}">
+                       data-facility="{{ fieldFacilityLocatorApiId }}">
                   </div>
               </div>
           </div>

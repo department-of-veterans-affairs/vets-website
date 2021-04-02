@@ -86,10 +86,9 @@ const vetCenterFragment = `
 const GetVetCenters = `
   ${vetCenterFragment}
   
-  query GetVetCenters($onlyPublishedContent: Boolean!) {
+  query GetVetCenters {
     nodeQuery(limit: 1000, filter: {
       conditions: [
-        { field: "status", value: ["1"], enabled: $onlyPublishedContent },      
         { field: "type", value: ["vet_center"] }
       ]
     }) {
