@@ -108,7 +108,9 @@ const uiSchema = {
         hideIf: form => !bankFieldIsRequired(form),
       },
     },
+    declineDirectDeposit: directDepositUiSchema.declineDirectDeposit,
     'view:directDepositInfo': {
+      ...directDepositUiSchema['view:directDepositInfo'],
       'ui:description': directDepositAlert,
     },
     'view:bankInfoHelpText': {
