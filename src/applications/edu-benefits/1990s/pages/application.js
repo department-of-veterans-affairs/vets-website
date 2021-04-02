@@ -88,9 +88,19 @@ const uiSchema = {
     },
   },
   'view:directDeposit': {
-    ...directDepositUiSchema,
+    'ui:title': directDepositUiSchema['ui:title'],
+    'ui:order': null,
     bankAccount: {
-      ...directDepositUiSchema.bankAccount,
+      'ui:field': directDepositUiSchema.bankAccount['ui:field'],
+      'ui:options': {
+        ...directDepositUiSchema.bankAccount['ui:options'],
+        hideIf: form => !bankFieldIsRequired(form),
+      },
+      'ui:order': null,
+      'view:paymentText': {
+        'ui:description':
+          "We make payments only through direct deposit, also called electronic funds transfer (EFT). Please provide your direct deposit information below. We'll pay your housing stipend to this account.",
+      },
       accountType: {
         ...directDepositUiSchema.bankAccount.accountType,
         'ui:required': bankFieldIsRequired,
@@ -102,10 +112,6 @@ const uiSchema = {
       accountNumber: {
         ...directDepositUiSchema.bankAccount.accountNumber,
         'ui:required': bankFieldIsRequired,
-      },
-      'ui:options': {
-        ...directDepositUiSchema.bankAccount['ui:options'],
-        hideIf: form => !bankFieldIsRequired(form),
       },
     },
     declineDirectDeposit: directDepositUiSchema.declineDirectDeposit,
@@ -214,7 +220,23 @@ const schema = {
         },
       },
     },
-    'view:directDeposit': directDepositSchema,
+    'view:directDeposit': {
+      type: 'object',
+      properties: {
+        bankAccount: directDepositSchema.properties.bankAccount,
+        declineDirectDeposit: {
+          type: 'boolean',
+        },
+        'view:directDepositInfo': {
+          type: 'object',
+          properties: {},
+        },
+        'view:bankInfoHelpText': {
+          type: 'object',
+          properties: {},
+        },
+      },
+    },
     'view:programSelection': {
       type: 'object',
       required: ['hasSelectedProgram'],
