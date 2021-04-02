@@ -58,7 +58,7 @@ describe('App', () => {
       });
     }
 
-    it('should wait until webchat is loaded', async () => {
+    it.skip('should wait until webchat is loaded', async () => {
       const wrapper = renderInReduxProvider(<App />, {
         initialState: {
           featureToggles: {
