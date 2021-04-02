@@ -13,17 +13,19 @@ export const notActiveBenefitNotice = (
 );
 
 export const remainingDaysGreaterThan180Notice = (
-  <p>
-    VET TEC is only available to Veterans or service members within 180 days of
-    their release from active duty. Please consider submitting your VET TEC
-    application when you're within 180 days of separating from service, or are
-    no longer on active duty.
-  </p>
+  <div className="vads-u-margin-top--neg1">
+    <p className="vads-u-padding-top--1px">
+      VET TEC is only available to Veterans or service members within 180 days
+      of their release from active duty. Please consider submitting your VET TEC
+      application when you're within 180 days of separating from service, or are
+      no longer on active duty.
+    </p>
+  </div>
 );
 
 export const remainingDaysNotGreaterThan180Notice = (
-  <div>
-    <p>
+  <div className="vads-u-margin-top--neg1">
+    <p className="vads-u-padding-top--1px">
       We may contact you to verify that your expected release from active duty
       is within 180 days from this application's date. If we contact you, we may
       ask for a copy of your DD214 or a certification of your expected release
