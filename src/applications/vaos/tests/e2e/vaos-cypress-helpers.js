@@ -250,17 +250,32 @@ export function mockFeatureToggles({ providerSelectionEnabled = false } = {}) {
 }
 
 function mockRequestLimits(id = '983') {
+  // cy.route({
+  //   method: 'GET',
+  //   url: `/vaos/v0/facilities/${id}/limits*`,
+  //   response: {
+  //     data: {
+  //       id,
+  //       attributes: {
+  //         requestLimit: 1,
+  //         numberOfRequests: 0,
+  //       },
+  //     },
+  //   },
+  // });
   cy.route({
     method: 'GET',
-    url: `/vaos/v0/facilities/${id}/limits*`,
+    url: `/vaos/v0/facilities/limits*`,
     response: {
-      data: {
-        id,
-        attributes: {
-          requestLimit: 1,
-          numberOfRequests: 0,
+      data: [
+        {
+          id,
+          attributes: {
+            requestLimit: 1,
+            numberOfRequests: 0,
+          },
         },
-      },
+      ],
     },
   });
 }
