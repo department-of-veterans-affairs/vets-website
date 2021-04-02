@@ -126,8 +126,8 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
-        # env:
-        #   YARN_CACHE_FOLDER: ~/.cache/yarn
+        env:
+          YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Create test results folder
         run: mkdir -p test-results
