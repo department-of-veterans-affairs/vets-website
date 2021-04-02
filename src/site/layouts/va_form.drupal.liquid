@@ -20,7 +20,7 @@
             {% if fieldVaFormLanguage %}
               <dt class="va-introtext" lang="{{ fieldVaFormLanguage }}">
             {% else %}
-              <dt class="va-introtext" lang="en">
+              <dt class="va-introtext">
             {% endif %}
               <dfn class="vads-u-visibility--screen-reader">Form name:</dfn>
               {{ fieldVaFormName }}
@@ -70,7 +70,7 @@
               {{ fieldVaFormUsage.processed }}
             </div>
           {% else %}
-            <div lang="en">
+            <div>
               {{ fieldVaFormUsage.processed }}
             </div>
           {% endif %}
