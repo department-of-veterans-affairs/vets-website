@@ -606,10 +606,15 @@ module.exports = function registerFilters() {
       return url;
     }
 
-    // Recreate the embedded youtube.com URL so we know it's formatted correctly.
-    const urlInstance = new URL(url);
-    const pathname = urlInstance?.pathname?.replace('/embed', '');
-    return `https://www.youtube.com/embed${pathname}`;
+    try {
+      // Recreate the embedded youtube.com URL so we know it's formatted correctly.
+      const urlInstance = new URL(url);
+      const pathname = urlInstance?.pathname?.replace('/embed', '');
+      return `https://www.youtube.com/embed${pathname}`;
+    } catch (error) {
+      console.warn('Invalid URL for createEmbedYouTubeVideoURL', url, error);
+      return url;
+    }
   };
 
   liquid.filters.deriveCLPTotalSections = (
