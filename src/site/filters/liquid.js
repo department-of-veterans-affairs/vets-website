@@ -209,7 +209,7 @@ module.exports = function registerFilters() {
   liquid.filters.formatSharableLinkID = (id, description) => {
     if (!description) return id;
     return `${description
-      // TODO: remove special characters and punctuation
+      .replace(/[^a-zA-Z ]/g, '')
       .substring(0, 30)
       .toLowerCase()
       .split(' ')
