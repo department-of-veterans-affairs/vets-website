@@ -91,6 +91,10 @@ const uiSchema = {
     ...directDepositUiSchema,
     bankAccount: {
       ...directDepositUiSchema.bankAccount,
+      'view:paymentText': {
+        'ui:description':
+          "We make payments only through direct deposit, also called electronic funds transfer (EFT). Please provide your direct deposit information below. We'll pay your housing stipend to this account.",
+      },
       accountType: {
         ...directDepositUiSchema.bankAccount.accountType,
         'ui:required': bankFieldIsRequired,
