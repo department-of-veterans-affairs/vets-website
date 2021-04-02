@@ -143,6 +143,7 @@ jobs:
 
       - name: Archive contract test results
         uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
         with:
           name: contract-test-report
           path: test-results/test-results.xml
