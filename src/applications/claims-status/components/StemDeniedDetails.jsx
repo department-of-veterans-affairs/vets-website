@@ -24,7 +24,7 @@ const StemDeniedDetails = ({
         You must meet all 3 of the eligibility criteria to be considered for the
         Rogers STEM Scholarship.
       </p>
-      <h3 className="vads-u-font-family--sans vads-u-margin-bottom--0">
+      <h3 className="vads-u-font-family--sans vads-u-margin-bottom--1">
         You didn't meet the following criteria for the Rogers STEM Scholarship:
       </h3>
       <ul className="stem-ad-list">
@@ -45,7 +45,7 @@ const StemDeniedDetails = ({
           </ul>
         </li>
       </ul>
-      <h3 className="vads-u-font-family--sans vads-u-margin-bottom--0">
+      <h3 className="vads-u-font-family--sans vads-u-margin-bottom--1">
         You met these criteria for the Rogers STEM Scholarship:
       </h3>
       <ul className="stem-ad-list">
