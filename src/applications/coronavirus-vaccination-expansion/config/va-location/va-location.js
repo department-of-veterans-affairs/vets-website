@@ -3,7 +3,7 @@ import DynamicRadioWidget from './DynamicRadioWidget.jsx';
 import { vaLocation } from '../schema-imports';
 
 function ReviewWidget({ value }) {
-  return <span>{value}</span>;
+  return <span>{value ? value?.split('|')[0] : `None`}</span>;
 }
 
 export const schema = {
