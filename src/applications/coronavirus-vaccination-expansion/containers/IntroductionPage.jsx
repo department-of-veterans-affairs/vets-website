@@ -13,6 +13,11 @@ import { modalContents } from './privacyDataHelper';
 const alreadyReceivingCarePath =
   '/health-care/covid-19-vaccine/stay-informed/form';
 const newlyEligiblePath = `/eligibility`;
+const receivingCareLabelText = (
+  <strong>
+    Are you a Veteran who is enrolled in VA health care or receiving care at VA?
+  </strong>
+);
 
 class IntroductionPage extends React.Component {
   constructor(props) {
@@ -67,23 +72,26 @@ class IntroductionPage extends React.Component {
           To get started, tell us about your experience with VA health care.
           We'll then guide you to the right form.
         </span>
+
         <fieldset
           className="fieldset-input"
           style={{
             marginTop: '-2em',
           }}
         >
-          <RadioButtons
-            id="introductionRadios"
-            errorMessage={this.state.errorMessage}
-            onKeyDown={function noRefCheck() {}}
-            onMouseDown={function noRefCheck() {}}
-            onValueChange={val => this.setSelected(val)}
-            options={['Yes', 'No', "I'm not sure"]}
-            value={this.state.currentSelection}
-            label="Are you a Veteran who is enrolled in VA health care or receiving care at VA?"
-            required
-          />
+          <p>
+            <RadioButtons
+              id="introductionRadios"
+              errorMessage={this.state.errorMessage}
+              onKeyDown={function noRefCheck() {}}
+              onMouseDown={function noRefCheck() {}}
+              onValueChange={val => this.setSelected(val)}
+              options={['Yes', 'No', "I'm not sure"]}
+              value={this.state.currentSelection}
+              label={receivingCareLabelText}
+              required
+            />
+          </p>
           <ProgressButton
             id="continueButton"
             afterText="»"
@@ -91,6 +99,7 @@ class IntroductionPage extends React.Component {
             onButtonClick={() => this.loadNextPage()}
           />
         </fieldset>
+
         <p>
           <strong>Note:</strong> We take your privacy seriously.{' '}
           <button

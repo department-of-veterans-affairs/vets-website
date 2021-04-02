@@ -1028,12 +1028,58 @@
     }
   },
   {
-    "appName": "Veteran Rapid Retraining Assistance Program",
-    "entryName": "vrrap",
+    "appName": "Veteran Rapid Retraining Assistance Program (VRRAP)",
+    "entryName": "1990s-edu-benefits",
     "rootUrl": "/vrrap",
     "template": {
       "vagovprod": false,
-      "layout": "page-react.html"
+      "title": "Apply for the Veteran Rapid Retraining Assistance Program (VRRAP)",
+      "heading": "Apply for the Veteran Rapid Retraining Assistance Program (VRRAP)",
+      "layout": "page-react.html",
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "name": "Education and training",
+          "path": "education/"
+        },
+        {
+          "name": "Other VA education benefits",
+          "path": "education/other-va-education-benefits/"
+        },
+        {
+          "name": "Veteran Rapid Retraining Assistance Program",
+          "path": "vrrap"
+        }
+      ]
+    }
+  },
+  {
+    "appName": "Request a Board Appeal",
+    "entryName": "10182-notice-of-disagreement",
+    "rootUrl": "/decision-reviews/board-appeal/request-notice-of-disagreement-form-10182",
+    "template": {
+      "title": "Request a Board Appeal",
+      "heading": "Request a Board Appeal",
+      "display_title": "Request a Board Appeal",
+      "layout": "page-react.html",
+      "description": "Apply online to request a Notice of Disagreement.",
+      "includeBreadcrumbs": true,
+      "keywords": "notice of disagreement, board appeal, NOD",
+      "vagovprod": false,
+      "breadcrumbs_override": [
+        {
+          "name": "Decision reviews and appeals",
+          "path": "/decision-reviews"
+        },
+        {
+          "name": "Board Appeals",
+          "path": "/decision-reviews/board-appeal"
+        },
+        {
+          "name": "Request a Board Appeal",
+          "path": "/decision-reviews/board-appeal/request-notice-of-disagreement-form-10182"
+        }
+      ]
     }
   }
 ]

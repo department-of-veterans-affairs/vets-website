@@ -32,7 +32,17 @@ const OrientationApp = props => {
 
   return (
     <>
-      <div className="row vads-u-margin-bottom--1 vads-u-margin-top--2 vads-u-border--1px vads-u-padding--3 orientation-border">
+      <article
+        aria-labelledby="vre-orientation"
+        aria-roledescription="carousel"
+        className="row vads-u-margin-bottom--1 vads-u-margin-top--2 vads-u-border--1px vads-u-padding--3 orientation-border"
+      >
+        <h2 id="vre-orientation" className="vads-u-margin-top--0">
+          VR&E Orientation
+        </h2>
+        <p id="orientation-step" className="vads-u-font-weight--bold">
+          Slide {step + 1} of {orientationSteps.length}
+        </p>
         <StepComponent step={step} />
         <div>
           {step > 0 && (
@@ -40,7 +50,7 @@ const OrientationApp = props => {
               onClick={() => (step === 0 ? step : setStep(step - 1))}
               className="usa-button usa-button-secondary vads-u-padding-x--4"
             >
-              « Back
+              Previous slide
             </button>
           )}
           <button
@@ -54,10 +64,15 @@ const OrientationApp = props => {
             type="button"
             className="usa-button-primary"
           >
-            {step === 0 ? 'Start VR&E orientation' : 'Continue »'}
+            {/* eslint-disable-next-line no-nested-ternary */}
+            {step === 0
+              ? 'Start VR&E orientation slideshow'
+              : step < orientationSteps.length - 1
+                ? 'Next slide'
+                : 'Finish VR&E Orientation'}
           </button>
         </div>
-      </div>
+      </article>
       {formStartControl && (
         <div className="vads-u-padding--3 vads-u-background-color--gray-lightest">
           <p>
@@ -68,7 +83,7 @@ const OrientationApp = props => {
           <a
             id="FormStartControl"
             href={CHAPTER_31_ROOT_URL}
-            className="usa-button-primary va-button-primary"
+            className="va-action-link--green vads-u-padding-left--0"
             onClick={() => {
               wizardStateHandler(WIZARD_STATUS_COMPLETE);
             }}

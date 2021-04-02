@@ -13,6 +13,7 @@ export function DynamicRadioWidget(props) {
   // console.log(props);
   const { onChange } = props;
   let locationsList = null;
+  let upperContent = null;
   const [locations, setLocations] = useState([]);
   const [loading, isLoading] = useState(true); // app starts in a loading state
   const [error, setError] = useState(false); // app starts with no error
@@ -55,6 +56,20 @@ export function DynamicRadioWidget(props) {
       <LoadingIndicator message="Loading VA medical centers near you..." />
     );
   } else if (locations.length > 0 && loading === false) {
+    upperContent = (
+      <>
+        <p>
+          These are the VA medical centers closest to where you live. Select the
+          medical center you'd like to go to get a COVID-19 vaccine. If you
+          don't select one, we'll match you with the first one on the list.
+        </p>
+        <p>
+          <strong>Note</strong>: If you get a vaccine that requires 2 doses to
+          be fully effective, you'll need to return to the same VA medical
+          center to get your second dose.
+        </p>
+      </>
+    );
     const optionsList = locations.map(location => ({
       label: (
         <>
@@ -66,12 +81,13 @@ export function DynamicRadioWidget(props) {
           } ${location.attributes.state}`}</p>
         </>
       ),
-      value: location.attributes.name,
+      value: `${location.attributes.name}|${location.id}`,
     }));
 
     locationsList = (
       <RadioButtons
         options={optionsList}
+        label="Select your medical center"
         value={selected}
         onValueChange={value => {
           onChange(value.value);
@@ -92,7 +108,12 @@ export function DynamicRadioWidget(props) {
       />
     );
   }
-  return <>{locationsList}</>;
+  return (
+    <>
+      {upperContent}
+      {locationsList}
+    </>
+  );
 }
 
 function mapStateToProps(state) {

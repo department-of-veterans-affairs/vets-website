@@ -19,8 +19,8 @@ import {
   APPOINTMENT_TYPES,
 } from '../../utils/constants';
 import { getVAAppointmentLocationId } from '../../services/appointment';
-import AppointmentListItem from './AppointmentsPage/AppointmentListItem';
-import ExpressCareListItem from './AppointmentsPage/ExpressCareListItem';
+import AppointmentListItem from './AppointmentsPageV2/AppointmentListItem';
+import ExpressCareListItem from './AppointmentsPageV2/ExpressCareListItem';
 import NoAppointments from './NoAppointments';
 import moment from 'moment';
 
