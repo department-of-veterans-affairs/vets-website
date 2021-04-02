@@ -3,12 +3,16 @@ import { Link } from 'react-router-dom';
 import { sentenceCase } from '../../../utils/formatters';
 import { getPractitionerLocationDisplay } from '../../../services/appointment';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
+import moment from 'moment';
 
 export default function RequestListItem({ appointment, facility }) {
   const isCC = appointment.vaos.isCommunityCare;
   const typeOfCareText = sentenceCase(appointment.type?.coding?.[0]?.display);
   const ccFacilityName = getPractitionerLocationDisplay(appointment);
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
+  const preferredDate = moment(appointment.requestedPeriod[0].start).format(
+    'MMMM D, YYYY',
+  );
 
   return (
     <li
@@ -21,31 +25,27 @@ export default function RequestListItem({ appointment, facility }) {
             Canceled
           </span>
         )}
-        <h4 className="vads-u-font-size--h4 vads-u-margin-x--0 vads-u-margin-y--0">
+        <h3 className="vads-u-font-size--h4 vads-u-margin-x--0 vads-u-margin-y--0">
           {sentenceCase(typeOfCareText)}
-        </h4>
+        </h3>
         {!!facility && !isCC && facility.name}
         {isCC && !!ccFacilityName && ccFacilityName}
         {isCC && !ccFacilityName && 'Community care'}
       </div>
       <div>
         <Link
-          aria-hidden="true"
+          aria-label={`Details for ${
+            canceled ? 'canceled ' : ''
+          }${typeOfCareText}request for ${preferredDate}`}
           to={`requests/${appointment.id}`}
           className="vads-u-display--none medium-screen:vads-u-display--inline"
         >
           Details
         </Link>
-        <Link
-          to={`requests/${appointment.id}`}
-          className="vaos-appts__card-link"
-          aria-label={`Details for ${typeOfCareText} request`}
-        >
-          <i
-            aria-hidden="true"
-            className="fas fa-chevron-right vads-u-margin-left--1"
-          />
-        </Link>
+        <i
+          aria-hidden="true"
+          className="fas fa-chevron-right vads-u-margin-left--1"
+        />
       </div>
     </li>
   );
