@@ -22,7 +22,18 @@ const MakePayment = () => {
         </strong>
       </p>
       <p className="vads-u-margin-top--1">
-        <a href="/manage-va-debt">Find out how to manage your debt</a>
+        <a
+          href="/manage-va-debt"
+          onClick={() => {
+            recordEvent({
+              event: 'howToWizard-alert-link-click',
+              'howToWizard-alert-link-click-label':
+                'Find out how to manage your debt',
+            });
+          }}
+        >
+          Find out how to manage your debt
+        </a>
       </p>
       <p>
         Be sure to make a payment or request help within{' '}

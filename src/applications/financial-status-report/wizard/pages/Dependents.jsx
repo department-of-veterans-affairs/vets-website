@@ -25,7 +25,16 @@ const Dependents = () => {
       <p>
         To request help with VA education, disability compensation, or pension
         benefit debt, fill out the PDF version of our{' '}
-        <a href="https://www.va.gov/debtman/Financial_Status_Report.asp">
+        <a
+          href="https://www.va.gov/debtman/Financial_Status_Report.asp"
+          onClick={() => {
+            recordEvent({
+              event: 'howToWizard-alert-link-click',
+              'howToWizard-alert-link-click-label':
+                'Financial Status Report (VA Form 5655).',
+            });
+          }}
+        >
           Financial Status Report (VA Form 5655).
         </a>
       </p>

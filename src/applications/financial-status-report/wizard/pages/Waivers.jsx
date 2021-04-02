@@ -28,7 +28,16 @@ const Waivers = () => {
       <ul>
         <li>
           <strong>Online: </strong>
-          <a href="https://iris.custhelp.va.gov/app/ask">
+          <a
+            href="https://iris.custhelp.va.gov/app/ask"
+            onClick={() => {
+              recordEvent({
+                event: 'howToWizard-alert-link-click',
+                'howToWizard-alert-link-click-label':
+                  'Go to our online question form (called IRIS)',
+              });
+            }}
+          >
             Go to our online question form (called IRIS)
           </a>
           . On the IRIS page, select <strong>Debt Management Center</strong>,

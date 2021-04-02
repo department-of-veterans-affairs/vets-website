@@ -23,12 +23,30 @@ const Copays = () => {
         <strong>Here’s how to pay or get help with your VA copay bill:</strong>
       </p>
       <p>
-        <a href="/health-care/pay-copay-bill/">
+        <a
+          href="/health-care/pay-copay-bill/"
+          onClick={() => {
+            recordEvent({
+              event: 'howToWizard-alert-link-click',
+              'howToWizard-alert-link-click-label':
+                'Find out how to pay your VA copay bill',
+            });
+          }}
+        >
           Find out how to pay your VA copay bill
         </a>
       </p>
       <p>
-        <a href="/health-care/pay-copay-bill/financial-hardship/">
+        <a
+          href="/health-care/pay-copay-bill/financial-hardship/"
+          onClick={() => {
+            recordEvent({
+              event: 'howToWizard-alert-link-click',
+              'howToWizard-alert-link-click-label':
+                'Learn how to request financial hardship assistance',
+            });
+          }}
+        >
           Learn how to request financial hardship assistance
         </a>
       </p>
