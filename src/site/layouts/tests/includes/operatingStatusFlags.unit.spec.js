@@ -13,7 +13,7 @@ describe('operatingStatusFlags', () => {
 
       expect(
         container
-          .querySelector('i.fa-info-circle')
+          .querySelector('a i.fa-info-circle')
           .nextSibling.textContent.trim(),
       ).to.equal('Facility notice');
     });
@@ -25,7 +25,7 @@ describe('operatingStatusFlags', () => {
 
       expect(
         container
-          .querySelector('i.fa-exclamation-triangle')
+          .querySelector('a i.fa-exclamation-triangle')
           .nextSibling.textContent.trim(),
       ).to.equal('Limited services and hours');
     });
@@ -37,7 +37,7 @@ describe('operatingStatusFlags', () => {
 
       expect(
         container
-          .querySelector('i.fa-exclamation-circle')
+          .querySelector('a i.fa-exclamation-circle')
           .nextSibling.textContent.trim(),
       ).to.equal('Facility Closed');
     });

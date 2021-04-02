@@ -1,8 +1,8 @@
-{% if fieldOperatingStatusFacility == 'notice' %}<a
+{% if fieldOperatingStatusFacility == 'notice' %}
+  <a class="operating-status-link"
   onclick="recordEvent({
   'event': 'nav-info-box-click',
   'infoBoxText': 'Facility notice'});"
-  class="operating-status-link"
   href="{{ facilitySidebar.links.0.url.path }}/operating-status">
     <span
       class="operating-status-flag operating-status-flag-notice operating-status usa-alert usa-alert-info background-color-only vads-u-margin-top--1 vads-u-padding-y--1 vads-u-padding-x--1p5">
