@@ -102,21 +102,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       
-      # - name: Configure AWS Credentials
-      #   uses: aws-actions/configure-aws-credentials@v1
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws-region: "us-gov-west-1"
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: "us-gov-west-1"
 
-      # - name: Get bot token from Parameter Store
-      #   uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
-      #   with:
-      #     ssm_parameter: /dsva-vagov/pact-broker/utility/PACT_BROKER_BASIC_AUTH_PASSWORD
+      - name: Get bot token from Parameter Store
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /dsva-vagov/pact-broker/utility/PACT_BROKER_BASIC_AUTH_PASSWORD
 
-      # - name: Get Node version
-      #   id: get-node-version
-      #   run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
 
       - name: Setup Node
         uses: actions/setup-node@v2
@@ -136,7 +136,8 @@ jobs:
 
       - name: Run Pact publish
         run: yarn pact:publish
-        env_variable_name: PACT_BROKER_BASIC_AUTH_PASSWORD
+        with:
+          env_variable_name: PACT_BROKER_BASIC_AUTH_PASSWORD
         env:
           PACT_BROKER_BASIC_AUTH_USERNAME: pact-broker
           PACT_BROKER_BASE_URL: https://dev.va.gov/_vfs/pact-broker/
