@@ -79,6 +79,7 @@ export default {
     'ui:description': DocumentUploadDescription(),
     [representativeFields.documentUpload]: fileUploadUI('', {
       buttonText: 'Upload',
+      multiple: false,
       fileUploadUrl: `${environment.API_URL}/v0/caregiver_attachments`,
       fileTypes: ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'rtf', 'png'],
       maxSize: 1024 * 1024 * 10,

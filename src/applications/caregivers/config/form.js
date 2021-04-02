@@ -30,6 +30,7 @@ import vetMedicalCenterPage from './chapters/veteran/vetMedicalCenter';
 // sign as representative
 import signAsRepresentativeYesNo from './chapters/signAsRepresentative/signAsRepresentativeYesNo';
 import uploadPOADocument from './chapters/signAsRepresentative/uploadPOADocument';
+
 // primary pages
 import hasPrimaryCaregiverPage from './chapters/primary/hasPrimaryCaregiver';
 import primaryInfoPage from './chapters/primary/primaryInfo';
