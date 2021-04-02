@@ -17,6 +17,11 @@ const StartFormButton = ({ setWizardStatus, label, ariaId }) => {
       onClick={event => {
         event.preventDefault();
         setWizardStatus(WIZARD_STATUS_COMPLETE);
+        recordEvent({
+          event: 'cta-button-click',
+          'button-type': 'primary',
+          'button-click-label': label,
+        });
       }}
       aria-describedby={ariaId}
     >
