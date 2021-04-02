@@ -80,26 +80,26 @@ const confirmWebAddressesAreBlocked = () => {
 
   // NOTE: resorting to selecting via a fragile element ID since there are two
   // street lines on this form with identical labels :(
-  cy.findByLabelText(/^line 2/i)
+  cy.findByLabelText(/^Street address line 2/i)
     .clear()
     .type('www.propaganda.blah');
   cy.findByRole('button', { name: 'Update' }).focus();
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid street address/i);
-  cy.findByLabelText(/^line 2/i).clear();
+  cy.findByLabelText(/^Street address line 2/i).clear();
   cy.findByRole('alert').should('not.exist');
 
   // NOTE: resorting to selecting via a fragile element ID since there are two
   // street lines on this form with identical labels :(
-  cy.findByLabelText(/^line 3/i)
+  cy.findByLabelText(/^Street address line 3/i)
     .clear()
     .type('propaganda.net');
   cy.findByRole('button', { name: 'Update' }).focus();
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid street address/i);
-  cy.findByLabelText(/^line 3/i).clear();
+  cy.findByLabelText(/^Street address line 3/i).clear();
   cy.findByRole('alert').should('not.exist');
 
   cy.findByRole('textbox', { name: /city/i })

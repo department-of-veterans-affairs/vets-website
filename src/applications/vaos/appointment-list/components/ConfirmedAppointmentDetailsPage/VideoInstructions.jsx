@@ -38,7 +38,9 @@ export function VideoVisitInstructions({ instructionsType }) {
   if (instructionsType === MEDICATION_REVIEW) {
     return (
       <div>
-        <strong>Medication review</strong>
+        <h4 className="vads-u-font-size--base vads-u-font-family--sans">
+          Medication review
+        </h4>
         <p>
           During your video appointment, your provider will want to review all
           the medications, vitamins, herbs, and supplements you’re taking

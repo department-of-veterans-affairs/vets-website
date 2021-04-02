@@ -27,6 +27,9 @@ import vetInfoPage from './chapters/veteran/vetInfo';
 import vetContactInfoPage from './chapters/veteran/vetContactInfo';
 import vetMedicalCenterPage from './chapters/veteran/vetMedicalCenter';
 
+// sign as representative
+import signAsRepresentativeYesNo from './chapters/signAsRepresentative/signAsRepresentativeYesNo';
+
 // primary pages
 import hasPrimaryCaregiverPage from './chapters/primary/hasPrimaryCaregiver';
 import primaryInfoPage from './chapters/primary/primaryInfo';
@@ -194,6 +197,18 @@ const formConfig = {
           depends: formData => hasSecondaryCaregiverTwo(formData),
           uiSchema: secondaryTwoContactPage.uiSchema,
           schema: secondaryTwoContactPage.schema,
+        },
+      },
+    },
+    signAsRepresentativeChapter: {
+      title: 'Representative documentation',
+      pages: {
+        signAsRepresentative: {
+          depends: formData => formData['view:canUpload1010cgPOA'],
+          path: 'representative-documentation',
+          title: 'Representative documentation',
+          uiSchema: signAsRepresentativeYesNo.uiSchema,
+          schema: signAsRepresentativeYesNo.schema,
         },
       },
     },

@@ -10,6 +10,7 @@ import fastLevenshtein from 'fast-levenshtein';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import _ from 'platform/utilities/data';
+import { focusElement } from 'platform/utilities/ui';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
@@ -435,13 +436,13 @@ export const addressUISchema = (
       },
     },
     addressLine2: {
-      'ui:title': 'Street address',
+      'ui:title': 'Street address line 2',
       'ui:errorMessages': {
         pattern: 'Please enter a valid street address',
       },
     },
     addressLine3: {
-      'ui:title': 'Street address',
+      'ui:title': 'Street address line 3',
       'ui:errorMessages': {
         pattern: 'Please enter a valid street address',
       },
@@ -684,6 +685,15 @@ export const ancillaryFormUploadUi = (
   } = {},
 ) => {
   const pdfSizeFeature = getPdfSizeFeature();
+  // a11y focus management. Move focus to select after upload
+  // see va.gov-team/issues/19688
+  const findAndFocusLastSelect = () => {
+    // focus on last document type select since all new uploads are appended
+    const lastSelect = [...document.querySelectorAll('select')].slice(-1);
+    if (lastSelect.length) {
+      focusElement(lastSelect[0]);
+    }
+  };
   return fileUploadUI(label, {
     itemDescription,
     hideLabelText: !label,
@@ -703,11 +713,16 @@ export const ancillaryFormUploadUi = (
       }
       return payload;
     },
-    parseResponse: (response, file) => ({
-      name: file.name,
-      confirmationCode: response.data.attributes.guid,
-      attachmentId,
-    }),
+    parseResponse: (response, file) => {
+      setTimeout(() => {
+        findAndFocusLastSelect();
+      });
+      return {
+        name: file.name,
+        confirmationCode: response.data.attributes.guid,
+        attachmentId,
+      };
+    },
     attachmentSchema: {
       'ui:title': 'Document type',
       'ui:disabled': isDisabled,

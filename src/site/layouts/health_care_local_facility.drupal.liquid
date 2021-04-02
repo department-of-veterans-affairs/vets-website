@@ -71,11 +71,13 @@
                         </strong><a
                           href="tel:{{ fieldPhoneNumber }}">{{ fieldPhoneNumber }}</a>
                       </div>
-                      <div class="mental-health-clinic-phone"><strong>Mental
-                          health clinic:
-                        </strong><a
-                          href="tel:{{ fieldMentalHealthPhone }}">{{ fieldMentalHealthPhone }}</a>
-                      </div>
+                      {% if fieldMentalHealthPhone %}
+                        <div class="mental-health-clinic-phone"><strong>Mental
+                            health clinic:
+                          </strong><a
+                            href="tel:{{ fieldMentalHealthPhone }}">{{ fieldMentalHealthPhone }}</a>
+                        </div>
+                      {% endif %}
                     </div>
                     <div class="vads-u-margin-bottom--0">
                       <div class="clinicalhours">

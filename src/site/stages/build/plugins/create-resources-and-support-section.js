@@ -291,44 +291,32 @@ function createArticleListingsPages(files) {
   );
 }
 
-function createArticleResultSnippet(text) {
-  const sanitizedText = liquid.filters.strip_html(text);
+function deriveIntroText(htmlText) {
+  const sanitizedText = liquid.filters.strip_html(htmlText);
   const strippedNewlines = liquid.filters.strip_newlines(sanitizedText);
-  const decodedText = he.decode(strippedNewlines);
-
-  const truncated = liquid.filters.truncate(decodedText, 190);
-
-  if (decodedText !== truncated) {
-    return `${truncated}...`;
-  }
-
-  return truncated;
+  return he.decode(strippedNewlines);
 }
 
 function createSearchResults(files) {
   const allArticles = getArticlesBelongingToResourcesAndSupportSection(files);
   const articleSearchData = allArticles.map(article => {
-    let limitedDescription = null;
+    let introText = '';
 
     if (article.entityBundle === 'q_a') {
       const answer = article.fieldAnswer.entity.fieldWysiwyg.processed;
-      limitedDescription = createArticleResultSnippet(answer);
+      introText = deriveIntroText(answer);
     } else {
-      limitedDescription = createArticleResultSnippet(
-        article.fieldIntroTextLimitedHtml.processed,
-      );
+      introText = deriveIntroText(article.fieldIntroTextLimitedHtml.processed);
     }
 
     return {
       entityBundle: article.entityBundle,
-      entityUrl: {
-        path: article.entityUrl.path,
-      },
-      title: article.title,
-      description: limitedDescription,
-      fieldPrimaryCategory: article.fieldPrimaryCategory,
+      entityUrl: { path: article.entityUrl.path },
       fieldOtherCategories: article.fieldOtherCategories,
+      fieldPrimaryCategory: article.fieldPrimaryCategory,
       fieldTags: article.fieldTags,
+      introText,
+      title: article.title,
     };
   });
 

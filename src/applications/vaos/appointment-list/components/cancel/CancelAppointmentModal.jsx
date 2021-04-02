@@ -7,12 +7,12 @@ import CancelAppointmentSucceededModal from './CancelAppointmentSucceededModal';
 import CancelAppointmentConfirmationModal from './CancelAppointmentConfirmationModal';
 import CancelCernerAppointmentModal from './CancelCernerAppointmentModal';
 
-import { isVideoAppointment } from '../../../services/appointment';
 import {
   FETCH_STATUS,
   APPOINTMENT_TYPES,
   APPOINTMENT_STATUS,
 } from '../../../utils/constants';
+import CancelCOVIDVaccineModal from './CancelCOVIDVaccineModal';
 
 export default function CancelAppointmentModal(props) {
   const {
@@ -30,8 +30,12 @@ export default function CancelAppointmentModal(props) {
     return null;
   }
 
+  if (appointmentToCancel.vaos.isCOVIDVaccine) {
+    return <CancelCOVIDVaccineModal onClose={onClose} facility={facility} />;
+  }
+
   if (
-    isVideoAppointment(appointmentToCancel) &&
+    appointmentToCancel.vaos?.isVideo &&
     appointmentToCancel.status === APPOINTMENT_STATUS.booked
   ) {
     return (

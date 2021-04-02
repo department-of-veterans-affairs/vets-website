@@ -554,7 +554,7 @@ module.exports = function registerFilters() {
 
   liquid.filters.detectLang = url => {
     if (url?.endsWith('-esp')) return 'es';
-    if (url?.endsWith('-tag')) return 'tag';
+    if (url?.endsWith('-tag')) return 'tl';
     return 'en';
   };
 
@@ -601,19 +601,19 @@ module.exports = function registerFilters() {
       return url;
     }
 
+    // Not a youtube link? Return back the raw url.
     if (!_.includes(url, 'youtu')) {
       return url;
     }
 
-    if (_.includes(url, 'embed')) {
+    try {
+      // Recreate the embedded youtube.com URL so we know it's formatted correctly.
+      const urlInstance = new URL(url);
+      const pathname = urlInstance?.pathname?.replace('/embed', '');
+      return `https://www.youtube.com/embed${pathname}`;
+    } catch (error) {
       return url;
     }
-
-    if (_.includes(url, 'youtube.com/watch?v=')) {
-      return _.replace(url, '/watch?v=', '/embed/');
-    }
-
-    return _.replace(url, 'youtu.be', 'youtube.com/embed');
   };
 
   liquid.filters.deriveCLPTotalSections = (
@@ -693,5 +693,10 @@ module.exports = function registerFilters() {
     const tagList = [...topics, ...audiences];
 
     return _.sortBy(tagList, 'name');
+  };
+
+  liquid.filters.replace = (string, oldVal, newVal) => {
+    const regex = new RegExp(oldVal, 'g');
+    return string.replace(regex, newVal);
   };
 };

@@ -4,35 +4,52 @@ import PropTypes from 'prop-types';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import { GeneralCernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
 import { fetchFolder as fetchInboxAction } from '~/applications/personalization/dashboard/actions/messaging';
-import { recordDashboardClick } from '~/applications/personalization/dashboard/helpers';
 import { FOLDER } from '~/applications/personalization/dashboard-2/constants';
-import { selectUnreadMessagesCount } from '~/applications/personalization/dashboard-2/selectors';
+import {
+  selectUnreadMessagesCount,
+  selectFolder,
+} from '~/applications/personalization/dashboard-2/selectors';
 import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction } from '~/applications/personalization/appointments/actions';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { getMedicalCenterNameByID } from '~/platform/utilities/medical-centers/medical-centers';
+
+import { differenceInDays } from 'date-fns';
+
 import {
   selectCernerAppointmentsFacilities,
   selectCernerMessagingFacilities,
   selectCernerRxFacilities,
   selectIsCernerPatient,
+  selectAvailableServices,
 } from '~/platform/user/selectors';
 
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+
 import Appointments from './Appointments';
-import NotificationCTA from '../NotificationCTA';
+import IconCTALink from '../IconCTALink';
 
 const HealthCare = ({
   appointments,
   authenticatedWithSSOe,
+  shouldFetchMessages,
   fetchConfirmedFutureAppointments,
   isCernerPatient,
   facilityNames,
-  canAccessMessaging,
   fetchInbox,
   unreadMessagesCount,
   // TODO: possibly remove this prop in favor of mocking API calls in our unit tests
   dataLoadingDisabled = false,
+  shouldShowLoadingIndicator,
+  hasInboxError,
 }) => {
+  const nextAppointment = appointments?.[0];
+  const start = new Date(nextAppointment?.startsAt);
+  const today = new Date();
+  const hasUpcomingAppointment = differenceInDays(start, today) < 30;
+  const hasFutureAppointments = Boolean(appointments?.length);
+
   useEffect(
     () => {
       if (!dataLoadingDisabled) {
@@ -44,21 +61,23 @@ const HealthCare = ({
 
   useEffect(
     () => {
-      if (canAccessMessaging && !dataLoadingDisabled) {
+      if (shouldFetchMessages && !dataLoadingDisabled) {
         fetchInbox(FOLDER.inbox);
       }
     },
-    [canAccessMessaging, fetchInbox, dataLoadingDisabled],
+    [shouldFetchMessages, fetchInbox, dataLoadingDisabled],
   );
 
-  const viewMessagesCTA = {
-    icon: 'envelope',
-    text: unreadMessagesCount
-      ? `You have ${unreadMessagesCount} new messages`
-      : 'View your new messages',
-    href: mhvUrl(authenticatedWithSSOe, 'secure-messaging'),
-    ariaLabel: 'View your unread messages',
-  };
+  if (shouldShowLoadingIndicator) {
+    return (
+      <div className="health-care vads-u-margin-y--6">
+        <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+          Health care
+        </h2>
+        <LoadingIndicator message="Loading health care..." />
+      </div>
+    );
+  }
 
   if (isCernerPatient && facilityNames?.length) {
     return (
@@ -69,65 +88,80 @@ const HealthCare = ({
     );
   }
 
+  const wrapperClasses = `vads-u-display--flex large-screen:vads-u-flex-direction--row vads-u-flex-direction--column health-care ${
+    hasUpcomingAppointment ? '' : 'half-width'
+  }`;
+
+  const messagesText =
+    shouldFetchMessages && !hasInboxError
+      ? `You have ${unreadMessagesCount} new message${
+          unreadMessagesCount === 1 ? '' : 's'
+        }`
+      : 'Send a secure message to your health care team';
+
   return (
-    <div className="health-care vads-u-margin-y--6">
-      <h2 className="vads-u-margin-y--0">Health care</h2>
+    <div className="health-care-wrapper vads-u-margin-y--6">
+      <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--4">
+        Health care
+      </h2>
 
-      <div className="vads-u-display--flex vads-u-flex-wrap--wrap">
-        {/* Appointments */}
-        <Appointments
-          appointments={appointments}
-          authenticatedWithSSOe={authenticatedWithSSOe}
-        />
-      </div>
-
-      <div className="vads-u-margin-top--4">
-        {/* Messages */}
-        {canAccessMessaging && (
-          <>
-            <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--2p5">
-              Messages
-            </h3>
-            <NotificationCTA CTA={viewMessagesCTA} />
-          </>
+      <div className={wrapperClasses}>
+        {hasUpcomingAppointment && (
+          /* Appointments */
+          <Appointments appointments={appointments} />
         )}
 
-        <h3>Manage your health care benefits</h3>
-        <hr
-          aria-hidden="true"
-          className="vads-u-background-color--primary vads-u-margin-bottom--2 vads-u-margin-top--0p5 vads-u-border--0"
-        />
+        <div className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1">
+          {!hasUpcomingAppointment && (
+            <>
+              {hasFutureAppointments && (
+                <p>You have no appointments scheduled in the next 30 days.</p>
+              )}
 
-        <a
-          href={mhvUrl(
-            authenticatedWithSSOe,
-            'web/myhealthevet/refill-prescriptions',
+              <IconCTALink
+                href="/health-care/schedule-view-va-appointments/appointments"
+                icon="calendar-check"
+                newTab
+                text="Schedule and view your appointments"
+              />
+            </>
           )}
-          onClick={recordDashboardClick('manage-all-prescriptions')}
-        >
-          Manage all your prescriptions
-        </a>
 
-        <p>
-          <a
-            href={mhvUrl(isAuthenticatedWithSSOe, 'download-my-data')}
-            rel="noreferrer noopener"
-            target="_blank"
-            className="vads-u-margin-bottom--2"
-            // onClick={recordEvent()}
-          >
-            Get your lab and test results
-          </a>
-        </p>
+          {/* Messages */}
+          <IconCTALink
+            boldText={unreadMessagesCount > 0}
+            href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
+            icon="comments"
+            newTab
+            text={messagesText}
+          />
 
-        <p>
-          <a
+          {/* Prescriptions */}
+          <IconCTALink
+            href={mhvUrl(
+              authenticatedWithSSOe,
+              'web/myhealthevet/refill-prescriptions',
+            )}
+            icon="prescription-bottle"
+            newTab
+            text="Refill and track your prescriptions"
+          />
+
+          {/* Lab and test results */}
+          <IconCTALink
+            href={mhvUrl(authenticatedWithSSOe, 'download-my-data')}
+            icon="clipboard-list"
+            newTab
+            text="Get your lab and test results"
+          />
+
+          {/* VA Medical records */}
+          <IconCTALink
             href="/health-care/get-medical-records/"
-            // onClick={recordDashboardClick('health-records')}
-          >
-            Get your VA medical records
-          </a>
-        </p>
+            icon="file-medical"
+            text="Get your VA medical records"
+          />
+        </div>
       </div>
     </div>
   );
@@ -159,14 +193,25 @@ const mapStateToProps = state => {
     ]),
   ];
 
+  const shouldFetchMessages = selectAvailableServices(state).includes(
+    backendServices.MESSAGING,
+  );
+
+  const fetchingAppointments = state.health?.appointments?.fetching;
+  const fetchingInbox = shouldFetchMessages
+    ? selectFolder(state)?.fetching
+    : false;
+
+  const hasInboxError = selectFolder(state)?.errors?.length > 0;
+
   return {
     appointments: state.health?.appointments?.data,
-    isCernerPatient: selectIsCernerPatient(state),
-    facilityNames,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
-    canAccessMessaging: state.user.profile?.services?.includes(
-      backendServices.MESSAGING,
-    ),
+    facilityNames,
+    hasInboxError,
+    isCernerPatient: selectIsCernerPatient(state),
+    shouldFetchMessages,
+    shouldShowLoadingIndicator: fetchingAppointments || fetchingInbox,
     unreadMessagesCount: selectUnreadMessagesCount(state),
   };
 };

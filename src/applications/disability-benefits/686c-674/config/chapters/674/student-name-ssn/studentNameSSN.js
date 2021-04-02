@@ -55,6 +55,11 @@ export const uiSchema = {
           isChapterFieldRequired(formData, 'report674'),
       },
     },
+    isParentOrGuardian: {
+      'ui:title': 'Are you a parent or guardian of this child?',
+      'ui:widget': 'yesNo',
+      'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
+    },
     dependentIncome: {
       'ui:title': 'Did this dependent earn an income in the last 365 days?',
       'ui:widget': 'yesNo',

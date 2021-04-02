@@ -36,6 +36,13 @@ export const uiSchema = {
   },
   personalData: {
     address: {
+      'ui:field': ReviewCardField,
+      'ui:options': {
+        editTitle: 'Edit mailing address',
+        viewComponent: ContactInfoCard,
+        startInEdit: false,
+        hideOnReview: true,
+      },
       'ui:subtitle': (
         <>
           <p>
@@ -53,12 +60,6 @@ export const uiSchema = {
           </p>
         </>
       ),
-      'ui:field': ReviewCardField,
-      'ui:options': {
-        editTitle: 'Edit mailing address',
-        viewComponent: ContactInfoCard,
-        startInEdit: false,
-      },
       livesOutsideUS: {
         'ui:title': 'I live on a U.S. military base outside of the U.S.',
         'ui:options': {
@@ -113,7 +114,7 @@ export const uiSchema = {
         },
       },
       addressLine2: {
-        'ui:title': 'Line 2',
+        'ui:title': 'Street address line 2',
         'ui:options': {
           classNames: 'input-size-7',
         },

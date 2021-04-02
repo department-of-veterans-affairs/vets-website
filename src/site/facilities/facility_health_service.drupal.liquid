@@ -2,16 +2,18 @@
   <ul class="usa-unstyled-list">
     {% assign serviceTaxonomy = healthService.fieldServiceNameAndDescripti.entity %}
     <li class="vads-u-margin-bottom--1">
-      <button
-          class="usa-accordion-button usa-button-unstyled vads-u-padding-y--2 vads-u-padding-left--2p5 vads-u-line-height--4"
-          aria-expanded="false"
-          aria-controls="{{ serviceTaxonomy.entityBundle }}-{{ serviceTaxonomy.entityId }}"
-      >
-        {{ serviceTaxonomy.name }}
-        {% if serviceTaxonomy.fieldAlsoKnownAs %}
-          <p class="vads-u-font-weight--normal vads-u-margin--0">{{ serviceTaxonomy.fieldAlsoKnownAs }}</p>
-        {% endif %}
-      </button>
+      <h3>
+        <button
+            class="usa-accordion-button usa-button-unstyled vads-u-padding-y--2 vads-u-padding-left--2p5 vads-u-line-height--4"
+            aria-expanded="false"
+            aria-controls="{{ serviceTaxonomy.entityBundle }}-{{ serviceTaxonomy.entityId }}"
+        >
+          {{ serviceTaxonomy.name }}
+          {% if serviceTaxonomy.fieldAlsoKnownAs %}
+            <p class="vads-u-font-weight--normal vads-u-margin--0">{{ serviceTaxonomy.fieldAlsoKnownAs }}</p>
+          {% endif %}
+        </button>
+      </h3>
       <div id="{{ serviceTaxonomy.entityBundle }}-{{ serviceTaxonomy.entityId }}" class="usa-accordion-content"
            aria-hidden="true">
         {% if serviceTaxonomy.fieldCommonlyTreatedCondition %}
@@ -35,7 +37,7 @@
              data-service="{{ serviceTaxonomy | healthServiceApiId | escape }}"></div>
 
         {% if healthService.fieldBody.processed %}
-          <div>{{ healthService.fieldBody.processed }}</div>
+          <div>{{ healthService.fieldBody.processed | replace: 'h3', 'h4' }}</div>
         {% endif %}
       </div>
     </li>

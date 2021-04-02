@@ -247,10 +247,36 @@ export const BankInfoCNP = ({
       </p>
       <div className="vads-u-margin-bottom--2">
         <AdditionalInfo triggerText="Where can I find these numbers?">
-          <img
-            src="/img/direct-deposit-check-guide.png"
-            alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
-          />
+          <figure className="vads-u-margin-x--0">
+            {/* eslint-disable jsx-a11y/no-redundant-roles */}
+            <img
+              src="/img/direct-deposit-check-guide.svg"
+              role="img"
+              alt="A personal check"
+              aria-labelledby="check-caption"
+            />
+            {/* eslint-enable jsx-a11y/no-redundant-roles */}
+            <figcaption
+              id="check-caption"
+              className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-width--auto vads-u-color--gray-dark"
+            >
+              <p>
+                The bank routing number is the first 9 digits on the bottom left
+                corner of a printed check. Your account number is the second set
+                of numbers on the bottom of a check, just to the right of the
+                bank routing number.
+              </p>
+              <p>If you don’t have a printed check, you can:</p>
+              <ul>
+                <li>
+                  Sign in to your online bank account and check your account
+                  details, or
+                </li>
+                <li>Check your bank statement, or</li>
+                <li>Call your bank</li>
+              </ul>
+            </figcaption>
+          </figure>
         </AdditionalInfo>
       </div>
       <div data-testid={`${formPrefix}-bank-info-form`}>

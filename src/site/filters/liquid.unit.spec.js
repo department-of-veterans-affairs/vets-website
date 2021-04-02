@@ -214,7 +214,7 @@ describe('createEmbedYouTubeVideoURL', () => {
   it('returns the modified URL if it needs it', () => {
     expect(
       liquid.filters.createEmbedYouTubeVideoURL('https://youtu.be/asdf'),
-    ).to.eq('https://youtube.com/embed/asdf');
+    ).to.eq('https://www.youtube.com/embed/asdf');
     expect(
       liquid.filters.createEmbedYouTubeVideoURL('https://www.youtu.be/asdf'),
     ).to.eq('https://www.youtube.com/embed/asdf');
@@ -305,5 +305,13 @@ describe('getTagsList', () => {
         categoryLabel: 'Topics',
       },
     ]);
+  });
+});
+
+describe('replace', () => {
+  it('replaces text with other text', () => {
+    expect(liquid.filters.replace('<h3>some text</h3>', 'h3', 'h4')).to.equal(
+      '<h4>some text</h4>',
+    );
   });
 });

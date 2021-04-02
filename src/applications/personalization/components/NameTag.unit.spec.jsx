@@ -1,99 +1,114 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { renderWithProfileReducers as render } from '../profile/tests/unit-test-helpers';
 import { expect } from 'chai';
 
 import NameTag from './NameTag';
 
-const fakeStore = {
-  getState: () => ({
-    vaProfile: {
-      hero: {
-        userFullName: {
-          first: 'Johnnie',
-          middle: 'Leonard',
-          last: 'Weaver',
-        },
-      },
-      militaryInformation: {
-        serviceHistory: {
-          serviceHistory: [
-            {
-              branchOfService: 'Army',
-              beginDate: '2004-02-01',
-              endDate: '2007-02-01',
-            },
-            {
-              branchOfService: 'Navy',
-              beginDate: '2007-02-01',
-              endDate: '2009-02-01',
-            },
-            {
-              branchOfService: 'Coast Guard',
-              beginDate: '2009-02-01',
-              endDate: '2019-02-01',
-            },
-          ],
-        },
+const getInitialState = () => ({
+  vaProfile: {
+    hero: {
+      userFullName: {
+        first: 'Johnnie',
+        middle: 'Leonard',
+        last: 'Weaver',
       },
     },
-  }),
-  subscribe: () => {},
-  dispatch: () => {},
-};
+    militaryInformation: {
+      serviceHistory: {
+        serviceHistory: [
+          {
+            branchOfService: 'Army',
+            beginDate: '2004-02-01',
+            endDate: '2007-02-01',
+          },
+          {
+            branchOfService: 'Coast Guard',
+            beginDate: '2009-02-01',
+            endDate: '2019-02-01',
+          },
+          {
+            branchOfService: 'Navy',
+            beginDate: '2007-02-01',
+            endDate: '2009-02-01',
+          },
+        ],
+      },
+    },
+  },
+});
 
 describe('<NameTag>', () => {
-  it('should render', () => {
-    const component = mount(<NameTag store={fakeStore} />);
-    expect(component).to.not.be.undefined;
-    component.unmount();
-  });
-  it('should render name', () => {
-    const component = mount(<NameTag store={fakeStore} />);
-    expect(
-      component
-        .find('dd')
-        .first()
-        .text(),
-    ).to.contain('Johnnie Leonard Weaver');
-    component.unmount();
-  });
-  it('should render most recent military service', () => {
-    // this will render the most recent military service regardless of where it lands in the array
-    const component = mount(<NameTag store={fakeStore} />);
-    expect(
-      component
-        .find('dd')
-        .at(1)
-        .text(),
-    ).to.contain('United States Coast Guard');
-    component.unmount();
-  });
-  it('should render latest service badge', () => {
-    const component = mount(<NameTag store={fakeStore} />);
-    expect(component.find('img').first()).to.not.be.undefined;
-    component.unmount();
-  });
-
-  it('should render disability rating when the dashboardShowDashboard2 feature flag is turned on and the user has a disability rating', () => {
-    const component = mount(
-      <NameTag
-        showUpdatedNameTag
-        totalDisabilityRating="70"
-        store={fakeStore}
-      />,
-    );
-    expect(
-      component
-        .find('dd')
-        .at(2)
-        .text(),
-    ).to.contain('70% Service connected');
-    component.unmount();
-  });
-
-  it('should not render disability rating when the dashboardShowDashboard2 feature flag is turned on and the user has no disability rating', () => {
-    const component = mount(<NameTag showUpdatedNameTag store={fakeStore} />);
-    expect(component.text()).to.not.contain('Service connected');
-    component.unmount();
-  });
+  context(
+    'when name is set and there are multiple service history entries',
+    () => {
+      let view;
+      beforeEach(() => {
+        view = render(<NameTag />, {
+          initialState: getInitialState(),
+        });
+      });
+      it("should render the Veteran's name", () => {
+        view.getByText('Johnnie Leonard Weaver');
+      });
+      it('should render the most recent branch of service', () => {
+        view.getByText('United States Coast Guard');
+        view.getByRole('img', { alt: /coast guard seal/ });
+      });
+    },
+  );
+  context(
+    'when `showUpdatedNameTag` flag is `true` and `totalDisabilityRating` is set',
+    () => {
+      it('should render the disability rating', () => {
+        const initialState = getInitialState();
+        const view = render(
+          <NameTag showUpdatedNameTag totalDisabilityRating={70} />,
+          { initialState },
+        );
+        view.getByText(/your disability rating:/i);
+        view.getByRole('link', {
+          name: /view your disability rating/i,
+          text: /70% service connected/i,
+          href: /disability\/view-disability-rating\/rating/i,
+        });
+      });
+    },
+  );
+  context(
+    'when `showUpdatedNameTag` flag is `true` and `totalDisabilityRating` is not set',
+    () => {
+      it('should not render the disability rating', () => {
+        const initialState = getInitialState();
+        const view = render(
+          <NameTag showUpdatedNameTag totalDisabilityRating={null} />,
+          { initialState },
+        );
+        expect(view.queryByText(/your disability rating:/i)).to.not.exist;
+        expect(
+          view.queryByRole('link', {
+            name: /view your disability rating/i,
+            href: /disability\/view-disability-rating\/rating/i,
+          }),
+        ).to.not.exist;
+      });
+    },
+  );
+  context(
+    'when `showUpdatedNameTag` flag is `true` and `totalDisabilityRatingError` is `true`',
+    () => {
+      it('should render a fallback link', () => {
+        const initialState = getInitialState();
+        const view = render(
+          <NameTag showUpdatedNameTag totalDisabilityRatingError />,
+          { initialState },
+        );
+        expect(view.queryByText(/your disability rating:/i)).to.not.exist;
+        view.getByRole('link', {
+          name: /view your disability rating/i,
+          text: /view disability rating/i,
+          href: /disability\/view-disability-rating\/rating/i,
+        });
+      });
+    },
+  );
 });

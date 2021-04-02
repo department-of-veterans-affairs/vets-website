@@ -179,7 +179,7 @@ const formConfig = {
     ...fullSchema.definitions,
   },
   title: ({ formData }) => getPageTitle(formData),
-  subTitle: 'Form 21-526EZ',
+  subTitle: 'Equal to VA Form 21-526EZ',
   preSubmitInfo,
   chapters: {
     veteranDetails: {
@@ -208,6 +208,8 @@ const formConfig = {
             dob: state.user.profile.dob,
             allowBDD:
               form526BDDFeature(state) && state.form.data?.['view:isBddData'],
+            servicePeriods:
+              state.form.data?.serviceInformation?.servicePeriods || [],
           }),
         },
         separationLocation: {

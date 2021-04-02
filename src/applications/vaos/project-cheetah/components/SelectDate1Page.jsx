@@ -127,7 +127,9 @@ export function SelectDate1Page({
         scrollAndFocus();
       }
     },
-    [isInitialLoad, loadingSlots, appointmentSlotsStatus],
+    // Intentionally leaving isInitialLoad off, because it should trigger updates, it just
+    // determines which update is made
+    [loadingSlots, appointmentSlotsStatus],
   );
 
   useEffect(
@@ -193,8 +195,8 @@ export function SelectDate1Page({
               validate({ dates, setValidationError });
               onCalendarChange(dates, pageKey);
             }}
-            onClickNext={getAppointmentSlots}
-            onClickPrev={getAppointmentSlots}
+            onNextMonth={getAppointmentSlots}
+            onPreviousMonth={getAppointmentSlots}
             minDate={moment()
               .add(1, 'days')
               .format('YYYY-MM-DD')}
@@ -237,7 +239,6 @@ const mapDispatchToProps = {
   onCalendarChange: actions.onCalendarChange,
   routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
   routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
-  startRequestAppointmentFlow: actions.startAppointmentFlow,
 };
 
 export default connect(

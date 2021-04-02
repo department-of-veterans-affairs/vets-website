@@ -37,6 +37,7 @@ const initialState = {
     vaOnlineSchedulingCancel: true,
     vaOnlineSchedulingRequests: true,
     vaOnlineSchedulingPast: true,
+    vaOnlineSchedulingExpressCareNew: true,
     // eslint-disable-next-line camelcase
     show_new_schedule_view_appointments_page: true,
   },
@@ -990,16 +991,14 @@ describe('VAOS integration: appointment list', () => {
       }),
     );
 
-    expect(await screen.findAllByRole('radio')).to.have.length(1);
+    expect(await screen.findByText(/start scheduling/i)).be.ok;
 
-    expect(screen.getByText(/Choose an appointment type$/)).to.be.ok;
+    expect(screen.queryByRole('radio')).not.to.exist;
+    expect(screen.getByRole('heading', { name: /COVID-19 vaccines/, level: 3 }))
+      .to.be.ok;
+    expect(screen.getByText(/at this time, you can't schedule a COVID-19/i)).to
+      .be.ok;
 
-    expect(screen.queryByRole('radio', { name: 'COVID-19 vaccine' })).not.to
-      .exist;
-
-    userEvent.click(
-      await screen.findByRole('radio', { name: /primary or specialty/i }),
-    );
     userEvent.click(
       await screen.findByRole('link', { name: /Start scheduling/ }),
     );

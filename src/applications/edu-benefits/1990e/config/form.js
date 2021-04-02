@@ -45,6 +45,7 @@ const {
   educationType,
   fullName,
   postHighSchoolTrainings,
+  usaPhone,
 } = fullSchema1990e.definitions;
 
 const formConfig = {
@@ -80,6 +81,7 @@ const formConfig = {
     date,
     dateRange,
     educationType,
+    usaPhone,
   },
   title: 'Apply to use transferred education benefits',
   subTitle: 'Form 22-1990E',

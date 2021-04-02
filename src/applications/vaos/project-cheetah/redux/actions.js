@@ -348,23 +348,6 @@ export function openClinicPage(page, uiSchema, schema) {
   };
 }
 
-export function startAppointmentFlow() {
-  recordEvent({
-    event: `vaos-covid19-path-started`,
-  });
-
-  return {
-    type: START_APPOINTMENT_FLOW,
-  };
-}
-
-export function projectCheetahAppointmentDateChoice(history) {
-  return dispatch => {
-    dispatch(startAppointmentFlow());
-    history.replace('/new-covid-19-vaccine-booking');
-  };
-}
-
 export function prefillContactInfo() {
   return (dispatch, getState) => {
     const state = getState();

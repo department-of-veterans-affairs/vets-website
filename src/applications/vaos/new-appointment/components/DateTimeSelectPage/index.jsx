@@ -125,7 +125,9 @@ export function DateTimeSelectPage({
         scrollAndFocus();
       }
     },
-    [isInitialLoad, loadingSlots, appointmentSlotsStatus],
+    // Intentionally leaving isInitialLoad off, because it should trigger updates, it just
+    // determines which update is made
+    [loadingSlots, appointmentSlotsStatus],
   );
 
   const selectedDates = data.selectedDates;
@@ -178,8 +180,8 @@ export function DateTimeSelectPage({
               />
             }
             onChange={onCalendarChange}
-            onClickNext={getAppointmentSlots}
-            onClickPrev={getAppointmentSlots}
+            onNextMonth={getAppointmentSlots}
+            onPreviousMonth={getAppointmentSlots}
             minDate={moment()
               .add(1, 'days')
               .format('YYYY-MM-DD')}
