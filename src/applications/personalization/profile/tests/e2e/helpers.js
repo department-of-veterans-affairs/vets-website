@@ -44,3 +44,16 @@ export const mockFeatureToggles = () => {
     },
   });
 };
+
+export function nameTagRenders({ withDisabilityRating = true }) {
+  cy.findByTestId('name-tag').should('exist');
+  cy.findByText('Wesley Watson Ford').should('exist');
+  cy.findByText('United States Air Force').should('exist');
+  if (withDisabilityRating) {
+    cy.findByText('Your disability rating:').should('exist');
+    cy.findByText('90% Service connected').should('exist');
+  } else {
+    cy.findByText(/View disability rating/i).should('exist');
+    cy.findByText(/service connected/i).should('not.exist');
+  }
+}

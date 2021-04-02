@@ -7,6 +7,7 @@ import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
 import error401 from '@@profile/tests/fixtures/401.json';
 import error500 from '@@profile/tests/fixtures/500.json';
+import { nameTagRenders } from '@@profile/tests/e2e/helpers';
 
 import manifest from 'applications/personalization/dashboard/manifest.json';
 
@@ -44,11 +45,7 @@ function loa3DashboardTest(mobile) {
     .should('equal', 'H1');
 
   // name tag exists with the right data
-  cy.findByTestId('name-tag').should('exist');
-  cy.findByText('Wesley Watson Ford').should('exist');
-  cy.findByText('United States Air Force').should('exist');
-  cy.findByText('Your disability rating:').should('exist');
-  cy.findByText('90% Service connected').should('exist');
+  nameTagRenders({ withDisabilityRating: true });
 
   // make the a11y check
   cy.injectAxe();
@@ -56,14 +53,16 @@ function loa3DashboardTest(mobile) {
 }
 
 describe('The My VA Dashboard', () => {
+  beforeEach(() => {
+    disableFTUXModals();
+    cy.login(mockUser);
+    cy.intercept('/v0/profile/service_history', serviceHistory);
+    cy.intercept('/v0/profile/full_name', fullName);
+    cy.intercept('/v0/evss_claims_async', claimsSuccess());
+    cy.intercept('/v0/appeals', appealsSuccess());
+  });
   context('when it can load the total disability rating', () => {
     beforeEach(() => {
-      disableFTUXModals();
-      cy.login(mockUser);
-      cy.intercept('/v0/profile/service_history', serviceHistory);
-      cy.intercept('/v0/profile/full_name', fullName);
-      cy.intercept('/v0/evss_claims_async', claimsSuccess());
-      cy.intercept('/v0/appeals', appealsSuccess());
       cy.intercept(
         '/v0/disability_compensation_form/rating_info',
         disabilityRating,
@@ -79,12 +78,6 @@ describe('The My VA Dashboard', () => {
   });
   context('when there is a 401 fetching the total disability rating', () => {
     beforeEach(() => {
-      disableFTUXModals();
-      cy.login(mockUser);
-      cy.intercept('/v0/profile/service_history', serviceHistory);
-      cy.intercept('/v0/profile/full_name', fullName);
-      cy.intercept('/v0/evss_claims_async', claimsSuccess());
-      cy.intercept('/v0/appeals', appealsSuccess());
       cy.intercept('/v0/disability_compensation_form/rating_info', {
         statusCode: 401,
         body: error401,
@@ -93,18 +86,11 @@ describe('The My VA Dashboard', () => {
     it('should show the fallback link in the header', () => {
       mockFeatureToggles();
       cy.visit(manifest.rootUrl);
-      cy.findByText(/View disability rating/i).should('exist');
-      cy.findByText(/service connected/i).should('not.exist');
+      nameTagRenders({ withDisabilityRating: false });
     });
   });
   context('when there is a 500 fetching the total disability rating', () => {
     beforeEach(() => {
-      disableFTUXModals();
-      cy.login(mockUser);
-      cy.intercept('/v0/profile/service_history', serviceHistory);
-      cy.intercept('/v0/profile/full_name', fullName);
-      cy.intercept('/v0/evss_claims_async', claimsSuccess());
-      cy.intercept('/v0/appeals', appealsSuccess());
       cy.intercept('/v0/disability_compensation_form/rating_info', {
         statusCode: 500,
         body: error500,
@@ -113,8 +99,7 @@ describe('The My VA Dashboard', () => {
     it('should show the fallback link in the header', () => {
       mockFeatureToggles();
       cy.visit(manifest.rootUrl);
-      cy.findByText(/View disability rating/i).should('exist');
-      cy.findByText(/service connected/i).should('not.exist');
+      nameTagRenders({ withDisabilityRating: false });
     });
   });
 });
