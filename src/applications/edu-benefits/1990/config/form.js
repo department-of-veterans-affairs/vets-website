@@ -80,8 +80,8 @@ const {
   year,
   currentlyActiveDuty,
   address,
-  phone,
   serviceBefore1977,
+  usaPhone,
 } = fullSchema1990.definitions;
 
 const formConfig = {
@@ -116,8 +116,8 @@ const formConfig = {
     dateRange,
     year,
     address,
-    phone,
     serviceBefore1977,
+    usaPhone,
   },
   title: 'Apply for education benefits',
   subTitle: 'Form 22-1990',
@@ -560,7 +560,7 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   fullName: secondaryContact.properties.fullName,
-                  phone,
+                  phone: secondaryContact.properties.phone,
                   'view:address': {
                     type: 'object',
                     properties: {

@@ -45,6 +45,7 @@ const ProfileWrapper = ({
   isInMVI,
   showNotAllDataAvailableError,
   totalDisabilityRating,
+  totalDisabilityRatingError,
   showUpdatedNameTag,
   showNameTag,
 }) => {
@@ -73,6 +74,7 @@ const ProfileWrapper = ({
           <NameTag
             showUpdatedNameTag
             totalDisabilityRating={totalDisabilityRating}
+            totalDisabilityRatingError={totalDisabilityRatingError}
           />
         )}
 
@@ -127,6 +129,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     hero,
     totalDisabilityRating: state.totalRating?.totalDisabilityRating,
+    totalDisabilityRatingError: state.totalRating?.error,
     showNameTag: ownProps.isLOA3 && isEmpty(hero?.errors),
     showNotAllDataAvailableError:
       !!cnpDirectDepositLoadError(state) ||
