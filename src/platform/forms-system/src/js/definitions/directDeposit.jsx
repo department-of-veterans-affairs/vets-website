@@ -41,7 +41,7 @@ const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
     'ui:order': [
       'bankAccount',
       'declineDirectDeposit',
-      'view:directDespositInfo',
+      'view:directDepositInfo',
       'view:bankInfoHelpText',
     ],
     bankAccount: {
@@ -100,7 +100,7 @@ const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
         widgetClassNames: 'vads-u-margin-top--4',
       },
     },
-    'view:directDespositInfo': {
+    'view:directDepositInfo': {
       'ui:description': directDepositAlert({
         affectedBenefits,
         unaffectedBenefits,
@@ -161,7 +161,7 @@ const schema = optionalFields => {
           },
         },
       },
-      'view:directDespositInfo': { type: 'object', properties: {} },
+      'view:directDepositInfo': { type: 'object', properties: {} },
       'view:bankInfoHelpText': { type: 'object', properties: {} },
     },
   };
