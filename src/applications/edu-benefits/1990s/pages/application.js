@@ -51,7 +51,7 @@ const path = 'form';
 const title = 'Application';
 const uiSchema = {
   'view:applicantInformation': {
-    'ui:title': 'Applicant Information',
+    'ui:title': 'Applicant information',
     veteranFullName: fullNameUI,
     veteranSocialSecurityNumber: ssnUI,
     dateOfBirth: {
@@ -63,7 +63,7 @@ const uiSchema = {
     },
   },
   'view:contactInformation': {
-    'ui:title': 'Contact Information',
+    'ui:title': 'Contact information',
     'view:phoneAndEmail': {
       'ui:title': 'Phone & email',
       mobilePhone: phoneUI('Mobile phone number'),
