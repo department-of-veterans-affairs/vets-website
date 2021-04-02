@@ -113,6 +113,11 @@ const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
   return ui;
 };
 
+/**
+ * Constructs schema in "sections" to perserve order since the Review page doesn't like view properties
+ * @param optionalFields
+ * @returns {{type: string, properties: {bankAccount: {type: string, properties: {'view:ddDescription': {type: string, properties: {}}, accountType: {type: string, enum: [string, string]}, 'view:paymentText': {type: string, properties: {}}}}}}}
+ */
 const schema = optionalFields => {
   const s = {
     type: 'object',
@@ -131,7 +136,7 @@ const schema = optionalFields => {
     },
   };
 
-  // Add optional fields
+  // Add optional field declineDirectDeposit
   // If set to true, use the default schema
   // If it has a schema property, use that
   if (optionalFields.declineDirectDeposit) {
@@ -147,6 +152,9 @@ const schema = optionalFields => {
     'view:bankInfoHelpText': { type: 'object', properties: {} },
   };
 
+  // Add optional field bankName to bankAccount
+  // If set to true, use the default schema
+  // If it has a schema property, use that
   if (optionalFields.bankName) {
     s.properties.bankAccount.properties.bankName = optionalFields.bankName
       .schema
