@@ -137,6 +137,10 @@ jobs:
         env:
           MOCHA_FILE: ./test-results/test-results.xml
 
+      - name: Print Pact failures
+        run: cat test-results/test-results.xml
+        if: ${{ failure() }}
+
       - name: Run Pact publish
         run: yarn pact:publish
         env:
