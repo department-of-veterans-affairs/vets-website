@@ -79,6 +79,7 @@ import {
   physicalHealthChanges,
   prisonerOfWar,
   privateMedicalRecords,
+  privateMedicalRecordsAttachments,
   privateMedicalRecordsRelease,
   ptsd781aChangesIntro,
   ptsdWalkthroughChoice781,
@@ -602,7 +603,7 @@ const formConfig = {
           schema: evidenceTypes.schema,
         },
         evidenceTypesBDD: {
-          title: 'Supporting evidence types',
+          title: 'Supporting evidence types for BDD',
           path: 'supporting-evidence/evidence-types-bdd',
           depends: formData => isBDD(formData),
           uiSchema: evidenceTypesBDD.uiSchema,
@@ -621,6 +622,15 @@ const formConfig = {
           depends: hasPrivateEvidence,
           uiSchema: privateMedicalRecords.uiSchema,
           schema: privateMedicalRecords.schema,
+        },
+        privateMedicalRecordsAttachments: {
+          title: 'Private medical records',
+          path: 'supporting-evidence/private-medical-records-upload',
+          depends: formData =>
+            hasPrivateEvidence(formData) &&
+            !isNotUploadingPrivateMedical(formData),
+          uiSchema: privateMedicalRecordsAttachments.uiSchema,
+          schema: privateMedicalRecordsAttachments.schema,
         },
         privateMedicalRecordsRelease: {
           title: 'Private medical records',
