@@ -183,8 +183,10 @@ describe('VAOS cheetah: <ContactFacilitiesPage>', () => {
       [
         'Facility that is enabled',
         '555-555-5555, ext. 1234',
+        '711',
         'Facility that is also enabled',
         '555-555-5556, ext. 1234',
+        '711',
         'Search for more facilities',
       ],
     );
@@ -319,10 +321,15 @@ describe('VAOS cheetah: <ContactFacilitiesPage>', () => {
     expect(screen.getAllByRole('link').map(el => el.textContent)).to.deep.equal(
       [
         'A facility',
+        '711',
         'B facility',
+        '711',
         'C facility',
+        '711',
         'D facility',
+        '711',
         'E facility',
+        '711',
         'Search for more facilities',
       ],
     );
@@ -406,6 +413,7 @@ describe('VAOS cheetah: <ContactFacilitiesPage>', () => {
     expect(screen.getAllByRole('link').map(el => el.textContent)).to.deep.equal(
       [
         'Facility that is enabled',
+        '711',
         'Search for more facilities',
         'Learn how to stay informed about COVID-19 vaccines at VA.',
       ],

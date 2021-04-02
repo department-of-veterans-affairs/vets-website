@@ -98,7 +98,6 @@ export default function FacilitiesNotShown({
                     <br />
                   </>
                 )}
-                Main phone:{' '}
                 <FacilityPhone
                   contact={
                     facility.telecom.find(t => t.system === 'phone')?.value
