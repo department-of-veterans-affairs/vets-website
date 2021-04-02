@@ -5,14 +5,6 @@
 }
 
 .dashboard {
-  .load-error {
-    width: 650px;
-
-    @media (min-width: $xsmall-screen) and (max-width: $medium-screen - 1) {
-      width: 100%;
-    }
-  }
-
   .health-care-wrapper {
     .health-care {
       // This set width applies to medium and small-desktop screens

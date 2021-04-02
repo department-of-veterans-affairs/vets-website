@@ -118,7 +118,11 @@ const Dashboard = ({
                 My VA
               </h1>
 
-              {showHealthCareError && <HealthCareLoadError />}
+              <div className="vads-l-row">
+                <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+                  {true && <HealthCareLoadError />}
+                </div>
+              </div>
 
               {props.showValidateIdentityAlert && (
                 <div className="vads-l-row">
