@@ -14,26 +14,23 @@ export const schema = {
 
 export const uiSchema = {
   addressInformation: {
-    countryName: {
-      'ui:title': 'Country where you live now',
-    },
     addressLine1: {
-      'ui:title': 'Street address where you live now',
+      'ui:title': 'U.S. street address where you live now',
     },
     addressLine2: {
-      'ui:title': 'Street address (line 2)',
+      'ui:title': 'U.S. street address (line 2)',
     },
     addressLine3: {
-      'ui:title': 'Street address (line 3)',
+      'ui:title': 'U.S. street address (line 3)',
     },
     city: {
-      'ui:title': 'City',
+      'ui:title': 'U.S. city',
     },
     stateCode: {
-      'ui:title': 'State',
+      'ui:title': 'U.S. state',
     },
     zipCode: {
-      'ui:title': 'Zip code',
+      'ui:title': 'U.S. zip code',
       'ui:errorMessages': {
         pattern: 'Please enter your five digit zip code',
       },
@@ -50,11 +47,11 @@ export const uiSchema = {
       ),
     },
     phone: {
-      'ui:title': 'Phone number',
+      'ui:title': 'U.S. phone number',
       'ui:description': (
         <p>
           <strong>Note: </strong>
-          We will use this number to contact you about a vaccine. If you give us
+          We'll use this number to contact you about a vaccine. If you give us
           your mobile phone number, we may be able to schedule your vaccine
           appointment by text message.
         </p>

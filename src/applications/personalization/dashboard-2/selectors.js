@@ -13,6 +13,6 @@ export const selectShowDashboard2 = state => {
 };
 
 const selectFolders = state => state.health?.msg?.folders;
-const selectFolder = state => selectFolders(state)?.data?.currentItem;
+export const selectFolder = state => selectFolders(state)?.data?.currentItem;
 export const selectUnreadMessagesCount = state =>
   selectFolder(state)?.attributes?.unreadCount;
