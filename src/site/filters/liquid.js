@@ -612,7 +612,6 @@ module.exports = function registerFilters() {
       const pathname = urlInstance?.pathname?.replace('/embed', '');
       return `https://www.youtube.com/embed${pathname}`;
     } catch (error) {
-      console.warn('Invalid URL for createEmbedYouTubeVideoURL', url, error);
       return url;
     }
   };
