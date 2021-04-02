@@ -4,7 +4,6 @@ set -e
 yarn install --production=false
 npm run fetch-drupal-cache
 npm run build -- --buildtype localhost --api='${API_URL}' --host='${WEB_HOST}' --port='${WEB_PORT}'
-npm run heroku-serve -- build/localhost -p 3001
 
 if [ -d "../content-build" ]
 then
@@ -14,4 +13,5 @@ then
   npm run heroku-serve -- build/localhost -p 3002
 else
   echo "Content build does not exist!"
+  npm run heroku-serve -- build/localhost -p 3001
 fi
