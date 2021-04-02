@@ -25,7 +25,7 @@ const config = {
     },
     {
       name: 'covid-vaccine-signup',
-      paths: /(.)/,
+      paths: /^(\/)$/,
       component: CovidVaccineSignUp,
     },
     {
