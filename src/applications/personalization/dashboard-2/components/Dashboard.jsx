@@ -95,6 +95,7 @@ const Dashboard = ({
               <NameTag
                 showUpdatedNameTag
                 totalDisabilityRating={props.totalDisabilityRating}
+                totalDisabilityRatingError={props.totalDisabilityRatingError}
               />
             )}
             <div className="vads-l-grid-container vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4 small-desktop-screen:vads-u-padding-x--0">
@@ -170,6 +171,7 @@ const mapStateToProps = state => {
     showNameTag,
     hero,
     totalDisabilityRating: state.totalRating?.totalDisabilityRating,
+    totalDisabilityRatingError: state.totalRating?.error,
     user: state.user,
   };
 };
