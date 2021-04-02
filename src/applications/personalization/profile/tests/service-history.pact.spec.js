@@ -18,7 +18,7 @@ contractTest('VA Profile', 'VA.gov API', mockApi => {
           method: 'GET',
           path: '/v0/profile/service_history',
           headers: {
-            'X-Key-Inflection': 'camssel',
+            'X-Key-Inflection': 'camel',
           },
         },
         willRespondWith: {
@@ -62,8 +62,8 @@ contractTest('VA Profile', 'VA.gov API', mockApi => {
           status: 200,
           headers: {
             'Content-Type': term({
-              matcher: '^application/jsosn',
-              generate: 'application/jsosn',
+              matcher: '^application/json',
+              generate: 'application/json',
             }),
           },
           body: {
@@ -104,7 +104,7 @@ contractTest('VA Profile', 'VA.gov API', mockApi => {
           // will fail if `errors` contains more than one element
           errors: [
             like({
-              code: '500',
+              code: '403',
             }),
           ],
         },

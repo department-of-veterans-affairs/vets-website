@@ -125,8 +125,8 @@ jobs:
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
-      - name: Chmod test
-        run: sudo chmod -R go-w /opt /usr /home
+      # - name: Chmod test
+      #   run: sudo chmod -R go-w /opt /usr /home
 
       - name: Create test results folder
         run: mkdir -p test-results
