@@ -5,6 +5,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from './getFormHelp.jsx';
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 import {
   attestation,
@@ -34,6 +35,13 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   saveInProgress: {},
+  transformForSubmit: (config, form) => {
+    const transformedForm = form;
+    transformedForm.data.preferredFacility = form?.data?.preferredFacility
+      ? form.data.preferredFacility.split('|')[1]
+      : '';
+    return transformForSubmit(formConfig, transformedForm);
+  },
   title: 'Sign up to get a COVID-19 vaccine at VA',
   defaultDefinitions: {
     ...fullSchema.definitions,
