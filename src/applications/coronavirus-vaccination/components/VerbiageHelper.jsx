@@ -124,8 +124,7 @@ export const ProvideSSNAndDOB = () => {
       <p>
         <strong>If you’re not currently receiving care at VA,</strong> you’ll
         need to provide your Social Security number and date of birth. We use
-        this information to add you to our records and confirm your eligibility
-        for a vaccine.
+        this information to add you to our records.
       </p>
     </>
   );

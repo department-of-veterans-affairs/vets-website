@@ -72,6 +72,10 @@ src/site/navigation/facility_sidebar_nav.drupal.liquid @department-of-veterans-a
 src/site/includes/facilityListing.drupal.liquid @department-of-veterans-affairs/vsa-facilities-frontend
 src/site/components/phone.drupal.liquid @department-of-veterans-affairs/vsa-facilities-frontend
 src/site/components/phone-number.drupal.liquid @department-of-veterans-affairs/vsa-facilities-frontend
+src/applications/static-pages/sass/modules/_m-facilities.scss @department-of-veterans-affairs/vsa-facilities-frontend
+src/applications/static-pages/sass/modules/_m-facility-detail.scss @department-of-veterans-affairs/vsa-facilities-frontend
+src/applications/static-pages/sass/modules/_m-facility-events.scss @department-of-veterans-affairs/vsa-facilities-frontend
+
 
 # Liquid template filters
 src/site/filters @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
