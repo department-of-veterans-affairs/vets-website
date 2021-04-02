@@ -38,12 +38,6 @@ const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
         </div>
       ) : null;
     },
-    'ui:order': [
-      'bankAccount',
-      'declineDirectDeposit',
-      'view:directDepositInfo',
-      'view:bankInfoHelpText',
-    ],
     bankAccount: {
       'ui:field': ReviewCardField,
       'ui:options': {
@@ -57,13 +51,6 @@ const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
         startInEdit: data => !data?.['view:hasPrefilledBank'],
         volatileData: true,
       },
-      'ui:order': [
-        'accountType',
-        'view:ddDescription',
-        'bankName',
-        'routingNumber',
-        'accountNumber',
-      ],
       'view:paymentText': {
         'ui:description':
           'We make payments only through direct deposit, also called electronic funds transfer (EFT).',
@@ -113,23 +100,11 @@ const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
     },
   };
 
-  if (!optionalFields.declineDirectDeposit) {
-    // We're not using declineDirectDeposit; Remove the entry from ui:order so
-    // it doesn't error out
-    const i = ui['ui:order'].indexOf('declineDirectDeposit');
-    if (i !== -1) ui['ui:order'].splice(i, 1);
-  }
   // Override the field's uiSchema if available
   if (optionalFields.declineDirectDeposit?.uiSchema) {
     ui.declineDirectDeposit = optionalFields.declineDirectDeposit.uiSchema;
   }
 
-  if (!optionalFields.bankName) {
-    // We're not using bankName; Remove the entry from ui:order so
-    // it doesn't error out
-    const i = ui.bankAccount['ui:order'].indexOf('bankName');
-    if (i !== -1) ui.bankAccount['ui:order'].splice(i, 1);
-  }
   // Override the field's uiSchema if available
   if (optionalFields.bankName?.uiSchema) {
     ui.bankAccount.bankName = optionalFields.bankName.uiSchema;
@@ -151,17 +126,8 @@ const schema = optionalFields => {
             enum: ['checking', 'savings'],
           },
           'view:ddDescription': { type: 'object', properties: {} },
-          routingNumber: {
-            type: 'string',
-            pattern: '^\\d{9}$',
-          },
-          accountNumber: {
-            type: 'string',
-          },
         },
       },
-      'view:directDepositInfo': { type: 'object', properties: {} },
-      'view:bankInfoHelpText': { type: 'object', properties: {} },
     },
   };
 
@@ -174,12 +140,30 @@ const schema = optionalFields => {
       ? optionalFields.declineDirectDeposit.schema
       : { type: 'boolean' };
   }
+
+  s.properties = {
+    ...s.properties,
+    'view:directDepositInfo': { type: 'object', properties: {} },
+    'view:bankInfoHelpText': { type: 'object', properties: {} },
+  };
+
   if (optionalFields.bankName) {
     s.properties.bankAccount.properties.bankName = optionalFields.bankName
       .schema
       ? optionalFields.bankName.schema
       : { type: 'string' };
   }
+
+  s.properties.bankAccount.properties = {
+    ...s.properties.bankAccount.properties,
+    routingNumber: {
+      type: 'string',
+      pattern: '^\\d{9}$',
+    },
+    accountNumber: {
+      type: 'string',
+    },
+  };
 
   return s;
 };
