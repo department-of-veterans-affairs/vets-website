@@ -28,8 +28,8 @@ export class ConfirmationPage extends React.Component {
       <ConfirmationPageContent
         formId="VRRAP"
         submission={submission}
-        printHeader="Apply for the Veterans Rapid Retraining Assistance Program"
-        formName="Veterans Rapid Retraining Assistance Program"
+        printHeader="Apply for the Veteran Rapid Retraining Assistance Program"
+        formName="Veteran Rapid Retraining Assistance Program"
         name={form.data['view:applicantInformation'].veteranFullName}
       />
     );
