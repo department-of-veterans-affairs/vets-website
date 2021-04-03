@@ -3,6 +3,7 @@ name: Manual Review
 on: [pull_request]
 
 env:
+  BOT_NAME: github-actions[bot]
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   PR_NUMBER: ${{ github.event.number }}
 
