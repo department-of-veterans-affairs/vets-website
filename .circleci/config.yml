@@ -256,27 +256,27 @@ jobs:
           path: ./cypress/screenshots
 
 workflows:
-  flag-for-manual-review:
-    jobs:
-      - eslint-check:
-          filters:
-            branches:
-              ignore: master
-      - sentry-check:
-          filters:
-            branches:
-              ignore: master
-      - icon-check:
-          filters:
-            branches:
-              ignore: master
+  # flag-for-manual-review:
+  #   jobs:
+  #     - eslint-check:
+  #         filters:
+  #           branches:
+  #             ignore: master
+  #     - sentry-check:
+  #         filters:
+  #           branches:
+  #             ignore: master
+  #     - icon-check:
+  #         filters:
+  #           branches:
+  #             ignore: master
   test_and_build:
     jobs:
-      - lint
-      - unit-test
+      # - lint
+      # - unit-test
       - contract-test
-      - drupal-cache-test
-      - security-audit
+      # - drupal-cache-test
+      # - security-audit
       - build-e2e
       - build:
           requires:
