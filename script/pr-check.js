@@ -5,20 +5,20 @@ const { isEmpty, sortBy, uniqBy } = require('lodash');
 
 const {
   BOT_NAME, // Name of the bot for the auth token we are using
-  CIRCLE_PROJECT_REPONAME: repo,
-  CIRCLE_PROJECT_USERNAME: owner,
-  CIRCLE_PULL_REQUEST, // Link to the PR (used to get PR number)
+  GITHUB_REPOSITORY,
+  PR_NUMBER: pull_number,
   CODE_PATTERN, // Regex pattern which will trigger a review comment if found
   GITHUB_TOKEN: auth, // Auth token used for the Github API
   LINE_COMMENT, // Review comment for an individual line comment
   OVERALL_REVIEW_COMMENT, // Review comment for the whole review
 } = process.env;
 
-if (CIRCLE_PULL_REQUEST == null) {
-  console.log('Not a PR');
+if (!pull_number) {
+  console.error('PR number not found');
   process.exit();
 }
-const pull_number = CIRCLE_PULL_REQUEST.split('/').pop();
+
+const [owner, repo] = GITHUB_REPOSITORY.split('/');
 const octokitDefaults = { owner, repo, pull_number };
 const octokit = new Octokit({ auth });
 

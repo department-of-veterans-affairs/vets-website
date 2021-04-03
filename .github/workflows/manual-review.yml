@@ -1,0 +1,152 @@
+name: Manual Review
+
+on: [pull_request]
+
+defaults:
+  env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    PR_NUMBER: ${{ github.event.number }}
+
+jobs:
+  eslint-check:
+    name: ESLint Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/yarn
+            node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline
+        env:
+          YARN_CACHE_FOLDER: ~/.cache/yarn
+
+      - name: Run PR check script
+        run: yarn pr-check
+
+    env:
+      CODE_PATTERN: (/* eslint-disable)|(// eslint-disable)
+      LINE_COMMENT: ESLint disabled here
+      OVERALL_REVIEW_COMMENT: >
+        # ESLint is disabled
+
+        `vets-website` uses ESLint to help enforce code quality. In most
+        situations we would like ESLint to remain enabled.
+
+        ## What you can do
+
+        See if the code can be refactored to avoid disabling ESLint, or wait for
+        a VSP review.
+
+  icon-check:
+    name: Icon Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/yarn
+            node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline
+        env:
+          YARN_CACHE_FOLDER: ~/.cache/yarn
+
+      - name: Run PR check script
+        run: yarn pr-check
+
+    env:
+      CODE_PATTERN: (<i )|(<i$)
+      LINE_COMMENT: icon found
+      OVERALL_REVIEW_COMMENT: >
+        # Icon found
+
+        Icons can be decorative, but sometimes they are used to convey meaning.
+        If there are any semantics associated with an icon, those semantics
+        should also be conveyed to a screen reader.
+
+        ## What you can do
+
+        Review the markup and see if the icon provides information that isn't
+        represented textually, or wait for a VSP review.
+
+  sentry-check:
+    name: Sentry Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/yarn
+            node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline
+        env:
+          YARN_CACHE_FOLDER: ~/.cache/yarn
+
+      - name: Run PR check script
+        run: yarn pr-check
+
+    env:
+      CODE_PATTERN: Sentry\.
+      LINE_COMMENT: Sentry found
+      OVERALL_REVIEW_COMMENT: >
+        # Sentry call found
+
+        Sentry captures a lot of data, and we want to make sure that we only
+        keep information that will be useful for troubleshooting issues.  This
+        means that PII should not be recorded.
+
+        ## What you can do
+
+        Review your call to Sentry and see if you can reasonably reduce any
+        information that is included, or wait for a VSP review.
