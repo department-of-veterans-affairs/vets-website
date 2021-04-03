@@ -76,16 +76,21 @@ function createReview(additions) {
     })
     .catch(console.error);
 
-  return octokit.pulls.createReview({
-    ...octokitDefaults,
-    body: OVERALL_REVIEW_COMMENT,
-    event: 'COMMENT',
-    comments: additions.map(({ path, position }) => ({
-      path,
-      position,
-      body: LINE_COMMENT,
-    })),
-  });
+  return octokit.pulls
+    .createReview({
+      ...octokitDefaults,
+      body: OVERALL_REVIEW_COMMENT,
+      event: 'COMMENT',
+      comments: additions.map(({ path, position }) => ({
+        path,
+        position,
+        body: LINE_COMMENT,
+      })),
+    })
+    .catch(error => {
+      console.log('createReview');
+      console.error(error);
+    });
 }
 
 /**
