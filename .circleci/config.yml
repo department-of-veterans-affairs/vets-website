@@ -278,11 +278,11 @@ workflows:
       # - drupal-cache-test
       # - security-audit
       - build-e2e
-      - build:
-          requires:
-            - lint
-            - unit-test
-            - security-audit
+      # - build:
+      #     requires:
+      #       - lint
+      #       - unit-test
+      #       - security-audit
       - can-i-deploy:
           requires:
             - contract-test
