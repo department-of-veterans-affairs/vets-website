@@ -571,15 +571,8 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 }
 
 #search-area-control {
-  background: $color-blue;
-  border-radius: 5px;
   cursor: pointer;
-  padding: 8px;
-  margin-top: 15px;
-  clear: both;
   pointer-events: auto;
-  color: $color-white;
-  font-family: $font-sans;
 
   @media (max-width: $small-screen) {
     width: 235px;
