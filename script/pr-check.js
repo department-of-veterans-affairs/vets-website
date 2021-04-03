@@ -69,26 +69,23 @@ function getPRbotComments() {
 function createReview(additions) {
   console.log(additions);
 
-  octokit.pulls.requestReviewers({
-    ...octokitDefaults,
-    team_reviewers: ['frontend-review-group'],
-  });
-
-  return octokit.pulls
-    .createReview({
+  octokit.pulls
+    .requestReviewers({
       ...octokitDefaults,
-      body: OVERALL_REVIEW_COMMENT,
-      event: 'COMMENT',
-      comments: additions.map(({ path, position }) => ({
-        path,
-        position,
-        body: LINE_COMMENT,
-      })),
+      team_reviewers: ['frontend-review-group'],
     })
-    .catch(error => {
-      console.log('createReview');
-      console.error(error);
-    });
+    .catch(console.error);
+
+  return octokit.pulls.createReview({
+    ...octokitDefaults,
+    body: OVERALL_REVIEW_COMMENT,
+    event: 'COMMENT',
+    comments: additions.map(({ path, position }) => ({
+      path,
+      position,
+      body: LINE_COMMENT,
+    })),
+  });
 }
 
 /**
@@ -198,5 +195,4 @@ getPRdiff()
   .then(findPattern)
   .then(filterAgainstPreviousComments)
   .then(createReview)
-  .catch(error => console.log(error))
   .finally(() => console.log('Exiting'));
