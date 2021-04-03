@@ -193,4 +193,5 @@ getPRdiff()
   .then(findPattern)
   .then(filterAgainstPreviousComments)
   .then(createReview)
+  .catch(error => console.log(error))
   .finally(() => console.log('Exiting'));
