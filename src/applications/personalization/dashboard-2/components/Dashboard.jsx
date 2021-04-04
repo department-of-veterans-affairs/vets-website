@@ -120,7 +120,7 @@ const Dashboard = ({
 
               <div className="vads-l-row">
                 <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-                  {true && <HealthCareLoadError />}
+                  {showHealthCareError && <HealthCareLoadError />}
                 </div>
               </div>
 
