@@ -211,8 +211,6 @@ module.exports = function registerFilters() {
     const truncatedText = description.substring(0, 30);
     const escaped = liquid.filters.escape(truncatedText);
     const hyphenatedDesc = _.kebabCase(escaped);
-    // eslint-disable-next-line no-console
-    console.log(hyphenatedDesc, 'HYPHENATED6969');
     return `${hyphenatedDesc}-${id}`;
   };
 
