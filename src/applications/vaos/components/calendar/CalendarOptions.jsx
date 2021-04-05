@@ -28,6 +28,7 @@ export default function CalendarOptions({
   optionsHeightRef,
   timezone,
   id,
+  showWeekends,
 }) {
   // Because we need to conditionally apply classes to get the right padding
   // and border radius for each cell, we need to know when the page size trips
@@ -87,6 +88,7 @@ export default function CalendarOptions({
             hasError={hasError}
             onChange={handleSelectOption}
             timezone={timezone}
+            showWeekends={showWeekends}
           />
         )}
       </fieldset>

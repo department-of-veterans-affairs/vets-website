@@ -19,10 +19,15 @@
           <div class="vads-u-margin-bottom--4">
             {% if fieldVaFormLanguage %}
               <dt class="va-introtext" lang="{{ fieldVaFormLanguage }}">
+              {% if fieldVaFormLanguage === "es" %}
+                <dfn class="vads-u-visibility--screen-reader">Nombre del formulario:</dfn>
+              {% else %}
+                <dfn class="vads-u-visibility--screen-reader">Form name:</dfn>
+              {% endif %}
             {% else %}
-              <dt class="va-introtext">
-            {% endif %}
               <dfn class="vads-u-visibility--screen-reader">Form name:</dfn>
+              <dt class="va-introtext">
+            {% endif %}            
               {{ fieldVaFormName }}
             </dt>
           </div>

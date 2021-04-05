@@ -35,11 +35,22 @@ const BenefitsOfInterest = ({ children, showChildren }) => {
           </div>
         )}
         {showChildren && <div className="vads-l-row">{children}</div>}
-        <AdditionalInfo triggerText="What benefits does the VA offer?">
+        <AdditionalInfo triggerText="What benefits does VA offer?">
           <p className="vads-u-font-weight--bold">
             Explore VA.gov to learn about the benefits we offer.
           </p>
           <ul>
+            <li>
+              <a href="https://www.va.gov/health-care/">Health care</a>
+            </li>
+            <li>
+              <a href="https://www.va.gov/education/">Education and training</a>
+            </li>
+            <li>
+              <a href="https://www.va.gov/disability/">
+                Disability compensation
+              </a>
+            </li>
             <li>
               <a href="https://www.va.gov/careers-employment/">
                 Careers &amp; employment
@@ -70,15 +81,6 @@ const BenefitsOfInterest = ({ children, showChildren }) => {
               <a href="https://www.va.gov/family-member-benefits/">
                 Family member benefits
               </a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/health-care/">Health care benefits</a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/education/">Education benefits</a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/disability/">Disability benefits</a>
             </li>
           </ul>
         </AdditionalInfo>
@@ -127,8 +129,8 @@ const ApplyForBenefits = ({
           {showHealthCare && (
             <BenefitOfInterest
               title="Health care"
-              ctaButtonLabel="Apply for health care"
-              ctaUrl="https://www.va.gov/health-care/"
+              ctaButtonLabel="Learn how to apply for VA health care"
+              ctaUrl="https://www.va.gov/health-care/how-to-apply/"
             >
               <p>
                 With VA health care, you’ll receive coverage for services like
@@ -139,7 +141,7 @@ const ApplyForBenefits = ({
           )}
           <BenefitOfInterest
             title="Disability compensation"
-            ctaButtonLabel="File a disability claim"
+            ctaButtonLabel="Learn how to file a VA disability claim"
             ctaUrl="https://www.va.gov/disability/"
           >
             <p>
@@ -150,14 +152,14 @@ const ApplyForBenefits = ({
           </BenefitOfInterest>
           {showEducation && (
             <BenefitOfInterest
-              title="Education benefits"
-              ctaButtonLabel="Apply for education benefits"
+              title="Education and training"
+              ctaButtonLabel="Learn how to apply for VA education benefits"
               ctaUrl="https://www.va.gov/education/"
             >
               <p>
-                VA education benefits help Veterans, service members, and their
-                qualified family members with needs like finding the right
-                school or training program and paying tuition.
+                With VA education benefits, you and your qualified family
+                members can get help finding a college or training program and
+                paying for tuition or test fees.
               </p>
             </BenefitOfInterest>
           )}
