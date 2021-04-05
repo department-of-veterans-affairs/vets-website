@@ -10,7 +10,6 @@ import * as pages from '../pages';
 import submit from '../utils/submitForm';
 import SubmissionError from '../components/SubmissionError';
 import { WIZARD_STATUS } from '../wizard/constants';
-import { prefillTransformer } from '../utils/prefillTransformer';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -19,7 +18,6 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/v0/financial_status_reports`,
   trackingPrefix: 'fsr-5655-',
   wizardStorageKey: WIZARD_STATUS,
-  prefillTransformer,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: PreSubmitSignature,
@@ -103,7 +101,7 @@ const formConfig = {
                 zipCode: '33614',
               },
               telephoneNumber: '5551234567',
-              primaryEmail: 'hector.smith@email.com',
+              emailAddress: 'hector.smith@email.com',
               confirmationEmail: '',
             },
           },

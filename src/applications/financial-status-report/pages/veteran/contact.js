@@ -199,7 +199,7 @@ export const uiSchema = {
         classNames: 'input-size-7',
       },
     },
-    primaryEmail: {
+    emailAddress: {
       ...emailUI('Email address'),
       'ui:options': {
         classNames: 'input-size-7',
@@ -220,8 +220,8 @@ export const uiSchema = {
       'ui:validations': [
         {
           validator: (errors, fieldData, formData) => {
-            const { primaryEmail, confirmationEmail } = formData.personalData;
-            if (primaryEmail !== confirmationEmail) {
+            const { emailAddress, confirmationEmail } = formData.personalData;
+            if (emailAddress !== confirmationEmail) {
               errors.addError('Email does not match');
             }
           },
@@ -267,7 +267,7 @@ export const schema = {
           },
         },
         telephoneNumber: SCHEMA_DEFINITIONS.telephoneNumber,
-        primaryEmail: SCHEMA_DEFINITIONS.emailAddress,
+        emailAddress: SCHEMA_DEFINITIONS.emailAddress,
         confirmationEmail: SCHEMA_DEFINITIONS.emailAddress,
       },
     },

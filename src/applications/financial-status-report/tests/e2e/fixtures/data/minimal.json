@@ -63,7 +63,7 @@
       "zipCodeSuffix": "1234"
     },
     "telephoneNumber": "5035551234",
-    "primaryEmail": "veteran@gmail.com",
+    "emailAddress": "veteran@gmail.com",
     "confirmationEmail": "veteran@gmail.com",
     "veteranFullName": {
       "first": "Mark",
