@@ -95,7 +95,7 @@ const formConfig = {
             personalData: {
               address: {
                 countryName: 'United States',
-                addressLine1: '1234 W Nebraska St',
+                street: '1234 W Nebraska St',
                 city: 'Tampa',
                 stateCode: 'FL',
                 zipCode: '33614',
