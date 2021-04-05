@@ -2,7 +2,8 @@ import { locationSelector } from '../../shared/utils/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import { removeFormApi } from 'platform/forms/save-in-progress/api';
 
-const USE_MOCK_DATA = true;
+const USE_MOCK_DATA = false;
+// window.Cypress  || environment.isLocalhost || environment.isStaging;
 
 // pull from src/platform/forms-system/src/js/actions.js
 // so we can have our own custom error handling,  messages and headers

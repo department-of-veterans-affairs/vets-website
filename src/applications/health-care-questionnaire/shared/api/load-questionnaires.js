@@ -1,8 +1,8 @@
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
-const USE_MOCK_DATA =
-  window.Cypress || environment.isLocalhost || environment.isStaging;
+const USE_MOCK_DATA = false;
+// window.Cypress  || environment.isLocalhost || environment.isStaging;
 
 const loadQuestionnaires = async () => {
   let promise;
