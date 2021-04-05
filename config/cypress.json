@@ -13,6 +13,14 @@
     "runMode": 2,
     "openMode": 0
   },
+  "reporter": "mochawesome",
+  "reporterOptions": {
+      "reportDir": "cypress/report/mochawesome-report",
+      "overwrite": false,
+      "html": false,
+      "json": true,
+      "timestamp": "mmddyyyy_HHMMss"
+  },
   "env": {
     "vaTopMobileViewports": [
       {
