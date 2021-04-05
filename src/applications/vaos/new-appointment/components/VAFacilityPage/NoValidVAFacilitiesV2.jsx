@@ -60,12 +60,13 @@ export default function NoValidVAFacilities({
                             <br />
                           </>
                         )}
-                        Main phone:{' '}
                         <FacilityPhone
                           contact={
                             facility.telecom.find(t => t.system === 'phone')
                               ?.value
                           }
+                          className="vads-u-font-weight--normal"
+                          level={4}
                         />
                       </li>
                     ))}

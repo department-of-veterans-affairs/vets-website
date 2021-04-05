@@ -111,7 +111,7 @@ function CommunityCareAppointmentDetailsPage({
       <FacilityAddress
         facility={location}
         showDirectionsLink={!!location.address}
-        isHomepageRefresh
+        level={2}
       />
 
       <div className="vads-u-margin-top--3 vaos-appts__block-label">
