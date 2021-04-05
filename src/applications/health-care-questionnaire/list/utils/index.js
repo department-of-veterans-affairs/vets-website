@@ -17,6 +17,17 @@ const sortQuestionnairesByStatus = questionnaires => {
   if (!data) {
     data = [];
   }
+
+  // remove entered in errored
+  // data = data.filter(f => {
+  //   console.log({ f });
+  //   return (
+  //     questionnaireResponseSelector.getStatus(
+  //       f.questionnaire[0]?.questionnaireResponse,
+  //     ) !== 'entered-in-error'
+  //   );
+  // });
+
   // NEED TEST CASE FOR: remove items where the appointment is cancelled, and there is not questionnaire status
   data = data.filter(f => {
     return !(
@@ -32,6 +43,8 @@ const sortQuestionnairesByStatus = questionnaires => {
     const s = appointmentSelector.getStartTime(second.appointment);
     return new Date(f) - new Date(s);
   });
+
+  // console.log([data]);
 
   // find appointments that are completed based on questionnaire status
   const completed = data.filter(f => {
