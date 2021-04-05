@@ -21,6 +21,7 @@
       "json": true,
       "timestamp": "mmddyyyy_HHMMss"
   },
+  "screenshotsFolder": "cypress/report/mochawesome-report/assets",
   "env": {
     "vaTopMobileViewports": [
       {
