@@ -5,6 +5,9 @@ import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
 import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
+import error401 from '@@profile/tests/fixtures/401.json';
+import error500 from '@@profile/tests/fixtures/500.json';
+import { nameTagRenders } from '@@profile/tests/e2e/helpers';
 
 import manifest from 'applications/personalization/dashboard/manifest.json';
 
@@ -42,10 +45,7 @@ function loa3DashboardTest(mobile) {
     .should('equal', 'H1');
 
   // name tag exists with the right data
-  cy.findByTestId('name-tag').should('exist');
-  cy.findByText('Wesley Watson Ford').should('exist');
-  cy.findByText('United States Air Force').should('exist');
-  cy.findByText('90% Service connected').should('exist');
+  nameTagRenders({ withDisabilityRating: true });
 
   // make the a11y check
   cy.injectAxe();
@@ -60,16 +60,46 @@ describe('The My VA Dashboard', () => {
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept('/v0/evss_claims_async', claimsSuccess());
     cy.intercept('/v0/appeals', appealsSuccess());
-    cy.intercept(
-      '/v0/disability_compensation_form/rating_info',
-      disabilityRating,
-    );
   });
-  it('should handle LOA3 users at desktop size', () => {
-    loa3DashboardTest(false);
-  });
+  context('when it can load the total disability rating', () => {
+    beforeEach(() => {
+      cy.intercept(
+        '/v0/disability_compensation_form/rating_info',
+        disabilityRating,
+      );
+    });
+    it('should handle LOA3 users at desktop size', () => {
+      loa3DashboardTest(false);
+    });
 
-  it('should handle LOA3 users at mobile phone size', () => {
-    loa3DashboardTest(true);
+    it('should handle LOA3 users at mobile phone size', () => {
+      loa3DashboardTest(true);
+    });
+  });
+  context('when there is a 401 fetching the total disability rating', () => {
+    beforeEach(() => {
+      cy.intercept('/v0/disability_compensation_form/rating_info', {
+        statusCode: 401,
+        body: error401,
+      });
+    });
+    it('should show the fallback link in the header', () => {
+      mockFeatureToggles();
+      cy.visit(manifest.rootUrl);
+      nameTagRenders({ withDisabilityRating: false });
+    });
+  });
+  context('when there is a 500 fetching the total disability rating', () => {
+    beforeEach(() => {
+      cy.intercept('/v0/disability_compensation_form/rating_info', {
+        statusCode: 500,
+        body: error500,
+      });
+    });
+    it('should show the fallback link in the header', () => {
+      mockFeatureToggles();
+      cy.visit(manifest.rootUrl);
+      nameTagRenders({ withDisabilityRating: false });
+    });
   });
 });

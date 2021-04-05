@@ -290,17 +290,15 @@ describe('ConfirmationPoll', () => {
         combineReducers({ ...commonReducer, ...reducers }),
         togglesOnState,
       );
-      const connectedConfirmationPoll = shallow(
+      const connectedConfirmationPoll = mount(
         <Provider store={commonStore}>
           <ConnectedConfirmationPoll {...defaultProps} pollRate={10} />
         </Provider>,
       );
 
       expect(
-        connectedConfirmationPoll
-          .dive()
-          .find('ConfirmationPoll')
-          .props().areConfirmationEmailTogglesOn,
+        connectedConfirmationPoll.find('ConfirmationPoll').props()
+          .areConfirmationEmailTogglesOn,
       ).to.be.true;
       connectedConfirmationPoll.unmount();
     });
