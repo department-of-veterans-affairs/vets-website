@@ -13,6 +13,7 @@ import {
   getClaimsV2 as getClaimsAction,
 } from '~/applications/claims-status/actions';
 
+import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import ClaimsAndAppealsCTA from './ClaimsAndAppealsCTA';
 import HighlightedClaimAppeal from './HighlightedClaimAppeal';
 import useOpenClaimsAppealsCount from './hooks/useOpenClaimOrAppealCount';
@@ -77,7 +78,7 @@ const ClaimsAndAppeals = ({
       <div>
         <h2>Claims & appeals</h2>
         <div className="vads-l-row">
-          <div className="vads-l-col--12 medium-screen:vads-l-col--8 small-desktop-screen:vads-l-col--6 medium-screen:vads-u-padding-right--3">
+          <DashboardWidgetWrapper>
             <HighlightedClaimAppeal
               claimOrAppeal={highlightedClaimOrAppeal}
               name={userFullName}
@@ -87,12 +88,12 @@ const ClaimsAndAppeals = ({
                 <ClaimsAndAppealsCTA />
               </div>
             ) : null}
-          </div>
+          </DashboardWidgetWrapper>
           {highlightedClaimOrAppeal ? (
-            <div className="vads-l-col--12 medium-screen:vads-l-col--8 small-desktop-screen:vads-l-col--6 medium-screen:vads-u-padding-right--3">
+            <DashboardWidgetWrapper>
               <div className="vads-u-margin-top--2p5 small-desktop-screen:vads-u-margin-top--0" />
               <ClaimsAndAppealsCTA />
-            </div>
+            </DashboardWidgetWrapper>
           ) : null}
         </div>
       </div>
