@@ -3,7 +3,7 @@ import React from 'react';
 import IconCTALink from '../IconCTALink';
 
 const ClaimsAndAppealsCTA = ({ count }) => {
-  let content = 'Go to all claims or appeals';
+  let content = 'Manage all your claims and appeals';
   if (count === 1) {
     content = '1 claim or appeal in progress';
   } else if (count > 1) {
