@@ -132,7 +132,7 @@ function checkAllPages(mobile = false) {
     .should('eq', 'H2');
 }
 
-describe('Profile', () => {
+describe.skip('Profile', () => {
   beforeEach(() => {
     disableFTUXModals();
     cy.login(mockUser);
