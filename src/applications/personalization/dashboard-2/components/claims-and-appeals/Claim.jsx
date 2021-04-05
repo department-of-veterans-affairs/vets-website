@@ -63,7 +63,7 @@ const Claim = ({ claim }) => {
         </div>
       </div>
       <CTALink
-        aria-label={`View claim received ${dateRecd}`}
+        ariaLabel={`View claim received ${dateRecd}`}
         text="View details"
         href={`/track-claims/your-claims/${claim.id}/status`}
         onClick={handleViewClaim}

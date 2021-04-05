@@ -101,7 +101,7 @@ const Appeal = ({ appeal, name }) => {
         </div>
       </div>
       <CTALink
-        aria-label={`View details of ${appealTitle} `}
+        ariaLabel={`View details of ${appealTitle} `}
         text="View details"
         href={`/track-claims/appeals/${appeal.id}/status`}
       />
