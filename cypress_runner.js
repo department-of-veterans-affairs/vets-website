@@ -64,7 +64,7 @@ cypress
   })
   .then(results => {
     const reporterOptions = {
-      reportDir: results.config.reporterOptions.reportDir,
+      files: [`${results.config.reporterOptions.reportDir}/*.json`],
     };
 
     generateReport(reporterOptions);
