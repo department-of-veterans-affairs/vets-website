@@ -253,6 +253,7 @@ legend.schemaform-label {
   font-size: inherit;
   color: inherit;
   line-height: inherit;
+  white-space: nowrap;
   max-width: 46rem;
   padding-bottom: 0;
 }
@@ -696,7 +697,6 @@ textarea.resize-y {
 textarea.resize-x {
   resize: horizontal;
 }
-
 
 .blue-bar-block {
   border-left: 7px solid $color-primary;
