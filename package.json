@@ -321,6 +321,7 @@
     "libxmljs2": "^0.26.5",
     "local-storage-fallback": "^4.1.1",
     "lodash": "^4.17.19",
+    "ls": "^0.2.1",
     "mapbox-gl": "^1.12.0",
     "markdown-it": "^11.0.0",
     "markdown-it-link-attributes": "^3.0.0",
@@ -359,6 +360,7 @@
     "redux-thunk": "^2.3.0",
     "regenerator-runtime": "^0.13.7",
     "reselect": "^2.5.4",
+    "rimraf": "^3.0.2",
     "syswide-cas": "^5.3.0",
     "tar-fs": "^2.0.1",
     "tinyliquid": "^0.2.33",
@@ -368,7 +370,8 @@
     "vanilla-lazyload": "^16.1.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#34234d3342f38aaec7e0ef799a97f2aac1c5998f",
     "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.2.2",
-    "whatwg-fetch": "^2.0.3"
+    "whatwg-fetch": "^2.0.3",
+    "yargs": "^16.2.0"
   },
   "resolutions": {
     "**/lodash": "4.17.19",
