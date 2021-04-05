@@ -18,8 +18,6 @@ export const uiSchema = {
             'aria-describedby': 'submit-str-asap',
           },
         },
-        // Force ReviewFieldTemplate to wrap this component in a <dl>
-        useDlWrap: true,
       },
     },
   },
