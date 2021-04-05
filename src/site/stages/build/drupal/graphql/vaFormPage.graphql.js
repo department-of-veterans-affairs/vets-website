@@ -11,6 +11,7 @@ fragment vaFormPage on NodeVaForm {
   fieldVaFormName
   fieldVaFormTitle
   fieldVaFormType
+  fieldVaFormLanguage
   fieldVaFormUrl {
     uri
     title

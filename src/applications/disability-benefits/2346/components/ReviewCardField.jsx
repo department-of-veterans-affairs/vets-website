@@ -10,7 +10,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import set from 'platform/utilities/data/set';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement, isReactComponent } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -49,7 +49,7 @@ class ReviewCardField extends React.Component {
     super(props);
     // Throw an error if there’s no viewComponent (should be React component)
     if (
-      typeof get('ui:options.viewComponent', this.props.uiSchema) !== 'function'
+      !isReactComponent(get('ui:options.viewComponent', this.props.uiSchema))
     ) {
       throw new Error(
         `No viewComponent found in uiSchema for ReviewCardField ${
@@ -610,8 +610,10 @@ class ReviewCardField extends React.Component {
 ReviewCardField.propTypes = {
   uiSchema: PropTypes.shape({
     'ui:options': PropTypes.shape({
-      viewComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
-        .isRequired,
+      viewComponent: PropTypes.oneOfType([
+        PropTypes.element,
+        PropTypes.elementType,
+      ]).isRequired,
     }).isRequired,
     'ui:description': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     'ui:subtitle': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
@@ -622,7 +624,7 @@ ReviewCardField.propTypes = {
   idSchema: PropTypes.object.isRequired,
   registry: PropTypes.shape({
     fields: PropTypes.shape({
-      SchemaField: PropTypes.func.isRequired,
+      SchemaField: PropTypes.elementType.isRequired,
     }),
     definitions: PropTypes.object.isRequired,
   }).isRequired,
