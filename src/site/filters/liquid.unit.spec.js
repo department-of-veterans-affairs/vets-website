@@ -249,7 +249,7 @@ describe('createEmbedYouTubeVideoURL', () => {
   it('returns the modified URL if it needs it', () => {
     expect(
       liquid.filters.createEmbedYouTubeVideoURL('https://youtu.be/asdf'),
-    ).to.eq('https://youtube.com/embed/asdf');
+    ).to.eq('https://www.youtube.com/embed/asdf');
     expect(
       liquid.filters.createEmbedYouTubeVideoURL('https://www.youtu.be/asdf'),
     ).to.eq('https://www.youtube.com/embed/asdf');

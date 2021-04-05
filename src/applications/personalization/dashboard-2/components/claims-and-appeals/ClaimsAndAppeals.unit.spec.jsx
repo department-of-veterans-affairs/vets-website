@@ -504,7 +504,7 @@ describe('ClaimsAndAppeals component', () => {
         it('shows the correct text on the CTA', () => {
           expect(
             view.getByRole('link', {
-              name: /go to all claims or appeals/i,
+              name: /manage all your claims and appeals/i,
             }),
           ).to.exist;
         });
