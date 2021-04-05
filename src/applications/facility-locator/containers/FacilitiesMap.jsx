@@ -323,7 +323,7 @@ const FacilitiesMap = props => {
   };
 
   const shouldRenderSearchArea = () => {
-    return props.results?.length > 0 && props.currentQuery?.mapMoved;
+    return props.currentQuery?.mapMoved;
   };
 
   const searchAreaButtonLabel = () => {
