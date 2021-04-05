@@ -2,20 +2,16 @@ import React from 'react';
 import FacilityAddress from '../../../../components/FacilityAddress';
 import NewTabAnchor from '../../../../components/NewTabAnchor';
 
-export default function ConfirmedCommunityCareLocation({ appointment }) {
-  const location = appointment.contained.find(
-    res => res.resourceType === 'Location',
-  );
-
-  if (!location) {
+export default function ConfirmedCommunityCareLocation({ provider }) {
+  if (!provider) {
     return null;
   }
 
-  if (!location.address) {
+  if (!provider.address) {
     return (
       <>
-        {!!location.name && (
-          <h4 className="vaos-appts__block-label">{location.name}</h4>
+        {!!provider.display && (
+          <h4 className="vaos-appts__block-label">{provider.display}</h4>
         )}
         <div>
           This appointment is scheduled with a community care provider. Please
@@ -29,9 +25,9 @@ export default function ConfirmedCommunityCareLocation({ appointment }) {
   } else {
     return (
       <>
-        <h4 className="vaos-appts__block-label">{location.name}</h4>
+        <h4 className="vaos-appts__block-label">{provider.display}</h4>
         <div>
-          <FacilityAddress facility={location} showDirectionsLink />
+          <FacilityAddress facility={provider} showDirectionsLink />
         </div>
       </>
     );
