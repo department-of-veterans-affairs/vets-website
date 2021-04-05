@@ -76,11 +76,25 @@ const ClaimsAndAppeals = ({
     return (
       <div>
         <h2>Claims & appeals</h2>
-        <HighlightedClaimAppeal
-          claimOrAppeal={highlightedClaimOrAppeal}
-          name={userFullName}
-        />
-        <ClaimsAndAppealsCTA count={openClaimsOrAppealsCount} />
+        <div className="vads-l-row">
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8 small-desktop-screen:vads-l-col--6 medium-screen:vads-u-padding-right--3">
+            <HighlightedClaimAppeal
+              claimOrAppeal={highlightedClaimOrAppeal}
+              name={userFullName}
+            />
+            {!highlightedClaimOrAppeal ? (
+              <div className="vads-u-margin-top--2p5">
+                <ClaimsAndAppealsCTA />
+              </div>
+            ) : null}
+          </div>
+          {highlightedClaimOrAppeal ? (
+            <div className="vads-l-col--12 medium-screen:vads-l-col--8 small-desktop-screen:vads-l-col--6 medium-screen:vads-u-padding-right--3">
+              <div className="vads-u-margin-top--2p5 small-desktop-screen:vads-u-margin-top--0" />
+              <ClaimsAndAppealsCTA />
+            </div>
+          ) : null}
+        </div>
       </div>
     );
   } else {
