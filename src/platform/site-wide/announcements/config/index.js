@@ -5,6 +5,7 @@ import SingleSignOnInfoModal from '../components/SingleSignOnInfoModal';
 import VAMCWelcomeModal, { VAMC_PATHS } from '../components/VAMCWelcomeModal';
 import VAPlusVetsModal from '../components/VAPlusVetsModal';
 import WelcomeVAOSModal from '../components/WelcomeVAOSModal';
+import CovidVaccineSignUp from '../components/CovidVaccineSignUp';
 
 const config = {
   announcements: [
@@ -21,6 +22,11 @@ const config = {
       component: ExploreVAModal,
       disabled: !ExploreVAModal.isEnabled(),
       showEverytime: true,
+    },
+    {
+      name: 'covid-vaccine-signup',
+      paths: /^(\/)$/,
+      component: CovidVaccineSignUp,
     },
     {
       name: 'welcome-to-new-vaos',
