@@ -43,6 +43,7 @@ const Home = props => {
     setQuestionnaireData,
     setApiError,
   } = props;
+
   const [apiDidError, setApiDidError] = useState(false);
   useEffect(
     () => {
@@ -66,6 +67,7 @@ const Home = props => {
     },
     [setLoading, setQuestionnaireData, setApiError],
   );
+
   return (
     <RequiredLoginView
       serviceRequired={[backendServices.USER_PROFILE]}
