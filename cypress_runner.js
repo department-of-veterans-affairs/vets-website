@@ -3,7 +3,7 @@
 const cypress = require('cypress');
 const yargs = require('yargs');
 const { merge } = require('mochawesome-merge');
-const marge = require('mochawesome-report-generator');
+const reportGenerator = require('mochawesome-report-generator');
 const rm = require('rimraf');
 const cypressConfig = require('./config/cypress.json');
 const ls = require('ls');
@@ -17,13 +17,13 @@ const argv = yargs
     },
     browser: {
       alias: 'b',
-      describe: 'choose browser that you want to run tests on',
+      describe: 'the browser you want to run tests on',
       default: 'chrome',
       choices: ['chrome', 'electron'],
     },
     spec: {
       alias: 's',
-      describe: 'run test with specific spec file',
+      describe: 'path to spec files',
       default: 'src/applications/**/tests/**/*.cypress.spec.js?(x)',
     },
   })
@@ -34,7 +34,8 @@ const reportFiles = `${reportDir}/*.json`;
 
 const generateReport = options => {
   return merge(options).then(report => {
-    marge.create(report, options);
+    // to-do: convert report to json and save it to file
+    reportGenerator.create(report, options);
   });
 };
 
@@ -52,7 +53,7 @@ rm(reportFiles, error => {
     process.exit(1);
   }
 
-  console.log('Removing all existing report files successfully!');
+  console.log('Removed all existing report files successfully!');
   /* eslint-enable no-console */
 });
 
