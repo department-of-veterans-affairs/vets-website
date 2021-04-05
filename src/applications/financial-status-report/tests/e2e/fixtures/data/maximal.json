@@ -1,12 +1,115 @@
 {
   "additionalData": {
-    "additionalComments": "Supporting personal statement",
     "bankruptcy": {
-      "dateDischarged": "2005-07-XX",
+      "dateDischarged": "2000-07-XX",
       "courtLocation": "Tampa, FL",
       "docketNumber": "123456"
-    }
+    },
+    "additionalComments": "Supporting personal statement"
   },
+  "questions": {
+    "hasBeenAdjucatedBankrupt": true,
+    "hasOtherExpenses": true,
+    "hasRepayments": true,
+    "hasUtilities": true,
+    "hasOtherAssets": true,
+    "hasRecreationalVehicle": true,
+    "hasVehicle": true,
+    "hasRealEstate": true,
+    "hasDependents": true,
+    "spouseHasAdditionalIncome": true,
+    "spouseHasSocialSecurity": true,
+    "spouseHasBenefits": true,
+    "spousePreviouslyEmployed": true,
+    "spouseIsEmployed": true,
+    "maritalStatus": "Married",
+    "hasAdditionalIncome": true,
+    "hasSocialSecurity": true,
+    "vetPreviouslyEmployed": true,
+    "vetIsEmployed": true
+  },
+  "otherExpenses": [
+    {
+      "name": "Pool service",
+      "amount": 80
+    },
+    {
+      "name": "Lawn service",
+      "amount": 120
+    }
+  ],
+  "view:components": {
+    "view:assetInfo": {},
+    "view:recVehicleInfo": {},
+    "view:vehicleInfo": {},
+    "view:veteranInfo": {},
+    "view:vaBenefitsOnFile": {}
+  },
+  "installmentContractsAndOtherDebts": [
+    {
+      "purpose": "Car payment/lease",
+      "creditorName": "Creditor Name",
+      "originalAmount": 120000,
+      "unpaidBalance": 50000,
+      "amountDueMonthly": 800,
+      "dateStarted": "2016-06-XX",
+      "amountPastDue": 300
+    }
+  ],
+  "utilityRecords": [
+    {
+      "utilityType": "Electricity",
+      "monthlyUtilityAmount": 350
+    },
+    {
+      "utilityType": "Internet",
+      "monthlyUtilityAmount": 200
+    }
+  ],
+  "expenses": {
+    "rentOrMortgage": 1350,
+    "food": 800
+  },
+  "assets": {
+    "otherAssets": [
+      {
+        "name": "Bitcoin",
+        "amount": 12000
+      }
+    ],
+    "trailersBoatsCampers": [
+      {
+        "recreationalVehicleType": "Boat",
+        "recreationalVehicleAmount": 20000
+      }
+    ],
+    "automobiles": [
+      {
+        "type": "Truck",
+        "make": "Dodge",
+        "model": "RAM",
+        "year": "2020",
+        "resaleValue": 80000
+      },
+      {
+        "type": "Car",
+        "make": "Dodge",
+        "model": "Charger",
+        "year": "2020",
+        "resaleValue": 45000
+      }
+    ],
+    "cashInBank": 4500,
+    "cashOnHand": 1200,
+    "usSavingsBonds": 2345,
+    "stocksAndOtherBonds": 6543
+  },
+  "realEstateRecords": [
+    {
+      "realEstateType": "Vacation property",
+      "realEstateAmount": 120000
+    }
+  ],
   "personalData": {
     "agesOfOtherDependents": [
       {
@@ -18,223 +121,111 @@
     ],
     "employmentHistory": {
       "spouse": {
+        "previousEmployment": [
+          {
+            "type": "Full time",
+            "from": "2014-08-XX",
+            "to": "2019-11-XX",
+            "employerName": "Spouse Prev Employer"
+          }
+        ],
         "currentEmployment": {
-          "type": "Part time",
-          "from": "2020-01-XX",
-          "employerName": "Spouse Current Employer",
-          "monthlyGrossSalary": 5000,
+          "type": "Full time",
+          "from": "2018-01-XX",
+          "employerName": "Spouse Employer",
+          "monthlyGrossSalary": 4500,
           "deductions": [
             {
+              "name": "State tax",
+              "amount": 200
+            },
+            {
               "name": "Federal tax",
-              "amount": 375
+              "amount": 400
             }
           ]
-        },
+        }
+      },
+      "veteran": {
         "previousEmployment": [
           {
             "type": "Full time",
             "from": "2017-05-XX",
-            "to": "2010-09-XX",
-            "employerName": "Spouse Prev Employer 1"
-          },
-          {
-            "type": "Full time",
-            "from": "2015-01-XX",
-            "to": "2019-09-XX",
-            "employerName": "Spouse Prev Employer 2"
+            "to": "2019-08-XX",
+            "employerName": "Vet Previous Employer"
           }
-        ]
-      },
-      "veteran": {
+        ],
         "currentEmployment": {
           "type": "Full time",
-          "from": "2020-04-XX",
-          "employerName": "Vet Current Employment",
-          "monthlyGrossSalary": 25000,
+          "from": "2019-01-XX",
+          "employerName": "Vet Current Employer",
+          "monthlyGrossSalary": 5000,
           "deductions": [
             {
               "name": "Federal tax",
               "amount": 300
+            },
+            {
+              "name": "Health insurance",
+              "amount": 400
             }
           ]
-        },
-        "previousEmployment": [
-          {
-            "type": "Full time",
-            "from": "2017-06-XX",
-            "to": "2020-11-XX",
-            "employerName": "Vet Previous Employer 1"
-          },
-          {
-            "type": "Full time",
-            "from": "2017-04-XX",
-            "to": "2019-07-XX",
-            "employerName": "Vet Previous Employer 2"
-          }
-        ]
+        }
       }
     },
     "spouseFullName": {
-      "first": "First",
-      "last": "Last"
+      "first": "Spouse",
+      "last": "Name"
     },
     "address": {
       "livesOnMilitaryBaseInfo": {},
       "countryName": "United States",
-      "addressLine1": "1493 Martin Luther King Rd",
-      "addressLine2": "Apt 2",
-      "city": "Fulton",
-      "stateCode": "NY",
-      "zipCode": "97062",
-      "addressLine3": null,
-      "addressPou": "CORRESPONDENCE",
-      "addressType": "DOMESTIC",
-      "countryCodeFips": "US",
-      "countryCodeIso2": "US",
-      "countryCodeIso3": "USA",
-      "createdAt": "2018-04-21T20:09:50Z",
-      "effectiveEndDate": "2018-04-21T20:09:50Z",
-      "effectiveStartDate": "2018-04-21T20:09:50Z",
-      "id": 123,
-      "internationalPostalCode": "54321",
-      "province": "string",
-      "sourceDate": "2018-04-21T20:09:50Z",
-      "updatedAt": "2018-04-21T20:09:50Z",
-      "zipCodeSuffix": "1234"
+      "street": "8200 DOBY LN",
+      "street2": "APT 4D",
+      "city": "PASADENA",
+      "stateCode": "FL",
+      "zipCode": "33614",
+      "state": "MD",
+      "country": "USA",
+      "postalCode": "21122"
     },
-    "telephoneNumber": "5035551234",
-    "emailAddress": "veteran@gmail.com",
-    "confirmationEmail": "veteran@gmail.com",
+    "telephoneNumber": "4445551212",
+    "emailAddress": "test2@test1.net",
+    "confirmationEmail": "test2@test1.net",
     "veteranFullName": {
       "first": "Mark",
       "last": "Webb",
       "middle": "R",
       "suffix": "Jr."
     },
-    "dateOfBirth": "1950-10-04",
-    "emailAddress": "test2@test1.net"
+    "dateOfBirth": "1950-10-04"
   },
-  "installmentContractsAndOtherDebts": [
-    {
-      "purpose": "Credit card payments",
-      "creditorName": "Creditor 1",
-      "originalAmount": 40000,
-      "unpaidBalance": 25000,
-      "amountDueMonthly": 250,
-      "dateStarted": "2016-04-XX",
-      "amountPastDue": 20
-    },
-    {
-      "purpose": "Hangar rental",
-      "creditorName": "Creditor 2",
-      "unpaidBalance": 230000,
-      "amountDueMonthly": 1034,
-      "dateStarted": "2009-02-XX",
-      "amountPastDue": 500
-    },
-    {
-      "purpose": "Helicopter payment",
-      "creditorName": "Creditor 3",
-      "originalAmount": 120000,
-      "unpaidBalance": 10000,
-      "amountDueMonthly": 3245,
-      "dateStarted": "2015-03-XX",
-      "amountPastDue": 0
-    }
-  ],
-  "assets": {
-    "otherAssets": [
-      {
-        "name": "Bitcoin",
-        "amount": 15000
-      },
-      {
-        "name": "Patent, license or permit holdings",
-        "amount": 45000
-      }
-    ],
-    "trailersBoatsCampers": [
-      {
-        "recreationalVehicleType": "Boat",
-        "recreationalVehicleAmount": 100000
-      },
-      {
-        "recreationalVehicleType": "Helicopter",
-        "recreationalVehicleAmount": 700000
-      },
-      {
-        "recreationalVehicleType": "Moped",
-        "recreationalVehicleAmount": 10
-      }
-    ],
-    "automobiles": [
-      {
-        "type": "Truck",
-        "make": "Dodge",
-        "model": "RAM",
-        "year": "2021",
-        "resaleValue": 80000
-      },
-      {
-        "type": "Car",
-        "make": "Dodge",
-        "model": "Charger",
-        "year": "2021",
-        "resaleValue": 50000
-      }
-    ],
-    "cashInBank": 1000,
-    "cashOnHand": 2000,
-    "usSavingsBonds": 3000,
-    "stocksAndOtherBonds": 4000
-  },
-  "view:components": {
-    "view:assetInfo": {},
-    "view:recVehicleInfo": {},
-    "view:financialHardshipExplanation": {},
-    "view:resolutionOptionsInfo": {},
-    "view:vehicleInfo": {},
-    "view:veteranInfo": {},
-    "view:vaBenefitsOnFile": {}
-  },
-  "realEstateRecords": [
-    {
-      "realEstateType": "Business property",
-      "realEstateAmount": 150000
-    },
-    {
-      "realEstateType": "Vacation property",
-      "realEstateAmount": 250000
-    }
-  ],
   "additionalIncome": {
     "spouse": {
       "additionalIncomeRecords": [
         {
-          "name": "Freelance service",
-          "amount": 250
-        },
-        {
-          "name": "Child support payment",
+          "name": "Rental property income",
           "amount": 1100
         }
       ]
     },
     "additionalIncomeRecords": [
       {
-        "name": "Rental property income",
-        "amount": 1400
-      },
-      {
         "name": "Bonus payment",
-        "amount": 1000
+        "amount": 1500
       }
     ]
   },
   "socialSecurity": {
-    "socialSecurityAmount": 1850,
     "spouse": {
-      "socialSecurityAmount": 263
+      "socialSecurityAmount": 1245
+    },
+    "socialSecurityAmount": 1200
+  },
+  "benefits": {
+    "spouseBenefits": {
+      "benefitAmount": 1300,
+      "educationAmount": 700
     }
   },
   "personalIdentification": {
@@ -242,41 +233,6 @@
     "fileNumber": "4437"
   },
   "selectedDebts": [
-    {
-      "financialOverview": {},
-      "debtRepaymentOptions": {},
-      "resolutionOptionsTitle": {},
-      "resolution": {
-        "resolutionType": "Extended monthly payments",
-        "affordToPay": 200
-      },
-      "view:components": {
-        "view:financialHardshipExplanation": {},
-        "view:resolutionOptionsInfo": {}
-      },
-      "additionalData": {
-        "additionalComments": "Supporting personal statement 2"
-      },
-      "fileNumber": "796121200",
-      "payeeNumber": "00",
-      "personEntitled": "AJOHNS",
-      "deductionCode": "71",
-      "benefitType": "CH33 Books, Supplies/MISC EDU",
-      "diaryCode": "101",
-      "diaryCodeDescription": "Pending automatic benefit offset",
-      "amountOverpaid": 0,
-      "amountWithheld": 0,
-      "originalAr": 166.67,
-      "currentAr": 120.4,
-      "debtHistory": [
-        {
-          "date": "09/18/2012",
-          "letterCode": "100",
-          "description": "First Demand Letter - Inactive Benefits - Due Process"
-        }
-      ],
-      "id": 2
-    },
     {
       "financialOverview": {},
       "debtRepaymentOptions": {},
@@ -325,27 +281,6 @@
     "deductionCode": "",
     "originalAr": 0
   },
-  "questions": {
-    "spouseIsEmployed": true,
-    "hasAdditionalIncome": true,
-    "hasSocialSecurity": true,
-    "vetPreviouslyEmployed": true,
-    "vetIsEmployed": true,
-    "hasBeenAdjucatedBankrupt": true,
-    "hasOtherExpenses": true,
-    "hasRepayments": true,
-    "hasUtilities": true,
-    "hasOtherAssets": true,
-    "hasRecreationalVehicle": true,
-    "hasVehicle": true,
-    "hasRealEstate": true,
-    "hasDependents": true,
-    "spouseHasAdditionalIncome": true,
-    "spouseHasSocialSecurity": true,
-    "spouseHasBenefits": true,
-    "spousePreviouslyEmployed": true,
-    "maritalStatus": "Married"
-  },
   "income": [
     {
       "veteranOrSpouse": "VETERAN",
@@ -356,40 +291,6 @@
       "veteranOrSpouse": "SPOUSE",
       "compensationAndPension": "0",
       "education": "0"
-    }
-  ],
-  "benefits": {
-    "spouseBenefits": {
-      "benefitAmount": 1200,
-      "educationAmount": 1745
-    }
-  },
-  "expenses": {
-    "rentOrMortgage": 1800,
-    "food": 900
-  },
-  "utilityRecords": [
-    {
-      "utilityType": "Water",
-      "monthlyUtilityAmount": 25
-    },
-    {
-      "utilityType": "Electricity",
-      "monthlyUtilityAmount": 340
-    },
-    {
-      "utilityType": "Internet",
-      "monthlyUtilityAmount": 125
-    }
-  ],
-  "otherExpenses": [
-    {
-      "name": "Pool service",
-      "amount": 80
-    },
-    {
-      "name": "Home repair",
-      "amount": 100
     }
   ]
 }
