@@ -55,6 +55,7 @@ describe('formatSharableID', () => {
   it('formats ID correctly in Tagalog', () => {
     expect(
       liquid.filters.formatSharableLinkID(
+        30316,
         'Kailangan ko bang magsuot ng mask kapag pumunta ako sa isang ospital ng VA o ibang lokasyon?',
       ),
     ).to.eq('kailangan-ko-bang-magsuot-ng-m-30316');
