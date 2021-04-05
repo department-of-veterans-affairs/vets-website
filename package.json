@@ -284,7 +284,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/component-library": "2.2.0",
+    "@department-of-veterans-affairs/component-library": "2.3.1",
     "@department-of-veterans-affairs/formation": "6.14.1",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@formatjs/intl-datetimeformat": "^3.2.7",
@@ -345,7 +345,7 @@
     "react-is": "^17.0.1",
     "react-leaflet": "^2.7.0",
     "react-meta-tags": "^0.7.4",
-    "react-redux": "5.1.1",
+    "react-redux": "7.2.2",
     "react-router": "3",
     "react-router-dom": "^5.2.0",
     "react-router-last-location": "^2.0.1",
