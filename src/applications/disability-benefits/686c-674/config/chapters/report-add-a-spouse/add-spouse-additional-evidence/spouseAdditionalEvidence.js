@@ -1,6 +1,7 @@
 import environment from 'platform/utilities/environment';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import { marriageTypeInformation } from '../current-marriage-information/helpers';
+import { isChapterFieldRequired } from '../../../helpers';
 import { AdditionalEvidence } from '../../../../components/AdditionalEvidence';
 import { addSpouse } from '../../../utilities';
 
@@ -10,6 +11,10 @@ export const uiSchema = {
   'ui:title': 'Additional evidence needed to add spouse',
   'view:additionalEvidenceDescription': {
     'ui:description': AdditionalEvidence(marriageTypeInformation),
+  },
+  spouseEvidenceDocumentType: {
+    'ui:title': 'Type of evidence',
+    'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
   },
   supportingDocuments: fileUploadUI('Additional Evidence needed', {
     buttonText: 'Upload supporting documents',
