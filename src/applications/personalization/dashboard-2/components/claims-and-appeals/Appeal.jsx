@@ -17,6 +17,11 @@ const capitalizeFirstLetter = input => {
 };
 
 const Appeal = ({ appeal, name }) => {
+  if (!appeal.attributes) {
+    throw new TypeError(
+      '`appeal` prop is malformed; it should have an `attributes` property.',
+    );
+  }
   let requestEventType;
   let isAppeal;
 

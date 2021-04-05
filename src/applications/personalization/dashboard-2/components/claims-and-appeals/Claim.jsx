@@ -28,6 +28,11 @@ function handleViewClaim() {
 }
 
 const Claim = ({ claim }) => {
+  if (!claim.attributes) {
+    throw new TypeError(
+      '`claim` prop is malformed; it should have an `attributes` property.',
+    );
+  }
   const inProgress = !isClaimComplete(claim);
   const dateRecd = moment(claim.attributes.dateFiled).format('MMMM D, YYYY');
   return (
