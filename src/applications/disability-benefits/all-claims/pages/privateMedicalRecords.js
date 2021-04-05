@@ -41,7 +41,7 @@ export const uiSchema = {
     'ui:options': {
       expandUnder: 'view:uploadPrivateRecordsQualifier',
       expandUnderCondition: data =>
-        data['view:hasPrivateRecordsToUpload'] === false,
+        data?.['view:hasPrivateRecordsToUpload'] === false,
       showFieldLabel: false,
       // forceDivWrapper: true,
     },
