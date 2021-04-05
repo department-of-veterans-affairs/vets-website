@@ -117,6 +117,9 @@ export default function ConfirmedAppointmentListItem({
         address.postalCode
       }`;
     }
+  } else if (appointment.vaos.isCOVIDVaccine) {
+    header = 'COVID-19 Vaccine';
+    location = facility ? formatFacilityAddress(facility) : null;
   } else {
     header = 'VA Appointment';
     location = facility ? formatFacilityAddress(facility) : null;

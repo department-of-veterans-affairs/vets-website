@@ -985,6 +985,34 @@
         ],
         "vvsAppointments": []
       }
+    },
+    {
+      "id": "4227b97525d391317233f4d129d53106",
+      "type": "va_appointments",
+      "attributes": {
+        "startDate": "2021-04-14T15:00:00Z",
+        "clinicId": "1140",
+        "clinicFriendlyName": "COVID Vaccine",
+        "facilityId": "983",
+        "sta6aid": "983",
+        "communityCare": false,
+        "char4": "CDQC",
+        "vdsAppointments": [
+          {
+            "bookingNote": null,
+            "appointmentLength": "20",
+            "appointmentTime": "2021-04-14T15:00:00Z",
+            "clinic": {
+              "name": "COVID VACCINE",
+              "askForCheckIn": false,
+              "facilityCode": "983"
+            },
+            "type": "SERVICE CONNECTED",
+            "currentStatus": "FUTURE"
+          }
+        ],
+        "vvsAppointments": []
+      }
     }
   ],
   "meta": {

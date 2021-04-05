@@ -56,7 +56,7 @@ export default function ConfirmationDirectScheduleInfo({
                 <>
                   {facilityDetails.name}
                   <br />
-                  <FacilityAddress facility={facilityDetails} />
+                  <FacilityAddress facility={facilityDetails} level={3} />
                 </>
               )}
             </div>
