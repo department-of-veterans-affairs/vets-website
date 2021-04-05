@@ -131,8 +131,9 @@ export const transform = ({ data }) => {
     },
   };
 
-  // console.log('incoming data: ', data);
-  // console.log('transformed data: ', formObj);
+  const convertIntegerToString = (key, value) => {
+    return typeof value === 'number' ? value.toString() : value;
+  };
 
-  return Promise.resolve(JSON.stringify(formObj));
+  return JSON.stringify(formObj, convertIntegerToString);
 };

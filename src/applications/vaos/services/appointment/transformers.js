@@ -511,6 +511,8 @@ export function transformConfirmedAppointment(appt) {
       isCommunityCare: isCC,
       timeZone: isCC ? appt.timeZone : null,
       isPhoneAppointment: appt.phoneOnly,
+      // CDQC is the standard COVID vaccine char4 code
+      isCOVIDVaccine: appt.char4 === 'CDQC',
     },
   };
 }

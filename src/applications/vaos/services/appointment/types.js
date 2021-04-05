@@ -107,6 +107,7 @@
  * @property {?string} timeZone Mapped to request.timeZone for community care requests, null or undefined otherwise
  * @property {?boolean} isPhoneAppointment Mapped from appointment.phoneOnly field for VistA appointments, undefined otherwise
  * @property {?boolean} isExpressCare Set to true if request.typeOfCareId is CR1
+ * @property {?boolean} isCOVIDVaccine Set to true if appointment is for a COVID vaccine, denoted by appt.char4 equaling CDQC
  * @property {boolean} isVideo Set to true for video appointments or requests. Will be true if request.visitType is set to
  *   video conference, or appointment.vvsAppointments has an item
  */
