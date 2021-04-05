@@ -28,8 +28,6 @@ export const uiSchema = {
               'root_view:patientAcknowledgement_view:acknowledgement',
           },
         },
-        // Force ReviewFieldTemplate to wrap this component in a <dl>
-        useDlWrap: true,
       },
     },
     'view:privateRecordsChoiceHelp': {
