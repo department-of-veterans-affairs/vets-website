@@ -11,6 +11,7 @@ import {
   isLOA3 as isLOA3Selector,
   isLOA1 as isLOA1Selector,
   isVAPatient as isVAPatientSelector,
+  hasMPIConnectionError,
 } from '~/platform/user/selectors';
 import RequiredLoginView, {
   RequiredLoginLoader,
@@ -22,6 +23,7 @@ import {
 } from '~/platform/monitoring/DowntimeNotification';
 
 import NameTag from '~/applications/personalization/components/NameTag';
+import HealthCareLoadError from '~/applications/personalization/dashboard-2/components/health-care/HealthCareLoadError';
 import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
 
@@ -42,6 +44,7 @@ const Dashboard = ({
   fetchTotalDisabilityRating,
   isLOA3,
   showLoader,
+  showHealthCareError,
   ...props
 }) => {
   const downtimeApproachingRenderMethod = useDowntimeApproachingRenderMethod();
@@ -116,6 +119,12 @@ const Dashboard = ({
                 My VA
               </h1>
 
+              <div className="vads-l-row">
+                <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+                  {showHealthCareError && <HealthCareLoadError />}
+                </div>
+              </div>
+
               {props.showValidateIdentityAlert && (
                 <div className="vads-l-row">
                   <div className="vads-l-col--12 medium-screen:vads-l-col--8">
@@ -124,7 +133,7 @@ const Dashboard = ({
                 </div>
               )}
               {props.showClaimsAndAppeals && <ClaimsAndAppeals />}
-              {props.showHealthCare && <HealthCare />}
+              {props.showHealthCare && !showHealthCareError && <HealthCare />}
               <ApplyForBenefits />
             </div>
           </div>
@@ -173,6 +182,7 @@ const mapStateToProps = state => {
     totalDisabilityRating: state.totalRating?.totalDisabilityRating,
     totalDisabilityRatingError: state.totalRating?.error,
     user: state.user,
+    showHealthCareError: hasMPIConnectionError(state),
   };
 };
 
