@@ -9,12 +9,21 @@ import {
   applicantInformation,
   benefitSelection,
   confirmEligibility,
-  directDeposit,
+  // directDeposit,
   initialConfirmEligibility,
   stemEligibility,
   personalInformation,
   programDetails,
 } from '../pages';
+
+import directDeposit from 'platform/forms-system/src/js/definitions/directDeposit';
+
+const {
+  uiSchema: directDepositUiSchema,
+  schema: directDepositSchema,
+} = directDeposit({
+  optionalFields: { bankName: false, declineDirectDeposit: true },
+});
 
 export const chapters = {
   applicantInformation: {
@@ -99,8 +108,8 @@ export const chapters = {
       directDeposit: {
         title: 'Direct deposit',
         path: 'personal-information/direct-deposit',
-        uiSchema: directDeposit.uiSchema,
-        schema: directDeposit.schema,
+        uiSchema: directDepositUiSchema,
+        schema: directDepositSchema,
       },
     },
   },
