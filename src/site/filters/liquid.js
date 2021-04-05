@@ -277,6 +277,7 @@ module.exports = function registerFilters() {
   liquid.filters.facilityIds = facilities =>
     facilities.map(facility => facility.fieldFacilityLocatorApiId).join(',');
 
+  // Used for the react widget "Facilities List" - includes the facility locator api id and the image object from drupal
   liquid.filters.widgetFacilitiesList = facilities => {
     const facilityList = {};
     facilities.forEach(f => {
