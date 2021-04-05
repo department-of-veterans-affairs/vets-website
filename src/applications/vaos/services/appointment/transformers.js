@@ -119,9 +119,10 @@ function getRequestStatus(request, isExpressCare) {
  * @returns {String} Appointment status
  */
 function getConfirmedStatus(appointment, isPast) {
-  const currentStatus = APPOINTMENT_TYPES.ccAppointment
-    ? appointment.vdsAppointments?.[0]?.currentStatus
-    : getVistaStatus(appointment);
+  const currentStatus =
+    getAppointmentType(appointment) === APPOINTMENT_TYPES.ccAppointment
+      ? appointment.vdsAppointments?.[0]?.currentStatus
+      : getVistaStatus(appointment);
 
   if (
     (isPast && PAST_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus)) ||
