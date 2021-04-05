@@ -159,7 +159,7 @@ export default function ConfirmationRequestInfo({
                       <strong>{facilityDetails.name}</strong>
                     </h3>
                     <div>
-                      <FacilityAddress facility={facilityDetails} />
+                      <FacilityAddress facility={facilityDetails} level={3} />
                     </div>
                   </>
                 )}

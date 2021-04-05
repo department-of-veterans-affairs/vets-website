@@ -9,6 +9,7 @@ import {
   toIdSchema,
   getDefaultFormState,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import { isReactComponent } from 'platform/utilities/ui';
 
 const ScrollElement = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -24,8 +25,9 @@ const Header = ({
 }) => {
   const { TitleField } = registry.fields;
   const textDescription = typeof description === 'string' ? description : null;
-  const DescriptionField =
-    typeof description === 'function' ? uiSchema['ui:description'] : null;
+  const DescriptionField = isReactComponent(description)
+    ? uiSchema['ui:description']
+    : null;
 
   return (
     <div className="schemaform-block-header item-loop-header">
@@ -209,7 +211,7 @@ const ItemLoop = ({
   useEffect(
     () => {
       // Throw an error if there’s no viewField (should be React component)
-      if (typeof uiSchema['ui:options'].viewField !== 'function') {
+      if (!isReactComponent(uiSchema['ui:options'].viewField)) {
         throw new Error(`No viewField found in uiSchema for ${idSchema.$id}.`);
       }
     },
