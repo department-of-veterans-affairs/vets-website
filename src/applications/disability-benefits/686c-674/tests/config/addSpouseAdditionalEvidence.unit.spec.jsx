@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
 
@@ -20,9 +20,10 @@ describe('686 upload additional evidence for spouse', () => {
       addSpouse: true,
     },
     marriageType: 'TRIBAL',
+    spouseEvidenceDocumentType: 'Marriage Certificate / License',
   };
   it('should render', () => {
-    const form = mount(
+    const form = shallow(
       <Provider store={uploadStore}>
         <DefinitionTester
           schema={schema}
@@ -32,13 +33,13 @@ describe('686 upload additional evidence for spouse', () => {
         />
       </Provider>,
     );
-    expect(form.find('input').length).to.equal(1);
+    expect(form.find('input').length).to.equal(0);
     form.unmount();
   });
 
   it('should submit an empty form', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const form = shallow(
       <Provider store={uploadStore}>
         <DefinitionTester
           schema={schema}
@@ -49,7 +50,7 @@ describe('686 upload additional evidence for spouse', () => {
         />
       </Provider>,
     );
-    form.find('form').simulate('submit');
+    form.simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
     form.unmount();
@@ -66,7 +67,7 @@ describe('686 upload additional evidence for spouse', () => {
         ],
       },
     };
-    const form = mount(
+    const form = shallow(
       <Provider store={uploadStore}>
         <DefinitionTester
           schema={schema}
@@ -77,7 +78,7 @@ describe('686 upload additional evidence for spouse', () => {
         />
       </Provider>,
     );
-    form.find('form').simulate('submit');
+    form.simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
     form.unmount();
