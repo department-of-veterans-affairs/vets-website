@@ -112,8 +112,8 @@ node('vetsgov-general-purpose') {
           }
         }
       }
-    }
-  )
+    )
+  }
 
   commonStages.prearchiveAll(dockerContainer)
 
