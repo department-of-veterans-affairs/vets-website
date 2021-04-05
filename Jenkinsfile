@@ -22,9 +22,9 @@ node('vetsgov-general-purpose') {
   dockerContainer = commonStages.setup()
 
   stage('Main') {
-    parallel {
-      failFast: true,
+    failFast true
 
+    parallel {
       stage('Lint|Security|Unit') {
         if (params.cmsEnvBuildOverride != 'none') { return }
 
