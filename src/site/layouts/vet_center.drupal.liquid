@@ -56,10 +56,11 @@
                                    <p>Vet Centers are community based to be more <br>
                                        accessible in areas where you live.<br>
                                        <a href="{{ entityUrl.path }}/locations">
-                                           View more Vet Center locations
+                                           View more {{ entityLabel }} locations
                                        </a>
                                    </p>
                                </div>
+                              {% include 'src/site/includes/vet_center_hours.liquid' with vetCenterHours = fieldOfficeHours %}
                           </section>
                       </div>
                   </div>
@@ -67,19 +68,7 @@
 
               <div class="usa-width-one-third inline-table-helper vads-u-order--first small-screen:vads-u-order--initial
                 vads-u-margin-bottom--2 vads-u-margin-left--auto facility">
-                    <!-- For test -->
-                    {% assign srcImage = "https://staging-va-gov-assets.s3-us-gov-west-1.amazonaws.com/img/styles/3_2_medium_thumbnail/public/2019-02/HJ-heinz-ambulatory-care3_0.jpg"%}
-                    <a href="#" rel="noopener noreferrer" target="_blank"
-                           id="google-map-link-image">
-                            <img class="facility-img" src="{{ srcImage }}"
-                                 alt="{{ test }}" title="{{ test }}"
-                                 width="{{ 480 }}"
-                                 height="{{ 320 }}" />
-                    </a>
-                    <!-- For test end -->
-
-                    <!-- facility image - currently null -->
-                  {% comment %}
+                  <!-- facility image -->
                     {% if fieldMedia.entity.image != empty %}
                         {% assign image = fieldMedia.entity.image %}
                         <a href="#" rel="noopener noreferrer" target="_blank"
@@ -90,7 +79,7 @@
                                  height="{{ image.derivative.height }}" />
                         </a>
                     {% endif %}
-                  {% endcomment %}
+                  <!-- facility map -->
                   <div data-widget-type="facility-map"
                        data-facility="{{ fieldFacilityLocatorApiId }}">
                   </div>
