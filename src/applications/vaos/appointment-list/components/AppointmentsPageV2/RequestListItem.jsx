@@ -21,9 +21,9 @@ export default function RequestListItem({ appointment, facility }) {
             Canceled
           </span>
         )}
-        <h4 className="vads-u-font-size--h4 vads-u-margin-x--0 vads-u-margin-y--0">
+        <h3 className="vads-u-font-size--h4 vads-u-margin-x--0 vads-u-margin-y--0">
           {sentenceCase(typeOfCareText)}
-        </h4>
+        </h3>
         {!!facility && !isCC && facility.name}
         {isCC && !!ccFacilityName && ccFacilityName}
         {isCC && !ccFacilityName && 'Community care'}
