@@ -293,13 +293,16 @@ function getCommunityCareData(appt) {
     return {};
   }
 
+  const apptType = getAppointmentType(appt);
   return {
     communityCareProvider:
-      appt.vaos.appointmentType === APPOINTMENT_TYPES.ccAppointment
+      apptType === APPOINTMENT_TYPES.ccAppointment
         ? {
             firstName: appt.name?.firstName,
             lastName: appt.name?.lastName,
-            providerName: `${appt.name?.firstName} ${appt.name?.lastName}`,
+            providerName: appt.name
+              ? `${appt.name.firstName || ''} ${appt.name.lastName || ''}`
+              : null,
             practiceName: appt.providerPractice,
             address: appt.address
               ? {
@@ -322,7 +325,8 @@ function getCommunityCareData(appt) {
     preferredCommunityCareProviders: appt.ccAppointmentRequest?.preferredProviders?.map(
       provider => {
         return {
-          providerName: `${provider.firstName} ${provider.lastName}`,
+          providerName: `${provider.firstName || ''} ${provider.lastName ||
+            ''}`,
           firstName: provider.firstName,
           lastName: provider.lastName,
           practiceName: provider.practiceName,

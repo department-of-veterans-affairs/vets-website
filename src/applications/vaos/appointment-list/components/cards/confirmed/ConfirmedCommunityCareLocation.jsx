@@ -3,15 +3,15 @@ import FacilityAddress from '../../../../components/FacilityAddress';
 import NewTabAnchor from '../../../../components/NewTabAnchor';
 
 export default function ConfirmedCommunityCareLocation({ provider }) {
-  if (!provider) {
+  if (!provider.practiceName && !provider.address) {
     return null;
   }
 
   if (!provider.address) {
     return (
       <>
-        {!!provider.display && (
-          <h4 className="vaos-appts__block-label">{provider.display}</h4>
+        {!!provider.practiceName && (
+          <h4 className="vaos-appts__block-label">{provider.practiceName}</h4>
         )}
         <div>
           This appointment is scheduled with a community care provider. Please
@@ -25,7 +25,7 @@ export default function ConfirmedCommunityCareLocation({ provider }) {
   } else {
     return (
       <>
-        <h4 className="vaos-appts__block-label">{provider.display}</h4>
+        <h4 className="vaos-appts__block-label">{provider.practiceName}</h4>
         <div>
           <FacilityAddress facility={provider} showDirectionsLink />
         </div>

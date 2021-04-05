@@ -166,7 +166,6 @@ function RequestedAppointmentDetailsPage({
         )}
       </AlertBox>
       <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
-        {isCCRequest && 'Community Care'}
         {!isCCRequest && isVideoRequest && 'VA Video Connect'}
         {!isCCRequest && !isVideoRequest && 'VA Appointment'}
       </h2>
