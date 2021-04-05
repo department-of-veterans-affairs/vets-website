@@ -51,7 +51,27 @@
  * @property {?Object} legacyVAR.bestTimeToCall Array of best times to call (Morning, Afternoon, Eventing), mapped from request.bestTimetoCall
  * @property {?Array<RequestedPeriod>} requestedPeriods Mapped from request.optionDate and request.optionTime fields 1 through 3
  * @property {VideoData} videoData Information associated with video visits from Video Visit Service (via MAS)
+ * @property {CommunityCareProvider} communityCareProvider The community provider for the appointment, if this is a CC appointment
+ * - Mapped from various ccAppointment fields
+ * @property {Array<CommunityCareProvider>} preferredCommunityCareProviders The community providers preferred for the appointment, if this is a CC request
+ * - Mapped from request.ccAppointmentRequest.preferredProviders
  * @property {DerivedAppointmentData} vaos This object contains derived data or information we need that doesn't fit in the FHIR format
+ */
+
+/**
+ * @typedef {Object} CommunityCareProvider
+ *
+ * @property {?string} firstName The first name of the provider
+ * - Mapped from ccAppointment.name.firstName or from request.ccAppointmentRequest.preferredProviders[].firstName
+ * @property {?string} lastName The last name of the provider
+ * - Mapped from ccAppointment.name.lastName or from request.ccAppointmentRequest.preferredProviders[].lastName
+ * @property {?string} providerName The concatenated first and last name of the provider
+ * @property {?string} practiceName The name of the practice where the provider is located
+ * - Mapped from ccAppointment.providerPractice or from request.ccAppointmentRequest.preferredProviders[].practiceName
+ * @property {?Address} address The address of the provider
+ * - Mapped from ccAppointment.address or from request.ccAppointmentRequest.preferredProviders[].address
+ * @property {Array} telecom The phone number of the provider
+ * - Mapped from ccAppointment.providerPhone
  */
 
 /**
