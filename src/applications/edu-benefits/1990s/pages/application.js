@@ -89,8 +89,10 @@ const uiSchema = {
   },
   'view:directDeposit': {
     ...directDepositUiSchema,
+    'ui:order': null, // have to null this out and declare properties in correct order
     bankAccount: {
       ...directDepositUiSchema.bankAccount,
+      'ui:order': null, // have to null this out and declare properties in correct order
       'ui:options': {
         ...directDepositUiSchema.bankAccount['ui:options'],
         hideIf: form => !bankFieldIsRequired(form),
@@ -218,7 +220,39 @@ const schema = {
         },
       },
     },
-    'view:directDeposit': directDepositSchema,
+    'view:directDeposit': {
+      type: 'object',
+      properties: {
+        bankAccount: {
+          type: 'object',
+          properties: {
+            'view:paymentText':
+              directDepositSchema.properties.bankAccount.properties[
+                'view:paymentText'
+              ],
+            accountType:
+              directDepositSchema.properties.bankAccount.properties.accountType,
+            'view:ddDescription':
+              directDepositSchema.properties.bankAccount.properties[
+                'view:ddDescription'
+              ],
+            routingNumber:
+              directDepositSchema.properties.bankAccount.properties
+                .routingNumber,
+            accountNumber:
+              directDepositSchema.properties.bankAccount.properties
+                .accountNumber,
+          },
+        },
+        declineDirectDeposit: {
+          type: 'boolean',
+        },
+        'view:directDepositInfo':
+          directDepositSchema.properties['view:directDepositInfo'],
+        'view:bankInfoHelpText':
+          directDepositSchema.properties['view:bankInfoHelpText'],
+      },
+    },
     'view:programSelection': {
       type: 'object',
       required: ['hasSelectedProgram'],
