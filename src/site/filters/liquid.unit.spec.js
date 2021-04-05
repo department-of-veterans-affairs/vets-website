@@ -27,6 +27,32 @@ describe('timezoneAbbrev', () => {
   });
 });
 
+describe('formatSharableID', () => {
+  it('formats ID correctly less than 30 chars', () => {
+    expect(
+      liquid.filters.timezoneAbbrev('America/Los_Angeles', 1604091600000),
+    ).to.eq('PDT');
+  });
+
+  it('formats ID correctly more than 30 chars', () => {
+    expect(
+      liquid.filters.timezoneAbbrev('America/Los_Angeles', 1604091600000),
+    ).to.eq('PDT');
+  });
+
+  it('formats ID correctly in Spanish', () => {
+    expect(
+      liquid.filters.timezoneAbbrev('America/Los_Angeles', 1604091600000),
+    ).to.eq('PDT');
+  });
+
+  it('formats ID correctly in Tagalog', () => {
+    expect(
+      liquid.filters.timezoneAbbrev('America/Los_Angeles', 1604091600000),
+    ).to.eq('PDT');
+  });
+});
+
 describe('dateFromUnix', () => {
   context('with default time zone', () => {
     it('returns null for null', () => {

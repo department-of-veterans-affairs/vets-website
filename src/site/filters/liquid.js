@@ -208,12 +208,12 @@ module.exports = function registerFilters() {
 
   liquid.filters.formatSharableLinkID = (id, description) => {
     if (!description) return id;
-    return `${description
-      .replace(/[^a-zA-Z ]/g, '')
-      .substring(0, 30)
-      .toLowerCase()
-      .split(' ')
-      .join('-')}-${id}`;
+    const truncatedText = description.substring(0, 30);
+    const escaped = liquid.filters.escape(truncatedText);
+    const hyphenatedDesc = _.kebabCase(escaped);
+    // eslint-disable-next-line no-console
+    console.log(hyphenatedDesc, 'HYPHENATED6969');
+    return `${hyphenatedDesc}-${id}`;
   };
 
   liquid.filters.breakTerms = data => {
