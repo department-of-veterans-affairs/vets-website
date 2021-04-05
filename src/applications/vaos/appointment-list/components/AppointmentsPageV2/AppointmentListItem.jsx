@@ -119,13 +119,13 @@ export default function AppointmentListItem({ appointment, facility }) {
           </>
         )}
       </div>
-      <div>
+      {/* visible to medium screen and larger */}
+      <div className="vads-u-display--none medium-screen:vads-u-display--inline">
         <Link
           aria-label={`Details for ${
             canceled ? 'canceled ' : ''
           }appointment on ${appointmentDate.format('dddd, MMMM D h:mm a')}`}
           to={isCommunityCare ? `cc/${appointment.id}` : `va/${appointment.id}`}
-          className="vads-u-display--none medium-screen:vads-u-display--inline"
         >
           Details
         </Link>
@@ -133,6 +133,21 @@ export default function AppointmentListItem({ appointment, facility }) {
           aria-hidden="true"
           className="fas fa-chevron-right vads-u-margin-left--1"
         />
+      </div>
+      {/* visble to small screen breakpoint */}
+      <div className="medium-screen:vads-u-display--none">
+        <Link
+          to={isCommunityCare ? `cc/${appointment.id}` : `va/${appointment.id}`}
+          className="vaos-appts__card-link"
+          aria-label={`Details for ${
+            canceled ? 'canceled ' : ''
+          }appointment on ${appointmentDate.format('dddd, MMMM D h:mm a')}`}
+        >
+          <i
+            aria-hidden="true"
+            className="fas fa-chevron-right vads-u-margin-left--1"
+          />
+        </Link>
       </div>
     </li>
   );

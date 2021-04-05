@@ -32,13 +32,13 @@ export default function RequestListItem({ appointment, facility }) {
         {isCC && !!ccFacilityName && ccFacilityName}
         {isCC && !ccFacilityName && 'Community care'}
       </div>
-      <div>
+      {/* visible to medium screen and larger */}
+      <div className="vads-u-display--none medium-screen:vads-u-display--inline">
         <Link
           aria-label={`Details for ${
             canceled ? 'canceled ' : ''
           }${typeOfCareText}request for ${preferredDate}`}
           to={`requests/${appointment.id}`}
-          className="vads-u-display--none medium-screen:vads-u-display--inline"
         >
           Details
         </Link>
@@ -46,6 +46,21 @@ export default function RequestListItem({ appointment, facility }) {
           aria-hidden="true"
           className="fas fa-chevron-right vads-u-margin-left--1"
         />
+      </div>
+      {/* visible to small screen breakpoint */}
+      <div className="medium-screen:vads-u-display--none">
+        <Link
+          to={`requests/${appointment.id}`}
+          className="vaos-appts__card-link"
+          aria-label={`Details for ${
+            canceled ? 'canceled ' : ''
+          }${typeOfCareText}request for ${preferredDate}`}
+        >
+          <i
+            aria-hidden="true"
+            className="fas fa-chevron-right vads-u-margin-left--1"
+          />
+        </Link>
       </div>
     </li>
   );
