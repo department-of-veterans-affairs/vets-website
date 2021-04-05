@@ -1,3 +1,5 @@
+// from https://medium.com/cypress-io-thailand/generate-a-beautiful-test-report-from-running-tests-on-cypress-io-371c00d7865a
+
 const cypress = require('cypress');
 const yargs = require('yargs');
 const { merge } = require('mochawesome-merge');
@@ -22,19 +24,25 @@ const argv = yargs
     spec: {
       alias: 's',
       describe: 'run test with specific spec file',
-      default: 'src/applications/**/tests/**/*.cypress.spec.js?(x)', // check this
+      default: 'src/applications/**/tests/**/*.cypress.spec.js?(x)',
     },
   })
   .help().argv;
 
 const reportDir = cypressConfig.reporterOptions.reportDir;
 const reportFiles = `${reportDir}/*.json`;
-// list all of existing report files
-/* eslint-disable no-console */
-ls(reportFiles, { recurse: true }, file =>
-  console.log(`removing ${file.full}`),
-);
-/* eslint-enable no-console */
+
+const generateReport = options => {
+  return merge(options).then(report => {
+    marge.create(report, options);
+  });
+};
+
+ls(reportFiles, { recurse: true }, file => {
+  /* eslint-disable no-console */
+  console.log(`removing ${file.full}`);
+  /* eslint-enable no-console */
+});
 
 // delete all existing report files
 rm(reportFiles, error => {
@@ -48,12 +56,6 @@ rm(reportFiles, error => {
   /* eslint-enable no-console */
 });
 
-function generateReport(options) {
-  return merge(options).then(report => {
-    marge.create(report, options);
-  });
-}
-
 cypress
   .run({
     configFile: argv.configFile,
@@ -64,6 +66,7 @@ cypress
     const reporterOptions = {
       reportDir: results.config.reporterOptions.reportDir,
     };
+
     generateReport(reporterOptions);
   })
   .catch(error => {
