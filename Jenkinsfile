@@ -21,11 +21,11 @@ node('vetsgov-general-purpose') {
   // setupStage
   dockerContainer = commonStages.setup()
 
-  stage('Main') {
-    parallel (
-      failFast: true,
+  parallel (
+    failFast: true,
 
-      'lint-security-unit': {
+    'lint-security-unit': {
+      stage('Lint|Security|Unit') {
         if (params.cmsEnvBuildOverride != 'none') { return }
 
         try {
@@ -63,9 +63,11 @@ node('vetsgov-general-purpose') {
             step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
           }
         }
-      },
+      }
+    },
 
-      'build-e2e': {
+    'build-e2e': {
+      stage('Build|Integration') {
         // Perform a build for each build type
         envsUsingDrupalCache = commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
 
@@ -112,8 +114,8 @@ node('vetsgov-general-purpose') {
           }
         }
       }
-    )
-  }
+    }
+  )
 
   commonStages.prearchiveAll(dockerContainer)
 
