@@ -566,6 +566,13 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 }
 
+#mapbox-gl-container {
+  max-height: 55vh;
+  height: 55vh;
+  display: flex;
+  justify-content: center;
+}
+
 #search-area-control-container {
   z-index: 1;
 }
@@ -581,7 +588,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 }
 
 .mapboxgl-ctrl-top-center {
-  left: 35%;
   position: absolute;
   pointer-events: none;
   margin: 15px 0 0 15px;
@@ -589,10 +595,8 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
 .mapboxgl-ctrl-bottom-center {
   bottom: 40px;
-  left: 22%;
   position: absolute;
   pointer-events: none;
-  margin: 15px 0 0 15px;
 }
 
 button.mapboxgl-ctrl-zoom-in {

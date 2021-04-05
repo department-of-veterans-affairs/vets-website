@@ -407,10 +407,7 @@ const FacilitiesMap = props => {
                 aria-live="assertive"
                 className="sr-only"
               />
-              <div
-                style={{ width: '100%', maxHeight: '55vh', height: '55vh' }}
-                id={mapboxGlContainer}
-              >
+              <map id={mapboxGlContainer}>
                 {shouldRenderSearchArea() && (
                   <SearchAreaControl
                     isMobile
@@ -419,7 +416,7 @@ const FacilitiesMap = props => {
                     buttonLabel={searchAreaButtonLabel()}
                   />
                 )}
-              </div>
+              </map>
               {selectedResult && (
                 <div className="mobile-search-result">
                   <SearchResult result={selectedResult} query={currentQuery} />
@@ -485,7 +482,7 @@ const FacilitiesMap = props => {
           </div>
         </div>
         <div id={zoomMessageDivID} aria-live="assertive" className="sr-only" />
-        <div className="desktop-map-container" id={mapboxGlContainer}>
+        <map className="desktop-map-container" id={mapboxGlContainer}>
           {shouldRenderSearchArea() && (
             <SearchAreaControl
               isMobile={false}
@@ -494,7 +491,7 @@ const FacilitiesMap = props => {
               buttonLabel={searchAreaButtonLabel()}
             />
           )}
-        </div>
+        </map>
         <PaginationWrapper
           handlePageSelect={handlePageSelect}
           currentPage={currentPage}
