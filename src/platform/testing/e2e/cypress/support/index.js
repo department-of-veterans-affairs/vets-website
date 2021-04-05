@@ -1,8 +1,9 @@
 import '@testing-library/cypress/add-commands';
 import 'cypress-axe';
 import 'cypress-plugin-tab';
-
 import './commands';
+
+const addContext = require('mochawesome/addContext');
 
 Cypress.on('window:before:load', window => {
   // Workaround to allow Cypress to intercept requests made with the Fetch API.
@@ -39,4 +40,15 @@ beforeEach(() => {
   cy.route('GET', '/v0/maintenance_windows', {
     data: [],
   });
+});
+
+// return filePath to addContext to mochawesome reporter
+Cypress.on('test:after:run', (test, runnable) => {
+  if (test.state === 'failed') {
+    const screenshotFileName = `${runnable.parent.title} -- ${
+      test.title
+    } (failed).png`;
+
+    addContext({ test }, `assets/${Cypress.spec.name}/${screenshotFileName}`);
+  }
 });
