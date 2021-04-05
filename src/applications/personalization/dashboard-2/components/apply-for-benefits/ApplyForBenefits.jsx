@@ -28,10 +28,7 @@ const BenefitsOfInterest = ({ children, showChildren }) => {
       <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--2p5">
         Benefits you might be interested in
       </h3>
-      <div
-        className="vads-l-grid-container vads-u-padding--0"
-        data-testid="benefits-of-interest"
-      >
+      <div data-testid="benefits-of-interest">
         {!showChildren && (
           <div className="vads-u-margin-y--2">
             <LoadingIndicator message="Loading benefits you might be interested in..." />
