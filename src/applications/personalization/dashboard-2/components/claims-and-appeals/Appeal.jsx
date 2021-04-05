@@ -9,6 +9,8 @@ import {
   programAreaMap,
 } from '~/applications/claims-status/utils/appeals-v2-helpers';
 
+import CTALink from '../CTALink';
+
 const capitalizeFirstLetter = input => {
   const capitalizedFirstLetter = input[0].toUpperCase();
   return `${capitalizedFirstLetter}${input.slice(1)}`;
@@ -93,13 +95,11 @@ const Appeal = ({ appeal, name }) => {
           )}
         </div>
       </div>
-      <a
+      <CTALink
         aria-label={`View details of ${appealTitle} `}
-        className="usa-button-primary"
+        text="View details"
         href={`/track-claims/appeals/${appeal.id}/status`}
-      >
-        View details
-      </a>
+      />
     </div>
   );
 };

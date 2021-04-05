@@ -8,6 +8,8 @@ import {
   getClaimType,
 } from '~/applications/claims-status/utils/helpers';
 
+import CTALink from '../CTALink';
+
 const capitalizeFirstLetter = input => {
   const capitalizedFirstLetter = input[0].toUpperCase();
   return `${capitalizedFirstLetter}${input.slice(1)}`;
@@ -55,14 +57,12 @@ const Claim = ({ claim }) => {
           ) : null}
         </div>
       </div>
-      <a
-        className="usa-button-primary"
-        href={`/track-claims/your-claims/${claim.id}/status`}
+      <CTALink
         aria-label={`View claim received ${dateRecd}`}
+        text="View details"
+        href={`/track-claims/your-claims/${claim.id}/status`}
         onClick={handleViewClaim}
-      >
-        View details
-      </a>
+      />
     </div>
   );
 };
