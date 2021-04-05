@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import ReactTestUtils from 'react-dom/test-utils';
+import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
 import { uploadStore } from 'platform/forms-system/test/config/helpers';
@@ -18,7 +18,7 @@ describe('Pensions document upload', () => {
   } = formConfig.chapters.additionalInformation.pages.documentUpload;
 
   it('should render', () => {
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = render(
       <Provider store={uploadStore}>
         <DefinitionTester
           schema={schema}
@@ -35,7 +35,7 @@ describe('Pensions document upload', () => {
 
   it('should submit empty form', () => {
     const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = render(
       <Provider store={uploadStore}>
         <DefinitionTester
           schema={schema}
@@ -57,7 +57,7 @@ describe('Pensions document upload', () => {
 
   it('should submit with valid data', () => {
     const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = render(
       <Provider store={uploadStore}>
         <DefinitionTester
           schema={schema}
