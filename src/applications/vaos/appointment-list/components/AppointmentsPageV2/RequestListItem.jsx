@@ -18,6 +18,7 @@ export default function RequestListItem({ appointment, facility }) {
     <li
       data-request-id={appointment.id}
       className="vaos-appts__card vads-u-display--flex vads-u-align-items--center"
+      data-cy="requested-appointment-list-item"
     >
       <div className="vads-u-flex--1">
         {canceled && (
@@ -25,7 +26,10 @@ export default function RequestListItem({ appointment, facility }) {
             Canceled
           </span>
         )}
-        <h3 className="vads-u-font-size--h4 vads-u-margin-x--0 vads-u-margin-y--0">
+        <h3
+          className="vads-u-font-size--h4 vads-u-margin-x--0 vads-u-margin-y--0"
+          data-cy="appointment-list-item-header"
+        >
           {sentenceCase(typeOfCareText)}
         </h3>
         {!!facility && !isCC && facility.name}

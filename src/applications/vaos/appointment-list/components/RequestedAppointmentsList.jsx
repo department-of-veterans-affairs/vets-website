@@ -44,7 +44,10 @@ function RequestedAppointmentsList({
     pendingAppointments?.length > 0
   ) {
     return (
-      <ul className="vads-u-padding-left--0">
+      <ul
+        className="vads-u-padding-left--0"
+        data-cy="requested-appointment-list"
+      >
         {pendingAppointments.map((appt, index) => (
           <RequestListItem
             key={index}

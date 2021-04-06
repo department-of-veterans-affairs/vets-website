@@ -11,6 +11,7 @@ export default function ExpressCareListItem({ appointment }) {
     <li
       data-request-id={appointment.id}
       className="vaos-appts__card vads-u-display--flex vads-u-align-items--center"
+      data-cy="appointment-list-item"
     >
       <div className="vads-u-flex--1">
         {canceled && (
