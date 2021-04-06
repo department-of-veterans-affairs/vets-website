@@ -943,6 +943,14 @@ export const isBDD = formData => {
   return Boolean(result);
 };
 
+export const isUploadingSTR = formData =>
+  isBDD(formData) &&
+  _.get(
+    'view:uploadServiceTreatmentRecordsQualifier.view:hasServiceTreatmentRecordsToUpload',
+    formData,
+    false,
+  );
+
 export const DISABILITY_SHARED_CONFIG = {
   orientation: {
     path: 'disabilities/orientation',
