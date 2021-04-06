@@ -38,7 +38,6 @@ export default class Footer extends React.Component {
           <DesktopLinks visible={!this.state.isMobile} links={this.linkObj} />
           <MobileLinks visible={this.state.isMobile} links={this.linkObj} />
           <div className="usa-grid usa-grid-full footer-banner">
-            <i className="fa fa-check">Testing "icon".</i>
             <a href="/" className="va-footer-logo" title="Go to VA.gov">
               <img
                 src={replaceWithStagingDomain(
