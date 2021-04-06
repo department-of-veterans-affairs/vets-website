@@ -37,6 +37,7 @@ const fsrApi = (state = initialState, action) => {
       return {
         ...state,
         debts: action.debts,
+        pending: false,
       };
     }
     default:

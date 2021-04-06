@@ -1,5 +1,6 @@
 import React from 'react';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+import recordEvent from 'platform/monitoring/record-event';
 import { PAGE_NAMES } from '../constants';
 
 const label = 'How do you want us to reconsider the decision?';
@@ -21,10 +22,16 @@ const Reconsider = ({ setPageState, state = {} }) => (
     label={label}
     id={`${PAGE_NAMES.decision}-option`}
     options={options}
+    value={{ value: state.selected }}
     onValueChange={({ value }) => {
+      recordEvent({
+        event: 'howToWizard-formChange',
+        'form-field-type': 'form-radio-buttons',
+        'form-field-label': label,
+        'form-field-value': value,
+      });
       setPageState({ selected: value }, value);
     }}
-    value={{ value: state.selected }}
   />
 );
 

@@ -35,7 +35,6 @@ export const Appointments = ({ appointments }) => {
         <p className="vads-u-margin-top--1">{locationName}</p>
         <CTALink
           text="Schedule and view your appointments"
-          icon="calendar"
           href="/health-care/schedule-view-va-appointments/appointments"
         />
       </div>

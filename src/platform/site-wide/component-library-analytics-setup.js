@@ -17,6 +17,7 @@ const analyticsEvents = {
     { action: 'displayed', event: 'loading-indicator-displayed' },
   ],
   ProgressBar: [{ action: 'change', event: 'nav-progress-bar-change' }],
+  PromoBanner: [{ action: 'linkClick', event: 'nav-promo-banner-link-click' }],
   SegmentedProgressBar: [
     { action: 'change', event: 'nav-segmented-progress-bar-change' },
   ],
