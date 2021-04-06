@@ -9,11 +9,6 @@ const ls = require('ls');
 
 const argv = yargs
   .options({
-    configFile: {
-      alias: 'C',
-      describe: 'path to config file',
-      default: 'config/cypress.json',
-    },
     browser: {
       alias: 'b',
       describe: 'the browser you want to run tests on',
@@ -71,7 +66,7 @@ rm(reportFiles, error => {
 
 cypress
   .run({
-    configFile: argv.configFile,
+    configFile: 'config/cypress.json',
     browser: argv.browser,
     spec: argv.spec,
   })
