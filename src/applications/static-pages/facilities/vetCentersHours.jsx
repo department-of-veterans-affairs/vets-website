@@ -7,23 +7,34 @@ const VetCenterHours = props => {
 
   const arrayOfWeekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-  const buildHours = hours => {
-    const hoursListItems = [...hours.slice(-6), hours[0]].map(hourObj => {
-      // {day: 4, starthours: 700, endhours: 1730, comment: ""}
-      let hourLabel;
-      if (hourObj.starthours < 0 || hourObj.endhours < 0) {
-        hourLabel = `${arrayOfWeekdays[hourObj.day]}: ${hourObj.comment}`;
-      } else {
-        hourLabel = `${arrayOfWeekdays[hourObj.day]}: ${formatHours(
-          hourObj.starthours,
-        )} - ${formatHours(hourObj.endhours)}`;
-      }
+  const buildHourItem = item => {
+    // {day: 4, starthours: 700, endhours: 1730, comment: ""}
+    if (item.starthours < 0 || item.endhours < 0) {
       return (
-        <li className="vads-u-margin-bottom--0" key={hourObj.day}>
-          {hourLabel}
-        </li>
+        <div className="row">
+          <div className="small-6 columns">{arrayOfWeekdays[item.day]}:</div>
+          <div className="small-6 columns">{item.comment}</div>
+        </div>
       );
-    });
+    } else {
+      return (
+        <div className="row">
+          <div className="small-6 columns">{arrayOfWeekdays[item.day]}:</div>
+          <div className="small-6 columns">
+            {formatHours(item.starthours)} - {formatHours(item.endhours)}
+          </div>
+        </div>
+      );
+    }
+  };
+
+  const buildHoursSection = hours => {
+    const hoursListItems = [...hours.slice(-6), hours[0]].map(hourObj => (
+      <li className="vads-u-margin-bottom--0" key={hourObj.day}>
+        {buildHourItem(hourObj)}
+      </li>
+    ));
+
     return (
       <ul className="vads-u-flex--1 va-c-facility-hours-list vads-u-margin-top--0 vads-u-margin-bottom--1 small-screen:vads-u-margin-bottom--0 vads-u-margin-right--3">
         {hoursListItems}
@@ -37,7 +48,7 @@ const VetCenterHours = props => {
         Hours
       </h3>
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row vads-u-margin-bottom--0">
-        {buildHours(props.hours)}
+        {buildHoursSection(props.hours)}
       </div>
     </div>
   );
