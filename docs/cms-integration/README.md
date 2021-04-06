@@ -1,7 +1,6 @@
 # CMS integration into the front-end website
 
-## Table of contents
-1. Content release - the process as a whole
+1. [Summary of the Content Release process](#Summary-of-the-Content-Release-process)
 2. Content build
 3. Content data used beyond templating
     - React widgets
@@ -12,7 +11,7 @@
 ## Summary of the Content Release process
 A _Content Release_ describes the entire process behind refreshing content on the website to reflect the content as stored in the CMS. The process begins after a CMS editor manually initiates it through a control in the CMS, when an engineer initiates it through a specific Jenkins job, or after being initiated automatically by a scheduled job. The process is complete once content on the website is visibly up-to-date with that in the CMS.
 
-The Jenkins job behind a Content Release is the same job that is executed during the vets-website full-code Release, widely referred to as the "daily deployment." This Jenkins job is the [`Vets.gov Auto-Deploy for vets-website`](http://jenkins.vfs.va.gov/job/deploys/job/vets-gov-autodeploy-vets-website/), or just the _Auto-Deploy_.
+The Jenkins job behind a Content Release is the same job that is executed during the vets-website Full-Code Release, widely referred to as the "daily deployment." This Jenkins job is the [`Vets.gov Auto-Deploy for vets-website`](http://jenkins.vfs.va.gov/job/deploys/job/vets-gov-autodeploy-vets-website/), or just the _Auto-Deploy_.
 
 <details><summary>The Auto-Deploy dashboard in Jenkins</summary>
 
@@ -40,8 +39,24 @@ This job is executed asynchronously during the `Release then trigger deploy` job
 
 </details>
 
-### Content Release vs. the Daily Deployment (Full-code Release)
+### Content Release vs. Full-code Release (daily deployment)
+As said previously, a Content Release uses the same Jenkins build job as the Full-Code Release. However, there is a key difference between the two, in form of a build parameter - the Content Release has the property `use_latest_release` set to true. The screenshot below shows what a Content Release initiated through manual execution of the Jenkins Auto-Deploy job may look like -
 
+<details><summary>Content Release manually executed through Jenkins</summary>
+
+The `use_latest_release` parameter being set to `true` is what defines this Auto-Deploy job as a Content Release.
+
+![Screenshot of the Auto-Deploy job with use_latest_release set to true](./images/jenkins-content-release.png)
+
+</details>
+
+This `use_latest_release` parameter indicates that rather than checking out the latest code in vets-website (master branch), the build job should check out the code behind the [latest vets-website release on GitHub](https://github.com/department-of-veterans-affairs/vets-website/releases).
+
+Also observe that the `prerelease_job` parameter is set (by default, and probably shouldn't ever be changed) to `builds/vets-website-content-vagovprod`, which refers to the Content Only Build.
+
+These parameters are passed to and processed throughout the [Auto-Deploy script](https://github.com/department-of-veterans-affairs/devops/blob/065333be3c199a75710ef4c98e589ef226d48d70/ansible/Jenkinsfiles/deploys/warn-release-deploy#L11). Together, the `use_latest_release` and `prerelease_job` parameters direct the Auto-Deploy to grab the commit SHA of the  latest _release_ (not the latest commit) in vets-website, then pass that commit SHA to the job for executing a Content Only Build.
+
+Tracing further, the [Content Only Build](https://github.com/department-of-veterans-affairs/devops/blob/c46c02e05728902c5a4109671a388d76fb98d2af/ansible/deployment/config/jenkins-vetsgov/seed_job.groovy#L1428) will execute the [`Jenkinsfile.content` in vets-website](https://github.com/department-of-veterans-affairs/vets-website/blob/master/Jenkinsfile.content#L22), which contains the logic for executing the vets-website static website generator. This will result in a new archive of the latest vets-website release rebuilt to contain the latest content from the CMS.
 
 ## Content build
 
