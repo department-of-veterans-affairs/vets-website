@@ -57,32 +57,8 @@ export const buildMarker = (type, values) => {
   return null;
 };
 
-export const clearSearchAreaCtrl = () => {
-  const searchAreaControlId = document.getElementById(
-    'search-area-control-container',
-  );
-
-  if (searchAreaControlId) {
-    searchAreaControlId.style.display = 'none';
-  }
-};
-
 export const resetMapElements = () => {
   clearLocationMarkers();
-  clearSearchAreaCtrl();
-};
-
-export const setSearchAreaPosition = () => {
-  const searchAreaContainer = document.getElementById(
-    'search-area-control-container',
-  );
-  document
-    .querySelector('.mapboxgl-control-container')
-    .appendChild(searchAreaContainer);
-  document
-    .querySelectorAll('.mapboxgl-ctrl-top-right')
-    // IE 11 doesn't support ChildNode.remove() and core-js doesn't polyfill DOM methods.
-    .forEach(el => el.parentNode.removeChild(el));
 };
 
 /**
