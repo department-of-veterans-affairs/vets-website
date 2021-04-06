@@ -29,7 +29,6 @@ node('vetsgov-general-purpose') {
         failFast: true,
 
         lint: {
-          throw "testing"
           dockerContainer.inside(commonStages.DOCKER_ARGS) {
             sh "cd /application && npm --no-color run lint"
           }
