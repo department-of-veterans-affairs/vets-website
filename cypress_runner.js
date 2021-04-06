@@ -1,4 +1,5 @@
 const cypress = require('cypress');
+const { writeFileSync } = require('fs');
 const yargs = require('yargs');
 const { merge } = require('mochawesome-merge');
 const reportGenerator = require('mochawesome-report-generator');
@@ -22,7 +23,8 @@ const argv = yargs
     spec: {
       alias: 's',
       describe: 'path to spec files',
-      default: 'src/applications/**/tests/**/*.cypress.spec.js?(x)',
+      default:
+        'src/applications/coronavirus-vaccination/tests/e2e/*.cypress.spec.js?(x)',
     },
   })
   .help().argv;
@@ -32,7 +34,19 @@ const reportFiles = `${reportDir}/*.json`;
 
 const generateReport = options => {
   return merge(options).then(report => {
-    // to-do: convert report to json and save it to file
+    try {
+      writeFileSync(
+        `${reportDir}/mochawesome.json`,
+        JSON.stringify(report, null, 2),
+        'utf8',
+      );
+    } catch (err) {
+      /* eslint-disable no-console */
+      console.error(err);
+      /* eslint-enable no-console */
+    }
+
+    // we can delete the following when we don't want to generate the html report
     reportGenerator.create(report, options);
   });
 };
