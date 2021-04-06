@@ -12,8 +12,14 @@ export const formatHours = hours => {
       : hours.toString().substring(1, 4),
   );
 
-  if (hour >= 0 && hour <= 24 && minutes >= 0 && minutes <= 60) {
-    const AMorPM = hour > 12 ? 'a.m.' : 'p.m.';
+  if (
+    hours.toString().length >= 3 &&
+    hour >= 0 &&
+    hour <= 24 &&
+    minutes >= 0 &&
+    minutes <= 60
+  ) {
+    const AMorPM = hour > 12 ? 'p.m.' : 'a.m.';
     hour %= 12;
     return `${hour}:${
       minutes === 0 ? `${minutes}${minutes}` : `${minutes}`
