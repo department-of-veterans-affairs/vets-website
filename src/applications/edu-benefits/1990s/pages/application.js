@@ -115,8 +115,8 @@ const uiSchema = {
       },
     },
     declineDirectDeposit: directDepositUiSchema.declineDirectDeposit,
-    'view:directDespositInfo': {
-      ...directDepositUiSchema['view:directDespositInfo'],
+    'view:directDepositInfo': {
+      ...directDepositUiSchema['view:directDepositInfo'],
       'ui:description': directDepositAlert,
     },
     'view:bankInfoHelpText': {
@@ -247,8 +247,8 @@ const schema = {
         declineDirectDeposit: {
           type: 'boolean',
         },
-        'view:directDespositInfo':
-          directDepositSchema.properties['view:directDespositInfo'],
+        'view:directDepositInfo':
+          directDepositSchema.properties['view:directDepositInfo'],
         'view:bankInfoHelpText':
           directDepositSchema.properties['view:bankInfoHelpText'],
       },
