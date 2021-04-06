@@ -10,7 +10,7 @@ const ContactBenefits = () => {
   useEffect(() => {
     recordEvent({
       event: 'howToWizard-alert-displayed',
-      'reason-for-alert': 'debt relateed to separation pay/attorney fees',
+      'reason-for-alert': 'debt related to separation pay/attorney fees',
     });
   }, []);
 
