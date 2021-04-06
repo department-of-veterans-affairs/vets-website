@@ -37,6 +37,7 @@ import {
   directToCorrectForm,
   DISABILITY_SHARED_CONFIG,
   isBDD,
+  isUploadingSTR,
   showSeparationLocation,
   getPageTitle,
   claimingNew,
@@ -78,6 +79,7 @@ import {
   physicalHealthChanges,
   prisonerOfWar,
   privateMedicalRecords,
+  privateMedicalRecordsAttachments,
   privateMedicalRecordsRelease,
   ptsd781aChangesIntro,
   ptsdWalkthroughChoice781,
@@ -91,6 +93,7 @@ import {
   separationPay,
   servedInCombatZone,
   serviceTreatmentRecords,
+  serviceTreatmentRecordsAttachments,
   socialBehaviorChanges,
   summaryOfDisabilities,
   summaryOfEvidence,
@@ -585,6 +588,13 @@ const formConfig = {
           uiSchema: serviceTreatmentRecords.uiSchema,
           schema: serviceTreatmentRecords.schema,
         },
+        serviceTreatmentRecordsAttachments: {
+          title: 'Service treatment records upload',
+          path: 'supporting-evidence/service-treatment-records-upload',
+          depends: formData => isUploadingSTR(formData),
+          uiSchema: serviceTreatmentRecordsAttachments.uiSchema,
+          schema: serviceTreatmentRecordsAttachments.schema,
+        },
         evidenceTypes: {
           title: 'Supporting evidence types',
           path: 'supporting-evidence/evidence-types',
@@ -593,7 +603,7 @@ const formConfig = {
           schema: evidenceTypes.schema,
         },
         evidenceTypesBDD: {
-          title: 'Supporting evidence types',
+          title: 'Supporting evidence types for BDD',
           path: 'supporting-evidence/evidence-types-bdd',
           depends: formData => isBDD(formData),
           uiSchema: evidenceTypesBDD.uiSchema,
@@ -612,6 +622,15 @@ const formConfig = {
           depends: hasPrivateEvidence,
           uiSchema: privateMedicalRecords.uiSchema,
           schema: privateMedicalRecords.schema,
+        },
+        privateMedicalRecordsAttachments: {
+          title: 'Private medical records',
+          path: 'supporting-evidence/private-medical-records-upload',
+          depends: formData =>
+            hasPrivateEvidence(formData) &&
+            !isNotUploadingPrivateMedical(formData),
+          uiSchema: privateMedicalRecordsAttachments.uiSchema,
+          schema: privateMedicalRecordsAttachments.schema,
         },
         privateMedicalRecordsRelease: {
           title: 'Private medical records',
