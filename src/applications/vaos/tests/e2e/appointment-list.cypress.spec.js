@@ -162,6 +162,22 @@ describe('VAOS appointment list refresh', () => {
         .contains('VA Video Connect at home');
       cy.axeCheckBestPractice();
     });
+
+    it('should allow for canceling of appointments', () => {
+      cy.get('[data-cy=appointment-list-item]')
+        .contains(/VA CLinic/i)
+        .parent()
+        .findByText(/Details/i)
+        .click();
+      cy.findByText(/Appointment detail/i).should('exist');
+      cy.findByText(/Cancel appointment/i).click();
+      cy.findByText(/Yes, cancel this appointment/i).click();
+      cy.get('.usa-alert-success').should('exist');
+      cy.findByText(/Continue/i).click();
+      cy.get('#cancelAppt').should('not.exist');
+      cy.get('.usa-alert-success').should('not.exist');
+      cy.get('.usa-alert-error').should('exist');
+    });
   });
 
   describe('upcoming appointments', () => {
