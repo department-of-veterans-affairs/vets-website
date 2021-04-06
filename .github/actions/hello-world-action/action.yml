@@ -1,19 +1,10 @@
-name: 'Hello World'
-description: 'Greet someone'
+name: 'Example'
+description: 'Receives file and generates output'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  file-path:  # id of input
+    description: "Path to test script"
     required: true
-    default: 'World'
+    default: 'test-file.js'
 outputs:
-  random-number:
-    description: "Random number"
-    value: ${{ steps.random-number-generator.outputs.random-id }}
-runs:
-  using: "composite"
-  steps:
-    - run: echo Hello ${{ inputs.who-to-greet }}.
-      shell: bash
-    - id: random-number-generator
-      run: echo "::set-output name=random-id::$(echo $RANDOM)"
-      shell: bash
+  results-file: # id of output
+    description: "Path to results file"
