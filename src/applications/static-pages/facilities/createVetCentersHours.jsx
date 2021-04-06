@@ -11,7 +11,7 @@ export default async function createVetCentersHours(store) {
     const { default: VetCenterHours } = await import('./vetCentersHours');
     ReactDOM.render(
       <Provider store={store}>
-        <VetCenterHours hoursMap={window.vetCenterHours} />
+        <VetCenterHours hours={window.vetCenterHours} />
       </Provider>,
       vetCentersHoursWidget,
     );
