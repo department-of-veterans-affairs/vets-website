@@ -71,9 +71,7 @@ const mapDispatchToProps = {
   setPreSubmit: setPreSubmitAction,
 };
 
-export default {
-  CustomComponent: connect(
-    null,
-    mapDispatchToProps,
-  )(PreSubmitNotice),
-};
+export default connect(
+  null,
+  mapDispatchToProps,
+)(PreSubmitNotice);
