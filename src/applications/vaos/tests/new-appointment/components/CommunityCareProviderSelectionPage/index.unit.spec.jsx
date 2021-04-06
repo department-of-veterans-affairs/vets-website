@@ -248,7 +248,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     );
   });
 
-  it('should display choose provider when remove provider clicked', async () => {
+  it.skip('should display choose provider when remove provider clicked', async () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, /Community Care/i);
