@@ -40,16 +40,19 @@ export const UnauthContent = () => (
     <p>
       <strong>All of these must be true. You:</strong>
     </p>
-    <li>
-      Are enrolled in VA health care, <strong>and</strong>
-    </li>
-    <li>
-      Are registered as a patient in a VA health facility, <strong>and</strong>
-    </li>
-    <li>
-      Have a refillable prescription from a VA doctor that you’ve filled at a VA
-      pharmacy and that’s being handled by the VA Mail Order Pharmacy
-    </li>
+    <ul>
+      <li>
+        Are enrolled in VA health care, <strong>and</strong>
+      </li>
+      <li>
+        Are registered as a patient in a VA health facility,{' '}
+        <strong>and</strong>
+      </li>
+      <li>
+        Have a refillable prescription from a VA doctor that you’ve filled at a
+        VA pharmacy and that’s being handled by the VA Mail Order Pharmacy
+      </li>
+    </ul>
     <a href="/health-care/how-to-apply">
       Find out how to apply for VA health care
     </a>
@@ -57,21 +60,25 @@ export const UnauthContent = () => (
     <p>
       <strong>And you must have one of these free accounts:</strong>
     </p>
-    <li>
-      A{' '}
-      <a href="https://www.myhealth.va.gov/mhv-portal-web/upgrade-account-to-premium#UpgradeToPremiumAccount">
-        Premium <strong>My HealtheVet</strong> account
-      </a>
-      , <strong>or</strong>
-    </li>
-    <li>
-      A Premium <strong>DS Logon</strong> account (used for eBenefits and
-      milConnect), <strong>or</strong>
-    </li>
-    <li>
-      A verified <strong>ID.me</strong> account that you can{' '}
-      <a href="https://api.id.me/en/registration/new">create here on VA.gov</a>
-    </li>
+    <ul>
+      <li>
+        A{' '}
+        <a href="https://www.myhealth.va.gov/mhv-portal-web/upgrade-account-to-premium#UpgradeToPremiumAccount">
+          Premium <strong>My HealtheVet</strong> account
+        </a>
+        , <strong>or</strong>
+      </li>
+      <li>
+        A Premium <strong>DS Logon</strong> account (used for eBenefits and
+        milConnect), <strong>or</strong>
+      </li>
+      <li>
+        A verified <strong>ID.me</strong> account that you can{' '}
+        <a href="https://api.id.me/en/registration/new">
+          create here on VA.gov
+        </a>
+      </li>
+    </ul>
 
     <h2>Once I’m signed in, how do I get started?</h2>
     <p>

@@ -1,30 +1,6 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
-export const directDepositDescription = () => {
-  return (
-    /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
-    <div tabIndex="0">
-      <p>
-        We make payments only through direct deposit, also called electronic
-        funds transfer (EFT). Please provide your direct deposit information
-        below. We’ll pay your housing stipend to this account.
-      </p>
-      <img
-        src="/img/direct-deposit-check-guide.png"
-        alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
-      />
-    </div>
-  );
-};
-
-const gaBankInfoHelpText = () => {
-  window.dataLayer.push({
-    event: 'edu-10203--form-help-text-clicked',
-    'help-text-label': 'What if I don’t have a bank account?',
-  });
-};
-
 export const directDepositAlert = () => (
   // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
   <div className="vads-u-padding-top--1p5" tabIndex="0">
@@ -36,10 +12,7 @@ export const directDepositAlert = () => (
 );
 
 export const bankInfoHelpText = (
-  <AdditionalInfo
-    triggerText="What if I don't have a bank account or don't want to use direct deposit?"
-    onClick={gaBankInfoHelpText}
-  >
+  <AdditionalInfo triggerText="What if I don't have a bank account or don't want to use direct deposit?">
     {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
     <div tabIndex="0">
       <p>
