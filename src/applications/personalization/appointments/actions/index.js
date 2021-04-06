@@ -69,6 +69,7 @@ function getStagingID(facilityID) {
   return facilityID;
 }
 
+// check for properties.meta.errors here, use src/platform/user/profile/utilities/index.js as a reference
 export function fetchConfirmedFutureAppointments() {
   return async dispatch => {
     dispatch({
@@ -90,11 +91,23 @@ export function fetchConfirmedFutureAppointments() {
         ccAppointments = MOCK_CC_APPOINTMENTS;
       } else {
         vaAppointments = await apiRequest(
-          `/vaos/v0/appointments?start_date=${startOfToday}&type=va`,
+          `/appointments?start_date=${startOfToday}&type=va`,
+          { apiVersion: 'vaos/v0' },
         );
         ccAppointments = await apiRequest(
-          `/vaos/v0/appointments?start_date=${startOfToday}&type=cc`,
+          `/appointments?start_date=${startOfToday}&type=cc`,
+          { apiVersion: 'vaos/v0' },
         );
+        if (
+          vaAppointments?.data?.meta?.errors?.length > 0 ||
+          ccAppointments?.data?.meta?.errors?.length > 0
+        ) {
+          dispatch({
+            type: FETCH_CONFIRMED_FUTURE_APPOINTMENTS_FAILED,
+            errors: [...vaAppointments?.errors, ...ccAppointments?.errors],
+          });
+          return;
+        }
       }
       const facilityIDs = uniq(
         vaAppointments.map(
@@ -109,9 +122,8 @@ export function fetchConfirmedFutureAppointments() {
         facilitiesResponse = MOCK_FACILITIES;
       } else {
         facilitiesResponse = await apiRequest(
-          `${environment.API_URL}/v1/facilities/va?ids=${facilityIDs.join(
-            ',',
-          )}`,
+          `/facilities/va?ids=${facilityIDs.join(',')}`,
+          { apiVersion: 'v1' },
         );
       }
 
@@ -127,8 +139,17 @@ export function fetchConfirmedFutureAppointments() {
     } catch (error) {
       dispatch({
         type: FETCH_CONFIRMED_FUTURE_APPOINTMENTS_FAILED,
+        errors: [
+          ...vaAppointments?.errors,
+          ...ccAppointments?.errors,
+          ...facilitiesResponse?.data?.errors,
+        ],
       });
     }
+
+    // const hasVAPartialError = vaAppointments.reduce(appointment, => {
+
+    // })
 
     const formattedVAAppointments = vaAppointments.reduce(
       (accumulator, appointment) => {

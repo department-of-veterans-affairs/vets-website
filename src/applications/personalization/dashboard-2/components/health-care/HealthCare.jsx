@@ -43,6 +43,7 @@ const HealthCare = ({
   dataLoadingDisabled = false,
   shouldShowLoadingIndicator,
   hasInboxError,
+  hasAppointmentsError,
 }) => {
   const nextAppointment = appointments?.[0];
   const start = new Date(nextAppointment?.startsAt);
@@ -108,7 +109,10 @@ const HealthCare = ({
       <div className={wrapperClasses}>
         {hasUpcomingAppointment && (
           /* Appointments */
-          <Appointments appointments={appointments} />
+          <Appointments
+            appointments={appointments}
+            hasError={hasAppointmentsError}
+          />
         )}
 
         <div className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1">
@@ -203,12 +207,14 @@ const mapStateToProps = state => {
     : false;
 
   const hasInboxError = selectFolder(state)?.errors?.length > 0;
+  const hasAppointmentsError = state.health?.appointments?.errors?.length > 0;
 
   return {
     appointments: state.health?.appointments?.data,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
     facilityNames,
     hasInboxError,
+    hasAppointmentsError,
     isCernerPatient: selectIsCernerPatient(state),
     shouldFetchMessages,
     shouldShowLoadingIndicator: fetchingAppointments || fetchingInbox,
