@@ -4,7 +4,7 @@ import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { connect } from 'react-redux';
-import PrivacyActStatement from '../components/PrivacyActStatement';
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -124,7 +124,11 @@ class IntroductionPage extends React.Component {
           style={{ paddingLeft: '0px' }}
           id="privacy_policy"
         >
-          <PrivacyActStatement />
+          <OMBInfo
+            resBurden={'xx'}
+            ombNumber="xxxx-xxxx"
+            expDate="xx/xx/xxxx"
+          />
         </div>
       </div>
     );
