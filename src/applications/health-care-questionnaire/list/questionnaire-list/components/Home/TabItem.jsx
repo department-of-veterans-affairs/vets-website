@@ -45,7 +45,7 @@ export default function TabItem(props) {
         isActive={() => isActive}
         onClick={() => {
           recordEvent({
-            event: 'questionnaire-nav-tab-click',
+            event: 'hcq-nav-tab-click',
             'tab-text': text,
           });
         }}

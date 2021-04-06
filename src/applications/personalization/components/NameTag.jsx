@@ -12,8 +12,9 @@ const NameTag = ({
   userFullName: { first, middle, last, suffix },
   latestBranchOfService,
   showBadgeImage,
-  totalDisabilityRating,
   showUpdatedNameTag,
+  totalDisabilityRating,
+  totalDisabilityRatingError,
 }) => {
   const fullName = [first, middle, last, suffix]
     .filter(name => !!name)
@@ -141,8 +142,9 @@ const NameTag = ({
             {showUpdatedNameTag &&
               totalDisabilityRating && (
                 <>
-                  <dt className="sr-only">total disability rating</dt>
+                  <dt className="sr-only">your disability rating</dt>
                   <dd className="vads-u-margin-top--0p5">
+                    Your disability rating:{' '}
                     <a
                       href="/disability/view-disability-rating/rating"
                       aria-label="view your disability rating"
@@ -152,13 +154,28 @@ const NameTag = ({
                       <i
                         aria-hidden="true"
                         role="img"
-                        className="fas fa-chevron-right vads-u-padding-left--0p5"
+                        className="fas fa-angle-double-right vads-u-padding-left--0p5"
                       />
                     </a>
                   </dd>
                 </>
               )}
           </dl>
+          {showUpdatedNameTag &&
+            totalDisabilityRatingError && (
+              <a
+                href="/disability/view-disability-rating/rating"
+                aria-label="view your disability rating"
+                className="vads-u-color--white font-weight--bold"
+              >
+                View disability rating{' '}
+                <i
+                  aria-hidden="true"
+                  role="img"
+                  className="fas fa-angle-double-right vads-u-padding-left--0p5"
+                />
+              </a>
+            )}
         </div>
       </div>
     </div>
@@ -198,6 +215,9 @@ NameTag.propTypes = {
     suffix: PropTypes.string,
   }).isRequired,
   latestBranchOfService: PropTypes.string.isRequired,
+  showUpdatedNameTag: PropTypes.bool,
+  totalDisabilityRating: PropTypes.number,
+  totalDisabilityRatingError: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(NameTag);

@@ -11,6 +11,7 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
 
     dataSets: [
+      'test-data-veteran-no-facilities',
       'test-data-veteran',
       'test-data-spouse',
       'test-data-caregiver',
@@ -34,10 +35,16 @@ const testConfig = createTestConfig(
         cy.fillPage();
       },
       'vaccine-location': () => {
-        cy.wait('@getFacilities');
-        cy.get('.errorable-radio-button > input')
-          .first()
-          .check();
+        cy.get('@testData').then(testData => {
+          if (testData.zipCode === '00000') {
+            cy.wait('@getFacilitiesError');
+          } else {
+            cy.wait('@getFacilities');
+            cy.get('.errorable-radio-button > input')
+              .first()
+              .check();
+          }
+        });
       },
       confirmation: () => {
         cy.get('h2').contains("We've received your information");
@@ -45,6 +52,19 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
+      cy.intercept('GET', '/covid_vaccine/v0/facilities/00000', {
+        statusCode: 422,
+        body: {
+          errors: [
+            {
+              title: 'Unprocessable Entity',
+              detail: 'Invalid ZIP Code',
+              code: '422',
+              status: '422',
+            },
+          ],
+        },
+      }).as('getFacilitiesError');
       cy.intercept('GET', '/covid_vaccine/v0/facilities/97214', {
         statusCode: 200,
         body: {

@@ -1,23 +1,8 @@
 import {
   privateRecordsChoiceHelp,
+  patientAcknowledgmentTitle,
   patientAcknowledgmentText,
 } from '../content/privateMedicalRecords';
-import { UploadDescription } from '../content/fileUploadDescriptions';
-import _ from 'platform/utilities/data';
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import { ancillaryFormUploadUi } from '../utils';
-import { DATA_PATHS } from '../constants';
-
-const { privateMedicalRecordAttachments } = fullSchema.properties;
-
-const fileUploadUi = ancillaryFormUploadUi(
-  'Upload your private medical records',
-  ' ',
-  {
-    attachmentId: '',
-    addAnotherLabel: 'Add another document',
-  },
-);
 
 export const uiSchema = {
   'ui:description':
@@ -37,45 +22,44 @@ export const uiSchema = {
           Y: 'Yes',
           N: 'No, please get my records from my doctor.',
         },
-        // Force ReviewFieldTemplate to wrap this component in a <dl>
-        useDlWrap: true,
+        widgetProps: {
+          N: {
+            'aria-describedby':
+              'root_view:patientAcknowledgement_view:acknowledgement',
+          },
+        },
       },
     },
     'view:privateRecordsChoiceHelp': {
       'ui:description': privateRecordsChoiceHelp,
     },
   },
-  privateMedicalRecordAttachments: {
-    ...fileUploadUi,
-    'ui:options': {
-      ...fileUploadUi['ui:options'],
-      expandUnder: 'view:uploadPrivateRecordsQualifier',
-      expandUnderCondition: data =>
-        _.get('view:hasPrivateRecordsToUpload', data, false),
-    },
-    'ui:description': UploadDescription,
-    'ui:required': data =>
-      _.get(DATA_PATHS.hasPrivateRecordsToUpload, data, false),
-  },
   'view:patientAcknowledgement': {
-    'ui:title': ' ',
-    'ui:help': patientAcknowledgmentText,
+    'ui:title': patientAcknowledgmentTitle,
     'ui:options': {
       expandUnder: 'view:uploadPrivateRecordsQualifier',
       expandUnderCondition: data =>
-        _.get('view:hasPrivateRecordsToUpload', data, true) === false,
-      showFieldLabel: true,
+        data?.['view:hasPrivateRecordsToUpload'] === false,
+      showFieldLabel: false,
+      // forceDivWrapper: true,
     },
     'view:acknowledgement': {
-      'ui:title': 'Patient Acknowledgment',
+      'ui:title': 'I acknowledge and authorize this release of information',
       'ui:options': {
         useDlWrap: true,
+      },
+    },
+    'view:helpText': {
+      'ui:title': ' ',
+      'ui:description': patientAcknowledgmentText,
+      'ui:options': {
+        forceDivWrapper: true,
       },
     },
     'ui:validations': [
       (errors, item) => {
         if (!item['view:acknowledgement']) {
-          errors.addError('You must accept the acknowledgement');
+          errors.addError('You must accept the acknowledgment');
         }
       },
     ],
@@ -102,7 +86,6 @@ export const schema = {
         },
       },
     },
-    privateMedicalRecordAttachments,
     // Note: this property is misspelled. Should be
     // `view:patientAcknowledgment` but isn't worth writing a migration for at
     // this time since it's only used on this page.
@@ -113,6 +96,10 @@ export const schema = {
         'view:acknowledgement': {
           type: 'boolean',
           default: true,
+        },
+        'view:helpText': {
+          type: 'object',
+          properties: {},
         },
       },
     },

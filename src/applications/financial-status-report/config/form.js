@@ -7,20 +7,17 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
 import PreSubmitSignature from '../components/PreSubmitSignature';
 import * as pages from '../pages';
-import { transform } from '../utils/transform';
+import submit from '../utils/submitForm';
 import SubmissionError from '../components/SubmissionError';
 import { WIZARD_STATUS } from '../wizard/constants';
-import { prefillTransformer } from '../utils/prefillTransformer';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submit: transform,
+  submit,
   submitUrl: `${environment.API_URL}/v0/financial_status_reports`,
   trackingPrefix: 'fsr-5655-',
   wizardStorageKey: WIZARD_STATUS,
-  verifyRequiredPrefill: true,
-  prefillTransformer,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: PreSubmitSignature,
@@ -98,13 +95,13 @@ const formConfig = {
             personalData: {
               address: {
                 countryName: 'United States',
-                addressLine1: '1234 W Nebraska St',
+                street: '1234 W Nebraska St',
                 city: 'Tampa',
                 stateCode: 'FL',
                 zipCode: '33614',
               },
               telephoneNumber: '5551234567',
-              primaryEmail: 'hector.smith@email.com',
+              emailAddress: 'hector.smith@email.com',
               confirmationEmail: '',
             },
           },

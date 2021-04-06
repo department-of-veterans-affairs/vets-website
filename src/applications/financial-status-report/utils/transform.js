@@ -42,8 +42,8 @@ export const transform = ({ data }) => {
           )
         : [],
       address: {
-        addresslineOne: personalData.address.addressLine1,
-        addresslineTwo: personalData.address.addressLine2,
+        addresslineOne: personalData.address.street,
+        addresslineTwo: personalData.address.street2,
         addresslineThree: '',
         city: personalData.address.city,
         stateOrProvince: personalData.address.stateCode,
@@ -131,8 +131,9 @@ export const transform = ({ data }) => {
     },
   };
 
-  // console.log('incoming data: ', data);
-  // console.log('transformed data: ', formObj);
+  const convertIntegerToString = (key, value) => {
+    return typeof value === 'number' ? value.toString() : value;
+  };
 
-  return Promise.resolve(JSON.stringify(formObj));
+  return JSON.stringify(formObj, convertIntegerToString);
 };

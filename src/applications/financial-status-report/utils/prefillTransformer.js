@@ -33,7 +33,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
       ...newData,
       personalData: {
         ...newData.personalData,
-        primaryEmail: emailAddress,
+        emailAddress,
       },
     };
   }

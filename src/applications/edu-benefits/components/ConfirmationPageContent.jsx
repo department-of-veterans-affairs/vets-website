@@ -36,6 +36,7 @@ export function ConfirmationPageContent({
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const response = submission.response ? submission.response.attributes : {};
+  const displayFormId = formId[0] === '2' ? `Form ${formId}` : formId;
 
   const claimList = () => {
     return [
@@ -67,7 +68,7 @@ export function ConfirmationPageContent({
           <h1 className="vads-u-font-size--h3 vads-u-margin-top--3">
             {printHeader}
           </h1>
-          <span>Form {formId}</span>
+          <span>{displayFormId}</span>
         </div>
         <h3 className="confirmation-page-title screen-only">
           We've received your application.
@@ -93,7 +94,7 @@ export function ConfirmationPageContent({
         <h4 className="vads-u-margin-top--0 confirmation-header">
           {formName}{' '}
           <span className="vads-u-margin--0 vads-u-display--inline-block">
-            (Form {formId})
+            ({displayFormId})
           </span>
         </h4>
         {name && (
