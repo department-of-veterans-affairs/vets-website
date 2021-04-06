@@ -104,7 +104,7 @@ export function fetchRequestLimits() {
       ).map(win => win.facilityId);
 
       const requestLimits = await getRequestLimits(
-        activeFacilityIds.slice(0, 5),
+        activeFacilityIds,
         EXPRESS_CARE,
       );
 

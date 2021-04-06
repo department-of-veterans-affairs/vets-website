@@ -207,7 +207,7 @@ export function getEligibilityChecks(eligibilityData) {
       requestPastVisitValue:
         eligibilityData.requestPastVisit?.durationInMonths || null,
       requestLimit: isUnderRequestLimit(eligibilityData),
-      requestLimitValue: eligibilityData.requestLimits?.requestLimit,
+      requestLimitValue: eligibilityData.requestLimits.requestLimit,
     };
   }
 

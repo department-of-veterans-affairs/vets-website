@@ -227,7 +227,7 @@ export default [
     path: /vaos\/v0\/facilities\/limits/,
     response: (url, { _groups }) => {
       const data = [];
-      if (url.includes('983'))
+      if (url.includes('983')) {
         data.push({
           id: '983',
           attributes: {
@@ -236,6 +236,16 @@ export default [
             institutionCode: '983',
           },
         });
+      } else if (url.includes('984')) {
+        data.push({
+          id: '9834',
+          attributes: {
+            numberOfRequests: 1,
+            requestLimit: 1,
+            institutionCode: '9834',
+          },
+        });
+      }
       return {
         data,
       };
