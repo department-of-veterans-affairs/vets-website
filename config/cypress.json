@@ -15,7 +15,6 @@
   },
   "reporter": "mochawesome",
   "reporterOptions": {
-      "reportDir": "cypress/report/mochawesome-report",
       "overwrite": false,
       "html": false,
       "json": true,
