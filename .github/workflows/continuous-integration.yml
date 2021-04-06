@@ -119,7 +119,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: ./.github/actions/checkout
+        uses: actions/checkout@v2
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
       - name: Cache dependencies
         id: cache-dependencies
@@ -137,3 +146,12 @@ jobs:
 
       - name: Fetch Drupal cache
         run: yarn fetch-drupal-cache
+
+  test-custom-action:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: A job to say hello
+        uses: ./.github/actions/hello-world-action
+        with:
+          who-to-greet: 'Mona the Octocat'
