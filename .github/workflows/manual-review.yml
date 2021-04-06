@@ -3,8 +3,7 @@ name: Manual Review
 on: [pull_request]
 
 env:
-  # BOT_NAME: github-actions[bot]
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  BOT_NAME: va-vfs-bot
   PR_NUMBER: ${{ github.event.number }}
 
 jobs:
@@ -23,6 +22,19 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get bot token from Parameter Store
+        uses: marvinpinto/action-inject-ssm-secrets@latest
+        with:
+          ssm_parameter: /devops/VA_VFS_BOT_GITHUB_TOKEN
+          env_variable_name: GITHUB_TOKEN
 
       - name: Cache dependencies
         id: cache-dependencies
@@ -70,6 +82,19 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get bot token from Parameter Store
+        uses: marvinpinto/action-inject-ssm-secrets@latest
+        with:
+          ssm_parameter: /devops/VA_VFS_BOT_GITHUB_TOKEN
+          env_variable_name: GITHUB_TOKEN
+
       - name: Cache dependencies
         id: cache-dependencies
         uses: actions/cache@v2
@@ -116,6 +141,19 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get bot token from Parameter Store
+        uses: marvinpinto/action-inject-ssm-secrets@latest
+        with:
+          ssm_parameter: /devops/VA_VFS_BOT_GITHUB_TOKEN
+          env_variable_name: GITHUB_TOKEN
 
       - name: Cache dependencies
         id: cache-dependencies
