@@ -56,4 +56,29 @@ describe('intro', () => {
       ).not.to.equal(null);
     });
   });
+
+  describe('metadata', () => {
+    let container;
+    const data = parseFixture(
+      'src/site/layouts/tests/landing_page/fixtures/landing_page_with_icon.json',
+    );
+
+    before(async () => {
+      container = await renderHTML(layoutPath, data);
+    });
+
+    it('has the correct URLs for the "canonical" field', async () => {
+      const canonical = container
+        .querySelector('link[rel="canonical"]')
+        .getAttribute('href');
+      expect(canonical).to.equal('https://dev.va.gov/records/');
+    });
+
+    it('has the correct URLs for the "og:url" field', async () => {
+      const ogUrl = container
+        .querySelector('meta[property="og:url"]')
+        .getAttribute('content');
+      expect(ogUrl).to.equal('https://dev.va.gov/records/');
+    });
+  });
 });
