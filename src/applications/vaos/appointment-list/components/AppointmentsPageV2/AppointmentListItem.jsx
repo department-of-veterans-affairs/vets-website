@@ -125,6 +125,7 @@ export default function AppointmentListItem({ appointment, facility }) {
           aria-label={`Details for ${
             canceled ? 'canceled ' : ''
           }appointment on ${appointmentDate.format('dddd, MMMM D h:mm a')}`}
+          tabindex="-1"
           to={isCommunityCare ? `cc/${appointment.id}` : `va/${appointment.id}`}
         >
           Details

@@ -40,6 +40,7 @@ export default function ExpressCareListItem({ appointment }) {
           }Express Care request on ${appointmentDate.format(
             'dddd, MMMM D YYYY',
           )}`}
+          tabindex="-1"
           to={`express-care/${appointment.id}`}
         >
           Details
