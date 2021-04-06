@@ -4,7 +4,6 @@ const yargs = require('yargs');
 const { merge } = require('mochawesome-merge');
 const reportGenerator = require('mochawesome-report-generator');
 const rm = require('rimraf');
-const cypressConfig = require('./config/cypress.json');
 const ls = require('ls');
 
 const argv = yargs
@@ -24,7 +23,7 @@ const argv = yargs
   })
   .help().argv;
 
-const reportDir = cypressConfig.reporterOptions.reportDir;
+const reportDir = 'cypress/report/mochawesome-report';
 const reportFiles = `${reportDir}/*.json`;
 
 const generateReport = options => {
