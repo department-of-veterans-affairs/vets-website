@@ -277,7 +277,7 @@ workflows:
       - contract-test
       # - drupal-cache-test
       # - security-audit
-      - build-e2e
+      # - build-e2e
       # - build:
       #     requires:
       #       - lint
