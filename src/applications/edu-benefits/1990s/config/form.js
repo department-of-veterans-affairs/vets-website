@@ -44,7 +44,7 @@ const formConfig = {
   },
   chapters: {
     form: {
-      title: 'Application',
+      title: 'VRRAP application',
       pages: {
         application,
       },
