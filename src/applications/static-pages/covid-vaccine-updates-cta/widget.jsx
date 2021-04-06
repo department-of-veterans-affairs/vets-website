@@ -17,7 +17,7 @@ const copy = {
       },
       nonVeteran: {
         boldedNote: `Not enrolled, but need a COVID-19 vaccine?`,
-        body: ` Sign up to tell us if you want to get a vaccine. If you’re a Veteran, spouse, caregiver, or CHAMPVA recipient, we'll contact you when we have a vaccine for you. At this time, we don't know when that will be.`,
+        body: ` Sign up to tell us if you want to get a vaccine at VA. If you’re a Veteran, spouse, caregiver, or CHAMPVA recipient, we'll contact you when we have a vaccine for you. At this time, we don't know when that will be.`,
       },
     },
     headline: 'Sign up to get a COVID-19 vaccine at VA',
