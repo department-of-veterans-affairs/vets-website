@@ -1,5 +1,3 @@
-// from https://medium.com/cypress-io-thailand/generate-a-beautiful-test-report-from-running-tests-on-cypress-io-371c00d7865a
-
 const cypress = require('cypress');
 const yargs = require('yargs');
 const { merge } = require('mochawesome-merge');
@@ -18,8 +16,8 @@ const argv = yargs
     browser: {
       alias: 'b',
       describe: 'the browser you want to run tests on',
-      default: 'chrome',
-      choices: ['chrome', 'electron'],
+      default: 'electron',
+      choices: ['chrome', 'chromium', 'edge', 'electron', 'firefox'],
     },
     spec: {
       alias: 's',
