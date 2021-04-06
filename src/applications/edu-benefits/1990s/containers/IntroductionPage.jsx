@@ -52,6 +52,7 @@ class IntroductionPage extends React.Component {
                   eligible for the Post-9/11 GI Bill, you've transferred all of
                   your benefits to family members),
                 </li>
+                <li>Not rated as totally disabled because you can't work,</li>
                 <li>Not enrolled in a federal or state jobs program,</li>
                 <li>
                   Not receiving unemployment benefits (including CARES Act
