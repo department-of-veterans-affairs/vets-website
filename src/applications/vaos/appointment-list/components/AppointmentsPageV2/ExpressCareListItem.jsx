@@ -32,18 +32,31 @@ export default function ExpressCareListItem({ appointment }) {
         <i aria-hidden="true" className="fas fa-phone vads-u-margin-right--1" />
         Express Care request
       </div>
-      <div>
+      {/* visible to medium screen and larger */}
+      <div className="vads-u-display--none medium-screen:vads-u-display--inline">
         <Link
-          aria-hidden="true"
+          aria-label={`Details for ${
+            canceled ? 'canceled ' : ''
+          }Express Care request on ${appointmentDate.format(
+            'dddd, MMMM D YYYY',
+          )}`}
           to={`express-care/${appointment.id}`}
-          className="vads-u-display--none medium-screen:vads-u-display--inline"
         >
           Details
         </Link>
+        <i
+          aria-hidden="true"
+          className="fas fa-chevron-right vads-u-margin-left--1"
+        />
+      </div>
+      {/* visible to small screen breakpoint */}
+      <div className="medium-screen:vads-u-display--none">
         <Link
           to={`express-care/${appointment.id}`}
           className="vaos-appts__card-link"
-          aria-label={`Details for Express Care request on ${appointmentDate.format(
+          aria-label={`Details for ${
+            canceled ? 'canceled ' : ''
+          }Express Care request on ${appointmentDate.format(
             'dddd, MMMM D YYYY',
           )}`}
         >

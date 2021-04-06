@@ -1,13 +1,13 @@
-<link rel="canonical" href="{{ hostUrl }}{{ entityUrl.path }}" />
+<link rel="canonical" href="{{ hostUrl }}{{ entityUrl.path }}/" />
 
 {% if changed %}
 <meta name="DC.Date" scheme="W3CDTF" content="{{ changed| dateFromUnix: 'YYYY-MM-DD' }}">
 {% endif %}
 
 {% if entityUrl.path %}
-<meta content="{{ hostUrl }}/{{ entityUrl.path }}" property="og:url">
+<meta content="{{ hostUrl }}{{ entityUrl.path }}/" property="og:url">
 {% else %}
-<meta content="{{ hostUrl }}" property="og:url">
+<meta content="{{ hostUrl }}/" property="og:url">
 {% endif %}
 
 <meta content="website" property="og:type">

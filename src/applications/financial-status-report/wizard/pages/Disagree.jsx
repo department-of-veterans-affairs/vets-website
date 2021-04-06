@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import recordEvent from 'platform/monitoring/record-event';
 import { PAGE_NAMES } from '../constants';
 
 const Disagree = () => {
+  useEffect(() => {
+    recordEvent({
+      event: 'howToWizard-alert-displayed',
+      'reason-for-alert':
+        'disagree with the VA decision that resulted in this debt',
+    });
+  }, []);
+
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
       <p className="vads-u-margin-top--0">
@@ -15,14 +24,34 @@ const Disagree = () => {
         board appeal.
       </p>
       <p className="vads-u-margin-top--1">
-        <a href="/decision-reviews/">Learn more about the VA appeals process</a>
+        <a
+          href="/decision-reviews/"
+          onClick={() => {
+            recordEvent({
+              event: 'howToWizard-alert-link-click',
+              'howToWizard-alert-link-click-label':
+                'Learn more about the VA appeals process',
+            });
+          }}
+        >
+          Learn more about the VA appeals process
+        </a>
       </p>
       <p className="vads-u-margin-bottom--0">
         <strong>If you need more help, </strong>
         call your VA benefit office.
       </p>
       <p className="vads-u-margin-top--1">
-        <a href="/resources/helpful-va-phone-numbers/">
+        <a
+          href="/resources/helpful-va-phone-numbers/"
+          onClick={() => {
+            recordEvent({
+              event: 'howToWizard-alert-link-click',
+              'howToWizard-alert-link-click-label':
+                'Find helpful VA phone numbers',
+            });
+          }}
+        >
           Find helpful VA phone numbers
         </a>
       </p>
@@ -38,7 +67,16 @@ const Disagree = () => {
         (VA Form 5655).
       </p>
       <p className="vads-u-margin-top--1">
-        <a href="https://www.va.gov/debtman/Financial_Status_Report.asp">
+        <a
+          href="https://www.va.gov/debtman/Financial_Status_Report.asp"
+          onClick={() => {
+            recordEvent({
+              event: 'howToWizard-alert-link-click',
+              'howToWizard-alert-link-click-label':
+                'Request help with VA Form 5655',
+            });
+          }}
+        >
           Request help with VA Form 5655
         </a>
       </p>

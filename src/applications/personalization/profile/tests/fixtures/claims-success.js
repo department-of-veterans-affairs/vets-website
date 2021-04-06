@@ -1,6 +1,6 @@
 import { daysAgo } from '../helpers';
 
-const claimsSuccess = () => {
+const claimsSuccess = (updatedDaysAgo = 1) => {
   return {
     data: [
       {
@@ -11,7 +11,7 @@ const claimsSuccess = () => {
           dateFiled: '2013-10-18',
           minEstDate: '2014-06-03',
           maxEstDate: '2014-06-08',
-          phaseChangeDate: daysAgo(1),
+          phaseChangeDate: daysAgo(updatedDaysAgo),
           open: true,
           waiverSubmitted: false,
           documentsNeeded: false,

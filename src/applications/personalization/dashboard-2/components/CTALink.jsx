@@ -11,7 +11,7 @@ const CTALink = ({ ariaLabel, href, text, onClick, newTab }) => {
       rel={relProp}
       target={targetProp}
       onClick={onClick || undefined}
-      className="vads-u-margin-top--2"
+      className="vads-u-margin-top--2 vads-u-display--inline-block"
     >
       {text}
       <i

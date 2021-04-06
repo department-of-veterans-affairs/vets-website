@@ -54,6 +54,7 @@ export default function CalendarRow({
   selectedDates,
   id,
   timezone,
+  showWeekends,
 }) {
   return (
     <div>
@@ -86,6 +87,7 @@ export default function CalendarRow({
             renderOptions={renderOptions}
             id={id}
             timezone={timezone}
+            showWeekends={showWeekends}
           />
         ))}
       </div>
