@@ -146,6 +146,7 @@ node('vetsgov-general-purpose') {
       }
 
       if (commonStages.IS_STAGING_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovstaging')) {
+        commonStages.runDeploy('deploys/application-build-vagovstaging', ref, false)
         commonStages.runDeploy('deploys/vets-website-vagovstaging', ref, false)
       }
 
