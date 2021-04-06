@@ -195,7 +195,10 @@ export function createPastVAAppointments() {
   };
 }
 
-export function mockFeatureToggles({ providerSelectionEnabled = false } = {}) {
+export function mockFeatureToggles({
+  providerSelectionEnabled = false,
+  homepageRefresh = false,
+} = {}) {
   cy.route({
     method: 'GET',
     url: '/v0/feature_toggles*',
@@ -242,6 +245,10 @@ export function mockFeatureToggles({ providerSelectionEnabled = false } = {}) {
           {
             name: 'vaOnlineSchedulingProviderSelection',
             value: providerSelectionEnabled,
+          },
+          {
+            name: 'vaOnlineSchedulingHomepageRefresh',
+            value: homepageRefresh,
           },
         ],
       },
