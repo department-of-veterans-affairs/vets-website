@@ -50,7 +50,7 @@ export const PrimaryCaregiverInfo = ({
 
     {additionalInfo && (
       <section className="vads-u-margin-y--2p5">
-        <AdditionalInfo triggerText="What&apos;s a Primary Family Caregiver?">
+        <AdditionalInfo triggerText="Learn more about who qualifies as a Primary Family Caregiver">
           <p>
             Family caregivers are approved and designated by VA as Primary
             Family Caregivers and Secondary Family Caregivers to provide
@@ -91,7 +91,7 @@ PrimaryCaregiverInfo.defaultProps = {
 
 export const SecondaryCaregiverLegal = () => (
   <div className="vads-u-margin-y--1p5">
-    <AdditionalInfo triggerText="What’s a Secondary Family Caregiver?">
+    <AdditionalInfo triggerText="Learn more about who qualifies as a Secondary Family Caregiver">
       <p>
         Family caregivers are approved and designated by VA as Primary Family
         Caregivers and Secondary Family Caregivers to provide personal care
@@ -194,7 +194,10 @@ export const PleaseSelectVAFacility = () => (
 export const AdditionalCaregiverInfo = () => (
   <>
     <strong>You can add up to 2 Secondary Family Caregivers.</strong>
-    <p>Would you like to add another Secondary Family Caregiver?</p>
+    <p>
+      Would you like to apply for benefits for another Secondary Family
+      Caregiver?
+    </p>
   </>
 );
 

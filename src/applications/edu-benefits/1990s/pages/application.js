@@ -48,7 +48,7 @@ const {
 });
 
 const path = 'form';
-const title = 'Application';
+const title = 'VRRAP application';
 const uiSchema = {
   'view:applicantInformation': {
     'ui:title': 'Applicant information',
