@@ -137,12 +137,6 @@ export function getRequestLimits(facilityIds, typeOfCareId) {
   return apiRequestWithMocks(url).then(parseApiList);
 }
 
-export function getRequestLimitss(facilityId, typeOfCareId) {
-  return apiRequestWithMocks(
-    `/vaos/v0/facilities/${facilityId}/limits?type_of_care_id=${typeOfCareId}`,
-  ).then(parseApiObject);
-}
-
 export function getAvailableClinics(facilityId, typeOfCareId, systemId) {
   return apiRequestWithMocks(
     `/vaos/v0/facilities/${facilityId}/clinics?type_of_care_id=${typeOfCareId}&system_id=${systemId}`,

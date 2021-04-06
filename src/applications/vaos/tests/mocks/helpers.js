@@ -469,21 +469,6 @@ export function mockEligibilityFetches({
     requestLimit: 1,
     numberOfRequests: limit ? 0 : 1,
   });
-  // setFetchJSONResponse(
-  //   global.fetch.withArgs(
-  //     `${
-  //       environment.API_URL
-  //     }/vaos/v0/facilities/limits?type_of_care_id=${typeOfCareId}&facility_ids[]=${facilityId}`,
-  //   ),
-  //   {
-  //     data: {
-  //       attributes: {
-  //         requestLimit: 1,
-  //         numberOfRequests: limit ? 0 : 1,
-  //       },
-  //     },
-  //   },
-  // );
 
   setFetchJSONResponse(
     global.fetch.withArgs(
@@ -795,40 +780,6 @@ export function mockFacilitiesPageFetches(
 
   return { requestFacilities, directFacilities, facilities };
 }
-
-/**
- * Mocks the api call used to check if a user is over the request limit for a facility
- * and type of care.
- *
- * @export
- * @param {Object} params
- * @param {string} params.facilityId The id of the facility to check for requests
- * @param {number} [params.requestLimit=1] The request limit to use for the facility
- * @param {number} [params.numberOfRequests=0] The request count to return from the mock. Set this at least equal
- *    to requestLimit to have this check fail
- */
-// export function mockRequestLimit({
-//   facilityId,
-//   requestLimit = 1,
-//   numberOfRequests = 0,
-// }) {
-//   setFetchJSONResponse(
-//     global.fetch.withArgs(
-//       `${
-//         environment.API_URL
-//       }/vaos/v0/facilities/${facilityId}/limits?type_of_care_id=CR1`,
-//     ),
-//     {
-//       data: {
-//         id: facilityId,
-//         attributes: {
-//           requestLimit,
-//           numberOfRequests,
-//         },
-//       },
-//     },
-//   );
-// }
 
 /**
  * Mocks the api call that sets or retrieves preferences in var-resources
