@@ -586,6 +586,12 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 }
 
+// Override design system default
+// because it will cause an axe failure
+.fl-disabled  {
+  background-color: $color-gray-medium !important;
+}
+
 .mapboxgl-ctrl-top-center {
   position: absolute;
   pointer-events: none;

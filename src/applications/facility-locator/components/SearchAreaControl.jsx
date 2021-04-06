@@ -10,6 +10,8 @@ const SearchAreaControl = ({
     ? 'mapboxgl-ctrl-bottom-center'
     : 'mapboxgl-ctrl-top-center';
 
+  const buttonClass = `usa-button${!isEnabled ? ' fl-disabled' : ''}`;
+
   const handleClick = e => {
     e.preventDefault();
     if (isEnabled) {
@@ -25,7 +27,7 @@ const SearchAreaControl = ({
     >
       <button
         id="search-area-control"
-        className="usa-button"
+        className={buttonClass}
         onClick={handleClick}
         disabled={!isEnabled}
       >
