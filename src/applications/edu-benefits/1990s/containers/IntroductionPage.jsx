@@ -116,8 +116,8 @@ class IntroductionPage extends React.Component {
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          startText="Start the education application"
-          unauthStartText="Sign in or create an account"
+          startText="Sign in to start your application"
+          unauthStartText="Sign in to start your application"
         />
         <div
           className="omb-info--container"
