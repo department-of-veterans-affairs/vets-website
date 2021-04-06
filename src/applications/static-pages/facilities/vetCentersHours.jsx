@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { formatHours } from '../../facility-locator/utils/formatHours';
 
 const VetCenterHours = props => {
+  if (props.hours.length === 0) return null;
+
   const arrayOfWeekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   const buildHours = hours => {
