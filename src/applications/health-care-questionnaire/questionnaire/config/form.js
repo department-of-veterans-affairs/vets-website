@@ -24,7 +24,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/health_quest/v0/questionnaire_responses`,
-  trackingPrefix: 'hcq',
+  trackingPrefix: 'hcq-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   downtime: {
