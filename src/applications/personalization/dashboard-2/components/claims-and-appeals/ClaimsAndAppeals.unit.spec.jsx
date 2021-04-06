@@ -350,13 +350,13 @@ describe('ClaimsAndAppeals component', () => {
             },
           );
         });
-        it('shows the correct number of open claims on the CTA', () => {
+        it('shows the CTA', () => {
           expect(view.queryByRole('progressbar')).to.not.exist;
           expect(view.getByRole('heading', { name: /^claims & appeals$/i })).to
             .exist;
           expect(
             view.getByRole('link', {
-              name: /3 claims or appeals in progress/i,
+              name: /manage all your claims and appeals/i,
             }),
           ).to.exist;
         });
@@ -401,13 +401,13 @@ describe('ClaimsAndAppeals component', () => {
             },
           );
         });
-        it('shows the correct number of open claims and appeals on the CTA', () => {
+        it('shows the CTA', () => {
           expect(view.queryByRole('progressbar')).to.not.exist;
           expect(view.getByRole('heading', { name: /^claims & appeals$/i })).to
             .exist;
           expect(
             view.getByRole('link', {
-              name: /2 claims or appeals in progress/i,
+              name: /manage all your claims and appeals/i,
             }),
           ).to.exist;
         });
@@ -452,13 +452,13 @@ describe('ClaimsAndAppeals component', () => {
             },
           );
         });
-        it('shows the correct number of open claims on the CTA', () => {
+        it('shows the CTA', () => {
           expect(view.queryByRole('progressbar')).to.not.exist;
           expect(view.getByRole('heading', { name: /^claims & appeals$/i })).to
             .exist;
           expect(
             view.getByRole('link', {
-              name: /3 claims or appeals in progress/i,
+              name: /manage all your claims and appeals/i,
             }),
           ).to.exist;
         });
@@ -501,7 +501,7 @@ describe('ClaimsAndAppeals component', () => {
             },
           );
         });
-        it('shows the correct text on the CTA', () => {
+        it('shows the CTA', () => {
           expect(
             view.getByRole('link', {
               name: /manage all your claims and appeals/i,
@@ -540,12 +540,12 @@ describe('ClaimsAndAppeals component', () => {
             },
           );
         });
-        it('shows the correct number of open claims on the CTA', () => {
+        it('shows the CTA', () => {
           expect(view.getByRole('heading', { name: /^claims & appeals$/i })).to
             .exist;
           expect(
             view.getByRole('link', {
-              name: /1 claim or appeal in progress/i,
+              name: /manage all your claims and appeals/i,
             }),
           ).to.exist;
         });
