@@ -152,6 +152,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: A job to say hello
-        uses: ./.github/actions/hello-world-action
+        uses: .github/actions/hello-world-action
         with:
           who-to-greet: 'Mona the Octocat'
