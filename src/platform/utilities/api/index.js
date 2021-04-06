@@ -93,9 +93,6 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
         Sentry.captureMessage(`vets_client_error: ${err.message}`);
       });
 
-      Sentry.captureException('Testing');
-      console.log('Testing'); // eslint-disable-line no-console
-
       return Promise.reject(err);
     })
     .then(response => {
