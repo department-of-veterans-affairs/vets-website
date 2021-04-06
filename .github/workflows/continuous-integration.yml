@@ -119,7 +119,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: ./.github.actions/checkout
+        uses: ./.github/actions/checkout
 
       - name: Cache dependencies
         id: cache-dependencies
