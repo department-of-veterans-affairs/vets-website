@@ -5,7 +5,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import manifest from '../manifest.json';
 import fullSchema from 'vets-json-schema/dist/VRRAP-schema.json';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import preSubmitInfo from '../pages/preSubmitInfo';
 import * as application from '../pages/application';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { transform } from '../submit-transformer';
