@@ -22,7 +22,7 @@ node('vetsgov-general-purpose') {
   dockerContainer = commonStages.setup()
 
   stage('Lint|Security|Unit') {
-    { return } // temporarily skipping; TODO: Delete this line
+    if (true) { return } // temporarily skipping; TODO: Delete this line
     if (params.cmsEnvBuildOverride != 'none') { return }
 
     try {
