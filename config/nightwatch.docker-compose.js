@@ -18,7 +18,13 @@ module.exports = {
   live_output: true,
   parallel_process_delay: 10,
   disable_colors: process.env.BUILDTYPE === 'production',
-  test_workers: false,
+
+  // TODO: Experiment with `test_workers: "auto"` and `test_workers: 4`
+  // If set to true, runs the tests in parallel and determines the number of workers automatically.
+  // If set to an object, can specify specify the number of workers as "auto" or a number.
+  // Source: https://nightwatchjs.org/gettingstarted/configuration/#test-runner-settings
+  test_workers: true,
+
   test_settings: {
     default: {
       launch_url: `vets-website:${process.env.WEB_PORT || 3333}`,
