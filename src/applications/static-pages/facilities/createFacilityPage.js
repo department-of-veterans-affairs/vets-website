@@ -22,8 +22,7 @@ export default async function createFacilityPage(store) {
     facilityID = JSON.parse(detailWidget.dataset.facility);
   }
   if (mapWidget && !facilityID) {
-    facilityID =
-      mapWidget.dataset.facility || JSON.parse(mapWidget.dataset.facility);
+    facilityID = mapWidget.dataset.facility;
   }
   if (scoreWidget && !facilityID) {
     facilityID = JSON.parse(scoreWidget.dataset.facility);
