@@ -38,7 +38,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for education benefits.',
   },
-  title: 'Apply for the Veteran Rapid Retraining Assistance Program',
+  title: 'Apply for the Veteran Rapid Retraining Assistance Program (VRRAP)',
   defaultDefinitions: {
     ...fullSchema.definitions,
   },
