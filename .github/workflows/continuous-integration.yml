@@ -109,7 +109,7 @@ jobs:
           checks: '[
               {
                 "name": "lint",
-                "fileName": ".eslint-report.json"
+                "fileName": "eslint-report.json"
               }
             ]'
 
