@@ -9,6 +9,7 @@ import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import * as application from '../pages/application';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { transform } from '../submit-transformer';
+import { prefillTransformer } from '../prefill-transformer';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -33,6 +34,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:
