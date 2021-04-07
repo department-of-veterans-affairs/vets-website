@@ -214,7 +214,7 @@ const GetVetCenterLocations = `
   query GetVetCenterLocations($onlyPublishedContent: Boolean!) {
     nodeQuery(limit: 1000, filter: {
       conditions: [
-        { field: "status", value: ["1"], enabled: $onlyPublishedContent },      
+        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
         { field: "type", value: ["vet_center_locations_list"] }
       ]
     }) {
