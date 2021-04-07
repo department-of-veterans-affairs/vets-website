@@ -17,8 +17,7 @@ const argv = yargs
     spec: {
       alias: 's',
       describe: 'path to spec files',
-      default:
-        'src/applications/coronavirus-vaccination/tests/e2e/*.cypress.spec.js?(x)',
+      default: 'src/applications/**/tests/**/*.cypress.spec.js?(x)',
     },
   })
   .help().argv;
@@ -69,9 +68,9 @@ cypress
     browser: argv.browser,
     spec: argv.spec,
   })
-  .then(results => {
+  .then(() => {
     const reporterOptions = {
-      files: [`${results.config.reporterOptions.reportDir}/*.json`],
+      files: [`${reportDir}/*.json`],
     };
 
     generateReport(reporterOptions);
