@@ -1,3 +1,5 @@
+const contentStatus = process.env.UNPUBLISHED_CONTENT ? '"0"' : '"1"';
+
 const vetCenterFragment = `
  fragment vetCenterFragment on NodeVetCenter {
         entityId
@@ -89,7 +91,7 @@ const GetVetCenters = `
   query GetVetCenters($onlyPublishedContent: Boolean!) {
     nodeQuery(limit: 1000, filter: {
       conditions: [
-        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+        { field: "status", value: [${contentStatus}], enabled: $onlyPublishedContent },
         { field: "type", value: ["vet_center"] }
       ]
     }) {
