@@ -11,7 +11,7 @@ Cypress.Commands.add('verifySearchArea', () => {
   );
 
   // Verify search are button present
-  cy.get('#search-area-control').should('exist');
+  cy.get('#search-area-control').contains('Search this area of the map');
 
   // Zoom out
   [...Array(13)].forEach(_ =>
@@ -22,8 +22,8 @@ Cypress.Commands.add('verifySearchArea', () => {
       .wait(clickInterval),
   );
 
-  // Verify search are button not.be.visible
-  cy.get('#search-area-control').should('not.be.visible');
+  // Verify search area button text changed
+  cy.get('#search-area-control').contains('Zoom in to search');
 
   // Zoom in again
   [...Array(12)].forEach(_ =>
@@ -34,8 +34,8 @@ Cypress.Commands.add('verifySearchArea', () => {
       .wait(clickInterval),
   );
 
-  // Verify search are button be.visible and click
-  cy.get('#search-area-control').should('be.visible');
+  // Verify search area button text changed back
+  cy.get('#search-area-control').contains('Search this area of the map');
   cy.get('#search-area-control').click();
 
   // Move from area
