@@ -167,14 +167,16 @@
 
             <!-- Call to action -->
             {% if fieldClpVideoPanelMoreVideo %}
-              <a
-                class="va-action-link--blue vads-u-margin-top--4"
-                href="{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLink.url.path }}"
-                onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Video', 'clp-section-title': '{{ fieldClpVideoPanelHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel | escape }}' });"
-              >
-                {{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel }}
-                <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
-              </a>
+              <p>
+                <a
+                  class="va-action-link--blue"
+                  href="{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLink.url.path }}"
+                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Video', 'clp-section-title': '{{ fieldClpVideoPanelHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel | escape }}' });"
+                >
+                  {{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel }}
+                  <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
+                </a>
+              </p>
             {% endif %}
           </div>
         </div>
