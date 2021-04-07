@@ -7,6 +7,8 @@
     - MegaMenu JSON (in-page and .json file)
     - Find Forms + Form Detail pages
     - Resources
+    - React sidebars
+    - Homepage banner
 
 ## Summary of the Content Release process
 A _Content Release_ describes the entire process behind refreshing content on the website to reflect the content as stored in the CMS. The process begins after a CMS editor manually initiates it through a control in the CMS, when an engineer initiates it through a specific Jenkins job, or after being initiated automatically by a scheduled job. The process is complete once content on the website is visibly up-to-date with that in the CMS.
@@ -58,6 +60,11 @@ These parameters are passed to and processed throughout the [Auto-Deploy script]
 
 Tracing further, the [Content Only Build](https://github.com/department-of-veterans-affairs/devops/blob/c46c02e05728902c5a4109671a388d76fb98d2af/ansible/deployment/config/jenkins-vetsgov/seed_job.groovy#L1428) will execute the [`Jenkinsfile.content` in vets-website](https://github.com/department-of-veterans-affairs/vets-website/blob/master/Jenkinsfile.content#L22), which contains the logic for executing the vets-website static website generator. This will result in a new archive of the latest vets-website release rebuilt to contain the latest content from the CMS.
 
-## Content build
+## Understanding the Content Build
+The _Content Build_ refers to a specific process in the front-end repo that executes the vets-website static site generator. The _Content Build_ is usually summarized as a task to generate everything on the website that isn't a standalone React app.
+
+The tool behind the static website generator is [Metalsmith](https://metalsmith.io/). In general, Metalsmith is a simple library that accepts a local directory of content as an input (in the case of vets-website, the original input is a sibling GitHub repository named vagov-content, which contains Markdown file), processes that original input throughout some steps known as "plugins", and then outputs the resultant directory of static HTML and other assets to the file system.
+
+The Metalsmith API for creating plugins is very simple and flexible - vets-website has _many_. In the entry point for executing Metalsmith in vets-website (usually referred to as the [build script](https://github.com/department-of-veterans-affairs/vets-website/blob/de246dc9f70078c08017edec297910fa3b50247c/src/site/stages/build/index.js)), observe that each plugin is registered using the `metalsmith.use` function.
 
 ## Content data used beyond templating
