@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 import ViewAndPrint from './ViewAndPrint';
 import PrintErrorMessage from './PrintErrorMessage';
+import recordEvent from 'platform/monitoring/record-event';
+import { TRACKING_PREFIX } from '../../constants/analytics';
 
 export default function PrintButton({
   displayArrow = true,
@@ -11,6 +13,9 @@ export default function PrintButton({
 }) {
   const [isError, setIsError] = useState(false);
   const handleClick = () => {
+    recordEvent({
+      event: `${TRACKING_PREFIX}pdf-printed`,
+    });
     setIsError(true);
   };
   if (isError) {
