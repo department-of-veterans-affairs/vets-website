@@ -224,6 +224,34 @@ export default [
     },
   },
   {
+    path: /vaos\/v0\/facilities\/limits/,
+    response: (url, { _groups }) => {
+      const data = [];
+      if (url.includes('983')) {
+        data.push({
+          id: '983',
+          attributes: {
+            numberOfRequests: 0,
+            requestLimit: 1,
+            institutionCode: '983',
+          },
+        });
+      } else if (url.includes('984')) {
+        data.push({
+          id: '984',
+          attributes: {
+            numberOfRequests: 1,
+            requestLimit: 1,
+            institutionCode: '984',
+          },
+        });
+      }
+      return {
+        data,
+      };
+    },
+  },
+  {
     path: /vaos\/v0\/facilities\/(.*)\/limits/,
     response: (url, { groups }) => {
       const facilityId = groups[0];
@@ -238,6 +266,7 @@ export default [
       };
     },
   },
+
   {
     path: /vaos\/v0\/facilities\/.*\/clinics/,
     response: url => {
