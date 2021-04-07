@@ -12,7 +12,7 @@ export const uiSchema = {
   'ui:title': 'Your spouse information',
   additionalIncome: {
     spouse: {
-      additionalIncomeRecords: {
+      spouseAdditionalIncomeRecords: {
         'ui:field': ItemLoop,
         'ui:description':
           'Tell us how much you get each month for each type of income.',
@@ -55,7 +55,7 @@ export const schema = {
         spouse: {
           type: 'object',
           properties: {
-            additionalIncomeRecords: {
+            spouseAdditionalIncomeRecords: {
               type: 'array',
               items: {
                 type: 'object',
