@@ -5,6 +5,7 @@ import Scroll from 'react-scroll';
 import { focusElement } from 'platform/utilities/ui';
 
 import { ConfirmationPageContent } from '../../components/ConfirmationPageContent';
+import moment from 'moment';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -23,6 +24,20 @@ export class ConfirmationPage extends React.Component {
   render() {
     const form = this.props.form;
     const { submission } = form;
+    const response = submission.response ? submission.response.attributes : {};
+
+    const claimInfoListItems = [
+      <li key={'confirmation-number'}>
+        <strong>Confirmation number</strong>
+        <br />
+        <span>{response.confirmationNumber}</span>
+      </li>,
+      <li key={'date-received'}>
+        <strong>Date received</strong>
+        <br />
+        <span>{moment(submission.submittedAt).format('MMM D, YYYY')}</span>
+      </li>,
+    ];
 
     return (
       <ConfirmationPageContent
@@ -31,6 +46,8 @@ export class ConfirmationPage extends React.Component {
         printHeader="Apply for the Veteran Rapid Retraining Assistance Program"
         formName="Veteran Rapid Retraining Assistance Program"
         name={form.data['view:applicantInformation'].veteranFullName}
+        displayDefaultClaimList={false}
+        claimInfoListItems={claimInfoListItems}
       />
     );
   }
