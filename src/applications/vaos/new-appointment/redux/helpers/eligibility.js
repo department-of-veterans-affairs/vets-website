@@ -104,12 +104,15 @@ export async function getEligibilityData(
     isDirectScheduleEnabled;
 
   const eligibilityChecks = {
-    requestLimits: getRequestLimits(facilityId, typeOfCareId).catch(
-      createErrorHandler(
-        'request',
-        'request-exceeded-outstanding-requests-error',
+    // Now returns an array!!!
+    requestLimits: getRequestLimits(facilityId, typeOfCareId)
+      .then(resp => resp[0])
+      .catch(
+        createErrorHandler(
+          'request',
+          'request-exceeded-outstanding-requests-error',
+        ),
       ),
-    ),
   };
 
   if (typeOfCareId !== PRIMARY_CARE) {
