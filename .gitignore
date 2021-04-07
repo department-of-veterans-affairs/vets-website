@@ -6,6 +6,7 @@ tmp/
 out/
 src/applications/vaos/docs/
 src/site/tests/html/
+mochawesome-report/
 
 # Files to ignore
 ._*
