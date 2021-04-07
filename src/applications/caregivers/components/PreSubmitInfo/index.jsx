@@ -78,60 +78,35 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
     [unSignedLength],
   );
 
+  const removePartyIfFalsy = (predicate, label) => {
+    if (!predicate) {
+      setSignatures(prevState => {
+        const newState = cloneDeep(prevState);
+        delete newState[label];
+        return newState;
+      });
+    }
+  };
+
   /* Remove party signature box if yes/no question is answered falsy */
   useEffect(
     () => {
-      if (!hasPrimary) {
-        setSignatures(prevState => {
-          const newState = cloneDeep(prevState);
-          delete newState[primaryLabel];
-          return newState;
-        });
-      }
-
-      if (!hasSecondaryOne) {
-        setSignatures(prevState => {
-          const newState = cloneDeep(prevState);
-          delete newState[secondaryOneLabel];
-          return newState;
-        });
-      }
-
-      if (!hasSecondaryTwo) {
-        setSignatures(prevState => {
-          const newState = cloneDeep(prevState);
-          delete newState[secondaryTwoLabel];
-          return newState;
-        });
-      }
-
-      if (!showRepresentativeSignatureBox) {
-        setSignatures(prevState => {
-          const newState = cloneDeep(prevState);
-          delete newState[representativeLabel];
-          return newState;
-        });
-      }
-
-      if (showRepresentativeSignatureBox) {
-        setSignatures(prevState => {
-          const newState = cloneDeep(prevState);
-          delete newState[veteranLabel];
-          return newState;
-        });
-      }
+      removePartyIfFalsy(hasPrimary, primaryLabel);
+      removePartyIfFalsy(hasSecondaryOne, secondaryOneLabel);
+      removePartyIfFalsy(hasSecondaryTwo, secondaryTwoLabel);
+      removePartyIfFalsy(showRepresentativeSignatureBox, representativeLabel);
+      removePartyIfFalsy(!showRepresentativeSignatureBox, veteranLabel);
     },
-
     [
+      veteranLabel,
+      primaryLabel,
+      secondaryOneLabel,
+      secondaryTwoLabel,
+      representativeLabel,
       hasPrimary,
       hasSecondaryOne,
       hasSecondaryTwo,
-      secondaryOneLabel,
-      secondaryTwoLabel,
-      primaryLabel,
       showRepresentativeSignatureBox,
-      representativeLabel,
-      veteranLabel,
     ],
   );
 
