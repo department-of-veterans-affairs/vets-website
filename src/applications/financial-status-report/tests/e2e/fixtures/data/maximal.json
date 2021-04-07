@@ -134,7 +134,7 @@
           "from": "2018-01-XX",
           "employerName": "Spouse Employer",
           "monthlyGrossSalary": 4500,
-          "deductions": [
+          "spouseDeductions": [
             {
               "name": "State tax",
               "amount": 200
@@ -202,7 +202,7 @@
   },
   "additionalIncome": {
     "spouse": {
-      "additionalIncomeRecords": [
+      "spouseAdditionalIncomeRecords": [
         {
           "name": "Rental property income",
           "amount": 1100
