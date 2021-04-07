@@ -83,7 +83,7 @@ jobs:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Run ESLint
-        run: yarn run eslint --ext .js --ext .jsx --output-file eslint-report.json --format json src .
+        run: yarn run eslint --ext .js --ext .jsx --output-file eslint-report.json --format json .
 
       - name: Annotate linting results
         if: ${{ always() }}
@@ -92,8 +92,8 @@ jobs:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           report-json: "eslint-report.json"
 
-      - name: Run Sass linter
-        run: yarn lint:sass
+      # - name: Run Sass linter
+      #   run: yarn lint:sass
 
   security-audit:
     name: Security Audit
