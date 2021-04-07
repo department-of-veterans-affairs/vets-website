@@ -84,22 +84,33 @@ jobs:
 
       - name: Run ESLint
         run: yarn run eslint --ext .js --ext .jsx --output-file eslint-report.json --format json .
-        continue-on-error: false
 
-      - name: Annotate linting results
-        uses: ataylorme/eslint-annotate-action@1.1.2
-        with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          report-json: "eslint-report.json"
+      # - name: Annotate linting results
+      #   if: ${{ always() }}
+      #   uses: ataylorme/eslint-annotate-action@1.1.2
+      #   with:
+      #     repo-token: "${{ secrets.GITHUB_TOKEN }}"
+      #     report-json: "eslint-report.json"
 
-      - name: Upload ESLint report
-        uses: actions/upload-artifact@v1
-        with:
-          name: eslint-report.json
-          path: eslint-report.json
+      # - name: Upload ESLint report
+      #   uses: actions/upload-artifact@v1
+      #   with:
+      #     name: eslint-report.json
+      #     path: eslint-report.json
 
       # - name: Run Sass linter
       #   run: yarn lint:sass
+
+      - name: Annotate Checks
+        uses: agyemanjp/ci-checks-action@2.0.3
+        with:
+          ghToken: ${{ secrets.GITHUB_TOKEN }}
+          checks: '[
+              {
+                "name": "lint",
+                "fileName": ".eslint-report.json"
+              }
+            ]'
 
   security-audit:
     name: Security Audit
