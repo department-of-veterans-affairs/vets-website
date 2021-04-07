@@ -157,12 +157,12 @@ jobs:
         id: step0
         uses: ./.github/actions/composite
 
-      - name: "Check action output"
-        if: steps.step0.outputs.output != 'output string'
-        run: echo "expected output to be 'output string' but it wasn't"
+      # - name: "Check action output"
+      #   if: steps.step0.outputs.output != 'output string'
+      #   run: echo "expected output to be 'output string' but it wasn't"
 
-      - name: "I should echo 'Test string'"
-        id: step1
-        uses: ./.github/actions/composite
-        with:
-          input: 'Test string'
+      # - name: "I should echo 'Test string'"
+      #   id: step1
+      #   uses: ./.github/actions/composite
+      #   with:
+      #     input: 'Test string'
