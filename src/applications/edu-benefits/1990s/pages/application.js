@@ -168,7 +168,7 @@ const uiSchema = {
     },
   },
   'view:confirmEligibility': {
-    'ui:title': "Confirm you're eligibile for VRRAP",
+    'ui:title': "Confirm you're eligible for VRRAP",
     'ui:description': confirmEligibilityDescription,
     vrrapConfirmation: {
       'ui:title':

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 // platform - form-system actions
 import { setPreSubmit as setPreSubmitAction } from 'platform/forms-system/src/js/actions';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 
 function PreSubmitNotice({
   formData,
@@ -12,7 +13,7 @@ function PreSubmitNotice({
   setPreSubmit,
 }) {
   const privacyAgreementAccepted = formData.privacyAgreementAccepted || false;
-  // const vrrapConfirmation = formData.vrrapConfirmation;
+  const vrrapConfirmation = formData.vrrapConfirmation;
 
   // when there is no unsigned signatures set AGREED (onSectionComplete) to true
   // if goes to another page (unmount), set AGREED (onSectionComplete) to false
@@ -64,7 +65,64 @@ function PreSubmitNotice({
       />
     </div>
   );
-  return <>{privacyAgreement}</>;
+
+  const confirmEligibilityNote = (
+    <div className="schemaform-field-container schemaform-block">
+      <div className="schemaform-block-header">
+        <legend
+          className="schemaform-block-title schemaform-block-subtitle"
+          id="confirmEligibility_title"
+        >
+          Confirm you're eligible for VRRAP
+        </legend>
+        <div>
+          <p>
+            To be eligible for VRRAP, the 3 following statements must be true:
+          </p>
+          <ul>
+            <li>
+              As of the date of this application, you are currently unemployed
+              due to the COVID-19 pandemic.
+            </li>
+            <li>
+              You are not currently enrolled in a Federal or State jobs program,
+              nor do you expect to be enrolled in such a program while training
+              until VRRAP.
+            </li>
+            <li>
+              You will not receive unemployment compensation, including any cash
+              benefit received pursuant to the CARES Act, while training under
+              VRRAP.
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <RadioButtons
+          name={'confirmEligibility_options'}
+          label={
+            'I attest the statements above are true and accurate to the best of my knowledge and belief.'
+          }
+          id={'confirmEligibility_options'}
+          options={[
+            { label: 'Yes', value: true },
+            { label: 'No', value: false },
+          ]}
+          onValueChange={({ value }) =>
+            setPreSubmit('vrrapConfirmation', value === 'true')
+          }
+          value={{ value: vrrapConfirmation }}
+        />
+      </div>
+    </div>
+  );
+
+  return (
+    <>
+      {confirmEligibilityNote}
+      {privacyAgreement}
+    </>
+  );
 }
 
 const mapDispatchToProps = {
