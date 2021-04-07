@@ -28,17 +28,17 @@ module.exports = function(results) {
     },
   );
 
+  let lines;
   if (summary.errors.length > 0 || summary.warnings.length > 0) {
-    const lines = summary.errors
+    lines = summary.errors
+      .concat(summary.warnings)
       .map(function(msg) {
         return `\n ::${
           msg.type
         } file=${msg.filePath},line=${msg.line},col=${msg.column}::${msg.message}`;
       })
       .join('\n');
-
-    return `${lines} \n`;
   }
 
-  return null;
+  return `${lines} \n`;
 };
