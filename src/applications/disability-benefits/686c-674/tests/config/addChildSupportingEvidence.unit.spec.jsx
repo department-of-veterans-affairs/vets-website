@@ -9,7 +9,7 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 
 import formConfig from '../../config/form';
 
-describe('686 upload additional evidence for spouse', () => {
+describe('686 upload additional evidence for child', () => {
   const {
     schema,
     uiSchema,
@@ -42,7 +42,7 @@ describe('686 upload additional evidence for spouse', () => {
     form.unmount();
   });
 
-  it('should submit an empty form', () => {
+  it('should not submit an empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <Provider store={uploadStore}>

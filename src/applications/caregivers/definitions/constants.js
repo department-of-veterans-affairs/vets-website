@@ -16,10 +16,6 @@ export const veteranFields = {
   verifyEmail: 'view:veteranEmail',
 };
 
-export const representativeFields = {
-  signAsRepresentativeYesNo: 'signAsRepresentativeYesNo',
-};
-
 export const primaryCaregiverFields = {
   address: 'primaryAddress',
   alternativePhoneNumber: 'primaryAlternativePhoneNumber',
@@ -61,4 +57,9 @@ export const secondaryTwoFields = {
   ssn: 'secondaryTwoSsnOrTin',
   verifyEmail: 'view:secondaryTwoEmail',
   vetRelationship: 'secondaryTwoVetRelationship',
+};
+
+export const representativeFields = {
+  signAsRepresentativeYesNo: 'signAsRepresentativeYesNo',
+  documentUpload: 'signAsRepresentativeDocumentUpload',
 };

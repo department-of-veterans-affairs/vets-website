@@ -29,6 +29,7 @@ import vetMedicalCenterPage from './chapters/veteran/vetMedicalCenter';
 
 // sign as representative
 import signAsRepresentativeYesNo from './chapters/signAsRepresentative/signAsRepresentativeYesNo';
+import uploadPOADocument from './chapters/signAsRepresentative/uploadPOADocument';
 
 // primary pages
 import hasPrimaryCaregiverPage from './chapters/primary/hasPrimaryCaregiver';
@@ -209,6 +210,13 @@ const formConfig = {
           title: 'Representative documentation',
           uiSchema: signAsRepresentativeYesNo.uiSchema,
           schema: signAsRepresentativeYesNo.schema,
+        },
+        documentUpload: {
+          title: 'Supporting documentation',
+          depends: formData => formData.signAsRepresentativeYesNo === 'yes',
+          path: 'representative-document-upload',
+          uiSchema: uploadPOADocument.uiSchema,
+          schema: uploadPOADocument.schema,
         },
       },
     },
