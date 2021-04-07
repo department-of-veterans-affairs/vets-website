@@ -76,7 +76,7 @@ function PreSubmitNotice({
           </p>
           <ul>
             <li>
-              As of the date of this application, you are currently unemployed
+              As of the date of this application, you're currently unemployed
               due to the COVID-19 pandemic.
             </li>
             <li>
