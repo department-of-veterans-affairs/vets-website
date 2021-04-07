@@ -83,20 +83,14 @@ jobs:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Run ESLint
-        run: yarn run eslint --ext .js --ext .jsx --output-file eslint_report.json --format json .
+        run: yarn run eslint --ext .js --ext .jsx --output-file eslint-report.json --format json src .
 
       - name: Annotate linting results
         if: ${{ always() }}
         uses: ataylorme/eslint-annotate-action@1.1.2
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          report-json: "eslint_report.json"
-
-      - name: Upload ESLint report
-        uses: actions/upload-artifact@v1
-        with:
-          name: eslint_report.json
-          path: eslint_report.json
+          report-json: "eslint-report.json"
 
       - name: Run Sass linter
         run: yarn lint:sass
