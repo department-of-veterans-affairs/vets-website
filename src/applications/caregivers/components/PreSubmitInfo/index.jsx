@@ -8,8 +8,28 @@ import {
   primaryCaregiverContent,
   secondaryCaregiverContent,
   signatureBoxNoteContent,
+  representativeSignatureContent,
 } from 'applications/caregivers/definitions/content';
 import SubmitLoadingIndicator from './SubmitLoadingIndicator';
+
+const SecondaryCaregiverCopy = ({ label }) => {
+  const header = title => `${title} statement of truth`;
+  const firstParagraph = secondaryCaregiverContent[0];
+  const contentWithoutFirstParagraph = secondaryCaregiverContent.slice(1);
+
+  return (
+    <div>
+      <h3 className="vads-u-margin-top--4">{header(label)}</h3>
+
+      <p className="vads-u-margin-y--4">{firstParagraph}</p>
+
+      {contentWithoutFirstParagraph.map((secondaryContent, idx) => {
+        return <p key={`${label}-${idx}`}>{secondaryContent}</p>;
+      })}
+      <PrivacyPolicy />
+    </div>
+  );
+};
 
 const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
   const veteranLabel = `Veteran\u2019s`;
@@ -19,11 +39,18 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
   const hasPrimary = formData['view:hasPrimaryCaregiver'];
   const hasSecondaryOne = formData['view:hasSecondaryCaregiverOne'];
   const hasSecondaryTwo = formData['view:hasSecondaryCaregiverTwo'];
+  const showRepresentativeSignatureBox =
+    formData.signAsRepresentativeYesNo === 'yes' ||
+    formData.signAsRepresentativeYesNo === 'noRep';
   // we are separating the first paragraph due to each paragraph having unique styling
   const veteranFirstParagraph = veteranSignatureContent[0];
   const veteranWithoutFirstParagraph = veteranSignatureContent.slice(1);
   const primaryFirstParagraph = primaryCaregiverContent[0];
   const primaryWithoutFirstParagraph = primaryCaregiverContent.slice(1);
+  const representativeFirstParagraph = representativeSignatureContent[0];
+  const representativeWithoutFirstParagraph = representativeSignatureContent.slice(
+    1,
+  );
 
   const [signatures, setSignatures] = useState({
     [veteranLabel]: false,
@@ -47,6 +74,8 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [unSignedLength],
   );
+
+  /* Remove party signature box if yes/no question is answered falsy */
 
   useEffect(
     () => {
@@ -85,25 +114,6 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
     ],
   );
 
-  const SecondaryCaregiverCopy = ({ label }) => {
-    const header = title => `${title} statement of truth`;
-    const firstParagraph = secondaryCaregiverContent[0];
-    const contentWithoutFirstParagraph = secondaryCaregiverContent.slice(1);
-
-    return (
-      <div>
-        <h3 className="vads-u-margin-top--4">{header(label)}</h3>
-
-        <p className="vads-u-margin-y--4">{firstParagraph}</p>
-
-        {contentWithoutFirstParagraph.map((secondaryContent, idx) => {
-          return <p key={`${label}-${idx}`}>{secondaryContent}</p>;
-        })}
-        <PrivacyPolicy />
-      </div>
-    );
-  };
-
   /*
     - Vet first && last name must match, and be checked
     - if hasPrimaryCaregiver first && last name must match, and be checked
@@ -117,27 +127,52 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
         each family caregiver applicant must sign the appropriate section.
       </p>
 
-      <SignatureCheckbox
-        fullName={formData.veteranFullName}
-        label={veteranLabel}
-        signatures={signatures}
-        setSignature={setSignatures}
-        isRequired
-        showError={showError}
-      >
-        <h3>Veteran&apos;s statement of truth</h3>
+      {showRepresentativeSignatureBox ? (
+        <SignatureCheckbox
+          fullName={formData.veteranFullName}
+          label={veteranLabel}
+          signatures={signatures}
+          setSignature={setSignatures}
+          showError={showError}
+          isRepresentative
+          isRequired
+        >
+          <h3>Representative&apos;s statement of truth</h3>
 
-        <p>{veteranFirstParagraph}</p>
+          <p>{representativeFirstParagraph}</p>
 
-        {/* currently this array is empty due to it only having one string
+          {/* currently this array is empty due to it only having one string
             checking for empty array then mapping it for future compatibility and consistency */}
-        {veteranWithoutFirstParagraph &&
-          veteranWithoutFirstParagraph.map((veteranContent, idx) => (
-            <p key={`veteran-signature-${idx}`}>{veteranContent}</p>
-          ))}
+          {representativeWithoutFirstParagraph &&
+            representativeWithoutFirstParagraph.map((veteranContent, idx) => (
+              <p key={`representative-signature-${idx}`}>{veteranContent}</p>
+            ))}
 
-        <PrivacyPolicy />
-      </SignatureCheckbox>
+          <PrivacyPolicy />
+        </SignatureCheckbox>
+      ) : (
+        <SignatureCheckbox
+          fullName={formData.veteranFullName}
+          label={veteranLabel}
+          signatures={signatures}
+          setSignature={setSignatures}
+          showError={showError}
+          isRequired
+        >
+          <h3>Veteran&apos;s statement of truth</h3>
+
+          <p>{veteranFirstParagraph}</p>
+
+          {/* currently this array is empty due to it only having one string
+            checking for empty array then mapping it for future compatibility and consistency */}
+          {veteranWithoutFirstParagraph &&
+            veteranWithoutFirstParagraph.map((veteranContent, idx) => (
+              <p key={`veteran-signature-${idx}`}>{veteranContent}</p>
+            ))}
+
+          <PrivacyPolicy />
+        </SignatureCheckbox>
+      )}
 
       {hasPrimary && (
         <SignatureCheckbox
@@ -145,8 +180,8 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
           label={primaryLabel}
           signatures={signatures}
           setSignature={setSignatures}
-          isRequired
           showError={showError}
+          isRequired
         >
           <h3 className="vads-u-margin-top--4">
             Primary Family Caregiver applicant&apos;s statement of truth
@@ -168,8 +203,8 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
           label={secondaryOneLabel}
           signatures={signatures}
           setSignature={setSignatures}
-          isRequired
           showError={showError}
+          isRequired
         >
           <SecondaryCaregiverCopy label={secondaryOneLabel} />
         </SignatureCheckbox>

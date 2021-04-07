@@ -13,6 +13,7 @@ const SignatureCheckbox = ({
   setSignature,
   showError,
   globalFormState,
+  isRepresentative,
 }) => {
   const [hasError, setError] = useState(null);
   const [isSigned, setIsSigned] = useState(false);
@@ -54,7 +55,17 @@ const SignatureCheckbox = ({
         required={isRequired}
         showError={showError}
         hasSubmit={hasSubmit}
+        isRepresentative={isRepresentative}
       />
+
+      {isRepresentative && (
+        <p className="vads-u-display--flex vads-u-flex-direction--column">
+          On behalf of
+          <strong>
+            {fullName.first} {fullName.middle} {fullName.last}
+          </strong>
+        </p>
+      )}
 
       <Checkbox
         onValueChange={value => setIsChecked(value)}
@@ -75,6 +86,7 @@ SignatureCheckbox.propTypes = {
   showError: PropTypes.bool.isRequired,
   signatures: PropTypes.object.isRequired,
   globalFormState: PropTypes.object.isRequired,
+  isRepresentative: PropTypes.bool,
 };
 
 const mapStateToProps = state => {

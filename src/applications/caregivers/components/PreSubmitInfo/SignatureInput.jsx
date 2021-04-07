@@ -9,6 +9,7 @@ const SignatureInput = ({
   setIsSigned,
   showError,
   hasSubmit,
+  isRepresentative,
 }) => {
   const [hasError, setError] = useState(false);
   const firstName = fullName.first?.toLowerCase() || '';
@@ -49,6 +50,7 @@ const SignatureInput = ({
 
   useEffect(
     () => {
+      if (isRepresentative) return;
       const isDirty = signature.dirty;
 
       // show error if user has touched input and signature does not match
@@ -63,7 +65,14 @@ const SignatureInput = ({
         setError(false);
       }
     },
-    [setIsSigned, signature.dirty, signatureMatches, showError, hasSubmit],
+    [
+      setIsSigned,
+      signature.dirty,
+      signatureMatches,
+      showError,
+      hasSubmit,
+      isRepresentative,
+    ],
   );
 
   return (
@@ -87,6 +96,7 @@ SignatureInput.propTypes = {
   setIsSigned: PropTypes.func.isRequired,
   showError: PropTypes.bool.isRequired,
   hasSubmit: PropTypes.bool.isRequired,
+  isRepresentative: PropTypes.bool,
   required: PropTypes.bool,
 };
 
