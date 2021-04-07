@@ -10,7 +10,7 @@ const CTALink = ({ ariaLabel, href, text, onClick, newTab }) => {
 
   return (
     <a
-      aria-label={ariaLabel ? `${ariaLabel}` : ''}
+      aria-label={ariaLabel ? `${ariaLabel}` : text}
       href={href}
       rel={relProp}
       target={targetProp}
