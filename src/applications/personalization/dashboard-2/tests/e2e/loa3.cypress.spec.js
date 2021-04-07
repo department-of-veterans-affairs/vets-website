@@ -9,13 +9,13 @@ import error401 from '@@profile/tests/fixtures/401.json';
 import error500 from '@@profile/tests/fixtures/500.json';
 import { nameTagRenders } from '@@profile/tests/e2e/helpers';
 
-import MOCK_FACILITIES from '~/applications/personalization/dashboard-2/utils/mocks/appointments/MOCK_FACILITIES.json';
-import MOCK_VA_APPOINTMENTS from '~/applications/personalization/dashboard-2/utils/mocks/appointments/MOCK_VA_APPOINTMENTS';
-import MOCK_CC_APPOINTMENTS from '~/applications/personalization/dashboard-2/utils/mocks/appointments/MOCK_CC_APPOINTMENTS';
-import { mockFolderResponse } from '~/applications/personalization/dashboard-2/utils/mocks/messaging/folder';
-import { mockMessagesResponse } from '~/applications/personalization/dashboard-2/utils/mocks/messaging/messages';
+import manifest from '~/applications/personalization/dashboard/manifest.json';
 
-import manifest from 'applications/personalization/dashboard/manifest.json';
+import MOCK_FACILITIES from '../../utils/mocks/appointments/MOCK_FACILITIES.json';
+import MOCK_VA_APPOINTMENTS from '../../utils/mocks/appointments/MOCK_VA_APPOINTMENTS';
+import MOCK_CC_APPOINTMENTS from '../../utils/mocks/appointments/MOCK_CC_APPOINTMENTS';
+import { mockFolderResponse } from '../../utils/mocks/messaging/folder';
+import { mockMessagesResponse } from '../../utils/mocks/messaging/messages';
 
 import { mockFeatureToggles } from './helpers';
 
