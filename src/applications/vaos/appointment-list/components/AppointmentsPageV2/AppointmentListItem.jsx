@@ -84,7 +84,7 @@ export default function AppointmentListItem({ appointment, facility }) {
       data-cy="appointment-list-item"
     >
       <div className="vads-u-flex--1" data-cy="appointment-list-item">
-        {appointment.status === APPOINTMENT_STATUS.cancelled && (
+        {canceled && (
           <span className="vaos-u-text-transform--uppercase vads-u-font-size--base vads-u-font-weight--bold vads-u-color--secondary-dark vads-u-margin-x--0 vads-u-margin-y--0">
             Canceled
           </span>
@@ -126,7 +126,6 @@ export default function AppointmentListItem({ appointment, facility }) {
           aria-label={`Details for ${
             canceled ? 'canceled ' : ''
           }appointment on ${appointmentDate.format('dddd, MMMM D h:mm a')}`}
-          tabindex="-1"
           to={isCommunityCare ? `cc/${appointment.id}` : `va/${appointment.id}`}
         >
           Details
