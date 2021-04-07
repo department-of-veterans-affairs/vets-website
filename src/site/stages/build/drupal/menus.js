@@ -266,7 +266,8 @@ function makeSection(hostUrl, hub, arrayDepth, promo, pages) {
  */
 function formatHeaderData(buildOptions, contentData) {
   if (!contentData?.data?.menuLinkContentQuery?.entities) {
-    return [];
+    // eslint-disable-next-line no-console
+    throw new Error('formatHeaderData has no data');
   }
 
   let menuLinks = contentData.data.menuLinkContentQuery.entities;

@@ -147,8 +147,6 @@ async function getContentViaGraphQL(buildOptions) {
     buildOptions.paramsDirectory,
     DRUPAL_HUB_NAV_FILENAME,
   );
-  const { cmsFeatureFlags } = global;
-  const onlyPublishedContent = cmsFeatureFlags.FEATURE_ONLY_PUBLISHED_CONTENT;
 
   let drupalPages = null;
 
@@ -161,9 +159,7 @@ async function getContentViaGraphQL(buildOptions) {
 
     console.time(drupalTimer);
 
-    drupalPages = await contentApi.getAllPagesViaIndividualGraphQlQueries(
-      onlyPublishedContent,
-    );
+    drupalPages = await contentApi.getAllPagesViaIndividualGraphQlQueries();
 
     console.timeEnd(drupalTimer);
 
