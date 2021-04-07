@@ -67,14 +67,9 @@ function PreSubmitNotice({
   );
 
   const confirmEligibilityNote = (
-    <div className="schemaform-field-container schemaform-block">
-      <div className="schemaform-block-header">
-        <legend
-          className="schemaform-block-title schemaform-block-subtitle"
-          id="confirmEligibility_title"
-        >
-          Confirm you're eligible for VRRAP
-        </legend>
+    <div>
+      <div>
+        <h4 id="confirmEligibility_title">Confirm you're eligible for VRRAP</h4>
         <div>
           <p>
             To be eligible for VRRAP, the 3 following statements must be true:
@@ -85,14 +80,12 @@ function PreSubmitNotice({
               due to the COVID-19 pandemic.
             </li>
             <li>
-              You are not currently enrolled in a Federal or State jobs program,
-              nor do you expect to be enrolled in such a program while training
-              until VRRAP.
+              You're not currently enrolled in a federal or state jobs program,
+              and you don't expect to be enrolled in one while using VRRAP.
             </li>
             <li>
-              You will not receive unemployment compensation, including any cash
-              benefit received pursuant to the CARES Act, while training under
-              VRRAP.
+              You won't receive unemployment compensation, including any cash
+              benefit received under the CARES Act, while training using VRRAP.
             </li>
           </ul>
         </div>
@@ -101,7 +94,7 @@ function PreSubmitNotice({
         <RadioButtons
           name={'confirmEligibility_options'}
           label={
-            'I attest the statements above are true and accurate to the best of my knowledge and belief.'
+            'The statements above are true and accurate to the best of my knowledge and belief.'
           }
           id={'confirmEligibility_options'}
           options={[
