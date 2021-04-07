@@ -21,26 +21,3 @@
     cursor: pointer;
   }
 }
-
-.dashboard {
-  .health-care-wrapper {
-    .health-care {
-      // This set width applies to medium and small-desktop screens
-      width: 520px;
-
-      @media (min-width: $xsmall-screen) and (max-width: $medium-screen - 1) {
-        width: 100%;
-      }
-
-      @media (min-width: $large-screen) {
-        width: 100%;
-      }
-
-      &.half-width {
-        @media (min-width: $large-screen) {
-          width: 520px;
-        }
-      }
-    }
-  }
-}

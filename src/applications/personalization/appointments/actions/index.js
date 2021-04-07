@@ -90,10 +90,12 @@ export function fetchConfirmedFutureAppointments() {
         ccAppointments = MOCK_CC_APPOINTMENTS;
       } else {
         vaAppointments = await apiRequest(
-          `/vaos/v0/appointments?start_date=${startOfToday}&type=va`,
+          `/appointments?start_date=${startOfToday}&type=va`,
+          { apiVersion: 'vaos/v0' },
         );
         ccAppointments = await apiRequest(
-          `/vaos/v0/appointments?start_date=${startOfToday}&type=cc`,
+          `/appointments?start_date=${startOfToday}&type=cc`,
+          { apiVersion: 'vaos/v0' },
         );
       }
       const facilityIDs = uniq(
@@ -109,9 +111,8 @@ export function fetchConfirmedFutureAppointments() {
         facilitiesResponse = MOCK_FACILITIES;
       } else {
         facilitiesResponse = await apiRequest(
-          `${environment.API_URL}/v1/facilities/va?ids=${facilityIDs.join(
-            ',',
-          )}`,
+          `/facilities/va?ids=${facilityIDs.join(',')}`,
+          { apiVersion: 'v1' },
         );
       }
 
