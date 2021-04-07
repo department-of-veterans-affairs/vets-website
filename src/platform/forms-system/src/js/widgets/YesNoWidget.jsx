@@ -7,31 +7,45 @@ export default function YesNoWidget({
   onChange,
   options = {},
 }) {
-  const { yesNoReverse = false, labels = {}, widgetProps = {} } = options;
-  const yesValue = !yesNoReverse;
-  const noValue = !yesValue;
+  const {
+    yesNoReverse = false,
+    labels = {},
+    widgetProps = {},
+    selectedProps = {},
+  } = options;
+
+  const values = {
+    Y: !yesNoReverse,
+    N: yesNoReverse,
+  };
+
+  const getProps = key => ({
+    ...(widgetProps[key] || {}),
+    ...((value === values[key] && selectedProps[key]) || {}),
+  });
+
   return (
     <div className="form-radio-buttons">
       <input
         type="radio"
-        checked={value === yesValue}
+        checked={value === values.Y}
         id={`${id}Yes`}
         name={`${id}`}
         value="Y"
         disabled={disabled}
-        onChange={_ => onChange(yesValue)}
-        {...widgetProps.Y || {}}
+        onChange={_ => onChange(values.Y)}
+        {...getProps('Y')}
       />
       <label htmlFor={`${id}Yes`}>{labels.Y || 'Yes'}</label>
       <input
         type="radio"
-        checked={value === noValue}
+        checked={value === values.N}
         id={`${id}No`}
         name={`${id}`}
         value="N"
         disabled={disabled}
-        onChange={_ => onChange(noValue)}
-        {...widgetProps.N || {}}
+        onChange={_ => onChange(values.N)}
+        {...getProps('N')}
       />
       <label htmlFor={`${id}No`}>{labels.N || 'No'}</label>
     </div>

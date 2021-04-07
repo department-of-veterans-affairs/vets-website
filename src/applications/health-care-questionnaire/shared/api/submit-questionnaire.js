@@ -2,8 +2,6 @@ import { locationSelector } from '../../shared/utils/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import { removeFormApi } from 'platform/forms/save-in-progress/api';
 
-const USE_MOCK_DATA = true;
-
 // pull from src/platform/forms-system/src/js/actions.js
 // so we can have our own custom error handling,  messages and headers
 const submitToUrl = (body, submitUrl, trackingPrefix, eventData) => {
@@ -65,11 +63,11 @@ const submitToUrl = (body, submitUrl, trackingPrefix, eventData) => {
   });
 };
 
-const submit = async (form, formConfig) => {
+const submit = async (useMockData, form, formConfig) => {
   const body = {
     questionnaireResponse: formConfig.transformForSubmit(formConfig, form),
   };
-  if (USE_MOCK_DATA) {
+  if (useMockData) {
     return Promise.all([
       await removeFormApi(form.formId),
       new Promise((resolve, _reject) => {

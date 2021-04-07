@@ -39,10 +39,16 @@ describe('HealthCare component', () => {
         reducers,
       });
       expect(view.getByRole('progressbar')).to.exist;
-      expect(view.queryByText(/Refill and track your prescriptions/i)).not.to
-        .exist;
-      expect(view.queryByText(/Get your lab and test results/i)).not.to.exist;
-      expect(view.queryByText(/Get your VA medical records/i)).not.to.exist;
+      expect(
+        view.queryByRole('link', {
+          name: /Refill and track your prescriptions/i,
+        }),
+      ).not.to.exist;
+      expect(
+        view.queryByRole('link', { name: /Get your lab and test results/i }),
+      ).not.to.exist;
+      expect(view.queryByRole('link', { name: /Get your VA medical records/i }))
+        .not.to.exist;
     });
   });
 });

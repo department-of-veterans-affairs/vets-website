@@ -26,7 +26,7 @@ const BenefitsOfInterest = ({ children, showChildren }) => {
   return (
     <>
       <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--2p5">
-        Benefits you might be interested in
+        VA benefits you might be interested in
       </h3>
       <div data-testid="benefits-of-interest">
         {!showChildren && (
@@ -35,55 +35,59 @@ const BenefitsOfInterest = ({ children, showChildren }) => {
           </div>
         )}
         {showChildren && <div className="vads-l-row">{children}</div>}
-        <AdditionalInfo triggerText="What benefits does VA offer?">
-          <p className="vads-u-font-weight--bold">
-            Explore VA.gov to learn about the benefits we offer.
-          </p>
-          <ul>
-            <li>
-              <a href="https://www.va.gov/health-care/">Health care</a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/education/">Education and training</a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/disability/">
-                Disability compensation
-              </a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/careers-employment/">
-                Careers &amp; employment
-              </a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/pension/">Pension</a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/housing-assistance/">
-                Housing assistance
-              </a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/burials-memorials/">
-                Burials &amp; memorials
-              </a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/life-insurance/">Life insurance</a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/service-member-benefits/">
-                Service member benefits
-              </a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/family-member-benefits/">
-                Family member benefits
-              </a>
-            </li>
-          </ul>
-        </AdditionalInfo>
+        <div className="vads-u-margin-top--2">
+          <AdditionalInfo triggerText="What benefits does VA offer?">
+            <p className="vads-u-font-weight--bold">
+              Explore VA.gov to learn about the benefits we offer.
+            </p>
+            <ul>
+              <li>
+                <a href="https://www.va.gov/health-care/">Health care</a>
+              </li>
+              <li>
+                <a href="https://www.va.gov/education/">
+                  Education and training
+                </a>
+              </li>
+              <li>
+                <a href="https://www.va.gov/disability/">
+                  Disability compensation
+                </a>
+              </li>
+              <li>
+                <a href="https://www.va.gov/careers-employment/">
+                  Careers &amp; employment
+                </a>
+              </li>
+              <li>
+                <a href="https://www.va.gov/pension/">Pension</a>
+              </li>
+              <li>
+                <a href="https://www.va.gov/housing-assistance/">
+                  Housing assistance
+                </a>
+              </li>
+              <li>
+                <a href="https://www.va.gov/burials-memorials/">
+                  Burials &amp; memorials
+                </a>
+              </li>
+              <li>
+                <a href="https://www.va.gov/life-insurance/">Life insurance</a>
+              </li>
+              <li>
+                <a href="https://www.va.gov/service-member-benefits/">
+                  Service member benefits
+                </a>
+              </li>
+              <li>
+                <a href="https://www.va.gov/family-member-benefits/">
+                  Family member benefits
+                </a>
+              </li>
+            </ul>
+          </AdditionalInfo>
+        </div>
       </div>
     </>
   );
@@ -129,7 +133,8 @@ const ApplyForBenefits = ({
           {showHealthCare && (
             <BenefitOfInterest
               title="Health care"
-              ctaButtonLabel="Learn how to apply for VA health care"
+              icon="health-care"
+              ctaButtonLabel="Apply for VA health care"
               ctaUrl="https://www.va.gov/health-care/how-to-apply/"
             >
               <p>
@@ -141,7 +146,8 @@ const ApplyForBenefits = ({
           )}
           <BenefitOfInterest
             title="Disability compensation"
-            ctaButtonLabel="Learn how to file a VA disability claim"
+            icon="disability"
+            ctaButtonLabel="Learn how to file a claim for disability"
             ctaUrl="https://www.va.gov/disability/"
           >
             <p>
@@ -153,7 +159,8 @@ const ApplyForBenefits = ({
           {showEducation && (
             <BenefitOfInterest
               title="Education and training"
-              ctaButtonLabel="Learn how to apply for VA education benefits"
+              icon="education"
+              ctaButtonLabel="Learn how to apply for education benefits"
               ctaUrl="https://www.va.gov/education/"
             >
               <p>
