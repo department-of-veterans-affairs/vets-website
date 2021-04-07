@@ -12,6 +12,10 @@ const oneDayInMS = 24 * 60 * 60 * 1000;
 const oneWeekInMS = oneDayInMS * 7;
 const oneYearInMS = oneDayInMS * 365;
 
+function oneWeekAgo() {
+  return Date.now() - oneWeekInMS;
+}
+
 function oneDayAgo() {
   return Date.now() - oneDayInMS;
 }
@@ -43,7 +47,7 @@ describe('ApplyForBenefits component', () => {
         initialState,
         reducers,
       });
-      expect(view.findByText(/you have no applications in progress/)).to.exist;
+      expect(view.getByText(/you have no applications in progress/i)).to.exist;
     });
 
     it('does not render unknown applications that are in progress', () => {
@@ -68,7 +72,43 @@ describe('ApplyForBenefits component', () => {
         initialState,
         reducers,
       });
-      expect(view.findByText(/you have no applications in progress/)).to.exist;
+      expect(view.getByText(/you have no applications in progress/i)).to.exist;
+    });
+
+    it('does not render applications-in-progress that have expired', () => {
+      const initialState = {
+        hcaEnrollmentStatus: { enrollmentStatus: null, hasServerError: false },
+        user: {
+          profile: {
+            savedForms: [
+              {
+                form: '21-526EZ',
+                metadata: {
+                  version: 1,
+                  returnUrl: '/net-worth',
+                  savedAt: oneWeekAgo(),
+                  submission: {
+                    status: false,
+                    errorMessage: false,
+                    id: false,
+                    timestamp: false,
+                    hasAttemptedSubmit: false,
+                  },
+                  expiresAt: oneWeekAgo() / 1000,
+                  lastUpdated: oneWeekAgo() / 1000,
+                  inProgressFormId: 5179,
+                },
+                lastUpdated: oneWeekAgo() / 1000,
+              },
+            ],
+          },
+        },
+      };
+      view = renderInReduxProvider(<ApplyForBenefits />, {
+        initialState,
+        reducers,
+      });
+      expect(view.getByText(/you have no applications in progress/i)).to.exist;
     });
 
     it('sorts the in-progress applications, listing the soonest-to-expire applications first', () => {
@@ -141,7 +181,7 @@ describe('ApplyForBenefits component', () => {
         initialState,
         reducers,
       });
-      expect(view.queryByText(/you have no applications in progress/)).not.to
+      expect(view.queryByText(/you have no applications in progress/i)).not.to
         .exist;
       const applicationsInProgress = view.getAllByTestId(
         'application-in-progress',
@@ -269,12 +309,20 @@ describe('ApplyForBenefits component', () => {
             initialState,
             reducers,
           });
-          expect(view.getByRole('link', { name: /apply for health care/i })).to
-            .exist;
-          expect(view.getByRole('link', { name: /file a disability claim/i }))
-            .to.exist;
           expect(
-            view.getByRole('link', { name: /apply for education benefits/i }),
+            view.getByRole('link', {
+              name: /apply for VA health care/i,
+            }),
+          ).to.exist;
+          expect(
+            view.getByRole('link', {
+              name: /learn how to file a claim/i,
+            }),
+          ).to.exist;
+          expect(
+            view.getByRole('link', {
+              name: /learn how to apply for education benefits/i,
+            }),
           ).to.exist;
         });
       },
@@ -305,10 +353,17 @@ describe('ApplyForBenefits component', () => {
             initialState,
             reducers,
           });
-          expect(view.queryByRole('link', { name: /apply for health care/i }))
-            .to.not.exist;
-          view.getByRole('link', { name: /file a disability claim/i });
-          view.getByRole('link', { name: /apply for education benefits/i });
+          expect(
+            view.queryByRole('link', {
+              name: /apply for VA health care/i,
+            }),
+          ).to.not.exist;
+          view.getByRole('link', {
+            name: /learn how to file a claim/i,
+          });
+          view.getByRole('link', {
+            name: /learn how to apply for education benefits/i,
+          });
         });
       },
     );
@@ -332,10 +387,17 @@ describe('ApplyForBenefits component', () => {
           initialState,
           reducers,
         });
-        expect(view.queryByRole('link', { name: /apply for health care/i })).to
-          .not.exist;
-        view.getByRole('link', { name: /file a disability claim/i });
-        view.getByRole('link', { name: /apply for education benefits/i });
+        expect(
+          view.queryByRole('link', {
+            name: /apply for VA health care/i,
+          }),
+        ).to.not.exist;
+        view.getByRole('link', {
+          name: /learn how to file a claim/i,
+        });
+        view.getByRole('link', {
+          name: /learn how to apply for education benefits/i,
+        });
       });
     });
 
@@ -365,10 +427,16 @@ describe('ApplyForBenefits component', () => {
             initialState,
             reducers,
           });
-          view.getByRole('link', { name: /apply for health care/i });
-          view.getByRole('link', { name: /file a disability claim/i });
+          view.getByRole('link', {
+            name: /apply for VA health care/i,
+          });
+          view.getByRole('link', {
+            name: /learn how to file a claim/i,
+          });
           expect(
-            view.queryByRole('link', { name: /apply for education benefits/i }),
+            view.queryByRole('link', {
+              name: /learn how to apply for education benefits/i,
+            }),
           ).to.not.exist;
         });
       },
@@ -395,11 +463,18 @@ describe('ApplyForBenefits component', () => {
           initialState,
           reducers,
         });
-        expect(view.queryByRole('link', { name: /apply for health care/i })).to
-          .not.exist;
-        view.getByRole('link', { name: /file a disability claim/i });
         expect(
-          view.queryByRole('link', { name: /apply for education benefits/i }),
+          view.queryByRole('link', {
+            name: /apply for VA health care/i,
+          }),
+        ).to.not.exist;
+        view.getByRole('link', {
+          name: /learn how to file a claim/i,
+        });
+        expect(
+          view.queryByRole('link', {
+            name: /learn how to apply for education benefits/i,
+          }),
         ).to.not.exist;
       });
     });

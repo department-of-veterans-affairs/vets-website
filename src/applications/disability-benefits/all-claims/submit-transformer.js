@@ -262,6 +262,27 @@ export const stringifyRelatedDisabilities = formData => {
   return clonedData;
 };
 
+export const cleanUpPersonsInvolved = incident => {
+  // We don't want to require any PTSD entries, but EVSS is rejecting any
+  // personsInvolved that don't have a "injuryDeath" type set. So we're
+  // setting blank entries to "other" and adding a generic other description
+  // see https://github.com/department-of-veterans-affairs/va.gov-team/issues/21422
+  const personsInvolved = incident.personsInvolved?.map(
+    person =>
+      person.injuryDeath
+        ? person
+        : {
+            ...person,
+            injuryDeath: 'other',
+            injuryDeathOther: person.injuryDeathOther || 'Entry left blank',
+          },
+  );
+  return {
+    ...incident,
+    personsInvolved,
+  };
+};
+
 export function transform(formConfig, form) {
   // Grab isBDD before things are changed/deleted
   const isBDDForm = isBDD(form.data);
@@ -552,7 +573,7 @@ export function transform(formConfig, form) {
     const incidents = incidentKeys
       .filter(incidentKey => clonedData[incidentKey])
       .map(incidentKey => ({
-        ...clonedData[incidentKey],
+        ...cleanUpPersonsInvolved(clonedData[incidentKey]),
         personalAssault: incidentKey.includes('secondary'),
       }));
     incidentKeys.forEach(incidentKey => {

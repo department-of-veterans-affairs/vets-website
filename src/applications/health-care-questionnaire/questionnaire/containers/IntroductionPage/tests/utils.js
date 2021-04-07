@@ -1,3 +1,5 @@
+import upcomingAppointment from './sample.upcoming.appointment.json';
+
 const createFakeIntroductionPageStore = ({
   formId,
   savedForms,
@@ -5,11 +7,17 @@ const createFakeIntroductionPageStore = ({
   isLoggedIn,
 }) => {
   const today = new Date();
-  const appointmentTime = new Date(today);
+  const {
+    questionnaire,
+    location,
+    organization,
+    appointment,
+  } = upcomingAppointment;
+  appointment.start = new Date(today);
   if (appointmentInThePast) {
-    appointmentTime.setDate(appointmentTime.getDate() - 1);
+    appointment.start.setDate(appointment.start.getDate() - 1);
   } else {
-    appointmentTime.setDate(appointmentTime.getDate() + 1);
+    appointment.start.setDate(appointment.start.getDate() + 1);
   }
   return {
     getState: () => ({
@@ -27,16 +35,10 @@ const createFakeIntroductionPageStore = ({
       },
       questionnaireData: {
         context: {
-          appointment: {
-            attributes: {
-              vdsAppointments: [
-                {
-                  appointmentTime,
-                  clinic: { facility: { displayName: 'Magic Kingdom' } },
-                },
-              ],
-            },
-          },
+          questionnaire,
+          location,
+          organization,
+          appointment,
         },
       },
     }),

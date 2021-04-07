@@ -137,7 +137,7 @@ export const createAddressValidationResponse = type => {
     };
   }
 
-  if (type === 'valid-address') {
+  if (type === 'valid-address' || type === 'no-change') {
     return {
       addresses: [
         {
@@ -149,7 +149,7 @@ export const createAddressValidationResponse = type => {
             countryCodeIso3: 'USA',
             countyCode: '06001',
             countyName: 'Alameda',
-            stateCode: 'CA',
+            stateCode: 'MD',
             zipCode: '94536',
             zipCodeSuffix: '5537',
           },

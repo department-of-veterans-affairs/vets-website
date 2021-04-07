@@ -34,6 +34,11 @@ import {
   FORM_PREFILL_CONTACT_INFO,
 } from './actions';
 
+import {
+  STARTED_NEW_VACCINE_FLOW,
+  VACCINE_FORM_SUBMIT_SUCCEEDED,
+} from '../../redux/sitewide';
+
 import { FACILITY_SORT_METHODS, FETCH_STATUS } from '../../utils/constants';
 import { distanceBetween } from '../../utils/address';
 import { TYPE_OF_CARE_ID } from '../utils';
@@ -454,11 +459,22 @@ export default function projectCheetahReducer(state = initialState, action) {
         ...state,
         submitStatus: FETCH_STATUS.loading,
       };
+    case VACCINE_FORM_SUBMIT_SUCCEEDED:
+      return {
+        ...state,
+        submitStatus: FETCH_STATUS.succeeded,
+        submitStatusVaos400: false,
+      };
+    case STARTED_NEW_VACCINE_FLOW: {
+      return {
+        ...initialState,
+      };
+    }
     case FORM_SUBMIT_FAILED:
       return {
         ...state,
         submitStatus: FETCH_STATUS.failed,
-        submitErrorReason: action.errorReason,
+        submitStatusVaos400: action.isVaos400Error,
       };
     case FORM_CALENDAR_FETCH_SLOTS: {
       return {

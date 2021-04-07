@@ -281,7 +281,7 @@ _Note: you may have noticed that the project also has a `yarn watch:content` tas
 
 This approach is recommended if you are making heavy changes to a template or are writing a template for a page-type without any published instances. The preview server will load data fresh from the CMS on each page request and processes it through the template at that time, meaning you don't need to wait for a content build to run to see your changes.
 
-1. Run `yarn build:webpack --env.entry=static-pages` to generate the JS/CSS files required by templates. If you make changes to the `static-pages` application code, you will need to run this command again.
+1. Run `yarn build:content` and `yarn build:webpack --env.entry=static-pages` to generate the JS/CSS files required by templates. If you make changes to the `static-pages` application code, you will need to run the second command again.
 1. Determine the `entityId` of a page that uses the template you are editing.
     - If you are interested in templating against a page already published, you can find its `entityId` by navigating to the page on the website (dev, staging, or prod will all work) and inspecting its DOM. At the top of the DOM should be a comment containing its `entityId`.
     - If you are interested in templating against a page that has not been published, you can look up an `entityId` of that page-type using the [GraphQL Explorer](https://prod.cms.va.gov/graphql/explorer). See the section below for an example.
@@ -289,6 +289,7 @@ This approach is recommended if you are making heavy changes to a template or ar
 1. Navigated to `http://localhost:3001/preview?nodeId=${YOUR_ENTITY_ID}`
 1. After making a change to the template, stop your preview server and start it again. There is no hot reload for the preview server. Fortunately, it is lightweight enough to be quick to stop and start.
 
+If you are getting this error: `Error: HTTP error when fetching manifest: 404 Not Found`, re-run step 1.
 ### How to look look up an entityId
 The following query looks up the `entityId` for one page of the `entityBundle` (page-type) with value `landing_page`. This would be useful if you are interested in making changes to the `landing_page.drupal.liquid` template but are are unsure what pages on the website are instances of that page-type. Run this query using the [GraphQL Explorer](https://prod.cms.va.gov/graphql/explorer).
 
@@ -310,50 +311,4 @@ The following query looks up the `entityId` for one page of the `entityBundle` (
 
 ## Liquid Template Unit Testing Framework
 
-The Liquid Template Unit Testing Framework was created to replace Cypress for unit testing the logic in `liquid` templates because Cypress is slow, heavy, and is overkill for this purpose. More importantly, this framework provides us with total control over the test data which is critical for testing `liquid` templates, something that Cypress does not provide. For example, a you can test a given `liquid` template against any number of fixtures that represent different entries into the Drupal CMS, so bugs in `liquid` templates can be discovered more quickly.
-
-**Please note**: End-to-end (e2e) tests on VA.gov use Cypress; Cypress has NOT been replaced by this tool.
-
-### How to Use the Framework
-To test a `liquid` template, use the `parseFixture` and `renderHTML` functions in `~/src/site/tests/support/`.
-
-`parseFixture` takes a json fixtures path and returns a `JavaScript` object.
-
-`renderHTML` takes a liquid template path and the `JavaScript` object returned by `parseFixture`, and renders an HTML document by populating the liquid template with the JSON provided. We can then run the usual mocha assertions on the result. This function uses the same code as our build process, so all of our custom liquid filters can be used.
-
-This technique can be used to generate tests of varying complexity, ranging from simple rendering sanity checks to complex logic. Since we control the JSON test data, we can easily test different scenarios.
-
-### Sample Test
-Here is a sample test:
-
-```js
-const layoutPath = 'src/site/layouts/landing_page.drupal.liquid';
-
-describe('intro', () => {
-  describe('no fieldTitleIcon', () => {
-    const data = parseFixture(
-      'src/site/layouts/tests/landing_page/fixtures/landing_page.json',
-    );
-
-    it('renders elements with expected values', async () => {
-      const container = await renderHTML(layoutPath, data);
-      expect(container.querySelector('h1').innerHTML).to.equal(data.title);
-      expect(container.querySelector('.va-introtext p').innerHTML).to.equal(
-        data.fieldIntroText,
-      );
-      expect(
-        container.querySelector('i.icon-large.white.hub-icon-foo'),
-      ).to.equal(null);
-    });
-  });
-});
-```
-
-### Sample Spec Files
-Here are several example spec files:
-- [src/site/layouts/tests/landing_page/landing_page.unit.spec.js](https://github.com/department-of-veterans-affairs/vets-website/blob/master/src/site/layouts/tests/landing_page/landing_page.unit.spec.js)
-- [src/site/layouts/tests/vamc/health_care_region_page.unit.spec.js](https://github.com/department-of-veterans-affairs/vets-website/blob/master/src/site/layouts/tests/vamc/health_care_region_page.unit.spec.js)
-
-### Rendered `html` Is Saved to Disk
-For convenience, the `html` that's generated from each `liquid` template is automatically saved to `src/site/tests/html` when tests are executed so the `html` can be inspected when writing tests. These files are gitignored.
-
+Please see the documentation [here](https://github.com/department-of-veterans-affairs/va.gov-team/tree/master/platform/testing/liquid-templates).

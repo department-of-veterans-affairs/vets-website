@@ -11,10 +11,10 @@ import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your installment contracts and other debts',
-  'ui:description':
-    'Enter information for each installment contract or debt separately below.',
   installmentContractsAndOtherDebts: {
     'ui:field': ItemLoop,
+    'ui:description':
+      'Enter information for each installment contract or debt separately below.',
     'ui:options': {
       viewField: CardDetailsView,
       doNotScroll: true,
@@ -26,6 +26,7 @@ export const uiSchema = {
         'ui:title': 'Type of contract or debt',
         'ui:field': Typeahead,
         'ui:options': {
+          idPrefix: 'repayments',
           classNames:
             'input-size-7 vads-u-margin-top--3 vads-u-margin-bottom--3',
           getOptions: () => formatOptions(installmentTypes),
@@ -72,6 +73,7 @@ export const schema = {
         title: 'Repayment',
         required: [
           'purpose',
+          'unpaidBalance',
           'amountDueMonthly',
           'dateStarted',
           'amountPastDue',

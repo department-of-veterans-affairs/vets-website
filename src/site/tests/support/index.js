@@ -15,12 +15,26 @@ registerFilters();
 
 const getFile = filePath =>
   readFileSync(path.resolve(__dirname, `../../../../`, filePath), 'utf8');
-const getLayout = filePath => getFile(filePath);
-const parseFixture = filePath => JSON.parse(getFile(filePath));
 
-const makeHTMLFileName = name => {
-  const liquidFileName = name.match(/(\w|\d|\.)+$/g)[0];
-  return `${liquidFileName.split('.')[0]}.html`;
+const getLayout = filePath => getFile(filePath);
+
+const parseFixture = filePath => {
+  let data;
+
+  try {
+    data = JSON.parse(getFile(filePath));
+  } catch (error) {
+    /* eslint-disable no-console */
+    console.log(`Error parsing JSON fixture in:\n`, error);
+    /* eslint-enable no-console */
+  }
+
+  return data;
+};
+
+const makeHTMLFileName = (layoutPath, dataName) => {
+  const fileName = path.basename(layoutPath).split('.')[0];
+  return dataName ? `${fileName}.${dataName}.html` : `${fileName}.html`;
 };
 
 const createDirectory = async () => {
@@ -38,16 +52,15 @@ const saveHTML = (name, html) => {
   saveFile(name, html);
 };
 
-const updateHTML = files => {
+const getOptions = () => {
   const options = {
     buildtype: BUILDTYPE,
     entry: true,
     liquidUnitTestingFramework: true,
-    // the following options are needed to set options.domainReplacements
-    // for createRedirects() but the values are arbitrary for this testing framework
-    host: 'host',
-    port: 3001,
-    protocol: 'http',
+    accessibility: true,
+    host: 'dev.va.gov', // set to dev URL to align with Node environment
+    port: null,
+    protocol: 'https',
   };
 
   options.hostUrl = `${options.protocol}://${options.host}${
@@ -58,6 +71,10 @@ const updateHTML = files => {
     { from: 'https://www\\.va\\.gov', to: options.hostUrl },
   ];
 
+  return options;
+};
+
+const updateHTML = (files, options) => {
   // the following chained function calls expect a 'done' callback.
   // we don't need 'done' to do anything so it's an empty function.
   const done = () => {};
@@ -67,9 +84,17 @@ const updateHTML = files => {
   modifyDom(options)(files, null, done);
 };
 
-const renderHTML = (layoutPath, data) => {
+const renderHTML = (layoutPath, data, dataName) => {
+  const options = getOptions();
+  const siteWideMetadata = {
+    hostUrl: options.hostUrl,
+    buildtype: options.buildtype,
+  };
+
   const layout = getLayout(layoutPath);
-  const context = liquid.newContext({ locals: data });
+  const context = liquid.newContext({
+    locals: { ...data, ...siteWideMetadata },
+  });
 
   context.onInclude((includeName, callback) => {
     const includeLayout = getLayout(includeName);
@@ -84,13 +109,13 @@ const renderHTML = (layoutPath, data) => {
         reject(err);
       } else {
         const html = context.getBuffer();
-        const htmlFileName = makeHTMLFileName(layoutPath);
+        const htmlFileName = makeHTMLFileName(layoutPath, dataName);
         const files = {
           [htmlFileName]: { contents: html, isDrupalPage: true },
           'generated/file-manifest.json': { contents: JSON.stringify({}) },
         };
 
-        updateHTML(files);
+        updateHTML(files, options);
 
         if (BUILDTYPE === 'vagovdev') {
           saveHTML(htmlFileName, files[htmlFileName].contents);

@@ -16,6 +16,8 @@ export default function useGetSearchResults(articles, query, page) {
         return;
       }
 
+      // Begin filtering logic.
+      // =====
       const keywords = query
         .split(' ')
         .filter(word => !!word)
@@ -43,46 +45,68 @@ export default function useGetSearchResults(articles, query, page) {
           );
         });
       });
+      // =====
+      // End of filtering logic.
 
+      // Begin ordering logic.
+      // =====
       let orderedResults = [];
 
-      // Keep legacy sorting on production.
+      filteredArticles = filteredArticles?.map(article => ({
+        ...article,
+
+        // Number of times a keyword is found in the article's title.
+        keywordsCountsTitle: keywords?.reduce(
+          (keywordInstances, keyword) =>
+            keywordInstances +
+            article.title.toLowerCase()?.split(keyword)?.length -
+            1,
+          0,
+        ),
+
+        // Number of times a keyword is found in the article's introText.
+        keywordsCountsDescription: keywords?.reduce(
+          (keywordInstances, keyword) =>
+            keywordInstances +
+            article.introText.toLowerCase()?.split(keyword)?.length -
+            1,
+          0,
+        ),
+
+        wholePhraseMatchCounts:
+          article.title.toLowerCase()?.split(query.toLowerCase())?.length -
+          1 +
+          (article.introText.toLowerCase()?.split(query.toLowerCase())?.length -
+            1),
+      }));
+
       if (environment.isProduction()) {
-        orderedResults = orderBy(filteredArticles, 'title');
-
-        // Experiment with new sorting on non-prod envs.
-      } else {
-        filteredArticles = filteredArticles?.map(article => ({
-          ...article,
-
-          // Number of times a keyword is found in the article's title.
-          keywordsCountsTitle: keywords?.reduce(
-            (keywordInstances, keyword) =>
-              keywordInstances +
-              article.title.toLowerCase()?.split(keyword)?.length -
-              1,
-            0,
-          ),
-
-          // Number of times a keyword is found in the article's description.
-          keywordsCountsDescription: keywords?.reduce(
-            (keywordInstances, keyword) =>
-              keywordInstances +
-              article.description.toLowerCase()?.split(keyword)?.length -
-              1,
-            0,
-          ),
-        }));
-
         // Sort first by query word instances found in title descending
-        // Sort ties then by query word instances found in description descending
+        // Sort ties then by query word instances found in introText descending
         // Sort ties then by alphabetical descending
         orderedResults = orderBy(
           filteredArticles,
           ['keywordsCountsTitle', 'keywordsCountsDescription', 'title'],
           ['desc', 'desc', 'asc'],
         );
+      } else {
+        // Sort first by the number of exact query matches (ignoring casing) in the title and introText
+        // Sort ties by query word instances found in title descending
+        // Sort ties then by query word instances found in introText descending
+        // Sort ties then by alphabetical descending
+        orderedResults = orderBy(
+          filteredArticles,
+          [
+            'wholePhraseMatchCounts',
+            'keywordsCountsTitle',
+            'keywordsCountsDescription',
+            'title',
+          ],
+          ['desc', 'desc', 'desc', 'asc'],
+        );
       }
+      // =====
+      // End of ordering logic.
 
       // Track R&S search results.
       recordEvent({
@@ -97,6 +121,7 @@ export default function useGetSearchResults(articles, query, page) {
         'type-ahead-option-keyword-selected': undefined,
         'type-ahead-option-position': undefined,
         'type-ahead-options-list': undefined,
+        'type-ahead-options-count': undefined,
       });
 
       setResults(orderedResults);

@@ -1,0 +1,296 @@
+{
+  "additionalData": {
+    "bankruptcy": {
+      "dateDischarged": "2000-07-XX",
+      "courtLocation": "Tampa, FL",
+      "docketNumber": "123456"
+    },
+    "additionalComments": "Supporting personal statement"
+  },
+  "questions": {
+    "hasBeenAdjucatedBankrupt": true,
+    "hasOtherExpenses": true,
+    "hasRepayments": true,
+    "hasUtilities": true,
+    "hasOtherAssets": true,
+    "hasRecreationalVehicle": true,
+    "hasVehicle": true,
+    "hasRealEstate": true,
+    "hasDependents": true,
+    "spouseHasAdditionalIncome": true,
+    "spouseHasSocialSecurity": true,
+    "spouseHasBenefits": true,
+    "spousePreviouslyEmployed": true,
+    "spouseIsEmployed": true,
+    "maritalStatus": "Married",
+    "hasAdditionalIncome": true,
+    "hasSocialSecurity": true,
+    "vetPreviouslyEmployed": true,
+    "vetIsEmployed": true
+  },
+  "otherExpenses": [
+    {
+      "name": "Pool service",
+      "amount": 80
+    },
+    {
+      "name": "Lawn service",
+      "amount": 120
+    }
+  ],
+  "view:components": {
+    "view:assetInfo": {},
+    "view:recVehicleInfo": {},
+    "view:vehicleInfo": {},
+    "view:veteranInfo": {},
+    "view:vaBenefitsOnFile": {}
+  },
+  "installmentContractsAndOtherDebts": [
+    {
+      "purpose": "Car payment/lease",
+      "creditorName": "Creditor Name",
+      "originalAmount": 120000,
+      "unpaidBalance": 50000,
+      "amountDueMonthly": 800,
+      "dateStarted": "2016-06-XX",
+      "amountPastDue": 300
+    }
+  ],
+  "utilityRecords": [
+    {
+      "utilityType": "Electricity",
+      "monthlyUtilityAmount": 350
+    },
+    {
+      "utilityType": "Internet",
+      "monthlyUtilityAmount": 200
+    }
+  ],
+  "expenses": {
+    "rentOrMortgage": 1350,
+    "food": 800
+  },
+  "assets": {
+    "otherAssets": [
+      {
+        "name": "Bitcoin",
+        "amount": 12000
+      }
+    ],
+    "trailersBoatsCampers": [
+      {
+        "recreationalVehicleType": "Boat",
+        "recreationalVehicleAmount": 20000
+      }
+    ],
+    "automobiles": [
+      {
+        "type": "Truck",
+        "make": "Dodge",
+        "model": "RAM",
+        "year": "2020",
+        "resaleValue": 80000
+      },
+      {
+        "type": "Car",
+        "make": "Dodge",
+        "model": "Charger",
+        "year": "2020",
+        "resaleValue": 45000
+      }
+    ],
+    "cashInBank": 4500,
+    "cashOnHand": 1200,
+    "usSavingsBonds": 2345,
+    "stocksAndOtherBonds": 6543
+  },
+  "realEstateRecords": [
+    {
+      "realEstateType": "Vacation property",
+      "realEstateAmount": 120000
+    }
+  ],
+  "personalData": {
+    "agesOfOtherDependents": [
+      {
+        "dependentAge": "17"
+      },
+      {
+        "dependentAge": "12"
+      }
+    ],
+    "employmentHistory": {
+      "spouse": {
+        "spousePreviousEmployment": [
+          {
+            "type": "Full time",
+            "from": "2014-08-XX",
+            "to": "2019-11-XX",
+            "employerName": "Spouse Prev Employer"
+          }
+        ],
+        "currentEmployment": {
+          "type": "Full time",
+          "from": "2018-01-XX",
+          "employerName": "Spouse Employer",
+          "monthlyGrossSalary": 4500,
+          "spouseDeductions": [
+            {
+              "name": "State tax",
+              "amount": 200
+            },
+            {
+              "name": "Federal tax",
+              "amount": 400
+            }
+          ]
+        }
+      },
+      "veteran": {
+        "vetPreviousEmployment": [
+          {
+            "type": "Full time",
+            "from": "2017-05-XX",
+            "to": "2019-08-XX",
+            "employerName": "Vet Previous Employer"
+          }
+        ],
+        "currentEmployment": {
+          "type": "Full time",
+          "from": "2019-01-XX",
+          "employerName": "Vet Current Employer",
+          "monthlyGrossSalary": 5000,
+          "deductions": [
+            {
+              "name": "Federal tax",
+              "amount": 300
+            },
+            {
+              "name": "Health insurance",
+              "amount": 400
+            }
+          ]
+        }
+      }
+    },
+    "spouseFullName": {
+      "first": "Spouse",
+      "last": "Name"
+    },
+    "address": {
+      "livesOnMilitaryBaseInfo": {},
+      "countryName": "United States",
+      "street": "8200 DOBY LN",
+      "street2": "APT 4D",
+      "city": "PASADENA",
+      "stateCode": "FL",
+      "zipCode": "33614",
+      "state": "MD",
+      "country": "USA",
+      "postalCode": "21122"
+    },
+    "telephoneNumber": "4445551212",
+    "emailAddress": "test2@test1.net",
+    "confirmationEmail": "test2@test1.net",
+    "veteranFullName": {
+      "first": "Mark",
+      "last": "Webb",
+      "middle": "R",
+      "suffix": "Jr."
+    },
+    "dateOfBirth": "1950-10-04"
+  },
+  "additionalIncome": {
+    "spouse": {
+      "spouseAdditionalIncomeRecords": [
+        {
+          "name": "Rental property income",
+          "amount": 1100
+        }
+      ]
+    },
+    "additionalIncomeRecords": [
+      {
+        "name": "Bonus payment",
+        "amount": 1500
+      }
+    ]
+  },
+  "socialSecurity": {
+    "spouse": {
+      "socialSecurityAmount": 1245
+    },
+    "socialSecurityAmount": 1200
+  },
+  "benefits": {
+    "spouseBenefits": {
+      "benefitAmount": 1300,
+      "educationAmount": 700
+    }
+  },
+  "personalIdentification": {
+    "ssn": "4437",
+    "fileNumber": "4437"
+  },
+  "selectedDebts": [
+    {
+      "financialOverview": {},
+      "debtRepaymentOptions": {},
+      "resolutionOptionsTitle": {},
+      "resolution": {
+        "resolutionType": "Waiver"
+      },
+      "fileNumber": "796121200",
+      "payeeNumber": "00",
+      "personEntitled": "AJHONS",
+      "deductionCode": "30",
+      "benefitType": "Comp & Pen",
+      "diaryCode": "080",
+      "diaryCodeDescription": "Referred to the Department of the Treasury",
+      "amountOverpaid": 0,
+      "amountWithheld": 0,
+      "originalAr": 136.24,
+      "currentAr": 100,
+      "debtHistory": [
+        {
+          "date": "02/25/2009",
+          "letterCode": "914",
+          "description": "Paid In Full - Account balance cleared via offset, not including TOP."
+        },
+        {
+          "date": "02/07/2009",
+          "letterCode": "905",
+          "description": "Administrative Write Off"
+        },
+        {
+          "date": "12/03/2008",
+          "letterCode": "487",
+          "description": "Death Case Pending Action"
+        }
+      ],
+      "id": 0
+    }
+  ],
+  "debt": {
+    "currentAr": 0,
+    "debtHistory": [
+      {
+        "date": ""
+      }
+    ],
+    "deductionCode": "",
+    "originalAr": 0
+  },
+  "income": [
+    {
+      "veteranOrSpouse": "VETERAN",
+      "compensationAndPension": "3261.1",
+      "education": "50"
+    },
+    {
+      "veteranOrSpouse": "SPOUSE",
+      "compensationAndPension": "0",
+      "education": "0"
+    }
+  ]
+}

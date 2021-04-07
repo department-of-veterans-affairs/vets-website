@@ -30,6 +30,7 @@ export const widgetTypes = {
   ADD_REMOVE_DEPENDENTS: 'add-remove-dependents',
   CHANGE_ADDRESS: 'change-address',
   VIEW_PAYMENT_HISTORY: 'view-payment-history',
+  VRRAP: 'vrrap',
 };
 
 const HEALTH_TOOLS = [
@@ -159,6 +160,13 @@ export const toolUrl = (appId, authenticatedWithSSOe = false) => {
         redirect: false,
       };
 
+    case widgetTypes.VRRAP:
+      return {
+        url:
+          'education/other-va-education-benefits/veteran-rapid-retraining-assistance/apply-for-vrrap-form-22-1990s',
+        redirect: false,
+      };
+
     case widgetTypes.DIRECT_DEPOSIT:
       return {
         url: '/profile/direct-deposit',
@@ -247,6 +255,9 @@ export const requiredServices = appId => {
     case widgetTypes.VET_TEC:
       return backendServices.EDUCATION_BENEFITS;
 
+    case widgetTypes.VRRAP:
+      return backendServices.EDUCATION_BENEFITS;
+
     default:
       return null;
   }
@@ -289,6 +300,9 @@ export const serviceDescription = appId => {
 
     case widgetTypes.VET_TEC:
       return 'apply for VET TEC';
+
+    case widgetTypes.VRRAP:
+      return 'apply for VRRAP';
 
     case widgetTypes.DIRECT_DEPOSIT:
       return 'change your direct deposit information online';

@@ -11,8 +11,8 @@ export const orientationSteps = [
     list: [
       'Transition back to civilian life',
       'Find employment, return to your former job, or start your own business',
-      'Get education or training for a professional or vocational field that’s a good fit for you',
-      'Get independent-living services if you can’t return to work right away',
+      'Receive education or training for a professional or vocational field that’s a good fit for you',
+      'Receive independent living services if you can’t return to work right away',
     ],
     postText: () => (
       <p>
@@ -25,25 +25,29 @@ export const orientationSteps = [
     number: 1,
     isVideoStep: false,
     isSubwayContent: false,
-    title: 'VR&E basic benefit information',
-    desc: 'You can get up to 48 months of combined VA benefits. This includes:',
-    list: ['Education', 'Careers and employment', 'Housing'],
+    title: 'VR&E basic eligibility information',
+    desc:
+      'You can get up to 48 months of combined VA benefits. These benefits may include:',
+    list: [
+      'Training to prepare for a job',
+      'Professional or vocational counseling and training',
+      'Employment assistance',
+    ],
     postText: () => (
       <>
         <p>
-          <strong>Example:</strong> If you already used 36 months of GI Bill
-          benefits, you’re entitled to up to 12 months of VR&E benefits and
-          services.
+          If you are eligible for VR&E and another VA education benefit, speak
+          with your Vocational Rehabilitation Counselor (VRC) to determine the
+          best fit for you. Generally, if you are entitled to both VR&E services
+          and eligible for Education benefits, using VR&E benefits might be more
+          beneficial. You should speak to a VRC before deciding.
         </p>
         <p>
-          As a Veteran or service member, you’re eligible to receive VR&E
-          benefits and services for 12 years. The 12-year period begins either
-          the date you separated from active service or the date you received
-          your disability rating, whichever comes last.
-        </p>
-        <p>
-          <strong>Note:</strong> We may make this basic period of eligibility
-          longer in certain cases.
+          As a Veteran released from active duty before 1/1/2013, you're
+          eligible for VR&E benefits and services within a 12 year period. In
+          addition, if you are a Veteran or Service member with a Release from
+          Active Duty date on, or after, January 1, 2013 there is no eligibility
+          termination date.
         </p>
       </>
     ),
@@ -77,15 +81,16 @@ export const orientationSteps = [
         items: [
           'Work with your VRC to assess your skills, aptitudes, abilities, and interests',
           'Work with your VRC to identify entitlement criteria (an employment handicap or a serious employment handicap)',
-          'Your VRC will give you an entitlement determination and tell you about next steps',
+          'If you are determined to be entitled to benefits, you VRC will tell you about next steps.',
           'Complete any tasks required for your next steps',
+          'If it is determined you are not entitled to VR&E benefits, your VRC will provide you with additional resources that may assist you',
         ],
       },
       {
         step: 'four',
         title: 'Services',
         items: [
-          'We’ll help you with employment or independent-living benefits and services for up to 18 months',
+          'We’ll help you with employment or independent living benefits and services',
           'Report your progress with training programs to your VRC',
           'Get help with anything that may be blocking your participation in the VR&E program',
         ],
@@ -94,9 +99,8 @@ export const orientationSteps = [
         step: 'five',
         title: 'Completion',
         items: [
-          'Gain the skills you’ll need to find employment and stay employed, or improve your ability to live independently',
-          'Meet monthly with your VRC and complete job logs during your job search',
-          'Tell your VRC when you accept a job',
+          'You found and kept a suitable job',
+          'You are able to live more independently',
         ],
       },
     ],
@@ -140,7 +144,7 @@ export const orientationSteps = [
     ),
     path: '1Yh6fTxvBPw',
     desc:
-      'The Reemployment track provides support to you and your employer so you can return to your former job. This track is for active-duty service members and members of the National Guard or Reserves. If you’re in the Reemployment track, we’ll:',
+      'The Reemployment track provides support to you and your employer so you can return to your former job. This track is for claimants who served on active duty or in the National Guard and are now returning to their former job. If you’re in the Reemployment track, we’ll:',
     list: [
       'Work with your employer to figure out how they can best support you',
       'Recommend changes to your physical workplace that can help you succed',
@@ -167,17 +171,15 @@ export const orientationSteps = [
     ),
     path: '4DVbOy8iJbU',
     desc:
-      'The Rapid Access to Employment track provides services that help Veterans start working right away. This track is right for you if you already have most of the skills you’ll need for the type of job you want. If you’re in the Rapid Access to Employment track, we’ll help you:',
+      'The Rapid Access to Employment track provides services that help Veterans start working right away. This track is right for you if you already have most of the skills you’ll need to be competitive in the labor market in a suitable occupation and suggest removing for the type of job you want. If you’re in the Rapid Access to Employment track, we’ll help you:',
     list: [
-      'Find short-term training',
-      'Get subsistence allowance if needed',
-      'Find a job that works fo ryour individual skillset and abilities',
+      'Find a job that works for your individual skillset and abilities',
       'Prepare for your job by learning about time management, good communication, and other skills',
       'Develop your resume',
       'Prepare for job interviews',
       'Search for a job',
       'Get support from the Department of Labor (DOL) to search for a job',
-      'Connect with someone from VR&E after you’ve started working to find out how you’re adjusting and if you need any further support',
+      'Participate in monthly post-employment follow-up discussions with someone from VR&E after you’ve started working so we can assess how you’re adjusting and if you need any further support',
     ],
   },
   {

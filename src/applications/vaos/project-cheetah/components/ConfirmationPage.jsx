@@ -6,21 +6,21 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 import recordEvent from 'platform/monitoring/record-event.js';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { getTimezoneAbbrBySystemId } from '../../utils/timezone.js';
-import { GA_PREFIX } from '../../utils/constants.js';
+import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants.js';
 import FacilityAddress from '../../components/FacilityAddress.jsx';
 import { selectConfirmationPage } from '../redux/selectors.js';
 import AddToCalendar from 'applications/vaos/components/AddToCalendar';
 import { formatFacilityAddress } from 'applications/vaos/services/location';
 
-const pageTitle = 'Your appointment has been scheduled';
+const pageTitle = 'We’ve scheduled your appointment';
 
-function ConfirmationPage({ data, systemId, facilityDetails }) {
+function ConfirmationPage({ data, systemId, facilityDetails, submitStatus }) {
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
   }, []);
 
-  if (!data?.date1) {
+  if (submitStatus !== FETCH_STATUS.succeeded) {
     return <Redirect to="/" />;
   }
 
@@ -34,10 +34,11 @@ function ConfirmationPage({ data, systemId, facilityDetails }) {
     <div>
       <h1>{pageTitle}</h1>
       <AlertBox status="success">
-        <strong>
-          Your appointment is confirmed. Please see your appointment details
-          below.
-        </strong>
+        <strong>Your appointment is confirmed.</strong>
+        <p>
+          If you get a vaccine that requires a second dose, we'll schedule your
+          second appointment while you're here for your first dose.
+        </p>
       </AlertBox>
       <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
         <span className="vads-u-margin-y--0 vaos-u-text-transform--uppercase">

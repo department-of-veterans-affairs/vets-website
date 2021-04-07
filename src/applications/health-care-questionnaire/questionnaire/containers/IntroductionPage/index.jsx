@@ -12,30 +12,33 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import IntroductionPageHelpers from '../../components/introduction-page';
 
-import { getAppointTypeFromAppointment } from '../../../shared/utils';
-
 import environment from 'platform/utilities/environment';
 import { removeFormApi } from 'platform/forms/save-in-progress/api';
 
+import { selectQuestionnaireContext } from '../../../shared/redux-selectors';
+import {
+  organizationSelector,
+  appointmentSelector,
+  locationSelector,
+} from '../../../shared/utils/selectors';
+
 const IntroductionPage = props => {
   useEffect(() => {
-    focusElement('.va-nav-breadcrumbs-list');
+    focusElement('h1');
   }, []);
   const { isLoggedIn, route, savedForms, formId } = props;
-  const { appointment } = props?.questionnaire?.context;
-  if (!appointment?.attributes) {
+  const { appointment, location, organization } = props?.context;
+  if (!appointment?.id) {
     return (
       <>
         <LoadingIndicator message="Please wait while we load your appointment details..." />
       </>
     );
   }
-  const appointmentData = appointment?.attributes?.vdsAppointments
-    ? appointment?.attributes?.vdsAppointments[0]
-    : {};
 
-  const facilityName = appointmentData.clinic?.facility?.displayName || '';
-  let expirationTime = appointmentData.appointmentTime || '';
+  const facilityName = organizationSelector.getName(organization);
+  const appointmentTime = appointmentSelector.getStartTime(appointment);
+  let expirationTime = appointmentTime;
 
   if (expirationTime) {
     expirationTime = moment(expirationTime).format('MM/DD/YYYY');
@@ -54,9 +57,9 @@ const IntroductionPage = props => {
       props.router.push(firstPage.path);
     };
 
-    const appointmentInPast = moment(
-      appointmentData.appointmentTime,
-    ).isSameOrBefore(moment(new Date()));
+    const appointmentInPast = moment(appointmentTime).isSameOrBefore(
+      moment(new Date()),
+    );
 
     if (appointmentInPast) {
       return (
@@ -97,9 +100,9 @@ const IntroductionPage = props => {
     }
   };
 
-  const title = `Answer ${getAppointTypeFromAppointment(
-    appointment,
-  )} questionnaire`;
+  const title = `Answer ${locationSelector
+    .getType(location)
+    ?.toLowerCase()} questionnaire`;
   const subTitle = facilityName;
   return (
     <div className="schemaform-intro healthcare-experience">
@@ -179,7 +182,7 @@ const IntroductionPage = props => {
       <div className="omb-info--container">
         <OMBInfo expDate={expirationTime} />
       </div>
-      {!environment.isProduction() && (
+      {environment.isLocalhost() && (
         <>
           <button
             onClick={() => {
@@ -198,7 +201,7 @@ const mapStateToProps = state => {
   return {
     pages: state?.form?.pages,
     isLoggedIn: state?.user?.login?.currentlyLoggedIn,
-    questionnaire: state?.questionnaireData,
+    context: selectQuestionnaireContext(state),
     savedForms: state?.user?.profile?.savedForms,
     formId: state.form.formId,
     form: state.form,

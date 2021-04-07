@@ -5,6 +5,7 @@ import moment from 'moment';
 import React from 'react';
 import ConfirmationPage from '../../../project-cheetah/components/ConfirmationPage';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
+import { FETCH_STATUS } from '../../../utils/constants';
 
 const initialState = {
   featureToggles: {
@@ -18,6 +19,7 @@ describe('VAOS vaccine flow <ConfirmationPage>', () => {
     const start = moment();
     const store = createTestStore({
       projectCheetah: {
+        submitStatus: FETCH_STATUS.succeeded,
         newBooking: {
           data: {
             vaFacility: '983',

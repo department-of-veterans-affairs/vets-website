@@ -16,7 +16,13 @@ const SELECTORS = {
 
 function axeTestPage() {
   cy.injectAxe();
-  cy.axeCheck();
+  cy.axeCheck('main', {
+    rules: {
+      'aria-roles': {
+        enabled: false,
+      },
+    },
+  });
 }
 
 describe('functionality of Find Forms', () => {

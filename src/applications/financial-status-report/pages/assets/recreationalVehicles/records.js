@@ -41,6 +41,7 @@ export const uiSchema = {
           'ui:title': 'Type of vehicle',
           'ui:field': Typeahead,
           'ui:options': {
+            idPrefix: 'rec_vehicles',
             classNames:
               'input-size-6 vads-u-margin-top--3 vads-u-margin-bottom--3',
             getOptions: () => formatOptions(recreationalVehicleTypes),
