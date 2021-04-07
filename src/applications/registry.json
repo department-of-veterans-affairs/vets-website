@@ -1088,5 +1088,14 @@
         }
       ]
     }
+  },
+  {
+    "appName": "Report Harassment",
+    "entryName": "report-harassment",
+    "rootUrl": "/harassment",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
+    }
   }
 ]

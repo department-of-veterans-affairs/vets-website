@@ -1,0 +1,7 @@
+{
+  "appName": "Report Harassment",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "report-harassment",
+  "rootUrl": "/harassment",
+  "production": false
+}
