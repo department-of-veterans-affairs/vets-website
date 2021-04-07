@@ -63,9 +63,14 @@ const SignatureInput = ({
         setError(true);
       }
 
+      /* if input has been touched and signature matches allow submission
+         if input is dirty and representative is signing skip validation and make sure signature is present
+         all signature matching logic is with spaces removed
+      */
+
       if (
         (isDirty && signatureMatches) ||
-        (isDirty && isRepresentative && !!signature.value)
+        (isDirty && isRepresentative && !!normalizedSignature)
       ) {
         setIsSigned(true);
         setError(false);
@@ -78,7 +83,7 @@ const SignatureInput = ({
       showError,
       hasSubmit,
       isRepresentative,
-      signature.value,
+      normalizedSignature,
     ],
   );
 
