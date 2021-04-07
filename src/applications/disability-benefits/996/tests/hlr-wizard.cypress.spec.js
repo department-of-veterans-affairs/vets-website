@@ -56,7 +56,10 @@ describe('HLR wizard', () => {
   it('should show other claims', () => {
     cy.get('[type="radio"][value="other"]').check(checkOpt);
     cy.checkStorage(SAVED_CLAIM_TYPE, undefined);
-    cy.get('a[href*="/decision-reviews/higher-level-review/"]').should('exist');
+    // #8622 set by public websites accordion anchor ID
+    cy.get(
+      'a[href*="/decision-reviews/higher-level-review/#find-addresses-for-other-benef-8622"]',
+    ).should('exist');
     cy.checkFormChange({
       label: 'For what type of claim are you requesting a Higher-Level Review?',
       value: 'other',
