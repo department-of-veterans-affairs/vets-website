@@ -18,9 +18,10 @@ const representativePage = {
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
-          yes: 'Yes. I want to upload my documents now',
-          noRep: "Yes. But I'll provide my documents later",
-          no: "No. I don't have these documents.",
+          yes: "Yes. I'd like to upload documents now",
+          noRep:
+            "No. I'm the Veteran's legal representative, but I'll provide documents later",
+          no: 'No',
         },
       },
     },

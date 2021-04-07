@@ -242,7 +242,7 @@ export const RepresentativeIntroContent = () => {
 export const RepresentativeAdditionalInfo = () => {
   return (
     <div className="vads-u-margin-top--1">
-      <AdditionalInfo triggerText="What documents can I submit to show legal status as a representative?">
+      <AdditionalInfo triggerText="What type of document does a legal representative need?">
         <p>
           Documentation to show your legal status as a representative could
           include:
@@ -250,22 +250,26 @@ export const RepresentativeAdditionalInfo = () => {
 
         <ul>
           <li>
-            A current power of attorney document or legal guardianship order,
+            Power of attorney,
             <strong>or</strong>
           </li>
 
           <li>
-            A similar legal document or certification issued by an appropriate
-            attorney, including a federal, state, local, or tribal law that
-            establishes such authority.
+            Legal guardianship order,
+            <strong>or</strong>
+          </li>
+
+          <li>
+            Another legal document that confirms your legal status as the
+            Veteran’s representative. This document can be from by a federal,
+            state, local, or tribal court.
           </li>
         </ul>
 
         <p className="vads-u-margin-top--4">
           <strong>Note:</strong> Being a Veteran’s closest family member or next
-          of kin doesn’t automatically give you legal status as their
-          representative. You’ll still need to provide documentation to show you
-          can legally act as their representative.
+          of kin doesn’t mean you’re their representative. You need a separate
+          legal document to show your status as the representative.
         </p>
       </AdditionalInfo>
     </div>
