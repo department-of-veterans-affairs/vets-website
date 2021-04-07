@@ -11,6 +11,7 @@ import UpdateAddressAlert from './UpdateAddressAlert';
 import TypeOfCareAlert from './TypeOfCareAlert';
 import * as actions from '../../redux/actions';
 import {
+  selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
   selectIsCernerOnlyPatient,
 } from '../../../redux/selectors';
@@ -18,6 +19,8 @@ import { getFormPageInfo, getNewAppointment } from '../../redux/selectors';
 import { resetDataLayer } from '../../../utils/events';
 
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import { PODIATRY_ID, TYPES_OF_CARE } from '../../../utils/constants';
+import useFormState from '../../../hooks/useFormState';
 
 const initialSchema = {
   type: 'object',
@@ -42,16 +45,14 @@ const pageTitle = 'Choose the type of care you need';
 function TypeOfCarePage({
   hideUpdateAddressAlert,
   addressLine1,
-  data,
+  data: userData,
   pageChangeInProgress,
-  schema,
   showPodiatryApptUnavailableModal,
-  openTypeOfCarePage,
   clickUpdateAddressButton,
   showDirectScheduling,
+  showCommunityCare,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-  updateFormData,
   hidePodiatryAppointmentUnavailableModal,
 }) {
   const history = useHistory();
@@ -59,7 +60,7 @@ function TypeOfCarePage({
     !hideUpdateAddressAlert && (!addressLine1 || addressLine1.match(/^PO Box/));
 
   useEffect(() => {
-    openTypeOfCarePage(pageKey, uiSchema, initialSchema);
+    // openTypeOfCarePage(pageKey, uiSchema, initialSchema);
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
 
@@ -69,6 +70,28 @@ function TypeOfCarePage({
       });
     }
   }, []);
+  const sortedCare = TYPES_OF_CARE.filter(
+    typeOfCare => typeOfCare.id !== PODIATRY_ID || showCommunityCare,
+  ).sort(
+    (careA, careB) =>
+      careA.name.toLowerCase() > careB.name.toLowerCase() ? 1 : -1,
+  );
+  const schemaWithTypes = {
+    ...initialSchema,
+    properties: {
+      typeOfCareId: {
+        type: 'string',
+        enum: sortedCare.map(care => care.id || care.ccId),
+        enumNames: sortedCare.map(care => care.label || care.name),
+      },
+    },
+  };
+
+  const { data, schema, setData } = useFormState(
+    schemaWithTypes,
+    uiSchema,
+    userData,
+  );
 
   return (
     <div>
@@ -102,7 +125,7 @@ function TypeOfCarePage({
               getLongTermAppointmentHistory();
             }
 
-            updateFormData(pageKey, uiSchema, newData);
+            setData(newData);
           }}
           data={data}
         >
@@ -133,6 +156,7 @@ function mapStateToProps(state) {
       newAppointment.showPodiatryAppointmentUnavailableModal,
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showDirectScheduling: selectFeatureDirectScheduling(state),
+    showCommunityCare: selectFeatureCommunityCare(state),
     hideUpdateAddressAlert: newAppointment.hideUpdateAddressAlert,
   };
 }
