@@ -1,27 +1,18 @@
 import React from 'react';
 
 function useLastWord(text) {
-  const textWords = React.useMemo(
+  const words = React.useMemo(
     () => {
       return text.split(' ');
     },
     [text],
   );
 
-  const firstWords = React.useMemo(
+  return React.useMemo(
     () => {
-      return textWords.slice(0, -1).join(' ');
+      return [words.slice(-1), [words.slice(0, -1).join(' ')]];
     },
-    [textWords],
+    [words],
   );
-
-  const lastWord = React.useMemo(
-    () => {
-      return textWords.slice(-1);
-    },
-    [textWords],
-  );
-
-  return [lastWord, firstWords];
 }
 export default useLastWord;
