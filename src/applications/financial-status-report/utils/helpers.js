@@ -162,8 +162,8 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
   }
 
   if (questions.vetPreviouslyEmployed) {
-    const { previousEmployment } = employmentHistory.veteran;
-    const employmentRecords = previousEmployment.map(employment => ({
+    const { vetPreviousEmployment } = employmentHistory.veteran;
+    const employmentRecords = vetPreviousEmployment.map(employment => ({
       ...defaultObj,
       veteranOrSpouse: 'VETERAN',
       employerName: employment.employerName,
@@ -175,8 +175,8 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
   }
 
   if (questions.spousePreviouslyEmployed) {
-    const { previousEmployment } = employmentHistory.spouse;
-    const employmentRecords = previousEmployment.map(employment => ({
+    const { spousePreviousEmployment } = employmentHistory.spouse;
+    const employmentRecords = spousePreviousEmployment.map(employment => ({
       ...defaultObj,
       veteranOrSpouse: 'SPOUSE',
       employerName: employment.employerName,

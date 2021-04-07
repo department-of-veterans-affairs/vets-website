@@ -121,7 +121,7 @@
     ],
     "employmentHistory": {
       "spouse": {
-        "previousEmployment": [
+        "spousePreviousEmployment": [
           {
             "type": "Full time",
             "from": "2014-08-XX",
@@ -147,7 +147,7 @@
         }
       },
       "veteran": {
-        "previousEmployment": [
+        "vetPreviousEmployment": [
           {
             "type": "Full time",
             "from": "2017-05-XX",
