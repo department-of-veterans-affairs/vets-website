@@ -47,7 +47,7 @@ export const uiSchema = {
       'ui:title': 'U.S. city',
     },
     stateCode: {
-      'ui:title': 'U.S. state',
+      'ui:title': 'U.S. state or territory',
     },
     zipCode: {
       'ui:title': 'U.S. zip code',
