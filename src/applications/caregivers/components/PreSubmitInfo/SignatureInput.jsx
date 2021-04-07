@@ -53,7 +53,6 @@ const SignatureInput = ({
 
   useEffect(
     () => {
-      // if (isRepresentative) return;
       const isDirty = signature.dirty;
 
       /* show error if user has touched input and signature does not match
