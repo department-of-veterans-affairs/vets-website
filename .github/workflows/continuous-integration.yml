@@ -84,6 +84,7 @@ jobs:
 
       - name: Run ESLint
         run: yarn run eslint --ext .js --ext .jsx --output-file eslint-report.json --format json .
+        continue-on-error: true
 
       # - name: Annotate linting results
       #   if: ${{ always() }}
