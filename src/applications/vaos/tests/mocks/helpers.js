@@ -1013,3 +1013,44 @@ export function mockSingleCommunityCareAppointmentFetch({
     });
   }
 }
+
+/**
+ * Mocks the fetch request made when retrieving a vista CC appointment
+ * for the details page
+ *
+ * @export
+ * @param {Object} params
+ * @param {VARCommunityCareAppointment} params.appointment CC appointment to be returned from the mock
+ * @param {boolean} [params.error=null] Whether or not to return an error from the mock
+ * }
+ */
+export function mockSingleVistaCommunityCareAppointmentFetch({
+  appointment,
+  error = null,
+}) {
+  const baseUrl = `${
+    environment.API_URL
+  }/vaos/v0/appointments?start_date=${moment()
+    .subtract(395, 'days')
+    .startOf('day')
+    .toISOString()}&end_date=${moment()
+    .add(395, 'days')
+    .startOf('day')
+    .toISOString()}&type=cc`;
+
+  setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
+    data: [],
+  });
+
+  const vaUrl = `${environment.API_URL}/vaos/v0/appointments/va/${
+    appointment.id
+  }`;
+
+  if (error) {
+    setFetchJSONFailure(global.fetch.withArgs(vaUrl), { errors: [] });
+  } else {
+    setFetchJSONResponse(global.fetch.withArgs(vaUrl), {
+      data: appointment,
+    });
+  }
+}
