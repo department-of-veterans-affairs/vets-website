@@ -27,9 +27,9 @@ describe('MyVA Dashboard - Messaging', () => {
     });
     it('should show the messaging link with the generic copy', () => {
       cy.visit('my-va/');
-      cy.findByText(/Send a secure message to your health care team/i).should(
-        'exist',
-      );
+      cy.findByRole('link', {
+        name: /Send a secure message to your health care team/i,
+      }).should('exist');
     });
   });
 });

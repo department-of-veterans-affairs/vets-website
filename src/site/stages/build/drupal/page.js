@@ -19,7 +19,7 @@ function createFileObj(page, layout) {
     isDrupalPage: true,
     layout,
     contents: Buffer.from('<!-- Drupal-provided data -->'),
-    debug: JSON.stringify(page, null, 4),
+    debug: page,
     private: privStatus,
   };
 }

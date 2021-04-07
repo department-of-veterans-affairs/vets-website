@@ -19,7 +19,7 @@ import {
 } from '../../../express-care/redux/actions';
 import {
   mockRequestEligibilityCriteria,
-  mockRequestLimit,
+  mockRequestLimits,
 } from '../../mocks/helpers';
 import { getExpressCareRequestCriteriaMock } from '../../mocks/v0';
 
@@ -127,7 +127,7 @@ describe('VAOS Express Care actions', () => {
       },
     });
 
-    mockRequestLimit({ facilityId: '983' });
+    mockRequestLimits({ facilityIds: ['983'] });
     const thunk = fetchRequestLimits();
     const dispatchSpy = sinon.spy();
     await thunk(dispatchSpy, getState);
