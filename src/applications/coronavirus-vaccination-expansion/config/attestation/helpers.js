@@ -14,35 +14,27 @@ export const eligibilityAccordion = (
     <h3 className="vads-u-font-size--h4" style={paddingBottom}>
       Learn about who's eligible for a COVID-19 vaccine at VA
     </h3>
-    <va-accordion style={paddingBottom}>
+    <va-accordion multi style={paddingBottom}>
       <va-accordion-item level="4" header="Which Veterans are eligible?">
         <p>
-          To be eligible for a COVID-19 vaccine at VA as a Veteran, both of
-          these statements must be true for you:
+          <strong>All Veterans</strong> are now eligible for a COVID-19 vaccine
+          at VA. This includes anyone who served in the U.S. military, including
+          the U.S. National Guard, Reserves, or Coast Guard. This also includes
+          those who served as:
           <ul>
             <li>
-              You served on active duty (other than for training) or have a
-              service-connected disability, <strong>and</strong>
-            </li>
-            <li>You didn’t receive a dishonorable discharge.</li>
-          </ul>
-          Active duty service means you served full-time duty in any of these
-          ways (other than for training purposes only):
-          <ul>
-            <li>In the U.S. Armed Forces (including Reserves)</li>
-            <li>
-              As a commissioned officer of the Regular or Reserve Corp of the
-              Public Health Service, <strong>or</strong>
+              Commissioned officers of the Regular or Reserve Corp of the Public
+              Health Service, <strong>or</strong>
             </li>
             <li>
-              As a commissioned officer of the National Oceanic and Atmospheric
+              Commissioned officers of the National Oceanic and Atmospheric
               Administration (or Coast and Geodetic Survey), <strong>or</strong>
             </li>
             <li>
-              As a Cadet at the U.S. Military, Air Force, or Coast Guard
-              Academy, <strong>or</strong>
+              Cadets at the U.S. Military, Air Force, or Coast Guard Academy,{' '}
+              <strong>or</strong>
             </li>
-            <li>As a midshipman at the United States Naval Academy</li>
+            <li>Midshipmen at the United States Naval Academy</li>
           </ul>
         </p>
       </va-accordion-item>
@@ -52,15 +44,15 @@ export const eligibilityAccordion = (
           one of these descriptions must fit you:
           <ul>
             <li>
-              <strong>Spouse</strong> of an eligible Veteran
+              <strong>Spouse</strong> of a Veteran, including surviving spouses
             </li>
 
             <li>
-              <strong>Caregiver</strong> of an eligible Veteran. A caregiver is
-              a family member or friend who provides care to the Veteran.
-              Caregivers may help the Veteran with personal needs like feeding,
-              bathing, or dressing. They may also help the Veteran with tasks
-              like shopping or transportation.
+              <strong>Caregiver</strong> of a Veteran. A caregiver is a family
+              member or friend who provides care to a Veteran. Caregivers may
+              help a Veteran with personal needs like feeding, bathing, or
+              dressing. They may also help a Veteran with tasks like shopping or
+              transportation.
             </li>
 
             <li>
@@ -94,20 +86,19 @@ export const eligibilityAccordion = (
 
 export const veteranLabel = (
   <>
-    <strong>Eligible Veteran</strong> who meets the service requirements listed
-    above
+    <strong>Veteran</strong>
   </>
 );
 
 export const spouseLabel = (
   <>
-    <strong>Spouse</strong> of an eligible Veteran
+    <strong>Spouse or surviving spouse</strong> of a Veteran
   </>
 );
 
 export const caregiverOfVeteranLabel = (
   <>
-    <strong>Caregiver</strong> of an eligible Veteran
+    <strong>Caregiver</strong> of a Veteran
   </>
 );
 

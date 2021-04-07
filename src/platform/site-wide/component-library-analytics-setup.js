@@ -12,6 +12,7 @@ const analyticsEvents = {
     { action: 'collapse', event: 'int-additional-info-collapse' },
   ],
   AlertBox: [{ action: 'linkClick', event: 'nav-alert-box-link-click' }],
+  PromoBanner: [{ action: 'linkClick', event: 'nav-promo-banner-link-click' }],
 };
 
 export function subscribeComponentAnalyticsEvents(

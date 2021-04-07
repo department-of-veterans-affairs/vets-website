@@ -1,5 +1,7 @@
 import React from 'react';
 
+import useLastWord from '../useLastWord';
+
 const IconCTALink = ({
   ariaLabel,
   href,
@@ -10,6 +12,8 @@ const IconCTALink = ({
   boldText,
   newTab,
 }) => {
+  const [lastWord, firstWords] = useLastWord(text);
+
   const linkClass = `vads-u-text-decoration--none vads-u-padding-y--2p5 cta-link vads-u-font-weight--${
     boldText ? 'bold' : 'normal'
   }`;
@@ -19,7 +23,7 @@ const IconCTALink = ({
 
   return (
     <a
-      aria-label={ariaLabel ? `${ariaLabel}` : ''}
+      aria-label={ariaLabel ? `${ariaLabel}` : text}
       href={href}
       rel={relProp}
       target={targetProp}
@@ -35,11 +39,14 @@ const IconCTALink = ({
           <i aria-hidden="true" className={`fas fa-${icon} fa-stack-1x`} />
         </span>
         <span>
-          {text}
-          <i
-            aria-hidden="true"
-            className="fas fa-xs fa-chevron-right vads-u-margin-left--1"
-          />
+          {`${firstWords} `}
+          <span style={{ whiteSpace: 'nowrap' }}>
+            {lastWord}
+            <i
+              aria-hidden="true"
+              className="fas fa-xs fa-chevron-right vads-u-margin-left--1"
+            />
+          </span>
         </span>
       </span>
     </a>
