@@ -23,7 +23,7 @@ const IconCTALink = ({
 
   return (
     <a
-      aria-label={ariaLabel ? `${ariaLabel}` : text}
+      aria-label={ariaLabel ? `${ariaLabel}` : ''}
       href={href}
       rel={relProp}
       target={targetProp}
