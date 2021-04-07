@@ -100,7 +100,7 @@ jobs:
       #     path: eslint-report.json
 
       - name: Run Sass linter
-        run: sass-lint --verbose -o lintsass-report.json
+        run: yarn lint:sass
 
       - name: Annotate Checks
         uses: agyemanjp/ci-checks-action@2.0.3
@@ -109,7 +109,7 @@ jobs:
           checks: '[
               {
                 "name": "sass-lint",
-                "fileName": "sasslint-report.json"
+                "fileName": "lintsass-report.json"
               }
             ]'
 
