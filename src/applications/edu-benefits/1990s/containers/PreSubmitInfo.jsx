@@ -15,7 +15,7 @@ function PreSubmitNotice({
   const privacyAgreementAccepted = formData.privacyAgreementAccepted || false;
   const vrrapConfirmation = formData.vrrapConfirmation;
 
-  // when there is no unsigned signatures set AGREED (onSectionComplete) to true
+  // set AGREED (onSectionComplete) to value of privacyAgreementAccepted
   // if goes to another page (unmount), set AGREED (onSectionComplete) to false
   useEffect(
     () => {
