@@ -26,6 +26,8 @@ node('vetsgov-general-purpose') {
 
     try {
       parallel (
+        failFast: true,
+
         lint: {
           dockerContainer.inside(commonStages.DOCKER_ARGS) {
             sh "cd /application && npm --no-color run lint"
@@ -69,6 +71,8 @@ node('vetsgov-general-purpose') {
       try {
         if (commonStages.IS_PROD_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) {
           parallel (
+            failFast: true,
+
             'nightwatch-e2e': {
               sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p nightwatch up -d && docker-compose -p nightwatch run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
             },          
@@ -81,6 +85,8 @@ node('vetsgov-general-purpose') {
           )
         } else {
           parallel (
+            failFast: true,
+
             'nightwatch-e2e': {
               sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p nightwatch up -d && docker-compose -p nightwatch run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
             },          
