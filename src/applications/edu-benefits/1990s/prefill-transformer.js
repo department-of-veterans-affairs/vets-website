@@ -1,5 +1,3 @@
-// import { hasPrefillBankInformation } from './utils';
-
 export function prefillTransformer(pages, formData, metadata) {
   const {
     veteranFullName,
@@ -7,11 +5,10 @@ export function prefillTransformer(pages, formData, metadata) {
     homePhone,
     mobilePhone,
     email,
-    veteranAddress,
+    address,
     dateOfBirth,
+    bankAccount,
   } = formData;
-
-  // const hasBankInformation = hasPrefillBankInformation(formData.bankAccount);
 
   const newFormData = {
     'view:applicantInformation': {
@@ -25,7 +22,14 @@ export function prefillTransformer(pages, formData, metadata) {
         alternatePhone: homePhone,
         email,
       },
-      address: veteranAddress,
+      address,
+    },
+    'view:directDeposit': {
+      bankAccount: {
+        accountType: bankAccount.accountType.toLowerCase(),
+        routingNumber: bankAccount.routingNumber,
+        accountNumber: bankAccount.accountNumber,
+      },
     },
   };
 
