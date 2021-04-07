@@ -206,6 +206,14 @@ module.exports = function registerFilters() {
     return _.slice(arr, startIndex);
   };
 
+  liquid.filters.formatSharableLinkID = (id, description) => {
+    if (!description) return id;
+    const truncatedText = description.substring(0, 30);
+    const escaped = liquid.filters.escape(truncatedText);
+    const hyphenatedDesc = _.kebabCase(escaped);
+    return `${hyphenatedDesc}-${id}`;
+  };
+
   liquid.filters.breakTerms = data => {
     let output = '';
     if (data != null) {
