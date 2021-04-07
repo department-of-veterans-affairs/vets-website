@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
-import recordEvent from 'platform/monitoring/record-event';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import Home from '../../questionnaire-list/components/Home';
@@ -11,21 +10,8 @@ import {
 } from '../../../shared/redux-selectors';
 
 const QuestionnaireApp = props => {
-  const { isLoadingFeatureFlags, isQuestionnaireEnabled, location } = props;
-  useEffect(
-    () => {
-      if (location && location.query) {
-        const { ref } = location.query;
-        if (ref) {
-          recordEvent({
-            event: 'hcq-list-ref',
-            ref,
-          });
-        }
-      }
-    },
-    [location],
-  );
+  const { isLoadingFeatureFlags, isQuestionnaireEnabled } = props;
+
   if (isLoadingFeatureFlags) {
     return (
       <>
