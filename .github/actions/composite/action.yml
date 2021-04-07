@@ -20,3 +20,13 @@ runs:
     # - run: |
     #     ${{ github.action_path }}/script.sh
     #   shell: bash
+    - name: Get Node version
+      id: get-node-version
+      run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+      shell: bash
+
+    - name: Setup Node
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+      shell: bash

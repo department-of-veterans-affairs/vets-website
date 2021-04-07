@@ -153,7 +153,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: "I should echo default 'Hello World'"
+      - name: Attempt to compose actions
         id: step0
         uses: ./.github/actions/composite
 
