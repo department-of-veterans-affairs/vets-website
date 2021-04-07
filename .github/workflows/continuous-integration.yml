@@ -151,5 +151,18 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - name: A job to say hello
-        uses: ./.github/actions/hello-world-action
+      - uses: actions/checkout@v2
+
+      - name: "I should echo default 'Hello World'"
+        id: step0
+        uses: ./.github/actions/composite
+
+      - name: "Check action output"
+        if: steps.step0.outputs.output != 'output string'
+        run: echo "expected output to be 'output string' but it wasn't"
+
+      - name: "I should echo 'Test string'"
+        id: step1
+        uses: ./.github/actions/composite
+        with:
+          input: 'Test string'
