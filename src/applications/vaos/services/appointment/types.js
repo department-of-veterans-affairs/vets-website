@@ -42,7 +42,7 @@
  * - Mapped from request.reasonForVisit for Express Care requests
  * - Mapped from request.purposeForVisit for regular requests
  * - Empty for other appointment types
- * @property {VistaAppointmentParticipants | VARequestParticipants | CommunityCareParticipants} participant
+ * @property {VistaAppointmentParticipants | VARequestParticipants} participant
  *   Array of resources participating in this appointment, used to store information like clinic and location
  * @property {VARequestContainedResources} contained
  *   Array of fully defined resources for this appointment
@@ -77,7 +77,7 @@
  * - Mapped from ccAppointment.providerPractice or from request.ccAppointmentRequest.preferredProviders[].practiceName
  * @property {?Address} address The address of the provider
  * - Mapped from ccAppointment.address or from request.ccAppointmentRequest.preferredProviders[].address
- * @property {Array<Telecom>} telecom The phone number of the provider, in a single item array
+ * @property {?Array<Telecom>} telecom The phone number of the provider, in a single item array
  * - Mapped from ccAppointment.providerPhone
  */
 
