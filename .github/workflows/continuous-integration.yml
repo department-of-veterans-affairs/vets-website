@@ -83,8 +83,8 @@ jobs:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Run ESLint
-        # run: yarn run eslint --ext .js --ext .jsx --output-file eslint-report.json --format json .
-        run: yarn run eslint --ext .js --ext .jsx --format compact .
+        run: yarn run eslint --ext .js --ext .jsx  --format ./script/github-actions/lint-annotation-format.js .
+        # run: yarn run eslint --ext .js --ext .jsx --format compact .
         continue-on-error: true
 
       # - name: Annotate linting results
