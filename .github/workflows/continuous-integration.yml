@@ -82,9 +82,9 @@ jobs:
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
-      - name: Run ESLint
-        run: yarn run eslint --ext .js --ext .jsx --output-file eslint-report.json --format json .
-        continue-on-error: true
+      # - name: Run ESLint
+      #   run: yarn run eslint --ext .js --ext .jsx --output-file eslint-report.json --format json .
+      #   continue-on-error: true
 
       # - name: Annotate linting results
       #   if: ${{ always() }}
@@ -99,8 +99,8 @@ jobs:
       #     name: eslint-report.json
       #     path: eslint-report.json
 
-      # - name: Run Sass linter
-      #   run: yarn lint:sass
+      - name: Run Sass linter
+        run: sass-lint --verbose -o lintsass-report.json
 
       - name: Annotate Checks
         uses: agyemanjp/ci-checks-action@2.0.3
@@ -108,8 +108,8 @@ jobs:
           ghToken: ${{ secrets.GITHUB_TOKEN }}
           checks: '[
               {
-                "name": "lint",
-                "fileName": "eslint-report.json"
+                "name": "sass-lint",
+                "fileName": "sasslint-report.json"
               }
             ]'
 
