@@ -2,7 +2,7 @@ import React from 'react';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
-import EducationGate from '../../0994/containers/EducationGate';
+import EducationGate from '../../containers/EducationGate';
 
 export default function App({ location, children }) {
   return (
