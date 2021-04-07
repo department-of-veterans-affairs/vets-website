@@ -10,13 +10,13 @@ function monkeyPatchStateNames(extraStates, addressInformationObj) {
 }
 
 const extraStates = [
-  // {
-  //   stateCode: 'GU',
-  //   stateName: 'Guam',
-  // },
   {
     stateCode: 'PR',
     stateName: 'Puerto Rico',
+  },
+  {
+    stateCode: 'GU',
+    stateName: 'Guam',
   },
 ];
 
