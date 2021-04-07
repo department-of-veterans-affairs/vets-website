@@ -50,7 +50,7 @@ export const PrimaryCaregiverInfo = ({
 
     {additionalInfo && (
       <section className="vads-u-margin-y--2p5">
-        <AdditionalInfo triggerText="What&apos;s a Primary Family Caregiver?">
+        <AdditionalInfo triggerText="Learn more about who qualifies as a Primary Family Caregiver">
           <p>
             Family caregivers are approved and designated by VA as Primary
             Family Caregivers and Secondary Family Caregivers to provide
@@ -91,7 +91,7 @@ PrimaryCaregiverInfo.defaultProps = {
 
 export const SecondaryCaregiverLegal = () => (
   <div className="vads-u-margin-y--1p5">
-    <AdditionalInfo triggerText="What’s a Secondary Family Caregiver?">
+    <AdditionalInfo triggerText="Learn more about who qualifies as a Secondary Family Caregiver">
       <p>
         Family caregivers are approved and designated by VA as Primary Family
         Caregivers and Secondary Family Caregivers to provide personal care
@@ -194,7 +194,10 @@ export const PleaseSelectVAFacility = () => (
 export const AdditionalCaregiverInfo = () => (
   <>
     <strong>You can add up to 2 Secondary Family Caregivers.</strong>
-    <p>Would you like to add another Secondary Family Caregiver?</p>
+    <p>
+      Would you like to apply for benefits for another Secondary Family
+      Caregiver?
+    </p>
   </>
 );
 
@@ -206,5 +209,69 @@ export const SecondaryRequiredAlert = () => {
       status={ALERT_TYPE.ERROR}
       isVisible
     />
+  );
+};
+
+export const RepresentativeIntroContent = () => {
+  return (
+    <section>
+      <p>
+        Some family caregivers are also the Veteran’s legal representative.
+        These representatives have the legal authority to make certain decisions
+        for the Veteran.
+      </p>
+
+      <p>Here's what you should know:</p>
+
+      <ul>
+        <li>
+          You can still continue with this application to apply for the program
+          even if you’re not the Veteran’s legal representative.
+        </li>
+
+        <li>
+          If you are the Veteran’s legal representative, you can upload one or
+          more documents to show your legal status. If you don't upload your
+          documents now, we'll ask you to provide them later
+        </li>
+      </ul>
+    </section>
+  );
+};
+
+export const RepresentativeAdditionalInfo = () => {
+  return (
+    <div className="vads-u-margin-top--1">
+      <AdditionalInfo triggerText="What type of document does a legal representative need?">
+        <p>
+          Documentation to show your legal status as a representative could
+          include:
+        </p>
+
+        <ul>
+          <li>
+            Power of attorney,
+            <strong>or</strong>
+          </li>
+
+          <li>
+            Legal guardianship order,
+            <strong>or</strong>
+          </li>
+
+          <li>
+            Another legal document that confirms your legal status as the
+            Veteran’s representative. This document can be from by a federal,
+            state, local, or tribal court.
+          </li>
+        </ul>
+
+        <p className="vads-u-margin-top--4">
+          <strong>Note:</strong> Being a Veteran’s closest family member or next
+          of kin doesn’t mean you’re their representative. You need a separate
+          legal document to show your status as the representative.
+        </p>
+      </AdditionalInfo>
+    </div>
   );
 };

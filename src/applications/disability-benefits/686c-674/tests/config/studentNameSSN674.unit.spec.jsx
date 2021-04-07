@@ -6,6 +6,7 @@ import { changeDropdown } from '../helpers/index.js';
 import {
   DefinitionTester,
   fillData,
+  selectRadio,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 
 import formConfig from '../../config/form';
@@ -30,7 +31,7 @@ describe('Report 674 student personal information', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(7);
+    expect(form.find('input').length).to.equal(9);
     expect(form.find('select').length).to.equal(3);
     form.unmount();
   });
@@ -47,7 +48,7 @@ describe('Report 674 student personal information', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(4);
+    expect(form.find('.usa-input-error').length).to.equal(5);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -68,6 +69,7 @@ describe('Report 674 student personal information', () => {
     fillData(form, 'input#root_studentNameAndSsn_ssn', '555-55-5551');
     changeDropdown(form, 'select#root_studentNameAndSsn_birthDateMonth', 1);
     changeDropdown(form, 'select#root_studentNameAndSsn_birthDateDay', 1);
+    selectRadio(form, 'root_studentNameAndSsn_isParentOrGuardian', 'N');
     fillData(form, 'input#root_studentNameAndSsn_birthDateYear', '2002');
 
     form.find('form').simulate('submit');
