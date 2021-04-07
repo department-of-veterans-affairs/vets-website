@@ -13,10 +13,5 @@ runs:
   using: "composite"
   steps:
     - run: echo Hello ${{ inputs.input }}.
-      shell: bash
     - id: set-output
       run: echo "::set-output name=string::output string"
-      shell: bash
-    - run: |
-        ${{ github.action_path }}/script.sh
-      shell: bash
