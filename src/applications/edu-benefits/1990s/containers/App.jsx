@@ -2,11 +2,14 @@ import React from 'react';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
+import EducationGate from '../../0994/containers/EducationGate';
 
 export default function App({ location, children }) {
   return (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
+    <EducationGate location={location}>
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        {children}
+      </RoutedSavableApp>
+    </EducationGate>
   );
 }
