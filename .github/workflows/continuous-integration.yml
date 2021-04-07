@@ -102,16 +102,16 @@ jobs:
       - name: Run Sass linter
         run: yarn lint:sass
 
-      - name: Annotate Checks
-        uses: agyemanjp/ci-checks-action@2.0.3
-        with:
-          ghToken: ${{ secrets.GITHUB_TOKEN }}
-          checks: '[
-              {
-                "name": "sass-lint",
-                "fileName": "lintsass-report.json"
-              }
-            ]'
+      # - name: Annotate Checks
+      #   uses: agyemanjp/ci-checks-action@2.0.3
+      #   with:
+      #     ghToken: ${{ secrets.GITHUB_TOKEN }}
+      #     checks: '[
+      #         {
+      #           "name": "sass-lint",
+      #           "fileName": "lintsass-report.json"
+      #         }
+      #       ]'
 
   security-audit:
     name: Security Audit
