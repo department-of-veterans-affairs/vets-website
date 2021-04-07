@@ -15,6 +15,9 @@ const SignatureInput = ({
   const firstName = fullName.first?.toLowerCase() || '';
   const lastName = fullName.last?.toLowerCase() || '';
   const middleName = fullName.middle?.toLowerCase() || '';
+  const errorMessage = isRepresentative
+    ? 'You must sign as representative.'
+    : 'Your signature must match your first and last name as previously entered.';
 
   const [signature, setSignature] = useState({
     value: '',
@@ -50,17 +53,20 @@ const SignatureInput = ({
 
   useEffect(
     () => {
-      if (isRepresentative) return;
+      // if (isRepresentative) return;
       const isDirty = signature.dirty;
 
-      // show error if user has touched input and signature does not match
-      // show error if there is a form error and has not been submitted
+      /* show error if user has touched input and signature does not match
+         show error if there is a form error and has not been submitted */
       if ((isDirty && !signatureMatches) || (showError && !hasSubmit)) {
         setIsSigned(false);
         setError(true);
       }
 
-      if (isDirty && signatureMatches) {
+      if (
+        (isDirty && signatureMatches) ||
+        (isDirty && isRepresentative && !!signature.value)
+      ) {
         setIsSigned(true);
         setError(false);
       }
@@ -72,6 +78,7 @@ const SignatureInput = ({
       showError,
       hasSubmit,
       isRepresentative,
+      signature.value,
     ],
   );
 
@@ -82,10 +89,7 @@ const SignatureInput = ({
       required={required}
       onValueChange={value => setSignature(value)}
       field={{ value: signature.value, dirty: signature.dirty }}
-      errorMessage={
-        hasError &&
-        'Your signature must match your first and last name as previously entered.'
-      }
+      errorMessage={hasError && errorMessage}
     />
   );
 };

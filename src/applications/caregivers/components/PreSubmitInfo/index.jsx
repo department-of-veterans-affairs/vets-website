@@ -54,7 +54,9 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
   );
 
   const [signatures, setSignatures] = useState({
-    [veteranLabel]: false,
+    [showRepresentativeSignatureBox
+      ? representativeLabel
+      : veteranLabel]: false,
   });
 
   const unSignedLength = Object.values(signatures).filter(
@@ -77,7 +79,6 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
   );
 
   /* Remove party signature box if yes/no question is answered falsy */
-
   useEffect(
     () => {
       if (!hasPrimary) {
@@ -103,6 +104,22 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
           return newState;
         });
       }
+
+      if (!showRepresentativeSignatureBox) {
+        setSignatures(prevState => {
+          const newState = cloneDeep(prevState);
+          delete newState[representativeLabel];
+          return newState;
+        });
+      }
+
+      if (showRepresentativeSignatureBox) {
+        setSignatures(prevState => {
+          const newState = cloneDeep(prevState);
+          delete newState[veteranLabel];
+          return newState;
+        });
+      }
     },
 
     [
@@ -112,6 +129,9 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
       secondaryOneLabel,
       secondaryTwoLabel,
       primaryLabel,
+      showRepresentativeSignatureBox,
+      representativeLabel,
+      veteranLabel,
     ],
   );
 
