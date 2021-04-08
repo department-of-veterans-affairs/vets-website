@@ -1,5 +1,3 @@
-import React from 'react';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import { veteranInformation } from '../schema-imports';
 
 export const schema = {
@@ -8,33 +6,18 @@ export const schema = {
 
 export const uiSchema = {
   veteranInformation: {
-    veteranBirthDate: {
-      'ui:title': "Veteran's date of birth",
-      'ui:description': () => (
-        <p>
-          <strong>Note: </strong>
-          The Veteran’s date of birth helps us match your information to the
-          Veteran’s records. This helps us confirm your eligibility.
-        </p>
-      ),
-      'ui:widget': 'date',
+    'ui:description':
+      "We ask for this information so we can match you to a Veteran in our records. Please provide the Veteran's name as you believe it appears in their military discharge papers (DD214). If you're unsure, enter the Veteran's current name. If we need more information, we'll contact you.",
+    veteranFirstName: {
+      'ui:title': "Veteran's first name",
+      'ui:errorMessages': {
+        required: "Please enter the Veteran's first name.",
+      },
     },
-    veteranSsn: {
-      ...ssnUI,
-      ...{
-        'ui:title': "Veteran's Social Security number (SSN)",
-        'ui:description': () => (
-          <p>
-            <strong>Note: </strong>
-            The Veteran’s <abbr title="Social Security Number">SSN</abbr> helps
-            us match your information to the Veteran’s records. This helps us
-            confirm your eligibility.
-          </p>
-        ),
-        'ui:errorMessages': {
-          pattern: 'Please enter a valid 9 digit SSN (dashes allowed)',
-          required: 'Please enter a SSN',
-        },
+    veteranLastName: {
+      'ui:title': "Veteran's last name",
+      'ui:errorMessages': {
+        required: "Please enter the Veteran's last name.",
       },
     },
   },
