@@ -65,6 +65,13 @@
   padding: 16px;
   margin-bottom: 16px;
 
+  &.vaos-appts__card--clickable {
+    list-style: none;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
   @include media($medium-screen) {
     padding: 24px;
     margin-bottom: 24px;
