@@ -16,6 +16,17 @@ const testConfig = createTestConfig(
     fixtures: { data: path.join(__dirname, 'formDataSets') },
     setupPerTest: () => {
       window.sessionStorage.removeItem('wizardStatus31');
+      cy.intercept('GET', '/v0/feature_toggles*', {
+        data: {
+          type: 'feature_toggles',
+          features: [
+            {
+              name: 'show_chapter_31',
+              value: true,
+            },
+          ],
+        },
+      });
       cy.intercept('POST', '/v0/veteran_readiness_employment_claims', {
         formSubmissionId: '123fake-submission-id-567',
         timestamp: '2020-11-12',
