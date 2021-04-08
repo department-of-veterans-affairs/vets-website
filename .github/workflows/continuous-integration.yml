@@ -83,18 +83,15 @@ jobs:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Run ESLint
-        run: yarn run eslint --ext .js --ext .jsx  --format json --output-file eslint-report.json .
-        # run: yarn run eslint --ext .js --ext .jsx --format compact .
+        run: yarn run eslint --ext .js --ext .jsx  --format ./script/github-actions/lint-annotation-format.js .
         continue-on-error: true
 
-      - name: Annotate
-        uses: yuzutech/annotations-action@v0.1.0
-        with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          title: 'lint'
-          input: './eslint-report.json'
-      # - name: Annotate ESLint
-      #   run: echo "::error file=/Users/oseasmoran/Projects/VA/vets-website/src/applications/caregivers/containers/IntroductionPage.jsx,line=41,col=5::React Hook"
+      # - name: Annotate
+      #   uses: yuzutech/annotations-action@v0.1.0
+      #   with:
+      #     repo-token: "${{ secrets.GITHUB_TOKEN }}"
+      #     title: 'lint'
+      #     input: './eslint-report.json'
 
       # - name: Annotate linting results
       #   if: ${{ always() }}
