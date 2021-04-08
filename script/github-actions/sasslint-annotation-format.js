@@ -14,7 +14,7 @@ for (let i = 0; i < sasslintData.length; i++) {
 
       output += `file=${sasslintData[i].filePath},line=${
         sasslintData[i].messages[j].line
-      },col=${sasslintData[i].messages[j].column}::\n${
+      },col=${sasslintData[i].messages[j].column}::${
         sasslintData[i].filePath
       }:${sasslintData[i].messages[j].line}:${
         sasslintData[i].messages[j].column
