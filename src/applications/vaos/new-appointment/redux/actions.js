@@ -3,12 +3,7 @@ import * as Sentry from '@sentry/browser';
 
 import recordEvent from 'platform/monitoring/record-event';
 
-import {
-  selectVAPEmailAddress,
-  selectVAPHomePhoneString,
-  selectVAPMobilePhoneString,
-  selectVAPResidentialAddress,
-} from 'platform/user/selectors';
+import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import newAppointmentFlow from '../newAppointmentFlow';
 import {
   selectFeatureDirectScheduling,
@@ -90,8 +85,6 @@ export const GA_FLOWS = {
 export const FORM_DATA_UPDATED = 'newAppointment/FORM_DATA_UPDATED';
 export const FORM_PAGE_OPENED = 'newAppointment/FORM_PAGE_OPENED';
 export const FORM_RESET = 'newAppointment/FORM_RESET';
-export const FORM_TYPE_OF_CARE_PAGE_OPENED =
-  'newAppointment/TYPE_OF_CARE_PAGE_OPENED';
 export const FORM_PAGE_CHANGE_STARTED =
   'newAppointment/FORM_PAGE_CHANGE_STARTED';
 export const FORM_PAGE_CHANGE_COMPLETED =
@@ -251,27 +244,6 @@ export function startRequestAppointmentFlow(isCommunityCare) {
 
   return {
     type: START_REQUEST_APPOINTMENT_FLOW,
-  };
-}
-
-export function openTypeOfCarePage(page, uiSchema, schema) {
-  return (dispatch, getState) => {
-    const state = getState();
-    const email = selectVAPEmailAddress(state);
-    const homePhone = selectVAPHomePhoneString(state);
-    const mobilePhone = selectVAPMobilePhoneString(state);
-    const showCommunityCare = selectFeatureCommunityCare(state);
-
-    const phoneNumber = mobilePhone || homePhone;
-    dispatch({
-      type: FORM_TYPE_OF_CARE_PAGE_OPENED,
-      page,
-      uiSchema,
-      schema,
-      email,
-      phoneNumber,
-      showCommunityCare,
-    });
   };
 }
 

@@ -54,7 +54,6 @@ import {
   FORM_PAGE_COMMUNITY_CARE_PROVIDER_SELECTION_OPENED,
   FORM_SUBMIT,
   FORM_SUBMIT_FAILED,
-  FORM_TYPE_OF_CARE_PAGE_OPENED,
   FORM_UPDATE_CC_ELIGIBILITY,
   CLICKED_UPDATE_ADDRESS_BUTTON,
   FORM_REQUESTED_PROVIDERS,
@@ -73,8 +72,6 @@ import {
   FLOW_TYPES,
   FETCH_STATUS,
   PURPOSE_TEXT,
-  TYPES_OF_CARE,
-  PODIATRY_ID,
 } from '../../utils/constants';
 
 import { getTypeOfCare } from './selectors';
@@ -274,45 +271,6 @@ export default function formReducer(state = initialState, action) {
         ...state,
         pageChangeInProgress: false,
         previousPages: updatedPreviousPages,
-      };
-    }
-    case FORM_TYPE_OF_CARE_PAGE_OPENED: {
-      const prefilledData = {
-        ...state.data,
-        phoneNumber: state.data.phoneNumber || action.phoneNumber,
-        email: state.data.email || action.email,
-      };
-
-      const sortedCare = TYPES_OF_CARE.filter(
-        typeOfCare => typeOfCare.id !== PODIATRY_ID || action.showCommunityCare,
-      ).sort(
-        (careA, careB) =>
-          careA.name.toLowerCase() > careB.name.toLowerCase() ? 1 : -1,
-      );
-      const initialSchema = {
-        ...action.schema,
-        properties: {
-          typeOfCareId: {
-            type: 'string',
-            enum: sortedCare.map(care => care.id || care.ccId),
-            enumNames: sortedCare.map(care => care.label || care.name),
-          },
-        },
-      };
-
-      const { data, schema } = setupFormData(
-        prefilledData,
-        initialSchema,
-        action.uiSchema,
-      );
-
-      return {
-        ...state,
-        data,
-        pages: {
-          ...state.pages,
-          [action.page]: schema,
-        },
       };
     }
     case FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL: {

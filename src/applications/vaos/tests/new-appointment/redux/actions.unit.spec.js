@@ -16,7 +16,6 @@ import {
   fetchFacilityDetails,
   updateFacilityPageData,
   updateReasonForAppointmentData,
-  openTypeOfCarePage,
   openCommunityCarePreferencesPage,
   getAppointmentSlots,
   onCalendarChange,
@@ -41,7 +40,6 @@ import {
   FORM_ELIGIBILITY_CHECKS_FAILED,
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED,
-  FORM_TYPE_OF_CARE_PAGE_OPENED,
   FORM_CALENDAR_FETCH_SLOTS,
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
@@ -946,37 +944,6 @@ describe('VAOS newAppointment actions', () => {
     });
   });
 
-  describe('openTypeOfCarePage', () => {
-    it('should open type of care page and pull contact info to prefill', () => {
-      const state = {
-        user: {
-          profile: {
-            vapContactInfo: {
-              email: {
-                emailAddress: 'test@va.gov',
-              },
-              homePhone: {
-                areaCode: '503',
-                extension: '0000',
-                phoneNumber: '2222222',
-              },
-            },
-          },
-        },
-      };
-      const getState = () => state;
-      const dispatch = sinon.spy();
-
-      const thunk = openTypeOfCarePage('typeOfCare', {}, {});
-      thunk(dispatch, getState);
-
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        FORM_TYPE_OF_CARE_PAGE_OPENED,
-      );
-      expect(dispatch.firstCall.args[0].phoneNumber).to.equal('5032222222');
-      expect(dispatch.firstCall.args[0].email).to.equal('test@va.gov');
-    });
-  });
   describe('requestAppointmentDateChoice', () => {
     it('should start request flow and route to request date page', () => {
       const history = {

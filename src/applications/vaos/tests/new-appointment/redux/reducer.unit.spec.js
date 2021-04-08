@@ -32,7 +32,6 @@ import {
   FORM_REQUESTED_PROVIDERS_FAILED,
   FORM_SUBMIT,
   FORM_SUBMIT_FAILED,
-  FORM_TYPE_OF_CARE_PAGE_OPENED,
   FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
   FORM_HIDE_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL,
   FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
@@ -1269,65 +1268,6 @@ describe('VAOS reducer: newAppointment', () => {
       expect(newState.submitStatus).to.equal(FETCH_STATUS.failed);
       expect(newState.submitStatusVaos400).to.equal(true);
     });
-  });
-
-  it('should open the type of care page and prefill contact info', () => {
-    const currentState = {
-      data: {},
-      pages: {},
-    };
-    const action = {
-      type: FORM_TYPE_OF_CARE_PAGE_OPENED,
-      page: 'test',
-      schema: {
-        type: 'object',
-        properties: {},
-      },
-      uiSchema: {},
-      phoneNumber: '123456789',
-      email: 'test@va.gov',
-      showCommunityCare: true,
-    };
-
-    const newState = newAppointmentReducer(currentState, action);
-
-    expect(newState.pages.test).not.to.be.undefined;
-    expect(newState.data.phoneNumber).to.equal(action.phoneNumber);
-    expect(newState.data.email).to.equal(action.email);
-    expect(
-      newState.pages.test.properties.typeOfCareId.enumNames.some(label =>
-        label.toLowerCase().includes('podiatry'),
-      ),
-    ).to.be.true;
-    expect(newState.pages.test.properties.typeOfCareId.enumNames[0]).to.contain(
-      'Amputation care',
-    );
-  });
-
-  it('should hide podiatry from care list if community care is disabled', () => {
-    const currentState = {
-      data: {},
-      pages: {},
-    };
-    const action = {
-      type: FORM_TYPE_OF_CARE_PAGE_OPENED,
-      page: 'test',
-      schema: {
-        type: 'object',
-        properties: {},
-      },
-      uiSchema: {},
-      phoneNumber: '123456789',
-      email: 'test@va.gov',
-      showCommunityCare: false,
-    };
-
-    const newState = newAppointmentReducer(currentState, action);
-    expect(
-      newState.pages.test.properties.typeOfCareId.enumNames.some(label =>
-        label.toLowerCase().includes('podiatry'),
-      ),
-    ).to.be.false;
   });
 
   it('should set podiatry appointment unavailable modal to show', () => {
