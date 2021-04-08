@@ -89,7 +89,7 @@ jobs:
 
       - name: Annotate ESLint
         run: |
-            echo `cat eslint-report`
+            echo "::warning file=/Users/oseasmoran/Projects/VA/vets-website/src/applications/caregivers/containers/IntroductionPage.jsx,line=41,col=5::React Hook useCallback has a missing dependency: 'formData'. Either include it or remove the dependency array."
 
       # - name: Annotate linting results
       #   if: ${{ always() }}
